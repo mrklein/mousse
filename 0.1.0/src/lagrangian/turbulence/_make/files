@@ -1,0 +1,11 @@
+parcels=parcels
+derivedparcels=$(parcels)/derived
+
+$(derivedparcels)/make_basic_kinematic_parcel_submodels.cpp
+$(derivedparcels)/make_basic_kinematic_colliding_parcel_submodels.cpp
+$(derivedparcels)/make_basic_thermo_parcel_submodels.cpp
+$(derivedparcels)/make_basic_reacting_parcel_submodels.cpp
+$(derivedparcels)/make_basic_reacting_multiphase_parcel_submodels.cpp
+$(derivedparcels)/make_basic_kinematic_mppic_parcel_submodels.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_lagrangian_turbulence

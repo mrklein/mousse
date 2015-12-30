@@ -1,0 +1,78 @@
+#!/bin/sh
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+# 
+# Script
+#     wdep <file>
+#     cat `wdep <file>`
+# Description
+#     Find the .dep file corresponding to <file> and print the path.
+#     If <file> is not in the current directory the tree is searched for
+#     the first occurrence.
+
+Script=${0##*/}
+
+# Source the wmake functions
+. ${0%/*}/scripts/wmake-functions
+
+usage() {
+	exec 1>&2
+	while [ "$#" -ge 1 ]; do echo "$1"; shift; done
+	cat<<-USAGE
+
+	Usage: $Script <file>
+
+	Find the dep-file corresponding to <file> in the current directory
+	and print the path.
+
+	USAGE
+	exit 1
+}
+
+# Parse arguments and options
+while [ "$#" -gt 0 ]
+do
+	case "$1" in
+	-h | -help | --help)
+		usage
+		;;
+	-*)
+		usage "unknown option: '$*'"
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+# Check environment variables
+check_env
+
+# Check <file> is is the current directory,
+# otherwise search tree for first occurrance
+source_file="$1"
+
+if [ ! -e $1 ]
+then
+	source_file=$(find . -name $source_file -print -quit)
+	if [ -z "$source_file" ]
+	then
+		echo "$Script: cannot find source file $1" 1>&2
+		exit 1
+	fi
+fi
+
+
+# Search up directories tree for the Make sub-directory containing dep files
+# and echo path for the dep file corresponding to the specified source file
+find_object_dir $source_file
+
+file_name=${1##*/}
+
+echo $objects_dir/$file_name.dep
+
+# Cleanup local variables and functions
+unset Script usage
+
+# vim: set ft=sh noet sw=4 ts=4 sts=4:

@@ -1,0 +1,36 @@
+EXE_INC = \
+    -I$(LIB_SRC)/transport_models/compressible/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/ami_interpolation/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/chemistry_model/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/specie/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/basic/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/solid/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/slg_thermo/_lninclude\
+    -I$(LIB_SRC)/thermophysical_models/solid_thermo/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/solid_chemistry_model/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/properties/liquid_mixture_properties/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/properties/liquid_properties/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/properties/solid_mixture_properties/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/solid_specie/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/properties/solid_properties/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/reaction_thermo/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/radiation/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/compressible/_lninclude \
+    -I$(LIB_SRC)/region_models/region_model/_lninclude \
+    -I$(LIB_SRC)/region_models/pyrolysis_models/_lninclude \
+    -I$(LIB_SRC)/region_models/surface_film_models/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude
+
+LIB_LIBS = \
+    -lmousse_region_models \
+    -lmousse_pyrolysis_models \
+    -lmousse_surface_film_models \
+    -lmousse_solid_chemistry_model \
+    -lmousse_reaction_thermophysical_models \
+    -lmousse_slg_thermo \
+    -lmousse_turbulence_models \
+    -lmousse_compressible_turbulence_models \
+    -lmousse_finite_volume \
+    -lmousse_mesh_tools

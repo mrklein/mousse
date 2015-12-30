@@ -1,0 +1,21 @@
+EXE_INC = -I$(BOOST_ARCH_PATH)/include \
+	  -I$(LIB_SRC)/mesh_tools/_lninclude \
+	  -I$(LIB_SRC)/parallel/decompose/decomposition_methods/_lninclude \
+	  -I$(LIB_SRC)/renumber/renumber_methods/_lninclude
+
+LIB_LIBS = -L$(BOOST_ARCH_PATH)/lib \
+	   -lmousse_mesh_tools \
+	   -lmousse_decomposition_methods \
+	   -lmousse_renumber_methods
+
+ifeq ($(shell uname -s),Darwin)
+SO = dylib
+else
+SO = so
+endif
+
+ifneq ("$(wildcard $(BOOST_ARCH_PATH)/lib/libboost_thread-mt.$(SO))","")
+LIB_LIBS += -lboost_thread-mt
+else
+LIB_LIBS += -lboost_thread
+endif

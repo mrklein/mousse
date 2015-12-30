@@ -1,0 +1,4 @@
+alphat_film_wall_function_fv_patch_scalar_field.cpp
+nutk_film_wall_function_fv_patch_scalar_field.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_surface_film_derived_fv_patch_fields

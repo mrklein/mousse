@@ -1,0 +1,250 @@
+# mousse: CFD toolbox
+# Copyright (C) 2011-2015 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+# File
+#   etc/bashrc
+# Description
+#   Environment setup file for mousse
+#   In general sourced from shell startup file
+
+export WM_PROJECT=mousse
+export WM_PROJECT_VERSION=0.1.0
+
+################################################################################
+# USER EDITABLE PART: Changes made here may be lost with the next upgrade
+#
+# either set $MOUSSE_INST_DIR before sourcing this file or set
+# 'mousseInstall' below to where mousse is installed
+#
+# Location of the mousse installation
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mousse_install=$HOME/Projects/$WM_PROJECT
+# mousse_install=~$WM_PROJECT
+# mousse_install=/opt/$WM_PROJECT
+# mousse_install=/usr/local/$WM_PROJECT
+#
+# END OF USER EDITABLE PART
+################################################################################
+
+#
+# These are the defaults for this version which should generally be
+# overridden from the prefs.sh file or from command-line specification
+#
+#- note the location for later use (eg, in job scripts)
+: ${MOUSSE_INST_DIR:=$mousse_install}; export MOUSSE_INST_DIR
+
+#- Compiler:
+#    WM_COMPILER = gcc | clang
+export WM_COMPILER=gcc
+unset WM_COMPILER_ARCH WM_COMPILER_LIB_ARCH
+
+#- Memory addressing:
+#    On a 64bit OS this can be 32bit or 64bit
+#    On a 32bit OS addressing is 32bit and this option is not used
+#    WM_ARCH_OPTION = 32 | 64
+export WM_ARCH_OPTION=64
+
+#- Precision:
+#    WM_PRECISION_OPTION = DP | SP
+export WM_PRECISION_OPTION=dp
+
+#- Label size:
+#    WM_LABEL_SIZE = 32 | 64
+export WM_LABEL_SIZE=32
+
+#- Optimised, debug, profiling:
+#    WM_COMPILE_OPTION = opt | debug | prof
+export WM_COMPILE_OPTION=opt
+
+#- MPI implementation:
+#    WM_MPLIB = systemopenmpi | openmpi | systemmpi
+export WM_MPLIB=systemopenmpi
+
+#- Operating System:
+#    WM_OSTYPE = posix | ???
+export WM_OSTYPE=posix
+
+#- Floating-point signal handling:
+#    set or unset
+export MOUSSE_SIGFPE=
+
+#- memory initialisation:
+#    set or unset
+#export MOUSSE_SETNAN=
+
+
+################################################################################
+
+# The old dirs to be cleaned from the various environment variables
+# - remove anything under top-level directory.
+# NB: the WM_PROJECT_INST_DIR might not be identical between versions
+mousse_old_dirs="$MOUSSE_INST_DIR $WM_PROJECT_SITE $HOME/$WM_PROJECT/$USER"
+if [ "$WM_PROJECT_INST_DIR" != "$FOAM_INST_DIR" ]
+then
+    mousse_old_dirs="$WM_PROJECT_INST_DIR $mousse_old_dirs"
+fi
+
+# Location of installation
+export WM_PROJECT_INST_DIR=$MOUSSE_INST_DIR
+export WM_PROJECT_DIR=$WM_PROJECT_INST_DIR/$WM_PROJECT_VERSION
+
+# Location of site-specific templates etc
+# unset is equivalent to $WM_PROJECT_INST_DIR/site
+if [ -d "$WM_PROJECT_SITE" ]
+then
+    export WM_PROJECT_SITE
+else
+    unset WM_PROJECT_SITE
+fi
+
+# Location of user files
+export WM_PROJECT_USER_DIR=$HOME/$WM_PROJECT/$USER-$WM_PROJECT_VERSION
+
+# Check if we are building mousse on OS X
+_mousse_on_osx()
+{
+    # For portability we will not rely on $?
+    if [ "$(uname -s)" = "Darwin" ]
+    then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Source files, possibly with some verbosity
+_mousse_source()
+{
+    while [ $# -ge 1 ]
+    do
+        [ "$MOUSSE_VERBOSE" -a "$PS1" ] && echo "Sourcing: $1" 1>&2
+        . $1
+        shift
+    done
+}
+
+# Evaluate command-line parameters
+_mousse_eval()
+{
+    while [ $# -gt 0 ]
+    do
+        case "$1" in
+        -*)
+            # stray option (not meant for us here) -> get out
+            break
+            ;;
+        *=)
+            # name=       -> unset name
+            [ "$MOUSSE_VERBOSE" -a "$PS1" ] && echo "unset ${1%=}" 1>&2
+            eval "unset ${1%=}"
+            ;;
+        *=*)
+            # name=value  -> export name=value
+            [ "$MOUSSE_VERBOSE" -a "$PS1" ] && echo "export $1" 1>&2
+            eval "export $1"
+            ;;
+        *)
+            # filename: source it
+            if [ -f "$1" ]
+            then
+                _mousse_source "$1"
+            else
+                _mousse_source `$WM_PROJECT_DIR/bin/mousse-etc-file -silent "$1"`
+            fi
+            ;;
+        esac
+        shift
+    done
+}
+
+
+# Add in preset user or site preferences:
+_mousse_source `$WM_PROJECT_DIR/bin/mousse-etc-file prefs.sh`
+
+# Evaluate command-line parameters and record settings for later
+# these can be used to set/unset values, or specify alternative pref files
+export MOUSSE_SETTINGS="$@"
+_mousse_eval $@
+
+# Clean standard environment variables (PATH, LD_LIBRARY_PATH, MANPATH)
+mousse_clean=$WM_PROJECT_DIR/bin/mousse-clean-path
+
+#- Clean PATH
+cleaned=`$mousse_clean "$PATH" "$mousse_old_dirs"` && PATH="$cleaned"
+
+if _mousse_on_osx
+then
+    #- Clean DYLD_LIBRARY_PATH
+    cleaned=`$mousse_clean "$DYLD_LIBRARY_PATH" "$mousse_old_dirs"` \
+        && DYLD_LIBRARY_PATH="$cleaned"
+else
+    #- Clean LD_LIBRARY_PATH
+    cleaned=`$mousse_clean "$LD_LIBRARY_PATH" "$mousse_old_dirs"` \
+        && LD_LIBRARY_PATH="$cleaned"
+fi
+
+#- Clean MANPATH
+cleaned=`$mousse_clean "$MANPATH" "$mousse_old_dirs"` && MANPATH="$cleaned"
+
+export PATH MANPATH
+
+if _mousse_on_osx
+then
+    export DYLD_LIBRARY_PATH
+else
+    export LD_LIBRARY_PATH
+fi
+
+
+# Source project setup files
+_mousse_source $WM_PROJECT_DIR/etc/config/settings.sh
+_mousse_source $WM_PROJECT_DIR/etc/config/aliases.sh
+
+
+# Source user setup files for optional packages
+_mousse_on_osx \
+    && _mousse_source `$WM_PROJECT_DIR/bin/mousse-etc-file config/paraview-osx.sh` \
+    || _mousse_source `$WM_PROJECT_DIR/bin/mousse-etc-file config/paraview.sh`
+
+_mousse_source `$WM_PROJECT_DIR/bin/mousse-etc-file config/cgal.sh`
+
+
+# Clean environment paths again. Only remove duplicates
+#- Clean PATH
+cleaned=`$mousse_clean "$PATH"` && PATH="$cleaned"
+
+if _mousse_on_osx
+then
+    #- Clean DYLD_LIBRARY_PATH
+    cleaned=`$mousse_clean "$DYLD_LIBRARY_PATH"` \
+        && DYLD_LIBRARY_PATH="$cleaned"
+else
+    #- Clean LD_LIBRARY_PATH
+    cleaned=`$mousse_clean "$LD_LIBRARY_PATH"` && LD_LIBRARY_PATH="$cleaned"
+fi
+
+#- Clean MANPATH (trailing ':' to find system pages)
+cleaned=`$mousse_clean "$MANPATH"`: && MANPATH="$cleaned"
+
+export PATH MANPATH
+
+if _mousse_on_osx
+then
+    export DYLD_LIBRARY_PATH
+else
+    export LD_LIBRARY_PATH
+fi
+
+#- Clean LD_PRELOAD
+if [ -n "$LD_PRELOAD" ]
+then
+    cleaned=`$mousse_clean "$LD_PRELOAD"` && LD_PRELOAD="$cleaned"
+    export LD_PRELOAD
+fi
+
+
+# cleanup environment:
+unset cleaned mousse_clean mousse_install mousse_old_dirs
+unset _mousse_source _mousse_eval _mousse_on_osx
+
+# vim: ft=sh noet sw=4 ts=4 sts=4:

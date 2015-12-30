@@ -1,0 +1,1 @@
+../submodels/_reacting_multiphase/_devolatilisation_model/_single_kinetic_rate_devolatilisation.hpp

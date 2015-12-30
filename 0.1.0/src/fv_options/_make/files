@@ -1,0 +1,63 @@
+fv_option/fv_option.cpp
+fv_option/fv_option_io.cpp
+fv_option/fv_option_list.cpp
+fv_option/fv_io_option_list.cpp
+
+cell_set_option/cell_set_option.cpp
+cell_set_option/cell_set_option_io.cpp
+
+inter_region_option/inter_region_option.cpp
+inter_region_option/inter_region_option_io.cpp
+
+/* sources */
+
+general_sources=sources/general
+$(general_sources)/coded_source/coded_source.cpp
+$(general_sources)/semi_implicit_source/semi_implicit_source.cpp
+
+derived_sources=sources/derived
+$(derived_sources)/actuation_disk_source/actuation_disk_source.cpp
+$(derived_sources)/effectiveness_heat_exchanger_source/effectiveness_heat_exchanger_source.cpp
+$(derived_sources)/explicit_porosity_source/explicit_porosity_source.cpp
+$(derived_sources)/mean_velocity_force/mean_velocity_force.cpp
+$(derived_sources)/mean_velocity_force/mean_velocity_force_io.cpp
+$(derived_sources)/mean_velocity_force/patch_mean_velocity_force/patch_mean_velocity_force.cpp
+$(derived_sources)/radial_actuation_disk_source/radial_actuation_disk_source.cpp
+$(derived_sources)/rotor_disk_source/rotor_disk_source.cpp
+$(derived_sources)/rotor_disk_source/blade_model/blade_model.cpp
+$(derived_sources)/rotor_disk_source/profile_model/profile_model.cpp
+$(derived_sources)/rotor_disk_source/profile_model/profile_model_list.cpp
+$(derived_sources)/rotor_disk_source/profile_model/lookup/lookup_profile.cpp
+$(derived_sources)/rotor_disk_source/profile_model/series/series_profile.cpp
+$(derived_sources)/rotor_disk_source/trim_model/trim_model/trim_model.cpp
+$(derived_sources)/rotor_disk_source/trim_model/trim_model/trim_model_new.cpp
+$(derived_sources)/rotor_disk_source/trim_model/fixed/fixed_trim.cpp
+$(derived_sources)/rotor_disk_source/trim_model/target_coeff/target_coeff_trim.cpp
+$(derived_sources)/solidification_melting_source/solidification_melting_source.cpp
+$(derived_sources)/solidification_melting_source/solidification_melting_source_io.cpp
+$(derived_sources)/tabulated_acceleration_source/tabulated_acceleration_source.cpp
+$(derived_sources)/tabulated_acceleration_source/tabulated_6dof_acceleration/tabulated_6dof_acceleration.cpp
+
+
+inter_region = sources/inter_region
+$(inter_region)/inter_region_heat_transfer/inter_region_heat_transfer_model/inter_region_heat_transfer_model.cpp
+$(inter_region)/inter_region_heat_transfer/inter_region_heat_transfer_model/inter_region_heat_transfer_model_io.cpp
+$(inter_region)/inter_region_heat_transfer/constant_heat_transfer/constant_heat_transfer.cpp
+$(inter_region)/inter_region_heat_transfer/tabulated_heat_transfer/tabulated_heat_transfer.cpp
+$(inter_region)/inter_region_heat_transfer/variable_heat_transfer/variable_heat_transfer.cpp
+$(inter_region)/inter_region_explicit_porosity_source/inter_region_explicit_porosity_source.cpp
+
+
+/* constraints */
+
+general_constraints=constraints/general
+$(general_constraints)/explicit_set_value/explicit_set_value.cpp
+
+derived_constraints=constraints/derived
+$(derived_constraints)/fixed_temperature_constraint/fixed_temperature_constraint.cpp
+
+
+/* corrections */
+corrections/limit_temperature/limit_temperature.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_fv_options

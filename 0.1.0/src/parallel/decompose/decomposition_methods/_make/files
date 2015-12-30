@@ -1,0 +1,10 @@
+decomposition_method.cpp
+geom_decomp.cpp
+simple_geom_decomp.cpp
+hierarch_geom_decomp.cpp
+manual_decomp.cpp
+multi_level_decomp.cpp
+structured_decomp.cpp
+no_decomp.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_decomposition_methods

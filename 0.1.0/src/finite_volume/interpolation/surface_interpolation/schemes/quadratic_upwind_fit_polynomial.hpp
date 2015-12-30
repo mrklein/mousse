@@ -1,0 +1,56 @@
+// mousse: CFD toolbox
+// Copyright (C) 2011-2015 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+// Class
+//   mousse::quadraticUpwindFitPolynomial
+// Description
+//   Quadratic polynomial for upwind biased interpolation fitting.
+//   Can be used with the UpwindFit scheme to create a quadratic surface
+//   interpolation scheme
+#ifndef quadratic_upwind_fit_polynomial_hpp_
+#define quadratic_upwind_fit_polynomial_hpp_
+#include "vector.hpp"
+namespace mousse
+{
+class quadraticUpwindFitPolynomial
+{
+public:
+  // Member functions
+    static label nTerms(const direction dim)
+    {
+      return
+      (
+        dim == 1 ? 3 :
+        dim == 2 ? 6 :
+        dim == 3 ? 9 : 0
+      );
+    }
+    static void addCoeffs
+    (
+      scalar* coeffs,
+      const vector& d,
+      const scalar weight,
+      const direction dim
+    )
+    {
+      label curIdx = 0;
+      coeffs[curIdx++] = weight;
+      coeffs[curIdx++] = weight*d.x();
+      coeffs[curIdx++] = weight*sqr(d.x());
+      if (dim >= 2)
+      {
+        coeffs[curIdx++] = weight*d.y();
+        coeffs[curIdx++] = weight*d.x()*d.y();
+        //coeffs[curIdx++] = weight*d.x()*sqr(d.y());
+        coeffs[curIdx++] = weight*sqr(d.y());
+      }
+      if (dim == 3)
+      {
+        coeffs[curIdx++] = weight*d.z();
+        coeffs[curIdx++] = weight*d.x()*d.z();
+        coeffs[curIdx++] = weight*sqr(d.z());
+      }
+    }
+};
+}  // namespace mousse
+#endif

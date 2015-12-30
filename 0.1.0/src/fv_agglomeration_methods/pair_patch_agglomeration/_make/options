@@ -1,0 +1,9 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/core/_lninclude
+
+LIB_LIBS = \
+    -lmousse_finite_volume \
+    -lmousse_core \
+    -lmousse_mesh_tools

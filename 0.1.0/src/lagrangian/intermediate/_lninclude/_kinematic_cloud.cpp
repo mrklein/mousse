@@ -1,0 +1,1 @@
+../clouds/templates/_kinematic_cloud.cpp

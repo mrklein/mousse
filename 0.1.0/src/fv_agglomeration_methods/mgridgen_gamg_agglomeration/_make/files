@@ -1,0 +1,4 @@
+mgridgen_gamg_agglomeration.cpp
+mgridgen_gamg_agglomerate.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_mgridgen_gamg_agglomeration

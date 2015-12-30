@@ -1,0 +1,5 @@
+EXE_INC = \
+    -I$(MOUSSE_SRC)/parallel/decompose/decomposition_methods/_lninclude \
+    -I$(MOUSSE_SRC)/parallel/decompose/scotch_decomp/_lninclude
+
+LIB_LIBS =

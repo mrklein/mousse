@@ -1,0 +1,23 @@
+/* Needs ParMGridGen environment variable set. (see Allwmake script) */
+
+TYPE_REAL=
+#if defined(WM_SP)
+TYPE_REAL=-DTYPE_REAL
+#endif
+
+EXE_INC = \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    $(TYPE_REAL)
+
+LIB_LIBS =
+
+ifeq ($(shell uname -s),Darwin)
+    LIB_LIBS = -L/usr/local/opt/parmgridgen/lib -lmgrid
+    EXE_INC += -I/usr/local/opt/parmgridgen/include
+else
+	LIB_LIBS = -L$(MOUSSE_EXT_LIBBIN) -lMGridGen
+    EXE_INC += -I$(ParMGridGen)/MGridGen/Lib/_lninclude
+    EXE_INC += -I$(ParMGridGen)/MGridGen/IMlib/_lninclude
+endif
+
+/* vim:set ft=make: */

@@ -1,0 +1,8 @@
+laminar_flame_speed.cpp
+laminar_flame_speed_new.cpp
+constant.cpp
+gulders.cpp
+gulders_egr.cpp
+ravi_petersen.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_laminar_flame_speed_models

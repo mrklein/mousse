@@ -1,0 +1,3 @@
+SUFFIXES += .lpp
+
+lpptoo = flex -+ -o$(@D)/$(<F).cpp -f $< ; $(CC) $(c++FLAGS) $(c++LESSWARN) -c $(@D)/$(<F).cpp -o $@

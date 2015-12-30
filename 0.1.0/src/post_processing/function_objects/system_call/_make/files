@@ -1,0 +1,4 @@
+system_call.cpp
+system_call_function_object.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_system_call

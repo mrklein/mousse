@@ -1,0 +1,10 @@
+SUFFIXES += .cver
+
+# Update version strings in C++ file and in $WM_PROJECT_DIR/.build file
+cvertoo = \
+	  sed -e 's!VERSION_STRING!$(shell wmake-print-build -major)!' \
+	  -e 's!BUILD_STRING!$(shell wmake-print-build -update)!' \
+	  $< > $(@D)/$(<F).cpp; \
+	  $(CC) $(c++FLAGS) -c $(@D)/$(<F).cpp -o $@
+
+# vim: ft=make:

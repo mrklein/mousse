@@ -1,0 +1,1 @@
+../energy_scaling_function/double_sigmoid.hpp

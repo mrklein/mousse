@@ -1,0 +1,12 @@
+distribution_model.cpp
+distribution_model_new.cpp
+
+exponential.cpp
+fixed_value.cpp
+general.cpp
+multi_normal.cpp
+normal.cpp
+rosin_rammler.cpp
+uniform.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_distribution_models

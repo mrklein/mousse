@@ -1,0 +1,3 @@
+ptscotch_decomp.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/$(MOUSSE_MPI)/libmousse_ptscotch_decomp

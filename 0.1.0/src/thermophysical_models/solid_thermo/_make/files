@@ -1,0 +1,7 @@
+solid_thermo.cpp
+solid_thermos.cpp
+
+solid_reaction_thermo.cpp
+solid_reaction_thermos.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_solid_thermo

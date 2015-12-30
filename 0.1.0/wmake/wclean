@@ -1,0 +1,136 @@
+#!/bin/sh
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+# 
+# Script
+#     wclean
+# Description
+#     Clean up the wmake control directory _make/\$WM_OPTIONS and remove the
+#     _lninclude directories generated for libraries.
+
+Script=${0##*/}
+
+usage() {
+	while [ "$#" -ge 1 ]; do echo "$1"; shift; done
+	cat<<-USAGE
+
+	Usage: $Script [OPTION] [dir]
+	    $Script [OPTION] target [dir [MakeDir]]
+
+	options:
+	-s | -silent      ignored - for compatibility with wmake
+	-help             print the usage
+
+	Clean up the wmake control directory Make/\$WM_OPTIONS and remove the
+	lnInclude directories generated for libraries.
+
+	The targets correspond to a subset of the 'wmake' special targets:
+	all               all subdirectories, uses any Allwclean or Allclean
+	                  files if they exist
+	exe | lib | libo | libso
+	                  clean Make, any *.dep files and lnInclude directories
+	USAGE
+	exit 1
+}
+
+
+# Parse arguments and options
+while [ "$#" -gt 0 ]
+do
+	case "$1" in
+	-h | -help | --help)
+		usage
+		;;
+	-s | -silent | --silent)    # ignored - for compatibility with wmake
+		shift
+		;;
+	-*)
+		usage "unknown option: '$*'"
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+
+# check arguments and change to the directory in which to run wclean
+unset dir target_type
+make_dir=_make
+
+if [ $# -ge 1 ]
+then
+
+	if [ -d "$1" ]
+	then
+		dir=$1
+	else
+		target_type=$1
+	fi
+
+	# specified directory name:
+	[ $# -ge 2 ] && dir=$2
+
+	# specified alternative name for the Make sub-directory:
+	[ $# -ge 3 ] && make_dir=$3
+
+	if [ "$dir" ]
+	then
+		cd $dir 2>/dev/null || {
+		echo "$Script error: could not change to directory '$dir'" 1>&2
+		exit 1
+	}
+fi
+
+# provide some feedback
+echo "$Script ${dir:-./}"
+fi
+
+
+# Recurse the directories tree
+if [ "$target_type" = all ]
+then
+	if [ -e Allwclean ]       # consistent with Allwmake
+	then
+		./Allwclean
+		exit $?
+	elif [ -e Allclean ]      # often used for tutorial cases
+	then
+		./Allclean
+		exit $?
+	else
+		# For all the sub-directories containing a '_make' directory
+		for dir in `find . \( -type d -a -name _make \)`
+		do
+			echo $dir
+			$0 ${dir%/_make}   # parent directory - trim /_make from the end
+		done
+	fi
+fi
+
+# target_type is not needed beyond this point
+unset target_type
+
+# Clean the '_make' directory if present
+if [ -d $make_dir ]
+then
+	objects_dir=$make_dir/$WM_OPTIONS
+	if echo $PWD | grep "$WM_PROJECT_DIR"
+	then
+		platform_path=$WM_PROJECT_DIR/platforms/${WM_OPTIONS}
+		objects_dir=$platform_path$(echo $PWD | sed s%$WM_PROJECT_DIR%% )
+	fi
+	rm -rf $objects_dir 2>/dev/null
+fi
+
+# Remove the _lninclude directory if present
+if [ -d _lninclude ]
+then
+	rm -rf _lninclude 2>/dev/null
+fi
+
+# Cleanup local variables and functions
+unset Script usage
+
+# vim: set ft=sh noet ts=4 sw=4 sts=4:

@@ -1,0 +1,41 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+gen_doc=0
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+
+wmake-check-pwd "$WM_PROJECT_DIR" || {
+    echo "Allwmake error: Current directory is not \$WM_PROJECT_DIR"
+    echo "    The environment variables are inconsistent with the installation."
+    echo "    Check the OpenFOAM entries in your dot-files and source them."
+    exit 1
+}
+
+[ "$(uname -s)" = "Darwin" ] || { [ -n "$FOAM_EXT_LIBBIN" ] || {
+    echo "Allwmake error: FOAM_EXT_LIBBIN not set"
+    echo "    Check the OpenFOAM entries in your dot-files and source them."
+    exit 1
+}
+}
+
+# Compile wmake support applications
+(cd wmake/src && make)
+
+# Compile ThirdParty libraries and applications
+if [ -d "$WM_THIRD_PARTY_DIR" ]
+then
+    $WM_THIRD_PARTY_DIR/allwmake
+else
+	[ "$(uname -s)" = "Darwin" ] \
+		|| echo "allwmake: no ThirdParty directory found - skipping"
+fi
+
+src/allwmake $targetType $*
+
+# applications/allwmake $targetType $*
+
+# if [ $gen_doc -eq 1 ]
+# then
+#     doc/allwmake
+# fi

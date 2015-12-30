@@ -1,0 +1,65 @@
+// mousse: CFD toolbox
+// Copyright (C) 2011 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+// Class
+//   mousse::NoSurfaceReaction
+// Description
+//   Dummy surface reaction model for 'none'
+#ifndef _no_surface_reaction_hpp_
+#define _no_surface_reaction_hpp_
+#include "_surface_reaction_model.hpp"
+namespace mousse
+{
+template<class CloudType>
+class NoSurfaceReaction
+:
+  public SurfaceReactionModel<CloudType>
+{
+public:
+  //- Runtime type information
+  TypeName("none");
+  // Constructors
+    //- Construct from dictionary
+    NoSurfaceReaction(const dictionary& dict, CloudType& owner);
+    //- Construct copy
+    NoSurfaceReaction(const NoSurfaceReaction<CloudType>& srm);
+    //- Construct and return a clone
+    virtual autoPtr<SurfaceReactionModel<CloudType> > clone() const
+    {
+      return autoPtr<SurfaceReactionModel<CloudType> >
+      (
+        new NoSurfaceReaction<CloudType>(*this)
+      );
+    }
+  //- Destructor
+  virtual ~NoSurfaceReaction();
+  // Member Functions
+    //- Flag to indicate whether model activates devolatisation model
+    virtual bool active() const;
+    //- Update surface reactions
+    virtual scalar calculate
+    (
+      const scalar dt,
+      const label cellI,
+      const scalar d,
+      const scalar T,
+      const scalar Tc,
+      const scalar pc,
+      const scalar rhoc,
+      const scalar mass,
+      const scalarField& YGas,
+      const scalarField& YLiquid,
+      const scalarField& YSolid,
+      const scalarField& YMixture,
+      const scalar N,
+      scalarField& dMassGas,
+      scalarField& dMassLiquid,
+      scalarField& dMassSolid,
+      scalarField& dMassSRCarrier
+    ) const;
+};
+}  // namespace mousse
+#ifdef NoRepository
+#   include "_no_surface_reaction.cpp"
+#endif
+#endif

@@ -1,0 +1,15 @@
+EXE_INC = \
+    -I$(LIB_SRC)/transport_models/compressible/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/compressible/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/basic/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude
+
+LIB_LIBS = \
+    -lmousse_compressible_transport_models \
+    -lmousse_fluid_thermophysical_models \
+    -lmousse_turbulence_models \
+    -lmousse_compressible_turbulence_models \
+    -lmousse_finite_volume \
+    -lmousse_mesh_tools

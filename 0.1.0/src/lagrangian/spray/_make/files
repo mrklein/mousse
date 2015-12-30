@@ -1,0 +1,7 @@
+clouds/base_classes/spray_cloud.cpp
+
+sprayparcel=parcels/derived
+$(sprayparcel)/define_basic_spray_parcel.cpp
+$(sprayparcel)/make_basic_spray_parcel_submodels.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_lagrangian_spray

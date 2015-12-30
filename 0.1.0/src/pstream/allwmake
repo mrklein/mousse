@@ -1,0 +1,41 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Parse arguments for library compilation
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+
+
+#
+# define how to create an mpi-versioned library of $targetType
+# compile into qualified directory
+# use sentinel file to handle version changes
+#
+wmake_mpi_lib()
+{
+	set +x
+	for lib_name
+	do
+		(
+		WM_OPTIONS="$WM_OPTIONS$WM_MPLIB"
+		whichmpi="$WM_PROJECT_DIR/platforms/$WM_OPTIONS/src/pstream/$lib_name/using:$MOUSSE_MPI"
+		[ -e "$whichmpi" ] || wclean $libName
+		echo "wmake $target_type $lib_name"
+		wmake $target_type $lib_name
+		touch "$whichmpi"
+		)
+	done
+	set -x
+}
+
+set -x
+wmake $target_type dummy
+
+case "$WM_MPLIB" in
+*mpi*)
+	set +x
+	wmake_mpi_lib mpi
+	;;
+esac
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

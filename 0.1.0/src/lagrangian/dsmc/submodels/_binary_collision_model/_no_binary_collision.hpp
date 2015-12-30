@@ -1,0 +1,50 @@
+// mousse: CFD toolbox
+// Copyright (C) 2011-2015 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+// Class
+//   mousse::NoBinaryCollision
+// Description
+//   No collison BinaryCollision Model
+#ifndef _no_binary_collision_hpp_
+#define _no_binary_collision_hpp_
+#include "_binary_collision_model.hpp"
+namespace mousse
+{
+template<class CloudType>
+class NoBinaryCollision
+:
+  public BinaryCollisionModel<CloudType>
+{
+public:
+  //- Runtime type information
+  TypeName("none");
+  // Constructors
+    //- Construct from dictionary
+    NoBinaryCollision
+    (
+      const dictionary& dict,
+      CloudType& cloud
+    );
+  //- Destructor
+  virtual ~NoBinaryCollision();
+  // Member Functions
+    //- Flag to indicate whether model activates collision model
+    virtual bool active() const;
+    //- Return the collision cross section * relative velocity product
+    virtual scalar sigmaTcR
+    (
+      const typename CloudType::parcelType& pP,
+      const typename CloudType::parcelType& pQ
+    ) const;
+    //- Apply collision
+    virtual void collide
+    (
+      typename CloudType::parcelType& pP,
+      typename CloudType::parcelType& pQ
+    );
+};
+}  // namespace mousse
+#ifdef NoRepository
+#   include "_no_binary_collision.cpp"
+#endif
+#endif

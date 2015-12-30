@@ -1,0 +1,1 @@
+../clouds/templates/cloud_solution/cloud_solution_i.hpp

@@ -1,0 +1,3 @@
+dummy_mgrid_gen.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/dummy/libmousse_mgrid_gen

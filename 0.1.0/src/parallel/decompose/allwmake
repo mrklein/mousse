@@ -1,0 +1,67 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+
+# get SCOTCH_VERSION, SCOTCH_ARCH_PATH
+if settings=$($WM_PROJECT_DIR/bin/mousse-etc-file config/scotch.sh)
+then
+    . $settings
+    echo "using SCOTCH_ARCH_PATH=$SCOTCH_ARCH_PATH"
+else
+    echo
+    echo "Error: no config/scotch.sh settings"
+    echo
+fi
+
+
+#
+# define how to create an mpi-versioned library of $target_type
+# compile into qualified directory
+# use sentinel file to handle version changes
+#
+wmake_mpi_lib()
+{
+    set +x
+    for lib_name
+    do
+    (
+        WM_OPTIONS="$WM_OPTIONS$WM_MPLIB"
+        whichmpi="$WM_PROJECT_DIR/platforms/$WM_OPTIONS/src/parallel/decompose/$lib_name/using:$MOUSSE_MPI"
+        whichscotch="$WM_PROJECT_DIR/platforms/$WM_OPTIONS/src/parallel/decompose/$lib_name/using:$SCOTCH_VERSION"
+        [ -e "$whichmpi" -a -e "$whichscotch" ] || wclean $lib_name
+        echo "wmake $target_type $lib_name"
+        wmake $target_type $lib_name
+        touch "$whichmpi" "$whichscotch"
+    )
+    done
+    set -x
+}
+
+set -x
+
+wmake-lninclude decomposition_methods
+
+if [ -n "$SCOTCH_ARCH_PATH" ]
+then
+    wmake $target_type scotch_decomp
+
+    if [ -d "$MOUSSE_LIBBIN/$MOUSSE_MPI" ]
+    then
+        wmake_mpi_lib ptscotch_decomp
+    fi
+else
+    echo
+    echo "Skipping scotchDecomp (ptscotchDecomp)"
+    echo
+fi
+
+
+# Try and build metisDecomp (has own logic)
+(cd metis_decomp && ./allwmake $target_type)
+
+wmake $target_type decomposition_methods
+
+wmake $targetType decompose
+

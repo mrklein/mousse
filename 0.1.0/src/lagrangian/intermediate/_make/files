@@ -1,0 +1,100 @@
+parcels=parcels
+baseparcels=$(parcels)/base_classes
+derivedparcels=$(parcels)/derived
+
+clouds=clouds
+baseclouds=$(clouds)/base_classes
+derivedclouds=$(clouds)/derived
+
+/* cloud base classes */
+$(baseclouds)/kinematic_cloud.cpp
+$(baseclouds)/thermo_cloud.cpp
+$(baseclouds)/reacting_cloud.cpp
+$(baseclouds)/reacting_multiphase_cloud.cpp
+
+/* kinematic parcel sub-models */
+$(derivedparcels)/define_basic_kinematic_parcel.cpp
+$(derivedparcels)/make_basic_kinematic_parcel_submodels.cpp
+
+/* kinematic colliding parcel sub-models */
+$(derivedparcels)/define_basic_kinematic_colliding_parcel.cpp
+$(derivedparcels)/make_basic_kinematic_colliding_parcel_submodels.cpp
+
+/* thermo parcel sub-models */
+$(derivedparcels)/define_basic_thermo_parcel.cpp
+$(derivedparcels)/make_basic_thermo_parcel_submodels.cpp
+
+/* reacting parcel sub-models */
+$(derivedparcels)/define_basic_reacting_parcel.cpp
+$(derivedparcels)/make_basic_reacting_parcel_submodels.cpp
+
+/* reacting multiphase parcel sub-models */
+$(derivedparcels)/define_basic_reacting_multiphase_parcel.cpp
+$(derivedparcels)/make_basic_reacting_multiphase_parcel_submodels.cpp
+
+/* kinematic mppic parcel sub-models */
+$(derivedparcels)/define_basic_kinematic_mppic_parcel.cpp
+$(derivedparcels)/make_basic_kinematic_mppic_parcel_submodels.cpp
+
+/* bolt-on models */
+radiation=submodels/add_ons/radiation
+$(radiation)/absorption_emission/cloud_absorption_emission.cpp
+$(radiation)/scatter/cloud_scatter.cpp
+
+submodels/_kinematic/_patch_interaction_model/patch_interaction_data.cpp
+submodels/_kinematic/_patch_interaction_model/patch_interaction_data_list.cpp
+
+kinematicinjection=submodels/_kinematic/_injection_model
+$(kinematicinjection)/kinematic_parcel_injection_data.cpp
+$(kinematicinjection)/kinematic_parcel_injection_data_io.cpp
+$(kinematicinjection)/kinematic_parcel_injection_data_io_list.cpp
+$(kinematicinjection)/patch_injection_base.cpp
+
+thermoinjection=submodels/_thermodynamic/_injection_model
+$(thermoinjection)/thermo_parcel_injection_data.cpp
+$(thermoinjection)/thermo_parcel_injection_data_io.cpp
+$(thermoinjection)/thermo_parcel_injection_data_io_list.cpp
+
+reactinginjection=submodels/_reacting/_injection_model
+$(reactinginjection)/reacting_parcel_injection_data.cpp
+$(reactinginjection)/reacting_parcel_injection_data_io.cpp
+$(reactinginjection)/reacting_parcel_injection_data_io_list.cpp
+
+reactingmpinjection=submodels/_reacting_multiphase/_injection_model
+$(reactingmpinjection)/reacting_multiphase_parcel_injection_data.cpp
+$(reactingmpinjection)/reacting_multiphase_parcel_injection_data_io.cpp
+$(reactingmpinjection)/reacting_multiphase_parcel_injection_data_io_list.cpp
+
+mppicparticlestress=submodels/_mppic/particle_stress_models
+$(mppicparticlestress)/particle_stress_model.cpp
+$(mppicparticlestress)/harris_crighton.cpp
+$(mppicparticlestress)/lun.cpp
+$(mppicparticlestress)/exponential.cpp
+
+mppiccorrectionlimiting=submodels/_mppic/correction_limiting_methods
+$(mppiccorrectionlimiting)/correction_limiting_method.cpp
+$(mppiccorrectionlimiting)/no_correction_limiting.cpp
+$(mppiccorrectionlimiting)/absolute.cpp
+$(mppiccorrectionlimiting)/relative.cpp
+
+mppictimescale=submodels/_mppic/time_scale_models
+$(mppictimescale)/time_scale_model.cpp
+$(mppictimescale)/equilibrium.cpp
+$(mppictimescale)/non_equilibrium.cpp
+$(mppictimescale)/isotropic.cpp
+
+/* integration schemes */
+_integration_scheme/make_integration_schemes.cpp
+
+/* phase properties */
+phase_properties/phase_properties.cpp
+phase_properties/phase_properties_io.cpp
+phase_properties/phase_properties_list.cpp
+
+/* additional helper classes */
+clouds/templates/cloud_solution/cloud_solution.cpp
+
+/* averaging methods */
+submodels/_mppic/_averaging_methods/make_averaging_methods.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_lagrangian_intermediate

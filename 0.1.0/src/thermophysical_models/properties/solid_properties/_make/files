@@ -1,0 +1,8 @@
+solid_properties/solid_properties.cpp
+solid_properties/solid_properties_new.cpp
+
+ash/ash.cpp
+c/c.cpp
+ca_co3/ca_co3.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_solid_properties

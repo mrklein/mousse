@@ -1,0 +1,10 @@
+calc_fvc_div/calc_fvc_div.cpp
+calc_fvc_div/calc_fvc_div_function_object.cpp
+
+calc_fvc_grad/calc_fvc_grad.cpp
+calc_fvc_grad/calc_fvc_grad_function_object.cpp
+
+calc_mag/calc_mag.cpp
+calc_mag/calc_mag_function_object.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_fv_function_objects

@@ -1,0 +1,8 @@
+/* pyrolysis models */
+pyrolysis_model.cpp
+pyrolysis_model_new.cpp
+reacting_one_dim.cpp
+no_pyrolysis.cpp
+pyrolysis_model_collection.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_pyrolysis_models

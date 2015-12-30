@@ -1,0 +1,10 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+make_type=${1:-libso}
+set -x
+
+wclean $make_type region_model
+wclean $make_type pyrolysis_models
+wclean $make_type surface_film_models
+wclean $make_type thermal_baffle_models
+wclean $make_type region_coupling

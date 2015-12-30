@@ -1,0 +1,13 @@
+/* parcels */
+parcels/derived/dsmc_parcel.cpp
+
+/* cloud base classes */
+clouds/base_classes/dsmc_base_cloud.cpp
+
+/* sub-models */
+parcels/derived/define_dsmc_parcel.cpp
+parcels/derived/make_dsmc_parcel_binary_collision_models.cpp
+parcels/derived/make_dsmc_parcel_wall_interaction_models.cpp
+parcels/derived/make_dsmc_parcel_inflow_boundary_models.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_dsmc

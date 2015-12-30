@@ -1,0 +1,43 @@
+/* _radiation model */
+radiation_models/radiation_model.cpp
+radiation_models/radiation_model_new.cpp
+radiation_models/no_radiation.cpp
+radiation_models/p1.cpp
+radiation_models/fv_dom/fv_dom.cpp
+radiation_models/fv_dom/radiative_intensity_ray.cpp
+radiation_models/fv_dom/black_body_emission.cpp
+radiation_models/fv_dom/absorption_coeffs.cpp
+radiation_models/view_factor.cpp
+radiation_models/opaque_solid.cpp
+
+/* _scatter model */
+submodels/scatter_model/scatter_model.cpp
+submodels/scatter_model/scatter_model_new.cpp
+submodels/scatter_model/no_scatter.cpp
+submodels/scatter_model/constant_scatter.cpp
+
+/* _absorption/emission model */
+submodels/absorption_emission_model/absorption_emission_model.cpp
+submodels/absorption_emission_model/absorption_emission_model_new.cpp
+submodels/absorption_emission_model/no_absorption_emission.cpp
+submodels/absorption_emission_model/constant_absorption_emission.cpp
+submodels/absorption_emission_model/binary_absorption_emission.cpp
+submodels/absorption_emission_model/grey_mean_absorption_emission.cpp
+submodels/absorption_emission_model/wide_band_absorption_emission.cpp
+submodels/absorption_emission_model/grey_mean_solid_absorption_emission.cpp
+
+/* _soot model */
+submodels/soot_model/soot_model.cpp
+submodels/soot_model/soot_model_new.cpp
+submodels/soot_model/mixture_fraction_soots.cpp
+submodels/soot_model/no_soot.cpp
+
+/* _boundary conditions */
+derived_fv_patch_fields/marshak_radiation_fv_patch_scalar_field.cpp
+derived_fv_patch_fields/marshak_radiation_fixed_temperature_fv_patch_scalar_field.cpp
+derived_fv_patch_fields/grey_diffusive_radiation_mixed_fv_patch_scalar_field.cpp
+derived_fv_patch_fields/wide_band_diffusive_radiation_mixed_fv_patch_scalar_field.cpp
+derived_fv_patch_fields/radiation_coupled_base.cpp
+derived_fv_patch_fields/grey_diffusive_view_factor_fixed_value_fv_patch_scalar_field.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_radiation_models

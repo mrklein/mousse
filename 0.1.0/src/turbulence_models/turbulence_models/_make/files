@@ -1,0 +1,73 @@
+turbulence_model.cpp
+ras/v2f_base.cpp
+
+les_delta = les/les_deltas
+
+$(les_delta)/les_delta.cpp
+$(les_delta)/cube_root_vol_delta.cpp
+$(les_delta)/prandtl_delta.cpp
+$(les_delta)/van_driest_delta.cpp
+$(les_delta)/smooth_delta.cpp
+$(les_delta)/max_deltaxyz.cpp
+$(les_delta)/iddes_delta.cpp
+
+
+les_filters = les/les_filters
+
+$(les_filters)/les_filter.cpp
+$(les_filters)/simple_filter.cpp
+$(les_filters)/laplace_filter.cpp
+$(les_filters)/anisotropic_filter.cpp
+
+
+/* turbulence bcs */
+derived_fv_patch_fields/fixed_shear_stress_fv_patch_vector_field.cpp
+derived_fv_patch_fields/porous_baffle_pressure_fv_patch_field.cpp
+
+
+/* wall function bcs */
+wall_functions = derived_fv_patch_fields/wall_functions
+
+nut_wall_functions = $(wall_functions)/nut_wall_functions
+$(nut_wall_functions)/nut_wall_function_fv_patch_scalar_field.cpp
+$(nut_wall_functions)/nutk_wall_function_fv_patch_scalar_field.cpp
+$(nut_wall_functions)/nutk_rough_wall_function_fv_patch_scalar_field.cpp
+$(nut_wall_functions)/nutk_atm_rough_wall_function_fv_patch_scalar_field.cpp
+$(nut_wall_functions)/nut_u_wall_function_fv_patch_scalar_field.cpp
+$(nut_wall_functions)/nut_u_spalding_wall_function_fv_patch_scalar_field.cpp
+$(nut_wall_functions)/nut_u_tabulated_wall_function_fv_patch_scalar_field.cpp
+$(nut_wall_functions)/nut_low_re_wall_function_fv_patch_scalar_field.cpp
+$(nut_wall_functions)/nut_u_rough_wall_function_fv_patch_scalar_field.cpp
+
+epsilon_wall_functions = $(wall_functions)/epsilon_wall_functions
+$(epsilon_wall_functions)/epsilon_wall_function_fv_patch_scalar_field.cpp
+$(epsilon_wall_functions)/epsilon_low_re_wall_function_fv_patch_scalar_field.cpp
+
+omega_wall_functions = $(wall_functions)/omega_wall_functions
+$(omega_wall_functions)/omega_wall_function_fv_patch_scalar_field.cpp
+
+kq_r_wall_functions = $(wall_functions)/kq_r_wall_functions
+$(kq_r_wall_functions)/kq_r_wall_function_fv_patch_fields.cpp
+$(kq_r_wall_functions)/k_low_re_wall_function_fv_patch_scalar_field.cpp
+
+v2_wall_functions = $(wall_functions)/v2_wall_functions
+$(v2_wall_functions)/v2_wall_function_fv_patch_scalar_field.cpp
+
+f_wall_functions = $(wall_functions)/f_wall_functions
+$(f_wall_functions)/f_wall_function_fv_patch_scalar_field.cpp
+
+
+ras_bcs = ras/derived_fv_patch_fields
+
+/* inlet turbulence bcs */
+$(ras_bcs)/turbulent_mixing_length_dissipation_rate_inlet_fv_patch_scalar_field.cpp
+$(ras_bcs)/turbulent_mixing_length_frequency_inlet_fv_patch_scalar_field.cpp
+
+/* atmospheric boundary layer bcs */
+$(ras_bcs)/atm_boundary_layer.cpp
+$(ras_bcs)/atm_boundary_layer_inlet_velocity_fv_patch_vector_field.cpp
+$(ras_bcs)/atm_boundary_layer_inlet_k_fv_patch_scalar_field.cpp
+$(ras_bcs)/atm_boundary_layer_inlet_epsilon_fv_patch_scalar_field.cpp
+
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_turbulence_models

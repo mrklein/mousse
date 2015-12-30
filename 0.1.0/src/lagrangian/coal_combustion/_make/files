@@ -1,0 +1,5 @@
+/* coal parcel and sub-models */
+make_coal_parcel_submodels.cpp
+coal_cloud_list.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_coal_combustion

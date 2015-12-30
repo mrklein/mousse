@@ -1,0 +1,350 @@
+// mousse: CFD toolbox
+// Copyright (C) 2012-2013 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+
+#include "make_reaction_thermo.hpp"
+#include "rho_reaction_thermo.hpp"
+#include "he_rho_thermo.hpp"
+#include "specie.hpp"
+#include "perfect_gas.hpp"
+#include "incompressible_perfect_gas.hpp"
+#include "h_const_thermo.hpp"
+#include "janaf_thermo.hpp"
+#include "sensible_enthalpy.hpp"
+#include "thermo.hpp"
+#include "const_transport.hpp"
+#include "sutherland_transport.hpp"
+#include "homogeneous_mixture.hpp"
+#include "inhomogeneous_mixture.hpp"
+#include "very_inhomogeneous_mixture.hpp"
+#include "multi_component_mixture.hpp"
+#include "reacting_mixture.hpp"
+#include "single_step_reacting_mixture.hpp"
+#include "thermo_physics_types.hpp"
+namespace mousse
+{
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  homogeneousMixture,
+  constTransport,
+  sensibleEnthalpy,
+  hConstThermo,
+  perfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  inhomogeneousMixture,
+  constTransport,
+  sensibleEnthalpy,
+  hConstThermo,
+  perfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  veryInhomogeneousMixture,
+  constTransport,
+  sensibleEnthalpy,
+  hConstThermo,
+  perfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  homogeneousMixture,
+  sutherlandTransport,
+  sensibleEnthalpy,
+  janafThermo,
+  perfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  inhomogeneousMixture,
+  sutherlandTransport,
+  sensibleEnthalpy,
+  janafThermo,
+  perfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  veryInhomogeneousMixture,
+  sutherlandTransport,
+  sensibleEnthalpy,
+  janafThermo,
+  perfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  homogeneousMixture,
+  constTransport,
+  sensibleEnthalpy,
+  hConstThermo,
+  incompressiblePerfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  inhomogeneousMixture,
+  constTransport,
+  sensibleEnthalpy,
+  hConstThermo,
+  incompressiblePerfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  veryInhomogeneousMixture,
+  constTransport,
+  sensibleEnthalpy,
+  hConstThermo,
+  incompressiblePerfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  homogeneousMixture,
+  sutherlandTransport,
+  sensibleEnthalpy,
+  janafThermo,
+  incompressiblePerfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  inhomogeneousMixture,
+  sutherlandTransport,
+  sensibleEnthalpy,
+  janafThermo,
+  incompressiblePerfectGas,
+  specie
+);
+makeReactionThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  veryInhomogeneousMixture,
+  sutherlandTransport,
+  sensibleEnthalpy,
+  janafThermo,
+  incompressiblePerfectGas,
+  specie
+);
+// Multi-component thermo for internal energy
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  constGasEThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  gasEThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  constIncompressibleGasEThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  incompressibleGasEThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  icoPoly8EThermoPhysics
+);
+  // Multi-component reaction thermo
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  constGasEThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  gasEThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  constIncompressibleGasEThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  incompressibleGasEThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  icoPoly8EThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  singleStepReactingMixture,
+  gasEThermoPhysics
+);
+// Multi-component thermo for sensible enthalpy
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  constGasHThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  gasHThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  constIncompressibleGasHThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  incompressibleGasHThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  multiComponentMixture,
+  icoPoly8HThermoPhysics
+);
+// Multi-component reaction thermo
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  constGasHThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  gasHThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  constIncompressibleGasHThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  incompressibleGasHThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  reactingMixture,
+  icoPoly8HThermoPhysics
+);
+makeReactionMixtureThermo
+(
+  rhoThermo,
+  rhoReactionThermo,
+  heRhoThermo,
+  singleStepReactingMixture,
+  gasHThermoPhysics
+);
+}  // namespace mousse

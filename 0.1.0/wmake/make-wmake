@@ -1,0 +1,40 @@
+#!/bin/sh
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+#
+# Script
+#     make-wmake
+# Description
+#     Build platform-specific parts of wmake
+
+Script=${0##*/}
+
+usage() {
+	exec 1>&2
+	while [ "$#" -ge 1 ]; do echo "$1"; shift; done
+	cat<<-USAGE
+	Usage: $Script
+
+	Build platform-specific parts of wmake
+
+	USAGE
+	exit 1
+}
+
+case "$1" in
+-h | -help)
+	usage
+	;;
+esac
+
+
+echo Build platform-specific parts of wmake
+(
+set -x
+make -C ${0%/*}/src $@
+)
+
+unset Script usage
+
+# vim: set ft=sh noet sw=4 ts=4 sts=4:

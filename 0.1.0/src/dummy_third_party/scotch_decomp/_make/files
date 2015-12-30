@@ -1,0 +1,3 @@
+dummy_scotch_decomp.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/dummy/libmousse_scotch_decomp

@@ -1,0 +1,13 @@
+extrude_model/extrude_model.cpp
+extrude_model/extrude_model_new.cpp
+linear_normal/linear_normal.cpp
+plane_extrusion/plane_extrusion.cpp
+linear_direction/linear_direction.cpp
+linear_radial/linear_radial.cpp
+radial/radial.cpp
+sigma_radial/sigma_radial.cpp
+sector/sector.cpp
+cyclic_sector/cyclic_sector.cpp
+wedge/wedge.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_extrude_model

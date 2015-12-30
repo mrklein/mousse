@@ -1,0 +1,65 @@
+// mousse: CFD toolbox
+// Copyright (C) 2011 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+// Class
+//   mousse::tetherPotentialList
+// Description
+// SourceFiles
+//   tether_potential_list.cpp
+#ifndef tether_potential_list_hpp_
+#define tether_potential_list_hpp_
+#include "list_ops.hpp"
+#include "ptr_list.hpp"
+#include "word.hpp"
+#include "tether_potential.hpp"
+namespace mousse
+{
+class tetherPotentialList
+:
+  public PtrList<tetherPotential>
+{
+  // Private data
+    List<label> idMap_;
+  // Private Member Functions
+    inline label tetherPotentialIndex
+    (
+      const label a
+    ) const;
+    void readTetherPotentialDict
+    (
+      const List<word>& siteIdList,
+      const dictionary& tetherPotentialDict,
+      const List<word>& tetherSiteIdList
+    );
+    //- Disallow default bitwise assignment
+    void operator=(const tetherPotentialList&);
+    //- Disallow default bitwise copy construct
+    tetherPotentialList(const tetherPotentialList&);
+public:
+  // Constructors
+    tetherPotentialList();
+    //- Construct from siteIdList and potental dictionaries
+    tetherPotentialList
+    (
+      const List<word>& siteIdList,
+      const dictionary& tetherPotentialDict,
+      const List<word>& tetherSiteIdList
+    );
+  //- Destructor
+  ~tetherPotentialList();
+  // Member Functions
+    void buildPotentials
+    (
+      const List<word>& siteIdList,
+      const dictionary& tetherPotentialDict,
+      const List<word>& tetherSiteIdList
+    );
+    // Access
+      inline const List<word>& idMap() const;
+      const tetherPotential& tetherPotentialFunction(const label a) const;
+      vector force(const label a, const vector rIT) const;
+      scalar energy (const label a, const vector rIT) const;
+};
+}  // namespace mousse
+#include "tether_potential_list_i.hpp"
+#endif

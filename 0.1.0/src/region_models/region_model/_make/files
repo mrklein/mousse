@@ -1,0 +1,15 @@
+/* region models */
+region_model.cpp
+single_layer_region.cpp
+region_model_1d.cpp
+
+/* boundary conditions */
+derived_fv_patches/mapped_variable_thickness_wall_fv_patch.cpp
+
+region_properties.cpp
+
+region_model_function_object.cpp
+region_model_function_object_new.cpp
+region_model_function_object_list.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_region_models

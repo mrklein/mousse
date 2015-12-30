@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+set -x
+
+wmake $target_type region_model
+wmake $target_type pyrolysis_models
+wmake $target_type surface_film_models
+wmake $target_type surface_film_models/derived_fv_patch_fields/wall_functions
+wmake $target_type thermal_baffle_models
+wmake $target_type region_coupling

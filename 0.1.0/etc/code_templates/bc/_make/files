@@ -1,0 +1,3 @@
+compiled.cpp
+
+LIB =  $(MOUSSE_USER_LIBBIN)/libmousse_name

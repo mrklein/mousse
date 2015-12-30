@@ -1,0 +1,9 @@
+reduced_units.cpp
+reduced_units_io.cpp
+
+molecule.cpp
+molecule_io.cpp
+
+molecule_cloud.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_molecule

@@ -1,0 +1,16 @@
+nsrds_functions         = nsrds_functions
+api_functions           = api_functions
+
+thermophysical_function.cpp
+$(nsrds_functions)/nsrds_func0.cpp
+$(nsrds_functions)/nsrds_func1.cpp
+$(nsrds_functions)/nsrds_func2.cpp
+$(nsrds_functions)/nsrds_func3.cpp
+$(nsrds_functions)/nsrds_func4.cpp
+$(nsrds_functions)/nsrds_func5.cpp
+$(nsrds_functions)/nsrds_func6.cpp
+$(nsrds_functions)/nsrds_func7.cpp
+$(nsrds_functions)/nsrds_func14.cpp
+$(api_functions)/api_diff_coef_func.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_thermophysical_functions

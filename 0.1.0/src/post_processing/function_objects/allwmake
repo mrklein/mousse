@@ -1,0 +1,15 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+set -x
+
+wmake $target_type cloud
+wmake $target_type field
+wmake $target_type forces
+wmake $target_type fv_tools
+wmake $target_type io
+wmake $target_type job_control
+wmake $target_type system_call
+wmake $target_type utilities

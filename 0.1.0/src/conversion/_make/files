@@ -1,0 +1,24 @@
+ensight/file/ensight_file.cpp
+ensight/file/ensight_geo_file.cpp
+ensight/part/ensight_part.cpp
+ensight/part/ensight_part_io.cpp
+ensight/part/ensight_part_cells.cpp
+ensight/part/ensight_part_faces.cpp
+ensight/part/ensight_parts.cpp
+
+mesh_tables/boundary_region.cpp
+mesh_tables/cell_table.cpp
+
+mesh_reader/mesh_reader.cpp
+mesh_reader/mesh_reader_aux.cpp
+mesh_reader/calc_point_cells.cpp
+mesh_reader/create_poly_cells.cpp
+mesh_reader/create_poly_boundary.cpp
+mesh_reader/starcd/starcd_mesh_reader.cpp
+
+mesh_writer/mesh_writer.cpp
+mesh_writer/starcd/starcd_mesh_writer.cpp
+
+poly_dual_mesh/poly_dual_mesh.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_conversion

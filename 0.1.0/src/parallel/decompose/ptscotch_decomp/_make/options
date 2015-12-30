@@ -1,0 +1,14 @@
+sinclude $(GENERAL_RULES)/mplib$(WM_MPLIB)
+sinclude $(RULES)/mplib$(WM_MPLIB)
+
+EXE_INC = \
+    $(PFLAGS) $(PINC) \
+    -I$(SCOTCH_ARCH_PATH)/include \
+    -I../decomposition_methods/_lninclude
+
+LIB_LIBS = \
+    -L$(SCOTCH_ARCH_PATH)/lib -lptscotch -lptscotcherrexit -lscotch
+
+ifneq ($(shell uname -s),Darwin)
+LIB_LIBS += -lrt
+endif

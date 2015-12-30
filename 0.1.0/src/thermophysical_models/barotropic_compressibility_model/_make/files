@@ -1,0 +1,7 @@
+barotropic_compressibility_model.cpp
+barotropic_compressibility_model_new.cpp
+linear.cpp
+wallis.cpp
+chung.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_barotropic_compressibility_model

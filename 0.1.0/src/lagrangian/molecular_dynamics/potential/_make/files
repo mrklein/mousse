@@ -1,0 +1,38 @@
+potential.cpp
+
+pair_potential = pair_potential
+
+$(pair_potential)/pair_potential_list.cpp
+$(pair_potential)/pair_potential.cpp
+$(pair_potential)/pair_potential_io.cpp
+$(pair_potential)/pair_potential_new.cpp
+$(pair_potential)/lennard_jones.cpp
+$(pair_potential)/maitland_smith.cpp
+$(pair_potential)/aziz_chen.cpp
+$(pair_potential)/exponential_repulsion.cpp
+$(pair_potential)/coulomb.cpp
+$(pair_potential)/damped_coulomb.cpp
+$(pair_potential)/no_interaction.cpp
+
+energy_scaling_function = energy_scaling_function
+
+$(energy_scaling_function)/energy_scaling_function.cpp
+$(energy_scaling_function)/energy_scaling_function_new.cpp
+$(energy_scaling_function)/shifted.cpp
+$(energy_scaling_function)/shifted_force.cpp
+$(energy_scaling_function)/no_scaling.cpp
+$(energy_scaling_function)/sigmoid.cpp
+$(energy_scaling_function)/double_sigmoid.cpp
+
+tether_potential = tether_potential
+
+$(tether_potential)/tether_potential_list.cpp
+$(tether_potential)/tether_potential.cpp
+$(tether_potential)/tether_potential_new.cpp
+$(tether_potential)/harmonic_spring.cpp
+$(tether_potential)/restrained_harmonic_spring.cpp
+$(tether_potential)/pitch_fork_ring.cpp
+
+electrostatic_potential.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_potential

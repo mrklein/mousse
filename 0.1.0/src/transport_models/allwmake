@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+set -x
+
+wmake $target_type two_phase_mixture
+wmake $target_type interface_properties
+wmake $target_type two_phase_properties
+wmake $target_type incompressible
+wmake $target_type compressible
+wmake $target_type immiscible_incompressible_two_phase_mixture

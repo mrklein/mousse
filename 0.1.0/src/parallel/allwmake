@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+# Parse arguments for library compilation
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+set -x
+
+decompose/allwmake $targetType $*
+reconstruct/allwmake $targetType $*
+wmake $targetType distributed
+

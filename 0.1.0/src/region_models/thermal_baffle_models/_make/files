@@ -1,0 +1,9 @@
+thermal_baffle_model.cpp
+thermal_baffle_model_new.cpp
+thermal_baffle.cpp
+no_thermo.cpp
+
+derived_fv_patch_fields/thermal_baffle_fv_patch_scalar_field.cpp
+
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_thermal_baffle_models

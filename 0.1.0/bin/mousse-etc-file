@@ -1,0 +1,217 @@
+#!/bin/sh
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+# Script
+#   mousse-etc-file
+#
+# Description
+#   Locate user/group/shipped file with semantics similar to the
+#   ~mousse/fileName expansion.
+#
+#   The -mode option can be used to allow chaining from
+#   personal settings to site-wide settings.
+#
+#   For example, within the user ~/.mousse/<VER>/prefs.sh:
+#   \code
+#      mousse_prefs=`$WM_PROJECT_DIR/bin/mousse-etc-file -m go prefs.sh` \
+#          && _mousse_source $mousse_prefs
+#   \endcode
+#
+# Note
+#   This script must exist in <mousse_install>/<VERSION>/bin/
+#   or <mousse_install>/<VERSION>/bin/ (for the debian version)
+
+usage() {
+	[ "${optQuiet:-$optSilent}" = true ] && exit 1
+
+	exec 1>&2
+	while [ "$#" -ge 1 ]; do echo "$1"; shift; done
+	cat <<- USAGE
+
+	Usage: ${0##*/} [OPTION] fileName
+	${0##*/} [OPTION] -list
+	options:
+	  -all              return all files (otherwise stop after the first match)
+	  -list             list the directories to be searched
+	  -mode <mode>      any combination of u(user), g(group), o(other)
+	  -prefix <dir>     specify an alternative installation prefix
+	  -quiet            suppress all normal output
+	  -silent           suppress all stderr output
+	  -version <ver>    specify an alternative OpenFOAM version
+	                    in the form Maj.Min.Rev (eg, 1.7.0)
+	  -help             print the usage
+
+	Locate user/group/shipped file with semantics similar to the
+	~mousse/file_name expansion.
+
+	The options can also be specified as a single character
+	(eg, '-q' instead of '-quiet'), but must not be grouped.
+
+	Exit status
+	  0  when the file is found. Print resolved path to stdout.
+	  1  for miscellaneous errors.
+	  2  when the file is not found.
+
+	USAGE
+	exit 1
+}
+
+# the bin dir:
+bin_dir="${0%/*}"
+
+# the project dir:
+project_dir="${bin_dir%/bin}"
+
+# the prefix dir (same as mousse_install):
+prefix_dir="${project_dir%/*}"
+
+# the name used for the project directory
+project_dir_name="${project_dir##*/}"
+
+# version number used for debian packaging
+unset version_num
+
+version=${project_dir_name}
+
+# default mode is 'ugo'
+mode=ugo
+unset opt_all opt_list opt_quiet opt_silent
+
+# parse options
+while [ "$#" -gt 0 ]
+do
+	case "$1" in
+	-h | -help | --help)
+		usage
+		;;
+	-a | -all | --all)
+		opt_all=true
+		;;
+	-l | -list | --list)
+		opt_list=true
+		;;
+	-m | -mode | --mode)
+		[ "$#" -ge 2 ] || usage "'$1' option requires an argument"
+		mode="$2"
+
+		# sanity check:
+		case "$mode" in
+		*u* | *g* | *o* )
+			;;
+		*)
+			usage "'$1' option with invalid mode '$mode'"
+			;;
+		esac
+		shift
+		;;
+	-p | -prefix | --prefix)
+		[ "$#" -ge 2 ] || usage "'$1' option requires an argument"
+		prefix_dir="$2"
+		shift
+		;;
+	-q | -quiet | --quiet)
+		opt_quiet=true
+		;;
+	-s | -silent | --silent)
+		opt_silent=true
+		;;
+	-v | -version | --version)
+		[ "$#" -ge 2 ] || usage "'$1' option requires an argument"
+		version="$2"
+		# convert x.y.z -> xyz version (if installation looked like debian)
+		if [ -n "$version_num" ]
+		then
+			version_num=$(echo "$version" | sed -e 's@\.@@g')
+		fi
+		shift
+		;;
+	--)
+		shift
+		break
+		;;
+	-*)
+		usage "unknown option: '$*'"
+		;;
+	*)
+		break
+		;;
+	esac
+	shift
+done
+
+
+# Save the essential bits of information
+# silently remove leading ~mousse/ (used in mousse::find-etc-file)
+nargs=$#
+file_name="${1#~moussse/}"
+
+# Define the various places to be searched:
+unset dir_list
+case "$mode" in
+*u*)  # user
+	user_dir="$HOME/.${WM_PROJECT:-mousse}"
+	dir_list="$dir_list $user_dir/$version $user_dir"
+	;;
+esac
+
+case "$mode" in
+*g*)  # group (site)
+	site_dir="${WM_PROJECT_SITE:-$prefix_dir/site}"
+	dir_list="$dir_list $site_dir/$version $site_dir"
+	;;
+esac
+
+case "$mode" in
+*o*)  # other (shipped)
+	dir_list="$dir_list $prefix_dir/$version/etc"
+esac
+set -- $dir_list
+
+# The main routine
+exit_code=0
+if [ "$opt_list" = true ]
+then
+
+	# list directories, or potential file locations
+	[ "$nargs" -le 1 ] || usage
+
+	# a silly combination, but -quiet does have precedence
+	[ "$opt_quiet" = true ] && exit 0
+
+	for dir
+	do
+		if [ "$nargs" -eq 1 ]
+		then
+			echo "$dir/$file_name"
+		else
+			echo "$dir"
+		fi
+	done
+
+else
+	[ "$nargs" -eq 1 ] || usage
+
+	# general error, eg file not found
+	exit_code=2
+
+	for dir
+	do
+		if [ -f "$dir/$file_name" ]
+		then
+			exit_code=0
+			if [ "$opt_quiet" = true ]
+			then
+				break
+			else
+				echo "$dir/$file_name"
+				[ "$opt_all" = true ] || break
+			fi
+		fi
+	done
+
+fi
+
+exit $exit_code
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

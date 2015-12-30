@@ -1,0 +1,3 @@
+stream_function.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-stream-function

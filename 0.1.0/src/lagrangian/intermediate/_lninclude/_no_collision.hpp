@@ -1,0 +1,1 @@
+../submodels/_kinematic/_collision_model/_no_collision.hpp

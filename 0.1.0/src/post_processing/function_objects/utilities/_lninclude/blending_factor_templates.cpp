@@ -1,0 +1,1 @@
+../blending_factor/blending_factor_templates.cpp

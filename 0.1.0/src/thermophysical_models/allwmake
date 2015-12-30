@@ -1,0 +1,24 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+set -x
+
+wmake $targetType specie
+wmake $targetType solid_specie
+wmake $targetType thermophysical_functions
+./properties/allwmake $target_type $*
+
+wmake $targetType basic
+wmake $targetType reaction_thermo
+wmake $targetType laminar_flame_speed
+wmake $targetType chemistry_model
+wmake $targetType barotropic_compressibility_model
+wmake $targetType slg_thermo
+
+
+wmake $targetType solid_thermo
+wmake $targetType solid_chemistry_model
+
+wmake $targetType radiation

@@ -1,0 +1,5 @@
+upstream.cpp
+uipread.cpp
+uopwrite.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/dummy/libmousse_pstream

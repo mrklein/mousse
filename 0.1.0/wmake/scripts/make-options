@@ -1,0 +1,30 @@
+#!/bin/sh
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+#
+# Script
+#   make-options
+#
+# Description
+#   Construct _make/options
+#
+#   Usage : make-options
+
+if [ -r _make/options ]
+then
+    echo "Error: Make/options already exists - exiting"
+    exit 1
+fi
+
+[ -d _make ] || mkdir _make
+
+rm -f _make/options
+
+echo 'EXE_INC = \
+    -I$(LIB_SRC)/finite_volume/_lninclude' >> _make/options
+echo >> _make/options
+echo 'EXE_LIBS = \
+    -lmousse_finite_volume' >> _make/options
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

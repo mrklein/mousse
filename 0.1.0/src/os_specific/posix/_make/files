@@ -1,0 +1,27 @@
+signals/sig_fpe.cpp
+signals/sig_segv.cpp
+signals/sig_int.cpp
+signals/sig_quit.cpp
+signals/sig_stop_at_write_now.cpp
+signals/sig_write_now.cpp
+reg_exp.cpp
+timer.cpp
+file_stat.cpp
+posix.cpp
+cpu_time/cpu_time.cpp
+clock_time/clock_time.cpp
+mem_info/mem_info.cpp
+
+/*
+ * _note: file_monitor assumes inotify by default. _compile with -dfoam_use_stat
+ * to use stat (=timestamps) instead of inotify
+ */
+file_monitor.cpp
+
+#ifdef _sun_os64
+dummy_print_stack.cpp
+#else
+print_stack.cpp
+#endif
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_os_specific

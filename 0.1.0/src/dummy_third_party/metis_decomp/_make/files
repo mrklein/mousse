@@ -1,0 +1,3 @@
+dummy_metis_decomp.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/dummy/libmousse_metis_decomp

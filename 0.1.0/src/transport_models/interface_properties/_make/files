@@ -1,0 +1,4 @@
+interface_properties.cpp
+interface_compression/interface_compression.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_interface_properties

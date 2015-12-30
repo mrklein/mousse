@@ -1,0 +1,135 @@
+#!/bin/sh
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+# Script
+#   mousse-clean-path
+# Description
+#   Usage: mousse-clean-path [-strip] path [wildcard] .. [wildcard]
+#
+#   Prints its argument (which should be a ':' separated path)
+#   without all
+#     - duplicate elements
+#     - elements whose start matches a wildcard
+#     - inaccessible directories (with the -strip (at your option)
+#
+# Note
+#   - this routine will fail when directories have embedded spaces
+#   - false matches possible if a wildcard contains '.' (sed regex)
+#   - the wildcards can themselves can be written together and separated
+#     by colons or whitespace
+
+usage() {
+	cat <<- USAGE 1>&2
+	Usage: ${0##*/} [OPTION] path [wildcard1] .. [wildcardN]
+	options:
+	  -strip            remove inaccessible directories
+	  -help             print the usage
+
+	  Prints its argument (which should be a ':' separated list) cleansed from
+	    - duplicate elements
+	    - elements whose start matches one of the wildcard(s)
+	    - inaccessible directories (with the -strip option)
+
+	  Exit status
+	    0  on success
+	    1  for miscellaneous errors.
+	    2  initial value of 'path' is empty
+
+	USAGE
+	exit 1
+}
+
+
+unset strip
+# parse options
+while [ "$#" -gt 0 ]
+do
+	case "$1" in
+	-h | -help | --help)
+		usage
+		;;
+	-strip | --strip)
+		strip=true
+		shift
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+
+[ "$#" -ge 1 ] || usage
+
+dir_list="$1"
+shift
+
+[ -n "$dir_list" ] || exit 2    # quick exit on empty 'dirList'
+
+
+##DEBUG echo "input>$dirList<" 1>&2
+
+# preserve current IFS and split on colon or whitespace
+old_IFS="$IFS"
+IFS=': '
+
+# "wildcard1 ... wildcardN" may have been passed as a single parameter
+# or may contain ':' separators
+set -- $*
+
+# strip out wildcards via sed
+while [ "$#" -ge 1 ]
+do
+	wildcard=$1
+	shift
+	##DEBUG echo "remove>$wildcard<" 1>&2
+	if [ -n "$wildcard" ]
+	then
+		dir_list=$(echo "$dir_list:" | sed -e "s@${wildcard}[^:]*:@@g")
+	fi
+done
+
+# split on ':' (and on space as well to avoid any surprises)
+IFS=': '
+set -- $dir_list
+
+##DEBUG echo "intermediate>$dirList<" 1>&2
+
+# rebuild the list from scratch
+unset dir_list
+for dir
+do
+	##DEBUG echo "check>$dir<" 1>&2
+	#- dirs must exist
+	if [ -e "$dir" ]
+	then
+		#- no duplicate dirs
+		duplicate=$(echo " $dir_list " | sed -ne "s: $dir :DUP:p")
+
+		if [ ! "$duplicate" ]
+		then
+			dir_list="$dir_list $dir"
+		fi
+	elif [ "$strip" != true ]
+	then
+		# Print non-existing directories if not in 'strip' mode.
+		dir_list="$dir_list $dir"
+	fi
+done
+
+# split on whitespace
+IFS=' '
+set -- $dir_list
+
+# rejoin on ':'
+IFS=':'
+dir_list="$*"
+
+# restore IFS
+IFS="$old_IFS"
+
+##DEBUG echo "output>$dirList<" 1>&2
+echo "$dir_list"
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

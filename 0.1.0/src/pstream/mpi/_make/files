@@ -1,0 +1,6 @@
+uopwrite.cpp
+uipread.cpp
+upstream.cpp
+pstream_globals.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/$(MOUSSE_MPI)/libmousse_pstream

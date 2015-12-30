@@ -1,0 +1,22 @@
+chemistry_readers/chemkin_reader.cpp
+chemistry_readers/chemkin_lexer.lpp
+chemistry_readers/make_chemistry_readers.cpp
+
+mixtures/basic_multi_component_mixture.cpp
+mixtures/basic_specie_mixture.cpp
+mixtures/basic_combustion_mixture.cpp
+
+psi_reaction_thermo.cpp
+psi_reaction_thermos.cpp
+
+psiu_reaction_thermo.cpp
+psiu_reaction_thermos.cpp
+
+rho_reaction_thermo.cpp
+rho_reaction_thermos.cpp
+
+derived_fv_patch_fields/fixed_unburnt_enthalpy_fv_patch_scalar_field.cpp
+derived_fv_patch_fields/gradient_unburnt_enthalpy_fv_patch_scalar_field.cpp
+derived_fv_patch_fields/mixed_unburnt_enthalpy_fv_patch_scalar_field.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_reaction_thermophysical_models

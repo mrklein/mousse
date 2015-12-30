@@ -1,0 +1,42 @@
+// mousse: CFD toolbox
+// Copyright (C) 2011 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+// Class
+//   mousse::topoChangerFvMesh
+// Description
+//   Abstract base class for a topology changing fvMesh
+// SourceFiles
+//   topo_changer_fv_mesh.cpp
+//   new_topo_fv_mesh.cpp
+#ifndef topo_changer_fv_mesh_hpp_
+#define topo_changer_fv_mesh_hpp_
+#include "dynamic_fv_mesh.hpp"
+#include "poly_topo_changer.hpp"
+namespace mousse
+{
+class topoChangerFvMesh
+:
+  public dynamicFvMesh
+{
+  // Private Member Functions
+    //- Disallow default bitwise copy construct
+    topoChangerFvMesh(const topoChangerFvMesh&);
+    //- Disallow default bitwise assignment
+    void operator=(const topoChangerFvMesh&);
+protected:
+  // Protected Data
+    polyTopoChanger topoChanger_;
+public:
+  //- Runtime type information
+  TypeName("topoChangerFvMesh");
+  // Constructors
+    //- Construct from objectRegistry, and read/write options
+    explicit topoChangerFvMesh(const IOobject& io);
+  //- Destructor
+  virtual ~topoChangerFvMesh();
+  // Member Functions
+    //- Update the mesh for both mesh motion and topology change
+    virtual bool update() = 0;
+};
+}  // namespace mousse
+#endif

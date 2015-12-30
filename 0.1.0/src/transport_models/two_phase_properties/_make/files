@@ -1,0 +1,7 @@
+alpha_contact_angle_fv_patch_scalar_field.cpp
+constant_alpha_contact_angle_fv_patch_scalar_field.cpp
+dynamic_alpha_contact_angle_fv_patch_scalar_field.cpp
+time_varying_alpha_contact_angle_fv_patch_scalar_field.cpp
+alpha_fixed_pressure_fv_patch_scalar_field.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_two_phase_properties

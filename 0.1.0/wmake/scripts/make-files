@@ -1,0 +1,58 @@
+#!/bin/sh
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+# Script
+#     make-files
+#
+# Description
+#     Scan the current directory for source files and construct _make/files
+#
+#     Usage : make-files
+
+if [ -r _make/files ]
+then
+	echo "Error: _make/files already exists - exiting"
+	exit 1
+fi
+
+dir_to_string=$WM_DIR/platforms/$WM_ARCH$WM_COMPILER/dir-to-string
+
+[ -d _make ] || mkdir _make
+rm -f _make/files
+
+for dir in $(find . -type d -print)
+do
+	case "$dir" in
+	. | ./_make | ./_lninclude )
+		# skip special directories
+		;;
+	*)
+		base_dir=$(echo $dir | sed 's%^\./%%')
+		base_dir_name=$(echo $base_dir | $dir_to_string)
+
+		echo $base_dir_name " = " $base_dir >> _make/files
+		;;
+	esac
+done
+
+echo >> _make/files
+
+for file in $(find . -name "*.[cCylLfF]" -type f -print)
+do
+	file_name=$(echo ${file##*/})
+	path_name=$(echo ${file%/*} | sed 's%^\.%%' | sed 's%^/%%' | $dir_to_string)
+
+	if [ -n "$path_name" ]
+	then
+		echo '$('$path_name')/'$file_name >> _make/files
+	else
+		echo $file_name >> _make/files
+	fi
+done
+
+echo >> _make/files
+
+echo 'EXE = $(MOUSSE_APPBIN)/'${PWD##*/} >> _make/files
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

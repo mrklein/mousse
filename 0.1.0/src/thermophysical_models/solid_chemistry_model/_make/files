@@ -1,0 +1,8 @@
+
+basic_solid_chemistry_model.cpp
+basic_solid_chemistry_model_new.cpp
+basic_solid_chemistry_models.cpp
+
+make_solid_chemistry_solvers.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_solid_chemistry_model

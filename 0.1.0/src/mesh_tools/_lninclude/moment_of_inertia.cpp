@@ -1,0 +1,1 @@
+../moment_of_inertia/moment_of_inertia.cpp

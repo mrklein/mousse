@@ -1,0 +1,1 @@
+../energy_scaling_function/no_scaling.cpp

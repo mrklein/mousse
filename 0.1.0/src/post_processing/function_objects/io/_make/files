@@ -1,0 +1,13 @@
+partial_write/partial_write.cpp
+partial_write/partial_write_function_object.cpp
+
+remove_registered_object/remove_registered_object.cpp
+remove_registered_object/remove_registered_object_function_object.cpp
+
+write_dictionary/write_dictionary.cpp
+write_dictionary/write_dictionary_function_object.cpp
+
+write_registered_object/write_registered_object.cpp
+write_registered_object/write_registered_object_function_object.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_io_function_objects

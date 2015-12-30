@@ -1,0 +1,4 @@
+cloud_info/cloud_info.cpp
+cloud_info/cloud_info_function_object.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_cloud_function_objects

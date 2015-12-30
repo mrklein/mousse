@@ -1,0 +1,6 @@
+EXE_INC = \
+    -I.. \
+    -I$(LIB_SRC)/finite_volume/_lninclude
+
+LIB_LIBS = \
+    -lmousse_finite_volume

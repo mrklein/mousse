@@ -1,0 +1,15 @@
+viscosity_model.cpp
+viscosity_model_new.cpp
+
+viscosity_models/newtonian.cpp
+viscosity_models/power_law.cpp
+viscosity_models/cross_power_law.cpp
+viscosity_models/bird_carreau.cpp
+viscosity_models/herschel_bulkley.cpp
+
+transport_model.cpp
+single_phase_transport_model.cpp
+
+incompressible_two_phase_mixture.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_incompressible_transport_models

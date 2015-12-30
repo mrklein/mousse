@@ -1,0 +1,23 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+set -x
+
+export par_mgrid_gen=$WM_THIRD_PARTY_DIR/ParMGridGen-1.0
+
+if [ "$(uname -s)" = "Darwin" ]
+then
+    brew_prefix=$(brew --prefix)
+	[ -e "$brew_prefix/opt/parmgridgen/lib/libmgrid.a" \
+        -a "$WM_LABEL_SIZE" -ne "64" ] \
+        && wmake $target_type mgridgen_gamg_agglomeration
+else
+	[ -e "$MOUSSE_LIBBIN/libMGridGen.so" ] \
+		&& wmake $target_type mgridgen_gamg_agglomeration
+fi
+
+wmake $target_type pair_patch_agglomeration
+
+unset brew_prefix

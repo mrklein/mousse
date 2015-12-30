@@ -1,0 +1,14 @@
+kmesh.cpp
+
+fft.cpp
+fft_renumber.cpp
+calc_ek.cpp
+k_shell_integration.cpp
+
+uo_process.cpp
+
+turb_gen.cpp
+
+noise_fft.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_random_processes

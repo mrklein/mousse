@@ -1,0 +1,4 @@
+SUFFIXES += .ypp
+
+ypptoo = btyacc++ -v -d $(SKELETON) $< ; mv y_tab.c $(@D)/$(<F).cpp ; mv y_tab.h $(@D)/$(<F).hpp ; \
+     $(CC) $(c++FLAGS) -c $(@D)/$(<F).cpp -o $@

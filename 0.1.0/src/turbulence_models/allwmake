@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+set -x
+
+wmake $target_type turbulence_models
+wmake $target_type incompressible
+wmake $target_type compressible
+wmake-lninclude phase_incompressible
+wmake-lninclude phase_compressible

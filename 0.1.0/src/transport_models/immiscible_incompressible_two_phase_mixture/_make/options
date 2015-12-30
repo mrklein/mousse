@@ -1,0 +1,13 @@
+EXE_INC = \
+    -I.. \
+    -I../incompressible/_lninclude \
+    -I../interface_properties/_lninclude \
+    -I../two_phase_mixture/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude
+
+LIB_LIBS = \
+    -lmousse_two_phase_mixture \
+    -lmousse_incompressible_transport_models \
+    -lmousse_interface_properties \
+    -lmousse_two_phase_properties \
+    -lmousse_finite_volume

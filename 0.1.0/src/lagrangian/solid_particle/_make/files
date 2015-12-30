@@ -1,0 +1,5 @@
+solid_particle.cpp
+solid_particle_io.cpp
+solid_particle_cloud.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_solid_particle

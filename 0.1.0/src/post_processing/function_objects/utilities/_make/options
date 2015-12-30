@@ -1,0 +1,29 @@
+EXE_INC = \
+    -I$(LIB_SRC)/fv_options/_lninclude \
+    -I$(LIB_SRC)/lagrangian/basic/_lninclude \
+    -I$(LIB_SRC)/lagrangian/dsmc/_lninclude \
+    -I$(LIB_SRC)/transport_models \
+    -I$(LIB_SRC)/transport_models/incompressible/single_phase_transport_model \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/incompressible/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/compressible/_lninclude \
+    -I$(LIB_SRC)/transport_models/compressible/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/basic/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/sampling/_lninclude
+
+LIB_LIBS = \
+    -lmousse_fv_options \
+    -lmousse_turbulence_models \
+    -lmousse_incompressible_turbulence_models \
+    -lmousse_compressible_turbulence_models \
+    -lmousse_incompressible_transport_models \
+    -lmousse_compressible_transport_models \
+    -lmousse_fluid_thermophysical_models \
+    -lmousse_specie \
+    -lmousse_lagrangian \
+    -lmousse_dsmc \
+    -lmousse_finite_volume \
+    -lmousse_mesh_tools \
+    -lmousse_sampling

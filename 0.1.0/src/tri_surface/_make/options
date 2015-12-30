@@ -1,0 +1,7 @@
+EXE_INC = \
+    -I$(LIB_SRC)/file_formats/_lninclude \
+    -I$(LIB_SRC)/surf_mesh/_lninclude
+
+LIB_LIBS = \
+    -lmousse_file_formats \
+    -lmousse_surf_mesh

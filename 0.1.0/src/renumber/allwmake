@@ -1,0 +1,19 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+
+set -x
+
+wmake $target_type renumber_methods
+
+if [ -n "$BOOST_ARCH_PATH" ]
+then
+    wmake $target_type sloan_renumber
+else
+    echo
+    echo "Skipping sloan_renumber"
+    echo
+fi
+

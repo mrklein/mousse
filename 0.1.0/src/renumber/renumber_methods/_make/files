@@ -1,0 +1,8 @@
+renumber_method.cpp
+manual_renumber.cpp
+cuthill_mc_kee_renumber.cpp
+random_renumber.cpp
+spring_renumber.cpp
+structured_renumber.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_renumber_methods

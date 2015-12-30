@@ -1,0 +1,122 @@
+// mousse: CFD toolbox
+// Copyright (C) 2011-2015 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+// Class
+//   mousse::AtomizationModel
+// Description
+//   Templated atomization model class
+// SourceFiles
+//   _atomization_model.cpp
+//   _atomization_model_new.cpp
+
+#ifndef _atomization_model_hpp_
+#define _atomization_model_hpp_
+
+#include "iodictionary.hpp"
+#include "auto_ptr.hpp"
+#include "run_time_selection_tables.hpp"
+#include "_cloud_sub_model_base.hpp"
+
+namespace mousse
+{
+template<class CloudType>
+class AtomizationModel
+:
+  public CloudSubModelBase<CloudType>
+{
+public:
+  //- Runtime type information
+  TypeName("atomizationModel");
+  //- Declare runtime constructor selection table
+  declareRunTimeSelectionTable
+  (
+    autoPtr,
+    AtomizationModel,
+    dictionary,
+    (
+      const dictionary& dict,
+      CloudType& owner
+    ),
+    (dict, owner)
+  );
+  // Constructors
+    //- Construct null from owner
+    AtomizationModel(CloudType& owner);
+    //- Construct from dictionary
+    AtomizationModel
+    (
+      const dictionary& dict,
+      CloudType& owner,
+      const word& type
+    );
+    //- Construct copy
+    AtomizationModel(const AtomizationModel<CloudType>& am);
+    //- Construct and return a clone
+    virtual autoPtr<AtomizationModel<CloudType> > clone() const = 0;
+  //- Destructor
+  virtual ~AtomizationModel();
+  //- Selector
+  static autoPtr<AtomizationModel<CloudType> > New
+  (
+    const dictionary& dict,
+    CloudType& owner
+  );
+  // Member Functions
+    //- Average temperature calculation
+    scalar Taverage(const scalar& Tliq, const scalar& Tc) const;
+    //- Initial value of liquidCore
+    virtual scalar initLiquidCore() const = 0;
+    //- Flag to indicate if chi needs to be calculated
+    virtual bool calcChi() const = 0;
+    virtual void update
+    (
+      const scalar dt,
+      scalar& d,
+      scalar& liquidCore,
+      scalar& tc,
+      const scalar rho,
+      const scalar mu,
+      const scalar sigma,
+      const scalar volFlowRate,
+      const scalar rhoAv,
+      const scalar Urel,
+      const vector& pos,
+      const vector& injectionPos,
+      const scalar pAmbient,
+      const scalar chi,
+      cachedRandom& rndGen
+    ) const = 0;
+};
+}  // namespace mousse
+
+#define makeAtomizationModel(CloudType)                                       \
+                                                                              \
+  typedef mousse::CloudType::sprayCloudType sprayCloudType;                   \
+  defineNamedTemplateTypeNameAndDebug                                         \
+  (                                                                           \
+    mousse::AtomizationModel<sprayCloudType>,                                 \
+    0                                                                         \
+  );                                                                          \
+                                                                              \
+  namespace mousse                                                            \
+  {                                                                           \
+    defineTemplateRunTimeSelectionTable                                       \
+    (                                                                         \
+      AtomizationModel<sprayCloudType>,                                       \
+      dictionary                                                              \
+    );                                                                        \
+  }
+
+#define makeAtomizationModelType(SS, CloudType)                               \
+                                                                              \
+  typedef mousse::CloudType::sprayCloudType sprayCloudType;                   \
+  defineNamedTemplateTypeNameAndDebug(mousse::SS<sprayCloudType>, 0);         \
+                                                                              \
+  mousse::AtomizationModel<sprayCloudType>::                                  \
+    adddictionaryConstructorToTable<mousse::SS<sprayCloudType> >              \
+      add##SS##CloudType##sprayCloudType##ConstructorToTable_;
+
+#ifdef NoRepository
+#   include "_atomization_model.cpp"
+#endif
+#endif

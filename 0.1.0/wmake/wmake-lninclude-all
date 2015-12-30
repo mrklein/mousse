@@ -1,0 +1,84 @@
+#!/bin/sh
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+# 
+# Script
+#     wmake-lninclude-all
+#
+# Description
+#     Find directories with a '_make/files' that contains a 'LIB =' directive
+#     and execute 'wmake-lninclude -f' for each one
+
+Script=${0##*/}
+
+usage() {
+    while [ "$#" -ge 1 ]; do echo "$1"; shift; done
+    cat <<- USAGE
+
+	Usage: $Script [dir1 .. dirN]
+
+		Find directories with a '_make/files' that contains a 'LIB =' directive
+		and execute 'wmake-lninclude -f' for each one
+
+	USAGE
+    exit 1
+}
+
+
+# Parse arguments and options
+
+find_name=_lninclude
+
+while [ "$#" -gt 0 ]
+do
+	case "$1" in
+	-h | -help | --help)   # provide immediate help
+		usage
+		;;
+	-*)
+		usage "unknown option: '$*'"
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+
+# Default to searching from CWD
+[ "$#" -gt 0 ] || set -- .
+
+for check_dir
+do
+	if [ -d $check_dir ]
+	then
+		echo "searching: $check_dir for '_make' directories"
+		echo "---------"
+	else
+		echo "skipping non-dir: $check_dir"
+		echo "----------------"
+		continue
+	fi
+
+	find $check_dir -depth -type d -name _make -print | while read make_dir
+	do
+		top_dir=${make_dir%/_make}    # trim /_make from the end
+		if [ -d "$top_dir" ]
+		then
+			if grep -e '^ *LIB *=' "$make_dir/files" >/dev/null 2>&1
+			then
+				wmake-lninclude -f $top_dir
+			elif [ -d "$top_dir/_lninclude" ]
+			then
+				echo "removing spurious $top_dir/_lninclude"
+				rm -rf "$top_dir/_lninclude"
+			fi
+		fi
+	done
+done
+
+# Cleanup local variables and functions
+unset Script usage
+
+# vim: set ft=sh noet sw=4 ts=4 sts=4:

@@ -1,0 +1,15 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Parse arguments for library compilation
+target_type=libso
+. $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
+set -x
+
+wmake $targetType scotch_decomp
+wmake $targetType ptscotch_decomp
+wmake $targetType metis_decomp
+wmake $targetType mgrid_gen
+
+
+# ----------------------------------------------------------------- end-of-file

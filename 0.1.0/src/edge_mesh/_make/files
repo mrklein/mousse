@@ -1,0 +1,30 @@
+em = .
+
+$(em)/edge_mesh.cpp
+$(em)/edge_mesh_io.cpp
+$(em)/edge_mesh_new.cpp
+
+
+edge_mesh_formats = $(em)/edge_mesh_formats
+$(edge_mesh_formats)/edge_mesh_formats_core.cpp
+$(edge_mesh_formats)/edge_mesh_format.cpp
+$(edge_mesh_formats)/edge_mesh_format_run_time.cpp
+$(edge_mesh_formats)/extended_feature_edge_mesh_format.cpp
+$(edge_mesh_formats)/extended_feature_edge_mesh_format_run_time.cpp
+$(edge_mesh_formats)/nas_edge_format.cpp
+$(edge_mesh_formats)/nas_edge_format_run_time.cpp
+$(edge_mesh_formats)/obj_edge_format.cpp
+$(edge_mesh_formats)/obj_edge_format_run_time.cpp
+$(edge_mesh_formats)/starcd_edge_format.cpp
+$(edge_mesh_formats)/starcd_edge_format_run_time.cpp
+$(edge_mesh_formats)/vtk_edge_format.cpp
+$(edge_mesh_formats)/vtk_edge_format_run_time.cpp
+
+$(em)/feature_edge_mesh.cpp
+$(em)/extended_edge_mesh.cpp
+$(em)/extended_edge_mesh_new.cpp
+$(em)/extended_edge_mesh_format.cpp
+$(em)/extended_edge_mesh_format_run_time.cpp
+$(em)/extended_feature_edge_mesh.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_edge_mesh

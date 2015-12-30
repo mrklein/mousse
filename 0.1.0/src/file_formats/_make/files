@@ -1,0 +1,16 @@
+vtk_unstructured_reader.cpp
+nas_core.cpp
+starcd_core.cpp
+coord_set.cpp
+
+set_writers = sampled_set_writers
+$(set_writers)/writers.cpp
+$(set_writers)/ensight_set_writer_run_time.cpp
+$(set_writers)/gnuplot_set_writer_run_time.cpp
+$(set_writers)/jplot_set_writer_run_time.cpp
+$(set_writers)/raw_set_writer_run_time.cpp
+$(set_writers)/vtk_set_writer_run_time.cpp
+$(set_writers)/xmgrace_set_writer_run_time.cpp
+$(set_writers)/csv_set_writer_run_time.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_file_formats

@@ -1,0 +1,1 @@
+../write_registered_object/write_registered_object_function_object.cpp

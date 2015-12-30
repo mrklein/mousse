@@ -1,0 +1,6 @@
+atomic_weights.cpp
+specie.cpp
+reaction/make_reactions.cpp
+reaction/make_langmuir_hinshelwood_reactions.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_specie

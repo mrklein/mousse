@@ -1,0 +1,3 @@
+solid_mixture_properties.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_solid_mixture_properties

@@ -1,0 +1,14 @@
+EXE_INC = \
+    -I$(LIB_SRC)/tri_surface/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/dynamic_mesh/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/file_formats/_lninclude \
+    -I$(LIB_SRC)/post_processing/function_objects/forces/_lninclude \
+
+LIB_LIBS = \
+    -lmousse_tri_surface \
+    -lmousse_mesh_tools \
+    -lmousse_dynamic_mesh \
+    -lmousse_finite_volume \
+    -lmousse_file_formats

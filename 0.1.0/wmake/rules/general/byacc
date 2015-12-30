@@ -1,0 +1,4 @@
+SUFFIXES += .y
+
+ytoo = byacc -v $(YYPREFIX) -d $< ; mv y.tab.c $(@D)/$(<F).cpp ; mv y.tab.h $(@D)/$(<F).hpp ; \
+     $(CC) $(c++FLAGS) -c $(@D)/$(<F).cpp -o $@
