@@ -1,52 +1,30 @@
 #!/bin/bash
-#------------------------------------------------------------------------------
-# =========                 |
-# \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-#  \\    /   O peration     |
-#   \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
-#    \\/     M anipulation  |
-#-------------------------------------------------------------------------------
-# License
-#     This file is part of OpenFOAM.
-#
-#     OpenFOAM is free software: you can redistribute it and/or modify it
-#     under the terms of the GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License, or
-#     (at your option) any later version.
-#
-#     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-#     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-#     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-#     for more details.
-#
-#     You should have received a copy of the GNU General Public License
-#     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-#
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
 # Script
-#     foamExec
+#     mousse-exec
 #
 # Description
-#     Usage: foamExec [-v foamVersion] <foamCommand> ...
+#     Usage: mousse_exec [-v MOUSSE_VERSION] <mousse-command> ...
 #
-#     Runs the <foamVersion> version of executable <foamCommand>
+#     Runs the <MOUSSE_VERSION> version of executable <mousse-command>
 #     with the rest of the arguments.
 #
 #     Can also be used for parallel runs. For example,
 #     \code
-#         mpirun -np <nProcs> \
-#             foamExec -version <foamVersion> <foamCommand> ... -parallel
+#         mpirun -np <NPROCS> \
+#             mousse-exec -version <MOUSSE_VERSION> <mousse-command> ... -parallel
 #     \endcode
 #
 # Note
-#     This script must exist in <foamInstall>/OpenFOAM-<VERSION>/bin/
-#     or <foamInstall>/openfoam<VERSION>/bin/ (for the debian version)
+#     This script must exist in <mousseInstall>/<VERSION>/bin
 #
-#     foamEtcFile must be found in the same directory as this script
+#     mousse-etc-file must be found in the same directory as this script
 #
 # SeeAlso
-#    foamEtcFile
-#
-#------------------------------------------------------------------------------
+#    mousse-etc-file
+
 usage() {
     exec 1>&2
     while [ "$#" -ge 1 ]; do echo "$1"; shift; done
@@ -56,12 +34,12 @@ Usage: ${0##*/} [OPTION] <application> ...
 
 options:
   -prefix <dir>     specify an alternative installation prefix
-                    pass through to foamEtcFile and set as FOAM_INST_DIR
-  -version <ver>    specify an alternative OpenFOAM version
-                    pass through to foamEtcFile
+                    pass through to mousse-etc-file and set as MOUSSE_INST_DIR
+  -version <ver>    specify an alternative mousse version
+                    pass through to mousse-etc-file
   -help             print the usage
 
-* run a particular OpenFOAM version of <application>
+* run a particular mousse version of <application>
 
 USAGE
     exit 1
@@ -70,40 +48,36 @@ USAGE
 #-------------------------------------------------------------------------------
 
 # the bin dir:
-binDir="${0%/*}"
+bin_dir="${0%/*}"
 
 # the project dir:
-projectDir="${binDir%/bin}"
+project_dir="${bin_dir%/bin}"
 
-# the prefix dir (same as foamInstall):
-prefixDir="${projectDir%/*}"
+# the prefix dir (same as mousseInstall):
+prefix_dir="${project_dir%/*}"
 
-# # the name used for the project directory
-# projectDirName="${projectDir##*/}"
-
-
-unset etcOpts version
+unset etc_opts version
 # parse options
 while [ "$#" -gt 0 ]
 do
     case "$1" in
-    -h | -help)
+    -h | -help | --help)
         usage
         ;;
-    -m | -mode)
+    -m | -mode | --mode)
         [ "$#" -ge 2 ] || usage "'$1' option requires an argument"
-        etcOpts="$etcOpts $1 $2"    # pass-thru to foamEtcFile
+        etc_opts="$etc_opts $1 $2"
         shift
         ;;
-    -p | -prefix)
+    -p | -prefix | --prefix)
         [ "$#" -ge 2 ] || usage "'$1' option requires an argument"
-        etcOpts="$etcOpts $1 $2"    # pass-thru to foamEtcFile
-        prefixDir="$2"
+        etc_opts="$etc_opts $1 $2"
+        prefix_dir="$2"
         shift
         ;;
-    -v | -version)
+    -v | -version | --version)
         [ "$#" -ge 2 ] || usage "'$1' option requires an argument"
-        etcOpts="$etcOpts $1 $2"    # pass-thru to foamEtcFile
+        etc_opts="$etc_opts $1 $2"
         version="$2"
         shift
         ;;
@@ -121,27 +95,22 @@ do
     shift
 done
 
-#
-# Find and source OpenFOAM settings (bashrc)
+# Find and source mousse settings (bashrc)
 # placed in function to preserve command-line arguments
-#
-sourceRc()
+source_rc()
 {
-    foamDotFile="$($binDir/foamEtcFile $etcOpts bashrc)" || {
-        echo "Error : bashrc file could not be found for OpenFOAM-${version:-${WM_PROJECT_VERSION:-???}}" 1>&2
+    mousse_dot_file="$($bin_dir/mousse-etc-file $etc_opts bashrc)" || {
+        echo "Error : bashrc file could not be found for mousse-${version:-${WM_PROJECT_VERSION:-???}}" 1>&2
         exit 1
     }
 
     # set to consistent value before sourcing the bashrc
-    export FOAM_INST_DIR="$prefixDir"
+    export MOUSSE_INST_DIR="$prefix_dir"
 
-    . $foamDotFile $FOAM_SETTINGS
+    . $mousse_dot_file $MOUSSE_SETTINGS
 }
-
 
 [ "$#" -ge 1 ] || usage "no application specified"
 
-sourceRc
+source_rc
 exec "$@"
-
-#------------------------------------------------------------------------------

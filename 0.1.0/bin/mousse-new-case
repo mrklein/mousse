@@ -1,39 +1,19 @@
 #!/bin/sh
-#------------------------------------------------------------------------------
-# =========                 |
-# \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-#  \\    /   O peration     |
-#   \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
-#    \\/     M anipulation  |
-#-------------------------------------------------------------------------------
-# License
-#     This file is part of OpenFOAM.
-#
-#     OpenFOAM is free software: you can redistribute it and/or modify it
-#     under the terms of the GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License, or
-#     (at your option) any later version.
-#
-#     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-#     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-#     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-#     for more details.
-#
-#     You should have received a copy of the GNU General Public License
-#     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
 #
 # Script
-#     foamNewCase
+#   mousse-new-case
 #
 # Description
 #     Create a new case from a template for particular applications
 #     - requires rsync
-#
-#------------------------------------------------------------------------------
-siteDir=${WM_PROJECT_SITE:-${WM_PROJECT_INST_DIR:-<unknown>}/site}
-userDir=$HOME/.OpenFOAM
+
+site_dir=${WM_PROJECT_SITE:-${WM_PROJECT_INST_DIR:-<unknown>}/site}
+user_dir=$HOME/.mousse
 version=${WM_PROJECT_VERSION:-unknown}
-templateDir="appTemplates"
+templateDir="app_templates"
 
 #------------------------------------------------------------------------------
 usage() {
@@ -49,37 +29,37 @@ options:
   -version <ver>    specify an alternative version (default: '$WM_PROJECT_VERSION')
 
 clone initial application settings to the specified case from
-    $userDir/$templateDir/{$version,}/<APP>
-    $siteDir/$templateDir/{$version,}/<APP>
+    $user_dir/$template_dir/{$version,}/<APP>
+    $site_dir/$template_dir/{$version,}/<APP>
 
 USAGE
     exit 1
 }
-#------------------------------------------------------------------------------
-unset appName caseName listOpt
+
+unset app_name case_name list_opt
 
 # parse options
 while [ "$#" -gt 0 ]
 do
     case "$1" in
-    -h | -help)
+    -h | -help | --help)
         usage
         ;;
-    -app)
+    -app | --app)
         [ "$#" -ge 2 ] || usage "'$1' option requires an argument"
-        appName="$2"
+        app_name="$2"
         shift 2
         ;;
-    -case)
+    -case | --case)
         [ "$#" -ge 2 ] || usage "'$1' option requires an argument"
-        caseName="$2"
+        case_name="$2"
         shift 2
         ;;
-    -l | -list)
-        listOpt=true
+    -l | -list | --list)
+        list_opt=true
         shift
         ;;
-    -v | -ver | -version)
+    -v | -ver | -version | --version)
         [ "$#" -ge 2 ] || usage "'$1' option requires an argument"
         version="$2"
         shift 2
@@ -94,21 +74,17 @@ do
 done
 
 # need rsync, except for when listing
-type rsync >/dev/null 2>&1 || [ "$listOpt" = true ] || usage "Error: 'rsync' seems to be missing"
+type rsync >/dev/null 2>&1 || [ "$list_opt" = true ] || usage "Error: 'rsync' seems to be missing"
 
-
-#------------------------------------------------------------------------------
 
 [ -n "$version" ] || {
     echo "Error: no -version specified and \$WM_PROJECT_VERSION is not set"
     exit 1
 }
 
-#
 # find apps in current directory
 # considered an app if it has constant/ and system/ directories
-#
-findApps()
+find_apps()
 {
     for app in $(/bin/ls -d * 2>/dev/null)
     do
@@ -117,23 +93,23 @@ findApps()
 }
 
 
-appList=$(
-    for dir in $userDir/$templateDir $siteDir/$templateDir
+app_list=$(
+    for dir in $user_dir/$template_dir $site_dir/$template_dir
     do
         if cd $dir 2>/dev/null
         then
-            findApps                              ## generic
-            cd $version 2>/dev/null && findApps   ## version-specific
+            find_apps
+            cd $version 2>/dev/null && find_apps
         fi
     done | sort | uniq
 )
 
 
-listApps()
+list_apps()
 {
     echo
     echo "applications available:"
-    for i in $appList
+    for i in $app_list
     do
         echo "    $i"
     done
@@ -141,33 +117,32 @@ listApps()
 }
 
 
-if [ "$listOpt" = true ]
+if [ "$list_opt" = true ]
 then
-    listApps
+    list_apps
     exit 0
-elif [ "$(echo $appList | wc -w)" -eq 0 ]
+elif [ "$(echo $app_list | wc -w)" -eq 0 ]
 then
     echo "Error: no applications available"
     exit 1
-elif [ -z "$appName" ]
+elif [ -z "$app_name" ]
 then
     echo "Error: no -app specified"
-    listApps
+    list_apps
     exit 1
 fi
 
-
-# get the corresponding srcDir name
-srcDir=$(
-    for dir in $userDir/$templateDir $siteDir/$templateDir
+# get the corresponding src_dir name
+src_dir=$(
+    for dir in $user_dir/$template_dir $site_dir/$template_dir
     do
         if [ -d $dir ]
         then
-            for appDir in $dir/$version/$appName $dir/$appName
+            for app_dir in $dir/$version/$app_name $dir/$app_name
             do
-                if [ -d $appDir -a -d $appDir/constant -a -d $appDir/system ]
+                if [ -d $app_dir -a -d $app_dir/constant -a -d $app_dir/system ]
                 then
-                    echo "$appDir"
+                    echo "$app_dir"
                     break 2
                 fi
             done
@@ -176,55 +151,53 @@ srcDir=$(
 )
 
 
-[ -d "$srcDir" ] || {
-    echo "Error: could not find template for $appName"
-    listApps
+[ -d "$src_dir" ] || {
+    echo "Error: could not find template for $app_name"
+    list_apps
     exit 1
 }
 
 
-# adjust for caseName as required
-if [ -n "$caseName" ]
+# adjust for case_name as required
+if [ -n "$case_name" ]
 then
-    [ -d "$caseName" ] || mkdir -p "$caseName"
-    cd "$caseName" 2>/dev/null || usage "directory does not exist:  '$caseName'"
+    [ -d "$case_name" ] || mkdir -p "$case_name"
+    cd "$case_name" 2>/dev/null || usage "directory does not exist:  '$case_name'"
 fi
-newDir=$PWD
+new_dir=$PWD
 
 
-[ -d "$newDir" -a -w "$newDir" ] || {
+[ -d "$new_dir" -a -w "$new_dir" ] || {
     echo "Error: target directory does not exist or is unwritable"
-    echo "    $newDir"
+    echo "    $new_dir"
     exit 1
 }
 
 # add some useful subdirs:
-mkdir -p $newDir/postPro
+mkdir -p $new_dir/postProcessing
 
 
-echo "    application   $appName"
-echo "    source        $srcDir"
-echo "    target        $newDir"
+echo "    application   $app_name"
+echo "    source        $src_dir"
+echo "    target        $new_dir"
 
 echo "    syncing ..."
 # sync updated files only, itemize changes so we know what is going on
-rsync -aui $srcDir/ $newDir
+rsync -aui $src_dir/ $new_dir
 
 
 #
-# reuse or create new FOAM_SETTINGS (useful for queuing systems)
+# reuse or create new MOUSSE_SETTINGS (useful for queuing systems)
 #
-if [ -e "$newDir/FOAM_SETTINGS" ]
+if [ -e "$new_dir/MOUSSE_SETTINGS" ]
 then
-    echo "    retaining     FOAM_SETTINGS"
+    echo "    retaining     MOUSSE_SETTINGS"
 else
-    echo "    creating      FOAM_SETTINGS"
-    cat << SETTINGS > "$newDir/FOAM_SETTINGS"
-APPLICATION=$appName
-FOAM_VERSION=OpenFOAM-$version
+    echo "    creating      MOUSSE_SETTINGS"
+    cat << SETTINGS > "$new_dir/MOUSSE_SETTINGS"
+APPLICATION=$app_name
+MOUSSE_VERSION=mousse-$version
 SETTINGS
 fi
 
 echo Done
-
-#------------------------------------------------------------------------------

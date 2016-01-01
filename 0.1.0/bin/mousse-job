@@ -1,35 +1,15 @@
 #!/bin/sh
-#------------------------------------------------------------------------------
-# =========                 |
-# \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-#  \\    /   O peration     |
-#   \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
-#    \\/     M anipulation  |
-#-------------------------------------------------------------------------------
-# License
-#     This file is part of OpenFOAM.
-#
-#     OpenFOAM is free software: you can redistribute it and/or modify it
-#     under the terms of the GNU General Public License as published by
-#     the Free Software Foundation, either version 3 of the License, or
-#     (at your option) any later version.
-#
-#     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-#     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-#     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-#     for more details.
-#
-#     You should have received a copy of the GNU General Public License
-#     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+# mousse: CFD toolbox
+# Copyright (C) 2011-2014 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
 #
 # Script
-#     foamJob
+#   mousse-job
 #
 # Description
-#     Run an OpenFOAM job in background.
+#     Run an mousse job in background.
 #     Redirects the output to 'log' in the case directory.
-#
-#------------------------------------------------------------------------------
+
 usage() {
     exec 1>&2
     while [ "$#" -ge 1 ]; do echo "$1"; shift; done
@@ -42,10 +22,10 @@ options:
   -screen           also sends output to screen
   -append           append to log file instead of overwriting it
   -wait             wait for execution to complete (when not using -screen)
-  -version <ver>    specify an alternative OpenFOAM version
+  -version <ver>    specify an alternative mousse version
   -help             print the usage
 
-* run an OpenFOAM job in background.
+* run an mousse job in background.
   Redirects the output to 'log' in the case directory
 
 USAGE
@@ -53,31 +33,26 @@ USAGE
 }
 
 # Echo strings that have single quotes
-echoArgs() {
-    addSpace=""
-
-    for stringItem in "$@"; do
-
-        echo -n "${addSpace}"
-
-        if [ "${stringItem##* }" = "$stringItem" ]
+echo_args() {
+    local add_space=""
+    for string_item in "$@"; do
+        echo -n "${add_space}"
+        if [ "${string_item##* }" = "$string_item" ]
         then
-            echo -n "$stringItem"
-            addSpace=" "
+            echo -n "$string_item"
+            add_space=" "
         else
-            echo -n "'$stringItem'"
-            addSpace=" "
+            echo -n "'$string_item'"
+            add_space=" "
         fi
-
     done
-
-    unset stringItem addSpace
+    unset string_item add_space
 }
 
 unset version
 
 # Replacement for possibly buggy 'which'
-findExec() {
+find_exec() {
     case "$1" in
     */*)
         if [ -x "$1" ]
@@ -88,7 +63,7 @@ findExec() {
         ;;
     esac
 
-    oldIFS=$IFS
+    old_IFS=$IFS
     IFS=':'
     for d in $PATH
     do
@@ -96,52 +71,47 @@ findExec() {
         if [ -x "$d/$1" -a ! -d "$d/$1" ]
         then
             # echo "Found exec: $d/$1" 1>&2
-            IFS=$oldIFS
+            IFS=$old_IFS
             echo "$d/$1"
             return 0
         fi
      done
-     IFS=$oldIFS
+     IFS=$old_IFS
      echo ""
      return 1
 }
 
-
-
-# Main script
-#~~~~~~~~~~~~
-unset parallelOpt screenOpt waitOpt
-
+unset parallel_opt screen_opt wait_opt
 
 # Parse options
 while [ "$#" -gt 0 ]
 do
    case "$1" in
-   -h | -help)
+   -h | -help | --help)
       usage
       ;;
-   -case)
+   -case | --case)
       [ "$#" -ge 2 ] || usage "'$1' option requires an argument"
       cd "$2" 2>/dev/null || usage "directory does not exist:  '$2'"
       shift 2
       ;;
-   -p | -parallel)
-      parallelOpt=true
+   -p | -parallel | --parallel)
+      parallel_opt=true
       shift
       ;;
-   -s | -screen)
-      screenOpt=true
+   -s | -screen | --screen)
+      screen_opt=true
       shift
       ;;
-   -a | -append)
-      appendOpt=true
+   -a | -append | --append)
+      append_opt=true
       shift
       ;;
-   -w | -wait)
-      waitOpt=true
+   -w | -wait | --wait)
+      wait_opt=true
       shift
       ;;
-   -v | -version)
+   -v | -version | --version)
       [ "$#" -ge 2 ] || usage "'$1' option requires an argument"
       version="$2"
       shift 2
@@ -161,52 +131,46 @@ done
 
 [ "$#" -ge 1 ] || usage "No application specified"
 
-
-# Use foamExec for a specified version
-# Also need foamExec for remote (parallel) runs
-if [ -n "$version" -o "$parallelOpt" = true ]
+# Use mousse-exec for a specified version
+# Also need mousse-exec for remote (parallel) runs
+if [ -n "$version" -o "$parallel_opt" = true ]
 then
     # When possible, determine if application even exists
     if [ -z "$version" ]
     then
-        findExec $1 >/dev/null || usage "Application '$1' not found"
+        find_exec $1 >/dev/null || usage "Application '$1' not found"
     fi
 
     # Use foamExec for dispatching
-    APPLICATION=`findExec foamExec` || usage "'foamExec' not found"
+    APPLICATION=$(find_exec mousse-exec) || usage "'mousse-exec' not found"
 
     [ -n "$version" ] && APPLICATION="$APPLICATION -version $version"
 
-    # Attempt to preserve the installation directory 'FOAM_INST_DIR'
-    if [ -d "$FOAM_INST_DIR" ]
+    # Attempt to preserve the installation directory 'MOUSSE_INST_DIR'
+    if [ -d "$MOUSSE_INST_DIR" ]
     then
-        APPLICATION="$APPLICATION -prefix $FOAM_INST_DIR"
+        APPLICATION="$APPLICATION -prefix $MOUSSE_INST_DIR"
     fi
 
 else
-    APPLICATION=`findExec $1` || usage "Application '$1' not found"
+    APPLICATION=$(find_exec $1) || usage "Application '$1' not found"
     echo "Application : $1"
     shift
 fi
 
 
-if [ "$parallelOpt" = true ]
+if [ "$parallel_opt" = true ]
 then
-    # parallel
-    # ~~~~~~~~
-
-    #
     # Check if the case decomposed
-    #
     if [ -r "processor0" ]
     then
-        NPROCS="`/bin/ls -1d processor* | wc -l`"
+        NPROCS="$(/bin/ls -1d processor* | wc -l)"
     else
         echo "Case is not currently decomposed"
         if [ -r system/decomposeParDict ]
         then
             echo "system/decomposeParDict exists"
-            echo "Try decomposing with \"foamJob decomposePar\""
+            echo "Try decomposing with \"mousse-job mousse-decompose-par\""
             exit 1
         else
             echo "Cannot find system/decomposeParDict file required to decompose the case for parallel running."
@@ -215,15 +179,11 @@ then
         fi
     fi
 
-    #
     # Find mpirun
-    #
-    mpirun=`findExec mpirun` || usage "'mpirun' not found"
+    mpirun=$(find_exec mpirun) || usage "'mpirun' not found"
     mpiopts="-np $NPROCS"
 
-    #
     # Check if the machine ready to run parallel
-    #
     echo "Parallel processing using $WM_MPLIB with $NPROCS processors"
     case "$WM_MPLIB" in
     *OPENMPI)
@@ -242,73 +202,63 @@ then
             fi
         done
 
-        #
-        # Send FOAM_SETTINGS to parallel processes, so that the proper
+        # Send MOUSSE_SETTINGS to parallel processes, so that the proper
         # definitions are sent as well.
-        #
-        mpiopts="$mpiopts -x FOAM_SETTINGS"
+        mpiopts="$mpiopts -x MOUSSE_SETTINGS"
 
         ;;
     esac
 
-    #
     # Run (in parallel)
-    #
-    if [ "$screenOpt" = true ]
+    if [ "$screen_opt" = true ]
     then
-        [ "$appendOpt" = true ] && teeOpts=" -a"
-        echo "Executing: $mpirun $mpiopts $APPLICATION $(echoArgs "$@") -parallel | tee $teeOpts log"
-        $mpirun $mpiopts $APPLICATION "$@" -parallel | tee $teeOpts log
+        [ "$append_opt" = true ] && tee_opts=" -a"
+        echo "Executing: $mpirun $mpiopts $APPLICATION $(echo_args "$@") -parallel | tee $tee_opts log"
+        $mpirun $mpiopts $APPLICATION "$@" -parallel | tee $tee_opts log
     else
-        if [ "$appendOpt" = true ]
+        if [ "$append_opt" = true ]
         then
-            echo "Executing: $mpirun $mpiopts $APPLICATION $(echoArgs "$@") -parallel >> log 2>&1"
+            echo "Executing: $mpirun $mpiopts $APPLICATION $(echo_args "$@") -parallel >> log 2>&1"
             $mpirun $mpiopts $APPLICATION "$@" -parallel >> log 2>&1 &
         else
-            echo "Executing: $mpirun $mpiopts $APPLICATION $(echoArgs "$@") -parallel > log 2>&1"
+            echo "Executing: $mpirun $mpiopts $APPLICATION $(echo_args "$@") -parallel > log 2>&1"
             $mpirun $mpiopts $APPLICATION "$@" -parallel > log 2>&1 &
         fi
 
         pid=$!
-        if [ "$waitOpt" = true ]
+        if [ "$wait_opt" = true ]
         then
             wait $pid
         fi
     fi
-
 else
 	# Check if we are on El Capitan
 	if test "$(uname -s)" = "Darwin" && \
 		{ test "$(uname -r | cut -d. -f1)" -eq 15; }
 	then
-		APPLICATION="foamExec $APPLICATION"
+		APPLICATION="mousse-exec $APPLICATION"
 	fi
-    #
     # Run (on single processor)
-    #
-    if [ "$screenOpt" = true ]
+    if [ "$screen_opt" = true ]
     then
-        [ "$appendOpt" = true ] && teeOpts=" -a"
-        echo "Executing: $APPLICATION $(echoArgs "$@") | tee $teeOpts log &"
-        $APPLICATION "$@" | tee $teeOpts log &
+        [ "$append_opt" = true ] && tee_opts=" -a"
+        echo "Executing: $APPLICATION $(echo_args "$@") | tee $tee_opts log &"
+        $APPLICATION "$@" | tee $tee_opts log &
         wait $!
     else
-        if [ "$appendOpt" = true ]
+        if [ "$append_opt" = true ]
         then
-            echo "Executing: $APPLICATION $(echoArgs "$@") >> log 2>&1 &"
+            echo "Executing: $APPLICATION $(echo_args "$@") >> log 2>&1 &"
             $APPLICATION "$@" >> log 2>&1 &
         else
-            echo "Executing: $APPLICATION $(echoArgs "$@") > log 2>&1 &"
+            echo "Executing: $APPLICATION $(echo_args "$@") > log 2>&1 &"
             $APPLICATION "$@" > log 2>&1 &
         fi
 
         pid=$!
-        if [ "$waitOpt" = true ]
+        if [ "$wait_opt" = true ]
         then
             wait $pid
         fi
     fi
 fi
-
-
-#------------------------------------------------------------------------------
