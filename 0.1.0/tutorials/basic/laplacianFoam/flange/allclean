@@ -1,8 +1,0 @@
-#!/bin/sh
-cd ${0%/*} || exit 1
-
-. $WM_PROJECT_DIR/bin/tools/clean-functions
-
-cleanCase
-rm -rf EnSight Ensight Fieldview > /dev/null 2>&1
-rm -f constant/polyMesh/boundary > /dev/null 2>&1
