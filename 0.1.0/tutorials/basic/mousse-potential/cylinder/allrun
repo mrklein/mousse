@@ -1,0 +1,11 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+application=$(getApplication)
+
+cp -r 0.org 0 > /dev/null 2>&1
+runApplication block-mesh
+runApplication $application -withFunctionObjects -writePhiU -writep
+runApplication stream-function
