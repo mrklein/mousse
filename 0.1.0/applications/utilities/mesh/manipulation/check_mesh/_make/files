@@ -1,0 +1,7 @@
+print_mesh_stats.cpp
+check_topology.cpp
+check_geometry.cpp
+check_mesh_quality.cpp
+check_mesh.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-check-mesh

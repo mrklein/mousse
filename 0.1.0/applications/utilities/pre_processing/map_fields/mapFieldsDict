@@ -1,0 +1,22 @@
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      mapFieldsDict;
+}
+
+// List of pairs of target/source patches for mapping
+patchMap
+(
+  lid movingWall
+);
+
+// List of target patches cutting the source domain (these need to be
+// handled specially e.g. interpolated from internal values)
+cuttingPatches
+(
+  fixedWalls
+);
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

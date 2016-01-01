@@ -1,0 +1,19 @@
+EXE_INC = \
+    -I$(LIB_SRC)/parallel/decompose/decompose/_lninclude \
+    -I$(LIB_SRC)/parallel/decompose/decomposition_methods/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/lagrangian/basic/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/region_models/region_model/_lninclude
+
+EXE_LIBS = \
+    -lmousse_finite_volume \
+    -lmousse_decompose \
+    -lmousse_generic_patch_fields \
+    -lmousse_decomposition_methods \
+    -L$(MOUSSE_LIBBIN)/dummy \
+    -lmousse_metis_decomp \
+    -lmousse_scotch_decomp \
+    -lmousse_lagrangian \
+    -lmousse_mesh_tools \
+    -lmousse_region_models

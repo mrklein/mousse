@@ -1,0 +1,3 @@
+mousse_calc_app.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-calc

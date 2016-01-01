@@ -1,0 +1,28 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+application=$(getApplication)
+
+run_ansys_to_foam()
+{
+    if [ -f log.ansys-to-foam ]
+    then
+        echo "mousse-ansys-to-fam already run on $PWD: remove log file to re-run"
+    else
+        echo "Running mousse-ansys-to-foam: converting mesh $1"
+        mousse-ansys-to-foam $1 -scale $2 > log.ansys-to-foam 2>&1
+    fi
+}
+
+run_ansys_to_foam flange.ans 0.001
+runApplication $application
+runApplication mousse-foam-to-ensight
+runApplication mousse-foam-to-ensight-parts
+if [ "$WM_LABEL_SIZE" -gt 32 ]
+then
+    runApplication mousse-foam-to-vtk -ascii
+else
+    runApplication mousse-foam-to-vtk
+fi

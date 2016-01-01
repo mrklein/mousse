@@ -6,6 +6,6 @@ target_type=libso
 set -x
 
 wmake ${1:-libo} post_calc
-wmake $target_type foam_calc_functions
+wmake $target_type mousse_calc_functions
 
 function_objects/allwmake $target_type $*

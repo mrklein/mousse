@@ -1,0 +1,4 @@
+merge_poly_mesh.cpp
+merge_meshes.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-merge-meshes

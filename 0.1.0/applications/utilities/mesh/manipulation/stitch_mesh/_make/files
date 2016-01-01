@@ -1,0 +1,3 @@
+stitch_mesh.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-stitch-mesh

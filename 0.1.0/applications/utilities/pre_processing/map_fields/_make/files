@@ -1,0 +1,4 @@
+map_lagrangian.cpp
+map_fields.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-map-fields

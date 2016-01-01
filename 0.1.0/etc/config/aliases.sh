@@ -23,7 +23,6 @@ alias wmREFRESH='wmSET $MOUSSE_SETTINGS'
 alias wmUNSET='. $WM_PROJECT_DIR/etc/config/unset.sh'
 
 # Change directory aliases
-# ~~~~~~~~~~~~~~~~~~~~~~~~
 alias src='cd $MOUSSE_SRC'
 alias lib='cd $MOUSSE_LIBBIN'
 alias run='cd $MOUSSE_RUN'

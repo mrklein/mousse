@@ -1,0 +1,3 @@
+create_patch.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-create-patch
