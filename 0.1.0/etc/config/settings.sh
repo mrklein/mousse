@@ -185,7 +185,7 @@ export MOUSSE_LIBBIN=$WM_PROJECT_DIR/platforms/$WM_OPTIONS/lib
 site_dir="${WM_PROJECT_SITE:-$WM_PROJECT_INST_DIR/site}"
 
 # Shared site executables/libraries
-# Similar naming convention as ~OpenFOAM expansion
+# Similar naming convention as ~mousse expansion
 export MOUSSE_SITE_APPBIN=$site_dir/$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/bin
 export MOUSSE_SITE_LIBBIN=$site_dir/$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/lib
 
@@ -202,8 +202,8 @@ export MOUSSE_ETC=$WM_PROJECT_DIR/etc
 export MOUSSE_APP=$WM_PROJECT_DIR/applications
 export MOUSSE_SRC=$WM_PROJECT_DIR/src
 export MOUSSE_TUTORIALS=$WM_PROJECT_DIR/tutorials
-export MOUSSE_UTILITIES=$FOAM_APP/utilities
-export MOUSSE_SOLVERS=$FOAM_APP/solvers
+export MOUSSE_UTILITIES=$MOUSSE_APP/utilities
+export MOUSSE_SOLVERS=$MOUSSE_APP/solvers
 export MOUSSE_RUN=$WM_PROJECT_USER_DIR/run
 
 # Add wmake to the path - not required for runtime-only environment
@@ -226,7 +226,7 @@ _mousse_add_path $MOUSSE_USER_APPBIN:$MOUSSE_SITE_APPBIN:$MOUSSE_APPBIN
 # Make sure to pick up dummy versions of external libraries last
 if [ -n "$MOUSSE_EXT_LIBBIN" ]
 then
-    _mousse_add_lib  $MOUSSE_USER_LIBBIN:$MOUSSE_SITE_LIBBIN:$MOUSSE_LIBBIN:$MOUSSE_EXT_LIBBIN:$FOAM_LIBBIN/dummy
+    _mousse_add_lib  $MOUSSE_USER_LIBBIN:$MOUSSE_SITE_LIBBIN:$MOUSSE_LIBBIN:$MOUSSE_EXT_LIBBIN:$MOUSSE_LIBBIN/dummy
 else
     _mousse_add_lib  $MOUSSE_USER_LIBBIN:$MOUSSE_SITE_LIBBIN:$MOUSSE_LIBBIN:$MOUSSE_LIBBIN/dummy
 fi
@@ -239,7 +239,7 @@ unset MPFR_ARCH_PATH GMP_ARCH_PATH
 [ -z "$mousse_compiler" ] && mousse_compiler=system
 
 # Communications library
-unset MPI_ARCH_PATH MPI_HOME FOAM_MPI_LIBBIN
+unset MPI_ARCH_PATH MPI_HOME MOUSSE_MPI_LIBBIN
 
 # Use the system installed openmpi, get library directory via mpicc
 export MOUSSE_MPI=openmpi-system

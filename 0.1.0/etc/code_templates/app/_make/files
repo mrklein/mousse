@@ -1,3 +1,0 @@
-name.cpp
-
-EXE =  $(MOUSSE_USER_APPBIN)/mousse-name
