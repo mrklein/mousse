@@ -272,7 +272,7 @@ void mousse::cellTable::writeDict
     )
   );
   ioObj.note() =
-    "persistent data for thirdParty mesh <-> OpenFOAM translation";
+    "persistent data for thirdParty mesh <-> mousse translation";
   Info<< "Writing " << ioObj.name() << " to " << ioObj.objectPath() << endl;
   OFstream os(ioObj.objectPath());
   ioObj.writeHeader(os);
