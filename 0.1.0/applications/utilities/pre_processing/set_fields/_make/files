@@ -1,0 +1,3 @@
+set_fields.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-set-fields
