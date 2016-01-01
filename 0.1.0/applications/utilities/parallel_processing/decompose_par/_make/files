@@ -1,0 +1,9 @@
+decompose_par.cpp
+domain_decomposition.cpp
+domain_decomposition_mesh.cpp
+domain_decomposition_distribute.cpp
+dim_field_decomposer.cpp
+point_field_decomposer.cpp
+lagrangian_field_decomposer.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-decompose-par
