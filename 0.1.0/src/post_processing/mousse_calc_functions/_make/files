@@ -11,4 +11,4 @@ field/interpolate/interpolate.cpp
 
 basic/add_subtract/add_subtract.cpp
 
-LIB =  $(MOUSSE_LIBBIN)/libmousse_foam_calc_functions
+LIB =  $(MOUSSE_LIBBIN)/libmousse_calc_functions
