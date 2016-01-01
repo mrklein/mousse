@@ -1,4 +1,3 @@
-
-mousse_gmsh_to_foam.cpp
+gmsh_to_foam.cpp
 
 EXE =  $(MOUSSE_APPBIN)/mousse-gmsh-to-foam
