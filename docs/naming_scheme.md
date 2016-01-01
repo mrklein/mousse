@@ -17,10 +17,22 @@ There is certain ambiguity with cases like `iofield` and `scalar_io_field`.
 Currently underline position is somewhat arbitrary, later more consistent
 scheme should be elaborated.
 
-# File namespaces
+# Binary file namespaces
 
 All libraries should be placed into `libmousse_` namespace.
 
 All executables should be placed into `mousse-` namespace. Currently they are
 placed into `$MOUSSE_APPBIN` folder. After introduction of facade application
 base executables will be migrated into `libexec` folder.
+
+# Source files
+
+All files used just for textual expansion should have inc extension.
+
+All files should be named in snake\_case, C++ headers have hpp extension, C++
+source files have cpp extension.
+
+# Scripts
+
+Preferred language for scripts is Python (using version 2.6 features). Scripts
+have `mousse-` prefix and py or no extension.
