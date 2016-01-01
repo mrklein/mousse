@@ -10,6 +10,7 @@
 #include "perfect_interface.hpp"
 #include "ioobject_list.hpp"
 #include "_read_fields.hpp"
+
 label addPointZone(const polyMesh& mesh, const word& name)
 {
   label zoneID = mesh.pointZones().findZoneID(name);
@@ -53,21 +54,12 @@ label addFaceZone(const polyMesh& mesh, const word& name)
     zoneID = faceZones.size();
     Info<< "Adding faceZone " << name << " at index " << zoneID << endl;
     faceZones.setSize(zoneID+1);
-    faceZones.set
-    (
-      zoneID,
-      new faceZone
-      (
-        name,
-        labelList(0),
-        boolList(),
-        zoneID,
-        faceZones
-      )
-    );
+    faceZones.set(zoneID, new faceZone(name, labelList(0), boolList(), zoneID,
+                                       faceZones));
   }
   return zoneID;
 }
+
 label addCellZone(const polyMesh& mesh, const word& name)
 {
   label zoneID = mesh.cellZones().findZoneID(name);
@@ -82,20 +74,11 @@ label addCellZone(const polyMesh& mesh, const word& name)
     zoneID = cellZones.size();
     Info<< "Adding cellZone " << name << " at index " << zoneID << endl;
     cellZones.setSize(zoneID+1);
-    cellZones.set
-    (
-      zoneID,
-      new cellZone
-      (
-        name,
-        labelList(0),
-        zoneID,
-        cellZones
-      )
-    );
+    cellZones.set(zoneID, new cellZone(name, labelList(0), zoneID, cellZones));
   }
   return zoneID;
 }
+
 // Checks whether patch present
 void checkPatch(const polyBoundaryMesh& bMesh, const word& name)
 {
@@ -115,6 +98,7 @@ void checkPatch(const polyBoundaryMesh& bMesh, const word& name)
       << exit(FatalError);
   }
 }
+
 int main(int argc, char *argv[])
 {
   argList::addNote
@@ -124,27 +108,19 @@ int main(int argc, char *argv[])
     "Integral matching is used when the options -partial and -perfect are "
     "omitted.\n"
   );
+
   argList::noParallel();
   #include "add_overwrite_option.hpp"
   #include "add_region_option.hpp"
   argList::validArgs.append("masterPatch");
   argList::validArgs.append("slavePatch");
-  argList::addBoolOption
-  (
-    "partial",
-    "couple partially overlapping patches (optional)"
-  );
-  argList::addBoolOption
-  (
-    "perfect",
-    "couple perfectly aligned patches (optional)"
-  );
-  argList::addOption
-  (
-    "toleranceDict",
-    "file",
-    "dictionary file with tolerances"
-  );
+  argList::addBoolOption("partial",
+                         "couple partially overlapping patches (optional)");
+  argList::addBoolOption("perfect",
+                         "couple perfectly aligned patches (optional)");
+  argList::addOption("toleranceDict", "file",
+                     "dictionary file with tolerances");
+
   #include "set_root_case.hpp"
   #include "create_time.hpp"
   runTime.functionObjects().off();
