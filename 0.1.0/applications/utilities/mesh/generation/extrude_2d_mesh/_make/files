@@ -1,0 +1,3 @@
+extrude_2d_mesh_app.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-extrude-2d-mesh

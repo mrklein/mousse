@@ -1,0 +1,5 @@
+extrude_2d_mesh/extrude_2d_mesh.cpp
+
+patch_to_poly_2d_mesh/patch_to_poly_2d_mesh.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_extrude_2d_mesh
