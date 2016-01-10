@@ -13,8 +13,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(linearValveLayersFvMesh, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(linearValveLayersFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     topoChangerFvMesh,
     linearValveLayersFvMesh,
@@ -57,7 +57,7 @@ void mousse::linearValveLayersFvMesh::addZonesAndModifiers()
   const word innerSliderName(motionDict_.subDict("slider").lookup("inside"));
   const polyPatch& innerSlider = boundaryMesh()[innerSliderName];
   labelList isf(innerSlider.size());
-  forAll(isf, i)
+  FOR_ALL(isf, i)
   {
     isf[i] = innerSlider.start() + i;
   }
@@ -73,7 +73,7 @@ void mousse::linearValveLayersFvMesh::addZonesAndModifiers()
   const word outerSliderName(motionDict_.subDict("slider").lookup("outside"));
   const polyPatch& outerSlider = boundaryMesh()[outerSliderName];
   labelList osf(outerSlider.size());
-  forAll(osf, i)
+  FOR_ALL(osf, i)
   {
     osf[i] = outerSlider.start() + i;
   }
@@ -101,7 +101,7 @@ void mousse::linearValveLayersFvMesh::addZonesAndModifiers()
   );
   const polyPatch& layerPatch = boundaryMesh()[layerPatchName];
   labelList lpf(layerPatch.size());
-  forAll(lpf, i)
+  FOR_ALL(lpf, i)
   {
     lpf[i] = layerPatch.start() + i;
   }
@@ -156,7 +156,7 @@ void mousse::linearValveLayersFvMesh::makeLayersLive()
 {
   const polyTopoChanger& topoChanges = topoChanger_;
   // Enable layering
-  forAll(topoChanges, modI)
+  FOR_ALL(topoChanges, modI)
   {
     if (isA<layerAdditionRemoval>(topoChanges[modI]))
     {
@@ -168,7 +168,7 @@ void mousse::linearValveLayersFvMesh::makeLayersLive()
     }
     else
     {
-      FatalErrorIn("void linearValveLayersFvMesh::makeLayersLive()")
+      FATAL_ERROR_IN("void linearValveLayersFvMesh::makeLayersLive()")
         << "Don't know what to do with mesh modifier "
         << modI << " of type " << topoChanges[modI].type()
         << abort(FatalError);
@@ -179,7 +179,7 @@ void mousse::linearValveLayersFvMesh::makeSlidersLive()
 {
   const polyTopoChanger& topoChanges = topoChanger_;
   // Enable sliding interface
-  forAll(topoChanges, modI)
+  FOR_ALL(topoChanges, modI)
   {
     if (isA<layerAdditionRemoval>(topoChanges[modI]))
     {
@@ -191,7 +191,7 @@ void mousse::linearValveLayersFvMesh::makeSlidersLive()
     }
     else
     {
-      FatalErrorIn("void linearValveLayersFvMesh::makeLayersLive()")
+      FATAL_ERROR_IN("void linearValveLayersFvMesh::makeLayersLive()")
         << "Don't know what to do with mesh modifier "
         << modI << " of type " << topoChanges[modI].type()
         << abort(FatalError);
@@ -202,7 +202,7 @@ bool mousse::linearValveLayersFvMesh::attached() const
 {
   const polyTopoChanger& topoChanges = topoChanger_;
   bool result = false;
-  forAll(topoChanges, modI)
+  FOR_ALL(topoChanges, modI)
   {
     if (isA<slidingInterface>(topoChanges[modI]))
     {
@@ -212,7 +212,7 @@ bool mousse::linearValveLayersFvMesh::attached() const
     }
   }
   // Check thal all sliders are in sync (debug only)
-  forAll(topoChanges, modI)
+  FOR_ALL(topoChanges, modI)
   {
     if (isA<slidingInterface>(topoChanges[modI]))
     {
@@ -222,7 +222,7 @@ bool mousse::linearValveLayersFvMesh::attached() const
       != refCast<const slidingInterface>(topoChanges[modI]).attached()
       )
       {
-        FatalErrorIn("bool linearValveLayersFvMesh::attached() const")
+        FATAL_ERROR_IN("bool linearValveLayersFvMesh::attached() const")
           << "Slider " << modI << " named "
           << topoChanges[modI].name()
           << " out of sync: Should be" << result
@@ -249,7 +249,7 @@ mousse::tmp<mousse::pointField> mousse::linearValveLayersFvMesh::newPoints() con
   (
     motionDict_.lookup("pistonVelocity")
   );
-  forAll(patchPoints, ppI)
+  FOR_ALL(patchPoints, ppI)
   {
     np[patchPoints[ppI]] += vel*time().deltaTValue();
   }

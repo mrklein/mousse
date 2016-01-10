@@ -14,14 +14,14 @@ void mousse::rawTopoChangerFvMesh::setUnmappedValues
 )
 {
   //Pout<< "Checking field " << fld.name() << endl;
-  forAll(fld.boundaryField(), patchI)
+  FOR_ALL(fld.boundaryField(), patchI)
   {
     PatchField<Type>& fvp = const_cast<PatchField<Type>&>
     (
       fld.boundaryField()[patchI]
     );
     const label start = fvp.patch().start();
-    forAll(fvp, i)
+    FOR_ALL(fvp, i)
     {
       if (!mappedFace[start+i])
       {
@@ -42,7 +42,7 @@ void mousse::rawTopoChangerFvMesh::zeroUnmappedValues
 {
   typedef GeometricField<Type, PatchField, GeoMesh> FieldType;
   const wordList fldNames(names(FieldType::typeName));
-  forAll(fldNames, i)
+  FOR_ALL(fldNames, i)
   {
     //Pout<< "Checking field " << fldNames[i] << endl;
     FieldType& fld = const_cast<FieldType&>

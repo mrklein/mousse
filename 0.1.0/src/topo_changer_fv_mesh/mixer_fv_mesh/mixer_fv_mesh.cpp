@@ -11,8 +11,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(mixerFvMesh, 0);
-  addToRunTimeSelectionTable(topoChangerFvMesh, mixerFvMesh, IOobject);
+  DEFINE_TYPE_NAME_AND_DEBUG(mixerFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(topoChangerFvMesh, mixerFvMesh, IOobject);
 }
 // Private Member Functions 
 void mousse::mixerFvMesh::addZonesAndModifiers()
@@ -49,7 +49,7 @@ void mousse::mixerFvMesh::addZonesAndModifiers()
   const word innerSliderName(motionDict_.subDict("slider").lookup("inside"));
   const polyPatch& innerSlider = boundaryMesh()[innerSliderName];
   labelList isf(innerSlider.size());
-  forAll(isf, i)
+  FOR_ALL(isf, i)
   {
     isf[i] = innerSlider.start() + i;
   }
@@ -65,7 +65,7 @@ void mousse::mixerFvMesh::addZonesAndModifiers()
   const word outerSliderName(motionDict_.subDict("slider").lookup("outside"));
   const polyPatch& outerSlider = boundaryMesh()[outerSliderName];
   labelList osf(outerSlider.size());
-  forAll(osf, i)
+  FOR_ALL(osf, i)
   {
     osf[i] = outerSlider.start() + i;
   }
@@ -93,7 +93,7 @@ void mousse::mixerFvMesh::addZonesAndModifiers()
   label originRegion = rs[findNearestCell(cs().origin())];
   labelList movingCells(nCells());
   label nMovingCells = 0;
-  forAll(rs, cellI)
+  FOR_ALL(rs, cellI)
   {
     if (rs[cellI] == originRegion)
     {
@@ -145,7 +145,7 @@ void mousse::mixerFvMesh::calcMovingMasks() const
   }
   if (movingPointsMaskPtr_)
   {
-    FatalErrorIn("void mixerFvMesh::calcMovingMasks() const")
+    FATAL_ERROR_IN("void mixerFvMesh::calcMovingMasks() const")
       << "point mask already calculated"
       << abort(FatalError);
   }
@@ -155,14 +155,14 @@ void mousse::mixerFvMesh::calcMovingMasks() const
   const cellList& c = cells();
   const faceList& f = faces();
   const labelList& cellAddr = cellZones()["movingCells"];
-  forAll(cellAddr, cellI)
+  FOR_ALL(cellAddr, cellI)
   {
     const cell& curCell = c[cellAddr[cellI]];
-    forAll(curCell, faceI)
+    FOR_ALL(curCell, faceI)
     {
       // Mark all the points as moving
       const face& curFace = f[curCell[faceI]];
-      forAll(curFace, pointI)
+      FOR_ALL(curFace, pointI)
       {
         movingPointsMask[curFace[pointI]] = 1;
       }
@@ -174,10 +174,10 @@ void mousse::mixerFvMesh::calcMovingMasks() const
    + "Zone"
   );
   const labelList& innerSliderAddr = faceZones()[innerSliderZoneName];
-  forAll(innerSliderAddr, faceI)
+  FOR_ALL(innerSliderAddr, faceI)
   {
     const face& curFace = f[innerSliderAddr[faceI]];
-    forAll(curFace, pointI)
+    FOR_ALL(curFace, pointI)
     {
       movingPointsMask[curFace[pointI]] = 1;
     }
@@ -188,10 +188,10 @@ void mousse::mixerFvMesh::calcMovingMasks() const
    + "Zone"
   );
   const labelList& outerSliderAddr = faceZones()[outerSliderZoneName];
-  forAll(outerSliderAddr, faceI)
+  FOR_ALL(outerSliderAddr, faceI)
   {
     const face& curFace = f[outerSliderAddr[faceI]];
-    forAll(curFace, pointI)
+    FOR_ALL(curFace, pointI)
     {
       movingPointsMask[curFace[pointI]] = 0;
     }

@@ -28,10 +28,6 @@ class mixerFvMesh
     //- Markup field for points.  Moving points marked with 1
     mutable scalarField* movingPointsMaskPtr_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    mixerFvMesh(const mixerFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const mixerFvMesh&);
     //- Add mixer zones and modifiers
     void addZonesAndModifiers();
     //- Calculate moving masks
@@ -40,10 +36,14 @@ class mixerFvMesh
     const scalarField& movingPointsMask() const;
 public:
   //- Runtime type information
-  TypeName("mixerFvMesh");
+  TYPE_NAME("mixerFvMesh");
   // Constructors
     //- Construct from IOobject
     explicit mixerFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    mixerFvMesh(const mixerFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    mixerFvMesh& operator=(const mixerFvMesh&) = delete;
   //- Destructor
   virtual ~mixerFvMesh();
   // Member Functions

@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(movingConeTopoFvMesh, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(movingConeTopoFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     topoChangerFvMesh,
     movingConeTopoFvMesh,
@@ -32,7 +32,7 @@ mousse::tmp<mousse::scalarField> mousse::movingConeTopoFvMesh::vertexMarkup
     << curLeft << " curRight: " << curRight << endl;
   tmp<scalarField> tvertexMarkup(new scalarField(p.size()));
   scalarField& vertexMarkup = tvertexMarkup();
-  forAll(p, pI)
+  FOR_ALL(p, pI)
   {
     if (p[pI].x() < curLeft - SMALL)
     {
@@ -75,7 +75,7 @@ void mousse::movingConeTopoFvMesh::addZonesAndModifiers()
   labelList zone2(fc.size());
   boolList flipZone2(fc.size(), false);
   label nZoneFaces2 = 0;
-  forAll(fc, faceI)
+  FOR_ALL(fc, faceI)
   {
     if
     (
@@ -271,12 +271,12 @@ bool mousse::movingConeTopoFvMesh::update()
       //
       //    const pointField& currentPoints = points();
       //    label vertI = 0;
-      //    forAll(currentPoints, pointI)
+      //    FOR_ALL(currentPoints, pointI)
       //    {
       //        meshTools::writeOBJ(str, currentPoints[pointI]);
       //        vertI++;
       //    }
-      //    forAll(edges(), edgeI)
+      //    FOR_ALL(edges(), edgeI)
       //    {
       //        const edge& e = edges()[edgeI];
       //        str << "l " << e[0]+1 << ' ' << e[1]+1 << nl;
@@ -290,12 +290,12 @@ bool mousse::movingConeTopoFvMesh::update()
       //    const pointField& newPoints =
       //        topoChangeMap().preMotionPoints();
       //    label vertI = 0;
-      //    forAll(newPoints, pointI)
+      //    FOR_ALL(newPoints, pointI)
       //    {
       //        meshTools::writeOBJ(str, newPoints[pointI]);
       //        vertI++;
       //    }
-      //    forAll(edges(), edgeI)
+      //    FOR_ALL(edges(), edgeI)
       //    {
       //        const edge& e = edges()[edgeI];
       //        str << "l " << e[0]+1 << ' ' << e[1]+1 << nl;

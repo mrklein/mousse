@@ -37,10 +37,6 @@ class movingConeTopoFvMesh
     //- Vertex motion mask
     scalarField motionMask_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    movingConeTopoFvMesh(const movingConeTopoFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const movingConeTopoFvMesh&);
     //- Add mixer zones and modifiers
     void addZonesAndModifiers();
     //- Markup motion vertices
@@ -52,10 +48,14 @@ class movingConeTopoFvMesh
     ) const;
 public:
   //- Runtime type information
-  TypeName("movingConeTopoFvMesh");
+  TYPE_NAME("movingConeTopoFvMesh");
   // Constructors
     //- Construct from database
     explicit movingConeTopoFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    movingConeTopoFvMesh(const movingConeTopoFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    movingConeTopoFvMesh& operator=(const movingConeTopoFvMesh&) = delete;
   //- Destructor
   virtual ~movingConeTopoFvMesh();
   // Member Functions
