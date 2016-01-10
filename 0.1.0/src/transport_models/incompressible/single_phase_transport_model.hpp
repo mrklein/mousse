@@ -24,11 +24,6 @@ class singlePhaseTransportModel
 {
   // Private Data
     autoPtr<viscosityModel> viscosityModelPtr_;
-  // Private Member Functions
-    //- Disallow copy construct
-    singlePhaseTransportModel(const singlePhaseTransportModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const singlePhaseTransportModel&);
 public:
   // Constructors
     //- Construct from components
@@ -37,6 +32,13 @@ public:
       const volVectorField& U,
       const surfaceScalarField& phi
     );
+    //- Disallow copy construct
+    singlePhaseTransportModel(const singlePhaseTransportModel&) = delete;
+    //- Disallow default bitwise assignment
+    singlePhaseTransportModel& operator=
+    (
+      const singlePhaseTransportModel&
+    ) = delete;
   //- Destructor
   virtual ~singlePhaseTransportModel();
   // Member Functions

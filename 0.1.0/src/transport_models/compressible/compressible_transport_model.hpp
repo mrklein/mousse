@@ -17,18 +17,20 @@ namespace mousse
 {
 class compressibleTransportModel
 {
-  // Private Member Functions
-    //- Disallow copy construct
-    compressibleTransportModel(const compressibleTransportModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const compressibleTransportModel&);
 public:
   //- Runtime type information
-  TypeName("compressibleTransportModel");
+  TYPE_NAME("compressibleTransportModel");
   // Constructors
     //- Construct from components
     compressibleTransportModel
     ();
+    //- Disallow copy construct
+    compressibleTransportModel(const compressibleTransportModel&) = delete;
+    //- Disallow default bitwise assignment
+    compressibleTransportModel& operator=
+    (
+      const compressibleTransportModel&
+    ) = delete;
   //- Destructor
   virtual ~compressibleTransportModel();
   // Member Functions

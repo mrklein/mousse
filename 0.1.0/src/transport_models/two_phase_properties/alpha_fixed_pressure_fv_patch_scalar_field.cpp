@@ -117,9 +117,9 @@ void mousse::alphaFixedPressureFvPatchScalarField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    alphaFixedPressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  alphaFixedPressureFvPatchScalarField
+);
 }

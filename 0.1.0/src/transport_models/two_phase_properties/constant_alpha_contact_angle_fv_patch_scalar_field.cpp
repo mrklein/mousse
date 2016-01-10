@@ -82,9 +82,9 @@ void mousse::constantAlphaContactAngleFvPatchScalarField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    constantAlphaContactAngleFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  constantAlphaContactAngleFvPatchScalarField
+);
 }

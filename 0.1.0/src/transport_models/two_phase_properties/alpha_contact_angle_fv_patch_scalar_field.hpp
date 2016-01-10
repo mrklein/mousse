@@ -41,7 +41,7 @@ class alphaContactAngleFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("alphaContactAngle");
+  TYPE_NAME("alphaContactAngle");
   //- Alpha limit options
   enum limitControls
   {

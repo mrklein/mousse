@@ -17,18 +17,17 @@ namespace mousse
 {
 class transportModel
 {
-  // Private Member Functions
-    //- Disallow copy construct
-    transportModel(const transportModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const transportModel&);
 public:
   //- Runtime type information
-  TypeName("transportModel");
+  TYPE_NAME("transportModel");
   // Constructors
     //- Construct from components
     transportModel
     ();
+    //- Disallow copy construct
+    transportModel(const transportModel&) = delete;
+    //- Disallow default bitwise assignment
+    transportModel& operator=(const transportModel&) = delete;
   //- Destructor
   virtual ~transportModel();
   // Member Functions

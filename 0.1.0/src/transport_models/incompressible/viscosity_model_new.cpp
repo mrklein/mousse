@@ -19,7 +19,7 @@ mousse::autoPtr<mousse::viscosityModel> mousse::viscosityModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "viscosityModel::New(const volVectorField&, "
       "const surfaceScalarField&)"

@@ -26,7 +26,7 @@ void mousse::interfaceProperties::correctContactAngle
   const fvMesh& mesh = alpha1_.mesh();
   const volScalarField::GeometricBoundaryField& abf = alpha1_.boundaryField();
   const fvBoundaryMesh& boundary = mesh.boundary();
-  forAll(boundary, patchi)
+  FOR_ALL(boundary, patchi)
   {
     if (isA<alphaContactAngleFvPatchScalarField>(abf[patchi]))
     {
@@ -51,7 +51,7 @@ void mousse::interfaceProperties::correctContactAngle
       const scalarField a12(nHatp & nf);
       const scalarField b1(cos(theta));
       scalarField b2(nHatp.size());
-      forAll(b2, facei)
+      FOR_ALL(b2, facei)
       {
         b2[facei] = cos(acos(a12[facei]) - theta[facei]);
       }
@@ -92,7 +92,7 @@ void mousse::interfaceProperties::calculateK()
   // Correction is formally zero but numerically non-zero.
   /*
   volVectorField nHat(gradAlpha/(mag(gradAlpha) + deltaN_));
-  forAll(nHat.boundaryField(), patchi)
+  FOR_ALL(nHat.boundaryField(), patchi)
   {
     nHat.boundaryField()[patchi] = nHatfv.boundaryField()[patchi];
   }

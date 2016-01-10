@@ -28,7 +28,7 @@ class dynamicAlphaContactAngleFvPatchScalarField
     scalar thetaR_;
 public:
   //- Runtime type information
-  TypeName("dynamicAlphaContactAngle");
+  TYPE_NAME("dynamicAlphaContactAngle");
   // Constructors
     //- Construct from patch and internal field
     dynamicAlphaContactAngleFvPatchScalarField

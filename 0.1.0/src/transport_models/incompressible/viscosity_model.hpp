@@ -27,16 +27,11 @@ protected:
     dictionary viscosityProperties_;
     const volVectorField& U_;
     const surfaceScalarField& phi_;
-  // Private Member Functions
-    //- Disallow copy construct
-    viscosityModel(const viscosityModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const viscosityModel&);
 public:
   //- Runtime type information
-  TypeName("viscosityModel");
+  TYPE_NAME("viscosityModel");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       viscosityModel,
@@ -67,6 +62,10 @@ public:
       const volVectorField& U,
       const surfaceScalarField& phi
     );
+    //- Disallow copy construct
+    viscosityModel(const viscosityModel&) = delete;
+    //- Disallow default bitwise assignment
+    viscosityModel& operator=(const viscosityModel&) = delete;
   //- Destructor
   virtual ~viscosityModel()
   {}

@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(transportModel, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(transportModel, 0);
 }
 // Constructors 
 mousse::transportModel::transportModel()

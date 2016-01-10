@@ -21,7 +21,7 @@ class alphaFixedPressureFvPatchScalarField
     scalarField p_;
 public:
   //- Runtime type information
-  TypeName("alphaFixedPressure");
+  TYPE_NAME("alphaFixedPressure");
   // Constructors
     //- Construct from patch and internal field
     alphaFixedPressureFvPatchScalarField

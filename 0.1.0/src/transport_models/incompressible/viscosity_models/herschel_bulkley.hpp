@@ -32,7 +32,7 @@ class HerschelBulkley
     tmp<volScalarField> calcNu() const;
 public:
   //- Runtime type information
-  TypeName("HerschelBulkley");
+  TYPE_NAME("HerschelBulkley");
   // Constructors
     //- Construct from components
     HerschelBulkley

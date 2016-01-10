@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(viscosityModel, 0);
-  defineRunTimeSelectionTable(viscosityModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(viscosityModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(viscosityModel, dictionary);
 }
 // Constructors 
 mousse::viscosityModel::viscosityModel

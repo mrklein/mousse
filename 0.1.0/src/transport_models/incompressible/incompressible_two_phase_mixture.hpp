@@ -34,7 +34,7 @@ protected:
     //- Calculate and return the laminar viscosity
     void calcNu();
 public:
-  TypeName("incompressibleTwoPhaseMixture");
+  TYPE_NAME("incompressibleTwoPhaseMixture");
   // Constructors
     //- Construct from components
     incompressibleTwoPhaseMixture

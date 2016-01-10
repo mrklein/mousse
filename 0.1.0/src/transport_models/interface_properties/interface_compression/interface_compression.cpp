@@ -6,10 +6,10 @@
 #include "interface_compression.hpp"
 namespace mousse
 {
-  makePhiSurfaceInterpolationScheme
-  (
-    interfaceCompression,
-    interfaceCompressionLimiter,
-    scalar
-  )
+MAKE_PHI_SURFACE_INTERPOLATION_SCHEME
+(
+  interfaceCompression,
+  interfaceCompressionLimiter,
+  scalar
+)
 }

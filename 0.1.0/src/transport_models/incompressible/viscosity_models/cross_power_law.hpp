@@ -32,7 +32,7 @@ class CrossPowerLaw
     tmp<volScalarField> calcNu() const;
 public:
   //- Runtime type information
-  TypeName("CrossPowerLaw");
+  TYPE_NAME("CrossPowerLaw");
   // Constructors
     //- Construct from components
     CrossPowerLaw

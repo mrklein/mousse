@@ -25,7 +25,7 @@ class Newtonian
     volScalarField nu_;
 public:
   //- Runtime type information
-  TypeName("Newtonian");
+  TYPE_NAME("Newtonian");
   // Constructors
     //- Construct from components
     Newtonian
