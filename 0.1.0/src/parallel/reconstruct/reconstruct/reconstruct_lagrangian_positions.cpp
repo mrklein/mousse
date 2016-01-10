@@ -11,7 +11,7 @@ void mousse::reconstructLagrangianPositions
   const polyMesh& mesh,
   const word& cloudName,
   const PtrList<fvMesh>& meshes,
-  const PtrList<labelIOList>& faceProcAddressing,
+  const PtrList<labelIOList>& /*faceProcAddressing*/,
   const PtrList<labelIOList>& cellProcAddressing
 )
 {
@@ -21,13 +21,13 @@ void mousse::reconstructLagrangianPositions
     cloudName,
     IDLList<passiveParticle>()
   );
-  forAll(meshes, i)
+  FOR_ALL(meshes, i)
   {
     const labelList& cellMap = cellProcAddressing[i];
     // faceProcAddressing not required currently.
     // const labelList& faceMap = faceProcAddressing[i];
     Cloud<passiveParticle> lpi(meshes[i], cloudName, false);
-    forAllConstIter(Cloud<passiveParticle>, lpi, iter)
+    FOR_ALL_CONST_ITER(Cloud<passiveParticle>, lpi, iter)
     {
       const passiveParticle& ppi = iter();
       // // Inverting sign if necessary and subtracting 1 from

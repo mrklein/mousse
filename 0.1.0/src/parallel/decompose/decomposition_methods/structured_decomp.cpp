@@ -9,8 +9,8 @@
 #include "fv_mesh_subset.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(structuredDecomp, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(structuredDecomp, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     decompositionMethod,
     structuredDecomp,
@@ -42,16 +42,16 @@ mousse::labelList mousse::structuredDecomp::decompose
   const polyBoundaryMesh& pbm = mesh.boundaryMesh();
   const labelHashSet patchIDs(pbm.patchSet(patches_));
   label nFaces = 0;
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     nFaces += pbm[iter.key()].size();
   }
   // Extract a submesh.
   labelHashSet patchCells(2*nFaces);
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     const labelUList& fc = pbm[iter.key()].faceCells();
-    forAll(fc, i)
+    FOR_ALL(fc, i)
     {
       patchCells.insert(fc[i]);
     }
@@ -66,7 +66,7 @@ mousse::labelList mousse::structuredDecomp::decompose
   labelList subDecomp(method_().decompose(subMesh, subCc, subWeights));
   // Transfer to final decomposition
   labelList finalDecomp(cc.size(), -1);
-  forAll(subDecomp, i)
+  FOR_ALL(subDecomp, i)
   {
     finalDecomp[subsetter.cellMap()[i]] = subDecomp[i];
   }
@@ -77,11 +77,11 @@ mousse::labelList mousse::structuredDecomp::decompose
   labelList patchFaces(nFaces);
   List<topoDistanceData> patchData(nFaces);
   nFaces = 0;
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     const polyPatch& pp = pbm[iter.key()];
     const labelUList& fc = pp.faceCells();
-    forAll(fc, i)
+    FOR_ALL(fc, i)
     {
       patchFaces[nFaces] = pp.start()+i;
       patchData[nFaces] = topoDistanceData(finalDecomp[fc[i]], 0);
@@ -100,13 +100,13 @@ mousse::labelList mousse::structuredDecomp::decompose
   );
   // And extract
   bool haveWarned = false;
-  forAll(finalDecomp, cellI)
+  FOR_ALL(finalDecomp, cellI)
   {
     if (!cellData[cellI].valid(deltaCalc.data()))
     {
       if (!haveWarned)
       {
-        WarningIn("structuredDecomp::decompose(..)")
+        WARNING_IN("structuredDecomp::decompose(..)")
           << "Did not visit some cells, e.g. cell " << cellI
           << " at " << mesh.cellCentres()[cellI] << endl
           << "Assigning  these cells to domain 0." << endl;
@@ -123,12 +123,12 @@ mousse::labelList mousse::structuredDecomp::decompose
 }
 mousse::labelList mousse::structuredDecomp::decompose
 (
-  const labelListList& globalPointPoints,
-  const pointField& points,
-  const scalarField& pointWeights
+  const labelListList& /*globalPointPoints*/,
+  const pointField& /*points*/,
+  const scalarField& /*pointWeights*/
 )
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "structuredDecomp::decompose\n"
     "(\n"

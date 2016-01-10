@@ -20,7 +20,7 @@ mousse::fvFieldReconstructor::fvFieldReconstructor
   boundaryProcAddressing_(boundaryProcAddressing),
   nReconstructed_(0)
 {
-  forAll(procMeshes_, procI)
+  FOR_ALL(procMeshes_, procI)
   {
     const fvMesh& procMesh = procMeshes_[procI];
     if
@@ -30,7 +30,7 @@ mousse::fvFieldReconstructor::fvFieldReconstructor
     || boundaryProcAddressing[procI].size() != procMesh.boundary().size()
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "fvFieldReconstructor::fvFieldReconstructor\n"
         "(\n"

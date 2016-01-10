@@ -32,11 +32,6 @@ class fvFieldReconstructor
     const PtrList<labelIOList>& boundaryProcAddressing_;
     //- Number of fields reconstructed
     label nReconstructed_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fvFieldReconstructor(const fvFieldReconstructor&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvFieldReconstructor&);
 public:
     //- Mapper for sizing only - does not do any actual mapping.
     class fvPatchFieldReconstructor
@@ -79,6 +74,10 @@ public:
       const PtrList<labelIOList>& cellProcAddressing,
       const PtrList<labelIOList>& boundaryProcAddressing
     );
+    //- Disallow default bitwise copy construct
+    fvFieldReconstructor(const fvFieldReconstructor&) = delete;
+    //- Disallow default bitwise assignment
+    fvFieldReconstructor& operator=(const fvFieldReconstructor&) = delete;
   // Member Functions
     //- Return number of fields reconstructed
     label nReconstructed() const

@@ -39,15 +39,15 @@ class scotchDecomp
       const scalarField& cWeights,
       List<label>& finalDecomp
     );
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const scotchDecomp&);
-    scotchDecomp(const scotchDecomp&);
 public:
   //- Runtime type information
-  TypeName("scotch");
+  TYPE_NAME("scotch");
   // Constructors
     //- Construct given the decomposition dictionary and mesh
     scotchDecomp(const dictionary& decompositionDict);
+    //- Disallow default bitwise copy construct and assignment
+    scotchDecomp& operator=(const scotchDecomp&) = delete;
+    scotchDecomp(const scotchDecomp&) = delete;
   //- Destructor
   virtual ~scotchDecomp()
   {}

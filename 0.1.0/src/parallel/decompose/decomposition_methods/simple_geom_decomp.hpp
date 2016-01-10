@@ -31,15 +31,15 @@ class simpleGeomDecomp
       const pointField& points,
       const scalarField& weights
     ) const;
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const simpleGeomDecomp&);
-    simpleGeomDecomp(const simpleGeomDecomp&);
 public:
   //- Runtime type information
-  TypeName("simple");
+  TYPE_NAME("simple");
   // Constructors
     //- Construct given the decomposition dictionary
     simpleGeomDecomp(const dictionary& decompositionDict);
+    //- Disallow default bitwise copy construct and assignment
+    simpleGeomDecomp& operator=(const simpleGeomDecomp&) = delete;
+    simpleGeomDecomp(const simpleGeomDecomp&) = delete;
   //- Destructor
   virtual ~simpleGeomDecomp()
   {}
@@ -68,7 +68,7 @@ public:
     //- Explicitly provided connectivity
     virtual labelList decompose
     (
-      const labelListList& globalCellCells,
+      const labelListList& /*globalCellCells*/,
       const pointField& cc,
       const scalarField& cWeights
     )

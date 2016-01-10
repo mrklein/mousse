@@ -45,15 +45,15 @@ class ptscotchDecomp
       const scalarField& cWeights,
       List<label>& finalDecomp
     ) const;
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const ptscotchDecomp&);
-    ptscotchDecomp(const ptscotchDecomp&);
 public:
   //- Runtime type information
-  TypeName("ptscotch");
+  TYPE_NAME("ptscotch");
   // Constructors
     //- Construct given the decomposition dictionary and mesh
     ptscotchDecomp(const dictionary& decompositionDict);
+    //- Disallow default bitwise copy construct and assignment
+    ptscotchDecomp& operator=(const ptscotchDecomp&) = delete;
+    ptscotchDecomp(const ptscotchDecomp&) = delete;
   //- Destructor
   virtual ~ptscotchDecomp()
   {}

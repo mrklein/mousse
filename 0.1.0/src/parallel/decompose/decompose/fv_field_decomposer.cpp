@@ -12,7 +12,7 @@ mousse::fvFieldDecomposer::patchFieldDecomposer::patchFieldDecomposer
 :
   directAddressing_(addressingSlice)
 {
-  forAll(directAddressing_, i)
+  FOR_ALL(directAddressing_, i)
   {
     // Subtract one to align addressing.
     directAddressing_[i] -= addressingOffset + 1;
@@ -29,7 +29,7 @@ processorVolPatchFieldDecomposer
 {
   const labelList& own = mesh.faceOwner();
   const labelList& neighb = mesh.faceNeighbour();
-  forAll(directAddressing_, i)
+  FOR_ALL(directAddressing_, i)
   {
     // Subtract one to align addressing.
     label ai = mag(addressingSlice[i]) - 1;
@@ -69,7 +69,7 @@ processorSurfacePatchFieldDecomposer
   addressing_(addressingSlice.size()),
   weights_(addressingSlice.size())
 {
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     addressing_[i].setSize(1);
     weights_[i].setSize(1);
@@ -107,7 +107,7 @@ mousse::fvFieldDecomposer::fvFieldDecomposer
     static_cast<processorSurfacePatchFieldDecomposer*>(NULL)
   )
 {
-  forAll(boundaryAddressing_, patchi)
+  FOR_ALL(boundaryAddressing_, patchi)
   {
     if
     (
@@ -149,21 +149,21 @@ mousse::fvFieldDecomposer::fvFieldDecomposer
 // Destructor 
 mousse::fvFieldDecomposer::~fvFieldDecomposer()
 {
-  forAll(patchFieldDecomposerPtrs_, patchi)
+  FOR_ALL(patchFieldDecomposerPtrs_, patchi)
   {
     if (patchFieldDecomposerPtrs_[patchi])
     {
       delete patchFieldDecomposerPtrs_[patchi];
     }
   }
-  forAll(processorVolPatchFieldDecomposerPtrs_, patchi)
+  FOR_ALL(processorVolPatchFieldDecomposerPtrs_, patchi)
   {
     if (processorVolPatchFieldDecomposerPtrs_[patchi])
     {
       delete processorVolPatchFieldDecomposerPtrs_[patchi];
     }
   }
-  forAll(processorSurfacePatchFieldDecomposerPtrs_, patchi)
+  FOR_ALL(processorSurfacePatchFieldDecomposerPtrs_, patchi)
   {
     if (processorSurfacePatchFieldDecomposerPtrs_[patchi])
     {

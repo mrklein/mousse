@@ -30,11 +30,6 @@ class pointFieldReconstructor
     labelListListList patchPointAddressing_;
     //- Number of fields reconstructed
     label nReconstructed_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    pointFieldReconstructor(const pointFieldReconstructor&);
-    //- Disallow default bitwise assignment
-    void operator=(const pointFieldReconstructor&);
 public:
     class pointPatchFieldReconstructor
     :
@@ -75,6 +70,10 @@ public:
       const PtrList<labelIOList>& pointProcAddressing,
       const PtrList<labelIOList>& boundaryProcAddressing
     );
+    //- Disallow default bitwise copy construct
+    pointFieldReconstructor(const pointFieldReconstructor&) = delete;
+    //- Disallow default bitwise assignment
+    pointFieldReconstructor& operator=(const pointFieldReconstructor&) = delete;
   // Member Functions
     //- Return number of fields reconstructed
     label nReconstructed() const

@@ -13,7 +13,7 @@ mousse::pointFieldReconstructor::reconstructField(const IOobject& fieldIoObject)
   (
     procMeshes_.size()
   );
-  forAll(procMeshes_, proci)
+  FOR_ALL(procMeshes_, proci)
   {
     procFields.set
     (
@@ -36,7 +36,7 @@ mousse::pointFieldReconstructor::reconstructField(const IOobject& fieldIoObject)
   Field<Type> internalField(mesh_.size());
   // Create the patch fields
   PtrList<pointPatchField<Type> > patchFields(mesh_.boundary().size());
-  forAll(procMeshes_, proci)
+  FOR_ALL(procMeshes_, proci)
   {
     const GeometricField<Type, pointPatchField, pointMesh>&
       procField = procFields[proci];
@@ -49,7 +49,7 @@ mousse::pointFieldReconstructor::reconstructField(const IOobject& fieldIoObject)
       procToGlobalAddr
     );
     // Set the boundary patch values in the reconstructed field
-    forAll(boundaryProcAddressing_[proci], patchi)
+    FOR_ALL(boundaryProcAddressing_[proci], patchi)
     {
       // Get patch index of the original patch
       const label curBPatch = boundaryProcAddressing_[proci][patchi];
@@ -117,7 +117,7 @@ void mousse::pointFieldReconstructor::reconstructFields
   if (fields.size())
   {
     Info<< "    Reconstructing " << fieldClassName << "s\n" << endl;
-    forAllConstIter(IOobjectList, fields, fieldIter)
+    FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
     {
       if
       (

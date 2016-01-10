@@ -19,7 +19,7 @@ mousse::geomDecomp::geomDecomp
   // check that the case makes sense :
   if (nProcessors_ != n_.x()*n_.y()*n_.z())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "geomDecomp::geomDecomp"
       "(const dictionary& decompositionDict)"

@@ -143,11 +143,6 @@ private:
       processorVolPatchFieldDecomposerPtrs_;
     List<processorSurfacePatchFieldDecomposer*>
       processorSurfacePatchFieldDecomposerPtrs_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fvFieldDecomposer(const fvFieldDecomposer&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvFieldDecomposer&);
 public:
   // Constructors
     //- Construct from components
@@ -159,6 +154,10 @@ public:
       const labelList& cellAddressing,
       const labelList& boundaryAddressing
     );
+    //- Disallow default bitwise copy construct
+    fvFieldDecomposer(const fvFieldDecomposer&) = delete;
+    //- Disallow default bitwise assignment
+    fvFieldDecomposer& operator=(const fvFieldDecomposer&) = delete;
   //- Destructor
   ~fvFieldDecomposer();
   // Member Functions

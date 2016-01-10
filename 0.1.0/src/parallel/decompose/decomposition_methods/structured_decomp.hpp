@@ -20,16 +20,15 @@ class structuredDecomp
     dictionary methodDict_;
     wordReList patches_;
     autoPtr<decompositionMethod> method_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const structuredDecomp&);
-    structuredDecomp(const structuredDecomp&);
 public:
   //- Runtime type information
-  TypeName("structured");
+  TYPE_NAME("structured");
   // Constructors
     //- Construct given the decomposition dictionary
     structuredDecomp(const dictionary& decompositionDict);
+    //- Disallow default bitwise copy construct and assignment
+    structuredDecomp& operator=(const structuredDecomp&) = delete;
+    structuredDecomp(const structuredDecomp&) = delete;
   //- Destructor
   virtual ~structuredDecomp()
   {}

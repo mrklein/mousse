@@ -33,7 +33,7 @@ mousse::tmp<mousse::IOField<Type> > mousse::reconstructLagrangianField
     )
   );
   Field<Type>& field = tfield();
-  forAll(meshes, i)
+  FOR_ALL(meshes, i)
   {
     // Check object on local mesh
     IOobject localIOobject
@@ -50,7 +50,7 @@ mousse::tmp<mousse::IOField<Type> > mousse::reconstructLagrangianField
       IOField<Type> fieldi(localIOobject);
       label offset = field.size();
       field.setSize(offset + fieldi.size());
-      forAll(fieldi, j)
+      FOR_ALL(fieldi, j)
       {
         field[offset + j] = fieldi[j];
       }
@@ -86,7 +86,7 @@ mousse::reconstructLagrangianFieldField
     )
   );
   Field<Field<Type> >& field = tfield();
-  forAll(meshes, i)
+  FOR_ALL(meshes, i)
   {
     // Check object on local mesh
     IOobject localIOobject
@@ -103,7 +103,7 @@ mousse::reconstructLagrangianFieldField
       CompactIOField<Field<Type>, Type> fieldi(localIOobject);
       label offset = field.size();
       field.setSize(offset + fieldi.size());
-      forAll(fieldi, j)
+      FOR_ALL(fieldi, j)
       {
         field[offset + j] = fieldi[j];
       }
@@ -127,7 +127,7 @@ void mousse::reconstructLagrangianFields
   {
     Info<< "    Reconstructing lagrangian "
       << fieldClassName << "s\n" << endl;
-    forAllConstIter(IOobjectList, fields, fieldIter)
+    FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
     {
       if
       (
@@ -165,7 +165,7 @@ void mousse::reconstructLagrangianFieldFields
     {
       Info<< "    Reconstructing lagrangian "
         << fieldClassName << "s\n" << endl;
-      forAllConstIter(IOobjectList, fields, fieldIter)
+      FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
       {
         if
         (
@@ -193,7 +193,7 @@ void mousse::reconstructLagrangianFieldFields
     {
       Info<< "    Reconstructing lagrangian "
         << fieldClassName << "s\n" << endl;
-      forAllConstIter(IOobjectList, fields, fieldIter)
+      FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
       {
         if
         (

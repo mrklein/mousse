@@ -104,15 +104,15 @@ class hierarchGeomDecomp
       const label prevMult,           // multiplication factor
       labelList& finalDecomp          // overall decomposition
     );
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const hierarchGeomDecomp&);
-    hierarchGeomDecomp(const hierarchGeomDecomp&);
 public:
   //- Runtime type information
-  TypeName("hierarchical");
+  TYPE_NAME("hierarchical");
   // Constructors
     //- Construct given the decomposition dictionary
     hierarchGeomDecomp(const dictionary& decompositionDict);
+    //- Disallow default bitwise copy construct and assignment
+    hierarchGeomDecomp& operator=(const hierarchGeomDecomp&) = delete;
+    hierarchGeomDecomp(const hierarchGeomDecomp&) = delete;
   //- Destructor
   virtual ~hierarchGeomDecomp()
   {}
@@ -135,7 +135,7 @@ public:
     //  mesh connectivity (if needed)
     virtual labelList decompose
     (
-      const polyMesh& mesh,
+      const polyMesh&,
       const pointField& cc,
       const scalarField& cWeights
     )
@@ -144,7 +144,7 @@ public:
     }
     //- Without weights. Code for weighted decomposition is a bit complex
     //  so kept separate for now.
-    virtual labelList decompose(const polyMesh& mesh, const pointField& cc)
+    virtual labelList decompose(const polyMesh&, const pointField& cc)
     {
       return decompose(cc);
     }
@@ -157,7 +157,7 @@ public:
     //  - the connections are across coupled patches
     virtual labelList decompose
     (
-      const labelListList& globalCellCells,
+      const labelListList& /*globalCellCells*/,
       const pointField& cc,
       const scalarField& cWeights
     )
@@ -166,7 +166,7 @@ public:
     }
     virtual labelList decompose
     (
-      const labelListList& globalCellCells,
+      const labelListList& /*globalCellCells*/,
       const pointField& cc
     )
     {

@@ -6,14 +6,14 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-  defineTypeName(noDecomp);
-  addNamedToRunTimeSelectionTable
-  (
-    decompositionMethod,
-    noDecomp,
-    dictionary,
-    none
-  );
+DEFINE_TYPE_NAME(noDecomp);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
+(
+  decompositionMethod,
+  noDecomp,
+  dictionary,
+  none
+);
 }
 // Constructors 
 mousse::noDecomp::noDecomp(const dictionary& decompositionDict)

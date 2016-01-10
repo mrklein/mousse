@@ -43,7 +43,7 @@
 //
 //    values.setSize(triangleIndex.size());
 //
-//    forAll(triangleIndex, i)
+//    FOR_ALL(triangleIndex, i)
 //    {
 //        label triI = triangleIndex[i];
 //        values[i] = fld[triI];

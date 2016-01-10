@@ -14,7 +14,7 @@ inline mousse::minData::minData(const label data)
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::minData::valid(TrackingData& td) const
+inline bool mousse::minData::valid(TrackingData&) const
 {
   return data_ != labelMax;
 }
@@ -33,9 +33,9 @@ template<class TrackingData>
 inline void mousse::minData::leaveDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
   TrackingData&
 )
 {}
@@ -43,7 +43,7 @@ template<class TrackingData>
 inline void mousse::minData::transform
 (
   const polyMesh&,
-  const tensor& rotTensor,
+  const tensor& /*rotTensor*/,
   TrackingData&
 )
 {}
@@ -51,9 +51,9 @@ template<class TrackingData>
 inline void mousse::minData::enterDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
   TrackingData&
 )
 {}
@@ -61,10 +61,10 @@ template<class TrackingData>
 inline bool mousse::minData::updateCell
 (
   const polyMesh&,
-  const label thisCellI,
-  const label neighbourFaceI,
+  const label /*thisCellI*/,
+  const label /*neighbourFaceI*/,
   const minData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData&
 )
 {
@@ -81,11 +81,11 @@ inline bool mousse::minData::updateCell
 template<class TrackingData>
 inline bool mousse::minData::updateFace
 (
-  const polyMesh& mesh,
-  const label thisFaceI,
-  const label neighbourCellI,
+  const polyMesh&,
+  const label /*thisFaceI*/,
+  const label /*neighbourCellI*/,
   const minData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData&
 )
 {
@@ -104,9 +104,9 @@ template<class TrackingData>
 inline bool mousse::minData::updateFace
 (
   const polyMesh&,
-  const label thisFaceI,
+  const label /*thisFaceI*/,
   const minData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData&
 )
 {
@@ -125,7 +125,7 @@ template<class TrackingData>
 inline bool mousse::minData::equal
 (
   const minData& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

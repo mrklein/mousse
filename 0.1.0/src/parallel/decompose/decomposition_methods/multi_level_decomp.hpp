@@ -42,15 +42,15 @@ class multiLevelDecomp
       const label levelI,
       labelField& finalDecomp
     );
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const multiLevelDecomp&);
-    multiLevelDecomp(const multiLevelDecomp&);
 public:
   //- Runtime type information
-  TypeName("multiLevel");
+  TYPE_NAME("multiLevel");
   // Constructors
     //- Construct given the decomposition dictionary
     multiLevelDecomp(const dictionary& decompositionDict);
+    //- Disallow default bitwise copy construct and assignment
+    multiLevelDecomp& operator=(const multiLevelDecomp&) = delete;
+    multiLevelDecomp(const multiLevelDecomp&) = delete;
   //- Destructor
   virtual ~multiLevelDecomp()
   {}
