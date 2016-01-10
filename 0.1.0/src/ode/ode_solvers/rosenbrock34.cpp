@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(Rosenbrock34, 0);
-  addToRunTimeSelectionTable(ODESolver, Rosenbrock34, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(Rosenbrock34, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, Rosenbrock34, dictionary);
 const scalar
   // Constants by Shampine
   // More accurate than the L-Stable coefficients for small step-size
@@ -102,42 +102,42 @@ mousse::scalar mousse::Rosenbrock34::solve
   }
   LUDecompose(a_, pivotIndices_);
   // Calculate k1:
-  forAll(k1_, i)
+  FOR_ALL(k1_, i)
   {
     k1_[i] = dydx0[i] + dx*d1*dfdx_[i];
   }
   LUBacksubstitute(a_, pivotIndices_, k1_);
   // Calculate k2:
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i] + a21*k1_[i];
   }
   odes_.derivatives(x0 + c2*dx, y, dydx_);
-  forAll(k2_, i)
+  FOR_ALL(k2_, i)
   {
     k2_[i] = dydx_[i] + dx*d2*dfdx_[i] + c21*k1_[i]/dx;
   }
   LUBacksubstitute(a_, pivotIndices_, k2_);
   // Calculate k3:
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i] + a31*k1_[i] + a32*k2_[i];
   }
   odes_.derivatives(x0 + c3*dx, y, dydx_);
-  forAll(k3_, i)
+  FOR_ALL(k3_, i)
   {
     k3_[i] = dydx_[i] + dx*d3*dfdx_[i] + (c31*k1_[i] + c32*k2_[i])/dx;
   }
   LUBacksubstitute(a_, pivotIndices_, k3_);
   // Calculate k4:
-  forAll(k4_, i)
+  FOR_ALL(k4_, i)
   {
     k4_[i] = dydx_[i] + dx*d4*dfdx_[i]
      + (c41*k1_[i] + c42*k2_[i] + c43*k3_[i])/dx;
   }
   LUBacksubstitute(a_, pivotIndices_, k4_);
   // Calculate error and update state:
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i] + b1*k1_[i] + b2*k2_[i] + b3*k3_[i] + b4*k4_[i];
     err_[i] = e1*k1_[i] + e2*k2_[i] + e4*k4_[i];

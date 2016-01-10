@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(RKF45, 0);
-  addToRunTimeSelectionTable(ODESolver, RKF45, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(RKF45, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, RKF45, dictionary);
 const scalar
   RKF45::c2  = 1.0/4.0,
   RKF45::c3  = 3.0/8.0,
@@ -64,28 +64,28 @@ mousse::scalar mousse::RKF45::solve
   scalarField& y
 ) const
 {
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i] + a21*dx*dydx0[i];
   }
   odes_.derivatives(x0 + c2*dx, yTemp_, k2_);
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i] + dx*(a31*dydx0[i] + a32*k2_[i]);
   }
   odes_.derivatives(x0 + c3*dx, yTemp_, k3_);
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i] + dx*(a41*dydx0[i] + a42*k2_[i] + a43*k3_[i]);
   }
   odes_.derivatives(x0 + c4*dx, yTemp_, k4_);
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i]
      + dx*(a51*dydx0[i] + a52*k2_[i] + a53*k3_[i] + a54*k4_[i]);
   }
   odes_.derivatives(x0 + c5*dx, yTemp_, k5_);
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i]
      + dx
@@ -93,7 +93,7 @@ mousse::scalar mousse::RKF45::solve
   }
   odes_.derivatives(x0 + c6*dx, yTemp_, k6_);
   // Calculate the 5th-order solution
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i]
      + dx
@@ -101,7 +101,7 @@ mousse::scalar mousse::RKF45::solve
   }
   // Calculate the error estimate from the difference between the
   // 4th-order and 5th-order solutions
-  forAll(err_, i)
+  FOR_ALL(err_, i)
   {
     err_[i] =
       dx

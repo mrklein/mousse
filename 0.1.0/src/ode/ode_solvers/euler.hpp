@@ -31,7 +31,7 @@ class Euler
     mutable scalarField err_;
 public:
   //- Runtime type information
-  TypeName("Euler");
+  TYPE_NAME("Euler");
   // Constructors
     //- Construct from ODE
     Euler(const ODESystem& ode, const dictionary& dict);

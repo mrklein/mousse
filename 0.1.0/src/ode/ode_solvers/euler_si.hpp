@@ -38,7 +38,7 @@ class EulerSI
     mutable labelList pivotIndices_;
 public:
   //- Runtime type information
-  TypeName("EulerSI");
+  TYPE_NAME("EulerSI");
   // Constructors
     //- Construct from ODE
     EulerSI(const ODESystem& ode, const dictionary& dict);

@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(rodas23, 0);
-  addToRunTimeSelectionTable(ODESolver, rodas23, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(rodas23, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, rodas23, dictionary);
 const scalar
   rodas23::c3 = 1,
   rodas23::d1 = 1.0/2.0,
@@ -60,42 +60,42 @@ mousse::scalar mousse::rodas23::solve
   }
   LUDecompose(a_, pivotIndices_);
   // Calculate k1:
-  forAll(k1_, i)
+  FOR_ALL(k1_, i)
   {
     k1_[i] = dydx0[i] + dx*d1*dfdx_[i];
   }
   LUBacksubstitute(a_, pivotIndices_, k1_);
   // Calculate k2:
-  forAll(k2_, i)
+  FOR_ALL(k2_, i)
   {
     k2_[i] = dydx0[i] + dx*d2*dfdx_[i] + c21*k1_[i]/dx;
   }
   LUBacksubstitute(a_, pivotIndices_, k2_);
   // Calculate k3:
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     dy_[i] = a31*k1_[i];
     y[i] = y0[i] + dy_[i];
   }
   odes_.derivatives(x0 + dx, y, dydx_);
-  forAll(k3_, i)
+  FOR_ALL(k3_, i)
   {
     k3_[i] = dydx_[i] + (c31*k1_[i] + c32*k2_[i])/dx;
   }
   LUBacksubstitute(a_, pivotIndices_, k3_);
   // Calculate new state and error
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     dy_[i] += k3_[i];
     y[i] = y0[i] + dy_[i];
   }
   odes_.derivatives(x0 + dx, y, dydx_);
-  forAll(err_, i)
+  FOR_ALL(err_, i)
   {
     err_[i] = dydx_[i] + (c41*k1_[i] + c42*k2_[i] + c43*k3_[i])/dx;
   }
   LUBacksubstitute(a_, pivotIndices_, err_);
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i] + dy_[i] + err_[i];
   }

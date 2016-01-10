@@ -36,13 +36,9 @@ protected:
       const scalarField& y,
       const scalarField& err
     ) const;
-    //- Disallow default bitwise copy construct
-    ODESolver(const ODESolver&);
-    //- Disallow default bitwise assignment
-    void operator=(const ODESolver&);
 public:
   //- Runtime type information
-  TypeName("ODESolver");
+  TYPE_NAME("ODESolver");
   class stepState
   {
     public:
@@ -55,17 +51,17 @@ public:
     bool prevReject;
     stepState(const scalar dx)
     :
-      forward(dx > 0 ? true : false),
-      dxTry(dx),
-      dxDid(0),
-      first(true),
-      last(false),
-      reject(false),
-      prevReject(false)
+      forward{dx > 0 ? true : false},
+      dxTry{dx},
+      dxDid{0},
+      first{true},
+      last{false},
+      reject{false},
+      prevReject{false}
     {}
   };
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       ODESolver,
@@ -83,6 +79,10 @@ public:
       const scalarField& absTol,
       const scalarField& relTol
     );
+    //- Disallow default bitwise copy construct
+    ODESolver(const ODESolver&) = delete;
+    //- Disallow default bitwise assignment
+    ODESolver& operator=(const ODESolver&) = delete;
   // Selectors
     //- Select null constructed
     static autoPtr<ODESolver> New

@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(Trapezoid, 0);
-  addToRunTimeSelectionTable(ODESolver, Trapezoid, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(Trapezoid, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, Trapezoid, dictionary);
 }
 // Constructors 
 mousse::Trapezoid::Trapezoid(const ODESystem& ode, const dictionary& dict)
@@ -28,7 +28,7 @@ mousse::scalar mousse::Trapezoid::solve
 ) const
 {
   // Predict the state using 1st-order Trapezoid method
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i] + dx*dydx0[i];
   }
@@ -36,7 +36,7 @@ mousse::scalar mousse::Trapezoid::solve
   odes_.derivatives(x0 + dx, y, err_);
   // Update the state as the average between the prediction and the correction
   // and estimate the error from the difference
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i] + 0.5*dx*(dydx0[i] + err_[i]);
     err_[i] = 0.5*dx*(err_[i] - dydx0[i]);

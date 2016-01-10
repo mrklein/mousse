@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(RKDP45, 0);
-  addToRunTimeSelectionTable(ODESolver, RKDP45, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(RKDP45, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, RKDP45, dictionary);
 const scalar
   RKDP45::c2 = 1.0/5.0,
   RKDP45::c3 = 3.0/10.0,
@@ -64,42 +64,42 @@ mousse::scalar mousse::RKDP45::solve
   scalarField& y
 ) const
 {
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i] + a21*dx*dydx0[i];
   }
   odes_.derivatives(x0 + c2*dx, yTemp_, k2_);
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i] + dx*(a31*dydx0[i] + a32*k2_[i]);
   }
   odes_.derivatives(x0 + c3*dx, yTemp_, k3_);
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i] + dx*(a41*dydx0[i] + a42*k2_[i] + a43*k3_[i]);
   }
   odes_.derivatives(x0 + c4*dx, yTemp_, k4_);
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i]
      + dx*(a51*dydx0[i] + a52*k2_[i] + a53*k3_[i] + a54*k4_[i]);
   }
   odes_.derivatives(x0 + c5*dx, yTemp_, k5_);
-  forAll(yTemp_, i)
+  FOR_ALL(yTemp_, i)
   {
     yTemp_[i] = y0[i]
      + dx
      *(a61*dydx0[i] + a62*k2_[i] + a63*k3_[i] + a64*k4_[i] + a65*k5_[i]);
   }
   odes_.derivatives(x0 + dx, yTemp_, k6_);
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i]
      + dx*(b1*dydx0[i] + b3*k3_[i] + b4*k4_[i] + b5*k5_[i] + b6*k6_[i]);
   }
   // Reuse k2_ for the derivative of the new state
   odes_.derivatives(x0 + dx, y, k2_);
-  forAll(err_, i)
+  FOR_ALL(err_, i)
   {
     err_[i] =
       dx

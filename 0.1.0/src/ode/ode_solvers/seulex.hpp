@@ -76,7 +76,7 @@ class seulex
     ) const;
 public:
   //- Runtime type information
-  TypeName("seulex");
+  TYPE_NAME("seulex");
   // Constructors
     //- Construct from ODE
     seulex(const ODESystem& ode, const dictionary& dict);

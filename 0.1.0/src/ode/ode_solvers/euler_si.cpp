@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(EulerSI, 0);
-  addToRunTimeSelectionTable(ODESolver, EulerSI, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(EulerSI, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, EulerSI, dictionary);
 }
 // Constructors 
 mousse::EulerSI::EulerSI(const ODESystem& ode, const dictionary& dict)
@@ -43,12 +43,12 @@ mousse::scalar mousse::EulerSI::solve
   }
   LUDecompose(a_, pivotIndices_);
   // Calculate error estimate from the change in state:
-  forAll(err_, i)
+  FOR_ALL(err_, i)
   {
     err_[i] = dydx0[i] + dx*dfdx_[i];
   }
   LUBacksubstitute(a_, pivotIndices_, err_);
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i] + err_[i];
   }

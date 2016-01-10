@@ -15,7 +15,7 @@ mousse::autoPtr<mousse::ODESolver> mousse::ODESolver::New
     dictionaryConstructorTablePtr_->find(ODESolverTypeName);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ODESolver::New"
       "(const dictionary& dict, const ODESystem& odes)"

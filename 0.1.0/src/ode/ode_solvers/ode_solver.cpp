@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(ODESolver, 0);
-  defineRunTimeSelectionTable(ODESolver, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(ODESolver, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(ODESolver, dictionary);
 }
 // Constructors 
 mousse::ODESolver::ODESolver(const ODESystem& ode, const dictionary& dict)
@@ -41,7 +41,7 @@ mousse::scalar mousse::ODESolver::normalizeError
 {
   // Calculate the maximum error
   scalar maxErr = 0.0;
-  forAll(err, i)
+  FOR_ALL(err, i)
   {
     scalar tol = absTol_[i] + relTol_[i]*max(mag(y0[i]), mag(y[i]));
     maxErr = max(maxErr, mag(err[i])/tol);
@@ -99,7 +99,7 @@ void mousse::ODESolver::solve
       step.prevReject = true;
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "ODESolver::solve"
     "(const scalar xStart, const scalar xEnd,"

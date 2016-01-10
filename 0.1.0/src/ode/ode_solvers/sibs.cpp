@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(SIBS, 0);
-  addToRunTimeSelectionTable(ODESolver, SIBS, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(SIBS, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, SIBS, dictionary);
   const label SIBS::nSeq_[iMaxX_] = {2, 6, 10, 14, 22, 34, 50, 70};
   const scalar
     SIBS::safe1 = 0.25,
@@ -97,7 +97,7 @@ void mousse::SIBS::solve
       xNew_ = x + h;
       if (xNew_ == x)
       {
-        FatalErrorIn("ODES::SIBS")
+        FATAL_ERROR_IN("ODES::SIBS")
           << "step size underflow"
           << exit(FatalError);
       }

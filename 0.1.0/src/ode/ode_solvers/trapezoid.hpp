@@ -22,7 +22,7 @@ class Trapezoid
     mutable scalarField err_;
 public:
   //- Runtime type information
-  TypeName("Trapezoid");
+  TYPE_NAME("Trapezoid");
   // Constructors
     //- Construct from ODE
     Trapezoid(const ODESystem& ode, const dictionary& dict);

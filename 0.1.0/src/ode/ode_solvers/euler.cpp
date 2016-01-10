@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(Euler, 0);
-  addToRunTimeSelectionTable(ODESolver, Euler, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(Euler, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, Euler, dictionary);
 }
 // Constructors 
 mousse::Euler::Euler(const ODESystem& ode, const dictionary& dict)
@@ -20,7 +20,7 @@ mousse::Euler::Euler(const ODESystem& ode, const dictionary& dict)
 // Member Functions 
 mousse::scalar mousse::Euler::solve
 (
-  const scalar x0,
+  const scalar /*x0*/,
   const scalarField& y0,
   const scalarField& dydx0,
   const scalar dx,
@@ -28,12 +28,12 @@ mousse::scalar mousse::Euler::solve
 ) const
 {
   // Calculate error estimate from the change in state:
-  forAll(err_, i)
+  FOR_ALL(err_, i)
   {
     err_[i] = dx*dydx0[i];
   }
   // Update the state
-  forAll(y, i)
+  FOR_ALL(y, i)
   {
     y[i] = y0[i] + err_[i];
   }

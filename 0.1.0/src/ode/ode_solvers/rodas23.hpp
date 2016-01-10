@@ -52,7 +52,7 @@ class rodas23
       gamma;
 public:
   //- Runtime type information
-  TypeName("rodas23");
+  TYPE_NAME("rodas23");
   // Constructors
     //- Construct from ODE
     rodas23(const ODESystem& ode, const dictionary& dict);
