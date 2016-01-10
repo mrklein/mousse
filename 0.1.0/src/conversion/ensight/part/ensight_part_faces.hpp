@@ -58,7 +58,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("ensightFaces");
+  TYPE_NAME("ensightFaces");
   // Constructors
     //- Construct empty part with number and description
     ensightPartFaces(label partNumber, const string& partDescription);

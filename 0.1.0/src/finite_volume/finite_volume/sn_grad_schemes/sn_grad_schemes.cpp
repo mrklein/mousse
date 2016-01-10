@@ -4,15 +4,21 @@
 
 #include "sn_grad_scheme.hpp"
 #include "hash_table.hpp"
+#include "surface_fields.hpp"
+
 namespace mousse
 {
+
 namespace fv
 {
+
 // Define the constructor function hash tables
-defineTemplateRunTimeSelectionTable(snGradScheme<scalar>, Mesh);
-defineTemplateRunTimeSelectionTable(snGradScheme<vector>, Mesh);
-defineTemplateRunTimeSelectionTable(snGradScheme<sphericalTensor>, Mesh);
-defineTemplateRunTimeSelectionTable(snGradScheme<symmTensor>, Mesh);
-defineTemplateRunTimeSelectionTable(snGradScheme<tensor>, Mesh);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(snGradScheme<scalar>, Mesh);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(snGradScheme<vector>, Mesh);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(snGradScheme<sphericalTensor>, Mesh);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(snGradScheme<symmTensor>, Mesh);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(snGradScheme<tensor>, Mesh);
+
 }  // namespace fv
+
 }  // namespace mousse

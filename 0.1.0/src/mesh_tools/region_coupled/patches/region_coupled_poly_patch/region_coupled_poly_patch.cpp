@@ -8,9 +8,9 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledPolyPatch, 0);
-  addToRunTimeSelectionTable(polyPatch, regionCoupledPolyPatch, word);
-  addToRunTimeSelectionTable(polyPatch, regionCoupledPolyPatch, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledPolyPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, regionCoupledPolyPatch, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, regionCoupledPolyPatch, dictionary);
 }
 // Constructors 
 mousse::regionCoupledPolyPatch::regionCoupledPolyPatch

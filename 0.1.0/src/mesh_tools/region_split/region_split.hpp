@@ -98,7 +98,7 @@ class regionSplit
     ) const;
 public:
   //- Runtime type information
-  ClassName("regionSplit");
+  CLASS_NAME("regionSplit");
   // Constructors
     //- Construct from mesh
     regionSplit

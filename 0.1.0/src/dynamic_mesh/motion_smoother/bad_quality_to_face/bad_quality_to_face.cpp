@@ -10,9 +10,9 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(badQualityToFace, 0);
-addToRunTimeSelectionTable(topoSetSource, badQualityToFace, word);
-addToRunTimeSelectionTable(topoSetSource, badQualityToFace, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(badQualityToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, badQualityToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, badQualityToFace, istream);
 }
 mousse::topoSetSource::addToUsageTable mousse::badQualityToFace::usage_
 (
@@ -26,7 +26,7 @@ void mousse::badQualityToFace::combine(topoSet& set, const bool add) const
   faceSet faces(mesh_, "meshQualityFaces", mesh_.nFaces()/100+1);
   motionSmoother::checkMesh(false, mesh_, dict_, faces);
   faces.sync(mesh_);
-  forAllConstIter(faceSet, faces, iter)
+  FOR_ALL_CONST_ITER(faceSet, faces, iter)
   {
     label faceI = iter.key();
     addOrDelete(set, faceI, add);

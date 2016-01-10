@@ -41,11 +41,12 @@ bool mousse::layerAdditionRemoval::setLayerPairing() const
   // the master patch
   if (pointsPairingPtr_ || facesPairingPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::layerAdditionRemoval::setLayerPairing() const"
-    )   << "Problem with layer pairing data"
-      << abort(FatalError);
+    )
+    << "Problem with layer pairing data"
+    << abort(FatalError);
   }
   pointsPairingPtr_ = new labelList(meshPoints.size(), -1);
   labelList& ptc = *pointsPairingPtr_;
@@ -61,7 +62,7 @@ bool mousse::layerAdditionRemoval::setLayerPairing() const
   // For all faces, create the mapping
   label nPointErrors = 0;
   label nFaceErrors = 0;
-  forAll(mf, faceI)
+  FOR_ALL(mf, faceI)
   {
     // Get the local master face
     face curLocalFace = mlf[faceI];
@@ -91,7 +92,7 @@ bool mousse::layerAdditionRemoval::setLayerPairing() const
     // Grab the opposite face for face collapse addressing
     ftc[faceI] = lidFace.oppositeIndex();
     // Using the local face insert the points into the lid list
-    forAll(curLocalFace, pointI)
+    FOR_ALL(curLocalFace, pointI)
     {
       const label clp = curLocalFace[pointI];
       if (ptc[clp] == -1)
@@ -136,11 +137,12 @@ const mousse::labelList& mousse::layerAdditionRemoval::pointsPairing() const
 {
   if (!pointsPairingPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelList& layerAdditionRemoval::pointsPairing() const"
-    )   << "Problem with layer pairing data for object " << name()
-      << abort(FatalError);
+    )
+    << "Problem with layer pairing data for object " << name()
+    << abort(FatalError);
   }
   return *pointsPairingPtr_;
 }
@@ -148,7 +150,7 @@ const mousse::labelList& mousse::layerAdditionRemoval::facesPairing() const
 {
   if (!facesPairingPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelList& layerAdditionRemoval::facesPairing() const"
     )   << "Problem with layer pairing data for object " << name()
@@ -159,7 +161,7 @@ const mousse::labelList& mousse::layerAdditionRemoval::facesPairing() const
 // Member Functions 
 void mousse::layerAdditionRemoval::modifyMotionPoints
 (
-  pointField& motionPoints
+  pointField& /*motionPoints*/
 ) const
 {
   if (debug)

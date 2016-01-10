@@ -26,7 +26,7 @@ class pointLinear
     void operator=(const pointLinear&);
 public:
   //- Runtime type information
-  TypeName("pointLinear");
+  TYPE_NAME("pointLinear");
   // Constructors
     //- Construct from mesh
     pointLinear(const fvMesh& mesh)

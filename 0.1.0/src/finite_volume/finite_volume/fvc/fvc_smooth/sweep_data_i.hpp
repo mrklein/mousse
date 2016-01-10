@@ -9,7 +9,7 @@ inline bool mousse::sweepData::update
 (
   const sweepData& svf,
   const point& position,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -52,7 +52,7 @@ inline mousse::sweepData::sweepData(const scalar value, const point& origin)
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::sweepData::valid(TrackingData& td) const
+inline bool mousse::sweepData::valid(TrackingData&) const
 {
   return value_ > -SMALL;
 }
@@ -62,7 +62,7 @@ inline bool mousse::sweepData::sameGeometry
   const polyMesh&,
   const sweepData&,
   const scalar,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return true;
@@ -74,7 +74,7 @@ inline void mousse::sweepData::leaveDomain
   const polyPatch&,
   const label,
   const point& faceCentre,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ -= faceCentre;
@@ -84,7 +84,7 @@ inline void mousse::sweepData::transform
 (
   const polyMesh&,
   const tensor& rotTensor,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ = mousse::transform(rotTensor, origin_);
@@ -96,7 +96,7 @@ inline void mousse::sweepData::enterDomain
   const polyPatch&,
   const label,
   const point& faceCentre,
-  TrackingData& td
+  TrackingData&
 )
 {
   // back to absolute form
@@ -145,7 +145,7 @@ template<class TrackingData>
 inline bool mousse::sweepData::equal
 (
   const sweepData& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

@@ -11,9 +11,9 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(shapeToCell, 0);
-addToRunTimeSelectionTable(topoSetSource, shapeToCell, word);
-addToRunTimeSelectionTable(topoSetSource, shapeToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(shapeToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, shapeToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, shapeToCell, istream);
 }
 mousse::topoSetSource::addToUsageTable mousse::shapeToCell::usage_
 (
@@ -42,7 +42,7 @@ void mousse::shapeToCell::combine(topoSet& set, const bool add) const
   {
     const cellModel& wantedModel = *(cellModeller::lookup(type_));
     const cellShapeList& cellShapes = mesh_.cellShapes();
-    forAll(cellShapes, cellI)
+    FOR_ALL(cellShapes, cellI)
     {
       if (cellShapes[cellI].model() == wantedModel)
       {
@@ -64,7 +64,7 @@ mousse::shapeToCell::shapeToCell
 {
   if (!cellModeller::lookup(type_) && (type_ != "splitHex"))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "shapeToCell::shapeToCell(const polyMesh&, const word&)"
     )   << "Illegal cell type " << type_ << exit(FatalError);
@@ -82,7 +82,7 @@ mousse::shapeToCell::shapeToCell
 {
   if (!cellModeller::lookup(type_) && (type_ != "splitHex"))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "shapeToCell::shapeToCell(const polyMesh&, const dictionary&)"
     )   << "Illegal cell type " << type_ << exit(FatalError);
@@ -100,7 +100,7 @@ mousse::shapeToCell::shapeToCell
 {
   if (!cellModeller::lookup(type_) && (type_ != "splitHex"))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "shapeToCell::shapeToCell(const polyMesh&, Istream&)"
     )   << "Illegal cell type " << type_ << exit(FatalError);

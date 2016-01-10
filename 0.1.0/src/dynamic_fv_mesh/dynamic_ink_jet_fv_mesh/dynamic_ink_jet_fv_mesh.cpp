@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(dynamicInkJetFvMesh, 0);
-  addToRunTimeSelectionTable(dynamicFvMesh, dynamicInkJetFvMesh, IOobject);
+  DEFINE_TYPE_NAME_AND_DEBUG(dynamicInkJetFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(dynamicFvMesh, dynamicInkJetFvMesh, IOobject);
 }
 // Constructors 
 mousse::dynamicInkJetFvMesh::dynamicInkJetFvMesh(const IOobject& io)

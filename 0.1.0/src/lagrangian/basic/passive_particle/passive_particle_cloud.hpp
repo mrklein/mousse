@@ -17,11 +17,6 @@ class passiveParticleCloud
 :
   public Cloud<passiveParticle>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    passiveParticleCloud(const passiveParticleCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const passiveParticleCloud&);
 public:
   // Constructors
     //- Construct given mesh
@@ -38,6 +33,10 @@ public:
       const word& cloudName,
       const IDLList<passiveParticle>& particles
     );
+    //- Disallow default bitwise copy construct
+    passiveParticleCloud(const passiveParticleCloud&) = delete;
+    //- Disallow default bitwise assignment
+    passiveParticleCloud& operator=(const passiveParticleCloud&) = delete;
 };
 }  // namespace mousse
 #endif

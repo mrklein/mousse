@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(surfacePatch, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(surfacePatch, 0);
 }
 // Constructors 
 // Construct null

@@ -38,7 +38,7 @@ class fixedInternalValueFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("fixedInternalValue");
+  TYPE_NAME("fixedInternalValue");
   // Constructors
     //- Construct from patch and internal field
     fixedInternalValueFvPatchField

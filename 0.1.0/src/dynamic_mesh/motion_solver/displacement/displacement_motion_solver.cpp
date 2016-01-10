@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(displacementMotionSolver, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(displacementMotionSolver, 0);
 }
 // Protected Data Members
 mousse::IOobject mousse::displacementMotionSolver::points0IO
@@ -96,7 +96,7 @@ mousse::displacementMotionSolver::displacementMotionSolver
 {
   if (points0_.size() != mesh.nPoints())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "displacementMotionSolver::"
       "displacementMotionSolver\n"
@@ -149,7 +149,7 @@ void mousse::displacementMotionSolver::updateMesh(const mapPolyMesh& mpm)
   const vector span = boundBox(points).span();
   vector scaleFactors(cmptDivide(span0, span));
   pointField newPoints0(mpm.pointMap().size());
-  forAll(newPoints0, pointI)
+  FOR_ALL(newPoints0, pointI)
   {
     label oldPointI = mpm.pointMap()[pointI];
     if (oldPointI >= 0)
@@ -171,7 +171,7 @@ void mousse::displacementMotionSolver::updateMesh(const mapPolyMesh& mpm)
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "displacementMotionSolver::updateMesh"
         "(const mapPolyMesh&)"

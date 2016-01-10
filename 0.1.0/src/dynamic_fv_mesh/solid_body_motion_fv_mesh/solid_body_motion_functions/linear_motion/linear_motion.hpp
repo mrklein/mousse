@@ -23,14 +23,10 @@ class linearMotion
   // Private data
     //- Linear velocity
     vector velocity_;
-  // Private Member Functions
-    //- Disallow copy construct
-    linearMotion(const linearMotion&);
-    //- Disallow default bitwise assignment
-    void operator=(const linearMotion&);
+
 public:
   //- Runtime type information
-  TypeName("linearMotion");
+  TYPE_NAME("linearMotion");
   // Constructors
     //- Construct from components
     linearMotion
@@ -50,6 +46,10 @@ public:
         )
       );
     }
+    //- Disallow copy construct
+    linearMotion(const linearMotion&) = delete;
+    //- Disallow default bitwise assignment
+    linearMotion& operator=(const linearMotion&) = delete;
   //- Destructor
   virtual ~linearMotion();
   // Member Functions

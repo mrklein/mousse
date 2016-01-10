@@ -3,14 +3,18 @@
 // Copyright (C) 2016 mousse project
 
 #include "smesh_surface_format.hpp"
+
 #include "clock.hpp"
 #include "ifstream.hpp"
 #include "ofstream.hpp"
 #include "ostream.hpp"
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::SMESHsurfaceFormat<Face>::SMESHsurfaceFormat()
 {}
+
+
 // Member Functions 
 template<class Face>
 void mousse::fileFormats::SMESHsurfaceFormat<Face>::write
@@ -29,42 +33,42 @@ void mousse::fileFormats::SMESHsurfaceFormat<Face>::write
    : surf.surfZones()
   );
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::SMESHsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   // Write header
-  os  << "# tetgen .smesh file written " << clock::dateTime().c_str() << nl
+  os<< "# tetgen .smesh file written " << clock::dateTime().c_str() << nl
     << "# <points count=\"" << pointLst.size() << "\">" << nl
     << pointLst.size() << " 3" << nl;    // 3: dimensions
   // Write vertex coords
-  forAll(pointLst, ptI)
+  FOR_ALL(pointLst, ptI)
   {
     const point& pt = pointLst[ptI];
-    os  << ptI << ' ' << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
+    os << ptI << ' ' << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
   }
-  os  << "# </points>" << nl
+  os<< "# </points>" << nl
     << nl
     << "# <faces count=\"" << faceLst.size() << "\">" << endl;
-  os  << faceLst.size() << " 1" << endl;   // one attribute: zone number
+  os << faceLst.size() << " 1" << endl;   // one attribute: zone number
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceMap[faceIndex++]];
         os << f.size();
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << ' ' << f[fp];
         }
@@ -73,11 +77,11 @@ void mousse::fileFormats::SMESHsurfaceFormat<Face>::write
     }
     else
     {
-      forAll(zones[zoneI], localFaceI)
+      FOR_ALL(zones[zoneI], localFaceI)
       {
         const Face& f = faceLst[faceIndex++];
         os << f.size();
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << ' ' << f[fp];
         }
@@ -86,7 +90,7 @@ void mousse::fileFormats::SMESHsurfaceFormat<Face>::write
     }
   }
   // write tail
-  os  << "# </faces>" << nl
+  os<< "# </faces>" << nl
     << nl
     << "# no holes or regions:" << nl
     << '0' << nl        // holes

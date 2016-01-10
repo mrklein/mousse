@@ -24,7 +24,7 @@ class linearDirection
     scalar thickness_;
 public:
   //- Runtime type information
-  TypeName("linearDirection");
+  TYPE_NAME("linearDirection");
   // Constructors
     //- Construct from dictionary
     linearDirection(const dictionary& dict);

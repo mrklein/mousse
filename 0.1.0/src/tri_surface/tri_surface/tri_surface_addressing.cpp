@@ -7,12 +7,14 @@
 #include "sortable_list.hpp"
 #include "transform.hpp"
 #include "patch_tools.hpp"
-// Private Member Functions 
+#include "uindirect_list.hpp"
+
+// Private Member Functions
 void mousse::triSurface::calcSortedEdgeFaces() const
 {
   if (sortedEdgeFacesPtr_)
   {
-    FatalErrorIn("triSurface::calcSortedEdgeFaces()")
+    FATAL_ERROR_IN("triSurface::calcSortedEdgeFaces()")
       << "sortedEdgeFacesPtr_ already set"
       << abort(FatalError);
   }
@@ -25,14 +27,14 @@ void mousse::triSurface::calcEdgeOwner() const
 {
   if (edgeOwnerPtr_)
   {
-    FatalErrorIn("triSurface::calcEdgeOwner()")
+    FATAL_ERROR_IN("triSurface::calcEdgeOwner()")
       << "edgeOwnerPtr_ already set"
       << abort(FatalError);
   }
   // create the owner list
   edgeOwnerPtr_ = new labelList(nEdges());
   labelList& edgeOwner = *edgeOwnerPtr_;
-  forAll(edges(), edgeI)
+  FOR_ALL(edges(), edgeI)
   {
     const edge& e = edges()[edgeI];
     const labelList& myFaces = edgeFaces()[edgeI];
@@ -45,7 +47,7 @@ void mousse::triSurface::calcEdgeOwner() const
       // Find the first face whose vertices are aligned with the edge.
       // (in case of multiply connected edge the best we can do)
       edgeOwner[edgeI] = -1;
-      forAll(myFaces, i)
+      FOR_ALL(myFaces, i)
       {
         const labelledTri& f = localFaces()[myFaces[i]];
         if
@@ -61,7 +63,7 @@ void mousse::triSurface::calcEdgeOwner() const
       }
       if (edgeOwner[edgeI] == -1)
       {
-        FatalErrorIn("triSurface::calcEdgeOwner()")
+        FATAL_ERROR_IN("triSurface::calcEdgeOwner()")
           << "Edge " << edgeI << " vertices:" << e
           << " is used by faces " << myFaces
           << " vertices:"

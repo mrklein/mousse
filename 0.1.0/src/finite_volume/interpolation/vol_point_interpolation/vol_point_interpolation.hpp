@@ -67,7 +67,7 @@ class volPointInterpolation
     void operator=(const volPointInterpolation&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("volPointInterpolation");
+  CLASS_NAME("volPointInterpolation");
   // Constructors
     //- Constructor given fvMesh and pointMesh.
     explicit volPointInterpolation(const fvMesh&);

@@ -4,6 +4,7 @@
 
 #include "tri_surface_format.hpp"
 #include "list_ops.hpp"
+
 // Private Member Functions 
 template<class Face>
 inline void mousse::fileFormats::TRIsurfaceFormat<Face>::writeShell
@@ -29,6 +30,8 @@ inline void mousse::fileFormats::TRIsurfaceFormat<Face>::writeShell
       << "0x" << hex << zoneI << dec << endl;
   }
 }
+
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::TRIsurfaceFormat<Face>::TRIsurfaceFormat
@@ -38,6 +41,8 @@ mousse::fileFormats::TRIsurfaceFormat<Face>::TRIsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::TRIsurfaceFormat<Face>::read
@@ -51,14 +56,14 @@ bool mousse::fileFormats::TRIsurfaceFormat<Face>::read
   // transfer points
   this->storedPoints().transfer(reader.points());
   // retrieve the original zone information
-  List<label> sizes(reader.sizes().xfer());
-  List<label> zoneIds(reader.zoneIds().xfer());
+  List<label> sizes{reader.sizes().xfer()};
+  List<label> zoneIds{reader.zoneIds().xfer()};
   // generate the (sorted) faces
-  List<Face> faceLst(zoneIds.size());
+  List<Face> faceLst{zoneIds.size()};
   if (reader.sorted())
   {
     // already sorted - generate directly
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       const label startPt = 3*faceI;
       faceLst[faceI] = triFace(startPt, startPt+1, startPt+2);
@@ -71,7 +76,7 @@ bool mousse::fileFormats::TRIsurfaceFormat<Face>::read
     List<label> faceMap;
     sortedOrder(zoneIds, faceMap);
     // generate sorted faces
-    forAll(faceMap, faceI)
+    FOR_ALL(faceMap, faceI)
     {
       const label startPt = 3*faceMap[faceI];
       faceLst[faceI] = triFace(startPt, startPt+1, startPt+2);
@@ -84,6 +89,8 @@ bool mousse::fileFormats::TRIsurfaceFormat<Face>::read
   this->stitchFaces(SMALL);
   return true;
 }
+
+
 template<class Face>
 void mousse::fileFormats::TRIsurfaceFormat<Face>::write
 (
@@ -101,24 +108,24 @@ void mousse::fileFormats::TRIsurfaceFormat<Face>::write
    : surf.surfZones()
   );
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::TRIsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceMap[faceIndex++]];
         writeShell(os, pointLst, f, zoneI);
@@ -126,7 +133,7 @@ void mousse::fileFormats::TRIsurfaceFormat<Face>::write
     }
     else
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceIndex++];
         writeShell(os, pointLst, f, zoneI);
@@ -134,6 +141,8 @@ void mousse::fileFormats::TRIsurfaceFormat<Face>::write
     }
   }
 }
+
+
 template<class Face>
 void mousse::fileFormats::TRIsurfaceFormat<Face>::write
 (
@@ -142,23 +151,23 @@ void mousse::fileFormats::TRIsurfaceFormat<Face>::write
 )
 {
   const pointField& pointLst = surf.points();
-  const List<Face>& faceLst  = surf.faces();
-  OFstream os(filename);
+  const List<Face>& faceLst = surf.faces();
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::TRIsurfaceFormat::write"
       "(const fileName&, const UnsortedMeshedSurface<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   // a single zone needs no sorting
   if (surf.zoneToc().size() == 1)
   {
     const List<label>& zoneIds  = surf.zoneIds();
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       writeShell(os, pointLst, faceLst[faceI], zoneIds[faceI]);
     }
@@ -168,9 +177,9 @@ void mousse::fileFormats::TRIsurfaceFormat<Face>::write
     labelList faceMap;
     List<surfZone> zoneLst = surf.sortedZones(faceMap);
     label faceIndex = 0;
-    forAll(zoneLst, zoneI)
+    FOR_ALL(zoneLst, zoneI)
     {
-      forAll(zoneLst[zoneI], localFaceI)
+      FOR_ALL(zoneLst[zoneI], localFaceI)
       {
         const Face& f = faceLst[faceMap[faceIndex++]];
         writeShell(os, pointLst, f, zoneI);

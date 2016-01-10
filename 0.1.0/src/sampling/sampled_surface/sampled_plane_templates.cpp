@@ -24,10 +24,10 @@ mousse::sampledPlane::interpolateField
   tmp<Field<Type> > tvalues(new Field<Type>(points().size()));
   Field<Type>& values = tvalues();
   boolList pointDone(points().size(), false);
-  forAll(faces(), cutFaceI)
+  FOR_ALL(faces(), cutFaceI)
   {
     const face& f = faces()[cutFaceI];
-    forAll(f, faceVertI)
+    FOR_ALL(f, faceVertI)
     {
       label pointI = f[faceVertI];
       if (!pointDone[pointI])

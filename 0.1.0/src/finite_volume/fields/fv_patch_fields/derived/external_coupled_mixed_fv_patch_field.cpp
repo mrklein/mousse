@@ -7,12 +7,15 @@
 #include "vol_fields.hpp"
 #include "ifstream.hpp"
 #include "global_index.hpp"
+
 // Static Data Members
 template<class Type>
-mousse::word mousse::externalCoupledMixedFvPatchField<Type>::lockName = "OpenFOAM";
+mousse::word mousse::externalCoupledMixedFvPatchField<Type>::lockName = "mousse";
+
 template<class Type>
 mousse::string
 mousse::externalCoupledMixedFvPatchField<Type>::patchKey = "# Patch: ";
+
 // Private Member Functions 
 template<class Type>
 mousse::fileName mousse::externalCoupledMixedFvPatchField<Type>::baseDir() const
@@ -26,6 +29,8 @@ mousse::fileName mousse::externalCoupledMixedFvPatchField<Type>::baseDir() const
   result.clean();
   return result;
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::setMaster
 (
@@ -40,13 +45,13 @@ void mousse::externalCoupledMixedFvPatchField<Type>::setMaster
   label nPatch = bf.size();
   reduce(nPatch, maxOp<label>());
   offsets_.setSize(nPatch);
-  forAll(offsets_, i)
+  FOR_ALL(offsets_, i)
   {
     offsets_[i].setSize(Pstream::nProcs());
     offsets_[i] = 0;
   }
   // set the master patch
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchI = patchIDs[i];
     patchType& pf = refCast<patchType>(bf[patchI]);
@@ -62,17 +67,17 @@ void mousse::externalCoupledMixedFvPatchField<Type>::setMaster
   }
   // set the patch offsets
   int tag = Pstream::msgType() + 1;
-  forAll(offsets_, i)
+  FOR_ALL(offsets_, i)
   {
     Pstream::gatherList(offsets_[i], tag);
     Pstream::scatterList(offsets_[i], tag);
   }
   label patchOffset = 0;
-  forAll(offsets_, patchI)
+  FOR_ALL(offsets_, patchI)
   {
     label sumOffset = 0;
     List<label>& procOffsets = offsets_[patchI];
-    forAll(procOffsets, procI)
+    FOR_ALL(procOffsets, procI)
     {
       label o = procOffsets[procI];
       if (o > 0)
@@ -84,6 +89,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::setMaster
     patchOffset += sumOffset;
   }
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::writeGeometry
 (
@@ -110,7 +117,7 @@ void mousse::externalCoupledMixedFvPatchField<Type>::writeGeometry
   List<faceList> allFaces(Pstream::nProcs());
   faceList& patchFaces = allFaces[procI];
   patchFaces = p.localFaces();
-  forAll(patchFaces, faceI)
+  FOR_ALL(patchFaces, faceI)
   {
     inplaceRenumber(pointToGlobal, patchFaces[faceI]);
   }
@@ -131,11 +138,15 @@ void mousse::externalCoupledMixedFvPatchField<Type>::writeGeometry
     osFaces<< patchKey.c_str() << this->patch().name() << fcs << endl;
   }
 }
+
+
 template<class Type>
 mousse::fileName mousse::externalCoupledMixedFvPatchField<Type>::lockFile() const
 {
-  return fileName(baseDir()/(lockName + ".lock"));
+  return fileName{baseDir()/(lockName + ".lock")};
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::createLockFile() const
 {
@@ -143,8 +154,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::createLockFile() const
   {
     return;
   }
-  const fileName fName(lockFile());
-  IFstream is(fName);
+  const fileName fName{lockFile()};
+  IFstream is{fName};
   // only create lock file if it doesn't already exist
   if (!is.good())
   {
@@ -152,11 +163,13 @@ void mousse::externalCoupledMixedFvPatchField<Type>::createLockFile() const
     {
       Info<< type() << ": creating lock file" << endl;
     }
-    OFstream os(fName);
+    OFstream os{fName};
     os  << "lock file";
     os.flush();
   }
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::removeLockFile() const
 {
@@ -170,6 +183,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::removeLockFile() const
   }
   rm(lockFile());
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::startWait() const
 {
@@ -178,7 +193,7 @@ void mousse::externalCoupledMixedFvPatchField<Type>::startWait() const
     static_cast<const volFieldType&>(this->dimensionedInternalField());
   const typename volFieldType::GeometricBoundaryField& bf =
     cvf.boundaryField();
-  forAll(coupledPatchIDs_, i)
+  FOR_ALL(coupledPatchIDs_, i)
   {
     label patchI = coupledPatchIDs_[i];
     const patchType& pf = refCast<const patchType>(bf[patchI]);
@@ -189,6 +204,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::startWait() const
     }
   }
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::wait() const
 {
@@ -205,14 +222,14 @@ void mousse::externalCoupledMixedFvPatchField<Type>::wait() const
     {
       if (totalTime > timeOut_)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void "
           "mousse::externalCoupledMixedFvPatchField<Type>::wait() "
           "const"
         )
-          << "Wait time exceeded time out time of " << timeOut_
-          << " s" << abort(FatalError);
+        << "Wait time exceeded time out time of " << timeOut_
+        << " s" << abort(FatalError);
       }
       IFstream is(fName);
       if (is.good())
@@ -237,6 +254,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::wait() const
     reduce(found, sumOp<label>());
   }
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::initialiseRead
 (
@@ -245,7 +264,7 @@ void mousse::externalCoupledMixedFvPatchField<Type>::initialiseRead
 {
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::externalCoupledMixedFvPatchField<Type>::"
       "initialiseRead"
@@ -253,9 +272,9 @@ void mousse::externalCoupledMixedFvPatchField<Type>::initialiseRead
         "IFstream&"
       ") const"
     )
-      << "Unable to open data transfer file " << is.name()
-      << " for patch " << this->patch().name()
-      << exit(FatalError);
+    << "Unable to open data transfer file " << is.name()
+    << " for patch " << this->patch().name()
+    << exit(FatalError);
   }
   label offset = offsets_[this->patch().index()][Pstream::myProcNo()];
   // scan forward to start reading at relevant line/position
@@ -268,7 +287,7 @@ void mousse::externalCoupledMixedFvPatchField<Type>::initialiseRead
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::externalCoupledMixedFvPatchField<Type>::"
         "initialiseRead"
@@ -276,13 +295,15 @@ void mousse::externalCoupledMixedFvPatchField<Type>::initialiseRead
           "IFstream&"
         ") const"
       )
-        << "Unable to scan forward to appropriate read position for "
-        << "data transfer file " << is.name()
-        << " for patch " << this->patch().name()
-        << exit(FatalError);
+      << "Unable to scan forward to appropriate read position for "
+      << "data transfer file " << is.name()
+      << " for patch " << this->patch().name()
+      << exit(FatalError);
     }
   }
 }
+
+
 // Protected Member Functions 
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::readData
@@ -291,37 +312,39 @@ void mousse::externalCoupledMixedFvPatchField<Type>::readData
 )
 {
   // read data passed back from external source
-  IFstream is(transferFile + ".in");
+  IFstream is{transferFile + ".in"};
   // pre-process the input transfer file
   initialiseRead(is);
   // read data from file
-  forAll(this->patch(), faceI)
+  FOR_ALL(this->patch(), faceI)
   {
     if (is.good())
     {
-      is  >> this->refValue()[faceI]
+      is>> this->refValue()[faceI]
         >> this->refGrad()[faceI]
         >> this->valueFraction()[faceI];
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::externalCoupledMixedFvPatchField<Type>::readData"
         "("
           "const fileName&"
         ")"
       )
-        << "Insufficient data for patch "
-        << this->patch().name()
-        << " in file " << is.name()
-        << exit(FatalError);
+      << "Insufficient data for patch "
+      << this->patch().name()
+      << " in file " << is.name()
+      << exit(FatalError);
     }
   }
   initialised_ = true;
   // update the value from the mixed condition
   mixedFvPatchField<Type>::evaluate();
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::writeData
 (
@@ -332,19 +355,21 @@ void mousse::externalCoupledMixedFvPatchField<Type>::writeData
   {
     return;
   }
-  OFstream os(transferFile);
+  OFstream os{transferFile};
   writeHeader(os);
   const volFieldType& cvf =
     static_cast<const volFieldType&>(this->dimensionedInternalField());
   const typename volFieldType::GeometricBoundaryField& bf =
     cvf.boundaryField();
-  forAll(coupledPatchIDs_, i)
+  FOR_ALL(coupledPatchIDs_, i)
   {
     label patchI = coupledPatchIDs_[i];
     const patchType& pf = refCast<const patchType>(bf[patchI]);
     pf.transferData(os);
   }
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::writeHeader
 (
@@ -353,6 +378,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::writeHeader
 {
   os  << "# Values: magSf value snGrad" << endl;
 }
+
+
 // Constructors 
 template<class Type>
 mousse::externalCoupledMixedFvPatchField<Type>::
@@ -362,23 +389,25 @@ externalCoupledMixedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  mixedFvPatchField<Type>(p, iF),
-  commsDir_("unknown-commsDir"),
-  fName_("unknown-fName"),
-  waitInterval_(0),
-  timeOut_(0),
-  calcFrequency_(0),
-  initByExternal_(false),
-  log_(false),
-  master_(false),
-  offsets_(),
-  initialised_(false),
-  coupledPatchIDs_()
+  mixedFvPatchField<Type>{p, iF},
+  commsDir_{"unknown-commsDir"},
+  fName_{"unknown-fName"},
+  waitInterval_{0},
+  timeOut_{0},
+  calcFrequency_{0},
+  initByExternal_{false},
+  log_{false},
+  master_{false},
+  offsets_{},
+  initialised_{false},
+  coupledPatchIDs_{}
 {
   this->refValue() = pTraits<Type>::zero;
   this->refGrad() = pTraits<Type>::zero;
   this->valueFraction() = 0.0;
 }
+
+
 template<class Type>
 mousse::externalCoupledMixedFvPatchField<Type>::
 externalCoupledMixedFvPatchField
@@ -389,19 +418,21 @@ externalCoupledMixedFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchField<Type>(ptf, p, iF, mapper),
-  commsDir_(ptf.commsDir_),
-  fName_(ptf.fName_),
-  waitInterval_(ptf.waitInterval_),
-  timeOut_(ptf.timeOut_),
-  calcFrequency_(ptf.calcFrequency_),
-  initByExternal_(ptf.initByExternal_),
-  log_(ptf.log_),
-  master_(ptf.master_),
-  offsets_(ptf.offsets_),
-  initialised_(ptf.initialised_),
-  coupledPatchIDs_(ptf.coupledPatchIDs_)
+  mixedFvPatchField<Type>{ptf, p, iF, mapper},
+  commsDir_{ptf.commsDir_},
+  fName_{ptf.fName_},
+  waitInterval_{ptf.waitInterval_},
+  timeOut_{ptf.timeOut_},
+  calcFrequency_{ptf.calcFrequency_},
+  initByExternal_{ptf.initByExternal_},
+  log_{ptf.log_},
+  master_{ptf.master_},
+  offsets_{ptf.offsets_},
+  initialised_{ptf.initialised_},
+  coupledPatchIDs_{ptf.coupledPatchIDs_}
 {}
+
+
 template<class Type>
 mousse::externalCoupledMixedFvPatchField<Type>::
 externalCoupledMixedFvPatchField
@@ -411,18 +442,18 @@ externalCoupledMixedFvPatchField
   const dictionary& dict
 )
 :
-  mixedFvPatchField<Type>(p, iF),
-  commsDir_(dict.lookup("commsDir")),
-  fName_(dict.lookup("fileName")),
-  waitInterval_(dict.lookupOrDefault("waitInterval", 1)),
-  timeOut_(dict.lookupOrDefault("timeOut", 100*waitInterval_)),
-  calcFrequency_(dict.lookupOrDefault("calcFrequency", 1)),
-  initByExternal_(readBool(dict.lookup("initByExternal"))),
-  log_(dict.lookupOrDefault("log", false)),
-  master_(true),
-  offsets_(),
-  initialised_(false),
-  coupledPatchIDs_()
+  mixedFvPatchField<Type>{p, iF},
+  commsDir_{dict.lookup("commsDir")},
+  fName_{dict.lookup("fileName")},
+  waitInterval_{dict.lookupOrDefault("waitInterval", 1)},
+  timeOut_{dict.lookupOrDefault("timeOut", 100*waitInterval_)},
+  calcFrequency_{dict.lookupOrDefault("calcFrequency", 1)},
+  initByExternal_{readBool(dict.lookup("initByExternal"))},
+  log_{dict.lookupOrDefault("log", false)},
+  master_{true},
+  offsets_{},
+  initialised_{false},
+  coupledPatchIDs_{}
 {
   if (dict.found("value"))
   {
@@ -449,6 +480,8 @@ externalCoupledMixedFvPatchField
   this->refGrad() = pTraits<Type>::zero;
   this->valueFraction() = 1.0;
 }
+
+
 template<class Type>
 mousse::externalCoupledMixedFvPatchField<Type>::
 externalCoupledMixedFvPatchField
@@ -456,19 +489,21 @@ externalCoupledMixedFvPatchField
   const externalCoupledMixedFvPatchField& ecmpf
 )
 :
-  mixedFvPatchField<Type>(ecmpf),
-  commsDir_(ecmpf.commsDir_),
-  fName_(ecmpf.fName_),
-  waitInterval_(ecmpf.waitInterval_),
-  timeOut_(ecmpf.timeOut_),
-  calcFrequency_(ecmpf.calcFrequency_),
-  initByExternal_(ecmpf.initByExternal_),
-  log_(ecmpf.log_),
-  master_(ecmpf.master_),
-  offsets_(ecmpf.offsets_),
-  initialised_(ecmpf.initialised_),
-  coupledPatchIDs_(ecmpf.coupledPatchIDs_)
+  mixedFvPatchField<Type>{ecmpf},
+  commsDir_{ecmpf.commsDir_},
+  fName_{ecmpf.fName_},
+  waitInterval_{ecmpf.waitInterval_},
+  timeOut_{ecmpf.timeOut_},
+  calcFrequency_{ecmpf.calcFrequency_},
+  initByExternal_{ecmpf.initByExternal_},
+  log_{ecmpf.log_},
+  master_{ecmpf.master_},
+  offsets_{ecmpf.offsets_},
+  initialised_{ecmpf.initialised_},
+  coupledPatchIDs_{ecmpf.coupledPatchIDs_}
 {}
+
+
 template<class Type>
 mousse::externalCoupledMixedFvPatchField<Type>::
 externalCoupledMixedFvPatchField
@@ -477,19 +512,21 @@ externalCoupledMixedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  mixedFvPatchField<Type>(ecmpf, iF),
-  commsDir_(ecmpf.commsDir_),
-  fName_(ecmpf.fName_),
-  waitInterval_(ecmpf.waitInterval_),
-  timeOut_(ecmpf.timeOut_),
-  calcFrequency_(ecmpf.calcFrequency_),
-  initByExternal_(ecmpf.initByExternal_),
-  log_(ecmpf.log_),
-  master_(ecmpf.master_),
-  offsets_(ecmpf.offsets_),
-  initialised_(ecmpf.initialised_),
-  coupledPatchIDs_(ecmpf.coupledPatchIDs_)
+  mixedFvPatchField<Type>{ecmpf, iF},
+  commsDir_{ecmpf.commsDir_},
+  fName_{ecmpf.fName_},
+  waitInterval_{ecmpf.waitInterval_},
+  timeOut_{ecmpf.timeOut_},
+  calcFrequency_{ecmpf.calcFrequency_},
+  initByExternal_{ecmpf.initByExternal_},
+  log_{ecmpf.log_},
+  master_{ecmpf.master_},
+  offsets_{ecmpf.offsets_},
+  initialised_{ecmpf.initialised_},
+  coupledPatchIDs_{ecmpf.coupledPatchIDs_}
 {}
+
+
 // Destructor 
 template<class Type>
 mousse::externalCoupledMixedFvPatchField<Type>::
@@ -497,6 +534,8 @@ mousse::externalCoupledMixedFvPatchField<Type>::
 {
   removeLockFile();
 }
+
+
 // Member Functions 
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::initialise
@@ -514,7 +553,7 @@ void mousse::externalCoupledMixedFvPatchField<Type>::initialise
   typename volFieldType::GeometricBoundaryField& bf = vf.boundaryField();
   // identify all coupled patches
   DynamicList<label> coupledPatchIDs(bf.size());
-  forAll(bf, patchI)
+  FOR_ALL(bf, patchI)
   {
     if (isA<patchType>(bf[patchI]))
     {
@@ -527,7 +566,7 @@ void mousse::externalCoupledMixedFvPatchField<Type>::initialise
   {
     // remove lock file, signalling external source to execute
 //        removeLockFile();
-    forAll(coupledPatchIDs_, i)
+    FOR_ALL(coupledPatchIDs_, i)
     {
       label patchI = coupledPatchIDs_[i];
       patchType& pf = refCast<patchType>(bf[patchI]);
@@ -538,7 +577,7 @@ void mousse::externalCoupledMixedFvPatchField<Type>::initialise
     // read the initial data
     if (master_)
     {
-      forAll(coupledPatchIDs_, i)
+      FOR_ALL(coupledPatchIDs_, i)
       {
         label patchI = coupledPatchIDs_[i];
         patchType& pf = refCast<patchType>(bf[patchI]);
@@ -552,10 +591,12 @@ void mousse::externalCoupledMixedFvPatchField<Type>::initialise
   }
   initialised_ = true;
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::evaluate
 (
-  const Pstream::commsTypes comms
+  const Pstream::commsTypes
 )
 {
   if (!initialised_ || this->db().time().timeIndex() % calcFrequency_ == 0)
@@ -580,6 +621,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::evaluate
     createLockFile();
   }
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::transferData
 (
@@ -607,12 +650,12 @@ void mousse::externalCoupledMixedFvPatchField<Type>::transferData
     Pstream::gatherList(snGrads, tag);
     if (Pstream::master())
     {
-      forAll(values, procI)
+      FOR_ALL(values, procI)
       {
         const Field<scalar>& magSf = magSfs[procI];
         const Field<Type>& value = values[procI];
         const Field<Type>& snGrad = snGrads[procI];
-        forAll(magSf, faceI)
+        FOR_ALL(magSf, faceI)
         {
           os  << magSf[faceI] << token::SPACE
             << value[faceI] << token::SPACE
@@ -627,7 +670,7 @@ void mousse::externalCoupledMixedFvPatchField<Type>::transferData
     const Field<scalar>& magSf(this->patch().magSf());
     const Field<Type>& value(this->refValue());
     const Field<Type> snGrad(this->snGrad());
-    forAll(magSf, faceI)
+    FOR_ALL(magSf, faceI)
     {
       os  << magSf[faceI] << token::SPACE
         << value[faceI] << token::SPACE
@@ -636,6 +679,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::transferData
     os.flush();
   }
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::writeGeometry() const
 {
@@ -643,14 +688,14 @@ void mousse::externalCoupledMixedFvPatchField<Type>::writeGeometry() const
     static_cast<const volFieldType&>(this->dimensionedInternalField());
   const typename volFieldType::GeometricBoundaryField& bf =
     cvf.boundaryField();
-  OFstream osPoints(baseDir()/"patchPoints");
-  OFstream osFaces(baseDir()/"patchFaces");
+  OFstream osPoints{baseDir()/"patchPoints"};
+  OFstream osFaces{baseDir()/"patchFaces"};
   if (log_)
   {
     Info<< "writing collated patch points to: " << osPoints.name() << nl
       << "writing collated patch faces to: " << osFaces.name() << endl;
   }
-  forAll(bf, patchI)
+  FOR_ALL(bf, patchI)
   {
     if (isA<patchType>(bf[patchI]))
     {
@@ -659,6 +704,8 @@ void mousse::externalCoupledMixedFvPatchField<Type>::writeGeometry() const
     }
   }
 }
+
+
 template<class Type>
 void mousse::externalCoupledMixedFvPatchField<Type>::write(Ostream& os) const
 {

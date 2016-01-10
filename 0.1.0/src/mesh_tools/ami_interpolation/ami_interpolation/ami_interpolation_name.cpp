@@ -5,5 +5,5 @@
 #include "ami_interpolation.hpp"
 namespace mousse
 {
-defineTypeNameAndDebug(AMIInterpolationName, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(AMIInterpolationName, 0);
 }

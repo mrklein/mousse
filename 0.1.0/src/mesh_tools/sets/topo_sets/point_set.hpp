@@ -18,7 +18,7 @@ class pointSet
 {
 public:
   //- Runtime type information
-  TypeName("pointSet");
+  TYPE_NAME("pointSet");
   // Constructors
     //- Construct from IOobject
     pointSet(const IOobject& obj);

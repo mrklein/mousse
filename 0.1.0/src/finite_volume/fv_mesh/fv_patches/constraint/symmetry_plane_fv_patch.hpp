@@ -22,7 +22,7 @@ class symmetryPlaneFvPatch
     const symmetryPlanePolyPatch& symmetryPlanePolyPatch_;
 public:
   //- Runtime type information
-  TypeName(symmetryPlanePolyPatch::typeName_());
+  TYPE_NAME(symmetryPlanePolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     symmetryPlaneFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)

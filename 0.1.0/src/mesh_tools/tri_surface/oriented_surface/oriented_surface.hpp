@@ -7,10 +7,13 @@
 //   Given point flip all faces such that normals point in same direction.
 // SourceFiles
 //   oriented_surface.cpp
+
 #ifndef oriented_surface_hpp_
 #define oriented_surface_hpp_
+
 #include "tri_surface.hpp"
 #include "type_info.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
@@ -88,7 +91,7 @@ private:
     //  triangles.
     static bool orientConsistent(triSurface& s);
 public:
-  ClassName("orientedSurface");
+  CLASS_NAME("orientedSurface");
   // Constructors
     //- Construct null
     orientedSurface();

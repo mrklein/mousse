@@ -11,14 +11,14 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledCuttingPlane, 0);
-  addNamedToRunTimeSelectionTable
-  (
-    sampledSurface,
-    sampledCuttingPlane,
-    word,
-    cuttingPlane
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(sampledCuttingPlane, 0);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
+(
+  sampledSurface,
+  sampledCuttingPlane,
+  word,
+  cuttingPlane
+);
 }
 // Private Member Functions 
 void mousse::sampledCuttingPlane::createGeometry()
@@ -89,7 +89,7 @@ void mousse::sampledCuttingPlane::createGeometry()
   {
     const pointField& cc = fvm.cellCentres();
     scalarField& fld = cellDistance.internalField();
-    forAll(cc, i)
+    FOR_ALL(cc, i)
     {
       // Signed distance
       fld[i] = (cc[i] - plane_.refPoint()) & plane_.normal();
@@ -97,7 +97,7 @@ void mousse::sampledCuttingPlane::createGeometry()
   }
   // Patch fields
   {
-    forAll(cellDistance.boundaryField(), patchI)
+    FOR_ALL(cellDistance.boundaryField(), patchI)
     {
       if
       (
@@ -120,7 +120,7 @@ void mousse::sampledCuttingPlane::createGeometry()
         pointField::subField cc = pp.patchSlice(fvm.faceCentres());
         fvPatchScalarField& fld = cellDistance.boundaryField()[patchI];
         fld.setSize(pp.size());
-        forAll(fld, i)
+        FOR_ALL(fld, i)
         {
           fld[i] = (cc[i] - plane_.refPoint()) & plane_.normal();
         }
@@ -129,7 +129,7 @@ void mousse::sampledCuttingPlane::createGeometry()
       {
         const pointField& cc = fvm.C().boundaryField()[patchI];
         fvPatchScalarField& fld = cellDistance.boundaryField()[patchI];
-        forAll(fld, i)
+        FOR_ALL(fld, i)
         {
           fld[i] = (cc[i] - plane_.refPoint()) & plane_.normal();
         }
@@ -142,7 +142,7 @@ void mousse::sampledCuttingPlane::createGeometry()
   pointDistance_.setSize(fvm.nPoints());
   {
     const pointField& pts = fvm.points();
-    forAll(pointDistance_, i)
+    FOR_ALL(pointDistance_, i)
     {
       pointDistance_[i] = (pts[i] - plane_.refPoint()) & plane_.normal();
     }
@@ -152,19 +152,19 @@ void mousse::sampledCuttingPlane::createGeometry()
     Pout<< "Writing cell distance:" << cellDistance.objectPath() << endl;
     cellDistance.write();
     pointScalarField pDist
-    (
+    {
       IOobject
-      (
+      {
         "pointDistance",
         fvm.time().timeName(),
         fvm.time(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       pointMesh::New(fvm),
-      dimensionedScalar("zero", dimLength, 0)
-    );
+      dimensionedScalar{"zero", dimLength, 0}
+    };
     pDist.internalField() = pointDistance_;
     Pout<< "Writing point distance:" << pDist.objectPath() << endl;
     pDist.write();
@@ -173,22 +173,13 @@ void mousse::sampledCuttingPlane::createGeometry()
   isoSurfPtr_.reset
   (
     new isoSurface
-    (
+    {
       cellDistance,
       pointDistance_,
       0.0,
       regularise_,
       mergeTol_
-    )
-    //new isoSurfaceCell
-    //(
-    //    fvm,
-    //    cellDistance,
-    //    pointDistance_,
-    //    0.0,
-    //    regularise_,
-    //    mergeTol_
-    //)
+    }
   );
   if (debug)
   {
@@ -204,32 +195,33 @@ mousse::sampledCuttingPlane::sampledCuttingPlane
   const dictionary& dict
 )
 :
-  sampledSurface(name, mesh, dict),
-  plane_(dict),
-  mergeTol_(dict.lookupOrDefault("mergeTol", 1e-6)),
-  regularise_(dict.lookupOrDefault("regularise", true)),
-  average_(dict.lookupOrDefault("average", false)),
-  zoneID_(dict.lookupOrDefault("zone", word::null), mesh.cellZones()),
-  exposedPatchName_(word::null),
-  needsUpdate_(true),
-  subMeshPtr_(NULL),
-  cellDistancePtr_(NULL),
-  isoSurfPtr_(NULL),
-  facesPtr_(NULL)
+  sampledSurface{name, mesh, dict},
+  plane_{dict},
+  mergeTol_{dict.lookupOrDefault("mergeTol", 1e-6)},
+  regularise_{dict.lookupOrDefault("regularise", true)},
+  average_{dict.lookupOrDefault("average", false)},
+  zoneID_{dict.lookupOrDefault("zone", word::null), mesh.cellZones()},
+  exposedPatchName_{word::null},
+  needsUpdate_{true},
+  subMeshPtr_{NULL},
+  cellDistancePtr_{NULL},
+  isoSurfPtr_{NULL},
+  facesPtr_{NULL}
 {
   if (zoneID_.index() != -1)
   {
     dict.lookup("exposedPatchName") >> exposedPatchName_;
     if (mesh.boundaryMesh().findPatchID(exposedPatchName_) == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "sampledCuttingPlane::sampledCuttingPlane"
         "(const word&, const polyMesh&, const dictionary&)"
-      )   << "Cannot find patch " << exposedPatchName_
-        << " in which to put exposed faces." << endl
-        << "Valid patches are " << mesh.boundaryMesh().names()
-        << exit(FatalError);
+      )
+      << "Cannot find patch " << exposedPatchName_
+      << " in which to put exposed faces." << endl
+      << "Valid patches are " << mesh.boundaryMesh().names()
+      << exit(FatalError);
     }
     if (debug && zoneID_.index() != -1)
     {

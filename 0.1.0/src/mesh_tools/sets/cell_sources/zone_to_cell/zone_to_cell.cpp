@@ -8,10 +8,11 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(zoneToCell, 0);
-addToRunTimeSelectionTable(topoSetSource, zoneToCell, word);
-addToRunTimeSelectionTable(topoSetSource, zoneToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(zoneToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, zoneToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, zoneToCell, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::zoneToCell::usage_
 (
   zoneToCell::typeName,
@@ -19,11 +20,12 @@ mousse::topoSetSource::addToUsageTable mousse::zoneToCell::usage_
   "    Select all cells in the cellZone."
   " Note:accepts wildcards for zone.\n\n"
 );
+
 // Private Member Functions 
 void mousse::zoneToCell::combine(topoSet& set, const bool add) const
 {
   bool hasMatched = false;
-  forAll(mesh_.cellZones(), i)
+  FOR_ALL(mesh_.cellZones(), i)
   {
     const cellZone& zone = mesh_.cellZones()[i];
     if (zoneName_.match(zone.name()))
@@ -32,7 +34,7 @@ void mousse::zoneToCell::combine(topoSet& set, const bool add) const
       Info<< "    Found matching zone " << zone.name()
         << " with " << cellLabels.size() << " cells." << endl;
       hasMatched = true;
-      forAll(cellLabels, i)
+      FOR_ALL(cellLabels, i)
       {
         // Only do active cells
         if (cellLabels[i] < mesh_.nCells())
@@ -44,7 +46,7 @@ void mousse::zoneToCell::combine(topoSet& set, const bool add) const
   }
   if (!hasMatched)
   {
-    WarningIn("zoneToCell::combine(topoSet&, const bool)")
+    WARNING_IN("zoneToCell::combine(topoSet&, const bool)")
       << "Cannot find any cellZone named " << zoneName_ << endl
       << "Valid names are " << mesh_.cellZones().names() << endl;
   }

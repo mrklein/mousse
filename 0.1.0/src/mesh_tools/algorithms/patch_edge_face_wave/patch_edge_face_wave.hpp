@@ -19,7 +19,7 @@ namespace mousse
 {
 // Forward declaration of classes
 class polyMesh;
-TemplateName(PatchEdgeFaceWave);
+TEMPLATE_NAME(PatchEdgeFaceWave);
 template
 <
   class PrimitivePatchType,
@@ -242,14 +242,14 @@ public:
   {
     if (forward)
     {
-      forAll(fld, i)
+      FOR_ALL(fld, i)
       {
         fld[i].transform(mesh_, patch_, vt.R(), tol_, td_);
       }
     }
     else
     {
-      forAll(fld, i)
+      FOR_ALL(fld, i)
       {
         fld[i].transform(mesh_, patch_, vt.R().T(), tol_, td_);
       }

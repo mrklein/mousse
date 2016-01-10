@@ -10,10 +10,10 @@
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(cellSet, 0);
-addToRunTimeSelectionTable(topoSet, cellSet, word);
-addToRunTimeSelectionTable(topoSet, cellSet, size);
-addToRunTimeSelectionTable(topoSet, cellSet, set);
+DEFINE_TYPE_NAME_AND_DEBUG(cellSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, cellSet, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, cellSet, size);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, cellSet, set);
 cellSet::cellSet(const IOobject& obj)
 :
   topoSet(obj, typeName)

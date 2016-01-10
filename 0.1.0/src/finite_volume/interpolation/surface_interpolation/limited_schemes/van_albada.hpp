@@ -10,9 +10,12 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   van_albada.cpp
+
 #ifndef van_albada_hpp_
 #define van_albada_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimiterFunc>
@@ -23,9 +26,10 @@ class vanAlbadaLimiter
 public:
   vanAlbadaLimiter(Istream&)
   {}
+
   scalar limiter
   (
-    const scalar cdWeight,
+    const scalar /*cdWeight*/,
     const scalar faceFlux,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,

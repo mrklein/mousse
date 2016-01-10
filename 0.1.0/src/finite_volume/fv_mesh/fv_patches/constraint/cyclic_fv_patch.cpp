@@ -9,16 +9,16 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicFvPatch, 0);
-  addToRunTimeSelectionTable(fvPatch, cyclicFvPatch, polyPatch);
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicFvPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, cyclicFvPatch, polyPatch);
 }
-// Member Functions 
+// Member Functions
 void mousse::cyclicFvPatch::makeWeights(scalarField& w) const
 {
   const cyclicFvPatch& nbrPatch = neighbFvPatch();
   const scalarField deltas(nf()&coupledFvPatch::delta());
   const scalarField nbrDeltas(nbrPatch.nf()&nbrPatch.coupledFvPatch::delta());
-  forAll(deltas, facei)
+  FOR_ALL(deltas, facei)
   {
     scalar di = deltas[facei];
     scalar dni = nbrDeltas[facei];
@@ -34,7 +34,7 @@ mousse::tmp<mousse::vectorField> mousse::cyclicFvPatch::delta() const
   // To the transformation if necessary
   if (parallel())
   {
-    forAll(patchD, facei)
+    FOR_ALL(patchD, facei)
     {
       vector ddi = patchD[facei];
       vector dni = nbrPatchD[facei];
@@ -43,7 +43,7 @@ mousse::tmp<mousse::vectorField> mousse::cyclicFvPatch::delta() const
   }
   else
   {
-    forAll(patchD, facei)
+    FOR_ALL(patchD, facei)
     {
       vector ddi = patchD[facei];
       vector dni = nbrPatchD[facei];
@@ -61,7 +61,7 @@ mousse::tmp<mousse::labelField> mousse::cyclicFvPatch::interfaceInternalField
 }
 mousse::tmp<mousse::labelField> mousse::cyclicFvPatch::internalFieldTransfer
 (
-  const Pstream::commsTypes commsType,
+  const Pstream::commsTypes,
   const labelUList& iF
 ) const
 {

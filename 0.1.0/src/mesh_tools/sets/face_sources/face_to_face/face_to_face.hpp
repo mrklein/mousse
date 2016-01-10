@@ -23,7 +23,7 @@ class faceToFace
     word setName_;
 public:
   //- Runtime type information
-  TypeName("faceToFace");
+  TYPE_NAME("faceToFace");
   // Constructors
     //- Construct from components
     faceToFace

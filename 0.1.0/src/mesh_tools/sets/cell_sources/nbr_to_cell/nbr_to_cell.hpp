@@ -26,7 +26,7 @@ class nbrToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("nbrToCell");
+  TYPE_NAME("nbrToCell");
   // Constructors
     //- Construct from components
     nbrToCell

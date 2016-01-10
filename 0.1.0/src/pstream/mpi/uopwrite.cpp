@@ -5,6 +5,7 @@
 #include "uopstream.hpp"
 #include "pstream_globals.hpp"
 #include <mpi.h>
+#include "iostreams.hpp"
 // Member Functions 
 bool mousse::UOPstream::write
 (
@@ -99,7 +100,7 @@ bool mousse::UOPstream::write
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "UOPstream::write"
       "(const int fromProcNo, char* buf, std::streamsize bufSize"

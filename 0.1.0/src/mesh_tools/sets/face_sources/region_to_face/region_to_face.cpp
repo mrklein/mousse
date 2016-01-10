@@ -11,13 +11,18 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "patch_edge_face_wave.hpp"
 #include "patch_edge_face_region.hpp"
+#include "pstream_reduce_ops.hpp"
+#include "pstream_combine_reduce_ops.hpp"
+#include "map_distribute.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(regionToFace, 0);
-addToRunTimeSelectionTable(topoSetSource, regionToFace, word);
-addToRunTimeSelectionTable(topoSetSource, regionToFace, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(regionToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, regionToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, regionToFace, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::regionToFace::usage_
 (
   regionToFace::typeName,
@@ -25,7 +30,8 @@ mousse::topoSetSource::addToUsageTable mousse::regionToFace::usage_
   "    Select all faces in the connected region of the faceSet"
   " starting from the point.\n"
 );
-// Private Member Functions 
+
+// Private Member Functions
 void mousse::regionToFace::markZone
 (
   const indirectPrimitivePatch& patch,
@@ -43,7 +49,7 @@ void mousse::regionToFace::markZone
   if (Pstream::myProcNo() == procI)
   {
     const labelList& fEdges = patch.faceEdges()[faceI];
-    forAll(fEdges, i)
+    FOR_ALL(fEdges, i)
     {
       changedEdges.append(fEdges[i]);
       changedInfo.append(zoneI);
@@ -64,7 +70,7 @@ void mousse::regionToFace::markZone
     allFaceInfo,
     returnReduce(patch.nEdges(), sumOp<label>())
   );
-  forAll(allFaceInfo, faceI)
+  FOR_ALL(allFaceInfo, faceI)
   {
     if (allFaceInfo[faceI].region() == zoneI)
     {
@@ -91,7 +97,7 @@ void mousse::regionToFace::combine(topoSet& set, const bool add) const
       Pstream::myProcNo()
     )
   );
-  forAll(patch, i)
+  FOR_ALL(patch, i)
   {
     const point& fc = patch.faceCentres()[i];
     scalar d2 = magSqr(fc-nearPoint_);
@@ -118,7 +124,7 @@ void mousse::regionToFace::combine(topoSet& set, const bool add) const
     0,                      // currentZone
     faceRegion
   );
-  forAll(faceRegion, faceI)
+  FOR_ALL(faceRegion, faceI)
   {
     if (faceRegion[faceI] == 0)
     {
@@ -126,7 +132,7 @@ void mousse::regionToFace::combine(topoSet& set, const bool add) const
     }
   }
 }
-// Constructors 
+// Constructors
 // Construct from components
 mousse::regionToFace::regionToFace
 (
@@ -161,10 +167,12 @@ mousse::regionToFace::regionToFace
   setName_(checkIs(is)),
   nearPoint_(checkIs(is))
 {}
-// Destructor 
+
+// Destructor
 mousse::regionToFace::~regionToFace()
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::regionToFace::applyToSet
 (
   const topoSetSource::setAction action,

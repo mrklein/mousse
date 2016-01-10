@@ -7,15 +7,18 @@
 #include "centred_cfc_cell_to_face_stencil_object.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug
-  (
-    CentredFitData<biLinearFitPolynomial>,
-    0
-  );
-  makeCentredFitSurfaceInterpolationScheme
-  (
-    biLinearFit,
-    biLinearFitPolynomial,
-    centredCFCCellToFaceStencilObject
-  );
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG
+(
+  CentredFitData<biLinearFitPolynomial>,
+  0
+);
+
+MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_SCHEME
+(
+  biLinearFit,
+  biLinearFitPolynomial,
+  centredCFCCellToFaceStencilObject
+);
+
 }

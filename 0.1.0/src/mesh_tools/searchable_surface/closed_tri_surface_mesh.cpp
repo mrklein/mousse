@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(closedTriSurfaceMesh, 0);
-addToRunTimeSelectionTable(searchableSurface, closedTriSurfaceMesh, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(closedTriSurfaceMesh, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, closedTriSurfaceMesh, dict);
 }
 // Constructors 
 mousse::closedTriSurfaceMesh::closedTriSurfaceMesh

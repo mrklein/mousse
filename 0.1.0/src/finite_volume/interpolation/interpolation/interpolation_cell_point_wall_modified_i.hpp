@@ -17,6 +17,7 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
   t += this->psip_[faceVertices[2]]*weights[3];
   return t;
 }
+
 template<class Type>
 inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
 (
@@ -36,6 +37,7 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
     )
   );
 }
+
 template<class Type>
 inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
 (
@@ -48,7 +50,7 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
   {
     if (faceI != tetIs.face())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "inline Type "
         "mousse::interpolationCellPointWallModifie<Type>::interpolate"
@@ -58,9 +60,9 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
           "const label faceI"
         ") const"
       )
-        << "specified face " << faceI << " inconsistent with the face "
-        << "stored by tetIndices: " << tetIs.face()
-        << exit(FatalError);
+      << "specified face " << faceI << " inconsistent with the face "
+      << "stored by tetIndices: " << tetIs.face()
+      << exit(FatalError);
     }
     const polyBoundaryMesh& bm = this->pMesh_.boundaryMesh();
     label patchI = bm.whichPatch(faceI);

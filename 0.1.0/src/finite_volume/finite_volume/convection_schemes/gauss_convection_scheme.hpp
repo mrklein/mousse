@@ -7,9 +7,13 @@
 //   Basic second-order convection using face-gradients and Gauss' theorem.
 // SourceFiles
 //   gauss_convection_scheme.cpp
+
 #ifndef gauss_convection_scheme_hpp_
 #define gauss_convection_scheme_hpp_
+
 #include "convection_scheme.hpp"
+#include "fv_mesh.hpp"
+
 namespace mousse
 {
 namespace fv
@@ -31,7 +35,7 @@ class gaussConvectionScheme
     void operator=(const gaussConvectionScheme&);
 public:
   //- Runtime type information
-  TypeName("Gauss");
+  TYPE_NAME("Gauss");
   // Constructors
     //- Construct from flux and interpolation scheme
     gaussConvectionScheme
@@ -68,7 +72,7 @@ public:
       )
       {
         fileNameList controlDictFiles(findEtcFiles("controlDict"));
-        IOWarningIn("gaussConvectionScheme", is)
+        IO_WARNING_IN("gaussConvectionScheme", is)
           << "Unbounded 'Gauss' div scheme used in "
            "steady-state solver, use 'bounded Gauss' "
            "to ensure boundedness.\n"

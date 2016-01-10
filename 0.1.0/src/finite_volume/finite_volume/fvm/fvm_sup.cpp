@@ -5,6 +5,7 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "fv_matrix.hpp"
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::Su
@@ -15,17 +16,20 @@ mousse::fvm::Su
 {
   const fvMesh& mesh = vf.mesh();
   tmp<fvMatrix<Type> > tfvm
-  (
+  {
     new fvMatrix<Type>
-    (
+    {
       vf,
       dimVol*su.dimensions()
-    )
-  );
+    }
+  };
   fvMatrix<Type>& fvm = tfvm();
   fvm.source() -= mesh.V()*su.field();
+
   return tfvm;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::Su
@@ -38,6 +42,8 @@ mousse::fvm::Su
   tsu.clear();
   return tfvm;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::Su
@@ -50,16 +56,20 @@ mousse::fvm::Su
   tsu.clear();
   return tfvm;
 }
+
+
 template<class Type>
 mousse::zeroField
 mousse::fvm::Su
 (
   const zero&,
-  const GeometricField<Type, fvPatchField, volMesh>& vf
+  const GeometricField<Type, fvPatchField, volMesh>& /*vf*/
 )
 {
   return zeroField();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::Sp
@@ -70,17 +80,20 @@ mousse::fvm::Sp
 {
   const fvMesh& mesh = vf.mesh();
   tmp<fvMatrix<Type> > tfvm
-  (
+  {
     new fvMatrix<Type>
-    (
+    {
       vf,
       dimVol*sp.dimensions()*vf.dimensions()
-    )
-  );
+    }
+  };
   fvMatrix<Type>& fvm = tfvm();
   fvm.diag() += mesh.V()*sp.field();
+
   return tfvm;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::Sp
@@ -93,6 +106,8 @@ mousse::fvm::Sp
   tsp.clear();
   return tfvm;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::Sp
@@ -105,6 +120,8 @@ mousse::fvm::Sp
   tsp.clear();
   return tfvm;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::Sp
@@ -115,17 +132,19 @@ mousse::fvm::Sp
 {
   const fvMesh& mesh = vf.mesh();
   tmp<fvMatrix<Type> > tfvm
-  (
+  {
     new fvMatrix<Type>
-    (
+    {
       vf,
       dimVol*sp.dimensions()*vf.dimensions()
-    )
-  );
+    }
+  };
   fvMatrix<Type>& fvm = tfvm();
   fvm.diag() += mesh.V()*sp.value();
   return tfvm;
 }
+
+
 template<class Type>
 mousse::zeroField
 mousse::fvm::Sp
@@ -136,6 +155,8 @@ mousse::fvm::Sp
 {
   return zeroField();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::SuSp
@@ -146,19 +167,22 @@ mousse::fvm::SuSp
 {
   const fvMesh& mesh = vf.mesh();
   tmp<fvMatrix<Type> > tfvm
-  (
+  {
     new fvMatrix<Type>
-    (
+    {
       vf,
       dimVol*susp.dimensions()*vf.dimensions()
-    )
-  );
+    }
+  };
   fvMatrix<Type>& fvm = tfvm();
   fvm.diag() += mesh.V()*max(susp.field(), scalar(0));
   fvm.source() -= mesh.V()*min(susp.field(), scalar(0))
     *vf.internalField();
+
   return tfvm;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::SuSp
@@ -171,6 +195,8 @@ mousse::fvm::SuSp
   tsusp.clear();
   return tfvm;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::fvMatrix<Type> >
 mousse::fvm::SuSp
@@ -183,12 +209,14 @@ mousse::fvm::SuSp
   tsusp.clear();
   return tfvm;
 }
+
+
 template<class Type>
 mousse::zeroField
 mousse::fvm::SuSp
 (
   const zero&,
-  const GeometricField<Type, fvPatchField, volMesh>& vf
+  const GeometricField<Type, fvPatchField, volMesh>& /*vf*/
 )
 {
   return zeroField();

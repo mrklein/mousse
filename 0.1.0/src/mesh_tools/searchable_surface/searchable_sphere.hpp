@@ -49,7 +49,7 @@ private:
     void operator=(const searchableSphere&);
 public:
   //- Runtime type information
-  TypeName("searchableSphere");
+  TYPE_NAME("searchableSphere");
   // Constructors
     //- Construct from components
     searchableSphere(const IOobject& io, const point&, const scalar radius);
@@ -142,7 +142,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchableSphere::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchableSphere::writeData(Ostream&) const");
         return false;
       }
 };

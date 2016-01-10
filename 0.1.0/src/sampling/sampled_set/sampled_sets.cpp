@@ -12,7 +12,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(sampledSets, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(sampledSets, 0);
 bool sampledSets::verbose_ = false;
 }
 // Private Member Functions 
@@ -29,7 +29,7 @@ void mousse::sampledSets::combineSampledSets
   masterSampledSets_.setSize(size());
   indexSets_.setSize(size());
   const PtrList<sampledSet>& sampledSets = *this;
-  forAll(sampledSets, setI)
+  FOR_ALL(sampledSets, setI)
   {
     const sampledSet& samplePts = sampledSets[setI];
     // Collect data from all processors
@@ -66,7 +66,7 @@ void mousse::sampledSets::combineSampledSets
     );
     if (Pstream::master() && allCurveDist.size() == 0)
     {
-      WarningIn("sampledSets::combineSampledSets(..)")
+      WARNING_IN("sampledSets::combineSampledSets(..)")
         << "Sample set " << samplePts.name()
         << " has zero points." << endl;
     }
@@ -195,7 +195,7 @@ void mousse::sampledSets::read(const dictionary& dict)
     if (this->size())
     {
       Info<< "Reading set description:" << nl;
-      forAll(*this, setI)
+      FOR_ALL(*this, setI)
       {
         Info<< "    " << operator[](setI).name() << nl;
       }
@@ -206,7 +206,7 @@ void mousse::sampledSets::read(const dictionary& dict)
   {
     Pout<< "sample fields:" << fieldSelection_ << nl
       << "sample sets:" << nl << "(" << nl;
-    forAll(*this, setI)
+    FOR_ALL(*this, setI)
     {
       Pout<< "  " << operator[](setI) << endl;
     }

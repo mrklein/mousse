@@ -27,7 +27,7 @@ protected:
     void makeWeights(scalarField&) const;
 public:
   //- Runtime type information
-  TypeName(processorPolyPatch::typeName_());
+  TYPE_NAME(processorPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     processorFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)

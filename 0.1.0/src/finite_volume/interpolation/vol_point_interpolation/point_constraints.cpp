@@ -8,10 +8,13 @@
 #include "point_mesh.hpp"
 #include "global_mesh_data.hpp"
 #include "twod_point_corrector.hpp"
+#include "map_distribute.hpp"
+#include "point_fields.hpp"
+
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(pointConstraints, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(pointConstraints, 0);
 // Private Member Functions 
 void pointConstraints::makePatchPatchAddressing()
 {
@@ -27,7 +30,7 @@ void pointConstraints::makePatchPatchAddressing()
   const polyBoundaryMesh& bm = mesh.boundaryMesh();
   // first count the total number of patch-patch points
   label nPatchPatchPoints = 0;
-  forAll(pbm, patchi)
+  FOR_ALL(pbm, patchi)
   {
     if (!isA<emptyPointPatch>(pbm[patchi]) && !pbm[patchi].coupled())
     {
@@ -55,13 +58,13 @@ void pointConstraints::makePatchPatchAddressing()
   // From constraint index to mesh point
   labelList patchPatchPoints(nPatchPatchPoints);
   label pppi = 0;
-  forAll(pbm, patchi)
+  FOR_ALL(pbm, patchi)
   {
     if (!isA<emptyPointPatch>(pbm[patchi]) && !pbm[patchi].coupled())
     {
       const labelList& bp = bm[patchi].boundaryPoints();
       const labelList& meshPoints = pbm[patchi].meshPoints();
-      forAll(bp, pointi)
+      FOR_ALL(bp, pointi)
       {
         label ppp = meshPoints[bp[pointi]];
         Map<label>::iterator iter = patchPatchPointSet.find(ppp);
@@ -104,13 +107,13 @@ void pointConstraints::makePatchPatchAddressing()
       globalPointSlavesMap.constructSize()
     );
     // Copy from patchPatch constraints into coupledConstraints.
-    forAll(pbm, patchi)
+    FOR_ALL(pbm, patchi)
     {
       if (!isA<emptyPointPatch>(pbm[patchi]) && !pbm[patchi].coupled())
       {
         const labelList& bp = bm[patchi].boundaryPoints();
         const labelList& meshPoints = pbm[patchi].meshPoints();
-        forAll(bp, pointi)
+        FOR_ALL(bp, pointi)
         {
           label ppp = meshPoints[bp[pointi]];
           Map<label>::const_iterator fnd = cpPointMap.find(ppp);
@@ -129,16 +132,16 @@ void pointConstraints::makePatchPatchAddressing()
     // Exchange data
     globalPointSlavesMap.distribute(constraints);
     // Combine master with slave constraints
-    forAll(globalPointSlaves, pointI)
+    FOR_ALL(globalPointSlaves, pointI)
     {
       const labelList& slaves = globalPointSlaves[pointI];
       // Combine master constraint with slave constraints
-      forAll(slaves, i)
+      FOR_ALL(slaves, i)
       {
         constraints[pointI].combine(constraints[slaves[i]]);
       }
       // Duplicate master constraint into slave slots
-      forAll(slaves, i)
+      FOR_ALL(slaves, i)
       {
         constraints[slaves[i]] = constraints[pointI];
       }
@@ -150,7 +153,7 @@ void pointConstraints::makePatchPatchAddressing()
       constraints
     );
     // Add back into patchPatch constraints
-    forAll(constraints, coupledPointI)
+    FOR_ALL(constraints, coupledPointI)
     {
       if (constraints[coupledPointI].first() != 0)
       {
@@ -206,7 +209,7 @@ void pointConstraints::makePatchPatchAddressing()
   patchPatchPointConstraintPoints_.setSize(nPatchPatchPoints);
   patchPatchPointConstraintTensors_.setSize(nPatchPatchPoints);
   label nConstraints = 0;
-  forAll(patchPatchPointConstraints_, i)
+  FOR_ALL(patchPatchPointConstraints_, i)
   {
     // Note: check for more than zero constraints. (could check for
     //       more than one constraint but what about coupled points that
@@ -302,13 +305,13 @@ void pointConstraints::constrainDisplacement
 template<>
 void pointConstraints::constrainCorners<scalar>
 (
-  GeometricField<scalar, pointPatchField, pointMesh>& pf
+  GeometricField<scalar, pointPatchField, pointMesh>& /*pf*/
 ) const
 {}
 template<>
 void pointConstraints::constrainCorners<label>
 (
-  GeometricField<label, pointPatchField, pointMesh>& pf
+  GeometricField<label, pointPatchField, pointMesh>& /*pf*/
 ) const
 {}
 }  // namespace mousse

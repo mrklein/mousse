@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "meshed_surface.hpp"
+
 #include "unsorted_meshed_surface.hpp"
 #include "meshed_surface_proxy.hpp"
 #include "merge_points.hpp"
@@ -13,22 +14,29 @@
 #include "surf_mesh.hpp"
 #include "primitive_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 template<class Face>
 inline bool mousse::MeshedSurface<Face>::isTri()
 {
   return false;
 }
+
+
 template<class Face>
 mousse::wordHashSet mousse::MeshedSurface<Face>::readTypes()
 {
   return wordHashSet(*fileExtensionConstructorTablePtr_);
 }
+
+
 template<class Face>
 mousse::wordHashSet mousse::MeshedSurface<Face>::writeTypes()
 {
   return wordHashSet(*writefileExtensionMemberFunctionTablePtr_);
 }
+
+
 // Static Member Functions
 template<class Face>
 bool mousse::MeshedSurface<Face>::canReadType
@@ -45,6 +53,8 @@ bool mousse::MeshedSurface<Face>::canReadType
     "reading"
  );
 }
+
+
 template<class Face>
 bool mousse::MeshedSurface<Face>::canWriteType
 (
@@ -60,6 +70,8 @@ bool mousse::MeshedSurface<Face>::canWriteType
     "writing"
   );
 }
+
+
 template<class Face>
 bool mousse::MeshedSurface<Face>::canRead
 (
@@ -74,6 +86,8 @@ bool mousse::MeshedSurface<Face>::canRead
   }
   return canReadType(ext, verbose);
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::write
 (
@@ -101,14 +115,15 @@ void mousse::MeshedSurface<Face>::write
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "MeshedSurface::write"
         "(const fileName&, const MeshedSurface&)"
-      )   << "Unknown file extension " << ext << nl << nl
-        << "Valid types are :" << endl
-        << (supported | writeTypes())
-        << exit(FatalError);
+      )
+      << "Unknown file extension " << ext << nl << nl
+      << "Valid types are :" << endl
+      << (supported | writeTypes())
+      << exit(FatalError);
     }
   }
   else
@@ -116,25 +131,31 @@ void mousse::MeshedSurface<Face>::write
     mfIter()(name, surf);
   }
 }
+
+
 // Constructors 
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface()
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {}
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
   const Xfer<pointField>& pointLst,
-  const Xfer<List<Face> >& faceLst,
+  const Xfer<List<Face>>& faceLst,
   const Xfer<surfZoneList>& zoneLst
 )
 :
-  ParentType(List<Face>(), pointField()),
-  zones_()
+  ParentType{List<Face>(), pointField()},
+  zones_{}
 {
   reset(pointLst, faceLst, zoneLst);
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
@@ -144,7 +165,7 @@ mousse::MeshedSurface<Face>::MeshedSurface
   const UList<word>& zoneNames
 )
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {
   reset(pointLst, faceLst, Xfer<surfZoneList>());
   if (zoneSizes.size())
@@ -159,37 +180,43 @@ mousse::MeshedSurface<Face>::MeshedSurface
     }
   }
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
   const MeshedSurface<Face>& surf
 )
 :
-  ParentType(surf.faces(), surf.points()),
-  zones_(surf.surfZones())
+  ParentType{surf.faces(), surf.points()},
+  zones_{surf.surfZones()}
 {}
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
   const UnsortedMeshedSurface<Face>& surf
 )
 :
-  ParentType(List<Face>(), surf.points())
+  ParentType{List<Face>(), surf.points()}
 {
   labelList faceMap;
   this->storedZones() = surf.sortedZones(faceMap);
   const List<Face>& origFaces = surf.faces();
-  List<Face> newFaces(origFaces.size());
-  forAll(newFaces, faceI)
+  List<Face> newFaces{origFaces.size()};
+  FOR_ALL(newFaces, faceI)
   {
     newFaces[faceMap[faceI]] = origFaces[faceI];
   }
   this->storedFaces().transfer(newFaces);
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface(const surfMesh& mesh)
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {
   // same face type as surfMesh
   MeshedSurface<face> surf
@@ -200,6 +227,8 @@ mousse::MeshedSurface<Face>::MeshedSurface(const surfMesh& mesh)
   );
   this->transcribe(surf);
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
@@ -207,7 +236,7 @@ mousse::MeshedSurface<Face>::MeshedSurface
   const bool useGlobalPoints
 )
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {
   const polyMesh& mesh = bMesh.mesh();
   const polyPatchList& bPatches = bMesh;
@@ -236,7 +265,7 @@ mousse::MeshedSurface<Face>::MeshedSurface
   surfZoneList newZones(bPatches.size());
   label startFaceI = 0;
   label nZone = 0;
-  forAll(bPatches, patchI)
+  FOR_ALL(bPatches, patchI)
   {
     const polyPatch& p = bPatches[patchI];
     if (p.size())
@@ -262,6 +291,8 @@ mousse::MeshedSurface<Face>::MeshedSurface
   );
   this->transcribe(surf);
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
@@ -269,17 +300,21 @@ mousse::MeshedSurface<Face>::MeshedSurface
   const word& ext
 )
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {
   read(name, ext);
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface(const fileName& name)
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {
   read(name);
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
@@ -287,21 +322,21 @@ mousse::MeshedSurface<Face>::MeshedSurface
   const word& surfName
 )
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {
   surfMesh mesh
-  (
+  {
     IOobject
-    (
+    {
       "dummyName",
       t.timeName(),
       t,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     surfName
-  );
+  };
   // same face type as surfMesh
   MeshedSurface<face> surf
   (
@@ -311,30 +346,38 @@ mousse::MeshedSurface<Face>::MeshedSurface
   );
   this->transcribe(surf);
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
   const Xfer<UnsortedMeshedSurface<Face> >& surf
 )
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {
   transfer(surf());
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::MeshedSurface
 (
   const Xfer<MeshedSurface<Face> >& surf
 )
 :
-  ParentType(List<Face>(), pointField())
+  ParentType{List<Face>(), pointField()}
 {
   transfer(surf());
 }
+
+
 // Destructor 
 template<class Face>
 mousse::MeshedSurface<Face>::~MeshedSurface()
 {}
+
+
 // Protected Member Functions 
 template<class Face>
 void mousse::MeshedSurface<Face>::remapFaces
@@ -355,7 +398,7 @@ void mousse::MeshedSurface<Face>::remapFaces
     {
       label newFaceI = 0;
       label origEndI = 0;
-      forAll(zones, zoneI)
+      FOR_ALL(zones, zoneI)
       {
         surfZone& zone = zones[zoneI];
         // adjust zone start
@@ -378,6 +421,8 @@ void mousse::MeshedSurface<Face>::remapFaces
     }
   }
 }
+
+
 // Member Functions 
 template<class Face>
 void mousse::MeshedSurface<Face>::clear()
@@ -387,6 +432,8 @@ void mousse::MeshedSurface<Face>::clear()
   storedFaces().clear();
   storedZones().clear();
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::movePoints(const pointField& newPoints)
 {
@@ -395,6 +442,8 @@ void mousse::MeshedSurface<Face>::movePoints(const pointField& newPoints)
   // Copy new points
   storedPoints() = newPoints;
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::scalePoints(const scalar scaleFactor)
 {
@@ -407,6 +456,8 @@ void mousse::MeshedSurface<Face>::scalePoints(const scalar scaleFactor)
     storedPoints() = newPoints;
   }
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::reset
 (
@@ -431,6 +482,8 @@ void mousse::MeshedSurface<Face>::reset
     storedZones().transfer(zoneLst());
   }
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::reset
 (
@@ -455,6 +508,8 @@ void mousse::MeshedSurface<Face>::reset
     storedZones().transfer(zoneLst());
   }
 }
+
+
 // Remove badly degenerate faces, double faces.
 template<class Face>
 void mousse::MeshedSurface<Face>::cleanup(const bool verbose)
@@ -464,6 +519,8 @@ void mousse::MeshedSurface<Face>::cleanup(const bool verbose)
   checkFaces(verbose);
   this->checkTopology(verbose);
 }
+
+
 template<class Face>
 bool mousse::MeshedSurface<Face>::stitchFaces
 (
@@ -488,13 +545,13 @@ bool mousse::MeshedSurface<Face>::stitchFaces
   // Set the coordinates to the merged ones
   pointLst.transfer(newPoints);
   List<Face>& faceLst = this->storedFaces();
-  List<label> faceMap(faceLst.size());
+  List<label> faceMap{faceLst.size()};
   // Reset the point labels to the unique points array
   label newFaceI = 0;
-  forAll(faceLst, faceI)
+  FOR_ALL(faceLst, faceI)
   {
     Face& f = faceLst[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       f[fp] = pointMap[f[fp]];
     }
@@ -533,6 +590,8 @@ bool mousse::MeshedSurface<Face>::stitchFaces
   ParentType::clearOut();
   return true;
 }
+
+
 // Remove badly degenerate faces and double faces.
 template<class Face>
 bool mousse::MeshedSurface<Face>::checkFaces
@@ -542,24 +601,24 @@ bool mousse::MeshedSurface<Face>::checkFaces
 {
   bool changed = false;
   List<Face>& faceLst = this->storedFaces();
-  List<label> faceMap(faceLst.size());
+  List<label> faceMap{faceLst.size()};
   label newFaceI = 0;
   // Detect badly labelled faces and mark degenerate faces
   const label maxPointI = this->points().size() - 1;
-  forAll(faceLst, faceI)
+  FOR_ALL(faceLst, faceI)
   {
     Face& f = faceLst[faceI];
     // avoid degenerate faces
     if (f.collapse() >= 3)
     {
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (f[fp] < 0 || f[fp] > maxPointI)
         {
-          FatalErrorIn("MeshedSurface::checkFaces(bool)")
+          FATAL_ERROR_IN("MeshedSurface::checkFaces(bool)")
             << "face " << f
             << " uses point indices outside point range 0.."
-          << maxPointI
+            << maxPointI
             << exit(FatalError);
         }
       }
@@ -573,11 +632,12 @@ bool mousse::MeshedSurface<Face>::checkFaces
       changed = true;
       if (verbose)
       {
-        WarningIn
+        WARNING_IN
         (
           "MeshedSurface::checkFaces(bool verbose)"
-        )   << "face[" << faceI << "] = " << f
-          << " does not have three unique vertices" << endl;
+        )
+        << "face[" << faceI << "] = " << f
+        << " does not have three unique vertices" << endl;
       }
     }
   }
@@ -585,7 +645,7 @@ bool mousse::MeshedSurface<Face>::checkFaces
   // do not touch the faces
   const labelListList& fFaces = this->faceFaces();
   newFaceI = 0;
-  forAll(faceLst, faceI)
+  FOR_ALL(faceLst, faceI)
   {
     // skip already collapsed faces:
     if (faceMap[faceI] < 0)
@@ -598,7 +658,7 @@ bool mousse::MeshedSurface<Face>::checkFaces
     const labelList& neighbours = fFaces[faceI];
     // Check if faceNeighbours use same points as this face.
     // Note: discards normal information - sides of baffle are merged.
-    forAll(neighbours, neighI)
+    FOR_ALL(neighbours, neighI)
     {
       const label neiFaceI = neighbours[neighI];
       if (neiFaceI <= faceI || faceMap[neiFaceI] < 0)
@@ -613,12 +673,13 @@ bool mousse::MeshedSurface<Face>::checkFaces
         okay = false;
         if (verbose)
         {
-          WarningIn
+          WARNING_IN
           (
             "MeshedSurface::checkFaces(bool verbose)"
-          )   << "faces share the same vertices:" << nl
-            << "    face[" << faceI << "] : " << f << nl
-            << "    face[" << neiFaceI << "] : " << nei << endl;
+          )
+          << "faces share the same vertices:" << nl
+          << "    face[" << faceI << "] : " << f << nl
+          << "    face[" << neiFaceI << "] : " << nei << endl;
           // printFace(Warning, "    ", f, points());
           // printFace(Warning, "    ", nei, points());
         }
@@ -642,15 +703,16 @@ bool mousse::MeshedSurface<Face>::checkFaces
     changed = true;
     if (verbose)
     {
-      WarningIn
+      WARNING_IN
       (
         "MeshedSurface::checkFaces(bool verbose)"
-      )   << "Removed " << faceLst.size() - newFaceI
-        << " illegal faces." << endl;
+      )
+      << "Removed " << faceLst.size() - newFaceI
+      << " illegal faces." << endl;
     }
     // compress the face list
     newFaceI = 0;
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       if (faceMap[faceI] >= 0)
       {
@@ -670,6 +732,8 @@ bool mousse::MeshedSurface<Face>::checkFaces
   ParentType::clearOut();
   return changed;
 }
+
+
 template<class Face>
 mousse::label mousse::MeshedSurface<Face>::triangulate()
 {
@@ -678,6 +742,8 @@ mousse::label mousse::MeshedSurface<Face>::triangulate()
     const_cast<List<label>&>(List<label>::null())
   );
 }
+
+
 template<class Face>
 mousse::label mousse::MeshedSurface<Face>::triangulate
 (
@@ -688,7 +754,7 @@ mousse::label mousse::MeshedSurface<Face>::triangulate
   label maxTri = 0;  // the maximum number of triangles for any single face
   List<Face>& faceLst = this->storedFaces();
   // determine how many triangles will be needed
-  forAll(faceLst, faceI)
+  FOR_ALL(faceLst, faceI)
   {
     const label n = faceLst[faceI].nTriangles();
     if (maxTri < n)
@@ -706,7 +772,7 @@ mousse::label mousse::MeshedSurface<Face>::triangulate
     }
     return 0;
   }
-  List<Face>  newFaces(nTri);
+  List<Face> newFaces{nTri};
   List<label> faceMap;
   // reuse storage from optional faceMap
   if (notNull(faceMapOut))
@@ -721,7 +787,7 @@ mousse::label mousse::MeshedSurface<Face>::triangulate
     // triangulate without points
     // simple face triangulation around f[0]
     label newFaceI = 0;
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       const Face& f = faceLst[faceI];
       for (label fp = 1; fp < f.size() - 1; ++fp)
@@ -736,9 +802,9 @@ mousse::label mousse::MeshedSurface<Face>::triangulate
   else
   {
     // triangulate with points
-    List<face> tmpTri(maxTri);
+    List<face> tmpTri{maxTri};
     label newFaceI = 0;
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       // 'face' not '<Face>'
       const face& f = faceLst[faceI];
@@ -747,9 +813,9 @@ mousse::label mousse::MeshedSurface<Face>::triangulate
       for (label triI = 0; triI < nTmp; triI++)
       {
         newFaces[newFaceI] = Face
-        (
+        {
           static_cast<labelUList&>(tmpTri[triI])
-        );
+        };
         faceMap[newFaceI] = faceI;
         newFaceI++;
       }
@@ -767,6 +833,8 @@ mousse::label mousse::MeshedSurface<Face>::triangulate
   ParentType::clearOut();
   return nTri;
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face> mousse::MeshedSurface<Face>::subsetMesh
 (
@@ -780,28 +848,28 @@ mousse::MeshedSurface<Face> mousse::MeshedSurface<Face>::subsetMesh
   // Fill pointMap, faceMap
   PatchTools::subsetMap(*this, include, pointMap, faceMap);
   // Create compact coordinate list and forward mapping array
-  pointField newPoints(pointMap.size());
-  labelList oldToNew(locPoints.size());
-  forAll(pointMap, pointI)
+  pointField newPoints{pointMap.size()};
+  labelList oldToNew{locPoints.size()};
+  FOR_ALL(pointMap, pointI)
   {
     newPoints[pointI] = locPoints[pointMap[pointI]];
     oldToNew[pointMap[pointI]] = pointI;
   }
   // create/copy a new zones list, each zone with zero size
-  surfZoneList newZones(this->surfZones());
-  forAll(newZones, zoneI)
+  surfZoneList newZones{this->surfZones()};
+  FOR_ALL(newZones, zoneI)
   {
     newZones[zoneI].size() = 0;
   }
   // Renumber face node labels
-  List<Face> newFaces(faceMap.size());
-  forAll(faceMap, faceI)
+  List<Face> newFaces{faceMap.size()};
+  FOR_ALL(faceMap, faceI)
   {
     const label origFaceI = faceMap[faceI];
     newFaces[faceI] = Face(locFaces[origFaceI]);
     // Renumber labels for face
     Face& f = newFaces[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       f[fp] = oldToNew[f[fp]];
     }
@@ -811,7 +879,7 @@ mousse::MeshedSurface<Face> mousse::MeshedSurface<Face>::subsetMesh
   label newFaceI = 0;
   label origEndI = 0;
   // adjust zone sizes
-  forAll(newZones, zoneI)
+  FOR_ALL(newZones, zoneI)
   {
     surfZone& zone = newZones[zoneI];
     // adjust zone start
@@ -839,6 +907,8 @@ mousse::MeshedSurface<Face> mousse::MeshedSurface<Face>::subsetMesh
     xferMove(newZones)
   );
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face> mousse::MeshedSurface<Face>::subsetMesh
 (
@@ -848,6 +918,8 @@ mousse::MeshedSurface<Face> mousse::MeshedSurface<Face>::subsetMesh
   labelList pointMap, faceMap;
   return subsetMesh(include, pointMap, faceMap);
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::transfer
 (
@@ -861,6 +933,8 @@ void mousse::MeshedSurface<Face>::transfer
     xferMove(surf.storedZones())
   );
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::transfer
 (
@@ -883,7 +957,7 @@ void mousse::MeshedSurface<Face>::transfer
   {
     List<Face>& oldFaces = surf.storedFaces();
     List<Face> newFaces(faceMap.size());
-    forAll(faceMap, faceI)
+    FOR_ALL(faceMap, faceI)
     {
       newFaces[faceMap[faceI]].transfer(oldFaces[faceI]);
     }
@@ -897,11 +971,15 @@ void mousse::MeshedSurface<Face>::transfer
   faceMap.clear();
   surf.clear();
 }
+
+
 template<class Face>
 mousse::Xfer<mousse::MeshedSurface<Face> > mousse::MeshedSurface<Face>::xfer()
 {
   return xferMove(*this);
 }
+
+
 // Read from file, determine format from extension
 template<class Face>
 bool mousse::MeshedSurface<Face>::read(const fileName& name)
@@ -917,6 +995,8 @@ bool mousse::MeshedSurface<Face>::read(const fileName& name)
     return read(name, ext);
   }
 }
+
+
 // Read from file in given format
 template<class Face>
 bool mousse::MeshedSurface<Face>::read
@@ -930,6 +1010,8 @@ bool mousse::MeshedSurface<Face>::read
   transfer(New(name, ext)());
   return true;
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::write
 (
@@ -939,6 +1021,8 @@ void mousse::MeshedSurface<Face>::write
 {
   MeshedSurfaceProxy<Face>(*this).write(t, surfName);
 }
+
+
 // Member Operators 
 template<class Face>
 void mousse::MeshedSurface<Face>::operator=(const MeshedSurface& surf)
@@ -948,6 +1032,8 @@ void mousse::MeshedSurface<Face>::operator=(const MeshedSurface& surf)
   this->storedFaces()  = surf.faces();
   this->storedZones()  = surf.surfZones();
 }
+
+
 template<class Face>
 mousse::MeshedSurface<Face>::operator mousse::MeshedSurfaceProxy<Face>() const
 {
@@ -958,6 +1044,7 @@ mousse::MeshedSurface<Face>::operator mousse::MeshedSurfaceProxy<Face>() const
     this->surfZones()
   );
 }
+
 #include "meshed_surface_zones.cpp"
 #include "meshed_surface_io.cpp"
 #include "meshed_surface_new.cpp"

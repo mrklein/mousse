@@ -52,7 +52,7 @@ class pressureInletOutletParSlipVelocityFvPatchVectorField
     word rhoName_;
 public:
   //- Runtime type information
-  TypeName("pressureInletOutletParSlipVelocity");
+  TYPE_NAME("pressureInletOutletParSlipVelocity");
   // Constructors
     //- Construct from patch and internal field
     pressureInletOutletParSlipVelocityFvPatchVectorField

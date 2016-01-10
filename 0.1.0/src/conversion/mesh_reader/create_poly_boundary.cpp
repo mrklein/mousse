@@ -60,10 +60,10 @@ void mousse::meshReader::createPolyBoundary()
   label nInterfaces = 0;
   const faceListList& cFaces = cellFaces();
   // determine number of non-patched faces:
-  forAll(cellPolys_, cellI)
+  FOR_ALL(cellPolys_, cellI)
   {
     cell& curCell = cellPolys_[cellI];
-    forAll(curCell, fI)
+    FOR_ALL(curCell, fI)
     {
       if (curCell[fI] < 0)
       {
@@ -71,7 +71,7 @@ void mousse::meshReader::createPolyBoundary()
       }
     }
   }
-  forAll(boundaryIds_, patchI)
+  FOR_ALL(boundaryIds_, patchI)
   {
     nBoundaryFaces += boundaryIds_[patchI].size();
   }
@@ -85,7 +85,7 @@ void mousse::meshReader::createPolyBoundary()
   label baffleOffset  = cFaces.size();
   interfaces_.setSize(baffleIds_.size());
   nBoundaryFaces = 0;
-  forAll(boundaryIds_, patchI)
+  FOR_ALL(boundaryIds_, patchI)
   {
     const List<cellFaceIdentifier>& idList = boundaryIds_[patchI];
     patchStarts_[patchI] = nCreatedFaces;
@@ -96,7 +96,7 @@ void mousse::meshReader::createPolyBoundary()
       for (label side = 0; side < 2; ++side)
       {
         label position = nInterfaces;
-        forAll(idList, bndI)
+        FOR_ALL(idList, bndI)
         {
           label baffleI = idList[bndI].cell - baffleOffset;
           if
@@ -131,7 +131,7 @@ void mousse::meshReader::createPolyBoundary()
       // translate the "monitoring" pseudo-boundaries to face sets
       List<label> monitoring(idList.size());
       label monitorI = 0;
-      forAll(idList, bndI)
+      FOR_ALL(idList, bndI)
       {
         label cellId = idList[bndI].cell;
         label faceId = idList[bndI].face;
@@ -149,7 +149,7 @@ void mousse::meshReader::createPolyBoundary()
     }
     else
     {
-      forAll(idList, bndI)
+      FOR_ALL(idList, bndI)
       {
         // standard case: volume cells
         if (idList[bndI].cell < baffleOffset)
@@ -174,7 +174,7 @@ void mousse::meshReader::createPolyBoundary()
   for (label side = 0; side < 2; ++side)
   {
     label position = nInterfaces;
-    forAll(baffleIds_, baffleI)
+    FOR_ALL(baffleIds_, baffleI)
     {
       if (baffleIds_[baffleI].size())
       {
@@ -198,10 +198,10 @@ void mousse::meshReader::createPolyBoundary()
   }
   nInterfaces += (nMissingFaces - (nMissingFaces % 2)) / 2;
   // scan for any other missing faces
-  forAll(cellPolys_, cellI)
+  FOR_ALL(cellPolys_, cellI)
   {
     const labelList& curFaces = cellPolys_[cellI];
-    forAll(curFaces, cellFaceI)
+    FOR_ALL(curFaces, cellFaceI)
     {
       if (curFaces[cellFaceI] < 0)
       {
@@ -235,10 +235,10 @@ void mousse::meshReader::createPolyBoundary()
   // check the mesh for face mismatch
   // (faces addressed once or more than twice)
   labelList markupFaces(meshFaces_.size(), 0);
-  forAll(cellPolys_, cellI)
+  FOR_ALL(cellPolys_, cellI)
   {
     const labelList& curFaces = cellPolys_[cellI];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       markupFaces[curFaces[faceI]]++;
     }
@@ -248,7 +248,7 @@ void mousse::meshReader::createPolyBoundary()
     markupFaces[i]++;
   }
   label nProblemFaces = 0;
-  forAll(markupFaces, faceI)
+  FOR_ALL(markupFaces, faceI)
   {
     if (markupFaces[faceI] != 2)
     {
@@ -281,7 +281,7 @@ mousse::meshReader::polyBoundaryPatches(const polyMesh& mesh)
   label nPatches = patchStarts_.size();
   // avoid empty patches - move to the end of the lists and truncate
   labelList oldToNew = identity(nPatches);
-  forAll(patchSizes_, patchI)
+  FOR_ALL(patchSizes_, patchI)
   {
     if (patchSizes_[patchI] > 0)
     {
@@ -322,7 +322,7 @@ mousse::meshReader::polyBoundaryPatches(const polyMesh& mesh)
     "defaultFaces",
     defaultFacesType
   );
-  forAll(patchDicts, patchI)
+  FOR_ALL(patchDicts, patchI)
   {
     if (!patchDicts.set(patchI))
     {
@@ -339,7 +339,7 @@ mousse::meshReader::polyBoundaryPatches(const polyMesh& mesh)
     patchDict.add("nFaces", patchSizes_[patchI], true);
     patchDict.add("startFace", patchStarts_[patchI], true);
   }
-  forAll(patchStarts_, patchI)
+  FOR_ALL(patchStarts_, patchI)
   {
     p[patchI] = polyPatch::New
     (

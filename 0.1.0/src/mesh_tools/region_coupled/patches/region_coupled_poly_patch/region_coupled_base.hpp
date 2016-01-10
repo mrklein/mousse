@@ -44,7 +44,7 @@ protected:
     virtual void clearGeom();
 public:
   //- Runtime type information
-  TypeName("regionCoupledBase");
+  TYPE_NAME("regionCoupledBase");
   // Constructors
     //- Construct from patch
     regionCoupledBase(const polyPatch&);

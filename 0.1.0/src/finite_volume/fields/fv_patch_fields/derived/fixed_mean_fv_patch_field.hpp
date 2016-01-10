@@ -41,7 +41,7 @@ protected:
     Type meanValue_;
 public:
   //- Runtime type information
-  TypeName("fixedMean");
+  TYPE_NAME("fixedMean");
   // Constructors
     //- Construct from patch and internal field
     fixedMeanFvPatchField

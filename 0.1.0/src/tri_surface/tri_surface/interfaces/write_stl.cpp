@@ -15,7 +15,7 @@ void mousse::triSurface::writeSTLASCII(const bool writeSorted, Ostream& os) cons
   if (writeSorted)
   {
     label faceIndex = 0;
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       // Print all faces belonging to this region
       const surfacePatch& patch = myPatches[patchI];
@@ -52,16 +52,16 @@ void mousse::triSurface::writeSTLASCII(const bool writeSorted, Ostream& os) cons
   {
     // Get patch (=compact region) per face
     labelList patchIDs(size());
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       label faceI = myPatches[patchI].start();
-      forAll(myPatches[patchI], i)
+      FOR_ALL(myPatches[patchI], i)
       {
         patchIDs[faceMap[faceI++]] = patchI;
       }
     }
     label currentPatchI = -1;
-    forAll(*this, faceI)
+    FOR_ALL(*this, faceI)
     {
       if (currentPatchI != patchIDs[faceI])
       {
@@ -106,7 +106,7 @@ void mousse::triSurface::writeSTLBINARY(std::ostream& os) const
   label nTris = size();
   os.write(reinterpret_cast<char*>(&nTris), sizeof(unsigned int));
   const vectorField& normals = faceNormals();
-  forAll(*this, faceI)
+  FOR_ALL(*this, faceI)
   {
     const labelledTri& f = (*this)[faceI];
     // Convert vector into STL single precision

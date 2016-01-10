@@ -31,7 +31,7 @@ class gaussLaplacianScheme
     void operator=(const gaussLaplacianScheme&);
 public:
   //- Runtime type information
-  TypeName("Gauss");
+  TYPE_NAME("Gauss");
   // Constructors
     //- Construct null
     gaussLaplacianScheme(const fvMesh& mesh)

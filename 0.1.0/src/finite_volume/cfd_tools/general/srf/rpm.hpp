@@ -29,7 +29,7 @@ class rpm
     void operator=(const rpm&);
 public:
   //- Runtime type information
-  TypeName("rpm");
+  TYPE_NAME("rpm");
   // Constructors
     //- Construct from components
     rpm(const volVectorField& U);

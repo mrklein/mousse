@@ -14,7 +14,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(motionSmootherAlgo, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(motionSmootherAlgo, 0);
 }
 // Private Member Functions 
 void mousse::motionSmootherAlgo::testSyncPositions
@@ -31,11 +31,11 @@ void mousse::motionSmootherAlgo::testSyncPositions
     minEqOp<point>(),           // combine op
     point(GREAT,GREAT,GREAT)    // null
   );
-  forAll(syncedFld, i)
+  FOR_ALL(syncedFld, i)
   {
     if (mag(syncedFld[i] - fld[i]) > maxMag)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "motionSmootherAlgo::testSyncPositions"
         "("
@@ -50,14 +50,14 @@ void mousse::motionSmootherAlgo::testSyncPositions
 }
 void mousse::motionSmootherAlgo::checkFld(const pointScalarField& fld)
 {
-  forAll(fld, pointI)
+  FOR_ALL(fld, pointI)
   {
     const scalar val = fld[pointI];
     if ((val > -GREAT) && (val < GREAT))
     {}
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "motionSmootherAlgo::checkFld"
         "(const pointScalarField&)"
@@ -72,10 +72,10 @@ mousse::labelHashSet mousse::motionSmootherAlgo::getPoints
 ) const
 {
   labelHashSet usedPoints(mesh_.nPoints()/100);
-  forAllConstIter(labelHashSet, faceLabels, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, faceLabels, iter)
   {
     const face& f = mesh_.faces()[iter.key()];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       usedPoints.insert(f[fp]);
     }
@@ -90,7 +90,7 @@ mousse::tmp<mousse::scalarField> mousse::motionSmootherAlgo::calcEdgeWeights
   const edgeList& edges = mesh_.edges();
   tmp<scalarField> twght(new scalarField(edges.size()));
   scalarField& wght = twght();
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     wght[edgeI] = 1.0/(edges[edgeI].mag(points)+SMALL);
   }
@@ -112,7 +112,7 @@ void mousse::motionSmootherAlgo::minSmooth
     edgeWeights //scalarField(mesh_.nEdges(), 1.0)    // uniform weighting
   );
   const pointScalarField& avgFld = tavgFld();
-  forAll(meshPoints, i)
+  FOR_ALL(meshPoints, i)
   {
     label pointI = meshPoints[i];
     if (isAffectedPoint.get(pointI) == 1)
@@ -142,7 +142,7 @@ void mousse::motionSmootherAlgo::minSmooth
     edgeWeights //scalarField(mesh_.nEdges(), 1.0)    // uniform weighting
   );
   const pointScalarField& avgFld = tavgFld();
-  forAll(fld, pointI)
+  FOR_ALL(fld, pointI)
   {
     if (isAffectedPoint.get(pointI) == 1 && isInternalPoint(pointI))
     {
@@ -164,7 +164,7 @@ void mousse::motionSmootherAlgo::scaleField
   pointScalarField& fld
 ) const
 {
-  forAllConstIter(labelHashSet, pointLabels, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, pointLabels, iter)
   {
     if (isInternalPoint(iter.key()))
     {
@@ -183,7 +183,7 @@ void mousse::motionSmootherAlgo::scaleField
   pointScalarField& fld
 ) const
 {
-  forAll(meshPoints, i)
+  FOR_ALL(meshPoints, i)
   {
     label pointI = meshPoints[i];
     if (pointLabels.found(pointI))
@@ -200,7 +200,7 @@ void mousse::motionSmootherAlgo::subtractField
   pointScalarField& fld
 ) const
 {
-  forAllConstIter(labelHashSet, pointLabels, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, pointLabels, iter)
   {
     if (isInternalPoint(iter.key()))
     {
@@ -219,7 +219,7 @@ void mousse::motionSmootherAlgo::subtractField
   pointScalarField& fld
 ) const
 {
-  forAll(meshPoints, i)
+  FOR_ALL(meshPoints, i)
   {
     label pointI = meshPoints[i];
     if (pointLabels.found(pointI))
@@ -250,13 +250,13 @@ void mousse::motionSmootherAlgo::getAffectedFacesAndPoints
   for (label i = 0; i < nPointIter; i++)
   {
     pointSet nbrPoints(mesh_, "grownPoints", getPoints(nbrFaces.toc()));
-    forAllConstIter(pointSet, nbrPoints, iter)
+    FOR_ALL_CONST_ITER(pointSet, nbrPoints, iter)
     {
       const labelList& pCells = mesh_.pointCells(iter.key());
-      forAll(pCells, pCellI)
+      FOR_ALL(pCells, pCellI)
       {
         const cell& cFaces = mesh_.cells()[pCells[pCellI]];
-        forAll(cFaces, cFaceI)
+        FOR_ALL(cFaces, cFaceI)
         {
           nbrFaces.insert(cFaces[cFaceI]);
         }
@@ -265,10 +265,10 @@ void mousse::motionSmootherAlgo::getAffectedFacesAndPoints
     nbrFaces.sync(mesh_);
     if (i == nPointIter - 2)
     {
-      forAllConstIter(faceSet, nbrFaces, iter)
+      FOR_ALL_CONST_ITER(faceSet, nbrFaces, iter)
       {
         const face& f = mesh_.faces()[iter.key()];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           isAffectedPoint.set(f[fp], 1);
         }
@@ -342,7 +342,7 @@ void mousse::motionSmootherAlgo::setDisplacementPatchFields
 {
   // Adapt the fixedValue bc's (i.e. copy internal point data to
   // boundaryField for all affected patches)
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchI = patchIDs[i];
     displacement.boundaryField()[patchI] ==
@@ -355,7 +355,7 @@ void mousse::motionSmootherAlgo::setDisplacementPatchFields
   labelHashSet adaptPatchSet(patchIDs);
   const lduSchedule& patchSchedule = displacement.mesh().globalData().
     patchSchedule();
-  forAll(patchSchedule, patchEvalI)
+  FOR_ALL(patchSchedule, patchEvalI)
   {
     label patchI = patchSchedule[patchEvalI].patch;
     if (!adaptPatchSet.found(patchI))
@@ -377,7 +377,7 @@ void mousse::motionSmootherAlgo::setDisplacementPatchFields
   // Adapt the fixedValue bc's (i.e. copy internal point data to
   // boundaryField for all affected patches) to take the changes caused
   // by multi-corner constraints into account.
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchI = patchIDs[i];
     displacement.boundaryField()[patchI] ==
@@ -402,13 +402,13 @@ void mousse::motionSmootherAlgo::setDisplacement
   // want to see effect of proper fixedValue boundary conditions
   const labelList& cppMeshPoints =
     mesh.globalData().coupledPatch().meshPoints();
-  forAll(cppMeshPoints, i)
+  FOR_ALL(cppMeshPoints, i)
   {
     displacement[cppMeshPoints[i]] = vector::zero;
   }
   const labelList& ppMeshPoints = pp.meshPoints();
   // Set internal point data from displacement on combined patch points.
-  forAll(ppMeshPoints, patchPointI)
+  FOR_ALL(ppMeshPoints, patchPointI)
   {
     displacement[ppMeshPoints[patchPointI]] = patchDisp[patchPointI];
   }
@@ -427,7 +427,7 @@ void mousse::motionSmootherAlgo::setDisplacement
   {
     OFstream str(mesh.db().path()/"changedPoints.obj");
     label nVerts = 0;
-    forAll(ppMeshPoints, patchPointI)
+    FOR_ALL(ppMeshPoints, patchPointI)
     {
       const vector& newDisp = displacement[ppMeshPoints[patchPointI]];
       if (mag(newDisp-patchDisp[patchPointI]) > SMALL)
@@ -444,7 +444,7 @@ void mousse::motionSmootherAlgo::setDisplacement
       << str.name() << endl;
   }
   // Now reset input displacement
-  forAll(ppMeshPoints, patchPointI)
+  FOR_ALL(ppMeshPoints, patchPointI)
   {
     patchDisp[patchPointI] = displacement[ppMeshPoints[patchPointI]];
   }
@@ -462,7 +462,7 @@ void mousse::motionSmootherAlgo::correctBoundaryConditions
   labelHashSet adaptPatchSet(adaptPatchIDs_);
   const lduSchedule& patchSchedule = mesh_.globalData().patchSchedule();
   // 1. evaluate on adaptPatches
-  forAll(patchSchedule, patchEvalI)
+  FOR_ALL(patchSchedule, patchEvalI)
   {
     label patchI = patchSchedule[patchEvalI].patch;
     if (adaptPatchSet.found(patchI))
@@ -480,7 +480,7 @@ void mousse::motionSmootherAlgo::correctBoundaryConditions
     }
   }
   // 2. evaluate on non-AdaptPatches
-  forAll(patchSchedule, patchEvalI)
+  FOR_ALL(patchSchedule, patchEvalI)
   {
     label patchI = patchSchedule[patchEvalI].patch;
     if (!adaptPatchSet.found(patchI))
@@ -517,7 +517,7 @@ void mousse::motionSmootherAlgo::modifyMotionPoints(pointField& newPoints) const
     Info<< "Correcting 2-D mesh motion";
     if (mesh_.globalData().parallel())
     {
-      WarningIn("motionSmootherAlgo::modifyMotionPoints(pointField&)")
+      WARNING_IN("motionSmootherAlgo::modifyMotionPoints(pointField&)")
         << "2D mesh-motion probably not correct in parallel" << endl;
     }
     // We do not want to move 3D planes so project all points onto those
@@ -525,7 +525,7 @@ void mousse::motionSmootherAlgo::modifyMotionPoints(pointField& newPoints) const
     const edgeList& edges = mesh_.edges();
     const labelList& neIndices = twoDCorrector.normalEdgeIndices();
     const vector& pn = twoDCorrector.planeNormal();
-    forAll(neIndices, i)
+    FOR_ALL(neIndices, i)
     {
       const edge& e = edges[neIndices[i]];
       point& pStart = newPoints[e.start()];
@@ -604,7 +604,7 @@ mousse::tmp<mousse::pointField> mousse::motionSmootherAlgo::curPoints() const
   {
     const pointBoundaryMesh& pbm = displacement_.mesh().boundary();
     actualPatchTypes.setSize(pbm.size());
-    forAll(pbm, patchI)
+    FOR_ALL(pbm, patchI)
     {
       actualPatchTypes[patchI] = pbm[patchI].type();
     }
@@ -614,7 +614,7 @@ mousse::tmp<mousse::pointField> mousse::motionSmootherAlgo::curPoints() const
     const pointVectorField::GeometricBoundaryField& pfld =
       displacement_.boundaryField();
     actualPatchFieldTypes.setSize(pfld.size());
-    forAll(pfld, patchI)
+    FOR_ALL(pfld, patchI)
     {
       if (isA<fixedValuePointPatchField<vector> >(pfld[patchI]))
       {
@@ -672,7 +672,7 @@ bool mousse::motionSmootherAlgo::scaleMesh
 {
   if (!smoothMesh && adaptPatchIDs_.empty())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "motionSmootherAlgo::scaleMesh"
       "("
@@ -695,7 +695,7 @@ bool mousse::motionSmootherAlgo::scaleMesh
     // Had a problem with patches moved non-synced. Check transformations.
     const polyBoundaryMesh& patches = mesh_.boundaryMesh();
     Pout<< "Entering scaleMesh : coupled patches:" << endl;
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       if (patches[patchI].coupled())
       {
@@ -748,11 +748,11 @@ bool mousse::motionSmootherAlgo::scaleMesh
     if (mag(errorReduction) < SMALL)
     {
       labelHashSet newWrongFaces(wrongFaces);
-      forAllConstIter(labelHashSet, wrongFaces, iter)
+      FOR_ALL_CONST_ITER(labelHashSet, wrongFaces, iter)
       {
         label own = mesh_.faceOwner()[iter.key()];
         const cell& ownFaces = mesh_.cells()[own];
-        forAll(ownFaces, cfI)
+        FOR_ALL(ownFaces, cfI)
         {
           newWrongFaces.insert(ownFaces[cfI]);
         }
@@ -760,7 +760,7 @@ bool mousse::motionSmootherAlgo::scaleMesh
         {
           label nei = mesh_.faceNeighbour()[iter.key()];
           const cell& neiFaces = mesh_.cells()[nei];
-          forAll(neiFaces, cfI)
+          FOR_ALL(neiFaces, cfI)
           {
             newWrongFaces.insert(neiFaces[cfI]);
           }
@@ -848,7 +848,7 @@ void mousse::motionSmootherAlgo::updateMesh()
 {
   const pointBoundaryMesh& patches = pMesh_.boundary();
   // Check whether displacement has fixed value b.c. on adaptPatchID
-  forAll(adaptPatchIDs_, i)
+  FOR_ALL(adaptPatchIDs_, i)
   {
     label patchI = adaptPatchIDs_[i];
     if
@@ -859,7 +859,7 @@ void mousse::motionSmootherAlgo::updateMesh()
       )
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "motionSmootherAlgo::updateMesh"
       )   << "Patch " << patches[patchI].name()
@@ -874,7 +874,7 @@ void mousse::motionSmootherAlgo::updateMesh()
   // Determine internal points. Note that for twoD there are no internal
   // points so we use the points of adaptPatchIDs instead
   const labelList& meshPoints = pp_.meshPoints();
-  forAll(meshPoints, i)
+  FOR_ALL(meshPoints, i)
   {
     isInternalPoint_.unset(meshPoints[i]);
   }

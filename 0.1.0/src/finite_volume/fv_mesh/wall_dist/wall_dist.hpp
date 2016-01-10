@@ -55,7 +55,7 @@ class wallDist
     void operator=(const wallDist&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("wallDist");
+  CLASS_NAME("wallDist");
   // Constructors
     //- Construct from mesh and optional patch type name
     wallDist

@@ -40,12 +40,12 @@ tmp<GeometricField<Type, fvPatchField, volMesh> > cellReduce
   volFieldType& result = tresult();
   const labelUList& own = mesh.owner();
   const labelUList& nbr = mesh.neighbour();
-  forAll(own, i)
+  FOR_ALL(own, i)
   {
     label cellI = own[i];
     cop(result[cellI], ssf[i]);
   }
-  forAll(nbr, i)
+  FOR_ALL(nbr, i)
   {
     label cellI = nbr[i];
     cop(result[cellI], ssf[i]);

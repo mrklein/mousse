@@ -18,7 +18,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(fvMesh, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(fvMesh, 0);
 }
 // Private Member Functions 
 void mousse::fvMesh::clearGeomNotOldVol()
@@ -394,7 +394,7 @@ void mousse::fvMesh::addFvPatches
 {
   if (boundary().size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvMesh::addFvPatches(const List<polyPatch*>&, const bool)"
     )   << " boundary already exists"
@@ -490,7 +490,7 @@ void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
   || meshMap.faceMap().size() != nFaces()
   )
   {
-    FatalErrorIn("fvMesh::mapFields(const mapPolyMesh&)")
+    FATAL_ERROR_IN("fvMesh::mapFields(const mapPolyMesh&)")
       << "mapPolyMesh does not correspond to the old mesh."
       << " nCells:" << nCells()
       << " cellMap:" << meshMap.cellMap().size()
@@ -539,7 +539,7 @@ void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
     scalarField& V0 = *V0Ptr_;
     scalarField savedV0(V0);
     V0.setSize(nCells());
-    forAll(V0, i)
+    FOR_ALL(V0, i)
     {
       if (cellMap[i] > -1)
       {
@@ -552,7 +552,7 @@ void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
     }
     // Inject volume of merged cells
     label nMerged = 0;
-    forAll(meshMap.reverseCellMap(), oldCellI)
+    FOR_ALL(meshMap.reverseCellMap(), oldCellI)
     {
       label index = meshMap.reverseCellMap()[oldCellI];
       if (index < -1)
@@ -574,7 +574,7 @@ void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
     scalarField& V00 = *V00Ptr_;
     scalarField savedV00(V00);
     V00.setSize(nCells());
-    forAll(V00, i)
+    FOR_ALL(V00, i)
     {
       if (cellMap[i] > -1)
       {
@@ -587,7 +587,7 @@ void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
     }
     // Inject volume of merged cells
     label nMerged = 0;
-    forAll(meshMap.reverseCellMap(), oldCellI)
+    FOR_ALL(meshMap.reverseCellMap(), oldCellI)
     {
       label index = meshMap.reverseCellMap()[oldCellI];
       if (index < -1)
@@ -646,7 +646,7 @@ mousse::tmp<mousse::scalarField> mousse::fvMesh::movePoints(const pointField& p)
   phi.internalField() = scalarField::subField(sweptVols, nInternalFaces());
   phi.internalField() *= rDeltaT;
   const fvPatchList& patches = boundary();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     phi.boundaryField()[patchI] = patches[patchI].patchSlice(sweptVols);
     phi.boundaryField()[patchI] *= rDeltaT;
@@ -677,7 +677,7 @@ void mousse::fvMesh::updateMesh(const mapPolyMesh& mpm)
     // Few checks
     if (VPtr_ && (V().size() != mpm.nOldCells()))
     {
-      FatalErrorIn("fvMesh::updateMesh(const mapPolyMesh&)")
+      FATAL_ERROR_IN("fvMesh::updateMesh(const mapPolyMesh&)")
         << "V:" << V().size()
         << " not equal to the number of old cells "
         << mpm.nOldCells()
@@ -685,7 +685,7 @@ void mousse::fvMesh::updateMesh(const mapPolyMesh& mpm)
     }
     if (V0Ptr_ && (V0Ptr_->size() != mpm.nOldCells()))
     {
-      FatalErrorIn("fvMesh::updateMesh(const mapPolyMesh&)")
+      FATAL_ERROR_IN("fvMesh::updateMesh(const mapPolyMesh&)")
         << "V0:" << V0Ptr_->size()
         << " not equal to the number of old cells "
         << mpm.nOldCells()
@@ -693,7 +693,7 @@ void mousse::fvMesh::updateMesh(const mapPolyMesh& mpm)
     }
     if (V00Ptr_ && (V00Ptr_->size() != mpm.nOldCells()))
     {
-      FatalErrorIn("fvMesh::updateMesh(const mapPolyMesh&)")
+      FATAL_ERROR_IN("fvMesh::updateMesh(const mapPolyMesh&)")
         << "V0:" << V00Ptr_->size()
         << " not equal to the number of old cells "
         << mpm.nOldCells()

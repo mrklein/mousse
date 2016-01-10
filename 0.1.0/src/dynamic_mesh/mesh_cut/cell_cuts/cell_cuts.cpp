@@ -15,7 +15,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(cellCuts, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(cellCuts, 0);
 }
 // Private Static Functions 
 // Find val in first nElems elements of list.
@@ -42,7 +42,7 @@ mousse::boolList mousse::cellCuts::expand
 )
 {
   boolList result(size, false);
-  forAll(labels, labelI)
+  FOR_ALL(labels, labelI)
   {
     result[labels[labelI]] = true;
   }
@@ -56,7 +56,7 @@ mousse::scalarField mousse::cellCuts::expand
 )
 {
   scalarField result(size, -GREAT);
-  forAll(labels, labelI)
+  FOR_ALL(labels, labelI)
   {
     result[labels[labelI]] = weights[labelI];
   }
@@ -69,7 +69,7 @@ mousse::label mousse::cellCuts::firstUnique
   const Map<label>& map
 )
 {
-  forAll(lst, i)
+  FOR_ALL(lst, i)
   {
     if (!map.found(lst[i]))
     {
@@ -103,7 +103,7 @@ void mousse::cellCuts::writeUncutOBJ
   Pout<< "Writing raw cuts on cell for time " <<  mesh().time().timeName()
     << " to " << cutStream.name() << nl;
   const labelList& cPoints = mesh().cellPoints()[cellI];
-  forAll(cPoints, i)
+  FOR_ALL(cPoints, i)
   {
     label pointI = cPoints[i];
     if (pointIsCut_[pointI])
@@ -113,7 +113,7 @@ void mousse::cellCuts::writeUncutOBJ
   }
   const pointField& pts = mesh().points();
   const labelList& cEdges = mesh().cellEdges()[cellI];
-  forAll(cEdges, i)
+  FOR_ALL(cEdges, i)
   {
     label edgeI = cEdges[i];
     if (edgeIsCut_[edgeI])
@@ -154,7 +154,7 @@ void mousse::cellCuts::writeOBJ
   OFstream anchorStream(dir / "anchors_" + name(cellI) + ".obj");
   Pout<< "Writing anchors for time " <<  mesh().time().timeName()
     << " to " << anchorStream.name() << endl;
-  forAll(anchors, i)
+  FOR_ALL(anchors, i)
   {
     meshTools::writeOBJ(anchorStream, mesh().points()[anchors[i]]);
   }
@@ -168,7 +168,7 @@ mousse::label mousse::cellCuts::edgeEdgeToFace
 ) const
 {
   const labelList& cFaces = mesh().cells()[cellI];
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     const labelList& fEdges = mesh().faceEdges()[faceI];
@@ -183,7 +183,7 @@ mousse::label mousse::cellCuts::edgeEdgeToFace
   }
   // Coming here means the loop is illegal since the two edges
   // are not shared by a face. We just mark loop as invalid and continue.
-  WarningIn
+  WARNING_IN
   (
     "mousse::cellCuts::edgeEdgeToFace"
     "(const label cellI, const label edgeA,"
@@ -205,7 +205,7 @@ mousse::label mousse::cellCuts::edgeVertexToFace
 ) const
 {
   const labelList& cFaces = mesh().cells()[cellI];
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     const face& f = mesh().faces()[faceI];
@@ -219,7 +219,7 @@ mousse::label mousse::cellCuts::edgeVertexToFace
      return faceI;
     }
   }
-  WarningIn
+  WARNING_IN
   (
     "mousse::cellCuts::edgeVertexToFace"
     "(const label cellI, const label edgeI, "
@@ -241,7 +241,7 @@ mousse::label mousse::cellCuts::vertexVertexToFace
 ) const
 {
   const labelList& cFaces = mesh().cells()[cellI];
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     const face& f = mesh().faces()[faceI];
@@ -254,7 +254,7 @@ mousse::label mousse::cellCuts::vertexVertexToFace
      return faceI;
     }
   }
-  WarningIn("mousse::cellCuts::vertexVertexToFace")
+  WARNING_IN("mousse::cellCuts::vertexVertexToFace")
     << "cellCuts : Cannot find face on cell "
     << cellI << " that has vertex " << vertA << " and vertex "
     << vertB << endl
@@ -266,7 +266,7 @@ void mousse::cellCuts::calcFaceCuts() const
 {
   if (faceCutsPtr_)
   {
-    FatalErrorIn("cellCuts::calcFaceCuts()")
+    FATAL_ERROR_IN("cellCuts::calcFaceCuts()")
       << "faceCuts already calculated" << abort(FatalError);
   }
   const faceList& faces = mesh().faces();
@@ -286,7 +286,7 @@ void mousse::cellCuts::calcFaceCuts() const
     // middle.
     // Pass1: find first point cut not preceeded by a cut.
     label startFp = -1;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label v0 = f[fp];
       if (pointIsCut_[v0])
@@ -307,7 +307,7 @@ void mousse::cellCuts::calcFaceCuts() const
     // Pass2: first edge cut not preceeded by point cut
     if (startFp == -1)
     {
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label fp1 = f.fcIndex(fp);
         label v0 = f[fp];
@@ -330,7 +330,7 @@ void mousse::cellCuts::calcFaceCuts() const
     // Store all cuts starting from startFp;
     label fp = startFp;
     bool allVerticesCut = true;
-    forAll(f, i)
+    FOR_ALL(f, i)
     {
       label fp1 = f.fcIndex(fp);
       // Get the three items: current vertex, next vertex and edge
@@ -355,7 +355,7 @@ void mousse::cellCuts::calcFaceCuts() const
     }
     if (allVerticesCut)
     {
-      WarningIn("mousse::cellCuts::calcFaceCuts() const")
+      WARNING_IN("mousse::cellCuts::calcFaceCuts() const")
         << "Face " << faceI << " vertices " << f
         << " has all its vertices cut. Not cutting face." << endl;
       cutI = 0;
@@ -378,7 +378,7 @@ mousse::label mousse::cellCuts::findEdge
 {
   const edgeList& edges = mesh().edges();
   const labelList& fEdges = mesh().faceEdges()[faceI];
-  forAll(fEdges, i)
+  FOR_ALL(fEdges, i)
   {
     const edge& e = edges[fEdges[i]];
     if
@@ -400,13 +400,13 @@ mousse::label mousse::cellCuts::loopFace
 ) const
 {
   const cell& cFaces = mesh().cells()[cellI];
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     const labelList& fEdges = mesh().faceEdges()[faceI];
     const face& f = mesh().faces()[faceI];
     bool allOnFace = true;
-    forAll(loop, i)
+    FOR_ALL(loop, i)
     {
       label cut = loop[i];
       if (isEdge(cut))
@@ -450,7 +450,7 @@ bool mousse::cellCuts::walkPoint
 {
   label vertI = getVertex(otherCut);
   const labelList& pFaces = mesh().pointFaces()[vertI];
-  forAll(pFaces, pFaceI)
+  FOR_ALL(pFaces, pFaceI)
   {
     label otherFaceI = pFaces[pFaceI];
     if
@@ -552,7 +552,7 @@ bool mousse::cellCuts::addCut
 bool mousse::cellCuts::walkFace
 (
   const label cellI,
-  const label startCut,
+  const label /*startCut*/,
   const label faceI,
   const label cut,
   label& lastCut,
@@ -619,7 +619,7 @@ bool mousse::cellCuts::walkFace
   }
   else
   {
-    WarningIn("mousse::cellCuts::walkFace")
+    WARNING_IN("mousse::cellCuts::walkFace")
       << "In middle of cut. cell:" << cellI << " face:" << faceI
       << " cuts:" << fCuts << " current cut:" << cut << endl;
     return false;
@@ -811,7 +811,7 @@ void mousse::cellCuts::calcCellLoops(const labelList& cutCells)
   // Per cell the number of faces with valid cuts. Is used as quick
   // rejection to see if cell can be cut.
   labelList nCutFaces(mesh().nCells(), 0);
-  forAll(allFaceCuts, faceI)
+  FOR_ALL(allFaceCuts, faceI)
   {
     const labelList& fCuts = allFaceCuts[faceI];
     if (fCuts.size() == mesh().faces()[faceI].size())
@@ -836,7 +836,7 @@ void mousse::cellCuts::calcCellLoops(const labelList& cutCells)
   // Stack of visited cuts (nVisited used as stack pointer)
   // Size big enough.
   labelList visited(mesh().nPoints());
-  forAll(cutCells, i)
+  FOR_ALL(cutCells, i)
   {
     label cellI = cutCells[i];
     bool validLoop = false;
@@ -847,7 +847,7 @@ void mousse::cellCuts::calcCellLoops(const labelList& cutCells)
       if (debug & 2)
       {
         Pout<< "cell:" << cellI << " cut faces:" << endl;
-        forAll(cFaces, i)
+        FOR_ALL(cFaces, i)
         {
           label faceI = cFaces[i];
           const labelList& fCuts = allFaceCuts[faceI];
@@ -858,7 +858,7 @@ void mousse::cellCuts::calcCellLoops(const labelList& cutCells)
       }
       label nVisited = 0;
       // Determine the first cut face to start walking from.
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         label faceI = cFaces[cFaceI];
         const labelList& fCuts = allFaceCuts[faceI];
@@ -943,7 +943,7 @@ void mousse::cellCuts::walkEdges
   {
     // First visit to pointI
     const labelList& pEdges = mesh().pointEdges()[pointI];
-    forAll(pEdges, pEdgeI)
+    FOR_ALL(pEdges, pEdgeI)
     {
       label edgeI = pEdges[pEdgeI];
       if
@@ -969,7 +969,7 @@ mousse::labelList mousse::cellCuts::nonAnchorPoints
 {
   labelList newElems(cellPoints.size());
   label newElemI = 0;
-  forAll(cellPoints, i)
+  FOR_ALL(cellPoints, i)
   {
     label pointI = cellPoints[i];
     if
@@ -987,7 +987,7 @@ mousse::labelList mousse::cellCuts::nonAnchorPoints
 //- Check anchor points on 'outside' of loop
 bool mousse::cellCuts::loopAnchorConsistent
 (
-  const label cellI,
+  const label /*cellI*/,
   const pointField& loopPts,
   const labelList& anchorPoints
 ) const
@@ -998,7 +998,7 @@ bool mousse::cellCuts::loopAnchorConsistent
   point ctr = f.centre(loopPts);
   // Get average position of anchor points.
   vector avg(vector::zero);
-  forAll(anchorPoints, ptI)
+  FOR_ALL(anchorPoints, ptI)
   {
     avg += mesh().points()[anchorPoints[ptI]];
   }
@@ -1036,7 +1036,7 @@ bool mousse::cellCuts::calcAnchors
   Map<label> pointStatus(2*cPoints.size());
   Map<label> edgeStatus(2*cEdges.size());
   // Mark loop vertices
-  forAll(loop, i)
+  FOR_ALL(loop, i)
   {
     label cut = loop[i];
     if (isEdge(cut))
@@ -1050,7 +1050,7 @@ bool mousse::cellCuts::calcAnchors
   }
   // Since edges between two cut vertices have not been marked, mark them
   // explicitly
-  forAll(cEdges, i)
+  FOR_ALL(cEdges, i)
   {
     label edgeI = cEdges[i];
     const edge& e = edges[edgeI];
@@ -1063,7 +1063,7 @@ bool mousse::cellCuts::calcAnchors
   label uncutIndex = firstUnique(cPoints, pointStatus);
   if (uncutIndex == -1)
   {
-    WarningIn("mousse::cellCuts::calcAnchors")
+    WARNING_IN("mousse::cellCuts::calcAnchors")
       << "Invalid loop " << loop << " for cell " << cellI << endl
       << "Can not find point on cell which is not cut by loop."
       << endl;
@@ -1078,7 +1078,7 @@ bool mousse::cellCuts::calcAnchors
   {
     // All vertices either in loop or in anchor. So split is along single
     // face.
-    WarningIn("mousse::cellCuts::calcAnchors")
+    WARNING_IN("mousse::cellCuts::calcAnchors")
       << "Invalid loop " << loop << " for cell " << cellI << endl
       << "All vertices of cell are either in loop or in anchor set"
       << endl;
@@ -1091,7 +1091,7 @@ bool mousse::cellCuts::calcAnchors
   // Collect both sets in lists.
   DynamicList<label> connectedPoints(cPoints.size());
   DynamicList<label> otherPoints(cPoints.size());
-  forAllConstIter(Map<label>, pointStatus, iter)
+  FOR_ALL_CONST_ITER(Map<label>, pointStatus, iter)
   {
     if (iter() == 1)
     {
@@ -1108,7 +1108,7 @@ bool mousse::cellCuts::calcAnchors
   uncutIndex = firstUnique(cPoints, pointStatus);
   if (uncutIndex != -1)
   {
-    WarningIn("mousse::cellCuts::calcAnchors")
+    WARNING_IN("mousse::cellCuts::calcAnchors")
       << "Invalid loop " << loop << " for cell " << cellI
       << " since it splits the cell into more than two cells" << endl;
     writeOBJ(".", cellI, loopPts, connectedPoints);
@@ -1117,13 +1117,13 @@ bool mousse::cellCuts::calcAnchors
   // Check that both parts (connectedPoints, otherPoints) have enough faces.
   labelHashSet connectedFaces(2*cFaces.size());
   labelHashSet otherFaces(2*cFaces.size());
-  forAllConstIter(Map<label>, pointStatus, iter)
+  FOR_ALL_CONST_ITER(Map<label>, pointStatus, iter)
   {
     label pointI = iter.key();
     const labelList& pFaces = mesh().pointFaces()[pointI];
     if (iter() == 1)
     {
-      forAll(pFaces, pFaceI)
+      FOR_ALL(pFaces, pFaceI)
       {
         if (meshTools::faceOnCell(mesh(), cellI, pFaces[pFaceI]))
         {
@@ -1133,7 +1133,7 @@ bool mousse::cellCuts::calcAnchors
     }
     else if (iter() == 2)
     {
-      forAll(pFaces, pFaceI)
+      FOR_ALL(pFaces, pFaceI)
       {
         if (meshTools::faceOnCell(mesh(), cellI, pFaces[pFaceI]))
         {
@@ -1144,7 +1144,7 @@ bool mousse::cellCuts::calcAnchors
   }
   if (connectedFaces.size() < 3)
   {
-    WarningIn("mousse::cellCuts::calcAnchors")
+    WARNING_IN("mousse::cellCuts::calcAnchors")
       << "Invalid loop " << loop << " for cell " << cellI
       << " since would have too few faces on one side." << nl
       << "All faces:" << cFaces << endl;
@@ -1153,7 +1153,7 @@ bool mousse::cellCuts::calcAnchors
   }
   if (otherFaces.size() < 3)
   {
-    WarningIn("mousse::cellCuts::calcAnchors")
+    WARNING_IN("mousse::cellCuts::calcAnchors")
       << "Invalid loop " << loop << " for cell " << cellI
       << " since would have too few faces on one side." << nl
       << "All faces:" << cFaces << endl;
@@ -1165,14 +1165,14 @@ bool mousse::cellCuts::calcAnchors
   // from set1 to loop to set2 or back. Not allowed is from set1 to loop to
   // set1.
   {
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       label faceI = cFaces[i];
       const face& f = mesh().faces()[faceI];
       bool hasSet1 = false;
       bool hasSet2 = false;
       label prevStat = pointStatus[f[0]];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label v0 = f[fp];
         label pStat = pointStatus[v0];
@@ -1188,7 +1188,7 @@ bool mousse::cellCuts::calcAnchors
           if (hasSet1)
           {
             // Second occurence of set1.
-            WarningIn("mousse::cellCuts::calcAnchors")
+            WARNING_IN("mousse::cellCuts::calcAnchors")
               << "Invalid loop " << loop << " for cell " << cellI
               << " since face " << f << " would be split into"
               << " more than two faces" << endl;
@@ -1202,7 +1202,7 @@ bool mousse::cellCuts::calcAnchors
           if (hasSet2)
           {
             // Second occurence of set1.
-            WarningIn("mousse::cellCuts::calcAnchors")
+            WARNING_IN("mousse::cellCuts::calcAnchors")
               << "Invalid loop " << loop << " for cell " << cellI
               << " since face " << f << " would be split into"
               << " more than two faces" << endl;
@@ -1213,7 +1213,7 @@ bool mousse::cellCuts::calcAnchors
         }
         else
         {
-          FatalErrorIn("mousse::cellCuts::calcAnchors")
+          FATAL_ERROR_IN("mousse::cellCuts::calcAnchors")
             << abort(FatalError);
         }
         prevStat = pStat;
@@ -1232,7 +1232,7 @@ bool mousse::cellCuts::calcAnchors
           if (hasSet1)
           {
             // Second occurence of set1.
-            WarningIn("mousse::cellCuts::calcAnchors")
+            WARNING_IN("mousse::cellCuts::calcAnchors")
               << "Invalid loop " << loop << " for cell " << cellI
               << " since face " << f << " would be split into"
               << " more than two faces" << endl;
@@ -1246,7 +1246,7 @@ bool mousse::cellCuts::calcAnchors
           if (hasSet2)
           {
             // Second occurence of set1.
-            WarningIn("mousse::cellCuts::calcAnchors")
+            WARNING_IN("mousse::cellCuts::calcAnchors")
               << "Invalid loop " << loop << " for cell " << cellI
               << " since face " << f << " would be split into"
               << " more than two faces" << endl;
@@ -1269,7 +1269,7 @@ bool mousse::cellCuts::calcAnchors
     {
       // Both sets of points are supposedly on the same side as the
       // loop normal. Oops.
-      WarningIn("mousse::cellCuts::calcAnchors")
+      WARNING_IN("mousse::cellCuts::calcAnchors")
         << " For cell:" << cellI
         << " achorpoints and nonanchorpoints are geometrically"
         << " on same side!" << endl
@@ -1300,7 +1300,7 @@ mousse::pointField mousse::cellCuts::loopPoints
 ) const
 {
   pointField loopPts(loop.size());
-  forAll(loop, fp)
+  FOR_ALL(loop, fp)
   {
     loopPts[fp] = coord(loop[fp], loopWeights[fp]);
   }
@@ -1310,7 +1310,7 @@ mousse::pointField mousse::cellCuts::loopPoints
 mousse::scalarField mousse::cellCuts::loopWeights(const labelList& loop) const
 {
   scalarField weights(loop.size());
-  forAll(loop, fp)
+  FOR_ALL(loop, fp)
   {
     label cut = loop[fp];
     if (isEdge(cut))
@@ -1332,7 +1332,7 @@ bool mousse::cellCuts::validEdgeLoop
   const scalarField& loopWeights
 ) const
 {
-  forAll(loop, fp)
+  FOR_ALL(loop, fp)
   {
     label cut = loop[fp];
     if (isEdge(cut))
@@ -1368,7 +1368,7 @@ mousse::label mousse::cellCuts::countFaceCuts
   label nCuts = 0;
   // Count cut vertices
   const face& f = mesh().faces()[faceI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label vertI = f[fp];
     // Vertex already cut or mentioned in current loop.
@@ -1383,7 +1383,7 @@ mousse::label mousse::cellCuts::countFaceCuts
   }
   // Count cut edges.
   const labelList& fEdges = mesh().faceEdges()[faceI];
-  forAll(fEdges, fEdgeI)
+  FOR_ALL(fEdges, fEdgeI)
   {
     label edgeI = fEdges[fEdgeI];
     // Edge already cut or mentioned in current loop.
@@ -1402,7 +1402,7 @@ mousse::label mousse::cellCuts::countFaceCuts
 // cut-addressing (faceCuts_, cutCuts_)
 bool mousse::cellCuts::conservativeValidLoop
 (
-  const label cellI,
+  const label /*cellI*/,
   const labelList& loop
 ) const
 {
@@ -1410,7 +1410,7 @@ bool mousse::cellCuts::conservativeValidLoop
   {
     return false;
   }
-  forAll(loop, cutI)
+  FOR_ALL(loop, cutI)
   {
     if (isEdge(loop[cutI]))
     {
@@ -1429,7 +1429,7 @@ bool mousse::cellCuts::conservativeValidLoop
         }
         // Check faces using this edge
         const labelList& eFaces = mesh().edgeFaces()[edgeI];
-        forAll(eFaces, eFaceI)
+        FOR_ALL(eFaces, eFaceI)
         {
           label nCuts = countFaceCuts(eFaces[eFaceI], loop);
           if (nCuts > 2)
@@ -1448,7 +1448,7 @@ bool mousse::cellCuts::conservativeValidLoop
         // New cut through vertex.
         // Check edges using vertex.
         const labelList& pEdges = mesh().pointEdges()[vertI];
-        forAll(pEdges, pEdgeI)
+        FOR_ALL(pEdges, pEdgeI)
         {
           label edgeI = pEdges[pEdgeI];
           if (edgeIsCut_[edgeI])
@@ -1458,7 +1458,7 @@ bool mousse::cellCuts::conservativeValidLoop
         }
         // Check faces using vertex.
         const labelList& pFaces = mesh().pointFaces()[vertI];
-        forAll(pFaces, pFaceI)
+        FOR_ALL(pFaces, pFaceI)
         {
           label nCuts = countFaceCuts(pFaces[pFaceI], loop);
           if (nCuts > 2)
@@ -1498,7 +1498,7 @@ bool mousse::cellCuts::validLoop
       return  false;
     }
   }
-  forAll(loop, fp)
+  FOR_ALL(loop, fp)
   {
     label cut = loop[fp];
     label nextCut = loop[(fp+1) % loop.size()];
@@ -1596,7 +1596,7 @@ bool mousse::cellCuts::validLoop
   label faceContainingLoop = loopFace(cellI, loop);
   if (faceContainingLoop != -1)
   {
-    WarningIn("mousse::cellCuts::validLoop")
+    WARNING_IN("mousse::cellCuts::validLoop")
       << "Found loop on cell " << cellI << " with all points"
       << " on face " << faceContainingLoop << endl;
     //writeOBJ(".", cellI, loopPoints(loop, loopWeights), labelList(0));
@@ -1621,7 +1621,7 @@ void mousse::cellCuts::setFromCellLoops()
   pointIsCut_ = false;
   edgeIsCut_ = false;
   faceSplitCut_.clear();
-  forAll(cellLoops_, cellI)
+  FOR_ALL(cellLoops_, cellI)
   {
     const labelList& loop = cellLoops_[cellI];
     if (loop.size())
@@ -1643,8 +1643,8 @@ void mousse::cellCuts::setFromCellLoops()
       )
       {
         //writeOBJ(".", cellI, loopPoints(cellI), anchorPoints);
-        //FatalErrorIn("cellCuts::setFromCellLoops()")
-        WarningIn("cellCuts::setFromCellLoops")
+        //FATAL_ERROR_IN("cellCuts::setFromCellLoops()")
+        WARNING_IN("cellCuts::setFromCellLoops")
           << "Illegal loop " << loop
           << " when recreating cut-addressing"
           << " from existing cellLoops for cell " << cellI
@@ -1658,12 +1658,12 @@ void mousse::cellCuts::setFromCellLoops()
         // Copy anchor points.
         cellAnchorPoints_[cellI].transfer(anchorPoints);
         // Copy faceSplitCuts into overall faceSplit info.
-        forAllConstIter(Map<edge>, faceSplitCuts, iter)
+        FOR_ALL_CONST_ITER(Map<edge>, faceSplitCuts, iter)
         {
           faceSplitCut_.insert(iter.key(), iter());
         }
         // Update edgeIsCut, pointIsCut information
-        forAll(loop, cutI)
+        FOR_ALL(loop, cutI)
         {
           label cut = loop[cutI];
           if (isEdge(cut))
@@ -1679,7 +1679,7 @@ void mousse::cellCuts::setFromCellLoops()
     }
   }
   // Reset edge weights
-  forAll(edgeIsCut_, edgeI)
+  FOR_ALL(edgeIsCut_, edgeI)
   {
     if (!edgeIsCut_[edgeI])
     {
@@ -1713,12 +1713,12 @@ bool mousse::cellCuts::setFromCellLoop
     OFstream loopStr("last_loop.obj");
     loopStr<< "# looppoints for cell " << cellI << nl;
     pointField pointsOfLoop = loopPoints(loop, loopWeights);
-    forAll(pointsOfLoop, i)
+    FOR_ALL(pointsOfLoop, i)
     {
       meshTools::writeOBJ(loopStr, pointsOfLoop[i]);
     }
     str << 'l';
-    forAll(pointsOfLoop, i)
+    FOR_ALL(pointsOfLoop, i)
     {
       str << ' ' << i + 1;
     }
@@ -1739,12 +1739,12 @@ bool mousse::cellCuts::setFromCellLoop
       cellLoops_[cellI] = loop;
       cellAnchorPoints_[cellI].transfer(anchorPoints);
       // Copy split cuts
-      forAllConstIter(Map<edge>, faceSplitCuts, iter)
+      FOR_ALL_CONST_ITER(Map<edge>, faceSplitCuts, iter)
       {
         faceSplitCut_.insert(iter.key(), iter());
       }
       // Update edgeIsCut, pointIsCut information
-      forAll(loop, cutI)
+      FOR_ALL(loop, cutI)
       {
         label cut = loop[cutI];
         if (isEdge(cut))
@@ -1775,7 +1775,7 @@ void mousse::cellCuts::setFromCellLoops
   // 'Uncut' edges/vertices that are not used in loops.
   pointIsCut_ = false;
   edgeIsCut_ = false;
-  forAll(cellLabels, cellLabelI)
+  FOR_ALL(cellLabels, cellLabelI)
   {
     label cellI = cellLabels[cellLabelI];
     const labelList& loop = cellLoops[cellLabelI];
@@ -1812,7 +1812,7 @@ void mousse::cellCuts::setFromCellCutter
   DynamicList<label> invalidCutCells(2);
   DynamicList<labelList> invalidCutLoops(2);
   DynamicList<scalarField> invalidCutLoopWeights(2);
-  forAll(refCells, refCellI)
+  FOR_ALL(refCells, refCellI)
   {
     const refineCell& refCell = refCells[refCellI];
     label cellI = refCell.cellNo();
@@ -1875,7 +1875,7 @@ void mousse::cellCuts::setFromCellCutter
     Pout<< "cellCuts : writing inValidLoops loops to " << loopsFile << endl;
     OFstream loopsStream(loopsFile);
     label vertI = 0;
-    forAll(invalidCutLoops, i)
+    FOR_ALL(invalidCutLoops, i)
     {
       writeOBJ
       (
@@ -1904,7 +1904,7 @@ void mousse::cellCuts::setFromCellCutter
   DynamicList<label> invalidCutCells(2);
   DynamicList<labelList> invalidCutLoops(2);
   DynamicList<scalarField> invalidCutLoopWeights(2);
-  forAll(cellLabels, i)
+  FOR_ALL(cellLabels, i)
   {
     label cellI = cellLabels[i];
     // Cut cell. Determines cellLoop and cellLoopWeights
@@ -1965,7 +1965,7 @@ void mousse::cellCuts::setFromCellCutter
     Pout<< "cellCuts : writing inValidLoops loops to " << loopsFile << endl;
     OFstream loopsStream(loopsFile);
     label vertI = 0;
-    forAll(invalidCutLoops, i)
+    FOR_ALL(invalidCutLoops, i)
     {
       writeOBJ
       (
@@ -1980,7 +1980,7 @@ void mousse::cellCuts::setFromCellCutter
 void mousse::cellCuts::orientPlanesAndLoops()
 {
   // Determine anchorPoints if not yet done by validLoop.
-  forAll(cellLoops_, cellI)
+  FOR_ALL(cellLoops_, cellI)
   {
     const labelList& loop = cellLoops_[cellI];
     if (loop.size() && cellAnchorPoints_[cellI].empty())
@@ -1999,13 +1999,13 @@ void mousse::cellCuts::orientPlanesAndLoops()
   {
     Pout<< "cellAnchorPoints:" << endl;
   }
-  forAll(cellAnchorPoints_, cellI)
+  FOR_ALL(cellAnchorPoints_, cellI)
   {
     if (cellLoops_[cellI].size())
     {
       if (cellAnchorPoints_[cellI].empty())
       {
-        FatalErrorIn("orientPlanesAndLoops()")
+        FATAL_ERROR_IN("orientPlanesAndLoops()")
           << "No anchor points for cut cell " << cellI << endl
           << "cellLoop:" << cellLoops_[cellI] << abort(FatalError);
       }
@@ -2018,7 +2018,7 @@ void mousse::cellCuts::orientPlanesAndLoops()
   }
   // Calculate number of valid cellLoops
   nLoops_ = 0;
-  forAll(cellLoops_, cellI)
+  FOR_ALL(cellLoops_, cellI)
   {
     if (cellLoops_[cellI].size())
     {
@@ -2030,14 +2030,14 @@ void mousse::cellCuts::orientPlanesAndLoops()
 void mousse::cellCuts::calcLoopsAndAddressing(const labelList& cutCells)
 {
   // Sanity check on weights
-  forAll(edgeIsCut_, edgeI)
+  FOR_ALL(edgeIsCut_, edgeI)
   {
     if (edgeIsCut_[edgeI])
     {
       scalar weight = edgeWeight_[edgeI];
       if (weight < 0 || weight > 1)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "cellCuts::calcLoopsAndAddressing(const labelList&)"
         )   << "Weight out of range [0,1]. Edge " << edgeI
@@ -2056,7 +2056,7 @@ void mousse::cellCuts::calcLoopsAndAddressing(const labelList& cutCells)
   if (debug & 2)
   {
     Pout<< "-- cellLoops --" << endl;
-    forAll(cellLoops_, cellI)
+    FOR_ALL(cellLoops_, cellI)
     {
       const labelList& loop = cellLoops_[cellI];
       if (loop.size())
@@ -2074,7 +2074,7 @@ void mousse::cellCuts::calcLoopsAndAddressing(const labelList& cutCells)
 void mousse::cellCuts::check() const
 {
   // Check weights for unsnapped values
-  forAll(edgeIsCut_, edgeI)
+  FOR_ALL(edgeIsCut_, edgeI)
   {
     if (edgeIsCut_[edgeI])
     {
@@ -2085,8 +2085,8 @@ void mousse::cellCuts::check() const
       )
       {
         // Should have been snapped.
-        //FatalErrorIn("cellCuts::check()")
-        WarningIn("cellCuts::check()")
+        //FATAL_ERROR_IN("cellCuts::check()")
+        WARNING_IN("cellCuts::check()")
           << "edge:" << edgeI << " vertices:"
           << mesh().edges()[edgeI]
           << " weight:" << edgeWeight_[edgeI] << " should have been"
@@ -2099,7 +2099,7 @@ void mousse::cellCuts::check() const
     {
       if (edgeWeight_[edgeI] > - 1)
       {
-        FatalErrorIn("cellCuts::check()")
+        FATAL_ERROR_IN("cellCuts::check()")
           << "edge:" << edgeI << " vertices:"
           << mesh().edges()[edgeI]
           << " weight:" << edgeWeight_[edgeI] << " is not cut but"
@@ -2109,10 +2109,10 @@ void mousse::cellCuts::check() const
     }
   }
   // Check that all elements of cellloop are registered
-  forAll(cellLoops_, cellI)
+  FOR_ALL(cellLoops_, cellI)
   {
     const labelList& loop = cellLoops_[cellI];
-    forAll(loop, i)
+    FOR_ALL(loop, i)
     {
       label cut = loop[i];
       if
@@ -2123,7 +2123,7 @@ void mousse::cellCuts::check() const
       {
         labelList cuts(1, cut);
         writeCuts(Pout, cuts, loopWeights(cuts));
-        FatalErrorIn("cellCuts::check()")
+        FATAL_ERROR_IN("cellCuts::check()")
           << "cell:" << cellI << " loop:"
           << loop
           << " cut:" << cut << " is not marked as cut"
@@ -2132,18 +2132,18 @@ void mousse::cellCuts::check() const
     }
   }
   // Check that no elements of cell loop are anchor point.
-  forAll(cellLoops_, cellI)
+  FOR_ALL(cellLoops_, cellI)
   {
     const labelList& anchors = cellAnchorPoints_[cellI];
     const labelList& loop = cellLoops_[cellI];
     if (loop.size() && anchors.empty())
     {
-      FatalErrorIn("cellCuts::check()")
+      FATAL_ERROR_IN("cellCuts::check()")
         << "cell:" << cellI << " loop:" << loop
         << " has no anchor points"
         << abort(FatalError);
     }
-    forAll(loop, i)
+    FOR_ALL(loop, i)
     {
       label cut = loop[i];
       if
@@ -2152,7 +2152,7 @@ void mousse::cellCuts::check() const
       && findIndex(anchors, getVertex(cut)) != -1
       )
       {
-        FatalErrorIn("cellCuts::check()")
+        FATAL_ERROR_IN("cellCuts::check()")
           << "cell:" << cellI << " loop:" << loop
           << " anchor points:" << anchors
           << " anchor:" << getVertex(cut) << " is part of loop"
@@ -2161,7 +2161,7 @@ void mousse::cellCuts::check() const
     }
   }
   // Check that cut faces have a neighbour that is cut.
-  forAllConstIter(Map<edge>, faceSplitCut_, iter)
+  FOR_ALL_CONST_ITER(Map<edge>, faceSplitCut_, iter)
   {
     label faceI = iter.key();
     if (mesh().isInternalFace(faceI))
@@ -2170,7 +2170,7 @@ void mousse::cellCuts::check() const
       label nei = mesh().faceNeighbour()[faceI];
       if (cellLoops_[own].empty() && cellLoops_[nei].empty())
       {
-        FatalErrorIn("cellCuts::check()")
+        FATAL_ERROR_IN("cellCuts::check()")
           << "Internal face:" << faceI << " cut by " << iter()
           << " has owner:" << own
           << " and neighbour:" << nei
@@ -2183,7 +2183,7 @@ void mousse::cellCuts::check() const
       label own = mesh().faceOwner()[faceI];
       if (cellLoops_[own].empty())
       {
-        FatalErrorIn("cellCuts::check()")
+        FATAL_ERROR_IN("cellCuts::check()")
           << "Boundary face:" << faceI << " cut by " << iter()
           << " has owner:" << own
           << " that is uncut"
@@ -2427,7 +2427,7 @@ mousse::pointField mousse::cellCuts::loopPoints(const label cellI) const
 {
   const labelList& loop = cellLoops_[cellI];
   pointField loopPts(loop.size());
-  forAll(loop, fp)
+  FOR_ALL(loop, fp)
   {
     label cut = loop[fp];
     if (isEdge(cut))
@@ -2470,14 +2470,14 @@ void mousse::cellCuts::writeOBJ
 ) const
 {
   label startVertI = vertI;
-  forAll(loopPts, fp)
+  FOR_ALL(loopPts, fp)
   {
     const point& pt = loopPts[fp];
     os << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << endl;
     vertI++;
   }
   os  << 'f';
-  forAll(loopPts, fp)
+  FOR_ALL(loopPts, fp)
   {
     os  << ' ' << startVertI + fp + 1;
   }
@@ -2486,7 +2486,7 @@ void mousse::cellCuts::writeOBJ
 void mousse::cellCuts::writeOBJ(Ostream& os) const
 {
   label vertI = 0;
-  forAll(cellLoops_, cellI)
+  FOR_ALL(cellLoops_, cellI)
   {
     writeOBJ(os, loopPoints(cellI), vertI);
   }

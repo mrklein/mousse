@@ -29,7 +29,7 @@ void MapInternalField<Type, MeshMapper, surfaceMesh>::operator()
 {
   if (field.size() != mapper.surfaceMap().sizeBeforeMapping())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void MapInternalField<Type, MeshMapper, surfaceMesh>::operator()\n"
       "(\n"
@@ -43,7 +43,7 @@ void MapInternalField<Type, MeshMapper, surfaceMesh>::operator()
   field.autoMap(mapper.surfaceMap());
   // Flip the flux
   const labelList flipFaces = mapper.surfaceMap().flipFaceFlux().toc();
-  forAll(flipFaces, i)
+  FOR_ALL(flipFaces, i)
   {
     if (flipFaces[i] < field.size())
     {

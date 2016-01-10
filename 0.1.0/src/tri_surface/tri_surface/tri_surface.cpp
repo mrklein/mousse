@@ -13,7 +13,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(triSurface, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(triSurface, 0);
 }
 mousse::fileName mousse::triSurface::triSurfInstance(const Time& d)
 {
@@ -63,12 +63,12 @@ mousse::List<mousse::labelledTri> mousse::triSurface::convertToTri
 )
 {
   List<labelledTri> triFaces(faces.size());
-  forAll(triFaces, faceI)
+  FOR_ALL(triFaces, faceI)
   {
     const face& f = faces[faceI];
     if (f.size() != 3)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "triSurface::convertToTri"
         "(const faceList&, const label)"
@@ -91,7 +91,7 @@ mousse::List<mousse::labelledTri> mousse::triSurface::convertToTri
 )
 {
   List<labelledTri> triFaces(faces.size());
-  forAll(triFaces, faceI)
+  FOR_ALL(triFaces, faceI)
   {
     const triFace& f = faces[faceI];
     labelledTri& tri = triFaces[faceI];
@@ -134,14 +134,14 @@ void mousse::triSurface::checkTriangles(const bool verbose)
 {
   // Simple check on indices ok.
   const label maxPointI = points().size() - 1;
-  forAll(*this, faceI)
+  FOR_ALL(*this, faceI)
   {
     const triSurface::FaceType& f = (*this)[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (f[fp] < 0 || f[fp] > maxPointI)
       {
-        FatalErrorIn("triSurface::checkTriangles(bool)")
+        FATAL_ERROR_IN("triSurface::checkTriangles(bool)")
           << "triangle " << f
           << " uses point indices outside point range 0.."
           << maxPointI
@@ -156,7 +156,7 @@ void mousse::triSurface::checkTriangles(const bool verbose)
   // List of valid triangles
   boolList valid(size(), true);
   bool hasInvalid = false;
-  forAll(*this, faceI)
+  FOR_ALL(*this, faceI)
   {
     const labelledTri& f = (*this)[faceI];
     if ((f[0] == f[1]) || (f[0] == f[2]) || (f[1] == f[2]))
@@ -166,7 +166,7 @@ void mousse::triSurface::checkTriangles(const bool verbose)
       hasInvalid = true;
       if (verbose)
       {
-        WarningIn
+        WARNING_IN
         (
           "triSurface::checkTriangles(bool verbose)"
         )   << "triangle " << faceI
@@ -180,10 +180,10 @@ void mousse::triSurface::checkTriangles(const bool verbose)
       const labelList& fEdges = faceEdges()[faceI];
       // Check if faceNeighbours use same points as this face.
       // Note: discards normal information - sides of baffle are merged.
-      forAll(fEdges, fp)
+      FOR_ALL(fEdges, fp)
       {
         const labelList& eFaces = edgeFaces()[fEdges[fp]];
-        forAll(eFaces, i)
+        FOR_ALL(eFaces, i)
         {
           label neighbour = eFaces[i];
           if (neighbour > faceI)
@@ -201,7 +201,7 @@ void mousse::triSurface::checkTriangles(const bool verbose)
               hasInvalid = true;
               if (verbose)
               {
-                WarningIn
+                WARNING_IN
                 (
                   "triSurface::checkTriangles(bool verbose)"
                 )   << "triangles share the same vertices:\n"
@@ -224,7 +224,7 @@ void mousse::triSurface::checkTriangles(const bool verbose)
   {
     // Pack
     label newFaceI = 0;
-    forAll(*this, faceI)
+    FOR_ALL(*this, faceI)
     {
       if (valid[faceI])
       {
@@ -234,7 +234,7 @@ void mousse::triSurface::checkTriangles(const bool verbose)
     }
     if (verbose)
     {
-      WarningIn
+      WARNING_IN
       (
         "triSurface::checkTriangles(bool verbose)"
       )   << "Removing " << size() - newFaceI
@@ -249,19 +249,19 @@ void mousse::triSurface::checkTriangles(const bool verbose)
 void mousse::triSurface::checkEdges(const bool verbose)
 {
   const labelListList& eFaces = edgeFaces();
-  forAll(eFaces, edgeI)
+  FOR_ALL(eFaces, edgeI)
   {
     const labelList& myFaces = eFaces[edgeI];
     if (myFaces.empty())
     {
-      FatalErrorIn("triSurface::checkEdges(bool verbose)")
+      FATAL_ERROR_IN("triSurface::checkEdges(bool verbose)")
         << "Edge " << edgeI << " with vertices " << edges()[edgeI]
         << " has no edgeFaces"
         << exit(FatalError);
     }
     else if (myFaces.size() > 2 && verbose)
     {
-      WarningIn
+      WARNING_IN
       (
         "triSurface::checkEdges(bool verbose)"
       )   << "Edge " << edgeI << " with vertices " << edges()[edgeI]
@@ -286,7 +286,7 @@ bool mousse::triSurface::read
 {
   if (check && !exists(name))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "triSurface::read(const fileName&, const word&, const bool)"
     )   << "Cannnot read " << name << exit(FatalError);
@@ -339,7 +339,7 @@ bool mousse::triSurface::read
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "triSurface::read(const fileName&, const word&)"
     )   << "unknown file extension " << ext
@@ -404,7 +404,7 @@ void mousse::triSurface::write
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "triSurface::write(const fileName&, const word&, const bool)"
     )   << "unknown file extension " << ext
@@ -421,7 +421,7 @@ mousse::surfacePatchList mousse::triSurface::calcPatches(labelList& faceMap) con
 {
   // Sort according to region numbers of labelledTri
   SortableList<label> sortedRegion(size());
-  forAll(sortedRegion, faceI)
+  FOR_ALL(sortedRegion, faceI)
   {
     sortedRegion[faceI] = operator[](faceI).region();
   }
@@ -440,14 +440,14 @@ mousse::surfacePatchList mousse::triSurface::calcPatches(labelList& faceMap) con
   // Get new region list
   surfacePatchList newPatches(maxRegion + 1);
   // Fill patch sizes
-  forAll(*this, faceI)
+  FOR_ALL(*this, faceI)
   {
     label region = operator[](faceI).region();
     newPatches[region].size()++;
   }
   // Fill rest of patch info
   label startFaceI = 0;
-  forAll(newPatches, newPatchI)
+  FOR_ALL(newPatches, newPatchI)
   {
     surfacePatch& newPatch = newPatches[newPatchI];
     newPatch.index() = newPatchI;
@@ -486,7 +486,7 @@ void mousse::triSurface::setDefaultPatches()
   surfacePatchList newPatches(calcPatches(faceMap));
   // Take over names and types (but not size)
   patches_.setSize(newPatches.size());
-  forAll(newPatches, patchI)
+  FOR_ALL(newPatches, patchI)
   {
     patches_[patchI].index() = patchI;
     patches_[patchI].name() = newPatches[patchI].name();
@@ -690,17 +690,17 @@ void mousse::triSurface::markZone
   {
     // Pick up neighbours of changedFaces
     DynamicList<label> newChangedFaces(2*changedFaces.size());
-    forAll(changedFaces, i)
+    FOR_ALL(changedFaces, i)
     {
       label faceI = changedFaces[i];
       const labelList& fEdges = faceEdges()[faceI];
-      forAll(fEdges, i)
+      FOR_ALL(fEdges, i)
       {
         label edgeI = fEdges[i];
         if (!borderEdge[edgeI])
         {
           const labelList& eFaces = edgeFaces()[edgeI];
-          forAll(eFaces, j)
+          FOR_ALL(eFaces, j)
           {
             label nbrFaceI = eFaces[j];
             if (faceZone[nbrFaceI] == -1)
@@ -710,7 +710,7 @@ void mousse::triSurface::markZone
             }
             else if (faceZone[nbrFaceI] != currentZone)
             {
-              FatalErrorIn
+              FATAL_ERROR_IN
               (
                 "triSurface::markZone(const boolList&,"
                 "const label, const label, labelList&) const"
@@ -744,7 +744,7 @@ mousse::label mousse::triSurface::markZones
   faceZone = -1;
   if (borderEdge.size() != nEdges())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "triSurface::markZones"
       "(const boolList&, labelList&)"
@@ -787,7 +787,7 @@ void mousse::triSurface::subsetMeshMap
   faceMap.setSize(locFaces.size());
   pointMap.setSize(nPoints());
   boolList pointHad(nPoints(), false);
-  forAll(include, oldFaceI)
+  FOR_ALL(include, oldFaceI)
   {
     if (include[oldFaceI])
     {
@@ -795,7 +795,7 @@ void mousse::triSurface::subsetMeshMap
       faceMap[faceI++] = oldFaceI;
       // Renumber labels for face
       const triSurface::FaceType& f = locFaces[oldFaceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label labI = f[fp];
         if (!pointHad[labI])
@@ -824,14 +824,14 @@ mousse::triSurface mousse::triSurface::subsetMesh
   // Create compact coordinate list and forward mapping array
   pointField newPoints(pointMap.size());
   labelList oldToNew(locPoints.size());
-  forAll(pointMap, pointi)
+  FOR_ALL(pointMap, pointi)
   {
     newPoints[pointi] = locPoints[pointMap[pointi]];
     oldToNew[pointMap[pointi]] = pointi;
   }
   // Renumber triangle node labels and compact
   List<labelledTri> newTriangles(faceMap.size());
-  forAll(faceMap, facei)
+  FOR_ALL(faceMap, facei)
   {
     // Get old vertex labels
     const labelledTri& tri = locFaces[faceMap[facei]];
@@ -874,10 +874,10 @@ void mousse::triSurface::writeStats(Ostream& os) const
   PackedBoolList pointIsUsed(points().size());
   label nPoints = 0;
   boundBox bb = boundBox::invertedBox;
-  forAll(*this, faceI)
+  FOR_ALL(*this, faceI)
   {
     const triSurface::FaceType& f = operator[](faceI);
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label pointI = f[fp];
       if (pointIsUsed.set(pointI, 1))
@@ -888,7 +888,7 @@ void mousse::triSurface::writeStats(Ostream& os) const
       }
     }
   }
-  os  << "Triangles    : " << size() << endl
+  os<< "Triangles    : " << size() << endl
     << "Vertices     : " << nPoints << endl
     << "Bounding Box : " << bb << endl;
 }

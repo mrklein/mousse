@@ -19,7 +19,7 @@ class interpolationCellPointWallModified
 {
 public:
   //- Runtime type information
-  TypeName("cellPointWallModified");
+  TYPE_NAME("cellPointWallModified");
   // Constructors
     //- Construct from components
     interpolationCellPointWallModified

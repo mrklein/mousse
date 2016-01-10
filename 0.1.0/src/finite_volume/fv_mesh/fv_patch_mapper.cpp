@@ -8,6 +8,7 @@
 #include "fv_mesh.hpp"
 #include "map_poly_mesh.hpp"
 #include "face_mapper.hpp"
+#include "demand_driven_data.hpp"
 // Private Member Functions 
 void mousse::fvPatchMapper::calcAddressing() const
 {
@@ -18,7 +19,7 @@ void mousse::fvPatchMapper::calcAddressing() const
   || weightsPtr_
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void fvPatchMapper::calcAddressing() const)"
     )   << "Addressing already calculated"
@@ -44,7 +45,7 @@ void mousse::fvPatchMapper::calcAddressing() const
     labelList& addr = *directAddrPtr_;
     // Adjust mapping to manage hits into other patches and into
     // internal
-    forAll(addr, faceI)
+    FOR_ALL(addr, faceI)
     {
       if
       (
@@ -66,7 +67,7 @@ void mousse::fvPatchMapper::calcAddressing() const
       if (min(addr) < 0)
       {
         //FatalErrorIn
-        WarningIn
+        WARNING_IN
         (
           "void fvPatchMapper::calcAddressing() const"
         )   << "Unmapped entry in patch mapping for patch "
@@ -93,7 +94,7 @@ void mousse::fvPatchMapper::calcAddressing() const
     scalarListList& w = *weightsPtr_;
     // Adjust mapping to manage hits into other patches and into
     // internal
-    forAll(addr, faceI)
+    FOR_ALL(addr, faceI)
     {
       labelList& curAddr = addr[faceI];
       scalarList& curW = w[faceI];
@@ -104,7 +105,7 @@ void mousse::fvPatchMapper::calcAddressing() const
       )
       {
         // No adjustment of weights, just subtract patch start
-        forAll(curAddr, i)
+        FOR_ALL(curAddr, i)
         {
           curAddr[i] -= oldPatchStart;
         }
@@ -115,7 +116,7 @@ void mousse::fvPatchMapper::calcAddressing() const
         labelList newAddr(curAddr.size(), false);
         scalarField newWeights(curAddr.size());
         label nActive = 0;
-        forAll(curAddr, lfI)
+        FOR_ALL(curAddr, lfI)
         {
           if
           (
@@ -153,11 +154,11 @@ void mousse::fvPatchMapper::calcAddressing() const
     }
     if (fvMesh::debug)
     {
-      forAll(addr, i)
+      FOR_ALL(addr, i)
       {
         if (min(addr[i]) < 0)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void fvPatchMapper::calcAddressing() const"
           )   << "Error in patch mapping for patch "
@@ -201,7 +202,7 @@ const mousse::labelUList& mousse::fvPatchMapper::directAddressing() const
 {
   if (!direct())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelUList& fvPatchMapper::directAddressing() const"
     )   << "Requested direct addressing for an interpolative mapper."
@@ -217,7 +218,7 @@ const mousse::labelListList& mousse::fvPatchMapper::addressing() const
 {
   if (direct())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelListList& fvPatchMapper::addressing() const"
     )   << "Requested interpolative addressing for a direct mapper."
@@ -233,7 +234,7 @@ const mousse::scalarListList& mousse::fvPatchMapper::weights() const
 {
   if (direct())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const scalarListList& fvPatchMapper::weights() const"
     )   << "Requested interpolative weights for a direct mapper."

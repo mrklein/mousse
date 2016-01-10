@@ -29,7 +29,7 @@ class linearUpwindV
     void operator=(const linearUpwindV&);
 public:
   //- Runtime type information
-  TypeName("linearUpwindV");
+  TYPE_NAME("linearUpwindV");
   // Constructors
     //- Construct from faceFlux
     linearUpwindV

@@ -40,7 +40,7 @@ class primitiveMeshGeometry
       const labelList& changedFaces
     );
 public:
-  ClassName("primitiveMeshGeometry");
+  CLASS_NAME("primitiveMeshGeometry");
   // Constructors
     //- Construct from mesh
     primitiveMeshGeometry(const primitiveMesh&);

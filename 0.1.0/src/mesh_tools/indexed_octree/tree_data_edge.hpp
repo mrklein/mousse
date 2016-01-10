@@ -76,7 +76,7 @@ public:
     ) const;
   };
   // Declare name of the class and its debug switch
-  ClassName("treeDataEdge");
+  CLASS_NAME("treeDataEdge");
   // Constructors
     //- Construct from selected edges. !Holds references to edges and points
     treeDataEdge

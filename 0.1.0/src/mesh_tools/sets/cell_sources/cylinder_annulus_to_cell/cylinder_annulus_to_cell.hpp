@@ -32,7 +32,7 @@ class cylinderAnnulusToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("cylinderAnnulusToCell");
+  TYPE_NAME("cylinderAnnulusToCell");
   // Constructors
     //- Construct from components
     cylinderAnnulusToCell

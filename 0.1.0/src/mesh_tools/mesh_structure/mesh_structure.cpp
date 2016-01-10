@@ -7,12 +7,17 @@
 #include "topo_distance_data.hpp"
 #include "point_topo_distance_data.hpp"
 #include "point_edge_wave.hpp"
+#include "pstream_reduce_ops.hpp"
+#include "global_mesh_data.hpp"
+#include "edge_map.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(meshStructure, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(meshStructure, 0);
 }
-// Private Member Functions 
+
+// Private Member Functions
 bool mousse::meshStructure::isStructuredCell
 (
   const polyMesh& mesh,
@@ -23,7 +28,7 @@ bool mousse::meshStructure::isStructuredCell
   const cell& cFaces = mesh.cells()[cellI];
   // Count number of side faces
   label nSide = 0;
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     if (faceToPatchEdgeAddressing_[cFaces[i]] != -1)
     {
@@ -35,14 +40,14 @@ bool mousse::meshStructure::isStructuredCell
     return false;
   }
   // Check that side faces have correct point layers
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     if (faceToPatchEdgeAddressing_[cFaces[i]] != -1)
     {
       const face& f = mesh.faces()[cFaces[i]];
       label nLayer = 0;
       label nLayerPlus1 = 0;
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label pointI = f[fp];
         if (pointLayer_[pointI] == layerI)
@@ -81,7 +86,7 @@ void mousse::meshStructure::correct
     // Start of changes
     labelList patchFaces(pp.size());
     List<topoDistanceData> patchData(pp.size());
-    forAll(pp, patchFaceI)
+    FOR_ALL(pp, patchFaceI)
     {
       patchFaces[patchFaceI] = pp.addressing()[patchFaceI];
       patchData[patchFaceI] = topoDistanceData(patchFaceI, 0);
@@ -100,7 +105,7 @@ void mousse::meshStructure::correct
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     cellToPatchFaceAddressing_.setSize(mesh.nCells());
     cellLayer_.setSize(mesh.nCells());
-    forAll(cellToPatchFaceAddressing_, cellI)
+    FOR_ALL(cellToPatchFaceAddressing_, cellI)
     {
       cellToPatchFaceAddressing_[cellI] = cellData[cellI].data();
       cellLayer_[cellI] = cellData[cellI].distance();
@@ -111,7 +116,7 @@ void mousse::meshStructure::correct
     faceToPatchEdgeAddressing_.setSize(mesh.nFaces());
     faceToPatchEdgeAddressing_ = labelMin;
     faceLayer_.setSize(mesh.nFaces());
-    forAll(faceToPatchFaceAddressing_, faceI)
+    FOR_ALL(faceToPatchFaceAddressing_, faceI)
     {
       label own = mesh.faceOwner()[faceI];
       label patchFaceI = faceData[faceI].data();
@@ -172,7 +177,7 @@ void mousse::meshStructure::correct
     // Start of changes
     labelList patchPoints(pp.nPoints());
     List<pointTopoDistanceData> patchData(pp.nPoints());
-    forAll(pp.meshPoints(), patchPointI)
+    FOR_ALL(pp.meshPoints(), patchPointI)
     {
       patchPoints[patchPointI] = pp.meshPoints()[patchPointI];
       patchData[patchPointI] = pointTopoDistanceData(patchPointI, 0);
@@ -187,19 +192,19 @@ void mousse::meshStructure::correct
       edgeData,
       mesh.globalData().nTotalPoints()  // max iterations
     );
-    forAll(pointData, pointI)
+    FOR_ALL(pointData, pointI)
     {
       pointToPatchPointAddressing_[pointI] = pointData[pointI].data();
       pointLayer_[pointI] = pointData[pointI].distance();
     }
     // Derive from originating patch points what the patch edges were.
     EdgeMap<label> pointsToEdge(pp.nEdges());
-    forAll(pp.edges(), edgeI)
+    FOR_ALL(pp.edges(), edgeI)
     {
       pointsToEdge.insert(pp.edges()[edgeI], edgeI);
     }
     // Look up on faces
-    forAll(faceToPatchEdgeAddressing_, faceI)
+    FOR_ALL(faceToPatchEdgeAddressing_, faceI)
     {
       if (faceToPatchEdgeAddressing_[faceI] == labelMin)
       {
@@ -234,7 +239,7 @@ void mousse::meshStructure::correct
         {
           // Points of face on different levels
           // See if there is any edge
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             label pointI = f[fp];
             label nextPointI = f.nextLabel(fp);
@@ -266,10 +271,10 @@ void mousse::meshStructure::correct
     label nLayers = gMax(cellLayer_)+1;
     labelListList layerToCells(invertOneToMany(nLayers, cellLayer_));
     structured_ = true;
-    forAll(layerToCells, layerI)
+    FOR_ALL(layerToCells, layerI)
     {
       const labelList& lCells = layerToCells[layerI];
-      forAll(lCells, lCellI)
+      FOR_ALL(lCells, lCellI)
       {
         label cellI = lCells[lCellI];
         structured_ = isStructuredCell
@@ -291,7 +296,8 @@ void mousse::meshStructure::correct
     reduce(structured_, andOp<bool>());
   }
 }
-// Constructors 
+
+// Constructors
 mousse::meshStructure::meshStructure
 (
   const polyMesh& mesh,

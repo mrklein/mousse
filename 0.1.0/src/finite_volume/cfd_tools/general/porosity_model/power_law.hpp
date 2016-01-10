@@ -58,7 +58,7 @@ class powerLaw
     void operator=(const powerLaw&);
 public:
   //- Runtime type information
-  TypeName("powerLaw");
+  TYPE_NAME("powerLaw");
   //- Constructor
   powerLaw
   (

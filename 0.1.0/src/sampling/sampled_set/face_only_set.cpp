@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(faceOnlySet, 0);
-  addToRunTimeSelectionTable(sampledSet, faceOnlySet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(faceOnlySet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, faceOnlySet, word);
 }
 // Private Member Functions 
 bool mousse::faceOnlySet::trackToBoundary
@@ -67,7 +67,7 @@ void mousse::faceOnlySet::calcSamples
   // distance vector between sampling points
   if (mag(end_ - start_) < SMALL)
   {
-    FatalErrorIn("faceOnlySet::calcSamples()")
+    FATAL_ERROR_IN("faceOnlySet::calcSamples()")
       << "Incorrect sample specification :"
       << " start equals end point." << endl
       << "  start:" << start_

@@ -12,7 +12,7 @@ void mousse::ensightParts::writeField
 {
   // find offset to patch parts (ie, the first face data)
   label patchOffset = 0;
-  forAll(partsList_, partI)
+  FOR_ALL(partsList_, partI)
   {
     if (partsList_[partI].isFaceData())
     {
@@ -20,7 +20,7 @@ void mousse::ensightParts::writeField
       break;
     }
   }
-  forAll(partsList_, partI)
+  FOR_ALL(partsList_, partI)
   {
     label patchI = partI - patchOffset;
     if (partsList_[partI].isCellData())

@@ -14,12 +14,15 @@
 // SourceFiles
 //   point_constraints.cpp
 //   point_constraints_templates.cpp
+//
 #ifndef point_constraints_hpp_
 #define point_constraints_hpp_
+
 #include "_mesh_object.hpp"
 #include "tensor_field.hpp"
 #include "point_fields_fwd.hpp"
 #include "point_constraint.hpp"
+
 namespace mousse
 {
 class pointMesh;
@@ -45,7 +48,7 @@ class pointConstraints
     void operator=(const pointConstraints&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("pointConstraints");
+  CLASS_NAME("pointConstraints");
   // Constructors
     //- Constructor from pointMesh.
     explicit pointConstraints(const pointMesh&);
@@ -115,6 +118,7 @@ public:
         const bool overrideValue = false
       ) const;
 };
+
 template<>
 void pointConstraints::constrainCorners<scalar>
 (
@@ -126,6 +130,7 @@ void pointConstraints::constrainCorners<label>
   GeometricField<label, pointPatchField, pointMesh>& pf
 ) const;
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "point_constraints_templates.cpp"
 #endif

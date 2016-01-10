@@ -9,14 +9,17 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicACMIGAMGInterface, 0);
-  addToRunTimeSelectionTable
-  (
-    GAMGInterface,
-    cyclicACMIGAMGInterface,
-    lduInterface
-  );
+
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicACMIGAMGInterface, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGInterface,
+  cyclicACMIGAMGInterface,
+  lduInterface
+);
+
 }
+
 // Constructors 
 mousse::cyclicACMIGAMGInterface::cyclicACMIGAMGInterface
 (
@@ -25,8 +28,8 @@ mousse::cyclicACMIGAMGInterface::cyclicACMIGAMGInterface
   const lduInterface& fineInterface,
   const labelField& localRestrictAddressing,
   const labelField& neighbourRestrictAddressing,
-  const label fineLevelIndex,
-  const label coarseComm
+  const label /*fineLevelIndex*/,
+  const label /*coarseComm*/
 )
 :
   GAMGInterface
@@ -49,7 +52,7 @@ mousse::cyclicACMIGAMGInterface::cyclicACMIGAMGInterface
       localRestrictAddressing.size()
     );
     Map<label> masterToCoarseFace(localRestrictAddressing.size());
-    forAll(localRestrictAddressing, ffi)
+    FOR_ALL(localRestrictAddressing, ffi)
     {
       label curMaster = localRestrictAddressing[ffi];
       Map<label>::const_iterator fnd = masterToCoarseFace.find
@@ -87,7 +90,7 @@ mousse::cyclicACMIGAMGInterface::cyclicACMIGAMGInterface
         neighbourRestrictAddressing.size()
       );
       Map<label> masterToCoarseFace(neighbourRestrictAddressing.size());
-      forAll(neighbourRestrictAddressing, ffi)
+      FOR_ALL(neighbourRestrictAddressing, ffi)
       {
         label curMaster = neighbourRestrictAddressing[ffi];
         Map<label>::const_iterator fnd = masterToCoarseFace.find
@@ -136,7 +139,7 @@ mousse::cyclicACMIGAMGInterface::internalFieldTransfer
   const labelUList& nbrFaceCells = nbr.faceCells();
   tmp<labelField> tpnf(new labelField(nbrFaceCells.size()));
   labelField& pnf = tpnf();
-  forAll(pnf, facei)
+  FOR_ALL(pnf, facei)
   {
     pnf[facei] = iF[nbrFaceCells[facei]];
   }

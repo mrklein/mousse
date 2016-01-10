@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(searchableSurfaceCollection, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(searchableSurfaceCollection, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   searchableSurface,
   searchableSurfaceCollection,
@@ -34,7 +34,7 @@ void mousse::searchableSurfaceCollection::findNearest
   nearestSurf = -1;
   List<pointIndexHit> hitInfo(samples.size());
   const scalarField localMinDistSqr(samples.size(), GREAT);
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     subGeom_[surfI].findNearest
     (
@@ -46,7 +46,7 @@ void mousse::searchableSurfaceCollection::findNearest
       localMinDistSqr,
       hitInfo
     );
-    forAll(hitInfo, pointI)
+    FOR_ALL(hitInfo, pointI)
     {
       if (hitInfo[pointI].hit())
       {
@@ -88,7 +88,7 @@ void mousse::searchableSurfaceCollection::sortHits
 {
   // Count hits per surface.
   labelList nHits(subGeom_.size(), 0);
-  forAll(info, pointI)
+  FOR_ALL(info, pointI)
   {
     if (info[pointI].hit())
     {
@@ -101,13 +101,13 @@ void mousse::searchableSurfaceCollection::sortHits
   surfInfo.setSize(subGeom_.size());
   // Per surface the original position
   infoMap.setSize(subGeom_.size());
-  forAll(surfInfo, surfI)
+  FOR_ALL(surfInfo, surfI)
   {
     surfInfo[surfI].setSize(nHits[surfI]);
     infoMap[surfI].setSize(nHits[surfI]);
   }
   nHits = 0;
-  forAll(info, pointI)
+  FOR_ALL(info, pointI)
   {
     if (info[pointI].hit())
     {
@@ -144,7 +144,7 @@ mousse::searchableSurfaceCollection::searchableSurfaceCollection
   Info<< "SearchableCollection : " << name() << endl;
   label surfI = 0;
   label startIndex = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (dict.isDict(iter().keyword()))
     {
@@ -168,7 +168,7 @@ mousse::searchableSurfaceCollection::searchableSurfaceCollection
       // if all indices offset by globalSize() of the local region...
       if (s.size() != s.globalSize())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "searchableSurfaceCollection::searchableSurfaceCollection"
           "(const IOobject&, const dictionary&)"
@@ -193,7 +193,7 @@ mousse::searchableSurfaceCollection::searchableSurfaceCollection
   indexOffset_.setSize(surfI+1);
   // Bounds is the overall bounds
   bounds() = boundBox(point::max, point::min);
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     const boundBox& surfBb = subGeom_[surfI].bounds();
     // Transform back to global coordinate sys.
@@ -227,7 +227,7 @@ const mousse::wordList& mousse::searchableSurfaceCollection::regions() const
   {
     regionOffset_.setSize(subGeom_.size());
     DynamicList<word> allRegions;
-    forAll(subGeom_, surfI)
+    FOR_ALL(subGeom_, surfI)
     {
       regionOffset_[surfI] = allRegions.size();
       if (mergeSubRegions_)
@@ -238,7 +238,7 @@ const mousse::wordList& mousse::searchableSurfaceCollection::regions() const
       else
       {
         const wordList& subRegions = subGeom_[surfI].regions();
-        forAll(subRegions, i)
+        FOR_ALL(subRegions, i)
         {
           allRegions.append(instance_[surfI] + "_" + subRegions[i]);
         }
@@ -259,10 +259,10 @@ mousse::searchableSurfaceCollection::coordinates() const
   pointField& ctrs = tCtrs();
   // Append individual coordinates
   label coordI = 0;
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     const pointField subCoords(subGeom_[surfI].coordinates());
-    forAll(subCoords, i)
+    FOR_ALL(subCoords, i)
     {
       ctrs[coordI++] = transform_[surfI].globalPosition
       (
@@ -286,13 +286,13 @@ void mousse::searchableSurfaceCollection::boundingSpheres
   radiusSqr.setSize(centres.size());
   // Append individual coordinates
   label coordI = 0;
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     scalar maxScale = cmptMax(scale_[surfI]);
     pointField subCentres;
     scalarField subRadiusSqr;
     subGeom_[surfI].boundingSpheres(subCentres, subRadiusSqr);
-    forAll(subCentres, i)
+    FOR_ALL(subCentres, i)
     {
       centres[coordI] = transform_[surfI].globalPosition
       (
@@ -312,7 +312,7 @@ mousse::searchableSurfaceCollection::points() const
 {
   // Get overall size
   label nPoints = 0;
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     nPoints += subGeom_[surfI].points()().size();
   }
@@ -320,10 +320,10 @@ mousse::searchableSurfaceCollection::points() const
   pointField& pts = tPts();
   // Append individual coordinates
   nPoints = 0;
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     const pointField subCoords(subGeom_[surfI].points());
-    forAll(subCoords, i)
+    FOR_ALL(subCoords, i)
     {
       pts[nPoints++] = transform_[surfI].globalPosition
       (
@@ -367,7 +367,7 @@ void mousse::searchableSurfaceCollection::findLine
   // Current nearest (to start) intersection
   pointField nearest(end);
   List<pointIndexHit> hitInfo(start.size());
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     // Starting point
     tmp<pointField> e0 = cmptDivide
@@ -388,7 +388,7 @@ void mousse::searchableSurfaceCollection::findLine
       scale_[surfI]
     );
     subGeom_[surfI].findLine(e0, e1, hitInfo);
-    forAll(hitInfo, pointI)
+    FOR_ALL(hitInfo, pointI)
     {
       if (hitInfo[pointI].hit())
       {
@@ -414,7 +414,7 @@ void mousse::searchableSurfaceCollection::findLine
   // Debug check
   if (false)
   {
-    forAll(info, pointI)
+    FOR_ALL(info, pointI)
     {
       if (info[pointI].hit())
       {
@@ -426,7 +426,7 @@ void mousse::searchableSurfaceCollection::findLine
           scalar s = ((info[pointI].rawPoint()-start[pointI])&n);
           if (s < 0 || s > 1)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "searchableSurfaceCollection::findLine(..)"
             )   << "point:" << info[pointI]
@@ -462,7 +462,7 @@ void mousse::searchableSurfaceCollection::findLineAll
   List<pointIndexHit> nearestInfo;
   findLine(start, end, nearestInfo);
   info.setSize(start.size());
-  forAll(info, pointI)
+  FOR_ALL(info, pointI)
   {
     if (nearestInfo[pointI].hit())
     {
@@ -509,10 +509,10 @@ void mousse::searchableSurfaceCollection::getRegion
     if (mergeSubRegions_)
     {
       // Actually no need for surfInfo. Just take region for surface.
-      forAll(infoMap, surfI)
+      FOR_ALL(infoMap, surfI)
       {
         const labelList& map = infoMap[surfI];
-        forAll(map, i)
+        FOR_ALL(map, i)
         {
           region[map[i]] = regionOffset_[surfI];
         }
@@ -520,12 +520,12 @@ void mousse::searchableSurfaceCollection::getRegion
     }
     else
     {
-      forAll(infoMap, surfI)
+      FOR_ALL(infoMap, surfI)
       {
         labelList surfRegion;
         subGeom_[surfI].getRegion(surfInfo[surfI], surfRegion);
         const labelList& map = infoMap[surfI];
-        forAll(map, i)
+        FOR_ALL(map, i)
         {
           region[map[i]] = regionOffset_[surfI] + surfRegion[i];
         }
@@ -555,14 +555,14 @@ void mousse::searchableSurfaceCollection::getNormal
     sortHits(info, surfInfo, infoMap);
     normal.setSize(info.size());
     // Do region tests
-    forAll(surfInfo, surfI)
+    FOR_ALL(surfInfo, surfI)
     {
       vectorField surfNormal;
       subGeom_[surfI].getNormal(surfInfo[surfI], surfNormal);
       // Transform back to global coordinate sys.
       surfNormal = transform_[surfI].globalVector(surfNormal);
       const labelList& map = infoMap[surfI];
-      forAll(map, i)
+      FOR_ALL(map, i)
       {
         normal[map[i]] = surfNormal[i];
       }
@@ -571,11 +571,11 @@ void mousse::searchableSurfaceCollection::getNormal
 }
 void mousse::searchableSurfaceCollection::getVolumeType
 (
-  const pointField& points,
-  List<volumeType>& volType
+  const pointField&,
+  List<volumeType>&
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "searchableSurfaceCollection::getVolumeType(const pointField&"
     ", List<volumeType>&) const"
@@ -590,7 +590,7 @@ void mousse::searchableSurfaceCollection::distribute
   autoPtr<mapDistribute>& pointMap
 )
 {
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     // Note:Tranform the bounding boxes? Something like
     // pointField bbPoints =
@@ -615,7 +615,7 @@ void mousse::searchableSurfaceCollection::distribute
 }
 void mousse::searchableSurfaceCollection::setField(const labelList& values)
 {
-  forAll(subGeom_, surfI)
+  FOR_ALL(subGeom_, surfI)
   {
     subGeom_[surfI].setField
     (
@@ -652,7 +652,7 @@ void mousse::searchableSurfaceCollection::getField
     List<List<label> > infoMap;
     sortHits(info, surfInfo, infoMap);
     // Do surface tests
-    forAll(surfInfo, surfI)
+    FOR_ALL(surfInfo, surfI)
     {
       labelList surfValues;
       subGeom_[surfI].getField(surfInfo[surfI], surfValues);
@@ -661,7 +661,7 @@ void mousse::searchableSurfaceCollection::getField
         // Size values only when we have a surface that supports it.
         values.setSize(info.size());
         const labelList& map = infoMap[surfI];
-        forAll(map, i)
+        FOR_ALL(map, i)
         {
           values[map[i]] = surfValues[i];
         }

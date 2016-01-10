@@ -7,11 +7,11 @@
 // Static Data Members
 namespace mousse
 {
-  namespace distributionModels
-  {
-    defineTypeNameAndDebug(exponential, 0);
-    addToRunTimeSelectionTable(distributionModel, exponential, dictionary);
-  }
+namespace distributionModels
+{
+DEFINE_TYPE_NAME_AND_DEBUG(exponential, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(distributionModel, exponential, dictionary);
+}
 }
 // Constructors 
 mousse::distributionModels::exponential::exponential
@@ -20,19 +20,19 @@ mousse::distributionModels::exponential::exponential
   cachedRandom& rndGen
 )
 :
-  distributionModel(typeName, dict, rndGen),
-  minValue_(readScalar(distributionModelDict_.lookup("minValue"))),
-  maxValue_(readScalar(distributionModelDict_.lookup("maxValue"))),
-  lambda_(readScalar(distributionModelDict_.lookup("lambda")))
+  distributionModel{typeName, dict, rndGen},
+  minValue_{readScalar(distributionModelDict_.lookup("minValue"))},
+  maxValue_{readScalar(distributionModelDict_.lookup("maxValue"))},
+  lambda_{readScalar(distributionModelDict_.lookup("lambda"))}
 {
   check();
 }
 mousse::distributionModels::exponential::exponential(const exponential& p)
 :
-  distributionModel(p),
-  minValue_(p.minValue_),
-  maxValue_(p.maxValue_),
-  lambda_(p.lambda_)
+  distributionModel{p},
+  minValue_{p.minValue_},
+  maxValue_{p.maxValue_},
+  lambda_{p.lambda_}
 {}
 // Destructor 
 mousse::distributionModels::exponential::~exponential()

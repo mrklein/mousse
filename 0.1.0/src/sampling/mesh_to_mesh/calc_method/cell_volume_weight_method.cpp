@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cellVolumeWeightMethod, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(cellVolumeWeightMethod, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     meshToMeshMethod,
     cellVolumeWeightMethod,
@@ -37,7 +37,7 @@ bool mousse::cellVolumeWeightMethod::findInitialSeeds
     {
       const pointField
         pts(srcCells[srcI].points(srcFaces, srcPts).xfer());
-      forAll(pts, ptI)
+      FOR_ALL(pts, ptI)
       {
         const point& pt = pts[ptI];
         label tgtI = tgt_.cellTree().findInside(pt);
@@ -124,12 +124,12 @@ void mousse::cellVolumeWeightMethod::calculateAddressing
   }
   while (srcCellI != -1);
   // transfer addressing into persistent storage
-  forAll(srcToTgtCellAddr, i)
+  FOR_ALL(srcToTgtCellAddr, i)
   {
     srcToTgtCellAddr[i].transfer(srcToTgtAddr[i]);
     srcToTgtCellWght[i].transfer(srcToTgtWght[i]);
   }
-  forAll(tgtToSrcCellAddr, i)
+  FOR_ALL(tgtToSrcCellAddr, i)
   {
     tgtToSrcCellAddr[i].transfer(tgtToSrcAddr[i]);
     tgtToSrcCellWght[i].transfer(tgtToSrcWght[i]);
@@ -150,12 +150,12 @@ void mousse::cellVolumeWeightMethod::setNextCells
   // set possible seeds for later use by querying all src cell neighbours
   // with all visited target cells
   bool valuesSet = false;
-  forAll(srcNbrCells, i)
+  FOR_ALL(srcNbrCells, i)
   {
     label cellS = srcNbrCells[i];
     if (mapFlag[cellS] && seedCells[cellS] == -1)
     {
-      forAll(visitedCells, j)
+      FOR_ALL(visitedCells, j)
       {
         label cellT = visitedCells[j];
         if (intersect(cellS, cellT))

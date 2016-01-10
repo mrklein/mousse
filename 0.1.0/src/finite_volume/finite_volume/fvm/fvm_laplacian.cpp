@@ -59,21 +59,21 @@ laplacian
   );
 }
 template<class Type>
-tmp<fvMatrix<Type> >
+tmp<fvMatrix<Type>>
 laplacian
 (
   const zero&,
   const GeometricField<Type, fvPatchField, volMesh>& vf,
-  const word& name
+  const word& /*name*/
 )
 {
-  return tmp<fvMatrix<Type> >
-  (
-    new fvMatrix<Type>(vf, dimensionSet(0, 0, -2, 0, 0))
-  );
+  return tmp<fvMatrix<Type>>
+  {
+    new fvMatrix<Type>{vf, dimensionSet(0, 0, -2, 0, 0)}
+  };
 }
 template<class Type>
-tmp<fvMatrix<Type> >
+tmp<fvMatrix<Type>>
 laplacian
 (
   const zero&,

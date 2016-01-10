@@ -8,13 +8,16 @@
 #include "ifstream.hpp"
 #include "read_hex_label.hpp"
 #include "string_list.hpp"
-// Member Functions 
+#include "istring_stream.hpp"
+#include "ostring_stream.hpp"
+
+// Member Functions
 bool mousse::triSurface::readTRI(const fileName& TRIfileName)
 {
   IFstream TRIfile(TRIfileName);
   if (!TRIfile.good())
   {
-    FatalErrorIn("triSurface::readTRI(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readTRI(const fileName&)")
       << "Cannot read file " << TRIfileName
       << exit(FatalError);
   }
@@ -81,7 +84,7 @@ bool mousse::triSurface::readTRI(const fileName& TRIfileName)
   }
   pointField rawPoints(STLpoints.size());
   label pointI = 0;
-  forAllConstIter(SLList<STLpoint>, STLpoints, iter)
+  FOR_ALL_CONST_ITER(SLList<STLpoint>, STLpoints, iter)
   {
     rawPoints[pointI++] = *iter;
   }
@@ -89,7 +92,7 @@ bool mousse::triSurface::readTRI(const fileName& TRIfileName)
   // Assign triangles
   pointI = 0;
   SLList<label>::const_iterator iter = STLlabels.begin();
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i)[0] = pointI++;
     operator[](i)[1] = pointI++;
@@ -104,7 +107,7 @@ bool mousse::triSurface::readTRI(const fileName& TRIfileName)
   // Convert solidNames into regionNames
   stringList names(STLsolidNames.toc());
   patches_.setSize(names.size());
-  forAll(names, nameI)
+  FOR_ALL(names, nameI)
   {
     patches_[nameI].name() = names[nameI];
     patches_[nameI].geometricType() = "empty";

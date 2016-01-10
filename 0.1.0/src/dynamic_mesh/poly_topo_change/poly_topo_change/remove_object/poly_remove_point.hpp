@@ -23,7 +23,7 @@ class polyRemovePoint
 public:
   // Static data members
     //- Runtime type information
-    TypeName("removePoint");
+    TYPE_NAME("removePoint");
   // Constructors
     //- Construct null.  Used for constructing lists
     polyRemovePoint()

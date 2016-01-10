@@ -3,13 +3,15 @@
 // Copyright (C) 2016 mousse project
 
 #include "patch_dist_method.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(patchDistMethod, 0);
-  defineRunTimeSelectionTable(patchDistMethod, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(patchDistMethod, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(patchDistMethod, dictionary);
 }
-// Constructors 
+
+// Constructors
 mousse::patchDistMethod::patchDistMethod
 (
   const fvMesh& mesh,
@@ -19,7 +21,7 @@ mousse::patchDistMethod::patchDistMethod
   mesh_(mesh),
   patchIDs_(patchIDs)
 {}
-// Selector 
+// Selector
 mousse::autoPtr<mousse::patchDistMethod> mousse::patchDistMethod::New
 (
   const dictionary& dict,
@@ -33,7 +35,7 @@ mousse::autoPtr<mousse::patchDistMethod> mousse::patchDistMethod::New
     dictionaryConstructorTablePtr_->find(patchDistMethodType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn("patchDistMethod::New")
+    FATAL_ERROR_IN("patchDistMethod::New")
       << "Unknown patchDistMethodType type "
       << patchDistMethodType << endl << endl
       << "Valid patchDistMethod types are : " << endl
@@ -42,6 +44,6 @@ mousse::autoPtr<mousse::patchDistMethod> mousse::patchDistMethod::New
   }
   return cstrIter()(dict, mesh, patchIDs);
 }
-// Destructor 
+// Destructor
 mousse::patchDistMethod::~patchDistMethod()
 {}

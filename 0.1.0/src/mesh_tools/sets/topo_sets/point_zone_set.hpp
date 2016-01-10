@@ -23,7 +23,7 @@ class pointZoneSet
  // Private Member Functions
 public:
   //- Runtime type information
-  TypeName("pointZoneSet");
+  TYPE_NAME("pointZoneSet");
   // Constructors
     //- Construct from objectRegistry and name
     pointZoneSet

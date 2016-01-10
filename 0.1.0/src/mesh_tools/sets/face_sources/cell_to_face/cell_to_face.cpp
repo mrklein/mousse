@@ -11,20 +11,22 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cellToFace, 0);
-  addToRunTimeSelectionTable(topoSetSource, cellToFace, word);
-  addToRunTimeSelectionTable(topoSetSource, cellToFace, istream);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::cellToFace::cellAction,
-    2
-  >::names[] =
-  {
-    "all",
-    "both"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(cellToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, cellToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, cellToFace, istream);
+
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::cellToFace::cellAction,
+  2
+>::names[] =
+{
+  "all",
+  "both"
+};
 }
+
 mousse::topoSetSource::addToUsageTable mousse::cellToFace::usage_
 (
   cellToFace::typeName,
@@ -32,6 +34,7 @@ mousse::topoSetSource::addToUsageTable mousse::cellToFace::usage_
   "    Select -all : all faces of cells in the cellSet\n"
   "           -both: faces where both neighbours are in the cellSet\n\n"
 );
+
 const mousse::NamedEnum<mousse::cellToFace::cellAction, 2>
   mousse::cellToFace::cellActionNames_;
 // Private Member Functions 
@@ -47,11 +50,11 @@ void mousse::cellToFace::combine(topoSet& set, const bool add) const
   if (option_ == ALL)
   {
     // Add all faces from cell
-    forAllConstIter(cellSet, loadedSet, iter)
+    FOR_ALL_CONST_ITER(cellSet, loadedSet, iter)
     {
       const label cellI = iter.key();
       const labelList& cFaces = mesh_.cells()[cellI];
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         addOrDelete(set, cFaces[cFaceI], add);
       }
@@ -74,13 +77,13 @@ void mousse::cellToFace::combine(topoSet& set, const bool add) const
     }
     // Get coupled cell status
     boolList neiInSet(mesh_.nFaces()-nInt, false);
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (pp.coupled())
       {
         label faceI = pp.start();
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           neiInSet[faceI-nInt] = loadedSet.found(own[faceI]);
           faceI++;
@@ -89,13 +92,13 @@ void mousse::cellToFace::combine(topoSet& set, const bool add) const
     }
     syncTools::swapBoundaryFaceList(mesh_, neiInSet);
     // Check all boundary faces
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (pp.coupled())
       {
         label faceI = pp.start();
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           if (loadedSet.found(own[faceI]) && neiInSet[faceI-nInt])
           {

@@ -20,7 +20,7 @@ class interpolationCellPatchConstrained
 {
 public:
   //- Runtime type information
-  TypeName("cellPatchConstrained");
+  TYPE_NAME("cellPatchConstrained");
   // Constructors
     //- Construct from components
     interpolationCellPatchConstrained

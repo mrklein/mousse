@@ -12,7 +12,7 @@
 #include "face_cell_wave.hpp"
 namespace mousse
 {
-TemplateName(MeshWave);
+TEMPLATE_NAME(MeshWave);
 template<class Type, class TrackingData = int>
 class MeshWave
 :

@@ -10,13 +10,13 @@ template<class TrackingData>
 inline bool mousse::pointEdgeCollapse::update
 (
   const pointEdgeCollapse& w2,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
   if (!w2.valid(td))
   {
-    FatalErrorIn("pointEdgeCollapse::update(..)")
+    FATAL_ERROR_IN("pointEdgeCollapse::update(..)")
       << "problem." << abort(FatalError);
   }
   if (!valid(td))
@@ -113,17 +113,17 @@ inline bool mousse::pointEdgeCollapse::samePoint(const point& pt) const
   }
 }
 template<class TrackingData>
-inline bool mousse::pointEdgeCollapse::valid(TrackingData& td) const
+inline bool mousse::pointEdgeCollapse::valid(TrackingData&) const
 {
   return collapseIndex_ != -2;
 }
 template<class TrackingData>
 inline void mousse::pointEdgeCollapse::leaveDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
+  const polyPatch&,
+  const label /*patchPointI*/,
   const point& coord,
-  TrackingData& td
+  TrackingData&
 )
 {
   collapsePoint_ -= coord;
@@ -132,7 +132,7 @@ template<class TrackingData>
 inline void mousse::pointEdgeCollapse::transform
 (
   const tensor& rotTensor,
-  TrackingData& td
+  TrackingData&
 )
 {
   collapsePoint_ = mousse::transform(rotTensor, collapsePoint_);
@@ -142,10 +142,10 @@ inline void mousse::pointEdgeCollapse::transform
 template<class TrackingData>
 inline void mousse::pointEdgeCollapse::enterDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
+  const polyPatch&,
+  const label /*patchPointI*/,
   const point& coord,
-  TrackingData& td
+  TrackingData&
 )
 {
   // back to absolute form
@@ -155,9 +155,9 @@ inline void mousse::pointEdgeCollapse::enterDomain
 template<class TrackingData>
 inline bool mousse::pointEdgeCollapse::updatePoint
 (
-  const polyMesh& mesh,
-  const label pointI,
-  const label edgeI,
+  const polyMesh&,
+  const label /*pointI*/,
+  const label /*edgeI*/,
   const pointEdgeCollapse& edgeInfo,
   const scalar tol,
   TrackingData& td
@@ -169,8 +169,8 @@ inline bool mousse::pointEdgeCollapse::updatePoint
 template<class TrackingData>
 inline bool mousse::pointEdgeCollapse::updatePoint
 (
-  const polyMesh& mesh,
-  const label pointI,
+  const polyMesh&,
+  const label /*pointI*/,
   const pointEdgeCollapse& newPointInfo,
   const scalar tol,
   TrackingData& td
@@ -193,9 +193,9 @@ inline bool mousse::pointEdgeCollapse::updatePoint
 template<class TrackingData>
 inline bool mousse::pointEdgeCollapse::updateEdge
 (
-  const polyMesh& mesh,
-  const label edgeI,
-  const label pointI,
+  const polyMesh&,
+  const label /*edgeI*/,
+  const label /*pointI*/,
   const pointEdgeCollapse& pointInfo,
   const scalar tol,
   TrackingData& td
@@ -207,7 +207,7 @@ template<class TrackingData>
 inline bool mousse::pointEdgeCollapse::equal
 (
   const pointEdgeCollapse& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

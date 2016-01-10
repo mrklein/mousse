@@ -24,14 +24,14 @@ void mousse::slidingInterface::clearCouple
   const polyMesh& mesh = topoChanger().mesh();
   const labelList& cutPointZoneLabels =
     mesh.pointZones()[cutPointZoneID_.index()];
-  forAll(cutPointZoneLabels, pointI)
+  FOR_ALL(cutPointZoneLabels, pointI)
   {
     ref.setAction(polyRemovePoint(cutPointZoneLabels[pointI]));
   }
   // Remove all faces from the face zone
   const labelList& cutFaceZoneLabels =
     mesh.faceZones()[cutFaceZoneID_.index()];
-  forAll(cutFaceZoneLabels, faceI)
+  FOR_ALL(cutFaceZoneLabels, faceI)
   {
     ref.setAction(polyRemoveFace(cutFaceZoneLabels[faceI]));
   }

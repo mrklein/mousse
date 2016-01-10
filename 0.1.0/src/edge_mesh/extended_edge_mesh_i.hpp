@@ -79,7 +79,7 @@ inline mousse::vector mousse::extendedEdgeMesh::edgeDirection
   }
   else
   {
-    FatalErrorIn("mousse::extendedEdgeMesh::edgeDirection")
+    FATAL_ERROR_IN("mousse::extendedEdgeMesh::edgeDirection")
       << "Requested ptI " << ptI << " is not a point on the requested "
       << "edgeI " << edgeI << ". edgeI start and end: "
       << e.start() << " " << e.end()
@@ -98,7 +98,7 @@ inline mousse::vectorField mousse::extendedEdgeMesh::edgeNormals
 ) const
 {
   vectorField norms(edgeNormIs.size());
-  forAll(edgeNormIs, i)
+  FOR_ALL(edgeNormIs, i)
   {
     norms[i] = normals_[edgeNormIs[i]];
   }
@@ -121,7 +121,7 @@ inline mousse::vectorField mousse::extendedEdgeMesh::featurePointNormals
 {
   if (!featurePoint(ptI))
   {
-    WarningIn("vectorField extendedEdgeMesh::featurePointNormals")
+    WARNING_IN("vectorField extendedEdgeMesh::featurePointNormals")
       << "Requesting the normals of a non-feature point. "
       << "Returned zero length vectorField."
       << endl;
@@ -129,7 +129,7 @@ inline mousse::vectorField mousse::extendedEdgeMesh::featurePointNormals
   }
   labelList featPtNormIs(featurePointNormals_[ptI]);
   vectorField norms(featPtNormIs.size());
-  forAll(featPtNormIs, i)
+  FOR_ALL(featPtNormIs, i)
   {
     norms[i] = normals_[featPtNormIs[i]];
   }
@@ -195,7 +195,7 @@ inline mousse::PackedList<2> mousse::extendedEdgeMesh::edgeBaffles
 {
   const labelList& eNormals = edgeNormals_[edgeI];
   DynamicList<label> edgeBaffles(eNormals.size());
-  forAll(eNormals, enI)
+  FOR_ALL(eNormals, enI)
   {
     const label normI = eNormals[enI];
     if (normalVolumeTypes_[normI])

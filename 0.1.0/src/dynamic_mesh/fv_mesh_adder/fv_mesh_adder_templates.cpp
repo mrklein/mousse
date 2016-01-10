@@ -37,7 +37,7 @@ void mousse::fvMeshAdder::MapVolField
     const labelList& oldPatchSizes = meshMap.oldPatchSizes();
     // Reorder old patches in order of new ones. Put removed patches at end.
     label unusedPatchI = 0;
-    forAll(oldPatchMap, patchI)
+    FOR_ALL(oldPatchMap, patchI)
     {
       label newPatchI = oldPatchMap[patchI];
       if (newPatchI != -1)
@@ -48,7 +48,7 @@ void mousse::fvMeshAdder::MapVolField
     label nUsedPatches = unusedPatchI;
     // Reorder list for patchFields
     labelList oldToNew(oldPatchMap.size());
-    forAll(oldPatchMap, patchI)
+    FOR_ALL(oldPatchMap, patchI)
     {
       label newPatchI = oldPatchMap[patchI];
       if (newPatchI != -1)
@@ -76,7 +76,7 @@ void mousse::fvMeshAdder::MapVolField
     }
     // Map old values
     // ~~~~~~~~~~~~~~
-    forAll(oldPatchMap, patchI)
+    FOR_ALL(oldPatchMap, patchI)
     {
       label newPatchI = oldPatchMap[patchI];
       if (newPatchI != -1)
@@ -119,7 +119,7 @@ void mousse::fvMeshAdder::MapVolField
   {
     const labelList& addedPatchMap = meshMap.addedPatchMap();
     // Add addedMesh patches
-    forAll(addedPatchMap, patchI)
+    FOR_ALL(addedPatchMap, patchI)
     {
       label newPatchI = addedPatchMap[patchI];
       if (newPatchI != -1)
@@ -161,7 +161,7 @@ void mousse::fvMeshAdder::MapVolField
           // PatchField will have correct size already. Just slot in
           // my elements.
           labelList addedToNew(oldPatch.size(), -1);
-          forAll(addedToNew, i)
+          FOR_ALL(addedToNew, i)
           {
             label addedFaceI = oldPatch.start()+i;
             label newFaceI = meshMap.addedFaceMap()[addedFaceI];
@@ -237,7 +237,7 @@ void mousse::fvMeshAdder::MapVolFields
     }
     else
     {
-      WarningIn("fvMeshAdder::MapVolFields(..)")
+      WARNING_IN("fvMeshAdder::MapVolFields(..)")
         << "Not mapping field " << fld.name()
         << " since not present on mesh to add"
         << endl;
@@ -269,11 +269,11 @@ void mousse::fvMeshAdder::MapSurfaceField
     // Faces that were boundary faces but are not anymore.
     // Use owner value (so lowest numbered cell, i.e. from 'old' not 'added'
     // mesh)
-    forAll(bfld, patchI)
+    FOR_ALL(bfld, patchI)
     {
       const fvsPatchField<Type>& pf = bfld[patchI];
       label start = oldPatchStarts[patchI];
-      forAll(pf, i)
+      FOR_ALL(pf, i)
       {
         label newFaceI = meshMap.oldFaceMap()[start + i];
         if (newFaceI >= 0 && newFaceI < mesh.nInternalFaces())
@@ -290,7 +290,7 @@ void mousse::fvMeshAdder::MapSurfaceField
     const labelList& oldPatchSizes = meshMap.oldPatchSizes();
     // Reorder old patches in order of new ones. Put removed patches at end.
     label unusedPatchI = 0;
-    forAll(oldPatchMap, patchI)
+    FOR_ALL(oldPatchMap, patchI)
     {
       label newPatchI = oldPatchMap[patchI];
       if (newPatchI != -1)
@@ -301,7 +301,7 @@ void mousse::fvMeshAdder::MapSurfaceField
     label nUsedPatches = unusedPatchI;
     // Reorder list for patchFields
     labelList oldToNew(oldPatchMap.size());
-    forAll(oldPatchMap, patchI)
+    FOR_ALL(oldPatchMap, patchI)
     {
       label newPatchI = oldPatchMap[patchI];
       if (newPatchI != -1)
@@ -329,7 +329,7 @@ void mousse::fvMeshAdder::MapSurfaceField
     }
     // Map old values
     // ~~~~~~~~~~~~~~
-    forAll(oldPatchMap, patchI)
+    FOR_ALL(oldPatchMap, patchI)
     {
       label newPatchI = oldPatchMap[patchI];
       if (newPatchI != -1)
@@ -372,7 +372,7 @@ void mousse::fvMeshAdder::MapSurfaceField
   {
     const labelList& addedPatchMap = meshMap.addedPatchMap();
     // Add addedMesh patches
-    forAll(addedPatchMap, patchI)
+    FOR_ALL(addedPatchMap, patchI)
     {
       label newPatchI = addedPatchMap[patchI];
       if (newPatchI != -1)
@@ -414,7 +414,7 @@ void mousse::fvMeshAdder::MapSurfaceField
           // PatchField will have correct size already. Just slot in
           // my elements.
           labelList addedToNew(oldPatch.size(), -1);
-          forAll(addedToNew, i)
+          FOR_ALL(addedToNew, i)
           {
             label addedFaceI = oldPatch.start()+i;
             label newFaceI = meshMap.addedFaceMap()[addedFaceI];
@@ -482,7 +482,7 @@ void mousse::fvMeshAdder::MapSurfaceFields
     }
     else
     {
-      WarningIn("fvMeshAdder::MapSurfaceFields(..)")
+      WARNING_IN("fvMeshAdder::MapSurfaceFields(..)")
         << "Not mapping field " << fld.name()
         << " since not present on mesh to add"
         << endl;

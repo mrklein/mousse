@@ -27,7 +27,7 @@ mousse::UIPstream::UIPstream
   clearAtEnd_(clearAtEnd),
   messageSize_(0)
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "UIPstream::UIPstream\n"
     "(\n"
@@ -55,7 +55,7 @@ mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
   clearAtEnd_(true),
   messageSize_(0)
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "UIPstream::UIPstream\n"
     "(\n"
@@ -67,15 +67,15 @@ mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
 // Member Functions 
 mousse::label mousse::UIPstream::read
 (
-  const commsTypes commsType,
-  const int fromProcNo,
-  char* buf,
-  const std::streamsize bufSize,
-  const int tag,
-  const label communicator
+  const commsTypes,
+  const int /*fromProcNo*/,
+  char* /*buf*/,
+  const std::streamsize /*bufSize*/,
+  const int /*tag*/,
+  const label /*communicator*/
 )
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "UIPstream::read"
     "("

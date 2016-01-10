@@ -22,7 +22,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(fvMeshDistribute, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(fvMeshDistribute, 0);
 }
 // Private Member Functions 
 mousse::labelList mousse::fvMeshDistribute::select
@@ -33,7 +33,7 @@ mousse::labelList mousse::fvMeshDistribute::select
 )
 {
   label n = 0;
-  forAll(values, i)
+  FOR_ALL(values, i)
   {
     if (selectEqual == (values[i] == value))
     {
@@ -42,7 +42,7 @@ mousse::labelList mousse::fvMeshDistribute::select
   }
   labelList indices(n);
   n = 0;
-  forAll(values, i)
+  FOR_ALL(values, i)
   {
     if (selectEqual == (values[i] == value))
     {
@@ -66,7 +66,7 @@ void mousse::fvMeshDistribute::checkEqualWordList
   {
     if (allNames[procI] != allNames[0])
     {
-      FatalErrorIn("fvMeshDistribute::checkEqualWordList(..)")
+      FATAL_ERROR_IN("fvMeshDistribute::checkEqualWordList(..)")
         << "When checking for equal " << msg.c_str() << " :" << endl
         << "processor0 has:" << allNames[0] << endl
         << "processor" << procI << " has:" << allNames[procI] << endl
@@ -82,9 +82,9 @@ mousse::wordList mousse::fvMeshDistribute::mergeWordList(const wordList& procNam
   Pstream::gatherList(allNames);
   Pstream::scatterList(allNames);
   HashSet<word> mergedNames;
-  forAll(allNames, procI)
+  FOR_ALL(allNames, procI)
   {
-    forAll(allNames[procI], i)
+    FOR_ALL(allNames[procI], i)
     {
       mergedNames.insert(allNames[procI][i]);
     }
@@ -102,7 +102,7 @@ void mousse::fvMeshDistribute::printMeshInfo(const fvMesh& mesh)
     << "    cells        :" << mesh.nCells() << nl;
   const fvBoundaryMesh& patches = mesh.boundary();
   Pout<< "Patches:" << endl;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI].patch();
     Pout<< "    " << patchI << " name:" << pp.name()
@@ -114,7 +114,7 @@ void mousse::fvMeshDistribute::printMeshInfo(const fvMesh& mesh)
   if (mesh.pointZones().size())
   {
     Pout<< "PointZones:" << endl;
-    forAll(mesh.pointZones(), zoneI)
+    FOR_ALL(mesh.pointZones(), zoneI)
     {
       const pointZone& pz = mesh.pointZones()[zoneI];
       Pout<< "    " << zoneI << " name:" << pz.name()
@@ -125,7 +125,7 @@ void mousse::fvMeshDistribute::printMeshInfo(const fvMesh& mesh)
   if (mesh.faceZones().size())
   {
     Pout<< "FaceZones:" << endl;
-    forAll(mesh.faceZones(), zoneI)
+    FOR_ALL(mesh.faceZones(), zoneI)
     {
       const faceZone& fz = mesh.faceZones()[zoneI];
       Pout<< "    " << zoneI << " name:" << fz.name()
@@ -136,7 +136,7 @@ void mousse::fvMeshDistribute::printMeshInfo(const fvMesh& mesh)
   if (mesh.cellZones().size())
   {
     Pout<< "CellZones:" << endl;
-    forAll(mesh.cellZones(), zoneI)
+    FOR_ALL(mesh.cellZones(), zoneI)
     {
       const cellZone& cz = mesh.cellZones()[zoneI];
       Pout<< "    " << zoneI << " name:" << cz.name()
@@ -150,14 +150,14 @@ void mousse::fvMeshDistribute::printCoupleInfo
   const primitiveMesh& mesh,
   const labelList& sourceFace,
   const labelList& sourceProc,
-  const labelList& sourcePatch,
+  const labelList& /*sourcePatch*/,
   const labelList& sourceNewNbrProc
 )
 {
   Pout<< nl
     << "Current coupling info:"
     << endl;
-  forAll(sourceFace, bFaceI)
+  FOR_ALL(sourceFace, bFaceI)
   {
     label meshFaceI = mesh.nInternalFaces() + bFaceI;
     Pout<< "    meshFace:" << meshFaceI
@@ -173,7 +173,7 @@ mousse::label mousse::fvMeshDistribute::findNonEmptyPatch() const
 {
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   label nonEmptyPatchI = -1;
-  forAllReverse(patches, patchI)
+  FOR_ALL_REVERSE(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (!isA<emptyPolyPatch>(pp) && !pp.coupled())
@@ -184,7 +184,7 @@ mousse::label mousse::fvMeshDistribute::findNonEmptyPatch() const
   }
   if (nonEmptyPatchI == -1)
   {
-    FatalErrorIn("fvMeshDistribute::findNonEmptyPatch() const")
+    FATAL_ERROR_IN("fvMeshDistribute::findNonEmptyPatch() const")
       << "Cannot find a patch which is neither of type empty nor"
       << " coupled in patches " << patches.names() << endl
       << "There has to be at least one such patch for"
@@ -200,7 +200,7 @@ mousse::label mousse::fvMeshDistribute::findNonEmptyPatch() const
   // Do additional test for processor patches intermingled with non-proc
   // patches.
   label procPatchI = -1;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (isA<processorPolyPatch>(patches[patchI]))
     {
@@ -208,7 +208,7 @@ mousse::label mousse::fvMeshDistribute::findNonEmptyPatch() const
     }
     else if (procPatchI != -1)
     {
-      FatalErrorIn("fvMeshDistribute::findNonEmptyPatch() const")
+      FATAL_ERROR_IN("fvMeshDistribute::findNonEmptyPatch() const")
         << "Processor patches should be at end of patch list."
         << endl
         << "Have processor patch " << procPatchI
@@ -230,7 +230,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::deleteProcPatches
   // or new patchID
   labelList newPatchID(mesh_.nFaces() - mesh_.nInternalFaces(), -1);
   label nProcPatches = 0;
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     const polyPatch& pp = mesh_.boundaryMesh()[patchI];
     if (isA<processorPolyPatch>(pp))
@@ -242,7 +242,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::deleteProcPatches
           << endl;
       }
       label offset = pp.start() - mesh_.nInternalFaces();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         newPatchID[offset+i] = destinationPatch;
       }
@@ -259,7 +259,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::deleteProcPatches
     labelList oldToNew(identity(mesh_.boundaryMesh().size()));
     label newI = 0;
     // Non processor patches first
-    forAll(mesh_.boundaryMesh(), patchI)
+    FOR_ALL(mesh_.boundaryMesh(), patchI)
     {
       if (!isA<processorPolyPatch>(mesh_.boundaryMesh()[patchI]))
       {
@@ -268,7 +268,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::deleteProcPatches
     }
     label nNonProcPatches = newI;
     // Processor patches as last
-    forAll(mesh_.boundaryMesh(), patchI)
+    FOR_ALL(mesh_.boundaryMesh(), patchI)
     {
       if (isA<processorPolyPatch>(mesh_.boundaryMesh()[patchI]))
       {
@@ -287,7 +287,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::repatch
 )
 {
   polyTopoChange meshMod(mesh_);
-  forAll(newPatchID, bFaceI)
+  FOR_ALL(newPatchID, bFaceI)
   {
     if (newPatchID[bFaceI] != -1)
     {
@@ -356,7 +356,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::repatch
     label index = findIndex(map().reverseFaceMap(), -1);
     if (index != -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "fvMeshDistribute::repatch(const labelList&, labelListList&)"
       )   << "reverseFaceMap contains -1 at index:"
@@ -365,7 +365,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::repatch
         << " a shuffle?" << abort(FatalError);
     }
   }
-  forAll(constructFaceMap, procI)
+  FOR_ALL(constructFaceMap, procI)
   {
     inplaceRenumber(map().reverseFaceMap(), constructFaceMap[procI]);
   }
@@ -402,10 +402,10 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::mergeSharedPoints
   // Update fields. No inflation, parallel sync.
   mesh_.updateMesh(map);
   // Adapt constructMaps for merged points.
-  forAll(constructPointMap, procI)
+  FOR_ALL(constructPointMap, procI)
   {
     labelList& constructMap = constructPointMap[procI];
-    forAll(constructMap, i)
+    FOR_ALL(constructMap, i)
     {
       label oldPointI = constructMap[i];
       label newPointI = map().reversePointMap()[oldPointI];
@@ -419,7 +419,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::fvMeshDistribute::mergeSharedPoints
       }
       else
       {
-        FatalErrorIn("fvMeshDistribute::mergeSharedPoints()")
+        FATAL_ERROR_IN("fvMeshDistribute::mergeSharedPoints()")
           << "Problem. oldPointI:" << oldPointI
           << " newPointI:" << newPointI << abort(FatalError);
       }
@@ -446,14 +446,14 @@ void mousse::fvMeshDistribute::getNeighbourData
   // Get neighbouring meshFace labels and new processor of coupled boundaries.
   labelList nbrFaces(nBnd, -1);
   labelList nbrNewNbrProc(nBnd, -1);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
       label offset = pp.start() - mesh_.nInternalFaces();
       // Mesh labels of faces on this side
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label bndI = offset + i;
         nbrFaces[bndI] = pp.start()+i;
@@ -468,7 +468,7 @@ void mousse::fvMeshDistribute::getNeighbourData
   // Exchange the boundary data
   syncTools::swapBoundaryFaceList(mesh_, nbrFaces);
   syncTools::swapBoundaryFaceList(mesh_, nbrNewNbrProc);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     label offset = pp.start() - mesh_.nInternalFaces();
@@ -480,7 +480,7 @@ void mousse::fvMeshDistribute::getNeighbourData
       if (procPatch.owner())
       {
         // Use my local face labels
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label bndI = offset + i;
           sourceFace[bndI] = pp.start()+i;
@@ -491,7 +491,7 @@ void mousse::fvMeshDistribute::getNeighbourData
       else
       {
         // Use my neighbours face labels
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label bndI = offset + i;
           sourceFace[bndI] = nbrFaces[bndI];
@@ -507,7 +507,7 @@ void mousse::fvMeshDistribute::getNeighbourData
           pp
         ).referPatchID();
       }
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label bndI = offset + i;
         sourcePatch[bndI] = patchI;
@@ -518,7 +518,7 @@ void mousse::fvMeshDistribute::getNeighbourData
       const cyclicPolyPatch& cpp = refCast<const cyclicPolyPatch>(pp);
       if (cpp.owner())
       {
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label bndI = offset + i;
           sourceFace[bndI] = pp.start()+i;
@@ -529,7 +529,7 @@ void mousse::fvMeshDistribute::getNeighbourData
       }
       else
       {
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label bndI = offset + i;
           sourceFace[bndI] = nbrFaces[bndI];
@@ -542,7 +542,7 @@ void mousse::fvMeshDistribute::getNeighbourData
     else
     {
       // Normal (physical) boundary
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label bndI = offset + i;
         sourceFace[bndI] = -1;
@@ -577,7 +577,7 @@ void mousse::fvMeshDistribute::subsetBoundaryData
   subProc.setSize(mesh.nFaces() - mesh.nInternalFaces());
   subPatch.setSize(mesh.nFaces() - mesh.nInternalFaces());
   subNewNbrProc.setSize(mesh.nFaces() - mesh.nInternalFaces());
-  forAll(subFace, newBFaceI)
+  FOR_ALL(subFace, newBFaceI)
   {
     label newFaceI = newBFaceI + mesh.nInternalFaces();
     label oldFaceI = faceMap[newFaceI];
@@ -619,7 +619,7 @@ void mousse::fvMeshDistribute::findCouples
   const labelList& sourceFace,
   const labelList& sourceProc,
   const labelList& sourcePatch,
-  const label domain,
+  const label /*domain*/,
   const primitiveMesh& domainMesh,
   const labelList& domainFace,
   const labelList& domainProc,
@@ -631,7 +631,7 @@ void mousse::fvMeshDistribute::findCouples
   // Store domain neighbour as map so we can easily look for pair
   // with same face+proc.
   HashTable<label, labelPair, labelPair::Hash<> > map(domainFace.size());
-  forAll(domainProc, bFaceI)
+  FOR_ALL(domainProc, bFaceI)
   {
     if (domainProc[bFaceI] != -1 && domainPatch[bFaceI] == -1)
     {
@@ -646,7 +646,7 @@ void mousse::fvMeshDistribute::findCouples
   masterCoupledFaces.setSize(domainFace.size());
   slaveCoupledFaces.setSize(domainFace.size());
   label coupledI = 0;
-  forAll(sourceFace, bFaceI)
+  FOR_ALL(sourceFace, bFaceI)
   {
     if (sourceProc[bFaceI] != -1 && sourcePatch[bFaceI] == -1)
     {
@@ -683,7 +683,7 @@ mousse::labelList mousse::fvMeshDistribute::mapBoundaryData
 )
 {
   labelList newBoundaryData(mesh.nFaces() - mesh.nInternalFaces());
-  forAll(boundaryData0, oldBFaceI)
+  FOR_ALL(boundaryData0, oldBFaceI)
   {
     label newFaceI = map.oldFaceMap()[oldBFaceI + map.nOldInternalFaces()];
     // Face still exists (is necessary?) and still boundary face
@@ -693,7 +693,7 @@ mousse::labelList mousse::fvMeshDistribute::mapBoundaryData
         boundaryData0[oldBFaceI];
     }
   }
-  forAll(boundaryData1, addedBFaceI)
+  FOR_ALL(boundaryData1, addedBFaceI)
   {
     label newFaceI = map.addedFaceMap()[addedBFaceI + nInternalFaces1];
     if (newFaceI >= 0 && newFaceI >= mesh.nInternalFaces())
@@ -751,7 +751,7 @@ void mousse::fvMeshDistribute::addProcPatches
   // contain for all current boundary faces the global patchID (for non-proc
   // patch) or the processor.
   procPatchID.setSize(Pstream::nProcs());
-  forAll(nbrProc, bFaceI)
+  FOR_ALL(nbrProc, bFaceI)
   {
     label procI = nbrProc[bFaceI];
     if (procI != -1 && procI != Pstream::myProcNo())
@@ -845,7 +845,7 @@ mousse::labelList mousse::fvMeshDistribute::getBoundaryPatch
 )
 {
   labelList patchIDs(nbrProc);
-  forAll(nbrProc, bFaceI)
+  FOR_ALL(nbrProc, bFaceI)
   {
     if (nbrProc[bFaceI] == Pstream::myProcNo())
     {
@@ -894,7 +894,7 @@ void mousse::fvMeshDistribute::sendMesh
   {
     const pointZoneMesh& pointZones = mesh.pointZones();
     labelList rowSizes(pointZoneNames.size(), 0);
-    forAll(pointZoneNames, nameI)
+    FOR_ALL(pointZoneNames, nameI)
     {
       label myZoneID = pointZones.findZoneID(pointZoneNames[nameI]);
       if (myZoneID != -1)
@@ -903,7 +903,7 @@ void mousse::fvMeshDistribute::sendMesh
       }
     }
     zonePoints.setSize(rowSizes);
-    forAll(pointZoneNames, nameI)
+    FOR_ALL(pointZoneNames, nameI)
     {
       label myZoneID = pointZones.findZoneID(pointZoneNames[nameI]);
       if (myZoneID != -1)
@@ -918,7 +918,7 @@ void mousse::fvMeshDistribute::sendMesh
   {
     const faceZoneMesh& faceZones = mesh.faceZones();
     labelList rowSizes(faceZoneNames.size(), 0);
-    forAll(faceZoneNames, nameI)
+    FOR_ALL(faceZoneNames, nameI)
     {
       label myZoneID = faceZones.findZoneID(faceZoneNames[nameI]);
       if (myZoneID != -1)
@@ -928,7 +928,7 @@ void mousse::fvMeshDistribute::sendMesh
     }
     zoneFaces.setSize(rowSizes);
     zoneFaceFlip.setSize(rowSizes);
-    forAll(faceZoneNames, nameI)
+    FOR_ALL(faceZoneNames, nameI)
     {
       label myZoneID = faceZones.findZoneID(faceZoneNames[nameI]);
       if (myZoneID != -1)
@@ -943,7 +943,7 @@ void mousse::fvMeshDistribute::sendMesh
   {
     const cellZoneMesh& cellZones = mesh.cellZones();
     labelList rowSizes(cellZoneNames.size(), 0);
-    forAll(cellZoneNames, nameI)
+    FOR_ALL(cellZoneNames, nameI)
     {
       label myZoneID = cellZones.findZoneID(cellZoneNames[nameI]);
       if (myZoneID != -1)
@@ -952,7 +952,7 @@ void mousse::fvMeshDistribute::sendMesh
       }
     }
     zoneCells.setSize(rowSizes);
-    forAll(cellZoneNames, nameI)
+    FOR_ALL(cellZoneNames, nameI)
     {
       label myZoneID = cellZones.findZoneID(cellZoneNames[nameI]);
       if (myZoneID != -1)
@@ -970,7 +970,7 @@ void mousse::fvMeshDistribute::sendMesh
   //
   //    const cellZoneMesh& cellZones = mesh.cellZones();
   //
-  //    forAll(cellZones, zoneI)
+  //    FOR_ALL(cellZones, zoneI)
   //    {
   //        UIndirectList<label>(cellZoneID, cellZones[zoneI]) = zoneI;
   //    }
@@ -999,7 +999,7 @@ void mousse::fvMeshDistribute::sendMesh
 // Receive mesh. Opposite of sendMesh
 mousse::autoPtr<mousse::fvMesh> mousse::fvMeshDistribute::receiveMesh
 (
-  const label domain,
+  const label /*domain*/,
   const wordList& pointZoneNames,
   const wordList& faceZoneNames,
   const wordList& cellZoneNames,
@@ -1046,7 +1046,7 @@ mousse::autoPtr<mousse::fvMesh> mousse::fvMeshDistribute::receiveMesh
   );
   fvMesh& domainMesh = domainMeshPtr();
   List<polyPatch*> patches(patchEntries.size());
-  forAll(patchEntries, patchI)
+  FOR_ALL(patchEntries, patchI)
   {
     patches[patchI] = polyPatch::New
     (
@@ -1060,7 +1060,7 @@ mousse::autoPtr<mousse::fvMesh> mousse::fvMeshDistribute::receiveMesh
   domainMesh.addFvPatches(patches, false);
   // Construct zones
   List<pointZone*> pZonePtrs(pointZoneNames.size());
-  forAll(pZonePtrs, i)
+  FOR_ALL(pZonePtrs, i)
   {
     pZonePtrs[i] = new pointZone
     (
@@ -1071,7 +1071,7 @@ mousse::autoPtr<mousse::fvMesh> mousse::fvMeshDistribute::receiveMesh
     );
   }
   List<faceZone*> fZonePtrs(faceZoneNames.size());
-  forAll(fZonePtrs, i)
+  FOR_ALL(fZonePtrs, i)
   {
     fZonePtrs[i] = new faceZone
     (
@@ -1083,7 +1083,7 @@ mousse::autoPtr<mousse::fvMesh> mousse::fvMeshDistribute::receiveMesh
     );
   }
   List<cellZone*> cZonePtrs(cellZoneNames.size());
-  forAll(cZonePtrs, i)
+  FOR_ALL(cZonePtrs, i)
   {
     cZonePtrs[i] = new cellZone
     (
@@ -1110,12 +1110,12 @@ mousse::labelList mousse::fvMeshDistribute::countCells
 )
 {
   labelList nCells(Pstream::nProcs(), 0);
-  forAll(distribution, cellI)
+  FOR_ALL(distribution, cellI)
   {
     label newProc = distribution[cellI];
     if (newProc < 0 || newProc >= Pstream::nProcs())
     {
-      FatalErrorIn("fvMeshDistribute::distribute(const labelList&)")
+      FATAL_ERROR_IN("fvMeshDistribute::distribute(const labelList&)")
         << "Distribution should be in range 0.." << Pstream::nProcs()-1
         << endl
         << "At index " << cellI << " distribution:" << newProc
@@ -1133,7 +1133,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::fvMeshDistribute::distrib
   // Some checks on distribution
   if (distribution.size() != mesh_.nCells())
   {
-    FatalErrorIn("fvMeshDistribute::distribute(const labelList&)")
+    FATAL_ERROR_IN("fvMeshDistribute::distribute(const labelList&)")
       << "Size of distribution:"
       << distribution.size() << " mesh nCells:" << mesh_.nCells()
       << abort(FatalError);
@@ -1142,7 +1142,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::fvMeshDistribute::distrib
   // Check all processors have same non-proc patches in same order.
   if (patches.checkParallelSync(true))
   {
-    FatalErrorIn("fvMeshDistribute::distribute(const labelList&)")
+    FATAL_ERROR_IN("fvMeshDistribute::distribute(const labelList&)")
       << "This application requires all non-processor patches"
       << " to be present in the same order on all patches" << nl
       << "followed by the processor patches (which of course are unique)."
@@ -1156,7 +1156,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::fvMeshDistribute::distrib
   const label nOldCells(mesh_.nCells());
   labelList oldPatchStarts(patches.size());
   labelList oldPatchNMeshPoints(patches.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     oldPatchStarts[patchI] = patches[patchI].start();
     oldPatchNMeshPoints[patchI] = patches[patchI].nPoints();
@@ -1338,7 +1338,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::fvMeshDistribute::distrib
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   bool oldParRun = UPstream::parRun();
   UPstream::parRun() = false;
-  forAll(nSendCells[Pstream::myProcNo()], recvProc)
+  FOR_ALL(nSendCells[Pstream::myProcNo()], recvProc)
   {
     if
     (
@@ -1550,7 +1550,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::fvMeshDistribute::distrib
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   oldParRun = UPstream::parRun();
   UPstream::parRun() = false;
-  forAll(nSendCells, sendProc)
+  FOR_ALL(nSendCells, sendProc)
   {
     // Did processor sendProc send anything to me?
     if
@@ -1792,7 +1792,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::fvMeshDistribute::distrib
       const labelList& oldFaceMap = map().oldFaceMap();
       const labelList& oldPointMap = map().oldPointMap();
       const labelList& oldPatchMap = map().oldPatchMap();
-      forAll(constructPatchMap, procI)
+      FOR_ALL(constructPatchMap, procI)
       {
         if (procI != sendProc && constructPatchMap[procI].size())
         {

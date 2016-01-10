@@ -7,11 +7,15 @@
 //   Container for searchableSurfaces.
 // SourceFiles
 //   searchable_surfaces.cpp
+
 #ifndef searchable_surfaces_hpp_
 #define searchable_surfaces_hpp_
+
 #include "searchable_surface.hpp"
 #include "label_pair.hpp"
 #include "writer.hpp"
+#include "ptr_list.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
@@ -42,7 +46,7 @@ class searchableSurfaces
     //- Disallow default bitwise assignment
     void operator=(const searchableSurfaces&);
 public:
-  ClassName("searchableSurfaces");
+  CLASS_NAME("searchableSurfaces");
   // Constructors
     //- Construct with length specified. Fill later.
     explicit searchableSurfaces(const label);

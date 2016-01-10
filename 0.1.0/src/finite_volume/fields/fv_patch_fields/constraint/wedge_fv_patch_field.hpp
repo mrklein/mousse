@@ -33,7 +33,7 @@ class wedgeFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName(wedgeFvPatch::typeName_());
+  TYPE_NAME(wedgeFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     wedgeFvPatchField

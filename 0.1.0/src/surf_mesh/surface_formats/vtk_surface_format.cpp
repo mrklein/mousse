@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "vtk_surface_format.hpp"
+
 #include "vtk_unstructured_reader.hpp"
 #include "scalar_io_field.hpp"
+
 // Private Member Functions 
 template<class Face>
 void mousse::fileFormats::VTKsurfaceFormat<Face>::writeHeaderPolygons
@@ -14,14 +16,16 @@ void mousse::fileFormats::VTKsurfaceFormat<Face>::writeHeaderPolygons
 )
 {
   label nNodes = 0;
-  forAll(faceLst, faceI)
+  FOR_ALL(faceLst, faceI)
   {
     nNodes += faceLst[faceI].size();
   }
-  os  << nl
+  os<< nl
     << "POLYGONS " << faceLst.size() << ' '
     << faceLst.size() + nNodes << nl;
 }
+
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::VTKsurfaceFormat<Face>::VTKsurfaceFormat
@@ -31,6 +35,8 @@ mousse::fileFormats::VTKsurfaceFormat<Face>::VTKsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
@@ -40,14 +46,15 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
 {
   const bool mustTriangulate = this->isTri();
   this->clear();
-  IFstream is(filename);
+  IFstream is{filename};
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::VTKsurfaceFormat::read(const fileName&)"
-    )   << "Cannot read file " << filename
-      << exit(FatalError);
+    )
+    << "Cannot read file " << filename
+    << exit(FatalError);
   }
   // assume that the groups are not intermixed
   bool sorted = true;
@@ -63,21 +70,21 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
   );
   // Make dummy object registry
   objectRegistry obr
-  (
+  {
     IOobject
-    (
+    {
       "dummy",
       dummyTime,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    )
-  );
+    }
+  };
   // Read all
-  vtkUnstructuredReader reader(obr, is);
+  vtkUnstructuredReader reader{obr, is};
   const faceList& faces = reader.faces();
   // Assume all faces in zone0 unless a region field is present
-  labelList zones(faces.size(), 0);
+  labelList zones{faces.size(), 0};
   if (reader.cellData().foundObject<scalarIOField>("region"))
   {
     const scalarIOField& region =
@@ -85,7 +92,7 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
       (
         "region"
       );
-    forAll(region, i)
+    FOR_ALL(region, i)
     {
       zones[i] = label(region[i]);
     }
@@ -97,7 +104,7 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
       (
         "STLSolidLabeling"
       );
-    forAll(region, i)
+    FOR_ALL(region, i)
     {
       zones[i] = label(region[i]);
     }
@@ -105,7 +112,7 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
   // Create zone names
   const label nZones = max(zones)+1;
   wordList zoneNames(nZones);
-  forAll(zoneNames, i)
+  FOR_ALL(zoneNames, i)
   {
     zoneNames[i] = "zone" + mousse::name(i);
   }
@@ -113,16 +120,16 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
   label nTri = 0;
   if (mustTriangulate)
   {
-    forAll(faces, faceI)
+    FOR_ALL(faces, faceI)
     {
       nTri += faces[faceI].size()-2;
     }
   }
   if (nTri > 0)
   {
-    DynamicList<Face> dynFaces(nTri);
-    DynamicList<label> dynZones(nTri);
-    forAll(faces, faceI)
+    DynamicList<Face> dynFaces{nTri};
+    DynamicList<label> dynZones{nTri};
+    FOR_ALL(faces, faceI)
     {
       const face& f = faces[faceI];
       for (label fp1 = 1; fp1 < f.size() - 1; fp1++)
@@ -133,8 +140,8 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
       }
     }
     // Count
-    labelList zoneSizes(nZones, 0);
-    forAll(dynZones, triI)
+    labelList zoneSizes{nZones, 0};
+    FOR_ALL(dynZones, triI)
     {
       zoneSizes[dynZones[triI]]++;
     }
@@ -144,15 +151,15 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
   }
   else
   {
-    DynamicList<Face> dynFaces(faces.size());
-    forAll(faces, faceI)
+    DynamicList<Face> dynFaces{faces.size()};
+    FOR_ALL(faces, faceI)
     {
       const face& f = faces[faceI];
       dynFaces.append(Face(f));
     }
     // Count
-    labelList zoneSizes(nZones, 0);
-    forAll(zones, faceI)
+    labelList zoneSizes{nZones, 0};
+    FOR_ALL(zones, faceI)
     {
       zoneSizes[zones[faceI]]++;
     }
@@ -164,6 +171,8 @@ bool mousse::fileFormats::VTKsurfaceFormat<Face>::read
   this->storedPoints().transfer(reader.points());
   return true;
 }
+
+
 template<class Face>
 void mousse::fileFormats::VTKsurfaceFormat<Face>::write
 (
@@ -181,30 +190,30 @@ void mousse::fileFormats::VTKsurfaceFormat<Face>::write
    : surf.surfZones()
   );
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::VTKsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   writeHeader(os, pointLst);
   writeHeaderPolygons(os, faceLst);
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceMap[faceIndex++]];
         os << f.size();
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << ' ' << f[fp];
         }
@@ -213,11 +222,11 @@ void mousse::fileFormats::VTKsurfaceFormat<Face>::write
     }
     else
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceIndex++];
         os << f.size();
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << ' ' << f[fp];
         }
@@ -227,6 +236,8 @@ void mousse::fileFormats::VTKsurfaceFormat<Face>::write
   }
   writeTail(os, zones);
 }
+
+
 template<class Face>
 void mousse::fileFormats::VTKsurfaceFormat<Face>::write
 (
@@ -234,25 +245,25 @@ void mousse::fileFormats::VTKsurfaceFormat<Face>::write
   const UnsortedMeshedSurface<Face>& surf
 )
 {
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::VTKsurfaceFormat::write"
       "(const fileName&, const UnsortedMeshedSurface<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   const List<Face>& faceLst = surf.faces();
   writeHeader(os, surf.points());
   writeHeaderPolygons(os, faceLst);
-  forAll(faceLst, faceI)
+  FOR_ALL(faceLst, faceI)
   {
     const Face& f = faceLst[faceI];
     os << f.size();
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       os << ' ' << f[fp];
     }

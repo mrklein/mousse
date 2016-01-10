@@ -16,17 +16,16 @@ class staticFvMesh
 :
   public dynamicFvMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    staticFvMesh(const staticFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const staticFvMesh&);
 public:
   //- Runtime type information
-  TypeName("staticFvMesh");
+  TYPE_NAME("staticFvMesh");
   // Constructors
     //- Construct from IOobject
     staticFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    staticFvMesh(const staticFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    staticFvMesh& operator=(const staticFvMesh&) = delete;
   //- Destructor
   ~staticFvMesh();
   // Member Functions

@@ -3,11 +3,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "extended_edge_mesh.hpp"
+
 #include "list_list_ops.hpp"
 #include "unit_conversion.hpp"
 #include "packed_bool_list.hpp"
 #include "patch_tools.hpp"
 #include "searchable_box.hpp"
+
 // Private Member Functions 
 template<class Patch>
 void mousse::extendedEdgeMesh::sortPointsAndEdges
@@ -37,7 +39,7 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
   DynamicList<label> regionEdges;
   // Keep track of the ordered feature point feature edges
   labelListList featurePointFeatureEdges(nFeatPts);
-  forAll(featurePointFeatureEdges, pI)
+  FOR_ALL(featurePointFeatureEdges, pI)
   {
     featurePointFeatureEdges[pI] = pointEdges[featurePoints[pI]];
   }
@@ -52,7 +54,7 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
   labelList faceMap(surf.size(), -1);
   // Collecting the status of edge for subsequent sorting
   List<edgeStatus> edStatus(nFeatEds, NONE);
-  forAll(featurePoints, i)
+  FOR_ALL(featurePoints, i)
   {
     label sFPI = featurePoints[i];
     tmpPts.append(sFeatLocalPts[sFPI]);
@@ -61,7 +63,7 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
   // All feature points have been added
   nonFeatureStart_ = tmpPts.size();
   PackedBoolList isRegionFeatureEdge(regionFeatureEdges);
-  forAll(featureEdges, i)
+  FOR_ALL(featureEdges, i)
   {
     label sFEI = featureEdges[i];
     edgeMap[sFEI] = i;
@@ -84,7 +86,7 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
     const labelList& eFaces = edgeFaces[sFEI];
     edgeNormals[i].setSize(eFaces.size());
     normalDirections[i].setSize(eFaces.size());
-    forAll(eFaces, j)
+    FOR_ALL(eFaces, j)
     {
       label eFI = eFaces[j];
       // Check to see if the points have been already used
@@ -124,11 +126,11 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
   }
   // Populate feature point feature edges
   DynamicList<label> newFeatureEdges;
-  forAll(featurePointFeatureEdges, pI)
+  FOR_ALL(featurePointFeatureEdges, pI)
   {
     const labelList& fpfe = featurePointFeatureEdges[pI];
     newFeatureEdges.setCapacity(fpfe.size());
-    forAll(fpfe, eI)
+    FOR_ALL(fpfe, eI)
     {
       const label oldEdgeIndex = fpfe[eI];
       const label newFeatureEdgeIndex = edgeMap[oldEdgeIndex];
@@ -146,7 +148,7 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
   DynamicList<label>& flatEds(allEds[2]);
   DynamicList<label>& openEds(allEds[3]);
   DynamicList<label>& multipleEds(allEds[4]);
-  forAll(eds, i)
+  FOR_ALL(eds, i)
   {
     edgeStatus eStat = edStatus[i];
     if (eStat == EXTERNAL)
@@ -171,7 +173,7 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
     }
     else if (eStat == NONE)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         ":extendedEdgeMesh::sortPointsAndEdges"
         "("
@@ -179,10 +181,11 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
         "    const labelList& featureEdges,"
         "    const labelList& feaurePoints"
         ")"
-      )   << nl << "classifyEdge returned NONE on edge "
-        << eds[i]
-        << ". There is a problem with definition of this edge."
-        << nl << abort(FatalError);
+      )
+      << nl << "classifyEdge returned NONE on edge "
+      << eds[i]
+      << ". There is a problem with definition of this edge."
+      << nl << abort(FatalError);
     }
   }
   internalStart_ = externalEds.size();
@@ -204,7 +207,7 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
   inplaceReorder(edMap, edgeNormals);
   inplaceReorder(edMap, normalDirections);
   inplaceRenumber(edMap, regionEdges);
-  forAll(featurePointFeatureEdges, pI)
+  FOR_ALL(featurePointFeatureEdges, pI)
   {
     inplaceRenumber(edMap, featurePointFeatureEdges[pI]);
   }
@@ -240,7 +243,7 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
     }
     else if (ptStatus == NONFEATURE)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         ":extendedEdgeMesh::sortPointsAndEdges"
         "("
@@ -268,13 +271,13 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
   // Creating the ptMap from the ftPtMap with identity values up to the size
   // of pts to create an oldToNew map for inplaceReorder
   labelList ptMap(identity(pts.size()));
-  forAll(ftPtMap, i)
+  FOR_ALL(ftPtMap, i)
   {
     ptMap[i] = ftPtMap[i];
   }
   inplaceReorder(ptMap, pts);
   inplaceReorder(ptMap, featurePointFeatureEdges);
-  forAll(eds, i)
+  FOR_ALL(eds, i)
   {
     inplaceRenumber(ptMap, eds[i]);
   }
@@ -287,16 +290,16 @@ void mousse::extendedEdgeMesh::sortPointsAndEdges
   {
     DynamicList<label> tmpFtPtNorms;
     const labelList& ptEds = edgeMesh::pointEdges()[i];
-    forAll(ptEds, j)
+    FOR_ALL(ptEds, j)
     {
       const labelList& ptEdNorms(edgeNormals[ptEds[j]]);
-      forAll(ptEdNorms, k)
+      FOR_ALL(ptEdNorms, k)
       {
         if (findIndex(tmpFtPtNorms, ptEdNorms[k]) == -1)
         {
           bool addNormal = true;
           // Check that the normal direction is unique at this feature
-          forAll(tmpFtPtNorms, q)
+          FOR_ALL(tmpFtPtNorms, q)
           {
             if
             (

@@ -6,16 +6,18 @@
 #include "searchable_surfaces_queries.hpp"
 #include "list_ops.hpp"
 #include "time.hpp"
-//#include "vtk_set_writer.hpp"
 #include "dynamic_field.hpp"
-//#include "ob_jstream.hpp"
 #include "patch_tools.hpp"
 #include "tri_surface_mesh.hpp"
+#include "pstream_reduce_ops.hpp"
+#include "coord_set.hpp"
+#include "ofstream.hpp"
+
 namespace mousse
 {
-defineTypeNameAndDebug(searchableSurfaces, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(searchableSurfaces, 0);
 }
-// Private Member Functions 
+// Private Member Functions
 //- Is edge connected to triangle
 bool mousse::searchableSurfaces::connected
 (
@@ -26,7 +28,7 @@ bool mousse::searchableSurfaces::connected
 {
   const triFace& localFace = s.localFaces()[hit.index()];
   const edge& e = s.edges()[edgeI];
-  forAll(localFace, i)
+  FOR_ALL(localFace, i)
   {
     if (e.otherVertex(localFace[i]) != -1)
     {
@@ -35,7 +37,7 @@ bool mousse::searchableSurfaces::connected
   }
   return false;
 }
-// Constructors 
+// Constructors
 // Construct with length.
 mousse::searchableSurfaces::searchableSurfaces(const label size)
 :
@@ -53,7 +55,7 @@ mousse::searchableSurfaces::searchableSurfaces(const label size)
 //    regionNames_(dicts.size()),
 //    allSurfaces_(identity(dicts.size()))
 //{
-//    forAll(dicts, surfI)
+//    FOR_ALL(dicts, surfI)
 //    {
 //        const dictionary& dict = dicts[surfI];
 //
@@ -79,7 +81,7 @@ mousse::searchableSurfaces::searchableSurfaces(const label size)
 //        const wordList& localNames = s.regions();
 //
 //        wordList globalNames(localNames.size());
-//        forAll(localNames, regionI)
+//        FOR_ALL(localNames, regionI)
 //        {
 //            globalNames[regionI] = s.name() + '_' + localNames[regionI];
 //        }
@@ -89,7 +91,7 @@ mousse::searchableSurfaces::searchableSurfaces(const label size)
 //        {
 //            const dictionary& regionsDict = dict.subDict("regions");
 //
-//            forAllConstIter(dictionary, regionsDict, iter)
+//            FOR_ALL_CONST_ITER(dictionary, regionsDict, iter)
 //            {
 //                const word& key = iter().keyword();
 //
@@ -120,13 +122,13 @@ mousse::searchableSurfaces::searchableSurfaces(const label size)
 //        // Now globalNames contains the names of the regions.
 //        Info<< "Surface:" << s.name() << " has regions:"
 //            << endl;
-//        forAll(globalNames, regionI)
+//        FOR_ALL(globalNames, regionI)
 //        {
 //            Info<< "    " << globalNames[regionI] << endl;
 //        }
 //
 //        // Create reverse lookup
-//        forAll(globalNames, regionI)
+//        FOR_ALL(globalNames, regionI)
 //        {
 //            regionNames_.insert
 //            (
@@ -149,12 +151,12 @@ mousse::searchableSurfaces::searchableSurfaces
   allSurfaces_(identity(topDict.size()))
 {
   label surfI = 0;
-  forAllConstIter(dictionary, topDict, iter)
+  FOR_ALL_CONST_ITER(dictionary, topDict, iter)
   {
     const word& key = iter().keyword();
     if (!topDict.isDict(key))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "searchableSurfaces::searchableSurfaces"
         "( const IOobject&, const dictionary&)"
@@ -196,7 +198,7 @@ mousse::searchableSurfaces::searchableSurfaces
     }
     else
     {
-      forAll(localNames, regionI)
+      FOR_ALL(localNames, regionI)
       {
         rNames[regionI] = names_[surfI] + '_' + localNames[regionI];
       }
@@ -205,7 +207,7 @@ mousse::searchableSurfaces::searchableSurfaces
     if (dict.found("regions"))
     {
       const dictionary& regionsDict = dict.subDict("regions");
-      forAllConstIter(dictionary, regionsDict, iter)
+      FOR_ALL_CONST_ITER(dictionary, regionsDict, iter)
       {
         const word& key = iter().keyword();
         if (regionsDict.isDict(key))
@@ -215,7 +217,7 @@ mousse::searchableSurfaces::searchableSurfaces
           label index = findIndex(localNames, key);
           if (index == -1)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "searchableSurfaces::searchableSurfaces"
               "( const IOobject&, const dictionary&)"
@@ -236,7 +238,7 @@ mousse::searchableSurfaces::searchableSurfaces
   regionNames_.setSize(surfI);
   allSurfaces_.setSize(surfI);
 }
-// Member Functions 
+// Member Functions
 mousse::label mousse::searchableSurfaces::findSurfaceID
 (
   const word& wantedName
@@ -388,7 +390,7 @@ bool mousse::searchableSurfaces::checkClosed(const bool report) const
     Info<< "Checking for closedness." << endl;
   }
   bool hasError = false;
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     if (!operator[](surfI).hasVolumeType())
     {
@@ -406,7 +408,7 @@ bool mousse::searchableSurfaces::checkClosed(const bool report) const
         );
         const labelListList& edgeFaces = s.edgeFaces();
         label nSingleEdges = 0;
-        forAll(edgeFaces, edgeI)
+        FOR_ALL(edgeFaces, edgeI)
         {
           if (edgeFaces[edgeI].size() == 1)
           {
@@ -414,7 +416,7 @@ bool mousse::searchableSurfaces::checkClosed(const bool report) const
           }
         }
         label nMultEdges = 0;
-        forAll(edgeFaces, edgeI)
+        FOR_ALL(edgeFaces, edgeI)
         {
           if (edgeFaces[edgeI].size() > 2)
           {
@@ -444,7 +446,7 @@ bool mousse::searchableSurfaces::checkNormalOrientation(const bool report) const
     Info<< "Checking for normal orientation." << endl;
   }
   bool hasError = false;
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     if (isA<triSurface>(operator[](surfI)))
     {
@@ -486,7 +488,7 @@ bool mousse::searchableSurfaces::checkSizes
     Info<< "Checking for size." << endl;
   }
   bool hasError = false;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     const boundBox& bb = operator[](i).bounds();
     for (label j = i+1; j < size(); j++)
@@ -527,7 +529,7 @@ bool mousse::searchableSurfaces::checkIntersection
   }
   //cpuTime timer;
   bool hasError = false;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     if (isA<triSurfaceMesh>(operator[](i)))
     {
@@ -540,14 +542,14 @@ bool mousse::searchableSurfaces::checkIntersection
       // Collect all the edge vectors
       pointField start(edges0.size());
       pointField end(edges0.size());
-      forAll(edges0, edgeI)
+      FOR_ALL(edges0, edgeI)
       {
         const edge& e = edges0[edgeI];
         start[edgeI] = localPoints0[e[0]];
         end[edgeI] = localPoints0[e[1]];
       }
       // Test all other surfaces for intersection
-      forAll(*this, j)
+      FOR_ALL(*this, j)
       {
         List<pointIndexHit> hits;
         if (i == j)
@@ -568,7 +570,7 @@ bool mousse::searchableSurfaces::checkIntersection
         label nHits = 0;
         DynamicField<point> intersections(edges0.size()/100);
         DynamicField<scalar> intersectionEdge(intersections.capacity());
-        forAll(hits, edgeI)
+        FOR_ALL(hits, edgeI)
         {
           if
           (
@@ -650,7 +652,7 @@ bool mousse::searchableSurfaces::checkQuality
     Info<< "Checking for triangle quality." << endl;
   }
   bool hasError = false;
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     if (isA<triSurface>(operator[](surfI)))
     {
@@ -659,7 +661,7 @@ bool mousse::searchableSurfaces::checkQuality
         operator[](surfI)
       );
       label nBadTris = 0;
-      forAll(s, faceI)
+      FOR_ALL(s, faceI)
       {
         const labelledTri& f = s[faceI];
         scalar q = triPointRef
@@ -735,11 +737,11 @@ mousse::label mousse::searchableSurfaces::checkGeometry
 void mousse::searchableSurfaces::writeStats
 (
   const List<wordList>& patchTypes,
-  Ostream& os
+  Ostream&
 ) const
 {
   Info<< "Statistics." << endl;
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     Info<< "    " << names()[surfI] << ':' << endl;
     const searchableSurface& s = operator[](surfI);
@@ -757,7 +759,7 @@ void mousse::searchableSurfaces::writeStats
     {
       wordList unique(HashSet<word>(patchTypes[surfI]).sortedToc());
       Info<< "        patches   : ";
-      forAll(unique, i)
+      FOR_ALL(unique, i)
       {
         Info<< unique[i];
         if (i < unique.size()-1)
@@ -770,7 +772,8 @@ void mousse::searchableSurfaces::writeStats
   }
   Info<< endl;
 }
-// Member Operators 
+
+// Member Operators
 const mousse::searchableSurface& mousse::searchableSurfaces::operator[]
 (
   const word& surfName
@@ -779,7 +782,7 @@ const mousse::searchableSurface& mousse::searchableSurfaces::operator[]
   const label surfI = findSurfaceID(surfName);
   if (surfI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "searchableSurfaces::operator[](const word&) const"
     )   << "Surface named " << surfName << " not found." << nl
@@ -796,7 +799,7 @@ mousse::searchableSurface& mousse::searchableSurfaces::operator[]
   const label surfI = findSurfaceID(surfName);
   if (surfI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "searchableSurfaces::operator[](const word&)"
     )   << "Surface named " << surfName << " not found." << nl

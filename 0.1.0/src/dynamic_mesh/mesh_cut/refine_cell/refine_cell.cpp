@@ -18,7 +18,7 @@ mousse::refineCell::refineCell(const label cellI, const vector& direction)
   scalar magDir = mag(direction_);
   if (magDir < SMALL)
   {
-    FatalErrorIn("refineCell(const label, const vector&)")
+    FATAL_ERROR_IN("refineCell(const label, const vector&)")
       << "(almost)zero vector as direction for cell " << cellNo_
       << abort(FatalError);
   }
@@ -36,7 +36,7 @@ mousse::refineCell::refineCell(Istream& is)
   scalar magDir = mag(direction_);
   if (magDir < SMALL)
   {
-    FatalErrorIn("refineCell(Istream&)")
+    FATAL_ERROR_IN("refineCell(Istream&)")
       << "(almost)zero vector as direction for cell " << cellNo_
       << abort(FatalError);
   }

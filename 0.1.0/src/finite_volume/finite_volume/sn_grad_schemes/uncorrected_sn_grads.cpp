@@ -3,5 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "uncorrected_sn_grad.hpp"
+
+#include "surface_fields.hpp"
 #include "fv_mesh.hpp"
-makeSnGradScheme(uncorrectedSnGrad)
+
+MAKE_SN_GRAD_SCHEME(uncorrectedSnGrad)

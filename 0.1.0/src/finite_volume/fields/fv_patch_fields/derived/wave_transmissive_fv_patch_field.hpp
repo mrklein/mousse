@@ -59,7 +59,7 @@ class waveTransmissiveFvPatchField
     scalar gamma_;
 public:
   //- Runtime type information
-  TypeName("waveTransmissive");
+  TYPE_NAME("waveTransmissive");
   // Constructors
     //- Construct from patch and internal field
     waveTransmissiveFvPatchField

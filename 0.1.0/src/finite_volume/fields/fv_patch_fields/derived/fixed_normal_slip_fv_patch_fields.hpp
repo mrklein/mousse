@@ -4,10 +4,13 @@
 
 #ifndef fixed_normal_slip_fv_patch_fields_hpp_
 #define fixed_normal_slip_fv_patch_fields_hpp_
+
 #include "fixed_normal_slip_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(fixedNormalSlip);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(fixedNormalSlip);
 }  // namespace mousse
+
 #endif

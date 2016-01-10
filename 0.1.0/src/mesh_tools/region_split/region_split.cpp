@@ -7,12 +7,14 @@
 #include "processor_poly_patch.hpp"
 #include "global_index.hpp"
 #include "sync_tools.hpp"
+#include "pstream_reduce_ops.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(regionSplit, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(regionSplit, 0);
 }
-// Private Member Functions 
+// Private Member Functions
 // Handle (non-processor) coupled faces.
 void mousse::regionSplit::transferCoupledFaceRegion
 (
@@ -36,7 +38,7 @@ void mousse::regionSplit::transferCoupledFaceRegion
     }
     else if (faceRegion[otherFaceI] != faceRegion[faceI])
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
          "regionSplit::transferCoupledFaceRegion"
          "(const label, const label, labelList&, labelList&) const"
@@ -80,7 +82,7 @@ void mousse::regionSplit::fillSeedMask
   const cell& cFaces = mesh().cells()[seedCellID];
   label nFaces = 0;
   labelList changedFaces(cFaces.size());
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     label faceI = cFaces[i];
     if (faceRegion[faceI] == -1)
@@ -99,7 +101,7 @@ void mousse::regionSplit::fillSeedMask
     //        << changedFaces.size() << endl;
     //}
     DynamicList<label> changedCells(changedFaces.size());
-    forAll(changedFaces, i)
+    FOR_ALL(changedFaces, i)
     {
       label faceI = changedFaces[i];
       label own = mesh().faceOwner()[faceI];
@@ -125,11 +127,11 @@ void mousse::regionSplit::fillSeedMask
     //}
     // Loop over changedCells and collect faces
     DynamicList<label> newChangedFaces(changedCells.size());
-    forAll(changedCells, i)
+    FOR_ALL(changedCells, i)
     {
       label cellI = changedCells[i];
       const cell& cFaces = mesh().cells()[cellI];
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         label faceI = cFaces[cFaceI];
         if (faceRegion[faceI] == -1)
@@ -147,7 +149,7 @@ void mousse::regionSplit::fillSeedMask
     // Check for changes to any locally coupled face.
     // Global connections are done later.
     const polyBoundaryMesh& patches = mesh().boundaryMesh();
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if
@@ -160,7 +162,7 @@ void mousse::regionSplit::fillSeedMask
         const cyclicPolyPatch& cycPatch =
           refCast<const cyclicPolyPatch>(pp);
         label faceI = cycPatch.start();
-        forAll(cycPatch, i)
+        FOR_ALL(cycPatch, i)
         {
           label otherFaceI = cycPatch.transformGlobalFace(faceI);
           transferCoupledFaceRegion
@@ -174,7 +176,7 @@ void mousse::regionSplit::fillSeedMask
         }
       }
     }
-    forAll(explicitConnections, i)
+    FOR_ALL(explicitConnections, i)
     {
       transferCoupledFaceRegion
       (
@@ -206,11 +208,11 @@ mousse::label mousse::regionSplit::calcLocalRegionSplit
       // Check that blockedFace is synced.
       boolList syncBlockedFace(blockedFace);
       syncTools::swapFaceList(mesh(), syncBlockedFace);
-      forAll(syncBlockedFace, faceI)
+      FOR_ALL(syncBlockedFace, faceI)
       {
         if (syncBlockedFace[faceI] != blockedFace[faceI])
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "regionSplit::calcLocalRegionSplit(..)"
           )   << "Face " << faceI << " not synchronised. My value:"
@@ -227,7 +229,7 @@ mousse::label mousse::regionSplit::calcLocalRegionSplit
   labelList faceRegion(mesh().nFaces(), -1);
   if (blockedFace.size())
   {
-    forAll(blockedFace, faceI)
+    FOR_ALL(blockedFace, faceI)
     {
       if (blockedFace[faceI])
       {
@@ -269,20 +271,20 @@ mousse::label mousse::regionSplit::calcLocalRegionSplit
   while (true);
   if (debug)
   {
-    forAll(cellRegion, cellI)
+    FOR_ALL(cellRegion, cellI)
     {
       if (cellRegion[cellI] < 0)
       {
-        FatalErrorIn("regionSplit::calcLocalRegionSplit(..)")
+        FATAL_ERROR_IN("regionSplit::calcLocalRegionSplit(..)")
           << "cell:" << cellI << " region:" << cellRegion[cellI]
           << abort(FatalError);
       }
     }
-    forAll(faceRegion, faceI)
+    FOR_ALL(faceRegion, faceI)
     {
       if (faceRegion[faceI] == -1)
       {
-        FatalErrorIn("regionSplit::calcLocalRegionSplit(..)")
+        FATAL_ERROR_IN("regionSplit::calcLocalRegionSplit(..)")
           << "face:" << faceI << " region:" << faceRegion[faceI]
           << abort(FatalError);
       }
@@ -315,7 +317,7 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
   // Offset local regions to create unique global regions.
   globalIndex globalRegions(nLocalRegions);
   // Convert regions to global ones
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     cellRegion[cellI] = globalRegions.toGlobal(cellRegion[cellI]);
   }
@@ -333,7 +335,7 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
     }
     const polyBoundaryMesh& patches = mesh().boundaryMesh();
     labelList nbrRegion(mesh().nFaces()-mesh().nInternalFaces(), -1);
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (pp.coupled())
@@ -345,7 +347,7 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
           pp.size(),
           pp.start()-mesh().nInternalFaces()
         );
-        forAll(patchCells, i)
+        FOR_ALL(patchCells, i)
         {
           label faceI = pp.start()+i;
           if (!blockedFace.size() || !blockedFace[faceI])
@@ -357,7 +359,7 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
     }
     syncTools::swapBoundaryFaceList(mesh(), nbrRegion);
     Map<label> globalToMerged(mesh().nFaces()-mesh().nInternalFaces());
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (pp.coupled())
@@ -369,7 +371,7 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
           pp.size(),
           pp.start()-mesh().nInternalFaces()
         );
-        forAll(patchCells, i)
+        FOR_ALL(patchCells, i)
         {
           label faceI = pp.start()+i;
           if (!blockedFace.size() || !blockedFace[faceI])
@@ -403,7 +405,7 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
       break;
     }
     // Renumber the regions according to the globalToMerged
-    forAll(cellRegion, cellI)
+    FOR_ALL(cellRegion, cellI)
     {
       label regionI = cellRegion[cellI];
       Map<label>::const_iterator iter = globalToMerged.find(regionI);
@@ -419,7 +421,7 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
   label nCompact = 0;
   {
     labelHashSet localRegion(mesh().nFaces()-mesh().nInternalFaces());
-    forAll(cellRegion, cellI)
+    FOR_ALL(cellRegion, cellI)
     {
       if
       (
@@ -448,11 +450,11 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
   Map<label> globalToCompact(2*nCompact);
   // Remote regions we want the compact number for
   List<labelHashSet> nonLocal(Pstream::nProcs());
-  forAll(nonLocal, procI)
+  FOR_ALL(nonLocal, procI)
   {
     nonLocal[procI].resize((nLocalRegions-nCompact)/Pstream::nProcs());
   }
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     label region = cellRegion[cellI];
     if (globalRegions.isLocal(region))
@@ -477,17 +479,17 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
   // Convert the nonLocal (labelHashSets) to labelLists.
   labelListList sendNonLocal(Pstream::nProcs());
   labelList nNonLocal(Pstream::nProcs(), 0);
-  forAll(sendNonLocal, procI)
+  FOR_ALL(sendNonLocal, procI)
   {
     sendNonLocal[procI].setSize(nonLocal[procI].size());
-    forAllConstIter(labelHashSet, nonLocal[procI], iter)
+    FOR_ALL_CONST_ITER(labelHashSet, nonLocal[procI], iter)
     {
       sendNonLocal[procI][nNonLocal[procI]++] = iter.key();
     }
   }
   if (debug)
   {
-    forAll(nNonLocal, procI)
+    FOR_ALL(nNonLocal, procI)
     {
       Pout<< "    from processor " << procI
         << " want " << nNonLocal[procI]
@@ -509,11 +511,11 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
   // recvNonLocal[procI]. Construct corresponding list of compact
   // region labels to send back.
   labelListList sendWantedLocal(Pstream::nProcs());
-  forAll(recvNonLocal, procI)
+  FOR_ALL(recvNonLocal, procI)
   {
     const labelList& nonLocal = recvNonLocal[procI];
     sendWantedLocal[procI].setSize(nonLocal.size());
-    forAll(nonLocal, i)
+    FOR_ALL(nonLocal, i)
     {
       sendWantedLocal[procI][i] = globalToCompact[nonLocal[i]];
     }
@@ -531,23 +533,24 @@ mousse::autoPtr<mousse::globalIndex> mousse::regionSplit::calcRegionSplit
   // Now recvNonLocal contains for every element in setNonLocal the
   // corresponding compact number. Insert these into the local compaction
   // map.
-  forAll(recvNonLocal, procI)
+  FOR_ALL(recvNonLocal, procI)
   {
     const labelList& wantedRegions = sendNonLocal[procI];
     const labelList& compactRegions = recvNonLocal[procI];
-    forAll(wantedRegions, i)
+    FOR_ALL(wantedRegions, i)
     {
       globalToCompact.insert(wantedRegions[i], compactRegions[i]);
     }
   }
   // Finally renumber the regions
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     cellRegion[cellI] = globalToCompact[cellRegion[cellI]];
   }
   return globalCompactPtr;
 }
-// Constructors 
+
+// Constructors
 mousse::regionSplit::regionSplit(const polyMesh& mesh, const bool doGlobalRegions)
 :
   MeshObject<polyMesh, mousse::TopologicalMeshObject, regionSplit>(mesh),

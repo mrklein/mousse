@@ -4,10 +4,13 @@
 
 #ifndef freestream_fv_patch_fields_hpp_
 #define freestream_fv_patch_fields_hpp_
+
 #include "freestream_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(freestream);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(freestream);
 }  // namespace mousse
+
 #endif

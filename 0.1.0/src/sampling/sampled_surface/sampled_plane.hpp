@@ -39,7 +39,7 @@ class sampledPlane
     interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
-  TypeName("sampledPlane");
+  TYPE_NAME("sampledPlane");
   // Constructors
     //- Construct from components
     sampledPlane

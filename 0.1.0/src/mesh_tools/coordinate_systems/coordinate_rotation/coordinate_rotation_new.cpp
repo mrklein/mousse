@@ -21,7 +21,7 @@ mousse::autoPtr<mousse::coordinateRotation> mousse::coordinateRotation::New
     objectRegistryConstructorTablePtr_->find(rotType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "coordinateRotation::New"
       "("
@@ -54,7 +54,7 @@ mousse::autoPtr<mousse::coordinateRotation> mousse::coordinateRotation::New
     dictionaryConstructorTablePtr_->find(rotType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "coordinateRotation::New"
       "("

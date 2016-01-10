@@ -26,7 +26,7 @@ class zoneToPoint
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("zoneToPoint");
+  TYPE_NAME("zoneToPoint");
   // Constructors
     //- Construct from components
     zoneToPoint

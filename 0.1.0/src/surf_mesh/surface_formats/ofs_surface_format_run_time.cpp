@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read MeshedSurface
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   OFSsurfaceFormat,
@@ -19,7 +19,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   ofs
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   OFSsurfaceFormat,
@@ -28,7 +28,7 @@ addNamedTemplatedToRunTimeSelectionTable
   ofs
 );
 // write MeshedSurfaceProxy
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   OFSsurfaceFormat,
@@ -37,7 +37,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   ofs
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   OFSsurfaceFormat,

@@ -22,24 +22,24 @@ void pointConstraints::syncUntransformedData
   const mapDistribute& slavesMap = gmd.globalCoPointSlavesMap();
   const labelListList& slaves = gmd.globalCoPointSlaves();
   List<Type> elems(slavesMap.constructSize());
-  forAll(meshPoints, i)
+  FOR_ALL(meshPoints, i)
   {
     elems[i] = pointData[meshPoints[i]];
   }
   // Pull slave data onto master. No need to update transformed slots.
   slavesMap.distribute(elems, false);
   // Combine master data with slave data
-  forAll(slaves, i)
+  FOR_ALL(slaves, i)
   {
     Type& elem = elems[i];
     const labelList& slavePoints = slaves[i];
     // Combine master with untransformed slave data
-    forAll(slavePoints, j)
+    FOR_ALL(slavePoints, j)
     {
       cop(elem, elems[slavePoints[j]]);
     }
     // Copy result back to slave slots
-    forAll(slavePoints, j)
+    FOR_ALL(slavePoints, j)
     {
       elems[slavePoints[j]] = elem;
     }
@@ -47,7 +47,7 @@ void pointConstraints::syncUntransformedData
   // Push slave-slot data back to slaves
   slavesMap.reverseDistribute(elems.size(), elems, false);
   // Extract back onto mesh
-  forAll(meshPoints, i)
+  FOR_ALL(meshPoints, i)
   {
     pointData[meshPoints[i]] = elems[i];
   }
@@ -58,7 +58,7 @@ void pointConstraints::setPatchFields
   GeometricField<Type, pointPatchField, pointMesh>& pf
 )
 {
-  forAll(pf.boundaryField(), patchI)
+  FOR_ALL(pf.boundaryField(), patchI)
   {
     pointPatchField<Type>& ppf = pf.boundaryField()[patchI];
     if (isA<valuePointPatchField<Type> >(ppf))
@@ -74,7 +74,7 @@ void pointConstraints::constrainCorners
   GeometricField<Type, pointPatchField, pointMesh>& pf
 ) const
 {
-  forAll(patchPatchPointConstraintPoints_, pointi)
+  FOR_ALL(patchPatchPointConstraintPoints_, pointi)
   {
     pf[patchPatchPointConstraintPoints_[pointi]] = transform
     (

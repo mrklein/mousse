@@ -49,7 +49,7 @@ class axesRotation
     );
 public:
   //- Runtime type information
-  TypeName("axesRotation");
+  TYPE_NAME("axesRotation");
   // Constructors
     //- Construct null
     axesRotation();

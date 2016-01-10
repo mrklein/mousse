@@ -7,6 +7,7 @@
 #include "triangle_funcs.hpp"
 #include "tri_surface_tools.hpp"
 #include "tri_face.hpp"
+
 // Private Member Functions 
 template<class PatchType>
 mousse::treeBoundBox mousse::treeDataPrimitivePatch<PatchType>::calcBb
@@ -24,18 +25,22 @@ mousse::treeBoundBox mousse::treeDataPrimitivePatch<PatchType>::calcBb
   }
   return bb;
 }
+
+
 template<class PatchType>
 void mousse::treeDataPrimitivePatch<PatchType>::update()
 {
   if (cacheBb_)
   {
     bbs_.setSize(patch_.size());
-    forAll(patch_, i)
+    FOR_ALL(patch_, i)
     {
       bbs_[i] = calcBb(patch_.points(), patch_[i]);
     }
   }
 }
+
+
 // Constructors 
 // Construct from components
 template<class PatchType>
@@ -46,28 +51,34 @@ mousse::treeDataPrimitivePatch<PatchType>::treeDataPrimitivePatch
   const scalar planarTol
 )
 :
-  patch_(patch),
-  cacheBb_(cacheBb),
-  planarTol_(planarTol)
+  patch_{patch},
+  cacheBb_{cacheBb},
+  planarTol_{planarTol}
 {
   update();
 }
+
+
 template<class PatchType>
 mousse::treeDataPrimitivePatch<PatchType>::findNearestOp::findNearestOp
 (
   const indexedOctree<treeDataPrimitivePatch<PatchType> >& tree
 )
 :
-  tree_(tree)
+  tree_{tree}
 {}
+
+
 template<class PatchType>
 mousse::treeDataPrimitivePatch<PatchType>::findIntersectOp::findIntersectOp
 (
   const indexedOctree<treeDataPrimitivePatch<PatchType> >& tree
 )
 :
-  tree_(tree)
+  tree_{tree}
 {}
+
+
 template<class PatchType>
 mousse::treeDataPrimitivePatch<PatchType>::findAllIntersectOp::findAllIntersectOp
 (
@@ -75,9 +86,11 @@ mousse::treeDataPrimitivePatch<PatchType>::findAllIntersectOp::findAllIntersectO
   DynamicList<label>& shapeMask
 )
 :
-  tree_(tree),
-  shapeMask_(shapeMask)
+  tree_{tree},
+  shapeMask_{shapeMask}
 {}
+
+
 template<class PatchType>
 mousse::treeDataPrimitivePatch<PatchType>::
 findSelfIntersectOp::findSelfIntersectOp
@@ -86,20 +99,24 @@ findSelfIntersectOp::findSelfIntersectOp
   const label edgeID
 )
 :
-  tree_(tree),
-  edgeID_(edgeID)
+  tree_{tree},
+  edgeID_{edgeID}
 {}
+
+
 // Member Functions 
 template<class PatchType>
 mousse::pointField mousse::treeDataPrimitivePatch<PatchType>::shapePoints() const
 {
   pointField cc(patch_.size());
-  forAll(patch_, i)
+  FOR_ALL(patch_, i)
   {
     cc[i] = patch_[i].centre(patch_.points());
   }
   return cc;
 }
+
+
 //- Get type (inside,outside,mixed,unknown) of point w.r.t. surface.
 //  Only makes sense for closed surfaces.
 template<class PatchType>
@@ -122,19 +139,19 @@ mousse::volumeType mousse::treeDataPrimitivePatch<PatchType>::getVolumeType
   pointIndexHit info = oc.findNearest(sample, sqr(GREAT));
   if (info.index() == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "treeDataPrimitivePatch::getSampleType"
       "(indexedOctree<treeDataPrimitivePatch>&, const point&)"
-    )   << "Could not find " << sample << " in octree."
-      << abort(FatalError);
+    )
+    << "Could not find " << sample << " in octree."
+    << abort(FatalError);
   }
   // Get actual intersection point on face
   label faceI = info.index();
   if (debug & 2)
   {
-    Pout<< "getSampleType : sample:" << sample
-      << " nearest face:" << faceI;
+    Pout<< "getSampleType : sample:" << sample << " nearest face:" << faceI;
   }
   const pointField& points = patch_.localPoints();
   const typename PatchType::FaceType& f = patch_.localFaces()[faceI];
@@ -169,7 +186,7 @@ mousse::volumeType mousse::treeDataPrimitivePatch<PatchType>::getVolumeType
   //    face centre
   //
   const scalar typDimSqr = mag(area) + VSMALL;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if ((magSqr(points[f[fp]] - curPt)/typDimSqr) < planarTol_)
     {
@@ -203,7 +220,7 @@ mousse::volumeType mousse::treeDataPrimitivePatch<PatchType>::getVolumeType
   // 3] Get the 'real' edge the face intersection is on
   //
   const labelList& fEdges = patch_.faceEdges()[faceI];
-  forAll(fEdges, fEdgeI)
+  FOR_ALL(fEdges, fEdgeI)
   {
     label edgeI = fEdges[fEdgeI];
     const edge& e = patch_.edges()[edgeI];
@@ -215,7 +232,7 @@ mousse::volumeType mousse::treeDataPrimitivePatch<PatchType>::getVolumeType
       // triangle normals)
       const labelList& eFaces = patch_.edgeFaces()[edgeI];
       vector edgeNormal(vector::zero);
-      forAll(eFaces, i)
+      FOR_ALL(eFaces, i)
       {
         edgeNormal += patch_.faceNormals()[eFaces[i]];
       }
@@ -237,7 +254,7 @@ mousse::volumeType mousse::treeDataPrimitivePatch<PatchType>::getVolumeType
   //
   // 4] Get the internal edge the face intersection is on
   //
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     pointHit edgeHit = linePointRef
     (
@@ -276,7 +293,7 @@ mousse::volumeType mousse::treeDataPrimitivePatch<PatchType>::getVolumeType
     Pout<< "Did not find sample " << sample
       << " anywhere related to nearest face " << faceI << endl
       << "Face:";
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       Pout<< "    vertex:" << f[fp] << "  coord:" << points[f[fp]]
         << endl;
@@ -288,6 +305,8 @@ mousse::volumeType mousse::treeDataPrimitivePatch<PatchType>::getVolumeType
   // - or (more likely) surface is not closed.
   return volumeType::UNKNOWN;
 }
+
+
 // Check if any point on shape is inside cubeBb.
 template<class PatchType>
 bool mousse::treeDataPrimitivePatch<PatchType>::overlaps
@@ -333,7 +352,7 @@ bool mousse::treeDataPrimitivePatch<PatchType>::overlaps
   }
   else
   {
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       bool triIntersects = triangleFuncs::intersectBb
       (
@@ -350,6 +369,8 @@ bool mousse::treeDataPrimitivePatch<PatchType>::overlaps
   }
   return false;
 }
+
+
 // Check if any point on shape is inside sphere.
 template<class PatchType>
 bool mousse::treeDataPrimitivePatch<PatchType>::overlaps
@@ -385,6 +406,8 @@ bool mousse::treeDataPrimitivePatch<PatchType>::overlaps
   }
   return false;
 }
+
+
 template<class PatchType>
 void mousse::treeDataPrimitivePatch<PatchType>::findNearestOp::operator()
 (
@@ -398,7 +421,7 @@ void mousse::treeDataPrimitivePatch<PatchType>::findNearestOp::operator()
   const treeDataPrimitivePatch<PatchType>& shape = tree_.shapes();
   const PatchType& patch = shape.patch();
   const pointField& points = patch.points();
-  forAll(indices, i)
+  FOR_ALL(indices, i)
   {
     const label index = indices[i];
     const typename PatchType::FaceType& f = patch[index];
@@ -412,18 +435,20 @@ void mousse::treeDataPrimitivePatch<PatchType>::findNearestOp::operator()
     }
   }
 }
+
+
 template<class PatchType>
 void mousse::treeDataPrimitivePatch<PatchType>::findNearestOp::operator()
 (
-  const labelUList& indices,
-  const linePointRef& ln,
-  treeBoundBox& tightest,
-  label& minIndex,
-  point& linePoint,
-  point& nearestPoint
+  const labelUList& /*indices*/,
+  const linePointRef& /*ln*/,
+  treeBoundBox& /*tightest*/,
+  label& /*minIndex*/,
+  point& /*linePoint*/,
+  point& /*nearestPoint*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "treeDataPrimitivePatch<PatchType>::findNearestOp::operator()"
     "("
@@ -436,6 +461,8 @@ void mousse::treeDataPrimitivePatch<PatchType>::findNearestOp::operator()
     ") const"
   );
 }
+
+
 template<class PatchType>
 bool mousse::treeDataPrimitivePatch<PatchType>::findIntersectOp::operator()
 (
@@ -447,6 +474,8 @@ bool mousse::treeDataPrimitivePatch<PatchType>::findIntersectOp::operator()
 {
   return findIntersection(tree_, index, start, end, intersectionPoint);
 }
+
+
 template<class PatchType>
 bool mousse::treeDataPrimitivePatch<PatchType>::findAllIntersectOp::operator()
 (
@@ -462,6 +491,8 @@ bool mousse::treeDataPrimitivePatch<PatchType>::findAllIntersectOp::operator()
   }
   return findIntersection(tree_, index, start, end, intersectionPoint);
 }
+
+
 template<class PatchType>
 bool mousse::treeDataPrimitivePatch<PatchType>::findSelfIntersectOp::operator()
 (
@@ -473,7 +504,7 @@ bool mousse::treeDataPrimitivePatch<PatchType>::findSelfIntersectOp::operator()
 {
   if (edgeID_ == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "findSelfIntersectOp::operator()\n"
       "(\n"
@@ -482,9 +513,10 @@ bool mousse::treeDataPrimitivePatch<PatchType>::findSelfIntersectOp::operator()
       "    const point& end,\n"
       "    point& intersectionPoint\n"
       ") const"
-    )   << "EdgeID not set. Please set edgeID to the index of"
-      << " the edge you are testing"
-      << exit(FatalError);
+    )
+    << "EdgeID not set. Please set edgeID to the index of"
+    << " the edge you are testing"
+    << exit(FatalError);
   }
   const treeDataPrimitivePatch<PatchType>& shape = tree_.shapes();
   const PatchType& patch = shape.patch();
@@ -499,6 +531,8 @@ bool mousse::treeDataPrimitivePatch<PatchType>::findSelfIntersectOp::operator()
     return false;
   }
 }
+
+
 template<class PatchType>
 bool mousse::treeDataPrimitivePatch<PatchType>::findIntersection
 (

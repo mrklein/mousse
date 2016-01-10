@@ -24,14 +24,11 @@
 # Derived files
 lex.yy.c
 
-# Corefiles
-core
-
 # Dependency files - anywhere
 *.dep
 
-# lnInclude (symlink) directories - anywhere
-lnInclude
+# _lninclude (symlink) directories - anywhere
+_lninclude
 
 # Build directories - anywhere
 linux*clang*/
@@ -44,19 +41,17 @@ platforms/
 !wmake/rules/*/
 
 # doxygen generated documentation
-doc/Doxygen/html
-doc/Doxygen/latex
-doc/Doxygen/man
-doc/Doxygen/DTAGS
+doc/doxygen/html
+doc/doxygen/latex
+doc/doxygen/man
+doc/doxygen/DTAGS
 
 # Generated files in the main directory (e.g. ReleaseNotes-?.?.html)
 # and in the doc directory
 /doc/*.html
 
 # Untracked configuration files
-/etc/prefs.csh
 /etc/prefs.sh
-/etc/config/prefs.csh
 /etc/config/prefs.sh
 
 # Source packages - anywhere
@@ -80,6 +75,4 @@ doc/Doxygen/DTAGS
 /.project
 
 # Ignore the test directory
-/tutorialsTest
-
-# end-of-file
+/tutorials_test

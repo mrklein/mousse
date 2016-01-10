@@ -11,9 +11,12 @@
 //   local_max.cpp
 #ifndef local_max_hpp_
 #define local_max_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -21,39 +24,43 @@ class localMax
 :
   public surfaceInterpolationScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const localMax&);
 public:
   //- Runtime type information
-  TypeName("localMax");
+  TYPE_NAME("localMax");
+
   // Constructors
     //- Construct from mesh
     localMax(const fvMesh& mesh)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
+
     //- Construct from Istream.
     //  The name of the flux field is read from the Istream and looked-up
     //  from the mesh objectRegistry
     localMax
     (
       const fvMesh& mesh,
-      Istream& is
+      Istream&
     )
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
+
     //- Construct from faceFlux and Istream
     localMax
     (
       const fvMesh& mesh,
-      const surfaceScalarField& faceFlux,
-      Istream& is
+      const surfaceScalarField& /*faceFlux*/,
+      Istream&
     )
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
+
+    //- Disallow default bitwise assignment
+    localMax& operator=(const localMax&) = delete;
+
   // Member Functions
     //- Return the interpolation weighting factors
     virtual tmp<surfaceScalarField> weights
@@ -61,13 +68,14 @@ public:
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "localMax::weights"
         "(const GeometricField<Type, fvPatchField, volMesh>&)"
       );
-      return tmp<surfaceScalarField>(NULL);
+      return tmp<surfaceScalarField>{NULL};
     }
+
     //- Return the face-interpolate of the given cell field
     virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
     interpolate
@@ -77,27 +85,27 @@ public:
     {
       const fvMesh& mesh = vf.mesh();
       tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tvff
-      (
+      {
         new GeometricField<Type, fvsPatchField, surfaceMesh>
-        (
+        {
           IOobject
-          (
+          {
             "localMax::interpolate(" + vf.name() + ')',
             mesh.time().timeName(),
             mesh
-          ),
+          },
           mesh,
           vf.dimensions()
-        )
-      );
+        }
+      };
       GeometricField<Type, fvsPatchField, surfaceMesh>& vff = tvff();
-      forAll(vff.boundaryField(), patchi)
+      FOR_ALL(vff.boundaryField(), patchi)
       {
         vff.boundaryField()[patchi] = vf.boundaryField()[patchi];
       }
       const labelUList& own = mesh.owner();
       const labelUList& nei = mesh.neighbour();
-      forAll(vff, facei)
+      FOR_ALL(vff, facei)
       {
         vff[facei] = max(vf[own[facei]], vf[nei[facei]]);
       }

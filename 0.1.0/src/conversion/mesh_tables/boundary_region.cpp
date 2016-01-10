@@ -29,7 +29,7 @@ mousse::boundaryRegion::~boundaryRegion()
 mousse::label mousse::boundaryRegion::append(const dictionary& dict)
 {
   label maxId = -1;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     if (maxId < iter.key())
     {
@@ -42,7 +42,7 @@ mousse::label mousse::boundaryRegion::append(const dictionary& dict)
 mousse::Map<mousse::word> mousse::boundaryRegion::names() const
 {
   Map<word> lookup;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     lookup.insert
     (
@@ -62,7 +62,7 @@ mousse::Map<mousse::word> mousse::boundaryRegion::names
 ) const
 {
   Map<word> lookup;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     word lookupName = iter().lookupOrDefault<word>
     (
@@ -79,7 +79,7 @@ mousse::Map<mousse::word> mousse::boundaryRegion::names
 mousse::Map<mousse::word> mousse::boundaryRegion::boundaryTypes() const
 {
   Map<word> lookup;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     lookup.insert
     (
@@ -95,7 +95,7 @@ mousse::label mousse::boundaryRegion::findIndex(const word& name) const
   {
     return -1;
   }
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     if (iter().lookupOrDefault<word>("Label", word::null) == name)
     {
@@ -191,7 +191,7 @@ void mousse::boundaryRegion::rename(const dictionary& mapDict)
   // and 2nd pass to relabel regions.
   // This avoid re-matching any renamed regions
   Map<word> mapping;
-  forAllConstIter(dictionary, mapDict, iter)
+  FOR_ALL_CONST_ITER(dictionary, mapDict, iter)
   {
     word oldName(iter().stream());
     label id = this->findIndex(oldName);
@@ -200,7 +200,7 @@ void mousse::boundaryRegion::rename(const dictionary& mapDict)
       mapping.insert(id, iter().keyword());
     }
   }
-  forAllConstIter(Map<word>, mapping, iter)
+  FOR_ALL_CONST_ITER(Map<word>, mapping, iter)
   {
     dictionary& dict = operator[](iter.key());
     Info<< "rename patch: " << iter()

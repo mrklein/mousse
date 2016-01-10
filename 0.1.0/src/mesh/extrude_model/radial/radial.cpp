@@ -9,8 +9,8 @@ namespace mousse
 namespace extrudeModels
 {
 // Static Data Members
-defineTypeNameAndDebug(radial, 0);
-addToRunTimeSelectionTable(extrudeModel, radial, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(radial, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(extrudeModel, radial, dictionary);
 // Constructors 
 radial::radial(const dictionary& dict)
 :
@@ -24,7 +24,7 @@ radial::~radial()
 point radial::operator()
 (
   const point& surfacePoint,
-  const vector& surfaceNormal,
+  const vector& /*surfaceNormal*/,
   const label layer
 ) const
 {

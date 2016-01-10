@@ -13,7 +13,7 @@ void mousse::enrichedPatch::calcMasterPointFaces() const
 {
   if (masterPointFacesPtr_)
   {
-    FatalErrorIn("void enrichedPatch::calcMasterPointFaces() const")
+    FATAL_ERROR_IN("void enrichedPatch::calcMasterPointFaces() const")
       << "Master point face addressing already calculated."
       << abort(FatalError);
   }
@@ -27,11 +27,11 @@ void mousse::enrichedPatch::calcMasterPointFaces() const
   Map<DynamicList<label> > mpf(meshPoints().size());
   const faceList& ef = enrichedFaces();
   // Add the original face points
-  forAll(masterPatch_, faceI)
+  FOR_ALL(masterPatch_, faceI)
   {
     const face& curFace = ef[faceI + slavePatch_.size()];
 //         Pout<< "Cur face in pfAddr: " << curFace << endl;
-    forAll(curFace, pointI)
+    FOR_ALL(curFace, pointI)
     {
       Map<DynamicList<label> >::iterator mpfIter =
         mpf.find(curFace[pointI]);
@@ -54,7 +54,7 @@ void mousse::enrichedPatch::calcMasterPointFaces() const
   }
   // Add the projected points which hit the face
   const labelList& slaveMeshPoints = slavePatch_.meshPoints();
-  forAll(slavePointFaceHits_, pointI)
+  FOR_ALL(slavePointFaceHits_, pointI)
   {
     if
     (
@@ -93,7 +93,7 @@ void mousse::enrichedPatch::calcMasterPointFaces() const
   const labelList mpfToc = mpf.toc();
   masterPointFacesPtr_ = new Map<labelList>(2*mpfToc.size());
   Map<labelList>& masterPointFaceAddr = *masterPointFacesPtr_;
-  forAll(mpfToc, mpfTocI)
+  FOR_ALL(mpfToc, mpfTocI)
   {
     labelList l;
     l.transfer(mpf.find(mpfToc[mpfTocI])());

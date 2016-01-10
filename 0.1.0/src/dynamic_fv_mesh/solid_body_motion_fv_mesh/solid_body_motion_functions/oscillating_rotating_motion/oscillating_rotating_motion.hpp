@@ -27,14 +27,10 @@ class oscillatingRotatingMotion
     vector amplitude_;
     //- Radial velocity
     scalar omega_;
-  // Private Member Functions
-    //- Disallow copy construct
-    oscillatingRotatingMotion(const oscillatingRotatingMotion&);
-    //- Disallow default bitwise assignment
-    void operator=(const oscillatingRotatingMotion&);
+
 public:
   //- Runtime type information
-  TypeName("oscillatingRotatingMotion");
+  TYPE_NAME("oscillatingRotatingMotion");
   // Constructors
     //- Construct from components
     oscillatingRotatingMotion
@@ -46,14 +42,21 @@ public:
     virtual autoPtr<solidBodyMotionFunction> clone() const
     {
       return autoPtr<solidBodyMotionFunction>
-      (
+      {
         new oscillatingRotatingMotion
-        (
+        {
           SBMFCoeffs_,
           time_
-        )
-      );
+        }
+      };
     }
+    //- Disallow copy construct
+    oscillatingRotatingMotion(const oscillatingRotatingMotion&) = delete;
+    //- Disallow default bitwise assignment
+    oscillatingRotatingMotion& operator=
+    (
+      const oscillatingRotatingMotion&
+    ) = delete;
   //- Destructor
   virtual ~oscillatingRotatingMotion();
   // Member Functions

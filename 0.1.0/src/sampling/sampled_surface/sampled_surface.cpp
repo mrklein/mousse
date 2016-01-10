@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledSurface, 0);
-  defineRunTimeSelectionTable(sampledSurface, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(sampledSurface, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(sampledSurface, word);
 }
 // Private Member Functions 
 void mousse::sampledSurface::clearGeom() const
@@ -24,14 +24,14 @@ void mousse::sampledSurface::makeSf() const
   // It is an error to recalculate if the pointer is already set
   if (SfPtr_)
   {
-    FatalErrorIn("mousse::sampledSurface::makeSf()")
+    FATAL_ERROR_IN("mousse::sampledSurface::makeSf()")
       << "face area vectors already exist"
       << abort(FatalError);
   }
   const faceList& theFaces = faces();
   SfPtr_ = new vectorField(theFaces.size());
   vectorField& values = *SfPtr_;
-  forAll(theFaces, faceI)
+  FOR_ALL(theFaces, faceI)
   {
     values[faceI] = theFaces[faceI].normal(points());
   }
@@ -41,14 +41,14 @@ void mousse::sampledSurface::makeMagSf() const
   // It is an error to recalculate if the pointer is already set
   if (magSfPtr_)
   {
-    FatalErrorIn("mousse::sampledSurface::makeMagSf()")
+    FATAL_ERROR_IN("mousse::sampledSurface::makeMagSf()")
       << "mag face areas already exist"
       << abort(FatalError);
   }
   const faceList& theFaces = faces();
   magSfPtr_ = new scalarField(theFaces.size());
   scalarField& values = *magSfPtr_;
-  forAll(theFaces, faceI)
+  FOR_ALL(theFaces, faceI)
   {
     values[faceI] = theFaces[faceI].mag(points());
   }
@@ -58,14 +58,14 @@ void mousse::sampledSurface::makeCf() const
   // It is an error to recalculate if the pointer is already set
   if (CfPtr_)
   {
-    FatalErrorIn("mousse::sampledSurface::makeCf()")
+    FATAL_ERROR_IN("mousse::sampledSurface::makeCf()")
       << "face centres already exist"
       << abort(FatalError);
   }
   const faceList& theFaces = faces();
   CfPtr_ = new vectorField(theFaces.size());
   vectorField& values = *CfPtr_;
-  forAll(theFaces, faceI)
+  FOR_ALL(theFaces, faceI)
   {
     values[faceI] = theFaces[faceI].centre(points());
   }
@@ -87,7 +87,7 @@ mousse::autoPtr<mousse::sampledSurface> mousse::sampledSurface::New
     wordConstructorTablePtr_->find(sampleType);
   if (cstrIter == wordConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "sampledSurface::New"
       "(const word&, const polyMesh&, const dictionary&)"
@@ -173,50 +173,50 @@ mousse::scalar mousse::sampledSurface::area() const
 }
 mousse::tmp<mousse::scalarField> mousse::sampledSurface::sample
 (
-  const surfaceScalarField& sField
+  const surfaceScalarField& /*sField*/
 ) const
 {
-  notImplemented("tmp<mousse::scalarField> sampledSurface::sample");
-  return tmp<scalarField>(NULL);
+  NOT_IMPLEMENTED("tmp<mousse::scalarField> sampledSurface::sample");
+  return tmp<scalarField>{NULL};
 }
 mousse::tmp<mousse::vectorField> mousse::sampledSurface::sample
 (
-  const surfaceVectorField& sField
+  const surfaceVectorField& /*sField*/
 ) const
 {
-  notImplemented("tmp<mousse::vectorField> sampledSurface::sample");
-  return tmp<vectorField>(NULL);
+  NOT_IMPLEMENTED("tmp<mousse::vectorField> sampledSurface::sample");
+  return tmp<vectorField>{NULL};
 }
 mousse::tmp<mousse::sphericalTensorField> mousse::sampledSurface::sample
 (
-  const surfaceSphericalTensorField& sField
+  const surfaceSphericalTensorField& /*sField*/
 ) const
 {
-  notImplemented("tmp<mousse::sphericalTensorField> sampledSurface::sample");
-  return tmp<sphericalTensorField>(NULL);
+  NOT_IMPLEMENTED("tmp<mousse::sphericalTensorField> sampledSurface::sample");
+  return tmp<sphericalTensorField>{NULL};
 }
 mousse::tmp<mousse::symmTensorField> mousse::sampledSurface::sample
 (
-  const surfaceSymmTensorField& sField
+  const surfaceSymmTensorField& /*sField*/
 ) const
 {
-  notImplemented("tmp<mousse::symmTensorField> sampledSurface::sample");
-  return tmp<symmTensorField>(NULL);
+  NOT_IMPLEMENTED("tmp<mousse::symmTensorField> sampledSurface::sample");
+  return tmp<symmTensorField>{NULL};
 }
 mousse::tmp<mousse::tensorField> mousse::sampledSurface::sample
 (
-  const surfaceTensorField& sField
+  const surfaceTensorField& /*sField*/
 ) const
 {
-  notImplemented("tmp<mousse::tensorField> sampledSurface::sample");
-  return tmp<tensorField>(NULL);
+  NOT_IMPLEMENTED("tmp<mousse::tensorField> sampledSurface::sample");
+  return tmp<tensorField>{NULL};
 }
 mousse::tmp<mousse::Field<mousse::scalar> >
 mousse::sampledSurface::project(const Field<scalar>& field) const
 {
   tmp<Field<scalar> > tRes(new Field<scalar>(faces().size()));
   Field<scalar>& res = tRes();
-  forAll(faces(), faceI)
+  FOR_ALL(faces(), faceI)
   {
     res[faceI] = field[faceI];
   }

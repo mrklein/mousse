@@ -15,7 +15,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(combineFaces, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(combineFaces, 0);
 }
 // Private Member Functions 
 // Test face for (almost) convexeness. Allows certain convexity before
@@ -36,7 +36,7 @@ bool mousse::combineFaces::convexFace
   vector ePrev(points[f.first()] - points[f.last()]);
   scalar magEPrev = mag(ePrev);
   ePrev /= magEPrev + VSMALL;
-  forAll(f, fp0)
+  FOR_ALL(f, fp0)
   {
     // Get vertex after fp
     label fp1 = f.fcIndex(fp0);
@@ -93,7 +93,7 @@ void mousse::combineFaces::regioniseFaces
 ) const
 {
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(cEdges, i)
+  FOR_ALL(cEdges, i)
   {
     label edgeI = cEdges[i];
     label f0, f1;
@@ -147,7 +147,7 @@ void mousse::combineFaces::regioniseFaces
             // Merge the two regions
             label useRegion = min(region0, region1);
             label freeRegion = max(region0, region1);
-            forAllIter(Map<label>, faceRegion, iter)
+            FOR_ALL_ITER(Map<label>, faceRegion, iter)
             {
               if (iter() == freeRegion)
               {
@@ -173,7 +173,7 @@ bool mousse::combineFaces::faceNeighboursValid
   const cell& cFaces = mesh_.cells()[cellI];
   DynamicList<label> storage;
   // Test for face collapsing to edge since too many neighbours merged.
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     if (!faceRegion.found(faceI))
@@ -185,7 +185,7 @@ bool mousse::combineFaces::faceNeighboursValid
       DynamicList<label> neighbourFaces(cFaces.size());
       // Regioned neighbouring faces
       labelHashSet neighbourRegions;
-      forAll(fEdges, i)
+      FOR_ALL(fEdges, i)
       {
         label edgeI = fEdges[i];
         label nbrI = meshTools::otherFace(mesh_, cellI, faceI, edgeI);
@@ -238,7 +238,7 @@ mousse::labelListList mousse::combineFaces::getMergeSets
   // Storage for on-the-fly cell-edge addressing.
   DynamicList<label> storage;
   // On all cells regionise the faces
-  forAllConstIter(labelHashSet, boundaryCells, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, boundaryCells, iter)
   {
     label cellI = iter.key();
     const cell& cFaces = mesh_.cells()[cellI];
@@ -255,7 +255,7 @@ mousse::labelListList mousse::combineFaces::getMergeSets
     {
       // Create region-to-faces addressing
       Map<labelList> regionToFaces(faceRegion.size());
-      forAllConstIter(Map<label>, faceRegion, iter)
+      FOR_ALL_CONST_ITER(Map<label>, faceRegion, iter)
       {
         label faceI = iter.key();
         label region = iter();
@@ -273,7 +273,7 @@ mousse::labelListList mousse::combineFaces::getMergeSets
         }
       }
       // For every set check if it forms a valid convex face
-      forAllConstIter(Map<labelList>, regionToFaces, iter)
+      FOR_ALL_CONST_ITER(Map<labelList>, regionToFaces, iter)
       {
         // Make face out of setFaces
         indirectPrimitivePatch bigFace
@@ -304,12 +304,12 @@ mousse::labelListList mousse::combineFaces::getMergeSets
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   // Pick up all cells on boundary
   labelHashSet boundaryCells(mesh_.nFaces()-mesh_.nInternalFaces());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& patch = patches[patchI];
     if (!patch.coupled())
     {
-      forAll(patch, i)
+      FOR_ALL(patch, i)
       {
         boundaryCells.insert(mesh_.faceOwner()[patch.start()+i]);
       }
@@ -327,7 +327,7 @@ mousse::face mousse::combineFaces::getOutsideFace
 {
   if (fp.edgeLoops().size() != 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "combineFaces::getOutsideFace(const indirectPrimitivePatch&)"
     )   << "Multiple outside loops:" << fp.edgeLoops()
@@ -340,7 +340,7 @@ mousse::face mousse::combineFaces::getOutsideFace
   const labelList& eFaces = fp.edgeFaces()[bEdgeI];
   if (eFaces.size() != 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "combineFaces::getOutsideFace(const indirectPrimitivePatch&)"
     )   << "boundary edge:" << bEdgeI
@@ -361,7 +361,7 @@ mousse::face mousse::combineFaces::getOutsideFace
     label index1 = findIndex(outsideLoop, e[1]);
     if (index0 == -1 || index1 == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "combineFaces::getOutsideFace"
         "(const indirectPrimitivePatch&)"
@@ -380,7 +380,7 @@ mousse::face mousse::combineFaces::getOutsideFace
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "combineFaces::getOutsideFace"
         "(const indirectPrimitivePatch&)"
@@ -403,7 +403,7 @@ mousse::face mousse::combineFaces::getOutsideFace
     label index = findIndex(fp.faceEdges()[eFaces[0]], bEdgeI);
     if (index == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "combineFaces::getOutsideFace"
         "(const indirectPrimitivePatch&)"
@@ -424,7 +424,7 @@ mousse::face mousse::combineFaces::getOutsideFace
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "combineFaces::getOutsideFace"
         "(const indirectPrimitivePatch&)"
@@ -453,7 +453,7 @@ void mousse::combineFaces::setRefinement
   {
     masterFace_.setSize(faceSets.size());
     faceSetsVertices_.setSize(faceSets.size());
-    forAll(faceSets, setI)
+    FOR_ALL(faceSets, setI)
     {
       const labelList& setFaces = faceSets[setI];
       masterFace_[setI] = setFaces[0];
@@ -467,23 +467,23 @@ void mousse::combineFaces::setRefinement
   // Running count of number of faces using a point
   labelList nPointFaces(mesh_.nPoints(), 0);
   const labelListList& pointFaces = mesh_.pointFaces();
-  forAll(pointFaces, pointI)
+  FOR_ALL(pointFaces, pointI)
   {
     nPointFaces[pointI] = pointFaces[pointI].size();
   }
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(faceSets, setI)
+  FOR_ALL(faceSets, setI)
   {
     const labelList& setFaces = faceSets[setI];
     // Check
     if (debug)
     {
-      forAll(setFaces, i)
+      FOR_ALL(setFaces, i)
       {
         label patchI = patches.whichPatch(setFaces[i]);
         if (patchI == -1 || patches[patchI].coupled())
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "combineFaces::setRefinement"
             "(const bool, const labelListList&"
@@ -509,7 +509,7 @@ void mousse::combineFaces::setRefinement
     const labelListList& edgeLoops = bigFace.edgeLoops();
     if (edgeLoops.size() != 1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "combineFaces::setRefinement"
         "(const bool, const labelListList&, polyTopoChange&)"
@@ -555,16 +555,16 @@ void mousse::combineFaces::setRefinement
     // Mark unused points for deletion
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Remove count of all faces combined
-    forAll(setFaces, i)
+    FOR_ALL(setFaces, i)
     {
       const face& f = mesh_.faces()[setFaces[i]];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         nPointFaces[f[fp]]--;
       }
     }
     // But keep count on new outside face
-    forAll(outsideFace, fp)
+    FOR_ALL(outsideFace, fp)
     {
       nPointFaces[outsideFace[fp]]++;
     }
@@ -580,7 +580,7 @@ void mousse::combineFaces::setRefinement
   // Remove all unused points. Store position if undoable.
   if (!undoable_)
   {
-    forAll(nPointFaces, pointI)
+    FOR_ALL(nPointFaces, pointI)
     {
       if (nPointFaces[pointI] == 0)
       {
@@ -592,7 +592,7 @@ void mousse::combineFaces::setRefinement
   {
     // Count removed points
     label n = 0;
-    forAll(nPointFaces, pointI)
+    FOR_ALL(nPointFaces, pointI)
     {
       if (nPointFaces[pointI] == 0)
       {
@@ -604,7 +604,7 @@ void mousse::combineFaces::setRefinement
     Map<label> meshToSaved(2*n);
     // Remove points and store position
     n = 0;
-    forAll(nPointFaces, pointI)
+    FOR_ALL(nPointFaces, pointI)
     {
       if (nPointFaces[pointI] == 0)
       {
@@ -616,13 +616,13 @@ void mousse::combineFaces::setRefinement
       }
     }
     // Update stored vertex labels. Negative indices index into local points
-    forAll(faceSetsVertices_, setI)
+    FOR_ALL(faceSetsVertices_, setI)
     {
       faceList& setFaces = faceSetsVertices_[setI];
-      forAll(setFaces, i)
+      FOR_ALL(setFaces, i)
       {
         face& f = setFaces[i];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label pointI = f[fp];
           if (nPointFaces[pointI] == 0)
@@ -642,14 +642,14 @@ void mousse::combineFaces::updateMesh(const mapPolyMesh& map)
     inplaceRenumber(map.reverseFaceMap(), masterFace_);
     // Stored faces refer to backed-up vertices (not changed)
     // and normal vertices (need to be renumbered)
-    forAll(faceSetsVertices_, setI)
+    FOR_ALL(faceSetsVertices_, setI)
     {
       faceList& faces = faceSetsVertices_[setI];
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         // Note: faces[i] can have negative elements.
         face& f = faces[i];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label pointI = f[fp];
           if (pointI >= 0)
@@ -657,7 +657,7 @@ void mousse::combineFaces::updateMesh(const mapPolyMesh& map)
             f[fp] = map.reversePointMap()[pointI];
             if (f[fp] < 0)
             {
-              FatalErrorIn
+              FATAL_ERROR_IN
               (
                 "combineFaces::updateMesh"
                 "(const mapPolyMesh&)"
@@ -684,12 +684,12 @@ void mousse::combineFaces::setUnrefinement
   polyTopoChange& meshMod,
   Map<label>& restoredPoints,
   Map<label>& restoredFaces,
-  Map<label>& restoredCells
+  Map<label>& /*restoredCells*/
 )
 {
   if (!undoable_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "combineFaces::setUnrefinement"
       "(const labelList&, polyTopoChange&"
@@ -701,20 +701,20 @@ void mousse::combineFaces::setUnrefinement
   labelList addedPoints(savedPoints_.size(), -1);
   // Invert set-to-master-face
   Map<label> masterToSet(masterFace_.size());
-  forAll(masterFace_, setI)
+  FOR_ALL(masterFace_, setI)
   {
     if (masterFace_[setI] >= 0)
     {
       masterToSet.insert(masterFace_[setI], setI);
     }
   }
-  forAll(masterFaces, i)
+  FOR_ALL(masterFaces, i)
   {
     label masterFaceI = masterFaces[i];
     Map<label>::const_iterator iter = masterToSet.find(masterFaceI);
     if (iter == masterToSet.end())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "combineFaces::setUnrefinement"
         "(const labelList&, polyTopoChange&"
@@ -730,7 +730,7 @@ void mousse::combineFaces::setUnrefinement
     faceList& faces = faceSetsVertices_[setI];
     if (faces.empty())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "combineFaces::setUnrefinement"
         "(const labelList&, polyTopoChange&"
@@ -738,10 +738,10 @@ void mousse::combineFaces::setUnrefinement
       )   << "Set " << setI << " with master face " << masterFaceI
         << " has already been merged." << abort(FatalError);
     }
-    forAll(faces, i)
+    FOR_ALL(faces, i)
     {
       face& f = faces[i];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label pointI = f[fp];
         if (pointI < 0)
@@ -784,7 +784,7 @@ void mousse::combineFaces::setUnrefinement
     label patchI = mesh_.boundaryMesh().whichPatch(masterFaceI);
     if (mesh_.boundaryMesh()[patchI].coupled())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "combineFaces::setUnrefinement"
         "(const labelList&, polyTopoChange&"

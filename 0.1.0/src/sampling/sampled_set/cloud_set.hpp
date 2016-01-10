@@ -36,7 +36,7 @@ class cloudSet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("cloud");
+  TYPE_NAME("cloud");
   // Constructors
     //- Construct from components
     cloudSet

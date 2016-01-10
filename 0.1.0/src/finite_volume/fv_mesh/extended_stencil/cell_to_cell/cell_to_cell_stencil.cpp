@@ -37,7 +37,7 @@ void mousse::cellToCellStencil::merge
   }
   // For all in listA see if they are present
   label nInsert = 0;
-  forAll(listA, i)
+  FOR_ALL(listA, i)
   {
     label elem = listA[i];
     if (elem != global0 && elem != global1)
@@ -61,7 +61,7 @@ void mousse::cellToCellStencil::merge
     result[resultI++] = global1;
   }
   // Insert listB
-  forAll(listB, i)
+  FOR_ALL(listB, i)
   {
     label elem = listB[i];
     if (elem != global0 && elem != global1)
@@ -70,7 +70,7 @@ void mousse::cellToCellStencil::merge
     }
   }
   // Insert listA
-  forAll(listA, i)
+  FOR_ALL(listA, i)
   {
     label elem = listA[i];
     if (elem != global0 && elem != global1)
@@ -83,7 +83,7 @@ void mousse::cellToCellStencil::merge
   }
   if (resultI != result.size())
   {
-    FatalErrorIn("cellToCellStencil::merge(..)")
+    FATAL_ERROR_IN("cellToCellStencil::merge(..)")
       << "problem" << abort(FatalError);
   }
   listB.transfer(result);
@@ -97,14 +97,14 @@ void mousse::cellToCellStencil::merge
 )
 {
   labelHashSet set;
-  forAll(cCells, i)
+  FOR_ALL(cCells, i)
   {
     if (cCells[i] != globalI)
     {
       set.insert(cCells[i]);
     }
   }
-  forAll(pGlobals, i)
+  FOR_ALL(pGlobals, i)
   {
     if (pGlobals[i] != globalI)
     {
@@ -114,7 +114,7 @@ void mousse::cellToCellStencil::merge
   cCells.setSize(set.size()+1);
   label n = 0;
   cCells[n++] = globalI;
-  forAllConstIter(labelHashSet, set, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, set, iter)
   {
     cCells[n++] = iter.key();
   }
@@ -123,13 +123,13 @@ void mousse::cellToCellStencil::validBoundaryFaces(boolList& isValidBFace) const
 {
   const polyBoundaryMesh& patches = mesh().boundaryMesh();
   isValidBFace.setSize(mesh().nFaces()-mesh().nInternalFaces(), true);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled() || isA<emptyPolyPatch>(pp))
     {
       label bFaceI = pp.start()-mesh().nInternalFaces();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         isValidBFace[bFaceI++] = false;
       }
@@ -141,7 +141,7 @@ mousse::cellToCellStencil::allCoupledFacesPatch() const
 {
   const polyBoundaryMesh& patches = mesh().boundaryMesh();
   label nCoupled = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
@@ -151,13 +151,13 @@ mousse::cellToCellStencil::allCoupledFacesPatch() const
   }
   labelList coupledFaces(nCoupled);
   nCoupled = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         coupledFaces[nCoupled++] = faceI++;
       }
@@ -191,7 +191,7 @@ void mousse::cellToCellStencil::unionEqOp::operator()
     else
     {
       labelHashSet set(x);
-      forAll(y, i)
+      FOR_ALL(y, i)
       {
         set.insert(y[i]);
       }
@@ -210,7 +210,7 @@ void mousse::cellToCellStencil::insertFaceCells
 {
   const labelList& own = mesh().faceOwner();
   const labelList& nei = mesh().faceNeighbour();
-  forAll(faceLabels, i)
+  FOR_ALL(faceLabels, i)
   {
     label faceI = faceLabels[i];
     label globalOwn = globalNumbering().toGlobal(own[faceI]);

@@ -19,7 +19,7 @@ mousse::autoPtr<mousse::porosityModel> mousse::porosityModel::New
     meshConstructorTablePtr_->find(modelType);
   if (cstrIter == meshConstructorTablePtr_->end())
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "Unknown " << typeName << " type " << modelType << nl << nl
       << "Valid " << typeName << " types are:" << nl
       << meshConstructorTablePtr_->sortedToc()

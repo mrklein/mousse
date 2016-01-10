@@ -13,10 +13,12 @@
 #include "ifstream.hpp"
 #include "unit_conversion.hpp"
 #include "edge_map.hpp"
+#include "dictionary.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(surfaceFeatures, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(surfaceFeatures, 0);
 const scalar surfaceFeatures::parallelTolerance = sin(degToRad(1.0));
 }
 // Private Member Functions 
@@ -90,7 +92,7 @@ void mousse::surfaceFeatures::setFromStatus
   label nRegion = 0;
   label nExternal = 0;
   label nInternal = 0;
-  forAll(edgeStat, edgeI)
+  FOR_ALL(edgeStat, edgeI)
   {
     if (edgeStat[edgeI] == REGION)
     {
@@ -112,7 +114,7 @@ void mousse::surfaceFeatures::setFromStatus
   label regionI = 0;
   label externalI = externalStart_;
   label internalI = internalStart_;
-  forAll(edgeStat, edgeI)
+  FOR_ALL(edgeStat, edgeI)
   {
     if (edgeStat[edgeI] == REGION)
     {
@@ -141,11 +143,11 @@ void mousse::surfaceFeatures::calcFeatPoints
   const labelListList& pointEdges = surf_.pointEdges();
   const edgeList& edges = surf_.edges();
   const pointField& localPoints = surf_.localPoints();
-  forAll(pointEdges, pointI)
+  FOR_ALL(pointEdges, pointI)
   {
     const labelList& pEdges = pointEdges[pointI];
     label nFeatEdges = 0;
-    forAll(pEdges, i)
+    FOR_ALL(pEdges, i)
     {
       if (edgeStat[pEdges[i]] != NONE)
       {
@@ -160,7 +162,7 @@ void mousse::surfaceFeatures::calcFeatPoints
     {
       // Check the angle between the two edges
       DynamicList<vector> edgeVecs(2);
-      forAll(pEdges, i)
+      FOR_ALL(pEdges, i)
       {
         const label edgeI = pEdges[i];
         if (edgeStat[edgeI] != NONE)
@@ -189,7 +191,7 @@ void mousse::surfaceFeatures::classifyFeatureAngles
   const pointField& points = surf_.points();
   // Special case: minCos=1
   bool selectAll = (mag(minCos-1.0) < SMALL);
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     const labelList& eFaces = edgeFaces[edgeI];
     if (eFaces.size() != 2)
@@ -244,7 +246,7 @@ mousse::label mousse::surfaceFeatures::nextFeatEdge
 {
   const labelList& pEdges = surf_.pointEdges()[vertI];
   label nextEdgeI = -1;
-  forAll(pEdges, i)
+  FOR_ALL(pEdges, i)
   {
     label edgeI = pEdges[i];
     if
@@ -362,7 +364,7 @@ mousse::surfaceFeatures::surfaceFeatures
   const labelList& featurePoints,
   const labelList& featureEdges,
   const label externalStart,
-  const label internalStart
+  const label /*internalStart*/
 )
 :
   surf_(surf),
@@ -456,7 +458,7 @@ mousse::surfaceFeatures::surfaceFeatures
     edgeLabel     // label of surface edge or -1
   );
   label count = 0;
-  forAll(edgeLabel, sEdgeI)
+  FOR_ALL(edgeLabel, sEdgeI)
   {
     const label sEdge = edgeLabel[sEdgeI];
     if (sEdge == -1)
@@ -478,7 +480,7 @@ mousse::surfaceFeatures::surfaceFeatures
   // Transfer the edge status to a list encompassing all edges in the surface
   // so that calcFeatPoints can be used.
   List<edgeStatus> allEdgeStat(surf_.nEdges(), NONE);
-  forAll(allEdgeStat, eI)
+  FOR_ALL(allEdgeStat, eI)
   {
     EdgeMap<label>::const_iterator iter = dynFeatEdges.find(surfEdges[eI]);
     if (iter != dynFeatEdges.end())
@@ -656,7 +658,7 @@ mousse::labelList mousse::surfaceFeatures::trimFeatures
   }
   while (true);
   // Unmark all feature lines that have featLines=-2
-  forAll(featureEdges_, i)
+  FOR_ALL(featureEdges_, i)
   {
     label edgeI = featureEdges_[i];
     if (featLines[edgeI] == -2)
@@ -716,7 +718,7 @@ void mousse::surfaceFeatures::writeObj(const fileName& prefix) const
   }
   OFstream pointStr(prefix + "_points.obj");
   Pout<< "Writing feature points to " << pointStr.name() << endl;
-  forAll(featurePoints_, i)
+  FOR_ALL(featurePoints_, i)
   {
     label pointI = featurePoints_[i];
     meshTools::writeOBJ(pointStr, surf_.localPoints()[pointI]);
@@ -744,7 +746,7 @@ mousse::Map<mousse::label> mousse::surfaceFeatures::nearestSamples
   // From patch point to surface point
   Map<label> nearest(2*pointLabels.size());
   const pointField& surfPoints = surf_.localPoints();
-  forAll(pointLabels, i)
+  FOR_ALL(pointLabels, i)
   {
     label surfPointI = pointLabels[i];
     const point& surfPt = surfPoints[surfPointI];
@@ -755,7 +757,7 @@ mousse::Map<mousse::label> mousse::surfaceFeatures::nearestSamples
     );
     if (!info.hit())
     {
-      FatalErrorIn("surfaceFeatures::nearestSamples")
+      FATAL_ERROR_IN("surfaceFeatures::nearestSamples")
         << "Problem for point "
         << surfPointI << " in tree " << ppTree.bb()
         << abort(FatalError);
@@ -778,7 +780,7 @@ mousse::Map<mousse::label> mousse::surfaceFeatures::nearestSamples
       << endl;
     OFstream objStream("nearestSamples.obj");
     label vertI = 0;
-    forAllConstIter(Map<label>, nearest, iter)
+    FOR_ALL_CONST_ITER(Map<label>, nearest, iter)
     {
       meshTools::writeOBJ(objStream, samples[iter.key()]); vertI++;
       meshTools::writeOBJ(objStream, surfPoints[iter()]); vertI++;
@@ -813,7 +815,7 @@ mousse::Map<mousse::label> mousse::surfaceFeatures::nearestSamples
   );
   // From patch point to surface edge.
   Map<label> nearest(2*selectedEdges.size());
-  forAll(selectedEdges, i)
+  FOR_ALL(selectedEdges, i)
   {
     label surfEdgeI = selectedEdges[i];
     const edge& e = surfEdges[surfEdgeI];
@@ -873,7 +875,7 @@ mousse::Map<mousse::label> mousse::surfaceFeatures::nearestSamples
       << "View this Lightwave-OBJ file with e.g. javaview\n" << endl;
     OFstream objStream("nearestEdges.obj");
     label vertI = 0;
-    forAllConstIter(Map<label>, nearest, iter)
+    FOR_ALL_CONST_ITER(Map<label>, nearest, iter)
     {
       const label sampleI = iter.key();
       meshTools::writeOBJ(objStream, samples[sampleI]); vertI++;
@@ -897,7 +899,7 @@ mousse::Map<mousse::pointIndexHit> mousse::surfaceFeatures::nearestEdges
   const edgeList& sampleEdges,
   const labelList& selectedSampleEdges,
   const pointField& samplePoints,
-  const scalarField& sampleDist,
+  const scalarField& /*sampleDist*/,
   const scalarField& maxDistSqr,
   const scalar minSampleDist
 ) const
@@ -925,7 +927,7 @@ mousse::Map<mousse::pointIndexHit> mousse::surfaceFeatures::nearestEdges
   // Loop over all selected edges. Sample at regular intervals. Find nearest
   // sampleEdges (using octree)
   //
-  forAll(selectedEdges, i)
+  FOR_ALL(selectedEdges, i)
   {
     label surfEdgeI = selectedEdges[i];
     const edge& e = surfEdges[surfEdgeI];
@@ -992,7 +994,7 @@ mousse::Map<mousse::pointIndexHit> mousse::surfaceFeatures::nearestEdges
       << "View this Lightwave-OBJ file with e.g. javaview\n" << endl;
     OFstream objStream("nearestEdges.obj");
     label vertI = 0;
-    forAllConstIter(Map<pointIndexHit>, nearest, iter)
+    FOR_ALL_CONST_ITER(Map<pointIndexHit>, nearest, iter)
     {
       const label sampleEdgeI = iter.key();
       const edge& sampleEdge = sampleEdges[sampleEdgeI];
@@ -1038,7 +1040,7 @@ void mousse::surfaceFeatures::nearestSurfEdge
     10,     // leafsize
     3.0     // duplicity
   );
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     const point& sample = samples[i];
     pointIndexHit info = ppTree.findNearest
@@ -1097,7 +1099,7 @@ void mousse::surfaceFeatures::nearestSurfEdge
     10,             // leafsize
     3.0             // duplicity
   );
-  forAll(selectedSampleEdges, i)
+  FOR_ALL(selectedSampleEdges, i)
   {
     const edge& e = sampleEdges[selectedSampleEdges[i]];
     linePointRef edgeLine = e.line(samplePoints);
@@ -1147,7 +1149,7 @@ void mousse::surfaceFeatures::nearestFeatEdge
   );
   const edgeList& surfEdges = surf_.edges();
   const pointField& surfLocalPoints = surf_.localPoints();
-  forAll(surfEdges, edgeI)
+  FOR_ALL(surfEdges, edgeI)
   {
     const edge& sample = surfEdges[edgeI];
     const point& startPoint = surfLocalPoints[sample.start()];
@@ -1176,7 +1178,7 @@ void mousse::surfaceFeatures::operator=(const surfaceFeatures& rhs)
   // Check for assignment to self
   if (this == &rhs)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::surfaceFeatures::operator=(const mousse::surfaceFeatures&)"
     )   << "Attempted assignment to self"
@@ -1184,7 +1186,7 @@ void mousse::surfaceFeatures::operator=(const surfaceFeatures& rhs)
   }
   if (&surf_ != &rhs.surface())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::surfaceFeatures::operator=(const mousse::surfaceFeatures&)"
     )   << "Operating on different surfaces"

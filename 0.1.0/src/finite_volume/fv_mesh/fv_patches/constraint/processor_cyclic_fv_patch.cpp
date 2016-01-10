@@ -7,6 +7,6 @@
 #include "transform_field.hpp"
 namespace mousse
 {
-defineTypeNameAndDebug(processorCyclicFvPatch, 0);
-addToRunTimeSelectionTable(fvPatch, processorCyclicFvPatch, polyPatch);
+DEFINE_TYPE_NAME_AND_DEBUG(processorCyclicFvPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, processorCyclicFvPatch, polyPatch);
 }  // namespace mousse

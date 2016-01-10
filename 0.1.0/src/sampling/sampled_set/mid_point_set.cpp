@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(midPointSet, 0);
-  addToRunTimeSelectionTable(sampledSet, midPointSet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(midPointSet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, midPointSet, word);
 }
 // Private Member Functions 
 void mousse::midPointSet::genSamples()
@@ -36,7 +36,7 @@ void mousse::midPointSet::genSamples()
       label cell2 = getCell(faces_[sampleI+1], midPoints[midI]);
       if (cell1 != cell2)
       {
-        FatalErrorIn("midPointSet::genSamples()")
+        FATAL_ERROR_IN("midPointSet::genSamples()")
           << "  sampleI:" << sampleI
           << "  midI:" << midI
           << "  sampleI:" << sampleI

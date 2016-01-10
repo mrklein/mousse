@@ -9,25 +9,28 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cellToPoint, 0);
-  addToRunTimeSelectionTable(topoSetSource, cellToPoint, word);
-  addToRunTimeSelectionTable(topoSetSource, cellToPoint, istream);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::cellToPoint::cellAction,
-    1
-  >::names[] =
-  {
-    "all"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(cellToPoint, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, cellToPoint, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, cellToPoint, istream);
+
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::cellToPoint::cellAction,
+  1
+>::names[] =
+{
+  "all"
+};
 }
+
 mousse::topoSetSource::addToUsageTable mousse::cellToPoint::usage_
 (
   cellToPoint::typeName,
   "\n    Usage: cellToPoint <cellSet> all\n\n"
   "    Select all points of cells in the cellSet\n\n"
 );
+
 const mousse::NamedEnum<mousse::cellToPoint::cellAction, 1>
   mousse::cellToPoint::cellActionNames_;
 // Private Member Functions 
@@ -36,14 +39,14 @@ void mousse::cellToPoint::combine(topoSet& set, const bool add) const
   // Load the set
   cellSet loadedSet(mesh_, setName_);
   // Add all point from cells in loadedSet
-  forAllConstIter(cellSet, loadedSet, iter)
+  FOR_ALL_CONST_ITER(cellSet, loadedSet, iter)
   {
     const label cellI = iter.key();
     const labelList& cFaces = mesh_.cells()[cellI];
-    forAll(cFaces, cFaceI)
+    FOR_ALL(cFaces, cFaceI)
     {
       const face& f = mesh_.faces()[cFaces[cFaceI]];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         addOrDelete(set, f[fp], add);
       }

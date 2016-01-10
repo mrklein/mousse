@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(distanceSurface, 0);
-  addToRunTimeSelectionTable(sampledSurface, distanceSurface, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(distanceSurface, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSurface, distanceSurface, word);
 }
 // Private Member Functions 
 void mousse::distanceSurface::createGeometry()
@@ -64,7 +64,7 @@ void mousse::distanceSurface::createGeometry()
     {
       List<volumeType> volType;
       surfPtr_().getVolumeType(cc, volType);
-      forAll(volType, i)
+      FOR_ALL(volType, i)
       {
         volumeType vT = volType[i];
         if (vT == volumeType::OUTSIDE)
@@ -77,7 +77,7 @@ void mousse::distanceSurface::createGeometry()
         }
         else
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void mousse::distanceSurface::createGeometry()"
           )   << "getVolumeType failure, neither INSIDE or OUTSIDE"
@@ -87,7 +87,7 @@ void mousse::distanceSurface::createGeometry()
     }
     else
     {
-      forAll(nearest, i)
+      FOR_ALL(nearest, i)
       {
         fld[i] = mousse::mag(cc[i] - nearest[i].hitPoint());
       }
@@ -95,7 +95,7 @@ void mousse::distanceSurface::createGeometry()
   }
   // Patch fields
   {
-    forAll(fvm.C().boundaryField(), patchI)
+    FOR_ALL(fvm.C().boundaryField(), patchI)
     {
       const pointField& cc = fvm.C().boundaryField()[patchI];
       fvPatchScalarField& fld = cellDistance.boundaryField()[patchI];
@@ -110,7 +110,7 @@ void mousse::distanceSurface::createGeometry()
       {
         List<volumeType> volType;
         surfPtr_().getVolumeType(cc, volType);
-        forAll(volType, i)
+        FOR_ALL(volType, i)
         {
           volumeType vT = volType[i];
           if (vT == volumeType::OUTSIDE)
@@ -123,7 +123,7 @@ void mousse::distanceSurface::createGeometry()
           }
           else
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "void mousse::distanceSurface::createGeometry()"
             )   << "getVolumeType failure, "
@@ -134,7 +134,7 @@ void mousse::distanceSurface::createGeometry()
       }
       else
       {
-        forAll(nearest, i)
+        FOR_ALL(nearest, i)
         {
           fld[i] = mousse::mag(cc[i] - nearest[i].hitPoint());
         }
@@ -158,7 +158,7 @@ void mousse::distanceSurface::createGeometry()
     {
       List<volumeType> volType;
       surfPtr_().getVolumeType(pts, volType);
-      forAll(volType, i)
+      FOR_ALL(volType, i)
       {
         volumeType vT = volType[i];
         if (vT == volumeType::OUTSIDE)
@@ -173,7 +173,7 @@ void mousse::distanceSurface::createGeometry()
         }
         else
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void mousse::distanceSurface::createGeometry()"
           )   << "getVolumeType failure, neither INSIDE or OUTSIDE"
@@ -183,7 +183,7 @@ void mousse::distanceSurface::createGeometry()
     }
     else
     {
-      forAll(nearest, i)
+      FOR_ALL(nearest, i)
       {
         pointDistance_[i] = mousse::mag(pts[i]-nearest[i].hitPoint());
       }

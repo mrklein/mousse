@@ -166,7 +166,7 @@ class sampledSets
     void operator=(const sampledSets&);
 public:
   //- Runtime type information
-  TypeName("sets");
+  TYPE_NAME("sets");
   // Constructors
     //- Construct for given objectRegistry and dictionary
     //  allow the possibility to load fields from files

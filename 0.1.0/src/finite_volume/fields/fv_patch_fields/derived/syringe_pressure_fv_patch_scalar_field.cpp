@@ -7,6 +7,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
+#include "time.hpp"
+
 // Constructors 
 mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
 (
@@ -14,10 +16,11 @@ mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  phiName_("phi"),
-  curTimeIndex_(-1)
+  fixedValueFvPatchScalarField{p, iF},
+  phiName_{"phi"},
+  curTimeIndex_{-1}
 {}
+
 mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
 (
   const fvPatch& p,
@@ -25,20 +28,20 @@ mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  Ap_(readScalar(dict.lookup("Ap"))),
-  Sp_(readScalar(dict.lookup("Sp"))),
-  VsI_(readScalar(dict.lookup("VsI"))),
-  tas_(readScalar(dict.lookup("tas"))),
-  tae_(readScalar(dict.lookup("tae"))),
-  tds_(readScalar(dict.lookup("tds"))),
-  tde_(readScalar(dict.lookup("tde"))),
-  psI_(readScalar(dict.lookup("psI"))),
-  psi_(readScalar(dict.lookup("psi"))),
-  ams_(readScalar(dict.lookup("ams"))),
-  ams0_(ams_),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  curTimeIndex_(-1)
+  fixedValueFvPatchScalarField{p, iF},
+  Ap_{readScalar(dict.lookup("Ap"))},
+  Sp_{readScalar(dict.lookup("Sp"))},
+  VsI_{readScalar(dict.lookup("VsI"))},
+  tas_{readScalar(dict.lookup("tas"))},
+  tae_{readScalar(dict.lookup("tae"))},
+  tds_{readScalar(dict.lookup("tds"))},
+  tde_{readScalar(dict.lookup("tde"))},
+  psI_{readScalar(dict.lookup("psI"))},
+  psi_{readScalar(dict.lookup("psi"))},
+  ams_{readScalar(dict.lookup("ams"))},
+  ams0_{ams_},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  curTimeIndex_{-1}
 {
   scalar ps = (psI_*VsI_ + ams_/psi_)/Vs(db().time().value());
   fvPatchField<scalar>::operator=(ps);
@@ -51,62 +54,65 @@ mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(sppsf, p, iF, mapper),
-  Ap_(sppsf.Ap_),
-  Sp_(sppsf.Sp_),
-  VsI_(sppsf.VsI_),
-  tas_(sppsf.tas_),
-  tae_(sppsf.tae_),
-  tds_(sppsf.tds_),
-  tde_(sppsf.tde_),
-  psI_(sppsf.psI_),
-  psi_(sppsf.psi_),
-  ams_(sppsf.ams_),
-  ams0_(sppsf.ams0_),
-  phiName_(sppsf.phiName_),
-  curTimeIndex_(-1)
+  fixedValueFvPatchScalarField{sppsf, p, iF, mapper},
+  Ap_{sppsf.Ap_},
+  Sp_{sppsf.Sp_},
+  VsI_{sppsf.VsI_},
+  tas_{sppsf.tas_},
+  tae_{sppsf.tae_},
+  tds_{sppsf.tds_},
+  tde_{sppsf.tde_},
+  psI_{sppsf.psI_},
+  psi_{sppsf.psi_},
+  ams_{sppsf.ams_},
+  ams0_{sppsf.ams0_},
+  phiName_{sppsf.phiName_},
+  curTimeIndex_{-1}
 {}
+
 mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
 (
   const syringePressureFvPatchScalarField& sppsf,
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(sppsf, iF),
-  Ap_(sppsf.Ap_),
-  Sp_(sppsf.Sp_),
-  VsI_(sppsf.VsI_),
-  tas_(sppsf.tas_),
-  tae_(sppsf.tae_),
-  tds_(sppsf.tds_),
-  tde_(sppsf.tde_),
-  psI_(sppsf.psI_),
-  psi_(sppsf.psi_),
-  ams_(sppsf.ams_),
-  ams0_(sppsf.ams0_),
-  phiName_(sppsf.phiName_),
-  curTimeIndex_(-1)
+  fixedValueFvPatchScalarField{sppsf, iF},
+  Ap_{sppsf.Ap_},
+  Sp_{sppsf.Sp_},
+  VsI_{sppsf.VsI_},
+  tas_{sppsf.tas_},
+  tae_{sppsf.tae_},
+  tds_{sppsf.tds_},
+  tde_{sppsf.tde_},
+  psI_{sppsf.psI_},
+  psi_{sppsf.psi_},
+  ams_{sppsf.ams_},
+  ams0_{sppsf.ams0_},
+  phiName_{sppsf.phiName_},
+  curTimeIndex_{-1}
 {}
+
 mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
 (
   const syringePressureFvPatchScalarField& sppsf
 )
 :
-  fixedValueFvPatchScalarField(sppsf),
-  Ap_(sppsf.Ap_),
-  Sp_(sppsf.Sp_),
-  VsI_(sppsf.VsI_),
-  tas_(sppsf.tas_),
-  tae_(sppsf.tae_),
-  tds_(sppsf.tds_),
-  tde_(sppsf.tde_),
-  psI_(sppsf.psI_),
-  psi_(sppsf.psi_),
-  ams_(sppsf.ams_),
-  ams0_(sppsf.ams0_),
-  phiName_(sppsf.phiName_),
-  curTimeIndex_(-1)
+  fixedValueFvPatchScalarField{sppsf},
+  Ap_{sppsf.Ap_},
+  Sp_{sppsf.Sp_},
+  VsI_{sppsf.VsI_},
+  tas_{sppsf.tas_},
+  tae_{sppsf.tae_},
+  tds_{sppsf.tds_},
+  tde_{sppsf.tde_},
+  psI_{sppsf.psI_},
+  psi_{sppsf.psi_},
+  ams_{sppsf.ams_},
+  ams0_{sppsf.ams0_},
+  phiName_{sppsf.phiName_},
+  curTimeIndex_{-1}
 {}
+
 // Member Functions 
 mousse::scalar mousse::syringePressureFvPatchScalarField::Vs(const scalar t) const
 {
@@ -145,6 +151,7 @@ mousse::scalar mousse::syringePressureFvPatchScalarField::Vs(const scalar t) con
      + 0.5*Ap_*Sp_*(tde_ - tds_);
   }
 }
+
 void mousse::syringePressureFvPatchScalarField::updateCoeffs()
 {
   if (updated())
@@ -172,7 +179,7 @@ void mousse::syringePressureFvPatchScalarField::updateCoeffs()
   }
   else
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "dimensions of phi are not correct"
       << "\n    on patch " << this->patch().name()
       << " of field " << this->dimensionedInternalField().name()
@@ -183,6 +190,7 @@ void mousse::syringePressureFvPatchScalarField::updateCoeffs()
   operator==(ps);
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
 void mousse::syringePressureFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
@@ -199,11 +207,12 @@ void mousse::syringePressureFvPatchScalarField::write(Ostream& os) const
   writeEntryIfDifferent<word>(os, "phi", "phi", phiName_);
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    syringePressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  syringePressureFvPatchScalarField
+);
 }

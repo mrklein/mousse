@@ -6,11 +6,13 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(meshSearchMeshObject, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(meshSearchMeshObject, 0);
 }
 // Constructors 
 mousse::meshSearchMeshObject::meshSearchMeshObject(const polyMesh& mesh)
 :
-  MeshObject<polyMesh, mousse::GeometricMeshObject, meshSearchMeshObject>(mesh),
-  meshSearch(mesh)
+  MeshObject<polyMesh, mousse::GeometricMeshObject, meshSearchMeshObject>{
+    mesh
+  },
+  meshSearch{mesh}
 {}

@@ -6,5 +6,5 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(fv, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(fv, 0);
 }

@@ -16,9 +16,9 @@ SRFFreestreamVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  inletOutletFvPatchVectorField(p, iF),
-  relative_(false),
-  UInf_(vector::zero)
+  inletOutletFvPatchVectorField{p, iF},
+  relative_{false},
+  UInf_{vector::zero}
 {}
 mousse::SRFFreestreamVelocityFvPatchVectorField::
 SRFFreestreamVelocityFvPatchVectorField
@@ -29,9 +29,9 @@ SRFFreestreamVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  inletOutletFvPatchVectorField(ptf, p, iF, mapper),
-  relative_(ptf.relative_),
-  UInf_(ptf.UInf_)
+  inletOutletFvPatchVectorField{ptf, p, iF, mapper},
+  relative_{ptf.relative_},
+  UInf_{ptf.UInf_}
 {}
 mousse::SRFFreestreamVelocityFvPatchVectorField::
 SRFFreestreamVelocityFvPatchVectorField
@@ -41,9 +41,9 @@ SRFFreestreamVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  inletOutletFvPatchVectorField(p, iF),
-  relative_(dict.lookupOrDefault("relative", false)),
-  UInf_(dict.lookup("UInf"))
+  inletOutletFvPatchVectorField{p, iF},
+  relative_{dict.lookupOrDefault("relative", false)},
+  UInf_{dict.lookup("UInf")}
 {
   this->phiName_ = dict.lookupOrDefault<word>("phi","phi");
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
@@ -54,9 +54,9 @@ SRFFreestreamVelocityFvPatchVectorField
   const SRFFreestreamVelocityFvPatchVectorField& srfvpvf
 )
 :
-  inletOutletFvPatchVectorField(srfvpvf),
-  relative_(srfvpvf.relative_),
-  UInf_(srfvpvf.UInf_)
+  inletOutletFvPatchVectorField{srfvpvf},
+  relative_{srfvpvf.relative_},
+  UInf_{srfvpvf.UInf_}
 {}
 mousse::SRFFreestreamVelocityFvPatchVectorField::
 SRFFreestreamVelocityFvPatchVectorField
@@ -65,9 +65,9 @@ SRFFreestreamVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  inletOutletFvPatchVectorField(srfvpvf, iF),
-  relative_(srfvpvf.relative_),
-  UInf_(srfvpvf.UInf_)
+  inletOutletFvPatchVectorField{srfvpvf, iF},
+  relative_{srfvpvf.relative_},
+  UInf_{srfvpvf.UInf_}
 {}
 // Member Functions
 void mousse::SRFFreestreamVelocityFvPatchVectorField::updateCoeffs()
@@ -120,9 +120,9 @@ void mousse::SRFFreestreamVelocityFvPatchVectorField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    SRFFreestreamVelocityFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  SRFFreestreamVelocityFvPatchVectorField
+);
 }

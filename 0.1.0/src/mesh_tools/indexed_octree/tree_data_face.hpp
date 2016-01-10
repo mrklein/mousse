@@ -81,7 +81,7 @@ public:
     ) const;
   };
   // Declare name of the class and its debug switch
-  ClassName("treeDataFace");
+  CLASS_NAME("treeDataFace");
   // Constructors
     //- Construct from mesh and subset of faces.
     treeDataFace

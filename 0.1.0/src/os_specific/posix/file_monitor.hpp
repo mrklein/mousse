@@ -57,7 +57,7 @@ private:
     void operator=(const fileMonitor&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("fileMonitor");
+  CLASS_NAME("fileMonitor");
   // Constructors
     //- Construct null
     fileMonitor(const bool useInotify);

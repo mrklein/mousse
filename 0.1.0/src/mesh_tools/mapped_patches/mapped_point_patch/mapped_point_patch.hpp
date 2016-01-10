@@ -20,7 +20,7 @@ class mappedPointPatch
 {
 public:
   //- Runtime type information
-  TypeName(mappedPolyPatch::typeName_());
+  TYPE_NAME(mappedPolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     mappedPointPatch

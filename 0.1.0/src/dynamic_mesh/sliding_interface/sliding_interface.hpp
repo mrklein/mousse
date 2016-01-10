@@ -130,10 +130,6 @@ private:
       //- Projected slave points
       mutable pointField* projectedSlavePointsPtr_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    slidingInterface(const slidingInterface&);
-    //- Disallow default bitwise assignment
-    void operator=(const slidingInterface&);
     //- Clear out
     void clearOut() const;
     //- Check validity of construction data
@@ -193,7 +189,7 @@ private:
     static const scalar edgeEndCutoffTolDefault_;
 public:
   //- Runtime type information
-  TypeName("slidingInterface");
+  TYPE_NAME("slidingInterface");
   // Constructors
     //- Construct from components
     slidingInterface
@@ -219,6 +215,10 @@ public:
       const label index,
       const polyTopoChanger& mme
     );
+    //- Disallow default bitwise copy construct
+    slidingInterface(const slidingInterface&) = delete;
+    //- Disallow default bitwise assignment
+    slidingInterface& operator=(const slidingInterface&) = delete;
   //- Destructor
   virtual ~slidingInterface();
   // Member Functions

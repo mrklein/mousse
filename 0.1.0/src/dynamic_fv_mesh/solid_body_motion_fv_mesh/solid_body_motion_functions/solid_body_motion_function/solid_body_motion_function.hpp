@@ -23,17 +23,11 @@ protected:
   // Protected data
     dictionary SBMFCoeffs_;
     const Time& time_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    solidBodyMotionFunction(const solidBodyMotionFunction&);
-    //- Disallow default bitwise assignment
-    void operator=(const solidBodyMotionFunction&);
 public:
   //- Runtime type information
-  TypeName("solidBodyMotionFunction");
+  TYPE_NAME("solidBodyMotionFunction");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       solidBodyMotionFunction,
@@ -50,6 +44,10 @@ public:
     );
     //- Construct and return a clone
     virtual autoPtr<solidBodyMotionFunction> clone() const = 0;
+    //- Disallow default bitwise copy construct
+    solidBodyMotionFunction(const solidBodyMotionFunction&) = delete;
+    //- Disallow default bitwise assignment
+    solidBodyMotionFunction& operator=(const solidBodyMotionFunction&) = delete;
   // Selectors
     //- Select constructed from the SBMFCoeffs dictionary and Time
     static autoPtr<solidBodyMotionFunction> New

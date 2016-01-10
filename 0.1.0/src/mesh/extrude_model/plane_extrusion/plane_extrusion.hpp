@@ -21,7 +21,7 @@ class plane
 {
 public:
   //- Runtime type information
-  TypeName("plane");
+  TYPE_NAME("plane");
   // Constructors
     //- Construct from dictionary
     plane(const dictionary& dict);

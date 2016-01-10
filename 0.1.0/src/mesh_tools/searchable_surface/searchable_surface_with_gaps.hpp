@@ -58,7 +58,7 @@ private:
     void operator=(const searchableSurfaceWithGaps&);
 public:
   //- Runtime type information
-  TypeName("searchableSurfaceWithGaps");
+  TYPE_NAME("searchableSurfaceWithGaps");
   // Constructors
     //- Construct from dictionary (used by searchableSurface)
     searchableSurfaceWithGaps

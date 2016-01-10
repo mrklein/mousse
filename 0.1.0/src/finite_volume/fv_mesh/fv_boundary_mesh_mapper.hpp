@@ -32,7 +32,7 @@ public:
       PtrList<fvPatchMapper>(mesh.boundary().size())
     {
       const fvBoundaryMesh& patches = mesh.boundary();
-      forAll(patches, patchI)
+      FOR_ALL(patches, patchI)
       {
         set
         (

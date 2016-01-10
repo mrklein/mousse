@@ -45,36 +45,46 @@
 //   mousse::fixedValueFvPatchField
 // SourceFiles
 //   mapped_fixed_value_fv_patch_field.cpp
+
 #ifndef mapped_fixed_value_fv_patch_field_hpp_
 #define mapped_fixed_value_fv_patch_field_hpp_
+
 #include "fixed_value_fv_patch_fields.hpp"
-//#include "interpolation.hpp"
 #include "mapped_patch_field_base.hpp"
+
 namespace mousse
 {
+
 template<class Type>
 class mappedFixedValueFvPatchField
 :
   public fixedValueFvPatchField<Type>,
   public mappedPatchFieldBase<Type>
 {
+
 protected:
+
   // Protected Member Functions
     const mappedPatchBase& mapper
     (
       const fvPatch& p,
       const DimensionedField<Type, volMesh>& iF
     );
+
 public:
+
   //- Runtime type information
-  TypeName("mapped");
+  TYPE_NAME("mapped");
+
   // Constructors
+
     //- Construct from patch and internal field
     mappedFixedValueFvPatchField
     (
       const fvPatch&,
       const DimensionedField<Type, volMesh>&
     );
+
     //- Construct from patch, internal field and dictionary
     mappedFixedValueFvPatchField
     (
@@ -82,6 +92,7 @@ public:
       const DimensionedField<Type, volMesh>&,
       const dictionary&
     );
+
     //- Construct by mapping given mappedFixedValueFvPatchField
     //  onto a new patch
     mappedFixedValueFvPatchField
@@ -91,25 +102,29 @@ public:
       const DimensionedField<Type, volMesh>&,
       const fvPatchFieldMapper&
     );
+
     //- Construct as copy
     mappedFixedValueFvPatchField
     (
       const mappedFixedValueFvPatchField<Type>&
     );
+
     //- Construct and return a clone
     virtual tmp<fvPatchField<Type> > clone() const
     {
       return tmp<fvPatchField<Type> >
-      (
+      {
         new mappedFixedValueFvPatchField<Type>(*this)
-      );
+      };
     }
+
     //- Construct as copy setting internal field reference
     mappedFixedValueFvPatchField
     (
       const mappedFixedValueFvPatchField<Type>&,
       const DimensionedField<Type, volMesh>&
     );
+
     //- Construct and return a clone setting internal field reference
     virtual tmp<fvPatchField<Type> > clone
     (
@@ -117,17 +132,23 @@ public:
     ) const
     {
       return tmp<fvPatchField<Type> >
-      (
-        new mappedFixedValueFvPatchField<Type>(*this, iF)
-      );
+      {
+        new mappedFixedValueFvPatchField<Type>{*this, iF}
+      };
     }
+
   // Member functions
+
     // Evaluation functions
+
       //- Update the coefficients associated with the patch field
       virtual void updateCoeffs();
+
     //- Write
     virtual void write(Ostream&) const;
+
 };
+
 }  // namespace mousse
 #ifdef NoRepository
 #   include "mapped_fixed_value_fv_patch_field.cpp"

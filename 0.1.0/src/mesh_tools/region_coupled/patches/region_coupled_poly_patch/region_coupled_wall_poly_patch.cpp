@@ -7,14 +7,14 @@
 #include "poly_patch.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledWallPolyPatch, 0);
-  addToRunTimeSelectionTable(polyPatch, regionCoupledWallPolyPatch, word);
-  addToRunTimeSelectionTable
-  (
-    polyPatch,
-    regionCoupledWallPolyPatch,
-    dictionary
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledWallPolyPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, regionCoupledWallPolyPatch, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  polyPatch,
+  regionCoupledWallPolyPatch,
+  dictionary
+);
 }
 // Constructors 
 mousse::regionCoupledWallPolyPatch::regionCoupledWallPolyPatch

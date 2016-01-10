@@ -5,8 +5,11 @@
 #include "transform_fv_patch_fields.hpp"
 #include "fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
+
 // Static Data Members
-makePatchFieldsTypeName(transform);
+MAKE_PATCH_FIELDS_TYPE_NAME(transform);
+
 }  // namespace mousse

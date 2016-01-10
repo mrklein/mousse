@@ -5,19 +5,22 @@
 #include "axes_rotation.hpp"
 #include "dictionary.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(axesRotation, 0);
-  addToRunTimeSelectionTable(coordinateRotation, axesRotation, dictionary);
-  addToRunTimeSelectionTable
-  (
-    coordinateRotation,
-    axesRotation,
-    objectRegistry
-  );
+
+DEFINE_TYPE_NAME_AND_DEBUG(axesRotation, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(coordinateRotation, axesRotation, dictionary);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  coordinateRotation,
+  axesRotation,
+  objectRegistry
+);
+
 }
-// Private Member Functions 
+// Private Member Functions
 void mousse::axesRotation::calcTransform
 (
   const vector& axis1,
@@ -30,7 +33,7 @@ void mousse::axesRotation::calcTransform
   b = b - (b & a)*a;
   if (mag(b) < SMALL)
   {
-    FatalErrorIn("axesRotation::calcTransform()")
+    FATAL_ERROR_IN("axesRotation::calcTransform()")
       << "axis1, axis2 appear co-linear: "
       << axis1 << ", " << axis2 << endl
       << abort(FatalError);
@@ -57,7 +60,7 @@ void mousse::axesRotation::calcTransform
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "axesRotation::calcTransform"
         "("
@@ -77,7 +80,7 @@ void mousse::axesRotation::calcTransform
   // Local->global transformation
   R_ = Rtr.T();
 }
-// Constructors 
+// Constructors
 mousse::axesRotation::axesRotation()
 :
   R_(sphericalTensor::I),
@@ -107,7 +110,7 @@ mousse::axesRotation::axesRotation
 mousse::axesRotation::axesRotation
 (
   const dictionary& dict,
-  const objectRegistry& obr
+  const objectRegistry&
 )
 :
   R_(sphericalTensor::I),
@@ -120,10 +123,11 @@ mousse::axesRotation::axesRotation(const tensor& R)
   R_(R),
   Rtr_(R_.T())
 {}
-// Member Functions 
+
+// Member Functions
 const mousse::tensorField& mousse::axesRotation::Tr() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "const mousse::tensorField& axesRotation::Tr() const"
   );
@@ -153,10 +157,10 @@ mousse::vector mousse::axesRotation::invTransform(const vector& st) const
 }
 mousse::tmp<mousse::tensorField> mousse::axesRotation::transformTensor
 (
-  const tensorField& st
+  const tensorField&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "const tensorField& axesRotation::transformTensor() const"
   );
@@ -171,11 +175,11 @@ mousse::tensor mousse::axesRotation::transformTensor
 }
 mousse::tmp<mousse::tensorField> mousse::axesRotation::transformTensor
 (
-  const tensorField& st,
-  const labelList& cellMap
+  const tensorField&,
+  const labelList& /*cellMap*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<mousse::tensorField> axesRotation::transformTensor "
     "("
@@ -192,7 +196,7 @@ mousse::tmp<mousse::symmTensorField> mousse::axesRotation::transformVector
 {
   tmp<symmTensorField> tfld(new symmTensorField(st.size()));
   symmTensorField& fld = tfld();
-  forAll(fld, i)
+  FOR_ALL(fld, i)
   {
     fld[i] = transformPrincipal(R_, st[i]);
   }
@@ -205,7 +209,7 @@ mousse::symmTensor mousse::axesRotation::transformVector
 {
   return transformPrincipal(R_, st);
 }
-// Member Operators 
+// Member Operators
 void mousse::axesRotation::operator=(const dictionary& dict)
 {
   if (debug)
@@ -237,7 +241,7 @@ void mousse::axesRotation::operator=(const dictionary& dict)
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "axesRotation::operator=(const dictionary&) "
     )   << "not entry of the type (e1, e2) or (e2, e3) or (e3, e1) "

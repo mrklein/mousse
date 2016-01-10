@@ -18,7 +18,7 @@ void mousse::fvMeshTools::addPatchFields
   (
     mesh.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     typename GeoField::GeometricBoundaryField& bfld =
@@ -66,7 +66,7 @@ void mousse::fvMeshTools::setPatchFields
   (
     mesh.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     typename GeoField::GeometricBoundaryField& bfld =
@@ -98,7 +98,7 @@ void mousse::fvMeshTools::setPatchFields
   (
     mesh.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     typename GeoField::GeometricBoundaryField& bfld =
@@ -114,7 +114,7 @@ void mousse::fvMeshTools::trimPatchFields(fvMesh& mesh, const label nPatches)
   (
     mesh.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     fld.boundaryField().setSize(nPatches);
@@ -132,7 +132,7 @@ void mousse::fvMeshTools::reorderPatchFields
   (
     mesh.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     typename GeoField::GeometricBoundaryField& bfld =

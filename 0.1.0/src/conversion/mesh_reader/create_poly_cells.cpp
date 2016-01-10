@@ -11,7 +11,7 @@ void mousse::meshReader::createPolyCells()
   // count the maximum number of faces and set the size of the cellPolys_
   cellPolys_.setSize(cFaces.size());
   label maxFaces = 0;
-  forAll(cellPolys_, cellI)
+  FOR_ALL(cellPolys_, cellI)
   {
     cellPolys_[cellI].setSize(cFaces[cellI].size(), -1);
     maxFaces += cFaces[cellI].size();
@@ -22,7 +22,7 @@ void mousse::meshReader::createPolyCells()
   const labelListList& ptCells = pointCells();
   // size the baffle lists and initialize to -1
   baffleIds_.setSize(baffleFaces_.size());
-  forAll(baffleIds_, baffleI)
+  FOR_ALL(baffleIds_, baffleI)
   {
     baffleIds_[baffleI].setSize(2);
   }
@@ -39,7 +39,7 @@ void mousse::meshReader::createPolyCells()
   // This condition is met provided that nCells > 1.
   // ie., baffles require at least 2 volume cells
   label baffleOffset = cFaces.size();
-  forAll(baffleFaces_, baffleI)
+  FOR_ALL(baffleFaces_, baffleI)
   {
     label cellI = -(baffleOffset + baffleI);
     const face& curFace = baffleFaces_[baffleI];
@@ -50,12 +50,12 @@ void mousse::meshReader::createPolyCells()
     const labelList& curNeighbours = ptCells[curPoints[0]];
     label nNeighbours = 0;
     // For all neighbours
-    forAll(curNeighbours, neiI)
+    FOR_ALL(curNeighbours, neiI)
     {
       label curNei = curNeighbours[neiI];
       // get the list of search faces
       const faceList& searchFaces = cFaces[curNei];
-      forAll(searchFaces, neiFaceI)
+      FOR_ALL(searchFaces, neiFaceI)
       {
         int cmp = face::compare(curFace, searchFaces[neiFaceI]);
         if (cmp)
@@ -133,7 +133,7 @@ void mousse::meshReader::createPolyCells()
 #endif
   bool found = false;
   nInternalFaces_ = 0;
-  forAll(cFaces, cellI)
+  FOR_ALL(cFaces, cellI)
   {
     // Note:
     // Insertion cannot be done in one go as the faces need to be
@@ -147,7 +147,7 @@ void mousse::meshReader::createPolyCells()
     labelList faceOfNeiCell(curFaces.size(), -1);
     label nNeighbours = 0;
     // For all faces ...
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       // Skip already matched faces or those tagged by baffles
       if (cellPolys_[cellI][faceI] != -1) continue;
@@ -156,12 +156,12 @@ void mousse::meshReader::createPolyCells()
       // get the list of labels
       const labelList& curPoints = curFace;
       // For all points
-      forAll(curPoints, pointI)
+      FOR_ALL(curPoints, pointI)
       {
         // get the list of cells sharing this point
         const labelList& curNeighbours = ptCells[curPoints[pointI]];
         // For all neighbours
-        forAll(curNeighbours, neiI)
+        FOR_ALL(curNeighbours, neiI)
         {
           label curNei = curNeighbours[neiI];
           // reject neighbours with the lower label. This should
@@ -170,7 +170,7 @@ void mousse::meshReader::createPolyCells()
           {
             // get the list of search faces
             const faceList& searchFaces = cFaces[curNei];
-            forAll(searchFaces, neiFaceI)
+            FOR_ALL(searchFaces, neiFaceI)
             {
               if (searchFaces[neiFaceI] == curFace)
               {
@@ -203,7 +203,7 @@ void mousse::meshReader::createPolyCells()
       // Find the lowest neighbour which is still valid
       label nextNei = -1;
       label minNei = cellPolys_.size();
-      forAll(neiCells, ncI)
+      FOR_ALL(neiCells, ncI)
       {
         if (neiCells[ncI] > -1 && neiCells[ncI] < minNei)
         {
@@ -227,7 +227,7 @@ void mousse::meshReader::createPolyCells()
       }
       else
       {
-       FatalErrorIn("meshReader::createPolyCells()")
+       FATAL_ERROR_IN("meshReader::createPolyCells()")
          << "Error in internal face insertion"
          << abort(FatalError);
       }

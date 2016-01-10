@@ -66,7 +66,7 @@ private:
     void operator=(const searchableSurfaceCollection&);
 public:
   //- Runtime type information
-  TypeName("searchableSurfaceCollection");
+  TYPE_NAME("searchableSurfaceCollection");
   // Constructors
     //- Construct from dictionary (used by searchableSurface)
     searchableSurfaceCollection
@@ -118,9 +118,9 @@ public:
     //- Get the points that define the surface.
     virtual tmp<pointField> points() const;
     //- Does any part of the surface overlap the supplied bound box?
-    virtual bool overlaps(const boundBox& bb) const
+    virtual bool overlaps(const boundBox&) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "searchableSurfaceCollection::overlaps(const boundBox&) const"
       );
@@ -192,7 +192,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "searchableSurfaceCollection::writeData(Ostream&) const"
         );

@@ -26,7 +26,7 @@ class zoneToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("zoneToCell");
+  TYPE_NAME("zoneToCell");
   // Constructors
     //- Construct from components
     zoneToCell

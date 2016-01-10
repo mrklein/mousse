@@ -6,17 +6,19 @@
 #include "cyclic_amigamg_interface.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "map.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicAMIGAMGInterface, 0);
-  addToRunTimeSelectionTable
-  (
-    GAMGInterface,
-    cyclicAMIGAMGInterface,
-    lduInterface
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicAMIGAMGInterface, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGInterface,
+  cyclicAMIGAMGInterface,
+  lduInterface
+);
 }
+
 // Constructors 
 mousse::cyclicAMIGAMGInterface::cyclicAMIGAMGInterface
 (
@@ -25,8 +27,8 @@ mousse::cyclicAMIGAMGInterface::cyclicAMIGAMGInterface
   const lduInterface& fineInterface,
   const labelField& localRestrictAddressing,
   const labelField& neighbourRestrictAddressing,
-  const label fineLevelIndex,
-  const label coarseComm
+  const label /*fineLevelIndex*/,
+  const label /*coarseComm*/
 )
 :
   GAMGInterface
@@ -49,7 +51,7 @@ mousse::cyclicAMIGAMGInterface::cyclicAMIGAMGInterface
       localRestrictAddressing.size()
     );
     Map<label> masterToCoarseFace(localRestrictAddressing.size());
-    forAll(localRestrictAddressing, ffi)
+    FOR_ALL(localRestrictAddressing, ffi)
     {
       label curMaster = localRestrictAddressing[ffi];
       Map<label>::const_iterator fnd = masterToCoarseFace.find
@@ -87,7 +89,7 @@ mousse::cyclicAMIGAMGInterface::cyclicAMIGAMGInterface
         neighbourRestrictAddressing.size()
       );
       Map<label> masterToCoarseFace(neighbourRestrictAddressing.size());
-      forAll(neighbourRestrictAddressing, ffi)
+      FOR_ALL(neighbourRestrictAddressing, ffi)
       {
         label curMaster = neighbourRestrictAddressing[ffi];
         Map<label>::const_iterator fnd = masterToCoarseFace.find
@@ -135,7 +137,7 @@ mousse::tmp<mousse::labelField> mousse::cyclicAMIGAMGInterface::internalFieldTra
   const labelUList& nbrFaceCells = nbr.faceCells();
   tmp<labelField> tpnf(new labelField(nbrFaceCells.size()));
   labelField& pnf = tpnf();
-  forAll(pnf, facei)
+  FOR_ALL(pnf, facei)
   {
     pnf[facei] = iF[nbrFaceCells[facei]];
   }

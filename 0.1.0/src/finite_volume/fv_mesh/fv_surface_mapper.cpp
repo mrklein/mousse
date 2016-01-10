@@ -6,6 +6,8 @@
 #include "fv_mesh.hpp"
 #include "map_poly_mesh.hpp"
 #include "face_mapper.hpp"
+#include "demand_driven_data.hpp"
+
 // Private Member Functions 
 void mousse::fvSurfaceMapper::calcAddressing() const
 {
@@ -17,7 +19,7 @@ void mousse::fvSurfaceMapper::calcAddressing() const
   || insertedObjectLabelsPtr_
   )
   {
-    FatalErrorIn("void fvSurfaceMapper::calcAddressing() const)")
+    FATAL_ERROR_IN("void fvSurfaceMapper::calcAddressing() const)")
       << "Addressing already calculated"
       << abort(FatalError);
   }
@@ -34,7 +36,7 @@ void mousse::fvSurfaceMapper::calcAddressing() const
       );
     labelList& addr = *directAddrPtr_;
     // Adjust for creation of an internal face from a boundary face
-    forAll(addr, faceI)
+    FOR_ALL(addr, faceI)
     {
       if (addr[faceI] > oldNInternal)
       {
@@ -58,7 +60,7 @@ void mousse::fvSurfaceMapper::calcAddressing() const
       );
     scalarListList& w = *weightsPtr_;
     // Adjust for creation of an internal face from a boundary face
-    forAll(addr, faceI)
+    FOR_ALL(addr, faceI)
     {
       if (max(addr[faceI]) >= oldNInternal)
       {
@@ -75,7 +77,7 @@ void mousse::fvSurfaceMapper::calcAddressing() const
     insertedObjectLabelsPtr_ = new labelList(insFaces.size());
     labelList& ins = *insertedObjectLabelsPtr_;
     label nIns = 0;
-    forAll(insFaces, faceI)
+    FOR_ALL(insFaces, faceI)
     {
       // If the face is internal, keep it here
       if (insFaces[faceI] < size())
@@ -124,7 +126,7 @@ const mousse::labelUList& mousse::fvSurfaceMapper::directAddressing() const
 {
   if (!direct())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelUList& fvSurfaceMapper::"
       "directAddressing() const"
@@ -141,7 +143,7 @@ const mousse::labelListList& mousse::fvSurfaceMapper::addressing() const
 {
   if (direct())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelListList& fvSurfaceMapper::addressing() const"
     )   << "Requested interpolative addressing for a direct mapper."
@@ -157,7 +159,7 @@ const mousse::scalarListList& mousse::fvSurfaceMapper::weights() const
 {
   if (direct())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const scalarListList& fvSurfaceMapper::weights() const"
     )   << "Requested interpolative weights for a direct mapper."

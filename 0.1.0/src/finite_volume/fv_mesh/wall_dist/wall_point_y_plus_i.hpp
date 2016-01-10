@@ -74,7 +74,7 @@ inline bool wallPointYPlus::updateCell
 (
   const polyMesh& mesh,
   const label thisCellI,
-  const label neighbourFaceI,
+  const label /*neighbourFaceI*/,
   const wallPointYPlus& neighbourWallInfo,
   const scalar tol,
   TrackingData& td
@@ -95,7 +95,7 @@ inline bool wallPointYPlus::updateFace
 (
   const polyMesh& mesh,
   const label thisFaceI,
-  const label neighbourCellI,
+  const label /*neighbourCellI*/,
   const wallPointYPlus& neighbourWallInfo,
   const scalar tol,
   TrackingData& td

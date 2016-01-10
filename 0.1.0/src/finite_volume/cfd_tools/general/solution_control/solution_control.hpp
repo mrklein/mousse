@@ -70,7 +70,7 @@ protected:
 public:
   // Static Data Members
     //- Run-time type information
-    TypeName("solutionControl");
+    TYPE_NAME("solutionControl");
   // Constructors
     //- Construct from mesh
     solutionControl(fvMesh& mesh, const word& algorithmName);

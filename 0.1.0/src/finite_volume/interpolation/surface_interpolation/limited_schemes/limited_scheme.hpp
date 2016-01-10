@@ -16,12 +16,15 @@
 //   convenient implementation of new schemes to run on parallelised cases.
 // SourceFiles
 //   limited_scheme.cpp
+//
 #ifndef limited_scheme_hpp_
 #define limited_scheme_hpp_
+
 #include "limited_surface_interpolation_scheme.hpp"
 #include "limit_funcs.hpp"
 #include "nvdtvd.hpp"
 #include "nvdvtvdv.hpp"
+
 namespace mousse
 {
 template<class Type, class Limiter, template<class> class LimitFunc>
@@ -37,13 +40,10 @@ class LimitedScheme
       const GeometricField<Type, fvPatchField, volMesh>& phi,
       surfaceScalarField& limiterField
     ) const;
-    //- Disallow default bitwise copy construct
-    LimitedScheme(const LimitedScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const LimitedScheme&);
 public:
   //- Runtime type information
-  TypeName("LimitedScheme");
+  TYPE_NAME("LimitedScheme");
+
   typedef Limiter LimiterType;
   // Constructors
     //- Construct from mesh and faceFlux and limiter scheme
@@ -54,9 +54,10 @@ public:
       const Limiter& weight
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, faceFlux),
-      Limiter(weight)
+      limitedSurfaceInterpolationScheme<Type>{mesh, faceFlux},
+      Limiter{weight}
     {}
+
     //- Construct from mesh and Istream.
     //  The name of the flux field is read from the Istream and looked-up
     //  from the mesh objectRegistry
@@ -66,9 +67,10 @@ public:
       Istream& is
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, is),
-      Limiter(is)
+      limitedSurfaceInterpolationScheme<Type>{mesh, is},
+      Limiter{is}
     {}
+
     //- Construct from mesh, faceFlux and Istream
     LimitedScheme
     (
@@ -77,9 +79,16 @@ public:
       Istream& is
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, faceFlux),
-      Limiter(is)
+      limitedSurfaceInterpolationScheme<Type>{mesh, faceFlux},
+      Limiter{is}
     {}
+
+    //- Disallow default bitwise copy construct
+    LimitedScheme(const LimitedScheme&) = delete;
+
+    //- Disallow default bitwise assignment
+    LimitedScheme& operator=(const LimitedScheme&) = delete;
+
   // Member Functions
     //- Return the interpolation weighting factors
     virtual tmp<surfaceScalarField> limiter
@@ -88,82 +97,108 @@ public:
     ) const;
 };
 }  // namespace mousse
+
 // Add the patch constructor functions to the hash tables
-#define makeLimitedSurfaceInterpolationTypeScheme\
+#define MAKE_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME\
 (                                                                             \
-  SS,                                                                       \
-  LIMITER,                                                                  \
-  NVDTVD,                                                                   \
-  LIMFUNC,                                                                  \
-  TYPE                                                                      \
+  SS,                                                                         \
+  LIMITER,                                                                    \
+  NVDTVD,                                                                     \
+  LIMFUNC,                                                                    \
+  TYPE                                                                        \
 )                                                                             \
-                                       \
+                                                                              \
 typedef LimitedScheme<TYPE, LIMITER<NVDTVD>, limitFuncs::LIMFUNC>             \
-  LimitedScheme##TYPE##LIMITER##NVDTVD##LIMFUNC##_;                         \
-defineTemplateTypeNameAndDebugWithName                                        \
-  (LimitedScheme##TYPE##LIMITER##NVDTVD##LIMFUNC##_, #SS, 0);               \
-                                       \
+  LimitedScheme##TYPE##LIMITER##NVDTVD##LIMFUNC##_;                           \
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                                 \
+  (LimitedScheme##TYPE##LIMITER##NVDTVD##LIMFUNC##_, #SS, 0);                 \
+                                                                              \
 surfaceInterpolationScheme<TYPE>::addMeshConstructorToTable                   \
 <LimitedScheme<TYPE, LIMITER<NVDTVD>, limitFuncs::LIMFUNC> >                  \
-  add##SS##LIMFUNC##TYPE##MeshConstructorToTable_;                          \
-                                       \
+  add##SS##LIMFUNC##TYPE##MeshConstructorToTable_;                            \
+                                                                              \
 surfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable               \
 <LimitedScheme<TYPE, LIMITER<NVDTVD>, limitFuncs::LIMFUNC> >                  \
-  add##SS##LIMFUNC##TYPE##MeshFluxConstructorToTable_;                      \
-                                       \
+  add##SS##LIMFUNC##TYPE##MeshFluxConstructorToTable_;                        \
+                                                                              \
 limitedSurfaceInterpolationScheme<TYPE>::addMeshConstructorToTable            \
 <LimitedScheme<TYPE, LIMITER<NVDTVD>, limitFuncs::LIMFUNC> >                  \
-  add##SS##LIMFUNC##TYPE##MeshConstructorToLimitedTable_;                   \
-                                       \
+  add##SS##LIMFUNC##TYPE##MeshConstructorToLimitedTable_;                     \
+                                                                              \
 limitedSurfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable        \
 <LimitedScheme<TYPE, LIMITER<NVDTVD>, limitFuncs::LIMFUNC> >                  \
   add##SS##LIMFUNC##TYPE##MeshFluxConstructorToLimitedTable_;
-#define makeLimitedSurfaceInterpolationScheme(SS, LIMITER)                    \
-                                       \
-makeLimitedSurfaceInterpolationTypeScheme(SS,LIMITER,NVDTVD,magSqr,scalar)    \
-makeLimitedSurfaceInterpolationTypeScheme(SS,LIMITER,NVDTVD,magSqr,vector)    \
-makeLimitedSurfaceInterpolationTypeScheme                                     \
+
+#define MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(SS, LIMITER)                \
+                                                                              \
+MAKE_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME                                \
 (                                                                             \
-  SS,                                                                       \
-  LIMITER,                                                                  \
-  NVDTVD,                                                                   \
-  magSqr,                                                                   \
-  sphericalTensor                                                           \
+  SS,                                                                         \
+  LIMITER,                                                                    \
+  NVDTVD,                                                                     \
+  magSqr,                                                                     \
+  scalar                                                                      \
 )                                                                             \
-makeLimitedSurfaceInterpolationTypeScheme(SS,LIMITER,NVDTVD,magSqr,symmTensor)\
-makeLimitedSurfaceInterpolationTypeScheme(SS,LIMITER,NVDTVD,magSqr,tensor)
-#define makeLimitedVSurfaceInterpolationScheme(SS, LIMITER)                   \
-makeLimitedSurfaceInterpolationTypeScheme(SS,LIMITER,NVDVTVDV,null,vector)
-#define makeLLimitedSurfaceInterpolationTypeScheme\
+MAKE_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME                                \
 (                                                                             \
-  SS,                                                                       \
-  LLIMITER,                                                                 \
-  LIMITER,                                                                  \
-  NVDTVD,                                                                   \
-  LIMFUNC,                                                                  \
-  TYPE                                                                      \
+  SS,                                                                         \
+  LIMITER,                                                                    \
+  NVDTVD,                                                                     \
+  magSqr,                                                                     \
+  vector                                                                      \
 )                                                                             \
-                                       \
+MAKE_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME                                \
+(                                                                             \
+  SS,                                                                         \
+  LIMITER,                                                                    \
+  NVDTVD,                                                                     \
+  magSqr,                                                                     \
+  sphericalTensor                                                             \
+)                                                                             \
+MAKE_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME                                \
+(                                                                             \
+  SS,                                                                         \
+  LIMITER,                                                                    \
+  NVDTVD,                                                                     \
+  magSqr,                                                                     \
+  symmTensor                                                                  \
+)                                                                             \
+MAKE_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(SS,LIMITER,NVDTVD,magSqr,tensor)
+
+#define MAKE_LIMITED_V_SURFACE_INTERPOLATION_SCHEME(SS, LIMITER)              \
+MAKE_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(SS,LIMITER,NVDVTVDV,null,vector)
+
+#define MAKE_L_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME\
+(                                                                             \
+  SS,                                                                         \
+  LLIMITER,                                                                   \
+  LIMITER,                                                                    \
+  NVDTVD,                                                                     \
+  LIMFUNC,                                                                    \
+  TYPE                                                                        \
+)                                                                             \
+                                                                              \
 typedef LimitedScheme<TYPE, LLIMITER<LIMITER<NVDTVD> >, limitFuncs::LIMFUNC>  \
-  LimitedScheme##TYPE##LLIMITER##LIMITER##NVDTVD##LIMFUNC##_;               \
-defineTemplateTypeNameAndDebugWithName                                        \
-  (LimitedScheme##TYPE##LLIMITER##LIMITER##NVDTVD##LIMFUNC##_, #SS, 0);     \
-                                       \
+  LimitedScheme##TYPE##LLIMITER##LIMITER##NVDTVD##LIMFUNC##_;                 \
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                                 \
+  (LimitedScheme##TYPE##LLIMITER##LIMITER##NVDTVD##LIMFUNC##_, #SS, 0);       \
+                                                                              \
 surfaceInterpolationScheme<TYPE>::addMeshConstructorToTable                   \
 <LimitedScheme<TYPE, LLIMITER<LIMITER<NVDTVD> >, limitFuncs::LIMFUNC> >       \
-  add##SS##LIMFUNC##TYPE##MeshConstructorToTable_;                          \
-                                       \
+  add##SS##LIMFUNC##TYPE##MeshConstructorToTable_;                            \
+                                                                              \
 surfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable               \
 <LimitedScheme<TYPE, LLIMITER<LIMITER<NVDTVD> >, limitFuncs::LIMFUNC> >       \
-  add##SS##LIMFUNC##TYPE##MeshFluxConstructorToTable_;                      \
-                                       \
+  add##SS##LIMFUNC##TYPE##MeshFluxConstructorToTable_;                        \
+                                                                              \
 limitedSurfaceInterpolationScheme<TYPE>::addMeshConstructorToTable            \
 <LimitedScheme<TYPE, LLIMITER<LIMITER<NVDTVD> >, limitFuncs::LIMFUNC> >       \
-  add##SS##LIMFUNC##TYPE##MeshConstructorToLimitedTable_;                   \
-                                       \
+  add##SS##LIMFUNC##TYPE##MeshConstructorToLimitedTable_;                     \
+                                                                              \
 limitedSurfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable        \
 <LimitedScheme<TYPE, LLIMITER<LIMITER<NVDTVD> >, limitFuncs::LIMFUNC> >       \
   add##SS##LIMFUNC##TYPE##MeshFluxConstructorToLimitedTable_;
+
 #ifdef NoRepository
 #   include "limited_scheme.cpp"
 #endif

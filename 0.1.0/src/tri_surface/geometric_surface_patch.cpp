@@ -7,7 +7,7 @@
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(geometricSurfacePatch, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(geometricSurfacePatch, 0);
 // Constructors 
 // Construct null
 geometricSurfacePatch::geometricSurfacePatch()

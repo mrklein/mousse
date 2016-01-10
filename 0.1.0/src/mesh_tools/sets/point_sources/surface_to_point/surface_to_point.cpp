@@ -8,13 +8,15 @@
 #include "tri_surface.hpp"
 #include "cpu_time.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(surfaceToPoint, 0);
-  addToRunTimeSelectionTable(topoSetSource, surfaceToPoint, word);
-  addToRunTimeSelectionTable(topoSetSource, surfaceToPoint, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(surfaceToPoint, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, surfaceToPoint, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, surfaceToPoint, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::surfaceToPoint::usage_
 (
   surfaceToPoint::typeName,
@@ -26,6 +28,7 @@ mousse::topoSetSource::addToUsageTable mousse::surfaceToPoint::usage_
   "    <outside> boolean; whether to include points on this side of"
   " surface normal\n\n"
 );
+
 // Private Member Functions 
 void mousse::surfaceToPoint::combine(topoSet& set, const bool add) const
 {
@@ -38,7 +41,7 @@ void mousse::surfaceToPoint::combine(topoSet& set, const bool add) const
   if (includeInside_ || includeOutside_)
   {
     boolList pointInside(querySurf.calcInside(mesh_.points()));
-    forAll(pointInside, pointI)
+    FOR_ALL(pointInside, pointI)
     {
       bool isInside = pointInside[pointI];
       if ((isInside && includeInside_) || (!isInside && includeOutside_))
@@ -52,7 +55,7 @@ void mousse::surfaceToPoint::combine(topoSet& set, const bool add) const
     const pointField& meshPoints = mesh_.points();
     // Box dimensions to search in octree.
     const vector span(nearDist_, nearDist_, nearDist_);
-    forAll(meshPoints, pointI)
+    FOR_ALL(meshPoints, pointI)
     {
       const point& pt = meshPoints[pointI];
       pointIndexHit inter = querySurf.nearest(pt, span);
@@ -67,7 +70,7 @@ void mousse::surfaceToPoint::checkSettings() const
 {
   if (nearDist_ < 0 && !includeInside_ && !includeOutside_)
   {
-    FatalErrorIn("surfaceToPoint:checkSettings()")
+    FATAL_ERROR_IN("surfaceToPoint:checkSettings()")
       << "Illegal point selection specification."
       << " Result would be either all or no points." << endl
       << "Please set one of includeInside or includeOutside"

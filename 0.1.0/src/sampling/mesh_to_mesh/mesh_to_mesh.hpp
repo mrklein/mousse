@@ -162,7 +162,7 @@ private:
     void operator=(const meshToMesh&);
 public:
   //- Run-time type information
-  TypeName("meshToMesh");
+  TYPE_NAME("meshToMesh");
   //- Construct from source and target meshes
   meshToMesh
   (

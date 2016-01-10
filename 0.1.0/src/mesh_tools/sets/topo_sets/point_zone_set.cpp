@@ -11,10 +11,11 @@
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(pointZoneSet, 0);
-addToRunTimeSelectionTable(topoSet, pointZoneSet, word);
-addToRunTimeSelectionTable(topoSet, pointZoneSet, size);
-addToRunTimeSelectionTable(topoSet, pointZoneSet, set);
+DEFINE_TYPE_NAME_AND_DEBUG(pointZoneSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, pointZoneSet, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, pointZoneSet, size);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, pointZoneSet, set);
+
 // Private Member Functions 
 void pointZoneSet::updateSet()
 {
@@ -23,7 +24,7 @@ void pointZoneSet::updateSet()
   inplaceReorder(order, addressing_);
   pointSet::clearStorage();
   pointSet::resize(2*addressing_.size());
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     pointSet::insert(addressing_[i]);
   }
@@ -33,7 +34,7 @@ pointZoneSet::pointZoneSet
   const polyMesh& mesh,
   const word& name,
   readOption r,
-  writeOption w
+  writeOption
 )
 :
   pointSet(mesh, name, 1000),  // do not read pointSet
@@ -115,7 +116,7 @@ void pointZoneSet::subset(const topoSet& set)
 {
   DynamicList<label> newAddressing(addressing_.size());
   const pointZoneSet& fSet = refCast<const pointZoneSet>(set);
-  forAll(fSet.addressing(), i)
+  FOR_ALL(fSet.addressing(), i)
   {
     label pointI = fSet.addressing()[i];
     if (found(pointI))
@@ -130,7 +131,7 @@ void pointZoneSet::addSet(const topoSet& set)
 {
   DynamicList<label> newAddressing(addressing_);
   const pointZoneSet& fSet = refCast<const pointZoneSet>(set);
-  forAll(fSet.addressing(), i)
+  FOR_ALL(fSet.addressing(), i)
   {
     label pointI = fSet.addressing()[i];
     if (!found(pointI))
@@ -145,7 +146,7 @@ void pointZoneSet::deleteSet(const topoSet& set)
 {
   DynamicList<label> newAddressing(addressing_.size());
   const pointZoneSet& fSet = refCast<const pointZoneSet>(set);
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     label pointI = addressing_[i];
     if (!fSet.found(pointI))
@@ -157,7 +158,7 @@ void pointZoneSet::deleteSet(const topoSet& set)
   addressing_.transfer(newAddressing);
   updateSet();
 }
-void pointZoneSet::sync(const polyMesh& mesh)
+void pointZoneSet::sync(const polyMesh&)
 {}
 label pointZoneSet::maxSize(const polyMesh& mesh) const
 {
@@ -207,7 +208,7 @@ void pointZoneSet::updateMesh(const mapPolyMesh& morphMap)
   // pointZone
   labelList newAddressing(addressing_.size());
   label n = 0;
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     label pointI = addressing_[i];
     label newPointI = morphMap.reversePointMap()[pointI];

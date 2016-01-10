@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "patch_dist_method.hpp"
+
 // Static Functions 
 template<class Type>
 mousse::wordList mousse::patchDistMethod::patchTypes
@@ -12,13 +13,15 @@ mousse::wordList mousse::patchDistMethod::patchTypes
 )
 {
   wordList yTypes
-  (
+  {
     mesh.boundary().size(),
     zeroGradientFvPatchField<Type>::typeName
-  );
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  };
+
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     yTypes[iter.key()] = fixedValueFvPatchField<Type>::typeName;
   }
+
   return yTypes;
 }

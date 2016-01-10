@@ -17,11 +17,6 @@ class indexedParticleCloud
 :
   public Cloud<indexedParticle>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    indexedParticleCloud(const indexedParticleCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const indexedParticleCloud&);
 public:
   // Constructors
     //- Construct given mesh
@@ -31,6 +26,10 @@ public:
       const word& cloudName = "defaultCloud",
       bool readFields = true
     );
+    //- Disallow default bitwise copy construct
+    indexedParticleCloud(const indexedParticleCloud&) = delete;
+    //- Disallow default bitwise assignment
+    indexedParticleCloud& operator=(const indexedParticleCloud&) = delete;
 };
 }  // namespace mousse
 #endif

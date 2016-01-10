@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "all_reduce.hpp"
+
 // Global Functions 
 template<class Type, class BinaryOp>
 void mousse::allReduce
@@ -46,7 +47,7 @@ void mousse::allReduce
           )
         )
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void mousse::allReduce\n"
             "(\n"
@@ -57,8 +58,9 @@ void mousse::allReduce
             "    const BinaryOp&,\n"
             "    const int\n"
             ")\n"
-          )   << "MPI_Recv failed"
-            << mousse::abort(FatalError);
+          )
+          << "MPI_Recv failed"
+          << mousse::abort(FatalError);
         }
         Value = bop(Value, value);
       }
@@ -78,7 +80,7 @@ void mousse::allReduce
         )
       )
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::allReduce\n"
           "(\n"
@@ -89,8 +91,9 @@ void mousse::allReduce
           "    const BinaryOp&,\n"
           "    const int\n"
           ")\n"
-        )   << "MPI_Send failed"
-          << mousse::abort(FatalError);
+        )
+        << "MPI_Send failed"
+        << mousse::abort(FatalError);
       }
     }
     if (UPstream::master(communicator))
@@ -115,7 +118,7 @@ void mousse::allReduce
           )
         )
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void mousse::allReduce\n"
             "(\n"
@@ -126,8 +129,9 @@ void mousse::allReduce
             "    const BinaryOp&,\n"
             "    const int\n"
             ")\n"
-          )   << "MPI_Send failed"
-            << mousse::abort(FatalError);
+          )
+          << "MPI_Send failed"
+          << mousse::abort(FatalError);
         }
       }
     }
@@ -147,7 +151,7 @@ void mousse::allReduce
         )
       )
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::allReduce\n"
           "(\n"
@@ -158,8 +162,9 @@ void mousse::allReduce
           "    const BinaryOp&,\n"
           "    const int\n"
           ")\n"
-        )   << "MPI_Recv failed"
-          << mousse::abort(FatalError);
+        )
+        << "MPI_Recv failed"
+        << mousse::abort(FatalError);
       }
     }
   }

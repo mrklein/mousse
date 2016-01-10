@@ -69,7 +69,7 @@ class fanFvPatchField
     void calcFanJump();
 public:
   //- Runtime type information
-  TypeName("fan");
+  TYPE_NAME("fan");
   // Constructors
     //- Construct from patch and internal field
     fanFvPatchField

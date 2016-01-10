@@ -19,7 +19,7 @@ class symmetryFvPatch
 {
 public:
   //- Runtime type information
-  TypeName(symmetryPolyPatch::typeName_());
+  TYPE_NAME(symmetryPolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     symmetryFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)

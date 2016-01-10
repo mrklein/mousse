@@ -63,13 +63,13 @@ void mousse::CentredFitData<Polynomial>::calcFit()
     >::calcFit(coeffs_[facei], stencilPoints[facei], w[facei], facei);
   }
   const surfaceScalarField::GeometricBoundaryField& bw = w.boundaryField();
-  forAll(bw, patchi)
+  FOR_ALL(bw, patchi)
   {
     const fvsPatchScalarField& pw = bw[patchi];
     if (pw.coupled())
     {
       label facei = pw.patch().start();
-      forAll(pw, i)
+      FOR_ALL(pw, i)
       {
         FitData
         <

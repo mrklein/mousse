@@ -4,4 +4,5 @@
 
 #include "gauss_div_scheme.hpp"
 #include "fv_mesh.hpp"
-makeFvDivScheme(gaussDivScheme)
+
+MAKE_FV_DIV_SCHEME(gaussDivScheme)

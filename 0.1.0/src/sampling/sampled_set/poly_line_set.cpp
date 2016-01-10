@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(polyLineSet, 0);
-  addToRunTimeSelectionTable(sampledSet, polyLineSet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyLineSet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, polyLineSet, word);
 }
 // Private Member Functions 
 bool mousse::polyLineSet::trackToBoundary
@@ -99,7 +99,7 @@ void mousse::polyLineSet::calcSamples
   // Check sampling points
   if (sampleCoords_.size() < 2)
   {
-    FatalErrorIn("polyLineSet::calcSamples()")
+    FATAL_ERROR_IN("polyLineSet::calcSamples()")
       << "Incorrect sample specification. Too few points:"
       << sampleCoords_ << exit(FatalError);
   }
@@ -108,7 +108,7 @@ void mousse::polyLineSet::calcSamples
   {
     if (mag(sampleCoords_[sampleI] - oldPoint) < SMALL)
     {
-      FatalErrorIn("polyLineSet::calcSamples()")
+      FATAL_ERROR_IN("polyLineSet::calcSamples()")
         << "Incorrect sample specification."
         << " Point " << sampleCoords_[sampleI-1]
         << " at position " << sampleI-1

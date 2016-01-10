@@ -43,7 +43,7 @@ inline Type mousse::interpolationCellPoint<Type>::interpolate
   {
     if (faceI != tetIs.face())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "inline Type mousse::interpolationCellPoint<Type>::interpolate"
         "("
@@ -52,9 +52,9 @@ inline Type mousse::interpolationCellPoint<Type>::interpolate
           "const label faceI"
         ") const"
       )
-        << "specified face " << faceI << " inconsistent with the face "
-        << "stored by tetIndices: " << tetIs.face()
-        << exit(FatalError);
+      << "specified face " << faceI << " inconsistent with the face "
+      << "stored by tetIndices: " << tetIs.face()
+      << exit(FatalError);
     }
   }
   List<scalar> weights;

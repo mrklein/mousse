@@ -3,7 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "interpolation_cell_patch_constrained.hpp"
+#include "vol_fields.hpp"
+
 namespace mousse
 {
-makeInterpolation(interpolationCellPatchConstrained);
+MAKE_INTERPOLATION(interpolationCellPatchConstrained);
 }  // namespace mousse

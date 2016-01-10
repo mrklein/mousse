@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(pisoControl, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(pisoControl, 0);
 }
 // Constructors 
 mousse::pisoControl::pisoControl(fvMesh& mesh, const word& dictName)

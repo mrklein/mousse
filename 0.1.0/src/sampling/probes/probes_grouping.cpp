@@ -89,7 +89,7 @@ mousse::label mousse::probes::classifyFields()
     IOobjectList objects(mesh_, mesh_.time().timeName());
     wordList allFields = objects.sortedNames();
     labelList indices = findStrings(fieldSelection_, allFields);
-    forAll(indices, fieldI)
+    FOR_ALL(indices, fieldI)
     {
       const word& fieldName = allFields[indices[fieldI]];
       nFields += appendFieldGroup
@@ -104,7 +104,7 @@ mousse::label mousse::probes::classifyFields()
     // check currently available fields
     wordList allFields = mesh_.sortedNames();
     labelList indices = findStrings(fieldSelection_, allFields);
-    forAll(indices, fieldI)
+    FOR_ALL(indices, fieldI)
     {
       const word& fieldName = allFields[indices[fieldI]];
       nFields += appendFieldGroup

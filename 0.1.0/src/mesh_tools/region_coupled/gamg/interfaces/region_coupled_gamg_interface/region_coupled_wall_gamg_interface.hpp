@@ -23,7 +23,7 @@ class regionCoupledWallGAMGInterface
     void operator=(const regionCoupledWallGAMGInterface&);
 public:
   //- Runtime type information
-  TypeName("regionCoupledWall");
+  TYPE_NAME("regionCoupledWall");
   // Constructors
     //- Construct from fine level interface,
     //  local and neighbour restrict addressing
@@ -45,7 +45,7 @@ public:
       {
         //TBD. How to serialise the AMI such that we can stream
         // regionCoupledWallGAMGInterface.
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "regionCoupledWallGAMGInterface::write(Ostream&) const"
         );

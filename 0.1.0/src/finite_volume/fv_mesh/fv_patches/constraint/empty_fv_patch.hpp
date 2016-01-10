@@ -23,7 +23,7 @@ class emptyFvPatch
     const labelList::subList faceCells_;
 public:
   //- Runtime type information
-  TypeName(emptyPolyPatch::typeName_());
+  TYPE_NAME(emptyPolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     emptyFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm);

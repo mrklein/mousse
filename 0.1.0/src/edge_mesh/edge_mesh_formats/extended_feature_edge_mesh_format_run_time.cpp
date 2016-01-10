@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read extendedEdgeMesh
-addNamedToRunTimeSelectionTable
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 (
   edgeMesh,
   extendedFeatureEdgeMeshFormat,

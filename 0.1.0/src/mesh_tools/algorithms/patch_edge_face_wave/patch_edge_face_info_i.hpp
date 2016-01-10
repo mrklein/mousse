@@ -110,18 +110,18 @@ inline mousse::scalar mousse::patchEdgeFaceInfo::distSqr() const
   return distSqr_;
 }
 template<class TrackingData>
-inline bool mousse::patchEdgeFaceInfo::valid(TrackingData& td) const
+inline bool mousse::patchEdgeFaceInfo::valid(TrackingData&) const
 {
   return origin_ != point::max;
 }
 template<class TrackingData>
 inline void mousse::patchEdgeFaceInfo::transform
 (
-  const polyMesh& mesh,
-  const primitivePatch& patch,
+  const polyMesh&,
+  const primitivePatch&,
   const tensor& rotTensor,
-  const scalar tol,
-  TrackingData& td
+  const scalar /*tol*/,
+  TrackingData&
 )
 {
   origin_ = mousse::transform(rotTensor, origin_);
@@ -129,10 +129,10 @@ inline void mousse::patchEdgeFaceInfo::transform
 template<class TrackingData>
 inline bool mousse::patchEdgeFaceInfo::updateEdge
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const primitivePatch& patch,
   const label edgeI,
-  const label faceI,
+  const label /*faceI*/,
   const patchEdgeFaceInfo& faceInfo,
   const scalar tol,
   TrackingData& td
@@ -150,10 +150,10 @@ inline bool mousse::patchEdgeFaceInfo::updateEdge
 template<class TrackingData>
 inline bool mousse::patchEdgeFaceInfo::updateEdge
 (
-  const polyMesh& mesh,
-  const primitivePatch& patch,
+  const polyMesh&,
+  const primitivePatch&,
   const patchEdgeFaceInfo& edgeInfo,
-  const bool sameOrientation,
+  const bool /*sameOrientation*/,
   const scalar tol,
   TrackingData& td
 )
@@ -163,10 +163,10 @@ inline bool mousse::patchEdgeFaceInfo::updateEdge
 template<class TrackingData>
 inline bool mousse::patchEdgeFaceInfo::updateFace
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const primitivePatch& patch,
   const label faceI,
-  const label edgeI,
+  const label /*edgeI*/,
   const patchEdgeFaceInfo& edgeInfo,
   const scalar tol,
   TrackingData& td
@@ -178,7 +178,7 @@ template<class TrackingData>
 inline bool mousse::patchEdgeFaceInfo::equal
 (
   const patchEdgeFaceInfo& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

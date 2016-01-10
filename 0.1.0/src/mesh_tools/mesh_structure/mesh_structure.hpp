@@ -51,7 +51,7 @@ class meshStructure
     );
 public:
   // Declare name of the class and its debug switch
-  ClassName("meshStructure");
+  CLASS_NAME("meshStructure");
   // Constructors
     //- Construct null
     meshStructure(const polyMesh& mesh, const uindirectPrimitivePatch&);

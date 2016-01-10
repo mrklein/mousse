@@ -66,7 +66,7 @@ static void readUpto
 {
   if (!readUpto(cmd, ACfile, args))
   {
-    FatalErrorIn("triSurface::readAC(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
       << "Cannot find command " << cmd
       << errorMsg << exit(FatalError);
   }
@@ -77,7 +77,7 @@ bool triSurface::readAC(const fileName& ACfileName)
   IFstream ACfile(ACfileName);
   if (!ACfile.good())
   {
-    FatalErrorIn("triSurface::readAC(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
       << "Cannot read file " << ACfileName
       << exit(FatalError);
   }
@@ -86,7 +86,7 @@ bool triSurface::readAC(const fileName& ACfileName)
   string version = line.substr(4);
   if (version != "b")
   {
-    WarningIn("bool triSurface::readAC(const fileName& ACfileName)")
+    WARNING_IN("bool triSurface::readAC(const fileName& ACfileName)")
       << "When reading AC3D file " << ACfileName
       << " read header " << line << " with version " << version
       << endl << "Only tested reading with version 'b'."
@@ -96,7 +96,7 @@ bool triSurface::readAC(const fileName& ACfileName)
   string args;
   if (!readUpto("OBJECT", ACfile, args) || (args != "world"))
   {
-    FatalErrorIn("bool triSurface::readAC(const fileName& ACfileName)")
+    FATAL_ERROR_IN("bool triSurface::readAC(const fileName& ACfileName)")
       << "Cannot find \"OBJECT world\" in file " << ACfileName
       << exit(FatalError);
   }
@@ -130,7 +130,7 @@ bool triSurface::readAC(const fileName& ACfileName)
       // patch should always end with 'kids' command ?not sure.
       if (!readCmd(ACfile, cmd, args))
       {
-        FatalErrorIn("triSurface::readAC(const fileName&)")
+        FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
           << "Did not read up to \"kids 0\" while reading patch "
           << patchI << " from file " << ACfileName
           << exit(FatalError);
@@ -148,7 +148,7 @@ bool triSurface::readAC(const fileName& ACfileName)
           >> rot.xx() >> rot.xy() >> rot.xz()
           >> rot.yx() >> rot.yy() >> rot.yz()
           >> rot.zx() >> rot.zy() >> rot.zz();
-        WarningIn("triSurface::readAC(const fileName&)")
+        WARNING_IN("triSurface::readAC(const fileName&)")
           << "rot (rotation tensor) command not implemented"
           << "Line:" << cmd << ' ' << args << endl
           << "while reading patch " << patchI << endl;
@@ -186,7 +186,7 @@ bool triSurface::readAC(const fileName& ACfileName)
           label size = parseInt(args);
           if (size != 3)
           {
-            FatalErrorIn("triSurface::readAC(const fileName&)")
+            FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
               << "Can only read surfaces with 3 vertices."
               << endl
               << "Detected " << size << " when reading triangle "
@@ -220,7 +220,7 @@ bool triSurface::readAC(const fileName& ACfileName)
         label nKids = parseInt(args);
         if (nKids != 0)
         {
-          FatalErrorIn("triSurface::readAC(const fileName&)")
+          FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
             << "Can only read objects without kids."
             << " Encountered " << nKids << " kids when"
             << " reading patch " << patchI

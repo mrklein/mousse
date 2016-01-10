@@ -18,7 +18,7 @@ class faceSet
 {
 public:
   //- Runtime type information
-  TypeName("faceSet");
+  TYPE_NAME("faceSet");
   // Constructors
     //- Construct from IOobject
     faceSet(const IOobject& obj);

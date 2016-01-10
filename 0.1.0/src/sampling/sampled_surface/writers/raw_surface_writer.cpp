@@ -192,7 +192,7 @@ void mousse::rawSurfaceWriter::writeTemplate
   // values
   if (isNodeValues)
   {
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       writeLocation(os, points, elemI);
       writeData(os, values[elemI]);
@@ -200,7 +200,7 @@ void mousse::rawSurfaceWriter::writeTemplate
   }
   else
   {
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       writeLocation(os, points, faces, elemI);
       writeData(os, values[elemI]);
@@ -238,7 +238,7 @@ void mousse::rawSurfaceWriter::write
   os  << "# geometry NO_DATA " << faces.size() << nl
     << "#  x  y  z" << nl;
   // Write faces centres
-  forAll(faces, elemI)
+  FOR_ALL(faces, elemI)
   {
     writeLocation(os, points, faces, elemI);
     os  << nl;

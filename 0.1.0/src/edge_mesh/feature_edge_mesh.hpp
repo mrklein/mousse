@@ -21,7 +21,7 @@ class featureEdgeMesh
   public edgeMesh
 {
 public:
-  TypeName("featureEdgeMesh");
+  TYPE_NAME("featureEdgeMesh");
   // Constructors
     //- Construct (read) given an IOobject
     featureEdgeMesh(const IOobject&);

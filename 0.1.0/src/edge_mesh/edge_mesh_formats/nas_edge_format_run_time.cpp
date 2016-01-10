@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read edgeMesh - .bdf (Bulk Data Format)
-addNamedToRunTimeSelectionTable
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 (
   edgeMesh,
   NASedgeFormat,
@@ -19,7 +19,7 @@ addNamedToRunTimeSelectionTable
   bdf
 );
 // read edgeMesh - .nas (Nastran Data Format)
-addNamedToRunTimeSelectionTable
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 (
   edgeMesh,
   NASedgeFormat,

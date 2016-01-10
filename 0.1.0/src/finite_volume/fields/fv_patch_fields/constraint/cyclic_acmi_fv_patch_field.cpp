@@ -4,6 +4,7 @@
 
 #include "cyclic_acmi_fv_patch_field.hpp"
 #include "transform_field.hpp"
+
 // Constructors 
 template<class Type>
 mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
@@ -12,10 +13,12 @@ mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  cyclicACMILduInterfaceField(),
-  coupledFvPatchField<Type>(p, iF),
-  cyclicACMIPatch_(refCast<const cyclicACMIFvPatch>(p))
+  cyclicACMILduInterfaceField{},
+  coupledFvPatchField<Type>{p, iF},
+  cyclicACMIPatch_{refCast<const cyclicACMIFvPatch>(p)}
 {}
+
+
 template<class Type>
 mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
 (
@@ -25,13 +28,13 @@ mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  cyclicACMILduInterfaceField(),
-  coupledFvPatchField<Type>(ptf, p, iF, mapper),
-  cyclicACMIPatch_(refCast<const cyclicACMIFvPatch>(p))
+  cyclicACMILduInterfaceField{},
+  coupledFvPatchField<Type>{ptf, p, iF, mapper},
+  cyclicACMIPatch_{refCast<const cyclicACMIFvPatch>(p)}
 {
   if (!isA<cyclicACMIFvPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField"
       "("
@@ -40,14 +43,17 @@ mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
         "const DimensionedField<Type, volMesh>&, "
         "const fvPatchFieldMapper&"
       ")"
-    )   << "    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
 (
@@ -56,13 +62,13 @@ mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
   const dictionary& dict
 )
 :
-  cyclicACMILduInterfaceField(),
-  coupledFvPatchField<Type>(p, iF, dict),
-  cyclicACMIPatch_(refCast<const cyclicACMIFvPatch>(p))
+  cyclicACMILduInterfaceField{},
+  coupledFvPatchField<Type>{p, iF, dict},
+  cyclicACMIPatch_{refCast<const cyclicACMIFvPatch>(p)}
 {
   if (!isA<cyclicACMIFvPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField"
       "("
@@ -71,28 +77,33 @@ mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
         "const dictionary&"
       ")",
       dict
-    )   << "    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
   if (!dict.found("value") && this->coupled())
   {
     this->evaluate(Pstream::blocking);
   }
 }
+
+
 template<class Type>
 mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
 (
   const cyclicACMIFvPatchField<Type>& ptf
 )
 :
-  cyclicACMILduInterfaceField(),
-  coupledFvPatchField<Type>(ptf),
-  cyclicACMIPatch_(ptf.cyclicACMIPatch_)
+  cyclicACMILduInterfaceField{},
+  coupledFvPatchField<Type>{ptf},
+  cyclicACMIPatch_{ptf.cyclicACMIPatch_}
 {}
+
+
 template<class Type>
 mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
 (
@@ -100,16 +111,20 @@ mousse::cyclicACMIFvPatchField<Type>::cyclicACMIFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  cyclicACMILduInterfaceField(),
-  coupledFvPatchField<Type>(ptf, iF),
-  cyclicACMIPatch_(ptf.cyclicACMIPatch_)
+  cyclicACMILduInterfaceField{},
+  coupledFvPatchField<Type>{ptf, iF},
+  cyclicACMIPatch_{ptf.cyclicACMIPatch_}
 {}
+
+
 // Member Functions 
 template<class Type>
 bool mousse::cyclicACMIFvPatchField<Type>::coupled() const
 {
   return cyclicACMIPatch_.coupled();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::cyclicACMIFvPatchField<Type>::patchNeighbourField() const
@@ -122,22 +137,24 @@ mousse::cyclicACMIFvPatchField<Type>::patchNeighbourField() const
   Field<Type> pnfCoupled(iField, nbrFaceCellsCoupled);
   Field<Type> pfNonOverlap(iField, faceCellsNonOverlap);
   tmp<Field<Type> > tpnf
-  (
+  {
     new Field<Type>
-    (
+    {
       cyclicACMIPatch_.interpolate
       (
         pnfCoupled,
         pfNonOverlap
       )
-    )
-  );
+    }
+  };
   if (doTransform())
   {
     tpnf() = transform(forwardT(), tpnf());
   }
   return tpnf;
 }
+
+
 template<class Type>
 const mousse::cyclicACMIFvPatchField<Type>&
 mousse::cyclicACMIFvPatchField<Type>::neighbourPatchField() const
@@ -152,6 +169,8 @@ mousse::cyclicACMIFvPatchField<Type>::neighbourPatchField() const
     fld.boundaryField()[cyclicACMIPatch_.neighbPatchID()]
   );
 }
+
+
 template<class Type>
 const mousse::fvPatchField<Type>&
 mousse::cyclicACMIFvPatchField<Type>::nonOverlapPatchField() const
@@ -163,6 +182,8 @@ mousse::cyclicACMIFvPatchField<Type>::nonOverlapPatchField() const
     );
   return fld.boundaryField()[cyclicACMIPatch_.nonOverlapPatchID()];
 }
+
+
 template<class Type>
 void mousse::cyclicACMIFvPatchField<Type>::updateInterfaceMatrix
 (
@@ -181,11 +202,13 @@ void mousse::cyclicACMIFvPatchField<Type>::updateInterfaceMatrix
   transformCoupleField(pnf, cmpt);
   const labelUList& faceCells = cyclicACMIPatch_.faceCells();
   pnf = cyclicACMIPatch_.interpolate(pnf);
-  forAll(faceCells, elemI)
+  FOR_ALL(faceCells, elemI)
   {
     result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
   }
 }
+
+
 template<class Type>
 void mousse::cyclicACMIFvPatchField<Type>::updateInterfaceMatrix
 (
@@ -203,11 +226,13 @@ void mousse::cyclicACMIFvPatchField<Type>::updateInterfaceMatrix
   transformCoupleField(pnf);
   const labelUList& faceCells = cyclicACMIPatch_.faceCells();
   pnf = cyclicACMIPatch_.interpolate(pnf);
-  forAll(faceCells, elemI)
+  FOR_ALL(faceCells, elemI)
   {
     result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
   }
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> > mousse::cyclicACMIFvPatchField<Type>::snGrad
 (
@@ -217,6 +242,8 @@ mousse::tmp<mousse::Field<Type> > mousse::cyclicACMIFvPatchField<Type>::snGrad
   // note: only applying coupled contribution
   return coupledFvPatchField<Type>::snGrad(deltaCoeffs);
 }
+
+
 template<class Type>
 void mousse::cyclicACMIFvPatchField<Type>::updateCoeffs()
 {
@@ -227,6 +254,8 @@ void mousse::cyclicACMIFvPatchField<Type>::updateCoeffs()
   const fvPatchField<Type>& npf = nonOverlapPatchField();
   const_cast<fvPatchField<Type>&>(npf).updateCoeffs(1.0 - mask);
 }
+
+
 template<class Type>
 void mousse::cyclicACMIFvPatchField<Type>::initEvaluate
 (
@@ -244,6 +273,8 @@ void mousse::cyclicACMIFvPatchField<Type>::initEvaluate
     npf *= 1.0 - mask;
   }
 }
+
+
 template<class Type>
 void mousse::cyclicACMIFvPatchField<Type>::evaluate
 (
@@ -260,6 +291,8 @@ void mousse::cyclicACMIFvPatchField<Type>::evaluate
   Field<Type>::operator=(mask*cpf + npf);
   fvPatchField<Type>::evaluate();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::cyclicACMIFvPatchField<Type>::valueInternalCoeffs
@@ -271,6 +304,8 @@ mousse::cyclicACMIFvPatchField<Type>::valueInternalCoeffs
   // - when applied this is scaled by the areas which are already scaled
   return coupledFvPatchField<Type>::valueInternalCoeffs(w);
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::cyclicACMIFvPatchField<Type>::valueBoundaryCoeffs
@@ -282,6 +317,8 @@ mousse::cyclicACMIFvPatchField<Type>::valueBoundaryCoeffs
   // - when applied this is scaled by the areas which are already scaled
   return coupledFvPatchField<Type>::valueBoundaryCoeffs(w);
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::cyclicACMIFvPatchField<Type>::gradientInternalCoeffs
@@ -293,6 +330,8 @@ mousse::cyclicACMIFvPatchField<Type>::gradientInternalCoeffs
   // - when applied this is scaled by the areas which are already scaled
   return coupledFvPatchField<Type>::gradientInternalCoeffs(deltaCoeffs);
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::cyclicACMIFvPatchField<Type>::gradientInternalCoeffs() const
@@ -301,6 +340,8 @@ mousse::cyclicACMIFvPatchField<Type>::gradientInternalCoeffs() const
   // - when applied this is scaled by the areas which are already scaled
   return coupledFvPatchField<Type>::gradientInternalCoeffs();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::cyclicACMIFvPatchField<Type>::gradientBoundaryCoeffs
@@ -312,6 +353,8 @@ mousse::cyclicACMIFvPatchField<Type>::gradientBoundaryCoeffs
   // - when applied this is scaled by the areas which are already scaled
   return coupledFvPatchField<Type>::gradientBoundaryCoeffs(deltaCoeffs);
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::cyclicACMIFvPatchField<Type>::gradientBoundaryCoeffs() const
@@ -320,6 +363,8 @@ mousse::cyclicACMIFvPatchField<Type>::gradientBoundaryCoeffs() const
   // - when applied this is scaled by the areas which are already scaled
   return coupledFvPatchField<Type>::gradientBoundaryCoeffs();
 }
+
+
 template<class Type>
 void mousse::cyclicACMIFvPatchField<Type>::manipulateMatrix
 (

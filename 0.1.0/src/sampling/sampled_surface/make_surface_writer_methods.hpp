@@ -9,8 +9,8 @@
 namespace mousse
 {
 #define makeSurfaceWriterType(ThisClass)                                      \
-  defineTypeNameAndDebug(ThisClass, 0);                                     \
-  addToRunTimeSelectionTable(surfaceWriter, ThisClass, word)
+  DEFINE_TYPE_NAME_AND_DEBUG(ThisClass, 0);                                     \
+  ADD_TO_RUN_TIME_SELECTION_TABLE(surfaceWriter, ThisClass, word)
 #define defineSurfaceWriterWriteField(ThisClass, FieldType)                   \
   void ThisClass::write                                                     \
   (                                                                         \

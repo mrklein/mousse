@@ -98,7 +98,7 @@ mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
 {
   if (commsType() != UPstream::scheduled && !buffers.finishedSendsCalled_)
   {
-    FatalErrorIn("UIPstream::UIPstream(const int, PstreamBuffers&)")
+    FATAL_ERROR_IN("UIPstream::UIPstream(const int, PstreamBuffers&)")
       << "PstreamBuffers::finishedSends() never called." << endl
       << "Please call PstreamBuffers::finishedSends() after doing"
       << " all your sends (using UOPstream) and before doing any"
@@ -214,7 +214,7 @@ mousse::label mousse::UIPstream::read
       )
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "UIPstream::read"
         "(const int fromProcNo, char* buf, std::streamsize bufSize)"
@@ -234,7 +234,7 @@ mousse::label mousse::UIPstream::read
     }
     if (messageSize > bufSize)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "UIPstream::read"
         "(const int fromProcNo, char* buf, std::streamsize bufSize)"
@@ -262,7 +262,7 @@ mousse::label mousse::UIPstream::read
       )
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "UIPstream::read"
         "(const int fromProcNo, char* buf, std::streamsize bufSize)"
@@ -284,7 +284,7 @@ mousse::label mousse::UIPstream::read
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "UIPstream::read"
       "(const int fromProcNo, char* buf, std::streamsize bufSize)"

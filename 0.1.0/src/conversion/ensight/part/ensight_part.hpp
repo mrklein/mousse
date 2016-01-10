@@ -92,14 +92,14 @@ protected:
     virtual void writeConnectivity
     (
       ensightGeoFile&,
-      const word& key,
-      const labelUList& idList,
-      const labelUList& pointMap
+      const word& /*key*/,
+      const labelUList& /*idList*/,
+      const labelUList& /*pointMap*/
     ) const
     {}
 public:
   //- Runtime type information
-  TypeName("ensightPart");
+  TYPE_NAME("ensightPart");
   // Constructors
     //- Construct null
     ensightPart();
@@ -116,7 +116,7 @@ public:
     ensightPart(const ensightPart&);
   // Selectors
     // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       ensightPart,
@@ -235,7 +235,7 @@ public:
     //- Disallow default bitwise assignment
     void operator=(const ensightPart&)
     {
-      notImplemented("ensightPart::operator=(const ensightPart&)");
+      NOT_IMPLEMENTED("ensightPart::operator=(const ensightPart&)");
     }
   // IOstream Operators
     //- Write data (reconstruction information)

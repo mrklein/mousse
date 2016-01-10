@@ -22,7 +22,7 @@ mousse::vector mousse::surfaceLocation::normal(const triSurface& s) const
     else
     {
       vector edgeNormal(vector::zero);
-      forAll(eFaces, i)
+      FOR_ALL(eFaces, i)
       {
         edgeNormal += n[eFaces[i]];
       }

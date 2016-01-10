@@ -45,14 +45,9 @@ class SDA
     scalar dTi_;
     //- Incr. in Tp/unit 'dTi'[-]
     scalar dTp_;
-  // Private Member Functions
-    //- Disallow copy construct
-    SDA(const SDA&);
-    //- Disallow default bitwise assignment
-    void operator=(const SDA&);
 public:
   //- Runtime type information
-  TypeName("SDA");
+  TYPE_NAME("SDA");
   // Constructors
     //- Construct from components
     SDA
@@ -72,6 +67,10 @@ public:
         )
       );
     }
+    //- Disallow copy construct
+    SDA(const SDA&) = delete;
+    //- Disallow default bitwise assignment
+    SDA& operator=(const SDA&) = delete;
   //- Destructor
   virtual ~SDA();
   // Member Functions

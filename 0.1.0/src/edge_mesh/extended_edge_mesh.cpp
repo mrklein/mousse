@@ -14,45 +14,45 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(extendedEdgeMesh, 0);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::extendedEdgeMesh::pointStatus,
-    4
-  >::names[] =
-  {
-    "convex",
-    "concave",
-    "mixed",
-    "nonFeature"
-  };
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::extendedEdgeMesh::edgeStatus,
-    6
-  >::names[] =
-  {
-    "external",
-    "internal",
-    "flat",
-    "open",
-    "multiple",
-    "none"
-  };
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::extendedEdgeMesh::sideVolumeType,
-    4
-  >::names[] =
-  {
-    "inside",
-    "outside",
-    "both",
-    "neither"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(extendedEdgeMesh, 0);
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::extendedEdgeMesh::pointStatus,
+  4
+>::names[] =
+{
+  "convex",
+  "concave",
+  "mixed",
+  "nonFeature"
+};
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::extendedEdgeMesh::edgeStatus,
+  6
+>::names[] =
+{
+  "external",
+  "internal",
+  "flat",
+  "open",
+  "multiple",
+  "none"
+};
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::extendedEdgeMesh::sideVolumeType,
+  4
+>::names[] =
+{
+  "inside",
+  "outside",
+  "both",
+  "neither"
+};
 }
 const mousse::NamedEnum<mousse::extendedEdgeMesh::pointStatus, 4>
   mousse::extendedEdgeMesh::pointStatusNames_;
@@ -132,7 +132,7 @@ mousse::extendedEdgeMesh::classifyFeaturePoint
     // There are no edges attached to the point, this is a problem
     return NONFEATURE;
   }
-  forAll(ptEds, i)
+  FOR_ALL(ptEds, i)
   {
     edgeStatus edStat = getEdgeStatus(ptEds[i]);
     if (edStat == EXTERNAL)
@@ -319,12 +319,12 @@ mousse::extendedEdgeMesh::extendedEdgeMesh
   // Noting when the normal of a face has been used so not to duplicate
   labelList faceMap(surf.size(), -1);
   label nAdded = 0;
-  forAll(featureEdges, i)
+  FOR_ALL(featureEdges, i)
   {
     label sFEI = featureEdges[i];
     // Pick up the faces adjacent to the feature edge
     const labelList& eFaces = edgeFaces[sFEI];
-    forAll(eFaces, j)
+    FOR_ALL(eFaces, j)
     {
       label eFI = eFaces[j];
       // Check to see if the points have been already used
@@ -532,7 +532,7 @@ void mousse::extendedEdgeMesh::nearestFeatureEdge
 ) const
 {
   info.setSize(samples.size());
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     nearestFeatureEdge
     (
@@ -557,7 +557,7 @@ void mousse::extendedEdgeMesh::nearestFeatureEdgeByType
   sliceStarts[2] = flatStart_;
   sliceStarts[3] = openStart_;
   sliceStarts[4] = multipleStart_;
-  forAll(edgeTrees, i)
+  FOR_ALL(edgeTrees, i)
   {
     info[i] = edgeTrees[i].findNearest
     (
@@ -584,7 +584,7 @@ void mousse::extendedEdgeMesh::allNearestFeaturePoints
     searchRadiusSqr
   );
   DynamicList<pointIndexHit> dynPointHit(elems.size());
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     label index = elems[elemI];
     label ptI = pointTree().shapes().pointLabels()[index];
@@ -611,7 +611,7 @@ void mousse::extendedEdgeMesh::allNearestFeatureEdges
   sliceStarts[4] = multipleStart_;
   DynamicList<pointIndexHit> dynEdgeHit(edgeTrees.size()*3);
   // Loop over all the feature edge types
-  forAll(edgeTrees, i)
+  FOR_ALL(edgeTrees, i)
   {
     // Pick up all the edges that intersect the search sphere
     labelList elems = edgeTrees[i].findSphere
@@ -619,7 +619,7 @@ void mousse::extendedEdgeMesh::allNearestFeatureEdges
       sample,
       searchRadiusSqr
     );
-    forAll(elems, elemI)
+    FOR_ALL(elems, elemI)
     {
       label index = elems[elemI];
       label edgeI = edgeTrees[i].shapes().edgeLabels()[index];
@@ -733,7 +733,7 @@ mousse::extendedEdgeMesh::edgeTreesByType() const
     // Multiple edges
     sliceEdges[4] =
       identity(edges().size() - multipleStart_) + multipleStart_;
-    forAll(edgeTreesByType_, i)
+    FOR_ALL(edgeTreesByType_, i)
     {
       edgeTreesByType_.set
       (
@@ -910,7 +910,7 @@ void mousse::extendedEdgeMesh::add(const extendedEdgeMesh& fem)
     reverseFemEdgeMap[i] = newEdgeI++;
   }
   edgeList newEdges(newEdgeI);
-  forAll(edges(), i)
+  FOR_ALL(edges(), i)
   {
     const edge& e = edges()[i];
     newEdges[reverseEdgeMap[i]] = edge
@@ -919,7 +919,7 @@ void mousse::extendedEdgeMesh::add(const extendedEdgeMesh& fem)
       reversePointMap[e[1]]
     );
   }
-  forAll(fem.edges(), i)
+  FOR_ALL(fem.edges(), i)
   {
     const edge& e = fem.edges()[i];
     newEdges[reverseFemEdgeMap[i]] = edge
@@ -943,11 +943,11 @@ void mousse::extendedEdgeMesh::add(const extendedEdgeMesh& fem)
     edgeNormals();
   UIndirectList<labelList>(newEdgeNormals, reverseFemEdgeMap) =
     fem.edgeNormals();
-  forAll(reverseFemEdgeMap, i)
+  FOR_ALL(reverseFemEdgeMap, i)
   {
     label mapI = reverseFemEdgeMap[i];
     labelList& en = newEdgeNormals[mapI];
-    forAll(en, j)
+    FOR_ALL(en, j)
     {
       en[j] += normals().size();
     }
@@ -969,11 +969,11 @@ void mousse::extendedEdgeMesh::add(const extendedEdgeMesh& fem)
     newFeaturePointNormals,
     SubList<label>(reverseFemPointMap, fem.featurePointNormals().size())
   ) = fem.featurePointNormals();
-  forAll(fem.featurePointNormals(), i)
+  FOR_ALL(fem.featurePointNormals(), i)
   {
     label mapI = reverseFemPointMap[i];
     labelList& fn = newFeaturePointNormals[mapI];
-    forAll(fn, j)
+    FOR_ALL(fn, j)
     {
       fn[j] += normals().size();
     }
@@ -984,11 +984,11 @@ void mousse::extendedEdgeMesh::add(const extendedEdgeMesh& fem)
     regionEdges().size()
    + fem.regionEdges().size()
   );
-  forAll(regionEdges(), i)
+  FOR_ALL(regionEdges(), i)
   {
     newRegionEdges.append(reverseEdgeMap[regionEdges()[i]]);
   }
-  forAll(fem.regionEdges(), i)
+  FOR_ALL(fem.regionEdges(), i)
   {
     newRegionEdges.append(reverseFemEdgeMap[fem.regionEdges()[i]]);
   }
@@ -1053,7 +1053,7 @@ void mousse::extendedEdgeMesh::flipNormals()
   pointField newPoints(points().size());
   newPoints.rmap(points(), reversePointMap);
   edgeList newEdges(edges().size());
-  forAll(edges(), i)
+  FOR_ALL(edges(), i)
   {
     const edge& e = edges()[i];
     newEdges[reverseEdgeMap[i]] = edge
@@ -1077,7 +1077,7 @@ void mousse::extendedEdgeMesh::flipNormals()
     SubList<label>(reversePointMap, featurePointNormals().size())
   ) = featurePointNormals();
   labelList newRegionEdges(regionEdges().size());
-  forAll(regionEdges(), i)
+  FOR_ALL(regionEdges(), i)
   {
     newRegionEdges[i] = reverseEdgeMap[regionEdges()[i]];
   }
@@ -1129,7 +1129,7 @@ void mousse::extendedEdgeMesh::writeObj
   for(label i = mixedStart_; i < nonFeatureStart_; i++)
   {
     const labelList& ptEds = pointEdges()[i];
-    forAll(ptEds, j)
+    FOR_ALL(ptEds, j)
     {
       const edge& e = edges()[ptEds[j]];
       mixedFtPtStructureStr.write
@@ -1176,14 +1176,14 @@ void mousse::extendedEdgeMesh::writeObj
   }
   OBJstream regionStr(prefix + "_regionEdges.obj");
   Info<< "Writing region edges to " << regionStr.name() << endl;
-  forAll(regionEdges_, i)
+  FOR_ALL(regionEdges_, i)
   {
     const edge& e = edges()[regionEdges_[i]];
     regionStr.write(linePointRef(points()[e[0]], points()[e[1]]));
   }
   OBJstream edgeDirsStr(prefix + "_edgeDirections.obj");
   Info<< "Writing edge directions to " << edgeDirsStr.name() << endl;
-  forAll(edgeDirections_, i)
+  FOR_ALL(edgeDirections_, i)
   {
     const vector& eVec = edgeDirections_[i];
     const edge& e = edges()[i];

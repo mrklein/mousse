@@ -23,7 +23,7 @@ class cellToCell
     word setName_;
 public:
   //- Runtime type information
-  TypeName("cellToCell");
+  TYPE_NAME("cellToCell");
   // Constructors
     //- Construct from components
     cellToCell

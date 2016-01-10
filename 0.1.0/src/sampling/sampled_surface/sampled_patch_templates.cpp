@@ -14,7 +14,7 @@ mousse::sampledPatch::sampleField
   // One value per face
   tmp<Field<Type> > tvalues(new Field<Type>(patchFaceLabels_.size()));
   Field<Type>& values = tvalues();
-  forAll(patchFaceLabels_, i)
+  FOR_ALL(patchFaceLabels_, i)
   {
     label patchI = patchIDs_[patchIndex_[i]];
     const Field<Type>& bField = vField.boundaryField()[patchI];
@@ -32,7 +32,7 @@ mousse::sampledPatch::sampleField
   // One value per face
   tmp<Field<Type> > tvalues(new Field<Type>(patchFaceLabels_.size()));
   Field<Type>& values = tvalues();
-  forAll(patchFaceLabels_, i)
+  FOR_ALL(patchFaceLabels_, i)
   {
     label patchI = patchIDs_[patchIndex_[i]];
     values[i] = sField.boundaryField()[patchI][patchFaceLabels_[i]];
@@ -51,13 +51,13 @@ mousse::sampledPatch::interpolateField
   Field<Type>& values = tvalues();
   const labelList& own = mesh().faceOwner();
   boolList pointDone(points().size(), false);
-  forAll(faces(), cutFaceI)
+  FOR_ALL(faces(), cutFaceI)
   {
     label patchI = patchIDs_[patchIndex_[cutFaceI]];
     const polyPatch& pp = mesh().boundaryMesh()[patchI];
     label patchFaceI = patchFaceLabels()[cutFaceI];
     const face& f = faces()[cutFaceI];
-    forAll(f, faceVertI)
+    FOR_ALL(f, faceVertI)
     {
       label pointI = f[faceVertI];
       if (!pointDone[pointI])

@@ -4,6 +4,7 @@
 
 #include "direction_mixed_fv_patch_field.hpp"
 #include "symm_transform_field.hpp"
+
 // Constructors 
 template<class Type>
 mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
@@ -12,11 +13,13 @@ mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  transformFvPatchField<Type>(p, iF),
-  refValue_(p.size()),
-  refGrad_(p.size()),
-  valueFraction_(p.size())
+  transformFvPatchField<Type>{p, iF},
+  refValue_{p.size()},
+  refGrad_{p.size()},
+  valueFraction_{p.size()}
 {}
+
+
 template<class Type>
 mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
 (
@@ -26,14 +29,14 @@ mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  transformFvPatchField<Type>(ptf, p, iF, mapper),
-  refValue_(ptf.refValue_, mapper),
-  refGrad_(ptf.refGrad_, mapper),
-  valueFraction_(ptf.valueFraction_, mapper)
+  transformFvPatchField<Type>{ptf, p, iF, mapper},
+  refValue_{ptf.refValue_, mapper},
+  refGrad_{ptf.refGrad_, mapper},
+  valueFraction_{ptf.valueFraction_, mapper}
 {
   if (notNull(iF) && mapper.hasUnmapped())
   {
-    WarningIn
+    WARNING_IN
     (
       "directionMixedFvPatchField<Type>::directionMixedFvPatchField\n"
       "(\n"
@@ -42,13 +45,16 @@ mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
       "    const DimensionedField<Type, volMesh>&,\n"
       "    const fvPatchFieldMapper&\n"
       ")\n"
-    )   << "On field " << iF.name() << " patch " << p.name()
-      << " patchField " << this->type()
-      << " : mapper does not map all values." << nl
-      << "    To avoid this warning fully specify the mapping in derived"
-      << " patch fields." << endl;
+    )
+    << "On field " << iF.name() << " patch " << p.name()
+    << " patchField " << this->type()
+    << " : mapper does not map all values." << nl
+    << "    To avoid this warning fully specify the mapping in derived"
+    << " patch fields." << endl;
   }
 }
+
+
 template<class Type>
 mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
 (
@@ -57,13 +63,15 @@ mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
   const dictionary& dict
 )
 :
-  transformFvPatchField<Type>(p, iF, dict),
-  refValue_("refValue", dict, p.size()),
-  refGrad_("refGradient", dict, p.size()),
-  valueFraction_("valueFraction", dict, p.size())
+  transformFvPatchField<Type>{p, iF, dict},
+  refValue_{"refValue", dict, p.size()},
+  refGrad_{"refGradient", dict, p.size()},
+  valueFraction_{"valueFraction", dict, p.size()}
 {
   evaluate();
 }
+
+
 template<class Type>
 mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
 (
@@ -71,11 +79,13 @@ mousse::directionMixedFvPatchField<Type>::directionMixedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  transformFvPatchField<Type>(ptf, iF),
-  refValue_(ptf.refValue_),
-  refGrad_(ptf.refGrad_),
-  valueFraction_(ptf.valueFraction_)
+  transformFvPatchField<Type>{ptf, iF},
+  refValue_{ptf.refValue_},
+  refGrad_{ptf.refGrad_},
+  valueFraction_{ptf.valueFraction_}
 {}
+
+
 // Member Functions 
 template<class Type>
 void mousse::directionMixedFvPatchField<Type>::autoMap
@@ -88,6 +98,8 @@ void mousse::directionMixedFvPatchField<Type>::autoMap
   refGrad_.autoMap(m);
   valueFraction_.autoMap(m);
 }
+
+
 template<class Type>
 void mousse::directionMixedFvPatchField<Type>::rmap
 (
@@ -102,6 +114,8 @@ void mousse::directionMixedFvPatchField<Type>::rmap
   refGrad_.rmap(dmptf.refGrad_, addr);
   valueFraction_.rmap(dmptf.valueFraction_, addr);
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::directionMixedFvPatchField<Type>::snGrad() const
@@ -115,6 +129,8 @@ mousse::directionMixedFvPatchField<Type>::snGrad() const
     (normalValue + transformGradValue - pif)*
     this->patch().deltaCoeffs();
 }
+
+
 template<class Type>
 void mousse::directionMixedFvPatchField<Type>::evaluate(const Pstream::commsTypes)
 {
@@ -130,6 +146,8 @@ void mousse::directionMixedFvPatchField<Type>::evaluate(const Pstream::commsType
   Field<Type>::operator=(normalValue + transformGradValue);
   transformFvPatchField<Type>::evaluate();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::directionMixedFvPatchField<Type>::snGradTransformDiag() const
@@ -152,6 +170,8 @@ mousse::directionMixedFvPatchField<Type>::snGradTransformDiag() const
   );
   return transformFieldMask<Type>(pow<vector, pTraits<Type>::rank>(diag));
 }
+
+
 template<class Type>
 void mousse::directionMixedFvPatchField<Type>::write(Ostream& os) const
 {
@@ -161,3 +181,4 @@ void mousse::directionMixedFvPatchField<Type>::write(Ostream& os) const
   valueFraction_.writeEntry("valueFraction", os);
   this->writeEntry("value", os);
 }
+

@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(searchableCylinder, 0);
-addToRunTimeSelectionTable(searchableSurface, searchableCylinder, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(searchableCylinder, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchableCylinder, dict);
 }
 // Private Member Functions 
 mousse::tmp<mousse::pointField> mousse::searchableCylinder::coordinates() const
@@ -436,7 +436,7 @@ void mousse::searchableCylinder::findNearest
 ) const
 {
   info.setSize(samples.size());
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     info[i] = findNearest(samples[i], nearestDistSqr[i]);
   }
@@ -449,7 +449,7 @@ void mousse::searchableCylinder::findLine
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     // Pick nearest intersection. If none intersected take second one.
     pointIndexHit b;
@@ -468,7 +468,7 @@ void mousse::searchableCylinder::findLineAny
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     // Discard far intersection
     pointIndexHit b;
@@ -487,7 +487,7 @@ void mousse::searchableCylinder::findLineAll
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     pointIndexHit near, far;
     findLineAll(start[i], end[i], near, far);
@@ -536,7 +536,7 @@ void mousse::searchableCylinder::getNormal
 {
   normal.setSize(info.size());
   normal = vector::zero;
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     if (info[i].hit())
     {
@@ -607,7 +607,7 @@ void mousse::searchableCylinder::getVolumeType
 {
   volType.setSize(points.size());
   volType = volumeType::INSIDE;
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     vector v(pt - point1_);

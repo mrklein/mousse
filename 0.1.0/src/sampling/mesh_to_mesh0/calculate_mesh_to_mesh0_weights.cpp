@@ -14,7 +14,7 @@ void mousse::meshToMesh0::calculateInverseDistanceWeights() const
   }
   if (inverseDistanceWeightsPtr_)
   {
-    FatalErrorIn("meshToMesh0::calculateInverseDistanceWeights()")
+    FATAL_ERROR_IN("meshToMesh0::calculateInverseDistanceWeights()")
       << "weighting factors already calculated"
       << exit(FatalError);
   }
@@ -26,7 +26,7 @@ void mousse::meshToMesh0::calculateInverseDistanceWeights() const
   const labelListList& cc = fromMesh_.cellCells();
   const vectorField& centreFrom = fromMesh_.C().internalField();
   const vectorField& centreTo = toMesh_.C().internalField();
-  forAll(cellAddressing_, celli)
+  FOR_ALL(cellAddressing_, celli)
   {
     if (cellAddressing_[celli] != -1)
     {
@@ -42,7 +42,7 @@ void mousse::meshToMesh0::calculateInverseDistanceWeights() const
       }
       else
       {
-        forAll(neighbours, ni)
+        FOR_ALL(neighbours, ni)
         {
           scalar nm = mag(target - centreFrom[neighbours[ni]]);
           if (nm < directHitTol)
@@ -68,14 +68,14 @@ void mousse::meshToMesh0::calculateInverseDistanceWeights() const
         invDistCoeffs[celli][0] = invDist;
         scalar sumInvDist = invDist;
         // now add the neighbours
-        forAll(neighbours, ni)
+        FOR_ALL(neighbours, ni)
         {
           invDist = 1.0/mag(target - centreFrom[neighbours[ni]]);
           invDistCoeffs[celli][ni + 1] = invDist;
           sumInvDist += invDist;
         }
         // divide by the total inverse-distance
-        forAll(invDistCoeffs[celli], i)
+        FOR_ALL(invDistCoeffs[celli], i)
         {
           invDistCoeffs[celli][i] /= sumInvDist;
         }
@@ -100,7 +100,7 @@ void mousse::meshToMesh0::calculateInverseVolumeWeights() const
   }
   if (inverseVolumeWeightsPtr_)
   {
-    FatalErrorIn("meshToMesh0::calculateInverseVolumeWeights()")
+    FATAL_ERROR_IN("meshToMesh0::calculateInverseVolumeWeights()")
       << "weighting factors already calculated"
       << exit(FatalError);
   }
@@ -110,13 +110,13 @@ void mousse::meshToMesh0::calculateInverseVolumeWeights() const
   scalarListList& invVolCoeffs = *inverseVolumeWeightsPtr_;
   const labelListList& cellToCell = cellToCellAddressing();
   tetOverlapVolume overlapEngine;
-  forAll(cellToCell, celli)
+  FOR_ALL(cellToCell, celli)
   {
     const labelList& overlapCells = cellToCell[celli];
     if (overlapCells.size() > 0)
     {
       invVolCoeffs[celli].setSize(overlapCells.size());
-      forAll(overlapCells, j)
+      FOR_ALL(overlapCells, j)
       {
         label cellFrom = overlapCells[j];
         treeBoundBox bbFromMesh
@@ -150,7 +150,7 @@ void mousse::meshToMesh0::calculateCellToCellAddressing() const
   }
   if (cellToCellAddressingPtr_)
   {
-    FatalErrorIn("meshToMesh0::calculateCellToCellAddressing()")
+    FATAL_ERROR_IN("meshToMesh0::calculateCellToCellAddressing()")
       << "addressing already calculated"
       << exit(FatalError);
   }
@@ -159,7 +159,7 @@ void mousse::meshToMesh0::calculateCellToCellAddressing() const
   tetOverlapVolume overlapEngine;
   cellToCellAddressingPtr_ = new labelListList(toMesh_.nCells());
   labelListList& cellToCell = *cellToCellAddressingPtr_;
-  forAll(cellToCell, iTo)
+  FOR_ALL(cellToCell, iTo)
   {
     const labelList overLapCells =
       overlapEngine.overlappingCells(fromMesh_, toMesh_, iTo);
@@ -168,7 +168,7 @@ void mousse::meshToMesh0::calculateCellToCellAddressing() const
       //Info << "To " << iTo << endl;
       //Info << "cellToCell " << overLapCells << endl;
       cellToCell[iTo].setSize(overLapCells.size());
-      forAll(overLapCells, j)
+      FOR_ALL(overLapCells, j)
       {
         cellToCell[iTo][j] = overLapCells[j];
         V_ += fromMesh_.V()[overLapCells[j]];

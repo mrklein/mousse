@@ -8,7 +8,9 @@
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
 #include "mathematical_constants.hpp"
-// Constructors 
+#include "time.hpp"
+
+// Constructors
 mousse::cylindricalInletVelocityFvPatchVectorField::
 cylindricalInletVelocityFvPatchVectorField
 (
@@ -16,13 +18,14 @@ cylindricalInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(p, iF),
-  centre_(pTraits<vector>::zero),
-  axis_(pTraits<vector>::zero),
-  axialVelocity_(),
-  radialVelocity_(),
-  rpm_()
+  fixedValueFvPatchField<vector>{p, iF},
+  centre_{pTraits<vector>::zero},
+  axis_{pTraits<vector>::zero},
+  axialVelocity_{},
+  radialVelocity_{},
+  rpm_{}
 {}
+
 mousse::cylindricalInletVelocityFvPatchVectorField::
 cylindricalInletVelocityFvPatchVectorField
 (
@@ -32,13 +35,14 @@ cylindricalInletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<vector>(ptf, p, iF, mapper),
-  centre_(ptf.centre_),
-  axis_(ptf.axis_),
-  axialVelocity_(ptf.axialVelocity_().clone().ptr()),
-  radialVelocity_(ptf.radialVelocity_().clone().ptr()),
-  rpm_(ptf.rpm_().clone().ptr())
+  fixedValueFvPatchField<vector>{ptf, p, iF, mapper},
+  centre_{ptf.centre_},
+  axis_{ptf.axis_},
+  axialVelocity_{ptf.axialVelocity_().clone().ptr()},
+  radialVelocity_{ptf.radialVelocity_().clone().ptr()},
+  rpm_{ptf.rpm_().clone().ptr()}
 {}
+
 mousse::cylindricalInletVelocityFvPatchVectorField::
 cylindricalInletVelocityFvPatchVectorField
 (
@@ -47,13 +51,14 @@ cylindricalInletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<vector>(p, iF, dict),
-  centre_(dict.lookup("centre")),
-  axis_(dict.lookup("axis")),
-  axialVelocity_(DataEntry<scalar>::New("axialVelocity", dict)),
-  radialVelocity_(DataEntry<scalar>::New("radialVelocity", dict)),
-  rpm_(DataEntry<scalar>::New("rpm", dict))
+  fixedValueFvPatchField<vector>{p, iF, dict},
+  centre_{dict.lookup("centre")},
+  axis_{dict.lookup("axis")},
+  axialVelocity_{DataEntry<scalar>::New("axialVelocity", dict)},
+  radialVelocity_{DataEntry<scalar>::New("radialVelocity", dict)},
+  rpm_{DataEntry<scalar>::New("rpm", dict)}
 {}
+
 mousse::cylindricalInletVelocityFvPatchVectorField::
 cylindricalInletVelocityFvPatchVectorField
 (
@@ -81,7 +86,8 @@ cylindricalInletVelocityFvPatchVectorField
   radialVelocity_(ptf.radialVelocity_().clone().ptr()),
   rpm_(ptf.rpm_().clone().ptr())
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::cylindricalInletVelocityFvPatchVectorField::updateCoeffs()
 {
   if (updated())
@@ -114,9 +120,11 @@ void mousse::cylindricalInletVelocityFvPatchVectorField::write(Ostream& os) cons
 }
 namespace mousse
 {
- makePatchTypeField
- (
-   fvPatchVectorField,
-   cylindricalInletVelocityFvPatchVectorField
- );
+
+MAKE_PATCH_TYPE_FIELD
+(
+ fvPatchVectorField,
+ cylindricalInletVelocityFvPatchVectorField
+);
+
 }

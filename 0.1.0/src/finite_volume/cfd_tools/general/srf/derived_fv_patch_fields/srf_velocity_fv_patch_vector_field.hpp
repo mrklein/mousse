@@ -65,7 +65,7 @@ class SRFVelocityFvPatchVectorField
     vectorField inletValue_;
 public:
   //- Runtime type information
-  TypeName("SRFVelocity");
+  TYPE_NAME("SRFVelocity");
   // Constructors
     //- Construct from patch and internal field
     SRFVelocityFvPatchVectorField

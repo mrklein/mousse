@@ -8,13 +8,15 @@
 #include "empty_poly_patch.hpp"
 #include "sub_field.hpp"
 #include "mesh_tools.hpp"
+#include "demand_driven_data.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(twoDPointCorrector, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(twoDPointCorrector, 0);
 }
 const mousse::scalar mousse::twoDPointCorrector::edgeOrthogonalityTol = 1.0 - 1e-4;
-// Private Member Functions 
+// Private Member Functions
 void mousse::twoDPointCorrector::calcAddressing() const
 {
   // Find geometry normal
@@ -27,7 +29,7 @@ void mousse::twoDPointCorrector::calcAddressing() const
   // error.
   // Try and find a wedge patch
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (isA<wedgePolyPatch>(patches[patchI]))
     {
@@ -47,7 +49,7 @@ void mousse::twoDPointCorrector::calcAddressing() const
   // Try to find an empty patch with faces
   if (!isWedge_)
   {
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       if (isA<emptyPolyPatch>(patches[patchI]) && patches[patchI].size())
       {
@@ -62,7 +64,7 @@ void mousse::twoDPointCorrector::calcAddressing() const
   }
   if (mag(pn) < VSMALL)
   {
-    FatalErrorIn("twoDPointCorrector::calcAddressing()")
+    FATAL_ERROR_IN("twoDPointCorrector::calcAddressing()")
       << "Cannot determine normal vector from patches."
       << abort(FatalError);
   }
@@ -80,7 +82,7 @@ void mousse::twoDPointCorrector::calcAddressing() const
   const edgeList& meshEdges = mesh_.edges();
   const pointField& meshPoints = mesh_.points();
   label nNormalEdges = 0;
-  forAll(meshEdges, edgeI)
+  FOR_ALL(meshEdges, edgeI)
   {
     const edge& e = meshEdges[edgeI];
     vector edgeVector = e.vec(meshPoints)/(e.mag(meshPoints) + VSMALL);
@@ -98,7 +100,7 @@ void mousse::twoDPointCorrector::calcAddressing() const
   {
     if (meshPoints.size() % 2 != 0)
     {
-      WarningIn("twoDPointCorrector::calcAddressing()")
+      WARNING_IN("twoDPointCorrector::calcAddressing()")
         << "the number of vertices in the geometry "
         << "is odd - this should not be the case for a 2-D case. "
         << "Please check the geometry."
@@ -106,7 +108,7 @@ void mousse::twoDPointCorrector::calcAddressing() const
     }
     if (2*nNormalEdges != meshPoints.size())
     {
-      WarningIn("twoDPointCorrector::calcAddressing()")
+      WARNING_IN("twoDPointCorrector::calcAddressing()")
         << "The number of points in the mesh is "
         << "not equal to twice the number of edges normal to the plane "
         << "- this may be OK only for wedge geometries.\n"
@@ -134,7 +136,7 @@ void mousse::twoDPointCorrector::snapToWedge
   vector pDash = ADash*tan(wedgeAngle_)*planeNormal();
   p = A + sign(n & p)*pDash;
 }
-// Constructors 
+// Constructors
 mousse::twoDPointCorrector::twoDPointCorrector(const polyMesh& mesh)
 :
   MeshObject<polyMesh, mousse::UpdateableMeshObject, twoDPointCorrector>(mesh),
@@ -145,12 +147,14 @@ mousse::twoDPointCorrector::twoDPointCorrector(const polyMesh& mesh)
   wedgeAxis_(vector::zero),
   wedgeAngle_(0.0)
 {}
-// Destructor 
+
+// Destructor
 mousse::twoDPointCorrector::~twoDPointCorrector()
 {
   clearAddressing();
 }
-// Member Functions 
+
+// Member Functions
 mousse::direction mousse::twoDPointCorrector::normalDir() const
 {
   const vector& pn = planeNormal();
@@ -168,7 +172,7 @@ mousse::direction mousse::twoDPointCorrector::normalDir() const
   }
   else
   {
-    FatalErrorIn("direction twoDPointCorrector::normalDir() const")
+    FATAL_ERROR_IN("direction twoDPointCorrector::normalDir() const")
       << "Plane normal not aligned with the coordinate system" << nl
       << "    pn = " << pn
       << abort(FatalError);
@@ -202,7 +206,7 @@ void mousse::twoDPointCorrector::correctPoints(pointField& p) const
   const edgeList&  meshEdges = mesh_.edges();
   const labelList& neIndices = normalEdgeIndices();
   const vector& pn = planeNormal();
-  forAll(neIndices, edgeI)
+  FOR_ALL(neIndices, edgeI)
   {
     point& pStart = p[meshEdges[neIndices[edgeI]].start()];
     point& pEnd = p[meshEdges[neIndices[edgeI]].end()];
@@ -237,7 +241,7 @@ void mousse::twoDPointCorrector::correctDisplacement
   const edgeList&  meshEdges = mesh_.edges();
   const labelList& neIndices = normalEdgeIndices();
   const vector& pn = planeNormal();
-  forAll(neIndices, edgeI)
+  FOR_ALL(neIndices, edgeI)
   {
     const edge& e = meshEdges[neIndices[edgeI]];
     label startPointI = e.start();

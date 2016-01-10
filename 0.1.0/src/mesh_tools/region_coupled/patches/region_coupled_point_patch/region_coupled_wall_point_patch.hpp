@@ -20,7 +20,7 @@ class regionCoupledWallPointPatch
 {
 public:
   //- Runtime type information
-  TypeName(regionCoupledWallPolyPatch::typeName_());
+  TYPE_NAME(regionCoupledWallPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     regionCoupledWallPointPatch

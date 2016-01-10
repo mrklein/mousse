@@ -29,17 +29,16 @@ class duplicatePoints
     //  element 0 is the original point.
     //  Can have empty entries if a point only has one region.
     labelListList duplicates_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    duplicatePoints(const duplicatePoints&);
-    //- Disallow default bitwise assignment
-    void operator=(const duplicatePoints&);
 public:
   //- Runtime type information
-  ClassName("duplicatePoints");
+  CLASS_NAME("duplicatePoints");
   // Constructors
     //- Construct from mesh
     duplicatePoints(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    duplicatePoints(const duplicatePoints&) = delete;
+    //- Disallow default bitwise assignment
+    duplicatePoints& operator=(const duplicatePoints&) = delete;
   // Member Functions
     // Access
       //- Per point in regionSide.pointRegions() the points created.

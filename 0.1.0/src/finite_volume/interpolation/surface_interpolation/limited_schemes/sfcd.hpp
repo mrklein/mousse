@@ -10,9 +10,12 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   sfcd.cpp
+
 #ifndef sfcd_hpp_
 #define sfcd_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimiterFunc>
@@ -25,7 +28,7 @@ public:
   {}
   scalar limiter
   (
-    const scalar cdWeight,
+    const scalar /*cdWeight*/,
     const scalar faceFlux,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,

@@ -23,14 +23,10 @@ class multiMotion
   // Private data
     //- Motions to combine
     PtrList<solidBodyMotionFunction> SBMFs_;
-  // Private Member Functions
-    //- Disallow copy construct
-    multiMotion(const multiMotion&);
-    //- Disallow default bitwise assignment
-    void operator=(const multiMotion&);
+
 public:
   //- Runtime type information
-  TypeName("multiMotion");
+  TYPE_NAME("multiMotion");
   // Constructors
     //- Construct from components
     multiMotion
@@ -42,14 +38,18 @@ public:
     virtual autoPtr<solidBodyMotionFunction> clone() const
     {
       return autoPtr<solidBodyMotionFunction>
-      (
+      {
         new multiMotion
-        (
+        {
           SBMFCoeffs_,
           time_
-        )
-      );
+        }
+      };
     }
+    //- Disallow copy construct
+    multiMotion(const multiMotion&) = delete;
+    //- Disallow default bitwise assignment
+    multiMotion& operator=(const multiMotion&) = delete;
   //- Destructor
   virtual ~multiMotion();
   // Member Functions

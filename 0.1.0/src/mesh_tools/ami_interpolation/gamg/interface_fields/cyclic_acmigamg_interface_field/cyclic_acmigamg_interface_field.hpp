@@ -34,7 +34,7 @@ class cyclicACMIGAMGInterfaceField
     void operator=(const cyclicACMIGAMGInterfaceField&);
 public:
   //- Runtime type information
-  TypeName("cyclicACMI");
+  TYPE_NAME("cyclicACMI");
   // Constructors
     //- Construct from GAMG interface and fine level interface field
     cyclicACMIGAMGInterfaceField

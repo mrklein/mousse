@@ -61,7 +61,7 @@ class distanceSurface
     interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
-  TypeName("distanceSurface");
+  TYPE_NAME("distanceSurface");
   // Constructors
     //- Construct from dictionary
     distanceSurface
@@ -108,7 +108,7 @@ public:
       {
         const triSurface& s = surface();
         facesPtr_.reset(new faceList(s.size()));
-        forAll(s, i)
+        FOR_ALL(s, i)
         {
           facesPtr_()[i] = s[i].triFaceFace();
         }

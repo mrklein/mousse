@@ -35,7 +35,7 @@ void mousse::ensightParts::recalculate(const polyMesh& mesh)
   nPart = 0;
   label nZoneCells = 0;
   // do cell zones
-  forAll(mesh.cellZones(), zoneI)
+  FOR_ALL(mesh.cellZones(), zoneI)
   {
     const cellZone& cZone = mesh.cellZones()[zoneI];
     nZoneCells += cZone.size();
@@ -64,16 +64,16 @@ void mousse::ensightParts::recalculate(const polyMesh& mesh)
   {
     // determine which cells are not in a cellZone
     labelList unzoned(mesh.nCells(), -1);
-    forAll(mesh.cellZones(), zoneI)
+    FOR_ALL(mesh.cellZones(), zoneI)
     {
       const labelUList& idList = mesh.cellZones()[zoneI];
-      forAll(idList, i)
+      FOR_ALL(idList, i)
       {
         unzoned[idList[i]] = idList[i];
       }
     }
     label nUnzoned = 0;
-    forAll(unzoned, i)
+    FOR_ALL(unzoned, i)
     {
       if (unzoned[i] < 0)
       {
@@ -93,7 +93,7 @@ void mousse::ensightParts::recalculate(const polyMesh& mesh)
     }
   }
   // do boundaries, skipping empty and processor patches
-  forAll(mesh.boundaryMesh(), patchI)
+  FOR_ALL(mesh.boundaryMesh(), patchI)
   {
     const polyPatch& patch = mesh.boundaryMesh()[patchI];
     if (patch.size() && !isA<processorPolyPatch>(patch))
@@ -115,7 +115,7 @@ void mousse::ensightParts::renumber
   const labelUList& origFaceId
 )
 {
-  forAll(partsList_, partI)
+  FOR_ALL(partsList_, partI)
   {
     if (partsList_[partI].isCellData())
     {
@@ -131,7 +131,7 @@ void mousse::ensightParts::writeGeometry(ensightGeoFile& os) const
 {
   // with some feedback
   Info<< "write geometry part:" << nl << flush;
-  forAll(partsList_, partI)
+  FOR_ALL(partsList_, partI)
   {
     Info<< " " << partI << flush;
     partsList_[partI].writeGeometry(os);
@@ -139,7 +139,7 @@ void mousse::ensightParts::writeGeometry(ensightGeoFile& os) const
 }
 bool mousse::ensightParts::writeSummary(Ostream& os) const
 {
-  forAll(partsList_, partI)
+  FOR_ALL(partsList_, partI)
   {
     partsList_[partI].writeSummary(os);
   }
@@ -151,7 +151,7 @@ void mousse::ensightParts::writeData(Ostream& os) const
   os  << nl << partsList_.size()
     << nl << token::BEGIN_LIST;
   // Write list contents
-  forAll(partsList_, i)
+  FOR_ALL(partsList_, i)
   {
     os  << nl << partsList_[i];
   }
@@ -168,7 +168,7 @@ void mousse::ensightParts::writeScalarField
   const bool perNode
 ) const
 {
-  forAll(partsList_, partI)
+  FOR_ALL(partsList_, partI)
   {
     if
     (
@@ -191,7 +191,7 @@ void mousse::ensightParts::writeVectorField
   const bool perNode
 ) const
 {
-  forAll(partsList_, partI)
+  FOR_ALL(partsList_, partI)
   {
     if
     (

@@ -23,7 +23,7 @@ protected:
     const GeometricField<Type, pointPatchField, pointMesh> psip_;
 public:
   //- Runtime type information
-  TypeName("cellPoint");
+  TYPE_NAME("cellPoint");
   // Constructors
     //- Construct from components
     interpolationCellPoint

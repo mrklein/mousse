@@ -63,7 +63,7 @@ protected:
     void operator=(const directMethod&);
 public:
   //- Run-time type information
-  TypeName("direct");
+  TYPE_NAME("direct");
   //- Construct from source and target meshes
   directMethod(const polyMesh& src, const polyMesh& tgt);
   //- Destructor

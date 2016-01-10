@@ -10,10 +10,11 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(setsToFaceZone, 0);
-  addToRunTimeSelectionTable(topoSetSource, setsToFaceZone, word);
-  addToRunTimeSelectionTable(topoSetSource, setsToFaceZone, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(setsToFaceZone, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setsToFaceZone, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setsToFaceZone, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::setsToFaceZone::usage_
 (
   setsToFaceZone::typeName,
@@ -21,6 +22,7 @@ mousse::topoSetSource::addToUsageTable mousse::setsToFaceZone::usage_
   "    Select all faces in the faceSet."
   " Orientated so slave side is in cellSet.\n\n"
 );
+
 // Constructors 
 // Construct from components
 mousse::setsToFaceZone::setsToFaceZone
@@ -31,10 +33,10 @@ mousse::setsToFaceZone::setsToFaceZone
   const Switch& flip
 )
 :
-  topoSetSource(mesh),
-  faceSetName_(faceSetName),
-  cellSetName_(cellSetName),
-  flip_(flip)
+  topoSetSource{mesh},
+  faceSetName_{faceSetName},
+  cellSetName_{cellSetName},
+  flip_{flip}
 {}
 // Construct from dictionary
 mousse::setsToFaceZone::setsToFaceZone
@@ -43,10 +45,10 @@ mousse::setsToFaceZone::setsToFaceZone
   const dictionary& dict
 )
 :
-  topoSetSource(mesh),
-  faceSetName_(dict.lookup("faceSet")),
-  cellSetName_(dict.lookup("cellSet")),
-  flip_(dict.lookupOrDefault("flip", false))
+  topoSetSource{mesh},
+  faceSetName_{dict.lookup("faceSet")},
+  cellSetName_{dict.lookup("cellSet")},
+  flip_{dict.lookupOrDefault("flip", false)}
 {}
 // Construct from Istream
 mousse::setsToFaceZone::setsToFaceZone
@@ -72,7 +74,7 @@ void mousse::setsToFaceZone::applyToSet
 {
   if (!isA<faceZoneSet>(set))
   {
-    WarningIn
+    WARNING_IN
     (
       "setsToFaceZone::applyToSet(const topoSetSource::setAction"
       ", topoSet"
@@ -91,7 +93,7 @@ void mousse::setsToFaceZone::applyToSet
       // Start off from copy
       DynamicList<label> newAddressing(fzSet.addressing());
       DynamicList<bool> newFlipMap(fzSet.flipMap());
-      forAllConstIter(faceSet, fSet, iter)
+      FOR_ALL_CONST_ITER(faceSet, fSet, iter)
       {
         label faceI = iter.key();
         if (!fzSet.found(faceI))
@@ -113,20 +115,21 @@ void mousse::setsToFaceZone::applyToSet
             }
             else
             {
-              WarningIn
+              WARNING_IN
               (
                 "setsToFaceZone::applyToSet"
                 "(const topoSetSource::setAction, topoSet)"
-              )   << "One of owner or neighbour of internal face "
-                << faceI << " should be in cellSet "
-                << cSet.name()
-                << " to be able to determine orientation."
-                << endl
-                << "Face:" << faceI << " own:" << own
-                << " OwnInCellSet:" << ownFound
-                << " nei:" << nei
-                << " NeiInCellSet:" << neiFound
-                << endl;
+              )
+              << "One of owner or neighbour of internal face "
+              << faceI << " should be in cellSet "
+              << cSet.name()
+              << " to be able to determine orientation."
+              << endl
+              << "Face:" << faceI << " own:" << own
+              << " OwnInCellSet:" << ownFound
+              << " nei:" << nei
+              << " NeiInCellSet:" << neiFound
+              << endl;
             }
           }
           else
@@ -154,7 +157,7 @@ void mousse::setsToFaceZone::applyToSet
       // Start off empty
       DynamicList<label> newAddressing(fzSet.addressing().size());
       DynamicList<bool> newFlipMap(fzSet.flipMap().size());
-      forAll(fzSet.addressing(), i)
+      FOR_ALL(fzSet.addressing(), i)
       {
         if (!loadedSet.found(fzSet.addressing()[i]))
         {

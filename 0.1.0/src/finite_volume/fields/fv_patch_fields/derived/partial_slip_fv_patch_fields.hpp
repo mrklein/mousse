@@ -4,10 +4,13 @@
 
 #ifndef partial_slip_fv_patch_fields_hpp_
 #define partial_slip_fv_patch_fields_hpp_
+
 #include "partial_slip_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(partialSlip);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(partialSlip);
 }  // namespace mousse
+
 #endif

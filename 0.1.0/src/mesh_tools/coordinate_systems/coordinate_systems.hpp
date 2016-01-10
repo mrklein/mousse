@@ -44,7 +44,7 @@ class coordinateSystems
     void operator=(const coordinateSystems&);
 public:
   //- Runtime type information
-  TypeName("coordinateSystems");
+  TYPE_NAME("coordinateSystems");
   // Constructors
     //- Read construct from IOobject
     explicit coordinateSystems(const IOobject&);

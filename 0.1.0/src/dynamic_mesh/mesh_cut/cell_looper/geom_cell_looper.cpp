@@ -21,15 +21,15 @@ mousse::scalar mousse::geomCellLooper::snapTol_ = 0.1;
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(geomCellLooper, 0);
-addToRunTimeSelectionTable(cellLooper, geomCellLooper, word);
+DEFINE_TYPE_NAME_AND_DEBUG(geomCellLooper, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(cellLooper, geomCellLooper, word);
 }
 // Private Member Functions 
 mousse::scalar mousse::geomCellLooper::minEdgeLen(const label vertI) const
 {
   scalar minLen = GREAT;
   const labelList& pEdges = mesh().pointEdges()[vertI];
-  forAll(pEdges, pEdgeI)
+  FOR_ALL(pEdges, pEdgeI)
   {
     const edge& e = mesh().edges()[pEdges[pEdgeI]];
     minLen = min(minLen, e.mag(mesh().points()));
@@ -203,7 +203,7 @@ bool mousse::geomCellLooper::cut
   // at the same time.
   labelHashSet checkedPoints(nEstCuts);
   const labelList& cellEdges = mesh().cellEdges()[cellI];
-  forAll(cellEdges, i)
+  FOR_ALL(cellEdges, i)
   {
     label edgeI = cellEdges[i];
     const edge& e = edges[edgeI];
@@ -280,7 +280,7 @@ bool mousse::geomCellLooper::cut
   // Get points on loop and centre of loop
   pointField loopPoints(localLoop.size());
   point ctr(vector::zero);
-  forAll(localLoop, i)
+  FOR_ALL(localLoop, i)
   {
     loopPoints[i] = coord(localLoop[i], localLoopWeights[i]);
     ctr += loopPoints[i];
@@ -291,7 +291,7 @@ bool mousse::geomCellLooper::cut
   getBase(cutPlane.normal(), e0, e1);
   // Get sorted angles from point on loop to centre of loop.
   SortableList<scalar> sortedAngles(localLoop.size());
-  forAll(sortedAngles, i)
+  FOR_ALL(sortedAngles, i)
   {
     vector toCtr(loopPoints[i] - ctr);
     toCtr /= mag(toCtr);
@@ -302,14 +302,14 @@ bool mousse::geomCellLooper::cut
   loopWeights.setSize(loop.size());
   // Fill loop and loopweights according to sorted angles
   const labelList& indices = sortedAngles.indices();
-  forAll(indices, i)
+  FOR_ALL(indices, i)
   {
     loop[i] = localLoop[indices[i]];
     loopWeights[i] = localLoopWeights[indices[i]];
   }
   // Check for cut edges along already cut vertices.
   bool filterLoop = false;
-  forAll(loop, i)
+  FOR_ALL(loop, i)
   {
     label cut = loop[i];
     if (isEdge(cut) && edgeEndsCut(loop, i))
@@ -324,7 +324,7 @@ bool mousse::geomCellLooper::cut
     labelList filteredLoop(loop.size());
     scalarField filteredLoopWeights(loopWeights.size());
     label filterI = 0;
-    forAll(loop, i)
+    FOR_ALL(loop, i)
     {
       label cut = loop[i];
       if (isEdge(cut) && edgeEndsCut(loop, i))
@@ -346,7 +346,7 @@ bool mousse::geomCellLooper::cut
   if (debug&2)
   {
     Pout<< "cell:" << cellI << endl;
-    forAll(loop, i)
+    FOR_ALL(loop, i)
     {
       Pout<< "At angle:" << sortedAngles[i] << endl
         << "    cut:";

@@ -4,7 +4,9 @@
 
 #include "fv_mesh.hpp"
 #include "linear.hpp"
+#include "surface_fields.hpp"
+
 namespace mousse
 {
-  makeSurfaceInterpolationScheme(linear)
+MAKE_SURFACE_INTERPOLATION_SCHEME(linear)
 }

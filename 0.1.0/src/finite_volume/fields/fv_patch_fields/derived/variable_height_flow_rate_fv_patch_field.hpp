@@ -53,7 +53,7 @@ protected:
     scalar upperBound_;
 public:
   //- Runtime scalar information
-  TypeName("variableHeightFlowRate");
+  TYPE_NAME("variableHeightFlowRate");
   // Constructors
     //- Construct from patch and internal field
     variableHeightFlowRateFvPatchScalarField

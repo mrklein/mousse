@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(triSurfaceMeshPointSet, 0);
-  addToRunTimeSelectionTable(sampledSet, triSurfaceMeshPointSet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(triSurfaceMeshPointSet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, triSurfaceMeshPointSet, word);
 }
 // Private Member Functions 
 void mousse::triSurfaceMeshPointSet::calcSamples
@@ -25,7 +25,7 @@ void mousse::triSurfaceMeshPointSet::calcSamples
   DynamicList<scalar>& samplingCurveDist
 ) const
 {
-  forAll(sampleCoords_, sampleI)
+  FOR_ALL(sampleCoords_, sampleI)
   {
     label cellI = searchEngine().findCell(sampleCoords_[sampleI]);
     if (cellI != -1)

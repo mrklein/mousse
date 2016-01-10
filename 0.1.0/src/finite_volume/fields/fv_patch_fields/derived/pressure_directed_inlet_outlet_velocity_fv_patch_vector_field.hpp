@@ -56,7 +56,7 @@ class pressureDirectedInletOutletVelocityFvPatchVectorField
     vectorField inletDir_;
 public:
   //- Runtime type information
-  TypeName("pressureDirectedInletOutletVelocity");
+  TYPE_NAME("pressureDirectedInletOutletVelocity");
   // Constructors
     //- Construct from patch and internal field
     pressureDirectedInletOutletVelocityFvPatchVectorField

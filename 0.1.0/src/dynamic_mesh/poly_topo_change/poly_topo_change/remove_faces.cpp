@@ -18,7 +18,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(removeFaces, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(removeFaces, 0);
 }
 // Private Member Functions 
 // Changes region of connected set of cells. Can be recursive since hopefully
@@ -36,7 +36,7 @@ void mousse::removeFaces::changeCellRegion
     cellRegion[cellI] = newRegion;
     // Step to neighbouring cells
     const labelList& cCells = mesh_.cellCells()[cellI];
-    forAll(cCells, i)
+    FOR_ALL(cCells, i)
     {
       changeCellRegion(cCells[i], oldRegion, newRegion, cellRegion);
     }
@@ -63,13 +63,13 @@ mousse::label mousse::removeFaces::changeFaceRegion
     DynamicList<label> fe;
     DynamicList<label> ef;
     // Step to neighbouring faces across edges that will get removed
-    forAll(fEdges, i)
+    FOR_ALL(fEdges, i)
     {
       label edgeI = fEdges[i];
       if (nFacesPerEdge[edgeI] >= 0 && nFacesPerEdge[edgeI] <= 2)
       {
         const labelList& eFaces = mesh_.edgeFaces(edgeI, ef);
-        forAll(eFaces, j)
+        FOR_ALL(eFaces, j)
         {
           label nbrFaceI = eFaces[j];
           const labelList& fEdges1 = mesh_.faceEdges(nbrFaceI, fe);
@@ -105,38 +105,38 @@ mousse::boolList mousse::removeFaces::getFacesAffected
 {
   boolList affectedFace(mesh_.nFaces(), false);
   // Mark faces affected by removal of cells
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     label region = cellRegion[cellI];
     if (region != -1 && (cellI != cellRegionMaster[region]))
     {
       const labelList& cFaces = mesh_.cells()[cellI];
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         affectedFace[cFaces[cFaceI]] = true;
       }
     }
   }
   // Mark faces affected by removal of face.
-  forAll(facesToRemove, i)
+  FOR_ALL(facesToRemove, i)
   {
     affectedFace[facesToRemove[i]] = true;
   }
   //  Mark faces affected by removal of edges
-  forAllConstIter(labelHashSet, edgesToRemove, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, edgesToRemove, iter)
   {
     const labelList& eFaces = mesh_.edgeFaces(iter.key());
-    forAll(eFaces, eFaceI)
+    FOR_ALL(eFaces, eFaceI)
     {
       affectedFace[eFaces[eFaceI]] = true;
     }
   }
   // Mark faces affected by removal of points
-  forAllConstIter(labelHashSet, pointsToRemove, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, pointsToRemove, iter)
   {
     label pointI = iter.key();
     const labelList& pFaces = mesh_.pointFaces()[pointI];
-    forAll(pFaces, pFaceI)
+    FOR_ALL(pFaces, pFaceI)
     {
       affectedFace[pFaces[pFaceI]] = true;
     }
@@ -153,16 +153,16 @@ void mousse::removeFaces::writeOBJ
   Pout<< "removeFaces::writeOBJ : Writing faces to file "
     << str.name() << endl;
   const pointField& localPoints = fp.localPoints();
-  forAll(localPoints, i)
+  FOR_ALL(localPoints, i)
   {
     meshTools::writeOBJ(str, localPoints[i]);
   }
   const faceList& localFaces = fp.localFaces();
-  forAll(localFaces, i)
+  FOR_ALL(localFaces, i)
   {
     const face& f = localFaces[i];
     str<< 'f';
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       str<< ' ' << f[fp]+1;
     }
@@ -194,7 +194,7 @@ void mousse::removeFaces::mergeFaces
   if (fp.edgeLoops().size() != 1)
   {
     writeOBJ(fp, mesh_.time().path()/"facesToBeMerged.obj");
-    FatalErrorIn("removeFaces::mergeFaces")
+    FATAL_ERROR_IN("removeFaces::mergeFaces")
       << "Cannot merge faces " << faceLabels
       << " into single face since outside vertices " << fp.edgeLoops()
       << " do not form single loop but form " << fp.edgeLoops().size()
@@ -209,7 +209,7 @@ void mousse::removeFaces::mergeFaces
   bool reverseLoop = false;
   const labelList& pFaces = fp.pointFaces()[edgeLoop[0]];
   // Find face among pFaces which uses edgeLoop[1]
-  forAll(pFaces, i)
+  FOR_ALL(pFaces, i)
   {
     label faceI = pFaces[i];
     const face& f = fp.localFaces()[faceI];
@@ -238,7 +238,7 @@ void mousse::removeFaces::mergeFaces
   if (masterIndex == -1)
   {
     writeOBJ(fp, mesh_.time().path()/"facesToBeMerged.obj");
-    FatalErrorIn("removeFaces::mergeFaces")
+    FATAL_ERROR_IN("removeFaces::mergeFaces")
       << "Problem" << abort(FatalError);
   }
   // Modify the master face.
@@ -262,7 +262,7 @@ void mousse::removeFaces::mergeFaces
     }
   }
   DynamicList<label> faceVerts(edgeLoop.size());
-  forAll(edgeLoop, i)
+  FOR_ALL(edgeLoop, i)
   {
     label pointI = fp.meshPoints()[edgeLoop[i]];
     if (pointsToRemove.found(pointI))
@@ -305,7 +305,7 @@ void mousse::removeFaces::mergeFaces
     meshMod
   );
   // Remove all but master face.
-  forAll(faceLabels, patchFaceI)
+  FOR_ALL(faceLabels, patchFaceI)
   {
     if (patchFaceI != masterIndex)
     {
@@ -346,7 +346,7 @@ mousse::face mousse::removeFaces::filterFace
   const face& f = mesh_.faces()[faceI];
   labelList newFace(f.size(), -1);
   label newFp = 0;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label vertI = f[fp];
     if (!pointsToRemove.found(vertI))
@@ -470,12 +470,12 @@ mousse::label mousse::removeFaces::compatibleRemoves
   regionMaster.setSize(mesh_.nCells());
   regionMaster = -1;
   label nRegions = 0;
-  forAll(facesToRemove, i)
+  FOR_ALL(facesToRemove, i)
   {
     label faceI = facesToRemove[i];
     if (!mesh_.isInternalFace(faceI))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "removeFaces::compatibleRemoves(const labelList&"
         ", labelList&, labelList&, labelList&)"
@@ -555,7 +555,7 @@ mousse::label mousse::removeFaces::compatibleRemoves
   // - regions have more than 1 cell
   {
     labelList nCells(regionMaster.size(), 0);
-    forAll(cellRegion, cellI)
+    FOR_ALL(cellRegion, cellI)
     {
       label r = cellRegion[cellI];
       if (r != -1)
@@ -563,7 +563,7 @@ mousse::label mousse::removeFaces::compatibleRemoves
         nCells[r]++;
         if (cellI < regionMaster[r])
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "removeFaces::compatibleRemoves(const labelList&"
             ", labelList&, labelList&, labelList&)"
@@ -574,11 +574,11 @@ mousse::label mousse::removeFaces::compatibleRemoves
         }
       }
     }
-    forAll(nCells, region)
+    FOR_ALL(nCells, region)
     {
       if (nCells[region] == 1)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "removeFaces::compatibleRemoves(const labelList&"
           ", labelList&, labelList&, labelList&)"
@@ -590,7 +590,7 @@ mousse::label mousse::removeFaces::compatibleRemoves
   }
   // Count number of used regions
   label nUsedRegions = 0;
-  forAll(regionMaster, i)
+  FOR_ALL(regionMaster, i)
   {
     if (regionMaster[i] != -1)
     {
@@ -630,12 +630,12 @@ void mousse::removeFaces::setRefinement
   }
   // Make map of all faces to be removed
   boolList removedFace(mesh_.nFaces(), false);
-  forAll(faceLabels, i)
+  FOR_ALL(faceLabels, i)
   {
     label faceI = faceLabels[i];
     if (!mesh_.isInternalFace(faceI))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "removeFaces::setRefinement(const labelList&"
         ", const labelList&, const labelList&, polyTopoChange&)"
@@ -662,11 +662,11 @@ void mousse::removeFaces::setRefinement
     // See below about initialization.
     labelList nFacesPerEdge(mesh_.nEdges(), -1);
     // Count usage of edges by non-removed faces.
-    forAll(faceLabels, i)
+    FOR_ALL(faceLabels, i)
     {
       label faceI = faceLabels[i];
       const labelList& fEdges = mesh_.faceEdges(faceI, fe);
-      forAll(fEdges, i)
+      FOR_ALL(fEdges, i)
       {
         label edgeI = fEdges[i];
         if (nFacesPerEdge[edgeI] == -1)
@@ -683,7 +683,7 @@ void mousse::removeFaces::setRefinement
     // Note that this only needs to be done for possibly coupled edges
     // so we could choose to loop only over boundary faces and use faceEdges
     // of those.
-    forAll(mesh_.edges(), edgeI)
+    FOR_ALL(mesh_.edges(), edgeI)
     {
       if (nFacesPerEdge[edgeI] == -1)
       {
@@ -701,7 +701,7 @@ void mousse::removeFaces::setRefinement
         else
         {
           const edge& e = mesh_.edges()[edgeI];
-          FatalErrorIn("removeFaces::setRefinement")
+          FATAL_ERROR_IN("removeFaces::setRefinement")
             << "Problem : edge has too few face neighbours:"
             << eFaces << endl
             << "edge:" << edgeI
@@ -717,7 +717,7 @@ void mousse::removeFaces::setRefinement
       OFstream str(mesh_.time().path()/"edgesWithTwoFaces.obj");
       Pout<< "Dumping edgesWithTwoFaces to " << str.name() << endl;
       label vertI = 0;
-      forAll(nFacesPerEdge, edgeI)
+      FOR_ALL(nFacesPerEdge, edgeI)
       {
         if (nFacesPerEdge[edgeI] == 2)
         {
@@ -735,7 +735,7 @@ void mousse::removeFaces::setRefinement
     // number of unremoved faces.
     // Filter for edges inbetween two remaining boundary faces that
     // make too big an angle.
-    forAll(nFacesPerEdge, edgeI)
+    FOR_ALL(nFacesPerEdge, edgeI)
     {
       if (nFacesPerEdge[edgeI] == 2)
       {
@@ -743,7 +743,7 @@ void mousse::removeFaces::setRefinement
         label f0 = -1;
         label f1 = -1;
         const labelList& eFaces = mesh_.edgeFaces(edgeI, ef);
-        forAll(eFaces, i)
+        FOR_ALL(eFaces, i)
         {
           label faceI = eFaces[i];
           if (!removedFace[faceI] && !mesh_.isInternalFace(faceI))
@@ -768,7 +768,7 @@ void mousse::removeFaces::setRefinement
           if (patch0 != patch1)
           {
             // Different patches. Do not merge edge.
-            WarningIn("removeFaces::setRefinement")
+            WARNING_IN("removeFaces::setRefinement")
               << "not merging faces " << f0 << " and "
               << f1 << " across patch boundary edge " << edgeI
               << endl;
@@ -789,7 +789,7 @@ void mousse::removeFaces::setRefinement
               < minCos_
             )
             {
-              WarningIn("removeFaces::setRefinement")
+              WARNING_IN("removeFaces::setRefinement")
                 << "not merging faces " << f0 << " and "
                 << f1 << " across edge " << edgeI
                 << endl;
@@ -803,7 +803,7 @@ void mousse::removeFaces::setRefinement
         {
           const edge& e = mesh_.edges()[edgeI];
           // Only found one boundary face. Problem.
-          FatalErrorIn("removeFaces::setRefinement")
+          FATAL_ERROR_IN("removeFaces::setRefinement")
             << "Problem : edge would have one boundary face"
             << " and one internal face using it." << endl
             << "Your remove pattern is probably incorrect." << endl
@@ -819,12 +819,12 @@ void mousse::removeFaces::setRefinement
       }
     }
     // Check locally (before synchronizing) for strangeness
-    forAll(nFacesPerEdge, edgeI)
+    FOR_ALL(nFacesPerEdge, edgeI)
     {
       if (nFacesPerEdge[edgeI] == 1)
       {
         const edge& e = mesh_.edges()[edgeI];
-        FatalErrorIn("removeFaces::setRefinement")
+        FATAL_ERROR_IN("removeFaces::setRefinement")
           << "Problem : edge would get 1 face using it only"
           << " edge:" << edgeI
           << " nFaces:" << nFacesPerEdge[edgeI]
@@ -885,7 +885,7 @@ void mousse::removeFaces::setRefinement
       labelMin                // guaranteed to be overridden by maxEqOp
     );
     // Convert to labelHashSet
-    forAll(nFacesPerEdge, edgeI)
+    FOR_ALL(nFacesPerEdge, edgeI)
     {
       if (nFacesPerEdge[edgeI] == 0)
       {
@@ -907,7 +907,7 @@ void mousse::removeFaces::setRefinement
       OFstream str(mesh_.time().path()/"edgesToRemove.obj");
       Pout<< "Dumping edgesToRemove to " << str.name() << endl;
       label vertI = 0;
-      forAllConstIter(labelHashSet, edgesToRemove, iter)
+      FOR_ALL_CONST_ITER(labelHashSet, edgesToRemove, iter)
       {
         // Edge will get removed.
         const edge& e = mesh_.edges()[iter.key()];
@@ -950,7 +950,7 @@ void mousse::removeFaces::setRefinement
       );
       if (nRegion < 1)
       {
-        FatalErrorIn("setRefinement") << "Problem" << abort(FatalError);
+        FATAL_ERROR_IN("setRefinement") << "Problem" << abort(FatalError);
       }
       else if (nRegion == 1)
       {
@@ -986,7 +986,7 @@ void mousse::removeFaces::setRefinement
       {
         if (nbrRegion != myRegion)
         {
-          FatalErrorIn("removeFaces::setRefinement")
+          FATAL_ERROR_IN("removeFaces::setRefinement")
             << "Inconsistent face region across coupled patches."
             << endl
             << "This side has for faceI:" << faceI
@@ -1007,7 +1007,7 @@ void mousse::removeFaces::setRefinement
         // Second visit of this region.
         if (toNbrRegion[myRegion] != nbrRegion)
         {
-          FatalErrorIn("removeFaces::setRefinement")
+          FATAL_ERROR_IN("removeFaces::setRefinement")
             << "Inconsistent face region across coupled patches."
             << endl
             << "This side has for faceI:" << faceI
@@ -1024,7 +1024,7 @@ void mousse::removeFaces::setRefinement
   //{
   //    labelListList regionToFaces(invertOneToMany(nRegions, faceRegion));
   //
-  //    forAll(regionToFaces, regionI)
+  //    FOR_ALL(regionToFaces, regionI)
   //    {
   //        Pout<< "    " << regionI << " faces:" << regionToFaces[regionI]
   //            << endl;
@@ -1039,25 +1039,25 @@ void mousse::removeFaces::setRefinement
     // Usage of points by non-removed edges.
     labelList nEdgesPerPoint(mesh_.nPoints());
     const labelListList& pointEdges = mesh_.pointEdges();
-    forAll(pointEdges, pointI)
+    FOR_ALL(pointEdges, pointI)
     {
       nEdgesPerPoint[pointI] = pointEdges[pointI].size();
     }
-    forAllConstIter(labelHashSet, edgesToRemove, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, edgesToRemove, iter)
     {
       // Edge will get removed.
       const edge& e = mesh_.edges()[iter.key()];
-      forAll(e, i)
+      FOR_ALL(e, i)
       {
         nEdgesPerPoint[e[i]]--;
       }
     }
     // Check locally (before synchronizing) for strangeness
-    forAll(nEdgesPerPoint, pointI)
+    FOR_ALL(nEdgesPerPoint, pointI)
     {
       if (nEdgesPerPoint[pointI] == 1)
       {
-        FatalErrorIn("removeFaces::setRefinement")
+        FATAL_ERROR_IN("removeFaces::setRefinement")
           << "Problem : point would get 1 edge using it only."
           << " pointI:" << pointI
           << " coord:" << mesh_.points()[pointI]
@@ -1073,7 +1073,7 @@ void mousse::removeFaces::setRefinement
       maxEqOp<label>(),
       labelMin
     );
-    forAll(nEdgesPerPoint, pointI)
+    FOR_ALL(nEdgesPerPoint, pointI)
     {
       if (nEdgesPerPoint[pointI] == 0)
       {
@@ -1094,7 +1094,7 @@ void mousse::removeFaces::setRefinement
   {
     OFstream str(mesh_.time().path()/"pointsToRemove.obj");
     Pout<< "Dumping pointsToRemove to " << str.name() << endl;
-    forAllConstIter(labelHashSet, pointsToRemove, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, pointsToRemove, iter)
     {
       meshTools::writeOBJ(str, mesh_.points()[iter.key()]);
     }
@@ -1125,7 +1125,7 @@ void mousse::removeFaces::setRefinement
   // Do all removals
   // ~~~~~~~~~~~~~~~
   // Remove split faces.
-  forAll(faceLabels, labelI)
+  FOR_ALL(faceLabels, labelI)
   {
     label faceI = faceLabels[labelI];
     // Remove face if not yet uptodate (which is never; but want to be
@@ -1137,13 +1137,13 @@ void mousse::removeFaces::setRefinement
     }
   }
   // Remove points.
-  forAllConstIter(labelHashSet, pointsToRemove, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, pointsToRemove, iter)
   {
     label pointI = iter.key();
     meshMod.setAction(polyRemovePoint(pointI, -1));
   }
   // Remove cells.
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     label region = cellRegion[cellI];
     if (region != -1 && (cellI != cellRegionMaster[region]))
@@ -1156,12 +1156,12 @@ void mousse::removeFaces::setRefinement
   // Invert faceRegion so we get region to faces.
   {
     labelListList regionToFaces(invertOneToMany(nRegions, faceRegion));
-    forAll(regionToFaces, regionI)
+    FOR_ALL(regionToFaces, regionI)
     {
       const labelList& rFaces = regionToFaces[regionI];
       if (rFaces.size() <= 1)
       {
-        FatalErrorIn("setRefinement")
+        FATAL_ERROR_IN("setRefinement")
           << "Region:" << regionI
           << " contains only faces " << rFaces
           << abort(FatalError);
@@ -1175,7 +1175,7 @@ void mousse::removeFaces::setRefinement
         rFaces,
         meshMod
       );
-      forAll(rFaces, i)
+      FOR_ALL(rFaces, i)
       {
         affectedFace[rFaces[i]] = false;
       }
@@ -1185,7 +1185,7 @@ void mousse::removeFaces::setRefinement
   // ~~~~~~~~~~~~~~~~~~~~~~~~
   // Check if any remaining faces have not been updated for new slave/master
   // or points removed.
-  forAll(affectedFace, faceI)
+  FOR_ALL(affectedFace, faceI)
   {
     if (affectedFace[faceI])
     {

@@ -45,7 +45,7 @@ bool mousse::fileFormats::extendedEdgeMeshFormat::read
   );
   if (!io.headerOk())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     ("fileFormats::extendedEdgeMeshFormat::read(const fileName&)")
       << "Cannot read file " << filename
       << exit(FatalError);

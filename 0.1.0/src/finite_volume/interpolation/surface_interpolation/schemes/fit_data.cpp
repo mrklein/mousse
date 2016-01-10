@@ -6,6 +6,7 @@
 #include "surface_fields.hpp"
 #include "vol_fields.hpp"
 #include "svd.hpp"
+
 // Constructors
 template<class Form, class ExtendedStencil, class Polynomial>
 mousse::FitData<Form, ExtendedStencil, Polynomial>::FitData
@@ -17,27 +18,28 @@ mousse::FitData<Form, ExtendedStencil, Polynomial>::FitData
   const scalar centralWeight
 )
 :
-  MeshObject<fvMesh, mousse::MoveableMeshObject, Form>(mesh),
-  stencil_(stencil),
-  linearCorrection_(linearCorrection),
-  linearLimitFactor_(linearLimitFactor),
-  centralWeight_(centralWeight),
+  MeshObject<fvMesh, mousse::MoveableMeshObject, Form>{mesh},
+  stencil_{stencil},
+  linearCorrection_{linearCorrection},
+  linearLimitFactor_{linearLimitFactor},
+  centralWeight_{centralWeight},
   #ifdef SPHERICAL_GEOMETRY
-  dim_(2),
+  dim_{2},
   #else
-  dim_(mesh.nGeometricD()),
+  dim_{mesh.nGeometricD()},
   #endif
-  minSize_(Polynomial::nTerms(dim_))
+  minSize_{Polynomial::nTerms(dim_)}
 {
   // Check input
   if (linearLimitFactor <= SMALL || linearLimitFactor > 3)
   {
-    FatalErrorIn("FitData<Polynomial>::FitData(..)")
+    FATAL_ERROR_IN("FitData<Polynomial>::FitData(..)")
       << "linearLimitFactor requested = " << linearLimitFactor
       << " should be between zero and 3"
       << exit(FatalError);
   }
 }
+
 // Member Functions 
 template<class FitDataType, class ExtendedStencil, class Polynomial>
 void mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::findFaceDirs
@@ -56,15 +58,15 @@ void mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::findFaceDirs
   {
     if (mesh.geometricD()[0] == -1)
     {
-      kdir = vector(1, 0, 0);
+      kdir = vector{1, 0, 0};
     }
     else if (mesh.geometricD()[1] == -1)
     {
-      kdir = vector(0, 1, 0);
+      kdir = vector{0, 1, 0};
     }
     else
     {
-      kdir = vector(0, 0, 1);
+      kdir = vector{0, 0, 1};
     }
   }
   else // 3D so find a direction in the plane of the face
@@ -83,7 +85,7 @@ void mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::findFaceDirs
     scalar magk = mag(kdir);
     if (magk < SMALL)
     {
-      FatalErrorIn("findFaceDirs(..)") << " calculated kdir = zero"
+      FATAL_ERROR_IN("findFaceDirs(..)") << " calculated kdir = zero"
         << exit(FatalError);
     }
     else
@@ -93,6 +95,7 @@ void mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::findFaceDirs
   }
   jdir = kdir ^ idir;
 }
+
 template<class FitDataType, class ExtendedStencil, class Polynomial>
 void mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::calcFit
 (
@@ -102,12 +105,12 @@ void mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::calcFit
   const label facei
 )
 {
-  vector idir(1,0,0);
-  vector jdir(0,1,0);
-  vector kdir(0,0,1);
+  vector idir{1,0,0};
+  vector jdir{0,1,0};
+  vector kdir{0,0,1};
   findFaceDirs(idir, jdir, kdir, facei);
   // Setup the point weights
-  scalarList wts(C.size(), scalar(1));
+  scalarList wts{C.size(), scalar(1)};
   wts[0] = centralWeight_;
   if (linearCorrection_)
   {
@@ -122,8 +125,8 @@ void mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::calcFit
   // Local coordinate scaling
   scalar scale = 1;
   // Matrix of the polynomial components
-  scalarRectangularMatrix B(C.size(), minSize_, scalar(0));
-  forAll(C, ip)
+  scalarRectangularMatrix B{C.size(), minSize_, scalar(0)};
+  FOR_ALL(C, ip)
   {
     const point& p = C[ip];
     d.x() = (p - p0)&idir;
@@ -243,19 +246,18 @@ void mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::calcFit
   }
   else
   {
-    // if (debug)
-    // {
-      WarningIn
+      WARNING_IN
       (
         "FitData<Polynomial>::calcFit(..)"
-      )   << "Could not fit face " << facei
-        << "    Weights = " << coeffsi
-        << ", reverting to linear." << nl
-        << "    Linear weights " << wLin << " " << 1 - wLin << endl;
-    // }
+      )
+      << "Could not fit face " << facei
+      << "    Weights = " << coeffsi
+      << ", reverting to linear." << nl
+      << "    Linear weights " << wLin << " " << 1 - wLin << endl;
     coeffsi = 0;
   }
 }
+
 template<class FitDataType, class ExtendedStencil, class Polynomial>
 bool mousse::FitData<FitDataType, ExtendedStencil, Polynomial>::movePoints()
 {

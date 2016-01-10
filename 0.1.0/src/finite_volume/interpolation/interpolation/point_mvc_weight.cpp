@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-defineDebugSwitchWithName(pointMVCWeight, "pointMVCWeight", 0);
+DEFINE_DEBUG_SWITCH_WITH_NAME(pointMVCWeight, "pointMVCWeight", 0);
 }
 mousse::scalar mousse::pointMVCWeight::tol(SMALL);
 // Private Member Functions 
@@ -24,14 +24,14 @@ void mousse::pointMVCWeight::calcWeights
   weights = 0.0;
   scalarField theta(f.size());
   // recompute theta, the theta computed previously are not robust
-  forAll(f, j)
+  FOR_ALL(f, j)
   {
     label jPlus1 = f.fcIndex(j);
     scalar l = mag(u[j] - u[jPlus1]);
     theta[j] = 2.0*mousse::asin(l/2.0);
   }
   scalar sumWeight = 0;
-  forAll(f, j)
+  FOR_ALL(f, j)
   {
     label pid = toLocal[f[j]];
     label jMin1 = f.rcIndex(j);
@@ -49,9 +49,9 @@ void mousse::pointMVCWeight::calcWeights
 void mousse::pointMVCWeight::calcWeights
 (
   const polyMesh& mesh,
-  const labelList& toGlobal,
+  const labelList& /*toGlobal*/,
   const Map<label>& toLocal,
-  const vector& position,
+  const vector& /*position*/,
   const vectorField& uVec,
   const scalarField& dist,
   scalarField& weights
@@ -62,7 +62,7 @@ void mousse::pointMVCWeight::calcWeights
   DynamicList<scalar> theta(100);
   DynamicList<point> u(100);
   const mousse::cell& cFaces = mesh.cells()[cellIndex_];
-  forAll(cFaces, iter)
+  FOR_ALL(cFaces, iter)
   {
     label faceI = cFaces[iter];
     const face& f = mesh.faces()[faceI];
@@ -70,12 +70,12 @@ void mousse::pointMVCWeight::calcWeights
     //    << pointField(mesh.points(), f)
     //    << endl;
     // Collect the uVec for the face
-    forAll(f, j)
+    FOR_ALL(f, j)
     {
       u(j) = uVec[toLocal[f[j]]];
     }
     vector v(point::zero);
-    forAll(f, j)
+    FOR_ALL(f, j)
     {
       label jPlus1 = f.fcIndex(j);
       //Pout<< "    uj:" << u[j] << " ujPlus1:" << u[jPlus1] << endl;
@@ -108,7 +108,7 @@ void mousse::pointMVCWeight::calcWeights
     }
     //Pout<< "    v:" << v << endl;
     // angles between edges
-    forAll(f, j)
+    FOR_ALL(f, j)
     {
       label jPlus1 = f.fcIndex(j);
       //Pout<< "    uj:" << u[j] << " ujPlus1:" << u[jPlus1] << endl;
@@ -129,7 +129,7 @@ void mousse::pointMVCWeight::calcWeights
       theta(j) = 2.0*mousse::asin(l/2.0);
     }
     bool outlierFlag = false;
-    forAll(f, j)
+    FOR_ALL(f, j)
     {
       if (mag(theta[j]) < tol)
       {
@@ -144,7 +144,7 @@ void mousse::pointMVCWeight::calcWeights
       continue;
     }
     scalar sum = 0.0;
-    forAll(f, j)
+    FOR_ALL(f, j)
     {
       label jMin1 = f.rcIndex(j);
       sum +=
@@ -161,7 +161,7 @@ void mousse::pointMVCWeight::calcWeights
       return;
     }
     // Normal 3D case
-    forAll(f, j)
+    FOR_ALL(f, j)
     {
       label pid = toLocal[f[j]];
       label jMin1 = f.rcIndex(j);
@@ -195,7 +195,7 @@ mousse::pointMVCWeight::pointMVCWeight
   // Addressing - face vertices to local points and vice versa
   const labelList& toGlobal = mesh.cellPoints()[cellIndex_];
   Map<label> toLocal(2*toGlobal.size());
-  forAll(toGlobal, i)
+  FOR_ALL(toGlobal, i)
   {
     toLocal.insert(toGlobal[i], i);
   }
@@ -205,7 +205,7 @@ mousse::pointMVCWeight::pointMVCWeight
   // Point-to-vertex vectors and distances
   vectorField uVec(toGlobal.size());
   scalarField dist(toGlobal.size());
-  forAll(toGlobal, pid)
+  FOR_ALL(toGlobal, pid)
   {
     const point& pt = mesh.points()[toGlobal[pid]];
     uVec[pid] = pt-position;
@@ -238,7 +238,7 @@ mousse::pointMVCWeight::pointMVCWeight
     DynamicList<point> u(100);
     const face& f = mesh.faces()[faceIndex];
     // Collect the uVec for the face
-    forAll(f, j)
+    FOR_ALL(f, j)
     {
       u(j) = uVec[toLocal[f[j]]];
     }

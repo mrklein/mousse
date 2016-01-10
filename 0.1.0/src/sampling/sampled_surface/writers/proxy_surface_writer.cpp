@@ -10,7 +10,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(proxySurfaceWriter, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(proxySurfaceWriter, 0);
 }
 // Constructors 
 mousse::proxySurfaceWriter::proxySurfaceWriter(const word& ext)

@@ -7,7 +7,9 @@
 #include "sync_tools.hpp"
 #include "sortable_list.hpp"
 #include "dummy_transform.hpp"
-// Private Member Functions 
+#include "empty_poly_patch.hpp"
+
+// Private Member Functions
 void mousse::extendedUpwindCellToFaceStencil::selectOppositeFaces
 (
   const boolList& nonEmptyFace,
@@ -22,7 +24,7 @@ void mousse::extendedUpwindCellToFaceStencil::selectOppositeFaces
   const cell& cFaces = mesh_.cells()[cellI];
   SortableList<scalar> opposedness(cFaces.size(), -GREAT);
   // Pick up all the faces that oppose this one.
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     label otherFaceI = cFaces[i];
     if (otherFaceI != faceI && nonEmptyFace[otherFaceI])
@@ -42,7 +44,7 @@ void mousse::extendedUpwindCellToFaceStencil::selectOppositeFaces
   scalar myAreaSqr = magSqr(areas[faceI]);
   if (myAreaSqr > VSMALL)
   {
-    forAll(opposedness, i)
+    FOR_ALL(opposedness, i)
     {
       opposedness[i] /= myAreaSqr;
     }
@@ -97,10 +99,10 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencil
   );
   // Collect all stencils of oppositefaces
   faceStencilSet.clear();
-  forAll(oppositeFaces, i)
+  FOR_ALL(oppositeFaces, i)
   {
     const labelList& fStencil = faceStencil[oppositeFaces[i]];
-    forAll(fStencil, j)
+    FOR_ALL(fStencil, j)
     {
       label globalI = fStencil[j];
       if (globalI != globalOwn && globalI != globalNei)
@@ -116,7 +118,7 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencil
     label n = 0;
     transportedStencil[n++] = globalOwn;
     transportedStencil[n++] = globalNei;
-    forAllConstIter(labelHashSet, faceStencilSet, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, faceStencilSet, iter)
     {
       if (iter.key() != globalOwn && iter.key() != globalNei)
       {
@@ -125,11 +127,12 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencil
     }
     if (n != transportedStencil.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "extendedUpwindCellToFaceStencil::transportStencil(..)"
-      )   << "problem:" << faceStencilSet
-        << abort(FatalError);
+      )
+      << "problem:" << faceStencilSet
+      << abort(FatalError);
     }
   }
   else
@@ -137,7 +140,7 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencil
     transportedStencil.setSize(faceStencilSet.size()+1);
     label n = 0;
     transportedStencil[n++] = globalOwn;
-    forAllConstIter(labelHashSet, faceStencilSet, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, faceStencilSet, iter)
     {
       if (iter.key() != globalOwn)
       {
@@ -146,11 +149,12 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencil
     }
     if (n != transportedStencil.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "extendedUpwindCellToFaceStencil::transportStencil(..)"
-      )   << "problem:" << faceStencilSet
-        << abort(FatalError);
+      )
+      << "problem:" << faceStencilSet
+      << abort(FatalError);
     }
   }
 }
@@ -171,13 +175,13 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencils
   labelHashSet faceStencilSet;
   // For quick detection of empty faces
   boolList nonEmptyFace(mesh_.nFaces(), true);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (isA<emptyPolyPatch>(pp))
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         nonEmptyFace[faceI++] = false;
       }
@@ -205,13 +209,13 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencils
     );
   }
   // Boundary faces
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     label faceI = pp.start();
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         transportStencil
         (
@@ -230,7 +234,7 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencils
     }
     else if (!isA<emptyPolyPatch>(pp))
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         // faceStencil does not contain neighbour
         transportStencil
@@ -287,13 +291,13 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencils
     );
   }
   // Boundary faces
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     label faceI = pp.start();
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         neiStencil[faceI].transfer
         (
@@ -308,7 +312,8 @@ void mousse::extendedUpwindCellToFaceStencil::transportStencils
     }
   }
 }
-// Constructors 
+
+// Constructors
 mousse::extendedUpwindCellToFaceStencil::extendedUpwindCellToFaceStencil
 (
   const cellToFaceStencil& stencil,
@@ -319,14 +324,14 @@ mousse::extendedUpwindCellToFaceStencil::extendedUpwindCellToFaceStencil
   extendedCellToFaceStencil(stencil.mesh()),
   pureUpwind_(pureUpwind)
 {
-  //forAll(stencil, faceI)
+  //FOR_ALL(stencil, faceI)
   //{
   //    const labelList& fCells = stencil[faceI];
   //
   //    Pout<< "Face:" << faceI << " at:" << mesh_.faceCentres()[faceI]
   //        << endl;
   //
-  //    forAll(fCells, i)
+  //    FOR_ALL(fCells, i)
   //    {
   //        label globalI = fCells[i];
   //
@@ -386,14 +391,14 @@ mousse::extendedUpwindCellToFaceStencil::extendedUpwindCellToFaceStencil
     // ~~~~~~~~~~~~~
     collectData(ownMapPtr_(), ownStencil_, mesh.C(), stencilPoints);
     // Mask off all stencil points on wrong side of face
-    forAll(stencilPoints, faceI)
+    FOR_ALL(stencilPoints, faceI)
     {
       const point& fc = mesh.faceCentres()[faceI];
       const vector& fArea = mesh.faceAreas()[faceI];
       const List<point>& points = stencilPoints[faceI];
       const labelList& stencil = ownStencil_[faceI];
       DynamicList<label> newStencil(stencil.size());
-      forAll(points, i)
+      FOR_ALL(points, i)
       {
         if (((points[i]-fc) & fArea) < 0)
         {
@@ -409,14 +414,14 @@ mousse::extendedUpwindCellToFaceStencil::extendedUpwindCellToFaceStencil
     // ~~~~~~~~~~~~~~~~~
     collectData(neiMapPtr_(), neiStencil_, mesh.C(), stencilPoints);
     // Mask off all stencil points on wrong side of face
-    forAll(stencilPoints, faceI)
+    FOR_ALL(stencilPoints, faceI)
     {
       const point& fc = mesh.faceCentres()[faceI];
       const vector& fArea = mesh.faceAreas()[faceI];
       const List<point>& points = stencilPoints[faceI];
       const labelList& stencil = neiStencil_[faceI];
       DynamicList<label> newStencil(stencil.size());
-      forAll(points, i)
+      FOR_ALL(points, i)
       {
         if (((points[i]-fc) & fArea) > 0)
         {
@@ -459,7 +464,7 @@ mousse::extendedUpwindCellToFaceStencil::extendedUpwindCellToFaceStencil
   collectData(ownMapPtr_(), ownStencil_, mesh.C(), stencilPoints);
   // Split stencil into owner and neighbour
   neiStencil_.setSize(ownStencil_.size());
-  forAll(stencilPoints, faceI)
+  FOR_ALL(stencilPoints, faceI)
   {
     const point& fc = mesh.faceCentres()[faceI];
     const vector& fArea = mesh.faceAreas()[faceI];
@@ -467,7 +472,7 @@ mousse::extendedUpwindCellToFaceStencil::extendedUpwindCellToFaceStencil
     const labelList& stencil = ownStencil_[faceI];
     DynamicList<label> newOwnStencil(stencil.size());
     DynamicList<label> newNeiStencil(stencil.size());
-    forAll(points, i)
+    FOR_ALL(points, i)
     {
       if (((points[i]-fc) & fArea) > 0)
       {

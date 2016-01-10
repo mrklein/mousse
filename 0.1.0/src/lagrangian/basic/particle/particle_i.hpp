@@ -264,7 +264,7 @@ inline void mousse::particle::tetNeighbour(label triI)
   label tetBasePtI = mesh_.tetBasePtIs()[tetFaceI_];
   if (tetBasePtI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline void mousse::particle::tetNeighbour(label triI)"
     )
@@ -373,7 +373,7 @@ inline void mousse::particle::tetNeighbour(label triI)
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "inline void "
         "mousse::particle::tetNeighbour(label triI)"
@@ -396,7 +396,7 @@ inline void mousse::particle::crossEdgeConnectedFace
   const cellList& pCells = mesh_.cells();
   const mousse::face& f = pFaces[tetFaceI];
   const mousse::cell& thisCell = pCells[cellI];
-  forAll(thisCell, cFI)
+  FOR_ALL(thisCell, cFI)
   {
     // Loop over all other faces of this cell and
     // find the one that shares this edge
@@ -441,7 +441,7 @@ inline void mousse::particle::crossEdgeConnectedFace
       label tetBasePtI = mesh_.tetBasePtIs()[fI];
       if (tetBasePtI == -1)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "inline void "
           "mousse::particle::crossEdgeConnectedFace"
@@ -568,7 +568,7 @@ inline void mousse::particle::initCellFacePt()
     );
     if (cellI_ == -1)
     {
-      FatalErrorIn("void mousse::particle::initCellFacePt()")
+      FATAL_ERROR_IN("void mousse::particle::initCellFacePt()")
         << "cell, tetFace and tetPt search failure at position "
         << position_ << abort(FatalError);
     }
@@ -597,7 +597,7 @@ inline void mousse::particle::initCellFacePt()
           // extended) bound-box of the cell that it thought
           // it should be in, then this is considered an
           // error.
-          FatalErrorIn("void mousse::particle::initCellFacePt()")
+          FATAL_ERROR_IN("void mousse::particle::initCellFacePt()")
             << "    cell, tetFace and tetPt search failure at "
             << "position " << position_ << nl
             << "    for requested cell " << oldCellI << nl
@@ -637,7 +637,7 @@ inline void mousse::particle::initCellFacePt()
         } while (tetFaceI_ < 0  && iterNo <= trap);
         if (tetFaceI_ == -1)
         {
-          FatalErrorIn("void mousse::particle::initCellFacePt()")
+          FATAL_ERROR_IN("void mousse::particle::initCellFacePt()")
             << "cell, tetFace and tetPt search failure at position "
             << position_ << abort(FatalError);
         }

@@ -59,7 +59,7 @@ protected:
     void operator=(const cellVolumeWeightMethod&);
 public:
   //- Run-time type information
-  TypeName("cellVolumeWeight");
+  TYPE_NAME("cellVolumeWeight");
   //- Construct from source and target meshes
   cellVolumeWeightMethod(const polyMesh& src, const polyMesh& tgt);
   //- Destructor

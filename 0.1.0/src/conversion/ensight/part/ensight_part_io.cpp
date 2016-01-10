@@ -31,7 +31,7 @@ void mousse::ensightPart::writeFieldList
 {
   if (notNull(idList))
   {
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       if (idList[i] >= field.size() || isnan(field[idList[i]]))
       {
@@ -47,7 +47,7 @@ void mousse::ensightPart::writeFieldList
   else
   {
     // no idList => perNode
-    forAll(field, i)
+    FOR_ALL(field, i)
     {
       if (isnan(field[i]))
       {
@@ -71,7 +71,7 @@ void mousse::ensightPart::reconstruct(Istream& is)
   dict.readIfPresent("offset", offset_);
   // populate elemLists_
   elemLists_.setSize(elementTypes().size());
-  forAll(elementTypes(), elemI)
+  FOR_ALL(elementTypes(), elemI)
   {
     word key(elementTypes()[elemI]);
     elemLists_[elemI].clear();
@@ -99,7 +99,7 @@ bool mousse::ensightPart::writeData(Ostream& os) const
   os.writeKeyword("id") << number() << token::END_STATEMENT << nl;
   os.writeKeyword("name") << name() << token::END_STATEMENT << nl;
   os.writeKeyword("offset") << offset() << token::END_STATEMENT << nl;
-  forAll(elementTypes(), typeI)
+  FOR_ALL(elementTypes(), typeI)
   {
     word key(elementTypes()[typeI]);
     if (elemLists_[typeI].size())
@@ -127,7 +127,7 @@ void mousse::ensightPart::writeGeometry
     os.newline();
     for (direction cmpt=0; cmpt < point::nComponents; ++cmpt)
     {
-      forAll(pointMap, ptI)
+      FOR_ALL(pointMap, ptI)
       {
         if (pointMap[ptI] > -1)
         {
@@ -137,7 +137,7 @@ void mousse::ensightPart::writeGeometry
       }
     }
     // write parts
-    forAll(elementTypes(), elemI)
+    FOR_ALL(elementTypes(), elemI)
     {
       if (elemLists_[elemI].size())
       {
@@ -169,7 +169,7 @@ void mousse::ensightPart::writeScalarField
     }
     else
     {
-      forAll(elementTypes(), elemI)
+      FOR_ALL(elementTypes(), elemI)
       {
         const labelUList& idList = elemLists_[elemI];
         if (idList.size())
@@ -202,7 +202,7 @@ void mousse::ensightPart::writeVectorField
     }
     else
     {
-      forAll(elementTypes(), elemI)
+      FOR_ALL(elementTypes(), elemI)
       {
         const labelUList& idList = elemLists_[elemI];
         if (idList.size())

@@ -26,7 +26,7 @@ class gaussDivScheme
     void operator=(const gaussDivScheme&);
 public:
   //- Runtime type information
-  TypeName("Gauss");
+  TYPE_NAME("Gauss");
   // Constructors
     //- Construct null
     gaussDivScheme(const fvMesh& mesh)

@@ -34,7 +34,7 @@ bool mousse::fileFormats::TRIsurfaceFormatCore::read
   IFstream is(filename);
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::TRIsurfaceFormatCore::read(const fileName&)"
     )
@@ -115,7 +115,7 @@ bool mousse::fileFormats::TRIsurfaceFormatCore::read
   }
   // skip empty groups
   label nZone = 0;
-  forAll(dynSizes, zoneI)
+  FOR_ALL(dynSizes, zoneI)
   {
     if (dynSizes[zoneI])
     {

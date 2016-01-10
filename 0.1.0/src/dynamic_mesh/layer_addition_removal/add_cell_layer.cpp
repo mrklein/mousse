@@ -31,7 +31,7 @@ mousse::tmp<mousse::vectorField> mousse::layerAdditionRemoval::extrusionDir() co
     }
     // Detected a valid layer.  Grab the point and face collapse mapping
     const labelList& ptc = pointsPairing();
-    forAll(extrusionDir, mpI)
+    FOR_ALL(extrusionDir, mpI)
     {
       extrusionDir[mpI] = points[ptc[mpI]] - points[mp[mpI]];
     }
@@ -84,7 +84,7 @@ void mousse::layerAdditionRemoval::addCellLayer
   const vectorField pointOffsets(extrusionDir());
   // Add the new points
   labelList addedPoints(mp.size());
-  forAll(mp, pointI)
+  FOR_ALL(mp, pointI)
   {
     // Add the point nominal thickness away from the master zone point
     // and grab the label
@@ -115,7 +115,7 @@ void mousse::layerAdditionRemoval::addCellLayer
   const labelList& own = mesh.faceOwner();
   const labelList& nei = mesh.faceNeighbour();
   labelList addedCells(mf.size());
-  forAll(mf, faceI)
+  FOR_ALL(mf, faceI)
   {
     label cellI = mc[faceI];
     label zoneI =  mesh.cellZones().whichZone(cellI);
@@ -141,11 +141,11 @@ void mousse::layerAdditionRemoval::addCellLayer
   // is determined from the original master layer face and the face
   // owner: if the master cell is equal to the face owner the flux
   // remains the same; otherwise it is flipped
-  forAll(zoneFaces, faceI)
+  FOR_ALL(zoneFaces, faceI)
   {
     const face oldFace = zoneFaces[faceI].reverseFace();
     face newFace(oldFace.size());
-    forAll(oldFace, pointI)
+    FOR_ALL(oldFace, pointI)
     {
       newFace[pointI] = addedPoints[oldFace[pointI]];
     }
@@ -187,7 +187,7 @@ void mousse::layerAdditionRemoval::addCellLayer
   // Modify the faces from the master zone for the new neighbour
   const faceList& faces = mesh.faces();
   // Pout<< "mfFlip: " << mfFlip << endl;
-  forAll(mf, faceI)
+  FOR_ALL(mf, faceI)
   {
     const label curfaceID = mf[faceI];
     // If the face is internal, modify its owner to be the newly
@@ -337,7 +337,7 @@ void mousse::layerAdditionRemoval::addCellLayer
     const labelList& curFaces = meshEdgeFaces[meshEdges[curEdgeID]];
     label patchID = -1;
     label zoneID = -1;
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       const label cf = curFaces[faceI];
       if (!mesh.isInternalFace(cf))
@@ -354,7 +354,7 @@ void mousse::layerAdditionRemoval::addCellLayer
     }
     if (patchID < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::layerAdditionRemoval::setRefinement("
         "polyTopoChange& ref)"
@@ -401,10 +401,10 @@ void mousse::layerAdditionRemoval::addCellLayer
   // Create the map of faces in the master cell layer
   labelHashSet masterCellFaceMap(primitiveMesh::facesPerCell_*mc.size());
   const cellList& cells = mesh.cells();
-  forAll(mc, cellI)
+  FOR_ALL(mc, cellI)
   {
     const labelList& curFaces = cells[mc[cellI]];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       // Check if the face belongs to the master zone; if not add it
       if (zoneMesh.whichZone(curFaces[faceI]) != faceZoneID_.index())
@@ -415,7 +415,7 @@ void mousse::layerAdditionRemoval::addCellLayer
   }
   // Create the master layer point map
   Map<label> masterLayerPointMap(2*mp.size());
-  forAll(mp, pointI)
+  FOR_ALL(mp, pointI)
   {
     masterLayerPointMap.insert
     (
@@ -425,7 +425,7 @@ void mousse::layerAdditionRemoval::addCellLayer
   }
   // Grab the list of faces of the master layer
   const labelList masterCellFaces = masterCellFaceMap.toc();
-  forAll(masterCellFaces, faceI)
+  FOR_ALL(masterCellFaces, faceI)
   {
     // Attempt to renumber the face using the masterLayerPointMap.
     // Missing point remain the same
@@ -433,7 +433,7 @@ void mousse::layerAdditionRemoval::addCellLayer
     const face& oldFace = faces[curFaceID];
     face newFace(oldFace.size());
     bool changed = false;
-    forAll(oldFace, pointI)
+    FOR_ALL(oldFace, pointI)
     {
       if (masterLayerPointMap.found(oldFace[pointI]))
       {

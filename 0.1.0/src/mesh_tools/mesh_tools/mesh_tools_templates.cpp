@@ -13,10 +13,10 @@ void mousse::meshTools::writeOBJ
 {
   Map<label> foamToObj(4*faceLabels.size());
   label vertI = 0;
-  forAll(faceLabels, i)
+  FOR_ALL(faceLabels, i)
   {
     const FaceType& f = faces[faceLabels[i]];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (foamToObj.insert(f[fp], vertI))
       {
@@ -25,13 +25,15 @@ void mousse::meshTools::writeOBJ
       }
     }
     os << 'l';
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       os << ' ' << foamToObj[f[fp]]+1;
     }
     os << ' ' << foamToObj[f[0]]+1 << endl;
   }
 }
+
+
 template<class FaceType>
 void mousse::meshTools::writeOBJ
 (
@@ -41,7 +43,7 @@ void mousse::meshTools::writeOBJ
 )
 {
   labelList allFaces(faces.size());
-  forAll(allFaces, i)
+  FOR_ALL(allFaces, i)
   {
     allFaces[i] = i;
   }

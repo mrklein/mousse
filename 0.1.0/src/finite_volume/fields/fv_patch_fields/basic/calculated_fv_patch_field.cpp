@@ -4,11 +4,14 @@
 
 #include "calculated_fv_patch_field.hpp"
 #include "fv_patch_field_mapper.hpp"
+
 template<class Type>
 const mousse::word& mousse::fvPatchField<Type>::calculatedType()
 {
   return calculatedFvPatchField<Type>::typeName;
 }
+
+
 // Constructors 
 template<class Type>
 mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
@@ -17,8 +20,10 @@ mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(p, iF)
+  fvPatchField<Type>{p, iF}
 {}
+
+
 template<class Type>
 mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
 (
@@ -28,8 +33,10 @@ mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fvPatchField<Type>(ptf, p, iF, mapper)
+  fvPatchField<Type>{ptf, p, iF, mapper}
 {}
+
+
 template<class Type>
 mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
 (
@@ -39,16 +46,20 @@ mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
   const bool valueRequired
 )
 :
-  fvPatchField<Type>(p, iF, dict, valueRequired)
+  fvPatchField<Type>{p, iF, dict, valueRequired}
 {}
+
+
 template<class Type>
 mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
 (
   const calculatedFvPatchField<Type>& ptf
 )
 :
-  fvPatchField<Type>(ptf)
+  fvPatchField<Type>{ptf}
 {}
+
+
 template<class Type>
 mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
 (
@@ -56,8 +67,10 @@ mousse::calculatedFvPatchField<Type>::calculatedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(ptf, iF)
+  fvPatchField<Type>{ptf, iF}
 {}
+
+
 template<class Type>
 mousse::tmp<mousse::fvPatchField<Type> >
 mousse::fvPatchField<Type>::NewCalculatedType
@@ -78,15 +91,17 @@ mousse::fvPatchField<Type>::NewCalculatedType
   else
   {
     return tmp<fvPatchField<Type> >
-    (
+    {
       new calculatedFvPatchField<Type>
-      (
+      {
         p,
         DimensionedField<Type, volMesh>::null()
-      )
-    );
+      }
+    };
   }
 }
+
+
 template<class Type>
 template<class Type2>
 mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::NewCalculatedType
@@ -96,6 +111,8 @@ mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::NewCalculat
 {
   return NewCalculatedType(pf.patch());
 }
+
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
@@ -104,20 +121,23 @@ mousse::calculatedFvPatchField<Type>::valueInternalCoeffs
   const tmp<scalarField>&
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "calculatedFvPatchField<Type>::"
     "valueInternalCoeffs(const tmp<scalarField>&) const"
-  )   << "\n    "
-     "valueInternalCoeffs cannot be called for a calculatedFvPatchField"
-    << "\n    on patch " << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << " in file " << this->dimensionedInternalField().objectPath()
-    << "\n    You are probably trying to solve for a field with a "
-     "default boundary condition."
-    << exit(FatalError);
+  )
+  << "\n    "
+  "valueInternalCoeffs cannot be called for a calculatedFvPatchField"
+  << "\n    on patch " << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << " in file " << this->dimensionedInternalField().objectPath()
+  << "\n    You are probably trying to solve for a field with a "
+  "default boundary condition."
+  << exit(FatalError);
   return *this;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::calculatedFvPatchField<Type>::valueBoundaryCoeffs
@@ -125,58 +145,67 @@ mousse::calculatedFvPatchField<Type>::valueBoundaryCoeffs
   const tmp<scalarField>&
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "calculatedFvPatchField<Type>::"
     "valueBoundaryCoeffs(const tmp<scalarField>&) const"
-  )   << "\n    "
-     "valueBoundaryCoeffs cannot be called for a calculatedFvPatchField"
-    << "\n    on patch " << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << " in file " << this->dimensionedInternalField().objectPath()
-    << "\n    You are probably trying to solve for a field with a "
-     "default boundary condition."
-    << exit(FatalError);
+  )
+  << "\n    "
+  "valueBoundaryCoeffs cannot be called for a calculatedFvPatchField"
+  << "\n    on patch " << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << " in file " << this->dimensionedInternalField().objectPath()
+  << "\n    You are probably trying to solve for a field with a "
+  "default boundary condition."
+  << exit(FatalError);
   return *this;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::calculatedFvPatchField<Type>::gradientInternalCoeffs() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "calculatedFvPatchField<Type>::"
     "gradientInternalCoeffs() const"
-  )   << "\n    "
-     "gradientInternalCoeffs cannot be called for a "
-     "calculatedFvPatchField"
-    << "\n    on patch " << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << " in file " << this->dimensionedInternalField().objectPath()
-    << "\n    You are probably trying to solve for a field with a "
-     "default boundary condition."
-    << exit(FatalError);
+  )
+  << "\n    "
+  "gradientInternalCoeffs cannot be called for a "
+  "calculatedFvPatchField"
+  << "\n    on patch " << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << " in file " << this->dimensionedInternalField().objectPath()
+  << "\n    You are probably trying to solve for a field with a "
+  "default boundary condition."
+  << exit(FatalError);
   return *this;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::calculatedFvPatchField<Type>::gradientBoundaryCoeffs() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "calculatedFvPatchField<Type>::"
     "gradientBoundaryCoeffs() const"
-  )   << "\n    "
-     "gradientBoundaryCoeffs cannot be called for a "
-     "calculatedFvPatchField"
-    << "\n    on patch " << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << " in file " << this->dimensionedInternalField().objectPath()
-    << "\n    You are probably trying to solve for a field with a "
-     "default boundary condition."
-    << exit(FatalError);
+  )
+  << "\n    "
+  "gradientBoundaryCoeffs cannot be called for a "
+  "calculatedFvPatchField"
+  << "\n    on patch " << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << " in file " << this->dimensionedInternalField().objectPath()
+  << "\n    You are probably trying to solve for a field with a "
+  "default boundary condition."
+  << exit(FatalError);
   return *this;
 }
+
+
 template<class Type>
 void mousse::calculatedFvPatchField<Type>::write(Ostream& os) const
 {

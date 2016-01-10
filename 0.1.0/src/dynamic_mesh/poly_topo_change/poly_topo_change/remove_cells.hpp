@@ -37,7 +37,7 @@ class removeCells
     );
 public:
   //- Runtime type information
-  ClassName("removeCells");
+  CLASS_NAME("removeCells");
   // Constructors
     //- Construct from mesh. syncPar: do parallel synchronization.
     removeCells(const polyMesh& mesh, const bool syncPar = true);

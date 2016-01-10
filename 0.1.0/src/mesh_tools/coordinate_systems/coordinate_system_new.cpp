@@ -17,7 +17,7 @@ mousse::autoPtr<mousse::coordinateSystem> mousse::coordinateSystem::New
     dictionaryConstructorTablePtr_->find(coordType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "coordinateSystem::New(const objectRegistry&, const dictionary&)",
       dict

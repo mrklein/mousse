@@ -27,7 +27,7 @@ void mousse::vtkSurfaceWriter::writeGeometry
     << "DATASET POLYDATA" << nl;
   // Write vertex coords
   os  << "POINTS " << points.size() << " float" << nl;
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     os  << float(pt.x()) << ' '
@@ -37,17 +37,17 @@ void mousse::vtkSurfaceWriter::writeGeometry
   os  << nl;
   // Write faces
   label nNodes = 0;
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     nNodes += faces[faceI].size();
   }
   os  << "POLYGONS " << faces.size() << ' '
     << faces.size() + nNodes << nl;
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     os  << f.size();
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       os  << ' ' << f[fp];
     }
@@ -64,7 +64,7 @@ namespace mousse
   )
   {
     os  << "1 " << values.size() << " float" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       if (elemI)
       {
@@ -89,7 +89,7 @@ namespace mousse
   )
   {
     os  << "3 " << values.size() << " float" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       const vector& v = values[elemI];
       os  << float(v[0]) << ' ' << float(v[1]) << ' ' << float(v[2])
@@ -104,7 +104,7 @@ namespace mousse
   )
   {
     os  << "1 " << values.size() << " float" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       const sphericalTensor& v = values[elemI];
       os  << float(v[0]) << nl;
@@ -118,7 +118,7 @@ namespace mousse
   )
   {
     os  << "6 " << values.size() << " float" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       const symmTensor& v = values[elemI];
       os  << float(v[0]) << ' ' << float(v[1]) << ' ' << float(v[2])
@@ -135,7 +135,7 @@ namespace mousse
   )
   {
     os  << "9 " << values.size() << " float" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       const tensor& v = values[elemI];
       os  << float(v[0]) << ' ' << float(v[1]) << ' ' << float(v[2])
@@ -156,7 +156,7 @@ void mousse::vtkSurfaceWriter::writeData
 )
 {
   os  << "1 " << values.size() << " float" << nl;
-  forAll(values, elemI)
+  FOR_ALL(values, elemI)
   {
     os  << float(0) << nl;
   }

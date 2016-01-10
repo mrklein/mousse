@@ -68,7 +68,7 @@ public:
   ) const
   {
     labelledTri result(x);
-    forAll(x, xI)
+    FOR_ALL(x, xI)
     {
       result[xI] = x[xI] + offset;
     }

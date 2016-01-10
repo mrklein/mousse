@@ -9,10 +9,11 @@
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(cellZoneSet, 0);
-addToRunTimeSelectionTable(topoSet, cellZoneSet, word);
-addToRunTimeSelectionTable(topoSet, cellZoneSet, size);
-addToRunTimeSelectionTable(topoSet, cellZoneSet, set);
+DEFINE_TYPE_NAME_AND_DEBUG(cellZoneSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, cellZoneSet, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, cellZoneSet, size);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, cellZoneSet, set);
+
 // Private Member Functions 
 void cellZoneSet::updateSet()
 {
@@ -21,7 +22,7 @@ void cellZoneSet::updateSet()
   inplaceReorder(order, addressing_);
   cellSet::clearStorage();
   cellSet::resize(2*addressing_.size());
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     cellSet::insert(addressing_[i]);
   }
@@ -31,7 +32,7 @@ cellZoneSet::cellZoneSet
   const polyMesh& mesh,
   const word& name,
   readOption r,
-  writeOption w
+  writeOption
 )
 :
   cellSet(mesh, name, 1000),  // do not read cellSet
@@ -113,7 +114,7 @@ void cellZoneSet::subset(const topoSet& set)
 {
   DynamicList<label> newAddressing(addressing_.size());
   const cellZoneSet& fSet = refCast<const cellZoneSet>(set);
-  forAll(fSet.addressing(), i)
+  FOR_ALL(fSet.addressing(), i)
   {
     label cellI = fSet.addressing()[i];
     if (found(cellI))
@@ -128,7 +129,7 @@ void cellZoneSet::addSet(const topoSet& set)
 {
   DynamicList<label> newAddressing(addressing_);
   const cellZoneSet& fSet = refCast<const cellZoneSet>(set);
-  forAll(fSet.addressing(), i)
+  FOR_ALL(fSet.addressing(), i)
   {
     label cellI = fSet.addressing()[i];
     if (!found(cellI))
@@ -143,7 +144,7 @@ void cellZoneSet::deleteSet(const topoSet& set)
 {
   DynamicList<label> newAddressing(addressing_.size());
   const cellZoneSet& fSet = refCast<const cellZoneSet>(set);
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     label cellI = addressing_[i];
     if (!fSet.found(cellI))
@@ -155,7 +156,7 @@ void cellZoneSet::deleteSet(const topoSet& set)
   addressing_.transfer(newAddressing);
   updateSet();
 }
-void cellZoneSet::sync(const polyMesh& mesh)
+void cellZoneSet::sync(const polyMesh&)
 {}
 label cellZoneSet::maxSize(const polyMesh& mesh) const
 {
@@ -205,7 +206,7 @@ void cellZoneSet::updateMesh(const mapPolyMesh& morphMap)
   // cellZone
   labelList newAddressing(addressing_.size());
   label n = 0;
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     label cellI = addressing_[i];
     label newCellI = morphMap.reverseCellMap()[cellI];

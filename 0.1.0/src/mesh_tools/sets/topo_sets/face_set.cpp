@@ -7,13 +7,16 @@
 #include "poly_mesh.hpp"
 #include "sync_tools.hpp"
 #include "add_to_run_time_selection_table.hpp"
+#include "pstream_reduce_ops.hpp"
+
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(faceSet, 0);
-addToRunTimeSelectionTable(topoSet, faceSet, word);
-addToRunTimeSelectionTable(topoSet, faceSet, size);
-addToRunTimeSelectionTable(topoSet, faceSet, set);
+DEFINE_TYPE_NAME_AND_DEBUG(faceSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, faceSet, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, faceSet, size);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, faceSet, set);
+
 faceSet::faceSet(const IOobject& obj)
 :
   topoSet(obj, typeName)
@@ -60,20 +63,22 @@ faceSet::faceSet
 :
   topoSet(mesh, name, set, w)
 {}
-// Destructor 
+
+// Destructor
 faceSet::~faceSet()
 {}
-// Member Functions 
+
+// Member Functions
 void faceSet::sync(const polyMesh& mesh)
 {
   boolList set(mesh.nFaces(), false);
-  forAllConstIter(faceSet, *this, iter)
+  FOR_ALL_CONST_ITER(faceSet, *this, iter)
   {
     set[iter.key()] = true;
   }
   syncTools::syncFaceList(mesh, set, orEqOp<bool>());
   label nAdded = 0;
-  forAll(set, faceI)
+  FOR_ALL(set, faceI)
   {
     if (set[faceI])
     {
@@ -84,7 +89,7 @@ void faceSet::sync(const polyMesh& mesh)
     }
     else if (found(faceI))
     {
-      FatalErrorIn("faceSet::sync(const polyMesh&)")
+      FATAL_ERROR_IN("faceSet::sync(const polyMesh&)")
         << "Problem : syncing removed faces from set."
         << abort(FatalError);
     }

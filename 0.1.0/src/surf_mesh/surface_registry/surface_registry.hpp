@@ -23,7 +23,7 @@ class surfaceRegistry
     void operator=(const surfaceRegistry&);
 public:
   //- Runtime type information
-  TypeName("surfaceRegistry");
+  TYPE_NAME("surfaceRegistry");
     //- The prefix to local: %surfaces
     static const word prefix;
     //- The default surface name: %default

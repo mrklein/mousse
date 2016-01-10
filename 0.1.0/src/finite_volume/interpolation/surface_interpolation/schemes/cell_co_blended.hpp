@@ -38,13 +38,19 @@
 //   mousse::localBlended
 // SourceFiles
 //   cell_co_blended.cpp
+
 #ifndef cell_co_blended_hpp_
 #define cell_co_blended_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "blended_scheme_base.hpp"
 #include "surface_interpolate.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
 #include "fvc_surface_integrate.hpp"
+#include "surface_fields.hpp"
+#include "vol_fields.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -64,14 +70,9 @@ class cellCoBlended
     tmp<surfaceInterpolationScheme<Type> > tScheme2_;
     //- The face-flux used to compute the face Courant number
     const surfaceScalarField& faceFlux_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    cellCoBlended(const cellCoBlended&);
-    //- Disallow default bitwise assignment
-    void operator=(const cellCoBlended&);
 public:
   //- Runtime type information
-  TypeName("cellCoBlended");
+  TYPE_NAME("cellCoBlended");
   // Constructors
     //- Construct from mesh and Istream.
     //  The name of the flux field is read from the Istream and looked-up
@@ -82,30 +83,31 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      Co1_(readScalar(is)),
+      surfaceInterpolationScheme<Type>{mesh},
+      Co1_{readScalar(is)},
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      ),
-      Co2_(readScalar(is)),
+      },
+      Co2_{readScalar(is)},
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      ),
+      },
       faceFlux_
-      (
-        mesh.lookupObject<surfaceScalarField>(word(is))
-      )
+      {
+        mesh.lookupObject<surfaceScalarField>(word{is})
+      }
     {
       if (Co1_ < 0 || Co2_ < 0 || Co1_ >= Co2_)
       {
-        FatalIOErrorIn("cellCoBlended(const fvMesh&, Istream&)", is)
+        FATAL_IO_ERROR_IN("cellCoBlended(const fvMesh&, Istream&)", is)
           << "coefficients = " << Co1_ << " and " << Co2_
           << " should be > 0 and Co2 > Co1"
           << exit(FatalIOError);
       }
     }
+
     //- Construct from mesh, faceFlux and Istream
     cellCoBlended
     (
@@ -114,27 +116,31 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      Co1_(readScalar(is)),
+      surfaceInterpolationScheme<Type>{mesh},
+      Co1_{readScalar(is)},
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      ),
-      Co2_(readScalar(is)),
+      },
+      Co2_{readScalar(is)},
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      ),
-      faceFlux_(faceFlux)
+      },
+      faceFlux_{faceFlux}
     {
       if (Co1_ < 0 || Co2_ < 0 || Co1_ >= Co2_)
       {
-        FatalIOErrorIn("cellCoBlended(const fvMesh&, Istream&)", is)
+        FATAL_IO_ERROR_IN("cellCoBlended(const fvMesh&, Istream&)", is)
           << "coefficients = " << Co1_ << " and " << Co2_
           << " should be > 0 and Co2 > Co1"
           << exit(FatalIOError);
       }
     }
+    //- Disallow default bitwise copy construct
+    cellCoBlended(const cellCoBlended&) = delete;
+    //- Disallow default bitwise assignment
+    cellCoBlended& operator=(const cellCoBlended&) = delete;
   // Member Functions
     //- Return the face-based blending factor
     virtual tmp<surfaceScalarField> blendingFactor
@@ -149,55 +155,53 @@ public:
         // Currently assume that the density field
         // corresponding to the mass-flux is named "rho"
         const volScalarField& rho =
-          mesh.objectRegistry::template lookupObject<volScalarField>
-          ("rho");
+          mesh.objectRegistry::template lookupObject<volScalarField>("rho");
         tUflux = faceFlux_/fvc::interpolate(rho);
       }
       else if (faceFlux_.dimensions() != dimVelocity*dimArea)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "cellCoBlended::blendingFactor()"
-        )   << "dimensions of faceFlux are not correct"
-          << exit(FatalError);
+        )
+        << "dimensions of faceFlux are not correct"
+        << exit(FatalError);
       }
       volScalarField Co
-      (
+      {
         IOobject
-        (
+        {
           "Co",
           mesh.time().timeName(),
           mesh
-        ),
+        },
         mesh,
-        dimensionedScalar("Co", dimless, 0),
+        dimensionedScalar{"Co", dimless, 0},
         zeroGradientFvPatchScalarField::typeName
-      );
-      scalarField sumPhi
-      (
-        fvc::surfaceSum(mag(tUflux))().internalField()
-      );
+      };
+      scalarField sumPhi{fvc::surfaceSum(mag(tUflux))().internalField()};
       Co.internalField() =
         (sumPhi/mesh.V().field())*(0.5*mesh.time().deltaTValue());
       Co.correctBoundaryConditions();
       return tmp<surfaceScalarField>
-      (
+      {
         new surfaceScalarField
-        (
+        {
           vf.name() + "BlendingFactor",
-          scalar(1)
-         - max
-          (
-            min
-            (
-              (fvc::interpolate(Co) - Co1_)/(Co2_ - Co1_),
-              scalar(1)
-            ),
-            scalar(0)
-          )
-        )
-      );
+            scalar(1)
+              - max
+              (
+                min
+                (
+                  (fvc::interpolate(Co) - Co1_)/(Co2_ - Co1_),
+                  scalar(1)
+                ),
+                scalar(0)
+              )
+        }
+      };
     }
+
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField>
     weights
@@ -205,11 +209,12 @@ public:
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const
     {
-      surfaceScalarField bf(blendingFactor(vf));
+      surfaceScalarField bf{blendingFactor(vf)};
       return
         bf*tScheme1_().weights(vf)
        + (scalar(1.0) - bf)*tScheme2_().weights(vf);
     }
+
     //- Return the face-interpolate of the given cell field
     //  with explicit correction
     tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
@@ -218,16 +223,18 @@ public:
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const
     {
-      surfaceScalarField bf(blendingFactor(vf));
+      surfaceScalarField bf{blendingFactor(vf)};
       return
         bf*tScheme1_().interpolate(vf)
        + (scalar(1.0) - bf)*tScheme2_().interpolate(vf);
     }
+
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
     {
       return tScheme1_().corrected() || tScheme2_().corrected();
     }
+
     //- Return the explicit correction to the face-interpolate
     //  for the given field
     virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
@@ -236,42 +243,31 @@ public:
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const
     {
-      surfaceScalarField bf(blendingFactor(vf));
+      surfaceScalarField bf{blendingFactor(vf)};
       if (tScheme1_().corrected())
       {
         if (tScheme2_().corrected())
         {
           return
-          (
-            bf
-           * tScheme1_().correction(vf)
-           + (scalar(1.0) - bf)
-           * tScheme2_().correction(vf)
-          );
+            (
+              bf
+              *tScheme1_().correction(vf)
+              + (scalar(1.0) - bf)
+              *tScheme2_().correction(vf)
+            );
         }
         else
         {
-          return
-          (
-            bf
-           * tScheme1_().correction(vf)
-          );
+          return bf*tScheme1_().correction(vf);
         }
       }
       else if (tScheme2_().corrected())
       {
-        return
-        (
-          (scalar(1.0) - bf)
-         * tScheme2_().correction(vf)
-        );
+        return (scalar{1.0} - bf)*tScheme2_().correction(vf);
       }
       else
       {
-        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-        (
-          NULL
-        );
+        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >{NULL};
       }
     }
 };

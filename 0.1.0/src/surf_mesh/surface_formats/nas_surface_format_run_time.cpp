@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read MeshedSurface - .bdf (Bulk Data Format)
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   NASsurfaceFormat,
@@ -19,7 +19,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   bdf
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   NASsurfaceFormat,
@@ -28,7 +28,7 @@ addNamedTemplatedToRunTimeSelectionTable
   nas
 );
 // read MeshedSurface - .nas (Nastran)
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   NASsurfaceFormat,
@@ -36,7 +36,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   bdf
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   NASsurfaceFormat,

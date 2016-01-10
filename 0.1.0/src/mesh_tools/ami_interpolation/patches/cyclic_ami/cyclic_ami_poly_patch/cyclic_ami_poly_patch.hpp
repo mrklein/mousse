@@ -89,7 +89,7 @@ protected:
     virtual void clearGeom();
 public:
   //- Runtime type information
-  TypeName("cyclicAMI");
+  TYPE_NAME("cyclicAMI");
   // Constructors
     //- Construct from (base couped patch) components
     cyclicAMIPolyPatch

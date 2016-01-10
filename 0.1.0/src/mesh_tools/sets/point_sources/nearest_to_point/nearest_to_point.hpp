@@ -25,7 +25,7 @@ class nearestToPoint
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("nearestToPoint");
+  TYPE_NAME("nearestToPoint");
   // Constructors
     //- Construct from components
     nearestToPoint

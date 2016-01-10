@@ -11,8 +11,8 @@ namespace mousse
 {
   namespace porosityModels
   {
-    defineTypeNameAndDebug(powerLaw, 0);
-    addToRunTimeSelectionTable(porosityModel, powerLaw, mesh);
+    DEFINE_TYPE_NAME_AND_DEBUG(powerLaw, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(porosityModel, powerLaw, mesh);
   }
 }
 // Constructors 
@@ -42,7 +42,7 @@ void mousse::porosityModels::powerLaw::calcForce
 (
   const volVectorField& U,
   const volScalarField& rho,
-  const volScalarField& mu,
+  const volScalarField& /*mu*/,
   vectorField& force
 ) const
 {
@@ -75,7 +75,7 @@ void mousse::porosityModels::powerLaw::correct
 (
   fvVectorMatrix& UEqn,
   const volScalarField& rho,
-  const volScalarField& mu
+  const volScalarField& /*mu*/
 ) const
 {
   const vectorField& U = UEqn.psi();

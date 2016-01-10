@@ -144,11 +144,14 @@ const
   T0_.writeEntry("T0", os);
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    inletOutletTotalTemperatureFvPatchScalarField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  inletOutletTotalTemperatureFvPatchScalarField
+);
+
 }

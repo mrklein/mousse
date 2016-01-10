@@ -4,10 +4,13 @@
 
 #ifndef fan_fv_patch_fields_hpp_
 #define fan_fv_patch_fields_hpp_
+
 #include "fan_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(fan);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(fan);
 }  // namespace mousse
+
 #endif

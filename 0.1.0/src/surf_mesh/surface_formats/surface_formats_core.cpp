@@ -124,7 +124,7 @@ bool mousse::fileFormats::surfaceFormatsCore::checkSupport
       << " : " << ext << nl
       <<"Valid types: (";
     // compact output:
-    forAll(known, i)
+    FOR_ALL(known, i)
     {
       Info<<" " << known[i];
     }

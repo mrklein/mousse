@@ -50,7 +50,7 @@ private:
     void operator=(const searchableDisk&);
 public:
   //- Runtime type information
-  TypeName("searchableDisk");
+  TYPE_NAME("searchableDisk");
   // Constructors
     //- Construct from components
     searchableDisk
@@ -100,9 +100,9 @@ public:
       return coordinates();
     }
     //- Does any part of the surface overlap the supplied bound box?
-    virtual bool overlaps(const boundBox& bb) const
+    virtual bool overlaps(const boundBox&) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "searchableDisk::overlaps(const boundBox&) const"
       );
@@ -156,7 +156,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchableDisk::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchableDisk::writeData(Ostream&) const");
         return false;
       }
 };

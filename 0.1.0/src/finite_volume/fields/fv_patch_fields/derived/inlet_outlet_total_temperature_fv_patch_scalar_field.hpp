@@ -57,7 +57,7 @@ class inletOutletTotalTemperatureFvPatchScalarField
     scalarField T0_;
 public:
   //- Runtime type information
-  TypeName("inletOutletTotalTemperature");
+  TYPE_NAME("inletOutletTotalTemperature");
   // Constructors
     //- Construct from patch and internal field
     inletOutletTotalTemperatureFvPatchScalarField

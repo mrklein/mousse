@@ -30,7 +30,7 @@ class linearUpwind
     void operator=(const linearUpwind&);
 public:
   //- Runtime type information
-  TypeName("linearUpwind");
+  TYPE_NAME("linearUpwind");
   // Constructors
     //- Construct from faceFlux
     linearUpwind

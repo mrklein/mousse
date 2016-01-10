@@ -9,7 +9,9 @@
 //   label_to_point.cpp
 #ifndef label_to_point_hpp_
 #define label_to_point_hpp_
+
 #include "topo_set_source.hpp"
+
 namespace mousse
 {
 class labelToPoint
@@ -25,7 +27,7 @@ class labelToPoint
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("labelToPoint");
+  TYPE_NAME("labelToPoint");
   // Constructors
     //- Construct from components
     labelToPoint

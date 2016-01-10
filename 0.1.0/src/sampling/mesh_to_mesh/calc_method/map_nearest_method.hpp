@@ -75,7 +75,7 @@ protected:
     void operator=(const mapNearestMethod&);
 public:
   //- Run-time type information
-  TypeName("mapNearest");
+  TYPE_NAME("mapNearest");
   //- Construct from source and target meshes
   mapNearestMethod(const polyMesh& src, const polyMesh& tgt);
   //- Destructor

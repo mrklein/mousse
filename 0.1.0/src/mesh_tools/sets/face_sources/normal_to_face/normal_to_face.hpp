@@ -29,7 +29,7 @@ private:
     void setNormal();
 public:
   //- Runtime type information
-  TypeName("normalToFace");
+  TYPE_NAME("normalToFace");
   // Constructors
     //- Construct from components
     normalToFace

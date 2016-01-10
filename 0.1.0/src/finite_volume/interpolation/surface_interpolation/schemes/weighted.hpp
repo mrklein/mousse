@@ -25,7 +25,7 @@ class weighted
     void operator=(const weighted&);
 public:
   //- Runtime type information
-  TypeName("weighted");
+  TYPE_NAME("weighted");
   // Constructors
     //- Construct from weights
     weighted(const surfaceScalarField& weights)

@@ -8,10 +8,11 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(boxToCell, 0);
-addToRunTimeSelectionTable(topoSetSource, boxToCell, word);
-addToRunTimeSelectionTable(topoSetSource, boxToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(boxToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, boxToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, boxToCell, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::boxToCell::usage_
 (
   boxToCell::typeName,
@@ -22,9 +23,9 @@ mousse::topoSetSource::addToUsageTable mousse::boxToCell::usage_
 void mousse::boxToCell::combine(topoSet& set, const bool add) const
 {
   const pointField& ctrs = mesh_.cellCentres();
-  forAll(ctrs, cellI)
+  FOR_ALL(ctrs, cellI)
   {
-    forAll(bbs_, i)
+    FOR_ALL(bbs_, i)
     {
       if (bbs_[i].contains(ctrs[cellI]))
       {

@@ -79,7 +79,7 @@ mousse::scalar mousse::coordSet::scalarCoord
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "coordSet::scalarCoord(const label)"
     )   << "Illegal axis specification " << axis_
@@ -99,7 +99,7 @@ mousse::Ostream& mousse::coordSet::write(Ostream& os) const
     << endl
     << endl << "\t(coord)"
     << endl;
-  forAll(*this, sampleI)
+  FOR_ALL(*this, sampleI)
   {
     os  << '\t' << operator[](sampleI) << endl;
   }

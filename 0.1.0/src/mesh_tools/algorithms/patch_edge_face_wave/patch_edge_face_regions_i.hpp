@@ -29,29 +29,29 @@ inline const mousse::labelList& mousse::patchEdgeFaceRegions::regions() const
   return regions_;
 }
 template<class TrackingData>
-inline bool mousse::patchEdgeFaceRegions::valid(TrackingData& td) const
+inline bool mousse::patchEdgeFaceRegions::valid(TrackingData&) const
 {
   return regions_.size() && (findIndex(regions_, labelMax) == -1);
 }
 template<class Patch, class TrackingData>
 inline void mousse::patchEdgeFaceRegions::transform
 (
-  const polyMesh& mesh,
-  const Patch& patch,
-  const tensor& rotTensor,
-  const scalar tol,
-  TrackingData& td
+  const polyMesh&,
+  const Patch&,
+  const tensor& /*rotTensor*/,
+  const scalar /*tol*/,
+  TrackingData&
 )
 {}
 template<class Patch, class TrackingData>
 inline bool mousse::patchEdgeFaceRegions::updateEdge
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const Patch& patch,
   const label edgeI,
   const label faceI,
   const patchEdgeFaceRegions& faceInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -71,7 +71,7 @@ inline bool mousse::patchEdgeFaceRegions::updateEdge
   }
   if (!faceInfo.valid(td))
   {
-    FatalErrorIn("patchEdgeFaceRegions::updateEdge(..)")
+    FATAL_ERROR_IN("patchEdgeFaceRegions::updateEdge(..)")
       << "problem." << abort(FatalError);
   }
   if ((findIndex(orientedInfo, -1) != -1) || (findIndex(regions_, -1) != -1))
@@ -81,7 +81,7 @@ inline bool mousse::patchEdgeFaceRegions::updateEdge
   }
   bool changed = false;
   regions_.setSize(orientedInfo.size(), labelMax);
-  forAll(orientedInfo, i)
+  FOR_ALL(orientedInfo, i)
   {
     if (orientedInfo[i] != -1 && orientedInfo[i] < regions_[i])
     {
@@ -94,11 +94,11 @@ inline bool mousse::patchEdgeFaceRegions::updateEdge
 template<class Patch, class TrackingData>
 inline bool mousse::patchEdgeFaceRegions::updateEdge
 (
-  const polyMesh& mesh,
-  const Patch& patch,
+  const polyMesh&,
+  const Patch&,
   const patchEdgeFaceRegions& edgeInfo,
   const bool sameOrientation,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -110,7 +110,7 @@ inline bool mousse::patchEdgeFaceRegions::updateEdge
   }
   if (!edgeInfo.valid(td))
   {
-    FatalErrorIn("patchEdgeFaceRegions::updateEdge(..)")
+    FATAL_ERROR_IN("patchEdgeFaceRegions::updateEdge(..)")
       << "problem." << abort(FatalError);
   }
   if ((findIndex(orientedInfo, -1) != -1) || (findIndex(regions_, -1) != -1))
@@ -120,7 +120,7 @@ inline bool mousse::patchEdgeFaceRegions::updateEdge
   }
   bool changed = false;
   regions_.setSize(orientedInfo.size(), labelMax);
-  forAll(orientedInfo, i)
+  FOR_ALL(orientedInfo, i)
   {
     if (orientedInfo[i] != -1 && orientedInfo[i] < regions_[i])
     {
@@ -133,12 +133,12 @@ inline bool mousse::patchEdgeFaceRegions::updateEdge
 template<class Patch, class TrackingData>
 inline bool mousse::patchEdgeFaceRegions::updateFace
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const Patch& patch,
   const label faceI,
   const label edgeI,
   const patchEdgeFaceRegions& edgeInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -160,7 +160,7 @@ inline bool mousse::patchEdgeFaceRegions::updateFace
   }
   if (!edgeInfo.valid(td))
   {
-    FatalErrorIn("patchEdgeFaceRegions::updateFace(..)")
+    FATAL_ERROR_IN("patchEdgeFaceRegions::updateFace(..)")
       << "problem." << abort(FatalError);
   }
   if ((findIndex(orientedInfo, -1) != -1) || (findIndex(regions_, -1) != -1))
@@ -187,7 +187,7 @@ template<class TrackingData>
 inline bool mousse::patchEdgeFaceRegions::equal
 (
   const patchEdgeFaceRegions& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

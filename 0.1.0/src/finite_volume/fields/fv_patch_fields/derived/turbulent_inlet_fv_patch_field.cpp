@@ -123,7 +123,7 @@ void turbulentInletFvPatchField<Type>::updateCoeffs()
   {
     Field<Type>& patchField = *this;
     Field<Type> randomField(this->size());
-    forAll(patchField, facei)
+    FOR_ALL(patchField, facei)
     {
       ranGen_.randomise(randomField[facei]);
     }

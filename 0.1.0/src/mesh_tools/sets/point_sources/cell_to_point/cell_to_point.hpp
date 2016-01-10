@@ -36,7 +36,7 @@ private:
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("cellToPoint");
+  TYPE_NAME("cellToPoint");
   // Constructors
     //- Construct from components
     cellToPoint

@@ -91,7 +91,9 @@
 //   total_pressure_fv_patch_scalar_field.cpp
 #ifndef total_pressure_fv_patch_scalar_field_hpp_
 #define total_pressure_fv_patch_scalar_field_hpp_
+
 #include "fixed_value_fv_patch_fields.hpp"
+
 namespace mousse
 {
 class totalPressureFvPatchScalarField
@@ -114,7 +116,7 @@ class totalPressureFvPatchScalarField
     scalarField p0_;
 public:
   //- Runtime type information
-  TypeName("totalPressure");
+  TYPE_NAME("totalPressure");
   // Constructors
     //- Construct from patch and internal field
     totalPressureFvPatchScalarField

@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledPatch, 0);
-  addNamedToRunTimeSelectionTable(sampledSurface, sampledPatch, word, patch);
+DEFINE_TYPE_NAME_AND_DEBUG(sampledPatch, 0);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE(sampledSurface, sampledPatch, word, patch);
 }
 // Constructors 
 mousse::sampledPatch::sampledPatch
@@ -24,10 +24,10 @@ mousse::sampledPatch::sampledPatch
   const bool triangulate
 )
 :
-  sampledSurface(name, mesh),
-  patchNames_(patchNames),
-  triangulate_(triangulate),
-  needsUpdate_(true)
+  sampledSurface{name, mesh},
+  patchNames_{patchNames},
+  triangulate_{triangulate},
+  needsUpdate_{true}
 {}
 mousse::sampledPatch::sampledPatch
 (
@@ -36,10 +36,10 @@ mousse::sampledPatch::sampledPatch
   const dictionary& dict
 )
 :
-  sampledSurface(name, mesh, dict),
-  patchNames_(dict.lookup("patches")),
-  triangulate_(dict.lookupOrDefault("triangulate", false)),
-  needsUpdate_(true)
+  sampledSurface{name, mesh, dict},
+  patchNames_{dict.lookup("patches")},
+  triangulate_{dict.lookupOrDefault("triangulate", false)},
+  needsUpdate_{true}
 {}
 // Destructor 
 mousse::sampledPatch::~sampledPatch()
@@ -84,13 +84,13 @@ bool mousse::sampledPatch::update()
     return false;
   }
   label sz = 0;
-  forAll(patchIDs(), i)
+  FOR_ALL(patchIDs(), i)
   {
     label patchI = patchIDs()[i];
     const polyPatch& pp = mesh().boundaryMesh()[patchI];
     if (isA<emptyPolyPatch>(pp))
     {
-      FatalErrorIn("sampledPatch::update()")
+      FATAL_ERROR_IN("sampledPatch::update()")
         << "Cannot sample an empty patch. Patch " << pp.name()
         << exit(FatalError);
     }
@@ -103,12 +103,12 @@ bool mousse::sampledPatch::update()
   patchStart_.setSize(patchIDs().size());
   labelList meshFaceLabels(sz);
   sz = 0;
-  forAll(patchIDs(), i)
+  FOR_ALL(patchIDs(), i)
   {
     label patchI = patchIDs()[i];
     patchStart_[i] = sz;
     const polyPatch& pp = mesh().boundaryMesh()[patchI];
-    forAll(pp, j)
+    FOR_ALL(pp, j)
     {
       patchIndex_[sz] = i;
       patchFaceLabels_[sz] = j;
@@ -147,12 +147,12 @@ void mousse::sampledPatch::remapFaces(const labelUList& faceMap)
   {
     MeshStorage::remapFaces(faceMap);
     patchFaceLabels_ = labelList
-    (
-      UIndirectList<label>(patchFaceLabels_, faceMap)
-    );
+    {
+      UIndirectList<label>{patchFaceLabels_, faceMap}
+    };
     patchIndex_ = labelList
     (
-      UIndirectList<label>(patchIndex_, faceMap)
+      UIndirectList<label>{patchIndex_, faceMap}
     );
     // Redo patchStart.
     if (patchIndex_.size() > 0)

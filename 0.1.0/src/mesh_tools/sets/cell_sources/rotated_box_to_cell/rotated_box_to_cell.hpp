@@ -39,7 +39,7 @@ class rotatedBoxToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("rotatedBoxToCell");
+  TYPE_NAME("rotatedBoxToCell");
   // Constructors
     //- Construct from components
     rotatedBoxToCell

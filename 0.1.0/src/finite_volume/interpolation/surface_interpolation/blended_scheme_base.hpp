@@ -6,15 +6,18 @@
 // Description
 //   Base class for blended schemes to provide access to the blending factor
 //   surface field
+
 #ifndef blended_scheme_base_hpp_
 #define blended_scheme_base_hpp_
+
 #include "class_name.hpp"
 #include "tmp.hpp"
 #include "surface_fields_fwd.hpp"
 #include "vol_fields_fwd.hpp"
+
 namespace mousse
 {
-TemplateName(blendedSchemeBase);
+TEMPLATE_NAME(blendedSchemeBase);
 template<class Type>
 class blendedSchemeBase
 :

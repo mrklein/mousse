@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read MeshedSurface
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   VTKsurfaceFormat,
@@ -19,7 +19,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   vtk
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   VTKsurfaceFormat,
@@ -28,7 +28,7 @@ addNamedTemplatedToRunTimeSelectionTable
   vtk
 );
 // write MeshedSurfaceProxy
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   VTKsurfaceFormat,
@@ -37,7 +37,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   vtk
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   VTKsurfaceFormat,
@@ -47,7 +47,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   vtk
 );
 // write UnsortedMeshedSurface
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   VTKsurfaceFormat,
@@ -56,7 +56,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   vtk
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   VTKsurfaceFormat,

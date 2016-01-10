@@ -4,10 +4,13 @@
 
 #ifndef jump_cyclic_ami_fv_patch_fields_hpp_
 #define jump_cyclic_ami_fv_patch_fields_hpp_
+
 #include "jump_cyclic_ami_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(jumpCyclicAMI);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(jumpCyclicAMI);
 }  // namespace mousse
+
 #endif

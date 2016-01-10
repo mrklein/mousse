@@ -183,7 +183,7 @@ void mousse::MULES::limiter
   scalarField sumPhiBD(psiIf.size(), 0.0);
   scalarField sumPhip(psiIf.size(), VSMALL);
   scalarField mSumPhim(psiIf.size(), VSMALL);
-  forAll(phiCorrIf, facei)
+  FOR_ALL(phiCorrIf, facei)
   {
     label own = owner[facei];
     label nei = neighb[facei];
@@ -205,7 +205,7 @@ void mousse::MULES::limiter
       sumPhip[nei] -= phiCorrf;
     }
   }
-  forAll(phiCorrBf, patchi)
+  FOR_ALL(phiCorrBf, patchi)
   {
     const fvPatchScalarField& psiPf = psiBf[patchi];
     const scalarField& phiBDPf = phiBDBf[patchi];
@@ -214,7 +214,7 @@ void mousse::MULES::limiter
     if (psiPf.coupled())
     {
       const scalarField psiPNf(psiPf.patchNeighbourField());
-      forAll(phiCorrPf, pFacei)
+      FOR_ALL(phiCorrPf, pFacei)
       {
         label pfCelli = pFaceCells[pFacei];
         psiMaxn[pfCelli] = max(psiMaxn[pfCelli], psiPNf[pFacei]);
@@ -223,14 +223,14 @@ void mousse::MULES::limiter
     }
     else
     {
-      forAll(phiCorrPf, pFacei)
+      FOR_ALL(phiCorrPf, pFacei)
       {
         label pfCelli = pFaceCells[pFacei];
         psiMaxn[pfCelli] = max(psiMaxn[pfCelli], psiPf[pFacei]);
         psiMinn[pfCelli] = min(psiMinn[pfCelli], psiPf[pFacei]);
       }
     }
-    forAll(phiCorrPf, pFacei)
+    FOR_ALL(phiCorrPf, pFacei)
     {
       label pfCelli = pFaceCells[pFacei];
       sumPhiBD[pfCelli] += phiBDPf[pFacei];
@@ -299,7 +299,7 @@ void mousse::MULES::limiter
   {
     sumlPhip = 0.0;
     mSumlPhim = 0.0;
-    forAll(lambdaIf, facei)
+    FOR_ALL(lambdaIf, facei)
     {
       label own = owner[facei];
       label nei = neighb[facei];
@@ -315,12 +315,12 @@ void mousse::MULES::limiter
         sumlPhip[nei] -= lambdaPhiCorrf;
       }
     }
-    forAll(lambdaBf, patchi)
+    FOR_ALL(lambdaBf, patchi)
     {
       scalarField& lambdaPf = lambdaBf[patchi];
       const scalarField& phiCorrfPf = phiCorrBf[patchi];
       const labelList& pFaceCells = mesh.boundary()[patchi].faceCells();
-      forAll(lambdaPf, pFacei)
+      FOR_ALL(lambdaPf, pFacei)
       {
         label pfCelli = pFaceCells[pFacei];
         scalar lambdaPhiCorrf = lambdaPf[pFacei]*phiCorrfPf[pFacei];
@@ -334,7 +334,7 @@ void mousse::MULES::limiter
         }
       }
     }
-    forAll(sumlPhip, celli)
+    FOR_ALL(sumlPhip, celli)
     {
       sumlPhip[celli] =
         max(min
@@ -353,7 +353,7 @@ void mousse::MULES::limiter
     }
     const scalarField& lambdam = sumlPhip;
     const scalarField& lambdap = mSumlPhim;
-    forAll(lambdaIf, facei)
+    FOR_ALL(lambdaIf, facei)
     {
       if (phiCorrIf[facei] > 0.0)
       {
@@ -372,7 +372,7 @@ void mousse::MULES::limiter
         );
       }
     }
-    forAll(lambdaBf, patchi)
+    FOR_ALL(lambdaBf, patchi)
     {
       fvsPatchScalarField& lambdaPf = lambdaBf[patchi];
       const scalarField& phiCorrfPf = phiCorrBf[patchi];
@@ -385,7 +385,7 @@ void mousse::MULES::limiter
       {
         const labelList& pFaceCells =
           mesh.boundary()[patchi].faceCells();
-        forAll(lambdaPf, pFacei)
+        FOR_ALL(lambdaPf, pFacei)
         {
           label pfCelli = pFaceCells[pFacei];
           if (phiCorrfPf[pFacei] > 0.0)
@@ -406,7 +406,7 @@ void mousse::MULES::limiter
           mesh.boundary()[patchi].faceCells();
         const scalarField& phiBDPf = phiBDBf[patchi];
         const scalarField& phiCorrPf = phiCorrBf[patchi];
-        forAll(lambdaPf, pFacei)
+        FOR_ALL(lambdaPf, pFacei)
         {
           // Limit outlet faces only
           if ((phiBDPf[pFacei] + phiCorrPf[pFacei]) > SMALL*SMALL)
@@ -492,7 +492,7 @@ void mousse::MULES::limitSum(SurfaceScalarFieldList& phiPsiCorrs)
 {
   {
     UPtrList<scalarField> phiPsiCorrsInternal(phiPsiCorrs.size());
-    forAll(phiPsiCorrs, phasei)
+    FOR_ALL(phiPsiCorrs, phasei)
     {
       phiPsiCorrsInternal.set(phasei, &phiPsiCorrs[phasei]);
     }
@@ -500,12 +500,12 @@ void mousse::MULES::limitSum(SurfaceScalarFieldList& phiPsiCorrs)
   }
   surfaceScalarField::GeometricBoundaryField& bfld =
     phiPsiCorrs[0].boundaryField();
-  forAll(bfld, patchi)
+  FOR_ALL(bfld, patchi)
   {
     if (bfld[patchi].coupled())
     {
       UPtrList<scalarField> phiPsiCorrsPatch(phiPsiCorrs.size());
-      forAll(phiPsiCorrs, phasei)
+      FOR_ALL(phiPsiCorrs, phasei)
       {
         phiPsiCorrsPatch.set
         (

@@ -35,7 +35,7 @@ class vtkSurfaceWriter
     ) const;
 public:
   //- Runtime type information
-  TypeName("vtk");
+  TYPE_NAME("vtk");
   // Constructors
     //- Construct null
     vtkSurfaceWriter();

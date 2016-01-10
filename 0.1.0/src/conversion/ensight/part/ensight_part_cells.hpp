@@ -55,7 +55,7 @@ protected:
     const polyMesh& mesh_;
 public:
   //- Runtime type information
-  TypeName("ensightCells");
+  TYPE_NAME("ensightCells");
   // Constructors
     //- Construct empty part with number and description
     ensightPartCells(label partNumber, const string& partDescription);

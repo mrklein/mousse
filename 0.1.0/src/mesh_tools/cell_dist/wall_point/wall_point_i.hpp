@@ -82,7 +82,7 @@ inline mousse::scalar& mousse::wallPoint::distSqr()
   return distSqr_;
 }
 template<class TrackingData>
-inline bool mousse::wallPoint::valid(TrackingData& td) const
+inline bool mousse::wallPoint::valid(TrackingData&) const
 {
   return distSqr_ > -SMALL;
 }
@@ -93,7 +93,7 @@ inline bool mousse::wallPoint::sameGeometry
   const polyMesh&,
   const wallPoint& w2,
   const scalar tol,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   scalar diff = mag(distSqr() - w2.distSqr());
@@ -120,7 +120,7 @@ inline void mousse::wallPoint::leaveDomain
   const polyPatch&,
   const label,
   const point& faceCentre,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ -= faceCentre;
@@ -130,7 +130,7 @@ inline void mousse::wallPoint::transform
 (
   const polyMesh&,
   const tensor& rotTensor,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ = mousse::transform(rotTensor, origin_);
@@ -144,7 +144,7 @@ inline void mousse::wallPoint::enterDomain
   const polyPatch&,
   const label,
   const point& faceCentre,
-  TrackingData& td
+  TrackingData&
 )
 {
   // back to absolute form
@@ -156,7 +156,7 @@ inline bool mousse::wallPoint::updateCell
 (
   const polyMesh& mesh,
   const label thisCellI,
-  const label neighbourFaceI,
+  const label /*neighbourFaceI*/,
   const wallPoint& neighbourWallInfo,
   const scalar tol,
   TrackingData& td
@@ -177,7 +177,7 @@ inline bool mousse::wallPoint::updateFace
 (
   const polyMesh& mesh,
   const label thisFaceI,
-  const label neighbourCellI,
+  const label /*neighbourCellI*/,
   const wallPoint& neighbourWallInfo,
   const scalar tol,
   TrackingData& td
@@ -216,7 +216,7 @@ template<class TrackingData>
 inline bool mousse::wallPoint::equal
 (
   const wallPoint& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

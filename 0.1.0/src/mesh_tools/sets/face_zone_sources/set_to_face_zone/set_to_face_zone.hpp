@@ -24,7 +24,7 @@ class setToFaceZone
     word setName_;
 public:
   //- Runtime type information
-  TypeName("setToFaceZone");
+  TYPE_NAME("setToFaceZone");
   // Constructors
     //- Construct from components
     setToFaceZone

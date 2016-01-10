@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "bound.hpp"
+
 #include "vol_fields.hpp"
 #include "fvc.hpp"
+
 // Global Functions 
 mousse::volScalarField&
 mousse::bound(volScalarField& vsf, const dimensionedScalar& lowerBound)
@@ -23,11 +25,12 @@ mousse::bound(volScalarField& vsf, const dimensionedScalar& lowerBound)
       (
         vsf.internalField(),
         fvc::average(max(vsf, lowerBound))().internalField()
-       * pos(-vsf.internalField())
+        *pos(-vsf.internalField())
       ),
       lowerBound.value()
     );
     vsf.boundaryField() = max(vsf.boundaryField(), lowerBound.value());
   }
+
   return vsf;
 }

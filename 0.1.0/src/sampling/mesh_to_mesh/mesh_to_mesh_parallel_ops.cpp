@@ -61,7 +61,7 @@ mousse::label mousse::meshToMesh::calcOverlappingProcs
 {
   overlaps = false;
   label nOverlaps = 0;
-  forAll(procBb, procI)
+  FOR_ALL(procBb, procI)
   {
     const boundBox& bbp = procBb[procI];
     if (bbp.overlaps(bb))
@@ -98,7 +98,7 @@ mousse::autoPtr<mousse::mapDistribute> mousse::meshToMesh::calcProcMap
   {
     Info<< "Determining extent of src mesh per processor:" << nl
       << "\tproc\tbb" << endl;
-    forAll(procBb, procI)
+    FOR_ALL(procBb, procI)
     {
       Info<< '\t' << procI << '\t' << procBb[procI] << endl;
     }
@@ -112,21 +112,21 @@ mousse::autoPtr<mousse::mapDistribute> mousse::meshToMesh::calcProcMap
     // per processor indices into all segments to send
     List<DynamicList<label> > dynSendMap(Pstream::nProcs());
     label iniSize = floor(tgt.nCells()/Pstream::nProcs());
-    forAll(dynSendMap, procI)
+    FOR_ALL(dynSendMap, procI)
     {
       dynSendMap[procI].setCapacity(iniSize);
     }
     // work array - whether src processor bb overlaps the tgt cell bounds
     boolList procBbOverlaps(Pstream::nProcs());
-    forAll(cells, cellI)
+    FOR_ALL(cells, cellI)
     {
       const cell& c = cells[cellI];
       // determine bounding box of tgt cell
       boundBox cellBb(point::max, point::min);
-      forAll(c, faceI)
+      FOR_ALL(c, faceI)
       {
         const face& f = faces[c[faceI]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           cellBb.min() = min(cellBb.min(), points[f[fp]]);
           cellBb.max() = max(cellBb.max(), points[f[fp]]);
@@ -134,7 +134,7 @@ mousse::autoPtr<mousse::mapDistribute> mousse::meshToMesh::calcProcMap
       }
       // find the overlapping tgt cells on each src processor
       (void)calcOverlappingProcs(procBb, cellBb, procBbOverlaps);
-      forAll(procBbOverlaps, procI)
+      FOR_ALL(procBbOverlaps, procI)
       {
         if (procBbOverlaps[procI])
         {
@@ -144,7 +144,7 @@ mousse::autoPtr<mousse::mapDistribute> mousse::meshToMesh::calcProcMap
     }
     // convert dynamicList to labelList
     sendMap.setSize(Pstream::nProcs());
-    forAll(sendMap, procI)
+    FOR_ALL(sendMap, procI)
     {
       sendMap[procI].transfer(dynSendMap[procI]);
     }
@@ -154,7 +154,7 @@ mousse::autoPtr<mousse::mapDistribute> mousse::meshToMesh::calcProcMap
   {
     Pout<< "Of my " << cells.size() << " target cells I need to send to:"
       << nl << "\tproc\tcells" << endl;
-    forAll(sendMap, procI)
+    FOR_ALL(sendMap, procI)
     {
       Pout<< '\t' << procI << '\t' << sendMap[procI].size() << endl;
     }
@@ -162,7 +162,7 @@ mousse::autoPtr<mousse::mapDistribute> mousse::meshToMesh::calcProcMap
   // send over how many tgt cells I need to receive from each processor
   labelListList sendSizes(Pstream::nProcs());
   sendSizes[Pstream::myProcNo()].setSize(Pstream::nProcs());
-  forAll(sendMap, procI)
+  FOR_ALL(sendMap, procI)
   {
     sendSizes[Pstream::myProcNo()][procI] = sendMap[procI].size();
   }
@@ -171,7 +171,7 @@ mousse::autoPtr<mousse::mapDistribute> mousse::meshToMesh::calcProcMap
   // determine order of receiving
   labelListList constructMap(Pstream::nProcs());
   label segmentI = 0;
-  forAll(constructMap, procI)
+  FOR_ALL(constructMap, procI)
   {
     // what I need to receive is what other processor is sending to me
     label nRecv = sendSizes[procI][Pstream::myProcNo()];
@@ -223,7 +223,7 @@ void mousse::meshToMesh::distributeCells
     {
       // reverse cell map
       labelList reverseCellMap(tgtMesh.nCells(), -1);
-      forAll(sendElems, subCellI)
+      FOR_ALL(sendElems, subCellI)
       {
         reverseCellMap[sendElems[subCellI]] = subCellI;
       }
@@ -234,7 +234,7 @@ void mousse::meshToMesh::distributeCells
       DynamicList<label> subProcLocalFaceIDs(tgtMesh.nFaces());
       label nInternal = 0;
       // internal faces
-      forAll(tgtMesh.faceNeighbour(), faceI)
+      FOR_ALL(tgtMesh.faceNeighbour(), faceI)
       {
         label own = tgtMesh.faceOwner()[faceI];
         label nbr = tgtMesh.faceNeighbour()[faceI];
@@ -262,7 +262,7 @@ void mousse::meshToMesh::distributeCells
         }
       }
       // boundary faces for new region
-      forAll(tgtMesh.faceNeighbour(), faceI)
+      FOR_ALL(tgtMesh.faceNeighbour(), faceI)
       {
         label own = tgtMesh.faceOwner()[faceI];
         label nbr = tgtMesh.faceNeighbour()[faceI];
@@ -286,7 +286,7 @@ void mousse::meshToMesh::distributeCells
         }
       }
       // boundary faces of existing region
-      forAll(tgtMesh.boundaryMesh(), patchI)
+      FOR_ALL(tgtMesh.boundaryMesh(), patchI)
       {
         const polyPatch& pp = tgtMesh.boundaryMesh()[patchI];
         label nbrProcI = -1;
@@ -297,7 +297,7 @@ void mousse::meshToMesh::distributeCells
             dynamic_cast<const processorPolyPatch&>(pp);
           nbrProcI = ppp.neighbProcNo();
         }
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label faceI = pp.start() + i;
           label own = tgtMesh.faceOwner()[faceI];
@@ -314,10 +314,10 @@ void mousse::meshToMesh::distributeCells
       // reverse point map
       labelList reversePointMap(tgtMesh.nPoints(), -1);
       DynamicList<point> subPoints(tgtMesh.nPoints());
-      forAll(subFaces, subFaceI)
+      FOR_ALL(subFaces, subFaceI)
       {
         face& f = subFaces[subFaceI];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label pointI = f[fp];
           if (reversePointMap[pointI] == -1)
@@ -330,7 +330,7 @@ void mousse::meshToMesh::distributeCells
       }
       // tgt cells into global numbering
       labelList globalElems(sendElems.size());
-      forAll(sendElems, i)
+      FOR_ALL(sendElems, i)
       {
         if (debug)
         {
@@ -461,7 +461,7 @@ void mousse::meshToMesh::distributeAndMergeCells
   // Starting offset for points
   label nPoints = 0;
   labelList pointOffset(Pstream::nProcs(), 0);
-  forAll(allPoints, procI)
+  FOR_ALL(allPoints, procI)
   {
     pointOffset[procI] = nPoints;
     nPoints += allPoints[procI].size();
@@ -469,7 +469,7 @@ void mousse::meshToMesh::distributeAndMergeCells
   // Starting offset for cells
   label nCells = 0;
   labelList cellOffset(Pstream::nProcs(), 0);
-  forAll(allTgtCellIDs, procI)
+  FOR_ALL(allTgtCellIDs, procI)
   {
     cellOffset[procI] = nCells;
     nCells += allTgtCellIDs[procI].size();
@@ -478,11 +478,11 @@ void mousse::meshToMesh::distributeAndMergeCells
   typedef FixedList<label, 3> label3;
   typedef HashTable<label, label3, label3::Hash<> > procCoupleInfo;
   procCoupleInfo procFaceToGlobalCell;
-  forAll(allNbrProcIDs, procI)
+  FOR_ALL(allNbrProcIDs, procI)
   {
     const labelList& nbrProcI = allNbrProcIDs[procI];
     const labelList& localFaceI = allProcLocalFaceIDs[procI];
-    forAll(nbrProcI, i)
+    FOR_ALL(nbrProcI, i)
     {
       if (nbrProcI[i] != -1 && localFaceI[i] != -1)
       {
@@ -513,7 +513,7 @@ void mousse::meshToMesh::distributeAndMergeCells
   label nIntFaces = 0;
   label nFacesTotal = 0;
   labelList internalFaceOffset(Pstream::nProcs(), 0);
-  forAll(allNIntCoupledFaces, procI)
+  FOR_ALL(allNIntCoupledFaces, procI)
   {
     label nCoupledFaces =
       allNIntCoupledFaces[procI] - allNInternalFaces[procI];
@@ -527,13 +527,13 @@ void mousse::meshToMesh::distributeAndMergeCells
   tgtFaceNeighbours.setSize(nFacesTotal);
   tgtCellIDs.setSize(nCells);
   // Insert points
-  forAll(allPoints, procI)
+  FOR_ALL(allPoints, procI)
   {
     const pointField& pts = allPoints[procI];
     SubList<point>(tgtPoints, pts.size(), pointOffset[procI]).assign(pts);
   }
   // Insert cellIDs
-  forAll(allTgtCellIDs, procI)
+  FOR_ALL(allTgtCellIDs, procI)
   {
     const labelList& cellIDs = allTgtCellIDs[procI];
     SubList<label>(tgtCellIDs, cellIDs.size(), cellOffset[procI]).assign
@@ -542,7 +542,7 @@ void mousse::meshToMesh::distributeAndMergeCells
     );
   }
   // Insert internal faces (from internal faces)
-  forAll(allFaces, procI)
+  FOR_ALL(allFaces, procI)
   {
     const faceList& fcs = allFaces[procI];
     const labelList& faceOs = allFaceOwners[procI];
@@ -554,7 +554,7 @@ void mousse::meshToMesh::distributeAndMergeCells
       internalFaceOffset[procI]
     );
     slice.assign(SubList<face>(fcs, allNInternalFaces[procI]));
-    forAll(slice, i)
+    FOR_ALL(slice, i)
     {
       add(slice[i], pointOffset[procI]);
     }
@@ -577,13 +577,13 @@ void mousse::meshToMesh::distributeAndMergeCells
     internalFaceOffset[procI] += allNInternalFaces[procI];
   }
   // Insert internal faces (from coupled face-pairs)
-  forAll(allNbrProcIDs, procI)
+  FOR_ALL(allNbrProcIDs, procI)
   {
     const labelList& nbrProcI = allNbrProcIDs[procI];
     const labelList& localFaceI = allProcLocalFaceIDs[procI];
     const labelList& faceOs = allFaceOwners[procI];
     const faceList& fcs = allFaces[procI];
-    forAll(nbrProcI, i)
+    FOR_ALL(nbrProcI, i)
     {
       if (nbrProcI[i] != -1 && localFaceI[i] != -1)
       {
@@ -636,14 +636,14 @@ void mousse::meshToMesh::distributeAndMergeCells
       }
     }
   }
-  forAll(allNbrProcIDs, procI)
+  FOR_ALL(allNbrProcIDs, procI)
   {
     const labelList& nbrProcI = allNbrProcIDs[procI];
     const labelList& localFaceI = allProcLocalFaceIDs[procI];
     const labelList& faceOs = allFaceOwners[procI];
     const labelList& faceNs = allFaceNeighbours[procI];
     const faceList& fcs = allFaces[procI];
-    forAll(nbrProcI, i)
+    FOR_ALL(nbrProcI, i)
     {
       // coupled boundary face
       if (nbrProcI[i] != -1 && localFaceI[i] != -1)
@@ -655,7 +655,7 @@ void mousse::meshToMesh::distributeAndMergeCells
         label tgtFaceI = procFaceToGlobalCell[key];
         if (tgtFaceI == -1)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void mousse::meshToMesh::"
             "distributeAndMergeCells"
@@ -728,7 +728,7 @@ void mousse::meshToMesh::distributeAndMergeCells
           << " down to " << newTgtPoints.size() << " points" << endl;
       }
       tgtPoints.transfer(newTgtPoints);
-      forAll(tgtFaces, i)
+      FOR_ALL(tgtFaces, i)
       {
         inplaceRenumber(oldToNew, tgtFaces[i]);
       }

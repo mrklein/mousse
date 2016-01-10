@@ -4,11 +4,13 @@
 
 #include "pimple_control.hpp"
 #include "switch.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(pimpleControl, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(pimpleControl, 0);
 }
+
 // Protected Member Functions 
 void mousse::pimpleControl::read()
 {
@@ -20,6 +22,7 @@ void mousse::pimpleControl::read()
   turbOnFinalIterOnly_ =
     pimpleDict.lookupOrDefault<Switch>("turbOnFinalIterOnly", true);
 }
+
 bool mousse::pimpleControl::criteriaSatisfied()
 {
   // no checks on first iteration - nothing has been calculated yet
@@ -31,7 +34,7 @@ bool mousse::pimpleControl::criteriaSatisfied()
   bool achieved = true;
   bool checked = false;    // safety that some checks were indeed performed
   const dictionary& solverDict = mesh_.solverPerformanceDict();
-  forAllConstIter(dictionary, solverDict, iter)
+  FOR_ALL_CONST_ITER(dictionary, solverDict, iter)
   {
     const word& variableName = iter().keyword();
     const label fieldI = applyToField(variableName);
@@ -51,8 +54,7 @@ bool mousse::pimpleControl::criteriaSatisfied()
       if (!storeIni)
       {
         const scalar iniRes =
-          residualControl_[fieldI].initialResidual
-         + ROOTVSMALL;
+          residualControl_[fieldI].initialResidual + ROOTVSMALL;
         relative = residual/iniRes;
         relCheck = relative < residualControl_[fieldI].relTol;
       }
@@ -74,15 +76,16 @@ bool mousse::pimpleControl::criteriaSatisfied()
   }
   return checked && achieved;
 }
+
 // Constructors 
 mousse::pimpleControl::pimpleControl(fvMesh& mesh, const word& dictName)
 :
-  solutionControl(mesh, dictName),
-  nCorrPIMPLE_(0),
-  nCorrPISO_(0),
-  corrPISO_(0),
-  turbOnFinalIterOnly_(true),
-  converged_(false)
+  solutionControl{mesh, dictName},
+  nCorrPIMPLE_{0},
+  nCorrPISO_{0},
+  corrPISO_{0},
+  turbOnFinalIterOnly_{true},
+  converged_{false}
 {
   read();
   if (nCorrPIMPLE_ > 1)
@@ -98,7 +101,7 @@ mousse::pimpleControl::pimpleControl(fvMesh& mesh, const word& dictName)
     {
       Info<< algorithmName_ << ": max iterations = " << nCorrPIMPLE_
         << endl;
-      forAll(residualControl_, i)
+      FOR_ALL(residualControl_, i)
       {
         Info<< "    field " << residualControl_[i].name << token::TAB
           << ": relTol " << residualControl_[i].relTol
@@ -114,9 +117,11 @@ mousse::pimpleControl::pimpleControl(fvMesh& mesh, const word& dictName)
       << endl;
   }
 }
+
 // Destructor 
 mousse::pimpleControl::~pimpleControl()
 {}
+
 // Member Functions 
 bool mousse::pimpleControl::loop()
 {

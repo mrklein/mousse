@@ -26,7 +26,7 @@ bool mousse::layerAdditionRemoval::validCollapse() const
   const labelList& ftc = facesPairing();
   const labelList& mf = mesh.faceZones()[faceZoneID_.index()];
   label nBoundaryHits = 0;
-  forAll(mf, faceI)
+  FOR_ALL(mf, faceI)
   {
     if
     (
@@ -77,7 +77,7 @@ void mousse::layerAdditionRemoval::removeCellLayer
   // Remove all the cells from the master layer
   const labelList& mc =
     mesh.faceZones()[faceZoneID_.index()].masterCells();
-  forAll(mc, faceI)
+  FOR_ALL(mc, faceI)
   {
     label slaveSideCell = own[ftc[faceI]];
     if (mesh.isInternalFace(ftc[faceI]) && slaveSideCell == mc[faceI])
@@ -92,10 +92,10 @@ void mousse::layerAdditionRemoval::removeCellLayer
   // the master face layer
   labelHashSet facesToRemoveMap(mc.size()*primitiveMesh::facesPerCell_);
   const cellList& cells = mesh.cells();
-  forAll(mc, cellI)
+  FOR_ALL(mc, cellI)
   {
     const cell& curCell = cells[mc[cellI]];
-    forAll(curCell, faceI)
+    FOR_ALL(curCell, faceI)
     {
       // Check if the face is in the master zone.  If not, remove it
       if
@@ -108,12 +108,12 @@ void mousse::layerAdditionRemoval::removeCellLayer
       }
     }
   }
-  forAllConstIter(labelHashSet, facesToRemoveMap, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, facesToRemoveMap, iter)
   {
     ref.setAction(polyRemoveFace(iter.key()));
   }
   // Remove all points that will be collapsed
-  forAll(ptc, pointI)
+  FOR_ALL(ptc, pointI)
   {
     ref.setAction(polyRemovePoint(ptc[pointI]));
   }
@@ -125,7 +125,7 @@ void mousse::layerAdditionRemoval::removeCellLayer
   Map<label> removedPointMap(2*ptc.size());
   const labelList& meshPoints =
     mesh.faceZones()[faceZoneID_.index()]().meshPoints();
-  forAll(ptc, pointI)
+  FOR_ALL(ptc, pointI)
   {
     removedPointMap.insert(ptc[pointI], meshPoints[pointI]);
   }
@@ -133,10 +133,10 @@ void mousse::layerAdditionRemoval::removeCellLayer
   const faceList& faces = mesh.faces();
   // Make a list of faces to be modified using the map to avoid duplicates
   labelHashSet facesToModify(ptc.size()*primitiveMesh::facesPerPoint_);
-  forAll(ptc, pointI)
+  FOR_ALL(ptc, pointI)
   {
     const labelList& curFaces = pf[ptc[pointI]];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       if (!facesToRemoveMap.found(curFaces[faceI]))
       {
@@ -149,14 +149,14 @@ void mousse::layerAdditionRemoval::removeCellLayer
   {
     Pout<< "faces to modify: " << ftm << endl;
   }
-  forAll(ftm, faceI)
+  FOR_ALL(ftm, faceI)
   {
     // For every face to modify, copy the face and re-map the vertices.
     // It is known all the faces will be changed since they hang off
     // re-mapped vertices
     label curFaceID = ftm[faceI];
     face newFace(faces[curFaceID]);
-    forAll(newFace, pointI)
+    FOR_ALL(newFace, pointI)
     {
       Map<label>::iterator rpmIter =
         removedPointMap.find(newFace[pointI]);
@@ -205,7 +205,7 @@ void mousse::layerAdditionRemoval::removeCellLayer
   // Modify the faces in the master layer to point past the removed cells
   const labelList& mf = mesh.faceZones()[faceZoneID_.index()];
   const boolList& mfFlip = mesh.faceZones()[faceZoneID_.index()].flipMap();
-  forAll(mf, faceI)
+  FOR_ALL(mf, faceI)
   {
     // Grab the owner and neighbour of the faces to be collapsed and get rid
     // of the cell to be removed

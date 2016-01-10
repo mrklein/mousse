@@ -27,7 +27,7 @@ class linearNormal
     scalarList layerPoints_;
 public:
   //- Runtime type information
-  TypeName("linearNormal");
+  TYPE_NAME("linearNormal");
   // Constructors
     //- Construct from dictionary
     linearNormal(const dictionary& dict);

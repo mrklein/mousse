@@ -92,9 +92,9 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("sampledSet");
+  TYPE_NAME("sampledSet");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       sampledSet,
@@ -150,7 +150,7 @@ public:
     //- Clone
     autoPtr<sampledSet> clone() const
     {
-      notImplemented("autoPtr<sampledSet> clone() const");
+      NOT_IMPLEMENTED("autoPtr<sampledSet> clone() const");
       return autoPtr<sampledSet>(NULL);
     }
   // Selectors

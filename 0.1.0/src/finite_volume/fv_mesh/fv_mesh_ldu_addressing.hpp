@@ -7,10 +7,14 @@
 //   mousse::fvMeshLduAddressing
 // SourceFiles
 //   fv_mesh_ldu_addressing.cpp
+
 #ifndef fv_mesh_ldu_addressing_hpp_
 #define fv_mesh_ldu_addressing_hpp_
+
 #include "ldu_addressing.hpp"
 #include "fv_mesh.hpp"
+#include "global_mesh_data.hpp"
+
 namespace mousse
 {
 class fvMeshLduAddressing
@@ -49,7 +53,7 @@ public:
       patchAddr_(mesh.boundary().size()),
       patchSchedule_(mesh.globalData().patchSchedule())
     {
-      forAll(mesh.boundary(), patchI)
+      FOR_ALL(mesh.boundary(), patchI)
       {
         patchAddr_[patchI] = &mesh.boundary()[patchI].faceCells();
       }

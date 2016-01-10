@@ -16,11 +16,11 @@ phaseHydrostaticPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  phaseName_("alpha"),
-  rho_(0.0),
-  pRefValue_(0.0),
-  pRefPoint_(vector::zero)
+  mixedFvPatchScalarField{p, iF},
+  phaseName_{"alpha"},
+  rho_{0.0},
+  pRefValue_{0.0},
+  pRefPoint_{vector::zero}
 {
   this->refValue() = 0.0;
   this->refGrad() = 0.0;
@@ -34,11 +34,11 @@ phaseHydrostaticPressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  phaseName_(dict.lookupOrDefault<word>("phaseName", "alpha")),
-  rho_(readScalar(dict.lookup("rho"))),
-  pRefValue_(readScalar(dict.lookup("pRefValue"))),
-  pRefPoint_(dict.lookup("pRefPoint"))
+  mixedFvPatchScalarField{p, iF},
+  phaseName_{dict.lookupOrDefault<word>("phaseName", "alpha")},
+  rho_{readScalar(dict.lookup("rho"))},
+  pRefValue_{readScalar(dict.lookup("pRefValue"))},
+  pRefPoint_{dict.lookup("pRefPoint")}
 {
   this->refValue() = pRefValue_;
   if (dict.found("value"))
@@ -64,11 +64,11 @@ phaseHydrostaticPressureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(ptf, p, iF, mapper),
-  phaseName_(ptf.phaseName_),
-  rho_(ptf.rho_),
-  pRefValue_(ptf.pRefValue_),
-  pRefPoint_(ptf.pRefPoint_)
+  mixedFvPatchScalarField{ptf, p, iF, mapper},
+  phaseName_{ptf.phaseName_},
+  rho_{ptf.rho_},
+  pRefValue_{ptf.pRefValue_},
+  pRefPoint_{ptf.pRefPoint_}
 {}
 mousse::phaseHydrostaticPressureFvPatchScalarField::
 phaseHydrostaticPressureFvPatchScalarField
@@ -76,8 +76,8 @@ phaseHydrostaticPressureFvPatchScalarField
   const phaseHydrostaticPressureFvPatchScalarField& ptf
 )
 :
-  mixedFvPatchScalarField(ptf),
-  phaseName_(ptf.phaseName_)
+  mixedFvPatchScalarField{ptf},
+  phaseName_{ptf.phaseName_}
 {}
 mousse::phaseHydrostaticPressureFvPatchScalarField::
 phaseHydrostaticPressureFvPatchScalarField
@@ -86,11 +86,11 @@ phaseHydrostaticPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(ptf, iF),
-  phaseName_(ptf.phaseName_),
-  rho_(ptf.rho_),
-  pRefValue_(ptf.pRefValue_),
-  pRefPoint_(ptf.pRefPoint_)
+  mixedFvPatchScalarField{ptf, iF},
+  phaseName_{ptf.phaseName_},
+  rho_{ptf.rho_},
+  pRefValue_{ptf.pRefValue_},
+  pRefPoint_{ptf.pRefPoint_}
 {}
 // Member Functions 
 void mousse::phaseHydrostaticPressureFvPatchScalarField::updateCoeffs()
@@ -140,11 +140,14 @@ void mousse::phaseHydrostaticPressureFvPatchScalarField::operator=
     + (1 - valueFraction())*ptf
   );
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    phaseHydrostaticPressureFvPatchScalarField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  phaseHydrostaticPressureFvPatchScalarField
+);
+
 }

@@ -4,10 +4,13 @@
 
 #ifndef inlet_outlet_fv_patch_fields_hpp_
 #define inlet_outlet_fv_patch_fields_hpp_
+
 #include "inlet_outlet_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(inletOutlet);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(inletOutlet);
 }  // namespace mousse
+
 #endif

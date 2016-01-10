@@ -32,7 +32,7 @@ class calculatedFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("calculated");
+  TYPE_NAME("calculated");
   // Constructors
     //- Construct from patch and internal field
     calculatedFvPatchField

@@ -7,6 +7,7 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "fv_matrices.hpp"
+
 // Private Member Functions 
 template<class RhoFieldType>
 void mousse::MRFZone::makeRelativeRhoFlux
@@ -22,13 +23,15 @@ void mousse::MRFZone::makeRelativeRhoFlux
   const vectorField& Sfi = Sf.internalField();
   scalarField& phii = phi.internalField();
   // Internal faces
-  forAll(internalFaces_, i)
+  FOR_ALL(internalFaces_, i)
   {
     label facei = internalFaces_[i];
     phii[facei] -= rho[facei]*(Omega ^ (Cfi[facei] - origin_)) & Sfi[facei];
   }
   makeRelativeRhoFlux(rho.boundaryField(), phi.boundaryField());
 }
+
+
 template<class RhoFieldType>
 void mousse::MRFZone::makeRelativeRhoFlux
 (
@@ -40,18 +43,18 @@ void mousse::MRFZone::makeRelativeRhoFlux
   const surfaceVectorField& Sf = mesh_.Sf();
   const vector Omega = omega_->value(mesh_.time().timeOutputValue())*axis_;
   // Included patches
-  forAll(includedFaces_, patchi)
+  FOR_ALL(includedFaces_, patchi)
   {
-    forAll(includedFaces_[patchi], i)
+    FOR_ALL(includedFaces_[patchi], i)
     {
       label patchFacei = includedFaces_[patchi][i];
       phi[patchi][patchFacei] = 0.0;
     }
   }
   // Excluded patches
-  forAll(excludedFaces_, patchi)
+  FOR_ALL(excludedFaces_, patchi)
   {
-    forAll(excludedFaces_[patchi], i)
+    FOR_ALL(excludedFaces_[patchi], i)
     {
       label patchFacei = excludedFaces_[patchi][i];
       phi[patchi][patchFacei] -=
@@ -61,6 +64,8 @@ void mousse::MRFZone::makeRelativeRhoFlux
     }
   }
 }
+
+
 template<class RhoFieldType>
 void mousse::MRFZone::makeAbsoluteRhoFlux
 (
@@ -75,15 +80,15 @@ void mousse::MRFZone::makeAbsoluteRhoFlux
   const vectorField& Sfi = Sf.internalField();
   scalarField& phii = phi.internalField();
   // Internal faces
-  forAll(internalFaces_, i)
+  FOR_ALL(internalFaces_, i)
   {
     label facei = internalFaces_[i];
     phii[facei] += rho[facei]*(Omega ^ (Cfi[facei] - origin_)) & Sfi[facei];
   }
   // Included patches
-  forAll(includedFaces_, patchi)
+  FOR_ALL(includedFaces_, patchi)
   {
-    forAll(includedFaces_[patchi], i)
+    FOR_ALL(includedFaces_[patchi], i)
     {
       label patchFacei = includedFaces_[patchi][i];
       phi.boundaryField()[patchi][patchFacei] +=
@@ -93,9 +98,9 @@ void mousse::MRFZone::makeAbsoluteRhoFlux
     }
   }
   // Excluded patches
-  forAll(excludedFaces_, patchi)
+  FOR_ALL(excludedFaces_, patchi)
   {
-    forAll(excludedFaces_[patchi], i)
+    FOR_ALL(excludedFaces_[patchi], i)
     {
       label patchFacei = excludedFaces_[patchi][i];
       phi.boundaryField()[patchi][patchFacei] +=

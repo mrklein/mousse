@@ -7,10 +7,14 @@
 //   Mid-point interpolation (weighting factors = 0.5) scheme class.
 // SourceFiles
 //   mid_point.cpp
+
 #ifndef mid_point_hpp_
 #define mid_point_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -23,7 +27,7 @@ class midPoint
     void operator=(const midPoint&);
 public:
   //- Runtime type information
-  TypeName("midPoint");
+  TYPE_NAME("midPoint");
   // Constructors
     //- Construct from mesh
     midPoint(const fvMesh& mesh)
@@ -71,7 +75,7 @@ public:
       );
       surfaceScalarField::GeometricBoundaryField& awbf =
         taw().boundaryField();
-      forAll(awbf, patchi)
+      FOR_ALL(awbf, patchi)
       {
         if (!awbf[patchi].coupled())
         {

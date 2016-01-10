@@ -13,7 +13,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(tetOverlapVolume, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(tetOverlapVolume, 0);
 }
 // Constructors 
 mousse::tetOverlapVolume::tetOverlapVolume()
@@ -85,7 +85,7 @@ mousse::treeBoundBox mousse::tetOverlapVolume::pyrBb
 ) const
 {
   treeBoundBox bb(fc, fc);
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     const point& pt = points[f[fp]];
     bb.min() = min(bb.min(), pt);
@@ -109,7 +109,7 @@ bool mousse::tetOverlapVolume::cellCellOverlapMinDecomp
   const cell& cFacesB = meshB.cells()[cellBI];
   const point& ccB = meshB.cellCentres()[cellBI];
   scalar vol = 0.0;
-  forAll(cFacesA, cFA)
+  FOR_ALL(cFacesA, cFA)
   {
     label faceAI = cFacesA[cFA];
     const face& fA = meshA.faces()[faceAI];
@@ -146,7 +146,7 @@ bool mousse::tetOverlapVolume::cellCellOverlapMinDecomp
       );
       const treeBoundBox tetABb(tetA.bounds());
       // Loop over tets of cellB
-      forAll(cFacesB, cFB)
+      FOR_ALL(cFacesB, cFB)
       {
         label faceBI = cFacesB[cFB];
         const face& fB = meshB.faces()[faceBI];
@@ -210,7 +210,7 @@ mousse::scalar mousse::tetOverlapVolume::cellCellOverlapVolumeMinDecomp
   const cell& cFacesB = meshB.cells()[cellBI];
   const point& ccB = meshB.cellCentres()[cellBI];
   scalar vol = 0.0;
-  forAll(cFacesA, cFA)
+  FOR_ALL(cFacesA, cFA)
   {
     label faceAI = cFacesA[cFA];
     const face& fA = meshA.faces()[faceAI];
@@ -247,7 +247,7 @@ mousse::scalar mousse::tetOverlapVolume::cellCellOverlapVolumeMinDecomp
       );
       const treeBoundBox tetABb(tetA.bounds());
       // Loop over tets of cellB
-      forAll(cFacesB, cFB)
+      FOR_ALL(cFacesB, cFB)
       {
         label faceBI = cFacesB[cFB];
         const face& fB = meshB.faces()[faceBI];

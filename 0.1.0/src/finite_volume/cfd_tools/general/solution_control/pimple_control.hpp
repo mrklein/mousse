@@ -43,7 +43,7 @@ protected:
 public:
   // Static Data Members
     //- Run-time type information
-    TypeName("pimpleControl");
+    TYPE_NAME("pimpleControl");
   // Constructors
     //- Construct from mesh and the name of control sub-dictionary
     pimpleControl(fvMesh& mesh, const word& dictName="PIMPLE");

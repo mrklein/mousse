@@ -30,7 +30,7 @@ class regionCoupledGAMGInterfaceField
     void operator=(const regionCoupledGAMGInterfaceField&);
 public:
   //- Runtime type information
-  TypeName("regionCoupled");
+  TYPE_NAME("regionCoupled");
   // Constructors
     //- Construct from GAMG interface and fine level interface field
     regionCoupledGAMGInterfaceField
@@ -61,7 +61,7 @@ public:
         const scalarField&,
         const scalarField&,
         const direction,
-        const Pstream::commsTypes commsType
+        const Pstream::commsTypes
       ) const
       {}
 };

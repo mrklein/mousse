@@ -14,7 +14,7 @@ bool mousse::meshTools::visNormal
   const labelList& faceLabels
 )
 {
-  forAll(faceLabels, i)
+  FOR_ALL(faceLabels, i)
   {
     if ((faceNormals[faceLabels[i]] & n) < SMALL)
     {
@@ -40,7 +40,7 @@ mousse::vectorField mousse::meshTools::calcBoxPointNormals(const primitivePatch&
   const vectorField& faceNormals = pp.faceNormals();
   const vectorField& pointNormals = pp.pointNormals();
   const labelListList& pointFaces = pp.pointFaces();
-  forAll(pointFaces, pointI)
+  FOR_ALL(pointFaces, pointI)
   {
     const labelList& pFaces = pointFaces[pointI];
     if (visNormal(pointNormals[pointI], faceNormals, pFaces))
@@ -49,7 +49,7 @@ mousse::vectorField mousse::meshTools::calcBoxPointNormals(const primitivePatch&
     }
     else
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::meshTools::calcBoxPointNormals(const primitivePatch& pp)"
       )   << "Average point normal not visible for point:"
@@ -63,7 +63,7 @@ mousse::vectorField mousse::meshTools::calcBoxPointNormals(const primitivePatch&
        | pXmYpZMask
        | mXpYpZMask
        | pXpYpZMask;
-      forAll(pFaces, i)
+      FOR_ALL(pFaces, i)
       {
         const vector& n = faceNormals[pFaces[i]];
         if (n.x() > SMALL)
@@ -132,7 +132,7 @@ mousse::vectorField mousse::meshTools::calcBoxPointNormals(const primitivePatch&
       else
       {
         pn[pointI] = vector::zero;
-        WarningIn
+        WARNING_IN
         (
           "mousse::meshTools::calcBoxPointNormals"
           "(const primitivePatch& pp)"
@@ -169,7 +169,7 @@ void mousse::meshTools::writeOBJ
   const point& pt
 )
 {
-  forAll(t, dirI)
+  FOR_ALL(t, dirI)
   {
     writeOBJ(os, pt, pt + t[dirI]);
   }
@@ -210,10 +210,10 @@ void mousse::meshTools::writeOBJ
 )
 {
   labelHashSet usedFaces(4*cellLabels.size());
-  forAll(cellLabels, i)
+  FOR_ALL(cellLabels, i)
   {
     const cell& cFaces = cells[cellLabels[i]];
-    forAll(cFaces, j)
+    FOR_ALL(cFaces, j)
     {
       usedFaces.insert(cFaces[j]);
     }
@@ -274,7 +274,7 @@ mousse::label mousse::meshTools::findEdge
   const label v1
 )
 {
-  forAll(candidates, i)
+  FOR_ALL(candidates, i)
   {
     label edgeI = candidates[i];
     const edge& e = edges[edgeI];
@@ -294,7 +294,7 @@ mousse::label mousse::meshTools::findEdge
 {
   const edgeList& edges = mesh.edges();
   const labelList& v0Edges = mesh.pointEdges()[v0];
-  forAll(v0Edges, i)
+  FOR_ALL(v0Edges, i)
   {
     label edgeI = v0Edges[i];
     const edge& e = edges[edgeI];
@@ -314,10 +314,10 @@ mousse::label mousse::meshTools::getSharedEdge
 {
   const labelList& f0Edges = mesh.faceEdges()[f0];
   const labelList& f1Edges = mesh.faceEdges()[f1];
-  forAll(f0Edges, f0EdgeI)
+  FOR_ALL(f0Edges, f0EdgeI)
   {
     label edge0 = f0Edges[f0EdgeI];
-    forAll(f1Edges, f1EdgeI)
+    FOR_ALL(f1Edges, f1EdgeI)
     {
       label edge1 = f1Edges[f1EdgeI];
       if (edge0 == edge1)
@@ -326,7 +326,7 @@ mousse::label mousse::meshTools::getSharedEdge
       }
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "meshTools::getSharedEdge(const primitiveMesh&, const label"
     ", const label)"
@@ -342,7 +342,7 @@ mousse::label mousse::meshTools::getSharedFace
 )
 {
   const cell& cFaces = mesh.cells()[cell0I];
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     if
@@ -357,7 +357,7 @@ mousse::label mousse::meshTools::getSharedFace
       return faceI;
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "meshTools::getSharedFace(const primitiveMesh&, const label"
     ", const label)"
@@ -381,7 +381,7 @@ void mousse::meshTools::getEdgeFaces
   const labelList& eFaces = mesh.edgeFaces(edgeI);
   face0 = -1;
   face1 = -1;
-  forAll(eFaces, eFaceI)
+  FOR_ALL(eFaces, eFaceI)
   {
     label faceI = eFaces[eFaceI];
     if (faceOnCell(mesh, cellI, faceI))
@@ -399,7 +399,7 @@ void mousse::meshTools::getEdgeFaces
   }
   if ((face0 == -1) || (face1 == -1))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshTools::getEdgeFaces(const primitiveMesh&, const label"
       ", const label, label&, label&"
@@ -416,7 +416,7 @@ mousse::label mousse::meshTools::otherEdge
   const label thisVertI
 )
 {
-  forAll(edgeLabels, edgeLabelI)
+  FOR_ALL(edgeLabels, edgeLabelI)
   {
     label edgeI = edgeLabels[edgeLabelI];
     if (edgeI != thisEdgeI)
@@ -428,7 +428,7 @@ mousse::label mousse::meshTools::otherEdge
       }
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "meshTools::otherEdge(const primitiveMesh&, const labelList&"
     ", const label, const label)"
@@ -470,7 +470,7 @@ mousse::label mousse::meshTools::otherCell
 {
   if (!mesh.isInternalFace(faceI))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshTools::otherCell(const primitiveMesh&, const label"
       ", const label)"
@@ -542,7 +542,7 @@ void mousse::meshTools::constrainToMeshCentre
   }
   if (isConstrained)
   {
-    forAll(pts, i)
+    FOR_ALL(pts, i)
     {
       for (direction cmpt=0; cmpt<vector::nComponents; cmpt++)
       {
@@ -557,7 +557,7 @@ void mousse::meshTools::constrainToMeshCentre
 //- Set the constrained components of directions/velocity to zero
 void mousse::meshTools::constrainDirection
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const Vector<label>& dirs,
   vector& d
 )
@@ -572,7 +572,7 @@ void mousse::meshTools::constrainDirection
 }
 void mousse::meshTools::constrainDirection
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const Vector<label>& dirs,
   vectorField& d
 )
@@ -588,7 +588,7 @@ void mousse::meshTools::constrainDirection
   }
   if (isConstrained)
   {
-    forAll(d, i)
+    FOR_ALL(d, i)
     {
       for (direction cmpt=0; cmpt<vector::nComponents; cmpt++)
       {
@@ -628,7 +628,7 @@ mousse::vector mousse::meshTools::edgeToCutDir
 {
   if (!hexMatcher().isA(mesh, cellI))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::meshTools::getCutDir(const label, const label)"
     )   << "Not a hex : cell:" << cellI << abort(FatalError);
@@ -665,7 +665,7 @@ mousse::label mousse::meshTools::cutDirToEdge
 {
   if (!hexMatcher().isA(mesh, cellI))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::meshTools::getCutDir(const label, const vector&)"
     )   << "Not a hex : cell:" << cellI << abort(FatalError);
@@ -676,7 +676,7 @@ mousse::label mousse::meshTools::cutDirToEdge
   label maxEdgeI = -1;
   for (label i = 0; i < 4; i++)
   {
-    forAll(cEdges, cEdgeI)
+    FOR_ALL(cEdges, cEdgeI)
     {
       label e0 = cEdges[cEdgeI];
       if (!doneEdges.found(e0))
@@ -698,25 +698,27 @@ mousse::label mousse::meshTools::cutDirToEdge
       }
     }
   }
-  forAll(cEdges, cEdgeI)
+  FOR_ALL(cEdges, cEdgeI)
   {
     if (!doneEdges.found(cEdges[cEdgeI]))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "meshTools::cutDirToEdge(const label, const vector&)"
-      )   << "Cell:" << cellI << " edges:" << cEdges << endl
-        << "Edge:" << cEdges[cEdgeI] << " not yet handled"
-        << abort(FatalError);
+      )
+      << "Cell:" << cellI << " edges:" << cEdges << endl
+      << "Edge:" << cEdges[cEdgeI] << " not yet handled"
+      << abort(FatalError);
     }
   }
   if (maxEdgeI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshTools::cutDirToEdge(const label, const vector&)"
-    )   << "Problem : did not find edge aligned with " << cutDir
-      << " on cell " << cellI << abort(FatalError);
+    )
+    << "Problem : did not find edge aligned with " << cutDir
+    << " on cell " << cellI << abort(FatalError);
   }
   return maxEdgeI;
 }

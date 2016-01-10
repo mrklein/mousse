@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(ensightPartFaces, 0);
-  addToRunTimeSelectionTable(ensightPart, ensightPartFaces, istream);
+  DEFINE_TYPE_NAME_AND_DEBUG(ensightPartFaces, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ensightPart, ensightPartFaces, istream);
 }
 const mousse::List<mousse::word> mousse::ensightPartFaces::elemTypes_
 (
@@ -27,7 +27,7 @@ void mousse::ensightPartFaces::classify(const faceList& faces)
   label nTri  = 0;
   label nQuad = 0;
   label nPoly = 0;
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     if (f.size() == 3)
@@ -51,7 +51,7 @@ void mousse::ensightPartFaces::classify(const faceList& faces)
   nQuad = 0;
   nPoly = 0;
   // classify the shapes
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     if (f.size() == 3)
@@ -155,15 +155,15 @@ mousse::ensightPart::localPoints mousse::ensightPartFaces::calcLocalPoints() con
   localPoints ptList(points_);
   labelList& usedPoints = ptList.list;
   label nPoints = 0;
-  forAll(elemLists_, typeI)
+  FOR_ALL(elemLists_, typeI)
   {
     const labelUList& idList = elemLists_[typeI];
     // add all points from faces
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       const label id = idList[i] + offset_;
       const face& f = faces_[id];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (usedPoints[f[fp]] == -1)
         {
@@ -174,7 +174,7 @@ mousse::ensightPart::localPoints mousse::ensightPartFaces::calcLocalPoints() con
   }
   // this is not absolutely necessary, but renumber anyhow
   nPoints = 0;
-  forAll(usedPoints, ptI)
+  FOR_ALL(usedPoints, ptI)
   {
     if (usedPoints[ptI] > -1)
     {
@@ -200,7 +200,7 @@ void mousse::ensightPartFaces::writeConnectivity
   if (key == "nsided")
   {
     // write the number of points per face
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       const label id = idList[i] + offset_;
       const face& f = faces[id];
@@ -209,13 +209,13 @@ void mousse::ensightPartFaces::writeConnectivity
     }
   }
   // write the points describing the face
-  forAll(idList, i)
+  FOR_ALL(idList, i)
   {
     const label id = idList[i] + offset_;
     const face& f = faces[id];
     // convert global -> local index
     // (note: Ensight indices start with 1)
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       os.write(pointMap[f[fp]] + 1);
     }

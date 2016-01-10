@@ -17,7 +17,7 @@ void mousse::Cloud<ParticleType>::checkPatches() const
 {
   const polyBoundaryMesh& pbm = polyMesh_.boundaryMesh();
   bool ok = true;
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     if (isA<cyclicAMIPolyPatch>(pbm[patchI]))
     {
@@ -31,7 +31,7 @@ void mousse::Cloud<ParticleType>::checkPatches() const
   }
   if (!ok)
   {
-    FatalErrorIn("void mousse::Cloud<ParticleType>::initCloud(const bool)")
+    FATAL_ERROR_IN("void mousse::Cloud<ParticleType>::initCloud(const bool)")
       << "Particle tracking across AMI patches is only currently "
       << "supported for cases where the AMI patches reside on a "
       << "single processor" << abort(FatalError);
@@ -43,13 +43,13 @@ void mousse::Cloud<ParticleType>::calcCellWallFaces() const
   cellWallFacesPtr_.reset(new PackedBoolList(pMesh().nCells(), false));
   PackedBoolList& cellWallFaces = cellWallFacesPtr_();
   const polyBoundaryMesh& patches = polyMesh_.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (isA<wallPolyPatch>(patches[patchI]))
     {
       const polyPatch& patch = patches[patchI];
       const labelList& pFaceCells = patch.faceCells();
-      forAll(pFaceCells, pFCI)
+      FOR_ALL(pFaceCells, pFCI)
       {
         cellWallFaces[pFaceCells[pFCI]] = true;
       }
@@ -146,12 +146,12 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
   const labelList& neighbourProcs = pData[Pstream::myProcNo()];
   // Indexing from the processor number into the neighbourProcs list
   labelList neighbourProcIndices(Pstream::nProcs(), -1);
-  forAll(neighbourProcs, i)
+  FOR_ALL(neighbourProcs, i)
   {
     neighbourProcIndices[neighbourProcs[i]] = i;
   }
   // Initialise the stepFraction moved for the particles
-  forAllIter(typename Cloud<ParticleType>, *this, pIter)
+  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter)
   {
     pIter().stepFraction() = 0;
   }
@@ -175,12 +175,12 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
   while (true)
   {
     particleTransferLists = IDLList<ParticleType>();
-    forAll(patchIndexTransferLists, i)
+    FOR_ALL(patchIndexTransferLists, i)
     {
       patchIndexTransferLists[i].clear();
     }
     // Loop over all particles
-    forAllIter(typename Cloud<ParticleType>, *this, pIter)
+    FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter)
     {
       ParticleType& p = pIter();
       // Move the particle
@@ -226,7 +226,7 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
     // Clear transfer buffers
     pBufs.clear();
     // Stream into send buffers
-    forAll(particleTransferLists, i)
+    FOR_ALL(particleTransferLists, i)
     {
       if (particleTransferLists[i].size())
       {
@@ -244,9 +244,9 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
     labelListList allNTrans(Pstream::nProcs());
     pBufs.finishedSends(allNTrans);
     bool transfered = false;
-    forAll(allNTrans, i)
+    FOR_ALL(allNTrans, i)
     {
-      forAll(allNTrans[i], j)
+      FOR_ALL(allNTrans[i], j)
       {
         if (allNTrans[i][j])
         {
@@ -260,7 +260,7 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
       break;
     }
     // Retrieve from receive buffers
-    forAll(neighbourProcs, i)
+    FOR_ALL(neighbourProcs, i)
     {
       label neighbProci = neighbourProcs[i];
       label nRec = allNTrans[neighbProci][Pstream::myProcNo()];
@@ -274,7 +274,7 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
           typename ParticleType::iNew(polyMesh_)
         );
         label pI = 0;
-        forAllIter(typename Cloud<ParticleType>, newParticles, newpIter)
+        FOR_ALL_ITER(typename Cloud<ParticleType>, newParticles, newpIter)
         {
           ParticleType& newp = newpIter();
           label patchI = procPatches[receivePatchIndex[pI++]];
@@ -315,7 +315,7 @@ void mousse::Cloud<ParticleType>::autoMap
   // them, otherwise, if some processors have no particles then
   // there is a comms mismatch.
   polyMesh_.tetBasePtIs();
-  forAllIter(typename Cloud<ParticleType>, *this, pIter)
+  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter)
   {
     ParticleType& p = pIter();
     if (reverseCellMap[p.cell()] >= 0)
@@ -359,7 +359,7 @@ void mousse::Cloud<ParticleType>::writePositions() const
   (
     this->db().time().path()/this->name() + "_positions.obj"
   );
-  forAllConstIter(typename Cloud<ParticleType>, *this, pIter)
+  FOR_ALL_CONST_ITER(typename Cloud<ParticleType>, *this, pIter)
   {
     const ParticleType& p = pIter();
     pObj<< "v " << p.position().x() << " " << p.position().y() << " "

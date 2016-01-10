@@ -13,7 +13,7 @@ inline const mousse::word& mousse::mappedPatchBase::sampleRegion() const
   {
     if (!coupleGroup_.valid())
     {
-      FatalErrorIn("mappedPatchBase::sampleRegion()")
+      FATAL_ERROR_IN("mappedPatchBase::sampleRegion()")
         << "Supply either a regionName or a coupleGroup"
         << " for patch " << patch_.name()
         << " in region " << patch_.boundaryMesh().mesh().name()
@@ -35,7 +35,7 @@ inline const mousse::word& mousse::mappedPatchBase::samplePatch() const
   {
     if (!coupleGroup_.valid())
     {
-      FatalErrorIn("mappedPatchBase::samplePolyPatch()")
+      FATAL_ERROR_IN("mappedPatchBase::samplePolyPatch()")
         << "Supply either a patchName or a coupleGroup"
         << " for patch " << patch_.name()
         << " in region " << patch_.boundaryMesh().mesh().name()
@@ -82,7 +82,7 @@ inline mousse::label mousse::mappedPatchBase::sampleSize() const
     }
     default:
     {
-      FatalErrorIn("mappedPatchBase::sampleSize()")
+      FATAL_ERROR_IN("mappedPatchBase::sampleSize()")
         << "problem." << abort(FatalError);
       return -1;
     }

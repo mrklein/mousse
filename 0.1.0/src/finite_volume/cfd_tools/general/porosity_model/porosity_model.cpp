@@ -4,11 +4,12 @@
 
 #include "porosity_model.hpp"
 #include "vol_fields.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(porosityModel, 0);
-  defineRunTimeSelectionTable(porosityModel, mesh);
+DEFINE_TYPE_NAME_AND_DEBUG(porosityModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(porosityModel, mesh);
 }
 // Protected Member Functions 
 void mousse::porosityModel::adjustNegativeResistance(dimensionedVector& resist)
@@ -16,7 +17,7 @@ void mousse::porosityModel::adjustNegativeResistance(dimensionedVector& resist)
   scalar maxCmpt = max(0, cmptMax(resist.value()));
   if (maxCmpt < 0)
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "Negative resistances are invalid, resistance = " << resist
       << exit(FatalError);
   }
@@ -52,24 +53,24 @@ mousse::porosityModel::porosityModel
 )
 :
   regIOobject
-  (
+  {
     IOobject
-    (
+    {
       name,
       mesh.time().timeName(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    )
-  ),
-  name_(name),
-  mesh_(mesh),
-  dict_(dict),
-  coeffs_(dict.subDict(modelType + "Coeffs")),
-  active_(true),
-  zoneName_(cellZoneName),
-  cellZoneIDs_(),
-  coordSys_(coordinateSystem::New(mesh, coeffs_))
+    }
+  },
+  name_{name},
+  mesh_{mesh},
+  dict_{dict},
+  coeffs_{dict.subDict(modelType + "Coeffs")},
+  active_{true},
+  zoneName_{cellZoneName},
+  cellZoneIDs_{},
+  coordSys_{coordinateSystem::New(mesh, coeffs_)}
 {
   if (zoneName_ == word::null)
   {
@@ -82,7 +83,7 @@ mousse::porosityModel::porosityModel
   reduce(foundZone, orOp<bool>());
   if (!foundZone && Pstream::master())
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "cannot find porous cellZone " << zoneName_
       << exit(FatalError);
   }
@@ -159,7 +160,7 @@ void mousse::porosityModel::addResistance
     AU.correctBoundaryConditions();
   }
 }
-bool mousse::porosityModel::writeData(Ostream& os) const
+bool mousse::porosityModel::writeData(Ostream&) const
 {
   return true;
 }

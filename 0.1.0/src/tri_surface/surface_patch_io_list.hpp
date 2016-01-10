@@ -29,7 +29,7 @@ class surfacePatchIOList
     void operator=(const surfacePatchIOList&);
 public:
   //- Runtime type information
-  TypeName("surfacePatchIOList");
+  TYPE_NAME("surfacePatchIOList");
   // Static data members
     //- Static data someStaticData
   // Constructors

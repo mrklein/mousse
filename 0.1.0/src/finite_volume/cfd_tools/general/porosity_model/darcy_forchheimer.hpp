@@ -74,7 +74,7 @@ class DarcyForchheimer
     void operator=(const DarcyForchheimer&);
 public:
   //- Runtime type information
-  TypeName("DarcyForchheimer");
+  TYPE_NAME("DarcyForchheimer");
   //- Constructor
   DarcyForchheimer
   (

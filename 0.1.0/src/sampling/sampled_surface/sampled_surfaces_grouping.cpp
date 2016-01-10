@@ -15,7 +15,7 @@ mousse::label mousse::sampledSurfaces::classifyFields()
     // Check files for a particular time
     IOobjectList objects(mesh_, mesh_.time().timeName());
     wordList allFields = objects.sortedNames();
-    forAll(fieldSelection_, i)
+    FOR_ALL(fieldSelection_, i)
     {
       labelList indices = findStrings(fieldSelection_[i], allFields);
       if (indices.size())
@@ -24,7 +24,7 @@ mousse::label mousse::sampledSurfaces::classifyFields()
       }
       else
       {
-        WarningIn("sampledSurfaces::classifyFields()")
+        WARNING_IN("sampledSurfaces::classifyFields()")
           << "Cannot find field file matching "
           << fieldSelection_[i] << endl;
       }
@@ -35,7 +35,7 @@ mousse::label mousse::sampledSurfaces::classifyFields()
     // Check currently available fields
     wordList allFields = mesh_.sortedNames();
     labelList indices = findStrings(fieldSelection_, allFields);
-    forAll(fieldSelection_, i)
+    FOR_ALL(fieldSelection_, i)
     {
       labelList indices = findStrings(fieldSelection_[i], allFields);
       if (indices.size())
@@ -44,7 +44,7 @@ mousse::label mousse::sampledSurfaces::classifyFields()
       }
       else
       {
-        WarningIn("sampledSurfaces::classifyFields()")
+        WARNING_IN("sampledSurfaces::classifyFields()")
           << "Cannot find registered field matching "
           << fieldSelection_[i] << endl;
       }

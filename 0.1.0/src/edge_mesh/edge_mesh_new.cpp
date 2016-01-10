@@ -14,7 +14,7 @@ mousse::autoPtr<mousse::edgeMesh> mousse::edgeMesh::New
     fileExtensionConstructorTablePtr_->find(ext);
   if (cstrIter == fileExtensionConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "edgeMesh<Face>::New(const fileName&, const word&) : "
       "constructing edgeMesh"

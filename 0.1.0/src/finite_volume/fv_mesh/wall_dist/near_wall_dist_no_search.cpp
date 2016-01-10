@@ -11,7 +11,7 @@ void mousse::nearWallDistNoSearch::doAll()
 {
   const volVectorField& cellCentres = mesh_.C();
   const fvPatchList& patches = mesh_.boundary();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     fvPatchScalarField& ypatch = operator[](patchI);
     if (isA<wallFvPatch>(patches[patchI]))
@@ -23,7 +23,7 @@ void mousse::nearWallDistNoSearch::doAll()
         = mesh_.Sf().boundaryField()[patchI];
       const fvsPatchScalarField& magApatch
         = mesh_.magSf().boundaryField()[patchI];
-      forAll(patchCentres, facei)
+      FOR_ALL(patchCentres, facei)
       {
         ypatch[facei] =
         (
@@ -63,7 +63,7 @@ void mousse::nearWallDistNoSearch::correct()
   if (mesh_.changing())
   {
     // Update size of GeometricBoundaryField
-    forAll(mesh_.boundary(), patchI)
+    FOR_ALL(mesh_.boundary(), patchI)
     {
       operator[](patchI).setSize(mesh_.boundary()[patchI].size());
     }

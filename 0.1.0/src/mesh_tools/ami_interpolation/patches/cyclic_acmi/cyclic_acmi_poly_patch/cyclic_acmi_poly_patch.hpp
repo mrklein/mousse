@@ -65,7 +65,7 @@ protected:
     virtual const scalarField& tgtMask() const;
 public:
   //- Runtime type information
-  TypeName("cyclicACMI");
+  TYPE_NAME("cyclicACMI");
   // Constructors
     //- Construct from (base couped patch) components
     cyclicACMIPolyPatch

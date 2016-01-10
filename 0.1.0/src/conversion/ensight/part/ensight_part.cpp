@@ -9,18 +9,18 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(ensightPart, 0);
-  defineTemplateTypeNameAndDebug(IOPtrList<ensightPart>, 0);
-  defineRunTimeSelectionTable(ensightPart, istream);
+  DEFINE_TYPE_NAME_AND_DEBUG(ensightPart, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(IOPtrList<ensightPart>, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(ensightPart, istream);
 }
 const mousse::List<mousse::word> mousse::ensightPart::elemTypes_(0);
 // Protected Member Functions 
 bool mousse::ensightPart::isFieldDefined(const List<scalar>& field) const
 {
-  forAll(elemLists_, elemI)
+  FOR_ALL(elemLists_, elemI)
   {
     const labelUList& idList = elemLists_[elemI];
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       const label id = idList[i];
       if (id >= field.size() || isnan(field[id]))
@@ -94,7 +94,7 @@ mousse::autoPtr<mousse::ensightPart> mousse::ensightPart::New(Istream& is)
     istreamConstructorTablePtr_->find(partType);
   if (cstrIter == istreamConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "ensightPart::New(Istream&)",
       is
@@ -115,10 +115,10 @@ void mousse::ensightPart::renumber(const labelUList& origId)
   // transform to global values first
   if (offset_)
   {
-    forAll(elemLists_, elemI)
+    FOR_ALL(elemLists_, elemI)
     {
       labelList& idList = elemLists_[elemI];
-      forAll(idList, i)
+      FOR_ALL(idList, i)
       {
         idList[i] += offset_;
       }
@@ -127,7 +127,7 @@ void mousse::ensightPart::renumber(const labelUList& origId)
   }
   if (origId.size())
   {
-    forAll(elemLists_, elemI)
+    FOR_ALL(elemLists_, elemI)
     {
       inplaceRenumber(origId, elemLists_[elemI]);
     }

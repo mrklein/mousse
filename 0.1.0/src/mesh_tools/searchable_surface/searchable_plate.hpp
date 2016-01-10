@@ -52,7 +52,7 @@ private:
     void operator=(const searchablePlate&);
 public:
   //- Runtime type information
-  TypeName("searchablePlate");
+  TYPE_NAME("searchablePlate");
   // Constructors
     //- Construct from components
     searchablePlate
@@ -143,7 +143,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchablePlate::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchablePlate::writeData(Ostream&) const");
         return false;
       }
 };

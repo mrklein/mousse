@@ -5,7 +5,10 @@
 #include "vtk_set_writer.hpp"
 #include "writers.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
-  makeSetWriters(vtkSetWriter);
+
+MAKE_SET_WRITERS(vtkSetWriter);
+
 }

@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(meshToMesh, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(meshToMesh, 0);
   template<>
   const char* mousse::NamedEnum
   <
@@ -41,7 +41,7 @@ mousse::labelList mousse::meshToMesh::maskCells
   const faceList& srcFaces = src.faces();
   const pointField& srcPts = src.points();
   DynamicList<label> cells(src.size());
-  forAll(srcCells, srcI)
+  FOR_ALL(srcCells, srcI)
   {
     boundBox cellBb(srcCells[srcI].points(srcFaces, srcPts), false);
     if (intersectBb.overlaps(cellBb))
@@ -57,19 +57,19 @@ mousse::labelList mousse::meshToMesh::maskCells
 }
 void mousse::meshToMesh::normaliseWeights
 (
-  const word& descriptor,
-  const labelListList& addr,
+  const word& /*descriptor*/,
+  const labelListList& /*addr*/,
   scalarListList& wght
 ) const
 {
   const label nCell = returnReduce(wght.size(), sumOp<label>());
   if (nCell > 0)
   {
-    forAll(wght, cellI)
+    FOR_ALL(wght, cellI)
     {
       scalarList& w = wght[cellI];
       scalar s = sum(w);
-      forAll(w, i)
+      FOR_ALL(w, i)
       {
         // note: normalise by s instead of cell volume since
         // 1-to-1 methods duplicate contributions in parallel
@@ -186,19 +186,19 @@ void mousse::meshToMesh::calculate(const word& methodName)
     }
     calcAddressing(methodName, srcRegion_, newTgt);
     // per source cell the target cell address in newTgt mesh
-    forAll(srcToTgtCellAddr_, i)
+    FOR_ALL(srcToTgtCellAddr_, i)
     {
       labelList& addressing = srcToTgtCellAddr_[i];
-      forAll(addressing, addrI)
+      FOR_ALL(addressing, addrI)
       {
         addressing[addrI] = newTgtCellIDs[addressing[addrI]];
       }
     }
     // convert target addresses in newTgtMesh into global cell numbering
-    forAll(tgtToSrcCellAddr_, i)
+    FOR_ALL(tgtToSrcCellAddr_, i)
     {
       labelList& addressing = tgtToSrcCellAddr_[i];
-      forAll(addressing, addrI)
+      FOR_ALL(addressing, addrI)
       {
         addressing[addrI] = globalSrcCells.toGlobal(addressing[addrI]);
       }
@@ -293,7 +293,7 @@ mousse::meshToMesh::interpolationMethodAMI(const interpolationMethod method)
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::AMIPatchToPatchInterpolation::interpolationMethod"
         "mousse::meshToMesh::interpolationMethodAMI"
@@ -311,12 +311,12 @@ void mousse::meshToMesh::calculatePatchAMIs(const word& AMIMethodName)
 {
   if (!patchAMIs_.empty())
   {
-    FatalErrorIn("meshToMesh::calculatePatchAMIs()")
+    FATAL_ERROR_IN("meshToMesh::calculatePatchAMIs()")
       << "patch AMI already calculated"
       << exit(FatalError);
   }
   patchAMIs_.setSize(srcPatchID_.size());
-  forAll(srcPatchID_, i)
+  FOR_ALL(srcPatchID_, i)
   {
     label srcPatchI = srcPatchID_[i];
     label tgtPatchI = tgtPatchID_[i];
@@ -357,7 +357,7 @@ void mousse::meshToMesh::constructNoCuttingPatches
     const polyBoundaryMesh& tgtBM = tgtRegion_.boundaryMesh();
     DynamicList<label> srcPatchID(srcBM.size());
     DynamicList<label> tgtPatchID(tgtBM.size());
-    forAll(srcBM, patchI)
+    FOR_ALL(srcBM, patchI)
     {
       const polyPatch& pp = srcBM[patchI];
       if (!polyPatch::constraintType(pp.type()))
@@ -370,7 +370,7 @@ void mousse::meshToMesh::constructNoCuttingPatches
         }
         else
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "mousse::meshToMesh::meshToMesh"
             "("
@@ -405,7 +405,7 @@ void mousse::meshToMesh::constructFromCuttingPatches
   srcPatchID_.setSize(patchMap.size());
   tgtPatchID_.setSize(patchMap.size());
   label i = 0;
-  forAllConstIter(HashTable<word>, patchMap, iter)
+  FOR_ALL_CONST_ITER(HashTable<word>, patchMap, iter)
   {
     const word& tgtPatchName = iter.key();
     const word& srcPatchName = iter();
@@ -421,7 +421,7 @@ void mousse::meshToMesh::constructFromCuttingPatches
   calculatePatchAMIs(AMIMethodName);
   // set IDs of cutting patches on target mesh
   cuttingPatches_.setSize(cuttingPatches.size());
-  forAll(cuttingPatches_, i)
+  FOR_ALL(cuttingPatches_, i)
   {
     const word& patchName = cuttingPatches[i];
     cuttingPatches_[i] = tgtRegion_.boundaryMesh().findPatchID(patchName);

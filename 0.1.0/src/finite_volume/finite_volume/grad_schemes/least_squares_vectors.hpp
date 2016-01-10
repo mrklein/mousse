@@ -27,7 +27,7 @@ class leastSquaresVectors
     void calcLeastSquaresVectors();
 public:
   // Declare name of the class and its debug switch
-  TypeName("leastSquaresVectors");
+  TYPE_NAME("leastSquaresVectors");
   // Constructors
     //- Construct given an fvMesh
     explicit leastSquaresVectors(const fvMesh&);

@@ -6,25 +6,25 @@
 // Static Data Members
 namespace mousse
 {
-  namespace distributionModels
-  {
-    defineTypeNameAndDebug(distributionModel, 0);
-    defineRunTimeSelectionTable(distributionModel, dictionary);
-  }
+namespace distributionModels
+{
+DEFINE_TYPE_NAME_AND_DEBUG(distributionModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(distributionModel, dictionary);
+}
 }
 // Protected Member Functions 
 void mousse::distributionModels::distributionModel::check() const
 {
   if (minValue() < 0)
   {
-    FatalErrorIn("distributionModels::distributionModel::check() const")
+    FATAL_ERROR_IN("distributionModels::distributionModel::check() const")
       << type() << "distribution: Minimum value must be greater than "
       << "zero." << nl << "Supplied minValue = " << minValue()
       << abort(FatalError);
   }
   if (maxValue() < minValue())
   {
-    FatalErrorIn("distributionModels::distributionModel::check() const")
+    FATAL_ERROR_IN("distributionModels::distributionModel::check() const")
       << type() << "distribution: Maximum value is smaller than the "
       << "minimum value:" << nl << "    maxValue = " << maxValue()
       << ", minValue = " << minValue()
@@ -39,16 +39,16 @@ mousse::distributionModels::distributionModel::distributionModel
   cachedRandom& rndGen
 )
 :
-  distributionModelDict_(dict.subDict(name + "Distribution")),
-  rndGen_(rndGen)
+  distributionModelDict_{dict.subDict(name + "Distribution")},
+  rndGen_{rndGen}
 {}
 mousse::distributionModels::distributionModel::distributionModel
 (
   const distributionModel& p
 )
 :
-  distributionModelDict_(p.distributionModelDict_),
-  rndGen_(p.rndGen_)
+  distributionModelDict_{p.distributionModelDict_},
+  rndGen_{p.rndGen_}
 {}
 // Destructor 
 mousse::distributionModels::distributionModel::~distributionModel()

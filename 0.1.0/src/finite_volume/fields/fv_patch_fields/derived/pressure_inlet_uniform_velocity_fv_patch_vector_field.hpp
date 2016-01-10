@@ -32,7 +32,7 @@ class pressureInletUniformVelocityFvPatchVectorField
 {
 public:
   //- Runtime type information
-  TypeName("pressureInletUniformVelocity");
+  TYPE_NAME("pressureInletUniformVelocity");
   // Constructors
     //- Construct from patch and internal field
     pressureInletUniformVelocityFvPatchVectorField

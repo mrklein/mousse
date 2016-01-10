@@ -14,8 +14,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(hexCellLooper, 0);
-addToRunTimeSelectionTable(cellLooper, hexCellLooper, word);
+DEFINE_TYPE_NAME_AND_DEBUG(hexCellLooper, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(cellLooper, hexCellLooper, word);
 }
 // Private Member Functions 
 // Starting from cut edge start walking.
@@ -76,7 +76,7 @@ void mousse::hexCellLooper::makeFace
 {
   facePoints.setSize(loop.size());
   faceVerts.setSize(loop.size());
-  forAll(loop, cutI)
+  FOR_ALL(loop, cutI)
   {
     label cut = loop[cutI];
     if (isEdge(cut))
@@ -150,7 +150,7 @@ bool mousse::hexCellLooper::cut
   {
     if (loop.empty())
     {
-      WarningIn("hexCellLooper")
+      WARNING_IN("hexCellLooper")
         << "could not cut cell " << cellI << endl;
       fileName cutsFile("hexCellLooper_" + name(cellI) + ".obj");
       Pout<< "hexCellLooper : writing cell to " << cutsFile << endl;
@@ -167,12 +167,12 @@ bool mousse::hexCellLooper::cut
     }
     // Check for duplicate cuts.
     labelHashSet loopSet(loop.size());
-    forAll(loop, elemI)
+    FOR_ALL(loop, elemI)
     {
       label elem = loop[elemI];
       if (loopSet.found(elem))
       {
-        FatalErrorIn("hexCellLooper::walkHex") << " duplicate cut"
+        FATAL_ERROR_IN("hexCellLooper::walkHex") << " duplicate cut"
           << abort(FatalError);
       }
       loopSet.insert(elem);
@@ -182,7 +182,7 @@ bool mousse::hexCellLooper::cut
     makeFace(loop, loopWeights, faceVerts, facePoints);
     if ((faceVerts.mag(facePoints) < SMALL) || (loop.size() < 3))
     {
-      FatalErrorIn("hexCellLooper::walkHex") << "Face:" << faceVerts
+      FATAL_ERROR_IN("hexCellLooper::walkHex") << "Face:" << faceVerts
         << " on points:" << facePoints << endl
         << UIndirectList<point>(facePoints, faceVerts)()
         << abort(FatalError);

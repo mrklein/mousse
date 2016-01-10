@@ -19,7 +19,7 @@ void SLTSDdtScheme<Type>::relaxedDiag
   const labelUList& owner = mesh().owner();
   const labelUList& neighbour = mesh().neighbour();
   scalarField diag(rD.size(), 0.0);
-  forAll(owner, faceI)
+  FOR_ALL(owner, faceI)
   {
     if (phi[faceI] > 0.0)
     {
@@ -32,11 +32,11 @@ void SLTSDdtScheme<Type>::relaxedDiag
       rD[owner[faceI]] -= phi[faceI];
     }
   }
-  forAll(phi.boundaryField(), patchi)
+  FOR_ALL(phi.boundaryField(), patchi)
   {
     const fvsPatchScalarField& pphi = phi.boundaryField()[patchi];
     const labelUList& faceCells = pphi.patch().patch().faceCells();
-    forAll(pphi, patchFacei)
+    FOR_ALL(pphi, patchFacei)
     {
       if (pphi[patchFacei] > 0.0)
       {
@@ -97,7 +97,7 @@ tmp<volScalarField> SLTSDdtScheme<Type>::SLrDeltaT() const
   }
   else
   {
-    FatalErrorIn("SLTSDdtScheme<Type>::CofrDeltaT() const")
+    FATAL_ERROR_IN("SLTSDdtScheme<Type>::CofrDeltaT() const")
       << "Incorrect dimensions of phi: " << phi.dimensions()
       << abort(FatalError);
   }
@@ -612,11 +612,12 @@ SLTSDdtScheme<Type>::fvcDdtUfCorr
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "SLTSDdtScheme<Type>::fvcDdtPhiCorr"
-    )   << "dimensions of Uf are not correct"
-      << abort(FatalError);
+    )
+    << "dimensions of Uf are not correct"
+    << abort(FatalError);
     return fluxFieldType::null();
   }
 }
@@ -670,11 +671,12 @@ SLTSDdtScheme<Type>::fvcDdtPhiCorr
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "SLTSDdtScheme<Type>::fvcDdtPhiCorr"
-    )   << "dimensions of phi are not correct"
-      << abort(FatalError);
+    )
+    << "dimensions of phi are not correct"
+    << abort(FatalError);
     return fluxFieldType::null();
   }
 }

@@ -21,17 +21,14 @@ class harmonic
 :
   public surfaceInterpolationScheme<scalar>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const harmonic&);
 public:
   //- Runtime type information
-  TypeName("harmonic");
+  TYPE_NAME("harmonic");
   // Constructors
     //- Construct from mesh
     harmonic(const fvMesh& mesh)
     :
-      surfaceInterpolationScheme<scalar>(mesh)
+      surfaceInterpolationScheme<scalar>{mesh}
     {}
     //- Construct from Istream.
     //  The name of the flux field is read from the Istream and looked-up
@@ -39,21 +36,23 @@ public:
     harmonic
     (
       const fvMesh& mesh,
-      Istream& is
+      Istream&
     )
     :
-      surfaceInterpolationScheme<scalar>(mesh)
+      surfaceInterpolationScheme<scalar>{mesh}
     {}
     //- Construct from faceFlux and Istream
     harmonic
     (
       const fvMesh& mesh,
-      const surfaceScalarField& faceFlux,
-      Istream& is
+      const surfaceScalarField& /*faceFlux*/,
+      Istream&
     )
     :
-      surfaceInterpolationScheme<scalar>(mesh)
+      surfaceInterpolationScheme<scalar>{mesh}
     {}
+    //- Disallow default bitwise assignment
+    harmonic& operator=(const harmonic&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     virtual tmp<surfaceScalarField> weights
@@ -61,12 +60,12 @@ public:
       const GeometricField<scalar, fvPatchField, volMesh>&
     ) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "harmonic::weights"
         "(const GeometricField<scalar, fvPatchField, volMesh>&)"
       );
-      return tmp<surfaceScalarField>(NULL);
+      return tmp<surfaceScalarField>{NULL};
     }
     //- Return the face-interpolate of the given cell field
     virtual tmp<GeometricField<scalar, fvsPatchField, surfaceMesh> >

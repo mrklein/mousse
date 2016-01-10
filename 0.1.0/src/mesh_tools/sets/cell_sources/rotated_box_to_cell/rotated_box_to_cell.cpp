@@ -6,13 +6,15 @@
 #include "poly_mesh.hpp"
 #include "cell_modeller.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(rotatedBoxToCell, 0);
-addToRunTimeSelectionTable(topoSetSource, rotatedBoxToCell, word);
-addToRunTimeSelectionTable(topoSetSource, rotatedBoxToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(rotatedBoxToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, rotatedBoxToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, rotatedBoxToCell, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::rotatedBoxToCell::usage_
 (
   rotatedBoxToCell::typeName,
@@ -34,7 +36,7 @@ void mousse::rotatedBoxToCell::combine(topoSet& set, const bool add) const
   boxPoints[6] = origin_ + k_ + i_ + j_;
   boxPoints[7] = origin_ + k_ + j_;
   labelList boxVerts(8);
-  forAll(boxVerts, i)
+  FOR_ALL(boxVerts, i)
   {
     boxVerts[i] = i;
   }
@@ -43,7 +45,7 @@ void mousse::rotatedBoxToCell::combine(topoSet& set, const bool add) const
   faceList boxFaces(cellShape(hex, boxVerts).faces());
   // Precalculate normals
   vectorField boxFaceNormals(boxFaces.size());
-  forAll(boxFaces, i)
+  FOR_ALL(boxFaces, i)
   {
     boxFaceNormals[i] = boxFaces[i].normal(boxPoints);
     //Pout<< "Face:" << i << " position:" << boxFaces[i].centre(boxPoints)
@@ -51,10 +53,10 @@ void mousse::rotatedBoxToCell::combine(topoSet& set, const bool add) const
   }
   // Check whether cell centre is inside all faces of box.
   const pointField& ctrs = mesh_.cellCentres();
-  forAll(ctrs, cellI)
+  FOR_ALL(ctrs, cellI)
   {
     bool inside = true;
-    forAll(boxFaces, i)
+    FOR_ALL(boxFaces, i)
     {
       const face& f = boxFaces[i];
       if (((ctrs[cellI] - boxPoints[f[0]]) & boxFaceNormals[i]) > 0)

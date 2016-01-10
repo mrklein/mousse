@@ -96,7 +96,7 @@ class polyDualMesh
     void operator=(const polyDualMesh&);
 public:
   //- Runtime type information
-  ClassName("polyDualMesh");
+  CLASS_NAME("polyDualMesh");
   // Constructors
     //- Construct from IOobject
     polyDualMesh(const IOobject&);

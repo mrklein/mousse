@@ -45,7 +45,7 @@ class EulerCoordinateRotation
     );
 public:
   //- Runtime type information
-  TypeName("EulerRotation");
+  TYPE_NAME("EulerRotation");
   // Constructors
     //- Construct null
     EulerCoordinateRotation();

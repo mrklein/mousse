@@ -7,12 +7,15 @@
 //   IOobject for a surfZoneList
 // SourceFiles
 //   surf_zone_io_list.cpp
+
 #ifndef surf_zone_io_list_hpp_
 #define surf_zone_io_list_hpp_
+
 #include "surf_zone_list.hpp"
 #include "reg_ioobject.hpp"
 #include "face_list.hpp"
 #include "class_name.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
@@ -28,7 +31,7 @@ class surfZoneIOList
     void operator=(const surfZoneIOList&);
 public:
   //- Runtime type information
-  TypeName("surfZoneList");
+  TYPE_NAME("surfZoneList");
   // Constructors
     //- Construct from IOobject
     explicit surfZoneIOList(const IOobject&);

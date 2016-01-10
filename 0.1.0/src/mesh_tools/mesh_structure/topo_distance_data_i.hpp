@@ -23,7 +23,7 @@ inline mousse::topoDistanceData::topoDistanceData
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::topoDistanceData::valid(TrackingData& td) const
+inline bool mousse::topoDistanceData::valid(TrackingData&) const
 {
   return distance_ != -1;
 }
@@ -44,9 +44,9 @@ template<class TrackingData>
 inline void mousse::topoDistanceData::leaveDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
   TrackingData&
 )
 {}
@@ -55,7 +55,7 @@ template<class TrackingData>
 inline void mousse::topoDistanceData::transform
 (
   const polyMesh&,
-  const tensor& rotTensor,
+  const tensor& /*rotTensor*/,
   TrackingData&
 )
 {}
@@ -64,9 +64,9 @@ template<class TrackingData>
 inline void mousse::topoDistanceData::enterDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
   TrackingData&
 )
 {}
@@ -75,10 +75,10 @@ template<class TrackingData>
 inline bool mousse::topoDistanceData::updateCell
 (
   const polyMesh&,
-  const label thisCellI,
-  const label neighbourFaceI,
+  const label /*thisCellI*/,
+  const label /*neighbourFaceI*/,
   const topoDistanceData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData&
 )
 {
@@ -96,11 +96,11 @@ inline bool mousse::topoDistanceData::updateCell
 template<class TrackingData>
 inline bool mousse::topoDistanceData::updateFace
 (
-  const polyMesh& mesh,
-  const label thisFaceI,
-  const label neighbourCellI,
+  const polyMesh&,
+  const label /*thisFaceI*/,
+  const label /*neighbourCellI*/,
   const topoDistanceData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData&
 )
 {
@@ -121,9 +121,9 @@ template<class TrackingData>
 inline bool mousse::topoDistanceData::updateFace
 (
   const polyMesh&,
-  const label thisFaceI,
+  const label /*thisFaceI*/,
   const topoDistanceData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData&
 )
 {
@@ -142,7 +142,7 @@ template<class TrackingData>
 inline bool mousse::topoDistanceData::equal
 (
   const topoDistanceData& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

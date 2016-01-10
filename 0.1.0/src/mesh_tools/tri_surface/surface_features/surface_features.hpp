@@ -108,7 +108,7 @@ private:
       labelList& featVisited
     );
 public:
-  ClassName("surfaceFeatures");
+  CLASS_NAME("surfaceFeatures");
   // Constructors
     //- Construct from surface
     surfaceFeatures(const triSurface&);

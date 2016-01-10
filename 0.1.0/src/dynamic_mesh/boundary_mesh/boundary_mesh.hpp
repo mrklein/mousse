@@ -109,16 +109,16 @@ class boundaryMesh
       label currentZone,
       labelList& faceZone
     ) const;
-    //- Disallow default bitwise copy construct
-    boundaryMesh(const boundaryMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const boundaryMesh&);
 public:
   //- Runtime type information
-  ClassName("boundaryMesh");
+  CLASS_NAME("boundaryMesh");
   // Constructors
     //- Construct null
     boundaryMesh();
+    //- Disallow default bitwise copy construct
+    boundaryMesh(const boundaryMesh&) = delete;
+    //- Disallow default bitwise assignment
+    boundaryMesh& operator=(const boundaryMesh&) = delete;
   //- Destructor
   ~boundaryMesh();
     void clearOut();
@@ -128,7 +128,7 @@ public:
       {
         if (!meshPtr_)
         {
-          FatalErrorIn("boundaryMesh::mesh()")
+          FATAL_ERROR_IN("boundaryMesh::mesh()")
             << "No mesh available. Probably mesh not yet"
             << " read." << abort(FatalError);
         }

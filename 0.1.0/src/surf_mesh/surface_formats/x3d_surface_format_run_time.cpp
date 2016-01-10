@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // write MeshedSurfaceProxy
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   X3DsurfaceFormat,
@@ -20,7 +20,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   x3d
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   X3DsurfaceFormat,

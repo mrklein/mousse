@@ -12,14 +12,14 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledIsoSurfaceCell, 0);
-  addNamedToRunTimeSelectionTable
-  (
-    sampledSurface,
-    sampledIsoSurfaceCell,
-    word,
-    isoSurfaceCell
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(sampledIsoSurfaceCell, 0);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
+(
+  sampledSurface,
+  sampledIsoSurfaceCell,
+  word,
+  isoSurfaceCell
+);
 }
 // Private Member Functions 
 bool mousse::sampledIsoSurfaceCell::updateGeometry() const
@@ -90,7 +90,7 @@ bool mousse::sampledIsoSurfaceCell::updateGeometry() const
       for (label pointI = 0; pointI < fvm.nPoints(); pointI++)
       {
         const labelList& pCells = fvm.pointCells(pointI);
-        forAll(pCells, i)
+        FOR_ALL(pCells, i)
         {
           label cellI = pCells[i];
           cellAvg[cellI] += pointFld().internalField()[pointI];
@@ -98,7 +98,7 @@ bool mousse::sampledIsoSurfaceCell::updateGeometry() const
         }
       }
     }
-    forAll(cellAvg, cellI)
+    FOR_ALL(cellAvg, cellI)
     {
       cellAvg[cellI] /= nPointCells[cellI];
     }

@@ -28,7 +28,7 @@ class OBJstream
     void writeAndCheck(const char);
 public:
   // Declare name of the class and its debug switch
-  ClassName("OBJstream");
+  CLASS_NAME("OBJstream");
   // Constructors
     //- Construct from pathname
     OBJstream

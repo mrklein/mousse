@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicACMIFvPatch, 0);
-  addToRunTimeSelectionTable(fvPatch, cyclicACMIFvPatch, polyPatch);
+  DEFINE_TYPE_NAME_AND_DEBUG(cyclicACMIFvPatch, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, cyclicACMIFvPatch, polyPatch);
 }
 // Protected Member Functions 
 void mousse::cyclicACMIFvPatch::updateAreas() const
@@ -58,7 +58,7 @@ void mousse::cyclicACMIFvPatch::makeWeights(scalarField& w) const
         nbrPatchNonOverlap.nf() & nbrPatchNonOverlap.delta()
       )
     );
-    forAll(deltas, faceI)
+    FOR_ALL(deltas, faceI)
     {
       scalar di = deltas[faceI];
       scalar dni = nbrDeltas[faceI];
@@ -105,7 +105,7 @@ mousse::tmp<mousse::vectorField> mousse::cyclicACMIFvPatch::delta() const
     // do the transformation if necessary
     if (parallel())
     {
-      forAll(patchD, faceI)
+      FOR_ALL(patchD, faceI)
       {
         const vector& ddi = patchD[faceI];
         const vector& dni = nbrPatchD[faceI];
@@ -114,7 +114,7 @@ mousse::tmp<mousse::vectorField> mousse::cyclicACMIFvPatch::delta() const
     }
     else
     {
-      forAll(patchD, faceI)
+      FOR_ALL(patchD, faceI)
       {
         const vector& ddi = patchD[faceI];
         const vector& dni = nbrPatchD[faceI];
@@ -137,7 +137,7 @@ mousse::tmp<mousse::labelField> mousse::cyclicACMIFvPatch::interfaceInternalFiel
 }
 mousse::tmp<mousse::labelField> mousse::cyclicACMIFvPatch::internalFieldTransfer
 (
-  const Pstream::commsTypes commsType,
+  const Pstream::commsTypes,
   const labelUList& iF
 ) const
 {

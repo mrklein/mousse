@@ -75,7 +75,7 @@ class oscillatingFixedValueFvPatchField
     scalar currentScale() const;
 public:
   //- Runtime type information
-  TypeName("oscillatingFixedValue");
+  TYPE_NAME("oscillatingFixedValue");
   // Constructors
     //- Construct from patch and internal field
     oscillatingFixedValueFvPatchField

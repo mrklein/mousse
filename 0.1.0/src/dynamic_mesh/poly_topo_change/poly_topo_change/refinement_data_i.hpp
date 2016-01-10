@@ -21,7 +21,7 @@ inline mousse::refinementData::refinementData
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::refinementData::valid(TrackingData& td) const
+inline bool mousse::refinementData::valid(TrackingData&) const
 {
   return count_ != -1;
 }
@@ -32,7 +32,7 @@ inline bool mousse::refinementData::sameGeometry
   const polyMesh&,
   const refinementData&,
   const scalar,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return true;
@@ -42,10 +42,10 @@ template<class TrackingData>
 inline void mousse::refinementData::leaveDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
-  TrackingData& td
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
+  TrackingData&
 )
 {}
 // No geometric data.
@@ -53,8 +53,8 @@ template<class TrackingData>
 inline void mousse::refinementData::transform
 (
   const polyMesh&,
-  const tensor& rotTensor,
-  TrackingData& td
+  const tensor& /*rotTensor*/,
+  TrackingData&
 )
 {}
 // No geometric data.
@@ -62,10 +62,10 @@ template<class TrackingData>
 inline void mousse::refinementData::enterDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
-  TrackingData& td
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
+  TrackingData&
 )
 {}
 // Update cell with neighbouring face information
@@ -73,16 +73,16 @@ template<class TrackingData>
 inline bool mousse::refinementData::updateCell
 (
   const polyMesh&,
-  const label thisCellI,
-  const label neighbourFaceI,
+  const label /*thisCellI*/,
+  const label /*neighbourFaceI*/,
   const refinementData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
   if (!valid(td))
   {
-    FatalErrorIn("refinementData::updateCell") << "problem"
+    FATAL_ERROR_IN("refinementData::updateCell") << "problem"
       << abort(FatalError);
     return false;
   }
@@ -125,10 +125,10 @@ template<class TrackingData>
 inline bool mousse::refinementData::updateFace
 (
   const polyMesh&,
-  const label thisFaceI,
-  const label neighbourCellI,
+  const label /*thisFaceI*/,
+  const label /*neighbourCellI*/,
   const refinementData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -155,9 +155,9 @@ template<class TrackingData>
 inline bool mousse::refinementData::updateFace
 (
   const polyMesh&,
-  const label thisFaceI,
+  const label /*thisFaceI*/,
   const refinementData& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -183,7 +183,7 @@ template<class TrackingData>
 inline bool mousse::refinementData::equal
 (
   const refinementData& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

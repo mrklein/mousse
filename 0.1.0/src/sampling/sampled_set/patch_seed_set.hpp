@@ -45,7 +45,7 @@ class patchSeedSet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("patchSeed");
+  TYPE_NAME("patchSeed");
   // Constructors
     //- Construct from dictionary
     patchSeedSet

@@ -57,7 +57,7 @@ mousse::fv::leastSquaresGrad<Type>::calcGrad
   const surfaceVectorField& neiLs = lsv.nVectors();
   const labelUList& own = mesh.owner();
   const labelUList& nei = mesh.neighbour();
-  forAll(own, facei)
+  FOR_ALL(own, facei)
   {
     label ownFaceI = own[facei];
     label neiFaceI = nei[facei];
@@ -66,7 +66,7 @@ mousse::fv::leastSquaresGrad<Type>::calcGrad
     lsGrad[neiFaceI] -= neiLs[facei]*deltaVsf;
   }
   // Boundary faces
-  forAll(vsf.boundaryField(), patchi)
+  FOR_ALL(vsf.boundaryField(), patchi)
   {
     const fvsPatchVectorField& patchOwnLs = ownLs.boundaryField()[patchi];
     const labelUList& faceCells =
@@ -77,7 +77,7 @@ mousse::fv::leastSquaresGrad<Type>::calcGrad
       (
         vsf.boundaryField()[patchi].patchNeighbourField()
       );
-      forAll(neiVsf, patchFaceI)
+      FOR_ALL(neiVsf, patchFaceI)
       {
         lsGrad[faceCells[patchFaceI]] +=
           patchOwnLs[patchFaceI]
@@ -87,7 +87,7 @@ mousse::fv::leastSquaresGrad<Type>::calcGrad
     else
     {
       const fvPatchField<Type>& patchVsf = vsf.boundaryField()[patchi];
-      forAll(patchVsf, patchFaceI)
+      FOR_ALL(patchVsf, patchFaceI)
       {
         lsGrad[faceCells[patchFaceI]] +=
           patchOwnLs[patchFaceI]

@@ -70,7 +70,7 @@ private:
     fanFlowDirection direction_;
 public:
   //- Runtime type information
-  TypeName("fanPressure");
+  TYPE_NAME("fanPressure");
   // Constructors
     //- Construct from patch and internal field
     fanPressureFvPatchScalarField

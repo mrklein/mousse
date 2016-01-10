@@ -19,7 +19,7 @@ interpolationCellPatchConstrained<Type>::interpolationCellPatchConstrained
 template<class Type>
 Type interpolationCellPatchConstrained<Type>::interpolate
 (
-  const vector& pt,
+  const vector& /*pt*/,
   const label cellI,
   const label faceI
 ) const

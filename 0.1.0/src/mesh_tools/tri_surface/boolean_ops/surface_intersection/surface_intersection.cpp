@@ -15,7 +15,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(surfaceIntersection, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(surfaceIntersection, 0);
 }
 // Private Member Functions 
 // Checks if there exists a special topological situation that causes
@@ -32,7 +32,7 @@ bool mousse::surfaceIntersection::excludeEdgeHit
 {
   const triSurface::FaceType& f = surf.localFaces()[faceI];
   const edge& e = surf.edges()[edgeI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if (f[0] == e.start() || f[0] == e.end())
     {
@@ -108,7 +108,7 @@ bool mousse::surfaceIntersection::excludeEdgeHit
 //    // Plane for intersect test.
 //    plane pl(eStart, n);
 //
-//    forAll(f, fp)
+//    FOR_ALL(f, fp)
 //    {
 //        label fp1 = f.fcIndex(fp);
 //
@@ -169,7 +169,7 @@ void mousse::surfaceIntersection::storeIntersection
   DynamicList<point>& allCutPoints
 )
 {
-  forAll(facesA, facesAI)
+  FOR_ALL(facesA, facesAI)
   {
     label faceA = facesA[facesAI];
     // Combine two faces. Always make sure the face from the first surface
@@ -201,7 +201,7 @@ void mousse::surfaceIntersection::storeIntersection
       const point& thisHit = allCutPoints.last();
       if (mag(prevHit - thisHit) < SMALL)
       {
-        WarningIn
+        WARNING_IN
         (
           "mousse::surfaceIntersection::storeIntersection"
           "(const bool isFirstSurf, const labelList& facesA,"
@@ -241,7 +241,7 @@ void mousse::surfaceIntersection::classifyHit
   const triSurface& surf2,
   const bool isFirstSurf,
   const label edgeI,
-  const scalar tolDim,
+  const scalar /*tolDim*/,
   const pointIndexHit& pHit,
   DynamicList<edge>& allCutEdges,
   DynamicList<point>& allCutPoints,
@@ -293,7 +293,7 @@ void mousse::surfaceIntersection::classifyHit
       allCutPoints.append(pHit.hitPoint());
       surfEdgeCuts[edgeI].append(allCutPoints.size()-1);
       const labelList& facesB = surf2.pointFaces()[f2[nearLabel]];
-      forAll(facesB, faceBI)
+      FOR_ALL(facesB, faceBI)
       {
         storeIntersection
         (
@@ -349,7 +349,7 @@ void mousse::surfaceIntersection::classifyHit
         // edge hits all faces on surf2 connected to the
         // edge
         const labelList& facesB = surf2.edgeFaces()[edge2I];
-        forAll(facesB, faceBI)
+        FOR_ALL(facesB, faceBI)
         {
           storeIntersection
           (
@@ -493,14 +493,14 @@ void mousse::surfaceIntersection::doCutEdges
   const pointField& surf1Pts = surf1.localPoints();
   // Calculate local (to point) tolerance based on min edge length.
   scalarField surf1PointTol(surf1Pts.size());
-  forAll(surf1PointTol, pointI)
+  FOR_ALL(surf1PointTol, pointI)
   {
     surf1PointTol[pointI] =
       intersection::planarTol()
      * minEdgeLen(surf1, pointI);
   }
   const triSurface& surf2 = querySurf2.surface();
-  forAll(surf1.edges(), edgeI)
+  FOR_ALL(surf1.edges(), edgeI)
   {
     const edge& e = surf1.edges()[edgeI];
     point pStart = surf1Pts[e.start()];
@@ -719,10 +719,10 @@ mousse::surfaceIntersection::surfaceIntersection
   {
     // From edge to cut index on surface1
     List<DynamicList<label> > edgeCuts1(surf1.nEdges());
-    forAll(intersections1, edgeI)
+    FOR_ALL(intersections1, edgeI)
     {
       const List<pointIndexHit>& intersections = intersections1[edgeI];
-      forAll(intersections, i)
+      FOR_ALL(intersections, i)
       {
         const pointIndexHit& pHit = intersections[i];
         // edgeI intersects surf2. Store point.
@@ -750,10 +750,10 @@ mousse::surfaceIntersection::surfaceIntersection
   {
     // From edge to cut index on surface2
     List<DynamicList<label> > edgeCuts2(surf2.nEdges());
-    forAll(intersections2, edgeI)
+    FOR_ALL(intersections2, edgeI)
     {
       const List<pointIndexHit>& intersections = intersections2[edgeI];
-      forAll(intersections, i)
+      FOR_ALL(intersections, i)
       {
         const pointIndexHit& pHit = intersections[i];
         // edgeI intersects surf1. Store point.
@@ -797,19 +797,19 @@ mousse::surfaceIntersection::surfaceIntersection
   {
     // Check all facePairToVertex is used.
     labelHashSet usedPoints;
-    forAllConstIter(labelPairLookup, facePairToEdge_, iter)
+    FOR_ALL_CONST_ITER(labelPairLookup, facePairToEdge_, iter)
     {
       label edgeI = iter();
       const edge& e = cutEdges_[edgeI];
       usedPoints.insert(e[0]);
       usedPoints.insert(e[1]);
     }
-    forAllConstIter(labelPairLookup, facePairToVertex_, iter)
+    FOR_ALL_CONST_ITER(labelPairLookup, facePairToVertex_, iter)
     {
       label pointI = iter();
       if (!usedPoints.found(pointI))
       {
-        WarningIn("surfaceIntersection::surfaceIntersection")
+        WARNING_IN("surfaceIntersection::surfaceIntersection")
           << "Problem: cut point:" << pointI
           << " coord:" << cutPoints_[pointI]
           << " not used by any edge" << endl;
@@ -871,7 +871,7 @@ mousse::surfaceIntersection::surfaceIntersection
   //
   // Get typical dimension.
   scalar minEdgeLen = GREAT;
-  forAll(surf1.edges(), edgeI)
+  FOR_ALL(surf1.edges(), edgeI)
   {
     minEdgeLen = min
     (
@@ -903,7 +903,7 @@ mousse::surfaceIntersection::surfaceIntersection
     // Copy points
     cutPoints_.transfer(newPoints);
     // Renumber vertices referenced by edges
-    forAll(cutEdges_, edgeI)
+    FOR_ALL(cutEdges_, edgeI)
     {
       edge& e = cutEdges_[edgeI];
       e.start() = pointMap[e.start()];
@@ -919,7 +919,7 @@ mousse::surfaceIntersection::surfaceIntersection
       }
     }
     // Renumber vertices referenced by edgeCut lists. Remove duplicates.
-    forAll(surf1EdgeCuts_, edgeI)
+    FOR_ALL(surf1EdgeCuts_, edgeI)
     {
       // Get indices of cutPoints this edge is cut by
       labelList& cutVerts = surf1EdgeCuts_[edgeI];

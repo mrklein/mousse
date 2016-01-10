@@ -52,7 +52,7 @@ class timer
 public:
   // Public data
     //- Declare name of the class and its debug switch
-    ClassName("timer");
+    CLASS_NAME("timer");
     //- Current time out value. Needed by macro timedOut
     unsigned int newTimeOut_;
     //- State for setjmp. Needed by macro timedOut

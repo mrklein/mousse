@@ -14,8 +14,8 @@
 // Static Data Members
 namespace mousse
 {
- defineTypeNameAndDebug(topoCellLooper, 0);
- addToRunTimeSelectionTable(cellLooper, topoCellLooper, word);
+ DEFINE_TYPE_NAME_AND_DEBUG(topoCellLooper, 0);
+ ADD_TO_RUN_TIME_SELECTION_TABLE(cellLooper, topoCellLooper, word);
 }
 // Angle for polys to be considered splitHexes.
 const mousse::scalar mousse::topoCellLooper::featureCos = mousse::cos(degToRad(10.0));
@@ -35,7 +35,7 @@ void mousse::topoCellLooper::subsetList
     // changed)
     if (freeI < 0)
     {
-      FatalErrorIn("topoCellLooper::subsetList")
+      FATAL_ERROR_IN("topoCellLooper::subsetList")
         << "startI:" << startI << "  freeI:" << freeI
         << "  lst:" << lst << abort(FatalError);
     }
@@ -51,7 +51,7 @@ void mousse::topoCellLooper::subsetList
     }
     if ((freeI - startI) < 0)
     {
-      FatalErrorIn("topoCellLooper::subsetList")
+      FATAL_ERROR_IN("topoCellLooper::subsetList")
         << "startI:" << startI << "  freeI:" << freeI
         << "  lst:" << lst << abort(FatalError);
     }
@@ -188,7 +188,7 @@ mousse::label mousse::topoCellLooper::getAlignedNonFeatureEdge
   const point& ctr = mesh().cellCentres()[cellI];
   label cutEdgeI = -1;
   scalar maxCos = -GREAT;
-  forAll(cEdges, cEdgeI)
+  FOR_ALL(cEdges, cEdgeI)
   {
     label edgeI = cEdges[cEdgeI];
     if (!features.isFeatureEdge(edgeI))
@@ -365,7 +365,7 @@ void mousse::topoCellLooper::walkSplitHex
       // On edge
       if (edgeI == -1)
       {
-        FatalErrorIn("walkSplitHex") << "Illegal edge and vert"
+        FATAL_ERROR_IN("walkSplitHex") << "Illegal edge and vert"
           << abort(FatalError);
       }
       loop.append(edgeToEVert(edgeI));
@@ -413,7 +413,7 @@ void mousse::topoCellLooper::walkSplitHex
         {
           // Cross to other face (there is only one since no edges)
           const labelList& pFaces = mesh().pointFaces()[vertI];
-          forAll(pFaces, pFaceI)
+          FOR_ALL(pFaces, pFaceI)
           {
             label thisFaceI = pFaces[pFaceI];
             if
@@ -524,7 +524,7 @@ void mousse::topoCellLooper::walkSplitHex
         }
         else
         {
-          FatalErrorIn("walkFromVert") << "Not yet implemented"
+          FATAL_ERROR_IN("walkFromVert") << "Not yet implemented"
             << "Choosing from more than "
             << "two candidates:" << nextFaces
             << " when coming from vertex " << vertI << " on cell "

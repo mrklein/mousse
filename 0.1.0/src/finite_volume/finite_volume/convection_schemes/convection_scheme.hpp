@@ -7,14 +7,17 @@
 //   Abstract base class for convection schemes.
 // SourceFiles
 //   convection_scheme.cpp
+
 #ifndef convection_scheme_hpp_
 #define convection_scheme_hpp_
+
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 #include "multivariate_surface_interpolation_scheme.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -33,7 +36,7 @@ public:
   //- Runtime type information
   virtual const word& type() const = 0;
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       tmp,
       convectionScheme,
@@ -45,7 +48,7 @@ public:
       ),
       (mesh, faceFlux, schemeData)
     );
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       tmp,
       convectionScheme,
@@ -123,44 +126,49 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
+
 // Add the patch constructor functions to the hash tables
-#define makeFvConvectionTypeScheme(SS, Type)                                   \
-  defineNamedTemplateTypeNameAndDebug(mousse::fv::SS<mousse::Type>, 0);          \
-                                       \
-  namespace mousse                                                             \
-  {                                                                          \
-    namespace fv                                                           \
-    {                                                                      \
-      convectionScheme<Type>::addIstreamConstructorToTable<SS<Type> >    \
-        add##SS##Type##IstreamConstructorToTable_;                     \
-    }                                                                      \
+#define MAKE_FV_CONVECTION_TYPE_SCHEME(SS, Type)                              \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::fv::SS<mousse::Type>, 0); \
+                                                                              \
+  namespace mousse                                                            \
+  {                                                                           \
+    namespace fv                                                              \
+    {                                                                         \
+      convectionScheme<Type>::addIstreamConstructorToTable<SS<Type> >         \
+        add##SS##Type##IstreamConstructorToTable_;                            \
+    }                                                                         \
   }
-#define makeFvConvectionScheme(SS)                                             \
-                                       \
-makeFvConvectionTypeScheme(SS, scalar)                                         \
-makeFvConvectionTypeScheme(SS, vector)                                         \
-makeFvConvectionTypeScheme(SS, sphericalTensor)                                \
-makeFvConvectionTypeScheme(SS, symmTensor)                                     \
-makeFvConvectionTypeScheme(SS, tensor)
-#define makeMultivariateFvConvectionTypeScheme(SS, Type)                       \
-  defineNamedTemplateTypeNameAndDebug(mousse::fv::SS<mousse::Type>, 0);          \
-                                       \
-  namespace mousse                                                             \
-  {                                                                          \
-    namespace fv                                                           \
-    {                                                                      \
-      convectionScheme<Type>::                                           \
-        addMultivariateConstructorToTable<SS<Type> >                   \
-        add##SS##Type##MultivariateConstructorToTable_;                \
-    }                                                                      \
+
+#define MAKE_FV_CONVECTION_SCHEME(SS)                                         \
+                                                                              \
+MAKE_FV_CONVECTION_TYPE_SCHEME(SS, scalar)                                    \
+MAKE_FV_CONVECTION_TYPE_SCHEME(SS, vector)                                    \
+MAKE_FV_CONVECTION_TYPE_SCHEME(SS, sphericalTensor)                           \
+MAKE_FV_CONVECTION_TYPE_SCHEME(SS, symmTensor)                                \
+MAKE_FV_CONVECTION_TYPE_SCHEME(SS, tensor)
+
+#define MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, Type)                 \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::fv::SS<mousse::Type>, 0); \
+                                                                              \
+  namespace mousse                                                            \
+  {                                                                           \
+    namespace fv                                                              \
+    {                                                                         \
+      convectionScheme<Type>::                                                \
+        addMultivariateConstructorToTable<SS<Type> >                          \
+        add##SS##Type##MultivariateConstructorToTable_;                       \
+    }                                                                         \
   }
-#define makeMultivariateFvConvectionScheme(SS)                                 \
-                                       \
-makeMultivariateFvConvectionTypeScheme(SS, scalar)                             \
-makeMultivariateFvConvectionTypeScheme(SS, vector)                             \
-makeMultivariateFvConvectionTypeScheme(SS, sphericalTensor)                    \
-makeMultivariateFvConvectionTypeScheme(SS, symmTensor)                         \
-makeMultivariateFvConvectionTypeScheme(SS, tensor)
+
+#define MAKE_MULTIVARIATE_FV_CONVECTION_SCHEME(SS)                            \
+                                                                              \
+MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, scalar)                       \
+MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, vector)                       \
+MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, sphericalTensor)              \
+MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, symmTensor)                   \
+MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, tensor)
+
 #ifdef NoRepository
 #   include "convection_scheme.cpp"
 #endif

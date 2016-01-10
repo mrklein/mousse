@@ -101,7 +101,7 @@ public:
     typedef fvMesh Mesh;
     typedef fvBoundaryMesh BoundaryMesh;
   // Declare name of the class and its debug switch
-  ClassName("fvMesh");
+  CLASS_NAME("fvMesh");
   // Constructors
     //- Construct from IOobject
     explicit fvMesh(const IOobject& io);

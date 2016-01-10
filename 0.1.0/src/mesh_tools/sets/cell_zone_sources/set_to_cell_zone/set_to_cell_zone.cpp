@@ -9,16 +9,18 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(setToCellZone, 0);
-addToRunTimeSelectionTable(topoSetSource, setToCellZone, word);
-addToRunTimeSelectionTable(topoSetSource, setToCellZone, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(setToCellZone, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setToCellZone, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setToCellZone, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::setToCellZone::usage_
 (
   setToCellZone::typeName,
   "\n    Usage: setToCellZone <cellSet>\n\n"
   "    Select all cells in the cellSet.\n\n"
 );
+
 // Constructors 
 // Construct from components
 mousse::setToCellZone::setToCellZone
@@ -62,7 +64,7 @@ void mousse::setToCellZone::applyToSet
 {
   if (!isA<cellZoneSet>(set))
   {
-    WarningIn
+    WARNING_IN
     (
       "setToCellZone::applyToSet(const topoSetSource::setAction"
       ", topoSet"
@@ -79,7 +81,7 @@ void mousse::setToCellZone::applyToSet
       cellSet fSet(mesh_, setName_);
       // Start off from copy
       DynamicList<label> newAddressing(fzSet.addressing());
-      forAllConstIter(cellSet, fSet, iter)
+      FOR_ALL_CONST_ITER(cellSet, fSet, iter)
       {
         label cellI = iter.key();
         if (!fzSet.found(cellI))
@@ -98,7 +100,7 @@ void mousse::setToCellZone::applyToSet
       cellSet loadedSet(mesh_, setName_);
       // Start off empty
       DynamicList<label> newAddressing(fzSet.addressing().size());
-      forAll(fzSet.addressing(), i)
+      FOR_ALL(fzSet.addressing(), i)
       {
         if (!loadedSet.found(fzSet.addressing()[i]))
         {

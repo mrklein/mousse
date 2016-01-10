@@ -73,17 +73,17 @@ class undoableMeshCutter
     ) const;
     //- Update labels on splitCell structure after morphing.
     static void updateLabels(const labelList& map, Map<splitCell*>&);
-    //- Disallow default bitwise copy construct
-    undoableMeshCutter(const undoableMeshCutter&);
-    //- Disallow default bitwise assignment
-    void operator=(const undoableMeshCutter&);
 public:
   //- Runtime type information
-  ClassName("undoableMeshCutter");
+  CLASS_NAME("undoableMeshCutter");
   // Constructors
     //- Construct from mesh and flag whether refinement pattern needs
     //  to be stored.
     undoableMeshCutter(const polyMesh& mesh, const bool undoable = true);
+    //- Disallow default bitwise copy construct
+    undoableMeshCutter(const undoableMeshCutter&) = delete;
+    //- Disallow default bitwise assignment
+    undoableMeshCutter& operator=(const undoableMeshCutter&) = delete;
   //- Destructor
   ~undoableMeshCutter();
   // Member Functions

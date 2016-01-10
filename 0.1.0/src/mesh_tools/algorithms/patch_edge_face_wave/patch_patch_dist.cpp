@@ -7,7 +7,9 @@
 #include "sync_tools.hpp"
 #include "poly_mesh.hpp"
 #include "patch_edge_face_info.hpp"
-// Constructors 
+#include "pstream_reduce_ops.hpp"
+
+// Constructors
 mousse::patchPatchDist::patchPatchDist
 (
   const polyPatch& patch,
@@ -20,15 +22,17 @@ mousse::patchPatchDist::patchPatchDist
 {
   patchPatchDist::correct();
 }
-// Destructor 
+
+// Destructor
 mousse::patchPatchDist::~patchPatchDist()
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::patchPatchDist::correct()
 {
   // Mark all edge connected to a nbrPatch.
   label nBnd = 0;
-  forAllConstIter(labelHashSet, nbrPatchIDs_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, nbrPatchIDs_, iter)
   {
     label nbrPatchI = iter.key();
     const polyPatch& nbrPatch = patch_.boundaryMesh()[nbrPatchI];
@@ -37,7 +41,7 @@ void mousse::patchPatchDist::correct()
   // Mark all edges. Note: should use HashSet but have no syncTools
   // functionality for these.
   EdgeMap<label> nbrEdges(2*nBnd);
-  forAllConstIter(labelHashSet, nbrPatchIDs_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, nbrPatchIDs_, iter)
   {
     label nbrPatchI = iter.key();
     const polyPatch& nbrPatch = patch_.boundaryMesh()[nbrPatchI];
@@ -111,7 +115,7 @@ void mousse::patchPatchDist::correct()
   // Extract into *this
   setSize(patch_.size());
   nUnset_ = 0;
-  forAll(allFaceInfo, faceI)
+  FOR_ALL(allFaceInfo, faceI)
   {
     if (allFaceInfo[faceI].valid(calc.data()))
     {

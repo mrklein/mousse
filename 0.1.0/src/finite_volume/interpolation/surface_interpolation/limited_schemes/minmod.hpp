@@ -9,9 +9,12 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   minmod.cpp
+
 #ifndef minmod_hpp_
 #define minmod_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimiterFunc>
@@ -22,9 +25,10 @@ class MinmodLimiter
 public:
   MinmodLimiter(Istream&)
   {}
+
   scalar limiter
   (
-    const scalar cdWeight,
+    const scalar /*cdWeight*/,
     const scalar faceFlux,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,

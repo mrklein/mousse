@@ -8,18 +8,20 @@
 #include "fvm_ddt.hpp"
 #include "fvm_sup.hpp"
 #include "fvc_div.hpp"
+
 namespace mousse
 {
+
 namespace MULES
 {
   template<class RhoType>
-  inline tmp<surfaceScalarField> interpolate(const RhoType& rho)
+  inline tmp<surfaceScalarField> interpolate(const RhoType& /*rho*/)
   {
-    notImplemented
+    NOT_IMPLEMENTED
     (
       "tmp<surfaceScalarField> interpolate(const RhoType& rho)"
     );
-    return tmp<surfaceScalarField>(NULL);
+    return tmp<surfaceScalarField>{NULL};
   }
   template<>
   inline tmp<surfaceScalarField> interpolate(const volScalarField& rho)
@@ -27,7 +29,9 @@ namespace MULES
     return fvc::interpolate(rho);
   }
 }
+
 }
+
 template<class RhoType, class SpType, class SuType>
 void mousse::MULES::implicitSolve
 (
@@ -43,71 +47,63 @@ void mousse::MULES::implicitSolve
 {
   const fvMesh& mesh = psi.mesh();
   const dictionary& MULEScontrols = mesh.solverDict(psi.name());
-  label maxIter
-  (
-    readLabel(MULEScontrols.lookup("maxIter"))
-  );
-  scalar maxUnboundedness
-  (
-    readScalar(MULEScontrols.lookup("maxUnboundedness"))
-  );
-  scalar CoCoeff
-  (
-    readScalar(MULEScontrols.lookup("CoCoeff"))
-  );
+  label maxIter{readLabel(MULEScontrols.lookup("maxIter"))};
+  scalar maxUnboundedness{readScalar(MULEScontrols.lookup("maxUnboundedness"))};
+  scalar CoCoeff{readScalar(MULEScontrols.lookup("CoCoeff"))};
   scalarField allCoLambda(mesh.nFaces());
+
   {
     slicedSurfaceScalarField CoLambda
-    (
+    {
       IOobject
-      (
+      {
         "CoLambda",
         mesh.time().timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh,
       dimless,
       allCoLambda,
       false   // Use slices for the couples
-    );
+    };
     if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
     {
       tmp<surfaceScalarField> Cof =
         mesh.time().deltaT()*mesh.surfaceInterpolation::deltaCoeffs()
-       *mag(phi/interpolate(rho))/mesh.magSf();
+        *mag(phi/interpolate(rho))/mesh.magSf();
       CoLambda == 1.0/max(CoCoeff*Cof, scalar(1));
     }
     else
     {
       tmp<surfaceScalarField> Cof =
         mesh.time().deltaT()*mesh.surfaceInterpolation::deltaCoeffs()
-       *mag(phi)/mesh.magSf();
+        *mag(phi)/mesh.magSf();
       CoLambda == 1.0/max(CoCoeff*Cof, scalar(1));
     }
   }
-  scalarField allLambda(allCoLambda);
+  scalarField allLambda{allCoLambda};
   //scalarField allLambda(mesh.nFaces(), 1.0);
   slicedSurfaceScalarField lambda
-  (
+  {
     IOobject
-    (
+    {
       "lambda",
       mesh.time().timeName(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     mesh,
     dimless,
     allLambda,
     false   // Use slices for the couples
-  );
-  linear<scalar> CDs(mesh);
-  upwind<scalar> UDs(mesh, phi);
+  };
+  linear<scalar> CDs{mesh};
+  upwind<scalar> UDs{mesh, phi};
   //fv::uncorrectedSnGrad<scalar> snGrads(mesh);
   fvScalarMatrix psiConvectionDiffusion
   (
@@ -118,7 +114,7 @@ void mousse::MULES::implicitSolve
    - fvm::Sp(Sp, psi)
    - Su
   );
-  surfaceScalarField phiBD(psiConvectionDiffusion.flux());
+  surfaceScalarField phiBD{psiConvectionDiffusion.flux()};
   surfaceScalarField& phiCorr = phiPsi;
   phiCorr -= phiBD;
   for (label i=0; i<maxIter; i++)

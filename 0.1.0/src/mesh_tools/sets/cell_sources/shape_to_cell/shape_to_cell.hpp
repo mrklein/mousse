@@ -28,7 +28,7 @@ class shapeToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("shapeToCell");
+  TYPE_NAME("shapeToCell");
   // Static data
     //- Cos of feature angle for polyHedral to be splitHex
     static scalar featureCos;

@@ -41,7 +41,7 @@ class arraySet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("array");
+  TYPE_NAME("array");
   // Constructors
     //- Construct from components
     arraySet

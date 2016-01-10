@@ -7,7 +7,9 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
-// Constructors 
+#include "time.hpp"
+
+// Constructors
 mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
 (
   const fvPatch& p,
@@ -85,7 +87,8 @@ mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
   fixedGradientFvPatchScalarField(wbppsf, iF),
   curTimeIndex_(-1)
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::fixedFluxPressureFvPatchScalarField::updateCoeffs
 (
   const scalarField& snGradp
@@ -107,7 +110,7 @@ void mousse::fixedFluxPressureFvPatchScalarField::updateCoeffs()
   }
   if (curTimeIndex_ != this->db().time().timeIndex())
   {
-    FatalErrorIn("fixedFluxPressureFvPatchScalarField::updateCoeffs()")
+    FATAL_ERROR_IN("fixedFluxPressureFvPatchScalarField::updateCoeffs()")
       << "updateCoeffs(const scalarField& snGradp) MUST be called before"
        " updateCoeffs() or evaluate() to set the boundary gradient."
       << exit(FatalError);
@@ -120,9 +123,9 @@ void mousse::fixedFluxPressureFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    fixedFluxPressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  fixedFluxPressureFvPatchScalarField
+);
 }

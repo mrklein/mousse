@@ -11,8 +11,8 @@ mousse::porosityModelList::porosityModelList
   const dictionary& dict
 )
 :
-  PtrList<porosityModel>(),
-  mesh_(mesh)
+  PtrList<porosityModel>{},
+  mesh_{mesh}
 {
   reset(dict);
   active(true);
@@ -24,7 +24,7 @@ mousse::porosityModelList::~porosityModelList()
 bool mousse::porosityModelList::active(const bool warn) const
 {
   bool a = false;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     a = a || this->operator[](i).active();
   }
@@ -37,7 +37,7 @@ bool mousse::porosityModelList::active(const bool warn) const
 void mousse::porosityModelList::reset(const dictionary& dict)
 {
   label count = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (iter().isDict())
     {
@@ -46,7 +46,7 @@ void mousse::porosityModelList::reset(const dictionary& dict)
   }
   this->setSize(count);
   label i = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (iter().isDict())
     {
@@ -63,7 +63,7 @@ void mousse::porosityModelList::reset(const dictionary& dict)
 bool mousse::porosityModelList::read(const dictionary& dict)
 {
   bool allOk = true;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     porosityModel& pm = this->operator[](i);
     bool ok = pm.read(dict.subDict(pm.name()));
@@ -73,7 +73,7 @@ bool mousse::porosityModelList::read(const dictionary& dict)
 }
 bool mousse::porosityModelList::writeData(Ostream& os) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     os  << nl;
     this->operator[](i).writeData(os);
@@ -85,7 +85,7 @@ void mousse::porosityModelList::addResistance
   fvVectorMatrix& UEqn
 )
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).addResistance(UEqn);
   }
@@ -97,7 +97,7 @@ void mousse::porosityModelList::addResistance
   const volScalarField& mu
 )
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).addResistance(UEqn, rho, mu);
   }
@@ -109,7 +109,7 @@ void mousse::porosityModelList::addResistance
   bool correctAUprocBC         
 )
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).addResistance(UEqn, AU, correctAUprocBC);
   }

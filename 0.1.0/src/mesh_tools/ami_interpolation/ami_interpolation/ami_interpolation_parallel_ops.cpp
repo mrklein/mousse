@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "ami_interpolation.hpp"
+
 #include "merge_points.hpp"
 #include "map_distribute.hpp"
+
 // Private Member Functions 
 template<class SourcePatch, class TargetPatch>
 mousse::label mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcDistribution
@@ -50,6 +52,8 @@ mousse::label mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcDistributi
   // Either not parallel or no faces on any processor
   return procI;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::label
 mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcOverlappingProcs
@@ -62,10 +66,10 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcOverlappingProcs
   overlaps.setSize(procBb.size());
   overlaps = false;
   label nOverlaps = 0;
-  forAll(procBb, procI)
+  FOR_ALL(procBb, procI)
   {
     const List<treeBoundBox>& bbs = procBb[procI];
-    forAll(bbs, bbI)
+    FOR_ALL(bbs, bbI)
     {
       if (bbs[bbI].overlaps(bb))
       {
@@ -77,6 +81,8 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcOverlappingProcs
   }
   return nOverlaps;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::distributePatches
 (
@@ -88,18 +94,18 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::distributePatches
   List<labelList>& faceIDs
 ) const
 {
-  PstreamBuffers pBufs(Pstream::nonBlocking);
+  PstreamBuffers pBufs{Pstream::nonBlocking};
   for (label domain = 0; domain < Pstream::nProcs(); domain++)
   {
     const labelList& sendElems = map.subMap()[domain];
     if (domain != Pstream::myProcNo() && sendElems.size())
     {
       labelList globalElems(sendElems.size());
-      forAll(sendElems, i)
+      FOR_ALL(sendElems, i)
       {
         globalElems[i] = gi.toGlobal(sendElems[i]);
       }
-      faceList subFaces(UIndirectList<face>(pp, sendElems));
+      faceList subFaces{UIndirectList<face>{pp, sendElems}};
       primitivePatch subPatch
       (
         SubList<face>(subFaces, subFaces.size()),
@@ -139,7 +145,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::distributePatches
     faces[Pstream::myProcNo()] = subPatch.localFaces();
     points[Pstream::myProcNo()] = subPatch.localPoints();
     faceIDs[Pstream::myProcNo()].setSize(sendElems.size());
-    forAll(sendElems, i)
+    FOR_ALL(sendElems, i)
     {
       faceIDs[Pstream::myProcNo()][i] = gi.toGlobal(sendElems[i]);
     }
@@ -157,6 +163,8 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::distributePatches
     }
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::
 distributeAndMergePatches
@@ -177,7 +185,7 @@ distributeAndMergePatches
   // Renumber and flatten
   label nFaces = 0;
   label nPoints = 0;
-  forAll(allFaces, procI)
+  FOR_ALL(allFaces, procI)
   {
     nFaces += allFaces[procI].size();
     nPoints += allPoints[procI].size();
@@ -192,42 +200,42 @@ distributeAndMergePatches
     const labelList& faceIDs = allTgtFaceIDs[Pstream::myProcNo()];
     SubList<label>(tgtFaceIDs, faceIDs.size()).assign(faceIDs);
     const faceList& fcs = allFaces[Pstream::myProcNo()];
-    forAll(fcs, i)
+    FOR_ALL(fcs, i)
     {
       const face& f = fcs[i];
       face& newF = tgtFaces[nFaces++];
       newF.setSize(f.size());
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         newF[fp] = f[fp] + nPoints;
       }
     }
     const pointField& pts = allPoints[Pstream::myProcNo()];
-    forAll(pts, i)
+    FOR_ALL(pts, i)
     {
       tgtPoints[nPoints++] = pts[i];
     }
   }
   // Other proc data follows
-  forAll(allFaces, procI)
+  FOR_ALL(allFaces, procI)
   {
     if (procI != Pstream::myProcNo())
     {
       const labelList& faceIDs = allTgtFaceIDs[procI];
       SubList<label>(tgtFaceIDs, faceIDs.size(), nFaces).assign(faceIDs);
       const faceList& fcs = allFaces[procI];
-      forAll(fcs, i)
+      FOR_ALL(fcs, i)
       {
         const face& f = fcs[i];
         face& newF = tgtFaces[nFaces++];
         newF.setSize(f.size());
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           newF[fp] = f[fp] + nPoints;
         }
       }
       const pointField& pts = allPoints[procI];
-      forAll(pts, i)
+      FOR_ALL(pts, i)
       {
         tgtPoints[nPoints++] = pts[i];
       }
@@ -252,12 +260,14 @@ distributeAndMergePatches
         << " down to " << newTgtPoints.size() << " points" << endl;
     }
     tgtPoints.transfer(newTgtPoints);
-    forAll(tgtFaces, i)
+    FOR_ALL(tgtFaces, i)
     {
       inplaceRenumber(oldToNew, tgtFaces[i]);
     }
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::autoPtr<mousse::mapDistribute>
 mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
@@ -286,7 +296,7 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
   }
   // slightly increase size of bounding boxes to allow for cases where
   // bounding boxes are perfectly alligned
-  forAll(procBb[Pstream::myProcNo()], bbI)
+  FOR_ALL(procBb[Pstream::myProcNo()], bbI)
   {
     treeBoundBox& bb = procBb[Pstream::myProcNo()][bbI];
     bb.inflate(0.01);
@@ -297,7 +307,7 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
   {
     Info<< "Determining extent of srcPatch per processor:" << nl
       << "\tproc\tbb" << endl;
-    forAll(procBb, procI)
+    FOR_ALL(procBb, procI)
     {
       Info<< '\t' << procI << '\t' << procBb[procI] << endl;
     }
@@ -311,14 +321,14 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
     List<DynamicList<label> > dynSendMap(Pstream::nProcs());
     // Work array - whether processor bb overlaps the face bounds
     boolList procBbOverlaps(Pstream::nProcs());
-    forAll(faces, faceI)
+    FOR_ALL(faces, faceI)
     {
       if (faces[faceI].size())
       {
         treeBoundBox faceBb(points, faces[faceI]);
         // Find the processor this face overlaps
         calcOverlappingProcs(procBb, faceBb, procBbOverlaps);
-        forAll(procBbOverlaps, procI)
+        FOR_ALL(procBbOverlaps, procI)
         {
           if (procBbOverlaps[procI])
           {
@@ -329,7 +339,7 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
     }
     // Convert dynamicList to labelList
     sendMap.setSize(Pstream::nProcs());
-    forAll(sendMap, procI)
+    FOR_ALL(sendMap, procI)
     {
       sendMap[procI].transfer(dynSendMap[procI]);
     }
@@ -339,7 +349,7 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
   {
     Pout<< "Of my " << faces.size() << " I need to send to:" << nl
       << "\tproc\tfaces" << endl;
-    forAll(sendMap, procI)
+    FOR_ALL(sendMap, procI)
     {
       Pout<< '\t' << procI << '\t' << sendMap[procI].size() << endl;
     }
@@ -347,7 +357,7 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
   // Send over how many faces I need to receive
   labelListList sendSizes(Pstream::nProcs());
   sendSizes[Pstream::myProcNo()].setSize(Pstream::nProcs());
-  forAll(sendMap, procI)
+  FOR_ALL(sendMap, procI)
   {
     sendSizes[Pstream::myProcNo()][procI] = sendMap[procI].size();
   }
@@ -361,7 +371,7 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
     sendMap[Pstream::myProcNo()].size()
   );
   label segmentI = constructMap[Pstream::myProcNo()].size();
-  forAll(constructMap, procI)
+  FOR_ALL(constructMap, procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -375,13 +385,13 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::calcProcMap
     }
   }
   autoPtr<mapDistribute> mapPtr
-  (
+  {
     new mapDistribute
-    (
+    {
       segmentI,       // size after construction
       sendMap.xfer(),
       constructMap.xfer()
-    )
-  );
+    }
+  };
   return mapPtr;
 }

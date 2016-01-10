@@ -28,15 +28,15 @@ class polyAddPoint
 public:
   // Static data members
     //- Runtime type information
-    TypeName("addPoint");
+    TYPE_NAME("addPoint");
   // Constructors
     //- Construct null.  Used only for list construction
     polyAddPoint()
     :
-      p_(vector::zero),
-      masterPointID_(-1),
-      zoneID_(-1),
-      inCell_(false)
+      p_{vector::zero},
+      masterPointID_{-1},
+      zoneID_{-1},
+      inCell_{false}
     {}
     //- Construct from components
     polyAddPoint
@@ -47,14 +47,14 @@ public:
       const bool inCell
     )
     :
-      p_(p),
-      masterPointID_(masterPointID),
-      zoneID_(zoneID),
-      inCell_(inCell)
+      p_{p},
+      masterPointID_{masterPointID},
+      zoneID_{zoneID},
+      inCell_{inCell}
     {
       if (zoneID_ < 0 && !inCell)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyAddPoint\n"
           "(\n"

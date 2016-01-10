@@ -7,10 +7,13 @@
 //   Central-differencing interpolation scheme class
 // SourceFiles
 //   linear.cpp
+
 #ifndef linear_hpp_
 #define linear_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -23,7 +26,7 @@ class linear
     void operator=(const linear&);
 public:
   //- Runtime type information
-  TypeName("linear");
+  TYPE_NAME("linear");
   // Constructors
     //- Construct from mesh
     linear(const fvMesh& mesh)

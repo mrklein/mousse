@@ -46,7 +46,7 @@ protected:
       void clearOut();
 public:
   // Declare name of the class and its debug switch
-  ClassName("surfaceInterpolation");
+  CLASS_NAME("surfaceInterpolation");
   // Constructors
     //- Construct given an fvMesh
     explicit surfaceInterpolation(const fvMesh&);

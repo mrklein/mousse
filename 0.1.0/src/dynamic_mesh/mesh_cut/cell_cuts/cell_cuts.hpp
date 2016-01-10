@@ -328,13 +328,9 @@ class cellCuts
       void calcLoopsAndAddressing(const labelList& cutCells);
       //- Check various consistencies.
       void check() const;
-    //- Disallow default bitwise copy construct
-    cellCuts(const cellCuts&);
-    //- Disallow default bitwise assignment
-    void operator=(const cellCuts&);
 public:
   //- Runtime type information
-  ClassName("cellCuts");
+  CLASS_NAME("cellCuts");
   // Constructors
     //- Construct from cells to cut and pattern of cuts
     cellCuts
@@ -392,6 +388,10 @@ public:
       const label nLoops,
       const labelListList& cellAnchorPoints
     );
+    //- Disallow default bitwise copy construct
+    cellCuts(const cellCuts&) = delete;
+    //- Disallow default bitwise assignment
+    cellCuts& operator=(const cellCuts&) = delete;
   //- Destructor
   ~cellCuts();
     //- Clear out demand driven storage

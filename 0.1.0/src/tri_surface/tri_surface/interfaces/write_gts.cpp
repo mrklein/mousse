@@ -14,7 +14,7 @@ void triSurface::writeGTS(const bool writeSorted, Ostream& os) const
   labelList faceMap;
   surfacePatchList myPatches(calcPatches(faceMap));
   // Print patch names as comment
-  forAll(myPatches, patchI)
+  FOR_ALL(myPatches, patchI)
   {
     os  << "#     " << patchI << "    "
       << myPatches[patchI].name() << endl;
@@ -24,7 +24,7 @@ void triSurface::writeGTS(const bool writeSorted, Ostream& os) const
   os  << "# nPoints  nEdges  nTriangles" << endl
     << ps.size() << ' ' << nEdges() << ' ' << size() << endl;
   // Write vertex coords
-  forAll(ps, pointi)
+  FOR_ALL(ps, pointi)
   {
     os  << ps[pointi].x() << ' '
       << ps[pointi].y() << ' '
@@ -34,7 +34,7 @@ void triSurface::writeGTS(const bool writeSorted, Ostream& os) const
   // Note: edges are in local point labels so convert
   const edgeList& es = edges();
   const labelList& meshPts = meshPoints();
-  forAll(es, edgei)
+  FOR_ALL(es, edgei)
   {
     os  << meshPts[es[edgei].start()] + 1 << ' '
       << meshPts[es[edgei].end()] + 1 << endl;
@@ -44,7 +44,7 @@ void triSurface::writeGTS(const bool writeSorted, Ostream& os) const
   if (writeSorted)
   {
     label faceIndex = 0;
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       for
       (
@@ -55,7 +55,7 @@ void triSurface::writeGTS(const bool writeSorted, Ostream& os) const
       {
         const label faceI = faceMap[faceIndex++];
         const labelList& fEdges = faceEdges()[faceI];
-        os  << fEdges[0] + 1 << ' '
+        os<< fEdges[0] + 1 << ' '
           << fEdges[1] + 1 << ' '
           << fEdges[2] + 1 << ' '
           << (*this)[faceI].region() << endl;
@@ -64,10 +64,10 @@ void triSurface::writeGTS(const bool writeSorted, Ostream& os) const
   }
   else
   {
-    forAll(faceEs, faceI)
+    FOR_ALL(faceEs, faceI)
     {
       const labelList& fEdges = faceEdges()[faceI];
-      os  << fEdges[0] + 1 << ' '
+      os<< fEdges[0] + 1 << ' '
         << fEdges[1] + 1 << ' '
         << fEdges[2] + 1 << ' '
         << (*this)[faceI].region() << endl;

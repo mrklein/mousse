@@ -8,11 +8,11 @@
 // Static Data Members
 namespace mousse
 {
-  namespace porosityModels
-  {
-    defineTypeNameAndDebug(fixedCoeff, 0);
-    addToRunTimeSelectionTable(porosityModel, fixedCoeff, mesh);
-  }
+namespace porosityModels
+{
+DEFINE_TYPE_NAME_AND_DEBUG(fixedCoeff, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(porosityModel, fixedCoeff, mesh);
+}
 }
 // Private Member Functions 
 void mousse::porosityModels::fixedCoeff::apply
@@ -24,12 +24,12 @@ void mousse::porosityModels::fixedCoeff::apply
   const scalar rho
 ) const
 {
-  forAll(cellZoneIDs_, zoneI)
+  FOR_ALL(cellZoneIDs_, zoneI)
   {
     const tensorField& alphaZones = alpha_[zoneI];
     const tensorField& betaZones = beta_[zoneI];
     const labelList& cells = mesh_.cellZones()[cellZoneIDs_[zoneI]];
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       const label cellI = cells[i];
       const label j = fieldIndex(i);
@@ -47,12 +47,12 @@ void mousse::porosityModels::fixedCoeff::apply
   const scalar rho
 ) const
 {
-  forAll(cellZoneIDs_, zoneI)
+  FOR_ALL(cellZoneIDs_, zoneI)
   {
     const tensorField& alphaZones = alpha_[zoneI];
     const tensorField& betaZones = beta_[zoneI];
     const labelList& cells = mesh_.cellZones()[cellZoneIDs_[zoneI]];
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       const label cellI = cells[i];
       const label j = fieldIndex(i);
@@ -72,11 +72,11 @@ mousse::porosityModels::fixedCoeff::fixedCoeff
   const word& cellZoneName
 )
 :
-  porosityModel(name, modelType, mesh, dict, cellZoneName),
-  alphaXYZ_("alpha", dimless/dimTime, coeffs_),
-  betaXYZ_("beta", dimless/dimLength, coeffs_),
-  alpha_(cellZoneIDs_.size()),
-  beta_(cellZoneIDs_.size())
+  porosityModel{name, modelType, mesh, dict, cellZoneName},
+  alphaXYZ_{"alpha", dimless/dimTime, coeffs_},
+  betaXYZ_{"beta", dimless/dimLength, coeffs_},
+  alpha_{cellZoneIDs_.size()},
+  beta_{cellZoneIDs_.size()}
 {
   adjustNegativeResistance(alphaXYZ_);
   adjustNegativeResistance(betaXYZ_);
@@ -90,7 +90,7 @@ void mousse::porosityModels::fixedCoeff::calcTranformModelData()
 {
   if (coordSys_.R().uniform())
   {
-    forAll (cellZoneIDs_, zoneI)
+    FOR_ALL(cellZoneIDs_, zoneI)
     {
       alpha_[zoneI].setSize(1);
       beta_[zoneI].setSize(1);
@@ -108,12 +108,12 @@ void mousse::porosityModels::fixedCoeff::calcTranformModelData()
   }
   else
   {
-    forAll(cellZoneIDs_, zoneI)
+    FOR_ALL(cellZoneIDs_, zoneI)
     {
       const labelList& cells = mesh_.cellZones()[cellZoneIDs_[zoneI]];
       alpha_[zoneI].setSize(cells.size());
       beta_[zoneI].setSize(cells.size());
-      forAll(cells, i)
+      FOR_ALL(cells, i)
       {
         alpha_[zoneI][i] = tensor::zero;
         alpha_[zoneI][i].xx() = alphaXYZ_.value().x();
@@ -133,8 +133,8 @@ void mousse::porosityModels::fixedCoeff::calcTranformModelData()
 void mousse::porosityModels::fixedCoeff::calcForce
 (
   const volVectorField& U,
-  const volScalarField& rho,
-  const volScalarField& mu,
+  const volScalarField& /*rho*/,
+  const volScalarField& /*mu*/,
   vectorField& force
 ) const
 {

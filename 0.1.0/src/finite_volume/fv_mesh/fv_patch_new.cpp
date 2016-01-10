@@ -21,7 +21,7 @@ mousse::autoPtr<mousse::fvPatch> mousse::fvPatch::New
     polyPatchConstructorTablePtr_->find(patch.type());
   if (cstrIter == polyPatchConstructorTablePtr_->end())
   {
-    FatalErrorIn("fvPatch::New(const polyPatch&, const fvBoundaryMesh&)")
+    FATAL_ERROR_IN("fvPatch::New(const polyPatch&, const fvBoundaryMesh&)")
       << "Unknown fvPatch type " << patch.type() << nl
       << "Valid fvPatch types are :"
       << polyPatchConstructorTablePtr_->sortedToc()

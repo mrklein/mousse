@@ -17,7 +17,7 @@
 // Static Member Functions
 namespace mousse
 {
-defineTypeNameAndDebug(polyMeshFilter, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(polyMeshFilter, 0);
 }
 void mousse::polyMeshFilter::updateSets(const mapPolyMesh& map)
 {
@@ -65,7 +65,7 @@ mousse::autoPtr<mousse::fvMesh> mousse::polyMeshFilter::copyMesh(const fvMesh& m
   return meshCopy;
 }
 // Private Member Functions 
-mousse::label mousse::polyMeshFilter::filterFacesLoop(const label nOriginalBadFaces)
+mousse::label mousse::polyMeshFilter::filterFacesLoop(const label /*nOriginalBadFaces*/)
 {
   label nBadFaces = labelMax;
   label nOuterIterations = 0;
@@ -201,7 +201,7 @@ mousse::label mousse::polyMeshFilter::filterFacesLoop(const label nOriginalBadFa
         pointErrorCount
       );
       newBadFaces = false;
-      forAll(mesh_.points(), pI)
+      FOR_ALL(mesh_.points(), pI)
       {
         if
         (
@@ -246,7 +246,7 @@ mousse::label mousse::polyMeshFilter::filterFaces
       collapsePointToLocation
     );
     label nCollapsed = 0;
-    forAll(nCollapsedPtEdge, collapseTypeI)
+    FOR_ALL(nCollapsedPtEdge, collapseTypeI)
     {
       nCollapsed += nCollapsedPtEdge[collapseTypeI];
     }
@@ -418,7 +418,7 @@ void mousse::polyMeshFilter::updatePointErrorCount
   labelList& pointErrorCount
 ) const
 {
-  forAll(mesh_.points(), pI)
+  FOR_ALL(mesh_.points(), pI)
   {
     if (isErrorPoint[oldToNewMesh[pI]])
     {
@@ -428,14 +428,14 @@ void mousse::polyMeshFilter::updatePointErrorCount
 }
 void mousse::polyMeshFilter::checkMeshEdgesAndRelaxEdges
 (
-  const polyMesh& newMesh,
+  const polyMesh& /*newMesh*/,
   const labelList& oldToNewMesh,
   const PackedBoolList& isErrorPoint,
   const labelList& pointErrorCount
 )
 {
   const edgeList& edges = mesh_.edges();
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     label newStart = oldToNewMesh[e[0]];
@@ -461,15 +461,15 @@ void mousse::polyMeshFilter::checkMeshEdgesAndRelaxEdges
   for (label smoothIter = 0; smoothIter < maxSmoothIters(); ++smoothIter)
   {
     // Smooth minEdgeLen
-    forAll(mesh_.edges(), edgeI)
+    FOR_ALL(mesh_.edges(), edgeI)
     {
       const edge& e = mesh_.edges()[edgeI];
       scalar sumMinEdgeLen = 0;
       label nEdges = 0;
-      forAll(e, pointI)
+      FOR_ALL(e, pointI)
       {
         const labelList& pEdges = mesh_.pointEdges()[e[pointI]];
-        forAll(pEdges, pEdgeI)
+        FOR_ALL(pEdges, pEdgeI)
         {
           const label pEdge = pEdges[pEdgeI];
           sumMinEdgeLen += minEdgeLen_[pEdge];
@@ -493,17 +493,17 @@ void mousse::polyMeshFilter::checkMeshEdgesAndRelaxEdges
 }
 void mousse::polyMeshFilter::checkMeshFacesAndRelaxEdges
 (
-  const polyMesh& newMesh,
+  const polyMesh& /*newMesh*/,
   const labelList& oldToNewMesh,
   const PackedBoolList& isErrorPoint,
   const labelList& pointErrorCount
 )
 {
   const faceList& faces = mesh_.faces();
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
-    forAll(f, fpI)
+    FOR_ALL(f, fpI)
     {
       const label ptIndex = oldToNewMesh[f[fpI]];
       if (pointErrorCount[f[fpI]] >= maxPointErrorCount())
@@ -521,7 +521,7 @@ void mousse::polyMeshFilter::checkMeshFacesAndRelaxEdges
   for (label smoothIter = 0; smoothIter < maxSmoothIters(); ++smoothIter)
   {
     // Smooth faceFilterFactor
-    forAll(faces, faceI)
+    FOR_ALL(faces, faceI)
     {
       const labelList& fEdges = mesh_.faceEdges()[faceI];
       scalar sumFaceFilterFactors = 0;
@@ -529,14 +529,14 @@ void mousse::polyMeshFilter::checkMeshFacesAndRelaxEdges
       // This is important: Only smooth around faces that share an
       // edge with a bad face
       bool skipFace = true;
-      forAll(fEdges, fEdgeI)
+      FOR_ALL(fEdges, fEdgeI)
       {
         const labelList& eFaces = mesh_.edgeFaces()[fEdges[fEdgeI]];
-        forAll(eFaces, eFaceI)
+        FOR_ALL(eFaces, eFaceI)
         {
           const label eFace = eFaces[eFaceI];
           const face& f = faces[eFace];
-          forAll(f, fpI)
+          FOR_ALL(f, fpI)
           {
             const label ptIndex = oldToNewMesh[f[fpI]];
             if (isErrorPoint[ptIndex])
@@ -574,7 +574,7 @@ void mousse::polyMeshFilter::updatePointPriorities
 {
   labelList newPointPriority(newMesh.nPoints(), labelMin);
   const labelList& currPointPriority = pointPriority_();
-  forAll(newPointPriority, ptI)
+  FOR_ALL(newPointPriority, ptI)
   {
     const label newPointToOldPoint = pointMap[ptI];
     const label origPointPriority = currPointPriority[newPointToOldPoint];
@@ -599,7 +599,7 @@ void mousse::polyMeshFilter::printScalarFieldStats
   scalar validElements = 0;
   scalar min = GREAT;
   scalar max = -GREAT;
-  forAll(fld, i)
+  FOR_ALL(fld, i)
   {
     const scalar fldElement = fld[i];
     if (fldElement >= 0)
@@ -638,7 +638,7 @@ void mousse::polyMeshFilter::mapOldMeshEdgeFieldToNewMesh
 {
   scalarField tmp(newMesh.nEdges());
   const edgeList& newEdges = newMesh.edges();
-  forAll(newEdges, newEdgeI)
+  FOR_ALL(newEdges, newEdgeI)
   {
     const edge& newEdge = newEdges[newEdgeI];
     const label pStart = newEdge.start();
@@ -666,7 +666,7 @@ void mousse::polyMeshFilter::mapOldMeshFaceFieldToNewMesh
 ) const
 {
   scalarField tmp(newMesh.nFaces());
-  forAll(faceMap, newFaceI)
+  FOR_ALL(faceMap, newFaceI)
   {
     const label oldFaceI = faceMap[newFaceI];
     tmp[newFaceI] = newMeshFaceFilterFactor[oldFaceI];
@@ -685,7 +685,7 @@ void mousse::polyMeshFilter::updateOldToNewPointMap
   labelList& origToCurrentPointMap
 ) const
 {
-  forAll(origToCurrentPointMap, origPointI)
+  FOR_ALL(origToCurrentPointMap, origPointI)
   {
     label oldPointI = origToCurrentPointMap[origPointI];
     if (oldPointI != -1)
@@ -775,7 +775,7 @@ mousse::label mousse::polyMeshFilter::filter(const faceSet& fSet)
 {
   minEdgeLen_.resize(mesh_.nEdges(), minLen());
   faceFilterFactor_.resize(mesh_.nFaces(), initialFaceLengthFactor());
-  forAll(faceFilterFactor_, fI)
+  FOR_ALL(faceFilterFactor_, fI)
   {
     if (!fSet.found(fI))
     {

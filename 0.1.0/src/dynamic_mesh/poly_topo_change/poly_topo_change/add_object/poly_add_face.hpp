@@ -42,21 +42,21 @@ class polyAddFace
 public:
   // Static data members
     //- Runtime type information
-    TypeName("addFace");
+    TYPE_NAME("addFace");
   // Constructors
     //- Construct null.  Used for constructing lists
     polyAddFace()
     :
-      face_(0),
-      owner_(-1),
-      neighbour_(-1),
-      masterPointID_(-1),
-      masterEdgeID_(-1),
-      masterFaceID_(-1),
-      flipFaceFlux_(false),
-      patchID_(-1),
-      zoneID_(-1),
-      zoneFlip_(false)
+      face_{0},
+      owner_{-1},
+      neighbour_{-1},
+      masterPointID_{-1},
+      masterEdgeID_{-1},
+      masterFaceID_{-1},
+      flipFaceFlux_{false},
+      patchID_{-1},
+      zoneID_{-1},
+      zoneFlip_{false}
     {}
     //- Construct from components
     polyAddFace
@@ -73,20 +73,20 @@ public:
       const bool zoneFlip
     )
     :
-      face_(f),
-      owner_(owner),
-      neighbour_(neighbour),
-      masterPointID_(masterPointID),
-      masterEdgeID_(masterEdgeID),
-      masterFaceID_(masterFaceID),
-      flipFaceFlux_(flipFaceFlux),
-      patchID_(patchID),
-      zoneID_(zoneID),
-      zoneFlip_(zoneFlip)
+      face_{f},
+      owner_{owner},
+      neighbour_{neighbour},
+      masterPointID_{masterPointID},
+      masterEdgeID_{masterEdgeID},
+      masterFaceID_{masterFaceID},
+      flipFaceFlux_{flipFaceFlux},
+      patchID_{patchID},
+      zoneID_{zoneID},
+      zoneFlip_{zoneFlip}
     {
       if (face_.size() < 3)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyAddFace\n"
           "(\n"
@@ -114,7 +114,7 @@ public:
       }
       if (min(face_) < 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyAddFace\n"
           "(\n"
@@ -142,7 +142,7 @@ public:
       }
       if (min(owner_, neighbour_) >= 0 && owner_ == neighbour_)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyAddFace\n"
           "(\n"
@@ -170,7 +170,7 @@ public:
       }
       if (neighbour_ >= 0 && patchID >= 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyAddFace\n"
           "(\n"
@@ -198,7 +198,7 @@ public:
       }
       if (owner_ < 0 && zoneID < 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyAddFace\n"
           "(\n"
@@ -212,7 +212,7 @@ public:
           "    const label patchID,\n"
           "    const label zoneID"
           ")"
-        )   << "Face has no owner and is not in a zone.  "
+        ) << "Face has no owner and is not in a zone.  "
           << "This is not allowed.\n"
           << "Face: " << face_
           << "Face: " << face_
@@ -226,7 +226,7 @@ public:
       }
       if (zoneID_ == -1 && zoneFlip)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyAddFace\n"
           "(\n"

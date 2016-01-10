@@ -8,49 +8,54 @@
 #include "string_io_list.hpp"
 #include "cell_modeller.hpp"
 #include "vector_io_field.hpp"
-/* * * * * * * * * * * * * * * Static Member Data  * * * * * * * * * * * * * */
+#include "istring_stream.hpp"
+#include "ostring_stream.hpp"
+
+// Static Member Data
 namespace mousse
 {
-  defineTypeNameAndDebug(vtkUnstructuredReader, 1);   //0);
-  template<>
-  const char*
-  NamedEnum<vtkUnstructuredReader::vtkDataType, 8>::names[] =
-  {
-    "int",
-    "unsigned_int",
-    "long",
-    "unsigned_long",
-    "float",
-    "double",
-    "string",
-    "vtkIdType"
-  };
-  const NamedEnum<vtkUnstructuredReader::vtkDataType, 8>
-  vtkUnstructuredReader::vtkDataTypeNames;
-  template<>
-  const char*
-  NamedEnum<vtkUnstructuredReader::vtkDataSetType, 3>::names[] =
-  {
-    "FIELD",
-    "SCALARS",
-    "VECTORS"
-  };
-  const NamedEnum<vtkUnstructuredReader::vtkDataSetType, 3>
-  vtkUnstructuredReader::vtkDataSetTypeNames;
-  template<>
-  const char*
-  NamedEnum<vtkUnstructuredReader::parseMode, 5>::names[] =
-  {
-    "NOMODE",
-    "UNSTRUCTURED_GRID",
-    "POLYDATA",
-    "CELL_DATA",
-    "POINT_DATA"
-  };
-  const NamedEnum<vtkUnstructuredReader::parseMode, 5>
-  vtkUnstructuredReader::parseModeNames;
+
+DEFINE_TYPE_NAME_AND_DEBUG(vtkUnstructuredReader, 1);   //0);
+template<>
+const char*
+NamedEnum<vtkUnstructuredReader::vtkDataType, 8>::names[] =
+{
+  "int",
+  "unsigned_int",
+  "long",
+  "unsigned_long",
+  "float",
+  "double",
+  "string",
+  "vtkIdType"
+};
+const NamedEnum<vtkUnstructuredReader::vtkDataType, 8>
+vtkUnstructuredReader::vtkDataTypeNames;
+template<>
+const char*
+NamedEnum<vtkUnstructuredReader::vtkDataSetType, 3>::names[] =
+{
+  "FIELD",
+  "SCALARS",
+  "VECTORS"
+};
+const NamedEnum<vtkUnstructuredReader::vtkDataSetType, 3>
+vtkUnstructuredReader::vtkDataSetTypeNames;
+template<>
+const char*
+NamedEnum<vtkUnstructuredReader::parseMode, 5>::names[] =
+{
+  "NOMODE",
+  "UNSTRUCTURED_GRID",
+  "POLYDATA",
+  "CELL_DATA",
+  "POINT_DATA"
+};
+const NamedEnum<vtkUnstructuredReader::parseMode, 5>
+vtkUnstructuredReader::parseModeNames;
 }
-// Private Member Functions 
+
+// Private Member Functions
 void mousse::vtkUnstructuredReader::warnUnhandledType
 (
   Istream& inFile,
@@ -60,10 +65,12 @@ void mousse::vtkUnstructuredReader::warnUnhandledType
 {
   if (warningGiven.insert(type))
   {
-    IOWarningIn("vtkUnstructuredReader::warnUnhandledType(..)", inFile)
+    IO_WARNING_IN("vtkUnstructuredReader::warnUnhandledType(..)", inFile)
       << "Skipping unknown cell type " << type << endl;
   }
+
 }
+
 // Split cellTypes into cells, faces and lines
 void mousse::vtkUnstructuredReader::extractCells
 (
@@ -92,7 +99,7 @@ void mousse::vtkUnstructuredReader::extractCells
   label dataIndex = 0;
   // To mark whether unhandled type has been visited.
   labelHashSet warningGiven;
-  forAll(cellTypes, i)
+  FOR_ALL(cellTypes, i)
   {
     switch (cellTypes[i])
     {
@@ -102,7 +109,7 @@ void mousse::vtkUnstructuredReader::extractCells
         label nRead = cellVertData[dataIndex++];
         if (nRead != 1)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "vtkUnstructuredReader::extractCells(..)",
             inFile
@@ -125,7 +132,7 @@ void mousse::vtkUnstructuredReader::extractCells
         label nRead = cellVertData[dataIndex++];
         if (nRead != 2)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "vtkUnstructuredReader::extractCells(..)",
             inFile
@@ -146,7 +153,7 @@ void mousse::vtkUnstructuredReader::extractCells
         lineMap_[lineI] = i;
         labelList& segment = lines_[lineI++];
         segment.setSize(nRead);
-        forAll(segment, i)
+        FOR_ALL(segment, i)
         {
           segment[i] = cellVertData[dataIndex++];
         }
@@ -160,7 +167,7 @@ void mousse::vtkUnstructuredReader::extractCells
         label nRead = cellVertData[dataIndex++];
         if (nRead != 3)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "vtkUnstructuredReader::extractCells(..)",
             inFile
@@ -180,7 +187,7 @@ void mousse::vtkUnstructuredReader::extractCells
         label nRead = cellVertData[dataIndex++];
         if (nRead != 4)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "vtkUnstructuredReader::extractCells(..)",
             inFile
@@ -199,7 +206,7 @@ void mousse::vtkUnstructuredReader::extractCells
         face& f = faces_[faceI++];
         label nRead = cellVertData[dataIndex++];
         f.setSize(nRead);
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           f[fp] = cellVertData[dataIndex++];
         }
@@ -210,7 +217,7 @@ void mousse::vtkUnstructuredReader::extractCells
         label nRead = cellVertData[dataIndex++];
         if (nRead != 4)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "vtkUnstructuredReader::extractCells(..)",
             inFile
@@ -230,7 +237,7 @@ void mousse::vtkUnstructuredReader::extractCells
         label nRead = cellVertData[dataIndex++];
         if (nRead != 5)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "vtkUnstructuredReader::extractCells(..)",
             inFile
@@ -251,7 +258,7 @@ void mousse::vtkUnstructuredReader::extractCells
         label nRead = cellVertData[dataIndex++];
         if (nRead != 6)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "vtkUnstructuredReader::extractCells(..)",
             inFile
@@ -273,7 +280,7 @@ void mousse::vtkUnstructuredReader::extractCells
         label nRead = cellVertData[dataIndex++];
         if (nRead != 8)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "vtkUnstructuredReader::extractCells(..)",
             inFile
@@ -386,7 +393,7 @@ void mousse::vtkUnstructuredReader::readField
       // Consume current line.
       inFile.getLine(fieldVals()[0]);
       // Read without parsing
-      forAll(fieldVals(), i)
+      FOR_ALL(fieldVals(), i)
       {
         inFile.getLine(fieldVals()[i]);
       }
@@ -395,7 +402,7 @@ void mousse::vtkUnstructuredReader::readField
     break;
     default:
     {
-      IOWarningIn("vtkUnstructuredReader::extractCells(..)", inFile)
+      IO_WARNING_IN("vtkUnstructuredReader::extractCells(..)", inFile)
         << "Unhandled type " << vtkDataTypeNames[dataType] << endl
         << "Skipping " << size
         << " words." << endl;
@@ -438,7 +445,7 @@ mousse::wordList mousse::vtkUnstructuredReader::readFieldArray
     }
     if (wantedSize != -1 && numTuples != wantedSize)
     {
-      FatalIOErrorIn("vtkUnstructuredReader::readFieldArray(..)", inFile)
+      FATAL_IO_ERROR_IN("vtkUnstructuredReader::readFieldArray(..)", inFile)
         << "Expected " << wantedSize << " tuples but only have "
         << numTuples << exit(FatalIOError);
     }
@@ -472,7 +479,8 @@ mousse::objectRegistry& mousse::vtkUnstructuredReader::selectRegistry
     return otherData_;
   }
 }
-// Constructors 
+
+// Constructors
 mousse::vtkUnstructuredReader::vtkUnstructuredReader
 (
   const objectRegistry& obr,
@@ -504,7 +512,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
   }
   if (dataType_ == "BINARY")
   {
-    FatalIOErrorIn("vtkUnstructuredReader::read(ISstream&)", inFile)
+    FATAL_IO_ERROR_IN("vtkUnstructuredReader::read(ISstream&)", inFile)
       << "Binary reading not supported " << exit(FatalIOError);
   }
   parseMode readMode = NOMODE;
@@ -545,12 +553,12 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
       word primitiveTag(inFile);
       if (primitiveTag != "float" && primitiveTag != "double")
       {
-        FatalIOErrorIn("vtkUnstructuredReader::read(..)", inFile)
+        FATAL_IO_ERROR_IN("vtkUnstructuredReader::read(..)", inFile)
           << "Expected 'float' entry but found "
           << primitiveTag
           << exit(FatalIOError);
       }
-      forAll(points_, i)
+      FOR_ALL(points_, i)
       {
         inFile >> points_[i].x() >> points_[i].y() >> points_[i].z();
       }
@@ -572,7 +580,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
       readBlock(inFile, nCellTypes, cellTypes);
       if (cellTypes.size() > 0 && cellVerts.size() == 0)
       {
-        FatalIOErrorIn("vtkUnstructuredReader::read(..)", inFile)
+        FATAL_IO_ERROR_IN("vtkUnstructuredReader::read(..)", inFile)
           << "Found " << cellTypes.size()
           << " cellTypes but no cells."
           << exit(FatalIOError);
@@ -599,7 +607,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
         lineMap_[lineI] = lineI;
         labelList& f = lines_[lineI];
         f.setSize(lineVerts[elemI++]);
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           f[fp] = lineVerts[elemI++];
         }
@@ -626,7 +634,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
         faceMap_[faceI] = faceI;
         face& f = faces_[faceI];
         f.setSize(faceVerts[elemI++]);
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           f[fp] = faceVerts[elemI++];
         }
@@ -641,7 +649,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
       label nPoints(readLabel(inFile));
       if (nPoints != wantedSize)
       {
-        FatalIOErrorIn("vtkUnstructuredReader::read(..)", inFile)
+        FATAL_IO_ERROR_IN("vtkUnstructuredReader::read(..)", inFile)
           << "Reading POINT_DATA : expected " << wantedSize
           << " but read " << nPoints << exit(FatalIOError);
       }
@@ -653,7 +661,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
       label nCells(readLabel(inFile));
       if (nCells != wantedSize)
       {
-        FatalIOErrorIn("vtkUnstructuredReader::read(..)", inFile)
+        FATAL_IO_ERROR_IN("vtkUnstructuredReader::read(..)", inFile)
           << "Reading CELL_DATA : expected "
           << wantedSize
           << " but read " << nCells << exit(FatalIOError);
@@ -681,7 +689,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
       word lookupTableTag(inFile);
       if (lookupTableTag != "LOOKUP_TABLE")
       {
-        FatalIOErrorIn("vtkUnstructuredReader::read(..)", inFile)
+        FATAL_IO_ERROR_IN("vtkUnstructuredReader::read(..)", inFile)
           << "Expected tag LOOKUP_TABLE but read "
           << lookupTableTag
           << exit(FatalIOError);
@@ -741,7 +749,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
           )
         );
         label elemI = 0;
-        forAll(fieldVals(), i)
+        FOR_ALL(fieldVals(), i)
         {
           fieldVals()[i].x() = s[elemI++];
           fieldVals()[i].y() = s[elemI++];
@@ -816,7 +824,7 @@ void mousse::vtkUnstructuredReader::read(ISstream& inFile)
     }
     else
     {
-      FatalIOErrorIn("vtkUnstructuredReader::read(..)", inFile)
+      FATAL_IO_ERROR_IN("vtkUnstructuredReader::read(..)", inFile)
         << "Unsupported tag "
         << tag << exit(FatalIOError);
     }

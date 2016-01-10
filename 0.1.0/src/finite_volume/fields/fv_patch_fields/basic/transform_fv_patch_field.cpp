@@ -5,6 +5,7 @@
 #include "transform_fv_patch_field.hpp"
 #include "iostreams.hpp"
 #include "transform_field.hpp"
+
 // Member Functions 
 template<class Type>
 mousse::transformFvPatchField<Type>::transformFvPatchField
@@ -13,8 +14,10 @@ mousse::transformFvPatchField<Type>::transformFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
- fvPatchField<Type>(p, iF)
+  fvPatchField<Type>{p, iF}
 {}
+
+
 template<class Type>
 mousse::transformFvPatchField<Type>::transformFvPatchField
 (
@@ -24,8 +27,10 @@ mousse::transformFvPatchField<Type>::transformFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fvPatchField<Type>(ptf, p, iF, mapper)
+  fvPatchField<Type>{ptf, p, iF, mapper}
 {}
+
+
 template<class Type>
 mousse::transformFvPatchField<Type>::transformFvPatchField
 (
@@ -34,16 +39,20 @@ mousse::transformFvPatchField<Type>::transformFvPatchField
   const dictionary& dict
 )
 :
-  fvPatchField<Type>(p, iF, dict)
+  fvPatchField<Type>{p, iF, dict}
 {}
+
+
 template<class Type>
 mousse::transformFvPatchField<Type>::transformFvPatchField
 (
   const transformFvPatchField<Type>& ptf
 )
 :
-  fvPatchField<Type>(ptf)
+  fvPatchField<Type>{ptf}
 {}
+
+
 template<class Type>
 mousse::transformFvPatchField<Type>::transformFvPatchField
 (
@@ -51,8 +60,10 @@ mousse::transformFvPatchField<Type>::transformFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(ptf, iF)
+  fvPatchField<Type>{ptf, iF}
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
@@ -63,6 +74,8 @@ mousse::transformFvPatchField<Type>::valueInternalCoeffs
 {
   return pTraits<Type>::one - snGradTransformDiag();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::transformFvPatchField<Type>::valueBoundaryCoeffs
@@ -71,32 +84,34 @@ mousse::transformFvPatchField<Type>::valueBoundaryCoeffs
 ) const
 {
   return
-    *this
-   - cmptMultiply
-    (
-      valueInternalCoeffs(this->patch().weights()),
-      this->patchInternalField()
-    );
+    *this - cmptMultiply(valueInternalCoeffs(this->patch().weights()),
+                         this->patchInternalField());
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::transformFvPatchField<Type>::gradientInternalCoeffs() const
 {
   return -this->patch().deltaCoeffs()*snGradTransformDiag();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::transformFvPatchField<Type>::gradientBoundaryCoeffs() const
 {
   return
-    snGrad()
-   - cmptMultiply(gradientInternalCoeffs(), this->patchInternalField());
+    snGrad() - cmptMultiply(gradientInternalCoeffs(),
+                            this->patchInternalField());
 }
+
+
 // Member Operators 
 template<class Type>
 void mousse::transformFvPatchField<Type>::operator=
 (
-  const fvPatchField<Type>& ptf
+  const fvPatchField<Type>& /*ptf*/
 )
 {
   this->evaluate();

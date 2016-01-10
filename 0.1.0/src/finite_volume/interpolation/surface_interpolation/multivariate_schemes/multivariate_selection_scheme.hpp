@@ -30,7 +30,7 @@ class multivariateSelectionScheme
     void operator=(const multivariateSelectionScheme&);
 public:
   //- Runtime type information
-  TypeName("multivariateSelection");
+  TYPE_NAME("multivariateSelection");
   // Constructors
     //- Construct for field, faceFlux and Istream
     multivariateSelectionScheme

@@ -33,7 +33,7 @@ class normal
       scalar a_;
 public:
   //- Runtime type information
-  TypeName("normal");
+  TYPE_NAME("normal");
   // Constructors
     //- Construct from components
     normal(const dictionary& dict, cachedRandom& rndGen);

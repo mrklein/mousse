@@ -51,7 +51,7 @@ protected:
     inline edgeList& storedEdges();
 public:
     //- Runtime type information
-    TypeName("edgeMesh");
+    TYPE_NAME("edgeMesh");
   // Static
     //- Can we read this file format?
     static bool canRead(const fileName&, const bool verbose=false);
@@ -81,7 +81,7 @@ public:
     //- Construct from Istream
     edgeMesh(Istream&);
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       edgeMesh,
@@ -103,7 +103,7 @@ public:
   //- Destructor
   virtual ~edgeMesh();
   // Member Function Selectors
-    declareMemberFunctionSelectionTable
+    DECLARE_MEMBER_FUNCTION_SELECTION_TABLE
     (
       void,
       edgeMesh,

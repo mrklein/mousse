@@ -55,10 +55,6 @@ class attachDetach
       //- Map of matching points
       mutable Map<label>* pointMatchMapPtr_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    attachDetach(const attachDetach&);
-    //- Disallow default bitwise assignment
-    void operator=(const attachDetach&);
     //- Check validity of construction data
     void checkDefinition();
     // Topological changes
@@ -77,7 +73,7 @@ class attachDetach
     static const scalar positionDifference_;
 public:
   //- Runtime type information
-  TypeName("attachDetach");
+  TYPE_NAME("attachDetach");
   // Constructors
     //- Construct from components
     attachDetach
@@ -99,6 +95,10 @@ public:
       const label index,
       const polyTopoChanger& mesh
     );
+    //- Disallow default bitwise copy construct
+    attachDetach(const attachDetach&) = delete;
+    //- Disallow default bitwise assignment
+    attachDetach& operator=(const attachDetach&) = delete;
   //- Destructor
   virtual ~attachDetach();
   // Member Functions

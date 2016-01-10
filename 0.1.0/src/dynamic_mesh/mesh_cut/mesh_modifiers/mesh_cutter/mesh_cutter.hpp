@@ -185,16 +185,16 @@ class meshCutter
       labelHashSet& edges,
       labelHashSet& points
     ) const;
-    //- Disallow default bitwise copy construct
-    meshCutter(const meshCutter&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshCutter&);
 public:
   //- Runtime type information
-  ClassName("meshCutter");
+  CLASS_NAME("meshCutter");
   // Constructors
     //- Construct from mesh
     meshCutter(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    meshCutter(const meshCutter&) = delete;
+    //- Disallow default bitwise assignment
+    meshCutter& operator=(const meshCutter&) = delete;
   //- Destructor
   ~meshCutter();
   // Member Functions

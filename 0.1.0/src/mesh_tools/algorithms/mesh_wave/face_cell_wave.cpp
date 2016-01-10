@@ -14,13 +14,17 @@
 #include "type_info.hpp"
 #include "sub_field.hpp"
 #include "global_mesh_data.hpp"
+
 // Static Data Members
 template<class Type, class TrackingData>
 const mousse::scalar mousse::FaceCellWave<Type, TrackingData>::geomTol_ = 1e-6;
+
 template<class Type, class TrackingData>
 mousse::scalar mousse::FaceCellWave<Type, TrackingData>::propagationTol_ = 0.01;
+
 template<class Type, class TrackingData>
 int mousse::FaceCellWave<Type, TrackingData>::dummyTrackData_ = 12345;
+
 namespace mousse
 {
   //- Combine operator for AMIInterpolation
@@ -29,6 +33,7 @@ namespace mousse
   {
     FaceCellWave<Type, TrackingData>& solver_;
     const cyclicAMIPolyPatch& patch_;
+
     public:
       combine
       (
@@ -39,12 +44,13 @@ namespace mousse
         solver_(solver),
         patch_(patch)
       {}
+
       void operator()
       (
         Type& x,
         const label faceI,
         const Type& y,
-        const scalar weight
+        const scalar /*weight*/
       ) const
       {
         if (y.valid(solver_.data()))
@@ -70,6 +76,8 @@ namespace mousse
       }
   };
 }
+
+
 // Private Member Functions 
 // Update info for cellI, at position pt, with information from
 // neighbouring face/cell.
@@ -112,6 +120,8 @@ bool mousse::FaceCellWave<Type, TrackingData>::updateCell
   }
   return propagate;
 }
+
+
 // Update info for faceI, at position pt, with information from
 // neighbouring face/cell.
 // Updates:
@@ -153,6 +163,8 @@ bool mousse::FaceCellWave<Type, TrackingData>::updateFace
   }
   return propagate;
 }
+
+
 // Update info for faceI, at position pt, with information from
 // same face.
 // Updates:
@@ -192,6 +204,8 @@ bool mousse::FaceCellWave<Type, TrackingData>::updateFace
   }
   return propagate;
 }
+
+
 // For debugging: check status on both sides of cyclic
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::checkCyclic
@@ -201,7 +215,7 @@ void mousse::FaceCellWave<Type, TrackingData>::checkCyclic
 {
   const cyclicPolyPatch& nbrPatch =
     refCast<const cyclicPolyPatch>(patch).neighbPatch();
-  forAll(patch, patchFaceI)
+  FOR_ALL(patch, patchFaceI)
   {
     label i1 = patch.start() + patchFaceI;
     label i2 = nbrPatch.start() + patchFaceI;
@@ -216,36 +230,40 @@ void mousse::FaceCellWave<Type, TrackingData>::checkCyclic
       )
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "FaceCellWave<Type, TrackingData>"
         "::checkCyclic(const polyPatch&)"
-      )   << "problem: i:" << i1 << "  otheri:" << i2
-        << "   faceInfo:" << allFaceInfo_[i1]
-        << "   otherfaceInfo:" << allFaceInfo_[i2]
-        << abort(FatalError);
+      )
+      << "problem: i:" << i1 << "  otheri:" << i2
+      << "   faceInfo:" << allFaceInfo_[i1]
+      << "   otherfaceInfo:" << allFaceInfo_[i2]
+      << abort(FatalError);
     }
     if (changedFace_[i1] != changedFace_[i2])
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "FaceCellWave<Type, TrackingData>"
         "::checkCyclic(const polyPatch&)"
-      )   << " problem: i:" << i1 << "  otheri:" << i2
-        << "   faceInfo:" << allFaceInfo_[i1]
-        << "   otherfaceInfo:" << allFaceInfo_[i2]
-        << "   changedFace:" << changedFace_[i1]
-        << "   otherchangedFace:" << changedFace_[i2]
-        << abort(FatalError);
+      )
+      << " problem: i:" << i1 << "  otheri:" << i2
+      << "   faceInfo:" << allFaceInfo_[i1]
+      << "   otherfaceInfo:" << allFaceInfo_[i2]
+      << "   changedFace:" << changedFace_[i1]
+      << "   otherchangedFace:" << changedFace_[i2]
+      << abort(FatalError);
     }
   }
 }
+
+
 // Check if has cyclic patches
 template<class Type, class TrackingData>
 template<class PatchType>
 bool mousse::FaceCellWave<Type, TrackingData>::hasPatch() const
 {
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     if (isA<PatchType>(mesh_.boundaryMesh()[patchI]))
     {
@@ -254,6 +272,8 @@ bool mousse::FaceCellWave<Type, TrackingData>::hasPatch() const
   }
   return false;
 }
+
+
 // Copy face information into member data
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::setFaceInfo
@@ -262,7 +282,7 @@ void mousse::FaceCellWave<Type, TrackingData>::setFaceInfo
   const List<Type>& changedFacesInfo
 )
 {
-  forAll(changedFaces, changedFaceI)
+  FOR_ALL(changedFaces, changedFaceI)
   {
     label faceI = changedFaces[changedFaceI];
     bool wasValid = allFaceInfo_[faceI].valid(td_);
@@ -278,6 +298,8 @@ void mousse::FaceCellWave<Type, TrackingData>::setFaceInfo
     changedFaces_[nChangedFaces_++] = faceI;
   }
 }
+
+
 // Merge face information into member data
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::mergeFaceInfo
@@ -306,6 +328,8 @@ void mousse::FaceCellWave<Type, TrackingData>::mergeFaceInfo
     }
   }
 }
+
+
 // Construct compact patchFace change arrays for a (slice of a) single patch.
 // changedPatchFaces in local patch numbering.
 // Return length of arrays.
@@ -333,6 +357,8 @@ mousse::label mousse::FaceCellWave<Type, TrackingData>::getChangedPatchFaces
   }
   return nChangedPatchFaces;
 }
+
+
 // Handle leaving domain. Implementation referred to Type
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::leaveDomain
@@ -351,6 +377,8 @@ void mousse::FaceCellWave<Type, TrackingData>::leaveDomain
     faceInfo[i].leaveDomain(mesh_, patch, patchFaceI, fc[meshFaceI], td_);
   }
 }
+
+
 // Handle entering domain. Implementation referred to Type
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::enterDomain
@@ -369,6 +397,8 @@ void mousse::FaceCellWave<Type, TrackingData>::enterDomain
     faceInfo[i].enterDomain(mesh_, patch, patchFaceI, fc[meshFaceI], td_);
   }
 }
+
+
 // Transform. Implementation referred to Type
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::transform
@@ -394,6 +424,8 @@ void mousse::FaceCellWave<Type, TrackingData>::transform
     }
   }
 }
+
+
 // Offset mesh face. Used for transferring from one cyclic half to the other.
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::offset
@@ -409,6 +441,8 @@ void mousse::FaceCellWave<Type, TrackingData>::offset
     faces[faceI] += cycOffset;
   }
 }
+
+
 // Tranfer all the information to/from neighbouring processors
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::handleProcPatches()
@@ -418,7 +452,7 @@ void mousse::FaceCellWave<Type, TrackingData>::handleProcPatches()
   const labelList& procPatches = pData.processorPatches();
   // Send all
   PstreamBuffers pBufs(Pstream::nonBlocking);
-  forAll(procPatches, i)
+  FOR_ALL(procPatches, i)
   {
     label patchI = procPatches[i];
     const processorPolyPatch& procPatch =
@@ -459,7 +493,7 @@ void mousse::FaceCellWave<Type, TrackingData>::handleProcPatches()
   }
   pBufs.finishedSends();
   // Receive all
-  forAll(procPatches, i)
+  FOR_ALL(procPatches, i)
   {
     label patchI = procPatches[i];
     const processorPolyPatch& procPatch =
@@ -506,11 +540,13 @@ void mousse::FaceCellWave<Type, TrackingData>::handleProcPatches()
     );
   }
 }
+
+
 // Transfer information across cyclic halves.
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::handleCyclicPatches()
 {
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     const polyPatch& patch = mesh_.boundaryMesh()[patchI];
     if (isA<cyclicPolyPatch>(patch))
@@ -579,11 +615,13 @@ void mousse::FaceCellWave<Type, TrackingData>::handleCyclicPatches()
     }
   }
 }
+
+
 // Transfer information across cyclic halves.
 template<class Type, class TrackingData>
 void mousse::FaceCellWave<Type, TrackingData>::handleAMICyclicPatches()
 {
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     const polyPatch& patch = mesh_.boundaryMesh()[patchI];
     if (isA<cyclicAMIPolyPatch>(patch))
@@ -606,7 +644,7 @@ void mousse::FaceCellWave<Type, TrackingData>::handleAMICyclicPatches()
         {
           // Adapt sendInfo for leaving domain
           const vectorField::subField fc = nbrPatch.faceCentres();
-          forAll(sendInfo, i)
+          FOR_ALL(sendInfo, i)
           {
             sendInfo[i].leaveDomain(mesh_, nbrPatch, i, fc[i], td_);
           }
@@ -640,13 +678,13 @@ void mousse::FaceCellWave<Type, TrackingData>::handleAMICyclicPatches()
       {
         // Adapt receiveInfo for entering domain
         const vectorField::subField fc = cycPatch.faceCentres();
-        forAll(receiveInfo, i)
+        FOR_ALL(receiveInfo, i)
         {
           receiveInfo[i].enterDomain(mesh_, cycPatch, i, fc[i], td_);
         }
       }
       // Merge into global storage
-      forAll(receiveInfo, i)
+      FOR_ALL(receiveInfo, i)
       {
         label meshFaceI = cycPatch.start()+i;
         Type& currentWallInfo = allFaceInfo_[meshFaceI];
@@ -668,6 +706,8 @@ void mousse::FaceCellWave<Type, TrackingData>::handleAMICyclicPatches()
     }
   }
 }
+
+
 // Constructors 
 // Set up only. Use setFaceInfo and iterate() to do actual calculation.
 template<class Type, class TrackingData>
@@ -679,24 +719,24 @@ mousse::FaceCellWave<Type, TrackingData>::FaceCellWave
   TrackingData& td
 )
 :
-  mesh_(mesh),
-  allFaceInfo_(allFaceInfo),
-  allCellInfo_(allCellInfo),
-  td_(td),
-  changedFace_(mesh_.nFaces(), false),
-  changedFaces_(mesh_.nFaces()),
-  nChangedFaces_(0),
-  changedCell_(mesh_.nCells(), false),
-  changedCells_(mesh_.nCells()),
-  nChangedCells_(0),
-  hasCyclicPatches_(hasPatch<cyclicPolyPatch>()),
+  mesh_{mesh},
+  allFaceInfo_{allFaceInfo},
+  allCellInfo_{allCellInfo},
+  td_{td},
+  changedFace_{mesh_.nFaces(), false},
+  changedFaces_{mesh_.nFaces()},
+  nChangedFaces_{0},
+  changedCell_{mesh_.nCells(), false},
+  changedCells_{mesh_.nCells()},
+  nChangedCells_{0},
+  hasCyclicPatches_{hasPatch<cyclicPolyPatch>()},
   hasCyclicAMIPatches_
-  (
+  {
     returnReduce(hasPatch<cyclicAMIPolyPatch>(), orOp<bool>())
-  ),
-  nEvals_(0),
-  nUnvisitedCells_(mesh_.nCells()),
-  nUnvisitedFaces_(mesh_.nFaces())
+  },
+  nEvals_{0},
+  nUnvisitedCells_{mesh_.nCells()},
+  nUnvisitedFaces_{mesh_.nFaces()}
 {
   if
   (
@@ -704,7 +744,7 @@ mousse::FaceCellWave<Type, TrackingData>::FaceCellWave
   || allCellInfo.size() != mesh_.nCells()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "FaceCellWave<Type, TrackingData>::FaceCellWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
@@ -718,6 +758,8 @@ mousse::FaceCellWave<Type, TrackingData>::FaceCellWave
       << exit(FatalError);
   }
 }
+
+
 // Iterate, propagating changedFacesInfo across mesh, until no change (or
 // maxIter reached). Initial cell values specified.
 template<class Type, class TrackingData>
@@ -732,24 +774,24 @@ mousse::FaceCellWave<Type, TrackingData>::FaceCellWave
   TrackingData& td
 )
 :
-  mesh_(mesh),
-  allFaceInfo_(allFaceInfo),
-  allCellInfo_(allCellInfo),
-  td_(td),
-  changedFace_(mesh_.nFaces(), false),
-  changedFaces_(mesh_.nFaces()),
-  nChangedFaces_(0),
-  changedCell_(mesh_.nCells(), false),
-  changedCells_(mesh_.nCells()),
-  nChangedCells_(0),
-  hasCyclicPatches_(hasPatch<cyclicPolyPatch>()),
+  mesh_{mesh},
+  allFaceInfo_{allFaceInfo},
+  allCellInfo_{allCellInfo},
+  td_{td},
+  changedFace_{mesh_.nFaces(), false},
+  changedFaces_{mesh_.nFaces()},
+  nChangedFaces_{0},
+  changedCell_{mesh_.nCells(), false},
+  changedCells_{mesh_.nCells()},
+  nChangedCells_{0},
+  hasCyclicPatches_{hasPatch<cyclicPolyPatch>()},
   hasCyclicAMIPatches_
-  (
+  {
     returnReduce(hasPatch<cyclicAMIPolyPatch>(), orOp<bool>())
-  ),
-  nEvals_(0),
-  nUnvisitedCells_(mesh_.nCells()),
-  nUnvisitedFaces_(mesh_.nFaces())
+  },
+  nEvals_{0},
+  nUnvisitedCells_{mesh_.nCells()},
+  nUnvisitedFaces_{mesh_.nFaces()}
 {
   if
   (
@@ -757,18 +799,18 @@ mousse::FaceCellWave<Type, TrackingData>::FaceCellWave
   || allCellInfo.size() != mesh_.nCells()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "FaceCellWave<Type, TrackingData>::FaceCellWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
       " UList<Type>&, UList<Type>&, const label maxIter)"
     )   << "face and cell storage not the size of mesh faces, cells:"
-      << endl
-      << "    allFaceInfo   :" << allFaceInfo.size() << endl
-      << "    mesh_.nFaces():" << mesh_.nFaces() << endl
-      << "    allCellInfo   :" << allCellInfo.size() << endl
-      << "    mesh_.nCells():" << mesh_.nCells()
-      << exit(FatalError);
+    << endl
+    << "    allFaceInfo   :" << allFaceInfo.size() << endl
+    << "    mesh_.nFaces():" << mesh_.nFaces() << endl
+    << "    allCellInfo   :" << allCellInfo.size() << endl
+    << "    mesh_.nCells():" << mesh_.nCells()
+    << exit(FatalError);
   }
   // Copy initial changed faces data
   setFaceInfo(changedFaces, changedFacesInfo);
@@ -776,30 +818,36 @@ mousse::FaceCellWave<Type, TrackingData>::FaceCellWave
   label iter = iterate(maxIter);
   if ((maxIter > 0) && (iter >= maxIter))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "FaceCellWave<Type, TrackingData>::FaceCellWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
       " UList<Type>&, UList<Type>&, const label maxIter)"
     )
-      << "Maximum number of iterations reached. Increase maxIter." << endl
-      << "    maxIter:" << maxIter << endl
-      << "    nChangedCells:" << nChangedCells_ << endl
-      << "    nChangedFaces:" << nChangedFaces_ << endl
-      << exit(FatalError);
+    << "Maximum number of iterations reached. Increase maxIter." << endl
+    << "    maxIter:" << maxIter << endl
+    << "    nChangedCells:" << nChangedCells_ << endl
+    << "    nChangedFaces:" << nChangedFaces_ << endl
+    << exit(FatalError);
   }
 }
+
+
 // Member Functions 
 template<class Type, class TrackingData>
 mousse::label mousse::FaceCellWave<Type, TrackingData>::getUnsetCells() const
 {
   return nUnvisitedCells_;
 }
+
+
 template<class Type, class TrackingData>
 mousse::label mousse::FaceCellWave<Type, TrackingData>::getUnsetFaces() const
 {
   return nUnvisitedFaces_;
 }
+
+
 // Propagate cell to face
 template<class Type, class TrackingData>
 mousse::label mousse::FaceCellWave<Type, TrackingData>::faceToCell()
@@ -817,7 +865,7 @@ mousse::label mousse::FaceCellWave<Type, TrackingData>::faceToCell()
     label faceI = changedFaces_[changedFaceI];
     if (!changedFace_[faceI])
     {
-      FatalErrorIn("FaceCellWave<Type, TrackingData>::faceToCell()")
+      FATAL_ERROR_IN("FaceCellWave<Type, TrackingData>::faceToCell()")
         << "Face " << faceI
         << " not marked as having been changed"
         << abort(FatalError);
@@ -869,6 +917,8 @@ mousse::label mousse::FaceCellWave<Type, TrackingData>::faceToCell()
   reduce(totNChanged, sumOp<label>());
   return totNChanged;
 }
+
+
 // Propagate cell to face
 template<class Type, class TrackingData>
 mousse::label mousse::FaceCellWave<Type, TrackingData>::cellToFace()
@@ -884,14 +934,14 @@ mousse::label mousse::FaceCellWave<Type, TrackingData>::cellToFace()
     label cellI = changedCells_[changedCellI];
     if (!changedCell_[cellI])
     {
-      FatalErrorIn("FaceCellWave<Type, TrackingData>::cellToFace()")
+      FATAL_ERROR_IN("FaceCellWave<Type, TrackingData>::cellToFace()")
         << "Cell " << cellI << " not marked as having been changed"
         << abort(FatalError);
     }
     const Type& neighbourWallInfo = allCellInfo_[cellI];
     // Evaluate all connected faces
     const labelList& faceLabels = cells[cellI];
-    forAll(faceLabels, faceLabelI)
+    FOR_ALL(faceLabels, faceLabelI)
     {
       label faceI = faceLabels[faceLabelI];
       Type& currentWallInfo = allFaceInfo_[faceI];
@@ -935,6 +985,8 @@ mousse::label mousse::FaceCellWave<Type, TrackingData>::cellToFace()
   reduce(totNChanged, sumOp<label>());
   return totNChanged;
 }
+
+
 // Iterate
 template<class Type, class TrackingData>
 mousse::label mousse::FaceCellWave<Type, TrackingData>::iterate(const label maxIter)

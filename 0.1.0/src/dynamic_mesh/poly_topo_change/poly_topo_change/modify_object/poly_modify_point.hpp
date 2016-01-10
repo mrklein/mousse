@@ -30,7 +30,7 @@ class polyModifyPoint
 public:
   // Static data members
     //- Runtime type information
-    TypeName("modifyPoint");
+    TYPE_NAME("modifyPoint");
   // Constructors
     //- Construct null.  Used only for list construction
     polyModifyPoint()

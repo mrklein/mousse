@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "stl_surface_format.hpp"
+
 #include "list_ops.hpp"
 #include "tri_point_ref.hpp"
+
 // Private Member Functions 
 template<class Face>
 inline void mousse::fileFormats::STLsurfaceFormat<Face>::writeShell
@@ -41,6 +43,8 @@ inline void mousse::fileFormats::STLsurfaceFormat<Face>::writeShell
       << " endfacet" << endl;
   }
 }
+
+
 template<class Face>
 inline void mousse::fileFormats::STLsurfaceFormat<Face>::writeShell
 (
@@ -75,6 +79,8 @@ inline void mousse::fileFormats::STLsurfaceFormat<Face>::writeShell
     stlTri.write(os);
   }
 }
+
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::STLsurfaceFormat<Face>::STLsurfaceFormat
@@ -84,6 +90,8 @@ mousse::fileFormats::STLsurfaceFormat<Face>::STLsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::STLsurfaceFormat<Face>::read
@@ -97,15 +105,15 @@ bool mousse::fileFormats::STLsurfaceFormat<Face>::read
   // transfer points
   this->storedPoints().transfer(reader.points());
   // retrieve the original zone information
-  List<word>  names(reader.names().xfer());
-  List<label> sizes(reader.sizes().xfer());
-  List<label> zoneIds(reader.zoneIds().xfer());
+  List<word> names{reader.names().xfer()};
+  List<label> sizes{reader.sizes().xfer()};
+  List<label> zoneIds{reader.zoneIds().xfer()};
   // generate the (sorted) faces
-  List<Face> faceLst(zoneIds.size());
+  List<Face> faceLst{zoneIds.size()};
   if (reader.sorted())
   {
     // already sorted - generate directly
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       const label startPt = 3*faceI;
       faceLst[faceI] = triFace(startPt, startPt+1, startPt+2);
@@ -118,7 +126,7 @@ bool mousse::fileFormats::STLsurfaceFormat<Face>::read
     List<label> faceMap;
     sortedOrder(zoneIds, faceMap);
     // generate sorted faces
-    forAll(faceMap, faceI)
+    FOR_ALL(faceMap, faceI)
     {
       const label startPt = 3*faceMap[faceI];
       faceLst[faceI] = triFace(startPt, startPt+1, startPt+2);
@@ -138,6 +146,8 @@ bool mousse::fileFormats::STLsurfaceFormat<Face>::read
   this->stitchFaces(SMALL);
   return true;
 }
+
+
 template<class Face>
 void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
 (
@@ -145,16 +155,16 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
   const MeshedSurfaceProxy<Face>& surf
 )
 {
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STLsurfaceFormat::writeAscii"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   const pointField& pointLst = surf.points();
   const List<Face>&  faceLst = surf.faces();
@@ -167,14 +177,14 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
   );
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     // Print all faces belonging to this zone
     const surfZone& zone = zones[zoneI];
     os << "solid " << zone.name() << nl;
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const label faceI = faceMap[faceIndex++];
         writeShell(os, pointLst, faceLst[faceI]);
@@ -182,7 +192,7 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
     }
     else
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         writeShell(os, pointLst, faceLst[faceIndex++]);
       }
@@ -190,6 +200,8 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
     os << "endsolid " << zone.name() << endl;
   }
 }
+
+
 template<class Face>
 void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
 (
@@ -200,16 +212,16 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
   std::ofstream os(filename.c_str(), std::ios::binary);
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STLsurfaceFormat::writeBinary"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   const pointField& pointLst = surf.points();
-  const List<Face>&  faceLst = surf.faces();
+  const List<Face>& faceLst = surf.faces();
   const List<label>& faceMap = surf.faceMap();
   const List<surfZone>& zones =
   (
@@ -226,7 +238,7 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
   else
   {
     // count triangles for on-the-fly triangulation
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       nTris += faceLst[faceI].size() - 2;
     }
@@ -234,12 +246,12 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
   // Write the STL header
   STLsurfaceFormatCore::writeHeaderBINARY(os, nTris);
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         writeShell
         (
@@ -252,7 +264,7 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
     }
     else
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         writeShell
         (
@@ -265,6 +277,8 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
     }
   }
 }
+
+
 template<class Face>
 void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
 (
@@ -272,16 +286,16 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
   const UnsortedMeshedSurface<Face>& surf
 )
 {
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STLsurfaceFormat::writeAscii"
       "(const fileName&, const UnsortedMeshedSurface<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   // a single zone - we can skip sorting
   if (surf.zoneToc().size() == 1)
@@ -289,7 +303,7 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
     const pointField& pointLst = surf.points();
     const List<Face>& faceLst  = surf.faces();
     os << "solid " << surf.zoneToc()[0].name() << endl;
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       writeShell(os, pointLst, faceLst[faceI]);
     }
@@ -312,6 +326,8 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeAscii
    );
  }
 }
+
+
 template<class Face>
 void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
 (
@@ -322,16 +338,16 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
   std::ofstream os(filename.c_str(), std::ios::binary);
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STLsurfaceFormat::writeBinary"
       "(const fileName&, const UnsortedMeshedSurface<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
-  const pointField&  pointLst = surf.points();
-  const List<Face>&  faceLst  = surf.faces();
+  const pointField& pointLst = surf.points();
+  const List<Face>& faceLst  = surf.faces();
   const List<label>& zoneIds  = surf.zoneIds();
   unsigned int nTris = 0;
   if (MeshedSurface<Face>::isTri())
@@ -341,7 +357,7 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
   else
   {
     // count triangles for on-the-fly triangulation
-    forAll(faceLst, faceI)
+    FOR_ALL(faceLst, faceI)
     {
       nTris += faceLst[faceI].size() - 2;
     }
@@ -349,7 +365,7 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
   // Write the STL header
   STLsurfaceFormatCore::writeHeaderBINARY(os, nTris);
   // always write unsorted
-  forAll(faceLst, faceI)
+  FOR_ALL(faceLst, faceI)
   {
     writeShell
     (
@@ -360,6 +376,8 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::writeBinary
     );
   }
 }
+
+
 template<class Face>
 void mousse::fileFormats::STLsurfaceFormat<Face>::write
 (
@@ -378,6 +396,8 @@ void mousse::fileFormats::STLsurfaceFormat<Face>::write
     writeAscii(filename, surf);
   }
 }
+
+
 template<class Face>
 void mousse::fileFormats::STLsurfaceFormat<Face>::write
 (

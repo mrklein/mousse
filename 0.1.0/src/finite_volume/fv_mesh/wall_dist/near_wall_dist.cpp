@@ -17,7 +17,7 @@ void mousse::nearWallDist::calculate()
   labelList neighbours(wallUtils.maxPatchSize(wallPatchIDs));
   // Correct all cells with face on wall
   const volVectorField& cellCentres = mesh_.C();
-  forAll(mesh_.boundary(), patchI)
+  FOR_ALL(mesh_.boundary(), patchI)
   {
     fvPatchScalarField& ypatch = operator[](patchI);
     const fvPatch& patch = mesh_.boundary()[patchI];
@@ -26,7 +26,7 @@ void mousse::nearWallDist::calculate()
       const polyPatch& pPatch = patch.patch();
       const labelUList& faceCells = patch.faceCells();
       // Check cells with face on wall
-      forAll(patch, patchFaceI)
+      FOR_ALL(patch, patchFaceI)
       {
         label nNeighbours = wallUtils.getPointNeighbours
         (
@@ -75,7 +75,7 @@ void mousse::nearWallDist::correct()
     const DimensionedField<scalar, volMesh>& V = mesh_.V();
     const fvBoundaryMesh& bnd = mesh_.boundary();
     this->setSize(bnd.size());
-    forAll(*this, patchI)
+    FOR_ALL(*this, patchI)
     {
       this->set
       (

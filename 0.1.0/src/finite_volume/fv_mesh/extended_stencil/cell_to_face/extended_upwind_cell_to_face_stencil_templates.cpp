@@ -51,7 +51,7 @@ mousse::extendedUpwindCellToFaceStencil::weightedSum
       // Flux out of owner. Use upwind (= owner side) stencil.
       const List<Type>& stField = ownFld[faceI];
       const List<scalar>& stWeight = ownWeights[faceI];
-      forAll(stField, i)
+      FOR_ALL(stField, i)
       {
         sf[faceI] += stField[i]*stWeight[i];
       }
@@ -60,7 +60,7 @@ mousse::extendedUpwindCellToFaceStencil::weightedSum
     {
       const List<Type>& stField = neiFld[faceI];
       const List<scalar>& stWeight = neiWeights[faceI];
-      forAll(stField, i)
+      FOR_ALL(stField, i)
       {
         sf[faceI] += stField[i]*stWeight[i];
       }
@@ -70,20 +70,20 @@ mousse::extendedUpwindCellToFaceStencil::weightedSum
   // directly (instead of nicely using operator==)
   typename GeometricField<Type, fvsPatchField, surfaceMesh>::
     GeometricBoundaryField& bSfCorr = sf.boundaryField();
-  forAll(bSfCorr, patchi)
+  FOR_ALL(bSfCorr, patchi)
   {
     fvsPatchField<Type>& pSfCorr = bSfCorr[patchi];
     if (pSfCorr.coupled())
     {
       label faceI = pSfCorr.patch().start();
-      forAll(pSfCorr, i)
+      FOR_ALL(pSfCorr, i)
       {
         if (phi.boundaryField()[patchi][i] > 0)
         {
           // Flux out of owner. Use upwind (= owner side) stencil.
           const List<Type>& stField = ownFld[faceI];
           const List<scalar>& stWeight = ownWeights[faceI];
-          forAll(stField, j)
+          FOR_ALL(stField, j)
           {
             pSfCorr[i] += stField[j]*stWeight[j];
           }
@@ -92,7 +92,7 @@ mousse::extendedUpwindCellToFaceStencil::weightedSum
         {
           const List<Type>& stField = neiFld[faceI];
           const List<scalar>& stWeight = neiWeights[faceI];
-          forAll(stField, j)
+          FOR_ALL(stField, j)
           {
             pSfCorr[i] += stField[j]*stWeight[j];
           }

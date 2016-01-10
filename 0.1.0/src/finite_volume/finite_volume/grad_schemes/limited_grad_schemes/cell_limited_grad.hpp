@@ -11,49 +11,59 @@
 //   applied to all components of the gradient.
 // SourceFiles
 //   cell_limited_grad.cpp
+
 #ifndef cell_limited_grad_hpp_
 #define cell_limited_grad_hpp_
+
 #include "grad_scheme.hpp"
+
 namespace mousse
 {
+
 namespace fv
 {
+
 template<class Type>
 class cellLimitedGrad
 :
   public fv::gradScheme<Type>
 {
   // Private Data
-    tmp<fv::gradScheme<Type> > basicGradScheme_;
+    tmp<fv::gradScheme<Type>> basicGradScheme_;
+
     //- Limiter coefficient
     const scalar k_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    cellLimitedGrad(const cellLimitedGrad&);
-    //- Disallow default bitwise assignment
-    void operator=(const cellLimitedGrad&);
 public:
   //- RunTime type information
-  TypeName("cellLimited");
+  TYPE_NAME("cellLimited");
+
   // Constructors
     //- Construct from mesh and schemeData
     cellLimitedGrad(const fvMesh& mesh, Istream& schemeData)
     :
-      gradScheme<Type>(mesh),
-      basicGradScheme_(fv::gradScheme<Type>::New(mesh, schemeData)),
-      k_(readScalar(schemeData))
+      gradScheme<Type>{mesh},
+      basicGradScheme_{fv::gradScheme<Type>::New(mesh, schemeData)},
+      k_{readScalar(schemeData)}
     {
       if (k_ < 0 || k_ > 1)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "cellLimitedGrad(const fvMesh&, Istream& schemeData)",
           schemeData
-        )   << "coefficient = " << k_
-          << " should be >= 0 and <= 1"
-          << exit(FatalIOError);
+        )
+        << "coefficient = " << k_
+        << " should be >= 0 and <= 1"
+        << exit(FatalIOError);
       }
     }
+
+    //- Disallow default bitwise copy construct
+    cellLimitedGrad(const cellLimitedGrad&) = delete;
+
+    //- Disallow default bitwise assignment
+    cellLimitedGrad& operator=(const cellLimitedGrad&) = delete;
+
   // Member Functions
     static inline void limitFace
     (
@@ -62,6 +72,7 @@ public:
       const Type& minDelta,
       const Type& extrapolate
     );
+
     //- Return the gradient of the given field to the gradScheme::grad
     //  for optional caching
     virtual tmp
@@ -74,6 +85,8 @@ public:
       const word& name
     ) const;
 };
+
+
 // Inline Member Function 
 template<>
 inline void cellLimitedGrad<scalar>::limitFace
@@ -93,6 +106,8 @@ inline void cellLimitedGrad<scalar>::limitFace
     limiter = min(limiter, minDelta/extrapolate);
   }
 }
+
+
 template<class Type>
 inline void cellLimitedGrad<Type>::limitFace
 (
@@ -113,6 +128,8 @@ inline void cellLimitedGrad<Type>::limitFace
     );
   }
 }
+
+
 // Template Member Function Specialisations 
 template<>
 tmp<volVectorField> cellLimitedGrad<scalar>::calcGrad
@@ -126,6 +143,8 @@ tmp<volTensorField> cellLimitedGrad<vector>::calcGrad
   const volVectorField& vsf,
   const word& name
 ) const;
+
 }  // namespace fv
+
 }  // namespace mousse
 #endif

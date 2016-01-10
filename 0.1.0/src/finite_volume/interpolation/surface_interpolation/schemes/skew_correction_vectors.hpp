@@ -27,7 +27,7 @@ class skewCorrectionVectors
     //- Calculate skewness correction vectors
     void calcSkewCorrectionVectors();
 public:
-  TypeName("skewCorrectionVectors");
+  TYPE_NAME("skewCorrectionVectors");
   // Constructors
     explicit skewCorrectionVectors(const fvMesh& mesh);
   //- Destructor

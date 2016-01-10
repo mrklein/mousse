@@ -66,7 +66,7 @@ void mousse::CentredFitSnGradData<Polynomial>::calcFit
   scalar scale = 1;
   // Matrix of the polynomial components
   scalarRectangularMatrix B(C.size(), this->minSize(), scalar(0));
-  forAll(C, ip)
+  FOR_ALL(C, ip)
   {
     const point& p = C[ip];
     const vector p0p = p - p0;
@@ -111,22 +111,23 @@ void mousse::CentredFitSnGradData<Polynomial>::calcFit
     {
       // (not good fit so increase weight in the centre and weight
       //  for constant and linear terms)
-      WarningIn
+      WARNING_IN
       (
         "CentredFitSnGradData<Polynomial>::calcFit"
         "(const List<point>& C, const label facei"
-      )   << "Cannot fit face " << facei << " iteration " << iIt
-        << " with sum of weights " << sum(coeffsi) << nl
-        << "    Weights " << coeffsi << nl
-        << "    Linear weights " << wLin << " " << 1 - wLin << nl
-        << "    deltaCoeff " << deltaCoeff << nl
-        << "    sing vals " << svd.S() << nl
-        << "Components of goodFit:\n"
-        << "    wts[0]*wts[0]*svd.VSinvUt()[0][0] = "
-        << wts[0]*wts[0]*svd.VSinvUt()[0][0] << nl
-        << "    wts[0]*wts[1]*svd.VSinvUt()[0][1] = "
-        << wts[0]*wts[1]*svd.VSinvUt()[0][1]
-        << " dim = " << this->dim() << endl;
+      )
+      << "Cannot fit face " << facei << " iteration " << iIt
+      << " with sum of weights " << sum(coeffsi) << nl
+      << "    Weights " << coeffsi << nl
+      << "    Linear weights " << wLin << " " << 1 - wLin << nl
+      << "    deltaCoeff " << deltaCoeff << nl
+      << "    sing vals " << svd.S() << nl
+      << "Components of goodFit:\n"
+      << "    wts[0]*wts[0]*svd.VSinvUt()[0][0] = "
+      << wts[0]*wts[0]*svd.VSinvUt()[0][0] << nl
+      << "    wts[0]*wts[1]*svd.VSinvUt()[0][1] = "
+      << wts[0]*wts[1]*svd.VSinvUt()[0][1]
+      << " dim = " << this->dim() << endl;
       wts[0] *= 10;
       wts[1] *= 10;
       for (label j = 0; j < B.m(); j++)
@@ -149,12 +150,13 @@ void mousse::CentredFitSnGradData<Polynomial>::calcFit
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "CentredFitSnGradData<Polynomial>::calcFit(..)"
-    )   << "Could not fit face " << facei
-      << "    Coefficients = " << coeffsi
-      << ", reverting to uncorrected." << endl;
+    )
+    << "Could not fit face " << facei
+    << "    Coefficients = " << coeffsi
+    << ", reverting to uncorrected." << endl;
     coeffsi = 0;
   }
 }
@@ -183,14 +185,14 @@ void mousse::CentredFitSnGradData<Polynomial>::calcFit()
   }
   const surfaceScalarField::GeometricBoundaryField& bw = w.boundaryField();
   const surfaceScalarField::GeometricBoundaryField& bdC = dC.boundaryField();
-  forAll(bw, patchi)
+  FOR_ALL(bw, patchi)
   {
     const fvsPatchScalarField& pw = bw[patchi];
     const fvsPatchScalarField& pdC = bdC[patchi];
     if (pw.coupled())
     {
       label facei = pw.patch().start();
-      forAll(pw, i)
+      FOR_ALL(pw, i)
       {
         calcFit
         (

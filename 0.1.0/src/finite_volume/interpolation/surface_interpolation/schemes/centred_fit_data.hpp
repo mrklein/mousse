@@ -7,12 +7,15 @@
 //   Data for the quadratic fit correction interpolation scheme
 // SourceFiles
 //   centred_fit_data.cpp
+
 #ifndef centred_fit_data_hpp_
 #define centred_fit_data_hpp_
+
 #include "fit_data.hpp"
+#include "extended_centred_cell_to_face_stencil.hpp"
+
 namespace mousse
 {
-class extendedCentredCellToFaceStencil;
 template<class Polynomial>
 class CentredFitData
 :
@@ -32,7 +35,7 @@ class CentredFitData
     //  and set the coefficients
     void calcFit();
 public:
-  TypeName("CentredFitData");
+  TYPE_NAME("CentredFitData");
   // Constructors
     //- Construct from components
     CentredFitData

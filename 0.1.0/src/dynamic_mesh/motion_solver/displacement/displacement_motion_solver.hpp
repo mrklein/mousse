@@ -30,15 +30,9 @@ protected:
   // Protected Member Functions
     //- Return IO object for points0
     IOobject points0IO(const polyMesh& mesh) const;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    displacementMotionSolver(const displacementMotionSolver&);
-    //- Disallow default bitwise assignment
-    void operator=(const displacementMotionSolver&);
 public:
   //- Runtime type information
-  TypeName("displacementMotionSolver");
+  TYPE_NAME("displacementMotionSolver");
   // Constructors
     //- Construct from mesh and dictionary
     displacementMotionSolver
@@ -47,6 +41,10 @@ public:
       const IOdictionary&,
       const word& type
     );
+    //- Disallow default bitwise copy construct
+    displacementMotionSolver(const displacementMotionSolver&) = delete;
+    //- Disallow default bitwise assignment
+    displacementMotionSolver& operator=(const displacementMotionSolver&) = delete;
   //- Destructor
   virtual ~displacementMotionSolver();
   // Member Functions

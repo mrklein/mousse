@@ -19,7 +19,7 @@ class cyclicSlipFvPatch
 {
 public:
   //- Runtime type information
-  TypeName(cyclicSlipPolyPatch::typeName_());
+  TYPE_NAME(cyclicSlipPolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     cyclicSlipFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)

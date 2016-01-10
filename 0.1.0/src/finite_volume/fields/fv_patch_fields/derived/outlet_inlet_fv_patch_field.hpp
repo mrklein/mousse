@@ -52,7 +52,7 @@ protected:
     word phiName_;
 public:
   //- Runtime type information
-  TypeName("outletInlet");
+  TYPE_NAME("outletInlet");
   // Constructors
     //- Construct from patch and internal field
     outletInletFvPatchField

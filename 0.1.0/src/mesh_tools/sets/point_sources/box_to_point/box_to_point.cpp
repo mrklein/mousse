@@ -5,26 +5,29 @@
 #include "box_to_point.hpp"
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(boxToPoint, 0);
-addToRunTimeSelectionTable(topoSetSource, boxToPoint, word);
-addToRunTimeSelectionTable(topoSetSource, boxToPoint, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(boxToPoint, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, boxToPoint, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, boxToPoint, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::boxToPoint::usage_
 (
   boxToPoint::typeName,
   "\n    Usage: boxToPoint ((minx miny minz) (maxx maxy maxz))\n\n"
   "    Select all points with coordinate within bounding box\n\n"
 );
+
 // Private Member Functions 
 void mousse::boxToPoint::combine(topoSet& set, const bool add) const
 {
   const pointField& pts = mesh_.points();
-  forAll(pts, pointI)
+  FOR_ALL(pts, pointI)
   {
-    forAll(bbs_, i)
+    FOR_ALL(bbs_, i)
     {
       if (bbs_[i].contains(pts[pointI]))
       {

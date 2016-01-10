@@ -32,7 +32,7 @@ class foamFileSurfaceWriter
     ) const;
 public:
   //- Runtime type information
-  TypeName("foamFile");
+  TYPE_NAME("foamFile");
   // Constructors
     //- Construct null
     foamFileSurfaceWriter();

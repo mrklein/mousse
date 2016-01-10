@@ -15,7 +15,7 @@ inline void mousse::fileFormats::STARCDedgeFormat::writeLines
 )
 {
   writeHeader(os, "CELL");
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     const label cellId = edgeI + 1;
@@ -41,7 +41,7 @@ void mousse::fileFormats::STARCDedgeFormat::writeCase
     << "! " << pointLst.size() << " points, " << nEdges << " lines" << nl
     << "! case " << caseName << nl
     << "! ------------------------------" << nl;
-//     forAll(zoneLst, zoneI)
+//     FOR_ALL(zoneLst, zoneI)
 //     {
 //         os  << "ctable " << zoneI + 1 << " line" << nl
 //             << "ctname " << zoneI + 1 << " "
@@ -82,7 +82,7 @@ bool mousse::fileFormats::STARCDedgeFormat::read
   );
   // Build inverse mapping (STAR-CD pointId -> index)
   Map<label> mapPointId(2*pointId.size());
-  forAll(pointId, i)
+  FOR_ALL(pointId, i)
   {
     mapPointId.insert(pointId[i], i);
   }
@@ -95,7 +95,7 @@ bool mousse::fileFormats::STARCDedgeFormat::read
   IFstream is(baseName + ".cel");
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STARCDedgeFormat::read(const fileName&)"
     )
@@ -139,7 +139,7 @@ bool mousse::fileFormats::STARCDedgeFormat::read
   {
     label nUsed = 0;
     pointField& pts = storedPoints();
-    forAll(pts, pointI)
+    FOR_ALL(pts, pointI)
     {
       if (usedPoints.get(pointI))
       {
@@ -154,7 +154,7 @@ bool mousse::fileFormats::STARCDedgeFormat::read
     }
     pts.setSize(nUsed);
     // renumber edge vertices
-    forAll(dynEdges, edgeI)
+    FOR_ALL(dynEdges, edgeI)
     {
       edge& e = dynEdges[edgeI];
       e[0] = mapPointId[e[0]];

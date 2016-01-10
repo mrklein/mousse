@@ -9,8 +9,8 @@ namespace mousse
 namespace extrudeModels
 {
 // Static Data Members
-defineTypeNameAndDebug(cyclicSector, 0);
-addToRunTimeSelectionTable(extrudeModel, cyclicSector, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicSector, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(extrudeModel, cyclicSector, dictionary);
 // Constructors 
 cyclicSector::cyclicSector(const dictionary& dict)
 :

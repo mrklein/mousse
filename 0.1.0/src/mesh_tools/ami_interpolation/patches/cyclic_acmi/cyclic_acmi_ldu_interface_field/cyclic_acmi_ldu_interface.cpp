@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(cyclicACMILduInterface, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicACMILduInterface, 0);
 }
 // Destructor 
 mousse::cyclicACMILduInterface::~cyclicACMILduInterface()

@@ -9,19 +9,19 @@ namespace mousse
 namespace extrudeModels
 {
 // Static Data Members
-defineTypeNameAndDebug(sigmaRadial, 0);
-addToRunTimeSelectionTable(extrudeModel, sigmaRadial, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(sigmaRadial, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(extrudeModel, sigmaRadial, dictionary);
 // Constructors 
 sigmaRadial::sigmaRadial(const dictionary& dict)
 :
-  extrudeModel(typeName, dict),
-  RTbyg_(readScalar(coeffDict_.lookup("RTbyg"))),
-  pRef_(readScalar(coeffDict_.lookup("pRef"))),
-  pStrat_(readScalar(coeffDict_.lookup("pStrat")))
+  extrudeModel{typeName, dict},
+  RTbyg_{readScalar(coeffDict_.lookup("RTbyg"))},
+  pRef_{readScalar(coeffDict_.lookup("pRef"))},
+  pStrat_{readScalar(coeffDict_.lookup("pStrat"))}
 {
   if (mag(expansionRatio() - 1.0) > SMALL)
   {
-    WarningIn("sigmaRadial::sigmaRadial(const dictionary&)")
+    WARNING_IN("sigmaRadial::sigmaRadial(const dictionary&)")
       << "Ignoring expansionRatio setting." << endl;
   }
 }
@@ -32,7 +32,7 @@ sigmaRadial::~sigmaRadial()
 point sigmaRadial::operator()
 (
   const point& surfacePoint,
-  const vector& surfaceNormal,
+  const vector& /*surfaceNormal*/,
   const label layer
 ) const
 {

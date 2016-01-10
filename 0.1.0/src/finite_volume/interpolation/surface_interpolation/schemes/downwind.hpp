@@ -26,7 +26,7 @@ class downwind
     void operator=(const downwind&);
 public:
   //- Runtime type information
-  TypeName("downwind");
+  TYPE_NAME("downwind");
   // Constructors
     //- Construct from faceFlux
     downwind

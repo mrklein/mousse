@@ -30,7 +30,7 @@ mousse::splitCell::~splitCell()
     }
     else
     {
-      FatalErrorIn("splitCell::~splitCell()") << "this not equal to"
+      FATAL_ERROR_IN("splitCell::~splitCell()") << "this not equal to"
         << " parent's master or slave pointer" << endl
         << "Cell:" << cellLabel() << abort(FatalError);
     }
@@ -42,7 +42,7 @@ bool mousse::splitCell::isMaster() const
   splitCell* myParent = parent();
   if (!myParent)
   {
-    FatalErrorIn("splitCell::isMaster()") << "parent not set"
+    FATAL_ERROR_IN("splitCell::isMaster()") << "parent not set"
       << "Cell:" << cellLabel() << abort(FatalError);
     return false;
   }
@@ -56,7 +56,7 @@ bool mousse::splitCell::isMaster() const
   }
   else
   {
-    FatalErrorIn("splitCell::isMaster()") << "this not equal to"
+    FATAL_ERROR_IN("splitCell::isMaster()") << "this not equal to"
       << " parent's master or slave pointer" << endl
       << "Cell:" << cellLabel() << abort(FatalError);
     return false;
@@ -71,7 +71,7 @@ mousse::splitCell* mousse::splitCell::getOther() const
   splitCell* myParent = parent();
   if (!myParent)
   {
-    FatalErrorIn("splitCell::getOther()") << "parent not set"
+    FATAL_ERROR_IN("splitCell::getOther()") << "parent not set"
       << "Cell:" << cellLabel() << abort(FatalError);
     return NULL;
   }
@@ -85,7 +85,7 @@ mousse::splitCell* mousse::splitCell::getOther() const
   }
   else
   {
-    FatalErrorIn("splitCell::getOther()") << "this not equal to"
+    FATAL_ERROR_IN("splitCell::getOther()") << "this not equal to"
       << " parent's master or slave pointer" << endl
       << "Cell:" << cellLabel() << abort(FatalError);
     return NULL;

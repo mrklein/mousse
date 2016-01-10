@@ -43,20 +43,20 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
     faceList newFaces = mesh.faces();
     const faceList& oldFaces = mesh.faces();
     const labelListList& pFaces = mesh.pointFaces();
-    forAll(Cells, cellI)
+    FOR_ALL(Cells, cellI)
     {
       const labelList& curFaces = Cells[cellI];
       const edgeList cellEdges = Cells[cellI].edges(oldFaces);
       const labelList cellPoints = Cells[cellI].labels(oldFaces);
       // Find the edges used only once in the cell
       labelList edgeUsage(cellEdges.size(), 0);
-      forAll(curFaces, faceI)
+      FOR_ALL(curFaces, faceI)
       {
         edgeList curFaceEdges = oldFaces[curFaces[faceI]].edges();
-        forAll(curFaceEdges, faceEdgeI)
+        FOR_ALL(curFaceEdges, faceEdgeI)
         {
           const edge& curEdge = curFaceEdges[faceEdgeI];
-          forAll(cellEdges, cellEdgeI)
+          FOR_ALL(cellEdges, cellEdgeI)
           {
             if (cellEdges[cellEdgeI] == curEdge)
             {
@@ -68,7 +68,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
       }
       edgeList singleEdges(cellEdges.size());
       label nSingleEdges = 0;
-      forAll(edgeUsage, edgeI)
+      FOR_ALL(edgeUsage, edgeI)
       {
         if (edgeUsage[edgeI] == 1)
         {
@@ -77,13 +77,13 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
         }
         else if (edgeUsage[edgeI] != 2)
         {
-          WarningIn("void polyMeshZipUpCells(polyMesh& mesh)")
+          WARNING_IN("void polyMeshZipUpCells(polyMesh& mesh)")
             << "edge " << cellEdges[edgeI] << " in cell " << cellI
             << " used " << edgeUsage[edgeI] << " times. " << nl
             << "Should be 1 or 2 - serious error "
             << "in mesh structure. " << endl;
 #                   ifdef DEBUG_ZIPUP
-          forAll(curFaces, faceI)
+          FOR_ALL(curFaces, faceI)
           {
             Info<< "face: " << oldFaces[curFaces[faceI]]
               << endl;
@@ -91,7 +91,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
           Info<< "Cell edges: " << cellEdges << nl
             << "Edge usage: " << edgeUsage << nl
             << "Cell points: " << cellPoints << endl;
-          forAll(cellPoints, cpI)
+          FOR_ALL(cellPoints, cpI)
           {
             Info<< "vertex create \"" << cellPoints[cpI]
               << "\" coordinates "
@@ -107,7 +107,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
       singleEdges.setSize(nSingleEdges);
 #           ifdef DEBUG_ZIPUP
       Info<< "Cell " << cellI << endl;
-      forAll(curFaces, faceI)
+      FOR_ALL(curFaces, faceI)
       {
         Info<< "face: " << oldFaces[curFaces[faceI]] << endl;
       }
@@ -115,7 +115,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
         << "Edge usage: " << edgeUsage << nl
         << "Single edges: " << singleEdges << nl
         << "Cell points: " << cellPoints << endl;
-      forAll(cellPoints, cpI)
+      FOR_ALL(cellPoints, cpI)
       {
         Info<< "vertex create \"" << cellPoints[cpI]
           << "\" coordinates "
@@ -126,10 +126,10 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
       // points marked twice are internal to edge; those marked more than
       // twice are corners
       labelList pointUsage(cellPoints.size(), 0);
-      forAll(singleEdges, edgeI)
+      FOR_ALL(singleEdges, edgeI)
       {
         const edge& curEdge = singleEdges[edgeI];
-        forAll(cellPoints, pointI)
+        FOR_ALL(cellPoints, pointI)
         {
           if
           (
@@ -144,14 +144,14 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
       boolList singleEdgeUsage(singleEdges.size(), false);
       // loop through all edges and eliminate the ones that are
       // blocked out
-      forAll(singleEdges, edgeI)
+      FOR_ALL(singleEdges, edgeI)
       {
         bool blockedHead = false;
         bool blockedTail = false;
         label newEdgeStart = singleEdges[edgeI].start();
         label newEdgeEnd = singleEdges[edgeI].end();
         // check that the edge has not got all ends blocked
-        forAll(cellPoints, pointI)
+        FOR_ALL(cellPoints, pointI)
         {
           if (cellPoints[pointI] == newEdgeStart)
           {
@@ -180,7 +180,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
       labelListList edgesToInsert(singleEdges.size());
       label nEdgesToInsert = 0;
       // Find a good edge
-      forAll(singleEdges, edgeI)
+      FOR_ALL(singleEdges, edgeI)
       {
         SLList<label> pointChain;
         bool blockHead = false;
@@ -198,7 +198,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
             << singleEdges[edgeI] << endl;
 #                   endif
           // Check if head or tail are blocked
-          forAll(cellPoints, pointI)
+          FOR_ALL(cellPoints, pointI)
           {
             if (cellPoints[pointI] == newEdgeStart)
             {
@@ -226,7 +226,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
           do
           {
             stopSearching = false;
-            forAll(singleEdges, addEdgeI)
+            FOR_ALL(singleEdges, addEdgeI)
             {
               if (!singleEdgeUsage[addEdgeI])
               {
@@ -277,7 +277,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
                 Info<< "curEdgeStart: " << curEdgeStart
                   << " curEdgeEnd: " << curEdgeEnd << endl;
 #                               endif
-                forAll(cellPoints, pointI)
+                FOR_ALL(cellPoints, pointI)
                 {
                   if (cellPoints[pointI] == curEdgeStart)
                   {
@@ -334,7 +334,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
       Info<< "edgesToInsert: " << edgesToInsert << endl;
 #           endif
       // Insert the edges into a list of faces
-      forAll(edgesToInsert, edgeToInsertI)
+      FOR_ALL(edgesToInsert, edgeToInsertI)
       {
         // Order the points of the edge
         // Warning: the ordering must be parametric, because in
@@ -354,11 +354,11 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
         // Sort points
         labelList orderedEdge(unorderedEdge.size(), -1);
         boolList used(unorderedEdge.size(), false);
-        forAll(orderedEdge, epI)
+        FOR_ALL(orderedEdge, epI)
         {
           label nextPoint = -1;
           scalar minDist = GREAT;
-          forAll(dist, i)
+          FOR_ALL(dist, i)
           {
             if (!used[i] && dist[i] < minDist)
             {
@@ -375,7 +375,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
           << "orderedEdge: " << orderedEdge << endl;
 #               endif
         // check for duplicate points in the ordered edge
-        forAll(orderedEdge, checkI)
+        FOR_ALL(orderedEdge, checkI)
         {
           for
           (
@@ -386,7 +386,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
           {
             if (orderedEdge[checkI] == orderedEdge[checkJ])
             {
-              WarningIn("void polyMeshZipUpCells(polyMesh& mesh)")
+              WARNING_IN("void polyMeshZipUpCells(polyMesh& mesh)")
                 << "Duplicate point found in edge to insert. "
                 << nl << "Point: " << orderedEdge[checkI]
                 << " edge: " << orderedEdge << endl;
@@ -405,22 +405,22 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
         const labelList& endPF = pFaces[testEdge.start()];
         labelList facesSharingEdge(startPF.size() + endPF.size());
         label nfse = 0;
-        forAll(startPF, pfI)
+        FOR_ALL(startPF, pfI)
         {
           facesSharingEdge[nfse++] = startPF[pfI];
         }
-        forAll(endPF, pfI)
+        FOR_ALL(endPF, pfI)
         {
           facesSharingEdge[nfse++] = endPF[pfI];
         }
-        forAll(facesSharingEdge, faceI)
+        FOR_ALL(facesSharingEdge, faceI)
         {
           bool faceChanges = false;
           // Label of the face being analysed
           const label currentFaceIndex = facesSharingEdge[faceI];
           const edgeList curFaceEdges =
             oldFaces[currentFaceIndex].edges();
-          forAll(curFaceEdges, cfeI)
+          FOR_ALL(curFaceEdges, cfeI)
           {
             if (curFaceEdges[cfeI] == testEdge)
             {
@@ -444,10 +444,10 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
             // modified edge. ???
             face& newFace = newFaces[currentFaceIndex];
             bool allPointsPresent = true;
-            forAll(orderedEdge, oeI)
+            FOR_ALL(orderedEdge, oeI)
             {
               bool curPointFound = false;
-              forAll(newFace, nfI)
+              FOR_ALL(newFace, nfI)
               {
                 if (newFace[nfI] == orderedEdge[oeI])
                 {
@@ -479,7 +479,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
 #                           endif
               label nNewFacePoints = 0;
               bool edgeAdded = false;
-              forAll(newFaceEdges, curFacEdgI)
+              FOR_ALL(newFaceEdges, curFacEdgI)
               {
                 // Does the current edge change?
                 if (newFaceEdges[curFacEdgI] == testEdge)
@@ -543,7 +543,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
                 << "newFace: " << newFace << endl;
 #                           endif
               // Check for duplicate points in the new face
-              forAll(newFace, checkI)
+              FOR_ALL(newFace, checkI)
               {
                 for
                 (
@@ -554,7 +554,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
                 {
                   if (newFace[checkI] == newFace[checkJ])
                   {
-                    WarningIn
+                    WARNING_IN
                     (
                       "void polyMeshZipUpCells"
                       "("
@@ -591,7 +591,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
       // This cycle has failed.  Print out the problem cells
       labelList toc(problemCells.toc());
       sort(toc);
-      FatalErrorIn("void polyMeshZipUpCells(polyMesh& mesh)")
+      FATAL_ERROR_IN("void polyMeshZipUpCells(polyMesh& mesh)")
         << "Found " << problemCells.size() << " problem cells." << nl
         << "Cells: " << toc
         << abort(FatalError);
@@ -605,7 +605,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
     // Collect the patch sizes
     labelList patchSizes(bMesh.size(), 0);
     labelList patchStarts(bMesh.size(), 0);
-    forAll(bMesh, patchI)
+    FOR_ALL(bMesh, patchI)
     {
       patchSizes[patchI] = bMesh[patchI].size();
       patchStarts[patchI] = bMesh[patchI].start();
@@ -631,7 +631,7 @@ bool mousse::polyMeshZipUpCells(polyMesh& mesh)
   mesh.setInstance(mesh.time().timeName());
   if (nChangedFacesInMesh > 0)
   {
-    FatalErrorIn("void polyMeshZipUpCells(polyMesh& mesh)")
+    FATAL_ERROR_IN("void polyMeshZipUpCells(polyMesh& mesh)")
       << "cell zip-up failed after 100 cycles.  Probable problem "
       << "with the original mesh"
       << abort(FatalError);

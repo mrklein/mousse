@@ -19,7 +19,7 @@ bool mousse::fileFormats::STARCDCore::readHeader
 {
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STARCDCore::readHeader(...)"
     )
@@ -68,7 +68,7 @@ bool mousse::fileFormats::STARCDCore::readPoints
 {
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STARCDedgeFormat::readPoints(...)"
     )
@@ -104,7 +104,7 @@ void mousse::fileFormats::STARCDCore::writePoints
   os.precision(10);
   // force decimal point for Fortran input
   os.setf(std::ios::showpoint);
-  forAll(pointLst, ptI)
+  FOR_ALL(pointLst, ptI)
   {
     os
       << ptI + 1 << " "

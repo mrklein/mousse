@@ -4,4 +4,5 @@
 
 #include "fv_mesh.hpp"
 #include "fourth_grad.hpp"
-makeFvGradScheme(fourthGrad)
+
+MAKE_FV_GRAD_SCHEME(fourthGrad)

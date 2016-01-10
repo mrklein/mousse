@@ -6,8 +6,10 @@
 #include "dictionary.hpp"
 #include "fv_mesh.hpp"
 #include "fv_patch_field_mapper.hpp"
+
 namespace mousse
 {
+
 // Constructors 
 template<class Type>
 fvsPatchField<Type>::fvsPatchField
@@ -16,10 +18,12 @@ fvsPatchField<Type>::fvsPatchField
   const DimensionedField<Type, surfaceMesh>& iF
 )
 :
-  Field<Type>(p.size()),
-  patch_(p),
-  internalField_(iF)
+  Field<Type>{p.size()},
+  patch_{p},
+  internalField_{iF}
 {}
+
+
 template<class Type>
 fvsPatchField<Type>::fvsPatchField
 (
@@ -28,10 +32,12 @@ fvsPatchField<Type>::fvsPatchField
   const Field<Type>& f
 )
 :
-  Field<Type>(f),
-  patch_(p),
-  internalField_(iF)
+  Field<Type>{f},
+  patch_{p},
+  internalField_{iF}
 {}
+
+
 template<class Type>
 fvsPatchField<Type>::fvsPatchField
 (
@@ -41,10 +47,12 @@ fvsPatchField<Type>::fvsPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  Field<Type>(ptf, mapper),
-  patch_(p),
-  internalField_(iF)
+  Field<Type>{ptf, mapper},
+  patch_{p},
+  internalField_{iF}
 {}
+
+
 template<class Type>
 fvsPatchField<Type>::fvsPatchField
 (
@@ -53,9 +61,9 @@ fvsPatchField<Type>::fvsPatchField
   const dictionary& dict
 )
 :
-  Field<Type>(p.size()),
-  patch_(p),
-  internalField_(iF)
+  Field<Type>{p.size()},
+  patch_{p},
+  internalField_{iF}
 {
   if (dict.found("value"))
   {
@@ -66,7 +74,7 @@ fvsPatchField<Type>::fvsPatchField
   }
   else
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "fvsPatchField<Type>::fvsPatchField\n"
       "(\n"
@@ -75,20 +83,25 @@ fvsPatchField<Type>::fvsPatchField
       "    const dictionary& dict\n"
       ")\n",
       dict
-    )   << "essential value entry not provided"
-      << exit(FatalIOError);
+    )
+    << "essential value entry not provided"
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 fvsPatchField<Type>::fvsPatchField
 (
   const fvsPatchField<Type>& ptf
 )
 :
-  Field<Type>(ptf),
-  patch_(ptf.patch_),
-  internalField_(ptf.internalField_)
+  Field<Type>{ptf},
+  patch_{ptf.patch_},
+  internalField_{ptf.internalField_}
 {}
+
+
 template<class Type>
 fvsPatchField<Type>::fvsPatchField
 (
@@ -96,26 +109,32 @@ fvsPatchField<Type>::fvsPatchField
   const DimensionedField<Type, surfaceMesh>& iF
 )
 :
-  Field<Type>(ptf),
-  patch_(ptf.patch_),
-  internalField_(iF)
+  Field<Type>{ptf},
+  patch_{ptf.patch_},
+  internalField_{iF}
 {}
+
+
 // Member Functions 
 template<class Type>
 const objectRegistry& fvsPatchField<Type>::db() const
 {
   return patch_.boundaryMesh().mesh();
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::check(const fvsPatchField<Type>& ptf) const
 {
   if (&patch_ != &(ptf.patch_))
   {
-    FatalErrorIn("PatchField<Type>::check(const fvsPatchField<Type>&)")
+    FATAL_ERROR_IN("PatchField<Type>::check(const fvsPatchField<Type>&)")
       << "different patches for fvsPatchField<Type>s"
       << abort(FatalError);
   }
 }
+
+
 // Map from self
 template<class Type>
 void fvsPatchField<Type>::autoMap
@@ -125,6 +144,8 @@ void fvsPatchField<Type>::autoMap
 {
   Field<Type>::autoMap(m);
 }
+
+
 // Reverse-map the given fvsPatchField onto this fvsPatchField
 template<class Type>
 void fvsPatchField<Type>::rmap
@@ -135,6 +156,8 @@ void fvsPatchField<Type>::rmap
 {
   Field<Type>::rmap(ptf, addr);
 }
+
+
 // Write
 template<class Type>
 void fvsPatchField<Type>::write(Ostream& os) const
@@ -142,6 +165,8 @@ void fvsPatchField<Type>::write(Ostream& os) const
   os.writeKeyword("type") << type() << token::END_STATEMENT << nl;
   this->writeEntry("value", os);
 }
+
+
 // Member Operators 
 template<class Type>
 void fvsPatchField<Type>::operator=
@@ -151,6 +176,8 @@ void fvsPatchField<Type>::operator=
 {
   Field<Type>::operator=(ul);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator=
 (
@@ -160,6 +187,8 @@ void fvsPatchField<Type>::operator=
   check(ptf);
   Field<Type>::operator=(ptf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator+=
 (
@@ -169,6 +198,8 @@ void fvsPatchField<Type>::operator+=
   check(ptf);
   Field<Type>::operator+=(ptf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator-=
 (
@@ -178,6 +209,8 @@ void fvsPatchField<Type>::operator-=
   check(ptf);
   Field<Type>::operator-=(ptf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator*=
 (
@@ -186,14 +219,17 @@ void fvsPatchField<Type>::operator*=
 {
   if (&patch_ != &ptf.patch())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PatchField<Type>::operator*=(const fvsPatchField<scalar>& ptf)"
-    )   << "incompatible patches for patch fields"
-      << abort(FatalError);
+    )
+    << "incompatible patches for patch fields"
+    << abort(FatalError);
   }
   Field<Type>::operator*=(ptf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator/=
 (
@@ -202,14 +238,17 @@ void fvsPatchField<Type>::operator/=
 {
   if (&patch_ != &ptf.patch())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PatchField<Type>::operator/=(const fvsPatchField<scalar>& ptf)"
-    )   << "    incompatible patches for patch fields"
-      << abort(FatalError);
+    )
+    << "    incompatible patches for patch fields"
+    << abort(FatalError);
   }
   Field<Type>::operator/=(ptf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator+=
 (
@@ -218,6 +257,8 @@ void fvsPatchField<Type>::operator+=
 {
   Field<Type>::operator+=(tf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator-=
 (
@@ -226,6 +267,8 @@ void fvsPatchField<Type>::operator-=
 {
   Field<Type>::operator-=(tf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator*=
 (
@@ -234,6 +277,8 @@ void fvsPatchField<Type>::operator*=
 {
   Field<Type>::operator*=(tf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator/=
 (
@@ -242,6 +287,8 @@ void fvsPatchField<Type>::operator/=
 {
   Field<Type>::operator/=(tf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator=
 (
@@ -250,6 +297,8 @@ void fvsPatchField<Type>::operator=
 {
   Field<Type>::operator=(t);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator+=
 (
@@ -258,6 +307,8 @@ void fvsPatchField<Type>::operator+=
 {
   Field<Type>::operator+=(t);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator-=
 (
@@ -266,6 +317,8 @@ void fvsPatchField<Type>::operator-=
 {
   Field<Type>::operator-=(t);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator*=
 (
@@ -274,6 +327,8 @@ void fvsPatchField<Type>::operator*=
 {
   Field<Type>::operator*=(s);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator/=
 (
@@ -282,6 +337,8 @@ void fvsPatchField<Type>::operator/=
 {
   Field<Type>::operator/=(s);
 }
+
+
 // Force an assignment, overriding fixedValue status
 template<class Type>
 void fvsPatchField<Type>::operator==
@@ -291,6 +348,8 @@ void fvsPatchField<Type>::operator==
 {
   Field<Type>::operator=(ptf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator==
 (
@@ -299,6 +358,8 @@ void fvsPatchField<Type>::operator==
 {
   Field<Type>::operator=(tf);
 }
+
+
 template<class Type>
 void fvsPatchField<Type>::operator==
 (
@@ -307,6 +368,8 @@ void fvsPatchField<Type>::operator==
 {
   Field<Type>::operator=(t);
 }
+
+
 // IOstream Operators 
 template<class Type>
 Ostream& operator<<(Ostream& os, const fvsPatchField<Type>& ptf)
@@ -315,5 +378,6 @@ Ostream& operator<<(Ostream& os, const fvsPatchField<Type>& ptf)
   os.check("Ostream& operator<<(Ostream&, const fvsPatchField<Type>&");
   return os;
 }
+
 }  // namespace mousse
 #   include "fvs_patch_field_new.cpp"

@@ -277,7 +277,7 @@ class faceCoupleInfo
     );
 public:
   //- Runtime type information
-  ClassName("faceCoupleInfo");
+  CLASS_NAME("faceCoupleInfo");
   // Constructors
     //- Construct from two meshes and absolute tolerance.
     //  Finds out matches geometrically. No checking for nonsense match.

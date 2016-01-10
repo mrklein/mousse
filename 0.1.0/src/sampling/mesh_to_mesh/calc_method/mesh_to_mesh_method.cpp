@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(meshToMeshMethod, 0);
-  defineRunTimeSelectionTable(meshToMeshMethod, components);
+  DEFINE_TYPE_NAME_AND_DEBUG(meshToMeshMethod, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(meshToMeshMethod, components);
 }
 mousse::scalar mousse::meshToMeshMethod::tolerance_ = 1e-6;
 // Private Member Functions 
@@ -27,7 +27,7 @@ mousse::labelList mousse::meshToMeshMethod::maskCells() const
   const faceList& srcFaces = src_.faces();
   const pointField& srcPts = src_.points();
   DynamicList<label> cells(src_.nCells());
-  forAll(srcCells, srcI)
+  FOR_ALL(srcCells, srcI)
   {
     boundBox cellBb(srcCells[srcI].points(srcFaces, srcPts), false);
     if (intersectBb.overlaps(cellBb))
@@ -88,7 +88,7 @@ void mousse::meshToMeshMethod::appendNbrCells
 {
   const labelList& nbrCells = mesh.cellCells()[cellI];
   // filter out cells already visited from cell neighbours
-  forAll(nbrCells, i)
+  FOR_ALL(nbrCells, i)
   {
     label nbrCellI = nbrCells[i];
     if
@@ -169,16 +169,16 @@ void mousse::meshToMeshMethod::writeConnectivity
   }
   OFstream os(src_.time().path()/fName + ".obj");
   label vertI = 0;
-  forAll(mesh1ToMesh2Addr, i)
+  FOR_ALL(mesh1ToMesh2Addr, i)
   {
     const labelList& addr = mesh1ToMesh2Addr[i];
-    forAll(addr, j)
+    FOR_ALL(addr, j)
     {
       label cellI = addr[j];
       const vector& c0 = mesh1.cellCentres()[i];
       const cell& c = mesh2.cells()[cellI];
       const pointField pts(c.points(mesh2.faces(), mesh2.points()));
-      forAll(pts, j)
+      FOR_ALL(pts, j)
       {
         const point& p = pts[j];
         os  << "v " << p.x() << ' ' << p.y() << ' ' << p.z() << nl;

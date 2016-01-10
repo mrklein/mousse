@@ -3,5 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "orthogonal_sn_grad.hpp"
+
+#include "surface_fields.hpp"
 #include "fv_mesh.hpp"
-makeSnGradScheme(orthogonalSnGrad)
+
+MAKE_SN_GRAD_SCHEME(orthogonalSnGrad)

@@ -3,20 +3,26 @@
 // Copyright (C) 2016 mousse project
 
 #include "vtk_set_writer.hpp"
+
 #include "coord_set.hpp"
 #include "file_name.hpp"
 #include "ofstream.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Constructors 
 template<class Type>
 mousse::vtkSetWriter<Type>::vtkSetWriter()
 :
   writer<Type>()
 {}
+
+
 // Destructor 
 template<class Type>
 mousse::vtkSetWriter<Type>::~vtkSetWriter()
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::fileName mousse::vtkSetWriter<Type>::getFileName
@@ -27,6 +33,8 @@ mousse::fileName mousse::vtkSetWriter<Type>::getFileName
 {
   return this->getBaseName(points, valueSetNames) + ".vtk";
 }
+
+
 template<class Type>
 void mousse::vtkSetWriter<Type>::write
 (
@@ -36,24 +44,24 @@ void mousse::vtkSetWriter<Type>::write
   Ostream& os
 ) const
 {
-  os  << "# vtk DataFile Version 2.0" << nl
+  os<< "# vtk DataFile Version 2.0" << nl
     << points.name() << nl
     << "ASCII" << nl
     << "DATASET POLYDATA" << nl
     << "POINTS " << points.size() << " float" << nl;
-  forAll(points, i)
+  FOR_ALL(points, i)
   {
     const vector& pt = points[i];
-    os  << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
+    os << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
   }
-  os  << "POINT_DATA " << points.size() << nl
+  os<< "POINT_DATA " << points.size() << nl
     << " FIELD attributes " << valueSetNames.size() << nl;
-  forAll(valueSetNames, setI)
+  FOR_ALL(valueSetNames, setI)
   {
-    os  << valueSetNames[setI] << ' ' << pTraits<Type>::nComponents << ' '
+    os<< valueSetNames[setI] << ' ' << pTraits<Type>::nComponents << ' '
       << points.size() << " float" << nl;
     const Field<Type>& fld = *valueSets[setI];
-    forAll(fld, pointI)
+    FOR_ALL(fld, pointI)
     {
       if (pointI != 0)
       {
@@ -64,38 +72,40 @@ void mousse::vtkSetWriter<Type>::write
     os  << nl;
   }
 }
+
+
 template<class Type>
 void mousse::vtkSetWriter<Type>::write
 (
   const bool writeTracks,
   const PtrList<coordSet>& tracks,
   const wordList& valueSetNames,
-  const List<List<Field<Type> > >& valueSets,
+  const List<List<Field<Type>>>& valueSets,
   Ostream& os
 ) const
 {
   if (valueSets.size() != valueSetNames.size())
   {
-    FatalErrorIn("vtkSetWriter<Type>::write(..)")
+    FATAL_ERROR_IN("vtkSetWriter<Type>::write(..)")
       << "Number of variables:" << valueSetNames.size() << endl
       << "Number of valueSets:" << valueSets.size()
       << exit(FatalError);
   }
   label nTracks = tracks.size();
   label nPoints = 0;
-  forAll(tracks, i)
+  FOR_ALL(tracks, i)
   {
     nPoints += tracks[i].size();
   }
-  os  << "# vtk DataFile Version 2.0" << nl
+  os<< "# vtk DataFile Version 2.0" << nl
     << tracks[0].name() << nl
     << "ASCII" << nl
     << "DATASET POLYDATA" << nl
     << "POINTS " << nPoints << " float" << nl;
-  forAll(tracks, trackI)
+  FOR_ALL(tracks, trackI)
   {
     const coordSet& points = tracks[trackI];
-    forAll(points, i)
+    FOR_ALL(points, i)
     {
       const vector& pt = points[i];
       os  << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
@@ -103,32 +113,32 @@ void mousse::vtkSetWriter<Type>::write
   }
   if (writeTracks)
   {
-    os  << "LINES " << nTracks << ' ' << nPoints+nTracks << nl;
+    os << "LINES " << nTracks << ' ' << nPoints+nTracks << nl;
     // Write ids of track points to file
     label globalPtI = 0;
-    forAll(tracks, trackI)
+    FOR_ALL(tracks, trackI)
     {
       const coordSet& points = tracks[trackI];
-      os  << points.size();
-      forAll(points, i)
+      os << points.size();
+      FOR_ALL(points, i)
       {
-        os  << ' ' << globalPtI;
+        os << ' ' << globalPtI;
         globalPtI++;
       }
       os << nl;
     }
   }
-  os  << "POINT_DATA " << nPoints << nl
-    << " FIELD attributes " << valueSetNames.size() << nl;
-  forAll(valueSetNames, setI)
+  os << "POINT_DATA " << nPoints << nl << " FIELD attributes "
+    << valueSetNames.size() << nl;
+  FOR_ALL(valueSetNames, setI)
   {
-    os  << valueSetNames[setI] << ' ' << pTraits<Type>::nComponents << ' '
+    os << valueSetNames[setI] << ' ' << pTraits<Type>::nComponents << ' '
       << nPoints << " float" << nl;
-    const List<Field<Type> >& fieldVals = valueSets[setI];
-    forAll(fieldVals, i)
+    const List<Field<Type>>& fieldVals = valueSets[setI];
+    FOR_ALL(fieldVals, i)
     {
       const Field<Type>& vals = fieldVals[i];
-      forAll(vals, j)
+      FOR_ALL(vals, j)
       {
         if (j != 0)
         {

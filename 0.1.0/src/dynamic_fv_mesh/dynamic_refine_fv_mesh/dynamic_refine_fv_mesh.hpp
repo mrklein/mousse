@@ -122,17 +122,16 @@ protected:
         PackedBoolList& protectedCell,
         label& nProtected
       ) const;
-private:
-    //- Disallow default bitwise copy construct
-    dynamicRefineFvMesh(const dynamicRefineFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const dynamicRefineFvMesh&);
 public:
   //- Runtime type information
-  TypeName("dynamicRefineFvMesh");
+  TYPE_NAME("dynamicRefineFvMesh");
   // Constructors
     //- Construct from IOobject
     explicit dynamicRefineFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    dynamicRefineFvMesh(const dynamicRefineFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    dynamicRefineFvMesh& operator=(const dynamicRefineFvMesh&) = delete;
   //- Destructor
   virtual ~dynamicRefineFvMesh();
   // Member Functions

@@ -87,7 +87,7 @@ void mousse::sampledSurfaces::sampleAndWrite
   autoPtr<interpolation<Type> > interpolatorPtr;
   const word& fieldName = vField.name();
   const fileName outputDir = outputPath_/vField.time().timeName();
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     const sampledSurface& s = operator[](surfI);
     Field<Type> values;
@@ -118,7 +118,7 @@ void mousse::sampledSurfaces::sampleAndWrite
 {
   const word& fieldName   = sField.name();
   const fileName outputDir = outputPath_/sField.time().timeName();
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     const sampledSurface& s = operator[](surfI);
     Field<Type> values(s.sample(sField));
@@ -140,7 +140,7 @@ void mousse::sampledSurfaces::sampleAndWrite(const IOobjectList& objects)
   }
   labelList nameIDs(findStrings(fieldSelection_, names));
   wordHashSet fieldNames(wordList(names, nameIDs));
-  forAllConstIter(wordHashSet, fieldNames, iter)
+  FOR_ALL_CONST_ITER(wordHashSet, fieldNames, iter)
   {
     const word& fieldName = iter.key();
     if ((Pstream::master()) && verbose_)

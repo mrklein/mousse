@@ -8,20 +8,22 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(labelToPoint, 0);
-addToRunTimeSelectionTable(topoSetSource, labelToPoint, word);
-addToRunTimeSelectionTable(topoSetSource, labelToPoint, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(labelToPoint, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, labelToPoint, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, labelToPoint, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::labelToPoint::usage_
 (
   labelToPoint::typeName,
   "\n    Usage: labelToPoint (i0 i1 .. in)\n\n"
   "    Select points by label\n\n"
 );
+
 // Private Member Functions 
 void mousse::labelToPoint::combine(topoSet& set, const bool add) const
 {
-  forAll(labels_, labelI)
+  FOR_ALL(labels_, labelI)
   {
     addOrDelete(set, labels_[labelI], add);
   }

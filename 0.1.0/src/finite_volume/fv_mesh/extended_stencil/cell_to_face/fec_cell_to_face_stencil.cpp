@@ -17,7 +17,7 @@ void mousse::FECCellToFaceStencil::calcEdgeBoundaryData
 {
   neiGlobal.resize(2*boundaryEdges.size());
   labelHashSet edgeGlobals;
-  forAll(boundaryEdges, i)
+  FOR_ALL(boundaryEdges, i)
   {
     label edgeI = boundaryEdges[i];
     neiGlobal.insert
@@ -47,13 +47,13 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
   // Determine neighbouring global cell
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelList neiGlobalCell(nBnd);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         neiGlobalCell[faceI-mesh().nInternalFaces()] =
           globalNumbering().toGlobal(own[faceI]);
@@ -90,13 +90,13 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   faceStencil.setSize(mesh().nFaces());
   // Do coupled edges first
-  forAll(boundaryEdges, i)
+  FOR_ALL(boundaryEdges, i)
   {
     label edgeI = boundaryEdges[i];
     const labelList& eGlobals = neiGlobal[mesh().edges()[edgeI]];
     // Distribute to all edgeFaces
     const labelList& eFaces = mesh().edgeFaces(edgeI);
-    forAll(eFaces, j)
+    FOR_ALL(eFaces, j)
     {
       label faceI = eFaces[j];
       // Insert eGlobals into faceStencil.
@@ -117,7 +117,7 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
     // set and operate on this.
     faceStencilSet.clear();
     // Insert all but global owner and neighbour
-    forAll(faceStencil[faceI], i)
+    FOR_ALL(faceStencil[faceI], i)
     {
       label globalI = faceStencil[faceI][i];
       if (globalI != globalOwn && globalI != globalNei)
@@ -128,7 +128,7 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
     faceStencil[faceI].clear();
     // Collect all edge connected (internal) cells
     const labelList& fEdges = mesh().faceEdges(faceI, fEdgesSet);
-    forAll(fEdges, i)
+    FOR_ALL(fEdges, i)
     {
       label edgeI = fEdges[i];
       insertFaceCells
@@ -145,24 +145,24 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
     label n = 0;
     faceStencil[faceI][n++] = globalOwn;
     faceStencil[faceI][n++] = globalNei;
-    forAllConstIter(labelHashSet, faceStencilSet, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, faceStencilSet, iter)
     {
       if (iter.key() == globalOwn || iter.key() == globalNei)
       {
-        FatalErrorIn("FECCellToFaceStencil::calcFaceStencil(..)")
+        FATAL_ERROR_IN("FECCellToFaceStencil::calcFaceStencil(..)")
           << "problem:" << faceStencilSet
           << abort(FatalError);
       }
       faceStencil[faceI][n++] = iter.key();
     }
   }
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     label faceI = pp.start();
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label globalOwn = globalNumbering().toGlobal(own[faceI]);
         label globalNei = neiGlobalCell[faceI-mesh().nInternalFaces()];
@@ -170,7 +170,7 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
         // set and operate on this.
         faceStencilSet.clear();
         // Insert all but global owner and neighbour
-        forAll(faceStencil[faceI], i)
+        FOR_ALL(faceStencil[faceI], i)
         {
           label globalI = faceStencil[faceI][i];
           if (globalI != globalOwn && globalI != globalNei)
@@ -181,7 +181,7 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
         faceStencil[faceI].clear();
         // Collect all edge connected (internal) cells
         const labelList& fEdges = mesh().faceEdges(faceI, fEdgesSet);
-        forAll(fEdges, i)
+        FOR_ALL(fEdges, i)
         {
           label edgeI = fEdges[i];
           insertFaceCells
@@ -198,11 +198,11 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
         label n = 0;
         faceStencil[faceI][n++] = globalOwn;
         faceStencil[faceI][n++] = globalNei;
-        forAllConstIter(labelHashSet, faceStencilSet, iter)
+        FOR_ALL_CONST_ITER(labelHashSet, faceStencilSet, iter)
         {
           if (iter.key() == globalOwn || iter.key() == globalNei)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "FECCellToFaceStencil::calcFaceStencil(..)"
             )   << "problem:" << faceStencilSet
@@ -212,7 +212,7 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
         }
         if (n != faceStencil[faceI].size())
         {
-          FatalErrorIn("problem") << "n:" << n
+          FATAL_ERROR_IN("problem") << "n:" << n
             << " size:" << faceStencil[faceI].size()
             << abort(FatalError);
         }
@@ -221,14 +221,14 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
     }
     else if (!isA<emptyPolyPatch>(pp))
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label globalOwn = globalNumbering().toGlobal(own[faceI]);
         // Convert any existing faceStencil (from coupled edges) into
         // set and operate on this.
         faceStencilSet.clear();
         // Insert all but global owner and neighbour
-        forAll(faceStencil[faceI], i)
+        FOR_ALL(faceStencil[faceI], i)
         {
           label globalI = faceStencil[faceI][i];
           if (globalI != globalOwn)
@@ -239,7 +239,7 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
         faceStencil[faceI].clear();
         // Collect all edge connected (internal) cells
         const labelList& fEdges = mesh().faceEdges(faceI, fEdgesSet);
-        forAll(fEdges, i)
+        FOR_ALL(fEdges, i)
         {
           label edgeI = fEdges[i];
           insertFaceCells
@@ -255,11 +255,11 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
         faceStencil[faceI].setSize(faceStencilSet.size()+1);
         label n = 0;
         faceStencil[faceI][n++] = globalOwn;
-        forAllConstIter(labelHashSet, faceStencilSet, iter)
+        FOR_ALL_CONST_ITER(labelHashSet, faceStencilSet, iter)
         {
           if (iter.key() == globalOwn)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "FECCellToFaceStencil::calcFaceStencil(..)"
             )   << "problem:" << faceStencilSet
@@ -276,7 +276,7 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
     label globalOwn = globalNumbering().toGlobal(own[faceI]);
     if (faceStencil[faceI][0] != globalOwn)
     {
-      FatalErrorIn("FECCellToFaceStencil::calcFaceStencil(..)")
+      FATAL_ERROR_IN("FECCellToFaceStencil::calcFaceStencil(..)")
         << "problem:" << faceStencil[faceI]
         << " globalOwn:" << globalOwn
         << abort(FatalError);
@@ -284,24 +284,24 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
     label globalNei = globalNumbering().toGlobal(nei[faceI]);
     if (faceStencil[faceI][1] != globalNei)
     {
-      FatalErrorIn("FECCellToFaceStencil::calcFaceStencil(..)")
+      FATAL_ERROR_IN("FECCellToFaceStencil::calcFaceStencil(..)")
         << "problem:" << faceStencil[faceI]
         << " globalNei:" << globalNei
         << abort(FatalError);
     }
   }
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         label globalOwn = globalNumbering().toGlobal(own[faceI]);
         if (faceStencil[faceI][0] != globalOwn)
         {
-          FatalErrorIn("FECCellToFaceStencil::calcFaceStencil(..)")
+          FATAL_ERROR_IN("FECCellToFaceStencil::calcFaceStencil(..)")
             << "problem:" << faceStencil[faceI]
             << " globalOwn:" << globalOwn
             << abort(FatalError);
@@ -309,7 +309,7 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
         label globalNei = neiGlobalCell[faceI-mesh().nInternalFaces()];
         if (faceStencil[faceI][1] != globalNei)
         {
-          FatalErrorIn("FECCellToFaceStencil::calcFaceStencil(..)")
+          FATAL_ERROR_IN("FECCellToFaceStencil::calcFaceStencil(..)")
             << "problem:" << faceStencil[faceI]
             << " globalNei:" << globalNei
             << abort(FatalError);
@@ -318,13 +318,13 @@ void mousse::FECCellToFaceStencil::calcFaceStencil
     }
     else if (!isA<emptyPolyPatch>(pp))
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         label globalOwn = globalNumbering().toGlobal(own[faceI]);
         if (faceStencil[faceI][0] != globalOwn)
         {
-          FatalErrorIn("FECCellToFaceStencil::calcFaceStencil(..)")
+          FATAL_ERROR_IN("FECCellToFaceStencil::calcFaceStencil(..)")
             << "problem:" << faceStencil[faceI]
             << " globalOwn:" << globalOwn
             << abort(FatalError);

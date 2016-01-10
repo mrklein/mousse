@@ -8,6 +8,7 @@
 #include "string_io_list.hpp"
 #include "cell_modeller.hpp"
 #include "vector_io_field.hpp"
+
 // Private Member Functions 
 template<class T>
 void mousse::vtkUnstructuredReader::readBlock
@@ -18,29 +19,30 @@ void mousse::vtkUnstructuredReader::readBlock
 ) const
 {
   lst.setSize(n);
-  forAll(lst, i)
+
+  FOR_ALL(lst, i)
   {
     inFile >> lst[i];
   }
 }
+
+
 template<class Type>
 void mousse::vtkUnstructuredReader::printFieldStats
 (
   const objectRegistry& obj
 ) const
 {
-  wordList fieldNames(obj.names(Type::typeName));
+  wordList fieldNames{obj.names(Type::typeName)};
   if (fieldNames.size() > 0)
   {
-    Info<< "Read " << fieldNames.size() << " " << Type::typeName
-      << " fields:" << endl;
-    Info<< "Size\tName" << nl
-      << "----\t----" << endl;
-    forAll(fieldNames, i)
+    Info<< "Read " << fieldNames.size() << " " << Type::typeName << " fields:"
+      << endl;
+    Info<< "Size\tName" << nl << "----\t----" << endl;
+    FOR_ALL(fieldNames, i)
     {
-      Info<< obj.lookupObject<Type>(fieldNames[i]).size()
-        << "\t" << fieldNames[i]
-        << endl;
+      Info<< obj.lookupObject<Type>(fieldNames[i]).size() << "\t"
+        << fieldNames[i] << endl;
     }
     Info<< endl;
   }

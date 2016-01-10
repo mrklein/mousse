@@ -8,9 +8,11 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(coordinateRotation, 0);
-  defineRunTimeSelectionTable(coordinateRotation, dictionary);
-  defineRunTimeSelectionTable(coordinateRotation, objectRegistry);
+
+DEFINE_TYPE_NAME_AND_DEBUG(coordinateRotation, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(coordinateRotation, dictionary);
+DEFINE_RUN_TIME_SELECTION_TABLE(coordinateRotation, objectRegistry);
+
 }
 // Member Functions 
 mousse::symmTensor mousse::coordinateRotation::transformPrincipal

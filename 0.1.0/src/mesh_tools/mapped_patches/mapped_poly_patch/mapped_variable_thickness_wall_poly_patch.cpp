@@ -4,23 +4,25 @@
 
 #include "mapped_variable_thickness_wall_poly_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"
+#include "map_distribute.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(mappedVariableThicknessWallPolyPatch, 0);
-  addToRunTimeSelectionTable
-  (
-    polyPatch,
-    mappedVariableThicknessWallPolyPatch,
-    word
-  );
-  addToRunTimeSelectionTable
-  (
-    polyPatch,
-    mappedVariableThicknessWallPolyPatch,
-    dictionary
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(mappedVariableThicknessWallPolyPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  polyPatch,
+  mappedVariableThicknessWallPolyPatch,
+  word
+);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  polyPatch,
+  mappedVariableThicknessWallPolyPatch,
+  dictionary
+);
 }
-// Constructors 
+// Constructors
 mousse::mappedVariableThicknessWallPolyPatch::mappedVariableThicknessWallPolyPatch
 (
   const word& name,
@@ -40,10 +42,10 @@ mousse::mappedVariableThicknessWallPolyPatch::mappedVariableThicknessWallPolyPat
   const label size,
   const label start,
   const label index,
-  const word& sampleRegion,
-  const mappedPatchBase::sampleMode mode,
-  const word& samplePatch,
-  const vectorField& offset,
+  const word& /*sampleRegion*/,
+  const mappedPatchBase::sampleMode /*mode*/,
+  const word& /*samplePatch*/,
+  const vectorField& /*offset*/,
   const polyBoundaryMesh& bm
 )
 :
@@ -56,10 +58,10 @@ mousse::mappedVariableThicknessWallPolyPatch::mappedVariableThicknessWallPolyPat
   const label size,
   const label start,
   const label index,
-  const word& sampleRegion,
-  const mappedPatchBase::sampleMode mode,
-  const word& samplePatch,
-  const vector& offset,
+  const word& /*sampleRegion*/,
+  const mappedPatchBase::sampleMode /*mode*/,
+  const word& /*samplePatch*/,
+  const vector& /*offset*/,
   const polyBoundaryMesh& bm
 )
 :
@@ -112,11 +114,13 @@ mousse::mappedVariableThicknessWallPolyPatch::mappedVariableThicknessWallPolyPat
   mappedWallPolyPatch(pp, bm, index, mapAddressing, newStart),
   thickness_(pp.size())
 {}
-// Destructor 
+
+// Destructor
 mousse::mappedVariableThicknessWallPolyPatch::
 ~mappedVariableThicknessWallPolyPatch()
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::mappedVariableThicknessWallPolyPatch::
 write(mousse::Ostream& os) const
 {

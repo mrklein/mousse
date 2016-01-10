@@ -25,7 +25,7 @@ const mousse::NamedEnum<mousse::fileMonitor::fileState, 3>
   mousse::fileMonitor::fileStateNames_;
 namespace mousse
 {
-  defineTypeNameAndDebug(fileMonitor, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(fileMonitor, 0);
   template<>
   const char* mousse::NamedEnum
   <
@@ -121,7 +121,7 @@ namespace mousse
           }
         }
         #else
-          FatalErrorIn("fileMonitorWatcher(const bool, const label)")
+          FATAL_ERROR_IN("fileMonitorWatcher(const bool, const label)")
             << "You selected inotify but this file was compiled"
             << " without MOUSSE_USE_INOTIFY"
             << " Please select another fileModification test method"
@@ -202,7 +202,7 @@ namespace mousse
         if (watchFd < lastMod_.size() && lastMod_[watchFd] != 0)
         {
           // Reuse of watchFd : should have lastMod set to 0.
-          FatalErrorIn("addWatch(const label, const fileName&)")
+          FATAL_ERROR_IN("addWatch(const label, const fileName&)")
             << "Problem adding watch " << watchFd
             << " to file " << fName
             << abort(FatalError);
@@ -229,7 +229,7 @@ namespace mousse
     }
   };
 }
-// Private Member Functions 
+// Private Member Functions
 void mousse::fileMonitor::checkFiles() const
 {
   if (useInotify_)
@@ -323,7 +323,7 @@ void mousse::fileMonitor::checkFiles() const
   }
   else
   {
-    forAll(watcher_->lastMod_, watchFd)
+    FOR_ALL(watcher_->lastMod_, watchFd)
     {
       time_t oldTime = watcher_->lastMod_[watchFd];
       if (oldTime != 0)
@@ -349,7 +349,7 @@ void mousse::fileMonitor::checkFiles() const
     }
   }
 }
-// Constructors 
+// Constructors
 mousse::fileMonitor::fileMonitor(const bool useInotify)
 :
   useInotify_(useInotify),
@@ -359,10 +359,10 @@ mousse::fileMonitor::fileMonitor(const bool useInotify)
   freeWatchFds_(2),
   watcher_(new fileMonitorWatcher(useInotify_, 20))
 {}
-// Destructor 
+// Destructor
 mousse::fileMonitor::~fileMonitor()
 {}
-// Member Functions 
+// Member Functions
 // Note: fName might not exist (on slaves if in master-only mode for
 // regIOobject)
 mousse::label mousse::fileMonitor::addWatch(const fileName& fName)
@@ -386,7 +386,7 @@ mousse::label mousse::fileMonitor::addWatch(const fileName& fName)
   }
   if (watchFd < 0)
   {
-    WarningIn("fileMonitor::addWatch(const fileName&)")
+    WARNING_IN("fileMonitor::addWatch(const fileName&)")
       << "could not add watch for file " << fName << endl;
   }
   else
@@ -433,7 +433,7 @@ void mousse::fileMonitor::updateStates
     PackedList<2> stats(state_.size(), MODIFIED);
     if (Pstream::master() || !masterOnly)
     {
-      forAll(state_, watchFd)
+      FOR_ALL(state_, watchFd)
       {
         stats[watchFd] = static_cast<unsigned int>
         (
@@ -472,7 +472,7 @@ void mousse::fileMonitor::updateStates
       }
     }
     // Update synchronised state
-    forAll(state_, watchFd)
+    FOR_ALL(state_, watchFd)
     {
       // Assign synchronised state
       unsigned int stat = stats[watchFd];
@@ -490,7 +490,7 @@ void mousse::fileMonitor::updateStates
                "file time-stamps between processors"
               << endl;
           }
-          WarningIn
+          WARNING_IN
           (
             "fileMonitor::updateStates"
             "(const bool, const bool) const"

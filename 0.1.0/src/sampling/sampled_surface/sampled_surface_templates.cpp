@@ -12,7 +12,7 @@ bool mousse::sampledSurface::checkFieldSize(const Field<Type>& field) const
   }
   if (field.size() != faces().size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "sampledSurface::checkFieldSize(const Field<Type>&) const"
     )
@@ -77,7 +77,7 @@ void mousse::sampledSurface::project
   if (checkFieldSize(field))
   {
     const vectorField& norm = Sf();
-    forAll(norm, faceI)
+    FOR_ALL(norm, faceI)
     {
       res[faceI] = field[faceI] & (norm[faceI]/mag(norm[faceI]));
     }
@@ -139,7 +139,7 @@ mousse::sampledSurface::pointAverage
     for (label pointI = 0; pointI < mesh.nPoints(); pointI++)
     {
       const labelList& pCells = mesh.pointCells(pointI);
-      forAll(pCells, i)
+      FOR_ALL(pCells, i)
       {
         label cellI = pCells[i];
         cellAvg[cellI] += pfld[pointI];
@@ -147,7 +147,7 @@ mousse::sampledSurface::pointAverage
       }
     }
   }
-  forAll(cellAvg, cellI)
+  FOR_ALL(cellAvg, cellI)
   {
     cellAvg[cellI] /= nPointCells[cellI];
   }

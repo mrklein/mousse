@@ -23,7 +23,7 @@ class centredCFCCellToFaceStencilObject
   public extendedCentredCellToFaceStencil
 {
 public:
-  TypeName("centredCFCCellToFaceStencil");
+  TYPE_NAME("centredCFCCellToFaceStencil");
   // Constructors
     //- Construct from uncompacted face stencil
     explicit centredCFCCellToFaceStencilObject

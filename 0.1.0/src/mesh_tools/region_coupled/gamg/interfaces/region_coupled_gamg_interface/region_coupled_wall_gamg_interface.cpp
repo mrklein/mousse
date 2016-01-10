@@ -7,13 +7,13 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledWallGAMGInterface, 0);
-  addToRunTimeSelectionTable
-  (
-    GAMGInterface,
-    regionCoupledWallGAMGInterface,
-    lduInterface
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledWallGAMGInterface, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGInterface,
+  regionCoupledWallGAMGInterface,
+  lduInterface
+);
 }
 // Constructors 
 mousse::regionCoupledWallGAMGInterface::regionCoupledWallGAMGInterface

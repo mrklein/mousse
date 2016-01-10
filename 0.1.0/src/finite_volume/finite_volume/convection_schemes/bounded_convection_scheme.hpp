@@ -33,7 +33,7 @@ class boundedConvectionScheme
     void operator=(const boundedConvectionScheme&);
 public:
   //- Runtime type information
-  TypeName("bounded");
+  TYPE_NAME("bounded");
   // Constructors
     //- Construct from flux and Istream
     boundedConvectionScheme

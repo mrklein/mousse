@@ -8,16 +8,16 @@
 // Static Data Members
 namespace mousse
 {
-  namespace SRF
-  {
-    defineTypeNameAndDebug(rpm, 0);
-    addToRunTimeSelectionTable
-    (
-      SRFModel,
-      rpm,
-      dictionary
-    );
-  }
+namespace SRF
+{
+DEFINE_TYPE_NAME_AND_DEBUG(rpm, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  SRFModel,
+  rpm,
+  dictionary
+);
+}
 }
 // Constructors 
 mousse::SRF::rpm::rpm
@@ -25,8 +25,8 @@ mousse::SRF::rpm::rpm
   const volVectorField& U
 )
 :
-  SRFModel(typeName, U),
-  rpm_(readScalar(SRFModelCoeffs_.lookup("rpm")))
+  SRFModel{typeName, U},
+  rpm_{readScalar(SRFModelCoeffs_.lookup("rpm"))}
 {
   // Initialise the angular velocity
   omega_.value() = axis_*rpm_*constant::mathematical::twoPi/60.0;

@@ -14,7 +14,7 @@ inline bool mousse::cellInfo::update
   const label thisCellI,
   const label neighbourFaceI,
   const label neighbourCellI,
-  TrackingData& td
+  TrackingData& /*td*/
 )
 {
   if
@@ -23,7 +23,7 @@ inline bool mousse::cellInfo::update
   || (w2.type() == cellClassification::CUT)
   )
   {
-    FatalErrorIn("cellInfo::update(const cellInfo&)")
+    FATAL_ERROR_IN("cellInfo::update(const cellInfo&)")
       << "Problem: trying to propagate NOTSET or CUT type:" << w2.type()
       << " into cell/face with type:" << type() << endl
       << "thisFaceI:" << thisFaceI
@@ -49,7 +49,7 @@ inline bool mousse::cellInfo::update
     return false;
   }
   // Two conflicting types
-  FatalErrorIn("cellInfo::update(const cellInfo&)")
+  FATAL_ERROR_IN("cellInfo::update(const cellInfo&)")
     << "Problem: trying to propagate conflicting types:" << w2.type()
     << " into cell/face with type:" << type() << endl
     << "thisFaceI:" << thisFaceI
@@ -77,7 +77,7 @@ inline mousse::cellInfo::cellInfo(const cellInfo& w2)
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::cellInfo::valid(TrackingData& td) const
+inline bool mousse::cellInfo::valid(TrackingData&) const
 {
   return type_ != cellClassification::NOTSET;
 }
@@ -86,9 +86,9 @@ template<class TrackingData>
 inline bool mousse::cellInfo::sameGeometry
 (
   const polyMesh&,
-  const cellInfo& w2,
-  const scalar tol,
-  TrackingData& td
+  const cellInfo& /*w2*/,
+  const scalar /*tol*/,
+  TrackingData&
 )
 const
 {
@@ -99,10 +99,10 @@ template<class TrackingData>
 inline void mousse::cellInfo::leaveDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
-  TrackingData& td
+  const polyPatch& /*patch*/,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
+  TrackingData&
 )
 {}
 // No geometric data.
@@ -110,8 +110,8 @@ template<class TrackingData>
 inline void mousse::cellInfo::transform
 (
   const polyMesh&,
-  const tensor& rotTensor,
-  TrackingData& td
+  const tensor& /*rotTensor*/,
+  TrackingData&
 )
 {}
 // No geometric data.
@@ -119,10 +119,10 @@ template<class TrackingData>
 inline void mousse::cellInfo::enterDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
-  TrackingData& td
+  const polyPatch& /*patch*/,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
+  TrackingData&
 )
 {}
 // Update this with neighbour information
@@ -133,7 +133,7 @@ inline bool mousse::cellInfo::updateCell
   const label thisCellI,
   const label neighbourFaceI,
   const cellInfo& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -155,7 +155,7 @@ inline bool mousse::cellInfo::updateFace
   const label thisFaceI,
   const label neighbourCellI,
   const cellInfo& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -176,7 +176,7 @@ inline bool mousse::cellInfo::updateFace
   const polyMesh&,
   const label thisFaceI,
   const cellInfo& neighbourInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -194,7 +194,7 @@ template<class TrackingData>
 inline bool mousse::cellInfo::equal
 (
   const cellInfo& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

@@ -33,7 +33,7 @@ mappedVelocityFluxFixedValueFvPatchField
 {
   if (!isA<mappedPatchBase>(this->patch().patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mappedVelocityFluxFixedValueFvPatchField::"
       "mappedVelocityFluxFixedValueFvPatchField"
@@ -43,12 +43,13 @@ mappedVelocityFluxFixedValueFvPatchField
         "const DimensionedField<vector, volMesh>&, "
         "const fvPatchFieldMapper&"
       ")"
-    )   << "Patch type '" << p.type()
-      << "' not type '" << mappedPatchBase::typeName << "'"
-      << " for patch " << p.name()
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "Patch type '" << p.type()
+    << "' not type '" << mappedPatchBase::typeName << "'"
+    << " for patch " << p.name()
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
 }
 mousse::mappedVelocityFluxFixedValueFvPatchField::
@@ -64,7 +65,7 @@ mappedVelocityFluxFixedValueFvPatchField
 {
   if (!isA<mappedPatchBase>(this->patch().patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mappedVelocityFluxFixedValueFvPatchField::"
       "mappedVelocityFluxFixedValueFvPatchField"
@@ -73,12 +74,13 @@ mappedVelocityFluxFixedValueFvPatchField
         "const DimensionedField<vector, volMesh>&, "
         "const dictionary&"
       ")"
-    )   << "Patch type '" << p.type()
-      << "' not type '" << mappedPatchBase::typeName << "'"
-      << " for patch " << p.name()
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "Patch type '" << p.type()
+    << "' not type '" << mappedPatchBase::typeName << "'"
+    << " for patch " << p.name()
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   const mappedPatchBase& mpp = refCast<const mappedPatchBase>
   (
@@ -86,7 +88,7 @@ mappedVelocityFluxFixedValueFvPatchField
   );
   if (mpp.mode() == mappedPolyPatch::NEARESTCELL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mappedVelocityFluxFixedValueFvPatchField::"
       "mappedVelocityFluxFixedValueFvPatchField"
@@ -95,12 +97,13 @@ mappedVelocityFluxFixedValueFvPatchField
         "const DimensionedField<vector, volMesh>&, "
         "const dictionary&"
       ")"
-    )   << "Patch " << p.name()
-      << " of type '" << p.type()
-      << "' can not be used in 'nearestCell' mode"
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "Patch " << p.name()
+    << " of type '" << p.type()
+    << "' can not be used in 'nearestCell' mode"
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
 }
 mousse::mappedVelocityFluxFixedValueFvPatchField::
@@ -154,12 +157,12 @@ void mousse::mappedVelocityFluxFixedValueFvPatchField::updateCoeffs()
     {
       vectorField allUValues(nbrMesh.nFaces(), vector::zero);
       scalarField allPhiValues(nbrMesh.nFaces(), 0.0);
-      forAll(UField.boundaryField(), patchI)
+      FOR_ALL(UField.boundaryField(), patchI)
       {
         const fvPatchVectorField& Upf = UField.boundaryField()[patchI];
         const scalarField& phipf = phiField.boundaryField()[patchI];
         label faceStart = Upf.patch().start();
-        forAll(Upf, faceI)
+        FOR_ALL(Upf, faceI)
         {
           allUValues[faceStart + faceI] = Upf[faceI];
           allPhiValues[faceStart + faceI] = phipf[faceI];
@@ -184,13 +187,14 @@ void mousse::mappedVelocityFluxFixedValueFvPatchField::updateCoeffs()
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mappedVelocityFluxFixedValueFvPatchField::"
         "updateCoeffs()"
-      )   << "patch can only be used in NEARESTPATCHFACE, "
-        << "NEARESTPATCHFACEAMI or NEARESTFACE mode" << nl
-        << abort(FatalError);
+      )
+      << "patch can only be used in NEARESTPATCHFACE, "
+      << "NEARESTPATCHFACEAMI or NEARESTFACE mode" << nl
+      << abort(FatalError);
     }
   }
   operator==(newUValues);
@@ -210,9 +214,11 @@ void mousse::mappedVelocityFluxFixedValueFvPatchField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    mappedVelocityFluxFixedValueFvPatchField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  mappedVelocityFluxFixedValueFvPatchField
+);
+
 }

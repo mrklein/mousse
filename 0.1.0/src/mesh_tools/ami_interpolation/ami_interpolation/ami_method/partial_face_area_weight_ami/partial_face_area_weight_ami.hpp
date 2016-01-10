@@ -7,9 +7,12 @@
 //   Partial face area weighted Arbitrary Mesh Interface (AMI) method
 // SourceFiles
 //   partial_face_area_weight_ami.cpp
+
 #ifndef partial_face_area_weight_ami_hpp_
 #define partial_face_area_weight_ami_hpp_
+
 #include "face_area_weight_ami.hpp"
+
 namespace mousse
 {
 template<class SourcePatch, class TargetPatch>
@@ -19,11 +22,9 @@ class partialFaceAreaWeightAMI
 {
 private:
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    partialFaceAreaWeightAMI(const partialFaceAreaWeightAMI&);
-    //- Disallow default bitwise assignment
-    void operator=(const partialFaceAreaWeightAMI&);
+
     // Marching front
+
       //- Set the source and target seed faces
       virtual void setNextFaces
       (
@@ -35,10 +36,13 @@ private:
         const DynamicList<label>& visitedFaces,
         bool errorOnNotFound = true
       ) const;
+
 public:
   //- Runtime type information
-  TypeName("partialFaceAreaWeightAMI");
+  TYPE_NAME("partialFaceAreaWeightAMI");
+
   // Constructors
+
     //- Construct from components
     partialFaceAreaWeightAMI
     (
@@ -50,13 +54,25 @@ public:
       const bool reverseTarget = false,
       const bool requireMatch = true
     );
+
+    //- Disallow default bitwise copy construct
+    partialFaceAreaWeightAMI(const partialFaceAreaWeightAMI&) = delete;
+
+    //- Disallow default bitwise assignment
+    partialFaceAreaWeightAMI& operator=(const partialFaceAreaWeightAMI&) = delete;
+
   //- Destructor
   virtual ~partialFaceAreaWeightAMI();
+
   // Member Functions
+
     // Access
+
       //- Flag to indicate that interpolation patches are conformal
       virtual bool conformal() const;
+
     // Manipulation
+
       //- Update addressing and weights
       virtual void calculate
       (
@@ -68,7 +84,9 @@ public:
         label tgtFaceI = -1
       );
 };
+
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "partial_face_area_weight_ami.cpp"
 #endif

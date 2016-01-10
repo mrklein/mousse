@@ -16,16 +16,16 @@ void mousse::extendedFaceToCellStencil::collectData
   // 1. Construct face data in compact addressing
   List<Type> flatFld(map.constructSize(), pTraits<Type>::zero);
   // Insert my internal values
-  forAll(fld, cellI)
+  FOR_ALL(fld, cellI)
   {
     flatFld[cellI] = fld[cellI];
   }
   // Insert my boundary values
-  forAll(fld.boundaryField(), patchI)
+  FOR_ALL(fld.boundaryField(), patchI)
   {
     const fvsPatchField<Type>& pfld = fld.boundaryField()[patchI];
     label nCompact = pfld.patch().start();
-    forAll(pfld, i)
+    FOR_ALL(pfld, i)
     {
       flatFld[nCompact++] = pfld[i];
     }
@@ -34,11 +34,11 @@ void mousse::extendedFaceToCellStencil::collectData
   map.distribute(flatFld);
   // 2. Pull to stencil
   stencilFld.setSize(stencil.size());
-  forAll(stencil, faceI)
+  FOR_ALL(stencil, faceI)
   {
     const labelList& compactCells = stencil[faceI];
     stencilFld[faceI].setSize(compactCells.size());
-    forAll(compactCells, i)
+    FOR_ALL(compactCells, i)
     {
       stencilFld[faceI][i] = flatFld[compactCells[i]];
     }
@@ -79,11 +79,11 @@ mousse::extendedFaceToCellStencil::weightedSum
   );
   GeometricField<Type, fvPatchField, volMesh>& sf = tsfCorr();
   // cells
-  forAll(sf, cellI)
+  FOR_ALL(sf, cellI)
   {
     const List<Type>& stField = stencilFld[cellI];
     const List<scalar>& stWeight = stencilWeights[cellI];
-    forAll(stField, i)
+    FOR_ALL(stField, i)
     {
       sf[cellI] += stField[i]*stWeight[i];
     }

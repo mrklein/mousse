@@ -73,7 +73,7 @@ private:
     static const NamedEnum<ddtSchemeType, 3> ddtSchemeTypeNames_;
 public:
   //- Runtime type information
-  TypeName("waveSurfacePressure");
+  TYPE_NAME("waveSurfacePressure");
   // Constructors
     //- Construct from patch and internal field
     waveSurfacePressureFvPatchScalarField

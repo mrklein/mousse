@@ -65,7 +65,7 @@ class turbulentInletFvPatchField
     label curTimeIndex_;
 public:
   //- Runtime type information
-  TypeName("turbulentInlet");
+  TYPE_NAME("turbulentInlet");
   // Constructors
     //- Construct from patch and internal field
     turbulentInletFvPatchField

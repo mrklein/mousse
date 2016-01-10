@@ -8,10 +8,13 @@
 //   specified limiter.
 // SourceFiles
 //   limit_with.cpp
+
 #ifndef limit_with_hpp_
 #define limit_with_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "limited_surface_interpolation_scheme.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -24,13 +27,10 @@ class limitWith
     tmp<surfaceInterpolationScheme<Type> > tInterp_;
     //- Limiter
     tmp<limitedSurfaceInterpolationScheme<Type> > tLimiter_;
-    //- Disallow default bitwise copy construct
-    limitWith(const limitWith&);
-    //- Disallow default bitwise assignment
-    void operator=(const limitWith&);
 public:
   //- Runtime type information
-  TypeName("limitWith");
+  TYPE_NAME("limitWith");
+
   // Constructors
     //- Construct from mesh and Istream.
     //  The name of the flux field is read from the Istream and looked-up
@@ -41,16 +41,11 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      tInterp_
-      (
-        surfaceInterpolationScheme<Type>::New(mesh, is)
-      ),
-      tLimiter_
-      (
-        limitedSurfaceInterpolationScheme<Type>::New(mesh, is)
-      )
+      surfaceInterpolationScheme<Type>{mesh},
+      tInterp_{surfaceInterpolationScheme<Type>::New(mesh, is)},
+      tLimiter_{limitedSurfaceInterpolationScheme<Type>::New(mesh, is)}
     {}
+
     //- Construct from mesh, faceFlux and Istream
     limitWith
     (
@@ -60,15 +55,19 @@ public:
     )
     :
       surfaceInterpolationScheme<Type>(mesh),
-      tInterp_
-      (
-        surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      ),
+      tInterp_{surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)},
       tLimiter_
-      (
+      {
         limitedSurfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {}
+
+    //- Disallow default bitwise copy construct
+    limitWith(const limitWith&) = delete;
+
+    //- Disallow default bitwise assignment
+    limitWith& operator=(const limitWith&) = delete;
+
   // Member Functions
     //- Return the interpolation weighting factors
     virtual tmp<surfaceScalarField> weights
@@ -83,11 +82,13 @@ public:
         tLimiter_().limiter(vf)
       );
     }
+
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
     {
       return tInterp_().corrected();
     }
+
     //- Return the explicit correction to the face-interpolate
     //  for the given field
     virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >

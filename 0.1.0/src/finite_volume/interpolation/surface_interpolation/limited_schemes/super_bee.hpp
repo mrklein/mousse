@@ -10,9 +10,12 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   super_bee.cpp
+
 #ifndef super_bee_hpp_
 #define super_bee_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimiterFunc>
@@ -23,9 +26,10 @@ class SuperBeeLimiter
 public:
   SuperBeeLimiter(Istream&)
   {}
+
   scalar limiter
   (
-    const scalar cdWeight,
+    const scalar /*cdWeight*/,
     const scalar faceFlux,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,
@@ -42,4 +46,5 @@ public:
   }
 };
 }  // namespace mousse
+
 #endif

@@ -3,7 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "patch_data_wave.hpp"
+
 // Private Member Functions 
+
 // Set initial set of changed faces (= all wall faces)
 template<class TransferType>
 void mousse::patchDataWave<TransferType>::setChangedFaces
@@ -15,13 +17,13 @@ void mousse::patchDataWave<TransferType>::setChangedFaces
 {
   const polyMesh& mesh = cellDistFuncs::mesh();
   label nChangedFaces = 0;
-  forAll(mesh.boundaryMesh(), patchI)
+  FOR_ALL(mesh.boundaryMesh(), patchI)
   {
     if (patchIDs.found(patchI))
     {
       const polyPatch& patch = mesh.boundaryMesh()[patchI];
       const Field<Type>& patchField = initialPatchValuePtrs_[patchI];
-      forAll(patch.faceCentres(), patchFaceI)
+      FOR_ALL(patch.faceCentres(), patchFaceI)
       {
         label meshFaceI = patch.start() + patchFaceI;
         changedFaces[nChangedFaces] = meshFaceI;
@@ -37,6 +39,8 @@ void mousse::patchDataWave<TransferType>::setChangedFaces
     }
   }
 }
+
+
 // Copy from MeshWave data into *this (distance) and field_ (transported data)
 template<class TransferType>
 mousse::label mousse::patchDataWave<TransferType>::getValues
@@ -50,7 +54,7 @@ mousse::label mousse::patchDataWave<TransferType>::getValues
   label nIllegal = 0;
   // Copy cell values
   distance_.setSize(cellInfo.size());
-  forAll(cellInfo, cellI)
+  FOR_ALL(cellInfo, cellI)
   {
     const TransferType & wpn = cellInfo[cellI];
     scalar dist = wpn.distSqr();
@@ -70,7 +74,7 @@ mousse::label mousse::patchDataWave<TransferType>::getValues
     }
   }
   // Copy boundary values
-  forAll(patchDistance_, patchI)
+  FOR_ALL(patchDistance_, patchI)
   {
     const polyPatch& patch = mesh.boundaryMesh()[patchI];
     // Allocate storage for patchDistance
@@ -82,7 +86,7 @@ mousse::label mousse::patchDataWave<TransferType>::getValues
     patchData_.set(patchI, patchDataFieldPtr);
     Field<Type>& patchDataField = *patchDataFieldPtr;
     // Copy distance and data
-    forAll(patchField, patchFaceI)
+    FOR_ALL(patchField, patchFaceI)
     {
       label meshFaceI = patch.start() + patchFaceI;
       scalar dist = faceInfo[meshFaceI].distSqr();
@@ -105,6 +109,8 @@ mousse::label mousse::patchDataWave<TransferType>::getValues
   }
   return nIllegal;
 }
+
+
 // Constructors 
 // Construct from components
 template<class TransferType>
@@ -116,22 +122,26 @@ mousse::patchDataWave<TransferType>::patchDataWave
   const bool correctWalls
 )
 :
-  cellDistFuncs(mesh),
-  patchIDs_(patchIDs),
-  initialPatchValuePtrs_(initialPatchValuePtrs),
-  correctWalls_(correctWalls),
-  nUnset_(0),
-  distance_(mesh.nCells()),
-  patchDistance_(mesh.boundaryMesh().size()),
-  cellData_(mesh.nCells()),
-  patchData_(mesh.boundaryMesh().size())
+  cellDistFuncs{mesh},
+  patchIDs_{patchIDs},
+  initialPatchValuePtrs_{initialPatchValuePtrs},
+  correctWalls_{correctWalls},
+  nUnset_{0},
+  distance_{mesh.nCells()},
+  patchDistance_{mesh.boundaryMesh().size()},
+  cellData_{mesh.nCells()},
+  patchData_{mesh.boundaryMesh().size()}
 {
   patchDataWave<TransferType>::correct();
 }
+
+
 // Destructor 
 template<class TransferType>
 mousse::patchDataWave<TransferType>::~patchDataWave()
 {}
+
+
 // Member Functions 
 // Correct for mesh geom/topo changes
 template<class TransferType>
@@ -182,7 +192,7 @@ void mousse::patchDataWave<TransferType>::correct()
     // Transfer data from nearest face to cell
     const List<TransferType>& faceInfo = waveInfo.allFaceInfo();
     const labelList wallCells(nearestFace.toc());
-    forAll(wallCells, wallCellI)
+    FOR_ALL(wallCells, wallCellI)
     {
       label cellI = wallCells[wallCellI];
       label faceI = nearestFace[cellI];

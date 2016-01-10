@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(treeDataFace, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(treeDataFace, 0);
 scalar treeDataFace::tolSqr = sqr(1e-6);
 }
 // Private Member Functions 
@@ -27,14 +27,14 @@ mousse::treeBoundBox mousse::treeDataFace::calcBb(const label faceI) const
 }
 void mousse::treeDataFace::update()
 {
-  forAll(faceLabels_, i)
+  FOR_ALL(faceLabels_, i)
   {
     isTreeFace_.set(faceLabels_[i], 1);
   }
   if (cacheBb_)
   {
     bbs_.setSize(faceLabels_.size());
-    forAll(faceLabels_, i)
+    FOR_ALL(faceLabels_, i)
     {
       bbs_[i] = calcBb(faceLabels_[i]);
     }
@@ -117,7 +117,7 @@ mousse::treeDataFace::findIntersectOp::findIntersectOp
 mousse::pointField mousse::treeDataFace::shapePoints() const
 {
   pointField cc(faceLabels_.size());
-  forAll(faceLabels_, i)
+  FOR_ALL(faceLabels_, i)
   {
     cc[i] = mesh_.faceCentres()[faceLabels_[i]];
   }
@@ -144,7 +144,7 @@ mousse::volumeType mousse::treeDataFace::getVolumeType
   pointIndexHit info = oc.findNearest(sample, sqr(GREAT));
   if (info.index() == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "treeDataFace::getSampleType"
       "(indexedOctree<treeDataFace>&, const point&)"
@@ -188,7 +188,7 @@ mousse::volumeType mousse::treeDataFace::getVolumeType
   //    face centre
   //
   const scalar typDimSqr = mag(area) + VSMALL;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if ((magSqr(points[f[fp]] - curPt)/typDimSqr) < tolSqr)
     {
@@ -197,7 +197,7 @@ mousse::volumeType mousse::treeDataFace::getVolumeType
       // triangle normals)
       const labelList& pFaces = mesh_.pointFaces()[f[fp]];
       vector pointNormal(vector::zero);
-      forAll(pFaces, i)
+      FOR_ALL(pFaces, i)
       {
         if (isTreeFace_.get(pFaces[i]) == 1)
         {
@@ -235,7 +235,7 @@ mousse::volumeType mousse::treeDataFace::getVolumeType
   // 3] Get the 'real' edge the face intersection is on
   //
   const labelList& myEdges = mesh_.faceEdges()[faceI];
-  forAll(myEdges, myEdgeI)
+  FOR_ALL(myEdges, myEdgeI)
   {
     const edge& e = mesh_.edges()[myEdges[myEdgeI]];
     pointHit edgeHit =
@@ -251,7 +251,7 @@ mousse::volumeType mousse::treeDataFace::getVolumeType
       // triangle normals)
       const labelList& eFaces = mesh_.edgeFaces()[myEdges[myEdgeI]];
       vector edgeNormal(vector::zero);
-      forAll(eFaces, i)
+      FOR_ALL(eFaces, i)
       {
         if (isTreeFace_.get(eFaces[i]) == 1)
         {
@@ -278,7 +278,7 @@ mousse::volumeType mousse::treeDataFace::getVolumeType
   //
   // 4] Get the internal edge the face intersection is on
   //
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     pointHit edgeHit = line<point, const point&>
     (
@@ -317,7 +317,7 @@ mousse::volumeType mousse::treeDataFace::getVolumeType
     Pout<< "Did not find sample " << sample
       << " anywhere related to nearest face " << faceI << endl
       << "Face:";
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       Pout<< "    vertex:" << f[fp] << "  coord:" << points[f[fp]]
         << endl;
@@ -362,7 +362,7 @@ bool mousse::treeDataFace::overlaps
   // 3. Difficult case: all points are outside but connecting edges might
   // go through cube. Use triangle-bounding box intersection.
   const point& fc = mesh_.faceCentres()[faceI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     bool triIntersects = triangleFuncs::intersectBb
     (
@@ -388,7 +388,7 @@ void mousse::treeDataFace::findNearestOp::operator()
 ) const
 {
   const treeDataFace& shape = tree_.shapes();
-  forAll(indices, i)
+  FOR_ALL(indices, i)
   {
     const label index = indices[i];
     const face& f = shape.mesh().faces()[shape.faceLabels()[index]];
@@ -404,15 +404,15 @@ void mousse::treeDataFace::findNearestOp::operator()
 }
 void mousse::treeDataFace::findNearestOp::operator()
 (
-  const labelUList& indices,
-  const linePointRef& ln,
-  treeBoundBox& tightest,
-  label& minIndex,
-  point& linePoint,
-  point& nearestPoint
+  const labelUList& /*indices*/,
+  const linePointRef& /*ln*/,
+  treeBoundBox& /*tightest*/,
+  label& /*minIndex*/,
+  point& /*linePoint*/,
+  point& /*nearestPoint*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "treeDataFace::findNearestOp::operator()"
     "("

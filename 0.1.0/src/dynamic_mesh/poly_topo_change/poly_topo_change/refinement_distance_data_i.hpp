@@ -40,7 +40,7 @@ inline bool mousse::refinementDistanceData::update
   {
     if (!neighbourInfo.valid(td))
     {
-      FatalErrorIn("refinementDistanceData::update(..)")
+      FATAL_ERROR_IN("refinementDistanceData::update(..)")
         << "problem" << abort(FatalError);
     }
     operator=(neighbourInfo);
@@ -102,7 +102,7 @@ inline mousse::refinementDistanceData::refinementDistanceData
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::refinementDistanceData::valid(TrackingData& td) const
+inline bool mousse::refinementDistanceData::valid(TrackingData&) const
 {
   return level0Size_ != -1;
 }
@@ -113,7 +113,7 @@ inline bool mousse::refinementDistanceData::sameGeometry
   const polyMesh&,
   const refinementDistanceData&,
   const scalar,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return true;
@@ -122,10 +122,10 @@ template<class TrackingData>
 inline void mousse::refinementDistanceData::leaveDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
+  const polyPatch&,
+  const label /*patchFaceI*/,
   const point& faceCentre,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ -= faceCentre;
@@ -135,7 +135,7 @@ inline void mousse::refinementDistanceData::transform
 (
   const polyMesh&,
   const tensor& rotTensor,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ = mousse::transform(rotTensor, origin_);
@@ -145,10 +145,10 @@ template<class TrackingData>
 inline void mousse::refinementDistanceData::enterDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
+  const polyPatch&,
+  const label /*patchFaceI*/,
   const point& faceCentre,
-  TrackingData& td
+  TrackingData&
 )
 {
   // back to absolute form
@@ -160,7 +160,7 @@ inline bool mousse::refinementDistanceData::updateCell
 (
   const polyMesh& mesh,
   const label thisCellI,
-  const label neighbourFaceI,
+  const label /*neighbourFaceI*/,
   const refinementDistanceData& neighbourInfo,
   const scalar tol,
   TrackingData& td
@@ -175,7 +175,7 @@ inline bool mousse::refinementDistanceData::updateFace
 (
   const polyMesh& mesh,
   const label thisFaceI,
-  const label neighbourCellI,
+  const label /*neighbourCellI*/,
   const refinementDistanceData& neighbourInfo,
   const scalar tol,
   TrackingData& td

@@ -23,7 +23,7 @@ class polyRemoveCell
 public:
   // Static data members
     //- Runtime type information
-    TypeName("removeCell");
+    TYPE_NAME("removeCell");
   // Constructors
     //- Construct null.  Used for constructing lists
     polyRemoveCell()

@@ -18,7 +18,7 @@ class regionCoupledLduInterface
 {
 public:
   //- Runtime type information
-  TypeName("regionCoupledLduInterface");
+  TYPE_NAME("regionCoupledLduInterface");
   // Constructors
     //- Construct null
     regionCoupledLduInterface()

@@ -29,8 +29,8 @@ public:
   {}
   scalar limiter
   (
-    const scalar cdWeight,
-    const scalar faceFlux,
+    const scalar /*cdWeight*/,
+    const scalar /*faceFlux*/,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,
     const typename LimiterFunc::gradPhiType& gradcP,

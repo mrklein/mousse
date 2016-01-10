@@ -5,18 +5,21 @@
 #include "mapped_wall_poly_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "mapped_poly_patch.hpp"
+#include "map_distribute.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(mappedWallPolyPatch, 0);
-  addToRunTimeSelectionTable(polyPatch, mappedWallPolyPatch, word);
-  addToRunTimeSelectionTable
-  (
-    polyPatch,
-    mappedWallPolyPatch,
-    dictionary
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(mappedWallPolyPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, mappedWallPolyPatch, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  polyPatch,
+  mappedWallPolyPatch,
+  dictionary
+);
 }
-// Constructors 
+
+// Constructors
 mousse::mappedWallPolyPatch::mappedWallPolyPatch
 (
   const word& name,
@@ -133,12 +136,14 @@ mousse::mappedWallPolyPatch::mappedWallPolyPatch
   wallPolyPatch(pp, bm, index, mapAddressing, newStart),
   mappedPatchBase(*this, pp, mapAddressing)
 {}
-// Destructor 
+
+// Destructor
 mousse::mappedWallPolyPatch::~mappedWallPolyPatch()
 {
   mappedPatchBase::clearOut();
 }
-// Member Functions 
+
+// Member Functions
 void mousse::mappedWallPolyPatch::initGeometry(PstreamBuffers& pBufs)
 {
   wallPolyPatch::initGeometry(pBufs);

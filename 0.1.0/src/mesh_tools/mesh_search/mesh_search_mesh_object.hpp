@@ -19,7 +19,7 @@ class meshSearchMeshObject
 {
 public:
   // Declare name of the class and its debug switch
-  TypeName("meshSearchMeshObject");
+  TYPE_NAME("meshSearchMeshObject");
   // Constructors
     //- Constructor given polyMesh
     explicit meshSearchMeshObject(const polyMesh& mesh);

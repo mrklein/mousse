@@ -63,13 +63,9 @@ class geomCellLooper
     //- Return true if the cut edge at loop[index] is inbetween the cuts
     //  through the edge end points.
     bool edgeEndsCut(const labelList&, const label index) const;
-    //- Disallow default bitwise copy construct
-    geomCellLooper(const geomCellLooper&);
-    //- Disallow default bitwise assignment
-    void operator=(const geomCellLooper&);
 public:
   //- Runtime type information
-  TypeName("geomCellLooper");
+  TYPE_NAME("geomCellLooper");
   // Static Functions
     static scalar snapTol()
     {
@@ -82,6 +78,10 @@ public:
   // Constructors
     //- Construct from components
     geomCellLooper(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    geomCellLooper(const geomCellLooper&) = delete;
+    //- Disallow default bitwise assignment
+    geomCellLooper& operator=(const geomCellLooper&) = delete;
   //- Destructor
   virtual ~geomCellLooper();
   // Member Functions

@@ -8,10 +8,14 @@
 //   Useful for inverse weighted and harmonic interpolations.
 // SourceFiles
 //   reverse_linear.cpp
+
 #ifndef reverse_linear_hpp_
 #define reverse_linear_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -19,22 +23,19 @@ class reverseLinear
 :
   public surfaceInterpolationScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const reverseLinear&);
 public:
   //- Runtime type information
-  TypeName("reverseLinear");
+  TYPE_NAME("reverseLinear");
   // Constructors
     //- Construct from mesh
     reverseLinear(const fvMesh& mesh)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from Istream
     reverseLinear(const fvMesh& mesh, Istream&)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from faceFlux and Istream
     reverseLinear
@@ -44,8 +45,10 @@ public:
       Istream&
     )
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
+    //- Disallow default bitwise assignment
+    reverseLinear operator=(const reverseLinear&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights
@@ -60,23 +63,23 @@ public:
       );
       const surfaceScalarField& cdWeights = tcdWeights();
       tmp<surfaceScalarField> treverseLinearWeights
-      (
+      {
         new surfaceScalarField
-        (
+        {
           IOobject
-          (
+          {
             "reverseLinearWeights",
             mesh.time().timeName(),
             mesh
-          ),
+          },
           mesh,
           dimless
-        )
-      );
+        }
+      };
       surfaceScalarField& reverseLinearWeights = treverseLinearWeights();
       reverseLinearWeights.internalField() =
         1.0 - cdWeights.internalField();
-      forAll(mesh.boundary(), patchI)
+      FOR_ALL(mesh.boundary(), patchI)
       {
         if (reverseLinearWeights.boundaryField()[patchI].coupled())
         {

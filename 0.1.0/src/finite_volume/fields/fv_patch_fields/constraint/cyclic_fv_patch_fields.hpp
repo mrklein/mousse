@@ -4,10 +4,13 @@
 
 #ifndef cyclic_fv_patch_fields_hpp_
 #define cyclic_fv_patch_fields_hpp_
+
 #include "cyclic_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(cyclic);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(cyclic);
 }  // namespace mousse
+
 #endif

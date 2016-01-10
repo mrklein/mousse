@@ -203,12 +203,8 @@ class motionSmootherAlgo
       labelList& affectedFaces,
       PackedBoolList& isAffectedPoint
     ) const;
-    //- Disallow default bitwise copy construct
-    motionSmootherAlgo(const motionSmootherAlgo&);
-    //- Disallow default bitwise assignment
-    void operator=(const motionSmootherAlgo&);
 public:
-  ClassName("motionSmootherAlgo");
+  CLASS_NAME("motionSmootherAlgo");
   // Constructors
     //- Construct from mesh, patches to work on and smoothing parameters.
     motionSmootherAlgo
@@ -222,6 +218,10 @@ public:
       const labelList& adaptPatchIDs,     // patches forming 'outside'
       const dictionary& paramDict
     );
+    //- Disallow default bitwise copy construct
+    motionSmootherAlgo(const motionSmootherAlgo&) = delete;
+    //- Disallow default bitwise assignment
+    motionSmootherAlgo& operator=(const motionSmootherAlgo&) = delete;
   //- Destructor
   ~motionSmootherAlgo();
   // Member Functions

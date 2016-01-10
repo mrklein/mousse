@@ -7,11 +7,15 @@
 //   Upwind differencing scheme class.
 // SourceFiles
 //   upwind.cpp
+
 #ifndef upwind_hpp_
 #define upwind_hpp_
+
 #include "limited_surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -19,12 +23,10 @@ class upwind
 :
   public limitedSurfaceInterpolationScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const upwind&);
 public:
   //- Runtime type information
-  TypeName("upwind");
+  TYPE_NAME("upwind");
+
   // Constructors
     //- Construct from faceFlux
     upwind
@@ -33,8 +35,9 @@ public:
       const surfaceScalarField& faceFlux
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, faceFlux)
+      limitedSurfaceInterpolationScheme<Type>{mesh, faceFlux}
     {}
+    
     //- Construct from Istream.
     //  The name of the flux field is read from the Istream and looked-up
     //  from the mesh objectRegistry
@@ -44,8 +47,9 @@ public:
       Istream& is
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, is)
+      limitedSurfaceInterpolationScheme<Type>{mesh, is}
     {}
+
     //- Construct from faceFlux and Istream
     upwind
     (
@@ -54,8 +58,12 @@ public:
       Istream&
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, faceFlux)
+      limitedSurfaceInterpolationScheme<Type>{mesh, faceFlux}
     {}
+
+    //- Disallow default bitwise assignment
+    upwind& operator=(const upwind&) = delete;
+
   // Member Functions
     //- Return the interpolation limiter
     virtual tmp<surfaceScalarField> limiter
@@ -64,28 +72,30 @@ public:
     ) const
     {
       return tmp<surfaceScalarField>
-      (
+      {
         new surfaceScalarField
-        (
+        {
           IOobject
-          (
+          {
             "upwindLimiter",
             this->mesh().time().timeName(),
             this->mesh(),
             IOobject::NO_READ,
             IOobject::NO_WRITE,
             false
-          ),
+          },
           this->mesh(),
-          dimensionedScalar("upwindLimiter", dimless, 0.0)
-        )
-      );
+          dimensionedScalar{"upwindLimiter", dimless, 0.0}
+        }
+      };
     }
+
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights() const
     {
       return pos(this->faceFlux_);
     }
+
     //- Return the interpolation weighting factors
     virtual tmp<surfaceScalarField> weights
     (

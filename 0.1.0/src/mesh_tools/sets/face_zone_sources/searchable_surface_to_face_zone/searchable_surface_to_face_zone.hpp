@@ -25,7 +25,7 @@ class searchableSurfaceToFaceZone
     autoPtr<searchableSurface> surfacePtr_;
 public:
   //- Runtime type information
-  TypeName("searchableSurfaceToFaceZone");
+  TYPE_NAME("searchableSurfaceToFaceZone");
   // Constructors
     //- Construct from dictionary
     searchableSurfaceToFaceZone

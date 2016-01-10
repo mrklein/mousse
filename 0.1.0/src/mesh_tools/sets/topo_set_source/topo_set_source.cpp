@@ -8,27 +8,31 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(topoSetSource, 0);
-  defineRunTimeSelectionTable(topoSetSource, word);
-  defineRunTimeSelectionTable(topoSetSource, istream);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::topoSetSource::setAction,
-    8
-  >::names[] =
-  {
-    "clear",
-    "new",
-    "invert",
-    "add",
-    "delete",
-    "subset",
-    "list",
-    "remove"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(topoSetSource, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(topoSetSource, word);
+DEFINE_RUN_TIME_SELECTION_TABLE(topoSetSource, istream);
+
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::topoSetSource::setAction,
+  8
+>::names[] =
+{
+  "clear",
+  "new",
+  "invert",
+  "add",
+  "delete",
+  "subset",
+  "list",
+  "remove"
+};
 }
-mousse::HashTable<mousse::string>* mousse::topoSetSource::usageTablePtr_ = NULL;
+
+mousse::HashTable<mousse::string>*
+mousse::topoSetSource::usageTablePtr_ = NULL;
+
 const mousse::NamedEnum<mousse::topoSetSource::setAction, 8>
   mousse::topoSetSource::actionNames_;
 const mousse::string mousse::topoSetSource::illegalSource_
@@ -46,7 +50,7 @@ mousse::autoPtr<mousse::topoSetSource> mousse::topoSetSource::New
     wordConstructorTablePtr_->find(topoSetSourceType);
   if (cstrIter == wordConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "topoSetSource::New(const word&, "
       "const polyMesh&, const dictionary&)"
@@ -69,15 +73,16 @@ mousse::autoPtr<mousse::topoSetSource> mousse::topoSetSource::New
     istreamConstructorTablePtr_->find(topoSetSourceType);
   if (cstrIter == istreamConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "topoSetSource::New(const word&, "
       "const polyMesh&, Istream&)"
-    )   << "Unknown topoSetSource type " << topoSetSourceType
-      << endl << endl
-      << "Valid topoSetSource types : " << endl
-      << istreamConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown topoSetSource type " << topoSetSourceType
+    << endl << endl
+    << "Valid topoSetSource types : " << endl
+    << istreamConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
   return autoPtr<topoSetSource>(cstrIter()(mesh, is));
 }
@@ -89,7 +94,7 @@ mousse::Istream& mousse::topoSetSource::checkIs(Istream& is)
   }
   else
   {
-    FatalErrorIn("cellToFace::cellToFace") << "Istream not good"
+    FATAL_ERROR_IN("cellToFace::cellToFace") << "Istream not good"
       << exit(FatalError);
     return is;
   }

@@ -45,7 +45,7 @@ class circleSet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("circle");
+  TYPE_NAME("circle");
   // Constructors
     //- Construct from components
     circleSet

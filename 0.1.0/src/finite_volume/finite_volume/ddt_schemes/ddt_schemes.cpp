@@ -3,15 +3,18 @@
 // Copyright (C) 2016 mousse project
 
 #include "ddt_scheme.hpp"
+
 namespace mousse
 {
 namespace fv
 {
+
 // Define the constructor function hash tables
-defineTemplateRunTimeSelectionTable(ddtScheme<scalar>, Istream);
-defineTemplateRunTimeSelectionTable(ddtScheme<vector>, Istream);
-defineTemplateRunTimeSelectionTable(ddtScheme<sphericalTensor>, Istream);
-defineTemplateRunTimeSelectionTable(ddtScheme<symmTensor>, Istream);
-defineTemplateRunTimeSelectionTable(ddtScheme<tensor>, Istream);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(ddtScheme<scalar>, Istream);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(ddtScheme<vector>, Istream);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(ddtScheme<sphericalTensor>, Istream);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(ddtScheme<symmTensor>, Istream);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(ddtScheme<tensor>, Istream);
+
 }  // namespace fv
 }  // namespace mousse

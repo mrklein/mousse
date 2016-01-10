@@ -72,20 +72,20 @@ void mousse::UpwindFitData<Polynomial>::calcFit()
     >::calcFit(owncoeffs_[facei], stencilPoints[facei], w[facei], facei);
     //Pout<< "    facei:" << facei
     //    << " at:" << mesh.faceCentres()[facei] << endl;
-    //forAll(owncoeffs_[facei], i)
+    //FOR_ALL(owncoeffs_[facei], i)
     //{
     //    Pout<< "    point:" << stencilPoints[facei][i]
     //        << "\tweight:" << owncoeffs_[facei][i]
     //        << endl;
     //}
   }
-  forAll(bw, patchi)
+  FOR_ALL(bw, patchi)
   {
     const fvsPatchScalarField& pw = bw[patchi];
     if (pw.coupled())
     {
       label facei = pw.patch().start();
-      forAll(pw, i)
+      FOR_ALL(pw, i)
       {
         FitData
         <
@@ -122,20 +122,20 @@ void mousse::UpwindFitData<Polynomial>::calcFit()
     >::calcFit(neicoeffs_[facei], stencilPoints[facei], w[facei], facei);
     //Pout<< "    facei:" << facei
     //    << " at:" << mesh.faceCentres()[facei] << endl;
-    //forAll(neicoeffs_[facei], i)
+    //FOR_ALL(neicoeffs_[facei], i)
     //{
     //    Pout<< "    point:" << stencilPoints[facei][i]
     //        << "\tweight:" << neicoeffs_[facei][i]
     //        << endl;
     //}
   }
-  forAll(bw, patchi)
+  FOR_ALL(bw, patchi)
   {
     const fvsPatchScalarField& pw = bw[patchi];
     if (pw.coupled())
     {
       label facei = pw.patch().start();
-      forAll(pw, i)
+      FOR_ALL(pw, i)
       {
         FitData
         <

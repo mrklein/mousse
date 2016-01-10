@@ -26,7 +26,7 @@ class fourthGrad
     void operator=(const fourthGrad&);
 public:
   //- Runtime type information
-  TypeName("fourth");
+  TYPE_NAME("fourth");
   // Constructors
     //- Construct from Istream
     fourthGrad(const fvMesh& mesh, Istream&)

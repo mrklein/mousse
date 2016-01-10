@@ -3,6 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "processor_fv_patch_scalar_field.hpp"
+#include "uipstream.hpp"
+#include "uopstream.hpp"
+
 namespace mousse
 {
 // Member Functions 
@@ -22,7 +25,7 @@ void processorFvPatchField<scalar>::initInterfaceMatrixUpdate
     // Fast path.
     if (debug && !this->ready())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "processorFvPatchField<scalar>::initInterfaceMatrixUpdate(..)"
       )   << "On patch " << procPatch_.name()
@@ -87,7 +90,7 @@ void processorFvPatchField<scalar>::updateInterfaceMatrix
     outstandingSendRequest_ = -1;
     outstandingRecvRequest_ = -1;
     // Consume straight from scalarReceiveBuf_
-    forAll(faceCells, elemI)
+    FOR_ALL(faceCells, elemI)
     {
       result[faceCells[elemI]] -= coeffs[elemI]*scalarReceiveBuf_[elemI];
     }
@@ -98,7 +101,7 @@ void processorFvPatchField<scalar>::updateInterfaceMatrix
     (
       procPatch_.compressedReceive<scalar>(commsType, this->size())()
     );
-    forAll(faceCells, elemI)
+    FOR_ALL(faceCells, elemI)
     {
       result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
     }

@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "surface_intersection.hpp"
+
 // Private Member Functions 
 // Transfer contents of DynamicList to List
 template<class T>
@@ -13,7 +14,7 @@ void mousse::surfaceIntersection::transfer
 )
 {
   dstLst.setSize(srcLst.size());
-  forAll(srcLst, elemI)
+  FOR_ALL(srcLst, elemI)
   {
     dstLst[elemI].transfer(srcLst[elemI]);
   }

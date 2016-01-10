@@ -58,7 +58,7 @@ class SRFFreestreamVelocityFvPatchVectorField
     vector UInf_;
 public:
   //- Runtime type information
-  TypeName("SRFFreestreamVelocity");
+  TYPE_NAME("SRFFreestreamVelocity");
   // Constructors
     //- Construct from patch and internal field
     SRFFreestreamVelocityFvPatchVectorField

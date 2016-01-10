@@ -5,8 +5,9 @@
 #include "uniform_jump_ami_fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
+
 namespace mousse
 {
 // Static Data Members
-makePatchFields(uniformJumpAMI);
+MAKE_PATCH_FIELDS(uniformJumpAMI);
 }  // namespace mousse

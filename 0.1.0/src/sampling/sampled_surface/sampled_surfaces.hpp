@@ -99,7 +99,7 @@ class sampledSurfaces
     void operator=(const sampledSurfaces&);
 public:
   //- Runtime type information
-  TypeName("surfaces");
+  TYPE_NAME("surfaces");
   // Constructors
     //- Construct for given objectRegistry and dictionary
     //  allow the possibility to load fields from files

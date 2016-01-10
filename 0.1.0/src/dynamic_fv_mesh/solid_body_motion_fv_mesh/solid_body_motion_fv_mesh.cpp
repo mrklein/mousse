@@ -13,8 +13,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(solidBodyMotionFvMesh, 0);
-  addToRunTimeSelectionTable(dynamicFvMesh, solidBodyMotionFvMesh, IOobject);
+  DEFINE_TYPE_NAME_AND_DEBUG(solidBodyMotionFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(dynamicFvMesh, solidBodyMotionFvMesh, IOobject);
 }
 // Constructors 
 mousse::solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject& io)
@@ -55,7 +55,7 @@ mousse::solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject& io)
 {
   if (undisplacedPoints_.size() != nPoints())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject&)",
       dynamicMeshCoeffs_
@@ -70,7 +70,7 @@ mousse::solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject& io)
     dynamicMeshCoeffs_.lookupOrDefault<word>("cellSet", "none");
   if ((cellZoneName != "none") && (cellSetName != "none"))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject&)",
       dynamicMeshCoeffs_
@@ -87,7 +87,7 @@ mousse::solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject& io)
     label zoneID = cellZones().findZoneID(cellZoneName);
     if (zoneID == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject&)"
       )   << "Unable to find cellZone " << cellZoneName
@@ -114,14 +114,14 @@ mousse::solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject& io)
   {
     // collect point IDs of points in cell zone
     boolList movePts(nPoints(), false);
-    forAll(cellIDs, i)
+    FOR_ALL(cellIDs, i)
     {
       label cellI = cellIDs[i];
       const cell& c = cells()[cellI];
-      forAll(c, j)
+      FOR_ALL(c, j)
       {
         const face& f = faces()[c[j]];
-        forAll(f, k)
+        FOR_ALL(f, k)
         {
           label pointI = f[k];
           movePts[pointI] = true;
@@ -130,7 +130,7 @@ mousse::solidBodyMotionFvMesh::solidBodyMotionFvMesh(const IOobject& io)
     }
     syncTools::syncPointList(*this, movePts, orEqOp<bool>(), false);
     DynamicList<label> ptIDs(nPoints());
-    forAll(movePts, i)
+    FOR_ALL(movePts, i)
     {
       if (movePts[i])
       {
@@ -177,7 +177,7 @@ bool mousse::solidBodyMotionFvMesh::update()
   else if (!hasWarned)
   {
     hasWarned = true;
-    WarningIn("solidBodyMotionFvMesh::update()")
+    WARNING_IN("solidBodyMotionFvMesh::update()")
       << "Did not find volVectorField " << UName_
       << " Not updating " << UName_ << "boundary conditions."
       << endl;

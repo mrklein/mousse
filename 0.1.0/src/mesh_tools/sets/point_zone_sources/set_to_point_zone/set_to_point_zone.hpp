@@ -23,7 +23,7 @@ class setToPointZone
     word setName_;
 public:
   //- Runtime type information
-  TypeName("setToPointZone");
+  TYPE_NAME("setToPointZone");
   // Constructors
     //- Construct from components
     setToPointZone

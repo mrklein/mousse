@@ -58,7 +58,7 @@ Type interpolationCellPointFace<Type>::interpolate
     bool foundTet = false;
     label closestFace = -1;
     scalar minDistance = GREAT;
-    forAll(cellFaces, faceI)
+    FOR_ALL(cellFaces, faceI)
     {
       label nFace = cellFaces[faceI];
       vector normal = this->pMeshFaceAreas_[nFace];

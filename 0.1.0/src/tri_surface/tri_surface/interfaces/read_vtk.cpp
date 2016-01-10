@@ -12,7 +12,7 @@ bool mousse::triSurface::readVTK(const fileName& fName)
   // Read (and triangulate) point, faces, zone info
   fileFormats::VTKsurfaceFormat<triFace> surf(fName);
   List<labelledTri> tris(surf.faces().size());
-  forAll(tris, i)
+  FOR_ALL(tris, i)
   {
     const triFace& f = surf[i];
     tris[i] = labelledTri(f[0], f[1], f[2], 0);
@@ -23,7 +23,7 @@ bool mousse::triSurface::readVTK(const fileName& fName)
   if (surfZones.size())
   {
     patches.setSize(surfZones.size());
-    forAll(surfZones, zoneI)
+    FOR_ALL(surfZones, zoneI)
     {
       const surfZone& zone = surfZones[zoneI];
       // Add patch. Convert synthetic 'zone' name into 'patch' for now.

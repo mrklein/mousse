@@ -68,7 +68,7 @@ class fixedNormalInletOutletVelocityFvPatchVectorField
     tmp<fvPatchVectorField> normalVelocity_;
 public:
   //- Runtime type information
-  TypeName("fixedNormalInletOutletVelocity");
+  TYPE_NAME("fixedNormalInletOutletVelocity");
   // Constructors
     //- Construct from patch and internal field
     fixedNormalInletOutletVelocityFvPatchVectorField

@@ -89,7 +89,7 @@ class meshSearch
     void operator=(const meshSearch&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("meshSearch");
+  CLASS_NAME("meshSearch");
   // Static data members
     //- Tolerance on linear dimensions
     static scalar tol_;

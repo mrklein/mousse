@@ -36,7 +36,7 @@ private:
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("faceToPoint");
+  TYPE_NAME("faceToPoint");
   // Constructors
     //- Construct from components
     faceToPoint

@@ -10,14 +10,14 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(wallLayerCells, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(wallLayerCells, 0);
 }
 // Private Member Functions 
 bool mousse::wallLayerCells::usesCoupledPatch(const label cellI) const
 {
   const polyBoundaryMesh& patches = mesh().boundaryMesh();
   const cell& cFaces = mesh().cells()[cellI];
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     label patchID = patches.whichPatch(faceI);
@@ -44,13 +44,13 @@ mousse::wallLayerCells::wallLayerCells
   const polyPatchList& patches = mesh.boundaryMesh();
   // Make map from name to local patch ID
   HashTable<label> patchNameToIndex(patches.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     patchNameToIndex.insert(patches[patchI].name(), patchI);
   }
   // Count size of walls to set
   label nWalls = 0;
-  forAll(patchNames, patchNameI)
+  FOR_ALL(patchNames, patchNameI)
   {
     const word& name = patchNames[patchNameI];
     if (patchNameToIndex.found(name))
@@ -64,14 +64,14 @@ mousse::wallLayerCells::wallLayerCells
   labelList changedFaces(nWalls);
   // Fill changedFaces info
   label nChangedFaces = 0;
-  forAll(patchNames, patchNameI)
+  FOR_ALL(patchNames, patchNameI)
   {
     const word& name = patchNames[patchNameI];
     if (patchNameToIndex.found(name))
     {
       label patchI = patchNameToIndex[name];
       const polyPatch& pp = patches[patchI];
-      forAll(pp, patchFaceI)
+      FOR_ALL(pp, patchFaceI)
       {
         label meshFaceI = pp.start() + patchFaceI;
         changedFaces[nChangedFaces] = meshFaceI;
@@ -103,14 +103,14 @@ mousse::wallLayerCells::wallLayerCells
       << "selectedFaces.obj" << endl;
     OFstream fcStream("selectedFaces.obj");
     label vertI = 0;
-    forAll(faceInfo, faceI)
+    FOR_ALL(faceInfo, faceI)
     {
       const wallNormalInfo& info = faceInfo[faceI];
       if (info.valid(regionCalc.data()))
       {
         const face& f = mesh.faces()[faceI];
         point mid(0.0, 0.0, 0.0);
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           mid += mesh.points()[f[fp]];
         }
@@ -134,7 +134,7 @@ mousse::wallLayerCells::wallLayerCells
   // Estimate size
   DynamicList<refineCell> refineCells(3*nWalls);
   const List<wallNormalInfo>& cellInfo = regionCalc.allCellInfo();
-  forAll(cellInfo, cellI)
+  FOR_ALL(cellInfo, cellI)
   {
     const wallNormalInfo& info = cellInfo[cellI];
     if (info.valid(regionCalc.data()) && !usesCoupledPatch(cellI))

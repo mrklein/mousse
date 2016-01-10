@@ -6,11 +6,13 @@
 #include "pyramid_point_face_ref.hpp"
 #include "unit_conversion.hpp"
 #include "tri_point_ref.hpp"
+#include "pstream_reduce_ops.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(primitiveMeshGeometry, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(primitiveMeshGeometry, 0);
 }
-// Private Member Functions 
+// Private Member Functions
 void mousse::primitiveMeshGeometry::updateFaceCentresAndAreas
 (
   const pointField& p,
@@ -18,7 +20,7 @@ void mousse::primitiveMeshGeometry::updateFaceCentresAndAreas
 )
 {
   const faceList& fs = mesh_.faces();
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label facei = changedFaces[i];
     const labelList& f = fs[facei];
@@ -72,7 +74,7 @@ void mousse::primitiveMeshGeometry::updateCellCentresAndVols
   UIndirectList<vector>(cEst, changedCells) = vector::zero;
   scalarField nCellFaces(mesh_.nCells());
   UIndirectList<scalar>(nCellFaces, changedCells) = 0.0;
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label faceI = changedFaces[i];
     cEst[own[faceI]] += faceCentres_[faceI];
@@ -83,12 +85,12 @@ void mousse::primitiveMeshGeometry::updateCellCentresAndVols
       nCellFaces[nei[faceI]] += 1;
     }
   }
-  forAll(changedCells, i)
+  FOR_ALL(changedCells, i)
   {
     label cellI = changedCells[i];
     cEst[cellI] /= nCellFaces[cellI];
   }
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label faceI = changedFaces[i];
     // Calculate 3*face-pyramid volume
@@ -121,7 +123,7 @@ void mousse::primitiveMeshGeometry::updateCellCentresAndVols
       cellVolumes_[nei[faceI]] += pyr3Vol;
     }
   }
-  forAll(changedCells, i)
+  FOR_ALL(changedCells, i)
   {
     label cellI = changedCells[i];
     cellCentres_[cellI] /= cellVolumes_[cellI];
@@ -136,7 +138,7 @@ mousse::labelList mousse::primitiveMeshGeometry::affectedCells
   const labelList& own = mesh_.faceOwner();
   const labelList& nei = mesh_.faceNeighbour();
   labelHashSet affectedCells(2*changedFaces.size());
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label faceI = changedFaces[i];
     affectedCells.insert(own[faceI]);
@@ -147,7 +149,8 @@ mousse::labelList mousse::primitiveMeshGeometry::affectedCells
   }
   return affectedCells.toc();
 }
-// Constructors 
+
+// Constructors
 // Construct from components
 mousse::primitiveMeshGeometry::primitiveMeshGeometry
 (
@@ -158,8 +161,8 @@ mousse::primitiveMeshGeometry::primitiveMeshGeometry
 {
   correct();
 }
-// Destructor 
-// Member Functions 
+
+// Member Functions
 //- Take over properties from mesh
 void mousse::primitiveMeshGeometry::correct()
 {
@@ -200,7 +203,7 @@ bool mousse::primitiveMeshGeometry::checkFaceDotProduct
   scalar sumDDotS = 0;
   label severeNonOrth = 0;
   label errorNonOrth = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     if (mesh.isInternalFace(faceI))
@@ -232,7 +235,7 @@ bool mousse::primitiveMeshGeometry::checkFaceDotProduct
           // Non-orthogonality greater than 90 deg
           if (report)
           {
-            WarningIn
+            WARNING_IN
             (
               "primitiveMeshGeometry::checkFaceDotProduct"
               "(const bool, const scalar, const labelList&"
@@ -288,7 +291,7 @@ bool mousse::primitiveMeshGeometry::checkFaceDotProduct
   {
     if (report)
     {
-      SeriousErrorIn
+      SERIOUS_ERROR_IN
       (
         "primitiveMeshGeometry::checkFaceDotProduct"
         "(const bool, const scalar, const labelList&, labelHashSet*)"
@@ -321,7 +324,7 @@ bool mousse::primitiveMeshGeometry::checkFacePyramids
   const labelList& nei = mesh.faceNeighbour();
   const faceList& f = mesh.faces();
   label nErrorPyrs = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     // Create the owner pyramid - it will have negative volume
@@ -384,7 +387,7 @@ bool mousse::primitiveMeshGeometry::checkFacePyramids
   {
     if (report)
     {
-      SeriousErrorIn
+      SERIOUS_ERROR_IN
       (
         "primitiveMeshGeometry::checkFacePyramids("
         "const bool, const scalar, const pointField&"
@@ -422,7 +425,7 @@ bool mousse::primitiveMeshGeometry::checkFaceSkewness
   const labelList& nei = mesh.faceNeighbour();
   scalar maxSkew = 0;
   label nWarnSkew = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     if (mesh.isInternalFace(faceI))
@@ -499,7 +502,7 @@ bool mousse::primitiveMeshGeometry::checkFaceSkewness
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "primitiveMeshGeometry::checkFaceSkewness"
         "(const bool, const scalar, const labelList&, labelHashSet*)"
@@ -538,7 +541,7 @@ bool mousse::primitiveMeshGeometry::checkFaceWeights
   const labelList& nei = mesh.faceNeighbour();
   scalar minWeight = GREAT;
   label nWarnWeight = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     if (mesh.isInternalFace(faceI))
@@ -569,7 +572,7 @@ bool mousse::primitiveMeshGeometry::checkFaceWeights
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "primitiveMeshGeometry::checkFaceWeights"
         "(const bool, const scalar, const labelList&, labelHashSet*)"
@@ -607,7 +610,7 @@ bool mousse::primitiveMeshGeometry::checkFaceAngles
 {
   if (maxDeg < -SMALL || maxDeg > 180+SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "primitiveMeshGeometry::checkFaceAngles"
       "(const bool, const scalar, const pointField&, const labelList&"
@@ -620,7 +623,7 @@ bool mousse::primitiveMeshGeometry::checkFaceAngles
   scalar maxEdgeSin = 0.0;
   label nConcave = 0;
   label errorFaceI = -1;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     const face& f = fcs[faceI];
@@ -630,7 +633,7 @@ bool mousse::primitiveMeshGeometry::checkFaceAngles
     vector ePrev(p[f.first()] - p[f.last()]);
     scalar magEPrev = mag(ePrev);
     ePrev /= magEPrev + VSMALL;
-    forAll(f, fp0)
+    FOR_ALL(f, fp0)
     {
       // Get vertex after fp
       label fp1 = f.fcIndex(fp0);
@@ -693,7 +696,7 @@ bool mousse::primitiveMeshGeometry::checkFaceAngles
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "primitiveMeshGeometry::checkFaceAngles"
         "(const bool, const scalar,  const pointField&"
@@ -747,7 +750,7 @@ bool mousse::primitiveMeshGeometry::checkFaceAngles
 //    scalar sumFlatness = 0;
 //    label nSummed = 0;
 //
-//    forAll(checkFaces, i)
+//    FOR_ALL(checkFaces, i)
 //    {
 //        label faceI = checkFaces[i];
 //
@@ -764,7 +767,7 @@ bool mousse::primitiveMeshGeometry::checkFaceAngles
 //
 //            scalar sumA = 0.0;
 //
-//            forAll(f, fp)
+//            FOR_ALL(f, fp)
 //            {
 //                const point& thisPoint = p[f[fp]];
 //                const point& nextPoint = p[f.nextLabel(fp)];
@@ -861,7 +864,7 @@ bool mousse::primitiveMeshGeometry::checkFaceTwist
 {
   if (minTwist < -1-SMALL || minTwist > 1+SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "primitiveMeshGeometry::checkFaceTwist"
       "(const bool, const scalar, const primitiveMesh&, const pointField&"
@@ -873,7 +876,7 @@ bool mousse::primitiveMeshGeometry::checkFaceTwist
   // Areas are calculated as the sum of areas. (see
   // primitiveMeshFaceCentresAndAreas.C)
   label nWarped = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     const face& f = fcs[faceI];
@@ -882,7 +885,7 @@ bool mousse::primitiveMeshGeometry::checkFaceTwist
     {
       const vector nf = faceAreas[faceI] / magArea;
       const point& fc = faceCentres[faceI];
-      forAll(f, fpI)
+      FOR_ALL(f, fpI)
       {
         vector triArea
         (
@@ -926,7 +929,7 @@ bool mousse::primitiveMeshGeometry::checkFaceTwist
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "primitiveMeshGeometry::checkFaceTwist"
         "(const bool, const scalar, const primitiveMesh&"
@@ -947,14 +950,14 @@ bool mousse::primitiveMeshGeometry::checkFaceArea
 (
   const bool report,
   const scalar minArea,
-  const primitiveMesh& mesh,
+  const primitiveMesh&,
   const vectorField& faceAreas,
   const labelList& checkFaces,
   labelHashSet* setPtr
 )
 {
   label nZeroArea = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     if (mag(faceAreas[faceI]) < minArea)
@@ -983,7 +986,7 @@ bool mousse::primitiveMeshGeometry::checkFaceArea
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "primitiveMeshGeometry::checkFaceArea"
         "(const bool, const scalar, const primitiveMesh&"
@@ -1005,7 +1008,7 @@ bool mousse::primitiveMeshGeometry::checkCellDeterminant
   const scalar warnDet,
   const primitiveMesh& mesh,
   const vectorField& faceAreas,
-  const labelList& checkFaces,
+  const labelList& /*checkFaces*/,
   const labelList& affectedCells,
   labelHashSet* setPtr
 )
@@ -1015,12 +1018,12 @@ bool mousse::primitiveMeshGeometry::checkCellDeterminant
   scalar sumDet = 0.0;
   label nSumDet = 0;
   label nWarnDet = 0;
-  forAll(affectedCells, i)
+  FOR_ALL(affectedCells, i)
   {
     const cell& cFaces = cells[affectedCells[i]];
     tensor areaSum(tensor::zero);
     scalar magAreaSum = 0;
-    forAll(cFaces, cFaceI)
+    FOR_ALL(cFaces, cFaceI)
     {
       label faceI = cFaces[cFaceI];
       scalar magArea = mag(faceAreas[faceI]);
@@ -1036,7 +1039,7 @@ bool mousse::primitiveMeshGeometry::checkCellDeterminant
       if (setPtr)
       {
         // Insert all faces of the cell.
-        forAll(cFaces, cFaceI)
+        FOR_ALL(cFaces, cFaceI)
         {
           label faceI = cFaces[cFaceI];
           setPtr->insert(faceI);
@@ -1072,7 +1075,7 @@ bool mousse::primitiveMeshGeometry::checkCellDeterminant
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "primitiveMeshGeometry::checkCellDeterminant"
         "(const bool, const scalar, const primitiveMesh&"

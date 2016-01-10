@@ -67,7 +67,7 @@ bool mousse::fileFormats::STLsurfaceFormatCore::readBINARY
   // Check that stream is OK, if not this may be an ASCII file
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STLsurfaceFormatCore::readBINARY(IFstream&)"
     )
@@ -91,7 +91,7 @@ bool mousse::fileFormats::STLsurfaceFormatCore::readBINARY
   || nTris > int(dataFileSize - headerSize)/25
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STLsurfaceFormatCore::readBINARY(istream&)"
     )
@@ -108,7 +108,7 @@ bool mousse::fileFormats::STLsurfaceFormatCore::readBINARY
   DynamicList<label> dynSizes;
   label ptI = 0;
   label zoneI = -1;
-  forAll(zoneIds_, faceI)
+  FOR_ALL(zoneIds_, faceI)
   {
     // Read an STL triangle
     STLtriangle stlTri(is);

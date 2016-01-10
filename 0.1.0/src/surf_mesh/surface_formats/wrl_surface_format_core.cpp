@@ -20,7 +20,7 @@ void mousse::fileFormats::WRLsurfaceFormatCore::writeHeader
     << "# faces  : " << nFaces << nl
     << "# zones  : " << zoneLst.size() << nl;
   // Print zone names as comment
-  forAll(zoneLst, zoneI)
+  FOR_ALL(zoneLst, zoneI)
   {
     os  << "#   " << zoneI << "  " << zoneLst[zoneI].name()
       << "  (nFaces: " << zoneLst[zoneI].size() << ")" << nl;

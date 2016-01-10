@@ -84,7 +84,7 @@ public:
   //- Placeholder only, but do not remove - it is needed for GeoMesh
   typedef bool BoundaryMesh;
   //- Runtime type information
-  TypeName("surfMesh");
+  TYPE_NAME("surfMesh");
   //- Return the mesh sub-directory name (normally "surfMesh")
   static word meshSubDir;
   // Constructors

@@ -31,7 +31,7 @@ mousse::autoPtr<mousse::SRF::SRFModel> mousse::SRF::SRFModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "SRFModel::New(const fvMesh&)"
     )   << "Unknown SRFModel type "

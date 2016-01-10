@@ -30,7 +30,7 @@ inline mousse::directionInfo::directionInfo(const directionInfo& w2)
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::directionInfo::valid(TrackingData& td) const
+inline bool mousse::directionInfo::valid(TrackingData&) const
 {
   return index_ != -3;
 }
@@ -39,9 +39,9 @@ template<class TrackingData>
 inline bool mousse::directionInfo::sameGeometry
 (
   const polyMesh&,
-  const directionInfo& w2,
-  const scalar tol,
-  TrackingData& td
+  const directionInfo& /*w2*/,
+  const scalar /*tol*/,
+  TrackingData&
 )
 const
 {
@@ -52,10 +52,10 @@ template<class TrackingData>
 inline void mousse::directionInfo::leaveDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
-  TrackingData& td
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
+  TrackingData&
 )
 {}
 // index_ is offset in face on other side. So reverse it here.
@@ -68,8 +68,8 @@ inline void mousse::directionInfo::enterDomain
   const polyMesh&,
   const polyPatch& patch,
   const label patchFaceI,
-  const point& faceCentre,
-  TrackingData& td
+  const point& /*faceCentre*/,
+  TrackingData&
 )
 {
   if (index_ >= 0)
@@ -83,8 +83,8 @@ template<class TrackingData>
 inline void mousse::directionInfo::transform
 (
   const polyMesh&,
-  const tensor& rotTensor,
-  TrackingData& td
+  const tensor& /*rotTensor*/,
+  TrackingData&
 )
 {}
 // Update this cell with neighbouring face information
@@ -96,7 +96,7 @@ inline bool mousse::directionInfo::updateCell
   const label neighbourFaceI,
   const directionInfo& neighbourInfo,
   const scalar,       // tol
-  TrackingData& td
+  TrackingData&
 )
 {
   if (index_ >= -2)
@@ -164,7 +164,7 @@ inline bool mousse::directionInfo::updateFace
   const label neighbourCellI,
   const directionInfo& neighbourInfo,
   const scalar,   // tol
-  TrackingData& td
+  TrackingData&
 )
 {
   // Handle special cases first
@@ -200,11 +200,11 @@ inline bool mousse::directionInfo::updateFace
 template<class TrackingData>
 inline bool mousse::directionInfo::updateFace
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const label,    // thisFaceI
   const directionInfo& neighbourInfo,
   const scalar,   // tol
-  TrackingData& td
+  TrackingData&
 )
 {
   if (index_ >= -2)
@@ -223,7 +223,7 @@ template<class TrackingData>
 inline bool mousse::directionInfo::equal
 (
   const directionInfo& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

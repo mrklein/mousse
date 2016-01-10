@@ -156,7 +156,7 @@ class advectionDiffusion
     void operator=(const advectionDiffusion&);
 public:
   //- Runtime type information
-  TypeName("advectionDiffusion");
+  TYPE_NAME("advectionDiffusion");
   // Constructors
     //- Construct from coefficients dictionary, mesh
     //  and fixed-value patch set

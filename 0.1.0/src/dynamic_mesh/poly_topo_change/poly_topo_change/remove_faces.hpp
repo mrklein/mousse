@@ -102,18 +102,18 @@ class removeFaces
         const bool zoneFlip,
         polyTopoChange& meshMod
       ) const;
-    //- Disallow default bitwise copy construct
-    removeFaces(const removeFaces&);
-    //- Disallow default bitwise assignment
-    void operator=(const removeFaces&);
 public:
   //- Runtime type information
-  ClassName("removeFaces");
+  CLASS_NAME("removeFaces");
   // Constructors
     //- Construct from mesh and min cos of angle for boundary faces
     //  to be considered aligned. Set to >= 1 to disable checking
     //  and always merge (if on same patch)
     removeFaces(const polyMesh&, const scalar minCos);
+    //- Disallow default bitwise copy construct
+    removeFaces(const removeFaces&) = delete;
+    //- Disallow default bitwise assignment
+    removeFaces& operator=(const removeFaces&) = delete;
   // Member Functions
     //- Find faces including those with cells which have the same mastercell
     //  Given set of faces to pierce calculates:

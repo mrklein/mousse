@@ -8,22 +8,24 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sphereToCell, 0);
-  addToRunTimeSelectionTable(topoSetSource, sphereToCell, word);
-  addToRunTimeSelectionTable(topoSetSource, sphereToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(sphereToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, sphereToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, sphereToCell, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::sphereToCell::usage_
 (
   sphereToCell::typeName,
   "\n    Usage: sphereToCell (centreX centreY centreZ) radius\n\n"
   "    Select all cells with cellCentre within bounding sphere\n\n"
 );
+
 // Private Member Functions 
 void mousse::sphereToCell::combine(topoSet& set, const bool add) const
 {
   const pointField& ctrs = mesh_.cellCentres();
   const scalar radSquared = radius_*radius_;
-  forAll(ctrs, cellI)
+  FOR_ALL(ctrs, cellI)
   {
     scalar offset = magSqr(centre_ - ctrs[cellI]);
     if (offset <= radSquared)

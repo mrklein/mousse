@@ -60,9 +60,9 @@ protected:
     void operator=(const meshToMeshMethod&);
 public:
   //- Run-time type information
-  TypeName("meshToMeshMethod");
+  TYPE_NAME("meshToMeshMethod");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     meshToMeshMethod,

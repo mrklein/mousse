@@ -5,7 +5,9 @@
 #include "mesh_triangulation.hpp"
 #include "poly_mesh.hpp"
 #include "face_triangulation.hpp"
-// Private Member Functions 
+#include "indirect_list.hpp"
+
+// Private Member Functions
 bool mousse::meshTriangulation::isInternalFace
 (
   const primitiveMesh& mesh,
@@ -47,13 +49,13 @@ void mousse::meshTriangulation::getFaces
   faceIsCut = false;
   nFaces = 0;
   nInternalFaces = 0;
-  forAll(includedCell, cellI)
+  FOR_ALL(includedCell, cellI)
   {
     // Include faces of cut cells only.
     if (includedCell[cellI])
     {
       const labelList& cFaces = mesh.cells()[cellI];
-      forAll(cFaces, i)
+      FOR_ALL(cFaces, i)
       {
         label faceI = cFaces[i];
         if (!faceIsCut[faceI])
@@ -84,7 +86,7 @@ void mousse::meshTriangulation::insertTriangles
 )
 {
   // Copy triangles. Optionally reverse them
-  forAll(faceTris, i)
+  FOR_ALL(faceTris, i)
   {
     const triFace& f = faceTris[i];
     labelledTri& tri = triangles[triI];
@@ -105,7 +107,8 @@ void mousse::meshTriangulation::insertTriangles
     triI++;
   }
 }
-// Constructors 
+
+// Constructors
 // Null constructor
 mousse::meshTriangulation::meshTriangulation()
 :
@@ -145,7 +148,7 @@ mousse::meshTriangulation::meshTriangulation
   label nTotTri = 0;
   if (faceCentreDecomposition)
   {
-    forAll(faceIsCut, faceI)
+    FOR_ALL(faceIsCut, faceI)
     {
       if (faceIsCut[faceI])
       {
@@ -155,7 +158,7 @@ mousse::meshTriangulation::meshTriangulation
   }
   else
   {
-    forAll(faceIsCut, faceI)
+    FOR_ALL(faceIsCut, faceI)
     {
       if (faceIsCut[faceI])
       {
@@ -170,12 +173,12 @@ mousse::meshTriangulation::meshTriangulation
   if (faceCentreDecomposition)
   {
     newPoints.setSize(mesh.nPoints() + faces.size());
-    forAll(mesh.points(), pointI)
+    FOR_ALL(mesh.points(), pointI)
     {
       newPoints[pointI] = mesh.points()[pointI];
     }
     // Face centres
-    forAll(faces, faceI)
+    FOR_ALL(faces, faceI)
     {
       newPoints[mesh.nPoints() + faceI] = mesh.faceCentres()[faceI];
     }
@@ -189,7 +192,7 @@ mousse::meshTriangulation::meshTriangulation
     // Decomposition around face centre
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Triangulate internal faces
-    forAll(faceIsCut, faceI)
+    FOR_ALL(faceIsCut, faceI)
     {
       if (faceIsCut[faceI] && isInternalFace(mesh, includedCell, faceI))
       {
@@ -197,7 +200,7 @@ mousse::meshTriangulation::meshTriangulation
         // the surface.
         // Triangulate face
         const face& f = faces[faceI];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           faceMap_[triI] = faceI;
           triangles[triI++] =
@@ -213,7 +216,7 @@ mousse::meshTriangulation::meshTriangulation
     }
     nInternalFaces_ = triI;
     // Triangulate external faces
-    forAll(faceIsCut, faceI)
+    FOR_ALL(faceIsCut, faceI)
     {
       if (faceIsCut[faceI] && !isInternalFace(mesh, includedCell, faceI))
       {
@@ -244,7 +247,7 @@ mousse::meshTriangulation::meshTriangulation
         const face& f = faces[faceI];
         if (reverse)
         {
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             faceMap_[triI] = faceI;
             triangles[triI++] =
@@ -259,7 +262,7 @@ mousse::meshTriangulation::meshTriangulation
         }
         else
         {
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             faceMap_[triI] = faceI;
             triangles[triI++] =
@@ -280,7 +283,7 @@ mousse::meshTriangulation::meshTriangulation
     // Triangulation using existing vertices
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Triangulate internal faces
-    forAll(faceIsCut, faceI)
+    FOR_ALL(faceIsCut, faceI)
     {
       if (faceIsCut[faceI] && isInternalFace(mesh, includedCell, faceI))
       {
@@ -290,7 +293,7 @@ mousse::meshTriangulation::meshTriangulation
         faceTriangulation faceTris(points, faces[faceI], true);
         if (faceTris.empty())
         {
-          WarningIn("meshTriangulation::meshTriangulation")
+          WARNING_IN("meshTriangulation::meshTriangulation")
             << "Could not find triangulation for face " << faceI
             << " vertices " << faces[faceI] << " coords "
             << IndirectList<point>(points, faces[faceI])() << endl;
@@ -312,7 +315,7 @@ mousse::meshTriangulation::meshTriangulation
     }
     nInternalFaces_ = triI;
     // Triangulate external faces
-    forAll(faceIsCut, faceI)
+    FOR_ALL(faceIsCut, faceI)
     {
       if (faceIsCut[faceI] && !isInternalFace(mesh, includedCell, faceI))
       {
@@ -343,7 +346,7 @@ mousse::meshTriangulation::meshTriangulation
         faceTriangulation faceTris(points, faces[faceI], true);
         if (faceTris.empty())
         {
-          WarningIn("meshTriangulation::meshTriangulation")
+          WARNING_IN("meshTriangulation::meshTriangulation")
             << "Could not find triangulation for face " << faceI
             << " vertices " << faces[faceI] << " coords "
             << IndirectList<point>(points, faces[faceI])() << endl;
@@ -370,7 +373,7 @@ mousse::meshTriangulation::meshTriangulation
   Pout<< "nInternalFaces_:" << nInternalFaces_ << endl;
   Pout<< "triangles:" << triangles.size() << endl;
   geometricSurfacePatchList surfPatches(patches.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     surfPatches[patchI] =
       geometricSurfacePatch

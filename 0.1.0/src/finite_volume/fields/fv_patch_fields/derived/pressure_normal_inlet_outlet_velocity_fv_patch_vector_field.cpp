@@ -99,7 +99,7 @@ void mousse::pressureNormalInletOutletVelocityFvPatchVectorField::updateCoeffs()
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pressureNormalInletOutletVelocityFvPatchVectorField::"
       "updateCoeffs()"
@@ -136,9 +136,9 @@ void mousse::pressureNormalInletOutletVelocityFvPatchVectorField::operator=
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    pressureNormalInletOutletVelocityFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  pressureNormalInletOutletVelocityFvPatchVectorField
+);
 }

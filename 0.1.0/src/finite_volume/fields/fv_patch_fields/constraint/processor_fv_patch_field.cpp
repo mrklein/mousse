@@ -6,6 +6,7 @@
 #include "processor_fv_patch.hpp"
 #include "demand_driven_data.hpp"
 #include "transform_field.hpp"
+
 // Constructors
 template<class Type>
 mousse::processorFvPatchField<Type>::processorFvPatchField
@@ -14,15 +15,17 @@ mousse::processorFvPatchField<Type>::processorFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  coupledFvPatchField<Type>(p, iF),
-  procPatch_(refCast<const processorFvPatch>(p)),
-  sendBuf_(0),
-  receiveBuf_(0),
-  outstandingSendRequest_(-1),
-  outstandingRecvRequest_(-1),
-  scalarSendBuf_(0),
-  scalarReceiveBuf_(0)
+  coupledFvPatchField<Type>{p, iF},
+  procPatch_{refCast<const processorFvPatch>(p)},
+  sendBuf_{0},
+  receiveBuf_{0},
+  outstandingSendRequest_{-1},
+  outstandingRecvRequest_{-1},
+  scalarSendBuf_{0},
+  scalarReceiveBuf_{0}
 {}
+
+
 template<class Type>
 mousse::processorFvPatchField<Type>::processorFvPatchField
 (
@@ -31,15 +34,17 @@ mousse::processorFvPatchField<Type>::processorFvPatchField
   const Field<Type>& f
 )
 :
-  coupledFvPatchField<Type>(p, iF, f),
-  procPatch_(refCast<const processorFvPatch>(p)),
-  sendBuf_(0),
-  receiveBuf_(0),
-  outstandingSendRequest_(-1),
-  outstandingRecvRequest_(-1),
-  scalarSendBuf_(0),
-  scalarReceiveBuf_(0)
+  coupledFvPatchField<Type>{p, iF, f},
+  procPatch_{refCast<const processorFvPatch>(p)},
+  sendBuf_{0},
+  receiveBuf_{0},
+  outstandingSendRequest_{-1},
+  outstandingRecvRequest_{-1},
+  scalarSendBuf_{0},
+  scalarReceiveBuf_{0}
 {}
+
+
 // Construct by mapping given processorFvPatchField<Type>
 template<class Type>
 mousse::processorFvPatchField<Type>::processorFvPatchField
@@ -50,18 +55,18 @@ mousse::processorFvPatchField<Type>::processorFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  coupledFvPatchField<Type>(ptf, p, iF, mapper),
-  procPatch_(refCast<const processorFvPatch>(p)),
-  sendBuf_(0),
-  receiveBuf_(0),
-  outstandingSendRequest_(-1),
-  outstandingRecvRequest_(-1),
-  scalarSendBuf_(0),
-  scalarReceiveBuf_(0)
+  coupledFvPatchField<Type>{ptf, p, iF, mapper},
+  procPatch_{refCast<const processorFvPatch>(p)},
+  sendBuf_{0},
+  receiveBuf_{0},
+  outstandingSendRequest_{-1},
+  outstandingRecvRequest_{-1},
+  scalarSendBuf_{0},
+  scalarReceiveBuf_{0}
 {
   if (!isA<processorFvPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "processorFvPatchField<Type>::processorFvPatchField\n"
       "(\n"
@@ -70,20 +75,23 @@ mousse::processorFvPatchField<Type>::processorFvPatchField
       "    const DimensionedField<Type, volMesh>& iF,\n"
       "    const fvPatchFieldMapper& mapper\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
   if (debug && !ptf.ready())
   {
-    FatalErrorIn("processorFvPatchField<Type>::processorFvPatchField(..)")
+    FATAL_ERROR_IN("processorFvPatchField<Type>::processorFvPatchField(..)")
       << "On patch " << procPatch_.name() << " outstanding request."
       << abort(FatalError);
   }
 }
+
+
 template<class Type>
 mousse::processorFvPatchField<Type>::processorFvPatchField
 (
@@ -92,18 +100,18 @@ mousse::processorFvPatchField<Type>::processorFvPatchField
   const dictionary& dict
 )
 :
-  coupledFvPatchField<Type>(p, iF, dict),
-  procPatch_(refCast<const processorFvPatch>(p)),
-  sendBuf_(0),
-  receiveBuf_(0),
-  outstandingSendRequest_(-1),
-  outstandingRecvRequest_(-1),
-  scalarSendBuf_(0),
-  scalarReceiveBuf_(0)
+  coupledFvPatchField<Type>{p, iF, dict},
+  procPatch_{refCast<const processorFvPatch>(p)},
+  sendBuf_{0},
+  receiveBuf_{0},
+  outstandingSendRequest_{-1},
+  outstandingRecvRequest_{-1},
+  scalarSendBuf_{0},
+  scalarReceiveBuf_{0}
 {
   if (!isA<processorFvPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "processorFvPatchField<Type>::processorFvPatchField\n"
       "(\n"
@@ -112,37 +120,42 @@ mousse::processorFvPatchField<Type>::processorFvPatchField
       "    const dictionary& dict\n"
       ")\n",
       dict
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::processorFvPatchField<Type>::processorFvPatchField
 (
   const processorFvPatchField<Type>& ptf
 )
 :
-  processorLduInterfaceField(),
-  coupledFvPatchField<Type>(ptf),
-  procPatch_(refCast<const processorFvPatch>(ptf.patch())),
-  sendBuf_(ptf.sendBuf_.xfer()),
-  receiveBuf_(ptf.receiveBuf_.xfer()),
-  outstandingSendRequest_(-1),
-  outstandingRecvRequest_(-1),
-  scalarSendBuf_(ptf.scalarSendBuf_.xfer()),
-  scalarReceiveBuf_(ptf.scalarReceiveBuf_.xfer())
+  processorLduInterfaceField{},
+  coupledFvPatchField<Type>{ptf},
+  procPatch_{refCast<const processorFvPatch>(ptf.patch())},
+  sendBuf_{ptf.sendBuf_.xfer()},
+  receiveBuf_{ptf.receiveBuf_.xfer()},
+  outstandingSendRequest_{-1},
+  outstandingRecvRequest_{-1},
+  scalarSendBuf_{ptf.scalarSendBuf_.xfer()},
+  scalarReceiveBuf_{ptf.scalarReceiveBuf_.xfer()}
 {
   if (debug && !ptf.ready())
   {
-    FatalErrorIn("processorFvPatchField<Type>::processorFvPatchField(..)")
+    FATAL_ERROR_IN("processorFvPatchField<Type>::processorFvPatchField(..)")
       << "On patch " << procPatch_.name() << " outstanding request."
       << abort(FatalError);
   }
 }
+
+
 template<class Type>
 mousse::processorFvPatchField<Type>::processorFvPatchField
 (
@@ -150,26 +163,30 @@ mousse::processorFvPatchField<Type>::processorFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  coupledFvPatchField<Type>(ptf, iF),
-  procPatch_(refCast<const processorFvPatch>(ptf.patch())),
-  sendBuf_(0),
-  receiveBuf_(0),
-  outstandingSendRequest_(-1),
-  outstandingRecvRequest_(-1),
-  scalarSendBuf_(0),
-  scalarReceiveBuf_(0)
+  coupledFvPatchField<Type>{ptf, iF},
+  procPatch_{refCast<const processorFvPatch>(ptf.patch())},
+  sendBuf_{0},
+  receiveBuf_{0},
+  outstandingSendRequest_{-1},
+  outstandingRecvRequest_{-1},
+  scalarSendBuf_{0},
+  scalarReceiveBuf_{0}
 {
   if (debug && !ptf.ready())
   {
-    FatalErrorIn("processorFvPatchField<Type>::processorFvPatchField(..)")
+    FATAL_ERROR_IN("processorFvPatchField<Type>::processorFvPatchField(..)")
       << "On patch " << procPatch_.name() << " outstanding request."
       << abort(FatalError);
   }
 }
+
+
 // Destructor 
 template<class Type>
 mousse::processorFvPatchField<Type>::~processorFvPatchField()
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
@@ -177,13 +194,15 @@ mousse::processorFvPatchField<Type>::patchNeighbourField() const
 {
   if (debug && !this->ready())
   {
-    FatalErrorIn("processorFvPatchField<Type>::patchNeighbourField()")
+    FATAL_ERROR_IN("processorFvPatchField<Type>::patchNeighbourField()")
       << "On patch " << procPatch_.name()
       << " outstanding request."
       << abort(FatalError);
   }
   return *this;
 }
+
+
 template<class Type>
 void mousse::processorFvPatchField<Type>::initEvaluate
 (
@@ -224,6 +243,8 @@ void mousse::processorFvPatchField<Type>::initEvaluate
     }
   }
 }
+
+
 template<class Type>
 void mousse::processorFvPatchField<Type>::evaluate
 (
@@ -256,6 +277,8 @@ void mousse::processorFvPatchField<Type>::evaluate
     }
   }
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::processorFvPatchField<Type>::snGrad
@@ -265,6 +288,8 @@ mousse::processorFvPatchField<Type>::snGrad
 {
   return deltaCoeffs*(*this - this->patchInternalField());
 }
+
+
 template<class Type>
 void mousse::processorFvPatchField<Type>::initInterfaceMatrixUpdate
 (
@@ -281,12 +306,13 @@ void mousse::processorFvPatchField<Type>::initInterfaceMatrixUpdate
     // Fast path.
     if (debug && !this->ready())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "processorFvPatchField<Type>::initInterfaceMatrixUpdate(..)"
-      )   << "On patch " << procPatch_.name()
-        << " outstanding request."
-        << abort(FatalError);
+      )
+      << "On patch " << procPatch_.name()
+      << " outstanding request."
+      << abort(FatalError);
     }
     scalarReceiveBuf_.setSize(scalarSendBuf_.size());
     outstandingRecvRequest_ = UPstream::nRequests();
@@ -316,6 +342,8 @@ void mousse::processorFvPatchField<Type>::initInterfaceMatrixUpdate
   }
   const_cast<processorFvPatchField<Type>&>(*this).updatedMatrix() = false;
 }
+
+
 template<class Type>
 void mousse::processorFvPatchField<Type>::updateInterfaceMatrix
 (
@@ -334,11 +362,8 @@ void mousse::processorFvPatchField<Type>::updateInterfaceMatrix
   if (commsType == Pstream::nonBlocking && !Pstream::floatTransfer)
   {
     // Fast path.
-    if
-    (
-      outstandingRecvRequest_ >= 0
-    && outstandingRecvRequest_ < Pstream::nRequests()
-    )
+    if (outstandingRecvRequest_ >= 0
+        && outstandingRecvRequest_ < Pstream::nRequests())
     {
       UPstream::waitRequest(outstandingRecvRequest_);
     }
@@ -349,7 +374,7 @@ void mousse::processorFvPatchField<Type>::updateInterfaceMatrix
     // Transform according to the transformation tensor
     transformCoupleField(scalarReceiveBuf_, cmpt);
     // Multiply the field by coefficients and add into the result
-    forAll(faceCells, elemI)
+    FOR_ALL(faceCells, elemI)
     {
       result[faceCells[elemI]] -= coeffs[elemI]*scalarReceiveBuf_[elemI];
     }
@@ -357,19 +382,21 @@ void mousse::processorFvPatchField<Type>::updateInterfaceMatrix
   else
   {
     scalarField pnf
-    (
+    {
       procPatch_.compressedReceive<scalar>(commsType, this->size())()
-    );
+    };
     // Transform according to the transformation tensor
     transformCoupleField(pnf, cmpt);
     // Multiply the field by coefficients and add into the result
-    forAll(faceCells, elemI)
+    FOR_ALL(faceCells, elemI)
     {
       result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
     }
   }
   const_cast<processorFvPatchField<Type>&>(*this).updatedMatrix() = true;
 }
+
+
 template<class Type>
 void mousse::processorFvPatchField<Type>::initInterfaceMatrixUpdate
 (
@@ -385,12 +412,13 @@ void mousse::processorFvPatchField<Type>::initInterfaceMatrixUpdate
     // Fast path.
     if (debug && !this->ready())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "processorFvPatchField<Type>::initInterfaceMatrixUpdate(..)"
-      )   << "On patch " << procPatch_.name()
-        << " outstanding request."
-        << abort(FatalError);
+      )
+      << "On patch " << procPatch_.name()
+      << " outstanding request."
+      << abort(FatalError);
     }
     receiveBuf_.setSize(sendBuf_.size());
     outstandingRecvRequest_ = UPstream::nRequests();
@@ -420,6 +448,8 @@ void mousse::processorFvPatchField<Type>::initInterfaceMatrixUpdate
   }
   const_cast<processorFvPatchField<Type>&>(*this).updatedMatrix() = false;
 }
+
+
 template<class Type>
 void mousse::processorFvPatchField<Type>::updateInterfaceMatrix
 (
@@ -437,11 +467,8 @@ void mousse::processorFvPatchField<Type>::updateInterfaceMatrix
   if (commsType == Pstream::nonBlocking && !Pstream::floatTransfer)
   {
     // Fast path.
-    if
-    (
-      outstandingRecvRequest_ >= 0
-    && outstandingRecvRequest_ < Pstream::nRequests()
-    )
+    if (outstandingRecvRequest_ >= 0
+        && outstandingRecvRequest_ < Pstream::nRequests())
     {
       UPstream::waitRequest(outstandingRecvRequest_);
     }
@@ -452,7 +479,7 @@ void mousse::processorFvPatchField<Type>::updateInterfaceMatrix
     // Transform according to the transformation tensor
     transformCoupleField(receiveBuf_);
     // Multiply the field by coefficients and add into the result
-    forAll(faceCells, elemI)
+    FOR_ALL(faceCells, elemI)
     {
       result[faceCells[elemI]] -= coeffs[elemI]*receiveBuf_[elemI];
     }
@@ -460,27 +487,26 @@ void mousse::processorFvPatchField<Type>::updateInterfaceMatrix
   else
   {
     Field<Type> pnf
-    (
+    {
       procPatch_.compressedReceive<Type>(commsType, this->size())()
-    );
+    };
     // Transform according to the transformation tensor
     transformCoupleField(pnf);
     // Multiply the field by coefficients and add into the result
-    forAll(faceCells, elemI)
+    FOR_ALL(faceCells, elemI)
     {
       result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
     }
   }
   const_cast<processorFvPatchField<Type>&>(*this).updatedMatrix() = true;
 }
+
+
 template<class Type>
 bool mousse::processorFvPatchField<Type>::ready() const
 {
-  if
-  (
-    outstandingSendRequest_ >= 0
-  && outstandingSendRequest_ < Pstream::nRequests()
-  )
+  if (outstandingSendRequest_ >= 0
+      && outstandingSendRequest_ < Pstream::nRequests())
   {
     bool finished = UPstream::finishedRequest(outstandingSendRequest_);
     if (!finished)
@@ -489,11 +515,8 @@ bool mousse::processorFvPatchField<Type>::ready() const
     }
   }
   outstandingSendRequest_ = -1;
-  if
-  (
-    outstandingRecvRequest_ >= 0
-  && outstandingRecvRequest_ < Pstream::nRequests()
-  )
+  if (outstandingRecvRequest_ >= 0
+      && outstandingRecvRequest_ < Pstream::nRequests())
   {
     bool finished = UPstream::finishedRequest(outstandingRecvRequest_);
     if (!finished)

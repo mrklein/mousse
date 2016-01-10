@@ -45,7 +45,7 @@ private:
     void operator=(const searchableBox&);
 public:
   //- Runtime type information
-  TypeName("searchableBox");
+  TYPE_NAME("searchableBox");
   // Constructors
     //- Construct from components
     searchableBox(const IOobject& io, const treeBoundBox& bb);
@@ -181,7 +181,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchableBox::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchableBox::writeData(Ostream&) const");
         return false;
       }
 };

@@ -47,7 +47,7 @@ bool mousse::fileFormats::edgeMeshFormat::read
   );
   if (!io.headerOk())
   {
-    FatalErrorIn("fileFormats::edgeMeshFormat::read(const fileName&)")
+    FATAL_ERROR_IN("fileFormats::edgeMeshFormat::read(const fileName&)")
       << "Cannot read file " << filename
       << exit(FatalError);
   }
@@ -73,7 +73,7 @@ bool mousse::fileFormats::edgeMeshFormat::read
 {
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::edgeMeshFormat::read"
       "(Istream&, pointField&, edgeList&)"
@@ -96,7 +96,7 @@ mousse::Ostream& mousse::fileFormats::edgeMeshFormat::write
 {
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::edgeMeshFormat::write"
       "(Ostream&, const fileName&, const edgeMesh&)"
@@ -144,7 +144,7 @@ void mousse::fileFormats::edgeMeshFormat::write
   autoPtr<OFstream> osPtr(new OFstream(filename));
   if (!osPtr().good())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "fileFormats::edgeMeshFormat::write"
       "(const fileName&, const edgeMesh&)",
@@ -156,7 +156,7 @@ void mousse::fileFormats::edgeMeshFormat::write
   bool ok = io.writeHeader(os, featureEdgeMesh::typeName);
   if (!ok)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "fileFormats::edgeMeshFormat::write"
       "(const fileName&, const edgeMesh&)",

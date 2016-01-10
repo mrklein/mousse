@@ -67,7 +67,7 @@ class localPointRegion
     );
 public:
   //- Runtime type information
-  ClassName("localPointRegion");
+  CLASS_NAME("localPointRegion");
   // Constructors
     //- Construct from mesh. Assumes all non-coupled boundary points
     //  are candidates for duplication

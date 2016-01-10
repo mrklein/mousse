@@ -17,17 +17,21 @@
 //   too small can lead to non-convergence.
 // SourceFiles
 //   face_cell_wave.cpp
+
 #ifndef face_cell_wave_hpp_
 #define face_cell_wave_hpp_
+
 #include "bool_list.hpp"
 #include "label_list.hpp"
 #include "primitive_fields_fwd.hpp"
+#include "class_name.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
 class polyMesh;
 class polyPatch;
-TemplateName(FaceCellWave);
+TEMPLATE_NAME(FaceCellWave);
 template<class Type, class TrackingData = int>
 class FaceCellWave
 :

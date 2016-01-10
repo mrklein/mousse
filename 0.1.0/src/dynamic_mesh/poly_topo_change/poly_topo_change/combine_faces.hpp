@@ -64,16 +64,16 @@ class combineFaces
       const label cellI,
       const Map<label>& faceRegion
     ) const;
-    //- Disallow default bitwise copy construct
-    combineFaces(const combineFaces&);
-    //- Disallow default bitwise assignment
-    void operator=(const combineFaces&);
 public:
   //- Runtime type information
-  ClassName("combineFaces");
+  CLASS_NAME("combineFaces");
   // Constructors
     //- Construct from mesh
     combineFaces(const polyMesh& mesh, const bool undoable = false);
+    //- Disallow default bitwise copy construct
+    combineFaces(const combineFaces&) = delete;
+    //- Disallow default bitwise assignment
+    combineFaces& operator=(const combineFaces&) = delete;
   // Member Functions
     // Access
       //- If undoable: masterface for every set.

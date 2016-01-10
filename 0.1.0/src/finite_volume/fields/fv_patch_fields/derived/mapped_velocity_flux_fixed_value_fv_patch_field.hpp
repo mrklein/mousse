@@ -49,7 +49,7 @@ class mappedVelocityFluxFixedValueFvPatchField
     word phiName_;
 public:
   //- Runtime type information
-  TypeName("mappedVelocityFlux");
+  TYPE_NAME("mappedVelocityFlux");
   // Constructors
     //- Construct from patch and internal field
     mappedVelocityFluxFixedValueFvPatchField

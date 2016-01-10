@@ -26,7 +26,7 @@ mousse::label mousse::fvMeshTools::addPatch
   label startFaceI = mesh.nFaces();
   if (!isA<processorPolyPatch>(patch))
   {
-    forAll(polyPatches, patchI)
+    FOR_ALL(polyPatches, patchI)
     {
       const polyPatch& pp = polyPatches[patchI];
       if (isA<processorPolyPatch>(pp))
@@ -232,7 +232,7 @@ void mousse::fvMeshTools::trimPatches(fvMesh& mesh, const label nPatches)
   fvBoundaryMesh& fvPatches = const_cast<fvBoundaryMesh&>(mesh.boundary());
   if (polyPatches.empty())
   {
-    FatalErrorIn("fvMeshTools::trimPatches(fvMesh&, const label)")
+    FATAL_ERROR_IN("fvMeshTools::trimPatches(fvMesh&, const label)")
       << "No patches in mesh"
       << abort(FatalError);
   }
@@ -244,7 +244,7 @@ void mousse::fvMeshTools::trimPatches(fvMesh& mesh, const label nPatches)
   reduce(nFaces, sumOp<label>());
   if (nFaces)
   {
-    FatalErrorIn("fvMeshTools::trimPatches(fvMesh&, const label)")
+    FATAL_ERROR_IN("fvMeshTools::trimPatches(fvMesh&, const label)")
       << "There are still " << nFaces
       << " faces in " << polyPatches.size()-nPatches
       << " patches to be deleted" << abort(FatalError);

@@ -7,30 +7,29 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(surfaceRegistry, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(surfaceRegistry, 0);
 }
 const mousse::word mousse::surfaceRegistry::prefix("surfaces");
 mousse::word mousse::surfaceRegistry::defaultName("default");
-// Constructors 
+// Constructors
 mousse::surfaceRegistry::surfaceRegistry
 (
   const objectRegistry& obr,
   const word& surfName
 )
 :
-  objectRegistry
-  (
-    IOobject
-    (
+  objectRegistry{
+    IOobject{
       ( surfName.size() ? surfName : defaultName ),
       obr.time().timeName(),
       prefix,
       obr,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    )
-  )
+    }
+  }
 {}
-// Destructor 
+
+// Destructor
 mousse::surfaceRegistry::~surfaceRegistry()
 {}

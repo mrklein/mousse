@@ -8,8 +8,10 @@
 // SourceFiles
 //   porosity_model.cpp
 //   porosity_model_new.cpp
+
 #ifndef porosity_model_hpp_
 #define porosity_model_hpp_
+
 #include "fv_mesh.hpp"
 #include "dictionary.hpp"
 #include "fv_matrices_fwd.hpp"
@@ -17,17 +19,13 @@
 #include "coordinate_system.hpp"
 #include "dimensioned_vector.hpp"
 #include "key_type.hpp"
+
 namespace mousse
 {
 class porosityModel
 :
   public regIOobject
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    porosityModel(const porosityModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const porosityModel&);
 protected:
   // Protected data
     //- Porosity name
@@ -73,11 +71,12 @@ protected:
     ) const = 0;
     //- Return label index
     label fieldIndex(const label index) const;
+
 public:
   //- Runtime type information
-  TypeName("porosityModel");
+  TYPE_NAME("porosityModel");
   //- Selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     porosityModel,
@@ -139,6 +138,10 @@ public:
     const dictionary& dict,
     const word& cellZoneName = word::null
   );
+  //- Disallow default bitwise copy construct
+  porosityModel(const porosityModel&) = delete;
+  //- Disallow default bitwise assignment
+  porosityModel& operator=(const porosityModel&) = delete;
   //- Destructor
   virtual ~porosityModel();
   // Member Functions
@@ -182,5 +185,16 @@ public:
     virtual bool read(const dictionary& dict);
 };
 }  // namespace mousse
-#include "porosity_model_i.hpp"
+inline const mousse::word& mousse::porosityModel::name() const
+{
+  return name_;
+}
+inline bool mousse::porosityModel::active() const
+{
+  return active_;
+}
+inline const mousse::labelList& mousse::porosityModel::cellZoneIDs() const
+{
+  return cellZoneIDs_;
+}
 #endif

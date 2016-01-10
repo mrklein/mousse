@@ -25,11 +25,11 @@ class limitedLinearLimiter
 public:
   limitedLinearLimiter(Istream& is)
   :
-    k_(readScalar(is))
+    k_{readScalar(is)}
   {
     if (k_ < 0 || k_ > 1)
     {
-      FatalIOErrorIn("limitedLinearLimiter(Istream& is)", is)
+      FATAL_IO_ERROR_IN("limitedLinearLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
         << exit(FatalIOError);
@@ -37,9 +37,10 @@ public:
     // Avoid the /0 when k_ = 0
     twoByk_ = 2.0/max(k_, SMALL);
   }
+
   scalar limiter
   (
-    const scalar cdWeight,
+    const scalar /*cdWeight*/,
     const scalar faceFlux,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,

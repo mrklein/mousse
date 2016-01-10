@@ -14,7 +14,7 @@ void mousse::edgeVertex::updateLabels
 )
 {
   label newRefI = 0;
-  forAll(refCells, refI)
+  FOR_ALL(refCells, refI)
   {
     const refineCell& refCell = refCells[refI];
     label oldCellI = refCell.cellNo();
@@ -36,7 +36,7 @@ void mousse::edgeVertex::updateLabels
 {
   // Iterate over map to see if anything changed
   bool changed = false;
-  forAllConstIter(Map<label>, cellPairs, iter)
+  FOR_ALL_CONST_ITER(Map<label>, cellPairs, iter)
   {
     label newMaster = map[iter.key()];
     label newSlave = -1;
@@ -54,7 +54,7 @@ void mousse::edgeVertex::updateLabels
   if (changed)
   {
     Map<label> newCellPairs(2*cellPairs.size());
-    forAllConstIter(Map<label>, cellPairs, iter)
+    FOR_ALL_CONST_ITER(Map<label>, cellPairs, iter)
     {
       label newMaster = map[iter.key()];
       label newSlave = -1;
@@ -64,7 +64,7 @@ void mousse::edgeVertex::updateLabels
       }
       if (newMaster == -1)
       {
-        WarningIn
+        WARNING_IN
         (
           "edgeVertex::updateLabels(const labelList&, "
           "Map<label>&)"
@@ -89,7 +89,7 @@ void mousse::edgeVertex::updateLabels
 {
   // Iterate over map to see if anything changed
   bool changed = false;
-  forAllConstIter(labelHashSet, cells, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, cells, iter)
   {
     const label newCellI = map[iter.key()];
     if (newCellI != iter.key())
@@ -102,7 +102,7 @@ void mousse::edgeVertex::updateLabels
   if (changed)
   {
     labelHashSet newCells(2*cells.size());
-    forAllConstIter(labelHashSet, cells, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, cells, iter)
     {
       const label newCellI = map[iter.key()];
       if (newCellI != -1)
@@ -180,7 +180,7 @@ mousse::Ostream& mousse::edgeVertex::writeCuts
   const scalarField& weights
 ) const
 {
-  forAll(cuts, cutI)
+  FOR_ALL(cuts, cutI)
   {
     if (cutI > 0)
     {

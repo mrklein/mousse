@@ -13,7 +13,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(removeCells, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(removeCells, 0);
 }
 // Private Member Functions 
 void mousse::removeCells::uncount
@@ -22,7 +22,7 @@ void mousse::removeCells::uncount
   labelList& nUsage
 )
 {
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     nUsage[f[fp]]--;
   }
@@ -46,7 +46,7 @@ mousse::labelList mousse::removeCells::getExposedFaces
   // Create list of cells to be removed
   boolList removedCell(mesh_.nCells(), false);
   // Go from labelList of cells-to-remove to a boolList.
-  forAll(cellLabels, i)
+  FOR_ALL(cellLabels, i)
   {
     removedCell[cellLabels[i]] = true;
   }
@@ -102,13 +102,13 @@ mousse::labelList mousse::removeCells::getExposedFaces
     }
   }
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label own = faceOwner[faceI];
         if (nCellsUsingFace[faceI] == 1 && !removedCell[own])
@@ -134,7 +134,7 @@ void mousse::removeCells::setRefinement
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   if (exposedFaceLabels.size() != exposedPatchIDs.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "removeCells::setRefinement(const labelList&"
       ", const labelList&, const labelList&, polyTopoChange&)"
@@ -145,12 +145,12 @@ void mousse::removeCells::setRefinement
   }
   // List of new patchIDs
   labelList newPatchID(mesh_.nFaces(), -1);
-  forAll(exposedFaceLabels, i)
+  FOR_ALL(exposedFaceLabels, i)
   {
     label patchI = exposedPatchIDs[i];
     if (patchI < 0 || patchI >= patches.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "removeCells::setRefinement(const labelList&"
         ", const labelList&, const labelList&, polyTopoChange&)"
@@ -161,7 +161,7 @@ void mousse::removeCells::setRefinement
     }
     if (patches[patchI].coupled())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "removeCells::setRefinement(const labelList&"
         ", const labelList&, const labelList&, polyTopoChange&)"
@@ -177,7 +177,7 @@ void mousse::removeCells::setRefinement
   boolList removedCell(mesh_.nCells(), false);
   // Go from labelList of cells-to-remove to a boolList and remove all
   // cells mentioned.
-  forAll(cellLabels, i)
+  FOR_ALL(cellLabels, i)
   {
     label cellI = cellLabels[i];
     removedCell[cellI] = true;
@@ -194,10 +194,10 @@ void mousse::removeCells::setRefinement
   // Count starting number of faces using each point. Keep up to date whenever
   // removing a face.
   labelList nFacesUsingPoint(mesh_.nPoints(), 0);
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       nFacesUsingPoint[f[fp]]++;
     }
@@ -221,7 +221,7 @@ void mousse::removeCells::setRefinement
       {
         if (newPatchID[faceI] == -1)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "removeCells::setRefinement(const labelList&"
             ", const labelList&, const labelList&"
@@ -265,7 +265,7 @@ void mousse::removeCells::setRefinement
     {
       if (newPatchID[faceI] == -1)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "removeCells::setRefinement(const labelList&"
           ", const labelList&, const labelList&"
@@ -303,13 +303,13 @@ void mousse::removeCells::setRefinement
       );
     }
   }
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         if (newPatchID[faceI] != -1)
         {
@@ -354,11 +354,11 @@ void mousse::removeCells::setRefinement
     else
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         if (newPatchID[faceI] != -1)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "removeCells::setRefinement(const labelList&"
             ", const labelList&, const labelList&"
@@ -382,7 +382,7 @@ void mousse::removeCells::setRefinement
   }
   // Remove points that are no longer used.
   // Loop rewritten to not use pointFaces.
-  forAll(nFacesUsingPoint, pointI)
+  FOR_ALL(nFacesUsingPoint, pointI)
   {
     if (nFacesUsingPoint[pointI] == 0)
     {
@@ -392,7 +392,7 @@ void mousse::removeCells::setRefinement
     }
     else if (nFacesUsingPoint[pointI] == 1)
     {
-      WarningIn
+      WARNING_IN
       (
         "removeCells::setRefinement(const labelList&"
         ", const labelList&, const labelList&"

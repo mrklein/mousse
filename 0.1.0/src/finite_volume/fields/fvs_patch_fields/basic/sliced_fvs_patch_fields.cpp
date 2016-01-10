@@ -5,8 +5,9 @@
 #include "sliced_fvs_patch_fields.hpp"
 #include "fvs_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
 // Static Data Members
-makeFvsPatchFields(sliced);
+MAKE_FVS_PATCH_FIELDS(sliced);
 }  // namespace mousse

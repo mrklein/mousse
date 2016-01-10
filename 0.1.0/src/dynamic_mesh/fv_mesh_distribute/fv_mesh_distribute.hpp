@@ -220,15 +220,15 @@ class fvMeshDistribute
         PtrList<GeoField>&,
         const dictionary& fieldDicts
       );
-      //- Disallow default bitwise copy construct
-      fvMeshDistribute(const fvMeshDistribute&);
-      //- Disallow default bitwise assignment
-      void operator=(const fvMeshDistribute&);
 public:
-  ClassName("fvMeshDistribute");
+  CLASS_NAME("fvMeshDistribute");
   // Constructors
     //- Construct from mesh and absolute merge tolerance
     fvMeshDistribute(fvMesh& mesh, const scalar mergeTol);
+    //- Disallow default bitwise copy construct
+    fvMeshDistribute(const fvMeshDistribute&) = delete;
+    //- Disallow default bitwise assignment
+    fvMeshDistribute& operator=(const fvMeshDistribute&) = delete;
   // Member Functions
     //- Helper function: count cells per processor in wanted distribution
     static labelList countCells(const labelList&);

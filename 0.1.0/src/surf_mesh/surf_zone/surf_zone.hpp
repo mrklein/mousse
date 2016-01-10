@@ -33,7 +33,7 @@ class surfZone
     label start_;
 public:
   //- Runtime type information
-  ClassName("surfZone");
+  CLASS_NAME("surfZone");
   // Constructors
     //- Construct null
     surfZone();
@@ -62,7 +62,7 @@ public:
     //- Return clone
     autoPtr<surfZone> clone() const
     {
-      notImplemented("autoPtr<surfZone> clone() const");
+      NOT_IMPLEMENTED("autoPtr<surfZone> clone() const");
       return autoPtr<surfZone>(NULL);
     }
     static autoPtr<surfZone> New(Istream& is)

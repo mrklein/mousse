@@ -17,11 +17,11 @@ void mousse::foamFileSurfaceWriter::writeTemplate
 (
   const fileName& outputDir,
   const fileName& surfaceName,
-  const pointField& points,
-  const faceList& faces,
+  const pointField& /*points*/,
+  const faceList& /*faces*/,
   const word& fieldName,
   const Field<Type>& values,
-  const bool isNodeValues,
+  const bool /*isNodeValues*/,
   const bool verbose
 ) const
 {
@@ -79,7 +79,7 @@ void mousse::foamFileSurfaceWriter::write
   // Face centers. Not really necessary but very handy when reusing as inputs
   // for e.g. timeVaryingMapped bc.
   pointField faceCentres(faces.size(),point::zero);
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     faceCentres[faceI] = faces[faceI].centre(points);
   }

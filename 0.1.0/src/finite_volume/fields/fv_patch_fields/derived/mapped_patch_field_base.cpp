@@ -5,8 +5,10 @@
 #include "mapped_patch_field_base.hpp"
 #include "mapped_patch_base.hpp"
 #include "interpolation_cell.hpp"
+
 namespace mousse
 {
+
 // Constructors 
 template<class Type>
 mappedPatchFieldBase<Type>::mappedPatchFieldBase
@@ -19,13 +21,15 @@ mappedPatchFieldBase<Type>::mappedPatchFieldBase
   const word& interpolationScheme
 )
 :
-  mapper_(mapper),
-  patchField_(patchField),
-  fieldName_(fieldName),
-  setAverage_(setAverage),
-  average_(average),
-  interpolationScheme_(interpolationScheme)
+  mapper_{mapper},
+  patchField_{patchField},
+  fieldName_{fieldName},
+  setAverage_{setAverage},
+  average_{average},
+  interpolationScheme_{interpolationScheme}
 {}
+
+
 template<class Type>
 mappedPatchFieldBase<Type>::mappedPatchFieldBase
 (
@@ -34,25 +38,27 @@ mappedPatchFieldBase<Type>::mappedPatchFieldBase
   const dictionary& dict
 )
 :
-  mapper_(mapper),
-  patchField_(patchField),
+  mapper_{mapper},
+  patchField_{patchField},
   fieldName_
-  (
+  {
     dict.template lookupOrDefault<word>
     (
       "fieldName",
       patchField_.dimensionedInternalField().name()
     )
-  ),
-  setAverage_(readBool(dict.lookup("setAverage"))),
-  average_(pTraits<Type>(dict.lookup("average"))),
-  interpolationScheme_(interpolationCell<Type>::typeName)
+  },
+  setAverage_{readBool(dict.lookup("setAverage"))},
+  average_{pTraits<Type>(dict.lookup("average"))},
+  interpolationScheme_{interpolationCell<Type>::typeName}
 {
   if (mapper_.mode() == mappedPatchBase::NEARESTCELL)
   {
     dict.lookup("interpolationScheme") >> interpolationScheme_;
   }
 }
+
+
 template<class Type>
 mappedPatchFieldBase<Type>::mappedPatchFieldBase
 (
@@ -60,26 +66,30 @@ mappedPatchFieldBase<Type>::mappedPatchFieldBase
   const fvPatchField<Type>& patchField
 )
 :
-  mapper_(mapper),
-  patchField_(patchField),
-  fieldName_(patchField_.dimensionedInternalField().name()),
-  setAverage_(false),
-  average_(pTraits<Type>::zero),
-  interpolationScheme_(interpolationCell<Type>::typeName)
+  mapper_{mapper},
+  patchField_{patchField},
+  fieldName_{patchField_.dimensionedInternalField().name()},
+  setAverage_{false},
+  average_{pTraits<Type>::zero},
+  interpolationScheme_{interpolationCell<Type>::typeName}
 {}
+
+
 template<class Type>
 mappedPatchFieldBase<Type>::mappedPatchFieldBase
 (
   const mappedPatchFieldBase<Type>& mapper
 )
 :
-  mapper_(mapper.mapper_),
-  patchField_(mapper.patchField_),
-  fieldName_(mapper.fieldName_),
-  setAverage_(mapper.setAverage_),
-  average_(mapper.average_),
-  interpolationScheme_(mapper.interpolationScheme_)
+  mapper_{mapper.mapper_},
+  patchField_{mapper.patchField_},
+  fieldName_{mapper.fieldName_},
+  setAverage_{mapper.setAverage_},
+  average_{mapper.average_},
+  interpolationScheme_{mapper.interpolationScheme_}
 {}
+
+
 template<class Type>
 mappedPatchFieldBase<Type>::mappedPatchFieldBase
 (
@@ -88,13 +98,15 @@ mappedPatchFieldBase<Type>::mappedPatchFieldBase
   const mappedPatchFieldBase<Type>& base
 )
 :
-  mapper_(mapper),
-  patchField_(patchField),
-  fieldName_(base.fieldName_),
-  setAverage_(base.setAverage_),
-  average_(base.average_),
-  interpolationScheme_(base.interpolationScheme_)
+  mapper_{mapper},
+  patchField_{patchField},
+  fieldName_{base.fieldName_},
+  setAverage_{base.setAverage_},
+  average_{base.average_},
+  interpolationScheme_{base.interpolationScheme_}
 {}
+
+
 // Member Functions 
 template<class Type>
 const GeometricField<Type, fvPatchField, volMesh>&
@@ -124,8 +136,10 @@ mappedPatchFieldBase<Type>::sampleField() const
     return nbrMesh.template lookupObject<fieldType>(fieldName_);
   }
 }
+
+
 template<class Type>
-tmp<Field<Type> > mappedPatchFieldBase<Type>::mappedField() const
+tmp<Field<Type>> mappedPatchFieldBase<Type>::mappedField() const
 {
   typedef GeometricField<Type, fvPatchField, volMesh> fieldType;
   // Since we're inside initEvaluate/evaluate there might be processor
@@ -135,7 +149,7 @@ tmp<Field<Type> > mappedPatchFieldBase<Type>::mappedField() const
   const fvMesh& thisMesh = patchField_.patch().boundaryMesh().mesh();
   const fvMesh& nbrMesh = refCast<const fvMesh>(mapper_.sampleMesh());
   // Result of obtaining remote values
-  tmp<Field<Type> > tnewValues(new Field<Type>(0));
+  tmp<Field<Type>> tnewValues(new Field<Type>(0));
   Field<Type>& newValues = tnewValues();
   switch (mapper_.mode())
   {
@@ -156,7 +170,7 @@ tmp<Field<Type> > mappedPatchFieldBase<Type>::mappedField() const
           point::max,
           samples
         );
-        autoPtr<interpolation<Type> > interpolator
+        autoPtr<interpolation<Type>> interpolator
         (
           interpolation<Type>::New
           (
@@ -166,7 +180,7 @@ tmp<Field<Type> > mappedPatchFieldBase<Type>::mappedField() const
         );
         const interpolation<Type>& interp = interpolator();
         newValues.setSize(samples.size(), pTraits<Type>::max);
-        forAll(samples, cellI)
+        FOR_ALL(samples, cellI)
         {
           if (samples[cellI] != point::max)
           {
@@ -192,10 +206,11 @@ tmp<Field<Type> > mappedPatchFieldBase<Type>::mappedField() const
         nbrMesh.boundaryMesh().findPatchID(mapper_.samplePatch());
       if (nbrPatchID < 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mappedPatchFieldBase<Type>::updateCoeffs()"
-        )<< "Unable to find sample patch " << mapper_.samplePatch()
+        )
+        << "Unable to find sample patch " << mapper_.samplePatch()
         << " in region " << mapper_.sampleRegion()
         << " for patch " << patchField_.patch().name() << nl
         << abort(FatalError);
@@ -209,12 +224,12 @@ tmp<Field<Type> > mappedPatchFieldBase<Type>::mappedField() const
     {
       Field<Type> allValues(nbrMesh.nFaces(), pTraits<Type>::zero);
       const fieldType& nbrField = sampleField();
-      forAll(nbrField.boundaryField(), patchI)
+      FOR_ALL(nbrField.boundaryField(), patchI)
       {
         const fvPatchField<Type>& pf =
           nbrField.boundaryField()[patchI];
         label faceStart = pf.patch().start();
-        forAll(pf, faceI)
+        FOR_ALL(pf, faceI)
         {
           allValues[faceStart++] = pf[faceI];
         }
@@ -225,10 +240,11 @@ tmp<Field<Type> > mappedPatchFieldBase<Type>::mappedField() const
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mappedPatchFieldBase<Type>::updateCoeffs()"
-      )<< "Unknown sampling mode: " << mapper_.mode()
+      )
+      << "Unknown sampling mode: " << mapper_.mode()
       << nl << abort(FatalError);
     }
   }
@@ -250,6 +266,8 @@ tmp<Field<Type> > mappedPatchFieldBase<Type>::mappedField() const
   UPstream::msgType() = oldTag;
   return tnewValues;
 }
+
+
 template<class Type>
 void mappedPatchFieldBase<Type>::write(Ostream& os) const
 {
@@ -259,4 +277,5 @@ void mappedPatchFieldBase<Type>::write(Ostream& os) const
   os.writeKeyword("interpolationScheme") << interpolationScheme_
     << token::END_STATEMENT << nl;
 }
+
 }  // namespace mousse

@@ -4,10 +4,13 @@
 
 #ifndef uniform_fixed_gradient_fv_patch_fields_hpp_
 #define uniform_fixed_gradient_fv_patch_fields_hpp_
+
 #include "uniform_fixed_gradient_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(uniformFixedGradient);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(uniformFixedGradient);
 }  // namespace mousse
+
 #endif

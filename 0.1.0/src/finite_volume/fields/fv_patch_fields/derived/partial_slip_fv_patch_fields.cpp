@@ -5,8 +5,11 @@
 #include "partial_slip_fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
+
 namespace mousse
 {
+
 // Static Data Members
-makePatchFields(partialSlip);
+MAKE_PATCH_FIELDS(partialSlip);
+
 }  // namespace mousse

@@ -15,10 +15,10 @@ pressureDirectedInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  phiName_("phi"),
-  rhoName_("rho"),
-  inletDir_(p.size())
+  fixedValueFvPatchVectorField{p, iF},
+  phiName_{"phi"},
+  rhoName_{"rho"},
+  inletDir_{p.size()}
 {}
 mousse::pressureDirectedInletVelocityFvPatchVectorField::
 pressureDirectedInletVelocityFvPatchVectorField
@@ -29,10 +29,10 @@ pressureDirectedInletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(ptf, p, iF, mapper),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  inletDir_(ptf.inletDir_, mapper)
+  fixedValueFvPatchVectorField{ptf, p, iF, mapper},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  inletDir_{ptf.inletDir_, mapper}
 {}
 mousse::pressureDirectedInletVelocityFvPatchVectorField::
 pressureDirectedInletVelocityFvPatchVectorField
@@ -42,10 +42,10 @@ pressureDirectedInletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho")),
-  inletDir_("inletDirection", dict, p.size())
+  fixedValueFvPatchVectorField{p, iF},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")},
+  inletDir_{"inletDirection", dict, p.size()}
 {
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
 }
@@ -55,10 +55,10 @@ pressureDirectedInletVelocityFvPatchVectorField
   const pressureDirectedInletVelocityFvPatchVectorField& pivpvf
 )
 :
-  fixedValueFvPatchVectorField(pivpvf),
-  phiName_(pivpvf.phiName_),
-  rhoName_(pivpvf.rhoName_),
-  inletDir_(pivpvf.inletDir_)
+  fixedValueFvPatchVectorField{pivpvf},
+  phiName_{pivpvf.phiName_},
+  rhoName_{pivpvf.rhoName_},
+  inletDir_{pivpvf.inletDir_}
 {}
 mousse::pressureDirectedInletVelocityFvPatchVectorField::
 pressureDirectedInletVelocityFvPatchVectorField
@@ -67,10 +67,10 @@ pressureDirectedInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(pivpvf, iF),
-  phiName_(pivpvf.phiName_),
-  rhoName_(pivpvf.rhoName_),
-  inletDir_(pivpvf.inletDir_)
+  fixedValueFvPatchVectorField{pivpvf, iF},
+  phiName_{pivpvf.phiName_},
+  rhoName_{pivpvf.rhoName_},
+  inletDir_{pivpvf.inletDir_}
 {}
 // Member Functions 
 void mousse::pressureDirectedInletVelocityFvPatchVectorField::autoMap
@@ -116,7 +116,7 @@ void mousse::pressureDirectedInletVelocityFvPatchVectorField::updateCoeffs()
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pressureDirectedInletVelocityFvPatchVectorField::updateCoeffs()"
     )   << "dimensions of phi are not correct"
@@ -148,9 +148,9 @@ void mousse::pressureDirectedInletVelocityFvPatchVectorField::operator=
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    pressureDirectedInletVelocityFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  pressureDirectedInletVelocityFvPatchVectorField
+);
 }

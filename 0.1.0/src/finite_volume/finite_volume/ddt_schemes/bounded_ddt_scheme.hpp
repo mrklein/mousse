@@ -33,7 +33,7 @@ class boundedDdtScheme
     void operator=(const boundedDdtScheme&);
 public:
   //- Runtime type information
-  TypeName("bounded");
+  TYPE_NAME("bounded");
   // Constructors
     //- Construct from mesh and Istream
     boundedDdtScheme(const fvMesh& mesh, Istream& is)

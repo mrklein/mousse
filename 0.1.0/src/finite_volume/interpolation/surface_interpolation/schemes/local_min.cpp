@@ -4,7 +4,8 @@
 
 #include "local_min.hpp"
 #include "fv_mesh.hpp"
+
 namespace mousse
 {
-  makeSurfaceInterpolationScheme(localMin)
+MAKE_SURFACE_INTERPOLATION_SCHEME(localMin)
 }

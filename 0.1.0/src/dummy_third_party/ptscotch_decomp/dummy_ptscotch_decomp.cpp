@@ -5,6 +5,7 @@
 #include "ptscotch_decomp.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "time.hpp"
+
 static const char* notImplementedMessage =
 "You are trying to use ptscotch but do not have the "
 "ptscotchDecomp library loaded."
@@ -19,29 +20,31 @@ static const char* notImplementedMessage =
 #endif
 "The mousse_ptscotch_decomp library can then be built in "
 "$MOUSSE_SRC/parallel/decompose/ptscotch_decomp\n";
+
 namespace mousse
 {
-  defineTypeNameAndDebug(ptscotchDecomp, 0);
-  addToRunTimeSelectionTable
-  (
-    decompositionMethod,
-    ptscotchDecomp,
-    dictionary
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(ptscotchDecomp, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  decompositionMethod,
+  ptscotchDecomp,
+  dictionary
+);
 }
-// Private Member Functions 
-void mousse::ptscotchDecomp::check(const int retVal, const char* str)
+// Private Member Functions
+void mousse::ptscotchDecomp::check(const int /*retVal*/, const char* /*str*/)
 {}
+
 mousse::label mousse::ptscotchDecomp::decompose
 (
-  const fileName& meshPath,
-  const List<label>& initxadj,
-  const List<label>& initadjncy,
-  const scalarField& initcWeights,
-  List<label>& finalDecomp
+  const fileName& /*meshPath*/,
+  const List<label>& /*initxadj*/,
+  const List<label>& /*initadjncy*/,
+  const scalarField& /*initcWeights*/,
+  List<label>& /*finalDecomp*/
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "label ptscotchDecomp::decompose"
     "("
@@ -56,16 +59,16 @@ mousse::label mousse::ptscotchDecomp::decompose
 }
 mousse::label mousse::ptscotchDecomp::decompose
 (
-  const fileName& meshPath,
-  const label adjncySize,
-  const label adjncy[],
-  const label xadjSize,
-  const label xadj[],
-  const scalarField& cWeights,
-  List<label>& finalDecomp
+  const fileName& /*meshPath*/,
+  const label /*adjncySize*/,
+  const label /*adjncy*/[],
+  const label /*xadjSize*/,
+  const label /*xadj*/[],
+  const scalarField& /*cWeights*/,
+  List<label>& /*finalDecomp*/
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "label ptscotchDecomp::decompose"
     "("
@@ -80,7 +83,7 @@ mousse::label mousse::ptscotchDecomp::decompose
   )   << notImplementedMessage << exit(FatalError);
   return -1;
 }
-// Constructors 
+// Constructors
 mousse::ptscotchDecomp::ptscotchDecomp
 (
   const dictionary& decompositionDict
@@ -88,15 +91,16 @@ mousse::ptscotchDecomp::ptscotchDecomp
 :
   decompositionMethod(decompositionDict)
 {}
-// Member Functions 
+
+// Member Functions
 mousse::labelList mousse::ptscotchDecomp::decompose
 (
-  const polyMesh& mesh,
-  const pointField& points,
-  const scalarField& pointWeights
+  const polyMesh&,
+  const pointField&,
+  const scalarField& /*pointWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList ptscotchDecomp::decompose"
     "("
@@ -108,13 +112,13 @@ mousse::labelList mousse::ptscotchDecomp::decompose
 }
 mousse::labelList mousse::ptscotchDecomp::decompose
 (
-  const polyMesh& mesh,
-  const labelList& agglom,
-  const pointField& agglomPoints,
-  const scalarField& pointWeights
+  const polyMesh&,
+  const labelList& /*agglom*/,
+  const pointField& /*agglomPoints*/,
+  const scalarField& /*pointWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList ptscotchDecomp::decompose"
     "("
@@ -127,12 +131,12 @@ mousse::labelList mousse::ptscotchDecomp::decompose
 }
 mousse::labelList mousse::ptscotchDecomp::decompose
 (
-  const labelListList& globalCellCells,
-  const pointField& cellCentres,
-  const scalarField& cWeights
+  const labelListList& /*globalCellCells*/,
+  const pointField& /*cellCentres*/,
+  const scalarField& /*cWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList ptscotchDecomp::decompose"
     "("

@@ -29,7 +29,7 @@ void MapInternalField<Type, MeshMapper, volMesh>::operator()
 {
   if (field.size() != mapper.volMap().sizeBeforeMapping())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void MapInternalField<Type, MeshMapper, volMesh>::operator()\n"
       "(\n"

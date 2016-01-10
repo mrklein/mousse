@@ -29,7 +29,7 @@ class polyAddCell
 public:
   // Static data members
     //- Runtime type information
-    TypeName("addCell");
+    TYPE_NAME("addCell");
   // Constructors
     //- Construct null.  Used for constructing lists
     polyAddCell()

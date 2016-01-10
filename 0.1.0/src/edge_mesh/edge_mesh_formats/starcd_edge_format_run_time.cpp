@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read edgeMesh
-addNamedToRunTimeSelectionTable
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 (
   edgeMesh,
   STARCDedgeFormat,
@@ -19,7 +19,7 @@ addNamedToRunTimeSelectionTable
   inp
 );
 // write edgeMesh
-addNamedToMemberFunctionSelectionTable
+ADD_NAMED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   edgeMesh,
   STARCDedgeFormat,

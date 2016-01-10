@@ -11,7 +11,7 @@ bool mousse::triSurface::readOFF(const fileName& OFFfileName)
   IFstream OFFfile(OFFfileName);
   if (!OFFfile.good())
   {
-    FatalErrorIn("triSurface::readOFF(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readOFF(const fileName&)")
       << "Cannot read file " << OFFfileName
       << exit(FatalError);
   }
@@ -19,7 +19,7 @@ bool mousse::triSurface::readOFF(const fileName& OFFfileName)
   string hdr = getLineNoComment(OFFfile);
   if (hdr != "OFF")
   {
-    FatalErrorIn("triSurface::readOFF(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readOFF(const fileName&)")
       << "OFF file " << OFFfileName
       << " does not start with 'OFF'"
       << exit(FatalError);
@@ -32,7 +32,7 @@ bool mousse::triSurface::readOFF(const fileName& OFFfileName)
   }
   // Read points
   pointField points(nPoints);
-  forAll(points, pointi)
+  FOR_ALL(points, pointi)
   {
     scalar x, y, z;
     line = getLineNoComment(OFFfile);
@@ -52,7 +52,7 @@ bool mousse::triSurface::readOFF(const fileName& OFFfileName)
       label nVerts;
       lineStream >> nVerts;
       face f(nVerts);
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         lineStream >> f[fp];
       }
@@ -71,7 +71,7 @@ bool mousse::triSurface::readOFF(const fileName& OFFfileName)
         faceList triFaces(f.nTriangles(points));
         label nTri = 0;
         f.triangles(points, nTri, triFaces);
-        forAll(triFaces, triFaceI)
+        FOR_ALL(triFaces, triFaceI)
         {
           const face& f = triFaces[triFaceI];
           tris.append(labelledTri(f[0], f[1], f[2], 0));

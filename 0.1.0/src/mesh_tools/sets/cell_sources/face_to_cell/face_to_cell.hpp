@@ -39,7 +39,7 @@ private:
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("faceToCell");
+  TYPE_NAME("faceToCell");
   // Constructors
     //- Construct from components
     faceToCell

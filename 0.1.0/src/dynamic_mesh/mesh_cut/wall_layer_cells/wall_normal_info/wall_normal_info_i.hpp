@@ -14,7 +14,7 @@ inline bool mousse::wallNormalInfo::update
 {
   if (!w2.valid(td))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "wallNormalInfo::update(const wallNormalInfo&)"
     ) << "Problem: w2 is not valid" << abort(FatalError);
@@ -53,7 +53,7 @@ inline const mousse::vector& mousse::wallNormalInfo::normal() const
   return normal_;
 }
 template<class TrackingData>
-inline bool mousse::wallNormalInfo::valid(TrackingData& td) const
+inline bool mousse::wallNormalInfo::valid(TrackingData&) const
 {
   return normal_ != point::max;
 }
@@ -62,9 +62,9 @@ template<class TrackingData>
 inline bool mousse::wallNormalInfo::sameGeometry
 (
   const polyMesh&,
-  const wallNormalInfo& w2,
-  const scalar tol,
-  TrackingData& td
+  const wallNormalInfo& /*w2*/,
+  const scalar /*tol*/,
+  TrackingData&
 ) const
 {
   return true;
@@ -74,10 +74,10 @@ template<class TrackingData>
 inline void mousse::wallNormalInfo::leaveDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
-  TrackingData& td
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
+  TrackingData&
 )
 {}
 // No geometric data.
@@ -85,8 +85,8 @@ template<class TrackingData>
 inline void mousse::wallNormalInfo::transform
 (
   const polyMesh&,
-  const tensor& rotTensor,
-  TrackingData& td
+  const tensor& /*rotTensor*/,
+  TrackingData&
 )
 {}
 // No geometric data.
@@ -94,10 +94,10 @@ template<class TrackingData>
 inline void mousse::wallNormalInfo::enterDomain
 (
   const polyMesh&,
-  const polyPatch& patch,
-  const label patchFaceI,
-  const point& faceCentre,
-  TrackingData& td
+  const polyPatch&,
+  const label /*patchFaceI*/,
+  const point& /*faceCentre*/,
+  TrackingData&
 )
 {}
 // Update this with w2 if w2 nearer to pt.
@@ -105,10 +105,10 @@ template<class TrackingData>
 inline bool mousse::wallNormalInfo::updateCell
 (
   const polyMesh&,
-  const label thisCellI,
-  const label neighbourFaceI,
+  const label /*thisCellI*/,
+  const label /*neighbourFaceI*/,
   const wallNormalInfo& neighbourWallInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -119,10 +119,10 @@ template<class TrackingData>
 inline bool mousse::wallNormalInfo::updateFace
 (
   const polyMesh&,
-  const label thisFaceI,
-  const label neighbourCellI,
+  const label /*thisFaceI*/,
+  const label /*neighbourCellI*/,
   const wallNormalInfo& neighbourWallInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -133,9 +133,9 @@ template<class TrackingData>
 inline bool mousse::wallNormalInfo::updateFace
 (
   const polyMesh&,
-  const label thisFaceI,
+  const label /*thisFaceI*/,
   const wallNormalInfo& neighbourWallInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -145,7 +145,7 @@ template<class TrackingData>
 inline bool mousse::wallNormalInfo::equal
 (
   const wallNormalInfo& rhs,
-  TrackingData& td
+  TrackingData& /*td*/
 ) const
 {
   return operator==(rhs);

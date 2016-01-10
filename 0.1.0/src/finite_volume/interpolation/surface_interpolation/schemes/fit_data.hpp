@@ -11,33 +11,44 @@
 //   owner; weight on face taken as 1).
 // SourceFiles
 //   fit_data.cpp
+
 #ifndef fit_data_hpp_
 #define fit_data_hpp_
+
 #include "_mesh_object.hpp"
 #include "fv_mesh.hpp"
+
 namespace mousse
 {
+
 template<class FitDataType, class ExtendedStencil, class Polynomial>
 class FitData
 :
   public MeshObject<fvMesh, MoveableMeshObject, FitDataType>
 {
   // Private data
+
     //- The stencil the fit is based on
     const ExtendedStencil& stencil_;
+
     //- Is scheme correction on linear (true) or on upwind (false)
     const bool linearCorrection_;
+
     //- Factor the fit is allowed to deviate from the base scheme
     //  (linear or pure upwind)
     //  This limits the amount of high-order correction and increases
     //  stability on bad meshes
     const scalar linearLimitFactor_;
+
     //- Weights for central stencil
     const scalar centralWeight_;
+
     //- Dimensionality of the geometry
     const label dim_;
+
     //- Minimum stencil size
     const label minSize_;
+
 protected:
     //- Find the normal direction (i) and j and k directions for face faci
     void findFaceDirs
@@ -47,8 +58,10 @@ protected:
       vector& kdir,        // value changed in return
       const label faci
     );
+
 public:
   // Constructors
+
     //- Construct from components
     FitData
     (
@@ -58,39 +71,48 @@ public:
       const scalar linearLimitFactor,
       const scalar centralWeight
     );
+
   //- Destructor
   virtual ~FitData()
   {}
+
   // Member functions
+
     //- Return reference to the stencil
     const ExtendedStencil& stencil() const
     {
       return stencil_;
     }
+
     //- Factor the fit is allowed to deviate from the base scheme
     scalar linearLimitFactor() const
     {
       return linearLimitFactor_;
     }
+
     //- Return weight for central stencil
     scalar centralWeight() const
     {
       return centralWeight_;
     }
+
     //- Dimensionality of the geometry
     label dim() const
     {
       return dim_;
     }
+
     //- Minimum stencil size
     label minSize() const
     {
       return minSize_;
     }
+
     bool linearCorrection() const
     {
       return linearCorrection_;
     }
+
     //- Calculate the fit for the specified face and set the coefficients
     void calcFit
     (
@@ -100,12 +122,15 @@ public:
                 // nearest neighbours)
       const label faci     // Current face index
     );
+
     //- Calculate the fit for all the faces
     virtual void calcFit() = 0;
+
     //- Recalculate weights (but not stencil) when the mesh moves
     bool movePoints();
 };
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "fit_data.cpp"
 #endif

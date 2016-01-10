@@ -7,11 +7,14 @@
 //   Cyclic AMI front and back plane patch field
 // SourceFiles
 //   cyclic_ami_point_patch_field.cpp
+
 #ifndef cyclic_ami_point_patch_field_hpp_
 #define cyclic_ami_point_patch_field_hpp_
+
 #include "coupled_point_patch_field.hpp"
 #include "cyclic_ami_point_patch.hpp"
 #include "primitive_patch_interpolation.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -20,14 +23,19 @@ class cyclicAMIPointPatchField
   public coupledPointPatchField<Type>
 {
   // Private data
+
     //- Local reference cast into the cyclicAMI patch
     const cyclicAMIPointPatch& cyclicAMIPatch_;
+
     //- Owner side patch interpolation pointer
     mutable autoPtr<PrimitivePatchInterpolation<primitivePatch> > ppiPtr_;
+
     //- Neighbour side patch interpolation pointer
     mutable autoPtr<PrimitivePatchInterpolation<primitivePatch> >
       nbrPpiPtr_;
+
   // Private Member Functions
+
     //- Owner side patch interpolation
     const PrimitivePatchInterpolation<primitivePatch>& ppi() const
     {
@@ -36,13 +44,14 @@ class cyclicAMIPointPatchField
         ppiPtr_.reset
         (
           new PrimitivePatchInterpolation<primitivePatch>
-          (
+          {
             cyclicAMIPatch_.cyclicAMIPatch()
-          )
+          }
         );
       }
       return ppiPtr_();
     }
+
     //- Neighbour side patch interpolation
     const PrimitivePatchInterpolation<primitivePatch>& nbrPpi() const
     {
@@ -51,23 +60,28 @@ class cyclicAMIPointPatchField
         nbrPpiPtr_.reset
         (
           new PrimitivePatchInterpolation<primitivePatch>
-          (
+          {
             cyclicAMIPatch_.cyclicAMIPatch().neighbPatch()
-          )
+          }
         );
       }
       return nbrPpiPtr_();
     }
+
 public:
+
   //- Runtime type information
-  TypeName(cyclicAMIPointPatch::typeName_());
+  TYPE_NAME(cyclicAMIPointPatch::typeName_());
+
   // Constructors
+
     //- Construct from patch and internal field
     cyclicAMIPointPatchField
     (
       const pointPatch&,
       const DimensionedField<Type, pointMesh>&
     );
+
     //- Construct from patch, internal field and dictionary
     cyclicAMIPointPatchField
     (
@@ -75,6 +89,7 @@ public:
       const DimensionedField<Type, pointMesh>&,
       const dictionary&
     );
+
     //- Construct by mapping given patchField<Type> onto a new patch
     cyclicAMIPointPatchField
     (
@@ -83,23 +98,26 @@ public:
       const DimensionedField<Type, pointMesh>&,
       const pointPatchFieldMapper&
     );
+
     //- Construct and return a clone
     virtual autoPtr<pointPatchField<Type> > clone() const
     {
       return autoPtr<pointPatchField<Type> >
-      (
+      {
         new cyclicAMIPointPatchField<Type>
-        (
+        {
           *this
-        )
-      );
+        }
+      };
     }
+
     //- Construct as copy setting internal field reference
     cyclicAMIPointPatchField
     (
       const cyclicAMIPointPatchField<Type>&,
       const DimensionedField<Type, pointMesh>&
     );
+
     //- Construct and return a clone setting internal field reference
     virtual autoPtr<pointPatchField<Type> > clone
     (
@@ -107,47 +125,53 @@ public:
     ) const
     {
       return autoPtr<pointPatchField<Type> >
-      (
+      {
         new cyclicAMIPointPatchField<Type>
-        (
+        {
           *this, iF
-        )
-      );
+        }
+      };
     }
+
   // Member functions
+
     // Constraint handling
+
       //- Return the constraint type this pointPatchField implements
       virtual const word& constraintType() const
       {
         return cyclicAMIPointPatch::typeName;
       }
+
     // Cyclic AMI coupled interface functions
+
       //- Does the patch field perform the transfromation
       virtual bool doTransform() const
       {
-        return
-         !(
-            cyclicAMIPatch_.parallel()
-          || pTraits<Type>::rank == 0
-          );
+        return !(cyclicAMIPatch_.parallel() || pTraits<Type>::rank == 0);
       }
+
       //- Return face transformation tensor
       virtual const tensorField& forwardT() const
       {
         return cyclicAMIPatch_.forwardT();
       }
+
       //- Return neighbour-cell transformation tensor
       virtual const tensorField& reverseT() const
       {
         return cyclicAMIPatch_.reverseT();
       }
+
     // Evaluation functions
+
       //- Evaluate the patch field
       virtual void evaluate
       (
-        const Pstream::commsTypes commsType=Pstream::blocking
+        const Pstream::commsTypes=Pstream::blocking
       )
       {}
+
       //- Complete swap of patch point values and add to local values
       virtual void swapAddSeparated
       (
@@ -155,7 +179,9 @@ public:
         Field<Type>&
       ) const;
 };
+
 }  // namespace mousse
+
 #ifdef NoRepository
 #    include "cyclic_ami_point_patch_field.cpp"
 #endif

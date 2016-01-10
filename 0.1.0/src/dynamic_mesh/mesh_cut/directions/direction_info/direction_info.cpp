@@ -14,7 +14,7 @@ mousse::label mousse::directionInfo::findEdge
   const label v0
 )
 {
-  forAll(edgeLabels, edgeLabelI)
+  FOR_ALL(edgeLabels, edgeLabelI)
   {
     label edgeI = edgeLabels[edgeLabelI];
     if (mesh.edges()[edgeI] == edge(v0, v1))
@@ -22,7 +22,7 @@ mousse::label mousse::directionInfo::findEdge
       return edgeI;
     }
   }
-  FatalErrorIn("directionInfo::findEdge")
+  FATAL_ERROR_IN("directionInfo::findEdge")
     << "Cannot find an edge among " << edgeLabels << endl
     << "that uses vertices " << v0
     << " and " << v1
@@ -47,7 +47,7 @@ mousse::label mousse::directionInfo::lowest
     label b1 = (b + 1) % size;
     if (b1 != a)
     {
-      FatalErrorIn("directionInfo::lowest")
+      FATAL_ERROR_IN("directionInfo::lowest")
         << "Problem : a:" << a << " b:" << b << " size:" << size
         << abort(FatalError);
     }
@@ -66,7 +66,7 @@ mousse::label mousse::directionInfo::edgeToFaceIndex
 {
   if ((edgeI < 0) || (edgeI >= mesh.nEdges()))
   {
-    FatalErrorIn("directionInfo::edgeToFaceIndex")
+    FATAL_ERROR_IN("directionInfo::edgeToFaceIndex")
       << "Illegal edge label:" << edgeI
       << " when projecting cut edge from cell " << cellI
       << " to face " << faceI
@@ -133,7 +133,7 @@ mousse::label mousse::directionInfo::edgeToFaceIndex
       {
         return lowest(f.size(), fpA, fpB);
       }
-      FatalErrorIn("directionInfo::edgeToFaceIndex")
+      FATAL_ERROR_IN("directionInfo::edgeToFaceIndex")
         << "Found connected faces " << mesh.faces()[f0I] << " and "
         << mesh.faces()[f1I] << " sharing edge " << edgeI << endl
         << "But none seems to be connected to face " << faceI

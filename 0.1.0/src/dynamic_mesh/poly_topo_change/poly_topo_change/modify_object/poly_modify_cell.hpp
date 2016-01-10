@@ -25,7 +25,7 @@ class polyModifyCell
 public:
   // Static data members
     //- Runtime type information
-    TypeName("modifyCell");
+    TYPE_NAME("modifyCell");
   // Constructors
     //- Construct null.  Used only for list construction
     polyModifyCell()

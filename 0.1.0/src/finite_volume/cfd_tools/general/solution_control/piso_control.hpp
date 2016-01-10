@@ -22,7 +22,7 @@ class pisoControl
 public:
   // Static Data Members
     //- Run-time type information
-    TypeName("pisoControl");
+    TYPE_NAME("pisoControl");
   // Constructors
     //- Construct from mesh and the name of control sub-dictionary
     pisoControl(fvMesh& mesh, const word& dictName="PISO");

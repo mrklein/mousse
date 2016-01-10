@@ -8,5 +8,5 @@
 namespace mousse
 {
 // Static Data Members
-makePointPatchFields(cyclicACMI);
+MAKE_POINT_PATCH_FIELDS(cyclicACMI);
 }  // namespace mousse

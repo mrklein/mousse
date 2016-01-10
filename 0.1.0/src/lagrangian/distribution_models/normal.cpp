@@ -10,8 +10,8 @@ namespace mousse
 {
   namespace distributionModels
   {
-    defineTypeNameAndDebug(normal, 0);
-    addToRunTimeSelectionTable(distributionModel, normal, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(normal, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(distributionModel, normal, dictionary);
   }
 }
 // Constructors 
@@ -30,14 +30,14 @@ mousse::distributionModels::normal::normal
 {
   if (minValue_ < 0)
   {
-    FatalErrorIn("normal::normal(const dictionary&, Random&)")
+    FATAL_ERROR_IN("normal::normal(const dictionary&, Random&)")
       << "Minimum value must be greater than zero. "
       << "Supplied minValue = " << minValue_
       << abort(FatalError);
   }
   if (maxValue_ < minValue_)
   {
-    FatalErrorIn("normal::normal(const dictionary&, Random&)")
+    FATAL_ERROR_IN("normal::normal(const dictionary&, Random&)")
       << "Maximum value is smaller than the minimum value:"
       << "    maxValue = " << maxValue_ << ", minValue = " << minValue_
       << abort(FatalError);

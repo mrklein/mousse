@@ -42,7 +42,7 @@ protected:
     virtual void updateMesh(PstreamBuffers&);
 public:
   //- Runtime type information
-  TypeName(cyclicAMIPolyPatch::typeName_());
+  TYPE_NAME(cyclicAMIPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     cyclicAMIPointPatch

@@ -35,7 +35,7 @@ class fixedFluxPressureFvPatchScalarField
     label curTimeIndex_;
 public:
   //- Runtime type information
-  TypeName("fixedFluxPressure");
+  TYPE_NAME("fixedFluxPressure");
   // Constructors
     //- Construct from patch and internal field
     fixedFluxPressureFvPatchScalarField
@@ -108,7 +108,7 @@ namespace mousse
     const FieldField<fvsPatchField, scalar>& snGrad
   )
   {
-    forAll(bf, patchi)
+    FOR_ALL(bf, patchi)
     {
       if (isA<GradBC>(bf[patchi]))
       {

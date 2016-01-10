@@ -27,7 +27,7 @@ class EulerD2dt2Scheme
     void operator=(const EulerD2dt2Scheme&);
 public:
   //- Runtime type information
-  TypeName("Euler");
+  TYPE_NAME("Euler");
   // Constructors
     //- Construct from mesh
     EulerD2dt2Scheme(const fvMesh& mesh)

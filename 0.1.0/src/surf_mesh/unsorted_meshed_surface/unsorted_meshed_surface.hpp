@@ -77,7 +77,7 @@ public:
     //- Face type used
     typedef Face FaceType;
     //- Runtime type information
-    TypeName("UnsortedMeshedSurface");
+    TYPE_NAME("UnsortedMeshedSurface");
   // Static
     //- Can we read this file format?
     static bool canReadType(const word& ext, const bool verbose=false);
@@ -123,7 +123,7 @@ public:
     //- Construct from objectRegistry and a named surface
     UnsortedMeshedSurface(const Time&, const word& surfName="");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       UnsortedMeshedSurface,
@@ -145,7 +145,7 @@ public:
   //- Destructor
   virtual ~UnsortedMeshedSurface();
   // Member Function Selectors
-    declareMemberFunctionSelectionTable
+    DECLARE_MEMBER_FUNCTION_SELECTION_TABLE
     (
       void,
       UnsortedMeshedSurface,

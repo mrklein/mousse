@@ -23,7 +23,7 @@ inline mousse::pointTopoDistanceData::pointTopoDistanceData
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::pointTopoDistanceData::valid(TrackingData& td) const
+inline bool mousse::pointTopoDistanceData::valid(TrackingData&) const
 {
   return distance_ != -1;
 }
@@ -32,8 +32,8 @@ template<class TrackingData>
 inline bool mousse::pointTopoDistanceData::sameGeometry
 (
   const pointTopoDistanceData&,
-  const scalar tol,
-  TrackingData& td
+  const scalar /*tol*/,
+  TrackingData&
 ) const
 {
   return true;
@@ -42,40 +42,40 @@ inline bool mousse::pointTopoDistanceData::sameGeometry
 template<class TrackingData>
 inline void mousse::pointTopoDistanceData::leaveDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
-  const point& coord,
-  TrackingData& td
+  const polyPatch&,
+  const label /*patchPointI*/,
+  const point& /*coord*/,
+  TrackingData&
 )
 {}
 // No geometric data.
 template<class TrackingData>
 inline void mousse::pointTopoDistanceData::transform
 (
-  const tensor& rotTensor,
-  TrackingData& td
+  const tensor& /*rotTensor*/,
+  TrackingData&
 )
 {}
 // No geometric data.
 template<class TrackingData>
 inline void mousse::pointTopoDistanceData::enterDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
-  const point& coord,
-  TrackingData& td
+  const polyPatch&,
+  const label /*patchPointI*/,
+  const point& /*coord*/,
+  TrackingData&
 )
 {}
 // Update this with information from connected edge
 template<class TrackingData>
 inline bool mousse::pointTopoDistanceData::updatePoint
 (
-  const polyMesh& mesh,
-  const label pointI,
-  const label edgeI,
+  const polyMesh&,
+  const label /*pointI*/,
+  const label /*edgeI*/,
   const pointTopoDistanceData& edgeInfo,
-  const scalar tol,
-  TrackingData& td
+  const scalar /*tol*/,
+  TrackingData&
 )
 {
   if (distance_ == -1)
@@ -93,11 +93,11 @@ inline bool mousse::pointTopoDistanceData::updatePoint
 template<class TrackingData>
 inline bool mousse::pointTopoDistanceData::updatePoint
 (
-  const polyMesh& mesh,
-  const label pointI,
+  const polyMesh&,
+  const label /*pointI*/,
   const pointTopoDistanceData& newPointInfo,
-  const scalar tol,
-  TrackingData& td
+  const scalar /*tol*/,
+  TrackingData&
 )
 {
   if (distance_ == -1)
@@ -115,8 +115,8 @@ template<class TrackingData>
 inline bool mousse::pointTopoDistanceData::updatePoint
 (
   const pointTopoDistanceData& newPointInfo,
-  const scalar tol,
-  TrackingData& td
+  const scalar /*tol*/,
+  TrackingData&
 )
 {
   if (distance_ == -1)
@@ -133,12 +133,12 @@ inline bool mousse::pointTopoDistanceData::updatePoint
 template<class TrackingData>
 inline bool mousse::pointTopoDistanceData::updateEdge
 (
-  const polyMesh& mesh,
-  const label edgeI,
-  const label pointI,
+  const polyMesh&,
+  const label /*edgeI*/,
+  const label /*pointI*/,
   const pointTopoDistanceData& pointInfo,
-  const scalar tol,
-  TrackingData& td
+  const scalar /*tol*/,
+  TrackingData&
 )
 {
   if (distance_ == -1)
@@ -155,7 +155,7 @@ template<class TrackingData>
 inline bool mousse::pointTopoDistanceData::equal
 (
   const pointTopoDistanceData& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

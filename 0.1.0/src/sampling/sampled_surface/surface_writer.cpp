@@ -11,16 +11,16 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(surfaceWriter, 0);
-  defineRunTimeSelectionTable(surfaceWriter, word);
-  defineRunTimeSelectionTable(surfaceWriter, wordDict);
-  addNamedToRunTimeSelectionTable
-  (
-    surfaceWriter,
-    surfaceWriter,
-    word,
-    null
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(surfaceWriter, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(surfaceWriter, word);
+DEFINE_RUN_TIME_SELECTION_TABLE(surfaceWriter, wordDict);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
+(
+  surfaceWriter,
+  surfaceWriter,
+  word,
+  null
+);
 }
 // Static Member Functions
 mousse::autoPtr<mousse::surfaceWriter>
@@ -38,7 +38,7 @@ mousse::surfaceWriter::New(const word& writeType)
     }
     if (cstrIter == wordConstructorTablePtr_->end())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "surfaceWriter::New(const word&)"
       )   << "Unknown write type \"" << writeType << "\"\n\n"

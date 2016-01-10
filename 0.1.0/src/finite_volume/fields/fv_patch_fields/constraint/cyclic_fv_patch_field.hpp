@@ -47,7 +47,7 @@ class cyclicFvPatchField
     ) const;
 public:
   //- Runtime type information
-  TypeName(cyclicFvPatch::typeName_());
+  TYPE_NAME(cyclicFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     cyclicFvPatchField

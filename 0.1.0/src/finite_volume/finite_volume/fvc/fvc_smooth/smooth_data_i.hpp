@@ -44,7 +44,7 @@ inline mousse::smoothData::smoothData(const scalar value)
 {}
 // Member Functions 
 template<class TrackingData>
-inline bool mousse::smoothData::valid(TrackingData& td) const
+inline bool mousse::smoothData::valid(TrackingData&) const
 {
   return value_ > -SMALL;
 }
@@ -54,7 +54,7 @@ inline bool mousse::smoothData::sameGeometry
   const polyMesh&,
   const smoothData&,
   const scalar,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return true;
@@ -66,7 +66,7 @@ inline void mousse::smoothData::leaveDomain
   const polyPatch&,
   const label,
   const point&,
-  TrackingData& td
+  TrackingData&
 )
 {}
 template<class TrackingData>
@@ -74,7 +74,7 @@ inline void mousse::smoothData::transform
 (
   const polyMesh&,
   const tensor&,
-  TrackingData& td
+  TrackingData&
 )
 {}
 template<class TrackingData>
@@ -84,7 +84,7 @@ inline void mousse::smoothData::enterDomain
   const polyPatch&,
   const label,
   const point&,
-  TrackingData& td
+  TrackingData&
 )
 {}
 template<class TrackingData>
@@ -133,7 +133,7 @@ template<class TrackingData>
 inline bool mousse::smoothData::equal
 (
   const smoothData& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

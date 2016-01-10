@@ -43,7 +43,7 @@ tmp<volScalarField> reconstructMag(const surfaceScalarField& ssf)
     )
   );
   scalarField& rf = treconField();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -51,14 +51,14 @@ tmp<volScalarField> reconstructMag(const surfaceScalarField& ssf)
     rf[nei] -= (Sf[facei] & (Cf[facei] - C[nei]))*ssf[facei]/magSf[facei];
   }
   const surfaceScalarField::GeometricBoundaryField& bsf = ssf.boundaryField();
-  forAll(bsf, patchi)
+  FOR_ALL(bsf, patchi)
   {
     const fvsPatchScalarField& psf = bsf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     const vectorField& pCf = Cf.boundaryField()[patchi];
     const vectorField& pSf = Sf.boundaryField()[patchi];
     const scalarField& pMagSf = magSf.boundaryField()[patchi];
-    forAll(pOwner, pFacei)
+    FOR_ALL(pOwner, pFacei)
     {
       label own = pOwner[pFacei];
       rf[own] +=

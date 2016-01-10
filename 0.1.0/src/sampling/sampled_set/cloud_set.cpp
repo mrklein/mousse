@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cloudSet, 0);
-  addToRunTimeSelectionTable(sampledSet, cloudSet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(cloudSet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, cloudSet, word);
 }
 // Private Member Functions 
 void mousse::cloudSet::calcSamples
@@ -26,7 +26,7 @@ void mousse::cloudSet::calcSamples
 ) const
 {
   const meshSearch& queryMesh = searchEngine();
-  forAll(sampleCoords_, sampleI)
+  FOR_ALL(sampleCoords_, sampleI)
   {
     label cellI = queryMesh.findCell(sampleCoords_[sampleI]);
     if (cellI != -1)

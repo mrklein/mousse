@@ -7,6 +7,7 @@
 #include "fv_mesh.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "vol_mesh.hpp"
+
 // Constructors 
 template<class Type>
 mousse::fvPatchField<Type>::fvPatchField
@@ -15,13 +16,15 @@ mousse::fvPatchField<Type>::fvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  Field<Type>(p.size()),
-  patch_(p),
-  internalField_(iF),
-  updated_(false),
-  manipulatedMatrix_(false),
-  patchType_(word::null)
+  Field<Type>{p.size()},
+  patch_{p},
+  internalField_{iF},
+  updated_{false},
+  manipulatedMatrix_{false},
+  patchType_{word::null}
 {}
+
+
 template<class Type>
 mousse::fvPatchField<Type>::fvPatchField
 (
@@ -30,13 +33,15 @@ mousse::fvPatchField<Type>::fvPatchField
   const word& patchType
 )
 :
-  Field<Type>(p.size()),
-  patch_(p),
-  internalField_(iF),
-  updated_(false),
-  manipulatedMatrix_(false),
-  patchType_(patchType)
+  Field<Type>{p.size()},
+  patch_{p},
+  internalField_{iF},
+  updated_{false},
+  manipulatedMatrix_{false},
+  patchType_{patchType}
 {}
+
+
 template<class Type>
 mousse::fvPatchField<Type>::fvPatchField
 (
@@ -45,13 +50,15 @@ mousse::fvPatchField<Type>::fvPatchField
   const Field<Type>& f
 )
 :
-  Field<Type>(f),
-  patch_(p),
-  internalField_(iF),
-  updated_(false),
-  manipulatedMatrix_(false),
-  patchType_(word::null)
+  Field<Type>{f},
+  patch_{p},
+  internalField_{iF},
+  updated_{false},
+  manipulatedMatrix_{false},
+  patchType_{word::null}
 {}
+
+
 template<class Type>
 mousse::fvPatchField<Type>::fvPatchField
 (
@@ -61,12 +68,12 @@ mousse::fvPatchField<Type>::fvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  Field<Type>(p.size()),
-  patch_(p),
-  internalField_(iF),
-  updated_(false),
-  manipulatedMatrix_(false),
-  patchType_(ptf.patchType_)
+  Field<Type>{p.size()},
+  patch_{p},
+  internalField_{iF},
+  updated_{false},
+  manipulatedMatrix_{false},
+  patchType_{ptf.patchType_}
 {
   // For unmapped faces set to internal field value (zero-gradient)
   if (notNull(iF) && iF.size())
@@ -75,6 +82,8 @@ mousse::fvPatchField<Type>::fvPatchField
   }
   this->map(ptf, mapper);
 }
+
+
 template<class Type>
 mousse::fvPatchField<Type>::fvPatchField
 (
@@ -84,12 +93,12 @@ mousse::fvPatchField<Type>::fvPatchField
   const bool valueRequired
 )
 :
-  Field<Type>(p.size()),
-  patch_(p),
-  internalField_(iF),
-  updated_(false),
-  manipulatedMatrix_(false),
-  patchType_(dict.lookupOrDefault<word>("patchType", word::null))
+  Field<Type>{p.size()},
+  patch_{p},
+  internalField_{iF},
+  updated_{false},
+  manipulatedMatrix_{false},
+  patchType_{dict.lookupOrDefault<word>("patchType", word::null)}
 {
   if (dict.found("value"))
   {
@@ -104,7 +113,7 @@ mousse::fvPatchField<Type>::fvPatchField
   }
   else
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "fvPatchField<Type>::fvPatchField"
       "("
@@ -114,23 +123,28 @@ mousse::fvPatchField<Type>::fvPatchField
       "const bool valueRequired"
       ")",
       dict
-    )   << "Essential entry 'value' missing"
-      << exit(FatalIOError);
+    )
+    << "Essential entry 'value' missing"
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::fvPatchField<Type>::fvPatchField
 (
   const fvPatchField<Type>& ptf
 )
 :
-  Field<Type>(ptf),
-  patch_(ptf.patch_),
-  internalField_(ptf.internalField_),
-  updated_(false),
-  manipulatedMatrix_(false),
-  patchType_(ptf.patchType_)
+  Field<Type>{ptf},
+  patch_{ptf.patch_},
+  internalField_{ptf.internalField_},
+  updated_{false},
+  manipulatedMatrix_{false},
+  patchType_{ptf.patchType_}
 {}
+
+
 template<class Type>
 mousse::fvPatchField<Type>::fvPatchField
 (
@@ -138,45 +152,57 @@ mousse::fvPatchField<Type>::fvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  Field<Type>(ptf),
-  patch_(ptf.patch_),
-  internalField_(iF),
-  updated_(false),
-  manipulatedMatrix_(false),
-  patchType_(ptf.patchType_)
+  Field<Type>{ptf},
+  patch_{ptf.patch_},
+  internalField_{iF},
+  updated_{false},
+  manipulatedMatrix_{false},
+  patchType_{ptf.patchType_}
 {}
+
+
 // Member Functions 
 template<class Type>
 const mousse::objectRegistry& mousse::fvPatchField<Type>::db() const
 {
   return patch_.boundaryMesh().mesh();
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::check(const fvPatchField<Type>& ptf) const
 {
   if (&patch_ != &(ptf.patch_))
   {
-    FatalErrorIn("PatchField<Type>::check(const fvPatchField<Type>&)")
+    FATAL_ERROR_IN("PatchField<Type>::check(const fvPatchField<Type>&)")
       << "different patches for fvPatchField<Type>s"
       << abort(FatalError);
   }
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> > mousse::fvPatchField<Type>::snGrad() const
 {
   return patch_.deltaCoeffs()*(*this - patchInternalField());
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::fvPatchField<Type>::patchInternalField() const
 {
   return patch_.patchInternalField(internalField_);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::patchInternalField(Field<Type>& pif) const
 {
   patch_.patchInternalField(internalField_, pif);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::autoMap
 (
@@ -197,16 +223,13 @@ void mousse::fvPatchField<Type>::autoMap
     // Map all faces provided with mapping data
     Field<Type>::autoMap(mapper);
     // For unmapped faces set to internal field value (zero-gradient)
-    if
-    (
-      mapper.direct()
-    && notNull(mapper.directAddressing())
-    && mapper.directAddressing().size()
-    )
+    if (mapper.direct()
+        && notNull(mapper.directAddressing())
+        && mapper.directAddressing().size())
     {
-      Field<Type> pif(this->patchInternalField());
+      Field<Type> pif{this->patchInternalField()};
       const labelList& mapAddressing = mapper.directAddressing();
-      forAll(mapAddressing, i)
+      FOR_ALL(mapAddressing, i)
       {
         if (mapAddressing[i] < 0)
         {
@@ -216,9 +239,9 @@ void mousse::fvPatchField<Type>::autoMap
     }
     else if (!mapper.direct() && mapper.addressing().size())
     {
-      Field<Type> pif(this->patchInternalField());
+      Field<Type> pif{this->patchInternalField()};
       const labelListList& mapAddressing = mapper.addressing();
-      forAll(mapAddressing, i)
+      FOR_ALL(mapAddressing, i)
       {
         const labelList& localAddrs = mapAddressing[i];
         if (!localAddrs.size())
@@ -229,6 +252,8 @@ void mousse::fvPatchField<Type>::autoMap
     }
   }
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::rmap
 (
@@ -238,11 +263,15 @@ void mousse::fvPatchField<Type>::rmap
 {
   Field<Type>::rmap(ptf, addr);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::updateCoeffs()
 {
   updated_ = true;
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::updateCoeffs(const scalarField& weights)
 {
@@ -254,6 +283,8 @@ void mousse::fvPatchField<Type>::updateCoeffs(const scalarField& weights)
     updated_ = true;
   }
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::evaluate(const Pstream::commsTypes)
 {
@@ -264,20 +295,26 @@ void mousse::fvPatchField<Type>::evaluate(const Pstream::commsTypes)
   updated_ = false;
   manipulatedMatrix_ = false;
 }
+
+
 template<class Type>
-void mousse::fvPatchField<Type>::manipulateMatrix(fvMatrix<Type>& matrix)
+void mousse::fvPatchField<Type>::manipulateMatrix(fvMatrix<Type>& /*matrix*/)
 {
   manipulatedMatrix_ = true;
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::manipulateMatrix
 (
-  fvMatrix<Type>& matrix,
-  const scalarField& weights
+  fvMatrix<Type>& /*matrix*/,
+  const scalarField& /*weights*/
 )
 {
   manipulatedMatrix_ = true;
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::write(Ostream& os) const
 {
@@ -288,6 +325,8 @@ void mousse::fvPatchField<Type>::write(Ostream& os) const
       << token::END_STATEMENT << nl;
   }
 }
+
+
 template<class Type>
 template<class EntryType>
 void mousse::fvPatchField<Type>::writeEntryIfDifferent
@@ -303,6 +342,8 @@ void mousse::fvPatchField<Type>::writeEntryIfDifferent
     os.writeKeyword(entryName) << value2 << token::END_STATEMENT << nl;
   }
 }
+
+
 // Member Operators 
 template<class Type>
 void mousse::fvPatchField<Type>::operator=
@@ -312,6 +353,8 @@ void mousse::fvPatchField<Type>::operator=
 {
   Field<Type>::operator=(ul);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator=
 (
@@ -321,6 +364,8 @@ void mousse::fvPatchField<Type>::operator=
   check(ptf);
   Field<Type>::operator=(ptf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator+=
 (
@@ -330,6 +375,8 @@ void mousse::fvPatchField<Type>::operator+=
   check(ptf);
   Field<Type>::operator+=(ptf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator-=
 (
@@ -339,6 +386,8 @@ void mousse::fvPatchField<Type>::operator-=
   check(ptf);
   Field<Type>::operator-=(ptf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator*=
 (
@@ -347,14 +396,17 @@ void mousse::fvPatchField<Type>::operator*=
 {
   if (&patch_ != &ptf.patch())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PatchField<Type>::operator*=(const fvPatchField<scalar>& ptf)"
-    )   << "incompatible patches for patch fields"
-      << abort(FatalError);
+    )
+    << "incompatible patches for patch fields"
+    << abort(FatalError);
   }
   Field<Type>::operator*=(ptf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator/=
 (
@@ -363,14 +415,17 @@ void mousse::fvPatchField<Type>::operator/=
 {
   if (&patch_ != &ptf.patch())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PatchField<Type>::operator/=(const fvPatchField<scalar>& ptf)"
-    )   << "    incompatible patches for patch fields"
-      << abort(FatalError);
+    )
+    << "    incompatible patches for patch fields"
+    << abort(FatalError);
   }
   Field<Type>::operator/=(ptf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator+=
 (
@@ -379,6 +434,8 @@ void mousse::fvPatchField<Type>::operator+=
 {
   Field<Type>::operator+=(tf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator-=
 (
@@ -387,6 +444,8 @@ void mousse::fvPatchField<Type>::operator-=
 {
   Field<Type>::operator-=(tf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator*=
 (
@@ -395,6 +454,8 @@ void mousse::fvPatchField<Type>::operator*=
 {
   Field<Type>::operator*=(tf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator/=
 (
@@ -403,6 +464,8 @@ void mousse::fvPatchField<Type>::operator/=
 {
   Field<Type>::operator/=(tf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator=
 (
@@ -411,6 +474,8 @@ void mousse::fvPatchField<Type>::operator=
 {
   Field<Type>::operator=(t);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator+=
 (
@@ -419,6 +484,8 @@ void mousse::fvPatchField<Type>::operator+=
 {
   Field<Type>::operator+=(t);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator-=
 (
@@ -427,6 +494,8 @@ void mousse::fvPatchField<Type>::operator-=
 {
   Field<Type>::operator-=(t);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator*=
 (
@@ -435,6 +504,8 @@ void mousse::fvPatchField<Type>::operator*=
 {
   Field<Type>::operator*=(s);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator/=
 (
@@ -443,6 +514,8 @@ void mousse::fvPatchField<Type>::operator/=
 {
   Field<Type>::operator/=(s);
 }
+
+
 // Force an assignment, overriding fixedValue status
 template<class Type>
 void mousse::fvPatchField<Type>::operator==
@@ -452,6 +525,8 @@ void mousse::fvPatchField<Type>::operator==
 {
   Field<Type>::operator=(ptf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator==
 (
@@ -460,6 +535,8 @@ void mousse::fvPatchField<Type>::operator==
 {
   Field<Type>::operator=(tf);
 }
+
+
 template<class Type>
 void mousse::fvPatchField<Type>::operator==
 (
@@ -468,6 +545,8 @@ void mousse::fvPatchField<Type>::operator==
 {
   Field<Type>::operator=(t);
 }
+
+
 // IOstream Operators 
 template<class Type>
 mousse::Ostream& mousse::operator<<(Ostream& os, const fvPatchField<Type>& ptf)
@@ -476,4 +555,6 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const fvPatchField<Type>& ptf)
   os.check("Ostream& operator<<(Ostream&, const fvPatchField<Type>&");
   return os;
 }
-#   include "fv_patch_field_new.cpp"
+
+
+#include "fv_patch_field_new.cpp"

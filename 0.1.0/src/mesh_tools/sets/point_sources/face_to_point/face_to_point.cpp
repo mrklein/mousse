@@ -9,25 +9,28 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(faceToPoint, 0);
-  addToRunTimeSelectionTable(topoSetSource, faceToPoint, word);
-  addToRunTimeSelectionTable(topoSetSource, faceToPoint, istream);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::faceToPoint::faceAction,
-    1
-  >::names[] =
-  {
-    "all"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(faceToPoint, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceToPoint, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceToPoint, istream);
+
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::faceToPoint::faceAction,
+  1
+>::names[] =
+{
+  "all"
+};
 }
+
 mousse::topoSetSource::addToUsageTable mousse::faceToPoint::usage_
 (
   faceToPoint::typeName,
   "\n    Usage: faceToPoint <faceSet> all\n\n"
   "    Select all points of faces in the faceSet\n\n"
 );
+
 const mousse::NamedEnum<mousse::faceToPoint::faceAction, 1>
   mousse::faceToPoint::faceActionNames_;
 // Private Member Functions 
@@ -36,10 +39,10 @@ void mousse::faceToPoint::combine(topoSet& set, const bool add) const
   // Load the set
   faceSet loadedSet(mesh_, setName_);
   // Add all points from faces in loadedSet
-  forAllConstIter(faceSet, loadedSet, iter)
+  FOR_ALL_CONST_ITER(faceSet, loadedSet, iter)
   {
     const face& f = mesh_.faces()[iter.key()];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       addOrDelete(set, f[fp], add);
     }

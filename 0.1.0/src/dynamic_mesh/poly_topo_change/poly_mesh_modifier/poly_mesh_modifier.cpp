@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(polyMeshModifier, 0);
-  defineRunTimeSelectionTable(polyMeshModifier, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyMeshModifier, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(polyMeshModifier, dictionary);
 }
 // Constructors 
 // Construct from components

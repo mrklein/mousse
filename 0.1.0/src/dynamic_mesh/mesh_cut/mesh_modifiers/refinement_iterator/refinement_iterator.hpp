@@ -39,7 +39,7 @@ class refinementIterator
     bool writeMesh_;
 public:
   //- Runtime type information
-  ClassName("refinementIterator");
+  CLASS_NAME("refinementIterator");
   // Constructors
     //- Construct from mesh, refinementEngine and cell walking routine.
     //  If writeMesh = true increments runTime and writes intermediate

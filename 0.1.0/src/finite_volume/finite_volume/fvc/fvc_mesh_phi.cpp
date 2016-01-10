@@ -3,8 +3,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "fvc_mesh_phi.hpp"
+
+#include "vol_fields.hpp"
+#include "surface_fields.hpp"
 #include "fv_mesh.hpp"
 #include "ddt_scheme.hpp"
+#include "surface_interpolate.hpp"
+
 mousse::tmp<mousse::surfaceScalarField> mousse::fvc::meshPhi
 (
   const volVectorField& vf
@@ -16,6 +21,8 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::meshPhi
     vf.mesh().ddtScheme("ddt(" + vf.name() + ')')
   )().meshPhi(vf);
 }
+
+
 mousse::tmp<mousse::surfaceScalarField> mousse::fvc::meshPhi
 (
   const dimensionedScalar& rho,
@@ -28,6 +35,8 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::meshPhi
     vf.mesh().ddtScheme("ddt(" + rho.name() + ',' + vf.name() + ')')
   )().meshPhi(vf);
 }
+
+
 mousse::tmp<mousse::surfaceScalarField> mousse::fvc::meshPhi
 (
   const volScalarField& rho,
@@ -40,6 +49,8 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::meshPhi
     vf.mesh().ddtScheme("ddt(" + rho.name() + ',' + vf.name() + ')')
   )().meshPhi(vf);
 }
+
+
 void mousse::fvc::makeRelative
 (
   surfaceScalarField& phi,
@@ -51,6 +62,8 @@ void mousse::fvc::makeRelative
     phi -= fvc::meshPhi(U);
   }
 }
+
+
 void mousse::fvc::makeRelative
 (
   surfaceScalarField& phi,
@@ -63,6 +76,8 @@ void mousse::fvc::makeRelative
     phi -= rho*fvc::meshPhi(rho, U);
   }
 }
+
+
 void mousse::fvc::makeRelative
 (
   surfaceScalarField& phi,
@@ -75,6 +90,8 @@ void mousse::fvc::makeRelative
     phi -= fvc::interpolate(rho)*fvc::meshPhi(rho, U);
   }
 }
+
+
 void mousse::fvc::makeAbsolute
 (
   surfaceScalarField& phi,
@@ -86,6 +103,8 @@ void mousse::fvc::makeAbsolute
     phi += fvc::meshPhi(U);
   }
 }
+
+
 void mousse::fvc::makeAbsolute
 (
   surfaceScalarField& phi,
@@ -98,6 +117,8 @@ void mousse::fvc::makeAbsolute
     phi += rho*fvc::meshPhi(rho, U);
   }
 }
+
+
 void mousse::fvc::makeAbsolute
 (
   surfaceScalarField& phi,
@@ -110,6 +131,8 @@ void mousse::fvc::makeAbsolute
     phi += fvc::interpolate(rho)*fvc::meshPhi(rho, U);
   }
 }
+
+
 mousse::tmp<mousse::surfaceScalarField> mousse::fvc::relative
 (
   const tmp<surfaceScalarField>& tphi,
@@ -125,6 +148,8 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::relative
     return tmp<surfaceScalarField>(tphi, true);
   }
 }
+
+
 mousse::tmp<mousse::surfaceScalarField> mousse::fvc::relative
 (
   const tmp<surfaceScalarField>& tphi,
@@ -141,6 +166,8 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::relative
     return tmp<surfaceScalarField>(tphi, true);
   }
 }
+
+
 mousse::tmp<mousse::surfaceScalarField> mousse::fvc::absolute
 (
   const tmp<surfaceScalarField>& tphi,
@@ -156,6 +183,8 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::absolute
     return tmp<surfaceScalarField>(tphi, true);
   }
 }
+
+
 mousse::tmp<mousse::surfaceScalarField> mousse::fvc::absolute
 (
   const tmp<surfaceScalarField>& tphi,

@@ -16,19 +16,19 @@ void mousse::extendedCellToFaceStencil::collectData
   // 1. Construct cell data in compact addressing
   List<Type> flatFld(map.constructSize(), pTraits<Type>::zero);
   // Insert my internal values
-  forAll(fld, cellI)
+  FOR_ALL(fld, cellI)
   {
     flatFld[cellI] = fld[cellI];
   }
   // Insert my boundary values
-  forAll(fld.boundaryField(), patchI)
+  FOR_ALL(fld.boundaryField(), patchI)
   {
     const fvPatchField<Type>& pfld = fld.boundaryField()[patchI];
     label nCompact =
       pfld.patch().start()
      -fld.mesh().nInternalFaces()
      +fld.mesh().nCells();
-    forAll(pfld, i)
+    FOR_ALL(pfld, i)
     {
       flatFld[nCompact++] = pfld[i];
     }
@@ -37,11 +37,11 @@ void mousse::extendedCellToFaceStencil::collectData
   map.distribute(flatFld);
   // 2. Pull to stencil
   stencilFld.setSize(stencil.size());
-  forAll(stencil, faceI)
+  FOR_ALL(stencil, faceI)
   {
     const labelList& compactCells = stencil[faceI];
     stencilFld[faceI].setSize(compactCells.size());
-    forAll(compactCells, i)
+    FOR_ALL(compactCells, i)
     {
       stencilFld[faceI][i] = flatFld[compactCells[i]];
     }
@@ -89,7 +89,7 @@ mousse::extendedCellToFaceStencil::weightedSum
   {
     const List<Type>& stField = stencilFld[faceI];
     const List<scalar>& stWeight = stencilWeights[faceI];
-    forAll(stField, i)
+    FOR_ALL(stField, i)
     {
       sf[faceI] += stField[i]*stWeight[i];
     }
@@ -98,17 +98,17 @@ mousse::extendedCellToFaceStencil::weightedSum
   // directly (instead of nicely using operator==)
   typename GeometricField<Type, fvsPatchField, surfaceMesh>::
     GeometricBoundaryField& bSfCorr = sf.boundaryField();
-  forAll(bSfCorr, patchi)
+  FOR_ALL(bSfCorr, patchi)
   {
     fvsPatchField<Type>& pSfCorr = bSfCorr[patchi];
     if (pSfCorr.coupled())
     {
       label faceI = pSfCorr.patch().start();
-      forAll(pSfCorr, i)
+      FOR_ALL(pSfCorr, i)
       {
         const List<Type>& stField = stencilFld[faceI];
         const List<scalar>& stWeight = stencilWeights[faceI];
-        forAll(stField, j)
+        FOR_ALL(stField, j)
         {
           pSfCorr[i] += stField[j]*stWeight[j];
         }

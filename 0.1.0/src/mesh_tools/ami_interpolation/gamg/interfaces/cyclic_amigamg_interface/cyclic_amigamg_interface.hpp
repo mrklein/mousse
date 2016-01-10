@@ -31,7 +31,7 @@ class cyclicAMIGAMGInterface
     void operator=(const cyclicAMIGAMGInterface&);
 public:
   //- Runtime type information
-  TypeName("cyclicAMI");
+  TYPE_NAME("cyclicAMI");
   // Constructors
     //- Construct from fine level interface,
     //  local and neighbour restrict addressing
@@ -92,7 +92,7 @@ public:
       {
         //TBD. How to serialise the AMI such that we can stream
         // cyclicAMIGAMGInterface.
-        notImplemented("cyclicAMIGAMGInterface::write(Ostream&) const");
+        NOT_IMPLEMENTED("cyclicAMIGAMGInterface::write(Ostream&) const");
       }
 };
 }  // namespace mousse

@@ -21,7 +21,7 @@ class processorCyclicFvPatch
     const processorCyclicPolyPatch& procPolyPatch_;
 public:
   //- Runtime type information
-  TypeName(processorCyclicPolyPatch::typeName_());
+  TYPE_NAME(processorCyclicPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     processorCyclicFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)

@@ -15,7 +15,7 @@ void triSurface::writeOFF(const bool writeSorted, Ostream& os) const
   labelList faceMap;
   surfacePatchList myPatches(calcPatches(faceMap));
   // Print patch names as comment
-  forAll(myPatches, patchI)
+  FOR_ALL(myPatches, patchI)
   {
     os  << "#     " << patchI << "    "
       << myPatches[patchI].name() << endl;
@@ -28,7 +28,7 @@ void triSurface::writeOFF(const bool writeSorted, Ostream& os) const
     << ' ' << nEdges()
     << nl << endl;
   // Write vertex coords
-  forAll(ps, pointi)
+  FOR_ALL(ps, pointi)
   {
     os  << ps[pointi].x() << ' '
       << ps[pointi].y() << ' '
@@ -38,7 +38,7 @@ void triSurface::writeOFF(const bool writeSorted, Ostream& os) const
   if (writeSorted)
   {
     label faceIndex = 0;
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       // Print all faces belonging to this patch
       for
@@ -49,7 +49,7 @@ void triSurface::writeOFF(const bool writeSorted, Ostream& os) const
       )
       {
         const label faceI = faceMap[faceIndex++];
-        os  << "3 "
+        os<< "3 "
           << operator[](faceI)[0] << ' '
           << operator[](faceI)[1] << ' '
           << operator[](faceI)[2] << ' '
@@ -60,9 +60,9 @@ void triSurface::writeOFF(const bool writeSorted, Ostream& os) const
   }
   else
   {
-    forAll(*this, faceI)
+    FOR_ALL(*this, faceI)
     {
-      os  << "3 "
+      os<< "3 "
         << operator[](faceI)[0] << ' '
         << operator[](faceI)[1] << ' '
         << operator[](faceI)[2] << ' '

@@ -31,7 +31,7 @@ class cyclicACMIGAMGInterface
     void operator=(const cyclicACMIGAMGInterface&);
 public:
   //- Runtime type information
-  TypeName("cyclicACMI");
+  TYPE_NAME("cyclicACMI");
   // Constructors
     //- Construct from fine level interface,
     //  local and neighbour restrict addressing
@@ -92,7 +92,7 @@ public:
       {
         //TBD. How to serialise the AMI such that we can stream
         // cyclicACMIGAMGInterface.
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "cyclicACMIGAMGInterface::write(Ostream&) const"
         );

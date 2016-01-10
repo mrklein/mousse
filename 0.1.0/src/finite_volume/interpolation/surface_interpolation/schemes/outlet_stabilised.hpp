@@ -11,14 +11,18 @@
 //   schemes.
 // SourceFiles
 //   outlet_stabilised.cpp
+
 #ifndef outlet_stabilised_hpp_
 #define outlet_stabilised_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "skew_correction_vectors.hpp"
 #include "linear.hpp"
 #include "gauss_grad.hpp"
 #include "mixed_fv_patch_field.hpp"
 #include "direction_mixed_fv_patch_field.hpp"
+#include "zero_gradient_fv_patch_field.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -29,14 +33,9 @@ class outletStabilised
   // Private member data
     const surfaceScalarField& faceFlux_;
     tmp<surfaceInterpolationScheme<Type> > tScheme_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    outletStabilised(const outletStabilised&);
-    //- Disallow default bitwise assignment
-    void operator=(const outletStabilised&);
 public:
   //- Runtime type information
-  TypeName("outletStabilised");
+  TYPE_NAME("outletStabilised");
   // Constructors
     //- Construct from mesh and Istream
     outletStabilised
@@ -45,18 +44,18 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       faceFlux_
-      (
+      {
         mesh.lookupObject<surfaceScalarField>
         (
-          word(is)
+          word{is}
         )
-      ),
+      },
       tScheme_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux_, is)
-      )
+      }
     {}
     //- Construct from mesh, faceFlux and Istream
     outletStabilised
@@ -66,13 +65,17 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      faceFlux_(faceFlux),
+      surfaceInterpolationScheme<Type>{mesh},
+      faceFlux_{faceFlux},
       tScheme_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {}
+    //- Disallow default bitwise copy construct
+    outletStabilised(const outletStabilised&) = delete;
+    //- Disallow default bitwise assignment
+    outletStabilised& operator=(const outletStabilised&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights
@@ -84,7 +87,7 @@ public:
       surfaceScalarField& w = tw();
       const fvMesh& mesh_ = this->mesh();
       const cellList& cells = mesh_.cells();
-      forAll(vf.boundaryField(), patchi)
+      FOR_ALL(vf.boundaryField(), patchi)
       {
         if
         (
@@ -97,10 +100,10 @@ public:
         {
           const labelList& pFaceCells =
             mesh_.boundary()[patchi].faceCells();
-          forAll(pFaceCells, pFacei)
+          FOR_ALL(pFaceCells, pFacei)
           {
             const cell& pFaceCell = cells[pFaceCells[pFacei]];
-            forAll(pFaceCell, fi)
+            FOR_ALL(pFaceCell, fi)
             {
               label facei = pFaceCell[fi];
               if (mesh_.isInternalFace(facei))
@@ -135,7 +138,7 @@ public:
           tcorr();
         const fvMesh& mesh_ = this->mesh();
         const cellList& cells = mesh_.cells();
-        forAll(vf.boundaryField(), patchi)
+        FOR_ALL(vf.boundaryField(), patchi)
         {
           if
           (
@@ -147,10 +150,10 @@ public:
           {
             const labelList& pFaceCells =
               mesh_.boundary()[patchi].faceCells();
-            forAll(pFaceCells, pFacei)
+            FOR_ALL(pFaceCells, pFacei)
             {
               const cell& pFaceCell = cells[pFaceCells[pFacei]];
-              forAll(pFaceCell, fi)
+              FOR_ALL(pFaceCell, fi)
               {
                 label facei = pFaceCell[fi];
                 if (mesh_.isInternalFace(facei))

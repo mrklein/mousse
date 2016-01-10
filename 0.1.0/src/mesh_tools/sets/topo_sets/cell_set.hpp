@@ -7,9 +7,13 @@
 //   A collection of cell labels.
 // SourceFiles
 //   cell_set.cpp
+
 #ifndef cell_set_hpp_
 #define cell_set_hpp_
+
 #include "topo_set.hpp"
+#include "type_info.hpp"
+
 namespace mousse
 {
 class cellSet
@@ -21,7 +25,7 @@ class cellSet
     cellSet(const cellSet&);
 public:
   //- Runtime type information
-  TypeName("cellSet");
+  TYPE_NAME("cellSet");
   // Constructors
     //- Construct from IOobject. No checking.
     cellSet(const IOobject& obj);
@@ -86,7 +90,7 @@ public:
   virtual ~cellSet();
   // Member functions
     //- Sync cellSet across coupled patches.
-    virtual void sync(const polyMesh& mesh)
+    virtual void sync(const polyMesh&)
     {}
     //- Return max index+1.
     virtual label maxSize(const polyMesh& mesh) const;

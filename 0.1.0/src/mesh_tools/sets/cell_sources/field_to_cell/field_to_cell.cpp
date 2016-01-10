@@ -12,9 +12,9 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(fieldToCell, 0);
-addToRunTimeSelectionTable(topoSetSource, fieldToCell, word);
-addToRunTimeSelectionTable(topoSetSource, fieldToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(fieldToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, fieldToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, fieldToCell, istream);
 }
 mousse::topoSetSource::addToUsageTable mousse::fieldToCell::usage_
 (
@@ -36,7 +36,7 @@ void mousse::fieldToCell::applyToSet
   {
     Info<< "    Adding all cells with value of field " << fieldName_
       << " within range " << min_ << ".." << max_ << endl;
-    forAll(field, cellI)
+    FOR_ALL(field, cellI)
     {
       if (field[cellI] >= min_ && field[cellI] <= max_)
       {
@@ -48,7 +48,7 @@ void mousse::fieldToCell::applyToSet
   {
     Info<< "    Removing all cells with value of field " << fieldName_
       << " within range " << min_ << ".." << max_ << endl;
-    forAll(field, cellI)
+    FOR_ALL(field, cellI)
     {
       if (field[cellI] >= min_ && field[cellI] <= max_)
       {
@@ -118,7 +118,7 @@ void mousse::fieldToCell::applyToSet
 //    const polyBoundaryMesh& patches = mesh().boundaryMesh();
 //
 //    List<polyPatch*> newPatches(patches.size());
-//    forAll(patches, patchI)
+//    FOR_ALL(patches, patchI)
 //    {
 //        const polyPatch& pp = patches[patchI];
 //
@@ -144,7 +144,7 @@ void mousse::fieldToCell::applyToSet
   );
   if (!fieldObject.headerOk())
   {
-    WarningIn
+    WARNING_IN
     (
       "fieldToCell::applyToSet(const topoSetSource::setAction"
       ", topoSet& set)"
@@ -169,7 +169,7 @@ void mousse::fieldToCell::applyToSet
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "fieldToCell::applyToSet(const topoSetSource::setAction"
       ", topoSet& set)"

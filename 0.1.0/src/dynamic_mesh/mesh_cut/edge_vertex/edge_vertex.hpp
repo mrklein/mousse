@@ -21,11 +21,6 @@ class edgeVertex
     //- Reference to mesh. (could be primitive mesh but keeping polyMesh
     //  here saves storing reference at higher levels where we do need it)
     const polyMesh& mesh_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    edgeVertex(const edgeVertex&);
-    //- Disallow default bitwise assignment
-    void operator=(const edgeVertex&);
 public:
   // Static Functions
     //- Update refine list from map. Used to update cell/face labels
@@ -41,8 +36,12 @@ public:
     //- Construct from mesh
     edgeVertex(const polyMesh& mesh)
     :
-      mesh_(mesh)
+      mesh_{mesh}
     {}
+    //- Disallow default bitwise copy construct
+    edgeVertex(const edgeVertex&) = delete;
+    //- Disallow default bitwise assignment
+    edgeVertex& operator=(const edgeVertex&) = delete;
   // Member Functions
     const polyMesh& mesh() const
     {
@@ -54,13 +53,14 @@ public:
     {
       if (eVert < 0 || eVert >= (mesh.nPoints() + mesh.nEdges()))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "edgeVertex::isEdge(const primitiveMesh&, const label)"
-        )   << "EdgeVertex " << eVert << " out of range "
-          << mesh.nPoints() << " to "
-          << (mesh.nPoints() + mesh.nEdges() - 1)
-          << abort(FatalError);
+        )
+        << "EdgeVertex " << eVert << " out of range "
+        << mesh.nPoints() << " to "
+        << (mesh.nPoints() + mesh.nEdges() - 1)
+        << abort(FatalError);
       }
       return eVert >= mesh.nPoints();
     }
@@ -73,11 +73,12 @@ public:
     {
       if (!isEdge(mesh, eVert))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "edgeVertex::getEdge(const primitiveMesh&, const label)"
-        )   << "EdgeVertex " << eVert << " not an edge"
-          << abort(FatalError);
+        )
+        << "EdgeVertex " << eVert << " not an edge"
+        << abort(FatalError);
       }
       return eVert - mesh.nPoints();
     }
@@ -90,11 +91,12 @@ public:
     {
       if (isEdge(mesh, eVert) || (eVert < 0))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "edgeVertex::getVertex(const primitiveMesh&, const label)"
-        )   << "EdgeVertex " << eVert << " not a vertex"
-          << abort(FatalError);
+        )
+        << "EdgeVertex " << eVert << " not a vertex"
+        << abort(FatalError);
       }
       return eVert;
     }
@@ -107,7 +109,7 @@ public:
     {
       if ((vertI < 0) || (vertI >= mesh.nPoints()))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "edgeVertex::vertToEVert(const primitiveMesh&, const label)"
         )   << "Illegal vertex number " << vertI
@@ -124,7 +126,7 @@ public:
     {
       if ((edgeI < 0) || (edgeI >= mesh.nEdges()))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "edgeVertex::edgeToEVert(const primitiveMesh&const label)"
         )   << "Illegal edge number " << edgeI

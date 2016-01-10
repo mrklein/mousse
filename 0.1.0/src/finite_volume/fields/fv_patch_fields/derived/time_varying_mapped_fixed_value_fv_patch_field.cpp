@@ -3,10 +3,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "time_varying_mapped_fixed_value_fv_patch_field.hpp"
+
 #include "time.hpp"
 #include "average_io_field.hpp"
+
 namespace mousse
 {
+
 // Constructors 
 template<class Type>
 timeVaryingMappedFixedValueFvPatchField<Type>::
@@ -16,20 +19,22 @@ timeVaryingMappedFixedValueFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<Type>(p, iF),
-  fieldTableName_(iF.name()),
-  setAverage_(false),
-  perturb_(0),
-  mapperPtr_(NULL),
-  sampleTimes_(0),
-  startSampleTime_(-1),
-  startSampledValues_(0),
-  startAverage_(pTraits<Type>::zero),
-  endSampleTime_(-1),
-  endSampledValues_(0),
-  endAverage_(pTraits<Type>::zero),
-  offset_()
+  fixedValueFvPatchField<Type>{p, iF},
+  fieldTableName_{iF.name()},
+  setAverage_{false},
+  perturb_{0},
+  mapperPtr_{NULL},
+  sampleTimes_{0},
+  startSampleTime_{-1},
+  startSampledValues_{0},
+  startAverage_{pTraits<Type>::zero},
+  endSampleTime_{-1},
+  endSampledValues_{0},
+  endAverage_{pTraits<Type>::zero},
+  offset_{}
 {}
+
+
 template<class Type>
 timeVaryingMappedFixedValueFvPatchField<Type>::
 timeVaryingMappedFixedValueFvPatchField
@@ -40,26 +45,28 @@ timeVaryingMappedFixedValueFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<Type>(ptf, p, iF, mapper),
-  fieldTableName_(ptf.fieldTableName_),
-  setAverage_(ptf.setAverage_),
-  perturb_(ptf.perturb_),
-  mapMethod_(ptf.mapMethod_),
-  mapperPtr_(NULL),
-  sampleTimes_(0),
-  startSampleTime_(-1),
-  startSampledValues_(0),
-  startAverage_(pTraits<Type>::zero),
-  endSampleTime_(-1),
-  endSampledValues_(0),
-  endAverage_(pTraits<Type>::zero),
+  fixedValueFvPatchField<Type>{ptf, p, iF, mapper},
+  fieldTableName_{ptf.fieldTableName_},
+  setAverage_{ptf.setAverage_},
+  perturb_{ptf.perturb_},
+  mapMethod_{ptf.mapMethod_},
+  mapperPtr_{NULL},
+  sampleTimes_{0},
+  startSampleTime_{-1},
+  startSampledValues_{0},
+  startAverage_{pTraits<Type>::zero},
+  endSampleTime_{-1},
+  endSampledValues_{0},
+  endAverage_{pTraits<Type>::zero},
   offset_
-  (
+  {
     ptf.offset_.valid()
    ? ptf.offset_().clone().ptr()
    : NULL
-  )
+  }
 {}
+
+
 template<class Type>
 timeVaryingMappedFixedValueFvPatchField<Type>::
 timeVaryingMappedFixedValueFvPatchField
@@ -69,35 +76,31 @@ timeVaryingMappedFixedValueFvPatchField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<Type>(p, iF),
-  fieldTableName_(iF.name()),
-  setAverage_(readBool(dict.lookup("setAverage"))),
-  perturb_(dict.lookupOrDefault("perturb", 1e-5)),
+  fixedValueFvPatchField<Type>{p, iF},
+  fieldTableName_{iF.name()},
+  setAverage_{readBool(dict.lookup("setAverage"))},
+  perturb_{dict.lookupOrDefault("perturb", 1e-5)},
   mapMethod_
-  (
+  {
     dict.lookupOrDefault<word>
     (
       "mapMethod",
       "planarInterpolation"
     )
-  ),
-  mapperPtr_(NULL),
-  sampleTimes_(0),
-  startSampleTime_(-1),
-  startSampledValues_(0),
-  startAverage_(pTraits<Type>::zero),
-  endSampleTime_(-1),
-  endSampledValues_(0),
-  endAverage_(pTraits<Type>::zero),
-  offset_(DataEntry<Type>::New("offset", dict))
+  },
+  mapperPtr_{NULL},
+  sampleTimes_{0},
+  startSampleTime_{-1},
+  startSampledValues_{0},
+  startAverage_{pTraits<Type>::zero},
+  endSampleTime_{-1},
+  endSampledValues_{0},
+  endAverage_{pTraits<Type>::zero},
+  offset_{DataEntry<Type>::New("offset", dict)}
 {
-  if
-  (
-    mapMethod_ != "planarInterpolation"
-  && mapMethod_ != "nearest"
-  )
+  if (mapMethod_ != "planarInterpolation" && mapMethod_ != "nearest")
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "timeVaryingMappedFixedValueFvPatchField<Type>::\n"
       "timeVaryingMappedFixedValueFvPatchField\n"
@@ -107,8 +110,9 @@ timeVaryingMappedFixedValueFvPatchField
       "    const dictionary&\n"
       ")\n",
       dict
-    )   << "mapMethod should be one of 'planarInterpolation'"
-      << ", 'nearest'" << exit(FatalIOError);
+    )
+    << "mapMethod should be one of 'planarInterpolation'"
+    << ", 'nearest'" << exit(FatalIOError);
   }
   dict.readIfPresent("fieldTableName", fieldTableName_);
   if (dict.found("value"))
@@ -124,6 +128,8 @@ timeVaryingMappedFixedValueFvPatchField
     this->evaluate(Pstream::blocking);
   }
 }
+
+
 template<class Type>
 timeVaryingMappedFixedValueFvPatchField<Type>::
 timeVaryingMappedFixedValueFvPatchField
@@ -131,26 +137,28 @@ timeVaryingMappedFixedValueFvPatchField
   const timeVaryingMappedFixedValueFvPatchField<Type>& ptf
 )
 :
-  fixedValueFvPatchField<Type>(ptf),
-  fieldTableName_(ptf.fieldTableName_),
-  setAverage_(ptf.setAverage_),
-  perturb_(ptf.perturb_),
-  mapMethod_(ptf.mapMethod_),
-  mapperPtr_(NULL),
-  sampleTimes_(ptf.sampleTimes_),
-  startSampleTime_(ptf.startSampleTime_),
-  startSampledValues_(ptf.startSampledValues_),
-  startAverage_(ptf.startAverage_),
-  endSampleTime_(ptf.endSampleTime_),
-  endSampledValues_(ptf.endSampledValues_),
-  endAverage_(ptf.endAverage_),
+  fixedValueFvPatchField<Type>{ptf},
+  fieldTableName_{ptf.fieldTableName_},
+  setAverage_{ptf.setAverage_},
+  perturb_{ptf.perturb_},
+  mapMethod_{ptf.mapMethod_},
+  mapperPtr_{NULL},
+  sampleTimes_{ptf.sampleTimes_},
+  startSampleTime_{ptf.startSampleTime_},
+  startSampledValues_{ptf.startSampledValues_},
+  startAverage_{ptf.startAverage_},
+  endSampleTime_{ptf.endSampleTime_},
+  endSampledValues_{ptf.endSampledValues_},
+  endAverage_{ptf.endAverage_},
   offset_
-  (
+  {
     ptf.offset_.valid()
    ? ptf.offset_().clone().ptr()
    : NULL
-  )
+  }
 {}
+
+
 template<class Type>
 timeVaryingMappedFixedValueFvPatchField<Type>::
 timeVaryingMappedFixedValueFvPatchField
@@ -159,26 +167,28 @@ timeVaryingMappedFixedValueFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<Type>(ptf, iF),
-  fieldTableName_(ptf.fieldTableName_),
-  setAverage_(ptf.setAverage_),
-  perturb_(ptf.perturb_),
-  mapMethod_(ptf.mapMethod_),
-  mapperPtr_(NULL),
-  sampleTimes_(ptf.sampleTimes_),
-  startSampleTime_(ptf.startSampleTime_),
-  startSampledValues_(ptf.startSampledValues_),
-  startAverage_(ptf.startAverage_),
-  endSampleTime_(ptf.endSampleTime_),
-  endSampledValues_(ptf.endSampledValues_),
-  endAverage_(ptf.endAverage_),
+  fixedValueFvPatchField<Type>{ptf, iF},
+  fieldTableName_{ptf.fieldTableName_},
+  setAverage_{ptf.setAverage_},
+  perturb_{ptf.perturb_},
+  mapMethod_{ptf.mapMethod_},
+  mapperPtr_{NULL},
+  sampleTimes_{ptf.sampleTimes_},
+  startSampleTime_{ptf.startSampleTime_},
+  startSampledValues_{ptf.startSampledValues_},
+  startAverage_{ptf.startAverage_},
+  endSampleTime_{ptf.endSampleTime_},
+  endSampledValues_{ptf.endSampledValues_},
+  endAverage_{ptf.endAverage_},
   offset_
-  (
+  {
     ptf.offset_.valid()
    ? ptf.offset_().clone().ptr()
    : NULL
-  )
+  }
 {}
+
+
 // Member Functions 
 template<class Type>
 void timeVaryingMappedFixedValueFvPatchField<Type>::autoMap
@@ -197,6 +207,8 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::autoMap
   startSampleTime_ = -1;
   endSampleTime_ = -1;
 }
+
+
 template<class Type>
 void timeVaryingMappedFixedValueFvPatchField<Type>::rmap
 (
@@ -214,6 +226,8 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::rmap
   startSampleTime_ = -1;
   endSampleTime_ = -1;
 }
+
+
 template<class Type>
 void timeVaryingMappedFixedValueFvPatchField<Type>::checkTable()
 {
@@ -221,9 +235,9 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::checkTable()
   if (mapperPtr_.empty())
   {
     pointIOField samplePoints
-    (
+    {
       IOobject
-      (
+      {
         "points",
         this->db().time().constant(),
         "boundaryData"/this->patch().name(),
@@ -231,8 +245,8 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::checkTable()
         IOobject::MUST_READ,
         IOobject::AUTO_WRITE,
         false
-      )
-    );
+      }
+    };
     const fileName samplePointsFile = samplePoints.filePath();
     if (debug)
     {
@@ -241,21 +255,18 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::checkTable()
         << samplePointsFile << endl;
     }
     // tbd: run-time selection
-    bool nearestOnly =
-    (
-     !mapMethod_.empty()
-    && mapMethod_ != "planarInterpolation"
-    );
+    bool nearestOnly = (!mapMethod_.empty()
+                        && mapMethod_ != "planarInterpolation");
     // Allocate the interpolator
     mapperPtr_.reset
     (
       new pointToPointPlanarInterpolation
-      (
+      {
         samplePoints,
         this->patch().patch().faceCentres(),
         perturb_,
         nearestOnly
-      )
+      }
     );
     // Read the times for which data is available
     const fileName samplePointsDir = samplePointsFile.path();
@@ -281,18 +292,19 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::checkTable()
   );
   if (!foundTime)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "timeVaryingMappedFixedValueFvPatchField<Type>::checkTable()"
-    )   << "Cannot find starting sampling values for current time "
-      << this->db().time().value() << nl
-      << "Have sampling values for times "
-      << pointToPointPlanarInterpolation::timeNames(sampleTimes_) << nl
-      << "In directory "
-      <<  this->db().time().constant()/"boundaryData"/this->patch().name()
-      << "\n    on patch " << this->patch().name()
-      << " of field " << fieldTableName_
-      << exit(FatalError);
+    )
+    << "Cannot find starting sampling values for current time "
+    << this->db().time().value() << nl
+    << "Have sampling values for times "
+    << pointToPointPlanarInterpolation::timeNames(sampleTimes_) << nl
+    << "In directory "
+    <<  this->db().time().constant()/"boundaryData"/this->patch().name()
+    << "\n    on patch " << this->patch().name()
+    << " of field " << fieldTableName_
+    << exit(FatalError);
   }
   // Update sampled data fields.
   if (lo != startSampleTime_)
@@ -324,30 +336,31 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::checkTable()
       }
       // Reread values and interpolate
       AverageIOField<Type> vals
-      (
+      {
         IOobject
-        (
+        {
           fieldTableName_,
           this->db().time().constant(),
           "boundaryData"
-         /this->patch().name()
-         /sampleTimes_[startSampleTime_].name(),
+            /this->patch().name()
+            /sampleTimes_[startSampleTime_].name(),
           this->db(),
           IOobject::MUST_READ,
           IOobject::AUTO_WRITE,
           false
-        )
-      );
+        }
+      };
       if (vals.size() != mapperPtr_().sourceSize())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "timeVaryingMappedFixedValueFvPatchField<Type>::"
           "checkTable()"
-        )   << "Number of values (" << vals.size()
-          << ") differs from the number of points ("
-          <<  mapperPtr_().sourceSize()
-          << ") in file " << vals.objectPath() << exit(FatalError);
+        )
+        << "Number of values (" << vals.size()
+        << ") differs from the number of points ("
+        <<  mapperPtr_().sourceSize()
+        << ") in file " << vals.objectPath() << exit(FatalError);
       }
       startAverage_ = vals.average();
       startSampledValues_ = mapperPtr_().interpolate(vals);
@@ -377,36 +390,39 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::checkTable()
       }
       // Reread values and interpolate
       AverageIOField<Type> vals
-      (
+      {
         IOobject
-        (
+        {
           fieldTableName_,
           this->db().time().constant(),
           "boundaryData"
-         /this->patch().name()
-         /sampleTimes_[endSampleTime_].name(),
+            /this->patch().name()
+            /sampleTimes_[endSampleTime_].name(),
           this->db(),
           IOobject::MUST_READ,
           IOobject::AUTO_WRITE,
           false
-        )
-      );
+        }
+      };
       if (vals.size() != mapperPtr_().sourceSize())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "timeVaryingMappedFixedValueFvPatchField<Type>::"
           "checkTable()"
-        )   << "Number of values (" << vals.size()
-          << ") differs from the number of points ("
-          <<  mapperPtr_().sourceSize()
-          << ") in file " << vals.objectPath() << exit(FatalError);
+        )
+        << "Number of values (" << vals.size()
+        << ") differs from the number of points ("
+        <<  mapperPtr_().sourceSize()
+        << ") in file " << vals.objectPath() << exit(FatalError);
       }
       endAverage_ = vals.average();
       endSampledValues_ = mapperPtr_().interpolate(vals);
     }
   }
 }
+
+
 template<class Type>
 void timeVaryingMappedFixedValueFvPatchField<Type>::updateCoeffs()
 {
@@ -451,8 +467,7 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::updateCoeffs()
   {
     const Field<Type>& fld = *this;
     Type averagePsi =
-      gSum(this->patch().magSf()*fld)
-     /gSum(this->patch().magSf());
+      gSum(this->patch().magSf()*fld)/gSum(this->patch().magSf());
     if (debug)
     {
       Pout<< "updateCoeffs :"
@@ -493,6 +508,8 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::updateCoeffs()
   }
   fixedValueFvPatchField<Type>::updateCoeffs();
 }
+
+
 template<class Type>
 void timeVaryingMappedFixedValueFvPatchField<Type>::write(Ostream& os) const
 {
@@ -521,4 +538,5 @@ void timeVaryingMappedFixedValueFvPatchField<Type>::write(Ostream& os) const
   offset_->writeData(os);
   this->writeEntry("value", os);
 }
+
 }  // namespace mousse

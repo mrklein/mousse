@@ -6,8 +6,11 @@
 #include "surface_fields.hpp"
 #include "inlet_outlet_fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
+
 // Static Data Members
-makePatchFields(inletOutlet);
+MAKE_PATCH_FIELDS(inletOutlet);
+
 }  // namespace mousse

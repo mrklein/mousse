@@ -9,8 +9,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(coordinateSystems, 0);
-  defineTemplateTypeNameAndDebug(IOPtrList<coordinateSystem>, 0);
+
+DEFINE_TYPE_NAME_AND_DEBUG(coordinateSystems, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(IOPtrList<coordinateSystem>, 0);
+
 }
 // Constructors 
 mousse::coordinateSystems::coordinateSystems(const IOobject& io)
@@ -78,7 +80,7 @@ mousse::labelList mousse::coordinateSystems::findIndices(const keyType& key) con
   {
     indices.setSize(size());
     label nFound = 0;
-    forAll(*this, i)
+    FOR_ALL(*this, i)
     {
       if (key == operator[](i).name())
       {
@@ -102,7 +104,7 @@ mousse::label mousse::coordinateSystems::findIndex(const keyType& key) const
   }
   else
   {
-    forAll(*this, i)
+    FOR_ALL(*this, i)
     {
       if (key == operator[](i).name())
       {
@@ -119,7 +121,7 @@ bool mousse::coordinateSystems::found(const keyType& key) const
 mousse::wordList mousse::coordinateSystems::toc() const
 {
   wordList keywords(size());
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     keywords[i] = operator[](i).name();
   }
@@ -128,7 +130,7 @@ mousse::wordList mousse::coordinateSystems::toc() const
 bool mousse::coordinateSystems::writeData(Ostream& os) const
 {
   os << nl << size() << nl << token::BEGIN_LIST;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     os << nl;
     operator[](i).writeDict(os, true);

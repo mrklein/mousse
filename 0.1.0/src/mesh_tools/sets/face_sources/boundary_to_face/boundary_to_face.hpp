@@ -23,7 +23,7 @@ class boundaryToFace
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("boundaryToFace");
+  TYPE_NAME("boundaryToFace");
   // Constructors
     //- Construct from components
     boundaryToFace(const polyMesh&);

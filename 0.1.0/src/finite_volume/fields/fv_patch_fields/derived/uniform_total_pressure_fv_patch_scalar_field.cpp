@@ -7,6 +7,9 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+#include "time.hpp"
+#include "fv_patch_field_mapper.hpp"
+
 // Constructors 
 mousse::uniformTotalPressureFvPatchScalarField::
 uniformTotalPressureFvPatchScalarField
@@ -15,14 +18,15 @@ uniformTotalPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  UName_("U"),
-  phiName_("phi"),
-  rhoName_("none"),
-  psiName_("none"),
-  gamma_(0.0),
-  pressure_()
+  fixedValueFvPatchScalarField{p, iF},
+  UName_{"U"},
+  phiName_{"phi"},
+  rhoName_{"none"},
+  psiName_{"none"},
+  gamma_{0.0},
+  pressure_{}
 {}
+
 mousse::uniformTotalPressureFvPatchScalarField::
 uniformTotalPressureFvPatchScalarField
 (
@@ -31,13 +35,13 @@ uniformTotalPressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  UName_(dict.lookupOrDefault<word>("U", "U")),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "none")),
-  psiName_(dict.lookupOrDefault<word>("psi", "none")),
-  gamma_(readScalar(dict.lookup("gamma"))),
-  pressure_(DataEntry<scalar>::New("pressure", dict))
+  fixedValueFvPatchScalarField{p, iF},
+  UName_{dict.lookupOrDefault<word>("U", "U")},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "none")},
+  psiName_{dict.lookupOrDefault<word>("psi", "none")},
+  gamma_{readScalar(dict.lookup("gamma"))},
+  pressure_{DataEntry<scalar>::New("pressure", dict)}
 {
   if (dict.found("value"))
   {
@@ -52,46 +56,49 @@ uniformTotalPressureFvPatchScalarField
     fvPatchField<scalar>::operator=(p0);
   }
 }
+
 mousse::uniformTotalPressureFvPatchScalarField::
 uniformTotalPressureFvPatchScalarField
 (
   const uniformTotalPressureFvPatchScalarField& ptf,
   const fvPatch& p,
   const DimensionedField<scalar, volMesh>& iF,
-  const fvPatchFieldMapper& mapper
+  const fvPatchFieldMapper&
 )
 :
-  fixedValueFvPatchScalarField(p, iF),  // bypass mapper
-  UName_(ptf.UName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  psiName_(ptf.psiName_),
-  gamma_(ptf.gamma_),
-  pressure_(ptf.pressure_().clone().ptr())
+  fixedValueFvPatchScalarField{p, iF},  // bypass mapper
+  UName_{ptf.UName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  psiName_{ptf.psiName_},
+  gamma_{ptf.gamma_},
+  pressure_{ptf.pressure_().clone().ptr()}
 {
   // Evaluate since value not mapped
   const scalar t = this->db().time().timeOutputValue();
   fvPatchScalarField::operator==(pressure_->value(t));
 }
+
 mousse::uniformTotalPressureFvPatchScalarField::
 uniformTotalPressureFvPatchScalarField
 (
   const uniformTotalPressureFvPatchScalarField& ptf
 )
 :
-  fixedValueFvPatchScalarField(ptf),
-  UName_(ptf.UName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  psiName_(ptf.psiName_),
-  gamma_(ptf.gamma_),
+  fixedValueFvPatchScalarField{ptf},
+  UName_{ptf.UName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  psiName_{ptf.psiName_},
+  gamma_{ptf.gamma_},
   pressure_
-  (
+  {
     ptf.pressure_.valid()
    ? ptf.pressure_().clone().ptr()
    : NULL
-  )
+  }
 {}
+
 mousse::uniformTotalPressureFvPatchScalarField::
 uniformTotalPressureFvPatchScalarField
 (
@@ -99,19 +106,20 @@ uniformTotalPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(ptf, iF),
-  UName_(ptf.UName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  psiName_(ptf.psiName_),
-  gamma_(ptf.gamma_),
+  fixedValueFvPatchScalarField{ptf, iF},
+  UName_{ptf.UName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  psiName_{ptf.psiName_},
+  gamma_{ptf.gamma_},
   pressure_
-  (
+  {
     ptf.pressure_.valid()
    ? ptf.pressure_().clone().ptr()
    : NULL
-  )
+  }
 {}
+
 // Member Functions 
 void mousse::uniformTotalPressureFvPatchScalarField::updateCoeffs
 (
@@ -159,7 +167,7 @@ void mousse::uniformTotalPressureFvPatchScalarField::updateCoeffs
   }
   else
   {
-    FatalErrorIn("uniformTotalPressureFvPatchScalarField::updateCoeffs()")
+    FATAL_ERROR_IN("uniformTotalPressureFvPatchScalarField::updateCoeffs()")
       << " rho or psi set inconsitently, rho = " << rhoName_
       << ", psi = " << psiName_ << ".\n"
       << "    Set either rho or psi or neither depending on the "
@@ -172,10 +180,12 @@ void mousse::uniformTotalPressureFvPatchScalarField::updateCoeffs
   }
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
 void mousse::uniformTotalPressureFvPatchScalarField::updateCoeffs()
 {
   updateCoeffs(patch().lookupPatchField<volVectorField, vector>(UName_));
 }
+
 void mousse::uniformTotalPressureFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
@@ -187,11 +197,12 @@ void mousse::uniformTotalPressureFvPatchScalarField::write(Ostream& os) const
   pressure_->writeData(os);
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    uniformTotalPressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  uniformTotalPressureFvPatchScalarField
+);
 }

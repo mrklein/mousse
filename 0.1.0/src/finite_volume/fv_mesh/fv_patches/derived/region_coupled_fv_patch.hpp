@@ -38,7 +38,7 @@ class regionCoupledFvPatch
     }
 public:
   //- Runtime type information
-  TypeName(regionCoupledPolyPatch::typeName_());
+  TYPE_NAME(regionCoupledPolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     regionCoupledFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)
@@ -81,8 +81,8 @@ public:
       //- Initialise neighbour field transfer
       virtual void initInternalFieldTransfer
       (
-        const Pstream::commsTypes commsType,
-        labelUList& iF
+        const Pstream::commsTypes,
+        labelUList& /*iF*/
       ) const
       {}
       //- Return neighbour field

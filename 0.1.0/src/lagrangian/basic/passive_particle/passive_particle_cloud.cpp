@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(Cloud<passiveParticle>, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<passiveParticle>, 0);
 }
 // Constructors 
 mousse::passiveParticleCloud::passiveParticleCloud

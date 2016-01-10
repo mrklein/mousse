@@ -5,7 +5,7 @@
 #include "unsorted_meshed_surface.hpp"
 // Member Functions 
 template<class Face>
-mousse::autoPtr< mousse::UnsortedMeshedSurface<Face> >
+mousse::autoPtr< mousse::UnsortedMeshedSurface<Face>>
 mousse::UnsortedMeshedSurface<Face>::New(const fileName& name, const word& ext)
 {
   if (debug)
@@ -23,7 +23,7 @@ mousse::UnsortedMeshedSurface<Face>::New(const fileName& name, const word& ext)
     if (supported.found(ext))
     {
       // create indirectly
-      autoPtr<UnsortedMeshedSurface<Face> > surf
+      autoPtr<UnsortedMeshedSurface<Face>> surf
       (
         new UnsortedMeshedSurface<Face>
       );
@@ -32,20 +32,21 @@ mousse::UnsortedMeshedSurface<Face>::New(const fileName& name, const word& ext)
     }
     // nothing left but to issue an error
     supported += readTypes();
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "UnsortedMeshedSurface<Face>::New"
       "(const fileName&, const word&) : "
       "constructing UnsortedMeshedSurface"
-    )   << "Unknown file extension " << ext << nl << nl
-      << "Valid types are:" << nl
-      << supported
-      << exit(FatalError);
+    )
+    << "Unknown file extension " << ext << nl << nl
+    << "Valid types are:" << nl
+    << supported
+    << exit(FatalError);
   }
-  return autoPtr<UnsortedMeshedSurface<Face> >(cstrIter()(name));
+  return autoPtr<UnsortedMeshedSurface<Face>>{cstrIter()(name)};
 }
 template<class Face>
-mousse::autoPtr< mousse::UnsortedMeshedSurface<Face> >
+mousse::autoPtr< mousse::UnsortedMeshedSurface<Face>>
 mousse::UnsortedMeshedSurface<Face>::New(const fileName& name)
 {
   word ext = name.ext();

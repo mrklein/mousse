@@ -17,7 +17,7 @@ void triSurface::writeVTK(const bool writeSorted, Ostream& os) const
   const pointField& ps = points();
   os  << "POINTS " << ps.size() << " float" << nl;
   // Write vertex coords
-  forAll(ps, pointi)
+  FOR_ALL(ps, pointi)
   {
     if (pointi > 0 && (pointi % 10) == 0)
     {
@@ -38,7 +38,7 @@ void triSurface::writeVTK(const bool writeSorted, Ostream& os) const
   if (writeSorted)
   {
     label faceIndex = 0;
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       // Print all faces belonging to this patch
       for
@@ -69,7 +69,7 @@ void triSurface::writeVTK(const bool writeSorted, Ostream& os) const
     os  << "FIELD attributes 1" << nl;
     os  << "region 1 " << size() << " float" << nl;
     faceIndex = 0;
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       for
       (
@@ -94,7 +94,7 @@ void triSurface::writeVTK(const bool writeSorted, Ostream& os) const
   }
   else
   {
-    forAll(*this, faceI)
+    FOR_ALL(*this, faceI)
     {
       if (faceI > 0 && (faceI % 10) == 0)
       {
@@ -113,7 +113,7 @@ void triSurface::writeVTK(const bool writeSorted, Ostream& os) const
     os  << "CELL_DATA " << size() << nl;
     os  << "FIELD attributes 1" << nl;
     os  << "region 1 " << size() << " float" << nl;
-    forAll(*this, faceI)
+    FOR_ALL(*this, faceI)
     {
       if (faceI > 0 && (faceI % 10) == 0)
       {

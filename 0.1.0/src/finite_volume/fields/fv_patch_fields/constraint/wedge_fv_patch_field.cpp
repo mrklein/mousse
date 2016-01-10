@@ -7,6 +7,7 @@
 #include "transform_field.hpp"
 #include "symm_transform.hpp"
 #include "diag_tensor.hpp"
+
 // Constructors 
 template<class Type>
 mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
@@ -15,8 +16,10 @@ mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  transformFvPatchField<Type>(p, iF)
+  transformFvPatchField<Type>{p, iF}
 {}
+
+
 template<class Type>
 mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
 (
@@ -26,11 +29,11 @@ mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  transformFvPatchField<Type>(ptf, p, iF, mapper)
+  transformFvPatchField<Type>{ptf, p, iF, mapper}
 {
   if (!isType<wedgeFvPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "wedgeFvPatchField<Type>::wedgeFvPatchField\n"
       "(\n"
@@ -39,14 +42,17 @@ mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
       "    const DimensionedField<Type, volMesh>& iF,\n"
       "    const fvPatchFieldMapper& mapper\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
 (
@@ -55,11 +61,11 @@ mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
   const dictionary& dict
 )
 :
-  transformFvPatchField<Type>(p, iF, dict)
+  transformFvPatchField<Type>{p, iF, dict}
 {
   if (!isType<wedgeFvPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "wedgeFvPatchField<Type>::wedgeFvPatchField\n"
       "(\n"
@@ -68,23 +74,28 @@ mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
       "    dictionary& dict\n"
       ")\n",
       dict
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
   evaluate();
 }
+
+
 template<class Type>
 mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
 (
   const wedgeFvPatchField<Type>& ptf
 )
 :
-  transformFvPatchField<Type>(ptf)
+  transformFvPatchField<Type>{ptf}
 {}
+
+
 template<class Type>
 mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
 (
@@ -92,8 +103,10 @@ mousse::wedgeFvPatchField<Type>::wedgeFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  transformFvPatchField<Type>(ptf, iF)
+  transformFvPatchField<Type>{ptf, iF}
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::Field<Type> > mousse::wedgeFvPatchField<Type>::snGrad() const
@@ -104,6 +117,8 @@ mousse::tmp<mousse::Field<Type> > mousse::wedgeFvPatchField<Type>::snGrad() cons
     transform(refCast<const wedgeFvPatch>(this->patch()).cellT(), pif) - pif
   )*(0.5*this->patch().deltaCoeffs());
 }
+
+
 template<class Type>
 void mousse::wedgeFvPatchField<Type>::evaluate(const Pstream::commsTypes)
 {
@@ -120,6 +135,8 @@ void mousse::wedgeFvPatchField<Type>::evaluate(const Pstream::commsTypes)
     )
   );
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::wedgeFvPatchField<Type>::snGradTransformDiag() const
@@ -128,9 +145,9 @@ mousse::wedgeFvPatchField<Type>::snGradTransformDiag() const
     0.5*diag(I - refCast<const wedgeFvPatch>(this->patch()).cellT());
   const vector diagV(diagT.xx(), diagT.yy(), diagT.zz());
   return tmp<Field<Type> >
-  (
+  {
     new Field<Type>
-    (
+    {
       this->size(),
       transformMask<Type>
       (
@@ -141,6 +158,6 @@ mousse::wedgeFvPatchField<Type>::snGradTransformDiag() const
           ::type>::zero
         )
       )
-    )
-  );
+    }
+  };
 }

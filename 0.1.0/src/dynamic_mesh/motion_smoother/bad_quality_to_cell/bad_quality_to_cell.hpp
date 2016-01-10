@@ -26,7 +26,7 @@ class badQualityToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("badQualityToCell");
+  TYPE_NAME("badQualityToCell");
   // Constructors
     //- Construct from dictionary
     badQualityToCell

@@ -17,7 +17,7 @@ const
 {
   const edge& e = mesh_.edges()[edgeI];
   const face& f = mesh_.faces()[faceI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if (f[fp] == e.start())
     {
@@ -25,7 +25,7 @@ const
       return f[fp1] == e.end();
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "cellFeatures::faceAlignedEdge(const label, const label)"
   )   << "Can not find edge " << mesh_.edges()[edgeI]
@@ -43,14 +43,14 @@ mousse::label mousse::cellFeatures::nextEdge
 ) const
 {
   const labelList& pEdges = mesh_.pointEdges()[thisVertI];
-  forAll(pEdges, pEdgeI)
+  FOR_ALL(pEdges, pEdgeI)
   {
     label edgeI = pEdges[pEdgeI];
     if ((edgeI != thisEdgeI) && featureEdge_.found(edgeI))
     {
       // Check that edge is used by a face on same superFace
       const labelList& eFaces = mesh_.edgeFaces()[edgeI];
-      forAll(eFaces, eFaceI)
+      FOR_ALL(eFaces, eFaceI)
       {
         label faceI = eFaces[eFaceI];
         if
@@ -64,7 +64,7 @@ mousse::label mousse::cellFeatures::nextEdge
       }
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "cellFeatures::nextEdge(const label, const Map<label>"
     ", const labelHashSet&, const label, const label, const label)"
@@ -137,7 +137,7 @@ void mousse::cellFeatures::walkSuperFace
   {
     toSuperFace.insert(faceI, superFaceI);
     const labelList& fEdges = mesh_.faceEdges()[faceI];
-    forAll(fEdges, fEdgeI)
+    FOR_ALL(fEdges, fEdgeI)
     {
       label edgeI = fEdges[fEdgeI];
       if (!featureEdge_.found(edgeI))
@@ -168,7 +168,7 @@ void mousse::cellFeatures::calcSuperFaces() const
   //    >=0 : superFace
   Map<label> toSuperFace(10*cFaces.size());
   label superFaceI = 0;
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     if (!toSuperFace.found(faceI))
@@ -184,19 +184,19 @@ void mousse::cellFeatures::calcSuperFaces() const
   }
   // Construct superFace-to-oldface mapping.
   faceMap_.setSize(superFaceI);
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     faceMap_[toSuperFace[faceI]].append(faceI);
   }
-  forAll(faceMap_, superI)
+  FOR_ALL(faceMap_, superI)
   {
     faceMap_[superI].shrink();
   }
   // Construct superFaces
   facesPtr_ = new faceList(superFaceI);
   faceList& faces = *facesPtr_;
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     label superFaceI = toSuperFace[faceI];
@@ -206,7 +206,7 @@ void mousse::cellFeatures::calcSuperFaces() const
       // Find starting feature edge on face.
       label startEdgeI = -1;
       const labelList& fEdges = mesh_.faceEdges()[faceI];
-      forAll(fEdges, fEdgeI)
+      FOR_ALL(fEdges, fEdgeI)
       {
         label edgeI = fEdges[fEdgeI];
         if (featureEdge_.found(edgeI))
@@ -260,7 +260,7 @@ void mousse::cellFeatures::calcSuperFaces() const
         while (true);
         if (superFace.size() <= 2)
         {
-          WarningIn("cellFeatures::calcSuperFaces")
+          WARNING_IN("cellFeatures::calcSuperFaces")
             << " Can not collapse faces " << faceMap_[superFaceI]
             << " into one big face on cell " << cellI_ << endl
             << "Try decreasing minCos:" << minCos_ << endl;
@@ -290,7 +290,7 @@ mousse::cellFeatures::cellFeatures
   faceMap_(0)
 {
   const labelList& cEdges = mesh_.cellEdges()[cellI_];
-  forAll(cEdges, cEdgeI)
+  FOR_ALL(cEdges, cEdgeI)
   {
     label edgeI = cEdges[cEdgeI];
     if (isCellFeatureEdge(minCos_, edgeI))
@@ -316,7 +316,7 @@ const
   || (edge1 >= mesh_.nEdges())
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cellFeatures::isFeatureVertex(const label, const label)"
     )   << "Illegal edge labels : edge0:" << edge0 << " edge1:" << edge1
@@ -350,7 +350,7 @@ const
   else
   {
     cosAngle = GREAT;   // satisfy compiler
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cellFeatures::isFeaturePoint(const label, const label"
       ", const label)"
@@ -378,7 +378,7 @@ const
   || (vertI >= mesh_.nPoints())
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cellFeatures::isFeatureVertex(const label, const label)"
     )   << "Illegal face " << faceI << " or vertex " << vertI
@@ -387,7 +387,7 @@ const
   const labelList& pEdges = mesh_.pointEdges()[vertI];
   label edge0 = -1;
   label edge1 = -1;
-  forAll(pEdges, pEdgeI)
+  FOR_ALL(pEdges, pEdgeI)
   {
     label edgeI = pEdges[pEdgeI];
     if (meshTools::edgeOnFace(mesh_, faceI, edgeI))
@@ -406,7 +406,7 @@ const
   }
   if (edge1 == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cellFeatures::isFeatureVertex(const label, const label)"
     )   << "Did not find two edges sharing vertex " << vertI

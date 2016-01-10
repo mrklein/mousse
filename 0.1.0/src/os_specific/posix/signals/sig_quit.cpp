@@ -14,7 +14,7 @@ void mousse::sigQuit::sigHandler(int)
   // Reset old handling
   if (sigaction(SIGQUIT, &oldAction_, NULL) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigQuit::sigHandler()"
     )   << "Cannot reset SIGQUIT trapping"
@@ -37,7 +37,7 @@ mousse::sigQuit::~sigQuit()
   // Reset old handling
   if (oldAction_.sa_handler && sigaction(SIGQUIT, &oldAction_, NULL) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigQuit::~sigQuit()"
     )   << "Cannot reset SIGQUIT trapping"
@@ -45,11 +45,11 @@ mousse::sigQuit::~sigQuit()
   }
 }
 // Member Functions 
-void mousse::sigQuit::set(const bool verbose)
+void mousse::sigQuit::set(const bool /*verbose*/)
 {
   if (oldAction_.sa_handler)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigQuit::set()"
     )   << "Cannot call sigQuit::set() more than once"
@@ -61,7 +61,7 @@ void mousse::sigQuit::set(const bool verbose)
   sigemptyset(&newAction.sa_mask);
   if (sigaction(SIGQUIT, &newAction, &oldAction_) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigQuit::set()"
     )   << "Cannot set SIGQUIT trapping"

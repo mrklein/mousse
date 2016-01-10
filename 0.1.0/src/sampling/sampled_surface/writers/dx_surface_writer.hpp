@@ -36,7 +36,7 @@ class dxSurfaceWriter
     ) const;
 public:
   //- Runtime type information
-  TypeName("dx");
+  TYPE_NAME("dx");
   // Constructors
     //- Construct null
     dxSurfaceWriter();

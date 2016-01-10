@@ -77,7 +77,7 @@ public:
       // Check for assignment to self
       if (this == &s)
       {
-        FatalErrorIn("splitCell8::operator=(const mousse::splitCell8&)")
+        FATAL_ERROR_IN("splitCell8::operator=(const mousse::splitCell8&)")
           << "Attempted assignment to self"
           << abort(FatalError);
       }
@@ -158,7 +158,7 @@ private:
     ) const;
 public:
   // Declare name of the class and its debug switch
-  TypeName("refinementHistory");
+  TYPE_NAME("refinementHistory");
   // Constructors
     //- Construct (read) given an IOobject
     refinementHistory(const IOobject&);
@@ -206,7 +206,7 @@ public:
       label index = visibleCells_[cellI];
       if (index < 0)
       {
-        FatalErrorIn("refinementHistory::parentIndex(const label)")
+        FATAL_ERROR_IN("refinementHistory::parentIndex(const label)")
           << "Cell " << cellI << " is not visible"
           << abort(FatalError);
       }

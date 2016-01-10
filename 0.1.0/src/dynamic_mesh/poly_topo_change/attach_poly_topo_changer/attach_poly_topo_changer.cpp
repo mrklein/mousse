@@ -46,7 +46,7 @@ void mousse::attachPolyTopoChanger::attach(const bool removeEmptyPatches)
     const polyBoundaryMesh& oldPatches = mesh_.boundaryMesh();
     List<polyPatch*> newPatches(oldPatches.size());
     label nNewPatches = 0;
-    forAll(oldPatches, patchI)
+    FOR_ALL(oldPatches, patchI)
     {
       if (oldPatches[patchI].size())
       {

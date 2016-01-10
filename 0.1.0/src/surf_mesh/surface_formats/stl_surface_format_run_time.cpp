@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read MeshedSurface (ascii)
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   STLsurfaceFormat,
@@ -19,7 +19,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   stl
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   STLsurfaceFormat,
@@ -28,7 +28,7 @@ addNamedTemplatedToRunTimeSelectionTable
   stl
 );
 // read MeshedSurface (binary)
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   STLsurfaceFormat,
@@ -36,7 +36,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   stlb
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   STLsurfaceFormat,
@@ -45,7 +45,7 @@ addNamedTemplatedToRunTimeSelectionTable
   stlb
 );
 // write MeshedSurfaceProxy (ascii)
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   STLsurfaceFormat,
@@ -54,7 +54,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   stl
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   STLsurfaceFormat,
@@ -64,7 +64,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   stl
 );
 // write MeshedSurfaceProxy (binary)
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   STLsurfaceFormat,
@@ -73,7 +73,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   stlb
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   STLsurfaceFormat,
@@ -83,7 +83,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   stlb
 );
 // write UnsortedMeshedSurface (ascii)
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   STLsurfaceFormat,
@@ -92,7 +92,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   stl
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   STLsurfaceFormat,
@@ -102,7 +102,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   stl
 );
 // write UnsortedMeshedSurface (binary)
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   STLsurfaceFormat,
@@ -111,7 +111,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   stlb
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   STLsurfaceFormat,

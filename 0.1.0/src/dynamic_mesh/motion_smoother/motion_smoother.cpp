@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(motionSmoother, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(motionSmoother, 0);
 }
 // Constructors 
 mousse::motionSmoother::motionSmoother

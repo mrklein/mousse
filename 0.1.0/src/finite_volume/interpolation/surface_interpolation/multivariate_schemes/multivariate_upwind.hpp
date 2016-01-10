@@ -27,7 +27,7 @@ class multivariateUpwind
     void operator=(const multivariateUpwind&);
 public:
   //- Runtime type information
-  TypeName("upwind");
+  TYPE_NAME("upwind");
   // Constructors
     //- Construct for field, faceFlux and Istream
     multivariateUpwind

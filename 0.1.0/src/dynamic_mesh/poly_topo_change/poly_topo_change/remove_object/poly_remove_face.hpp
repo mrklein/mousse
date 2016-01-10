@@ -23,7 +23,7 @@ class polyRemoveFace
 public:
   // Static data members
     //- Runtime type information
-    TypeName("removeFace");
+    TYPE_NAME("removeFace");
   // Constructors
     //- Construct null.  Used for constructing lists
     polyRemoveFace()

@@ -6,13 +6,21 @@
 #include "sub_field.hpp"
 #include "time.hpp"
 #include "add_to_run_time_selection_table.hpp"
+#include "pstream_reduce_ops.hpp"
+#include "poly_mesh.hpp"
+#include "ofstream.hpp"
+#include "mesh_tools.hpp"
+#include "unit_conversion.hpp"
+#include "transform_field.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicAMIPolyPatch, 0);
-  addToRunTimeSelectionTable(polyPatch, cyclicAMIPolyPatch, word);
-  addToRunTimeSelectionTable(polyPatch, cyclicAMIPolyPatch, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicAMIPolyPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, cyclicAMIPolyPatch, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, cyclicAMIPolyPatch, dictionary);
 }
-// Private Member Functions 
+
+// Private Member Functions
 mousse::vector mousse::cyclicAMIPolyPatch::findFaceNormalMaxRadius
 (
   const pointField& faceCentres
@@ -32,18 +40,18 @@ mousse::vector mousse::cyclicAMIPolyPatch::findFaceNormalMaxRadius
   }
   return n[faceI];
 }
-// Protected Member Functions 
+// Protected Member Functions
 void mousse::cyclicAMIPolyPatch::calcTransforms()
 {
   const cyclicAMIPolyPatch& half0 = *this;
   vectorField half0Areas(half0.size());
-  forAll(half0, facei)
+  FOR_ALL(half0, facei)
   {
     half0Areas[facei] = half0[facei].normal(half0.points());
   }
   const cyclicAMIPolyPatch& half1 = neighbPatch();
   vectorField half1Areas(half1.size());
-  forAll(half1, facei)
+  FOR_ALL(half1, facei)
   {
     half1Areas[facei] = half1[facei].normal(half1.points());
   }
@@ -66,7 +74,7 @@ void mousse::cyclicAMIPolyPatch::calcTransforms()
 }
 void mousse::cyclicAMIPolyPatch::calcTransforms
 (
-  const primitivePatch& half0,
+  const primitivePatch& /*half0*/,
   const pointField& half0Ctrs,
   const vectorField& half0Areas,
   const pointField& half1Ctrs,
@@ -75,7 +83,7 @@ void mousse::cyclicAMIPolyPatch::calcTransforms
 {
   if (transform() != neighbPatch().transform())
   {
-    FatalErrorIn("cyclicAMIPolyPatch::calcTransforms()")
+    FATAL_ERROR_IN("cyclicAMIPolyPatch::calcTransforms()")
       << "Patch " << name()
       << " has transform type " << transformTypeNames[transform()]
       << ", neighbour patch " << neighbPatchName()
@@ -134,7 +142,7 @@ void mousse::cyclicAMIPolyPatch::calcTransforms
         const scalar areaError = min(normErrorPos, normErrorNeg);
         if (areaError > matchTolerance())
         {
-          WarningIn
+          WARNING_IN
           (
             "void mousse::cyclicAMIPolyPatch::calcTransforms"
             "("
@@ -258,7 +266,7 @@ void mousse::cyclicAMIPolyPatch::calcTransforms
       << "    collocated = " << collocated() << nl << endl;
   }
 }
-// Protected Member Functions 
+// Protected Member Functions
 void mousse::cyclicAMIPolyPatch::resetAMI
 (
   const AMIPatchToPatchInterpolation::interpolationMethod& AMIMethod
@@ -330,7 +338,7 @@ void mousse::cyclicAMIPolyPatch::initGeometry(PstreamBuffers& pBufs)
   AMIPtr_.clear();
   polyPatch::initGeometry(pBufs);
 }
-void mousse::cyclicAMIPolyPatch::calcGeometry(PstreamBuffers& pBufs)
+void mousse::cyclicAMIPolyPatch::calcGeometry(PstreamBuffers&)
 {
   calcGeometry
   (
@@ -379,7 +387,7 @@ void mousse::cyclicAMIPolyPatch::clearGeom()
   AMIPtr_.clear();
   polyPatch::clearGeom();
 }
-// Constructors 
+// Constructors
 mousse::cyclicAMIPolyPatch::cyclicAMIPolyPatch
 (
   const word& name,
@@ -436,7 +444,7 @@ mousse::cyclicAMIPolyPatch::cyclicAMIPolyPatch
 {
   if (nbrPatchName_ == word::null && !coupleGroup_.valid())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "cyclicAMIPolyPatch::cyclicAMIPolyPatch"
       "("
@@ -451,7 +459,7 @@ mousse::cyclicAMIPolyPatch::cyclicAMIPolyPatch
   }
   if (nbrPatchName_ == name)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "cyclicAMIPolyPatch::cyclicAMIPolyPatch"
       "("
@@ -484,7 +492,7 @@ mousse::cyclicAMIPolyPatch::cyclicAMIPolyPatch
       scalar magRot = mag(rotationAxis_);
       if (magRot < SMALL)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "cyclicAMIPolyPatch::cyclicAMIPolyPatch"
           "("
@@ -567,7 +575,7 @@ mousse::cyclicAMIPolyPatch::cyclicAMIPolyPatch
 {
   if (nbrPatchName_ == name())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const cyclicAMIPolyPatch& "
       "const polyBoundaryMesh&, "
@@ -607,10 +615,12 @@ mousse::cyclicAMIPolyPatch::cyclicAMIPolyPatch
   surfPtr_(NULL),
   surfDict_(pp.surfDict_)
 {}
-// Destructor 
+
+// Destructor
 mousse::cyclicAMIPolyPatch::~cyclicAMIPolyPatch()
 {}
-// Member Functions 
+
+// Member Functions
 mousse::label mousse::cyclicAMIPolyPatch::neighbPatchID() const
 {
   if (nbrPatchID_ == -1)
@@ -618,7 +628,7 @@ mousse::label mousse::cyclicAMIPolyPatch::neighbPatchID() const
     nbrPatchID_ = this->boundaryMesh().findPatchID(neighbPatchName());
     if (nbrPatchID_ == -1)
     {
-      FatalErrorIn("cyclicPolyAMIPatch::neighbPatchID() const")
+      FATAL_ERROR_IN("cyclicPolyAMIPatch::neighbPatchID() const")
         << "Illegal neighbourPatch name " << neighbPatchName()
         << nl << "Valid patch names are "
         << this->boundaryMesh().names()
@@ -632,7 +642,7 @@ mousse::label mousse::cyclicAMIPolyPatch::neighbPatchID() const
       );
     if (nbrPatch.neighbPatchName() != name())
     {
-      WarningIn("cyclicAMIPolyPatch::neighbPatchID() const")
+      WARNING_IN("cyclicAMIPolyPatch::neighbPatchID() const")
         << "Patch " << name()
         << " specifies neighbour patch " << neighbPatchName()
         << nl << " but that in return specifies "
@@ -680,7 +690,7 @@ const mousse::AMIPatchToPatchInterpolation& mousse::cyclicAMIPolyPatch::AMI() co
 {
   if (!owner())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const AMIPatchToPatchInterpolation& cyclicAMIPolyPatch::AMI()"
     )
@@ -725,7 +735,7 @@ void mousse::cyclicAMIPolyPatch::transformPosition(pointField& l) const
     const vectorField& s = separation();
     if (s.size() == 1)
     {
-      forAll(l, i)
+      FOR_ALL(l, i)
       {
         l[i] -= s[0];
       }
@@ -826,10 +836,10 @@ void mousse::cyclicAMIPolyPatch::calcGeometry
   const primitivePatch& referPatch,
   const pointField& thisCtrs,
   const vectorField& thisAreas,
-  const pointField& thisCc,
+  const pointField& /*thisCc*/,
   const pointField& nbrCtrs,
   const vectorField& nbrAreas,
-  const pointField& nbrCc
+  const pointField& /*nbrCc*/
 )
 {
   calcTransforms
@@ -843,13 +853,13 @@ void mousse::cyclicAMIPolyPatch::calcGeometry
 }
 void mousse::cyclicAMIPolyPatch::initOrder
 (
-  PstreamBuffers& pBufs,
-  const primitivePatch& pp
+  PstreamBuffers&,
+  const primitivePatch&
 ) const
 {}
 bool mousse::cyclicAMIPolyPatch::order
 (
-  PstreamBuffers& pBufs,
+  PstreamBuffers&,
   const primitivePatch& pp,
   labelList& faceMap,
   labelList& rotation

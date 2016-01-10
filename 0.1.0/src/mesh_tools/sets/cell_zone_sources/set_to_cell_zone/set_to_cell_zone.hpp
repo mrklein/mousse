@@ -23,7 +23,7 @@ class setToCellZone
     word setName_;
 public:
   //- Runtime type information
-  TypeName("setToCellZone");
+  TYPE_NAME("setToCellZone");
   // Constructors
     //- Construct from components
     setToCellZone

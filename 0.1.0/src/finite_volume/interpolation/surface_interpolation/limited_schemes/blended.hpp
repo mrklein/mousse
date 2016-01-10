@@ -7,10 +7,16 @@
 //   linear/upwind blended differencing scheme.
 // SourceFiles
 //   blended.cpp
+
 #ifndef blended_hpp_
 #define blended_hpp_
+
 #include "limited_surface_interpolation_scheme.hpp"
 #include "blended_scheme_base.hpp"
+#include "surface_fields.hpp"
+#include "time.hpp"
+#include "vol_fields.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -21,14 +27,10 @@ class blended
 {
   // Private data
     const scalar blendingFactor_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    blended(const blended&);
-    //- Disallow default bitwise assignment
-    void operator=(const blended&);
 public:
   //- Runtime type information
-  TypeName("blended");
+  TYPE_NAME("blended");
+
   // Constructors
     //- Construct from mesh, faceFlux and blendingFactor
     blended
@@ -38,9 +40,10 @@ public:
       const scalar blendingFactor
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, faceFlux),
-      blendingFactor_(blendingFactor)
+      limitedSurfaceInterpolationScheme<Type>{mesh, faceFlux},
+      blendingFactor_{blendingFactor}
     {}
+
     //- Construct from mesh and Istream.
     //  The name of the flux field is read from the Istream and looked-up
     //  from the mesh objectRegistry
@@ -50,9 +53,10 @@ public:
       Istream& is
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, is),
-      blendingFactor_(readScalar(is))
+      limitedSurfaceInterpolationScheme<Type>{mesh, is},
+      blendingFactor_{readScalar(is)}
     {}
+
     //- Construct from mesh, faceFlux and Istream
     blended
     (
@@ -61,12 +65,20 @@ public:
       Istream& is
     )
     :
-      limitedSurfaceInterpolationScheme<Type>(mesh, faceFlux),
-      blendingFactor_(readScalar(is))
+      limitedSurfaceInterpolationScheme<Type>{mesh, faceFlux},
+      blendingFactor_{readScalar(is)}
     {}
+
+    //- Disallow default bitwise copy construct
+    blended(const blended&) = delete;
+
+    //- Disallow default bitwise assignment
+    blended& operator=(const blended&) = delete;
+
   //- Destructor
   virtual ~blended()
   {}
+
   // Member Functions
     //- Return the face-based blending factor
     virtual tmp<surfaceScalarField> blendingFactor
@@ -75,28 +87,29 @@ public:
     ) const
     {
       return tmp<surfaceScalarField>
-      (
+      {
         new surfaceScalarField
-        (
+        {
           IOobject
-          (
+          {
             vf.name() + "BlendingFactor",
             this->mesh().time().timeName(),
             this->mesh(),
             IOobject::NO_READ,
             IOobject::NO_WRITE,
             false
-          ),
+          },
           this->mesh(),
           dimensionedScalar
-          (
+          {
             "blendingFactor",
             dimless,
             blendingFactor_
-          )
-        )
-      );
+          }
+        }
+      };
     }
+
     //- Return the interpolation limiter
     virtual tmp<surfaceScalarField> limiter
     (
@@ -104,37 +117,38 @@ public:
     ) const
     {
       return tmp<surfaceScalarField>
-      (
+      {
         new surfaceScalarField
-        (
+        {
           IOobject
-          (
+          {
             "blendedLimiter",
             this->mesh().time().timeName(),
             this->mesh(),
             IOobject::NO_READ,
             IOobject::NO_WRITE,
             false
-          ),
+          },
           this->mesh(),
           dimensionedScalar
-          (
+          {
             "blendedLimiter",
             dimless,
             1 - blendingFactor_
-          )
-        )
-      );
+          }
+        }
+      };
     }
+
     //- Return the interpolation weighting factors
     virtual tmp<surfaceScalarField> weights
     (
-      const GeometricField<Type, fvPatchField, volMesh>& vf
+      const GeometricField<Type, fvPatchField, volMesh>&
     ) const
     {
       return
         blendingFactor_*this->mesh().surfaceInterpolation::weights()
-       + (1 - blendingFactor_)*pos(this->faceFlux_);
+        + (1 - blendingFactor_)*pos(this->faceFlux_);
     }
 };
 }  // namespace mousse

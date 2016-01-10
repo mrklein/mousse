@@ -20,17 +20,17 @@ void surfaceIntegrate
   const labelUList& owner = mesh.owner();
   const labelUList& neighbour = mesh.neighbour();
   const Field<Type>& issf = ssf;
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     ivf[owner[facei]] += issf[facei];
     ivf[neighbour[facei]] -= issf[facei];
   }
-  forAll(mesh.boundary(), patchi)
+  FOR_ALL(mesh.boundary(), patchi)
   {
     const labelUList& pFaceCells =
       mesh.boundary()[patchi].faceCells();
     const fvsPatchField<Type>& pssf = ssf.boundaryField()[patchi];
-    forAll(mesh.boundary()[patchi], facei)
+    FOR_ALL(mesh.boundary()[patchi], facei)
     {
       ivf[pFaceCells[facei]] += pssf[facei];
     }
@@ -114,17 +114,17 @@ surfaceSum
   GeometricField<Type, fvPatchField, volMesh>& vf = tvf();
   const labelUList& owner = mesh.owner();
   const labelUList& neighbour = mesh.neighbour();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     vf[owner[facei]] += ssf[facei];
     vf[neighbour[facei]] += ssf[facei];
   }
-  forAll(mesh.boundary(), patchi)
+  FOR_ALL(mesh.boundary(), patchi)
   {
     const labelUList& pFaceCells =
       mesh.boundary()[patchi].faceCells();
     const fvsPatchField<Type>& pssf = ssf.boundaryField()[patchi];
-    forAll(mesh.boundary()[patchi], facei)
+    FOR_ALL(mesh.boundary()[patchi], facei)
     {
       vf[pFaceCells[facei]] += pssf[facei];
     }

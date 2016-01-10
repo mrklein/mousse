@@ -10,14 +10,14 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledIsoSurface, 0);
-  addNamedToRunTimeSelectionTable
-  (
-    sampledSurface,
-    sampledIsoSurface,
-    word,
-    isoSurface
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(sampledIsoSurface, 0);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
+(
+  sampledSurface,
+  sampledIsoSurface,
+  word,
+  isoSurface
+);
 }
 // Private Member Functions 
 void mousse::sampledIsoSurface::getIsoFields() const
@@ -79,7 +79,7 @@ void mousse::sampledIsoSurface::getIsoFields() const
       }
       else
       {
-        FatalErrorIn("sampledIsoSurface::getIsoFields()")
+        FATAL_ERROR_IN("sampledIsoSurface::getIsoFields()")
         << "Cannot find isosurface field " << isoField_
         << " in database or directory " << vfHeader.path()
         << exit(FatalError);
@@ -357,7 +357,7 @@ mousse::sampledIsoSurface::sampledIsoSurface
 {
   if (!sampledSurface::interpolate())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "sampledIsoSurface::sampledIsoSurface"
       "(const word&, const polyMesh&, const dictionary&)",
@@ -370,7 +370,7 @@ mousse::sampledIsoSurface::sampledIsoSurface
     dict.lookup("exposedPatchName") >> exposedPatchName_;
     if (mesh.boundaryMesh().findPatchID(exposedPatchName_) == -1)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "sampledIsoSurface::sampledIsoSurface"
         "(const word&, const polyMesh&, const dictionary&)",

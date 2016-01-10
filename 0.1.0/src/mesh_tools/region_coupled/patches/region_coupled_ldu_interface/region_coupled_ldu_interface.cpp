@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(regionCoupledLduInterface, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledLduInterface, 0);
 }
 // Destructor 
 mousse::regionCoupledLduInterface::~regionCoupledLduInterface()

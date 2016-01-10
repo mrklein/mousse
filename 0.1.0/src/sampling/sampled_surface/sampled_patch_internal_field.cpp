@@ -11,14 +11,14 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledPatchInternalField, 0);
-  addNamedToRunTimeSelectionTable
-  (
-    sampledSurface,
-    sampledPatchInternalField,
-    word,
-    patchInternalField
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(sampledPatchInternalField, 0);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
+(
+  sampledSurface,
+  sampledPatchInternalField,
+  word,
+  patchInternalField
+);
 }
 // Constructors 
 mousse::sampledPatchInternalField::sampledPatchInternalField
@@ -28,8 +28,8 @@ mousse::sampledPatchInternalField::sampledPatchInternalField
   const dictionary& dict
 )
 :
-  sampledPatch(name, mesh, dict),
-  mappers_(patchIDs().size())
+  sampledPatch{name, mesh, dict},
+  mappers_{patchIDs().size()}
 {
   mappedPatchBase::offsetMode mode = mappedPatchBase::NORMAL;
   if (dict.found("offsetMode"))
@@ -44,19 +44,19 @@ mousse::sampledPatchInternalField::sampledPatchInternalField
     case mappedPatchBase::NORMAL:
     {
       const scalar distance = readScalar(dict.lookup("distance"));
-      forAll(patchIDs(), i)
+      FOR_ALL(patchIDs(), i)
       {
         mappers_.set
         (
           i,
           new mappedPatchBase
-          (
+          {
             mesh.boundaryMesh()[patchIDs()[i]],
             mesh.name(),                        // sampleRegion
             mappedPatchBase::NEARESTCELL,       // sampleMode
             word::null,                         // samplePatch
             -distance                  // sample inside my domain
-          )
+          }
         );
       }
     }
@@ -64,19 +64,19 @@ mousse::sampledPatchInternalField::sampledPatchInternalField
     case mappedPatchBase::UNIFORM:
     {
       const point offset(dict.lookup("offset"));
-      forAll(patchIDs(), i)
+      FOR_ALL(patchIDs(), i)
       {
         mappers_.set
         (
           i,
           new mappedPatchBase
-          (
+          {
             mesh.boundaryMesh()[patchIDs()[i]],
             mesh.name(),                        // sampleRegion
             mappedPatchBase::NEARESTCELL,       // sampleMode
             word::null,                         // samplePatch
             offset                  // sample inside my domain
-          )
+          }
         );
       }
     }
@@ -84,19 +84,19 @@ mousse::sampledPatchInternalField::sampledPatchInternalField
     case mappedPatchBase::NONUNIFORM:
     {
       const pointField offsets(dict.lookup("offsets"));
-      forAll(patchIDs(), i)
+      FOR_ALL(patchIDs(), i)
       {
         mappers_.set
         (
           i,
           new mappedPatchBase
-          (
+          {
             mesh.boundaryMesh()[patchIDs()[i]],
             mesh.name(),                        // sampleRegion
             mappedPatchBase::NEARESTCELL,       // sampleMode
             word::null,                         // samplePatch
             offsets                  // sample inside my domain
-          )
+          }
         );
       }
     }

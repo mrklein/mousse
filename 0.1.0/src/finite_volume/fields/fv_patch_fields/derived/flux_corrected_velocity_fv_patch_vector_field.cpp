@@ -86,7 +86,7 @@ void mousse::fluxCorrectedVelocityFvPatchVectorField::evaluate
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fluxCorrectedVelocityFvPatchVectorField::evaluate()"
     )
@@ -106,9 +106,9 @@ void mousse::fluxCorrectedVelocityFvPatchVectorField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    fluxCorrectedVelocityFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  fluxCorrectedVelocityFvPatchVectorField
+);
 }

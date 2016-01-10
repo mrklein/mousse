@@ -52,7 +52,7 @@ protected:
     autoPtr<DataEntry<Type> > uniformInletValue_;
 public:
   //- Runtime type information
-  TypeName("uniformInletOutlet");
+  TYPE_NAME("uniformInletOutlet");
   // Constructors
     //- Construct from patch and internal field
     uniformInletOutletFvPatchField

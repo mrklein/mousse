@@ -24,7 +24,7 @@ class coupledFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName(coupledFvPatch::typeName_());
+  TYPE_NAME(coupledFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     coupledFvPatchField
@@ -91,7 +91,7 @@ public:
       //- Return patch-normal gradient
       virtual tmp<Field<Type> > snGrad() const
       {
-        notImplemented
+        NOT_IMPLEMENTED
         (
           type() + "::coupledFvPatchField<Type>::snGrad()"
         );

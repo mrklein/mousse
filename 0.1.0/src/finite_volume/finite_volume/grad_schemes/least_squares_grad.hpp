@@ -26,7 +26,7 @@ class leastSquaresGrad
     void operator=(const leastSquaresGrad&);
 public:
   //- Runtime type information
-  TypeName("leastSquares");
+  TYPE_NAME("leastSquares");
   // Constructors
     //- Construct from mesh
     leastSquaresGrad(const fvMesh& mesh)

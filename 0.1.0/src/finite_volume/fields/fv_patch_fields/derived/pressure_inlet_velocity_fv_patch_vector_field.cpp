@@ -91,7 +91,7 @@ void mousse::pressureInletVelocityFvPatchVectorField::updateCoeffs()
   }
   else
   {
-    FatalErrorIn("pressureInletVelocityFvPatchVectorField::updateCoeffs()")
+    FATAL_ERROR_IN("pressureInletVelocityFvPatchVectorField::updateCoeffs()")
       << "dimensions of phi are not correct"
       << "\n    on patch " << this->patch().name()
       << " of field " << this->dimensionedInternalField().name()
@@ -117,9 +117,11 @@ void mousse::pressureInletVelocityFvPatchVectorField::operator=
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    pressureInletVelocityFvPatchVectorField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  pressureInletVelocityFvPatchVectorField
+);
+
 }

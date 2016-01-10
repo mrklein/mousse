@@ -10,13 +10,13 @@ template<class TrackingData>
 inline bool mousse::patchEdgeFaceRegion::update
 (
   const patchEdgeFaceRegion& w2,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
   if (!w2.valid(td))
   {
-    FatalErrorIn("patchEdgeFaceRegion::update(..)")
+    FATAL_ERROR_IN("patchEdgeFaceRegion::update(..)")
       << "problem." << abort(FatalError);
   }
   if (w2.region_ == -2 || region_ == -2)
@@ -63,27 +63,27 @@ inline mousse::label mousse::patchEdgeFaceRegion::region() const
   return region_;
 }
 template<class TrackingData>
-inline bool mousse::patchEdgeFaceRegion::valid(TrackingData& td) const
+inline bool mousse::patchEdgeFaceRegion::valid(TrackingData&) const
 {
   return region_ != -1;
 }
 template<class TrackingData>
 inline void mousse::patchEdgeFaceRegion::transform
 (
-  const polyMesh& mesh,
-  const indirectPrimitivePatch& patch,
-  const tensor& rotTensor,
-  const scalar tol,
-  TrackingData& td
+  const polyMesh&,
+  const indirectPrimitivePatch&,
+  const tensor& /*rotTensor*/,
+  const scalar /*tol*/,
+  TrackingData&
 )
 {}
 template<class TrackingData>
 inline bool mousse::patchEdgeFaceRegion::updateEdge
 (
-  const polyMesh& mesh,
-  const indirectPrimitivePatch& patch,
-  const label edgeI,
-  const label faceI,
+  const polyMesh&,
+  const indirectPrimitivePatch&,
+  const label /*edgeI*/,
+  const label /*faceI*/,
   const patchEdgeFaceRegion& faceInfo,
   const scalar tol,
   TrackingData& td
@@ -94,10 +94,10 @@ inline bool mousse::patchEdgeFaceRegion::updateEdge
 template<class TrackingData>
 inline bool mousse::patchEdgeFaceRegion::updateEdge
 (
-  const polyMesh& mesh,
-  const indirectPrimitivePatch& patch,
+  const polyMesh&,
+  const indirectPrimitivePatch&,
   const patchEdgeFaceRegion& edgeInfo,
-  const bool sameOrientation,
+  const bool /*sameOrientation*/,
   const scalar tol,
   TrackingData& td
 )
@@ -107,10 +107,10 @@ inline bool mousse::patchEdgeFaceRegion::updateEdge
 template<class TrackingData>
 inline bool mousse::patchEdgeFaceRegion::updateFace
 (
-  const polyMesh& mesh,
-  const indirectPrimitivePatch& patch,
-  const label faceI,
-  const label edgeI,
+  const polyMesh&,
+  const indirectPrimitivePatch&,
+  const label /*faceI*/,
+  const label /*edgeI*/,
   const patchEdgeFaceRegion& edgeInfo,
   const scalar tol,
   TrackingData& td
@@ -122,7 +122,7 @@ template<class TrackingData>
 inline bool mousse::patchEdgeFaceRegion::equal
 (
   const patchEdgeFaceRegion& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

@@ -86,7 +86,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     )
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void slidingInterface::coupleInterface("
       "polyTopoChange& ref) const"
@@ -113,7 +113,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   // Get reference to the list of merged points
   Map<label>& pointMergeMap = cutPatch.pointMergeMap();
   // Create mapping for every merged point of the slave patch
-  forAll(slavePointPointHits, pointI)
+  FOR_ALL(slavePointPointHits, pointI)
   {
     if (slavePointPointHits[pointI] >= 0)
     {
@@ -130,7 +130,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   // Collect the list of used edges for every slave edge
   List<labelHashSet> usedMasterEdges(slaveEdges.size());
   // Collect of slave point hits
-  forAll(slavePointPointHits, pointI)
+  FOR_ALL(slavePointPointHits, pointI)
   {
     // For point hits, add all point-edges from master side to all point
     const labelList& curSlaveEdges = slavePointEdges[pointI];
@@ -140,10 +140,10 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
         masterPointEdges[slavePointPointHits[pointI]];
       // Mark all current master edges as used for all the current slave
       // edges
-      forAll(curSlaveEdges, slaveEdgeI)
+      FOR_ALL(curSlaveEdges, slaveEdgeI)
       {
         labelHashSet& sm = usedMasterEdges[curSlaveEdges[slaveEdgeI]];
-        forAll(curMasterEdges, masterEdgeI)
+        FOR_ALL(curMasterEdges, masterEdgeI)
         {
           sm.insert(curMasterEdges[masterEdgeI]);
         }
@@ -152,7 +152,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     else if (slavePointEdgeHits[pointI] > -1)
     {
       // For edge hits, add the master edge
-      forAll(curSlaveEdges, slaveEdgeI)
+      FOR_ALL(curSlaveEdges, slaveEdgeI)
       {
         usedMasterEdges[curSlaveEdges[slaveEdgeI]].insert
         (
@@ -164,21 +164,21 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   // Collect off master point hits
   // For every master point that has hit an edge, add all edges coming from
   // that point to the slave edge that has been hit
-  forAll(masterPointEdgeHits, masterPointI)
+  FOR_ALL(masterPointEdgeHits, masterPointI)
   {
     if (masterPointEdgeHits[masterPointI] > -1)
     {
       const labelList& curMasterEdges = masterPointEdges[masterPointI];
       labelHashSet& sm =
         usedMasterEdges[masterPointEdgeHits[masterPointI]];
-      forAll(curMasterEdges, masterEdgeI)
+      FOR_ALL(curMasterEdges, masterEdgeI)
       {
         sm.insert(curMasterEdges[masterEdgeI]);
       }
     }
   }
   // Pout<< "used edges: " << endl;
-  // forAll(usedMasterEdges, edgeI)
+  // FOR_ALL(usedMasterEdges, edgeI)
   // {
   //     Pout<< "edge: " << edgeI
   //         << " used: " << usedMasterEdges[edgeI].toc()
@@ -189,7 +189,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   List<DynamicList<label> > pointsIntoMasterEdges(masterEdges.size());
   List<DynamicList<label> > pointsIntoSlaveEdges(slaveEdges.size());
   // Add all points from the slave patch that have hit the edge
-  forAll(slavePointEdgeHits, pointI)
+  FOR_ALL(slavePointEdgeHits, pointI)
   {
     if (slavePointEdgeHits[pointI] > -1)
     {
@@ -240,7 +240,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     Pout<< endl;
   }
   // Add all points from the slave patch that have hit a face
-  forAll(slavePointFaceHits, pointI)
+  FOR_ALL(slavePointFaceHits, pointI)
   {
     if
     (
@@ -279,7 +279,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
       }
     }
   }
-  forAll(masterPointEdgeHits, pointI)
+  FOR_ALL(masterPointEdgeHits, pointI)
   {
     if (masterPointEdgeHits[pointI] > -1)
     {
@@ -324,7 +324,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   }
   if (!cutPointEdgePairMapPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void slidingInterface::coupleInterface("
       "polyTopoChange& ref) const"
@@ -340,7 +340,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     nFacesPerSlaveEdge_*primitiveMesh::edgesPerFace_
   );
   labelHashSet addedFaces(2*primitiveMesh::edgesPerFace_);
-  forAll(slaveEdges, edgeI)
+  FOR_ALL(slaveEdges, edgeI)
   {
     const edge& curEdge = slaveEdges[edgeI];
     if
@@ -380,10 +380,10 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
         // Add all face neighbours of face in the map
         const labelList cf = addedFaces.toc();
         addedFaces.clear();
-        forAll(cf, cfI)
+        FOR_ALL(cf, cfI)
         {
           const labelList& curNbrs = masterFaceFaces[cf[cfI]];
-          forAll(curNbrs, nbrI)
+          FOR_ALL(curNbrs, nbrI)
           {
             if (!curFaceMap.found(curNbrs[nbrI]))
             {
@@ -419,10 +419,10 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
           // Add all face neighbours of face in the map
           const labelList cf = addedFaces.toc();
           addedFaces.clear();
-          forAll(cf, cfI)
+          FOR_ALL(cf, cfI)
           {
             const labelList& curNbrs = masterFaceFaces[cf[cfI]];
-            forAll(curNbrs, nbrI)
+            FOR_ALL(curNbrs, nbrI)
             {
               if (!curFaceMap.found(curNbrs[nbrI]))
               {
@@ -460,7 +460,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
       );
       const labelList curFaces = curFaceMap.toc();
       // Pout<< "curFaces: " << curFaces << endl;
-      forAll(curFaces, faceI)
+      FOR_ALL(curFaces, faceI)
       {
         // Pout<< "face: " << curFaces[faceI] << " "
         //     << masterPatch[curFaces[faceI]]
@@ -468,7 +468,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
         //     << masterPatch.localFaces()[curFaces[faceI]]
         //     << endl;
         const labelList& me = masterFaceEdges[curFaces[faceI]];
-        forAll(me, meI)
+        FOR_ALL(me, meI)
         {
           curMasterEdgesMap.insert(me[meI]);
         }
@@ -503,7 +503,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
       linePointRef curSlaveLine = curEdge.line(projectedSlavePoints);
       const scalar curSlaveLineMag = curSlaveLine.mag();
       // Pout<< "curSlaveLine: " << curSlaveLine << endl;
-      forAll(curMasterEdges, masterEdgeI)
+      FOR_ALL(curMasterEdges, masterEdgeI)
       {
         if (!curUme.found(curMasterEdges[masterEdgeI]))
         {
@@ -670,12 +670,12 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
 //     Pout<< "pointsIntoSlaveEdges: " << pointsIntoSlaveEdges << endl;
   // Re-pack the points into edges lists
   labelListList pime(pointsIntoMasterEdges.size());
-  forAll(pointsIntoMasterEdges, i)
+  FOR_ALL(pointsIntoMasterEdges, i)
   {
     pime[i].transfer(pointsIntoMasterEdges[i]);
   }
   labelListList pise(pointsIntoSlaveEdges.size());
-  forAll(pointsIntoSlaveEdges, i)
+  FOR_ALL(pointsIntoSlaveEdges, i)
   {
     pise[i].transfer(pointsIntoSlaveEdges[i]);
   }
@@ -702,7 +702,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   // 2) If different, mark both sides for relegation and insert the new face
   boolList orphanedMaster(masterPatch.size(), false);
   boolList orphanedSlave(slavePatch.size(), false);
-  forAll(cutFaces, faceI)
+  FOR_ALL(cutFaces, faceI)
   {
     const face& curCutFace = cutFaces[faceI];
     const label curMaster = cutFaceMaster[faceI];
@@ -798,7 +798,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
       // Face has got a slave
       // Renumber the slave face into merged labels
       face rsf(slavePatch[curSlave]);
-      forAll(rsf, i)
+      FOR_ALL(rsf, i)
       {
         Map<label>::const_iterator mpIter = pointMergeMap.find(rsf[i]);
         if (mpIter != pointMergeMap.end())
@@ -879,7 +879,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void slidingInterface::coupleInterface("
         "polyTopoChange& ref) const"
@@ -999,7 +999,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
       }
       else
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void slidingInterface::coupleInterface("
           "polyTopoChange& ref) const"
@@ -1013,7 +1013,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   // Pout<< "Orphaned master faces: " << orphanedMaster << endl;
   // Pout<< "Orphaned slave faces: " << orphanedSlave << endl;
   label nOrphanedMasters = 0;
-  forAll(orphanedMaster, faceI)
+  FOR_ALL(orphanedMaster, faceI)
   {
     if (orphanedMaster[faceI])
     {
@@ -1040,7 +1040,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     }
   }
   label nOrphanedSlaves = 0;
-  forAll(orphanedSlave, faceI)
+  FOR_ALL(orphanedSlave, faceI)
   {
     if (orphanedSlave[faceI])
     {
@@ -1089,7 +1089,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   const labelList& masterStickOuts = masterStickOutFaces();
   // Pout<< "masterStickOuts: " << masterStickOuts << endl;
   // Re-create the master stick-out faces
-  forAll(masterStickOuts, faceI)
+  FOR_ALL(masterStickOuts, faceI)
   {
     // Renumber the face and remove additional points
     const label curFaceID = masterStickOuts[faceI];
@@ -1098,7 +1098,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     // Remove removed points from the face
     face oldFace(oldRichFace.size());
     label nOldFace = 0;
-    forAll(oldRichFace, pointI)
+    FOR_ALL(oldRichFace, pointI)
     {
       if (ref.pointRemoved(oldRichFace[pointI]))
       {
@@ -1116,7 +1116,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     //     << " old face: " << oldFace
     //     << endl;
     DynamicList<label> newFaceLabels(2*oldFace.size());
-    forAll(oldFace, pointI)
+    FOR_ALL(oldFace, pointI)
     {
       if (masterMeshPointMap.found(oldFace[pointI]))
       {
@@ -1153,7 +1153,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
           //     << " and " << nextLabel;
           // Find the points on the edge between them
           const label localNextLabel = mmpmIter();
-          forAll(curEdges, curEdgeI)
+          FOR_ALL(curEdges, curEdgeI)
           {
             if
             (
@@ -1181,7 +1181,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
                  - startPoint;
                 e /= magSqr(e);
                 scalarField edgePointWeights(curPime.size());
-                forAll(curPime, curPimeI)
+                FOR_ALL(curPime, curPimeI)
                 {
                   edgePointWeights[curPimeI] =
                     (
@@ -1200,7 +1200,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
                   || max(edgePointWeights) > 1
                   )
                   {
-                    FatalErrorIn
+                    FATAL_ERROR_IN
                     (
                       "void slidingInterface::"
                       "coupleInterface("
@@ -1226,7 +1226,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
                   // elimination.
                   label nextPoint = -1;
                   scalar dist = 2;
-                  forAll(edgePointWeights, wI)
+                  FOR_ALL(edgePointWeights, wI)
                   {
                     if (edgePointWeights[wI] < dist)
                     {
@@ -1255,7 +1255,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     {
       if (newFaceLabels.size() < 3)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void slidingInterface::coupleInterface("
           "polyTopoChange& ref) const"
@@ -1328,7 +1328,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   // Pout<< "slaveStickOuts: " << slaveStickOuts << endl;
   const Map<label>& rpm = retiredPointMap();
   // Re-create the slave stick-out faces
-  forAll(slaveStickOuts, faceI)
+  FOR_ALL(slaveStickOuts, faceI)
   {
     // Renumber the face and remove additional points
     const label curFaceID = slaveStickOuts[faceI];
@@ -1337,7 +1337,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     // Remove removed points from the face
     face oldFace(oldRichFace.size());
     label nOldFace = 0;
-    forAll(oldRichFace, pointI)
+    FOR_ALL(oldRichFace, pointI)
     {
       if
       (
@@ -1372,7 +1372,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     // Pout<< "old rich slave face: " << oldRichFace
     //     << " old face: " << oldFace
     //     << endl;
-    forAll(oldFace, pointI)
+    FOR_ALL(oldFace, pointI)
     {
       // Try to find the point in retired points
       label curP = oldFace[pointI];
@@ -1422,7 +1422,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
           // Both points on the slave patch.
           // Find the points on the edge between them
           const label localNextLabel = mmpmIter();
-          forAll(curEdges, curEdgeI)
+          FOR_ALL(curEdges, curEdgeI)
           {
             if
             (
@@ -1450,7 +1450,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
                  - startPoint;
                 e /= magSqr(e);
                 scalarField edgePointWeights(curPise.size());
-                forAll(curPise, curPiseI)
+                FOR_ALL(curPise, curPiseI)
                 {
                   edgePointWeights[curPiseI] =
                   (
@@ -1469,7 +1469,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
                   || max(edgePointWeights) > 1
                   )
                   {
-                    FatalErrorIn
+                    FATAL_ERROR_IN
                     (
                       "void slidingInterface::"
                       "coupleInterface("
@@ -1495,7 +1495,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
                   // elimination.
                   label nextPoint = -1;
                   scalar dist = 2;
-                  forAll(edgePointWeights, wI)
+                  FOR_ALL(edgePointWeights, wI)
                   {
                     if (edgePointWeights[wI] < dist)
                     {
@@ -1524,7 +1524,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
     {
       if (newFaceLabels.size() < 3)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void slidingInterface::coupleInterface("
           "polyTopoChange& ref) const"
@@ -1595,7 +1595,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   // does not get damaged by point modifications
   if (!retiredPointMapPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void slidingInterface::coupleInterface("
       "polyTopoChange& ref) const"
@@ -1606,7 +1606,7 @@ void mousse::slidingInterface::coupleInterface(polyTopoChange& ref) const
   // Clear the old map
   addToRpm.clear();
   label nRetiredPoints = 0;
-  forAll(slaveMeshPoints, pointI)
+  FOR_ALL(slaveMeshPoints, pointI)
   {
     if (pointMergeMap.found(slaveMeshPoints[pointI]))
     {

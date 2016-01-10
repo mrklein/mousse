@@ -7,6 +7,7 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "uniform_dimensioned_fields.hpp"
+
 // Constructors 
 mousse::prghPressureFvPatchScalarField::
 prghPressureFvPatchScalarField
@@ -15,10 +16,11 @@ prghPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  rhoName_("rho"),
-  p_(p.size(), 0.0)
+  fixedValueFvPatchScalarField{p, iF},
+  rhoName_{"rho"},
+  p_{p.size(), 0.0}
 {}
+
 mousse::prghPressureFvPatchScalarField::
 prghPressureFvPatchScalarField
 (
@@ -27,15 +29,15 @@ prghPressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho")),
-  p_("p", dict, p.size())
+  fixedValueFvPatchScalarField{p, iF},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")},
+  p_{"p", dict, p.size()}
 {
   if (dict.found("value"))
   {
     fvPatchScalarField::operator=
     (
-      scalarField("value", dict, p.size())
+      scalarField{"value", dict, p.size()}
     );
   }
   else
@@ -43,6 +45,7 @@ prghPressureFvPatchScalarField
     fvPatchField<scalar>::operator=(p_);
   }
 }
+
 mousse::prghPressureFvPatchScalarField::
 prghPressureFvPatchScalarField
 (
@@ -52,20 +55,22 @@ prghPressureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  rhoName_(ptf.rhoName_),
-  p_(ptf.p_, mapper)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  rhoName_{ptf.rhoName_},
+  p_{ptf.p_, mapper}
 {}
+
 mousse::prghPressureFvPatchScalarField::
 prghPressureFvPatchScalarField
 (
   const prghPressureFvPatchScalarField& ptf
 )
 :
-  fixedValueFvPatchScalarField(ptf),
-  rhoName_(ptf.rhoName_),
-  p_(ptf.p_)
+  fixedValueFvPatchScalarField{ptf},
+  rhoName_{ptf.rhoName_},
+  p_{ptf.p_}
 {}
+
 mousse::prghPressureFvPatchScalarField::
 prghPressureFvPatchScalarField
 (
@@ -73,10 +78,11 @@ prghPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(ptf, iF),
-  rhoName_(ptf.rhoName_),
-  p_(ptf.p_)
+  fixedValueFvPatchScalarField{ptf, iF},
+  rhoName_{ptf.rhoName_},
+  p_{ptf.p_}
 {}
+
 // Member Functions 
 void mousse::prghPressureFvPatchScalarField::autoMap
 (
@@ -86,6 +92,7 @@ void mousse::prghPressureFvPatchScalarField::autoMap
   fixedValueFvPatchScalarField::autoMap(m);
   p_.autoMap(m);
 }
+
 void mousse::prghPressureFvPatchScalarField::rmap
 (
   const fvPatchScalarField& ptf,
@@ -97,6 +104,7 @@ void mousse::prghPressureFvPatchScalarField::rmap
     refCast<const prghPressureFvPatchScalarField>(ptf);
   p_.rmap(tiptf.p_, addr);
 }
+
 void mousse::prghPressureFvPatchScalarField::updateCoeffs()
 {
   if (updated())
@@ -112,14 +120,15 @@ void mousse::prghPressureFvPatchScalarField::updateCoeffs()
   const uniformDimensionedScalarField& hRef =
     db().lookupObject<uniformDimensionedScalarField>("hRef");
   dimensionedScalar ghRef
-  (
+  {
     mag(g.value()) > SMALL
    ? g & (cmptMag(g.value())/mag(g.value()))*hRef
    : dimensionedScalar("ghRef", g.dimensions()*dimLength, 0)
-  );
+  };
   operator==(p_ - rhop*((g.value() & patch().Cf()) - ghRef.value()));
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
 void mousse::prghPressureFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
@@ -127,11 +136,12 @@ void mousse::prghPressureFvPatchScalarField::write(Ostream& os) const
   p_.writeEntry("p", os);
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    prghPressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  prghPressureFvPatchScalarField
+);
 }

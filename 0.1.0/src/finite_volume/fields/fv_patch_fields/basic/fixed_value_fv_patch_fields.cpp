@@ -5,8 +5,11 @@
 #include "fixed_value_fv_patch_fields.hpp"
 #include "vol_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
+
 // Static Data Members
-makePatchFields(fixedValue);
+MAKE_PATCH_FIELDS(fixedValue);
+
 }  // namespace mousse

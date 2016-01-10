@@ -69,7 +69,7 @@ void mousse::edgeMesh::write
     writefileExtensionMemberFunctionTablePtr_->find(ext);
   if (mfIter == writefileExtensionMemberFunctionTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "MeshedSurface::write"
       "(const fileName&, const MeshedSurface&)"

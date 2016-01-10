@@ -8,16 +8,16 @@ template<class CloudType>
 mousse::IOPosition<CloudType>::IOPosition(const CloudType& c)
 :
   regIOobject
-  (
+  {
     IOobject
-    (
+    {
       "positions",
       c.time().timeName(),
       c,
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    )
-  ),
+    }
+  },
   cloud_(c)
 {}
 // Member Functions 
@@ -37,7 +37,7 @@ template<class CloudType>
 bool mousse::IOPosition<CloudType>::writeData(Ostream& os) const
 {
   os  << cloud_.size() << nl << token::BEGIN_LIST << nl;
-  forAllConstIter(typename CloudType, cloud_, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, cloud_, iter)
   {
     iter().writePosition(os);
     os  << nl;
@@ -68,21 +68,17 @@ void mousse::IOPosition<CloudType>::readData(CloudType& c, bool checkClass)
   {
     if (firstToken.pToken() != token::BEGIN_LIST)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "void IOPosition<CloudType>::readData(CloudType&, bool)",
         is
-      )   << "incorrect first token, '(', found "
-        << firstToken.info() << exit(FatalIOError);
+      )
+      << "incorrect first token, '(', found "
+      << firstToken.info() << exit(FatalIOError);
     }
     token lastToken(is);
-    while
-    (
-     !(
-        lastToken.isPunctuation()
-      && lastToken.pToken() == token::END_LIST
-      )
-    )
+    while(!(lastToken.isPunctuation()
+            && lastToken.pToken() == token::END_LIST))
     {
       is.putBack(lastToken);
       // Write position only
@@ -92,12 +88,13 @@ void mousse::IOPosition<CloudType>::readData(CloudType& c, bool checkClass)
   }
   else
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "void IOPosition<ParticleType>::readData(CloudType&, bool)",
       is
-    )   << "incorrect first token, expected <int> or '(', found "
-      << firstToken.info() << exit(FatalIOError);
+    )
+    << "incorrect first token, expected <int> or '(', found "
+    << firstToken.info() << exit(FatalIOError);
   }
   // Check state of IOstream
   is.check

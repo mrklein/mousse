@@ -9,16 +9,18 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(pointToPoint, 0);
-addToRunTimeSelectionTable(topoSetSource, pointToPoint, word);
-addToRunTimeSelectionTable(topoSetSource, pointToPoint, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(pointToPoint, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, pointToPoint, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, pointToPoint, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::pointToPoint::usage_
 (
   pointToPoint::typeName,
   "\n    Usage: pointToPoint <pointSet>\n\n"
   "    Select all points in the pointSet\n\n"
 );
+
 // Constructors 
 // Construct from components
 mousse::pointToPoint::pointToPoint

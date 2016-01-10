@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(uniformSet, 0);
-  addToRunTimeSelectionTable(sampledSet, uniformSet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(uniformSet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, uniformSet, word);
 }
 // Private Member Functions 
 bool mousse::uniformSet::nextSample
@@ -165,7 +165,7 @@ void mousse::uniformSet::calcSamples
   // distance vector between sampling points
   if ((nPoints_ < 2) || (mag(end_ - start_) < SMALL))
   {
-    FatalErrorIn("uniformSet::calcSamples()")
+    FATAL_ERROR_IN("uniformSet::calcSamples()")
       << "Incorrect sample specification. Either too few points or"
       << " start equals end point." << endl
       << "nPoints:" << nPoints_

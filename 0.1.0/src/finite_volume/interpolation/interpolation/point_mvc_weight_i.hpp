@@ -12,7 +12,7 @@ inline Type mousse::pointMVCWeight::interpolate
 {
   const labelList& vertices = psip.mesh()().cellPoints()[cellIndex_];
   Type t = pTraits<Type>::zero;
-  forAll(vertices, i)
+  FOR_ALL(vertices, i)
   {
     t += psip[vertices[i]]*weights_[i];
   }

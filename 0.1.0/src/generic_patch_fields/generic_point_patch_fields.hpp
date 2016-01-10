@@ -8,6 +8,6 @@
 #include "field_types.hpp"
 namespace mousse
 {
-makePointPatchFieldTypedefs(generic);
+MAKE_POINT_PATCH_FIELD_TYPEDEFS(generic);
 }  // namespace mousse
 #endif

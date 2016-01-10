@@ -15,7 +15,7 @@
 // Static Member Functions
 namespace mousse
 {
-defineTypeNameAndDebug(edgeCollapser, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(edgeCollapser, 0);
 }
 mousse::HashSet<mousse::label> mousse::edgeCollapser::checkBadFaces
 (
@@ -27,7 +27,7 @@ mousse::HashSet<mousse::label> mousse::edgeCollapser::checkBadFaces
   DynamicList<label> checkFaces(mesh.nFaces());
   const vectorField& fAreas = mesh.faceAreas();
   scalar faceAreaLimit = SMALL;
-  forAll(fAreas, fI)
+  FOR_ALL(fAreas, fI)
   {
     if (mag(fAreas[fI]) > faceAreaLimit)
     {
@@ -58,10 +58,10 @@ mousse::label mousse::edgeCollapser::checkMeshQuality
     meshQualityDict
   );
   label nBadFaces = returnReduce(badFaces.size(), sumOp<label>());
-  forAllConstIter(labelHashSet, badFaces, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, badFaces, iter)
   {
     const face& f = mesh.faces()[iter.key()];
-    forAll(f, pI)
+    FOR_ALL(f, pI)
     {
       isErrorPoint[f[pI]] = true;
     }
@@ -86,12 +86,12 @@ mousse::labelList mousse::edgeCollapser::edgesFromPoints
   const labelList& faceEdges = mesh_.faceEdges()[faceI];
   const edgeList& edges = mesh_.edges();
   label count = 0;
-  forAll(faceEdges, eI)
+  FOR_ALL(faceEdges, eI)
   {
     const label edgeI = faceEdges[eI];
     const edge& e = edges[edgeI];
     label match = 0;
-    forAll(pointLabels, pI)
+    FOR_ALL(pointLabels, pI)
     {
       if (e[0] == pointLabels[pI])
       {
@@ -119,13 +119,13 @@ void mousse::edgeCollapser::collapseToEdge
   const label faceI,
   const pointField& pts,
   const labelList& pointPriority,
-  const vector& collapseAxis,
-  const point& fC,
+  const vector& /*collapseAxis*/,
+  const point& /*fC*/,
   const labelList& facePtsNeg,
   const labelList& facePtsPos,
   const scalarList& dNeg,
   const scalarList& dPos,
-  const scalar dShift,
+  const scalar /*dShift*/,
   PackedBoolList& collapseEdge,
   Map<point>& collapsePointToLocation
 ) const
@@ -135,7 +135,7 @@ void mousse::edgeCollapser::collapseToEdge
     //collapseAxis*(sum(dNeg)/dNeg.size() - dShift) + fC;
   label maxPriority = labelMin;
   DynamicList<label> maxPriorityPts(max(dNeg.size(), dPos.size()));
-  forAll(facePtsNeg, fPtI)
+  FOR_ALL(facePtsNeg, fPtI)
   {
     const label facePointI = facePtsNeg[fPtI];
     const label facePtPriority = pointPriority[facePointI];
@@ -153,7 +153,7 @@ void mousse::edgeCollapser::collapseToEdge
   if (!maxPriorityPts.empty())
   {
     mousse::point averagePt(vector::zero);
-    forAll(maxPriorityPts, ptI)
+    FOR_ALL(maxPriorityPts, ptI)
     {
       averagePt += pts[maxPriorityPts[ptI]];
     }
@@ -163,18 +163,18 @@ void mousse::edgeCollapser::collapseToEdge
   maxPriority = labelMin;
   maxPriorityPts.clear();
   labelList faceEdgesNeg = edgesFromPoints(faceI, facePtsNeg);
-  forAll(faceEdgesNeg, edgeI)
+  FOR_ALL(faceEdgesNeg, edgeI)
   {
     collapseEdge[faceEdgesNeg[edgeI]] = true;
   }
-  forAll(facePtsNeg, pI)
+  FOR_ALL(facePtsNeg, pI)
   {
     collapsePointToLocation.set(facePtsNeg[pI], collapseToPtA);
   }
   // Positive half
   mousse::point collapseToPtB(GREAT, GREAT, GREAT);
 //        = collapseAxis*(sum(dPos)/dPos.size() - dShift) + fC;
-  forAll(facePtsPos, fPtI)
+  FOR_ALL(facePtsPos, fPtI)
   {
     const label facePointI = facePtsPos[fPtI];
     const label facePtPriority = pointPriority[facePointI];
@@ -192,7 +192,7 @@ void mousse::edgeCollapser::collapseToEdge
   if (!maxPriorityPts.empty())
   {
     mousse::point averagePt(vector::zero);
-    forAll(maxPriorityPts, ptI)
+    FOR_ALL(maxPriorityPts, ptI)
     {
       averagePt += pts[maxPriorityPts[ptI]];
     }
@@ -200,11 +200,11 @@ void mousse::edgeCollapser::collapseToEdge
 //        collapseToPtB = pts[maxPriorityPts.first()];
   }
   labelList faceEdgesPos = edgesFromPoints(faceI, facePtsPos);
-  forAll(faceEdgesPos, edgeI)
+  FOR_ALL(faceEdgesPos, edgeI)
   {
     collapseEdge[faceEdgesPos[edgeI]] = true;
   }
-  forAll(facePtsPos, pI)
+  FOR_ALL(facePtsPos, pI)
   {
     collapsePointToLocation.set(facePtsPos[pI], collapseToPtB);
   }
@@ -224,7 +224,7 @@ void mousse::edgeCollapser::collapseToPoint
   mousse::point collapseToPt = fC;
   label maxPriority = labelMin;
   DynamicList<label> maxPriorityPts(f.size());
-  forAll(facePts, fPtI)
+  FOR_ALL(facePts, fPtI)
   {
     const label facePointI = facePts[fPtI];
     const label facePtPriority = pointPriority[facePointI];
@@ -242,7 +242,7 @@ void mousse::edgeCollapser::collapseToPoint
   if (!maxPriorityPts.empty())
   {
     mousse::point averagePt(vector::zero);
-    forAll(maxPriorityPts, ptI)
+    FOR_ALL(maxPriorityPts, ptI)
     {
       averagePt += pts[maxPriorityPts[ptI]];
     }
@@ -252,7 +252,7 @@ void mousse::edgeCollapser::collapseToPoint
 //    DynamicList<label> faceBoundaryPts(f.size());
 //    DynamicList<label> faceFeaturePts(f.size());
 //
-//    forAll(facePts, fPtI)
+//    FOR_ALL(facePts, fPtI)
 //    {
 //        if (pointPriority[facePts[fPtI]] == 1)
 //        {
@@ -287,12 +287,12 @@ void mousse::edgeCollapser::collapseToPoint
 //        }
 //    }
   const labelList& faceEdges = mesh_.faceEdges()[faceI];
-  forAll(faceEdges, eI)
+  FOR_ALL(faceEdges, eI)
   {
     const label edgeI = faceEdges[eI];
     collapseEdge[edgeI] = true;
   }
-  forAll(f, pI)
+  FOR_ALL(f, pI)
   {
     collapsePointToLocation.set(f[pI], collapseToPt);
   }
@@ -379,7 +379,7 @@ mousse::scalarField mousse::edgeCollapser::calcTargetFaceSizes() const
   }
   scalarField neiCellVolumes(nBoundaryFaces, -1);
   // Now do boundary faces
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& patch = patches[patchI];
     label bFaceI = patch.start() - mesh_.nInternalFaces();
@@ -388,7 +388,7 @@ mousse::scalarField mousse::edgeCollapser::calcTargetFaceSizes() const
       // Processor boundary face: Need to get the cell volume on the other
       // processor
       const labelUList& faceCells = patch.faceCells();
-      forAll(faceCells, facei)
+      FOR_ALL(faceCells, facei)
       {
         neiCellVolumes[bFaceI++] = max(0.0, V[faceCells[facei]]);
       }
@@ -397,7 +397,7 @@ mousse::scalarField mousse::edgeCollapser::calcTargetFaceSizes() const
     {
       // Normal boundary face: Just use owner cell volume to calculate
       // the target face size
-      forAll(patch, patchFaceI)
+      FOR_ALL(patch, patchFaceI)
       {
         const label extFaceI = patchFaceI + patch.start();
         const scalar cellOwnerVol = max(0.0, V[cellOwner[extFaceI]]);
@@ -406,13 +406,13 @@ mousse::scalarField mousse::edgeCollapser::calcTargetFaceSizes() const
     }
   }
   syncTools::swapBoundaryFaceList(mesh_, neiCellVolumes);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& patch = patches[patchI];
     label bFaceI = patch.start() - mesh_.nInternalFaces();
     if (patch.coupled())
     {
-      forAll(patch, patchFaceI)
+      FOR_ALL(patch, patchFaceI)
       {
         const label localFaceI = patchFaceI + patch.start();
         const scalar cellOwnerVol = max(0.0, V[cellOwner[localFaceI]]);
@@ -449,7 +449,7 @@ mousse::edgeCollapser::collapseType mousse::edgeCollapser::collapseFace
   // The signed distance along the collapse axis passing through the
   // face centre that each vertex projects to.
   scalarField d(f.size());
-  forAll(f, fPtI)
+  FOR_ALL(f, fPtI)
   {
     const mousse::point& pt = pts[f[fPtI]];
     d[fPtI] = (collapseAxis & (pt - fC));
@@ -469,7 +469,7 @@ mousse::edgeCollapser::collapseType mousse::edgeCollapser::collapseFace
   // projected along the collapse axis.
   // Middle value, index of first entry in the second half
   label middle = -1;
-  forAll(d, dI)
+  FOR_ALL(d, dI)
   {
     if (d[dI] > 0)
     {
@@ -501,7 +501,7 @@ mousse::edgeCollapser::collapseType mousse::edgeCollapser::collapseFace
   // furthest vertex in the considered direction
   if (dNeg.size() == 0 || dPos.size() == 0)
   {
-    WarningIn
+    WARNING_IN
     (
       "mousse::conformalVoronoiMesh::collapseFace"
     )
@@ -685,7 +685,7 @@ mousse::label mousse::edgeCollapser::breakStringsAtEdges
   const edgeList& edges = mesh_.edges();
   const labelListList& pointEdges = mesh_.pointEdges();
   label nUncollapsed = 0;
-  forAll(edges, eI)
+  FOR_ALL(edges, eI)
   {
     if (markedEdges[eI])
     {
@@ -703,7 +703,7 @@ mousse::label mousse::edgeCollapser::breakStringsAtEdges
         )
         {
           const labelList& ptEdgesStart = pointEdges[e.start()];
-          forAll(ptEdgesStart, ptEdgeI)
+          FOR_ALL(ptEdgesStart, ptEdgeI)
           {
             const label edgeI = ptEdgesStart[ptEdgeI];
             const label nbrPointI
@@ -737,7 +737,7 @@ void mousse::edgeCollapser::determineDuplicatePointsOnFace
 {
   uniqueCollapses.clear();
   duplicateCollapses.clear();
-  forAll(f, fpI)
+  FOR_ALL(f, fpI)
   {
     label index = allPointInfo[f[fpI]].collapseIndex();
     // Check for consecutive duplicate
@@ -752,7 +752,7 @@ void mousse::edgeCollapser::determineDuplicatePointsOnFace
   }
   // Now duplicateCollapses contains duplicate collapse indices.
   // Convert to points.
-  forAll(f, fpI)
+  FOR_ALL(f, fpI)
   {
     label index = allPointInfo[f[fpI]].collapseIndex();
     if (duplicateCollapses.found(index))
@@ -768,7 +768,7 @@ mousse::label mousse::edgeCollapser::countEdgesOnFace
 ) const
 {
   label nEdges = 0;
-  forAll(f, fpI)
+  FOR_ALL(f, fpI)
   {
     const label pointI = f[fpI];
     const label newPointI = allPointInfo[pointI].collapseIndex();
@@ -831,7 +831,7 @@ mousse::label mousse::edgeCollapser::syncCollapse
     pointEdgeCollapse(vector::zero, -1, -1)
   );
   // Mark selected edges for collapse
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (collapseEdge[edgeI])
     {
@@ -849,7 +849,7 @@ mousse::label mousse::edgeCollapser::syncCollapse
         const label otherVertex = e.otherVertex(masterPointI);
         if (!collapsePointToLocation.found(otherVertex))
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "syncCollapse\n"
             "(\n"
@@ -913,7 +913,7 @@ void mousse::edgeCollapser::filterFace
 {
   label newFp = 0;
   face oldFace = f;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label pointI = f[fp];
     label collapseIndex = allPointInfo[pointI].collapseIndex();
@@ -928,7 +928,7 @@ void mousse::edgeCollapser::filterFace
     }
     else if (collapseIndex == -1)
     {
-      WarningIn
+      WARNING_IN
       (
         "filterFace"
         "(const label, const Map<DynamicList<label> >&, face&)"
@@ -956,7 +956,7 @@ void mousse::edgeCollapser::filterFace
     label index = findIndex(SubList<label>(f, fp), pointI);
     if (index == fp1)
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::edgeCollapser::filterFace(const label faceI, "
         "face& f) const"
@@ -966,7 +966,7 @@ void mousse::edgeCollapser::filterFace
     }
     else if (index == fp2)
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::edgeCollapser::filterFace(const label faceI, "
         "face& f) const"
@@ -977,7 +977,7 @@ void mousse::edgeCollapser::filterFace
     }
     else if (index != -1)
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::edgeCollapser::filterFace(const label faceI, "
         "face& f) const"
@@ -1050,7 +1050,7 @@ bool mousse::edgeCollapser::setRefinement
   const pointZoneMesh& pointZones = mesh_.pointZones();
 //    // Dump point collapses
 //    label count = 0;
-//    forAll(allPointInfo, ptI)
+//    FOR_ALL(allPointInfo, ptI)
 //    {
 //        const pointEdgeCollapse& pec = allPointInfo[ptI];
 //
@@ -1062,7 +1062,7 @@ bool mousse::edgeCollapser::setRefinement
 //
 //    OFstream str("collapses_" + name(count) + ".obj");
 //    // Dump point collapses
-//    forAll(allPointInfo, ptI)
+//    FOR_ALL(allPointInfo, ptI)
 //    {
 //        const pointEdgeCollapse& pec = allPointInfo[ptI];
 //
@@ -1088,7 +1088,7 @@ bool mousse::edgeCollapser::setRefinement
   {
     // 1. Count elements per collapseIndex
     Map<label> nPerIndex(mesh_.nPoints()/10);
-    forAll(allPointInfo, pointI)
+    FOR_ALL(allPointInfo, pointI)
     {
       label collapseIndex = allPointInfo[pointI].collapseIndex();
       if (collapseIndex != -1 && collapseIndex != -2)
@@ -1106,12 +1106,12 @@ bool mousse::edgeCollapser::setRefinement
     }
     // 2. Size
     collapseStrings.resize(2*nPerIndex.size());
-    forAllConstIter(Map<label>, nPerIndex, iter)
+    FOR_ALL_CONST_ITER(Map<label>, nPerIndex, iter)
     {
       collapseStrings.insert(iter.key(), DynamicList<label>(iter()));
     }
     // 3. Fill
-    forAll(allPointInfo, pointI)
+    FOR_ALL(allPointInfo, pointI)
     {
       const label collapseIndex = allPointInfo[pointI].collapseIndex();
       if (collapseIndex != -1 && collapseIndex != -2)
@@ -1122,12 +1122,12 @@ bool mousse::edgeCollapser::setRefinement
   }
 //    OFstream str2("collapseStrings_" + name(count) + ".obj");
 //    // Dump point collapses
-//    forAllConstIter(Map<DynamicList<label> >, collapseStrings, iter)
+//    FOR_ALL_CONST_ITER(Map<DynamicList<label> >, collapseStrings, iter)
 //    {
 //        const label masterPoint = iter.key();
 //        const DynamicList<label>& edgeCollapses = iter();
 //
-//        forAll(edgeCollapses, eI)
+//        FOR_ALL(edgeCollapses, eI)
 //        {
 //            meshTools::writeOBJ
 //            (
@@ -1144,7 +1144,7 @@ bool mousse::edgeCollapser::setRefinement
   label nUnvisited = 0;
   label nUncollapsed = 0;
   label nCollapsed = 0;
-  forAll(allPointInfo, pI)
+  FOR_ALL(allPointInfo, pI)
   {
     const pointEdgeCollapse& pec = allPointInfo[pI];
     if (pec.collapseIndex() == -1)
@@ -1174,19 +1174,19 @@ bool mousse::edgeCollapser::setRefinement
   Info<< decrIndent;
   do
   {
-    forAll(newFaces, faceI)
+    FOR_ALL(newFaces, faceI)
     {
       filterFace(collapseStrings, allPointInfo, newFaces[faceI]);
     }
     // Check if faces to be collapsed cause cells to become collapsed.
     label nCellCollapsed = 0;
-    forAll(cells, cellI)
+    FOR_ALL(cells, cellI)
     {
       if (!cellRemoved[cellI])
       {
         const cell& cFaces = cells[cellI];
         label nFaces = cFaces.size();
-        forAll(cFaces, i)
+        FOR_ALL(cFaces, i)
         {
           label faceI = cFaces[i];
           if (newFaces[faceI].size() < 3)
@@ -1199,7 +1199,7 @@ bool mousse::edgeCollapser::setRefinement
                 << " of which too many are marked for removal:"
                 << endl
                 << "   ";
-              forAll(cFaces, j)
+              FOR_ALL(cFaces, j)
               {
                 if (newFaces[cFaces[j]].size() < 3)
                 {
@@ -1229,7 +1229,7 @@ bool mousse::edgeCollapser::setRefinement
   {
     // Mark points used.
     boolList usedPoint(mesh_.nPoints(), false);
-    forAll(cellRemoved, cellI)
+    FOR_ALL(cellRemoved, cellI)
     {
       if (cellRemoved[cellI])
       {
@@ -1237,7 +1237,7 @@ bool mousse::edgeCollapser::setRefinement
       }
     }
     // Remove faces
-    forAll(newFaces, faceI)
+    FOR_ALL(newFaces, faceI)
     {
       const face& f = newFaces[faceI];
       if (f.size() < 3)
@@ -1250,14 +1250,14 @@ bool mousse::edgeCollapser::setRefinement
       else
       {
         // Kept face. Mark vertices
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           usedPoint[f[fp]] = true;
         }
       }
     }
     // Remove unused vertices that have not been marked for removal already
-    forAll(usedPoint, pointI)
+    FOR_ALL(usedPoint, pointI)
     {
       if (!usedPoint[pointI])
       {
@@ -1268,7 +1268,7 @@ bool mousse::edgeCollapser::setRefinement
     }
   }
   // Modify the point location of the remaining points
-  forAll(allPointInfo, pointI)
+  FOR_ALL(allPointInfo, pointI)
   {
     const label collapseIndex = allPointInfo[pointI].collapseIndex();
     const point& collapsePoint = allPointInfo[pointI].collapsePoint();
@@ -1291,12 +1291,12 @@ bool mousse::edgeCollapser::setRefinement
   const polyBoundaryMesh& boundaryMesh = mesh_.boundaryMesh();
   const faceZoneMesh& faceZones = mesh_.faceZones();
   // Renumber faces that use points
-  forAll(allPointInfo, pointI)
+  FOR_ALL(allPointInfo, pointI)
   {
     if (removedPoints[pointI] == true)
     {
       const labelList& changedFaces = pointFaces[pointI];
-      forAll(changedFaces, changedFaceI)
+      FOR_ALL(changedFaces, changedFaceI)
       {
         label faceI = changedFaces[changedFaceI];
         if (!doneFace[faceI])
@@ -1383,7 +1383,7 @@ void mousse::edgeCollapser::consistentCollapse
     // Get collapsed faces
     PackedBoolList isCollapsedFace(mesh_.nFaces());
     PackedBoolList markedPoints(mesh_.nPoints());
-    forAll(faces, faceI)
+    FOR_ALL(faces, faceI)
     {
       const face& f = faces[faceI];
       isCollapsedFace[faceI] = isFaceCollapsed(f, allPointInfo);
@@ -1408,13 +1408,13 @@ void mousse::edgeCollapser::consistentCollapse
       0
     );
     // Mark all edges attached to the point for collapse
-    forAll(markedPoints, pointI)
+    FOR_ALL(markedPoints, pointI)
     {
       if (markedPoints[pointI])
       {
         const label index = allPointInfo[pointI].collapseIndex();
         const labelList& ptEdges = pointEdges[pointI];
-        forAll(ptEdges, ptEdgeI)
+        FOR_ALL(ptEdges, ptEdgeI)
         {
           const label edgeI = ptEdges[ptEdgeI];
           const label nbrPointI = edges[edgeI].otherVertex(pointI);
@@ -1432,11 +1432,11 @@ void mousse::edgeCollapser::consistentCollapse
     if (!allowCellCollapse)
     {
       // Check collapsed cells
-      forAll(cells, cellI)
+      FOR_ALL(cells, cellI)
       {
         const cell& cFaces = cells[cellI];
         label nFaces = cFaces.size();
-        forAll(cFaces, fI)
+        FOR_ALL(cFaces, fI)
         {
           label faceI = cFaces[fI];
           if (isCollapsedFace[faceI])
@@ -1446,12 +1446,12 @@ void mousse::edgeCollapser::consistentCollapse
         }
         if (nFaces < 4)
         {
-          forAll(cFaces, fI)
+          FOR_ALL(cFaces, fI)
           {
             label faceI = cFaces[fI];
             const labelList& fEdges = faceEdges[faceI];
             // Unmark this face for collapse
-            forAll(fEdges, fEdgeI)
+            FOR_ALL(fEdges, fEdgeI)
             {
               label edgeI = fEdges[fEdgeI];
               if (collapseEdge[edgeI])
@@ -1468,7 +1468,7 @@ void mousse::edgeCollapser::consistentCollapse
         }
         if (nFaces < 4)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "consistentCollapse\n"
             "(\n"
@@ -1518,7 +1518,7 @@ mousse::label mousse::edgeCollapser::markSmallEdges
   const pointField& points = mesh_.points();
   const edgeList& edges = mesh_.edges();
   label nCollapsed = 0;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     if (!collapseEdge[edgeI])
@@ -1564,7 +1564,7 @@ mousse::label mousse::edgeCollapser::markMergeEdges
   label nCollapsed = 0;
   if (nTotRemove > 0)
   {
-    forAll(pointEdges, pointI)
+    FOR_ALL(pointEdges, pointI)
     {
       if (pointCanBeDeleted[pointI])
       {
@@ -1628,7 +1628,7 @@ mousse::labelPair mousse::edgeCollapser::markSmallSliverFaces
   // Calculate number of faces that will be collapsed to a point or an edge
   label nCollapseToPoint = 0;
   label nCollapseToEdge = 0;
-  forAll(faces, fI)
+  FOR_ALL(faces, fI)
   {
     const face& f = faces[fI];
     if (faceFilterFactor[fI] <= 0)
@@ -1659,7 +1659,7 @@ mousse::labelPair mousse::edgeCollapser::markSmallSliverFaces
     }
     else
     {
-      FatalErrorIn("collapseFaces(const polyMesh&, List<labelPair>&)")
+      FATAL_ERROR_IN("collapseFaces(const polyMesh&, List<labelPair>&)")
         << "Face is marked to be collapsed to " << flagCollapseFace
         << ". Currently can only collapse to point/edge."
         << abort(FatalError);
@@ -1681,7 +1681,7 @@ mousse::labelPair mousse::edgeCollapser::markFaceZoneEdges
   // Calculate number of faces that will be collapsed to a point or an edge
   label nCollapseToPoint = 0;
   label nCollapseToEdge = 0;
-  forAll(faces, fI)
+  FOR_ALL(faces, fI)
   {
     if (fZone.whichFace(fI) == -1)
     {
@@ -1716,7 +1716,7 @@ mousse::labelPair mousse::edgeCollapser::markFaceZoneEdges
     }
     else
     {
-      FatalErrorIn("collapseFaces(const polyMesh&, List<labelPair>&)")
+      FATAL_ERROR_IN("collapseFaces(const polyMesh&, List<labelPair>&)")
         << "Face is marked to be collapsed to " << flagCollapseFace
         << ". Currently can only collapse to point/edge."
         << abort(FatalError);
@@ -1728,7 +1728,7 @@ mousse::labelPair mousse::edgeCollapser::markFaceZoneEdges
 //    const labelListList& edgeFaces = mesh_.edgeFaces();
 //    const polyBoundaryMesh& bMesh = mesh_.boundaryMesh();
 //
-//    forAll(edges, eI)
+//    FOR_ALL(edges, eI)
 //    {
 //        const edge& e = edges[eI];
 //
@@ -1742,7 +1742,7 @@ mousse::labelPair mousse::edgeCollapser::markFaceZoneEdges
 //
 //        bool coupled = false;
 //
-//        forAll(eFaces, eFaceI)
+//        FOR_ALL(eFaces, eFaceI)
 //        {
 //            const label eFaceIndex = eFaces[eFaceI];
 //
@@ -1809,7 +1809,7 @@ mousse::labelPair mousse::edgeCollapser::markFaceZoneEdges
 //    );
 //    label count = 0;
 //
-//    forAll(collapseEdge, eI)
+//    FOR_ALL(collapseEdge, eI)
 //    {
 //        if (collapseEdge[eI])
 //        {

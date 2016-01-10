@@ -24,40 +24,45 @@ class CentredFitScheme
     const scalar linearLimitFactor_;
     //- Weights for central stencil
     const scalar centralWeight_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    CentredFitScheme(const CentredFitScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const CentredFitScheme&);
 public:
   //- Runtime type information
-  TypeName("CentredFitScheme");
+  TYPE_NAME("CentredFitScheme");
+
   // Constructors
     //- Construct from mesh and Istream
     CentredFitScheme(const fvMesh& mesh, Istream& is)
     :
-      linear<Type>(mesh),
-      linearLimitFactor_(readScalar(is)),
-      centralWeight_(1000)
+      linear<Type>{mesh},
+      linearLimitFactor_{readScalar(is)},
+      centralWeight_{1000}
     {}
+
     //- Construct from mesh, faceFlux and Istream
     CentredFitScheme
     (
       const fvMesh& mesh,
-      const surfaceScalarField& faceFlux,
+      const surfaceScalarField& /*faceFlux*/,
       Istream& is
     )
     :
-      linear<Type>(mesh),
-      linearLimitFactor_(readScalar(is)),
-      centralWeight_(1000)
+      linear<Type>{mesh},
+      linearLimitFactor_{readScalar(is)},
+      centralWeight_{1000}
     {}
+
+    //- Disallow default bitwise copy construct
+    CentredFitScheme(const CentredFitScheme&) = delete;
+
+    //- Disallow default bitwise assignment
+    CentredFitScheme& operator=(const CentredFitScheme&) = delete;
+
   // Member Functions
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
     {
       return true;
     }
+
     //- Return the explicit correction to the face-interpolate
     virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
     correction
@@ -71,50 +76,77 @@ public:
         mesh
       );
       const CentredFitData<Polynomial>& cfd =
-      CentredFitData<Polynomial>::New
-      (
-        mesh,
-        stencil,
-        linearLimitFactor_,
-        centralWeight_
-      );
+        CentredFitData<Polynomial>::New
+        (
+          mesh,
+          stencil,
+          linearLimitFactor_,
+          centralWeight_
+        );
       const List<scalarList>& f = cfd.coeffs();
       return stencil.weightedSum(vf, f);
     }
 };
 }  // namespace mousse
+
 // Add the patch constructor functions to the hash tables
-#define makeCentredFitSurfaceInterpolationTypeScheme\
+#define MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME\
 (                                                                             \
-  SS,                                                                       \
-  POLYNOMIAL,                                                               \
-  STENCIL,                                                                  \
-  TYPE                                                                      \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  TYPE                                                                        \
 )                                                                             \
-                                       \
+                                                                              \
 typedef CentredFitScheme<TYPE, POLYNOMIAL, STENCIL>                           \
-  CentredFitScheme##TYPE##POLYNOMIAL##STENCIL##_;                           \
-defineTemplateTypeNameAndDebugWithName                                        \
-  (CentredFitScheme##TYPE##POLYNOMIAL##STENCIL##_, #SS, 0);                 \
-                                       \
+  CentredFitScheme##TYPE##POLYNOMIAL##STENCIL##_;                             \
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                                 \
+  (CentredFitScheme##TYPE##POLYNOMIAL##STENCIL##_, #SS, 0);                   \
+                                                                              \
 surfaceInterpolationScheme<TYPE>::addMeshConstructorToTable                   \
 <CentredFitScheme<TYPE, POLYNOMIAL, STENCIL> >                                \
-  add##SS##STENCIL##TYPE##MeshConstructorToTable_;                          \
-                                       \
+  add##SS##STENCIL##TYPE##MeshConstructorToTable_;                            \
+                                                                              \
 surfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable               \
 <CentredFitScheme<TYPE, POLYNOMIAL, STENCIL> >                                \
   add##SS##STENCIL##TYPE##MeshFluxConstructorToTable_;
-#define makeCentredFitSurfaceInterpolationScheme(SS, POLYNOMIAL, STENCIL)     \
-                                       \
-makeCentredFitSurfaceInterpolationTypeScheme(SS,POLYNOMIAL,STENCIL,scalar)    \
-makeCentredFitSurfaceInterpolationTypeScheme(SS,POLYNOMIAL,STENCIL,vector)    \
-makeCentredFitSurfaceInterpolationTypeScheme                                  \
+
+#define MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_SCHEME(SS, POLYNOMIAL, STENCIL)\
+                                                                              \
+MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                            \
 (                                                                             \
-  SS,                                                                       \
-  POLYNOMIAL,                                                               \
-  STENCIL,                                                                  \
-  sphericalTensor                                                           \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  scalar                                                                      \
 )                                                                             \
-makeCentredFitSurfaceInterpolationTypeScheme(SS,POLYNOMIAL,STENCIL,symmTensor)\
-makeCentredFitSurfaceInterpolationTypeScheme(SS,POLYNOMIAL,STENCIL,tensor)
+MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                            \
+(                                                                             \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  vector                                                                      \
+)                                                                             \
+MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                            \
+(                                                                             \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  sphericalTensor                                                             \
+)                                                                             \
+MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                            \
+(                                                                             \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  symmTensor                                                                  \
+)                                                                             \
+MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                            \
+(                                                                             \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  tensor                                                                      \
+)
+
 #endif

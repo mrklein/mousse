@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(directMethod, 0);
-  addToRunTimeSelectionTable(meshToMeshMethod, directMethod, components);
+  DEFINE_TYPE_NAME_AND_DEBUG(directMethod, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(meshToMeshMethod, directMethod, components);
 }
 // Protected Member Functions 
 bool mousse::directMethod::intersect
@@ -45,7 +45,7 @@ bool mousse::directMethod::findInitialSeeds
     {
       const pointField
         pts(srcCells[srcI].points(srcFaces, srcPts).xfer());
-      forAll(pts, ptI)
+      FOR_ALL(pts, ptI)
       {
         const point& pt = pts[ptI];
         label tgtI = tgt_.cellTree().findInside(pt);
@@ -72,9 +72,9 @@ void mousse::directMethod::calculateAddressing
   scalarListList& tgtToSrcCellWght,
   const label srcSeedI,
   const label tgtSeedI,
-  const labelList& srcCellIDs, // not used
+  const labelList& /*srcCellIDs*/,
   boolList& mapFlag,
-  label& startSeedI
+  label& /*startSeedI*/
 )
 {
   // store a list of src cells already mapped
@@ -107,12 +107,12 @@ void mousse::directMethod::calculateAddressing
   }
   while (srcCellI >= 0);
   // transfer addressing into persistent storage
-  forAll(srcToTgtCellAddr, i)
+  FOR_ALL(srcToTgtCellAddr, i)
   {
     srcToTgtCellWght[i] = scalarList(srcToTgt[i].size(), srcVc[i]);
     srcToTgtCellAddr[i].transfer(srcToTgt[i]);
   }
-  forAll(tgtToSrcCellAddr, i)
+  FOR_ALL(tgtToSrcCellAddr, i)
   {
     tgtToSrcCellWght[i] = scalarList(tgtToSrc[i].size(), tgtVc[i]);
     tgtToSrcCellAddr[i].transfer(tgtToSrc[i]);
@@ -130,7 +130,7 @@ void mousse::directMethod::appendToDirectSeeds
   const labelList& srcNbr = src_.cellCells()[srcSeedI];
   const labelList& tgtNbr = tgt_.cellCells()[tgtSeedI];
   const vectorField& srcCentre = src_.cellCentres();
-  forAll(srcNbr, i)
+  FOR_ALL(srcNbr, i)
   {
     label srcI = srcNbr[i];
     if (mapFlag[srcI] && (srcTgtSeed[srcI] == -1))
@@ -138,7 +138,7 @@ void mousse::directMethod::appendToDirectSeeds
       // source cell srcI not yet mapped
       // identfy if target cell exists for source cell srcI
       bool found = false;
-      forAll(tgtNbr, j)
+      FOR_ALL(tgtNbr, j)
       {
         label tgtI = tgtNbr[j];
         if

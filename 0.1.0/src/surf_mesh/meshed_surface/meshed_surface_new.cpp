@@ -3,10 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "meshed_surface.hpp"
+
 #include "unsorted_meshed_surface.hpp"
+
 // Member Functions 
 template<class Face>
-mousse::autoPtr< mousse::MeshedSurface<Face> >
+mousse::autoPtr<mousse::MeshedSurface<Face>>
 mousse::MeshedSurface<Face>::New(const fileName& name, const word& ext)
 {
   if (debug)
@@ -24,23 +26,26 @@ mousse::MeshedSurface<Face>::New(const fileName& name, const word& ext)
     if (supported.found(ext))
     {
       // create indirectly
-      autoPtr< MeshedSurface<Face> > surf(new MeshedSurface<Face>);
+      autoPtr<MeshedSurface<Face>> surf{new MeshedSurface<Face>};
       surf().transfer(FriendType::New(name, ext)());
       return surf;
     }
     // nothing left to try, issue error
     supported += readTypes();
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "MeshedSurface<Face>::New(const fileName&, const word&) : "
       "constructing MeshedSurface"
-    )   << "Unknown file extension " << ext << nl << nl
-      << "Valid types are :" << nl
-      << supported
-      << exit(FatalError);
+    )
+    << "Unknown file extension " << ext << nl << nl
+    << "Valid types are :" << nl
+    << supported
+    << exit(FatalError);
   }
-  return autoPtr< MeshedSurface<Face> >(cstrIter()(name));
+  return autoPtr<MeshedSurface<Face>>{cstrIter()(name)};
 }
+
+
 template<class Face>
 mousse::autoPtr< mousse::MeshedSurface<Face> >
 mousse::MeshedSurface<Face>::New(const fileName& name)

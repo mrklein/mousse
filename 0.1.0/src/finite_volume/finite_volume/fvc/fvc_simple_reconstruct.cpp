@@ -51,7 +51,7 @@ reconstruct
     )
   );
   Field<GradType>& rf = treconField();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -60,12 +60,12 @@ reconstruct
   }
   const typename GeometricField<Type, fvsPatchField, surfaceMesh>::
   GeometricBoundaryField& bsf = ssf.boundaryField();
-  forAll(bsf, patchi)
+  FOR_ALL(bsf, patchi)
   {
     const fvsPatchField<Type>& psf = bsf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     const vectorField& pCf = Cf.boundaryField()[patchi];
-    forAll(pOwner, pFacei)
+    FOR_ALL(pOwner, pFacei)
     {
       label own = pOwner[pFacei];
       rf[own] += (pCf[pFacei] - C[own])*psf[pFacei];

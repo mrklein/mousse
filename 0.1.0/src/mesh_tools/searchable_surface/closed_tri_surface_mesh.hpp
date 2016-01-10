@@ -25,7 +25,7 @@ private:
     void operator=(const closedTriSurfaceMesh&);
 public:
   //- Runtime type information
-  TypeName("closedTriSurfaceMesh");
+  TYPE_NAME("closedTriSurfaceMesh");
   // Constructors
     //- Construct from triSurface
     closedTriSurfaceMesh(const IOobject&, const triSurface&);

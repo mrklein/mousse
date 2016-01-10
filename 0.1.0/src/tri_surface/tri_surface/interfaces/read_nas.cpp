@@ -5,6 +5,8 @@
 #include "tri_surface.hpp"
 #include "ifstream.hpp"
 #include "istring_stream.hpp"
+#include "map.hpp"
+
 namespace mousse
 {
 // Member Functions 
@@ -32,7 +34,7 @@ bool triSurface::readNAS(const fileName& fName)
   IFstream is(fName);
   if (!is.good())
   {
-    FatalErrorIn("triSurface::readNAS(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readNAS(const fileName&)")
       << "Cannot read file " << fName
       << exit(FatalError);
   }
@@ -214,7 +216,7 @@ bool triSurface::readNAS(const fileName& fName)
       is.getLine(line);
       if (line[0] != '*')
       {
-        FatalErrorIn("triSurface::readNAS(const fileName&)")
+        FATAL_ERROR_IN("triSurface::readNAS(const fileName&)")
           << "Expected continuation symbol '*' when reading GRID*"
           << " (double precision coordinate) output" << nl
           << "Read:" << line << nl
@@ -240,12 +242,12 @@ bool triSurface::readNAS(const fileName& fName)
   {
     // Build inverse mapping (index to point)
     Map<label> indexToPoint(2*indices.size());
-    forAll(indices, i)
+    FOR_ALL(indices, i)
     {
       indexToPoint.insert(indices[i], i);
     }
     // Relabel faces
-    forAll(faces, i)
+    FOR_ALL(faces, i)
     {
       labelledTri& f = faces[i];
       f[0] = indexToPoint[f[0]];
@@ -255,7 +257,7 @@ bool triSurface::readNAS(const fileName& fName)
   }
   // Convert groupToPatch to patchList.
   geometricSurfacePatchList patches(nPatches);
-  forAllConstIter(Map<word>, groupToName, iter)
+  FOR_ALL_CONST_ITER(Map<word>, groupToName, iter)
   {
     label patchI = groupToPatch[iter.key()];
     patches[patchI] = geometricSurfacePatch

@@ -3,7 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "starcd_surface_format.hpp"
+
 #include "list_ops.hpp"
+
 // Private Member Functions 
 template<class Face>
 inline void mousse::fileFormats::STARCDsurfaceFormat<Face>::writeShell
@@ -14,7 +16,7 @@ inline void mousse::fileFormats::STARCDsurfaceFormat<Face>::writeShell
   const label cellTableId
 )
 {
-  os  << cellId                    // includes 1 offset
+  os<< cellId                    // includes 1 offset
     << ' ' << starcdShellShape_  // 3(shell) shape
     << ' ' << f.size()
     << ' ' << cellTableId
@@ -22,7 +24,7 @@ inline void mousse::fileFormats::STARCDsurfaceFormat<Face>::writeShell
   // primitives have <= 8 vertices, but prevent overrun anyhow
   // indent following lines for ease of reading
   label count = 0;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if ((count % 8) == 0)
     {
@@ -33,6 +35,8 @@ inline void mousse::fileFormats::STARCDsurfaceFormat<Face>::writeShell
   }
   os  << endl;
 }
+
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::STARCDsurfaceFormat<Face>::STARCDsurfaceFormat
@@ -42,6 +46,8 @@ mousse::fileFormats::STARCDsurfaceFormat<Face>::STARCDsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::STARCDsurfaceFormat<Face>::read
@@ -55,7 +61,7 @@ bool mousse::fileFormats::STARCDsurfaceFormat<Face>::read
   // read cellTable names (if possible)
   Map<word> cellTableLookup;
   {
-    IFstream is(baseName + ".inp");
+    IFstream is{baseName + ".inp"};
     if (is.good())
     {
       cellTableLookup = readInpCellTable(is);
@@ -66,13 +72,13 @@ bool mousse::fileFormats::STARCDsurfaceFormat<Face>::read
   // read points from .vrt file
   readPoints
   (
-    IFstream(baseName + ".vrt")(),
+    IFstream{baseName + ".vrt"}(),
     this->storedPoints(),
     pointId
   );
   // Build inverse mapping (STAR-CD pointId -> index)
-  Map<label> mapPointId(2*pointId.size());
-  forAll(pointId, i)
+  Map<label> mapPointId{2*pointId.size()};
+  FOR_ALL(pointId, i)
   {
     mapPointId.insert(pointId[i], i);
   }
@@ -80,20 +86,20 @@ bool mousse::fileFormats::STARCDsurfaceFormat<Face>::read
   //
   // read .cel file
   // ~~~~~~~~~~~~~~
-  IFstream is(baseName + ".cel");
+  IFstream is{baseName + ".cel"};
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::STARCDsurfaceFormat::read(const fileName&)"
     )
-      << "Cannot read file " << is.name()
-      << exit(FatalError);
+    << "Cannot read file " << is.name()
+    << exit(FatalError);
   }
   readHeader(is, "PROSTAR_CELL");
-  DynamicList<Face>  dynFaces;
+  DynamicList<Face> dynFaces;
   DynamicList<label> dynZones;
-  DynamicList<word>  dynNames;
+  DynamicList<word> dynNames;
   DynamicList<label> dynSizes;
   Map<label> lookup;
   // assume the cellTableIds are not intermixed
@@ -150,14 +156,14 @@ bool mousse::fileFormats::STARCDsurfaceFormat<Face>::read
         }
         dynSizes.append(0);
       }
-      SubList<label> vertices(vertexLabels, vertexLabels.size());
+      SubList<label> vertices{vertexLabels, vertexLabels.size()};
       if (mustTriangulate && nLabels > 3)
       {
-        face f(vertices);
-        faceList triFaces(f.nTriangles());
+        face f{vertices};
+        faceList triFaces{f.nTriangles()};
         label nTri = 0;
         f.triangles(this->points(), nTri, triFaces);
-        forAll(triFaces, faceI)
+        FOR_ALL(triFaces, faceI)
         {
           // a triangular face, but not yet a triFace
           dynFaces.append
@@ -185,6 +191,8 @@ bool mousse::fileFormats::STARCDsurfaceFormat<Face>::read
   this->addZones(dynSizes, dynNames, true);
   return true;
 }
+
+
 template<class Face>
 void mousse::fileFormats::STARCDsurfaceFormat<Face>::write
 (
@@ -204,15 +212,15 @@ void mousse::fileFormats::STARCDsurfaceFormat<Face>::write
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
   fileName baseName = filename.lessExt();
   writePoints(OFstream(baseName + ".vrt")(), pointLst);
-  OFstream os(baseName + ".cel");
+  OFstream os{baseName + ".cel"};
   writeHeader(os, "CELL");
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceMap[faceIndex++]];
         writeShell(os, f, faceIndex, zoneI + 1);
@@ -220,7 +228,7 @@ void mousse::fileFormats::STARCDsurfaceFormat<Face>::write
     }
     else
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceIndex++];
         writeShell(os, f, faceIndex, zoneI + 1);

@@ -55,7 +55,7 @@ class twoDPointCorrector
     static const scalar edgeOrthogonalityTol;
 public:
   // Declare name of the class and its debug switch
-  ClassName("twoDPointCorrector");
+  CLASS_NAME("twoDPointCorrector");
   // Constructors
     //- Construct from components
     twoDPointCorrector(const polyMesh& mesh);

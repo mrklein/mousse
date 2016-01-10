@@ -26,7 +26,7 @@ class steadyStateD2dt2Scheme
     void operator=(const steadyStateD2dt2Scheme&);
 public:
   //- Runtime type information
-  TypeName("steadyState");
+  TYPE_NAME("steadyState");
   // Constructors
     //- Construct from mesh
     steadyStateD2dt2Scheme(const fvMesh& mesh)

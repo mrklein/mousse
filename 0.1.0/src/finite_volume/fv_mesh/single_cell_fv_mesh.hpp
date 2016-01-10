@@ -10,11 +10,14 @@
 // SourceFiles
 //   single_cell_fv_mesh.cpp
 //   single_cell_fv_mesh_interpolate.cpp
+
 #ifndef single_cell_fv_mesh_hpp_
 #define single_cell_fv_mesh_hpp_
+
 #include "fv_patch_field_mapper.hpp"
 #include "fv_mesh.hpp"
 #include "label_list_io_list.hpp"
+
 namespace mousse
 {
 class singleCellFvMesh
@@ -60,7 +63,7 @@ public:
           weights_(weights),
           hasUnmapped_(false)
         {
-          forAll(addressing_, i)
+          FOR_ALL(addressing_, i)
           {
             if (addressing_[i].empty())
             {
@@ -140,7 +143,9 @@ public:
     ) const;
 };
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "single_cell_fv_mesh_interpolate.cpp"
 #endif
+
 #endif

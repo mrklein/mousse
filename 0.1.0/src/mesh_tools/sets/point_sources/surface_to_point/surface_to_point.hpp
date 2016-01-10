@@ -41,7 +41,7 @@ class surfaceToPoint
     void checkSettings() const;
 public:
   //- Runtime type information
-  TypeName("surfaceToPoint");
+  TYPE_NAME("surfaceToPoint");
   // Constructors
     //- Construct from components
     surfaceToPoint

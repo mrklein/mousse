@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(treeDataPoint, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(treeDataPoint, 0);
 }
 // Constructors 
 mousse::treeDataPoint::treeDataPoint(const pointField& points)
@@ -36,7 +36,7 @@ mousse::treeDataPoint::findNearestOp::findNearestOp
 {}
 mousse::treeDataPoint::findIntersectOp::findIntersectOp
 (
-  const indexedOctree<treeDataPoint>& tree
+  const indexedOctree<treeDataPoint>&
 )
 {}
 // Member Functions 
@@ -55,8 +55,8 @@ mousse::pointField mousse::treeDataPoint::shapePoints() const
 //  Only makes sense for closed surfaces.
 mousse::volumeType mousse::treeDataPoint::getVolumeType
 (
-  const indexedOctree<treeDataPoint>& oc,
-  const point& sample
+  const indexedOctree<treeDataPoint>&,
+  const point& /*sample*/
 ) const
 {
   return volumeType::UNKNOWN;
@@ -96,7 +96,7 @@ void mousse::treeDataPoint::findNearestOp::operator()
 ) const
 {
   const treeDataPoint& shape = tree_.shapes();
-  forAll(indices, i)
+  FOR_ALL(indices, i)
   {
     const label index = indices[i];
     label pointI =
@@ -132,7 +132,7 @@ void mousse::treeDataPoint::findNearestOp::operator()
   {
     nearestDistSqr = magSqr(linePoint - nearestPoint);
   }
-  forAll(indices, i)
+  FOR_ALL(indices, i)
   {
     const label index = indices[i];
     label pointI =
@@ -173,13 +173,13 @@ void mousse::treeDataPoint::findNearestOp::operator()
 }
 bool mousse::treeDataPoint::findIntersectOp::operator()
 (
-  const label index,
-  const point& start,
-  const point& end,
-  point& result
+  const label /*index*/,
+  const point& /*start*/,
+  const point& /*end*/,
+  point& /*result*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "treeDataPoint::intersects(const label, const point&,"
     "const point&, point&)"

@@ -75,10 +75,6 @@ private:
       const vectorField& ppField,
       const vector& defaultDir
     );
-    //- Disallow default bitwise copy construct
-    directions(const directions&);
-    //- Disallow default bitwise assignment
-    void operator=(const directions&);
 public:
   // Constructors
     //- Construct from mesh and dictionary and optional 2D corrector.
@@ -88,6 +84,10 @@ public:
       const dictionary& dict,
       const twoDPointCorrector* correct2DPtr = NULL
     );
+    //- Disallow default bitwise copy construct
+    directions(const directions&) = delete;
+    //- Disallow default bitwise assignment
+    directions& operator=(const directions&) = delete;
 };
 }  // namespace mousse
 #endif

@@ -24,7 +24,7 @@ class solidBodyMotionDisplacementPointPatchVectorField
     mutable autoPtr<pointField> localPoints0Ptr_;
 public:
   //- Runtime type information
-  TypeName("solidBodyMotionDisplacement");
+  TYPE_NAME("solidBodyMotionDisplacement");
   // Constructors
     //- Construct from patch and internal field
     solidBodyMotionDisplacementPointPatchVectorField

@@ -6,12 +6,15 @@
 #include "global_index.hpp"
 #include "sync_tools.hpp"
 #include "sortable_list.hpp"
-/* * * * * * * * * * * * * * * Static Member Data  * * * * * * * * * * * * * */
+#include "pstream_reduce_ops.hpp"
+
+// Static Member Data
 namespace mousse
 {
-defineTypeNameAndDebug(extendedCellToFaceStencil, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(extendedCellToFaceStencil, 0);
 }
-// Private Member Functions 
+
+// Private Member Functions
 void mousse::extendedCellToFaceStencil::writeStencilStats
 (
   Ostream& os,
@@ -23,7 +26,7 @@ void mousse::extendedCellToFaceStencil::writeStencilStats
   label nSum = 0;
   label minSize = labelMax;
   label maxSize = labelMin;
-  forAll(stencil, i)
+  FOR_ALL(stencil, i)
   {
     const labelList& sCells = stencil[i];
     if (sCells.size() > 0)
@@ -46,7 +49,7 @@ void mousse::extendedCellToFaceStencil::writeStencilStats
   // Sum all sent data
   label nSent = 0;
   label nLocal = 0;
-  forAll(map.subMap(), procI)
+  FOR_ALL(map.subMap(), procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -61,14 +64,15 @@ void mousse::extendedCellToFaceStencil::writeStencilStats
     << "Sent data size  : " << returnReduce(nSent, sumOp<label>()) << nl
     << endl;
 }
-// Constructors 
+
+// Constructors
 mousse::extendedCellToFaceStencil::extendedCellToFaceStencil(const polyMesh& mesh)
 :
   mesh_(mesh)
 {
   // Check for transformation - not supported.
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (patches[patchI].coupled())
     {
@@ -76,13 +80,14 @@ mousse::extendedCellToFaceStencil::extendedCellToFaceStencil(const polyMesh& mes
         refCast<const coupledPolyPatch>(patches[patchI]);
       if (!cpp.parallel() || cpp.separated())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "extendedCellToFaceStencil::extendedCellToFaceStencil"
           "(const polyMesh&)"
-        )   << "Coupled patches with transformations not supported."
-          << endl
-          << "Problematic patch " << cpp.name() << exit(FatalError);
+        )
+        << "Coupled patches with transformations not supported."
+        << endl
+        << "Problematic patch " << cpp.name() << exit(FatalError);
       }
     }
   }

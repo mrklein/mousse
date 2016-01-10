@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(OBJstream, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(OBJstream, 0);
 }
 // Private Member Functions 
 void mousse::OBJstream::writeAndCheck(const char c)
@@ -226,14 +226,14 @@ mousse::Ostream& mousse::OBJstream::write
 )
 {
   label start = nVertices_;
-  forAll(f, i)
+  FOR_ALL(f, i)
   {
     write(points[f[i]]);
   }
   if (lines)
   {
     write('l');
-    forAll(f, i)
+    FOR_ALL(f, i)
     {
       write(' ') << start+1+i;
     }
@@ -242,7 +242,7 @@ mousse::Ostream& mousse::OBJstream::write
   else
   {
     write('f');
-    forAll(f, i)
+    FOR_ALL(f, i)
     {
       write(' ') << start+1+i;
     }
@@ -262,14 +262,14 @@ mousse::Ostream& mousse::OBJstream::write
   const pointField& localPoints = pp.localPoints();
   const faceList& localFaces = pp.localFaces();
   label start = nVertices_;
-  forAll(localPoints, i)
+  FOR_ALL(localPoints, i)
   {
     write(localPoints[i]);
   }
   if (lines)
   {
     const edgeList& edges = pp.edges();
-    forAll(edges, edgeI)
+    FOR_ALL(edges, edgeI)
     {
       const edge& e = edges[edgeI];
       write("l ") << start+e[0]+1 << ' ' << start+e[1]+1 << nl;
@@ -277,11 +277,11 @@ mousse::Ostream& mousse::OBJstream::write
   }
   else
   {
-    forAll(localFaces, faceI)
+    FOR_ALL(localFaces, faceI)
     {
       const face& f = localFaces[faceI];
       write('f');
-      forAll(f, i)
+      FOR_ALL(f, i)
       {
         write(' ') << start+f[i]+1;
       }

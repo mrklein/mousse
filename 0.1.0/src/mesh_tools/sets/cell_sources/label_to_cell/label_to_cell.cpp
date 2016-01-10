@@ -8,9 +8,9 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(labelToCell, 0);
-addToRunTimeSelectionTable(topoSetSource, labelToCell, word);
-addToRunTimeSelectionTable(topoSetSource, labelToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(labelToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, labelToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, labelToCell, istream);
 }
 mousse::topoSetSource::addToUsageTable mousse::labelToCell::usage_
 (
@@ -21,7 +21,7 @@ mousse::topoSetSource::addToUsageTable mousse::labelToCell::usage_
 // Private Member Functions 
 void mousse::labelToCell::combine(topoSet& set, const bool add) const
 {
-  forAll(labels_, labelI)
+  FOR_ALL(labels_, labelI)
   {
     addOrDelete(set, labels_[labelI], add);
   }

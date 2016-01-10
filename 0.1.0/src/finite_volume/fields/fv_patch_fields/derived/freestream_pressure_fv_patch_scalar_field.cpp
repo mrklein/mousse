@@ -102,7 +102,7 @@ void mousse::freestreamPressureFvPatchScalarField::updateCoeffs()
   }
   else
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "dimensions of phi are not correct"
       << "\n    on patch " << this->patch().name()
       << " of field " << this->dimensionedInternalField().name()
@@ -121,9 +121,9 @@ void mousse::freestreamPressureFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    freestreamPressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  freestreamPressureFvPatchScalarField
+);
 }

@@ -67,7 +67,7 @@ class uniformTotalPressureFvPatchScalarField
     autoPtr<DataEntry<scalar> > pressure_;
 public:
   //- Runtime type information
-  TypeName("uniformTotalPressure");
+  TYPE_NAME("uniformTotalPressure");
   // Constructors
     //- Construct from patch and internal field
     uniformTotalPressureFvPatchScalarField

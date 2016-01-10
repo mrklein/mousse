@@ -14,9 +14,10 @@ surfaceNormalFixedValueFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  refValue_(p.size())
+  fixedValueFvPatchVectorField{p, iF},
+  refValue_{p.size()}
 {}
+
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
 (
@@ -26,20 +27,21 @@ surfaceNormalFixedValueFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  refValue_(ptf.refValue_, mapper)
+  fixedValueFvPatchVectorField{p, iF},
+  refValue_{ptf.refValue_, mapper}
 {
   // Note: calculate product only on ptf to avoid multiplication on
   // unset values in reconstructPar.
   fixedValueFvPatchVectorField::operator=
   (
     vectorField
-    (
+    {
       ptf.refValue_*ptf.patch().nf(),
       mapper
-    )
+    }
   );
 }
+
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
 (
@@ -48,20 +50,22 @@ surfaceNormalFixedValueFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  refValue_("refValue", dict, p.size())
+  fixedValueFvPatchVectorField{p, iF},
+  refValue_{"refValue", dict, p.size()}
 {
   fvPatchVectorField::operator=(refValue_*patch().nf());
 }
+
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
 (
   const surfaceNormalFixedValueFvPatchVectorField& pivpvf
 )
 :
-  fixedValueFvPatchVectorField(pivpvf),
-  refValue_(pivpvf.refValue_)
+  fixedValueFvPatchVectorField{pivpvf},
+  refValue_{pivpvf.refValue_}
 {}
+
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
 (
@@ -69,9 +73,10 @@ surfaceNormalFixedValueFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(pivpvf, iF),
-  refValue_(pivpvf.refValue_)
+  fixedValueFvPatchVectorField{pivpvf, iF},
+  refValue_{pivpvf.refValue_}
 {}
+
 // Member Functions 
 void mousse::surfaceNormalFixedValueFvPatchVectorField::autoMap
 (
@@ -81,6 +86,7 @@ void mousse::surfaceNormalFixedValueFvPatchVectorField::autoMap
   fixedValueFvPatchVectorField::autoMap(m);
   refValue_.autoMap(m);
 }
+
 void mousse::surfaceNormalFixedValueFvPatchVectorField::rmap
 (
   const fvPatchVectorField& ptf,
@@ -92,6 +98,7 @@ void mousse::surfaceNormalFixedValueFvPatchVectorField::rmap
     refCast<const surfaceNormalFixedValueFvPatchVectorField>(ptf);
   refValue_.rmap(tiptf.refValue_, addr);
 }
+
 void mousse::surfaceNormalFixedValueFvPatchVectorField::updateCoeffs()
 {
   if (updated())
@@ -101,16 +108,18 @@ void mousse::surfaceNormalFixedValueFvPatchVectorField::updateCoeffs()
   fvPatchVectorField::operator=(refValue_*patch().nf());
   fvPatchVectorField::updateCoeffs();
 }
+
 void mousse::surfaceNormalFixedValueFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
   refValue_.writeEntry("refValue", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    surfaceNormalFixedValueFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  surfaceNormalFixedValueFvPatchVectorField
+);
 }

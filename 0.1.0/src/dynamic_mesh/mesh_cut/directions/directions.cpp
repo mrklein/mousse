@@ -61,13 +61,13 @@ void mousse::directions::writeOBJ
     << endl << endl;
   OFstream xDirStream(fName);
   label vertI = 0;
-  forAll(dirs, cellI)
+  FOR_ALL(dirs, cellI)
   {
     const point& ctr = mesh.cellCentres()[cellI];
     // Calculate local length scale
     scalar minDist = GREAT;
     const labelList& nbrs = mesh.cellCells()[cellI];
-    forAll(nbrs, nbrI)
+    FOR_ALL(nbrs, nbrI)
     {
       minDist = min(minDist, mag(mesh.cellCentres()[nbrs[nbrI]] - ctr));
     }
@@ -85,7 +85,7 @@ void mousse::directions::check2D
   {
     if (mag(correct2DPtr->planeNormal() & vec) > 1e-6)
     {
-      FatalErrorIn("check2D") << "Specified vector " << vec
+      FATAL_ERROR_IN("check2D") << "Specified vector " << vec
         << "is not normal to plane defined in dynamicMeshDict."
         << endl
         << "Either make case 3D or adjust vector."
@@ -108,13 +108,13 @@ mousse::vectorField mousse::directions::propagateDirection
   List<directionInfo> changedFacesInfo(pp.size());
   if (useTopo)
   {
-    forAll(pp, patchFaceI)
+    FOR_ALL(pp, patchFaceI)
     {
       label meshFaceI = pp.start() + patchFaceI;
       label cellI = mesh.faceOwner()[meshFaceI];
       if (!hexMatcher().isA(mesh, cellI))
       {
-        FatalErrorIn("propagateDirection")
+        FATAL_ERROR_IN("propagateDirection")
           << "useHexTopology specified but cell " << cellI
           << " on face " << patchFaceI << " of patch " << pp.name()
           << " is not a hex" << exit(FatalError);
@@ -143,7 +143,7 @@ mousse::vectorField mousse::directions::propagateDirection
   }
   else
   {
-    forAll(pp, patchFaceI)
+    FOR_ALL(pp, patchFaceI)
     {
       changedFaces[patchFaceI] = pp.start() + patchFaceI;
       changedFacesInfo[patchFaceI] =
@@ -166,13 +166,13 @@ mousse::vectorField mousse::directions::propagateDirection
   label nUnset = 0;
   label nGeom = 0;
   label nTopo = 0;
-  forAll(cellInfo, cellI)
+  FOR_ALL(cellInfo, cellI)
   {
     label index = cellInfo[cellI].index();
     if (index == -3)
     {
       // Never visited
-      WarningIn("propagateDirection")
+      WARNING_IN("propagateDirection")
         << "Cell " << cellI << " never visited to determine "
         << "local coordinate system" << endl
         << "Using direction " << defaultDir << " instead" << endl;
@@ -187,7 +187,7 @@ mousse::vectorField mousse::directions::propagateDirection
     }
     else if (index == -1)
     {
-      FatalErrorIn("propagateDirection")
+      FATAL_ERROR_IN("propagateDirection")
         << "Illegal index " << index << endl
         << "Value is only allowed on faces" << abort(FatalError);
     }
@@ -220,7 +220,7 @@ mousse::directions::directions
   bool wantNormal = false;
   bool wantTan1 = false;
   bool wantTan2 = false;
-  forAll(wantedDirs, i)
+  FOR_ALL(wantedDirs, i)
   {
     directionType wantedDir = directionTypeNames_[wantedDirs[i]];
     if (wantedDir == NORMAL)
@@ -272,7 +272,7 @@ mousse::directions::directions
     const label patchI = mesh.boundaryMesh().findPatchID(patchName);
     if (patchI == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "directions::directions(const polyMesh&, const dictionary&,"
         "const twoDPointCorrector*)"
@@ -287,7 +287,7 @@ mousse::directions::directions
     if (correct2DPtr)
     {
       tan1 = correct2DPtr->planeNormal() ^ n0;
-      WarningIn
+      WARNING_IN
       (
         "directions::directions(const polyMesh&, const dictionary&,"
         "const twoDPointCorrector*)"
@@ -338,7 +338,7 @@ mousse::directions::directions
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "directions::directions(const polyMesh&, const dictionary&,"
       "const twoDPointCorrector*)"

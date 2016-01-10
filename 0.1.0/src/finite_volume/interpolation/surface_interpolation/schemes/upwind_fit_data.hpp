@@ -10,9 +10,12 @@
 //   - linearCorrection = false : fit calculated for corrected upwind scheme
 // SourceFiles
 //   upwind_fit_data.cpp
+//
 #ifndef upwind_fit_data_hpp_
 #define upwind_fit_data_hpp_
+
 #include "fit_data.hpp"
+
 namespace mousse
 {
 class extendedUpwindCellToFaceStencil;
@@ -38,7 +41,7 @@ class UpwindFitData
     //  and set the coefficients
     void calcFit();
 public:
-  TypeName("UpwindFitData");
+  TYPE_NAME("UpwindFitData");
   // Constructors
     //- Construct from components
     UpwindFitData

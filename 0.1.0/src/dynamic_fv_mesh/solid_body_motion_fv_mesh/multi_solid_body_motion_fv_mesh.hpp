@@ -31,17 +31,19 @@ class multiSolidBodyMotionFvMesh
     labelList zoneIDs_;
     //- Points to move per cellZone
     labelListList pointIDs_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    multiSolidBodyMotionFvMesh(const multiSolidBodyMotionFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const multiSolidBodyMotionFvMesh&);
 public:
   //- Runtime type information
-  TypeName("multiSolidBodyMotionFvMesh");
+  TYPE_NAME("multiSolidBodyMotionFvMesh");
   // Constructors
     //- Construct from IOobject
     multiSolidBodyMotionFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    multiSolidBodyMotionFvMesh(const multiSolidBodyMotionFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    multiSolidBodyMotionFvMesh& operator=
+    (
+      const multiSolidBodyMotionFvMesh&
+    ) = delete;
   //- Destructor
   ~multiSolidBodyMotionFvMesh();
   // Member Functions

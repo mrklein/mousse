@@ -117,16 +117,16 @@ class meshCutAndRemove
       const label cellI,
       const labelList& loop
     ) const;
-    //- Disallow default bitwise copy construct
-    meshCutAndRemove(const meshCutAndRemove&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshCutAndRemove&);
 public:
   //- Runtime type information
-  ClassName("meshCutAndRemove");
+  CLASS_NAME("meshCutAndRemove");
   // Constructors
     //- Construct from mesh
     meshCutAndRemove(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    meshCutAndRemove(const meshCutAndRemove&) = delete;
+    //- Disallow default bitwise assignment
+    meshCutAndRemove& operator=(const meshCutAndRemove&) = delete;
   // Member Functions
     // Edit
       //- Do actual cutting with cut description. Inserts mesh changes

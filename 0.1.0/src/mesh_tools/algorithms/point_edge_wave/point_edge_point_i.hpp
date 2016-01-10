@@ -110,7 +110,7 @@ inline mousse::scalar mousse::pointEdgePoint::distSqr() const
   return distSqr_;
 }
 template<class TrackingData>
-inline bool mousse::pointEdgePoint::valid(TrackingData& td) const
+inline bool mousse::pointEdgePoint::valid(TrackingData&) const
 {
   return origin_ != point::max;
 }
@@ -120,7 +120,7 @@ inline bool mousse::pointEdgePoint::sameGeometry
 (
   const pointEdgePoint& w2,
   const scalar tol,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   scalar diff = mousse::mag(distSqr() - w2.distSqr());
@@ -143,10 +143,10 @@ inline bool mousse::pointEdgePoint::sameGeometry
 template<class TrackingData>
 inline void mousse::pointEdgePoint::leaveDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
+  const polyPatch&,
+  const label /*patchPointI*/,
   const point& coord,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ -= coord;
@@ -155,7 +155,7 @@ template<class TrackingData>
 inline void mousse::pointEdgePoint::transform
 (
   const tensor& rotTensor,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ = mousse::transform(rotTensor, origin_);
@@ -165,10 +165,10 @@ inline void mousse::pointEdgePoint::transform
 template<class TrackingData>
 inline void mousse::pointEdgePoint::enterDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
+  const polyPatch&,
+  const label /*patchPointI*/,
   const point& coord,
-  TrackingData& td
+  TrackingData&
 )
 {
   // back to absolute form
@@ -180,7 +180,7 @@ inline bool mousse::pointEdgePoint::updatePoint
 (
   const polyMesh& mesh,
   const label pointI,
-  const label edgeI,
+  const label /*edgeI*/,
   const pointEdgePoint& edgeInfo,
   const scalar tol,
   TrackingData& td
@@ -218,7 +218,7 @@ inline bool mousse::pointEdgePoint::updateEdge
 (
   const polyMesh& mesh,
   const label edgeI,
-  const label pointI,
+  const label /*pointI*/,
   const pointEdgePoint& pointInfo,
   const scalar tol,
   TrackingData& td
@@ -231,7 +231,7 @@ template<class TrackingData>
 inline bool mousse::pointEdgePoint::equal
 (
   const pointEdgePoint& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

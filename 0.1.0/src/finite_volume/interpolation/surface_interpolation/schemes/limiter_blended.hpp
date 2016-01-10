@@ -11,9 +11,13 @@
 //   div(phi,U)      Gauss limiterBlended vanLeer linear linearUpwind grad(U);
 // SourceFiles
 //   limiter_blended.cpp
+
 #ifndef limiter_blended_hpp_
 #define limiter_blended_hpp_
+
 #include "limited_surface_interpolation_scheme.hpp"
+#include "surface_fields.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -28,13 +32,9 @@ class limiterBlended
     tmp<surfaceInterpolationScheme<Type> > tScheme1_;
     //- Scheme 2
     tmp<surfaceInterpolationScheme<Type> > tScheme2_;
-    //- Disallow default bitwise copy construct
-    limiterBlended(const limiterBlended&);
-    //- Disallow default bitwise assignment
-    void operator=(const limiterBlended&);
 public:
   //- Runtime type information
-  TypeName("limiterBlended");
+  TYPE_NAME("limiterBlended");
   // Constructors
     //- Construct from mesh and Istream.
     //  The name of the flux field is read from the Istream and looked-up
@@ -45,19 +45,19 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       tLimitedScheme_
-      (
+      {
         limitedSurfaceInterpolationScheme<Type>::New(mesh, is)
-      ),
+      },
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      ),
+      },
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      )
+      }
     {}
     //- Construct from mesh, faceFlux and Istream
     limiterBlended
@@ -67,20 +67,24 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       tLimitedScheme_
-      (
+      {
         limitedSurfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      ),
+      },
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      ),
+      },
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {}
+    //- Disallow default bitwise copy construct
+    limiterBlended(const limiterBlended&) = delete;
+    //- Disallow default bitwise assignment
+    limiterBlended& operator=(const limiterBlended&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights
@@ -89,9 +93,9 @@ public:
     ) const
     {
       surfaceScalarField blendingFactor
-      (
+      {
         tLimitedScheme_().limiter(vf)
-      );
+      };
       return
         blendingFactor*tScheme1_().weights(vf)
        + (scalar(1) - blendingFactor)*tScheme2_().weights(vf);
@@ -102,9 +106,9 @@ public:
     interpolate(const GeometricField<Type, fvPatchField, volMesh>& vf) const
     {
       surfaceScalarField blendingFactor
-      (
+      {
         tLimitedScheme_().limiter(vf)
-      );
+      };
       return
         blendingFactor*tScheme1_().interpolate(vf)
        + (scalar(1) - blendingFactor)*tScheme2_().interpolate(vf);
@@ -123,9 +127,9 @@ public:
     ) const
     {
       surfaceScalarField blendingFactor
-      (
+      {
         tLimitedScheme_().limiter(vf)
-      );
+      };
       if (tScheme1_().corrected())
       {
         if (tScheme2_().corrected())
@@ -149,18 +153,11 @@ public:
       }
       else if (tScheme2_().corrected())
       {
-        return
-        (
-          (scalar(1.0) - blendingFactor)
-         * tScheme2_().correction(vf)
-        );
+        return (scalar(1.0) - blendingFactor)*tScheme2_().correction(vf);
       }
       else
       {
-        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-        (
-          NULL
-        );
+        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >{NULL};
       }
     }
 };

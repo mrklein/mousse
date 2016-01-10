@@ -86,7 +86,7 @@ class Poisson
     void operator=(const Poisson&);
 public:
   //- Runtime type information
-  TypeName("Poisson");
+  TYPE_NAME("Poisson");
   // Constructors
     //- Construct from coefficients dictionary, mesh
     //  and fixed-value patch set

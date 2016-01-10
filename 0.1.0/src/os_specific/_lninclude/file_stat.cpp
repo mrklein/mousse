@@ -1,1 +1,0 @@
-../posix/file_stat.cpp

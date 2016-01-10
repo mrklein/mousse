@@ -7,6 +7,7 @@
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
 #include "vol_fields.hpp"
+
 // Constructors 
 mousse::turbulentIntensityKineticEnergyInletFvPatchScalarField::
 turbulentIntensityKineticEnergyInletFvPatchScalarField
@@ -15,14 +16,15 @@ turbulentIntensityKineticEnergyInletFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  inletOutletFvPatchScalarField(p, iF),
-  intensity_(0.0),
-  UName_("U")
+  inletOutletFvPatchScalarField{p, iF},
+  intensity_{0.0},
+  UName_{"U"}
 {
   this->refValue() = 0.0;
   this->refGrad() = 0.0;
   this->valueFraction() = 0.0;
 }
+
 mousse::turbulentIntensityKineticEnergyInletFvPatchScalarField::
 turbulentIntensityKineticEnergyInletFvPatchScalarField
 (
@@ -32,10 +34,11 @@ turbulentIntensityKineticEnergyInletFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  inletOutletFvPatchScalarField(ptf, p, iF, mapper),
-  intensity_(ptf.intensity_),
-  UName_(ptf.UName_)
+  inletOutletFvPatchScalarField{ptf, p, iF, mapper},
+  intensity_{ptf.intensity_},
+  UName_{ptf.UName_}
 {}
+
 mousse::turbulentIntensityKineticEnergyInletFvPatchScalarField::
 turbulentIntensityKineticEnergyInletFvPatchScalarField
 (
@@ -44,14 +47,14 @@ turbulentIntensityKineticEnergyInletFvPatchScalarField
   const dictionary& dict
 )
 :
-  inletOutletFvPatchScalarField(p, iF),
-  intensity_(readScalar(dict.lookup("intensity"))),
-  UName_(dict.lookupOrDefault<word>("U", "U"))
+  inletOutletFvPatchScalarField{p, iF},
+  intensity_{readScalar(dict.lookup("intensity"))},
+  UName_{dict.lookupOrDefault<word>("U", "U")}
 {
   this->phiName_ = dict.lookupOrDefault<word>("phi", "phi");
   if (intensity_ < 0 || intensity_ > 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "turbulentIntensityKineticEnergyInletFvPatchScalarField::"
       "turbulentIntensityKineticEnergyInletFvPatchScalarField"
@@ -73,16 +76,18 @@ turbulentIntensityKineticEnergyInletFvPatchScalarField
   this->refGrad() = 0.0;
   this->valueFraction() = 0.0;
 }
+
 mousse::turbulentIntensityKineticEnergyInletFvPatchScalarField::
 turbulentIntensityKineticEnergyInletFvPatchScalarField
 (
   const turbulentIntensityKineticEnergyInletFvPatchScalarField& ptf
 )
 :
-  inletOutletFvPatchScalarField(ptf),
-  intensity_(ptf.intensity_),
-  UName_(ptf.UName_)
+  inletOutletFvPatchScalarField{ptf},
+  intensity_{ptf.intensity_},
+  UName_{ptf.UName_}
 {}
+
 mousse::turbulentIntensityKineticEnergyInletFvPatchScalarField::
 turbulentIntensityKineticEnergyInletFvPatchScalarField
 (
@@ -90,10 +95,11 @@ turbulentIntensityKineticEnergyInletFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  inletOutletFvPatchScalarField(ptf, iF),
-  intensity_(ptf.intensity_),
-  UName_(ptf.UName_)
+  inletOutletFvPatchScalarField{ptf, iF},
+  intensity_{ptf.intensity_},
+  UName_{ptf.UName_}
 {}
+
 // Member Functions 
 void mousse::turbulentIntensityKineticEnergyInletFvPatchScalarField::
 updateCoeffs()
@@ -110,6 +116,7 @@ updateCoeffs()
   this->valueFraction() = 1.0 - pos(phip);
   inletOutletFvPatchScalarField::updateCoeffs();
 }
+
 void mousse::turbulentIntensityKineticEnergyInletFvPatchScalarField::write
 (
   Ostream& os
@@ -121,11 +128,12 @@ void mousse::turbulentIntensityKineticEnergyInletFvPatchScalarField::write
   writeEntryIfDifferent<word>(os, "phi", "phi", this->phiName_);
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    turbulentIntensityKineticEnergyInletFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  turbulentIntensityKineticEnergyInletFvPatchScalarField
+);
 }

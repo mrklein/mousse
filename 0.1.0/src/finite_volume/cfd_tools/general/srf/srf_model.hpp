@@ -38,17 +38,11 @@ protected:
     dictionary SRFModelCoeffs_;
     //- Angular velocity of the frame (rad/s)
     dimensionedVector omega_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    SRFModel(const SRFModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const SRFModel&);
 public:
   //- Runtime type information
-  TypeName("SRFModel");
+  TYPE_NAME("SRFModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       SRFModel,
@@ -65,6 +59,10 @@ public:
       const word& type,
       const volVectorField& Urel
     );
+    //- Disallow default bitwise copy construct
+    SRFModel(const SRFModel&) = delete;
+    //- Disallow default bitwise assignment
+    SRFModel& operator=(const SRFModel&) = delete;
   // Selectors
     //- Return a reference to the selected SRF model
     static autoPtr<SRFModel> New

@@ -10,7 +10,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(thresholdCellFaces, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(thresholdCellFaces, 0);
 }
 // Private Member Functions 
 void mousse::thresholdCellFaces::calculate
@@ -34,7 +34,7 @@ void mousse::thresholdCellFaces::calculate
     0,  // start
     0   // index
   );
-  forAll(bMesh, patchI)
+  FOR_ALL(bMesh, patchI)
   {
     surfZones[patchI+1] = surfZone
     (
@@ -81,7 +81,7 @@ void mousse::thresholdCellFaces::calculate
     if (side)
     {
       const face& f = origFaces[faceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (oldToNewPoints[f[fp]] == -1)
         {
@@ -117,7 +117,7 @@ void mousse::thresholdCellFaces::calculate
   }
   surfZones[0].size() = surfFaces.size();
   // nothing special for processor patches?
-  forAll(bMesh, patchI)
+  FOR_ALL(bMesh, patchI)
   {
     const polyPatch& p = bMesh[patchI];
     surfZone& zone = surfZones[patchI+1];
@@ -132,7 +132,7 @@ void mousse::thresholdCellFaces::calculate
     }
     label faceI = p.start();
     // patch faces
-    forAll(p, localFaceI)
+    FOR_ALL(p, localFaceI)
     {
       if
       (
@@ -141,7 +141,7 @@ void mousse::thresholdCellFaces::calculate
       )
       {
         const face& f = origFaces[faceI];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if (oldToNewPoints[f[fp]] == -1)
           {
@@ -170,13 +170,13 @@ void mousse::thresholdCellFaces::calculate
   surfFaces.shrink();
   surfCells.shrink();
   // renumber
-  forAll(surfFaces, faceI)
+  FOR_ALL(surfFaces, faceI)
   {
     inplaceRenumber(oldToNewPoints, surfFaces[faceI]);
   }
   pointField surfPoints(nPoints);
   nPoints = 0;
-  forAll(oldToNewPoints, pointI)
+  FOR_ALL(oldToNewPoints, pointI)
   {
     if (oldToNewPoints[pointI] >= 0)
     {
@@ -204,7 +204,7 @@ mousse::thresholdCellFaces::thresholdCellFaces
 {
   if (lowerThreshold > upperThreshold)
   {
-    WarningIn("thresholdCellFaces::thresholdCellFaces(...)")
+    WARNING_IN("thresholdCellFaces::thresholdCellFaces(...)")
       << "lower > upper limit!  "
       << lowerThreshold << " > " << upperThreshold << endl;
   }

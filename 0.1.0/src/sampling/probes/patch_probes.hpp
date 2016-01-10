@@ -65,7 +65,7 @@ class patchProbes
     void operator=(const patchProbes&);
 public:
   //- Runtime type information
-  TypeName("patchProbes");
+  TYPE_NAME("patchProbes");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

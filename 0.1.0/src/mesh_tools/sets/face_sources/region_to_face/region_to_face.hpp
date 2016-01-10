@@ -39,7 +39,7 @@ class regionToFace
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("regionToFace");
+  TYPE_NAME("regionToFace");
   // Constructors
     //- Construct from components
     regionToFace

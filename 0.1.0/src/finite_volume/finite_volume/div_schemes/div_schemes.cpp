@@ -3,30 +3,36 @@
 // Copyright (C) 2016 mousse project
 
 #include "div_scheme.hpp"
+
 namespace mousse
 {
 namespace fv
 {
+
 // Define the constructor function hash tables
-defineTemplateRunTimeSelectionTable
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   divScheme<vector>,
   Istream
 );
-defineTemplateRunTimeSelectionTable
+
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   divScheme<sphericalTensor>,
   Istream
 );
-defineTemplateRunTimeSelectionTable
+
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   divScheme<symmTensor>,
   Istream
 );
-defineTemplateRunTimeSelectionTable
+
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   divScheme<tensor>,
   Istream
 );
+
 }  // namespace fv
 }  // namespace mousse

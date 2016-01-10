@@ -7,16 +7,20 @@
 //   Abstract base class for cyclic AMI coupled interfaces
 // SourceFiles
 //   cyclic_ami_ldu_interface_field.cpp
+
 #ifndef cyclic_ami_ldu_interface_field_hpp_
 #define cyclic_ami_ldu_interface_field_hpp_
+
 #include "primitive_fields_fwd.hpp"
+#include "type_info.hpp"
+
 namespace mousse
 {
 class cyclicAMILduInterfaceField
 {
 public:
   //- Runtime type information
-  TypeName("cyclicAMILduInterfaceField");
+  TYPE_NAME("cyclicAMILduInterfaceField");
   // Constructors
     //- Construct null
     cyclicAMILduInterfaceField()

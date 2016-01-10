@@ -120,7 +120,7 @@ private:
     void operator=(const probes&);
 public:
   //- Runtime type information
-  TypeName("probes");
+  TYPE_NAME("probes");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -174,7 +174,7 @@ public:
     //- Update for changes of mesh
     virtual void movePoints(const polyMesh&);
     //- Update for changes of mesh due to readUpdate
-    virtual void readUpdate(const polyMesh::readUpdateState state)
+    virtual void readUpdate(const polyMesh::readUpdateState /*state*/)
     {}
     //- Sample a volume field at all locations
     template<class Type>

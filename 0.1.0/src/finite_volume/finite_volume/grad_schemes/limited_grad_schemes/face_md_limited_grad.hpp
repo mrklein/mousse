@@ -11,13 +11,18 @@
 //   in each face direction separately.
 // SourceFiles
 //   face_md_limited_grad.cpp
+
 #ifndef face_md_limited_grad_hpp_
 #define face_md_limited_grad_hpp_
+
 #include "grad_scheme.hpp"
+
 namespace mousse
 {
+
 namespace fv
 {
+
 template<class Type>
 class faceMDLimitedGrad
 :
@@ -25,8 +30,10 @@ class faceMDLimitedGrad
 {
   // Private Data
     tmp<fv::gradScheme<Type> > basicGradScheme_;
+
     //- Limiter coefficient
     const scalar k_;
+
   // Private Member Functions
     inline void limitFace
     (
@@ -35,24 +42,22 @@ class faceMDLimitedGrad
       const scalar minDelta,
       const scalar extrapolate
     ) const;
-    //- Disallow default bitwise copy construct
-    faceMDLimitedGrad(const faceMDLimitedGrad&);
-    //- Disallow default bitwise assignment
-    void operator=(const faceMDLimitedGrad&);
+
 public:
   //- RunTime type information
-  TypeName("faceMDLimited");
+  TYPE_NAME("faceMDLimited");
+
   // Constructors
     //- Construct from mesh and schemeData
     faceMDLimitedGrad(const fvMesh& mesh, Istream& schemeData)
     :
-      gradScheme<Type>(mesh),
-      basicGradScheme_(fv::gradScheme<Type>::New(mesh, schemeData)),
-      k_(readScalar(schemeData))
+      gradScheme<Type>{mesh},
+      basicGradScheme_{fv::gradScheme<Type>::New(mesh, schemeData)},
+      k_{readScalar(schemeData)}
     {
       if (k_ < 0 || k_ > 1)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "faceMDLimitedGrad(const fvMesh&, Istream& schemeData)",
           schemeData
@@ -61,6 +66,13 @@ public:
           << exit(FatalIOError);
       }
     }
+
+    //- Disallow default bitwise copy construct
+    faceMDLimitedGrad(const faceMDLimitedGrad&) = delete;
+
+    //- Disallow default bitwise assignment
+    faceMDLimitedGrad& operator=(const faceMDLimitedGrad&) = delete;
+
   // Member Functions
     //- Return the gradient of the given field to the gradScheme::grad
     //  for optional caching
@@ -74,6 +86,8 @@ public:
       const word& name
     ) const;
 };
+
+
 // Template Member Function Specialisations 
 template<>
 tmp<volVectorField> faceMDLimitedGrad<scalar>::calcGrad
@@ -81,12 +95,16 @@ tmp<volVectorField> faceMDLimitedGrad<scalar>::calcGrad
   const volScalarField& vsf,
   const word& name
 ) const;
+
+
 template<>
 tmp<volTensorField> faceMDLimitedGrad<vector>::calcGrad
 (
   const volVectorField& vsf,
   const word& name
 ) const;
+
 }  // namespace fv
+
 }  // namespace mousse
 #endif

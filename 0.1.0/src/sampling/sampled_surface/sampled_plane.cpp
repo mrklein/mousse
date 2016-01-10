@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledPlane, 0);
-  addNamedToRunTimeSelectionTable(sampledSurface, sampledPlane, word, plane);
+DEFINE_TYPE_NAME_AND_DEBUG(sampledPlane, 0);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE(sampledSurface, sampledPlane, word, plane);
 }
 // Constructors 
 mousse::sampledPlane::sampledPlane
@@ -23,11 +23,11 @@ mousse::sampledPlane::sampledPlane
   const bool triangulate
 )
 :
-  sampledSurface(name, mesh),
-  cuttingPlane(planeDesc),
-  zoneKey_(zoneKey),
-  triangulate_(triangulate),
-  needsUpdate_(true)
+  sampledSurface{name, mesh},
+  cuttingPlane{planeDesc},
+  zoneKey_{zoneKey},
+  triangulate_{triangulate},
+  needsUpdate_{true}
 {
   if (debug && zoneKey_.size() && mesh.cellZones().findIndex(zoneKey_) < 0)
   {
@@ -42,11 +42,11 @@ mousse::sampledPlane::sampledPlane
   const dictionary& dict
 )
 :
-  sampledSurface(name, mesh, dict),
-  cuttingPlane(plane(dict.lookup("basePoint"), dict.lookup("normalVector"))),
-  zoneKey_(keyType::null),
-  triangulate_(dict.lookupOrDefault("triangulate", true)),
-  needsUpdate_(true)
+  sampledSurface{name, mesh, dict},
+  cuttingPlane{plane(dict.lookup("basePoint"), dict.lookup("normalVector"))},
+  zoneKey_{keyType::null},
+  triangulate_{dict.lookupOrDefault("triangulate", true)},
+  needsUpdate_{true}
 {
   // make plane relative to the coordinateSystem (Cartesian)
   // allow lookup from global coordinate systems

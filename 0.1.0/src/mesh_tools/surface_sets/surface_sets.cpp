@@ -30,7 +30,7 @@
 //
 //    scalar minLen = GREAT;
 //
-//    forAll(pEdges, i)
+//    FOR_ALL(pEdges, i)
 //    {
 //        minLen = min(minLen, edges[pEdges[i]].mag(points));
 //    }
@@ -48,13 +48,13 @@
 //{
 //    const labelList& cFaces = mesh.cells()[cellI];
 //
-//    forAll(cFaces, cFaceI)
+//    FOR_ALL(cFaces, cFaceI)
 //    {
 //        label faceI = cFaces[cFaceI];
 //
 //        const face& f = mesh.faces()[faceI];
 //
-//        forAll(f, fp)
+//        FOR_ALL(f, fp)
 //        {
 //            if (selectedPoint[f[fp]])
 //            {
@@ -92,15 +92,15 @@
 //    // Snap outside points to surface
 //    pointField newPoints(points);
 //
-//    forAllConstIter(labelHashSet, flatCandidates, iter)
+//    FOR_ALL_CONST_ITER(labelHashSet, flatCandidates, iter)
 //    {
 //        const cell& cFaces = cells[iter.key()];
 //
-//        forAll(cFaces, cFaceI)
+//        FOR_ALL(cFaces, cFaceI)
 //        {
 //            const face& f = faces[cFaces[cFaceI]];
 //
-//            forAll(f, fp)
+//            FOR_ALL(f, fp)
 //            {
 //                label pointI = f[fp];
 //
@@ -118,7 +118,7 @@
 //
 //    // Calculate new volume for mixed cells
 //    label nRemoved = 0;
-//    forAllConstIter(labelHashSet, flatCandidates, iter)
+//    FOR_ALL_CONST_ITER(labelHashSet, flatCandidates, iter)
 //    {
 //        label cellI = iter.key();
 //
@@ -157,7 +157,7 @@
 //    labelList candidates(candidateSet.toc());
 //
 //    pointField candidatePoints(candidates.size());
-//    forAll(candidates, i)
+//    FOR_ALL(candidates, i)
 //    {
 //        candidatePoints[i] = mesh.points()[candidates[i]];
 //    }
@@ -167,7 +167,7 @@
 //
 //    const pointField& points = mesh.points();
 //
-//    forAll(candidates, i)
+//    FOR_ALL(candidates, i)
 //    {
 //        label pointI = candidates[i];
 //
@@ -217,7 +217,7 @@ void mousse::surfaceSets::getSurfaceSets
       cellClassification::INSIDE
     );
   }
-  forAll(cellType, cellI)
+  FOR_ALL(cellType, cellI)
   {
     label cType = cellType[cellI];
     if (cType == cellClassification::CUT)
@@ -253,10 +253,10 @@ mousse::labelHashSet mousse::surfaceSets::getHangingCells
     {
       // Inside cell. Mark all vertices seen from this cell.
       const labelList& cFaces = cells[cellI];
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         const face& f = faces[cFaces[cFaceI]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label pointI = f[fp];
           if (pointSide[pointI] == NOTSET)
@@ -278,10 +278,10 @@ mousse::labelHashSet mousse::surfaceSets::getHangingCells
     {
       // Outside cell
       const labelList& cFaces = cells[cellI];
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         const face& f = faces[cFaces[cFaceI]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label pointI = f[fp];
           if (pointSide[pointI] == NOTSET)
@@ -302,7 +302,7 @@ mousse::labelHashSet mousse::surfaceSets::getHangingCells
   }
   //OFstream mixedStr("mixed.obj");
   //
-  //forAll(pointSide, pointI)
+  //FOR_ALL(pointSide, pointI)
   //{
   //    if (pointSide[pointI] == MIXED)
   //    {
@@ -314,15 +314,15 @@ mousse::labelHashSet mousse::surfaceSets::getHangingCells
   //}
   // Determine cells using mixed points only
   labelHashSet mixedOnlyCells(internalCells.size());
-  forAllConstIter(labelHashSet, internalCells, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, internalCells, iter)
   {
     const label cellI = iter.key();
     const cell& cFaces = cells[cellI];
     label usesMixedOnly = true;
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       const face& f = faces[cFaces[i]];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (pointSide[f[fp]] != MIXED)
         {

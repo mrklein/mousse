@@ -12,7 +12,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(booleanSurface, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(booleanSurface, 0);
 }
 // Private Member Functions 
 // Check whether at least one of faces connected to the intersection has been
@@ -24,12 +24,12 @@ void mousse::booleanSurface::checkIncluded
   const label includedFace
 )
 {
-  forAll(surf.intersectionEdges(), intEdgeI)
+  FOR_ALL(surf.intersectionEdges(), intEdgeI)
   {
     label edgeI = surf.intersectionEdges()[intEdgeI];
     const labelList& myFaces = surf.edgeFaces()[edgeI];
     bool usesIncluded = false;
-    forAll(myFaces, myFaceI)
+    FOR_ALL(myFaces, myFaceI)
     {
       if (faceZone[myFaces[myFaceI]] == faceZone[includedFace])
       {
@@ -39,7 +39,7 @@ void mousse::booleanSurface::checkIncluded
     }
     if (!usesIncluded)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "booleanSurface::checkIncluded(const intersectedSurface&"
         ", const labelList&, const label)"
@@ -56,7 +56,7 @@ mousse::label mousse::booleanSurface::index
   const label elem
 )
 {
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     if (elems[elemI] == elem)
     {
@@ -72,14 +72,14 @@ mousse::label mousse::booleanSurface::findEdge
   const edge& e
 )
 {
-  forAll(edgeLabels, edgeLabelI)
+  FOR_ALL(edgeLabels, edgeLabelI)
   {
     if (edges[edgeLabels[edgeLabelI]] == e)
     {
       return edgeLabels[edgeLabelI];
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "booleanSurface::findEdge(const edgeList&, const labelList&"
     ", const edge&)"
@@ -104,16 +104,16 @@ mousse::geometricSurfacePatchList mousse::booleanSurface::mergePatches
   );
   // Copy all patches of surf1
   label combinedPatchI = 0;
-  forAll(surf1.patches(), patchI)
+  FOR_ALL(surf1.patches(), patchI)
   {
     combinedPatches[combinedPatchI++] = surf1.patches()[patchI];
   }
   // (inefficiently) add unique patches from surf2
   patchMap2.setSize(surf2.patches().size());
-  forAll(surf2.patches(), patch2I)
+  FOR_ALL(surf2.patches(), patch2I)
   {
     label index = -1;
-    forAll(surf1.patches(), patch1I)
+    FOR_ALL(surf1.patches(), patch1I)
     {
       if (surf1.patches()[patch1I] == surf2.patches()[patch2I])
       {
@@ -149,7 +149,7 @@ void mousse::booleanSurface::propagateEdgeSide
   // Simple case. Propagate side.
   if (eFaces.size() == 2)
   {
-    forAll(eFaces, eFaceI)
+    FOR_ALL(eFaces, eFaceI)
     {
       propagateSide
       (
@@ -162,7 +162,7 @@ void mousse::booleanSurface::propagateEdgeSide
   }
   if (((eFaces.size() % 2) == 1) && (eFaces.size() != 1))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "booleanSurface::propagateEdgeSide(const triSurface&,"
       "const label, const label, const label, const label,"
@@ -197,7 +197,7 @@ void mousse::booleanSurface::propagateEdgeSide
   if (prevState == OUTSIDE)
   {
     // Coming from outside. nextInd is outside, rest is inside.
-    forAll(eFaces, eFaceI)
+    FOR_ALL(eFaces, eFaceI)
     {
       if (eFaceI != ind)
       {
@@ -223,7 +223,7 @@ void mousse::booleanSurface::propagateEdgeSide
   else
   {
     // Coming from inside. prevInd is inside as well, rest is outside.
-    forAll(eFaces, eFaceI)
+    FOR_ALL(eFaces, eFaceI)
     {
       if (eFaceI != ind)
       {
@@ -354,7 +354,7 @@ mousse::booleanSurface::booleanSurface
   }
   if (cutSurf1FaceI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
      "booleanSurface(const triSurfaceSearch&"
       ", const label, const triSurfaceSearch&, const label)"
@@ -371,7 +371,7 @@ mousse::booleanSurface::booleanSurface
   }
   if (cutSurf2FaceI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
      "booleanSurface(const triSurfaceSearch&"
       ", const label, const triSurfaceSearch&, const label)"
@@ -386,7 +386,7 @@ mousse::booleanSurface::booleanSurface
   // Mark edges on intersection
   const labelList& int1Edges = cutSurf1.intersectionEdges();
   boolList isIntersectionEdge1(cutSurf1.nEdges(), false);
-  forAll(int1Edges, intEdgeI)
+  FOR_ALL(int1Edges, intEdgeI)
   {
     label edgeI = int1Edges[intEdgeI];
     isIntersectionEdge1[edgeI] = true;
@@ -397,7 +397,7 @@ mousse::booleanSurface::booleanSurface
   checkIncluded(cutSurf1, faceZone1, cutSurf1FaceI);
   // Subset zone which includes cutSurf2FaceI
   boolList includedFaces1(cutSurf1.size(), false);
-  forAll(faceZone1, faceI)
+  FOR_ALL(faceZone1, faceI)
   {
     if (faceZone1[faceI] == faceZone1[cutSurf1FaceI])
     {
@@ -423,7 +423,7 @@ mousse::booleanSurface::booleanSurface
   // Mark edges and points on intersection
   const labelList& int2Edges = cutSurf2.intersectionEdges();
   boolList isIntersectionEdge2(cutSurf2.nEdges(), false);
-  forAll(int2Edges, intEdgeI)
+  FOR_ALL(int2Edges, intEdgeI)
   {
     label edgeI = int2Edges[intEdgeI];
     isIntersectionEdge2[edgeI] = true;
@@ -434,7 +434,7 @@ mousse::booleanSurface::booleanSurface
   checkIncluded(cutSurf2, faceZone2, cutSurf2FaceI);
   // Subset zone which includes cutSurf2FaceI
   boolList includedFaces2(cutSurf2.size(), false);
-  forAll(faceZone2, faceI)
+  FOR_ALL(faceZone2, faceI)
   {
     if (faceZone2[faceI] == faceZone2[cutSurf2FaceI])
     {
@@ -476,7 +476,7 @@ mousse::booleanSurface::booleanSurface
     cutSurf1.nPoints() - cutSurf1.nSurfacePoints()
   );
   label combinedPointI = 0;
-  forAll(subSurf1.points(), pointI)
+  FOR_ALL(subSurf1.points(), pointI)
   {
     // Label in cutSurf
     label cutSurfPointI = pointMap1[pointI];
@@ -492,7 +492,7 @@ mousse::booleanSurface::booleanSurface
   // Append points from subSurf2 (if they are not intersection points)
   // and construct mapping
   labelList pointMap(subSurf2.nPoints());
-  forAll(subSurf2.points(), pointI)
+  FOR_ALL(subSurf2.points(), pointI)
   {
     // Label in cutSurf
     label cutSurfPointI = pointMap2[pointI];
@@ -527,13 +527,13 @@ mousse::booleanSurface::booleanSurface
   faceMap_.setSize(combinedFaces.size());
   // Copy faces from subSurf1. No need for renumbering.
   label combinedFaceI = 0;
-  forAll(subSurf1, faceI)
+  FOR_ALL(subSurf1, faceI)
   {
     faceMap_[combinedFaceI] = faceMap1[faceI];
     combinedFaces[combinedFaceI++] = subSurf1[faceI];
   }
   // Copy and renumber faces from subSurf2.
-  forAll(subSurf2, faceI)
+  FOR_ALL(subSurf2, faceI)
   {
     const labelledTri& f = subSurf2[faceI];
     faceMap_[combinedFaceI] = -faceMap2[faceI]-1;
@@ -573,12 +573,12 @@ mousse::booleanSurface::booleanSurface
     Pout<< "booleanSurface : Testing surf1 and surf2" << endl;
     {
       const labelListList& edgeFaces = surf1.edgeFaces();
-      forAll(edgeFaces, edgeI)
+      FOR_ALL(edgeFaces, edgeI)
       {
         const labelList& eFaces = edgeFaces[edgeI];
         if (eFaces.size() == 1)
         {
-          WarningIn("booleanSurface::booleanSurface")
+          WARNING_IN("booleanSurface::booleanSurface")
             << "surf1 is open surface at edge " << edgeI
             << " verts:" << surf1.edges()[edgeI]
             << " connected to faces " << eFaces << endl;
@@ -587,12 +587,12 @@ mousse::booleanSurface::booleanSurface
     }
     {
       const labelListList& edgeFaces = surf2.edgeFaces();
-      forAll(edgeFaces, edgeI)
+      FOR_ALL(edgeFaces, edgeI)
       {
         const labelList& eFaces = edgeFaces[edgeI];
         if (eFaces.size() == 1)
         {
-          WarningIn("booleanSurface::booleanSurface")
+          WARNING_IN("booleanSurface::booleanSurface")
             << "surf2 is open surface at edge " << edgeI
             << " verts:" << surf2.edges()[edgeI]
             << " connected to faces " << eFaces << endl;
@@ -658,7 +658,7 @@ mousse::booleanSurface::booleanSurface
   pointField combinedPoints(cutSurf1.nPoints() + cutSurf2.nSurfacePoints());
   // Copy all points from 1 and non-intersection ones from 2.
   label combinedPointI = 0;
-  forAll(cutSurf1.points(), pointI)
+  FOR_ALL(cutSurf1.points(), pointI)
   {
     combinedPoints[combinedPointI++] = cutSurf1.points()[pointI];
   }
@@ -695,15 +695,15 @@ mousse::booleanSurface::booleanSurface
   // Faces from 2 get vertices and region renumbered.
   List<labelledTri> combinedFaces(cutSurf1.size() + cutSurf2.size());
   label combinedFaceI = 0;
-  forAll(cutSurf1, faceI)
+  FOR_ALL(cutSurf1, faceI)
   {
     combinedFaces[combinedFaceI++] = cutSurf1[faceI];
   }
-  forAll(cutSurf2, faceI)
+  FOR_ALL(cutSurf2, faceI)
   {
     labelledTri& combinedTri = combinedFaces[combinedFaceI++];
     const labelledTri& tri = cutSurf2[faceI];
-    forAll(tri, fp)
+    FOR_ALL(tri, fp)
     {
       if (cutSurf2.isSurfacePoint(tri[fp]))
       {
@@ -742,11 +742,11 @@ mousse::booleanSurface::booleanSurface
     // Special case: leave surface multiply connected
     faceMap_.setSize(combinedSurf.size());
     label combinedFaceI = 0;
-    forAll(cutSurf1, faceI)
+    FOR_ALL(cutSurf1, faceI)
     {
       faceMap_[combinedFaceI++] = cutSurf1.faceMap()[faceI];
     }
-    forAll(cutSurf2, faceI)
+    FOR_ALL(cutSurf2, faceI)
     {
       faceMap_[combinedFaceI++] = -cutSurf2.faceMap()[faceI] - 1;
     }
@@ -761,7 +761,7 @@ mousse::booleanSurface::booleanSurface
   const pointField& pts = combinedSurf.points();
   label minFaceI = -1;
   pointHit minHit(false, vector::zero, GREAT, true);
-  forAll(combinedSurf, faceI)
+  FOR_ALL(combinedSurf, faceI)
   {
     pointHit curHit = combinedSurf[faceI].nearestPoint(outsidePoint, pts);
     if (curHit.distance() < minHit.distance())
@@ -789,11 +789,11 @@ mousse::booleanSurface::booleanSurface
   //  UNION: faces on outside of 1 and of 2
   //  DIFFERENCE: faces on outside of 1 and inside of 2
   boolList include(combinedSurf.size(), false);
-  forAll(side, faceI)
+  FOR_ALL(side, faceI)
   {
     if (side[faceI] == UNVISITED)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "booleanSurface::booleanSurface"
         "(const triSurfaceSearch&, const triSurfaceSearch&"
@@ -847,7 +847,7 @@ mousse::booleanSurface::booleanSurface
   );
   // Create face map
   faceMap_.setSize(subSurf.size());
-  forAll(subToCombinedFace, faceI)
+  FOR_ALL(subToCombinedFace, faceI)
   {
     // Get label in combinedSurf
     label combinedFaceI = subToCombinedFace[faceI];

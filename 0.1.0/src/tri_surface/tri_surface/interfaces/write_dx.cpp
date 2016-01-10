@@ -17,18 +17,18 @@ void triSurface::writeDXGeometry
   labelList faceMap;
   surfacePatchList myPatches(calcPatches(faceMap));
   // Print patch names as comment
-  os  << "# Patches:" << endl;
-  forAll(myPatches, patchI)
+  os<< "# Patches:" << endl;
+  FOR_ALL(myPatches, patchI)
   {
     os  << "#     " << patchI << "    "
       << myPatches[patchI].name() << endl;
   }
-  os  << nl << endl;
+  os<< nl << endl;
   // Write vertex coordinates
-  os  << "# The irregular positions" << endl
+  os<< "# The irregular positions" << endl
     << "object 1 class array type float rank 1 shape 3 items "
     << nPoints() << " data follows" << endl;
-  forAll(localPoints(), pointI)
+  FOR_ALL(localPoints(), pointI)
   {
     const point& pt = localPoints()[pointI];
     os  << pt.x() << ' ' << pt.y() << ' ' << pt.z() << endl;
@@ -40,7 +40,7 @@ void triSurface::writeDXGeometry
   if (writeSorted)
   {
     label faceIndex = 0;
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       // Print all faces belonging to this patch
       for
@@ -58,19 +58,19 @@ void triSurface::writeDXGeometry
   }
   else
   {
-    forAll(*this, faceI)
+    FOR_ALL(*this, faceI)
     {
       const labelledTri& f = localFaces()[faceI];
       os  << f[0] << ' ' << f[1] << ' ' << f[2] << endl;
     }
   }
-  os  << "attribute \"element type\" string \"triangles\"" << endl
+  os<< "attribute \"element type\" string \"triangles\"" << endl
     << "attribute \"ref\" string \"positions\"" << endl << endl;
 }
 // Standard trailer
 void triSurface::writeDXTrailer(Ostream& os) const
 {
-  os  << "# the field, with three components: \"positions\", \"connections\""
+  os<< "# the field, with three components: \"positions\", \"connections\""
     << ", and \"data\"" << endl
     << "object \"irregular positions irregular connections\" class field"
     << endl
@@ -82,16 +82,16 @@ void triSurface::writeDXTrailer(Ostream& os) const
 void triSurface::writeDX(const bool writeSorted, Ostream& os) const
 {
   writeDXGeometry(writeSorted, os);
-  os  << "object 3 class array type float rank 0 items " << size()
+  os<< "object 3 class array type float rank 0 items " << size()
     << " data follows" << endl;
   if (writeSorted)
   {
     // Write patch number as data
     labelList faceMap;
     surfacePatchList myPatches(calcPatches(faceMap));
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
-      forAll(myPatches[patchI], patchFaceI)
+      FOR_ALL(myPatches[patchI], patchFaceI)
       {
         os  << patchI << endl;
       }
@@ -100,14 +100,14 @@ void triSurface::writeDX(const bool writeSorted, Ostream& os) const
   else
   {
     // Write face number as data
-    forAll(*this, faceI)
+    FOR_ALL(*this, faceI)
     {
       os  << faceI << endl;
     }
   }
-  os  << endl << "attribute \"dep\" string \"connections\"" << endl << endl;
+  os<< endl << "attribute \"dep\" string \"connections\"" << endl << endl;
   writeDXTrailer(os);
-  os  << "end" << endl;
+  os<< "end" << endl;
 }
 // Geometry + scalar data
 void triSurface::writeDX(const scalarField& field, Ostream& os) const
@@ -116,21 +116,21 @@ void triSurface::writeDX(const scalarField& field, Ostream& os) const
   if (field.size() == size())
   {
     // Connections dependent data
-    os  << "object 3 class array type float rank 0 items " << field.size()
+    os<< "object 3 class array type float rank 0 items " << field.size()
       << " data follows" << endl;
-    forAll(field, faceI)
+    FOR_ALL(field, faceI)
     {
-      os  << field[faceI] << endl;
+      os<< field[faceI] << endl;
     }
-    os  << endl
+    os<< endl
       << "attribute \"dep\" string \"connections\"" << endl << endl;
   }
   else if (field.size() == nPoints())
   {
     // Positions dependent data
-    os  << "object 3 class array type float rank 0 items " << field.size()
+    os<< "object 3 class array type float rank 0 items " << field.size()
       << " data follows" << endl;
-    forAll(field, pointI)
+    FOR_ALL(field, pointI)
     {
       os  << field[pointI] << endl;
     }
@@ -139,15 +139,16 @@ void triSurface::writeDX(const scalarField& field, Ostream& os) const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "writeDX(const scalarField&, Ostream&)"
-    )   << "Illegal field size " << field.size() << " is not equal "
-      << " to number of faces " << size() << " or to number "
-      << " of points " << nPoints() << exit(FatalError);
+    )
+    << "Illegal field size " << field.size() << " is not equal "
+    << " to number of faces " << size() << " or to number "
+    << " of points " << nPoints() << exit(FatalError);
   }
   writeDXTrailer(os);
-  os  << "end" << endl;
+  os<< "end" << endl;
 }
 // Geometry + vector data
 void triSurface::writeDX(const vectorField& field, Ostream& os) const
@@ -156,23 +157,23 @@ void triSurface::writeDX(const vectorField& field, Ostream& os) const
   if (field.size() == size())
   {
     // Connections dependent data
-    os  << "object 3 class array type float rank 1 shape 3 items "
+    os<< "object 3 class array type float rank 1 shape 3 items "
       << field.size() << " data follows" << endl;
-    forAll(field, faceI)
+    FOR_ALL(field, faceI)
     {
-      os  << field[faceI].x() << ' '
+      os<< field[faceI].x() << ' '
         << field[faceI].y() << ' '
         << field[faceI].z() << endl;
     }
-    os  << endl
+    os<< endl
       << "attribute \"dep\" string \"connections\"" << endl << endl;
   }
   else if (field.size() == nPoints())
   {
     // Positions dependent data
-    os  << "object 3 class array type float rank 1 shape 3 items "
+    os<< "object 3 class array type float rank 1 shape 3 items "
       << field.size() << " data follows" << endl;
-    forAll(field, pointI)
+    FOR_ALL(field, pointI)
     {
       os  << field[pointI].x() << ' '
         << field[pointI].y() << ' '
@@ -183,7 +184,7 @@ void triSurface::writeDX(const vectorField& field, Ostream& os) const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "writeDX(const vectorField&, Ostream&)"
     )   << "Illegal field size " << field.size() << " is not equal "

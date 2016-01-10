@@ -49,7 +49,7 @@ class meshWave
     void operator=(const meshWave&);
 public:
   //- Runtime type information
-  TypeName("meshWave");
+  TYPE_NAME("meshWave");
   // Constructors
     //- Construct from coefficients dictionary, mesh
     //  and fixed-value patch set

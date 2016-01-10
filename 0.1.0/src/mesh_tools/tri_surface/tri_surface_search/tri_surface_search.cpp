@@ -6,7 +6,10 @@
 #include "tri_surface.hpp"
 #include "patch_tools.hpp"
 #include "volume_type.hpp"
-// Private Member Functions 
+#include "map.hpp"
+#include "dictionary.hpp"
+
+// Private Member Functions
 bool mousse::triSurfaceSearch::checkUniqueHit
 (
   const pointIndexHit& currHit,
@@ -31,12 +34,12 @@ bool mousse::triSurfaceSearch::checkUniqueHit
     const label nearPointI = f[nearLabel];
     const labelList& pointFaces =
       surface().pointFaces()[surface().meshPointMap()[nearPointI]];
-    forAll(pointFaces, pI)
+    FOR_ALL(pointFaces, pI)
     {
       const label pointFaceI = pointFaces[pI];
       if (pointFaceI != currHit.index())
       {
-        forAll(hits, hI)
+        FOR_ALL(hits, hI)
         {
           const pointIndexHit& hit = hits[hI];
           if (hit.index() == pointFaceI)
@@ -54,12 +57,12 @@ bool mousse::triSurfaceSearch::checkUniqueHit
     const labelList& fEdges = surface().faceEdges()[currHit.index()];
     const label edgeI = fEdges[nearLabel];
     const labelList& edgeFaces = surface().edgeFaces()[edgeI];
-    forAll(edgeFaces, fI)
+    FOR_ALL(edgeFaces, fI)
     {
       const label edgeFaceI = edgeFaces[fI];
       if (edgeFaceI != currHit.index())
       {
-        forAll(hits, hI)
+        FOR_ALL(hits, hI)
         {
           const pointIndexHit& hit = hits[hI];
           if (hit.index() == edgeFaceI)
@@ -84,7 +87,7 @@ bool mousse::triSurfaceSearch::checkUniqueHit
   }
   return true;
 }
-// Constructors 
+// Constructors
 mousse::triSurfaceSearch::triSurfaceSearch(const triSurface& surface)
 :
   surface_(surface),
@@ -126,7 +129,8 @@ mousse::triSurfaceSearch::triSurfaceSearch
   maxTreeDepth_(maxTreeDepth),
   treePtr_(NULL)
 {}
-// Destructor 
+
+// Destructor
 mousse::triSurfaceSearch::~triSurfaceSearch()
 {
   clearOut();
@@ -135,7 +139,8 @@ void mousse::triSurfaceSearch::clearOut()
 {
   treePtr_.clear();
 }
-// Member Functions 
+
+// Member Functions
 const mousse::indexedOctree<mousse::treeDataTriSurface>&
 mousse::triSurfaceSearch::tree() const
 {
@@ -149,7 +154,7 @@ mousse::triSurfaceSearch::tree() const
       PatchTools::calcBounds(surface(), bb, nPoints);
       if (nPoints != surface().points().size())
       {
-        WarningIn("triSurfaceSearch::tree() const")
+        WARNING_IN("triSurfaceSearch::tree() const")
           << "Surface does not have compact point numbering."
           << " Of " << surface().points().size()
           << " only " << nPoints
@@ -188,7 +193,7 @@ mousse::boolList mousse::triSurfaceSearch::calcInside
 ) const
 {
   boolList inside(samples.size());
-  forAll(samples, sampleI)
+  FOR_ALL(samples, sampleI)
   {
     const point& sample = samples[sampleI];
     if (!tree().bb().contains(sample))
@@ -217,7 +222,7 @@ void mousse::triSurfaceSearch::findNearest
   indexedOctree<treeDataTriSurface>::perturbTol() = tolerance();
   const indexedOctree<treeDataTriSurface>& octree = tree();
   info.setSize(samples.size());
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     static_cast<pointIndexHit&>(info[i]) = octree.findNearest
     (
@@ -249,7 +254,7 @@ void mousse::triSurfaceSearch::findLine
   info.setSize(start.size());
   scalar oldTol = indexedOctree<treeDataTriSurface>::perturbTol();
   indexedOctree<treeDataTriSurface>::perturbTol() = tolerance();
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     static_cast<pointIndexHit&>(info[i]) = octree.findLine
     (
@@ -270,7 +275,7 @@ void mousse::triSurfaceSearch::findLineAny
   info.setSize(start.size());
   scalar oldTol = indexedOctree<treeDataTriSurface>::perturbTol();
   indexedOctree<treeDataTriSurface>::perturbTol() = tolerance();
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     static_cast<pointIndexHit&>(info[i]) = octree.findLineAny
     (
@@ -295,7 +300,7 @@ void mousse::triSurfaceSearch::findLineAll
   DynamicList<pointIndexHit, 1, 1> hits;
   DynamicList<label> shapeMask;
   treeDataTriSurface::findAllIntersectOp allIntersectOp(octree, shapeMask);
-  forAll(start, pointI)
+  FOR_ALL(start, pointI)
   {
     hits.clear();
     shapeMask.clear();

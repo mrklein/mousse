@@ -25,7 +25,7 @@ class wallLayerCells
     bool usesCoupledPatch(const label cellI) const;
 public:
   //- Runtime type information
-  ClassName("wallLayerCells");
+  CLASS_NAME("wallLayerCells");
   // Constructors
     //- Construct from components
     wallLayerCells

@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace solidBodyMotionFunctions
 {
-  defineTypeNameAndDebug(multiMotion, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(multiMotion, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     solidBodyMotionFunction,
     multiMotion,
@@ -54,7 +54,7 @@ bool mousse::solidBodyMotionFunctions::multiMotion::read
   solidBodyMotionFunction::read(SBMFCoeffs);
   label i = 0;
   SBMFs_.setSize(SBMFCoeffs_.size());
-  forAllConstIter(IDLList<entry>, SBMFCoeffs_, iter)
+  FOR_ALL_CONST_ITER(IDLList<entry>, SBMFCoeffs_, iter)
   {
     if (iter().isDict())
     {

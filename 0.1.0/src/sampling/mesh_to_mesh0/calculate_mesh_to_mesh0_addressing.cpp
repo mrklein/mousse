@@ -34,11 +34,11 @@ void mousse::meshToMesh0::calcAddressing()
   List<bool> boundaryCell(fromCells.size(), false);
   // set reference to boundary
   const polyPatchList& patchesFrom = fromMesh_.boundaryMesh();
-  forAll(patchesFrom, patchI)
+  FOR_ALL(patchesFrom, patchI)
   {
     // get reference to cells next to the boundary
     const labelUList& bCells = patchesFrom[patchI].faceCells();
-    forAll(bCells, faceI)
+    FOR_ALL(bCells, faceI)
     {
       boundaryCell[bCells[faceI]] = true;
     }
@@ -77,7 +77,7 @@ void mousse::meshToMesh0::calcAddressing()
     boundaryCell,
     oc
   );
-  forAll(toMesh_.boundaryMesh(), patchi)
+  FOR_ALL(toMesh_.boundaryMesh(), patchi)
   {
     const polyPatch& toPatch = toMesh_.boundaryMesh()[patchi];
     if (cuttingPatches_.found(toPatch.name()))
@@ -104,7 +104,7 @@ void mousse::meshToMesh0::calcAddressing()
       ];
       if (fromPatch.empty())
       {
-        WarningIn("meshToMesh0::calcAddressing()")
+        WARNING_IN("meshToMesh0::calcAddressing()")
           << "Source patch " << fromPatch.name()
           << " has no faces. Not performing mapping for it."
           << endl;
@@ -134,7 +134,7 @@ void mousse::meshToMesh0::calcAddressing()
           toPatch.faceCentres();
         boundaryAddressing_[patchi].setSize(toPatch.size());
         scalar distSqr = sqr(wallBb.mag());
-        forAll(toPatch, toi)
+        FOR_ALL(toPatch, toi)
         {
           boundaryAddressing_[patchi][toi] = oc.findNearest
           (
@@ -172,7 +172,7 @@ void mousse::meshToMesh0::cellAddresses
   // set reference to cell to cell addressing
   const vectorField& centresFrom = fromMesh.cellCentres();
   const labelListList& cc = fromMesh.cellCells();
-  forAll(points, toI)
+  FOR_ALL(points, toI)
   {
     // pick up target position
     const vector& p = points[toI];
@@ -184,7 +184,7 @@ void mousse::meshToMesh0::cellAddresses
       closer = false;
       // set the current list of neighbouring cells
       const labelList& neighbours = cc[curCell];
-      forAll(neighbours, nI)
+      FOR_ALL(neighbours, nI)
       {
         scalar curDistSqr =
           magSqr(p - centresFrom[neighbours[nI]]);
@@ -219,7 +219,7 @@ void mousse::meshToMesh0::cellAddresses
         bool found = false;
         // set the current list of neighbouring cells
         const labelList& neighbours = cc[curCell];
-        forAll(neighbours, nI)
+        FOR_ALL(neighbours, nI)
         {
           // search through all the neighbours.
           // If point is in neighbour reset current cell
@@ -235,11 +235,11 @@ void mousse::meshToMesh0::cellAddresses
           // If still not found search the neighbour-neighbours
           // set the current list of neighbouring cells
           const labelList& neighbours = cc[curCell];
-          forAll(neighbours, nI)
+          FOR_ALL(neighbours, nI)
           {
             // set the current list of neighbour-neighbouring cells
             const labelList& nn = cc[neighbours[nI]];
-            forAll(nn, nI)
+            FOR_ALL(nn, nI)
             {
               // search through all the neighbours.
               // If point is in neighbour reset current cell

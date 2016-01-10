@@ -39,11 +39,13 @@
 #       error "The random number generator may not work!"
 #   endif
 #endif
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(POSIX, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(POSIX, 0);
 }
+
 pid_t mousse::pid()
 {
   return ::getpid();
@@ -186,7 +188,7 @@ mousse::fileName mousse::cwd()
   }
   else
   {
-    FatalErrorIn("mousse::cwd()")
+    FATAL_ERROR_IN("mousse::cwd()")
       << "Couldn't get the current working directory"
       << exit(FatalError);
     return fileName::null;
@@ -351,7 +353,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
     {
       case EPERM:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "The filesystem containing " << pathName
           << " does not support the creation of directories."
           << exit(FatalError);
@@ -364,7 +366,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       case EFAULT:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "" << pathName
           << " points outside your accessible address space."
           << exit(FatalError);
@@ -372,7 +374,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       case EACCES:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "The parent directory does not allow write "
            "permission to the process,"<< nl
           << "or one of the directories in " << pathName
@@ -382,7 +384,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       case ENAMETOOLONG:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "" << pathName << " is too long."
           << exit(FatalError);
         return false;
@@ -396,7 +398,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
         }
         else
         {
-          FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+          FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
             << "Couldn't create directory " << pathName
             << exit(FatalError);
           return false;
@@ -404,7 +406,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       case ENOTDIR:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "A component used as a directory in " << pathName
           << " is not, in fact, a directory."
           << exit(FatalError);
@@ -412,7 +414,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       case ENOMEM:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "Insufficient kernel memory was available to make "
            "directory " << pathName << '.'
           << exit(FatalError);
@@ -420,7 +422,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       case EROFS:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "" << pathName
           << " refers to a file on a read-only filesystem."
           << exit(FatalError);
@@ -428,7 +430,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       case ELOOP:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "Too many symbolic links were encountered in resolving "
           << pathName << '.'
           << exit(FatalError);
@@ -436,7 +438,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       case ENOSPC:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "The device containing " << pathName
           << " has no room for the new directory or "
           << "the user's disk quota is exhausted."
@@ -445,7 +447,7 @@ bool mousse::mkDir(const fileName& pathName, mode_t mode)
       }
       default:
       {
-        FatalErrorIn("mousse::mkDir(const fileName&, mode_t)")
+        FATAL_ERROR_IN("mousse::mkDir(const fileName&, mode_t)")
           << "Couldn't create directory " << pathName
           << exit(FatalError);
         return false;
@@ -670,11 +672,12 @@ bool mousse::cp(const fileName& src, const fileName& dest)
     }
     // Copy files
     fileNameList contents = readDir(src, fileName::FILE, false);
-    forAll(contents, i)
+    FOR_ALL(contents, i)
     {
       if (POSIX::debug)
       {
-        Info<< "Copying : " << src/contents[i]
+        Info
+          << "Copying : " << src/contents[i]
           << " to " << destFile/contents[i] << endl;
       }
       // File to file.
@@ -682,7 +685,7 @@ bool mousse::cp(const fileName& src, const fileName& dest)
     }
     // Copy sub directories.
     fileNameList subdirs = readDir(src, fileName::DIRECTORY);
-    forAll(subdirs, i)
+    FOR_ALL(subdirs, i)
     {
       if (POSIX::debug)
       {
@@ -705,14 +708,14 @@ bool mousse::ln(const fileName& src, const fileName& dst)
   }
   if (exists(dst))
   {
-    WarningIn("ln(const fileName&, const fileName&)")
+    WARNING_IN("ln(const fileName&, const fileName&)")
       << "destination " << dst << " already exists. Not linking."
       << endl;
     return false;
   }
   if (src.isAbsolute() && !exists(src))
   {
-    WarningIn("ln(const fileName&, const fileName&)")
+    WARNING_IN("ln(const fileName&, const fileName&)")
       << "source " << src << " does not exist." << endl;
     return false;
   }
@@ -722,7 +725,7 @@ bool mousse::ln(const fileName& src, const fileName& dst)
   }
   else
   {
-    WarningIn("ln(const fileName&, const fileName&)")
+    WARNING_IN("ln(const fileName&, const fileName&)")
       << "symlink from " << src << " to " << dst << " failed." << endl;
     return false;
   }
@@ -810,7 +813,7 @@ bool mousse::rmDir(const fileName& directory)
   // Attempt to open directory and set the structure pointer
   if ((source = ::opendir(directory.c_str())) == NULL)
   {
-    WarningIn("rmDir(const fileName&)")
+    WARNING_IN("rmDir(const fileName&)")
       << "cannot open directory " << directory << endl;
     return false;
   }
@@ -827,7 +830,7 @@ bool mousse::rmDir(const fileName& directory)
         {
           if (!rmDir(path))
           {
-            WarningIn("rmDir(const fileName&)")
+            WARNING_IN("rmDir(const fileName&)")
               << "failed to remove directory " << fName
               << " while removing directory " << directory
               << endl;
@@ -839,7 +842,7 @@ bool mousse::rmDir(const fileName& directory)
         {
           if (!rm(path))
           {
-            WarningIn("rmDir(const fileName&)")
+            WARNING_IN("rmDir(const fileName&)")
               << "failed to remove file " << fName
               << " while removing directory " << directory
               << endl;
@@ -851,7 +854,7 @@ bool mousse::rmDir(const fileName& directory)
     }
     if (!rm(directory))
     {
-      WarningIn("rmDir(const fileName&)")
+      WARNING_IN("rmDir(const fileName&)")
         << "failed to remove directory " << directory << endl;
       ::closedir(source);
       return false;
@@ -868,7 +871,7 @@ void mousse::fdClose(const int fd)
 {
   if (close(fd) != 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fdClose(const int fd)"
     )   << "close error on " << fd << endl
@@ -888,7 +891,7 @@ bool mousse::ping
   u_int addr;
   if ((hostPtr = ::gethostbyname(destName.c_str())) == NULL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::ping(const string&, ...)"
     )   << "gethostbyname error " << h_errno << " for host " << destName
@@ -900,7 +903,7 @@ bool mousse::ping
   sockfd = ::socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::ping(const string&, const label)"
     )   << "socket error"
@@ -963,7 +966,7 @@ void* mousse::dlOpen(const fileName& lib, const bool check)
     fileName fallback_lib = lib.lessExt() + ".dylib";
     if (check)
     {
-      WarningIn("dlOpen(const fileName&, const bool)")
+      WARNING_IN("dlOpen(const fileName&, const bool)")
         << "dlOpen: using fallback library name "
         << fallback_lib
         << endl;
@@ -973,7 +976,7 @@ void* mousse::dlOpen(const fileName& lib, const bool check)
 #endif
   if (!handle && check)
   {
-    WarningIn("dlOpen(const fileName&, const bool)")
+    WARNING_IN("dlOpen(const fileName&, const bool)")
       << "dlopen error : " << ::dlerror()
       << endl;
   }
@@ -1012,7 +1015,7 @@ void* mousse::dlSym(void* handle, const std::string& symbol)
   char *error = ::dlerror();
   if (error)
   {
-    WarningIn("dlSym(void*, const std::string&)")
+    WARNING_IN("dlSym(void*, const std::string&)")
       << "Cannot lookup symbol " << symbol << " : " << error
       << endl;
   }

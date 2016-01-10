@@ -68,7 +68,7 @@ protected:
     }
 public:
   //- Runtime type information
-  TypeName("sampledPatch");
+  TYPE_NAME("sampledPatch");
   // Constructors
     //- Construct from components
     sampledPatch

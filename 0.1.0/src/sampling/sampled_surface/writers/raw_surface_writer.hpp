@@ -54,7 +54,7 @@ class rawSurfaceWriter
     ) const;
 public:
   //- Runtime type information
-  TypeName("raw");
+  TYPE_NAME("raw");
   // Constructors
     //- Construct null
     rawSurfaceWriter();

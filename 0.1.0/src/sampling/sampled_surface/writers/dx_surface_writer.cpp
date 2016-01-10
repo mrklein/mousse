@@ -23,7 +23,7 @@ void mousse::dxSurfaceWriter::writeGeometry
   os  << "# The irregular positions" << nl
     << "object 1 class array type float rank 1 shape 3 items "
     << points.size() << " data follows" << nl;
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     os  << float(pt.x()) << ' ' << float(pt.y()) << ' ' << float(pt.z())
@@ -34,12 +34,12 @@ void mousse::dxSurfaceWriter::writeGeometry
   os  << "# The irregular connections (triangles)" << nl
     << "object 2 class array type int rank 1 shape 3 items "
     << faces.size() << " data follows" << nl;
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     if (f.size() != 3)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "writeGeometry(Ostream&, const pointField&, const faceList&)"
       )   << "Face " << faceI << " vertices " << f
@@ -84,7 +84,7 @@ namespace mousse
   {
     os  << "object 3 class array type float rank 0 items "
       << values.size() << " data follows" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       os << float(values[elemI]) << nl;
     }
@@ -98,7 +98,7 @@ namespace mousse
   {
     os  << "object 3 class array type float rank 1 shape 3 items "
       << values.size() << " data follows" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       os  << float(values[elemI].x()) << ' '
         << float(values[elemI].y()) << ' '
@@ -114,7 +114,7 @@ namespace mousse
   {
     os  << "object 3 class array type float rank 0 items "
       << values.size() << " data follows" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       os << float(values[elemI][0]) << nl;
     }
@@ -128,7 +128,7 @@ namespace mousse
   {
     os  << "object 3 class array type float rank 2 shape 3 items "
       << values.size() << " data follows" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       const symmTensor& t = values[elemI];
       os  << float(t.xx()) << ' ' << float(t.xy()) << ' ' << float(t.xz())
@@ -147,7 +147,7 @@ namespace mousse
   {
     os  << "object 3 class array type float rank 2 shape 3 items "
       << values.size() << " data follows" << nl;
-    forAll(values, elemI)
+    FOR_ALL(values, elemI)
     {
       const tensor& t = values[elemI];
       os  << float(t.xx()) << ' ' << float(t.xy()) << ' ' << float(t.xz())
@@ -167,7 +167,7 @@ inline void mousse::dxSurfaceWriter::writeData
 {
   os  << "object 3 class array type float rank 0 items "
     << values.size() << " data follows" << nl;
-  forAll(values, elemI)
+  FOR_ALL(values, elemI)
   {
     os << float(0.0) << nl;
   }

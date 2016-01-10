@@ -21,12 +21,12 @@ mousse::sampledSets::volFieldSampler<Type>::volFieldSampler
   (
     interpolation<Type>::New(interpolationScheme, field)
   );
-  forAll(samplers, setI)
+  FOR_ALL(samplers, setI)
   {
     Field<Type>& values = this->operator[](setI);
     const sampledSet& samples = samplers[setI];
     values.setSize(samples.size());
-    forAll(samples, sampleI)
+    FOR_ALL(samples, sampleI)
     {
       const point& samplePt = samples[sampleI];
       label cellI = samples.cells()[sampleI];
@@ -58,12 +58,12 @@ mousse::sampledSets::volFieldSampler<Type>::volFieldSampler
   List<Field<Type> >(samplers.size()),
   name_(field.name())
 {
-  forAll(samplers, setI)
+  FOR_ALL(samplers, setI)
   {
     Field<Type>& values = this->operator[](setI);
     const sampledSet& samples = samplers[setI];
     values.setSize(samples.size());
-    forAll(samples, sampleI)
+    FOR_ALL(samples, sampleI)
     {
       label cellI = samples.cells()[sampleI];
       if (cellI ==-1)
@@ -99,7 +99,7 @@ void mousse::sampledSets::writeSampleFile
 {
   wordList valueSetNames(masterFields.size());
   List<const Field<Type>*> valueSets(masterFields.size());
-  forAll(masterFields, fieldi)
+  FOR_ALL(masterFields, fieldi)
   {
     valueSetNames[fieldi] = masterFields[fieldi].name();
     valueSets[fieldi] = &masterFields[fieldi][setI];
@@ -121,7 +121,7 @@ void mousse::sampledSets::writeSampleFile
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "void mousse::sampledSets::writeSampleFile"
       "("
@@ -143,10 +143,10 @@ void mousse::sampledSets::combineSampledValues
   PtrList<volFieldSampler<T> >& masterFields
 )
 {
-  forAll(sampledFields, fieldi)
+  FOR_ALL(sampledFields, fieldi)
   {
     List<Field<T> > masterValues(indexSets.size());
-    forAll(indexSets, setI)
+    FOR_ALL(indexSets, setI)
     {
       // Collect data from all processors
       List<Field<T> > gatheredData(Pstream::nProcs());
@@ -196,7 +196,7 @@ void mousse::sampledSets::sampleAndWrite
     }
     // Storage for interpolated values
     PtrList<volFieldSampler<Type> > sampledFields(fields.size());
-    forAll(fields, fieldi)
+    FOR_ALL(fields, fieldi)
     {
       if (Pstream::master() && verbose_)
       {
@@ -279,7 +279,7 @@ void mousse::sampledSets::sampleAndWrite
     combineSampledValues(sampledFields, indexSets_, masterFields);
     if (Pstream::master())
     {
-      forAll(masterSampledSets_, setI)
+      FOR_ALL(masterSampledSets_, setI)
       {
         writeSampleFile
         (

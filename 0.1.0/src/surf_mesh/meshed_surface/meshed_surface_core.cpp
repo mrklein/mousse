@@ -17,7 +17,7 @@ namespace mousse
     // transcribe from face -> triFace
     List<face>&    origFaces = surf.storedFaces();
     List<triFace>  newFaces(origFaces.size());
-    forAll(origFaces, faceI)
+    FOR_ALL(origFaces, faceI)
     {
       newFaces[faceI] = triFace
       (

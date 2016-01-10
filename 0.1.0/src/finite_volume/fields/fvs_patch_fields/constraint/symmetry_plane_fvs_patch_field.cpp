@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "symmetry_plane_fvs_patch_field.hpp"
+
 namespace mousse
 {
+
 // Constructors 
 template<class Type>
 symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
@@ -13,8 +15,9 @@ symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
   const DimensionedField<Type, surfaceMesh>& iF
 )
 :
-  fvsPatchField<Type>(p, iF)
+  fvsPatchField<Type>{p, iF}
 {}
+
 template<class Type>
 symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
 (
@@ -24,11 +27,11 @@ symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fvsPatchField<Type>(ptf, p, iF, mapper)
+  fvsPatchField<Type>{ptf, p, iF, mapper}
 {
   if (!isType<symmetryPlaneFvPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField\n"
       "(\n"
@@ -37,13 +40,15 @@ symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
       "    const DimensionedField<Type, surfaceMesh>& iF,\n"
       "    const fvPatchFieldMapper& mapper\n"
       ")\n"
-    )   << "Field type does not correspond to patch type for patch "
-      << this->patch().index() << "." << endl
-      << "Field type: " << typeName << endl
-      << "Patch type: " << this->patch().type()
-      << exit(FatalError);
+    )
+    << "Field type does not correspond to patch type for patch "
+    << this->patch().index() << "." << endl
+    << "Field type: " << typeName << endl
+    << "Patch type: " << this->patch().type()
+    << exit(FatalError);
   }
 }
+
 template<class Type>
 symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
 (
@@ -52,11 +57,11 @@ symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
   const dictionary& dict
 )
 :
-  fvsPatchField<Type>(p, iF, dict)
+  fvsPatchField<Type>{p, iF, dict}
 {
   if (!isType<symmetryPlaneFvPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField\n"
       "(\n"
@@ -65,19 +70,22 @@ symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
       "    const dictionary& dict\n"
       ")\n",
       dict
-    )   << "patch " << this->patch().index() << " not symmetryPlane type. "
-      << "Patch type = " << p.type()
-      << exit(FatalIOError);
+    )
+    << "patch " << this->patch().index() << " not symmetryPlane type. "
+    << "Patch type = " << p.type()
+    << exit(FatalIOError);
   }
 }
+
 template<class Type>
 symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
 (
   const symmetryPlaneFvsPatchField<Type>& ptf
 )
 :
-  fvsPatchField<Type>(ptf)
+  fvsPatchField<Type>{ptf}
 {}
+
 template<class Type>
 symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
 (
@@ -85,6 +93,7 @@ symmetryPlaneFvsPatchField<Type>::symmetryPlaneFvsPatchField
   const DimensionedField<Type, surfaceMesh>& iF
 )
 :
-  fvsPatchField<Type>(ptf, iF)
+  fvsPatchField<Type>{ptf, iF}
 {}
+
 }  // namespace mousse

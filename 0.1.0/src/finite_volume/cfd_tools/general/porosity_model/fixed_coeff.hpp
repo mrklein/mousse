@@ -56,7 +56,7 @@ class fixedCoeff
     void operator=(const fixedCoeff&);
 public:
   //- Runtime type information
-  TypeName("fixedCoeff");
+  TYPE_NAME("fixedCoeff");
   //- Constructor
   fixedCoeff
   (

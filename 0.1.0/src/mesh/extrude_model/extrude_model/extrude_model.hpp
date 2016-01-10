@@ -23,16 +23,11 @@ protected:
     const scalar expansionRatio_;
     const dictionary& dict_;
     const dictionary& coeffDict_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    extrudeModel(const extrudeModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const extrudeModel&);
 public:
   //- Runtime type information
-  TypeName("extrudeModel");
+  TYPE_NAME("extrudeModel");
   //- Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       extrudeModel,
@@ -45,6 +40,10 @@ public:
   // Constructors
     //- Construct from dictionary
     extrudeModel(const word& modelType, const dictionary&);
+    //- Disallow default bitwise copy construct
+    extrudeModel(const extrudeModel&) = delete;
+    //- Disallow default bitwise assignment
+    extrudeModel& operator=(const extrudeModel&) = delete;
   // Selectors
     //- Select null constructed
     static autoPtr<extrudeModel> New(const dictionary&);

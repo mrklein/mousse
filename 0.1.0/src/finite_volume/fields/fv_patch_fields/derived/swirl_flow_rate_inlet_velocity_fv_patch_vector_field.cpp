@@ -8,6 +8,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
 #include "mathematical_constants.hpp"
+#include "time.hpp"
+
 // Constructors 
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
@@ -16,12 +18,13 @@ swirlFlowRateInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(p, iF),
-  phiName_("phi"),
-  rhoName_("rho"),
-  flowRate_(),
-  rpm_()
+  fixedValueFvPatchField<vector>{p, iF},
+  phiName_{"phi"},
+  rhoName_{"rho"},
+  flowRate_{},
+  rpm_{}
 {}
+
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
 (
@@ -31,12 +34,13 @@ swirlFlowRateInletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<vector>(ptf, p, iF, mapper),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  flowRate_(ptf.flowRate_().clone().ptr()),
-  rpm_(ptf.rpm_().clone().ptr())
+  fixedValueFvPatchField<vector>{ptf, p, iF, mapper},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  flowRate_{ptf.flowRate_().clone().ptr()},
+  rpm_{ptf.rpm_().clone().ptr()}
 {}
+
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
 (
@@ -45,24 +49,26 @@ swirlFlowRateInletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<vector>(p, iF, dict),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho")),
-  flowRate_(DataEntry<scalar>::New("flowRate", dict)),
-  rpm_(DataEntry<scalar>::New("rpm", dict))
+  fixedValueFvPatchField<vector>{p, iF, dict},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")},
+  flowRate_{DataEntry<scalar>::New("flowRate", dict)},
+  rpm_{DataEntry<scalar>::New("rpm", dict)}
 {}
+
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
 (
   const swirlFlowRateInletVelocityFvPatchVectorField& ptf
 )
 :
-  fixedValueFvPatchField<vector>(ptf),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  flowRate_(ptf.flowRate_().clone().ptr()),
-  rpm_(ptf.rpm_().clone().ptr())
+  fixedValueFvPatchField<vector>{ptf},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  flowRate_{ptf.flowRate_().clone().ptr()},
+  rpm_{ptf.rpm_().clone().ptr()}
 {}
+
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
 (
@@ -70,12 +76,13 @@ swirlFlowRateInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(ptf, iF),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  flowRate_(ptf.flowRate_().clone().ptr()),
-  rpm_(ptf.rpm_().clone().ptr())
+  fixedValueFvPatchField<vector>{ptf, iF},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  flowRate_{ptf.flowRate_().clone().ptr()},
+  rpm_{ptf.rpm_().clone().ptr()}
 {}
+
 // Member Functions 
 void mousse::swirlFlowRateInletVelocityFvPatchVectorField::updateCoeffs()
 {
@@ -113,7 +120,7 @@ void mousse::swirlFlowRateInletVelocityFvPatchVectorField::updateCoeffs()
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "swirlFlowRateInletVelocityFvPatchVectorField::updateCoeffs()"
     )   << "dimensions of " << phiName_ << " are incorrect" << nl
@@ -124,6 +131,7 @@ void mousse::swirlFlowRateInletVelocityFvPatchVectorField::updateCoeffs()
   }
   fixedValueFvPatchField<vector>::updateCoeffs();
 }
+
 void mousse::swirlFlowRateInletVelocityFvPatchVectorField::write
 (
   Ostream& os
@@ -136,11 +144,14 @@ void mousse::swirlFlowRateInletVelocityFvPatchVectorField::write
   rpm_->writeData(os);
   writeEntry("value", os);
 }
+
 namespace mousse
 {
- makePatchTypeField
- (
-   fvPatchVectorField,
-   swirlFlowRateInletVelocityFvPatchVectorField
- );
+
+MAKE_PATCH_TYPE_FIELD
+(
+ fvPatchVectorField,
+ swirlFlowRateInletVelocityFvPatchVectorField
+);
+
 }

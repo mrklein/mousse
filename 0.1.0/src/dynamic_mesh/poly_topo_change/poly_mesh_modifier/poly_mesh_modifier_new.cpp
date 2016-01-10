@@ -25,7 +25,7 @@ mousse::autoPtr<mousse::polyMeshModifier> mousse::polyMeshModifier::New
     dictionaryConstructorTablePtr_->find(modifierType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "polyMeshModifier::New(const word&, const dictionary&, "
       "const label, const polyMesh&)",

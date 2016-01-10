@@ -23,7 +23,7 @@ protected:
     const GeometricField<Type, pointPatchField, pointMesh> psip_;
 public:
   //- Runtime type information
-  TypeName("pointMVC");
+  TYPE_NAME("pointMVC");
   // Constructors
     //- Construct from components
     interpolationPointMVC

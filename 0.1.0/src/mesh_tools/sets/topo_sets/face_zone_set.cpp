@@ -9,10 +9,11 @@
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(faceZoneSet, 0);
-addToRunTimeSelectionTable(topoSet, faceZoneSet, word);
-addToRunTimeSelectionTable(topoSet, faceZoneSet, size);
-addToRunTimeSelectionTable(topoSet, faceZoneSet, set);
+DEFINE_TYPE_NAME_AND_DEBUG(faceZoneSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, faceZoneSet, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, faceZoneSet, size);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, faceZoneSet, set);
+
 // Private Member Functions 
 void faceZoneSet::updateSet()
 {
@@ -22,7 +23,7 @@ void faceZoneSet::updateSet()
   flipMap_ = UIndirectList<bool>(flipMap_, order)();
   faceSet::clearStorage();
   faceSet::resize(2*addressing_.size());
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     faceSet::insert(addressing_[i]);
   }
@@ -32,7 +33,7 @@ faceZoneSet::faceZoneSet
   const polyMesh& mesh,
   const word& name,
   readOption r,
-  writeOption w
+  writeOption
 )
 :
   faceSet(mesh, name, 1000),  // do not read faceSet
@@ -122,12 +123,12 @@ void faceZoneSet::subset(const topoSet& set)
   DynamicList<label> newAddressing(addressing_.size());
   DynamicList<bool> newFlipMap(flipMap_.size());
   Map<label> faceToIndex(addressing_.size());
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     faceToIndex.insert(addressing_[i], i);
   }
   const faceZoneSet& fSet = refCast<const faceZoneSet>(set);
-  forAll(fSet.addressing(), i)
+  FOR_ALL(fSet.addressing(), i)
   {
     label faceI = fSet.addressing()[i];
     Map<label>::const_iterator iter = faceToIndex.find(faceI);
@@ -144,7 +145,7 @@ void faceZoneSet::subset(const topoSet& set)
   }
   if (nConflict > 0)
   {
-    WarningIn(" faceZoneSet::subset(const topoSet&)")
+    WARNING_IN(" faceZoneSet::subset(const topoSet&)")
       << "subset : there are " << nConflict
       << " faces with different orientation in faceZonesSets "
       << name() << " and " << set.name() << endl;
@@ -159,12 +160,12 @@ void faceZoneSet::addSet(const topoSet& set)
   DynamicList<label> newAddressing(addressing_);
   DynamicList<bool> newFlipMap(flipMap_);
   Map<label> faceToIndex(addressing_.size());
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     faceToIndex.insert(addressing_[i], i);
   }
   const faceZoneSet& fSet = refCast<const faceZoneSet>(set);
-  forAll(fSet.addressing(), i)
+  FOR_ALL(fSet.addressing(), i)
   {
     label faceI = fSet.addressing()[i];
     Map<label>::const_iterator iter = faceToIndex.find(faceI);
@@ -184,7 +185,7 @@ void faceZoneSet::addSet(const topoSet& set)
   }
   if (nConflict > 0)
   {
-    WarningIn("faceZoneSet::addSet(const topoSet&)")
+    WARNING_IN("faceZoneSet::addSet(const topoSet&)")
       << "addSet : there are " << nConflict
       << " faces with different orientation in faceZonesSets "
       << name() << " and " << set.name() << endl;
@@ -200,11 +201,11 @@ void faceZoneSet::deleteSet(const topoSet& set)
   DynamicList<bool> newFlipMap(flipMap_.size());
   const faceZoneSet& fSet = refCast<const faceZoneSet>(set);
   Map<label> faceToIndex(fSet.addressing().size());
-  forAll(fSet.addressing(), i)
+  FOR_ALL(fSet.addressing(), i)
   {
     faceToIndex.insert(fSet.addressing()[i], i);
   }
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     label faceI = addressing_[i];
     Map<label>::const_iterator iter = faceToIndex.find(faceI);
@@ -225,7 +226,7 @@ void faceZoneSet::deleteSet(const topoSet& set)
   }
   if (nConflict > 0)
   {
-    WarningIn("faceZoneSet::deleteSet(const topoSet&)")
+    WARNING_IN("faceZoneSet::deleteSet(const topoSet&)")
       << "deleteSet : there are " << nConflict
       << " faces with different orientation in faceZonesSets "
       << name() << " and " << set.name() << endl;
@@ -234,7 +235,7 @@ void faceZoneSet::deleteSet(const topoSet& set)
   flipMap_.transfer(newFlipMap);
   updateSet();
 }
-void faceZoneSet::sync(const polyMesh& mesh)
+void faceZoneSet::sync(const polyMesh&)
 {}
 label faceZoneSet::maxSize(const polyMesh& mesh) const
 {
@@ -286,7 +287,7 @@ void faceZoneSet::updateMesh(const mapPolyMesh& morphMap)
   labelList newAddressing(addressing_.size());
   boolList newFlipMap(flipMap_.size());
   label n = 0;
-  forAll(addressing_, i)
+  FOR_ALL(addressing_, i)
   {
     label faceI = addressing_[i];
     label newFaceI = morphMap.reverseFaceMap()[faceI];

@@ -17,7 +17,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> > singleCellFvMesh::interpolate
 {
   // 1. Create the complete field with dummy patch fields
   PtrList<fvPatchField<Type> > patchFields(vf.boundaryField().size());
-  forAll(patchFields, patchI)
+  FOR_ALL(patchFields, patchI)
   {
     patchFields.set
     (
@@ -56,7 +56,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> > singleCellFvMesh::interpolate
     GeometricBoundaryField& bf = resF.boundaryField();
   if (agglomerate())
   {
-    forAll(vf.boundaryField(), patchI)
+    FOR_ALL(vf.boundaryField(), patchI)
     {
       const labelList& agglom = patchFaceAgglomeration_[patchI];
       label nAgglom = max(agglom)+1;
@@ -65,7 +65,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> > singleCellFvMesh::interpolate
       labelListList coarseToFine(invertOneToMany(nAgglom, agglom));
       inplaceReorder(patchFaceMap_[patchI], coarseToFine);
       scalarListList coarseWeights(nAgglom);
-      forAll(coarseToFine, coarseI)
+      FOR_ALL(coarseToFine, coarseI)
       {
         const labelList& fineFaces = coarseToFine[coarseI];
         coarseWeights[coarseI] = scalarList
@@ -89,7 +89,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> > singleCellFvMesh::interpolate
   }
   else
   {
-    forAll(vf.boundaryField(), patchI)
+    FOR_ALL(vf.boundaryField(), patchI)
     {
       labelList map(identity(vf.boundaryField()[patchI].size()));
       bf.set

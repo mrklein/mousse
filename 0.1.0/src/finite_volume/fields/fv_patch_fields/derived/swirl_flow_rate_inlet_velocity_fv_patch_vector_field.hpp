@@ -60,7 +60,7 @@ class swirlFlowRateInletVelocityFvPatchVectorField
     autoPtr<DataEntry<scalar> > rpm_;
 public:
  //- Runtime type information
- TypeName("swirlFlowRateInletVelocity");
+ TYPE_NAME("swirlFlowRateInletVelocity");
  // Constructors
     //- Construct from patch and internal field
     swirlFlowRateInletVelocityFvPatchVectorField

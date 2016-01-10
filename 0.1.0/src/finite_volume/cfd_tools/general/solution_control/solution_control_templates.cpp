@@ -11,7 +11,7 @@ void mousse::solutionControl::storePrevIter() const
   typedef GeometricField<Type, fvPatchField, volMesh> GeoField;
   HashTable<GeoField*>
     flds(mesh_.objectRegistry::lookupClass<GeoField>());
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     const word& fName = fld.name();

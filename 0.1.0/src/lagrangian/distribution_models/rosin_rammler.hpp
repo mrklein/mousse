@@ -33,7 +33,7 @@ class RosinRammler
       scalar n_;
 public:
   //- Runtime type information
-  TypeName("RosinRammler");
+  TYPE_NAME("RosinRammler");
   // Constructors
     //- Construct from components
     RosinRammler(const dictionary& dict, cachedRandom& rndGen);

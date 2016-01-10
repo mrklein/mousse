@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(cellDistFuncs, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(cellDistFuncs, 0);
 }
 // Private Member Functions 
 // Find val in first nElems elements of elems.
@@ -84,7 +84,7 @@ mousse::label mousse::cellDistFuncs::getPointNeighbours
   neighbours[nNeighbours++] = patchFaceI;
   // Add all face neighbours
   const labelList& faceNeighbours = patch.faceFaces()[patchFaceI];
-  forAll(faceNeighbours, faceNeighbourI)
+  FOR_ALL(faceNeighbours, faceNeighbourI)
   {
     neighbours[nNeighbours++] = faceNeighbours[faceNeighbourI];
   }
@@ -94,11 +94,11 @@ mousse::label mousse::cellDistFuncs::getPointNeighbours
   // Assumes that point-only neighbours are not using multiple points on
   // face.
   const face& f = patch.localFaces()[patchFaceI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label pointI = f[fp];
     const labelList& pointNbs = patch.pointFaces()[pointI];
-    forAll(pointNbs, nbI)
+    FOR_ALL(pointNbs, nbI)
     {
       label faceI = pointNbs[nbI];
       // Check for faceI in edge-neighbours part of neighbours
@@ -113,10 +113,10 @@ mousse::label mousse::cellDistFuncs::getPointNeighbours
     // Check for duplicates
     // Use hashSet to determine nbs.
     labelHashSet nbs(4*f.size());
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       const labelList& pointNbs = patch.pointFaces()[f[fp]];
-      forAll(pointNbs, i)
+      FOR_ALL(pointNbs, i)
       {
         nbs.insert(pointNbs[i]);
       }
@@ -127,22 +127,22 @@ mousse::label mousse::cellDistFuncs::getPointNeighbours
       label nb = neighbours[i];
       if (!nbs.found(nb))
       {
-        SeriousErrorIn("mousse::cellDistFuncs::getPointNeighbours")
+        SERIOUS_ERROR_IN("mousse::cellDistFuncs::getPointNeighbours")
           << "getPointNeighbours : patchFaceI:" << patchFaceI
           << " verts:" << f << endl;
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
-          SeriousErrorIn("mousse::cellDistFuncs::getPointNeighbours")
+          SERIOUS_ERROR_IN("mousse::cellDistFuncs::getPointNeighbours")
             << "point:" << f[fp] << " pointFaces:"
             << patch.pointFaces()[f[fp]] << endl;
         }
         for (label i = 0; i < nNeighbours; i++)
         {
-          SeriousErrorIn("mousse::cellDistFuncs::getPointNeighbours")
+          SERIOUS_ERROR_IN("mousse::cellDistFuncs::getPointNeighbours")
             << "fast nbr:" << neighbours[i]
             << endl;
         }
-        FatalErrorIn("getPointNeighbours")
+        FATAL_ERROR_IN("getPointNeighbours")
           << "Problem: fast pointNeighbours routine included " << nb
           << " which is not in proper neigbour list " << nbs.toc()
           << abort(FatalError);
@@ -151,7 +151,7 @@ mousse::label mousse::cellDistFuncs::getPointNeighbours
     }
     if (nbs.size())
     {
-      FatalErrorIn("getPointNeighbours")
+      FATAL_ERROR_IN("getPointNeighbours")
         << "Problem: fast pointNeighbours routine did not find "
         << nbs.toc() << abort(FatalError);
     }
@@ -165,7 +165,7 @@ mousse::label mousse::cellDistFuncs::maxPatchSize
 ) const
 {
   label maxSize = 0;
-  forAll(mesh().boundaryMesh(), patchI)
+  FOR_ALL(mesh().boundaryMesh(), patchI)
   {
     if (patchIDs.found(patchI))
     {
@@ -183,7 +183,7 @@ mousse::label mousse::cellDistFuncs::sumPatchSize
 const
 {
   label sum = 0;
-  forAll(mesh().boundaryMesh(), patchI)
+  FOR_ALL(mesh().boundaryMesh(), patchI)
   {
     if (patchIDs.found(patchI))
     {
@@ -207,13 +207,13 @@ void mousse::cellDistFuncs::correctBoundaryFaceCells
   // Correct all cells with face on wall
   const vectorField& cellCentres = mesh().cellCentres();
   const labelList& faceOwner = mesh().faceOwner();
-  forAll(mesh().boundaryMesh(), patchI)
+  FOR_ALL(mesh().boundaryMesh(), patchI)
   {
     if (patchIDs.found(patchI))
     {
       const polyPatch& patch = mesh().boundaryMesh()[patchI];
       // Check cells with face on wall
-      forAll(patch, patchFaceI)
+      FOR_ALL(patch, patchFaceI)
       {
         label nNeighbours = getPointNeighbours
         (
@@ -247,18 +247,18 @@ void mousse::cellDistFuncs::correctBoundaryPointCells
 {
   // Correct all (non-visited) cells with point on wall
   const vectorField& cellCentres = mesh().cellCentres();
-  forAll(mesh().boundaryMesh(), patchI)
+  FOR_ALL(mesh().boundaryMesh(), patchI)
   {
     if (patchIDs.found(patchI))
     {
       const polyPatch& patch = mesh().boundaryMesh()[patchI];
       const labelList& meshPoints = patch.meshPoints();
       const labelListList& pointFaces = patch.pointFaces();
-      forAll(meshPoints, meshPointI)
+      FOR_ALL(meshPoints, meshPointI)
       {
         label vertI = meshPoints[meshPointI];
         const labelList& neighbours = mesh().pointCells(vertI);
-        forAll(neighbours, neighbourI)
+        FOR_ALL(neighbours, neighbourI)
         {
           label cellI = neighbours[neighbourI];
           if (!nearestFace.found(cellI))

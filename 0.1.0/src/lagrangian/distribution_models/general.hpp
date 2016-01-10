@@ -31,7 +31,7 @@ class general
     List<scalar> integral_;
 public:
   //- Runtime type information
-  TypeName("general");
+  TYPE_NAME("general");
   // Constructors
     //- Construct from components
     general(const dictionary& dict, cachedRandom& rndGen);

@@ -81,7 +81,7 @@ bool mousse::triangleFuncs::intersectAxesBundle
     // Triangle parallel to dir
     return false;
   }
-  forAll(origin, originI)
+  FOR_ALL(origin, originI)
   {
     const point& P = origin[originI];
     scalar u0 = P[i1] - V0[i1];

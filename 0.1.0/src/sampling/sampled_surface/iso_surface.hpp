@@ -294,7 +294,7 @@ class isoSurface
     );
 public:
   //- Runtime type information
-  TypeName("isoSurface");
+  TYPE_NAME("isoSurface");
   // Constructors
     //- Construct from cell values and point values. Uses boundaryField
     //  for boundary values. Holds reference to cellIsoVals and

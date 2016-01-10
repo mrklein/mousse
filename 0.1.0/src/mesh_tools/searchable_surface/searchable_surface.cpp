@@ -3,11 +3,14 @@
 // Copyright (C) 2016 mousse project
 
 #include "searchable_surface.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(searchableSurface, 0);
-  defineRunTimeSelectionTable(searchableSurface, dict);
+
+DEFINE_TYPE_NAME_AND_DEBUG(searchableSurface, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(searchableSurface, dict);
+
 }
 mousse::autoPtr<mousse::searchableSurface> mousse::searchableSurface::New
 (
@@ -20,7 +23,7 @@ mousse::autoPtr<mousse::searchableSurface> mousse::searchableSurface::New
     dictConstructorTablePtr_->find(searchableSurfaceType);
   if (cstrIter == dictConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "searchableSurface::New(const word&,"
       " const IOobject&, const dictionary&)"

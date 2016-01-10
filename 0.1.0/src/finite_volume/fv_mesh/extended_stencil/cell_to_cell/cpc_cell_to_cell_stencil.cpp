@@ -16,7 +16,7 @@ void mousse::CPCCellToCellStencil::calcPointBoundaryData
 {
   neiGlobal.resize(2*boundaryPoints.size());
   labelHashSet pointGlobals;
-  forAll(boundaryPoints, i)
+  FOR_ALL(boundaryPoints, i)
   {
     label pointI = boundaryPoints[i];
     neiGlobal.insert
@@ -60,13 +60,13 @@ void mousse::CPCCellToCellStencil::calcCellStencil
   );
   globalCellCells.setSize(mesh().nCells());
   // Do coupled points first
-  forAll(boundaryPoints, i)
+  FOR_ALL(boundaryPoints, i)
   {
     label pointI = boundaryPoints[i];
     const labelList& pGlobals = neiGlobal[pointI];
     // Distribute to all pointCells
     const labelList& pCells = mesh().pointCells(pointI);
-    forAll(pCells, j)
+    FOR_ALL(pCells, j)
     {
       label cellI = pCells[j];
       // Insert pGlobals into globalCellCells
@@ -93,7 +93,7 @@ void mousse::CPCCellToCellStencil::calcCellStencil
       )
     );
     const labelList& pCells = mesh().pointCells(pointI);
-    forAll(pCells, j)
+    FOR_ALL(pCells, j)
     {
       label cellI = pCells[j];
       merge

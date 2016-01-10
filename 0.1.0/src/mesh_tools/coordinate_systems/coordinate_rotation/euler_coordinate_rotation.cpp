@@ -8,19 +8,21 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(EulerCoordinateRotation, 0);
-  addToRunTimeSelectionTable
-  (
-    coordinateRotation,
-    EulerCoordinateRotation,
-    dictionary
-  );
-  addToRunTimeSelectionTable
-  (
-    coordinateRotation,
-    EulerCoordinateRotation,
-    objectRegistry
-  );
+
+DEFINE_TYPE_NAME_AND_DEBUG(EulerCoordinateRotation, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  coordinateRotation,
+  EulerCoordinateRotation,
+  dictionary
+);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  coordinateRotation,
+  EulerCoordinateRotation,
+  objectRegistry
+);
+
 }
 // Member Functions 
 mousse::vector mousse::EulerCoordinateRotation::transform(const vector& st) const
@@ -36,10 +38,10 @@ mousse::vector mousse::EulerCoordinateRotation::invTransform
 }
 mousse::tmp<mousse::vectorField> mousse::EulerCoordinateRotation::transform
 (
-  const vectorField& st
+  const vectorField&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<vectorField> mousse::EulerCoordinateRotation:: "
     "transform(const vectorField& st) const"
@@ -48,10 +50,10 @@ mousse::tmp<mousse::vectorField> mousse::EulerCoordinateRotation::transform
 }
 mousse::tmp<mousse::vectorField> mousse::EulerCoordinateRotation::invTransform
 (
-  const vectorField& st
+  const vectorField&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<vectorField>  mousse::EulerCoordinateRotation::"
     "invTransform(const vectorField& st) const"
@@ -60,7 +62,7 @@ mousse::tmp<mousse::vectorField> mousse::EulerCoordinateRotation::invTransform
 }
 const mousse::tensorField& mousse::EulerCoordinateRotation::Tr() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "const tensorField& EulerCoordinateRotation::Tr() const"
   );
@@ -68,10 +70,10 @@ const mousse::tensorField& mousse::EulerCoordinateRotation::Tr() const
 }
 mousse::tmp<mousse::tensorField> mousse::EulerCoordinateRotation::transformTensor
 (
-  const tensorField& st
+  const tensorField&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "const tensorField& EulerCoordinateRotation::transformTensor() const"
   );
@@ -86,11 +88,11 @@ mousse::tensor mousse::EulerCoordinateRotation::transformTensor
 }
 mousse::tmp<mousse::tensorField> mousse::EulerCoordinateRotation::transformTensor
 (
-  const tensorField& st,
-  const labelList& cellMap
+  const tensorField&,
+  const labelList& /*cellMap*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<mousse::tensorField> EulerCoordinateRotation::transformTensor "
     " const tensorField& st,"
@@ -107,7 +109,7 @@ transformVector
 {
   tmp<symmTensorField> tfld(new symmTensorField(st.size()));
   symmTensorField& fld = tfld();
-  forAll(fld, i)
+  FOR_ALL(fld, i)
   {
     fld[i] = transformPrincipal(R_, st[i]);
   }
@@ -232,4 +234,3 @@ void mousse::EulerCoordinateRotation::write(Ostream& os) const
   os.writeKeyword("e2") << e2() << token::END_STATEMENT << nl;
   os.writeKeyword("e3") << e3() << token::END_STATEMENT << nl;
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

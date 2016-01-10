@@ -23,7 +23,7 @@ class fixedValue
     scalar value_;
 public:
   //- Runtime type information
-  TypeName("fixedValue");
+  TYPE_NAME("fixedValue");
   // Constructors
     //- Construct from components
     fixedValue(const dictionary& dict, cachedRandom& rndGen);

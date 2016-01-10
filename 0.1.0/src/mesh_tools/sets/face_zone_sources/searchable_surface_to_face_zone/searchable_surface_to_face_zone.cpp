@@ -9,17 +9,19 @@
 #include "sync_tools.hpp"
 #include "time.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(searchableSurfaceToFaceZone, 0);
-  addToRunTimeSelectionTable
-  (
-    topoSetSource,
-    searchableSurfaceToFaceZone,
-    word
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(searchableSurfaceToFaceZone, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  topoSetSource,
+  searchableSurfaceToFaceZone,
+  word
+);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::searchableSurfaceToFaceZone::usage_
 (
   searchableSurfaceToFaceZone::typeName,
@@ -27,6 +29,7 @@ mousse::topoSetSource::addToUsageTable mousse::searchableSurfaceToFaceZone::usag
   "    Select all faces whose cell-cell centre vector intersects the surface "
   "\n"
 );
+
 // Constructors 
 // Construct from dictionary
 mousse::searchableSurfaceToFaceZone::searchableSurfaceToFaceZone
@@ -66,7 +69,7 @@ void mousse::searchableSurfaceToFaceZone::applyToSet
 {
   if (!isA<faceZoneSet>(set))
   {
-    WarningIn
+    WARNING_IN
     (
       "searchableSurfaceToFaceZone::applyToSet"
       "(const topoSetSource::setAction"
@@ -91,12 +94,12 @@ void mousse::searchableSurfaceToFaceZone::applyToSet
     vectorField nbrCellCentres;
     syncTools::swapBoundaryCellPositions(mesh_, cc, nbrCellCentres);
     const polyBoundaryMesh& pbm = mesh_.boundaryMesh();
-    forAll(pbm, patchI)
+    FOR_ALL(pbm, patchI)
     {
       const polyPatch& pp = pbm[patchI];
       if (pp.coupled())
       {
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label faceI = pp.start()+i;
           start[faceI] = cc[mesh_.faceOwner()[faceI]];
@@ -105,7 +108,7 @@ void mousse::searchableSurfaceToFaceZone::applyToSet
       }
       else
       {
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label faceI = pp.start()+i;
           start[faceI] = cc[mesh_.faceOwner()[faceI]];
@@ -127,7 +130,7 @@ void mousse::searchableSurfaceToFaceZone::applyToSet
         << surfacePtr_().name() << " ..." << endl;
       DynamicList<label> newAddressing(fzSet.addressing());
       DynamicList<bool> newFlipMap(fzSet.flipMap());
-      forAll(hits, faceI)
+      FOR_ALL(hits, faceI)
       {
         if (hits[faceI].hit() && !fzSet.found(faceI))
         {
@@ -147,7 +150,7 @@ void mousse::searchableSurfaceToFaceZone::applyToSet
       // Start off empty
       DynamicList<label> newAddressing(fzSet.addressing().size());
       DynamicList<bool> newFlipMap(fzSet.flipMap().size());
-      forAll(fzSet.addressing(), i)
+      FOR_ALL(fzSet.addressing(), i)
       {
         if (!hits[fzSet.addressing()[i]].hit())
         {

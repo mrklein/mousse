@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "coupled_fv_patch_field.hpp"
+
 // Member Functions 
 template<class Type>
 mousse::coupledFvPatchField<Type>::coupledFvPatchField
@@ -11,9 +12,11 @@ mousse::coupledFvPatchField<Type>::coupledFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  LduInterfaceField<Type>(refCast<const lduInterface>(p)),
-  fvPatchField<Type>(p, iF)
+  LduInterfaceField<Type>{refCast<const lduInterface>(p)},
+  fvPatchField<Type>{p, iF}
 {}
+
+
 template<class Type>
 mousse::coupledFvPatchField<Type>::coupledFvPatchField
 (
@@ -22,9 +25,11 @@ mousse::coupledFvPatchField<Type>::coupledFvPatchField
   const Field<Type>& f
 )
 :
-  LduInterfaceField<Type>(refCast<const lduInterface>(p)),
-  fvPatchField<Type>(p, iF, f)
+  LduInterfaceField<Type>{refCast<const lduInterface>(p)},
+  fvPatchField<Type>{p, iF, f}
 {}
+
+
 template<class Type>
 mousse::coupledFvPatchField<Type>::coupledFvPatchField
 (
@@ -34,9 +39,11 @@ mousse::coupledFvPatchField<Type>::coupledFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  LduInterfaceField<Type>(refCast<const lduInterface>(p)),
-  fvPatchField<Type>(ptf, p, iF, mapper)
+  LduInterfaceField<Type>{refCast<const lduInterface>(p)},
+  fvPatchField<Type>{ptf, p, iF, mapper}
 {}
+
+
 template<class Type>
 mousse::coupledFvPatchField<Type>::coupledFvPatchField
 (
@@ -45,18 +52,22 @@ mousse::coupledFvPatchField<Type>::coupledFvPatchField
   const dictionary& dict
 )
 :
-  LduInterfaceField<Type>(refCast<const lduInterface>(p)),
-  fvPatchField<Type>(p, iF, dict)
+  LduInterfaceField<Type>{refCast<const lduInterface>(p)},
+  fvPatchField<Type>{p, iF, dict}
 {}
+
+
 template<class Type>
 mousse::coupledFvPatchField<Type>::coupledFvPatchField
 (
   const coupledFvPatchField<Type>& ptf
 )
 :
-  LduInterfaceField<Type>(refCast<const lduInterface>(ptf.patch())),
-  fvPatchField<Type>(ptf)
+  LduInterfaceField<Type>{refCast<const lduInterface>(ptf.patch())},
+  fvPatchField<Type>{ptf}
 {}
+
+
 template<class Type>
 mousse::coupledFvPatchField<Type>::coupledFvPatchField
 (
@@ -64,9 +75,11 @@ mousse::coupledFvPatchField<Type>::coupledFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  LduInterfaceField<Type>(refCast<const lduInterface>(ptf.patch())),
-  fvPatchField<Type>(ptf, iF)
+  LduInterfaceField<Type>{refCast<const lduInterface>(ptf.patch())},
+  fvPatchField<Type>{ptf, iF}
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::Field<Type> > mousse::coupledFvPatchField<Type>::snGrad
@@ -75,9 +88,10 @@ mousse::tmp<mousse::Field<Type> > mousse::coupledFvPatchField<Type>::snGrad
 ) const
 {
   return
-    deltaCoeffs
-   *(this->patchNeighbourField() - this->patchInternalField());
+    deltaCoeffs*(this->patchNeighbourField() - this->patchInternalField());
 }
+
+
 template<class Type>
 void mousse::coupledFvPatchField<Type>::initEvaluate(const Pstream::commsTypes)
 {
@@ -86,6 +100,8 @@ void mousse::coupledFvPatchField<Type>::initEvaluate(const Pstream::commsTypes)
     this->updateCoeffs();
   }
 }
+
+
 template<class Type>
 void mousse::coupledFvPatchField<Type>::evaluate(const Pstream::commsTypes)
 {
@@ -100,6 +116,8 @@ void mousse::coupledFvPatchField<Type>::evaluate(const Pstream::commsTypes)
   );
   fvPatchField<Type>::evaluate();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::coupledFvPatchField<Type>::valueInternalCoeffs
@@ -109,6 +127,8 @@ mousse::coupledFvPatchField<Type>::valueInternalCoeffs
 {
   return Type(pTraits<Type>::one)*w;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::coupledFvPatchField<Type>::valueBoundaryCoeffs
@@ -118,6 +138,8 @@ mousse::coupledFvPatchField<Type>::valueBoundaryCoeffs
 {
   return Type(pTraits<Type>::one)*(1.0 - w);
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::coupledFvPatchField<Type>::gradientInternalCoeffs
@@ -127,13 +149,17 @@ mousse::coupledFvPatchField<Type>::gradientInternalCoeffs
 {
   return -Type(pTraits<Type>::one)*deltaCoeffs;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::coupledFvPatchField<Type>::gradientInternalCoeffs() const
 {
-  notImplemented("coupledFvPatchField<Type>::gradientInternalCoeffs()");
+  NOT_IMPLEMENTED("coupledFvPatchField<Type>::gradientInternalCoeffs()");
   return -Type(pTraits<Type>::one)*this->patch().deltaCoeffs();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::coupledFvPatchField<Type>::gradientBoundaryCoeffs
@@ -143,13 +169,17 @@ mousse::coupledFvPatchField<Type>::gradientBoundaryCoeffs
 {
   return -this->gradientInternalCoeffs(deltaCoeffs);
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::coupledFvPatchField<Type>::gradientBoundaryCoeffs() const
 {
-  notImplemented("coupledFvPatchField<Type>::gradientBoundaryCoeffs()");
+  NOT_IMPLEMENTED("coupledFvPatchField<Type>::gradientBoundaryCoeffs()");
   return -this->gradientInternalCoeffs();
 }
+
+
 template<class Type>
 void mousse::coupledFvPatchField<Type>::write(Ostream& os) const
 {

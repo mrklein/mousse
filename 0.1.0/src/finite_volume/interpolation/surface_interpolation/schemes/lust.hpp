@@ -29,7 +29,7 @@ class LUST
     void operator=(const LUST&);
 public:
   //- Runtime type information
-  TypeName("LUST");
+  TYPE_NAME("LUST");
   // Constructors
     //- Construct from mesh and Istream
     LUST

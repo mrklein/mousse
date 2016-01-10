@@ -89,7 +89,7 @@ class surfaceToCell
     }
 public:
   //- Runtime type information
-  TypeName("surfaceToCell");
+  TYPE_NAME("surfaceToCell");
   // Constructors
     //- Construct from components
     surfaceToCell

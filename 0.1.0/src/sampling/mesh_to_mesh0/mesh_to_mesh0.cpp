@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(meshToMesh0, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(meshToMesh0, 0);
 }
 const mousse::scalar mousse::meshToMesh0::directHitTol = 1e-5;
 // Constructors 
@@ -30,7 +30,7 @@ mousse::meshToMesh0::meshToMesh0
   cellToCellAddressingPtr_(NULL),
   V_(0.0)
 {
-  forAll(fromMesh_.boundaryMesh(), patchi)
+  FOR_ALL(fromMesh_.boundaryMesh(), patchi)
   {
     fromMeshPatches_.insert
     (
@@ -38,7 +38,7 @@ mousse::meshToMesh0::meshToMesh0
       patchi
     );
   }
-  forAll(toMesh_.boundaryMesh(), patchi)
+  FOR_ALL(toMesh_.boundaryMesh(), patchi)
   {
     toMeshPatches_.insert
     (
@@ -46,7 +46,7 @@ mousse::meshToMesh0::meshToMesh0
       patchi
     );
   }
-  forAll(cuttingPatchNames, i)
+  FOR_ALL(cuttingPatchNames, i)
   {
     if (toMeshPatches_.found(cuttingPatchNames[i]))
     {
@@ -58,7 +58,7 @@ mousse::meshToMesh0::meshToMesh0
     }
     else
     {
-      WarningIn
+      WARNING_IN
       (
         "meshToMesh0::meshToMesh0"
         "(const fvMesh& meshFrom, const fvMesh& meshTo,"
@@ -68,7 +68,7 @@ mousse::meshToMesh0::meshToMesh0
         << " in destination mesh" << endl;
     }
   }
-  forAll(toMesh_.boundaryMesh(), patchi)
+  FOR_ALL(toMesh_.boundaryMesh(), patchi)
   {
     // Add the processor patches in the toMesh to the cuttingPatches list
     if (isA<processorPolyPatch>(toMesh_.boundaryMesh()[patchi]))
@@ -101,7 +101,7 @@ mousse::meshToMesh0::meshToMesh0
   // of boundary patches
   if (fromMesh_.boundary().size() != toMesh_.boundary().size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshToMesh0::meshToMesh0"
       "(const fvMesh& meshFrom, const fvMesh& meshTo)"
@@ -110,7 +110,7 @@ mousse::meshToMesh0::meshToMesh0
       << ", toMesh = " << toMesh_.boundary().size()
       << exit(FatalError);
   }
-  forAll(fromMesh_.boundaryMesh(), patchi)
+  FOR_ALL(fromMesh_.boundaryMesh(), patchi)
   {
     if
     (
@@ -118,7 +118,7 @@ mousse::meshToMesh0::meshToMesh0
     != toMesh_.boundaryMesh()[patchi].name()
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "meshToMesh0::meshToMesh0"
         "(const fvMesh& meshFrom, const fvMesh& meshTo)"
@@ -134,7 +134,7 @@ mousse::meshToMesh0::meshToMesh0
     != toMesh_.boundaryMesh()[patchi].type()
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "meshToMesh0::meshToMesh0"
         "(const fvMesh& meshFrom, const fvMesh& meshTo)"

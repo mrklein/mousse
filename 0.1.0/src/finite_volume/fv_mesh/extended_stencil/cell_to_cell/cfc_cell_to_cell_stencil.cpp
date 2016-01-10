@@ -17,14 +17,14 @@ void mousse::CFCCellToCellStencil::calcFaceBoundaryData
   const label nBnd = mesh().nFaces()-mesh().nInternalFaces();
   const labelList& own = mesh().faceOwner();
   neiGlobal.setSize(nBnd);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     label faceI = pp.start();
     if (pp.coupled())
     {
       // For coupled faces get the cell on the other side
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label bFaceI = faceI-mesh().nInternalFaces();
         neiGlobal[bFaceI] = globalNumbering().toGlobal(own[faceI]);
@@ -33,7 +33,7 @@ void mousse::CFCCellToCellStencil::calcFaceBoundaryData
     }
     else if (isA<emptyPolyPatch>(pp))
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label bFaceI = faceI-mesh().nInternalFaces();
         neiGlobal[bFaceI] = -1;
@@ -43,7 +43,7 @@ void mousse::CFCCellToCellStencil::calcFaceBoundaryData
     else
     {
       // For noncoupled faces get the boundary face.
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label bFaceI = faceI-mesh().nInternalFaces();
         neiGlobal[bFaceI] =
@@ -69,7 +69,7 @@ const
   // Determine cellCells in global numbering
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   globalCellCells.setSize(mesh().nCells());
-  forAll(globalCellCells, cellI)
+  FOR_ALL(globalCellCells, cellI)
   {
     const cell& cFaces = mesh().cells()[cellI];
     labelList& cCells = globalCellCells[cellI];
@@ -78,7 +78,7 @@ const
     // Myself
     cCells[nNbr++] = globalNumbering().toGlobal(cellI);
     // Collect neighbouring cells/faces
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       label faceI = cFaces[i];
       if (mesh().isInternalFace(faceI))

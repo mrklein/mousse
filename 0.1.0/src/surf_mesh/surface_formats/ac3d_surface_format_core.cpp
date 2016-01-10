@@ -64,7 +64,7 @@ mousse::string mousse::fileFormats::AC3DsurfaceFormatCore::cueToOrDie
   string args;
   if (!cueTo(is, cmd, args))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::AC3DsurfaceFormat::read(const fileName&)"
     )
@@ -97,17 +97,17 @@ void mousse::fileFormats::AC3DsurfaceFormatCore::writeHeader
   };
   // Write header. Define materials.
   os  << "AC3Db" << nl;
-  forAll(zoneLst, zoneI)
+  FOR_ALL(zoneLst, zoneI)
   {
     label colourI = zoneI % 8;
     label colourCompI = 3 * colourI;
-    os  << "MATERIAL \"" << zoneLst[zoneI].name() << "Mat\" rgb "
+    os<< "MATERIAL \"" << zoneLst[zoneI].name() << "Mat\" rgb "
       << colourMap[colourCompI] << ' ' << colourMap[colourCompI+1]
       << ' ' << colourMap[colourCompI+2]
       << "  amb 0.2 0.2 0.2  emis 0 0 0  spec 0.5 0.5 0.5  shi 10"
       << "  trans 0"
       << nl;
   }
-  os  << "OBJECT world" << nl
+  os<< "OBJECT world" << nl
     << "kids " << zoneLst.size() << endl;
 }

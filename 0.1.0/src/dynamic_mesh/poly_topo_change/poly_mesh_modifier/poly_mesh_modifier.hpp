@@ -35,17 +35,12 @@ class polyMeshModifier
     const polyTopoChanger& topoChanger_;
     //- Activation switch
     mutable Switch active_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    polyMeshModifier(const polyMeshModifier&);
-    //- Disallow default bitwise assignment
-    void operator=(const polyMeshModifier&);
 public:
   // Static data members
     //- Runtime type information
-    TypeName("meshModifier");
+    TYPE_NAME("meshModifier");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       polyMeshModifier,
@@ -67,6 +62,10 @@ public:
       const polyTopoChanger& mme,
       const bool act
     );
+    //- Disallow default bitwise copy construct
+    polyMeshModifier(const polyMeshModifier&) = delete;
+    //- Disallow default bitwise assignment
+    polyMeshModifier& operator=(const polyMeshModifier&) = delete;
   // Selectors
     //- Select constructed from dictionary
     static autoPtr<polyMeshModifier> New

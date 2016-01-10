@@ -8,19 +8,19 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledGAMGInterfaceField, 0);
-  addToRunTimeSelectionTable
-  (
-    GAMGInterfaceField,
-    regionCoupledGAMGInterfaceField,
-    lduInterface
-  );
-  addToRunTimeSelectionTable
-  (
-    GAMGInterfaceField,
-    regionCoupledGAMGInterfaceField,
-    lduInterfaceField
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledGAMGInterfaceField, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGInterfaceField,
+  regionCoupledGAMGInterfaceField,
+  lduInterface
+);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGInterfaceField,
+  regionCoupledGAMGInterfaceField,
+  lduInterfaceField
+);
 }
 // Constructors 
 mousse::regionCoupledGAMGInterfaceField::regionCoupledGAMGInterfaceField

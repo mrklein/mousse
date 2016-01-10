@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read UnsortedMeshedSurface
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   GTSsurfaceFormat,
@@ -19,7 +19,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   gts
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   GTSsurfaceFormat,
@@ -28,7 +28,7 @@ addNamedTemplatedToRunTimeSelectionTable
   gts
 );
 // write MeshedSurface
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurface,
   GTSsurfaceFormat,
@@ -37,7 +37,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   gts
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurface,
   GTSsurfaceFormat,
@@ -47,7 +47,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   gts
 );
 // write UnsortedMeshedSurface
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   GTSsurfaceFormat,
@@ -56,7 +56,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   gts
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   GTSsurfaceFormat,

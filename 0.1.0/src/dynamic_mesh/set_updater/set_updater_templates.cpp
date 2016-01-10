@@ -16,7 +16,7 @@ void mousse::setUpdater::updateSets(const mapPolyMesh& morphMap) const
   //
   HashTable<const Type*> memSets =
     morphMap.mesh().objectRegistry::lookupClass<Type>();
-  forAllIter(typename HashTable<const Type*>, memSets, iter)
+  FOR_ALL_ITER(typename HashTable<const Type*>, memSets, iter)
   {
     Type& set = const_cast<Type&>(*iter());
     if (debug)
@@ -39,7 +39,7 @@ void mousse::setUpdater::updateSets(const mapPolyMesh& morphMap) const
     "polyMesh/sets"
   );
   IOobjectList fileSets(Objects.lookupClass(Type::typeName));
-  forAllConstIter(IOobjectList, fileSets, iter)
+  FOR_ALL_CONST_ITER(IOobjectList, fileSets, iter)
   {
     if (!memSets.found(iter.key()))
     {

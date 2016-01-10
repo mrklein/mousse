@@ -16,7 +16,7 @@ template<class TrackData>
 void mousse::particle::prepareForParallelTransfer
 (
   const label patchI,
-  TrackData& td
+  TrackData&
 )
 {
   // Convert the face index to be local to the processor patch
@@ -26,7 +26,7 @@ template<class TrackData>
 void mousse::particle::correctAfterParallelTransfer
 (
   const label patchI,
-  TrackData& td
+  TrackData&
 )
 {
   const coupledPolyPatch& ppp =
@@ -104,7 +104,7 @@ void mousse::particle::readFields(CloudType& c)
     IOField<label> origId(c.fieldIOobject("origId", IOobject::MUST_READ));
     c.checkFieldIOobject(c, origId);
     label i = 0;
-    forAllIter(typename CloudType, c, iter)
+    FOR_ALL_ITER(typename CloudType, c, iter)
     {
       particle& p = iter();
       p.origProc_ = origProcId[i];
@@ -127,7 +127,7 @@ void mousse::particle::writeFields(const CloudType& c)
   );
   IOField<label> origId(c.fieldIOobject("origId", IOobject::NO_READ), np);
   label i = 0;
-  forAllConstIter(typename CloudType, c, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, c, iter)
   {
     origProc[i] = iter().origProc_;
     origId[i] = iter().origId_;
@@ -323,7 +323,7 @@ mousse::scalar mousse::particle::trackToFace
     {
       // Loop over all found tris and see if any of them find a
       // lambda value smaller than that found for a wall face.
-      forAll(tris, i)
+      FOR_ALL(tris, i)
       {
         label tI = tris[i];
         scalar lam = tetLambda
@@ -437,7 +437,7 @@ mousse::scalar mousse::particle::trackToFace
     }
     else
     {
-      FatalErrorIn("Particle::trackToFace(const vector&, TrackData&)")
+      FATAL_ERROR_IN("Particle::trackToFace(const vector&, TrackData&)")
         << "addressing failure" << abort(FatalError);
     }
   }
@@ -602,7 +602,7 @@ void mousse::particle::hitWallFaces
   scalar lambdaDistanceTolerance =
     lambdaDistanceToleranceCoeff*mesh_.cellVolumes()[cellI_];
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(thisCell, cFI)
+  FOR_ALL(thisCell, cFI)
   {
     label fI = thisCell[cFI];
     if (internalFace(fI))
@@ -616,7 +616,7 @@ void mousse::particle::hitWallFaces
       const List<tetIndices> faceTetIs =
         polyMeshTetDecomposition::faceTetIndices(mesh_, fI, cellI_);
       const mousse::face& f = pFaces[fI];
-      forAll(faceTetIs, tI)
+      FOR_ALL(faceTetIs, tI)
       {
         const tetIndices& tetIs = faceTetIs[tI];
         triPointRef tri = tetIs.faceTri(mesh_);
@@ -771,19 +771,20 @@ bool mousse::particle::hitPatch
 template<class TrackData>
 void mousse::particle::hitWedgePatch
 (
-  const wedgePolyPatch& wpp,
+  const wedgePolyPatch&,
   TrackData&
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "void mousse::particle::hitWedgePatch"
     "("
       "const wedgePolyPatch& wpp, "
       "TrackData&"
     ")"
-  )   << "Hitting a wedge patch should not be possible."
-    << abort(FatalError);
+  )
+  << "Hitting a wedge patch should not be possible."
+  << abort(FatalError);
   vector nf = normal();
   nf /= mag(nf);
   transformProperties(I - 2.0*nf*nf);
@@ -791,7 +792,7 @@ void mousse::particle::hitWedgePatch
 template<class TrackData>
 void mousse::particle::hitSymmetryPlanePatch
 (
-  const symmetryPlanePolyPatch& spp,
+  const symmetryPlanePolyPatch&,
   TrackData&
 )
 {
@@ -802,7 +803,7 @@ void mousse::particle::hitSymmetryPlanePatch
 template<class TrackData>
 void mousse::particle::hitSymmetryPatch
 (
-  const symmetryPolyPatch& spp,
+  const symmetryPolyPatch&,
   TrackData&
 )
 {
@@ -814,7 +815,7 @@ template<class TrackData>
 void mousse::particle::hitCyclicPatch
 (
   const cyclicPolyPatch& cpp,
-  TrackData& td
+  TrackData&
 )
 {
   faceI_ = cpp.transformGlobalFace(faceI_);
@@ -853,7 +854,7 @@ template<class TrackData>
 void mousse::particle::hitCyclicAMIPatch
 (
   const cyclicAMIPolyPatch& cpp,
-  TrackData& td,
+  TrackData&,
   const vector& direction
 )
 {
@@ -864,7 +865,7 @@ void mousse::particle::hitCyclicAMIPatch
   patchFaceI = cpp.pointFace(patchFaceI, direction, position_);
   if (patchFaceI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "template<class TrackData>"
       "void mousse::particle::hitCyclicAMIPatch"
@@ -874,9 +875,9 @@ void mousse::particle::hitCyclicAMIPatch
         "const vector&"
       ")"
     )
-      << "Particle lost across " << cyclicAMIPolyPatch::typeName
-      << " patches " << cpp.name() << " and " << receiveCpp.name()
-      << " at position " << position_ << abort(FatalError);
+    << "Particle lost across " << cyclicAMIPolyPatch::typeName
+    << " patches " << cpp.name() << " and " << receiveCpp.name()
+    << " at position " << position_ << abort(FatalError);
   }
   // Convert face index into global numbering
   faceI_ = patchFaceI + receiveCpp.start();

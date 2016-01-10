@@ -65,7 +65,7 @@ bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
   IFstream is(filename);
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::OBJedgeFormat::read(const fileName&)"
     )
@@ -139,7 +139,7 @@ bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
   }
   // cull unused points
   label nUsed = 0;
-  forAll(dynPoints, pointI)
+  FOR_ALL(dynPoints, pointI)
   {
     if (dynUsedPoints[pointI] >= 0)
     {
@@ -157,7 +157,7 @@ bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
   // renumber edge vertices
   if (nUsed != dynUsedPoints.size())
   {
-    forAll(dynEdges, edgeI)
+    FOR_ALL(dynEdges, edgeI)
     {
       edge& e = dynEdges[edgeI];
       e[0] = dynUsedPoints[e[0]];
@@ -178,7 +178,7 @@ void mousse::fileFormats::OBJedgeFormat::write
   OFstream os(filename);
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::OBJedgeFormat::write"
       "(const fileName&, const edgeMesh&)"
@@ -186,24 +186,24 @@ void mousse::fileFormats::OBJedgeFormat::write
       << "Cannot open file for writing " << filename
       << exit(FatalError);
   }
-  os  << "# Wavefront OBJ file written " << clock::dateTime().c_str() << nl
+  os<< "# Wavefront OBJ file written " << clock::dateTime().c_str() << nl
     << "o " << os.name().lessExt().name() << nl
     << nl
     << "# points : " << pointLst.size() << nl
     << "# lines  : " << edgeLst.size() << nl;
-  os  << nl
+  os<< nl
     << "# <points count=\"" << pointLst.size() << "\">" << nl;
   // Write vertex coords
-  forAll(pointLst, ptI)
+  FOR_ALL(pointLst, ptI)
   {
     const point& p = pointLst[ptI];
     os  << "v " << p.x() << ' ' << p.y() << ' ' << p.z() << nl;
   }
-  os  << "# </points>" << nl
+  os<< "# </points>" << nl
     << nl
     << "# <edges count=\"" << edgeLst.size() << "\">" << endl;
   // Write line connectivity
-  forAll(edgeLst, edgeI)
+  FOR_ALL(edgeLst, edgeI)
   {
     const edge& e = edgeLst[edgeI];
     os << "l " << (e[0] + 1) << " " << (e[1] + 1) << nl;

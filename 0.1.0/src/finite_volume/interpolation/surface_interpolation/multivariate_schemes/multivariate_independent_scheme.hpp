@@ -33,7 +33,7 @@ class multivariateIndependentScheme
     void operator=(const multivariateIndependentScheme&);
 public:
   //- Runtime type information
-  TypeName("multivariateIndependent");
+  TYPE_NAME("multivariateIndependent");
   // Constructors
     //- Construct for field, faceFlux and Istream
     multivariateIndependentScheme

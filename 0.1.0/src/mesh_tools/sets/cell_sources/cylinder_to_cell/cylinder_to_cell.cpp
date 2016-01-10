@@ -8,16 +8,18 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cylinderToCell, 0);
-  addToRunTimeSelectionTable(topoSetSource, cylinderToCell, word);
-  addToRunTimeSelectionTable(topoSetSource, cylinderToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(cylinderToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, cylinderToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, cylinderToCell, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::cylinderToCell::usage_
 (
   cylinderToCell::typeName,
   "\n    Usage: cylinderToCell (p1X p1Y p1Z) (p2X p2Y p2Z) radius\n\n"
   "    Select all cells with cell centre within bounding cylinder\n\n"
 );
+
 // Private Member Functions 
 void mousse::cylinderToCell::combine(topoSet& set, const bool add) const
 {
@@ -25,7 +27,7 @@ void mousse::cylinderToCell::combine(topoSet& set, const bool add) const
   const scalar rad2 = sqr(radius_);
   const scalar magAxis2 = magSqr(axis);
   const pointField& ctrs = mesh_.cellCentres();
-  forAll(ctrs, cellI)
+  FOR_ALL(ctrs, cellI)
   {
     vector d = ctrs[cellI] - p1_;
     scalar magD = d & axis;

@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "meshed_surface.hpp"
+
 #include "bound_box.hpp"
 #include "ostream.hpp"
+
 // Member Functions 
 template<class Face>
 void mousse::MeshedSurface<Face>::writeStats(Ostream& os) const
@@ -18,7 +20,7 @@ void mousse::MeshedSurface<Face>::writeStats(Ostream& os) const
   {
     label nTri = 0;
     label nQuad = 0;
-    forAll(*this, i)
+    FOR_ALL(*this, i)
     {
       const label n = this->operator[](i).size();
       if (n == 3)

@@ -65,7 +65,7 @@ class uniformSet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("uniform");
+  TYPE_NAME("uniform");
   // Constructors
     //- Construct from components
     uniformSet

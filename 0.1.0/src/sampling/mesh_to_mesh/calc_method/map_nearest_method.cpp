@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(mapNearestMethod, 0);
-  addToRunTimeSelectionTable(meshToMeshMethod, mapNearestMethod, components);
+  DEFINE_TYPE_NAME_AND_DEBUG(mapNearestMethod, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(meshToMeshMethod, mapNearestMethod, components);
 }
 // Protected Member Functions 
 bool mousse::mapNearestMethod::findInitialSeeds
@@ -40,7 +40,7 @@ bool mousse::mapNearestMethod::findInitialSeeds
       }
       else
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "bool mousse::mapNearestMethod::findInitialSeeds"
           "("
@@ -112,7 +112,7 @@ void mousse::mapNearestMethod::calculateAddressing
   // nearest source cell only and discard the others
   const vectorField& srcCc = src_.cellCentres();
   const vectorField& tgtCc = tgt_.cellCentres();
-  forAll(tgtToSrc, targetCellI)
+  FOR_ALL(tgtToSrc, targetCellI)
   {
     if (tgtToSrc[targetCellI].size() > 1)
     {
@@ -136,7 +136,7 @@ void mousse::mapNearestMethod::calculateAddressing
   }
   // If there are more target cells than source cells, some target cells
   // might not yet be mapped
-  forAll(tgtToSrc, tgtCellI)
+  FOR_ALL(tgtToSrc, tgtCellI)
   {
     if (tgtToSrc[tgtCellI].empty())
     {
@@ -146,12 +146,12 @@ void mousse::mapNearestMethod::calculateAddressing
     }
   }
   // transfer addressing into persistent storage
-  forAll(srcToTgtCellAddr, i)
+  FOR_ALL(srcToTgtCellAddr, i)
   {
     srcToTgtCellWght[i] = scalarList(srcToTgt[i].size(), srcVc[i]);
     srcToTgtCellAddr[i].transfer(srcToTgt[i]);
   }
-  forAll(tgtToSrcCellAddr, i)
+  FOR_ALL(tgtToSrcCellAddr, i)
   {
     tgtToSrcCellWght[i] = scalarList(tgtToSrc[i].size(), tgtVc[i]);
     tgtToSrcCellAddr[i].transfer(tgtToSrc[i]);
@@ -196,7 +196,7 @@ void mousse::mapNearestMethod::setNextNearestCells
 {
   const labelList& srcNbr = src_.cellCells()[srcCellI];
   srcCellI = -1;
-  forAll(srcNbr, i)
+  FOR_ALL(srcNbr, i)
   {
     label cellI = srcNbr[i];
     if (mapFlag[cellI])
@@ -246,7 +246,7 @@ mousse::label mousse::mapNearestMethod::findMappedSrcCell
       else
       {
         const labelList& nbrCells = tgt_.cellCells()[tgtI];
-        forAll(nbrCells, i)
+        FOR_ALL(nbrCells, i)
         {
           if (findIndex(visitedCells, nbrCells[i]) == -1)
           {

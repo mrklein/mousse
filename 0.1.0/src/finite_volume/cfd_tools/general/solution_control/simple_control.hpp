@@ -31,7 +31,7 @@ protected:
 public:
   // Static Data Members
     //- Run-time type information
-    TypeName("simpleControl");
+    TYPE_NAME("simpleControl");
   // Constructors
     //- Construct from mesh
     simpleControl(fvMesh& mesh);

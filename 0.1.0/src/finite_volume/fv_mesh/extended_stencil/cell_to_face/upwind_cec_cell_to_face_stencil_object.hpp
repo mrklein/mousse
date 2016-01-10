@@ -23,7 +23,7 @@ class upwindCECCellToFaceStencilObject
   public extendedUpwindCellToFaceStencil
 {
 public:
-  TypeName("upwindCECCellToFaceStencil");
+  TYPE_NAME("upwindCECCellToFaceStencil");
   // Constructors
     //- Construct from uncompacted face stencil
     upwindCECCellToFaceStencilObject

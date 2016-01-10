@@ -32,7 +32,7 @@ tmp<volScalarField> CoEulerDdtScheme<Type>::CorDeltaT() const
   volScalarField& corDeltaT = tcorDeltaT();
   const labelUList& owner = mesh().owner();
   const labelUList& neighbour = mesh().neighbour();
-  forAll(owner, faceI)
+  FOR_ALL(owner, faceI)
   {
     corDeltaT[owner[faceI]] =
       max(corDeltaT[owner[faceI]], cofrDeltaT[faceI]);
@@ -41,13 +41,13 @@ tmp<volScalarField> CoEulerDdtScheme<Type>::CorDeltaT() const
   }
   volScalarField::GeometricBoundaryField& bcorDeltaT =
     corDeltaT.boundaryField();
-  forAll(bcorDeltaT, patchi)
+  FOR_ALL(bcorDeltaT, patchi)
   {
     const fvsPatchScalarField& pcofrDeltaT =
       cofrDeltaT.boundaryField()[patchi];
     const fvPatch& p = pcofrDeltaT.patch();
     const labelUList& faceCells = p.patch().faceCells();
-    forAll(pcofrDeltaT, patchFacei)
+    FOR_ALL(pcofrDeltaT, patchFacei)
     {
       corDeltaT[faceCells[patchFacei]] = max
       (
@@ -92,7 +92,7 @@ tmp<surfaceScalarField> CoEulerDdtScheme<Type>::CofrDeltaT() const
   }
   else
   {
-    FatalErrorIn("CoEulerDdtScheme<Type>::CofrDeltaT() const")
+    FATAL_ERROR_IN("CoEulerDdtScheme<Type>::CofrDeltaT() const")
       << "Incorrect dimensions of phi: " << phi.dimensions()
       << abort(FatalError);
     return tmp<surfaceScalarField>(NULL);
@@ -605,11 +605,12 @@ CoEulerDdtScheme<Type>::fvcDdtUfCorr
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "CoEulerDdtScheme<Type>::fvcDdtPhiCorr"
-    )   << "dimensions of Uf are not correct"
-      << abort(FatalError);
+    )
+    << "dimensions of Uf are not correct"
+    << abort(FatalError);
     return fluxFieldType::null();
   }
 }
@@ -663,11 +664,12 @@ CoEulerDdtScheme<Type>::fvcDdtPhiCorr
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "CoEulerDdtScheme<Type>::fvcDdtPhiCorr"
-    )   << "dimensions of phi are not correct"
-      << abort(FatalError);
+    )
+    << "dimensions of phi are not correct"
+    << abort(FatalError);
     return fluxFieldType::null();
   }
 }

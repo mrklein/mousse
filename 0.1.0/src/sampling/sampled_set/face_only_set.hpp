@@ -50,7 +50,7 @@ class faceOnlySet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("face");
+  TYPE_NAME("face");
   // Constructors
     //- Construct from components
     faceOnlySet

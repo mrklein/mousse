@@ -253,7 +253,7 @@ void mousse::isoSurfaceCell::generateTriPoints
 {
   tetMatcher tet;
   label countNotFoundTets = 0;
-  forAll(mesh_.cells(), cellI)
+  FOR_ALL(mesh_.cells(), cellI)
   {
     if (cellCutType_[cellI] != NOTCUT)
     {
@@ -267,7 +267,7 @@ void mousse::isoSurfaceCell::generateTriPoints
         // Get the other point
         const face& f1 = mesh_.faces()[cFaces[1]];
         label oppositeI = -1;
-        forAll(f1, fp)
+        FOR_ALL(f1, fp)
         {
           oppositeI = f1[fp];
           if (findIndex(f0, oppositeI) == -1)
@@ -328,7 +328,7 @@ void mousse::isoSurfaceCell::generateTriPoints
       }
       else
       {
-        forAll(cFaces, cFaceI)
+        FOR_ALL(cFaces, cFaceI)
         {
           label faceI = cFaces[cFaceI];
           const face& f = mesh_.faces()[faceI];
@@ -408,7 +408,7 @@ void mousse::isoSurfaceCell::generateTriPoints
   }
   if (countNotFoundTets > 0)
   {
-    WarningIn("mousse::isoSurfaceCell::generateTriPoints")
+    WARNING_IN("mousse::isoSurfaceCell::generateTriPoints")
       << "Could not find " << countNotFoundTets
       << " tet base points, which may lead to inverted triangles."
       << endl;
@@ -447,7 +447,7 @@ mousse::isoSurfaceCell::interpolate
   // One value per point
   tmp<Field<Type> > tvalues(new Field<Type>(points().size()));
   Field<Type>& values = tvalues();
-  forAll(triPoints, i)
+  FOR_ALL(triPoints, i)
   {
     label mergedPointI = triPointMergeMap_[i];
     if (mergedPointI >= 0)
@@ -486,7 +486,7 @@ mousse::isoSurfaceCell::interpolate
   // One value per point
   tmp<Field<Type> > tvalues(new Field<Type>(points().size()));
   Field<Type>& values = tvalues();
-  forAll(triPoints, i)
+  FOR_ALL(triPoints, i)
   {
     label mergedPointI = triPointMergeMap_[i];
     if (mergedPointI >= 0)

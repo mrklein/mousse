@@ -73,16 +73,16 @@ private:
     ) const;
     //- Work out triangle index given the starting vertex in the face
     label triIndex(const label faceI, const label fp) const;
-    //- Disallow default bitwise copy construct
-    tetDecomposer(const tetDecomposer&);
-    //- Disallow default bitwise assignment
-    void operator=(const tetDecomposer&);
 public:
   //- Runtime type information
-  ClassName("tetDecomposer");
+  CLASS_NAME("tetDecomposer");
   // Constructors
     //- Construct from mesh
     tetDecomposer(const polyMesh&);
+    //- Disallow default bitwise copy construct
+    tetDecomposer(const tetDecomposer&) = delete;
+    //- Disallow default bitwise assignment
+    tetDecomposer& operator=(const tetDecomposer&) = delete;
   // Member Functions
     // Access
       //- From cell to tet point

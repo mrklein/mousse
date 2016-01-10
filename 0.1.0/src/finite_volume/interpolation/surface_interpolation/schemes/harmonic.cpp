@@ -6,7 +6,7 @@
 #include "harmonic.hpp"
 namespace mousse
 {
-defineTypeNameAndDebug(harmonic, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(harmonic, 0);
 surfaceInterpolationScheme<scalar>::addMeshFluxConstructorToTable<harmonic>
   addharmonicScalarMeshFluxConstructorToTable_;
 surfaceInterpolationScheme<scalar>::addMeshConstructorToTable<harmonic>

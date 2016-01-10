@@ -9,19 +9,19 @@ namespace mousse
 namespace extrudeModels
 {
 // Static Data Members
-defineTypeNameAndDebug(linearDirection, 0);
-addToRunTimeSelectionTable(extrudeModel, linearDirection, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(linearDirection, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(extrudeModel, linearDirection, dictionary);
 // Constructors 
 linearDirection::linearDirection(const dictionary& dict)
 :
-  extrudeModel(typeName, dict),
-  direction_(coeffDict_.lookup("direction")),
-  thickness_(readScalar(coeffDict_.lookup("thickness")))
+  extrudeModel{typeName, dict},
+  direction_{coeffDict_.lookup("direction")},
+  thickness_{readScalar(coeffDict_.lookup("thickness"))}
 {
   direction_ /= mag(direction_);
   if (thickness_ <= 0)
   {
-    FatalErrorIn("linearDirection(const dictionary&)")
+    FATAL_ERROR_IN("linearDirection(const dictionary&)")
       << "thickness should be positive : " << thickness_
       << exit(FatalError);
   }
@@ -33,7 +33,7 @@ linearDirection::~linearDirection()
 point linearDirection::operator()
 (
   const point& surfacePoint,
-  const vector& surfaceNormal,
+  const vector& /*surfaceNormal*/,
   const label layer
 ) const
 {

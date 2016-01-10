@@ -15,7 +15,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(boundaryCutter, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(boundaryCutter, 0);
 }
 // Private Static Functions 
 // Private Member Functions 
@@ -53,7 +53,7 @@ mousse::face mousse::boundaryCutter::addEdgeCutsToFace
   const labelList& fEdges = mesh_.faceEdges()[faceI];
   // Storage for face
   DynamicList<label> newFace(2 * f.size());
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     // Duplicate face vertex .
     newFace.append(f[fp]);
@@ -68,7 +68,7 @@ mousse::face mousse::boundaryCutter::addEdgeCutsToFace
       if (edges[edgeI].start() == f[fp])
       {
         // Introduce in same order.
-        forAll(addedPoints, i)
+        FOR_ALL(addedPoints, i)
         {
           newFace.append(addedPoints[i]);
         }
@@ -76,7 +76,7 @@ mousse::face mousse::boundaryCutter::addEdgeCutsToFace
       else
       {
         // Introduce in opposite order.
-        forAllReverse(addedPoints, i)
+        FOR_ALL_REVERSE(addedPoints, i)
         {
           newFace.append(addedPoints[i]);
         }
@@ -161,7 +161,7 @@ bool mousse::boundaryCutter::splitFace
   label nSplitEdges = 0;
   label nModPoints = 0;
   label nTotalSplits = 0;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if (pointToPos.found(f[fp]))
     {
@@ -187,7 +187,7 @@ bool mousse::boundaryCutter::splitFace
   }
   if (nSplitEdges == 0 && nModPoints == 0)
   {
-    FatalErrorIn("boundaryCutter::splitFace") << "Problem : face:" << faceI
+    FATAL_ERROR_IN("boundaryCutter::splitFace") << "Problem : face:" << faceI
       << " nSplitEdges:" << nSplitEdges
       << " nTotalSplits:" << nTotalSplits
       << abort(FatalError);
@@ -213,7 +213,7 @@ bool mousse::boundaryCutter::splitFace
     face extendedFace(addEdgeCutsToFace(faceI, edgeToAddedPoints));
     // Find first added point. This is the starting vertex for splitting.
     label startFp = -1;
-    forAll(extendedFace, fp)
+    FOR_ALL(extendedFace, fp)
     {
       if (extendedFace[fp] >= mesh_.nPoints())
       {
@@ -224,7 +224,7 @@ bool mousse::boundaryCutter::splitFace
     if (startFp == -1)
     {
       // No added point. Maybe there is a modified point?
-      forAll(extendedFace, fp)
+      FOR_ALL(extendedFace, fp)
       {
         if (pointToPos.found(extendedFace[fp]))
         {
@@ -235,7 +235,7 @@ bool mousse::boundaryCutter::splitFace
     }
     if (startFp == -1)
     {
-      FatalErrorIn("boundaryCutter::splitFace")
+      FATAL_ERROR_IN("boundaryCutter::splitFace")
         << "Problem" << abort(FatalError);
     }
     // Have we already modified existing face (first face gets done
@@ -263,7 +263,7 @@ bool mousse::boundaryCutter::splitFace
     // Storage for new face
     DynamicList<label> newFace(extendedFace.size());
     label fp = startFp;
-    forAll(extendedFace, i)
+    FOR_ALL(extendedFace, i)
     {
       label pointI = extendedFace[fp];
       newFace.append(pointI);
@@ -329,7 +329,7 @@ void mousse::boundaryCutter::setRefinement
   // Points that just need to be moved
   // Note: could just as well be handled outside of setRefinement.
   //
-  forAllConstIter(Map<point>, pointToPos, iter)
+  FOR_ALL_CONST_ITER(Map<point>, pointToPos, iter)
   {
     meshMod.setAction
     (
@@ -348,13 +348,13 @@ void mousse::boundaryCutter::setRefinement
   //
   // Map from edge label to sorted list of points
   Map<labelList> edgeToAddedPoints(edgeToCuts.size());
-  forAllConstIter(Map<List<point> >, edgeToCuts, iter)
+  FOR_ALL_CONST_ITER(Map<List<point> >, edgeToCuts, iter)
   {
     label edgeI = iter.key();
     const edge& e = mesh_.edges()[edgeI];
     // Sorted (from start to end) list of cuts on edge
     const List<point>& cuts = iter();
-    forAll(cuts, cutI)
+    FOR_ALL(cuts, cutI)
     {
       // point on feature to move to
       const point& featurePoint = cuts[cutI];
@@ -391,13 +391,13 @@ void mousse::boundaryCutter::setRefinement
   //
   // Introduce feature points.
   //
-  forAllConstIter(Map<point>, faceToFeaturePoint, iter)
+  FOR_ALL_CONST_ITER(Map<point>, faceToFeaturePoint, iter)
   {
     label faceI = iter.key();
     const face& f = mesh_.faces()[faceI];
     if (faceToSplit.found(faceI))
     {
-      FatalErrorIn("boundaryCutter::setRefinement")
+      FATAL_ERROR_IN("boundaryCutter::setRefinement")
         << "Face " << faceI << " vertices " << f
         << " is both marked for face-centre decomposition and"
         << " diagonal splitting."
@@ -405,7 +405,7 @@ void mousse::boundaryCutter::setRefinement
     }
     if (mesh_.isInternalFace(faceI))
     {
-      FatalErrorIn("boundaryCutter::setRefinement")
+      FATAL_ERROR_IN("boundaryCutter::setRefinement")
         << "Face " << faceI << " vertices " << f
         << " is not an external face. Cannot split it"
         << abort(FatalError);
@@ -436,7 +436,7 @@ void mousse::boundaryCutter::setRefinement
   // -new owner/neighbour)
   boolList faceUptodate(mesh_.nFaces(), false);
   // Triangulate faces containing feature points
-  forAllConstIter(Map<label>, faceAddedPoint_, iter)
+  FOR_ALL_CONST_ITER(Map<label>, faceAddedPoint_, iter)
   {
     label faceI = iter.key();
     // Get face with new points on cut edges.
@@ -449,7 +449,7 @@ void mousse::boundaryCutter::setRefinement
     label masterPoint = mesh_.faces()[faceI][0];
     // Triangulate face around mid point
     face tri(3);
-    forAll(newFace, fp)
+    FOR_ALL(newFace, fp)
     {
       label nextV = newFace.nextLabel(fp);
       tri[0] = newFace[fp];
@@ -498,13 +498,13 @@ void mousse::boundaryCutter::setRefinement
     faceUptodate[faceI] = true;
   }
   // Diagonally split faces
-  forAllConstIter(Map<labelPair>, faceToSplit, iter)
+  FOR_ALL_CONST_ITER(Map<labelPair>, faceToSplit, iter)
   {
     label faceI = iter.key();
     const face& f = mesh_.faces()[faceI];
     if (faceAddedPoint_.found(faceI))
     {
-      FatalErrorIn("boundaryCutter::setRefinement")
+      FATAL_ERROR_IN("boundaryCutter::setRefinement")
         << "Face " << faceI << " vertices " << f
         << " is both marked for face-centre decomposition and"
         << " diagonal splitting."
@@ -523,7 +523,7 @@ void mousse::boundaryCutter::setRefinement
     label fp1 = findIndex(newFace, f[diag[1]]);
     if (fp0 == -1 || fp1 == -1 || fp0 == fp1)
     {
-      FatalErrorIn("boundaryCutter::setRefinement")
+      FATAL_ERROR_IN("boundaryCutter::setRefinement")
         << "Problem : Face " << faceI << " vertices " << f
         << " newFace:" << newFace << " diagonal:" << f[diag[0]]
         << ' ' << f[diag[1]]
@@ -585,11 +585,11 @@ void mousse::boundaryCutter::setRefinement
   }
   // Split external faces without feature point but using cut edges.
   // Does right handed walk but not really.
-  forAllConstIter(Map<labelList>, edgeToAddedPoints, iter)
+  FOR_ALL_CONST_ITER(Map<labelList>, edgeToAddedPoints, iter)
   {
     label edgeI = iter.key();
     const labelList& eFaces = mesh_.edgeFaces()[edgeI];
-    forAll(eFaces, i)
+    FOR_ALL(eFaces, i)
     {
       label faceI = eFaces[i];
       if (!faceUptodate[faceI] && !mesh_.isInternalFace(faceI))
@@ -606,11 +606,11 @@ void mousse::boundaryCutter::setRefinement
   // Add cut edges (but don't split) any other faces using any cut edge.
   // These can be external faces where splitFace hasn't cut them or
   // internal faces.
-  forAllConstIter(Map<labelList>, edgeToAddedPoints, iter)
+  FOR_ALL_CONST_ITER(Map<labelList>, edgeToAddedPoints, iter)
   {
     label edgeI = iter.key();
     const labelList& eFaces = mesh_.edgeFaces()[edgeI];
-    forAll(eFaces, i)
+    FOR_ALL(eFaces, i)
     {
       label faceI = eFaces[i];
       if (!faceUptodate[faceI])
@@ -647,7 +647,7 @@ void mousse::boundaryCutter::setRefinement
   // Convert edge to points storage from edge labels (not preserved)
   // to point labels
   edgeAddedPoints_.resize(edgeToCuts.size());
-  forAllConstIter(Map<labelList>, edgeToAddedPoints, iter)
+  FOR_ALL_CONST_ITER(Map<labelList>, edgeToAddedPoints, iter)
   {
     edgeAddedPoints_.insert(mesh_.edges()[iter.key()], iter());
   }
@@ -661,7 +661,7 @@ void mousse::boundaryCutter::updateMesh(const mapPolyMesh& morphMap)
   {
     // Create copy since we're deleting entries.
     Map<label> newAddedPoints(faceAddedPoint_.size());
-    forAllConstIter(Map<label>, faceAddedPoint_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, faceAddedPoint_, iter)
     {
       label oldFaceI = iter.key();
       label newFaceI = morphMap.reverseFaceMap()[oldFaceI];
@@ -698,7 +698,7 @@ void mousse::boundaryCutter::updateMesh(const mapPolyMesh& morphMap)
         const labelList& addedPoints = iter();
         labelList newAddedPoints(addedPoints.size());
         label newI = 0;
-        forAll(addedPoints, i)
+        FOR_ALL(addedPoints, i)
         {
           label newAddedPointI =
             morphMap.reversePointMap()[addedPoints[i]];

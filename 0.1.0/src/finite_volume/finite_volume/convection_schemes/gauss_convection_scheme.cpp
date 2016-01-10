@@ -57,7 +57,7 @@ gaussConvectionScheme<Type>::fvmDiv
   fvm.lower() = -weights.internalField()*faceFlux.internalField();
   fvm.upper() = fvm.lower() + faceFlux.internalField();
   fvm.negSumDiag();
-  forAll(vf.boundaryField(), patchI)
+  FOR_ALL(vf.boundaryField(), patchI)
   {
     const fvPatchField<Type>& psf = vf.boundaryField()[patchI];
     const fvsPatchScalarField& patchFlux = faceFlux.boundaryField()[patchI];

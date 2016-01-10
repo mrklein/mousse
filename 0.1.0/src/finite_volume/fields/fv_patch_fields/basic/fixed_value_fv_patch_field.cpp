@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "fixed_value_fv_patch_field.hpp"
+
 namespace mousse
 {
+
 // Member Functions 
 template<class Type>
 fixedValueFvPatchField<Type>::fixedValueFvPatchField
@@ -13,8 +15,10 @@ fixedValueFvPatchField<Type>::fixedValueFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(p, iF)
+  fvPatchField<Type>{p, iF}
 {}
+
+
 template<class Type>
 fixedValueFvPatchField<Type>::fixedValueFvPatchField
 (
@@ -23,8 +27,10 @@ fixedValueFvPatchField<Type>::fixedValueFvPatchField
   const dictionary& dict
 )
 :
-  fvPatchField<Type>(p, iF, dict, true)
+  fvPatchField<Type>{p, iF, dict, true}
 {}
+
+
 template<class Type>
 fixedValueFvPatchField<Type>::fixedValueFvPatchField
 (
@@ -34,11 +40,11 @@ fixedValueFvPatchField<Type>::fixedValueFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fvPatchField<Type>(ptf, p, iF, mapper)
+  fvPatchField<Type>{ptf, p, iF, mapper}
 {
   if (notNull(iF) && mapper.hasUnmapped())
   {
-    WarningIn
+    WARNING_IN
     (
       "fixedValueFvPatchField<Type>::fixedValueFvPatchField\n"
       "(\n"
@@ -47,21 +53,26 @@ fixedValueFvPatchField<Type>::fixedValueFvPatchField
       "    const DimensionedField<Type, volMesh>&,\n"
       "    const fvPatchFieldMapper&\n"
       ")\n"
-    )   << "On field " << iF.name() << " patch " << p.name()
-      << " patchField " << this->type()
-      << " : mapper does not map all values." << nl
-      << "    To avoid this warning fully specify the mapping in derived"
-      << " patch fields." << endl;
+    )
+    << "On field " << iF.name() << " patch " << p.name()
+    << " patchField " << this->type()
+    << " : mapper does not map all values." << nl
+    << "    To avoid this warning fully specify the mapping in derived"
+    << " patch fields." << endl;
   }
 }
+
+
 template<class Type>
 fixedValueFvPatchField<Type>::fixedValueFvPatchField
 (
   const fixedValueFvPatchField<Type>& ptf
 )
 :
-  fvPatchField<Type>(ptf)
+  fvPatchField<Type>{ptf}
 {}
+
+
 template<class Type>
 fixedValueFvPatchField<Type>::fixedValueFvPatchField
 (
@@ -69,9 +80,12 @@ fixedValueFvPatchField<Type>::fixedValueFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(ptf, iF)
+  fvPatchField<Type>{ptf, iF}
 {}
+
+
 // Member Functions 
+
 template<class Type>
 tmp<Field<Type> > fixedValueFvPatchField<Type>::valueInternalCoeffs
 (
@@ -79,10 +93,12 @@ tmp<Field<Type> > fixedValueFvPatchField<Type>::valueInternalCoeffs
 ) const
 {
   return tmp<Field<Type> >
-  (
-    new Field<Type>(this->size(), pTraits<Type>::zero)
-  );
+  {
+    new Field<Type>{this->size(), pTraits<Type>::zero}
+  };
 }
+
+
 template<class Type>
 tmp<Field<Type> > fixedValueFvPatchField<Type>::valueBoundaryCoeffs
 (
@@ -91,20 +107,27 @@ tmp<Field<Type> > fixedValueFvPatchField<Type>::valueBoundaryCoeffs
 {
   return *this;
 }
+
+
 template<class Type>
 tmp<Field<Type> > fixedValueFvPatchField<Type>::gradientInternalCoeffs() const
 {
   return -pTraits<Type>::one*this->patch().deltaCoeffs();
 }
+
+
 template<class Type>
 tmp<Field<Type> > fixedValueFvPatchField<Type>::gradientBoundaryCoeffs() const
 {
   return this->patch().deltaCoeffs()*(*this);
 }
+
+
 template<class Type>
 void fixedValueFvPatchField<Type>::write(Ostream& os) const
 {
   fvPatchField<Type>::write(os);
   this->writeEntry("value", os);
 }
+
 }  // namespace mousse

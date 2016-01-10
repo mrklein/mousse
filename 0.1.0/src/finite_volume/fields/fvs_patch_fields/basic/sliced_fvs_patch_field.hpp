@@ -23,7 +23,7 @@ class slicedFvsPatchField
 {
 public:
   //- Runtime type information
-  TypeName("sliced");
+  TYPE_NAME("sliced");
   // Constructors
     //- Construct from patch, internal field and field to slice
     slicedFvsPatchField

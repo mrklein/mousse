@@ -18,7 +18,7 @@ void mousse::edgeFaceCirculator::setFace
   faceLabel_ = faceI;
   if (!isBoundaryEdge_ && !mesh_.isInternalFace(faceI))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "edgeFaceCirculator::setFace(const label, const label)"
     )   << "Edge is not defined as boundary edge but still walked to"
@@ -32,7 +32,7 @@ void mousse::edgeFaceCirculator::otherFace(const label cellI)
   label v0 = f[index_];
   label v1 = f.nextLabel(index_);
   const cell& cFaces = mesh_.cells()[cellI];
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     label faceB = cFaces[i];
     if (faceB != faceLabel_)
@@ -46,7 +46,7 @@ void mousse::edgeFaceCirculator::otherFace(const label cellI)
       }
     }
   }
-  FatalErrorIn("edgeFaceCirculator::otherFace(const label)")
+  FATAL_ERROR_IN("edgeFaceCirculator::otherFace(const label)")
     << "Could not find next face stepping"
     << " through cell along edge." << endl
     << "face:" << faceLabel_ << " index in face:" << index_
@@ -141,7 +141,7 @@ bool mousse::edgeFaceCirculator::sameOrder(const label v0, const label v1) const
   label fp = getMinIndex(f, v0, v1);
   if (fp != index_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "edgeFaceCirculator::sameOrder(const label, const label) const"
     )   << "v0:" << v1 << " and v1:" << v1
@@ -192,7 +192,7 @@ void mousse::edgeFaceCirculator::setCanonical()
       if (i >= 1000)
       {
         const face& f = mesh_.faces()[faceLabel_];
-        FatalErrorIn("mousse::edgeFaceCirculator::setCanonical()")
+        FATAL_ERROR_IN("mousse::edgeFaceCirculator::setCanonical()")
           << "Walked " << i << " cells around edge "
           << mesh_.points()[f[index_]]
           << mesh_.points()[f.nextLabel(index_)]
@@ -221,7 +221,7 @@ void mousse::edgeFaceCirculator::setCanonical()
       if (!mesh_.isInternalFace(faceLabel_))
       {
         const face& f = mesh_.faces()[faceLabel_];
-        FatalErrorIn("mousse::edgeFaceCirculator::setCanonical()")
+        FATAL_ERROR_IN("mousse::edgeFaceCirculator::setCanonical()")
           << "Reached boundary face " << faceLabel_
           << " when walking around internal edge "
           << mesh_.points()[f[index_]]
@@ -278,7 +278,7 @@ mousse::edgeFaceCirculator::operator++()
 {
   if (faceLabel_ == -1)
   {
-    FatalErrorIn("edgeFaceCirculator::operator++()")
+    FATAL_ERROR_IN("edgeFaceCirculator::operator++()")
       << "Already reached end(). Cannot walk any further."
       << abort(FatalError);
   }

@@ -3,9 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "cyclic_acmi_point_patch_field.hpp"
+
 #include "swap.hpp"
 #include "transform_field.hpp"
 #include "point_fields.hpp"
+
 // Constructors 
 template<class Type>
 mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
@@ -14,11 +16,13 @@ mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
   const DimensionedField<Type, pointMesh>& iF
 )
 :
-  coupledPointPatchField<Type>(p, iF),
-  cyclicACMIPatch_(refCast<const cyclicACMIPointPatch>(p)),
-  ppiPtr_(NULL),
-  nbrPpiPtr_(NULL)
+  coupledPointPatchField<Type>{p, iF},
+  cyclicACMIPatch_{refCast<const cyclicACMIPointPatch>(p)},
+  ppiPtr_{NULL},
+  nbrPpiPtr_{NULL}
 {}
+
+
 template<class Type>
 mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
 (
@@ -27,14 +31,14 @@ mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
   const dictionary& dict
 )
 :
-  coupledPointPatchField<Type>(p, iF, dict),
-  cyclicACMIPatch_(refCast<const cyclicACMIPointPatch>(p)),
-  ppiPtr_(NULL),
-  nbrPpiPtr_(NULL)
+  coupledPointPatchField<Type>{p, iF, dict},
+  cyclicACMIPatch_{refCast<const cyclicACMIPointPatch>(p)},
+  ppiPtr_{NULL},
+  nbrPpiPtr_{NULL}
 {
   if (!isType<cyclicACMIPointPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField\n"
       "(\n"
@@ -43,11 +47,14 @@ mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
       "    const dictionary&\n"
       ")\n",
       dict
-    )   << "patch " << this->patch().index() << " not cyclicACMI type. "
-      << "Patch type = " << p.type()
-      << exit(FatalIOError);
+    )
+    << "patch " << this->patch().index() << " not cyclicACMI type. "
+    << "Patch type = " << p.type()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
 (
@@ -57,14 +64,14 @@ mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
   const pointPatchFieldMapper& mapper
 )
 :
-  coupledPointPatchField<Type>(ptf, p, iF, mapper),
-  cyclicACMIPatch_(refCast<const cyclicACMIPointPatch>(p)),
-  ppiPtr_(NULL),
-  nbrPpiPtr_(NULL)
+  coupledPointPatchField<Type>{ptf, p, iF, mapper},
+  cyclicACMIPatch_{refCast<const cyclicACMIPointPatch>(p)},
+  ppiPtr_{NULL},
+  nbrPpiPtr_{NULL}
 {
   if (!isType<cyclicACMIPointPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField\n"
       "(\n"
@@ -73,13 +80,16 @@ mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
       "    const DimensionedField<Type, pointMesh>&,\n"
       "    const pointPatchFieldMapper&\n"
       ")\n"
-    )   << "Field type does not correspond to patch type for patch "
-      << this->patch().index() << "." << endl
-      << "Field type: " << typeName << endl
-      << "Patch type: " << this->patch().type()
-      << exit(FatalError);
+    )
+    << "Field type does not correspond to patch type for patch "
+    << this->patch().index() << "." << endl
+    << "Field type: " << typeName << endl
+    << "Patch type: " << this->patch().type()
+    << exit(FatalError);
   }
 }
+
+
 template<class Type>
 mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
 (
@@ -87,11 +97,13 @@ mousse::cyclicACMIPointPatchField<Type>::cyclicACMIPointPatchField
   const DimensionedField<Type, pointMesh>& iF
 )
 :
-  coupledPointPatchField<Type>(ptf, iF),
-  cyclicACMIPatch_(ptf.cyclicACMIPatch_),
-  ppiPtr_(NULL),
-  nbrPpiPtr_(NULL)
+  coupledPointPatchField<Type>{ptf, iF},
+  cyclicACMIPatch_{ptf.cyclicACMIPatch_},
+  ppiPtr_{NULL},
+  nbrPpiPtr_{NULL}
 {}
+
+
 // Member Functions 
 template<class Type>
 void mousse::cyclicACMIPointPatchField<Type>::swapAddSeparated

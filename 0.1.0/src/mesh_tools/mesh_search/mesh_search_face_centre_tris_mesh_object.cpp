@@ -6,7 +6,9 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(meshSearchFACE_CENTRE_TRISMeshObject, 0);
+
+DEFINE_TYPE_NAME_AND_DEBUG(meshSearchFACE_CENTRE_TRISMeshObject, 0);
+
 }
 // Constructors 
 mousse::meshSearchFACE_CENTRE_TRISMeshObject::meshSearchFACE_CENTRE_TRISMeshObject
@@ -19,6 +21,6 @@ mousse::meshSearchFACE_CENTRE_TRISMeshObject::meshSearchFACE_CENTRE_TRISMeshObje
     polyMesh,
     mousse::GeometricMeshObject,
     meshSearchFACE_CENTRE_TRISMeshObject
-  >(mesh),
-  meshSearch(mesh, polyMesh::FACE_CENTRE_TRIS)
+  >{mesh},
+  meshSearch{mesh, polyMesh::FACE_CENTRE_TRIS}
 {}

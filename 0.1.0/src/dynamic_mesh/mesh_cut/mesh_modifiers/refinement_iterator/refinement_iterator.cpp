@@ -15,7 +15,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(refinementIterator, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(refinementIterator, 0);
 }
 // Constructors 
 // Construct from components
@@ -78,7 +78,7 @@ mousse::Map<mousse::label> mousse::refinementIterator::setRefinement
           << " to " << cutsFile << endl;
         OFstream cutsStream(cutsFile);
         labelList refCells(currentRefCells.size());
-        forAll(currentRefCells, i)
+        FOR_ALL(currentRefCells, i)
         {
           refCells[i] = currentRefCells[i].cellNo();
         }
@@ -144,11 +144,11 @@ mousse::Map<mousse::label> mousse::refinementIterator::setRefinement
     // Get all added cells from cellCutter (already in new numbering
     // from meshRefiner.updateMesh call) and add to global list of added
     const Map<label>& addedNow = meshRefiner_.addedCells();
-    forAllConstIter(Map<label>, addedNow, iter)
+    FOR_ALL_CONST_ITER(Map<label>, addedNow, iter)
     {
       if (!addedCells.insert(iter.key(), iter()))
       {
-        FatalErrorIn("refinementIterator")
+        FATAL_ERROR_IN("refinementIterator")
           << "Master cell " << iter.key()
           << " already has been refined" << endl
           << "Added cell:" << iter() << abort(FatalError);
@@ -165,7 +165,7 @@ mousse::Map<mousse::label> mousse::refinementIterator::setRefinement
     );
     // Pack refCells acc. to refined status
     nRefCells = 0;
-    forAll(currentRefCells, refI)
+    FOR_ALL(currentRefCells, refI)
     {
       const refineCell& refCell = currentRefCells[refI];
       if (!addedNow.found(refCell.cellNo()))
@@ -194,7 +194,7 @@ mousse::Map<mousse::label> mousse::refinementIterator::setRefinement
   while (!stop);
   if (nRefCells == oldRefCells)
   {
-    WarningIn("refinementIterator")
+    WARNING_IN("refinementIterator")
       << "stopped refining."
       << "Did not manage to refine a single cell" << endl
       << "Wanted :" << oldRefCells << endl;
