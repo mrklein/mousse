@@ -146,9 +146,9 @@ void mousse::MarshakRadiationFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    MarshakRadiationFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  MarshakRadiationFvPatchScalarField
+);
 }

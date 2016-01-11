@@ -8,8 +8,8 @@ namespace mousse
 {
 namespace radiation
 {
-  defineTypeNameAndDebug(sootModel, 0);
-  defineRunTimeSelectionTable(sootModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(sootModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(sootModel, dictionary);
 }
 }
 // Constructors 
@@ -17,11 +17,11 @@ mousse::radiation::sootModel::sootModel
 (
   const dictionary& dict,
   const fvMesh& mesh,
-  const word& modelType
+  const word& /*modelType*/
 )
 :
-  dict_(dict),
-  mesh_(mesh)
+  dict_{dict},
+  mesh_{mesh}
 {}
 // Destructor   
 mousse::radiation::sootModel::~sootModel()

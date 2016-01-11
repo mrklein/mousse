@@ -39,7 +39,7 @@ class SLGThermo
     autoPtr<solidMixtureProperties> solids_;
 public:
   //- Runtime type information
-  TypeName("SLGThermo");
+  TYPE_NAME("SLGThermo");
   // Constructors
     //- Construct from mesh
     SLGThermo(const fvMesh& mesh, fluidThermo& thermo);

@@ -53,7 +53,7 @@ inline mousse::LangmuirHinshelwoodReactionRate::LangmuirHinshelwoodReactionRate
 {
   // read (A, Ta) pairs
   FixedList<Tuple2<scalar, scalar>, n_> coeffs(dict.lookup("coeffs"));
-  forAll(coeffs, i)
+  FOR_ALL(coeffs, i)
   {
     A_[i] = coeffs[i].first();
     Ta_[i] = coeffs[i].second();
@@ -62,7 +62,7 @@ inline mousse::LangmuirHinshelwoodReactionRate::LangmuirHinshelwoodReactionRate
 // Member Functions 
 inline mousse::scalar mousse::LangmuirHinshelwoodReactionRate::operator()
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T,
   const scalarField& c
 ) const
@@ -78,7 +78,7 @@ inline mousse::scalar mousse::LangmuirHinshelwoodReactionRate::operator()
 inline void mousse::LangmuirHinshelwoodReactionRate::write(Ostream& os) const
 {
   FixedList<Tuple2<scalar, scalar>, n_> coeffs;
-  forAll(coeffs, i)
+  FOR_ALL(coeffs, i)
   {
     coeffs[i].first() = A_[i];
     coeffs[i].second() = Ta_[i];

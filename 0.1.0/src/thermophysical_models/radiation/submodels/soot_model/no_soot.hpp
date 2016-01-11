@@ -20,7 +20,7 @@ class noSoot
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from components
     noSoot(const dictionary& dict, const fvMesh& mesh, const word&);

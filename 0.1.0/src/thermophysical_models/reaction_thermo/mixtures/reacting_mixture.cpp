@@ -35,5 +35,5 @@ mousse::reactingMixture<ThermoType>::reactingMixture
 }
 // Member Functions 
 template<class ThermoType>
-void mousse::reactingMixture<ThermoType>::read(const dictionary& thermoDict)
+void mousse::reactingMixture<ThermoType>::read(const dictionary& /*thermoDict*/)
 {}

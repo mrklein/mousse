@@ -41,7 +41,7 @@ class nC3H8O
     NSRDSfunc1 D_;
 public:
   //- Runtime type information
-  TypeName("nC3H8O");
+  TYPE_NAME("nC3H8O");
   // Constructors
     //- Construct null
     nC3H8O();

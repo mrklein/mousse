@@ -29,7 +29,7 @@ class EulerImplicit
     mutable scalarField cTp_;
 public:
   //- Runtime type information
-  TypeName("EulerImplicit");
+  TYPE_NAME("EulerImplicit");
   // Constructors
     //- Construct from mesh and phase name
     EulerImplicit(const fvMesh& mesh, const word& phaseName);

@@ -21,8 +21,8 @@
 #include "solid_thermo_physics_types.hpp"
 namespace mousse
 {
-/* * * * * * * * * * * * * * * * * Enthalpy-based * * * * * * * * * * * * * */
-makeSolidThermo
+// Enthalpy-based
+MAKE_SOLID_THERMO
 (
   solidThermo,
   heSolidThermo,
@@ -33,7 +33,7 @@ makeSolidThermo
   rhoConst,
   specie
 );
-makeSolidThermo
+MAKE_SOLID_THERMO
 (
   solidThermo,
   heSolidThermo,
@@ -44,7 +44,7 @@ makeSolidThermo
   rhoConst,
   specie
 );
-makeSolidThermo
+MAKE_SOLID_THERMO
 (
   solidThermo,
   heSolidThermo,
@@ -55,7 +55,7 @@ makeSolidThermo
   rhoConst,
   specie
 );
-makeSolidThermoPhysicsType
+MAKE_SOLID_THERMO_PHYSICS_TYPE
 (
   solidThermo,
   heSolidThermo,

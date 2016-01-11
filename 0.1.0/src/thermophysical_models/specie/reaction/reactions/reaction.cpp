@@ -91,7 +91,7 @@ void mousse::Reaction<ReactionThermo>::setThermo
       );
     }
   }
-  forAll(lhs_, i)
+  FOR_ALL(lhs_, i)
   {
     this->operator-=
     (
@@ -173,7 +173,7 @@ mousse::Reaction<ReactionThermo>::specieCoeffs::specieCoeffs
   }
   else
   {
-    FatalIOErrorIn("Reaction<ReactionThermo>::lrhs(Istream& is)", is)
+    FATAL_IO_ERROR_IN("Reaction<ReactionThermo>::lrhs(Istream& is)", is)
       << "Expected a word but found " << t.info()
       << exit(FatalIOError);
   }
@@ -252,7 +252,7 @@ void mousse::Reaction<ReactionThermo>::setLRhs
       }
     }
   }
-  FatalIOErrorIn("Reaction<ReactionThermo>::setLRhs(Istream& is)", is)
+  FATAL_IO_ERROR_IN("Reaction<ReactionThermo>::setLRhs(Istream& is)", is)
     << "Cannot continue reading reaction data from stream"
     << exit(FatalIOError);
 }
@@ -304,7 +304,7 @@ mousse::Reaction<ReactionThermo>::New
 {
   if (is.eof())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "Reaction<ReactionThermo>::New(const speciesTable&, "
       " const HashPtrTable<ReactionThermo>&, Istream&)",
@@ -319,7 +319,7 @@ mousse::Reaction<ReactionThermo>::New
     = IstreamConstructorTablePtr_->find(reactionTypeName);
   if (cstrIter == IstreamConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "Reaction<ReactionThermo>::New(const speciesTable&, "
       " const HashPtrTable<ReactionThermo>&, Istream&)",
@@ -349,7 +349,7 @@ mousse::Reaction<ReactionThermo>::New
     = dictionaryConstructorTablePtr_->find(reactionTypeName);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "Reaction<ReactionThermo>::New"
       "("
@@ -379,9 +379,9 @@ void mousse::Reaction<ReactionThermo>::write(Ostream& os) const
 template<class ReactionThermo>
 mousse::scalar mousse::Reaction<ReactionThermo>::kf
 (
-  const scalar p,
-  const scalar T,
-  const scalarField& c
+  const scalar /*p*/,
+  const scalar /*T*/,
+  const scalarField& /*c*/
 ) const
 {
   return 0.0;
@@ -389,10 +389,10 @@ mousse::scalar mousse::Reaction<ReactionThermo>::kf
 template<class ReactionThermo>
 mousse::scalar mousse::Reaction<ReactionThermo>::kr
 (
-  const scalar kfwd,
-  const scalar p,
-  const scalar T,
-  const scalarField& c
+  const scalar /*kfwd*/,
+  const scalar /*p*/,
+  const scalar /*T*/,
+  const scalarField& /*c*/
 ) const
 {
   return 0.0;
@@ -400,9 +400,9 @@ mousse::scalar mousse::Reaction<ReactionThermo>::kr
 template<class ReactionThermo>
 mousse::scalar mousse::Reaction<ReactionThermo>::kr
 (
-  const scalar p,
-  const scalar T,
-  const scalarField& c
+  const scalar /*p*/,
+  const scalar /*T*/,
+  const scalarField& /*c*/
 ) const
 {
   return 0.0;
@@ -415,7 +415,7 @@ const mousse::speciesTable& mousse::Reaction<ReactionThermo>::species() const
 template<class ReactionThermo>
 const mousse::speciesTable& mousse::Reaction<ReactionThermo>::gasSpecies() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "const speciesTable& gasSpecies() const"
     " for this reaction"
@@ -426,7 +426,7 @@ template<class ReactionThermo>
 const mousse::List<typename mousse::Reaction<ReactionThermo>::specieCoeffs>&
 mousse::Reaction<ReactionThermo>::glhs() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "inline const List<typename Reaction<ReactionThermo>::specieCoeffs>&"
     "Reaction<ReactionThermo>::glhs()"
@@ -437,7 +437,7 @@ template<class ReactionThermo>
 const mousse::List<typename mousse::Reaction<ReactionThermo>::specieCoeffs>&
 mousse::Reaction<ReactionThermo>::grhs() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "inline const List<typename Reaction<ReactionThermo>::specieCoeffs>&"
     "Reaction<ReactionThermo>::grhs()"

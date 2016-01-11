@@ -70,18 +70,18 @@ class viewFactor
       const scalarListList& viewFactors,
       scalarSquareMatrix& matrix
     );
-    //- Disallow default bitwise copy construct
-    viewFactor(const viewFactor&);
-    //- Disallow default bitwise assignment
-    void operator=(const viewFactor&);
 public:
   //- Runtime type information
-  TypeName("viewFactor");
+  TYPE_NAME("viewFactor");
   // Constructors
     //- Construct from components
     viewFactor(const volScalarField& T);
     //- Construct from components
     viewFactor(const dictionary& dict, const volScalarField& T);
+    //- Disallow default bitwise copy construct
+    viewFactor(const viewFactor&) = delete;
+    //- Disallow default bitwise assignment
+    viewFactor& operator=(const viewFactor&) = delete;
   //- Destructor
   virtual ~viewFactor();
   // Member functions
@@ -98,7 +98,11 @@ public:
     //- Const access to total radiative heat flux field
     inline const volScalarField& Qr() const;
 };
-#include "view_factor_i.hpp"
+
+inline const mousse::volScalarField& mousse::radiation::viewFactor::Qr() const
+{
+  return Qr_;
+}
 }  // namespace radiation
 }  // namespace mousse
 #endif

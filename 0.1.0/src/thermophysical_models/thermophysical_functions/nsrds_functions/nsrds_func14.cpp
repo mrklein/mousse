@@ -6,9 +6,9 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(NSRDSfunc14, 0);
-  addToRunTimeSelectionTable(thermophysicalFunction, NSRDSfunc14, Istream);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(NSRDSfunc14, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(thermophysicalFunction, NSRDSfunc14, Istream);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     thermophysicalFunction,
     NSRDSfunc14,

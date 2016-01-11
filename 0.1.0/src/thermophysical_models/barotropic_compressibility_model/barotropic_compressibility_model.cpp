@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(barotropicCompressibilityModel, 0);
-  defineRunTimeSelectionTable(barotropicCompressibilityModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(barotropicCompressibilityModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(barotropicCompressibilityModel, dictionary);
 }
 // Constructors 
 mousse::barotropicCompressibilityModel::barotropicCompressibilityModel

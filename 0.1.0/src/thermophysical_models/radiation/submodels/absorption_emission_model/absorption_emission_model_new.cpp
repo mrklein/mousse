@@ -18,7 +18,7 @@ mousse::radiation::absorptionEmissionModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "absorptionEmissionModel::New(const dictionary&, const fvMesh&)"
     )   << "Unknown absorptionEmissionModel type "

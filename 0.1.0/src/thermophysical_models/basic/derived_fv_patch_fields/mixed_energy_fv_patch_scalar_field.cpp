@@ -87,9 +87,9 @@ void mousse::mixedEnergyFvPatchScalarField::updateCoeffs()
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    mixedEnergyFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  mixedEnergyFvPatchScalarField
+);
 }

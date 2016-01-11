@@ -139,7 +139,7 @@ public:
 }  // namespace mousse
 #define makeIcoPolynomial(PolySize)                                          \
                                       \
-defineTemplateTypeNameAndDebugWithName                                       \
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUGWithName                                       \
 (                                                                            \
   icoPolynomial<Specie, PolySize>,                                         \
   "icoPolynomial<"#PolySize">",                                            \

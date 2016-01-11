@@ -21,8 +21,8 @@
 #include "pure_mixture.hpp"
 namespace mousse
 {
-/* * * * * * * * * * * * * * * * * Enthalpy-based * * * * * * * * * * * * * */
-makeThermo
+// Enthalpy-based
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -33,7 +33,7 @@ makeThermo
   perfectGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -44,7 +44,7 @@ makeThermo
   perfectGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -55,7 +55,7 @@ makeThermo
   perfectGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -66,7 +66,7 @@ makeThermo
   PengRobinsonGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -77,7 +77,7 @@ makeThermo
   PengRobinsonGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -88,7 +88,7 @@ makeThermo
   PengRobinsonGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -99,8 +99,8 @@ makeThermo
   PengRobinsonGas,
   specie
 );
-/* * * * * * * * * * * * * * Internal-energy-based * * * * * * * * * * * * * */
-makeThermo
+// Internal-energy-based
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -111,7 +111,7 @@ makeThermo
   perfectGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -122,7 +122,7 @@ makeThermo
   perfectGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -133,7 +133,7 @@ makeThermo
   perfectGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -144,7 +144,7 @@ makeThermo
   perfectGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,
@@ -155,7 +155,7 @@ makeThermo
   perfectGas,
   specie
 );
-makeThermo
+MAKE_THERMO
 (
   psiThermo,
   hePsiThermo,

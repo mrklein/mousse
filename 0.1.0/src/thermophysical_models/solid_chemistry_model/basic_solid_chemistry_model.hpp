@@ -23,20 +23,15 @@ class basicSolidChemistryModel
 :
   public basicChemistryModel
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    basicSolidChemistryModel(const basicSolidChemistryModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const basicSolidChemistryModel&);
 protected:
   // Protected data
     //- Solid thermo package
     autoPtr<solidReactionThermo> solidThermo_;
 public:
   //- Runtime type information
-  TypeName("basicSolidChemistryModel");
+  TYPE_NAME("basicSolidChemistryModel");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     basicSolidChemistryModel,
@@ -47,6 +42,13 @@ public:
   // Constructors
     //- Construct from mesh
     basicSolidChemistryModel(const fvMesh& mesh, const word& phaseName);
+    //- Construct as copy (not implemented)
+    basicSolidChemistryModel(const basicSolidChemistryModel&) = delete;
+    //- Disallow default bitwise assignment
+    basicSolidChemistryModel& operator=
+    (
+      const basicSolidChemistryModel&
+    ) = delete;
   //- Selector
   static autoPtr<basicSolidChemistryModel> New
   (

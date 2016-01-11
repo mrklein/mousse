@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(noAbsorptionEmission, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(noAbsorptionEmission, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       absorptionEmissionModel,
       noAbsorptionEmission,

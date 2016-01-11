@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace laminarFlameSpeedModels
 {
-  defineTypeNameAndDebug(RaviPetersen, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(RaviPetersen, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     laminarFlameSpeed,
     RaviPetersen,
@@ -52,7 +52,7 @@ void mousse::laminarFlameSpeedModels::RaviPetersen::checkPointsMonotonicity
   {
     if (x[i] <= x[i-1])
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "laminarFlameSpeedModels::RaviPetersen::checkPointsMonotonicity"
         "("
@@ -74,17 +74,17 @@ void mousse::laminarFlameSpeedModels::RaviPetersen::checkCoefficientArrayShape
 {
   bool ok = true;
   ok &= x.size() == EqRPoints_.size() - 1;
-  forAll(x, i)
+  FOR_ALL(x, i)
   {
     ok &= x[i].size() == pPoints_.size();
-    forAll(x[i], j)
+    FOR_ALL(x[i], j)
     {
       ok &= x[i][j].size() == x[i][0].size();
     }
   }
   if (!ok)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "laminarFlameSpeedModels::RaviPetersen::checkCoefficientArrayShape"
       "("
@@ -135,7 +135,7 @@ inline mousse::scalar mousse::laminarFlameSpeedModels::RaviPetersen::polynomial
 {
   scalar xPow = 1.0;
   scalar y = 0.0;
-  forAll(coeffs, i)
+  FOR_ALL(coeffs, i)
   {
     y += coeffs[i]*xPow;
     xPow *= x;
@@ -282,7 +282,7 @@ mousse::laminarFlameSpeedModels::RaviPetersen::operator()() const
     )
   );
   volScalarField& Su0 = tSu0();
-  forAll(Su0, cellI)
+  FOR_ALL(Su0, cellI)
   {
     Su0[cellI] = speed(EqR[cellI], p[cellI], Tu[cellI]);
   }

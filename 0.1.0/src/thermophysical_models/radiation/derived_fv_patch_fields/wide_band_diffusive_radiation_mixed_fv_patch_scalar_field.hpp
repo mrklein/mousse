@@ -44,7 +44,7 @@ class wideBandDiffusiveRadiationMixedFvPatchScalarField
     word TName_;
 public:
   //- Runtime type information
-  TypeName("wideBandDiffusiveRadiation");
+  TYPE_NAME("wideBandDiffusiveRadiation");
   // Constructors
     //- Construct from patch and internal field
     wideBandDiffusiveRadiationMixedFvPatchScalarField

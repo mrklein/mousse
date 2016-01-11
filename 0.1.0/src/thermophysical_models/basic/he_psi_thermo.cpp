@@ -13,7 +13,7 @@ void mousse::hePsiThermo<BasicPsiThermo, MixtureType>::calculate()
   scalarField& psiCells = this->psi_.internalField();
   scalarField& muCells = this->mu_.internalField();
   scalarField& alphaCells = this->alpha_.internalField();
-  forAll(TCells, celli)
+  FOR_ALL(TCells, celli)
   {
     const typename MixtureType::thermoType& mixture_ =
       this->cellMixture(celli);
@@ -27,7 +27,7 @@ void mousse::hePsiThermo<BasicPsiThermo, MixtureType>::calculate()
     muCells[celli] = mixture_.mu(pCells[celli], TCells[celli]);
     alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
   }
-  forAll(this->T_.boundaryField(), patchi)
+  FOR_ALL(this->T_.boundaryField(), patchi)
   {
     fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
@@ -37,7 +37,7 @@ void mousse::hePsiThermo<BasicPsiThermo, MixtureType>::calculate()
     fvPatchScalarField& palpha = this->alpha_.boundaryField()[patchi];
     if (pT.fixesValue())
     {
-      forAll(pT, facei)
+      FOR_ALL(pT, facei)
       {
         const typename MixtureType::thermoType& mixture_ =
           this->patchFaceMixture(patchi, facei);
@@ -49,7 +49,7 @@ void mousse::hePsiThermo<BasicPsiThermo, MixtureType>::calculate()
     }
     else
     {
-      forAll(pT, facei)
+      FOR_ALL(pT, facei)
       {
         const typename MixtureType::thermoType& mixture_ =
           this->patchFaceMixture(patchi, facei);

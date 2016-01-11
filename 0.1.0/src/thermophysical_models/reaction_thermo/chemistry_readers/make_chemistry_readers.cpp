@@ -10,40 +10,40 @@
 namespace mousse
 {
 // Solid chemistry readers based on sensibleEnthalpy
-makeChemistryReader(constGasHThermoPhysics);
-makeChemistryReader(gasHThermoPhysics);
-makeChemistryReader(constIncompressibleGasHThermoPhysics);
-makeChemistryReader(incompressibleGasHThermoPhysics);
-makeChemistryReader(icoPoly8HThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, constGasHThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, gasHThermoPhysics);
-makeChemistryReaderType
+MAKE_CHEMISTRY_READER(constGasHThermoPhysics);
+MAKE_CHEMISTRY_READER(gasHThermoPhysics);
+MAKE_CHEMISTRY_READER(constIncompressibleGasHThermoPhysics);
+MAKE_CHEMISTRY_READER(incompressibleGasHThermoPhysics);
+MAKE_CHEMISTRY_READER(icoPoly8HThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, constGasHThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, gasHThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE
 (
   foamChemistryReader,
   constIncompressibleGasHThermoPhysics
 );
-makeChemistryReaderType(foamChemistryReader, incompressibleGasHThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, icoPoly8HThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, incompressibleGasHThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, icoPoly8HThermoPhysics);
 // Solid chemistry readers based on sensibleInternalEnergy
-makeChemistryReader(constGasEThermoPhysics);
-makeChemistryReader(gasEThermoPhysics);
-makeChemistryReader(constIncompressibleGasEThermoPhysics);
-makeChemistryReader(incompressibleGasEThermoPhysics);
-makeChemistryReader(icoPoly8EThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, constGasEThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, gasEThermoPhysics);
-makeChemistryReaderType
+MAKE_CHEMISTRY_READER(constGasEThermoPhysics);
+MAKE_CHEMISTRY_READER(gasEThermoPhysics);
+MAKE_CHEMISTRY_READER(constIncompressibleGasEThermoPhysics);
+MAKE_CHEMISTRY_READER(incompressibleGasEThermoPhysics);
+MAKE_CHEMISTRY_READER(icoPoly8EThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, constGasEThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, gasEThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE
 (
   foamChemistryReader,
   constIncompressibleGasEThermoPhysics
 );
-makeChemistryReaderType(foamChemistryReader, incompressibleGasEThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, icoPoly8EThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, incompressibleGasEThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, icoPoly8EThermoPhysics);
 // Solid chemistry readers for solids based on sensibleInternalEnergy
-makeChemistryReader(hConstSolidThermoPhysics);
-makeChemistryReader(hPowerSolidThermoPhysics);
-makeChemistryReader(hExpKappaConstSolidThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, hConstSolidThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, hPowerSolidThermoPhysics);
-makeChemistryReaderType(foamChemistryReader, hExpKappaConstSolidThermoPhysics);
+MAKE_CHEMISTRY_READER(hConstSolidThermoPhysics);
+MAKE_CHEMISTRY_READER(hPowerSolidThermoPhysics);
+MAKE_CHEMISTRY_READER(hExpKappaConstSolidThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, hConstSolidThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, hPowerSolidThermoPhysics);
+MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, hExpKappaConstSolidThermoPhysics);
 }  // namespace mousse

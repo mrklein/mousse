@@ -21,7 +21,7 @@ mousse::radiation::mixtureFractionSoot<ThermoType>::checkThermo
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "template<class ThermoType> "
       "mousse::radiation::mixtureFractionSoot "
@@ -76,7 +76,7 @@ mousse::radiation::mixtureFractionSoot<ThermoType>::mixtureFractionSoot
   const Reaction<ThermoType>& reaction = mixture_.operator[](0);
   const scalarList& specieStoichCoeffs(mixture_.specieStoichCoeffs());
   scalar totalMol = 0.0;
-  forAll(reaction.rhs(), i)
+  FOR_ALL(reaction.rhs(), i)
   {
     label speciei = reaction.rhs()[i].index;
     totalMol += mag(specieStoichCoeffs[speciei]);
@@ -84,7 +84,7 @@ mousse::radiation::mixtureFractionSoot<ThermoType>::mixtureFractionSoot
   totalMol += nuSoot_;
   scalarList Xi(reaction.rhs().size());
   scalar Wm = 0.0;
-  forAll(reaction.rhs(), i)
+  FOR_ALL(reaction.rhs(), i)
   {
     const label speciei = reaction.rhs()[i].index;
     Xi[i] = mag(specieStoichCoeffs[speciei])/totalMol;

@@ -43,7 +43,7 @@ inline mousse::JanevReactionRate::JanevReactionRate
 // Member Functions 
 inline mousse::scalar mousse::JanevReactionRate::operator()
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T,
   const scalarField&
 ) const

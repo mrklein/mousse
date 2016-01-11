@@ -29,9 +29,9 @@ protected:
     volScalarField rho_;
 public:
   //- Runtime type information
-  TypeName("solidThermo");
+  TYPE_NAME("solidThermo");
   // Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     solidThermo,
@@ -40,7 +40,7 @@ public:
     (mesh, phaseName)
   );
   // Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     solidThermo,

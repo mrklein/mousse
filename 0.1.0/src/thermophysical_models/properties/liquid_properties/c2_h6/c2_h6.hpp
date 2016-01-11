@@ -42,7 +42,7 @@ class C2H6
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("C2H6");
+  TYPE_NAME("C2H6");
   // Constructors
     //- Construct null
     C2H6();

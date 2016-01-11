@@ -71,4 +71,3 @@ mousse::foamChemistryReader<ThermoType>::foamChemistryReader
   speciesTable_(setSpecies(chemDict_, species)),
   reactions_(speciesTable_, speciesThermo_, chemDict_)
 {}
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

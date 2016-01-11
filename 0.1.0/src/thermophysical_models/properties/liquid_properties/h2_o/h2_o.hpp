@@ -41,7 +41,7 @@ class H2O
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("H2O");
+  TYPE_NAME("H2O");
   // Constructors
     //- Construct null
     H2O();

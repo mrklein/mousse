@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace compressibilityModels
   {
-    defineTypeNameAndDebug(Wallis, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(Wallis, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       barotropicCompressibilityModel,
       Wallis,

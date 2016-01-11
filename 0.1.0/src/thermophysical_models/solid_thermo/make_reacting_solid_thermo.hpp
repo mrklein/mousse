@@ -6,85 +6,104 @@
 #define make_reacting_solid_thermo_hpp_
 #include "add_to_run_time_selection_table.hpp"
 #include "specie_mixture.hpp"
-#define makeSolidReactionMixtureThermo(BaseThermo,Cthermo,Mixture,ThermoPhys) \
-                                       \
+
+#define MAKE_SOLID_REACTION_MIXTURE_THERMO\
+(                                                                             \
+  BaseThermo,                                                                 \
+  Cthermo,                                                                    \
+  Mixture,                                                                    \
+  ThermoPhys                                                                  \
+)                                                                             \
+                                                                              \
 typedef SpecieMixture                                                         \
-  <                                                                         \
-    Mixture                                                               \
-    <                                                                     \
-      ThermoPhys                                                        \
-    >                                                                     \
-  > SpecieMixture##Mixture##ThermoPhys;                                     \
-                                       \
+  <                                                                           \
+    Mixture                                                                   \
+    <                                                                         \
+      ThermoPhys                                                              \
+    >                                                                         \
+  > SpecieMixture##Mixture##ThermoPhys;                                       \
+                                                                              \
 typedef                                                                       \
-  heThermo                                                                  \
-  <                                                                         \
-    BaseThermo,                                                           \
-    SpecieMixture##Mixture##ThermoPhys                                    \
-  > heThermo##Mixture##ThermoPhys;                                          \
-                                       \
+  heThermo                                                                    \
+  <                                                                           \
+    BaseThermo,                                                               \
+    SpecieMixture##Mixture##ThermoPhys                                        \
+  > heThermo##Mixture##ThermoPhys;                                            \
+                                                                              \
 typedef                                                                       \
-  Cthermo                                                                   \
-  <                                                                         \
-    BaseThermo,                                                           \
-    SpecieMixture##Mixture##ThermoPhys                                    \
-  > Cthermo##Mixture##ThermoPhys;                                           \
-                                       \
-                                       \
-defineTemplateTypeNameAndDebugWithName                                        \
+  Cthermo                                                                     \
+  <                                                                           \
+    BaseThermo,                                                               \
+    SpecieMixture##Mixture##ThermoPhys                                        \
+  > Cthermo##Mixture##ThermoPhys;                                             \
+                                                                              \
+                                                                              \
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                                 \
 (                                                                             \
-  Cthermo##Mixture##ThermoPhys,                                             \
-  (                                                                         \
-    #Cthermo"<"#Mixture"<"                                                \
-   + ThermoPhys::typeName()                                                \
-   + ">>"                                                                  \
-  ).c_str(),                                                                \
-  0                                                                         \
+  Cthermo##Mixture##ThermoPhys,                                               \
+  (                                                                           \
+    #Cthermo"<"#Mixture"<"                                                    \
+   + ThermoPhys::typeName()                                                   \
+   + ">>"                                                                     \
+  ).c_str(),                                                                  \
+  0                                                                           \
 );                                                                            \
-                                       \
-addToRunTimeSelectionTable                                                    \
+                                                                              \
+ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
 (                                                                             \
-  basicThermo,                                                              \
-  Cthermo##Mixture##ThermoPhys,                                             \
-  fvMesh                                                                    \
+  basicThermo,                                                                \
+  Cthermo##Mixture##ThermoPhys,                                               \
+  fvMesh                                                                      \
 );                                                                            \
-                                       \
-addToRunTimeSelectionTable                                                    \
+                                                                              \
+ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
 (                                                                             \
-  BaseThermo,                                                               \
-  Cthermo##Mixture##ThermoPhys,                                             \
-  fvMesh                                                                    \
+  BaseThermo,                                                                 \
+  Cthermo##Mixture##ThermoPhys,                                               \
+  fvMesh                                                                      \
 );                                                                            \
-                                       \
-addToRunTimeSelectionTable                                                    \
+                                                                              \
+ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
 (                                                                             \
-  BaseThermo,                                                               \
-  Cthermo##Mixture##ThermoPhys,                                             \
-  dictionary                                                                \
+  BaseThermo,                                                                 \
+  Cthermo##Mixture##ThermoPhys,                                               \
+  dictionary                                                                  \
 );
-#define makeReactingSolidThermo(BaseThermo,CThermo,Mixture,Transport,Type,Thermo,EqnOfState,Specie) \
-                                       \
-typedef                                                                        \
-  Transport                                                                  \
-  <                                                                          \
-    species::thermo                                                        \
-    <                                                                      \
-      Thermo                                                             \
-      <                                                                  \
-        EqnOfState                                                     \
-        <                                                              \
-          Specie                                                     \
-        >                                                              \
-      >,                                                                 \
-      Type                                                               \
-    >                                                                      \
-  > Transport##Type##Thermo##EqnOfState##Specie;                             \
-                                       \
-makeSolidReactionMixtureThermo                                                 \
-(                                                                              \
-  BaseThermo,                                                                \
-  CThermo,                                                                   \
-  Mixture,                                                                   \
-  Transport##Type##Thermo##EqnOfState##Specie                                \
+
+
+#define MAKE_REACTING_SOLID_THERMO\
+(                                                                             \
+  BaseThermo,                                                                 \
+  CThermo,                                                                    \
+  Mixture,                                                                    \
+  Transport,                                                                  \
+  Type,                                                                       \
+  Thermo,                                                                     \
+  EqnOfState,                                                                 \
+  Specie                                                                      \
+)                                                                             \
+                                                                              \
+typedef                                                                       \
+  Transport                                                                   \
+  <                                                                           \
+    species::thermo                                                           \
+    <                                                                         \
+      Thermo                                                                  \
+      <                                                                       \
+        EqnOfState                                                            \
+        <                                                                     \
+          Specie                                                              \
+        >                                                                     \
+      >,                                                                      \
+      Type                                                                    \
+    >                                                                         \
+  > Transport##Type##Thermo##EqnOfState##Specie;                              \
+                                                                              \
+MAKE_SOLID_REACTION_MIXTURE_THERMO                                            \
+(                                                                             \
+  BaseThermo,                                                                 \
+  CThermo,                                                                    \
+  Mixture,                                                                    \
+  Transport##Type##Thermo##EqnOfState##Specie                                 \
 );
 #endif

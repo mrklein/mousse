@@ -79,7 +79,7 @@ template<class Specie>
 inline mousse::scalar mousse::PengRobinsonGas<Specie>::s
 (
   scalar p,
-  scalar T
+  scalar /*T*/
 ) const
 {
   //***HGW This is the expression for a perfect gas

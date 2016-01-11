@@ -49,7 +49,7 @@ class greyDiffusiveViewFactorFixedValueFvPatchScalarField
     scalarField Qro_;
 public:
   //- Runtime type information
-  TypeName("greyDiffusiveRadiationViewFactor");
+  TYPE_NAME("greyDiffusiveRadiationViewFactor");
   // Constructors
     //- Construct from patch and internal field
     greyDiffusiveViewFactorFixedValueFvPatchScalarField

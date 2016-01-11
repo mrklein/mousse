@@ -27,7 +27,7 @@ protected:
     PtrList<volScalarField> Y_;
 public:
   //- Run time type information
-  TypeName("basicMultiComponentMixture");
+  TYPE_NAME("basicMultiComponentMixture");
   //- The base class of the mixture
   typedef basicMultiComponentMixture basicMixtureType;
   // Constructors

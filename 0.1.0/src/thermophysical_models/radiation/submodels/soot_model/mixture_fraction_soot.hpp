@@ -66,7 +66,7 @@ class mixtureFractionSoot
     const singleStepReactingMixture<ThermoType>& mixture_;
 public:
   //- Runtime type information
-  TypeName("mixtureFractionSoot");
+  TYPE_NAME("mixtureFractionSoot");
   // Constructors
     //- Construct from components
     mixtureFractionSoot

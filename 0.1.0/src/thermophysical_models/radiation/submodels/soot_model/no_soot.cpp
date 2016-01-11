@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(noSoot, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(noSoot, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       sootModel,
       noSoot,
@@ -37,7 +37,7 @@ void mousse::radiation::noSoot::correct()
 }
 const mousse::volScalarField& mousse::radiation::noSoot::soot() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::volScalarField& mousse::radiation::noSoot::soot() const"
   );

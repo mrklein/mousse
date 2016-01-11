@@ -20,9 +20,9 @@ class fluidThermo
 {
 public:
   //- Runtime type information
-  TypeName("fluidThermo");
+  TYPE_NAME("fluidThermo");
   //- Declare run-time constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     fluidThermo,

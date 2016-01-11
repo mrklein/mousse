@@ -38,21 +38,21 @@ mousse::constIsoSolidTransport<Thermo>::New
 // Member Functions 
 template<class thermo>
 inline mousse::scalar mousse::constIsoSolidTransport<thermo>::
-kappa(const scalar p, const scalar T) const
+kappa(const scalar /*p*/, const scalar /*T*/) const
 {
   return kappa_;
 }
 template<class thermo>
 inline mousse::vector mousse::constIsoSolidTransport<thermo>::
-Kappa(const scalar p, const scalar T) const
+Kappa(const scalar /*p*/, const scalar /*T*/) const
 {
   return vector(kappa_, kappa_, kappa_);
 }
 template<class thermo>
 inline mousse::scalar mousse::constIsoSolidTransport<thermo>::
-mu(const scalar p, const scalar T) const
+mu(const scalar /*p*/, const scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::constIsoSolidTransport<thermo>mu::"
     "("

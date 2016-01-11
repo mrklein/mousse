@@ -42,7 +42,7 @@ class C3H6O
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("C3H6O");
+  TYPE_NAME("C3H6O");
   // Constructors
     //- Construct null
     C3H6O();

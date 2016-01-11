@@ -6,28 +6,30 @@
 #define make_solid_chemistry_model_hpp_
 #include "solid_chemistry_model.hpp"
 #include "add_to_run_time_selection_table.hpp"
-#define makeSolidChemistryModel(sChemistry, SS, Comp, SThermo)                \
-                                       \
-  typedef mousse::sChemistry<mousse::Comp, mousse::SThermo>                       \
-    sChemistry##Comp##SThermo;                                            \
-                                       \
-  defineTemplateTypeNameAndDebugWithName                                    \
-  (                                                                         \
-    sChemistry##Comp##SThermo,                                            \
-    (mousse::word(sChemistry##Comp##SThermo::typeName_()) + "<"#Comp","     \
-    + SThermo::typeName() + ">").c_str(),                                 \
-    0                                                                     \
+#define MAKE_SOLID_CHEMISTRY_MODEL(sChemistry, SS, Comp, SThermo)             \
+                                                                              \
+  typedef mousse::sChemistry<mousse::Comp, mousse::SThermo>                   \
+    sChemistry##Comp##SThermo;                                                \
+                                                                              \
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                               \
+  (                                                                           \
+    sChemistry##Comp##SThermo,                                                \
+    (mousse::word(sChemistry##Comp##SThermo::typeName_()) + "<"#Comp","       \
+    + SThermo::typeName() + ">").c_str(),                                     \
+    0                                                                         \
   );
-#define makeSolidGasChemistryModel(sChemistry, SS, Comp, SThermo, GThermo)    \
-                                       \
-  typedef mousse::SS<mousse::Comp, mousse::SThermo, mousse::GThermo>                \
-    SS##Comp##SThermo##GThermo;                                           \
-                                       \
-  defineTemplateTypeNameAndDebugWithName                                    \
-  (                                                                         \
-    SS##Comp##SThermo##GThermo,                                           \
-    (mousse::word(SS##Comp##SThermo##GThermo::typeName_()) + "<"#Comp","    \
-    + SThermo::typeName() + "," + GThermo::typeName() + ">").c_str(),     \
-    0                                                                     \
+
+
+#define MAKE_SOLID_GAS_CHEMISTRY_MODEL(sChemistry, SS, Comp, SThermo, GThermo)\
+                                                                              \
+  typedef mousse::SS<mousse::Comp, mousse::SThermo, mousse::GThermo>          \
+    SS##Comp##SThermo##GThermo;                                               \
+                                                                              \
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                               \
+  (                                                                           \
+    SS##Comp##SThermo##GThermo,                                               \
+    (mousse::word(SS##Comp##SThermo##GThermo::typeName_()) + "<"#Comp","      \
+    + SThermo::typeName() + "," + GThermo::typeName() + ">").c_str(),         \
+    0                                                                         \
   );
 #endif

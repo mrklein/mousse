@@ -9,14 +9,14 @@
 #include "solid_thermo_physics_types.hpp"
 #include "thermo_physics_types.hpp"
 // hConstSolidThermoPhysics
-makeSolidChemistryModel
+MAKE_SOLID_CHEMISTRY_MODEL
 (
   solidChemistryModel,
   pyrolysisChemistryModel,
   basicSolidChemistryModel,
   hConstSolidThermoPhysics
 );
-makeSolidGasChemistryModel
+MAKE_SOLID_GAS_CHEMISTRY_MODEL
 (
   solidChemistryModel,
   pyrolysisChemistryModel,
@@ -25,14 +25,14 @@ makeSolidGasChemistryModel
   gasHThermoPhysics
 );
 // hPowerSolidThermoPhysics
-makeSolidChemistryModel
+MAKE_SOLID_CHEMISTRY_MODEL
 (
   solidChemistryModel,
   pyrolysisChemistryModel,
   basicSolidChemistryModel,
   hPowerSolidThermoPhysics
 );
-makeSolidGasChemistryModel
+MAKE_SOLID_GAS_CHEMISTRY_MODEL
 (
   solidChemistryModel,
   pyrolysisChemistryModel,
@@ -41,14 +41,14 @@ makeSolidGasChemistryModel
   gasHThermoPhysics
 );
 // hExpKappaConstSolidThermoPhysics
-makeSolidChemistryModel
+MAKE_SOLID_CHEMISTRY_MODEL
 (
   solidChemistryModel,
   pyrolysisChemistryModel,
   basicSolidChemistryModel,
   hExpKappaConstSolidThermoPhysics
 );
-makeSolidGasChemistryModel
+MAKE_SOLID_GAS_CHEMISTRY_MODEL
 (
   solidChemistryModel,
   pyrolysisChemistryModel,

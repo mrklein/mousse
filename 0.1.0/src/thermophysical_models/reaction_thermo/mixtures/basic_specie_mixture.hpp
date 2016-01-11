@@ -19,7 +19,7 @@ class basicSpecieMixture
 {
 public:
   //- Run time type information
-  TypeName("basicSpecieMixture");
+  TYPE_NAME("basicSpecieMixture");
   //- The base class of the mixture
   typedef basicSpecieMixture basicMixtureType;
   // Constructors

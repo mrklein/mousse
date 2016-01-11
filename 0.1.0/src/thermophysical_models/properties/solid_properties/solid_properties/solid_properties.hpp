@@ -36,9 +36,9 @@ class solidProperties
     scalar emissivity_;
 public:
   //- Runtime type information
-  TypeName("solidProperties");
+  TYPE_NAME("solidProperties");
   // Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     solidProperties,
@@ -46,7 +46,7 @@ public:
     (),
     ()
   );
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     solidProperties,
@@ -54,7 +54,7 @@ public:
     (Istream& is),
     (is)
   );
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     solidProperties,

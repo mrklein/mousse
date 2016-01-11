@@ -24,7 +24,7 @@ class linear
     dimensionedScalar psil_;
 public:
   //- Runtime type information
-  TypeName("linear");
+  TYPE_NAME("linear");
   // Constructors
     //- Construct from components
     linear

@@ -129,10 +129,10 @@ namespace mousse
 {
 namespace radiation
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    greyDiffusiveViewFactorFixedValueFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  greyDiffusiveViewFactorFixedValueFvPatchScalarField
+);
 }
 }

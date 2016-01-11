@@ -37,7 +37,7 @@ solidChemistryModel
   reactingCells_(mesh.nCells(), true)
 {
   // create the fields for the chemistry sources
-  forAll(RRs_, fieldI)
+  FOR_ALL(RRs_, fieldI)
   {
     RRs_.set
     (
@@ -67,10 +67,10 @@ mousse::solidChemistryModel<CompType, SolidThermo>::
 template<class CompType, class SolidThermo>
 mousse::scalar mousse::solidChemistryModel<CompType, SolidThermo>::solve
 (
-  const scalarField& deltaT
+  const scalarField& /*deltaT*/
 )
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "solidChemistryModel::solve(const scalarField& deltaT)"
   );
@@ -80,7 +80,7 @@ template<class CompType, class SolidThermo>
 mousse::tmp<mousse::volScalarField>
 mousse::solidChemistryModel<CompType, SolidThermo>::tc() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "solidChemistryModel::tc()"
   );
@@ -111,9 +111,9 @@ mousse::solidChemistryModel<CompType, SolidThermo>::Sh() const
   if (this->chemistry_)
   {
     scalarField& Sh = tSh();
-    forAll(Ys_, i)
+    FOR_ALL(Ys_, i)
     {
-      forAll(Sh, cellI)
+      FOR_ALL(Sh, cellI)
       {
         scalar hf = solidThermo_[i].Hc();
         Sh[cellI] -= hf*RRs_[i][cellI];

@@ -6,9 +6,9 @@
 #include "fv_mesh.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(solidReactionThermo, 0);
-  defineRunTimeSelectionTable(solidReactionThermo, fvMesh);
-  defineRunTimeSelectionTable(solidReactionThermo, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(solidReactionThermo, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(solidReactionThermo, fvMesh);
+  DEFINE_RUN_TIME_SELECTION_TABLE(solidReactionThermo, dictionary);
 }
 // Constructors 
 mousse::solidReactionThermo::solidReactionThermo

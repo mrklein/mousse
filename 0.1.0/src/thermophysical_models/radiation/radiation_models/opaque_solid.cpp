@@ -13,7 +13,7 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(opaqueSolid, 0);
+    DEFINE_TYPE_NAME_AND_DEBUG(opaqueSolid, 0);
     addToRadiationRunTimeSelectionTables(opaqueSolid);
   }
 }

@@ -6,7 +6,7 @@
 // Static Member Functions
 namespace mousse
 {
-  defineTypeNameAndDebug(basicSpecieMixture, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(basicSpecieMixture, 0);
 }
 // Constructors 
 mousse::basicSpecieMixture::basicSpecieMixture
@@ -38,7 +38,7 @@ mousse::tmp<mousse::volScalarField> mousse::basicSpecieMixture::W() const
     )
   );
   volScalarField& rW = trW();
-  forAll(Y, i)
+  FOR_ALL(Y, i)
   {
     rW += Y[i]/W(i);
   }

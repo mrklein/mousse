@@ -66,8 +66,8 @@ inline mousse::scalar mousse::hConstThermo<EquationOfState>::limit
 template<class EquationOfState>
 inline mousse::scalar mousse::hConstThermo<EquationOfState>::cp
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   return Cp_;
@@ -75,7 +75,7 @@ inline mousse::scalar mousse::hConstThermo<EquationOfState>::cp
 template<class EquationOfState>
 inline mousse::scalar mousse::hConstThermo<EquationOfState>::ha
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return Cp_*T + Hf_;
@@ -83,7 +83,7 @@ inline mousse::scalar mousse::hConstThermo<EquationOfState>::ha
 template<class EquationOfState>
 inline mousse::scalar mousse::hConstThermo<EquationOfState>::hs
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return Cp_*T;

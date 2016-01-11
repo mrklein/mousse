@@ -22,7 +22,7 @@ class mixedEnergyFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("mixedEnergy");
+  TYPE_NAME("mixedEnergy");
   // Constructors
     //- Construct from patch and internal field
     mixedEnergyFvPatchScalarField

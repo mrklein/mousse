@@ -6,8 +6,8 @@
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 namespace mousse
 {
-  defineTypeNameAndDebug(fluidThermo, 0);
-  defineRunTimeSelectionTable(fluidThermo, fvMesh);
+  DEFINE_TYPE_NAME_AND_DEBUG(fluidThermo, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(fluidThermo, fvMesh);
 }
 // Constructors 
 mousse::fluidThermo::fluidThermo(const fvMesh& mesh, const word& phaseName)

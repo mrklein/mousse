@@ -24,7 +24,7 @@ class ash
 {
 public:
   //- Runtime type information
-  TypeName("ash");
+  TYPE_NAME("ash");
   // Constructors
     //- Construct null
     ash();

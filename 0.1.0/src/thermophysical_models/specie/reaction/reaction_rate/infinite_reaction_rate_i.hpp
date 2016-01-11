@@ -11,12 +11,12 @@ inline mousse::infiniteReactionRate::infiniteReactionRate
   const dictionary&
 )
 {}
-inline void mousse::infiniteReactionRate::write(Ostream& os) const
+inline void mousse::infiniteReactionRate::write(Ostream&) const
 {}
 // Member Functions 
 inline mousse::scalar mousse::infiniteReactionRate::operator()
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar,
   const scalarField&
 ) const
@@ -26,7 +26,7 @@ inline mousse::scalar mousse::infiniteReactionRate::operator()
 inline mousse::Ostream& mousse::operator<<
 (
   Ostream& os,
-  const infiniteReactionRate& rr
+  const infiniteReactionRate& /*rr*/
 )
 {
   os  << token::BEGIN_LIST

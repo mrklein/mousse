@@ -42,7 +42,7 @@ class CH3OH
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("CH3OH");
+  TYPE_NAME("CH3OH");
   // Constructors
     //- Construct null
     CH3OH();

@@ -68,7 +68,7 @@ mousse::polynomialTransport<Thermo, PolySize>::New(const dictionary& dict)
 template<class Thermo, int PolySize>
 inline mousse::scalar mousse::polynomialTransport<Thermo, PolySize>::mu
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T
 ) const
 {
@@ -77,7 +77,7 @@ inline mousse::scalar mousse::polynomialTransport<Thermo, PolySize>::mu
 template<class Thermo, int PolySize>
 inline mousse::scalar mousse::polynomialTransport<Thermo, PolySize>::kappa
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T
 ) const
 {

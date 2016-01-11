@@ -25,9 +25,9 @@ protected:
     const fvMesh& mesh_;
 public:
   //- Runtime type information
-  TypeName("sootModel");
+  TYPE_NAME("sootModel");
   //- Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       sootModel,

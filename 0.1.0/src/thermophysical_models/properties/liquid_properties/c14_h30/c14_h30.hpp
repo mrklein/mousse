@@ -42,7 +42,7 @@ class C14H30
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("C14H30");
+  TYPE_NAME("C14H30");
   // Constructors
     //- Construct null
     C14H30();

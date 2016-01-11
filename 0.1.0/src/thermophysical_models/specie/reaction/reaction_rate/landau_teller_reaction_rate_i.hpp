@@ -47,7 +47,7 @@ inline mousse::LandauTellerReactionRate::LandauTellerReactionRate
 // Member Functions 
 inline mousse::scalar mousse::LandauTellerReactionRate::operator()
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T,
   const scalarField&
 ) const

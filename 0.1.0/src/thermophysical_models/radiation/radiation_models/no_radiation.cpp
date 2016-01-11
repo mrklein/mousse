@@ -13,7 +13,7 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(noRadiation, 0);
+    DEFINE_TYPE_NAME_AND_DEBUG(noRadiation, 0);
     addToRadiationRunTimeSelectionTables(noRadiation);
   }
 }
@@ -24,7 +24,7 @@ mousse::radiation::noRadiation::noRadiation(const volScalarField& T)
 {}
 mousse::radiation::noRadiation::noRadiation
 (
-  const dictionary& dict,
+  const dictionary& /*dict*/,
   const volScalarField& T
 )
 :

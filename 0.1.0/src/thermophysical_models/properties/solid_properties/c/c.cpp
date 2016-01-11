@@ -7,10 +7,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(C, 0);
-  addToRunTimeSelectionTable(solidProperties, C,);
-  addToRunTimeSelectionTable(solidProperties, C, Istream);
-  addToRunTimeSelectionTable(solidProperties, C, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(C, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, C,);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, C, Istream);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, C, dictionary);
 }
 // Constructors 
 mousse::C::C()
@@ -19,7 +19,7 @@ mousse::C::C()
 {
   if (debug)
   {
-    WarningIn("C::C()")
+    WARNING_IN("C::C()")
       << "Properties of graphite need to be checked!!!"
       << endl;
   }

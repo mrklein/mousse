@@ -90,7 +90,7 @@ mousse::sutherlandTransport<Thermo>::New
 template<class Thermo>
 inline mousse::scalar mousse::sutherlandTransport<Thermo>::mu
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T
 ) const
 {

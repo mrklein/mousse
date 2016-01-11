@@ -39,27 +39,27 @@ mousse::rhoConst<Specie>::New(Istream& is)
 }
 // Member Functions 
 template<class Specie>
-inline mousse::scalar mousse::rhoConst<Specie>::rho(scalar p, scalar T) const
+inline mousse::scalar mousse::rhoConst<Specie>::rho(scalar /*p*/, scalar /*T*/) const
 {
   return rho_;
 }
 template<class Specie>
-inline mousse::scalar mousse::rhoConst<Specie>::s(scalar p, scalar T) const
+inline mousse::scalar mousse::rhoConst<Specie>::s(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }
 template<class Specie>
-inline mousse::scalar mousse::rhoConst<Specie>::psi(scalar p, scalar T) const
+inline mousse::scalar mousse::rhoConst<Specie>::psi(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }
 template<class Specie>
-inline mousse::scalar mousse::rhoConst<Specie>::Z(scalar p, scalar T) const
+inline mousse::scalar mousse::rhoConst<Specie>::Z(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }
 template<class Specie>
-inline mousse::scalar mousse::rhoConst<Specie>::cpMcv(scalar p, scalar T) const
+inline mousse::scalar mousse::rhoConst<Specie>::cpMcv(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }

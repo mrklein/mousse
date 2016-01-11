@@ -24,11 +24,6 @@ class basicChemistryModel
 :
   public IOdictionary
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    basicChemistryModel(const basicChemistryModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const basicChemistryModel&);
 protected:
   // Protected data
     //- Reference to the mesh database
@@ -47,10 +42,14 @@ protected:
     void correct();
 public:
   //- Runtime type information
-  TypeName("basicChemistryModel");
+  TYPE_NAME("basicChemistryModel");
   // Constructors
     //- Construct from mesh
     basicChemistryModel(const fvMesh& mesh, const word& phaseName);
+    //- Construct as copy (not implemented)
+    basicChemistryModel(const basicChemistryModel&) = delete;
+    //- Disallow default bitwise assignment
+    basicChemistryModel& operator=(const basicChemistryModel&) = delete;
   // Selectors
     //- Generic New for each of the related chemistry model
     template<class Thermo>
@@ -99,7 +98,27 @@ public:
         virtual tmp<volScalarField> dQ() const = 0;
 };
 }  // namespace mousse
-#include "basic_chemistry_model_i.hpp"
+
+// Member Functions 
+inline const mousse::fvMesh& mousse::basicChemistryModel::mesh() const
+{
+  return mesh_;
+}
+inline mousse::Switch mousse::basicChemistryModel::chemistry() const
+{
+  return chemistry_;
+}
+inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
+mousse::basicChemistryModel::deltaTChem() const
+{
+  return deltaTChem_;
+}
+inline mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
+mousse::basicChemistryModel::deltaTChem()
+{
+  return deltaTChem_;
+}
+
 #ifdef NoRepository
 #   include "basic_chemistry_model_templates.cpp"
 #endif

@@ -43,7 +43,7 @@ inline mousse::powerSeriesReactionRate::powerSeriesReactionRate
 // Member Functions 
 inline mousse::scalar mousse::powerSeriesReactionRate::operator()
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T,
   const scalarField&
 ) const
@@ -54,7 +54,7 @@ inline mousse::scalar mousse::powerSeriesReactionRate::operator()
     lta *= pow(T, beta_);
   }
   scalar expArg = 0.0;
-  forAll(coeffs_, n)
+  FOR_ALL(coeffs_, n)
   {
     expArg += coeffs_[n]/pow(T, n + 1);
   }

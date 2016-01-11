@@ -21,9 +21,9 @@ class psiReactionThermo
 {
 public:
   //- Runtime type information
-  TypeName("psiReactionThermo");
+  TYPE_NAME("psiReactionThermo");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     psiReactionThermo,

@@ -27,7 +27,7 @@ class binaryAbsorptionEmission
     autoPtr<absorptionEmissionModel> model2_;
 public:
   //- Runtime type information
-  TypeName("binaryAbsorptionEmission");
+  TYPE_NAME("binaryAbsorptionEmission");
   // Constructors
     //- Construct from components
     binaryAbsorptionEmission(const dictionary& dict, const fvMesh& mesh);

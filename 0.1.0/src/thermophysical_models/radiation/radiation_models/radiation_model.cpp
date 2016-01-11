@@ -13,9 +13,9 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(radiationModel, 0);
-    defineRunTimeSelectionTable(radiationModel, T);
-    defineRunTimeSelectionTable(radiationModel, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(radiationModel, 0);
+    DEFINE_RUN_TIME_SELECTION_TABLE(radiationModel, T);
+    DEFINE_RUN_TIME_SELECTION_TABLE(radiationModel, dictionary);
   }
 }
 // Private Member Functions 
@@ -204,7 +204,7 @@ mousse::radiation::radiationModel::absorptionEmission() const
 {
   if (!absorptionEmission_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const mousse::radiation::absorptionEmissionModel&"
       "mousse::radiation::radiationModel::absorptionEmission() const"
@@ -219,7 +219,7 @@ mousse::radiation::radiationModel::soot() const
 {
   if (!soot_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const mousse::radiation::sootModel&"
       "mousse::radiation::radiationModel::soot() const"

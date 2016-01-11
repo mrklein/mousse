@@ -42,7 +42,7 @@ class IC8H18
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("IC8H18");
+  TYPE_NAME("IC8H18");
   // Constructors
     //- Construct null
     IC8H18();

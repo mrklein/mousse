@@ -44,7 +44,7 @@ mousse::solidReaction<ReactionThermo>::solidReaction
   glhs_(),
   grhs_()
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "template<class ReactionThermo>"
     "mousse::solidReaction<ReactionThermo>::solidReaction"

@@ -7,11 +7,10 @@
 //   Pyrolysis chemistry model. It includes gas phase in the solid
 //   reaction.
 // SourceFiles
-//   pyrolysis_chemistry_model_i.hpp
 //   pyrolysis_chemistry_model.cpp
 #ifndef pyrolysis_chemistry_model_hpp_
 #define pyrolysis_chemistry_model_hpp_
-#include "vol_fields_fwd.hpp"
+#include "vol_fields.hpp"
 #include "dimensioned_field.hpp"
 #include "solid_chemistry_model.hpp"
 namespace mousse
@@ -23,9 +22,6 @@ class pyrolysisChemistryModel
 :
   public solidChemistryModel<CompType, SolidThermo>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const pyrolysisChemistryModel&);
 protected:
     //- List of gas species present in reaction system
     speciesTable pyrolisisGases_;
@@ -47,10 +43,12 @@ private:
     label cellCounter_;
 public:
   //- Runtime type information
-  TypeName("pyrolysis");
+  TYPE_NAME("pyrolysis");
   // Constructors
     //- Construct from mesh and phase name
     pyrolysisChemistryModel(const fvMesh& mesh, const word& phaseName);
+    //- Disallow default bitwise assignment
+    pyrolysisChemistryModel& operator=(const pyrolysisChemistryModel&) = delete;
   //- Destructor
   virtual ~pyrolysisChemistryModel();
   // Member Functions
@@ -148,7 +146,76 @@ public:
       ) const;
 };
 }  // namespace mousse
-#   include "pyrolysis_chemistry_model_i.hpp"
+
+// Member Functions 
+template<class CompType, class SolidThermo, class GasThermo>
+inline mousse::PtrList<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >&
+mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::RRg()
+{
+  return RRg_;
+}
+template<class CompType, class SolidThermo, class GasThermo>
+inline const mousse::PtrList<GasThermo>&
+mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::
+gasThermo() const
+{
+  return gasThermo_;
+}
+template<class CompType, class SolidThermo, class GasThermo>
+inline const mousse::speciesTable&
+mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::
+gasTable() const
+{
+  return pyrolisisGases_;
+}
+template<class CompType, class SolidThermo, class GasThermo>
+inline mousse::label
+mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::
+nSpecie() const
+{
+  return nSpecie_;
+}
+template<class CompType, class SolidThermo, class GasThermo>
+inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
+mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::RRg
+(
+  const label i
+) const
+{
+  return RRg_[i];
+}
+template<class CompType, class SolidThermo, class GasThermo>
+inline mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >
+mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::
+RRg() const
+{
+  tmp<DimensionedField<scalar, volMesh> > tRRg
+  {
+    new DimensionedField<scalar, volMesh>
+    {
+      //IOobject
+      {
+        "RRg",
+        this->time().timeName(),
+        this->mesh(),
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+      },
+      this->mesh(),
+      dimensionedScalar("zero", dimMass/dimVolume/dimTime, 0.0)
+    }
+  };
+  if (this->chemistry_)
+  {
+    DimensionedField<scalar, volMesh>& RRg = tRRg();
+    for (label i=0; i < nGases_; i++)
+    {
+      RRg += RRg_[i];
+    }
+  }
+  return tRRg;
+}
+
 #ifdef NoRepository
 #   include "pyrolysis_chemistry_model.cpp"
 #endif

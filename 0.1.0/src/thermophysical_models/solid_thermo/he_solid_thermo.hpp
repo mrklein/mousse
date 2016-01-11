@@ -24,7 +24,7 @@ class heSolidThermo
     heSolidThermo(const heSolidThermo<BasicSolidThermo, MixtureType>&);
 public:
   //- Runtime type information
-  TypeName("heSolidThermo");
+  TYPE_NAME("heSolidThermo");
   // Constructors
     //- Construct from mesh and phase name
     heSolidThermo

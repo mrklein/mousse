@@ -23,9 +23,9 @@ protected:
     const fvMesh& mesh_;
 public:
   //- Runtime type information
-  TypeName("scatterModel");
+  TYPE_NAME("scatterModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       scatterModel,

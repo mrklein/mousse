@@ -71,7 +71,7 @@ inline mousse::scalar mousse::janafThermo<EquationOfState>::limit
 {
   if (T < Tlow_ || T > Thigh_)
   {
-    WarningIn
+    WARNING_IN
     (
       "janafThermo<EquationOfState>::limit(const scalar T) const"
     )   << "attempt to use janafThermo<EquationOfState>"
@@ -115,7 +115,7 @@ mousse::janafThermo<EquationOfState>::lowCpCoeffs() const
 template<class EquationOfState>
 inline mousse::scalar mousse::janafThermo<EquationOfState>::cp
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T
 ) const
 {
@@ -125,7 +125,7 @@ inline mousse::scalar mousse::janafThermo<EquationOfState>::cp
 template<class EquationOfState>
 inline mousse::scalar mousse::janafThermo<EquationOfState>::ha
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T
 ) const
 {
@@ -188,7 +188,7 @@ inline void mousse::janafThermo<EquationOfState>::operator+=
   Thigh_ = min(Thigh_, jt.Thigh_);
   if (janafThermo<EquationOfState>::debug && notEqual(Tcommon_, jt.Tcommon_))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "janafThermo<EquationOfState>::operator+="
       "(const janafThermo<EquationOfState>& jt) const"
@@ -227,7 +227,7 @@ inline void mousse::janafThermo<EquationOfState>::operator-=
   Thigh_ = min(Thigh_, jt.Thigh_);
   if (janafThermo<EquationOfState>::debug && notEqual(Tcommon_, jt.Tcommon_))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "janafThermo<EquationOfState>::operator-="
       "(const janafThermo<EquationOfState>& jt) const"
@@ -286,7 +286,7 @@ inline mousse::janafThermo<EquationOfState> mousse::operator+
   && notEqual(jt1.Tcommon_, jt2.Tcommon_)
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "operator+"
       "(const janafThermo<EquationOfState>& jt1,"
@@ -340,7 +340,7 @@ inline mousse::janafThermo<EquationOfState> mousse::operator-
   && notEqual(jt1.Tcommon_, jt2.Tcommon_)
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "operator-"
       "(const janafThermo<EquationOfState>& jt1,"

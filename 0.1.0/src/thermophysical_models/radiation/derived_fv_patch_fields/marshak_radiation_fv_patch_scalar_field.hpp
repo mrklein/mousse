@@ -45,7 +45,7 @@ class MarshakRadiationFvPatchScalarField
     word TName_;
 public:
   //- Runtime type information
-  TypeName("MarshakRadiation");
+  TYPE_NAME("MarshakRadiation");
   // Constructors
     //- Construct from patch and internal field
     MarshakRadiationFvPatchScalarField

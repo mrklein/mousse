@@ -14,8 +14,8 @@
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 namespace mousse
 {
-  defineTypeNameAndDebug(basicThermo, 0);
-  defineRunTimeSelectionTable(basicThermo, fvMesh);
+  DEFINE_TYPE_NAME_AND_DEBUG(basicThermo, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(basicThermo, fvMesh);
 }
 const mousse::word mousse::basicThermo::dictName("thermophysicalProperties");
 // Protected Member Functions 
@@ -24,7 +24,7 @@ mousse::wordList mousse::basicThermo::heBoundaryBaseTypes()
   const volScalarField::GeometricBoundaryField& tbf =
     this->T_.boundaryField();
   wordList hbt(tbf.size(), word::null);
-  forAll(tbf, patchi)
+  FOR_ALL(tbf, patchi)
   {
     if (isA<fixedJumpFvPatchScalarField>(tbf[patchi]))
     {
@@ -49,7 +49,7 @@ mousse::wordList mousse::basicThermo::heBoundaryTypes()
   const volScalarField::GeometricBoundaryField& tbf =
     this->T_.boundaryField();
   wordList hbt = tbf.types();
-  forAll(tbf, patchi)
+  FOR_ALL(tbf, patchi)
   {
     if (isA<fixedValueFvPatchScalarField>(tbf[patchi]))
     {
@@ -260,7 +260,7 @@ void mousse::basicThermo::validate
 {
   if (!(he().name() == phasePropertyName(a)))
   {
-    FatalErrorIn(app)
+    FATAL_ERROR_IN(app)
       << "Supported energy type is " << phasePropertyName(a)
       << ", thermodynamics package provides " << he().name()
       << exit(FatalError);
@@ -281,7 +281,7 @@ void mousse::basicThermo::validate
     )
   )
   {
-    FatalErrorIn(app)
+    FATAL_ERROR_IN(app)
       << "Supported energy types are " << phasePropertyName(a)
       << " and " << phasePropertyName(b)
       << ", thermodynamics package provides " << he().name()
@@ -305,7 +305,7 @@ void mousse::basicThermo::validate
     )
   )
   {
-    FatalErrorIn(app)
+    FATAL_ERROR_IN(app)
       << "Supported energy types are " << phasePropertyName(a)
       << ", " << phasePropertyName(b)
       << " and " << phasePropertyName(c)
@@ -332,7 +332,7 @@ void mousse::basicThermo::validate
     )
   )
   {
-    FatalErrorIn(app)
+    FATAL_ERROR_IN(app)
       << "Supported energy types are " << phasePropertyName(a)
       << ", " << phasePropertyName(b)
       << ", " << phasePropertyName(c)

@@ -22,17 +22,16 @@ class reactingMixture
   public multiComponentMixture<ThermoType>,
   public PtrList<Reaction<ThermoType> >
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    reactingMixture(const reactingMixture&);
-    //- Disallow default bitwise assignment
-    void operator=(const reactingMixture&);
 public:
   //- The type of thermo package this mixture is instantiated for
   typedef ThermoType thermoType;
   // Constructors
     //- Construct from dictionary, mesh and phase name
     reactingMixture(const dictionary&, const fvMesh&, const word&);
+    //- Disallow default bitwise copy construct
+    reactingMixture(const reactingMixture&) = delete;
+    //- Disallow default bitwise assignment
+    reactingMixture& operator=(const reactingMixture&) = delete;
   //- Destructor
   virtual ~reactingMixture()
   {}

@@ -89,7 +89,7 @@ const ThermoType& mousse::veryInhomogeneousMixture<ThermoType>::getLocalThermo
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const ThermoType& mousse::veryInhomogeneousMixture<ThermoType>::"
       "getLocalThermo"

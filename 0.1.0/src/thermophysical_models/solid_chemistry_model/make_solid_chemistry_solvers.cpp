@@ -9,26 +9,25 @@
 #include "basic_solid_chemistry_model.hpp"
 namespace mousse
 {
-  makeSolidChemistrySolverTypes
-  (
-    pyrolysisChemistryModel,
-    basicSolidChemistryModel,
-    hConstSolidThermoPhysics,
-    gasHThermoPhysics
-  )
-  makeSolidChemistrySolverTypes
-  (
-    pyrolysisChemistryModel,
-    basicSolidChemistryModel,
-    hPowerSolidThermoPhysics,
-    gasHThermoPhysics
-  )
-  makeSolidChemistrySolverTypes
-  (
-    pyrolysisChemistryModel,
-    basicSolidChemistryModel,
-    hExpKappaConstSolidThermoPhysics,
-    gasHThermoPhysics
-  )
+MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
+(
+  pyrolysisChemistryModel,
+  basicSolidChemistryModel,
+  hConstSolidThermoPhysics,
+  gasHThermoPhysics
+)
+MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
+(
+  pyrolysisChemistryModel,
+  basicSolidChemistryModel,
+  hPowerSolidThermoPhysics,
+  gasHThermoPhysics
+)
+MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
+(
+  pyrolysisChemistryModel,
+  basicSolidChemistryModel,
+  hExpKappaConstSolidThermoPhysics,
+  gasHThermoPhysics
+)
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

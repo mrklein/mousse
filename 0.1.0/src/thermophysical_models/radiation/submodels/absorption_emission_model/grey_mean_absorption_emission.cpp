@@ -12,8 +12,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(greyMeanAbsorptionEmission, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(greyMeanAbsorptionEmission, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       absorptionEmissionModel,
       greyMeanAbsorptionEmission,
@@ -39,7 +39,7 @@ mousse::radiation::greyMeanAbsorptionEmission::greyMeanAbsorptionEmission
 {
   if (!isA<basicSpecieMixture>(thermo_))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "radiation::greyMeanAbsorptionEmission::greyMeanAbsorptionEmission"
       "("
@@ -51,7 +51,7 @@ mousse::radiation::greyMeanAbsorptionEmission::greyMeanAbsorptionEmission
   }
   label nFunc = 0;
   const dictionary& functionDicts = dict.subDict(typeName + "Coeffs");
-  forAllConstIter(dictionary, functionDicts, iter)
+  FOR_ALL_CONST_ITER(dictionary, functionDicts, iter)
   {
     // safety:
     if (!iter().isDict())
@@ -72,28 +72,29 @@ mousse::radiation::greyMeanAbsorptionEmission::greyMeanAbsorptionEmission
       lookUpTablePtr_.set
       (
         new interpolationLookUpTable<scalar>
-        (
+        {
           fileName(coeffsDict_.lookup("lookUpTableFileName")),
           mesh.time().constant(),
           mesh
-        )
+        }
       );
       if (!mesh.foundObject<volScalarField>("ft"))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "mousse::radiation::greyMeanAbsorptionEmission(const"
           "dictionary& dict, const fvMesh& mesh)"
-        )   << "specie ft is not present to use with "
-          << "lookUpTableFileName " << nl
-          << exit(FatalError);
+        )
+        << "specie ft is not present to use with "
+        << "lookUpTableFileName " << nl
+        << exit(FatalError);
       }
     }
   }
   // Check that all the species on the dictionary are present in the
   // look-up table and save the corresponding indices of the look-up table
   label j = 0;
-  forAllConstIter(HashTable<label>, speciesNames_, iter)
+  FOR_ALL_CONST_ITER(HashTable<label>, speciesNames_, iter)
   {
     if (!lookUpTablePtr_.empty())
     {
@@ -118,7 +119,7 @@ mousse::radiation::greyMeanAbsorptionEmission::greyMeanAbsorptionEmission
       }
       else
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "mousse::radiation::greyMeanAbsorptionEmission(const"
           "dictionary& dict, const fvMesh& mesh)"
@@ -142,7 +143,7 @@ mousse::radiation::greyMeanAbsorptionEmission::greyMeanAbsorptionEmission
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::radiation::greyMeanAbsorptionEmission(const"
         "dictionary& dict, const fvMesh& mesh)"
@@ -182,9 +183,9 @@ mousse::radiation::greyMeanAbsorptionEmission::aCont(const label bandI) const
     )
   );
   scalarField& a = ta().internalField();
-  forAll(a, cellI)
+  FOR_ALL(a, cellI)
   {
-    forAllConstIter(HashTable<label>, speciesNames_, iter)
+    FOR_ALL_CONST_ITER(HashTable<label>, speciesNames_, iter)
     {
       label n = iter();
       scalar Xipi = 0.0;
@@ -200,7 +201,7 @@ mousse::radiation::greyMeanAbsorptionEmission::aCont(const label bandI) const
       else
       {
         scalar invWt = 0.0;
-        forAll (mixture.Y(), s)
+        FOR_ALL(mixture.Y(), s)
         {
           invWt += mixture.Y(s)[cellI]/mixture.W(s);
         }
@@ -266,7 +267,7 @@ mousse::radiation::greyMeanAbsorptionEmission::ECont(const label bandI) const
     {
       if (debug)
       {
-        WarningIn
+        WARNING_IN
         (
           "tmp<volScalarField>"
           "radiation::greyMeanAbsorptionEmission::ECont"
@@ -280,7 +281,7 @@ mousse::radiation::greyMeanAbsorptionEmission::ECont(const label bandI) const
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "tmp<volScalarField>"
       "radiation::greyMeanAbsorptionEmission::ECont"

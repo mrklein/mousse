@@ -25,7 +25,7 @@ class energyJumpFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("energyJump");
+  TYPE_NAME("energyJump");
   // Constructors
     //- Construct from patch and internal field
     energyJumpFvPatchScalarField

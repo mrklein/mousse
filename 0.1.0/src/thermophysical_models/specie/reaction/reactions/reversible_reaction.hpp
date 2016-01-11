@@ -25,20 +25,9 @@ class ReversibleReaction
 {
   // Private data
     ReactionRate k_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=
-    (
-      const ReversibleReaction
-      <
-        ReactionType,
-        ReactionThermo,
-        ReactionRate
-      >&
-    );
 public:
   //- Runtime type information
-  TypeName("reversible");
+  TYPE_NAME("reversible");
   // Constructors
     //- Construct from components
     ReversibleReaction
@@ -100,6 +89,16 @@ public:
         )
       );
     }
+    //- Disallow default bitwise assignment
+    void operator=
+    (
+      const ReversibleReaction
+      <
+        ReactionType,
+        ReactionThermo,
+        ReactionRate
+      >&
+    ) = delete;
   //- Destructor
   virtual ~ReversibleReaction()
   {}

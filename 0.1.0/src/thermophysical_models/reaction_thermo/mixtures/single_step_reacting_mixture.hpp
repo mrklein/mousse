@@ -39,10 +39,6 @@ protected:
     //- List to indicate if specie is produced/consumed
     List<int> specieProd_;
   // Protected member functions
-    //- Disallow default bitwise copy construct
-    singleStepReactingMixture(const singleStepReactingMixture&);
-    //- Disallow default bitwise assignment
-    void operator=(const singleStepReactingMixture&);
     //- Calculate qFuel
     void calculateqFuel();
     //- Calculate air/fuel and oxygen/fuel ratio
@@ -60,6 +56,13 @@ public:
       const fvMesh&,
       const word&
     );
+    //- Disallow default bitwise copy construct
+    singleStepReactingMixture(const singleStepReactingMixture&) = delete;
+    //- Disallow default bitwise assignment
+    singleStepReactingMixture& operator=
+    (
+      const singleStepReactingMixture&
+    ) = delete;
   //- Destructor
   virtual ~singleStepReactingMixture()
   {}

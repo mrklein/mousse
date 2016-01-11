@@ -42,7 +42,7 @@ class C9H20
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("C9H20");
+  TYPE_NAME("C9H20");
   // Constructors
     //- Construct null
     C9H20();

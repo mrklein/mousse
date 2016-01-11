@@ -10,44 +10,46 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-#define makeSolidReaction(ReactionType, Thermo, ReactionRate)                 \
-                                       \
-  typedef solidReaction<Thermo> solidReaction##Thermo;                      \
-                                       \
-  typedef Reaction<Thermo> Reaction##Thermo;                                \
-                                       \
-  typedef ReactionType<solidReaction, Thermo, ReactionRate>                 \
-    ReactionType##Thermo##ReactionRate;                                   \
-                                       \
-  defineTemplateRunTimeSelectionTable(Reaction##Thermo, Istream);           \
-  defineTemplateRunTimeSelectionTable(Reaction##Thermo, dictionary);        \
-                                       \
-  defineTemplateTypeNameAndDebug(solidReaction##Thermo, 0);                 \
-  defineTemplateTypeNameAndDebug(Reaction##Thermo, 0);                      \
-                                       \
-  template<>                                                                \
-  const word ReactionType##Thermo##ReactionRate::typeName                   \
-  (                                                                         \
-    ReactionType::typeName_()                                             \
-   + ReactionRate::type()                                                  \
-   + solidReaction##Thermo::typeName_()                                    \
-  );                                                                        \
-                                       \
-  addToRunTimeSelectionTable                                                \
-  (                                                                         \
-    Reaction##Thermo,                                                     \
-    ReactionType##Thermo##ReactionRate,                                   \
-    Istream                                                               \
-  );                                                                        \
-                                       \
-  addToRunTimeSelectionTable                                                \
-  (                                                                         \
-    Reaction##Thermo,                                                     \
-    ReactionType##Thermo##ReactionRate,                                   \
-    dictionary                                                            \
+#define MAKE_SOLID_REACTION(ReactionType, Thermo, ReactionRate)               \
+                                                                              \
+  typedef solidReaction<Thermo> solidReaction##Thermo;                        \
+                                                                              \
+  typedef Reaction<Thermo> Reaction##Thermo;                                  \
+                                                                              \
+  typedef ReactionType<solidReaction, Thermo, ReactionRate>                   \
+    ReactionType##Thermo##ReactionRate;                                       \
+                                                                              \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(Reaction##Thermo, Istream);        \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(Reaction##Thermo, dictionary);     \
+                                                                              \
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(solidReaction##Thermo, 0);              \
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Reaction##Thermo, 0);                   \
+                                                                              \
+  template<>                                                                  \
+  const word ReactionType##Thermo##ReactionRate::typeName                     \
+  (                                                                           \
+    ReactionType::typeName_()                                                 \
+   + ReactionRate::type()                                                     \
+   + solidReaction##Thermo::typeName_()                                       \
+  );                                                                          \
+                                                                              \
+  ADD_TO_RUN_TIME_SELECTION_TABLE                                             \
+  (                                                                           \
+    Reaction##Thermo,                                                         \
+    ReactionType##Thermo##ReactionRate,                                       \
+    Istream                                                                   \
+  );                                                                          \
+                                                                              \
+  ADD_TO_RUN_TIME_SELECTION_TABLE                                             \
+  (                                                                           \
+    Reaction##Thermo,                                                         \
+    ReactionType##Thermo##ReactionRate,                                       \
+    dictionary                                                                \
   );
-#define makeSolidIRReactions(Thermo, ReactionRate)                            \
-                                       \
-  makeSolidReaction(IrreversibleReaction, Thermo, ReactionRate)
+
+
+#define MAKE_SOLID_IR_REACTIONS(Thermo, ReactionRate)                         \
+                                                                              \
+  MAKE_SOLID_REACTION(IrreversibleReaction, Thermo, ReactionRate)
 }  // namespace mousse
 #endif

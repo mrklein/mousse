@@ -27,7 +27,7 @@ private:
     void operator=(const constant&);
 public:
   //- Runtime type information
-  TypeName("constant");
+  TYPE_NAME("constant");
   // Constructors
     //- Construct from dictionary and psiuReactionThermo
     constant

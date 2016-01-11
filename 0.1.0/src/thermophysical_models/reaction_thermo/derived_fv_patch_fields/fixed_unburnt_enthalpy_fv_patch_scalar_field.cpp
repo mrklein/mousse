@@ -15,7 +15,7 @@ fixedUnburntEnthalpyFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF)
+  fixedValueFvPatchScalarField{p, iF}
 {}
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
@@ -26,7 +26,7 @@ fixedUnburntEnthalpyFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper}
 {}
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
@@ -36,7 +36,7 @@ fixedUnburntEnthalpyFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF, dict)
+  fixedValueFvPatchScalarField{p, iF, dict}
 {}
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
@@ -44,7 +44,7 @@ fixedUnburntEnthalpyFvPatchScalarField
   const fixedUnburntEnthalpyFvPatchScalarField& tppsf
 )
 :
-  fixedValueFvPatchScalarField(tppsf)
+  fixedValueFvPatchScalarField{tppsf}
 {}
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
@@ -53,7 +53,7 @@ fixedUnburntEnthalpyFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(tppsf, iF)
+  fixedValueFvPatchScalarField{tppsf, iF}
 {}
 // Member Functions 
 void mousse::fixedUnburntEnthalpyFvPatchScalarField::updateCoeffs()
@@ -76,9 +76,9 @@ void mousse::fixedUnburntEnthalpyFvPatchScalarField::updateCoeffs()
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    fixedUnburntEnthalpyFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  fixedUnburntEnthalpyFvPatchScalarField
+);
 }

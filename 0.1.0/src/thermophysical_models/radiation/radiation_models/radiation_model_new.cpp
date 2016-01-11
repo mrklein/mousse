@@ -35,7 +35,7 @@ mousse::radiation::radiationModel::New
     TConstructorTablePtr_->find(modelType);
   if (cstrIter == TConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "radiationModel::New(const volScalarField&)"
     )   << "Unknown radiationModel type "
@@ -59,7 +59,7 @@ mousse::radiation::radiationModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "radiationModel::New(const dictionary&, const volScalarField&)"
     )   << "Unknown radiationModel type "

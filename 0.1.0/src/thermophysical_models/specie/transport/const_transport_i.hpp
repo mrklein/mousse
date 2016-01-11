@@ -63,8 +63,8 @@ mousse::constTransport<Thermo>::New
 template<class Thermo>
 inline mousse::scalar mousse::constTransport<Thermo>::mu
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   return mu_;

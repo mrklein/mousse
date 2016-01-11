@@ -8,8 +8,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(absorptionEmissionModel, 0);
-    defineRunTimeSelectionTable(absorptionEmissionModel, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(absorptionEmissionModel, 0);
+    DEFINE_RUN_TIME_SELECTION_TABLE(absorptionEmissionModel, dictionary);
   }
 }
 // Constructors 
@@ -32,7 +32,7 @@ mousse::radiation::absorptionEmissionModel::a(const label bandI) const
   return aDisp(bandI) + aCont(bandI);
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::absorptionEmissionModel::aCont(const label bandI) const
+mousse::radiation::absorptionEmissionModel::aCont(const label /*bandI*/) const
 {
   return tmp<volScalarField>
   (
@@ -53,7 +53,7 @@ mousse::radiation::absorptionEmissionModel::aCont(const label bandI) const
   );
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::absorptionEmissionModel::aDisp(const label bandI) const
+mousse::radiation::absorptionEmissionModel::aDisp(const label /*bandI*/) const
 {
   return tmp<volScalarField>
   (
@@ -79,7 +79,7 @@ mousse::radiation::absorptionEmissionModel::e(const label bandI) const
   return eDisp(bandI) + eCont(bandI);
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::absorptionEmissionModel::eCont(const label bandI) const
+mousse::radiation::absorptionEmissionModel::eCont(const label /*bandI*/) const
 {
   return tmp<volScalarField>
   (
@@ -100,7 +100,7 @@ mousse::radiation::absorptionEmissionModel::eCont(const label bandI) const
   );
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::absorptionEmissionModel::eDisp(const label bandI) const
+mousse::radiation::absorptionEmissionModel::eDisp(const label /*bandI*/) const
 {
   return tmp<volScalarField>
   (
@@ -126,7 +126,7 @@ mousse::radiation::absorptionEmissionModel::E(const label bandI) const
   return EDisp(bandI) + ECont(bandI);
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::absorptionEmissionModel::ECont(const label bandI) const
+mousse::radiation::absorptionEmissionModel::ECont(const label /*bandI*/) const
 {
   return tmp<volScalarField>
   (
@@ -147,32 +147,32 @@ mousse::radiation::absorptionEmissionModel::ECont(const label bandI) const
   );
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::absorptionEmissionModel::EDisp(const label bandI) const
+mousse::radiation::absorptionEmissionModel::EDisp(const label /*bandI*/) const
 {
   return tmp<volScalarField>
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "EDisp",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("zero", dimMass/dimLength/pow3(dimTime), 0.0)
-    )
-  );
+      dimensionedScalar{"zero", dimMass/dimLength/pow3(dimTime), 0.0}
+    }
+  };
 }
 mousse::label mousse::radiation::absorptionEmissionModel::nBands() const
 {
   return pTraits<label>::one;
 }
 const mousse::Vector2D<mousse::scalar>&
-mousse::radiation::absorptionEmissionModel::bands(const label n) const
+mousse::radiation::absorptionEmissionModel::bands(const label /*n*/) const
 {
   return Vector2D<scalar>::one;
 }

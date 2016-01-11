@@ -69,7 +69,7 @@ mousse::incompressiblePerfectGas<Specie>::New
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::rho
 (
-  scalar p,
+  scalar /*p*/,
   scalar T
 ) const
 {
@@ -78,8 +78,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::rho
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::s
 (
-  scalar p,
-  scalar T
+  scalar /*p*/,
+  scalar /*T*/
 ) const
 {
   return 0;
@@ -87,8 +87,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::s
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::psi
 (
-  scalar p,
-  scalar T
+  scalar /*p*/,
+  scalar /*T*/
 ) const
 {
   return 0;
@@ -96,8 +96,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::psi
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::Z
 (
-  scalar p,
-  scalar T
+  scalar /*p*/,
+  scalar /*T*/
 ) const
 {
   return 0;
@@ -105,8 +105,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::Z
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::cpMcv
 (
-  scalar p,
-  scalar T
+  scalar /*p*/,
+  scalar /*T*/
 ) const
 {
   return RR;

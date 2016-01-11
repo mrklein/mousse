@@ -33,21 +33,21 @@ void mousse::EulerImplicit<ChemistryModel>::updateRRInReactionI
   const scalar corr,
   const label lRef,
   const label rRef,
-  const scalar p,
-  const scalar T,
+  const scalar /*p*/,
+  const scalar /*T*/,
   simpleMatrix<scalar>& RR
 ) const
 {
   const Reaction<typename ChemistryModel::thermoType>& R =
     this->reactions_[index];
-  forAll(R.lhs(), s)
+  FOR_ALL(R.lhs(), s)
   {
     label si = R.lhs()[s].index;
     scalar sl = R.lhs()[s].stoichCoeff;
     RR[si][rRef] -= sl*pr*corr;
     RR[si][lRef] += sl*pf*corr;
   }
-  forAll(R.rhs(), s)
+  FOR_ALL(R.rhs(), s)
   {
     label si = R.rhs()[s].index;
     scalar sr = R.rhs()[s].stoichCoeff;
@@ -83,7 +83,7 @@ void mousse::EulerImplicit<ChemistryModel>::solve
   }
   scalar ha = mixture.Ha(p, T);
   scalar deltaTEst = min(deltaT, subDeltaT);
-  forAll(this->reactions(), i)
+  FOR_ALL(this->reactions(), i)
   {
     scalar pf, cf, pr, cr;
     label lRef, rRef;

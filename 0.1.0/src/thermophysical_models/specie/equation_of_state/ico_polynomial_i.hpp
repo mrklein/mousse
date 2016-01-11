@@ -65,7 +65,7 @@ mousse::icoPolynomial<Specie, PolySize>::New(const dictionary& dict)
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::rho
 (
-  scalar p,
+  scalar /*p*/,
   scalar T
 ) const
 {
@@ -74,8 +74,8 @@ inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::rho
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::s
 (
-  scalar p,
-  scalar T
+  scalar /*p*/,
+  scalar /*T*/
 ) const
 {
   return 0;
@@ -83,8 +83,8 @@ inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::s
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::psi
 (
-  scalar p,
-  scalar T
+  scalar /*p*/,
+  scalar /*T*/
 ) const
 {
   return 0;
@@ -92,8 +92,8 @@ inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::psi
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::Z
 (
-  scalar p,
-  scalar T
+  scalar /*p*/,
+  scalar /*T*/
 ) const
 {
   return 0;

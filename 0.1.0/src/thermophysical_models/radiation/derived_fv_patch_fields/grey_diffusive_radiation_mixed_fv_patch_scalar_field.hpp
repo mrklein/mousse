@@ -51,7 +51,7 @@ class greyDiffusiveRadiationMixedFvPatchScalarField
     word TName_;
 public:
   //- Runtime type information
-  TypeName("greyDiffusiveRadiation");
+  TYPE_NAME("greyDiffusiveRadiation");
   // Constructors
     //- Construct from patch and internal field
     greyDiffusiveRadiationMixedFvPatchScalarField

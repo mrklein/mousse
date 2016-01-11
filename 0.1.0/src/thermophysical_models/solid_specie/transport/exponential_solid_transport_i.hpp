@@ -45,7 +45,7 @@ mousse::exponentialSolidTransport<Thermo>::New
 template<class Thermo>
 inline mousse::scalar mousse::exponentialSolidTransport<Thermo>::kappa
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return (kappa0_*pow(T/Tref_, n0_));
@@ -53,7 +53,7 @@ inline mousse::scalar mousse::exponentialSolidTransport<Thermo>::kappa
 template<class Thermo>
 inline mousse::vector mousse::exponentialSolidTransport<Thermo>::Kappa
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   const scalar kappa(kappa0_*pow(T/Tref_, n0_));
@@ -61,9 +61,9 @@ inline mousse::vector mousse::exponentialSolidTransport<Thermo>::Kappa
 }
 template<class Thermo>
 inline mousse::scalar mousse::exponentialSolidTransport<Thermo>::
-mu(const scalar p, const scalar T) const
+mu(const scalar /*p*/, const scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::exponentialSolidTransport<Thermo>mu::"
     "("

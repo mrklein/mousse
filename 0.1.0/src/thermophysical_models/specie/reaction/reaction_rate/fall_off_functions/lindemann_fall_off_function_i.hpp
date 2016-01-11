@@ -9,7 +9,7 @@ inline mousse::LindemannFallOffFunction::LindemannFallOffFunction(Istream&)
 {}
 inline mousse::LindemannFallOffFunction::LindemannFallOffFunction
 (
-  const dictionary& dict
+  const dictionary&
 )
 {}
 // Member Functions 
@@ -21,7 +21,7 @@ inline mousse::scalar mousse::LindemannFallOffFunction::operator()
 {
   return 1.0;
 }
-inline void mousse::LindemannFallOffFunction::write(Ostream& os) const
+inline void mousse::LindemannFallOffFunction::write(Ostream&) const
 {}
 // Ostream Operator 
 inline mousse::Ostream& mousse::operator<<

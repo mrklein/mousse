@@ -27,9 +27,9 @@ protected:
     const fvMesh& mesh_;
 public:
   //- Runtime type information
-  TypeName("absorptionEmissionModel");
+  TYPE_NAME("absorptionEmissionModel");
   //- Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       absorptionEmissionModel,

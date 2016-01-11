@@ -25,16 +25,11 @@ protected:
     dictionary compressibilityProperties_;
     volScalarField psi_;
     const volScalarField& gamma_;
-  // Private Member Functions
-    //- Disallow copy construct
-    barotropicCompressibilityModel(const barotropicCompressibilityModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const barotropicCompressibilityModel&);
 public:
   //- Runtime type information
-  TypeName("barotropicCompressibilityModel");
+  TYPE_NAME("barotropicCompressibilityModel");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       barotropicCompressibilityModel,
@@ -62,6 +57,16 @@ public:
       const volScalarField& gamma,
       const word& psiName = "psi"
     );
+    //- Disallow copy construct
+    barotropicCompressibilityModel
+    (
+      const barotropicCompressibilityModel&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    barotropicCompressibilityModel& operator=
+    (
+      const barotropicCompressibilityModel&
+    ) = delete;
   //- Destructor
   virtual ~barotropicCompressibilityModel()
   {}

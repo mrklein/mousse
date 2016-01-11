@@ -61,15 +61,11 @@ private:
     IOobject createIOobject(const fvMesh& mesh) const;
     //- Initialise
     void initialise();
-    //- Disallow default bitwise copy construct
-    radiationModel(const radiationModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const radiationModel&);
 public:
   //- Runtime type information
-  TypeName("radiationModel");
+  TYPE_NAME("radiationModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       radiationModel,
@@ -79,7 +75,7 @@ public:
       ),
       (T)
     );
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       radiationModel,
@@ -102,6 +98,10 @@ public:
       const dictionary& dict,
       const volScalarField& T
     );
+    //- Disallow default bitwise copy construct
+    radiationModel(const radiationModel&) = delete;
+    //- Disallow default bitwise assignment
+    radiationModel& operator=(const radiationModel&) = delete;
   // Selectors
     //- Return a reference to the selected radiation model
     static autoPtr<radiationModel> New(const volScalarField& T);
@@ -146,14 +146,14 @@ public:
 };
 #define addToRadiationRunTimeSelectionTables(model)                           \
                                        \
-  addToRunTimeSelectionTable                                                \
+  ADD_TO_RUN_TIME_SELECTION_TABLE                                                \
   (                                                                         \
     radiationModel,                                                       \
     model,                                                                \
     dictionary                                                            \
   );                                                                        \
                                        \
-  addToRunTimeSelectionTable                                                \
+  ADD_TO_RUN_TIME_SELECTION_TABLE                                                \
   (                                                                         \
     radiationModel,                                                       \
     model,                                                                \

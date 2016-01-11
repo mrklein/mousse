@@ -8,13 +8,13 @@
 namespace mousse
 {
 // Make Solid reactions 
-makeSolidIRReactions(hConstSolidThermoPhysics, solidArrheniusReactionRate)
-makeSolidIRReactions
+MAKE_SOLID_IR_REACTIONS(hConstSolidThermoPhysics, solidArrheniusReactionRate)
+MAKE_SOLID_IR_REACTIONS
 (
   hPowerSolidThermoPhysics,
   solidArrheniusReactionRate
 )
-makeSolidIRReactions
+MAKE_SOLID_IR_REACTIONS
 (
   hExpKappaConstSolidThermoPhysics,
   solidArrheniusReactionRate

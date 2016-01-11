@@ -29,7 +29,7 @@ class heheuPsiThermo
     );
 public:
   //- Runtime type information
-  TypeName("heheuPsiThermo");
+  TYPE_NAME("heheuPsiThermo");
   // Constructors
     //- Construct from mesh and phase name
     heheuPsiThermo

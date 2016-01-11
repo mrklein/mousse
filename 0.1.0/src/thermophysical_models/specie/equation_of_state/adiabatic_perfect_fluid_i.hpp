@@ -69,7 +69,7 @@ template<class Specie>
 inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::rho
 (
   scalar p,
-  scalar T
+  scalar /*T*/
 ) const
 {
   return rho0_*pow((p + B_)/(p0_ + B_), 1.0/gamma_);
@@ -90,7 +90,7 @@ template<class Specie>
 inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::psi
 (
   scalar p,
-  scalar T
+  scalar /*T*/
 ) const
 {
   return
@@ -105,8 +105,8 @@ inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::Z(scalar, scalar) c
 template<class Specie>
 inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::cpMcv
 (
-  scalar p,
-  scalar T
+  scalar /*p*/,
+  scalar /*T*/
 ) const
 {
   return 0;

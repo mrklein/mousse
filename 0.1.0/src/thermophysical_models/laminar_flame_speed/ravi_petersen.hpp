@@ -110,7 +110,7 @@ class RaviPetersen
     void operator=(const RaviPetersen&);
 public:
   //- Runtime type information
-  TypeName("RaviPetersen");
+  TYPE_NAME("RaviPetersen");
   // Constructors
     //- Construct from dictionary and psiuReactionThermo
     RaviPetersen

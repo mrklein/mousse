@@ -15,7 +15,7 @@ inline mousse::thirdBodyEfficiencies::thirdBodyEfficiencies
 {
   if (size() != species_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "thirdBodyEfficiencies::thirdBodyEfficiencies"
       "(const speciesTable& species, const scalarList& efficiencies)"
@@ -49,7 +49,7 @@ inline mousse::thirdBodyEfficiencies::thirdBodyEfficiencies
     }
     else
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "thirdBodyEfficiencies::thirdBodyEfficiencies"
         "(const speciesTable& species, Istream& is)",
@@ -60,7 +60,7 @@ inline mousse::thirdBodyEfficiencies::thirdBodyEfficiencies
   }
   if (t.pToken() != token::END_LIST)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "thirdBodyEfficiencies::thirdBodyEfficiencies"
       "(const speciesTable& species, Istream& is)",
@@ -70,7 +70,7 @@ inline mousse::thirdBodyEfficiencies::thirdBodyEfficiencies
   }
   if (size() != species_.size())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "thirdBodyEfficiencies::thirdBodyEfficiencies"
       "(const speciesTable& species, Istream& is)",
@@ -94,7 +94,7 @@ inline mousse::thirdBodyEfficiencies::thirdBodyEfficiencies
     List<Tuple2<word, scalar> > coeffs(dict.lookup("coeffs"));
     if (coeffs.size() != species_.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "thirdBodyEfficiencies::thirdBodyEfficiencies"
         "(const speciesTable&, const dictionary&)"
@@ -102,7 +102,7 @@ inline mousse::thirdBodyEfficiencies::thirdBodyEfficiencies
         << " is not equat to the number of species " << species_.size()
         << exit(FatalIOError);
     }
-    forAll(coeffs, i)
+    FOR_ALL(coeffs, i)
     {
       operator[](species[coeffs[i].first()]) = coeffs[i].second();
     }
@@ -117,7 +117,7 @@ inline mousse::thirdBodyEfficiencies::thirdBodyEfficiencies
 inline mousse::scalar mousse::thirdBodyEfficiencies::M(const scalarList& c) const
 {
   scalar M = 0.0;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     M += operator[](i)*c[i];
   }
@@ -126,7 +126,7 @@ inline mousse::scalar mousse::thirdBodyEfficiencies::M(const scalarList& c) cons
 inline void mousse::thirdBodyEfficiencies::write(Ostream& os) const
 {
   List<Tuple2<word, scalar> > coeffs(species_.size());
-  forAll(coeffs, i)
+  FOR_ALL(coeffs, i)
   {
     coeffs[i].first() = species_[i];
     coeffs[i].second() = operator[](i);
@@ -169,7 +169,7 @@ inline mousse::Ostream& mousse::operator<<
     valMaxCount = val;
   }
   os << token::BEGIN_LIST << valMaxCount;
-  forAll(tbes, i)
+  FOR_ALL(tbes, i)
   {
     if (notEqual(tbes[i], valMaxCount))
     {

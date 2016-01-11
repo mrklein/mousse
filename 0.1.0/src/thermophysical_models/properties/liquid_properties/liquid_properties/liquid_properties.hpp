@@ -43,9 +43,9 @@ class liquidProperties
     //- Solubility parameter [(J/m^3)^0.5]
     scalar delta_;
 public:
-  TypeName("liquidProperties");
+  TYPE_NAME("liquidProperties");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       liquidProperties,
@@ -53,7 +53,7 @@ public:
       (),
       ()
     );
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       liquidProperties,
@@ -61,7 +61,7 @@ public:
       (Istream& is),
       (is)
     );
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       liquidProperties,

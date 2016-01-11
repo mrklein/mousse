@@ -84,15 +84,13 @@ private:
     string reactionStr(OStringStream& reaction) const;
     //- Construct reaction thermo
     void setThermo(const HashPtrTable<ReactionThermo>& thermoDatabase);
-    //- Disallow default bitwise assignment
-    void operator=(const Reaction<ReactionThermo>&);
     //- Return new reaction ID for un-named reactions
     label getNewReactionID();
 public:
   //- Runtime type information
-  TypeName("Reaction");
+  TYPE_NAME("Reaction");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       Reaction,
@@ -104,7 +102,7 @@ public:
       ),
       (species, thermoDatabase, is)
     );
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       Reaction,
@@ -184,6 +182,11 @@ public:
         new Reaction<ReactionThermo>(*this, species)
       );
     }
+    //- Disallow default bitwise assignment
+    Reaction<ReactionThermo>& operator=
+    (
+      const Reaction<ReactionThermo>&
+    ) = delete;
   // Selectors
     //- Return a pointer to new patchField created on freestore from input
     static autoPtr<Reaction<ReactionThermo> > New

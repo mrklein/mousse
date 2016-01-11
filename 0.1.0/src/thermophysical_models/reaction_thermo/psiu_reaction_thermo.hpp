@@ -23,9 +23,9 @@ protected:
     void heuBoundaryCorrection(volScalarField& heu);
 public:
   //- Runtime type information
-  TypeName("psiuReactionThermo");
+  TYPE_NAME("psiuReactionThermo");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       psiuReactionThermo,

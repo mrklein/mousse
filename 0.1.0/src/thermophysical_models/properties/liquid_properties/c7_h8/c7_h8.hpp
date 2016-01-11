@@ -42,7 +42,7 @@ class C7H8
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("C7H8");
+  TYPE_NAME("C7H8");
   // Constructors
     //- Construct null
     C7H8();

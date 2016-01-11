@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(SLGThermo, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(SLGThermo, 0);
 }
 // Constructors 
 mousse::SLGThermo::SLGThermo(const fvMesh& mesh, fluidThermo& thermo)
@@ -71,7 +71,7 @@ const mousse::basicSpecieMixture& mousse::SLGThermo::carrier() const
 {
   if (carrier_ == NULL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const mousse::basicSpecieMixture& "
       "mousse::SLGThermo::carrier() const"
@@ -84,7 +84,7 @@ const mousse::liquidMixtureProperties& mousse::SLGThermo::liquids() const
 {
   if (!liquids_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const mousse::liquidMixtureProperties& "
       "mousse::SLGThermo::liquids() const"
@@ -97,7 +97,7 @@ const mousse::solidMixtureProperties& mousse::SLGThermo::solids() const
 {
   if (!solids_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const mousse::solidMixtureProperties& "
       "mousse::SLGThermo::solids() const"
@@ -112,7 +112,7 @@ mousse::label mousse::SLGThermo::carrierId
   bool allowNotfound
 ) const
 {
-  forAll(carrier().species(), i)
+  FOR_ALL(carrier().species(), i)
   {
     if (cmptName == carrier_->species()[i])
     {
@@ -121,7 +121,7 @@ mousse::label mousse::SLGThermo::carrierId
   }
   if (!allowNotfound)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::label mousse::SLGThermo::carrierId(const word&, bool) const"
     )   << "Unknown carrier component " << cmptName
@@ -136,7 +136,7 @@ mousse::label mousse::SLGThermo::liquidId
   bool allowNotfound
 ) const
 {
-  forAll(liquids().components(), i)
+  FOR_ALL(liquids().components(), i)
   {
     if (cmptName == liquids_->components()[i])
     {
@@ -145,7 +145,7 @@ mousse::label mousse::SLGThermo::liquidId
   }
   if (!allowNotfound)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::label mousse::SLGThermo::liquidId(const word&, bool) const"
     )   << "Unknown liquid component " << cmptName << ". Valid liquids are:"
@@ -159,7 +159,7 @@ mousse::label mousse::SLGThermo::solidId
   bool allowNotfound
 ) const
 {
-  forAll(solids().components(), i)
+  FOR_ALL(solids().components(), i)
   {
     if (cmptName == solids_->components()[i])
     {
@@ -168,7 +168,7 @@ mousse::label mousse::SLGThermo::solidId
   }
   if (!allowNotfound)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::label mousse::SLGThermo::solidId(const word&, bool) const"
     )   << "Unknown solid component " << cmptName << ". Valid solids are:"

@@ -46,22 +46,22 @@ inline mousse::scalar mousse::perfectGas<Specie>::rho(scalar p, scalar T) const
   return p/(this->R()*T);
 }
 template<class Specie>
-inline mousse::scalar mousse::perfectGas<Specie>::s(scalar p, scalar T) const
+inline mousse::scalar mousse::perfectGas<Specie>::s(scalar p, scalar /*T*/) const
 {
   return -RR*log(p/Pstd);
 }
 template<class Specie>
-inline mousse::scalar mousse::perfectGas<Specie>::psi(scalar p, scalar T) const
+inline mousse::scalar mousse::perfectGas<Specie>::psi(scalar /*p*/, scalar T) const
 {
   return 1.0/(this->R()*T);
 }
 template<class Specie>
-inline mousse::scalar mousse::perfectGas<Specie>::Z(scalar p, scalar T) const
+inline mousse::scalar mousse::perfectGas<Specie>::Z(scalar /*p*/, scalar /*T*/) const
 {
   return 1;
 }
 template<class Specie>
-inline mousse::scalar mousse::perfectGas<Specie>::cpMcv(scalar p, scalar T) const
+inline mousse::scalar mousse::perfectGas<Specie>::cpMcv(scalar /*p*/, scalar /*T*/) const
 {
   return RR;
 }

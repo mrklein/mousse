@@ -42,7 +42,7 @@ class C2H5OH
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("C2H5OH");
+  TYPE_NAME("C2H5OH");
   // Constructors
     //- Construct null
     C2H5OH();

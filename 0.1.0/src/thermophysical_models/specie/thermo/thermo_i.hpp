@@ -36,7 +36,7 @@ inline mousse::scalar mousse::species::thermo<Thermo, Type>::T
       (Test - ((this->*F)(p, Test) - f)/(this->*dFdT)(p, Test));
     if (iter++ > maxIter_)
     {
-      FatalErrorInFunction
+      FATAL_ERROR_IN_FUNCTION
         << "Maximum number of iterations exceeded"
         << abort(FatalError);
     }
@@ -199,7 +199,7 @@ mousse::species::thermo<Thermo, Type>::A(const scalar p, const scalar T) const
 }
 template<class Thermo, template<class> class Type>
 inline mousse::scalar
-mousse::species::thermo<Thermo, Type>::K(const scalar p, const scalar T) const
+mousse::species::thermo<Thermo, Type>::K(const scalar /*p*/, const scalar T) const
 {
   scalar arg = -this->nMoles()*this->g(Pstd, T)/(RR*T);
   if (arg < 600.0)

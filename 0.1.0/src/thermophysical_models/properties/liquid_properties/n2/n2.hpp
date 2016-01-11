@@ -42,7 +42,7 @@ class N2
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("N2");
+  TYPE_NAME("N2");
   // Constructors
     //- Construct null
     N2();

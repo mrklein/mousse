@@ -42,7 +42,7 @@ class aC10H7CH3
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("aC11H10");
+  TYPE_NAME("aC11H10");
   // Constructors
     //- Construct null
     aC10H7CH3();

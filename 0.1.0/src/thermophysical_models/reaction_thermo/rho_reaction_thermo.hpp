@@ -21,9 +21,9 @@ class rhoReactionThermo
 {
 public:
   //- Runtime type information
-  TypeName("rhoReactionThermo");
+  TYPE_NAME("rhoReactionThermo");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     rhoReactionThermo,

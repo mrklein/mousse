@@ -18,8 +18,8 @@
 #include "thermo.hpp"
 namespace mousse
 {
-/* * * * * * * * * * * * * * * * * Enthalpy-based * * * * * * * * * * * * * */
-makeReactingSolidThermo
+// Enthalpy-based
+MAKE_REACTING_SOLID_THERMO
 (
   solidReactionThermo,
   heSolidThermo,
@@ -30,7 +30,7 @@ makeReactingSolidThermo
   rhoConst,
   specie
 );
-makeReactingSolidThermo
+MAKE_REACTING_SOLID_THERMO
 (
   solidReactionThermo,
   heSolidThermo,
@@ -41,7 +41,7 @@ makeReactingSolidThermo
   rhoConst,
   specie
 );
-makeReactingSolidThermo
+MAKE_REACTING_SOLID_THERMO
 (
   solidThermo,
   heSolidThermo,

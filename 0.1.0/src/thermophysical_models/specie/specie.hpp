@@ -30,7 +30,7 @@ class specie
     scalar molWeight_;
 public:
   //- Runtime type information
-  ClassName("specie");
+  CLASS_NAME("specie");
   // Constructors
     //- Construct from components without name
     inline specie(const scalar nMoles, const scalar molWeight);

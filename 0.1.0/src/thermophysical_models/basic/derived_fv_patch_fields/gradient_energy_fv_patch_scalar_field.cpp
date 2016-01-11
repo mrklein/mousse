@@ -78,9 +78,9 @@ void mousse::gradientEnergyFvPatchScalarField::updateCoeffs()
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    gradientEnergyFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  gradientEnergyFvPatchScalarField
+);
 }

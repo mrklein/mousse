@@ -22,7 +22,7 @@
 /* * * * * * * * * * * * * * * * * Static data * * * * * * * * * * * * * * * */
 namespace mousse
 {
-  addChemistryReaderType(chemkinReader, gasHThermoPhysics);
+ADD_CHEMISTRY_READER_TYPE(chemkinReader, gasHThermoPhysics);
 }
 /* * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * */
 const char* mousse::chemkinReader::reactionTypeNames[4] =
@@ -84,7 +84,7 @@ mousse::scalar mousse::chemkinReader::molecularWeight
 ) const
 {
   scalar molWt = 0.0;
-  forAll(specieComposition, i)
+  FOR_ALL(specieComposition, i)
   {
     label nAtoms = specieComposition[i].nAtoms;
     const word& elementName = specieComposition[i].elementName;
@@ -98,7 +98,7 @@ mousse::scalar mousse::chemkinReader::molecularWeight
     }
     else
     {
-      FatalErrorIn("chemkinReader::lex()")
+      FATAL_ERROR_IN("chemkinReader::lex()")
         << "Unknown element " << elementName
         << " on line " << lineNo_-1 << nl
         << "    specieComposition: " << specieComposition
@@ -116,7 +116,7 @@ void mousse::chemkinReader::checkCoeffs
 {
   if (reactionCoeffs.size() != nCoeffs)
   {
-    FatalErrorIn("chemkinReader::checkCoeffs")
+    FATAL_ERROR_IN("chemkinReader::checkCoeffs")
       << "Wrong number of coefficients for the " << reactionRateName
       << " rate expression on line "
       << lineNo_-1 << ", should be "
@@ -178,7 +178,7 @@ void mousse::chemkinReader::addReactionType
     default:
       if (rType < 3)
       {
-        FatalErrorIn("chemkinReader::addReactionType")
+        FATAL_ERROR_IN("chemkinReader::addReactionType")
           << "Reaction type " << reactionTypeNames[rType]
           << " on line " << lineNo_-1
           << " not handled by this function"
@@ -186,7 +186,7 @@ void mousse::chemkinReader::addReactionType
       }
       else
       {
-        FatalErrorIn("chemkinReader::addReactionType")
+        FATAL_ERROR_IN("chemkinReader::addReactionType")
           << "Unknown reaction type " << rType
           << " on line " << lineNo_-1
           << exit(FatalError);
@@ -248,7 +248,7 @@ void mousse::chemkinReader::addPressureDependentReaction
       );
       if (TroeCoeffs.size() != 4 && TroeCoeffs.size() != 3)
       {
-        FatalErrorIn("chemkinReader::addPressureDependentReaction")
+        FATAL_ERROR_IN("chemkinReader::addPressureDependentReaction")
           << "Wrong number of coefficients for Troe rate expression"
            " on line " << lineNo_-1 << ", should be 3 or 4 but "
           << TroeCoeffs.size() << " supplied." << nl
@@ -300,7 +300,7 @@ void mousse::chemkinReader::addPressureDependentReaction
       );
       if (SRICoeffs.size() != 5 && SRICoeffs.size() != 3)
       {
-        FatalErrorIn("chemkinReader::addPressureDependentReaction")
+        FATAL_ERROR_IN("chemkinReader::addPressureDependentReaction")
           << "Wrong number of coefficients for SRI rate expression"
            " on line " << lineNo_-1 << ", should be 3 or 5 but "
           << SRICoeffs.size() << " supplied." << nl
@@ -348,7 +348,7 @@ void mousse::chemkinReader::addPressureDependentReaction
     }
     default:
     {
-      FatalErrorIn("chemkinReader::addPressureDependentReaction")
+      FATAL_ERROR_IN("chemkinReader::addPressureDependentReaction")
         << "Fall-off function type "
         << fallOffFunctionNames[fofType]
         << " on line " << lineNo_-1
@@ -372,21 +372,21 @@ void mousse::chemkinReader::addReaction
 {
   checkCoeffs(ArrheniusCoeffs, "Arrhenius", 3);
   scalarList nAtoms(elementNames_.size(), 0.0);
-  forAll(lhs, i)
+  FOR_ALL(lhs, i)
   {
     const List<specieElement>& specieComposition =
       specieComposition_[speciesTable_[lhs[i].index]];
-    forAll(specieComposition, j)
+    FOR_ALL(specieComposition, j)
     {
       label elementi = elementIndices_[specieComposition[j].elementName];
       nAtoms[elementi] += lhs[i].stoichCoeff*specieComposition[j].nAtoms;
     }
   }
-  forAll(rhs, i)
+  FOR_ALL(rhs, i)
   {
     const List<specieElement>& specieComposition =
       specieComposition_[speciesTable_[rhs[i].index]];
-    forAll(specieComposition, j)
+    FOR_ALL(specieComposition, j)
     {
       label elementi = elementIndices_[specieComposition[j].elementName];
       nAtoms[elementi] -= rhs[i].stoichCoeff*specieComposition[j].nAtoms;
@@ -396,7 +396,7 @@ void mousse::chemkinReader::addReaction
   // for the change from mol/cm^3 to kmol/m^3 concentraction units
   const scalar concFactor = 0.001;
   scalar sumExp = 0.0;
-  forAll(lhs, i)
+  FOR_ALL(lhs, i)
   {
     sumExp += lhs[i].exponent;
   }
@@ -405,7 +405,7 @@ void mousse::chemkinReader::addReaction
   if (rType == nonEquilibriumReversible)
   {
     sumExp = 0.0;
-    forAll(rhs, i)
+    FOR_ALL(rhs, i)
     {
       sumExp += rhs[i].exponent;
     }
@@ -662,7 +662,7 @@ void mousse::chemkinReader::addReaction
     }
     case unknownReactionRateType:
     {
-      FatalErrorIn("chemkinReader::addReaction")
+      FATAL_ERROR_IN("chemkinReader::addReaction")
         << "Internal error on line " << lineNo_-1
         << ": reaction rate type has not been set"
         << exit(FatalError);
@@ -670,18 +670,18 @@ void mousse::chemkinReader::addReaction
     }
     default:
     {
-      FatalErrorIn("chemkinReader::addReaction")
+      FATAL_ERROR_IN("chemkinReader::addReaction")
         << "Reaction rate type " << reactionRateTypeNames[rrType]
         << " on line " << lineNo_-1
         << " not implemented"
         << exit(FatalError);
     }
   }
-  forAll(nAtoms, i)
+  FOR_ALL(nAtoms, i)
   {
     if (mag(nAtoms[i]) > imbalanceTol_)
     {
-      FatalErrorIn("chemkinReader::addReaction")
+      FATAL_ERROR_IN("chemkinReader::addReaction")
         << "Elemental imbalance of " << mag(nAtoms[i])
         << " in " << elementNames_[i]
         << " in reaction" << nl
@@ -705,7 +705,7 @@ void mousse::chemkinReader::read
     std::ifstream thermoStream(thermoFileName.c_str());
     if (!thermoStream)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "chemkin::chemkin(const fileName& CHEMKINFileName, "
         "const fileName& thermoFileName)"
@@ -722,7 +722,7 @@ void mousse::chemkinReader::read
   std::ifstream CHEMKINStream(CHEMKINFileName.c_str());
   if (!CHEMKINStream)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "chemkin::chemkin(const fileName& CHEMKINFileName, "
       "const fileName& thermoFileName)"

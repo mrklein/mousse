@@ -62,7 +62,7 @@ inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::limi
 template<class EquationOfState, int PolySize>
 inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::cp
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return CpCoeffs_.value(T);
@@ -70,7 +70,7 @@ inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::cp
 template<class EquationOfState, int PolySize>
 inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::ha
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return hCoeffs_.value(T);

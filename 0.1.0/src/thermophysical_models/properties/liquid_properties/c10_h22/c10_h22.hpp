@@ -42,7 +42,7 @@ class C10H22
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("C10H22");
+  TYPE_NAME("C10H22");
   // Constructors
     //- Construct null
     C10H22();

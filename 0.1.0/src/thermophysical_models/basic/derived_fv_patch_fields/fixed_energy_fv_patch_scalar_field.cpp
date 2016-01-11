@@ -73,9 +73,9 @@ void mousse::fixedEnergyFvPatchScalarField::updateCoeffs()
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    fixedEnergyFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  fixedEnergyFvPatchScalarField
+);
 }

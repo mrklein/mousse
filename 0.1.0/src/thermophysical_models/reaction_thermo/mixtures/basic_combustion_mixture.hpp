@@ -18,7 +18,7 @@ class basicCombustionMixture
 {
 public:
   //- Run time type information
-  TypeName("basicCombustionMixture");
+  TYPE_NAME("basicCombustionMixture");
   //- The base class of the mixture
   typedef basicCombustionMixture basicMixtureType;
   // Constructors

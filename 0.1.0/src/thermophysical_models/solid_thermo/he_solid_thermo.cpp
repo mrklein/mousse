@@ -13,7 +13,7 @@ void mousse::heSolidThermo<BasicSolidThermo, MixtureType>::calculate()
   const scalarField& pCells = this->p_.internalField();
   scalarField& rhoCells = this->rho_.internalField();
   scalarField& alphaCells = this->alpha_.internalField();
-  forAll(TCells, celli)
+  FOR_ALL(TCells, celli)
   {
     const typename MixtureType::thermoType& mixture_ =
       this->cellMixture(celli);
@@ -31,7 +31,7 @@ void mousse::heSolidThermo<BasicSolidThermo, MixtureType>::calculate()
       /
       mixture_.Cpv(pCells[celli], TCells[celli]);
   }
-  forAll(this->T_.boundaryField(), patchi)
+  FOR_ALL(this->T_.boundaryField(), patchi)
   {
     fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
@@ -40,7 +40,7 @@ void mousse::heSolidThermo<BasicSolidThermo, MixtureType>::calculate()
     fvPatchScalarField& ph = this->he_.boundaryField()[patchi];
     if (pT.fixesValue())
     {
-      forAll(pT, facei)
+      FOR_ALL(pT, facei)
       {
         const typename MixtureType::thermoType& mixture_ =
           this->patchFaceMixture(patchi, facei);
@@ -61,7 +61,7 @@ void mousse::heSolidThermo<BasicSolidThermo, MixtureType>::calculate()
     }
     else
     {
-      forAll(pT, facei)
+      FOR_ALL(pT, facei)
       {
         const typename MixtureType::thermoType& mixture_ =
           this->patchFaceMixture(patchi, facei);
@@ -151,7 +151,7 @@ mousse::heSolidThermo<BasicSolidThermo, MixtureType>::Kappa() const
   vectorField& KappaCells = Kappa.internalField();
   const scalarField& TCells = this->T_.internalField();
   const scalarField& pCells = this->p_.internalField();
-  forAll(KappaCells, celli)
+  FOR_ALL(KappaCells, celli)
   {
     Kappa[celli] =
       this->cellVolMixture
@@ -161,12 +161,12 @@ mousse::heSolidThermo<BasicSolidThermo, MixtureType>::Kappa() const
         celli
       ).Kappa(pCells[celli], TCells[celli]);
   }
-  forAll(Kappa.boundaryField(), patchi)
+  FOR_ALL(Kappa.boundaryField(), patchi)
   {
     vectorField& Kappap = Kappa.boundaryField()[patchi];
     const scalarField& pT = this->T_.boundaryField()[patchi];
     const scalarField& pp = this->p_.boundaryField()[patchi];
-    forAll(Kappap, facei)
+    FOR_ALL(Kappap, facei)
     {
       Kappap[facei] =
         this->patchFaceVolMixture
@@ -191,7 +191,7 @@ mousse::heSolidThermo<BasicSolidThermo, MixtureType>::Kappa
   const scalarField& Tp = this->T_.boundaryField()[patchi];
   tmp<vectorField> tKappa(new vectorField(pp.size()));
   vectorField& Kappap = tKappa();
-  forAll(Tp, facei)
+  FOR_ALL(Tp, facei)
   {
     Kappap[facei] =
       this->patchFaceVolMixture

@@ -42,7 +42,7 @@ class Ar
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("Ar");
+  TYPE_NAME("Ar");
   // Constructors
     //- Construct null
     Ar();

@@ -112,7 +112,7 @@ private:
     scalar totalWaveLength_;
 public:
   //- Runtime type information
-  TypeName("wideBandAbsorptionEmission");
+  TYPE_NAME("wideBandAbsorptionEmission");
   // Constructors
     //- Construct from components
     wideBandAbsorptionEmission(const dictionary& dict, const fvMesh& mesh);

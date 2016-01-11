@@ -25,7 +25,7 @@ class heRhoThermo
     heRhoThermo(const heRhoThermo<BasicPsiThermo, MixtureType>&);
 public:
   //- Runtime type information
-  TypeName("heRhoThermo");
+  TYPE_NAME("heRhoThermo");
   // Constructors
     //- Construct from mesh and phase name
     heRhoThermo

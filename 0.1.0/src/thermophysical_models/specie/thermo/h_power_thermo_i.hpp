@@ -13,7 +13,7 @@ inline void mousse::hPowerThermo<EquationOfState>::checkT
 {
   if (T < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hPowerThermo<EquationOfState>::checkT(const scalar T) const"
     )   << "attempt to evaluate hPowerThermo<EquationOfState>"
@@ -90,7 +90,7 @@ inline mousse::scalar mousse::hPowerThermo<EquationOfState>::limit
 template<class EquationOfState>
 inline mousse::scalar mousse::hPowerThermo<EquationOfState>::cp
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return c0_*pow(T/Tref_, n0_);
@@ -106,7 +106,7 @@ inline mousse::scalar mousse::hPowerThermo<EquationOfState>::ha
 template<class EquationOfState>
 inline mousse::scalar mousse::hPowerThermo<EquationOfState>::hs
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return

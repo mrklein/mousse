@@ -49,9 +49,9 @@ protected:
     wordList heBoundaryBaseTypes();
 public:
   //- Runtime type information
-  TypeName("basicThermo");
+  TYPE_NAME("basicThermo");
   //- Declare run-time constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     basicThermo,

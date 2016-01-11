@@ -221,13 +221,9 @@ private:
       const fileName& CHEMKINFileName,
       const fileName& thermoFileName
     );
-    //- Disallow default bitwise copy construct
-    chemkinReader(const chemkinReader&);
-    //- Disallow default bitwise assignment
-    void operator=(const chemkinReader&);
 public:
   //- Runtime type information
-  TypeName("chemkinReader");
+  TYPE_NAME("chemkinReader");
   // Constructors
     //- Construct from CHEMKIN III file name
     chemkinReader
@@ -239,6 +235,10 @@ public:
     );
     //- Construct by getting the CHEMKIN III file name from dictionary
     chemkinReader(const dictionary& thermoDict, speciesTable& species);
+    //- Disallow default bitwise copy construct
+    chemkinReader(const chemkinReader&) = delete;
+    //- Disallow default bitwise assignment
+    chemkinReader& operator=(const chemkinReader&) = delete;
   //- Destructor
   virtual ~chemkinReader()
   {}

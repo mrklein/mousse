@@ -21,7 +21,7 @@ mousse::chemistryReader<ThermoType>::New
     dictionaryConstructorTablePtr_->find(chemistryReaderTypeName);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "chemistryReader::New(const dictionary&, speciesTable&)"
     )   << "Unknown chemistryReader type "

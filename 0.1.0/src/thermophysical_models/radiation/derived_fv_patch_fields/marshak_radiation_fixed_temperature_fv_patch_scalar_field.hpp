@@ -45,7 +45,7 @@ class MarshakRadiationFixedTemperatureFvPatchScalarField
     scalarField Trad_;
 public:
   //- Runtime type information
-  TypeName("MarshakRadiationFixedTemperature");
+  TYPE_NAME("MarshakRadiationFixedTemperature");
   // Constructors
     //- Construct from patch and internal field
     MarshakRadiationFixedTemperatureFvPatchScalarField

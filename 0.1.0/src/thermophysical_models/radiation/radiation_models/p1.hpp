@@ -35,19 +35,18 @@ class P1
     volScalarField e_;
     //- Emission contribution
     volScalarField E_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    P1(const P1&);
-    //- Disallow default bitwise assignment
-    void operator=(const P1&);
 public:
   //- Runtime type information
-  TypeName("P1");
+  TYPE_NAME("P1");
   // Constructors
     //- Construct from components
     P1(const volScalarField& T);
     //- Construct from components
     P1(const dictionary& dict, const volScalarField& T);
+    //- Disallow default bitwise copy construct
+    P1(const P1&) = delete;
+    //- Disallow default bitwise assignment
+    P1& operator=(const P1&) = delete;
   //- Destructor
   virtual ~P1();
   // Member functions

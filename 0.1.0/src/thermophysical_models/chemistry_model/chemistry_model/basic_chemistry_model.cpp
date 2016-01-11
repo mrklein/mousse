@@ -8,7 +8,7 @@
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 namespace mousse
 {
-  defineTypeNameAndDebug(basicChemistryModel, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(basicChemistryModel, 0);
 }
 // Protected Member Functions 
 void mousse::basicChemistryModel::correct()

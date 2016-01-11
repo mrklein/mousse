@@ -149,9 +149,9 @@ void mousse::MarshakRadiationFixedTemperatureFvPatchScalarField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    MarshakRadiationFixedTemperatureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  MarshakRadiationFixedTemperatureFvPatchScalarField
+);
 }

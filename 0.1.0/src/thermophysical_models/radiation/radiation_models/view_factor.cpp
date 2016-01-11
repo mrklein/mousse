@@ -14,7 +14,7 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(viewFactor, 0);
+    DEFINE_TYPE_NAME_AND_DEBUG(viewFactor, 0);
     addToRadiationRunTimeSelectionTables(viewFactor);
   }
 }
@@ -24,7 +24,7 @@ void mousse::radiation::viewFactor::initialise()
   const polyBoundaryMesh& coarsePatches = coarseMesh_.boundaryMesh();
   const volScalarField::GeometricBoundaryField& Qrp = Qr_.boundaryField();
   label count = 0;
-  forAll(Qrp, patchI)
+  FOR_ALL(Qrp, patchI)
   {
     //const polyPatch& pp = mesh_.boundaryMesh()[patchI];
     const fvPatchScalarField& QrPatchI = Qrp[patchI];
@@ -47,7 +47,7 @@ void mousse::radiation::viewFactor::initialise()
   reduce(totalNCoarseFaces_, sumOp<label>());
   if (debug && Pstream::master())
   {
-    InfoIn("radiation::viewFactor::initialise()")
+    INFO_IN("radiation::viewFactor::initialise()")
       << "Total number of clusters : " << totalNCoarseFaces_ << endl;
   }
   labelListIOList subMap
@@ -134,7 +134,7 @@ void mousse::radiation::viewFactor::initialise()
     );
     if (debug)
     {
-      InfoIn("radiation::viewFactor::initialise()")
+      INFO_IN("radiation::viewFactor::initialise()")
         << "Insert elements in the matrix..." << endl;
     }
     for (label procI = 0; procI < Pstream::nProcs(); procI++)
@@ -153,7 +153,7 @@ void mousse::radiation::viewFactor::initialise()
     {
       if (debug)
       {
-        InfoIn("radiation::viewFactor::initialise()")
+        INFO_IN("radiation::viewFactor::initialise()")
           << "Smoothing the matrix..." << endl;
       }
       for (label i=0; i<totalNCoarseFaces_; i++)
@@ -319,12 +319,12 @@ void mousse::radiation::viewFactor::insertMatrixElements
   scalarSquareMatrix& Fmatrix
 )
 {
-  forAll(viewFactors, faceI)
+  FOR_ALL(viewFactors, faceI)
   {
     const scalarList& vf = viewFactors[faceI];
     const labelList& globalFaces = globalFaceFaces[faceI];
     label globalI = globalNumbering.toGlobal(procI, faceI);
-    forAll(globalFaces, i)
+    FOR_ALL(globalFaces, i)
     {
       Fmatrix[globalI][globalFaces[i]] = vf[i];
     }
@@ -342,7 +342,7 @@ void mousse::radiation::viewFactor::calculate()
   DynamicList<scalar> localCoarseTave(nLocalCoarseFaces_);
   DynamicList<scalar> localCoarseEave(nLocalCoarseFaces_);
   DynamicList<scalar> localCoarseHoave(nLocalCoarseFaces_);
-  forAll(selectedPatches_, i)
+  FOR_ALL(selectedPatches_, i)
   {
     label patchID = selectedPatches_[i];
     const scalarField& Tp = T_.boundaryField()[patchID];
@@ -365,7 +365,7 @@ void mousse::radiation::viewFactor::calculate()
       const labelList& agglom = finalAgglom_[patchID];
       label nAgglom = max(agglom) + 1;
       labelListList coarseToFine(invertOneToMany(nAgglom, agglom));
-      forAll(coarseToFine, coarseI)
+      FOR_ALL(coarseToFine, coarseI)
       {
         const label coarseFaceID = coarsePatchFace[coarseI];
         const labelList& fineFaces = coarseToFine[coarseFaceID];
@@ -376,7 +376,7 @@ void mousse::radiation::viewFactor::calculate()
         );
         scalar area = sum(fineSf());
         // Temperature, emissivity and external flux area weighting
-        forAll(fineFaces, j)
+        FOR_ALL(fineFaces, j)
         {
           label faceI = fineFaces[j];
           Tave[coarseI] += (Tp[faceI]*sf[faceI])/area;
@@ -416,7 +416,7 @@ void mousse::radiation::viewFactor::calculate()
   scalarField E(totalNCoarseFaces_, 0.0);
   scalarField QrExt(totalNCoarseFaces_, 0.0);
   // Fill lists from compact to global indexes.
-  forAll(compactCoarseT, i)
+  FOR_ALL(compactCoarseT, i)
   {
     T[compactGlobalIds[i]] = compactCoarseT[i];
     E[compactGlobalIds[i]] = compactCoarseE[i];
@@ -481,7 +481,7 @@ void mousse::radiation::viewFactor::calculate()
         }
         if (debug)
         {
-          InfoIn("radiation::viewFactor::initialise()")
+          INFO_IN("radiation::viewFactor::initialise()")
             << "\nDecomposing C matrix..." << endl;
         }
         LUDecompose(CLU_(), pivotIndices_);
@@ -505,7 +505,7 @@ void mousse::radiation::viewFactor::calculate()
       }
       if (debug)
       {
-        InfoIn("radiation::viewFactor::initialise()")
+        INFO_IN("radiation::viewFactor::initialise()")
           << "\nLU Back substitute C matrix.." << endl;
       }
       LUBacksubstitute(CLU_(), pivotIndices_, q);
@@ -516,7 +516,7 @@ void mousse::radiation::viewFactor::calculate()
   Pstream::listCombineScatter(q);
   Pstream::listCombineGather(q, maxEqOp<scalar>());
   label globCoarseId = 0;
-  forAll(selectedPatches_, i)
+  FOR_ALL(selectedPatches_, i)
   {
     const label patchID = selectedPatches_[i];
     const polyPatch& pp = mesh_.boundaryMesh()[patchID];
@@ -530,13 +530,13 @@ void mousse::radiation::viewFactor::calculate()
       const labelList& coarsePatchFace =
         coarseMesh_.patchFaceMap()[patchID];
       scalar heatFlux = 0.0;
-      forAll(coarseToFine, coarseI)
+      FOR_ALL(coarseToFine, coarseI)
       {
         label globalCoarse =
           globalNumbering.toGlobal(Pstream::myProcNo(), globCoarseId);
         const label coarseFaceID = coarsePatchFace[coarseI];
         const labelList& fineFaces = coarseToFine[coarseFaceID];
-        forAll(fineFaces, k)
+        FOR_ALL(fineFaces, k)
         {
           label faceI = fineFaces[k];
           Qrp[faceI] = q[globalCoarse];
@@ -548,12 +548,12 @@ void mousse::radiation::viewFactor::calculate()
   }
   if (debug)
   {
-    forAll(Qr_.boundaryField(), patchID)
+    FOR_ALL(Qr_.boundaryField(), patchID)
     {
       const scalarField& Qrp = Qr_.boundaryField()[patchID];
       const scalarField& magSf = mesh_.magSf().boundaryField()[patchID];
       scalar heatFlux = gSum(Qrp*magSf);
-      InfoIn("radiation::viewFactor::initialise()")
+      INFO_IN("radiation::viewFactor::initialise()")
         << "Total heat transfer rate at patch: "
         << patchID << " "
         << heatFlux << endl;

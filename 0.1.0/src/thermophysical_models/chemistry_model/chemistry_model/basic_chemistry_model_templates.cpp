@@ -68,7 +68,7 @@ mousse::autoPtr<ChemistryModel> mousse::basicChemistryModel::New
     }
     else
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         (ChemistryModel::typeName + "::New(const mesh&)").c_str(),
         thermoDict
@@ -84,7 +84,7 @@ mousse::autoPtr<ChemistryModel> mousse::basicChemistryModel::New
       ChemistryModel::fvMeshConstructorTablePtr_->find(chemistryTypeName);
     if (cstrIter == ChemistryModel::fvMeshConstructorTablePtr_->end())
     {
-      FatalErrorIn(ChemistryModel::typeName + "::New(const mesh&)")
+      FATAL_ERROR_IN(ChemistryModel::typeName + "::New(const mesh&)")
         << "Unknown " << ChemistryModel::typeName << " type " << nl
         << "chemistryType" << chemistryTypeDict << nl << nl
         << "Valid " << ChemistryModel ::typeName << " types are:"
@@ -101,12 +101,12 @@ mousse::autoPtr<ChemistryModel> mousse::basicChemistryModel::New
         validChemistryTypeNames.size() + 1
       );
       validChemistryTypeNameCmpts[0].setSize(nCmpt);
-      forAll(validChemistryTypeNameCmpts[0], j)
+      FOR_ALL(validChemistryTypeNameCmpts[0], j)
       {
         validChemistryTypeNameCmpts[0][j] = cmptNames[j];
       }
       // Split the thermo package names into their constituent parts
-      forAll(validChemistryTypeNames, i)
+      FOR_ALL(validChemistryTypeNames, i)
       {
         validChemistryTypeNameCmpts[i+1] = basicThermo::splitThermoName
         (
@@ -130,7 +130,7 @@ mousse::autoPtr<ChemistryModel> mousse::basicChemistryModel::New
       ChemistryModel::fvMeshConstructorTablePtr_->find(chemistryTypeName);
     if (cstrIter == ChemistryModel::fvMeshConstructorTablePtr_->end())
     {
-      FatalErrorIn(ChemistryModel::typeName + "::New(const mesh&)")
+      FATAL_ERROR_IN(ChemistryModel::typeName + "::New(const mesh&)")
         << "Unknown " << ChemistryModel::typeName << " type "
         << chemistryTypeName << nl << nl
         << "Valid ChemistryModel types are:" << nl

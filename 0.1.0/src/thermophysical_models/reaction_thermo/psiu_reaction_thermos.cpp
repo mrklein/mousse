@@ -22,8 +22,8 @@
 #include "egr_mixture.hpp"
 namespace mousse
 {
-// * * * * * * * * * * * * * * * * h-hu-Thermos * * * * * * * * * * * * * * * //
-makeReactionThermo
+// h-hu-Thermos
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -35,7 +35,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -47,7 +47,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -59,7 +59,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -71,7 +71,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -83,7 +83,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -95,7 +95,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -107,7 +107,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -119,7 +119,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -131,7 +131,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -143,7 +143,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,
@@ -155,7 +155,7 @@ makeReactionThermo
   perfectGas,
   specie
 );
-makeReactionThermo
+MAKE_REACTION_THERMO
 (
   psiThermo,
   psiuReactionThermo,

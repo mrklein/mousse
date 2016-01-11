@@ -40,11 +40,9 @@ private:
     void solidReactionStrLeft(OStringStream&) const;
     //- Return string representation of the right of the reaction
     void solidReactionStrRight(OStringStream&) const;
-    //- Disallow default bitwise assignment
-    void operator=(const solidReaction&);
 public:
   //- Runtime type information
-  TypeName("SolidReaction");
+  TYPE_NAME("SolidReaction");
   // Constructors
     //- Construct from components
     solidReaction
@@ -93,6 +91,8 @@ public:
         new solidReaction<ReactionThermo>(*this, species)
       );
     }
+    //- Disallow default bitwise assignment
+    solidReaction& operator=(const solidReaction&) = delete;
   //- Destructor
   virtual ~solidReaction()
   {}

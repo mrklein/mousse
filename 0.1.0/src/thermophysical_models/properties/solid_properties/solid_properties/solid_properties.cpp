@@ -6,10 +6,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(solidProperties, 0);
-  defineRunTimeSelectionTable(solidProperties,);
-  defineRunTimeSelectionTable(solidProperties, Istream);
-  defineRunTimeSelectionTable(solidProperties, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(solidProperties, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(solidProperties,);
+  DEFINE_RUN_TIME_SELECTION_TABLE(solidProperties, Istream);
+  DEFINE_RUN_TIME_SELECTION_TABLE(solidProperties, dictionary);
 }
 // Constructors 
 mousse::solidProperties::solidProperties

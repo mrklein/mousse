@@ -39,7 +39,7 @@ inline mousse::ArrheniusReactionRate::ArrheniusReactionRate
 // Member Functions 
 inline mousse::scalar mousse::ArrheniusReactionRate::operator()
 (
-  const scalar p,
+  const scalar /*p*/,
   const scalar T,
   const scalarField&
 ) const

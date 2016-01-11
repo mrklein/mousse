@@ -7,10 +7,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(ash, 0);
-  addToRunTimeSelectionTable(solidProperties, ash,);
-  addToRunTimeSelectionTable(solidProperties, ash, Istream);
-  addToRunTimeSelectionTable(solidProperties, ash, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(ash, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, ash,);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, ash, Istream);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, ash, dictionary);
 }
 // Constructors 
 mousse::ash::ash()
@@ -19,7 +19,7 @@ mousse::ash::ash()
 {
   if (debug)
   {
-    WarningIn("ash::ash()")
+    WARNING_IN("ash::ash()")
       << "Properties of ash need to be checked!!!"
       << endl;
   }
