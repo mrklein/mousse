@@ -29,17 +29,16 @@ class PaSR
     Switch turbulentReaction_;
     //- Mixing parameter
     volScalarField kappa_;
-  // Private Member Functions
-    //- Disallow copy construct
-    PaSR(const PaSR&);
-    //- Disallow default bitwise assignment
-    void operator=(const PaSR&);
 public:
   //- Runtime type information
-  TypeName("PaSR");
+  TYPE_NAME("PaSR");
   // Constructors
     //- Construct from components
     PaSR(const word& modelType, const fvMesh& mesh, const word& phaseName);
+    //- Disallow copy construct
+    PaSR(const PaSR&) = delete;
+    //- Disallow default bitwise assignment
+    PaSR& operator=(const PaSR&) = delete;
   //- Destructor
   virtual ~PaSR();
   // Member Functions

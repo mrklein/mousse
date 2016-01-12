@@ -26,14 +26,9 @@ class diffusion
     scalar C_;
     //- Name of oxidant - default is "O2"
     word oxidantName_;
-  // Private Member Functions
-    //- Disallow copy construct
-    diffusion(const diffusion&);
-    //- Disallow default bitwise assignment
-    void operator=(const diffusion&);
 public:
   //- Runtime type information
-  TypeName("diffusion");
+  TYPE_NAME("diffusion");
   // Constructors
     //- Construct from components
     diffusion
@@ -42,6 +37,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName
     );
+    //- Disallow copy construct
+    diffusion(const diffusion&) = delete;
+    //- Disallow default bitwise assignment
+    diffusion& operator=(const diffusion&) = delete;
   //- Destructor
   virtual ~diffusion();
   // Member Functions

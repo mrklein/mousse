@@ -20,11 +20,6 @@ class rhoChemistryCombustion
 :
   public rhoCombustionModel
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    rhoChemistryCombustion(const rhoChemistryCombustion&);
-    //- Disallow default bitwise assignment
-    void operator=(const rhoChemistryCombustion&);
 protected:
   // Protected data
     //- Pointer to chemistry model
@@ -38,6 +33,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName
     );
+    //- Construct as copy (not implemented)
+    rhoChemistryCombustion(const rhoChemistryCombustion&) = delete;
+    //- Disallow default bitwise assignment
+    rhoChemistryCombustion& operator=(const rhoChemistryCombustion&) = delete;
   //- Destructor
   virtual ~rhoChemistryCombustion();
   // Member Functions

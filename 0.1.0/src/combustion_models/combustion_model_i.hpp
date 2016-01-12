@@ -15,7 +15,7 @@ inline const mousse::surfaceScalarField& mousse::combustionModel::phi() const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const mousse::compressibleTurbulenceModel& "
       "mousse::combustionModel::turbulence() const "
@@ -35,7 +35,7 @@ mousse::combustionModel::turbulence() const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const mousse::compressibleTurbulenceModel& "
       "mousse::combustionModel::turbulence() const "

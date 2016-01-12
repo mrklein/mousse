@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(combustionModel, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(combustionModel, 0);
 }
 // Constructors 
 mousse::combustionModel::combustionModel

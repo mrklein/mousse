@@ -23,16 +23,11 @@ class psiCombustionModel
 :
   public combustionModel
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    psiCombustionModel(const psiCombustionModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const psiCombustionModel&);
 public:
   //- Runtime type information
-  TypeName("psiCombustionModel");
+  TYPE_NAME("psiCombustionModel");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     psiCombustionModel,
@@ -52,6 +47,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName
     );
+    //- Construct as copy (not implemented)
+    psiCombustionModel(const psiCombustionModel&) = delete;
+    //- Disallow default bitwise assignment
+    psiCombustionModel& operator=(const psiCombustionModel&) = delete;
   //- Selector
   static autoPtr<psiCombustionModel> New
   (

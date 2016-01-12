@@ -10,28 +10,28 @@
 #include "rho_thermo_combustion.hpp"
 #include "fsd.hpp"
 // Combustion models based on sensibleEnthalpy
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   FSD,
   psiThermoCombustion,
   gasHThermoPhysics,
   psiCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   FSD,
   psiThermoCombustion,
   constGasHThermoPhysics,
   psiCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   FSD,
   rhoThermoCombustion,
   gasHThermoPhysics,
   rhoCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   FSD,
   rhoThermoCombustion,
@@ -39,32 +39,31 @@ makeCombustionTypesThermo
   rhoCombustionModel
 );
 // Combustion models based on sensibleInternalEnergy
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   FSD,
   psiThermoCombustion,
   gasEThermoPhysics,
   psiCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   FSD,
   psiThermoCombustion,
   constGasEThermoPhysics,
   psiCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   FSD,
   rhoThermoCombustion,
   gasEThermoPhysics,
   rhoCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   FSD,
   rhoThermoCombustion,
   constGasEThermoPhysics,
   rhoCombustionModel
 );
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

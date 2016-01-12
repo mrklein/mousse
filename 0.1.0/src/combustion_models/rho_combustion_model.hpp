@@ -23,16 +23,11 @@ class rhoCombustionModel
 :
   public combustionModel
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    rhoCombustionModel(const rhoCombustionModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const rhoCombustionModel&);
 public:
   //- Runtime type information
-  TypeName("rhoCombustionModel");
+  TYPE_NAME("rhoCombustionModel");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     rhoCombustionModel,
@@ -52,6 +47,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName
     );
+    //- Construct as copy (not implemented)
+    rhoCombustionModel(const rhoCombustionModel&) = delete;
+    //- Disallow default bitwise assignment
+    rhoCombustionModel& operator=(const rhoCombustionModel&) = delete;
   //- Selector
   static autoPtr<rhoCombustionModel> New
   (

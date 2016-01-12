@@ -6,7 +6,7 @@
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 namespace mousse
 {
-  defineTypeNameAndDebug(consumptionSpeed, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(consumptionSpeed, 0);
 }
 // Constructors 
 mousse::consumptionSpeed::consumptionSpeed
@@ -67,14 +67,14 @@ mousse::tmp<mousse::volScalarField> mousse::consumptionSpeed::omega0Sigma
   );
   volScalarField& omega0 = tomega0();
   volScalarField::InternalField& iomega0 = omega0.internalField();
-  forAll(iomega0, celli)
+  FOR_ALL(iomega0, celli)
   {
     iomega0[celli] = omega0Sigma(sigma[celli], 1.0);
   }
   volScalarField::GeometricBoundaryField& bomega0 = omega0.boundaryField();
-  forAll(bomega0, patchi)
+  FOR_ALL(bomega0, patchi)
   {
-    forAll(bomega0[patchi], facei)
+    FOR_ALL(bomega0[patchi], facei)
     {
       bomega0[patchi][facei] =
         omega0Sigma

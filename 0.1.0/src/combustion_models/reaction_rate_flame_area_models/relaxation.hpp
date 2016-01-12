@@ -26,14 +26,9 @@ class relaxation
     scalar C_;
     //- Proportionality constant for sub-grid strain
     scalar alpha_;
-  // Private Member Functions
-    //- Disallow copy construct
-    relaxation(const relaxation&);
-    //- Disallow default bitwise assignment
-    void operator=(const relaxation&);
 public:
   //- Runtime type information
-  TypeName("relaxation");
+  TYPE_NAME("relaxation");
   // Constructors
     //- Construct from dictionary and psiReactionThermo
     relaxation
@@ -43,6 +38,10 @@ public:
       const fvMesh& mesh,
       const combustionModel& combModel
     );
+    //- Disallow copy construct
+    relaxation(const relaxation&) = delete;
+    //- Disallow default bitwise assignment
+    relaxation& operator=(const relaxation&) = delete;
   // Destructor
     virtual ~relaxation();
   // Member functions

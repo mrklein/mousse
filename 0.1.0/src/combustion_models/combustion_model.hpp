@@ -17,11 +17,6 @@ class combustionModel
 :
   public IOdictionary
 {
-  // Private Member Functions
-    //- Disallow copy construct
-    combustionModel(const combustionModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const combustionModel&);
 protected:
   // Protected data
     //- Reference to the turbulence model
@@ -38,7 +33,7 @@ protected:
     const word phaseName_;
 public:
   //- Runtime type information
-  TypeName("combustionModel");
+  TYPE_NAME("combustionModel");
   // Constructors
     //- Construct from components
     combustionModel
@@ -47,6 +42,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName=word::null
     );
+    //- Disallow copy construct
+    combustionModel(const combustionModel&) = delete;
+    //- Disallow default bitwise assignment
+    combustionModel& operator=(const combustionModel&) = delete;
   //- Destructor
   virtual ~combustionModel();
   // Member Functions

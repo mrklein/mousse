@@ -19,11 +19,6 @@ class singleStepCombustion
 :
   public CombThermoType
 {
-  // Private Member Functions
-    //- Disallow copy construct
-    singleStepCombustion(const singleStepCombustion&);
-    //- Disallow default bitwise assignment
-    void operator=(const singleStepCombustion&);
 protected:
   // Protected data
     //- Pointer to singleStepReactingMixture mixture
@@ -41,6 +36,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName
     );
+    //- Disallow copy construct
+    singleStepCombustion(const singleStepCombustion&) = delete;
+    //- Disallow default bitwise assignment
+    singleStepCombustion& operator=(const singleStepCombustion&) = delete;
   //- Destructor
   virtual ~singleStepCombustion();
   // Member Functions

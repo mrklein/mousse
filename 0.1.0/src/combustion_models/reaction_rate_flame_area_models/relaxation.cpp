@@ -11,8 +11,8 @@ namespace mousse
 {
 namespace reactionRateFlameAreaModels
 {
-  defineTypeNameAndDebug(relaxation, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(relaxation, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     reactionRateFlameArea,
     relaxation,

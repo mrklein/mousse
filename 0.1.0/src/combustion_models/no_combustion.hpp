@@ -18,13 +18,9 @@ class noCombustion
 :
   public CombThermoType
 {
-  //- Disallow copy construct
-  noCombustion(const noCombustion&);
-  //- Disallow default bitwise assignment
-  void operator=(const noCombustion&);
 public:
   //- Runtime type information
-  TypeName("noCombustion");
+  TYPE_NAME("noCombustion");
   // Constructors
     //- Construct from components
     noCombustion
@@ -33,6 +29,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName
     );
+    //- Disallow copy construct
+    noCombustion(const noCombustion&) = delete;
+    //- Disallow default bitwise assignment
+    noCombustion& operator=(const noCombustion&) = delete;
   //- Destructor
   virtual ~noCombustion();
   // Member Functions
