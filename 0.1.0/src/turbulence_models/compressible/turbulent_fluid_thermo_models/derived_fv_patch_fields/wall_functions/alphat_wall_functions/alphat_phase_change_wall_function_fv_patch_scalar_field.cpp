@@ -11,7 +11,7 @@ namespace mousse
 namespace compressible
 {
 // Static Data Members
-defineTypeNameAndDebug(alphatPhaseChangeWallFunctionFvPatchScalarField,0);
+DEFINE_TYPE_NAME_AND_DEBUG(alphatPhaseChangeWallFunctionFvPatchScalarField,0);
 // Constructors 
 alphatPhaseChangeWallFunctionFvPatchScalarField::
 alphatPhaseChangeWallFunctionFvPatchScalarField

@@ -33,15 +33,9 @@ protected:
   // Protected data
     const alphaField& alpha_;
     const transportModel& transport_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    TurbulenceModel(const TurbulenceModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const TurbulenceModel&);
 public:
   // Declare run-time constructor selection table
-    declareRunTimeNewSelectionTable
+    DECLARE_RUN_TIME_NEW_SELECTION_TABLE
     (
       autoPtr,
       TurbulenceModel,
@@ -69,6 +63,10 @@ public:
       const transportModel& transport,
       const word& propertiesName
     );
+    //- Disallow default bitwise copy construct
+    TurbulenceModel(const TurbulenceModel&) = delete;
+    //- Disallow default bitwise assignment
+    TurbulenceModel& operator=(const TurbulenceModel&) = delete;
   // Selectors
     //- Return a reference to the selected turbulence model
     static autoPtr<TurbulenceModel> New
@@ -108,6 +106,6 @@ public:
 };
 }  // namespace mousse
 #ifdef NoRepository
-#   include "_turbulence_model.cpp"
+#include "_turbulence_model.cpp"
 #endif
 #endif

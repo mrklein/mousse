@@ -36,20 +36,14 @@ protected:
   // Protected Member Functions
     //- Print model coefficients
     virtual void printCoeffs(const word& type);
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    RASModel(const RASModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const RASModel&);
 public:
   typedef typename BasicTurbulenceModel::alphaField alphaField;
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("RAS");
+  TYPE_NAME("RAS");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       RASModel,
@@ -78,6 +72,10 @@ public:
       const transportModel& transport,
       const word& propertiesName
     );
+    //- Disallow default bitwise copy construct
+    RASModel(const RASModel&) = delete;
+    //- Disallow default bitwise assignment
+    RASModel& operator=(const RASModel&) = delete;
   // Selectors
     //- Return a reference to the selected RAS model
     static autoPtr<RASModel> New

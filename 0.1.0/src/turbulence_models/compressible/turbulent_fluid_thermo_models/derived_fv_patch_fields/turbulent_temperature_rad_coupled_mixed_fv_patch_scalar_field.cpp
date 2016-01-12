@@ -19,14 +19,14 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), "undefined", "undefined", "undefined-K"),
-  TnbrName_("undefined-Tnbr"),
-  QrNbrName_("undefined-QrNbr"),
-  QrName_("undefined-Qr"),
-  thicknessLayers_(0),
-  kappaLayers_(0),
-  contactRes_(0)
+  mixedFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), "undefined", "undefined", "undefined-K"},
+  TnbrName_{"undefined-Tnbr"},
+  QrNbrName_{"undefined-QrNbr"},
+  QrName_{"undefined-Qr"},
+  thicknessLayers_{0},
+  kappaLayers_{0},
+  contactRes_{0}
 {
   this->refValue() = 0.0;
   this->refGrad() = 0.0;
@@ -41,14 +41,14 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(psf, p, iF, mapper),
-  temperatureCoupledBase(patch(), psf),
-  TnbrName_(psf.TnbrName_),
-  QrNbrName_(psf.QrNbrName_),
-  QrName_(psf.QrName_),
-  thicknessLayers_(psf.thicknessLayers_),
-  kappaLayers_(psf.kappaLayers_),
-  contactRes_(psf.contactRes_)
+  mixedFvPatchScalarField{psf, p, iF, mapper},
+  temperatureCoupledBase{patch(), psf},
+  TnbrName_{psf.TnbrName_},
+  QrNbrName_{psf.QrNbrName_},
+  QrName_{psf.QrName_},
+  thicknessLayers_{psf.thicknessLayers_},
+  kappaLayers_{psf.kappaLayers_},
+  contactRes_{psf.contactRes_}
 {}
 turbulentTemperatureRadCoupledMixedFvPatchScalarField::
 turbulentTemperatureRadCoupledMixedFvPatchScalarField
@@ -58,18 +58,18 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), dict),
-  TnbrName_(dict.lookupOrDefault<word>("Tnbr", "T")),
-  QrNbrName_(dict.lookupOrDefault<word>("QrNbr", "none")),
-  QrName_(dict.lookupOrDefault<word>("Qr", "none")),
-  thicknessLayers_(0),
-  kappaLayers_(0),
-  contactRes_(0.0)
+  mixedFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), dict},
+  TnbrName_{dict.lookupOrDefault<word>("Tnbr", "T")},
+  QrNbrName_{dict.lookupOrDefault<word>("QrNbr", "none")},
+  QrName_{dict.lookupOrDefault<word>("Qr", "none")},
+  thicknessLayers_{0},
+  kappaLayers_{0},
+  contactRes_{0.0}
 {
   if (!isA<mappedPatchBase>(this->patch().patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "turbulentTemperatureRadCoupledMixedFvPatchScalarField::"
       "turbulentTemperatureRadCoupledMixedFvPatchScalarField\n"
@@ -78,12 +78,13 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
       "    const DimensionedField<scalar, volMesh>& iF,\n"
       "    const dictionary& dict\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not type '" << mappedPatchBase::typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not type '" << mappedPatchBase::typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   if (dict.found("thicknessLayers"))
   {
@@ -92,7 +93,7 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
     if (thicknessLayers_.size() > 0)
     {
       // Calculate effective thermal resistance by harmonic averaging
-      forAll (thicknessLayers_, iLayer)
+      FOR_ALL(thicknessLayers_, iLayer)
       {
         contactRes_ += thicknessLayers_[iLayer]/kappaLayers_[iLayer];
       }
@@ -122,14 +123,14 @@ turbulentTemperatureRadCoupledMixedFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(psf, iF),
-  temperatureCoupledBase(patch(), psf),
-  TnbrName_(psf.TnbrName_),
-  QrNbrName_(psf.QrNbrName_),
-  QrName_(psf.QrName_),
-  thicknessLayers_(psf.thicknessLayers_),
-  kappaLayers_(psf.kappaLayers_),
-  contactRes_(psf.contactRes_)
+  mixedFvPatchScalarField{psf, iF},
+  temperatureCoupledBase{patch(), psf},
+  TnbrName_{psf.TnbrName_},
+  QrNbrName_{psf.QrNbrName_},
+  QrName_{psf.QrName_},
+  thicknessLayers_{psf.thicknessLayers_},
+  kappaLayers_{psf.kappaLayers_},
+  contactRes_{psf.contactRes_}
 {}
 // Member Functions 
 void turbulentTemperatureRadCoupledMixedFvPatchScalarField::updateCoeffs()
@@ -190,7 +191,8 @@ void turbulentTemperatureRadCoupledMixedFvPatchScalarField::updateCoeffs()
   if (debug)
   {
     scalar Q = gSum(kappa(Tp)*patch().magSf()*snGrad());
-    Info<< patch().boundaryMesh().mesh().name() << ':'
+    Info
+      << patch().boundaryMesh().mesh().name() << ':'
       << patch().name() << ':'
       << this->dimensionedInternalField().name() << " <- "
       << nbrMesh.name() << ':'
@@ -219,7 +221,7 @@ void turbulentTemperatureRadCoupledMixedFvPatchScalarField::write
   kappaLayers_.writeEntry("kappaLayers", os);
   temperatureCoupledBase::write(os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   turbulentTemperatureRadCoupledMixedFvPatchScalarField

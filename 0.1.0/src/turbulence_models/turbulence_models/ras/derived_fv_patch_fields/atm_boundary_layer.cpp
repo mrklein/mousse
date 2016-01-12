@@ -32,7 +32,7 @@ atmBoundaryLayer::atmBoundaryLayer(const vectorField& p, const dictionary& dict)
 {
   if (mag(flowDir_) < SMALL || mag(zDir_) < SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "atmBoundaryLayer(const dictionary&)"
     )   << "magnitude of n or z must be greater than zero"
@@ -97,7 +97,7 @@ tmp<vectorField> atmBoundaryLayer::U(const vectorField& p) const
   );
   return flowDir_*Un;
 }
-tmp<scalarField> atmBoundaryLayer::k(const vectorField& p) const
+tmp<scalarField> atmBoundaryLayer::k(const vectorField& /*p*/) const
 {
   return sqr(Ustar_)/sqrt(Cmu_);
 }

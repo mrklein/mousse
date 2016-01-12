@@ -17,8 +17,8 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  atmBoundaryLayer()
+  fixedValueFvPatchVectorField{p, iF},
+  atmBoundaryLayer{}
 {}
 atmBoundaryLayerInletVelocityFvPatchVectorField::
 atmBoundaryLayerInletVelocityFvPatchVectorField
@@ -28,8 +28,8 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  atmBoundaryLayer(patch().Cf(), dict)
+  fixedValueFvPatchVectorField{p, iF},
+  atmBoundaryLayer{patch().Cf(), dict}
 {
   vectorField::operator=(U(patch().Cf()));
 }
@@ -42,8 +42,8 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(pvf, p, iF, mapper),
-  atmBoundaryLayer(pvf, mapper)
+  fixedValueFvPatchVectorField{pvf, p, iF, mapper},
+  atmBoundaryLayer{pvf, mapper}
 {}
 atmBoundaryLayerInletVelocityFvPatchVectorField::
 atmBoundaryLayerInletVelocityFvPatchVectorField
@@ -52,8 +52,8 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(pvf, iF),
-  atmBoundaryLayer(pvf)
+  fixedValueFvPatchVectorField{pvf, iF},
+  atmBoundaryLayer{pvf}
 {}
 // Member Functions 
 void atmBoundaryLayerInletVelocityFvPatchVectorField::autoMap
@@ -81,7 +81,7 @@ void atmBoundaryLayerInletVelocityFvPatchVectorField::write(Ostream& os) const
   atmBoundaryLayer::write(os);
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   atmBoundaryLayerInletVelocityFvPatchVectorField

@@ -92,7 +92,7 @@ mousse::tmp<mousse::scalarField> mousse::temperatureCoupledBase::kappa
       }
       else
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "temperatureCoupledBase::kappa(const scalarField&) const"
         )
@@ -144,7 +144,7 @@ mousse::tmp<mousse::scalarField> mousse::temperatureCoupledBase::kappa
       }
       else
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "temperatureCoupledBase::kappa(const scalarField&) const"
         )
@@ -161,7 +161,7 @@ mousse::tmp<mousse::scalarField> mousse::temperatureCoupledBase::kappa
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "temperatureCoupledBase::kappa(const scalarField&) const"
       )

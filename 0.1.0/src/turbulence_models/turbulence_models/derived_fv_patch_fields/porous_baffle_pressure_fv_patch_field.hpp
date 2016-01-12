@@ -70,7 +70,7 @@ class porousBafflePressureFvPatchField
     scalar length_;
 public:
   //- Runtime type information
-  TypeName("porousBafflePressure");
+  TYPE_NAME("porousBafflePressure");
   // Constructors
     //- Construct from patch and internal field
     porousBafflePressureFvPatchField

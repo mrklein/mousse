@@ -19,12 +19,12 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), "undefined", "undefined", "undefined-K"),
-  TnbrName_("undefined-Tnbr"),
-  thicknessLayers_(0),
-  kappaLayers_(0),
-  contactRes_(0)
+  mixedFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), "undefined", "undefined", "undefined-K"},
+  TnbrName_{"undefined-Tnbr"},
+  thicknessLayers_{0},
+  kappaLayers_{0},
+  contactRes_{0}
 {
   this->refValue() = 0.0;
   this->refGrad() = 0.0;
@@ -39,12 +39,12 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(ptf, p, iF, mapper),
-  temperatureCoupledBase(patch(), ptf),
-  TnbrName_(ptf.TnbrName_),
-  thicknessLayers_(ptf.thicknessLayers_),
-  kappaLayers_(ptf.kappaLayers_),
-  contactRes_(ptf.contactRes_)
+  mixedFvPatchScalarField{ptf, p, iF, mapper},
+  temperatureCoupledBase{patch(), ptf},
+  TnbrName_{ptf.TnbrName_},
+  thicknessLayers_{ptf.thicknessLayers_},
+  kappaLayers_{ptf.kappaLayers_},
+  contactRes_{ptf.contactRes_}
 {}
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
@@ -54,16 +54,16 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), dict),
-  TnbrName_(dict.lookup("Tnbr")),
-  thicknessLayers_(0),
-  kappaLayers_(0),
-  contactRes_(0.0)
+  mixedFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), dict},
+  TnbrName_{dict.lookup("Tnbr")},
+  thicknessLayers_{0},
+  kappaLayers_{0},
+  contactRes_{0.0}
 {
   if (!isA<mappedPatchBase>(this->patch().patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::"
       "turbulentTemperatureCoupledBaffleMixedFvPatchScalarField\n"
@@ -86,7 +86,7 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
     if (thicknessLayers_.size() > 0)
     {
       // Calculate effective thermal resistance by harmonic averaging
-      forAll (thicknessLayers_, iLayer)
+      FOR_ALL(thicknessLayers_, iLayer)
       {
         contactRes_ += thicknessLayers_[iLayer]/kappaLayers_[iLayer];
       }
@@ -116,12 +116,12 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(wtcsf, iF),
-  temperatureCoupledBase(patch(), wtcsf),
-  TnbrName_(wtcsf.TnbrName_),
-  thicknessLayers_(wtcsf.thicknessLayers_),
-  kappaLayers_(wtcsf.kappaLayers_),
-  contactRes_(wtcsf.contactRes_)
+  mixedFvPatchScalarField{wtcsf, iF},
+  temperatureCoupledBase{patch(), wtcsf},
+  TnbrName_{wtcsf.TnbrName_},
+  thicknessLayers_{wtcsf.thicknessLayers_},
+  kappaLayers_{wtcsf.kappaLayers_},
+  contactRes_{wtcsf.contactRes_}
 {}
 // Member Functions 
 void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::updateCoeffs()
@@ -155,8 +155,8 @@ void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::updateCoeffs()
     )
   );
   // Swap to obtain full local values of neighbour internal field
-  tmp<scalarField> nbrIntFld(new scalarField(nbrField.size(), 0.0));
-  tmp<scalarField> nbrKDelta(new scalarField(nbrField.size(), 0.0));
+  tmp<scalarField> nbrIntFld{new scalarField{nbrField.size(), 0.0}};
+  tmp<scalarField> nbrKDelta{new scalarField{nbrField.size(), 0.0}};
   if (contactRes_ == 0.0)
   {
     nbrIntFld() = nbrField.patchInternalField();
@@ -219,7 +219,7 @@ void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::write
   kappaLayers_.writeEntry("kappaLayers", os);
   temperatureCoupledBase::write(os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   turbulentTemperatureCoupledBaffleMixedFvPatchScalarField

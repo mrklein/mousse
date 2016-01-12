@@ -78,10 +78,6 @@ class kOmegaSST
 :
   public eddyViscosity<RASModel<BasicTurbulenceModel> >
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    kOmegaSST(const kOmegaSST&);
-    kOmegaSST& operator=(const kOmegaSST&);
 protected:
   // Protected data
     // Model coefficients
@@ -151,7 +147,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("kOmegaSST");
+  TYPE_NAME("kOmegaSST");
   // Constructors
     //- Construct from components
     kOmegaSST
@@ -165,6 +161,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    kOmegaSST(const kOmegaSST&) = delete;
+    kOmegaSST& operator=(const kOmegaSST&) = delete;
   //- Destructor
   virtual ~kOmegaSST()
   {}

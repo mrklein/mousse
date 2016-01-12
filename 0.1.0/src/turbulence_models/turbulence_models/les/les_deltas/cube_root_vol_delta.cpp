@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace LESModels
 {
-  defineTypeNameAndDebug(cubeRootVolDelta, 0);
-  addToRunTimeSelectionTable(LESdelta, cubeRootVolDelta, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(cubeRootVolDelta, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESdelta, cubeRootVolDelta, dictionary);
 }
 }
 // Private Member Functions 
@@ -24,7 +24,7 @@ void mousse::LESModels::cubeRootVolDelta::calcDelta()
   }
   else if (nD == 2)
   {
-    WarningIn("cubeRootVolDelta::calcDelta()")
+    WARNING_IN("cubeRootVolDelta::calcDelta()")
       << "Case is 2D, LES is not strictly applicable\n"
       << endl;
     const Vector<label>& directions = mesh.geometricD();
@@ -41,7 +41,7 @@ void mousse::LESModels::cubeRootVolDelta::calcDelta()
   }
   else
   {
-    FatalErrorIn("cubeRootVolDelta::calcDelta()")
+    FATAL_ERROR_IN("cubeRootVolDelta::calcDelta()")
       << "Case is not 3D or 2D, LES is not applicable"
       << exit(FatalError);
   }

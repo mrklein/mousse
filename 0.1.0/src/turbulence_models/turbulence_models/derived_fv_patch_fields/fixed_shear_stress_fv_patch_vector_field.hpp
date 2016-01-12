@@ -24,7 +24,7 @@ class fixedShearStressFvPatchVectorField
     const vector tau0_;
 public:
   //- Runtime type information
-  TypeName("fixedShearStress");
+  TYPE_NAME("fixedShearStress");
   // Constructors
     //- Construct from patch and internal field
     fixedShearStressFvPatchVectorField

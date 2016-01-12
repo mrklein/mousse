@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(simpleFilter, 0);
-  addToRunTimeSelectionTable(LESfilter, simpleFilter, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(simpleFilter, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESfilter, simpleFilter, dictionary);
 }
 // Constructors 
 mousse::simpleFilter::simpleFilter

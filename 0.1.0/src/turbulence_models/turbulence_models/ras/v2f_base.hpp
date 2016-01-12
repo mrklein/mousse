@@ -23,7 +23,7 @@ class v2fBase
 {
 public:
   //- Runtime type information
-  TypeName("v2fBase");
+  TYPE_NAME("v2fBase");
   // Constructors
     v2fBase()
     {}

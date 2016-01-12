@@ -110,19 +110,19 @@ tmp<fvScalarMatrix> kOmegaSST<BasicTurbulenceModel>::omegaSource() const
 template<class BasicTurbulenceModel>
 tmp<fvScalarMatrix> kOmegaSST<BasicTurbulenceModel>::Qsas
 (
-  const volScalarField& S2,
-  const volScalarField& gamma,
-  const volScalarField& beta
+  const volScalarField& /*S2*/,
+  const volScalarField& /*gamma*/,
+  const volScalarField& /*beta*/
 ) const
 {
   return tmp<fvScalarMatrix>
-  (
+  {
     new fvScalarMatrix
-    (
+    {
       omega_,
       dimVolume*this->rho_.dimensions()*omega_.dimensions()/dimTime
-    )
-  );
+    }
+  };
 }
 // Constructors 
 template<class BasicTurbulenceModel>

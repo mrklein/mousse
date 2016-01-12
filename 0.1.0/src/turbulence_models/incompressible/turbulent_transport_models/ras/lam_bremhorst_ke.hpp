@@ -31,9 +31,6 @@ class LamBremhorstKE
   public eddyViscosity<incompressible::RASModel>
 {
   // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    LamBremhorstKE(const LamBremhorstKE&);
-    LamBremhorstKE& operator=(const LamBremhorstKE&);
     tmp<volScalarField> Rt() const;
     tmp<volScalarField> fMu(const volScalarField& Rt) const;
     tmp<volScalarField> f1(const volScalarField& fMu) const;
@@ -55,7 +52,7 @@ protected:
     virtual void correctNut();
 public:
   //- Runtime type information
-  TypeName("LamBremhorstKE");
+  TYPE_NAME("LamBremhorstKE");
   // Constructors
     //- Construct from components
     LamBremhorstKE
@@ -69,6 +66,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    LamBremhorstKE(const LamBremhorstKE&) = delete;
+    LamBremhorstKE& operator=(const LamBremhorstKE&) = delete;
   //- Destructor
   virtual ~LamBremhorstKE()
   {}

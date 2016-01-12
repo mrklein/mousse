@@ -14,7 +14,7 @@ void mousse::externalCoupledTemperatureMixedFvPatchScalarField::writeHeader
   OFstream& os
 ) const
 {
-  os  << "# Values: magSf value qDot htc" << endl;
+  os << "# Values: magSf value qDot htc" << endl;
 }
 // Constructors 
 mousse::externalCoupledTemperatureMixedFvPatchScalarField::
@@ -24,7 +24,7 @@ externalCoupledTemperatureMixedFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  externalCoupledMixedFvPatchField<scalar>(p, iF)
+  externalCoupledMixedFvPatchField<scalar>{p, iF}
 {}
 mousse::externalCoupledTemperatureMixedFvPatchScalarField::
 externalCoupledTemperatureMixedFvPatchScalarField
@@ -35,7 +35,7 @@ externalCoupledTemperatureMixedFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  externalCoupledMixedFvPatchField<scalar>(ptf, p, iF, mapper)
+  externalCoupledMixedFvPatchField<scalar>{ptf, p, iF, mapper}
 {}
 mousse::externalCoupledTemperatureMixedFvPatchScalarField::
 externalCoupledTemperatureMixedFvPatchScalarField
@@ -45,7 +45,7 @@ externalCoupledTemperatureMixedFvPatchScalarField
   const dictionary& dict
 )
 :
-  externalCoupledMixedFvPatchField<scalar>(p, iF, dict)
+  externalCoupledMixedFvPatchField<scalar>{p, iF, dict}
 {}
 mousse::externalCoupledTemperatureMixedFvPatchScalarField::
 externalCoupledTemperatureMixedFvPatchScalarField
@@ -53,7 +53,7 @@ externalCoupledTemperatureMixedFvPatchScalarField
   const externalCoupledTemperatureMixedFvPatchScalarField& ecmpf
 )
 :
-  externalCoupledMixedFvPatchField<scalar>(ecmpf)
+  externalCoupledMixedFvPatchField<scalar>{ecmpf}
 {}
 mousse::externalCoupledTemperatureMixedFvPatchScalarField::
 externalCoupledTemperatureMixedFvPatchScalarField
@@ -62,7 +62,7 @@ externalCoupledTemperatureMixedFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  externalCoupledMixedFvPatchField<scalar>(ecmpf, iF)
+  externalCoupledMixedFvPatchField<scalar>{ecmpf, iF}
 {}
 // Destructor 
 mousse::externalCoupledTemperatureMixedFvPatchScalarField::
@@ -76,7 +76,8 @@ void mousse::externalCoupledTemperatureMixedFvPatchScalarField::transferData
 {
   if (log())
   {
-    Info<< type() << ": " << this->patch().name()
+    Info
+      << type() << ": " << this->patch().name()
       << ": writing data to " << os.name()
       << endl;
   }
@@ -109,15 +110,16 @@ void mousse::externalCoupledTemperatureMixedFvPatchScalarField::transferData
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::externalCoupledTemperatureMixedFvPatchScalarField::"
       "transferData"
       "("
         "OFstream&"
       ") const"
-    )   << "Condition requires either compressible turbulence and/or "
-      << "thermo model to be available" << exit(FatalError);
+    )
+    << "Condition requires either compressible turbulence and/or "
+    << "thermo model to be available" << exit(FatalError);
   }
   // patch temperature [K]
   const scalarField Tp(*this);
@@ -146,13 +148,13 @@ void mousse::externalCoupledTemperatureMixedFvPatchScalarField::transferData
     Pstream::gatherList(htcs, tag);
     if (Pstream::master())
     {
-      forAll(values, procI)
+      FOR_ALL(values, procI)
       {
         const Field<scalar>& magSf = magSfs[procI];
         const Field<scalar>& value = values[procI];
         const Field<scalar>& qDot = qDots[procI];
         const Field<scalar>& htc = htcs[procI];
-        forAll(magSf, faceI)
+        FOR_ALL(magSf, faceI)
         {
           os  << magSf[faceI] << token::SPACE
             << value[faceI] << token::SPACE
@@ -167,9 +169,9 @@ void mousse::externalCoupledTemperatureMixedFvPatchScalarField::transferData
   else
   {
     const Field<scalar>& magSf(this->patch().magSf());
-    forAll(patch(), faceI)
+    FOR_ALL(patch(), faceI)
     {
-      os  << magSf[faceI] << token::SPACE
+      os<< magSf[faceI] << token::SPACE
         << Tp[faceI] << token::SPACE
         << qDot[faceI] << token::SPACE
         << htc[faceI] << token::SPACE
@@ -194,9 +196,9 @@ void mousse::externalCoupledTemperatureMixedFvPatchScalarField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    externalCoupledTemperatureMixedFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  externalCoupledTemperatureMixedFvPatchScalarField
+);
 }

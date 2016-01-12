@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace LESModels
 {
-  defineTypeNameAndDebug(PrandtlDelta, 0);
-  addToRunTimeSelectionTable(LESdelta, PrandtlDelta, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(PrandtlDelta, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESdelta, PrandtlDelta, dictionary);
 }
 }
 // Private Member Functions 

@@ -150,9 +150,6 @@ private:
     autoPtr<LESdelta> geometricDelta_;
     scalar maxDeltaRatio_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    smoothDelta(const smoothDelta&);
-    void operator=(const smoothDelta&);
     // Calculate the delta values
     void calcDelta();
     //- Fill changedFaces (with face labels) and changedFacesInfo
@@ -177,7 +174,7 @@ private:
     );
 public:
   //- Runtime type information
-  TypeName("smooth");
+  TYPE_NAME("smooth");
   // Constructors
     //- Construct from name, turbulenceModel and dictionary
     smoothDelta
@@ -186,6 +183,9 @@ public:
       const turbulenceModel& turbulence,
       const dictionary&
     );
+    //- Disallow default bitwise copy construct and assignment
+    smoothDelta(const smoothDelta&) = delete;
+    smoothDelta& operator=(const smoothDelta&) = delete;
   //- Destructor
   virtual ~smoothDelta()
   {}

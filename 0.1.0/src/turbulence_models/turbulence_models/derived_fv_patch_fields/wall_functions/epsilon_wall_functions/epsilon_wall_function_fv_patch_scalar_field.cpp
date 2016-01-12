@@ -16,7 +16,7 @@ void mousse::epsilonWallFunctionFvPatchScalarField::checkType()
 {
   if (!isA<wallFvPatch>(patch()))
   {
-    FatalErrorIn("epsilonWallFunctionFvPatchScalarField::checkType()")
+    FATAL_ERROR_IN("epsilonWallFunctionFvPatchScalarField::checkType()")
       << "Invalid wall function specification" << nl
       << "    Patch type for patch " << patch().name()
       << " must be wall" << nl
@@ -43,7 +43,7 @@ void mousse::epsilonWallFunctionFvPatchScalarField::setMaster()
     static_cast<const volScalarField&>(this->dimensionedInternalField());
   const volScalarField::GeometricBoundaryField& bf = epsilon.boundaryField();
   label master = -1;
-  forAll(bf, patchi)
+  FOR_ALL(bf, patchi)
   {
     if (isA<epsilonWallFunctionFvPatchScalarField>(bf[patchi]))
     {
@@ -67,34 +67,34 @@ void mousse::epsilonWallFunctionFvPatchScalarField::createAveragingWeights()
     return;
   }
   volScalarField weights
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "weights",
       mesh.time().timeName(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false // do not register
-    ),
+    },
     mesh,
     dimensionedScalar("zero", dimless, 0.0)
-  );
-  DynamicList<label> epsilonPatches(bf.size());
-  forAll(bf, patchi)
+  };
+  DynamicList<label> epsilonPatches{bf.size()};
+  FOR_ALL(bf, patchi)
   {
     if (isA<epsilonWallFunctionFvPatchScalarField>(bf[patchi]))
     {
       epsilonPatches.append(patchi);
       const labelUList& faceCells = bf[patchi].patch().faceCells();
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         weights[faceCells[i]]++;
       }
     }
   }
   cornerWeights_.setSize(bf.size());
-  forAll(epsilonPatches, i)
+  FOR_ALL(epsilonPatches, i)
   {
     label patchi = epsilonPatches[i];
     const fvPatchScalarField& wf = weights.boundaryField()[patchi];
@@ -122,7 +122,7 @@ void mousse::epsilonWallFunctionFvPatchScalarField::calculateTurbulenceFields
 )
 {
   // accumulate all of the G and epsilon contributions
-  forAll(cornerWeights_, patchi)
+  FOR_ALL(cornerWeights_, patchi)
   {
     if (!cornerWeights_[patchi].empty())
     {
@@ -132,7 +132,7 @@ void mousse::epsilonWallFunctionFvPatchScalarField::calculateTurbulenceFields
     }
   }
   // apply zero-gradient condition for epsilon
-  forAll(cornerWeights_, patchi)
+  FOR_ALL(cornerWeights_, patchi)
   {
     if (!cornerWeights_[patchi].empty())
     {
@@ -163,7 +163,7 @@ void mousse::epsilonWallFunctionFvPatchScalarField::calculate
   const fvPatchVectorField& Uw = turbulence.U().boundaryField()[patchi];
   const scalarField magGradUw(mag(Uw.snGrad()));
   // Set epsilon and G
-  forAll(nutw, facei)
+  FOR_ALL(nutw, facei)
   {
     label celli = patch.faceCells()[facei];
     scalar w = cornerWeights[facei];
@@ -184,15 +184,15 @@ epsilonWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<scalar>(p, iF),
-  Cmu_(0.09),
-  kappa_(0.41),
-  E_(9.8),
-  G_(),
-  epsilon_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{p, iF},
+  Cmu_{0.09},
+  kappa_{0.41},
+  E_{9.8},
+  G_{},
+  epsilon_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
 }
@@ -205,15 +205,15 @@ epsilonWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<scalar>(ptf, p, iF, mapper),
-  Cmu_(ptf.Cmu_),
-  kappa_(ptf.kappa_),
-  E_(ptf.E_),
-  G_(),
-  epsilon_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{ptf, p, iF, mapper},
+  Cmu_{ptf.Cmu_},
+  kappa_{ptf.kappa_},
+  E_{ptf.E_},
+  G_{},
+  epsilon_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
 }
@@ -225,15 +225,15 @@ epsilonWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<scalar>(p, iF, dict),
-  Cmu_(dict.lookupOrDefault<scalar>("Cmu", 0.09)),
-  kappa_(dict.lookupOrDefault<scalar>("kappa", 0.41)),
-  E_(dict.lookupOrDefault<scalar>("E", 9.8)),
-  G_(),
-  epsilon_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{p, iF, dict},
+  Cmu_{dict.lookupOrDefault<scalar>("Cmu", 0.09)},
+  kappa_{dict.lookupOrDefault<scalar>("kappa", 0.41)},
+  E_{dict.lookupOrDefault<scalar>("E", 9.8)},
+  G_{},
+  epsilon_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
   // apply zero-gradient condition on start-up
@@ -245,15 +245,15 @@ epsilonWallFunctionFvPatchScalarField
   const epsilonWallFunctionFvPatchScalarField& ewfpsf
 )
 :
-  fixedValueFvPatchField<scalar>(ewfpsf),
-  Cmu_(ewfpsf.Cmu_),
-  kappa_(ewfpsf.kappa_),
-  E_(ewfpsf.E_),
-  G_(),
-  epsilon_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{ewfpsf},
+  Cmu_{ewfpsf.Cmu_},
+  kappa_{ewfpsf.kappa_},
+  E_{ewfpsf.E_},
+  G_{},
+  epsilon_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
 }
@@ -264,15 +264,15 @@ epsilonWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<scalar>(ewfpsf, iF),
-  Cmu_(ewfpsf.Cmu_),
-  kappa_(ewfpsf.kappa_),
-  E_(ewfpsf.E_),
-  G_(),
-  epsilon_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{ewfpsf, iF},
+  Cmu_{ewfpsf.Cmu_},
+  kappa_{ewfpsf.kappa_},
+  E_{ewfpsf.E_},
+  G_{},
+  epsilon_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
 }
@@ -333,7 +333,7 @@ void mousse::epsilonWallFunctionFvPatchScalarField::updateCoeffs()
       db().lookupObject<FieldType>(turbModel.GName())
     );
   FieldType& epsilon = const_cast<FieldType&>(dimensionedInternalField());
-  forAll(*this, facei)
+  FOR_ALL(*this, facei)
   {
     label celli = patch().faceCells()[facei];
     G[celli] = G0[celli];
@@ -375,7 +375,7 @@ void mousse::epsilonWallFunctionFvPatchScalarField::updateCoeffs
   FieldType& epsilon = const_cast<FieldType&>(dimensionedInternalField());
   scalarField& epsilonf = *this;
   // only set the values if the weights are > tolerance
-  forAll(weights, facei)
+  FOR_ALL(weights, facei)
   {
     scalar w = weights[facei];
     if (w > tolerance_)
@@ -410,13 +410,13 @@ void mousse::epsilonWallFunctionFvPatchScalarField::manipulateMatrix
   {
     return;
   }
-  DynamicList<label> constraintCells(weights.size());
-  DynamicList<scalar> constraintEpsilon(weights.size());
+  DynamicList<label> constraintCells{weights.size()};
+  DynamicList<scalar> constraintEpsilon{weights.size()};
   const labelUList& faceCells = patch().faceCells();
   const DimensionedField<scalar, volMesh>& epsilon
     = dimensionedInternalField();
   label nConstrainedCells = 0;
-  forAll(weights, facei)
+  FOR_ALL(weights, facei)
   {
     // only set the values if the weights are > tolerance
     if (weights[facei] > tolerance_)
@@ -448,9 +448,9 @@ void mousse::epsilonWallFunctionFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    epsilonWallFunctionFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  epsilonWallFunctionFvPatchScalarField
+);
 }

@@ -2,7 +2,7 @@
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#define makeBaseTurbulenceModel(Alpha, Rho, baseModel, BaseModel, Transport)  \
+#define MAKE_BASE_TURBULENCE_MODEL(Alpha, Rho, baseModel, BaseModel, Transport)\
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
@@ -14,7 +14,7 @@
       Transport                                                               \
     > Transport##baseModel;                                                   \
                                                                               \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       Transport##baseModel,                                                   \
       dictionary                                                              \
@@ -25,9 +25,9 @@
                                                                               \
     typedef laminar<Transport##BaseModel> Laminar##Transport##BaseModel;      \
                                                                               \
-    defineNamedTemplateTypeNameAndDebug(Laminar##Transport##BaseModel, 0);    \
+    DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(Laminar##Transport##BaseModel, 0);\
                                                                               \
-    addToRunTimeSelectionTable                                                \
+    ADD_TO_RUN_TIME_SELECTION_TABLE                                           \
     (                                                                         \
       Transport##baseModel,                                                   \
       Laminar##Transport##BaseModel,                                          \
@@ -37,12 +37,12 @@
                                                                               \
     typedef RASModel<Transport##BaseModel> RAS##Transport##BaseModel;         \
                                                                               \
-    defineNamedTemplateTypeNameAndDebug(RAS##Transport##BaseModel, 0);        \
+    DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(RAS##Transport##BaseModel, 0);  \
                                                                               \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (RAS##Transport##BaseModel, dictionary);                                  \
                                                                               \
-    addToRunTimeSelectionTable                                                \
+    ADD_TO_RUN_TIME_SELECTION_TABLE                                           \
     (                                                                         \
       Transport##baseModel,                                                   \
       RAS##Transport##BaseModel,                                              \
@@ -52,12 +52,12 @@
                                                                               \
     typedef LESModel<Transport##BaseModel> LES##Transport##BaseModel;         \
                                                                               \
-    defineNamedTemplateTypeNameAndDebug(LES##Transport##BaseModel, 0);        \
+    DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(LES##Transport##BaseModel, 0);  \
                                                                               \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (LES##Transport##BaseModel, dictionary);                                  \
                                                                               \
-    addToRunTimeSelectionTable                                                \
+    ADD_TO_RUN_TIME_SELECTION_TABLE                                           \
     (                                                                         \
       Transport##baseModel,                                                   \
       LES##Transport##BaseModel,                                              \
@@ -65,8 +65,9 @@
     );                                                                        \
   }
 
-#define makeTemplatedTurbulenceModel(BaseModel, SType, Type)                  \
-  defineNamedTemplateTypeNameAndDebug                                         \
+
+#define MAKE_TEMPLATED_TURBULENCE_MODEL(BaseModel, SType, Type)               \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
     (mousse::SType##Models::Type<mousse::BaseModel>, 0);                      \
                                                                               \
   namespace mousse                                                            \
@@ -75,7 +76,7 @@
     {                                                                         \
       typedef Type<BaseModel> Type##SType##BaseModel;                         \
                                                                               \
-      addToRunTimeSelectionTable                                              \
+      ADD_TO_RUN_TIME_SELECTION_TABLE                                         \
       (                                                                       \
         SType##BaseModel,                                                     \
         Type##SType##BaseModel,                                               \
@@ -84,14 +85,15 @@
     }                                                                         \
   }
 
-#define makeTurbulenceModel(BaseModel, SType, Type)                           \
+
+#define MAKE_TURBULENCE_MODEL(BaseModel, SType, Type)                         \
   namespace mousse                                                            \
   {                                                                           \
     namespace SType##Models                                                   \
     {                                                                         \
-      defineTypeNameAndDebug(Type, 0);                                        \
+      DEFINE_TYPE_NAME_AND_DEBUG(Type, 0);                                    \
                                                                               \
-      addToRunTimeSelectionTable                                              \
+      ADD_TO_RUN_TIME_SELECTION_TABLE                                         \
       (                                                                       \
         SType##BaseModel,                                                     \
         Type,                                                                 \

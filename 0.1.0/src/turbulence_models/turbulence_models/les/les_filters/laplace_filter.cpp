@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(laplaceFilter, 0);
-  addToRunTimeSelectionTable(LESfilter, laplaceFilter, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(laplaceFilter, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESfilter, laplaceFilter, dictionary);
 }
 // Constructors 
 mousse::laplaceFilter::laplaceFilter(const fvMesh& mesh, scalar widthCoeff)

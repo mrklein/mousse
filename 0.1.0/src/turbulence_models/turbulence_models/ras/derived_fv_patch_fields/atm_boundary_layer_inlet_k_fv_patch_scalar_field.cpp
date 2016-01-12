@@ -17,8 +17,8 @@ atmBoundaryLayerInletKFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  atmBoundaryLayer()
+  fixedValueFvPatchScalarField{p, iF},
+  atmBoundaryLayer{}
 {}
 atmBoundaryLayerInletKFvPatchScalarField::
 atmBoundaryLayerInletKFvPatchScalarField
@@ -28,8 +28,8 @@ atmBoundaryLayerInletKFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  atmBoundaryLayer(patch().Cf(), dict)
+  fixedValueFvPatchScalarField{p, iF},
+  atmBoundaryLayer{patch().Cf(), dict}
 {
   scalarField::operator=(k(patch().Cf()));
 }
@@ -42,8 +42,8 @@ atmBoundaryLayerInletKFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(psf, p, iF, mapper),
-  atmBoundaryLayer(psf, mapper)
+  fixedValueFvPatchScalarField{psf, p, iF, mapper},
+  atmBoundaryLayer{psf, mapper}
 {}
 atmBoundaryLayerInletKFvPatchScalarField::
 atmBoundaryLayerInletKFvPatchScalarField
@@ -52,8 +52,8 @@ atmBoundaryLayerInletKFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(psf, iF),
-  atmBoundaryLayer(psf)
+  fixedValueFvPatchScalarField{psf, iF},
+  atmBoundaryLayer{psf}
 {}
 // Member Functions 
 void atmBoundaryLayerInletKFvPatchScalarField::autoMap
@@ -81,7 +81,7 @@ void atmBoundaryLayerInletKFvPatchScalarField::write(Ostream& os) const
   atmBoundaryLayer::write(os);
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   atmBoundaryLayerInletKFvPatchScalarField

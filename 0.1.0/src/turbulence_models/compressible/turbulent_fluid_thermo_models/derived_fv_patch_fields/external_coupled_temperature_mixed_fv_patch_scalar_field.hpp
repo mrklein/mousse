@@ -76,7 +76,7 @@ protected:
     virtual void writeHeader(OFstream& os) const;
 public:
   //- Runtime type information
-  TypeName("externalCoupledTemperature");
+  TYPE_NAME("externalCoupledTemperature");
   // Constructors
     //- Construct from patch and internal field
     externalCoupledTemperatureMixedFvPatchScalarField

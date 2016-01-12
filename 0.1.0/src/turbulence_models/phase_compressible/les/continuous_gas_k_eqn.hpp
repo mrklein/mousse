@@ -39,10 +39,6 @@ class continuousGasKEqn
 {
   // Private data
     mutable const turbulenceModel *liquidTurbulencePtr_;
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    continuousGasKEqn(const continuousGasKEqn&);
-    continuousGasKEqn& operator=(const continuousGasKEqn&);
 protected:
   // Protected data
     // Model coefficients
@@ -57,7 +53,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("continuousGasKEqn");
+  TYPE_NAME("continuousGasKEqn");
   // Constructors
     //- Construct from components
     continuousGasKEqn
@@ -71,6 +67,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    continuousGasKEqn(const continuousGasKEqn&) = delete;
+    continuousGasKEqn& operator=(const continuousGasKEqn&) = delete;
   //- Destructor
   virtual ~continuousGasKEqn()
   {}

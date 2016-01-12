@@ -17,18 +17,17 @@ class simpleFilter
 :
   public LESfilter
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    simpleFilter(const simpleFilter&);
-    void operator=(const simpleFilter&);
 public:
   //- Runtime type information
-  TypeName("simple");
+  TYPE_NAME("simple");
   // Constructors
     //- Construct from components
     simpleFilter(const fvMesh& mesh);
     //- Construct from IOdictionary
     simpleFilter(const fvMesh& mesh, const dictionary&);
+    //- Disallow default bitwise copy construct and assignment
+    simpleFilter(const simpleFilter&) = delete;
+    simpleFilter& operator=(const simpleFilter&) = delete;
   //- Destructor
   virtual ~simpleFilter()
   {}

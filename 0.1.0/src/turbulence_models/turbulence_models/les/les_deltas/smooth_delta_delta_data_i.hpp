@@ -46,7 +46,7 @@ inline mousse::LESModels::smoothDelta::deltaData::deltaData(const scalar delta)
 template<class TrackingData>
 inline bool mousse::LESModels::smoothDelta::deltaData::valid
 (
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return delta_ > -SMALL;
@@ -57,7 +57,7 @@ inline bool mousse::LESModels::smoothDelta::deltaData::sameGeometry
   const polyMesh&,
   const deltaData&,
   const scalar,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return true;
@@ -69,7 +69,7 @@ inline void mousse::LESModels::smoothDelta::deltaData::leaveDomain
   const polyPatch&,
   const label,
   const point&,
-  TrackingData& td
+  TrackingData&
 )
 {}
 template<class TrackingData>
@@ -77,7 +77,7 @@ inline void mousse::LESModels::smoothDelta::deltaData::transform
 (
   const polyMesh&,
   const tensor&,
-  TrackingData& td
+  TrackingData&
 )
 {}
 template<class TrackingData>
@@ -87,7 +87,7 @@ inline void mousse::LESModels::smoothDelta::deltaData::enterDomain
   const polyPatch&,
   const label,
   const point&,
-  TrackingData& td
+  TrackingData&
 )
 {}
 template<class TrackingData>
@@ -135,7 +135,7 @@ template<class TrackingData>
 inline bool mousse::LESModels::smoothDelta::deltaData::equal
 (
   const deltaData& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

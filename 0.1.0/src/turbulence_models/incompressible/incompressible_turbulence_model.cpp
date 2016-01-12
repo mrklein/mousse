@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(incompressibleTurbulenceModel, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(incompressibleTurbulenceModel, 0);
 }
 // Constructors 
 mousse::incompressibleTurbulenceModel::incompressibleTurbulenceModel

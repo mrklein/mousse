@@ -71,7 +71,7 @@ kOmegaSSTSAS<BasicTurbulenceModel>::kOmegaSSTSAS
   const surfaceScalarField& phi,
   const transportModel& transport,
   const word& propertiesName,
-  const word& type
+  const word& /*type*/
 )
 :
   kOmegaSST<BasicTurbulenceModel>

@@ -48,10 +48,6 @@ class LaunderSharmaKE
 :
   public eddyViscosity<RASModel<BasicTurbulenceModel> >
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    LaunderSharmaKE(const LaunderSharmaKE&);
-    LaunderSharmaKE& operator=(const LaunderSharmaKE&);
 protected:
   // Protected data
     // Model coefficients
@@ -75,7 +71,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("LaunderSharmaKE");
+  TYPE_NAME("LaunderSharmaKE");
   // Constructors
     //- Construct from components
     LaunderSharmaKE
@@ -89,6 +85,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    LaunderSharmaKE(const LaunderSharmaKE&) = delete;
+    LaunderSharmaKE& operator=(const LaunderSharmaKE&) = delete;
   //- Destructor
   virtual ~LaunderSharmaKE()
   {}

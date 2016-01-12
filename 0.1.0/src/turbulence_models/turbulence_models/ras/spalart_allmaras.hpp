@@ -51,10 +51,6 @@ class SpalartAllmaras
 :
   public eddyViscosity<RASModel<BasicTurbulenceModel> >
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    SpalartAllmaras(const SpalartAllmaras&);
-    SpalartAllmaras& operator=(const SpalartAllmaras&);
 protected:
   // Protected data
     // Model coefficients
@@ -94,7 +90,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("SpalartAllmaras");
+  TYPE_NAME("SpalartAllmaras");
   // Constructors
     //- Construct from components
     SpalartAllmaras
@@ -108,6 +104,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    SpalartAllmaras(const SpalartAllmaras&) = delete;
+    SpalartAllmaras& operator=(const SpalartAllmaras&) = delete;
   //- Destructor
   virtual ~SpalartAllmaras()
   {}

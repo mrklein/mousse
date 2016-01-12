@@ -36,7 +36,7 @@ void mousse::ReynoldsStress<BasicTurbulenceModel>::correctWallShearStress
 ) const
 {
   const fvPatchList& patches = this->mesh_.boundary();
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     const fvPatch& curPatch = patches[patchi];
     if (isA<wallFvPatch>(curPatch))
@@ -51,7 +51,7 @@ void mousse::ReynoldsStress<BasicTurbulenceModel>::correctWallShearStress
         = this->mesh_.Sf().boundaryField()[patchi];
       const scalarField& magFaceAreas
         = this->mesh_.magSf().boundaryField()[patchi];
-      forAll(curPatch, facei)
+      FOR_ALL(curPatch, facei)
       {
         // Calculate near-wall velocity gradient
         tensor gradUw
@@ -127,7 +127,7 @@ mousse::ReynoldsStress<BasicTurbulenceModel>::ReynoldsStress
 {
   if (couplingFactor_.value() < 0.0 || couplingFactor_.value() > 1.0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ReynoldsStress::ReynoldsStress"
     )   << "couplingFactor = " << couplingFactor_

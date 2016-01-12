@@ -35,17 +35,17 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), "undefined", "undefined", "undefined-K"),
-  mode_(unknown),
-  q_(p.size(), 0.0),
-  h_(p.size(), 0.0),
-  Ta_(p.size(), 0.0),
-  QrPrevious_(p.size()),
-  QrRelaxation_(1),
-  QrName_("undefined-Qr"),
-  thicknessLayers_(),
-  kappaLayers_()
+  mixedFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), "undefined", "undefined", "undefined-K"},
+  mode_{unknown},
+  q_{p.size(), 0.0},
+  h_{p.size(), 0.0},
+  Ta_{p.size(), 0.0},
+  QrPrevious_{p.size()},
+  QrRelaxation_{1},
+  QrName_{"undefined-Qr"},
+  thicknessLayers_{},
+  kappaLayers_{}
 {
   refValue() = 0.0;
   refGrad() = 0.0;
@@ -60,17 +60,17 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(ptf, p, iF, mapper),
-  temperatureCoupledBase(patch(), ptf),
-  mode_(ptf.mode_),
-  q_(ptf.q_, mapper),
-  h_(ptf.h_, mapper),
-  Ta_(ptf.Ta_, mapper),
-  QrPrevious_(ptf.QrPrevious_, mapper),
-  QrRelaxation_(ptf.QrRelaxation_),
-  QrName_(ptf.QrName_),
-  thicknessLayers_(ptf.thicknessLayers_),
-  kappaLayers_(ptf.kappaLayers_)
+  mixedFvPatchScalarField{ptf, p, iF, mapper},
+  temperatureCoupledBase{patch(), ptf},
+  mode_{ptf.mode_},
+  q_{ptf.q_, mapper},
+  h_{ptf.h_, mapper},
+  Ta_{ptf.Ta_, mapper},
+  QrPrevious_{ptf.QrPrevious_, mapper},
+  QrRelaxation_{ptf.QrRelaxation_},
+  QrName_{ptf.QrName_},
+  thicknessLayers_{ptf.thicknessLayers_},
+  kappaLayers_{ptf.kappaLayers_}
 {}
 mousse::externalWallHeatFluxTemperatureFvPatchScalarField::
 externalWallHeatFluxTemperatureFvPatchScalarField
@@ -80,17 +80,17 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), dict),
-  mode_(unknown),
-  q_(p.size(), 0.0),
-  h_(p.size(), 0.0),
-  Ta_(p.size(), 0.0),
-  QrPrevious_(p.size(), 0.0),
-  QrRelaxation_(dict.lookupOrDefault<scalar>("relaxation", 1)),
-  QrName_(dict.lookupOrDefault<word>("Qr", "none")),
-  thicknessLayers_(),
-  kappaLayers_()
+  mixedFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), dict},
+  mode_{unknown},
+  q_{p.size(), 0.0},
+  h_{p.size(), 0.0},
+  Ta_{p.size(), 0.0},
+  QrPrevious_{p.size(), 0.0},
+  QrRelaxation_{dict.lookupOrDefault<scalar>("relaxation", 1)},
+  QrName_{dict.lookupOrDefault<word>("Qr", "none")},
+  thicknessLayers_{},
+  kappaLayers_{}
 {
   if (dict.found("q") && !dict.found("h") && !dict.found("Ta"))
   {
@@ -110,7 +110,7 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "externalWallHeatFluxTemperatureFvPatchScalarField::"
       "externalWallHeatFluxTemperatureFvPatchScalarField\n"
@@ -119,12 +119,13 @@ externalWallHeatFluxTemperatureFvPatchScalarField
       "    const DimensionedField<scalar, volMesh>& iF,\n"
       "    const dictionary& dict\n"
       ")\n"
-    )   << "\n patch type '" << p.type()
-      << "' either q or h and Ta were not found '"
-      << "\n for patch " << p.name()
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "\n patch type '" << p.type()
+    << "' either q or h and Ta were not found '"
+    << "\n for patch " << p.name()
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
   if (dict.found("QrPrevious"))
@@ -152,17 +153,17 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   const externalWallHeatFluxTemperatureFvPatchScalarField& tppsf
 )
 :
-  mixedFvPatchScalarField(tppsf),
-  temperatureCoupledBase(tppsf),
-  mode_(tppsf.mode_),
-  q_(tppsf.q_),
-  h_(tppsf.h_),
-  Ta_(tppsf.Ta_),
-  QrPrevious_(tppsf.QrPrevious_),
-  QrRelaxation_(tppsf.QrRelaxation_),
-  QrName_(tppsf.QrName_),
-  thicknessLayers_(tppsf.thicknessLayers_),
-  kappaLayers_(tppsf.kappaLayers_)
+  mixedFvPatchScalarField{tppsf},
+  temperatureCoupledBase{tppsf},
+  mode_{tppsf.mode_},
+  q_{tppsf.q_},
+  h_{tppsf.h_},
+  Ta_{tppsf.Ta_},
+  QrPrevious_{tppsf.QrPrevious_},
+  QrRelaxation_{tppsf.QrRelaxation_},
+  QrName_{tppsf.QrName_},
+  thicknessLayers_{tppsf.thicknessLayers_},
+  kappaLayers_{tppsf.kappaLayers_}
 {}
 mousse::externalWallHeatFluxTemperatureFvPatchScalarField::
 externalWallHeatFluxTemperatureFvPatchScalarField
@@ -171,17 +172,17 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(tppsf, iF),
-  temperatureCoupledBase(patch(), tppsf),
-  mode_(tppsf.mode_),
-  q_(tppsf.q_),
-  h_(tppsf.h_),
-  Ta_(tppsf.Ta_),
-  QrPrevious_(tppsf.QrPrevious_),
-  QrRelaxation_(tppsf.QrRelaxation_),
-  QrName_(tppsf.QrName_),
-  thicknessLayers_(tppsf.thicknessLayers_),
-  kappaLayers_(tppsf.kappaLayers_)
+  mixedFvPatchScalarField{tppsf, iF},
+  temperatureCoupledBase{patch(), tppsf},
+  mode_{tppsf.mode_},
+  q_{tppsf.q_},
+  h_{tppsf.h_},
+  Ta_{tppsf.Ta_},
+  QrPrevious_{tppsf.QrPrevious_},
+  QrRelaxation_{tppsf.QrRelaxation_},
+  QrName_{tppsf.QrName_},
+  thicknessLayers_{tppsf.thicknessLayers_},
+  kappaLayers_{tppsf.kappaLayers_}
 {}
 // Member Functions 
 void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::autoMap
@@ -236,7 +237,7 @@ void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
       scalar totalSolidRes = 0.0;
       if (thicknessLayers_.size() > 0)
       {
-        forAll (thicknessLayers_, iLayer)
+        FOR_ALL(thicknessLayers_, iLayer)
         {
           const scalar l = thicknessLayers_[iLayer];
           if (kappaLayers_[iLayer] > 0.0)
@@ -255,19 +256,21 @@ void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "externalWallHeatFluxTemperatureFvPatchScalarField"
         "::updateCoeffs()"
-      )   << "Illegal heat flux mode " << operationModeNames[mode_]
-        << exit(FatalError);
+      )
+      << "Illegal heat flux mode " << operationModeNames[mode_]
+      << exit(FatalError);
     }
   }
   mixedFvPatchScalarField::updateCoeffs();
   if (debug)
   {
     scalar Q = gSum(kappa(Tp)*patch().magSf()*snGrad());
-    Info<< patch().boundaryMesh().mesh().name() << ':'
+    Info
+      << patch().boundaryMesh().mesh().name() << ':'
       << patch().name() << ':'
       << this->dimensionedInternalField().name() << " :"
       << " heat transfer rate:" << Q
@@ -306,7 +309,7 @@ void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::write
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void externalWallHeatFluxTemperatureFvPatchScalarField::write"
         "("
@@ -319,9 +322,9 @@ void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    externalWallHeatFluxTemperatureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  externalWallHeatFluxTemperatureFvPatchScalarField
+);
 }

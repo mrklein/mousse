@@ -43,10 +43,6 @@ class buoyantKEpsilon
 :
   public kEpsilon<BasicTurbulenceModel>
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    buoyantKEpsilon(const buoyantKEpsilon&);
-    buoyantKEpsilon& operator=(const buoyantKEpsilon&);
 protected:
   // Protected data
     // Model coefficients
@@ -60,7 +56,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("buoyantKEpsilon");
+  TYPE_NAME("buoyantKEpsilon");
   // Constructors
     //- Construct from components
     buoyantKEpsilon
@@ -74,6 +70,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    buoyantKEpsilon(const buoyantKEpsilon&) = delete;
+    buoyantKEpsilon& operator=(const buoyantKEpsilon&) = delete;
   //- Destructor
   virtual ~buoyantKEpsilon()
   {}

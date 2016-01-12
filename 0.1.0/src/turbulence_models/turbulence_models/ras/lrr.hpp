@@ -61,10 +61,6 @@ class LRR
 :
   public ReynoldsStress<RASModel<BasicTurbulenceModel> >
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    LRR(const LRR&);
-    LRR& operator=(const LRR&);
 protected:
   // Protected data
     // Model coefficients
@@ -91,7 +87,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("LRR");
+  TYPE_NAME("LRR");
   // Constructors
     //- Construct from components
     LRR
@@ -105,6 +101,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    LRR(const LRR&) = delete;
+    LRR& operator=(const LRR&) = delete;
   //- Destructor
   virtual ~LRR()
   {}

@@ -55,7 +55,7 @@ protected:
     virtual void correctNonlinearStress(const volTensorField& gradU);
 public:
   //- Runtime type information
-  TypeName("ShihQuadraticKE");
+  TYPE_NAME("ShihQuadraticKE");
   // Constructors
     //- Construct from components
     ShihQuadraticKE

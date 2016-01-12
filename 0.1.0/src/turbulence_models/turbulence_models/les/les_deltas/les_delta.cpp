@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(LESdelta, 0);
-  defineRunTimeSelectionTable(LESdelta, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(LESdelta, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(LESdelta, dictionary);
 }
 // Constructors 
 mousse::LESdelta::LESdelta
@@ -47,7 +47,7 @@ mousse::autoPtr<mousse::LESdelta> mousse::LESdelta::New
     dictionaryConstructorTablePtr_->find(deltaType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "LESdelta::New(const word& name, const turbulenceModel& turbulence)"
     )   << "Unknown LESdelta type "
@@ -81,7 +81,7 @@ mousse::autoPtr<mousse::LESdelta> mousse::LESdelta::New
       dictionaryConstructorTablePtr_->find(deltaType);
     if (cstrIter == dictionaryConstructorTablePtr_->end())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "LESdelta::New(const word& name, "
         "const turbulenceModel& turbulence, "

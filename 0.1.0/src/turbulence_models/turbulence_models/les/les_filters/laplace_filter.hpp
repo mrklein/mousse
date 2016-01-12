@@ -26,18 +26,17 @@ class laplaceFilter
   // Private data
     scalar widthCoeff_;
     volScalarField coeff_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    laplaceFilter(const laplaceFilter&);
-    void operator=(const laplaceFilter&);
 public:
   //- Runtime type information
-  TypeName("laplace");
+  TYPE_NAME("laplace");
   // Constructors
     //- Construct from components
     laplaceFilter(const fvMesh& mesh, scalar widthCoeff);
     //- Construct from IOdictionary
     laplaceFilter(const fvMesh& mesh, const dictionary&);
+    //- Disallow default bitwise copy construct and assignment
+    laplaceFilter(const laplaceFilter&) = delete;
+    laplaceFilter& operator=(const laplaceFilter&) = delete;
   //- Destructor
   virtual ~laplaceFilter()
   {}

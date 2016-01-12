@@ -18,8 +18,8 @@ convectiveHeatTransferFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  L_(1.0)
+  fixedValueFvPatchScalarField{p, iF},
+  L_{1.0}
 {}
 convectiveHeatTransferFvPatchScalarField::
 convectiveHeatTransferFvPatchScalarField
@@ -30,8 +30,8 @@ convectiveHeatTransferFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  L_(ptf.L_)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  L_{ptf.L_}
 {}
 convectiveHeatTransferFvPatchScalarField::
 convectiveHeatTransferFvPatchScalarField
@@ -41,8 +41,8 @@ convectiveHeatTransferFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF, dict),
-  L_(readScalar(dict.lookup("L")))
+  fixedValueFvPatchScalarField{p, iF, dict},
+  L_{readScalar(dict.lookup("L"))}
 {}
 convectiveHeatTransferFvPatchScalarField::
 convectiveHeatTransferFvPatchScalarField
@@ -50,8 +50,8 @@ convectiveHeatTransferFvPatchScalarField
   const convectiveHeatTransferFvPatchScalarField& htcpsf
 )
 :
-  fixedValueFvPatchScalarField(htcpsf),
-  L_(htcpsf.L_)
+  fixedValueFvPatchScalarField{htcpsf},
+  L_{htcpsf.L_}
 {}
 convectiveHeatTransferFvPatchScalarField::
 convectiveHeatTransferFvPatchScalarField
@@ -60,8 +60,8 @@ convectiveHeatTransferFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(htcpsf, iF),
-  L_(htcpsf.L_)
+  fixedValueFvPatchScalarField{htcpsf, iF},
+  L_{htcpsf.L_}
 {}
 // Member Functions 
 void convectiveHeatTransferFvPatchScalarField::updateCoeffs()
@@ -92,7 +92,7 @@ void convectiveHeatTransferFvPatchScalarField::updateCoeffs()
   const scalarField kappaw(Cpw*alphaEffw);
   const scalarField Pr(muw*Cpw/kappaw);
   scalarField& htc = *this;
-  forAll(htc, faceI)
+  FOR_ALL(htc, faceI)
   {
     label faceCellI = patch().faceCells()[faceI];
     scalar Re = rhow[faceI]*mag(Uc[faceCellI] - Uw[faceI])*L_/muw[faceI];
@@ -114,7 +114,7 @@ void convectiveHeatTransferFvPatchScalarField::write(Ostream& os) const
   os.writeKeyword("L") << L_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   convectiveHeatTransferFvPatchScalarField

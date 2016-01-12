@@ -181,7 +181,7 @@ baffleThickness() const
   {
     if (thickness_.size() != patch().size())
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         " template<class solidType>"
         " tmp<scalarField> thermalBaffle1DFvPatchScalarField<solidType>"
@@ -306,7 +306,7 @@ void thermalBaffle1DFvPatchScalarField<solidType>::updateCoeffs()
     mapDist.distribute(nbrTp);
     // solid properties
     scalarField kappas(patch().size(), 0.0);
-    forAll(kappas, i)
+    FOR_ALL(kappas, i)
     {
       kappas[i] = solid().kappa(0.0, (Tp[i] + nbrTp[i])/2.0);
     }

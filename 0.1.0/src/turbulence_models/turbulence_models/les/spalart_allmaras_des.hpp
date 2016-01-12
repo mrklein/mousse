@@ -29,10 +29,6 @@ class SpalartAllmarasDES
 :
   public LESeddyViscosity<BasicTurbulenceModel>
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    SpalartAllmarasDES(const SpalartAllmarasDES&);
-    SpalartAllmarasDES& operator=(const SpalartAllmarasDES&);
 protected:
   // Protected data
     // Model constants
@@ -95,7 +91,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("SpalartAllmarasDES");
+  TYPE_NAME("SpalartAllmarasDES");
   // Constructors
     //- Construct from components
     SpalartAllmarasDES
@@ -109,6 +105,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    SpalartAllmarasDES(const SpalartAllmarasDES&) = delete;
+    SpalartAllmarasDES& operator=(const SpalartAllmarasDES&) = delete;
   //- Destructor
   virtual ~SpalartAllmarasDES()
   {}

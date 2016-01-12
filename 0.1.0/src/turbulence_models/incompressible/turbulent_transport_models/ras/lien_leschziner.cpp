@@ -13,8 +13,8 @@ namespace incompressible
 namespace RASModels
 {
 // Static Data Members
-defineTypeNameAndDebug(LienLeschziner, 0);
-addToRunTimeSelectionTable(RASModel, LienLeschziner, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(LienLeschziner, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(RASModel, LienLeschziner, dictionary);
 // Protected Member Functions 
 tmp<volScalarField> LienLeschziner::fMu() const
 {

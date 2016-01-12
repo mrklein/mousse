@@ -48,7 +48,7 @@ protected:
     virtual tmp<scalarField> calcUTau(const scalarField& magGradU) const;
 public:
   //- Runtime type information
-  TypeName("nutUSpaldingWallFunction");
+  TYPE_NAME("nutUSpaldingWallFunction");
   // Constructors
     //- Construct from patch and internal field
     nutUSpaldingWallFunctionFvPatchScalarField

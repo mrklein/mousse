@@ -68,7 +68,7 @@ private:
     word QrName_;
 public:
   //- Runtime type information
-  TypeName("compressible::turbulentHeatFluxTemperature");
+  TYPE_NAME("compressible::turbulentHeatFluxTemperature");
   // Constructors
     //- Construct from patch and internal field
     turbulentHeatFluxTemperatureFvPatchScalarField

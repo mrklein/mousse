@@ -138,9 +138,9 @@ void mousse::porousBafflePressureFvPatchField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    porousBafflePressureFvPatchField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  porousBafflePressureFvPatchField
+);
 }

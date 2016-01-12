@@ -38,10 +38,6 @@ class kEqn
 :
   public LESeddyViscosity<BasicTurbulenceModel>
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    kEqn(const kEqn&);
-    kEqn& operator=(const kEqn&);
 protected:
   // Protected data
     // Fields
@@ -56,7 +52,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("kEqn");
+  TYPE_NAME("kEqn");
   // Constructors
     //- Constructor from components
     kEqn
@@ -70,6 +66,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    kEqn(const kEqn&) = delete;
+    kEqn& operator=(const kEqn&) = delete;
   //- Destructor
   virtual ~kEqn()
   {}

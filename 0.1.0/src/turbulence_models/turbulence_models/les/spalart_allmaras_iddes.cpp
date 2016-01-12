@@ -113,11 +113,11 @@ SpalartAllmarasIDDES<BasicTurbulenceModel>::SpalartAllmarasIDDES
   const surfaceScalarField& phi,
   const transportModel& transport,
   const word& propertiesName,
-  const word& type
+  const word& /*type*/
 )
 :
   SpalartAllmarasDES<BasicTurbulenceModel>
-  (
+  {
     alpha,
     rho,
     U,
@@ -125,35 +125,35 @@ SpalartAllmarasIDDES<BasicTurbulenceModel>::SpalartAllmarasIDDES
     phi,
     transport,
     propertiesName
-  ),
+  },
   fwStar_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "fwStar",
       this->coeffDict_,
       0.424
     )
-  ),
+  },
   cl_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "cl",
       this->coeffDict_,
       3.55
     )
-  ),
+  },
   ct_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "ct",
       this->coeffDict_,
       1.63
     )
-  ),
-  IDDESDelta_(refCast<IDDESDelta>(this->delta_()))
+  },
+  IDDESDelta_{refCast<IDDESDelta>(this->delta_())}
 {}
 // Member Functions 
 template<class BasicTurbulenceModel>

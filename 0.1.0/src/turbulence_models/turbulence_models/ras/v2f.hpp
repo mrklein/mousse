@@ -112,7 +112,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("v2f");
+  TYPE_NAME("v2f");
   // Constructors
     //- Construct from components
     v2f

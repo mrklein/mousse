@@ -25,7 +25,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("laminar");
+  TYPE_NAME("laminar");
   // Constructors
     //- Construct from components
     laminar

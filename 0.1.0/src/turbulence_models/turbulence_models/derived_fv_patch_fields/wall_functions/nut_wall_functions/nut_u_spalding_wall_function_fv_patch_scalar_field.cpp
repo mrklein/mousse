@@ -53,7 +53,7 @@ tmp<scalarField> nutUSpaldingWallFunctionFvPatchScalarField::calcUTau
   const scalarField& nutw = *this;
   tmp<scalarField> tuTau(new scalarField(patch().size(), 0.0));
   scalarField& uTau = tuTau();
-  forAll(uTau, faceI)
+  FOR_ALL(uTau, faceI)
   {
     scalar ut = sqrt((nutw[faceI] + nuw[faceI])*magGradU[faceI]);
     if (ut > ROOTVSMALL)
@@ -89,7 +89,7 @@ nutUSpaldingWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF)
+  nutWallFunctionFvPatchScalarField{p, iF}
 {}
 nutUSpaldingWallFunctionFvPatchScalarField::
 nutUSpaldingWallFunctionFvPatchScalarField
@@ -100,7 +100,7 @@ nutUSpaldingWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  nutWallFunctionFvPatchScalarField(ptf, p, iF, mapper)
+  nutWallFunctionFvPatchScalarField{ptf, p, iF, mapper}
 {}
 nutUSpaldingWallFunctionFvPatchScalarField::
 nutUSpaldingWallFunctionFvPatchScalarField
@@ -110,7 +110,7 @@ nutUSpaldingWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF, dict)
+  nutWallFunctionFvPatchScalarField{p, iF, dict}
 {}
 nutUSpaldingWallFunctionFvPatchScalarField::
 nutUSpaldingWallFunctionFvPatchScalarField
@@ -118,7 +118,7 @@ nutUSpaldingWallFunctionFvPatchScalarField
   const nutUSpaldingWallFunctionFvPatchScalarField& wfpsf
 )
 :
-  nutWallFunctionFvPatchScalarField(wfpsf)
+  nutWallFunctionFvPatchScalarField{wfpsf}
 {}
 nutUSpaldingWallFunctionFvPatchScalarField::
 nutUSpaldingWallFunctionFvPatchScalarField
@@ -127,7 +127,7 @@ nutUSpaldingWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(wfpsf, iF)
+  nutWallFunctionFvPatchScalarField{wfpsf, iF}
 {}
 // Member Functions 
 tmp<scalarField> nutUSpaldingWallFunctionFvPatchScalarField::yPlus() const
@@ -153,7 +153,7 @@ void nutUSpaldingWallFunctionFvPatchScalarField::write(Ostream& os) const
   writeLocalEntries(os);
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   nutUSpaldingWallFunctionFvPatchScalarField

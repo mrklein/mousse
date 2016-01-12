@@ -100,7 +100,7 @@ private:
     scalarList kappaLayers_;
 public:
   //- Runtime type information
-  TypeName("externalWallHeatFluxTemperature");
+  TYPE_NAME("externalWallHeatFluxTemperature");
   // Constructors
     //- Construct from patch and internal field
     externalWallHeatFluxTemperatureFvPatchScalarField

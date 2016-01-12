@@ -58,7 +58,7 @@ protected:
     const scalar L_;
 public:
   //- Runtime type information
-  TypeName("convectiveHeatTransfer");
+  TYPE_NAME("convectiveHeatTransfer");
   // Constructors
     //- Construct from patch and internal field
     convectiveHeatTransferFvPatchScalarField

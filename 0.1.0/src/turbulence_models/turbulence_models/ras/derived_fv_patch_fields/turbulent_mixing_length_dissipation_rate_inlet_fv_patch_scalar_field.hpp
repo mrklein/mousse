@@ -57,7 +57,7 @@ class turbulentMixingLengthDissipationRateInletFvPatchScalarField
     word kName_;
 public:
   //- Runtime type information
-  TypeName("turbulentMixingLengthDissipationRateInlet");
+  TYPE_NAME("turbulentMixingLengthDissipationRateInlet");
   // Constructors
     //- Construct from patch and internal field
     turbulentMixingLengthDissipationRateInletFvPatchScalarField

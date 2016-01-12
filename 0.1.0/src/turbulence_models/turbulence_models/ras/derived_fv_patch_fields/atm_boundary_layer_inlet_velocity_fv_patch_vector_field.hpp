@@ -42,7 +42,7 @@ class atmBoundaryLayerInletVelocityFvPatchVectorField
 {
 public:
   //- Runtime type information
-  TypeName("atmBoundaryLayerInletVelocity");
+  TYPE_NAME("atmBoundaryLayerInletVelocity");
   // Constructors
     //- Construct from patch and internal field
     atmBoundaryLayerInletVelocityFvPatchVectorField

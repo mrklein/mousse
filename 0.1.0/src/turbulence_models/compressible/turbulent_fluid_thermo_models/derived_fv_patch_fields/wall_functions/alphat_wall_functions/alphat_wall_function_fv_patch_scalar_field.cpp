@@ -18,8 +18,8 @@ alphatWallFunctionFvPatchScalarField::alphatWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  Prt_(0.85)
+  fixedValueFvPatchScalarField{p, iF},
+  Prt_{0.85}
 {}
 alphatWallFunctionFvPatchScalarField::alphatWallFunctionFvPatchScalarField
 (
@@ -29,8 +29,8 @@ alphatWallFunctionFvPatchScalarField::alphatWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  Prt_(ptf.Prt_)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  Prt_{ptf.Prt_}
 {}
 alphatWallFunctionFvPatchScalarField::alphatWallFunctionFvPatchScalarField
 (
@@ -39,16 +39,16 @@ alphatWallFunctionFvPatchScalarField::alphatWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF, dict),
-  Prt_(dict.lookupOrDefault<scalar>("Prt", 0.85))
+  fixedValueFvPatchScalarField{p, iF, dict},
+  Prt_{dict.lookupOrDefault<scalar>("Prt", 0.85)}
 {}
 alphatWallFunctionFvPatchScalarField::alphatWallFunctionFvPatchScalarField
 (
   const alphatWallFunctionFvPatchScalarField& awfpsf
 )
 :
-  fixedValueFvPatchScalarField(awfpsf),
-  Prt_(awfpsf.Prt_)
+  fixedValueFvPatchScalarField{awfpsf},
+  Prt_{awfpsf.Prt_}
 {}
 alphatWallFunctionFvPatchScalarField::alphatWallFunctionFvPatchScalarField
 (
@@ -56,8 +56,8 @@ alphatWallFunctionFvPatchScalarField::alphatWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(awfpsf, iF),
-  Prt_(awfpsf.Prt_)
+  fixedValueFvPatchScalarField{awfpsf, iF},
+  Prt_{awfpsf.Prt_}
 {}
 // Member Functions 
 void alphatWallFunctionFvPatchScalarField::updateCoeffs()
@@ -88,7 +88,7 @@ void alphatWallFunctionFvPatchScalarField::write(Ostream& os) const
   os.writeKeyword("Prt") << Prt_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   alphatWallFunctionFvPatchScalarField

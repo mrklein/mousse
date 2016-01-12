@@ -46,10 +46,6 @@ class DeardorffDiffStress
 :
   public ReynoldsStress<LESModel<BasicTurbulenceModel> >
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    DeardorffDiffStress(const DeardorffDiffStress&);
-    DeardorffDiffStress& operator=(const DeardorffDiffStress&);
 protected:
   // Protected data
     // Model constants
@@ -65,7 +61,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("DeardorffDiffStress");
+  TYPE_NAME("DeardorffDiffStress");
   // Constructors
     //- Constructor from components
     DeardorffDiffStress
@@ -79,6 +75,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    DeardorffDiffStress(const DeardorffDiffStress&) = delete;
+    DeardorffDiffStress& operator=(const DeardorffDiffStress&) = delete;
   //- Destructor
   virtual ~DeardorffDiffStress()
   {}

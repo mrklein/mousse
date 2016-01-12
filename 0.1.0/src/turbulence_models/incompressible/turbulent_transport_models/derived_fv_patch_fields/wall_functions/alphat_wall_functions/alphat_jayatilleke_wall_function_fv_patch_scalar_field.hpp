@@ -66,7 +66,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("alphatJayatillekeWallFunction");
+  TYPE_NAME("alphatJayatillekeWallFunction");
   // Constructors
     //- Construct from patch and internal field
     alphatJayatillekeWallFunctionFvPatchScalarField

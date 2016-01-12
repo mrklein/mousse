@@ -13,8 +13,8 @@ namespace incompressible
 namespace RASModels
 {
 // Static Data Members
-defineTypeNameAndDebug(LamBremhorstKE, 0);
-addToRunTimeSelectionTable(RASModel, LamBremhorstKE, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(LamBremhorstKE, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(RASModel, LamBremhorstKE, dictionary);
 // Private Member Functions 
 tmp<volScalarField> LamBremhorstKE::Rt() const
 {

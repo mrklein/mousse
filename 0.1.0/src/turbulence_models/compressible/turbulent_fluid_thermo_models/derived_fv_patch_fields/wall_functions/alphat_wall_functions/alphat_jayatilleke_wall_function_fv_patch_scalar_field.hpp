@@ -68,7 +68,7 @@ class alphatJayatillekeWallFunctionFvPatchScalarField
     ) const;
 public:
   //- Runtime type information
-  TypeName("compressible::alphatJayatillekeWallFunction");
+  TYPE_NAME("compressible::alphatJayatillekeWallFunction");
   // Constructors
     //- Construct from patch and internal field
     alphatJayatillekeWallFunctionFvPatchScalarField

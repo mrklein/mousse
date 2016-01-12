@@ -21,13 +21,13 @@ void alphatJayatillekeWallFunctionFvPatchScalarField::checkType()
 {
   if (!isA<wallFvPatch>(patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "alphatJayatillekeWallFunctionFvPatchScalarField::checkType()"
     )
-      << "Patch type for patch " << patch().name() << " must be wall\n"
-      << "Current patch type is " << patch().type() << nl
-      << exit(FatalError);
+    << "Patch type for patch " << patch().name() << " must be wall\n"
+    << "Current patch type is " << patch().type() << nl
+    << exit(FatalError);
   }
 }
 scalar alphatJayatillekeWallFunctionFvPatchScalarField::Psmooth
@@ -72,11 +72,11 @@ alphatJayatillekeWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  Prt_(0.85),
-  Cmu_(0.09),
-  kappa_(0.41),
-  E_(9.8)
+  fixedValueFvPatchScalarField{p, iF},
+  Prt_{0.85},
+  Cmu_{0.09},
+  kappa_{0.41},
+  E_{9.8}
 {
   checkType();
 }
@@ -89,11 +89,11 @@ alphatJayatillekeWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  Prt_(ptf.Prt_),
-  Cmu_(ptf.Cmu_),
-  kappa_(ptf.kappa_),
-  E_(ptf.E_)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  Prt_{ptf.Prt_},
+  Cmu_{ptf.Cmu_},
+  kappa_{ptf.kappa_},
+  E_{ptf.E_}
 {}
 alphatJayatillekeWallFunctionFvPatchScalarField::
 alphatJayatillekeWallFunctionFvPatchScalarField
@@ -103,11 +103,11 @@ alphatJayatillekeWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF, dict),
-  Prt_(dict.lookupOrDefault<scalar>("Prt", 0.85)),
-  Cmu_(dict.lookupOrDefault<scalar>("Cmu", 0.09)),
-  kappa_(dict.lookupOrDefault<scalar>("kappa", 0.41)),
-  E_(dict.lookupOrDefault<scalar>("E", 9.8))
+  fixedValueFvPatchScalarField{p, iF, dict},
+  Prt_{dict.lookupOrDefault<scalar>("Prt", 0.85)},
+  Cmu_{dict.lookupOrDefault<scalar>("Cmu", 0.09)},
+  kappa_{dict.lookupOrDefault<scalar>("kappa", 0.41)},
+  E_{dict.lookupOrDefault<scalar>("E", 9.8)}
 {
   checkType();
 }
@@ -117,11 +117,11 @@ alphatJayatillekeWallFunctionFvPatchScalarField
   const alphatJayatillekeWallFunctionFvPatchScalarField& awfpsf
 )
 :
-  fixedValueFvPatchScalarField(awfpsf),
-  Prt_(awfpsf.Prt_),
-  Cmu_(awfpsf.Cmu_),
-  kappa_(awfpsf.kappa_),
-  E_(awfpsf.E_)
+  fixedValueFvPatchScalarField{awfpsf},
+  Prt_{awfpsf.Prt_},
+  Cmu_{awfpsf.Cmu_},
+  kappa_{awfpsf.kappa_},
+  E_{awfpsf.E_}
 {
   checkType();
 }
@@ -132,11 +132,11 @@ alphatJayatillekeWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(awfpsf, iF),
-  Prt_(awfpsf.Prt_),
-  Cmu_(awfpsf.Cmu_),
-  kappa_(awfpsf.kappa_),
-  E_(awfpsf.E_)
+  fixedValueFvPatchScalarField{awfpsf, iF},
+  Prt_{awfpsf.Prt_},
+  Cmu_{awfpsf.Cmu_},
+  kappa_{awfpsf.kappa_},
+  E_{awfpsf.E_}
 {
   checkType();
 }
@@ -179,7 +179,7 @@ void alphatJayatillekeWallFunctionFvPatchScalarField::updateCoeffs()
     turbModel.transport().alphaEff(alphatw, patchi)*hew.snGrad()
   );
   // Populate boundary values
-  forAll(alphatw, faceI)
+  FOR_ALL(alphatw, faceI)
   {
     label faceCellI = patch().faceCells()[faceI];
     scalar uTau = Cmu25*sqrt(k[faceCellI]);
@@ -237,7 +237,7 @@ void alphatJayatillekeWallFunctionFvPatchScalarField::write(Ostream& os) const
   os.writeKeyword("E") << E_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   alphatJayatillekeWallFunctionFvPatchScalarField

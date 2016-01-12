@@ -8,6 +8,6 @@ namespace mousse
 {
 namespace RASModels
 {
-  defineTypeNameAndDebug(v2fBase, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(v2fBase, 0);
 }  // namespace RASModels
 }  // namespace mousse

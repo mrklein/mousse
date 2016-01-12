@@ -29,7 +29,7 @@ tmp<scalarField> nutUWallFunctionFvPatchScalarField::calcNut() const
   scalarField& yPlus = tyPlus();
   tmp<scalarField> tnutw(new scalarField(patch().size(), 0.0));
   scalarField& nutw = tnutw();
-  forAll(yPlus, facei)
+  FOR_ALL(yPlus, facei)
   {
     if (yPlus[facei] > yPlusLam_)
     {
@@ -58,7 +58,7 @@ tmp<scalarField> nutUWallFunctionFvPatchScalarField::calcYPlus
   const scalarField& nuw = tnuw();
   tmp<scalarField> tyPlus(new scalarField(patch().size(), 0.0));
   scalarField& yPlus = tyPlus();
-  forAll(yPlus, facei)
+  FOR_ALL(yPlus, facei)
   {
     scalar kappaRe = kappa_*magUp[facei]*y[facei]/nuw[facei];
     scalar yp = yPlusLam_;
@@ -81,7 +81,7 @@ nutUWallFunctionFvPatchScalarField::nutUWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF)
+  nutWallFunctionFvPatchScalarField{p, iF}
 {}
 nutUWallFunctionFvPatchScalarField::nutUWallFunctionFvPatchScalarField
 (
@@ -91,7 +91,7 @@ nutUWallFunctionFvPatchScalarField::nutUWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  nutWallFunctionFvPatchScalarField(ptf, p, iF, mapper)
+  nutWallFunctionFvPatchScalarField{ptf, p, iF, mapper}
 {}
 nutUWallFunctionFvPatchScalarField::nutUWallFunctionFvPatchScalarField
 (
@@ -100,14 +100,14 @@ nutUWallFunctionFvPatchScalarField::nutUWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF, dict)
+  nutWallFunctionFvPatchScalarField{p, iF, dict}
 {}
 nutUWallFunctionFvPatchScalarField::nutUWallFunctionFvPatchScalarField
 (
   const nutUWallFunctionFvPatchScalarField& sawfpsf
 )
 :
-  nutWallFunctionFvPatchScalarField(sawfpsf)
+  nutWallFunctionFvPatchScalarField{sawfpsf}
 {}
 nutUWallFunctionFvPatchScalarField::nutUWallFunctionFvPatchScalarField
 (
@@ -115,7 +115,7 @@ nutUWallFunctionFvPatchScalarField::nutUWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(sawfpsf, iF)
+  nutWallFunctionFvPatchScalarField{sawfpsf, iF}
 {}
 // Member Functions 
 tmp<scalarField> nutUWallFunctionFvPatchScalarField::yPlus() const
@@ -139,7 +139,7 @@ void nutUWallFunctionFvPatchScalarField::write(Ostream& os) const
   writeLocalEntries(os);
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   nutUWallFunctionFvPatchScalarField

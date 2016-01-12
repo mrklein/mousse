@@ -41,7 +41,7 @@ class atmBoundaryLayerInletKFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("atmBoundaryLayerInletK");
+  TYPE_NAME("atmBoundaryLayerInletK");
   // Constructors
     //- Construct from patch and internal field
     atmBoundaryLayerInletKFvPatchScalarField

@@ -24,14 +24,11 @@ class IDDESDelta
     maxDeltaxyz hmax_;
     scalar Cw_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    IDDESDelta(const IDDESDelta&);
-    void operator=(const IDDESDelta&);
     //- Calculate the delta values
     void calcDelta();
 public:
   //- Runtime type information
-  TypeName("IDDESDelta");
+  TYPE_NAME("IDDESDelta");
   // Constructors
     //- Construct from name, mesh and IOdictionary
     IDDESDelta
@@ -40,6 +37,9 @@ public:
       const turbulenceModel& turbulence,
       const dictionary&
     );
+    //- Disallow default bitwise copy construct and assignment
+    IDDESDelta(const IDDESDelta&) = delete;
+    void operator=(const IDDESDelta&) = delete;
   // Destructor
     ~IDDESDelta()
     {}

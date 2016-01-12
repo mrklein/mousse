@@ -8,7 +8,7 @@ template<class TransportModel>
 mousse::IncompressibleTurbulenceModel<TransportModel>::
 IncompressibleTurbulenceModel
 (
-  const word& type,
+  const word& /*type*/,
   const geometricOneField& alpha,
   const geometricOneField& rho,
   const volVectorField& U,
@@ -88,7 +88,7 @@ mousse::tmp<mousse::volSymmTensorField>
 mousse::IncompressibleTurbulenceModel<TransportModel>::
 devRhoReff() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "IncompressibleTurbulenceModel<TransportModel>::"
     "devRhoReff()"
@@ -103,7 +103,7 @@ divDevRhoReff
   volVectorField& U
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "IncompressibleTurbulenceModel<TransportModel>::"
     "divDevRhoReff(volVectorField& U)"
@@ -115,11 +115,11 @@ mousse::tmp<mousse::fvVectorMatrix>
 mousse::IncompressibleTurbulenceModel<TransportModel>::
 divDevRhoReff
 (
-  const volScalarField& rho,
+  const volScalarField& /*rho*/,
   volVectorField& U
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "IncompressibleTurbulenceModel<TransportModel>::"
     "divDevRhoReff(const volScalarField& rho, volVectorField& U)"

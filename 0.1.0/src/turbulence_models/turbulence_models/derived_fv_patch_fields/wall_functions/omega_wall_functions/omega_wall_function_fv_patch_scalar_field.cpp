@@ -19,7 +19,7 @@ void omegaWallFunctionFvPatchScalarField::checkType()
 {
   if (!isA<wallFvPatch>(patch()))
   {
-    FatalErrorIn("omegaWallFunctionFvPatchScalarField::checkType()")
+    FATAL_ERROR_IN("omegaWallFunctionFvPatchScalarField::checkType()")
       << "Invalid wall function specification" << nl
       << "    Patch type for patch " << patch().name()
       << " must be wall" << nl
@@ -44,7 +44,7 @@ void omegaWallFunctionFvPatchScalarField::setMaster()
     static_cast<const volScalarField&>(this->dimensionedInternalField());
   const volScalarField::GeometricBoundaryField& bf = omega.boundaryField();
   label master = -1;
-  forAll(bf, patchi)
+  FOR_ALL(bf, patchi)
   {
     if (isA<omegaWallFunctionFvPatchScalarField>(bf[patchi]))
     {
@@ -68,27 +68,28 @@ void omegaWallFunctionFvPatchScalarField::createAveragingWeights()
     return;
   }
   volScalarField weights
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "weights",
       mesh.time().timeName(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false // do not register
-    ),
+    },
     mesh,
-    dimensionedScalar("zero", dimless, 0.0)
-  );
-  DynamicList<label> omegaPatches(bf.size());
-  forAll(bf, patchi)
+    // dimensionedScalar("zero", dimless, 0.0)
+    {"zero", dimless, 0.0}
+  };
+  DynamicList<label> omegaPatches{bf.size()};
+  FOR_ALL(bf, patchi)
   {
     if (isA<omegaWallFunctionFvPatchScalarField>(bf[patchi]))
     {
       omegaPatches.append(patchi);
       const labelUList& faceCells = bf[patchi].patch().faceCells();
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         label cellI = faceCells[i];
         weights[cellI]++;
@@ -96,7 +97,7 @@ void omegaWallFunctionFvPatchScalarField::createAveragingWeights()
     }
   }
   cornerWeights_.setSize(bf.size());
-  forAll(omegaPatches, i)
+  FOR_ALL(omegaPatches, i)
   {
     label patchi = omegaPatches[i];
     const fvPatchScalarField& wf = weights.boundaryField()[patchi];
@@ -124,7 +125,7 @@ void omegaWallFunctionFvPatchScalarField::calculateTurbulenceFields
 )
 {
   // accumulate all of the G and omega contributions
-  forAll(cornerWeights_, patchi)
+  FOR_ALL(cornerWeights_, patchi)
   {
     if (!cornerWeights_[patchi].empty())
     {
@@ -134,7 +135,7 @@ void omegaWallFunctionFvPatchScalarField::calculateTurbulenceFields
     }
   }
   // apply zero-gradient condition for omega
-  forAll(cornerWeights_, patchi)
+  FOR_ALL(cornerWeights_, patchi)
   {
     if (!cornerWeights_[patchi].empty())
     {
@@ -164,7 +165,7 @@ void omegaWallFunctionFvPatchScalarField::calculate
   const fvPatchVectorField& Uw = turbModel.U().boundaryField()[patchi];
   const scalarField magGradUw(mag(Uw.snGrad()));
   // Set omega and G
-  forAll(nutw, faceI)
+  FOR_ALL(nutw, faceI)
   {
     label cellI = patch.faceCells()[faceI];
     scalar w = cornerWeights[faceI];
@@ -186,17 +187,17 @@ omegaWallFunctionFvPatchScalarField::omegaWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<scalar>(p, iF),
-  Cmu_(0.09),
-  kappa_(0.41),
-  E_(9.8),
-  beta1_(0.075),
-  yPlusLam_(nutkWallFunctionFvPatchScalarField::yPlusLam(kappa_, E_)),
-  G_(),
-  omega_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{p, iF},
+  Cmu_{0.09},
+  kappa_{0.41},
+  E_{9.8},
+  beta1_{0.075},
+  yPlusLam_{nutkWallFunctionFvPatchScalarField::yPlusLam(kappa_, E_)},
+  G_{},
+  omega_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
 }
@@ -208,17 +209,17 @@ omegaWallFunctionFvPatchScalarField::omegaWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<scalar>(ptf, p, iF, mapper),
-  Cmu_(ptf.Cmu_),
-  kappa_(ptf.kappa_),
-  E_(ptf.E_),
-  beta1_(ptf.beta1_),
-  yPlusLam_(ptf.yPlusLam_),
-  G_(),
-  omega_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{ptf, p, iF, mapper},
+  Cmu_{ptf.Cmu_},
+  kappa_{ptf.kappa_},
+  E_{ptf.E_},
+  beta1_{ptf.beta1_},
+  yPlusLam_{ptf.yPlusLam_},
+  G_{},
+  omega_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
 }
@@ -229,17 +230,17 @@ omegaWallFunctionFvPatchScalarField::omegaWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<scalar>(p, iF, dict),
-  Cmu_(dict.lookupOrDefault<scalar>("Cmu", 0.09)),
-  kappa_(dict.lookupOrDefault<scalar>("kappa", 0.41)),
-  E_(dict.lookupOrDefault<scalar>("E", 9.8)),
-  beta1_(dict.lookupOrDefault<scalar>("beta1", 0.075)),
-  yPlusLam_(nutkWallFunctionFvPatchScalarField::yPlusLam(kappa_, E_)),
-  G_(),
-  omega_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{p, iF, dict},
+  Cmu_{dict.lookupOrDefault<scalar>("Cmu", 0.09)},
+  kappa_{dict.lookupOrDefault<scalar>("kappa", 0.41)},
+  E_{dict.lookupOrDefault<scalar>("E", 9.8)},
+  beta1_{dict.lookupOrDefault<scalar>("beta1", 0.075)},
+  yPlusLam_{nutkWallFunctionFvPatchScalarField::yPlusLam(kappa_, E_)},
+  G_{},
+  omega_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
   // apply zero-gradient condition on start-up
@@ -250,17 +251,17 @@ omegaWallFunctionFvPatchScalarField::omegaWallFunctionFvPatchScalarField
   const omegaWallFunctionFvPatchScalarField& owfpsf
 )
 :
-  fixedValueFvPatchField<scalar>(owfpsf),
-  Cmu_(owfpsf.Cmu_),
-  kappa_(owfpsf.kappa_),
-  E_(owfpsf.E_),
-  beta1_(owfpsf.beta1_),
-  yPlusLam_(owfpsf.yPlusLam_),
-  G_(),
-  omega_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{owfpsf},
+  Cmu_{owfpsf.Cmu_},
+  kappa_{owfpsf.kappa_},
+  E_{owfpsf.E_},
+  beta1_{owfpsf.beta1_},
+  yPlusLam_{owfpsf.yPlusLam_},
+  G_{},
+  omega_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
 }
@@ -270,17 +271,17 @@ omegaWallFunctionFvPatchScalarField::omegaWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<scalar>(owfpsf, iF),
-  Cmu_(owfpsf.Cmu_),
-  kappa_(owfpsf.kappa_),
-  E_(owfpsf.E_),
-  beta1_(owfpsf.beta1_),
-  yPlusLam_(owfpsf.yPlusLam_),
-  G_(),
-  omega_(),
-  initialised_(false),
-  master_(-1),
-  cornerWeights_()
+  fixedValueFvPatchField<scalar>{owfpsf, iF},
+  Cmu_{owfpsf.Cmu_},
+  kappa_{owfpsf.kappa_},
+  E_{owfpsf.E_},
+  beta1_{owfpsf.beta1_},
+  yPlusLam_{owfpsf.yPlusLam_},
+  G_{},
+  omega_{},
+  initialised_{false},
+  master_{-1},
+  cornerWeights_{}
 {
   checkType();
 }
@@ -338,7 +339,7 @@ void omegaWallFunctionFvPatchScalarField::updateCoeffs()
       db().lookupObject<FieldType>(turbModel.GName())
     );
   FieldType& omega = const_cast<FieldType&>(dimensionedInternalField());
-  forAll(*this, faceI)
+  FOR_ALL(*this, faceI)
   {
     label cellI = patch().faceCells()[faceI];
     G[cellI] = G0[cellI];
@@ -380,7 +381,7 @@ void omegaWallFunctionFvPatchScalarField::updateCoeffs
   FieldType& omega = const_cast<FieldType&>(dimensionedInternalField());
   scalarField& omegaf = *this;
   // only set the values if the weights are > tolerance
-  forAll(weights, faceI)
+  FOR_ALL(weights, faceI)
   {
     scalar w = weights[faceI];
     if (w > tolerance_)
@@ -415,13 +416,12 @@ void omegaWallFunctionFvPatchScalarField::manipulateMatrix
   {
     return;
   }
-  DynamicList<label> constraintCells(weights.size());
-  DynamicList<scalar> constraintomega(weights.size());
+  DynamicList<label> constraintCells{weights.size()};
+  DynamicList<scalar> constraintomega{weights.size()};
   const labelUList& faceCells = patch().faceCells();
-  const DimensionedField<scalar, volMesh>& omega
-    = dimensionedInternalField();
+  const DimensionedField<scalar, volMesh>& omega = dimensionedInternalField();
   label nConstrainedCells = 0;
-  forAll(weights, faceI)
+  FOR_ALL(weights, faceI)
   {
     // only set the values if the weights are > tolerance
     if (weights[faceI] > tolerance_)
@@ -451,7 +451,7 @@ void omegaWallFunctionFvPatchScalarField::write(Ostream& os) const
   writeLocalEntries(os);
   fixedValueFvPatchField<scalar>::write(os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   omegaWallFunctionFvPatchScalarField

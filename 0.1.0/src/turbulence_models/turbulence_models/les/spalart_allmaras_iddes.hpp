@@ -48,9 +48,6 @@ class SpalartAllmarasIDDES
     ) const;
     //- Delay function
     tmp<volScalarField> fd(const volScalarField& magGradU) const;
-    // Disallow default bitwise copy construct and assignment
-    SpalartAllmarasIDDES(const SpalartAllmarasIDDES&);
-    SpalartAllmarasIDDES& operator=(const SpalartAllmarasIDDES&);
 protected:
   // Protected Member Functions
     //- Length scale
@@ -65,7 +62,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("SpalartAllmarasIDDES");
+  TYPE_NAME("SpalartAllmarasIDDES");
   // Constructors
     //- Construct from components
     SpalartAllmarasIDDES
@@ -79,6 +76,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    SpalartAllmarasIDDES(const SpalartAllmarasIDDES&) = delete;
+    SpalartAllmarasIDDES& operator=(const SpalartAllmarasIDDES&) = delete;
   //- Destructor
   virtual ~SpalartAllmarasIDDES()
   {}

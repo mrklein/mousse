@@ -64,7 +64,7 @@ protected:
     tmp<volScalarField> E(const volScalarField& f2) const;
     virtual void correctNut();
 public:
-  TypeName("LienLeschziner");
+  TYPE_NAME("LienLeschziner");
   // Constructors
     //- Construct from components
     LienLeschziner

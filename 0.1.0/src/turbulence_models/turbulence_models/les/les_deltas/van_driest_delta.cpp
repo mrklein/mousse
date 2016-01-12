@@ -12,8 +12,8 @@ namespace mousse
 {
 namespace LESModels
 {
-  defineTypeNameAndDebug(vanDriestDelta, 0);
-  addToRunTimeSelectionTable(LESdelta, vanDriestDelta, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(vanDriestDelta, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESdelta, vanDriestDelta, dictionary);
 }
 }
 // Private Member Functions 
@@ -36,7 +36,7 @@ void mousse::LESModels::vanDriestDelta::calcDelta()
     dimensionedScalar("ystar", dimLength, GREAT)
   );
   const fvPatchList& patches = mesh.boundary();
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     if (isA<wallFvPatch>(patches[patchi]))
     {

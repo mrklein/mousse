@@ -12,7 +12,7 @@ namespace mousse
 // Protected Member Functions 
 tmp<scalarField> nutLowReWallFunctionFvPatchScalarField::calcNut() const
 {
-  return tmp<scalarField>(new scalarField(patch().size(), 0.0));
+  return tmp<scalarField>{new scalarField{patch().size(), 0.0}};
 }
 // Constructors 
 nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
@@ -21,7 +21,7 @@ nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF)
+  nutWallFunctionFvPatchScalarField{p, iF}
 {}
 nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
 (
@@ -31,7 +31,7 @@ nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  nutWallFunctionFvPatchScalarField(ptf, p, iF, mapper)
+  nutWallFunctionFvPatchScalarField{ptf, p, iF, mapper}
 {}
 nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
 (
@@ -40,14 +40,14 @@ nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF, dict)
+  nutWallFunctionFvPatchScalarField{p, iF, dict}
 {}
 nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
 (
   const nutLowReWallFunctionFvPatchScalarField& nlrwfpsf
 )
 :
-  nutWallFunctionFvPatchScalarField(nlrwfpsf)
+  nutWallFunctionFvPatchScalarField{nlrwfpsf}
 {}
 nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
 (
@@ -55,7 +55,7 @@ nutLowReWallFunctionFvPatchScalarField::nutLowReWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(nlrwfpsf, iF)
+  nutWallFunctionFvPatchScalarField{nlrwfpsf, iF}
 {}
 // Member Functions 
 tmp<scalarField> nutLowReWallFunctionFvPatchScalarField::yPlus() const
@@ -75,7 +75,7 @@ tmp<scalarField> nutLowReWallFunctionFvPatchScalarField::yPlus() const
   const fvPatchVectorField& Uw = turbModel.U().boundaryField()[patchi];
   return y*sqrt(nuw*mag(Uw.snGrad()))/nuw;
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   nutLowReWallFunctionFvPatchScalarField

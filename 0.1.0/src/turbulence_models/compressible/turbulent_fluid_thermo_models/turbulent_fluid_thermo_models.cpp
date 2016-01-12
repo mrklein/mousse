@@ -12,7 +12,8 @@
 #include "laminar.hpp"
 #include "ras_model.hpp"
 #include "les_model.hpp"
-makeBaseTurbulenceModel
+
+MAKE_BASE_TURBULENCE_MODEL
 (
   geometricOneField,
   volScalarField,
@@ -22,56 +23,56 @@ makeBaseTurbulenceModel
   fluidThermo
 );
 
-#define makeRASModel(Type)                                                    \
-  makeTemplatedTurbulenceModel                                                \
+#define MAKE_RAS_MODEL(Type)                                                  \
+  MAKE_TEMPLATED_TURBULENCE_MODEL                                             \
   (fluidThermoCompressibleTurbulenceModel, RAS, Type)
 
-#define makeLESModel(Type)                                                    \
-  makeTemplatedTurbulenceModel                                                \
+#define MAKE_LES_MODEL(Type)                                                  \
+  MAKE_TEMPLATED_TURBULENCE_MODEL                                             \
   (fluidThermoCompressibleTurbulenceModel, LES, Type)
 
 // RAS models
 #include "spalart_allmaras.hpp"
-makeRASModel(SpalartAllmaras);
+MAKE_RAS_MODEL(SpalartAllmaras);
 #include "k_epsilon.hpp"
-makeRASModel(kEpsilon);
+MAKE_RAS_MODEL(kEpsilon);
 #include "rng_k_epsilon.hpp"
-makeRASModel(RNGkEpsilon);
+MAKE_RAS_MODEL(RNGkEpsilon);
 #include "realizable_ke.hpp"
-makeRASModel(realizableKE);
+MAKE_RAS_MODEL(realizableKE);
 #include "buoyant_k_epsilon.hpp"
-makeRASModel(buoyantKEpsilon);
+MAKE_RAS_MODEL(buoyantKEpsilon);
 #include "launder_sharma_ke.hpp"
-makeRASModel(LaunderSharmaKE);
+MAKE_RAS_MODEL(LaunderSharmaKE);
 #include "k_omega.hpp"
-makeRASModel(kOmega);
+MAKE_RAS_MODEL(kOmega);
 #include "k_omega_sst.hpp"
-makeRASModel(kOmegaSST);
+MAKE_RAS_MODEL(kOmegaSST);
 #include "k_omega_sstsas.hpp"
-makeRASModel(kOmegaSSTSAS);
+MAKE_RAS_MODEL(kOmegaSSTSAS);
 #include "v2f.hpp"
-makeRASModel(v2f);
+MAKE_RAS_MODEL(v2f);
 #include "lrr.hpp"
-makeRASModel(LRR);
+MAKE_RAS_MODEL(LRR);
 #include "ssg.hpp"
-makeRASModel(SSG);
+MAKE_RAS_MODEL(SSG);
 
 // LES models
 #include "smagorinsky.hpp"
-makeLESModel(Smagorinsky);
+MAKE_LES_MODEL(Smagorinsky);
 #include "wale.hpp"
-makeLESModel(WALE);
+MAKE_LES_MODEL(WALE);
 #include "dynamic_lagrangian.hpp"
-makeLESModel(dynamicLagrangian);
+MAKE_LES_MODEL(dynamicLagrangian);
 #include "k_eqn.hpp"
-makeLESModel(kEqn);
+MAKE_LES_MODEL(kEqn);
 #include "dynamic_k_eqn.hpp"
-makeLESModel(dynamicKEqn);
+MAKE_LES_MODEL(dynamicKEqn);
 #include "spalart_allmaras_des.hpp"
-makeLESModel(SpalartAllmarasDES);
+MAKE_LES_MODEL(SpalartAllmarasDES);
 #include "spalart_allmaras_ddes.hpp"
-makeLESModel(SpalartAllmarasDDES);
+MAKE_LES_MODEL(SpalartAllmarasDDES);
 #include "spalart_allmaras_iddes.hpp"
-makeLESModel(SpalartAllmarasIDDES);
+MAKE_LES_MODEL(SpalartAllmarasIDDES);
 #include "deardorff_diff_stress.hpp"
-makeLESModel(DeardorffDiffStress);
+MAKE_LES_MODEL(DeardorffDiffStress);

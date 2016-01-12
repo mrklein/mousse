@@ -132,7 +132,7 @@ mousse::tmp<mousse::volSymmTensorField>
 mousse::PhaseIncompressibleTurbulenceModel<TransportModel>::
 devRhoReff() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "PhaseIncompressibleTurbulenceModel<TransportModel>::"
     "devRhoReff()"
@@ -147,7 +147,7 @@ divDevRhoReff
   volVectorField& U
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "PhaseIncompressibleTurbulenceModel<TransportModel>::"
     "divDevRhoReff(volVectorField& U)"

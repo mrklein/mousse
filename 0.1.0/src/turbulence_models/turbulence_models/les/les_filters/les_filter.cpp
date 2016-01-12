@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(LESfilter, 0);
-  defineRunTimeSelectionTable(LESfilter, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(LESfilter, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(LESfilter, dictionary);
 }
 // Selectors
 mousse::autoPtr<mousse::LESfilter> mousse::LESfilter::New
@@ -23,7 +23,7 @@ mousse::autoPtr<mousse::LESfilter> mousse::LESfilter::New
     dictionaryConstructorTablePtr_->find(filterType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "LESfilter::New(const fvMesh&, const dictionary&)"
     )   << "Unknown LESfilter type "
