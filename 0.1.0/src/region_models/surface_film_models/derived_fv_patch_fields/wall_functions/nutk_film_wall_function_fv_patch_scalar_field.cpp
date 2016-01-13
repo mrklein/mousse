@@ -55,7 +55,7 @@ tmp<scalarField> nutkFilmWallFunctionFvPatchScalarField::calcUTau
   const tmp<scalarField> tnuw = turbModel.nu(patchi);
   const scalarField& nuw = tnuw();
   const scalar Cmu25 = pow(Cmu_, 0.25);
-  forAll(uTau, faceI)
+  FOR_ALL(uTau, faceI)
   {
     label faceCellI = patch().faceCells()[faceI];
     scalar ut = Cmu25*sqrt(k[faceCellI]);
@@ -105,9 +105,9 @@ nutkFilmWallFunctionFvPatchScalarField::nutkFilmWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutkWallFunctionFvPatchScalarField(p, iF),
-  B_(5.5),
-  yPlusCrit_(11.05)
+  nutkWallFunctionFvPatchScalarField{p, iF},
+  B_{5.5},
+  yPlusCrit_{11.05}
 {}
 nutkFilmWallFunctionFvPatchScalarField::nutkFilmWallFunctionFvPatchScalarField
 (
@@ -117,9 +117,9 @@ nutkFilmWallFunctionFvPatchScalarField::nutkFilmWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  nutkWallFunctionFvPatchScalarField(ptf, p, iF, mapper),
-  B_(5.5),
-  yPlusCrit_(11.05)
+  nutkWallFunctionFvPatchScalarField{ptf, p, iF, mapper},
+  B_{5.5},
+  yPlusCrit_{11.05}
 {}
 nutkFilmWallFunctionFvPatchScalarField::nutkFilmWallFunctionFvPatchScalarField
 (
@@ -128,18 +128,18 @@ nutkFilmWallFunctionFvPatchScalarField::nutkFilmWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  nutkWallFunctionFvPatchScalarField(p, iF, dict),
-  B_(dict.lookupOrDefault("B", 5.5)),
-  yPlusCrit_(dict.lookupOrDefault("yPlusCrit", 11.05))
+  nutkWallFunctionFvPatchScalarField{p, iF, dict},
+  B_{dict.lookupOrDefault("B", 5.5)},
+  yPlusCrit_{dict.lookupOrDefault("yPlusCrit", 11.05)}
 {}
 nutkFilmWallFunctionFvPatchScalarField::nutkFilmWallFunctionFvPatchScalarField
 (
   const nutkFilmWallFunctionFvPatchScalarField& wfpsf
 )
 :
-  nutkWallFunctionFvPatchScalarField(wfpsf),
-  B_(wfpsf.B_),
-  yPlusCrit_(wfpsf.yPlusCrit_)
+  nutkWallFunctionFvPatchScalarField{wfpsf},
+  B_{wfpsf.B_},
+  yPlusCrit_{wfpsf.yPlusCrit_}
 {}
 nutkFilmWallFunctionFvPatchScalarField::nutkFilmWallFunctionFvPatchScalarField
 (
@@ -147,9 +147,9 @@ nutkFilmWallFunctionFvPatchScalarField::nutkFilmWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutkWallFunctionFvPatchScalarField(wfpsf, iF),
-  B_(wfpsf.B_),
-  yPlusCrit_(wfpsf.yPlusCrit_)
+  nutkWallFunctionFvPatchScalarField{wfpsf, iF},
+  B_{wfpsf.B_},
+  yPlusCrit_{wfpsf.yPlusCrit_}
 {}
 // Member Functions 
 tmp<scalarField> nutkFilmWallFunctionFvPatchScalarField::yPlus() const
@@ -177,7 +177,7 @@ void nutkFilmWallFunctionFvPatchScalarField::write(Ostream& os) const
   os.writeKeyword("yPlusCrit") << yPlusCrit_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField(fvPatchScalarField, nutkFilmWallFunctionFvPatchScalarField);
+MAKE_PATCH_TYPE_FIELD(fvPatchScalarField, nutkFilmWallFunctionFvPatchScalarField);
 }  // namespace RASModels
 }  // namespace compressible
 }  // namespace mousse

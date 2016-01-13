@@ -10,8 +10,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(heatTransferModel, 0);
-defineRunTimeSelectionTable(heatTransferModel, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(heatTransferModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(heatTransferModel, dictionary);
 // Constructors 
 heatTransferModel::heatTransferModel
 (

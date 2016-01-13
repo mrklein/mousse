@@ -11,8 +11,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(constantViscosity, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(constantViscosity, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   filmViscosityModel,
   constantViscosity,
@@ -37,8 +37,8 @@ constantViscosity::~constantViscosity()
 // Member Functions 
 void constantViscosity::correct
 (
-  const volScalarField& p,
-  const volScalarField& T
+  const volScalarField& /*p*/,
+  const volScalarField& /*T*/
 )
 {
   mu_ == mu0_;

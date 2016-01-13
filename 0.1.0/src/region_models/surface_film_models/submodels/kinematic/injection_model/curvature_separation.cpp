@@ -20,8 +20,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(curvatureSeparation, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(curvatureSeparation, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   injectionModel,
   curvatureSeparation,
@@ -52,7 +52,7 @@ tmp<volScalarField> curvatureSeparation::calcInvR1
   const scalar rMin = 1e-6;
   const fvMesh& mesh = owner().regionMesh();
   const polyBoundaryMesh& pbm = mesh.boundaryMesh();
-  forAll(definedPatchRadii_, i)
+  FOR_ALL(definedPatchRadii_, i)
   {
     label patchI = definedPatchRadii_[i].first();
     scalar definedInvR1 = 1.0/max(rMin, definedPatchRadii_[i].second());
@@ -60,7 +60,7 @@ tmp<volScalarField> curvatureSeparation::calcInvR1
   }
   // filter out large radii
   const scalar rMax = 1e6;
-  forAll(invR1, i)
+  FOR_ALL(invR1, i)
   {
     if (mag(invR1[i]) < 1/rMax)
     {
@@ -84,7 +84,7 @@ tmp<scalarField> curvatureSeparation::calcCosAngle
   const unallocLabelList& nbr = mesh.neighbour();
   scalarField phiMax(mesh.nCells(), -GREAT);
   scalarField cosAngle(mesh.nCells(), 0.0);
-  forAll(nbr, faceI)
+  FOR_ALL(nbr, faceI)
   {
     label cellO = own[faceI];
     label cellN = nbr[faceI];
@@ -99,13 +99,13 @@ tmp<scalarField> curvatureSeparation::calcCosAngle
       cosAngle[cellN] = -gHat_ & -nf[faceI];
     }
   }
-  forAll(phi.boundaryField(), patchI)
+  FOR_ALL(phi.boundaryField(), patchI)
   {
     const fvsPatchScalarField& phip = phi.boundaryField()[patchI];
     const fvPatch& pp = phip.patch();
     const labelList& faceCells = pp.faceCells();
     const vectorField nf(pp.nf());
-    forAll(phip, i)
+    FOR_ALL(phip, i)
     {
       label cellI = faceCells[i];
       if (phip[i] > phiMax[cellI])
@@ -119,7 +119,7 @@ tmp<scalarField> curvatureSeparation::calcCosAngle
   // correction for cyclics - use cyclic pairs' face normal instead of
   // local face normal
   const fvBoundaryMesh& pbm = mesh.boundary();
-  forAll(phi.boundaryField(), patchI)
+  FOR_ALL(phi.boundaryField(), patchI)
   {
     if (isA<cyclicPolyPatch>(pbm[patchI]))
     {
@@ -186,7 +186,7 @@ curvatureSeparation::curvatureSeparation
 {
   if (magG_ < ROOTVSMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "curvatureSeparation::curvatureSeparation"
       "("
@@ -202,10 +202,10 @@ curvatureSeparation::curvatureSeparation
   const wordList& allPatchNames = owner.regionMesh().boundaryMesh().names();
   DynamicList<Tuple2<label, scalar> > prData(allPatchNames.size());
   labelHashSet uniquePatchIDs;
-  forAllReverse(prIn, i)
+  FOR_ALL_REVERSE(prIn, i)
   {
     labelList patchIDs = findStrings(prIn[i].first(), allPatchNames);
-    forAll(patchIDs, j)
+    FOR_ALL(patchIDs, j)
     {
       const label patchI = patchIDs[j];
       if (!uniquePatchIDs.found(patchI))
@@ -244,7 +244,7 @@ void curvatureSeparation::correct
   const scalar Fthreshold = 1e-10;
   scalarField Fnet(mesh.nCells(), 0.0);
   scalarField separated(mesh.nCells(), 0.0);
-  forAll(invR1, i)
+  FOR_ALL(invR1, i)
   {
     if ((invR1[i] > 0) && (delta[i]*invR1[i] > deltaByR1Min_))
     {

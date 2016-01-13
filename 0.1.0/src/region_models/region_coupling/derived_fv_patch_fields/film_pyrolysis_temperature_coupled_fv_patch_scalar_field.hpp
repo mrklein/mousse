@@ -43,7 +43,7 @@ class filmPyrolysisTemperatureCoupledFvPatchScalarField
     word rhoName_;
 public:
   //- Runtime type information
-  TypeName("filmPyrolysisTemperatureCoupled");
+  TYPE_NAME("filmPyrolysisTemperatureCoupled");
   // Constructors
     //- Construct from patch and internal field
     filmPyrolysisTemperatureCoupledFvPatchScalarField

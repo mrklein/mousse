@@ -13,9 +13,9 @@ namespace regionModels
 namespace thermalBaffleModels
 {
 // Static Data Members
-defineTypeNameAndDebug(thermalBaffleModel, 0);
-defineRunTimeSelectionTable(thermalBaffleModel, mesh);
-defineRunTimeSelectionTable(thermalBaffleModel, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(thermalBaffleModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(thermalBaffleModel, mesh);
+DEFINE_RUN_TIME_SELECTION_TABLE(thermalBaffleModel, dictionary);
 // Protected Member Functions 
 bool thermalBaffleModel::read()
 {
@@ -40,7 +40,7 @@ void thermalBaffleModel::init()
       nLayers_*(rbm[patchi].nEdges() - rbm[patchi].nInternalEdges());
     reduce(nTotalEdges, sumOp<label>());
     label nFaces = 0;
-    forAll (rbm, patchi)
+    FOR_ALL(rbm, patchi)
     {
       if (
          rbm[patchi].size()
@@ -64,7 +64,7 @@ void thermalBaffleModel::init()
     {
       Info << "\nThe thermal baffle is 3D \n" << endl;
     }
-    forAll(intCoupledPatchIDs_, i)
+    FOR_ALL(intCoupledPatchIDs_, i)
     {
       const label patchI = intCoupledPatchIDs_[i];
       const polyPatch& pp = rbm[patchI];
@@ -75,7 +75,7 @@ void thermalBaffleModel::init()
       && !constantThickness_
       )
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "thermalBaffleModel::thermalBaffleModel"
           "("
@@ -92,7 +92,7 @@ void thermalBaffleModel::init()
       }
       else if (!isA<mappedWallPolyPatch>(pp))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "thermalBaffleModel::thermalBaffleModel"
           "("
@@ -120,21 +120,22 @@ void thermalBaffleModel::init()
       // Check that thickness has the right size
       if (thickness_.size() != pp.size())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "thermalBaffleModel::thermalBaffleModel"
           "("
           "   const word&,"
           "   const fvMesh&"
           ")"
-        )   << " coupled patches in thermalBaffle are " << nl
-          << " different sizes from list thickness" << nl
-          << exit(FatalError);
+        )
+        << " coupled patches in thermalBaffle are " << nl
+        << " different sizes from list thickness" << nl
+        << exit(FatalError);
       }
       // Calculate thickness of the baffle on the first face only.
       if (delta_.value() == 0.0)
       {
-        forAll (ppCoupled, localFaceI)
+        FOR_ALL(ppCoupled, localFaceI)
         {
           label faceI = ppCoupled.start() + localFaceI;
           label faceO =
@@ -153,11 +154,11 @@ void thermalBaffleModel::init()
 // Constructors 
 thermalBaffleModel::thermalBaffleModel(const fvMesh& mesh)
 :
-  regionModel1D(mesh, "thermalBaffle"),
-  thickness_(),
-  delta_("delta", dimLength, 0.0),
-  oneD_(false),
-  constantThickness_(true)
+  regionModel1D{mesh, "thermalBaffle"},
+  thickness_{},
+  delta_{"delta", dimLength, 0.0},
+  oneD_{false},
+  constantThickness_{true}
 {}
 thermalBaffleModel::thermalBaffleModel
 (
@@ -166,11 +167,11 @@ thermalBaffleModel::thermalBaffleModel
   const dictionary& dict
 )
 :
-  regionModel1D(mesh, "thermalBaffle", modelType, dict, true),
-  thickness_(),
-  delta_("delta", dimLength, 0.0),
-  oneD_(false),
-  constantThickness_(dict.lookupOrDefault<bool>("constantThickness", true))
+  regionModel1D{mesh, "thermalBaffle", modelType, dict, true},
+  thickness_{},
+  delta_{"delta", dimLength, 0.0},
+  oneD_{false},
+  constantThickness_{dict.lookupOrDefault<bool>("constantThickness", true)}
 {
   init();
 }
@@ -180,11 +181,11 @@ thermalBaffleModel::thermalBaffleModel
   const fvMesh& mesh
 )
 :
-  regionModel1D(mesh, "thermalBaffle", modelType),
-  thickness_(),
-  delta_("delta", dimLength, 0.0),
-  oneD_(false),
-  constantThickness_(lookupOrDefault<bool>("constantThickness", true))
+  regionModel1D{mesh, "thermalBaffle", modelType},
+  thickness_{},
+  delta_{"delta", dimLength, 0.0},
+  oneD_{false},
+  constantThickness_{lookupOrDefault<bool>("constantThickness", true)}
 {
   init();
 }

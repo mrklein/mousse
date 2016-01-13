@@ -24,17 +24,16 @@ private:
   // Private Data
     //- Surface roughness coefficient
     scalar Cf_;
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    laminar(const laminar&);
-    //- Disallow default bitwise assignment
-    void operator=(const laminar&);
 public:
   //- Runtime type information
-  TypeName("laminar");
+  TYPE_NAME("laminar");
   // Constructors
     //- Construct from surface film model
     laminar(surfaceFilmModel& owner, const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    laminar(const laminar&) = delete;
+    //- Disallow default bitwise assignment
+    laminar& operator=(const laminar&) = delete;
   //- Destructor
   virtual ~laminar();
   // Member Functions

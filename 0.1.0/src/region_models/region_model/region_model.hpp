@@ -26,10 +26,6 @@ class regionModel
 {
 private:
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    regionModel(const regionModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const regionModel&);
     //- Construct region mesh and fields
     void constructMeshObjects();
     //- Construct region mesh and dictionary
@@ -84,7 +80,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("regionModel");
+  TYPE_NAME("regionModel");
   // Constructors
     //- Construct null
     regionModel(const fvMesh& mesh, const word& regionType);
@@ -105,6 +101,10 @@ public:
       const dictionary& dict,
       bool readFields = true
     );
+    //- Disallow default bitwise copy construct
+    regionModel(const regionModel&) = delete;
+    //- Disallow default bitwise assignment
+    regionModel& operator=(const regionModel&) = delete;
   //- Destructor
   virtual ~regionModel();
   // Member Functions

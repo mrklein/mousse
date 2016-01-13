@@ -48,11 +48,6 @@ class thixotropicViscosity
 :
   public filmViscosityModel
 {
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    thixotropicViscosity(const thixotropicViscosity&);
-    //- Disallow default bitwise assignment
-    void operator=(const thixotropicViscosity&);
 protected:
   // Protected data
     //- Model `a' coefficient
@@ -75,7 +70,7 @@ protected:
     volScalarField lambda_;
 public:
   //- Runtime type information
-  TypeName("thixotropic");
+  TYPE_NAME("thixotropic");
   // Constructors
     //- Construct from surface film model
     thixotropicViscosity
@@ -84,6 +79,10 @@ public:
       const dictionary& dict,
       volScalarField& mu
     );
+    //- Disallow default bitwise copy construct
+    thixotropicViscosity(const thixotropicViscosity&) = delete;
+    //- Disallow default bitwise assignment
+    thixotropicViscosity& operator=(const thixotropicViscosity&) = delete;
   //- Destructor
   virtual ~thixotropicViscosity();
   // Member Functions

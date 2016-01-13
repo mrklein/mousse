@@ -25,17 +25,19 @@ class pyrolysisModelCollection
 :
   public PtrList<pyrolysisModel>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    pyrolysisModelCollection(const pyrolysisModelCollection&);
-    //- Disallow default bitwise assignment
-    void operator=(const pyrolysisModelCollection&);
 public:
   // Runtime type information
-  TypeName("pyrolysisModelCollection");
+  TYPE_NAME("pyrolysisModelCollection");
   // Constructors
     //- Construct from mesh
     pyrolysisModelCollection(const fvMesh&);
+    //- Disallow default bitwise copy construct
+    pyrolysisModelCollection(const pyrolysisModelCollection&) = delete;
+    //- Disallow default bitwise assignment
+    pyrolysisModelCollection& operator=
+    (
+      const pyrolysisModelCollection&
+    ) = delete;
   //- Destructor
   virtual ~pyrolysisModelCollection();
   // Member Functions

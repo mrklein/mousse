@@ -30,9 +30,9 @@ protected:
     word modelType_;
 public:
   //- Runtime type information
-  TypeName("regionModelFunctionObject");
+  TYPE_NAME("regionModelFunctionObject");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     regionModelFunctionObject,

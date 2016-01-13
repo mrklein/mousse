@@ -17,7 +17,7 @@ void kinematicSingleLayer::constrainFilmField
   const typename Type::cmptType& value
 )
 {
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     label patchI = intCoupledPatchIDs_[i];
     field.boundaryField()[patchI] = value;
@@ -28,7 +28,7 @@ void kinematicSingleLayer::constrainFilmField
         << " to " << value << endl;
     }
   }
-  forAll(passivePatchIDs_, i)
+  FOR_ALL(passivePatchIDs_, i)
   {
     label patchI = passivePatchIDs_[i];
     field.boundaryField()[patchI] = value;

@@ -22,7 +22,7 @@ autoPtr<filmRadiationModel> filmRadiationModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "filmRadiationModel::New"
       "("

@@ -30,14 +30,9 @@ private:
     //  Assumes that the primary regtion to film region boundaries are
     //  described as mappedPushed types
     volScalarField htcConvFilm_;
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    mappedConvectiveHeatTransfer(const mappedConvectiveHeatTransfer&);
-    //- Disallow default bitwise assignment
-    void operator=(const mappedConvectiveHeatTransfer&);
 public:
   //- Runtime type information
-  TypeName("mappedConvectiveHeatTransfer");
+  TYPE_NAME("mappedConvectiveHeatTransfer");
   // Constructors
     //- Construct from surface film model and dictionary
     mappedConvectiveHeatTransfer
@@ -45,6 +40,13 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    mappedConvectiveHeatTransfer(const mappedConvectiveHeatTransfer&) = delete;
+    //- Disallow default bitwise assignment
+    mappedConvectiveHeatTransfer& operator=
+    (
+      const mappedConvectiveHeatTransfer&
+    ) = delete;
   //- Destructor
   virtual ~mappedConvectiveHeatTransfer();
   // Member Functions

@@ -43,7 +43,7 @@ class filmPyrolysisVelocityCoupledFvPatchVectorField
     word rhoName_;
 public:
   //- Runtime type information
-  TypeName("filmPyrolysisVelocityCoupled");
+  TYPE_NAME("filmPyrolysisVelocityCoupled");
   // Constructors
     //- Construct from patch and internal field
     filmPyrolysisVelocityCoupledFvPatchVectorField

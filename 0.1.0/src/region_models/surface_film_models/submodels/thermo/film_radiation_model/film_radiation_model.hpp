@@ -22,17 +22,11 @@ class filmRadiationModel
 :
   public filmSubModelBase
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    filmRadiationModel(const filmRadiationModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const filmRadiationModel&);
 public:
   //- Runtime type information
-  TypeName("radiationModel");
+  TYPE_NAME("radiationModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       filmRadiationModel,
@@ -53,6 +47,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    filmRadiationModel(const filmRadiationModel&) = delete;
+    //- Disallow default bitwise assignment
+    filmRadiationModel& operator=(const filmRadiationModel&) = delete;
   // Selectors
     //- Return a reference to the selected phase change model
     static autoPtr<filmRadiationModel> New

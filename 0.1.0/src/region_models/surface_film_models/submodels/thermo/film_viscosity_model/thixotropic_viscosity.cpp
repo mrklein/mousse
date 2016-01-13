@@ -16,8 +16,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(thixotropicViscosity, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(thixotropicViscosity, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   filmViscosityModel,
   thixotropicViscosity,
@@ -64,8 +64,8 @@ thixotropicViscosity::~thixotropicViscosity()
 // Member Functions 
 void thixotropicViscosity::correct
 (
-  const volScalarField& p,
-  const volScalarField& T
+  const volScalarField& /*p*/,
+  const volScalarField& /*T*/
 )
 {
   const kinematicSingleLayer& film = filmType<kinematicSingleLayer>();

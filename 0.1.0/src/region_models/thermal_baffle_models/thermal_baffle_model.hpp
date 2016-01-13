@@ -27,10 +27,6 @@ class thermalBaffleModel
 {
 private:
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    thermalBaffleModel(const thermalBaffleModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const thermalBaffleModel&);
     //- Initialize thermal Baffle
     void init();
 protected:
@@ -50,9 +46,9 @@ protected:
     virtual bool read(const dictionary&);
 public:
   //- Runtime type information
-  TypeName("thermalBaffleModel");
+  TYPE_NAME("thermalBaffleModel");
   // Declare runtime constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       thermalBaffleModel,
@@ -63,7 +59,7 @@ public:
       ),
       (modelType, mesh)
     );
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       thermalBaffleModel,
@@ -87,6 +83,10 @@ public:
       const fvMesh& mesh,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    thermalBaffleModel(const thermalBaffleModel&) = delete;
+    //- Disallow default bitwise assignment
+    thermalBaffleModel& operator=(const thermalBaffleModel&) = delete;
   // Selectors
     //- Return a reference to the selected model
     static autoPtr<thermalBaffleModel> New(const fvMesh& mesh);

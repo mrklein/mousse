@@ -26,14 +26,9 @@ private:
   // Private data
     //- Incident radiative flux mapped from  the primary region / [kg/s3]
     volScalarField QinPrimary_;
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    primaryRadiation(const primaryRadiation&);
-    //- Disallow default bitwise assignment
-    void operator=(const primaryRadiation&);
 public:
   //- Runtime type information
-  TypeName("primaryRadiation");
+  TYPE_NAME("primaryRadiation");
   // Constructors
     //- Construct from surface film model and dictionary
     primaryRadiation
@@ -41,6 +36,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    primaryRadiation(const primaryRadiation&) = delete;
+    //- Disallow default bitwise assignment
+    primaryRadiation& operator=(const primaryRadiation&) = delete;
   //- Destructor
   virtual ~primaryRadiation();
   // Member Functions

@@ -15,11 +15,11 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  filmRegionName_("surfaceFilmProperties"),
-  pyrolysisRegionName_("pyrolysisProperties"),
-  phiName_("phi"),
-  rhoName_("rho")
+  fixedValueFvPatchScalarField{p, iF},
+  filmRegionName_{"surfaceFilmProperties"},
+  pyrolysisRegionName_{"pyrolysisProperties"},
+  phiName_{"phi"},
+  rhoName_{"rho"}
 {}
 mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::
 filmPyrolysisTemperatureCoupledFvPatchScalarField
@@ -30,11 +30,11 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  filmRegionName_(ptf.filmRegionName_),
-  pyrolysisRegionName_(ptf.pyrolysisRegionName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  filmRegionName_{ptf.filmRegionName_},
+  pyrolysisRegionName_{ptf.pyrolysisRegionName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_}
 {}
 mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::
 filmPyrolysisTemperatureCoupledFvPatchScalarField
@@ -44,17 +44,17 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
+  fixedValueFvPatchScalarField{p, iF},
   filmRegionName_
-  (
+  {
     dict.lookupOrDefault<word>("filmRegion", "surfaceFilmProperties")
-  ),
+  },
   pyrolysisRegionName_
-  (
+  {
     dict.lookupOrDefault<word>("pyrolysisRegion", "pyrolysisProperties")
-  ),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho"))
+  },
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")}
 {
   fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
 }
@@ -64,11 +64,11 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   const filmPyrolysisTemperatureCoupledFvPatchScalarField& fptpsf
 )
 :
-  fixedValueFvPatchScalarField(fptpsf),
-  filmRegionName_(fptpsf.filmRegionName_),
-  pyrolysisRegionName_(fptpsf.pyrolysisRegionName_),
-  phiName_(fptpsf.phiName_),
-  rhoName_(fptpsf.rhoName_)
+  fixedValueFvPatchScalarField{fptpsf},
+  filmRegionName_{fptpsf.filmRegionName_},
+  pyrolysisRegionName_{fptpsf.pyrolysisRegionName_},
+  phiName_{fptpsf.phiName_},
+  rhoName_{fptpsf.rhoName_}
 {}
 mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::
 filmPyrolysisTemperatureCoupledFvPatchScalarField
@@ -77,11 +77,11 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(fptpsf, iF),
-  filmRegionName_(fptpsf.filmRegionName_),
-  pyrolysisRegionName_(fptpsf.pyrolysisRegionName_),
-  phiName_(fptpsf.phiName_),
-  rhoName_(fptpsf.rhoName_)
+  fixedValueFvPatchScalarField{fptpsf, iF},
+  filmRegionName_{fptpsf.filmRegionName_},
+  pyrolysisRegionName_{fptpsf.pyrolysisRegionName_},
+  phiName_{fptpsf.phiName_},
+  rhoName_{fptpsf.rhoName_}
 {}
 // Member Functions 
 void mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::updateCoeffs()
@@ -151,9 +151,9 @@ void mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    filmPyrolysisTemperatureCoupledFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  filmPyrolysisTemperatureCoupledFvPatchScalarField
+);
 }

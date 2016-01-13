@@ -18,8 +18,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(laminar, 0);
-addToRunTimeSelectionTable(filmTurbulenceModel, laminar, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(laminar, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(filmTurbulenceModel, laminar, dictionary);
 // Constructors 
 laminar::laminar
 (

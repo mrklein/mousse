@@ -20,15 +20,9 @@ class thermocapillaryForce
 :
   public force
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    thermocapillaryForce(const thermocapillaryForce&);
-    //- Disallow default bitwise assignment
-    void operator=(const thermocapillaryForce&);
 public:
   //- Runtime type information
-  TypeName("thermocapillary");
+  TYPE_NAME("thermocapillary");
   // Constructors
     //- Construct from surface film model
     thermocapillaryForce
@@ -36,6 +30,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    thermocapillaryForce(const thermocapillaryForce&) = delete;
+    //- Disallow default bitwise assignment
+    thermocapillaryForce& operator=(const thermocapillaryForce&) = delete;
   //- Destructor
   virtual ~thermocapillaryForce();
   // Member Functions

@@ -29,7 +29,7 @@ class inclinedFilmNusseltInletVelocityFvPatchVectorField
     autoPtr<DataEntry<scalar> > omega_;
 public:
   //- Runtime type information
-  TypeName("inclinedFilmNusseltInletVelocity");
+  TYPE_NAME("inclinedFilmNusseltInletVelocity");
   // Constructors
     //- Construct from patch and internal field
     inclinedFilmNusseltInletVelocityFvPatchVectorField

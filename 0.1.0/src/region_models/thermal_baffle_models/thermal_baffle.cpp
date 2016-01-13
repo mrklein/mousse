@@ -16,9 +16,9 @@ namespace regionModels
 namespace thermalBaffleModels
 {
 // Static Data Members
-defineTypeNameAndDebug(thermalBaffle, 0);
-addToRunTimeSelectionTable(thermalBaffleModel, thermalBaffle, mesh);
-addToRunTimeSelectionTable(thermalBaffleModel, thermalBaffle, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(thermalBaffle, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(thermalBaffleModel, thermalBaffle, mesh);
+ADD_TO_RUN_TIME_SELECTION_TABLE(thermalBaffleModel, thermalBaffle, dictionary);
 // Protected Member Functions 
 bool thermalBaffle::read()
 {
@@ -63,10 +63,10 @@ void thermalBaffle::solveEnergy()
     // Scale K and rhoCp and fill Q in the internal baffle region.
     const label patchI = intCoupledPatchIDs_[0];
     const polyPatch& ppCoupled = rbm[patchI];
-    forAll(ppCoupled, localFaceI)
+    FOR_ALL(ppCoupled, localFaceI)
     {
       const labelList& cells = boundaryFaceCells_[localFaceI];
-      forAll(cells, i)
+      FOR_ALL(cells, i)
       {
         const label cellId = cells[i];
         Q[cellId] =
@@ -231,7 +231,7 @@ void thermalBaffle::init()
     const label Qsb = Qs_.boundaryField()[patchI].size();
     if (Qsb!= thickness_.size())
     {
-      FatalErrorIn("thermalBaffle::init()")
+      FATAL_ERROR_IN("thermalBaffle::init()")
         << "the boundary field of Qs is "
         << Qsb << " and " << nl
         << "the field 'thickness' is " << thickness_.size() << nl
@@ -275,7 +275,7 @@ const solidThermo& thermalBaffle::thermo() const
 void thermalBaffle::info()
 {
   const labelList& coupledPatches = intCoupledPatchIDs();
-  forAll(coupledPatches, i)
+  FOR_ALL(coupledPatches, i)
   {
     const label patchI = coupledPatches[i];
     const fvPatchScalarField& ph = h_.boundaryField()[patchI];

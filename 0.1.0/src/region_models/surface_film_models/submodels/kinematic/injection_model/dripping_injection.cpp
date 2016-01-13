@@ -17,8 +17,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(drippingInjection, 0);
-addToRunTimeSelectionTable(injectionModel, drippingInjection, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(drippingInjection, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(injectionModel, drippingInjection, dictionary);
 // Constructors 
 drippingInjection::drippingInjection
 (
@@ -61,7 +61,7 @@ void drippingInjection::correct
   const scalarField& delta = film.delta();
   const scalarField& rho = film.rho();
   scalarField massDrip(film.regionMesh().nCells(), 0.0);
-  forAll(gNorm, i)
+  FOR_ALL(gNorm, i)
   {
     if (gNorm[i] > SMALL)
     {
@@ -71,7 +71,7 @@ void drippingInjection::correct
     }
   }
   // Collect the data to be transferred
-  forAll(massDrip, cellI)
+  FOR_ALL(massDrip, cellI)
   {
     if (massDrip[cellI] > 0)
     {

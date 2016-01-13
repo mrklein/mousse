@@ -32,10 +32,6 @@ private:
     void constructMeshObjects();
     //- Read pyrolysis controls
     void readPyrolysisControls();
-    //- Disallow default bitwise copy construct
-    pyrolysisModel(const pyrolysisModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const pyrolysisModel&);
 protected:
   // Protected Member Functions
     //- Read control parameters
@@ -44,9 +40,9 @@ protected:
     virtual bool read(const dictionary& dict);
 public:
   //- Runtime type information
-  TypeName("pyrolysisModel");
+  TYPE_NAME("pyrolysisModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       pyrolysisModel,
@@ -58,7 +54,7 @@ public:
       ),
       (modelType, mesh, regionType)
     );
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       pyrolysisModel,
@@ -96,9 +92,13 @@ public:
     //- Return clone
     autoPtr<pyrolysisModel> clone() const
     {
-      notImplemented("autoPtr<pyrolysisModel> clone() const");
+      NOT_IMPLEMENTED("autoPtr<pyrolysisModel> clone() const");
       return autoPtr<pyrolysisModel>(NULL);
     }
+    //- Disallow default bitwise copy construct
+    pyrolysisModel(const pyrolysisModel&) = delete;
+    //- Disallow default bitwise assignment
+    pyrolysisModel& operator=(const pyrolysisModel&) = delete;
   // Selectors
     //- Return a reference to the selected pyrolysis model
     static autoPtr<pyrolysisModel> New

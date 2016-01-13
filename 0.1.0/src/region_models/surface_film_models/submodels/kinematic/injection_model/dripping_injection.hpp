@@ -25,12 +25,6 @@ class drippingInjection
 :
   public injectionModel
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    drippingInjection(const drippingInjection&);
-    //- Disallow default bitwise assignment
-    void operator=(const drippingInjection&);
 protected:
   // Protected data
     //- Stable film thickness - drips only formed if thickness
@@ -47,7 +41,7 @@ protected:
     scalarList diameter_;
 public:
   //- Runtime type information
-  TypeName("drippingInjection");
+  TYPE_NAME("drippingInjection");
   // Constructors
     //- Construct from surface film model
     drippingInjection
@@ -55,6 +49,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    drippingInjection(const drippingInjection&) = delete;
+    //- Disallow default bitwise assignment
+    drippingInjection& operator=(const drippingInjection&) = delete;
   //- Destructor
   virtual ~drippingInjection();
   // Member Functions

@@ -23,12 +23,6 @@ class phaseChangeModel
 :
   public filmSubModelBase
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    phaseChangeModel(const phaseChangeModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const phaseChangeModel&);
 protected:
   // Protected Member Functions
     //- Latest mass transfer due to phase change
@@ -37,9 +31,9 @@ protected:
     scalar totalMassPC_;
 public:
   //- Runtime type information
-  TypeName("phaseChangeModel");
+  TYPE_NAME("phaseChangeModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       phaseChangeModel,
@@ -60,6 +54,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    phaseChangeModel(const phaseChangeModel&) = delete;
+    //- Disallow default bitwise assignment
+    phaseChangeModel& operator=(const phaseChangeModel&) = delete;
   // Selectors
     //- Return a reference to the selected phase change model
     static autoPtr<phaseChangeModel> New

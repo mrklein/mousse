@@ -20,18 +20,16 @@ class noPhaseChange
 :
   public phaseChangeModel
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    noPhaseChange(const noPhaseChange&);
-    //- Disallow default bitwise assignment
-    void operator=(const noPhaseChange&);
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from surface film model
     noPhaseChange(surfaceFilmModel& owner, const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    noPhaseChange(const noPhaseChange&) = delete;
+    //- Disallow default bitwise assignment
+    noPhaseChange& operator=(const noPhaseChange&) = delete;
   //- Destructor
   virtual ~noPhaseChange();
   // Member Functions

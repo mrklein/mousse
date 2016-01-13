@@ -27,11 +27,6 @@ class ArrheniusViscosity
 :
   public filmViscosityModel
 {
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    ArrheniusViscosity(const ArrheniusViscosity&);
-    //- Disallow default bitwise assignment
-    void operator=(const ArrheniusViscosity&);
 protected:
   // Protected data
     //- Base viscosity model
@@ -44,7 +39,7 @@ protected:
     dimensionedScalar Tref_;
 public:
   //- Runtime type information
-  TypeName("Arrhenius");
+  TYPE_NAME("Arrhenius");
   // Constructors
     //- Construct from surface film model
     ArrheniusViscosity
@@ -53,6 +48,10 @@ public:
       const dictionary& dict,
       volScalarField& mu
     );
+    //- Disallow default bitwise copy construct
+    ArrheniusViscosity(const ArrheniusViscosity&) = delete;
+    //- Disallow default bitwise assignment
+    ArrheniusViscosity& operator=(const ArrheniusViscosity&) = delete;
   //- Destructor
   virtual ~ArrheniusViscosity();
   // Member Functions

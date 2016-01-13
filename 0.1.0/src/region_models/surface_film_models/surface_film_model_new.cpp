@@ -40,7 +40,7 @@ autoPtr<surfaceFilmModel> surfaceFilmModel::New
     meshConstructorTablePtr_->find(modelType);
   if (cstrIter == meshConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "surfaceFilmModel::New(const fvMesh&, const dimensionedVector&)"
     )   << "Unknown surfaceFilmModel type " << modelType

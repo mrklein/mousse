@@ -32,7 +32,7 @@ inline const mousse::fvMesh& mousse::regionModels::regionModel::regionMesh() con
   }
   else if (!regionMeshPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline const mousse::fvMesh&"
       "mousse::regionModels::regionModel::regionMesh() const"
@@ -51,7 +51,7 @@ inline mousse::fvMesh& mousse::regionModels::regionModel::regionMesh()
   }
   else if (!regionMeshPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline mousse::fvMesh&"
       "mousse::regionModels::regionModel::regionMesh()"
@@ -73,7 +73,7 @@ mousse::regionModels::regionModel::outputProperties() const
 {
   if (!outputPropertiesPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline const mousse::IOdictionary& "
       "mousse::regionModels::regionModel::outputProperties() const"
@@ -88,7 +88,7 @@ mousse::regionModels::regionModel::outputProperties()
 {
   if (!outputPropertiesPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline mousse::IOdictionary& "
       "mousse::regionModels::regionModel::outputProperties()"
@@ -103,7 +103,7 @@ inline bool mousse::regionModels::regionModel::isCoupledPatch
   const label regionPatchI
 ) const
 {
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     if (intCoupledPatchIDs_[i] == regionPatchI)
     {
@@ -117,7 +117,7 @@ inline bool mousse::regionModels::regionModel::isRegionPatch
   const label primaryPatchI
 ) const
 {
-  forAll(primaryPatchIDs_, i)
+  FOR_ALL(primaryPatchIDs_, i)
   {
     if (primaryPatchIDs_[i] == primaryPatchI)
     {
@@ -141,7 +141,7 @@ inline mousse::label mousse::regionModels::regionModel::regionPatchID
   const label primaryPatchID
 ) const
 {
-  forAll(primaryPatchIDs_, i)
+  FOR_ALL(primaryPatchIDs_, i)
   {
     if (primaryPatchIDs_[i] == primaryPatchID)
     {

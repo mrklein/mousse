@@ -23,17 +23,11 @@ class force
 :
   public filmSubModelBase
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    force(const force&);
-    //- Disallow default bitwise assignment
-    void operator=(const force&);
 public:
   //- Runtime type information
-  TypeName("force");
+  TYPE_NAME("force");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       force,
@@ -54,6 +48,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    force(const force&) = delete;
+    //- Disallow default bitwise assignment
+    force& operator=(const force&) = delete;
   // Selectors
     //- Return a reference to the selected force model
     static autoPtr<force> New

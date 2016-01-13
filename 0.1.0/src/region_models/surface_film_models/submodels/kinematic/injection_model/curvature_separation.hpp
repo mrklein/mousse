@@ -29,12 +29,6 @@ class curvatureSeparation
 :
   public injectionModel
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    curvatureSeparation(const curvatureSeparation&);
-    //- Disallow default bitwise assignment
-    void operator=(const curvatureSeparation&);
 protected:
   // Protected data
     //- Gradient of surface normals
@@ -56,7 +50,7 @@ protected:
     tmp<scalarField> calcCosAngle(const surfaceScalarField& phi) const;
 public:
   //- Runtime type information
-  TypeName("curvatureSeparation");
+  TYPE_NAME("curvatureSeparation");
   // Constructors
     //- Construct from surface film model
     curvatureSeparation
@@ -64,6 +58,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    curvatureSeparation(const curvatureSeparation&) = delete;
+    //- Disallow default bitwise assignment
+    curvatureSeparation& operator=(const curvatureSeparation&) = delete;
   //- Destructor
   virtual ~curvatureSeparation();
   // Member Functions

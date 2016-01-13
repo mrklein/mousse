@@ -37,7 +37,7 @@ autoPtr<thermalBaffleModel> thermalBaffleModel::New(const fvMesh& mesh)
     meshConstructorTablePtr_->find(modelType);
   if (cstrIter == meshConstructorTablePtr_->end())
   {
-    FatalErrorIn("thermalBaffleModel::New(const fvMesh&)")
+    FATAL_ERROR_IN("thermalBaffleModel::New(const fvMesh&)")
       << "Unknown thermalBaffleModel type " << modelType
       << nl << nl
       <<  "Valid thermalBaffleModel types are:" << nl
@@ -58,7 +58,7 @@ autoPtr<thermalBaffleModel> thermalBaffleModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "thermalBaffleModel::New(const fvMesh&, const dictionary&)"
     )   << "Unknown thermalBaffleModel type " << modelType

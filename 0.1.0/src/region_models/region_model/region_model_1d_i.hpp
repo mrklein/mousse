@@ -23,7 +23,7 @@ mousse::regionModels::regionModel1D::nMagSf() const
 {
   if (!nMagSfPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline const mousse::surfaceScalarField&"
       "mousse::regionModel1Ds::regionModel1D::nMagSf() const"

@@ -27,11 +27,6 @@ class injectionModel
   // Private data
     //- Injected mass
     scalar injectedMass_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    injectionModel(const injectionModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const injectionModel&);
 protected:
   // Protected Member Functions
     //- Add to injected mass
@@ -40,9 +35,9 @@ protected:
     void correct();
 public:
   //- Runtime type information
-  TypeName("injectionModel");
+  TYPE_NAME("injectionModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       injectionModel,
@@ -63,6 +58,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    injectionModel(const injectionModel&) = delete;
+    //- Disallow default bitwise assignment
+    injectionModel& operator=(const injectionModel&) = delete;
   // Selectors
     //- Return a reference to the selected injection model
     static autoPtr<injectionModel> New
@@ -85,7 +84,7 @@ public:
     virtual scalar injectedMassTotal() const;
     //- Accumulate the total mass injected for the patches into the
     //  scalarField provided
-    virtual void patchInjectedMassTotals(scalarField& patchMasses) const
+    virtual void patchInjectedMassTotals(scalarField& /*patchMasses*/) const
     {}
 };
 }  // namespace surfaceFilmModels

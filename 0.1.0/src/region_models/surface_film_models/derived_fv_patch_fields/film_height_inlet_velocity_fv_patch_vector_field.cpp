@@ -14,10 +14,10 @@ filmHeightInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  phiName_("phi"),
-  rhoName_("rho"),
-  deltafName_("deltaf")
+  fixedValueFvPatchVectorField{p, iF},
+  phiName_{"phi"},
+  rhoName_{"rho"},
+  deltafName_{"deltaf"}
 {}
 mousse::filmHeightInletVelocityFvPatchVectorField::
 filmHeightInletVelocityFvPatchVectorField
@@ -28,10 +28,10 @@ filmHeightInletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(ptf, p, iF, mapper),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  deltafName_(ptf.deltafName_)
+  fixedValueFvPatchVectorField{ptf, p, iF, mapper},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  deltafName_{ptf.deltafName_}
 {}
 mousse::filmHeightInletVelocityFvPatchVectorField::
 filmHeightInletVelocityFvPatchVectorField
@@ -41,10 +41,10 @@ filmHeightInletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho")),
-  deltafName_(dict.lookupOrDefault<word>("deltaf", "deltaf"))
+  fixedValueFvPatchVectorField{p, iF},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")},
+  deltafName_{dict.lookupOrDefault<word>("deltaf", "deltaf")}
 {
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
 }
@@ -54,10 +54,10 @@ filmHeightInletVelocityFvPatchVectorField
   const filmHeightInletVelocityFvPatchVectorField& fhivpvf
 )
 :
-  fixedValueFvPatchVectorField(fhivpvf),
-  phiName_(fhivpvf.phiName_),
-  rhoName_(fhivpvf.rhoName_),
-  deltafName_(fhivpvf.deltafName_)
+  fixedValueFvPatchVectorField{fhivpvf},
+  phiName_{fhivpvf.phiName_},
+  rhoName_{fhivpvf.rhoName_},
+  deltafName_{fhivpvf.deltafName_}
 {}
 mousse::filmHeightInletVelocityFvPatchVectorField::
 filmHeightInletVelocityFvPatchVectorField
@@ -66,10 +66,10 @@ filmHeightInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(fhivpvf, iF),
-  phiName_(fhivpvf.phiName_),
-  rhoName_(fhivpvf.rhoName_),
-  deltafName_(fhivpvf.deltafName_)
+  fixedValueFvPatchVectorField{fhivpvf, iF},
+  phiName_{fhivpvf.phiName_},
+  rhoName_{fhivpvf.rhoName_},
+  deltafName_{fhivpvf.deltafName_}
 {}
 // Member Functions 
 void mousse::filmHeightInletVelocityFvPatchVectorField::updateCoeffs()
@@ -107,9 +107,9 @@ void mousse::filmHeightInletVelocityFvPatchVectorField::operator=
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    filmHeightInletVelocityFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  filmHeightInletVelocityFvPatchVectorField
+);
 }

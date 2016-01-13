@@ -71,13 +71,9 @@ private:
   // Private member functions
     //- Initialise thermoData object
     void init(thermoData& td);
-    //- Disallow default bitwise copy construct
-    constantFilmThermo(const constantFilmThermo&);
-    //- Disallow default bitwise assignment
-    void operator=(const constantFilmThermo&);
 public:
   //- Runtime type information
-  TypeName("constant");
+  TYPE_NAME("constant");
   // Constructors
     //- Construct from surface film model and dictionary
     constantFilmThermo
@@ -85,6 +81,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    constantFilmThermo(const constantFilmThermo&) = delete;
+    //- Disallow default bitwise assignment
+    constantFilmThermo& operator=(const constantFilmThermo&) = delete;
   //- Destructor
   virtual ~constantFilmThermo();
   // Member Functions

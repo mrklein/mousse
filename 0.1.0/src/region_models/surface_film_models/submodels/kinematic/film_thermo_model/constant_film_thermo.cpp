@@ -11,8 +11,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(constantFilmThermo, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(constantFilmThermo, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   filmThermoModel,
   constantFilmThermo,
@@ -64,8 +64,8 @@ const word& constantFilmThermo::name() const
 }
 scalar constantFilmThermo::rho
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   if (!rho0_.set_)
@@ -77,8 +77,8 @@ scalar constantFilmThermo::rho
 }
 scalar constantFilmThermo::mu
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   if (!mu0_.set_)
@@ -90,8 +90,8 @@ scalar constantFilmThermo::mu
 }
 scalar constantFilmThermo::sigma
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   if (!sigma0_.set_)
@@ -103,8 +103,8 @@ scalar constantFilmThermo::sigma
 }
 scalar constantFilmThermo::Cp
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   if (!Cp0_.set_)
@@ -116,8 +116,8 @@ scalar constantFilmThermo::Cp
 }
 scalar constantFilmThermo::kappa
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   if (!kappa0_.set_)
@@ -129,8 +129,8 @@ scalar constantFilmThermo::kappa
 }
 scalar constantFilmThermo::D
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   if (!D0_.set_)
@@ -142,8 +142,8 @@ scalar constantFilmThermo::D
 }
 scalar constantFilmThermo::hl
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   if (!hl0_.set_)
@@ -155,8 +155,8 @@ scalar constantFilmThermo::hl
 }
 scalar constantFilmThermo::pv
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   if (!pv0_.set_)
@@ -175,7 +175,7 @@ scalar constantFilmThermo::W() const
   }
   return W0_.value_;
 }
-scalar constantFilmThermo::Tb(const scalar p) const
+scalar constantFilmThermo::Tb(const scalar /*p*/) const
 {
   if (!Tb0_.set_)
   {
@@ -187,22 +187,22 @@ scalar constantFilmThermo::Tb(const scalar p) const
 tmp<volScalarField> constantFilmThermo::rho() const
 {
   tmp<volScalarField> trho
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         type() + ':' + rho0_.name_,
         owner().time().timeName(),
         owner().regionMesh(),
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       owner().regionMesh(),
       dimensionedScalar("0", dimDensity, 0.0),
       zeroGradientFvPatchScalarField::typeName
-    )
-  );
+    }
+  };
   trho().internalField() = this->rho(0, 0);
   trho().correctBoundaryConditions();
   return trho;

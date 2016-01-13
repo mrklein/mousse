@@ -21,19 +21,13 @@ class noThermo
 :
   public thermalBaffleModel
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    noThermo(const noThermo&);
-    //- Disallow default bitwise assignment
-    void operator=(const noThermo&);
 protected:
   // Protected member functions
     //- Read control parameters from dictionary
     virtual bool read();
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from type name and mesh
     noThermo(const word& modelType, const fvMesh& mesh);
@@ -44,6 +38,10 @@ public:
       const fvMesh& mesh,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    noThermo(const noThermo&) = delete;
+    //- Disallow default bitwise assignment
+    noThermo& operator=(const noThermo&) = delete;
   //- Destructor
   virtual ~noThermo();
   // Member Functions

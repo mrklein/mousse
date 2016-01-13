@@ -28,12 +28,6 @@ class surfaceFilmModel
 :
   public singleLayerRegion
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    surfaceFilmModel(const surfaceFilmModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const surfaceFilmModel&);
 protected:
   // Protected data
     //- Acceleration due to gravity [m/s2]
@@ -43,9 +37,9 @@ protected:
     virtual bool read();
 public:
   //- Runtime type information
-  TypeName("surfaceFilmModel");
+  TYPE_NAME("surfaceFilmModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       surfaceFilmModel,
@@ -67,6 +61,10 @@ public:
       const dimensionedVector& g,
       const word& regionType
     );
+    //- Disallow default bitwise copy construct
+    surfaceFilmModel(const surfaceFilmModel&) = delete;
+    //- Disallow default bitwise assignment
+    surfaceFilmModel& operator=(const surfaceFilmModel&) = delete;
   // Selectors
     //- Return a reference to the selected surface film model
     static autoPtr<surfaceFilmModel> New

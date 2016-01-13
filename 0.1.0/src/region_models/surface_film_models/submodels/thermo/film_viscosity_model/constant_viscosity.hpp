@@ -20,18 +20,13 @@ class constantViscosity
 :
   public filmViscosityModel
 {
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    constantViscosity(const constantViscosity&);
-    //- Disallow default bitwise assignment
-    void operator=(const constantViscosity&);
 protected:
   // Protected data
     //- Constant viscosity [Pa.s]
     dimensionedScalar mu0_;
 public:
   //- Runtime type information
-  TypeName("constant");
+  TYPE_NAME("constant");
   // Constructors
     //- Construct from surface film model
     constantViscosity
@@ -40,6 +35,10 @@ public:
       const dictionary& dict,
       volScalarField& mu
     );
+    //- Disallow default bitwise copy construct
+    constantViscosity(const constantViscosity&) = delete;
+    //- Disallow default bitwise assignment
+    constantViscosity& operator=(const constantViscosity&) = delete;
   //- Destructor
   virtual ~constantViscosity();
   // Member Functions

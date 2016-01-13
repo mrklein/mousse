@@ -22,7 +22,7 @@ autoPtr<filmThermoModel> filmThermoModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "filmThermoModel::New(surfaceFilmModel&, const dictionary&)"
     )   << "Unknown filmThermoModel type " << modelType << nl << nl

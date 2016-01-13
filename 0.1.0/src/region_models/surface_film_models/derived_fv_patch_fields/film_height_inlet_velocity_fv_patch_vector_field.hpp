@@ -63,7 +63,7 @@ class filmHeightInletVelocityFvPatchVectorField
     word deltafName_;
 public:
   //- Runtime type information
-  TypeName("filmHeightInletVelocity");
+  TYPE_NAME("filmHeightInletVelocity");
   // Constructors
     //- Construct from patch and internal field
     filmHeightInletVelocityFvPatchVectorField

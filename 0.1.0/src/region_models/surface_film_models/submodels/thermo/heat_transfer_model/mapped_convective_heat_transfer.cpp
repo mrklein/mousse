@@ -13,8 +13,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(mappedConvectiveHeatTransfer, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(mappedConvectiveHeatTransfer, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   heatTransferModel,
   mappedConvectiveHeatTransfer,
@@ -24,7 +24,7 @@ addToRunTimeSelectionTable
 mappedConvectiveHeatTransfer::mappedConvectiveHeatTransfer
 (
   surfaceFilmModel& owner,
-  const dictionary& dict
+  const dictionary& /*dict*/
 )
 :
   heatTransferModel(owner),

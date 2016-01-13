@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace regionModels
 {
-  defineTypeNameAndDebug(regionModelFunctionObject, 0);
-  defineRunTimeSelectionTable(regionModelFunctionObject, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(regionModelFunctionObject, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(regionModelFunctionObject, dictionary);
 }
 }
 // Constructors 

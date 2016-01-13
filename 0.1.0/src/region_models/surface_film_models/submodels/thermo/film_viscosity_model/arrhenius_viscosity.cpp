@@ -11,8 +11,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(ArrheniusViscosity, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(ArrheniusViscosity, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   filmViscosityModel,
   ArrheniusViscosity,

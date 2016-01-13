@@ -31,7 +31,7 @@ mousse::regionModels::regionModelFunctionObjectList::regionModelFunctionObjectLi
     if (modelNames.size() > 0)
     {
       this->setSize(modelNames.size());
-      forAll(modelNames, i)
+      FOR_ALL(modelNames, i)
       {
         const word& modelName = modelNames[i];
         this->set
@@ -68,14 +68,14 @@ mousse::regionModels::regionModelFunctionObjectList::
 // Member Functions 
 void mousse::regionModels::regionModelFunctionObjectList::preEvolveRegion()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).preEvolveRegion();
   }
 }
 void mousse::regionModels::regionModelFunctionObjectList::postEvolveRegion()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).postEvolveRegion();
   }

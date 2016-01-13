@@ -12,8 +12,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(liquidViscosity, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(liquidViscosity, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   filmViscosityModel,
   liquidViscosity,
@@ -35,8 +35,8 @@ liquidViscosity::~liquidViscosity()
 // Member Functions 
 void liquidViscosity::correct
 (
-  const volScalarField& p,
-  const volScalarField& T
+  const volScalarField& /*p*/,
+  const volScalarField& /*T*/
 )
 {
   const thermoSingleLayer& film = filmType<thermoSingleLayer>();

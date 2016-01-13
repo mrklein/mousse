@@ -25,14 +25,9 @@ private:
   // Private data
     //- Constant heat transfer coefficient [W/m2/K]
     scalar c0_;
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    constantHeatTransfer(const constantHeatTransfer&);
-    //- Disallow default bitwise assignment
-    void operator=(const constantHeatTransfer&);
 public:
   //- Runtime type information
-  TypeName("constant");
+  TYPE_NAME("constant");
   // Constructors
     //- Construct from surface film model and dictionary
     constantHeatTransfer
@@ -40,6 +35,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    constantHeatTransfer(const constantHeatTransfer&) = delete;
+    //- Disallow default bitwise assignment
+    constantHeatTransfer& operator=(const constantHeatTransfer&) = delete;
   //- Destructor
   virtual ~constantHeatTransfer();
   // Member Functions

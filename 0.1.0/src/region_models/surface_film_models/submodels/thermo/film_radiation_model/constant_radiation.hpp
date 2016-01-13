@@ -36,14 +36,9 @@ private:
     const scalar timeStart_;
     //- Duration [s]
     const scalar duration_;
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    constantRadiation(const constantRadiation&);
-    //- Disallow default bitwise assignment
-    void operator=(const constantRadiation&);
 public:
   //- Runtime type information
-  TypeName("constantRadiation");
+  TYPE_NAME("constantRadiation");
   // Constructors
     //- Construct from surface film model and dictionary
     constantRadiation
@@ -51,6 +46,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    constantRadiation(const constantRadiation&) = delete;
+    //- Disallow default bitwise assignment
+    constantRadiation& operator=(const constantRadiation&) = delete;
   //- Destructor
   virtual ~constantRadiation();
   // Member Functions

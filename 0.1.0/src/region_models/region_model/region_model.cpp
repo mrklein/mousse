@@ -12,7 +12,7 @@ namespace mousse
 {
 namespace regionModels
 {
-  defineTypeNameAndDebug(regionModel, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(regionModel, 0);
 }
 }
 // Private Member Functions 
@@ -38,7 +38,7 @@ void mousse::regionModels::regionModel::constructMeshObjects()
 }
 void mousse::regionModels::regionModel::constructMeshObjects
 (
-  const dictionary& dict
+  const dictionary& /*dict*/
 )
 {
   // construct region mesh
@@ -69,7 +69,7 @@ void mousse::regionModels::regionModel::initialise()
   DynamicList<label> primaryPatchIDs;
   DynamicList<label> intCoupledPatchIDs;
   const polyBoundaryMesh& rbm = regionMesh().boundaryMesh();
-  forAll(rbm, patchI)
+  FOR_ALL(rbm, patchI)
   {
     const polyPatch& regionPatch = rbm[patchI];
     if (isA<mappedPatchBase>(regionPatch))
@@ -100,7 +100,7 @@ void mousse::regionModels::regionModel::initialise()
   intCoupledPatchIDs_.transfer(intCoupledPatchIDs);
   if (returnReduce(nBoundaryFaces, sumOp<label>()) == 0)
   {
-    WarningIn("regionModel::initialise()")
+    WARNING_IN("regionModel::initialise()")
       << "Region model has no mapped boundary conditions - transfer "
       << "between regions will not be possible" << endl;
   }
@@ -244,7 +244,7 @@ mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
   const polyBoundaryMesh& pbm = regionMesh().boundaryMesh();
   if (regionPatchI > pbm.size() - 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID"
       "("
@@ -260,7 +260,7 @@ mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
   const polyPatch& pp = regionMesh().boundaryMesh()[regionPatchI];
   if (!isA<mappedPatchBase>(pp))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID"
       "("
@@ -275,7 +275,7 @@ mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
   // sample patch name on the primary region
   const word& primaryPatchName = mpb.samplePatch();
   // find patch on nbr region that has the same sample patch name
-  forAll(nbrRegion.intCoupledPatchIDs(), j)
+  FOR_ALL(nbrRegion.intCoupledPatchIDs(), j)
   {
     const label nbrRegionPatchI = nbrRegion.intCoupledPatchIDs()[j];
     const mappedPatchBase& mpb =
@@ -289,7 +289,7 @@ mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
   if (nbrPatchI == -1)
   {
     const polyPatch& p = regionMesh().boundaryMesh()[regionPatchI];
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID"
       "("

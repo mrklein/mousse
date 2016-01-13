@@ -24,10 +24,6 @@ class thermalBaffle
 {
 private:
   // Private member functions
-    //- Disallow default bitwise copy construct
-    thermalBaffle(const thermalBaffle&);
-    //- Disallow default bitwise assignment
-    void operator=(const thermalBaffle&);
     //- Initialize thermalBaffle
     void init();
 protected:
@@ -58,7 +54,7 @@ protected:
       void solveEnergy();
 public:
   //- Runtime type information
-  TypeName("thermalBaffle");
+  TYPE_NAME("thermalBaffle");
   // Constructors
     //- Construct from components
     thermalBaffle(const word& modelType, const fvMesh& mesh);
@@ -69,6 +65,10 @@ public:
       const fvMesh& mesh,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    thermalBaffle(const thermalBaffle&) = delete;
+    //- Disallow default bitwise assignment
+    thermalBaffle& operator=(const thermalBaffle&) = delete;
   //- Destructor
   virtual ~thermalBaffle();
   // Member Functions

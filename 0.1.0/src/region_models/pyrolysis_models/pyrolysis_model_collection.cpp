@@ -11,7 +11,7 @@ namespace mousse
   {
     namespace pyrolysisModels
     {
-      defineTypeNameAndDebug(pyrolysisModelCollection, 0);
+      DEFINE_TYPE_NAME_AND_DEBUG(pyrolysisModelCollection, 0);
     }
   }
 }
@@ -59,28 +59,28 @@ pyrolysisModelCollection::~pyrolysisModelCollection()
 // Member Functions 
 void pyrolysisModelCollection::preEvolveRegion()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).preEvolveRegion();
   }
 }
 void pyrolysisModelCollection::evolveRegion()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).evolveRegion();
   }
 }
 void pyrolysisModelCollection::evolve()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     pyrolysisModel& pyrolysis = this->operator[](i);
     if (pyrolysis.active())
     {
       if (pyrolysis.primaryMesh().changing())
       {
-        FatalErrorIn("pyrolysisModelCollection::evolve()")
+        FATAL_ERROR_IN("pyrolysisModelCollection::evolve()")
           << "Currently not possible to apply "
           << pyrolysis.modelName()
           << " model to moving mesh cases" << nl<< abort(FatalError);
@@ -101,7 +101,7 @@ void pyrolysisModelCollection::evolve()
 }
 void pyrolysisModelCollection::info()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).info();
   }
@@ -109,7 +109,7 @@ void pyrolysisModelCollection::info()
 scalar pyrolysisModelCollection::maxDiff() const
 {
   scalar maxDiff = 0.0;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     if (maxDiff < this->operator[](i).maxDiff())
     {
@@ -121,7 +121,7 @@ scalar pyrolysisModelCollection::maxDiff() const
 scalar pyrolysisModelCollection::solidRegionDiffNo() const
 {
   scalar totalDiNum = GREAT;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     if
     (

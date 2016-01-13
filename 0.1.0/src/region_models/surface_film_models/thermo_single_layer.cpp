@@ -24,13 +24,13 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(thermoSingleLayer, 0);
-addToRunTimeSelectionTable(surfaceFilmModel, thermoSingleLayer, mesh);
+DEFINE_TYPE_NAME_AND_DEBUG(thermoSingleLayer, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(surfaceFilmModel, thermoSingleLayer, mesh);
 // Private Member Functions 
 wordList thermoSingleLayer::hsBoundaryTypes()
 {
   wordList bTypes(T_.boundaryField().types());
-  forAll(bTypes, patchI)
+  FOR_ALL(bTypes, patchI)
   {
     if
     (
@@ -68,7 +68,7 @@ void thermoSingleLayer::correctThermoFields()
 void thermoSingleLayer::correctHsForMappedT()
 {
   T_.correctBoundaryConditions();
-  forAll(T_.boundaryField(), patchI)
+  FOR_ALL(T_.boundaryField(), patchI)
   {
     const fvPatchField<scalar>& Tp = T_.boundaryField()[patchI];
     if (isA<mappedFieldFvPatchField<scalar> >(Tp))
@@ -103,7 +103,7 @@ void thermoSingleLayer::transferPrimaryRegionThermoFields()
   // Update primary region fields on local region via direct mapped (coupled)
   // boundary conditions
   TPrimary_.correctBoundaryConditions();
-  forAll(YPrimary_, i)
+  FOR_ALL(YPrimary_, i)
   {
     YPrimary_[i].correctBoundaryConditions();
   }
@@ -117,7 +117,7 @@ void thermoSingleLayer::transferPrimaryRegionSourceFields()
   kinematicSingleLayer::transferPrimaryRegionSourceFields();
   // Convert accummulated source terms into per unit area per unit time
   const scalar deltaT = time_.deltaTValue();
-  forAll(hsSpPrimary_.boundaryField(), patchI)
+  FOR_ALL(hsSpPrimary_.boundaryField(), patchI)
   {
     const scalarField& priMagSf =
       primaryMesh().magSf().boundaryField()[patchI];
@@ -137,7 +137,7 @@ void thermoSingleLayer::correctAlpha()
   {
     const scalar hydrophilicDry = hydrophilicDryScale_*deltaWet_;
     const scalar hydrophilicWet = hydrophilicWetScale_*deltaWet_;
-    forAll(alpha_, i)
+    FOR_ALL(alpha_, i)
     {
       if ((alpha_[i] < 0.5) && (delta_[i] > hydrophilicWet))
       {
@@ -410,7 +410,7 @@ thermoSingleLayer::thermoSingleLayer
   if (thermo_.hasMultiComponentCarrier())
   {
     YPrimary_.setSize(thermo_.carrier().species().size());
-    forAll(thermo_.carrier().species(), i)
+    FOR_ALL(thermo_.carrier().species(), i)
     {
       YPrimary_.set
       (
@@ -602,7 +602,7 @@ tmp<DimensionedField<scalar, volMesh> > thermoSingleLayer::Srho() const
   scalarField& Srho = tSrho();
   const scalarField& V = primaryMesh().V();
   const scalar dt = time_.deltaTValue();
-  forAll(intCoupledPatchIDs(), i)
+  FOR_ALL(intCoupledPatchIDs(), i)
   {
     const label filmPatchI = intCoupledPatchIDs()[i];
     scalarField patchMass =
@@ -611,7 +611,7 @@ tmp<DimensionedField<scalar, volMesh> > thermoSingleLayer::Srho() const
     const label primaryPatchI = primaryPatchIDs()[i];
     const unallocLabelList& cells =
       primaryMesh().boundaryMesh()[primaryPatchI].faceCells();
-    forAll(patchMass, j)
+    FOR_ALL(patchMass, j)
     {
       Srho[cells[j]] = patchMass[j]/(V[cells[j]]*dt);
     }
@@ -646,7 +646,7 @@ tmp<DimensionedField<scalar, volMesh> > thermoSingleLayer::Srho
     scalarField& Srho = tSrho();
     const scalarField& V = primaryMesh().V();
     const scalar dt = time().deltaTValue();
-    forAll(intCoupledPatchIDs_, i)
+    FOR_ALL(intCoupledPatchIDs_, i)
     {
       const label filmPatchI = intCoupledPatchIDs_[i];
       scalarField patchMass =
@@ -655,7 +655,7 @@ tmp<DimensionedField<scalar, volMesh> > thermoSingleLayer::Srho
       const label primaryPatchI = primaryPatchIDs()[i];
       const unallocLabelList& cells =
         primaryMesh().boundaryMesh()[primaryPatchI].faceCells();
-      forAll(patchMass, j)
+      FOR_ALL(patchMass, j)
       {
         Srho[cells[j]] = patchMass[j]/(V[cells[j]]*dt);
       }
@@ -687,7 +687,7 @@ tmp<DimensionedField<scalar, volMesh> > thermoSingleLayer::Sh() const
   scalarField& Sh = tSh();
   const scalarField& V = primaryMesh().V();
   const scalar dt = time_.deltaTValue();
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label filmPatchI = intCoupledPatchIDs_[i];
     scalarField patchEnergy =
@@ -696,7 +696,7 @@ tmp<DimensionedField<scalar, volMesh> > thermoSingleLayer::Sh() const
     const label primaryPatchI = primaryPatchIDs()[i];
     const unallocLabelList& cells =
       primaryMesh().boundaryMesh()[primaryPatchI].faceCells();
-    forAll(patchEnergy, j)
+    FOR_ALL(patchEnergy, j)
     {
       Sh[cells[j]] += patchEnergy[j]/(V[cells[j]]*dt);
     }

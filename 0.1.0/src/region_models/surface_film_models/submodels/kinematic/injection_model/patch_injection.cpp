@@ -11,8 +11,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(patchInjection, 0);
-addToRunTimeSelectionTable(injectionModel, patchInjection, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(patchInjection, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(injectionModel, patchInjection, dictionary);
 // Constructors 
 patchInjection::patchInjection
 (
@@ -31,7 +31,7 @@ patchInjection::patchInjection
     const labelHashSet patchSet = pbm.patchSet(patchNames);
     Info<< "        applying to patches:" << nl;
     label pidi = 0;
-    forAllConstIter(labelHashSet, patchSet, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, patchSet, iter)
     {
       label patchi = iter.key();
       patchIDs_[pidi++] = patchi;
@@ -43,7 +43,7 @@ patchInjection::patchInjection
   else
   {
     Info<< "            applying to all patches" << endl;
-    forAll(patchIDs_, patchi)
+    FOR_ALL(patchIDs_, patchi)
     {
       patchIDs_[patchi] = patchi;
     }
@@ -51,7 +51,7 @@ patchInjection::patchInjection
   }
   if (!patchIDs_.size())
   {
-    FatalErrorIn("patchInjection::patchInjection")
+    FATAL_ERROR_IN("patchInjection::patchInjection")
       << "No patches selected"
       << exit(FatalError);
   }
@@ -64,7 +64,7 @@ void patchInjection::correct
 (
   scalarField& availableMass,
   scalarField& massToInject,
-  scalarField& diameterToInject
+  scalarField& /*diameterToInject*/
 )
 {
   // Do not correct if no patches selected
@@ -73,14 +73,14 @@ void patchInjection::correct
   const scalarField& rho = owner().rho();
   const scalarField& magSf = owner().magSf();
   const polyBoundaryMesh& pbm = owner().regionMesh().boundaryMesh();
-  forAll(patchIDs_, pidi)
+  FOR_ALL(patchIDs_, pidi)
   {
     label patchi = patchIDs_[pidi];
     const polyPatch& pp = pbm[patchi];
     const labelList& faceCells = pp.faceCells();
     // Accumulate the total mass removed from patch
     scalar dMassPatch = 0;
-    forAll(faceCells, fci)
+    FOR_ALL(faceCells, fci)
     {
       label celli = faceCells[fci];
       scalar ddelta = max(0.0, delta[celli] - deltaStable_);
@@ -128,7 +128,7 @@ void patchInjection::patchInjectedMassTotals(scalarField& patchMasses) const
   );
   scalarField patchInjectedMassTotals(patchInjectedMasses_);
   Pstream::listCombineGather(patchInjectedMassTotals, plusEqOp<scalar>());
-  forAll(patchIDs_, pidi)
+  FOR_ALL(patchIDs_, pidi)
   {
     label patchi = patchIDs_[pidi];
     patchMasses[patchi] +=

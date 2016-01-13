@@ -147,7 +147,7 @@ void thermalBaffleFvPatchScalarField::createPatchMesh()
   dicts[topPatchID].add("coupleGroup", coupleGroupSlave);
   dicts[topPatchID].add("inGroups", inGroups);
   dicts[topPatchID].add("sampleMode", mpp.sampleModeNames_[mpp.mode()]);
-  forAll (regionPatches, patchI)
+  FOR_ALL(regionPatches, patchI)
   {
     dictionary&  patchDict = dicts[patchI];
     patchDict.set("nFaces", 0);
@@ -174,12 +174,13 @@ void thermalBaffleFvPatchScalarField::createPatchMesh()
   );
   if (extrudeMeshPtr_.empty())
   {
-    WarningIn
+    WARNING_IN
     (
       "thermalBaffleFvPatchScalarField::createPatchMesh()\n"
-    )   << "Specified IOobject::MUST_READ_IF_MODIFIED but class"
-      << " patchMeshPtr not set."
-      << endl;
+    )
+    << "Specified IOobject::MUST_READ_IF_MODIFIED but class"
+    << " patchMeshPtr not set."
+    << endl;
   }
 }
 void thermalBaffleFvPatchScalarField::updateCoeffs()
@@ -202,26 +203,21 @@ void thermalBaffleFvPatchScalarField::write(Ostream& os) const
   if (thisMesh.name() == polyMesh::defaultRegion && owner_)
   {
     os.writeKeyword("extrudeModel");
-    os << word(dict_.lookup("extrudeModel"))
-     << token::END_STATEMENT << nl;
+    os << word(dict_.lookup("extrudeModel")) << token::END_STATEMENT << nl;
     os.writeKeyword("nLayers");
-    os << readLabel(dict_.lookup("nLayers"))
-     << token::END_STATEMENT << nl;
+    os << readLabel(dict_.lookup("nLayers")) << token::END_STATEMENT << nl;
     os.writeKeyword("expansionRatio");
     os << readScalar(dict_.lookup("expansionRatio"))
-     << token::END_STATEMENT << nl;
+      << token::END_STATEMENT << nl;
     os.writeKeyword("columnCells");
-    os << readBool(dict_.lookup("columnCells"))
-     << token::END_STATEMENT << nl;
+    os << readBool(dict_.lookup("columnCells")) << token::END_STATEMENT << nl;
     word extrudeModel(word(dict_.lookup("extrudeModel")) + "Coeffs");
     os.writeKeyword(extrudeModel);
     os << dict_.subDict(extrudeModel) << nl;
     word regionName = dict_.lookup("regionName");
-    os.writeKeyword("regionName") << regionName
-      << token::END_STATEMENT << nl;
+    os.writeKeyword("regionName") << regionName << token::END_STATEMENT << nl;
     bool active = readBool(dict_.lookup("active"));
-    os.writeKeyword("active") <<  active
-      << token::END_STATEMENT << nl;
+    os.writeKeyword("active") <<  active << token::END_STATEMENT << nl;
     os.writeKeyword("thermoType");
     os << dict_.subDict("thermoType") << nl;
     os.writeKeyword("mixture");
@@ -230,7 +226,7 @@ void thermalBaffleFvPatchScalarField::write(Ostream& os) const
     os << dict_.subDict("radiation") << nl;
  }
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   thermalBaffleFvPatchScalarField

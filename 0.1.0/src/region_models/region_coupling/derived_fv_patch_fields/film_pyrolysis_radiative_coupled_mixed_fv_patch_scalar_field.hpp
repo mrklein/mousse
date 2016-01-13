@@ -78,7 +78,7 @@ private:
     const pyrolysisModelType& pyrModel() const;
 public:
   //- Runtime type information
-  TypeName("filmPyrolysisRadiativeCoupledMixed");
+  TYPE_NAME("filmPyrolysisRadiativeCoupledMixed");
   // Constructors
     //- Construct from patch and internal field
     filmPyrolysisRadiativeCoupledMixedFvPatchScalarField

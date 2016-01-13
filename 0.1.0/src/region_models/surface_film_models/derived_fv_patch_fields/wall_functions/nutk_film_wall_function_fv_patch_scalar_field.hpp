@@ -48,7 +48,7 @@ protected:
     virtual tmp<scalarField> calcUTau(const scalarField& magGradU) const;
 public:
   //- Runtime type information
-  TypeName("nutkFilmWallFunction");
+  TYPE_NAME("nutkFilmWallFunction");
   // Constructors
     //- Construct from patch and internal field
     nutkFilmWallFunctionFvPatchScalarField

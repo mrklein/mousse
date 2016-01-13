@@ -10,7 +10,7 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Constructors 
-forceList::forceList(surfaceFilmModel& owner)
+forceList::forceList(surfaceFilmModel& /*owner*/)
 :
   PtrList<force>()
 {}
@@ -27,7 +27,7 @@ forceList::forceList
   if (models.size() > 0)
   {
     this->setSize(models.size());
-    forAll(models, i)
+    FOR_ALL(models, i)
     {
       set(i, force::New(owner, dict, models[i]));
     }
@@ -48,7 +48,7 @@ tmp<fvVectorMatrix> forceList::correct(volVectorField& U)
     new fvVectorMatrix(U, dimForce/dimArea*dimVolume)
   );
   fvVectorMatrix& result = tResult();
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     result += this->operator[](i).correct(U);
   }

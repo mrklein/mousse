@@ -24,12 +24,12 @@ alphatFilmWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  B_(5.5),
-  yPlusCrit_(11.05),
-  Cmu_(0.09),
-  kappa_(0.41),
-  Prt_(0.85)
+  fixedValueFvPatchScalarField{p, iF},
+  B_{5.5},
+  yPlusCrit_{11.05},
+  Cmu_{0.09},
+  kappa_{0.41},
+  Prt_{0.85}
 {}
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
@@ -40,12 +40,12 @@ alphatFilmWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  B_(ptf.B_),
-  yPlusCrit_(ptf.yPlusCrit_),
-  Cmu_(ptf.Cmu_),
-  kappa_(ptf.kappa_),
-  Prt_(ptf.Prt_)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  B_{ptf.B_},
+  yPlusCrit_{ptf.yPlusCrit_},
+  Cmu_{ptf.Cmu_},
+  kappa_{ptf.kappa_},
+  Prt_{ptf.Prt_}
 {}
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
@@ -55,12 +55,12 @@ alphatFilmWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF, dict),
-  B_(dict.lookupOrDefault("B", 5.5)),
-  yPlusCrit_(dict.lookupOrDefault("yPlusCrit", 11.05)),
-  Cmu_(dict.lookupOrDefault("Cmu", 0.09)),
-  kappa_(dict.lookupOrDefault("kappa", 0.41)),
-  Prt_(dict.lookupOrDefault("Prt", 0.85))
+  fixedValueFvPatchScalarField{p, iF, dict},
+  B_{dict.lookupOrDefault("B", 5.5)},
+  yPlusCrit_{dict.lookupOrDefault("yPlusCrit", 11.05)},
+  Cmu_{dict.lookupOrDefault("Cmu", 0.09)},
+  kappa_{dict.lookupOrDefault("kappa", 0.41)},
+  Prt_{dict.lookupOrDefault("Prt", 0.85)}
 {}
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
@@ -68,12 +68,12 @@ alphatFilmWallFunctionFvPatchScalarField
   const alphatFilmWallFunctionFvPatchScalarField& fwfpsf
 )
 :
-  fixedValueFvPatchScalarField(fwfpsf),
-  B_(fwfpsf.B_),
-  yPlusCrit_(fwfpsf.yPlusCrit_),
-  Cmu_(fwfpsf.Cmu_),
-  kappa_(fwfpsf.kappa_),
-  Prt_(fwfpsf.Prt_)
+  fixedValueFvPatchScalarField{fwfpsf},
+  B_{fwfpsf.B_},
+  yPlusCrit_{fwfpsf.yPlusCrit_},
+  Cmu_{fwfpsf.Cmu_},
+  kappa_{fwfpsf.kappa_},
+  Prt_{fwfpsf.Prt_}
 {}
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
@@ -82,12 +82,12 @@ alphatFilmWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(fwfpsf, iF),
-  B_(fwfpsf.B_),
-  yPlusCrit_(fwfpsf.yPlusCrit_),
-  Cmu_(fwfpsf.Cmu_),
-  kappa_(fwfpsf.kappa_),
-  Prt_(fwfpsf.Prt_)
+  fixedValueFvPatchScalarField{fwfpsf, iF},
+  B_{fwfpsf.B_},
+  yPlusCrit_{fwfpsf.yPlusCrit_},
+  Cmu_{fwfpsf.Cmu_},
+  kappa_{fwfpsf.kappa_},
+  Prt_{fwfpsf.Prt_}
 {}
 // Member Functions 
 void alphatFilmWallFunctionFvPatchScalarField::updateCoeffs()
@@ -136,7 +136,7 @@ void alphatFilmWallFunctionFvPatchScalarField::updateCoeffs()
   const scalar Cmu25 = pow(Cmu_, 0.25);
   // Populate alphat field values
   scalarField& alphat = *this;
-  forAll(alphat, faceI)
+  FOR_ALL(alphat, faceI)
   {
     label faceCellI = patch().faceCells()[faceI];
     scalar uTau = Cmu25*sqrt(k[faceCellI]);
@@ -176,7 +176,7 @@ void alphatFilmWallFunctionFvPatchScalarField::write(Ostream& os) const
   os.writeKeyword("Prt") << Prt_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   alphatFilmWallFunctionFvPatchScalarField

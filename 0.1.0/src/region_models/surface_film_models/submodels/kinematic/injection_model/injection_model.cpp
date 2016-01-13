@@ -10,8 +10,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(injectionModel, 0);
-defineRunTimeSelectionTable(injectionModel, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(injectionModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(injectionModel, dictionary);
 // Protected Member Functions 
 void injectionModel::addToInjectedMass(const scalar dMass)
 {

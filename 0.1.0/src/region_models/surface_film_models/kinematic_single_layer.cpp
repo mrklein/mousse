@@ -20,8 +20,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(kinematicSingleLayer, 0);
-addToRunTimeSelectionTable(surfaceFilmModel, kinematicSingleLayer, mesh);
+DEFINE_TYPE_NAME_AND_DEBUG(kinematicSingleLayer, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(surfaceFilmModel, kinematicSingleLayer, mesh);
 // Protected Member Functions 
 bool kinematicSingleLayer::read()
 {
@@ -78,7 +78,7 @@ void kinematicSingleLayer::transferPrimaryRegionSourceFields()
   }
   // Convert accummulated source terms into per unit area per unit time
   const scalar deltaT = time_.deltaTValue();
-  forAll(rhoSpPrimary_.boundaryField(), patchI)
+  FOR_ALL(rhoSpPrimary_.boundaryField(), patchI)
   {
     const scalarField& priMagSf =
       primaryMesh().magSf().boundaryField()[patchI];
@@ -707,7 +707,7 @@ void kinematicSingleLayer::addSources
   const scalar massSource,
   const vector& momentumSource,
   const scalar pressureSource,
-  const scalar energySource
+  const scalar /*energySource*/
 )
 {
   if (debug)
@@ -782,7 +782,7 @@ scalar kinematicSingleLayer::CourantNumber() const
       fvc::surfaceSum(mag(phi_))().internalField()
      / (deltaRho_.internalField() + ROOTVSMALL)
     );
-    forAll(delta_, i)
+    FOR_ALL(delta_, i)
     {
       if (delta_[i] > deltaCoLimit_)
       {
@@ -821,7 +821,7 @@ const volScalarField& kinematicSingleLayer::rho() const
 }
 const volScalarField& kinematicSingleLayer::T() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const volScalarField& kinematicSingleLayer::T() const"
   )   << "T field not available for " << type() << abort(FatalError);
@@ -829,7 +829,7 @@ const volScalarField& kinematicSingleLayer::T() const
 }
 const volScalarField& kinematicSingleLayer::Ts() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const volScalarField& kinematicSingleLayer::Ts() const"
   )   << "Ts field not available for " << type() << abort(FatalError);
@@ -837,7 +837,7 @@ const volScalarField& kinematicSingleLayer::Ts() const
 }
 const volScalarField& kinematicSingleLayer::Tw() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const volScalarField& kinematicSingleLayer::Tw() const"
   )   << "Tw field not available for " << type() << abort(FatalError);
@@ -845,7 +845,7 @@ const volScalarField& kinematicSingleLayer::Tw() const
 }
 const volScalarField& kinematicSingleLayer::Cp() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const volScalarField& kinematicSingleLayer::Cp() const"
   )   << "Cp field not available for " << type() << abort(FatalError);
@@ -853,7 +853,7 @@ const volScalarField& kinematicSingleLayer::Cp() const
 }
 const volScalarField& kinematicSingleLayer::kappa() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const volScalarField& kinematicSingleLayer::kappa() const"
   )   << "kappa field not available for " << type() << abort(FatalError);
