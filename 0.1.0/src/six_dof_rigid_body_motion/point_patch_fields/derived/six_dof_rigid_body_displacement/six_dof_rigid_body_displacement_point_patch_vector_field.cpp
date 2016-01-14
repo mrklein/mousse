@@ -20,14 +20,14 @@ sixDoFRigidBodyDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(p, iF),
-  motion_(),
-  initialPoints_(p.localPoints()),
-  rhoInf_(1.0),
-  rhoName_("rho"),
-  lookupGravity_(-1),
-  g_(vector::zero),
-  curTimeIndex_(-1)
+  fixedValuePointPatchField<vector>{p, iF},
+  motion_{},
+  initialPoints_{p.localPoints()},
+  rhoInf_{1.0},
+  rhoName_{"rho"},
+  lookupGravity_{-1},
+  g_{vector::zero},
+  curTimeIndex_{-1}
 {}
 sixDoFRigidBodyDisplacementPointPatchVectorField::
 sixDoFRigidBodyDisplacementPointPatchVectorField
@@ -37,13 +37,13 @@ sixDoFRigidBodyDisplacementPointPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValuePointPatchField<vector>(p, iF, dict),
-  motion_(dict, dict),
-  rhoInf_(1.0),
-  rhoName_(dict.lookupOrDefault<word>("rhoName", "rho")),
-  lookupGravity_(-1),
-  g_(vector::zero),
-  curTimeIndex_(-1)
+  fixedValuePointPatchField<vector>{p, iF, dict},
+  motion_{dict, dict},
+  rhoInf_{1.0},
+  rhoName_{dict.lookupOrDefault<word>("rhoName", "rho")},
+  lookupGravity_{-1},
+  g_{vector::zero},
+  curTimeIndex_{-1}
 {
   if (rhoName_ == "rhoInf")
   {
@@ -75,14 +75,14 @@ sixDoFRigidBodyDisplacementPointPatchVectorField
   const pointPatchFieldMapper& mapper
 )
 :
-  fixedValuePointPatchField<vector>(ptf, p, iF, mapper),
-  motion_(ptf.motion_),
-  initialPoints_(ptf.initialPoints_, mapper),
-  rhoInf_(ptf.rhoInf_),
-  rhoName_(ptf.rhoName_),
-  lookupGravity_(ptf.lookupGravity_),
-  g_(ptf.g_),
-  curTimeIndex_(-1)
+  fixedValuePointPatchField<vector>{ptf, p, iF, mapper},
+  motion_{ptf.motion_},
+  initialPoints_{ptf.initialPoints_, mapper},
+  rhoInf_{ptf.rhoInf_},
+  rhoName_{ptf.rhoName_},
+  lookupGravity_{ptf.lookupGravity_},
+  g_{ptf.g_},
+  curTimeIndex_{-1}
 {}
 sixDoFRigidBodyDisplacementPointPatchVectorField::
 sixDoFRigidBodyDisplacementPointPatchVectorField
@@ -91,14 +91,14 @@ sixDoFRigidBodyDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(ptf, iF),
-  motion_(ptf.motion_),
-  initialPoints_(ptf.initialPoints_),
-  rhoInf_(ptf.rhoInf_),
-  rhoName_(ptf.rhoName_),
-  lookupGravity_(ptf.lookupGravity_),
-  g_(ptf.g_),
-  curTimeIndex_(-1)
+  fixedValuePointPatchField<vector>{ptf, iF},
+  motion_{ptf.motion_},
+  initialPoints_{ptf.initialPoints_},
+  rhoInf_{ptf.rhoInf_},
+  rhoName_{ptf.rhoName_},
+  lookupGravity_{ptf.lookupGravity_},
+  g_{ptf.g_},
+  curTimeIndex_{-1}
 {}
 // Member Functions 
 void sixDoFRigidBodyDisplacementPointPatchVectorField::autoMap
@@ -132,15 +132,15 @@ void sixDoFRigidBodyDisplacementPointPatchVectorField::updateCoeffs()
     {
       if (lookupGravity_ == -2)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void sixDoFRigidBodyDisplacementPointPatchVectorField"
           "::updateCoeffs()"
         )
-          << "Specifying the value of g in this boundary condition "
-          << "when g is available from the database is considered "
-          << "a fatal error to avoid the possibility of inconsistency"
-          << exit(FatalError);
+        << "Specifying the value of g in this boundary condition "
+        << "when g is available from the database is considered "
+        << "a fatal error to avoid the possibility of inconsistency"
+        << exit(FatalError);
       }
       else
       {
@@ -210,7 +210,7 @@ void sixDoFRigidBodyDisplacementPointPatchVectorField::write(Ostream& os) const
   initialPoints_.writeEntry("initialPoints", os);
   writeEntry("value", os);
 }
-makePointPatchTypeField
+MAKE_POINT_PATCH_TYPE_FIELD
 (
   pointPatchVectorField,
   sixDoFRigidBodyDisplacementPointPatchVectorField

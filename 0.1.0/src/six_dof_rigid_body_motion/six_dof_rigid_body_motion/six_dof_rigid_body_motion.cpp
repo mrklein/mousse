@@ -14,7 +14,7 @@ void mousse::sixDoFRigidBodyMotion::applyRestraints()
   }
   if (Pstream::master())
   {
-    forAll(restraints_, rI)
+    FOR_ALL(restraints_, rI)
     {
       if (report_)
       {
@@ -145,7 +145,7 @@ void mousse::sixDoFRigidBodyMotion::addRestraints
     const dictionary& restraintDict = dict.subDict("restraints");
     label i = 0;
     restraints_.setSize(restraintDict.size());
-    forAllConstIter(IDLList<entry>, restraintDict, iter)
+    FOR_ALL_CONST_ITER(IDLList<entry>, restraintDict, iter)
     {
       if (iter().isDict())
       {
@@ -175,7 +175,7 @@ void mousse::sixDoFRigidBodyMotion::addConstraints
     constraints_.setSize(constraintDict.size());
     pointConstraint pct;
     pointConstraint pcr;
-    forAllConstIter(IDLList<entry>, constraintDict, iter)
+    FOR_ALL_CONST_ITER(IDLList<entry>, constraintDict, iter)
     {
       if (iter().isDict())
       {
@@ -278,7 +278,7 @@ mousse::tmp<mousse::pointField> mousse::sixDoFRigidBodyMotion::transform
   );
   tmp<pointField> tpoints(new pointField(initialPoints));
   pointField& points = tpoints();
-  forAll(points, pointi)
+  FOR_ALL(points, pointi)
   {
     // Move non-stationary points
     if (scale[pointi] > SMALL)

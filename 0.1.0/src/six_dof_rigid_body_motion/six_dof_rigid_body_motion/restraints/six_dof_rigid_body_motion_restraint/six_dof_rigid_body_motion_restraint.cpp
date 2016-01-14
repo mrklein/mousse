@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sixDoFRigidBodyMotionRestraint, 0);
-  defineRunTimeSelectionTable(sixDoFRigidBodyMotionRestraint, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(sixDoFRigidBodyMotionRestraint, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(sixDoFRigidBodyMotionRestraint, dictionary);
 }
 // Constructors 
 mousse::sixDoFRigidBodyMotionRestraint::sixDoFRigidBodyMotionRestraint

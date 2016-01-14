@@ -26,7 +26,7 @@ class uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField
     label curTimeIndex_;
 public:
   //- Runtime type information
-  TypeName("uncoupledSixDoFRigidBodyDisplacement");
+  TYPE_NAME("uncoupledSixDoFRigidBodyDisplacement");
   // Constructors
     //- Construct from patch and internal field
     uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField

@@ -25,11 +25,6 @@ private:
     const labelHashSet patchIDs_;
     //- Number of unset points
     label nUnset_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    pointPatchDist(const pointPatchDist&);
-    //- Disallow default bitwise assignment
-    void operator=(const pointPatchDist&);
 public:
   // Constructors
     //- Construct from mesh and set of patches
@@ -39,6 +34,10 @@ public:
       const labelHashSet& patchIDs,
       const pointField& points
     );
+    //- Disallow default bitwise copy construct
+    pointPatchDist(const pointPatchDist&) = delete;
+    //- Disallow default bitwise assignment
+    pointPatchDist& operator=(const pointPatchDist&) = delete;
   //- Destructor
   virtual ~pointPatchDist();
   // Member Functions

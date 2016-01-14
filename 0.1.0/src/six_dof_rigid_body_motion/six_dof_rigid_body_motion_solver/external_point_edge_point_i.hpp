@@ -108,7 +108,7 @@ inline mousse::scalar mousse::externalPointEdgePoint::distSqr() const
   return distSqr_;
 }
 template<class TrackingData>
-inline bool mousse::externalPointEdgePoint::valid(TrackingData& td) const
+inline bool mousse::externalPointEdgePoint::valid(TrackingData&) const
 {
   return origin_ != point::max;
 }
@@ -118,7 +118,7 @@ inline bool mousse::externalPointEdgePoint::sameGeometry
 (
   const externalPointEdgePoint& w2,
   const scalar tol,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   scalar diff = mousse::mag(distSqr() - w2.distSqr());
@@ -141,10 +141,10 @@ inline bool mousse::externalPointEdgePoint::sameGeometry
 template<class TrackingData>
 inline void mousse::externalPointEdgePoint::leaveDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
+  const polyPatch&,
+  const label /*patchPointI*/,
   const point& coord,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ -= coord;
@@ -153,7 +153,7 @@ template<class TrackingData>
 inline void mousse::externalPointEdgePoint::transform
 (
   const tensor& rotTensor,
-  TrackingData& td
+  TrackingData&
 )
 {
   origin_ = mousse::transform(rotTensor, origin_);
@@ -161,10 +161,10 @@ inline void mousse::externalPointEdgePoint::transform
 template<class TrackingData>
 inline void mousse::externalPointEdgePoint::enterDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
+  const polyPatch&,
+  const label /*patchPointI*/,
   const point& coord,
-  TrackingData& td
+  TrackingData&
 )
 {
   // back to absolute form
@@ -173,9 +173,9 @@ inline void mousse::externalPointEdgePoint::enterDomain
 template<class TrackingData>
 inline bool mousse::externalPointEdgePoint::updatePoint
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const label pointI,
-  const label edgeI,
+  const label /*edgeI*/,
   const externalPointEdgePoint& edgeInfo,
   const scalar tol,
   TrackingData& td
@@ -186,7 +186,7 @@ inline bool mousse::externalPointEdgePoint::updatePoint
 template<class TrackingData>
 inline bool mousse::externalPointEdgePoint::updatePoint
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const label pointI,
   const externalPointEdgePoint& newPointInfo,
   const scalar tol,
@@ -210,7 +210,7 @@ inline bool mousse::externalPointEdgePoint::updateEdge
 (
   const polyMesh& mesh,
   const label edgeI,
-  const label pointI,
+  const label /*pointI*/,
   const externalPointEdgePoint& pointInfo,
   const scalar tol,
   TrackingData& td
@@ -223,7 +223,7 @@ template<class TrackingData>
 inline bool mousse::externalPointEdgePoint::equal
 (
   const externalPointEdgePoint& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

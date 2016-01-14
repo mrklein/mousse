@@ -32,9 +32,9 @@ protected:
     const sixDoFRigidBodyMotion& motion_;
 public:
   //- Runtime type information
-  TypeName("sixDoFRigidBodyMotionConstraint");
+  TYPE_NAME("sixDoFRigidBodyMotionConstraint");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       sixDoFRigidBodyMotionConstraint,

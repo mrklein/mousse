@@ -20,7 +20,7 @@ mousse::sixDoFRigidBodyMotionConstraint::New
     dictionaryConstructorTablePtr_->find(constraintType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "sixDoFRigidBodyMotionConstraint::New"
       "("

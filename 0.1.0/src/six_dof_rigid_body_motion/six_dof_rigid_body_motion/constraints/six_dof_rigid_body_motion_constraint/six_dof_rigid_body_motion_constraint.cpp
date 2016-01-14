@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sixDoFRigidBodyMotionConstraint, 0);
-  defineRunTimeSelectionTable(sixDoFRigidBodyMotionConstraint, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(sixDoFRigidBodyMotionConstraint, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(sixDoFRigidBodyMotionConstraint, dictionary);
 }
 // Constructors
 mousse::sixDoFRigidBodyMotionConstraint::sixDoFRigidBodyMotionConstraint
@@ -33,5 +33,5 @@ bool mousse::sixDoFRigidBodyMotionConstraint::read
   sDoFRBMCCoeffs_ = sDoFRBMCDict;
   return true;
 }
-void mousse::sixDoFRigidBodyMotionConstraint::write(Ostream& os) const
+void mousse::sixDoFRigidBodyMotionConstraint::write(Ostream&) const
 {}

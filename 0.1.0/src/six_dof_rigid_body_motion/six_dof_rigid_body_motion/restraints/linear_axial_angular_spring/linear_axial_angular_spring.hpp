@@ -31,7 +31,7 @@ class linearAxialAngularSpring
     scalar damping_;
 public:
   //- Runtime type information
-  TypeName("linearAxialAngularSpring");
+  TYPE_NAME("linearAxialAngularSpring");
   // Constructors
     //- Construct from components
     linearAxialAngularSpring

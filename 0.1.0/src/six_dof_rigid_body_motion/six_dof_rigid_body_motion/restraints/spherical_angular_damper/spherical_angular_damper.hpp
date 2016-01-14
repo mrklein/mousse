@@ -23,7 +23,7 @@ class sphericalAngularDamper
     scalar coeff_;
 public:
   //- Runtime type information
-  TypeName("sphericalAngularDamper");
+  TYPE_NAME("sphericalAngularDamper");
   // Constructors
     //- Construct from components
     sphericalAngularDamper

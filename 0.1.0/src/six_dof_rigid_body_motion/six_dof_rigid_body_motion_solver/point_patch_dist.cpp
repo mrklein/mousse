@@ -39,7 +39,7 @@ void mousse::pointPatchDist::correct()
 {
   const pointBoundaryMesh& pbm = mesh().boundary();
   label nPoints = 0;
-  forAllConstIter(labelHashSet, patchIDs_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs_, iter)
   {
     label patchI = iter.key();
     nPoints += pbm[patchI].meshPoints().size();
@@ -49,12 +49,12 @@ void mousse::pointPatchDist::correct()
   List<externalPointEdgePoint> wallInfo(nPoints);
   labelList wallPoints(nPoints);
   nPoints = 0;
-  forAllConstIter(labelHashSet, patchIDs_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs_, iter)
   {
     label patchI = iter.key();
     // Retrieve the patch now we have its index in patches.
     const labelList& mp = pbm[patchI].meshPoints();
-    forAll(mp, ppI)
+    FOR_ALL(mp, ppI)
     {
       label meshPointI = mp[ppI];
       wallPoints[nPoints] = meshPointI;
@@ -85,7 +85,7 @@ void mousse::pointPatchDist::correct()
     td
   );
   pointScalarField& psf = *this;
-  forAll(allPointInfo, pointI)
+  FOR_ALL(allPointInfo, pointI)
   {
     if (allPointInfo[pointI].valid(td))
     {

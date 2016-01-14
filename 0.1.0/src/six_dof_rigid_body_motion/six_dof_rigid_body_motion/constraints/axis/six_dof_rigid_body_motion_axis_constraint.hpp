@@ -24,7 +24,7 @@ class axis
     vector axis_;
 public:
   //- Runtime type information
-  TypeName("axis");
+  TYPE_NAME("axis");
   // Constructors
     //- Construct from components
     axis

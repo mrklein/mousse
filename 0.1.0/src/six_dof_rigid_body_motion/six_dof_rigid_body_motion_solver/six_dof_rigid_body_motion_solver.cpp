@@ -13,8 +13,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sixDoFRigidBodyMotionSolver, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(sixDoFRigidBodyMotionSolver, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionSolver,
     sixDoFRigidBodyMotionSolver,
@@ -129,7 +129,7 @@ void mousse::sixDoFRigidBodyMotionSolver::solve()
   const Time& t = mesh().time();
   if (mesh().nPoints() != points0().size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "sixDoFRigidBodyMotionSolver::curPoints() const"
     )   << "The number of points in the mesh seems to have changed." << endl
@@ -201,15 +201,15 @@ void mousse::sixDoFRigidBodyMotionSolver::solve()
 }
 bool mousse::sixDoFRigidBodyMotionSolver::writeObject
 (
-  IOstream::streamFormat fmt,
-  IOstream::versionNumber ver,
-  IOstream::compressionType cmp
+  IOstream::streamFormat /*fmt*/,
+  IOstream::versionNumber /*ver*/,
+  IOstream::compressionType /*cmp*/
 ) const
 {
   IOdictionary dict
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "sixDoFRigidBodyMotionState",
       mesh().time().timeName(),
       "uniform",
@@ -217,8 +217,8 @@ bool mousse::sixDoFRigidBodyMotionSolver::writeObject
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    )
-  );
+    }
+  };
   motion_.state().write(dict);
   return dict.regIOobject::write();
 }

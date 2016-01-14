@@ -66,9 +66,9 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("sixDoFSolver");
+  TYPE_NAME("sixDoFSolver");
   // Declare runtime construction
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       sixDoFSolver,

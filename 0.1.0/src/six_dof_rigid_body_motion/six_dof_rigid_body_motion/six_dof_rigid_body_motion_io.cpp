@@ -39,7 +39,7 @@ void mousse::sixDoFRigidBodyMotion::write(Ostream& os) const
   {
     os  << indent << "restraints" << nl
       << indent << token::BEGIN_BLOCK << incrIndent << nl;
-    forAll(restraints_, rI)
+    FOR_ALL(restraints_, rI)
     {
       word restraintType = restraints_[rI].type();
       os  << indent << restraints_[rI].name() << nl
@@ -55,7 +55,7 @@ void mousse::sixDoFRigidBodyMotion::write(Ostream& os) const
   {
     os  << indent << "constraints" << nl
       << indent << token::BEGIN_BLOCK << incrIndent << nl;
-    forAll(constraints_, rI)
+    FOR_ALL(constraints_, rI)
     {
       word constraintType = constraints_[rI].type();
       os  << indent << constraints_[rI].name() << nl

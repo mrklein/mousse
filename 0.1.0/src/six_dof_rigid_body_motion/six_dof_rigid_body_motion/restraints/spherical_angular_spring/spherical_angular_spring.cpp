@@ -11,8 +11,8 @@ namespace mousse
 {
 namespace sixDoFRigidBodyMotionRestraints
 {
-  defineTypeNameAndDebug(sphericalAngularSpring, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(sphericalAngularSpring, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     sixDoFRigidBodyMotionRestraint,
     sphericalAngularSpring,
@@ -81,7 +81,7 @@ bool mousse::sixDoFRigidBodyMotionRestraints::sphericalAngularSpring::read
   refQ_ = sDoFRBMRCoeffs_.lookupOrDefault<tensor>("referenceOrientation", I);
   if (mag(mag(refQ_) - sqrt(3.0)) > 1e-9)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sixDoFRigidBodyMotionRestraints::sphericalAngularSpring::"
       "read"

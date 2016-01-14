@@ -21,7 +21,7 @@ class orientation
 {
 public:
   //- Runtime type information
-  TypeName("orientation");
+  TYPE_NAME("orientation");
   // Constructors
     //- Construct from components
     orientation

@@ -41,7 +41,7 @@ class CrankNicolson
     const scalar voc_;
 public:
   //- Runtime type information
-  TypeName("CrankNicolson");
+  TYPE_NAME("CrankNicolson");
   // Constructors
     //- Construct from a dictionary and the body
     CrankNicolson
