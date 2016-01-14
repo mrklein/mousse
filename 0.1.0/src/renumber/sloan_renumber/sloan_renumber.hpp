@@ -20,16 +20,15 @@ class SloanRenumber
 {
   // Private data
     const Switch reverse_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const SloanRenumber&);
-    SloanRenumber(const SloanRenumber&);
 public:
   //- Runtime type information
-  TypeName("Sloan");
+  TYPE_NAME("Sloan");
   // Constructors
     //- Construct given the renumber dictionary
     SloanRenumber(const dictionary& renumberDict);
+    //- Disallow default bitwise copy construct and assignment
+    SloanRenumber& operator=(const SloanRenumber&) = delete;
+    SloanRenumber(const SloanRenumber&) = delete;
   //- Destructor
   virtual ~SloanRenumber()
   {}
@@ -39,7 +38,7 @@ public:
     //  This is only defined for geometric renumberMethods.
     virtual labelList renumber(const pointField&) const
     {
-      notImplemented("SloanRenumber::renumber(const pointField&)");
+      NOT_IMPLEMENTED("SloanRenumber::renumber(const pointField&)");
       return labelList(0);
     }
     //- Return the order in which cells need to be visited, i.e.

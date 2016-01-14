@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(renumberMethod, 0);
-  defineRunTimeSelectionTable(renumberMethod, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(renumberMethod, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(renumberMethod, dictionary);
 }
 // Member Functions 
 mousse::autoPtr<mousse::renumberMethod> mousse::renumberMethod::New
@@ -22,7 +22,7 @@ mousse::autoPtr<mousse::renumberMethod> mousse::renumberMethod::New
     dictionaryConstructorTablePtr_->find(methodType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "renumberMethod::New"
       "(const dictionary& renumberDict)"
@@ -54,12 +54,12 @@ mousse::labelList mousse::renumberMethod::renumber
 }
 mousse::labelList mousse::renumberMethod::renumber
 (
-  const labelList& cellCells,
-  const labelList& offsets,
-  const pointField& cc
+  const labelList& /*cellCells*/,
+  const labelList& /*offsets*/,
+  const pointField& /*cc*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "renumberMethod::renumber\n"
     "(\n"
@@ -97,7 +97,7 @@ mousse::labelList mousse::renumberMethod::renumber
   );
   // Rework back into renumbering for original mesh_
   labelList fineDistribution(fineToCoarse.size());
-  forAll(fineDistribution, i)
+  FOR_ALL(fineDistribution, i)
   {
     fineDistribution[i] = coarseDistribution[fineToCoarse[i]];
   }

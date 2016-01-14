@@ -16,16 +16,15 @@ class randomRenumber
 :
   public renumberMethod
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const randomRenumber&);
-    randomRenumber(const randomRenumber&);
 public:
   //- Runtime type information
-  TypeName("random");
+  TYPE_NAME("random");
   // Constructors
     //- Construct given the renumber dictionary
     randomRenumber(const dictionary& renumberDict);
+    //- Disallow default bitwise copy construct and assignment
+    randomRenumber& operator=(const randomRenumber&) = delete;
+    randomRenumber(const randomRenumber&) = delete;
   //- Destructor
   virtual ~randomRenumber()
   {}

@@ -18,16 +18,15 @@ class manualRenumber
 {
   // Private data
     const fileName dataFile_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const manualRenumber&);
-    manualRenumber(const manualRenumber&);
 public:
   //- Runtime type information
-  TypeName("manual");
+  TYPE_NAME("manual");
   // Constructors
     //- Construct given the renumber dictionary
     manualRenumber(const dictionary& renumberDict);
+    //- Disallow default bitwise copy construct and assignment
+    manualRenumber& operator=(const manualRenumber&) = delete;
+    manualRenumber(const manualRenumber&) = delete;
   //- Destructor
   virtual ~manualRenumber()
   {}
@@ -37,7 +36,7 @@ public:
     //  This is only defined for geometric renumberMethods.
     virtual labelList renumber(const pointField&) const
     {
-      notImplemented("manualRenumber::renumber(const pointField&)");
+      NOT_IMPLEMENTED("manualRenumber::renumber(const pointField&)");
       return labelList(0);
     }
     //- Return the order in which cells need to be visited, i.e.
@@ -54,11 +53,11 @@ public:
     //  - the connections are across coupled patches
     virtual labelList renumber
     (
-      const labelListList& cellCells,
-      const pointField& cc
+      const labelListList& /*cellCells*/,
+      const pointField& /*cc*/
     ) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "manualRenumber::renumber"
         "(const labelListList&, const pointField&)"

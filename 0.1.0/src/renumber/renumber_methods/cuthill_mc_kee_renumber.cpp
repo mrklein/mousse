@@ -8,8 +8,8 @@
 #include "decomposition_method.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(CuthillMcKeeRenumber, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(CuthillMcKeeRenumber, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     renumberMethod,
     CuthillMcKeeRenumber,
@@ -31,7 +31,7 @@ mousse::CuthillMcKeeRenumber::CuthillMcKeeRenumber(const dictionary& renumberDic
 mousse::labelList mousse::CuthillMcKeeRenumber::renumber
 (
   const polyMesh& mesh,
-  const pointField& points
+  const pointField& /*points*/
 ) const
 {
   CompactListList<label> cellCells;
@@ -54,7 +54,7 @@ mousse::labelList mousse::CuthillMcKeeRenumber::renumber
 (
   const labelList& cellCells,
   const labelList& offsets,
-  const pointField& cc
+  const pointField& /*cc*/
 ) const
 {
   labelList orderedToOld = bandCompression(cellCells, offsets);
@@ -67,7 +67,7 @@ mousse::labelList mousse::CuthillMcKeeRenumber::renumber
 mousse::labelList mousse::CuthillMcKeeRenumber::renumber
 (
   const labelListList& cellCells,
-  const pointField& points
+  const pointField& /*points*/
 ) const
 {
   labelList orderedToOld = bandCompression(cellCells);

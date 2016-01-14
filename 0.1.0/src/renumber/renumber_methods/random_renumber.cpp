@@ -7,8 +7,8 @@
 #include "random.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(randomRenumber, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(randomRenumber, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     renumberMethod,
     randomRenumber,
@@ -30,7 +30,7 @@ mousse::labelList mousse::randomRenumber::renumber
   labelList newToOld(identity(points.size()));
   for (label iter = 0; iter < 10; iter++)
   {
-    forAll(newToOld, i)
+    FOR_ALL(newToOld, i)
     {
       label j = rndGen.integer(0, newToOld.size()-1);
       Swap(newToOld[i], newToOld[j]);
@@ -40,7 +40,7 @@ mousse::labelList mousse::randomRenumber::renumber
 }
 mousse::labelList mousse::randomRenumber::renumber
 (
-  const polyMesh& mesh,
+  const polyMesh& /*mesh*/,
   const pointField& points
 ) const
 {
@@ -48,7 +48,7 @@ mousse::labelList mousse::randomRenumber::renumber
 }
 mousse::labelList mousse::randomRenumber::renumber
 (
-  const labelListList& cellCells,
+  const labelListList& /*cellCells*/,
   const pointField& points
 ) const
 {
