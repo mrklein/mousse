@@ -27,15 +27,14 @@ class snapParameters
     const Switch implicitFeatureSnap_;
     const Switch multiRegionFeatureSnap_;
     const Switch detectNearSurfacesSnap_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    snapParameters(const snapParameters&);
-    //- Disallow default bitwise assignment
-    void operator=(const snapParameters&);
 public:
   // Constructors
     //- Construct from dictionary
     snapParameters(const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    snapParameters(const snapParameters&) = delete;
+    //- Disallow default bitwise assignment
+    snapParameters& operator=(const snapParameters&) = delete;
   // Member Functions
     // Access
       //- Number of patch smoothing iterations before finding

@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(polyLineEdge, 0);
-  addToRunTimeSelectionTable(curvedEdge, polyLineEdge, Istream);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyLineEdge, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(curvedEdge, polyLineEdge, Istream);
 }
 // Constructors 
 mousse::polyLineEdge::polyLineEdge

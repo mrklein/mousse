@@ -7,13 +7,13 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(externalDisplacementMeshMover, 0);
-  defineRunTimeSelectionTable(externalDisplacementMeshMover, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(externalDisplacementMeshMover, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(externalDisplacementMeshMover, dictionary);
 }
 // Constructors 
 mousse::externalDisplacementMeshMover::externalDisplacementMeshMover
 (
-  const dictionary& dict,
+  const dictionary&,
   const List<labelPair>& baffles,
   pointVectorField& pointDisplacement
 )
@@ -36,7 +36,7 @@ mousse::externalDisplacementMeshMover::New
     dictionaryConstructorTablePtr_->find(type);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "externalDisplacementMeshMover::New(const word&"
       ", pointVectorField&, const List<labelPair>&"
@@ -64,7 +64,7 @@ void mousse::externalDisplacementMeshMover::updateMesh(const mapPolyMesh& mpm)
 {
   // Renumber baffles
   DynamicList<labelPair> newBaffles(baffles_.size());
-  forAll(baffles_, i)
+  FOR_ALL(baffles_, i)
   {
     label f0 = mpm.reverseFaceMap()[baffles_[i].first()];
     label f1 = mpm.reverseFaceMap()[baffles_[i].second()];

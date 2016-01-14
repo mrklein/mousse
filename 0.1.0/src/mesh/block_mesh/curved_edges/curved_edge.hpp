@@ -36,9 +36,9 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("curvedEdge");
+  TYPE_NAME("curvedEdge");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       curvedEdge,

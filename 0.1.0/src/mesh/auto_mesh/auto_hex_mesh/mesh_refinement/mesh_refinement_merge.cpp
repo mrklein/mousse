@@ -27,7 +27,7 @@
 //    // Pick up all candidate cells on boundary
 //    labelHashSet boundaryCells(mesh_.nFaces()-mesh_.nInternalFaces());
 //
-//    forAll(patchIDs, i)
+//    FOR_ALL(patchIDs, i)
 //    {
 //        label patchI = patchIDs[i];
 //
@@ -35,7 +35,7 @@
 //
 //        if (!patch.coupled())
 //        {
-//            forAll(patch, i)
+//            FOR_ALL(patch, i)
 //            {
 //                boundaryCells.insert(mesh_.faceOwner()[patch.start()+i]);
 //            }
@@ -95,7 +95,7 @@
 //        // (unless the faces are absolutely planar)
 //        labelHashSet retestFaces(6*mergeSets.size());
 //
-//        forAll(mergeSets, setI)
+//        FOR_ALL(mergeSets, setI)
 //        {
 //            label oldMasterI = mergeSets[setI][0];
 //
@@ -104,7 +104,7 @@
 //            // faceI is always uncoupled boundary face
 //            const cell& cFaces = mesh_.cells()[mesh_.faceOwner()[faceI]];
 //
-//            forAll(cFaces, i)
+//            FOR_ALL(cFaces, i)
 //            {
 //                retestFaces.insert(cFaces[i]);
 //            }
@@ -146,11 +146,11 @@
 //        {
 //            const faceList& faces = mesh_.faces();
 //
-//            forAll(faces, faceI)
+//            FOR_ALL(faces, faceI)
 //            {
 //                const face& f = faces[faceI];
 //
-//                forAll(f, fp)
+//                FOR_ALL(f, fp)
 //                {
 //                    if (pointCanBeDeleted[f[fp]])
 //                    {
@@ -193,13 +193,13 @@
 //
 //        const cellList& cells = mesh_.cells();
 //
-//        forAllConstIter(labelHashSet, retestOldFaces, iter)
+//        FOR_ALL_CONST_ITER(labelHashSet, retestOldFaces, iter)
 //        {
 //            label faceI = map().reverseFaceMap()[iter.key()];
 //
 //            const cell& ownFaces = cells[mesh_.faceOwner()[faceI]];
 //
-//            forAll(ownFaces, i)
+//            FOR_ALL(ownFaces, i)
 //            {
 //                retestFaces.insert(ownFaces[i]);
 //            }
@@ -208,7 +208,7 @@
 //            {
 //                const cell& neiFaces = cells[mesh_.faceNeighbour()[faceI]];
 //
-//                forAll(neiFaces, i)
+//                FOR_ALL(neiFaces, i)
 //                {
 //                    retestFaces.insert(neiFaces[i]);
 //                }
@@ -234,13 +234,13 @@ mousse::label mousse::meshRefinement::mergePatchFacesUndo
   labelHashSet boundaryCells(mesh_.nFaces()-mesh_.nInternalFaces());
   {
     const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-    forAll(patchIDs, i)
+    FOR_ALL(patchIDs, i)
     {
       label patchI = patchIDs[i];
       const polyPatch& patch = patches[patchI];
       if (!patch.coupled())
       {
-        forAll(patch, i)
+        FOR_ALL(patch, i)
         {
           boundaryCells.insert(mesh_.faceOwner()[patch.start()+i]);
         }
@@ -263,11 +263,11 @@ mousse::label mousse::meshRefinement::mergePatchFacesUndo
   );
   // Filter out any set that contains any preserveFace
   label compactI = 0;
-  forAll(allFaceSets, i)
+  FOR_ALL(allFaceSets, i)
   {
     const labelList& set = allFaceSets[i];
     bool keep = true;
-    forAll(set, j)
+    FOR_ALL(set, j)
     {
       if (preserveFaces[set[j]] != -1)
       {
@@ -292,9 +292,9 @@ mousse::label mousse::meshRefinement::mergePatchFacesUndo
     if (debug&meshRefinement::MESH)
     {
       faceSet allSets(mesh_, "allFaceSets", allFaceSets.size());
-      forAll(allFaceSets, setI)
+      FOR_ALL(allFaceSets, setI)
       {
-        forAll(allFaceSets[setI], i)
+        FOR_ALL(allFaceSets[setI], i)
         {
           allSets.insert(allFaceSets[setI][i]);
         }
@@ -337,7 +337,7 @@ mousse::label mousse::meshRefinement::mergePatchFacesUndo
     // Merging two boundary faces might shift the cell centre
     // (unless the faces are absolutely planar)
     labelHashSet retestFaces(2*allFaceSets.size());
-    forAll(allFaceSets, setI)
+    FOR_ALL(allFaceSets, setI)
     {
       label oldMasterI = allFaceSets[setI][0];
       retestFaces.insert(map().reverseFaceMap()[oldMasterI]);
@@ -411,14 +411,14 @@ mousse::label mousse::meshRefinement::mergePatchFacesUndo
       // Check any master cells for using any of the error faces
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DynamicList<label> mastersToRestore(allFaceSets.size());
-      forAll(allFaceSets, setI)
+      FOR_ALL(allFaceSets, setI)
       {
         label masterFaceI = faceCombiner.masterFace()[setI];
         if (masterFaceI != -1)
         {
           label masterCellII = mesh_.faceOwner()[masterFaceI];
           const cell& cFaces = mesh_.cells()[masterCellII];
-          forAll(cFaces, i)
+          FOR_ALL(cFaces, i)
           {
             if (errorFaces.found(cFaces[i]))
             {
@@ -495,7 +495,7 @@ mousse::label mousse::meshRefinement::mergePatchFacesUndo
       // Merging two boundary faces might shift the cell centre
       // (unless the faces are absolutely planar)
       labelHashSet retestFaces(2*restoredFaces.size());
-      forAllConstIter(Map<label>, restoredFaces, iter)
+      FOR_ALL_CONST_ITER(Map<label>, restoredFaces, iter)
       {
         retestFaces.insert(iter.key());
       }
@@ -556,7 +556,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::doRemovePoints
   pointRemover.updateMesh(map);
   // Retest all affected faces and all the cells using them
   labelHashSet retestFaces(pointRemover.savedFaceLabels().size());
-  forAll(pointRemover.savedFaceLabels(), i)
+  FOR_ALL(pointRemover.savedFaceLabels(), i)
   {
     label faceI = pointRemover.savedFaceLabels()[i];
     if (faceI >= 0)
@@ -615,7 +615,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::doRestorePoints
   mesh_.setInstance(timeName());
   pointRemover.updateMesh(map);
   labelHashSet retestFaces(2*facesToRestore.size());
-  forAll(facesToRestore, i)
+  FOR_ALL(facesToRestore, i)
   {
     label faceI = map().reverseFaceMap()[facesToRestore[i]];
     if (faceI >= 0)
@@ -643,7 +643,7 @@ mousse::labelList mousse::meshRefinement::collectFaces
 {
   // Has face been selected?
   boolList selected(mesh_.nFaces(), false);
-  forAll(candidateFaces, i)
+  FOR_ALL(candidateFaces, i)
   {
     label faceI = candidateFaces[i];
     if (set.found(faceI))
@@ -667,12 +667,12 @@ mousse::labelList mousse::meshRefinement::growFaceCellFace
 ) const
 {
   boolList selected(mesh_.nFaces(), false);
-  forAllConstIter(faceSet, set, iter)
+  FOR_ALL_CONST_ITER(faceSet, set, iter)
   {
     label faceI = iter.key();
     label own = mesh_.faceOwner()[faceI];
     const cell& ownFaces = mesh_.cells()[own];
-    forAll(ownFaces, ownFaceI)
+    FOR_ALL(ownFaces, ownFaceI)
     {
       selected[ownFaces[ownFaceI]] = true;
     }
@@ -680,7 +680,7 @@ mousse::labelList mousse::meshRefinement::growFaceCellFace
     {
       label nbr = mesh_.faceNeighbour()[faceI];
       const cell& nbrFaces = mesh_.cells()[nbr];
-      forAll(nbrFaces, nbrFaceI)
+      FOR_ALL(nbrFaces, nbrFaceI)
       {
         selected[nbrFaces[nbrFaceI]] = true;
       }

@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(arcEdge, 0);
-  addToRunTimeSelectionTable(curvedEdge, arcEdge, Istream);
+  DEFINE_TYPE_NAME_AND_DEBUG(arcEdge, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(curvedEdge, arcEdge, Istream);
 }
 // Private Member Functions 
 mousse::cylindricalCS mousse::arcEdge::calcAngle()
@@ -23,7 +23,7 @@ mousse::cylindricalCS mousse::arcEdge::calcAngle()
   scalar denom = asqr*bsqr - adotb*adotb;
   if (mag(denom) < VSMALL)
   {
-    FatalErrorIn("cylindricalCS arcEdge::calcAngle()")
+    FATAL_ERROR_IN("cylindricalCS arcEdge::calcAngle()")
       << "Invalid arc definition - are the points co-linear?  Denom ="
       << denom
       << abort(FatalError);
@@ -87,7 +87,7 @@ mousse::point mousse::arcEdge::position(const scalar lambda) const
 {
   if (lambda < -SMALL || lambda > 1 + SMALL)
   {
-    FatalErrorIn("arcEdge::position(const scalar lambda) const")
+    FATAL_ERROR_IN("arcEdge::position(const scalar lambda) const")
       << "Parameter out of range, lambda = " << lambda
       << abort(FatalError);
   }

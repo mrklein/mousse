@@ -26,7 +26,7 @@ class zeroFixedValuePointPatchField
 {
 public:
   //- Runtime type information
-  TypeName("zeroFixedValue");
+  TYPE_NAME("zeroFixedValue");
   // Constructors
     //- Construct from patch and internal field
     zeroFixedValuePointPatchField

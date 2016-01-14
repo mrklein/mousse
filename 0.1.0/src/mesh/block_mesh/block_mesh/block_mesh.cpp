@@ -8,14 +8,14 @@
 bool mousse::blockMesh::blockMesh::verboseOutput(false);
 namespace mousse
 {
-  defineDebugSwitch(blockMesh, 0);
+DEFINE_DEBUG_SWITCH(blockMesh, 0);
 }
 // Constructors 
 mousse::blockMesh::blockMesh(const IOdictionary& dict, const word& regionName)
 :
-  blockPointField_(dict.lookup("vertices")),
-  scaleFactor_(1.0),
-  topologyPtr_(createTopology(dict, regionName))
+  blockPointField_{dict.lookup("vertices")},
+  scaleFactor_{1.0},
+  topologyPtr_{createTopology(dict, regionName)}
 {
   Switch fastMerge(dict.lookupOrDefault<Switch>("fastMerge", false));
   if (fastMerge)
@@ -45,7 +45,7 @@ const mousse::polyMesh& mousse::blockMesh::topology() const
 {
   if (!topologyPtr_)
   {
-    FatalErrorIn("blockMesh::topology() const")
+    FATAL_ERROR_IN("blockMesh::topology() const")
       << "topologyPtr_ not allocated"
       << exit(FatalError);
   }
@@ -55,7 +55,7 @@ mousse::PtrList<mousse::dictionary> mousse::blockMesh::patchDicts() const
 {
   const polyPatchList& patchTopologies = topology().boundaryMesh();
   PtrList<dictionary> patchDicts(patchTopologies.size());
-  forAll(patchTopologies, patchI)
+  FOR_ALL(patchTopologies, patchI)
   {
     OStringStream os;
     patchTopologies[patchI].write(os);
@@ -96,20 +96,10 @@ mousse::wordList mousse::blockMesh::patchNames() const
 {
   return topology().boundaryMesh().names();
 }
-//mousse::wordList mousse::blockMesh::patchTypes() const
-//{
-//    return topology().boundaryMesh().types();
-//}
-//
-//
-//mousse::wordList mousse::blockMesh::patchPhysicalTypes() const
-//{
-//    return topology().boundaryMesh().physicalTypes();
-//}
 mousse::label mousse::blockMesh::numZonedBlocks() const
 {
   label num = 0;
-  forAll(*this, blockI)
+  FOR_ALL(*this, blockI)
   {
     if (operator[](blockI).zoneName().size())
     {
@@ -121,13 +111,13 @@ mousse::label mousse::blockMesh::numZonedBlocks() const
 void mousse::blockMesh::writeTopology(Ostream& os) const
 {
   const pointField& pts = topology().points();
-  forAll(pts, pI)
+  FOR_ALL(pts, pI)
   {
     const point& pt = pts[pI];
     os << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << endl;
   }
   const edgeList& edges = topology().edges();
-  forAll(edges, eI)
+  FOR_ALL(edges, eI)
   {
     const edge& e = edges[eI];
     os << "l " << e.start() + 1 << ' ' << e.end() + 1 << endl;

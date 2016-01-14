@@ -34,29 +34,29 @@ inline void mousse::patchFaceOrientation::flip()
   }
 }
 template<class TrackingData>
-inline bool mousse::patchFaceOrientation::valid(TrackingData& td) const
+inline bool mousse::patchFaceOrientation::valid(TrackingData&) const
 {
   return flipStatus_ != orientedSurface::UNVISITED;
 }
 template<class TrackingData>
 inline void mousse::patchFaceOrientation::transform
 (
-  const polyMesh& mesh,
-  const indirectPrimitivePatch& patch,
-  const tensor& rotTensor,
-  const scalar tol,
-  TrackingData& td
+  const polyMesh&,
+  const indirectPrimitivePatch&,
+  const tensor& /*rotTensor*/,
+  const scalar /*tol*/,
+  TrackingData& /*td*/
 )
 {}
 template<class TrackingData>
 inline bool mousse::patchFaceOrientation::updateEdge
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const indirectPrimitivePatch& patch,
   const label edgeI,
   const label faceI,
   const patchFaceOrientation& faceInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -82,11 +82,11 @@ inline bool mousse::patchFaceOrientation::updateEdge
 template<class TrackingData>
 inline bool mousse::patchFaceOrientation::updateEdge
 (
-  const polyMesh& mesh,
-  const indirectPrimitivePatch& patch,
+  const polyMesh&,
+  const indirectPrimitivePatch&,
   const patchFaceOrientation& edgeInfo,
   const bool sameOrientation,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -106,12 +106,12 @@ inline bool mousse::patchFaceOrientation::updateEdge
 template<class TrackingData>
 inline bool mousse::patchFaceOrientation::updateFace
 (
-  const polyMesh& mesh,
+  const polyMesh&,
   const indirectPrimitivePatch& patch,
   const label faceI,
   const label edgeI,
   const patchFaceOrientation& edgeInfo,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -140,7 +140,7 @@ template<class TrackingData>
 inline bool mousse::patchFaceOrientation::equal
 (
   const patchFaceOrientation& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

@@ -54,9 +54,6 @@ private:
     //- Per 'interface' surface :
     //  What to do with outside
     faceZoneType faceType_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const surfaceZonesInfo&);
 public:
   // Constructors
     //- Construct from surfaces and dictionary
@@ -79,8 +76,10 @@ public:
     //- Return clone
     autoPtr<surfaceZonesInfo> clone() const
     {
-      return autoPtr<surfaceZonesInfo>(new surfaceZonesInfo(*this));
+      return autoPtr<surfaceZonesInfo>{new surfaceZonesInfo{*this}};
     }
+    //- Disallow default bitwise assignment
+    surfaceZonesInfo& operator=(const surfaceZonesInfo&) = delete;
   // Member Functions
     // Access
       //- Per 'interface' surface : empty or name of faceZone to put

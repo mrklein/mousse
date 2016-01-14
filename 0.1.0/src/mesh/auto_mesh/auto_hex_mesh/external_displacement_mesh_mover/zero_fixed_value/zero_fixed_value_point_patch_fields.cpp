@@ -8,5 +8,5 @@
 namespace mousse
 {
 // Static Data Members
-makePointPatchFields(zeroFixedValue);
+MAKE_POINT_PATCH_FIELDS(zeroFixedValue);
 }  // namespace mousse

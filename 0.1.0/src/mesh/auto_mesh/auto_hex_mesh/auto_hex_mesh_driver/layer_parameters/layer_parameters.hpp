@@ -73,14 +73,14 @@ private:
       const label n,
       const scalar totalOverFirst
     ) const;
-    //- Disallow default bitwise copy construct
-    layerParameters(const layerParameters&);
-    //- Disallow default bitwise assignment
-    void operator=(const layerParameters&);
 public:
   // Constructors
     //- Construct from dictionary
     layerParameters(const dictionary& dict, const polyBoundaryMesh&);
+    //- Disallow default bitwise copy construct
+    layerParameters(const layerParameters&) = delete;
+    //- Disallow default bitwise assignment
+    layerParameters& operator=(const layerParameters&) = delete;
   // Member Functions
     const dictionary& dict() const
     {

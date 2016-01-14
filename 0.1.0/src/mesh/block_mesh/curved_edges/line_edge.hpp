@@ -18,7 +18,7 @@ class lineEdge
 {
 public:
   //- Runtime type information
-  TypeName("line");
+  TYPE_NAME("line");
   // Constructors
     //- Construct from components
     lineEdge(const pointField&, const label start, const label end);

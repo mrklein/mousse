@@ -37,7 +37,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(autoLayerDriver, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(autoLayerDriver, 0);
 }  // namespace mousse
 // Private Member Functions 
 // For debugging: Dump displacement to .obj files
@@ -51,14 +51,14 @@ void mousse::autoLayerDriver::dumpDisplacement
 {
   OBJstream dispStr(prefix + "_disp.obj");
   Info<< "Writing all displacements to " << dispStr.name() << endl;
-  forAll(patchDisp, patchPointI)
+  FOR_ALL(patchDisp, patchPointI)
   {
     const point& pt = pp.localPoints()[patchPointI];
     dispStr.write(linePointRef(pt, pt + patchDisp[patchPointI]));
   }
   OBJstream illStr(prefix + "_illegal.obj");
   Info<< "Writing invalid displacements to " << illStr.name() << endl;
-  forAll(patchDisp, patchPointI)
+  FOR_ALL(patchDisp, patchPointI)
   {
     if (extrudeStatus[patchPointI] != EXTRUDE)
     {
@@ -75,12 +75,12 @@ mousse::tmp<mousse::scalarField> mousse::autoLayerDriver::avgPointData
 {
   tmp<scalarField> tfaceFld(new scalarField(pp.size(), 0.0));
   scalarField& faceFld = tfaceFld();
-  forAll(pp.localFaces(), faceI)
+  FOR_ALL(pp.localFaces(), faceI)
   {
     const face& f = pp.localFaces()[faceI];
     if (f.size())
     {
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         faceFld[faceI] += pointFld[f[fp]];
       }
@@ -101,7 +101,7 @@ void mousse::autoLayerDriver::checkManifold
   fp.checkPointManifold(false, &nonManifoldPoints);
   // Check for edge-faces (surface pinched at edge)
   const labelListList& edgeFaces = fp.edgeFaces();
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     const labelList& eFaces = edgeFaces[edgeI];
     if (eFaces.size() > 2)
@@ -192,7 +192,7 @@ bool mousse::autoLayerDriver::unmarkExtrusion
 )
 {
   bool unextruded = false;
-  forAll(localFace, fp)
+  FOR_ALL(localFace, fp)
   {
     if
     (
@@ -229,7 +229,7 @@ void mousse::autoLayerDriver::handleNonManifolds
   // 1. Local check
   checkManifold(pp, nonManifoldPoints);
   // 2. Remote check for boundary edges on coupled boundaries
-  forAll(edgeGlobalFaces, edgeI)
+  FOR_ALL(edgeGlobalFaces, edgeI)
   {
     if
     (
@@ -249,7 +249,7 @@ void mousse::autoLayerDriver::handleNonManifolds
   {
     PackedBoolList isCoupledEdge(mesh.nEdges());
     const labelList& cpEdges = mesh.globalData().coupledPatchMeshEdges();
-    forAll(cpEdges, i)
+    FOR_ALL(cpEdges, i)
     {
       isCoupledEdge[cpEdges[i]] = true;
     }
@@ -260,7 +260,7 @@ void mousse::autoLayerDriver::handleNonManifolds
       orEqOp<unsigned int>(),
       0
     );
-    forAll(edgeGlobalFaces, edgeI)
+    FOR_ALL(edgeGlobalFaces, edgeI)
     {
       label meshEdgeI = meshEdges[edgeI];
       if
@@ -286,7 +286,7 @@ void mousse::autoLayerDriver::handleNonManifolds
   if (nNonManif > 0)
   {
     const labelList& meshPoints = pp.meshPoints();
-    forAll(meshPoints, patchPointI)
+    FOR_ALL(meshPoints, patchPointI)
     {
       if (nonManifoldPoints.found(meshPoints[patchPointI]))
       {
@@ -321,11 +321,11 @@ void mousse::autoLayerDriver::handleFeatureAngle
     // Normal component of normals of connected faces.
     vectorField edgeNormal(mesh.nEdges(), point::max);
     const labelListList& edgeFaces = pp.edgeFaces();
-    forAll(edgeFaces, edgeI)
+    FOR_ALL(edgeFaces, edgeI)
     {
       const labelList& eFaces = pp.edgeFaces()[edgeI];
       label meshEdgeI = meshEdges[edgeI];
-      forAll(eFaces, i)
+      FOR_ALL(eFaces, i)
       {
         nomalsCombine()
         (
@@ -359,7 +359,7 @@ void mousse::autoLayerDriver::handleFeatureAngle
     label nFeats = 0;
     // Now on coupled edges the edgeNormal will have been truncated and
     // only be still be the old value where two faces have the same normal
-    forAll(edgeFaces, edgeI)
+    FOR_ALL(edgeFaces, edgeI)
     {
       const labelList& eFaces = pp.edgeFaces()[edgeI];
       label meshEdgeI = meshEdges[edgeI];
@@ -418,7 +418,7 @@ void mousse::autoLayerDriver::handleWarpedFaces
   Info<< nl << "Handling cells with warped patch faces ..." << nl;
   const pointField& points = mesh.points();
   label nWarpedFaces = 0;
-  forAll(pp, i)
+  FOR_ALL(pp, i)
   {
     const face& f = pp[i];
     if (f.size() > 3)
@@ -430,7 +430,7 @@ void mousse::autoLayerDriver::handleWarpedFaces
       const point& fc = mesh.faceCentres()[faceI];
       const vector& fn = pp.faceNormals()[i];
       scalarField vProj(f.size());
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         vector n = points[f[fp]] - fc;
         vProj[fp] = (n & fn);
@@ -481,13 +481,13 @@ void mousse::autoLayerDriver::handleWarpedFaces
 //    cellSet multiPatchCells(mesh, "multiPatchCells", pp.size());
 //
 //    // Detect points that use multiple faces on same cell.
-//    forAll(pointFaces, patchPointI)
+//    FOR_ALL(pointFaces, patchPointI)
 //    {
 //        const labelList& pFaces = pointFaces[patchPointI];
 //
 //        labelHashSet pointCells(pFaces.size());
 //
-//        forAll(pFaces, i)
+//        FOR_ALL(pFaces, i)
 //        {
 //            label cellI = mesh.faceOwner()[pp.addressing()[pFaces[i]]];
 //
@@ -525,13 +525,13 @@ void mousse::autoLayerDriver::handleWarpedFaces
 //        // (has to be done in separate loop since having one point on
 //        // multipatches has to reset extrusion on all points of cell)
 //
-//        forAll(pointFaces, patchPointI)
+//        FOR_ALL(pointFaces, patchPointI)
 //        {
 //            if (extrudeStatus[patchPointI] != NOEXTRUDE)
 //            {
 //                const labelList& pFaces = pointFaces[patchPointI];
 //
-//                forAll(pFaces, i)
+//                FOR_ALL(pFaces, i)
 //                {
 //                    label cellI =
 //                        mesh.faceOwner()[pp.addressing()[pFaces[i]]];
@@ -567,9 +567,9 @@ void mousse::autoLayerDriver::setNumLayers
   const labelList& patchToNLayers,
   const labelList& patchIDs,
   const indirectPrimitivePatch& pp,
-  pointField& patchDisp,
+  pointField& /*patchDisp*/,
   labelList& patchNLayers,
-  List<extrudeMode>& extrudeStatus,
+  List<extrudeMode>& /*extrudeStatus*/,
   label& nAddedCells
 ) const
 {
@@ -580,12 +580,12 @@ void mousse::autoLayerDriver::setNumLayers
   // the max and min of any patch faces using it.
   labelList maxLayers(patchNLayers.size(), labelMin);
   labelList minLayers(patchNLayers.size(), labelMax);
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchI = patchIDs[i];
     const labelList& meshPoints = mesh.boundaryMesh()[patchI].meshPoints();
     label wantedLayers = patchToNLayers[patchI];
-    forAll(meshPoints, patchPointI)
+    FOR_ALL(meshPoints, patchPointI)
     {
       label ppPointI = pp.meshPointMap()[meshPoints[patchPointI]];
       maxLayers[ppPointI] = max(wantedLayers, maxLayers[ppPointI]);
@@ -611,11 +611,11 @@ void mousse::autoLayerDriver::setNumLayers
   // Unmark any point with different min and max
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //label nConflicts = 0;
-  forAll(maxLayers, i)
+  FOR_ALL(maxLayers, i)
   {
     if (maxLayers[i] == labelMin || minLayers[i] == labelMax)
     {
-      FatalErrorIn("setNumLayers(..)")
+      FATAL_ERROR_IN("setNumLayers(..)")
         << "Patchpoint:" << i << " coord:" << pp.localPoints()[i]
         << " maxLayers:" << maxLayers
         << " minLayers:" << minLayers
@@ -647,12 +647,12 @@ void mousse::autoLayerDriver::setNumLayers
   }
   // Calculate number of cells to create
   nAddedCells = 0;
-  forAll(pp.localFaces(), faceI)
+  FOR_ALL(pp.localFaces(), faceI)
   {
     const face& f = pp.localFaces()[faceI];
     // Get max of extrusion per point
     label nCells = 0;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       nCells = max(nCells, patchNLayers[f[fp]]);
     }
@@ -682,11 +682,11 @@ mousse::autoLayerDriver::makeLayerDisplacementField
     slipPointPatchVectorField::typeName
   );
   wordList actualPatchTypes(patchFieldTypes.size());
-  forAll(pointPatches, patchI)
+  FOR_ALL(pointPatches, patchI)
   {
     actualPatchTypes[patchI] = pointPatches[patchI].type();
   }
-  forAll(numLayers, patchI)
+  FOR_ALL(numLayers, patchI)
   {
     //  0 layers: do not allow slip so fixedValue 0
     // >0 layers: fixedValue which gets adapted
@@ -700,7 +700,7 @@ mousse::autoLayerDriver::makeLayerDisplacementField
       patchFieldTypes[patchI] = fixedValuePointPatchVectorField::typeName;
     }
   }
-  forAll(pointPatches, patchI)
+  FOR_ALL(pointPatches, patchI)
   {
     if (isA<processorPointPatch>(pointPatches[patchI]))
     {
@@ -746,11 +746,11 @@ void mousse::autoLayerDriver::growNoExtrusion
   List<extrudeMode> grownExtrudeStatus(extrudeStatus);
   const faceList& localFaces = pp.localFaces();
   label nGrown = 0;
-  forAll(localFaces, faceI)
+  FOR_ALL(localFaces, faceI)
   {
     const face& f = localFaces[faceI];
     bool hasSqueeze = false;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (extrudeStatus[f[fp]] == NOEXTRUDE)
       {
@@ -761,7 +761,7 @@ void mousse::autoLayerDriver::growNoExtrusion
     if (hasSqueeze)
     {
       // Squeeze all points of face
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if
         (
@@ -780,7 +780,7 @@ void mousse::autoLayerDriver::growNoExtrusion
   // Use the fact that NOEXTRUDE is the minimum value.
   {
     labelList status(extrudeStatus.size());
-    forAll(status, i)
+    FOR_ALL(status, i)
     {
       status[i] = extrudeStatus[i];
     }
@@ -792,12 +792,12 @@ void mousse::autoLayerDriver::growNoExtrusion
       minEqOp<label>(),
       labelMax            // null value
     );
-    forAll(status, i)
+    FOR_ALL(status, i)
     {
       extrudeStatus[i] = extrudeMode(status[i]);
     }
   }
-  forAll(extrudeStatus, patchPointI)
+  FOR_ALL(extrudeStatus, patchPointI)
   {
     if (extrudeStatus[patchPointI] == NOEXTRUDE)
     {
@@ -878,7 +878,7 @@ void mousse::autoLayerDriver::determineSidePatches
       wantedToAddedPatch.insert(patchI, procPatchI);
     }
     // Renumber sidePatchID
-    forAll(sidePatchID, i)
+    FOR_ALL(sidePatchID, i)
     {
       label patchI = sidePatchID[i];
       Map<label>::const_iterator fnd = wantedToAddedPatch.find(patchI);
@@ -916,11 +916,11 @@ void mousse::autoLayerDriver::calculateLayerThickness
   scalarField expRatio(pp.nPoints(), GREAT);
   minThickness.setSize(pp.nPoints());
   minThickness = GREAT;
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchI = patchIDs[i];
     const labelList& meshPoints = patches[patchI].meshPoints();
-    forAll(meshPoints, patchPointI)
+    FOR_ALL(meshPoints, patchPointI)
     {
       label ppPointI = pp.meshPointMap()[meshPoints[patchPointI]];
       firstLayerThickness[ppPointI] = min
@@ -1003,7 +1003,7 @@ void mousse::autoLayerDriver::calculateLayerThickness
     || max(layerParams.minThickness()) > 2
     )
     {
-      FatalErrorIn("calculateLayerThickness(..)")
+      FATAL_ERROR_IN("calculateLayerThickness(..)")
         << "Thickness should be factor of local undistorted cell size."
         << " Valid values are [0..2]." << nl
         << " minThickness:" << layerParams.minThickness()
@@ -1012,11 +1012,11 @@ void mousse::autoLayerDriver::calculateLayerThickness
     // Determine per point the max cell level of connected cells
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     labelList maxPointLevel(pp.nPoints(), labelMin);
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       label ownLevel = cellLevel[mesh.faceOwner()[pp.addressing()[i]]];
       const face& f = pp.localFaces()[i];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         maxPointLevel[f[fp]] = max(maxPointLevel[f[fp]], ownLevel);
       }
@@ -1029,7 +1029,7 @@ void mousse::autoLayerDriver::calculateLayerThickness
       maxEqOp<label>(),
       labelMin            // null value
     );
-    forAll(maxPointLevel, pointI)
+    FOR_ALL(maxPointLevel, pointI)
     {
       // Find undistorted edge size for this level.
       scalar edgeLen = edge0Len/(1<<maxPointLevel[pointI]);
@@ -1041,7 +1041,7 @@ void mousse::autoLayerDriver::calculateLayerThickness
   }
   // Rework thickness parameters into overall thickness
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(firstLayerThickness, pointI)
+  FOR_ALL(firstLayerThickness, pointI)
   {
     thickness[pointI] = layerParams.layerThickness
     (
@@ -1068,7 +1068,7 @@ void mousse::autoLayerDriver::calculateLayerThickness
     int oldPrecision = Info().precision();
     // Find maximum length of a patch name, for a nicer output
     label maxPatchNameLen = 0;
-    forAll(patchIDs, i)
+    FOR_ALL(patchIDs, i)
     {
       label patchI = patchIDs[i];
       word patchName = patches[patchI].name();
@@ -1082,14 +1082,14 @@ void mousse::autoLayerDriver::calculateLayerThickness
       << setf(ios_base::left) << setw(maxPatchNameLen) << "-----"
       << setw(0) << " -----    ------ --------- -------" << endl;
     const PackedBoolList isMasterPoint(syncTools::getMasterPoints(mesh));
-    forAll(patchIDs, i)
+    FOR_ALL(patchIDs, i)
     {
       label patchI = patchIDs[i];
       const labelList& meshPoints = patches[patchI].meshPoints();
       scalar sumThickness = 0;
       scalar sumNearWallThickness = 0;
       label nMasterPoints = 0;
-      forAll(meshPoints, patchPointI)
+      FOR_ALL(meshPoints, patchPointI)
       {
         label meshPointI = meshPoints[patchPointI];
         if (isMasterPoint[meshPointI])
@@ -1158,7 +1158,7 @@ void mousse::autoLayerDriver::syncPatchDisplacement
       point::rootMax      // null value
     );
     // Unmark if displacement too small
-    forAll(patchDisp, i)
+    FOR_ALL(patchDisp, i)
     {
       if (mag(patchDisp[i]) < minThickness[i])
       {
@@ -1188,7 +1188,7 @@ void mousse::autoLayerDriver::syncPatchDisplacement
     );
     // Reset if differs
     // 1. take max
-    forAll(syncPatchNLayers, i)
+    FOR_ALL(syncPatchNLayers, i)
     {
       if (syncPatchNLayers[i] != patchNLayers[i])
       {
@@ -1217,7 +1217,7 @@ void mousse::autoLayerDriver::syncPatchDisplacement
     );
     // Reset if differs
     // 2. take min
-    forAll(syncPatchNLayers, i)
+    FOR_ALL(syncPatchNLayers, i)
     {
       if (syncPatchNLayers[i] != patchNLayers[i])
       {
@@ -1277,7 +1277,7 @@ void mousse::autoLayerDriver::getPatchDisplacement
   label nNoVisNormal = 0;
   label nExtrudeRemove = 0;
   // Check if no extrude possible.
-  forAll(pointNormals, patchPointI)
+  FOR_ALL(pointNormals, patchPointI)
   {
     label meshPointI = pp.meshPoints()[patchPointI];
     if (extrudeStatus[patchPointI] == NOEXTRUDE)
@@ -1306,14 +1306,14 @@ void mousse::autoLayerDriver::getPatchDisplacement
     }
   }
   // At illegal points make displacement average of new neighbour positions
-  forAll(extrudeStatus, patchPointI)
+  FOR_ALL(extrudeStatus, patchPointI)
   {
     if (extrudeStatus[patchPointI] == EXTRUDEREMOVE)
     {
       point avg(vector::zero);
       label nPoints = 0;
       const labelList& pEdges = pp.pointEdges()[patchPointI];
-      forAll(pEdges, i)
+      FOR_ALL(pEdges, i)
       {
         label edgeI = pEdges[i];
         label otherPointI = pp.edges()[edgeI].otherVertex(patchPointI);
@@ -1394,12 +1394,12 @@ void mousse::autoLayerDriver::getVertexString
   label fp = findIndex(fEdges, edgeI);
   if (fp == -1)
   {
-    FatalErrorIn("autoLayerDriver::getVertexString(..)")
+    FATAL_ERROR_IN("autoLayerDriver::getVertexString(..)")
       << "problem." << abort(FatalError);
   }
   // Search back
   label startFp = fp;
-  forAll(fEdges, i)
+  FOR_ALL(fEdges, i)
   {
     label prevFp = fEdges.rcIndex(startFp);
     if
@@ -1418,7 +1418,7 @@ void mousse::autoLayerDriver::getVertexString
     startFp = prevFp;
   }
   label endFp = fp;
-  forAll(fEdges, i)
+  FOR_ALL(fEdges, i)
   {
     label nextFp = fEdges.fcIndex(endFp);
     if
@@ -1466,18 +1466,18 @@ mousse::label mousse::autoLayerDriver::truncateDisplacement
   const fvMesh& mesh = meshRefiner_.mesh();
   label nChanged = 0;
   const Map<label>& meshPointMap = pp.meshPointMap();
-  forAllConstIter(faceSet, illegalPatchFaces, iter)
+  FOR_ALL_CONST_ITER(faceSet, illegalPatchFaces, iter)
   {
     label faceI = iter.key();
     if (mesh.isInternalFace(faceI))
     {
-      FatalErrorIn("truncateDisplacement(..)")
+      FATAL_ERROR_IN("truncateDisplacement(..)")
         << "Faceset " << illegalPatchFaces.name()
         << " contains internal face " << faceI << nl
         << "It should only contain patch faces" << abort(FatalError);
     }
     const face& f = mesh.faces()[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (meshPointMap.found(f[fp]))
       {
@@ -1496,7 +1496,7 @@ mousse::label mousse::autoLayerDriver::truncateDisplacement
       }
     }
   }
-  forAll(patchDisp, patchPointI)
+  FOR_ALL(patchDisp, patchPointI)
   {
     if (mag(patchDisp[patchPointI]) < minThickness[patchPointI])
     {
@@ -1538,13 +1538,13 @@ mousse::label mousse::autoLayerDriver::truncateDisplacement
     // not extruded (e.g. quad where vertex 0 and 2 are not extruded
     // but 1 and 3 are) since this gives topological errors.
     label nPinched = 0;
-    forAll(localFaces, i)
+    FOR_ALL(localFaces, i)
     {
       const face& localF = localFaces[i];
       // Count number of transitions from unsnapped to snapped.
       label nTrans = 0;
       extrudeMode prevMode = extrudeStatus[localF.prevLabel(0)];
-      forAll(localF, fp)
+      FOR_ALL(localF, fp)
       {
         extrudeMode fpMode = extrudeStatus[localF[fp]];
         if (prevMode == NOEXTRUDE && fpMode != NOEXTRUDE)
@@ -1597,7 +1597,7 @@ mousse::label mousse::autoLayerDriver::truncateDisplacement
     label nButterFly = 0;
     {
       DynamicList<label> stringedVerts;
-      forAll(pp.edges(), edgeI)
+      FOR_ALL(pp.edges(), edgeI)
       {
         const labelList& globFaces = edgeGlobalFaces[edgeI];
         if (globFaces.size() == 2)
@@ -1644,7 +1644,7 @@ mousse::label mousse::autoLayerDriver::truncateDisplacement
             }
             if (pinch)
             {
-              forAll(stringedVerts, i)
+              FOR_ALL(stringedVerts, i)
               {
                 if
                 (
@@ -1675,13 +1675,13 @@ mousse::label mousse::autoLayerDriver::truncateDisplacement
     // Make sure that a face has consistent number of layers for all
     // its vertices.
     label nDiffering = 0;
-    //forAll(localFaces, i)
+    //FOR_ALL(localFaces, i)
     //{
     //    const face& localF = localFaces[i];
     //
     //    label numLayers = -1;
     //
-    //    forAll(localF, fp)
+    //    FOR_ALL(localF, fp)
     //    {
     //        if (patchNLayers[localF[fp]] > 0)
     //        {
@@ -1742,10 +1742,10 @@ void mousse::autoLayerDriver::setupLayerInfoTruncation
     Info<< nl << "Performing no layer truncation."
       << " nBufferCellsNoExtrude set to less than 0  ..." << endl;
     // Face layers if any point gets extruded
-    forAll(pp.localFaces(), patchFaceI)
+    FOR_ALL(pp.localFaces(), patchFaceI)
     {
       const face& f = pp.localFaces()[patchFaceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (patchNLayers[f[fp]] > 0)
         {
@@ -1756,7 +1756,7 @@ void mousse::autoLayerDriver::setupLayerInfoTruncation
     }
     nPatchPointLayers = patchNLayers;
     // Set any unset patch face layers
-    forAll(nPatchFaceLayers, patchFaceI)
+    FOR_ALL(nPatchFaceLayers, patchFaceI)
     {
       if (nPatchFaceLayers[patchFaceI] == -1)
       {
@@ -1768,14 +1768,14 @@ void mousse::autoLayerDriver::setupLayerInfoTruncation
   {
     // Determine max point layers per face.
     labelList maxLevel(pp.size(), 0);
-    forAll(pp.localFaces(), patchFaceI)
+    FOR_ALL(pp.localFaces(), patchFaceI)
     {
       const face& f = pp.localFaces()[patchFaceI];
       // find patch faces where layer terminates (i.e contains extrude
       // and noextrude points).
       bool noExtrude = false;
       label mLevel = 0;
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (extrudeStatus[f[fp]] == NOEXTRUDE)
         {
@@ -1820,9 +1820,9 @@ void mousse::autoLayerDriver::setupLayerInfoTruncation
       {
         labelList tempCounter(nPatchFaceLayers);
         boolList foundNeighbour(pp.nPoints(), false);
-        forAll(pp.meshPoints(), patchPointI)
+        FOR_ALL(pp.meshPoints(), patchPointI)
         {
-          forAll(pointFaces[patchPointI], pointFaceI)
+          FOR_ALL(pointFaces[patchPointI], pointFaceI)
           {
             label faceI = pointFaces[patchPointI][pointFaceI];
             if
@@ -1844,11 +1844,11 @@ void mousse::autoLayerDriver::setupLayerInfoTruncation
           orEqOp<bool>(),
           false               // null value
         );
-        forAll(pp.meshPoints(), patchPointI)
+        FOR_ALL(pp.meshPoints(), patchPointI)
         {
           if (foundNeighbour[patchPointI])
           {
-            forAll(pointFaces[patchPointI], pointFaceI)
+            FOR_ALL(pointFaces[patchPointI], pointFaceI)
             {
               label faceI = pointFaces[patchPointI][pointFaceI];
               if
@@ -1866,18 +1866,18 @@ void mousse::autoLayerDriver::setupLayerInfoTruncation
         nPatchFaceLayers = tempCounter;
       }
     }
-    forAll(pp.localFaces(), patchFaceI)
+    FOR_ALL(pp.localFaces(), patchFaceI)
     {
       if (nPatchFaceLayers[patchFaceI] == -1)
       {
         nPatchFaceLayers[patchFaceI] = maxLevel[patchFaceI];
       }
     }
-    forAll(pp.meshPoints(), patchPointI)
+    FOR_ALL(pp.meshPoints(), patchPointI)
     {
       if (extrudeStatus[patchPointI] != NOEXTRUDE)
       {
-        forAll(pointFaces[patchPointI], pointFaceI)
+        FOR_ALL(pointFaces[patchPointI], pointFaceI)
         {
           label face = pointFaces[patchPointI][pointFaceI];
           nPatchPointLayers[patchPointI] = max
@@ -1910,10 +1910,10 @@ bool mousse::autoLayerDriver::cellsUseFace
   const labelHashSet& faces
 )
 {
-  forAll(cellLabels, i)
+  FOR_ALL(cellLabels, i)
   {
     const cell& cFaces = mesh.cells()[cellLabels[i]];
-    forAll(cFaces, cFaceI)
+    FOR_ALL(cFaces, cFaceI)
     {
       if (faces.found(cFaces[cFaceI]))
       {
@@ -1972,7 +1972,7 @@ mousse::label mousse::autoLayerDriver::checkAndUnmark
   //   finding out where the problems are.
   const label nReportMax = 10;
   DynamicField<point> disabledFaceCentres(nReportMax);
-  forAll(addedCells, oldPatchFaceI)
+  FOR_ALL(addedCells, oldPatchFaceI)
   {
     // Get the cells (in newMesh labels) per old patch face (in mesh
     // labels)
@@ -2053,10 +2053,10 @@ mousse::label mousse::autoLayerDriver::countExtrusion
   label nExtruded = 0;
   {
     const faceList& localFaces = pp.localFaces();
-    forAll(localFaces, i)
+    FOR_ALL(localFaces, i)
     {
       const face& localFace = localFaces[i];
-      forAll(localFace, fp)
+      FOR_ALL(localFace, fp)
       {
         if (extrudeStatus[localFace[fp]] != NOEXTRUDE)
         {
@@ -2086,19 +2086,19 @@ void mousse::autoLayerDriver::getLayerCellsFaces
   const labelListList& layerFaces = addLayer.layerFaces();
   // Mark all cells in the layer.
   labelListList addedCells(addPatchCellLayer::addedCells(mesh, layerFaces));
-  forAll(addedCells, oldPatchFaceI)
+  FOR_ALL(addedCells, oldPatchFaceI)
   {
     const labelList& added = addedCells[oldPatchFaceI];
     const labelList& layer = layerFaces[oldPatchFaceI];
     if (layer.size())
     {
-      forAll(added, i)
+      FOR_ALL(added, i)
       {
         cellNLayers[added[i]] = layer.size()-1;
       }
     }
   }
-  forAll(layerFaces, oldPatchFaceI)
+  FOR_ALL(layerFaces, oldPatchFaceI)
   {
     const labelList& layer = layerFaces[oldPatchFaceI];
     const scalar realThickness = oldRealThickness[oldPatchFaceI];
@@ -2126,7 +2126,7 @@ void mousse::autoLayerDriver::printLayerData
   int oldPrecision = Info().precision();
   // Find maximum length of a patch name, for a nicer output
   label maxPatchNameLen = 0;
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchI = patchIDs[i];
     word patchName = pbm[patchI].name();
@@ -2139,7 +2139,7 @@ void mousse::autoLayerDriver::printLayerData
     << setw(0) << "                   [m]       [%]" << nl
     << setf(ios_base::left) << setw(maxPatchNameLen) << "-----"
     << setw(0) << " -----    ------   ---       ---" << endl;
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchI = patchIDs[i];
     const polyPatch& pp = pbm[patchI];
@@ -2147,7 +2147,7 @@ void mousse::autoLayerDriver::printLayerData
     // Number of layers
     const labelList& faceCells = pp.faceCells();
     label sumNLayers = 0;
-    forAll(faceCells, i)
+    FOR_ALL(faceCells, i)
     {
       sumNLayers += cellNLayers[faceCells[i]];
     }
@@ -2162,7 +2162,7 @@ void mousse::autoLayerDriver::printLayerData
     );
     scalar sumRealThickness = sum(patchReal);
     scalar sumFraction = 0;
-    forAll(patchReal, i)
+    FOR_ALL(patchReal, i)
     {
       if (patchWanted[i] > VSMALL)
       {
@@ -2206,7 +2206,7 @@ bool mousse::autoLayerDriver::writeLayerData
   {
     {
       label nAdded = 0;
-      forAll(cellNLayers, cellI)
+      FOR_ALL(cellNLayers, cellI)
       {
         if (cellNLayers[cellI] > 0)
         {
@@ -2214,7 +2214,7 @@ bool mousse::autoLayerDriver::writeLayerData
         }
       }
       cellSet addedCellSet(mesh, "addedCells", nAdded);
-      forAll(cellNLayers, cellI)
+      FOR_ALL(cellNLayers, cellI)
       {
         if (cellNLayers[cellI] > 0)
         {
@@ -2276,13 +2276,13 @@ bool mousse::autoLayerDriver::writeLayerData
         fixedValueFvPatchScalarField::typeName
       );
       const polyBoundaryMesh& pbm = mesh.boundaryMesh();
-      forAll(patchIDs, i)
+      FOR_ALL(patchIDs, i)
       {
         label patchI = patchIDs[i];
         const polyPatch& pp = pbm[patchI];
         const labelList& faceCells = pp.faceCells();
         scalarField pfld(faceCells.size());
-        forAll(faceCells, i)
+        FOR_ALL(faceCells, i)
         {
           pfld[i] = cellNLayers[faceCells[i]];
         }
@@ -2310,7 +2310,7 @@ bool mousse::autoLayerDriver::writeLayerData
         fixedValueFvPatchScalarField::typeName
       );
       const polyBoundaryMesh& pbm = mesh.boundaryMesh();
-      forAll(patchIDs, i)
+      FOR_ALL(patchIDs, i)
       {
         label patchI = patchIDs[i];
         fld.boundaryField()[patchI] == pbm[patchI].patchSlice
@@ -2340,7 +2340,7 @@ bool mousse::autoLayerDriver::writeLayerData
         fixedValueFvPatchScalarField::typeName
       );
       const polyBoundaryMesh& pbm = mesh.boundaryMesh();
-      forAll(patchIDs, i)
+      FOR_ALL(patchIDs, i)
       {
         label patchI = patchIDs[i];
         scalarField::subField patchWanted = pbm[patchI].patchSlice
@@ -2353,7 +2353,7 @@ bool mousse::autoLayerDriver::writeLayerData
         );
         // Convert patchReal to relavtive thickness
         scalarField pfld(patchReal.size(), 0.0);
-        forAll(patchReal, i)
+        FOR_ALL(patchReal, i)
         {
           if (patchWanted[i] > VSMALL)
           {
@@ -2423,7 +2423,7 @@ void mousse::autoLayerDriver::mergePatchFacesUndo
   const fvMesh& mesh = meshRefiner_.mesh();
   List<labelPair> couples(localPointRegion::findDuplicateFacePairs(mesh));
   labelList duplicateFace(mesh.nFaces(), -1);
-  forAll(couples, i)
+  FOR_ALL(couples, i)
   {
     const labelPair& cpl = couples[i];
     duplicateFace[cpl[0]] = cpl[1];
@@ -2802,7 +2802,7 @@ void mousse::autoLayerDriver::addLayers
     // Calculate displacement for final layer for addPatchLayer.
     // (layer of cells next to the original mesh)
     vectorField finalDisp(patchNLayers.size(), vector::zero);
-    forAll(nPatchPointLayers, i)
+    FOR_ALL(nPatchPointLayers, i)
     {
       scalar ratio = layerParams.finalLayerThicknessRatio
       (
@@ -2866,7 +2866,7 @@ void mousse::autoLayerDriver::addLayers
     );
     // Update numbering of baffles
     List<labelPair> newMeshBaffles(baffles.size());
-    forAll(baffles, i)
+    FOR_ALL(baffles, i)
     {
       const labelPair& p = baffles[i];
       newMeshBaffles[i][0] = map().reverseFaceMap()[p[0]];
@@ -2883,7 +2883,7 @@ void mousse::autoLayerDriver::addLayers
     );
     // Count number of added cells
     label nAddedCells = 0;
-    forAll(cellNLayers, cellI)
+    FOR_ALL(cellNLayers, cellI)
     {
       if (cellNLayers[cellI] > 0)
       {
@@ -2896,7 +2896,7 @@ void mousse::autoLayerDriver::addLayers
         << endl;
       newMesh.write();
       cellSet addedCellSet(newMesh, "addedCells", nAddedCells);
-      forAll(cellNLayers, cellI)
+      FOR_ALL(cellNLayers, cellI)
       {
         if (cellNLayers[cellI] > 0)
         {
@@ -2991,7 +2991,7 @@ void mousse::autoLayerDriver::addLayers
   // Update numbering of faceWantedThickness
   meshRefinement::updateList(map().faceMap(), scalar(0), faceWantedThickness);
   // Update numbering on baffles
-  forAll(baffles, i)
+  FOR_ALL(baffles, i)
   {
     labelPair& p = baffles[i];
     p[0] = map().reverseFaceMap()[p[0]];
@@ -3051,7 +3051,7 @@ void mousse::autoLayerDriver::addLayers
 }
 void mousse::autoLayerDriver::doLayers
 (
-  const dictionary& shrinkDict,
+  const dictionary& /*shrinkDict*/,
   const dictionary& motionDict,
   const layerParameters& layerParams,
   const bool preBalance,
@@ -3072,7 +3072,7 @@ void mousse::autoLayerDriver::doLayers
   // Patches that need to get a layer
   DynamicList<label> patchIDs(numLayers.size());
   label nFacesWithLayers = 0;
-  forAll(numLayers, patchI)
+  FOR_ALL(numLayers, patchI)
   {
     if (numLayers[patchI] > 0)
     {
@@ -3084,7 +3084,7 @@ void mousse::autoLayerDriver::doLayers
       }
       else
       {
-        WarningIn("autoLayerDriver::doLayers(..)")
+        WARNING_IN("autoLayerDriver::doLayers(..)")
           << "Ignoring layers on coupled patch " << pp.name()
           << endl;
       }
@@ -3119,12 +3119,12 @@ void mousse::autoLayerDriver::doLayers
         << "-----------------------" << nl
         << endl;
       scalarField cellWeights(mesh.nCells(), 1);
-      forAll(numLayers, patchI)
+      FOR_ALL(numLayers, patchI)
       {
         if (numLayers[patchI] > 0)
         {
           const polyPatch& pp = mesh.boundaryMesh()[patchI];
-          forAll(pp.faceCells(), i)
+          FOR_ALL(pp.faceCells(), i)
           {
             cellWeights[pp.faceCells()[i]] += numLayers[patchI];
           }

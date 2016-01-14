@@ -18,14 +18,9 @@ class BSplineEdge
   public curvedEdge,
   public BSpline
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    BSplineEdge(const BSplineEdge&);
-    //- Disallow default bitwise assignment
-    void operator=(const BSplineEdge&);
 public:
   //- Runtime type information
-  TypeName("BSpline");
+  TYPE_NAME("BSpline");
   // Constructors
     //- Construct from components
     BSplineEdge
@@ -37,6 +32,10 @@ public:
     );
     //- Construct from Istream, setting pointsList
     BSplineEdge(const pointField&, Istream&);
+    //- Disallow default bitwise copy construct
+    BSplineEdge(const BSplineEdge&) = delete;
+    //- Disallow default bitwise assignment
+    BSplineEdge& operator=(const BSplineEdge&) = delete;
   //- Destructor
   virtual ~BSplineEdge();
   // Member Functions

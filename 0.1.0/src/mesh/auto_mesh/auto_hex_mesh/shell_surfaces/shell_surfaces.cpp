@@ -34,7 +34,7 @@ void mousse::shellSurfaces::setAndCheckLevels
 {
   if (modes_[shellI] != DISTANCE && distLevels.size() != 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "shellSurfaces::shellSurfaces"
       "(const searchableSurfaces&, const dictionary&)"
@@ -47,7 +47,7 @@ void mousse::shellSurfaces::setAndCheckLevels
   // Extract information into separate distance and level
   distances_[shellI].setSize(distLevels.size());
   levels_[shellI].setSize(distLevels.size());
-  forAll(distLevels, j)
+  FOR_ALL(distLevels, j)
   {
     distances_[shellI][j] = distLevels[j].first();
     levels_[shellI][j] = distLevels[j].second();
@@ -60,7 +60,7 @@ void mousse::shellSurfaces::setAndCheckLevels
       || (levels_[shellI][j] > levels_[shellI][j-1])
       )
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "shellSurfaces::shellSurfaces"
           "(const searchableSurfaces&, const dictionary&)"
@@ -80,7 +80,7 @@ void mousse::shellSurfaces::setAndCheckLevels
   {
     Info<< "Refinement level according to distance to "
       << shell.name() << endl;
-    forAll(levels_[shellI], j)
+    FOR_ALL(levels_[shellI], j)
     {
       Info<< "    level " << levels_[shellI][j]
         << " for all cells within " << distances_[shellI][j]
@@ -91,7 +91,7 @@ void mousse::shellSurfaces::setAndCheckLevels
   {
     if (!allGeometry_[shells_[shellI]].hasVolumeType())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "shellSurfaces::shellSurfaces"
         "(const searchableSurfaces&"
@@ -122,7 +122,7 @@ void mousse::shellSurfaces::orient()
   // Determine outside point.
   boundBox overallBb = boundBox::invertedBox;
   bool hasSurface = false;
-  forAll(shells_, shellI)
+  FOR_ALL(shells_, shellI)
   {
     const searchableSurface& s = allGeometry_[shells_[shellI]];
     if (modes_[shellI] != DISTANCE && isA<triSurfaceMesh>(s))
@@ -134,7 +134,7 @@ void mousse::shellSurfaces::orient()
         hasSurface = true;
         boundBox shellBb(points[0], points[0]);
         // Assume surface is compact!
-        forAll(points, i)
+        FOR_ALL(points, i)
         {
           const point& pt = points[i];
           shellBb.min() = min(shellBb.min(), pt);
@@ -149,7 +149,7 @@ void mousse::shellSurfaces::orient()
   {
     const point outsidePt = overallBb.max() + overallBb.span();
     //Info<< "Using point " << outsidePt << " to orient shells" << endl;
-    forAll(shells_, shellI)
+    FOR_ALL(shells_, shellI)
     {
       const searchableSurface& s = allGeometry_[shells_[shellI]];
       if (modes_[shellI] != DISTANCE && isA<triSurfaceMesh>(s))
@@ -201,9 +201,9 @@ void mousse::shellSurfaces::findHigherLevel
     labelList candidateMap(pt.size());
     scalarField candidateDistSqr(pt.size());
     label candidateI = 0;
-    forAll(maxLevel, pointI)
+    FOR_ALL(maxLevel, pointI)
     {
-      forAllReverse(levels, levelI)
+      FOR_ALL_REVERSE(levels, levelI)
       {
         if (levels[levelI] > maxLevel[pointI])
         {
@@ -227,7 +227,7 @@ void mousse::shellSurfaces::findHigherLevel
       nearInfo
     );
     // Update maxLevel
-    forAll(nearInfo, candidateI)
+    FOR_ALL(nearInfo, candidateI)
     {
       if (nearInfo[candidateI].hit())
       {
@@ -251,7 +251,7 @@ void mousse::shellSurfaces::findHigherLevel
     pointField candidates(pt.size());
     labelList candidateMap(pt.size());
     label candidateI = 0;
-    forAll(maxLevel, pointI)
+    FOR_ALL(maxLevel, pointI)
     {
       if (levels[0] > maxLevel[pointI])
       {
@@ -265,20 +265,11 @@ void mousse::shellSurfaces::findHigherLevel
     // Do the expensive nearest test only for the candidate points.
     List<volumeType> volType;
     allGeometry_[shells_[shellI]].getVolumeType(candidates, volType);
-    forAll(volType, i)
+    FOR_ALL(volType, i)
     {
       label pointI = candidateMap[i];
-      if
-      (
-        (
-          modes_[shellI] == INSIDE
-        && volType[i] == volumeType::INSIDE
-        )
-      || (
-          modes_[shellI] == OUTSIDE
-        && volType[i] == volumeType::OUTSIDE
-        )
-      )
+      if ((modes_[shellI] == INSIDE && volType[i] == volumeType::INSIDE)
+          || (modes_[shellI] == OUTSIDE && volType[i] == volumeType::OUTSIDE))
       {
         maxLevel[pointI] = levels[0];
       }
@@ -292,12 +283,12 @@ mousse::shellSurfaces::shellSurfaces
   const dictionary& shellsDict
 )
 :
-  allGeometry_(allGeometry)
+  allGeometry_{allGeometry}
 {
   // Wilcard specification : loop over all surfaces and try to find a match.
   // Count number of shells.
   label shellI = 0;
-  forAll(allGeometry.names(), geomI)
+  FOR_ALL(allGeometry.names(), geomI)
   {
     const word& geomName = allGeometry_.names()[geomI];
     if (shellsDict.found(geomName))
@@ -310,9 +301,9 @@ mousse::shellSurfaces::shellSurfaces
   modes_.setSize(shellI);
   distances_.setSize(shellI);
   levels_.setSize(shellI);
-  HashSet<word> unmatchedKeys(shellsDict.toc());
+  HashSet<word> unmatchedKeys{shellsDict.toc()};
   shellI = 0;
-  forAll(allGeometry_.names(), geomI)
+  FOR_ALL(allGeometry_.names(), geomI)
   {
     const word& geomName = allGeometry_.names()[geomI];
     const entry* ePtr = shellsDict.lookupEntryPtr(geomName, false, true);
@@ -329,14 +320,15 @@ mousse::shellSurfaces::shellSurfaces
   }
   if (unmatchedKeys.size() > 0)
   {
-    IOWarningIn
+    IO_WARNING_IN
     (
       "shellSurfaces::shellSurfaces(..)",
       shellsDict
-    )   << "Not all entries in refinementRegions dictionary were used."
-      << " The following entries were not used : "
-      << unmatchedKeys.sortedToc()
-      << endl;
+    )
+    << "Not all entries in refinementRegions dictionary were used."
+    << " The following entries were not used : "
+    << unmatchedKeys.sortedToc()
+    << endl;
   }
   // Orient shell surfaces before any searching is done. Note that this
   // only needs to be done for inside or outside. Orienting surfaces
@@ -348,7 +340,7 @@ mousse::shellSurfaces::shellSurfaces
 mousse::label mousse::shellSurfaces::maxLevel() const
 {
   label overallMax = 0;
-  forAll(levels_, shellI)
+  FOR_ALL(levels_, shellI)
   {
     overallMax = max(overallMax, max(levels_[shellI]));
   }
@@ -363,7 +355,7 @@ void mousse::shellSurfaces::findHigherLevel
 {
   // Maximum level of any shell. Start off with level of point.
   maxLevel = ptLevel;
-  forAll(shells_, shellI)
+  FOR_ALL(shells_, shellI)
   {
     findHigherLevel(pt, shellI, maxLevel);
   }

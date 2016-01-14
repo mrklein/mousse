@@ -26,7 +26,7 @@ mousse::blockDescriptor::blockDescriptor
 {
   if (expand_.size() != 12)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "blockDescriptor::blockDescriptor"
       "(const cellShape&, const pointField& blockPointField, "
@@ -77,7 +77,7 @@ mousse::blockDescriptor::blockDescriptor
     }
     else
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "blockDescriptor::blockDescriptor"
         "(const pointField&, const curvedEdgeList&, Istream&)",
@@ -129,7 +129,7 @@ mousse::blockDescriptor::blockDescriptor
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "blockDescriptor::blockDescriptor"
       "(const pointField&, const curvedEdgeList&, Istream&)"
@@ -196,7 +196,7 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const blockDescriptor& bd)
   const cellShape& bshape = bd.blockShape();
   const labelList& blockLabels = bshape;
   os  << bshape.model().name() << " (";
-  forAll(blockLabels, labelI)
+  FOR_ALL(blockLabels, labelI)
   {
     if (labelI)
     {
@@ -239,7 +239,7 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const blockDescriptor& bd)
   }
   else
   {
-    forAll(expand, edgeI)
+    FOR_ALL(expand, edgeI)
     {
       if (edgeI)
       {

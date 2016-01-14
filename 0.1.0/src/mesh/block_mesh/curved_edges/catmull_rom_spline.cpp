@@ -93,6 +93,6 @@ mousse::point mousse::CatmullRomSpline::position
 }
 mousse::scalar mousse::CatmullRomSpline::length() const
 {
-  notImplemented("CatmullRomSpline::length() const");
+  NOT_IMPLEMENTED("CatmullRomSpline::length() const");
   return 1.0;
 }

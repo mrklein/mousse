@@ -25,13 +25,9 @@ class arcEdge
   // Private Member Functions
     //- Calculate the coordinate system, angle and radius
     cylindricalCS calcAngle();
-    //- Disallow default bitwise copy construct
-    arcEdge(const arcEdge&);
-    //- Disallow default bitwise assignment
-    void operator=(const arcEdge&);
 public:
   //- Runtime type information
-  TypeName("arc");
+  TYPE_NAME("arc");
   // Constructors
     //- Construct from components
     arcEdge
@@ -42,6 +38,10 @@ public:
     );
     //- Construct from Istream setting pointsList
     arcEdge(const pointField& points, Istream&);
+    //- Disallow default bitwise copy construct
+    arcEdge(const arcEdge&) = delete;
+    //- Disallow default bitwise assignment
+    arcEdge& operator=(const arcEdge&) = delete;
   //- Destructor
   virtual ~arcEdge(){}
   // Member Functions

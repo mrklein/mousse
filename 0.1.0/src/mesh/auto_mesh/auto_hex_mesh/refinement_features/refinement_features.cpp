@@ -13,7 +13,7 @@ void mousse::refinementFeatures::read
   const PtrList<dictionary>& featDicts
 )
 {
-  forAll(featDicts, featI)
+  FOR_ALL(featDicts, featI)
   {
     const dictionary& dict = featDicts[featI];
     fileName featFileName(dict.lookup("file"));
@@ -57,7 +57,7 @@ void mousse::refinementFeatures::read
       const fileName fName(featObj.filePath());
       if (fName.empty())
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "refinementFeatures::read"
           "(const objectRegistry&"
@@ -78,7 +78,7 @@ void mousse::refinementFeatures::read
       const labelListList& pointEdges = eMesh.pointEdges();
       labelList oldToNew(eMesh.points().size(), -1);
       DynamicField<point> newPoints(eMesh.points().size());
-      forAll(pointEdges, pointI)
+      FOR_ALL(pointEdges, pointI)
       {
         if (pointEdges[pointI].size() > 2)
         {
@@ -89,7 +89,7 @@ void mousse::refinementFeatures::read
         //MEJ: do something based on a feature angle?
       }
       label nFeatures = newPoints.size();
-      forAll(oldToNew, pointI)
+      FOR_ALL(oldToNew, pointI)
       {
         if (oldToNew[pointI] == -1)
         {
@@ -99,7 +99,7 @@ void mousse::refinementFeatures::read
       }
       const edgeList& edges = eMesh.edges();
       edgeList newEdges(edges.size());
-      forAll(edges, edgeI)
+      FOR_ALL(edges, edgeI)
       {
         const edge& e = edges[edgeI];
         newEdges[edgeI] = edge
@@ -143,7 +143,7 @@ void mousse::refinementFeatures::read
       List<Tuple2<scalar, label> > distLevels(dict["levels"]);
       if (dict.size() < 1)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "refinementFeatures::read"
           "(const objectRegistry&"
@@ -154,7 +154,7 @@ void mousse::refinementFeatures::read
       }
       distances_[featI].setSize(distLevels.size());
       levels_[featI].setSize(distLevels.size());
-      forAll(distLevels, j)
+      FOR_ALL(distLevels, j)
       {
         distances_[featI][j] = distLevels[j].first();
         levels_[featI][j] = distLevels[j].second();
@@ -167,7 +167,7 @@ void mousse::refinementFeatures::read
           || (levels_[featI][j] > levels_[featI][j-1])
           )
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "refinementFeatures::read"
               "(const objectRegistry&"
@@ -191,7 +191,7 @@ void mousse::refinementFeatures::read
     Info<< "Refinement level according to distance to "
       << featFileName << " (" << eMesh.points().size() << " points, "
       << eMesh.edges().size() << " edges)." << endl;
-    forAll(levels_[featI], j)
+    FOR_ALL(levels_[featI], j)
     {
       Info<< "    level " << levels_[featI][j]
         << " for all cells within " << distances_[featI][j]
@@ -255,7 +255,7 @@ mousse::refinementFeatures::regionEdgeTrees() const
       new PtrList<indexedOctree<treeDataEdge> >(size())
     );
     PtrList<indexedOctree<treeDataEdge> >& trees = regionEdgeTreesPtr_();
-    forAll(*this, featI)
+    FOR_ALL(*this, featI)
     {
       const extendedEdgeMesh& eMesh = operator[](featI);
       const pointField& points = eMesh.points();
@@ -308,9 +308,9 @@ void mousse::refinementFeatures::findHigherLevel
   labelList candidateMap(pt.size());
   scalarField candidateDistSqr(pt.size());
   label candidateI = 0;
-  forAll(maxLevel, pointI)
+  FOR_ALL(maxLevel, pointI)
   {
-    forAllReverse(levels, levelI)
+    FOR_ALL_REVERSE(levels, levelI)
     {
       if (levels[levelI] > maxLevel[pointI])
       {
@@ -328,7 +328,7 @@ void mousse::refinementFeatures::findHigherLevel
   // Do the expensive nearest test only for the candidate points.
   const indexedOctree<treeDataEdge>& tree = edgeTrees_[featI];
   List<pointIndexHit> nearInfo(candidates.size());
-  forAll(candidates, candidateI)
+  FOR_ALL(candidates, candidateI)
   {
     nearInfo[candidateI] = tree.findNearest
     (
@@ -337,7 +337,7 @@ void mousse::refinementFeatures::findHigherLevel
     );
   }
   // Update maxLevel
-  forAll(nearInfo, candidateI)
+  FOR_ALL(nearInfo, candidateI)
   {
     if (nearInfo[candidateI].hit())
     {
@@ -369,7 +369,7 @@ mousse::refinementFeatures::refinementFeatures
   // Read features
   read(io, featDicts);
   // Search engines
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     buildTrees(i);
   }
@@ -391,7 +391,7 @@ mousse::refinementFeatures::refinementFeatures
 //    read(io, featDicts);
 //
 //    // Search engines
-//    forAll(*this, i)
+//    FOR_ALL(*this, i)
 //    {
 //        const edgeMesh& eMesh = operator[](i);
 //        const pointField& points = eMesh.points();
@@ -399,7 +399,7 @@ mousse::refinementFeatures::refinementFeatures
 //        const labelListList& pointEdges = eMesh.pointEdges();
 //
 //        DynamicList<label> featurePoints;
-//        forAll(pointEdges, pointI)
+//        FOR_ALL(pointEdges, pointI)
 //        {
 //            const labelList& pEdges = pointEdges[pointI];
 //            if (pEdges.size() > 2)
@@ -458,12 +458,12 @@ void mousse::refinementFeatures::findNearestEdge
   nearInfo = pointIndexHit();
   nearNormal.setSize(samples.size());
   nearNormal = vector::zero;
-  forAll(edgeTrees_, featI)
+  FOR_ALL(edgeTrees_, featI)
   {
     const indexedOctree<treeDataEdge>& tree = edgeTrees_[featI];
     if (tree.shapes().size() > 0)
     {
-      forAll(samples, sampleI)
+      FOR_ALL(samples, sampleI)
       {
         const point& sample = samples[sampleI];
         scalar distSqr;
@@ -511,10 +511,10 @@ void mousse::refinementFeatures::findNearestRegionEdge
   nearNormal = vector::zero;
   const PtrList<indexedOctree<treeDataEdge> >& regionTrees =
     regionEdgeTrees();
-  forAll(regionTrees, featI)
+  FOR_ALL(regionTrees, featI)
   {
     const indexedOctree<treeDataEdge>& regionTree = regionTrees[featI];
-    forAll(samples, sampleI)
+    FOR_ALL(samples, sampleI)
     {
       const point& sample = samples[sampleI];
       scalar distSqr;
@@ -558,13 +558,13 @@ void mousse::refinementFeatures::findNearestRegionEdge
 //    nearIndex.setSize(samples.size());
 //    nearIndex = -1;
 //
-//    forAll(pointTrees_, featI)
+//    FOR_ALL(pointTrees_, featI)
 //    {
 //        const indexedOctree<treeDataPoint>& tree = pointTrees_[featI];
 //
 //        if (tree.shapes().pointLabels().size() > 0)
 //        {
-//            forAll(samples, sampleI)
+//            FOR_ALL(samples, sampleI)
 //            {
 //                const point& sample = samples[sampleI];
 //
@@ -608,12 +608,12 @@ void mousse::refinementFeatures::findNearestPoint
   nearFeature = -1;
   nearInfo.setSize(samples.size());
   nearInfo = pointIndexHit();
-  forAll(pointTrees_, featI)
+  FOR_ALL(pointTrees_, featI)
   {
     const indexedOctree<treeDataPoint>& tree = pointTrees_[featI];
     if (tree.shapes().pointLabels().size() > 0)
     {
-      forAll(samples, sampleI)
+      FOR_ALL(samples, sampleI)
       {
         const point& sample = samples[sampleI];
         scalar distSqr;
@@ -649,7 +649,7 @@ void mousse::refinementFeatures::findHigherLevel
 {
   // Maximum level of any shell. Start off with level of point.
   maxLevel = ptLevel;
-  forAll(*this, featI)
+  FOR_ALL(*this, featI)
   {
     findHigherLevel(pt, featI, maxLevel);
   }
@@ -657,7 +657,7 @@ void mousse::refinementFeatures::findHigherLevel
 mousse::scalar mousse::refinementFeatures::maxDistance() const
 {
   scalar overallMax = -GREAT;
-  forAll(distances_, featI)
+  FOR_ALL(distances_, featI)
   {
     overallMax = max(overallMax, max(distances_[featI]));
   }

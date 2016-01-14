@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(BSplineEdge, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(BSplineEdge, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     curvedEdge,
     BSplineEdge,

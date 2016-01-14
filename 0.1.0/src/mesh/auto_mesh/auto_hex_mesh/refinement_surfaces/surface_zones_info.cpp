@@ -48,11 +48,11 @@ mousse::surfaceZonesInfo::surfaceZonesInfo
   const dictionary& surfacesDict
 )
 :
-  faceZoneName_(),
-  cellZoneName_(),
-  zoneInside_(NONE),
-  zoneInsidePoint_(point::min),
-  faceType_(INTERNAL)
+  faceZoneName_{},
+  cellZoneName_{},
+  zoneInside_{NONE},
+  zoneInsidePoint_{point::min},
+  faceType_{INTERNAL}
 {
   // Global zone names per surface
   if (surfacesDict.readIfPresent("faceZone", faceZoneName_))
@@ -81,36 +81,32 @@ mousse::surfaceZonesInfo::surfaceZonesInfo
     // Read optional cellZone name
     if (surfacesDict.readIfPresent("cellZone", cellZoneName_))
     {
-      if
-      (
-        (
-          zoneInside_ == INSIDE
-        || zoneInside_ == OUTSIDE
-        )
-      && !surface.hasVolumeType()
-      )
+      if((zoneInside_ == INSIDE || zoneInside_ == OUTSIDE)
+         && !surface.hasVolumeType())
       {
-        IOWarningIn
+        IO_WARNING_IN
         (
           "surfaceZonesInfo::surfaceZonesInfo(..)",
           surfacesDict
-        )   << "Illegal entry zoneInside "
-          << areaSelectionAlgoNames[zoneInside_]
-          << " for faceZone "
-          << faceZoneName_
-          << " since surface is not closed." << endl;
+        )
+        << "Illegal entry zoneInside "
+        << areaSelectionAlgoNames[zoneInside_]
+        << " for faceZone "
+        << faceZoneName_
+        << " since surface is not closed." << endl;
       }
     }
     else if (hasSide)
     {
-      IOWarningIn
+      IO_WARNING_IN
       (
         "surfaceZonesInfo::surfaceZonesInfo(..)",
         surfacesDict
-      )   << "Unused entry zoneInside for faceZone "
-        << faceZoneName_
-        << " since no cellZone specified."
-        << endl;
+      )
+      << "Unused entry zoneInside for faceZone "
+      << faceZoneName_
+      << " since no cellZone specified."
+      << endl;
     }
     // How to handle faces on faceZone
     word faceTypeMethod;
@@ -129,19 +125,19 @@ mousse::surfaceZonesInfo::surfaceZonesInfo
   const faceZoneType& faceType
 )
 :
-  faceZoneName_(faceZoneName),
-  cellZoneName_(cellZoneName),
-  zoneInside_(zoneInside),
-  zoneInsidePoint_(zoneInsidePoint),
-  faceType_(faceType)
+  faceZoneName_{faceZoneName},
+  cellZoneName_{cellZoneName},
+  zoneInside_{zoneInside},
+  zoneInsidePoint_{zoneInsidePoint},
+  faceType_{faceType}
 {}
 mousse::surfaceZonesInfo::surfaceZonesInfo(const surfaceZonesInfo& surfZone)
 :
-  faceZoneName_(surfZone.faceZoneName()),
-  cellZoneName_(surfZone.cellZoneName()),
-  zoneInside_(surfZone.zoneInside()),
-  zoneInsidePoint_(surfZone.zoneInsidePoint()),
-  faceType_(surfZone.faceType())
+  faceZoneName_{surfZone.faceZoneName()},
+  cellZoneName_{surfZone.cellZoneName()},
+  zoneInside_{surfZone.zoneInside()},
+  zoneInsidePoint_{surfZone.zoneInsidePoint()},
+  faceType_{surfZone.faceType()}
 {}
 mousse::labelList mousse::surfaceZonesInfo::getUnnamedSurfaces
 (
@@ -150,7 +146,7 @@ mousse::labelList mousse::surfaceZonesInfo::getUnnamedSurfaces
 {
   labelList anonymousSurfaces(surfList.size());
   label i = 0;
-  forAll(surfList, surfI)
+  FOR_ALL(surfList, surfI)
   {
     if (surfList[surfI].faceZoneName().empty())
     {
@@ -167,13 +163,9 @@ mousse::labelList mousse::surfaceZonesInfo::getNamedSurfaces
 {
  labelList namedSurfaces(surfList.size());
   label namedI = 0;
-  forAll(surfList, surfI)
+  FOR_ALL(surfList, surfI)
   {
-    if
-    (
-      surfList.set(surfI)
-    && surfList[surfI].faceZoneName().size()
-    )
+    if (surfList.set(surfI) && surfList[surfI].faceZoneName().size())
     {
       namedSurfaces[namedI++] = surfI;
     }
@@ -190,18 +182,12 @@ mousse::labelList mousse::surfaceZonesInfo::getClosedNamedSurfaces
 {
   labelList closed(surfList.size());
   label closedI = 0;
-  forAll(surfList, surfI)
+  FOR_ALL(surfList, surfI)
   {
-    if
-    (
-      surfList.set(surfI)
-    && surfList[surfI].cellZoneName().size()
-    && (
-        surfList[surfI].zoneInside() == surfaceZonesInfo::INSIDE
-      || surfList[surfI].zoneInside() == surfaceZonesInfo::OUTSIDE
-      )
-    && allGeometry[surfaces[surfI]].hasVolumeType()
-    )
+    if (surfList.set(surfI) && surfList[surfI].cellZoneName().size()
+        && (surfList[surfI].zoneInside() == surfaceZonesInfo::INSIDE
+            || surfList[surfI].zoneInside() == surfaceZonesInfo::OUTSIDE)
+        && allGeometry[surfaces[surfI]].hasVolumeType())
     {
       closed[closedI++] = surfI;
     }
@@ -218,13 +204,9 @@ mousse::labelList mousse::surfaceZonesInfo::getUnclosedNamedSurfaces
 {
   labelList unclosed(surfList.size());
   label unclosedI = 0;
-  forAll(surfList, surfI)
+  FOR_ALL(surfList, surfI)
   {
-    if
-    (
-      surfList.set(surfI)
-    && !allGeometry[surfaces[surfI]].hasVolumeType()
-    )
+    if (surfList.set(surfI) && !allGeometry[surfaces[surfI]].hasVolumeType())
     {
       unclosed[unclosedI++] = surfI;
     }
@@ -241,14 +223,10 @@ mousse::labelList mousse::surfaceZonesInfo::getAllClosedNamedSurfaces
 {
   labelList closed(surfList.size());
   label closedI = 0;
-  forAll(surfList, surfI)
+  FOR_ALL(surfList, surfI)
   {
-    if
-    (
-      surfList.set(surfI)
-    && surfList[surfI].cellZoneName().size()
-    && allGeometry[surfaces[surfI]].hasVolumeType()
-    )
+    if (surfList.set(surfI) && surfList[surfI].cellZoneName().size()
+        && allGeometry[surfaces[surfI]].hasVolumeType())
     {
       closed[closedI++] = surfI;
     }
@@ -263,14 +241,10 @@ mousse::labelList mousse::surfaceZonesInfo::getInsidePointNamedSurfaces
 {
   labelList closed(surfList.size());
   label closedI = 0;
-  forAll(surfList, surfI)
+  FOR_ALL(surfList, surfI)
   {
-    if
-    (
-      surfList.set(surfI)
-    && surfList[surfI].cellZoneName().size()
-    && surfList[surfI].zoneInside() == surfaceZonesInfo::INSIDEPOINT
-    )
+    if (surfList.set(surfI) && surfList[surfI].cellZoneName().size()
+        && surfList[surfI].zoneInside() == surfaceZonesInfo::INSIDEPOINT)
     {
       closed[closedI++] = surfI;
     }
@@ -287,7 +261,7 @@ mousse::labelList mousse::surfaceZonesInfo::addCellZonesToMesh
 {
   labelList surfaceToCellZone(surfList.size(), -1);
   cellZoneMesh& cellZones = mesh.cellZones();
-  forAll(namedSurfaces, i)
+  FOR_ALL(namedSurfaces, i)
   {
     label surfI = namedSurfaces[i];
     const word& cellZoneName = surfList[surfI].cellZoneName();
@@ -302,19 +276,19 @@ mousse::labelList mousse::surfaceZonesInfo::addCellZonesToMesh
         (
           zoneI,
           new cellZone
-          (
+          {
             cellZoneName,   //name
             labelList(0),   //addressing
             zoneI,          //index
             cellZones       //cellZoneMesh
-          )
+          }
         );
       }
       surfaceToCellZone[surfI] = zoneI;
     }
   }
   // Check they are synced
-  List<wordList> allCellZones(Pstream::nProcs());
+  List<wordList> allCellZones{Pstream::nProcs()};
   allCellZones[Pstream::myProcNo()] = cellZones.names();
   Pstream::gatherList(allCellZones);
   Pstream::scatterList(allCellZones);
@@ -322,15 +296,16 @@ mousse::labelList mousse::surfaceZonesInfo::addCellZonesToMesh
   {
     if (allCellZones[procI] != allCellZones[0])
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "meshRefinement::zonify"
         "(const label, const point&)"
-      )   << "Zones not synchronised among processors." << nl
-        << " Processor0 has cellZones:" << allCellZones[0]
-        << " , processor" << procI
-        << " has cellZones:" << allCellZones[procI]
-        << exit(FatalError);
+      )
+      << "Zones not synchronised among processors." << nl
+      << " Processor0 has cellZones:" << allCellZones[0]
+      << " , processor" << procI
+      << " has cellZones:" << allCellZones[procI]
+      << exit(FatalError);
     }
   }
   return surfaceToCellZone;
@@ -344,7 +319,7 @@ mousse::labelList mousse::surfaceZonesInfo::addFaceZonesToMesh
 {
   labelList surfaceToFaceZone(surfList.size(), -1);
   faceZoneMesh& faceZones = mesh.faceZones();
-  forAll(namedSurfaces, i)
+  FOR_ALL(namedSurfaces, i)
   {
     label surfI = namedSurfaces[i];
     const word& faceZoneName = surfList[surfI].faceZoneName();
@@ -357,19 +332,19 @@ mousse::labelList mousse::surfaceZonesInfo::addFaceZonesToMesh
       (
         zoneI,
         new faceZone
-        (
+        {
           faceZoneName,   //name
           labelList(0),   //addressing
           boolList(0),    //flipmap
           zoneI,          //index
           faceZones       //faceZoneMesh
-        )
+        }
       );
     }
     surfaceToFaceZone[surfI] = zoneI;
   }
   // Check they are synced
-  List<wordList> allFaceZones(Pstream::nProcs());
+  List<wordList> allFaceZones{Pstream::nProcs()};
   allFaceZones[Pstream::myProcNo()] = faceZones.names();
   Pstream::gatherList(allFaceZones);
   Pstream::scatterList(allFaceZones);
@@ -377,15 +352,16 @@ mousse::labelList mousse::surfaceZonesInfo::addFaceZonesToMesh
   {
     if (allFaceZones[procI] != allFaceZones[0])
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "meshRefinement::zonify"
         "(const label, const point&)"
-      )   << "Zones not synchronised among processors." << nl
-        << " Processor0 has faceZones:" << allFaceZones[0]
-        << " , processor" << procI
-        << " has faceZones:" << allFaceZones[procI]
-        << exit(FatalError);
+      )
+      << "Zones not synchronised among processors." << nl
+      << " Processor0 has faceZones:" << allFaceZones[0]
+      << " , processor" << procI
+      << " has faceZones:" << allFaceZones[procI]
+      << exit(FatalError);
     }
   }
   return surfaceToFaceZone;

@@ -155,13 +155,9 @@ class medialAxisMeshMover
       const label nAllowableErrors,
       labelList& checkFaces
     );
-    //- Disallow default bitwise copy construct
-    medialAxisMeshMover(const medialAxisMeshMover&);
-    //- Disallow default bitwise assignment
-    void operator=(const medialAxisMeshMover&);
 public:
   //- Runtime type information
-  TypeName("displacementMedialAxis");
+  TYPE_NAME("displacementMedialAxis");
   // Constructors
     //- Construct from dictionary and displacement field
     medialAxisMeshMover
@@ -170,6 +166,10 @@ public:
       const List<labelPair>& baffles,
       pointVectorField& pointDisplacement
     );
+    //- Disallow default bitwise copy construct
+    medialAxisMeshMover(const medialAxisMeshMover&) = delete;
+    //- Disallow default bitwise assignment
+    medialAxisMeshMover& operator=(const medialAxisMeshMover&) = delete;
   // Destructor
     virtual ~medialAxisMeshMover();
   // Member Functions
@@ -187,7 +187,7 @@ public:
     //-  Update local data for topology changes
     virtual void updateMesh(const mapPolyMesh&)
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "medialAxisMeshMover::updateMesh"
         "(const mapPolyMesh&)"

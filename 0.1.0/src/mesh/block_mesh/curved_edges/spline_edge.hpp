@@ -18,14 +18,9 @@ class splineEdge
   public curvedEdge,
   public CatmullRomSpline
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    splineEdge(const splineEdge&);
-    //- Disallow default bitwise assignment
-    void operator=(const splineEdge&);
 public:
   //- Runtime type information
-  TypeName("spline");
+  TYPE_NAME("spline");
   // Constructors
     //- Construct from components
     splineEdge
@@ -37,6 +32,10 @@ public:
     );
     //- Construct from Istream, setting pointsList
     splineEdge(const pointField&, Istream&);
+    //- Disallow default bitwise copy construct
+    splineEdge(const splineEdge&) = delete;
+    //- Disallow default bitwise assignment
+    splineEdge& operator=(const splineEdge&) = delete;
   //- Destructor
   virtual ~splineEdge();
   // Member Functions

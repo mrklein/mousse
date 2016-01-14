@@ -20,7 +20,7 @@ void mousse::autoLayerDriver::averageNeighbours
 {
   const pointField& pts = mesh.points();
   average = pTraits<Type>::zero;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (isMasterEdge.get(meshEdges[edgeI]) == 1)
     {

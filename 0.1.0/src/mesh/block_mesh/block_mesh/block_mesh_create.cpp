@@ -18,7 +18,7 @@ void mousse::blockMesh::createPoints() const
   //
   points_.clear();
   points_.setSize(nPoints_);
-  forAll(blocks, blockI)
+  FOR_ALL(blocks, blockI)
   {
     const pointField& blockPoints = blocks[blockI].points();
     if (verboseOutput)
@@ -49,7 +49,7 @@ void mousse::blockMesh::createPoints() const
         << scaleFactor_*dkFinal << nl
         << endl;
     }
-    forAll(blockPoints, blockPointI)
+    FOR_ALL(blockPoints, blockPointI)
     {
       points_
       [
@@ -75,13 +75,13 @@ void mousse::blockMesh::createCells() const
   cells_.clear();
   cells_.setSize(nCells_);
   label cellLabel = 0;
-  forAll(blocks, blockI)
+  FOR_ALL(blocks, blockI)
   {
     const labelListList& blockCells = blocks[blockI].cells();
-    forAll(blockCells, blockCellI)
+    FOR_ALL(blockCells, blockCellI)
     {
       labelList cellPoints(blockCells[blockCellI].size());
-      forAll(cellPoints, cellPointI)
+      FOR_ALL(cellPoints, cellPointI)
       {
         cellPoints[cellPointI] =
           mergeList_
@@ -104,11 +104,11 @@ mousse::faceList mousse::blockMesh::createPatchFaces
   const blockList& blocks = *this;
   labelList blockLabels = patchTopologyFaces.polyPatch::faceCells();
   label nFaces = 0;
-  forAll(patchTopologyFaces, patchTopologyFaceLabel)
+  FOR_ALL(patchTopologyFaces, patchTopologyFaceLabel)
   {
     const label blockI = blockLabels[patchTopologyFaceLabel];
     faceList blockFaces = blocks[blockI].blockShape().faces();
-    forAll(blockFaces, blockFaceLabel)
+    FOR_ALL(blockFaces, blockFaceLabel)
     {
       if
       (
@@ -124,11 +124,11 @@ mousse::faceList mousse::blockMesh::createPatchFaces
   faceList patchFaces(nFaces);
   face quadFace(4);
   label faceLabel = 0;
-  forAll(patchTopologyFaces, patchTopologyFaceLabel)
+  FOR_ALL(patchTopologyFaces, patchTopologyFaceLabel)
   {
     const label blockI = blockLabels[patchTopologyFaceLabel];
     faceList blockFaces = blocks[blockI].blockShape().faces();
-    forAll(blockFaces, blockFaceLabel)
+    FOR_ALL(blockFaces, blockFaceLabel)
     {
       if
       (
@@ -138,7 +138,7 @@ mousse::faceList mousse::blockMesh::createPatchFaces
       {
         const labelListList& blockPatchFaces =
           blocks[blockI].boundaryPatches()[blockFaceLabel];
-        forAll(blockPatchFaces, blockFaceLabel)
+        FOR_ALL(blockPatchFaces, blockFaceLabel)
         {
           // Lookup the face points
           // and collapse duplicate point labels
@@ -202,7 +202,7 @@ void mousse::blockMesh::createPatches() const
   //
   patches_.clear();
   patches_.setSize(topoPatches.size());
-  forAll(topoPatches, patchI)
+  FOR_ALL(topoPatches, patchI)
   {
     patches_[patchI] = createPatchFaces(topoPatches[patchI]);
   }
@@ -210,7 +210,7 @@ void mousse::blockMesh::createPatches() const
 void mousse::blockMesh::clearGeom()
 {
   blockList& blocks = *this;
-  forAll(blocks, blockI)
+  FOR_ALL(blocks, blockI)
   {
     blocks[blockI].clearGeom();
   }

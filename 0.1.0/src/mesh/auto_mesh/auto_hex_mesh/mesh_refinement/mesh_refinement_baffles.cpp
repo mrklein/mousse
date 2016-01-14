@@ -64,7 +64,7 @@ mousse::label mousse::meshRefinement::createBaffle
   {
     if (neiPatch == -1)
     {
-      FatalErrorInFunction
+      FATAL_ERROR_IN_FUNCTION
         << "No neighbour patch for internal face " << faceI
         << " fc:" << mesh_.faceCentres()[faceI]
         << " ownPatch:" << ownPatch << abort(FatalError);
@@ -96,7 +96,7 @@ mousse::label mousse::meshRefinement::createBaffle
 void mousse::meshRefinement::getBafflePatches
 (
   const labelList& globalToMasterPatch,
-  const labelList& neiLevel,
+  const labelList& /*neiLevel*/,
   const pointField& neiCc,
   labelList& ownPatch,
   labelList& neiPatch
@@ -134,7 +134,7 @@ void mousse::meshRefinement::getBafflePatches
   // ~~~~~~~~~~~~~~~~
   pointField start(testFaces.size());
   pointField end(testFaces.size());
-  forAll(testFaces, i)
+  FOR_ALL(testFaces, i)
   {
     label faceI = testFaces[i];
     label own = mesh_.faceOwner()[faceI];
@@ -175,7 +175,7 @@ void mousse::meshRefinement::getBafflePatches
     hit2,
     region2
   );
-  forAll(testFaces, i)
+  FOR_ALL(testFaces, i)
   {
     label faceI = testFaces[i];
     if (hit1[i].hit() && hit2[i].hit())
@@ -205,7 +205,7 @@ void mousse::meshRefinement::getBafflePatches
       ];
       if (ownPatch[faceI] == -1 || neiPatch[faceI] == -1)
       {
-        FatalErrorInFunction
+        FATAL_ERROR_IN_FUNCTION
           << "problem." << abort(FatalError);
       }
     }
@@ -231,7 +231,7 @@ mousse::Map<mousse::labelPair> mousse::meshRefinement::getZoneBafflePatches
   Map<labelPair> bafflePatch(mesh_.nFaces()/1000);
   const PtrList<surfaceZonesInfo>& surfZones = surfaces_.surfZones();
   const faceZoneMesh& fZones = mesh_.faceZones();
-  forAll(surfZones, surfI)
+  FOR_ALL(surfZones, surfI)
   {
     const word& faceZoneName = surfZones[surfI].faceZoneName();
     if (faceZoneName.size())
@@ -250,7 +250,7 @@ mousse::Map<mousse::labelPair> mousse::meshRefinement::getZoneBafflePatches
         << mesh_.boundaryMesh()[zPatches[0]].name() << " and "
         << mesh_.boundaryMesh()[zPatches[1]].name()
         << endl;
-      forAll(fZone, i)
+      FOR_ALL(fZone, i)
       {
         label faceI = fZone[i];
         if (allowBoundary || mesh_.isInternalFace(faceI))
@@ -262,7 +262,7 @@ mousse::Map<mousse::labelPair> mousse::meshRefinement::getZoneBafflePatches
           }
           if (!bafflePatch.insert(faceI, patches))
           {
-            FatalErrorInFunction
+            FATAL_ERROR_IN_FUNCTION
               << "Face " << faceI
               << " fc:" << mesh_.faceCentres()[faceI]
               << " in zone " << fZone.name()
@@ -287,7 +287,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::createBaffles
   || neiPatch.size() != mesh_.nFaces()
   )
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "Illegal size :"
       << " ownPatch:" << ownPatch.size()
       << " neiPatch:" << neiPatch.size()
@@ -300,7 +300,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::createBaffles
     syncTools::syncFaceList(mesh_, syncedOwnPatch, maxEqOp<label>());
     labelList syncedNeiPatch(neiPatch);
     syncTools::syncFaceList(mesh_, syncedNeiPatch, maxEqOp<label>());
-    forAll(syncedOwnPatch, faceI)
+    FOR_ALL(syncedOwnPatch, faceI)
     {
       if
       (
@@ -308,7 +308,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::createBaffles
       || (neiPatch[faceI] == -1 && syncedNeiPatch[faceI] != -1)
       )
       {
-        FatalErrorInFunction
+        FATAL_ERROR_IN_FUNCTION
           << "Non synchronised at face:" << faceI
           << " on patch:" << mesh_.boundaryMesh().whichPatch(faceI)
           << " fc:" << mesh_.faceCentres()[faceI] << endl
@@ -323,7 +323,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::createBaffles
   // Topochange container
   polyTopoChange meshMod(mesh_);
   label nBaffles = 0;
-  forAll(ownPatch, faceI)
+  FOR_ALL(ownPatch, faceI)
   {
     if (ownPatch[faceI] != -1)
     {
@@ -361,26 +361,26 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::createBaffles
   const labelList& reverseFaceMap = map().reverseFaceMap();
   const labelList& faceMap = map().faceMap();
   // Pick up owner side of baffle
-  forAll(ownPatch, oldFaceI)
+  FOR_ALL(ownPatch, oldFaceI)
   {
     label faceI = reverseFaceMap[oldFaceI];
     if (ownPatch[oldFaceI] != -1 && faceI >= 0)
     {
       const cell& ownFaces = mesh_.cells()[mesh_.faceOwner()[faceI]];
-      forAll(ownFaces, i)
+      FOR_ALL(ownFaces, i)
       {
         baffledFacesSet.insert(ownFaces[i]);
       }
     }
   }
   // Pick up neighbour side of baffle (added faces)
-  forAll(faceMap, faceI)
+  FOR_ALL(faceMap, faceI)
   {
     label oldFaceI = faceMap[faceI];
     if (oldFaceI >= 0 && reverseFaceMap[oldFaceI] != faceI)
     {
       const cell& ownFaces = mesh_.cells()[mesh_.faceOwner()[faceI]];
-      forAll(ownFaces, i)
+      FOR_ALL(ownFaces, i)
       {
         baffledFacesSet.insert(ownFaces[i]);
       }
@@ -394,18 +394,18 @@ void mousse::meshRefinement::checkZoneFaces() const
 {
   const faceZoneMesh& fZones = mesh_.faceZones();
   const polyBoundaryMesh& pbm = mesh_.boundaryMesh();
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     const polyPatch& pp = pbm[patchI];
     if (isA<processorPolyPatch>(pp))
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         label zoneI = fZones.whichZone(faceI);
         if (zoneI != -1)
         {
-          FatalErrorInFunction
+          FATAL_ERROR_IN_FUNCTION
             << "face:" << faceI << " on patch " << pp.name()
             << " is in zone " << fZones[zoneI].name()
             << exit(FatalError);
@@ -448,7 +448,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::createZoneBaffles
       // Convert into labelLists
       labelList ownPatch(mesh_.nFaces(), -1);
       labelList neiPatch(mesh_.nFaces(), -1);
-      forAllConstIter(Map<labelPair>, faceToPatch, iter)
+      FOR_ALL_CONST_ITER(Map<labelPair>, faceToPatch, iter)
       {
         ownPatch[iter.key()] = iter().first();
         neiPatch[iter.key()] = iter().second();
@@ -462,7 +462,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::createZoneBaffles
       label baffleI = 0;
       const labelList& faceMap = map().faceMap();
       const labelList& reverseFaceMap = map().reverseFaceMap();
-      forAll(faceMap, faceI)
+      FOR_ALL(faceMap, faceI)
       {
         label oldFaceI = faceMap[faceI];
         // Does face originate from face-to-patch
@@ -481,7 +481,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::createZoneBaffles
       }
       if (baffleI != faceToPatch.size())
       {
-        FatalErrorInFunction
+        FATAL_ERROR_IN_FUNCTION
           << "Had " << faceToPatch.size() << " patches to create "
           << " but encountered " << baffleI
           << " slave faces originating from patcheable faces."
@@ -534,17 +534,17 @@ mousse::List<mousse::labelPair> mousse::meshRefinement::freeStandingBaffles
   // Count number of boundary faces per edge
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     // Count number of boundary faces. Discard coupled boundary faces.
     if (!pp.coupled())
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         const labelList& fEdges = mesh_.faceEdges(faceI);
-        forAll(fEdges, fEdgeI)
+        FOR_ALL(fEdges, fEdgeI)
         {
           nBafflesPerEdge[fEdges[fEdgeI]]++;
         }
@@ -556,12 +556,12 @@ mousse::List<mousse::labelPair> mousse::meshRefinement::freeStandingBaffles
   DynamicList<label> fe1;
   // Count number of duplicate boundary faces per edge
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(couples, i)
+  FOR_ALL(couples, i)
   {
     {
       label f0 = couples[i].first();
       const labelList& fEdges0 = mesh_.faceEdges(f0, fe0);
-      forAll(fEdges0, fEdgeI)
+      FOR_ALL(fEdges0, fEdgeI)
       {
         nBafflesPerEdge[fEdges0[fEdgeI]] += baffleValue;
       }
@@ -569,7 +569,7 @@ mousse::List<mousse::labelPair> mousse::meshRefinement::freeStandingBaffles
     {
       label f1 = couples[i].second();
       const labelList& fEdges1 = mesh_.faceEdges(f1, fe1);
-      forAll(fEdges1, fEdgeI)
+      FOR_ALL(fEdges1, fEdgeI)
       {
         nBafflesPerEdge[fEdges1[fEdgeI]] += baffleValue;
       }
@@ -588,7 +588,7 @@ mousse::List<mousse::labelPair> mousse::meshRefinement::freeStandingBaffles
   // are both baffle faces)
   List<labelPair> filteredCouples(couples.size());
   label filterI = 0;
-  forAll(couples, i)
+  FOR_ALL(couples, i)
   {
     const labelPair& couple = couples[i];
     if
@@ -598,7 +598,7 @@ mousse::List<mousse::labelPair> mousse::meshRefinement::freeStandingBaffles
     )
     {
       const labelList& fEdges = mesh_.faceEdges(couple.first());
-      forAll(fEdges, fEdgeI)
+      FOR_ALL(fEdges, fEdgeI)
       {
         label edgeI = fEdges[fEdgeI];
         if (nBafflesPerEdge[edgeI] == 2*baffleValue+2*1)
@@ -623,7 +623,7 @@ mousse::List<mousse::labelPair> mousse::meshRefinement::freeStandingBaffles
     pointField start(filteredCouples.size());
     pointField end(filteredCouples.size());
     const pointField& cellCentres = mesh_.cellCentres();
-    forAll(filteredCouples, i)
+    FOR_ALL(filteredCouples, i)
     {
       const labelPair& couple = filteredCouples[i];
       start[i] = cellCentres[mesh_.faceOwner()[couple.first()]];
@@ -666,7 +666,7 @@ mousse::List<mousse::labelPair> mousse::meshRefinement::freeStandingBaffles
     //);
     const scalar planarAngleCos = mousse::cos(degToRad(planarAngle));
     label filterI = 0;
-    forAll(filteredCouples, i)
+    FOR_ALL(filteredCouples, i)
     {
       const labelPair& couple = filteredCouples[i];
       if
@@ -722,7 +722,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::mergeBaffles
   const faceList& faces = mesh_.faces();
   const labelList& faceOwner = mesh_.faceOwner();
   const faceZoneMesh& faceZones = mesh_.faceZones();
-  forAll(couples, i)
+  FOR_ALL(couples, i)
   {
     label face0 = couples[i].first();
     label face1 = couples[i].second();
@@ -806,7 +806,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::mergeBaffles
   // baffles preserve intersections from when they were created.
   labelList newExposedFaces(2*couples.size());
   label newI = 0;
-  forAll(couples, i)
+  FOR_ALL(couples, i)
   {
     label newFace0 = map().reverseFaceMap()[couples[i].first()];
     if (newFace0 != -1)
@@ -844,7 +844,7 @@ void mousse::meshRefinement::findCellZoneGeometric
     cellCentres,
     insideSurfaces
   );
-  forAll(insideSurfaces, cellI)
+  FOR_ALL(insideSurfaces, cellI)
   {
     if (cellToZone[cellI] == -2)
     {
@@ -860,7 +860,7 @@ void mousse::meshRefinement::findCellZoneGeometric
   // 1. Collect points
   // Count points to test.
   label nCandidates = 0;
-  forAll(namedSurfaceIndex, faceI)
+  FOR_ALL(namedSurfaceIndex, faceI)
   {
     label surfI = namedSurfaceIndex[faceI];
     if (surfI != -1)
@@ -878,7 +878,7 @@ void mousse::meshRefinement::findCellZoneGeometric
   // Collect points.
   pointField candidatePoints(nCandidates);
   nCandidates = 0;
-  forAll(namedSurfaceIndex, faceI)
+  FOR_ALL(namedSurfaceIndex, faceI)
   {
     label surfI = namedSurfaceIndex[faceI];
     if (surfI != -1)
@@ -913,7 +913,7 @@ void mousse::meshRefinement::findCellZoneGeometric
   );
   // 3. Update zone information
   nCandidates = 0;
-  forAll(namedSurfaceIndex, faceI)
+  FOR_ALL(namedSurfaceIndex, faceI)
   {
     label surfI = namedSurfaceIndex[faceI];
     if (surfI != -1)
@@ -962,12 +962,12 @@ void mousse::meshRefinement::findCellZoneGeometric
   }
   labelList neiCellZone(mesh_.nFaces()-mesh_.nInternalFaces());
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         label ownZone = cellToZone[mesh_.faceOwner()[faceI]];
@@ -976,12 +976,12 @@ void mousse::meshRefinement::findCellZoneGeometric
     }
   }
   syncTools::swapBoundaryFaceList(mesh_, neiCellZone);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         label ownZone = cellToZone[mesh_.faceOwner()[faceI]];
@@ -1012,7 +1012,7 @@ void mousse::meshRefinement::findCellZoneInsideWalk
   // Analyse regions. Reuse regionsplit
   boolList blockedFace(mesh_.nFaces());
   //selectSeparatedCoupledFaces(blockedFace);
-  forAll(namedSurfaceIndex, faceI)
+  FOR_ALL(namedSurfaceIndex, faceI)
   {
     if (namedSurfaceIndex[faceI] == -1)
     {
@@ -1031,7 +1031,7 @@ void mousse::meshRefinement::findCellZoneInsideWalk
   (void)mesh_.tetBasePtIs();
   const PtrList<surfaceZonesInfo>& surfZones = surfaces_.surfZones();
   // For all locationSurface find the cell
-  forAll(locationSurfaces, i)
+  FOR_ALL(locationSurfaces, i)
   {
     label surfI = locationSurfaces[i];
     const point& insidePoint = surfZones[surfI].zoneInsidePoint();
@@ -1052,14 +1052,14 @@ void mousse::meshRefinement::findCellZoneInsideWalk
       << " out of " << cellRegion.nRegions() << " regions." << endl;
     if (keepRegionI == -1)
     {
-      FatalErrorInFunction
+      FATAL_ERROR_IN_FUNCTION
         << "Point " << insidePoint
         << " is not inside the mesh." << nl
         << "Bounding box of the mesh:" << mesh_.bounds()
         << exit(FatalError);
     }
     // Set all cells with this region
-    forAll(cellRegion, cellI)
+    FOR_ALL(cellRegion, cellI)
     {
       if (cellRegion[cellI] == keepRegionI)
       {
@@ -1069,7 +1069,7 @@ void mousse::meshRefinement::findCellZoneInsideWalk
         }
         else if (cellToZone[cellI] != surfaceToCellZone[surfI])
         {
-          WarningInFunction
+          WARNING_IN_FUNCTION
             << "Cell " << cellI
             << " at " << mesh_.cellCentres()[cellI]
             << " is inside surface " << surfaces_.names()[surfI]
@@ -1149,7 +1149,7 @@ void mousse::meshRefinement::findCellZoneTopo
   //   namedSurfaceIndex.
   // Analyse regions. Reuse regionsplit
   boolList blockedFace(mesh_.nFaces());
-  forAll(namedSurfaceIndex, faceI)
+  FOR_ALL(namedSurfaceIndex, faceI)
   {
     if (namedSurfaceIndex[faceI] == -1)
     {
@@ -1172,7 +1172,7 @@ void mousse::meshRefinement::findCellZoneTopo
   // See which cells already are set in the cellToZone (from geometric
   // searching) and use these to take over their zones.
   // Note: could be improved to count number of cells per region.
-  forAll(cellToZone, cellI)
+  FOR_ALL(cellToZone, cellI)
   {
     if (cellToZone[cellI] != -2)
     {
@@ -1192,7 +1192,7 @@ void mousse::meshRefinement::findCellZoneTopo
     << " out of " << cellRegion.nRegions() << " regions." << endl;
   if (keepRegionI == -1)
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "Point " << keepPoint
       << " is not inside the mesh." << nl
       << "Bounding box of the mesh:" << mesh_.bounds()
@@ -1240,12 +1240,12 @@ void mousse::meshRefinement::findCellZoneTopo
     const polyBoundaryMesh& patches = mesh_.boundaryMesh();
     // Get coupled neighbour cellRegion
     labelList neiCellRegion(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (pp.coupled())
       {
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label faceI = pp.start()+i;
           neiCellRegion[faceI-mesh_.nInternalFaces()] =
@@ -1256,12 +1256,12 @@ void mousse::meshRefinement::findCellZoneTopo
     syncTools::swapBoundaryFaceList(mesh_, neiCellRegion);
     // Calculate region to zone from cellRegions on either side of coupled
     // face.
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (pp.coupled())
       {
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label faceI = pp.start()+i;
           label surfI = namedSurfaceIndex[faceI];
@@ -1285,19 +1285,19 @@ void mousse::meshRefinement::findCellZoneTopo
       break;
     }
   }
-  forAll(regionToCellZone, regionI)
+  FOR_ALL(regionToCellZone, regionI)
   {
     label zoneI = regionToCellZone[regionI];
     if (zoneI ==  -2)
     {
-      FatalErrorInFunction
+      FATAL_ERROR_IN_FUNCTION
         << "For region " << regionI << " haven't set cell zone."
         << exit(FatalError);
     }
   }
   if (debug)
   {
-    forAll(regionToCellZone, regionI)
+    FOR_ALL(regionToCellZone, regionI)
     {
       Pout<< "Region " << regionI
         << " becomes cellZone:" << regionToCellZone[regionI]
@@ -1305,7 +1305,7 @@ void mousse::meshRefinement::findCellZoneTopo
     }
   }
   // Rework into cellToZone
-  forAll(cellToZone, cellI)
+  FOR_ALL(cellToZone, cellI)
   {
     cellToZone[cellI] = regionToCellZone[cellRegion[cellI]];
   }
@@ -1328,7 +1328,7 @@ void mousse::meshRefinement::makeConsistentFaceIndex
     }
     else if (ownZone != neiZone && namedSurfaceIndex[faceI] == -1)
     {
-      FatalErrorInFunction
+      FATAL_ERROR_IN_FUNCTION
         << "Different cell zones on either side of face " << faceI
         << " at " << mesh_.faceCentres()[faceI]
         << " but face not marked with a surface."
@@ -1338,12 +1338,12 @@ void mousse::meshRefinement::makeConsistentFaceIndex
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   // Get coupled neighbour cellZone
   labelList neiCellZone(mesh_.nFaces()-mesh_.nInternalFaces());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         neiCellZone[faceI-mesh_.nInternalFaces()] =
@@ -1353,12 +1353,12 @@ void mousse::meshRefinement::makeConsistentFaceIndex
   }
   syncTools::swapBoundaryFaceList(mesh_, neiCellZone);
   // Use coupled cellZone to do check
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         label ownZone = cellToZone[faceOwner[faceI]];
@@ -1369,7 +1369,7 @@ void mousse::meshRefinement::makeConsistentFaceIndex
         }
         else if (ownZone != neiZone && namedSurfaceIndex[faceI] == -1)
         {
-          FatalErrorInFunction
+          FATAL_ERROR_IN_FUNCTION
             << "Different cell zones on either side of face "
             << faceI << " at " << mesh_.faceCentres()[faceI]
             << " but face not marked with a surface."
@@ -1380,7 +1380,7 @@ void mousse::meshRefinement::makeConsistentFaceIndex
     else
     {
       // Unzonify boundary faces
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         namedSurfaceIndex[faceI] = -1;
@@ -1397,7 +1397,7 @@ void mousse::meshRefinement::handleSnapProblems
   const dictionary& motionDict,
   Time& runTime,
   const labelList& globalToMasterPatch,
-  const labelList& globalToSlavePatch
+  const labelList& /*globalToSlavePatch*/
 )
 {
   Info<< nl
@@ -1424,7 +1424,7 @@ void mousse::meshRefinement::handleSnapProblems
   if (debug&MESH)
   {
     faceSet problemFaces(mesh_, "problemFaces", mesh_.nFaces()/100);
-    forAll(facePatch, faceI)
+    FOR_ALL(facePatch, faceI)
     {
       if (facePatch[faceI] != -1)
       {
@@ -1501,10 +1501,10 @@ mousse::labelList mousse::meshRefinement::freeStandingBaffleFaces
       }
     }
   }
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       label faceI = pp.start()+i;
       if (faceToZone[faceI] != -1)
@@ -1531,13 +1531,13 @@ void mousse::meshRefinement::calcPatchNumMasterFaces
   // Number of (master)faces per edge
   nMasterFacesPerEdge.setSize(patch.nEdges());
   nMasterFacesPerEdge = 0;
-  forAll(patch.addressing(), faceI)
+  FOR_ALL(patch.addressing(), faceI)
   {
     const label meshFaceI = patch.addressing()[faceI];
     if (isMasterFace[meshFaceI])
     {
       const labelList& fEdges = patch.faceEdges()[faceI];
-      forAll(fEdges, fEdgeI)
+      FOR_ALL(fEdges, fEdgeI)
       {
         nMasterFacesPerEdge[fEdges[fEdgeI]]++;
       }
@@ -1564,7 +1564,7 @@ mousse::label mousse::meshRefinement::markPatchZones
   // Protect all non-manifold edges
   {
     label nProtected = 0;
-    forAll(nMasterFacesPerEdge, edgeI)
+    FOR_ALL(nMasterFacesPerEdge, edgeI)
     {
       if (nMasterFacesPerEdge[edgeI] > 2)
       {
@@ -1617,7 +1617,7 @@ mousse::label mousse::meshRefinement::markPatchZones
       faceInfo = currentZoneI;
       // .. and seed its edges
       const labelList& fEdges = patch.faceEdges()[seedFaceI];
-      forAll(fEdges, fEdgeI)
+      FOR_ALL(fEdges, fEdgeI)
       {
         label edgeI = fEdges[fEdgeI];
         patchEdgeFaceRegion& edgeInfo = allEdgeInfo[edgeI];
@@ -1662,11 +1662,11 @@ mousse::label mousse::meshRefinement::markPatchZones
     currentZoneI++;
   }
   faceToZone.setSize(patch.size());
-  forAll(allFaceInfo, faceI)
+  FOR_ALL(allFaceInfo, faceI)
   {
     if (!allFaceInfo[faceI].valid(dummyTrackData))
     {
-      FatalErrorInFunction
+      FATAL_ERROR_IN_FUNCTION
         << "Problem: unvisited face " << faceI
         << " at " << patch.faceCentres()[faceI]
         << exit(FatalError);
@@ -1694,7 +1694,7 @@ void mousse::meshRefinement::consistentOrientation
   // - non-manifold edges
   {
     label nProtected = 0;
-    forAll(patch.addressing(), faceI)
+    FOR_ALL(patch.addressing(), faceI)
     {
       const label meshFaceI = patch.addressing()[faceI];
       const label patchI = bm.whichPatch(meshFaceI);
@@ -1716,7 +1716,7 @@ void mousse::meshRefinement::consistentOrientation
   }
   {
     label nProtected = 0;
-    forAll(nMasterFacesPerEdge, edgeI)
+    FOR_ALL(nMasterFacesPerEdge, edgeI)
     {
       if (nMasterFacesPerEdge[edgeI] > 2)
       {
@@ -1741,7 +1741,7 @@ void mousse::meshRefinement::consistentOrientation
   {
     // Pick an unset face
     label globalSeed = labelMax;
-    forAll(allFaceInfo, faceI)
+    FOR_ALL(allFaceInfo, faceI)
     {
       if (allFaceInfo[faceI] == orientedSurface::UNVISITED)
       {
@@ -1769,7 +1769,7 @@ void mousse::meshRefinement::consistentOrientation
         faceInfo.flip();
       }
       const labelList& fEdges = patch.faceEdges()[seedFaceI];
-      forAll(fEdges, fEdgeI)
+      FOR_ALL(fEdges, fEdgeI)
       {
         label edgeI = fEdges[fEdgeI];
         patchFaceOrientation& edgeInfo = allEdgeInfo[edgeI];
@@ -1819,7 +1819,7 @@ void mousse::meshRefinement::consistentOrientation
       mesh_.nFaces()-mesh_.nInternalFaces(),
       orientedSurface::UNVISITED
     );
-    forAll(patch.addressing(), i)
+    FOR_ALL(patch.addressing(), i)
     {
       const label meshFaceI = patch.addressing()[i];
       if (!mesh_.isInternalFace(meshFaceI))
@@ -1829,7 +1829,7 @@ void mousse::meshRefinement::consistentOrientation
       }
     }
     syncTools::swapBoundaryFaceList(mesh_, neiStatus);
-    forAll(patch.addressing(), i)
+    FOR_ALL(patch.addressing(), i)
     {
       const label meshFaceI = patch.addressing()[i];
       const label patchI = bm.whichPatch(meshFaceI);
@@ -1852,7 +1852,7 @@ void mousse::meshRefinement::consistentOrientation
         }
         else
         {
-          FatalErrorInFunction
+          FATAL_ERROR_IN_FUNCTION
             << "Incorrect status for face " << meshFaceI
             << abort(FatalError);
         }
@@ -1862,7 +1862,7 @@ void mousse::meshRefinement::consistentOrientation
   // Convert to meshFlipMap and adapt faceZones
   meshFlipMap.setSize(mesh_.nFaces());
   meshFlipMap = false;
-  forAll(allFaceInfo, faceI)
+  FOR_ALL(allFaceInfo, faceI)
   {
     label meshFaceI = patch.addressing()[faceI];
     if (allFaceInfo[faceI] == orientedSurface::NOFLIP)
@@ -1875,7 +1875,7 @@ void mousse::meshRefinement::consistentOrientation
     }
     else
     {
-      FatalErrorInFunction
+      FATAL_ERROR_IN_FUNCTION
         << "Problem : unvisited face " << faceI
         << " centre:" << mesh_.faceCentres()[meshFaceI]
         << abort(FatalError);
@@ -2043,7 +2043,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
 (
   const label nBufferLayers,
   const labelList& globalToMasterPatch,
-  const labelList& globalToSlavePatch,
+  const labelList& /*globalToSlavePatch*/,
   const point& keepPoint
 )
 {
@@ -2064,7 +2064,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
   );
   // Analyse regions. Reuse regionsplit
   boolList blockedFace(mesh_.nFaces(), false);
-  forAll(ownPatch, faceI)
+  FOR_ALL(ownPatch, faceI)
   {
     if (ownPatch[faceI] != -1 || neiPatch[faceI] != -1)
     {
@@ -2088,7 +2088,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
     << " out of " << cellRegion.nRegions() << " regions." << endl;
   if (keepRegionI == -1)
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "Point " << keepPoint
       << " is not inside the mesh." << nl
       << "Bounding box of the mesh:" << mesh_.bounds()
@@ -2111,7 +2111,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
   {
     // 1. From cells (via faces) to points
     labelList pointBaffle(mesh_.nPoints(), -1);
-    forAll(faceNeighbour, faceI)
+    FOR_ALL(faceNeighbour, faceI)
     {
       const face& f = mesh_.faces()[faceI];
       label ownRegion = cellRegion[faceOwner[faceI]];
@@ -2121,7 +2121,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
         // Note max(..) since possibly regionSplit might have split
         // off extra unreachable parts of mesh. Note: or can this only
         // happen for boundary faces?
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           pointBaffle[f[fp]] = max(defaultPatch, ownPatch[faceI]);
         }
@@ -2133,7 +2133,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
         {
           newPatchI = max(defaultPatch, ownPatch[faceI]);
         }
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           pointBaffle[f[fp]] = newPatchI;
         }
@@ -2150,7 +2150,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
       label ownRegion = cellRegion[faceOwner[faceI]];
       if (ownRegion == keepRegionI)
       {
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           pointBaffle[f[fp]] = max(defaultPatch, ownPatch[faceI]);
         }
@@ -2166,12 +2166,12 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
     );
     // 2. From points back to faces
     const labelListList& pointFaces = mesh_.pointFaces();
-    forAll(pointFaces, pointI)
+    FOR_ALL(pointFaces, pointI)
     {
       if (pointBaffle[pointI] != -1)
       {
         const labelList& pFaces = pointFaces[pointI];
-        forAll(pFaces, pFaceI)
+        FOR_ALL(pFaces, pFaceI)
         {
           label faceI = pFaces[pFaceI];
           if (ownPatch[faceI] == -1)
@@ -2184,7 +2184,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
     syncTools::syncFaceList(mesh_, ownPatch, maxEqOp<label>());
     // 3. From faces to cells (cellRegion) and back to faces (ownPatch)
     labelList newOwnPatch(ownPatch);
-    forAll(ownPatch, faceI)
+    FOR_ALL(ownPatch, faceI)
     {
       if (ownPatch[faceI] != -1)
       {
@@ -2193,7 +2193,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
         {
           cellRegion[own] = keepRegionI;
           const cell& ownFaces = mesh_.cells()[own];
-          forAll(ownFaces, j)
+          FOR_ALL(ownFaces, j)
           {
             if (ownPatch[ownFaces[j]] == -1)
             {
@@ -2208,7 +2208,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
           {
             cellRegion[nei] = keepRegionI;
             const cell& neiFaces = mesh_.cells()[nei];
-            forAll(neiFaces, j)
+            FOR_ALL(neiFaces, j)
             {
               if (ownPatch[neiFaces[j]] == -1)
               {
@@ -2226,7 +2226,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
   // ~~~~~~
   // Get cells to remove
   DynamicList<label> cellsToRemove(mesh_.nCells());
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     if (cellRegion[cellI] != keepRegionI)
     {
@@ -2245,7 +2245,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
   // Pick up patches for exposed faces
   labelList exposedFaces(cellRemover.getExposedFaces(cellsToRemove));
   labelList exposedPatches(exposedFaces.size());
-  forAll(exposedFaces, i)
+  FOR_ALL(exposedFaces, i)
   {
     label faceI = exposedFaces[i];
     if (ownPatch[faceI] != -1)
@@ -2254,7 +2254,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMesh
     }
     else
     {
-      WarningInFunction
+      WARNING_IN_FUNCTION
         << "For exposed face " << faceI
         << " fc:" << mesh_.faceCentres()[faceI]
         << " found no patch." << endl
@@ -2326,7 +2326,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
 {
   const PtrList<surfaceZonesInfo>& surfZones = surfaces_.surfZones();
   labelList namedSurfaces(surfaceZonesInfo::getNamedSurfaces(surfZones));
-  forAll(namedSurfaces, i)
+  FOR_ALL(namedSurfaces, i)
   {
     label surfI = namedSurfaces[i];
     Info<< "Surface : " << surfaces_.names()[surfI] << nl
@@ -2375,7 +2375,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
     // ~~~~~~~~~~~~~~~~
     pointField start(testFaces.size());
     pointField end(testFaces.size());
-    forAll(testFaces, i)
+    FOR_ALL(testFaces, i)
     {
       label faceI = testFaces[i];
       if (mesh_.isInternalFace(faceI))
@@ -2423,7 +2423,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
         normal2
       );
     }
-    forAll(testFaces, i)
+    FOR_ALL(testFaces, i)
     {
       label faceI = testFaces[i];
       const vector& area = mesh_.faceAreas()[faceI];
@@ -2470,7 +2470,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
     // Print a bit
     if (debug)
     {
-      forAll(nSurfFaces, surfI)
+      FOR_ALL(nSurfFaces, surfI)
       {
         Pout<< "Surface:"
           << surfaces_.names()[surfI]
@@ -2560,7 +2560,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
   labelList faceToZone(mesh_.nFaces(), -1);
   // Convert namedSurfaceIndex (index of named surfaces) to
   // actual faceZone index
-  forAll(namedSurfaceIndex, faceI)
+  FOR_ALL(namedSurfaceIndex, faceI)
   {
     label surfI = namedSurfaceIndex[faceI];
     if (surfI != -1)
@@ -2573,13 +2573,13 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
   // Get coupled neighbour cellZone. Set to -1 on non-coupled patches.
   labelList neiCellZone;
   syncTools::swapBoundaryCellList(mesh_, cellToZone, neiCellZone);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (!pp.coupled())
     {
       label bFaceI = pp.start()-mesh_.nInternalFaces();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         neiCellZone[bFaceI++] = -1;
       }
@@ -2655,7 +2655,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
       );
       // Count per region the number of orientations (taking the new
       // flipMap into account)
-      forAll(patch.addressing(), faceI)
+      FOR_ALL(patch.addressing(), faceI)
       {
         label meshFaceI = patch.addressing()[faceI];
         if (isMasterFace[meshFaceI])
@@ -2741,11 +2741,11 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
     }
   }
   // Set owner as no-flip
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     label faceI = pp.start();
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       label faceZoneI = faceToZone[faceI];
       if (faceZoneI != -1)
@@ -2787,7 +2787,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
   }
   // Put the cells into the correct zone
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(cellToZone, cellI)
+  FOR_ALL(cellToZone, cellI)
   {
     label zoneI = cellToZone[cellI];
     if (zoneI >= 0)
@@ -2823,7 +2823,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
   if (mesh_.cellZones().size() > 0)
   {
     Info<< "CellZones:" << endl;
-    forAll(mesh_.cellZones(), zoneI)
+    FOR_ALL(mesh_.cellZones(), zoneI)
     {
       const cellZone& cz = mesh_.cellZones()[zoneI];
       Info<< "    " << cz.name()
@@ -2835,7 +2835,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::zonify
   if (mesh_.faceZones().size() > 0)
   {
     Info<< "FaceZones:" << endl;
-    forAll(mesh_.faceZones(), zoneI)
+    FOR_ALL(mesh_.faceZones(), zoneI)
     {
       const faceZone& fz = mesh_.faceZones()[zoneI];
       Info<< "    " << fz.name()

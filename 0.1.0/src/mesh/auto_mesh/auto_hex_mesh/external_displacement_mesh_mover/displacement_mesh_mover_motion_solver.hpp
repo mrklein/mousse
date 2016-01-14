@@ -20,20 +20,22 @@ class displacementMeshMoverMotionSolver
 {
   // Private data
     mutable autoPtr<externalDisplacementMeshMover> meshMoverPtr_;
-  // Private Member Functions
+public:
+  //- Runtime type information
+  TYPE_NAME("displacementMeshMover");
+  // Constructors
+    //- Construct from polyMesh and IOdictionary
+    displacementMeshMoverMotionSolver(const polyMesh&, const IOdictionary&);
     //- Disallow default bitwise copy construct
     displacementMeshMoverMotionSolver
     (
       const displacementMeshMoverMotionSolver&
-    );
+    ) = delete;
     //- Disallow default bitwise assignment
-    void operator=(const displacementMeshMoverMotionSolver&);
-public:
-  //- Runtime type information
-  TypeName("displacementMeshMover");
-  // Constructors
-    //- Construct from polyMesh and IOdictionary
-    displacementMeshMoverMotionSolver(const polyMesh&, const IOdictionary&);
+    displacementMeshMoverMotionSolver& operator=
+    (
+      const displacementMeshMoverMotionSolver&
+    ) = delete;
   //- Destructor
   ~displacementMeshMoverMotionSolver();
   // Member Functions

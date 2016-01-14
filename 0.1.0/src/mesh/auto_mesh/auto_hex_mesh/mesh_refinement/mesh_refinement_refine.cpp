@@ -100,7 +100,7 @@ mousse::labelList mousse::meshRefinement::getChangedFaces
     const label nInternalFaces = mesh.nInternalFaces();
     // Mark refined cells on old mesh
     PackedBoolList oldRefineCell(map.nOldCells());
-    forAll(oldCellsToRefine, i)
+    FOR_ALL(oldCellsToRefine, i)
     {
       oldRefineCell.set(oldCellsToRefine[i], 1u);
     }
@@ -128,11 +128,11 @@ mousse::labelList mousse::meshRefinement::getChangedFaces
     }
     // 2. Boundary faces
     boolList refinedBoundaryFace(mesh.nFaces()-nInternalFaces, false);
-    forAll(mesh.boundaryMesh(), patchI)
+    FOR_ALL(mesh.boundaryMesh(), patchI)
     {
       const polyPatch& pp = mesh.boundaryMesh()[patchI];
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label oldOwn = map.cellMap()[faceOwner[faceI]];
         if (oldOwn >= 0 && oldRefineCell.get(oldOwn) == 0u)
@@ -157,28 +157,28 @@ mousse::labelList mousse::meshRefinement::getChangedFaces
     //    - refinedInternalFace
     //    - refinedBoundaryFace
     boolList changedFace(mesh.nFaces(), false);
-    forAll(refinedInternalFace, faceI)
+    FOR_ALL(refinedInternalFace, faceI)
     {
       if (refinedInternalFace.get(faceI) == 1u)
       {
         const cell& ownFaces = cells[faceOwner[faceI]];
-        forAll(ownFaces, ownI)
+        FOR_ALL(ownFaces, ownI)
         {
           changedFace[ownFaces[ownI]] = true;
         }
         const cell& neiFaces = cells[faceNeighbour[faceI]];
-        forAll(neiFaces, neiI)
+        FOR_ALL(neiFaces, neiI)
         {
           changedFace[neiFaces[neiI]] = true;
         }
       }
     }
-    forAll(refinedBoundaryFace, i)
+    FOR_ALL(refinedBoundaryFace, i)
     {
       if (refinedBoundaryFace[i])
       {
         const cell& ownFaces = cells[faceOwner[i+nInternalFaces]];
-        forAll(ownFaces, ownI)
+        FOR_ALL(ownFaces, ownI)
         {
           changedFace[ownFaces[ownI]] = true;
         }
@@ -195,7 +195,7 @@ mousse::labelList mousse::meshRefinement::getChangedFaces
     changedFaces = findIndices(changedFace, true);
     // Count changed master faces.
     nMasterChanged = 0;
-    forAll(changedFace, faceI)
+    FOR_ALL(changedFace, faceI)
     {
       if (changedFace[faceI] && isMasterFace[faceI])
       {
@@ -265,7 +265,7 @@ void mousse::meshRefinement::markFeatureCellLevel
   // Features are identical on all processors. Number them so we know
   // what to seed. Do this on only the processor that
   // holds the keepPoint.
-  forAll(keepPoints, i)
+  FOR_ALL(keepPoints, i)
   {
     const point& keepPoint = keepPoints[i];
     label cellI = -1;
@@ -281,7 +281,7 @@ void mousse::meshRefinement::markFeatureCellLevel
     if (cellI != -1)
     {
       // I am the processor that holds the keepPoint
-      forAll(features_, featI)
+      FOR_ALL(features_, featI)
       {
         const edgeMesh& featureMesh = features_[featI];
         const label featureLevel = features_.levels()[featI][0];
@@ -291,7 +291,7 @@ void mousse::meshRefinement::markFeatureCellLevel
         label nRegions = featureMesh.regions(edgeRegion);
         PackedBoolList regionVisited(nRegions);
         // 1. Seed all 'knots' in edgeMesh
-        forAll(pointEdges, pointI)
+        FOR_ALL(pointEdges, pointI)
         {
           if (pointEdges[pointI].size() != 2)
           {
@@ -331,7 +331,7 @@ void mousse::meshRefinement::markFeatureCellLevel
         }
         // 2. Any regions that have not been visited at all? These can
         //    only be circular regions!
-        forAll(featureMesh.edges(), edgeI)
+        FOR_ALL(featureMesh.edges(), edgeI)
         {
           if (regionVisited.set(edgeRegion[edgeI], 1u))
           {
@@ -370,7 +370,7 @@ void mousse::meshRefinement::markFeatureCellLevel
   maxFeatureLevel = labelList(mesh_.nCells(), -1);
   // Whether edge has been visited.
   List<PackedBoolList> featureEdgeVisited(features_.size());
-  forAll(features_, featI)
+  FOR_ALL(features_, featI)
   {
     featureEdgeVisited[featI].setSize(features_[featI].edges().size());
     featureEdgeVisited[featI] = 0u;
@@ -395,7 +395,7 @@ void mousse::meshRefinement::markFeatureCellLevel
   startPointCloud.move(td, maxTrackLen);
   // Reset levels
   maxFeatureLevel = -1;
-  forAll(features_, featI)
+  FOR_ALL(features_, featI)
   {
     featureEdgeVisited[featI] = 0u;
   }
@@ -409,7 +409,7 @@ void mousse::meshRefinement::markFeatureCellLevel
   {
     Pout<< "Constructing cloud for cell marking" << endl;
   }
-  forAllIter(Cloud<trackedParticle>, startPointCloud, iter)
+  FOR_ALL_ITER(Cloud<trackedParticle>, startPointCloud, iter)
   {
     const trackedParticle& startTp = iter();
     label featI = startTp.i();
@@ -417,7 +417,7 @@ void mousse::meshRefinement::markFeatureCellLevel
     const edgeMesh& featureMesh = features_[featI];
     const labelList& pEdges = featureMesh.pointEdges()[pointI];
     // Now shoot particles down all pEdges.
-    forAll(pEdges, pEdgeI)
+    FOR_ALL(pEdges, pEdgeI)
     {
       label edgeI = pEdges[pEdgeI];
       if (featureEdgeVisited[featI].set(edgeI, 1u))
@@ -454,7 +454,7 @@ void mousse::meshRefinement::markFeatureCellLevel
     }
     cloud.move(td, maxTrackLen);
     // Make particle follow edge.
-    forAllIter(Cloud<trackedParticle>, cloud, iter)
+    FOR_ALL_ITER(Cloud<trackedParticle>, cloud, iter)
     {
       trackedParticle& tp = iter();
       label featI = tp.i();
@@ -464,7 +464,7 @@ void mousse::meshRefinement::markFeatureCellLevel
       // Particle now at pointI. Check connected edges to see which one
       // we have to visit now.
       bool keepParticle = false;
-      forAll(pEdges, i)
+      FOR_ALL(pEdges, i)
       {
         label edgeI = pEdges[i];
         if (featureEdgeVisited[featI].set(edgeI, 1u))
@@ -498,7 +498,7 @@ void mousse::meshRefinement::markFeatureCellLevel
   }
   //if (debug&meshRefinement::FEATURESEEDS)
   //{
-  //    forAll(maxFeatureLevel, cellI)
+  //    FOR_ALL(maxFeatureLevel, cellI)
   //    {
   //        if (maxFeatureLevel[cellI] != -1)
   //        {
@@ -526,7 +526,7 @@ mousse::label mousse::meshRefinement::markFeatureRefinement
   // of any feature edge that passed through.
   const labelList& cellLevel = meshCutter_.cellLevel();
   label oldNRefine = nRefine;
-  forAll(maxFeatureLevel, cellI)
+  FOR_ALL(maxFeatureLevel, cellI)
   {
     if (maxFeatureLevel[cellI] > cellLevel[cellI])
     {
@@ -577,7 +577,7 @@ mousse::label mousse::meshRefinement::markInternalDistanceToFeatureRefinement
   pointField testCc(cellLevel.size()-nRefine);
   labelList testLevels(cellLevel.size()-nRefine);
   label testI = 0;
-  forAll(cellLevel, cellI)
+  FOR_ALL(cellLevel, cellI)
   {
     if (refineCell[cellI] == -1)
     {
@@ -592,7 +592,7 @@ mousse::label mousse::meshRefinement::markInternalDistanceToFeatureRefinement
   // Mark for refinement. Note that we didn't store the original cellID so
   // now just reloop in same order.
   testI = 0;
-  forAll(cellLevel, cellI)
+  FOR_ALL(cellLevel, cellI)
   {
     if (refineCell[cellI] == -1)
     {
@@ -644,7 +644,7 @@ mousse::label mousse::meshRefinement::markInternalRefinement
   pointField testCc(cellLevel.size()-nRefine);
   labelList testLevels(cellLevel.size()-nRefine);
   label testI = 0;
-  forAll(cellLevel, cellI)
+  FOR_ALL(cellLevel, cellI)
   {
     if (refineCell[cellI] == -1)
     {
@@ -659,7 +659,7 @@ mousse::label mousse::meshRefinement::markInternalRefinement
   // Mark for refinement. Note that we didn't store the original cellID so
   // now just reloop in same order.
   testI = 0;
-  forAll(cellLevel, cellI)
+  FOR_ALL(cellLevel, cellI)
   {
     if (refineCell[cellI] == -1)
     {
@@ -705,7 +705,7 @@ mousse::labelList mousse::meshRefinement::getRefineCandidateFaces
 {
   labelList testFaces(mesh_.nFaces());
   label nTest = 0;
-  forAll(surfaceIndex_, faceI)
+  FOR_ALL(surfaceIndex_, faceI)
   {
     if (surfaceIndex_[faceI] != -1)
     {
@@ -753,7 +753,7 @@ mousse::label mousse::meshRefinement::markSurfaceRefinement
   pointField start(testFaces.size());
   pointField end(testFaces.size());
   labelList minLevel(testFaces.size());
-  forAll(testFaces, i)
+  FOR_ALL(testFaces, i)
   {
     label faceI = testFaces[i];
     label own = mesh_.faceOwner()[faceI];
@@ -792,7 +792,7 @@ mousse::label mousse::meshRefinement::markSurfaceRefinement
   );
   // Mark cells for refinement
   // ~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(testFaces, i)
+  FOR_ALL(testFaces, i)
   {
     label faceI = testFaces[i];
     label surfI = surfaceHit[i];
@@ -863,10 +863,10 @@ mousse::label mousse::meshRefinement::countMatches
 ) const
 {
   label nMatches = 0;
-  forAll(normals1, i)
+  FOR_ALL(normals1, i)
   {
     const vector& n1 = normals1[i];
-    forAll(normals2, j)
+    FOR_ALL(normals2, j)
     {
       const vector& n2 = normals2[j];
       if (magSqr(n1-n2) < tol)
@@ -904,7 +904,7 @@ mousse::label mousse::meshRefinement::markSurfaceCurvatureRefinement
   pointField start(testFaces.size());
   pointField end(testFaces.size());
   labelList minLevel(testFaces.size());
-  forAll(testFaces, i)
+  FOR_ALL(testFaces, i)
   {
     label faceI = testFaces[i];
     label own = mesh_.faceOwner()[faceI];
@@ -956,7 +956,7 @@ mousse::label mousse::meshRefinement::markSurfaceCurvatureRefinement
     // that on coupled faces both sides visit the intersections in
     // the same order so will decide the same
     labelList visitOrder;
-    forAll(surfaceNormal, pointI)
+    FOR_ALL(surfaceNormal, pointI)
     {
       vectorList& pNormals = surfaceNormal[pointI];
       labelList& pLevel = surfaceLevel[pointI];
@@ -969,13 +969,13 @@ mousse::label mousse::meshRefinement::markSurfaceCurvatureRefinement
     end.clear();
     minLevel.clear();
     // Convert face-wise data to cell.
-    forAll(testFaces, i)
+    FOR_ALL(testFaces, i)
     {
       label faceI = testFaces[i];
       label own = mesh_.faceOwner()[faceI];
       const vectorList& fNormals = surfaceNormal[i];
       const labelList& fLevels = surfaceLevel[i];
-      forAll(fNormals, hitI)
+      FOR_ALL(fNormals, hitI)
       {
         if (fLevels[hitI] > cellLevel[own])
         {
@@ -999,7 +999,7 @@ mousse::label mousse::meshRefinement::markSurfaceCurvatureRefinement
   {
     label nSet = 0;
     label nNormals = 9;
-    forAll(cellSurfNormals, cellI)
+    FOR_ALL(cellSurfNormals, cellI)
     {
       const vectorList& normals = cellSurfNormals[cellI];
       if (normals.size())
@@ -1422,7 +1422,7 @@ mousse::label mousse::meshRefinement::markProximityRefinement
   pointField start(testFaces.size());
   pointField end(testFaces.size());
   labelList minLevel(testFaces.size());
-  forAll(testFaces, i)
+  FOR_ALL(testFaces, i)
   {
     label faceI = testFaces[i];
     label own = mesh_.faceOwner()[faceI];
@@ -1490,14 +1490,14 @@ mousse::label mousse::meshRefinement::markProximityRefinement
     //  + mesh_.time().timeName()
     //  + ".obj"
     //);
-    forAll(testFaces, i)
+    FOR_ALL(testFaces, i)
     {
       label faceI = testFaces[i];
       label own = mesh_.faceOwner()[faceI];
       const labelList& fLevels = surfaceLevel[i];
       const vectorList& fPoints = surfaceLocation[i];
       const vectorList& fNormals = surfaceNormal[i];
-      forAll(fLevels, hitI)
+      FOR_ALL(fLevels, hitI)
       {
         checkProximity
         (
@@ -1517,7 +1517,7 @@ mousse::label mousse::meshRefinement::markProximityRefinement
       if (mesh_.isInternalFace(faceI))
       {
         label nei = mesh_.faceNeighbour()[faceI];
-        forAll(fLevels, hitI)
+        FOR_ALL(fLevels, hitI)
         {
           checkProximity
           (
@@ -1692,7 +1692,7 @@ mousse::labelList mousse::meshRefinement::refineCandidates
   const bool curvatureRefinement,
   const bool gapRefinement,
   const label maxGlobalCells,
-  const label maxLocalCells
+  const label /*maxLocalCells*/
 ) const
 {
   label totNCells = mesh_.globalData().nTotalCells();
@@ -1834,7 +1834,7 @@ mousse::labelList mousse::meshRefinement::refineCandidates
     // ~~~~~~~~~~~~~~~~~~~~
     cellsToRefine.setSize(nRefine);
     nRefine = 0;
-    forAll(refineCell, cellI)
+    FOR_ALL(refineCell, cellI)
     {
       if (refineCell[cellI] != -1)
       {
@@ -2016,7 +2016,7 @@ mousse::meshRefinement::balanceAndRefine
     else
     {
       scalarField cellWeights(mesh_.nCells(), 1);
-      forAll(cellsToRefine, i)
+      FOR_ALL(cellsToRefine, i)
       {
         cellWeights[cellsToRefine[i]] += 7;
       }

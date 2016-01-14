@@ -98,10 +98,10 @@ bool mousse::trackedParticle::move
 bool mousse::trackedParticle::hitPatch
 (
   const polyPatch&,
-  trackingData& td,
-  const label patchI,
-  const scalar trackFraction,
-  const tetIndices& tetIs
+  trackingData&,
+  const label /*patchI*/,
+  const scalar /*trackFraction*/,
+  const tetIndices& /*tetIs*/
 )
 {
   return false;
@@ -153,7 +153,7 @@ void mousse::trackedParticle::hitProcessorPatch
 }
 void mousse::trackedParticle::hitWallPatch
 (
-  const wallPolyPatch& wpp,
+  const wallPolyPatch&,
   trackingData& td,
   const tetIndices&
 )
@@ -163,7 +163,7 @@ void mousse::trackedParticle::hitWallPatch
 }
 void mousse::trackedParticle::hitPatch
 (
-  const polyPatch& wpp,
+  const polyPatch&,
   trackingData& td
 )
 {

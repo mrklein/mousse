@@ -92,13 +92,9 @@ class autoRefineDriver
       const refinementParameters& refineParams,
       const dictionary& motionDict
     );
-    //- Disallow default bitwise copy construct
-    autoRefineDriver(const autoRefineDriver&);
-    //- Disallow default bitwise assignment
-    void operator=(const autoRefineDriver&);
 public:
   //- Runtime type information
-  ClassName("autoRefineDriver");
+  CLASS_NAME("autoRefineDriver");
   // Constructors
     //- Construct from components
     autoRefineDriver
@@ -109,6 +105,10 @@ public:
       const labelList& globalToMasterPatch,
       const labelList& globalToSlavePatch
     );
+    //- Disallow default bitwise copy construct
+    autoRefineDriver(const autoRefineDriver&) = delete;
+    //- Disallow default bitwise assignment
+    autoRefineDriver& operator=(const autoRefineDriver&) = delete;
   // Member Functions
     //- Do all the refinement
     void doRefine

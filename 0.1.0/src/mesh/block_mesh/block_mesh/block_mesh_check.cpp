@@ -16,13 +16,13 @@ void mousse::blockMesh::checkBlockMesh(const polyMesh& bm) const
   const cellList& cells = bm.cells();
   const polyPatchList& patches = bm.boundaryMesh();
   label nBoundaryFaces = 0;
-  forAll(cells, celli)
+  FOR_ALL(cells, celli)
   {
     nBoundaryFaces += cells[celli].nFaces();
   }
   nBoundaryFaces -= 2*bm.nInternalFaces();
   label nDefinedBoundaryFaces = 0;
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     nDefinedBoundaryFaces += patches[patchi].size();
   }
@@ -45,17 +45,17 @@ void mousse::blockMesh::checkBlockMesh(const polyMesh& bm) const
     }
     Info<< tab << "Checking patch -> block consistency" << endl;
   }
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     const faceList& Patch = patches[patchi];
-    forAll(Patch, patchFacei)
+    FOR_ALL(Patch, patchFacei)
     {
       const face& patchFace = Patch[patchFacei];
       bool patchFaceOK = false;
-      forAll(cells, celli)
+      FOR_ALL(cells, celli)
       {
         const labelList& cellFaces = cells[celli];
-        forAll(cellFaces, cellFacei)
+        FOR_ALL(cellFaces, cellFacei)
         {
           if (patchFace == faces[cellFaces[cellFacei]])
           {
@@ -96,7 +96,7 @@ void mousse::blockMesh::checkBlockMesh(const polyMesh& bm) const
   }
   if (!ok)
   {
-    FatalErrorIn("blockMesh::checkBlockMesh(const polyMesh& bm)")
+    FATAL_ERROR_IN("blockMesh::checkBlockMesh(const polyMesh& bm)")
       << "Block mesh topology incorrect, stopping mesh generation!"
       << exit(FatalError);
   }
@@ -109,12 +109,12 @@ bool mousse::blockMesh::blockLabelsOK
 ) const
 {
   bool ok = true;
-  forAll(blockShape, blockI)
+  FOR_ALL(blockShape, blockI)
   {
     if (blockShape[blockI] < 0)
     {
       ok = false;
-      WarningIn
+      WARNING_IN
       (
         "bool mousse::blockMesh::blockLabelsOK(...)"
       )   << "out-of-range point label " << blockShape[blockI]
@@ -124,7 +124,7 @@ bool mousse::blockMesh::blockLabelsOK
     else if (blockShape[blockI] >= points.size())
     {
       ok = false;
-      WarningIn
+      WARNING_IN
       (
         "bool mousse::blockMesh::blockLabelsOK(...)"
       )   << "out-of-range point label " << blockShape[blockI]
@@ -142,15 +142,15 @@ bool mousse::blockMesh::patchLabelsOK
 ) const
 {
   bool ok = true;
-  forAll(patchFaces, faceI)
+  FOR_ALL(patchFaces, faceI)
   {
     const labelList& f = patchFaces[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (f[fp] < 0)
       {
         ok = false;
-        WarningIn
+        WARNING_IN
         (
           "bool mousse::blockMesh::patchLabelsOK(...)"
         )   << "out-of-range point label " << f[fp]
@@ -161,7 +161,7 @@ bool mousse::blockMesh::patchLabelsOK
       else if (f[fp] >= points.size())
       {
         ok = false;
-        WarningIn
+        WARNING_IN
         (
           "bool mousse::blockMesh::patchLabelsOK(...)"
         )   << "out-of-range point label " << f[fp]
