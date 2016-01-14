@@ -6,15 +6,15 @@
 // Description
 //   Agglomerate using the MGridGen algorithm.
 // SourceFiles
-//   m_grid_gen_gamg_agglomeration.cpp
-//   m_grid_gen_gamg_agglomerate.cpp
-#ifndef m_grid_gen_gamg_agglomeration_hpp_
-#define m_grid_gen_gamg_agglomeration_hpp_
+//   mgridgen_gamg_agglomeration.cpp
+//   mgridgen_gamg_agglomerate.cpp
+#ifndef mgridgen_gamg_agglomeration_hpp_
+#define mgridgen_gamg_agglomeration_hpp_
 #include "fv_mesh.hpp"
 #include "gamg_agglomeration.hpp"
 extern "C"
 {
-#   include "mgridgen.hpp"
+#include "mgridgen.h"
 }
 namespace mousse
 {
@@ -65,13 +65,9 @@ class MGridGenGAMGAgglomeration
       const scalarField& magSf,
       const scalarField& magSb
     );
-    //- Disallow default bitwise copy construct
-    MGridGenGAMGAgglomeration(const MGridGenGAMGAgglomeration&);
-    //- Disallow default bitwise assignment
-    void operator=(const MGridGenGAMGAgglomeration&);
 public:
   //- Runtime type information
-  TypeName("MGridGen");
+  TYPE_NAME("MGridGen");
   // Constructors
     //- Construct given mesh and controls
     MGridGenGAMGAgglomeration
@@ -79,6 +75,13 @@ public:
       const lduMesh& mesh,
       const dictionary& controlDict
     );
+    //- Disallow default bitwise copy construct
+    MGridGenGAMGAgglomeration(const MGridGenGAMGAgglomeration&) = delete;
+    //- Disallow default bitwise assignment
+    MGridGenGAMGAgglomeration& operator=
+    (
+      const MGridGenGAMGAgglomeration&
+    ) = delete;
 };
 }  // namespace mousse
 #endif

@@ -2,15 +2,15 @@
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#include "m_grid_gen_gamg_agglomeration.hpp"
+#include "mgridgen_gamg_agglomeration.hpp"
 #include "fv_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "processor_ldu_interface.hpp"
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(MGridGenGAMGAgglomeration, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(MGridGenGAMGAgglomeration, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     GAMGAgglomeration,
     MGridGenGAMGAgglomeration,
@@ -26,7 +26,7 @@ void mousse::MGridGenGAMGAgglomeration::swap
 ) const
 {
   // Initialise transfer of restrict addressing on the interface
-  forAll(interfaces, inti)
+  FOR_ALL(interfaces, inti)
   {
     if (interfaces.set(inti))
     {
@@ -43,7 +43,7 @@ void mousse::MGridGenGAMGAgglomeration::swap
   }
   // Get the interface agglomeration
   nbrValues.setSize(interfaces.size());
-  forAll(interfaces, inti)
+  FOR_ALL(interfaces, inti)
   {
     if (interfaces.set(inti))
     {
@@ -72,7 +72,7 @@ void mousse::MGridGenGAMGAgglomeration::getNbrAgglom
 {
   cellToNbrAgglom.setSize(addr.size());
   cellToNbrAgglom = -1;
-  forAll(interfaces, inti)
+  FOR_ALL(interfaces, inti)
   {
     if (interfaces.set(inti))
     {
@@ -85,7 +85,7 @@ void mousse::MGridGenGAMGAgglomeration::getNbrAgglom
           const labelUList& faceCells =
             interfaces[inti].faceCells();
           const labelList& nbrData = nbrGlobalAgglom[inti];
-          forAll(faceCells, i)
+          FOR_ALL(faceCells, i)
           {
             cellToNbrAgglom[faceCells[i]] = nbrData[i];
           }
@@ -107,7 +107,7 @@ void mousse::MGridGenGAMGAgglomeration::detectSharedFaces
   sharedFaces.clear();
   sharedFaces.resize(addr.lowerAddr().size()/100);
   // Detect any faces inbetween same value
-  forAll(lower, faceI)
+  FOR_ALL(lower, faceI)
   {
     label lowerData = value[lower[faceI]];
     label upperData = value[upper[faceI]];
@@ -150,7 +150,7 @@ mousse::MGridGenGAMGAgglomeration::MGridGenGAMGAgglomeration
     scalarField& magSb = *magSbPtr;
     const labelList& own = fvMesh_.faceOwner();
     const vectorField& Sf = fvMesh_.faceAreas();
-    forAll(Sf, facei)
+    FOR_ALL(Sf, facei)
     {
       if (!fvMesh_.isInternalFace(facei))
       {
@@ -184,7 +184,7 @@ mousse::MGridGenGAMGAgglomeration::MGridGenGAMGAgglomeration
       // Global nubmering
       const globalIndex globalNumbering(nCoarseCells);
       labelField globalAgglom(addr.size());
-      forAll(agglom, cellI)
+      FOR_ALL(agglom, cellI)
       {
         globalAgglom[cellI] = globalNumbering.toGlobal(agglom[cellI]);
       }
@@ -202,7 +202,7 @@ mousse::MGridGenGAMGAgglomeration::MGridGenGAMGAgglomeration
       //        Should not be. fluke?
       //scalarField weights(*faceWeightsPtr);
       scalarField weights = *magSfPtr;
-      forAllConstIter(labelHashSet, sharedFaces, iter)
+      FOR_ALL_CONST_ITER(labelHashSet, sharedFaces, iter)
       {
         label faceI= iter.key();
         weights[faceI] *= 2.0;

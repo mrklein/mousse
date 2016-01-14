@@ -2,7 +2,7 @@
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#include "m_grid_gen_gamg_agglomeration.hpp"
+#include "mgridgen_gamg_agglomeration.hpp"
 #include "fv_mesh.hpp"
 #include "sync_tools.hpp"
 // Private Member Functions 
@@ -22,11 +22,11 @@ makeCompactCellFaceAddressingAndFaceWeights
   const labelUList& lowerAddr = fineAddressing.lowerAddr();
   // Number of neighbours for each cell
   labelList nNbrs(nFineCells, 0);
-  forAll(upperAddr, facei)
+  FOR_ALL(upperAddr, facei)
   {
     nNbrs[upperAddr[facei]]++;
   }
-  forAll(lowerAddr, facei)
+  FOR_ALL(lowerAddr, facei)
   {
     nNbrs[lowerAddr[facei]]++;
   }
@@ -35,13 +35,13 @@ makeCompactCellFaceAddressingAndFaceWeights
   cellCells.setSize(2*nFineFaces);
   faceWeights.setSize(2*nFineFaces);
   cellCellOffsets[0] = 0;
-  forAll(nNbrs, celli)
+  FOR_ALL(nNbrs, celli)
   {
     cellCellOffsets[celli+1] = cellCellOffsets[celli] + nNbrs[celli];
   }
   // reset the whole list to use as counter
   nNbrs = 0;
-  forAll(upperAddr, facei)
+  FOR_ALL(upperAddr, facei)
   {
     label own = upperAddr[facei];
     label nei = lowerAddr[facei];
