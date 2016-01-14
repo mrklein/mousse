@@ -97,7 +97,7 @@ protected:
     virtual void writeFileHeader(const label i);
 public:
   //- Run-time type information
-  TypeName("fieldValueDelta");
+  TYPE_NAME("fieldValueDelta");
   //- Construct from components
   fieldValueDelta
   (

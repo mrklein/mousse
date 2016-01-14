@@ -85,7 +85,7 @@ private:
     void operator=(const codedFunctionObject&);
 public:
   //- Runtime type information
-  TypeName("coded");
+  TYPE_NAME("coded");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

@@ -57,7 +57,7 @@ protected:
     void operator=(const removeRegisteredObject&);
 public:
   //- Runtime type information
-  TypeName("removeRegisteredObject");
+  TYPE_NAME("removeRegisteredObject");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

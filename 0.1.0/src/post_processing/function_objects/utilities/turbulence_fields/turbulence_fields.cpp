@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(turbulenceFields, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(turbulenceFields, 0);
   template<>
   const char* NamedEnum<turbulenceFields::compressibleField, 8>::names[] =
   {
@@ -51,7 +51,7 @@ bool mousse::turbulenceFields::compressible()
   }
   else
   {
-    WarningIn("mousse::word& mousse::turbulenceFields::compressible() const")
+    WARNING_IN("mousse::word& mousse::turbulenceFields::compressible() const")
       << "Turbulence model not found in database, deactivating";
     active_ = false;
   }
@@ -63,13 +63,13 @@ mousse::turbulenceFields::turbulenceFields
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  fieldSet_()
+  name_{name},
+  obr_{obr},
+  active_{true},
+  fieldSet_{}
 {
   // Check if the available mesh is an fvMesh otherise deactivate
   if (isA<fvMesh>(obr_))
@@ -79,7 +79,7 @@ mousse::turbulenceFields::turbulenceFields
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "turbulenceFields::turbulenceFields"
       "("
@@ -88,8 +88,9 @@ mousse::turbulenceFields::turbulenceFields
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_
+    << endl;
   }
 }
 // Destructor 
@@ -105,7 +106,7 @@ void mousse::turbulenceFields::read(const dictionary& dict)
     if (fieldSet_.size())
     {
       Info<< "storing fields:" << nl;
-      forAllConstIter(wordHashSet, fieldSet_, iter)
+      FOR_ALL_CONST_ITER(wordHashSet, fieldSet_, iter)
       {
         Info<< "    " << modelName << ':' << iter.key() << nl;
       }
@@ -128,7 +129,7 @@ void mousse::turbulenceFields::execute()
   {
     const compressible::turbulenceModel& model =
       obr_.lookupObject<compressible::turbulenceModel>(modelName);
-    forAllConstIter(wordHashSet, fieldSet_, iter)
+    FOR_ALL_CONST_ITER(wordHashSet, fieldSet_, iter)
     {
       const word& f = iter.key();
       switch (compressibleFieldNames_[f])
@@ -175,7 +176,7 @@ void mousse::turbulenceFields::execute()
         }
         default:
         {
-          FatalErrorIn("void mousse::turbulenceFields::execute()")
+          FATAL_ERROR_IN("void mousse::turbulenceFields::execute()")
             << "Invalid field selection" << abort(FatalError);
         }
       }
@@ -185,7 +186,7 @@ void mousse::turbulenceFields::execute()
   {
     const incompressible::turbulenceModel& model =
       obr_.lookupObject<incompressible::turbulenceModel>(modelName);
-    forAllConstIter(wordHashSet, fieldSet_, iter)
+    FOR_ALL_CONST_ITER(wordHashSet, fieldSet_, iter)
     {
       const word& f = iter.key();
       switch (incompressibleFieldNames_[f])
@@ -222,7 +223,7 @@ void mousse::turbulenceFields::execute()
         }
         default:
         {
-          FatalErrorIn("void mousse::turbulenceFields::execute()")
+          FATAL_ERROR_IN("void mousse::turbulenceFields::execute()")
             << "Invalid field selection" << abort(FatalError);
         }
       }

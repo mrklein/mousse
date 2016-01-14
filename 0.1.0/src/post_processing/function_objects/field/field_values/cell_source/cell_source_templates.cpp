@@ -29,7 +29,7 @@ mousse::tmp<mousse::Field<Type> > mousse::fieldValues::cellSource::setFieldValue
   }
   if (mustGet)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::tmp<mousse::Field<Type> > "
       "mousse::fieldValues::cellSource::setFieldValues"

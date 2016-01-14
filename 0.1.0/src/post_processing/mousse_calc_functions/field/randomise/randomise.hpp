@@ -57,7 +57,7 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("randomise");
+  TYPE_NAME("randomise");
   // Constructors
     //- Construct null
     randomise();

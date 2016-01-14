@@ -56,7 +56,7 @@ class yPlus
     void operator=(const yPlus&);
 public:
   //- Runtime type information
-  TypeName("yPlus");
+  TYPE_NAME("yPlus");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

@@ -70,7 +70,7 @@ protected:
     virtual void writeFileHeader(const label i);
 public:
   //- Runtime type information
-  TypeName("residuals");
+  TYPE_NAME("residuals");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

@@ -83,7 +83,7 @@ protected:
     void operator=(const systemCall&);
 public:
   //- Runtime type information
-  TypeName("systemCall");
+  TYPE_NAME("systemCall");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

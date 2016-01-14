@@ -60,7 +60,7 @@ void mousse::blendingFactor::calc()
     gcs.interpScheme();
   if (!isA<blendedSchemeBase<Type> >(interpScheme))
   {
-    FatalErrorIn("void mousse::blendingFactor::execute()")
+    FATAL_ERROR_IN("void mousse::blendingFactor::execute()")
       << interpScheme.typeName << " is not a blended scheme"
       << exit(FatalError);
   }

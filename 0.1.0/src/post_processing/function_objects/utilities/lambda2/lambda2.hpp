@@ -43,7 +43,7 @@ class Lambda2
     void operator=(const Lambda2&);
 public:
   //- Runtime type information
-  TypeName("Lambda2");
+  TYPE_NAME("Lambda2");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

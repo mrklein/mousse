@@ -107,7 +107,7 @@ protected:
     virtual void writeFileHeader(const label i);
 public:
   //- Runtime type information
-  TypeName("fieldMinMax");
+  TYPE_NAME("fieldMinMax");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

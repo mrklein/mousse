@@ -6,11 +6,11 @@
 // Static Data Members
 namespace mousse
 {
-  defineNamedTemplateTypeNameAndDebug
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
   (
     fieldCoordinateSystemTransformFunctionObject, 0
   );
-  addToRunTimeSelectionTable
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     functionObject,
     fieldCoordinateSystemTransformFunctionObject,

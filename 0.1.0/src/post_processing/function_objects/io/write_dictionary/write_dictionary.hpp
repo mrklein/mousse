@@ -48,7 +48,7 @@ protected:
     void operator=(const writeDictionary&);
 public:
   //- Runtime type information
-  TypeName("writeDictionary");
+  TYPE_NAME("writeDictionary");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

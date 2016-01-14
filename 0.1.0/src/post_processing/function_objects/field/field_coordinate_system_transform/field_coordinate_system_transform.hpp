@@ -82,7 +82,7 @@ protected:
     void transformField(const Type& field) const;
 public:
   //- Runtime type information
-  TypeName("fieldCoordinateSystemTransform");
+  TYPE_NAME("fieldCoordinateSystemTransform");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

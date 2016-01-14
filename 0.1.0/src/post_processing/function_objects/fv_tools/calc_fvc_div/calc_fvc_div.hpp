@@ -61,7 +61,7 @@ class calcFvcDiv
     void operator=(const calcFvcDiv&);
 public:
   //- Runtime type information
-  TypeName("calcFvcDiv");
+  TYPE_NAME("calcFvcDiv");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

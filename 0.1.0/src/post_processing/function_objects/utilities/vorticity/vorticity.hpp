@@ -40,7 +40,7 @@ class vorticity
     void operator=(const vorticity&);
 public:
   //- Runtime type information
-  TypeName("vorticity");
+  TYPE_NAME("vorticity");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

@@ -45,7 +45,7 @@ class Q
     void operator=(const Q&);
 public:
   //- Runtime type information
-  TypeName("Q");
+  TYPE_NAME("Q");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

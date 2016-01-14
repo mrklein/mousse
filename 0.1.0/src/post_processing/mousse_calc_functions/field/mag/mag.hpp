@@ -54,7 +54,7 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("mag");
+  TYPE_NAME("mag");
   // Constructors
     //- Construct null
     mag();

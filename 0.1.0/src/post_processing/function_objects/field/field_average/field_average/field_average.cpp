@@ -9,12 +9,12 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(fieldAverage, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(fieldAverage, 0);
 }
 // Private Member Functions 
 void mousse::fieldAverage::resetFields()
 {
-  forAll(faItems_, i)
+  FOR_ALL(faItems_, i)
   {
     if (faItems_[i].mean())
     {
@@ -37,7 +37,7 @@ void mousse::fieldAverage::initialize()
   resetFields();
   Info<< type() << " " << name_ << ":" << nl;
   // Add mean fields to the field lists
-  forAll(faItems_, fieldI)
+  FOR_ALL(faItems_, fieldI)
   {
     addMeanField<scalar>(fieldI);
     addMeanField<vector>(fieldI);
@@ -46,16 +46,16 @@ void mousse::fieldAverage::initialize()
     addMeanField<tensor>(fieldI);
   }
   // Add prime-squared mean fields to the field lists
-  forAll(faItems_, fieldI)
+  FOR_ALL(faItems_, fieldI)
   {
     addPrime2MeanField<scalar, scalar>(fieldI);
     addPrime2MeanField<vector, symmTensor>(fieldI);
   }
-  forAll(faItems_, fieldI)
+  FOR_ALL(faItems_, fieldI)
   {
     if (!faItems_[fieldI].active())
     {
-      WarningIn("void mousse::fieldAverage::initialize()")
+      WARNING_IN("void mousse::fieldAverage::initialize()")
         << "Field " << faItems_[fieldI].fieldName()
         << " not found in database for averaging";
     }
@@ -92,7 +92,7 @@ void mousse::fieldAverage::calcAverages()
   calculateMeanFields<tensor>();
   calculatePrime2MeanFields<scalar, scalar>();
   calculatePrime2MeanFields<vector, symmTensor>();
-  forAll(faItems_, fieldI)
+  FOR_ALL(faItems_, fieldI)
   {
     totalIter_[fieldI]++;
     totalTime_[fieldI] += obr_.time().deltaTValue();
@@ -110,9 +110,9 @@ void mousse::fieldAverage::writeAverages() const
 void mousse::fieldAverage::writeAveragingProperties() const
 {
   IOdictionary propsDict
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "fieldAveragingProperties",
       obr_.time().timeName(),
       "uniform",
@@ -120,9 +120,9 @@ void mousse::fieldAverage::writeAveragingProperties() const
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    )
-  );
-  forAll(faItems_, fieldI)
+    }
+  };
+  FOR_ALL(faItems_, fieldI)
   {
     const word& fieldName = faItems_[fieldI].fieldName();
     propsDict.add(fieldName, dictionary());
@@ -145,7 +145,7 @@ void mousse::fieldAverage::readAveragingProperties()
   else
   {
     IOobject propsDictHeader
-    (
+    {
       "fieldAveragingProperties",
       obr_.time().timeName(obr_.time().startTime().value()),
       "uniform",
@@ -153,16 +153,16 @@ void mousse::fieldAverage::readAveragingProperties()
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE,
       false
-    );
+    };
     if (!propsDictHeader.headerOk())
     {
       Info<< "    Starting averaging at time " << obr_.time().timeName()
         << nl;
       return;
     }
-    IOdictionary propsDict(propsDictHeader);
+    IOdictionary propsDict{propsDictHeader};
     Info<< "    Restarting averaging for fields:" << nl;
-    forAll(faItems_, fieldI)
+    FOR_ALL(faItems_, fieldI)
     {
       const word& fieldName = faItems_[fieldI].fieldName();
       if (propsDict.found(fieldName))
@@ -183,19 +183,19 @@ mousse::fieldAverage::fieldAverage
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  prevTimeIndex_(-1),
-  resetOnRestart_(false),
-  resetOnOutput_(false),
-  initialised_(false),
-  faItems_(),
-  totalIter_(),
-  totalTime_()
+  name_{name},
+  obr_{obr},
+  active_{true},
+  prevTimeIndex_{-1},
+  resetOnRestart_{false},
+  resetOnOutput_{false},
+  initialised_{false},
+  faItems_{},
+  totalIter_{},
+  totalTime_{}
 {
   // Only active if a fvMesh is available
   if (isA<fvMesh>(obr_))
@@ -205,7 +205,7 @@ mousse::fieldAverage::fieldAverage
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "fieldAverage::fieldAverage"
       "("
@@ -214,8 +214,9 @@ mousse::fieldAverage::fieldAverage
         "const dictionary&, "
         "const bool "
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
 }
 // Destructor 

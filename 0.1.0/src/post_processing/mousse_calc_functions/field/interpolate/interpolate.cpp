@@ -7,11 +7,11 @@
 // Static Data Members
 namespace mousse
 {
-  namespace calcTypes
-  {
-    defineTypeNameAndDebug(interpolate, 0);
-    addToRunTimeSelectionTable(calcType, interpolate, dictionary);
-  }
+namespace calcTypes
+{
+DEFINE_TYPE_NAME_AND_DEBUG(interpolate, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(calcType, interpolate, dictionary);
+}
 }
 // Constructors 
 mousse::calcTypes::interpolate::interpolate()
@@ -29,9 +29,9 @@ void mousse::calcTypes::interpolate::init()
 }
 void mousse::calcTypes::interpolate::preCalc
 (
-  const argList& args,
-  const Time& runTime,
-  const fvMesh& mesh
+  const argList& /*args*/,
+  const Time& /*runTime*/,
+  const fvMesh& /*mesh*/
 )
 {}
 void mousse::calcTypes::interpolate::calc

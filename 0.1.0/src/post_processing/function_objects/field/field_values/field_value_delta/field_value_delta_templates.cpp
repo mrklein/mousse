@@ -43,7 +43,7 @@ Type mousse::fieldValues::fieldValueDelta::applyOperation
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "Type mousse::fieldValues::fieldValueDelta::applyOperation"
         "("
@@ -68,7 +68,7 @@ void mousse::fieldValues::fieldValueDelta::processFields(bool& found)
   const dictionary& results2 = source2Ptr_->resultDict();
   Type r1(pTraits<Type>::zero);
   Type r2(pTraits<Type>::zero);
-  forAll(fields1, i)
+  FOR_ALL(fields1, i)
   {
     const word& fieldName = fields1[i];
     if

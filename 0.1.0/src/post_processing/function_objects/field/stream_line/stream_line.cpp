@@ -17,7 +17,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(streamLine, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(streamLine, 0);
 }
 // Private Member Functions 
 mousse::autoPtr<mousse::indirectPrimitivePatch>
@@ -26,7 +26,7 @@ mousse::streamLine::wallPatch() const
   const fvMesh& mesh = dynamic_cast<const fvMesh&>(obr_);
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   label nFaces = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     //if (!polyPatch::constraintType(patches[patchI].type()))
     if (isA<wallPolyPatch>(patches[patchI]))
@@ -34,32 +34,32 @@ mousse::streamLine::wallPatch() const
       nFaces += patches[patchI].size();
     }
   }
-  labelList addressing(nFaces);
+  labelList addressing{nFaces};
   nFaces = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     //if (!polyPatch::constraintType(patches[patchI].type()))
     if (isA<wallPolyPatch>(patches[patchI]))
     {
       const polyPatch& pp = patches[patchI];
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         addressing[nFaces++] = pp.start()+i;
       }
     }
   }
   return autoPtr<indirectPrimitivePatch>
-  (
+  {
     new indirectPrimitivePatch
-    (
+    {
       IndirectList<face>
-      (
+      {
         mesh.faces(),
         addressing
-      ),
+      },
       mesh.points()
-    )
-  );
+    }
+  };
 }
 void mousse::streamLine::track()
 {
@@ -67,44 +67,44 @@ void mousse::streamLine::track()
   const fvMesh& mesh = dynamic_cast<const fvMesh&>(obr_);
   IDLList<streamLineParticle> initialParticles;
   streamLineParticleCloud particles
-  (
+  {
     mesh,
     cloudName_,
     initialParticles
-  );
+  };
   const sampledSet& seedPoints = sampledSetPtr_();
-  forAll(seedPoints, i)
+  FOR_ALL(seedPoints, i)
   {
     particles.addParticle
     (
       new streamLineParticle
-      (
+      {
         mesh,
         seedPoints[i],
         seedPoints.cells()[i],
         lifeTime_               // lifetime
-      )
+      }
     );
   }
   label nSeeds = returnReduce(particles.size(), sumOp<label>());
   Info << "    seeded " << nSeeds << " particles" << endl;
   // Read or lookup fields
   PtrList<volScalarField> vsFlds;
-  PtrList<interpolation<scalar> > vsInterp;
+  PtrList<interpolation<scalar>> vsInterp;
   PtrList<volVectorField> vvFlds;
-  PtrList<interpolation<vector> > vvInterp;
+  PtrList<interpolation<vector>> vvInterp;
   label UIndex = -1;
   if (loadFromFiles_)
   {
     IOobjectList allObjects(mesh, runTime.timeName());
     IOobjectList objects(2*fields_.size());
-    forAll(fields_, i)
+    FOR_ALL(fields_, i)
     {
       objects.add(*allObjects[fields_[i]]);
     }
     ReadFields(mesh, objects, vsFlds);
     vsInterp.setSize(vsFlds.size());
-    forAll(vsFlds, i)
+    FOR_ALL(vsFlds, i)
     {
       vsInterp.set
       (
@@ -118,7 +118,7 @@ void mousse::streamLine::track()
     }
     ReadFields(mesh, objects, vvFlds);
     vvInterp.setSize(vvFlds.size());
-    forAll(vvFlds, i)
+    FOR_ALL(vvFlds, i)
     {
       vvInterp.set
       (
@@ -135,7 +135,7 @@ void mousse::streamLine::track()
   {
     label nScalar = 0;
     label nVector = 0;
-    forAll(fields_, i)
+    FOR_ALL(fields_, i)
     {
       if (mesh.foundObject<volScalarField>(fields_[i]))
       {
@@ -147,7 +147,7 @@ void mousse::streamLine::track()
       }
       else
       {
-        FatalErrorIn("streamLine::track()")
+        FATAL_ERROR_IN("streamLine::track()")
           << "Cannot find field " << fields_[i] << nl
           << "Valid scalar fields are:"
           << mesh.names(volScalarField::typeName) << nl
@@ -160,7 +160,7 @@ void mousse::streamLine::track()
     nScalar = 0;
     vvInterp.setSize(nVector);
     nVector = 0;
-    forAll(fields_, i)
+    FOR_ALL(fields_, i)
     {
       if (mesh.foundObject<volScalarField>(fields_[i]))
       {
@@ -202,19 +202,19 @@ void mousse::streamLine::track()
   }
   // Store the names
   scalarNames_.setSize(vsInterp.size());
-  forAll(vsInterp, i)
+  FOR_ALL(vsInterp, i)
   {
     scalarNames_[i] = vsInterp[i].psi().name();
   }
   vectorNames_.setSize(vvInterp.size());
-  forAll(vvInterp, i)
+  FOR_ALL(vvInterp, i)
   {
     vectorNames_[i] = vvInterp[i].psi().name();
   }
   // Check that we know the index of U in the interpolators.
   if (UIndex == -1)
   {
-    FatalErrorIn("streamLine::track()")
+    FATAL_ERROR_IN("streamLine::track()")
       << "Cannot find field to move particles with : " << UName_ << nl
       << "This field has to be present in the sampled fields " << fields_
       << " and in the objectRegistry."
@@ -226,13 +226,13 @@ void mousse::streamLine::track()
   allTracks_.clear();
   allTracks_.setCapacity(nSeeds);
   allScalars_.setSize(vsInterp.size());
-  forAll(allScalars_, i)
+  FOR_ALL(allScalars_, i)
   {
     allScalars_[i].clear();
     allScalars_[i].setCapacity(nSeeds);
   }
   allVectors_.setSize(vvInterp.size());
-  forAll(allVectors_, i)
+  FOR_ALL(allVectors_, i)
   {
     allVectors_[i].clear();
     allVectors_[i].setCapacity(nSeeds);
@@ -266,12 +266,12 @@ mousse::streamLine::streamLine
   const bool loadFromFiles
 )
 :
-  dict_(dict),
-  name_(name),
-  obr_(obr),
-  loadFromFiles_(loadFromFiles),
-  active_(true),
-  nSubCycle_(0)
+  dict_{dict},
+  name_{name},
+  obr_{obr},
+  loadFromFiles_{loadFromFiles},
+  active_{true},
+  nSubCycle_{0}
 {
   // Only active if a fvMesh is available
   if (isA<fvMesh>(obr_))
@@ -281,7 +281,7 @@ mousse::streamLine::streamLine
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "streamLine::streamLine\n"
       "(\n"
@@ -314,7 +314,7 @@ void mousse::streamLine::read(const dictionary& dict)
       UName_ = "U";
       if (dict.found("U"))
       {
-        IOWarningIn("streamLine::read(const dictionary&)", dict)
+        IO_WARNING_IN("streamLine::read(const dictionary&)", dict)
           << "Using deprecated entry \"U\"."
           << " Please use \"UName\" instead."
           << endl;
@@ -323,7 +323,7 @@ void mousse::streamLine::read(const dictionary& dict)
     }
     if (findIndex(fields_, UName_) == -1)
     {
-      FatalIOErrorIn("streamLine::read(const dictionary&)", dict)
+      FATAL_IO_ERROR_IN("streamLine::read(const dictionary&)", dict)
         << "Velocity field for tracking " << UName_
         << " should be present in the list of fields " << fields_
         << exit(FatalIOError);
@@ -332,7 +332,7 @@ void mousse::streamLine::read(const dictionary& dict)
     dict.lookup("lifeTime") >> lifeTime_;
     if (lifeTime_ < 1)
     {
-      FatalErrorIn(":streamLine::read(const dictionary&)")
+      FATAL_ERROR_IN(":streamLine::read(const dictionary&)")
         << "Illegal value " << lifeTime_ << " for lifeTime"
         << exit(FatalError);
     }
@@ -340,7 +340,7 @@ void mousse::streamLine::read(const dictionary& dict)
     bool fixedLength = dict.found("trackLength");
     if (subCycling && fixedLength)
     {
-      FatalIOErrorIn("streamLine::read(const dictionary&)", dict)
+      FATAL_IO_ERROR_IN("streamLine::read(const dictionary&)", dict)
         << "Cannot both specify automatic time stepping (through '"
         << "nSubCycle' specification) and fixed track length (through '"
         << "trackLength')"
@@ -373,7 +373,7 @@ void mousse::streamLine::read(const dictionary& dict)
     cloudName_ = dict.lookupOrDefault<word>("cloudName", "streamLine");
     dict.lookup("seedSampleSet") >> seedSet_;
     const fvMesh& mesh = dynamic_cast<const fvMesh&>(obr_);
-    meshSearchPtr_.reset(new meshSearch(mesh));
+    meshSearchPtr_.reset(new meshSearch{mesh});
     const dictionary& coeffsDict = dict.subDict(seedSet_ + "Coeffs");
     sampledSetPtr_ = sampledSet::New
     (
@@ -388,39 +388,7 @@ void mousse::streamLine::read(const dictionary& dict)
   }
 }
 void mousse::streamLine::execute()
-{
-//    const Time& runTime = obr_.time();
-//    Pout<< "**streamLine::execute : time:" << runTime.timeName() << endl;
-//
-//    bool isOutputTime = false;
-//
-//    const functionObjectList& fobs = runTime.functionObjects();
-//
-//    forAll(fobs, i)
-//    {
-//        if (isA<streamLineFunctionObject>(fobs[i]))
-//        {
-//            const streamLineFunctionObject& fo =
-//                dynamic_cast<const streamLineFunctionObject&>(fobs[i]);
-//
-//            if (fo.name() == name_)
-//            {
-//                Pout<< "found me:" << i << endl;
-//                if (fo.outputControl().output())
-//                {
-//                    isOutputTime = true;
-//                    break;
-//                }
-//            }
-//        }
-//    }
-//
-//
-//    if (active_ && isOutputTime)
-//    {
-//        track();
-//    }
-}
+{}
 void mousse::streamLine::end()
 {}
 void mousse::streamLine::timeSet()
@@ -447,11 +415,11 @@ void mousse::streamLine::write()
         // Master: receive all. My own first, then consecutive
         // processors.
         label trackI = 0;
-        forAll(recvMap, procI)
+        FOR_ALL(recvMap, procI)
         {
           labelList& fromProc = recvMap[procI];
           fromProc.setSize(globalTrackIDs.localSize(procI));
-          forAll(fromProc, i)
+          FOR_ALL(fromProc, i)
           {
             fromProc[i] = trackI++;
           }
@@ -459,7 +427,7 @@ void mousse::streamLine::write()
       }
       labelList& toMaster = sendMap[0];
       toMaster.setSize(globalTrackIDs.localSize());
-      forAll(toMaster, i)
+      FOR_ALL(toMaster, i)
       {
         toMaster[i] = i;
       }
@@ -481,7 +449,7 @@ void mousse::streamLine::write()
         allTracks_
       );
       // Distribute the scalars
-      forAll(allScalars_, scalarI)
+      FOR_ALL(allScalars_, scalarI)
       {
         mapDistribute::distribute
         (
@@ -494,7 +462,7 @@ void mousse::streamLine::write()
         );
       }
       // Distribute the vectors
-      forAll(allVectors_, vectorI)
+      FOR_ALL(allVectors_, vectorI)
       {
         mapDistribute::distribute
         (
@@ -508,7 +476,7 @@ void mousse::streamLine::write()
       }
     }
     label n = 0;
-    forAll(allTracks_, trackI)
+    FOR_ALL(allTracks_, trackI)
     {
       n += allTracks_[trackI].size();
     }
@@ -534,7 +502,7 @@ void mousse::streamLine::write()
       mkDir(vtkPath);
       // Convert track positions
       PtrList<coordSet> tracks(allTracks_.size());
-      forAll(allTracks_, trackI)
+      FOR_ALL(allTracks_, trackI)
       {
         tracks.set
         (
@@ -550,13 +518,13 @@ void mousse::streamLine::write()
       // Convert scalar values
       if (allScalars_.size() > 0)
       {
-        List<List<scalarField> > scalarValues(allScalars_.size());
-        forAll(allScalars_, scalarI)
+        List<List<scalarField>> scalarValues(allScalars_.size());
+        FOR_ALL(allScalars_, scalarI)
         {
           DynamicList<scalarList>& allTrackVals =
             allScalars_[scalarI];
           scalarValues[scalarI].setSize(allTrackVals.size());
-          forAll(allTrackVals, trackI)
+          FOR_ALL(allTrackVals, trackI)
           {
             scalarList& trackVals = allTrackVals[trackI];
             scalarValues[scalarI][trackI].transfer(trackVals);
@@ -584,13 +552,13 @@ void mousse::streamLine::write()
       // Convert vector values
       if (allVectors_.size() > 0)
       {
-        List<List<vectorField> > vectorValues(allVectors_.size());
-        forAll(allVectors_, vectorI)
+        List<List<vectorField>> vectorValues(allVectors_.size());
+        FOR_ALL(allVectors_, vectorI)
         {
           DynamicList<vectorList>& allTrackVals =
             allVectors_[vectorI];
           vectorValues[vectorI].setSize(allTrackVals.size());
-          forAll(allTrackVals, trackI)
+          FOR_ALL(allTrackVals, trackI)
           {
             vectorList& trackVals = allTrackVals[trackI];
             vectorValues[vectorI][trackI].transfer(trackVals);

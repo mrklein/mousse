@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(Cloud<streamLineParticle>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<streamLineParticle>, 0);
 }
 // Constructors 
 mousse::streamLineParticleCloud::streamLineParticleCloud

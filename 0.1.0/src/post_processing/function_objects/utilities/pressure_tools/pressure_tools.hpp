@@ -133,7 +133,7 @@ class pressureTools
     void operator=(const pressureTools&);
 public:
   //- Runtime type information
-  TypeName("pressureTools");
+  TYPE_NAME("pressureTools");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

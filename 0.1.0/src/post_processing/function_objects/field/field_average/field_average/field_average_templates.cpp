@@ -120,7 +120,7 @@ void mousse::fieldAverage::addPrime2MeanField(const label fieldI)
     const word& fieldName = faItems_[fieldI].fieldName();
     if (!faItems_[fieldI].mean())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::fieldAverage::addPrime2MeanField(const label) const"
       )
@@ -175,7 +175,7 @@ void mousse::fieldAverage::calculateMeanFields() const
 {
   typedef GeometricField<Type, fvPatchField, volMesh> volFieldType;
   typedef GeometricField<Type, fvsPatchField, surfaceMesh> surfFieldType;
-  forAll(faItems_, i)
+  FOR_ALL(faItems_, i)
   {
     if (faItems_[i].mean())
     {
@@ -228,7 +228,7 @@ void mousse::fieldAverage::calculatePrime2MeanFields() const
   typedef GeometricField<Type1, fvsPatchField, surfaceMesh> surfFieldType1;
   typedef GeometricField<Type2, fvPatchField, volMesh> volFieldType2;
   typedef GeometricField<Type2, fvsPatchField, surfaceMesh> surfFieldType2;
-  forAll(faItems_, i)
+  FOR_ALL(faItems_, i)
   {
     if (faItems_[i].prime2Mean())
     {
@@ -259,7 +259,7 @@ void mousse::fieldAverage::addMeanSqrToPrime2Mean() const
   typedef GeometricField<Type1, fvsPatchField, surfaceMesh> surfFieldType1;
   typedef GeometricField<Type2, fvPatchField, volMesh> volFieldType2;
   typedef GeometricField<Type2, fvsPatchField, surfaceMesh> surfFieldType2;
-  forAll(faItems_, i)
+  FOR_ALL(faItems_, i)
   {
     if (faItems_[i].prime2Mean())
     {
@@ -282,7 +282,7 @@ void mousse::fieldAverage::writeFields() const
 {
   typedef GeometricField<Type, fvPatchField, volMesh> volFieldType;
   typedef GeometricField<Type, fvsPatchField, surfaceMesh> surfFieldType;
-  forAll(faItems_, i)
+  FOR_ALL(faItems_, i)
   {
     if (faItems_[i].mean())
     {

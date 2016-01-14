@@ -57,11 +57,11 @@ void mousse::partialWrite::changeWriteOptions
   const IOobject::writeOption wOption
 ) const
 {
-  forAll(vflds , i)
+  FOR_ALL(vflds , i)
   {
     vflds[i].writeOpt() = wOption;
   }
-  forAll(sflds , i)
+  FOR_ALL(sflds , i)
   {
     sflds[i].writeOpt() = wOption;
   }

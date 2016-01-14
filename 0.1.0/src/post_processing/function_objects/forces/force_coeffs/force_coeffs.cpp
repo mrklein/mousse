@@ -10,7 +10,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(forceCoeffs, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(forceCoeffs, 0);
 }
 // Protected Member Functions 
 void mousse::forceCoeffs::writeFileHeader(const label i)
@@ -46,20 +46,20 @@ void mousse::forceCoeffs::writeFileHeader(const label i)
     writeHeaderValue(file(i), "direction", binDir_);
     vectorField binPoints(nBin_);
     writeCommented(file(i), "x co-ords  :");
-    forAll(binPoints, pointI)
+    FOR_ALL(binPoints, pointI)
     {
       binPoints[pointI] = (binMin_ + (pointI + 1)*binDx_)*binDir_;
       file(i) << tab << binPoints[pointI].x();
     }
     file(i) << nl;
     writeCommented(file(i), "y co-ords  :");
-    forAll(binPoints, pointI)
+    FOR_ALL(binPoints, pointI)
     {
       file(i) << tab << binPoints[pointI].y();
     }
     file(i) << nl;
     writeCommented(file(i), "z co-ords  :");
-    forAll(binPoints, pointI)
+    FOR_ALL(binPoints, pointI)
     {
       file(i) << tab << binPoints[pointI].z();
     }
@@ -75,7 +75,7 @@ void mousse::forceCoeffs::writeFileHeader(const label i)
   }
   else
   {
-    FatalErrorIn("void mousse::forces::writeFileHeader(const label)")
+    FATAL_ERROR_IN("void mousse::forces::writeFileHeader(const label)")
       << "Unhandled file index: " << i
       << abort(FatalError);
   }
@@ -180,7 +180,7 @@ void mousse::forceCoeffs::write()
         }
       }
       file(1)<< obr_.time().value();
-      forAll(coeffs[0], i)
+      FOR_ALL(coeffs[0], i)
       {
         file(1)
           << tab << coeffs[2][i]

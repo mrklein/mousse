@@ -40,7 +40,7 @@ class dsmcFields
     void operator=(const dsmcFields&);
 public:
   //- Runtime type information
-  TypeName("dsmcFields");
+  TYPE_NAME("dsmcFields");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

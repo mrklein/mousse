@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(CourantNo, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(CourantNo, 0);
 }
 // Private Member Functions 
 mousse::tmp<mousse::volScalarField::DimensionedInternalField>
@@ -32,20 +32,20 @@ mousse::CourantNo::CourantNo
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  phiName_("phi"),
-  rhoName_("rho")
+  name_{name},
+  obr_{obr},
+  active_{true},
+  phiName_{"phi"},
+  rhoName_{"rho"}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "CourantNo::CourantNo"
       "("
@@ -54,30 +54,31 @@ mousse::CourantNo::CourantNo
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   read(dict);
   if (active_)
   {
     const fvMesh& mesh = refCast<const fvMesh>(obr_);
     volScalarField* CourantNoPtr
-    (
+    {
       new volScalarField
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           type(),
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedScalar("0", dimless, 0.0),
+        {"0", dimless, 0.0},
         zeroGradientFvPatchScalarField::typeName
-      )
-    );
+      }
+    };
     mesh.objectRegistry::store(CourantNoPtr);
   }
 }
@@ -108,8 +109,8 @@ void mousse::CourantNo::execute()
     Co.dimensionedInternalField() = byRho
     (
       (0.5*mesh.time().deltaT())
-     *fvc::surfaceSum(mag(phi))().dimensionedInternalField()
-     /mesh.V()
+      *fvc::surfaceSum(mag(phi))().dimensionedInternalField()
+      /mesh.V()
     );
     Co.correctBoundaryConditions();
   }

@@ -93,7 +93,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("partialWrite");
+  TYPE_NAME("partialWrite");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

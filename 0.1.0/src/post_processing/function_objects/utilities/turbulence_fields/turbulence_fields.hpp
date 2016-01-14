@@ -114,7 +114,7 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("turbulenceFields");
+  TYPE_NAME("turbulenceFields");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

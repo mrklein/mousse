@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(processorField, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(processorField, 0);
 }
 // Constructors 
 mousse::processorField::processorField
@@ -16,12 +16,12 @@ mousse::processorField::processorField
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true)
+  name_{name},
+  obr_{obr},
+  active_{true}
 {
   // Check if the available mesh is an fvMesh otherise deactivate
   if (isA<fvMesh>(obr_))
@@ -49,7 +49,7 @@ mousse::processorField::processorField
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "processorField::processorField"
       "("
@@ -66,7 +66,7 @@ mousse::processorField::processorField
 mousse::processorField::~processorField()
 {}
 // Member Functions 
-void mousse::processorField::read(const dictionary& dict)
+void mousse::processorField::read(const dictionary&)
 {
   // do nothing
 }

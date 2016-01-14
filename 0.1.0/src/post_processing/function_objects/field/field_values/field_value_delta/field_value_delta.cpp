@@ -12,7 +12,7 @@ namespace mousse
 {
   namespace fieldValues
   {
-    defineTypeNameAndDebug(fieldValueDelta, 0);
+    DEFINE_TYPE_NAME_AND_DEBUG(fieldValueDelta, 0);
   }
   template<>
   const char*
@@ -36,23 +36,23 @@ mousse::fieldValues::fieldValueDelta::fieldValueDelta
   const bool loadFromFiles
 )
 :
-  functionObjectFile(obr, name, typeName),
-  name_(name),
-  obr_(obr),
-  loadFromFiles_(loadFromFiles),
-  log_(true),
-  operation_(opSubtract),
-  source1Ptr_(NULL),
-  source2Ptr_(NULL)
+  functionObjectFile{obr, name, typeName},
+  name_{name},
+  obr_{obr},
+  loadFromFiles_{loadFromFiles},
+  log_{true},
+  operation_{opSubtract},
+  source1Ptr_{NULL},
+  source2Ptr_{NULL}
 {
   read(dict);
 }
-void mousse::fieldValues::fieldValueDelta::writeFileHeader(const label i)
+void mousse::fieldValues::fieldValueDelta::writeFileHeader(const label /*i*/)
 {
   const wordList& fields1 = source1Ptr_->fields();
   const wordList& fields2 = source2Ptr_->fields();
   DynamicList<word> commonFields(fields1.size());
-  forAll(fields1, i)
+  FOR_ALL(fields1, i)
   {
     label index = findIndex(fields2, fields1[i]);
     if (index != -1)
@@ -65,7 +65,7 @@ void mousse::fieldValues::fieldValueDelta::writeFileHeader(const label i)
   writeHeaderValue(os, "Source2", source2Ptr_->name());
   writeHeaderValue(os, "Operation", operationTypeNames_[operation_]);
   writeCommented(os, "Time");
-  forAll(commonFields, i)
+  FOR_ALL(commonFields, i)
   {
     os  << tab << commonFields[i];
   }

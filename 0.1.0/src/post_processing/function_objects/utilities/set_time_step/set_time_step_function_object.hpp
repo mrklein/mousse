@@ -38,7 +38,7 @@ class setTimeStepFunctionObject
     void operator=(const setTimeStepFunctionObject&);
 public:
   //- Runtime type information
-  TypeName("setTimeStep");
+  TYPE_NAME("setTimeStep");
   // Constructors
     //- Construct from components
     setTimeStepFunctionObject

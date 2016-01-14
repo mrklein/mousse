@@ -15,7 +15,7 @@ mousse::Map<Type> mousse::regionSizeDistribution::regionSum
 {
   // Per region the sum of fld
   Map<Type> regionToSum(regions.nRegions()/Pstream::nProcs());
-  forAll(fld, cellI)
+  FOR_ALL(fld, cellI)
   {
     label regionI = regions[cellI];
     typename Map<Type>::iterator fnd = regionToSum.find(regionI);
@@ -41,7 +41,7 @@ mousse::List<Type> mousse::regionSizeDistribution::extractData
 ) const
 {
   List<Type> sortedData(keys.size());
-  forAll(keys, i)
+  FOR_ALL(keys, i)
   {
     sortedData[i] = regionData[keys[i]];
   }

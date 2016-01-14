@@ -242,7 +242,7 @@ protected:
     virtual void writeFileHeader(const label i);
 public:
   //- Run-time type information
-  TypeName("faceSource");
+  TYPE_NAME("faceSource");
   //- Construct from components
   faceSource
   (

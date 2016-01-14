@@ -50,9 +50,9 @@ protected:
     dictionary resultDict_;
 public:
   //- Run-time type information
-  TypeName("fieldValue");
+  TYPE_NAME("fieldValue");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       fieldValue,

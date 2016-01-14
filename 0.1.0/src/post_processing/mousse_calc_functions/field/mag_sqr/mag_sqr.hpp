@@ -54,7 +54,7 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("magSqr");
+  TYPE_NAME("magSqr");
   // Constructors
     //- Construct null
     magSqr();

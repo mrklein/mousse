@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineNamedTemplateTypeNameAndDebug(abortCalculationFunctionObject, 0);
-  addToRunTimeSelectionTable
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(abortCalculationFunctionObject, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     functionObject,
     abortCalculationFunctionObject,

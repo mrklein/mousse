@@ -54,7 +54,7 @@ class blendingFactor
     void calc();
 public:
   //- Runtime type information
-  TypeName("blendingFactor");
+  TYPE_NAME("blendingFactor");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

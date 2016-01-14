@@ -11,7 +11,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(abortCalculation, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(abortCalculation, 0);
 }
 // Static Data Members
 namespace mousse
@@ -47,13 +47,13 @@ mousse::abortCalculation::abortCalculation
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  abortFile_("$MOUSSE_CASE/" + name),
-  action_(nextWrite)
+  name_{name},
+  obr_{obr},
+  abortFile_{"$MOUSSE_CASE/" + name},
+  action_{nextWrite}
 {
   abortFile_.expand();
   read(dict);

@@ -84,7 +84,7 @@ protected:
     void operator=(const wallShearStress&);
 public:
   //- Runtime type information
-  TypeName("wallShearStress");
+  TYPE_NAME("wallShearStress");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

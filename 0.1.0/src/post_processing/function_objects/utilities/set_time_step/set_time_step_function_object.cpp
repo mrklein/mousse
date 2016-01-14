@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(setTimeStepFunctionObject, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(setTimeStepFunctionObject, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     functionObject,
     setTimeStepFunctionObject,
@@ -42,7 +42,7 @@ bool mousse::setTimeStepFunctionObject::start()
 {
   return true;
 }
-bool mousse::setTimeStepFunctionObject::execute(const bool forceWrite)
+bool mousse::setTimeStepFunctionObject::execute(const bool /*forceWrite*/)
 {
   return true;
 }
@@ -83,14 +83,14 @@ bool mousse::setTimeStepFunctionObject::read(const dictionary& dict)
     || !adjust
     )
     {
-      FatalIOErrorIn("setTimeStep::read(const dictionary&)", dict)
+      FATAL_IO_ERROR_IN("setTimeStep::read(const dictionary&)", dict)
         << "Need to have 'adjustTimeStep' true to enable external"
         << " timestep control" << exit(FatalIOError);
     }
   }
   return true;
 }
-void mousse::setTimeStepFunctionObject::updateMesh(const mapPolyMesh& mpm)
+void mousse::setTimeStepFunctionObject::updateMesh(const mapPolyMesh&)
 {}
-void mousse::setTimeStepFunctionObject::movePoints(const polyMesh& mesh)
+void mousse::setTimeStepFunctionObject::movePoints(const polyMesh&)
 {}

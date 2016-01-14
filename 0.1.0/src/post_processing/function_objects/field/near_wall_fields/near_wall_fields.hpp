@@ -111,7 +111,7 @@ private:
     void operator=(const nearWallFields&);
 public:
   //- Runtime type information
-  TypeName("nearWallFields");
+  TYPE_NAME("nearWallFields");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

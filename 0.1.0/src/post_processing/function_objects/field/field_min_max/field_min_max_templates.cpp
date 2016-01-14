@@ -92,7 +92,7 @@ void mousse::fieldMinMax::calcMinMaxFields
         label maxProcI = findMax(magField);
         maxVs[procI] = magField[maxProcI];
         maxCs[procI] = field.mesh().C()[maxProcI];
-        forAll(magFieldBoundary, patchI)
+        FOR_ALL(magFieldBoundary, patchI)
         {
           const scalarField& mfp = magFieldBoundary[patchI];
           if (mfp.size())
@@ -154,7 +154,7 @@ void mousse::fieldMinMax::calcMinMaxFields
         label maxProcI = findMax(field);
         maxVs[procI] = field[maxProcI];
         maxCs[procI] = field.mesh().C()[maxProcI];
-        forAll(fieldBoundary, patchI)
+        FOR_ALL(fieldBoundary, patchI)
         {
           const Field<Type>& fp = fieldBoundary[patchI];
           if (fp.size())
@@ -202,7 +202,7 @@ void mousse::fieldMinMax::calcMinMaxFields
       }
       default:
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "mousse::fieldMinMax::calcMinMaxFields"
           "("

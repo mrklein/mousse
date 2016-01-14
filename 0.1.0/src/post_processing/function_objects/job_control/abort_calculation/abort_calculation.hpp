@@ -56,7 +56,7 @@ private:
     void operator=(const abortCalculation&);
 public:
   //- Runtime type information
-  TypeName("abort");
+  TYPE_NAME("abort");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     abortCalculation

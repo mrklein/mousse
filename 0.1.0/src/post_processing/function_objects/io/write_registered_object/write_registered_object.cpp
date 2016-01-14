@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(writeRegisteredObject, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(writeRegisteredObject, 0);
 }
 // Constructors 
 mousse::writeRegisteredObject::writeRegisteredObject
@@ -16,13 +16,13 @@ mousse::writeRegisteredObject::writeRegisteredObject
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  exclusiveWriting_(false),
-  obr_(obr),
-  objectNames_()
+  name_{name},
+  exclusiveWriting_{false},
+  obr_{obr},
+  objectNames_{}
 {
   read(dict);
 }
@@ -51,7 +51,7 @@ void mousse::writeRegisteredObject::write()
 {
   Info<< type() << " " << name_ << " output:" << nl;
   DynamicList<word> allNames(obr_.toc().size());
-  forAll(objectNames_, i)
+  FOR_ALL(objectNames_, i)
   {
     wordList names(obr_.names<regIOobject>(objectNames_[i]));
     if (names.size())
@@ -60,19 +60,16 @@ void mousse::writeRegisteredObject::write()
     }
     else
     {
-      WarningIn("mousse::writeRegisteredObject::write()")
+      WARNING_IN("mousse::writeRegisteredObject::write()")
         << "Object " << objectNames_[i] << " not found in "
         << "database. Available objects:" << nl << obr_.sortedToc()
         << endl;
     }
   }
-  forAll(allNames, i)
+  FOR_ALL(allNames, i)
   {
     regIOobject& obj =
-      const_cast<regIOobject&>
-      (
-        obr_.lookupObject<regIOobject>(allNames[i])
-      );
+      const_cast<regIOobject&>(obr_.lookupObject<regIOobject>(allNames[i]));
     if (exclusiveWriting_)
     {
       // Switch off automatic writing to prevent double write

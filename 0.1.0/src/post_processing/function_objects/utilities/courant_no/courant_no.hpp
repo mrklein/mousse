@@ -47,7 +47,7 @@ class CourantNo
     void operator=(const CourantNo&);
 public:
   //- Runtime type information
-  TypeName("CourantNo");
+  TYPE_NAME("CourantNo");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

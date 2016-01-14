@@ -58,7 +58,7 @@ protected:
     void operator=(const processorField&);
 public:
   //- Runtime type information
-  TypeName("processorField");
+  TYPE_NAME("processorField");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

@@ -11,10 +11,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(wallShearStress, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(wallShearStress, 0);
 }
 // Protected Member Functions 
-void mousse::wallShearStress::writeFileHeader(const label i)
+void mousse::wallShearStress::writeFileHeader(const label /*i*/)
 {
   // Add headers to output data
   writeHeader(file(), "Wall shear stress");
@@ -31,7 +31,7 @@ void mousse::wallShearStress::calcShearStress
   volVectorField& shearStress
 )
 {
-  forAllConstIter(labelHashSet, patchSet_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
   {
     label patchI = iter.key();
     const polyPatch& pp = mesh.boundaryMesh()[patchI];
@@ -60,21 +60,21 @@ mousse::wallShearStress::wallShearStress
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  functionObjectFile(obr, name, typeName),
-  name_(name),
-  obr_(obr),
-  active_(true),
-  log_(true),
-  patchSet_()
+  functionObjectFile{obr, name, typeName},
+  name_{name},
+  obr_{obr},
+  active_{true},
+  log_{true},
+  patchSet_{}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "wallShearStress::wallShearStress"
       "("
@@ -83,33 +83,34 @@ mousse::wallShearStress::wallShearStress
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   if (active_)
   {
     const fvMesh& mesh = refCast<const fvMesh>(obr_);
     volVectorField* wallShearStressPtr
-    (
+    {
       new volVectorField
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           type(),
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedVector
-        (
+        // dimensionedVector
+        {
           "0",
           sqr(dimLength)/sqr(dimTime),
           vector::zero
-        )
-      )
-    );
+        }
+      }
+    };
     mesh.objectRegistry::store(wallShearStressPtr);
   }
   read(dict);
@@ -133,7 +134,7 @@ void mousse::wallShearStress::read(const dictionary& dict)
     Info<< type() << " " << name_ << ":" << nl;
     if (patchSet_.empty())
     {
-      forAll(pbm, patchI)
+      FOR_ALL(pbm, patchI)
       {
         if (isA<wallPolyPatch>(pbm[patchI]))
         {
@@ -146,7 +147,7 @@ void mousse::wallShearStress::read(const dictionary& dict)
     {
       Info<< "    processing wall patches: " << nl;
       labelHashSet filteredPatchSet;
-      forAllConstIter(labelHashSet, patchSet_, iter)
+      FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
       {
         label patchI = iter.key();
         if (isA<wallPolyPatch>(pbm[patchI]))
@@ -156,7 +157,7 @@ void mousse::wallShearStress::read(const dictionary& dict)
         }
         else
         {
-          WarningIn("void wallShearStress::read(const dictionary&)")
+          WARNING_IN("void wallShearStress::read(const dictionary&)")
             << "Requested wall shear stress on non-wall boundary "
             << "type patch: " << pbm[patchI].name() << endl;
         }
@@ -195,7 +196,7 @@ void mousse::wallShearStress::execute()
     }
     else
     {
-      FatalErrorIn("void mousse::wallShearStress::execute()")
+      FATAL_ERROR_IN("void mousse::wallShearStress::execute()")
         << "Unable to find turbulence model in the "
         << "database" << exit(FatalError);
     }

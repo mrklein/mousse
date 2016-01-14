@@ -71,7 +71,7 @@ protected:
     void operator=(const cloudInfo&);
 public:
   //- Runtime type information
-  TypeName("cloudInfo");
+  TYPE_NAME("cloudInfo");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

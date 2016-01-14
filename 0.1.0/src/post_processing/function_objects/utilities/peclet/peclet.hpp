@@ -44,7 +44,7 @@ class Peclet
     void operator=(const Peclet&);
 public:
   //- Runtime type information
-  TypeName("Peclet");
+  TYPE_NAME("Peclet");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

@@ -14,16 +14,16 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(forces, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(forces, 0);
 }
 // Protected Member Functions 
 mousse::wordList mousse::forces::createFileNames(const dictionary& dict) const
 {
-  DynamicList<word> names(1);
-  const word forceType(dict.lookup("type"));
+  DynamicList<word> names{1};
+  const word forceType{dict.lookup("type")};
   if (dict.found("binData"))
   {
-    const dictionary& binDict(dict.subDict("binData"));
+    const dictionary& binDict = dict.subDict("binData");
     label nb = readLabel(binDict.lookup("nBin"));
     if (nb > 0)
     {
@@ -62,20 +62,20 @@ void mousse::forces::writeFileHeader(const label i)
     writeHeaderValue(file(i), "direction", binDir_);
     vectorField binPoints(nBin_);
     writeCommented(file(i), "x co-ords  :");
-    forAll(binPoints, pointI)
+    FOR_ALL(binPoints, pointI)
     {
       binPoints[pointI] = (binMin_ + (pointI + 1)*binDx_)*binDir_;
       file(i) << tab << binPoints[pointI].x();
     }
     file(i) << nl;
     writeCommented(file(i), "y co-ords  :");
-    forAll(binPoints, pointI)
+    FOR_ALL(binPoints, pointI)
     {
       file(i) << tab << binPoints[pointI].y();
     }
     file(i) << nl;
     writeCommented(file(i), "z co-ords  :");
-    forAll(binPoints, pointI)
+    FOR_ALL(binPoints, pointI)
     {
       file(i) << tab << binPoints[pointI].z();
     }
@@ -101,7 +101,7 @@ void mousse::forces::writeFileHeader(const label i)
   }
   else
   {
-    FatalErrorIn("void mousse::forces::writeFileHeader(const label)")
+    FATAL_ERROR_IN("void mousse::forces::writeFileHeader(const label)")
       << "Unhandled file index: " << i
       << abort(FatalError);
   }
@@ -118,7 +118,7 @@ void mousse::forces::initialise()
     if (!obr_.foundObject<volVectorField>(fDName_))
     {
       active_ = false;
-      WarningIn("void mousse::forces::initialise()")
+      WARNING_IN("void mousse::forces::initialise()")
         << "Could not find " << fDName_ << " in database." << nl
         << "    De-activating forces."
         << endl;
@@ -126,18 +126,13 @@ void mousse::forces::initialise()
   }
   else
   {
-    if
-    (
-      !obr_.foundObject<volVectorField>(UName_)
-    || !obr_.foundObject<volScalarField>(pName_)
-    || (
-        rhoName_ != "rhoInf"
-      && !obr_.foundObject<volScalarField>(rhoName_)
-      )
-    )
+    if (!obr_.foundObject<volVectorField>(UName_)
+        || !obr_.foundObject<volScalarField>(pName_)
+        || (rhoName_ != "rhoInf"
+            && !obr_.foundObject<volScalarField>(rhoName_)))
     {
       active_ = false;
-      WarningIn("void mousse::forces::initialise()")
+      WARNING_IN("void mousse::forces::initialise()")
         << "Could not find " << UName_ << ", " << pName_;
       if (rhoName_ != "rhoInf")
       {
@@ -192,7 +187,7 @@ mousse::tmp<mousse::volSymmTensorField> mousse::forces::devRhoReff() const
   }
   else
   {
-    FatalErrorIn("forces::devRhoReff()")
+    FATAL_ERROR_IN("forces::devRhoReff()")
       << "No valid model for viscous stress calculation"
       << exit(FatalError);
     return volSymmTensorField::null();
@@ -224,7 +219,7 @@ mousse::tmp<mousse::volScalarField> mousse::forces::mu() const
   }
   else
   {
-    FatalErrorIn("forces::mu()")
+    FATAL_ERROR_IN("forces::mu()")
       << "No valid model for dynamic viscosity calculation"
       << exit(FatalError);
     return volScalarField::null();
@@ -265,7 +260,7 @@ mousse::scalar mousse::forces::rho(const volScalarField& p) const
   {
     if (rhoName_ != "rhoInf")
     {
-      FatalErrorIn("forces::rho(const volScalarField& p)")
+      FATAL_ERROR_IN("forces::rho(const volScalarField& p)")
         << "Dynamic pressure is expected but kinematic is provided."
         << exit(FatalError);
     }
@@ -293,7 +288,7 @@ void mousse::forces::applyBins
   else
   {
     scalarField dd((d & binDir_) - binMin_);
-    forAll(dd, i)
+    FOR_ALL(dd, i)
     {
       label bini = min(max(floor(dd[i]/binDx_), 0), force_[0].size() - 1);
       force_[0][bini] += fN[i];
@@ -350,8 +345,8 @@ void mousse::forces::writeBins()
   {
     return;
   }
-  List<Field<vector> > f(force_);
-  List<Field<vector> > m(moment_);
+  List<Field<vector>> f(force_);
+  List<Field<vector>> m(moment_);
   if (binCumulative_)
   {
     for (label i = 1; i < f[0].size(); i++)
@@ -365,7 +360,7 @@ void mousse::forces::writeBins()
     }
   }
   file(1) << obr_.time().value();
-  forAll(f[0], i)
+  FOR_ALL(f[0], i)
   {
     file(1)
       << tab << setw(1) << '('
@@ -378,8 +373,8 @@ void mousse::forces::writeBins()
   }
   if (localSystem_)
   {
-    List<Field<vector> > lf(3);
-    List<Field<vector> > lm(3);
+    List<Field<vector>> lf(3);
+    List<Field<vector>> lm(3);
     lf[0] = coordSys_.localVector(force_[0]);
     lf[1] = coordSys_.localVector(force_[1]);
     lf[2] = coordSys_.localVector(force_[2]);
@@ -398,7 +393,7 @@ void mousse::forces::writeBins()
         lm[2][i] += lm[2][i-1];
       }
     }
-    forAll(lf[0], i)
+    FOR_ALL(lf[0], i)
     {
       file(1)
         << tab << setw(1) << '('
@@ -418,35 +413,35 @@ mousse::forces::forces
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles,
+  const bool /*loadFromFiles*/,
   const bool readFields
 )
 :
-  functionObjectFile(obr, name, createFileNames(dict)),
-  name_(name),
-  obr_(obr),
-  active_(true),
-  log_(true),
-  force_(3),
-  moment_(3),
-  patchSet_(),
-  pName_(word::null),
-  UName_(word::null),
-  rhoName_(word::null),
-  directForceDensity_(false),
-  fDName_(""),
-  rhoRef_(VGREAT),
-  pRef_(0),
-  coordSys_(),
-  localSystem_(false),
-  porosity_(false),
-  nBin_(1),
-  binDir_(vector::zero),
-  binDx_(0.0),
-  binMin_(GREAT),
-  binPoints_(),
-  binCumulative_(true),
-  initialised_(false)
+  functionObjectFile{obr, name, createFileNames(dict)},
+  name_{name},
+  obr_{obr},
+  active_{true},
+  log_{true},
+  force_{3},
+  moment_{3},
+  patchSet_{},
+  pName_{word::null},
+  UName_{word::null},
+  rhoName_{word::null},
+  directForceDensity_{false},
+  fDName_{""},
+  rhoRef_{VGREAT},
+  pRef_{0},
+  coordSys_{},
+  localSystem_{false},
+  porosity_{false},
+  nBin_{1},
+  binDir_{vector::zero},
+  binDx_{0.0},
+  binMin_{GREAT},
+  binPoints_{},
+  binCumulative_{true},
+  initialised_{false}
 {
   // Check if the available mesh is an fvMesh otherise deactivate
   if (isA<fvMesh>(obr_))
@@ -460,7 +455,7 @@ mousse::forces::forces
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "mousse::forces::forces"
       "("
@@ -512,7 +507,7 @@ mousse::forces::forces
   binCumulative_(true),
   initialised_(false)
 {
-  forAll(force_, i)
+  FOR_ALL(force_, i)
   {
     force_[i].setSize(nBin_);
     moment_[i].setSize(nBin_);
@@ -572,7 +567,7 @@ void mousse::forces::read(const dictionary& dict)
       binDict.lookup("nBin") >> nBin_;
       if (nBin_ < 0)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "void mousse::forces::read(const dictionary&)", dict
         )   << "Number of bins (nBin) must be zero or greater"
@@ -581,7 +576,7 @@ void mousse::forces::read(const dictionary& dict)
       else if ((nBin_ == 0) || (nBin_ == 1))
       {
         nBin_ = 1;
-        forAll(force_, i)
+        FOR_ALL(force_, i)
         {
           force_[i].setSize(1);
           moment_[i].setSize(1);
@@ -593,7 +588,7 @@ void mousse::forces::read(const dictionary& dict)
         binDir_ /= mag(binDir_);
         binMin_ = GREAT;
         scalar binMax = -GREAT;
-        forAllConstIter(labelHashSet, patchSet_, iter)
+        FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
         {
           label patchI = iter.key();
           const polyPatch& pp = pbm[patchI];
@@ -609,13 +604,13 @@ void mousse::forces::read(const dictionary& dict)
         binDx_ = (binMax - binMin_)/scalar(nBin_);
         // create the bin points used for writing
         binPoints_.setSize(nBin_);
-        forAll(binPoints_, i)
+        FOR_ALL(binPoints_, i)
         {
           binPoints_[i] = (i + 0.5)*binDir_*binDx_;
         }
         binDict.lookup("cumulative") >> binCumulative_;
         // allocate storage for forces and moments
-        forAll(force_, i)
+        FOR_ALL(force_, i)
         {
           force_[i].setSize(nBin_);
           moment_[i].setSize(nBin_);
@@ -680,7 +675,7 @@ void mousse::forces::calcForcesMoment()
     const fvMesh& mesh = fD.mesh();
     const surfaceVectorField::GeometricBoundaryField& Sfb =
       mesh.Sf().boundaryField();
-    forAllConstIter(labelHashSet, patchSet_, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
     {
       label patchI = iter.key();
       vectorField Md
@@ -715,7 +710,7 @@ void mousse::forces::calcForcesMoment()
       = tdevRhoReff().boundaryField();
     // Scale pRef by density for incompressible simulations
     scalar pRef = pRef_/rho(p);
-    forAllConstIter(labelHashSet, patchSet_, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
     {
       label patchI = iter.key();
       vectorField Md
@@ -741,18 +736,18 @@ void mousse::forces::calcForcesMoment()
       obr_.lookupClass<porosityModel>();
     if (models.empty())
     {
-      WarningIn("void mousse::forces::calcForcesMoment()")
+      WARNING_IN("void mousse::forces::calcForcesMoment()")
         << "Porosity effects requested, but no porosity models found "
         << "in the database"
         << endl;
     }
-    forAllConstIter(HashTable<const porosityModel*>, models, iter)
+    FOR_ALL_CONST_ITER(HashTable<const porosityModel*>, models, iter)
     {
       // non-const access required if mesh is changing
       porosityModel& pm = const_cast<porosityModel&>(*iter());
       vectorField fPTot(pm.force(U, rho, mu));
       const labelList& cellZoneIDs = pm.cellZoneIDs();
-      forAll(cellZoneIDs, i)
+      FOR_ALL(cellZoneIDs, i)
       {
         label zoneI = cellZoneIDs[i];
         const cellZone& cZone = mesh.cellZones()[zoneI];

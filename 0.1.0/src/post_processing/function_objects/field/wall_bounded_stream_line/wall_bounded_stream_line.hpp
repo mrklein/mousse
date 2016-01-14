@@ -156,7 +156,7 @@ class wallBoundedStreamLine
     void operator=(const wallBoundedStreamLine&);
 public:
   //- Runtime type information
-  TypeName("wallBoundedStreamLine");
+  TYPE_NAME("wallBoundedStreamLine");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

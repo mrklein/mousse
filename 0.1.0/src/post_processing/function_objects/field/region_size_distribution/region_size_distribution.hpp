@@ -168,7 +168,7 @@ class regionSizeDistribution
     void operator=(const regionSizeDistribution&);
 public:
   //- Runtime type information
-  TypeName("regionSizeDistribution");
+  TYPE_NAME("regionSizeDistribution");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

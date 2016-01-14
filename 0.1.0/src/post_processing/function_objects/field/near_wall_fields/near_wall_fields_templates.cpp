@@ -11,7 +11,7 @@ void mousse::nearWallFields::createFields
 {
   typedef GeometricField<Type, fvPatchField, volMesh> vfType;
   HashTable<const vfType*> flds(obr_.lookupClass<vfType>());
-  forAllConstIter(typename HashTable<const vfType*>, flds, iter)
+  FOR_ALL_CONST_ITER(typename HashTable<const vfType*>, flds, iter)
   {
     const vfType& fld = *iter();
     if (fieldMap_.found(fld.name()))
@@ -47,10 +47,10 @@ void mousse::nearWallFields::sampleBoundaryField
 {
   // Construct flat fields for all patch faces to be sampled
   Field<Type> sampledValues(getPatchDataMapPtr_().constructSize());
-  forAll(cellToWalls_, cellI)
+  FOR_ALL(cellToWalls_, cellI)
   {
     const labelList& cData = cellToWalls_[cellI];
-    forAll(cData, i)
+    FOR_ALL(cData, i)
     {
       const point& samplePt = cellToSamples_[cellI][i];
       sampledValues[cData[i]] = interpolator.interpolate(samplePt, cellI);
@@ -64,12 +64,12 @@ void mousse::nearWallFields::sampleBoundaryField
   );
   // Pick up data
   label nPatchFaces = 0;
-  forAllConstIter(labelHashSet, patchSet_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
   {
     label patchI = iter.key();
     fvPatchField<Type>& pfld = fld.boundaryField()[patchI];
     Field<Type> newFld(pfld.size());
-    forAll(pfld, i)
+    FOR_ALL(pfld, i)
     {
       newFld[i] = sampledValues[nPatchFaces++];
     }
@@ -83,7 +83,7 @@ void mousse::nearWallFields::sampleFields
 ) const
 {
   typedef GeometricField<Type, fvPatchField, volMesh> vfType;
-  forAll(sflds, i)
+  FOR_ALL(sflds, i)
   {
     const word& fldName = reverseFieldMap_[sflds[i].name()];
     const vfType& fld = obr_.lookupObject<vfType>(fldName);

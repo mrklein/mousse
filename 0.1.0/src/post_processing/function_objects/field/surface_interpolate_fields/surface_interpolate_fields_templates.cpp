@@ -15,12 +15,12 @@ void mousse::surfaceInterpolateFields::interpolateFields
   typedef GeometricField<Type, fvsPatchField, surfaceMesh> sfType;
   // Convert field to map
   HashTable<word> fieldMap(2*fieldSet_.size());
-  forAll(fieldSet_, i)
+  FOR_ALL(fieldSet_, i)
   {
     fieldMap.insert(fieldSet_[i].first(), fieldSet_[i].second());
   }
   HashTable<const vfType*> flds(obr_.lookupClass<vfType>());
-  forAllConstIter(typename HashTable<const vfType*>, flds, iter)
+  FOR_ALL_CONST_ITER(typename HashTable<const vfType*>, flds, iter)
   {
     const vfType& fld = *iter();
     if (fieldMap.found(fld.name()))

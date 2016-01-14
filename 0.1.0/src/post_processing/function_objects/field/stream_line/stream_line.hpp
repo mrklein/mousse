@@ -151,7 +151,7 @@ class streamLine
     void operator=(const streamLine&);
 public:
   //- Runtime type information
-  TypeName("streamLine");
+  TYPE_NAME("streamLine");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

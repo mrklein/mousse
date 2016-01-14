@@ -58,7 +58,7 @@ class calcMag
     void operator=(const calcMag&);
 public:
   //- Runtime type information
-  TypeName("calcMag");
+  TYPE_NAME("calcMag");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

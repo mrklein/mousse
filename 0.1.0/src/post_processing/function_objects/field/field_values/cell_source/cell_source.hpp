@@ -160,7 +160,7 @@ protected:
     virtual void writeFileHeader(const label i);
 public:
   //- Run-time type information
-  TypeName("cellSource");
+  TYPE_NAME("cellSource");
   //- Construct from components
   cellSource
   (

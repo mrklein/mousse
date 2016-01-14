@@ -71,7 +71,7 @@ class scalarTransport
     void operator=(const scalarTransport&);
 public:
   //- Runtime type information
-  TypeName("scalarTransport");
+  TYPE_NAME("scalarTransport");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

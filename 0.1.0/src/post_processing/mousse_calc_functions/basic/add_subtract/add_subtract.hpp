@@ -114,7 +114,7 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("addSubtract");
+  TYPE_NAME("addSubtract");
   // Constructors
     //- Construct null
     addSubtract();

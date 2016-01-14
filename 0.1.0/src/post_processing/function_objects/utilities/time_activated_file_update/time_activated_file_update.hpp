@@ -63,7 +63,7 @@ class timeActivatedFileUpdate
     void operator=(const timeActivatedFileUpdate&);
 public:
   //- Runtime type information
-  TypeName("timeActivatedFileUpdate");
+  TYPE_NAME("timeActivatedFileUpdate");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

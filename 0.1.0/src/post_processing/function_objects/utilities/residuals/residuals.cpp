@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(residuals, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(residuals, 0);
 }
 // Constructors 
 mousse::residuals::residuals
@@ -17,20 +17,20 @@ mousse::residuals::residuals
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  functionObjectFile(obr, name, typeName),
-  name_(name),
-  obr_(obr),
-  active_(true),
-  fieldSet_()
+  functionObjectFile{obr, name, typeName},
+  name_{name},
+  obr_{obr},
+  active_{true},
+  fieldSet_{}
 {
   // Check if the available mesh is an fvMesh otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "residuals::residuals"
       "("
@@ -39,8 +39,9 @@ mousse::residuals::residuals
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_
+    << endl;
   }
   read(dict);
 }
@@ -55,13 +56,13 @@ void mousse::residuals::read(const dictionary& dict)
     dict.lookup("fields") >> fieldSet_;
   }
 }
-void mousse::residuals::writeFileHeader(const label i)
+void mousse::residuals::writeFileHeader(const label /*i*/)
 {
   if (Pstream::master())
   {
     writeHeader(file(), "Residuals");
     writeCommented(file(), "Time");
-    forAll(fieldSet_, fieldI)
+    FOR_ALL(fieldSet_, fieldI)
     {
       writeTabbed(file(), fieldSet_[fieldI]);
     }
@@ -88,7 +89,7 @@ void mousse::residuals::write()
     if (Pstream::master())
     {
       file()<< obr_.time().value();
-      forAll(fieldSet_, fieldI)
+      FOR_ALL(fieldSet_, fieldI)
       {
         const word& fieldName = fieldSet_[fieldI];
         writeResidual<scalar>(fieldName);

@@ -166,7 +166,7 @@ mousse::scalar mousse::wallBoundedParticle::trackToEdge
     // the one to cross. If not we cross into the neighbouring triangle.
     if (mesh_.isInternalFace(tetFace()))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "wallBoundedParticle::trackToEdge"
         "(TrackData&, const vector&)"
@@ -236,7 +236,7 @@ mousse::scalar mousse::wallBoundedParticle::trackToEdge
         {
           //Note: should not happen since boundary face so owner
           //Pout<< "Real edge." << endl;
-          FatalErrorIn("shold not happend") << info()
+          FATAL_ERROR_IN("shold not happend") << info()
             << abort(FatalError);
           diagEdge_ = -1;
           meshEdgeStart_ = f.rcIndex(fp0);
@@ -281,7 +281,7 @@ mousse::scalar mousse::wallBoundedParticle::trackToEdge
         {
           //Note: should not happen since boundary face so owner
           //Pout<< "Real edge." << endl;
-          FatalErrorIn("shold not happend") << info()
+          FATAL_ERROR_IN("shold not happend") << info()
             << abort(FatalError);
           diagEdge_ = -1;
           meshEdgeStart_ = fp0;
@@ -330,10 +330,10 @@ template<class TrackData>
 bool mousse::wallBoundedParticle::hitPatch
 (
   const polyPatch&,
-  TrackData& td,
-  const label patchI,
-  const scalar trackFraction,
-  const tetIndices& tetIs
+  TrackData&,
+  const label /*patchI*/,
+  const scalar /*trackFraction*/,
+  const tetIndices& /*tetIs*/
 )
 {
   // Disable generic patch interaction
@@ -342,7 +342,7 @@ bool mousse::wallBoundedParticle::hitPatch
 template<class TrackData>
 void mousse::wallBoundedParticle::hitWedgePatch
 (
-  const wedgePolyPatch& pp,
+  const wedgePolyPatch&,
   TrackData& td
 )
 {
@@ -352,7 +352,7 @@ void mousse::wallBoundedParticle::hitWedgePatch
 template<class TrackData>
 void mousse::wallBoundedParticle::hitSymmetryPlanePatch
 (
-  const symmetryPlanePolyPatch& pp,
+  const symmetryPlanePolyPatch&,
   TrackData& td
 )
 {
@@ -362,7 +362,7 @@ void mousse::wallBoundedParticle::hitSymmetryPlanePatch
 template<class TrackData>
 void mousse::wallBoundedParticle::hitSymmetryPatch
 (
-  const symmetryPolyPatch& pp,
+  const symmetryPolyPatch&,
   TrackData& td
 )
 {
@@ -372,7 +372,7 @@ void mousse::wallBoundedParticle::hitSymmetryPatch
 template<class TrackData>
 void mousse::wallBoundedParticle::hitCyclicPatch
 (
-  const cyclicPolyPatch& pp,
+  const cyclicPolyPatch&,
   TrackData& td
 )
 {
@@ -382,7 +382,7 @@ void mousse::wallBoundedParticle::hitCyclicPatch
 template<class TrackData>
 void mousse::wallBoundedParticle::hitProcessorPatch
 (
-  const processorPolyPatch& pp,
+  const processorPolyPatch&,
   TrackData& td
 )
 {
@@ -406,15 +406,15 @@ void mousse::wallBoundedParticle::hitProcessorPatch
 template<class TrackData>
 void mousse::wallBoundedParticle::hitWallPatch
 (
-  const wallPolyPatch& wpp,
-  TrackData& td,
+  const wallPolyPatch&,
+  TrackData&,
   const tetIndices&
 )
 {}
 template<class TrackData>
 void mousse::wallBoundedParticle::hitPatch
 (
-  const polyPatch& wpp,
+  const polyPatch&,
   TrackData& td
 )
 {
@@ -439,7 +439,7 @@ void mousse::wallBoundedParticle::readFields(CloudType& c)
   );
   c.checkFieldIOobject(c, diagEdge);
   label i = 0;
-  forAllIter(typename CloudType, c, iter)
+  FOR_ALL_ITER(typename CloudType, c, iter)
   {
     iter().meshEdgeStart_ = meshEdgeStart[i];
     iter().diagEdge_ = diagEdge[i];
@@ -462,7 +462,7 @@ void mousse::wallBoundedParticle::writeFields(const CloudType& c)
     np
   );
   label i = 0;
-  forAllConstIter(typename CloudType, c, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, c, iter)
   {
     meshEdgeStart[i] = iter().meshEdgeStart_;
     diagEdge[i] = iter().diagEdge_;

@@ -55,7 +55,7 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("components");
+  TYPE_NAME("components");
   // Constructors
     //- Construct null
     components();

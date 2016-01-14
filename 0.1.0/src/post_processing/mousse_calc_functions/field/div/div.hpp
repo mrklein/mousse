@@ -55,7 +55,7 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("div");
+  TYPE_NAME("div");
   // Constructors
     //- Construct null
     div();

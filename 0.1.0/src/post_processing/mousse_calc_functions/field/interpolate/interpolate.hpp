@@ -54,7 +54,7 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("interpolate");
+  TYPE_NAME("interpolate");
   // Constructors
     //- Construct null
     interpolate();

@@ -72,7 +72,7 @@ protected:
     void operator=(const writeRegisteredObject&);
 public:
   //- Runtime type information
-  TypeName("writeRegisteredObject");
+  TYPE_NAME("writeRegisteredObject");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

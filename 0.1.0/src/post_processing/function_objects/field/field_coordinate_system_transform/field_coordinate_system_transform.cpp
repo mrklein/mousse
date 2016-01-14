@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(fieldCoordinateSystemTransform, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(fieldCoordinateSystemTransform, 0);
 }
 // Constructors 
 mousse::fieldCoordinateSystemTransform::fieldCoordinateSystemTransform
@@ -15,14 +15,14 @@ mousse::fieldCoordinateSystemTransform::fieldCoordinateSystemTransform
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  fieldSet_(),
-  coordSys_(obr, dict)
+  name_{name},
+  obr_{obr},
+  active_{true},
+  fieldSet_{},
+  coordSys_{obr, dict}
 {
   // Check if the available mesh is an fvMesh otherise deactivate
   if (isA<fvMesh>(obr_))
@@ -35,7 +35,7 @@ mousse::fieldCoordinateSystemTransform::fieldCoordinateSystemTransform
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "fieldCoordinateSystemTransform::fieldCoordinateSystemTransform"
       "("
@@ -44,8 +44,9 @@ mousse::fieldCoordinateSystemTransform::fieldCoordinateSystemTransform
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_
+    << endl;
   }
 }
 // Destructor 
@@ -64,7 +65,7 @@ void mousse::fieldCoordinateSystemTransform::execute()
   if (active_)
   {
     Info<< type() << " " << name_ << " output:" << nl;
-    forAll(fieldSet_, fieldI)
+    FOR_ALL(fieldSet_, fieldI)
     {
       // If necessary load field
       transform<scalar>(fieldSet_[fieldI]);
@@ -91,7 +92,7 @@ void mousse::fieldCoordinateSystemTransform::write()
   if (active_)
   {
     Info<< type() << " " << name_ << " output:" << nl;
-    forAll(fieldSet_, fieldI)
+    FOR_ALL(fieldSet_, fieldI)
     {
       const word fieldName = fieldSet_[fieldI] + ":Transformed";
       const regIOobject& field =

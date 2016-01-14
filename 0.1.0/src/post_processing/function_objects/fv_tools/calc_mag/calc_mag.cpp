@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(calcMag, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(calcMag, 0);
 }
 // Constructors 
 mousse::calcMag::calcMag
@@ -17,20 +17,20 @@ mousse::calcMag::calcMag
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  fieldName_("undefined-fieldName"),
-  resultName_("undefined-resultName")
+  name_{name},
+  obr_{obr},
+  active_{true},
+  fieldName_{"undefined-fieldName"},
+  resultName_{"undefined-resultName"}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "calcMag::calcMag"
       "("
@@ -39,8 +39,9 @@ mousse::calcMag::calcMag
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating." << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating." << nl
+    << endl;
   }
   read(dict);
 }
@@ -72,7 +73,7 @@ void mousse::calcMag::execute()
     calc<tensor>(fieldName_, resultName_, processed);
     if (!processed)
     {
-      WarningIn("void mousse::calcMag::write()")
+      WARNING_IN("void mousse::calcMag::write()")
         << "Unprocessed field " << fieldName_ << endl;
     }
   }
@@ -94,8 +95,7 @@ void mousse::calcMag::write()
   {
     if (obr_.foundObject<regIOobject>(resultName_))
     {
-      const regIOobject& field =
-        obr_.lookupObject<regIOobject>(resultName_);
+      const regIOobject& field = obr_.lookupObject<regIOobject>(resultName_);
       Info<< type() << " " << name_ << " output:" << nl
         << "    writing field " << field.name() << nl << endl;
       field.write();

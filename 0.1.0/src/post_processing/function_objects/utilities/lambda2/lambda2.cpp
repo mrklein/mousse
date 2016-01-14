@@ -10,7 +10,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(Lambda2, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(Lambda2, 0);
 }
 // Constructors 
 mousse::Lambda2::Lambda2
@@ -18,19 +18,19 @@ mousse::Lambda2::Lambda2
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  UName_("U")
+  name_{name},
+  obr_{obr},
+  active_{true},
+  UName_{"U"}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "Lambda2::Lambda2"
       "("
@@ -39,29 +39,30 @@ mousse::Lambda2::Lambda2
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   read(dict);
   if (active_)
   {
     const fvMesh& mesh = refCast<const fvMesh>(obr_);
     volScalarField* Lambda2Ptr
-    (
+    {
       new volScalarField
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           type(),
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedScalar("0", dimless/sqr(dimTime), 0.0)
-      )
-    );
+        {"0", dimless/sqr(dimTime), 0.0}
+      }
+    };
     mesh.objectRegistry::store(Lambda2Ptr);
   }
 }
@@ -83,12 +84,11 @@ void mousse::Lambda2::execute()
     const fvMesh& mesh = refCast<const fvMesh>(obr_);
     const volVectorField& U =
       mesh.lookupObject<volVectorField>(UName_);
-    const volTensorField gradU(fvc::grad(U));
+    const volTensorField gradU{fvc::grad(U)};
     const volTensorField SSplusWW
-    (
-      (symm(gradU) & symm(gradU))
-     + (skew(gradU) & skew(gradU))
-    );
+    {
+      (symm(gradU) & symm(gradU)) + (skew(gradU) & skew(gradU))
+    };
     volScalarField& Lambda2 =
       const_cast<volScalarField&>
       (

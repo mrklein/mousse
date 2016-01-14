@@ -64,7 +64,7 @@ class calcFvcGrad
     void operator=(const calcFvcGrad&);
 public:
   //- Runtime type information
-  TypeName("calcFvcGrad");
+  TYPE_NAME("calcFvcGrad");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

@@ -179,7 +179,7 @@ protected:
     void operator=(const fieldAverage&);
 public:
   //- Runtime type information
-  TypeName("fieldAverage");
+  TYPE_NAME("fieldAverage");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

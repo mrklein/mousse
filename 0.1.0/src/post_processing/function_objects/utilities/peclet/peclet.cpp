@@ -12,7 +12,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(Peclet, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(Peclet, 0);
 }
 // Constructors 
 mousse::Peclet::Peclet
@@ -20,20 +20,20 @@ mousse::Peclet::Peclet
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  phiName_("phi"),
-  rhoName_("rho")
+  name_{name},
+  obr_{obr},
+  active_{true},
+  phiName_{"phi"},
+  rhoName_{"rho"}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "Peclet::Peclet"
       "("
@@ -42,29 +42,30 @@ mousse::Peclet::Peclet
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   read(dict);
   if (active_)
   {
     const fvMesh& mesh = refCast<const fvMesh>(obr_);
     surfaceScalarField* PecletPtr
-    (
+    {
       new surfaceScalarField
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           type(),
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedScalar("0", dimless, 0.0)
-      )
-    );
+        {"0", dimless, 0.0}
+      }
+    };
     mesh.objectRegistry::store(PecletPtr);
   }
 }
@@ -117,25 +118,25 @@ void mousse::Peclet::execute()
         mesh.lookupObject<dictionary>("transportProperties");
       nuEff =
         tmp<volScalarField>
-        (
+        {
           new volScalarField
-          (
-            IOobject
-            (
+          {
+            // IOobject
+            {
               "nuEff",
               mesh.time().timeName(),
               mesh,
               IOobject::NO_READ,
               IOobject::NO_WRITE
-            ),
+            },
             mesh,
-            dimensionedScalar(model.lookup("nu"))
-          )
-        );
+            dimensionedScalar{model.lookup("nu")}
+          }
+        };
     }
     else
     {
-      FatalErrorIn("void mousse::Peclet::write()")
+      FATAL_ERROR_IN("void mousse::Peclet::write()")
         << "Unable to determine the viscosity"
         << exit(FatalError);
     }
@@ -147,12 +148,9 @@ void mousse::Peclet::execute()
         mesh.lookupObject<surfaceScalarField>(type())
       );
     Peclet =
-      mag(phi)
-     /(
-        mesh.magSf()
-       *mesh.surfaceInterpolation::deltaCoeffs()
-       *fvc::interpolate(nuEff)
-      );
+      mag(phi)/(mesh.magSf()
+                *mesh.surfaceInterpolation::deltaCoeffs()
+                *fvc::interpolate(nuEff));
   }
 }
 void mousse::Peclet::end()

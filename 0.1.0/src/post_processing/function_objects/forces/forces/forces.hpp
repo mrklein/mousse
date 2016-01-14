@@ -187,7 +187,7 @@ protected:
     void operator=(const forces&);
 public:
   //- Runtime type information
-  TypeName("forces");
+  TYPE_NAME("forces");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files

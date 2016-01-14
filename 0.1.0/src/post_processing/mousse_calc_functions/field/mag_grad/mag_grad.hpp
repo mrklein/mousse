@@ -55,7 +55,7 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("magGrad");
+  TYPE_NAME("magGrad");
   // Constructors
     //- Construct null
     magGrad();

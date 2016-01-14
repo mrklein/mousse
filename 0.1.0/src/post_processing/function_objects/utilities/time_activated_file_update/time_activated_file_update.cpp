@@ -9,17 +9,14 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(timeActivatedFileUpdate, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(timeActivatedFileUpdate, 0);
 }
 // Private Member Functions 
 void mousse::timeActivatedFileUpdate::updateFile()
 {
   label i = lastIndex_;
-  while
-  (
-    i < timeVsFile_.size()-1
-  && timeVsFile_[i+1].first() < obr_.time().value()
-  )
+  while (i < timeVsFile_.size()-1
+         && timeVsFile_[i+1].first() < obr_.time().value())
   {
     i++;
   }
@@ -37,15 +34,15 @@ mousse::timeActivatedFileUpdate::timeActivatedFileUpdate
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  fileToUpdate_(dict.lookup("fileToUpdate")),
-  timeVsFile_(),
-  lastIndex_(-1)
+  name_{name},
+  obr_{obr},
+  active_{true},
+  fileToUpdate_{dict.lookup("fileToUpdate")},
+  timeVsFile_{},
+  lastIndex_{-1}
 {
   read(dict);
 }
@@ -62,12 +59,12 @@ void mousse::timeActivatedFileUpdate::read(const dictionary& dict)
     lastIndex_ = -1;
     fileToUpdate_.expand();
     Info<< type() << ": time vs file list:" << nl;
-    forAll(timeVsFile_, i)
+    FOR_ALL(timeVsFile_, i)
     {
       timeVsFile_[i].second() = timeVsFile_[i].second().expand();
       if (!isFile(timeVsFile_[i].second()))
       {
-        FatalErrorIn("timeActivatedFileUpdate::read(const dictionary&)")
+        FATAL_ERROR_IN("timeActivatedFileUpdate::read(const dictionary&)")
           << "File: " << timeVsFile_[i].second() << " not found"
           << nl << exit(FatalError);
       }
