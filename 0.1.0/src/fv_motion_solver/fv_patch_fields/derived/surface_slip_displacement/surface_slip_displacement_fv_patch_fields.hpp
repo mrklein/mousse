@@ -8,6 +8,6 @@
 #include "field_types.hpp"
 namespace mousse
 {
-makePatchTypeFieldTypedefs(surfaceSlipDisplacement);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(surfaceSlipDisplacement);
 }  // namespace mousse
 #endif

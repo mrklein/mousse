@@ -20,7 +20,7 @@ class cellMotionFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("cellMotion");
+  TYPE_NAME("cellMotion");
   // Constructors
     //- Construct from patch and internal field
     cellMotionFvPatchField

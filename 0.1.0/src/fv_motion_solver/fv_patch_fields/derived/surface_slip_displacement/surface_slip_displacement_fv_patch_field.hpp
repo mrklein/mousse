@@ -21,7 +21,7 @@ class surfaceSlipDisplacementFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("surfaceSlipDisplacement");
+  TYPE_NAME("surfaceSlipDisplacement");
   // Constructors
     //- Construct from patch and internal field
     surfaceSlipDisplacementFvPatchField

@@ -10,7 +10,7 @@ template<class TrackingData>
 inline bool mousse::pointEdgeStructuredWalk::update
 (
   const pointEdgeStructuredWalk& w2,
-  const scalar tol,
+  const scalar /*tol*/,
   TrackingData& td
 )
 {
@@ -68,7 +68,7 @@ inline const mousse::vector& mousse::pointEdgeStructuredWalk::data() const
   return data_;
 }
 template<class TrackingData>
-inline bool mousse::pointEdgeStructuredWalk::valid(TrackingData& td) const
+inline bool mousse::pointEdgeStructuredWalk::valid(TrackingData&) const
 {
   return previousPoint_ != vector::max;
 }
@@ -78,7 +78,7 @@ inline bool mousse::pointEdgeStructuredWalk::sameGeometry
 (
   const pointEdgeStructuredWalk& w2,
   const scalar tol,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   scalar diff = mousse::mag(dist() - w2.dist());
@@ -101,10 +101,10 @@ inline bool mousse::pointEdgeStructuredWalk::sameGeometry
 template<class TrackingData>
 inline void mousse::pointEdgeStructuredWalk::leaveDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
+  const polyPatch&,
+  const label /*patchPointI*/,
   const point& coord,
-  TrackingData& td
+  TrackingData&
 )
 {
   previousPoint_ -= coord;
@@ -113,7 +113,7 @@ template<class TrackingData>
 inline void mousse::pointEdgeStructuredWalk::transform
 (
   const tensor& rotTensor,
-  TrackingData& td
+  TrackingData&
 )
 {
   previousPoint_ = mousse::transform(rotTensor, previousPoint_);
@@ -123,10 +123,10 @@ inline void mousse::pointEdgeStructuredWalk::transform
 template<class TrackingData>
 inline void mousse::pointEdgeStructuredWalk::enterDomain
 (
-  const polyPatch& patch,
-  const label patchPointI,
+  const polyPatch&,
+  const label /*patchPointI*/,
   const point& coord,
-  TrackingData& td
+  TrackingData&
 )
 {
   // back to absolute form
@@ -136,9 +136,9 @@ inline void mousse::pointEdgeStructuredWalk::enterDomain
 template<class TrackingData>
 inline bool mousse::pointEdgeStructuredWalk::updatePoint
 (
-  const polyMesh& mesh,
-  const label pointI,
-  const label edgeI,
+  const polyMesh&,
+  const label /*pointI*/,
+  const label /*edgeI*/,
   const pointEdgeStructuredWalk& edgeInfo,
   const scalar tol,
   TrackingData& td
@@ -157,8 +157,8 @@ inline bool mousse::pointEdgeStructuredWalk::updatePoint
 template<class TrackingData>
 inline bool mousse::pointEdgeStructuredWalk::updatePoint
 (
-  const polyMesh& mesh,
-  const label pointI,
+  const polyMesh&,
+  const label /*pointI*/,
   const pointEdgeStructuredWalk& newPointInfo,
   const scalar tol,
   TrackingData& td
@@ -188,9 +188,9 @@ inline bool mousse::pointEdgeStructuredWalk::updatePoint
 template<class TrackingData>
 inline bool mousse::pointEdgeStructuredWalk::updateEdge
 (
-  const polyMesh& mesh,
-  const label edgeI,
-  const label pointI,
+  const polyMesh&,
+  const label /*edgeI*/,
+  const label /*pointI*/,
   const pointEdgeStructuredWalk& pointInfo,
   const scalar tol,
   TrackingData& td
@@ -209,7 +209,7 @@ template<class TrackingData>
 inline bool mousse::pointEdgeStructuredWalk::equal
 (
   const pointEdgeStructuredWalk& rhs,
-  TrackingData& td
+  TrackingData&
 ) const
 {
   return operator==(rhs);

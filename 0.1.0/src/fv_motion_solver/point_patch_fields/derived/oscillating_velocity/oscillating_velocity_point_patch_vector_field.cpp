@@ -17,10 +17,10 @@ oscillatingVelocityPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(p, iF),
-  amplitude_(vector::zero),
-  omega_(0.0),
-  p0_(p.localPoints())
+  fixedValuePointPatchField<vector>{p, iF},
+  amplitude_{vector::zero},
+  omega_{0.0},
+  p0_{p.localPoints()}
 {}
 oscillatingVelocityPointPatchVectorField::
 oscillatingVelocityPointPatchVectorField
@@ -30,9 +30,9 @@ oscillatingVelocityPointPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValuePointPatchField<vector>(p, iF, dict),
-  amplitude_(dict.lookup("amplitude")),
-  omega_(readScalar(dict.lookup("omega")))
+  fixedValuePointPatchField<vector>{p, iF, dict},
+  amplitude_{dict.lookup("amplitude")},
+  omega_{readScalar(dict.lookup("omega"))}
 {
   if (!dict.found("value"))
   {
@@ -56,10 +56,10 @@ oscillatingVelocityPointPatchVectorField
   const pointPatchFieldMapper& mapper
 )
 :
-  fixedValuePointPatchField<vector>(ptf, p, iF, mapper),
-  amplitude_(ptf.amplitude_),
-  omega_(ptf.omega_),
-  p0_(ptf.p0_, mapper)
+  fixedValuePointPatchField<vector>{ptf, p, iF, mapper},
+  amplitude_{ptf.amplitude_},
+  omega_{ptf.omega_},
+  p0_{ptf.p0_, mapper}
 {}
 oscillatingVelocityPointPatchVectorField::
 oscillatingVelocityPointPatchVectorField
@@ -68,10 +68,10 @@ oscillatingVelocityPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(ptf, iF),
-  amplitude_(ptf.amplitude_),
-  omega_(ptf.omega_),
-  p0_(ptf.p0_)
+  fixedValuePointPatchField<vector>{ptf, iF},
+  amplitude_{ptf.amplitude_},
+  omega_{ptf.omega_},
+  p0_{ptf.p0_}
 {}
 // Member Functions 
 void oscillatingVelocityPointPatchVectorField::autoMap
@@ -104,22 +104,19 @@ void oscillatingVelocityPointPatchVectorField::updateCoeffs()
   const pointPatch& p = this->patch();
   Field<vector>::operator=
   (
-    (p0_ + amplitude_*sin(omega_*t.value()) - p.localPoints())
-   /t.deltaTValue()
+    (p0_ + amplitude_*sin(omega_*t.value()) - p.localPoints())/t.deltaTValue()
   );
   fixedValuePointPatchField<vector>::updateCoeffs();
 }
 void oscillatingVelocityPointPatchVectorField::write(Ostream& os) const
 {
   pointPatchField<vector>::write(os);
-  os.writeKeyword("amplitude")
-    << amplitude_ << token::END_STATEMENT << nl;
-  os.writeKeyword("omega")
-    << omega_ << token::END_STATEMENT << nl;
+  os.writeKeyword("amplitude") << amplitude_ << token::END_STATEMENT << nl;
+  os.writeKeyword("omega") << omega_ << token::END_STATEMENT << nl;
   p0_.writeEntry("p0", os);
   writeEntry("value", os);
 }
-makePointPatchTypeField
+MAKE_POINT_PATCH_TYPE_FIELD
 (
   pointPatchVectorField,
   oscillatingVelocityPointPatchVectorField

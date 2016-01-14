@@ -16,7 +16,7 @@ mousse::wordList mousse::fvMotionSolverCore::cellMotionBoundaryTypes
   wordList cmUbf = pmUbf.types();
   // Remove global patches from the end of the list
   cmUbf.setSize(fvMesh_.boundary().size());
-  forAll(cmUbf, patchi)
+  FOR_ALL(cmUbf, patchi)
   {
     if (isA<fixedValuePointPatchField<Type> >(pmUbf[patchi]))
     {

@@ -11,8 +11,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(inverseDistanceDiffusivity, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(inverseDistanceDiffusivity, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionDiffusivity,
     inverseDistanceDiffusivity,

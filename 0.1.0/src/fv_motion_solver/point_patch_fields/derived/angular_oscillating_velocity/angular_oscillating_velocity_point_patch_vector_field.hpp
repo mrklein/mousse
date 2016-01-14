@@ -25,7 +25,7 @@ class angularOscillatingVelocityPointPatchVectorField
     pointField p0_;
 public:
   //- Runtime type information
-  TypeName("angularOscillatingVelocity");
+  TYPE_NAME("angularOscillatingVelocity");
   // Constructors
     //- Construct from patch and internal field
     angularOscillatingVelocityPointPatchVectorField

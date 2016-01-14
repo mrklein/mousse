@@ -74,7 +74,7 @@ void mousse::cellMotionFvPatchField<Type>::updateCoeffs()
     this->db().objectRegistry::template
       lookupObject<GeometricField<Type, pointPatchField, pointMesh> >
       (pfName);
-  forAll(p, i)
+  FOR_ALL(p, i)
   {
     this->operator[](i) = pp[i].average(points, pointMotion);
   }

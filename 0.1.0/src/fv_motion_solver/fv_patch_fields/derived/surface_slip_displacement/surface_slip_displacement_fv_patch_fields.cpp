@@ -8,5 +8,5 @@
 namespace mousse
 {
 // Static Data Members
-makePatchFields(surfaceSlipDisplacement);
+MAKE_PATCH_FIELDS(surfaceSlipDisplacement);
 }  // namespace mousse

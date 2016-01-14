@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(motionDiffusivity, 0);
-  defineRunTimeSelectionTable(motionDiffusivity, Istream);
+  DEFINE_TYPE_NAME_AND_DEBUG(motionDiffusivity, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(motionDiffusivity, Istream);
 }
 // Constructors 
 mousse::motionDiffusivity::motionDiffusivity(const fvMesh& mesh)
@@ -27,7 +27,7 @@ mousse::autoPtr<mousse::motionDiffusivity> mousse::motionDiffusivity::New
     IstreamConstructorTablePtr_->find(motionType);
   if (cstrIter == IstreamConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "motionDiffusivity::New(const fvMesh&, "
       "const Istream& dict)"

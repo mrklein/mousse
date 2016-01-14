@@ -19,17 +19,16 @@ class quadraticDiffusivity
 {
   // Private data
     autoPtr<motionDiffusivity> basicDiffusivityPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    quadraticDiffusivity(const quadraticDiffusivity&);
-    //- Disallow default bitwise assignment
-    void operator=(const quadraticDiffusivity&);
 public:
   //- Runtime type information
-  TypeName("quadratic");
+  TYPE_NAME("quadratic");
   // Constructors
     //- Construct for the given fvMesh and data Istream
     quadraticDiffusivity(const fvMesh& mesh, Istream& mdData);
+    //- Disallow default bitwise copy construct
+    quadraticDiffusivity(const quadraticDiffusivity&) = delete;
+    //- Disallow default bitwise assignment
+    quadraticDiffusivity& operator=(const quadraticDiffusivity&) = delete;
   //- Destructor
   virtual ~quadraticDiffusivity();
   // Member Functions

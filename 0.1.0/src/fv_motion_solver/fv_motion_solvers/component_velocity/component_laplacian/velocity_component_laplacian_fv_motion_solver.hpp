@@ -26,17 +26,9 @@ class velocityComponentLaplacianFvMotionSolver
     mutable volScalarField cellMotionU_;
     //- Diffusivity used to control the motion
     autoPtr<motionDiffusivity> diffusivityPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    velocityComponentLaplacianFvMotionSolver
-    (
-      const velocityComponentLaplacianFvMotionSolver&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const velocityComponentLaplacianFvMotionSolver&);
 public:
   //- Runtime type information
-  TypeName("velocityComponentLaplacian");
+  TYPE_NAME("velocityComponentLaplacian");
   // Constructors
     //- Construct from polyMesh and IOdictionary
     velocityComponentLaplacianFvMotionSolver
@@ -44,6 +36,16 @@ public:
       const polyMesh&,
       const IOdictionary&
     );
+    //- Disallow default bitwise copy construct
+    velocityComponentLaplacianFvMotionSolver
+    (
+      const velocityComponentLaplacianFvMotionSolver&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    velocityComponentLaplacianFvMotionSolver& operator=
+    (
+      const velocityComponentLaplacianFvMotionSolver&
+    ) = delete;
   //- Destructor
   ~velocityComponentLaplacianFvMotionSolver();
   // Member Functions

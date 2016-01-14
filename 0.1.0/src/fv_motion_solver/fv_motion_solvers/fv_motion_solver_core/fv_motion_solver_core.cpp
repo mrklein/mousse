@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(fvMotionSolverCore, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(fvMotionSolverCore, 0);
 }
 // Constructors 
 mousse::fvMotionSolverCore::fvMotionSolverCore(const polyMesh& mesh)

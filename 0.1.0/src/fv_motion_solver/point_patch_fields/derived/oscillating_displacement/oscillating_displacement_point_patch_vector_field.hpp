@@ -21,7 +21,7 @@ class oscillatingDisplacementPointPatchVectorField
     scalar omega_;
 public:
   //- Runtime type information
-  TypeName("oscillatingDisplacement");
+  TYPE_NAME("oscillatingDisplacement");
   // Constructors
     //- Construct from patch and internal field
     oscillatingDisplacementPointPatchVectorField

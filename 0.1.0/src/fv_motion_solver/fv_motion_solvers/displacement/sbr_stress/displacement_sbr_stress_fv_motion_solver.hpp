@@ -26,17 +26,9 @@ class displacementSBRStressFvMotionSolver
     mutable volVectorField cellDisplacement_;
     //- Diffusivity used to control the motion
     autoPtr<motionDiffusivity> diffusivityPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    displacementSBRStressFvMotionSolver
-    (
-      const displacementSBRStressFvMotionSolver&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const displacementSBRStressFvMotionSolver&);
 public:
   //- Runtime type information
-  TypeName("displacementSBRStress");
+  TYPE_NAME("displacementSBRStress");
   // Constructors
     //- Construct from polyMesh and IOdictionary
     displacementSBRStressFvMotionSolver
@@ -44,6 +36,16 @@ public:
       const polyMesh&,
       const IOdictionary&
     );
+    //- Disallow default bitwise copy construct
+    displacementSBRStressFvMotionSolver
+    (
+      const displacementSBRStressFvMotionSolver&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    displacementSBRStressFvMotionSolver& operator=
+    (
+      const displacementSBRStressFvMotionSolver&
+    ) = delete;
   //- Destructor
   ~displacementSBRStressFvMotionSolver();
   // Member Functions

@@ -46,7 +46,7 @@ class uniformInterpolatedDisplacementPointPatchVectorField
     scalarField currentWeights_;
 public:
   //- Runtime type information
-  TypeName("uniformInterpolatedDisplacement");
+  TYPE_NAME("uniformInterpolatedDisplacement");
   // Constructors
     //- Construct from patch and internal field
     uniformInterpolatedDisplacementPointPatchVectorField

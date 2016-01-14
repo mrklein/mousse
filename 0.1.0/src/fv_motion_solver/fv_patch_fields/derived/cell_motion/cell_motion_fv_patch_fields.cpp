@@ -8,5 +8,5 @@
 namespace mousse
 {
 // Static Data Members
-makePatchFields(cellMotion);
+MAKE_PATCH_FIELDS(cellMotion);
 }  // namespace mousse

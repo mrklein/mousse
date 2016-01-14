@@ -20,17 +20,16 @@ class exponentialDiffusivity
   // Private data
     scalar alpha_;
     autoPtr<motionDiffusivity> basicDiffusivityPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    exponentialDiffusivity(const exponentialDiffusivity&);
-    //- Disallow default bitwise assignment
-    void operator=(const exponentialDiffusivity&);
 public:
   //- Runtime type information
-  TypeName("exponential");
+  TYPE_NAME("exponential");
   // Constructors
     //- Construct for the given fvMesh and data Istream
     exponentialDiffusivity(const fvMesh& mesh, Istream& mdData);
+    //- Disallow default bitwise copy construct
+    exponentialDiffusivity(const exponentialDiffusivity&) = delete;
+    //- Disallow default bitwise assignment
+    exponentialDiffusivity& operator=(const exponentialDiffusivity&) = delete;
   //- Destructor
   virtual ~exponentialDiffusivity();
   // Member Functions

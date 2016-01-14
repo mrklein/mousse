@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(inverseFaceDistanceDiffusivity, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(inverseFaceDistanceDiffusivity, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionDiffusivity,
     inverseFaceDistanceDiffusivity,
@@ -39,7 +39,7 @@ void mousse::inverseFaceDistanceDiffusivity::correct()
   const polyBoundaryMesh& bdry = mesh().boundaryMesh();
   labelHashSet patchSet(bdry.size());
   label nPatchFaces = 0;
-  forAll(patchNames_, i)
+  FOR_ALL(patchNames_, i)
   {
     const label pID = bdry.findPatchID(patchNames_[i]);
     if (pID > -1)
@@ -51,11 +51,11 @@ void mousse::inverseFaceDistanceDiffusivity::correct()
   List<wallPoint> faceDist(nPatchFaces);
   labelList changedFaces(nPatchFaces);
   nPatchFaces = 0;
-  forAllConstIter(labelHashSet, patchSet, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet, iter)
   {
     const polyPatch& patch = bdry[iter.key()];
     const vectorField::subField fc(patch.faceCentres());
-    forAll(fc, patchFaceI)
+    FOR_ALL(fc, patchFaceI)
     {
       changedFaces[nPatchFaces] = patch.start() + patchFaceI;
       faceDist[nPatchFaces] = wallPoint(fc[patchFaceI], 0);
@@ -78,13 +78,13 @@ void mousse::inverseFaceDistanceDiffusivity::correct()
     scalar dist = faceInfo[faceI].distSqr();
     faceDiffusivity_[faceI] = 1.0/sqrt(dist);
   }
-  forAll(faceDiffusivity_.boundaryField(), patchI)
+  FOR_ALL(faceDiffusivity_.boundaryField(), patchI)
   {
     fvsPatchScalarField& bfld = faceDiffusivity_.boundaryField()[patchI];
     const labelUList& faceCells = bfld.patch().faceCells();
     if (patchSet.found(patchI))
     {
-      forAll(bfld, i)
+      FOR_ALL(bfld, i)
       {
         scalar dist = cellInfo[faceCells[i]].distSqr();
         bfld[i] = 1.0/sqrt(dist);
@@ -93,7 +93,7 @@ void mousse::inverseFaceDistanceDiffusivity::correct()
     else
     {
       const label start = bfld.patch().start();
-      forAll(bfld, i)
+      FOR_ALL(bfld, i)
       {
         scalar dist = faceInfo[start+i].distSqr();
         bfld[i] = 1.0/sqrt(dist);
