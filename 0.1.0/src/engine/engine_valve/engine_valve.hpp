@@ -67,10 +67,6 @@ class engineValve
       //- Valve diameter
       const scalar diameter_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    engineValve(const engineValve&);
-    //- Disallow default bitwise assignment
-    void operator=(const engineValve&);
     //- Adjust crank angle to drop within the limits of the lift profile
     scalar adjustCrankAngle(const scalar theta) const;
 public:
@@ -105,6 +101,10 @@ public:
       const polyMesh& mesh,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    engineValve(const engineValve&) = delete;
+    //- Disallow default bitwise assignment
+    engineValve& operator=(const engineValve&) = delete;
   // Destructor - default
   // Member Functions
     //- Return name

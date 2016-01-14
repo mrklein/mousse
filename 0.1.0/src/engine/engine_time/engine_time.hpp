@@ -42,10 +42,6 @@ class engineTime
     dimensionedScalar stroke_;
     dimensionedScalar clearance_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    engineTime(const engineTime&);
-    //- Disallow default bitwise assignment
-    void operator=(const engineTime&);
     //- Adjust read time values
     void timeAdjustment();
 public:
@@ -60,6 +56,10 @@ public:
       const fileName& constantName = "constant",
       const fileName& dictName = "engineGeometry"
     );
+    //- Disallow default bitwise copy construct
+    engineTime(const engineTime&) = delete;
+    //- Disallow default bitwise assignment
+    engineTime& operator=(const engineTime&) = delete;
   //- Destructor
   virtual ~engineTime()
   {}

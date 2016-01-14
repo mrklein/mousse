@@ -24,7 +24,7 @@ void mousse::ignitionSite::findIgnitionCells(const fvMesh& mesh)
   cellVolumes_[0] = vols[ignCell];
   scalar minDist = GREAT;
   label nIgnCells = 1;
-  forAll(centres, celli)
+  FOR_ALL(centres, celli)
   {
     scalar dist = mag(centres[celli] - location_);
     if (dist < minDist)

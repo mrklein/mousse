@@ -19,11 +19,6 @@ class engineMesh
 :
   public fvMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    engineMesh(const engineMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const engineMesh&);
 protected:
   // Protected data
     const engineTime& engineDB_;
@@ -34,9 +29,9 @@ protected:
     dimensionedScalar pistonPosition_;
 public:
   //- Runtime type information
-  TypeName("engineMesh");
+  TYPE_NAME("engineMesh");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       engineMesh,
@@ -47,6 +42,10 @@ public:
   // Constructors
     //- Construct from objectRegistry, and read/write options
     explicit engineMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    engineMesh(const engineMesh&) = delete;
+    //- Disallow default bitwise assignment
+    engineMesh& operator=(const engineMesh&) = delete;
   // Selectors
     //- Select null constructed
     static autoPtr<engineMesh> New(const IOobject& io);

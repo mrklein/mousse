@@ -16,17 +16,16 @@ class staticEngineMesh
 :
   public engineMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    staticEngineMesh(const staticEngineMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const staticEngineMesh&);
 public:
   //- Runtime type information
-  TypeName("static");
+  TYPE_NAME("static");
   // Constructors
     //- Construct from IOobject
     staticEngineMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    staticEngineMesh(const staticEngineMesh&) = delete;
+    //- Disallow default bitwise assignment
+    staticEngineMesh& operator=(const staticEngineMesh&) = delete;
   //- Destructor
   ~staticEngineMesh();
   // Member Functions

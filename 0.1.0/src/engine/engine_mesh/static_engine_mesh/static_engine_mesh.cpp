@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(staticEngineMesh, 0);
-  addToRunTimeSelectionTable(engineMesh, staticEngineMesh, IOobject);
+  DEFINE_TYPE_NAME_AND_DEBUG(staticEngineMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(engineMesh, staticEngineMesh, IOobject);
 }
 // Constructors 
 mousse::staticEngineMesh::staticEngineMesh(const IOobject& io)

@@ -32,7 +32,7 @@ mousse::autoPtr<mousse::engineMesh> mousse::engineMesh::New
     IOobjectConstructorTablePtr_->find(modelType);
   if (cstrIter == IOobjectConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "engineMesh::New(const IOobject&)"
     )   << "Unknown engineMesh type "
