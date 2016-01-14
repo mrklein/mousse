@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace ParticleStressModels
 {
-  defineTypeNameAndDebug(exponential, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(exponential, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     ParticleStressModel,
     exponential,
@@ -57,8 +57,8 @@ mousse::tmp<mousse::Field<mousse::scalar> >
 mousse::ParticleStressModels::exponential::dTaudTheta
 (
   const Field<scalar>& alpha,
-  const Field<scalar>& rho,
-  const Field<scalar>& uSqr
+  const Field<scalar>& /*rho*/,
+  const Field<scalar>& /*uSqr*/
 ) const
 {
   return

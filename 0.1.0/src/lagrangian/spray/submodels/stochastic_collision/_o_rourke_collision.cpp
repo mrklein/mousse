@@ -12,10 +12,10 @@ template<class CloudType>
 void mousse::ORourkeCollision<CloudType>::collide(const scalar dt)
 {
   label i = 0;
-  forAllIter(typename CloudType, this->owner(), iter1)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter1)
   {
     label j = 0;
-    forAllIter(typename CloudType, this->owner(), iter2)
+    FOR_ALL_ITER(typename CloudType, this->owner(), iter2)
     {
       if (j > i)
       {
@@ -51,7 +51,7 @@ void mousse::ORourkeCollision<CloudType>::collide(const scalar dt)
     i++;
   }
   // remove coalesced parcels that fall below minimum mass threshold
-  forAllIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter)
   {
     parcelType& p = iter();
     scalar mass = p.nParticle()*p.mass();
@@ -106,7 +106,7 @@ bool mousse::ORourkeCollision<CloudType>::collideParcels
 template<class CloudType>
 bool mousse::ORourkeCollision<CloudType>::collideSorted
 (
-  const scalar dt,
+  const scalar /*dt*/,
   parcelType& p1,
   parcelType& p2,
   scalar& m1,

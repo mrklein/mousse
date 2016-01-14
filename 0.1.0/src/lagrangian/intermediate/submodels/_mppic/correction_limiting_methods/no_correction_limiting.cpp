@@ -8,8 +8,8 @@ namespace mousse
 {
 namespace CorrectionLimitingMethods
 {
-  defineTypeNameAndDebug(noCorrectionLimiting, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(noCorrectionLimiting, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     CorrectionLimitingMethod,
     noCorrectionLimiting,
@@ -39,9 +39,9 @@ mousse::CorrectionLimitingMethods::noCorrectionLimiting::~noCorrectionLimiting()
 mousse::vector
 mousse::CorrectionLimitingMethods::noCorrectionLimiting::limitedVelocity
 (
-  const vector uP,
+  const vector /*uP*/,
   const vector dU,
-  const vector uMean
+  const vector /*uMean*/
 ) const
 {
   return dU;

@@ -65,7 +65,7 @@ mousse::DSMCCloud<ParcelType>::constProps
 {
   if (typeId < 0 || typeId >= constProps_.size())
   {
-    FatalErrorIn("mousse::DSMCCloud<ParcelType>::constProps(label typeId)")
+    FATAL_ERROR_IN("mousse::DSMCCloud<ParcelType>::constProps(label typeId)")
       << "constantProperties for requested typeId index "
       << typeId << " do not exist" << nl
       << abort(FatalError);
@@ -177,7 +177,7 @@ template<class ParcelType>
 inline mousse::scalar mousse::DSMCCloud<ParcelType>::massInSystem() const
 {
   scalar sysMass = 0.0;
-  forAllConstIter(typename DSMCCloud<ParcelType>, *this, iter)
+  FOR_ALL_CONST_ITER(typename DSMCCloud<ParcelType>, *this, iter)
   {
     const ParcelType& p = iter();
     const typename ParcelType::constantProperties& cP = constProps
@@ -192,7 +192,7 @@ template<class ParcelType>
 inline mousse::vector mousse::DSMCCloud<ParcelType>::linearMomentumOfSystem() const
 {
   vector linearMomentum(vector::zero);
-  forAllConstIter(typename DSMCCloud<ParcelType>, *this, iter)
+  FOR_ALL_CONST_ITER(typename DSMCCloud<ParcelType>, *this, iter)
   {
     const ParcelType& p = iter();
     const typename ParcelType::constantProperties& cP = constProps
@@ -208,7 +208,7 @@ inline mousse::scalar
 mousse::DSMCCloud<ParcelType>::linearKineticEnergyOfSystem() const
 {
   scalar linearKineticEnergy = 0.0;
-  forAllConstIter(typename DSMCCloud<ParcelType>, *this, iter)
+  FOR_ALL_CONST_ITER(typename DSMCCloud<ParcelType>, *this, iter)
   {
     const ParcelType& p = iter();
     const typename ParcelType::constantProperties& cP = constProps
@@ -224,7 +224,7 @@ inline mousse::scalar
 mousse::DSMCCloud<ParcelType>::internalEnergyOfSystem() const
 {
   scalar internalEnergy = 0.0;
-  forAllConstIter(typename DSMCCloud<ParcelType>, *this, iter)
+  FOR_ALL_CONST_ITER(typename DSMCCloud<ParcelType>, *this, iter)
   {
     const ParcelType& p = iter();
     internalEnergy += p.Ei();

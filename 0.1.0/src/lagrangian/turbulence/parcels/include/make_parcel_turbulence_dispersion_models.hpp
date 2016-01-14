@@ -8,16 +8,16 @@
 #include "_gradient_dispersion_ras.hpp"
 #include "_stochastic_dispersion_ras.hpp"
 
-#define makeParcelTurbulenceDispersionModels(CloudType)                       \
+#define MAKE_PARCEL_TURBULENCE_DISPERSION_MODELS(CloudType)                   \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::DispersionRASModel<kinematicCloudType>,                           \
     0                                                                         \
   );                                                                          \
                                                                               \
-  makeDispersionModelType(GradientDispersionRAS, CloudType);                  \
-  makeDispersionModelType(StochasticDispersionRAS, CloudType);                \
+  MAKE_DISPERSION_MODEL_TYPE(GradientDispersionRAS, CloudType);               \
+  MAKE_DISPERSION_MODEL_TYPE(StochasticDispersionRAS, CloudType);             \
 
 #endif

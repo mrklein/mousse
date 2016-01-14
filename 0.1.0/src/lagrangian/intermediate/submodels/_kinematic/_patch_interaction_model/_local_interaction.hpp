@@ -37,7 +37,7 @@ class LocalInteraction
     autoPtr<volScalarField> massStickPtr_;
 public:
   //- Runtime type information
-  TypeName("localInteraction");
+  TYPE_NAME("localInteraction");
   // Constructors
     //- Construct from dictionary
     LocalInteraction(const dictionary& dict, CloudType& owner);

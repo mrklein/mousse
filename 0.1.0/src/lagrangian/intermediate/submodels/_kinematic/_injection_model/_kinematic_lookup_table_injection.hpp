@@ -50,7 +50,7 @@ class KinematicLookupTableInjection
     labelList injectorTetPts_;
 public:
   //- Runtime type information
-  TypeName("kinematicLookupTableInjection");
+  TYPE_NAME("kinematicLookupTableInjection");
   // Constructors
     //- Construct from dictionary
     KinematicLookupTableInjection

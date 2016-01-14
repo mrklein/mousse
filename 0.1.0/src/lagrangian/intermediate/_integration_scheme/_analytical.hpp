@@ -17,7 +17,7 @@ class Analytical
 {
 public:
   //- Runtime type information
-  TypeName("analytical");
+  TYPE_NAME("analytical");
   // Constructors
     //- Construct from components
     Analytical(const word& phiName, const dictionary& dict);

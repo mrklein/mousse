@@ -28,7 +28,7 @@ class exponential
     scalar g0_;
 public:
   //- Runtime type information
-  TypeName("exponential");
+  TYPE_NAME("exponential");
   //- Constructors
     //- Construct from components
     exponential(const dictionary& dict);

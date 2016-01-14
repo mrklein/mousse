@@ -20,7 +20,7 @@ mousse::AveragingMethod<Type>::AveragingMethod
   dict_(dict),
   mesh_(mesh)
 {
-  forAll(size, i)
+  FOR_ALL(size, i)
   {
     FieldField<Field, Type>::append
     (
@@ -56,7 +56,7 @@ mousse::AveragingMethod<Type>::New
     dictionaryConstructorTablePtr_->find(averageType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::AveragingMethod<Type>::New"
       "("
@@ -154,11 +154,11 @@ bool mousse::AveragingMethod<Type>::write() const
     dimensioned<TypeGrad>("zero", dimless, pTraits<TypeGrad>::zero)
   );
   // tet-volume weighted sums
-  forAll(mesh_.C(), cellI)
+  FOR_ALL(mesh_.C(), cellI)
   {
     const List<tetIndices> cellTets =
       polyMeshTetDecomposition::cellTetIndices(mesh_, cellI);
-    forAll(cellTets, tetI)
+    FOR_ALL(cellTets, tetI)
     {
       const tetIndices& tetIs = cellTets[tetI];
       const scalar v = tetIs.tet(mesh_).mag();
@@ -169,7 +169,7 @@ bool mousse::AveragingMethod<Type>::write() const
       vertices[0] = f[tetIs.faceBasePt()];
       vertices[1] = f[tetIs.facePtA()];
       vertices[2] = f[tetIs.facePtB()];
-      forAll(vertices, vertexI)
+      FOR_ALL(vertices, vertexI)
       {
         const label pointI = vertices[vertexI];
         pointVolume[pointI] += v;

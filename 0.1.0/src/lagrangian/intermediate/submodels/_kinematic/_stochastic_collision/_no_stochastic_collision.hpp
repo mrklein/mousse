@@ -21,19 +21,19 @@ protected:
     virtual void collide(const scalar dt);
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from dictionary
     NoStochasticCollision(const dictionary& dict, CloudType& owner);
     //- Construct copy
     NoStochasticCollision(const NoStochasticCollision<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<StochasticCollisionModel<CloudType> > clone() const
+    virtual autoPtr<StochasticCollisionModel<CloudType>> clone() const
     {
-      return autoPtr<StochasticCollisionModel<CloudType> >
-      (
-        new NoStochasticCollision<CloudType>(*this)
-      );
+      return autoPtr<StochasticCollisionModel<CloudType>>
+      {
+        new NoStochasticCollision<CloudType>{*this}
+      };
     }
   //- Destructor
   virtual ~NoStochasticCollision();

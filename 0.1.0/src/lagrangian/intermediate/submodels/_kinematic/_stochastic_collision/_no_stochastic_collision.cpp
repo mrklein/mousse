@@ -13,7 +13,7 @@ void mousse::NoStochasticCollision<CloudType>::collide(const scalar)
 template<class CloudType>
 mousse::NoStochasticCollision<CloudType>::NoStochasticCollision
 (
-  const dictionary& dict,
+  const dictionary& /*dict*/,
   CloudType& owner
 )
 :

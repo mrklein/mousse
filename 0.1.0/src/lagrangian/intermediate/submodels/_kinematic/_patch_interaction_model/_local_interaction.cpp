@@ -35,7 +35,7 @@ mousse::LocalInteraction<CloudType>::LocalInteraction
     Info<< "    Interaction fields will not be written" << endl;
   }
   // check that interactions are valid/specified
-  forAll(patchData_, patchI)
+  FOR_ALL(patchData_, patchI)
   {
     const word& interactionTypeName =
       patchData_[patchI].interactionTypeName();
@@ -44,7 +44,7 @@ mousse::LocalInteraction<CloudType>::LocalInteraction
     if (it == PatchInteractionModel<CloudType>::itOther)
     {
       const word& patchName = patchData_[patchI].patchName();
-      FatalErrorIn("LocalInteraction(const dictionary&, CloudType&)")
+      FATAL_ERROR_IN("LocalInteraction(const dictionary&, CloudType&)")
         << "Unknown patch interaction type "
         << interactionTypeName << " for patch " << patchName
         << ". Valid selections are:"
@@ -200,7 +200,7 @@ bool mousse::LocalInteraction<CloudType>::correct
       }
       default:
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "bool LocalInteraction<CloudType>::correct"
           "("
@@ -247,7 +247,7 @@ void mousse::LocalInteraction<CloudType>::info(Ostream& os)
   scalarList mps(massStick_);
   Pstream::listCombineGather(mps, plusEqOp<scalar>());
   mps = mps + mps0;
-  forAll(patchData_, i)
+  FOR_ALL(patchData_, i)
   {
     os  << "    Parcel fate (number, mass)      : patch "
       <<  patchData_[i].patchName() << nl

@@ -45,9 +45,9 @@ protected:
     scalar Sh() const;
 public:
   //- Runtime type information
-  TypeName("phaseChangeModel");
+  TYPE_NAME("phaseChangeModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     PhaseChangeModel,
@@ -71,11 +71,11 @@ public:
     //- Construct copy
     PhaseChangeModel(const PhaseChangeModel<CloudType>& pcm);
     //- Construct and return a clone
-    virtual autoPtr<PhaseChangeModel<CloudType> > clone() const = 0;
+    virtual autoPtr<PhaseChangeModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~PhaseChangeModel();
   //- Selector
-  static autoPtr<PhaseChangeModel<CloudType> > New
+  static autoPtr<PhaseChangeModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -120,33 +120,33 @@ public:
 };
 }  // namespace mousse
 
-#define makePhaseChangeModel(CloudType)                                       \
+#define MAKE_PHASE_CHANGE_MODEL(CloudType)                                    \
                                                                               \
   typedef mousse::CloudType::reactingCloudType reactingCloudType;             \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::PhaseChangeModel<reactingCloudType>,                              \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       PhaseChangeModel<reactingCloudType>,                                    \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makePhaseChangeModelType(SS, CloudType)                               \
+#define MAKE_PHASE_CHANGE_MODEL_TYPE(SS, CloudType)                           \
                                                                               \
   typedef mousse::CloudType::reactingCloudType reactingCloudType;             \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<reactingCloudType>, 0);      \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<reactingCloudType>, 0);\
                                                                               \
   mousse::PhaseChangeModel<reactingCloudType>::                               \
-    adddictionaryConstructorToTable<mousse::SS<reactingCloudType> >           \
+    adddictionaryConstructorToTable<mousse::SS<reactingCloudType>>            \
       add##SS##CloudType##reactingCloudType##ConstructorToTable_;
 
 #ifdef NoRepository
-#   include "_phase_change_model.cpp"
+#include "_phase_change_model.cpp"
 #endif
 #endif

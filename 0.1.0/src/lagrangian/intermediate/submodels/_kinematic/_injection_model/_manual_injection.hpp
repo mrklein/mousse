@@ -46,7 +46,7 @@ class ManualInjection
     Switch ignoreOutOfBounds_;
 public:
   //- Runtime type information
-  TypeName("manualInjection");
+  TYPE_NAME("manualInjection");
   // Constructors
     //- Construct from dictionary
     ManualInjection

@@ -56,7 +56,7 @@ class ReactingMultiphaseLookupTableInjection
     labelList injectorTetPts_;
 public:
   //- Runtime type information
-  TypeName("reactingMultiphaseLookupTableInjection");
+  TYPE_NAME("reactingMultiphaseLookupTableInjection");
   // Constructors
     //- Construct from dictionary
     ReactingMultiphaseLookupTableInjection

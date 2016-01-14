@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(thermoParcelInjectionData, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(thermoParcelInjectionData, 0);
 }
 // Constructors 
 mousse::thermoParcelInjectionData::thermoParcelInjectionData()

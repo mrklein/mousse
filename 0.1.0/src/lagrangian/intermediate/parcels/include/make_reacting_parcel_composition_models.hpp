@@ -8,9 +8,9 @@
 #include "_no_composition.hpp"
 #include "_single_phase_mixture.hpp"
 
-#define makeReactingParcelCompositionModels(CloudType)                        \
+#define MAKE_REACTING_PARCEL_COMPOSITION_MODELS(CloudType)                    \
                                                                               \
-  makeCompositionModel(CloudType);                                            \
-  makeCompositionModelType(NoComposition, CloudType);                         \
-  makeCompositionModelType(SinglePhaseMixture, CloudType);
+  MAKE_COMPOSITION_MODEL(CloudType);                                          \
+  MAKE_COMPOSITION_MODEL_TYPE(NoComposition, CloudType);                      \
+  MAKE_COMPOSITION_MODEL_TYPE(SinglePhaseMixture, CloudType);
 #endif

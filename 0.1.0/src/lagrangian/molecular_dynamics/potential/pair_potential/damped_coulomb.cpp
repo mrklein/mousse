@@ -10,8 +10,8 @@ namespace mousse
 namespace pairPotentials
 {
 // Static Data Members
-defineTypeNameAndDebug(dampedCoulomb, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(dampedCoulomb, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   pairPotential,
   dampedCoulomb,

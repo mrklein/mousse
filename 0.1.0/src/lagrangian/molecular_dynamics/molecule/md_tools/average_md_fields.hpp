@@ -1,7 +1,7 @@
 if (runTime.outputTime())
 {
     scalarField totalRhoN_sum(mesh.nCells(), 0.0);
-  forAll(allSpeciesRhoN, rN)
+  FOR_ALL(allSpeciesRhoN, rN)
   {
     allSpeciesRhoN[rN].internalField() =
       allSpeciesN_RU[rN]
@@ -11,7 +11,7 @@ if (runTime.outputTime())
   }
   totalRhoN.internalField() = totalRhoN_sum;
     scalarField totalRhoM_sum(mesh.nCells(), 0.0);
-  forAll(allSpeciesRhoM, rM)
+  FOR_ALL(allSpeciesRhoM, rM)
   {
     allSpeciesRhoM[rM].internalField() =
       allSpeciesM_RU[rM]
@@ -22,14 +22,14 @@ if (runTime.outputTime())
   totalRhoM.internalField() = totalRhoM_sum;
     vectorField totalMomentum_sum(mesh.nCells(), vector::zero);
   scalarField totalMass_sum(mesh.nCells(), 0.0);
-  forAll(allSpeciesVelocity, v)
+  FOR_ALL(allSpeciesVelocity, v)
   {
     // A check for 1/0 molecules is required.
     vectorField& singleSpeciesVelocity
     (
       allSpeciesVelocity[v].internalField()
     );
-    forAll(singleSpeciesVelocity, sSV)
+    FOR_ALL(singleSpeciesVelocity, sSV)
     {
       if (allSpeciesN_RU[v][sSV])
       {
@@ -50,7 +50,7 @@ if (runTime.outputTime())
   }
   volVectorField::InternalField& itotalVelocity =
     totalVelocity.internalField();
-  forAll(itotalVelocity, tV)
+  FOR_ALL(itotalVelocity, tV)
   {
     if (totalMass_sum[tV] > VSMALL)
     {
@@ -63,14 +63,14 @@ if (runTime.outputTime())
   }
     scalarField totalTemperatureVTerms_sum(mesh.nCells(), 0.0);
   scalarField totalN_sum(mesh.nCells(), 0.0);
-  forAll(allSpeciesTemperature, t)
+  FOR_ALL(allSpeciesTemperature, t)
   {
     // A check for 1/0 molecules is required.
     scalarField& singleSpeciesTemp
     (
       allSpeciesTemperature[t].internalField()
     );
-    forAll(singleSpeciesTemp, sST)
+    FOR_ALL(singleSpeciesTemp, sST)
     {
       if (allSpeciesN_RU[t][sST])
       {
@@ -111,7 +111,7 @@ if (runTime.outputTime())
   }
   volScalarField::InternalField& itotalTemperature =
     totalTemperature.internalField();
-  forAll(itotalTemperature, tT)
+  FOR_ALL(itotalTemperature, tT)
   {
     if (totalN_sum[tT] > 0)
     {
@@ -125,14 +125,14 @@ if (runTime.outputTime())
     }
   }
     scalarField totalKE_sum(mesh.nCells(), 0.0);
-  forAll(allSpeciesMeanKE, mKE)
+  FOR_ALL(allSpeciesMeanKE, mKE)
   {
     // A check for 1/0 molecules is required.
     scalarField& singleSpeciesMeanKE
     (
       allSpeciesMeanKE[mKE].internalField()
     );
-    forAll(singleSpeciesMeanKE, sSMKE)
+    FOR_ALL(singleSpeciesMeanKE, sSMKE)
     {
       if (allSpeciesN_RU[mKE][sSMKE])
       {
@@ -158,7 +158,7 @@ if (runTime.outputTime())
     }
   }
   volScalarField::InternalField& itotalMeanKE = totalMeanKE.internalField();
-  forAll(itotalMeanKE, tMKE)
+  FOR_ALL(itotalMeanKE, tMKE)
   {
     if (totalN_sum[tMKE] > 0)
     {

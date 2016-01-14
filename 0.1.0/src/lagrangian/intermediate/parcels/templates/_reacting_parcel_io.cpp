@@ -78,7 +78,7 @@ void mousse::ReactingParcel<ParcelType>::readFields
   IOField<scalar> mass0(c.fieldIOobject("mass0", IOobject::MUST_READ));
   c.checkFieldIOobject(c, mass0);
   label i = 0;
-  forAllIter(typename Cloud<ReactingParcel<ParcelType> >, c, iter)
+  FOR_ALL_ITER(typename Cloud<ReactingParcel<ParcelType> >, c, iter)
   {
     ReactingParcel<ParcelType>& p = iter();
     p.mass0_ = mass0[i++];
@@ -92,13 +92,13 @@ void mousse::ReactingParcel<ParcelType>::readFields
     stateLabels = compModel.stateLabels()[0];
   }
   // Set storage for each Y... for each parcel
-  forAllIter(typename Cloud<ReactingParcel<ParcelType> >, c, iter)
+  FOR_ALL_ITER(typename Cloud<ReactingParcel<ParcelType> >, c, iter)
   {
     ReactingParcel<ParcelType>& p = iter();
     p.Y_.setSize(nPhases, 0.0);
   }
   // Populate Y for each parcel
-  forAll(phaseTypes, j)
+  FOR_ALL(phaseTypes, j)
   {
     IOField<scalar> Y
     (
@@ -109,7 +109,7 @@ void mousse::ReactingParcel<ParcelType>::readFields
       )
     );
     label i = 0;
-    forAllIter(typename Cloud<ReactingParcel<ParcelType> >, c, iter)
+    FOR_ALL_ITER(typename Cloud<ReactingParcel<ParcelType> >, c, iter)
     {
       ReactingParcel<ParcelType>& p = iter();
       p.Y_[j] = Y[i++];
@@ -136,7 +136,7 @@ void mousse::ReactingParcel<ParcelType>::writeFields
   {
     IOField<scalar> mass0(c.fieldIOobject("mass0", IOobject::NO_READ), np);
     label i = 0;
-    forAllConstIter(typename Cloud<ReactingParcel<ParcelType> >, c, iter)
+    FOR_ALL_CONST_ITER(typename Cloud<ReactingParcel<ParcelType> >, c, iter)
     {
       const ReactingParcel<ParcelType>& p = iter();
       mass0[i++] = p.mass0_;
@@ -149,7 +149,7 @@ void mousse::ReactingParcel<ParcelType>::writeFields
     {
       stateLabels = compModel.stateLabels()[0];
     }
-    forAll(phaseTypes, j)
+    FOR_ALL(phaseTypes, j)
     {
       IOField<scalar> Y
       (
@@ -161,7 +161,7 @@ void mousse::ReactingParcel<ParcelType>::writeFields
         np
       );
       label i = 0;
-      forAllConstIter
+      FOR_ALL_CONST_ITER
       (
         typename Cloud<ReactingParcel<ParcelType> >,
         c,

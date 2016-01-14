@@ -6,6 +6,6 @@
 #include "_cloud.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(basicKinematicCollidingParcel, 0);
-  defineTemplateTypeNameAndDebug(Cloud<basicKinematicCollidingParcel>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(basicKinematicCollidingParcel, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<basicKinematicCollidingParcel>, 0);
 }

@@ -71,9 +71,9 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("surfaceFilmModel");
+  TYPE_NAME("surfaceFilmModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     SurfaceFilmModel,
@@ -97,11 +97,11 @@ public:
     //- Construct copy
     SurfaceFilmModel(const SurfaceFilmModel<CloudType>& sfm);
     //- Construct and return a clone
-    virtual autoPtr<SurfaceFilmModel<CloudType> > clone() const = 0;
+    virtual autoPtr<SurfaceFilmModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~SurfaceFilmModel();
   //- Selector
-  static autoPtr<SurfaceFilmModel<CloudType> > New
+  static autoPtr<SurfaceFilmModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -140,35 +140,60 @@ public:
 };
 }  // namespace mousse
 
-#define makeSurfaceFilmModel(CloudType)                                       \
+#define MAKE_SURFACE_FILM_MODEL(CloudType)                                    \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::SurfaceFilmModel<kinematicCloudType>,                             \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       SurfaceFilmModel<kinematicCloudType>,                                   \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeSurfaceFilmModelType(SS, CloudType)                               \
+#define MAKE_SURFACE_FILM_MODEL_TYPE(SS, CloudType)                           \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<kinematicCloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::SurfaceFilmModel<kinematicCloudType>::                              \
-    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \
+    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>          \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
-#include "_surface_film_model_i.hpp"
+// Member Functions 
+template<class CloudType>
+const mousse::dimensionedVector& mousse::SurfaceFilmModel<CloudType>::g() const
+{
+  return g_;
+}
+template<class CloudType>
+mousse::label& mousse::SurfaceFilmModel<CloudType>::nParcelsTransferred()
+{
+  return nParcelsTransferred_;
+}
+template<class CloudType>
+mousse::label mousse::SurfaceFilmModel<CloudType>::nParcelsTransferred() const
+{
+  return nParcelsTransferred_;
+}
+template<class CloudType>
+mousse::label& mousse::SurfaceFilmModel<CloudType>::nParcelsInjected()
+{
+  return nParcelsInjected_;
+}
+template<class CloudType>
+mousse::label mousse::SurfaceFilmModel<CloudType>::nParcelsInjected() const
+{
+  return nParcelsInjected_;
+}
 
 #ifdef NoRepository
-#   include "_surface_film_model.cpp"
+#include "_surface_film_model.cpp"
 #endif
 #endif

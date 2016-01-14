@@ -20,7 +20,7 @@ class VariableHardSphere
     const scalar Tref_;
 public:
   //- Runtime type information
-  TypeName("VariableHardSphere");
+  TYPE_NAME("VariableHardSphere");
   // Constructors
     //- Construct from dictionary
     VariableHardSphere

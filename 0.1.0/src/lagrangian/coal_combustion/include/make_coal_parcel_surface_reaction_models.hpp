@@ -10,15 +10,15 @@
 #include "c_oxidation_kinetic_diffusion_limited_rate.hpp"
 #include "c_oxidation_hurt_mitchell.hpp"
 #include "c_oxidation_murphy_shaddix.hpp"
-#define makeCoalParcelSurfaceReactionModels(CloudType)                        \
-                                       \
-  makeSurfaceReactionModelType(COxidationDiffusionLimitedRate, CloudType);  \
-  makeSurfaceReactionModelType                                              \
-  (                                                                         \
-    COxidationKineticDiffusionLimitedRate,                                \
-    CloudType                                                             \
-  );                                                                        \
-  makeSurfaceReactionModelType(COxidationIntrinsicRate, CloudType);         \
-  makeSurfaceReactionModelType(COxidationHurtMitchell, CloudType);          \
-  makeSurfaceReactionModelType(COxidationMurphyShaddix, CloudType);
+#define MAKE_COAL_PARCEL_SURFACE_REACTION_MODELS(CloudType)                   \
+                                                                              \
+  MAKE_SURFACE_REACTION_MODEL_TYPE(COxidationDiffusionLimitedRate, CloudType);\
+  MAKE_SURFACE_REACTION_MODEL_TYPE                                            \
+  (                                                                           \
+    COxidationKineticDiffusionLimitedRate,                                    \
+    CloudType                                                                 \
+  );                                                                          \
+  MAKE_SURFACE_REACTION_MODEL_TYPE(COxidationIntrinsicRate, CloudType);       \
+  MAKE_SURFACE_REACTION_MODEL_TYPE(COxidationHurtMitchell, CloudType);        \
+  MAKE_SURFACE_REACTION_MODEL_TYPE(COxidationMurphyShaddix, CloudType);
 #endif

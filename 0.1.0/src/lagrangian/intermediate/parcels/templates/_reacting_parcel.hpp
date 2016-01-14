@@ -128,7 +128,7 @@ protected:
 public:
   // Static data members
     //- Runtime type information
-    TypeName("ReactingParcel");
+    TYPE_NAME("ReactingParcel");
     //- String representation of properties
     AddToPropertyList
     (

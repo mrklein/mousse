@@ -21,7 +21,7 @@ class shifted
     scalar e_at_rCut_;
 public:
   //- Runtime type information
-  TypeName("shifted");
+  TYPE_NAME("shifted");
   // Constructors
     //- Construct from components
     shifted

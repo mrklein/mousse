@@ -20,7 +20,7 @@ mousse::IntegrationScheme<Type>::New
     dictionaryConstructorTablePtr_->find(schemeName);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "IntegrationScheme::New(const dictionary&)"
     )   << "Unknown integration scheme type "

@@ -48,7 +48,7 @@ mousse::ManualInjection<CloudType>::ManualInjection
 {
   updateMesh();
   // Construct parcel diameters
-  forAll(diameters_, i)
+  FOR_ALL(diameters_, i)
   {
     diameters_[i] = sizeDistribution_->sample();
   }
@@ -82,7 +82,7 @@ void mousse::ManualInjection<CloudType>::updateMesh()
 {
   label nRejected = 0;
   PackedBoolList keep(positions_.size(), true);
-  forAll(positions_, pI)
+  FOR_ALL(positions_, pI)
   {
     if
     (

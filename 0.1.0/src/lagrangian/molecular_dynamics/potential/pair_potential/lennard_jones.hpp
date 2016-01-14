@@ -23,7 +23,7 @@ class lennardJones
     scalar epsilon_;
 public:
   //- Runtime type information
-  TypeName("lennardJones");
+  TYPE_NAME("lennardJones");
   // Constructors
     //- Construct from components
     lennardJones

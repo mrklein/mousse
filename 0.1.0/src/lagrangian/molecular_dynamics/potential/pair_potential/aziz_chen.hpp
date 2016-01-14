@@ -47,7 +47,7 @@ class azizChen
     scalar gamma_;
 public:
   //- Runtime type information
-  TypeName("azizChen");
+  TYPE_NAME("azizChen");
   // Constructors
     //- Construct from components
     azizChen

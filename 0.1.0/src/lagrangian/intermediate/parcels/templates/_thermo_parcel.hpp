@@ -163,7 +163,7 @@ protected:
 public:
   // Static data members
     //- Runtime type information
-    TypeName("ThermoParcel");
+    TYPE_NAME("ThermoParcel");
     //- String representation of properties
     AddToPropertyList
     (

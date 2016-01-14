@@ -63,7 +63,7 @@ class MultiInteraction
     bool read(const dictionary&);
 public:
   //- Runtime type information
-  TypeName("multiInteraction");
+  TYPE_NAME("multiInteraction");
   // Constructors
     //- Construct from dictionary
     MultiInteraction(const dictionary& dict, CloudType& cloud);

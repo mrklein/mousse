@@ -5,5 +5,5 @@
 #include "thermo_parcel_injection_data_io_list.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(IOList<thermoParcelInjectionData>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(IOList<thermoParcelInjectionData>, 0);
 }

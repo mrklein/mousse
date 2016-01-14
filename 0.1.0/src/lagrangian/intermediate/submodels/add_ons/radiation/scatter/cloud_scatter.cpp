@@ -10,8 +10,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(cloudScatter, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(cloudScatter, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       scatterModel,
       cloudScatter,
@@ -54,7 +54,7 @@ mousse::radiation::cloudScatter::sigmaEff() const
       dimensionedScalar("zero", dimless/dimLength, 0.0)
     )
   );
-  forAll(cloudNames_, i)
+  FOR_ALL(cloudNames_, i)
   {
     const thermoCloud& tc
     (

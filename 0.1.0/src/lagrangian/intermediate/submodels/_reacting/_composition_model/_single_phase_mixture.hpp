@@ -31,7 +31,7 @@ class SinglePhaseMixture
     void constructIds();
 public:
   //- Runtime type information
-  TypeName("singlePhaseMixture");
+  TYPE_NAME("singlePhaseMixture");
   // Constructors
     //- Construct from dictionary
     SinglePhaseMixture(const dictionary& dict, CloudType& owner);

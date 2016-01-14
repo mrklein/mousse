@@ -6,7 +6,7 @@ if (mesh.time().timeIndex() % vacf.sampleSteps() == 0)
 {
   Field<vector> uVals(molecules.size());
   label uV = 0;
-  forAllConstIter(IDLList<molecule>, molecules, mol)
+  FOR_ALL_CONST_ITER(IDLList<molecule>, molecules, mol)
   {
     uVals[uV++] = mol().U();
   }
@@ -15,7 +15,7 @@ if (mesh.time().timeIndex() % vacf.sampleSteps() == 0)
 if (mesh.time().timeIndex() % pacf.sampleSteps() == 0)
 {
   vector p = vector::zero;
-  forAllConstIter(IDLList<molecule>, molecules, mol)
+  FOR_ALL_CONST_ITER(IDLList<molecule>, molecules, mol)
   {
     p.x() +=
       mol().mass() * mol().U().y() * mol().U().z()
@@ -32,7 +32,7 @@ if (mesh.time().timeIndex() % pacf.sampleSteps() == 0)
 if (mesh.time().timeIndex() % hfacf.sampleSteps() == 0)
 {
   vector s = vector::zero;
-  forAllConstIter(IDLList<molecule>, molecules, mol)
+  FOR_ALL_CONST_ITER(IDLList<molecule>, molecules, mol)
   {
     s +=
     (

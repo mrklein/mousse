@@ -36,7 +36,7 @@ protected:
     void write();
 public:
   //- Runtime type information
-  TypeName("patchPostProcessing");
+  TYPE_NAME("patchPostProcessing");
   // Constructors
     //- Construct from dictionary
     PatchPostProcessing

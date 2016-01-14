@@ -8,9 +8,9 @@
 #include "_no_inflow.hpp"
 namespace mousse
 {
-  typedef DSMCCloud<dsmcParcel> CloudType;
-  makeInflowBoundaryModel(CloudType);
-  // Add instances of inflow boundary model to the table
-  makeInflowBoundaryModelType(FreeStream, CloudType);
-  makeInflowBoundaryModelType(NoInflow, CloudType);
+typedef DSMCCloud<dsmcParcel> CloudType;
+MAKE_INFLOW_BOUNDARY_MODEL(CloudType);
+// Add instances of inflow boundary model to the table
+MAKE_INFLOW_BOUNDARY_MODEL_TYPE(FreeStream, CloudType);
+MAKE_INFLOW_BOUNDARY_MODEL_TYPE(NoInflow, CloudType);
 }

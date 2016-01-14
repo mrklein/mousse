@@ -28,7 +28,7 @@ protected:
     scalar e_;
 public:
   //- Runtime type information
-  TypeName("absolute");
+  TYPE_NAME("absolute");
   // Constructors
     //- Construct from components
     absolute(const dictionary& dict);

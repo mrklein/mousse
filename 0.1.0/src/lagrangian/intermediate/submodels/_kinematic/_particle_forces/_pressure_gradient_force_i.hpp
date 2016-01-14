@@ -8,7 +8,7 @@ mousse::PressureGradientForce<CloudType>::DUcDtInterp() const
 {
   if (!DUcDtInterpPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline const mousse::interpolation<mousse::vector>&"
       "mousse::PressureGradientForce<CloudType>::DUcDtInterp() const"

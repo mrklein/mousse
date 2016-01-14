@@ -489,7 +489,7 @@ inline mousse::label mousse::particle::getNewParticleID() const
   label id = particleCount_++;
   if (id == labelMax)
   {
-    WarningIn("particle::getNewParticleID() const")
+    WARNING_IN("particle::getNewParticleID() const")
       << "Particle counter has overflowed. This might cause problems"
       << " when reconstructing particle tracks." << endl;
   }
@@ -643,7 +643,7 @@ inline void mousse::particle::initCellFacePt()
         }
         if (debug)
         {
-          WarningIn("void mousse::particle::initCellFacePt()")
+          WARNING_IN("void mousse::particle::initCellFacePt()")
             << "Particle moved from " << position_
             << " to " << newPosition
             << " in cell " << cellI_
@@ -660,7 +660,7 @@ inline void mousse::particle::initCellFacePt()
       }
       if (debug && cellI_ != oldCellI)
       {
-        WarningIn("void mousse::particle::initCellFacePt()")
+        WARNING_IN("void mousse::particle::initCellFacePt()")
           << "Particle at position " << position_
           << " searched for a cell, tetFace and tetPt." << nl
           << "    Found"

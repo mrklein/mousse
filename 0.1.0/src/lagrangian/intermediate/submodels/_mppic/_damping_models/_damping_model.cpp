@@ -8,8 +8,8 @@
 template<class CloudType>
 mousse::DampingModel<CloudType>::DampingModel(CloudType& owner)
 :
-  CloudSubModelBase<CloudType>(owner),
-  timeScaleModel_(NULL)
+  CloudSubModelBase<CloudType>{owner},
+  timeScaleModel_{NULL}
 {}
 template<class CloudType>
 mousse::DampingModel<CloudType>::DampingModel
@@ -31,8 +31,8 @@ mousse::DampingModel<CloudType>::DampingModel
 template<class CloudType>
 mousse::DampingModel<CloudType>::DampingModel(const DampingModel<CloudType>& cm)
 :
-  CloudSubModelBase<CloudType>(cm),
-  timeScaleModel_(cm.timeScaleModel_)
+  CloudSubModelBase<CloudType>{cm},
+  timeScaleModel_{cm.timeScaleModel_}
 {}
 // Destructor 
 template<class CloudType>
@@ -53,22 +53,23 @@ mousse::DampingModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "DampingModel<CloudType>::New"
       "("
         "const dictionary&, "
         "CloudType&"
       ")"
-    )   << "Unknown damping model type " << modelType
-      << ", constructor not in hash table" << nl << nl
-      << "    Valid damping model types are:" << nl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown damping model type " << modelType
+    << ", constructor not in hash table" << nl << nl
+    << "    Valid damping model types are:" << nl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
   return
     autoPtr<DampingModel<CloudType> >
-    (
+    {
       cstrIter()(dict, owner)
-    );
+    };
 }

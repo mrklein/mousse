@@ -26,9 +26,9 @@ class AtomizationModel
 {
 public:
   //- Runtime type information
-  TypeName("atomizationModel");
+  TYPE_NAME("atomizationModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     AtomizationModel,
@@ -52,11 +52,11 @@ public:
     //- Construct copy
     AtomizationModel(const AtomizationModel<CloudType>& am);
     //- Construct and return a clone
-    virtual autoPtr<AtomizationModel<CloudType> > clone() const = 0;
+    virtual autoPtr<AtomizationModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~AtomizationModel();
   //- Selector
-  static autoPtr<AtomizationModel<CloudType> > New
+  static autoPtr<AtomizationModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -89,10 +89,10 @@ public:
 };
 }  // namespace mousse
 
-#define makeAtomizationModel(CloudType)                                       \
+#define MAKE_ATOMIZATION_MODEL(CloudType)                                     \
                                                                               \
   typedef mousse::CloudType::sprayCloudType sprayCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::AtomizationModel<sprayCloudType>,                                 \
     0                                                                         \
@@ -100,20 +100,20 @@ public:
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       AtomizationModel<sprayCloudType>,                                       \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeAtomizationModelType(SS, CloudType)                               \
+#define MAKE_ATOMIZATION_MODEL_TYPE(SS, CloudType)                            \
                                                                               \
   typedef mousse::CloudType::sprayCloudType sprayCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<sprayCloudType>, 0);         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<sprayCloudType>, 0);   \
                                                                               \
   mousse::AtomizationModel<sprayCloudType>::                                  \
-    adddictionaryConstructorToTable<mousse::SS<sprayCloudType> >              \
+    adddictionaryConstructorToTable<mousse::SS<sprayCloudType>>               \
       add##SS##CloudType##sprayCloudType##ConstructorToTable_;
 
 #ifdef NoRepository

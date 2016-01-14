@@ -52,7 +52,7 @@ class ThermoLookupTableInjection
     labelList injectorTetPts_;
 public:
   //- Runtime type information
-  TypeName("thermoLookupTableInjection");
+  TYPE_NAME("thermoLookupTableInjection");
   // Constructors
     //- Construct from dictionary
     ThermoLookupTableInjection

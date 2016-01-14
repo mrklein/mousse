@@ -6,6 +6,6 @@
 #include "_cloud.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(basicReactingMultiphaseParcel, 0);
-  defineTemplateTypeNameAndDebug(Cloud<basicReactingMultiphaseParcel>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(basicReactingMultiphaseParcel, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<basicReactingMultiphaseParcel>, 0);
 }

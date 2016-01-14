@@ -27,7 +27,7 @@ mousse::NonSphereDragForce<CloudType>::NonSphereDragForce
 {
   if (phi_ <= 0 || phi_ > 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "NonSphereDrag<CloudType>::NonSphereDrag"
       "("
@@ -61,7 +61,7 @@ template<class CloudType>
 mousse::forceSuSp mousse::NonSphereDragForce<CloudType>::calcCoupled
 (
   const typename CloudType::parcelType& p,
-  const scalar dt,
+  const scalar /*dt*/,
   const scalar mass,
   const scalar Re,
   const scalar muc

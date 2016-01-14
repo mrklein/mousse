@@ -5,7 +5,6 @@
 //   mousse::potential
 // Description
 // SourceFiles
-//   potential_i.hpp
 //   potential.cpp
 #ifndef potential_hpp_
 #define potential_hpp_
@@ -37,10 +36,6 @@ class potential
       const IOdictionary& mdInitialiseDict,
       IOdictionary& idListDict
     );
-    //- Disallow default bitwise copy construct
-    potential(const potential&);
-    //- Disallow default bitwise assignment
-    void operator=(const potential&);
 public:
   // Constructors
     //- Construct from mesh reference
@@ -52,6 +47,10 @@ public:
       const IOdictionary& mdInitialiseDict,
       IOdictionary& idListDict
     );
+    //- Disallow default bitwise copy construct
+    potential(const potential&) = delete;
+    //- Disallow default bitwise assignment
+    potential& operator=(const potential&) = delete;
   //- Destructor
   ~potential();
   // Member Functions
@@ -67,5 +66,43 @@ public:
       inline const vector& gravity() const;
 };
 }  // namespace mousse
-#include "potential_i.hpp"
+
+// Member Functions 
+inline mousse::label mousse::potential::nIds() const
+{
+  return idList_.size();
+}
+inline const mousse::List<mousse::word>& mousse::potential::idList() const
+{
+  return idList_;
+}
+inline const mousse::List<mousse::word>& mousse::potential::siteIdList() const
+{
+  return siteIdList_;
+}
+inline mousse::scalar mousse::potential::potentialEnergyLimit() const
+{
+  return potentialEnergyLimit_;
+}
+inline mousse::label mousse::potential::nPairPotentials() const
+{
+  return pairPotentials_.size();
+}
+inline const mousse::labelList& mousse::potential::removalOrder() const
+{
+  return removalOrder_;
+}
+inline const mousse::pairPotentialList& mousse::potential::pairPotentials() const
+{
+  return pairPotentials_;
+}
+inline const mousse::tetherPotentialList&
+mousse::potential::tetherPotentials() const
+{
+  return tetherPotentials_;
+}
+inline const mousse::vector& mousse::potential::gravity() const
+{
+  return gravity_;
+}
 #endif

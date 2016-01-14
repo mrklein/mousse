@@ -50,7 +50,7 @@ template<class TrackData>
 bool mousse::DSMCParcel<ParcelType>::hitPatch
 (
   const polyPatch&,
-  TrackData& td,
+  TrackData&,
   const label,
   const scalar,
   const tetIndices&
@@ -74,7 +74,7 @@ void mousse::DSMCParcel<ParcelType>::hitWallPatch
 (
   const wallPolyPatch& wpp,
   TrackData& td,
-  const tetIndices& tetIs
+  const tetIndices& /*tetIs*/
 )
 {
   label wppIndex = wpp.index();

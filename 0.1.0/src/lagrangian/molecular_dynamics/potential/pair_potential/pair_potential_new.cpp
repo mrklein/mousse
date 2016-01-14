@@ -17,7 +17,7 @@ mousse::autoPtr<mousse::pairPotential> mousse::pairPotential::New
     dictionaryConstructorTablePtr_->find(potentialType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pairPotential::New()"
     )   << "Unknown pairPotential type "

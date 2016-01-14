@@ -28,7 +28,7 @@ class isotropic
 {
 public:
   //- Runtime type information
-  TypeName("isotropic");
+  TYPE_NAME("isotropic");
   //- Constructors
     //- Construct from components
     isotropic(const dictionary& dict);

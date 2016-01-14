@@ -68,7 +68,7 @@ class PairSpringSliderDashpot
     ) const;
 public:
   //- Runtime type information
-  TypeName("pairSpringSliderDashpot");
+  TYPE_NAME("pairSpringSliderDashpot");
   // Constructors
     //- Construct from dictionary
     PairSpringSliderDashpot(const dictionary& dict, CloudType& cloud);

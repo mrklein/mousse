@@ -10,11 +10,11 @@ using namespace mousse::constant;
 template<class CloudType>
 mousse::MaxwellianThermal<CloudType>::MaxwellianThermal
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& cloud
 )
 :
-  WallInteractionModel<CloudType>(cloud)
+  WallInteractionModel<CloudType>{cloud}
 {}
 // Destructor 
 template<class CloudType>

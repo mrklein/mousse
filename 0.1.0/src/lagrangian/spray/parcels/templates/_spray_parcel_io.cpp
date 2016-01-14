@@ -124,7 +124,7 @@ void mousse::SprayParcel<ParcelType>::readFields
   IOField<scalar> user(c.fieldIOobject("user", IOobject::MUST_READ));
   c.checkFieldIOobject(c, user);
   label i = 0;
-  forAllIter(typename Cloud<SprayParcel<ParcelType> >, c, iter)
+  FOR_ALL_ITER(typename Cloud<SprayParcel<ParcelType> >, c, iter)
   {
     SprayParcel<ParcelType>& p = iter();
     p.d0_ = d0[i];
@@ -185,7 +185,7 @@ void mousse::SprayParcel<ParcelType>::writeFields
   IOField<scalar> tMom(c.fieldIOobject("tMom", IOobject::NO_READ), np);
   IOField<scalar> user(c.fieldIOobject("user", IOobject::NO_READ), np);
   label i = 0;
-  forAllConstIter(typename Cloud<SprayParcel<ParcelType> >, c, iter)
+  FOR_ALL_CONST_ITER(typename Cloud<SprayParcel<ParcelType> >, c, iter)
   {
     const SprayParcel<ParcelType>& p = iter();
     d0[i] = p.d0_;

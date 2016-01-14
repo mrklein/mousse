@@ -21,7 +21,7 @@ class Rebound
    scalar UFactor_;
 public:
   //- Runtime type information
-  TypeName("rebound");
+  TYPE_NAME("rebound");
   // Constructors
     //- Construct from dictionary
     Rebound(const dictionary& dict, CloudType& cloud);

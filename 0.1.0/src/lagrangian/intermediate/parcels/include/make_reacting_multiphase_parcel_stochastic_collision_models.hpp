@@ -8,9 +8,9 @@
 #include "_no_stochastic_collision.hpp"
 #include "_suppression_collision.hpp"
 
-#define makeReactingMultiphaseParcelStochasticCollisionModels(CloudType)      \
+#define MAKE_REACTING_MULTIPHASE_PARCEL_STOCHASTIC_COLLISION_MODELS(CloudType)\
                                                                               \
-  makeStochasticCollisionModel(CloudType);                                    \
-  makeStochasticCollisionModelType(NoStochasticCollision, CloudType);         \
-  makeStochasticCollisionModelType(SuppressionCollision, CloudType);
+  MAKE_STOCHASTIC_COLLISION_MODEL(CloudType);                                 \
+  MAKE_STOCHASTIC_COLLISION_MODEL_TYPE(NoStochasticCollision, CloudType);     \
+  MAKE_STOCHASTIC_COLLISION_MODEL_TYPE(SuppressionCollision, CloudType);
 #endif

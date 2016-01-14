@@ -11,7 +11,7 @@ mousse::AtomizationModel<CloudType>::AtomizationModel
   CloudType& owner
 )
 :
-  CloudSubModelBase<CloudType>(owner)
+  CloudSubModelBase<CloudType>{owner}
 {}
 template<class CloudType>
 mousse::AtomizationModel<CloudType>::AtomizationModel
@@ -19,7 +19,7 @@ mousse::AtomizationModel<CloudType>::AtomizationModel
   const AtomizationModel<CloudType>& am
 )
 :
-  CloudSubModelBase<CloudType>(am)
+  CloudSubModelBase<CloudType>{am}
 {}
 template<class CloudType>
 mousse::AtomizationModel<CloudType>::AtomizationModel
@@ -29,7 +29,7 @@ mousse::AtomizationModel<CloudType>::AtomizationModel
   const word& type
 )
 :
-  CloudSubModelBase<CloudType>(owner, dict, typeName, type)
+  CloudSubModelBase<CloudType>{owner, dict, typeName, type}
 {}
 // Destructor
 template<class CloudType>

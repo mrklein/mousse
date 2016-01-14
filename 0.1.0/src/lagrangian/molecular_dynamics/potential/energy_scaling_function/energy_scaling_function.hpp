@@ -23,16 +23,11 @@ protected:
     word name_;
     dictionary energyScalingFunctionProperties_;
     const pairPotential& pairPot_;
-  // Private Member Functions
-    //- Disallow copy construct
-    energyScalingFunction(const energyScalingFunction&);
-    //- Disallow default bitwise assignment
-    void operator=(const energyScalingFunction&);
 public:
   //- Runtime type information
-  TypeName("energyScalingFunction");
+  TYPE_NAME("energyScalingFunction");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       energyScalingFunction,
@@ -60,6 +55,10 @@ public:
       const dictionary& energyScalingFunctionProperties,
       const pairPotential& pairPot
     );
+    //- Disallow copy construct
+    energyScalingFunction(const energyScalingFunction&) = delete;
+    //- Disallow default bitwise assignment
+    energyScalingFunction& operator=(const energyScalingFunction&) = delete;
   //- Destructor
   virtual ~energyScalingFunction()
   {}

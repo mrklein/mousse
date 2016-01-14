@@ -41,7 +41,7 @@ private:
     virtual void updateGrad();
 public:
   //- Runtime type information
-  TypeName("basic");
+  TYPE_NAME("basic");
   //- Constructors
     //- Construct from components
     Basic

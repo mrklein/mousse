@@ -19,7 +19,7 @@ class NoCollision
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from components
     NoCollision(const dictionary& dict, CloudType& owner);

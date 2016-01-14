@@ -114,9 +114,9 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("injectionModel");
+  TYPE_NAME("injectionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     InjectionModel,
@@ -229,10 +229,10 @@ public:
 };
 }  // namespace mousse
 
-#define makeInjectionModel(CloudType)                                         \
+#define MAKE_INJECTION_MODEL(CloudType)                                       \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::InjectionModel<kinematicCloudType>,                               \
     0                                                                         \
@@ -240,23 +240,55 @@ public:
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       InjectionModel<kinematicCloudType>,                                     \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeInjectionModelType(SS, CloudType)                                 \
+
+#define MAKE_INJECTION_MODEL_TYPE(SS, CloudType)                              \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<kinematicCloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);     \
                                                                               \
   mousse::InjectionModel<kinematicCloudType>::                                \
     adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
-#include "_injection_model_i.hpp"
+
+template<class CloudType>
+mousse::scalar mousse::InjectionModel<CloudType>::timeStart() const
+{
+  return SOI_;
+}
+template<class CloudType>
+mousse::scalar mousse::InjectionModel<CloudType>::volumeTotal() const
+{
+  return volumeTotal_;
+}
+template<class CloudType>
+mousse::scalar mousse::InjectionModel<CloudType>::massTotal() const
+{
+  return massTotal_;
+}
+template<class CloudType>
+mousse::scalar mousse::InjectionModel<CloudType>::massInjected() const
+{
+  return massInjected_;
+}
+template<class CloudType>
+mousse::label mousse::InjectionModel<CloudType>::nInjections() const
+{
+  return nInjections_;
+}
+template<class CloudType>
+mousse::label mousse::InjectionModel<CloudType>::parcelsAddedTotal() const
+{
+  return parcelsAddedTotal_;
+}
+
 #ifdef NoRepository
 #   include "_injection_model.cpp"
 #endif

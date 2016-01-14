@@ -56,7 +56,7 @@ mousse::MPPICCloud<CloudType>::MPPICCloud
 {
   if (this->solution().steadyState())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::MPPICCloud<CloudType>::MPPICCloud"
       "("
@@ -211,7 +211,7 @@ void mousse::MPPICCloud<CloudType>::info()
     return;
   }
   scalar nMin = GREAT;
-  forAll(this->mesh().cells(), cellI)
+  FOR_ALL(this->mesh().cells(), cellI)
   {
     const label n = this->cellOccupancy()[cellI].size();
     if (n > 0)

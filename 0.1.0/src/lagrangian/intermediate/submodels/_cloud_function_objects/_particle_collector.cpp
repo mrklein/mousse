@@ -45,7 +45,7 @@ void mousse::ParticleCollector<CloudType>::makeLogFile
         << tab << "(Centre_x Centre_y Centre_z)"
         << tab << "Area"
         << nl;
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         outputFilePtr_()
           << '#'
@@ -57,7 +57,7 @@ void mousse::ParticleCollector<CloudType>::makeLogFile
       outputFilePtr_()
         << '#' << nl
         << "# Output format:" << nl;
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         word id = mousse::name(i);
         word binId = "bin_" + id;
@@ -80,12 +80,12 @@ void mousse::ParticleCollector<CloudType>::initPolygons
 {
   mode_ = mtPolygon;
   label nPoints = 0;
-  forAll(polygons, polyI)
+  FOR_ALL(polygons, polyI)
   {
     label np = polygons[polyI].size();
     if (np < 3)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "mousse::ParticleCollector<CloudType>::initPolygons()",
         this->coeffDict()
@@ -100,7 +100,7 @@ void mousse::ParticleCollector<CloudType>::initPolygons
   faces_.setSize(polygons.size());
   faceTris_.setSize(polygons.size());
   area_.setSize(polygons.size());
-  forAll(faces_, faceI)
+  FOR_ALL(faces_, faceI)
   {
     const Field<point>& polyPoints = polygons[faceI];
     face f(identity(polyPoints.size()) + pointOffset);
@@ -160,7 +160,7 @@ void mousse::ParticleCollector<CloudType>::initConcentricCircles()
   List<label> ptIDs(identity(nPointPerRadius));
   points_[0] = origin;
   // points
-  forAll(radius_, radI)
+  FOR_ALL(radius_, radI)
   {
     label pointOffset = radI*nPointPerRadius + 1;
     for (label i = 0; i < nPointPerRadius; i++)
@@ -172,7 +172,7 @@ void mousse::ParticleCollector<CloudType>::initConcentricCircles()
   }
   // faces
   DynamicList<label> facePts(2*nPointPerSector);
-  forAll(radius_, radI)
+  FOR_ALL(radius_, radI)
   {
     if (radI == 0)
     {
@@ -226,7 +226,7 @@ void mousse::ParticleCollector<CloudType>::collectParcelPolygon
 {
   label dummyNearType = -1;
   label dummyNearLabel = -1;
-  forAll(faces_, faceI)
+  FOR_ALL(faces_, faceI)
   {
     const label facePoint0 = faces_[faceI][0];
     const point& pf = points_[facePoint0];
@@ -241,7 +241,7 @@ void mousse::ParticleCollector<CloudType>::collectParcelPolygon
     const point pIntersect = p1 + (d1/(d1 - d2))*(p2 - p1);
     const List<face>& tris = faceTris_[faceI];
     // identify if point is within poly bounds
-    forAll(tris, triI)
+    FOR_ALL(tris, triI)
     {
       const face& tri = tris[triI];
       triPointRef t
@@ -309,7 +309,7 @@ void mousse::ParticleCollector<CloudType>::write()
   totalTime_ += timeElapsed;
   const scalar alpha = (totalTime_ - timeElapsed)/totalTime_;
   const scalar beta = timeElapsed/totalTime_;
-  forAll(faces_, faceI)
+  FOR_ALL(faces_, faceI)
   {
     massFlowRate_[faceI] =
       alpha*massFlowRate_[faceI] + beta*mass_[faceI]/timeElapsed;
@@ -323,7 +323,7 @@ void mousse::ParticleCollector<CloudType>::write()
   this->getModelProperty("massFlowRate", faceMassFlowRate);
   scalar sumTotalMass = 0.0;
   scalar sumAverageMFR = 0.0;
-  forAll(faces_, faceI)
+  FOR_ALL(faces_, faceI)
   {
     scalarList allProcMass(Pstream::nProcs());
     allProcMass[procI] = massTotal_[faceI];
@@ -388,7 +388,7 @@ void mousse::ParticleCollector<CloudType>::write()
     this->setModelProperty("massTotal", faceMassTotal);
     this->setModelProperty("massFlowRate", faceMassFlowRate);
   }
-  forAll(faces_, faceI)
+  FOR_ALL(faces_, faceI)
   {
     mass_[faceI] = 0.0;
     massTotal_[faceI] = 0.0;
@@ -447,7 +447,7 @@ mousse::ParticleCollector<CloudType>::ParticleCollector
     );
     List<Field<point> > polygons(polygonAndNormal.size());
     normal_.setSize(polygonAndNormal.size());
-    forAll(polygons, polyI)
+    FOR_ALL(polygons, polyI)
     {
       polygons[polyI] = polygonAndNormal[polyI].first();
       normal_[polyI] = polygonAndNormal[polyI].second();
@@ -463,7 +463,7 @@ mousse::ParticleCollector<CloudType>::ParticleCollector
   }
   else
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "mousse::ParticleCollector<CloudType>::ParticleCollector"
       "("
@@ -520,8 +520,8 @@ template<class CloudType>
 void mousse::ParticleCollector<CloudType>::postMove
 (
   parcelType& p,
-  const label cellI,
-  const scalar dt,
+  const label /*cellI*/,
+  const scalar /*dt*/,
   const point& position0,
   bool& keepParticle
 )
@@ -549,7 +549,7 @@ void mousse::ParticleCollector<CloudType>::postMove
     {
     }
   }
-  forAll(hitFaceIDs_, i)
+  FOR_ALL(hitFaceIDs_, i)
   {
     label faceI = hitFaceIDs_[i];
     scalar m = p.nParticle()*p.mass();

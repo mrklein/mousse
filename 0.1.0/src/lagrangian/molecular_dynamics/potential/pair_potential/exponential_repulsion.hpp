@@ -23,7 +23,7 @@ class exponentialRepulsion
     scalar epsilon_;
 public:
   //- Runtime type information
-  TypeName("exponentialRepulsion");
+  TYPE_NAME("exponentialRepulsion");
   // Constructors
     //- Construct from components
     exponentialRepulsion

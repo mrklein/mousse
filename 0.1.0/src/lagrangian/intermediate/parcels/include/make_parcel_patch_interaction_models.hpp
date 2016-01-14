@@ -11,14 +11,14 @@
 #include "_standard_wall_interaction.hpp"
 #include "_multi_interaction.hpp"
 
-#define makeParcelPatchInteractionModels(CloudType)                           \
+#define MAKE_PARCEL_PATCH_INTERACTION_MODELS(CloudType)                       \
                                                                               \
-  makePatchInteractionModel(CloudType);                                       \
+  MAKE_PATCH_INTERACTION_MODEL(CloudType);                                    \
                                                                               \
-  makePatchInteractionModelType(LocalInteraction, CloudType);                 \
-  makePatchInteractionModelType(NoInteraction, CloudType);                    \
-  makePatchInteractionModelType(Rebound, CloudType);                          \
-  makePatchInteractionModelType(StandardWallInteraction, CloudType);          \
-  makePatchInteractionModelType(MultiInteraction, CloudType);
+  MAKE_PATCH_INTERACTION_MODEL_TYPE(LocalInteraction, CloudType);             \
+  MAKE_PATCH_INTERACTION_MODEL_TYPE(NoInteraction, CloudType);                \
+  MAKE_PATCH_INTERACTION_MODEL_TYPE(Rebound, CloudType);                      \
+  MAKE_PATCH_INTERACTION_MODEL_TYPE(StandardWallInteraction, CloudType);      \
+  MAKE_PATCH_INTERACTION_MODEL_TYPE(MultiInteraction, CloudType);
 
 #endif

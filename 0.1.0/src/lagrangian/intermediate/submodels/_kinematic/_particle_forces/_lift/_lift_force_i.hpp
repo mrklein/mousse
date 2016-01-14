@@ -8,7 +8,7 @@ mousse::LiftForce<CloudType>::curlUcInterp() const
 {
   if (!curlUcInterpPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline const mousse::interpolation<mousse::vector>&"
       "mousse::LiftForce<CloudType>::curlUcInterp() const"

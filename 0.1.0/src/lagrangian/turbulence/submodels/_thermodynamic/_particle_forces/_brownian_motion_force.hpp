@@ -40,7 +40,7 @@ class BrownianMotionForce
     tmp<volScalarField> kModel() const;
 public:
   //- Runtime type information
-  TypeName("BrownianMotion");
+  TYPE_NAME("BrownianMotion");
   // Constructors
     //- Construct from mesh
     BrownianMotionForce
@@ -52,12 +52,12 @@ public:
     //- Construct copy
     BrownianMotionForce(const BrownianMotionForce& bmf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new BrownianMotionForce<CloudType>(*this)
-      );
+      return autoPtr<ParticleForce<CloudType>>
+      {
+        new BrownianMotionForce<CloudType>{*this}
+      };
     }
   //- Destructor
   virtual ~BrownianMotionForce();
@@ -82,7 +82,17 @@ public:
 };
 }  // namespace mousse
 
-#include "_brownian_motion_force_i.hpp"
+template<class CloudType>
+inline mousse::scalar mousse::BrownianMotionForce<CloudType>::lambda() const
+{
+  return lambda_;
+}
+template<class CloudType>
+inline bool mousse::BrownianMotionForce<CloudType>::turbulence() const
+{
+  return turbulence_;
+}
+
 #ifdef NoRepository
   #include "_brownian_motion_force.cpp"
 #endif

@@ -8,7 +8,7 @@
 template<class CloudType>
 mousse::NoAtomization<CloudType>::NoAtomization
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& owner
 )
 :
@@ -45,20 +45,20 @@ bool mousse::NoAtomization<CloudType>::calcChi() const
 template<class CloudType>
 void mousse::NoAtomization<CloudType>::update
 (
-  const scalar dt,
-  scalar& d,
-  scalar& liquidCore,
-  scalar& tc,
-  const scalar rho,
-  const scalar mu,
-  const scalar sigma,
-  const scalar volFlowRate,
-  const scalar rhoAv,
-  const scalar Urel,
-  const vector& pos,
-  const vector& injectionPos,
-  const scalar pAmbient,
-  const scalar chi,
-  cachedRandom& rndGen
+  const scalar /*dt*/,
+  scalar& /*d*/,
+  scalar& /*liquidCore*/,
+  scalar& /*tc*/,
+  const scalar /*rho*/,
+  const scalar /*mu*/,
+  const scalar /*sigma*/,
+  const scalar /*volFlowRate*/,
+  const scalar /*rhoAv*/,
+  const scalar /*Urel*/,
+  const vector& /*pos*/,
+  const vector& /*injectionPos*/,
+  const scalar /*pAmbient*/,
+  const scalar /*chi*/,
+  cachedRandom& /*rndGen*/
 ) const
 {}

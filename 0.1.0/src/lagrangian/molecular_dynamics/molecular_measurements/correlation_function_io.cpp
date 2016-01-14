@@ -8,7 +8,7 @@ template<class Type>
 bool mousse::correlationFunction<Type>::writeAveraged(Ostream& os) const
 {
   Field<scalar> averageCF(averaged());
-  forAll(averageCF, v)
+  FOR_ALL(averageCF, v)
   {
     os  << v*sampleInterval()
       << token::SPACE

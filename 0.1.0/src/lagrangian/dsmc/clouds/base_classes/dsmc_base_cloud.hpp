@@ -21,7 +21,7 @@ class DSMCBaseCloud
     void operator=(const DSMCBaseCloud&);
 public:
   //- Runtime type information
-  TypeName("DSMCBaseCloud");
+  TYPE_NAME("DSMCBaseCloud");
   // Constructors
     //- Null constructor
     DSMCBaseCloud();

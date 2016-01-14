@@ -19,7 +19,7 @@ mousse::TAB<CloudType>::TAB
   const scalar xx0 = 12.0;
   const scalar rrd100 =
     1.0/(1.0 - exp(-xx0)*(1.0 + xx0 + sqr(xx0)/2.0 + pow3(xx0)/6.0));
-  forAll(rrd_, n)
+  FOR_ALL(rrd_, n)
   {
     scalar xx = 0.12*(n + 1);
     rrd_[n] =
@@ -36,7 +36,7 @@ mousse::TAB<CloudType>::TAB
   else
   {
     SMDMethod_ = method2;
-    WarningIn("mousse::TAB<CloudType>::TAB(const dictionary&, CloudType&)")
+    WARNING_IN("mousse::TAB<CloudType>::TAB(const dictionary&, CloudType&)")
       << "Unknown SMDCalculationMethod. Valid options are "
       << "(method1 | method2). Using method2" << endl;
   }
@@ -56,26 +56,26 @@ template<class CloudType>
 bool mousse::TAB<CloudType>::update
 (
   const scalar dt,
-  const vector& g,
+  const vector& /*g*/,
   scalar& d,
-  scalar& tc,
-  scalar& ms,
+  scalar& /*tc*/,
+  scalar& /*ms*/,
   scalar& nParticle,
-  scalar& KHindex,
+  scalar& /*KHindex*/,
   scalar& y,
   scalar& yDot,
-  const scalar d0,
+  const scalar /*d0*/,
   const scalar rho,
   const scalar mu,
   const scalar sigma,
-  const vector& U,
+  const vector& /*U*/,
   const scalar rhoc,
-  const scalar muc,
-  const vector& Urel,
+  const scalar /*muc*/,
+  const vector& /*Urel*/,
   const scalar Urmag,
-  const scalar tMom,
-  scalar& dChild,
-  scalar& massChild
+  const scalar /*tMom*/,
+  scalar& /*dChild*/,
+  scalar& /*massChild*/
 )
 {
   cachedRandom& rndGen = this->owner().rndGen();

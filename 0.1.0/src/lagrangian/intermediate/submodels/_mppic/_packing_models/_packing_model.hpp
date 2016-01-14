@@ -32,9 +32,9 @@ protected:
     autoPtr<ParticleStressModel> particleStressModel_;
 public:
   //- Runtime type information
-  TypeName("packingModel");
+  TYPE_NAME("packingModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     PackingModel,
@@ -77,10 +77,10 @@ public:
 };
 }  // namespace mousse
 
-#define makePackingModel(CloudType)                                           \
+#define MAKE_PACKING_MODEL(CloudType)                                         \
                                                                               \
   typedef mousse::CloudType::MPPICCloudType MPPICCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::PackingModel<MPPICCloudType>,                                     \
     0                                                                         \
@@ -88,17 +88,17 @@ public:
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       PackingModel<MPPICCloudType>,                                           \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makePackingModelType(SS, CloudType)                                   \
+#define MAKE_PACKING_MODEL_TYPE(SS, CloudType)                                \
                                                                               \
   typedef mousse::CloudType::MPPICCloudType MPPICCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
     (mousse::PackingModels::SS<MPPICCloudType>, 0);                           \
                                                                               \
   mousse::PackingModel<MPPICCloudType>::                                      \

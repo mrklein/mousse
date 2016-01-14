@@ -44,14 +44,14 @@ mousse::BrownianMotionForce<CloudType>::kModel() const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::tmp<mousse::volScalarField>"
       "mousse::DispersionRASModel<CloudType>::kModel() const"
     )
-      << "Turbulence model not found in mesh database" << nl
-      << "Database objects include: " << obr.sortedToc()
-      << abort(FatalError);
+    << "Turbulence model not found in mesh database" << nl
+    << "Database objects include: " << obr.sortedToc()
+    << abort(FatalError);
     return tmp<volScalarField>(NULL);
   }
 }
@@ -64,12 +64,12 @@ mousse::BrownianMotionForce<CloudType>::BrownianMotionForce
   const dictionary& dict
 )
 :
-  ParticleForce<CloudType>(owner, mesh, dict, typeName, true),
-  rndGen_(owner.rndGen()),
-  lambda_(readScalar(this->coeffs().lookup("lambda"))),
-  turbulence_(readBool(this->coeffs().lookup("turbulence"))),
-  kPtr_(NULL),
-  ownK_(false)
+  ParticleForce<CloudType>{owner, mesh, dict, typeName, true},
+  rndGen_{owner.rndGen()},
+  lambda_{readScalar(this->coeffs().lookup("lambda"))},
+  turbulence_{readBool(this->coeffs().lookup("turbulence"))},
+  kPtr_{NULL},
+  ownK_{false}
 {}
 template<class CloudType>
 mousse::BrownianMotionForce<CloudType>::BrownianMotionForce
@@ -77,12 +77,12 @@ mousse::BrownianMotionForce<CloudType>::BrownianMotionForce
   const BrownianMotionForce& bmf
 )
 :
-  ParticleForce<CloudType>(bmf),
-  rndGen_(bmf.rndGen_),
-  lambda_(bmf.lambda_),
-  turbulence_(bmf.turbulence_),
-  kPtr_(NULL),
-  ownK_(false)
+  ParticleForce<CloudType>{bmf},
+  rndGen_{bmf.rndGen_},
+  lambda_{bmf.lambda_},
+  turbulence_{bmf.turbulence_},
+  kPtr_{NULL},
+  ownK_{false}
 {}
 // Destructor 
 template<class CloudType>
@@ -124,7 +124,7 @@ mousse::forceSuSp mousse::BrownianMotionForce<CloudType>::calcCoupled
   const typename CloudType::parcelType& p,
   const scalar dt,
   const scalar mass,
-  const scalar Re,
+  const scalar /*Re*/,
   const scalar muc
 ) const
 {

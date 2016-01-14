@@ -28,9 +28,9 @@ protected:
     scalar dMass_;
 public:
   //-Runtime type information
-  TypeName("surfaceReactionModel");
+  TYPE_NAME("surfaceReactionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     SurfaceReactionModel,
@@ -94,29 +94,29 @@ public:
 };
 }  // namespace mousse
 
-#define makeSurfaceReactionModel(CloudType)                                   \
+#define MAKE_SURFACE_REACTION_MODEL(CloudType)                                \
                                                                               \
   typedef mousse::CloudType::reactingMultiphaseCloudType                      \
     reactingMultiphaseCloudType;                                              \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::SurfaceReactionModel<reactingMultiphaseCloudType>,                \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       SurfaceReactionModel<reactingMultiphaseCloudType>,                      \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeSurfaceReactionModelType(SS, CloudType)                           \
+#define MAKE_SURFACE_REACTION_MODEL_TYPE(SS, CloudType)                       \
                                                                               \
   typedef mousse::CloudType::reactingMultiphaseCloudType                      \
     reactingMultiphaseCloudType;                                              \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
     (mousse::SS<reactingMultiphaseCloudType>, 0);                             \
                                                                               \
   mousse::SurfaceReactionModel<reactingMultiphaseCloudType>::                 \
@@ -125,6 +125,6 @@ public:
     add##SS##CloudType##reactingMultiphaseCloudType##ConstructorToTable_;
 
 #ifdef NoRepository
-#   include "_surface_reaction_model.cpp"
+#include "_surface_reaction_model.cpp"
 #endif
 #endif

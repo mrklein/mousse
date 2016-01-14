@@ -22,7 +22,7 @@ class MaxwellianThermal
 {
 public:
   //- Runtime type information
-  TypeName("MaxwellianThermal");
+  TYPE_NAME("MaxwellianThermal");
   // Constructors
     //- Construct from dictionary
     MaxwellianThermal

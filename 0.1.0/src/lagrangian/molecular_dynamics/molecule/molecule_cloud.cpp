@@ -9,7 +9,7 @@ using namespace mousse::constant::mathematical;
 // Static Data Members
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(Cloud<molecule>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<molecule>, 0);
 }
 // Private Member Functions 
 void mousse::moleculeCloud::buildConstProps()
@@ -30,19 +30,19 @@ void mousse::moleculeCloud::buildConstProps()
       false
     )
   );
-  forAll(idList, i)
+  FOR_ALL(idList, i)
   {
     const word& id = idList[i];
     const dictionary& molDict = moleculePropertiesDict.subDict(id);
     List<word> siteIdNames = molDict.lookup("siteIds");
     List<label> siteIds(siteIdNames.size());
-    forAll(siteIdNames, sI)
+    FOR_ALL(siteIdNames, sI)
     {
       const word& siteId = siteIdNames[sI];
       siteIds[sI] = findIndex(siteIdList, siteId);
       if (siteIds[sI] == -1)
       {
-        FatalErrorIn("moleculeCloud::buildConstProps()")
+        FATAL_ERROR_IN("moleculeCloud::buildConstProps()")
           << siteId << " site not found."
           << nl << abort(FatalError);
       }
@@ -54,7 +54,7 @@ void mousse::moleculeCloud::buildConstProps()
 }
 void mousse::moleculeCloud::setSiteSizesAndPositions()
 {
-  forAllIter(moleculeCloud, *this, mol)
+  FOR_ALL_ITER(moleculeCloud, *this, mol)
   {
     const molecule::constantProperties& cP = constProps(mol().id());
     mol().setSiteSizes(cP.nSites());
@@ -63,15 +63,15 @@ void mousse::moleculeCloud::setSiteSizesAndPositions()
 }
 void mousse::moleculeCloud::buildCellOccupancy()
 {
-  forAll(cellOccupancy_, cO)
+  FOR_ALL(cellOccupancy_, cO)
   {
     cellOccupancy_[cO].clear();
   }
-  forAllIter(moleculeCloud, *this, mol)
+  FOR_ALL_ITER(moleculeCloud, *this, mol)
   {
     cellOccupancy_[mol().cell()].append(&mol());
   }
-  forAll(cellOccupancy_, cO)
+  FOR_ALL(cellOccupancy_, cO)
   {
     cellOccupancy_[cO].shrink();
   }
@@ -87,22 +87,22 @@ void mousse::moleculeCloud::calculatePairForce()
   {
     // Real-Real interactions
     const labelListList& dil = il_.dil();
-    forAll(dil, d)
+    FOR_ALL(dil, d)
     {
-      forAll(cellOccupancy_[d],cellIMols)
+      FOR_ALL(cellOccupancy_[d],cellIMols)
       {
         molI = cellOccupancy_[d][cellIMols];
-        forAll(dil[d], interactingCells)
+        FOR_ALL(dil[d], interactingCells)
         {
           List<molecule*> cellJ =
             cellOccupancy_[dil[d][interactingCells]];
-          forAll(cellJ, cellJMols)
+          FOR_ALL(cellJ, cellJMols)
           {
             molJ = cellJ[cellJMols];
             evaluatePair(*molI, *molJ);
           }
         }
-        forAll(cellOccupancy_[d], cellIOtherMols)
+        FOR_ALL(cellOccupancy_[d], cellIOtherMols)
         {
           molJ = cellOccupancy_[d][cellIOtherMols];
           if (molJ > molI)
@@ -119,21 +119,21 @@ void mousse::moleculeCloud::calculatePairForce()
     // Real-Referred interactions
     const labelListList& ril = il_.ril();
     List<IDLList<molecule> >& referredMols = il_.referredParticles();
-    forAll(ril, r)
+    FOR_ALL(ril, r)
     {
       const List<label>& realCells = ril[r];
       IDLList<molecule>& refMols = referredMols[r];
-      forAllIter
+      FOR_ALL_ITER
       (
         IDLList<molecule>,
         refMols,
         refMol
       )
       {
-        forAll(realCells, rC)
+        FOR_ALL(realCells, rC)
         {
           List<molecule*> cellI = cellOccupancy_[realCells[rC]];
-          forAll(cellI, cellIMols)
+          FOR_ALL(cellI, cellIMols)
           {
             molI = cellI[cellIMols];
             evaluatePair(*molI, refMol());
@@ -146,7 +146,7 @@ void mousse::moleculeCloud::calculatePairForce()
 void mousse::moleculeCloud::calculateTetherForce()
 {
   const tetherPotentialList& tetherPot(pot_.tetherPotentials());
-  forAllIter(moleculeCloud, *this, mol)
+  FOR_ALL_ITER(moleculeCloud, *this, mol)
   {
     if (mol().tethered())
     {
@@ -163,7 +163,7 @@ void mousse::moleculeCloud::calculateTetherForce()
 }
 void mousse::moleculeCloud::calculateExternalForce()
 {
-  forAllIter(moleculeCloud, *this, mol)
+  FOR_ALL_ITER(moleculeCloud, *this, mol)
   {
     mol().a() += pot_.gravity();
   }
@@ -173,7 +173,7 @@ void mousse::moleculeCloud::removeHighEnergyOverlaps()
   Info<< nl << "Removing high energy overlaps, limit = "
     << pot_.potentialEnergyLimit()
     << nl << "Removal order:";
-  forAll(pot_.removalOrder(), rO)
+  FOR_ALL(pot_.removalOrder(), rO)
   {
     Info<< ' ' << pot_.idList()[pot_.removalOrder()[rO]];
   }
@@ -186,16 +186,16 @@ void mousse::moleculeCloud::removeHighEnergyOverlaps()
   {
     DynamicList<molecule*> molsToDelete;
     const labelListList& dil(il_.dil());
-    forAll(dil, d)
+    FOR_ALL(dil, d)
     {
-      forAll(cellOccupancy_[d],cellIMols)
+      FOR_ALL(cellOccupancy_[d],cellIMols)
       {
         molI = cellOccupancy_[d][cellIMols];
-        forAll(dil[d], interactingCells)
+        FOR_ALL(dil[d], interactingCells)
         {
           List<molecule*> cellJ =
             cellOccupancy_[dil[d][interactingCells]];
-          forAll(cellJ, cellJMols)
+          FOR_ALL(cellJ, cellJMols)
           {
             molJ = cellJ[cellJMols];
             if (evaluatePotentialLimit(*molI, *molJ))
@@ -222,7 +222,7 @@ void mousse::moleculeCloud::removeHighEnergyOverlaps()
           }
         }
       }
-      forAll(cellOccupancy_[d], cellIOtherMols)
+      FOR_ALL(cellOccupancy_[d], cellIOtherMols)
       {
         molJ = cellOccupancy_[d][cellIOtherMols];
         if (molJ > molI)
@@ -251,7 +251,7 @@ void mousse::moleculeCloud::removeHighEnergyOverlaps()
         }
       }
     }
-    forAll(molsToDelete, mTD)
+    FOR_ALL(molsToDelete, mTD)
     {
       deleteParticle(*(molsToDelete[mTD]));
     }
@@ -268,10 +268,10 @@ void mousse::moleculeCloud::removeHighEnergyOverlaps()
     DynamicList<molecule*> molsToDelete;
     const labelListList& ril(il_.ril());
     List<IDLList<molecule> >& referredMols = il_.referredParticles();
-    forAll(ril, r)
+    FOR_ALL(ril, r)
     {
       IDLList<molecule>& refMols = referredMols[r];
-      forAllIter
+      FOR_ALL_ITER
       (
         IDLList<molecule>,
         refMols,
@@ -280,11 +280,11 @@ void mousse::moleculeCloud::removeHighEnergyOverlaps()
       {
         molJ = &refMol();
         const List<label>& realCells = ril[r];
-        forAll(realCells, rC)
+        FOR_ALL(realCells, rC)
         {
           label cellI = realCells[rC];
           List<molecule*> cellIMols = cellOccupancy_[cellI];
-          forAll(cellIMols, cIM)
+          FOR_ALL(cellIMols, cIM)
           {
             molI = cellIMols[cIM];
             if (evaluatePotentialLimit(*molI, *molJ))
@@ -325,7 +325,7 @@ void mousse::moleculeCloud::removeHighEnergyOverlaps()
         }
       }
     }
-    forAll(molsToDelete, mTD)
+    FOR_ALL(molsToDelete, mTD)
     {
       deleteParticle(*(molsToDelete[mTD]));
     }
@@ -354,11 +354,11 @@ void mousse::moleculeCloud::initialiseMolecules
   const cellZoneMesh& cellZones = mesh_.cellZones();
   if (!cellZones.size())
   {
-    FatalErrorIn("void mousse::moleculeCloud::initialiseMolecules")
+    FATAL_ERROR_IN("void mousse::moleculeCloud::initialiseMolecules")
       << "No cellZones found in the mesh."
       << abort(FatalError);
   }
-  forAll(cellZones, z)
+  FOR_ALL(cellZones, z)
   {
     const cellZone& zone(cellZones[z]);
     if (zone.size())
@@ -387,7 +387,7 @@ void mousse::moleculeCloud::initialiseMolecules
         );
         if (latticeIds.size() != latticePositions.size())
         {
-          FatalErrorIn("mousse::moleculeCloud::initialiseMolecules")
+          FATAL_ERROR_IN("mousse::moleculeCloud::initialiseMolecules")
             << "latticeIds and latticePositions must be the same "
             << " size." << nl
             << abort(FatalError);
@@ -405,7 +405,7 @@ void mousse::moleculeCloud::initialiseMolecules
           );
           if (numberDensity < VSMALL)
           {
-            WarningIn("moleculeCloud::initialiseMolecules")
+            WARNING_IN("moleculeCloud::initialiseMolecules")
               << "numberDensity too small, not filling zone "
               << zone.name() << endl;
             continue;
@@ -419,7 +419,7 @@ void mousse::moleculeCloud::initialiseMolecules
         else if (zoneDict.found("massDensity"))
         {
           scalar unitCellMass = 0.0;
-          forAll(latticeIds, i)
+          FOR_ALL(latticeIds, i)
           {
             label id = findIndex(pot_.idList(), latticeIds[i]);
             const molecule::constantProperties& cP(constProps(id));
@@ -431,7 +431,7 @@ void mousse::moleculeCloud::initialiseMolecules
           );
           if (massDensity < VSMALL)
           {
-            WarningIn("moleculeCloud::initialiseMolecules")
+            WARNING_IN("moleculeCloud::initialiseMolecules")
               << "massDensity too small, not filling zone "
               << zone.name() << endl;
             continue;
@@ -444,7 +444,7 @@ void mousse::moleculeCloud::initialiseMolecules
         }
         else
         {
-          FatalErrorIn("mousse::moleculeCloud::initialiseMolecules")
+          FATAL_ERROR_IN("mousse::moleculeCloud::initialiseMolecules")
             << "massDensity or numberDensity not specified " << nl
             << abort(FatalError);
         }
@@ -482,7 +482,7 @@ void mousse::moleculeCloud::initialiseMolecules
         // lattice location.
         vector zoneMin = VGREAT*vector::one;
         vector zoneMax = -VGREAT*vector::one;
-        forAll(zone, cell)
+        FOR_ALL(zone, cell)
         {
           const point cellCentre = mesh_.cellCentres()[zone[cell]];
           if (cellCentre.x() > zoneMax.x())
@@ -544,7 +544,7 @@ void mousse::moleculeCloud::initialiseMolecules
             // Special treatment is required for the first position,
             // i.e. iteration zero.
             labelVector unitCellLatticePosition(0,0,0);
-            forAll(latticePositions, p)
+            FOR_ALL(latticePositions, p)
             {
               label id = findIndex(pot_.idList(), latticeIds[p]);
               const vector& latticePosition =
@@ -613,7 +613,7 @@ void mousse::moleculeCloud::initialiseMolecules
                   unitCellLatticePosition.x()++
                 )
                 {
-                  forAll(latticePositions, p)
+                  FOR_ALL(latticePositions, p)
                   {
                     label id = findIndex
                     (
@@ -683,7 +683,7 @@ void mousse::moleculeCloud::initialiseMolecules
                 unitCellLatticePosition.y() = -n + (iR + 1);
                 for (label iK = 0; iK < 4; iK++)
                 {
-                  forAll(latticePositions, p)
+                  FOR_ALL(latticePositions, p)
                   {
                     label id = findIndex
                     (
@@ -757,7 +757,7 @@ void mousse::moleculeCloud::initialiseMolecules
           && !partOfLayerInBounds
           )
           {
-            WarningIn("mousse::moleculeCloud::initialiseMolecules()")
+            WARNING_IN("mousse::moleculeCloud::initialiseMolecules()")
               << "A whole layer of unit cells was placed "
               << "outside the bounds of the mesh, but no "
               << "molecules have been placed in zone '"
@@ -798,7 +798,7 @@ void mousse::moleculeCloud::createMolecule
   }
   if (cell == -1)
   {
-    FatalErrorIn("mousse::moleculeCloud::createMolecule")
+    FATAL_ERROR_IN("mousse::moleculeCloud::createMolecule")
       << "Position specified does not correspond to a mesh cell." << nl
       << abort(FatalError);
   }
@@ -857,7 +857,7 @@ void mousse::moleculeCloud::createMolecule
 mousse::label mousse::moleculeCloud::nSites() const
 {
   label n = 0;
-  forAllConstIter(moleculeCloud, *this, mol)
+  FOR_ALL_CONST_ITER(moleculeCloud, *this, mol)
   {
     n += constProps(mol().id()).nSites();
   }
@@ -928,7 +928,7 @@ void mousse::moleculeCloud::calculateForce()
 {
   buildCellOccupancy();
   // Set accumulated quantities to zero
-  forAllIter(moleculeCloud, *this, mol)
+  FOR_ALL_ITER(moleculeCloud, *this, mol)
   {
     mol().siteForces() = vector::zero;
     mol().potentialEnergy() = 0.0;
@@ -956,7 +956,7 @@ void mousse::moleculeCloud::applyConstraintsAndThermostats
     << temperatureCorrectionFactor << nl
     << "----------------------------------------"
     << endl;
-  forAllIter(moleculeCloud, *this, mol)
+  FOR_ALL_ITER(moleculeCloud, *this, mol)
   {
     mol().v() *= temperatureCorrectionFactor;
     mol().pi() *= temperatureCorrectionFactor;
@@ -966,10 +966,10 @@ void mousse::moleculeCloud::writeXYZ(const fileName& fName) const
 {
   OFstream os(fName);
   os  << nSites() << nl << "moleculeCloud site positions in angstroms" << nl;
-  forAllConstIter(moleculeCloud, *this, mol)
+  FOR_ALL_CONST_ITER(moleculeCloud, *this, mol)
   {
     const molecule::constantProperties& cP = constProps(mol().id());
-    forAll(mol().sitePositions(), i)
+    FOR_ALL(mol().sitePositions(), i)
     {
       const point& sP = mol().sitePositions()[i];
       os  << pot_.siteIdList()[cP.siteIds()[i]]

@@ -7,7 +7,7 @@ if (writeVacf)
   OFstream vacfFile(runTime.path()/"vacf");
   if (!vacf.writeAveraged(vacfFile))
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "Failed writing to "
       << vacfFile.name()
       << abort(FatalError);
@@ -20,7 +20,7 @@ if (writePacf)
   OFstream pacfFile(runTime.path()/"pacf");
   if (!pacf.writeAveraged(pacfFile))
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "Failed writing to "
       << pacfFile.name()
       << abort(FatalError);
@@ -37,7 +37,7 @@ if (writeHFacf)
   );
   if (!hfacf.writeAveraged(hfacfFile))
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "Failed writing to "
       << hfacfFile.name()
       << abort(FatalError);

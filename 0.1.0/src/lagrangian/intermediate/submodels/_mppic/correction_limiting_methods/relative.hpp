@@ -28,7 +28,7 @@ protected:
     scalar e_;
 public:
   //- Runtime type information
-  TypeName("relative");
+  TYPE_NAME("relative");
   // Constructors
     //- Construct from components
     relative(const dictionary& dict);

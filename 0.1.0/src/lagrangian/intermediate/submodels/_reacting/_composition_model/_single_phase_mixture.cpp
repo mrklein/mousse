@@ -9,14 +9,14 @@ void mousse::SinglePhaseMixture<CloudType>::constructIds()
 {
   if (this->phaseProps().size() == 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::SinglePhaseMixture<CloudType>::constructIds()"
     )   << "Phase list is empty" << exit(FatalError);
   }
   else if (this->phaseProps().size() > 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::SinglePhaseMixture<CloudType>::constructIds()"
     )   << "Only one phase permitted" << exit(FatalError);
@@ -40,7 +40,7 @@ void mousse::SinglePhaseMixture<CloudType>::constructIds()
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::SinglePhaseMixture<CloudType>::constructIds()"
       )   << "Unknown phase enumeration" << abort(FatalError);

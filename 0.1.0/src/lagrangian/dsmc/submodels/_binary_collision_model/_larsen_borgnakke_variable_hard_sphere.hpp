@@ -31,7 +31,7 @@ class LarsenBorgnakkeVariableHardSphere
     );
 public:
   //- Runtime type information
-  TypeName("LarsenBorgnakkeVariableHardSphere");
+  TYPE_NAME("LarsenBorgnakkeVariableHardSphere");
   // Constructors
     //- Construct from dictionary
     LarsenBorgnakkeVariableHardSphere

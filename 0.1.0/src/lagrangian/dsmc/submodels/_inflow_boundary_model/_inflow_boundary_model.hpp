@@ -29,9 +29,9 @@ class InflowBoundaryModel
     const dictionary coeffDict_;
 public:
   //- Runtime type information
-  TypeName("InflowBoundaryModel");
+  TYPE_NAME("InflowBoundaryModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     InflowBoundaryModel,
@@ -55,7 +55,7 @@ public:
   //- Destructor
   virtual ~InflowBoundaryModel();
   //- Selector
-  static autoPtr<InflowBoundaryModel<CloudType> > New
+  static autoPtr<InflowBoundaryModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -78,22 +78,22 @@ public:
 };
 }  // namespace mousse
 
-#define makeInflowBoundaryModel(CloudType)                                    \
+#define MAKE_INFLOW_BOUNDARY_MODEL(CloudType)                                 \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(InflowBoundaryModel<CloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(InflowBoundaryModel<CloudType>, 0);\
                                                                               \
-  defineTemplateRunTimeSelectionTable                                         \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
   (                                                                           \
     InflowBoundaryModel<CloudType>,                                           \
     dictionary                                                                \
   );
 
-#define makeInflowBoundaryModelType(SS, CloudType)                            \
+#define MAKE_INFLOW_BOUNDARY_MODEL_TYPE(SS, CloudType)                        \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(SS<CloudType>, 0);                      \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<CloudType>, 0);                \
                                                                               \
   InflowBoundaryModel<CloudType>::                                            \
-    adddictionaryConstructorToTable<SS<CloudType> >                           \
+    adddictionaryConstructorToTable<SS<CloudType>>                            \
       add##SS##CloudType##ConstructorToTable_;
 
 #ifdef NoRepository

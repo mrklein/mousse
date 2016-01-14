@@ -69,7 +69,7 @@ mousse::InflationInjection<CloudType>::InflationInjection
   if (Pstream::parRun())
   {
     scalar generationVolume = 0.0;
-    forAll(generationCells_, gCI)
+    FOR_ALL(generationCells_, gCI)
     {
       label cI = generationCells_[gCI];
       generationVolume += this->owner().mesh().cellVolumes()[cI];
@@ -131,11 +131,11 @@ mousse::label mousse::InflationInjection<CloudType>::parcelsToInject
   scalar gR = growthRate_.value(time1);
   scalar dT = time1 - time0;
   // Inflate existing particles
-  forAll(inflationCells_, iCI)
+  FOR_ALL(inflationCells_, iCI)
   {
     label cI = inflationCells_[iCI];
     typename CloudType::parcelType* pPtr = NULL;
-    forAll(cellOccupancy[cI], cPI)
+    FOR_ALL(cellOccupancy[cI], cPI)
     {
       pPtr = cellOccupancy[cI][cPI];
       scalar dTarget = pPtr->dTarget();
@@ -168,7 +168,7 @@ mousse::label mousse::InflationInjection<CloudType>::parcelsToInject
   {
     if (iterationNo > maxIterations)
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::label "
         "mousse::InflationInjection<CloudType>::parcelsToInject"

@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(Cloud<solidParticle>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<solidParticle>, 0);
 }
 // Member Functions 
 bool mousse::solidParticle::move
@@ -82,7 +82,7 @@ void mousse::solidParticle::hitProcessorPatch
 }
 void mousse::solidParticle::hitWallPatch
 (
-  const wallPolyPatch& wpp,
+  const wallPolyPatch&,
   trackingData& td,
   const tetIndices& tetIs
 )

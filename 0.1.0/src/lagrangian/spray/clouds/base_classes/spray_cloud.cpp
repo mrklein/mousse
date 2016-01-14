@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sprayCloud, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(sprayCloud, 0);
 }
 // Constructors 
 mousse::sprayCloud::sprayCloud()

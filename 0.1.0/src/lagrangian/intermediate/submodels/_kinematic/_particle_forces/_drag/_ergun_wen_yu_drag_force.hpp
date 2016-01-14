@@ -24,7 +24,7 @@ class ErgunWenYuDragForce
     scalar CdRe(const scalar Re) const;
 public:
   //- Runtime type information
-  TypeName("ErgunWenYuDrag");
+  TYPE_NAME("ErgunWenYuDrag");
   // Constructors
     //- Construct from mesh
     ErgunWenYuDragForce

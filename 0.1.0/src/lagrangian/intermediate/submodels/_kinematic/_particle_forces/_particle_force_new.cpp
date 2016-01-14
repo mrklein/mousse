@@ -19,7 +19,7 @@ mousse::ParticleForce<CloudType>::New
     dictionaryConstructorTablePtr_->find(forceType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ParticleForce<CloudType>::New"
       "("

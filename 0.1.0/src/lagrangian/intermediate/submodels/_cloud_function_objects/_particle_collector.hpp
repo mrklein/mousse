@@ -157,7 +157,7 @@ protected:
     void write();
 public:
   //- Runtime type information
-  TypeName("particleCollector");
+  TYPE_NAME("particleCollector");
   // Constructors
     //- Construct from dictionary
     ParticleCollector

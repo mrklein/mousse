@@ -155,7 +155,7 @@ protected:
       ) const;
 public:
   //- Runtime type information
-  TypeName("thermoSurfaceFilm");
+  TYPE_NAME("thermoSurfaceFilm");
   // Constructors
     //- Construct from components
     ThermoSurfaceFilm(const dictionary& dict, CloudType& owner);

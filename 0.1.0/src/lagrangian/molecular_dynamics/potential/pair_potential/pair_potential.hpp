@@ -36,15 +36,11 @@ protected:
     bool writeTables_;
   // Private Member Functions
     void scaleEnergy(scalar& e, const scalar r) const;
-    //- Disallow copy construct
-    pairPotential(const pairPotential&);
-    //- Disallow default bitwise assignment
-    void operator=(const pairPotential&);
 public:
   //- Runtime type information
-    TypeName("pairPotential");
+    TYPE_NAME("pairPotential");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       pairPotential,
@@ -69,6 +65,10 @@ public:
       const word& name,
       const dictionary& pairPotentialProperties
     );
+    //- Disallow copy construct
+    pairPotential(const pairPotential&) = delete;
+    //- Disallow default bitwise assignment
+    pairPotential& operator=(const pairPotential&) = delete;
   //- Destructor
   virtual ~pairPotential()
   {}
@@ -99,5 +99,26 @@ public:
     virtual bool read(const dictionary& pairPotentialProperties) = 0;
 };
 }  // namespace mousse
-#include "pair_potential_i.hpp"
+
+// Member Functions 
+inline mousse::scalar mousse::pairPotential::rMin() const
+{
+  return rMin_;
+}
+inline mousse::scalar mousse::pairPotential::dr() const
+{
+  return dr_;
+}
+inline mousse::scalar mousse::pairPotential::rCut() const
+{
+  return rCut_;
+}
+inline mousse::scalar mousse::pairPotential::rCutSqr() const
+{
+  return rCutSqr_;
+}
+inline bool mousse::pairPotential::writeTables() const
+{
+  return writeTables_;
+}
 #endif

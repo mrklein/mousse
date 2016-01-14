@@ -29,9 +29,9 @@ protected:
     autoPtr<TimeScaleModel> timeScaleModel_;
 public:
   //- Runtime type information
-  TypeName("dampingModel");
+  TYPE_NAME("dampingModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     DampingModel,
@@ -74,10 +74,10 @@ public:
 };
 }  // namespace mousse
 
-#define makeDampingModel(CloudType)                                           \
+#define MAKE_DAMPING_MODEL(CloudType)                                         \
                                                                               \
   typedef mousse::CloudType::MPPICCloudType MPPICCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::DampingModel<MPPICCloudType>,                                     \
     0                                                                         \
@@ -85,17 +85,17 @@ public:
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       DampingModel<MPPICCloudType>,                                           \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeDampingModelType(SS, CloudType)                                   \
+#define MAKE_DAMPING_MODEL_TYPE(SS, CloudType)                                \
                                                                               \
   typedef mousse::CloudType::MPPICCloudType MPPICCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
     (mousse::DampingModels::SS<MPPICCloudType>, 0);                           \
                                                                               \
   mousse::DampingModel<MPPICCloudType>::                                      \

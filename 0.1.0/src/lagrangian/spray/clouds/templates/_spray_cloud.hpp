@@ -37,22 +37,17 @@ public:
 private:
   // Private data
     //- Cloud copy pointer
-    autoPtr<SprayCloud<CloudType> > cloudCopyPtr_;
+    autoPtr<SprayCloud<CloudType>> cloudCopyPtr_;
     //- Average parcel mass
     scalar averageParcelMass_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    SprayCloud(const SprayCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const SprayCloud&);
 protected:
   // Protected data
     // References to the cloud sub-models
       //- Atomization model
-      autoPtr<AtomizationModel<SprayCloud<CloudType> > >
+      autoPtr<AtomizationModel<SprayCloud<CloudType>>>
         atomizationModel_;
       //- Break-up model
-      autoPtr<BreakupModel<SprayCloud<CloudType> > > breakupModel_;
+      autoPtr<BreakupModel<SprayCloud<CloudType>>> breakupModel_;
   // Protected Member Functions
     // Initialisation
       //- Set cloud sub-models
@@ -82,21 +77,25 @@ public:
       const SprayCloud<CloudType>& c
     );
     //- Construct and return clone based on (this) with new name
-    virtual autoPtr<Cloud<parcelType> > clone(const word& name)
+    virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType> >
+      return autoPtr<Cloud<parcelType>>
       (
         new SprayCloud(*this, name)
       );
     }
     //- Construct and return bare clone based on (this) with new name
-    virtual autoPtr<Cloud<parcelType> > cloneBare(const word& name) const
+    virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType> >
+      return autoPtr<Cloud<parcelType>>
       (
         new SprayCloud(this->mesh(), name, *this)
       );
     }
+    //- Disallow default bitwise copy construct
+    SprayCloud(const SprayCloud&) = delete;
+    //- Disallow default bitwise assignment
+    SprayCloud& operator=(const SprayCloud&) = delete;
   //- Destructor
   virtual ~SprayCloud();
   // Member Functions
@@ -107,15 +106,15 @@ public:
       inline scalar averageParcelMass() const;
       // Sub-models
         //- Return const-access to the atomization model
-        inline const AtomizationModel<SprayCloud<CloudType> >&
+        inline const AtomizationModel<SprayCloud<CloudType>>&
           atomization() const;
         //- Return reference to the atomization model
-        inline AtomizationModel<SprayCloud<CloudType> >& atomization();
+        inline AtomizationModel<SprayCloud<CloudType>>& atomization();
         //- Return const-access to the breakup model
-        inline const BreakupModel<SprayCloud<CloudType> >&
+        inline const BreakupModel<SprayCloud<CloudType>>&
           breakup() const;
         //- Return reference to the breakup model
-        inline BreakupModel<SprayCloud<CloudType> >& breakup();
+        inline BreakupModel<SprayCloud<CloudType>>& breakup();
     // Cloud evolution functions
       //- Set parcel thermo properties
       void setParcelThermoProperties

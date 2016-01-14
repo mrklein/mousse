@@ -735,7 +735,7 @@ void mousse::InteractionLists<ParticleType>::fillReferredParticleCloud()
     {
       const IDLList<ParticleType>& refCell =
         referredParticles_[refCellI];
-      forAllConstIter(typename IDLList<ParticleType>, refCell, iter)
+      FOR_ALL_CONST_ITER(typename IDLList<ParticleType>, refCell, iter)
       {
         cloud_.addParticle
         (
@@ -874,7 +874,7 @@ void mousse::InteractionLists<ParticleType>::sendReferredData
 {
   if (mesh_.changing())
   {
-    WarningIn
+    WARNING_IN
     (
       "void mousse::InteractionLists<ParticleType>::sendReferredData"
       "("

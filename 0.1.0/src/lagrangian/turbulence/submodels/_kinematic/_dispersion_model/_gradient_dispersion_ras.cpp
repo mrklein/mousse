@@ -14,9 +14,9 @@ mousse::GradientDispersionRAS<CloudType>::GradientDispersionRAS
   CloudType& owner
 )
 :
-  DispersionRASModel<CloudType>(dict, owner),
-  gradkPtr_(NULL),
-  ownGradK_(false)
+  DispersionRASModel<CloudType>{dict, owner},
+  gradkPtr_{NULL},
+  ownGradK_{false}
 {}
 template<class CloudType>
 mousse::GradientDispersionRAS<CloudType>::GradientDispersionRAS
@@ -24,9 +24,9 @@ mousse::GradientDispersionRAS<CloudType>::GradientDispersionRAS
   const GradientDispersionRAS<CloudType>& dm
 )
 :
-  DispersionRASModel<CloudType>(dm),
-  gradkPtr_(dm.gradkPtr_),
-  ownGradK_(dm.ownGradK_)
+  DispersionRASModel<CloudType>{dm},
+  gradkPtr_{dm.gradkPtr_},
+  ownGradK_{dm.ownGradK_}
 {
   dm.ownGradK_ = false;
 }

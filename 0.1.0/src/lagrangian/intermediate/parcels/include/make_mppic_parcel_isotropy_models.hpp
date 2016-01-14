@@ -7,11 +7,11 @@
 #include "_no_isotropy.hpp"
 #include "_stochastic.hpp"
 
-#define makeMPPICParcelIsotropyModels(CloudType)                              \
+#define MAKE_MPPIC_PARCEL_ISOTROPY_MODELS(CloudType)                          \
                                                                               \
-  makeIsotropyModel(CloudType);                                               \
+  MAKE_ISOTROPY_MODEL(CloudType);                                             \
                                                                               \
-  makeIsotropyModelType(NoIsotropy, CloudType);                               \
-  makeIsotropyModelType(Stochastic, CloudType);
+  MAKE_ISOTROPY_MODEL_TYPE(NoIsotropy, CloudType);                            \
+  MAKE_ISOTROPY_MODEL_TYPE(Stochastic, CloudType);
 
 #endif

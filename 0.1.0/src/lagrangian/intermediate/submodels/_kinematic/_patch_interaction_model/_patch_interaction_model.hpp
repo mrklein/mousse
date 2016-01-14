@@ -41,9 +41,9 @@ private:
     const word UName_;
 public:
   //- Runtime type information
-  TypeName("patchInteractionModel");
+  TYPE_NAME("patchInteractionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     PatchInteractionModel,
@@ -100,10 +100,10 @@ public:
 };
 }  // namespace mousse
 
-#define makePatchInteractionModel(CloudType)                                  \
+#define MAKE_PATCH_INTERACTION_MODEL(CloudType)                               \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::PatchInteractionModel<kinematicCloudType>,                        \
     0                                                                         \
@@ -111,17 +111,17 @@ public:
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       PatchInteractionModel<kinematicCloudType>,                              \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makePatchInteractionModelType(SS, CloudType)                          \
+#define MAKE_PATCH_INTERACTION_MODEL_TYPE(SS, CloudType)                      \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<kinematicCloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::PatchInteractionModel<kinematicCloudType>::                         \
     adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \

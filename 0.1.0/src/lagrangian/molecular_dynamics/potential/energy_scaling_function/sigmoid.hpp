@@ -30,7 +30,7 @@ class sigmoid
     ) const;
 public:
   //- Runtime type information
-  TypeName("sigmoid");
+  TYPE_NAME("sigmoid");
   // Constructors
     //- Construct from components
     sigmoid

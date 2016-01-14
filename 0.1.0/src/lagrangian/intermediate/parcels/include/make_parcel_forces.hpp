@@ -19,21 +19,21 @@
 #include "_srf_force.hpp"
 #include "_virtual_mass_force.hpp"
 
-#define makeParcelForces(CloudType)                                           \
+#define MAKE_PARCEL_FORCES(CloudType)                                         \
                                                                               \
-  makeParticleForceModel(CloudType);                                          \
-  makeParticleForceModelType(SphereDragForce, CloudType);                     \
-  makeParticleForceModelType(NonSphereDragForce, CloudType);                  \
-  makeParticleForceModelType(WenYuDragForce, CloudType);                      \
-  makeParticleForceModelType(ErgunWenYuDragForce, CloudType);                 \
-  makeParticleForceModelType(PlessisMasliyahDragForce, CloudType);            \
-  makeParticleForceModelType(SaffmanMeiLiftForce, CloudType);                 \
-  makeParticleForceModelType(TomiyamaLiftForce, CloudType);                   \
-  makeParticleForceModelType(GravityForce, CloudType);                        \
-  makeParticleForceModelType(NonInertialFrameForce, CloudType);               \
-  makeParticleForceModelType(ParamagneticForce, CloudType);                   \
-  makeParticleForceModelType(PressureGradientForce, CloudType);               \
-  makeParticleForceModelType(SRFForce, CloudType);                            \
-  makeParticleForceModelType(VirtualMassForce, CloudType);
+  MAKE_PARTICLE_FORCE_MODEL(CloudType);                                       \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(SphereDragForce, CloudType);                 \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(NonSphereDragForce, CloudType);              \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(WenYuDragForce, CloudType);                  \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(ErgunWenYuDragForce, CloudType);             \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(PlessisMasliyahDragForce, CloudType);        \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(SaffmanMeiLiftForce, CloudType);             \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(TomiyamaLiftForce, CloudType);               \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(GravityForce, CloudType);                    \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(NonInertialFrameForce, CloudType);           \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(ParamagneticForce, CloudType);               \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(PressureGradientForce, CloudType);           \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(SRFForce, CloudType);                        \
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(VirtualMassForce, CloudType);
 
 #endif

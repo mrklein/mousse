@@ -27,7 +27,7 @@ class DistortedSphereDragForce
     scalar CdRe(const scalar Re) const;
 public:
   //- Runtime type information
-  TypeName("distortedSphereDrag");
+  TYPE_NAME("distortedSphereDrag");
   // Constructors
     //- Construct from mesh
     DistortedSphereDragForce

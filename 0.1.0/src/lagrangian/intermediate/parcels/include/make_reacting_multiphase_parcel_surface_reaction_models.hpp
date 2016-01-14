@@ -7,9 +7,9 @@
 
 #include "_no_surface_reaction.hpp"
 
-#define makeReactingMultiphaseParcelSurfaceReactionModels(CloudType)          \
+#define MAKE_REACTING_MULTIPHASE_PARCEL_SURFACE_REACTION_MODELS(CloudType)    \
                                                                               \
-  makeSurfaceReactionModel(CloudType);                                        \
-  makeSurfaceReactionModelType(NoSurfaceReaction, CloudType);
+  MAKE_SURFACE_REACTION_MODEL(CloudType);                                     \
+  MAKE_SURFACE_REACTION_MODEL_TYPE(NoSurfaceReaction, CloudType);
 
 #endif

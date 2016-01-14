@@ -33,12 +33,12 @@ mousse::AveragingMethods::Moment<Type>::Moment
   xQ[1] = vector(c, b, c);
   xQ[2] = vector(c, c, b);
   xQ[3] = vector(c, c, c);
-  forAll(mesh.C(), cellI)
+  FOR_ALL(mesh.C(), cellI)
   {
     const List<tetIndices> cellTets =
       polyMeshTetDecomposition::cellTetIndices(mesh, cellI);
     symmTensor A(symmTensor::zero);
-    forAll(cellTets, tetI)
+    FOR_ALL(cellTets, tetI)
     {
       const tetIndices& tetIs = cellTets[tetI];
       const label faceI = tetIs.face();
@@ -128,7 +128,7 @@ template<class Type>
 typename mousse::AveragingMethods::Moment<Type>::TypeGrad
 mousse::AveragingMethods::Moment<Type>::interpolateGrad
 (
-  const point position,
+  const point /*position*/,
   const tetIndices& tetIs
 ) const
 {

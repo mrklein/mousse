@@ -11,7 +11,7 @@ bool mousse::MultiInteraction<CloudType>::read(const dictionary& dict)
   Info<< "Patch interaction model " << typeName << nl
     << "Executing in turn " << endl;
   label nModels = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (iter().isDict())
     {
@@ -21,7 +21,7 @@ bool mousse::MultiInteraction<CloudType>::read(const dictionary& dict)
   }
   models_.setSize(nModels);
   nModels = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (iter().isDict())
     {
@@ -79,7 +79,7 @@ mousse::MultiInteraction<CloudType>::~MultiInteraction()
 template<class CloudType>
 bool mousse::MultiInteraction<CloudType>::active() const
 {
-  forAll(models_, i)
+  FOR_ALL(models_, i)
   {
     if (models_[i].active())
     {
@@ -101,7 +101,7 @@ bool mousse::MultiInteraction<CloudType>::correct
   label origFacei = p.face();
   label patchi = pp.index();
   bool interacted = false;
-  forAll(models_, i)
+  FOR_ALL(models_, i)
   {
     bool myInteracted = models_[i].correct
     (

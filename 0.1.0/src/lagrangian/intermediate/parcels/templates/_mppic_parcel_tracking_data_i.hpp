@@ -145,7 +145,7 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   );
   AveragingMethod<scalar>& weightAverage = weightAveragePtr();
   // averaging sums
-  forAllConstIter(typename CloudType, cloud, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter)
   {
     const typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), cloud.mesh());
@@ -160,7 +160,7 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   rhoAverage_->average(massAverage_);
   uAverage_->average(massAverage_);
   // squared velocity deviation
-  forAllConstIter(typename CloudType, cloud, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter)
   {
     const typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), cloud.mesh());
@@ -176,7 +176,7 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   // sauter mean radius
   radiusAverage_() = volumeAverage_();
   weightAverage = 0;
-  forAllConstIter(typename CloudType, cloud, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter)
   {
     const typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), cloud.mesh());
@@ -191,7 +191,7 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   radiusAverage_->average(weightAverage);
   // collision frequency
   weightAverage = 0;
-  forAllConstIter(typename CloudType, cloud, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter)
   {
     const typename CloudType::parcelType& p = iter();
     tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), cloud.mesh());

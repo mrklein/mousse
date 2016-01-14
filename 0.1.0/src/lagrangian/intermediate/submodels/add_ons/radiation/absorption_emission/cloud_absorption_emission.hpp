@@ -25,7 +25,7 @@ class cloudAbsorptionEmission
     const wordList cloudNames_;
 public:
   //- Runtime type information
-  TypeName("cloudAbsorptionEmission");
+  TYPE_NAME("cloudAbsorptionEmission");
   // Constructors
     //- Construct from components
     cloudAbsorptionEmission(const dictionary& dict, const fvMesh& mesh);

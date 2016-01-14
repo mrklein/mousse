@@ -119,7 +119,7 @@ hRetentionCoeff() const
   scalar value = hRetentionCoeff_.value();
   if ((value < 0) || (value > 1))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ReactingMultiphaseParcel<ParcelType>::constantProperties::"
       "constantProperties"

@@ -48,7 +48,7 @@ private:
     SMDMethods SMDMethod_;
 public:
   //- Runtime type information
-  TypeName("LISA");
+  TYPE_NAME("LISA");
   // Constructors
     //- Construct from dictionary
     LISAAtomization(const dictionary&, CloudType&);

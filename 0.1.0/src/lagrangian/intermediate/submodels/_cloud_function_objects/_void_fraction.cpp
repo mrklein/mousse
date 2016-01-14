@@ -13,7 +13,7 @@ void mousse::VoidFraction<CloudType>::write()
   }
   else
   {
-    FatalErrorIn("void mousse::VoidFraction<CloudType>::write()")
+    FATAL_ERROR_IN("void mousse::VoidFraction<CloudType>::write()")
       << "thetaPtr not valid" << abort(FatalError);
   }
 }

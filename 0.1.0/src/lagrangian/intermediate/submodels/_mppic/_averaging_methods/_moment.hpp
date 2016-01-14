@@ -50,7 +50,7 @@ private:
     virtual void updateGrad();
 public:
   //- Runtime type information
-  TypeName("moment");
+  TYPE_NAME("moment");
   //- Constructors
     //- Construct from components
     Moment

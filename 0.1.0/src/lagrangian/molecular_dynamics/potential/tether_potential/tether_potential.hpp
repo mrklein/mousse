@@ -22,16 +22,11 @@ protected:
   // Protected data
     word name_;
     dictionary tetherPotentialProperties_;
-  // Private Member Functions
-    //- Disallow copy construct
-    tetherPotential(const tetherPotential&);
-    //- Disallow default bitwise assignment
-    void operator=(const tetherPotential&);
 public:
   //- Runtime type information
-  TypeName("tetherPotential");
+  TYPE_NAME("tetherPotential");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       tetherPotential,
@@ -56,6 +51,10 @@ public:
       const word& name,
       const dictionary& tetherPotentialProperties
     );
+    //- Disallow copy construct
+    tetherPotential(const tetherPotential&) = delete;
+    //- Disallow default bitwise assignment
+    tetherPotential& operator=(const tetherPotential&) = delete;
   //- Destructor
   virtual ~tetherPotential()
   {}

@@ -61,7 +61,7 @@ class COxidationMurphyShaddix
       scalar HcCO2_;
 public:
   //- Runtime type information
-  TypeName("COxidationMurphyShaddix");
+  TYPE_NAME("COxidationMurphyShaddix");
   // Constructors
     //- Construct from dictionary
     COxidationMurphyShaddix

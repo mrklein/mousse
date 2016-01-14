@@ -22,7 +22,7 @@ class VirtualMassForce
     scalar Cvm_;
 public:
   //- Runtime type information
-  TypeName("virtualMass");
+  TYPE_NAME("virtualMass");
   // Constructors
     //- Construct from mesh
     VirtualMassForce

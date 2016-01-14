@@ -40,7 +40,7 @@ protected:
     void write();
 public:
   //- Runtime type information
-  TypeName("particleTracks");
+  TYPE_NAME("particleTracks");
   // Constructors
     //- Construct from dictionary
     ParticleTracks

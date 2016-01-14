@@ -22,7 +22,7 @@
   scalar probFactorMin = exp(-pow(minValue/delta, nExp));
   scalar probFactorMax = exp(-pow(maxValue/delta, nExp));
   scalar probFactor = 1.0/(probFactorMin - probFactorMax);
-  forAll(rrd, n)
+  FOR_ALL(rrd, n)
   {
     scalar xx = minValue + range*n/500;
     rrd[n] = (probFactorMin - exp(-pow(xx/delta, nExp)))*probFactor;

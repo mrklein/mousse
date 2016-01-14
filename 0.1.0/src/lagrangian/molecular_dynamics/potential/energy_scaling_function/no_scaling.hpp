@@ -19,7 +19,7 @@ class noScaling
 {
 public:
   //- Runtime type information
-  TypeName("noScaling");
+  TYPE_NAME("noScaling");
   // Constructors
     //- Construct from components
     noScaling

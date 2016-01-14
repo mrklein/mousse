@@ -13,15 +13,15 @@
 #include "_etab.hpp"
 #include "_shf.hpp"
 
-#define makeSprayParcelBreakupModels(CloudType)                               \
+#define MAKE_SPRAY_PARCEL_BREAKUP_MODELS(CloudType)                           \
                                                                               \
-  makeBreakupModel(CloudType)                                                 \
-  makeBreakupModelType(NoBreakup, CloudType);                                 \
-  makeBreakupModelType(PilchErdman, CloudType);                               \
-  makeBreakupModelType(ReitzDiwakar, CloudType);                              \
-  makeBreakupModelType(ReitzKHRT, CloudType);                                 \
-  makeBreakupModelType(TAB, CloudType);                                       \
-  makeBreakupModelType(ETAB, CloudType);                                      \
-  makeBreakupModelType(SHF, CloudType);
+  MAKE_BREAKUP_MODEL(CloudType)                                               \
+  MAKE_BREAKUP_MODEL_TYPE(NoBreakup, CloudType);                              \
+  MAKE_BREAKUP_MODEL_TYPE(PilchErdman, CloudType);                            \
+  MAKE_BREAKUP_MODEL_TYPE(ReitzDiwakar, CloudType);                           \
+  MAKE_BREAKUP_MODEL_TYPE(ReitzKHRT, CloudType);                              \
+  MAKE_BREAKUP_MODEL_TYPE(TAB, CloudType);                                    \
+  MAKE_BREAKUP_MODEL_TYPE(ETAB, CloudType);                                   \
+  MAKE_BREAKUP_MODEL_TYPE(SHF, CloudType);
 
 #endif

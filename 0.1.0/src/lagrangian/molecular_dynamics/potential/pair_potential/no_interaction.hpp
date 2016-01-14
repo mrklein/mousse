@@ -19,7 +19,7 @@ class noInteraction
 {
 public:
   //- Runtime type information
-  TypeName("noInteraction");
+  TYPE_NAME("noInteraction");
   // Constructors
     //- Construct from components
     noInteraction

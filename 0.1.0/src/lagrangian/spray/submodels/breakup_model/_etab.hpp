@@ -42,7 +42,7 @@ private:
       scalar AWe_;
 public:
   //- Runtime type information
-  TypeName("ETAB");
+  TYPE_NAME("ETAB");
   // Constructors
     //- Construct from dictionary
     ETAB(const dictionary&, CloudType&);

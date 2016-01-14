@@ -25,7 +25,7 @@ class cloudScatter
     wordList cloudNames_;
 public:
   //- Runtime type information
-  TypeName("cloudScatter");
+  TYPE_NAME("cloudScatter");
   // Constructors
     //- Construct from components
     cloudScatter

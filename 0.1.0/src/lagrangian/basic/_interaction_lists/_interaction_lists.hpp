@@ -128,10 +128,6 @@ class InteractionLists
     void prepareWallDataToRefer();
     //- Write the referred wall faces out for debug
     void writeReferredWallFaces() const;
-    //- Disallow default bitwise copy construct
-    InteractionLists(const InteractionLists&);
-    //- Disallow default bitwise assignment
-    void operator=(const InteractionLists&);
 public:
   // Constructors
     //- Construct null from mesh
@@ -145,6 +141,10 @@ public:
       Switch writeCloud = false,
       const word& UName = "U"
     );
+    //- Disallow default bitwise copy construct
+    InteractionLists(const InteractionLists&) = delete;
+    //- Disallow default bitwise assignment
+    InteractionLists& operator=(const InteractionLists&) = delete;
   // Destructor
     ~InteractionLists();
   // Member Functions

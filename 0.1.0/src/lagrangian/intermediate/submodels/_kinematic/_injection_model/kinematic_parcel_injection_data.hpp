@@ -43,7 +43,7 @@ protected:
     scalar mDot_;
 public:
   //- Runtime type information
-  TypeName("kinematicParcelInjectionData");
+  TYPE_NAME("kinematicParcelInjectionData");
   // Constructors
     //- Null constructor
     kinematicParcelInjectionData();
@@ -78,11 +78,11 @@ public:
   // Friend Operators
     friend bool operator==
     (
-      const kinematicParcelInjectionData& a,
-      const kinematicParcelInjectionData& b
+      const kinematicParcelInjectionData& /*a*/,
+      const kinematicParcelInjectionData& /*b*/
     )
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "operator=="
         "("
@@ -94,11 +94,11 @@ public:
     }
     friend bool operator!=
     (
-      const kinematicParcelInjectionData& a,
-      const kinematicParcelInjectionData& b
+      const kinematicParcelInjectionData& /*a*/,
+      const kinematicParcelInjectionData& /*b*/
     )
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "operator=="
         "("

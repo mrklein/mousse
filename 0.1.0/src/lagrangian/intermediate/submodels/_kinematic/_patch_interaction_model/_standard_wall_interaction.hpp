@@ -45,7 +45,7 @@ protected:
       scalar massStick_;
 public:
   //- Runtime type information
-  TypeName("standardWallInteraction");
+  TYPE_NAME("standardWallInteraction");
   // Constructors
     //- Construct from dictionary
     StandardWallInteraction(const dictionary& dict, CloudType& cloud);

@@ -21,7 +21,7 @@ inline bool mousse::WallCollisionRecord<Type>::match
       << "unit vector dot product " << (pRel & pRel_)/(magpRel_*magpRel)
       << nl << "cosAcceptanceAngle " << cosAcceptanceAngle
       << endl;
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline bool mousse::WallCollisionRecord<Type>::match"
       "("

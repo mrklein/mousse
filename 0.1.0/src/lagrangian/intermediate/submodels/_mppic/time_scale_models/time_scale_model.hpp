@@ -18,10 +18,6 @@ namespace mousse
 {
 class TimeScaleModel
 {
-private:
-  //- Private member functions
-    //- Disallow default bitwise assignment
-    void operator=(const TimeScaleModel&);
 protected:
   // Protected data
     //- Close pack volume fraction
@@ -30,9 +26,9 @@ protected:
     scalar e_;
 public:
   //- Runtime type information
-  TypeName("timeScaleModel");
+  TYPE_NAME("timeScaleModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     TimeScaleModel,
@@ -47,6 +43,8 @@ public:
     TimeScaleModel(const TimeScaleModel& sm);
     //- Construct and return a clone
     virtual autoPtr<TimeScaleModel> clone() const = 0;
+    //- Disallow default bitwise assignment
+    TimeScaleModel& operator=(const TimeScaleModel&) = delete;
   //- Selector
   static autoPtr<TimeScaleModel> New
   (

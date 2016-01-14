@@ -50,7 +50,7 @@ protected:
     scalar CdRe(const scalar Re) const;
 public:
   //- Runtime type information
-  TypeName("nonSphereDrag");
+  TYPE_NAME("nonSphereDrag");
   // Constructors
     //- Construct from mesh
     NonSphereDragForce

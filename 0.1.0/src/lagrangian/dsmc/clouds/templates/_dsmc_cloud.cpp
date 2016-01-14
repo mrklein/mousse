@@ -20,7 +20,7 @@ void mousse::DSMCCloud<ParcelType>::buildConstProps()
   (
     particleProperties_.subDict("moleculeProperties")
   );
-  forAll(typeIdList_, i)
+  FOR_ALL(typeIdList_, i)
   {
     const word& id(typeIdList_[i]);
     Info<< "    " << id << endl;
@@ -32,11 +32,11 @@ void mousse::DSMCCloud<ParcelType>::buildConstProps()
 template<class ParcelType>
 void mousse::DSMCCloud<ParcelType>::buildCellOccupancy()
 {
-  forAll(cellOccupancy_, cO)
+  FOR_ALL(cellOccupancy_, cO)
   {
     cellOccupancy_[cO].clear();
   }
-  forAllIter(typename DSMCCloud<ParcelType>, *this, iter)
+  FOR_ALL_ITER(typename DSMCCloud<ParcelType>, *this, iter)
   {
     cellOccupancy_[iter().cell()].append(&iter());
   }
@@ -59,7 +59,7 @@ void mousse::DSMCCloud<ParcelType>::initialise
   );
   List<word> molecules(numberDensitiesDict.toc());
   Field<scalar> numberDensities(molecules.size());
-  forAll(molecules, i)
+  FOR_ALL(molecules, i)
   {
     numberDensities[i] = readScalar
     (
@@ -67,25 +67,25 @@ void mousse::DSMCCloud<ParcelType>::initialise
     );
   }
   numberDensities /= nParticle_;
-  forAll(mesh_.cells(), cellI)
+  FOR_ALL(mesh_.cells(), cellI)
   {
     List<tetIndices> cellTets = polyMeshTetDecomposition::cellTetIndices
     (
       mesh_,
       cellI
     );
-    forAll(cellTets, tetI)
+    FOR_ALL(cellTets, tetI)
     {
       const tetIndices& cellTetIs = cellTets[tetI];
       tetPointRef tet = cellTetIs.tet(mesh_);
       scalar tetVolume = tet.mag();
-      forAll(molecules, i)
+      FOR_ALL(molecules, i)
       {
         const word& moleculeName(molecules[i]);
         label typeId(findIndex(typeIdList_, moleculeName));
         if (typeId == -1)
         {
-          FatalErrorIn("mousse::DSMCCloud<ParcelType>::initialise")
+          FATAL_ERROR_IN("mousse::DSMCCloud<ParcelType>::initialise")
             << "typeId " << moleculeName << "not defined." << nl
             << abort(FatalError);
         }
@@ -161,7 +161,7 @@ void mousse::DSMCCloud<ParcelType>::collisions()
   scalar deltaT = mesh().time().deltaTValue();
   label collisionCandidates = 0;
   label collisions = 0;
-  forAll(cellOccupancy_, cellI)
+  FOR_ALL(cellOccupancy_, cellI)
   {
     const DynamicList<ParcelType*>& cellParcels(cellOccupancy_[cellI]);
     label nC(cellParcels.size());
@@ -170,14 +170,14 @@ void mousse::DSMCCloud<ParcelType>::collisions()
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       // Assign particles to one of 8 Cartesian subCells
       // Clear temporary lists
-      forAll(subCells, i)
+      FOR_ALL(subCells, i)
       {
         subCells[i].clear();
       }
       // Inverse addressing specifying which subCell a parcel is in
       List<label> whichSubCell(cellParcels.size());
       const point& cC = mesh_.cellCentres()[cellI];
-      forAll(cellParcels, i)
+      FOR_ALL(cellParcels, i)
       {
         const ParcelType& p = *cellParcels[i];
         vector relPos = p.position() - cC;
@@ -312,7 +312,7 @@ void mousse::DSMCCloud<ParcelType>::calculateFields()
   scalarField& internalE = internalE_.internalField();
   scalarField& iDof = iDof_.internalField();
   vectorField& momentum = momentum_.internalField();
-  forAllConstIter(typename DSMCCloud<ParcelType>, *this, iter)
+  FOR_ALL_CONST_ITER(typename DSMCCloud<ParcelType>, *this, iter)
   {
     const ParcelType& p = iter();
     const label cellI = p.cell();
@@ -583,7 +583,7 @@ mousse::DSMCCloud<ParcelType>::DSMCCloud
   buildCellOccupancy();
   // Initialise the collision selection remainder to a random value between 0
   // and 1.
-  forAll(collisionSelectionRemainder_, i)
+  FOR_ALL(collisionSelectionRemainder_, i)
   {
     collisionSelectionRemainder_[i] = rndGen_.scalar01();
   }
@@ -934,7 +934,7 @@ void mousse::DSMCCloud<ParcelType>::dumpParticlePositions() const
    + this->name() + "_"
    + this->db().time().timeName() + ".obj"
   );
-  forAllConstIter(typename DSMCCloud<ParcelType>, *this, iter)
+  FOR_ALL_CONST_ITER(typename DSMCCloud<ParcelType>, *this, iter)
   {
     const ParcelType& p = iter();
     pObj<< "v " << p.position().x()

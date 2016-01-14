@@ -14,7 +14,7 @@ void mousse::SuppressionCollision<CloudType>::collide(const scalar dt)
   volScalarField vDotSweep(sc.vDotSweep());
   dimensionedScalar Dt("dt", dimTime, dt);
   volScalarField P(type() + ":p", 1.0 - exp(-vDotSweep*Dt));
-  forAllIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter)
   {
     typename CloudType::parcelType& p = iter();
     label cellI = p.cell();

@@ -22,7 +22,7 @@ class harmonicSpring
     scalar springConstant_;
 public:
   //- Runtime type information
-  TypeName("harmonicSpring");
+  TYPE_NAME("harmonicSpring");
   // Constructors
     //- Construct from components
     harmonicSpring

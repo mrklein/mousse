@@ -24,7 +24,7 @@ class GravityForce
     const vector& g_;
 public:
   //- Runtime type information
-  TypeName("gravity");
+  TYPE_NAME("gravity");
   // Constructors
     //- Construct from mesh
     GravityForce

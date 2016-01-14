@@ -45,26 +45,26 @@ template<class CloudType>
 bool mousse::ETAB<CloudType>::update
 (
   const scalar dt,
-  const vector& g,
+  const vector& /*g*/,
   scalar& d,
-  scalar& tc,
-  scalar& ms,
+  scalar& /*tc*/,
+  scalar& /*ms*/,
   scalar& nParticle,
-  scalar& KHindex,
+  scalar& /*KHindex*/,
   scalar& y,
   scalar& yDot,
-  const scalar d0,
+  const scalar /*d0*/,
   const scalar rho,
   const scalar mu,
   const scalar sigma,
-  const vector& U,
+  const vector& /*U*/,
   const scalar rhoc,
-  const scalar muc,
-  const vector& Urel,
+  const scalar /*muc*/,
+  const vector& /*Urel*/,
   const scalar Urmag,
-  const scalar tMom,
-  scalar& dChild,
-  scalar& massChild
+  const scalar /*tMom*/,
+  scalar& /*dChild*/,
+  scalar& /*massChild*/
 )
 {
   scalar r  = 0.5*d;

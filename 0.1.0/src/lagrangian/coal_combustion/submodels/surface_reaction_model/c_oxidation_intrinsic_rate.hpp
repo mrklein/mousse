@@ -54,7 +54,7 @@ class COxidationIntrinsicRate
       scalar HcCO2_;
 public:
   //- Runtime type information
-  TypeName("COxidationIntrinsicRate");
+  TYPE_NAME("COxidationIntrinsicRate");
   // Constructors
     //- Construct from dictionary
     COxidationIntrinsicRate

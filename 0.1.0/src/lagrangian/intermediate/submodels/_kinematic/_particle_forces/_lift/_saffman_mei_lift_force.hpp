@@ -29,7 +29,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("SaffmanMeiLiftForce");
+  TYPE_NAME("SaffmanMeiLiftForce");
   // Constructors
     //- Construct from mesh
     SaffmanMeiLiftForce

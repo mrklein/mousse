@@ -94,7 +94,7 @@ mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::GInterp() const
 {
   if (!GInterp_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "inline const mousse::interpolation<mousse::scalar>&"
       "mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::"

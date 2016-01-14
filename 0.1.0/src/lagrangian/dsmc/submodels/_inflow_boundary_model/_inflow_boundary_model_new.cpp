@@ -5,7 +5,7 @@
 #include "_inflow_boundary_model.hpp"
 
 template<class CloudType>
-mousse::autoPtr<mousse::InflowBoundaryModel<CloudType> >
+mousse::autoPtr<mousse::InflowBoundaryModel<CloudType>>
 mousse::InflowBoundaryModel<CloudType>::New
 (
   const dictionary& dict,
@@ -18,15 +18,16 @@ mousse::InflowBoundaryModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "InflowBoundaryModel<CloudType>::New"
       "(const dictionary&, CloudType&)"
-    )   << "Unknown InflowBoundaryModel type "
-      << modelType << nl << nl
-      << "Valid InflowBoundaryModel types are:" << nl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown InflowBoundaryModel type "
+    << modelType << nl << nl
+    << "Valid InflowBoundaryModel types are:" << nl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<InflowBoundaryModel<CloudType> >(cstrIter()(dict, owner));
+  return autoPtr<InflowBoundaryModel<CloudType>>{cstrIter()(dict, owner)};
 }

@@ -7,9 +7,9 @@
 template<class CloudType>
 mousse::BinaryCollisionModel<CloudType>::BinaryCollisionModel(CloudType& owner)
 :
-  dict_(dictionary::null),
-  owner_(owner),
-  coeffDict_(dictionary::null)
+  dict_{dictionary::null},
+  owner_{owner},
+  coeffDict_{dictionary::null}
 {}
 template<class CloudType>
 mousse::BinaryCollisionModel<CloudType>::BinaryCollisionModel
@@ -19,9 +19,9 @@ mousse::BinaryCollisionModel<CloudType>::BinaryCollisionModel
   const word& type
 )
 :
-  dict_(dict),
-  owner_(owner),
-  coeffDict_(dict.subDict(type + "Coeffs"))
+  dict_{dict},
+  owner_{owner},
+  coeffDict_{dict.subDict(type + "Coeffs")}
 {}
 // Destructor
 template<class CloudType>

@@ -7,9 +7,9 @@
 
 #include "_no_surface_film.hpp"
 
-#define makeParcelSurfaceFilmModels(CloudType)                                \
+#define MAKE_PARCEL_SURFACE_FILM_MODELS(CloudType)                            \
                                                                               \
-  makeSurfaceFilmModel(CloudType);                                            \
-  makeSurfaceFilmModelType(NoSurfaceFilm, CloudType);
+  MAKE_SURFACE_FILM_MODEL(CloudType);                                         \
+  MAKE_SURFACE_FILM_MODEL_TYPE(NoSurfaceFilm, CloudType);
 
 #endif

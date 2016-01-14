@@ -39,7 +39,7 @@ class ParticleTrap
     scalar threshold_;
 public:
   //- Runtime type information
-  TypeName("particleTrap");
+  TYPE_NAME("particleTrap");
   // Constructors
     //- Construct from dictionary
     ParticleTrap

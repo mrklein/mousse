@@ -5,18 +5,18 @@
 #include "correction_limiting_method.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(CorrectionLimitingMethod, 0);
-  defineRunTimeSelectionTable(CorrectionLimitingMethod, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(CorrectionLimitingMethod, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(CorrectionLimitingMethod, dictionary);
 }
 // Constructors 
 mousse::CorrectionLimitingMethod::CorrectionLimitingMethod
 (
-  const dictionary& dict
+  const dictionary&
 )
 {}
 mousse::CorrectionLimitingMethod::CorrectionLimitingMethod
 (
-  const CorrectionLimitingMethod& cl
+  const CorrectionLimitingMethod& /*cl*/
 )
 {}
 // Selectors
@@ -32,7 +32,7 @@ mousse::CorrectionLimitingMethod::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "CorrectionLimitingMethod::New"
       "("

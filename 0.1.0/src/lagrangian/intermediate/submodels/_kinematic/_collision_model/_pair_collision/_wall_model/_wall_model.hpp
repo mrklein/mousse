@@ -28,9 +28,9 @@ class WallModel
     const dictionary coeffDict_;
 public:
   //- Runtime type information
-  TypeName("wallModel");
+  TYPE_NAME("wallModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     WallModel,
@@ -52,7 +52,7 @@ public:
   //- Destructor
   virtual ~WallModel();
   //- Selector
-  static autoPtr<WallModel<CloudType> > New
+  static autoPtr<WallModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -81,38 +81,38 @@ public:
     (
       typename CloudType::parcelType& p,
       const List<point>& flatSitePoints,
-      const List<WallSiteData<vector> >& flatSiteData,
+      const List<WallSiteData<vector>>& flatSiteData,
       const List<point>& sharpSitePoints,
-      const List<WallSiteData<vector> >& sharpSiteData
+      const List<WallSiteData<vector>>& sharpSiteData
     ) const = 0;
 };
 }  // namespace mousse
 
-#define makeWallModel(CloudType)                                              \
+#define MAKE_WALL_MODEL(CloudType)                                            \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::WallModel<mousse::CloudType>, 0                                   \
   );                                                                          \
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       WallModel<mousse::CloudType>,                                           \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeWallModelType(SS, CloudType)                                      \
+#define MAKE_WALL_MODEL_TYPE(SS, CloudType)                                   \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<mousse::CloudType>, 0);      \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<mousse::CloudType>, 0);\
                                                                               \
   mousse::WallModel<mousse::CloudType>::                                      \
-    adddictionaryConstructorToTable<mousse::SS<mousse::CloudType> >           \
+    adddictionaryConstructorToTable<mousse::SS<mousse::CloudType>>            \
       add##SS##CloudType##ConstructorToTable_;
 
 #ifdef NoRepository
-#   include "_wall_model.cpp"
+#include "_wall_model.cpp"
 #endif
 #endif

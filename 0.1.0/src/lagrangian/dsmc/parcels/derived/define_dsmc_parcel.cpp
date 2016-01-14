@@ -7,6 +7,6 @@
 #include "_dsmc_cloud.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(DSMCParcel<particle>, 0);
-  defineTemplateTypeNameAndDebug(Cloud<dsmcParcel>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(DSMCParcel<particle>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<dsmcParcel>, 0);
 }

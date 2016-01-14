@@ -28,7 +28,7 @@ protected:
     autoPtr<interpolation<vector> > DUcDtInterpPtr_;
 public:
   //- Runtime type information
-  TypeName("pressureGradient");
+  TYPE_NAME("pressureGradient");
   // Constructors
     //- Construct from mesh
     PressureGradientForce

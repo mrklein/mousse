@@ -39,7 +39,7 @@ private:
     scalar rhoMin_;
 public:
   //- Runtime type information
-  TypeName("implicit");
+  TYPE_NAME("implicit");
   // Constructors
     //- Construct from components
     Implicit(const dictionary& dict, CloudType& owner);

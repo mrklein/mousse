@@ -12,9 +12,9 @@ mousse::WallModel<CloudType>::WallModel
   const word& type
 )
 :
-  dict_(dict),
-  owner_(owner),
-  coeffDict_(dict.subDict(type + "Coeffs"))
+  dict_{dict},
+  owner_{owner},
+  coeffDict_{dict.subDict(type + "Coeffs")}
 {}
 // Destructor 
 template<class CloudType>

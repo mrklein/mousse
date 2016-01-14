@@ -5,5 +5,5 @@
 #include "kinematic_parcel_injection_data_io_list.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(IOList<kinematicParcelInjectionData>, 0);
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(IOList<kinematicParcelInjectionData>, 0);
 }

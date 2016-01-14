@@ -8,8 +8,8 @@ namespace mousse
 {
 namespace CorrectionLimitingMethods
 {
-  defineTypeNameAndDebug(absolute, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(absolute, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     CorrectionLimitingMethod,
     absolute,

@@ -5,7 +5,7 @@
 #include "_injection_model.hpp"
 // Constructors 
 template<class CloudType>
-mousse::InjectionModelList<CloudType>::InjectionModelList(CloudType& owner)
+mousse::InjectionModelList<CloudType>::InjectionModelList(CloudType& /*owner*/)
 :
   PtrList<InjectionModel<CloudType> >()
 {}
@@ -24,7 +24,7 @@ mousse::InjectionModelList<CloudType>::InjectionModelList
   {
     this->setSize(modelNames.size());
     label i = 0;
-    forAllConstIter(IDLList<entry>, dict, iter)
+    FOR_ALL_CONST_ITER(IDLList<entry>, dict, iter)
     {
       const word& model = iter().keyword();
       Info<< "Creating injector: " << model << endl;
@@ -75,7 +75,7 @@ template<class CloudType>
 mousse::scalar mousse::InjectionModelList<CloudType>::timeStart() const
 {
   scalar minTime = GREAT;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     minTime = min(minTime, this->operator[](i).timeStart());
   }
@@ -85,7 +85,7 @@ template<class CloudType>
 mousse::scalar mousse::InjectionModelList<CloudType>::timeEnd() const
 {
   scalar maxTime = -GREAT;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     maxTime = max(maxTime, this->operator[](i).timeEnd());
   }
@@ -99,7 +99,7 @@ mousse::scalar mousse::InjectionModelList<CloudType>::volumeToInject
 )
 {
   scalar vol = 0.0;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     vol += this->operator[](i).volumeToInject(time0, time1);
   }
@@ -110,7 +110,7 @@ mousse::scalar mousse::InjectionModelList<CloudType>::averageParcelMass()
 {
   scalar mass = 0.0;
   scalar massTotal = 0.0;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     scalar mt = this->operator[](i).massTotal();
     mass += mt*this->operator[](i).averageParcelMass();
@@ -121,7 +121,7 @@ mousse::scalar mousse::InjectionModelList<CloudType>::averageParcelMass()
 template<class CloudType>
 void mousse::InjectionModelList<CloudType>::updateMesh()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).updateMesh();
   }
@@ -130,7 +130,7 @@ template<class CloudType>
 template<class TrackData>
 void mousse::InjectionModelList<CloudType>::inject(TrackData& td)
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).inject(td);
   }
@@ -143,7 +143,7 @@ void mousse::InjectionModelList<CloudType>::injectSteadyState
   const scalar trackTime
 )
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).injectSteadyState(td, trackTime);
   }
@@ -151,7 +151,7 @@ void mousse::InjectionModelList<CloudType>::injectSteadyState
 template<class CloudType>
 void mousse::InjectionModelList<CloudType>::info(Ostream& os)
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).info(os);
   }

@@ -14,7 +14,7 @@ scalar singleStepTotalrDotf = 0.0;
 label singleStepNMols = molecules.size();
 label singleStepDOFs = 0;
 {
-  forAllConstIter(IDLList<molecule>, molecules, mol)
+  FOR_ALL_CONST_ITER(IDLList<molecule>, molecules, mol)
   {
     const label molId = mol().id();
     scalar molMass(molecules.constProps(molId).mass());
@@ -25,7 +25,7 @@ label singleStepDOFs = 0;
   // {
   //     singleStepCentreOfMass /= singleStepTotalMass;
   // }
-  forAllConstIter(IDLList<molecule>, molecules, mol)
+  FOR_ALL_CONST_ITER(IDLList<molecule>, molecules, mol)
   {
     const label molId = mol().id();
     const molecule::constantProperties cP(molecules.constProps(molId));

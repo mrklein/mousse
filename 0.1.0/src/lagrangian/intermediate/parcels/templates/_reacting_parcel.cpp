@@ -72,7 +72,7 @@ void mousse::ReactingParcel<ParcelType>::calcPhaseChange
   const scalar dMassTot = sum(dMassPC);
   // Add to cumulative phase change mass
   phaseChange.addToPhaseChangeMass(this->nParticle_*dMassTot);
-  forAll(dMassPC, i)
+  FOR_ALL(dMassPC, i)
   {
     const label cid = composition.localToCarrierId(idPhase, i);
     const scalar dh = phaseChange.dh(cid, i, pc_, Tdash);
@@ -83,7 +83,7 @@ void mousse::ReactingParcel<ParcelType>::calcPhaseChange
   {
     // Average molecular weight of carrier mix - assumes perfect gas
     const scalar Wc = this->rhoc_*RR*this->Tc_/this->pc_;
-    forAll(dMassPC, i)
+    FOR_ALL(dMassPC, i)
     {
       const label cid = composition.localToCarrierId(idPhase, i);
       const scalar Cp = composition.carrier().Cp(cid, pc_, Tsdash);
@@ -112,7 +112,7 @@ mousse::scalar mousse::ReactingParcel<ParcelType>::updateMassFraction
   // only update the mass fractions if the new particle mass is finite
   if (mass1 > ROOTVSMALL)
   {
-    forAll(Y, i)
+    FOR_ALL(Y, i)
     {
       Y[i] = (Y[i]*mass0 - dMass[i])/mass1;
     }
@@ -163,7 +163,7 @@ void mousse::ReactingParcel<ParcelType>::setCellValues
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "void mousse::ReactingParcel<ParcelType>::setCellValues"
         "("
@@ -182,13 +182,13 @@ template<class TrackData>
 void mousse::ReactingParcel<ParcelType>::cellValueSourceCorrection
 (
   TrackData& td,
-  const scalar dt,
+  const scalar /*dt*/,
   const label cellI
 )
 {
   scalar addedMass = 0.0;
   scalar maxMassI = 0.0;
-  forAll(td.cloud().rhoTrans(), i)
+  FOR_ALL(td.cloud().rhoTrans(), i)
   {
     scalar dm = td.cloud().rhoTrans(i)[cellI];
     maxMassI = max(maxMassI, mag(dm));
@@ -203,7 +203,7 @@ void mousse::ReactingParcel<ParcelType>::cellValueSourceCorrection
   const scalar massCellNew = massCell + addedMass;
   this->Uc_ = (this->Uc_*massCell + td.cloud().UTrans()[cellI])/massCellNew;
   scalar CpEff = 0.0;
-  forAll(td.cloud().rhoTrans(), i)
+  FOR_ALL(td.cloud().rhoTrans(), i)
   {
     scalar Y = td.cloud().rhoTrans(i)[cellI]/addedMass;
     CpEff += Y*td.cloud().composition().carrier().Cp
@@ -220,7 +220,7 @@ void mousse::ReactingParcel<ParcelType>::cellValueSourceCorrection
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "void mousse::ReactingParcel<ParcelType>::"
         "cellValueSourceCorrection"
@@ -257,7 +257,7 @@ void mousse::ReactingParcel<ParcelType>::correctSurfaceValues
   const SLGThermo& thermo = td.cloud().thermo();
   // Far field carrier  molar fractions
   scalarField Xinf(thermo.carrier().species().size());
-  forAll(Xinf, i)
+  FOR_ALL(Xinf, i)
   {
     Xinf[i] = thermo.carrier().Y(i)[cellI]/thermo.carrier().W(i);
   }
@@ -270,7 +270,7 @@ void mousse::ReactingParcel<ParcelType>::correctSurfaceValues
   scalarField Xs(Xinf.size());
   // Surface carrier composition (mass fraction)
   scalarField Ys(Xinf.size());
-  forAll(Xs, i)
+  FOR_ALL(Xs, i)
   {
     // Molar concentration of species at particle surface
     const scalar Csi = Cs[i] + Xsff*Xinf[i]*CsTot;
@@ -285,7 +285,7 @@ void mousse::ReactingParcel<ParcelType>::correctSurfaceValues
   scalar Cps = 0;
   scalar sumYiSqrtW = 0;
   scalar sumYiCbrtW = 0;
-  forAll(Ys, i)
+  FOR_ALL(Ys, i)
   {
     const scalar W = thermo.carrier().W(i);
     const scalar sqrtW = sqrt(W);
@@ -399,7 +399,7 @@ void mousse::ReactingParcel<ParcelType>::calc
     {
       scalar dm = np0*mass0;
       // Absorb parcel into carrier phase
-      forAll(Y_, i)
+      FOR_ALL(Y_, i)
       {
         scalar dmi = dm*Y_[i];
         label gid = composition.localToCarrierId(0, i);
@@ -445,7 +445,7 @@ void mousse::ReactingParcel<ParcelType>::calc
   if (td.cloud().solution().coupled())
   {
     // Transfer mass lost to carrier mass, momentum and enthalpy sources
-    forAll(dMass, i)
+    FOR_ALL(dMass, i)
     {
       scalar dm = np0*dMass[i];
       label gid = composition.localToCarrierId(0, i);

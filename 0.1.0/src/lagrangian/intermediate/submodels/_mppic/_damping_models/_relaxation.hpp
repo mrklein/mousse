@@ -37,7 +37,7 @@ private:
     autoPtr<AveragingMethod<scalar> > oneByTimeScaleAverage_;
 public:
   //- Runtime type information
-  TypeName("relaxation");
+  TYPE_NAME("relaxation");
   // Constructors
     //- Construct from components
     Relaxation(const dictionary& dict, CloudType& owner);

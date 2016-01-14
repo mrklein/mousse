@@ -6,6 +6,9 @@
 #include "iostreams.hpp"
 #include "iofield.hpp"
 #include "_cloud.hpp"
+
+#pragma GCC diagnostic ignored "-Winvalid-offsetof"
+
 // Static Data Members
 template<class ParcelType>
 mousse::string mousse::KinematicParcel<ParcelType>::propertyList_ =
@@ -98,7 +101,7 @@ void mousse::KinematicParcel<ParcelType>::readFields(CloudType& c)
   IOField<vector> UTurb(c.fieldIOobject("UTurb", IOobject::MUST_READ));
   c.checkFieldIOobject(c, UTurb);
   label i = 0;
-  forAllIter(typename CloudType, c, iter)
+  FOR_ALL_ITER(typename CloudType, c, iter)
   {
     KinematicParcel<ParcelType>& p = iter();
     p.active_ = active[i];
@@ -135,7 +138,7 @@ void mousse::KinematicParcel<ParcelType>::writeFields(const CloudType& c)
   IOField<scalar> tTurb(c.fieldIOobject("tTurb", IOobject::NO_READ), np);
   IOField<vector> UTurb(c.fieldIOobject("UTurb", IOobject::NO_READ), np);
   label i = 0;
-  forAllConstIter(typename CloudType, c, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, c, iter)
   {
     const KinematicParcel<ParcelType>& p = iter();
     active[i] = p.active();

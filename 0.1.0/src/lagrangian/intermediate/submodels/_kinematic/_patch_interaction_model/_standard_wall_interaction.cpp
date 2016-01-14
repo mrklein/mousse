@@ -28,7 +28,7 @@ mousse::StandardWallInteraction<CloudType>::StandardWallInteraction
     case PatchInteractionModel<CloudType>::itOther:
     {
       const word interactionTypeName(this->coeffDict().lookup("type"));
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "StandardWallInteraction<CloudType>::StandardWallInteraction"
         "("
@@ -127,7 +127,7 @@ bool mousse::StandardWallInteraction<CloudType>::correct
       }
       default:
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "bool StandardWallInteraction<CloudType>::correct"
           "("

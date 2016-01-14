@@ -30,7 +30,7 @@ class nonEquilibrium
 {
 public:
   //- Runtime type information
-  TypeName("nonEquilibrium");
+  TYPE_NAME("nonEquilibrium");
   //- Constructors
     //- Construct from components
     nonEquilibrium(const dictionary& dict);

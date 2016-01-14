@@ -1,8 +1,8 @@
 const List<DynamicList<molecule*> >& cellOccupancy = molecules.cellOccupancy();
-forAll(cellOccupancy, cell)
+FOR_ALL(cellOccupancy, cell)
 {
   const List<molecule*>& molsInCell = cellOccupancy[cell];
-  forAll(molsInCell, mIC)
+  FOR_ALL(molsInCell, mIC)
   {
     molecule* mol = molsInCell[mIC];
     const label molId = mol->id();

@@ -18,7 +18,7 @@ class NoInteraction
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from dictionary
     NoInteraction(const dictionary& dict, CloudType& cloud);

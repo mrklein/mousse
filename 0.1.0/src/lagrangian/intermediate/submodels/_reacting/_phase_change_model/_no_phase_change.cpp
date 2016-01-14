@@ -34,18 +34,18 @@ bool mousse::NoPhaseChange<CloudType>::active() const
 template<class CloudType>
 void mousse::NoPhaseChange<CloudType>::calculate
 (
-  const scalar dt,
-  const label cellI,
-  const scalar Re,
-  const scalar Pr,
-  const scalar d,
-  const scalar nu,
-  const scalar T,
-  const scalar Ts,
-  const scalar pc,
-  const scalar Tc,
-  const scalarField& X,
-  scalarField& dMassPC
+  const scalar /*dt*/,
+  const label /*cellI*/,
+  const scalar /*Re*/,
+  const scalar /*Pr*/,
+  const scalar /*d*/,
+  const scalar /*nu*/,
+  const scalar /*T*/,
+  const scalar /*Ts*/,
+  const scalar /*pc*/,
+  const scalar /*Tc*/,
+  const scalarField& /*X*/,
+  scalarField& /*dMassPC*/
 ) const
 {
   // Nothing to do...

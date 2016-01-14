@@ -60,7 +60,7 @@ protected:
     void write();
 public:
   //- Runtime type information
-  TypeName("facePostProcessing");
+  TYPE_NAME("facePostProcessing");
   // Constructors
     //- Construct from dictionary
     FacePostProcessing

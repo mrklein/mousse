@@ -36,7 +36,7 @@ protected:
     scalarList Y_;
 public:
   //- Runtime type information
-  TypeName("reactingParcelInjectionData");
+  TYPE_NAME("reactingParcelInjectionData");
   // Constructors
     //- Null constructor
     reactingParcelInjectionData();

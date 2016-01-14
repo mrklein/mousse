@@ -59,7 +59,7 @@ class ConeInjection
       vectorList tanVec2_;
 public:
   //- Runtime type information
-  TypeName("coneInjection");
+  TYPE_NAME("coneInjection");
   // Constructors
     //- Construct from dictionary
     ConeInjection

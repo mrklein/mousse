@@ -182,7 +182,7 @@ protected:
 public:
   // Static data members
     //- Runtime type information
-    TypeName("KinematicParcel");
+    TYPE_NAME("KinematicParcel");
     //- String representation of properties
     AddToPropertyList
     (

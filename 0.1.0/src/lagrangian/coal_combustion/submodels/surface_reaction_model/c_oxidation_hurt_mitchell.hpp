@@ -53,7 +53,7 @@ class COxidationHurtMitchell
       scalar heatOfReaction_;
 public:
   //- Runtime type information
-  TypeName("COxidationHurtMitchell");
+  TYPE_NAME("COxidationHurtMitchell");
   // Constructors
     //- Construct from dictionary
     COxidationHurtMitchell

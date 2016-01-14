@@ -37,7 +37,7 @@ protected:
     scalar Cp_;
 public:
   //- Runtime type information
-  TypeName("thermoParcelInjectionData");
+  TYPE_NAME("thermoParcelInjectionData");
   // Constructors
     //- Null constructor
     thermoParcelInjectionData();

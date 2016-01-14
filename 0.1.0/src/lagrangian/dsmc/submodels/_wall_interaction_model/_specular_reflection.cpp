@@ -9,11 +9,11 @@
 template<class CloudType>
 mousse::SpecularReflection<CloudType>::SpecularReflection
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& cloud
 )
 :
-  WallInteractionModel<CloudType>(cloud)
+  WallInteractionModel<CloudType>{cloud}
 {}
 // Destructor
 template<class CloudType>
@@ -24,7 +24,7 @@ template<class CloudType>
 void mousse::SpecularReflection<CloudType>::correct
 (
   typename CloudType::parcelType& p,
-  const wallPolyPatch& wpp
+  const wallPolyPatch&
 )
 {
   vector& U = p.U();

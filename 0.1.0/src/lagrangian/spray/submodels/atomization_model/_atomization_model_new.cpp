@@ -5,7 +5,7 @@
 #include "_atomization_model.hpp"
 
 template<class CloudType>
-mousse::autoPtr<mousse::AtomizationModel<CloudType> >
+mousse::autoPtr<mousse::AtomizationModel<CloudType>>
 mousse::AtomizationModel<CloudType>::New
 (
   const dictionary& dict,
@@ -18,18 +18,19 @@ mousse::AtomizationModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(AtomizationModelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "AtomizationModel<CloudType>::New"
       "("
         "const dictionary&, "
         "CloudType&"
       ")"
-    )   << "Unknown AtomizationModelType type "
-      << AtomizationModelType
-      << ", constructor not in hash table" << nl << nl
-      << "    Valid AtomizationModel types are:" << nl
-      << dictionaryConstructorTablePtr_->sortedToc() << exit(FatalError);
+    )
+    << "Unknown AtomizationModelType type "
+    << AtomizationModelType
+    << ", constructor not in hash table" << nl << nl
+    << "    Valid AtomizationModel types are:" << nl
+    << dictionaryConstructorTablePtr_->sortedToc() << exit(FatalError);
   }
-  return autoPtr<AtomizationModel<CloudType> >(cstrIter()(dict, owner));
+  return autoPtr<AtomizationModel<CloudType>>{cstrIter()(dict, owner)};
 }

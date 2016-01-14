@@ -27,9 +27,9 @@ class BinaryCollisionModel
     const dictionary coeffDict_;
 public:
   //- Runtime type information
-  TypeName("BinaryCollisionModel");
+  TYPE_NAME("BinaryCollisionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     BinaryCollisionModel,
@@ -53,7 +53,7 @@ public:
   //- Destructor
   virtual ~BinaryCollisionModel();
   //- Selector
-  static autoPtr<BinaryCollisionModel<CloudType> > New
+  static autoPtr<BinaryCollisionModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -85,26 +85,26 @@ public:
 };
 }  // namespace mousse
 
-#define makeBinaryCollisionModel(CloudType)                                   \
+#define MAKE_BINARY_COLLISION_MODEL(CloudType)                                \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     BinaryCollisionModel<CloudType>,                                          \
     0                                                                         \
   );                                                                          \
                                                                               \
-  defineTemplateRunTimeSelectionTable                                         \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
   (                                                                           \
     BinaryCollisionModel<CloudType>,                                          \
     dictionary                                                                \
   );
 
-#define makeBinaryCollisionModelType(SS, CloudType)                           \
+#define MAKE_BINARY_COLLISION_MODEL_TYPE(SS, CloudType)                       \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(SS<CloudType>, 0);                      \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<CloudType>, 0);                \
                                                                               \
   BinaryCollisionModel<CloudType>::                                           \
-    adddictionaryConstructorToTable<SS<CloudType> >                           \
+    adddictionaryConstructorToTable<SS<CloudType>>                            \
       add##SS##CloudType##ConstructorToTable_;
 
 #ifdef NoRepository

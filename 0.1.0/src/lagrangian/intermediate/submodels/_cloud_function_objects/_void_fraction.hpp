@@ -30,7 +30,7 @@ protected:
     virtual void write();
 public:
   //- Runtime type information
-  TypeName("voidFraction");
+  TYPE_NAME("voidFraction");
   // Constructors
     //- Construct from dictionary
     VoidFraction

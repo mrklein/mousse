@@ -27,9 +27,9 @@ class PairModel
     const dictionary coeffDict_;
 public:
   //- Runtime type information
-  TypeName("pairModel");
+  TYPE_NAME("pairModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     PairModel,
@@ -51,7 +51,7 @@ public:
   //- Destructor
   virtual ~PairModel();
   //- Selector
-  static autoPtr<PairModel<CloudType> > New
+  static autoPtr<PairModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -80,28 +80,28 @@ public:
 };
 }  // namespace mousse
 
-#define makePairModel(CloudType)                                              \
+#define MAKE_PAIR_MODEL(CloudType)                                            \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::PairModel<mousse::CloudType>, 0                                   \
   );                                                                          \
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       PairModel<mousse::CloudType>,                                           \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makePairModelType(SS, CloudType)                                      \
+#define MAKE_PAIR_MODEL_TYPE(SS, CloudType)                                   \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<mousse::CloudType>, 0);      \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<mousse::CloudType>, 0);\
                                                                               \
   mousse::PairModel<mousse::CloudType>::                                      \
-    adddictionaryConstructorToTable<mousse::SS<mousse::CloudType> >           \
+    adddictionaryConstructorToTable<mousse::SS<mousse::CloudType>>           \
     add##SS##CloudType##ConstructorToTable_;
 
 #ifdef NoRepository

@@ -93,7 +93,7 @@ protected:
 public:
   // Static data members
     //- Runtime type information
-    TypeName("MPPICParcel");
+    TYPE_NAME("MPPICParcel");
     //- String representation of properties
     AddToPropertyList
     (

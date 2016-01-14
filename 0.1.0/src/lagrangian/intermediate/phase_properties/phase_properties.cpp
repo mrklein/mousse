@@ -44,10 +44,10 @@ void mousse::phaseProperties::reorder(const wordList& specieNames)
   }
   // Set the mass-fraction for each specie in the list to the corresponding
   // value in the original list
-  forAll(names0, i)
+  FOR_ALL(names0, i)
   {
     bool found = false;
-    forAll(names_, j)
+    FOR_ALL(names_, j)
     {
       if (names_[j] == names0[i])
       {
@@ -58,7 +58,7 @@ void mousse::phaseProperties::reorder(const wordList& specieNames)
     }
     if (!found)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void phaseProperties::reorder(const wordList&)"
       )   << "Could not find specie " << names0[i]
@@ -74,9 +74,9 @@ void mousse::phaseProperties::setCarrierIds
 )
 {
   carrierIds_ = -1;
-  forAll(names_, i)
+  FOR_ALL(names_, i)
   {
-    forAll(carrierNames, j)
+    FOR_ALL(carrierNames, j)
     {
       if (carrierNames[j] == names_[i])
       {
@@ -86,7 +86,7 @@ void mousse::phaseProperties::setCarrierIds
     }
     if (carrierIds_[i] == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void phaseProperties::setCarrierIds"
         "(const wordList& carrierNames)"
@@ -100,13 +100,13 @@ void mousse::phaseProperties::setCarrierIds
 void mousse::phaseProperties::checkTotalMassFraction() const
 {
   scalar total = 0.0;
-  forAll(Y_, speciei)
+  FOR_ALL(Y_, speciei)
   {
     total += Y_[speciei];
   }
   if (Y_.size() != 0 && mag(total - 1.0) > SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void phaseProperties::checkTotalMassFraction() const"
     )   << "Specie fractions must total to unity for phase "
@@ -137,7 +137,7 @@ mousse::word mousse::phaseProperties::phaseToStateLabel(const phaseType pt) cons
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "phaseProperties::phaseToStateLabel(phaseType pt)"
       )   << "Invalid phase: " << phaseTypeNames[pt] << nl
@@ -206,7 +206,7 @@ void mousse::phaseProperties::reorder
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "phaseProperties::reorder"
         "("
@@ -240,7 +240,7 @@ const mousse::word& mousse::phaseProperties::name(const label speciei) const
 {
   if (speciei >= names_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const word& phaseProperties::name(const label) const"
     )   << "Requested specie " << speciei << "out of range" << nl
@@ -257,7 +257,7 @@ mousse::scalar& mousse::phaseProperties::Y(const label speciei)
 {
   if (speciei >= Y_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const scalar& phaseProperties::Y(const label) const"
     )   << "Requested specie " << speciei << "out of range" << nl
@@ -272,7 +272,7 @@ const mousse::labelList& mousse::phaseProperties::carrierIds() const
 }
 mousse::label mousse::phaseProperties::id(const word& specieName) const
 {
-  forAll(names_, speciei)
+  FOR_ALL(names_, speciei)
   {
     if (names_[speciei] == specieName)
     {

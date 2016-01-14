@@ -23,13 +23,13 @@ mousse::patchInteractionDataList::patchInteractionDataList
   const polyBoundaryMesh& bMesh = mesh.boundaryMesh();
   const wordList allPatchNames = bMesh.names();
   const List<patchInteractionData>& items = *this;
-  forAllReverse(items, i)
+  FOR_ALL_REVERSE(items, i)
   {
     const word& patchName = items[i].patchName();
     labelList patchIDs = findStrings(patchName, allPatchNames);
     if (patchIDs.empty())
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::patchInteractionDataList::patchInteractionDataList"
         "("
@@ -43,7 +43,7 @@ mousse::patchInteractionDataList::patchInteractionDataList
   }
   // Check that all patches are specified
   DynamicList<word> badPatches;
-  forAll(bMesh, patchI)
+  FOR_ALL(bMesh, patchI)
   {
     const polyPatch& pp = bMesh[patchI];
     if
@@ -58,7 +58,7 @@ mousse::patchInteractionDataList::patchInteractionDataList
   }
   if (badPatches.size() > 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::patchInteractionDataList::patchInteractionDataList"
       "("
@@ -81,10 +81,10 @@ mousse::patchInteractionDataList::patchInteractionDataList
 // Member Functions 
 mousse::label mousse::patchInteractionDataList::applyToPatch(const label id) const
 {
-  forAll(patchGroupIDs_, groupI)
+  FOR_ALL(patchGroupIDs_, groupI)
   {
     const labelList& patchIDs = patchGroupIDs_[groupI];
-    forAll(patchIDs, patchI)
+    FOR_ALL(patchIDs, patchI)
     {
       if (patchIDs[patchI] == id)
       {

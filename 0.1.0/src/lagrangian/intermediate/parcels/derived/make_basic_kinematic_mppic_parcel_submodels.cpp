@@ -15,15 +15,15 @@
 #include "make_mppic_parcel_damping_models.hpp"
 #include "make_mppic_parcel_isotropy_models.hpp"
 #include "make_mppic_parcel_packing_models.hpp"
-makeParcelCloudFunctionObjects(basicKinematicMPPICCloud);
+MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS(basicKinematicMPPICCloud);
 // Kinematic sub-models
-makeParcelForces(basicKinematicMPPICCloud);
-makeParcelDispersionModels(basicKinematicMPPICCloud);
-makeParcelInjectionModels(basicKinematicMPPICCloud);
-makeParcelPatchInteractionModels(basicKinematicMPPICCloud);
-makeParcelStochasticCollisionModels(basicKinematicMPPICCloud);
-makeParcelSurfaceFilmModels(basicKinematicMPPICCloud);
+MAKE_PARCEL_FORCES(basicKinematicMPPICCloud);
+MAKE_PARCEL_DISPERSION_MODELS(basicKinematicMPPICCloud);
+MAKE_PARCEL_INJECTION_MODELS(basicKinematicMPPICCloud);
+MAKE_PARCEL_PATCH_INTERACTION_MODELS(basicKinematicMPPICCloud);
+MAKE_PARCEL_STOCHASTIC_COLLISION_MODELS(basicKinematicMPPICCloud);
+MAKE_PARCEL_SURFACE_FILM_MODELS(basicKinematicMPPICCloud);
 // MPPIC sub-models
-makeMPPICParcelDampingModels(basicKinematicMPPICCloud);
-makeMPPICParcelIsotropyModels(basicKinematicMPPICCloud);
-makeMPPICParcelPackingModels(basicKinematicMPPICCloud);
+MAKE_MPPIC_PARCEL_DAMPING_MODELS(basicKinematicMPPICCloud);
+MAKE_MPPIC_PARCEL_ISOTROPY_MODELS(basicKinematicMPPICCloud);
+MAKE_MPPIC_PARCEL_PACKING_MODELS(basicKinematicMPPICCloud);

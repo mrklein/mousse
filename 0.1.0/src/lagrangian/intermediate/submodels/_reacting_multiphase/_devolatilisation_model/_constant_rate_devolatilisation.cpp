@@ -19,7 +19,7 @@ mousse::ConstantRateDevolatilisation<CloudType>::ConstantRateDevolatilisation
 {
   if (volatileData_.empty())
   {
-    WarningIn
+    WARNING_IN
     (
       "mousse::ConstantRateDevolatilisation<CloudType>::"
       "ConstantRateDevolatilisation"
@@ -37,7 +37,7 @@ mousse::ConstantRateDevolatilisation<CloudType>::ConstantRateDevolatilisation
     const label idGas = owner.composition().idGas();
     const scalar YGasTot = owner.composition().YMixture0()[idGas];
     const scalarField& YGas = owner.composition().Y0(idGas);
-    forAll(volatileData_, i)
+    FOR_ALL(volatileData_, i)
     {
       const word& specieName = volatileData_[i].first();
       const label id = owner.composition().localId(idGas, specieName);
@@ -69,19 +69,19 @@ template<class CloudType>
 void mousse::ConstantRateDevolatilisation<CloudType>::calculate
 (
   const scalar dt,
-  const scalar age,
+  const scalar /*age*/,
   const scalar mass0,
   const scalar mass,
-  const scalar T,
+  const scalar /*T*/,
   const scalarField& YGasEff,
-  const scalarField& YLiquidEff,
-  const scalarField& YSolidEff,
+  const scalarField& /*YLiquidEff*/,
+  const scalarField& /*YSolidEff*/,
   label& canCombust,
   scalarField& dMassDV
 ) const
 {
   bool done = true;
-  forAll(volatileData_, i)
+  FOR_ALL(volatileData_, i)
   {
     const label id = volatileToGasMap_[i];
     const scalar massVolatile0 = mass0*YVolatile0_[i];

@@ -86,7 +86,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::readFields
   const wordList& solidNames = compModel.componentNames(idSolid);
   const wordList& stateLabels = compModel.stateLabels();
   // Set storage for each Y... for each parcel
-  forAllIter(typename Cloud<ReactingMultiphaseParcel<ParcelType> >, c, iter)
+  FOR_ALL_ITER(typename Cloud<ReactingMultiphaseParcel<ParcelType> >, c, iter)
   {
     ReactingMultiphaseParcel<ParcelType>& p = iter();
     p.YGas_.setSize(gasNames.size(), 0.0);
@@ -94,7 +94,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::readFields
     p.YSolid_.setSize(solidNames.size(), 0.0);
   }
   // Populate YGas for each parcel
-  forAll(gasNames, j)
+  FOR_ALL(gasNames, j)
   {
     IOField<scalar> YGas
     (
@@ -105,7 +105,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::readFields
       )
     );
     label i = 0;
-    forAllIter
+    FOR_ALL_ITER
     (
       typename Cloud<ReactingMultiphaseParcel<ParcelType> >,
       c,
@@ -117,7 +117,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::readFields
     }
   }
   // Populate YLiquid for each parcel
-  forAll(liquidNames, j)
+  FOR_ALL(liquidNames, j)
   {
     IOField<scalar> YLiquid
     (
@@ -128,7 +128,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::readFields
       )
     );
     label i = 0;
-    forAllIter
+    FOR_ALL_ITER
     (
       typename Cloud<ReactingMultiphaseParcel<ParcelType> >,
       c,
@@ -140,7 +140,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::readFields
     }
   }
   // Populate YSolid for each parcel
-  forAll(solidNames, j)
+  FOR_ALL(solidNames, j)
   {
     IOField<scalar> YSolid
     (
@@ -151,7 +151,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::readFields
       )
     );
     label i = 0;
-    forAllIter
+    FOR_ALL_ITER
     (
       typename Cloud<ReactingMultiphaseParcel<ParcelType> >,
       c,
@@ -185,7 +185,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::writeFields
     const wordList& stateLabels = compModel.stateLabels();
     const label idGas = compModel.idGas();
     const wordList& gasNames = compModel.componentNames(idGas);
-    forAll(gasNames, j)
+    FOR_ALL(gasNames, j)
     {
       IOField<scalar> YGas
       (
@@ -197,7 +197,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::writeFields
         np
       );
       label i = 0;
-      forAllConstIter
+      FOR_ALL_CONST_ITER
       (
         typename Cloud<ReactingMultiphaseParcel<ParcelType> >,
         c,
@@ -211,7 +211,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::writeFields
     }
     const label idLiquid = compModel.idLiquid();
     const wordList& liquidNames = compModel.componentNames(idLiquid);
-    forAll(liquidNames, j)
+    FOR_ALL(liquidNames, j)
     {
       IOField<scalar> YLiquid
       (
@@ -223,7 +223,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::writeFields
         np
       );
       label i = 0;
-      forAllConstIter
+      FOR_ALL_CONST_ITER
       (
         typename Cloud<ReactingMultiphaseParcel<ParcelType> >,
         c,
@@ -237,7 +237,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::writeFields
     }
     const label idSolid = compModel.idSolid();
     const wordList& solidNames = compModel.componentNames(idSolid);
-    forAll(solidNames, j)
+    FOR_ALL(solidNames, j)
     {
       IOField<scalar> YSolid
       (
@@ -249,7 +249,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::writeFields
         np
       );
       label i = 0;
-      forAllConstIter
+      FOR_ALL_CONST_ITER
       (
         typename Cloud<ReactingMultiphaseParcel<ParcelType> >,
         c,

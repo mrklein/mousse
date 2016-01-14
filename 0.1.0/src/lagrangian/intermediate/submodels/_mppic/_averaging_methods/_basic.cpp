@@ -56,7 +56,7 @@ void mousse::AveragingMethods::Basic<Type>::updateGrad()
 template<class Type>
 void mousse::AveragingMethods::Basic<Type>::add
 (
-  const point position,
+  const point /*position*/,
   const tetIndices& tetIs,
   const Type& value
 )
@@ -66,7 +66,7 @@ void mousse::AveragingMethods::Basic<Type>::add
 template<class Type>
 Type mousse::AveragingMethods::Basic<Type>::interpolate
 (
-  const point position,
+  const point /*position*/,
   const tetIndices& tetIs
 ) const
 {
@@ -76,7 +76,7 @@ template<class Type>
 typename mousse::AveragingMethods::Basic<Type>::TypeGrad
 mousse::AveragingMethods::Basic<Type>::interpolateGrad
 (
-  const point position,
+  const point /*position*/,
   const tetIndices& tetIs
 ) const
 {

@@ -95,7 +95,7 @@ protected:
       label typeId_;
 public:
   //- Runtime type information
-  TypeName("DSMCParcel");
+  TYPE_NAME("DSMCParcel");
   friend class Cloud<ParcelType>;
   // Constructors
     //- Construct from components

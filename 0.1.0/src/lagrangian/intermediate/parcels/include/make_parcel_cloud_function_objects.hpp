@@ -13,16 +13,16 @@
 #include "_patch_post_processing.hpp"
 #include "_void_fraction.hpp"
 
-#define makeParcelCloudFunctionObjects(CloudType)                             \
+#define MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS(CloudType)                         \
                                                                               \
-  makeCloudFunctionObject(CloudType);                                         \
+  MAKE_CLOUD_FUNCTION_OBJECT(CloudType);                                      \
                                                                               \
-  makeCloudFunctionObjectType(FacePostProcessing, CloudType);                 \
-  makeCloudFunctionObjectType(ParticleCollector, CloudType);                  \
-  makeCloudFunctionObjectType(ParticleErosion, CloudType);                    \
-  makeCloudFunctionObjectType(ParticleTracks, CloudType);                     \
-  makeCloudFunctionObjectType(ParticleTrap, CloudType);                       \
-  makeCloudFunctionObjectType(PatchPostProcessing, CloudType);                \
-  makeCloudFunctionObjectType(VoidFraction, CloudType);
+  MAKE_CLOUD_FUNCTION_OBJECT_TYPE(FacePostProcessing, CloudType);             \
+  MAKE_CLOUD_FUNCTION_OBJECT_TYPE(ParticleCollector, CloudType);              \
+  MAKE_CLOUD_FUNCTION_OBJECT_TYPE(ParticleErosion, CloudType);                \
+  MAKE_CLOUD_FUNCTION_OBJECT_TYPE(ParticleTracks, CloudType);                 \
+  MAKE_CLOUD_FUNCTION_OBJECT_TYPE(ParticleTrap, CloudType);                   \
+  MAKE_CLOUD_FUNCTION_OBJECT_TYPE(PatchPostProcessing, CloudType);            \
+  MAKE_CLOUD_FUNCTION_OBJECT_TYPE(VoidFraction, CloudType);
 
 #endif

@@ -28,7 +28,7 @@ class equilibrium
 {
 public:
   //- Runtime type information
-  TypeName("equilibrium");
+  TYPE_NAME("equilibrium");
   //- Constructors
     //- Construct from components
     equilibrium(const dictionary& dict);

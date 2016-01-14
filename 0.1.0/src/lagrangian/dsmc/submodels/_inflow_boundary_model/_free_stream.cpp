@@ -23,7 +23,7 @@ mousse::FreeStream<CloudType>::FreeStream
 {
   // Identify which patches to use
   DynamicList<label> patches;
-  forAll(cloud.mesh().boundaryMesh(), p)
+  FOR_ALL(cloud.mesh().boundaryMesh(), p)
   {
     const polyPatch& patch = cloud.mesh().boundaryMesh()[p];
     if (isType<polyPatch>(patch))
@@ -39,7 +39,7 @@ mousse::FreeStream<CloudType>::FreeStream
   List<word> molecules(numberDensitiesDict.toc());
   // Initialise the particleFluxAccumulators_
   particleFluxAccumulators_.setSize(patches_.size());
-  forAll(patches_, p)
+  FOR_ALL(patches_, p)
   {
     const polyPatch& patch = cloud.mesh().boundaryMesh()[patches_[p]];
     particleFluxAccumulators_[p] = List<Field<scalar> >
@@ -50,7 +50,7 @@ mousse::FreeStream<CloudType>::FreeStream
   }
   moleculeTypeIds_.setSize(molecules.size());
   numberDensities_.setSize(molecules.size());
-  forAll(molecules, i)
+  FOR_ALL(molecules, i)
   {
     numberDensities_[i] = readScalar
     (
@@ -59,7 +59,7 @@ mousse::FreeStream<CloudType>::FreeStream
     moleculeTypeIds_[i] = findIndex(cloud.typeIdList(), molecules[i]);
     if (moleculeTypeIds_[i] == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::FreeStream<CloudType>::FreeStream"
         "("
@@ -78,16 +78,16 @@ mousse::FreeStream<CloudType>::~FreeStream()
 {}
 // Member Functions
 template<class CloudType>
-void mousse::FreeStream<CloudType>::autoMap(const mapPolyMesh& mapper)
+void mousse::FreeStream<CloudType>::autoMap(const mapPolyMesh&)
 {
   CloudType& cloud(this->owner());
   const polyMesh& mesh(cloud.mesh());
-  forAll(patches_, p)
+  FOR_ALL(patches_, p)
   {
     label patchi = patches_[p];
     const polyPatch& patch = mesh.boundaryMesh()[patchi];
     List<Field<scalar> >& pFA = particleFluxAccumulators_[p];
-    forAll(pFA, facei)
+    FOR_ALL(pFA, facei)
     {
       pFA[facei].setSize(patch.size(), 0);
     }
@@ -110,7 +110,7 @@ void mousse::FreeStream<CloudType>::inflow()
   (
     cloud.boundaryU().boundaryField()
   );
-  forAll(patches_, p)
+  FOR_ALL(patches_, p)
   {
     label patchi = patches_[p];
     const polyPatch& patch = mesh.boundaryMesh()[patchi];
@@ -118,13 +118,13 @@ void mousse::FreeStream<CloudType>::inflow()
     // velocity to point flux into the domain.
     // Take a reference to the particleFluxAccumulator for this patch
     List<Field<scalar> >& pFA = particleFluxAccumulators_[p];
-    forAll(pFA, i)
+    FOR_ALL(pFA, i)
     {
       label typeId = moleculeTypeIds_[i];
       scalar mass = cloud.constProps(typeId).mass();
       if (min(boundaryT[patchi]) < SMALL)
       {
-        FatalErrorIn ("mousse::FreeStream<CloudType>::inflow()")
+        FATAL_ERROR_IN ("mousse::FreeStream<CloudType>::inflow()")
           << "Zero boundary temperature detected, check boundaryT "
           << "condition." << nl
           << nl << abort(FatalError);
@@ -155,7 +155,7 @@ void mousse::FreeStream<CloudType>::inflow()
         )
        /(2.0*sqrtPi);
     }
-    forAll(patch, pFI)
+    FOR_ALL(patch, pFI)
     {
       // Loop over all faces as the outer loop to avoid calculating
       // geometrical properties multiple times.
@@ -173,7 +173,7 @@ void mousse::FreeStream<CloudType>::inflow()
       // Cumulative triangle area fractions
       List<scalar> cTriAFracs(faceTets.size(), 0.0);
       scalar previousCummulativeSum = 0.0;
-      forAll(faceTets, triI)
+      FOR_ALL(faceTets, triI)
       {
         const tetIndices& faceTetIs = faceTets[triI];
         cTriAFracs[triI] =
@@ -198,7 +198,7 @@ void mousse::FreeStream<CloudType>::inflow()
       t2 /= mag(t2);
       scalar faceTemperature = boundaryT[patchi][pFI];
       const vector& faceVelocity = boundaryU[patchi][pFI];
-      forAll(pFA, i)
+      FOR_ALL(pFA, i)
       {
         scalar& faceAccumulator = pFA[i][pFI];
         // Number of whole particles to insert
@@ -219,7 +219,7 @@ void mousse::FreeStream<CloudType>::inflow()
           scalar triSelection = rndGen.scalar01();
           // Selected triangle
           label selectedTriI = -1;
-          forAll(cTriAFracs, triI)
+          FOR_ALL(cTriAFracs, triI)
           {
             selectedTriI = triI;
             if (cTriAFracs[triI] >= triSelection)

@@ -29,7 +29,7 @@ class ParamagneticForce
     const scalar magneticSusceptibility_;
 public:
   //- Runtime type information
-  TypeName("paramagnetic");
+  TYPE_NAME("paramagnetic");
   // Constructors
     //- Construct from mesh
     ParamagneticForce

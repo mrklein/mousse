@@ -28,15 +28,15 @@ void mousse::correlationFunction<Type>::setTimesAndSizes
     bufferingInterval
   );
   tZeroBuffers_ =
-    Field< Field<Type> >
-    (
+    Field< Field<Type>>
+    {
       nBuffers,
       Field<Type>
-      (
+      {
         tZeroBufferSize,
         pTraits<Type>::zero
-      )
-    );
+      }
+    };
 }
 // Constructors 
 template<class Type>
@@ -47,8 +47,8 @@ mousse::correlationFunction<Type>::correlationFunction
   const label tZeroBufferSize
 )
 :
-  bufferedAccumulator<scalar>(),
-  mesh_(mesh)
+  bufferedAccumulator<scalar>{},
+  mesh_{mesh}
 {
   duration_ = readScalar(cfDict.lookup("duration"));
   sampleInterval_ = readScalar(cfDict.lookup("sampleInterval"));
@@ -65,11 +65,11 @@ mousse::correlationFunction<Type>::correlationFunction
   const scalar averagingInterval
 )
 :
-  bufferedAccumulator<scalar>(),
-  mesh_(mesh),
-  duration_(duration),
-  sampleInterval_(sampleInterval),
-  averagingInterval_(averagingInterval)
+  bufferedAccumulator<scalar>{},
+  mesh_{mesh},
+  duration_{duration},
+  sampleInterval_{sampleInterval},
+  averagingInterval_{averagingInterval}
 {
   setTimesAndSizes(tZeroBufferSize);
 }
@@ -86,7 +86,7 @@ void mousse::correlationFunction<Type>::calculateCorrelationFunction
 {
   if (measurandFieldSize() != currentValues.size())
   {
-    FatalErrorIn("correlationFunction<Type>::calculateCorrelationFunction")
+    FATAL_ERROR_IN("correlationFunction<Type>::calculateCorrelationFunction")
       << "Trying to supply a Field of length"
       << currentValues.size()
       << " to calculate the correlation function. "
@@ -94,16 +94,16 @@ void mousse::correlationFunction<Type>::calculateCorrelationFunction
       << measurandFieldSize() << nl
       << abort(FatalError);
   }
-  List<scalar> cFSums(nBuffers(),0.0);
-  forAll(tZeroBuffers_, tZB)
+  List<scalar> cFSums{nBuffers(),0.0};
+  FOR_ALL(tZeroBuffers_, tZB)
   {
     scalar& cFSum = cFSums[tZB];
     const Field<Type>& tZeroBuffer = tZeroBuffers_[tZB];
-    forAll(currentValues, cV)
+    FOR_ALL(currentValues, cV)
     {
       const Type& tZeroBufferValue = tZeroBuffer[cV];
       const Type& currentValue = currentValues[cV];
-      forAll(currentValue, component)
+      FOR_ALL(currentValue, component)
       {
         cFSum +=
         (
@@ -127,7 +127,7 @@ void mousse::correlationFunction<Type>::calculateCorrelationFunction
 {
   if (measurandFieldSize() != 1)
   {
-    FatalErrorIn("correlationFunction<Type>::calculateCorrelationFunction")
+    FATAL_ERROR_IN("correlationFunction<Type>::calculateCorrelationFunction")
       << "Trying to supply a single value to calculate the correlation "
       << "function.  Expecting a Field of length "
       << measurandFieldSize()

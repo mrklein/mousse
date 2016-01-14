@@ -176,7 +176,7 @@ protected:
 public:
   // Static data members
     //- Runtime type information
-    TypeName("ReactingMultiphaseParcel");
+    TYPE_NAME("ReactingMultiphaseParcel");
     //- String representation of properties
     AddToPropertyList
     (

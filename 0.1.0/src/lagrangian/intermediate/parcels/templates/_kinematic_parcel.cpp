@@ -25,7 +25,7 @@ void mousse::KinematicParcel<ParcelType>::setCellValues
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "void mousse::KinematicParcel<ParcelType>::setCellValues"
         "("
@@ -56,7 +56,7 @@ template<class TrackData>
 void mousse::KinematicParcel<ParcelType>::cellValueSourceCorrection
 (
   TrackData& td,
-  const scalar dt,
+  const scalar /*dt*/,
   const label cellI
 )
 {
@@ -105,7 +105,7 @@ const mousse::vector mousse::KinematicParcel<ParcelType>::calcVelocity
 (
   TrackData& td,
   const scalar dt,
-  const label cellI,
+  const label /*cellI*/,
   const scalar Re,
   const scalar mu,
   const scalar mass,
@@ -287,7 +287,7 @@ void mousse::KinematicParcel<ParcelType>::hitFace(TrackData& td)
   td.cloud().functions().postFace(p, p.face(), td.keepParticle);
 }
 template<class ParcelType>
-void mousse::KinematicParcel<ParcelType>::hitFace(int& td)
+void mousse::KinematicParcel<ParcelType>::hitFace(int& /*td*/)
 {}
 template<class ParcelType>
 template<class TrackData>
@@ -295,7 +295,7 @@ bool mousse::KinematicParcel<ParcelType>::hitPatch
 (
   const polyPatch& pp,
   TrackData& td,
-  const label patchI,
+  const label /*patchI*/,
   const scalar trackFraction,
   const tetIndices& tetIs
 )
@@ -344,8 +344,8 @@ template<class ParcelType>
 template<class TrackData>
 void mousse::KinematicParcel<ParcelType>::hitWallPatch
 (
-  const wallPolyPatch& wpp,
-  TrackData& td,
+  const wallPolyPatch&,
+  TrackData&,
   const tetIndices&
 )
 {

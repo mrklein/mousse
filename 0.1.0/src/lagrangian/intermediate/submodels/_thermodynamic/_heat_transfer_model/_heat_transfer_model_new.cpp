@@ -17,7 +17,7 @@ mousse::HeatTransferModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "HeatTransferModel<CloudType>::New"
       "("

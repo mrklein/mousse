@@ -14,17 +14,16 @@ namespace mousse
 {
 class thermoCloud
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    thermoCloud(const thermoCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const thermoCloud&);
 public:
   //- Runtime type information
-  TypeName("thermoCloud");
+  TYPE_NAME("thermoCloud");
   // Constructors
     //- Null constructor
     thermoCloud();
+    //- Disallow default bitwise copy construct
+    thermoCloud(const thermoCloud&) = delete;
+    //- Disallow default bitwise assignment
+    thermoCloud& operator=(const thermoCloud&) = delete;
   //- Destructor
   virtual ~thermoCloud();
   // Member Functions

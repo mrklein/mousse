@@ -7,7 +7,7 @@
 template<class CloudType>
 void mousse::SingleMixtureFraction<CloudType>::constructIds()
 {
-  forAll(this->phaseProps(), phaseI)
+  FOR_ALL(this->phaseProps(), phaseI)
   {
     switch (this->phaseProps()[phaseI].phase())
     {
@@ -28,7 +28,7 @@ void mousse::SingleMixtureFraction<CloudType>::constructIds()
       }
       default:
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::SingleMixtureFraction<CloudType>::"
           "constructIds()"
@@ -38,19 +38,19 @@ void mousse::SingleMixtureFraction<CloudType>::constructIds()
   }
   if (idGas_ < 0)
   {
-    FatalErrorIn("mousse::SingleMixtureFraction<CloudType>::constructIds()")
+    FATAL_ERROR_IN("mousse::SingleMixtureFraction<CloudType>::constructIds()")
       << "No gas phase found in phase list:" << nl
       << this->phaseTypes() << exit(FatalError);
   }
   if (idLiquid_ < 0)
   {
-    FatalErrorIn("mousse::SingleMixtureFraction<CloudType>::constructIds()")
+    FATAL_ERROR_IN("mousse::SingleMixtureFraction<CloudType>::constructIds()")
       << "No liquid phase found in phase list:" << nl
       << this->phaseTypes() << exit(FatalError);
   }
   if (idSolid_ < 0)
   {
-    FatalErrorIn("mousse::SingleMixtureFraction<CloudType>::constructIds()")
+    FATAL_ERROR_IN("mousse::SingleMixtureFraction<CloudType>::constructIds()")
       << "No solid phase found in phase list:" << nl
       << this->phaseTypes() << exit(FatalError);
   }
@@ -72,7 +72,7 @@ mousse::SingleMixtureFraction<CloudType>::SingleMixtureFraction
   constructIds();
   if (this->phaseProps().size() != 3)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::SingleMixtureFraction<CloudType>::"
       "SingleMixtureFraction"
@@ -89,7 +89,7 @@ mousse::SingleMixtureFraction<CloudType>::SingleMixtureFraction
   this->coeffDict().lookup("YSolidTot0") >> YMixture0_[idSolid_];
   if (mag(sum(YMixture0_) - 1.0) > SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::SingleMixtureFraction<CloudType>::"
       "SingleMixtureFraction"

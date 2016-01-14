@@ -17,7 +17,7 @@ class Euler
 {
 public:
   //- Runtime type information
-  TypeName("Euler");
+  TYPE_NAME("Euler");
   // Constructors
     //- Construct from components
     Euler(const word& phiName, const dictionary& dict);

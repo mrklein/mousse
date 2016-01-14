@@ -6,7 +6,6 @@
 // Description
 //   Adds coolisions to kinematic clouds
 // SourceFiles
-//   _colliding_cloud_i.hpp
 //   _colliding_cloud.cpp
 #ifndef _colliding_cloud_hpp_
 #define _colliding_cloud_hpp_
@@ -38,11 +37,6 @@ private:
   // Private data
     //- Cloud copy pointer
     autoPtr<CollidingCloud<CloudType> > cloudCopyPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    CollidingCloud(const CollidingCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const CollidingCloud&);
 protected:
   // Protected data
     //- Thermo parcel constant properties
@@ -101,6 +95,10 @@ public:
         new CollidingCloud(this->mesh(), name, *this)
       );
     }
+    //- Disallow default bitwise copy construct
+    CollidingCloud(const CollidingCloud&) = delete;
+    //- Disallow default bitwise assignment
+    CollidingCloud& operator=(const CollidingCloud&) = delete;
   //- Destructor
   virtual ~CollidingCloud();
   // Member Functions
@@ -140,7 +138,46 @@ public:
       void info();
 };
 }  // namespace mousse
-#include "_colliding_cloud_i.hpp"
+
+// Member Functions 
+template<class CloudType>
+inline const mousse::CollidingCloud<CloudType>&
+mousse::CollidingCloud<CloudType>::cloudCopy() const
+{
+  return cloudCopyPtr_();
+}
+template<class CloudType>
+inline const typename CloudType::particleType::constantProperties&
+mousse::CollidingCloud<CloudType>::constProps() const
+{
+  return constProps_;
+}
+template<class CloudType>
+inline const mousse::CollisionModel<mousse::CollidingCloud<CloudType> >&
+mousse::CollidingCloud<CloudType>::collision() const
+{
+  return collisionModel_();
+}
+template<class CloudType>
+inline mousse::CollisionModel<mousse::CollidingCloud<CloudType> >&
+mousse::CollidingCloud<CloudType>::collision()
+{
+  return collisionModel_();
+}
+template<class CloudType>
+inline mousse::scalar
+mousse::CollidingCloud<CloudType>::rotationalKineticEnergyOfSystem() const
+{
+  scalar rotationalKineticEnergy = 0.0;
+  FOR_ALL_CONST_ITER(typename CollidingCloud<CloudType>, *this, iter)
+  {
+    const parcelType& p = iter();
+    rotationalKineticEnergy +=
+      p.nParticle()*0.5*p.momentOfInertia()*(p.omega() & p.omega());
+  }
+  return rotationalKineticEnergy;
+}
+
 #ifdef NoRepository
 #   include "_colliding_cloud.cpp"
 #endif

@@ -17,7 +17,7 @@ class RanzMarshall
 {
 public:
   //- Runtime type information
-  TypeName("RanzMarshall");
+  TYPE_NAME("RanzMarshall");
   // Constructors
     //- Construct from dictionary
     RanzMarshall(const dictionary& dict, CloudType& cloud);

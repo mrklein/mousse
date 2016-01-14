@@ -106,7 +106,7 @@ protected:
 public:
   // Static data members
     //- Runtime type information
-    TypeName("SprayParcel");
+    TYPE_NAME("SprayParcel");
   // Constructors
     //- Construct from owner, position, and cloud owner
     //  Other properties initialised as null

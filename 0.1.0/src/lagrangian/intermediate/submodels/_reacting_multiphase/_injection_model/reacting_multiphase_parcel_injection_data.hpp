@@ -39,7 +39,7 @@ protected:
     scalarList YSolid_;
 public:
   //- Runtime type information
-  TypeName("reactingMultiphaseParcelInjectionData");
+  TYPE_NAME("reactingMultiphaseParcelInjectionData");
   // Constructors
     //- Null constructor
     reactingMultiphaseParcelInjectionData();

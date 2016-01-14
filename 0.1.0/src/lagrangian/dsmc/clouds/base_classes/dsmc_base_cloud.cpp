@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(DSMCBaseCloud, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(DSMCBaseCloud, 0);
 }
 // Constructors 
 mousse::DSMCBaseCloud::DSMCBaseCloud()

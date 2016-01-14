@@ -101,7 +101,7 @@ bool mousse::molecule::move(molecule::trackingData& td, const scalar trackTime)
     scalar m = constProps.mass();
     a_ = vector::zero;
     tau_ = vector::zero;
-    forAll(siteForces_, s)
+    FOR_ALL(siteForces_, s)
     {
       const vector& f = siteForces_[s];
       a_ += f/m;
@@ -122,7 +122,7 @@ bool mousse::molecule::move(molecule::trackingData& td, const scalar trackTime)
   }
   else
   {
-    FatalErrorIn("molecule::move(trackingData&, const scalar)") << nl
+    FATAL_ERROR_IN("molecule::move(trackingData&, const scalar)") << nl
       << td.part() << " is an invalid part of the integration method."
       << abort(FatalError);
   }
@@ -179,9 +179,9 @@ void mousse::molecule::hitProcessorPatch
 }
 void mousse::molecule::hitWallPatch
 (
-  const wallPolyPatch& wpp,
-  trackingData& td,
-  const tetIndices& tetIs
+  const wallPolyPatch&,
+  trackingData&,
+  const tetIndices& /*tetIs*/
 )
 {
   // Use of the normal from tetIs is not required as

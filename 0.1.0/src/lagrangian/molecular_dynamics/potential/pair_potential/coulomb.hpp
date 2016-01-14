@@ -19,7 +19,7 @@ class coulomb
 {
 public:
   //- Runtime type information
-  TypeName("coulomb");
+  TYPE_NAME("coulomb");
   // Static data members
     static scalar oneOverFourPiEps0;
   // Constructors

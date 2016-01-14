@@ -33,11 +33,11 @@ mousse::AveragingMethods::Dual<Type>::Dual
   tetVertices_(3),
   tetCoordinates_(4)
 {
-  forAll(this->mesh_.C(), cellI)
+  FOR_ALL(this->mesh_.C(), cellI)
   {
     List<tetIndices> cellTets =
       polyMeshTetDecomposition::cellTetIndices(this->mesh_, cellI);
-    forAll(cellTets, tetI)
+    FOR_ALL(cellTets, tetI)
     {
       const tetIndices& tetIs = cellTets[tetI];
       const face& f = this->mesh_.faces()[tetIs.face()];

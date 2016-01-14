@@ -76,7 +76,7 @@ protected:
 public:
   // Static data members
     //- Runtime type information
-    TypeName("CollidingParcel");
+    TYPE_NAME("CollidingParcel");
     //- String representation of properties
     AddToPropertyList
     (

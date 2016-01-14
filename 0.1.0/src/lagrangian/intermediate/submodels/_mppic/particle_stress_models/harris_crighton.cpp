@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace ParticleStressModels
 {
-  defineTypeNameAndDebug(HarrisCrighton, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(HarrisCrighton, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     ParticleStressModel,
     HarrisCrighton,
@@ -61,8 +61,8 @@ mousse::tmp<mousse::Field<mousse::scalar> >
 mousse::ParticleStressModels::HarrisCrighton::tau
 (
   const Field<scalar>& alpha,
-  const Field<scalar>& rho,
-  const Field<scalar>& uSqr
+  const Field<scalar>& /*rho*/,
+  const Field<scalar>& /*uSqr*/
 ) const
 {
   return
@@ -76,8 +76,8 @@ mousse::tmp<mousse::Field<mousse::scalar> >
 mousse::ParticleStressModels::HarrisCrighton::dTaudTheta
 (
   const Field<scalar>& alpha,
-  const Field<scalar>& rho,
-  const Field<scalar>& uSqr
+  const Field<scalar>& /*rho*/,
+  const Field<scalar>& /*uSqr*/
 ) const
 {
   const Field<scalar> d(denominator(alpha));

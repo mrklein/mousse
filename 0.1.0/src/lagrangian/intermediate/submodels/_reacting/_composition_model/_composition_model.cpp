@@ -7,9 +7,9 @@
 template<class CloudType>
 mousse::CompositionModel<CloudType>::CompositionModel(CloudType& owner)
 :
-  CloudSubModelBase<CloudType>(owner),
-  thermo_(owner.thermo()),
-  phaseProps_()
+  CloudSubModelBase<CloudType>{owner},
+  thermo_{owner.thermo()},
+  phaseProps_{}
 {}
 template<class CloudType>
 mousse::CompositionModel<CloudType>::CompositionModel
@@ -19,15 +19,15 @@ mousse::CompositionModel<CloudType>::CompositionModel
   const word& type
 )
 :
-  CloudSubModelBase<CloudType>(owner, dict, typeName, type),
-  thermo_(owner.thermo()),
+  CloudSubModelBase<CloudType>{owner, dict, typeName, type},
+  thermo_{owner.thermo()},
   phaseProps_
-  (
+  {
     this->coeffDict().lookup("phases"),
     thermo_.carrier().species(),
     thermo_.liquids().components(),
     thermo_.solids().components()
-  )
+  }
 {}
 template<class CloudType>
 mousse::CompositionModel<CloudType>::CompositionModel
@@ -35,9 +35,9 @@ mousse::CompositionModel<CloudType>::CompositionModel
   const CompositionModel<CloudType>& cm
 )
 :
-  CloudSubModelBase<CloudType>(cm),
-  thermo_(cm.thermo_),
-  phaseProps_(cm.phaseProps_)
+  CloudSubModelBase<CloudType>{cm},
+  thermo_{cm.thermo_},
+  phaseProps_{cm.phaseProps_}
 {}
 // Destructor 
 template<class CloudType>
@@ -112,17 +112,18 @@ mousse::label mousse::CompositionModel<CloudType>::carrierId
   label id = thermo_.carrierId(cmptName);
   if (id < 0 && !allowNotFound)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "label CompositionModel<CloudType>::carrierId"
       "("
         "const word&, "
         "const bool"
       ") const"
-    )   << "Unable to determine global id for requested component "
-      << cmptName << ". Available components are " << nl
-      << thermo_.carrier().species()
-      << abort(FatalError);
+    )
+    << "Unable to determine global id for requested component "
+    << cmptName << ". Available components are " << nl
+    << thermo_.carrier().species()
+    << abort(FatalError);
   }
   return id;
 }
@@ -137,7 +138,7 @@ mousse::label mousse::CompositionModel<CloudType>::localId
   label id = phaseProps_[phasei].id(cmptName);
   if (id < 0 && !allowNotFound)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "label CompositionModel<CloudType>::localId"
       "("
@@ -145,8 +146,9 @@ mousse::label mousse::CompositionModel<CloudType>::localId
         "const word&, "
         "const bool"
       ") const"
-    )   << "Unable to determine local id for component " << cmptName
-      << abort(FatalError);
+    )
+    << "Unable to determine local id for component " << cmptName
+    << abort(FatalError);
   }
   return id;
 }
@@ -161,7 +163,7 @@ mousse::label mousse::CompositionModel<CloudType>::localToCarrierId
   label cid = phaseProps_[phasei].carrierIds()[id];
   if (cid < 0 && !allowNotFound)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "label "
       "CompositionModel<CloudType>::localToCarrierId"
@@ -170,9 +172,10 @@ mousse::label mousse::CompositionModel<CloudType>::localToCarrierId
         "const label, "
         "const bool"
       ") const"
-    )   << "Unable to determine global carrier id for phase "
-      << phasei << " with local id " << id
-      << abort(FatalError);
+    )
+    << "Unable to determine global carrier id for phase "
+    << phasei << " with local id " << id
+    << abort(FatalError);
   }
   return cid;
 }
@@ -198,7 +201,7 @@ mousse::scalarField mousse::CompositionModel<CloudType>::X
   {
     case phaseProperties::GAS:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         label cid = props.carrierIds()[i];
         X[i] = Y[i]/thermo_.carrier().W(cid);
@@ -208,7 +211,7 @@ mousse::scalarField mousse::CompositionModel<CloudType>::X
     }
     case phaseProperties::LIQUID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         X[i] = Y[i]/thermo_.liquids().properties()[i].W();
         WInv += X[i];
@@ -217,15 +220,16 @@ mousse::scalarField mousse::CompositionModel<CloudType>::X
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "scalarField CompositionModel<CloudType>::X"
         "("
           "const label, "
           "const scalarField&"
         ") const"
-      )   << "Only possible to convert gas and liquid mass fractions"
-        << abort(FatalError);
+      )
+      << "Only possible to convert gas and liquid mass fractions"
+      << abort(FatalError);
     }
   }
   X /= WInv;
@@ -246,7 +250,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::H
   {
     case phaseProperties::GAS:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         label cid = props.carrierIds()[i];
         HMixture += Y[i]*thermo_.carrier().Ha(cid, p, T);
@@ -255,7 +259,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::H
     }
     case phaseProperties::LIQUID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         HMixture += Y[i]*thermo_.liquids().properties()[i].h(p, T);
       }
@@ -263,7 +267,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::H
     }
     case phaseProperties::SOLID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         HMixture +=
           Y[i]
@@ -276,7 +280,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::H
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "scalar CompositionModel<CloudType>::H"
         "("
@@ -285,7 +289,8 @@ mousse::scalar mousse::CompositionModel<CloudType>::H
         "    const scalar, "
         "    const scalar"
         ") const"
-      )   << "Unknown phase enumeration" << abort(FatalError);
+      )
+      << "Unknown phase enumeration" << abort(FatalError);
     }
   }
   return HMixture;
@@ -305,7 +310,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hs
   {
     case phaseProperties::GAS:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         label cid = props.carrierIds()[i];
         HsMixture += Y[i]*thermo_.carrier().Hs(cid, p, T);
@@ -314,7 +319,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hs
     }
     case phaseProperties::LIQUID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         HsMixture +=
           Y[i]
@@ -327,7 +332,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hs
     }
     case phaseProperties::SOLID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         HsMixture += Y[i]*thermo_.solids().properties()[i].Cp()*T;
       }
@@ -335,7 +340,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hs
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "scalar CompositionModel<CloudType>::Hs"
         "("
@@ -344,8 +349,9 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hs
         "    const scalar, "
         "    const scalar"
         ") const"
-      )   << "Unknown phase enumeration"
-        << abort(FatalError);
+      )
+      << "Unknown phase enumeration"
+      << abort(FatalError);
     }
   }
   return HsMixture;
@@ -356,7 +362,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hc
   const label phasei,
   const scalarField& Y,
   const scalar p,
-  const scalar T
+  const scalar /*T*/
 ) const
 {
   const phaseProperties& props = phaseProps_[phasei];
@@ -365,7 +371,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hc
   {
     case phaseProperties::GAS:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         label cid = props.carrierIds()[i];
         HcMixture += Y[i]*thermo_.carrier().Hc(cid);
@@ -374,7 +380,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hc
     }
     case phaseProperties::LIQUID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         HcMixture +=
           Y[i]*thermo_.liquids().properties()[i].h(p, 298.15);
@@ -383,7 +389,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hc
     }
     case phaseProperties::SOLID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         HcMixture += Y[i]*thermo_.solids().properties()[i].Hf();
       }
@@ -391,7 +397,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hc
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "scalar CompositionModel<CloudType>::Hc"
         "("
@@ -400,8 +406,9 @@ mousse::scalar mousse::CompositionModel<CloudType>::Hc
         "    const scalar, "
         "    const scalar"
         ") const"
-      )   << "Unknown phase enumeration"
-        << abort(FatalError);
+      )
+      << "Unknown phase enumeration"
+      << abort(FatalError);
     }
   }
   return HcMixture;
@@ -421,7 +428,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Cp
   {
     case phaseProperties::GAS:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         label cid = props.carrierIds()[i];
         CpMixture += Y[i]*thermo_.carrier().Cp(cid, p, T);
@@ -430,7 +437,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Cp
     }
     case phaseProperties::LIQUID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         CpMixture += Y[i]*thermo_.liquids().properties()[i].Cp(p, T);
       }
@@ -438,7 +445,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Cp
     }
     case phaseProperties::SOLID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         CpMixture += Y[i]*thermo_.solids().properties()[i].Cp();
       }
@@ -446,7 +453,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::Cp
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "scalar CompositionModel<CloudType>::Cp"
         "("
@@ -455,8 +462,9 @@ mousse::scalar mousse::CompositionModel<CloudType>::Cp
           "const scalar, "
           "const scalar"
         ") const"
-      )   << "Unknown phase enumeration"
-        << abort(FatalError);
+      )
+      << "Unknown phase enumeration"
+      << abort(FatalError);
     }
   }
   return CpMixture;
@@ -478,7 +486,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::L
     {
       if (debug)
       {
-        WarningIn
+        WARNING_IN
         (
           "scalar CompositionModel<CloudType>::L"
           "("
@@ -487,13 +495,14 @@ mousse::scalar mousse::CompositionModel<CloudType>::L
             "const scalar, "
             "const scalar"
           ") const\n"
-        )   << "No support for gaseous components" << endl;
+        )
+        << "No support for gaseous components" << endl;
       }
       break;
     }
     case phaseProperties::LIQUID:
     {
-      forAll(Y, i)
+      FOR_ALL(Y, i)
       {
         LMixture += Y[i]*thermo_.liquids().properties()[i].hl(p, T);
       }
@@ -503,7 +512,7 @@ mousse::scalar mousse::CompositionModel<CloudType>::L
     {
       if (debug)
       {
-        WarningIn
+        WARNING_IN
         (
           "scalar CompositionModel<CloudType>::L"
           "("
@@ -512,13 +521,14 @@ mousse::scalar mousse::CompositionModel<CloudType>::L
             "const scalar, "
             "const scalar"
           ") const\n"
-        )   << "No support for solid components" << endl;
+        )
+        << "No support for solid components" << endl;
       }
       break;
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "scalar CompositionModel<CloudType>::L"
         "("
@@ -527,8 +537,9 @@ mousse::scalar mousse::CompositionModel<CloudType>::L
           "const scalar, "
           "const scalar"
         ") const"
-      )   << "Unknown phase enumeration"
-        << abort(FatalError);
+      )
+      << "Unknown phase enumeration"
+      << abort(FatalError);
     }
   }
   return LMixture;

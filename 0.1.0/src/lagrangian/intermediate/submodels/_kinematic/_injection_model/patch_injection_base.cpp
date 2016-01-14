@@ -26,7 +26,7 @@ mousse::patchInjectionBase::patchInjectionBase
 {
   if (patchId_ < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "patchInjectionBase::patchInjectionBase"
       "("
@@ -68,19 +68,19 @@ void mousse::patchInjectionBase::updateMesh(const polyMesh& mesh)
   DynamicList<face> tris(5);
   // Set zero value at the start of the tri area list
   triMagSf.append(0.0);
-  forAll(patch, faceI)
+  FOR_ALL(patch, faceI)
   {
     const face& f = patch[faceI];
     tris.clear();
     f.triangles(points, tris);
-    forAll(tris, i)
+    FOR_ALL(tris, i)
     {
       triToFace.append(faceI);
       triFace.append(tris[i]);
       triMagSf.append(tris[i].mag(points));
     }
   }
-  forAll(sumTriMagSf_, i)
+  FOR_ALL(sumTriMagSf_, i)
   {
     sumTriMagSf_[i] = 0.0;
   }
@@ -125,7 +125,7 @@ void mousse::patchInjectionBase::setPositionAndCell
   {
     // Determine which processor to inject from
     label procI = 0;
-    forAllReverse(sumTriMagSf_, i)
+    FOR_ALL_REVERSE(sumTriMagSf_, i)
     {
       if (areaFraction >= sumTriMagSf_[i])
       {
@@ -138,7 +138,7 @@ void mousse::patchInjectionBase::setPositionAndCell
       // Find corresponding decomposed face triangle
       label triI = 0;
       scalar offset = sumTriMagSf_[procI];
-      forAllReverse(triCumulativeMagSf_, i)
+      FOR_ALL_REVERSE(triCumulativeMagSf_, i)
       {
         if (areaFraction > triCumulativeMagSf_[i] + offset)
         {

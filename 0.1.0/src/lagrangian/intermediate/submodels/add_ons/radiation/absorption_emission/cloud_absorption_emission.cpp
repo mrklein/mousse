@@ -8,16 +8,16 @@
 // Static Data Members
 namespace mousse
 {
-  namespace radiation
-  {
-    defineTypeNameAndDebug(cloudAbsorptionEmission, 0);
-    addToRunTimeSelectionTable
-    (
-      absorptionEmissionModel,
-      cloudAbsorptionEmission,
-      dictionary
-    );
-  }
+namespace radiation
+{
+DEFINE_TYPE_NAME_AND_DEBUG(cloudAbsorptionEmission, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  absorptionEmissionModel,
+  cloudAbsorptionEmission,
+  dictionary
+);
+}
 }
 // Constructors 
 mousse::radiation::cloudAbsorptionEmission::cloudAbsorptionEmission
@@ -26,9 +26,9 @@ mousse::radiation::cloudAbsorptionEmission::cloudAbsorptionEmission
   const fvMesh& mesh
 )
 :
-  absorptionEmissionModel(dict, mesh),
-  coeffsDict_(dict.subDict(typeName + "Coeffs")),
-  cloudNames_(coeffsDict_.lookup("cloudNames"))
+  absorptionEmissionModel{dict, mesh},
+  coeffsDict_{dict.subDict(typeName + "Coeffs")},
+  cloudNames_{coeffsDict_.lookup("cloudNames")}
 {}
 // Destructor 
 mousse::radiation::cloudAbsorptionEmission::~cloudAbsorptionEmission()
@@ -38,23 +38,24 @@ mousse::tmp<mousse::volScalarField>
 mousse::radiation::cloudAbsorptionEmission::aDisp(const label) const
 {
   tmp<volScalarField> ta
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "a",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("a", dimless/dimLength, 0.0)
-    )
-  );
-  forAll(cloudNames_, i)
+      // dimensionedScalar("a", dimless/dimLength, 0.0)
+      {"a", dimless/dimLength, 0.0}
+    }
+  };
+  FOR_ALL(cloudNames_, i)
   {
     const thermoCloud& tc
     (
@@ -65,48 +66,50 @@ mousse::radiation::cloudAbsorptionEmission::aDisp(const label) const
   return ta;
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::cloudAbsorptionEmission::eDisp(const label bandI) const
+mousse::radiation::cloudAbsorptionEmission::eDisp(const label /*bandI*/) const
 {
   tmp<volScalarField> te
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "e",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("e", dimless/dimLength, 0.0)
-    )
-  );
+      // dimensionedScalar("e", dimless/dimLength, 0.0)
+      {"e", dimless/dimLength, 0.0}
+    }
+  };
   return te;
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::cloudAbsorptionEmission::EDisp(const label bandI) const
+mousse::radiation::cloudAbsorptionEmission::EDisp(const label /*bandI*/) const
 {
   tmp<volScalarField> tE
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "E",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("E", dimMass/dimLength/pow3(dimTime), 0.0)
-    )
-  );
-  forAll(cloudNames_, i)
+      // dimensionedScalar("E", dimMass/dimLength/pow3(dimTime), 0.0)
+      {"E", dimMass/dimLength/pow3(dimTime), 0.0}
+    }
+  };
+  FOR_ALL(cloudNames_, i)
   {
     const thermoCloud& tc
     (

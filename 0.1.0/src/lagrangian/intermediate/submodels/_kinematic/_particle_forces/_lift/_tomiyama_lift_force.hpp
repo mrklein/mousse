@@ -32,7 +32,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("TomiyamaLift");
+  TYPE_NAME("TomiyamaLift");
   // Constructors
     //- Construct from mesh
     TomiyamaLiftForce

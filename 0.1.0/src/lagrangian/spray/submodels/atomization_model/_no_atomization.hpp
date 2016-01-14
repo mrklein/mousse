@@ -19,7 +19,7 @@ class NoAtomization
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from dictionary
     NoAtomization(const dictionary& dict, CloudType& cloud);

@@ -7,11 +7,11 @@
 template<class CloudType>
 mousse::IsotropyModels::NoIsotropy<CloudType>::NoIsotropy
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& owner
 )
 :
-  IsotropyModel<CloudType>(owner)
+  IsotropyModel<CloudType>{owner}
 {}
 template<class CloudType>
 mousse::IsotropyModels::NoIsotropy<CloudType>::NoIsotropy
@@ -19,7 +19,7 @@ mousse::IsotropyModels::NoIsotropy<CloudType>::NoIsotropy
   const NoIsotropy<CloudType>& cm
 )
 :
-  IsotropyModel<CloudType>(cm)
+  IsotropyModel<CloudType>{cm}
 {}
 // Destructor 
 template<class CloudType>

@@ -38,7 +38,7 @@ class NonInertialFrameForce
     vector centreOfRotation_;
 public:
   //- Runtime type information
-  TypeName("nonInertialFrame");
+  TYPE_NAME("nonInertialFrame");
   // Constructors
     //- Construct from mesh
     NonInertialFrameForce

@@ -44,21 +44,21 @@ bool mousse::BlobsSheetAtomization<CloudType>::calcChi() const
 template<class CloudType>
 void mousse::BlobsSheetAtomization<CloudType>::update
 (
-  const scalar dt,
+  const scalar /*dt*/,
   scalar& d,
   scalar& liquidCore,
-  scalar& tc,
+  scalar& /*tc*/,
   const scalar rho,
-  const scalar mu,
+  const scalar /*mu*/,
   const scalar sigma,
-  const scalar volFlowRate,
+  const scalar /*volFlowRate*/,
   const scalar rhoAv,
   const scalar Urel,
   const vector& pos,
   const vector& injectionPos,
-  const scalar pAmbient,
-  const scalar chi,
-  cachedRandom& rndGen
+  const scalar /*pAmbient*/,
+  const scalar /*chi*/,
+  cachedRandom& /*rndGen*/
 ) const
 {
   scalar lBU =

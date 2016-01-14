@@ -22,7 +22,7 @@ class dampedCoulomb
     scalar alpha_;
 public:
   //- Runtime type information
-  TypeName("dampedCoulomb");
+  TYPE_NAME("dampedCoulomb");
   // Static data members
     static scalar oneOverFourPiEps0;
   // Constructors

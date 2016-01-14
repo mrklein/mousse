@@ -104,11 +104,11 @@ void mousse::KinematicCloud<CloudType>::buildCellOccupancy()
     cellOccupancyPtr_().setSize(mesh_.nCells());
   }
   List<DynamicList<parcelType*> >& cellOccupancy = cellOccupancyPtr_();
-  forAll(cellOccupancy, cO)
+  FOR_ALL(cellOccupancy, cO)
   {
     cellOccupancy[cO].clear();
   }
-  forAllIter(typename KinematicCloud<CloudType>, *this, iter)
+  FOR_ALL_ITER(typename KinematicCloud<CloudType>, *this, iter)
   {
     cellOccupancy[iter().cell()].append(&iter());
   }
@@ -462,7 +462,7 @@ template<class CloudType>
 void mousse::KinematicCloud<CloudType>::setParcelThermoProperties
 (
   parcelType& parcel,
-  const scalar lagrangianDt
+  const scalar /*lagrangianDt*/
 )
 {
   parcel.rho() = constProps_.rho0();
@@ -472,7 +472,7 @@ void mousse::KinematicCloud<CloudType>::checkParcelProperties
 (
   parcelType& parcel,
   const scalar lagrangianDt,
-  const bool fullyDescribed
+  const bool /*fullyDescribed*/
 )
 {
   const scalar carrierDt = mesh_.time().deltaTValue();

@@ -9,10 +9,10 @@
 #include "vector.hpp"
 namespace mousse
 {
-  makeIntegrationScheme(scalar);
-  makeIntegrationSchemeType(Euler, scalar);
-  makeIntegrationSchemeType(Analytical, scalar);
-  makeIntegrationScheme(vector);
-  makeIntegrationSchemeType(Euler, vector);
-  makeIntegrationSchemeType(Analytical, vector);
+MAKE_INTEGRATION_SCHEME(scalar);
+MAKE_INTEGRATION_SCHEME_TYPE(Euler, scalar);
+MAKE_INTEGRATION_SCHEME_TYPE(Analytical, scalar);
+MAKE_INTEGRATION_SCHEME(vector);
+MAKE_INTEGRATION_SCHEME_TYPE(Euler, vector);
+MAKE_INTEGRATION_SCHEME_TYPE(Analytical, vector);
 }

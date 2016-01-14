@@ -121,7 +121,7 @@ class SingleKineticRateDevolatilisation
       const scalar residualCoeff_;
 public:
   //- Runtime type information
-  TypeName("singleKineticRateDevolatilisation");
+  TYPE_NAME("singleKineticRateDevolatilisation");
   // Constructors
     //- Construct from dictionary
     SingleKineticRateDevolatilisation

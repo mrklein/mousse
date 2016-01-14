@@ -16,15 +16,11 @@ namespace mousse
 {
 class CorrectionLimitingMethod
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const CorrectionLimitingMethod&);
 public:
   //- Runtime type information
-  TypeName("correctionLimitingMethod");
+  TYPE_NAME("correctionLimitingMethod");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     CorrectionLimitingMethod,
@@ -39,6 +35,11 @@ public:
     CorrectionLimitingMethod(const CorrectionLimitingMethod& cl);
     //- Construct and return a clone
     virtual autoPtr<CorrectionLimitingMethod> clone() const = 0;
+    //- Disallow default bitwise assignment
+    CorrectionLimitingMethod& operator=
+    (
+      const CorrectionLimitingMethod&
+    ) = delete;
   //- Selector
   static autoPtr<CorrectionLimitingMethod> New
   (

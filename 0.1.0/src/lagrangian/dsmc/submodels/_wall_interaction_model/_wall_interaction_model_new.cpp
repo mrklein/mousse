@@ -5,7 +5,7 @@
 #include "_wall_interaction_model.hpp"
 
 template<class CloudType>
-mousse::autoPtr<mousse::WallInteractionModel<CloudType> >
+mousse::autoPtr<mousse::WallInteractionModel<CloudType>>
 mousse::WallInteractionModel<CloudType>::New
 (
   const dictionary& dict,
@@ -18,16 +18,16 @@ mousse::WallInteractionModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "WallInteractionModel<CloudType>::New"
       "(const dictionary&, CloudType&)"
     )
-      << "Unknown WallInteractionModel type "
-      << modelType << nl << nl
-      << "Valid WallInteractionModel types are:" << nl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    << "Unknown WallInteractionModel type "
+    << modelType << nl << nl
+    << "Valid WallInteractionModel types are:" << nl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<WallInteractionModel<CloudType> >(cstrIter()(dict, owner));
+  return autoPtr<WallInteractionModel<CloudType>>{cstrIter()(dict, owner)};
 }

@@ -48,7 +48,7 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("ORourke");
+  TYPE_NAME("ORourke");
   // Constructors
     //- Construct from dictionary
     ORourkeCollision
