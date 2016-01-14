@@ -56,7 +56,7 @@ private:
     void setMethod() const;
 public:
   //- Runtime type information
-  TypeName("compressible::energyRegionCoupled");
+  TYPE_NAME("compressible::energyRegionCoupled");
   // Constructors
     //- Construct from patch and internal field
     energyRegionCoupledFvPatchScalarField
