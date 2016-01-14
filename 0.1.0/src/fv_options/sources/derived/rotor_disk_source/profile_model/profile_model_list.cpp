@@ -20,7 +20,7 @@ mousse::profileModelList::profileModelList
     if (modelNames.size() > 0)
     {
       this->setSize(modelNames.size());
-      forAll(modelNames, i)
+      FOR_ALL(modelNames, i)
       {
         const word& modelName = modelNames[i];
         this->set
@@ -47,11 +47,11 @@ void mousse::profileModelList::connectBlades
 ) const
 {
   // construct the addressing between blade sections and profiles
-  forAll(names, bI)
+  FOR_ALL(names, bI)
   {
     label index = -1;
     const word& profileName = names[bI];
-    forAll(*this, pI)
+    FOR_ALL(*this, pI)
     {
       const profileModel& pm = this->operator[](pI);
       if (pm.name() == profileName)
@@ -63,12 +63,12 @@ void mousse::profileModelList::connectBlades
     if (index == -1)
     {
       List<word> profileNames(size());
-      forAll(*this, i)
+      FOR_ALL(*this, i)
       {
         const profileModel& pm = this->operator[](i);
         profileNames[i] = pm.name();
       }
-      FatalErrorIn("void mousse::connectBlades(List<word>& names) const")
+      FATAL_ERROR_IN("void mousse::connectBlades(List<word>& names) const")
         << "Profile " << profileName << " could not be found "
         << "in profile list.  Available profiles are"
         << profileNames << exit(FatalError);

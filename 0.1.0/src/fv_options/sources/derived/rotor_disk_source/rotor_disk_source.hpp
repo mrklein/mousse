@@ -161,7 +161,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("rotorDisk");
+  TYPE_NAME("rotorDisk");
   // Constructors
     //- Construct from components
     rotorDiskSource

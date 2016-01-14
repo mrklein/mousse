@@ -49,7 +49,7 @@ protected:
       ) const;
 public:
   //- Runtime type information
-  TypeName("series");
+  TYPE_NAME("series");
   //- Constructor
   seriesProfile(const dictionary& dict, const word& modelName);
   // Member functions

@@ -32,7 +32,7 @@ protected:
     void setMapper();
 public:
   //- Runtime type information
-  TypeName("interRegionOption");
+  TYPE_NAME("interRegionOption");
   // Constructors
     //- Construct from dictionary
     interRegionOption

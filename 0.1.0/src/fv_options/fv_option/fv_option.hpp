@@ -47,9 +47,9 @@ protected:
     List<bool> applied_;
 public:
   //- Runtime type information
-  TypeName("option");
+  TYPE_NAME("option");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       option,
@@ -74,7 +74,7 @@ public:
     //- Return clone
     autoPtr<option> clone() const
     {
-      notImplemented("autoPtr<option> clone() const");
+      NOT_IMPLEMENTED("autoPtr<option> clone() const");
       return autoPtr<option>(NULL);
     }
     //- Return pointer to new fvOption object created

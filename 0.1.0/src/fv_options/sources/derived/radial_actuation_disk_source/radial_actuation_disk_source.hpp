@@ -67,13 +67,9 @@ class radialActuationDiskSource
       const RhoFieldType& rho,
       const vectorField& U
     ) const;
-    //- Disallow default bitwise copy construct
-    radialActuationDiskSource(const radialActuationDiskSource&);
-    //- Disallow default bitwise assignment
-    void operator=(const radialActuationDiskSource&);
 public:
   //- Runtime type information
-  TypeName("radialActuationDiskSource");
+  TYPE_NAME("radialActuationDiskSource");
   // Constructors
     //- Construct from components
     radialActuationDiskSource
@@ -83,6 +79,13 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    radialActuationDiskSource(const radialActuationDiskSource&) = delete;
+    //- Disallow default bitwise assignment
+    radialActuationDiskSource& operator=
+    (
+      const radialActuationDiskSource&
+    ) = delete;
   //- Destructor
   virtual ~radialActuationDiskSource()
   {}

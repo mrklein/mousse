@@ -12,7 +12,7 @@ mousse::fv::interRegionOption::meshInterp() const
 {
   if (!meshInterpPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const meshToMesh& interRegionOption::meshInterp() const"
     )   << "Interpolation object not set"

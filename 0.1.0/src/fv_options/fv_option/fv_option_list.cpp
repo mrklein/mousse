@@ -9,7 +9,7 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(optionList, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(optionList, 0);
 }
 }
 // Protected Member Functions 
@@ -31,7 +31,7 @@ bool mousse::fv::optionList::readOptions(const dictionary& dict)
 {
   checkTimeIndex_ = mesh_.time().timeIndex() + 2;
   bool allOk = true;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     option& bs = this->operator[](i);
     bool ok = bs.read(dict.subDict(bs.name()));
@@ -43,7 +43,7 @@ void mousse::fv::optionList::checkApplied() const
 {
   if (mesh_.time().timeIndex() == checkTimeIndex_)
   {
-    forAll(*this, i)
+    FOR_ALL(*this, i)
     {
       const option& bs = this->operator[](i);
       bs.checkApplied();
@@ -70,7 +70,7 @@ void mousse::fv::optionList::reset(const dictionary& dict)
 {
   // Count number of active fvOptions
   label count = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (iter().isDict())
     {
@@ -79,7 +79,7 @@ void mousse::fv::optionList::reset(const dictionary& dict)
   }
   this->setSize(count);
   label i = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (iter().isDict())
     {
@@ -100,7 +100,7 @@ bool mousse::fv::optionList::read(const dictionary& dict)
 bool mousse::fv::optionList::writeData(Ostream& os) const
 {
   // Write list contents
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     os  << nl;
     this->operator[](i).writeHeader(os);

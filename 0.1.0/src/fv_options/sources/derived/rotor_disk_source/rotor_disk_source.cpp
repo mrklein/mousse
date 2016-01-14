@@ -14,8 +14,8 @@ namespace mousse
 {
   namespace fv
   {
-    defineTypeNameAndDebug(rotorDiskSource, 0);
-    addToRunTimeSelectionTable(option, rotorDiskSource, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(rotorDiskSource, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(option, rotorDiskSource, dictionary);
   }
   template<> const char* NamedEnum<fv::rotorDiskSource::geometryModeType, 2>::
     names[] =
@@ -70,7 +70,7 @@ void mousse::fv::rotorDiskSource::checkData()
         }
         default:
         {
-          FatalErrorIn("void rotorDiskSource::checkData()")
+          FATAL_ERROR_IN("void rotorDiskSource::checkData()")
             << "Unknown inlet velocity type" << abort(FatalError);
         }
       }
@@ -78,7 +78,7 @@ void mousse::fv::rotorDiskSource::checkData()
     }
     default:
     {
-      FatalErrorIn("void rotorDiskSource::checkData()")
+      FATAL_ERROR_IN("void rotorDiskSource::checkData()")
         << "Source cannot be used with '"
         << selectionModeTypeNames_[selectionMode()]
         << "' mode.  Please use one of: " << nl
@@ -102,12 +102,12 @@ void mousse::fv::rotorDiskSource::setFaceArea(vector& axis, const bool correct)
   labelList cellAddr(mesh_.nCells(), -1);
   UIndirectList<label>(cellAddr, cells_) = identity(cells_.size());
   labelList nbrFaceCellAddr(mesh_.nFaces() - nInternalFaces, -1);
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     const polyPatch& pp = pbm[patchI];
     if (pp.coupled())
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start() + i;
         label nbrFaceI = faceI - nInternalFaces;
@@ -143,14 +143,14 @@ void mousse::fv::rotorDiskSource::setFaceArea(vector& axis, const bool correct)
     }
   }
   // Add boundary contributions
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     const polyPatch& pp = pbm[patchI];
     const vectorField& Sfp = mesh_.Sf().boundaryField()[patchI];
     const scalarField& magSfp = mesh_.magSf().boundaryField()[patchI];
     if (pp.coupled())
     {
-      forAll(pp, j)
+      FOR_ALL(pp, j)
       {
         const label faceI = pp.start() + j;
         const label own = cellAddr[mesh_.faceOwner()[faceI]];
@@ -165,7 +165,7 @@ void mousse::fv::rotorDiskSource::setFaceArea(vector& axis, const bool correct)
     }
     else
     {
-      forAll(pp, j)
+      FOR_ALL(pp, j)
       {
         const label faceI = pp.start() + j;
         const label own = cellAddr[mesh_.faceOwner()[faceI]];
@@ -220,7 +220,7 @@ void mousse::fv::rotorDiskSource::createCoordinateSystem()
       scalar sumV = 0.0;
       const scalarField& V = mesh_.V();
       const vectorField& C = mesh_.C();
-      forAll(cells_, i)
+      FOR_ALL(cells_, i)
       {
         const label cellI = cells_[i];
         sumV += V[cellI];
@@ -232,7 +232,7 @@ void mousse::fv::rotorDiskSource::createCoordinateSystem()
       // Determine first radial vector
       vector dx1(vector::zero);
       scalar magR = -GREAT;
-      forAll(cells_, i)
+      FOR_ALL(cells_, i)
       {
         const label cellI = cells_[i];
         vector test = C[cellI] - origin;
@@ -245,7 +245,7 @@ void mousse::fv::rotorDiskSource::createCoordinateSystem()
       reduce(dx1, maxMagSqrOp<vector>());
       magR = mag(dx1);
       // Determine second radial vector and cross to determine axis
-      forAll(cells_, i)
+      FOR_ALL(cells_, i)
       {
         const label cellI = cells_[i];
         vector dx2 = C[cellI] - origin;
@@ -306,7 +306,7 @@ void mousse::fv::rotorDiskSource::createCoordinateSystem()
     }
     default:
     {
-      FatalErrorIn("rotorDiskSource::createCoordinateSystem()")
+      FATAL_ERROR_IN("rotorDiskSource::createCoordinateSystem()")
         << "Unknown geometryMode " << geometryModeTypeNames_[gm]
         << ". Available geometry modes include "
         << geometryModeTypeNames_ << exit(FatalError);
@@ -326,7 +326,7 @@ void mousse::fv::rotorDiskSource::createCoordinateSystem()
 void mousse::fv::rotorDiskSource::constructGeometry()
 {
   const vectorField& C = mesh_.C();
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     if (area_[i] > ROOTVSMALL)
     {
@@ -372,7 +372,7 @@ mousse::tmp<mousse::vectorField> mousse::fv::rotorDiskSource::inflowVelocity
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::tmp<mousse::vectorField> "
         "mousse::fv::rotorDiskSource::inflowVelocity"
@@ -419,7 +419,7 @@ mousse::fv::rotorDiskSource::~rotorDiskSource()
 void mousse::fv::rotorDiskSource::addSup
 (
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   volVectorField force
@@ -454,7 +454,7 @@ void mousse::fv::rotorDiskSource::addSup
 (
   const volScalarField& rho,
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   volVectorField force

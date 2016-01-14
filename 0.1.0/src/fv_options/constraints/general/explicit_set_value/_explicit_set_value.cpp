@@ -14,7 +14,7 @@ void mousse::fv::ExplicitSetValue<Type>::setFieldData(const dictionary& dict)
   injectionRate_.setSize(fieldNames_.size());
   applied_.setSize(fieldNames_.size(), false);
   label i = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     fieldNames_[i] = iter().keyword();
     dict.lookup(iter().keyword()) >> injectionRate_[i];

@@ -7,8 +7,8 @@
 #include "ifstream.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(seriesProfile, 0);
-  addToRunTimeSelectionTable(profileModel, seriesProfile, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(seriesProfile, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(profileModel, seriesProfile, dictionary);
 }
 // Protected Member Functions 
 mousse::scalar mousse::seriesProfile::evaluateDrag
@@ -18,7 +18,7 @@ mousse::scalar mousse::seriesProfile::evaluateDrag
 ) const
 {
   scalar result = 0.0;
-  forAll(values, i)
+  FOR_ALL(values, i)
   {
     result += values[i]*cos(i*xIn);
   }
@@ -31,7 +31,7 @@ mousse::scalar mousse::seriesProfile::evaluateLift
 ) const
 {
   scalar result = 0.0;
-  forAll(values, i)
+  FOR_ALL(values, i)
   {
     // note: first contribution always zero since sin(0) = 0, but
     // keep zero base to be consitent with drag coeffs
@@ -62,7 +62,7 @@ mousse::seriesProfile::seriesProfile
   }
   if (CdCoeffs_.empty())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::seriesProfile::seriesProfile"
       "("
@@ -73,7 +73,7 @@ mousse::seriesProfile::seriesProfile
   }
   if (ClCoeffs_.empty())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::seriesProfile::seriesProfile"
       "("

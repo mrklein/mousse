@@ -11,17 +11,11 @@ inline mousse::scalar mousse::fv::cellSetOption::duration() const
 {
   return duration_;
 }
-inline bool mousse::fv::cellSetOption::inTimeLimits(const scalar time) const
+inline bool mousse::fv::cellSetOption::inTimeLimits(const scalar /*time*/) const
 {
-  return
-  (
-    (timeStart_ < 0)
-  ||
-    (
-      (mesh_.time().value() >= timeStart_)
-    && (mesh_.time().value() <= (timeStart_ + duration_))
-    )
-  );
+  return ((timeStart_ < 0)
+          || ((mesh_.time().value() >= timeStart_)
+              && (mesh_.time().value() <= (timeStart_ + duration_))));
 }
 inline const mousse::fv::cellSetOption::selectionModeType&
 mousse::fv::cellSetOption::selectionMode() const

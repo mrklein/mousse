@@ -72,7 +72,7 @@ protected:
     void setCellSet();
 public:
   //- Runtime type information
-  TypeName("cellSetOption");
+  TYPE_NAME("cellSetOption");
   // Constructors
     //- Construct from components
     cellSetOption

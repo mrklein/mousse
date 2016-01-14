@@ -133,20 +133,13 @@ protected:
     scalar faceZoneArea_;
 private:
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    effectivenessHeatExchangerSource
-    (
-      const effectivenessHeatExchangerSource&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const effectivenessHeatExchangerSource&);
     //- Initialise heat exchanger source model
     void initialise();
     //- Calculate total area of faceZone accross processors
     void calculateTotalArea(scalar& area);
 public:
   //- Runtime type information
-  TypeName("effectivenessHeatExchangerSource");
+  TYPE_NAME("effectivenessHeatExchangerSource");
   // Constructors
     //- Construct from components
     effectivenessHeatExchangerSource
@@ -156,6 +149,16 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    effectivenessHeatExchangerSource
+    (
+      const effectivenessHeatExchangerSource&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    effectivenessHeatExchangerSource& operator=
+    (
+      const effectivenessHeatExchangerSource&
+    ) = delete;
   //- Destructor
   virtual ~effectivenessHeatExchangerSource()
   {}
@@ -164,11 +167,11 @@ public:
       //- Scalar
       virtual void addSup
       (
-        fvMatrix<scalar>& eqn,
-        const label fieldI
+        fvMatrix<scalar>& /*eqn*/,
+        const label /*fieldI*/
       )
       {
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "effectivenessHeatExchangerSource::addSup(eqn, fieldI): "
           "only compressible solvers supported."

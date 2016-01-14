@@ -50,18 +50,9 @@ protected:
   // Protected Member Functions
     //- Initialise
     void initialise();
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    interRegionExplicitPorositySource
-    (
-      const interRegionExplicitPorositySource&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const interRegionExplicitPorositySource&);
 public:
   //- Runtime type information
-  TypeName("interRegionExplicitPorositySource");
+  TYPE_NAME("interRegionExplicitPorositySource");
   // Constructors
     //- Construct from components
     interRegionExplicitPorositySource
@@ -71,6 +62,16 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    interRegionExplicitPorositySource
+    (
+      const interRegionExplicitPorositySource&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    interRegionExplicitPorositySource& operator=
+    (
+      const interRegionExplicitPorositySource&
+    ) = delete;
   //- Destructor
   virtual ~interRegionExplicitPorositySource()
   {}

@@ -49,15 +49,9 @@ protected:
   // Protected data
     //- Run-time selectable porosity model
     autoPtr<porosityModel> porosityPtr_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    explicitPorositySource(const explicitPorositySource&);
-    //- Disallow default bitwise assignment
-    void operator=(const explicitPorositySource&);
 public:
   //- Runtime type information
-  TypeName("explicitPorositySource");
+  TYPE_NAME("explicitPorositySource");
   // Constructors
     //- Construct from components
     explicitPorositySource
@@ -67,6 +61,10 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    explicitPorositySource(const explicitPorositySource&) = delete;
+    //- Disallow default bitwise assignment
+    explicitPorositySource& operator=(const explicitPorositySource&) = delete;
   //- Destructor
   virtual ~explicitPorositySource()
   {}

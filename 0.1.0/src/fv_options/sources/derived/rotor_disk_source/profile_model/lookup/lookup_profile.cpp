@@ -9,8 +9,8 @@
 #include "ifstream.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(lookupProfile, 0);
-  addToRunTimeSelectionTable(profileModel, lookupProfile, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(lookupProfile, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(profileModel, lookupProfile, dictionary);
 }
 // Protected Member Functions 
 void mousse::lookupProfile::interpolateWeights
@@ -83,7 +83,7 @@ mousse::lookupProfile::lookupProfile
     AOA_.setSize(data.size());
     Cd_.setSize(data.size());
     Cl_.setSize(data.size());
-    forAll(data, i)
+    FOR_ALL(data, i)
     {
       AOA_[i] = degToRad(data[i][0]);
       Cd_[i] = data[i][1];
@@ -92,7 +92,7 @@ mousse::lookupProfile::lookupProfile
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::lookupProfile::lookupProfile"
       "("

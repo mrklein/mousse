@@ -22,7 +22,7 @@ mousse::tmp<mousse::fvMatrix<Type> > mousse::fv::optionList::operator()
   const dimensionSet ds = field.dimensions()/dimTime*dimVolume;
   tmp<fvMatrix<Type> > tmtx(new fvMatrix<Type>(field, ds));
   fvMatrix<Type>& mtx = tmtx();
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     option& source = this->operator[](i);
     label fieldI = source.applyToField(fieldName);
@@ -66,7 +66,7 @@ mousse::tmp<mousse::fvMatrix<Type> > mousse::fv::optionList::operator()
   );
   tmp<fvMatrix<Type> > tmtx(new fvMatrix<Type>(field, ds));
   fvMatrix<Type>& mtx = tmtx();
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     option& source = this->operator[](i);
     label fieldI = source.applyToField(fieldName);
@@ -113,7 +113,7 @@ mousse::tmp<mousse::fvMatrix<Type> > mousse::fv::optionList::operator()
   );
   tmp<fvMatrix<Type> > tmtx(new fvMatrix<Type>(field, ds));
   fvMatrix<Type>& mtx = tmtx();
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     option& source = this->operator[](i);
     label fieldI = source.applyToField(fieldName);
@@ -137,7 +137,7 @@ template<class Type>
 void mousse::fv::optionList::constrain(fvMatrix<Type>& eqn)
 {
   checkApplied();
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     option& source = this->operator[](i);
     label fieldI = source.applyToField(eqn.psi().name());
@@ -163,7 +163,7 @@ void mousse::fv::optionList::correct
 )
 {
   const word& fieldName = field.name();
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     option& source = this->operator[](i);
     label fieldI = source.applyToField(fieldName);

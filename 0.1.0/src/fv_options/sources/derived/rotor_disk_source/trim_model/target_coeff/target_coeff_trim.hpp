@@ -82,7 +82,7 @@ protected:
     );
 public:
   //- Run-time type information
-  TypeName("targetCoeffTrim");
+  TYPE_NAME("targetCoeffTrim");
   //- Constructor
   targetCoeffTrim(const fv::rotorDiskSource& rotor, const dictionary& dict);
   //- Destructor

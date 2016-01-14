@@ -12,8 +12,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(actuationDiskSource, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(actuationDiskSource, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     actuationDiskSource,
@@ -26,25 +26,25 @@ void mousse::fv::actuationDiskSource::checkData() const
 {
   if (magSqr(diskArea_) <= VSMALL)
   {
-    FatalErrorIn("mousse::fv::actuationDiskSource::checkData()")
+    FATAL_ERROR_IN("mousse::fv::actuationDiskSource::checkData()")
      << "diskArea is approximately zero"
      << exit(FatalIOError);
   }
   if (Cp_ <= VSMALL || Ct_ <= VSMALL)
   {
-    FatalErrorIn("mousse::fv::actuationDiskSource::checkData()")
+    FATAL_ERROR_IN("mousse::fv::actuationDiskSource::checkData()")
      << "Cp and Ct must be greater than zero"
      << exit(FatalIOError);
   }
   if (mag(diskDir_) < VSMALL)
   {
-    FatalErrorIn("mousse::fv::actuationDiskSource::checkData()")
+    FATAL_ERROR_IN("mousse::fv::actuationDiskSource::checkData()")
      << "disk direction vector is approximately zero"
      << exit(FatalIOError);
   }
   if (returnReduce(upstreamCellId_, maxOp<label>()) == -1)
   {
-    FatalErrorIn("mousse::fv::actuationDiskSource::checkData()")
+    FATAL_ERROR_IN("mousse::fv::actuationDiskSource::checkData()")
      << "upstream location " << upstreamPoint_  << " not found in mesh"
      << exit(FatalIOError);
   }
@@ -77,7 +77,7 @@ mousse::fv::actuationDiskSource::actuationDiskSource
 void mousse::fv::actuationDiskSource::addSup
 (
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   const scalarField& cellsV = mesh_.V();
@@ -99,7 +99,7 @@ void mousse::fv::actuationDiskSource::addSup
 (
   const volScalarField& rho,
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   const scalarField& cellsV = mesh_.V();

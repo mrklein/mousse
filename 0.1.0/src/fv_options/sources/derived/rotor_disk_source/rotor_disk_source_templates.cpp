@@ -24,7 +24,7 @@ void mousse::fv::rotorDiskSource::calculate
   scalar liftEff = 0.0;
   scalar AOAmin = GREAT;
   scalar AOAmax = -GREAT;
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     if (area_[i] > ROOTVSMALL)
     {
@@ -137,10 +137,10 @@ void mousse::fv::rotorDiskSource::writeField
     Field<Type>& field = tfield().internalField();
     if (cells_.size() != values.size())
     {
-      FatalErrorIn("") << "cells_.size() != values_.size()"
+      FATAL_ERROR_IN("") << "cells_.size() != values_.size()"
         << abort(FatalError);
     }
-    forAll(cells_, i)
+    FOR_ALL(cells_, i)
     {
       const label cellI = cells_[i];
       field[cellI] = values[i];

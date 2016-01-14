@@ -77,7 +77,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("interRegionHeatTransferModel");
+  TYPE_NAME("interRegionHeatTransferModel");
   // Constructors
     //- Construct from dictionary
     interRegionHeatTransferModel

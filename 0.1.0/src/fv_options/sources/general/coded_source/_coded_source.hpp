@@ -105,7 +105,7 @@ protected:
     virtual const dictionary& codeDict() const;
 public:
   //- Runtime type information
-  TypeName("coded");
+  TYPE_NAME("coded");
   // Constructors
     //- Construct from components
     CodedSource

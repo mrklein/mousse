@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(tabulatedHeatTransfer, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(tabulatedHeatTransfer, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     tabulatedHeatTransfer,
@@ -79,7 +79,7 @@ void mousse::fv::tabulatedHeatTransfer::calculateHtc()
   const scalarField UMagNbrMapped(interpolate(UMagNbr));
   const volVectorField& U = mesh_.lookupObject<volVectorField>(UName_);
   scalarField& htcc = htc_.internalField();
-  forAll(htcc, i)
+  FOR_ALL(htcc, i)
   {
     htcc[i] = hTable()(mag(U[i]), UMagNbrMapped[i]);
   }

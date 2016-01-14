@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(patchMeanVelocityForce, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(patchMeanVelocityForce, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     patchMeanVelocityForce,
@@ -33,7 +33,7 @@ mousse::fv::patchMeanVelocityForce::patchMeanVelocityForce
 {
   if (patchi_ < 0)
   {
-    FatalErrorIn("fv::patchMeanVelocityForce::patchMeanVelocityForce")
+    FATAL_ERROR_IN("fv::patchMeanVelocityForce::patchMeanVelocityForce")
       << "Cannot find patch " << patch_
       << exit(FatalError);
   }

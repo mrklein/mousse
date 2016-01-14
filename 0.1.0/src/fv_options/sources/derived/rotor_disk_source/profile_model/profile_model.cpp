@@ -6,8 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(profileModel, 0);
-  defineRunTimeSelectionTable(profileModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(profileModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(profileModel, dictionary);
 }
 // Protected Member Functions 
 bool mousse::profileModel::readFromFile() const
@@ -43,7 +43,7 @@ mousse::autoPtr<mousse::profileModel> mousse::profileModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn("profileModel::New(const dictionary&)")
+    FATAL_ERROR_IN("profileModel::New(const dictionary&)")
       << "Unknown profile model type " << modelType
       << nl << nl
       << "Valid model types are :" << nl

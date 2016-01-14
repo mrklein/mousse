@@ -4,8 +4,8 @@
 
 #include "make_fv_option.hpp"
 #include "_coded_source.hpp"
-makeFvOption(CodedSource, scalar);
-makeFvOption(CodedSource, vector);
-makeFvOption(CodedSource, sphericalTensor);
-makeFvOption(CodedSource, symmTensor);
-makeFvOption(CodedSource, tensor);
+MAKE_FV_OPTION(CodedSource, scalar);
+MAKE_FV_OPTION(CodedSource, vector);
+MAKE_FV_OPTION(CodedSource, sphericalTensor);
+MAKE_FV_OPTION(CodedSource, symmTensor);
+MAKE_FV_OPTION(CodedSource, tensor);

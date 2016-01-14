@@ -44,7 +44,7 @@ addRadialActuationDiskAxialInertialResistance
   reduce(upU, minOp<vector>());
   reduce(upRho, minOp<scalar>());
   scalar T = 2.0*upRho*diskArea_*mag(upU)*a*(1.0 - a);
-  forAll(cells, i)
+  FOR_ALL(cells, i)
   {
     scalar r2 = magSqr(mesh().cellCentres()[cells[i]] - avgCentre);
     Tr[i] =

@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(trimModel, 0);
-  defineRunTimeSelectionTable(trimModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(trimModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(trimModel, dictionary);
 }
 // Constructors 
 mousse::trimModel::trimModel

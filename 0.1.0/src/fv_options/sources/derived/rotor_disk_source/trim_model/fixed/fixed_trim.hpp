@@ -22,7 +22,7 @@ protected:
     scalarField thetag_;
 public:
   //- Run-time type information
-  TypeName("fixedTrim");
+  TYPE_NAME("fixedTrim");
   //- Constructor
   fixedTrim(const fv::rotorDiskSource& rotor, const dictionary& dict);
   //- Destructor

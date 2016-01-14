@@ -11,8 +11,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(limitTemperature, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(limitTemperature, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     limitTemperature,
@@ -50,7 +50,7 @@ void mousse::fv::limitTemperature::correct(volScalarField& he)
   scalarField heMin(thermo.he(thermo.p(), Tmin, cells_));
   scalarField heMax(thermo.he(thermo.p(), Tmax, cells_));
   scalarField& hec = he.internalField();
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     label cellI = cells_[i];
     hec[cellI]= max(min(hec[cellI], heMax[i]), heMin[i]);
@@ -59,7 +59,7 @@ void mousse::fv::limitTemperature::correct(volScalarField& he)
   if (selectionMode_ == smAll)
   {
     volScalarField::GeometricBoundaryField& bf = he.boundaryField();
-    forAll(bf, patchi)
+    FOR_ALL(bf, patchi)
     {
       fvPatchScalarField& hep = bf[patchi];
       if (!hep.fixesValue())
@@ -69,7 +69,7 @@ void mousse::fv::limitTemperature::correct(volScalarField& he)
         scalarField Tmaxp(pp.size(), Tmax_);
         scalarField heMinp(thermo.he(pp, Tminp, patchi));
         scalarField heMaxp(thermo.he(pp, Tmaxp, patchi));
-        forAll(hep, facei)
+        FOR_ALL(hep, facei)
         {
           hep[facei] =
             max(min(hep[facei], heMaxp[facei]), heMinp[facei]);

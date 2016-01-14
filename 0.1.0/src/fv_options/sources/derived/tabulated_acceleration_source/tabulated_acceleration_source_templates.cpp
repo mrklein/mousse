@@ -12,7 +12,7 @@ void mousse::fv::tabulatedAccelerationSource::addSup
 (
   const RhoFieldType& rho,
   fvMatrix<vector>& eqn,
-  const label fieldi
+  const label /*fieldi*/
 )
 {
   Vector<vector> acceleration(motion_.acceleration());

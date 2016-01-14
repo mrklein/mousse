@@ -12,8 +12,8 @@ namespace mousse
 {
   namespace fv
   {
-    defineTypeNameAndDebug(fixedTemperatureConstraint, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(fixedTemperatureConstraint, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       option,
       fixedTemperatureConstraint,

@@ -12,7 +12,7 @@ mousse::fv::interRegionHeatTransferModel::meshInterp() const
 {
   if (!meshInterpPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const meshToMesh& interRegionHeatTransferModel::meshInterp() const"
     )   << "Interpolation object not set"
@@ -30,7 +30,7 @@ mousse::fv::interRegionHeatTransferModel::nbrModel() const
 {
   if (nbrModel_ == NULL)
   {
-    FatalErrorIn("const interRegionHeatTransferModel& nbrModel() const")
+    FATAL_ERROR_IN("const interRegionHeatTransferModel& nbrModel() const")
       << "Neighbour model not set"
       << abort(FatalError);
   }
@@ -41,7 +41,7 @@ mousse::fv::interRegionHeatTransferModel::nbrModel()
 {
   if (nbrModel_ == NULL)
   {
-    FatalErrorIn("interRegionHeatTransferModel& nbrModel()")
+    FATAL_ERROR_IN("interRegionHeatTransferModel& nbrModel()")
       << "Neighbour model not set"
       << abort(FatalError);
   }

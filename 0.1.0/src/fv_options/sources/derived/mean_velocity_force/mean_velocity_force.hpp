@@ -58,15 +58,9 @@ protected:
     void writeProps(const scalar gradP) const;
     //- Correct driving force for a constant mass flow rate
     void update(fvMatrix<vector>& eqn);
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    meanVelocityForce(const meanVelocityForce&);
-    //- Disallow default bitwise assignment
-    void operator=(const meanVelocityForce&);
 public:
   //- Runtime type information
-  TypeName("meanVelocityForce");
+  TYPE_NAME("meanVelocityForce");
   // Constructors
     //- Construct from explicit source name and mesh
     meanVelocityForce
@@ -76,6 +70,10 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    meanVelocityForce(const meanVelocityForce&) = delete;
+    //- Disallow default bitwise assignment
+    meanVelocityForce& operator=(const meanVelocityForce&) = delete;
   // Member Functions
     // Evaluate
       //- Correct the pressure gradient

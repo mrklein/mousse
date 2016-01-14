@@ -40,7 +40,7 @@ private:
     autoPtr<volScalarField> AoV_;
 public:
   //- Runtime type information
-  TypeName("variableHeatTransfer");
+  TYPE_NAME("variableHeatTransfer");
   // Constructors
     //- Construct from dictionary
     variableHeatTransfer

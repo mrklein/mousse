@@ -84,7 +84,7 @@ protected:
     void setFieldData(const dictionary& dict);
 public:
   //- Runtime type information
-  TypeName("SemiImplicitSource");
+  TYPE_NAME("SemiImplicitSource");
   // Constructors
     //- Construct from components
     SemiImplicitSource

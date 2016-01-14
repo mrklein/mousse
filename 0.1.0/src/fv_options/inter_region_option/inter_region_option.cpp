@@ -8,7 +8,7 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(interRegionOption, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(interRegionOption, 0);
 }
 }
 //  Protected member functions
@@ -21,7 +21,7 @@ void mousse::fv::interRegionOption::setMapper()
       mesh_.time().lookupObject<fvMesh>(nbrRegionName_);
     if (mesh_.name() == nbrMesh.name())
     {
-      FatalErrorIn("interRegionOption::setCellIds()")
+      FATAL_ERROR_IN("interRegionOption::setCellIds()")
         << "Inter-region model selected, but local and "
         << "neighbour regions are the same: " << nl
         << "    local region: " << mesh_.name() << nl
@@ -46,7 +46,7 @@ void mousse::fv::interRegionOption::setMapper()
     }
     else
     {
-      FatalErrorIn("interRegionOption::setCellSet()")
+      FATAL_ERROR_IN("interRegionOption::setCellSet()")
         << "regions " << mesh_.name() << " and "
         << nbrMesh.name() <<  " do not intersect"
         << exit(FatalError);

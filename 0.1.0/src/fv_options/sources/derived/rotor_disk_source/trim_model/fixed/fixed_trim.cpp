@@ -10,8 +10,8 @@ using namespace mousse::constant;
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(fixedTrim, 0);
-  addToRunTimeSelectionTable(trimModel, fixedTrim, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(fixedTrim, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(trimModel, fixedTrim, dictionary);
 }
 // Constructors 
 mousse::fixedTrim::fixedTrim
@@ -36,7 +36,7 @@ void mousse::fixedTrim::read(const dictionary& dict)
   scalar theta1c = degToRad(readScalar(coeffs_.lookup("theta1c")));
   scalar theta1s = degToRad(readScalar(coeffs_.lookup("theta1s")));
   const List<point>& x = rotor_.x();
-  forAll(thetag_, i)
+  FOR_ALL(thetag_, i)
   {
     scalar psi = x[i].y();
     thetag_[i] = theta0 + theta1c*cos(psi) + theta1s*sin(psi);
@@ -48,17 +48,17 @@ mousse::tmp<mousse::scalarField> mousse::fixedTrim::thetag() const
 }
 void mousse::fixedTrim::correct
 (
-  const vectorField& U,
-  vectorField& force
+  const vectorField& /*U*/,
+  vectorField& /*force*/
 )
 {
   // do nothing
 }
 void mousse::fixedTrim::correct
 (
-  const volScalarField rho,
-  const vectorField& U,
-  vectorField& force)
+  const volScalarField /*rho*/,
+  const vectorField& /*U*/,
+  vectorField& /*force*/)
 {
   // do nothing
 }

@@ -50,7 +50,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("lookup");
+  TYPE_NAME("lookup");
   //- Constructor
   lookupProfile(const dictionary& dict, const word& modelName);
   // Member functions

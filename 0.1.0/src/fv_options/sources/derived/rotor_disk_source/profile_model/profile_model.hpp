@@ -29,9 +29,9 @@ protected:
     bool readFromFile() const;
 public:
   //- Runtime type information
-  TypeName("profileModel");
+  TYPE_NAME("profileModel");
     // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       profileModel,

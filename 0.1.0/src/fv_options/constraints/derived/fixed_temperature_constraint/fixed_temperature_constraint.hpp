@@ -49,15 +49,9 @@ protected:
     autoPtr<DataEntry<scalar> > Tuniform_;
     //- Temperature field name
     word TName_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fixedTemperatureConstraint(const fixedTemperatureConstraint&);
-    //- Disallow default bitwise assignment
-    void operator=(const fixedTemperatureConstraint&);
 public:
   //- Runtime type information
-  TypeName("fixedTemperatureConstraint");
+  TYPE_NAME("fixedTemperatureConstraint");
   // Constructors
     //- Construct from components
     fixedTemperatureConstraint
@@ -67,6 +61,10 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    fixedTemperatureConstraint(const fixedTemperatureConstraint&) = delete;
+    //- Disallow default bitwise assignment
+    fixedTemperatureConstraint& operator=(const fixedTemperatureConstraint&) = delete;
   //- Destructor
   virtual ~fixedTemperatureConstraint()
   {}
