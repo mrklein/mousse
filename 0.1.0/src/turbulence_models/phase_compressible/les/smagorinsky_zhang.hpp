@@ -50,9 +50,6 @@ class SmagorinskyZhang
       typename BasicTurbulenceModel::transportModel
     >&
     gasTurbulence() const;
-    // Disallow default bitwise copy construct and assignment
-    SmagorinskyZhang(const SmagorinskyZhang&);
-    SmagorinskyZhang& operator=(const SmagorinskyZhang&);
 protected:
   // Protected data
     // Model coefficients
@@ -64,7 +61,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("SmagorinskyZhang");
+  TYPE_NAME("SmagorinskyZhang");
   // Constructors
     //- Construct from components
     SmagorinskyZhang
@@ -78,6 +75,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    SmagorinskyZhang(const SmagorinskyZhang&) = delete;
+    SmagorinskyZhang& operator=(const SmagorinskyZhang&) = delete;
   //- Destructor
   virtual ~SmagorinskyZhang()
   {}

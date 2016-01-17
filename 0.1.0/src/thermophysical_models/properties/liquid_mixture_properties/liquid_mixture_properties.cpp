@@ -18,7 +18,7 @@ mousse::liquidMixtureProperties::liquidMixtureProperties
 {
   components_ = dict.toc();
   properties_.setSize(components_.size());
-  forAll(components_, i)
+  FOR_ALL(components_, i)
   {
     properties_.set
     (
@@ -35,7 +35,7 @@ mousse::liquidMixtureProperties::liquidMixtureProperties
   components_(lm.components_),
   properties_(lm.properties_.size())
 {
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     properties_.set(i, lm.properties_(i)->clone());
   }
@@ -57,7 +57,7 @@ mousse::scalar mousse::liquidMixtureProperties::Tc(const scalarField& X) const
 {
   scalar vTc = 0.0;
   scalar vc = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     scalar x1 = X[i]*properties_[i].Vc();
     vc += x1;
@@ -68,7 +68,7 @@ mousse::scalar mousse::liquidMixtureProperties::Tc(const scalarField& X) const
 mousse::scalar mousse::liquidMixtureProperties::Tpt(const scalarField& X) const
 {
   scalar Tpt = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     Tpt += X[i]*properties_[i].Tt();
   }
@@ -90,7 +90,7 @@ mousse::scalar mousse::liquidMixtureProperties::pvInvert
   }
   else if (p < pv(p, Tlo, X))
   {
-    WarningIn
+    WARNING_IN
     (
       "mousse::scalar mousse::liquidMixtureProperties::pvInvert"
       "("
@@ -120,7 +120,7 @@ mousse::scalar mousse::liquidMixtureProperties::pvInvert
 mousse::scalar mousse::liquidMixtureProperties::Tpc(const scalarField& X) const
 {
   scalar Tpc = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     Tpc += X[i]*properties_[i].Tc();
   }
@@ -130,7 +130,7 @@ mousse::scalar mousse::liquidMixtureProperties::Ppc(const scalarField& X) const
 {
   scalar Vc = 0.0;
   scalar Zc = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     Vc += X[i]*properties_[i].Vc();
     Zc += X[i]*properties_[i].Zc();
@@ -140,7 +140,7 @@ mousse::scalar mousse::liquidMixtureProperties::Ppc(const scalarField& X) const
 mousse::scalar mousse::liquidMixtureProperties::omega(const scalarField& X) const
 {
   scalar omega = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     omega += X[i]*properties_[i].omega();
   }
@@ -149,15 +149,15 @@ mousse::scalar mousse::liquidMixtureProperties::omega(const scalarField& X) cons
 mousse::scalarField mousse::liquidMixtureProperties::Xs
 (
   const scalar p,
-  const scalar Tg,
+  const scalar /*Tg*/,
   const scalar Tl,
-  const scalarField& Xg,
+  const scalarField& /*Xg*/,
   const scalarField& Xl
 ) const
 {
   scalarField Xs(Xl.size());
   // Raoult's Law
-  forAll(Xs, i)
+  FOR_ALL(Xs, i)
   {
     scalar Ti = min(TrMax*properties_[i].Tc(), Tl);
     Xs[i] = properties_[i].pv(p, Ti)*Xl[i]/p;
@@ -167,7 +167,7 @@ mousse::scalarField mousse::liquidMixtureProperties::Xs
 mousse::scalar mousse::liquidMixtureProperties::W(const scalarField& X) const
 {
   scalar W = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     W += X[i]*properties_[i].W();
   }
@@ -177,7 +177,7 @@ mousse::scalarField mousse::liquidMixtureProperties::Y(const scalarField& X) con
 {
   scalarField Y(X.size());
   scalar sumY = 0.0;
-  forAll(Y, i)
+  FOR_ALL(Y, i)
   {
     Y[i] = X[i]*properties_[i].W();
     sumY += Y[i];
@@ -189,7 +189,7 @@ mousse::scalarField mousse::liquidMixtureProperties::X(const scalarField& Y) con
 {
   scalarField X(Y.size());
   scalar sumX = 0.0;
-  forAll(X, i)
+  FOR_ALL(X, i)
   {
     X[i] = Y[i]/properties_[i].W();
     sumX += X[i];
@@ -206,7 +206,7 @@ mousse::scalar mousse::liquidMixtureProperties::rho
 {
   scalar sumY = 0.0;
   scalar v = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     if (X[i] > SMALL)
     {
@@ -231,7 +231,7 @@ mousse::scalar mousse::liquidMixtureProperties::pv
 {
   scalar sumY = 0.0;
   scalar pv = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     if (X[i] > SMALL)
     {
@@ -252,7 +252,7 @@ mousse::scalar mousse::liquidMixtureProperties::hl
 {
   scalar sumY = 0.0;
   scalar hl = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     if (X[i] > SMALL)
     {
@@ -273,7 +273,7 @@ mousse::scalar mousse::liquidMixtureProperties::Cp
 {
   scalar sumY = 0.0;
   scalar Cp = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     if (X[i] > SMALL)
     {
@@ -297,7 +297,7 @@ mousse::scalar mousse::liquidMixtureProperties::sigma
   scalar sigma = 0.0;
   scalarField Xs(X.size());
   scalar XsSum = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     scalar Ti = min(TrMax*properties_[i].Tc(), T);
     scalar Pvs = properties_[i].pv(p, Ti);
@@ -305,7 +305,7 @@ mousse::scalar mousse::liquidMixtureProperties::sigma
     XsSum += Xs[i];
   }
   Xs /= XsSum;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     if (Xs[i] > SMALL)
     {
@@ -323,7 +323,7 @@ mousse::scalar mousse::liquidMixtureProperties::mu
 ) const
 {
   scalar mu = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     if (X[i] > SMALL)
     {
@@ -343,7 +343,7 @@ mousse::scalar mousse::liquidMixtureProperties::K
   // Calculate superficial volume fractions phii
   scalarField phii(X.size());
   scalar pSum = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     scalar Ti = min(TrMax*properties_[i].Tc(), T);
     scalar Vi = properties_[i].W()/properties_[i].rho(p, Ti);
@@ -352,10 +352,10 @@ mousse::scalar mousse::liquidMixtureProperties::K
   }
   phii /= pSum;
   scalar K = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     scalar Ti = min(TrMax*properties_[i].Tc(), T);
-    forAll(properties_, j)
+    FOR_ALL(properties_, j)
     {
       scalar Tj = min(TrMax*properties_[j].Tc(), T);
       scalar Kij =
@@ -378,7 +378,7 @@ mousse::scalar mousse::liquidMixtureProperties::D
 {
   // Blanc's law
   scalar Dinv = 0.0;
-  forAll(properties_, i)
+  FOR_ALL(properties_, i)
   {
     if (X[i] > SMALL)
     {

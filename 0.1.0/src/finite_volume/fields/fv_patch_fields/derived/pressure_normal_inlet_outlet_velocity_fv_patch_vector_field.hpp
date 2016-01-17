@@ -52,7 +52,7 @@ class pressureNormalInletOutletVelocityFvPatchVectorField
     word rhoName_;
 public:
   //- Runtime type information
-  TypeName("pressureNormalInletOutletVelocity");
+  TYPE_NAME("pressureNormalInletOutletVelocity");
   // Constructors
     //- Construct from patch and internal field
     pressureNormalInletOutletVelocityFvPatchVectorField

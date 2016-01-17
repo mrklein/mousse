@@ -16,16 +16,15 @@ class noDecomp
 :
   public decompositionMethod
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const noDecomp&);
-    noDecomp(const noDecomp&);
 public:
   //- Runtime type information
-  TypeName("noDecomp");
+  TYPE_NAME("noDecomp");
   // Constructors
     //- Construct given the decomposition dictionary
     noDecomp(const dictionary& decompositionDict);
+    //- Disallow default bitwise copy construct and assignment
+    noDecomp& operator=(const noDecomp&) = delete;
+    noDecomp(const noDecomp&) = delete;
   //- Destructor
   virtual ~noDecomp()
   {}
@@ -40,9 +39,9 @@ public:
     //  mesh connectivity (if needed)
     virtual labelList decompose
     (
-      const polyMesh& mesh,
+      const polyMesh&,
       const pointField& cc,
-      const scalarField& cWeights
+      const scalarField& /*cWeights*/
     )
     {
       return labelList(cc.size(), Pstream::myProcNo());
@@ -57,8 +56,8 @@ public:
     virtual labelList decompose
     (
       const labelListList& globalCellCells,
-      const pointField& cc,
-      const scalarField& cWeights
+      const pointField& /*cc*/,
+      const scalarField& /*cWeights*/
     )
     {
       return labelList(globalCellCells.size(), Pstream::myProcNo());

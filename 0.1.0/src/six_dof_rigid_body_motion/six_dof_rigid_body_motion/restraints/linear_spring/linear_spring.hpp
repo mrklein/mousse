@@ -33,7 +33,7 @@ class linearSpring
     scalar restLength_;
 public:
   //- Runtime type information
-  TypeName("linearSpring");
+  TYPE_NAME("linearSpring");
   // Constructors
     //- Construct from components
     linearSpring

@@ -39,10 +39,6 @@ protected:
     //- List to indicate if specie is produced/consumed
     List<int> specieProd_;
   // Protected member functions
-    //- Disallow default bitwise copy construct
-    singleStepReactingMixture(const singleStepReactingMixture&);
-    //- Disallow default bitwise assignment
-    void operator=(const singleStepReactingMixture&);
     //- Calculate qFuel
     void calculateqFuel();
     //- Calculate air/fuel and oxygen/fuel ratio
@@ -60,6 +56,13 @@ public:
       const fvMesh&,
       const word&
     );
+    //- Disallow default bitwise copy construct
+    singleStepReactingMixture(const singleStepReactingMixture&) = delete;
+    //- Disallow default bitwise assignment
+    singleStepReactingMixture& operator=
+    (
+      const singleStepReactingMixture&
+    ) = delete;
   //- Destructor
   virtual ~singleStepReactingMixture()
   {}
@@ -90,7 +93,63 @@ public:
       void read(const dictionary&);
 };
 }  // namespace mousse
-#include "single_step_reacting_mixture_i.hpp"
+template<class ThermoType>
+inline const mousse::dimensionedScalar
+mousse::singleStepReactingMixture<ThermoType>::stoicRatio() const
+{
+  return stoicRatio_;
+}
+template<class ThermoType>
+inline const mousse::dimensionedScalar
+mousse::singleStepReactingMixture<ThermoType>::s() const
+{
+  return s_;
+}
+template<class ThermoType>
+inline const mousse::dimensionedScalar
+mousse::singleStepReactingMixture<ThermoType>::qFuel() const
+{
+  return qFuel_;
+}
+template<class ThermoType>
+inline const mousse::List<mousse::scalar>&
+mousse::singleStepReactingMixture<ThermoType>::specieStoichCoeffs() const
+{
+  return specieStoichCoeffs_;
+}
+template<class ThermoType>
+inline mousse::tmp<mousse::volScalarField>
+mousse::singleStepReactingMixture<ThermoType>::fres
+(
+  const label index
+) const
+{
+  return fres_[index];
+}
+template<class ThermoType>
+inline mousse::label
+mousse::singleStepReactingMixture<ThermoType>::inertIndex() const
+{
+  return inertIndex_;
+}
+template<class ThermoType>
+inline mousse::label
+mousse::singleStepReactingMixture<ThermoType>::fuelIndex() const
+{
+  return fuelIndex_;
+}
+template<class ThermoType>
+inline const mousse::List<int>&
+mousse::singleStepReactingMixture<ThermoType>::specieProd() const
+{
+  return specieProd_;
+}
+template<class ThermoType>
+inline const mousse::scalarList&
+mousse::singleStepReactingMixture<ThermoType>::Yprod0() const
+{
+  return Yprod0_;
+}
 #ifdef NoRepository
 #   include "single_step_reacting_mixture.cpp"
 #endif

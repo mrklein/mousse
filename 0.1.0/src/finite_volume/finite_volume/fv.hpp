@@ -4,12 +4,16 @@
 
 #ifndef fv_hpp_
 #define fv_hpp_
+
 #include "class_name.hpp"
+
 namespace mousse
 {
-  namespace fv
-  {
-    NamespaceName("fv");
-  }
+namespace fv
+{
+
+NAMESPACE_NAME("fv");
+
+}
 }
 #endif

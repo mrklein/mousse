@@ -17,7 +17,7 @@ mousse::sampledTriSurfaceMesh::sampleField
   if (sampleSource_ == cells || sampleSource_ == insideCells)
   {
     // Sample cells
-    forAll(sampleElements_, triI)
+    FOR_ALL(sampleElements_, triI)
     {
       values[triI] = vField[sampleElements_[triI]];
     }
@@ -29,7 +29,7 @@ mousse::sampledTriSurfaceMesh::sampleField
     label nBnd = mesh().nFaces()-mesh().nInternalFaces();
     // Create flat boundary field
     Field<Type> bVals(nBnd, pTraits<Type>::zero);
-    forAll(vField.boundaryField(), patchI)
+    FOR_ALL(vField.boundaryField(), patchI)
     {
       label bFaceI = pbm[patchI].start() - mesh().nInternalFaces();
       SubList<Type>
@@ -40,7 +40,7 @@ mousse::sampledTriSurfaceMesh::sampleField
       ).assign(vField.boundaryField()[patchI]);
     }
     // Sample in flat boundary field
-    forAll(sampleElements_, triI)
+    FOR_ALL(sampleElements_, triI)
     {
       label faceI = sampleElements_[triI];
       values[triI] = bVals[faceI-mesh().nInternalFaces()];
@@ -61,7 +61,7 @@ mousse::sampledTriSurfaceMesh::interpolateField
   if (sampleSource_ == cells || sampleSource_ == insideCells)
   {
     // Sample cells.
-    forAll(sampleElements_, pointI)
+    FOR_ALL(sampleElements_, pointI)
     {
       values[pointI] = interpolator.interpolate
       (
@@ -73,7 +73,7 @@ mousse::sampledTriSurfaceMesh::interpolateField
   else
   {
     // Sample boundary faces.
-    forAll(samplePoints_, pointI)
+    FOR_ALL(samplePoints_, pointI)
     {
       label faceI = sampleElements_[pointI];
       values[pointI] = interpolator.interpolate

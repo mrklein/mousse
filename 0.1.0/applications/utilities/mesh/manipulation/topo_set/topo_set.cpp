@@ -37,9 +37,9 @@ void removeZone
   {
     Info<< "Removing zone " << setName << " at index " << zoneID << endl;
     // Shuffle to last position
-    labelList oldToNew(zones.size());
+    labelList oldToNew{zones.size()};
     label newI = 0;
-    forAll(oldToNew, i)
+    FOR_ALL(oldToNew, i)
     {
       if (i != zoneID)
       {
@@ -64,7 +64,7 @@ void removeSet
 {
   // Remove the file
   IOobjectList objects
-  (
+  {
     mesh,
     mesh.time().findInstance
     (
@@ -74,7 +74,7 @@ void removeSet
       mesh.facesInstance()
     ),
     polyMesh::meshSubDir/"sets"
-  );
+  };
   if (objects.found(setName))
   {
     // Remove file
@@ -139,7 +139,7 @@ polyMesh::readUpdateState meshReadUpdate(polyMesh& mesh)
     }
     default:
     {
-      FatalErrorIn("meshReadUpdate(polyMesh&)")
+      FATAL_ERROR_IN("meshReadUpdate(polyMesh&)")
         << "Illegal mesh update state "
         << stat  << abort(FatalError);
       break;
@@ -150,47 +150,44 @@ polyMesh::readUpdateState meshReadUpdate(polyMesh& mesh)
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions(true, false);
-  #include "add_dict_option.hpp"
-  #include "add_region_option.hpp"
+  #include "add_dict_option.inc"
+  #include "add_region_option.inc"
   argList::addBoolOption
   (
     "noSync",
     "do not synchronise selection across coupled patches"
   );
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   instantList timeDirs = timeSelector::selectIfPresent(runTime, args);
-  #include "create_named_poly_mesh.hpp"
+  #include "create_named_poly_mesh.inc"
   const bool noSync = args.optionFound("noSync");
   const word dictName("topoSetDict");
-  #include "set_system_mesh_dictionary_io.hpp"
+  #include "set_system_mesh_dictionary_io.inc"
   Info<< "Reading " << dictName << "\n" << endl;
-  IOdictionary topoSetDict(dictIO);
+  IOdictionary topoSetDict{dictIO};
   // Read set construct info from dictionary
-  PtrList<dictionary> actions(topoSetDict.lookup("actions"));
-  forAll(timeDirs, timeI)
+  PtrList<dictionary> actions{topoSetDict.lookup("actions")};
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     Info<< "Time = " << runTime.timeName() << endl;
     // Optionally re-read mesh
     meshReadUpdate(mesh);
     // Execute all actions
-    forAll(actions, i)
+    FOR_ALL(actions, i)
     {
       const dictionary& dict = actions[i];
-      const word setName(dict.lookup("name"));
-      const word actionName(dict.lookup("action"));
-      const word setType(dict.lookup("type"));
+      const word setName{dict.lookup("name")};
+      const word actionName{dict.lookup("action")};
+      const word setType{dict.lookup("type")};
       topoSetSource::setAction action = topoSetSource::toAction
       (
         actionName
       );
       autoPtr<topoSet> currentSet;
-      if
-      (
-        (action == topoSetSource::NEW)
-      || (action == topoSetSource::CLEAR)
-      )
+      if ((action == topoSetSource::NEW)
+          || (action == topoSetSource::CLEAR))
       {
         currentSet = topoSet::New(setType, mesh, setName, 10000);
         Info<< "Created " << currentSet().type() << " "
@@ -248,7 +245,7 @@ int main(int argc, char *argv[])
           );
           // Backup current set.
           autoPtr<topoSet> oldSet
-          (
+          {
             topoSet::New
             (
               setType,
@@ -256,7 +253,7 @@ int main(int argc, char *argv[])
               currentSet().name() + "_old2",
               currentSet()
             )
-          );
+          };
           currentSet().clear();
           source().applyToSet(topoSetSource::NEW, currentSet());
           // Combine new value of currentSet with old one.
@@ -281,7 +278,7 @@ int main(int argc, char *argv[])
           removeSet(mesh, setType, setName);
         break;
         default:
-          WarningIn(args.executable())
+          WARNING_IN(args.executable())
             << "Unhandled action " << action << endl;
         break;
       }

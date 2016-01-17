@@ -31,10 +31,6 @@ class STLsurfaceFormatCore
     //- The solid count, in the order of their first appearance
     List<label> sizes_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    STLsurfaceFormatCore(const STLsurfaceFormatCore&);
-    //- Disallow default bitwise assignment
-    void operator=(const STLsurfaceFormatCore&);
     //- Determine the file type
     static int detectBINARY(const fileName&);
     //- Read ASCII
@@ -51,6 +47,10 @@ public:
   // Constructors
     //- Read from file, filling in the information
     STLsurfaceFormatCore(const fileName&);
+    //- Disallow default bitwise copy construct
+    STLsurfaceFormatCore(const STLsurfaceFormatCore&) = delete;
+    //- Disallow default bitwise assignment
+    STLsurfaceFormatCore& operator=(const STLsurfaceFormatCore&) = delete;
   //- Destructor
   ~STLsurfaceFormatCore();
   // Member Functions

@@ -14,8 +14,8 @@ namespace incompressible
 namespace RASModels
 {
 // Static Data Members
-defineTypeNameAndDebug(ShihQuadraticKE, 0);
-addToRunTimeSelectionTable(RASModel, ShihQuadraticKE, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(ShihQuadraticKE, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(RASModel, ShihQuadraticKE, dictionary);
 // Protected Member Functions 
 void ShihQuadraticKE::correctNut()
 {

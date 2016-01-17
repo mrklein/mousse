@@ -6,19 +6,22 @@
 #include "poly_mesh.hpp"
 #include "point_zone_set.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(setToPointZone, 0);
-addToRunTimeSelectionTable(topoSetSource, setToPointZone, word);
-addToRunTimeSelectionTable(topoSetSource, setToPointZone, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(setToPointZone, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setToPointZone, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setToPointZone, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::setToPointZone::usage_
 (
   setToPointZone::typeName,
   "\n    Usage: setToPointZone <pointSet>\n\n"
   "    Select all points in the pointSet.\n\n"
 );
+
 // Constructors 
 // Construct from components
 mousse::setToPointZone::setToPointZone
@@ -62,7 +65,7 @@ void mousse::setToPointZone::applyToSet
 {
   if (!isA<pointZoneSet>(set))
   {
-    WarningIn
+    WARNING_IN
     (
       "setToPointZone::applyToSet(const topoSetSource::setAction"
       ", topoSet"
@@ -79,7 +82,7 @@ void mousse::setToPointZone::applyToSet
       pointSet fSet(mesh_, setName_);
       // Start off from copy
       DynamicList<label> newAddressing(fzSet.addressing());
-      forAllConstIter(pointSet, fSet, iter)
+      FOR_ALL_CONST_ITER(pointSet, fSet, iter)
       {
         label pointI = iter.key();
         if (!fzSet.found(pointI))
@@ -98,7 +101,7 @@ void mousse::setToPointZone::applyToSet
       pointSet loadedSet(mesh_, setName_);
       // Start off empty
       DynamicList<label> newAddressing(fzSet.addressing().size());
-      forAll(fzSet.addressing(), i)
+      FOR_ALL(fzSet.addressing(), i)
       {
         if (!loadedSet.found(fzSet.addressing()[i]))
         {

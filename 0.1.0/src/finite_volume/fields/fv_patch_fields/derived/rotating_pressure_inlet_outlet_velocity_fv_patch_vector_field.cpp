@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+#include "time.hpp"
+
 // Private Member Functions 
 void mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::
 calcTangentialVelocity()
@@ -94,9 +96,11 @@ void mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    rotatingPressureInletOutletVelocityFvPatchVectorField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  rotatingPressureInletOutletVelocityFvPatchVectorField
+);
+
 }

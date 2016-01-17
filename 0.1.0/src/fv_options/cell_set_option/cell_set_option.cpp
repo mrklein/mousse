@@ -9,7 +9,7 @@ namespace mousse
 {
   namespace fv
   {
-    defineTypeNameAndDebug(cellSetOption, 0);
+    DEFINE_TYPE_NAME_AND_DEBUG(cellSetOption, 0);
   }
   template<> const char* NamedEnum
   <
@@ -51,7 +51,7 @@ void mousse::fv::cellSetOption::setSelection(const dictionary& dict)
     }
     default:
     {
-      FatalErrorIn("::setSelection(const dictionary&)")
+      FATAL_ERROR_IN("::setSelection(const dictionary&)")
         << "Unknown selectionMode "
         << selectionModeTypeNames_[selectionMode_]
         << ". Valid selectionMode types are" << selectionModeTypeNames_
@@ -67,7 +67,7 @@ void mousse::fv::cellSetOption::setCellSet()
     {
       Info<< indent << "- selecting cells using points" << endl;
       labelHashSet selectedCells;
-      forAll(points_, i)
+      FOR_ALL(points_, i)
       {
         label cellI = mesh_.findCell(points_[i]);
         if (cellI >= 0)
@@ -77,7 +77,7 @@ void mousse::fv::cellSetOption::setCellSet()
         label globalCellI = returnReduce(cellI, maxOp<label>());
         if (globalCellI < 0)
         {
-          WarningIn("cellSetOption::setCellSet()")
+          WARNING_IN("cellSetOption::setCellSet()")
             << "Unable to find owner cell for point " << points_[i]
             << endl;
         }
@@ -100,7 +100,7 @@ void mousse::fv::cellSetOption::setCellSet()
       label zoneID = mesh_.cellZones().findZoneID(cellSetName_);
       if (zoneID == -1)
       {
-        FatalErrorIn("cellSetOption::setCellIds()")
+        FATAL_ERROR_IN("cellSetOption::setCellIds()")
           << "Cannot find cellZone " << cellSetName_ << endl
           << "Valid cellZones are " << mesh_.cellZones().names()
           << exit(FatalError);
@@ -116,7 +116,7 @@ void mousse::fv::cellSetOption::setCellSet()
     }
     default:
     {
-      FatalErrorIn("cellSetOption::setCellSet()")
+      FATAL_ERROR_IN("cellSetOption::setCellSet()")
         << "Unknown selectionMode "
         << selectionModeTypeNames_[selectionMode_]
         << ". Valid selectionMode types are" << selectionModeTypeNames_
@@ -125,7 +125,7 @@ void mousse::fv::cellSetOption::setCellSet()
   }
   // Set volume information
   V_ = 0.0;
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     V_ += mesh_.V()[cells_[i]];
   }

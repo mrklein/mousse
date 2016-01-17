@@ -3,9 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "lust.hpp"
+
 namespace mousse
 {
-  //makeSurfaceInterpolationScheme(LUST);
-  makeSurfaceInterpolationTypeScheme(LUST, scalar);
-  makeSurfaceInterpolationTypeScheme(LUST, vector);
+
+MAKE_SURFACE_INTERPOLATION_TYPE_SCHEME(LUST, scalar);
+MAKE_SURFACE_INTERPOLATION_TYPE_SCHEME(LUST, vector);
+
 }

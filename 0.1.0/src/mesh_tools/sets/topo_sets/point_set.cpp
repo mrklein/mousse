@@ -10,10 +10,11 @@
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(pointSet, 0);
-addToRunTimeSelectionTable(topoSet, pointSet, word);
-addToRunTimeSelectionTable(topoSet, pointSet, size);
-addToRunTimeSelectionTable(topoSet, pointSet, set);
+DEFINE_TYPE_NAME_AND_DEBUG(pointSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, pointSet, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, pointSet, size);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSet, pointSet, set);
+
 pointSet::pointSet(const IOobject& obj)
 :
   topoSet(obj, typeName)
@@ -68,7 +69,7 @@ void pointSet::sync(const polyMesh& mesh)
 {
   // Convert to boolList
   boolList contents(mesh.nPoints(), false);
-  forAllConstIter(pointSet, *this, iter)
+  FOR_ALL_CONST_ITER(pointSet, *this, iter)
   {
     contents[iter.key()] = true;
   }
@@ -81,7 +82,7 @@ void pointSet::sync(const polyMesh& mesh)
   );
   // Convert back to labelHashSet
   labelHashSet newContents(size());
-  forAll(contents, pointI)
+  FOR_ALL(contents, pointI)
   {
     if (contents[pointI])
     {

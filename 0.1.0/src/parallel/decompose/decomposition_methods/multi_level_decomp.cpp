@@ -9,8 +9,8 @@
 #include "map_distribute.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(multiLevelDecomp, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(multiLevelDecomp, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     decompositionMethod,
     multiLevelDecomp,
@@ -23,7 +23,7 @@ namespace mousse
 void mousse::multiLevelDecomp::subsetGlobalCellCells
 (
   const label nDomains,
-  const label domainI,
+  const label /*domainI*/,
   const labelList& dist,
   const labelListList& cellCells,
   const labelList& set,
@@ -53,12 +53,12 @@ void mousse::multiLevelDecomp::subsetGlobalCellCells
   // new locations of the neighbouring cells.
   cutConnections.setSize(nDomains);
   cutConnections = 0;
-  forAll(subCellCells, subCellI)
+  FOR_ALL(subCellCells, subCellI)
   {
     labelList& cCells = subCellCells[subCellI];
     // Keep the connections to valid mapped cells
     label newI = 0;
-    forAll(cCells, i)
+    FOR_ALL(cCells, i)
     {
       // Get locally-compact cell index of neighbouring cell
       label nbrCellI = oldToNew[cCells[i]];
@@ -100,7 +100,7 @@ void mousse::multiLevelDecomp::decompose
       pointWeights
     )
   );
-  forAll(pointMap, i)
+  FOR_ALL(pointMap, i)
   {
     label orig = pointMap[i];
     finalDecomp[orig] += dist[i];
@@ -144,7 +144,7 @@ void mousse::multiLevelDecomp::decompose
       Pstream::listCombineScatter(nOutsideConnections);
       label nPatches = 0;
       label nFaces = 0;
-      forAll(nOutsideConnections, i)
+      FOR_ALL(nOutsideConnections, i)
       {
         if (nOutsideConnections[i] > 0)
         {
@@ -211,13 +211,13 @@ void mousse::multiLevelDecomp::decompose
         // Count the number inbetween blocks of nNext size
         label nPoints = 0;
         labelList nOutsideConnections(n, 0);
-        forAll(pointPoints, pointI)
+        FOR_ALL(pointPoints, pointI)
         {
           if ((dist[pointI] / nNext) == blockI)
           {
             nPoints++;
             const labelList& pPoints = pointPoints[pointI];
-            forAll(pPoints, i)
+            FOR_ALL(pPoints, i)
             {
               label distBlockI = dist[pPoints[i]] / nNext;
               if (distBlockI != blockI)
@@ -236,7 +236,7 @@ void mousse::multiLevelDecomp::decompose
         Pstream::listCombineScatter(nOutsideConnections);
         label nPatches = 0;
         label nFaces = 0;
-        forAll(nOutsideConnections, i)
+        FOR_ALL(nOutsideConnections, i)
         {
           if (nOutsideConnections[i] > 0)
           {
@@ -265,13 +265,13 @@ mousse::multiLevelDecomp::multiLevelDecomp(const dictionary& decompositionDict)
 {
   methods_.setSize(methodsDict_.size());
   label i = 0;
-  forAllConstIter(dictionary, methodsDict_, iter)
+  FOR_ALL_CONST_ITER(dictionary, methodsDict_, iter)
   {
     methods_.set(i++, decompositionMethod::New(iter().dict()));
   }
   label n = 1;
   Info<< "decompositionMethod " << type() << " :" << endl;
-  forAll(methods_, i)
+  FOR_ALL(methods_, i)
   {
     Info<< "    level " << i << " decomposing with " << methods_[i].type()
       << " into " << methods_[i].nDomains() << " subdomains." << endl;
@@ -279,7 +279,7 @@ mousse::multiLevelDecomp::multiLevelDecomp(const dictionary& decompositionDict)
   }
   if (n != nDomains())
   {
-    FatalErrorIn("multiLevelDecomp::multiLevelDecomp(const dictionary&)")
+    FATAL_ERROR_IN("multiLevelDecomp::multiLevelDecomp(const dictionary&)")
       << "Top level decomposition specifies " << nDomains()
       << " domains which is not equal to the product of"
       << " all sub domains " << n
@@ -289,7 +289,7 @@ mousse::multiLevelDecomp::multiLevelDecomp(const dictionary& decompositionDict)
 // Member Functions 
 bool mousse::multiLevelDecomp::parallelAware() const
 {
-  forAll(methods_, i)
+  FOR_ALL(methods_, i)
   {
     if (!methods_[i].parallelAware())
     {

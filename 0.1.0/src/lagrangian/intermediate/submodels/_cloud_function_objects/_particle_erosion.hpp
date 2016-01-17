@@ -40,7 +40,7 @@ protected:
     virtual void write();
 public:
   //- Runtime type information
-  TypeName("particleErosion");
+  TYPE_NAME("particleErosion");
   // Constructors
     //- Construct from dictionary
     ParticleErosion

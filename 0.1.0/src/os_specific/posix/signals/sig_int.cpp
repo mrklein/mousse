@@ -14,7 +14,7 @@ void mousse::sigInt::sigHandler(int)
   // Reset old handling
   if (sigaction(SIGINT, &oldAction_, NULL) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigInt::sigHandler()"
     )   << "Cannot reset SIGINT trapping"
@@ -36,7 +36,7 @@ mousse::sigInt::~sigInt()
   // Reset old handling
   if (sigaction(SIGINT, &oldAction_, NULL) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigInt::~sigInt()"
     )   << "Cannot reset SIGINT trapping"
@@ -48,7 +48,7 @@ void mousse::sigInt::set(const bool)
 {
   if (oldAction_.sa_handler)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigInt::set()"
     )   << "Cannot call sigInt::set() more than once"
@@ -60,7 +60,7 @@ void mousse::sigInt::set(const bool)
   sigemptyset(&newAction.sa_mask);
   if (sigaction(SIGINT, &newAction, &oldAction_) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigInt::set()"
     )   << "Cannot set SIGINT trapping"

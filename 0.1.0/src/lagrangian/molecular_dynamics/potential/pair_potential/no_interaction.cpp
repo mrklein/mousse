@@ -9,8 +9,8 @@ namespace mousse
 namespace pairPotentials
 {
 // Static Data Members
-defineTypeNameAndDebug(noInteraction, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(noInteraction, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   pairPotential,
   noInteraction,
@@ -28,7 +28,7 @@ noInteraction::noInteraction
   setLookupTables();
 }
 // Member Functions 
-scalar noInteraction::unscaledEnergy(const scalar r) const
+scalar noInteraction::unscaledEnergy(const scalar /*r*/) const
 {
   return 0.0;
 }

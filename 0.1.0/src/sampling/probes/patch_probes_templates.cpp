@@ -20,7 +20,7 @@ void mousse::patchProbes::sampleAndWrite
     probeStream
       << setw(w)
       << vField.time().timeToUserTime(vField.time().value());
-    forAll(values, probeI)
+    FOR_ALL(values, probeI)
     {
       probeStream << ' ' << setw(w) << values[probeI];
     }
@@ -41,7 +41,7 @@ void mousse::patchProbes::sampleAndWrite
     probeStream
       << setw(w)
       << sField.time().timeToUserTime(sField.time().value());
-    forAll(values, probeI)
+    FOR_ALL(values, probeI)
     {
       probeStream << ' ' << setw(w) << values[probeI];
     }
@@ -54,7 +54,7 @@ void mousse::patchProbes::sampleAndWrite
   const fieldGroup<Type>& fields
 )
 {
-  forAll(fields, fieldI)
+  FOR_ALL(fields, fieldI)
   {
     if (loadFromFiles_)
     {
@@ -103,7 +103,7 @@ void mousse::patchProbes::sampleAndWriteSurfaceFields
   const fieldGroup<Type>& fields
 )
 {
-  forAll(fields, fieldI)
+  FOR_ALL(fields, fieldI)
   {
     if (loadFromFiles_)
     {
@@ -161,7 +161,7 @@ mousse::patchProbes::sample
   );
   Field<Type>& values = tValues();
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(*this, probeI)
+  FOR_ALL(*this, probeI)
   {
     label faceI = elementList_[probeI];
     if (faceI >= 0)
@@ -201,7 +201,7 @@ mousse::patchProbes::sample
   );
   Field<Type>& values = tValues();
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(*this, probeI)
+  FOR_ALL(*this, probeI)
   {
     label faceI = elementList_[probeI];
     if (faceI >= 0)

@@ -51,7 +51,7 @@ class RKCK45
     mutable scalarField err_;
 public:
   //- Runtime type information
-  TypeName("RKCK45");
+  TYPE_NAME("RKCK45");
   // Constructors
     //- Construct from ODE
     RKCK45(const ODESystem& ode, const dictionary& dict);

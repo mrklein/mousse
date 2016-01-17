@@ -101,7 +101,7 @@ class activePressureForceBaffleVelocityFvPatchVectorField
     bool baffleActivated_;
 public:
   //- Runtime type information
-  TypeName("activePressureForceBaffleVelocity");
+  TYPE_NAME("activePressureForceBaffleVelocity");
   // Constructors
     //- Construct from patch and internal field
     activePressureForceBaffleVelocityFvPatchVectorField

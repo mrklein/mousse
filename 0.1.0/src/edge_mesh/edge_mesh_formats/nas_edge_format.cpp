@@ -24,7 +24,7 @@ bool mousse::fileFormats::NASedgeFormat::read
   IFstream is(filename);
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::NASedgeFormat::read(const fileName&)"
     )
@@ -106,7 +106,7 @@ bool mousse::fileFormats::NASedgeFormat::read
       is.getLine(line);
       if (line[0] != '*')
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "fileFormats::NASedgeFormat::read(const fileName&)"
         )
@@ -127,7 +127,7 @@ bool mousse::fileFormats::NASedgeFormat::read
   dynEdges.shrink();
   // Build inverse mapping (NASTRAN pointId -> index)
   Map<label> mapPointId(2*pointId.size());
-  forAll(pointId, i)
+  FOR_ALL(pointId, i)
   {
     mapPointId.insert(pointId[i], i);
   }
@@ -135,7 +135,7 @@ bool mousse::fileFormats::NASedgeFormat::read
   PackedBoolList usedPoints(points().size());
   // Pass1: relabel edges
   // ~~~~~~~~~~~~~~~~~~~~
-  forAll(dynEdges, i)
+  FOR_ALL(dynEdges, i)
   {
     edge& e = dynEdges[i];
     e[0] = mapPointId[e[0]];
@@ -150,7 +150,7 @@ bool mousse::fileFormats::NASedgeFormat::read
   {
     label nUsed = 0;
     pointField& pts = storedPoints();
-    forAll(pts, pointI)
+    FOR_ALL(pts, pointI)
     {
       if (usedPoints.get(pointI))
       {
@@ -165,7 +165,7 @@ bool mousse::fileFormats::NASedgeFormat::read
     }
     pts.setSize(nUsed);
     // renumber edge vertices
-    forAll(dynEdges, edgeI)
+    FOR_ALL(dynEdges, edgeI)
     {
       edge& e = dynEdges[edgeI];
       e[0] = mapPointId[e[0]];

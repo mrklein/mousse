@@ -296,7 +296,7 @@ void mousse::timeVaryingMappedFixedValuePointPatchField<Type>::checkTable()
   );
   if (!foundTime)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "timeVaryingMappedFixedValuePointPatchField<Type>::checkTable"
     )   << "Cannot find starting sampling values for current time "
@@ -355,7 +355,7 @@ void mousse::timeVaryingMappedFixedValuePointPatchField<Type>::checkTable()
       );
       if (vals.size() != mapperPtr_().sourceSize())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "timeVaryingMappedFixedValuePointPatchField<Type>::"
           "checkTable()"
@@ -408,7 +408,7 @@ void mousse::timeVaryingMappedFixedValuePointPatchField<Type>::checkTable()
       );
       if (vals.size() != mapperPtr_().sourceSize())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "timeVaryingMappedFixedValuePointPatchField<Type>::"
           "checkTable()"

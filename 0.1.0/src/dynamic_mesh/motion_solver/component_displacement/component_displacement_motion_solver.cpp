@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(componentDisplacementMotionSolver, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(componentDisplacementMotionSolver, 0);
 }
 // Private Member Functions 
 mousse::direction mousse::componentDisplacementMotionSolver::cmpt
@@ -29,7 +29,7 @@ mousse::direction mousse::componentDisplacementMotionSolver::cmpt
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "componentDisplacementMotionSolver::"
       "componentDisplacementMotionSolver"
@@ -81,7 +81,7 @@ mousse::componentDisplacementMotionSolver::componentDisplacementMotionSolver
 {
   if (points0_.size() != mesh.nPoints())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "componentDisplacementMotionSolver::"
       "componentDisplacementMotionSolver\n"
@@ -110,7 +110,7 @@ mousse::componentDisplacementMotionSolver::componentDisplacementMotionSolver
 mousse::componentDisplacementMotionSolver::~componentDisplacementMotionSolver()
 {}
 // Member Functions 
-void mousse::componentDisplacementMotionSolver::movePoints(const pointField& p)
+void mousse::componentDisplacementMotionSolver::movePoints(const pointField&)
 {
   // No local data to update
 }
@@ -133,7 +133,7 @@ void mousse::componentDisplacementMotionSolver::updateMesh(const mapPolyMesh& mp
     (gMax(points0_)-gMin(points0_))
    /(gMax(points)-gMin(points));
   scalarField newPoints0(mpm.pointMap().size());
-  forAll(newPoints0, pointI)
+  FOR_ALL(newPoints0, pointI)
   {
     label oldPointI = mpm.pointMap()[pointI];
     if (oldPointI >= 0)
@@ -153,7 +153,7 @@ void mousse::componentDisplacementMotionSolver::updateMesh(const mapPolyMesh& mp
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "displacementLaplacianFvMotionSolver::updateMesh"
         "(const mapPolyMesh& mpm)"

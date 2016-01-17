@@ -45,7 +45,7 @@ class uniformFixedGradientFvPatchField
     autoPtr<DataEntry<Type> > uniformGradient_;
 public:
   //- Runtime type information
-  TypeName("uniformFixedGradient");
+  TYPE_NAME("uniformFixedGradient");
   // Constructors
     //- Construct from patch and internal field
     uniformFixedGradientFvPatchField

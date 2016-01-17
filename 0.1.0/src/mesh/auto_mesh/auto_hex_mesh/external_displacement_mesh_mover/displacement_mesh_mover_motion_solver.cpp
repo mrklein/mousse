@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(displacementMeshMoverMotionSolver, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(displacementMeshMoverMotionSolver, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionSolver,
     displacementMeshMoverMotionSolver,

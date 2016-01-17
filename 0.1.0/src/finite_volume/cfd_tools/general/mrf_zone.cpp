@@ -13,7 +13,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(MRFZone, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(MRFZone, 0);
 }
 // Private Member Functions 
 void mousse::MRFZone::setMRFFaces()
@@ -34,7 +34,7 @@ void mousse::MRFZone::setMRFFaces()
   if (cellZoneID_ != -1)
   {
     const labelList& cellLabels = mesh_.cellZones()[cellZoneID_];
-    forAll(cellLabels, i)
+    FOR_ALL(cellLabels, i)
     {
       zoneCell[cellLabels[i]] = true;
     }
@@ -49,12 +49,12 @@ void mousse::MRFZone::setMRFFaces()
     }
   }
   labelHashSet excludedPatches(excludedPatchLabels_);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled() || excludedPatches.found(patchI))
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         if (zoneCell[own[faceI]])
@@ -66,7 +66,7 @@ void mousse::MRFZone::setMRFFaces()
     }
     else if (!isA<emptyPolyPatch>(pp))
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label faceI = pp.start()+i;
         if (zoneCell[own[faceI]])
@@ -96,10 +96,10 @@ void mousse::MRFZone::setMRFFaces()
   internalFaces_.setSize(nInternal);
   labelList nIncludedFaces(patches.size(), 0);
   labelList nExcludedFaces(patches.size(), 0);
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     const polyPatch& pp = patches[patchi];
-    forAll(pp, patchFacei)
+    FOR_ALL(pp, patchFacei)
     {
       label faceI = pp.start() + patchFacei;
       if (faceType[faceI] == 1)
@@ -114,17 +114,17 @@ void mousse::MRFZone::setMRFFaces()
   }
   includedFaces_.setSize(patches.size());
   excludedFaces_.setSize(patches.size());
-  forAll(nIncludedFaces, patchi)
+  FOR_ALL(nIncludedFaces, patchi)
   {
     includedFaces_[patchi].setSize(nIncludedFaces[patchi]);
     excludedFaces_[patchi].setSize(nExcludedFaces[patchi]);
   }
   nIncludedFaces = 0;
   nExcludedFaces = 0;
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     const polyPatch& pp = patches[patchi];
-    forAll(pp, patchFacei)
+    FOR_ALL(pp, patchFacei)
     {
       label faceI = pp.start() + patchFacei;
       if (faceType[faceI] == 1)
@@ -145,9 +145,9 @@ void mousse::MRFZone::setMRFFaces()
       << internalFaces.name() << endl;
     internalFaces.write();
     faceSet MRFFaces(mesh_, "includedFaces", 100);
-    forAll(includedFaces_, patchi)
+    FOR_ALL(includedFaces_, patchi)
     {
-      forAll(includedFaces_[patchi], i)
+      FOR_ALL(includedFaces_[patchi], i)
       {
         label patchFacei = includedFaces_[patchi][i];
         MRFFaces.insert(patches[patchi].start()+patchFacei);
@@ -158,9 +158,9 @@ void mousse::MRFZone::setMRFFaces()
       << MRFFaces.name() << endl;
     MRFFaces.write();
     faceSet excludedFaces(mesh_, "excludedFaces", 100);
-    forAll(excludedFaces_, patchi)
+    FOR_ALL(excludedFaces_, patchi)
     {
-      forAll(excludedFaces_[patchi], i)
+      FOR_ALL(excludedFaces_[patchi], i)
       {
         label patchFacei = excludedFaces_[patchi][i];
         excludedFaces.insert(patches[patchi].start()+patchFacei);
@@ -213,7 +213,7 @@ mousse::MRFZone::MRFZone
     );
     excludedPatchLabels_.setSize(excludedPatchSet.size());
     label i = 0;
-    forAllConstIter(labelHashSet, excludedPatchSet, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, excludedPatchSet, iter)
     {
       excludedPatchLabels_[i++] = iter.key();
     }
@@ -221,7 +221,7 @@ mousse::MRFZone::MRFZone
     reduce(cellZoneFound, orOp<bool>());
     if (!cellZoneFound)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "MRFZone"
         "("
@@ -256,7 +256,7 @@ void mousse::MRFZone::addCoriolis
   vectorField& ddtUc = ddtU.internalField();
   const vectorField& Uc = U.internalField();
   const vector Omega = this->Omega();
-  forAll(cells, i)
+  FOR_ALL(cells, i)
   {
     label celli = cells[i];
     ddtUc[celli] += (Omega ^ Uc[celli]);
@@ -275,7 +275,7 @@ void mousse::MRFZone::addCoriolis(fvVectorMatrix& UEqn, const bool rhs) const
   const vector Omega = this->Omega();
   if (rhs)
   {
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       label celli = cells[i];
       Usource[celli] += V[celli]*(Omega ^ U[celli]);
@@ -283,7 +283,7 @@ void mousse::MRFZone::addCoriolis(fvVectorMatrix& UEqn, const bool rhs) const
   }
   else
   {
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       label celli = cells[i];
       Usource[celli] -= V[celli]*(Omega ^ U[celli]);
@@ -308,7 +308,7 @@ void mousse::MRFZone::addCoriolis
   const vector Omega = this->Omega();
   if (rhs)
   {
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       label celli = cells[i];
       Usource[celli] += V[celli]*rho[celli]*(Omega ^ U[celli]);
@@ -316,7 +316,7 @@ void mousse::MRFZone::addCoriolis
   }
   else
   {
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       label celli = cells[i];
       Usource[celli] -= V[celli]*rho[celli]*(Omega ^ U[celli]);
@@ -328,29 +328,28 @@ void mousse::MRFZone::makeRelative(volVectorField& U) const
   const volVectorField& C = mesh_.C();
   const vector Omega = this->Omega();
   const labelList& cells = mesh_.cellZones()[cellZoneID_];
-  forAll(cells, i)
+  FOR_ALL(cells, i)
   {
     label celli = cells[i];
     U[celli] -= (Omega ^ (C[celli] - origin_));
   }
   // Included patches
-  forAll(includedFaces_, patchi)
+  FOR_ALL(includedFaces_, patchi)
   {
-    forAll(includedFaces_[patchi], i)
+    FOR_ALL(includedFaces_[patchi], i)
     {
       label patchFacei = includedFaces_[patchi][i];
       U.boundaryField()[patchi][patchFacei] = vector::zero;
     }
   }
   // Excluded patches
-  forAll(excludedFaces_, patchi)
+  FOR_ALL(excludedFaces_, patchi)
   {
-    forAll(excludedFaces_[patchi], i)
+    FOR_ALL(excludedFaces_[patchi], i)
     {
       label patchFacei = excludedFaces_[patchi][i];
       U.boundaryField()[patchi][patchFacei] -=
-        (Omega
-       ^ (C.boundaryField()[patchi][patchFacei] - origin_));
+        (Omega ^ (C.boundaryField()[patchi][patchFacei] - origin_));
     }
   }
 }
@@ -375,15 +374,15 @@ void mousse::MRFZone::makeAbsolute(volVectorField& U) const
   const volVectorField& C = mesh_.C();
   const vector Omega = this->Omega();
   const labelList& cells = mesh_.cellZones()[cellZoneID_];
-  forAll(cells, i)
+  FOR_ALL(cells, i)
   {
     label celli = cells[i];
     U[celli] += (Omega ^ (C[celli] - origin_));
   }
   // Included patches
-  forAll(includedFaces_, patchi)
+  FOR_ALL(includedFaces_, patchi)
   {
-    forAll(includedFaces_[patchi], i)
+    FOR_ALL(includedFaces_[patchi], i)
     {
       label patchFacei = includedFaces_[patchi][i];
       U.boundaryField()[patchi][patchFacei] =
@@ -391,9 +390,9 @@ void mousse::MRFZone::makeAbsolute(volVectorField& U) const
     }
   }
   // Excluded patches
-  forAll(excludedFaces_, patchi)
+  FOR_ALL(excludedFaces_, patchi)
   {
-    forAll(excludedFaces_[patchi], i)
+    FOR_ALL(excludedFaces_[patchi], i)
     {
       label patchFacei = excludedFaces_[patchi][i];
       U.boundaryField()[patchi][patchFacei] +=
@@ -417,11 +416,11 @@ void mousse::MRFZone::correctBoundaryVelocity(volVectorField& U) const
 {
   const vector Omega = this->Omega();
   // Included patches
-  forAll(includedFaces_, patchi)
+  FOR_ALL(includedFaces_, patchi)
   {
     const vectorField& patchC = mesh_.Cf().boundaryField()[patchi];
     vectorField pfld(U.boundaryField()[patchi]);
-    forAll(includedFaces_[patchi], i)
+    FOR_ALL(includedFaces_[patchi], i)
     {
       label patchFacei = includedFaces_[patchi][i];
       pfld[patchFacei] = (Omega ^ (patchC[patchFacei] - origin_));
@@ -431,9 +430,9 @@ void mousse::MRFZone::correctBoundaryVelocity(volVectorField& U) const
 }
 void mousse::MRFZone::writeData(Ostream& os) const
 {
-  os  << nl;
+  os << nl;
   os.write(name_) << nl;
-  os  << token::BEGIN_BLOCK << incrIndent << nl;
+  os << token::BEGIN_BLOCK << incrIndent << nl;
   os.writeKeyword("active") << active_ << token::END_STATEMENT << nl;
   os.writeKeyword("cellZone") << cellZoneName_ << token::END_STATEMENT << nl;
   os.writeKeyword("origin") << origin_ << token::END_STATEMENT << nl;
@@ -444,7 +443,7 @@ void mousse::MRFZone::writeData(Ostream& os) const
     os.writeKeyword("nonRotatingPatches") << excludedPatchNames_
       << token::END_STATEMENT << nl;
   }
-  os  << decrIndent << token::END_BLOCK << nl;
+  os << decrIndent << token::END_BLOCK << nl;
 }
 bool mousse::MRFZone::read(const dictionary& dict)
 {

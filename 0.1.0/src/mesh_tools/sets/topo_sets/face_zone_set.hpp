@@ -24,7 +24,7 @@ class faceZoneSet
  // Private Member Functions
 public:
   //- Runtime type information
-  TypeName("faceZoneSet");
+  TYPE_NAME("faceZoneSet");
   // Constructors
     //- Construct from objectRegistry and name
     faceZoneSet

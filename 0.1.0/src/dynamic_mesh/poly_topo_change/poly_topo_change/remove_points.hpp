@@ -44,16 +44,16 @@ class removePoints
       const face&,
       polyTopoChange&
     ) const;
-    //- Disallow default bitwise copy construct
-    removePoints(const removePoints&);
-    //- Disallow default bitwise assignment
-    void operator=(const removePoints&);
 public:
   //- Runtime type information
-  ClassName("removePoints");
+  CLASS_NAME("removePoints");
   // Constructors
     //- Construct from mesh
     removePoints(const polyMesh& mesh, const bool undoable = false);
+    //- Disallow default bitwise copy construct
+    removePoints(const removePoints&) = delete;
+    //- Disallow default bitwise assignment
+    removePoints& operator=(const removePoints&) = delete;
   // Member Functions
       //- If undoable: affected face labels. Already restored faces
       //  will be -1.

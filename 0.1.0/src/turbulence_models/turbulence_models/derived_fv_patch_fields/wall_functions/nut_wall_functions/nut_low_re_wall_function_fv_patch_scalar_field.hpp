@@ -36,7 +36,7 @@ protected:
     virtual tmp<scalarField> calcNut() const;
 public:
   //- Runtime type information
-  TypeName("nutLowReWallFunction");
+  TYPE_NAME("nutLowReWallFunction");
   // Constructors
     //- Construct from patch and internal field
     nutLowReWallFunctionFvPatchScalarField

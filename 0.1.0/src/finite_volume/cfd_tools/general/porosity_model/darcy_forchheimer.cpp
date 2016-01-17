@@ -9,11 +9,11 @@
 // Static Data Members
 namespace mousse
 {
-  namespace porosityModels
-  {
-    defineTypeNameAndDebug(DarcyForchheimer, 0);
-    addToRunTimeSelectionTable(porosityModel, DarcyForchheimer, mesh);
-  }
+namespace porosityModels
+{
+DEFINE_TYPE_NAME_AND_DEBUG(DarcyForchheimer, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(porosityModel, DarcyForchheimer, mesh);
+}
 }
 // Constructors 
 mousse::porosityModels::DarcyForchheimer::DarcyForchheimer
@@ -25,14 +25,14 @@ mousse::porosityModels::DarcyForchheimer::DarcyForchheimer
   const word& cellZoneName
 )
 :
-  porosityModel(name, modelType, mesh, dict, cellZoneName),
-  dXYZ_("d", dimless/sqr(dimLength), coeffs_),
-  fXYZ_("f", dimless/dimLength, coeffs_),
-  D_(cellZoneIDs_.size()),
-  F_(cellZoneIDs_.size()),
-  rhoName_(coeffs_.lookupOrDefault<word>("rho", "rho")),
-  muName_(coeffs_.lookupOrDefault<word>("mu", "thermo:mu")),
-  nuName_(coeffs_.lookupOrDefault<word>("nu", "nu"))
+  porosityModel{name, modelType, mesh, dict, cellZoneName},
+  dXYZ_{"d", dimless/sqr(dimLength), coeffs_},
+  fXYZ_{"f", dimless/dimLength, coeffs_},
+  D_{cellZoneIDs_.size()},
+  F_{cellZoneIDs_.size()},
+  rhoName_{coeffs_.lookupOrDefault<word>("rho", "rho")},
+  muName_{coeffs_.lookupOrDefault<word>("mu", "thermo:mu")},
+  nuName_{coeffs_.lookupOrDefault<word>("nu", "nu")}
 {
   adjustNegativeResistance(dXYZ_);
   adjustNegativeResistance(fXYZ_);
@@ -46,7 +46,7 @@ void mousse::porosityModels::DarcyForchheimer::calcTranformModelData()
 {
   if (coordSys_.R().uniform())
   {
-    forAll (cellZoneIDs_, zoneI)
+    FOR_ALL(cellZoneIDs_, zoneI)
     {
       D_[zoneI].setSize(1);
       F_[zoneI].setSize(1);
@@ -65,12 +65,12 @@ void mousse::porosityModels::DarcyForchheimer::calcTranformModelData()
   }
   else
   {
-    forAll(cellZoneIDs_, zoneI)
+    FOR_ALL(cellZoneIDs_, zoneI)
     {
       const labelList& cells = mesh_.cellZones()[cellZoneIDs_[zoneI]];
       D_[zoneI].setSize(cells.size());
       F_[zoneI].setSize(cells.size());
-      forAll(cells, i)
+      FOR_ALL(cells, i)
       {
         D_[zoneI][i] = tensor::zero;
         D_[zoneI][i].xx() = dXYZ_.value().x();
@@ -90,31 +90,31 @@ void mousse::porosityModels::DarcyForchheimer::calcTranformModelData()
   if (debug && mesh_.time().outputTime())
   {
     volTensorField Dout
-    (
+    {
       IOobject
-      (
+      {
         typeName + ":D",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       mesh_,
       dimensionedTensor("0", dXYZ_.dimensions(), tensor::zero)
-    );
+    };
     volTensorField Fout
-    (
+    {
       IOobject
-      (
+      {
         typeName + ":F",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       mesh_,
-      dimensionedTensor("0", fXYZ_.dimensions(), tensor::zero)
-    );
+      dimensionedTensor{"0", fXYZ_.dimensions(), tensor::zero}
+    };
     UIndirectList<tensor>(Dout, mesh_.cellZones()[cellZoneIDs_[0]]) = D_[0];
     UIndirectList<tensor>(Fout, mesh_.cellZones()[cellZoneIDs_[0]]) = F_[0];
     Dout.write();

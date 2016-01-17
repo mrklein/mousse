@@ -113,7 +113,7 @@ void mousse::CollidingParcel<ParcelType>::readFields(CloudType& c)
   );
   c.checkFieldFieldIOobject(c, collisionRecordsWallData);
   label i = 0;
-  forAllIter(typename CloudType, c, iter)
+  FOR_ALL_ITER(typename CloudType, c, iter)
   {
     CollidingParcel<ParcelType>& p = iter();
     p.f_ = f[i];
@@ -185,7 +185,7 @@ void mousse::CollidingParcel<ParcelType>::writeFields(const CloudType& c)
     np
   );
   label i = 0;
-  forAllConstIter(typename CloudType, c, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, c, iter)
   {
     const CollidingParcel<ParcelType>& p = iter();
     f[i] = p.f();

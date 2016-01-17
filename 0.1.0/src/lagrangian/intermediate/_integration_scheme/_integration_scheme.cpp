@@ -11,14 +11,14 @@ mousse::IntegrationScheme<Type>::IntegrationScheme
   const dictionary& dict
 )
 :
- phiName_(phiName),
- dict_(dict)
+ phiName_{phiName},
+ dict_{dict}
 {}
 template<class Type>
 mousse::IntegrationScheme<Type>::IntegrationScheme(const IntegrationScheme& is)
 :
-  phiName_(is.phiName_),
-  dict_(is.dict_)
+  phiName_{is.phiName_},
+  dict_{is.dict_}
 {}
 // Destructor   
 template<class Type>

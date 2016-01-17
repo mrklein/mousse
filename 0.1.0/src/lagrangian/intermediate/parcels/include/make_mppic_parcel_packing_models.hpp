@@ -8,12 +8,12 @@
 #include "_explicit.hpp"
 #include "_implicit.hpp"
 
-#define makeMPPICParcelPackingModels(CloudType)                               \
+#define MAKE_MPPIC_PARCEL_PACKING_MODELS(CloudType)                           \
                                                                               \
-  makePackingModel(CloudType);                                                \
+  MAKE_PACKING_MODEL(CloudType);                                              \
                                                                               \
-  makePackingModelType(NoPacking, CloudType);                                 \
-  makePackingModelType(Explicit, CloudType);                                  \
-  makePackingModelType(Implicit, CloudType);
+  MAKE_PACKING_MODEL_TYPE(NoPacking, CloudType);                              \
+  MAKE_PACKING_MODEL_TYPE(Explicit, CloudType);                               \
+  MAKE_PACKING_MODEL_TYPE(Implicit, CloudType);
 
 #endif

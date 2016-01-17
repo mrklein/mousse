@@ -17,15 +17,14 @@ class cellQuality
   // Private data
     //- Reference to mesh
     const polyMesh& mesh_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    cellQuality(const cellQuality&);
-    //- Disallow default bitwise assignment
-    void operator=(const cellQuality&);
 public:
   // Constructors
     //- Construct from mesh
     cellQuality(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    cellQuality(const cellQuality&) = delete;
+    //- Disallow default bitwise assignment
+    cellQuality& operator=(const cellQuality&) = delete;
   // Destructor - default
   // Member Functions
     //- Return cell non-orthogonality

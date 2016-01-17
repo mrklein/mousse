@@ -24,14 +24,9 @@ class infinitelyFastChemistry
   // Private data
     //- Model constant
     scalar C_;
-  // Private Member Functions
-    //- Disallow copy construct
-    infinitelyFastChemistry(const infinitelyFastChemistry&);
-    //- Disallow default bitwise assignment
-    void operator=(const infinitelyFastChemistry&);
 public:
   //- Runtime type information
-  TypeName("infinitelyFastChemistry");
+  TYPE_NAME("infinitelyFastChemistry");
   // Constructors
     //- Construct from components
     infinitelyFastChemistry
@@ -40,6 +35,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName
     );
+    //- Disallow copy construct
+    infinitelyFastChemistry(const infinitelyFastChemistry&) = delete;
+    //- Disallow default bitwise assignment
+    infinitelyFastChemistry& operator=(const infinitelyFastChemistry&) = delete;
   //- Destructor
   virtual ~infinitelyFastChemistry();
   // Member Functions

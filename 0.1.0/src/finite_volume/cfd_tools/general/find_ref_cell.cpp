@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "find_ref_cell.hpp"
+#include "pstream_reduce_ops.hpp"
+
 // Global Functions 
 void mousse::setRefCell
 (
@@ -26,7 +28,7 @@ void mousse::setRefCell
         refCelli = readLabel(dict.lookup(refCellName));
         if (refCelli < 0 || refCelli >= field.mesh().nCells())
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "void mousse::setRefCell\n"
             "    (\n"
@@ -37,9 +39,10 @@ void mousse::setRefCell
             "        bool\n"
             ")",
             dict
-          )   << "Illegal master cellID " << refCelli
-            << ". Should be 0.." << field.mesh().nCells()
-            << exit(FatalIOError);
+          )
+          << "Illegal master cellID " << refCelli
+          << ". Should be 0.." << field.mesh().nCells()
+          << exit(FatalIOError);
         }
       }
       else
@@ -49,7 +52,7 @@ void mousse::setRefCell
     }
     else if (dict.found(refPointName))
     {
-      point refPointi(dict.lookup(refPointName));
+      point refPointi{dict.lookup(refPointName)};
       // Try fast approximate search avoiding octree construction
       refCelli = field.mesh().findCell(refPointi, polyMesh::FACE_PLANES);
       label hasRef = (refCelli >= 0 ? 1 : 0);
@@ -64,7 +67,7 @@ void mousse::setRefCell
       }
       if (sumHasRef != 1)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "void mousse::setRefCell\n"
           "    (\n"
@@ -75,16 +78,17 @@ void mousse::setRefCell
           "        bool\n"
           "    )",
           dict
-        )   << "Unable to set reference cell for field " << field.name()
-          << nl << "    Reference point " << refPointName
-          << " " << refPointi
-          << " found on " << sumHasRef << " domains (should be one)"
-          << nl << exit(FatalIOError);
+        )
+        << "Unable to set reference cell for field " << field.name()
+        << nl << "    Reference point " << refPointName
+        << " " << refPointi
+        << " found on " << sumHasRef << " domains (should be one)"
+        << nl << exit(FatalIOError);
       }
     }
     else
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "void mousse::setRefCell\n"
         "    (\n"
@@ -95,14 +99,17 @@ void mousse::setRefCell
         "        bool\n"
         "    )",
         dict
-      )   << "Unable to set reference cell for field " << field.name()
-        << nl
-        << "    Please supply either " << refCellName
-        << " or " << refPointName << nl << exit(FatalIOError);
+      )
+      << "Unable to set reference cell for field " << field.name()
+      << nl
+      << "    Please supply either " << refCellName
+      << " or " << refPointName << nl << exit(FatalIOError);
     }
     refValue = readScalar(dict.lookup(refValueName));
   }
 }
+
+
 void mousse::setRefCell
 (
   const volScalarField& field,
@@ -114,6 +121,8 @@ void mousse::setRefCell
 {
   setRefCell(field, field, dict, refCelli, refValue, forceReference);
 }
+
+
 mousse::scalar mousse::getRefCellValue
 (
   const volScalarField& field,

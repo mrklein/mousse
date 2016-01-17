@@ -50,7 +50,7 @@ void mousse::sigStopAtWriteNow::sigHandler(int)
   // Reset old handling
   if (sigaction(signal_, &oldAction_, NULL) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigStopAtWriteNow::sigHandler(int)"
     )   << "Cannot reset " << signal_ << " trapping"
@@ -85,7 +85,7 @@ mousse::sigStopAtWriteNow::~sigStopAtWriteNow()
   {
     if (sigaction(signal_, &oldAction_, NULL) < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::sigStopAtWriteNow::~sigStopAtWriteNow()"
       )   << "Cannot reset " << signal_ << " trapping"
@@ -101,7 +101,7 @@ void mousse::sigStopAtWriteNow::set(const bool verbose)
     // Check that the signal is different from the writeNowSignal
     if (sigWriteNow::signal_ == signal_)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::sigStopAtWriteNow::sigStopAtWriteNow"
         "(const bool, const Time&)"
@@ -117,7 +117,7 @@ void mousse::sigStopAtWriteNow::set(const bool verbose)
     sigemptyset(&newAction.sa_mask);
     if (sigaction(signal_, &newAction, &oldAction_) < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::sigStopAtWriteNow::sigStopAtWriteNow"
         "(const bool, const Time&)"

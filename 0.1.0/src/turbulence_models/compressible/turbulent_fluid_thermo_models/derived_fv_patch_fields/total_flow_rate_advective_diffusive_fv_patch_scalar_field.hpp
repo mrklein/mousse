@@ -29,7 +29,7 @@ class totalFlowRateAdvectiveDiffusiveFvPatchScalarField
     scalar massFluxFraction_;
 public:
   //- Runtime type information
-  TypeName("totalFlowRateAdvectiveDiffusive");
+  TYPE_NAME("totalFlowRateAdvectiveDiffusive");
   // Constructors
     //- Construct from patch and internal field
     totalFlowRateAdvectiveDiffusiveFvPatchScalarField

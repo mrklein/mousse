@@ -37,14 +37,9 @@ class coordinateSystems
 :
   public IOPtrList<coordinateSystem>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    coordinateSystems(const coordinateSystems&);
-    //- Disallow default bitwise assignment
-    void operator=(const coordinateSystems&);
 public:
   //- Runtime type information
-  TypeName("coordinateSystems");
+  TYPE_NAME("coordinateSystems");
   // Constructors
     //- Read construct from IOobject
     explicit coordinateSystems(const IOobject&);
@@ -60,6 +55,10 @@ public:
       const IOobject&,
       const Xfer<PtrList<coordinateSystem> >&
     );
+    //- Disallow default bitwise copy construct
+    coordinateSystems(const coordinateSystems&) = delete;
+    //- Disallow default bitwise assignment
+    coordinateSystems& operator=(const coordinateSystems&) = delete;
   // Selectors
     //- Return previously registered or read construct from "constant"
     static const coordinateSystems& New(const objectRegistry&);

@@ -48,7 +48,7 @@ class CellZoneInjection
     void setPositions(const labelList& cellZoneCells);
 public:
   //- Runtime type information
-  TypeName("cellZoneInjection");
+  TYPE_NAME("cellZoneInjection");
   // Constructors
     //- Construct from dictionary
     CellZoneInjection

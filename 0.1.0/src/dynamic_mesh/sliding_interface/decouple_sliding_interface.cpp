@@ -47,7 +47,7 @@ void mousse::slidingInterface::decoupleInterface
     mesh.faceZones()[masterFaceZoneID_.index()].flipMap();
   const labelList& masterFc = masterFaceCells();
   // Recover faces in master patch
-  forAll(masterPatchAddr, faceI)
+  FOR_ALL(masterPatchAddr, faceI)
   {
     // Make a copy of the face and turn it if necessary
     face newFace = faces[masterPatchAddr[faceI]];
@@ -88,7 +88,7 @@ void mousse::slidingInterface::decoupleInterface
   // Grab retired point mapping
   const Map<label>& rpm = retiredPointMap();
   // Recover faces in slave patch
-  forAll(slavePatchAddr, faceI)
+  FOR_ALL(slavePatchAddr, faceI)
   {
     // Make a copy of face and turn it if necessary
     face newFace = faces[slavePatchAddr[faceI]];
@@ -97,7 +97,7 @@ void mousse::slidingInterface::decoupleInterface
       newFace.flip();
     }
     // Recover retired points on the slave side
-    forAll(newFace, pointI)
+    FOR_ALL(newFace, pointI)
     {
       Map<label>::const_iterator rpmIter = rpm.find(newFace[pointI]);
       if (rpmIter != rpm.end())
@@ -128,14 +128,14 @@ void mousse::slidingInterface::decoupleInterface
   // Re-create the master stick-out faces
   // Grab the list of faces in the layer
   const labelList& masterStickOuts = masterStickOutFaces();
-  forAll(masterStickOuts, faceI)
+  FOR_ALL(masterStickOuts, faceI)
   {
     // Renumber the face and remove additional points
     const label curFaceID = masterStickOuts[faceI];
     const face& oldFace = faces[curFaceID];
     DynamicList<label> newFaceLabels(oldFace.size());
     bool changed = false;
-    forAll(oldFace, pointI)
+    FOR_ALL(oldFace, pointI)
     {
       // Check if the point is removed
       if (ref.pointRemoved(oldFace[pointI]))
@@ -152,7 +152,7 @@ void mousse::slidingInterface::decoupleInterface
     {
       if (newFaceLabels.size() < 3)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void slidingInterface::decoupleInterface("
           "polyTopoChange& ref) const"
@@ -201,10 +201,10 @@ void mousse::slidingInterface::decoupleInterface
   (
     primitiveMesh::facesPerCell_*(masterPatch.size() + slavePatch.size())
   );
-  forAll(slaveFc, faceI)
+  FOR_ALL(slaveFc, faceI)
   {
     const labelList& curFaces = cells[slaveFc[faceI]];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       // Check if the face belongs to the slave face zone; and
       // if it has been removed; if not add it
@@ -223,14 +223,14 @@ void mousse::slidingInterface::decoupleInterface
   const labelList& slaveStickOuts = slaveStickOutFaces();
   // Grab master point mapping
   const Map<label>& masterPm = masterPatch.meshPointMap();
-  forAll(slaveStickOuts, faceI)
+  FOR_ALL(slaveStickOuts, faceI)
   {
     // Renumber the face and remove additional points
     const label curFaceID = slaveStickOuts[faceI];
     const face& oldFace = faces[curFaceID];
     DynamicList<label> newFaceLabels(oldFace.size());
     bool changed = false;
-    forAll(oldFace, pointI)
+    FOR_ALL(oldFace, pointI)
     {
       // Check if the point is removed or retired
       if (rpm.found(oldFace[pointI]))
@@ -261,7 +261,7 @@ void mousse::slidingInterface::decoupleInterface
     {
       if (newFaceLabels.size() < 3)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void slidingInterface::decoupleInterface("
           "polyTopoChange& ref) const"
@@ -309,7 +309,7 @@ void mousse::slidingInterface::decoupleInterface
   const pointField& points = mesh.points();
   const labelList& slaveMeshPoints =
     mesh.faceZones()[slaveFaceZoneID_.index()]().meshPoints();
-  forAll(slaveMeshPoints, pointI)
+  FOR_ALL(slaveMeshPoints, pointI)
   {
     ref.setAction
     (

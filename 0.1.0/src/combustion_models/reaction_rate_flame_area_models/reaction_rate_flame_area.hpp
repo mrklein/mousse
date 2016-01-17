@@ -32,17 +32,11 @@ protected:
     word fuel_;
     //- Fuel consumption rate per unit of flame area
     volScalarField omega_;
-private:
-  // Private member functions
-    //- Disallow copy construct
-    reactionRateFlameArea(const reactionRateFlameArea&);
-    //- Disallow default bitwise assignment
-    void operator=(const reactionRateFlameArea&);
 public:
   //- Runtime type information
-  TypeName("reactionRateFlameArea");
+  TYPE_NAME("reactionRateFlameArea");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       reactionRateFlameArea,
@@ -71,6 +65,10 @@ public:
       const fvMesh& mesh,
       const combustionModel& combModel
     );
+    //- Disallow copy construct
+    reactionRateFlameArea(const reactionRateFlameArea&) = delete;
+    //- Disallow default bitwise assignment
+   reactionRateFlameArea& operator=(const reactionRateFlameArea&) = delete;
   // Selector
     static autoPtr<reactionRateFlameArea> New
     (

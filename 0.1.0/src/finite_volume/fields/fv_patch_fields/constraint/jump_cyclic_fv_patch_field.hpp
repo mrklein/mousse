@@ -24,7 +24,7 @@ class jumpCyclicFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("jumpCyclic");
+  TYPE_NAME("jumpCyclic");
   // Constructors
     //- Construct from patch and internal field
     jumpCyclicFvPatchField

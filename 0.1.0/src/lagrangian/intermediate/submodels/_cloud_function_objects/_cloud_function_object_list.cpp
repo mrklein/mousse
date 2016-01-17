@@ -34,7 +34,7 @@ mousse::CloudFunctionObjectList<CloudType>::CloudFunctionObjectList
     if (modelNames.size() > 0)
     {
       this->setSize(modelNames.size());
-      forAll(modelNames, i)
+      FOR_ALL(modelNames, i)
       {
         const word& modelName = modelNames[i];
         const dictionary& modelDict(dict.subDict(modelName));
@@ -77,7 +77,7 @@ mousse::CloudFunctionObjectList<CloudType>::~CloudFunctionObjectList()
 template<class CloudType>
 void mousse::CloudFunctionObjectList<CloudType>::preEvolve()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).preEvolve();
   }
@@ -85,7 +85,7 @@ void mousse::CloudFunctionObjectList<CloudType>::preEvolve()
 template<class CloudType>
 void mousse::CloudFunctionObjectList<CloudType>::postEvolve()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).postEvolve();
   }
@@ -100,7 +100,7 @@ void mousse::CloudFunctionObjectList<CloudType>::postMove
   bool& keepParticle
 )
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).postMove(p, cellI, dt, position0, keepParticle);
     if (!keepParticle)
@@ -119,7 +119,7 @@ void mousse::CloudFunctionObjectList<CloudType>::postPatch
   bool& keepParticle
 )
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).postPatch
     (
@@ -143,7 +143,7 @@ void mousse::CloudFunctionObjectList<CloudType>::postFace
   bool& keepParticle
 )
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).postFace(p, faceI, keepParticle);
     if (!keepParticle)

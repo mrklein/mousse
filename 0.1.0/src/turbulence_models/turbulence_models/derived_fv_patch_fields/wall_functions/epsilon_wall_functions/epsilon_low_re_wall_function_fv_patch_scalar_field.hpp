@@ -58,7 +58,7 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("epsilonLowReWallFunction");
+  TYPE_NAME("epsilonLowReWallFunction");
   // Constructors
     //- Construct from patch and internal field
     epsilonLowReWallFunctionFvPatchScalarField

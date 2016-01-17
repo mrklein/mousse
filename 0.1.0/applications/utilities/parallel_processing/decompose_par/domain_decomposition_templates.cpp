@@ -17,7 +17,7 @@ void mousse::domainDecomposition::processInterCyclics
 ) const
 {
   // Processor boundaries from split cyclics
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     if (isA<cyclicPolyPatch>(patches[patchi]))
     {
@@ -31,23 +31,22 @@ void mousse::domainDecomposition::processInterCyclics
       }
       // cyclic: check opposite side on this processor
       const labelUList& patchFaceCells = pp.faceCells();
-      const labelUList& nbrPatchFaceCells =
-        pp.neighbPatch().faceCells();
+      const labelUList& nbrPatchFaceCells = pp.neighbPatch().faceCells();
       // Store old sizes. Used to detect which inter-proc patches
       // have been added to.
-      labelListList oldInterfaceSizes(nProcs_);
-      forAll(oldInterfaceSizes, procI)
+      labelListList oldInterfaceSizes{nProcs_};
+      FOR_ALL(oldInterfaceSizes, procI)
       {
         labelList& curOldSizes = oldInterfaceSizes[procI];
         curOldSizes.setSize(interPatchFaces[procI].size());
-        forAll(curOldSizes, interI)
+        FOR_ALL(curOldSizes, interI)
         {
           curOldSizes[interI] =
             interPatchFaces[procI][interI].size();
         }
       }
       // Add faces with different owner and neighbour processors
-      forAll(patchFaceCells, facei)
+      FOR_ALL(patchFaceCells, facei)
       {
         const label ownerProc = cellToProc_[patchFaceCells[facei]];
         const label nbrProc = cellToProc_[nbrPatchFaceCells[facei]];
@@ -65,10 +64,10 @@ void mousse::domainDecomposition::processInterCyclics
         }
       }
       // 1. Check if any faces added to existing interfaces
-      forAll(oldInterfaceSizes, procI)
+      FOR_ALL(oldInterfaceSizes, procI)
       {
         const labelList& curOldSizes = oldInterfaceSizes[procI];
-        forAll(curOldSizes, interI)
+        FOR_ALL(curOldSizes, interI)
         {
           label oldSz = curOldSizes[interI];
           if (interPatchFaces[procI][interI].size() > oldSz)
@@ -80,7 +79,7 @@ void mousse::domainDecomposition::processInterCyclics
         }
       }
       // 2. Any new interfaces
-      forAll(subPatchIDs, procI)
+      FOR_ALL(subPatchIDs, procI)
       {
         label nIntfcs = interPatchFaces[procI].size();
         subPatchIDs[procI].setSize(nIntfcs, labelList(1, patchi));

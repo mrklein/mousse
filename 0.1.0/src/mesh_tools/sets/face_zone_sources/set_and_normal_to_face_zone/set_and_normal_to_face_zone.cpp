@@ -6,19 +6,22 @@
 #include "poly_mesh.hpp"
 #include "face_zone_set.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(setAndNormalToFaceZone, 0);
-addToRunTimeSelectionTable(topoSetSource, setAndNormalToFaceZone, word);
-addToRunTimeSelectionTable(topoSetSource, setAndNormalToFaceZone, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(setAndNormalToFaceZone, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setAndNormalToFaceZone, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setAndNormalToFaceZone, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::setAndNormalToFaceZone::usage_
 (
   setAndNormalToFaceZone::typeName,
   "\n    Usage: setAndNormalToFaceZone <faceSet> <normal>\n\n"
   "    Select all faces in the faceSet and orient using normal.\n\n"
 );
+
 // Constructors 
 mousse::setAndNormalToFaceZone::setAndNormalToFaceZone
 (
@@ -63,7 +66,7 @@ void mousse::setAndNormalToFaceZone::applyToSet
 {
   if (!isA<faceZoneSet>(set))
   {
-    WarningIn
+    WARNING_IN
     (
       "setAndNormalToFaceZone::applyToSet"
       "("
@@ -86,7 +89,7 @@ void mousse::setAndNormalToFaceZone::applyToSet
       DynamicList<bool> newFlipMap(fzSet.flipMap());
       const faceList& faces = mesh_.faces();
       const pointField& points = mesh_.points();
-      forAllConstIter(faceSet, fSet, iter)
+      FOR_ALL_CONST_ITER(faceSet, fSet, iter)
       {
         label faceI = iter.key();
         if (!fzSet.found(faceI))
@@ -116,7 +119,7 @@ void mousse::setAndNormalToFaceZone::applyToSet
       // Start off empty
       DynamicList<label> newAddressing(fzSet.addressing().size());
       DynamicList<bool> newFlipMap(fzSet.flipMap().size());
-      forAll(fzSet.addressing(), i)
+      FOR_ALL(fzSet.addressing(), i)
       {
         if (!loadedSet.found(fzSet.addressing()[i]))
         {

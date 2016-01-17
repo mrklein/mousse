@@ -7,10 +7,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(CaCO3, 0);
-  addToRunTimeSelectionTable(solidProperties, CaCO3,);
-  addToRunTimeSelectionTable(solidProperties, CaCO3, Istream);
-  addToRunTimeSelectionTable(solidProperties, CaCO3, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(CaCO3, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, CaCO3,);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, CaCO3, Istream);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidProperties, CaCO3, dictionary);
 }
 // Constructors 
 mousse::CaCO3::CaCO3()
@@ -19,7 +19,7 @@ mousse::CaCO3::CaCO3()
 {
   if (debug)
   {
-    WarningIn("CaCO3::CaCO3()")
+    WARNING_IN("CaCO3::CaCO3()")
       << "Properties of CaCO3 need to be checked!!!"
       << endl;
   }

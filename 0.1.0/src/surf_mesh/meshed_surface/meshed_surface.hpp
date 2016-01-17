@@ -99,7 +99,7 @@ public:
     //- Face type used
     typedef Face FaceType;
     //- Runtime type information
-    ClassName("MeshedSurface");
+    CLASS_NAME("MeshedSurface");
   // Static
     //- Face storage only handles triangulated faces
     inline static bool isTri();
@@ -153,7 +153,7 @@ public:
     //- Construct from database
     MeshedSurface(const Time&, const word& surfName="");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       MeshedSurface,
@@ -175,7 +175,7 @@ public:
   //- Destructor
   virtual ~MeshedSurface();
   // Member Function Selectors
-    declareMemberFunctionSelectionTable
+    DECLARE_MEMBER_FUNCTION_SELECTION_TABLE
     (
       void,
       UnsortedMeshedSurface,

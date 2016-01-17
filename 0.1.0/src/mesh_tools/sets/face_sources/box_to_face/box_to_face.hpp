@@ -26,7 +26,7 @@ class boxToFace
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("boxToFace");
+  TYPE_NAME("boxToFace");
   // Constructors
     //- Construct from components
     boxToFace

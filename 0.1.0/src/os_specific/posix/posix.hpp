@@ -4,13 +4,16 @@
 //   posix.cpp
 #ifndef posix_hpp_
 #define posix_hpp_
+
 #include "class_name.hpp"
+
 namespace mousse
 {
 namespace POSIX
 {
-  //- Declare name of the class and its debug switch
-  NamespaceName("POSIX");
+//- Declare name of the class and its debug switch
+NAMESPACE_NAME("POSIX");
 }
 }  // namespace mousse
+
 #endif

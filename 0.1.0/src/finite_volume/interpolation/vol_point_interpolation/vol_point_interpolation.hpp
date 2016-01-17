@@ -61,16 +61,16 @@ class volPointInterpolation
     (
       GeometricField<Type, pointPatchField, pointMesh>&
     ) const;
-    //- Disallow default bitwise copy construct
-    volPointInterpolation(const volPointInterpolation&);
-    //- Disallow default bitwise assignment
-    void operator=(const volPointInterpolation&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("volPointInterpolation");
+  CLASS_NAME("volPointInterpolation");
   // Constructors
     //- Constructor given fvMesh and pointMesh.
     explicit volPointInterpolation(const fvMesh&);
+    //- Disallow default bitwise copy construct
+    volPointInterpolation(const volPointInterpolation&) = delete;
+    //- Disallow default bitwise assignment
+    volPointInterpolation& operator=(const volPointInterpolation&) = delete;
   //- Destructor
   ~volPointInterpolation();
   // Member functions

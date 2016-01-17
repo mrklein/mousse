@@ -6,12 +6,12 @@
 // Static Member Functions
 namespace mousse
 {
-  defineTypeNameAndDebug(basicMultiComponentMixture, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(basicMultiComponentMixture, 0);
 }
 // Constructors 
 mousse::basicMultiComponentMixture::basicMultiComponentMixture
 (
-  const dictionary& thermoDict,
+  const dictionary& /*thermoDict*/,
   const wordList& specieNames,
   const fvMesh& mesh,
   const word& phaseName
@@ -20,7 +20,7 @@ mousse::basicMultiComponentMixture::basicMultiComponentMixture
   species_(specieNames),
   Y_(species_.size())
 {
-  forAll(species_, i)
+  FOR_ALL(species_, i)
   {
     IOobject header
     (

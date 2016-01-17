@@ -24,7 +24,7 @@ class PlessisMasliyahDragForce
     scalar CdRe(const scalar Re) const;
 public:
   //- Runtime type information
-  TypeName("PlessisMasliyahDrag");
+  TYPE_NAME("PlessisMasliyahDrag");
   // Constructors
     //- Construct from mesh
     PlessisMasliyahDragForce

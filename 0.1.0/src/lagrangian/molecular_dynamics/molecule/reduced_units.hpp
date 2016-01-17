@@ -5,7 +5,6 @@
 //   mousse::reducedUnits
 // Description
 // SourceFiles
-//   reduced_units_i.hpp
 //   reduced_units.cpp
 //   reduced_units_io.cpp
 #ifndef reduced_units_hpp_
@@ -33,10 +32,6 @@ class reducedUnits
         scalar refNumberDensity_;
   // Private Member Functions
     void calcRefValues();
-    //- Disallow default bitwise copy construct
-    reducedUnits(const reducedUnits&);
-    //- Disallow default bitwise assignment
-    void operator=(const reducedUnits&);
 public:
   // Static data members
     //- Static data someStaticData
@@ -56,6 +51,10 @@ public:
     );
     //- Construct from dictionary
     reducedUnits(const IOdictionary& reducedUnitsDict);
+    //- Disallow default bitwise copy construct
+    reducedUnits(const reducedUnits&) = delete;
+    //- Disallow default bitwise assignment
+    reducedUnits& operator=(const reducedUnits&) = delete;
   //- Destructor
   ~reducedUnits();
   // Member Functions
@@ -82,5 +81,50 @@ public:
     friend Ostream& operator<<(Ostream&, const reducedUnits&);
 };
 }  // namespace mousse
-#include "reduced_units_i.hpp"
+
+// Member Functions 
+inline mousse::scalar mousse::reducedUnits::refLength() const
+{
+  return refLength_;
+}
+inline mousse::scalar mousse::reducedUnits::refTime() const
+{
+  return refTime_;
+}
+inline mousse::scalar mousse::reducedUnits::refMass() const
+{
+  return refMass_;
+}
+inline mousse::scalar mousse::reducedUnits::refTemp() const
+{
+  return refTemp_;
+}
+inline mousse::scalar mousse::reducedUnits::refEnergy() const
+{
+  return refEnergy_;
+}
+inline mousse::scalar mousse::reducedUnits::refForce() const
+{
+  return refForce_;
+}
+inline mousse::scalar mousse::reducedUnits::refVelocity() const
+{
+  return refVelocity_;
+}
+inline mousse::scalar mousse::reducedUnits::refVolume() const
+{
+  return refVolume_;
+}
+inline mousse::scalar mousse::reducedUnits::refPressure() const
+{
+  return refPressure_;
+}
+inline mousse::scalar mousse::reducedUnits::refMassDensity() const
+{
+  return refMassDensity_;
+}
+inline mousse::scalar mousse::reducedUnits::refNumberDensity() const
+{
+  return refNumberDensity_;
+}
 #endif

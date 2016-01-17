@@ -22,14 +22,14 @@ private:
   // Private Member Functions
     //- Create IO object if dictionary is present
     IOobject createIOobject(const fvMesh& mesh) const;
-    //- Disallow default bitwise copy construct
-    IOporosityModelList(const IOporosityModelList&);
-    //- Disallow default bitwise assignment
-    void operator=(const IOporosityModelList&);
 public:
   // Constructors
     //- Construct from mesh
     IOporosityModelList(const fvMesh& mesh);
+    //- Disallow default bitwise copy construct
+    IOporosityModelList(const IOporosityModelList&) = delete;
+    //- Disallow default bitwise assignment
+    IOporosityModelList& operator=(const IOporosityModelList&) = delete;
     //- Destructor
     virtual ~IOporosityModelList()
     {}

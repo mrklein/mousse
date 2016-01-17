@@ -9,14 +9,18 @@
 //   this class abstract since it is quite handy to work on topoSets.
 // SourceFiles
 //   topo_set.cpp
+
 #ifndef topo_set_hpp_
 #define topo_set_hpp_
+
 #include "hash_set.hpp"
 #include "reg_ioobject.hpp"
 #include "label_list.hpp"
 #include "type_info.hpp"
 #include "auto_ptr.hpp"
 #include "point_field.hpp"
+#include "run_time_selection_tables.hpp"
+
 namespace mousse
 {
 class mapPolyMesh;
@@ -59,17 +63,15 @@ protected:
       const pointField& coords,
       const label maxLen
     ) const;
-    //- Disallow default bitwise copy construct
-    topoSet(const topoSet&);
 public:
   //- Runtime type information
-  TypeName("topoSet");
+  TYPE_NAME("topoSet");
   // Static
     //- Name of file set will use.
     static fileName localPath(const polyMesh& mesh, const word& name);
   // Declare run-time constructor selection table
     // For the direct constructor
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       topoSet,
@@ -83,7 +85,7 @@ public:
       (mesh, name, r, w)
     );
     // For the constructor from size
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       topoSet,
@@ -97,7 +99,7 @@ public:
       (mesh, name, size, w)
     );
     // For the constructor as copy
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       topoSet,
@@ -151,9 +153,11 @@ public:
     //- Clone
     autoPtr<topoSet> clone() const
     {
-      notImplemented("autoPtr<topoSet> clone() const");
-      return autoPtr<topoSet>(NULL);
+      NOT_IMPLEMENTED("autoPtr<topoSet> clone() const");
+      return autoPtr<topoSet>{NULL};
     }
+    //- Disallow default bitwise copy construct
+    topoSet(const topoSet&) = delete;
   // Selectors
     //- Return a pointer to a toposet read from file
     static autoPtr<topoSet> New

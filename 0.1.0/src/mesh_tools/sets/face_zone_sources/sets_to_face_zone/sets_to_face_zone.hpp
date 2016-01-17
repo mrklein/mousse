@@ -28,7 +28,7 @@ class setsToFaceZone
     const Switch flip_;
 public:
   //- Runtime type information
-  TypeName("setsToFaceZone");
+  TYPE_NAME("setsToFaceZone");
   // Constructors
     //- Construct from components
     setsToFaceZone

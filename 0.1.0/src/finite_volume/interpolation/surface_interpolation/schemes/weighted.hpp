@@ -20,31 +20,28 @@ class weighted
 {
   // Private member data
     const surfaceScalarField& weights_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const weighted&);
 public:
   //- Runtime type information
-  TypeName("weighted");
+  TYPE_NAME("weighted");
   // Constructors
     //- Construct from weights
     weighted(const surfaceScalarField& weights)
     :
-      surfaceInterpolationScheme<Type>(weights.mesh()),
-      weights_(weights)
+      surfaceInterpolationScheme<Type>{weights.mesh()},
+      weights_{weights}
     {}
     //- Construct from Istream
     weighted(const fvMesh& mesh, Istream& is)
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       weights_
-      (
+      {
         this->mesh().objectRegistry::template
         lookupObject<const surfaceScalarField>
         (
           word(is)
         )
-      )
+      }
     {}
     //- Construct from faceFlux and Istream
     weighted
@@ -54,16 +51,18 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       weights_
-      (
+      {
         this->mesh().objectRegistry::template
         lookupObject<const surfaceScalarField>
         (
-          word(is)
+          word{is}
         )
-      )
+      }
     {}
+    //- Disallow default bitwise assignment
+    weighted&operator=(const weighted&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights

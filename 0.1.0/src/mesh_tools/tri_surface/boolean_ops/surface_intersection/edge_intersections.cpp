@@ -19,7 +19,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(edgeIntersections, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(edgeIntersections, 0);
 scalar edgeIntersections::alignedCos_ = cos(degToRad(89.0));
 }
 // Private Member Functions 
@@ -30,13 +30,13 @@ void mousse::edgeIntersections::checkEdges(const triSurface& surf)
   const labelListList& edgeFaces = surf.edgeFaces();
   treeBoundBox bb(localPoints);
   scalar minSize = SMALL * bb.minDim();
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     scalar eMag = e.mag(localPoints);
     if (eMag < minSize)
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::edgeIntersections::checkEdges(const triSurface& surf)"
       )   << "Edge " << edgeI << " vertices " << e
@@ -48,7 +48,7 @@ void mousse::edgeIntersections::checkEdges(const triSurface& surf)
     }
     if (edgeFaces[edgeI].size() == 1)
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::edgeIntersections::checkEdges(const triSurface& surf)"
       )   << "Edge " << edgeI << " vertices " << e
@@ -83,7 +83,7 @@ void mousse::edgeIntersections::intersectEdges
   pointField end(edgeLabels.size());
   vectorField edgeDirs(edgeLabels.size());
   // Go through all edges, calculate intersections
-  forAll(edgeLabels, i)
+  FOR_ALL(edgeLabels, i)
   {
     label edgeI = edgeLabels[i];
     if (debug)// && (i % 1000 == 0))
@@ -113,13 +113,13 @@ void mousse::edgeIntersections::intersectEdges
   );
   label nHits = 0;
   // Classify the hits
-  forAll(edgeLabels, i)
+  FOR_ALL(edgeLabels, i)
   {
     const label edgeI = edgeLabels[i];
     labelList& intersectionTypes = classification_[edgeI];
     intersectionTypes.setSize(edgeIntersections[i].size(), -1);
     this->operator[](edgeI).transfer(edgeIntersections[i]);
-    forAll(intersectionTypes, hitI)
+    FOR_ALL(intersectionTypes, hitI)
     {
       const pointIndexHit& pHit = this->operator[](edgeI)[hitI];
       label& hitType = intersectionTypes[hitI];
@@ -208,7 +208,7 @@ bool mousse::edgeIntersections::inlinePerturb
         scalar t = 4.0*(rndGen.scalar01() - 0.5);
         points1[v0] += t*surf1PointTol[e[0]]*n;
         const labelList& pEdges = surf1.pointEdges()[e[0]];
-        forAll(pEdges, i)
+        FOR_ALL(pEdges, i)
         {
           affectedEdges[pEdges[i]] = true;
         }
@@ -219,7 +219,7 @@ bool mousse::edgeIntersections::inlinePerturb
         scalar t = 4.0*(rndGen.scalar01() - 0.5);
         points1[v1] += t*surf1PointTol[e[1]]*n;
         const labelList& pEdges = surf1.pointEdges()[e[1]];
-        forAll(pEdges, i)
+        FOR_ALL(pEdges, i)
         {
           affectedEdges[pEdges[i]] = true;
         }
@@ -243,7 +243,7 @@ bool mousse::edgeIntersections::rotatePerturb
   const labelList& meshPoints = surf1.meshPoints();
   const labelList& edgeEnds = classification_[edgeI];
   bool hasPerturbed = false;
-  forAll(edgeEnds, i)
+  FOR_ALL(edgeEnds, i)
   {
     if (edgeEnds[i] == 2)
     {
@@ -271,7 +271,7 @@ bool mousse::edgeIntersections::rotatePerturb
       points1[meshPoints[pointI]] += rndVec;
       // Mark edges affected by change to point
       const labelList& pEdges = surf1.pointEdges()[pointI];
-      forAll(pEdges, i)
+      FOR_ALL(pEdges, i)
       {
         affectedEdges[pEdges[i]] = true;
       }
@@ -299,7 +299,7 @@ bool mousse::edgeIntersections::offsetPerturb
   const List<pointIndexHit>& hits = operator[](edgeI);
   bool hasPerturbed = false;
   // For all hits on edge
-  forAll(hits, i)
+  FOR_ALL(hits, i)
   {
     const pointIndexHit& pHit = hits[i];
     // Classify point on face of surface2
@@ -317,7 +317,7 @@ bool mousse::edgeIntersections::offsetPerturb
       points1[meshPoints[e[0]]] += offset;
       // Mark edges affected by change to e0
       const labelList& pEdges0 = surf1.pointEdges()[e[0]];
-      forAll(pEdges0, i)
+      FOR_ALL(pEdges0, i)
       {
         affectedEdges[pEdges0[i]] = true;
       }
@@ -325,7 +325,7 @@ bool mousse::edgeIntersections::offsetPerturb
       points1[meshPoints[e[1]]] += offset;
       // Mark edges affected by change to e1
       const labelList& pEdges1 = surf1.pointEdges()[e[1]];
-      forAll(pEdges1, i)
+      FOR_ALL(pEdges1, i)
       {
         affectedEdges[pEdges1[i]] = true;
       }
@@ -359,7 +359,7 @@ mousse::edgeIntersections::edgeIntersections
   // Current set of edges to test
   labelList edgesToTest(surf1.nEdges());
   // Start off with all edges
-  forAll(edgesToTest, i)
+  FOR_ALL(edgesToTest, i)
   {
     edgesToTest[i] = i;
   }
@@ -390,11 +390,11 @@ mousse::scalarField mousse::edgeIntersections::minEdgeLength(const triSurface& s
   const labelListList& pointEdges = surf.pointEdges();
   const edgeList& edges = surf.edges();
   scalarField minLen(localPoints.size());
-  forAll(minLen, pointI)
+  FOR_ALL(minLen, pointI)
   {
     const labelList& pEdges = pointEdges[pointI];
     scalar minDist = GREAT;
-    forAll(pEdges, i)
+    FOR_ALL(pEdges, i)
     {
       minDist = min(minDist, edges[pEdges[i]].mag(localPoints));
     }
@@ -417,7 +417,7 @@ mousse::label mousse::edgeIntersections::removeDegenerates
   // Current set of edges to (re)test
   labelList edgesToTest(surf1.nEdges());
   // Start off with all edges
-  forAll(edgesToTest, i)
+  FOR_ALL(edgesToTest, i)
   {
     edgesToTest[i] = i;
   }
@@ -430,7 +430,7 @@ mousse::label mousse::edgeIntersections::removeDegenerates
     label nShifted = 0;
     label nRotated = 0;
     label nOffset = 0;
-    forAll(edgesToTest, i)
+    FOR_ALL(edgesToTest, i)
     {
       label edgeI = edgesToTest[i];
       // If edge not already marked for retesting
@@ -500,7 +500,7 @@ mousse::label mousse::edgeIntersections::removeDegenerates
     // Repack affected edges
     labelList newEdgesToTest(surf1.nEdges());
     label newEdgeI = 0;
-    forAll(affectedEdges, edgeI)
+    FOR_ALL(affectedEdges, edgeI)
     {
       if (affectedEdges[edgeI])
       {
@@ -519,7 +519,7 @@ mousse::label mousse::edgeIntersections::removeDegenerates
     edgesToTest.transfer(newEdgesToTest);
     if (edgesToTest.empty())
     {
-      FatalErrorIn("perturb") << "oops" << abort(FatalError);
+      FATAL_ERROR_IN("perturb") << "oops" << abort(FatalError);
     }
     // Re intersect moved edges.
     intersectEdges
@@ -541,7 +541,7 @@ void mousse::edgeIntersections::merge
   const bool merge
 )
 {
-  forAll(subInfo, subI)
+  FOR_ALL(subInfo, subI)
   {
     const List<pointIndexHit>& subHits = subInfo[subI];
     const labelList& subClass = subInfo.classification()[subI];
@@ -555,7 +555,7 @@ void mousse::edgeIntersections::merge
       sz = intersections.size();
     }
     label nNew = 0;
-    forAll(subHits, i)
+    FOR_ALL(subHits, i)
     {
       const pointIndexHit& subHit = subHits[i];
       bool foundFace = false;
@@ -575,7 +575,7 @@ void mousse::edgeIntersections::merge
     intersections.setSize(sz+nNew);
     intersectionTypes.setSize(sz+nNew);
     nNew = sz;
-    forAll(subHits, i)
+    FOR_ALL(subHits, i)
     {
       const pointIndexHit& subHit = subHits[i];
       bool foundFace = false;

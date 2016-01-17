@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "nas_surface_format.hpp"
+
 #include "ifstream.hpp"
 #include "istring_stream.hpp"
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::NASsurfaceFormat<Face>::NASsurfaceFormat
@@ -14,6 +16,8 @@ mousse::fileFormats::NASsurfaceFormat<Face>::NASsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::NASsurfaceFormat<Face>::read
@@ -23,23 +27,23 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
 {
   const bool mustTriangulate = this->isTri();
   this->clear();
-  IFstream is(filename);
+  IFstream is{filename};
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::NASsurfaceFormat::read(const fileName&)"
     )
-      << "Cannot read file " << filename
-      << exit(FatalError);
+    << "Cannot read file " << filename
+    << exit(FatalError);
   }
   // Nastran index of points
-  DynamicList<label>  pointId;
-  DynamicList<point>  dynPoints;
-  DynamicList<Face>   dynFaces;
-  DynamicList<label>  dynZones;
-  DynamicList<label>  dynSizes;
-  Map<label>          lookup;
+  DynamicList<label> pointId;
+  DynamicList<point> dynPoints;
+  DynamicList<Face> dynFaces;
+  DynamicList<label> dynZones;
+  DynamicList<label> dynSizes;
+  Map<label> lookup;
   // assume the types are not intermixed
   // leave faces that didn't have a group in 0
   bool sorted = true;
@@ -51,7 +55,7 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
   // We read them and store the PSHELL types which are used to name
   // the zones.
   label ansaId = -1;
-  word  ansaType, ansaName;
+  word ansaType, ansaName;
   // A single warning per unrecognized command
   HashSet<word> unhandledCmd;
   while (is.good())
@@ -64,12 +68,7 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
       string::size_type sem0 = line.find (';', 0);
       string::size_type sem1 = line.find (';', sem0+1);
       string::size_type sem2 = line.find (';', sem1+1);
-      if
-      (
-        sem0 != string::npos
-      && sem1 != string::npos
-      && sem2 != string::npos
-      )
+      if(sem0 != string::npos && sem1 != string::npos && sem2 != string::npos)
       {
         ansaId = readLabel
         (
@@ -95,21 +94,15 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
     }
     // Hypermesh extension
     // $HMNAME COMP                   1"partName"
-    if
-    (
-      line.substr(0, 12) == "$HMNAME COMP"
-    && line.find ('"') != string::npos
-    )
+    if (line.substr(0, 12) == "$HMNAME COMP"
+        && line.find ('"') != string::npos)
     {
-      label groupId = readLabel
-      (
-        IStringStream(line.substr(16, 16))()
-      );
-      IStringStream lineStream(line.substr(32));
+      label groupId = readLabel(IStringStream(line.substr(16, 16))());
+      IStringStream lineStream{line.substr(32)};
       string rawName;
       lineStream >> rawName;
       string::stripInvalid<word>(rawName);
-      word groupName(rawName);
+      word groupName{rawName};
       nameLookup.insert(groupId, groupName);
       // Info<< "group " << groupId << " => " << groupName << endl;
     }
@@ -138,7 +131,7 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
       }
     }
     // Read first word
-    IStringStream lineStream(line);
+    IStringStream lineStream{line};
     word cmd;
     lineStream >> cmd;
     if (cmd == "CTRIA3")
@@ -175,10 +168,10 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
       face fQuad(4);
       labelUList& f = static_cast<labelUList&>(fQuad);
       label groupId = readLabel(IStringStream(line.substr(16,8))());
-      fQuad[0] = readLabel(IStringStream(line.substr(24,8))());
-      fQuad[1] = readLabel(IStringStream(line.substr(32,8))());
-      fQuad[2] = readLabel(IStringStream(line.substr(40,8))());
-      fQuad[3] = readLabel(IStringStream(line.substr(48,8))());
+      fQuad[0] = readLabel(IStringStream{line.substr(24,8)}());
+      fQuad[1] = readLabel(IStringStream{line.substr(32,8)}());
+      fQuad[2] = readLabel(IStringStream{line.substr(40,8)}());
+      fQuad[3] = readLabel(IStringStream{line.substr(48,8)}());
       // Convert groupID into zoneId
       Map<label>::const_iterator fnd = lookup.find(groupId);
       if (fnd != lookup.end())
@@ -234,15 +227,15 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
       is.getLine(line);
       if (line[0] != '*')
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "fileFormats::NASsurfaceFormat::read(const fileName&)"
         )
-          << "Expected continuation symbol '*' when reading GRID*"
-          << " (double precision coordinate) format" << nl
-          << "Read:" << line << nl
-          << "File:" << is.name() << " line:" << is.lineNumber()
-          << exit(FatalError);
+        << "Expected continuation symbol '*' when reading GRID*"
+        << " (double precision coordinate) format" << nl
+        << "Read:" << line << nl
+        << "File:" << is.name() << " line:" << is.lineNumber()
+        << exit(FatalError);
       }
       scalar z = parseNASCoord(line.substr(8, 16));
       pointId.append(index);
@@ -273,17 +266,17 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
   pointId.shrink();
   dynFaces.shrink();
   // Build inverse mapping (NASTRAN pointId -> index)
-  Map<label> mapPointId(2*pointId.size());
-  forAll(pointId, i)
+  Map<label> mapPointId{2*pointId.size()};
+  FOR_ALL(pointId, i)
   {
     mapPointId.insert(pointId[i], i);
   }
   // Relabel faces
   // ~~~~~~~~~~~~~
-  forAll(dynFaces, i)
+  FOR_ALL(dynFaces, i)
   {
     Face& f = dynFaces[i];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       f[fp] = mapPointId[f[fp]];
     }
@@ -291,8 +284,8 @@ bool mousse::fileFormats::NASsurfaceFormat<Face>::read
   pointId.clearStorage();
   mapPointId.clear();
   // create default zone names, or from ANSA/Hypermesh information
-  List<word> names(dynSizes.size());
-  forAllConstIter(Map<label>, lookup, iter)
+  List<word> names{dynSizes.size()};
+  FOR_ALL_CONST_ITER(Map<label>, lookup, iter)
   {
     const label zoneI  = iter();
     const label groupI = iter.key();

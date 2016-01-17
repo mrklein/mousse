@@ -50,19 +50,19 @@ mousse::fv::gaussGrad<Type>::gradf
   const vectorField& Sf = mesh.Sf();
   Field<GradType>& igGrad = gGrad;
   const Field<Type>& issf = ssf;
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     GradType Sfssf = Sf[facei]*issf[facei];
     igGrad[owner[facei]] += Sfssf;
     igGrad[neighbour[facei]] -= Sfssf;
   }
-  forAll(mesh.boundary(), patchi)
+  FOR_ALL(mesh.boundary(), patchi)
   {
     const labelUList& pFaceCells =
       mesh.boundary()[patchi].faceCells();
     const vectorField& pSf = mesh.Sf().boundaryField()[patchi];
     const fvsPatchField<Type>& pssf = ssf.boundaryField()[patchi];
-    forAll(mesh.boundary()[patchi], facei)
+    FOR_ALL(mesh.boundary()[patchi], facei)
     {
       igGrad[pFaceCells[facei]] += pSf[facei]*pssf[facei];
     }
@@ -106,7 +106,7 @@ void mousse::fv::gaussGrad<Type>::correctBoundaryConditions
   >& gGrad
 )
 {
-  forAll(vsf.boundaryField(), patchi)
+  FOR_ALL(vsf.boundaryField(), patchi)
   {
     if (!vsf.boundaryField()[patchi].coupled())
     {

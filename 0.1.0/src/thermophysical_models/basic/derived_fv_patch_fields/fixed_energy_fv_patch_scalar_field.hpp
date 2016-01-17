@@ -31,7 +31,7 @@ class fixedEnergyFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("fixedEnergy");
+  TYPE_NAME("fixedEnergy");
   // Constructors
     //- Construct from patch and internal field
     fixedEnergyFvPatchScalarField

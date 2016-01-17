@@ -162,13 +162,9 @@ class regionSizeDistribution
       const scalarField& binCount,        // per bin number of regions
       const coordSet& coords              // graph data for bins
     ) const;
-    //- Disallow default bitwise copy construct
-    regionSizeDistribution(const regionSizeDistribution&);
-    //- Disallow default bitwise assignment
-    void operator=(const regionSizeDistribution&);
 public:
   //- Runtime type information
-  TypeName("regionSizeDistribution");
+  TYPE_NAME("regionSizeDistribution");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -179,6 +175,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    regionSizeDistribution(const regionSizeDistribution&) = delete;
+    //- Disallow default bitwise assignment
+    regionSizeDistribution& operator=(const regionSizeDistribution&) = delete;
   // Destructor
     virtual ~regionSizeDistribution();
   // Member Functions

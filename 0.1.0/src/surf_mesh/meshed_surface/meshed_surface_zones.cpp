@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "meshed_surface.hpp"
+
 // Protected Member Functions 
 template<class Face>
 void mousse::MeshedSurface<Face>::checkZones()
@@ -13,33 +14,35 @@ void mousse::MeshedSurface<Face>::checkZones()
   if (zones.size())
   {
     label count = 0;
-    forAll(zones, zoneI)
+    FOR_ALL(zones, zoneI)
     {
       zones[zoneI].start() = count;
       count += zones[zoneI].size();
     }
     if (count < this->size())
     {
-      WarningIn
+      WARNING_IN
       (
         "MeshedSurface::checkZones()\n"
       )
-        << "more faces " << this->size() << " than zones " << count
-        << " ... extending final zone"
-        << endl;
+      << "more faces " << this->size() << " than zones " << count
+      << " ... extending final zone"
+      << endl;
       zones.last().size() += count - this->size();
     }
     else if (count > this->size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "MeshedSurface::checkZones()\n"
       )
-        << "more zones " << count << " than faces " << this->size()
-        << exit(FatalError);
+      << "more zones " << count << " than faces " << this->size()
+      << exit(FatalError);
     }
   }
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::sortFacesAndStore
 (
@@ -48,7 +51,7 @@ void mousse::MeshedSurface<Face>::sortFacesAndStore
   const bool sorted
 )
 {
-  List<Face>  oldFaces(unsortedFaces);
+  List<Face> oldFaces(unsortedFaces);
   List<label> zones(zoneIds);
   if (sorted)
   {
@@ -63,8 +66,8 @@ void mousse::MeshedSurface<Face>::sortFacesAndStore
     sortedOrder(zones, faceMap);
     zones.clear();
     // sorted faces
-    List<Face> newFaces(faceMap.size());
-    forAll(faceMap, faceI)
+    List<Face> newFaces{faceMap.size()};
+    FOR_ALL(faceMap, faceI)
     {
       // use transfer to recover memory where possible
       newFaces[faceI].transfer(oldFaces[faceMap[faceI]]);
@@ -73,6 +76,8 @@ void mousse::MeshedSurface<Face>::sortFacesAndStore
   }
   zones.clear();
 }
+
+
 // Member Functions 
 template<class Face>
 void mousse::MeshedSurface<Face>::addZones
@@ -84,7 +89,7 @@ void mousse::MeshedSurface<Face>::addZones
   label nZone = 0;
   surfZoneList& zones = this->storedZones();
   zones.setSize(zones.size());
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     if (srfZones[zoneI].size() || !cullEmpty)
     {
@@ -94,6 +99,8 @@ void mousse::MeshedSurface<Face>::addZones
   }
   zones.setSize(nZone);
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::addZones
 (
@@ -106,23 +113,25 @@ void mousse::MeshedSurface<Face>::addZones
   label nZone = 0;
   surfZoneList& zones = this->storedZones();
   zones.setSize(sizes.size());
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     if (sizes[zoneI] || !cullEmpty)
     {
       zones[nZone] = surfZone
-      (
+      {
         names[zoneI],
         sizes[zoneI],
         start,
         nZone
-      );
+      };
       start += sizes[zoneI];
       nZone++;
     }
   }
   zones.setSize(nZone);
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::addZones
 (
@@ -134,7 +143,7 @@ void mousse::MeshedSurface<Face>::addZones
   label nZone = 0;
   surfZoneList& zones = this->storedZones();
   zones.setSize(sizes.size());
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     if (sizes[zoneI] || !cullEmpty)
     {
@@ -151,6 +160,8 @@ void mousse::MeshedSurface<Face>::addZones
   }
   zones.setSize(nZone);
 }
+
+
 template<class Face>
 void mousse::MeshedSurface<Face>::removeZones()
 {

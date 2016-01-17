@@ -17,7 +17,7 @@ void mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::calculate()
   scalarField& psiCells = this->psi_.internalField();
   scalarField& muCells = this->mu_.internalField();
   scalarField& alphaCells = this->alpha_.internalField();
-  forAll(TCells, celli)
+  FOR_ALL(TCells, celli)
   {
     const typename MixtureType::thermoType& mixture_ =
       this->cellMixture(celli);
@@ -37,7 +37,7 @@ void mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::calculate()
       TuCells[celli]
     );
   }
-  forAll(this->T_.boundaryField(), patchi)
+  FOR_ALL(this->T_.boundaryField(), patchi)
   {
     fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
@@ -49,7 +49,7 @@ void mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::calculate()
     fvPatchScalarField& palpha_ = this->alpha_.boundaryField()[patchi];
     if (pT.fixesValue())
     {
-      forAll(pT, facei)
+      FOR_ALL(pT, facei)
       {
         const typename MixtureType::thermoType& mixture_ =
           this->patchFaceMixture(patchi, facei);
@@ -61,7 +61,7 @@ void mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::calculate()
     }
     else
     {
-      forAll(pT, facei)
+      FOR_ALL(pT, facei)
       {
         const typename MixtureType::thermoType& mixture_ =
           this->patchFaceMixture(patchi, facei);
@@ -115,7 +115,7 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::heheuPsiThermo
   scalarField& heuCells = this->heu_.internalField();
   const scalarField& pCells = this->p_.internalField();
   const scalarField& TuCells = this->Tu_.internalField();
-  forAll(heuCells, celli)
+  FOR_ALL(heuCells, celli)
   {
     heuCells[celli] = this->cellReactants(celli).HE
     (
@@ -123,12 +123,12 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::heheuPsiThermo
       TuCells[celli]
     );
   }
-  forAll(this->heu_.boundaryField(), patchi)
+  FOR_ALL(this->heu_.boundaryField(), patchi)
   {
     fvPatchScalarField& pheu = this->heu_.boundaryField()[patchi];
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pTu = this->Tu_.boundaryField()[patchi];
-    forAll(pheu, facei)
+    FOR_ALL(pheu, facei)
     {
       pheu[facei] = this->patchFaceReactants(patchi, facei).HE
       (
@@ -174,7 +174,7 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::heu
 {
   tmp<scalarField> theu(new scalarField(Tu.size()));
   scalarField& heu = theu();
-  forAll(Tu, celli)
+  FOR_ALL(Tu, celli)
   {
     heu[celli] = this->cellReactants(cells[celli]).HE(p[celli], Tu[celli]);
   }
@@ -191,7 +191,7 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::heu
 {
   tmp<scalarField> theu(new scalarField(Tu.size()));
   scalarField& heu = theu();
-  forAll(Tu, facei)
+  FOR_ALL(Tu, facei)
   {
     heu[facei] =
       this->patchFaceReactants(patchi, facei).HE(p[facei], Tu[facei]);
@@ -223,7 +223,7 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::Tb() const
   const scalarField& pCells = this->p_.internalField();
   const scalarField& TCells = this->T_.internalField();
   const scalarField& hCells = this->he_.internalField();
-  forAll(TbCells, celli)
+  FOR_ALL(TbCells, celli)
   {
     TbCells[celli] = this->cellProducts(celli).THE
     (
@@ -232,13 +232,13 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::Tb() const
       TCells[celli]
     );
   }
-  forAll(Tb_.boundaryField(), patchi)
+  FOR_ALL(Tb_.boundaryField(), patchi)
   {
     fvPatchScalarField& pTb = Tb_.boundaryField()[patchi];
     const fvPatchScalarField& ph = this->he_.boundaryField()[patchi];
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
-    forAll(pTb, facei)
+    FOR_ALL(pTb, facei)
     {
       pTb[facei] =
         this->patchFaceProducts(patchi, facei)
@@ -272,17 +272,17 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::psiu() const
   scalarField& psiuCells = psiu.internalField();
   const scalarField& TuCells = this->Tu_.internalField();
   const scalarField& pCells = this->p_.internalField();
-  forAll(psiuCells, celli)
+  FOR_ALL(psiuCells, celli)
   {
     psiuCells[celli] =
       this->cellReactants(celli).psi(pCells[celli], TuCells[celli]);
   }
-  forAll(psiu.boundaryField(), patchi)
+  FOR_ALL(psiu.boundaryField(), patchi)
   {
     fvPatchScalarField& ppsiu = psiu.boundaryField()[patchi];
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pTu = this->Tu_.boundaryField()[patchi];
-    forAll(ppsiu, facei)
+    FOR_ALL(ppsiu, facei)
     {
       ppsiu[facei] =
         this->
@@ -317,17 +317,17 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::psib() const
   const volScalarField Tb_(Tb());
   const scalarField& TbCells = Tb_.internalField();
   const scalarField& pCells = this->p_.internalField();
-  forAll(psibCells, celli)
+  FOR_ALL(psibCells, celli)
   {
     psibCells[celli] =
       this->cellReactants(celli).psi(pCells[celli], TbCells[celli]);
   }
-  forAll(psib.boundaryField(), patchi)
+  FOR_ALL(psib.boundaryField(), patchi)
   {
     fvPatchScalarField& ppsib = psib.boundaryField()[patchi];
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pTb = Tb_.boundaryField()[patchi];
-    forAll(ppsib, facei)
+    FOR_ALL(ppsib, facei)
     {
       ppsib[facei] =
         this->patchFaceReactants
@@ -361,7 +361,7 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::muu() const
   scalarField& muuCells = muu_.internalField();
   const scalarField& pCells = this->p_.internalField();
   const scalarField& TuCells = this->Tu_.internalField();
-  forAll(muuCells, celli)
+  FOR_ALL(muuCells, celli)
   {
     muuCells[celli] = this->cellReactants(celli).mu
     (
@@ -369,12 +369,12 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::muu() const
       TuCells[celli]
     );
   }
-  forAll(muu_.boundaryField(), patchi)
+  FOR_ALL(muu_.boundaryField(), patchi)
   {
     fvPatchScalarField& pMuu = muu_.boundaryField()[patchi];
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pTu = this->Tu_.boundaryField()[patchi];
-    forAll(pMuu, facei)
+    FOR_ALL(pMuu, facei)
     {
       pMuu[facei] = this->patchFaceReactants(patchi, facei).mu
       (
@@ -411,7 +411,7 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::mub() const
   const volScalarField Tb_(Tb());
   const scalarField& pCells = this->p_.internalField();
   const scalarField& TbCells = Tb_.internalField();
-  forAll(mubCells, celli)
+  FOR_ALL(mubCells, celli)
   {
     mubCells[celli] = this->cellProducts(celli).mu
     (
@@ -419,12 +419,12 @@ mousse::heheuPsiThermo<BasicPsiThermo, MixtureType>::mub() const
       TbCells[celli]
     );
   }
-  forAll(mub_.boundaryField(), patchi)
+  FOR_ALL(mub_.boundaryField(), patchi)
   {
     fvPatchScalarField& pMub = mub_.boundaryField()[patchi];
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pTb = Tb_.boundaryField()[patchi];
-    forAll(pMub, facei)
+    FOR_ALL(pMub, facei)
     {
       pMub[facei] = this->patchFaceProducts(patchi, facei).mu
       (

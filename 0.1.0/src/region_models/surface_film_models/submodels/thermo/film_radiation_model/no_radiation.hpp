@@ -21,15 +21,9 @@ class noRadiation
 :
   public filmRadiationModel
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    noRadiation(const noRadiation&);
-    //- Disallow default bitwise assignment
-    void operator=(const noRadiation&);
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from surface film model and dictionary
     noRadiation
@@ -37,6 +31,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    noRadiation(const noRadiation&) = delete;
+    //- Disallow default bitwise assignment
+    noRadiation& operator=(const noRadiation&) = delete;
   //- Destructor
   virtual ~noRadiation();
   // Member Functions

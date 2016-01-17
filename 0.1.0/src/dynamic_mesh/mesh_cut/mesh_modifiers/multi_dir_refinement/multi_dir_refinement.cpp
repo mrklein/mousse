@@ -19,7 +19,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(multiDirRefinement, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(multiDirRefinement, 0);
 }
 // Private Statc Functions
 // Update refCells pattern for split cells. Note refCells is current
@@ -39,7 +39,7 @@ void mousse::multiDirRefinement::addCells
     Map<label>::const_iterator iter = splitMap.find(refCell.cellNo());
     if (iter == splitMap.end())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "multiDirRefinement::addCells(const Map<label>&"
         ", List<refineCell>&)"
@@ -58,7 +58,7 @@ void mousse::multiDirRefinement::update
 )
 {
   field.setSize(field.size() + splitMap.size());
-  forAllConstIter(Map<label>, splitMap, iter)
+  FOR_ALL_CONST_ITER(Map<label>, splitMap, iter)
   {
     field[iter()] = field[iter.key()];
   }
@@ -72,7 +72,7 @@ void mousse::multiDirRefinement::addCells
 {
   label newCellI = labels.size();
   labels.setSize(labels.size() + splitMap.size());
-  forAllConstIter(Map<label>, splitMap, iter)
+  FOR_ALL_CONST_ITER(Map<label>, splitMap, iter)
   {
     labels[newCellI++] = iter();
   }
@@ -86,10 +86,10 @@ void mousse::multiDirRefinement::addCells
 {
   // Construct inverse addressing: from new to original cell.
   labelList origCell(mesh.nCells(), -1);
-  forAll(addedCells_, cellI)
+  FOR_ALL(addedCells_, cellI)
   {
     const labelList& added = addedCells_[cellI];
-    forAll(added, i)
+    FOR_ALL(added, i)
     {
       label slave = added[i];
       if (origCell[slave] == -1)
@@ -98,7 +98,7 @@ void mousse::multiDirRefinement::addCells
       }
       else if (origCell[slave] != cellI)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "multiDirRefinement::addCells(const primitiveMesh&"
           ", const Map<label>&"
@@ -108,7 +108,7 @@ void mousse::multiDirRefinement::addCells
       }
     }
   }
-  forAllConstIter(Map<label>, splitMap, iter)
+  FOR_ALL_CONST_ITER(Map<label>, splitMap, iter)
   {
     label masterI = iter.key();
     label newCellI = iter();
@@ -118,7 +118,7 @@ void mousse::multiDirRefinement::addCells
     }
     if (masterI >= addedCells_.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "multiDirRefinement::addCells(const primitiveMesh&"
         ", const Map<label>&"
@@ -152,7 +152,7 @@ mousse::labelList mousse::multiDirRefinement::splitOffHex(const primitiveMesh& m
   label nonHexI = 0;
   labelList hexLabels(cellLabels_.size());
   label hexI = 0;
-  forAll(cellLabels_, i)
+  FOR_ALL(cellLabels_, i)
   {
     label cellI = cellLabels_[i];
     if (cellShapes[cellI].model() == hex)
@@ -215,18 +215,18 @@ void mousse::multiDirRefinement::refineHex8
   {
     // Create count 1 for original cells
     Map<label> hexCellSet(2*hexCells.size());
-    forAll(hexCells, i)
+    FOR_ALL(hexCells, i)
     {
       hexCellSet.insert(hexCells[i], 1);
     }
     // Increment count
-    forAll(consistentCells, i)
+    FOR_ALL(consistentCells, i)
     {
       const label cellI = consistentCells[i];
       Map<label>::iterator iter = hexCellSet.find(cellI);
       if (iter == hexCellSet.end())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "multiDirRefinement::refineHex8"
           "(polyMesh&, const labelList&, const bool)"
@@ -240,11 +240,11 @@ void mousse::multiDirRefinement::refineHex8
     }
     // Check if all been visited (should always be since
     // consistentRefinement set up to extend set.
-    forAllConstIter(Map<label>, hexCellSet, iter)
+    FOR_ALL_CONST_ITER(Map<label>, hexCellSet, iter)
     {
       if (iter() != 2)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "multiDirRefinement::refineHex8"
           "(polyMesh&, const labelList&, const bool)"
@@ -273,13 +273,13 @@ void mousse::multiDirRefinement::refineHex8
   }
   hexRefiner.updateMesh(morphMap);
   // Collect all cells originating from same old cell (original + 7 extra)
-  forAll(consistentCells, i)
+  FOR_ALL(consistentCells, i)
   {
     addedCells_[consistentCells[i]].setSize(8);
   }
   labelList nAddedCells(addedCells_.size(), 0);
   const labelList& cellMap = morphMap.cellMap();
-  forAll(cellMap, cellI)
+  FOR_ALL(cellMap, cellI)
   {
     const label oldCellI = cellMap[cellI];
     if (addedCells_[oldCellI].size())
@@ -299,7 +299,7 @@ void mousse::multiDirRefinement::refineAllDirs
 {
   // Iterator
   refinementIterator refiner(mesh, cutter, cellWalker, writeMesh);
-  forAll(cellDirections, dirI)
+  FOR_ALL(cellDirections, dirI)
   {
     if (debug)
     {
@@ -319,7 +319,7 @@ void mousse::multiDirRefinement::refineAllDirs
         Pout<< "multiDirRefinement : Uniform refinement:"
           << dirField[0] << endl;
       }
-      forAll(refCells, refI)
+      FOR_ALL(refCells, refI)
       {
         label cellI = cellLabels_[refI];
         refCells[refI] = refineCell(cellI, dirField[0]);
@@ -328,7 +328,7 @@ void mousse::multiDirRefinement::refineAllDirs
     else
     {
       // Non uniform directions.
-      forAll(refCells, refI)
+      FOR_ALL(refCells, refI)
       {
         const label cellI = cellLabels_[refI];
         refCells[refI] = refineCell(cellI, dirField[cellI]);
@@ -343,7 +343,7 @@ void mousse::multiDirRefinement::refineAllDirs
     // Update refinement direction for added cells.
     if (dirField.size() != 1)
     {
-      forAll(cellDirections, i)
+      FOR_ALL(cellDirections, i)
       {
         update(splitMap, cellDirections[i]);
       }

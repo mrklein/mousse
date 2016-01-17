@@ -56,7 +56,7 @@ class GuldersEGR
     void operator=(const GuldersEGR&);
 public:
   //- Runtime type information
-  TypeName("GuldersEGR");
+  TYPE_NAME("GuldersEGR");
   // Constructors
     //- Construct from dictionary and psiuReactionThermo
     GuldersEGR

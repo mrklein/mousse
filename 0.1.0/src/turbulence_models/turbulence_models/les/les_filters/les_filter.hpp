@@ -21,15 +21,11 @@ class LESfilter
 {
   // Private data
     const fvMesh& mesh_;
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    LESfilter(const LESfilter&);
-    void operator=(const LESfilter&);
 public:
   //- Runtime type information
-  TypeName("LESfilter");
+  TYPE_NAME("LESfilter");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       LESfilter,
@@ -44,8 +40,11 @@ public:
     //- Construct from components
     LESfilter(const fvMesh& mesh)
     :
-      mesh_(mesh)
+      mesh_{mesh}
     {}
+    // Disallow default bitwise copy construct and assignment
+    LESfilter(const LESfilter&) = delete;
+    LESfilter& operator=(const LESfilter&) = delete;
   // Selectors
     //- Return a reference to the selected LES filter
     static autoPtr<LESfilter> New

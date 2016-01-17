@@ -6,11 +6,14 @@
 #include "limited_scheme.hpp"
 #include "limited01.hpp"
 #include "minmod.hpp"
+
 namespace mousse
 {
-  makeLimitedMultivariateSurfaceInterpolationScheme
-  (
-    Minmod,
-    MinmodLimiter
-  )
+
+MAKE_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME
+(
+  Minmod,
+  MinmodLimiter
+)
+
 }

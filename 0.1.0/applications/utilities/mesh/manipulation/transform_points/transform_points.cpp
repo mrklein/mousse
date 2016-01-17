@@ -26,7 +26,7 @@ void readAndRotateFields
 )
 {
   ReadFields(mesh, objects, flds);
-  forAll(flds, i)
+  FOR_ALL(flds, i)
   {
     Info<< "Transforming " << flds[i].name() << endl;
     dimensionedTensor dimT("t", flds[i].dimensions(), T);
@@ -35,9 +35,9 @@ void readAndRotateFields
 }
 void rotateFields(const argList& args, const Time& runTime, const tensor& T)
 {
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   // Read objects in time directory
-  IOobjectList objects(mesh, runTime.timeName());
+  IOobjectList objects{mesh, runTime.timeName()};
   // Read vol fields.
   PtrList<volScalarField> vsFlds;
   readAndRotateFields(vsFlds, mesh, T, objects);
@@ -101,9 +101,9 @@ int main(int argc, char *argv[])
     "scale by the specified amount - eg, '(0.001 0.001 0.001)' for a "
     "uniform [mm] to [m] scaling"
   );
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   word regionName = polyMesh::defaultRegion;
   fileName meshDir;
   if (args.optionReadIfPresent("region", regionName))
@@ -115,9 +115,9 @@ int main(int argc, char *argv[])
     meshDir = polyMesh::meshSubDir;
   }
   pointIOField points
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "points",
       runTime.findInstance(meshDir, "points"),
       meshDir,
@@ -125,13 +125,13 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ,
       IOobject::NO_WRITE,
       false
-    )
-  );
+    }
+  };
   const bool doRotateFields = args.optionFound("rotateFields");
   // this is not actually stringent enough:
   if (args.options().empty())
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "No options supplied, please use one or more of "
        "-translate, -rotate or -scale options."
       << exit(FatalError);

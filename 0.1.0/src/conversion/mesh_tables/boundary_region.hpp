@@ -35,9 +35,6 @@ class boundaryRegion
 :
   public Map<dictionary>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    boundaryRegion(const boundaryRegion&);
 public:
   // Constructors
     //- Construct null
@@ -49,6 +46,8 @@ public:
       const word& name = "boundaryRegion",
       const fileName& instance = "constant"
     );
+    //- Disallow default bitwise copy construct
+    boundaryRegion(const boundaryRegion&) = delete;
   //- Destructor
   ~boundaryRegion();
   // Member Functions

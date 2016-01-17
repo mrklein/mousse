@@ -259,12 +259,12 @@ void LRR<BasicTurbulenceModel>::correct()
   // Correct the trace of the tensorial production to be consistent
   // with the near-wall generation from the wall-functions
   const fvPatchList& patches = this->mesh_.boundary();
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     const fvPatch& curPatch = patches[patchi];
     if (isA<wallFvPatch>(curPatch))
     {
-      forAll(curPatch, facei)
+      FOR_ALL(curPatch, facei)
       {
         label faceCelli = curPatch.faceCells()[facei];
         P[faceCelli] *= min

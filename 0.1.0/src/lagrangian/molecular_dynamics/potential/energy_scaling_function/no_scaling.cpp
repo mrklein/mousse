@@ -9,8 +9,8 @@ namespace mousse
 namespace energyScalingFunctions
 {
 // Static Data Members
-defineTypeNameAndDebug(noScaling, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(noScaling, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   energyScalingFunction,
   noScaling,
@@ -27,7 +27,7 @@ noScaling::noScaling
   energyScalingFunction(name, energyScalingFunctionProperties, pairPot)
 {}
 // Member Functions 
-void noScaling::scaleEnergy(scalar& e, const scalar r) const
+void noScaling::scaleEnergy(scalar& /*e*/, const scalar /*r*/) const
 {}
 bool noScaling::read(const dictionary& energyScalingFunctionProperties)
 {

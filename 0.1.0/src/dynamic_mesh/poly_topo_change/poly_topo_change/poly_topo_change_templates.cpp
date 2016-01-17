@@ -13,7 +13,7 @@ void mousse::polyTopoChange::reorder
 {
   // Create copy
   DynamicList<T> oldLst(lst);
-  forAll(oldToNew, elemI)
+  FOR_ALL(oldToNew, elemI)
   {
     label newElemI = oldToNew[elemI];
     if (newElemI != -1)
@@ -31,7 +31,7 @@ void mousse::polyTopoChange::reorder
 {
   // Create copy
   List<DynamicList<T> > oldLst(lst);
-  forAll(oldToNew, elemI)
+  FOR_ALL(oldToNew, elemI)
   {
     label newElemI = oldToNew[elemI];
     if (newElemI != -1)
@@ -48,7 +48,7 @@ void mousse::polyTopoChange::renumberKey
 )
 {
   Map<T> newElems(elems.size());
-  forAllConstIter(typename Map<T>, elems, iter)
+  FOR_ALL_CONST_ITER(typename Map<T>, elems, iter)
   {
     label newElem = oldToNew[iter.key()];
     if (newElem >= 0)

@@ -29,10 +29,13 @@
 //   mousse::fixedValueFvPatchField
 // SourceFiles
 //   uniform_fixed_value_fv_patch_field.cpp
+
 #ifndef uniform_fixed_value_fv_patch_field_hpp_
 #define uniform_fixed_value_fv_patch_field_hpp_
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -44,7 +47,7 @@ class uniformFixedValueFvPatchField
     autoPtr<DataEntry<Type> > uniformValue_;
 public:
   //- Runtime type information
-  TypeName("uniformFixedValue");
+  TYPE_NAME("uniformFixedValue");
   // Constructors
     //- Construct from patch and internal field
     uniformFixedValueFvPatchField

@@ -9,8 +9,8 @@
 #include "sub_field.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(simpleGeomDecomp, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(simpleGeomDecomp, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     decompositionMethod,
     simpleGeomDecomp,
@@ -99,7 +99,7 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
   labelList finalDecomp(points.size());
   labelList processorGroups(points.size());
   labelList pointIndices(points.size());
-  forAll(pointIndices, i)
+  FOR_ALL(pointIndices, i)
   {
     pointIndices[i] = i;
   }
@@ -115,7 +115,7 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
     UList<scalar>::less(rotatedPoints.component(vector::X))
   );
   assignToProcessorGroup(processorGroups, n_.x());
-  forAll(points, i)
+  FOR_ALL(points, i)
   {
     finalDecomp[pointIndices[i]] = processorGroups[i];
   }
@@ -127,7 +127,7 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
     UList<scalar>::less(rotatedPoints.component(vector::Y))
   );
   assignToProcessorGroup(processorGroups, n_.y());
-  forAll(points, i)
+  FOR_ALL(points, i)
   {
     finalDecomp[pointIndices[i]] += n_.x()*processorGroups[i];
   }
@@ -139,7 +139,7 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
     UList<scalar>::less(rotatedPoints.component(vector::Z))
   );
   assignToProcessorGroup(processorGroups, n_.z());
-  forAll(points, i)
+  FOR_ALL(points, i)
   {
     finalDecomp[pointIndices[i]] += n_.x()*n_.y()*processorGroups[i];
   }
@@ -155,7 +155,7 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
   labelList finalDecomp(points.size());
   labelList processorGroups(points.size());
   labelList pointIndices(points.size());
-  forAll(pointIndices, i)
+  FOR_ALL(pointIndices, i)
   {
     pointIndices[i] = i;
   }
@@ -179,7 +179,7 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
     weights,
     summedWeights
   );
-  forAll(points, i)
+  FOR_ALL(points, i)
   {
     finalDecomp[pointIndices[i]] = processorGroups[i];
   }
@@ -198,7 +198,7 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
     weights,
     summedWeights
   );
-  forAll(points, i)
+  FOR_ALL(points, i)
   {
     finalDecomp[pointIndices[i]] += n_.x()*processorGroups[i];
   }
@@ -217,7 +217,7 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
     weights,
     summedWeights
   );
-  forAll(points, i)
+  FOR_ALL(points, i)
   {
     finalDecomp[pointIndices[i]] += n_.x()*n_.y()*processorGroups[i];
   }

@@ -54,10 +54,6 @@ class cellFeatures
       Map<label>& toSuperFace
     ) const;
     void calcSuperFaces() const;
-    //- Disallow default bitwise copy construct
-    cellFeatures(const cellFeatures&);
-    //- Disallow default bitwise assignment
-    void operator=(const cellFeatures&);
 public:
   // Constructors
     //- Construct from cell in mesh
@@ -67,6 +63,10 @@ public:
       const scalar minCos,    // angle to use for feature recognition.
       const label cellI
     );
+    //- Disallow default bitwise copy construct
+    cellFeatures(const cellFeatures&) = delete;
+    //- Disallow default bitwise assignment
+    cellFeatures& operator=(const cellFeatures&) = delete;
   //- Destructor
   ~cellFeatures();
   // Member Functions

@@ -3,11 +3,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "extended_edge_mesh.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineRunTimeSelectionTable(extendedEdgeMesh, fileExtension);
+DEFINE_RUN_TIME_SELECTION_TABLE(extendedEdgeMesh, fileExtension);
 }
+
 // Member Functions 
 mousse::autoPtr<mousse::extendedEdgeMesh> mousse::extendedEdgeMesh::New
 (
@@ -19,7 +21,7 @@ mousse::autoPtr<mousse::extendedEdgeMesh> mousse::extendedEdgeMesh::New
     fileExtensionConstructorTablePtr_->find(ext);
   if (cstrIter == fileExtensionConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "extendedEdgeMesh::New(const fileName&, const word&) : "
       "constructing extendedEdgeMesh"

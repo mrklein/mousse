@@ -1,0 +1,10 @@
+cv_2d.cpp
+insert_feature_points.cpp
+insert_surface_nearest_point_pairs.cpp
+insert_surface_near_point_pairs.cpp
+insert_boundary_conform_point_pairs.cpp
+cv_2d_io.cpp
+short_edge_filter_2d.cpp
+foamy_quad_mesh.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-foamy-quad-mesh

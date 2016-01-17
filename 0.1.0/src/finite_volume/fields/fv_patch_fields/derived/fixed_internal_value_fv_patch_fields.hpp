@@ -4,10 +4,13 @@
 
 #ifndef fixed_internal_value_fv_patch_fields_hpp_
 #define fixed_internal_value_fv_patch_fields_hpp_
+
 #include "fixed_internal_value_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(fixedInternalValue);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(fixedInternalValue);
 }  // namespace mousse
+
 #endif

@@ -31,12 +31,12 @@ void mousse::meshRefinement::markBoundaryFace
 {
   isBoundaryFace[faceI] = true;
   const labelList& fEdges = mesh_.faceEdges(faceI);
-  forAll(fEdges, fp)
+  FOR_ALL(fEdges, fp)
   {
     isBoundaryEdge[fEdges[fp]] = true;
   }
   const face& f = mesh_.faces()[faceI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     isBoundaryPoint[f[fp]] = true;
   }
@@ -51,7 +51,7 @@ void mousse::meshRefinement::findNearest
 ) const
 {
   pointField fc(meshFaces.size());
-  forAll(meshFaces, i)
+  FOR_ALL(meshFaces, i)
   {
     fc[i] = mesh_.faceCentres()[meshFaces[i]];
   }
@@ -67,10 +67,10 @@ void mousse::meshRefinement::findNearest
   // Do normal testing per surface.
   nearestNormal.setSize(nearestInfo.size());
   nearestRegion.setSize(nearestInfo.size());
-  forAll(allSurfaces, surfI)
+  FOR_ALL(allSurfaces, surfI)
   {
     DynamicList<pointIndexHit> localHits;
-    forAll(nearestSurface, i)
+    FOR_ALL(nearestSurface, i)
     {
       if (nearestSurface[i] == surfI)
       {
@@ -83,7 +83,7 @@ void mousse::meshRefinement::findNearest
     labelList localRegion;
     surfaces_.geometry()[geomI].getRegion(localHits, localRegion);
     label localI = 0;
-    forAll(nearestSurface, i)
+    FOR_ALL(nearestSurface, i)
     {
       if (nearestSurface[i] == surfI)
       {
@@ -115,7 +115,7 @@ mousse::Map<mousse::label> mousse::meshRefinement::findEdgeConnectedProblemCells
   DynamicList<label> candidateFaces(pp.size()/20);
   const labelListList& edgeFaces = pp.edgeFaces();
   const labelList& cellLevel = meshCutter_.cellLevel();
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     const labelList& eFaces = edgeFaces[edgeI];
     if (eFaces.size() == 2)
@@ -177,7 +177,7 @@ mousse::Map<mousse::label> mousse::meshRefinement::findEdgeConnectedProblemCells
   // ~~~~~~~~~~~~~~~~~~~~~~~~
   Map<label> candidateCells(candidateFaces.size());
   faceSet perpFaces(mesh_, "perpendicularFaces", pp.size()/100);
-  forAll(candidateFaces, i)
+  FOR_ALL(candidateFaces, i)
   {
     label faceI = candidateFaces[i];
     vector n = mesh_.faceAreas()[faceI];
@@ -303,7 +303,7 @@ mousse::labelList mousse::meshRefinement::nearestPatch
     nearestAdaptPatch.setSize(mesh_.nFaces(), adaptPatchIDs[0]);
     // Count number of faces in adaptPatchIDs
     label nFaces = 0;
-    forAll(adaptPatchIDs, i)
+    FOR_ALL(adaptPatchIDs, i)
     {
       const polyPatch& pp = patches[adaptPatchIDs[i]];
       nFaces += pp.size();
@@ -315,11 +315,11 @@ mousse::labelList mousse::meshRefinement::nearestPatch
     labelList patchFaces(nFaces);
     List<topoDistanceData> patchData(nFaces);
     nFaces = 0;
-    forAll(adaptPatchIDs, i)
+    FOR_ALL(adaptPatchIDs, i)
     {
       label patchI = adaptPatchIDs[i];
       const polyPatch& pp = patches[patchI];
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         patchFaces[nFaces] = pp.start()+i;
         patchData[nFaces] = topoDistanceData(patchI, 0);
@@ -338,13 +338,13 @@ mousse::labelList mousse::meshRefinement::nearestPatch
     );
     // And extract
     bool haveWarned = false;
-    forAll(faceData, faceI)
+    FOR_ALL(faceData, faceI)
     {
       if (!faceData[faceI].valid(deltaCalc.data()))
       {
         if (!haveWarned)
         {
-          WarningIn("meshRefinement::nearestPatch(..)")
+          WARNING_IN("meshRefinement::nearestPatch(..)")
             << "Did not visit some faces, e.g. face " << faceI
             << " at " << mesh_.faceCentres()[faceI] << endl
             << "Assigning  these cells to patch "
@@ -391,11 +391,11 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
   // Fill boundary data. All elements on meshed patches get marked.
   // Get the labels of added patches.
   labelList adaptPatchIDs(meshedPatches());
-  forAll(adaptPatchIDs, i)
+  FOR_ALL(adaptPatchIDs, i)
   {
     const polyPatch& pp = patches[adaptPatchIDs[i]];
     label faceI = pp.start();
-    forAll(pp, j)
+    FOR_ALL(pp, j)
     {
       markBoundaryFace
       (
@@ -437,10 +437,10 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
       )
     );
     // Baffle all faces of cells that need to be removed
-    forAllConstIter(Map<label>, problemCells, iter)
+    FOR_ALL_CONST_ITER(Map<label>, problemCells, iter)
     {
       const cell& cFaces = mesh_.cells()[iter.key()];
-      forAll(cFaces, i)
+      FOR_ALL(cFaces, i)
       {
         label faceI = cFaces[i];
         if (facePatch[faceI] == -1 && mesh_.isInternalFace(faceI))
@@ -539,7 +539,7 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
     );
     // Start off from current points
     newPoints = mesh_.points();
-    forAll(hitInfo, i)
+    FOR_ALL(hitInfo, i)
     {
       if (hitInfo[i].hit())
       {
@@ -578,14 +578,14 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
   // On-the-fly addressing storage.
   DynamicList<label> dynFEdges;
   DynamicList<label> dynCPoints;
-  forAll(cellLevel, cellI)
+  FOR_ALL(cellLevel, cellI)
   {
     const labelList& cPoints = mesh_.cellPoints(cellI, dynCPoints);
     // Get number of anchor points (pointLevel <= cellLevel)
     label nBoundaryAnchors = 0;
     label nNonAnchorBoundary = 0;
     label nonBoundaryAnchor = -1;
-    forAll(cPoints, i)
+    FOR_ALL(cPoints, i)
     {
       label pointI = cPoints[i];
       if (pointLevel[pointI] <= cellLevel[cellI])
@@ -611,7 +611,7 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
       const cell& cFaces = mesh_.cells()[cellI];
       // Count boundary faces.
       label nBfaces = 0;
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         if (isBoundaryFace[cFaces[cFaceI]])
         {
@@ -642,7 +642,7 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
         else
         {
           // Block all faces of cell
-          forAll(cFaces, cf)
+          FOR_ALL(cFaces, cf)
           {
             label faceI = cFaces[cf];
             if
@@ -677,13 +677,13 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
   // with 7 anchor points on the boundary set those cell's non-boundary faces
   // to baffles
   DynamicList<label> dynPCells;
-  forAllConstIter(labelHashSet, nonBoundaryAnchors, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, nonBoundaryAnchors, iter)
   {
     label pointI = iter.key();
     const labelList& pCells = mesh_.pointCells(pointI, dynPCells);
     // Count number of 'hasSevenBoundaryAnchorPoints' cells.
     label n = 0;
-    forAll(pCells, i)
+    FOR_ALL(pCells, i)
     {
       if (hasSevenBoundaryAnchorPoints.get(pCells[i]) == 1u)
       {
@@ -693,7 +693,7 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
     if (n > 3)
     {
       // Point in danger of being what? Remove all 7-cells.
-      forAll(pCells, i)
+      FOR_ALL(pCells, i)
       {
         label cellI = pCells[i];
         if (hasSevenBoundaryAnchorPoints.get(cellI) == 1u)
@@ -717,7 +717,7 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
           else
           {
             const cell& cFaces = mesh_.cells()[cellI];
-            forAll(cFaces, cf)
+            FOR_ALL(cFaces, cf)
             {
               label faceI = cFaces[cf];
               if
@@ -772,7 +772,7 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
     {
       const labelList& fEdges = mesh_.faceEdges(faceI, dynFEdges);
       label nFaceBoundaryEdges = 0;
-      forAll(fEdges, fe)
+      FOR_ALL(fEdges, fe)
       {
         if (isBoundaryEdge[fEdges[fe]])
         {
@@ -811,19 +811,19 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCells
       }
     }
   }
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         if (facePatch[faceI] == -1)
         {
           const labelList& fEdges = mesh_.faceEdges(faceI, dynFEdges);
           label nFaceBoundaryEdges = 0;
-          forAll(fEdges, fe)
+          FOR_ALL(fEdges, fe)
           {
             if (isBoundaryEdge[fEdges[fe]])
             {
@@ -969,7 +969,7 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCellsGeometric
     );
     const labelList& meshPoints = pp.meshPoints();
     pointField newPoints(mesh_.points());
-    forAll(meshPoints, i)
+    FOR_ALL(meshPoints, i)
     {
       newPoints[meshPoints[i]] += disp[i];
     }
@@ -1072,7 +1072,7 @@ mousse::labelList mousse::meshRefinement::markFacesOnProblemCellsGeometric
         nWrongFaces = nNewWrongFaces;
       }
     }
-    forAllConstIter(faceSet, wrongFaces, iter)
+    FOR_ALL_CONST_ITER(faceSet, wrongFaces, iter)
     {
       label patchI = mesh_.boundaryMesh().whichPatch(iter.key());
       if (patchI == -1 || mesh_.boundaryMesh()[patchI].coupled())

@@ -8,5 +8,5 @@ namespace mousse
 {
 // Static Data Members
 //defineParticleTypeNameAndDebug(trackedParticle, 0);
-defineTemplateTypeNameAndDebug(Cloud<trackedParticle>, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<trackedParticle>, 0);
 }  // namespace mousse

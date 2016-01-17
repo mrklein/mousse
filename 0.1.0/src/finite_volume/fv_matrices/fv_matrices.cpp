@@ -3,12 +3,15 @@
 // Copyright (C) 2016 mousse project
 
 #include "fv_matrices.hpp"
+
 namespace mousse
 {
+
 // Static Data Members
-defineTemplateTypeNameAndDebug(fvScalarMatrix, 0);
-defineTemplateTypeNameAndDebug(fvVectorMatrix, 0);
-defineTemplateTypeNameAndDebug(fvSphericalTensorMatrix, 0);
-defineTemplateTypeNameAndDebug(fvSymmTensorMatrix, 0);
-defineTemplateTypeNameAndDebug(fvTensorMatrix, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(fvScalarMatrix, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(fvVectorMatrix, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(fvSphericalTensorMatrix, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(fvSymmTensorMatrix, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(fvTensorMatrix, 0);
+
 }  // namespace mousse

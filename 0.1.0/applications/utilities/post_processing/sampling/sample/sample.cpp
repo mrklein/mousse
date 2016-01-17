@@ -10,12 +10,12 @@ using namespace mousse;
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
-  #include "add_region_option.hpp"
-  #include "add_dict_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_region_option.inc"
+  #include "add_dict_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   const word dictName("sampleDict");
   autoPtr<IOsampledSets> sSetsPtr;
   autoPtr<IOsampledSurfaces> sSurfsPtr;
@@ -30,13 +30,13 @@ int main(int argc, char *argv[])
     sSetsPtr.reset
     (
       new IOsampledSets
-      (
+      {
         sampledSets::typeName,
         mesh,
         dictPath,
         IOobject::MUST_READ_IF_MODIFIED,
         true
-      )
+      }
     );
     // Note: both IOsampledSets and IOsampledSurfaces read the
     //       same dictionary. Unregister one to make sure no duplicates
@@ -45,13 +45,13 @@ int main(int argc, char *argv[])
     sSurfsPtr.reset
     (
       new IOsampledSurfaces
-      (
+      {
         sampledSurfaces::typeName,
         mesh,
         dictPath,
         IOobject::MUST_READ_IF_MODIFIED,
         true
-      )
+      }
     );
   }
   else
@@ -60,30 +60,30 @@ int main(int argc, char *argv[])
     sSetsPtr.reset
     (
       new IOsampledSets
-      (
+      {
         sampledSets::typeName,
         mesh,
         dictName,
         IOobject::MUST_READ_IF_MODIFIED,
         true
-      )
+      }
     );
     sSetsPtr().checkOut();
     sSurfsPtr.reset
     (
       new IOsampledSurfaces
-      (
+      {
         sampledSurfaces::typeName,
         mesh,
         dictName,
         IOobject::MUST_READ_IF_MODIFIED,
         true
-      )
+      }
     );
   }
   IOsampledSets& sSets = sSetsPtr();
   IOsampledSurfaces& sSurfs = sSurfsPtr();
-  forAll(timeDirs, timeI)
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     Info<< "Time = " << runTime.timeName() << endl;

@@ -20,7 +20,7 @@ class noScatter
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from components
     noScatter(const dictionary& dict, const fvMesh& mesh);

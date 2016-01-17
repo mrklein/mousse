@@ -62,7 +62,7 @@ class SIBS
     ) const;
 public:
   //- Runtime type information
-  TypeName("SIBS");
+  TYPE_NAME("SIBS");
   // Constructors
     //- Construct from ODE
     SIBS(const ODESystem& ode, const dictionary& dict);

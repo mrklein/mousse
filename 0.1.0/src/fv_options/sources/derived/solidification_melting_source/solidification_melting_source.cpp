@@ -24,8 +24,8 @@ namespace mousse
   };
   namespace fv
   {
-    defineTypeNameAndDebug(solidificationMeltingSource, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(solidificationMeltingSource, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       option,
       solidificationMeltingSource,
@@ -84,7 +84,7 @@ mousse::fv::solidificationMeltingSource::Cp() const
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::tmp<mousse::volScalarField> "
         "mousse::fv::solidificationMeltingSource::Cp() const"
@@ -121,7 +121,7 @@ void mousse::fv::solidificationMeltingSource::update(const volScalarField& Cp)
   // update old time alpha1 field
   alpha1_.oldTime();
   const volScalarField& T = mesh_.lookupObject<volScalarField>(TName_);
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     label cellI = cells_[i];
     scalar Tc = T[cellI];
@@ -190,7 +190,7 @@ mousse::fv::solidificationMeltingSource::solidificationMeltingSource
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "fv::solidificationMeltingSource::solidificationMeltingSource"
       )   << "Unhandled thermo mode: " << thermoModeTypeNames_[mode_]
@@ -203,7 +203,7 @@ mousse::fv::solidificationMeltingSource::solidificationMeltingSource
 void mousse::fv::solidificationMeltingSource::addSup
 (
   fvMatrix<scalar>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   apply(geometricOneField(), eqn);
@@ -212,7 +212,7 @@ void mousse::fv::solidificationMeltingSource::addSup
 (
   const volScalarField& rho,
   fvMatrix<scalar>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   apply(rho, eqn);
@@ -220,7 +220,7 @@ void mousse::fv::solidificationMeltingSource::addSup
 void mousse::fv::solidificationMeltingSource::addSup
 (
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   if (debug)
@@ -233,7 +233,7 @@ void mousse::fv::solidificationMeltingSource::addSup
   scalarField& Sp = eqn.diag();
   vectorField& Su = eqn.source();
   const scalarField& V = mesh_.V();
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     label cellI = cells_[i];
     scalar Vc = V[cellI];
@@ -246,7 +246,7 @@ void mousse::fv::solidificationMeltingSource::addSup
 }
 void mousse::fv::solidificationMeltingSource::addSup
 (
-  const volScalarField& rho,
+  const volScalarField& /*rho*/,
   fvMatrix<vector>& eqn,
   const label fieldI
 )

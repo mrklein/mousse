@@ -34,7 +34,7 @@ protected:
     virtual void updateMesh(PstreamBuffers&);
 public:
   //- Runtime type information
-  TypeName("regionCoupledWall");
+  TYPE_NAME("regionCoupledWall");
   // Constructors
     //- Construct from components
     regionCoupledWallPolyPatch

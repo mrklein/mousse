@@ -5,10 +5,13 @@
 #include "face_corrected_sn_grad.hpp"
 #include "vol_point_interpolation.hpp"
 #include "triangle.hpp"
+
 // Destructor 
 template<class Type>
 mousse::fv::faceCorrectedSnGrad<Type>::~faceCorrectedSnGrad()
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh> >
@@ -19,26 +22,26 @@ mousse::fv::faceCorrectedSnGrad<Type>::fullGradCorrection
 {
   const fvMesh& mesh = this->mesh();
   GeometricField<Type, pointPatchField, pointMesh> pvf
-  (
+  {
     volPointInterpolation::New(mesh).interpolate(vf)
-  );
+  };
   // construct GeometricField<Type, fvsPatchField, surfaceMesh>
   tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tsfCorr
-  (
+  {
     new GeometricField<Type, fvsPatchField, surfaceMesh>
-    (
+    {
       IOobject
-      (
-        "snGradCorr("+vf.name()+')',
+      {
+        "snGradCorr(" + vf.name() + ')',
         vf.instance(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       mesh,
       vf.dimensions()*mesh.nonOrthDeltaCoeffs().dimensions()
-    )
-  );
+    }
+  };
   Field<Type>& sfCorr = tsfCorr().internalField();
   const pointField& points = mesh.points();
   const faceList& faces = mesh.faces();
@@ -47,7 +50,7 @@ mousse::fv::faceCorrectedSnGrad<Type>::fullGradCorrection
   const scalarField& magSf = mesh.magSf().internalField();
   const labelList& owner = mesh.owner();
   const labelList& neighbour = mesh.neighbour();
-  forAll(sfCorr, facei)
+  FOR_ALL(sfCorr, facei)
   {
     typename outerProduct<vector, Type>::type fgrad
     (
@@ -75,8 +78,11 @@ mousse::fv::faceCorrectedSnGrad<Type>::fullGradCorrection
     sfCorr[facei] = dCorr&fgrad;
   }
   tsfCorr().boundaryField() = pTraits<Type>::zero;
+
   return tsfCorr;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh> >
 mousse::fv::faceCorrectedSnGrad<Type>::correction
@@ -87,21 +93,21 @@ mousse::fv::faceCorrectedSnGrad<Type>::correction
   const fvMesh& mesh = this->mesh();
   // construct GeometricField<Type, fvsPatchField, surfaceMesh>
   tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tssf
-  (
+  {
     new GeometricField<Type, fvsPatchField, surfaceMesh>
-    (
+    {
       IOobject
-      (
-        "snGradCorr("+vf.name()+')',
+      {
+        "snGradCorr(" + vf.name() + ')',
         vf.instance(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       mesh,
       vf.dimensions()*mesh.nonOrthDeltaCoeffs().dimensions()
-    )
-  );
+    }
+  };
   GeometricField<Type, fvsPatchField, surfaceMesh>& ssf = tssf();
   for (direction cmpt = 0; cmpt < pTraits<Type>::nComponents; cmpt++)
   {
@@ -112,5 +118,6 @@ mousse::fv::faceCorrectedSnGrad<Type>::correction
      .fullGradCorrection(vf.component(cmpt))
     );
   }
+
   return tssf;
 }

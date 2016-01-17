@@ -23,7 +23,7 @@ class mappedVariableThicknessWallPolyPatch
     scalarList thickness_;
 public:
   //- Runtime type information
-  TypeName("mappedWallVariableThickness");
+  TYPE_NAME("mappedWallVariableThickness");
   // Constructors
     //- Construct from components
     mappedVariableThicknessWallPolyPatch

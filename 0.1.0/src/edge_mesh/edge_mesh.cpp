@@ -8,13 +8,15 @@
 #include "add_to_member_function_selection_table.hpp"
 #include "list_ops.hpp"
 #include "edge_map.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(edgeMesh, 0);
-  defineRunTimeSelectionTable(edgeMesh, fileExtension);
-  defineMemberFunctionSelectionTable(edgeMesh,write,fileExtension);
+DEFINE_TYPE_NAME_AND_DEBUG(edgeMesh, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(edgeMesh, fileExtension);
+DEFINE_MEMBER_FUNCTION_SELECTION_TABLE(edgeMesh,write,fileExtension);
 }
+
 mousse::wordHashSet mousse::edgeMesh::readTypes()
 {
   return wordHashSet(*fileExtensionConstructorTablePtr_);
@@ -70,7 +72,7 @@ void mousse::edgeMesh::calcPointEdges() const
 {
   if (pointEdgesPtr_.valid())
   {
-    FatalErrorIn("edgeMesh::calcPointEdges() const")
+    FATAL_ERROR_IN("edgeMesh::calcPointEdges() const")
       << "pointEdges already calculated." << abort(FatalError);
   }
   pointEdgesPtr_.reset(new labelListList(points_.size()));
@@ -174,15 +176,15 @@ mousse::label mousse::edgeMesh::regions(labelList& edgeRegion) const
       // neighbours of current edgesToVisit
       DynamicList<label> newEdgesToVisit(edgesToVisit.size());
       // Mark all point connected edges with current region.
-      forAll(edgesToVisit, i)
+      FOR_ALL(edgesToVisit, i)
       {
         label edgeI = edgesToVisit[i];
         // Mark connected edges
         const edge& e = edges_[edgeI];
-        forAll(e, fp)
+        FOR_ALL(e, fp)
         {
           const labelList& pEdges = pointEdges()[e[fp]];
-          forAll(pEdges, pEdgeI)
+          FOR_ALL(pEdges, pEdgeI)
           {
             label nbrEdgeI = pEdges[pEdgeI];
             if (edgeRegion[nbrEdgeI] == -1)
@@ -225,7 +227,7 @@ void mousse::edgeMesh::mergePoints(const scalar mergeDist)
     pointEdgesPtr_.clear();
     points_.transfer(newPoints);
     // Renumber and make sure e[0] < e[1] (not really necessary)
-    forAll(edges_, edgeI)
+    FOR_ALL(edges_, edgeI)
     {
       edge& e = edges_[edgeI];
       label p0 = pointMap[e[0]];
@@ -244,7 +246,7 @@ void mousse::edgeMesh::mergePoints(const scalar mergeDist)
     // Compact using a hashtable and commutative hash of edge.
     EdgeMap<label> edgeToLabel(2*edges_.size());
     label newEdgeI = 0;
-    forAll(edges_, edgeI)
+    FOR_ALL(edges_, edgeI)
     {
       const edge& e = edges_[edgeI];
       if (e[0] != e[1])
@@ -256,7 +258,7 @@ void mousse::edgeMesh::mergePoints(const scalar mergeDist)
       }
     }
     edges_.setSize(newEdgeI);
-    forAllConstIter(EdgeMap<label>, edgeToLabel, iter)
+    FOR_ALL_CONST_ITER(EdgeMap<label>, edgeToLabel, iter)
     {
       edges_[iter()] = iter.key();
     }
@@ -266,7 +268,7 @@ void mousse::edgeMesh::mergeEdges()
 {
   EdgeMap<label> existingEdges(2*edges_.size());
   label curEdgeI = 0;
-  forAll(edges_, edgeI)
+  FOR_ALL(edges_, edgeI)
   {
     const edge& e = edges_[edgeI];
     if (existingEdges.insert(e, curEdgeI))
@@ -281,7 +283,7 @@ void mousse::edgeMesh::mergeEdges()
       << " edges will be deleted." << endl;
   }
   edges_.setSize(existingEdges.size());
-  forAllConstIter(EdgeMap<label>, existingEdges, iter)
+  FOR_ALL_CONST_ITER(EdgeMap<label>, existingEdges, iter)
   {
     edges_[iter()] = iter.key();
   }

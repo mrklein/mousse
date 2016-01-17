@@ -41,7 +41,7 @@ typename Table::iterator mousse::basicThermo::lookupThermo
     // Print error message if package not found in the table
     if (cstrIter == tablePtr->end())
     {
-      FatalErrorIn(Thermo::typeName + "::New")
+      FATAL_ERROR_IN(Thermo::typeName + "::New")
         << "Unknown " << Thermo::typeName << " type " << nl
         << "thermoType" << thermoTypeDict << nl << nl
         << "Valid " << Thermo::typeName << " types are:" << nl << nl;
@@ -57,12 +57,12 @@ typename Table::iterator mousse::basicThermo::lookupThermo
         validThermoTypeNames.size() + 1
       );
       validThermoTypeNameCmpts[0].setSize(nCmpt);
-      forAll(validThermoTypeNameCmpts[0], j)
+      FOR_ALL(validThermoTypeNameCmpts[0], j)
       {
         validThermoTypeNameCmpts[0][j] = cmptNames[j];
       }
       // Split the thermo package names into their constituent parts
-      forAll(validThermoTypeNames, i)
+      FOR_ALL(validThermoTypeNames, i)
       {
         validThermoTypeNameCmpts[i+1] =
           Thermo::splitThermoName(validThermoTypeNames[i], nCmpt);
@@ -81,7 +81,7 @@ typename Table::iterator mousse::basicThermo::lookupThermo
     typename Table::iterator cstrIter = tablePtr->find(thermoTypeName);
     if (cstrIter == tablePtr->end())
     {
-      FatalErrorIn(Thermo::typeName + "::New")
+      FATAL_ERROR_IN(Thermo::typeName + "::New")
         << "Unknown " << Thermo::typeName << " type "
         << thermoTypeName << nl << nl
         << "Valid " << Thermo::typeName << " types are:" << nl

@@ -7,5 +7,5 @@
 namespace mousse
 {
 // Static Data Members
-defineTemplateTypeNameAndDebug(Cloud<findCellParticle>, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<findCellParticle>, 0);
 }  // namespace mousse

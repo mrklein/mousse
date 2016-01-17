@@ -20,18 +20,16 @@ class fileDiffusivity
 protected:
   // Protected data
     surfaceScalarField faceDiffusivity_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fileDiffusivity(const fileDiffusivity&);
-    //- Disallow default bitwise assignment
-    void operator=(const fileDiffusivity&);
 public:
   //- Runtime type information
-  TypeName("file");
+  TYPE_NAME("file");
   // Constructors
     //- Construct for the given fvMesh and data Istream
     fileDiffusivity(const fvMesh& mesh, Istream& mdData);
+    //- Disallow default bitwise copy construct
+    fileDiffusivity(const fileDiffusivity&) = delete;
+    //- Disallow default bitwise assignment
+    fileDiffusivity& operator=(const fileDiffusivity&) = delete;
   //- Destructor
   virtual ~fileDiffusivity();
   // Member Functions

@@ -55,7 +55,7 @@ private:
    tmp<volScalarField> calc(const label) const;
 public:
   //- Runtime type information
-  TypeName("greyMeanSolidAbsorptionEmission");
+  TYPE_NAME("greyMeanSolidAbsorptionEmission");
   // Constructors
     //- Construct from components
     greyMeanSolidAbsorptionEmission

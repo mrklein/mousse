@@ -19,7 +19,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(createShellMesh, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(createShellMesh, 0);
 template<>
 class minEqOp<labelPair>
 {
@@ -53,7 +53,7 @@ void mousse::createShellMesh::syncEdges
     map.constructSize(),
     labelPair(labelMax, labelMax)
   );
-  forAll(patchEdges, i)
+  FOR_ALL(patchEdges, i)
   {
     label patchEdgeI = patchEdges[i];
     label coupledEdgeI = coupledEdges[i];
@@ -87,7 +87,7 @@ void mousse::createShellMesh::syncEdges
     minEqOp<labelPair>()
   );
   // Back from cpp-edge to patch-edge data
-  forAll(patchEdges, i)
+  FOR_ALL(patchEdges, i)
   {
     label patchEdgeI = patchEdges[i];
     label coupledEdgeI = coupledEdges[i];
@@ -139,7 +139,7 @@ void mousse::createShellMesh::calcPointRegions
   // These get merged later on across connected edges.
   // 1. Count
   label nMaxRegions = 0;
-  forAll(patch.localFaces(), faceI)
+  FOR_ALL(patch.localFaces(), faceI)
   {
     const face& f = patch.localFaces()[faceI];
     nMaxRegions += f.size();
@@ -148,12 +148,12 @@ void mousse::createShellMesh::calcPointRegions
   // 2. Assign unique regions
   label nRegions = 0;
   pointGlobalRegions.setSize(patch.size());
-  forAll(pointGlobalRegions, faceI)
+  FOR_ALL(pointGlobalRegions, faceI)
   {
     const face& f = patch.localFaces()[faceI];
     labelList& pRegions = pointGlobalRegions[faceI];
     pRegions.setSize(f.size());
-    forAll(pRegions, fp)
+    FOR_ALL(pRegions, fp)
     {
       pRegions[fp] = globalRegions.toGlobal(nRegions++);
     }
@@ -163,7 +163,7 @@ void mousse::createShellMesh::calcPointRegions
   PackedBoolList isChangedEdge(patch.nEdges());
   // Fill initial seed
   // ~~~~~~~~~~~~~~~~~
-  forAll(patch.edgeFaces(), edgeI)
+  FOR_ALL(patch.edgeFaces(), edgeI)
   {
     if (!nonManifoldEdge[edgeI])
     {
@@ -205,13 +205,13 @@ void mousse::createShellMesh::calcPointRegions
     // ~~~~~~~~~~~~~~~~~
     DynamicList<label> changedFaces(patch.size());
     PackedBoolList isChangedFace(patch.size());
-    forAll(changedEdges, changedI)
+    FOR_ALL(changedEdges, changedI)
     {
       label edgeI = changedEdges[changedI];
       const labelPair& edgeData = allEdgeData[edgeI];
       const edge& e = patch.edges()[edgeI];
       const labelList& eFaces = patch.edgeFaces()[edgeI];
-      forAll(eFaces, i)
+      FOR_ALL(eFaces, i)
       {
         label faceI = eFaces[i];
         const face& f = patch.localFaces()[faceI];
@@ -247,12 +247,12 @@ void mousse::createShellMesh::calcPointRegions
     // ~~~~~~~~~~~~~~~~~
     isChangedEdge = false;
     changedEdges.clear();
-    forAll(changedFaces, i)
+    FOR_ALL(changedFaces, i)
     {
       label faceI = changedFaces[i];
       const face& f = patch.localFaces()[faceI];
       const labelList& fEdges = patch.faceEdges()[faceI];
-      forAll(fEdges, fp)
+      FOR_ALL(fEdges, fp)
       {
         label edgeI = fEdges[fp];
         if (!nonManifoldEdge[edgeI])
@@ -301,12 +301,12 @@ void mousse::createShellMesh::calcPointRegions
   pointLocalRegions.setSize(patch.size());
   Map<label> globalToLocalRegion(globalRegions.localSize()/4);
   DynamicList<label> dynLocalToGlobalRegion(globalToLocalRegion.size());
-  forAll(patch.localFaces(), faceI)
+  FOR_ALL(patch.localFaces(), faceI)
   {
     const face& f = patch.localFaces()[faceI];
     face& pRegions = pointLocalRegions[faceI];
     pRegions.setSize(f.size());
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label globalRegionI = pointGlobalRegions[faceI][fp];
       Map<label>::iterator fnd = globalToLocalRegion.find(globalRegionI);
@@ -341,7 +341,7 @@ mousse::createShellMesh::createShellMesh
 {
   if (pointRegions_.size() != patch_.size())
   {
-    FatalErrorIn("createShellMesh::createShellMesh(..)")
+    FATAL_ERROR_IN("createShellMesh::createShellMesh(..)")
       << "nFaces:" << patch_.size()
       << " pointRegions:" << pointRegions.size()
       << exit(FatalError);
@@ -361,7 +361,7 @@ void mousse::createShellMesh::setRefinement
 {
   if (firstLayerDisp.size() != regionPoints_.size())
   {
-    FatalErrorIn("createShellMesh::setRefinement(..)")
+    FATAL_ERROR_IN("createShellMesh::setRefinement(..)")
       << "nRegions:" << regionPoints_.size()
       << " firstLayerDisp:" << firstLayerDisp.size()
       << exit(FatalError);
@@ -372,7 +372,7 @@ void mousse::createShellMesh::setRefinement
   && bottomPatchID.size() != patch_.size()
   )
   {
-    FatalErrorIn("createShellMesh::setRefinement(..)")
+    FATAL_ERROR_IN("createShellMesh::setRefinement(..)")
       << "nFaces:" << patch_.size()
       << " topPatchID:" << topPatchID.size()
       << " bottomPatchID:" << bottomPatchID.size()
@@ -380,7 +380,7 @@ void mousse::createShellMesh::setRefinement
   }
   if (extrudeEdgePatches.size() != patch_.nEdges())
   {
-    FatalErrorIn("createShellMesh::setRefinement(..)")
+    FATAL_ERROR_IN("createShellMesh::setRefinement(..)")
       << "nEdges:" << patch_.nEdges()
       << " extrudeEdgePatches:" << extrudeEdgePatches.size()
       << exit(FatalError);
@@ -399,7 +399,7 @@ void mousse::createShellMesh::setRefinement
   // Introduce new cell for every face
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelList addedCells(nLayers*patch_.size());
-  forAll(patch_, faceI)
+  FOR_ALL(patch_, faceI)
   {
     for (label layerI = 0; layerI < nLayers; layerI++)
     {
@@ -417,7 +417,7 @@ void mousse::createShellMesh::setRefinement
   // Introduce original points
   // ~~~~~~~~~~~~~~~~~~~~~~~~~
   // Original point numbers in local point ordering so no need to store.
-  forAll(patch_.localPoints(), pointI)
+  FOR_ALL(patch_.localPoints(), pointI)
   {
     //label addedPointI =
     meshMod.addPoint
@@ -436,7 +436,7 @@ void mousse::createShellMesh::setRefinement
   // Introduce new points (one for every region)
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelList addedPoints(nLayers*regionPoints_.size());
-  forAll(regionPoints_, regionI)
+  FOR_ALL(regionPoints_, regionI)
   {
     label pointI = regionPoints_[regionI];
     point pt = patch_.localPoints()[pointI];
@@ -456,7 +456,7 @@ void mousse::createShellMesh::setRefinement
     }
   }
   // Add face on bottom side
-  forAll(patch_.localFaces(), faceI)
+  FOR_ALL(patch_.localFaces(), faceI)
   {
     meshMod.addFace
     (
@@ -483,7 +483,7 @@ void mousse::createShellMesh::setRefinement
     //    << endl;
   }
   // Add inbetween faces and face on top
-  forAll(patch_.localFaces(), faceI)
+  FOR_ALL(patch_.localFaces(), faceI)
   {
     // Get face in original ordering
     const face& f = patch_.localFaces()[faceI];
@@ -491,7 +491,7 @@ void mousse::createShellMesh::setRefinement
     for (label layerI = 0; layerI < nLayers; layerI++)
     {
       // Pick up point based on region and layer
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label region = pointRegions_[faceI][fp];
         newF[fp] = addedPoints[region*nLayers+layerI];
@@ -538,7 +538,7 @@ void mousse::createShellMesh::setRefinement
   // Note that we loop over edges multiple times so for edges with
   // two cyclic faces they get added in two passes (for correct ordering)
   // Pass1. Internal edges and first face of other edges
-  forAll(extrudeEdgePatches, edgeI)
+  FOR_ALL(extrudeEdgePatches, edgeI)
   {
     const labelList& eFaces = patch_.edgeFaces()[edgeI];
     const labelList& ePatches = extrudeEdgePatches[edgeI];
@@ -547,7 +547,7 @@ void mousse::createShellMesh::setRefinement
       // Internal face
       if (eFaces.size() != 2)
       {
-        FatalErrorIn("createShellMesh::setRefinement(..)")
+        FATAL_ERROR_IN("createShellMesh::setRefinement(..)")
           << "edge:" << edgeI
           << " not internal but does not have side-patches defined."
           << exit(FatalError);
@@ -557,7 +557,7 @@ void mousse::createShellMesh::setRefinement
     {
       if (eFaces.size() != ePatches.size())
       {
-        FatalErrorIn("createShellMesh::setRefinement(..)")
+        FATAL_ERROR_IN("createShellMesh::setRefinement(..)")
           << "external/feature edge:" << edgeI
           << " has " << eFaces.size() << " connected extruded faces "
           << " but only " << ePatches.size()
@@ -659,7 +659,7 @@ void mousse::createShellMesh::setRefinement
     }
   }
   // Pass2. Other faces of boundary edges
-  forAll(extrudeEdgePatches, edgeI)
+  FOR_ALL(extrudeEdgePatches, edgeI)
   {
     const labelList& eFaces = patch_.edgeFaces()[edgeI];
     const labelList& ePatches = extrudeEdgePatches[edgeI];

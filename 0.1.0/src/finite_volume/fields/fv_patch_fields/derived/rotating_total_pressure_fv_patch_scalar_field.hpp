@@ -54,7 +54,7 @@ class rotatingTotalPressureFvPatchScalarField
     autoPtr<DataEntry<vector> > omega_;
 public:
   //- Runtime type information
-  TypeName("rotatingTotalPressure");
+  TYPE_NAME("rotatingTotalPressure");
   // Constructors
     //- Construct from patch and internal field
     rotatingTotalPressureFvPatchScalarField

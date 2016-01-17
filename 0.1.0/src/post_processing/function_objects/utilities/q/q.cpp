@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(Q, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(Q, 0);
 }
 // Constructors 
 mousse::Q::Q
@@ -17,19 +17,19 @@ mousse::Q::Q
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  UName_("U")
+  name_{name},
+  obr_{obr},
+  active_{true},
+  UName_{"U"}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "Q::Q"
       "("
@@ -38,29 +38,30 @@ mousse::Q::Q
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   read(dict);
   if (active_)
   {
     const fvMesh& mesh = refCast<const fvMesh>(obr_);
     volScalarField* QPtr
-    (
+    {
       new volScalarField
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           type(),
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedScalar("0", dimless/sqr(dimTime), 0.0)
-      )
-    );
+        {"0", dimless/sqr(dimTime), 0.0}
+      }
+    };
     mesh.objectRegistry::store(QPtr);
   }
 }

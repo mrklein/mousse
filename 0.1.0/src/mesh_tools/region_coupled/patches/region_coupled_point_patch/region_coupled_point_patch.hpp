@@ -20,7 +20,7 @@ class regionCoupledPointPatch
 {
 public:
   //- Runtime type information
-  TypeName(regionCoupledPolyPatch::typeName_());
+  TYPE_NAME(regionCoupledPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     regionCoupledPointPatch

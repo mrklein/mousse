@@ -181,13 +181,9 @@ protected:
     void writeForces();
     //- Helper function to write bin data
     void writeBins();
-    //- Disallow default bitwise copy construct
-    forces(const forces&);
-    //- Disallow default bitwise assignment
-    void operator=(const forces&);
 public:
   //- Runtime type information
-  TypeName("forces");
+  TYPE_NAME("forces");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -212,6 +208,10 @@ public:
       const scalar pRef,
       const coordinateSystem& coordSys
     );
+    //- Disallow default bitwise copy construct
+    forces(const forces&) = delete;
+    //- Disallow default bitwise assignment
+    forces& operator=(const forces&) = delete;
   //- Destructor
   virtual ~forces();
   // Member Functions

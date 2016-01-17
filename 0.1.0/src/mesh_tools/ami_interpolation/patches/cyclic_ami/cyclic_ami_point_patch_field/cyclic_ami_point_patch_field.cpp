@@ -3,9 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "cyclic_ami_point_patch_field.hpp"
+
 #include "swap.hpp"
 #include "transform_field.hpp"
 #include "point_fields.hpp"
+
 // Constructors 
 template<class Type>
 mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
@@ -14,11 +16,12 @@ mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
   const DimensionedField<Type, pointMesh>& iF
 )
 :
-  coupledPointPatchField<Type>(p, iF),
-  cyclicAMIPatch_(refCast<const cyclicAMIPointPatch>(p)),
-  ppiPtr_(NULL),
-  nbrPpiPtr_(NULL)
+  coupledPointPatchField<Type>{p, iF},
+  cyclicAMIPatch_{refCast<const cyclicAMIPointPatch>(p)},
+  ppiPtr_{NULL},
+  nbrPpiPtr_{NULL}
 {}
+
 template<class Type>
 mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
 (
@@ -27,14 +30,14 @@ mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
   const dictionary& dict
 )
 :
-  coupledPointPatchField<Type>(p, iF, dict),
-  cyclicAMIPatch_(refCast<const cyclicAMIPointPatch>(p)),
-  ppiPtr_(NULL),
-  nbrPpiPtr_(NULL)
+  coupledPointPatchField<Type>{p, iF, dict},
+  cyclicAMIPatch_{refCast<const cyclicAMIPointPatch>(p)},
+  ppiPtr_{NULL},
+  nbrPpiPtr_{NULL}
 {
   if (!isType<cyclicAMIPointPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField\n"
       "(\n"
@@ -43,11 +46,14 @@ mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
       "    const dictionary&\n"
       ")\n",
       dict
-    )   << "patch " << this->patch().index() << " not cyclicAMI type. "
-      << "Patch type = " << p.type()
-      << exit(FatalIOError);
+    )
+    << "patch " << this->patch().index() << " not cyclicAMI type. "
+    << "Patch type = " << p.type()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
 (
@@ -57,14 +63,14 @@ mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
   const pointPatchFieldMapper& mapper
 )
 :
-  coupledPointPatchField<Type>(ptf, p, iF, mapper),
-  cyclicAMIPatch_(refCast<const cyclicAMIPointPatch>(p)),
-  ppiPtr_(NULL),
-  nbrPpiPtr_(NULL)
+  coupledPointPatchField<Type>{ptf, p, iF, mapper},
+  cyclicAMIPatch_{refCast<const cyclicAMIPointPatch>(p)},
+  ppiPtr_{NULL},
+  nbrPpiPtr_{NULL}
 {
   if (!isType<cyclicAMIPointPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField\n"
       "(\n"
@@ -73,13 +79,16 @@ mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
       "    const DimensionedField<Type, pointMesh>&,\n"
       "    const pointPatchFieldMapper&\n"
       ")\n"
-    )   << "Field type does not correspond to patch type for patch "
-      << this->patch().index() << "." << endl
-      << "Field type: " << typeName << endl
-      << "Patch type: " << this->patch().type()
-      << exit(FatalError);
+    )
+    << "Field type does not correspond to patch type for patch "
+    << this->patch().index() << "." << endl
+    << "Field type: " << typeName << endl
+    << "Patch type: " << this->patch().type()
+    << exit(FatalError);
   }
 }
+
+
 template<class Type>
 mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
 (
@@ -87,11 +96,13 @@ mousse::cyclicAMIPointPatchField<Type>::cyclicAMIPointPatchField
   const DimensionedField<Type, pointMesh>& iF
 )
 :
-  coupledPointPatchField<Type>(ptf, iF),
-  cyclicAMIPatch_(ptf.cyclicAMIPatch_),
-  ppiPtr_(NULL),
-  nbrPpiPtr_(NULL)
+  coupledPointPatchField<Type>{ptf, iF},
+  cyclicAMIPatch_{ptf.cyclicAMIPatch_},
+  ppiPtr_{NULL},
+  nbrPpiPtr_{NULL}
 {}
+
+
 // Member Functions 
 template<class Type>
 void mousse::cyclicAMIPointPatchField<Type>::swapAddSeparated
@@ -118,8 +129,8 @@ void mousse::cyclicAMIPointPatchField<Type>::swapAddSeparated
       (
         fld.boundaryField()[nbrPatch.index()]
       );
-    Field<Type> ptFld(this->patchInternalField(pField));
-    Field<Type> nbrPtFld(nbr.patchInternalField(pField));
+    Field<Type> ptFld{this->patchInternalField(pField)};
+    Field<Type> nbrPtFld{nbr.patchInternalField(pField)};
     if (doTransform())
     {
       const tensor& forwardT = this->forwardT()[0];
@@ -131,11 +142,11 @@ void mousse::cyclicAMIPointPatchField<Type>::swapAddSeparated
     // face back to point
     {
       // add neighbour side contribution to owner
-      Field<Type> nbrFcFld(nbrPpi().pointToFaceInterpolate(nbrPtFld));
+      Field<Type> nbrFcFld{nbrPpi().pointToFaceInterpolate(nbrPtFld)};
       // interpolate to owner
       if (cyclicAMIPatch_.cyclicAMIPatch().applyLowWeightCorrection())
       {
-        Field<Type> fcFld(ppi().pointToFaceInterpolate(ptFld));
+        Field<Type> fcFld{ppi().pointToFaceInterpolate(ptFld)};
         nbrFcFld =
           cyclicAMIPatch_.cyclicAMIPatch().interpolate
           (
@@ -157,11 +168,11 @@ void mousse::cyclicAMIPointPatchField<Type>::swapAddSeparated
     }
     {
       // add owner side contribution to neighbour
-      Field<Type> fcFld(ppi().pointToFaceInterpolate(ptFld));
+      Field<Type> fcFld{ppi().pointToFaceInterpolate(ptFld)};
       // interpolate to neighbour
       if (cyclicAMIPatch_.cyclicAMIPatch().applyLowWeightCorrection())
       {
-        Field<Type> nbrFcFld(nbrPpi().pointToFaceInterpolate(nbrPtFld));
+        Field<Type> nbrFcFld{nbrPpi().pointToFaceInterpolate(nbrPtFld)};
         fcFld =
           cyclicAMIPatch_.cyclicAMIPatch().neighbPatch().interpolate
           (

@@ -24,18 +24,9 @@ protected:
   // Protected data
     //- Point motion field
     mutable pointVectorField pointMotionU_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    velocityMotionSolver
-    (
-      const velocityMotionSolver&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const velocityMotionSolver&);
 public:
   //- Runtime type information
-  TypeName("velocityMotionSolver");
+  TYPE_NAME("velocityMotionSolver");
   // Constructors
     //- Construct from mesh and dictionary
     velocityMotionSolver
@@ -44,6 +35,10 @@ public:
       const IOdictionary&,
       const word& type
     );
+    //- Disallow default bitwise copy construct
+    velocityMotionSolver(const velocityMotionSolver&) = delete;
+    //- Disallow default bitwise assignment
+    velocityMotionSolver& operator=(const velocityMotionSolver&) = delete;
   //- Destructor
   virtual ~velocityMotionSolver();
   // Member Functions

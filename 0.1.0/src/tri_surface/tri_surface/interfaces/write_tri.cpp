@@ -16,7 +16,7 @@ void triSurface::writeTRI(const bool writeSorted, Ostream& os) const
   if (writeSorted)
   {
     label faceIndex = 0;
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       for
       (
@@ -45,7 +45,7 @@ void triSurface::writeTRI(const bool writeSorted, Ostream& os) const
   }
   else
   {
-    forAll(*this, faceI)
+    FOR_ALL(*this, faceI)
     {
       const point& p1 = ps[operator[](faceI)[0]];
       const point& p2 = ps[operator[](faceI)[1]];

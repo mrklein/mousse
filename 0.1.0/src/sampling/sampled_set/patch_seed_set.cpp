@@ -15,8 +15,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(patchSeedSet, 0);
-  addToRunTimeSelectionTable(sampledSet, patchSeedSet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(patchSeedSet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, patchSeedSet, word);
 }
 // Private Member Functions 
 void mousse::patchSeedSet::calcSamples
@@ -34,7 +34,7 @@ void mousse::patchSeedSet::calcSamples
   }
   // Construct search tree for all patch faces.
   label sz = 0;
-  forAllConstIter(labelHashSet, patchSet_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
   {
     const polyPatch& pp = mesh().boundaryMesh()[iter.key()];
     sz += pp.size();
@@ -45,10 +45,10 @@ void mousse::patchSeedSet::calcSamples
   }
   labelList patchFaces(sz);
   sz = 0;
-  forAllConstIter(labelHashSet, patchSet_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
   {
     const polyPatch& pp = mesh().boundaryMesh()[iter.key()];
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       patchFaces[sz++] = pp.start()+i;
     }
@@ -64,7 +64,7 @@ void mousse::patchSeedSet::calcSamples
     labelList subset = identity(sz);
     for (label iter = 0; iter < 4; iter++)
     {
-      forAll(subset, i)
+      FOR_ALL(subset, i)
       {
         label j = rndGen.integer(0, subset.size()-1);
         Swap(subset[i], subset[j]);
@@ -89,7 +89,7 @@ void mousse::patchSeedSet::calcSamples
   samplingCurveDist.setCapacity(patchFaces.size());
   // For calculation of min-decomp tet base points
   (void)mesh().tetBasePtIs();
-  forAll(patchFaces, i)
+  FOR_ALL(patchFaces, i)
   {
     label faceI = patchFaces[i];
     pointIndexHit info = mappedPatchBase::facePoint

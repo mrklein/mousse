@@ -34,7 +34,7 @@ bool mousse::NoInteraction<CloudType>::active() const
 template<class CloudType>
 bool mousse::NoInteraction<CloudType>::correct
 (
-  typename CloudType::parcelType& p,
+  typename CloudType::parcelType& /*p*/,
   const polyPatch&,
   bool&,
   const scalar,

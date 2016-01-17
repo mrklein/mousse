@@ -36,10 +36,6 @@ class fvSurfaceMapper
     //- Inserted faces
     mutable labelList* insertedObjectLabelsPtr_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fvSurfaceMapper(const fvSurfaceMapper&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvSurfaceMapper&);
     //- Calculate addressing
     void calcAddressing() const;
     //- Clear out local storage
@@ -52,6 +48,10 @@ public:
       const fvMesh& mesh,
       const faceMapper& fMapper
     );
+    //- Disallow default bitwise copy construct
+    fvSurfaceMapper(const fvSurfaceMapper&) = delete;
+    //- Disallow default bitwise assignment
+    fvSurfaceMapper& operator=(const fvSurfaceMapper&) = delete;
   //- Destructor
   virtual ~fvSurfaceMapper();
   // Member Functions

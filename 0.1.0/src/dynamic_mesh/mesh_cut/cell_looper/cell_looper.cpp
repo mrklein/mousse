@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cellLooper, 0);
-  defineRunTimeSelectionTable(cellLooper, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(cellLooper, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(cellLooper, word);
 }
 mousse::autoPtr<mousse::cellLooper> mousse::cellLooper::New
 (
@@ -22,7 +22,7 @@ mousse::autoPtr<mousse::cellLooper> mousse::cellLooper::New
     wordConstructorTablePtr_->find(type);
   if (cstrIter == wordConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cellLooper::New(const word&, const polyMesh&)"
     )   << "Unknown set type "
@@ -48,7 +48,7 @@ mousse::labelList mousse::cellLooper::getVertFacesNonEdge
   const labelList& pFaces = mesh().pointFaces()[vertI];
   labelList vertFaces(pFaces.size());
   label vertFaceI = 0;
-  forAll(pFaces, pFaceI)
+  FOR_ALL(pFaces, pFaceI)
   {
     label faceI = pFaces[pFaceI];
     if
@@ -72,7 +72,7 @@ mousse::label mousse::cellLooper::getFirstVertEdge
 ) const
 {
   const labelList& fEdges = mesh().faceEdges()[faceI];
-  forAll(fEdges, fEdgeI)
+  FOR_ALL(fEdges, fEdgeI)
   {
     label edgeI = fEdges[fEdgeI];
     const edge& e = mesh().edges()[edgeI];
@@ -81,7 +81,7 @@ mousse::label mousse::cellLooper::getFirstVertEdge
       return edgeI;
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "getFirstVertEdge(const label, const label)"
   )   << "Can not find edge on face " << faceI
@@ -101,7 +101,7 @@ mousse::labelList mousse::cellLooper::getVertEdgesNonFace
   const labelList& pEdges = mesh().pointEdges()[vertI];
   labelList vertEdges(pEdges.size());
   label vertEdgeI = 0;
-  forAll(pEdges, pEdgeI)
+  FOR_ALL(pEdges, pEdgeI)
   {
     label edgeI = pEdges[pEdgeI];
     if
@@ -127,7 +127,7 @@ mousse::label mousse::cellLooper::getMisAlignedEdge
   const labelList& cEdges = mesh().cellEdges()[cellI];
   label cutEdgeI = -1;
   scalar maxCos = -GREAT;
-  forAll(cEdges, cEdgeI)
+  FOR_ALL(cEdges, cEdgeI)
   {
     label edgeI = cEdges[cEdgeI];
     scalar cosAngle = mag(refDir & meshTools::normEdgeVec(mesh(), edgeI));

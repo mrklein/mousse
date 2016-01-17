@@ -12,8 +12,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(explicitPorositySource, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(explicitPorositySource, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     explicitPorositySource,
@@ -36,7 +36,7 @@ mousse::fv::explicitPorositySource::explicitPorositySource
   read(dict);
   if (selectionMode_ != smCellZone)
   {
-    FatalErrorIn("void mousse::fv::explicitPorositySource::initialise()")
+    FATAL_ERROR_IN("void mousse::fv::explicitPorositySource::initialise()")
       << "The porosity region must be specified as a cellZone.  Current "
       << "selection mode is " << selectionModeTypeNames_[selectionMode_]
       << exit(FatalError);
@@ -56,7 +56,7 @@ mousse::fv::explicitPorositySource::explicitPorositySource
 void mousse::fv::explicitPorositySource::addSup
 (
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   fvMatrix<vector> porosityEqn(eqn.psi(), eqn.dimensions());
@@ -65,9 +65,9 @@ void mousse::fv::explicitPorositySource::addSup
 }
 void mousse::fv::explicitPorositySource::addSup
 (
-  const volScalarField& rho,
+  const volScalarField& /*rho*/,
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   fvMatrix<vector> porosityEqn(eqn.psi(), eqn.dimensions());
@@ -77,9 +77,9 @@ void mousse::fv::explicitPorositySource::addSup
 void mousse::fv::explicitPorositySource::addSup
 (
   const volScalarField& alpha,
-  const volScalarField& rho,
+  const volScalarField& /*rho*/,
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   fvMatrix<vector> porosityEqn(eqn.psi(), eqn.dimensions());

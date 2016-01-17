@@ -9,8 +9,8 @@ namespace mousse
 namespace energyScalingFunctions
 {
 // Static Data Members
-defineTypeNameAndDebug(shifted, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(shifted, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   energyScalingFunction,
   shifted,
@@ -28,7 +28,7 @@ shifted::shifted
   e_at_rCut_(pairPot.unscaledEnergy(pairPot.rCut()))
 {}
 // Member Functions 
-void shifted::scaleEnergy(scalar& e, const scalar r) const
+void shifted::scaleEnergy(scalar& e, const scalar /*r*/) const
 {
   e -= e_at_rCut_;
 }

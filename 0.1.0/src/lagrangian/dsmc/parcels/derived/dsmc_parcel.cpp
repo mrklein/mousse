@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-//    defineTypeNameAndDebug(dsmcParcel, 0);
+//    DEFINE_TYPE_NAME_AND_DEBUG(dsmcParcel, 0);
 //    defineParticleTypeNameAndDebug(dsmcParcel, 0);
 }
 // Constructors

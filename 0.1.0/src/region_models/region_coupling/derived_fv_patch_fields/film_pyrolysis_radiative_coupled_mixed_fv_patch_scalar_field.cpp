@@ -14,7 +14,7 @@ filmModel() const
 {
   HashTable<const filmModelType*> models
     = db().time().lookupClass<filmModelType>();
-  forAllConstIter(HashTable<const filmModelType*>, models, iter)
+  FOR_ALL_CONST_ITER(HashTable<const filmModelType*>, models, iter)
   {
     if (iter()->regionMesh().name() == filmRegionName_)
     {
@@ -22,20 +22,20 @@ filmModel() const
     }
   }
   DynamicList<word> modelNames;
-  forAllConstIter(HashTable<const filmModelType*>, models, iter)
+  FOR_ALL_CONST_ITER(HashTable<const filmModelType*>, models, iter)
   {
     modelNames.append(iter()->regionMesh().name());
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::"
     "filmModelType& "
     "filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::"
     "filmModel() const"
   )
-    << "Unable to locate film region " << filmRegionName_
-    << ".  Available regions include: " << modelNames
-    << abort(FatalError);
+  << "Unable to locate film region " << filmRegionName_
+  << ".  Available regions include: " << modelNames
+  << abort(FatalError);
   return **models.begin();
 }
 const filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::
@@ -45,7 +45,7 @@ pyrModel() const
 {
   HashTable<const pyrolysisModelType*> models =
     db().time().lookupClass<pyrolysisModelType>();
-  forAllConstIter(HashTable<const pyrolysisModelType*>, models, iter)
+  FOR_ALL_CONST_ITER(HashTable<const pyrolysisModelType*>, models, iter)
   {
     if (iter()->regionMesh().name() == pyrolysisRegionName_)
     {
@@ -53,20 +53,20 @@ pyrModel() const
     }
   }
   DynamicList<word> modelNames;
-  forAllConstIter(HashTable<const pyrolysisModelType*>, models, iter)
+  FOR_ALL_CONST_ITER(HashTable<const pyrolysisModelType*>, models, iter)
   {
     modelNames.append(iter()->regionMesh().name());
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::"
     "pyrolysisModelType& "
     "filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::"
     "pyrModel() const"
   )
-    << "Unable to locate pyrolysis region " << pyrolysisRegionName_
-    << ".  Available regions include: " << modelNames
-    << abort(FatalError);
+  << "Unable to locate pyrolysis region " << pyrolysisRegionName_
+  << ".  Available regions include: " << modelNames
+  << abort(FatalError);
   return **models.begin();
 }
 // Constructors 
@@ -77,15 +77,15 @@ filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), "undefined", "undefined", "undefined-K"),
-  filmRegionName_("surfaceFilmProperties"),
-  pyrolysisRegionName_("pyrolysisProperties"),
-  TnbrName_("undefined-Tnbr"),
-  QrName_("undefined-Qr"),
-  convectiveScaling_(1.0),
-  filmDeltaDry_(0.0),
-  filmDeltaWet_(0.0)
+  mixedFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), "undefined", "undefined", "undefined-K"},
+  filmRegionName_{"surfaceFilmProperties"},
+  pyrolysisRegionName_{"pyrolysisProperties"},
+  TnbrName_{"undefined-Tnbr"},
+  QrName_{"undefined-Qr"},
+  convectiveScaling_{1.0},
+  filmDeltaDry_{0.0},
+  filmDeltaWet_{0.0}
 {
   this->refValue() = 0.0;
   this->refGrad() = 0.0;
@@ -100,15 +100,15 @@ filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(psf, p, iF, mapper),
-  temperatureCoupledBase(patch(), psf),
-  filmRegionName_(psf.filmRegionName_),
-  pyrolysisRegionName_(psf.pyrolysisRegionName_),
-  TnbrName_(psf.TnbrName_),
-  QrName_(psf.QrName_),
-  convectiveScaling_(psf.convectiveScaling_),
-  filmDeltaDry_(psf.filmDeltaDry_),
-  filmDeltaWet_(psf.filmDeltaWet_)
+  mixedFvPatchScalarField{psf, p, iF, mapper},
+  temperatureCoupledBase{patch(), psf},
+  filmRegionName_{psf.filmRegionName_},
+  pyrolysisRegionName_{psf.pyrolysisRegionName_},
+  TnbrName_{psf.TnbrName_},
+  QrName_{psf.QrName_},
+  convectiveScaling_{psf.convectiveScaling_},
+  filmDeltaDry_{psf.filmDeltaDry_},
+  filmDeltaWet_{psf.filmDeltaWet_}
 {}
 filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::
 filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
@@ -118,25 +118,25 @@ filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), dict),
+  mixedFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), dict},
   filmRegionName_
-  (
+  {
     dict.lookupOrDefault<word>("filmRegion", "surfaceFilmProperties")
-  ),
+  },
   pyrolysisRegionName_
-  (
+  {
     dict.lookupOrDefault<word>("pyrolysisRegion", "pyrolysisProperties")
-  ),
-  TnbrName_(dict.lookup("Tnbr")),
-  QrName_(dict.lookup("Qr")),
-  convectiveScaling_(dict.lookupOrDefault<scalar>("convectiveScaling", 1.0)),
-  filmDeltaDry_(readScalar(dict.lookup("filmDeltaDry"))),
-  filmDeltaWet_(readScalar(dict.lookup("filmDeltaWet")))
+  },
+  TnbrName_{dict.lookup("Tnbr")},
+  QrName_{dict.lookup("Qr")},
+  convectiveScaling_{dict.lookupOrDefault<scalar>("convectiveScaling", 1.0)},
+  filmDeltaDry_{readScalar(dict.lookup("filmDeltaDry"))},
+  filmDeltaWet_{readScalar(dict.lookup("filmDeltaWet"))}
 {
   if (!isA<mappedPatchBase>(this->patch().patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::"
       "filmPyrolysisRadiativeCoupledMixedFvPatchScalarField\n"
@@ -145,12 +145,13 @@ filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
       "    const DimensionedField<scalar, volMesh>& iF,\n"
       "    const dictionary& dict\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not type '" << mappedPatchBase::typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not type '" << mappedPatchBase::typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
   if (dict.found("refValue"))
@@ -175,15 +176,15 @@ filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(psf, iF),
-  temperatureCoupledBase(patch(), psf),
-  filmRegionName_(psf.filmRegionName_),
-  pyrolysisRegionName_(psf.pyrolysisRegionName_),
-  TnbrName_(psf.TnbrName_),
-  QrName_(psf.QrName_),
-  convectiveScaling_(psf.convectiveScaling_),
-  filmDeltaDry_(psf.filmDeltaDry_),
-  filmDeltaWet_(psf.filmDeltaWet_)
+  mixedFvPatchScalarField{psf, iF},
+  temperatureCoupledBase{patch(), psf},
+  filmRegionName_{psf.filmRegionName_},
+  pyrolysisRegionName_{psf.pyrolysisRegionName_},
+  TnbrName_{psf.TnbrName_},
+  QrName_{psf.QrName_},
+  convectiveScaling_{psf.convectiveScaling_},
+  filmDeltaDry_{psf.filmDeltaDry_},
+  filmDeltaWet_{psf.filmDeltaWet_}
 {}
 // Member Functions 
 void filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::updateCoeffs()
@@ -248,14 +249,14 @@ void filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::updateCoeffs()
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::"
       "updateCoeffs()"
     )
-      << type() << " condition is intended to be applied to either the "
-      << "primary or pyrolysis regions only"
-      << exit(FatalError);
+    << type() << " condition is intended to be applied to either the "
+    << "primary or pyrolysis regions only"
+    << exit(FatalError);
   }
   const label filmPatchI = pyrolysis.nbrCoupledPatchID(film, coupledPatchI);
   const scalarField htcw(film.htcw().h()().boundaryField()[filmPatchI]);
@@ -352,7 +353,7 @@ void filmPyrolysisRadiativeCoupledMixedFvPatchScalarField::write
     << token::END_STATEMENT << endl;
   temperatureCoupledBase::write(os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   filmPyrolysisRadiativeCoupledMixedFvPatchScalarField

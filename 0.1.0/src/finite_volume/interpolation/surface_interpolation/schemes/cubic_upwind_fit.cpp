@@ -5,17 +5,21 @@
 #include "upwind_fit_scheme.hpp"
 #include "cubic_upwind_fit_polynomial.hpp"
 #include "upwind_cfc_cell_to_face_stencil_object.hpp"
+
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug
-  (
-    UpwindFitData<cubicUpwindFitPolynomial>,
-    0
-  );
-  makeUpwindFitSurfaceInterpolationScheme
-  (
-    cubicUpwindFit,
-    cubicUpwindFitPolynomial,
-    upwindCFCCellToFaceStencilObject
-  );
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG
+(
+  UpwindFitData<cubicUpwindFitPolynomial>,
+  0
+);
+
+MAKE_UPWIND_FIT_SURFACE_INTERPOLATION_SCHEME
+(
+  cubicUpwindFit,
+  cubicUpwindFitPolynomial,
+  upwindCFCCellToFaceStencilObject
+);
+
 }

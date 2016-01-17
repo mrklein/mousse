@@ -25,14 +25,11 @@ class maxDeltaxyz
     //- Model coefficient
     scalar deltaCoeff_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    maxDeltaxyz(const maxDeltaxyz&);
-    void operator=(const maxDeltaxyz&);
     // Calculate the delta values
     void calcDelta();
 public:
   //- Runtime type information
-  TypeName("maxDeltaxyz");
+  TYPE_NAME("maxDeltaxyz");
   // Constructors
     //- Construct from name, turbulenceModel and dictionary
     maxDeltaxyz
@@ -41,6 +38,9 @@ public:
       const turbulenceModel& turbulence,
       const dictionary&
     );
+    //- Disallow default bitwise copy construct and assignment
+    maxDeltaxyz(const maxDeltaxyz&) = delete;
+    maxDeltaxyz& operator=(const maxDeltaxyz&) = delete;
   //- Destructor
   virtual ~maxDeltaxyz()
   {}

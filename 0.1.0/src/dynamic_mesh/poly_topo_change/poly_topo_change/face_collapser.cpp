@@ -20,7 +20,7 @@ void mousse::faceCollapser::insert
   labelHashSet& set
 )
 {
-  forAll(elems, i)
+  FOR_ALL(elems, i)
   {
     if (elems[i] != excludeElem)
     {
@@ -37,7 +37,7 @@ mousse::label mousse::faceCollapser::findEdge
   const label v1
 )
 {
-  forAll(edgeLabels, i)
+  FOR_ALL(edgeLabels, i)
   {
     label edgeI = edgeLabels[i];
     const edge& e = edges[edgeI];
@@ -50,7 +50,7 @@ mousse::label mousse::faceCollapser::findEdge
       return edgeI;
     }
   }
-  FatalErrorIn("findEdge") << "Cannot find edge between vertices " << v0
+  FATAL_ERROR_IN("findEdge") << "Cannot find edge between vertices " << v0
     << " and " << v1 << " in edge labels " << edgeLabels
     << abort(FatalError);
   return -1;
@@ -68,7 +68,7 @@ void mousse::faceCollapser::filterFace
   const labelList& fEdges = mesh_.faceEdges()[faceI];
   // Space for replaced vertices and split edges.
   DynamicList<label> newFace(10 * f.size());
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label v0 = f[fp];
     newFace.append(v0);
@@ -87,14 +87,14 @@ void mousse::faceCollapser::filterFace
       const labelList& extraVerts = edgeFnd();
       if (v0 == mesh_.edges()[edgeI].start())
       {
-        forAll(extraVerts, i)
+        FOR_ALL(extraVerts, i)
         {
           newFace.append(extraVerts[i]);
         }
       }
       else
       {
-        forAllReverse(extraVerts, i)
+        FOR_ALL_REVERSE(extraVerts, i)
         {
           newFace.append(extraVerts[i]);
         }
@@ -169,7 +169,7 @@ void mousse::faceCollapser::setRefinement
   //
   // Add/remove vertices and construct mapping
   //
-  forAll(faceLabels, i)
+  FOR_ALL(faceLabels, i)
   {
     const label faceI = faceLabels[i];
     const face& f = faces[faceI];
@@ -277,7 +277,7 @@ void mousse::faceCollapser::setRefinement
     {
       OFstream str("conflictingFace.obj");
       meshTools::writeOBJ(str, faceList(1, f), points);
-      FatalErrorIn("faceCollapser::setRefinement")
+      FATAL_ERROR_IN("faceCollapser::setRefinement")
         << "Trying to collapse face:" << faceI << " vertices:" << f
         << " to edges between vertices " << f[fpA] << " and "
         << f[fpB] << " but " << f[fpB] << " does not seem to be the"
@@ -288,7 +288,7 @@ void mousse::faceCollapser::setRefinement
     // From fp to index in sort:
     Pout<< "Face:" << f << " fpA:" << fpA << " fpB:" << fpB << nl;
     labelList sortedFp(f.size());
-    forAll(dist.indices(), i)
+    FOR_ALL(dist.indices(), i)
     {
       label fp = dist.indices()[i];
       Pout<< "   fp:" << fp << " distance:" << dist[i] << nl;
@@ -299,7 +299,7 @@ void mousse::faceCollapser::setRefinement
     // vertices inserted and build an edge-to-intersected-points table.
     // Order of inserted points is in edge order (from e.start to
     // e.end)
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label fp1 = f.fcIndex(fp);
       // Get index in sorted list
@@ -344,13 +344,13 @@ void mousse::faceCollapser::setRefinement
       }
     }
   }
-  forAllConstIter(Map<labelList>, splitEdges, iter)
+  FOR_ALL_CONST_ITER(Map<labelList>, splitEdges, iter)
   {
     Pout<< "Split edge:" << iter.key()
       << " verts:" << mesh_.edges()[iter.key()]
       << " in:" << nl;
     const labelList& edgePoints = iter();
-    forAll(edgePoints, i)
+    FOR_ALL(edgePoints, i)
     {
       Pout<< "    " << edgePoints[i] << nl;
     }
@@ -358,7 +358,7 @@ void mousse::faceCollapser::setRefinement
   //
   // Remove faces.
   //
-  forAll(faceLabels, i)
+  FOR_ALL(faceLabels, i)
   {
     const label faceI = faceLabels[i];
     meshMod.setAction(polyRemoveFace(faceI));
@@ -368,7 +368,7 @@ void mousse::faceCollapser::setRefinement
   //
   // Modify faces affected (but not removed)
   //
-  forAllConstIter(labelHashSet, affectedFaces, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, affectedFaces, iter)
   {
     filterFace(splitEdges, iter.key(), meshMod);
   }

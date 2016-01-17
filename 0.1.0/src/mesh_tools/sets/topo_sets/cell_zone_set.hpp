@@ -22,7 +22,7 @@ class cellZoneSet
     labelList addressing_;
 public:
   //- Runtime type information
-  TypeName("cellZoneSet");
+  TYPE_NAME("cellZoneSet");
   // Constructors
     //- Construct from objectRegistry and name
     cellZoneSet

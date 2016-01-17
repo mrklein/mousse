@@ -8,10 +8,15 @@
 //   linear weighting factors but also applies an explicit correction.
 // SourceFiles
 //   cubic.cpp
+
 #ifndef cubic_hpp_
 #define cubic_hpp_
+
+#include "surface_fields.hpp"
 #include "linear.hpp"
 #include "gauss_grad.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -20,18 +25,14 @@ class cubic
   public linear<Type>
 {
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    cubic(const cubic&);
-    //- Disallow default bitwise assignment
-    void operator=(const cubic&);
 public:
   //- Runtime type information
-  TypeName("cubic");
+  TYPE_NAME("cubic");
   // Constructors
     //- Construct from mesh
     cubic(const fvMesh& mesh)
     :
-      linear<Type>(mesh)
+      linear<Type>{mesh}
     {}
     //- Construct from mesh and Istream
     cubic
@@ -40,7 +41,7 @@ public:
       Istream&
     )
     :
-      linear<Type>(mesh)
+      linear<Type>{mesh}
     {}
     //- Construct from mesh, faceFlux and Istream
     cubic
@@ -50,8 +51,12 @@ public:
       Istream&
     )
     :
-      linear<Type>(mesh)
+      linear<Type>{mesh}
     {}
+    //- Disallow default bitwise copy construct
+    cubic(const cubic&) = delete;
+    //- Disallow default bitwise assignment
+    cubic& operator=(const cubic&) = delete;
   // Member Functions
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
@@ -117,7 +122,7 @@ public:
           )/mesh.magSf()/mesh.surfaceInterpolation::deltaCoeffs()
         );
       }
-      forAll(sfCorr.boundaryField(), pi)
+      FOR_ALL(sfCorr.boundaryField(), pi)
       {
         if (!sfCorr.boundaryField()[pi].coupled())
         {

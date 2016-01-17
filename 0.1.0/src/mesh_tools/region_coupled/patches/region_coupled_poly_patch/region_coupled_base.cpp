@@ -6,11 +6,14 @@
 #include "sub_field.hpp"
 #include "poly_mesh.hpp"
 #include "time.hpp"
+#include "ofstream.hpp"
+#include "mesh_tools.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledBase, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledBase, 0);
 }
-// Protected Member Functions 
+// Protected Member Functions
 void mousse::regionCoupledBase::resetAMI() const
 {
   if (owner())
@@ -74,13 +77,13 @@ void mousse::regionCoupledBase::resetAMI() const
     }
   }
 }
-// Protected Member Functions 
+// Protected Member Functions
 void mousse::regionCoupledBase::clearGeom()
 {
   AMIPtr_.clear();
   surfPtr_.clear();
 }
-// Constructors 
+// Constructors
 mousse::regionCoupledBase::regionCoupledBase
 (
   const polyPatch& pp
@@ -128,10 +131,12 @@ mousse::regionCoupledBase::regionCoupledBase
   surfPtr_(mpb.surfPtr_),
   surfDict_(mpb.surfDict_)
 {}
-// Destructor 
+
+// Destructor
 mousse::regionCoupledBase::~regionCoupledBase()
 {}
-// Member Functions 
+
+// Member Functions
 mousse::label mousse::regionCoupledBase::neighbPatchID() const
 {
   if (nbrPatchID_ == -1)
@@ -152,7 +157,7 @@ mousse::label mousse::regionCoupledBase::neighbPatchID() const
       nbrPatchID_ = mesh.boundaryMesh().findPatchID(nbrPatchName_);
       if (nbrPatchID_ == -1)
       {
-        FatalErrorIn("cyclicPolyAMIPatch::neighbPatchID() const")
+        FATAL_ERROR_IN("cyclicPolyAMIPatch::neighbPatchID() const")
           << "Illegal neighbourPatch name " << nbrPatchName_
           << nl << "Valid patch names are "
           << mesh.boundaryMesh().names()
@@ -166,7 +171,7 @@ mousse::label mousse::regionCoupledBase::neighbPatchID() const
         );
       if (nbrPatch.nbrPatchName() != patch_.name())
       {
-        WarningIn("regionCoupledBase::neighbPatchID() const")
+        WARNING_IN("regionCoupledBase::neighbPatchID() const")
           << "Patch " << patch_.name()
           << " specifies neighbour patch " << nbrPatchName()
           << nl << " but that in return specifies "
@@ -217,7 +222,7 @@ const mousse::AMIPatchToPatchInterpolation& mousse::regionCoupledBase::AMI() con
 {
   if (!owner())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const AMIPatchToPatchInterpolation& regionCoupledBase::AMI()"
     )
@@ -243,7 +248,7 @@ mousse::regionCoupledBase::neighbPatch() const
 }
 bool mousse::regionCoupledBase::order
 (
-  PstreamBuffers& pBufs,
+  PstreamBuffers&,
   const primitivePatch& pp,
   labelList& faceMap,
   labelList& rotation

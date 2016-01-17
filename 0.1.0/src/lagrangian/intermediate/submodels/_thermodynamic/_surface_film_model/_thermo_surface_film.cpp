@@ -21,14 +21,14 @@ template<class CloudType>
 typename mousse::ThermoSurfaceFilm<CloudType>::interactionType
 mousse::ThermoSurfaceFilm<CloudType>::interactionTypeEnum(const word& it) const
 {
-  forAll(interactionTypeNames_, i)
+  FOR_ALL(interactionTypeNames_, i)
   {
     if (interactionTypeNames_[i] == it)
     {
       return interactionType(i);
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "ThermoSurfaceFilm<CloudType>::interactionType "
     "ThermoSurfaceFilm<CloudType>::interactionTypeEnum"
@@ -48,7 +48,7 @@ mousse::word mousse::ThermoSurfaceFilm<CloudType>::interactionTypeStr
 {
   if (it >= interactionTypeNames_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ThermoSurfaceFilm<CloudType>::interactionType "
       "ThermoSurfaceFilm<CloudType>::interactionTypeStr"
@@ -310,7 +310,7 @@ void mousse::ThermoSurfaceFilm<CloudType>::splashInteraction
   // sample splash distribution to determine secondary parcel diameters
   scalarList dNew(parcelsPerSplash_);
   scalarList npNew(parcelsPerSplash_);
-  forAll(dNew, i)
+  FOR_ALL(dNew, i)
   {
     const scalar y = rndGen_.sample01<scalar>();
     dNew[i] = -dBarSplash*log(exp(-dMin/dBarSplash) - y*K);
@@ -335,7 +335,7 @@ void mousse::ThermoSurfaceFilm<CloudType>::splashInteraction
   const scalar logD = log(d);
   const scalar coeff2 = log(dNew[0]) - logD + ROOTVSMALL;
   scalar coeff1 = 0.0;
-  forAll(dNew, i)
+  FOR_ALL(dNew, i)
   {
     coeff1 += sqr(log(dNew[i]) - logD);
   }
@@ -343,7 +343,7 @@ void mousse::ThermoSurfaceFilm<CloudType>::splashInteraction
   const scalar magUns0 =
     sqrt(2.0*parcelsPerSplash_*EKs/mSplash/(1.0 + coeff1/sqr(coeff2)));
   // Set splashed parcel properties
-  forAll(dNew, i)
+  FOR_ALL(dNew, i)
   {
     const vector dirVec = splashDirection(tanVec1, tanVec2, -nf);
     // Create a new parcel by copying source parcel
@@ -487,7 +487,7 @@ bool mousse::ThermoSurfaceFilm<CloudType>::transferParcel
       }
       default:
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "bool ThermoSurfaceFilm<CloudType>::transferParcel"
           "("

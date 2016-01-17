@@ -22,7 +22,7 @@ void mousse::ensightCaseEntry
 )
 {
   caseFile.setf(ios_base::left);
-  fileName dirName(dataMask);
+  fileName dirName{dataMask};
   if (local.size())
   {
     dirName = dirName/local;
@@ -64,12 +64,12 @@ void mousse::ensightParticlePositions
   IOstream::streamFormat format
 )
 {
-  Cloud<passiveParticle> parcels(mesh, cloudName, false);
+  Cloud<passiveParticle> parcels{mesh, cloudName, false};
   fileName cloudDir = subDir/cloud::prefix/cloudName;
   fileName postFileName = cloudDir/"positions";
   // the ITER/lagrangian subdirectory must exist
   mkDir(dataDir/cloudDir);
-  ensightFile os(dataDir/postFileName, format);
+  ensightFile os{dataDir/postFileName, format};
   // tag binary format (just like geometry files)
   os.writeBinaryHeader();
   os.write(postFileName);
@@ -81,11 +81,11 @@ void mousse::ensightParticlePositions
   // binary write is Ensight6 - first ids, then positions
   if (format == IOstream::BINARY)
   {
-    forAll(parcels, i)
+    FOR_ALL(parcels, i)
     {
       os.write(i+1);
     }
-    forAllConstIter(Cloud<passiveParticle>, parcels, elmnt)
+    FOR_ALL_CONST_ITER(Cloud<passiveParticle>, parcels, elmnt)
     {
       const vector& p = elmnt().position();
       os.write(p.x());
@@ -96,7 +96,7 @@ void mousse::ensightParticlePositions
   else
   {
     label nParcels = 0;
-    forAllConstIter(Cloud<passiveParticle>, parcels, elmnt)
+    FOR_ALL_CONST_ITER(Cloud<passiveParticle>, parcels, elmnt)
     {
       const vector& p = elmnt().position();
       os.write(++nParcels, 8);    // unusual width
@@ -120,15 +120,14 @@ void mousse::ensightLagrangianField
   Info<< " " << fieldObject.name() << flush;
   fileName cloudDir = subDir/cloud::prefix/cloudName;
   fileName postFileName = cloudDir/fieldObject.name();
-  string title =
-    postFileName + " with " + pTraits<Type>::typeName + " values";
-  ensightFile os(dataDir/postFileName, format);
+  string title = postFileName + " with " + pTraits<Type>::typeName + " values";
+  ensightFile os{dataDir/postFileName, format};
   os.write(title);
   os.newline();
-  IOField<Type> field(fieldObject);
+  IOField<Type> field{fieldObject};
   // 6 values per line
   label count = 0;
-  forAll(field, i)
+  FOR_ALL(field, i)
   {
     Type val = field[i];
     if (mag(val) < 1.0e-90)
@@ -165,7 +164,7 @@ void mousse::ensightVolField
 {
   Info<< " " << fieldObject.name() << flush;
   fileName postFileName = subDir/fieldObject.name();
-  ensightFile os(dataDir/postFileName, format);
+  ensightFile os{dataDir/postFileName, format};
   os.write(postFileName);
   os.newline();
   // ie, volField<Type>

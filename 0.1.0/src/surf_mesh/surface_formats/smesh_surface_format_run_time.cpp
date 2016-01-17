@@ -5,13 +5,14 @@
 #include "smesh_surface_format.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "add_to_member_function_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
 namespace fileFormats
 {
 // write MeshedSurfaceProxy
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   SMESHsurfaceFormat,
@@ -20,7 +21,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   smesh
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   SMESHsurfaceFormat,

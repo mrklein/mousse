@@ -21,7 +21,7 @@ class sigmaRadial
     scalar pStrat_;
 public:
   //- Runtime type information
-  TypeName("sigmaRadial");
+  TYPE_NAME("sigmaRadial");
   // Constructors
     //- Construct from dictionary
     sigmaRadial(const dictionary& dict);

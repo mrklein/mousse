@@ -4,7 +4,7 @@
 
 // Member Functions 
 template<class SourcePatch, class TargetPatch>
-mousse::autoPtr<mousse::AMIMethod<SourcePatch, TargetPatch> >
+mousse::autoPtr<mousse::AMIMethod<SourcePatch, TargetPatch>>
 mousse::AMIMethod<SourcePatch, TargetPatch>::New
 (
   const word& methodName,
@@ -25,7 +25,7 @@ mousse::AMIMethod<SourcePatch, TargetPatch>::New
     componentsConstructorTablePtr_->find(methodName);
   if (cstrIter == componentsConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "AMIMethod<SourcePatch, TargetPatch>::New"
       "("
@@ -43,8 +43,8 @@ mousse::AMIMethod<SourcePatch, TargetPatch>::New
       << "Valid AMIMethod types are:" << nl
       << componentsConstructorTablePtr_->sortedToc() << exit(FatalError);
   }
-  return autoPtr<AMIMethod<SourcePatch, TargetPatch> >
-  (
+  return autoPtr<AMIMethod<SourcePatch, TargetPatch>>
+  {
     cstrIter()
     (
       srcPatch,
@@ -55,5 +55,5 @@ mousse::AMIMethod<SourcePatch, TargetPatch>::New
       reverseTarget,
       requireMatch
     )
-  );
+  };
 }

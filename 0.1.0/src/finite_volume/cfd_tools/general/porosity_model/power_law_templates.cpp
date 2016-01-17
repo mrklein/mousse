@@ -14,10 +14,10 @@ void mousse::porosityModels::powerLaw::apply
 {
   const scalar C0 = C0_;
   const scalar C1m1b2 = (C1_ - 1.0)/2.0;
-  forAll(cellZoneIDs_, zoneI)
+  FOR_ALL(cellZoneIDs_, zoneI)
   {
     const labelList& cells = mesh_.cellZones()[cellZoneIDs_[zoneI]];
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       const label cellI = cells[i];
       Udiag[cellI] +=
@@ -35,10 +35,10 @@ void mousse::porosityModels::powerLaw::apply
 {
   const scalar C0 = C0_;
   const scalar C1m1b2 = (C1_ - 1.0)/2.0;
-  forAll(cellZoneIDs_, zoneI)
+  FOR_ALL(cellZoneIDs_, zoneI)
   {
     const labelList& cells = mesh_.cellZones()[cellZoneIDs_[zoneI]];
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       const label cellI = cells[i];
       AU[cellI] =

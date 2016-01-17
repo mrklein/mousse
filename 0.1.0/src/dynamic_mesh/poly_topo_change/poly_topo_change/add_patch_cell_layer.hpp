@@ -89,7 +89,7 @@ class addPatchCellLayer
         }
         else
         {
-          forAll(y, yi)
+          FOR_ALL(y, yi)
           {
             if (findIndex(x, y[yi]) == -1)
             {
@@ -168,16 +168,16 @@ class addPatchCellLayer
       label&,
       bool&
     );
-    //- Disallow default bitwise copy construct
-    addPatchCellLayer(const addPatchCellLayer&);
-    //- Disallow default bitwise assignment
-    void operator=(const addPatchCellLayer&);
 public:
   //- Runtime type information
-  ClassName("addPatchCellLayer");
+  CLASS_NAME("addPatchCellLayer");
   // Constructors
     //- Construct from mesh.
     addPatchCellLayer(const polyMesh&, const bool addToMesh = true);
+    //- Disallow default bitwise copy construct
+    addPatchCellLayer(const addPatchCellLayer&) = delete;
+    //- Disallow default bitwise assignment
+    addPatchCellLayer& operator=(const addPatchCellLayer&) = delete;
   // Member Functions
     // Access
       //- Added points per patch point.

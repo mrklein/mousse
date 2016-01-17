@@ -1,9 +1,9 @@
-  forAll(ign.sites(), i)
+  FOR_ALL(ign.sites(), i)
   {
     const ignitionSite& ignSite = ign.sites()[i];
     if (ignSite.igniting())
     {
-      forAll(ignSite.cells(), icelli)
+      FOR_ALL(ignSite.cells(), icelli)
       {
         label ignCell = ignSite.cells()[icelli];
         Info<< "Igniting cell " << ignCell;

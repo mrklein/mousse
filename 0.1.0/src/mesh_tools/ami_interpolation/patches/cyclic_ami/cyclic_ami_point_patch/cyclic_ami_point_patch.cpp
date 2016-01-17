@@ -5,17 +5,19 @@
 #include "cyclic_ami_point_patch.hpp"
 #include "point_boundary_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicAMIPointPatch, 0);
-  addToRunTimeSelectionTable
-  (
-    facePointPatch,
-    cyclicAMIPointPatch,
-    polyPatch
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicAMIPointPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  facePointPatch,
+  cyclicAMIPointPatch,
+  polyPatch
+);
 }
+
 // Protected Member Functions 
 void mousse::cyclicAMIPointPatch::initGeometry(PstreamBuffers&)
 {}

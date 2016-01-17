@@ -24,7 +24,7 @@ mousse::phaseProperties::phaseProperties(Istream& is)
     Y_.setSize(nComponents, 0.0);
     carrierIds_.setSize(nComponents, -1);
     label cmptI = 0;
-    forAllConstIter(IDLList<entry>, phaseInfo, iter)
+    FOR_ALL_CONST_ITER(IDLList<entry>, phaseInfo, iter)
     {
       names_[cmptI] = iter().keyword();
       Y_[cmptI] = readScalar(phaseInfo.lookup(names_[cmptI]));
@@ -50,7 +50,7 @@ mousse::Istream& mousse::operator>>(Istream& is, phaseProperties& pp)
     pp.Y_.setSize(nComponents, 0.0);
     pp.carrierIds_.setSize(nComponents, -1);
     label cmptI = 0;
-    forAllConstIter(IDLList<entry>, phaseInfo, iter)
+    FOR_ALL_CONST_ITER(IDLList<entry>, phaseInfo, iter)
     {
       pp.names_[cmptI] = iter().keyword();
       pp.Y_[cmptI] = readScalar(phaseInfo.lookup(pp.names_[cmptI]));
@@ -68,7 +68,7 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const phaseProperties& pp)
   );
   os  << pp.phaseTypeNames[pp.phase_] << nl << token::BEGIN_BLOCK << nl
     << incrIndent;
-  forAll(pp.names_, cmptI)
+  FOR_ALL(pp.names_, cmptI)
   {
     os.writeKeyword(pp.names_[cmptI]) << pp.Y_[cmptI]
       << token::END_STATEMENT << nl;

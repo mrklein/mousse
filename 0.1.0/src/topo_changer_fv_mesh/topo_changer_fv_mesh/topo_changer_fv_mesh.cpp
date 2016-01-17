@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(topoChangerFvMesh, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(topoChangerFvMesh, 0);
 }
 // Constructors 
 mousse::topoChangerFvMesh::topoChangerFvMesh(const IOobject& io)

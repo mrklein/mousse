@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(lineEdge, 0);
-  addToRunTimeSelectionTable(curvedEdge, lineEdge, Istream);
+  DEFINE_TYPE_NAME_AND_DEBUG(lineEdge, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(curvedEdge, lineEdge, Istream);
 }
 // Constructors 
 mousse::lineEdge::lineEdge
@@ -33,7 +33,7 @@ mousse::point mousse::lineEdge::position(const scalar lambda) const
 {
   if (lambda < -SMALL || lambda > 1+SMALL)
   {
-    FatalErrorIn("lineEdge::position(const scalar)")
+    FATAL_ERROR_IN("lineEdge::position(const scalar)")
       << "Parameter out of range, lambda = " << lambda
       << abort(FatalError);
   }

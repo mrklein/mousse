@@ -8,14 +8,18 @@
 #include "empty_poly_patch.hpp"
 #include "demand_driven_data.hpp"
 #include "cyclic_poly_patch.hpp"
+#include "processor_poly_patch.hpp"
+#include "time.hpp"
+#include "pstream_reduce_ops.hpp"
+
 namespace mousse
 {
-// Private Member Functions 
+// Private Member Functions
 bool mousse::fvMeshSubset::checkCellSubset() const
 {
   if (fvMeshSubsetPtr_.empty())
   {
-    FatalErrorIn("bool fvMeshSubset::checkCellSubset() const")
+    FATAL_ERROR_IN("bool fvMeshSubset::checkCellSubset() const")
       << "Mesh subset not set.  Please set the cell map using "
       << "void setCellSubset(const labelHashSet& cellsToSubset)" << endl
       << "before attempting to access subset data"
@@ -33,7 +37,7 @@ void mousse::fvMeshSubset::markPoints
   Map<label>& pointMap
 )
 {
-  forAll(curPoints, pointI)
+  FOR_ALL(curPoints, pointI)
   {
     // Note: insert will only insert if not yet there.
     pointMap.insert(curPoints[pointI], 0);
@@ -45,7 +49,7 @@ void mousse::fvMeshSubset::markPoints
   labelList& pointMap
 )
 {
-  forAll(curPoints, pointI)
+  FOR_ALL(curPoints, pointI)
   {
     pointMap[curPoints[pointI]] = 0;
   }
@@ -64,7 +68,7 @@ void mousse::fvMeshSubset::doCoupledPatches
   {
     PstreamBuffers pBufs(Pstream::nonBlocking);
     // Send face usage across processor patches
-    forAll(oldPatches, oldPatchI)
+    FOR_ALL(oldPatches, oldPatchI)
     {
       const polyPatch& pp = oldPatches[oldPatchI];
       if (isA<processorPolyPatch>(pp))
@@ -78,7 +82,7 @@ void mousse::fvMeshSubset::doCoupledPatches
     }
     pBufs.finishedSends();
     // Receive face usage count and check for faces that become uncoupled.
-    forAll(oldPatches, oldPatchI)
+    FOR_ALL(oldPatches, oldPatchI)
     {
       const polyPatch& pp = oldPatches[oldPatchI];
       if (isA<processorPolyPatch>(pp))
@@ -88,7 +92,7 @@ void mousse::fvMeshSubset::doCoupledPatches
         UIPstream fromNeighbour(procPatch.neighbProcNo(), pBufs);
         labelList nbrCellsUsingFace(fromNeighbour);
         // Combine with this side.
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           if
           (
@@ -106,14 +110,14 @@ void mousse::fvMeshSubset::doCoupledPatches
     }
   }
   // Do same for cyclics.
-  forAll(oldPatches, oldPatchI)
+  FOR_ALL(oldPatches, oldPatchI)
   {
     const polyPatch& pp = oldPatches[oldPatchI];
     if (isA<cyclicPolyPatch>(pp))
     {
       const cyclicPolyPatch& cycPatch =
         refCast<const cyclicPolyPatch>(pp);
-      forAll(cycPatch, i)
+      FOR_ALL(cycPatch, i)
       {
         label thisFaceI = cycPatch.start() + i;
         label otherFaceI = cycPatch.transformGlobalFace(thisFaceI);
@@ -148,13 +152,13 @@ labelList mousse::fvMeshSubset::subset
 {
   // Mark selected elements.
   boolList selected(nElems, false);
-  forAll(selectedElements, i)
+  FOR_ALL(selectedElements, i)
   {
     selected[selectedElements[i]] = true;
   }
   // Count subset of selected elements
   label n = 0;
-  forAll(subsetMap, i)
+  FOR_ALL(subsetMap, i)
   {
     if (selected[subsetMap[i]])
     {
@@ -164,7 +168,7 @@ labelList mousse::fvMeshSubset::subset
   // Collect selected elements
   labelList subsettedElements(n);
   n = 0;
-  forAll(subsetMap, i)
+  FOR_ALL(subsetMap, i)
   {
     if (selected[subsetMap[i]])
     {
@@ -179,7 +183,7 @@ void mousse::fvMeshSubset::subsetZones()
   const pointZoneMesh& pointZones = baseMesh().pointZones();
   // PointZones
   List<pointZone*> pZonePtrs(pointZones.size());
-  forAll(pointZones, i)
+  FOR_ALL(pointZones, i)
   {
     const pointZone& pz = pointZones[i];
     pZonePtrs[i] = new pointZone
@@ -195,7 +199,7 @@ void mousse::fvMeshSubset::subsetZones()
   // Do we need to remove zones where the side we're interested in
   // no longer exists? Guess not.
   List<faceZone*> fZonePtrs(faceZones.size());
-  forAll(faceZones, i)
+  FOR_ALL(faceZones, i)
   {
     const faceZone& fz = faceZones[i];
     // Expand faceZone to full mesh
@@ -203,7 +207,7 @@ void mousse::fvMeshSubset::subsetZones()
     // -1 :    ,,           , unflipped
     //  0 : not part of faceZone
     labelList zone(baseMesh().nFaces(), 0);
-    forAll(fz, j)
+    FOR_ALL(fz, j)
     {
       if (fz.flipMap()[j])
       {
@@ -216,7 +220,7 @@ void mousse::fvMeshSubset::subsetZones()
     }
     // Select faces
     label nSub = 0;
-    forAll(faceMap(), j)
+    FOR_ALL(faceMap(), j)
     {
       if (zone[faceMap()[j]] != 0)
       {
@@ -226,7 +230,7 @@ void mousse::fvMeshSubset::subsetZones()
     labelList subAddressing(nSub);
     boolList subFlipStatus(nSub);
     nSub = 0;
-    forAll(faceMap(), subFaceI)
+    FOR_ALL(faceMap(), subFaceI)
     {
       label meshFaceI = faceMap()[subFaceI];
       if (zone[meshFaceI] != 0)
@@ -252,7 +256,7 @@ void mousse::fvMeshSubset::subsetZones()
   }
   const cellZoneMesh& cellZones = baseMesh().cellZones();
   List<cellZone*> cZonePtrs(cellZones.size());
-  forAll(cellZones, i)
+  FOR_ALL(cellZones, i)
   {
     const cellZone& cz = cellZones[i];
     cZonePtrs[i] = new cellZone
@@ -266,7 +270,8 @@ void mousse::fvMeshSubset::subsetZones()
   // Add the zones
   fvMeshSubsetPtr_().addZones(pZonePtrs, fZonePtrs, cZonePtrs);
 }
-// Constructors 
+
+// Constructors
 // Construct from components
 mousse::fvMeshSubset::fvMeshSubset(const fvMesh& baseMesh)
 :
@@ -277,7 +282,8 @@ mousse::fvMeshSubset::fvMeshSubset(const fvMesh& baseMesh)
   cellMap_(0),
   patchMap_(0)
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::fvMeshSubset::setCellSubset
 (
   const labelHashSet& globalCellMap,
@@ -300,7 +306,7 @@ void mousse::fvMeshSubset::setCellSubset
   }
   else if (wantedPatchID < 0 || wantedPatchID >= oldPatches.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvMeshSubset::setCellSubset(const labelHashSet&"
       ", const label patchID)"
@@ -317,11 +323,11 @@ void mousse::fvMeshSubset::setCellSubset
   label nCellsInSet = cellMap_.size();
   // Mark all used faces
   Map<label> facesToSubset(avgNFacesPerCell*nCellsInSet);
-  forAll(cellMap_, cellI)
+  FOR_ALL(cellMap_, cellI)
   {
     // Mark all faces from the cell
     const labelList& curFaces = oldCells[cellMap_[cellI]];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       if (!facesToSubset.found(curFaces[faceI]))
       {
@@ -344,7 +350,7 @@ void mousse::fvMeshSubset::setCellSubset
   sort(facesToc);
   faceMap_.setSize(facesToc.size());
   // 1. Get all faces that will be internal to the submesh.
-  forAll(facesToc, faceI)
+  FOR_ALL(facesToc, faceI)
   {
     if (facesToSubset[facesToc[faceI]] == 2)
     {
@@ -385,7 +391,7 @@ void mousse::fvMeshSubset::setCellSubset
     }
   }
   // 3. old internal faces
-  forAll(facesToc, intFaceI)
+  FOR_ALL(facesToc, intFaceI)
   {
     if
     (
@@ -419,7 +425,7 @@ void mousse::fvMeshSubset::setCellSubset
   // Grab the points map
   pointMap_ = globalPointMap.toc();
   sort(pointMap_);
-  forAll(pointMap_, pointI)
+  FOR_ALL(pointMap_, pointI)
   {
     globalPointMap[pointMap_[pointI]] = pointI;
   }
@@ -429,7 +435,7 @@ void mousse::fvMeshSubset::setCellSubset
   // Make a new mesh
   pointField newPoints(globalPointMap.size());
   label nNewPoints = 0;
-  forAll(pointMap_, pointI)
+  FOR_ALL(pointMap_, pointI)
   {
     newPoints[nNewPoints] = oldPoints[pointMap_[pointI]];
     nNewPoints++;
@@ -441,7 +447,7 @@ void mousse::fvMeshSubset::setCellSubset
   {
     const face& oldF = oldFaces[faceMap_[faceI]];
     face newF(oldF.size());
-    forAll(newF, i)
+    FOR_ALL(newF, i)
     {
       newF[i] = globalPointMap[oldF[i]];
     }
@@ -494,7 +500,7 @@ void mousse::fvMeshSubset::setCellSubset
       boundaryPatchSizes[patchOfFace]++;
     }
     face newF(oldF.size());
-    forAll(newF, i)
+    FOR_ALL(newF, i)
     {
       newF[i] = globalPointMap[oldF[i]];
     }
@@ -504,11 +510,11 @@ void mousse::fvMeshSubset::setCellSubset
   // Create cells
   cellList newCells(nCellsInSet);
   label nNewCells = 0;
-  forAll(cellMap_, cellI)
+  FOR_ALL(cellMap_, cellI)
   {
     const labelList& oldC = oldCells[cellMap_[cellI]];
     labelList newC(oldC.size());
-    forAll(newC, i)
+    FOR_ALL(newC, i)
     {
       newC[i] = globalFaceMap[oldC[i]];
     }
@@ -540,7 +546,7 @@ void mousse::fvMeshSubset::setCellSubset
   patchMap_.setSize(nbSize);
   label nNewPatches = 0;
   label patchStart = nInternalFaces;
-  forAll(oldPatches, patchI)
+  FOR_ALL(oldPatches, patchI)
   {
     if (boundaryPatchSizes[patchI] > 0)
     {
@@ -603,7 +609,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   // Initial checks
   if (region.size() != oldCells.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvMeshSubset::setCellSubset(const labelList&"
       ", const label, const label, const bool)"
@@ -620,7 +626,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   }
   else if (wantedPatchID < 0 || wantedPatchID >= oldPatches.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvMeshSubset::setCellSubset(const labelList&"
       ", const label, const label, const bool)"
@@ -631,7 +637,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   // Get the cells for the current region.
   cellMap_.setSize(oldCells.size());
   label nCellsInSet = 0;
-  forAll(region, oldCellI)
+  FOR_ALL(region, oldCellI)
   {
     if (region[oldCellI] == currentRegion)
     {
@@ -650,7 +656,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   // correctly. Also makes handling coupled faces much easier.
   labelList nCellsUsingFace(oldFaces.size(), 0);
   label nFacesInSet = 0;
-  forAll(oldFaces, oldFaceI)
+  FOR_ALL(oldFaces, oldFaceI)
   {
     bool faceUsed = false;
     if (region[oldOwner[oldFaceI]] == currentRegion)
@@ -688,7 +694,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
     // Create 'oldInternalFaces' patch at the end (or before
     // processorPatches)
     // and put all exposed internal faces in there.
-    forAll(oldPatches, patchI)
+    FOR_ALL(oldPatches, patchI)
     {
       if (isA<processorPolyPatch>(oldPatches[patchI]))
       {
@@ -749,7 +755,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   {
     const polyPatch& oldPatch = oldPatches[oldPatchI];
     label oldFaceI = oldPatch.start();
-    forAll(oldPatch, i)
+    FOR_ALL(oldPatch, i)
     {
       if (nCellsUsingFace[oldFaceI] == 1)
       {
@@ -806,7 +812,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   {
     const polyPatch& oldPatch = oldPatches[oldPatchI];
     label oldFaceI = oldPatch.start();
-    forAll(oldPatch, i)
+    FOR_ALL(oldPatch, i)
     {
       if (nCellsUsingFace[oldFaceI] == 1)
       {
@@ -824,15 +830,15 @@ void mousse::fvMeshSubset::setLargeCellSubset
   }
   if (faceI != nFacesInSet)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvMeshSubset::setCellSubset(const labelList&"
       ", const label, const label, const bool)"
-    )   << "Problem" << abort(FatalError);
+    ) << "Problem" << abort(FatalError);
   }
   // Grab the points map
   label nPointsInSet = 0;
-  forAll(globalPointMap, pointI)
+  FOR_ALL(globalPointMap, pointI)
   {
     if (globalPointMap[pointI] != -1)
     {
@@ -841,7 +847,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   }
   pointMap_.setSize(nPointsInSet);
   nPointsInSet = 0;
-  forAll(globalPointMap, pointI)
+  FOR_ALL(globalPointMap, pointI)
   {
     if (globalPointMap[pointI] != -1)
     {
@@ -856,7 +862,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   // Make a new mesh
   pointField newPoints(pointMap_.size());
   label nNewPoints = 0;
-  forAll(pointMap_, pointI)
+  FOR_ALL(pointMap_, pointI)
   {
     newPoints[nNewPoints] = oldPoints[pointMap_[pointI]];
     nNewPoints++;
@@ -868,7 +874,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
   {
     const face& oldF = oldFaces[faceMap_[faceI]];
     face newF(oldF.size());
-    forAll(newF, i)
+    FOR_ALL(newF, i)
     {
       newF[i] = globalPointMap[oldF[i]];
     }
@@ -896,7 +902,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
     }
     // Relabel vertices of the (possibly turned) face.
     face newF(oldF.size());
-    forAll(newF, i)
+    FOR_ALL(newF, i)
     {
       newF[i] = globalPointMap[oldF[i]];
     }
@@ -906,11 +912,11 @@ void mousse::fvMeshSubset::setLargeCellSubset
   // Create cells
   cellList newCells(nCellsInSet);
   label nNewCells = 0;
-  forAll(cellMap_, cellI)
+  FOR_ALL(cellMap_, cellI)
   {
     const labelList& oldC = oldCells[cellMap_[cellI]];
     labelList newC(oldC.size());
-    forAll(newC, i)
+    FOR_ALL(newC, i)
     {
       newC[i] = globalFaceMap[oldC[i]];
     }
@@ -1076,7 +1082,7 @@ void mousse::fvMeshSubset::setLargeCellSubset
 )
 {
   labelList region(baseMesh().nCells(), 0);
-  forAllConstIter(labelHashSet, globalCellMap, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, globalCellMap, iter)
   {
     region[iter.key()] = 1;
   }

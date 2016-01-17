@@ -23,7 +23,7 @@ class multivariateGaussConvectionScheme
     tmp<multivariateSurfaceInterpolationScheme<Type> > tinterpScheme_;
 public:
   //- Runtime type information
-  TypeName("Gauss");
+  TYPE_NAME("Gauss");
   // Constructors
     //- Construct from flux and Istream
     multivariateGaussConvectionScheme

@@ -6,13 +6,14 @@
 #include "one.hpp"
 #include "mathematical_constants.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cartesianCS, 0);
-  addToRunTimeSelectionTable(coordinateSystem, cartesianCS, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(cartesianCS, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(coordinateSystem, cartesianCS, dictionary);
 }
-// Constructors 
+// Constructors
 mousse::cartesianCS::cartesianCS()
 :
   coordinateSystem()
@@ -67,10 +68,10 @@ mousse::cartesianCS::cartesianCS
 :
   coordinateSystem(obr, dict)
 {}
-// Destructor 
+// Destructor
 mousse::cartesianCS::~cartesianCS()
 {}
-// Member Functions 
+// Member Functions
 mousse::vector mousse::cartesianCS::localToGlobal
 (
   const vector& local,

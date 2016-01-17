@@ -7,7 +7,13 @@
 #include "surface_fields.hpp"
 namespace mousse
 {
-defineNamedTemplateTypeNameAndDebug(multivariateSelectionScheme<scalar>, 0);
+
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
+(
+  multivariateSelectionScheme<scalar>,
+  0
+);
+
 multivariateSurfaceInterpolationScheme<scalar>::addIstreamConstructorToTable
   <multivariateSelectionScheme<scalar> >
   addMultivariateSelectionSchemeScalarConstructorToTable_;

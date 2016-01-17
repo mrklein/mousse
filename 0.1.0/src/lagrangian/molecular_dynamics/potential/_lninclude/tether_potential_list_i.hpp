@@ -1,1 +1,0 @@
-../tether_potential/tether_potential_list_i.hpp

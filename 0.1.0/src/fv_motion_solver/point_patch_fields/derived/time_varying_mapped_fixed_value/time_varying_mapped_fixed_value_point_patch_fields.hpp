@@ -8,6 +8,6 @@
 #include "field_types.hpp"
 namespace mousse
 {
-makePointPatchFieldTypedefs(timeVaryingMappedFixedValue);
+MAKE_POINT_PATCH_FIELD_TYPEDEFS(timeVaryingMappedFixedValue);
 }  // namespace mousse
 #endif

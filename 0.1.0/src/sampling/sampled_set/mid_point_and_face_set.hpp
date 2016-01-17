@@ -21,7 +21,7 @@ class midPointAndFaceSet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("midPointAndFace");
+  TYPE_NAME("midPointAndFace");
   // Constructors
     //- Construct from components
     midPointAndFaceSet

@@ -14,7 +14,7 @@ mousse::label mousse::PatchPostProcessing<CloudType>::applyToPatch
   const label globalPatchI
 ) const
 {
-  forAll(patchIDs_, i)
+  FOR_ALL(patchIDs_, i)
   {
     if (patchIDs_[i] == globalPatchI)
     {
@@ -27,7 +27,7 @@ mousse::label mousse::PatchPostProcessing<CloudType>::applyToPatch
 template<class CloudType>
 void mousse::PatchPostProcessing<CloudType>::write()
 {
-  forAll(patchData_, i)
+  FOR_ALL(patchData_, i)
   {
     List<List<scalar> > procTimes(Pstream::nProcs());
     procTimes[Pstream::myProcNo()] = times_[i];
@@ -64,7 +64,7 @@ void mousse::PatchPostProcessing<CloudType>::write()
       sortedOrder(globalTimes, indices);
       string header("# Time currentProc " + parcelType::propertyList_);
       patchOutFile<< header.c_str() << nl;
-      forAll(globalTimes, i)
+      FOR_ALL(globalTimes, i)
       {
         label dataI = indices[i];
         patchOutFile
@@ -95,12 +95,12 @@ mousse::PatchPostProcessing<CloudType>::PatchPostProcessing
   const wordList allPatchNames = owner.mesh().boundaryMesh().names();
   wordList patchName(this->coeffDict().lookup("patches"));
   labelHashSet uniquePatchIDs;
-  forAllReverse(patchName, i)
+  FOR_ALL_REVERSE(patchName, i)
   {
     labelList patchIDs = findStrings(patchName[i], allPatchNames);
     if (patchIDs.empty())
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::PatchPostProcessing<CloudType>::PatchPostProcessing"
         "("
@@ -115,7 +115,7 @@ mousse::PatchPostProcessing<CloudType>::PatchPostProcessing
   patchIDs_ = uniquePatchIDs.toc();
   if (debug)
   {
-    forAll(patchIDs_, i)
+    FOR_ALL(patchIDs_, i)
     {
       const label patchI = patchIDs_[i];
       const word& patchName = owner.mesh().boundaryMesh()[patchI].name();
@@ -148,7 +148,7 @@ void mousse::PatchPostProcessing<CloudType>::postPatch
   const parcelType& p,
   const polyPatch& pp,
   const scalar,
-  const tetIndices& tetIs,
+  const tetIndices& /*tetIs*/,
   bool&
 )
 {

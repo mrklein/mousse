@@ -25,11 +25,6 @@ class ensightFile
     static string mask_;
     //- The printf format for zero-padded subdirectory numbers
     static string dirFmt_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const ensightFile&);
-    //- Disallow default copy constructor
-    ensightFile(const ensightFile&);
 public:
   // Constructors
     //- Construct from pathname
@@ -38,6 +33,10 @@ public:
       const fileName& pathname,
       IOstream::streamFormat format=IOstream::BINARY
     );
+    //- Disallow default bitwise assignment
+    ensightFile& operator=(const ensightFile&) = delete;
+    //- Disallow default copy constructor
+    ensightFile(const ensightFile&) = delete;
   //- Destructor
   ~ensightFile();
   // Access

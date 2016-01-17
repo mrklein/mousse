@@ -5,8 +5,8 @@
 #include "psi_thermo.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(psiThermo, 0);
-  defineRunTimeSelectionTable(psiThermo, fvMesh);
+  DEFINE_TYPE_NAME_AND_DEBUG(psiThermo, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(psiThermo, fvMesh);
 }
 // Constructors 
 mousse::psiThermo::psiThermo(const fvMesh& mesh, const word& phaseName)

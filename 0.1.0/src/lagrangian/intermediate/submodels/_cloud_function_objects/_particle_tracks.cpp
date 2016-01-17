@@ -88,7 +88,7 @@ void mousse::ParticleTracks<CloudType>::postFace
   {
     if (!cloudPtr_.valid())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::ParticleTracks<CloudType>::postFace"
         "("

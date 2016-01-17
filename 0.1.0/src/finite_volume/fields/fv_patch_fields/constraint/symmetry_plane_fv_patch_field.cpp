@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "symmetry_plane_fv_patch_field.hpp"
+
 // Constructors 
 template<class Type>
 mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
@@ -11,9 +12,11 @@ mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  basicSymmetryFvPatchField<Type>(p, iF),
-  symmetryPlanePatch_(refCast<const symmetryPlaneFvPatch>(p))
+  basicSymmetryFvPatchField<Type>{p, iF},
+  symmetryPlanePatch_{refCast<const symmetryPlaneFvPatch>(p)}
 {}
+
+
 template<class Type>
 mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
 (
@@ -23,12 +26,12 @@ mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  basicSymmetryFvPatchField<Type>(ptf, p, iF, mapper),
-  symmetryPlanePatch_(refCast<const symmetryPlaneFvPatch>(p))
+  basicSymmetryFvPatchField<Type>{ptf, p, iF, mapper},
+  symmetryPlanePatch_{refCast<const symmetryPlaneFvPatch>(p)}
 {
   if (!isType<symmetryPlaneFvPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField\n"
       "(\n"
@@ -37,14 +40,17 @@ mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
       "    const DimensionedField<Type, volMesh>& iF,\n"
       "    const fvPatchFieldMapper& mapper\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
 (
@@ -53,12 +59,12 @@ mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
   const dictionary& dict
 )
 :
-  basicSymmetryFvPatchField<Type>(p, iF, dict),
-  symmetryPlanePatch_(refCast<const symmetryPlaneFvPatch>(p))
+  basicSymmetryFvPatchField<Type>{p, iF, dict},
+  symmetryPlanePatch_{refCast<const symmetryPlaneFvPatch>(p)}
 {
   if (!isType<symmetryPlaneFvPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField\n"
       "(\n"
@@ -67,23 +73,28 @@ mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
       "    const dictionary& dict\n"
       ")\n",
       dict
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
 (
   const symmetryPlaneFvPatchField<Type>& ptf
 )
 :
-  basicSymmetryFvPatchField<Type>(ptf),
-  symmetryPlanePatch_(ptf.symmetryPlanePatch_)
+  basicSymmetryFvPatchField<Type>{ptf},
+  symmetryPlanePatch_{ptf.symmetryPlanePatch_}
 {}
+
+
 template<class Type>
 mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
 (
@@ -91,9 +102,11 @@ mousse::symmetryPlaneFvPatchField<Type>::symmetryPlaneFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  basicSymmetryFvPatchField<Type>(ptf, iF),
-  symmetryPlanePatch_(ptf.symmetryPlanePatch_)
+  basicSymmetryFvPatchField<Type>{ptf, iF},
+  symmetryPlanePatch_{ptf.symmetryPlanePatch_}
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
@@ -105,6 +118,8 @@ mousse::symmetryPlaneFvPatchField<Type>::snGrad() const
     (transform(I - 2.0*sqr(nHat), iF) - iF)
    *(this->patch().deltaCoeffs()/2.0);
 }
+
+
 template<class Type>
 void mousse::symmetryPlaneFvPatchField<Type>::evaluate(const Pstream::commsTypes)
 {
@@ -120,21 +135,23 @@ void mousse::symmetryPlaneFvPatchField<Type>::evaluate(const Pstream::commsTypes
   );
   transformFvPatchField<Type>::evaluate();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::symmetryPlaneFvPatchField<Type>::snGradTransformDiag() const
 {
-  vector nHat(symmetryPlanePatch_.n());
+  vector nHat{symmetryPlanePatch_.n()};
   const vector diag
-  (
+  {
     mag(nHat.component(vector::X)),
     mag(nHat.component(vector::Y)),
     mag(nHat.component(vector::Z))
-  );
+  };
   return tmp<Field<Type> >
-  (
+  {
     new Field<Type>
-    (
+    {
       this->size(),
       transformMask<Type>
       (
@@ -146,6 +163,6 @@ mousse::symmetryPlaneFvPatchField<Type>::snGradTransformDiag() const
           ::type>::zero
         )
       )
-    )
-  );
+    }
+  };
 }

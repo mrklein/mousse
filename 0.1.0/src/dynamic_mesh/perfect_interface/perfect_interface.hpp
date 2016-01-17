@@ -35,13 +35,9 @@ class perfectInterface
   // Private Member Functions
     //- Calculate face centres on patch
     static pointField calcFaceCentres(const indirectPrimitivePatch&);
-    //- Disallow default bitwise copy construct
-    perfectInterface(const perfectInterface&);
-    //- Disallow default bitwise assignment
-    void operator=(const perfectInterface&);
 public:
   //- Runtime type information
-  TypeName("perfectInterface");
+  TYPE_NAME("perfectInterface");
   // Constructors
     //- Construct from components
     perfectInterface
@@ -61,6 +57,10 @@ public:
       const label index,
       const polyTopoChanger& mme
     );
+    //- Disallow default bitwise copy construct
+    perfectInterface(const perfectInterface&) = delete;
+    //- Disallow default bitwise assignment
+    perfectInterface& operator=(const perfectInterface&) = delete;
   //- Destructor
   virtual ~perfectInterface();
   // Member Functions

@@ -48,7 +48,7 @@ class processorFvPatchField
       mutable Field<scalar> scalarReceiveBuf_;
 public:
   //- Runtime type information
-  TypeName(processorFvPatch::typeName_());
+  TYPE_NAME(processorFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     processorFvPatchField

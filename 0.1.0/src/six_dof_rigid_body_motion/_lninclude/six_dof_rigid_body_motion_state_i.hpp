@@ -1,1 +1,0 @@
-../six_dof_rigid_body_motion/six_dof_rigid_body_motion_state_i.hpp

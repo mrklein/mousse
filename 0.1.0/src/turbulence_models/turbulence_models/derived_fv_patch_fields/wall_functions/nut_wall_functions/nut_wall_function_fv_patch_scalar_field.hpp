@@ -62,7 +62,7 @@ protected:
     virtual void writeLocalEntries(Ostream&) const;
 public:
   //- Runtime type information
-  TypeName("nutWallFunction");
+  TYPE_NAME("nutWallFunction");
   // Constructors
     //- Construct from patch and internal field
     nutWallFunctionFvPatchScalarField

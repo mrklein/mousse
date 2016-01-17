@@ -18,7 +18,7 @@ class faceAreaPairGAMGAgglomeration
 {
 public:
   //- Runtime type information
-  TypeName("faceAreaPair");
+  TYPE_NAME("faceAreaPair");
   // Constructors
     //- Construct given mesh and controls
     faceAreaPairGAMGAgglomeration

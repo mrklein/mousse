@@ -53,7 +53,7 @@ protected:
     virtual tmp<scalarField> calcUPlus(const scalarField& Rey) const;
 public:
   //- Runtime type information
-  TypeName("nutTabulatedWallFunction");
+  TYPE_NAME("nutTabulatedWallFunction");
   // Constructors
     //- Construct from patch and internal field
     nutUTabulatedWallFunctionFvPatchScalarField

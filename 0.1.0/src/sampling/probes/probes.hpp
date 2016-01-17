@@ -114,13 +114,9 @@ private:
     //- Sample and write all the surface fields of the given type
     template<class Type>
     void sampleAndWriteSurfaceFields(const fieldGroup<Type>&);
-    //- Disallow default bitwise copy construct
-    probes(const probes&);
-    //- Disallow default bitwise assignment
-    void operator=(const probes&);
 public:
   //- Runtime type information
-  TypeName("probes");
+  TYPE_NAME("probes");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -131,6 +127,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    probes(const probes&) = delete;
+    //- Disallow default bitwise assignment
+    probes& operator=(const probes&) = delete;
   //- Destructor
   virtual ~probes();
   // Member Functions
@@ -174,7 +174,7 @@ public:
     //- Update for changes of mesh
     virtual void movePoints(const polyMesh&);
     //- Update for changes of mesh due to readUpdate
-    virtual void readUpdate(const polyMesh::readUpdateState state)
+    virtual void readUpdate(const polyMesh::readUpdateState /*state*/)
     {}
     //- Sample a volume field at all locations
     template<class Type>

@@ -6,18 +6,18 @@
 // Static Data Members
 namespace mousse
 {
-  defineNamedTemplateTypeNameAndDebug(probesFunctionObject, 0);
-  defineNamedTemplateTypeNameAndDebug(patchProbesFunctionObject, 0);
-  addToRunTimeSelectionTable
-  (
-    functionObject,
-    probesFunctionObject,
-    dictionary
-  );
-  addToRunTimeSelectionTable
-  (
-    functionObject,
-    patchProbesFunctionObject,
-    dictionary
-  );
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(probesFunctionObject, 0);
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(patchProbesFunctionObject, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  functionObject,
+  probesFunctionObject,
+  dictionary
+);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  functionObject,
+  patchProbesFunctionObject,
+  dictionary
+);
 }

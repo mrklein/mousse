@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "point_edge_wave.hpp"
+
 #include "poly_mesh.hpp"
 #include "processor_poly_patch.hpp"
 #include "cyclic_poly_patch.hpp"
@@ -13,11 +14,14 @@
 #include "type_info.hpp"
 #include "global_mesh_data.hpp"
 #include "point_fields.hpp"
+
 // Static Data Members
 template<class Type, class TrackingData>
 mousse::scalar mousse::PointEdgeWave<Type, TrackingData>::propagationTol_ = 0.01;
+
 template<class Type, class TrackingData>
 int mousse::PointEdgeWave<Type, TrackingData>::dummyTrackData_ = 12345;
+
 namespace mousse
 {
   //- Reduction class. If x and y are not equal assign value.
@@ -28,7 +32,7 @@ namespace mousse
     public:
       combineEqOp(TrackingData& td)
       :
-        td_(td)
+        td_{td}
       {}
     void operator()(Type& x, const Type& y) const
     {
@@ -39,6 +43,8 @@ namespace mousse
     }
   };
 }
+
+
 // Private Member Functions 
 // Handle leaving domain. Implementation referred to Type
 template<class Type, class TrackingData>
@@ -50,13 +56,15 @@ void mousse::PointEdgeWave<Type, TrackingData>::leaveDomain
 ) const
 {
   const labelList& meshPoints = patch.meshPoints();
-  forAll(patchPointLabels, i)
+  FOR_ALL(patchPointLabels, i)
   {
     label patchPointI = patchPointLabels[i];
     const point& pt = patch.points()[meshPoints[patchPointI]];
     pointInfo[i].leaveDomain(patch, patchPointI, pt, td_);
   }
 }
+
+
 // Handle entering domain. Implementation referred to Type
 template<class Type, class TrackingData>
 void mousse::PointEdgeWave<Type, TrackingData>::enterDomain
@@ -67,13 +75,15 @@ void mousse::PointEdgeWave<Type, TrackingData>::enterDomain
 ) const
 {
   const labelList& meshPoints = patch.meshPoints();
-  forAll(patchPointLabels, i)
+  FOR_ALL(patchPointLabels, i)
   {
     label patchPointI = patchPointLabels[i];
     const point& pt = patch.points()[meshPoints[patchPointI]];
     pointInfo[i].enterDomain(patch, patchPointI, pt, td_);
   }
 }
+
+
 // Transform. Implementation referred to Type
 template<class Type, class TrackingData>
 void mousse::PointEdgeWave<Type, TrackingData>::transform
@@ -86,14 +96,14 @@ void mousse::PointEdgeWave<Type, TrackingData>::transform
   if (rotTensor.size() == 1)
   {
     const tensor& T = rotTensor[0];
-    forAll(pointInfo, i)
+    FOR_ALL(pointInfo, i)
     {
       pointInfo[i].transform(T, td_);
     }
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PointEdgeWave<Type, TrackingData>::transform"
       "(const tensorField&, List<Type>&)"
@@ -101,12 +111,14 @@ void mousse::PointEdgeWave<Type, TrackingData>::transform
       << " of type " << patch.type()
       << " not supported for point fields"
       << abort(FatalError);
-    forAll(pointInfo, i)
+    FOR_ALL(pointInfo, i)
     {
       pointInfo[i].transform(rotTensor[i], td_);
     }
   }
 }
+
+
 // Update info for pointI, at position pt, with information from
 // neighbouring edge.
 // Updates:
@@ -147,6 +159,8 @@ bool mousse::PointEdgeWave<Type, TrackingData>::updatePoint
   }
   return propagate;
 }
+
+
 // Update info for pointI, at position pt, with information from
 // same point.
 // Updates:
@@ -185,6 +199,8 @@ bool mousse::PointEdgeWave<Type, TrackingData>::updatePoint
   }
   return propagate;
 }
+
+
 // Update info for edgeI, at position pt, with information from
 // neighbouring point.
 // Updates:
@@ -225,13 +241,15 @@ bool mousse::PointEdgeWave<Type, TrackingData>::updateEdge
   }
   return propagate;
 }
+
+
 // Check if patches of given type name are present
 template<class Type, class TrackingData>
 template<class PatchType>
 mousse::label mousse::PointEdgeWave<Type, TrackingData>::countPatchType() const
 {
   label nPatches = 0;
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     if (isA<PatchType>(mesh_.boundaryMesh()[patchI]))
     {
@@ -240,16 +258,18 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::countPatchType() const
   }
   return nPatches;
 }
+
+
 // Transfer all the information to/from neighbouring processors
 template<class Type, class TrackingData>
 void mousse::PointEdgeWave<Type, TrackingData>::handleProcPatches()
 {
   // 1. Send all point info on processor patches.
-  PstreamBuffers pBufs(Pstream::nonBlocking);
+  PstreamBuffers pBufs{Pstream::nonBlocking};
   DynamicList<Type> patchInfo;
   DynamicList<label> thisPoints;
   DynamicList<label> nbrPoints;
-  forAll(mesh_.globalData().processorPatches(), i)
+  FOR_ALL(mesh_.globalData().processorPatches(), i)
   {
     label patchI = mesh_.globalData().processorPatches()[i];
     const processorPolyPatch& procPatch =
@@ -262,7 +282,7 @@ void mousse::PointEdgeWave<Type, TrackingData>::handleProcPatches()
     nbrPoints.reserve(procPatch.nPoints());
     // Get all changed points in reverse order
     const labelList& neighbPoints = procPatch.neighbPoints();
-    forAll(neighbPoints, thisPointI)
+    FOR_ALL(neighbPoints, thisPointI)
     {
       label meshPointI = procPatch.meshPoints()[thisPointI];
       if (changedPoint_[meshPointI])
@@ -287,7 +307,7 @@ void mousse::PointEdgeWave<Type, TrackingData>::handleProcPatches()
   //
   // 2. Receive all point info on processor patches.
   //
-  forAll(mesh_.globalData().processorPatches(), i)
+  FOR_ALL(mesh_.globalData().processorPatches(), i)
   {
     label patchI = mesh_.globalData().processorPatches()[i];
     const processorPolyPatch& procPatch =
@@ -313,7 +333,7 @@ void mousse::PointEdgeWave<Type, TrackingData>::handleProcPatches()
     enterDomain(procPatch, patchPoints, patchInfo);
     // Merge received info
     const labelList& meshPoints = procPatch.meshPoints();
-    forAll(patchInfo, i)
+    FOR_ALL(patchInfo, i)
     {
       label meshPointI = meshPoints[patchPoints[i]];
       if (!allPointInfo_[meshPointI].equal(patchInfo[i], td_))
@@ -332,6 +352,8 @@ void mousse::PointEdgeWave<Type, TrackingData>::handleProcPatches()
   // They are also explicitly equalised in handleCollocatedPoints to
   // guarantee identical values.
 }
+
+
 template<class Type, class TrackingData>
 void mousse::PointEdgeWave<Type, TrackingData>::handleCyclicPatches()
 {
@@ -339,7 +361,7 @@ void mousse::PointEdgeWave<Type, TrackingData>::handleCyclicPatches()
   DynamicList<Type> nbrInfo;
   DynamicList<label> nbrPoints;
   DynamicList<label> thisPoints;
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     const polyPatch& patch = mesh_.boundaryMesh()[patchI];
     if (isA<cyclicPolyPatch>(patch))
@@ -357,7 +379,7 @@ void mousse::PointEdgeWave<Type, TrackingData>::handleCyclicPatches()
         const cyclicPolyPatch& nbrPatch = cycPatch.neighbPatch();
         const edgeList& pairs = cycPatch.coupledPoints();
         const labelList& meshPoints = nbrPatch.meshPoints();
-        forAll(pairs, pairI)
+        FOR_ALL(pairs, pairI)
         {
           label thisPointI = pairs[pairI][0];
           label nbrPointI = pairs[pairI][1];
@@ -388,7 +410,7 @@ void mousse::PointEdgeWave<Type, TrackingData>::handleCyclicPatches()
       enterDomain(cycPatch, thisPoints, nbrInfo);
       // Merge received info
       const labelList& meshPoints = cycPatch.meshPoints();
-      forAll(nbrInfo, i)
+      FOR_ALL(nbrInfo, i)
       {
         label meshPointI = meshPoints[thisPoints[i]];
         if (!allPointInfo_[meshPointI].equal(nbrInfo[i], td_))
@@ -404,6 +426,8 @@ void mousse::PointEdgeWave<Type, TrackingData>::handleCyclicPatches()
     }
   }
 }
+
+
 // Guarantee collocated points have same information.
 // Return number of points changed.
 template<class Type, class TrackingData>
@@ -416,7 +440,7 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::handleCollocatedPoints(
   const mapDistribute& slavesMap = gmd.globalPointSlavesMap();
   const labelListList& slaves = gmd.globalPointSlaves();
   List<Type> elems(slavesMap.constructSize());
-  forAll(meshPoints, pointI)
+  FOR_ALL(meshPoints, pointI)
   {
     elems[pointI] = allPointInfo_[meshPoints[pointI]];
   }
@@ -425,17 +449,17 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::handleCollocatedPoints(
   slavesMap.distribute(elems, false);
   // Combine master data with slave data
   combineEqOp<Type, TrackingData> cop(td_);
-  forAll(slaves, pointI)
+  FOR_ALL(slaves, pointI)
   {
     Type& elem = elems[pointI];
     const labelList& slavePoints = slaves[pointI];
     // Combine master with untransformed slave data
-    forAll(slavePoints, j)
+    FOR_ALL(slavePoints, j)
     {
       cop(elem, elems[slavePoints[j]]);
     }
     // Copy result back to slave slots
-    forAll(slavePoints, j)
+    FOR_ALL(slavePoints, j)
     {
       elems[slavePoints[j]] = elem;
     }
@@ -443,7 +467,7 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::handleCollocatedPoints(
   // Push slave-slot data back to slaves
   slavesMap.reverseDistribute(elems.size(), elems, false);
   // Extract back onto mesh
-  forAll(meshPoints, pointI)
+  FOR_ALL(meshPoints, pointI)
   {
     if (elems[pointI].valid(td_))
     {
@@ -476,6 +500,8 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::handleCollocatedPoints(
   reduce(totNChanged, sumOp<label>());
   return totNChanged;
 }
+
+
 // Constructors 
 // Iterate, propagating changedPointsInfo across mesh, until no change (or
 // maxIter reached). Initial point values specified.
@@ -491,46 +517,48 @@ mousse::PointEdgeWave<Type, TrackingData>::PointEdgeWave
   TrackingData& td
 )
 :
-  mesh_(mesh),
-  allPointInfo_(allPointInfo),
-  allEdgeInfo_(allEdgeInfo),
-  td_(td),
-  changedPoint_(mesh_.nPoints(), false),
-  changedPoints_(mesh_.nPoints()),
-  nChangedPoints_(0),
-  changedEdge_(mesh_.nEdges(), false),
-  changedEdges_(mesh_.nEdges()),
-  nChangedEdges_(0),
-  nCyclicPatches_(countPatchType<cyclicPolyPatch>()),
-  nEvals_(0),
-  nUnvisitedPoints_(mesh_.nPoints()),
-  nUnvisitedEdges_(mesh_.nEdges())
+  mesh_{mesh},
+  allPointInfo_{allPointInfo},
+  allEdgeInfo_{allEdgeInfo},
+  td_{td},
+  changedPoint_{mesh_.nPoints(), false},
+  changedPoints_{mesh_.nPoints()},
+  nChangedPoints_{0},
+  changedEdge_{mesh_.nEdges(), false},
+  changedEdges_{mesh_.nEdges()},
+  nChangedEdges_{0},
+  nCyclicPatches_{countPatchType<cyclicPolyPatch>()},
+  nEvals_{0},
+  nUnvisitedPoints_{mesh_.nPoints()},
+  nUnvisitedEdges_{mesh_.nEdges()}
 {
   if (allPointInfo_.size() != mesh_.nPoints())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PointEdgeWave<Type, TrackingData>::PointEdgeWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
       " List<Type>&, List<Type>&, const label maxIter)"
-    )   << "size of pointInfo work array is not equal to the number"
-      << " of points in the mesh" << endl
-      << "    pointInfo   :" << allPointInfo_.size() << endl
-      << "    mesh.nPoints:" << mesh_.nPoints()
-      << exit(FatalError);
+    )
+    << "size of pointInfo work array is not equal to the number"
+    << " of points in the mesh" << endl
+    << "    pointInfo   :" << allPointInfo_.size() << endl
+    << "    mesh.nPoints:" << mesh_.nPoints()
+    << exit(FatalError);
   }
   if (allEdgeInfo_.size() != mesh_.nEdges())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PointEdgeWave<Type, TrackingData>::PointEdgeWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
       " List<Type>&, List<Type>&, const label maxIter)"
-    )   << "size of edgeInfo work array is not equal to the number"
-      << " of edges in the mesh" << endl
-      << "    edgeInfo   :" << allEdgeInfo_.size() << endl
-      << "    mesh.nEdges:" << mesh_.nEdges()
-      << exit(FatalError);
+    )
+    << "size of edgeInfo work array is not equal to the number"
+    << " of edges in the mesh" << endl
+    << "    edgeInfo   :" << allEdgeInfo_.size() << endl
+    << "    mesh.nEdges:" << mesh_.nEdges()
+    << exit(FatalError);
   }
   // Set from initial changed points data
   setPointInfo(changedPoints, changedPointsInfo);
@@ -543,16 +571,17 @@ mousse::PointEdgeWave<Type, TrackingData>::PointEdgeWave
   label iter = iterate(maxIter);
   if ((maxIter > 0) && (iter >= maxIter))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PointEdgeWave<Type, TrackingData>::PointEdgeWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
       " List<Type>&, List<Type>&, const label maxIter)"
-    )   << "Maximum number of iterations reached. Increase maxIter." << endl
-      << "    maxIter:" << maxIter << endl
-      << "    nChangedPoints:" << nChangedPoints_ << endl
-      << "    nChangedEdges:" << nChangedEdges_ << endl
-      << exit(FatalError);
+    )
+    << "Maximum number of iterations reached. Increase maxIter." << endl
+    << "    maxIter:" << maxIter << endl
+    << "    nChangedPoints:" << nChangedPoints_ << endl
+    << "    nChangedEdges:" << nChangedEdges_ << endl
+    << exit(FatalError);
   }
 }
 template<class Type, class TrackingData>
@@ -564,36 +593,44 @@ mousse::PointEdgeWave<Type, TrackingData>::PointEdgeWave
   TrackingData& td
 )
 :
-  mesh_(mesh),
-  allPointInfo_(allPointInfo),
-  allEdgeInfo_(allEdgeInfo),
-  td_(td),
-  changedPoint_(mesh_.nPoints(), false),
-  changedPoints_(mesh_.nPoints()),
-  nChangedPoints_(0),
-  changedEdge_(mesh_.nEdges(), false),
-  changedEdges_(mesh_.nEdges()),
-  nChangedEdges_(0),
-  nCyclicPatches_(countPatchType<cyclicPolyPatch>()),
-  nEvals_(0),
-  nUnvisitedPoints_(mesh_.nPoints()),
-  nUnvisitedEdges_(mesh_.nEdges())
+  mesh_{mesh},
+  allPointInfo_{allPointInfo},
+  allEdgeInfo_{allEdgeInfo},
+  td_{td},
+  changedPoint_{mesh_.nPoints(), false},
+  changedPoints_{mesh_.nPoints()},
+  nChangedPoints_{0},
+  changedEdge_{mesh_.nEdges(), false},
+  changedEdges_{mesh_.nEdges()},
+  nChangedEdges_{0},
+  nCyclicPatches_{countPatchType<cyclicPolyPatch>()},
+  nEvals_{0},
+  nUnvisitedPoints_{mesh_.nPoints()},
+  nUnvisitedEdges_{mesh_.nEdges()}
 {}
+
+
 // Destructor 
 template<class Type, class TrackingData>
 mousse::PointEdgeWave<Type, TrackingData>::~PointEdgeWave()
 {}
+
+
 // Member Functions 
 template<class Type, class TrackingData>
 mousse::label mousse::PointEdgeWave<Type, TrackingData>::getUnsetPoints() const
 {
   return nUnvisitedPoints_;
 }
+
+
 template<class Type, class TrackingData>
 mousse::label mousse::PointEdgeWave<Type, TrackingData>::getUnsetEdges() const
 {
   return nUnvisitedEdges_;
 }
+
+
 // Copy point information into member data
 template<class Type, class TrackingData>
 void mousse::PointEdgeWave<Type, TrackingData>::setPointInfo
@@ -602,7 +639,7 @@ void mousse::PointEdgeWave<Type, TrackingData>::setPointInfo
   const List<Type>& changedPointsInfo
 )
 {
-  forAll(changedPoints, changedPointI)
+  FOR_ALL(changedPoints, changedPointI)
   {
     label pointI = changedPoints[changedPointI];
     bool wasValid = allPointInfo_[pointI].valid(td_);
@@ -623,6 +660,8 @@ void mousse::PointEdgeWave<Type, TrackingData>::setPointInfo
   // Sync
   handleCollocatedPoints();
 }
+
+
 // Propagate information from edge to point. Return number of points changed.
 template<class Type, class TrackingData>
 mousse::label mousse::PointEdgeWave<Type, TrackingData>::edgeToPoint()
@@ -637,7 +676,7 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::edgeToPoint()
     label edgeI = changedEdges_[changedEdgeI];
     if (!changedEdge_[edgeI])
     {
-      FatalErrorIn("PointEdgeWave<Type, TrackingData>::edgeToPoint()")
+      FATAL_ERROR_IN("PointEdgeWave<Type, TrackingData>::edgeToPoint()")
         << "edge " << edgeI
         << " not marked as having been changed" << nl
         << "This might be caused by multiple occurences of the same"
@@ -646,7 +685,7 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::edgeToPoint()
     const Type& neighbourWallInfo = allEdgeInfo_[edgeI];
     // Evaluate all connected points (= edge endpoints)
     const edge& e = mesh_.edges()[edgeI];
-    forAll(e, eI)
+    FOR_ALL(e, eI)
     {
       Type& currentWallInfo = allPointInfo_[e[eI]];
       if (!currentWallInfo.equal(neighbourWallInfo, td_))
@@ -684,6 +723,8 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::edgeToPoint()
   reduce(totNChanged, sumOp<label>());
   return totNChanged;
 }
+
+
 // Propagate information from point to edge. Return number of edges changed.
 template<class Type, class TrackingData>
 mousse::label mousse::PointEdgeWave<Type, TrackingData>::pointToEdge()
@@ -699,7 +740,7 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::pointToEdge()
     label pointI = changedPoints_[changedPointI];
     if (!changedPoint_[pointI])
     {
-      FatalErrorIn("PointEdgeWave<Type, TrackingData>::pointToEdge()")
+      FATAL_ERROR_IN("PointEdgeWave<Type, TrackingData>::pointToEdge()")
         << "Point " << pointI
         << " not marked as having been changed" << nl
         << "This might be caused by multiple occurences of the same"
@@ -708,7 +749,7 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::pointToEdge()
     const Type& neighbourWallInfo = allPointInfo_[pointI];
     // Evaluate all connected edges
     const labelList& edgeLabels = pointEdges[pointI];
-    forAll(edgeLabels, edgeLabelI)
+    FOR_ALL(edgeLabels, edgeLabelI)
     {
       label edgeI = edgeLabels[edgeLabelI];
       Type& currentWallInfo = allEdgeInfo_[edgeI];
@@ -737,6 +778,8 @@ mousse::label mousse::PointEdgeWave<Type, TrackingData>::pointToEdge()
   reduce(totNChanged, sumOp<label>());
   return totNChanged;
 }
+
+
 // Iterate
 template<class Type, class TrackingData>
 mousse::label mousse::PointEdgeWave<Type, TrackingData>::iterate

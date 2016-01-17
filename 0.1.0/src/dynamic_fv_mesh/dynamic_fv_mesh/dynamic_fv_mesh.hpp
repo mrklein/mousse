@@ -19,16 +19,11 @@ class dynamicFvMesh
 :
   public fvMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    dynamicFvMesh(const dynamicFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const dynamicFvMesh&);
 public:
   //- Runtime type information
-  TypeName("dynamicFvMesh");
+  TYPE_NAME("dynamicFvMesh");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       dynamicFvMesh,
@@ -60,6 +55,10 @@ public:
       const Xfer<cellList>& cells,
       const bool syncPar = true
     );
+    //- Disallow default bitwise copy construct
+    dynamicFvMesh(const dynamicFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    dynamicFvMesh& operator=(const dynamicFvMesh&) = delete;
   // Selectors
     //- Select null constructed
     static autoPtr<dynamicFvMesh> New(const IOobject& io);

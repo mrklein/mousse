@@ -8,18 +8,18 @@ void mousse::potential::setSiteIdList(const dictionary& moleculePropertiesDict)
 {
   DynamicList<word> siteIdList;
   DynamicList<word> pairPotentialSiteIdList;
-  forAll(idList_, i)
+  FOR_ALL(idList_, i)
   {
     const word& id(idList_[i]);
     if (!moleculePropertiesDict.found(id))
     {
-      FatalErrorIn("potential::setSiteIdList(const dictionary&)")
+      FATAL_ERROR_IN("potential::setSiteIdList(const dictionary&)")
         << id << " molecule subDict not found"
         << nl << abort(FatalError);
     }
     const dictionary& molDict(moleculePropertiesDict.subDict(id));
     List<word> siteIdNames = molDict.lookup("siteIds");
-    forAll(siteIdNames, sI)
+    FOR_ALL(siteIdNames, sI)
     {
       const word& siteId = siteIdNames[sI];
       if (findIndex(siteIdList, siteId) == -1)
@@ -28,12 +28,12 @@ void mousse::potential::setSiteIdList(const dictionary& moleculePropertiesDict)
       }
     }
     List<word> pairPotSiteIds = molDict.lookup("pairPotentialSiteIds");
-    forAll(pairPotSiteIds, sI)
+    FOR_ALL(pairPotSiteIds, sI)
     {
       const word& siteId = pairPotSiteIds[sI];
       if (findIndex(siteIdNames, siteId) == -1)
       {
-        FatalErrorIn("potential::setSiteIdList(const dictionary&)")
+        FATAL_ERROR_IN("potential::setSiteIdList(const dictionary&)")
           << siteId << " in pairPotentialSiteIds is not in siteIds: "
           << siteIdNames << nl << abort(FatalError);
       }
@@ -44,7 +44,7 @@ void mousse::potential::setSiteIdList(const dictionary& moleculePropertiesDict)
     }
   }
   nPairPotIds_ = pairPotentialSiteIdList.size();
-  forAll(siteIdList, aSIN)
+  FOR_ALL(siteIdList, aSIN)
   {
     const word& siteId = siteIdList[aSIN];
     if (findIndex(pairPotentialSiteIdList, siteId) == -1)
@@ -116,12 +116,12 @@ void mousse::potential::potential::readPotentialDict()
   {
     List<word> remOrd = potentialDict.lookup("removalOrder");
     removalOrder_.setSize(remOrd.size());
-    forAll(removalOrder_, rO)
+    FOR_ALL(removalOrder_, rO)
     {
       removalOrder_[rO] = findIndex(idList_, remOrd[rO]);
       if (removalOrder_[rO] == -1)
       {
-        FatalErrorIn("potential::readPotentialDict()")
+        FATAL_ERROR_IN("potential::readPotentialDict()")
           << "removalOrder entry: " << remOrd[rO]
           << " not found in idList."
           << nl << abort(FatalError);
@@ -132,7 +132,7 @@ void mousse::potential::potential::readPotentialDict()
   // Pair potentials
   if (!potentialDict.found("pair"))
   {
-    FatalErrorIn("potential::readPotentialDict()")
+    FATAL_ERROR_IN("potential::readPotentialDict()")
       << "pair potential specification subDict not found"
       << abort(FatalError);
   }
@@ -149,7 +149,7 @@ void mousse::potential::potential::readPotentialDict()
   {
     if (!potentialDict.found("tether"))
     {
-      FatalErrorIn("potential::readPotentialDict()")
+      FATAL_ERROR_IN("potential::readPotentialDict()")
         << "tether potential specification subDict not found"
         << abort(FatalError);
     }
@@ -193,7 +193,7 @@ void mousse::potential::potential::readMdInitialiseDict
   );
   DynamicList<word> idList;
   DynamicList<word> tetherSiteIdList;
-  forAll(mdInitialiseDict.toc(), zone)
+  FOR_ALL(mdInitialiseDict.toc(), zone)
   {
     const dictionary& zoneDict = mdInitialiseDict.subDict
     (
@@ -203,12 +203,12 @@ void mousse::potential::potential::readMdInitialiseDict
     (
       zoneDict.lookup("latticeIds")
     );
-    forAll(latticeIds, i)
+    FOR_ALL(latticeIds, i)
     {
       const word& id = latticeIds[i];
       if (!moleculePropertiesDict.found(id))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "potential::readMdInitialiseDict"
           "("
@@ -228,11 +228,11 @@ void mousse::potential::potential::readMdInitialiseDict
     (
       zoneDict.lookup("tetherSiteIds")
     );
-    forAll(tetherSiteIds, t)
+    FOR_ALL(tetherSiteIds, t)
     {
       const word& tetherSiteId = tetherSiteIds[t];
       bool idFound = false;
-      forAll(latticeIds, i)
+      FOR_ALL(latticeIds, i)
       {
         if (idFound)
         {
@@ -254,7 +254,7 @@ void mousse::potential::potential::readMdInitialiseDict
       }
       else
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "potential::readMdInitialiseDict"
           "("

@@ -25,14 +25,9 @@ class oscillatingLinearMotion
     vector amplitude_;
     //- Radial velocity
     scalar omega_;
-  // Private Member Functions
-    //- Disallow copy construct
-    oscillatingLinearMotion(const oscillatingLinearMotion&);
-    //- Disallow default bitwise assignment
-    void operator=(const oscillatingLinearMotion&);
 public:
   //- Runtime type information
-  TypeName("oscillatingLinearMotion");
+  TYPE_NAME("oscillatingLinearMotion");
   // Constructors
     //- Construct from components
     oscillatingLinearMotion
@@ -44,14 +39,21 @@ public:
     virtual autoPtr<solidBodyMotionFunction> clone() const
     {
       return autoPtr<solidBodyMotionFunction>
-      (
+      {
         new oscillatingLinearMotion
-        (
+        {
           SBMFCoeffs_,
           time_
-        )
-      );
+        }
+      };
     }
+    //- Disallow copy construct
+    oscillatingLinearMotion(const oscillatingLinearMotion&) = delete;
+    //- Disallow default bitwise assignment
+    oscillatingLinearMotion& operator=
+    (
+      const oscillatingLinearMotion&
+    ) = delete;
   //- Destructor
   virtual ~oscillatingLinearMotion();
   // Member Functions

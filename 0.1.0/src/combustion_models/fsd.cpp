@@ -147,7 +147,7 @@ void FSD<CombThermoType, ThermoType>::calculateSourceNorm()
   // Linear correlation between delta and flame thickness
   volScalarField omegaF(max(deltaF*(4.0/3.0) + (2.0/3.0), scalar(1)));
   scalar deltaFt = 1.0/ftDim_;
-  forAll(ft_, cellI)
+  FOR_ALL(ft_, cellI)
   {
     if (ft_[cellI] > ftMin_ && ft_[cellI] < ftMax_)
     {
@@ -195,7 +195,7 @@ void FSD<CombThermoType, ThermoType>::calculateSourceNorm()
   List<label> productsIndex(2, label(-1));
   {
     label i = 0;
-    forAll(this->singleMixturePtr_->specieProd(), specieI)
+    FOR_ALL(this->singleMixturePtr_->specieProd(), specieI)
     {
       if (this->singleMixturePtr_->specieProd()[specieI] < 0)
       {
@@ -206,11 +206,11 @@ void FSD<CombThermoType, ThermoType>::calculateSourceNorm()
   }
   // Flamelet probability of the progress c based on IFC (reuse pc)
   scalar YprodTotal = 0;
-  forAll(productsIndex, j)
+  FOR_ALL(productsIndex, j)
   {
     YprodTotal += this->singleMixturePtr_->Yprod0()[productsIndex[j]];
   }
-  forAll(ft_, cellI)
+  FOR_ALL(ft_, cellI)
   {
     if (ft_[cellI] < ftStoich)
     {
@@ -238,7 +238,7 @@ void FSD<CombThermoType, ThermoType>::calculateSourceNorm()
     )
   );
   volScalarField& products = tproducts();
-  forAll(productsIndex, j)
+  FOR_ALL(productsIndex, j)
   {
     label specieI = productsIndex[j];
     const volScalarField& Yp = this->thermoPtr_->composition().Y()[specieI];

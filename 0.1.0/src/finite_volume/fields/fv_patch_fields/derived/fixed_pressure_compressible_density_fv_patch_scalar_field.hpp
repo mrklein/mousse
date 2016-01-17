@@ -53,7 +53,7 @@ class fixedPressureCompressibleDensityFvPatchScalarField
     word pName_;
 public:
   //- Runtime type information
-  TypeName("fixedPressureCompressibleDensity");
+  TYPE_NAME("fixedPressureCompressibleDensity");
   // Constructors
     //- Construct from patch and internal field
     fixedPressureCompressibleDensityFvPatchScalarField

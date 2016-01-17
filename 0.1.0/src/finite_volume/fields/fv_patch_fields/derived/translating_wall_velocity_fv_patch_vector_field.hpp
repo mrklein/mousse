@@ -39,7 +39,7 @@ class translatingWallVelocityFvPatchVectorField
     vector U_;
 public:
   //- Runtime type information
-  TypeName("translatingWallVelocity");
+  TYPE_NAME("translatingWallVelocity");
   // Constructors
     //- Construct from patch and internal field
     translatingWallVelocityFvPatchVectorField

@@ -30,7 +30,7 @@ public:
       weights_(weights),
       hasUnmapped_(false)
     {
-      forAll(addressing_, i)
+      FOR_ALL(addressing_, i)
       {
         if (addressing_[i].size() == 0)
         {

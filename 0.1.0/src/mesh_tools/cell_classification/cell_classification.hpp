@@ -127,7 +127,7 @@ private:
     void getMeshOutside(const label meshType, faceList&, labelList&) const;
 public:
   // Static data members
-  ClassName("cellClassification");
+  CLASS_NAME("cellClassification");
   // Constructors
     //- Construct from mesh and surface and point(s) on outside
     cellClassification

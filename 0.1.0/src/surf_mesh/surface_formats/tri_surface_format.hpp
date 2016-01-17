@@ -33,10 +33,6 @@ class TRIsurfaceFormat
       const Face&,
       const label zoneI
     );
-    //- Disallow default bitwise copy construct
-    TRIsurfaceFormat(const TRIsurfaceFormat<Face>&);
-    //- Disallow default bitwise assignment
-    void operator=(const TRIsurfaceFormat<Face>&);
 public:
   // Constructors
     //- Construct from file name
@@ -50,6 +46,10 @@ public:
         new TRIsurfaceFormat<Face>(name)
       );
     }
+    //- Disallow default bitwise copy construct
+    TRIsurfaceFormat(const TRIsurfaceFormat<Face>&) = delete;
+    //- Disallow default bitwise assignment
+    TRIsurfaceFormat<Face>& operator=(const TRIsurfaceFormat<Face>&) = delete;
   //- Destructor
   virtual ~TRIsurfaceFormat()
   {}

@@ -104,7 +104,7 @@ void mousse::fanPressureFvPatchScalarField::updateCoeffs()
   }
   else
   {
-    FatalErrorIn("fanPressureFvPatchScalarField::updateCoeffs()")
+    FATAL_ERROR_IN("fanPressureFvPatchScalarField::updateCoeffs()")
       << "dimensions of phi are not correct"
         << "\n    on patch " << patch().name()
         << " of field " << dimensionedInternalField().name()
@@ -128,9 +128,9 @@ void mousse::fanPressureFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    fanPressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  fanPressureFvPatchScalarField
+);
 };

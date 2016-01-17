@@ -9,73 +9,73 @@
 #include "_dual.hpp"
 #include "_moment.hpp"
 // Scalar interpolation
-defineNamedTemplateTypeNameAndDebug(mousse::AveragingMethod<mousse::scalar>, 0);
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::AveragingMethod<mousse::scalar>, 0);
 namespace mousse
 {
-  defineTemplateRunTimeSelectionTable
-  (
-    AveragingMethod<mousse::scalar>,
-    dictionary
-  );
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
+(
+  AveragingMethod<mousse::scalar>,
+  dictionary
+);
 }
 // Vector interpolation
-defineNamedTemplateTypeNameAndDebug(mousse::AveragingMethod<mousse::vector>, 0);
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::AveragingMethod<mousse::vector>, 0);
 namespace mousse
 {
-  defineTemplateRunTimeSelectionTable
-  (
-    mousse::AveragingMethod<mousse::vector>,
-    dictionary
-  );
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
+(
+  mousse::AveragingMethod<mousse::vector>,
+  dictionary
+);
 }
 // Basic interpolation
-defineNamedTemplateTypeNameAndDebug
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Basic<mousse::scalar>,
   0
 );
 mousse::AveragingMethod<mousse::scalar>::
-adddictionaryConstructorToTable<mousse::AveragingMethods::Basic<mousse::scalar> >
+adddictionaryConstructorToTable<mousse::AveragingMethods::Basic<mousse::scalar>>
   addBasicscalarConstructorToTable_;
-defineNamedTemplateTypeNameAndDebug
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Basic<mousse::vector>,
   0
 );
 mousse::AveragingMethod<mousse::vector>::
-adddictionaryConstructorToTable<mousse::AveragingMethods::Basic<mousse::vector> >
+adddictionaryConstructorToTable<mousse::AveragingMethods::Basic<mousse::vector>>
   addBasicvectorConstructorToTable_;
 // Dual interpolation
-defineNamedTemplateTypeNameAndDebug
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Dual<mousse::scalar>,
   0
 );
 mousse::AveragingMethod<mousse::scalar>::
-adddictionaryConstructorToTable<mousse::AveragingMethods::Dual<mousse::scalar> >
+adddictionaryConstructorToTable<mousse::AveragingMethods::Dual<mousse::scalar>>
   addDualscalarConstructorToTable_;
-defineNamedTemplateTypeNameAndDebug
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Dual<mousse::vector>,
   0
 );
 mousse::AveragingMethod<mousse::vector>::
-adddictionaryConstructorToTable<mousse::AveragingMethods::Dual<mousse::vector> >
+adddictionaryConstructorToTable<mousse::AveragingMethods::Dual<mousse::vector>>
   addDualvectorConstructorToTable_;
 // Moment interpolation
-defineNamedTemplateTypeNameAndDebug
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Moment<mousse::scalar>,
   0
 );
 mousse::AveragingMethod<mousse::scalar>::
-adddictionaryConstructorToTable<mousse::AveragingMethods::Moment<mousse::scalar> >
+adddictionaryConstructorToTable<mousse::AveragingMethods::Moment<mousse::scalar>>
   addMomentscalarConstructorToTable_;
-defineNamedTemplateTypeNameAndDebug
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Moment<mousse::vector>,
   0
 );
 mousse::AveragingMethod<mousse::vector>::
-adddictionaryConstructorToTable<mousse::AveragingMethods::Moment<mousse::vector> >
+adddictionaryConstructorToTable<mousse::AveragingMethods::Moment<mousse::vector>>
   addMomentvectorConstructorToTable_;

@@ -36,13 +36,9 @@ class foamChemistryReader
   // Private Member Functions
     //- Set the species list
     speciesTable& setSpecies(const dictionary& dict, speciesTable& species);
-    //- Disallow default bitwise copy construct
-    foamChemistryReader(const foamChemistryReader&);
-    //- Disallow default bitwise assignment
-    void operator=(const foamChemistryReader&);
 public:
   //- Runtime type information
-  TypeName("foamChemistryReader");
+  TYPE_NAME("foamChemistryReader");
   // Constructors
     //- Construct from foamChemistry and thermodynamics file names
     foamChemistryReader
@@ -58,6 +54,10 @@ public:
       const dictionary& thermoDict,
       speciesTable& species
     );
+    //- Disallow default bitwise copy construct
+    foamChemistryReader(const foamChemistryReader&) = delete;
+    //- Disallow default bitwise assignment
+    foamChemistryReader& operator=(const foamChemistryReader&) = delete;
   //- Destructor
   virtual ~foamChemistryReader()
   {}

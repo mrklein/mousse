@@ -5,9 +5,13 @@
 //   mousse::interpolationCellPointFace
 // Description
 //   mousse::interpolationCellPointFace
+
 #ifndef interpolation_cell_point_face_hpp_
 #define interpolation_cell_point_face_hpp_
+
 #include "interpolation.hpp"
+#include "fvs_patch_field.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -41,7 +45,7 @@ class interpolationCellPointFace
     ) const;
 public:
   //- Runtime type information
-  TypeName("cellPointFace");
+  TYPE_NAME("cellPointFace");
   // Constructors
     //- Construct from components
     interpolationCellPointFace

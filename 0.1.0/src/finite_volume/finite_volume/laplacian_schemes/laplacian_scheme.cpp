@@ -6,10 +6,13 @@
 #include "hash_table.hpp"
 #include "linear.hpp"
 #include "fv_matrix.hpp"
+
 namespace mousse
 {
+
 namespace fv
 {
+
 // Selectors
 template<class Type, class GType>
 tmp<laplacianScheme<Type, GType> > laplacianScheme<Type, GType>::New
@@ -24,37 +27,44 @@ tmp<laplacianScheme<Type, GType> > laplacianScheme<Type, GType>::New
        "constructing laplacianScheme<Type, GType>"
       << endl;
   }
+
   if (schemeData.eof())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "laplacianScheme<Type, GType>::New(const fvMesh&, Istream&)",
       schemeData
-    )   << "Laplacian scheme not specified" << endl << endl
-      << "Valid laplacian schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "Laplacian scheme not specified" << endl << endl
+    << "Valid laplacian schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
-  const word schemeName(schemeData);
+
+  const word schemeName{schemeData};
   typename IstreamConstructorTable::iterator cstrIter =
     IstreamConstructorTablePtr_->find(schemeName);
   if (cstrIter == IstreamConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "laplacianScheme<Type, GType>::New(const fvMesh&, Istream&)",
       schemeData
-    )   << "Unknown laplacian scheme " << schemeName << nl << nl
-      << "Valid laplacian schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "Unknown laplacian scheme " << schemeName << nl << nl
+    << "Valid laplacian schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
+  
   return cstrIter()(mesh, schemeData);
 }
+
 // Destructor 
 template<class Type, class GType>
 laplacianScheme<Type, GType>::~laplacianScheme()
 {}
+
 // Member Functions 
 template<class Type, class GType>
 tmp<fvMatrix<Type> >
@@ -66,6 +76,7 @@ laplacianScheme<Type, GType>::fvmLaplacian
 {
   return fvmLaplacian(tinterpGammaScheme_().interpolate(gamma)(), vf);
 }
+
 template<class Type, class GType>
 tmp<GeometricField<Type, fvPatchField, volMesh> >
 laplacianScheme<Type, GType>::fvcLaplacian
@@ -76,5 +87,7 @@ laplacianScheme<Type, GType>::fvcLaplacian
 {
   return fvcLaplacian(tinterpGammaScheme_().interpolate(gamma)(), vf);
 }
+
 }  // namespace fv
+
 }  // namespace mousse

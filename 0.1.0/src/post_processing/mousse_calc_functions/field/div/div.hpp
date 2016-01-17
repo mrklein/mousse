@@ -19,11 +19,6 @@ class div
 :
   public calcType
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    div(const div&);
-    //- Disallow default bitwise assignment
-    void operator=(const div&);
 protected:
   // Member Functions
     // Calculation routines
@@ -55,10 +50,14 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("div");
+  TYPE_NAME("div");
   // Constructors
     //- Construct null
     div();
+    //- Disallow default bitwise copy construct
+    div(const div&) = delete;
+    //- Disallow default bitwise assignment
+    div& operator=(const div&) = delete;
   //- Destructor
   virtual ~div();
 };

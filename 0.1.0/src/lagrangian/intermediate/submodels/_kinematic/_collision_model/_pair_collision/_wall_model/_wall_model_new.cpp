@@ -17,7 +17,7 @@ mousse::WallModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(WallModelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "WallModel<CloudType>::New"
       "("

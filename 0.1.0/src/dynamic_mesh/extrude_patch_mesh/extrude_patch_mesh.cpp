@@ -11,7 +11,7 @@
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(extrudePatchMesh, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(extrudePatchMesh, 0);
 // Constructors 
 extrudePatchMesh::extrudePatchMesh
 (
@@ -54,29 +54,29 @@ extrudePatchMesh::extrudePatchMesh
 :
   fvMesh
   (
-    IOobject
-    (
+    //IOobject
+    {
       regionName,
       mesh.facesInstance(),
       mesh,
       IOobject::READ_IF_PRESENT,
       IOobject::NO_WRITE,
       true
-    ),
+    },
     xferCopy(pointField()),
     xferCopy(faceList()),
     xferCopy(labelList()),
     xferCopy(labelList()),
     false
   ),
-  extrudedPatch_(patch.patch()),
-  dict_(dict)
+  extrudedPatch_{patch.patch()},
+  dict_{dict}
 {
   List<polyPatch*> regionPatches(3);
   List<word> patchNames(regionPatches.size());
   List<word> patchTypes(regionPatches.size());
   PtrList<dictionary> dicts(regionPatches.size());
-  forAll (dicts, patchI)
+  FOR_ALL(dicts, patchI)
   {
     if (!dicts.set(patchI))
     {
@@ -86,12 +86,12 @@ extrudePatchMesh::extrudePatchMesh
   dicts[bottomPatchID] = dict_.subDict("bottomCoeffs");
   dicts[sidePatchID] = dict_.subDict("sideCoeffs");
   dicts[topPatchID] = dict_.subDict("topCoeffs");
-  forAll (dicts, patchI)
+  FOR_ALL(dicts, patchI)
   {
     dicts[patchI].lookup("name") >> patchNames[patchI];
     dicts[patchI].lookup("type") >> patchTypes[patchI];
   }
-  forAll (regionPatches, patchI)
+  FOR_ALL(regionPatches, patchI)
   {
     dictionary&  patchDict = dicts[patchI];
     patchDict.set("nFaces", 0);
@@ -139,11 +139,11 @@ void extrudePatchMesh::extrudeMesh(const List<polyPatch*>& regionPatches)
     );
     // Per local region an originating point
     labelList localRegionPoints(localToGlobalRegion.size());
-    forAll(pointLocalRegions, faceI)
+    FOR_ALL(pointLocalRegions, faceI)
     {
       const face& f = extrudedPatch_.localFaces()[faceI];
       const face& pRegions = pointLocalRegions[faceI];
-      forAll(pRegions, fp)
+      FOR_ALL(pRegions, fp)
       {
         localRegionPoints[pRegions[fp]] = f[fp];
       }
@@ -152,10 +152,10 @@ void extrudePatchMesh::extrudeMesh(const List<polyPatch*>& regionPatches)
     pointField localRegionNormals(localToGlobalRegion.size());
     {
       pointField localSum(localToGlobalRegion.size(), vector::zero);
-      forAll(pointLocalRegions, faceI)
+      FOR_ALL(pointLocalRegions, faceI)
       {
         const face& pRegions = pointLocalRegions[faceI];
-        forAll(pRegions, fp)
+        FOR_ALL(pRegions, fp)
         {
           label localRegionI = pRegions[fp];
           localSum[localRegionI] +=
@@ -163,7 +163,7 @@ void extrudePatchMesh::extrudeMesh(const List<polyPatch*>& regionPatches)
         }
       }
       Map<point> globalSum(2*localToGlobalRegion.size());
-      forAll(localSum, localRegionI)
+      FOR_ALL(localSum, localRegionI)
       {
         label globalRegionI = localToGlobalRegion[localRegionI];
         globalSum.insert(globalRegionI, localSum[localRegionI]);
@@ -171,7 +171,7 @@ void extrudePatchMesh::extrudeMesh(const List<polyPatch*>& regionPatches)
       // Reduce
       Pstream::mapCombineGather(globalSum, plusEqOp<point>());
       Pstream::mapCombineScatter(globalSum);
-      forAll(localToGlobalRegion, localRegionI)
+      FOR_ALL(localToGlobalRegion, localRegionI)
       {
         label globalRegionI = localToGlobalRegion[localRegionI];
         localRegionNormals[localRegionI] = globalSum[globalRegionI];
@@ -180,7 +180,7 @@ void extrudePatchMesh::extrudeMesh(const List<polyPatch*>& regionPatches)
     }
     // Per local region an extrusion direction
     vectorField firstDisp(localToGlobalRegion.size());
-    forAll(firstDisp, regionI)
+    FOR_ALL(firstDisp, regionI)
     {
       //const point& regionPt = regionCentres[regionI];
       const point& regionPt = extrudedPatch_.points()
@@ -242,7 +242,7 @@ void extrudePatchMesh::extrudeMesh(const List<polyPatch*>& regionPatches)
     // - per face the top and bottom patch (topPatchID, bottomPatchID)
     // - per edge, per face on edge the side patch (edgePatches)
     labelListList edgePatches(extrudedPatch_.nEdges());
-    forAll(edgePatches, edgeI)
+    FOR_ALL(edgePatches, edgeI)
     {
       const labelList& eFaces = extrudedPatch_.edgeFaces()[edgeI];
       if (eFaces.size() != 2 || nonManifoldEdge[edgeI])

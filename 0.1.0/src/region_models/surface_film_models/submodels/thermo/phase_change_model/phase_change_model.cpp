@@ -10,8 +10,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(phaseChangeModel, 0);
-defineRunTimeSelectionTable(phaseChangeModel, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(phaseChangeModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(phaseChangeModel, dictionary);
 // Constructors 
 phaseChangeModel::phaseChangeModel
 (

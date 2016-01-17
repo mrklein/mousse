@@ -31,7 +31,7 @@ gaussLaplacianScheme<Type, GType>::fvmLaplacianUncorrected
   fvMatrix<Type>& fvm = tfvm();
   fvm.upper() = deltaCoeffs.internalField()*gammaMagSf.internalField();
   fvm.negSumDiag();
-  forAll(vf.boundaryField(), patchi)
+  FOR_ALL(vf.boundaryField(), patchi)
   {
     const fvPatchField<Type>& pvf = vf.boundaryField()[patchi];
     const fvsPatchScalarField& pGamma = gammaMagSf.boundaryField()[patchi];

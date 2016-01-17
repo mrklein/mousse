@@ -15,18 +15,18 @@
 #include "_patch_injection.hpp"
 #include "_patch_flow_rate_injection.hpp"
 
-#define makeSprayParcelInjectionModels(CloudType)                             \
+#define MAKE_SPRAY_PARCEL_INJECTION_MODELS(CloudType)                         \
                                                                               \
-  makeInjectionModel(CloudType);                                              \
+  MAKE_INJECTION_MODEL(CloudType);                                            \
                                                                               \
-  makeInjectionModelType(CellZoneInjection, CloudType);                       \
-  makeInjectionModelType(ConeInjection, CloudType);                           \
-  makeInjectionModelType(ConeNozzleInjection, CloudType);                     \
-  makeInjectionModelType(FieldActivatedInjection, CloudType);                 \
-  makeInjectionModelType(InflationInjection, CloudType);                      \
-  makeInjectionModelType(ManualInjection, CloudType);                         \
-  makeInjectionModelType(NoInjection, CloudType);                             \
-  makeInjectionModelType(PatchFlowRateInjection, CloudType);                  \
-  makeInjectionModelType(PatchInjection, CloudType);
+  MAKE_INJECTION_MODEL_TYPE(CellZoneInjection, CloudType);                    \
+  MAKE_INJECTION_MODEL_TYPE(ConeInjection, CloudType);                        \
+  MAKE_INJECTION_MODEL_TYPE(ConeNozzleInjection, CloudType);                  \
+  MAKE_INJECTION_MODEL_TYPE(FieldActivatedInjection, CloudType);              \
+  MAKE_INJECTION_MODEL_TYPE(InflationInjection, CloudType);                   \
+  MAKE_INJECTION_MODEL_TYPE(ManualInjection, CloudType);                      \
+  MAKE_INJECTION_MODEL_TYPE(NoInjection, CloudType);                          \
+  MAKE_INJECTION_MODEL_TYPE(PatchFlowRateInjection, CloudType);               \
+  MAKE_INJECTION_MODEL_TYPE(PatchInjection, CloudType);
 
 #endif

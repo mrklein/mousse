@@ -28,7 +28,7 @@ class line
     vector direction_;
 public:
   //- Runtime type information
-  TypeName("line");
+  TYPE_NAME("line");
   // Constructors
     //- Construct from components
     line

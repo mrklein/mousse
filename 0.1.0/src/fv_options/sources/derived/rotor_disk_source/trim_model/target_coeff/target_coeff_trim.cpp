@@ -9,8 +9,8 @@ using namespace mousse::constant;
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(targetCoeffTrim, 0);
-  addToRunTimeSelectionTable(trimModel, targetCoeffTrim, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(targetCoeffTrim, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(trimModel, targetCoeffTrim, dictionary);
 }
 // Protected Member Functions 
 template<class RhoFieldType>
@@ -32,7 +32,7 @@ mousse::vector mousse::targetCoeffTrim::calcCoeffs
   const vector& yawAxis = rotor_.coordSys().R().e3();
   scalar coeff1 = alpha_*sqr(rotor_.omega())*mathematical::pi;
   vector cf(vector::zero);
-  forAll(cells, i)
+  FOR_ALL(cells, i)
   {
     label cellI = cells[i];
     vector fc = force[cellI];
@@ -187,7 +187,7 @@ mousse::tmp<mousse::scalarField> mousse::targetCoeffTrim::thetag() const
   const List<vector>& x = rotor_.x();
   tmp<scalarField> ttheta(new scalarField(x.size()));
   scalarField& t = ttheta();
-  forAll(t, i)
+  FOR_ALL(t, i)
   {
     scalar psi = x[i].y();
     t[i] = theta_[0] + theta_[1]*cos(psi) + theta_[2]*sin(psi);

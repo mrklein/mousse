@@ -14,17 +14,16 @@ namespace mousse
 {
 class reactingMultiphaseCloud
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    reactingMultiphaseCloud(const reactingMultiphaseCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const reactingMultiphaseCloud&);
 public:
   //- Runtime type information
-  TypeName("reactingMultiphaseCloud");
+  TYPE_NAME("reactingMultiphaseCloud");
   // Constructors
     //- Null constructor
     reactingMultiphaseCloud();
+    //- Disallow default bitwise copy construct
+    reactingMultiphaseCloud(const reactingMultiphaseCloud&) = delete;
+    //- Disallow default bitwise assignment
+    reactingMultiphaseCloud& operator=(const reactingMultiphaseCloud&) = delete;
   //- Destructor
   virtual ~reactingMultiphaseCloud();
 };

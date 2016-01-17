@@ -24,15 +24,15 @@ extern "C"
 #endif
 namespace mousse
 {
-  defineTypeNameAndDebug(ptscotchDecomp, 0);
-  addToRunTimeSelectionTable(decompositionMethod, ptscotchDecomp, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(ptscotchDecomp, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(decompositionMethod, ptscotchDecomp, dictionary);
 }
 // Private Member Functions 
 void mousse::ptscotchDecomp::check(const int retVal, const char* str)
 {
   if (retVal)
   {
-    FatalErrorIn("ptscotchDecomp::decompose(..)")
+    FATAL_ERROR_IN("ptscotchDecomp::decompose(..)")
       << "Call to scotch routine " << str << " failed."
       << exit(FatalError);
   }
@@ -116,7 +116,7 @@ void mousse::ptscotchDecomp::check(const int retVal, const char* str)
 //
 //        if (prevXadj.size() != nSendCells[Pstream::myProcNo()-1])
 //        {
-//            FatalErrorIn("ptscotchDecomp::decompose(..)")
+//            FATAL_ERROR_IN("ptscotchDecomp::decompose(..)")
 //                << "Expected from processor " << Pstream::myProcNo()-1
 //                << " connectivity for " << nSendCells[Pstream::myProcNo()-1]
 //                << " nCells but only received " << prevXadj.size()
@@ -193,7 +193,7 @@ void mousse::ptscotchDecomp::check(const int retVal, const char* str)
 //
 //        if (nextFinalDecomp.size() != nSendCells[Pstream::myProcNo()])
 //        {
-//            FatalErrorIn("parMetisDecomp::decompose(..)")
+//            FATAL_ERROR_IN("parMetisDecomp::decompose(..)")
 //                << "Expected from processor " << Pstream::myProcNo()+1
 //                << " decomposition for " << nSendCells[Pstream::myProcNo()]
 //                << " nCells but only received " << nextFinalDecomp.size()
@@ -342,7 +342,7 @@ mousse::label mousse::ptscotchDecomp::decompose
   {
     if (minWeights <= 0)
     {
-      WarningIn
+      WARNING_IN
       (
         "ptscotchDecomp::decompose(..)"
       )   << "Illegal minimum weight " << minWeights
@@ -350,7 +350,7 @@ mousse::label mousse::ptscotchDecomp::decompose
     }
     if (cWeights.size() != xadjSize-1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "ptscotchDecomp::decompose(..)"
       )   << "Number of cell weights " << cWeights.size()
@@ -367,7 +367,7 @@ mousse::label mousse::ptscotchDecomp::decompose
       // 0.9 factor of safety to avoid floating point round-off in
       // rangeScale tipping the subsequent sum over the integer limit.
       rangeScale = 0.9*scalar(labelMax - 1)/velotabSum;
-      WarningIn
+      WARNING_IN
       (
         "ptscotchDecomp::decompose(...)"
       )   << "Sum of weights has overflowed integer: " << velotabSum
@@ -382,7 +382,7 @@ mousse::label mousse::ptscotchDecomp::decompose
     {
       // Convert to integers.
       velotab.setSize(cWeights.size());
-      forAll(velotab, i)
+      FOR_ALL(velotab, i)
       {
         velotab[i] = int((cWeights[i]/minWeights - 1)*rangeScale) + 1;
       }
@@ -550,7 +550,7 @@ mousse::labelList mousse::ptscotchDecomp::decompose
 {
   if (points.size() != mesh.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ptscotchDecomp::decompose(const pointField&, const scalarField&)"
     )
@@ -585,7 +585,7 @@ mousse::labelList mousse::ptscotchDecomp::decompose
   );
   // Copy back to labelList
   labelList decomp(points.size());
-  forAll(decomp, i)
+  FOR_ALL(decomp, i)
   {
     decomp[i] = finalDecomp[i];
   }
@@ -601,7 +601,7 @@ mousse::labelList mousse::ptscotchDecomp::decompose
 {
   if (agglom.size() != mesh.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ptscotchDecomp::decompose(const labelList&, const pointField&)"
     )   << "Size of cell-to-coarse map " << agglom.size()
@@ -632,7 +632,7 @@ mousse::labelList mousse::ptscotchDecomp::decompose
   );
   // Rework back into decomposition for original mesh
   labelList fineDistribution(agglom.size());
-  forAll(fineDistribution, i)
+  FOR_ALL(fineDistribution, i)
   {
     fineDistribution[i] = finalDecomp[agglom[i]];
   }
@@ -647,7 +647,7 @@ mousse::labelList mousse::ptscotchDecomp::decompose
 {
   if (cellCentres.size() != globalCellCells.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ptscotchDecomp::decompose(const pointField&, const labelListList&)"
     )   << "Inconsistent number of cells (" << globalCellCells.size()
@@ -670,7 +670,7 @@ mousse::labelList mousse::ptscotchDecomp::decompose
   );
   // Copy back to labelList
   labelList decomp(cellCentres.size());
-  forAll(decomp, i)
+  FOR_ALL(decomp, i)
   {
     decomp[i] = finalDecomp[i];
   }

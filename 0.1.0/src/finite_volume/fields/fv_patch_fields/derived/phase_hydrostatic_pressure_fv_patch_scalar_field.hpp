@@ -67,7 +67,7 @@ protected:
     vector pRefPoint_;
 public:
   //- Runtime type information
-  TypeName("phaseHydrostaticPressure");
+  TYPE_NAME("phaseHydrostaticPressure");
   // Constructors
     //- Construct from patch and internal field
     phaseHydrostaticPressureFvPatchScalarField

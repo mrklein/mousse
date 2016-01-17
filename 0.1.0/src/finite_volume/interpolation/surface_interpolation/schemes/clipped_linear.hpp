@@ -8,10 +8,14 @@
 //   improve stability on meshes with very rapid variations in cell size.
 // SourceFiles
 //   clipped_linear.cpp
+
 #ifndef clipped_linear_hpp_
 #define clipped_linear_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -27,32 +31,30 @@ class clippedLinear
     {
       if (cellSizeRatio_ <= 0 || cellSizeRatio_ > 1)
       {
-        FatalErrorIn("clippedLinear::calcWfLimit()")
+        FATAL_ERROR_IN("clippedLinear::calcWfLimit()")
           << "Given cellSizeRatio of " << cellSizeRatio_
           << " is not between 0 and 1"
           << exit(FatalError);
       }
       wfLimit_ = cellSizeRatio_/(1.0 + cellSizeRatio_);
     }
-    //- Disallow default bitwise assignment
-    void operator=(const clippedLinear&);
 public:
   //- Runtime type information
-  TypeName("clippedLinear");
+  TYPE_NAME("clippedLinear");
   // Constructors
     //- Construct from mesh and cellSizeRatio
     clippedLinear(const fvMesh& mesh, const scalar cellSizeRatio)
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      cellSizeRatio_(cellSizeRatio)
+      surfaceInterpolationScheme<Type>{mesh},
+      cellSizeRatio_{cellSizeRatio}
     {
       calcWfLimit();
     }
     //- Construct from Istream
     clippedLinear(const fvMesh& mesh, Istream& is)
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      cellSizeRatio_(readScalar(is))
+      surfaceInterpolationScheme<Type>{mesh},
+      cellSizeRatio_{readScalar(is)}
     {
       calcWfLimit();
     }
@@ -64,11 +66,13 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      cellSizeRatio_(readScalar(is))
+      surfaceInterpolationScheme<Type>{mesh},
+      cellSizeRatio_{readScalar(is)}
     {
       calcWfLimit();
     }
+    //- Disallow default bitwise assignment
+    clippedLinear operator=(const clippedLinear&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights
@@ -99,7 +103,7 @@ public:
       surfaceScalarField& clippedLinearWeights = tclippedLinearWeights();
       clippedLinearWeights.internalField() =
         max(min(cdWeights.internalField(), 1 - wfLimit_), wfLimit_);
-      forAll(mesh.boundary(), patchi)
+      FOR_ALL(mesh.boundary(), patchi)
       {
         if (clippedLinearWeights.boundaryField()[patchi].coupled())
         {

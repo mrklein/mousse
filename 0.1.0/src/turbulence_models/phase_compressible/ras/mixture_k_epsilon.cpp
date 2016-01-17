@@ -143,7 +143,7 @@ wordList mixtureKEpsilon<BasicTurbulenceModel>::epsilonBoundaryTypes
 {
   const volScalarField::GeometricBoundaryField& ebf = epsilon.boundaryField();
   wordList ebt = ebf.types();
-  forAll(ebf, patchi)
+  FOR_ALL(ebf, patchi)
   {
     if (isA<fixedValueFvPatchScalarField>(ebf[patchi]))
     {
@@ -162,7 +162,7 @@ void mixtureKEpsilon<BasicTurbulenceModel>::correctInletOutlet
   volScalarField::GeometricBoundaryField& bf = vsf.boundaryField();
   const volScalarField::GeometricBoundaryField& refBf =
     refVsf.boundaryField();
-  forAll(bf, patchi)
+  FOR_ALL(bf, patchi)
   {
     if
     (

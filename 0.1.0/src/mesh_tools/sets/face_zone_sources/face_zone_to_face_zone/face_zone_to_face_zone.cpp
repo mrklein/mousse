@@ -9,16 +9,18 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(faceZoneToFaceZone, 0);
-addToRunTimeSelectionTable(topoSetSource, faceZoneToFaceZone, word);
-addToRunTimeSelectionTable(topoSetSource, faceZoneToFaceZone, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(faceZoneToFaceZone, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceZoneToFaceZone, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceZoneToFaceZone, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::faceZoneToFaceZone::usage_
 (
   faceZoneToFaceZone::typeName,
   "\n    Usage: faceZoneToFaceZone <faceZone>\n\n"
   "    Select all faces in the faceZone\n\n"
 );
+
 // Constructors 
 // Construct from components
 mousse::faceZoneToFaceZone::faceZoneToFaceZone
@@ -62,7 +64,7 @@ void mousse::faceZoneToFaceZone::applyToSet
 {
   if (!isA<faceZoneSet>(set))
   {
-    WarningIn
+    WARNING_IN
     (
       "faceZoneToFaceZone::applyToSet(const topoSetSource::setAction"
       ", topoSet"
@@ -79,7 +81,7 @@ void mousse::faceZoneToFaceZone::applyToSet
       faceZoneSet loadedSet(mesh_, setName_);
       DynamicList<label> newAddressing(fSet.addressing());
       DynamicList<bool> newFlipMap(fSet.flipMap());
-      forAll(loadedSet.addressing(), i)
+      FOR_ALL(loadedSet.addressing(), i)
       {
         if (!fSet.found(loadedSet.addressing()[i]))
         {
@@ -99,7 +101,7 @@ void mousse::faceZoneToFaceZone::applyToSet
       faceZoneSet loadedSet(mesh_, setName_);
       DynamicList<label> newAddressing(fSet.addressing().size());
       DynamicList<bool> newFlipMap(fSet.flipMap().size());
-      forAll(fSet.addressing(), i)
+      FOR_ALL(fSet.addressing(), i)
       {
         if (!loadedSet.found(fSet.addressing()[i]))
         {

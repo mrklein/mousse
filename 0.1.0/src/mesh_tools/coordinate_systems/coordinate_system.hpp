@@ -82,7 +82,7 @@ protected:
     void init(const dictionary&, const objectRegistry&);
 public:
   //- Runtime type information
-  TypeName("coordinateSystem");
+  TYPE_NAME("coordinateSystem");
   // Constructors
     //- Construct null. This is equivalent to an identity coordinateSystem
     coordinateSystem();
@@ -123,7 +123,7 @@ public:
     return autoPtr<coordinateSystem>(new coordinateSystem(*this));
   }
   // Declare run-time constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     coordinateSystem,

@@ -21,7 +21,7 @@ class transformFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("transform");
+  TYPE_NAME("transform");
   // Constructors
     //- Construct from patch and internal field
     transformFvPatchField

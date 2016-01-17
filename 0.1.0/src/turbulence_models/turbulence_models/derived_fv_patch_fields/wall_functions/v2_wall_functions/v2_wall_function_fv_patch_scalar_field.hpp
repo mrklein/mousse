@@ -59,7 +59,7 @@ protected:
     scalar yPlusLam(const scalar kappa, const scalar E);
 public:
   //- Runtime type information
-  TypeName("v2WallFunction");
+  TYPE_NAME("v2WallFunction");
   // Constructors
     //- Construct from patch and internal field
     v2WallFunctionFvPatchScalarField

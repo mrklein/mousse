@@ -4,7 +4,8 @@
 
 #include "fv_mesh.hpp"
 #include "outlet_stabilised.hpp"
+
 namespace mousse
 {
-  makeSurfaceInterpolationScheme(outletStabilised);
+MAKE_SURFACE_INTERPOLATION_SCHEME(outletStabilised);
 }

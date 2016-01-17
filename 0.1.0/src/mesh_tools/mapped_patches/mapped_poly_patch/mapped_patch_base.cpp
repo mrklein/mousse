@@ -21,9 +21,11 @@
 #include "sync_tools.hpp"
 #include "tree_data_cell.hpp"
 #include "dynamic_field.hpp"
+#include "pstream_reduce_ops.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(mappedPatchBase, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(mappedPatchBase, 0);
   template<>
   const char* mousse::NamedEnum
   <
@@ -54,7 +56,7 @@ const mousse::NamedEnum<mousse::mappedPatchBase::sampleMode, 6>
   mousse::mappedPatchBase::sampleModeNames_;
 const mousse::NamedEnum<mousse::mappedPatchBase::offsetMode, 3>
   mousse::mappedPatchBase::offsetModeNames_;
-// Private Member Functions 
+// Private Member Functions
 mousse::tmp<mousse::pointField> mousse::mappedPatchBase::facePoints
 (
   const polyPatch& pp
@@ -66,7 +68,7 @@ mousse::tmp<mousse::pointField> mousse::mappedPatchBase::facePoints
   // Initialise to face-centre
   tmp<pointField> tfacePoints(new pointField(patch_.size()));
   pointField& facePoints = tfacePoints();
-  forAll(pp, faceI)
+  FOR_ALL(pp, faceI)
   {
     facePoints[faceI] = facePoint
     (
@@ -130,7 +132,7 @@ void mousse::mappedPatchBase::collectSamples
     Pstream::scatterList(nPerProc);
     patchFaceProcs.setSize(patchFaces.size());
     label sampleI = 0;
-    forAll(nPerProc, procI)
+    FOR_ALL(nPerProc, procI)
     {
       for (label i = 0; i < nPerProc[procI]; i++)
       {
@@ -160,7 +162,7 @@ void mousse::mappedPatchBase::findSamples
     {
       if (samplePatch_.size() && samplePatch_ != "none")
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "mappedPatchBase::findSamples(const pointField&,"
           " labelList&, labelList&, pointField&) const"
@@ -169,7 +171,7 @@ void mousse::mappedPatchBase::findSamples
       }
       //- Note: face-diagonal decomposition
       const indexedOctree<mousse::treeDataCell>& tree = mesh.cellTree();
-      forAll(samples, sampleI)
+      FOR_ALL(samples, sampleI)
       {
         const point& sample = samples[sampleI];
         label cellI = tree.findInside(sample);
@@ -197,7 +199,7 @@ void mousse::mappedPatchBase::findSamples
     {
       if (samplePatch_.size() && samplePatch_ != "none")
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "mappedPatchBase::findSamples(const pointField&,"
           " labelList&, labelList&, pointField&) const"
@@ -206,7 +208,7 @@ void mousse::mappedPatchBase::findSamples
       }
       //- Note: face-diagonal decomposition
       const indexedOctree<mousse::treeDataCell>& tree = mesh.cellTree();
-      forAll(samples, sampleI)
+      FOR_ALL(samples, sampleI)
       {
         const point& sample = samples[sampleI];
         nearest[sampleI].first() = tree.findNearest(sample, sqr(GREAT));
@@ -225,7 +227,7 @@ void mousse::mappedPatchBase::findSamples
       const polyPatch& pp = samplePolyPatch();
       if (pp.empty())
       {
-        forAll(samples, sampleI)
+        FOR_ALL(samples, sampleI)
         {
           nearest[sampleI].second().first() = mousse::sqr(GREAT);
           nearest[sampleI].second().second() = Pstream::myProcNo();
@@ -258,7 +260,7 @@ void mousse::mappedPatchBase::findSamples
           10,             // leafsize
           3.0             // duplicity
         );
-        forAll(samples, sampleI)
+        FOR_ALL(samples, sampleI)
         {
           const point& sample = samples[sampleI];
           pointIndexHit& nearInfo = nearest[sampleI].first();
@@ -291,7 +293,7 @@ void mousse::mappedPatchBase::findSamples
       const polyPatch& pp = samplePolyPatch();
       if (pp.empty())
       {
-        forAll(samples, sampleI)
+        FOR_ALL(samples, sampleI)
         {
           nearest[sampleI].second().first() = mousse::sqr(GREAT);
           nearest[sampleI].second().second() = Pstream::myProcNo();
@@ -322,7 +324,7 @@ void mousse::mappedPatchBase::findSamples
           10,             // leafsize
           3.0             // duplicity
         );
-        forAll(samples, sampleI)
+        FOR_ALL(samples, sampleI)
         {
           const point& sample = samples[sampleI];
           pointIndexHit& nearInfo = nearest[sampleI].first();
@@ -352,7 +354,7 @@ void mousse::mappedPatchBase::findSamples
     {
       if (samplePatch().size() && samplePatch() != "none")
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "mappedPatchBase::findSamples(const pointField&,"
           " labelList&, labelList&, pointField&) const"
@@ -362,7 +364,7 @@ void mousse::mappedPatchBase::findSamples
       //- Note: face-diagonal decomposition
       const meshSearchMeshObject& meshSearchEngine =
         meshSearchMeshObject::New(mesh);
-      forAll(samples, sampleI)
+      FOR_ALL(samples, sampleI)
       {
         const point& sample = samples[sampleI];
         label faceI = meshSearchEngine.findNearestFace(sample);
@@ -393,7 +395,7 @@ void mousse::mappedPatchBase::findSamples
     }
     default:
     {
-      FatalErrorIn("mappedPatchBase::findSamples(..)")
+      FATAL_ERROR_IN("mappedPatchBase::findSamples(..)")
         << "problem." << abort(FatalError);
     }
   }
@@ -404,7 +406,7 @@ void mousse::mappedPatchBase::findSamples
   {
     Info<< "mappedPatchBase::findSamples on mesh " << sampleRegion()
       << " : " << endl;
-    forAll(nearest, sampleI)
+    FOR_ALL(nearest, sampleI)
     {
       label procI = nearest[sampleI].second().second();
       label localI = nearest[sampleI].first().index();
@@ -419,7 +421,7 @@ void mousse::mappedPatchBase::findSamples
   sampleProcs.setSize(samples.size());
   sampleIndices.setSize(samples.size());
   sampleLocations.setSize(samples.size());
-  forAll(nearest, sampleI)
+  FOR_ALL(nearest, sampleI)
   {
     if (!nearest[sampleI].first().hit())
     {
@@ -440,7 +442,7 @@ void mousse::mappedPatchBase::calcMapping() const
   static bool hasWarned = false;
   if (mapPtr_.valid())
   {
-    FatalErrorIn("mappedPatchBase::calcMapping() const")
+    FATAL_ERROR_IN("mappedPatchBase::calcMapping() const")
       << "Mapping already calculated" << exit(FatalError);
   }
   // Get points on face (since cannot use face-centres - might be off
@@ -461,7 +463,7 @@ void mousse::mappedPatchBase::calcMapping() const
   bool coincident = (gAverage(mag(d)) <= ROOTVSMALL);
   if (sampleMyself && coincident)
   {
-    WarningIn
+    WARNING_IN
     (
       "mappedPatchBase::mappedPatchBase\n"
       "(\n"
@@ -507,7 +509,7 @@ void mousse::mappedPatchBase::calcMapping() const
   if (mode_ == NEARESTCELL)
   {
     label nNotFound = 0;
-    forAll(sampleProcs, sampleI)
+    FOR_ALL(sampleProcs, sampleI)
     {
       if (sampleProcs[sampleI] == -1)
       {
@@ -519,7 +521,7 @@ void mousse::mappedPatchBase::calcMapping() const
     {
       if (!hasWarned)
       {
-        WarningIn
+        WARNING_IN
         (
           "mappedPatchBase::mappedPatchBase\n"
           "(\n"
@@ -542,7 +544,7 @@ void mousse::mappedPatchBase::calcMapping() const
       // Collect the samples that cannot be found
       DynamicList<label> subMap;
       DynamicField<point> subSamples;
-      forAll(sampleProcs, sampleI)
+      FOR_ALL(sampleProcs, sampleI)
       {
         if (sampleProcs[sampleI] == -1)
         {
@@ -573,7 +575,7 @@ void mousse::mappedPatchBase::calcMapping() const
   //   patchFaces, patchFaceProcs.
   // - cell/face sample is in (so source when mapping)
   //   sampleIndices, sampleProcs.
-  //forAll(samples, i)
+  //FOR_ALL(samples, i)
   //{
   //    Info<< i << " need data in region "
   //        << patch_.boundaryMesh().mesh().name()
@@ -598,7 +600,7 @@ void mousse::mappedPatchBase::calcMapping() const
       << " sampled cell/faceCentres/points to file " << str.name()
       << endl;
     label vertI = 0;
-    forAll(patchFc, i)
+    FOR_ALL(patchFc, i)
     {
       meshTools::writeOBJ(str, patchFc[i]);
       vertI++;
@@ -613,7 +615,7 @@ void mousse::mappedPatchBase::calcMapping() const
   // face data to receive.
   labelListList& subMap = mapPtr_().subMap();
   labelListList& constructMap = mapPtr_().constructMap();
-  forAll(subMap, procI)
+  FOR_ALL(subMap, procI)
   {
     subMap[procI] = UIndirectList<label>
     (
@@ -640,10 +642,10 @@ void mousse::mappedPatchBase::calcMapping() const
   {
     // Check that all elements get a value.
     PackedBoolList used(patch_.size());
-    forAll(constructMap, procI)
+    FOR_ALL(constructMap, procI)
     {
       const labelList& map = constructMap[procI];
-      forAll(map, i)
+      FOR_ALL(map, i)
       {
         label faceI = map[i];
         if (used[faceI] == 0)
@@ -652,7 +654,7 @@ void mousse::mappedPatchBase::calcMapping() const
         }
         else
         {
-          FatalErrorIn("mappedPatchBase::calcMapping() const")
+          FATAL_ERROR_IN("mappedPatchBase::calcMapping() const")
             << "On patch " << patch_.name()
             << " patchface " << faceI
             << " is assigned to more than once."
@@ -660,11 +662,11 @@ void mousse::mappedPatchBase::calcMapping() const
         }
       }
     }
-    forAll(used, faceI)
+    FOR_ALL(used, faceI)
     {
       if (used[faceI] == 0)
       {
-        FatalErrorIn("mappedPatchBase::calcMapping() const")
+        FATAL_ERROR_IN("mappedPatchBase::calcMapping() const")
           << "On patch " << patch_.name()
           << " patchface " << faceI
           << " is never assigned to."
@@ -703,7 +705,7 @@ void mousse::mappedPatchBase::calcAMI() const
 {
   if (AMIPtr_.valid())
   {
-    FatalErrorIn("mappedPatchBase::calcAMI() const")
+    FATAL_ERROR_IN("mappedPatchBase::calcAMI() const")
       << "AMI already calculated" << exit(FatalError);
   }
   AMIPtr_.clear();
@@ -773,7 +775,7 @@ mousse::tmp<mousse::pointField> mousse::mappedPatchBase::readListOrField
         is >> static_cast<List<vector>&>(fld);
         if (fld.size() != size)
         {
-          FatalIOErrorIn
+          FATAL_IO_ERROR_IN
           (
             "mappedPatchBase::readListOrField"
             "(const word& keyword, const dictionary&, const label)",
@@ -785,7 +787,7 @@ mousse::tmp<mousse::pointField> mousse::mappedPatchBase::readListOrField
       }
       else
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "mappedPatchBase::readListOrField"
           "(const word& keyword, const dictionary&, const label)",
@@ -799,7 +801,7 @@ mousse::tmp<mousse::pointField> mousse::mappedPatchBase::readListOrField
     {
       if (is.version() == 2.0)
       {
-        IOWarningIn
+        IO_WARNING_IN
         (
           "mappedPatchBase::readListOrField"
           "(const word& keyword, const dictionary&, const label)",
@@ -814,7 +816,7 @@ mousse::tmp<mousse::pointField> mousse::mappedPatchBase::readListOrField
   }
   return tfld;
 }
-// Constructors 
+// Constructors
 mousse::mappedPatchBase::mappedPatchBase
 (
   const polyPatch& pp
@@ -978,7 +980,7 @@ mousse::mappedPatchBase::mappedPatchBase
   }
   else if (mode_ != NEARESTPATCHFACE && mode_ != NEARESTPATCHFACEAMI)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "mappedPatchBase::mappedPatchBase\n"
       "(\n"
@@ -1016,7 +1018,7 @@ mousse::mappedPatchBase::mappedPatchBase
 {
   if (mode != NEARESTPATCHFACE && mode != NEARESTPATCHFACEAMI)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "mappedPatchBase::mappedPatchBase\n"
       "(\n"
@@ -1091,7 +1093,8 @@ mousse::mappedPatchBase::mappedPatchBase
   surfPtr_(NULL),
   surfDict_(mpb.surfDict_)
 {}
-// Destructor 
+
+// Destructor
 mousse::mappedPatchBase::~mappedPatchBase()
 {
   clearOut();
@@ -1102,7 +1105,8 @@ void mousse::mappedPatchBase::clearOut()
   AMIPtr_.clear();
   surfPtr_.clear();
 }
-// Member Functions 
+
+// Member Functions
 const mousse::polyMesh& mousse::mappedPatchBase::sampleMesh() const
 {
   return patch_.boundaryMesh().mesh().time().lookupObject<polyMesh>
@@ -1116,7 +1120,7 @@ const mousse::polyPatch& mousse::mappedPatchBase::samplePolyPatch() const
   const label patchI = nbrMesh.boundaryMesh().findPatchID(samplePatch());
   if (patchI == -1)
   {
-    FatalErrorIn("mappedPatchBase::samplePolyPatch()")
+    FATAL_ERROR_IN("mappedPatchBase::samplePolyPatch()")
       << "Cannot find patch " << samplePatch()
       << " in region " << sampleRegion_ << endl
       << "Valid patches are " << nbrMesh.boundaryMesh().names()
@@ -1219,7 +1223,7 @@ mousse::pointIndexHit mousse::mappedPatchBase::facePoint
     break;
     default:
     {
-      FatalErrorIn("mappedPatchBase::facePoint()")
+      FATAL_ERROR_IN("mappedPatchBase::facePoint()")
         << "problem" << abort(FatalError);
       return pointIndexHit();
     }

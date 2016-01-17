@@ -22,22 +22,22 @@
 #include "_distorted_sphere_drag_force.hpp"
 #include "make_spray_parcel_atomization_models.hpp"
 #include "make_spray_parcel_breakup_models.hpp"
-makeParcelCloudFunctionObjects(basicSprayCloud);
+MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS(basicSprayCloud);
 // Kinematic sub-models
-makeThermoParcelForces(basicSprayCloud);
-makeThermoParcelTurbulenceForces(basicSprayCloud);
-makeParcelDispersionModels(basicSprayCloud);
-makeParcelTurbulenceDispersionModels(basicSprayCloud);
-makeSprayParcelInjectionModels(basicSprayCloud);
-makeParcelPatchInteractionModels(basicSprayCloud);
-makeSprayParcelStochasticCollisionModels(basicSprayCloud);
+MAKE_THERMO_PARCEL_FORCES(basicSprayCloud);
+MAKE_THERMO_PARCEL_TURBULENCE_FORCES(basicSprayCloud);
+MAKE_PARCEL_DISPERSION_MODELS(basicSprayCloud);
+MAKE_PARCEL_TURBULENCE_DISPERSION_MODELS(basicSprayCloud);
+MAKE_SPRAY_PARCEL_INJECTION_MODELS(basicSprayCloud);
+MAKE_PARCEL_PATCH_INTERACTION_MODELS(basicSprayCloud);
+MAKE_SPRAY_PARCEL_STOCHASTIC_COLLISION_MODELS(basicSprayCloud);
 // Thermo sub-models
-makeParcelHeatTransferModels(basicSprayCloud);
+MAKE_PARCEL_HEAT_TRANSFER_MODELS(basicSprayCloud);
 // Reacting sub-models
-makeReactingParcelCompositionModels(basicSprayCloud);
-makeReactingParcelPhaseChangeModels(basicSprayCloud);
-makeReactingParcelSurfaceFilmModels(basicSprayCloud);
+MAKE_REACTING_PARCEL_COMPOSITION_MODELS(basicSprayCloud);
+MAKE_REACTING_PARCEL_PHASE_CHANGE_MODELS(basicSprayCloud);
+MAKE_REACTING_PARCEL_SURFACE_FILM_MODELS(basicSprayCloud);
 // Spray sub-models
-makeParticleForceModelType(DistortedSphereDragForce, basicSprayCloud);
-makeSprayParcelAtomizationModels(basicSprayCloud);
-makeSprayParcelBreakupModels(basicSprayCloud);
+MAKE_PARTICLE_FORCE_MODEL_TYPE(DistortedSphereDragForce, basicSprayCloud);
+MAKE_SPRAY_PARCEL_ATOMIZATION_MODELS(basicSprayCloud);
+MAKE_SPRAY_PARCEL_BREAKUP_MODELS(basicSprayCloud);

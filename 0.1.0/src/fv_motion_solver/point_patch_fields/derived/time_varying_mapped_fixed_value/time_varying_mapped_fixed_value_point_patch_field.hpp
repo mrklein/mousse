@@ -51,7 +51,7 @@ class timeVaryingMappedFixedValuePointPatchField
     autoPtr<DataEntry<Type> > offset_;
 public:
   //- Runtime type information
-  TypeName("timeVaryingMappedFixedValue");
+  TYPE_NAME("timeVaryingMappedFixedValue");
   // Constructors
     //- Construct from patch and internal field
     timeVaryingMappedFixedValuePointPatchField

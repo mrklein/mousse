@@ -63,7 +63,7 @@ mousse::FieldActivatedInjection<CloudType>::FieldActivatedInjection
   )
 {
   // Construct parcel diameters - one per injector cell
-  forAll(diameters_, i)
+  FOR_ALL(diameters_, i)
   {
     diameters_[i] = sizeDistribution_->sample();
   }
@@ -102,7 +102,7 @@ template<class CloudType>
 void mousse::FieldActivatedInjection<CloudType>::updateMesh()
 {
   // Set/cache the injector cells
-  forAll(positions_, i)
+  FOR_ALL(positions_, i)
   {
     this->findCellAtPosition
     (
@@ -121,8 +121,8 @@ mousse::scalar mousse::FieldActivatedInjection<CloudType>::timeEnd() const
 template<class CloudType>
 mousse::label mousse::FieldActivatedInjection<CloudType>::parcelsToInject
 (
-  const scalar time0,
-  const scalar time1
+  const scalar /*time0*/,
+  const scalar /*time1*/
 )
 {
   if (sum(nParcelsInjected_) < nParcelsPerInjector_*positions_.size())
@@ -137,8 +137,8 @@ mousse::label mousse::FieldActivatedInjection<CloudType>::parcelsToInject
 template<class CloudType>
 mousse::scalar mousse::FieldActivatedInjection<CloudType>::volumeToInject
 (
-  const scalar time0,
-  const scalar time1
+  const scalar /*time0*/,
+  const scalar /*time1*/
 )
 {
   if (sum(nParcelsInjected_) < nParcelsPerInjector_*positions_.size())

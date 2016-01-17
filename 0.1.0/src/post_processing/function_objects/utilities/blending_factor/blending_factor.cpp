@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(blendingFactor, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(blendingFactor, 0);
 }
 // Constructors 
 mousse::blendingFactor::blendingFactor
@@ -15,20 +15,20 @@ mousse::blendingFactor::blendingFactor
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  phiName_("unknown-phiName"),
-  fieldName_("unknown-fieldName")
+  name_{name},
+  obr_{obr},
+  active_{true},
+  phiName_{"unknown-phiName"},
+  fieldName_{"unknown-fieldName"}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "blendingFactor::blendingFactor"
       "("
@@ -37,8 +37,9 @@ mousse::blendingFactor::blendingFactor
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   read(dict);
 }

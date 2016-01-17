@@ -36,7 +36,7 @@ class regionCoupledWallFvPatch
     }
 public:
   //- Runtime type information
-  TypeName(regionCoupledWallPolyPatch::typeName_());
+  TYPE_NAME(regionCoupledWallPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     regionCoupledWallFvPatch
@@ -83,8 +83,8 @@ public:
       //- Initialise neighbour field transfer
       virtual void initInternalFieldTransfer
       (
-        const Pstream::commsTypes commsType,
-        labelUList& iF
+        const Pstream::commsTypes,
+        labelUList& /*iF*/
       ) const
       {}
       //- Return neighbour field

@@ -204,13 +204,9 @@ private:
       //- Distribute stored fields
       template<class Type>
       void distributeFields(const mapDistribute& map);
-    //- Disallow default bitwise copy construct
-    distributedTriSurfaceMesh(const distributedTriSurfaceMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const distributedTriSurfaceMesh&);
 public:
   //- Runtime type information
-  TypeName("distributedTriSurfaceMesh");
+  TYPE_NAME("distributedTriSurfaceMesh");
   // Constructors
     //- Construct from triSurface
     distributedTriSurfaceMesh
@@ -228,6 +224,13 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    distributedTriSurfaceMesh(const distributedTriSurfaceMesh&) = delete;
+    //- Disallow default bitwise assignment
+    distributedTriSurfaceMesh& operator=
+    (
+      const distributedTriSurfaceMesh&
+    ) = delete;
   //- Destructor
   virtual ~distributedTriSurfaceMesh();
     //- Clear storage

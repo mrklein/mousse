@@ -36,7 +36,7 @@ protected:
     void write();
 public:
   //- Runtime type information
-  TypeName("patchPostProcessing");
+  TYPE_NAME("patchPostProcessing");
   // Constructors
     //- Construct from dictionary
     PatchPostProcessing
@@ -75,7 +75,17 @@ public:
       );
 };
 }  // namespace mousse
-#include "_patch_post_processing_i.hpp"
+
+template<class CloudType>
+mousse::label mousse::PatchPostProcessing<CloudType>::maxStoredParcels() const
+{
+  return maxStoredParcels_;
+}
+template<class CloudType>
+const mousse::labelList& mousse::PatchPostProcessing<CloudType>::patchIDs() const
+{
+  return patchIDs_;
+}
 #ifdef NoRepository
   #include "_patch_post_processing.cpp"
 #endif

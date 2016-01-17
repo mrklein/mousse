@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(reactionRateFlameArea, 0);
-  defineRunTimeSelectionTable(reactionRateFlameArea, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(reactionRateFlameArea, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(reactionRateFlameArea, dictionary);
 }
 // Constructors 
 mousse::reactionRateFlameArea::reactionRateFlameArea

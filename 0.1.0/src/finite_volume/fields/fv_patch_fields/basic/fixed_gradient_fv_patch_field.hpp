@@ -47,7 +47,7 @@ class fixedGradientFvPatchField
     Field<Type> gradient_;
 public:
   //- Runtime type information
-  TypeName("fixedGradient");
+  TYPE_NAME("fixedGradient");
   // Constructors
     //- Construct from patch and internal field
     fixedGradientFvPatchField

@@ -63,7 +63,7 @@ protected:
     scalar Prt_;
 public:
   //- Runtime type information
-  TypeName("alphatFilmWallFunction");
+  TYPE_NAME("alphatFilmWallFunction");
   // Constructors
     //- Construct from patch and internal field
     alphatFilmWallFunctionFvPatchScalarField

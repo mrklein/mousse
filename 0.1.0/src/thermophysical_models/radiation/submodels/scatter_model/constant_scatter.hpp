@@ -31,7 +31,7 @@ class constantScatter
     dimensionedScalar C_;
 public:
   //- Runtime type information
-  TypeName("constantScatter");
+  TYPE_NAME("constantScatter");
   // Constructors
     //- Construct from components
     constantScatter(const dictionary& dict, const fvMesh& mesh);

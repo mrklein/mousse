@@ -46,13 +46,9 @@ class createShellMesh
       DynamicList<label>& changedEdges,
       labelPairList& allEdgeData
     );
-    //- Disallow default bitwise copy construct
-    createShellMesh(const createShellMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const createShellMesh&);
 public:
   //- Runtime type information
-  ClassName("createShellMesh");
+  CLASS_NAME("createShellMesh");
   // Constructors
     //- Construct from mesh.
     createShellMesh
@@ -61,6 +57,10 @@ public:
       const faceList& pointRegions,
       const labelList& regionPoints
     );
+    //- Disallow default bitwise copy construct
+    createShellMesh(const createShellMesh&) = delete;
+    //- Disallow default bitwise assignment
+    createShellMesh& operator=(const createShellMesh&) = delete;
   // Member Functions
     // Access
       //- From region cell to patch face. Consecutively added so

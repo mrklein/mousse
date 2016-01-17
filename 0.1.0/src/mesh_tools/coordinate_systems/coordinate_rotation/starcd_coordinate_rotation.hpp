@@ -42,7 +42,7 @@ class STARCDCoordinateRotation
     );
 public:
   //- Runtime type information
-  TypeName("STARCDRotation");
+  TYPE_NAME("STARCDRotation");
   // Constructors
     //- Construct null
     STARCDCoordinateRotation();

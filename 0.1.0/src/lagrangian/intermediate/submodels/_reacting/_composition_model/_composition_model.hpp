@@ -33,9 +33,9 @@ class CompositionModel
     phasePropertiesList phaseProps_;
 public:
   //- Runtime type information
-  TypeName("compositionModel");
+  TYPE_NAME("compositionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     CompositionModel,
@@ -172,27 +172,27 @@ public:
 };
 }  // namespace mousse
 
-#define makeCompositionModel(CloudType)                                       \
+#define MAKE_COMPOSITION_MODEL(CloudType)                                     \
                                                                               \
   typedef mousse::CloudType::reactingCloudType reactingCloudType;             \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::CompositionModel<reactingCloudType>,                              \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       CompositionModel<reactingCloudType>,                                    \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeCompositionModelType(SS, CloudType)                               \
+#define MAKE_COMPOSITION_MODEL_TYPE(SS, CloudType)                            \
                                                                               \
   typedef mousse::CloudType::reactingCloudType reactingCloudType;             \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<reactingCloudType>, 0);      \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<reactingCloudType>, 0);\
                                                                               \
   mousse::CompositionModel<reactingCloudType>::                               \
     adddictionaryConstructorToTable<mousse::SS<reactingCloudType> >           \

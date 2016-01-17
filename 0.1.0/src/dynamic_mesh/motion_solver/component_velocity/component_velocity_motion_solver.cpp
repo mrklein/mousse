@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(componentVelocityMotionSolver, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(componentVelocityMotionSolver, 0);
 }
 // Private Member Functions 
 mousse::direction mousse::componentVelocityMotionSolver::cmpt
@@ -29,7 +29,7 @@ mousse::direction mousse::componentVelocityMotionSolver::cmpt
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "componentVelocityMotionSolver::"
       "componentVelocityMotionSolver"
@@ -67,7 +67,7 @@ mousse::componentVelocityMotionSolver::componentVelocityMotionSolver
 mousse::componentVelocityMotionSolver::~componentVelocityMotionSolver()
 {}
 // Member Functions 
-void mousse::componentVelocityMotionSolver::movePoints(const pointField& p)
+void mousse::componentVelocityMotionSolver::movePoints(const pointField&)
 {
   // No local data to adapt
 }

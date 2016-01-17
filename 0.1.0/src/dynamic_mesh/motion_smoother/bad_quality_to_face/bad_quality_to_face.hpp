@@ -26,7 +26,7 @@ class badQualityToFace
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("badQualityToFace");
+  TYPE_NAME("badQualityToFace");
   // Constructors
     //- Construct from dictionary
     badQualityToFace

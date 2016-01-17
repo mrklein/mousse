@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "wedge_fvs_patch_field.hpp"
+
 namespace mousse
 {
+
 // Constructors 
 template<class Type>
 wedgeFvsPatchField<Type>::wedgeFvsPatchField
@@ -13,8 +15,9 @@ wedgeFvsPatchField<Type>::wedgeFvsPatchField
   const DimensionedField<Type, surfaceMesh>& iF
 )
 :
-  fvsPatchField<Type>(p, iF)
+  fvsPatchField<Type>{p, iF}
 {}
+
 template<class Type>
 wedgeFvsPatchField<Type>::wedgeFvsPatchField
 (
@@ -24,11 +27,11 @@ wedgeFvsPatchField<Type>::wedgeFvsPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fvsPatchField<Type>(ptf, p, iF, mapper)
+  fvsPatchField<Type>{ptf, p, iF, mapper}
 {
   if (!isType<wedgeFvPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "wedgeFvsPatchField<Type>::wedgeFvsPatchField\n"
       "(\n"
@@ -37,13 +40,15 @@ wedgeFvsPatchField<Type>::wedgeFvsPatchField
       "    const DimensionedField<Type, surfaceMesh>& iF,\n"
       "    const fvPatchFieldMapper& mapper\n"
       ")\n"
-    )   << "Field type does not correspond to patch type for patch "
-      << this->patch().index() << "." << endl
-      << "Field type: " << typeName << endl
-      << "Patch type: " << this->patch().type()
-      << exit(FatalError);
+    )
+    << "Field type does not correspond to patch type for patch "
+    << this->patch().index() << "." << endl
+    << "Field type: " << typeName << endl
+    << "Patch type: " << this->patch().type()
+    << exit(FatalError);
   }
 }
+
 template<class Type>
 wedgeFvsPatchField<Type>::wedgeFvsPatchField
 (
@@ -52,11 +57,11 @@ wedgeFvsPatchField<Type>::wedgeFvsPatchField
   const dictionary& dict
 )
 :
-  fvsPatchField<Type>(p, iF, dict)
+  fvsPatchField<Type>{p, iF, dict}
 {
   if (!isType<wedgeFvPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "wedgeFvsPatchField<Type>::wedgeFvsPatchField\n"
       "(\n"
@@ -65,19 +70,22 @@ wedgeFvsPatchField<Type>::wedgeFvsPatchField
       "    dictionary& dict\n"
       ")\n",
       dict
-    )   << "patch " << this->patch().index() << " not wedge type. "
-      << "Patch type = " << p.type()
-      << exit(FatalIOError);
+    )
+    << "patch " << this->patch().index() << " not wedge type. "
+    << "Patch type = " << p.type()
+    << exit(FatalIOError);
   }
 }
+
 template<class Type>
 wedgeFvsPatchField<Type>::wedgeFvsPatchField
 (
   const wedgeFvsPatchField<Type>& ptf
 )
 :
-  fvsPatchField<Type>(ptf)
+  fvsPatchField<Type>{ptf}
 {}
+
 template<class Type>
 wedgeFvsPatchField<Type>::wedgeFvsPatchField
 (
@@ -85,6 +93,7 @@ wedgeFvsPatchField<Type>::wedgeFvsPatchField
   const DimensionedField<Type, surfaceMesh>& iF
 )
 :
-  fvsPatchField<Type>(ptf, iF)
+  fvsPatchField<Type>{ptf, iF}
 {}
+
 }  // namespace mousse

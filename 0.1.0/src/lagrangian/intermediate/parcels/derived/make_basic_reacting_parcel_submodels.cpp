@@ -16,16 +16,16 @@
 // Reacting
 #include "make_reacting_parcel_composition_models.hpp"
 #include "make_reacting_parcel_phase_change_models.hpp"
-makeParcelCloudFunctionObjects(basicReactingCloud);
+MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS(basicReactingCloud);
 // Kinematic sub-models
-makeThermoParcelForces(basicReactingCloud);
-makeParcelDispersionModels(basicReactingCloud);
-makeReactingParcelInjectionModels(basicReactingCloud);
-makeParcelPatchInteractionModels(basicReactingCloud);
-makeParcelStochasticCollisionModels(basicReactingCloud);
-makeReactingParcelSurfaceFilmModels(basicReactingCloud);
+MAKE_THERMO_PARCEL_FORCES(basicReactingCloud);
+MAKE_PARCEL_DISPERSION_MODELS(basicReactingCloud);
+MAKE_REACTING_PARCEL_INJECTION_MODELS(basicReactingCloud);
+MAKE_PARCEL_PATCH_INTERACTION_MODELS(basicReactingCloud);
+MAKE_PARCEL_STOCHASTIC_COLLISION_MODELS(basicReactingCloud);
+MAKE_REACTING_PARCEL_SURFACE_FILM_MODELS(basicReactingCloud);
 // Thermo sub-models
-makeParcelHeatTransferModels(basicReactingCloud);
+MAKE_PARCEL_HEAT_TRANSFER_MODELS(basicReactingCloud);
 // Reacting sub-models
-makeReactingParcelCompositionModels(basicReactingCloud);
-makeReactingParcelPhaseChangeModels(basicReactingCloud);
+MAKE_REACTING_PARCEL_COMPOSITION_MODELS(basicReactingCloud);
+MAKE_REACTING_PARCEL_PHASE_CHANGE_MODELS(basicReactingCloud);

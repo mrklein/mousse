@@ -33,7 +33,7 @@ class emptyFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName(emptyFvPatch::typeName_());
+  TYPE_NAME(emptyFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     emptyFvPatchField

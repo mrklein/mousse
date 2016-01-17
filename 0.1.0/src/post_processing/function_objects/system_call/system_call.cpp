@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(systemCall, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(systemCall, 0);
 }
 // Constructors 
 mousse::systemCall::systemCall
@@ -37,13 +37,13 @@ void mousse::systemCall::read(const dictionary& dict)
   dict.readIfPresent("writeCalls", writeCalls_);
   if (executeCalls_.empty() && endCalls_.empty() && writeCalls_.empty())
   {
-    WarningIn("mousse::system::read(const dictionary&)")
+    WARNING_IN("mousse::system::read(const dictionary&)")
       << "no executeCalls, endCalls or writeCalls defined."
       << endl;
   }
   else if (!dynamicCode::allowSystemOperations)
   {
-    FatalErrorIn("systemCall::read(const dictionary&)")
+    FATAL_ERROR_IN("systemCall::read(const dictionary&)")
       << "Executing user-supplied system calls is not enabled by "
       << "default because of " << nl
       << "security issues.  If you trust the case you can enable this "
@@ -60,14 +60,14 @@ void mousse::systemCall::read(const dictionary& dict)
 }
 void mousse::systemCall::execute()
 {
-  forAll(executeCalls_, callI)
+  FOR_ALL(executeCalls_, callI)
   {
     mousse::system(executeCalls_[callI]);
   }
 }
 void mousse::systemCall::end()
 {
-  forAll(endCalls_, callI)
+  FOR_ALL(endCalls_, callI)
   {
     mousse::system(endCalls_[callI]);
   }
@@ -78,7 +78,7 @@ void mousse::systemCall::timeSet()
 }
 void mousse::systemCall::write()
 {
-  forAll(writeCalls_, callI)
+  FOR_ALL(writeCalls_, callI)
   {
     mousse::system(writeCalls_[callI]);
   }

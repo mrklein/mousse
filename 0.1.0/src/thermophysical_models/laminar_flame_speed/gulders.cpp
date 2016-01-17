@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace laminarFlameSpeedModels
 {
-  defineTypeNameAndDebug(Gulders, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(Gulders, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     laminarFlameSpeed,
     Gulders,
@@ -89,13 +89,13 @@ mousse::tmp<mousse::volScalarField> mousse::laminarFlameSpeedModels::Gulders::Su
     )
   );
   volScalarField& Su0 = tSu0();
-  forAll(Su0, celli)
+  FOR_ALL(Su0, celli)
   {
     Su0[celli] = Su0pTphi(p[celli], Tu[celli], phi, 0.0);
   }
-  forAll(Su0.boundaryField(), patchi)
+  FOR_ALL(Su0.boundaryField(), patchi)
   {
-    forAll(Su0.boundaryField()[patchi], facei)
+    FOR_ALL(Su0.boundaryField()[patchi], facei)
     {
       Su0.boundaryField()[patchi][facei] =
         Su0pTphi
@@ -134,13 +134,13 @@ mousse::tmp<mousse::volScalarField> mousse::laminarFlameSpeedModels::Gulders::Su
     )
   );
   volScalarField& Su0 = tSu0();
-  forAll(Su0, celli)
+  FOR_ALL(Su0, celli)
   {
     Su0[celli] = Su0pTphi(p[celli], Tu[celli], phi[celli], 0.0);
   }
-  forAll(Su0.boundaryField(), patchi)
+  FOR_ALL(Su0.boundaryField(), patchi)
   {
-    forAll(Su0.boundaryField()[patchi], facei)
+    FOR_ALL(Su0.boundaryField()[patchi], facei)
     {
       Su0.boundaryField()[patchi][facei] =
         Su0pTphi

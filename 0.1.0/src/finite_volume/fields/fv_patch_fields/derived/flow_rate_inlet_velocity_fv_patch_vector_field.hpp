@@ -78,7 +78,7 @@ class flowRateInletVelocityFvPatchVectorField
     scalar rhoInlet_;
 public:
  //- Runtime type information
- TypeName("flowRateInletVelocity");
+ TYPE_NAME("flowRateInletVelocity");
  // Constructors
     //- Construct from patch and internal field
     flowRateInletVelocityFvPatchVectorField

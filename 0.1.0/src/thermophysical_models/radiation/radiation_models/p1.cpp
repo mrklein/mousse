@@ -15,7 +15,7 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(P1, 0);
+    DEFINE_TYPE_NAME_AND_DEBUG(P1, 0);
     addToRadiationRunTimeSelectionTables(P1);
   }
 }
@@ -201,7 +201,7 @@ void mousse::radiation::P1::calculate()
    - 4.0*(e_*physicoChemical::sigma*pow4(T_) ) - E_
   );
   // Calculate radiative heat flux on boundaries.
-  forAll(mesh_.boundaryMesh(), patchi)
+  FOR_ALL(mesh_.boundaryMesh(), patchi)
   {
     if (!G_.boundaryField()[patchi].coupled())
     {

@@ -3,12 +3,15 @@
 // Copyright (C) 2016 mousse project
 
 #include "interpolation.hpp"
+
 namespace mousse
 {
+
 // Define the constructor function hash tables
-defineTemplateRunTimeSelectionTable(interpolation<scalar>, dictionary);
-defineTemplateRunTimeSelectionTable(interpolation<vector>, dictionary);
-defineTemplateRunTimeSelectionTable(interpolation<sphericalTensor>, dictionary);
-defineTemplateRunTimeSelectionTable(interpolation<symmTensor>, dictionary);
-defineTemplateRunTimeSelectionTable(interpolation<tensor>, dictionary);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(interpolation<scalar>, dictionary);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(interpolation<vector>, dictionary);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(interpolation<sphericalTensor>, dictionary);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(interpolation<symmTensor>, dictionary);
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(interpolation<tensor>, dictionary);
+
 }  // namespace mousse

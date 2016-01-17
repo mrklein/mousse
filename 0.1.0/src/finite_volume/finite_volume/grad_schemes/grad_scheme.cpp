@@ -5,6 +5,7 @@
 #include "fv.hpp"
 #include "object_registry.hpp"
 #include "solution.hpp"
+
 // Selectors
 template<class Type>
 mousse::tmp<mousse::fv::gradScheme<Type> > mousse::fv::gradScheme<Type>::New
@@ -20,39 +21,49 @@ mousse::tmp<mousse::fv::gradScheme<Type> > mousse::fv::gradScheme<Type>::New
        "constructing gradScheme<Type>"
       << endl;
   }
+
   if (schemeData.eof())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "gradScheme<Type>::New"
       "(const fvMesh& mesh, Istream& schemeData)",
       schemeData
-    )   << "Grad scheme not specified" << endl << endl
-      << "Valid grad schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "Grad scheme not specified" << endl << endl
+    << "Valid grad schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
-  const word schemeName(schemeData);
+
+  const word schemeName{schemeData};
   typename IstreamConstructorTable::iterator cstrIter =
     IstreamConstructorTablePtr_->find(schemeName);
+
   if (cstrIter == IstreamConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "gradScheme<Type>::New"
       "(const fvMesh& mesh, Istream& schemeData)",
       schemeData
-    )   << "Unknown grad scheme " << schemeName << nl << nl
-      << "Valid grad schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "Unknown grad scheme " << schemeName << nl << nl
+    << "Valid grad schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
+
   return cstrIter()(mesh, schemeData);
 }
+
+
 // Destructor 
 template<class Type>
 mousse::fv::gradScheme<Type>::~gradScheme()
 {}
+
+
 template<class Type>
 mousse::tmp
 <
@@ -71,6 +82,7 @@ mousse::fv::gradScheme<Type>::grad
 {
   typedef typename outerProduct<vector, Type>::type GradType;
   typedef GeometricField<GradType, fvPatchField, volMesh> GradFieldType;
+
   if (!this->mesh().changing() && this->mesh().cache(name))
   {
     if (!mesh().objectRegistry::template foundObject<GradFieldType>(name))
@@ -109,7 +121,7 @@ mousse::fv::gradScheme<Type>::grad
   }
   else
   {
-    if (mesh().objectRegistry::template foundObject<GradFieldType>(name))
+       if (mesh().objectRegistry::template foundObject<GradFieldType>(name))
     {
       GradFieldType& gGrad = const_cast<GradFieldType&>
       (
@@ -129,6 +141,8 @@ mousse::fv::gradScheme<Type>::grad
     return calcGrad(vsf, name);
   }
 }
+
+
 template<class Type>
 mousse::tmp
 <

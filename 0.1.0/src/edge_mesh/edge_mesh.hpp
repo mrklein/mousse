@@ -8,7 +8,6 @@
 //   Can be read from fileName based on extension. Uses ::New factory method
 //   to select the reader and transfer the result.
 // SourceFiles
-//   edge_mesh_i.hpp
 //   edge_mesh.cpp
 //   edge_mesh_io.cpp
 //   edge_mesh_new.cpp
@@ -51,7 +50,7 @@ protected:
     inline edgeList& storedEdges();
 public:
     //- Runtime type information
-    TypeName("edgeMesh");
+    TYPE_NAME("edgeMesh");
   // Static
     //- Can we read this file format?
     static bool canRead(const fileName&, const bool verbose=false);
@@ -81,7 +80,7 @@ public:
     //- Construct from Istream
     edgeMesh(Istream&);
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       edgeMesh,
@@ -103,7 +102,7 @@ public:
   //- Destructor
   virtual ~edgeMesh();
   // Member Function Selectors
-    declareMemberFunctionSelectionTable
+    DECLARE_MEMBER_FUNCTION_SELECTION_TABLE
     (
       void,
       edgeMesh,
@@ -167,5 +166,45 @@ public:
       friend Istream& operator>>(Istream&, edgeMesh&);
 };
 }  // namespace mousse
-#include "edge_mesh_i.hpp"
+
+// Constructors 
+inline mousse::edgeMesh::edgeMesh(const edgeMesh& em)
+:
+  fileFormats::edgeMeshFormatsCore{},
+  points_{em.points_},
+  edges_{em.edges_},
+  pointEdgesPtr_{NULL}
+{}
+// Member Functions 
+inline const mousse::pointField& mousse::edgeMesh::points() const
+{
+  return points_;
+}
+inline const mousse::edgeList& mousse::edgeMesh::edges() const
+{
+  return edges_;
+}
+inline const mousse::labelListList& mousse::edgeMesh::pointEdges() const
+{
+  if (pointEdgesPtr_.empty())
+  {
+    calcPointEdges();
+  }
+  return pointEdgesPtr_();
+}
+inline mousse::pointField& mousse::edgeMesh::storedPoints()
+{
+  return points_;
+}
+inline mousse::edgeList& mousse::edgeMesh::storedEdges()
+{
+  return edges_;
+}
+// Member Operators 
+void mousse::edgeMesh::operator=(const edgeMesh& rhs)
+{
+  points_ = rhs.points_;
+  edges_ = rhs.edges_;
+  pointEdgesPtr_.clear();
+}
 #endif

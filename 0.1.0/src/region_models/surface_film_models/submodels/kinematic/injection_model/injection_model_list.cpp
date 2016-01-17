@@ -34,7 +34,7 @@ injectionModelList::injectionModelList
 {
   const wordList activeModels(dict.lookup("injectionModels"));
   wordHashSet models;
-  forAll(activeModels, i)
+  FOR_ALL(activeModels, i)
   {
     models.insert(activeModels[i]);
   }
@@ -43,7 +43,7 @@ injectionModelList::injectionModelList
   {
     this->setSize(models.size());
     label i = 0;
-    forAllConstIter(wordHashSet, models, iter)
+    FOR_ALL_CONST_ITER(wordHashSet, models, iter)
     {
       const word& model = iter.key();
       set(i, injectionModel::New(owner, dict, model));
@@ -67,7 +67,7 @@ void injectionModelList::correct
 )
 {
   // Correct models that accumulate mass and diameter transfers
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     injectionModel& im = operator[](i);
     im.correct(availableMass, massToInject, diameterToInject);
@@ -76,7 +76,7 @@ void injectionModelList::correct
   massToInject.correctBoundaryConditions();
   diameterToInject.correctBoundaryConditions();
   const labelList& patchIDs = owner().intCoupledPatchIDs();
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchi = patchIDs[i];
     massInjected_[i] =
@@ -88,14 +88,14 @@ void injectionModelList::info(Ostream& os)
   const polyBoundaryMesh& pbm = owner().regionMesh().boundaryMesh();
   scalar injectedMass = 0;
   scalarField patchInjectedMasses(pbm.size(), 0);
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     const injectionModel& im = operator[](i);
     injectedMass += im.injectedMassTotal();
     im.patchInjectedMassTotals(patchInjectedMasses);
   }
   os  << indent << "injected mass      = " << injectedMass << nl;
-  forAll(pbm, patchi)
+  FOR_ALL(pbm, patchi)
   {
     if (mag(patchInjectedMasses[patchi]) > VSMALL)
     {
@@ -109,7 +109,7 @@ void injectionModelList::info(Ostream& os)
   Pstream::listCombineGather(mass, plusEqOp<scalar>());
   mass += mass0;
   const labelList& patchIDs = owner().intCoupledPatchIDs();
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     label patchi = patchIDs[i];
     Info<< indent << "  - patch: " << pbm[patchi].name() << ": "

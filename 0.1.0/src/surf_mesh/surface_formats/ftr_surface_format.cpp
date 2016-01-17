@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "ftr_surface_format.hpp"
+
 #include "keyed.hpp"
 #include "ifstream.hpp"
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::FTRsurfaceFormat<Face>::FTRsurfaceFormat
@@ -14,6 +16,8 @@ mousse::fileFormats::FTRsurfaceFormat<Face>::FTRsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::FTRsurfaceFormat<Face>::read
@@ -25,22 +29,22 @@ bool mousse::fileFormats::FTRsurfaceFormat<Face>::read
   IFstream is(filename);
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::FTRsurfaceFormat::read(const fileName&)"
     )
       << "Cannot read file " << filename
       << exit(FatalError);
   }
-  List<ftrPatch> ftrPatches(is);
+  List<ftrPatch> ftrPatches{is};
   // points read directly
   is >> this->storedPoints();
   // triFaces read with attached keys
-  List< Keyed<triFace> > facesRead(is);
-  List<Face>  faceLst(facesRead.size());
-  List<label> zoneIds(facesRead.size());
+  List< Keyed<triFace>> facesRead{is};
+  List<Face> faceLst{facesRead.size()};
+  List<label> zoneIds{facesRead.size()};
   // disentangle faces/keys - already triangulated
-  forAll(facesRead, faceI)
+  FOR_ALL(facesRead, faceI)
   {
     // unfortunately cannot transfer to save memory
     faceLst[faceI] = facesRead[faceI];
@@ -50,8 +54,8 @@ bool mousse::fileFormats::FTRsurfaceFormat<Face>::read
   this->storedZoneIds().transfer(zoneIds);
   facesRead.clear();
   // change ftrPatch into surfZoneIdentifier
-  List<surfZoneIdentifier> newZones(ftrPatches.size());
-  forAll(newZones, zoneI)
+  List<surfZoneIdentifier> newZones{ftrPatches.size()};
+  FOR_ALL(newZones, zoneI)
   {
     newZones[zoneI] = surfZoneIdentifier
     (

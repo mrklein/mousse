@@ -7,9 +7,12 @@
 //   Direct mapped Arbitrary Mesh Interface (AMI) method
 // SourceFiles
 //   direct_ami.cpp
+
 #ifndef direct_ami_hpp_
 #define direct_ami_hpp_
+
 #include "ami_method.hpp"
+
 namespace mousse
 {
 template<class SourcePatch, class TargetPatch>
@@ -18,12 +21,11 @@ class directAMI
   public AMIMethod<SourcePatch, TargetPatch>
 {
 private:
+
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    directAMI(const directAMI&);
-    //- Disallow default bitwise assignment
-    void operator=(const directAMI&);
+
     // Marching front
+
       //- Append to list of src face seed indices
       void appendToDirectSeeds
       (
@@ -34,6 +36,7 @@ private:
         label& srcFaceI,
         label& tgtFaceI
       ) const;
+
       //- Restart the advancing front - typically happens for
       //  disconnected regions
       void restartAdvancingFront
@@ -43,17 +46,23 @@ private:
         label& srcFaceI,
         label& tgtFaceI
       ) const;
+
     // Evaluation
+
       //- Area of intersection between source and target faces
       scalar interArea
       (
         const label srcFaceI,
         const label tgtFaceI
       ) const;
+
 public:
+
   //- Runtime type information
-  TypeName("directAMI");
+  TYPE_NAME("directAMI");
+
   // Constructors
+
     //- Construct from components
     directAMI
     (
@@ -65,10 +74,20 @@ public:
       const bool reverseTarget = false,
       const bool requireMatch = true
     );
+
+    //- Disallow default bitwise copy construct
+    directAMI(const directAMI&) = delete;
+
+    //- Disallow default bitwise assignment
+    directAMI& operator=(const directAMI&) = delete;
+
   //- Destructor
   virtual ~directAMI();
+
   // Member Functions
+
     // Manipulation
+
       //- Update addressing and weights
       virtual void calculate
       (
@@ -79,7 +98,9 @@ public:
         label srcFaceI = -1,
         label tgtFaceI = -1
       );
+
 };
+
 }  // namespace mousse
 #ifdef NoRepository
 #   include "direct_ami.cpp"

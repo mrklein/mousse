@@ -8,6 +8,6 @@
 #include "field_types.hpp"
 namespace mousse
 {
-makePatchTypeFieldTypedefs(kqRWallFunction);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(kqRWallFunction);
 }  // namespace mousse
 #endif

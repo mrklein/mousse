@@ -22,11 +22,6 @@ class solidification
 :
   public phaseChangeModel
 {
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    solidification(const solidification&);
-    //- Disallow default bitwise assignment
-    void operator=(const solidification&);
 protected:
   // Protected data
     //- Temperature at which solidification starts
@@ -43,10 +38,14 @@ protected:
     volScalarField thickness_;
 public:
   //- Runtime type information
-  TypeName("solidification");
+  TYPE_NAME("solidification");
   // Constructors
     //- Construct from surface film model
     solidification(surfaceFilmModel& owner, const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    solidification(const solidification&) = delete;
+    //- Disallow default bitwise assignment
+    solidification& operator=(const solidification&) = delete;
   //- Destructor
   virtual ~solidification();
   // Member Functions

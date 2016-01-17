@@ -33,17 +33,16 @@ class solidBodyMotionFvMesh
     bool moveAllCells_;
     //- Name of velocity field
     word UName_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    solidBodyMotionFvMesh(const solidBodyMotionFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const solidBodyMotionFvMesh&);
 public:
   //- Runtime type information
-  TypeName("solidBodyMotionFvMesh");
+  TYPE_NAME("solidBodyMotionFvMesh");
   // Constructors
     //- Construct from IOobject
     solidBodyMotionFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    solidBodyMotionFvMesh(const solidBodyMotionFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    solidBodyMotionFvMesh& operator=(const solidBodyMotionFvMesh&) = delete;
   //- Destructor
   ~solidBodyMotionFvMesh();
   // Member Functions

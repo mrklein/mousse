@@ -8,11 +8,11 @@
 template<class CloudType>
 mousse::NoInflow<CloudType>::NoInflow
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& cloud
 )
 :
-  InflowBoundaryModel<CloudType>(cloud)
+  InflowBoundaryModel<CloudType>{cloud}
 {}
 // Destructor 
 template<class CloudType>

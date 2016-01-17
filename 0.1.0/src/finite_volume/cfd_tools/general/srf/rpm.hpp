@@ -22,17 +22,16 @@ class rpm
   // Private data
     //- Revolutions per minute
     scalar rpm_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    rpm(const rpm&);
-    //- Disallow default bitwise assignment
-    void operator=(const rpm&);
 public:
   //- Runtime type information
-  TypeName("rpm");
+  TYPE_NAME("rpm");
   // Constructors
     //- Construct from components
     rpm(const volVectorField& U);
+    //- Disallow default bitwise copy construct
+    rpm(const rpm&) = delete;
+    //- Disallow default bitwise assignment
+    rpm& operator=(const rpm&) = delete;
   //- Destructor
   ~rpm();
   // Member functions

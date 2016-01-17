@@ -20,9 +20,9 @@ class motionDiffusivity
     const fvMesh& mesh_;
 public:
   //- Runtime type information
-  TypeName("motionDiffusivity");
+  TYPE_NAME("motionDiffusivity");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       motionDiffusivity,

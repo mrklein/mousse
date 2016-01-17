@@ -10,7 +10,7 @@ void mousse::internalWriter::write
   const PtrList<GeometricField<Type, PatchField, GeoMesh> >& flds
 )
 {
-  forAll(flds, i)
+  FOR_ALL(flds, i)
   {
     writeFuns::write(os_, binary_, flds[i], vMesh_);
   }
@@ -22,7 +22,7 @@ void mousse::internalWriter::write
   const PtrList<GeometricField<Type, fvPatchField, volMesh> >& flds
 )
 {
-  forAll(flds, i)
+  FOR_ALL(flds, i)
   {
     writeFuns::write
     (

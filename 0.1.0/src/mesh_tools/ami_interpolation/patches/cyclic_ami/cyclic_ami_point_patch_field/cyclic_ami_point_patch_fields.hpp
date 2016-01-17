@@ -8,6 +8,6 @@
 #include "field_types.hpp"
 namespace mousse
 {
-makePointPatchFieldTypedefs(cyclicAMI);
+MAKE_POINT_PATCH_FIELD_TYPEDEFS(cyclicAMI);
 }  // namespace mousse
 #endif

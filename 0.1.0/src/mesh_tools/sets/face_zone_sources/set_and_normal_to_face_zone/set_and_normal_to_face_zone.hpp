@@ -26,7 +26,7 @@ class setAndNormalToFaceZone
     vector normal_;
 public:
   //- Runtime type information
-  TypeName("setAndNormalToFaceZone");
+  TYPE_NAME("setAndNormalToFaceZone");
   // Constructors
     //- Construct from components
     setAndNormalToFaceZone

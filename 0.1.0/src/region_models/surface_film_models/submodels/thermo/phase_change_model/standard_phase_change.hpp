@@ -20,12 +20,6 @@ class standardPhaseChange
 :
   public phaseChangeModel
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    standardPhaseChange(const standardPhaseChange&);
-    //- Disallow default bitwise assignment
-    void operator=(const standardPhaseChange&);
 protected:
   // Protected data
     //- Minimum film height for model to be active
@@ -40,7 +34,7 @@ protected:
     scalar Sh(const scalar Re, const scalar Sc) const;
 public:
   //- Runtime type information
-  TypeName("standardPhaseChange");
+  TYPE_NAME("standardPhaseChange");
   // Constructors
     //- Construct from surface film model
     standardPhaseChange
@@ -48,6 +42,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    standardPhaseChange(const standardPhaseChange&) = delete;
+    //- Disallow default bitwise assignment
+    standardPhaseChange& operator=(const standardPhaseChange&) = delete;
   //- Destructor
   virtual ~standardPhaseChange();
   // Member Functions

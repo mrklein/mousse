@@ -102,7 +102,7 @@ private:
     void setFlowType();
 public:
   //- Runtime type information
-  TypeName("coneNozzleInjection");
+  TYPE_NAME("coneNozzleInjection");
   // Constructors
     //- Construct from dictionary
     ConeNozzleInjection

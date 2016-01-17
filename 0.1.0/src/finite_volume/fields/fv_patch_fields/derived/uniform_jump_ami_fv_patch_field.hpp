@@ -51,7 +51,7 @@ protected:
     autoPtr<DataEntry<Type> > jumpTable_;
 public:
   //- Runtime type information
-  TypeName("uniformJumpAMI");
+  TYPE_NAME("uniformJumpAMI");
   // Constructors
     //- Construct from patch and internal field
     uniformJumpAMIFvPatchField

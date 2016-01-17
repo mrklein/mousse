@@ -22,7 +22,7 @@ autoPtr<phaseChangeModel> phaseChangeModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "phaseChangeModel::New(surfaceFilmModel&, const dictionary&)"
     )   << "Unknown phaseChangeModel type " << modelType

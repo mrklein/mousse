@@ -5,24 +5,27 @@
 #include "nearest_to_point.hpp"
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(nearestToPoint, 0);
-addToRunTimeSelectionTable(topoSetSource, nearestToPoint, word);
-addToRunTimeSelectionTable(topoSetSource, nearestToPoint, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(nearestToPoint, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, nearestToPoint, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, nearestToPoint, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::nearestToPoint::usage_
 (
   nearestToPoint::typeName,
   "\n    Usage: nearestToPoint (pt0 .. ptn)\n\n"
   "    Select the nearest point for each of the points pt0 ..ptn\n\n"
 );
+
 // Private Member Functions 
 void mousse::nearestToPoint::combine(topoSet& set, const bool add) const
 {
   // Do linear search since usually just a few points.
-  forAll(points_, pointI)
+  FOR_ALL(points_, pointI)
   {
     const pointField& pts = mesh_.points();
     if (pts.size())

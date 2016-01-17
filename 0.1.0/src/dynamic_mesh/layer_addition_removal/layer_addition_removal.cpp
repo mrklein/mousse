@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(layerAdditionRemoval, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(layerAdditionRemoval, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     polyMeshModifier,
     layerAdditionRemoval,
@@ -27,7 +27,7 @@ void mousse::layerAdditionRemoval::checkDefinition()
 {
   if (!faceZoneID_.active())
   {
-    FatalErrorIn("void mousse::layerAdditionRemoval::checkDefinition()")
+    FATAL_ERROR_IN("void mousse::layerAdditionRemoval::checkDefinition()")
       << "Master face zone named " << faceZoneID_.name()
       << " cannot be found."
       << abort(FatalError);
@@ -38,7 +38,7 @@ void mousse::layerAdditionRemoval::checkDefinition()
   || maxLayerThickness_ < minLayerThickness_
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::layerAdditionRemoval::checkDefinition()"
     )   << "Incorrect layer thickness definition."
@@ -48,7 +48,7 @@ void mousse::layerAdditionRemoval::checkDefinition()
   reduce(nFaces, sumOp<label>());
   if (nFaces == 0)
   {
-    FatalErrorIn("void mousse::layerAdditionRemoval::checkDefinition()")
+    FATAL_ERROR_IN("void mousse::layerAdditionRemoval::checkDefinition()")
       << "Face extrusion zone contains no faces. "
       << "Please check your mesh definition."
       << abort(FatalError);
@@ -163,7 +163,7 @@ bool mousse::layerAdditionRemoval::changeTopology() const
   const vectorField& S = mesh.faceAreas();
   if (min(V) < -VSMALL)
   {
-    FatalErrorIn("bool layerAdditionRemoval::changeTopology() const")
+    FATAL_ERROR_IN("bool layerAdditionRemoval::changeTopology() const")
       << "negative cell volume. Error in mesh motion before "
       << "topological change.\n V: " << V
       << abort(FatalError);
@@ -175,7 +175,7 @@ bool mousse::layerAdditionRemoval::changeTopology() const
   if (thicknessFromVolume_)
   {
     // Thickness calculated from cell volume/face area
-    forAll(fz, faceI)
+    FOR_ALL(fz, faceI)
     {
       scalar curDelta = V[mc[faceI]]/mag(S[fz[faceI]]);
       avgDelta += curDelta;
@@ -189,11 +189,11 @@ bool mousse::layerAdditionRemoval::changeTopology() const
     // Thickness calculated from edges on layer
     const Map<label>& zoneMeshPointMap = fz().meshPointMap();
     // Edges with only one point on zone
-    forAll(mc, faceI)
+    FOR_ALL(mc, faceI)
     {
       const cell& cFaces = mesh.cells()[mc[faceI]];
       const edgeList cellEdges(cFaces.edges(mesh.faces()));
-      forAll(cellEdges, i)
+      FOR_ALL(cellEdges, i)
       {
         const edge& e = cellEdges[i];
         if (zoneMeshPointMap.found(e[0]))
@@ -367,14 +367,15 @@ void mousse::layerAdditionRemoval::setMinLayerThickness(const scalar t) const
 {
   if (t < VSMALL || maxLayerThickness_ < t)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void layerAdditionRemoval::setMinLayerThickness"
       "("
         "const scalar"
       ") const"
-    )   << "Incorrect layer thickness definition."
-      << abort(FatalError);
+    )
+    << "Incorrect layer thickness definition."
+    << abort(FatalError);
   }
   minLayerThickness_ = t;
 }
@@ -382,20 +383,21 @@ void mousse::layerAdditionRemoval::setMaxLayerThickness(const scalar t) const
 {
   if (t < minLayerThickness_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void layerAdditionRemoval::setMaxLayerThickness"
       "("
         "const scalar"
       ") const"
-    )   << "Incorrect layer thickness definition."
-      << abort(FatalError);
+    )
+    << "Incorrect layer thickness definition."
+    << abort(FatalError);
   }
   maxLayerThickness_ = t;
 }
 void mousse::layerAdditionRemoval::write(Ostream& os) const
 {
-  os  << nl << type() << nl
+  os<< nl << type() << nl
     << name()<< nl
     << faceZoneID_ << nl
     << minLayerThickness_ << nl

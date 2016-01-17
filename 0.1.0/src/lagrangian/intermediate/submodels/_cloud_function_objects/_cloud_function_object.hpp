@@ -33,9 +33,9 @@ class CloudFunctionObject
     virtual void write();
 public:
   //- Runtime type information
-  TypeName("cloudFunctionObject");
+  TYPE_NAME("cloudFunctionObject");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     CloudFunctionObject,
@@ -117,27 +117,27 @@ public:
 };
 }  // namespace mousse
 
-#define makeCloudFunctionObject(CloudType)                                    \
+#define MAKE_CLOUD_FUNCTION_OBJECT(CloudType)                                 \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::CloudFunctionObject<kinematicCloudType>,                          \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       CloudFunctionObject<kinematicCloudType>,                                \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeCloudFunctionObjectType(SS, CloudType)                            \
+#define MAKE_CLOUD_FUNCTION_OBJECT_TYPE(SS, CloudType)                        \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<kinematicCloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::CloudFunctionObject<kinematicCloudType>::                           \
     adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \

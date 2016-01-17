@@ -29,7 +29,7 @@ class sphericalAngularSpring
     scalar damping_;
 public:
   //- Runtime type information
-  TypeName("sphericalAngularSpring");
+  TYPE_NAME("sphericalAngularSpring");
   // Constructors
     //- Construct from components
     sphericalAngularSpring

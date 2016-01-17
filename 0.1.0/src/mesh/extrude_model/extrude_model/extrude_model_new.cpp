@@ -14,14 +14,15 @@ mousse::autoPtr<mousse::extrudeModel> mousse::extrudeModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "extrudeModel::New(const dictionary&)"
-    )   << "Unknown extrudeModel type "
-      << modelType << nl << nl
-      << "Valid extrudeModel types are :" << nl
-      << dictionaryConstructorTablePtr_->sortedToc() << nl
-      << exit(FatalError);
+    )
+    << "Unknown extrudeModel type "
+    << modelType << nl << nl
+    << "Valid extrudeModel types are :" << nl
+    << dictionaryConstructorTablePtr_->sortedToc() << nl
+    << exit(FatalError);
   }
   return autoPtr<extrudeModel>(cstrIter()(dict));
 }

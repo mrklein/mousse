@@ -39,7 +39,7 @@ public:
     typedef Face FaceType;
   // Static
     //- Runtime type information
-    ClassName("MeshedSurfaceProxy");
+    CLASS_NAME("MeshedSurfaceProxy");
     //- The file format types that can be written via MeshedSurfaceProxy
     static wordHashSet writeTypes();
     //- Can this file format type be written via MeshedSurfaceProxy?
@@ -56,7 +56,7 @@ public:
   //- Destructor
   virtual ~MeshedSurfaceProxy();
   // Member Function Selectors
-    declareMemberFunctionSelectionTable
+    DECLARE_MEMBER_FUNCTION_SELECTION_TABLE
     (
       void,
       MeshedSurfaceProxy,

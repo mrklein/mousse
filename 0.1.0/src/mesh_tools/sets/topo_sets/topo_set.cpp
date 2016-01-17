@@ -10,10 +10,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(topoSet, 0);
-  defineRunTimeSelectionTable(topoSet, word);
-  defineRunTimeSelectionTable(topoSet, size);
-  defineRunTimeSelectionTable(topoSet, set);
+DEFINE_TYPE_NAME_AND_DEBUG(topoSet, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(topoSet, word);
+DEFINE_RUN_TIME_SELECTION_TABLE(topoSet, size);
+DEFINE_RUN_TIME_SELECTION_TABLE(topoSet, set);
 }
 mousse::autoPtr<mousse::topoSet> mousse::topoSet::New
 (
@@ -28,7 +28,7 @@ mousse::autoPtr<mousse::topoSet> mousse::topoSet::New
     wordConstructorTablePtr_->find(setType);
   if (cstrIter == wordConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "topoSet::New(const word&, "
       "const polyMesh&, const word&, readOption, writeOption)"
@@ -53,7 +53,7 @@ mousse::autoPtr<mousse::topoSet> mousse::topoSet::New
     sizeConstructorTablePtr_->find(setType);
   if (cstrIter == sizeConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "topoSet::New(const word&, "
       "const polyMesh&, const word&, const label, writeOption)"
@@ -78,7 +78,7 @@ mousse::autoPtr<mousse::topoSet> mousse::topoSet::New
     setConstructorTablePtr_->find(setType);
   if (cstrIter == setConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "topoSet::New(const word&, "
       "const polyMesh&, const word&, const topoSet&, writeOption)"
@@ -105,11 +105,11 @@ void mousse::topoSet::updateLabels(const labelList& map)
 {
   // Iterate over map to see if anything changed
   bool changed = false;
-  forAllConstIter(labelHashSet, *this, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, *this, iter)
   {
     if ((iter.key() < 0) || (iter.key() > map.size()))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "topoSet::updateLabels(const labelList&, labelHashSet)"
       )   << "Illegal content " << iter.key() << " of set:" << name()
@@ -128,7 +128,7 @@ void mousse::topoSet::updateLabels(const labelList& map)
   if (changed)
   {
     labelHashSet newSet(2*size());
-    forAllConstIter(labelHashSet, *this, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, *this, iter)
     {
       const label newCellI = map[iter.key()];
       if (newCellI >= 0)
@@ -141,11 +141,11 @@ void mousse::topoSet::updateLabels(const labelList& map)
 }
 void mousse::topoSet::check(const label maxLabel)
 {
-  forAllConstIter(topoSet, *this, iter)
+  FOR_ALL_CONST_ITER(topoSet, *this, iter)
   {
     if ((iter.key() < 0) || (iter.key() > maxLabel))
     {
-      FatalErrorIn("topoSet::check(const label)")
+      FATAL_ERROR_IN("topoSet::check(const label)")
         << "Illegal content " << iter.key() << " of set:" << name()
         << " of type " << type() << endl
         << "Value should be between 0 and " << maxLabel
@@ -384,7 +384,7 @@ void mousse::topoSet::subset(const topoSet& set)
   labelHashSet currentSet(*this);
   clear();
   resize(2*min(currentSet.size(), set.size()));
-  forAllConstIter(labelHashSet, currentSet, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, currentSet, iter)
   {
     if (set.found(iter.key()))
     {
@@ -395,21 +395,21 @@ void mousse::topoSet::subset(const topoSet& set)
 }
 void mousse::topoSet::addSet(const topoSet& set)
 {
-  forAllConstIter(topoSet, set, iter)
+  FOR_ALL_CONST_ITER(topoSet, set, iter)
   {
     insert(iter.key());
   }
 }
 void mousse::topoSet::deleteSet(const topoSet& set)
 {
-  forAllConstIter(topoSet, set, iter)
+  FOR_ALL_CONST_ITER(topoSet, set, iter)
   {
     erase(iter.key());
   }
 }
 void mousse::topoSet::sync(const polyMesh&)
 {
-  notImplemented("topoSet::sync(const polyMesh&)");
+  NOT_IMPLEMENTED("topoSet::sync(const polyMesh&)");
 }
 void mousse::topoSet::writeDebug(Ostream& os, const label maxLen) const
 {
@@ -439,7 +439,7 @@ bool mousse::topoSet::writeData(Ostream& os) const
 }
 void mousse::topoSet::updateMesh(const mapPolyMesh&)
 {
-  notImplemented("topoSet::updateMesh(const mapPolyMesh&)");
+  NOT_IMPLEMENTED("topoSet::updateMesh(const mapPolyMesh&)");
 }
 // Member Operators 
 void mousse::topoSet::operator=(const topoSet& rhs)

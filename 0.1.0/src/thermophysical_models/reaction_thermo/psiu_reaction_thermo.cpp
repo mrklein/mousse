@@ -11,15 +11,15 @@
 namespace mousse
 {
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
-defineTypeNameAndDebug(psiuReactionThermo, 0);
-defineRunTimeSelectionTable(psiuReactionThermo, fvMesh);
+DEFINE_TYPE_NAME_AND_DEBUG(psiuReactionThermo, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(psiuReactionThermo, fvMesh);
 // Private Member Functions 
 wordList psiuReactionThermo::heuBoundaryTypes()
 {
   const volScalarField::GeometricBoundaryField& tbf =
     this->Tu().boundaryField();
   wordList hbt = tbf.types();
-  forAll(tbf, patchi)
+  FOR_ALL(tbf, patchi)
   {
     if (isA<fixedValueFvPatchScalarField>(tbf[patchi]))
     {
@@ -43,7 +43,7 @@ wordList psiuReactionThermo::heuBoundaryTypes()
 void psiuReactionThermo::heuBoundaryCorrection(volScalarField& heu)
 {
   volScalarField::GeometricBoundaryField& hbf = heu.boundaryField();
-  forAll(hbf, patchi)
+  FOR_ALL(hbf, patchi)
   {
     if
     (

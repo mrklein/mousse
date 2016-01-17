@@ -18,8 +18,6 @@ class ensightPartCells
   public ensightPart
 {
   // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const ensightPartCells&);
     //- Classify the cell types, set elemLists.
     void classify
     (
@@ -55,7 +53,7 @@ protected:
     const polyMesh& mesh_;
 public:
   //- Runtime type information
-  TypeName("ensightCells");
+  TYPE_NAME("ensightCells");
   // Constructors
     //- Construct empty part with number and description
     ensightPartCells(label partNumber, const string& partDescription);
@@ -87,6 +85,8 @@ public:
     {
       return autoPtr<ensightPartCells>(new ensightPartCells(is));
     }
+    //- Disallow default bitwise assignment
+    ensightPartCells& operator=(const ensightPartCells&) = delete;
   //- Destructor
   virtual ~ensightPartCells();
   // Member Functions

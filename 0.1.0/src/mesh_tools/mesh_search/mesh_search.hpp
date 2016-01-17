@@ -83,13 +83,9 @@ class meshSearch
         const label bFaceI,
         const vector& dir
       ) const;
-    //- Disallow default bitwise copy construct
-    meshSearch(const meshSearch&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshSearch&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("meshSearch");
+  CLASS_NAME("meshSearch");
   // Static data members
     //- Tolerance on linear dimensions
     static scalar tol_;
@@ -110,6 +106,10 @@ public:
       const treeBoundBox& bb,
       const polyMesh::cellDecomposition = polyMesh::CELL_TETS
     );
+    //- Disallow default bitwise copy construct
+    meshSearch(const meshSearch&) = delete;
+    //- Disallow default bitwise assignment
+    meshSearch& operator=(const meshSearch&) = delete;
   //- Destructor
   ~meshSearch();
   // Member Functions

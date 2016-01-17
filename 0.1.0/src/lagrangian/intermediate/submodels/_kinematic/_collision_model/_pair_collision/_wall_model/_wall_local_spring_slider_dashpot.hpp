@@ -78,7 +78,7 @@ class WallLocalSpringSliderDashpot
     ) const;
 public:
   //- Runtime type information
-  TypeName("wallLocalSpringSliderDashpot");
+  TYPE_NAME("wallLocalSpringSliderDashpot");
   // Constructors
     //- Construct from dictionary
     WallLocalSpringSliderDashpot(const dictionary& dict, CloudType& cloud);

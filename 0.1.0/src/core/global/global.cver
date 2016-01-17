@@ -1,0 +1,53 @@
+// mousse: CFD toolbox
+// Copyright (C) 2011 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+// Description
+//   Define the globals used in the mousse library.
+//   It is important that these are constructed in the appropriate order to
+//   avoid the use of unconstructed data in the global namespace.
+//
+//   This file has the extension .cver to trigger a makefile rule that converts
+//   'VERSION\_STRING' and 'BUILD\_STRING' into the appropriate strings.
+
+#include "mousse_version.hpp"
+
+const char* const mousse::mousse_version = "VERSION_STRING";
+const char* const mousse::mousse_build = "BUILD_STRING";
+
+// Setup an error handler for the global new operator
+#include "new.cpp"
+
+// Create the nullObject singleton
+#include "null_object.cpp"
+
+// Global IO streams
+#include "iostreams.cpp"
+
+#include "job_info.hpp"
+bool mousse::JobInfo::constructed(false);
+
+// Global error definitions (initialised by construction)
+#include "message_stream.cpp"
+#include "error.cpp"
+#include "io_error.cpp"
+#include "token.cpp"
+
+// Read the debug and info switches
+#include "debug.cpp"
+
+// Read file modification checking switches
+#include "reg_ioobject.cpp"
+
+// Read parallel communication switches
+#include "upstream.cpp"
+
+// Read constants
+#include "constants.cpp"
+#include "dimensioned_constants.cpp"
+
+// Read and set cell models
+#include "global_cell_modeller.cpp"
+
+// Create the jobInfo file in the $FOAM_JOB_DIR/runningJobs directory
+#include "job_info.cpp"
+

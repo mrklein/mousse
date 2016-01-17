@@ -57,7 +57,7 @@ class uniformDensityHydrostaticPressureFvPatchScalarField
     vector pRefPoint_;
 public:
   //- Runtime type information
-  TypeName("uniformDensityHydrostaticPressure");
+  TYPE_NAME("uniformDensityHydrostaticPressure");
   // Constructors
     //- Construct from patch and internal field
     uniformDensityHydrostaticPressureFvPatchScalarField

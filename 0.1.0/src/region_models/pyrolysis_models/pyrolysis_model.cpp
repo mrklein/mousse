@@ -12,9 +12,9 @@ namespace regionModels
 namespace pyrolysisModels
 {
 // Static Data Members
-defineTypeNameAndDebug(pyrolysisModel, 0);
-defineRunTimeSelectionTable(pyrolysisModel, mesh);
-defineRunTimeSelectionTable(pyrolysisModel, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(pyrolysisModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(pyrolysisModel, mesh);
+DEFINE_RUN_TIME_SELECTION_TABLE(pyrolysisModel, dictionary);
 // Protected Member Functions 
 void pyrolysisModel::readPyrolysisControls()
 {
@@ -84,8 +84,8 @@ pyrolysisModel::~pyrolysisModel()
 // Member Functions 
 scalar pyrolysisModel::addMassSources
 (
-  const label patchI,
-  const label faceI
+  const label /*patchI*/,
+  const label /*faceI*/
 )
 {
   return 0.0;

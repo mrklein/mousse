@@ -4,12 +4,15 @@
 
 #include "wall_dist.hpp"
 #include "wall_poly_patch.hpp"
+#include "pstream.hpp"
+#include "time.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(wallDist, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(wallDist, 0);
 }
-// Private Member Functions 
+// Private Member Functions
 void mousse::wallDist::constructn() const
 {
   n_ = tmp<volVectorField>
@@ -28,13 +31,13 @@ void mousse::wallDist::constructn() const
     )
   );
   const fvPatchList& patches = mesh().boundary();
-  forAllConstIter(labelHashSet, patchIDs_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs_, iter)
   {
     label patchi = iter.key();
     n_().boundaryField()[patchi] == patches[patchi].nf();
   }
 }
-// Constructors 
+// Constructors
 mousse::wallDist::wallDist(const fvMesh& mesh, const word& patchTypeName)
 :
   MeshObject<fvMesh, mousse::UpdateableMeshObject, wallDist>(mesh),
@@ -120,15 +123,17 @@ mousse::wallDist::wallDist
   }
   movePoints();
 }
-// Destructor 
+
+// Destructor
 mousse::wallDist::~wallDist()
 {}
-// Member Functions 
+
+// Member Functions
 const mousse::volVectorField& mousse::wallDist::n() const
 {
   if (isNull(n_()))
   {
-    WarningIn("mousse::wallDist::n()")
+    WARNING_IN("mousse::wallDist::n()")
       << "n requested but 'nRequired' not specified in the "
       << (patchTypeName_ & "Dist") << " dictionary" << nl
       << "    Recalculating y and n fields." << endl;

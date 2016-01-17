@@ -36,11 +36,11 @@ mousse::vector mousse::streamLineParticle::interpolateFields
 {
   if (cellI == -1)
   {
-    FatalErrorIn("streamLineParticle::interpolateFields(..)")
+    FATAL_ERROR_IN("streamLineParticle::interpolateFields(..)")
       << "Cell:" << cellI << abort(FatalError);
   }
   sampledScalars_.setSize(td.vsInterp_.size());
-  forAll(td.vsInterp_, scalarI)
+  FOR_ALL(td.vsInterp_, scalarI)
   {
     sampledScalars_[scalarI].append
     (
@@ -53,7 +53,7 @@ mousse::vector mousse::streamLineParticle::interpolateFields
     );
   }
   sampledVectors_.setSize(td.vvInterp_.size());
-  forAll(td.vvInterp_, vectorI)
+  FOR_ALL(td.vvInterp_, vectorI)
   {
     sampledVectors_[vectorI].append
     (
@@ -97,12 +97,12 @@ mousse::streamLineParticle::streamLineParticle
     is  >> lifeTime_ >> sampledPositions_ >> sampledScalars
       >> sampledVectors;
     sampledScalars_.setSize(sampledScalars.size());
-    forAll(sampledScalars, i)
+    FOR_ALL(sampledScalars, i)
     {
       sampledScalars_[i].transfer(sampledScalars[i]);
     }
     sampledVectors_.setSize(sampledVectors.size());
-    forAll(sampledVectors, i)
+    FOR_ALL(sampledVectors, i)
     {
       sampledVectors_[i].transfer(sampledVectors[i]);
     }
@@ -234,14 +234,14 @@ bool mousse::streamLineParticle::move
     td.allPositions_.append(vectorList());
     vectorList& top = td.allPositions_.last();
     top.transfer(sampledPositions_);
-    forAll(sampledScalars_, i)
+    FOR_ALL(sampledScalars_, i)
     {
       //td.allScalars_[i].append(sampledScalars_[i]);
       td.allScalars_[i].append(scalarList());
       scalarList& top = td.allScalars_[i].last();
       top.transfer(sampledScalars_[i]);
     }
-    forAll(sampledVectors_, i)
+    FOR_ALL(sampledVectors_, i)
     {
       //td.allVectors_[i].append(sampledVectors_[i]);
       td.allVectors_[i].append(vectorList());
@@ -254,10 +254,10 @@ bool mousse::streamLineParticle::move
 bool mousse::streamLineParticle::hitPatch
 (
   const polyPatch&,
-  trackingData& td,
-  const label patchI,
-  const scalar trackFraction,
-  const tetIndices& tetIs
+  trackingData&,
+  const label /*patchI*/,
+  const scalar /*trackFraction*/,
+  const tetIndices& /*tetIs*/
 )
 {
   // Disable generic patch interaction
@@ -265,7 +265,7 @@ bool mousse::streamLineParticle::hitPatch
 }
 void mousse::streamLineParticle::hitWedgePatch
 (
-  const wedgePolyPatch& pp,
+  const wedgePolyPatch&,
   trackingData& td
 )
 {
@@ -274,7 +274,7 @@ void mousse::streamLineParticle::hitWedgePatch
 }
 void mousse::streamLineParticle::hitSymmetryPlanePatch
 (
-  const symmetryPlanePolyPatch& pp,
+  const symmetryPlanePolyPatch&,
   trackingData& td
 )
 {
@@ -283,7 +283,7 @@ void mousse::streamLineParticle::hitSymmetryPlanePatch
 }
 void mousse::streamLineParticle::hitSymmetryPatch
 (
-  const symmetryPolyPatch& pp,
+  const symmetryPolyPatch&,
   trackingData& td
 )
 {
@@ -292,7 +292,7 @@ void mousse::streamLineParticle::hitSymmetryPatch
 }
 void mousse::streamLineParticle::hitCyclicPatch
 (
-  const cyclicPolyPatch& pp,
+  const cyclicPolyPatch&,
   trackingData& td
 )
 {
@@ -310,7 +310,7 @@ void mousse::streamLineParticle::hitProcessorPatch
 }
 void mousse::streamLineParticle::hitWallPatch
 (
-  const wallPolyPatch& wpp,
+  const wallPolyPatch&,
   trackingData& td,
   const tetIndices&
 )
@@ -320,7 +320,7 @@ void mousse::streamLineParticle::hitWallPatch
 }
 void mousse::streamLineParticle::hitPatch
 (
-  const polyPatch& wpp,
+  const polyPatch&,
   trackingData& td
 )
 {
@@ -350,7 +350,7 @@ void mousse::streamLineParticle::readFields(Cloud<streamLineParticle>& c)
 //    );
 //    c.checkFieldIOobject(c, sampleVelocity);
   label i = 0;
-  forAllIter(Cloud<streamLineParticle>, c, iter)
+  FOR_ALL_ITER(Cloud<streamLineParticle>, c, iter)
   {
     iter().lifeTime_ = lifeTime[i];
     iter().sampledPositions_.transfer(sampledPositions[i]);
@@ -378,7 +378,7 @@ void mousse::streamLineParticle::writeFields(const Cloud<streamLineParticle>& c)
 //        np
 //    );
   label i = 0;
-  forAllConstIter(Cloud<streamLineParticle>, c, iter)
+  FOR_ALL_CONST_ITER(Cloud<streamLineParticle>, c, iter)
   {
     lifeTime[i] = iter().lifeTime_;
     sampledPositions[i] = iter().sampledPositions_;

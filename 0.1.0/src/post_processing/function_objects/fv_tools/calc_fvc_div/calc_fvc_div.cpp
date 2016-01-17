@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(calcFvcDiv, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(calcFvcDiv, 0);
 }
 // Private Member Functions 
 mousse::volScalarField& mousse::calcFvcDiv::divField
@@ -22,21 +22,22 @@ mousse::volScalarField& mousse::calcFvcDiv::divField
   if (!mesh.foundObject<volScalarField>(divName))
   {
     volScalarField* divFieldPtr
-    (
+    {
       new volScalarField
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           divName,
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedScalar("zero", dims/dimLength, 0.0)
-      )
-    );
+        // dimensionedScalar("zero", dims/dimLength, 0.0)
+        {"zero", dims/dimLength, 0.0}
+      }
+    };
     mesh.objectRegistry::store(divFieldPtr);
   }
   const volScalarField& field = mesh.lookupObject<volScalarField>(divName);
@@ -48,20 +49,20 @@ mousse::calcFvcDiv::calcFvcDiv
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  fieldName_("undefined-fieldName"),
-  resultName_("undefined-resultName")
+  name_{name},
+  obr_{obr},
+  active_{true},
+  fieldName_{"undefined-fieldName"},
+  resultName_{"undefined-resultName"}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "calcFvcDiv::calcFvcDiv"
       "("
@@ -70,8 +71,9 @@ mousse::calcFvcDiv::calcFvcDiv
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating." << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating." << nl
+    << endl;
   }
   read(dict);
 }
@@ -100,7 +102,7 @@ void mousse::calcFvcDiv::execute()
     calcDiv<volVectorField>(fieldName_, resultName_, processed);
     if (!processed)
     {
-      WarningIn("void mousse::calcFvcDiv::write()")
+      WARNING_IN("void mousse::calcFvcDiv::write()")
         << "Unprocessed field " << fieldName_ << endl;
     }
   }

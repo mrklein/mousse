@@ -12,7 +12,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(patchProbes, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(patchProbes, 0);
 }
 // Private Member Functions 
 void mousse::patchProbes::findElements(const fvMesh& mesh)
@@ -22,7 +22,7 @@ void mousse::patchProbes::findElements(const fvMesh& mesh)
   label patchI = bm.findPatchID(patchName_);
   if (patchI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       " mousse::patchProbes::findElements(const fvMesh&)"
     )   << " Unknown patch name "
@@ -35,7 +35,7 @@ void mousse::patchProbes::findElements(const fvMesh& mesh)
   if (pp.size() > 0)
   {
     labelList bndFaces(pp.size());
-    forAll(bndFaces, i)
+    FOR_ALL(bndFaces, i)
     {
       bndFaces[i] =  pp.start() + i;
     }
@@ -57,7 +57,7 @@ void mousse::patchProbes::findElements(const fvMesh& mesh)
       10,                             // leafsize
       3.0                             // duplicity
     );
-    forAll(probeLocations(), probeI)
+    FOR_ALL(probeLocations(), probeI)
     {
       const point sample = probeLocations()[probeI];
       scalar span = boundaryTree.bb().mag();
@@ -78,7 +78,7 @@ void mousse::patchProbes::findElements(const fvMesh& mesh)
       const label patchi = bm.whichPatch(faceI);
       if (isA<emptyPolyPatch>(bm[patchi]))
       {
-        WarningIn
+        WARNING_IN
         (
           " mousse::patchProbes::findElements(const fvMesh&)"
         )
@@ -110,7 +110,7 @@ void mousse::patchProbes::findElements(const fvMesh& mesh)
   if (debug)
   {
     Info<< "patchProbes::findElements" << " : " << endl;
-    forAll(nearest, sampleI)
+    FOR_ALL(nearest, sampleI)
     {
       label procI = nearest[sampleI].second().second();
       label localI = nearest[sampleI].first().index();
@@ -122,7 +122,7 @@ void mousse::patchProbes::findElements(const fvMesh& mesh)
   }
   // Extract any local faces to sample
   elementList_.setSize(nearest.size(), -1);
-  forAll(nearest, sampleI)
+  FOR_ALL(nearest, sampleI)
   {
     if (nearest[sampleI].second().second() == Pstream::myProcNo())
     {

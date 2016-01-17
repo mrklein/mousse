@@ -47,7 +47,7 @@ class Rosenbrock12
       d1, d2;
 public:
   //- Runtime type information
-  TypeName("Rosenbrock12");
+  TYPE_NAME("Rosenbrock12");
   // Constructors
     //- Construct from ODE
     Rosenbrock12(const ODESystem& ode, const dictionary& dict);

@@ -9,7 +9,11 @@
 #include "surface_mesh.hpp"
 #include "vol_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-makeFvGradScheme(cellLimitedGrad)
+#include "fvs_patch_field.hpp"
+#include "fv.hpp"
+
+MAKE_FV_GRAD_SCHEME(cellLimitedGrad)
+
 template<>
 mousse::tmp<mousse::volVectorField>
 mousse::fv::cellLimitedGrad<mousse::scalar>::calcGrad
@@ -31,7 +35,7 @@ mousse::fv::cellLimitedGrad<mousse::scalar>::calcGrad
   const surfaceVectorField& Cf = mesh.Cf();
   scalarField maxVsf(vsf.internalField());
   scalarField minVsf(vsf.internalField());
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -43,14 +47,14 @@ mousse::fv::cellLimitedGrad<mousse::scalar>::calcGrad
     minVsf[nei] = min(minVsf[nei], vsfOwn);
   }
   const volScalarField::GeometricBoundaryField& bsf = vsf.boundaryField();
-  forAll(bsf, patchi)
+  FOR_ALL(bsf, patchi)
   {
     const fvPatchScalarField& psf = bsf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     if (psf.coupled())
     {
       const scalarField psfNei(psf.patchNeighbourField());
-      forAll(pOwner, pFacei)
+      FOR_ALL(pOwner, pFacei)
       {
         label own = pOwner[pFacei];
         scalar vsfNei = psfNei[pFacei];
@@ -60,7 +64,7 @@ mousse::fv::cellLimitedGrad<mousse::scalar>::calcGrad
     }
     else
     {
-      forAll(pOwner, pFacei)
+      FOR_ALL(pOwner, pFacei)
       {
         label own = pOwner[pFacei];
         scalar vsfNei = psf[pFacei];
@@ -81,7 +85,7 @@ mousse::fv::cellLimitedGrad<mousse::scalar>::calcGrad
   }
   // create limiter
   scalarField limiter(vsf.internalField().size(), 1.0);
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -102,11 +106,11 @@ mousse::fv::cellLimitedGrad<mousse::scalar>::calcGrad
       (Cf[facei] - C[nei]) & g[nei]
     );
   }
-  forAll(bsf, patchi)
+  FOR_ALL(bsf, patchi)
   {
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     const vectorField& pCf = Cf.boundaryField()[patchi];
-    forAll(pOwner, pFacei)
+    FOR_ALL(pOwner, pFacei)
     {
       label own = pOwner[pFacei];
       limitFace
@@ -130,6 +134,8 @@ mousse::fv::cellLimitedGrad<mousse::scalar>::calcGrad
   gaussGrad<scalar>::correctBoundaryConditions(vsf, g);
   return tGrad;
 }
+
+
 template<>
 mousse::tmp<mousse::volTensorField>
 mousse::fv::cellLimitedGrad<mousse::vector>::calcGrad
@@ -151,7 +157,7 @@ mousse::fv::cellLimitedGrad<mousse::vector>::calcGrad
   const surfaceVectorField& Cf = mesh.Cf();
   vectorField maxVsf(vsf.internalField());
   vectorField minVsf(vsf.internalField());
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -163,14 +169,14 @@ mousse::fv::cellLimitedGrad<mousse::vector>::calcGrad
     minVsf[nei] = min(minVsf[nei], vsfOwn);
   }
   const volVectorField::GeometricBoundaryField& bsf = vsf.boundaryField();
-  forAll(bsf, patchi)
+  FOR_ALL(bsf, patchi)
   {
     const fvPatchVectorField& psf = bsf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     if (psf.coupled())
     {
       const vectorField psfNei(psf.patchNeighbourField());
-      forAll(pOwner, pFacei)
+      FOR_ALL(pOwner, pFacei)
       {
         label own = pOwner[pFacei];
         const vector& vsfNei = psfNei[pFacei];
@@ -180,7 +186,7 @@ mousse::fv::cellLimitedGrad<mousse::vector>::calcGrad
     }
     else
     {
-      forAll(pOwner, pFacei)
+      FOR_ALL(pOwner, pFacei)
       {
         label own = pOwner[pFacei];
         const vector& vsfNei = psf[pFacei];
@@ -201,7 +207,7 @@ mousse::fv::cellLimitedGrad<mousse::vector>::calcGrad
   }
   // create limiter
   vectorField limiter(vsf.internalField().size(), vector::one);
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -222,11 +228,11 @@ mousse::fv::cellLimitedGrad<mousse::vector>::calcGrad
       (Cf[facei] - C[nei]) & g[nei]
     );
   }
-  forAll(bsf, patchi)
+  FOR_ALL(bsf, patchi)
   {
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     const vectorField& pCf = Cf.boundaryField()[patchi];
-    forAll(pOwner, pFacei)
+    FOR_ALL(pOwner, pFacei)
     {
       label own = pOwner[pFacei];
       limitFace
@@ -246,7 +252,7 @@ mousse::fv::cellLimitedGrad<mousse::vector>::calcGrad
       << " average: " << gAverage(limiter) << endl;
   }
   tensorField& gIf = g.internalField();
-  forAll(gIf, celli)
+  FOR_ALL(gIf, celli)
   {
     gIf[celli] = tensor
     (

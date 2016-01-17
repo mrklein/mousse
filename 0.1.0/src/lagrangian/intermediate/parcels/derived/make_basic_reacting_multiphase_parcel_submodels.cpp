@@ -19,31 +19,31 @@
 // Reacting multiphase
 #include "make_reacting_multiphase_parcel_devolatilisation_models.hpp"
 #include "make_reacting_multiphase_parcel_surface_reaction_models.hpp"
-makeParcelCloudFunctionObjects(basicReactingMultiphaseCloud);
+MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS(basicReactingMultiphaseCloud);
 // Kinematic sub-models
-makeThermoParcelForces(basicReactingMultiphaseCloud);
-makeParcelDispersionModels(basicReactingMultiphaseCloud);
-makeReactingMultiphaseParcelInjectionModels(basicReactingMultiphaseCloud);
-makeParcelPatchInteractionModels(basicReactingMultiphaseCloud);
-makeReactingMultiphaseParcelStochasticCollisionModels
+MAKE_THERMO_PARCEL_FORCES(basicReactingMultiphaseCloud);
+MAKE_PARCEL_DISPERSION_MODELS(basicReactingMultiphaseCloud);
+MAKE_REACTING_MULTIPHASE_PARCEL_INJECTION_MODELS(basicReactingMultiphaseCloud);
+MAKE_PARCEL_PATCH_INTERACTION_MODELS(basicReactingMultiphaseCloud);
+MAKE_REACTING_MULTIPHASE_PARCEL_STOCHASTIC_COLLISION_MODELS
 (
   basicReactingMultiphaseCloud
 );
-makeReactingParcelSurfaceFilmModels(basicReactingMultiphaseCloud);
+MAKE_REACTING_PARCEL_SURFACE_FILM_MODELS(basicReactingMultiphaseCloud);
 // Thermo sub-models
-makeParcelHeatTransferModels(basicReactingMultiphaseCloud);
+MAKE_PARCEL_HEAT_TRANSFER_MODELS(basicReactingMultiphaseCloud);
 // Reacting sub-models
-makeReactingMultiphaseParcelCompositionModels
+MAKE_REACTING_MULTIPHASE_PARCEL_COMPOSITION_MODELS
 (
   basicReactingMultiphaseCloud
 );
-makeReactingParcelPhaseChangeModels(basicReactingMultiphaseCloud);
+MAKE_REACTING_PARCEL_PHASE_CHANGE_MODELS(basicReactingMultiphaseCloud);
 // Reacting multiphase sub-models
-makeReactingMultiphaseParcelDevolatilisationModels
+MAKE_REACTING_MULTIPHASE_PARCEL_DEVOLATILISATION_MODELS
 (
   basicReactingMultiphaseCloud
 );
-makeReactingMultiphaseParcelSurfaceReactionModels
+MAKE_REACTING_MULTIPHASE_PARCEL_SURFACE_REACTION_MODELS
 (
   basicReactingMultiphaseCloud
 );

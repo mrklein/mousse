@@ -7,6 +7,8 @@
 #include "vol_fields.hpp"
 namespace mousse
 {
+
 // Static Data Members
-makePatchFieldsTypeName(coupled);
+MAKE_PATCH_FIELDS_TYPE_NAME(coupled);
+
 }  // namespace mousse

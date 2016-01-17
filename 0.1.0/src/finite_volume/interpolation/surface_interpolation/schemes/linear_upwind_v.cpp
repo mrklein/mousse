@@ -6,8 +6,11 @@
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
 template<class Type>
-mousse::tmp<mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh> >
+mousse::tmp<
+  mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh>
+  >
 mousse::linearUpwindV<Type>::correction
 (
   const GeometricField<Type, fvPatchField, volMesh>& vf
@@ -15,27 +18,27 @@ mousse::linearUpwindV<Type>::correction
 {
   const fvMesh& mesh = this->mesh();
   tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tsfCorr
-  (
+  {
     new GeometricField<Type, fvsPatchField, surfaceMesh>
-    (
+    {
       IOobject
-      (
+      {
         "linearUpwindV::correction(" + vf.name() + ')',
         mesh.time().timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+        },
       mesh,
       dimensioned<Type>
-      (
+      {
         vf.name(),
         vf.dimensions(),
         pTraits<Type>::zero
-      )
-    )
-  );
+        }
+    }
+  };
   GeometricField<Type, fvsPatchField, surfaceMesh>& sfCorr = tsfCorr();
   const surfaceScalarField& faceFlux = this->faceFlux_;
   const surfaceScalarField& w = mesh.weights();
@@ -58,22 +61,18 @@ mousse::linearUpwindV<Type>::correction
     fvPatchField,
     volMesh
   >& gradVf = tgradVf();
-  forAll(faceFlux, facei)
+  FOR_ALL(faceFlux, facei)
   {
     vector maxCorr;
     if (faceFlux[facei] > 0.0)
     {
-      maxCorr =
-        (1.0 - w[facei])*(vf[nei[facei]] - vf[own[facei]]);
-      sfCorr[facei] =
-        (Cf[facei] - C[own[facei]]) & gradVf[own[facei]];
+      maxCorr = (1.0 - w[facei])*(vf[nei[facei]] - vf[own[facei]]);
+      sfCorr[facei] = (Cf[facei] - C[own[facei]]) & gradVf[own[facei]];
     }
     else
     {
-      maxCorr =
-        w[facei]*(vf[own[facei]] - vf[nei[facei]]);
-      sfCorr[facei] =
-       (Cf[facei] - C[nei[facei]]) & gradVf[nei[facei]];
+      maxCorr = w[facei]*(vf[own[facei]] - vf[nei[facei]]);
+      sfCorr[facei] = (Cf[facei] - C[nei[facei]]) & gradVf[nei[facei]];
     }
     scalar sfCorrs = magSqr(sfCorr[facei]);
     scalar maxCorrs = sfCorr[facei] & maxCorr;
@@ -91,27 +90,26 @@ mousse::linearUpwindV<Type>::correction
   }
   typename GeometricField<Type, fvsPatchField, surfaceMesh>::
     GeometricBoundaryField& bSfCorr = sfCorr.boundaryField();
-  forAll(bSfCorr, patchi)
+  FOR_ALL(bSfCorr, patchi)
   {
     fvsPatchField<Type>& pSfCorr = bSfCorr[patchi];
     if (pSfCorr.coupled())
     {
-      const labelUList& pOwner =
-        mesh.boundary()[patchi].faceCells();
+      const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
       const vectorField& pCf = Cf.boundaryField()[patchi];
       const scalarField& pW = w.boundaryField()[patchi];
       const scalarField& pFaceFlux = faceFlux.boundaryField()[patchi];
       const Field<typename outerProduct<vector, Type>::type> pGradVfNei
-      (
+      {
         gradVf.boundaryField()[patchi].patchNeighbourField()
-      );
+      };
       const Field<Type> pVfNei
-      (
+      {
         vf.boundaryField()[patchi].patchNeighbourField()
-      );
+      };
       // Build the d-vectors
-      vectorField pd(Cf.boundaryField()[patchi].patch().delta());
-      forAll(pOwner, facei)
+      vectorField pd{Cf.boundaryField()[patchi].patch().delta()};
+      FOR_ALL(pOwner, facei)
       {
         label own = pOwner[facei];
         vector maxCorr;
@@ -144,7 +142,10 @@ mousse::linearUpwindV<Type>::correction
   }
   return tsfCorr;
 }
+
 namespace mousse
 {
-  makelimitedSurfaceInterpolationTypeScheme(linearUpwindV, vector)
+
+MAKELIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(linearUpwindV, vector)
+
 }

@@ -45,7 +45,7 @@ class cylindrical
     );
 public:
   //- Runtime type information
-  TypeName("cylindrical");
+  TYPE_NAME("cylindrical");
   // Constructors
     //- Construct from dictionary and objectRegistry
     cylindrical(const dictionary&, const objectRegistry&);
@@ -84,25 +84,25 @@ public:
     //- Return local-to-global transformation tensor
     virtual const tensor& R() const
     {
-      notImplemented("const tensor& cylindrical::R() const");
+      NOT_IMPLEMENTED("const tensor& cylindrical::R() const");
       return tensor::zero;
     }
     //- Return global-to-local transformation tensor
     virtual const tensor& Rtr() const
     {
-      notImplemented("const tensor& cylindrical::Rtr() const");
+      NOT_IMPLEMENTED("const tensor& cylindrical::Rtr() const");
       return tensor::zero;
     }
     //- Return local Cartesian x-axis
     virtual const vector e1() const
     {
-      notImplemented("const tensor& cylindrical::e1() const");
+      NOT_IMPLEMENTED("const tensor& cylindrical::e1() const");
       return vector::zero;
     }
     //- Return local Cartesian y-axis
     virtual const vector e2() const
     {
-      notImplemented("const tensor& cylindrical::e2() const");
+      NOT_IMPLEMENTED("const tensor& cylindrical::e2() const");
       return vector::zero;
     }
     //- Return local Cartesian z-axis

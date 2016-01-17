@@ -5,5 +5,5 @@
 #include "blended_scheme_base.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(blendedSchemeBaseName, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(blendedSchemeBaseName, 0);
 }

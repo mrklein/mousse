@@ -58,12 +58,12 @@ bool mousse::CollidingParcel<ParcelType>::move
     }
     case TrackData::tpRotationalTrack:
     {
-      notImplemented("TrackData::tpRotationalTrack");
+      NOT_IMPLEMENTED("TrackData::tpRotationalTrack");
       break;
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "CollidingParcel<ParcelType>::move(TrackData&, const scalar)"
       )   << td.part() << " is an invalid part of the tracking method."

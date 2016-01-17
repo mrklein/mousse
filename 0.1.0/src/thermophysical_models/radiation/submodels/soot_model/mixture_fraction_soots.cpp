@@ -6,5 +6,5 @@
 #include "make_soot_types.hpp"
 #include "thermo_physics_types.hpp"
 // Static Data Members
-makeSootTypesThermo(mixtureFractionSoot, gasHThermoPhysics);
-makeSootTypesThermo(mixtureFractionSoot, gasEThermoPhysics);
+MAKE_SOOT_TYPES_THERMO(mixtureFractionSoot, gasHThermoPhysics);
+MAKE_SOOT_TYPES_THERMO(mixtureFractionSoot, gasEThermoPhysics);

@@ -17,7 +17,7 @@ void v2WallFunctionFvPatchScalarField::checkType()
 {
   if (!isA<wallFvPatch>(patch()))
   {
-    FatalErrorIn("v2WallFunctionFvPatchScalarField::checkType()")
+    FATAL_ERROR_IN("v2WallFunctionFvPatchScalarField::checkType()")
       << "Invalid wall function specification" << nl
       << "    Patch type for patch " << patch().name()
       << " must be wall" << nl
@@ -51,11 +51,11 @@ v2WallFunctionFvPatchScalarField::v2WallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<scalar>(p, iF),
-  Cmu_(0.09),
-  kappa_(0.41),
-  E_(9.8),
-  yPlusLam_(yPlusLam(kappa_, E_))
+  fixedValueFvPatchField<scalar>{p, iF},
+  Cmu_{0.09},
+  kappa_{0.41},
+  E_{9.8},
+  yPlusLam_{yPlusLam(kappa_, E_)}
 {
   checkType();
 }
@@ -67,11 +67,11 @@ v2WallFunctionFvPatchScalarField::v2WallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<scalar>(ptf, p, iF, mapper),
-  Cmu_(ptf.Cmu_),
-  kappa_(ptf.kappa_),
-  E_(ptf.E_),
-  yPlusLam_(ptf.yPlusLam_)
+  fixedValueFvPatchField<scalar>{ptf, p, iF, mapper},
+  Cmu_{ptf.Cmu_},
+  kappa_{ptf.kappa_},
+  E_{ptf.E_},
+  yPlusLam_{ptf.yPlusLam_}
 {
   checkType();
 }
@@ -82,11 +82,11 @@ v2WallFunctionFvPatchScalarField::v2WallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<scalar>(p, iF, dict),
-  Cmu_(dict.lookupOrDefault<scalar>("Cmu", 0.09)),
-  kappa_(dict.lookupOrDefault<scalar>("kappa", 0.41)),
-  E_(dict.lookupOrDefault<scalar>("E", 9.8)),
-  yPlusLam_(yPlusLam(kappa_, E_))
+  fixedValueFvPatchField<scalar>{p, iF, dict},
+  Cmu_{dict.lookupOrDefault<scalar>("Cmu", 0.09)},
+  kappa_{dict.lookupOrDefault<scalar>("kappa", 0.41)},
+  E_{dict.lookupOrDefault<scalar>("E", 9.8)},
+  yPlusLam_{yPlusLam(kappa_, E_)}
 {
   checkType();
 }
@@ -95,11 +95,11 @@ v2WallFunctionFvPatchScalarField::v2WallFunctionFvPatchScalarField
   const v2WallFunctionFvPatchScalarField& v2wfpsf
 )
 :
-  fixedValueFvPatchField<scalar>(v2wfpsf),
-  Cmu_(v2wfpsf.Cmu_),
-  kappa_(v2wfpsf.kappa_),
-  E_(v2wfpsf.E_),
-  yPlusLam_(v2wfpsf.yPlusLam_)
+  fixedValueFvPatchField<scalar>{v2wfpsf},
+  Cmu_{v2wfpsf.Cmu_},
+  kappa_{v2wfpsf.kappa_},
+  E_{v2wfpsf.E_},
+  yPlusLam_{v2wfpsf.yPlusLam_}
 {
   checkType();
 }
@@ -109,11 +109,11 @@ v2WallFunctionFvPatchScalarField::v2WallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<scalar>(v2wfpsf, iF),
-  Cmu_(v2wfpsf.Cmu_),
-  kappa_(v2wfpsf.kappa_),
-  E_(v2wfpsf.E_),
-  yPlusLam_(v2wfpsf.yPlusLam_)
+  fixedValueFvPatchField<scalar>{v2wfpsf, iF},
+  Cmu_{v2wfpsf.Cmu_},
+  kappa_{v2wfpsf.kappa_},
+  E_{v2wfpsf.E_},
+  yPlusLam_{v2wfpsf.yPlusLam_}
 {
   checkType();
 }
@@ -141,7 +141,7 @@ void v2WallFunctionFvPatchScalarField::updateCoeffs()
   const scalar Cmu25 = pow025(Cmu_);
   scalarField& v2 = *this;
   // Set v2 wall values
-  forAll(v2, faceI)
+  FOR_ALL(v2, faceI)
   {
     label faceCellI = patch().faceCells()[faceI];
     scalar uTau = Cmu25*sqrt(k[faceCellI]);
@@ -174,7 +174,7 @@ void v2WallFunctionFvPatchScalarField::write(Ostream& os) const
   writeLocalEntries(os);
   fixedValueFvPatchField<scalar>::write(os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   v2WallFunctionFvPatchScalarField

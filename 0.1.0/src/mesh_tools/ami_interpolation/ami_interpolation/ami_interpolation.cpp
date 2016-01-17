@@ -3,9 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "ami_interpolation.hpp"
+
 #include "ami_method.hpp"
 #include "mesh_tools.hpp"
 #include "map_distribute.hpp"
+
 // Static Data Members
 template<class SourcePatch, class TargetPatch>
 mousse::word
@@ -39,7 +41,7 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolationMethodToWord
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "const mousse::word"
         "mousse::AMIInterpolation<SourcePatch, TargetPatch>::"
@@ -48,12 +50,14 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolationMethodToWord
           "const interpolationMethod&"
         ")"
       )
-        << "Unhandled interpolationMethod enumeration " << method
-        << abort(FatalError);
+      << "Unhandled interpolationMethod enumeration " << method
+      << abort(FatalError);
     }
   }
   return method;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 typename mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolationMethod
 mousse::AMIInterpolation<SourcePatch, TargetPatch>::wordTointerpolationMethod
@@ -63,17 +67,17 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::wordTointerpolationMethod
 {
   interpolationMethod method = imDirect;
   wordList methods
-  (
+  {
     IStringStream
-    (
+    {
       "("
         "directAMI "
         "mapNearestAMI "
         "faceAreaWeightAMI "
         "partialFaceAreaWeightAMI"
       ")"
-    )()
-  );
+    }()
+  };
   if (im == "directAMI")
   {
     method = imDirect;
@@ -92,7 +96,7 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::wordTointerpolationMethod
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::AMIInterpolation<SourcePatch, TargetPatch>::"
       "interpolationMethod"
@@ -102,12 +106,14 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::wordTointerpolationMethod
         "const word&"
       ")"
     )
-      << "Invalid interpolationMethod " << im
-      << ".  Valid methods are:" << methods
-      << exit(FatalError);
+    << "Invalid interpolationMethod " << im
+    << ".  Valid methods are:" << methods
+    << exit(FatalError);
   }
   return method;
 }
+
+
 // Private Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::projectPointsToSurface
@@ -123,7 +129,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::projectPointsToSurface
   List<pointIndexHit> nearInfo;
   surf.findNearest(pts, scalarField(pts.size(), GREAT), nearInfo);
   label nMiss = 0;
-  forAll(nearInfo, i)
+  FOR_ALL(nearInfo, i)
   {
     const pointIndexHit& pi = nearInfo[i];
     if (pi.hit())
@@ -138,7 +144,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::projectPointsToSurface
   }
   if (nMiss > 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::AMIInterpolation<SourcePatch, TargetPatch>::"
       "projectPointsToSurface"
@@ -147,17 +153,19 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::projectPointsToSurface
         "pointField&"
       ") const"
     )
-      << "Error projecting points to surface: "
-      << nMiss << " faces could not be determined"
-      << abort(FatalError);
+    << "Error projecting points to surface: "
+    << nMiss << " faces could not be determined"
+    << abort(FatalError);
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::normaliseWeights
 (
   const scalarField& patchAreas,
   const word& patchName,
-  const labelListList& addr,
+  const labelListList& /*addr*/,
   scalarListList& wght,
   scalarField& wghtSum,
   const bool conformal,
@@ -168,7 +176,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::normaliseWeights
   // Normalise the weights
   wghtSum.setSize(wght.size(), 0.0);
   label nLowWeight = 0;
-  forAll(wght, faceI)
+  FOR_ALL(wght, faceI)
   {
     scalarList& w = wght[faceI];
     if (w.size())
@@ -180,7 +188,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::normaliseWeights
       {
         denom = s;
       }
-      forAll(w, i)
+      FOR_ALL(w, i)
       {
         w[i] /= denom;
       }
@@ -218,6 +226,8 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::normaliseWeights
     }
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
 (
@@ -249,7 +259,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
   // Agglomerate face areas
   {
     srcMagSf.setSize(sourceRestrictAddressing.size(), 0.0);
-    forAll(sourceRestrictAddressing, faceI)
+    FOR_ALL(sourceRestrictAddressing, faceI)
     {
       label coarseFaceI = sourceRestrictAddressing[faceI];
       srcMagSf[coarseFaceI] += fineSrcMagSf[faceI];
@@ -260,18 +270,18 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
   {
     const mapDistribute& map = targetMapPtr();
     // Get all restriction addressing.
-    labelList allRestrict(targetRestrictAddressing);
+    labelList allRestrict{targetRestrictAddressing};
     map.distribute(allRestrict);
     // So now we have agglomeration of the target side in
     // allRestrict:
     //  0..size-1 : local agglomeration (= targetRestrictAddressing)
     //  size..    : agglomeration data from other processors
-    labelListList tgtSubMap(Pstream::nProcs());
+    labelListList tgtSubMap{Pstream::nProcs()};
     // Local subMap is just identity
     {
       tgtSubMap[Pstream::myProcNo()] = identity(targetCoarseSize);
     }
-    forAll(map.subMap(), procI)
+    FOR_ALL(map.subMap(), procI)
     {
       if (procI != Pstream::myProcNo())
       {
@@ -282,9 +292,9 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
         const labelList& elems = map.subMap()[procI];
         labelList& newSubMap = tgtSubMap[procI];
         newSubMap.setSize(elems.size());
-        labelList oldToNew(targetCoarseSize, -1);
+        labelList oldToNew{targetCoarseSize, -1};
         label newI = 0;
-        forAll(elems, i)
+        FOR_ALL(elems, i)
         {
           label fineElem = elems[i];
           label coarseElem = allRestrict[fineElem];
@@ -301,7 +311,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
     // Reconstruct constructMap by combining entries. Note that order
     // of handing out indices should be the same as loop above to compact
     // the sending map
-    labelListList tgtConstructMap(Pstream::nProcs());
+    labelListList tgtConstructMap{Pstream::nProcs()};
     labelList tgtCompactMap;
     // Local constructMap is just identity
     {
@@ -312,7 +322,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
     tgtCompactMap.setSize(map.constructSize());
     label compactI = targetCoarseSize;
     // Compact data from other processors
-    forAll(map.constructMap(), procI)
+    FOR_ALL(map.constructMap(), procI)
     {
       if (procI != Pstream::myProcNo())
       {
@@ -327,7 +337,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
           // Get the maximum target coarse size for this set of
           // received data.
           label remoteTargetCoarseSize = labelMin;
-          forAll(elems, i)
+          FOR_ALL(elems, i)
           {
             remoteTargetCoarseSize = max
             (
@@ -339,7 +349,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
           // Combine locally data coming from procI
           labelList oldToNew(remoteTargetCoarseSize, -1);
           label newI = 0;
-          forAll(elems, i)
+          FOR_ALL(elems, i)
           {
             label fineElem = elems[i];
             // fineElem now points to section from procI
@@ -364,7 +374,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
     }
     srcAddress.setSize(sourceCoarseSize);
     srcWeights.setSize(sourceCoarseSize);
-    forAll(fineSrcAddress, faceI)
+    FOR_ALL(fineSrcAddress, faceI)
     {
       // All the elements contributing to faceI. Are slots in
       // mapDistribute'd data.
@@ -374,7 +384,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
       label coarseFaceI = sourceRestrictAddressing[faceI];
       labelList& newElems = srcAddress[coarseFaceI];
       scalarList& newWeights = srcWeights[coarseFaceI];
-      forAll(elems, i)
+      FOR_ALL(elems, i)
       {
         label elemI = elems[i];
         label coarseElemI = tgtCompactMap[elemI];
@@ -404,7 +414,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
   {
     srcAddress.setSize(sourceCoarseSize);
     srcWeights.setSize(sourceCoarseSize);
-    forAll(fineSrcAddress, faceI)
+    FOR_ALL(fineSrcAddress, faceI)
     {
       // All the elements contributing to faceI. Are slots in
       // mapDistribute'd data.
@@ -414,7 +424,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
       label coarseFaceI = sourceRestrictAddressing[faceI];
       labelList& newElems = srcAddress[coarseFaceI];
       scalarList& newWeights = srcWeights[coarseFaceI];
-      forAll(elems, i)
+      FOR_ALL(elems, i)
       {
         label elemI = elems[i];
         label coarseElemI = targetRestrictAddressing[elemI];
@@ -444,6 +454,8 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::agglomerate
     -1
   );
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::constructFromSurface
 (
@@ -468,27 +480,27 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::constructFromSurface
     );
     if (debug)
     {
-      OFstream os("amiSrcPoints.obj");
-      forAll(srcPoints, i)
+      OFstream os{"amiSrcPoints.obj"};
+      FOR_ALL(srcPoints, i)
       {
         meshTools::writeOBJ(os, srcPoints[i]);
       }
     }
     pointField tgtPoints = tgtPatch.points();
     TargetPatch tgtPatch0
-    (
+    {
       SubList<face>
-      (
+      {
         tgtPatch,
         tgtPatch.size(),
         0
-      ),
+      },
       tgtPoints
-    );
+    };
     if (debug)
     {
-      OFstream os("amiTgtPoints.obj");
-      forAll(tgtPoints, i)
+      OFstream os{"amiTgtPoints.obj"};
+      FOR_ALL(tgtPoints, i)
       {
         meshTools::writeOBJ(os, tgtPoints[i]);
       }
@@ -504,6 +516,8 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::constructFromSurface
     update(srcPatch, tgtPatch);
   }
 }
+
+
 // Constructors 
 template<class SourcePatch, class TargetPatch>
 mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
@@ -517,23 +531,25 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
   const bool reverseTarget
 )
 :
-  methodName_(interpolationMethodToWord(method)),
-  reverseTarget_(reverseTarget),
-  requireMatch_(requireMatch),
-  singlePatchProc_(-999),
-  lowWeightCorrection_(lowWeightCorrection),
-  srcAddress_(),
-  srcWeights_(),
-  srcWeightsSum_(),
-  tgtAddress_(),
-  tgtWeights_(),
-  tgtWeightsSum_(),
-  triMode_(triMode),
-  srcMapPtr_(NULL),
-  tgtMapPtr_(NULL)
+  methodName_{interpolationMethodToWord(method)},
+  reverseTarget_{reverseTarget},
+  requireMatch_{requireMatch},
+  singlePatchProc_{-999},
+  lowWeightCorrection_{lowWeightCorrection},
+  srcAddress_{},
+  srcWeights_{},
+  srcWeightsSum_{},
+  tgtAddress_{},
+  tgtWeights_{},
+  tgtWeightsSum_{},
+  triMode_{triMode},
+  srcMapPtr_{NULL},
+  tgtMapPtr_{NULL}
 {
   update(srcPatch, tgtPatch);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
 (
@@ -546,23 +562,25 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
   const bool reverseTarget
 )
 :
-  methodName_(methodName),
-  reverseTarget_(reverseTarget),
-  requireMatch_(requireMatch),
-  singlePatchProc_(-999),
-  lowWeightCorrection_(lowWeightCorrection),
-  srcAddress_(),
-  srcWeights_(),
-  srcWeightsSum_(),
-  tgtAddress_(),
-  tgtWeights_(),
-  tgtWeightsSum_(),
-  triMode_(triMode),
-  srcMapPtr_(NULL),
-  tgtMapPtr_(NULL)
+  methodName_{methodName},
+  reverseTarget_{reverseTarget},
+  requireMatch_{requireMatch},
+  singlePatchProc_{-999},
+  lowWeightCorrection_{lowWeightCorrection},
+  srcAddress_{},
+  srcWeights_{},
+  srcWeightsSum_{},
+  tgtAddress_{},
+  tgtWeights_{},
+  tgtWeightsSum_{},
+  triMode_{triMode},
+  srcMapPtr_{NULL},
+  tgtMapPtr_{NULL}
 {
   update(srcPatch, tgtPatch);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
 (
@@ -576,20 +594,20 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
   const bool reverseTarget
 )
 :
-  methodName_(interpolationMethodToWord(method)),
-  reverseTarget_(reverseTarget),
-  requireMatch_(requireMatch),
-  singlePatchProc_(-999),
-  lowWeightCorrection_(lowWeightCorrection),
-  srcAddress_(),
-  srcWeights_(),
-  srcWeightsSum_(),
-  tgtAddress_(),
-  tgtWeights_(),
-  tgtWeightsSum_(),
-  triMode_(triMode),
-  srcMapPtr_(NULL),
-  tgtMapPtr_(NULL)
+  methodName_{interpolationMethodToWord(method)},
+  reverseTarget_{reverseTarget},
+  requireMatch_{requireMatch},
+  singlePatchProc_{-999},
+  lowWeightCorrection_{lowWeightCorrection},
+  srcAddress_{},
+  srcWeights_{},
+  srcWeightsSum_{},
+  tgtAddress_{},
+  tgtWeights_{},
+  tgtWeightsSum_{},
+  triMode_{triMode},
+  srcMapPtr_{NULL},
+  tgtMapPtr_{NULL}
 {
   constructFromSurface(srcPatch, tgtPatch, surfPtr);
 }
@@ -606,23 +624,25 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
   const bool reverseTarget
 )
 :
-  methodName_(methodName),
-  reverseTarget_(reverseTarget),
-  requireMatch_(requireMatch),
-  singlePatchProc_(-999),
-  lowWeightCorrection_(lowWeightCorrection),
-  srcAddress_(),
-  srcWeights_(),
-  srcWeightsSum_(),
-  tgtAddress_(),
-  tgtWeights_(),
-  tgtWeightsSum_(),
-  triMode_(triMode),
-  srcMapPtr_(NULL),
-  tgtMapPtr_(NULL)
+  methodName_{methodName},
+  reverseTarget_{reverseTarget},
+  requireMatch_{requireMatch},
+  singlePatchProc_{-999},
+  lowWeightCorrection_{lowWeightCorrection},
+  srcAddress_{},
+  srcWeights_{},
+  srcWeightsSum_{},
+  tgtAddress_{},
+  tgtWeights_{},
+  tgtWeightsSum_{},
+  triMode_{triMode},
+  srcMapPtr_{NULL},
+  tgtMapPtr_{NULL}
 {
   constructFromSurface(srcPatch, tgtPatch, surfPtr);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
 (
@@ -631,20 +651,20 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
   const labelList& targetRestrictAddressing
 )
 :
-  methodName_(fineAMI.methodName_),
-  reverseTarget_(fineAMI.reverseTarget_),
-  requireMatch_(fineAMI.requireMatch_),
-  singlePatchProc_(fineAMI.singlePatchProc_),
-  lowWeightCorrection_(-1.0),
-  srcAddress_(),
-  srcWeights_(),
-  srcWeightsSum_(),
-  tgtAddress_(),
-  tgtWeights_(),
-  tgtWeightsSum_(),
-  triMode_(fineAMI.triMode_),
-  srcMapPtr_(NULL),
-  tgtMapPtr_(NULL)
+  methodName_{fineAMI.methodName_},
+  reverseTarget_{fineAMI.reverseTarget_},
+  requireMatch_{fineAMI.requireMatch_},
+  singlePatchProc_{fineAMI.singlePatchProc_},
+  lowWeightCorrection_{-1.0},
+  srcAddress_{},
+  srcWeights_{},
+  srcWeightsSum_{},
+  tgtAddress_{},
+  tgtWeights_{},
+  tgtWeightsSum_{},
+  triMode_{fineAMI.triMode_},
+  srcMapPtr_{NULL},
+  tgtMapPtr_{NULL}
 {
   label sourceCoarseSize =
   (
@@ -667,13 +687,10 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
       << " neighbour source size:" << neighbourCoarseSize
       << endl;
   }
-  if
-  (
-    fineAMI.srcAddress().size() != sourceRestrictAddressing.size()
-  || fineAMI.tgtAddress().size() != targetRestrictAddressing.size()
-  )
+  if (fineAMI.srcAddress().size() != sourceRestrictAddressing.size()
+      || fineAMI.tgtAddress().size() != targetRestrictAddressing.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation"
       "("
@@ -681,14 +698,15 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
         "const labelList&, "
         "const labelList&"
       ")"
-    )   << "Size mismatch." << nl
-      << "Source patch size:" << fineAMI.srcAddress().size() << nl
-      << "Source agglomeration size:"
-      << sourceRestrictAddressing.size() << nl
-      << "Target patch size:" << fineAMI.tgtAddress().size() << nl
-      << "Target agglomeration size:"
-      << targetRestrictAddressing.size()
-      << exit(FatalError);
+    )
+    << "Size mismatch." << nl
+    << "Source patch size:" << fineAMI.srcAddress().size() << nl
+    << "Source agglomeration size:"
+    << sourceRestrictAddressing.size() << nl
+    << "Target patch size:" << fineAMI.tgtAddress().size() << nl
+    << "Target agglomeration size:"
+    << targetRestrictAddressing.size()
+    << exit(FatalError);
   }
   // Agglomerate addresses and weights
   agglomerate
@@ -736,10 +754,14 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::AMIInterpolation
   //    Pout.prefix() = oldPrefix;
   //}
 }
+
+
 // Destructor
 template<class SourcePatch, class TargetPatch>
 mousse::AMIInterpolation<SourcePatch, TargetPatch>::~AMIInterpolation()
 {}
+
+
 // Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::update
@@ -766,12 +788,12 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::update
     << endl;
   // Calculate face areas
   srcMagSf_.setSize(srcPatch.size());
-  forAll(srcMagSf_, faceI)
+  FOR_ALL(srcMagSf_, faceI)
   {
     srcMagSf_[faceI] = srcPatch[faceI].mag(srcPatch.points());
   }
   tgtMagSf_.setSize(tgtPatch.size());
-  forAll(tgtMagSf_, faceI)
+  FOR_ALL(tgtMagSf_, faceI)
   {
     tgtMagSf_[faceI] = tgtPatch[faceI].mag(tgtPatch.points());
   }
@@ -843,18 +865,18 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::update
     //                  srcPatch faces it overlaps
     // Rework newTgtPatch indices into globalIndices of tgtPatch
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    forAll(srcAddress_, i)
+    FOR_ALL(srcAddress_, i)
     {
       labelList& addressing = srcAddress_[i];
-      forAll(addressing, addrI)
+      FOR_ALL(addressing, addrI)
       {
         addressing[addrI] = tgtFaceIDs[addressing[addrI]];
       }
     }
-    forAll(tgtAddress_, i)
+    FOR_ALL(tgtAddress_, i)
     {
       labelList& addressing = tgtAddress_[i];
-      forAll(addressing, addrI)
+      FOR_ALL(addressing, addrI)
       {
         addressing[addrI] = globalSrcFaces.toGlobal(addressing[addrI]);
       }
@@ -973,6 +995,8 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::update
       << endl;
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type, class CombineOp>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
@@ -985,7 +1009,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
 {
   if (fld.size() != srcAddress_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "AMIInterpolation::interpolateToTarget"
       "("
@@ -994,17 +1018,18 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
         "List<Type>&, "
         "const UList<Type>&"
       ") const"
-    )   << "Supplied field size is not equal to source patch size" << nl
-      << "    source patch   = " << srcAddress_.size() << nl
-      << "    target patch   = " << tgtAddress_.size() << nl
-      << "    supplied field = " << fld.size()
-      << abort(FatalError);
+    )
+    << "Supplied field size is not equal to source patch size" << nl
+    << "    source patch   = " << srcAddress_.size() << nl
+    << "    target patch   = " << tgtAddress_.size() << nl
+    << "    supplied field = " << fld.size()
+    << abort(FatalError);
   }
   if (lowWeightCorrection_ > 0)
   {
     if (defaultValues.size() != tgtAddress_.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "AMIInterpolation::interpolateToTarget"
         "("
@@ -1013,13 +1038,14 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
           "List<Type>&, "
           "const UList<Type>&"
         ") const"
-      )   << "Employing default values when sum of weights falls below "
-        << lowWeightCorrection_
-        << " but supplied default field size is not equal to target "
-        << "patch size" << nl
-        << "    default values = " << defaultValues.size() << nl
-        << "    target patch   = " << tgtAddress_.size() << nl
-        << abort(FatalError);
+      )
+      << "Employing default values when sum of weights falls below "
+      << lowWeightCorrection_
+      << " but supplied default field size is not equal to target "
+      << "patch size" << nl
+      << "    default values = " << defaultValues.size() << nl
+      << "    target patch   = " << tgtAddress_.size() << nl
+      << abort(FatalError);
     }
   }
   result.setSize(tgtAddress_.size());
@@ -1028,7 +1054,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
     const mapDistribute& map = srcMapPtr_();
     List<Type> work(fld);
     map.distribute(work);
-    forAll(result, faceI)
+    FOR_ALL(result, faceI)
     {
       if (tgtWeightsSum_[faceI] < lowWeightCorrection_)
       {
@@ -1038,7 +1064,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
       {
         const labelList& faces = tgtAddress_[faceI];
         const scalarList& weights = tgtWeights_[faceI];
-        forAll(faces, i)
+        FOR_ALL(faces, i)
         {
           cop(result[faceI], faceI, work[faces[i]], weights[i]);
         }
@@ -1047,7 +1073,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
   }
   else
   {
-    forAll(result, faceI)
+    FOR_ALL(result, faceI)
     {
       if (tgtWeightsSum_[faceI] < lowWeightCorrection_)
       {
@@ -1057,7 +1083,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
       {
         const labelList& faces = tgtAddress_[faceI];
         const scalarList& weights = tgtWeights_[faceI];
-        forAll(faces, i)
+        FOR_ALL(faces, i)
         {
           cop(result[faceI], faceI, fld[faces[i]], weights[i]);
         }
@@ -1065,6 +1091,8 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
     }
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type, class CombineOp>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
@@ -1077,7 +1105,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
 {
   if (fld.size() != tgtAddress_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "AMIInterpolation::interpolateToSource"
       "("
@@ -1086,17 +1114,18 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
         "List<Type>&, "
         "const UList<Type>&"
       ") const"
-    )   << "Supplied field size is not equal to target patch size" << nl
-      << "    source patch   = " << srcAddress_.size() << nl
-      << "    target patch   = " << tgtAddress_.size() << nl
-      << "    supplied field = " << fld.size()
-      << abort(FatalError);
+    )
+    << "Supplied field size is not equal to target patch size" << nl
+    << "    source patch   = " << srcAddress_.size() << nl
+    << "    target patch   = " << tgtAddress_.size() << nl
+    << "    supplied field = " << fld.size()
+    << abort(FatalError);
   }
   if (lowWeightCorrection_ > 0)
   {
     if (defaultValues.size() != srcAddress_.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "AMIInterpolation::interpolateToSource"
         "("
@@ -1105,13 +1134,14 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
           "List<Type>&, "
           "const UList<Type>&"
         ") const"
-      )   << "Employing default values when sum of weights falls below "
-        << lowWeightCorrection_
-        << " but supplied default field size is not equal to target "
-        << "patch size" << nl
-        << "    default values = " << defaultValues.size() << nl
-        << "    source patch   = " << srcAddress_.size() << nl
-        << abort(FatalError);
+      )
+      << "Employing default values when sum of weights falls below "
+      << lowWeightCorrection_
+      << " but supplied default field size is not equal to target "
+      << "patch size" << nl
+      << "    default values = " << defaultValues.size() << nl
+      << "    source patch   = " << srcAddress_.size() << nl
+      << abort(FatalError);
     }
   }
   result.setSize(srcAddress_.size());
@@ -1120,7 +1150,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
     const mapDistribute& map = tgtMapPtr_();
     List<Type> work(fld);
     map.distribute(work);
-    forAll(result, faceI)
+    FOR_ALL(result, faceI)
     {
       if (srcWeightsSum_[faceI] < lowWeightCorrection_)
       {
@@ -1130,7 +1160,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
       {
         const labelList& faces = srcAddress_[faceI];
         const scalarList& weights = srcWeights_[faceI];
-        forAll(faces, i)
+        FOR_ALL(faces, i)
         {
           cop(result[faceI], faceI, work[faces[i]], weights[i]);
         }
@@ -1139,7 +1169,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
   }
   else
   {
-    forAll(result, faceI)
+    FOR_ALL(result, faceI)
     {
       if (srcWeightsSum_[faceI] < lowWeightCorrection_)
       {
@@ -1149,7 +1179,7 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
       {
         const labelList& faces = srcAddress_[faceI];
         const scalarList& weights = srcWeights_[faceI];
-        forAll(faces, i)
+        FOR_ALL(faces, i)
         {
           cop(result[faceI], faceI, fld[faces[i]], weights[i]);
         }
@@ -1157,6 +1187,8 @@ void mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
     }
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type, class CombineOp>
 mousse::tmp<mousse::Field<Type> >
@@ -1168,13 +1200,13 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
 ) const
 {
   tmp<Field<Type> > tresult
-  (
+  {
     new Field<Type>
-    (
+    {
       srcAddress_.size(),
       pTraits<Type>::zero
-    )
-  );
+    }
+  };
   interpolateToSource
   (
     fld,
@@ -1196,6 +1228,8 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
 {
   return interpolateToSource(tFld(), cop, defaultValues);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type, class CombineOp>
 mousse::tmp<mousse::Field<Type> >
@@ -1207,13 +1241,13 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
 ) const
 {
   tmp<Field<Type> > tresult
-  (
+  {
     new Field<Type>
-    (
+    {
       tgtAddress_.size(),
       pTraits<Type>::zero
-    )
-  );
+    }
+  };
   interpolateToTarget
   (
     fld,
@@ -1223,6 +1257,8 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
   );
   return tresult;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type, class CombineOp>
 mousse::tmp<mousse::Field<Type> >
@@ -1235,6 +1271,8 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
 {
   return interpolateToTarget(tFld(), cop, defaultValues);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
@@ -1246,6 +1284,8 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
 {
   return interpolateToSource(fld, plusEqOp<Type>(), defaultValues);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
@@ -1257,6 +1297,8 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToSource
 {
   return interpolateToSource(tFld(), plusEqOp<Type>(), defaultValues);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
@@ -1268,6 +1310,8 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
 {
   return interpolateToTarget(fld, plusEqOp<Type>(), defaultValues);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
@@ -1279,6 +1323,8 @@ mousse::AMIInterpolation<SourcePatch, TargetPatch>::interpolateToTarget
 {
   return interpolateToTarget(tFld(), plusEqOp<Type>(), defaultValues);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::label mousse::AMIInterpolation<SourcePatch, TargetPatch>::srcPointFace
 (
@@ -1293,7 +1339,7 @@ const
   const pointField& srcPoints = srcPatch.points();
   // source face addresses that intersect target face tgtFaceI
   const labelList& addr = tgtAddress_[tgtFaceI];
-  forAll(addr, i)
+  FOR_ALL(addr, i)
   {
     label srcFaceI = addr[i];
     const face& f = srcPatch[srcFaceI];
@@ -1305,7 +1351,7 @@ const
     }
   }
   // no hit registered - try with face normal instead of input normal
-  forAll(addr, i)
+  FOR_ALL(addr, i)
   {
     label srcFaceI = addr[i];
     const face& f = srcPatch[srcFaceI];
@@ -1320,6 +1366,8 @@ const
   }
   return -1;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::label mousse::AMIInterpolation<SourcePatch, TargetPatch>::tgtPointFace
 (
@@ -1334,7 +1382,7 @@ const
   const pointField& tgtPoints = tgtPatch.points();
   // target face addresses that intersect source face srcFaceI
   const labelList& addr = srcAddress_[srcFaceI];
-  forAll(addr, i)
+  FOR_ALL(addr, i)
   {
     label tgtFaceI = addr[i];
     const face& f = tgtPatch[tgtFaceI];
@@ -1346,7 +1394,7 @@ const
     }
   }
   // no hit registered - try with face normal instead of input normal
-  forAll(addr, i)
+  FOR_ALL(addr, i)
   {
     label tgtFaceI = addr[i];
     const face& f = tgtPatch[tgtFaceI];
@@ -1361,6 +1409,8 @@ const
   }
   return -1;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIInterpolation<SourcePatch, TargetPatch>::writeFaceConnectivity
 (
@@ -1372,11 +1422,11 @@ const
 {
   OFstream os("faceConnectivity" + mousse::name(Pstream::myProcNo()) + ".obj");
   label ptI = 1;
-  forAll(srcAddress, i)
+  FOR_ALL(srcAddress, i)
   {
     const labelList& addr = srcAddress[i];
     const point& srcPt = srcPatch.faceCentres()[i];
-    forAll(addr, j)
+    FOR_ALL(addr, j)
     {
       label tgtPtI = addr[j];
       const point& tgtPt = tgtPatch.faceCentres()[tgtPtI];

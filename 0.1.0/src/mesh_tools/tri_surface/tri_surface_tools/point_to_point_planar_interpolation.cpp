@@ -14,7 +14,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(pointToPointPlanarInterpolation, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(pointToPointPlanarInterpolation, 0);
 }
 // Private Member Functions 
 mousse::coordinateSystem
@@ -25,7 +25,7 @@ mousse::pointToPointPlanarInterpolation::calcCoordinateSystem
 {
   if (points.size() < 3)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pointToPointPlanarInterpolation::calcCoordinateSystem"
       "(const pointField&)"
@@ -71,7 +71,7 @@ mousse::pointToPointPlanarInterpolation::calcCoordinateSystem
   }
   if (index2 == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pointToPointPlanarInterpolation::calcCoordinateSystem"
       "(const pointField&)"
@@ -116,13 +116,13 @@ void mousse::pointToPointPlanarInterpolation::calcWeights
     );
     if (!fullMatch)
     {
-      FatalErrorIn("pointToPointPlanarInterpolation::calcWeights(..)")
+      FATAL_ERROR_IN("pointToPointPlanarInterpolation::calcWeights(..)")
         << "Did not find a corresponding sourcePoint for every face"
         << " centre" << exit(FatalError);
     }
     nearestVertex_.setSize(destPoints.size());
     nearestVertexWeight_.setSize(destPoints.size());
-    forAll(nearestVertex_, i)
+    FOR_ALL(nearestVertex_, i)
     {
       nearestVertex_[i][0] = destToSource[i];
       nearestVertex_[i][1] = -1;
@@ -133,7 +133,7 @@ void mousse::pointToPointPlanarInterpolation::calcWeights
     }
     if (debug)
     {
-      forAll(destPoints, i)
+      FOR_ALL(destPoints, i)
       {
         label v0 = nearestVertex_[i][0];
         Pout<< "For location " << destPoints[i]
@@ -146,7 +146,7 @@ void mousse::pointToPointPlanarInterpolation::calcWeights
       Pout<< "pointToPointPlanarInterpolation::calcWeights :"
         << " Dumping lines from face centres to original points to "
         << str.name() << endl;
-      forAll(destPoints, i)
+      FOR_ALL(destPoints, i)
       {
         label v0 = nearestVertex_[i][0];
         str.write(linePointRef(destPoints[i], sourcePoints[v0]));
@@ -171,7 +171,7 @@ void mousse::pointToPointPlanarInterpolation::calcWeights
         << nl << endl;
     }
     Random rndGen(123456);
-    forAll(localVertices, i)
+    FOR_ALL(localVertices, i)
     {
       localVertices[i] +=
         perturb_
@@ -179,7 +179,7 @@ void mousse::pointToPointPlanarInterpolation::calcWeights
     }
     // Determine triangulation
     List<vector2D> localVertices2D(localVertices.size());
-    forAll(localVertices, i)
+    FOR_ALL(localVertices, i)
     {
       localVertices2D[i][0] = localVertices[i][0];
       localVertices2D[i][1] = localVertices[i][1];
@@ -201,7 +201,7 @@ void mousse::pointToPointPlanarInterpolation::calcWeights
       OBJstream str("localFaceCentres.obj");
       Pout<< "pointToPointPlanarInterpolation::calcWeights :"
         << " Dumping face centres to " << str.name() << endl;
-      forAll(localFaceCentres, i)
+      FOR_ALL(localFaceCentres, i)
       {
         str.write(localFaceCentres[i]);
       }
@@ -216,13 +216,13 @@ void mousse::pointToPointPlanarInterpolation::calcWeights
     );
     if (debug)
     {
-      forAll(sourcePoints, i)
+      FOR_ALL(sourcePoints, i)
       {
         Pout<< "source:" << i << " at:" << sourcePoints[i]
           << " 2d:" << localVertices[i]
           << endl;
       }
-      forAll(destPoints, i)
+      FOR_ALL(destPoints, i)
       {
         label v0 = nearestVertex_[i][0];
         label v1 = nearestVertex_[i][1];
@@ -288,7 +288,7 @@ mousse::wordList mousse::pointToPointPlanarInterpolation::timeNames
 )
 {
   wordList names(times.size());
-  forAll(times, i)
+  FOR_ALL(times, i)
   {
     names[i] = times[i].name();
   }

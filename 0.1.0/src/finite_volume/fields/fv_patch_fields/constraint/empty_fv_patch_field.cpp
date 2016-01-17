@@ -6,6 +6,7 @@
 #include "fv_patch_field_mapper.hpp"
 namespace mousse
 {
+
 // Constructors 
 template<class Type>
 emptyFvPatchField<Type>::emptyFvPatchField
@@ -14,8 +15,10 @@ emptyFvPatchField<Type>::emptyFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(p, iF, Field<Type>(0))
+  fvPatchField<Type>{p, iF, Field<Type>(0)}
 {}
+
+
 template<class Type>
 emptyFvPatchField<Type>::emptyFvPatchField
 (
@@ -25,11 +28,11 @@ emptyFvPatchField<Type>::emptyFvPatchField
   const fvPatchFieldMapper&
 )
 :
-  fvPatchField<Type>(p, iF, Field<Type>(0))
+  fvPatchField<Type>{p, iF, Field<Type>(0)}
 {
   if (!isType<emptyFvPatch>(p))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "emptyFvPatchField<Type>::emptyFvPatchField\n"
       "(\n"
@@ -38,14 +41,17 @@ emptyFvPatchField<Type>::emptyFvPatchField
       "    const DimensionedField<Type, volMesh>& iF,\n"
       "    const fvPatchFieldMapper& mapper\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 emptyFvPatchField<Type>::emptyFvPatchField
 (
@@ -54,11 +60,11 @@ emptyFvPatchField<Type>::emptyFvPatchField
   const dictionary& dict
 )
 :
-  fvPatchField<Type>(p, iF, Field<Type>(0))
+  fvPatchField<Type>{p, iF, Field<Type>(0)}
 {
   if (!isType<emptyFvPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "emptyFvPatchField<Type>::emptyFvPatchField\n"
       "(\n"
@@ -67,14 +73,17 @@ emptyFvPatchField<Type>::emptyFvPatchField
       "    const dictionary& dict\n"
       ")\n",
       dict
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 emptyFvPatchField<Type>::emptyFvPatchField
 (
@@ -82,12 +91,14 @@ emptyFvPatchField<Type>::emptyFvPatchField
 )
 :
   fvPatchField<Type>
-  (
+  {
     ptf.patch(),
     ptf.dimensionedInternalField(),
     Field<Type>(0)
-  )
+  }
 {}
+
+
 template<class Type>
 emptyFvPatchField<Type>::emptyFvPatchField
 (
@@ -95,26 +106,16 @@ emptyFvPatchField<Type>::emptyFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(ptf.patch(), iF, Field<Type>(0))
+  fvPatchField<Type>{ptf.patch(), iF, Field<Type>(0)}
 {}
+
+
 // Member Functions 
 template<class Type>
 void emptyFvPatchField<Type>::updateCoeffs()
 {
   //- Check moved to checkMesh. Test here breaks down if multiple empty
   //  patches.
-  //if
-  //(
-  //    this->patch().patch().size()
-  //  % this->dimensionedInternalField().mesh().nCells()
-  //)
-  //{
-  //    FatalErrorIn("emptyFvPatchField<Type>::updateCoeffs()")
-  //        << "This mesh contains patches of type empty but is not"
-  //        << "1D or 2D\n"
-  //           "    by virtue of the fact that the number of faces of this\n"
-  //           "    empty patch is not divisible by the number of cells."
-  //        << exit(FatalError);
-  //}
 }
+
 }  // namespace mousse

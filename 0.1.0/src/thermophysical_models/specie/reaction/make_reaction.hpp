@@ -18,98 +18,105 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-#define makeReaction(Thermo, ReactionType, ReactionRate)                      \
-                                       \
-  typedef Reaction<Thermo> Reaction##Thermo;                                \
-                                       \
-  typedef ReactionType<Reaction, Thermo, ReactionRate>                      \
-    ReactionType##Thermo##ReactionRate;                                   \
-                                       \
-  template<>                                                                \
-  const word ReactionType##Thermo##ReactionRate::typeName                   \
-  (                                                                         \
-    ReactionType::typeName_()                                             \
-   + ReactionRate::type()                                                  \
-   + Reaction##Thermo::typeName_()                                         \
-  );                                                                        \
-                                       \
-  addToRunTimeSelectionTable                                                \
-  (                                                                         \
-    Reaction##Thermo,                                                     \
-    ReactionType##Thermo##ReactionRate,                                   \
-    Istream                                                               \
-  );                                                                        \
-                                       \
-  addToRunTimeSelectionTable                                                \
-  (                                                                         \
-    Reaction##Thermo,                                                     \
-    ReactionType##Thermo##ReactionRate,                                   \
-    dictionary                                                            \
+#define MAKE_REACTION(Thermo, ReactionType, ReactionRate)                     \
+                                                                              \
+  typedef Reaction<Thermo> Reaction##Thermo;                                  \
+                                                                              \
+  typedef ReactionType<Reaction, Thermo, ReactionRate>                        \
+    ReactionType##Thermo##ReactionRate;                                       \
+                                                                              \
+  template<>                                                                  \
+  const word ReactionType##Thermo##ReactionRate::typeName                     \
+  (                                                                           \
+    ReactionType::typeName_()                                                 \
+   + ReactionRate::type()                                                     \
+   + Reaction##Thermo::typeName_()                                            \
+  );                                                                          \
+                                                                              \
+  ADD_TO_RUN_TIME_SELECTION_TABLE                                             \
+  (                                                                           \
+    Reaction##Thermo,                                                         \
+    ReactionType##Thermo##ReactionRate,                                       \
+    Istream                                                                   \
+  );                                                                          \
+                                                                              \
+  ADD_TO_RUN_TIME_SELECTION_TABLE                                             \
+  (                                                                           \
+    Reaction##Thermo,                                                         \
+    ReactionType##Thermo##ReactionRate,                                       \
+    dictionary                                                                \
   );
-#define makePressureDependentReaction\
+
+
+#define MAKE_PRESSURE_DEPENDENT_REACTION\
 (                                                                             \
-  Thermo,                                                                   \
-  Reaction,                                                                 \
-  PressureDependentReactionRate,                                            \
-  ReactionRate,                                                             \
-  FallOffFunction                                                           \
+  Thermo,                                                                     \
+  Reaction,                                                                   \
+  PressureDependentReactionRate,                                              \
+  ReactionRate,                                                               \
+  FallOffFunction                                                             \
 )                                                                             \
-                                       \
-  typedef PressureDependentReactionRate<ReactionRate, FallOffFunction>      \
-    PressureDependentReactionRate##ReactionRate##FallOffFunction;         \
-                                       \
-  makeReaction                                                              \
-  (                                                                         \
-    Thermo,                                                               \
-    Reaction,                                                             \
-    PressureDependentReactionRate##ReactionRate##FallOffFunction          \
+                                                                              \
+  typedef PressureDependentReactionRate<ReactionRate, FallOffFunction>        \
+    PressureDependentReactionRate##ReactionRate##FallOffFunction;             \
+                                                                              \
+  MAKE_REACTION                                                               \
+  (                                                                           \
+    Thermo,                                                                   \
+    Reaction,                                                                 \
+    PressureDependentReactionRate##ReactionRate##FallOffFunction              \
   )
-#define makeIRReactions(Thermo, ReactionRate)                                 \
-                                       \
-  makeReaction(Thermo, IrreversibleReaction, ReactionRate)                  \
-                                       \
-  makeReaction(Thermo, ReversibleReaction, ReactionRate)
-#define makeIRNReactions(Thermo, ReactionRate)                                \
-                                       \
-  makeIRReactions(Thermo, ReactionRate)                                     \
-                                       \
-  makeReaction(Thermo, NonEquilibriumReversibleReaction, ReactionRate)
-#define makePressureDependentReactions(Thermo, ReactionRate, FallOffFunction) \
-                                       \
-  makePressureDependentReaction                                             \
-  (                                                                         \
-    Thermo,                                                               \
-    IrreversibleReaction,                                                 \
-    FallOffReactionRate,                                                  \
-    ReactionRate,                                                         \
-    FallOffFunction                                                       \
-  )                                                                         \
-                                       \
-  makePressureDependentReaction                                             \
-  (                                                                         \
-    Thermo,                                                               \
-    ReversibleReaction,                                                   \
-    FallOffReactionRate,                                                  \
-    ReactionRate,                                                         \
-    FallOffFunction                                                       \
-  )                                                                         \
-                                       \
-  makePressureDependentReaction                                             \
-  (                                                                         \
-    Thermo,                                                               \
-    IrreversibleReaction,                                                 \
-    ChemicallyActivatedReactionRate,                                      \
-    ReactionRate,                                                         \
-    FallOffFunction                                                       \
-  )                                                                         \
-                                       \
-  makePressureDependentReaction                                             \
-  (                                                                         \
-    Thermo,                                                               \
-    ReversibleReaction,                                                   \
-    ChemicallyActivatedReactionRate,                                      \
-    ReactionRate,                                                         \
-    FallOffFunction                                                       \
+
+
+#define MAKE_IR_REACTIONS(Thermo, ReactionRate)                               \
+                                                                              \
+  MAKE_REACTION(Thermo, IrreversibleReaction, ReactionRate)                   \
+                                                                              \
+  MAKE_REACTION(Thermo, ReversibleReaction, ReactionRate)
+
+#define MAKE_IRN_REACTIONS(Thermo, ReactionRate)                              \
+                                                                              \
+  MAKE_IR_REACTIONS(Thermo, ReactionRate)                                     \
+                                                                              \
+  MAKE_REACTION(Thermo, NonEquilibriumReversibleReaction, ReactionRate)
+
+
+#define MAKE_PRESSURE_DEPENDENT_REACTIONS(Thermo, ReactionRate, FallOffFunction)\
+                                                                              \
+  MAKE_PRESSURE_DEPENDENT_REACTION                                            \
+  (                                                                           \
+    Thermo,                                                                   \
+    IrreversibleReaction,                                                     \
+    FallOffReactionRate,                                                      \
+    ReactionRate,                                                             \
+    FallOffFunction                                                           \
+  )                                                                           \
+                                                                              \
+  MAKE_PRESSURE_DEPENDENT_REACTION                                            \
+  (                                                                           \
+    Thermo,                                                                   \
+    ReversibleReaction,                                                       \
+    FallOffReactionRate,                                                      \
+    ReactionRate,                                                             \
+    FallOffFunction                                                           \
+  )                                                                           \
+                                                                              \
+  MAKE_PRESSURE_DEPENDENT_REACTION                                            \
+  (                                                                           \
+    Thermo,                                                                   \
+    IrreversibleReaction,                                                     \
+    ChemicallyActivatedReactionRate,                                          \
+    ReactionRate,                                                             \
+    FallOffFunction                                                           \
+  )                                                                           \
+                                                                              \
+  MAKE_PRESSURE_DEPENDENT_REACTION                                            \
+  (                                                                           \
+    Thermo,                                                                   \
+    ReversibleReaction,                                                       \
+    ChemicallyActivatedReactionRate,                                          \
+    ReactionRate,                                                             \
+    FallOffFunction                                                           \
   )
 }  // namespace mousse
 #endif

@@ -8,7 +8,7 @@
 #include "vol_mesh.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(alphaContactAngleFvPatchScalarField, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(alphaContactAngleFvPatchScalarField, 0);
   template<>
   const char* mousse::NamedEnum
   <

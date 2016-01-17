@@ -20,8 +20,8 @@ public:
   {}
   scalar limiter
   (
-    const scalar cdWeight,
-    const scalar faceFlux,
+    const scalar /*cdWeight*/,
+    const scalar /*faceFlux*/,
     const scalar phiP,
     const scalar phiN,
     const vector&,

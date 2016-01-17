@@ -20,7 +20,7 @@ uniformInterpolatedDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(p, iF)
+  fixedValuePointPatchField<vector>{p, iF}
 {}
 uniformInterpolatedDisplacementPointPatchVectorField::
 uniformInterpolatedDisplacementPointPatchVectorField
@@ -30,9 +30,9 @@ uniformInterpolatedDisplacementPointPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValuePointPatchField<vector>(p, iF, dict),
-  fieldName_(dict.lookup("fieldName")),
-  interpolationScheme_(dict.lookup("interpolationScheme"))
+  fixedValuePointPatchField<vector>{p, iF, dict},
+  fieldName_{dict.lookup("fieldName")},
+  interpolationScheme_{dict.lookup("interpolationScheme")}
 {
   const pointMesh& pMesh = this->dimensionedInternalField().mesh();
   // Read time values
@@ -40,7 +40,7 @@ uniformInterpolatedDisplacementPointPatchVectorField
   // Only keep those that contain the field
   DynamicList<word> names(allTimes.size());
   DynamicList<scalar> values(allTimes.size());
-  forAll(allTimes, i)
+  FOR_ALL(allTimes, i)
   {
     IOobject io
     (
@@ -63,7 +63,7 @@ uniformInterpolatedDisplacementPointPatchVectorField
     << timeNames_ << endl;
   if (timeNames_.size() < 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "uniformInterpolatedDisplacementPointPatchVectorField::\n"
       "uniformInterpolatedDisplacementPointPatchVectorField\n"
@@ -72,8 +72,9 @@ uniformInterpolatedDisplacementPointPatchVectorField
       "    const DimensionedField<vector, pointMesh>&,\n"
       "    const dictionary&\n"
       ")\n"
-    )   << "Did not find any times with " << fieldName_
-      << exit(FatalError);
+    )
+    << "Did not find any times with " << fieldName_
+    << exit(FatalError);
   }
   if (!dict.found("value"))
   {
@@ -89,12 +90,12 @@ uniformInterpolatedDisplacementPointPatchVectorField
   const pointPatchFieldMapper& mapper
 )
 :
-  fixedValuePointPatchField<vector>(ptf, p, iF, mapper),
-  fieldName_(ptf.fieldName_),
-  interpolationScheme_(ptf.interpolationScheme_),
-  timeNames_(ptf.timeNames_),
-  timeVals_(ptf.timeVals_),
-  interpolatorPtr_(ptf.interpolatorPtr_)
+  fixedValuePointPatchField<vector>{ptf, p, iF, mapper},
+  fieldName_{ptf.fieldName_},
+  interpolationScheme_{ptf.interpolationScheme_},
+  timeNames_{ptf.timeNames_},
+  timeVals_{ptf.timeVals_},
+  interpolatorPtr_{ptf.interpolatorPtr_}
 {}
 uniformInterpolatedDisplacementPointPatchVectorField::
 uniformInterpolatedDisplacementPointPatchVectorField
@@ -103,12 +104,12 @@ uniformInterpolatedDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(ptf, iF),
-  fieldName_(ptf.fieldName_),
-  interpolationScheme_(ptf.interpolationScheme_),
-  timeNames_(ptf.timeNames_),
-  timeVals_(ptf.timeVals_),
-  interpolatorPtr_(ptf.interpolatorPtr_)
+  fixedValuePointPatchField<vector>{ptf, iF},
+  fieldName_{ptf.fieldName_},
+  interpolationScheme_{ptf.interpolationScheme_},
+  timeNames_{ptf.timeNames_},
+  timeVals_{ptf.timeVals_},
+  interpolatorPtr_{ptf.interpolatorPtr_}
 {}
 // Member Functions 
 void uniformInterpolatedDisplacementPointPatchVectorField::updateCoeffs()
@@ -135,9 +136,9 @@ void uniformInterpolatedDisplacementPointPatchVectorField::updateCoeffs()
     currentWeights_
   );
   const wordList currentTimeNames
-  (
-    UIndirectList<word>(timeNames_, currentIndices_)
-  );
+  {
+    UIndirectList<word>{timeNames_, currentIndices_}
+  };
   // Load if necessary fields for this interpolation
   if (timesChanged)
   {
@@ -145,16 +146,16 @@ void uniformInterpolatedDisplacementPointPatchVectorField::updateCoeffs()
     (
       pMesh.thisDb().subRegistry("fieldsCache", true)
     );
-    // Save old times so we now which ones have been loaded and need
+    // Save old times so we know which ones have been loaded and need
     // 'correctBoundaryConditions'. Bit messy.
-    HashSet<word> oldTimes(fieldsCache.toc());
+    HashSet<word> oldTimes{fieldsCache.toc()};
     ReadFields<pointVectorField>
     (
       fieldName_,
       pMesh,
       currentTimeNames
     );
-    forAllConstIter(objectRegistry, fieldsCache, fieldsCacheIter)
+    FOR_ALL_CONST_ITER(objectRegistry, fieldsCache, fieldsCacheIter)
     {
       if (!oldTimes.found(fieldsCacheIter.key()))
       {
@@ -179,24 +180,24 @@ void uniformInterpolatedDisplacementPointPatchVectorField::updateCoeffs()
   }
   // Interpolate the whole field
   pointVectorField result
-  (
+  {
     uniformInterpolate<pointVectorField>
     (
-      IOobject
-      (
+      // IOobject
+      {
         word("uniformInterpolate(")
-       + this->dimensionedInternalField().name()
-       + ')',
+        + this->dimensionedInternalField().name()
+        + ')',
         pMesh.time().timeName(),
         pMesh.thisDb(),
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
-      ),
+      },
       fieldName_,
       currentTimeNames,
       currentWeights_
     )
-  );
+  };
   // Extract back from the internal field
   this->operator==
   (
@@ -208,13 +209,12 @@ void uniformInterpolatedDisplacementPointPatchVectorField::write(Ostream& os)
 const
 {
   pointPatchField<vector>::write(os);
-  os.writeKeyword("fieldName")
-    << fieldName_ << token::END_STATEMENT << nl;
+  os.writeKeyword("fieldName") << fieldName_ << token::END_STATEMENT << nl;
   os.writeKeyword("interpolationScheme")
     << interpolationScheme_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePointPatchTypeField
+MAKE_POINT_PATCH_TYPE_FIELD
 (
   pointPatchVectorField,
   uniformInterpolatedDisplacementPointPatchVectorField

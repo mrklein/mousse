@@ -10,7 +10,7 @@ void mousse::processorMeshes::read()
 {
   // Make sure to clear (and hence unregister) any previously loaded meshes
   // and fields
-  forAll(databases_, procI)
+  FOR_ALL(databases_, procI)
   {
     meshes_.set(procI, NULL);
     pointProcAddressing_.set(procI, NULL);
@@ -18,7 +18,7 @@ void mousse::processorMeshes::read()
     cellProcAddressing_.set(procI, NULL);
     boundaryProcAddressing_.set(procI, NULL);
   }
-  forAll(databases_, procI)
+  FOR_ALL(databases_, procI)
   {
     meshes_.set
     (
@@ -120,7 +120,7 @@ mousse::processorMeshes::processorMeshes
 mousse::fvMesh::readUpdateState mousse::processorMeshes::readUpdate()
 {
   fvMesh::readUpdateState stat = fvMesh::UNCHANGED;
-  forAll(databases_, procI)
+  FOR_ALL(databases_, procI)
   {
     // Check if any new meshes need to be read.
     fvMesh::readUpdateState procStat = meshes_[procI].readUpdate();
@@ -140,7 +140,7 @@ mousse::fvMesh::readUpdateState mousse::processorMeshes::readUpdate()
     }
     else if (stat != procStat)
     {
-      FatalErrorIn("processorMeshes::readUpdate()")
+      FATAL_ERROR_IN("processorMeshes::readUpdate()")
         << "Processor " << procI
         << " has a different polyMesh at time "
         << databases_[procI].timeName()
@@ -166,7 +166,7 @@ void mousse::processorMeshes::reconstructPoints(fvMesh& mesh)
 {
   // Read the field for all the processors
   PtrList<pointIOField> procsPoints(meshes_.size());
-  forAll(meshes_, procI)
+  FOR_ALL(meshes_, procI)
   {
     procsPoints.set
     (
@@ -188,20 +188,20 @@ void mousse::processorMeshes::reconstructPoints(fvMesh& mesh)
   }
   // Create the new points
   vectorField newPoints(mesh.nPoints());
-  forAll(meshes_, procI)
+  FOR_ALL(meshes_, procI)
   {
     const vectorField& procPoints = procsPoints[procI];
     // Set the cell values in the reconstructed field
     const labelList& pointProcAddressingI = pointProcAddressing_[procI];
     if (pointProcAddressingI.size() != procPoints.size())
     {
-      FatalErrorIn("processorMeshes")
+      FATAL_ERROR_IN("processorMeshes")
         << "problem :"
         << " pointProcAddressingI:" << pointProcAddressingI.size()
         << " procPoints:" << procPoints.size()
         << abort(FatalError);
     }
-    forAll(pointProcAddressingI, pointI)
+    FOR_ALL(pointProcAddressingI, pointI)
     {
       newPoints[pointProcAddressingI[pointI]] = procPoints[pointI];
     }

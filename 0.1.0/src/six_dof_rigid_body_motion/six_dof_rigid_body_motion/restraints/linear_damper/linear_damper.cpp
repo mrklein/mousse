@@ -10,13 +10,13 @@ namespace mousse
 {
 namespace sixDoFRigidBodyMotionRestraints
 {
-  defineTypeNameAndDebug(linearDamper, 0);
-  addToRunTimeSelectionTable
-  (
-    sixDoFRigidBodyMotionRestraint,
-    linearDamper,
-    dictionary
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(linearDamper, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  sixDoFRigidBodyMotionRestraint,
+  linearDamper,
+  dictionary
+);
 }
 }
 // Constructors 
@@ -26,8 +26,8 @@ mousse::sixDoFRigidBodyMotionRestraints::linearDamper::linearDamper
   const dictionary& sDoFRBMRDict
 )
 :
-  sixDoFRigidBodyMotionRestraint(name, sDoFRBMRDict),
-  coeff_()
+  sixDoFRigidBodyMotionRestraint{name, sDoFRBMRDict},
+  coeff_{}
 {
   read(sDoFRBMRDict);
 }
@@ -38,7 +38,7 @@ mousse::sixDoFRigidBodyMotionRestraints::linearDamper::~linearDamper()
 void mousse::sixDoFRigidBodyMotionRestraints::linearDamper::restrain
 (
   const sixDoFRigidBodyMotion& motion,
-  vector& restraintPosition,
+  vector& /*restraintPosition*/,
   vector& restraintForce,
   vector& restraintMoment
 ) const

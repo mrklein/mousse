@@ -4,6 +4,7 @@
 
 #include "_thermo_parcel.hpp"
 #include "iostreams.hpp"
+#pragma GCC diagnostic ignored "-Winvalid-offsetof"
 // Static Data Members
 template<class ParcelType>
 mousse::string mousse::ThermoParcel<ParcelType>::propertyList_ =
@@ -11,8 +12,7 @@ mousse::string mousse::ThermoParcel<ParcelType>::propertyList_ =
 template<class ParcelType>
 const std::size_t mousse::ThermoParcel<ParcelType>::sizeofFields_
 (
-  offsetof(ThermoParcel<ParcelType>, Tc_)
- - offsetof(ThermoParcel<ParcelType>, T_)
+  offsetof(ThermoParcel<ParcelType>, Tc_) - offsetof(ThermoParcel<ParcelType>, T_)
 );
 // Constructors 
 template<class ParcelType>
@@ -23,11 +23,11 @@ mousse::ThermoParcel<ParcelType>::ThermoParcel
   bool readFields
 )
 :
-  ParcelType(mesh, is, readFields),
-  T_(0.0),
-  Cp_(0.0),
-  Tc_(0.0),
-  Cpc_(0.0)
+  ParcelType{mesh, is, readFields},
+  T_{0.0},
+  Cp_{0.0},
+  Tc_{0.0},
+  Cpc_{0.0}
 {
   if (readFields)
   {
@@ -61,7 +61,7 @@ void mousse::ThermoParcel<ParcelType>::readFields(CloudType& c)
   IOField<scalar> Cp(c.fieldIOobject("Cp", IOobject::MUST_READ));
   c.checkFieldIOobject(c, Cp);
   label i = 0;
-  forAllIter(typename Cloud<ThermoParcel<ParcelType> >, c, iter)
+  FOR_ALL_ITER(typename Cloud<ThermoParcel<ParcelType> >, c, iter)
   {
     ThermoParcel<ParcelType>& p = iter();
     p.T_ = T[i];
@@ -78,7 +78,7 @@ void mousse::ThermoParcel<ParcelType>::writeFields(const CloudType& c)
   IOField<scalar> T(c.fieldIOobject("T", IOobject::NO_READ), np);
   IOField<scalar> Cp(c.fieldIOobject("Cp", IOobject::NO_READ), np);
   label i = 0;
-  forAllConstIter(typename Cloud<ThermoParcel<ParcelType> >, c, iter)
+  FOR_ALL_CONST_ITER(typename Cloud<ThermoParcel<ParcelType> >, c, iter)
   {
     const ThermoParcel<ParcelType>& p = iter();
     T[i] = p.T_;

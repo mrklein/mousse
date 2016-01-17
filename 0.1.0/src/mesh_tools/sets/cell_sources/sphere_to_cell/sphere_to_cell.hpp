@@ -27,7 +27,7 @@ class sphereToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("sphereToCell");
+  TYPE_NAME("sphereToCell");
   // Constructors
     //- Construct from components
     sphereToCell

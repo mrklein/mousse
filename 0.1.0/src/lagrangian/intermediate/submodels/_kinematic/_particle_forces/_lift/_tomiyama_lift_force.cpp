@@ -8,9 +8,9 @@ template<class CloudType>
 mousse::scalar mousse::TomiyamaLiftForce<CloudType>::TomiyamaLiftForce::Cl
 (
   const typename CloudType::parcelType& p,
-  const vector& curlUc,
+  const vector& /*curlUc*/,
   const scalar Re,
-  const scalar muc
+  const scalar /*muc*/
 ) const
 {
   const vector& g = this->owner().g().value();

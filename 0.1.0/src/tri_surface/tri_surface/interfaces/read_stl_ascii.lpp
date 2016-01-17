@@ -6,6 +6,7 @@
 %{
 
 #undef yyFlexLexer
+#pragma clang diagnostic ignored "-Wdeprecated-register"
 
  /* ------------------------------------------------------------------------ *\
    ------ local definitions
@@ -23,7 +24,7 @@ using namespace mousse;
 //! \cond dummy
 int yyFlexLexer::yylex()
 {
-    FatalErrorIn("yyFlexLexer::yylex()")
+    FATAL_ERROR_IN("yyFlexLexer::yylex()")
         << "Should not have called this function"
         << abort(FatalError);
     return 0;
@@ -335,7 +336,7 @@ endsolid              {space}("endsolid"|"ENDSOLID")({some_space}{word})*
 
 <stlerror>.* {
         yy_pop_state();
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
             "triSurface::readSTLASCII(const fileName& STLfileName)"
         )   << "while " << stateNames[YY_START] << " on line " << lineNo_ << nl
@@ -361,7 +362,7 @@ bool triSurface::readSTLASCII(const fileName& STLfileName)
 
     if (!STLstream)
     {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
             "triSurface::readSTLASCII(const fileName&)"
         )   << "file " << STLfileName << " not found"
@@ -417,7 +418,7 @@ bool triSurface::readSTLASCII(const fileName& STLfileName)
 
     setSize(lexer.nTriangles());
     sp.setSize(nUniquePoints);
-    forAll(STLpoints, pointI)
+    FOR_ALL(STLpoints, pointI)
     {
         const floatVector& pt = STLpoints[pointI];
         sp[pointMap[pointI]] = vector
@@ -430,7 +431,7 @@ bool triSurface::readSTLASCII(const fileName& STLfileName)
 
     // Assign triangles
     label pointI = 0;
-    forAll(*this, i)
+    FOR_ALL(*this, i)
     {
         operator[](i)[0] = pointMap[pointI++];
         operator[](i)[1] = pointMap[pointI++];

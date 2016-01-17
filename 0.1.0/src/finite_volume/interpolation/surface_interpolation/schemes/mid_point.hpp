@@ -7,10 +7,14 @@
 //   Mid-point interpolation (weighting factors = 0.5) scheme class.
 // SourceFiles
 //   mid_point.cpp
+
 #ifndef mid_point_hpp_
 #define mid_point_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -18,22 +22,19 @@ class midPoint
 :
   public surfaceInterpolationScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const midPoint&);
 public:
   //- Runtime type information
-  TypeName("midPoint");
+  TYPE_NAME("midPoint");
   // Constructors
     //- Construct from mesh
     midPoint(const fvMesh& mesh)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from Istream
     midPoint(const fvMesh& mesh, Istream&)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from faceFlux and Istream
     midPoint
@@ -43,8 +44,10 @@ public:
       Istream&
     )
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
+    //- Disallow default bitwise assignment
+    midPoint& operator=(const midPoint&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights
@@ -71,7 +74,7 @@ public:
       );
       surfaceScalarField::GeometricBoundaryField& awbf =
         taw().boundaryField();
-      forAll(awbf, patchi)
+      FOR_ALL(awbf, patchi)
       {
         if (!awbf[patchi].coupled())
         {

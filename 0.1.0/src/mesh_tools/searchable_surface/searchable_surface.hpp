@@ -12,8 +12,10 @@
 //   - index : unique index on surface (e.g. triangle for triSurfaceMesh)
 // SourceFiles
 //   searchable_surface.cpp
+
 #ifndef searchable_surface_hpp_
 #define searchable_surface_hpp_
+
 #include "point_field.hpp"
 #include "bound_box.hpp"
 #include "type_info.hpp"
@@ -22,6 +24,8 @@
 #include "line_point_ref.hpp"
 #include "object_registry.hpp"
 #include "volume_type.hpp"
+#include "dictionary.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
@@ -35,17 +39,12 @@ class searchableSurface
   // Private data
     const word name_;
     boundBox bounds_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    searchableSurface(const searchableSurface&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableSurface&);
 public:
   //- Runtime type information
-  TypeName("searchableSurface");
+  TYPE_NAME("searchableSurface");
   // Declare run-time constructor selection table
     // For the dictionary constructor
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       searchableSurface,
@@ -81,9 +80,13 @@ public:
     //- Clone
     virtual autoPtr<searchableSurface> clone() const
     {
-      notImplemented("autoPtr<searchableSurface> clone() const");
+      NOT_IMPLEMENTED("autoPtr<searchableSurface> clone() const");
       return autoPtr<searchableSurface>(NULL);
     }
+    //- Disallow default bitwise copy construct
+    searchableSurface(const searchableSurface&) = delete;
+    //- Disallow default bitwise assignment
+    searchableSurface& operator=(const searchableSurface&) = delete;
   // Selectors
     //- Return a reference to the selected searchableSurface
     static autoPtr<searchableSurface> New
@@ -195,7 +198,7 @@ public:
       (
         const pointField& samples,
         const scalarField& nearestDistSqr,
-        const labelList& regionIndices,
+        const labelList& /*regionIndices*/,
         List<pointIndexHit>& info
       ) const
       {
@@ -261,13 +264,13 @@ public:
       virtual void distribute
       (
         const List<treeBoundBox>&,
-        const bool keepNonLocal,
-        autoPtr<mapDistribute>& faceMap,
-        autoPtr<mapDistribute>& pointMap
+        const bool /*keepNonLocal*/,
+        autoPtr<mapDistribute>& /*faceMap*/,
+        autoPtr<mapDistribute>& /*pointMap*/
       )
       {}
       //- WIP. Store element-wise field.
-      virtual void setField(const labelList& values)
+      virtual void setField(const labelList& /*values*/)
       {}
       //- WIP. From a set of hits (points and
       //  indices) get the specified field. Misses do not get set. Return

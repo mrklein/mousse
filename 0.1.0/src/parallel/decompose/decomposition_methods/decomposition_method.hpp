@@ -20,16 +20,11 @@ protected:
   // Protected data
     const dictionary& decompositionDict_;
     label nProcessors_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    decompositionMethod(const decompositionMethod&);
-    void operator=(const decompositionMethod&);
 public:
   //- Runtime type information
-  TypeName("decompositionMethod");
+  TYPE_NAME("decompositionMethod");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       decompositionMethod,
@@ -49,12 +44,15 @@ public:
     //- Construct given the decomposition dictionary
     decompositionMethod(const dictionary& decompositionDict)
     :
-      decompositionDict_(decompositionDict),
+      decompositionDict_{decompositionDict},
       nProcessors_
-      (
+      {
         readLabel(decompositionDict.lookup("numberOfSubdomains"))
-      )
+      }
     {}
+    //- Disallow default bitwise copy construct and assignment
+    decompositionMethod(const decompositionMethod&) = delete;
+    decompositionMethod& operator=(const decompositionMethod&) = delete;
   //- Destructor
   virtual ~decompositionMethod()
   {}
@@ -70,11 +68,11 @@ public:
       //- Return for every coordinate the wanted processor number.
       virtual labelList decompose
       (
-        const pointField& points,
-        const scalarField& pointWeights
+        const pointField&,
+        const scalarField& /*pointWeights*/
       )
       {
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "decompositionMethod:decompose(const pointField&"
           ", const scalarField&)"
@@ -84,7 +82,7 @@ public:
       //- Like decompose but with uniform weights on the points
       virtual labelList decompose(const pointField&)
       {
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "decompositionMethod:decompose(const pointField&)"
         );

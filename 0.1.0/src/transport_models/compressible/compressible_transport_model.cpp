@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(compressibleTransportModel, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(compressibleTransportModel, 0);
 }
 // Constructors 
 mousse::compressibleTransportModel::compressibleTransportModel()

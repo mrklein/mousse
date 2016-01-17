@@ -41,7 +41,7 @@ class freestreamFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("freestream");
+  TYPE_NAME("freestream");
   // Constructors
     //- Construct from patch and internal field
     freestreamFvPatchField

@@ -6,6 +6,7 @@
 #include "coord_set.hpp"
 #include "ofstream.hpp"
 #include "os_specific.hpp"
+
 // Static Data Members
 template<class Type>
 mousse::autoPtr< mousse::writer<Type> > mousse::writer<Type>::New
@@ -17,17 +18,21 @@ mousse::autoPtr< mousse::writer<Type> > mousse::writer<Type>::New
     wordConstructorTablePtr_->find(writeType);
   if (cstrIter == wordConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "writer::New(const word&)"
-    )   << "Unknown write type "
-      << writeType << nl << nl
-      << "Valid write types : " << endl
-      << wordConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown write type "
+    << writeType << nl << nl
+    << "Valid write types : " << endl
+    << wordConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<writer<Type> >(cstrIter()());
+
+  return autoPtr<writer<Type>>{cstrIter()()};
 }
+
+
 // Private Member Functions 
 template<class Type>
 mousse::fileName mousse::writer<Type>::getBaseName
@@ -36,13 +41,16 @@ mousse::fileName mousse::writer<Type>::getBaseName
   const wordList& valueSets
 ) const
 {
-  fileName fName(points.name());
-  forAll(valueSets, i)
+  fileName fName{points.name()};
+
+  FOR_ALL(valueSets, i)
   {
     fName += '_' + valueSets[i];
   }
   return fName;
 }
+
+
 template<class Type>
 void mousse::writer<Type>::writeCoord
 (
@@ -60,6 +68,8 @@ void mousse::writer<Type>::writeCoord
     write(points.scalarCoord(pointI), os);
   }
 }
+
+
 template<class Type>
 void mousse::writer<Type>::writeTable
 (
@@ -68,7 +78,7 @@ void mousse::writer<Type>::writeTable
   Ostream& os
 ) const
 {
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     writeCoord(points, pointI, os);
     writeSeparator(os);
@@ -76,6 +86,8 @@ void mousse::writer<Type>::writeTable
     os << nl;
   }
 }
+
+
 template<class Type>
 void mousse::writer<Type>::writeTable
 (
@@ -84,10 +96,10 @@ void mousse::writer<Type>::writeTable
   Ostream& os
 ) const
 {
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     writeCoord(points, pointI, os);
-    forAll(valuesPtrList, i)
+    FOR_ALL(valuesPtrList, i)
     {
       writeSeparator(os);
       const List<Type>& values = *valuesPtrList[i];
@@ -96,14 +108,20 @@ void mousse::writer<Type>::writeTable
     os << nl;
   }
 }
+
+
 // Constructors 
 template<class Type>
 mousse::writer<Type>::writer()
 {}
+
+
 // Destructor 
 template<class Type>
 mousse::writer<Type>::~writer()
 {}
+
+
 // Member Functions 
 template<class Type>
 void mousse::writer<Type>::write
@@ -114,13 +132,16 @@ void mousse::writer<Type>::write
   Ostream& os
 ) const
 {
-  List<const Field<Type>*> valueSetPtrs(valueSets.size());
-  forAll(valueSetPtrs, i)
+  List<const Field<Type>*> valueSetPtrs{valueSets.size()};
+
+  FOR_ALL(valueSetPtrs, i)
   {
     valueSetPtrs[i] = &valueSets[i];
   }
   write(points, valueSetNames, valueSetPtrs, os);
 }
+
+
 template<class Type>
 mousse::Ostream& mousse::writer<Type>::write
 (
@@ -130,6 +151,8 @@ mousse::Ostream& mousse::writer<Type>::write
 {
   return os << value;
 }
+
+
 template<class Type>
 template<class VSType>
 mousse::Ostream& mousse::writer<Type>::writeVS
@@ -148,6 +171,8 @@ mousse::Ostream& mousse::writer<Type>::writeVS
   }
   return os;
 }
+
+
 template<class Type>
 void mousse::writer<Type>::writeSeparator
 (
@@ -156,6 +181,8 @@ void mousse::writer<Type>::writeSeparator
 {
   os << token::SPACE << token::TAB;
 }
+
+
 template<class Type>
 mousse::Ostream& mousse::writer<Type>::write
 (
@@ -165,6 +192,8 @@ mousse::Ostream& mousse::writer<Type>::write
 {
   return writeVS(value, os);
 }
+
+
 template<class Type>
 mousse::Ostream& mousse::writer<Type>::write
 (
@@ -174,6 +203,8 @@ mousse::Ostream& mousse::writer<Type>::write
 {
   return writeVS(value, os);
 }
+
+
 template<class Type>
 mousse::Ostream& mousse::writer<Type>::write
 (
@@ -183,6 +214,8 @@ mousse::Ostream& mousse::writer<Type>::write
 {
   return writeVS(value, os);
 }
+
+
 template<class Type>
 mousse::Ostream& mousse::writer<Type>::write
 (

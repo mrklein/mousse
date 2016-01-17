@@ -35,7 +35,7 @@ public:
   {
     if (k_ < 0 || k_ > 1)
     {
-      FatalIOErrorIn("filteredLinear3VLimiter(Istream& is)", is)
+      FATAL_IO_ERROR_IN("filteredLinear3VLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
         << exit(FatalIOError);
@@ -43,8 +43,8 @@ public:
   }
   scalar limiter
   (
-    const scalar cdWeight,
-    const scalar faceFlux,
+    const scalar /*cdWeight*/,
+    const scalar /*faceFlux*/,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,
     const typename LimiterFunc::gradPhiType& gradcP,

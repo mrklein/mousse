@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sixDoFSolver, 0);
-  defineRunTimeSelectionTable(sixDoFSolver, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(sixDoFSolver, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(sixDoFSolver, dictionary);
 }
 // Constructors 
 mousse::sixDoFSolver::sixDoFSolver(sixDoFRigidBodyMotion& body)

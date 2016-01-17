@@ -9,10 +9,10 @@
 #include "_blobs_sheet_atomization.hpp"
 #include "_lisa_atomization.hpp"
 
-#define makeSprayParcelAtomizationModels(CloudType)                           \
+#define MAKE_SPRAY_PARCEL_ATOMIZATION_MODELS(CloudType)                       \
                                                                               \
-  makeAtomizationModel(CloudType);                                            \
-  makeAtomizationModelType(NoAtomization, CloudType);                         \
-  makeAtomizationModelType(BlobsSheetAtomization, CloudType);                 \
-  makeAtomizationModelType(LISAAtomization, CloudType);
+  MAKE_ATOMIZATION_MODEL(CloudType);                                          \
+  MAKE_ATOMIZATION_MODEL_TYPE(NoAtomization, CloudType);                      \
+  MAKE_ATOMIZATION_MODEL_TYPE(BlobsSheetAtomization, CloudType);              \
+  MAKE_ATOMIZATION_MODEL_TYPE(LISAAtomization, CloudType);
 #endif

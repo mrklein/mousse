@@ -3,12 +3,15 @@
 // Copyright (C) 2016 mousse project
 
 #include "fv_patch_fields.hpp"
+
 namespace mousse
 {
+
 // Static Data Members
-makeFvPatchField(fvPatchScalarField)
-makeFvPatchField(fvPatchVectorField)
-makeFvPatchField(fvPatchSphericalTensorField)
-makeFvPatchField(fvPatchSymmTensorField)
-makeFvPatchField(fvPatchTensorField)
+MAKE_FV_PATCH_FIELD(fvPatchScalarField)
+MAKE_FV_PATCH_FIELD(fvPatchVectorField)
+MAKE_FV_PATCH_FIELD(fvPatchSphericalTensorField)
+MAKE_FV_PATCH_FIELD(fvPatchSymmTensorField)
+MAKE_FV_PATCH_FIELD(fvPatchTensorField)
+
 }  // namespace mousse

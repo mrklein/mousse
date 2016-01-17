@@ -40,18 +40,18 @@ protected:
     bool readOptions(const dictionary& dict);
     //- Check that all sources have been applied
     void checkApplied() const;
-    //- Disallow default bitwise copy construct
-    optionList(const optionList&);
-    //- Disallow default bitwise assignment
-    void operator=(const optionList&);
 public:
   //- Runtime type information
-  TypeName("optionList");
+  TYPE_NAME("optionList");
   // Constructors
     //- Construct null
     optionList(const fvMesh& mesh);
     //- Construct from mesh and dictionary
     optionList(const fvMesh& mesh, const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    optionList(const optionList&) = delete;
+    //- Disallow default bitwise assignment
+    optionList& operator=(const optionList&) = delete;
   //- Destructor
   virtual ~optionList()
   {}

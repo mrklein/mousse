@@ -5,7 +5,6 @@
 //   mousse::correlationFunction
 // Description
 // SourceFiles
-//   correlation_function_i.hpp
 //   correlation_function.cpp
 //   correlation_function_io.cpp
 #ifndef correlation_function_hpp_
@@ -36,10 +35,6 @@ class correlationFunction
     label sampleSteps_;
   // Private Member Functions
     void setTimesAndSizes(const label);
-    //- Disallow default bitwise copy construct
-    correlationFunction(const correlationFunction<Type>&);
-    //- Disallow default bitwise assignment
-    void operator=(const correlationFunction<Type>&);
 public:
   //- Component type
   typedef typename pTraits<Type>::cmptType cmptType;
@@ -62,6 +57,13 @@ public:
       const scalar sampleInterval,
       const scalar averagingInterval
     );
+    //- Disallow default bitwise copy construct
+    correlationFunction(const correlationFunction<Type>&) = delete;
+    //- Disallow default bitwise assignment
+    correlationFunction<Type>& operator=
+    (
+      const correlationFunction<Type>&
+    ) = delete;
   //- Destructor
   ~correlationFunction();
   // Member Functions
@@ -84,8 +86,40 @@ public:
     );
 };
 }  // namespace mousse
-#include "correlation_function_i.hpp"
+
+template<class Type>
+inline const mousse::Field< mousse::Field<Type> >&
+mousse::correlationFunction<Type>::tZeroBuffers() const
+{
+  return tZeroBuffers_;
+}
+template<class Type>
+inline mousse::scalar mousse::correlationFunction<Type>::duration() const
+{
+  return duration_;
+}
+template<class Type>
+inline mousse::scalar mousse::correlationFunction<Type>::sampleInterval() const
+{
+  return sampleInterval_;
+}
+template<class Type>
+inline mousse::scalar mousse::correlationFunction<Type>::averagingInterval() const
+{
+  return averagingInterval_;
+}
+template<class Type>
+inline mousse::label mousse::correlationFunction<Type>::sampleSteps() const
+{
+  return sampleSteps_;
+}
+template<class Type>
+inline mousse::label mousse::correlationFunction<Type>::measurandFieldSize() const
+{
+  return tZeroBuffers_[0].size();
+}
+
 #ifdef NoRepository
-#   include "correlation_function.cpp"
+#include "correlation_function.cpp"
 #endif
 #endif

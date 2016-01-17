@@ -22,8 +22,8 @@
 using namespace mousse;
 int main(int argc, char *argv[])
 {
-  #include "add_overwrite_option.hpp"
-  #include "add_region_option.hpp"
+  #include "add_overwrite_option.inc"
+  #include "add_region_option.inc"
   argList::validArgs.append("cellSet");
   argList::addBoolOption
   (
@@ -31,22 +31,22 @@ int main(int argc, char *argv[])
     "remove cells from input cellSet to keep to 2:1 ratio"
     " (default is to extend set)"
   );
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   runTime.functionObjects().off();
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   const word oldInstance = mesh.pointsInstance();
   word cellSetName(args.args()[1]);
   const bool overwrite = args.optionFound("overwrite");
   const bool minSet = args.optionFound("minSet");
   Info<< "Reading cells to refine from cellSet " << cellSetName
     << nl << endl;
-  cellSet cellsToRefine(mesh, cellSetName);
+  cellSet cellsToRefine{mesh, cellSetName};
   Info<< "Read " << returnReduce(cellsToRefine.size(), sumOp<label>())
     << " cells to refine from cellSet " << cellSetName << nl
     << endl;
   // Read objects in time directory
-  IOobjectList objects(mesh, runTime.timeName());
+  IOobjectList objects{mesh, runTime.timeName()};
   // Read vol fields.
   PtrList<volScalarField> vsFlds;
   ReadFields(mesh, objects, vsFlds);
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
   PtrList<pointVectorField> pvFlds;
   ReadFields(pointMesh::New(mesh), objects, pvFlds);
   // Construct refiner without unrefinement. Read existing point/cell level.
-  hexRef8 meshCutter(mesh);
+  hexRef8 meshCutter{mesh};
   // Some stats
   Info<< "Read mesh:" << nl
     << "    cells:" << mesh.globalData().nTotalCells() << nl
@@ -90,15 +90,15 @@ int main(int argc, char *argv[])
     << endl;
   // Maintain 2:1 ratio
   labelList newCellsToRefine
-  (
+  {
     meshCutter.consistentRefinement
     (
       cellsToRefine.toc(),
       !minSet                 // extend set
     )
-  );
+  };
   // Mesh changing engine.
-  polyTopoChange meshMod(mesh);
+  polyTopoChange meshMod{mesh};
   // Play refinement commands into mesh changer.
   meshCutter.setRefinement(newCellsToRefine, meshMod);
   if (!overwrite)

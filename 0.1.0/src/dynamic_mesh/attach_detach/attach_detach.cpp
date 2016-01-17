@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(attachDetach, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(attachDetach, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     polyMeshModifier,
     attachDetach,
@@ -30,7 +30,7 @@ void mousse::attachDetach::checkDefinition()
   || !slavePatchID_.active()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::attachDetach::checkDefinition()"
     )   << "Not all zones and patches needed in the definition "
@@ -61,7 +61,7 @@ void mousse::attachDetach::checkDefinition()
     // Check if there are faces in the master zone
     if (mesh.faceZones()[faceZoneID_.index()].empty())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::attachDetach::checkDefinition()"
       )   << "Attach/detach zone contains no faces.  Please check your "
@@ -73,7 +73,7 @@ void mousse::attachDetach::checkDefinition()
     {
       const labelList& addr = mesh.faceZones()[faceZoneID_.index()];
       DynamicList<label> bouFacesInZone(addr.size());
-      forAll(addr, faceI)
+      FOR_ALL(addr, faceI)
       {
         if (!mesh.isInternalFace(addr[faceI]))
         {
@@ -82,7 +82,7 @@ void mousse::attachDetach::checkDefinition()
       }
       if (bouFacesInZone.size())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::attachDetach::checkDefinition()"
         )   << "Found boundary faces in the zone defining "
@@ -116,7 +116,7 @@ void mousse::attachDetach::checkDefinition()
       )
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::attachDetach::checkDefinition()"
       )   << "Problem with sizes in mesh modifier. The face zone,"
@@ -135,7 +135,7 @@ void mousse::attachDetach::checkDefinition()
     {
       const labelList& addr = mesh.faceZones()[faceZoneID_.index()];
       DynamicList<label> zoneProblemFaces(addr.size());
-      forAll(addr, faceI)
+      FOR_ALL(addr, faceI)
       {
         label facePatch =
           mesh.boundaryMesh().whichPatch(addr[faceI]);
@@ -150,7 +150,7 @@ void mousse::attachDetach::checkDefinition()
       }
       if (zoneProblemFaces.size())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::attachDetach::checkDefinition()"
         )   << "Found faces in the zone defining "
@@ -174,7 +174,7 @@ void mousse::attachDetach::checkDefinition()
   || (triggerTimes_.empty() && !manualTrigger())
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::attachDetach::checkDefinition()"
     )   << "Problem with definition of trigger times: "
@@ -307,7 +307,8 @@ bool mousse::attachDetach::changeTopology() const
   {
     if (debug)
     {
-      Pout<< "bool attachDetach::changeTopology() const "
+      Pout
+        << "bool attachDetach::changeTopology() const "
         << " for object " << name() << " : "
         << "Reached end of trigger list" << endl;
     }
@@ -355,12 +356,13 @@ void mousse::attachDetach::setRefinement(polyTopoChange& ref) const
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void attachDetach::setRefinement(polyTopoChange&) const"
-      )   << "Requested attach/detach event and currect state "
-        << "is not known."
-        << abort(FatalError);
+      )
+      << "Requested attach/detach event and currect state "
+      << "is not known."
+      << abort(FatalError);
     }
     trigger_ = false;
   }
@@ -376,7 +378,8 @@ void mousse::attachDetach::updateMesh(const mapPolyMesh&)
 }
 void mousse::attachDetach::write(Ostream& os) const
 {
-  os  << nl << type() << nl
+  os
+    << nl << type() << nl
     << name()<< nl
     << faceZoneID_.name() << nl
     << masterPatchID_.name() << nl

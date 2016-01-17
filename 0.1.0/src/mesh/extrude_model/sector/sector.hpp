@@ -33,7 +33,7 @@ class sector
     const scalar angle_;
 public:
   //- Runtime type information
-  TypeName("sector");
+  TYPE_NAME("sector");
   // Constructors
     //- Construct from dictionary
     sector(const dictionary& dict);

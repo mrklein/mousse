@@ -11,8 +11,8 @@ namespace mousse
 {
 namespace solidBodyMotionFunctions
 {
-  defineTypeNameAndDebug(oscillatingRotatingMotion, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(oscillatingRotatingMotion, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     solidBodyMotionFunction,
     oscillatingRotatingMotion,

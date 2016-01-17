@@ -41,7 +41,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("cartesian");
+  TYPE_NAME("cartesian");
   // Constructors
     //- Construct null
     cartesianCS();

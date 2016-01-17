@@ -12,14 +12,14 @@ void mousse::correctUphiBCs
   const fvMesh& mesh = U.mesh();
   if (mesh.changing())
   {
-    forAll(U.boundaryField(), patchi)
+    FOR_ALL(U.boundaryField(), patchi)
     {
       if (U.boundaryField()[patchi].fixesValue())
       {
         U.boundaryField()[patchi].initEvaluate();
       }
     }
-    forAll(U.boundaryField(), patchi)
+    FOR_ALL(U.boundaryField(), patchi)
     {
       if (U.boundaryField()[patchi].fixesValue())
       {
@@ -41,14 +41,14 @@ void mousse::correctUphiBCs
   const fvMesh& mesh = U.mesh();
   if (mesh.changing())
   {
-    forAll(U.boundaryField(), patchi)
+    FOR_ALL(U.boundaryField(), patchi)
     {
       if (U.boundaryField()[patchi].fixesValue())
       {
         U.boundaryField()[patchi].initEvaluate();
       }
     }
-    forAll(U.boundaryField(), patchi)
+    FOR_ALL(U.boundaryField(), patchi)
     {
       if (U.boundaryField()[patchi].fixesValue())
       {

@@ -5,23 +5,26 @@
 #include "face_zone_to_cell.hpp"
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(faceZoneToCell, 0);
-  addToRunTimeSelectionTable(topoSetSource, faceZoneToCell, word);
-  addToRunTimeSelectionTable(topoSetSource, faceZoneToCell, istream);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::faceZoneToCell::faceAction,
-    2
-  >::names[] =
-  {
-    "master",
-    "slave"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(faceZoneToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceZoneToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceZoneToCell, istream);
+
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::faceZoneToCell::faceAction,
+  2
+>::names[] =
+{
+  "master",
+  "slave"
+};
 }
+
 mousse::topoSetSource::addToUsageTable mousse::faceZoneToCell::usage_
 (
   faceZoneToCell::typeName,
@@ -35,7 +38,7 @@ const mousse::NamedEnum<mousse::faceZoneToCell::faceAction, 2>
 void mousse::faceZoneToCell::combine(topoSet& set, const bool add) const
 {
   bool hasMatched = false;
-  forAll(mesh_.faceZones(), i)
+  FOR_ALL(mesh_.faceZones(), i)
   {
     const faceZone& zone = mesh_.faceZones()[i];
     if (zoneName_.match(zone.name()))
@@ -50,7 +53,7 @@ void mousse::faceZoneToCell::combine(topoSet& set, const bool add) const
         << " with " << cellLabels.size() << " cells on selected side."
         << endl;
       hasMatched = true;
-      forAll(cellLabels, i)
+      FOR_ALL(cellLabels, i)
       {
         // Only do active cells
         if (cellLabels[i] < mesh_.nCells())
@@ -62,7 +65,7 @@ void mousse::faceZoneToCell::combine(topoSet& set, const bool add) const
   }
   if (!hasMatched)
   {
-    WarningIn("faceZoneToCell::combine(topoSet&, const bool)")
+    WARNING_IN("faceZoneToCell::combine(topoSet&, const bool)")
       << "Cannot find any faceZone named " << zoneName_ << endl
       << "Valid names are " << mesh_.faceZones().names() << endl;
   }

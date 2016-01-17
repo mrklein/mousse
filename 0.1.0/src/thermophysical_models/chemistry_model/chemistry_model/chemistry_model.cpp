@@ -31,7 +31,7 @@ mousse::chemistryModel<CompType, ThermoType>::chemistryModel
   RR_(nSpecie_)
 {
   // create the fields for the chemistry sources
-  forAll(RR_, fieldI)
+  FOR_ALL(RR_, fieldI)
   {
     RR_.set
     (
@@ -72,20 +72,20 @@ mousse::chemistryModel<CompType, ThermoType>::omega
   label lRef, rRef;
   tmp<scalarField> tom(new scalarField(nEqns(), 0.0));
   scalarField& om = tom();
-  forAll(reactions_, i)
+  FOR_ALL(reactions_, i)
   {
     const Reaction<ThermoType>& R = reactions_[i];
     scalar omegai = omega
     (
       R, c, T, p, pf, cf, lRef, pr, cr, rRef
     );
-    forAll(R.lhs(), s)
+    FOR_ALL(R.lhs(), s)
     {
       const label si = R.lhs()[s].index;
       const scalar sl = R.lhs()[s].stoichCoeff;
       om[si] -= sl*omegai;
     }
-    forAll(R.rhs(), s)
+    FOR_ALL(R.rhs(), s)
     {
       const label si = R.rhs()[s].index;
       const scalar sr = R.rhs()[s].stoichCoeff;
@@ -221,7 +221,7 @@ mousse::scalar mousse::chemistryModel<CompType, ThermoType>::omega
 template<class CompType, class ThermoType>
 void mousse::chemistryModel<CompType, ThermoType>::derivatives
 (
-  const scalar time,
+  const scalar /*time*/,
   const scalarField &c,
   scalarField& dcdt
 ) const
@@ -259,7 +259,7 @@ void mousse::chemistryModel<CompType, ThermoType>::derivatives
 template<class CompType, class ThermoType>
 void mousse::chemistryModel<CompType, ThermoType>::jacobian
 (
-  const scalar t,
+  const scalar /*t*/,
   const scalarField& c,
   scalarField& dcdt,
   scalarSquareMatrix& dfdc
@@ -268,7 +268,7 @@ void mousse::chemistryModel<CompType, ThermoType>::jacobian
   const scalar T = c[nSpecie_];
   const scalar p = c[nSpecie_ + 1];
   scalarField c2(nSpecie_, 0.0);
-  forAll(c2, i)
+  FOR_ALL(c2, i)
   {
     c2[i] = max(c[i], 0.0);
   }
@@ -281,16 +281,16 @@ void mousse::chemistryModel<CompType, ThermoType>::jacobian
   }
   // Length of the first argument must be nSpecie()
   dcdt = omega(c2, T, p);
-  forAll(reactions_, ri)
+  FOR_ALL(reactions_, ri)
   {
     const Reaction<ThermoType>& R = reactions_[ri];
     const scalar kf0 = R.kf(p, T, c2);
     const scalar kr0 = R.kr(kf0, p, T, c2);
-    forAll(R.lhs(), j)
+    FOR_ALL(R.lhs(), j)
     {
       const label sj = R.lhs()[j].index;
       scalar kf = kf0;
-      forAll(R.lhs(), i)
+      FOR_ALL(R.lhs(), i)
       {
         const label si = R.lhs()[i].index;
         const scalar el = R.lhs()[i].exponent;
@@ -317,24 +317,24 @@ void mousse::chemistryModel<CompType, ThermoType>::jacobian
           kf *= pow(c2[si], el);
         }
       }
-      forAll(R.lhs(), i)
+      FOR_ALL(R.lhs(), i)
       {
         const label si = R.lhs()[i].index;
         const scalar sl = R.lhs()[i].stoichCoeff;
         dfdc[si][sj] -= sl*kf;
       }
-      forAll(R.rhs(), i)
+      FOR_ALL(R.rhs(), i)
       {
         const label si = R.rhs()[i].index;
         const scalar sr = R.rhs()[i].stoichCoeff;
         dfdc[si][sj] += sr*kf;
       }
     }
-    forAll(R.rhs(), j)
+    FOR_ALL(R.rhs(), j)
     {
       const label sj = R.rhs()[j].index;
       scalar kr = kr0;
-      forAll(R.rhs(), i)
+      FOR_ALL(R.rhs(), i)
       {
         const label si = R.rhs()[i].index;
         const scalar er = R.rhs()[i].exponent;
@@ -361,13 +361,13 @@ void mousse::chemistryModel<CompType, ThermoType>::jacobian
           kr *= pow(c2[si], er);
         }
       }
-      forAll(R.lhs(), i)
+      FOR_ALL(R.lhs(), i)
       {
         const label si = R.lhs()[i].index;
         const scalar sl = R.lhs()[i].stoichCoeff;
         dfdc[si][sj] += sl*kr;
       }
-      forAll(R.rhs(), i)
+      FOR_ALL(R.rhs(), i)
       {
         const label si = R.rhs()[i].index;
         const scalar sr = R.rhs()[i].stoichCoeff;
@@ -427,7 +427,7 @@ mousse::chemistryModel<CompType, ThermoType>::tc() const
   const label nReaction = reactions_.size();
   if (this->chemistry_)
   {
-    forAll(rho, celli)
+    FOR_ALL(rho, celli)
     {
       scalar rhoi = rho[celli];
       scalar Ti = T[celli];
@@ -440,11 +440,11 @@ mousse::chemistryModel<CompType, ThermoType>::tc() const
         c[i] = rhoi*Yi/specieThermo_[i].W();
         cSum += c[i];
       }
-      forAll(reactions_, i)
+      FOR_ALL(reactions_, i)
       {
         const Reaction<ThermoType>& R = reactions_[i];
         omega(R, c, Ti, pi, pf, cf, lRef, pr, cr, rRef);
-        forAll(R.rhs(), s)
+        FOR_ALL(R.rhs(), s)
         {
           scalar sr = R.rhs()[s].stoichCoeff;
           tc[celli] += sr*pf*cf;
@@ -481,9 +481,9 @@ mousse::chemistryModel<CompType, ThermoType>::Sh() const
   if (this->chemistry_)
   {
     scalarField& Sh = tSh();
-    forAll(Y_, i)
+    FOR_ALL(Y_, i)
     {
-      forAll(Sh, cellI)
+      FOR_ALL(Sh, cellI)
       {
         const scalar hi = specieThermo_[i].Hc();
         Sh[cellI] -= hi*RR_[i][cellI];
@@ -569,7 +569,7 @@ mousse::chemistryModel<CompType, ThermoType>::calculateRR
   DimensionedField<scalar, volMesh>& RR = tRR();
   const scalarField& T = this->thermo().T();
   const scalarField& p = this->thermo().p();
-  forAll(rho, celli)
+  FOR_ALL(rho, celli)
   {
     const scalar rhoi = rho[celli];
     const scalar Ti = T[celli];
@@ -619,7 +619,7 @@ void mousse::chemistryModel<CompType, ThermoType>::calculate()
   );
   const scalarField& T = this->thermo().T();
   const scalarField& p = this->thermo().p();
-  forAll(rho, celli)
+  FOR_ALL(rho, celli)
   {
     const scalar rhoi = rho[celli];
     const scalar Ti = T[celli];
@@ -667,7 +667,7 @@ mousse::scalar mousse::chemistryModel<CompType, ThermoType>::solve
   const scalarField& p = this->thermo().p();
   scalarField c(nSpecie_);
   scalarField c0(nSpecie_);
-  forAll(rho, celli)
+  FOR_ALL(rho, celli)
   {
     scalar Ti = T[celli];
     if (Ti > Treact_)
@@ -729,14 +729,14 @@ mousse::scalar mousse::chemistryModel<CompType, ThermoType>::solve
 template<class CompType, class ThermoType>
 void mousse::chemistryModel<CompType, ThermoType>::solve
 (
-  scalarField &c,
-  scalar& T,
-  scalar& p,
-  scalar& deltaT,
-  scalar& subDeltaT
+  scalarField &/*c*/,
+  scalar& /*T*/,
+  scalar& /*p*/,
+  scalar& /*deltaT*/,
+  scalar& /*subDeltaT*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "chemistryModel::solve"
     "("

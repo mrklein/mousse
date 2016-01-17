@@ -82,7 +82,7 @@ class PairCollision
     ) const;
 public:
   //- Runtime type information
-  TypeName("pairCollision");
+  TYPE_NAME("pairCollision");
   // Constructors
     //- Construct from components
     PairCollision(const dictionary& dict, CloudType& owner);

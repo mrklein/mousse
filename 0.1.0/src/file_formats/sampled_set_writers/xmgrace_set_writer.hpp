@@ -6,11 +6,15 @@
 // Description
 // SourceFiles
 //   xmgrace_set_writer.cpp
+
 #ifndef xmgrace_set_writer_hpp_
 #define xmgrace_set_writer_hpp_
+
 #include "writer.hpp"
+
 namespace mousse
 {
+
 template<class Type>
 class xmgraceSetWriter
 :
@@ -18,18 +22,23 @@ class xmgraceSetWriter
 {
 public:
   //- Runtime type information
-  TypeName("xmgr");
+  TYPE_NAME("xmgr");
+
   // Constructors
+
     //- Construct null
     xmgraceSetWriter();
+
   //- Destructor
   virtual ~xmgraceSetWriter();
+
   // Member Functions
     virtual fileName getFileName
     (
       const coordSet&,
       const wordList&
     ) const;
+
     virtual void write
     (
       const coordSet&,
@@ -37,16 +46,19 @@ public:
       const List<const Field<Type>*>&,
       Ostream&
     ) const;
+
     virtual void write
     (
       const bool writeTracks,
       const PtrList<coordSet>&,
       const wordList& valueSetNames,
-      const List<List<Field<Type> > >&,
+      const List<List<Field<Type>>>&,
       Ostream&
     ) const;
 };
+
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "xmgrace_set_writer.cpp"
 #endif

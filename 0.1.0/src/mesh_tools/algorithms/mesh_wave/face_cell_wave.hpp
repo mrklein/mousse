@@ -17,17 +17,21 @@
 //   too small can lead to non-convergence.
 // SourceFiles
 //   face_cell_wave.cpp
+
 #ifndef face_cell_wave_hpp_
 #define face_cell_wave_hpp_
+
 #include "bool_list.hpp"
 #include "label_list.hpp"
 #include "primitive_fields_fwd.hpp"
+#include "class_name.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
 class polyMesh;
 class polyPatch;
-TemplateName(FaceCellWave);
+TEMPLATE_NAME(FaceCellWave);
 template<class Type, class TrackingData = int>
 class FaceCellWave
 :
@@ -62,10 +66,6 @@ class FaceCellWave
     label nUnvisitedCells_;
     label nUnvisitedFaces_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    FaceCellWave(const FaceCellWave&);
-    //- Disallow default bitwise assignment
-    void operator=(const FaceCellWave&);
     //- Updates cellInfo with information from neighbour. Updates all
     //  statistics.
     bool updateCell
@@ -196,6 +196,10 @@ public:
       const label maxIter,
       TrackingData& td = dummyTrackData_
     );
+    //- Disallow default bitwise copy construct
+    FaceCellWave(const FaceCellWave&) = delete;
+    //- Disallow default bitwise assignment
+    FaceCellWave& operator=(const FaceCellWave&) = delete;
   // Member Functions
     // Access
       //- Access allFaceInfo

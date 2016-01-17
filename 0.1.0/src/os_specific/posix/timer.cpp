@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(timer, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(timer, 0);
 jmp_buf timer::envAlarm;
 struct sigaction timer::oldAction_;
 unsigned int timer::oldTimeOut_ = 0;
@@ -24,7 +24,7 @@ void mousse::timer::signalHandler(int)
   }
   longjmp(envAlarm, 1);
 }
-// Constructors 
+// Constructors
 mousse::timer::timer(const unsigned int newTimeOut)
 :
   newTimeOut_(newTimeOut)
@@ -34,7 +34,7 @@ mousse::timer::timer(const unsigned int newTimeOut)
     // Is singleton since handler is static function
     if (oldTimeOut_ != 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::timer::timer(const unsigned int)"
       )   << "timer already used."
@@ -49,7 +49,7 @@ mousse::timer::timer(const unsigned int newTimeOut)
     sigemptyset(&newAction.sa_mask);
     if (sigaction(SIGALRM, &newAction, &oldAction_) < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::timer::timer(const unsigned int)"
       )   << "sigaction(SIGALRM) error"
@@ -66,7 +66,7 @@ mousse::timer::timer(const unsigned int newTimeOut)
     }
   }
 }
-// Destructor 
+// Destructor
 mousse::timer::~timer()
 {
   if (newTimeOut_ > 0)
@@ -83,7 +83,7 @@ mousse::timer::~timer()
     // Restore signal handler
     if (sigaction(SIGALRM, &oldAction_, NULL) < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::timer::~timer(const struct sigaction&"
         "const struct sigaction&)"

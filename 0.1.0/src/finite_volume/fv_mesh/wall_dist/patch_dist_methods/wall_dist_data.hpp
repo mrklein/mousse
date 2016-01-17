@@ -34,11 +34,6 @@ private:
     bool correctWalls_;
     //- Number of unset cells and faces.
     label nUnset_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    wallDistData(const wallDistData&);
-    //- Disallow default bitwise assignment
-    void operator=(const wallDistData&);
 public:
   // Constructors
     //- Construct from mesh and flag whether or not to correct wall.
@@ -50,6 +45,10 @@ public:
       GeometricField<Type, fvPatchField, volMesh>&,
       bool correctWalls = true
     );
+    //- Disallow default bitwise copy construct
+    wallDistData(const wallDistData&) = delete;
+    //- Disallow default bitwise assignment
+    wallDistData& operator=(const wallDistData&) = delete;
   //- Destructor
   virtual ~wallDistData();
   // Member Functions

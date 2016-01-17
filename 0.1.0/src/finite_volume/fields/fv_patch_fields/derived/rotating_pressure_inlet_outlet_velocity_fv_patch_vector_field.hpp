@@ -57,7 +57,7 @@ class rotatingPressureInletOutletVelocityFvPatchVectorField
     void calcTangentialVelocity();
 public:
   //- Runtime type information
-  TypeName("rotatingPressureInletOutletVelocity");
+  TYPE_NAME("rotatingPressureInletOutletVelocity");
   // Constructors
     //- Construct from patch and internal field
     rotatingPressureInletOutletVelocityFvPatchVectorField

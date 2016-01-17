@@ -46,7 +46,7 @@ class outletMappedUniformInletFvPatchField
     word phiName_;
 public:
   //- Runtime type information
-  TypeName("outletMappedUniformInlet");
+  TYPE_NAME("outletMappedUniformInlet");
   // Constructors
     //- Construct from patch and internal field
     outletMappedUniformInletFvPatchField

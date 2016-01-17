@@ -31,14 +31,10 @@ class rotatingMotion
     const vector axis_;
     //- Angular velocty (rad/sec)
     autoPtr<DataEntry<scalar> > omega_;
-  // Private Member Functions
-    //- Disallow copy construct
-    rotatingMotion(const rotatingMotion&);
-    //- Disallow default bitwise assignment
-    void operator=(const rotatingMotion&);
+
 public:
   //- Runtime type information
-  TypeName("rotatingMotion");
+  TYPE_NAME("rotatingMotion");
   // Constructors
     //- Construct from components
     rotatingMotion
@@ -50,14 +46,18 @@ public:
     virtual autoPtr<solidBodyMotionFunction> clone() const
     {
       return autoPtr<solidBodyMotionFunction>
-      (
+      {
         new rotatingMotion
-        (
+        {
           SBMFCoeffs_,
           time_
-        )
-      );
+        }
+      };
     }
+    //- Disallow copy construct
+    rotatingMotion(const rotatingMotion&) = delete;
+    //- Disallow default bitwise assignment
+    rotatingMotion& operator=(const rotatingMotion&) = delete;
   //- Destructor
   virtual ~rotatingMotion();
   // Member Functions

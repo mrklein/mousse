@@ -19,11 +19,6 @@ class randomise
 :
   public calcType
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    randomise(const randomise&);
-    //- Disallow default bitwise assignment
-    void operator=(const randomise&);
 protected:
   // Member Functions
     // Calculation routines
@@ -57,10 +52,14 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("randomise");
+  TYPE_NAME("randomise");
   // Constructors
     //- Construct null
     randomise();
+    //- Disallow default bitwise copy construct
+    randomise(const randomise&) = delete;
+    //- Disallow default bitwise assignment
+    randomise& operator=(const randomise&) = delete;
   //- Destructor
   virtual ~randomise();
 };

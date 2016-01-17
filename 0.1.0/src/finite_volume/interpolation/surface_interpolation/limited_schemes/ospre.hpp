@@ -10,9 +10,12 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   ospre.cpp
+
 #ifndef ospre_hpp_
 #define ospre_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimiterFunc>
@@ -23,9 +26,10 @@ class OSPRELimiter
 public:
   OSPRELimiter(Istream&)
   {}
+
   scalar limiter
   (
-    const scalar cdWeight,
+    const scalar /*cdWeight*/,
     const scalar faceFlux,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,

@@ -7,10 +7,10 @@
 #include "switch.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(liquidProperties, 0);
-  defineRunTimeSelectionTable(liquidProperties,);
-  defineRunTimeSelectionTable(liquidProperties, Istream);
-  defineRunTimeSelectionTable(liquidProperties, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(liquidProperties, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(liquidProperties,);
+  DEFINE_RUN_TIME_SELECTION_TABLE(liquidProperties, Istream);
+  DEFINE_RUN_TIME_SELECTION_TABLE(liquidProperties, dictionary);
 }
 // Constructors 
 mousse::liquidProperties::liquidProperties
@@ -98,7 +98,7 @@ mousse::autoPtr<mousse::liquidProperties> mousse::liquidProperties::New(Istream&
       ConstructorTablePtr_->find(liquidPropertiesType);
     if (cstrIter == ConstructorTablePtr_->end())
     {
-      FatalErrorIn("liquidProperties::New(Istream&)")
+      FATAL_ERROR_IN("liquidProperties::New(Istream&)")
         << "Unknown liquidProperties type "
         << liquidPropertiesType << nl << nl
         << "Valid liquidProperties types are:" << nl
@@ -113,7 +113,7 @@ mousse::autoPtr<mousse::liquidProperties> mousse::liquidProperties::New(Istream&
   }
   else
   {
-    FatalErrorIn("liquidProperties::New(Istream&)")
+    FATAL_ERROR_IN("liquidProperties::New(Istream&)")
       << "liquidProperties type " << liquidPropertiesType
       << ", option " << coeffs << " given"
       << ", should be coeffs or defaultCoeffs"
@@ -139,7 +139,7 @@ mousse::autoPtr<mousse::liquidProperties> mousse::liquidProperties::New
       ConstructorTablePtr_->find(liquidPropertiesTypeName);
     if (cstrIter == ConstructorTablePtr_->end())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "liquidProperties::New(const dictionary&)"
       )   << "Unknown liquidProperties type "
@@ -156,7 +156,7 @@ mousse::autoPtr<mousse::liquidProperties> mousse::liquidProperties::New
       dictionaryConstructorTablePtr_->find(liquidPropertiesTypeName);
     if (cstrIter == dictionaryConstructorTablePtr_->end())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "liquidProperties::New(const dictionary&)"
       )   << "Unknown liquidProperties type "
@@ -172,105 +172,105 @@ mousse::autoPtr<mousse::liquidProperties> mousse::liquidProperties::New
   }
 }
 // Member Functions 
-mousse::scalar mousse::liquidProperties::rho(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::rho(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::rho(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::pv(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::pv(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::pv(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::hl(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::hl(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::hl(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::Cp(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::Cp(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::Cp(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::h(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::h(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::h(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::Cpg(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::Cpg(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::Cpg(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::mu(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::mu(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::mu(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::mug(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::mug(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::mug(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::K(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::K(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::K(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::Kg(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::Kg(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::Kg(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::sigma(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::sigma(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::sigms(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::D(scalar p, scalar T) const
+mousse::scalar mousse::liquidProperties::D(scalar /*p*/, scalar /*T*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::D(scalar, scalar) const"
   );
   return 0.0;
 }
-mousse::scalar mousse::liquidProperties::D(scalar p, scalar T, scalar Wb) const
+mousse::scalar mousse::liquidProperties::D(scalar /*p*/, scalar /*T*/, scalar /*Wb*/) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::scalar mousse::liquidProperties::D(scalar, scalar) const"
   );
@@ -287,7 +287,7 @@ mousse::scalar mousse::liquidProperties::pvInvert(scalar p) const
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::scalar mousse::liquidProperties::pvInvert(scalar) const"
       )   << "Pressure below triple point pressure: "

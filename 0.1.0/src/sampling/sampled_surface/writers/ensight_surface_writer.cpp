@@ -13,7 +13,7 @@
 namespace mousse
 {
   makeSurfaceWriterType(ensightSurfaceWriter);
-  addToRunTimeSelectionTable(surfaceWriter, ensightSurfaceWriter, wordDict);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(surfaceWriter, ensightSurfaceWriter, wordDict);
 }
 // Private Member Functions 
 template<class Type>

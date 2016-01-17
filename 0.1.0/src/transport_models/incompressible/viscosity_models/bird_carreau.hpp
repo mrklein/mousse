@@ -35,7 +35,7 @@ class BirdCarreau
     tmp<volScalarField> calcNu() const;
 public:
   //- Runtime type information
-  TypeName("BirdCarreau");
+  TYPE_NAME("BirdCarreau");
   // Constructors
     //- Construct from components
     BirdCarreau

@@ -35,15 +35,9 @@ protected:
     const surfaceScalarField& phi_;
     //- Near wall distance boundary field
     nearWallDist y_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    turbulenceModel(const turbulenceModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const turbulenceModel&);
 public:
   //- Runtime type information
-  TypeName("turbulenceModel");
+  TYPE_NAME("turbulenceModel");
   //- Default name of the turbulence properties dictionary
   static const word propertiesName;
   // Constructors
@@ -55,6 +49,10 @@ public:
       const surfaceScalarField& phi,
       const word& propertiesName
     );
+    //- Disallow default bitwise copy construct
+    turbulenceModel(const turbulenceModel&) = delete;
+    //- Disallow default bitwise assignment
+    turbulenceModel& operator=(const turbulenceModel&) = delete;
   //- Destructor
   virtual ~turbulenceModel()
   {}

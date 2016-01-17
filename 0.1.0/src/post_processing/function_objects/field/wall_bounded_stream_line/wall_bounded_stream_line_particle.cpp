@@ -15,7 +15,7 @@ mousse::vector mousse::wallBoundedStreamLineParticle::interpolateFields
 {
   if (cellI == -1)
   {
-    FatalErrorIn("wallBoundedStreamLineParticle::interpolateFields(..)")
+    FATAL_ERROR_IN("wallBoundedStreamLineParticle::interpolateFields(..)")
       << "Cell:" << cellI << abort(FatalError);
   }
   const tetIndices ti = currentTetIndices();
@@ -36,7 +36,7 @@ mousse::vector mousse::wallBoundedStreamLineParticle::interpolateFields
     sampledPositions_.append(position);
     // Store the scalar fields
     sampledScalars_.setSize(td.vsInterp_.size());
-    forAll(td.vsInterp_, scalarI)
+    FOR_ALL(td.vsInterp_, scalarI)
     {
       sampledScalars_[scalarI].append
       (
@@ -50,7 +50,7 @@ mousse::vector mousse::wallBoundedStreamLineParticle::interpolateFields
     }
     // Store the vector fields
     sampledVectors_.setSize(td.vvInterp_.size());
-    forAll(td.vvInterp_, vectorI)
+    FOR_ALL(td.vvInterp_, vectorI)
     {
       vector positionU;
       if (vectorI == td.UIndex_)
@@ -131,12 +131,12 @@ mousse::wallBoundedStreamLineParticle::wallBoundedStreamLineParticle
     is  >> lifeTime_
       >> sampledPositions_ >> sampledScalars >> sampledVectors;
     sampledScalars_.setSize(sampledScalars.size());
-    forAll(sampledScalars, i)
+    FOR_ALL(sampledScalars, i)
     {
       sampledScalars_[i].transfer(sampledScalars[i]);
     }
     sampledVectors_.setSize(sampledVectors.size());
-    forAll(sampledVectors, i)
+    FOR_ALL(sampledVectors, i)
     {
       sampledVectors_[i].transfer(sampledVectors[i]);
     }
@@ -251,14 +251,14 @@ bool mousse::wallBoundedStreamLineParticle::move
       vectorList& top = td.allPositions_.last();
       top.transfer(sampledPositions_);
     }
-    forAll(sampledScalars_, i)
+    FOR_ALL(sampledScalars_, i)
     {
       //td.allScalars_[i].append(sampledScalars_[i]);
       td.allScalars_[i].append(scalarList());
       scalarList& top = td.allScalars_[i].last();
       top.transfer(sampledScalars_[i]);
     }
-    forAll(sampledVectors_, i)
+    FOR_ALL(sampledVectors_, i)
     {
       //td.allVectors_[i].append(sampledVectors_[i]);
       td.allVectors_[i].append(vectorList());
@@ -289,7 +289,7 @@ void mousse::wallBoundedStreamLineParticle::readFields
   );
   c.checkFieldIOobject(c, sampledPositions);
   label i = 0;
-  forAllIter(Cloud<wallBoundedStreamLineParticle>, c, iter)
+  FOR_ALL_ITER(Cloud<wallBoundedStreamLineParticle>, c, iter)
   {
     iter().lifeTime_ = lifeTime[i];
     iter().sampledPositions_.transfer(sampledPositions[i]);
@@ -314,7 +314,7 @@ void mousse::wallBoundedStreamLineParticle::writeFields
     np
   );
   label i = 0;
-  forAllConstIter(Cloud<wallBoundedStreamLineParticle>, c, iter)
+  FOR_ALL_CONST_ITER(Cloud<wallBoundedStreamLineParticle>, c, iter)
   {
     lifeTime[i] = iter().lifeTime_;
     sampledPositions[i] = iter().sampledPositions_;

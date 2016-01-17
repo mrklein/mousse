@@ -28,7 +28,7 @@ protected:
     scalarField dmdt_;
 public:
   //- Runtime type information
-  TypeName("compressible::alphatPhaseChangeWallFunction");
+  TYPE_NAME("compressible::alphatPhaseChangeWallFunction");
   // Constructors
     //- Construct from patch and internal field
     alphatPhaseChangeWallFunctionFvPatchScalarField

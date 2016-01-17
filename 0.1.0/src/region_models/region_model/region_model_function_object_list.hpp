@@ -6,7 +6,6 @@
 // Description
 //   List of cloud function objects
 // SourceFiles
-//   region_model_function_object_list_i.hpp
 //   region_model_function_object_list.cpp
 #ifndef region_model_function_object_list_hpp_
 #define region_model_function_object_list_hpp_
@@ -61,5 +60,20 @@ public:
 };
 }  // namespace regionModels
 }  // namespace mousse
-#include "region_model_function_object_list_i.hpp"
+
+inline const mousse::regionModels::regionModel&
+mousse::regionModels::regionModelFunctionObjectList::owner() const
+{
+  return owner_;
+}
+inline mousse::regionModels::regionModel&
+mousse::regionModels::regionModelFunctionObjectList::owner()
+{
+  return owner_;
+}
+inline const mousse::dictionary&
+mousse::regionModels::regionModelFunctionObjectList::dict() const
+{
+  return dict_;
+}
 #endif

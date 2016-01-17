@@ -11,7 +11,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(probes, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(probes, 0);
 }
 // Private Member Functions 
 void mousse::probes::findElements(const fvMesh& mesh)
@@ -24,7 +24,7 @@ void mousse::probes::findElements(const fvMesh& mesh)
   elementList_.setSize(size());
   faceList_.clear();
   faceList_.setSize(size());
-  forAll(*this, probeI)
+  FOR_ALL(*this, probeI)
   {
     const vector& location = operator[](probeI);
     const label cellI = mesh.findCell(location);
@@ -35,7 +35,7 @@ void mousse::probes::findElements(const fvMesh& mesh)
       const vector& cellCentre = mesh.cellCentres()[cellI];
       scalar minDistance = GREAT;
       label minFaceID = -1;
-      forAll (cellFaces, i)
+      FOR_ALL(cellFaces, i)
       {
         label faceI = cellFaces[i];
         vector dist = mesh.faceCentres()[faceI] - cellCentre;
@@ -59,7 +59,7 @@ void mousse::probes::findElements(const fvMesh& mesh)
     }
   }
   // Check if all probes have been found.
-  forAll(elementList_, probeI)
+  FOR_ALL(elementList_, probeI)
   {
     const vector& location = operator[](probeI);
     label cellI = elementList_[probeI];
@@ -71,7 +71,7 @@ void mousse::probes::findElements(const fvMesh& mesh)
     {
       if (Pstream::master())
       {
-        WarningIn("findElements::findElements(const fvMesh&)")
+        WARNING_IN("findElements::findElements(const fvMesh&)")
           << "Did not find location " << location
           << " in any cell. Skipping location." << endl;
       }
@@ -80,7 +80,7 @@ void mousse::probes::findElements(const fvMesh& mesh)
     {
       if (Pstream::master())
       {
-        WarningIn("probes::findElements(const fvMesh&)")
+        WARNING_IN("probes::findElements(const fvMesh&)")
           << "Did not find location " << location
           << " in any face. Skipping location." << endl;
       }
@@ -90,7 +90,7 @@ void mousse::probes::findElements(const fvMesh& mesh)
       // Make sure location not on two domains.
       if (elementList_[probeI] != -1 && elementList_[probeI] != cellI)
       {
-        WarningIn("probes::findElements(const fvMesh&)")
+        WARNING_IN("probes::findElements(const fvMesh&)")
           << "Location " << location
           << " seems to be on multiple domains:"
           << " cell " << elementList_[probeI]
@@ -103,7 +103,7 @@ void mousse::probes::findElements(const fvMesh& mesh)
       }
       if (faceList_[probeI] != -1 && faceList_[probeI] != faceI)
       {
-        WarningIn("probes::findElements(const fvMesh&)")
+        WARNING_IN("probes::findElements(const fvMesh&)")
           << "Location " << location
           << " seems to be on multiple domains:"
           << " cell " << faceList_[probeI]
@@ -158,7 +158,7 @@ mousse::label mousse::probes::prepare()
       probeDir = mesh_.time().path()/probeSubDir;
     }
     // ignore known fields, close streams for fields that no longer exist
-    forAllIter(HashPtrTable<OFstream>, probeFilePtrs_, iter)
+    FOR_ALL_ITER(HashPtrTable<OFstream>, probeFilePtrs_, iter)
     {
       if (!currentFields.erase(iter.key()))
       {
@@ -170,7 +170,7 @@ mousse::label mousse::probes::prepare()
       }
     }
     // currentFields now just has the new fields - open streams for them
-    forAllConstIter(wordHashSet, currentFields, iter)
+    FOR_ALL_CONST_ITER(wordHashSet, currentFields, iter)
     {
       const word& fieldName = iter.key();
       // Create directory if does not exist.
@@ -183,14 +183,14 @@ mousse::label mousse::probes::prepare()
       }
       probeFilePtrs_.insert(fieldName, fPtr);
       unsigned int w = IOstream::defaultPrecision() + 7;
-      forAll(*this, probeI)
+      FOR_ALL(*this, probeI)
       {
         fout<< "# Probe " << probeI << ' ' << operator[](probeI)
           << endl;
       }
       fout<< '#' << setw(IOstream::defaultPrecision() + 6)
         << "Probe";
-      forAll(*this, probeI)
+      FOR_ALL(*this, probeI)
       {
         fout<< ' ' << setw(w) << probeI;
       }
@@ -261,7 +261,7 @@ void mousse::probes::read(const dictionary& dict)
   {
     if (!fixedLocations_ && interpolationScheme_ != "cell")
     {
-      WarningIn("void mousse::probes::read(const dictionary&)")
+      WARNING_IN("void mousse::probes::read(const dictionary&)")
         << "Only cell interpolation can be applied when "
         << "not using fixedLocations.  InterpolationScheme "
         << "entry will be ignored";
@@ -291,7 +291,7 @@ void mousse::probes::updateMesh(const mapPolyMesh& mpm)
     {
       DynamicList<label> elems(elementList_.size());
       const labelList& reverseMap = mpm.reverseCellMap();
-      forAll(elementList_, i)
+      FOR_ALL(elementList_, i)
       {
         label cellI = elementList_[i];
         label newCellI = reverseMap[cellI];
@@ -316,7 +316,7 @@ void mousse::probes::updateMesh(const mapPolyMesh& mpm)
     {
       DynamicList<label> elems(faceList_.size());
       const labelList& reverseMap = mpm.reverseFaceMap();
-      forAll(faceList_, i)
+      FOR_ALL(faceList_, i)
       {
         label faceI = faceList_[i];
         label newFaceI = reverseMap[faceI];

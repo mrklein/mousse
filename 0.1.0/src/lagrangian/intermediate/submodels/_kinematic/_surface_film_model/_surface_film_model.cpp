@@ -88,7 +88,7 @@ void mousse::SurfaceFilmModel<CloudType>::inject(TrackData& td)
   const labelList& primaryPatches = filmModel.primaryPatchIDs();
   const fvMesh& mesh = this->owner().mesh();
   const polyBoundaryMesh& pbm = mesh.boundaryMesh();
-  forAll(filmPatches, i)
+  FOR_ALL(filmPatches, i)
   {
     const label filmPatchI = filmPatches[i];
     const label primaryPatchI = primaryPatches[i];
@@ -97,7 +97,7 @@ void mousse::SurfaceFilmModel<CloudType>::inject(TrackData& td)
     const vectorField& Cf = mesh.C().boundaryField()[primaryPatchI];
     const vectorField& Sf = mesh.Sf().boundaryField()[primaryPatchI];
     const scalarField& magSf = mesh.magSf().boundaryField()[primaryPatchI];
-    forAll(injectorCellsPatch, j)
+    FOR_ALL(injectorCellsPatch, j)
     {
       if (diameterParcelPatch_[j] > 0)
       {

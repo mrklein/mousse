@@ -31,7 +31,7 @@ mousse::combustionModels::rhoCombustionModel::New
     dictionaryConstructorTablePtr_->find(combTypeName);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "rhoCombustionModel::New"
     )   << "Unknown rhoCombustionModel type "

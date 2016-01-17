@@ -59,7 +59,7 @@ class FieldActivatedInjection
         sizeDistribution_;
 public:
   //- Runtime type information
-  TypeName("fieldActivatedInjection");
+  TYPE_NAME("fieldActivatedInjection");
   // Constructors
     //- Construct from dictionary
     FieldActivatedInjection

@@ -7,8 +7,8 @@
 #include "langmuir_hinshelwood_reaction_rate.hpp"
 namespace mousse
 {
-  makeIRReactions(gasHThermoPhysics, LangmuirHinshelwoodReactionRate)
-  makeIRReactions(icoPoly8HThermoPhysics, LangmuirHinshelwoodReactionRate)
-  makeIRReactions(gasEThermoPhysics, LangmuirHinshelwoodReactionRate)
-  makeIRReactions(icoPoly8EThermoPhysics, LangmuirHinshelwoodReactionRate)
+MAKE_IR_REACTIONS(gasHThermoPhysics, LangmuirHinshelwoodReactionRate)
+MAKE_IR_REACTIONS(icoPoly8HThermoPhysics, LangmuirHinshelwoodReactionRate)
+MAKE_IR_REACTIONS(gasEThermoPhysics, LangmuirHinshelwoodReactionRate)
+MAKE_IR_REACTIONS(icoPoly8EThermoPhysics, LangmuirHinshelwoodReactionRate)
 }

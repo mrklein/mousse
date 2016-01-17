@@ -38,20 +38,20 @@ class polyModifyFace
 public:
   // Static data members
     //- Runtime type information
-    TypeName("modifyFace");
+    TYPE_NAME("modifyFace");
   // Constructors
     //- Construct null.  Used in constructing lists
     polyModifyFace()
     :
-      face_(0),
-      faceID_(-1),
-      owner_(-1),
-      neighbour_(-1),
-      flipFaceFlux_(false),
-      patchID_(-1),
-      removeFromZone_(false),
-      zoneID_(-1),
-      zoneFlip_(false)
+      face_{0},
+      faceID_{-1},
+      owner_{-1},
+      neighbour_{-1},
+      flipFaceFlux_{false},
+      patchID_{-1},
+      removeFromZone_{false},
+      zoneID_{-1},
+      zoneFlip_{false}
     {}
     //- Construct from components
     polyModifyFace
@@ -67,19 +67,19 @@ public:
       const bool zoneFlip
     )
     :
-      face_(f),
-      faceID_(faceID),
-      owner_(owner),
-      neighbour_(neighbour),
-      flipFaceFlux_(flipFaceFlux),
-      patchID_(patchID),
-      removeFromZone_(removeFromZone),
-      zoneID_(zoneID),
-      zoneFlip_(zoneFlip)
+      face_{f},
+      faceID_{faceID},
+      owner_{owner},
+      neighbour_{neighbour},
+      flipFaceFlux_{flipFaceFlux},
+      patchID_{patchID},
+      removeFromZone_{removeFromZone},
+      zoneID_{zoneID},
+      zoneFlip_{zoneFlip}
     {
       if (face_.size() < 3)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyModifyFace::polyModifyFace\n"
           "(\n"
@@ -93,7 +93,7 @@ public:
           "    const label zoneID,\n"
           "    const bool zoneFlip\n"
           ")"
-        )   << "Invalid face: less than 3 points. This is not allowed\n"
+        ) << "Invalid face: less than 3 points. This is not allowed\n"
           << "Face: " << face_
           << " faceID:" << faceID_
           << " owner:" << owner_
@@ -102,7 +102,7 @@ public:
       }
       if (min(face_) < 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyModifyFace::polyModifyFace\n"
           "(\n"
@@ -116,7 +116,7 @@ public:
           "    const label zoneID,\n"
           "    const bool zoneFlip\n"
           ")"
-        )   << "Face contains invalid vertex ID: " << face_ << ".  "
+        ) << "Face contains invalid vertex ID: " << face_ << ".  "
           << "This is not allowed.\n"
           << " faceID:" << faceID_
           << " owner:" << owner_
@@ -125,7 +125,7 @@ public:
       }
       if (min(owner_, neighbour_) >= 0 && owner_ == neighbour_)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyModifyFace::polyModifyFace\n"
           "(\n"
@@ -139,7 +139,7 @@ public:
           "    const label zoneID,\n"
           "    const bool zoneFlip\n"
           ")"
-        )   << "Face owner and neighbour are identical.  "
+        ) << "Face owner and neighbour are identical.  "
           << "This is not allowed.\n"
           << "Face: " << face_
           << " faceID:" << faceID_
@@ -149,7 +149,7 @@ public:
       }
       if (neighbour_ >= 0 && patchID_ >= 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyModifyFace::polyModifyFace\n"
           "(\n"
@@ -163,7 +163,7 @@ public:
           "    const label zoneID,\n"
           "    const bool zoneFlip\n"
           ")"
-        )   << "Patch face has got a neighbour  "
+        ) << "Patch face has got a neighbour  "
           << "This is not allowed.\n"
           << "Face: " << face_
           << " faceID:" << faceID_
@@ -174,7 +174,7 @@ public:
       }
       if (zoneID_ < 0 && zoneFlip )
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyModifyFace::polyModifyFace\n"
           "(\n"
@@ -188,7 +188,7 @@ public:
           "    const label zoneID,\n"
           "    const bool zoneFlip\n"
           ")"
-        )   << "Specified zone flip for a face that does not  "
+        ) << "Specified zone flip for a face that does not  "
           << "belong to zone.  This is not allowed.\n"
           << "Face: " << face_
           << " faceID:" << faceID_

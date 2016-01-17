@@ -50,7 +50,7 @@ class totalTemperatureFvPatchScalarField
     scalarField T0_;
 public:
   //- Runtime type information
-  TypeName("totalTemperature");
+  TYPE_NAME("totalTemperature");
   // Constructors
     //- Construct from patch and internal field
     totalTemperatureFvPatchScalarField

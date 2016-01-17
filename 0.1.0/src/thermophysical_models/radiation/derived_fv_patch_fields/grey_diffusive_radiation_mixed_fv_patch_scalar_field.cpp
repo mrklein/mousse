@@ -128,7 +128,7 @@ updateCoeffs()
   const label patchI = patch().index();
   if (dom.nLambda() != 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::radiation::"
       "greyDiffusiveRadiationMixedFvPatchScalarField::updateCoeffs"
@@ -152,7 +152,7 @@ updateCoeffs()
   {
     Ir += dom.IRay(rayI).Qin().boundaryField()[patchI];
   }
-  forAll(Iw, faceI)
+  FOR_ALL(Iw, faceI)
   {
     if ((-n[faceI] & myRayId) > 0.0)
     {
@@ -195,10 +195,10 @@ namespace mousse
 {
 namespace radiation
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    greyDiffusiveRadiationMixedFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  greyDiffusiveRadiationMixedFvPatchScalarField
+);
 }
 }

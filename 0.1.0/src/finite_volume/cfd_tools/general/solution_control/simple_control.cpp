@@ -4,16 +4,19 @@
 
 #include "simple_control.hpp"
 #include "time.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(simpleControl, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(simpleControl, 0);
 }
+
 // Protected Member Functions 
 void mousse::simpleControl::read()
 {
   solutionControl::read(true);
 }
+
 bool mousse::simpleControl::criteriaSatisfied()
 {
   if (residualControl_.empty())
@@ -23,7 +26,7 @@ bool mousse::simpleControl::criteriaSatisfied()
   bool achieved = true;
   bool checked = false;    // safety that some checks were indeed performed
   const dictionary& solverDict = mesh_.solverPerformanceDict();
-  forAllConstIter(dictionary, solverDict, iter)
+  FOR_ALL_CONST_ITER(dictionary, solverDict, iter)
   {
     const word& variableName = iter().keyword();
     const label fieldI = applyToField(variableName);
@@ -45,11 +48,12 @@ bool mousse::simpleControl::criteriaSatisfied()
   }
   return checked && achieved;
 }
+
 // Constructors 
 mousse::simpleControl::simpleControl(fvMesh& mesh)
 :
-  solutionControl(mesh, "SIMPLE"),
-  initialised_(false)
+  solutionControl{mesh, "SIMPLE"},
+  initialised_{false}
 {
   read();
   Info<< nl;
@@ -62,7 +66,7 @@ mousse::simpleControl::simpleControl(fvMesh& mesh)
   else
   {
     Info<< algorithmName_ << ": convergence criteria" << nl;
-    forAll(residualControl_, i)
+    FOR_ALL(residualControl_, i)
     {
       Info<< "    field " << residualControl_[i].name << token::TAB
         << " tolerance " << residualControl_[i].absTol
@@ -71,9 +75,11 @@ mousse::simpleControl::simpleControl(fvMesh& mesh)
     Info<< endl;
   }
 }
+
 // Destructor 
 mousse::simpleControl::~simpleControl()
 {}
+
 // Member Functions 
 bool mousse::simpleControl::loop()
 {
@@ -100,3 +106,4 @@ bool mousse::simpleControl::loop()
   }
   return time.loop();
 }
+

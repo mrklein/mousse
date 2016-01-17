@@ -5,7 +5,7 @@
 #include "reacting_multiphase_parcel_injection_data_io_list.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG
   (
     IOList<reactingMultiphaseParcelInjectionData>,
     0

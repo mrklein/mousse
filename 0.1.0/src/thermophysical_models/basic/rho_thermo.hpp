@@ -31,9 +31,9 @@ protected:
     rhoThermo(const rhoThermo&);
 public:
   //- Runtime type information
-  TypeName("rhoThermo");
+  TYPE_NAME("rhoThermo");
   //- Declare run-time constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     rhoThermo,

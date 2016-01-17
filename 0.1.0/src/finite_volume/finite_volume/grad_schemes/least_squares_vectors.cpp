@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(leastSquaresVectors, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(leastSquaresVectors, 0);
 }
 // Constructors
 mousse::leastSquaresVectors::leastSquaresVectors(const fvMesh& mesh)
@@ -65,7 +65,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
   const surfaceScalarField& magSf = mesh.magSf();
   // Set up temporary storage for the dd tensor (before inversion)
   symmTensorField dd(mesh_.nCells(), symmTensor::zero);
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -76,7 +76,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
   }
   surfaceVectorField::GeometricBoundaryField& blsP =
     pVectors_.boundaryField();
-  forAll(blsP, patchi)
+  FOR_ALL(blsP, patchi)
   {
     const fvsPatchScalarField& pw = w.boundaryField()[patchi];
     const fvsPatchScalarField& pMagSf = magSf.boundaryField()[patchi];
@@ -86,7 +86,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
     vectorField pd(p.delta());
     if (pw.coupled())
     {
-      forAll(pd, patchFacei)
+      FOR_ALL(pd, patchFacei)
       {
         const vector& d = pd[patchFacei];
         dd[faceCells[patchFacei]] +=
@@ -95,7 +95,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
     }
     else
     {
-      forAll(pd, patchFacei)
+      FOR_ALL(pd, patchFacei)
       {
         const vector& d = pd[patchFacei];
         dd[faceCells[patchFacei]] +=
@@ -106,7 +106,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
   // Invert the dd tensor
   const symmTensorField invDd(inv(dd));
   // Revisit all faces and calculate the pVectors_ and nVectors_ vectors
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -115,7 +115,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
     pVectors_[facei] = (1 - w[facei])*magSfByMagSqrd*(invDd[own] & d);
     nVectors_[facei] = -w[facei]*magSfByMagSqrd*(invDd[nei] & d);
   }
-  forAll(blsP, patchi)
+  FOR_ALL(blsP, patchi)
   {
     fvsPatchVectorField& patchLsP = blsP[patchi];
     const fvsPatchScalarField& pw = w.boundaryField()[patchi];
@@ -126,7 +126,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
     vectorField pd(p.delta());
     if (pw.coupled())
     {
-      forAll(pd, patchFacei)
+      FOR_ALL(pd, patchFacei)
       {
         const vector& d = pd[patchFacei];
         patchLsP[patchFacei] =
@@ -136,7 +136,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
     }
     else
     {
-      forAll(pd, patchFacei)
+      FOR_ALL(pd, patchFacei)
       {
         const vector& d = pd[patchFacei];
         patchLsP[patchFacei] =

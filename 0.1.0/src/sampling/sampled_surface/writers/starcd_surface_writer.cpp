@@ -46,8 +46,8 @@ namespace mousse
 template<class Type>
 inline void mousse::starcdSurfaceWriter::writeData
 (
-  Ostream& os,
-  const Type& v
+  Ostream&,
+  const Type& /*v*/
 )
 {}
 template<class Type>
@@ -55,11 +55,11 @@ void mousse::starcdSurfaceWriter::writeTemplate
 (
   const fileName& outputDir,
   const fileName& surfaceName,
-  const pointField& points,
-  const faceList& faces,
+  const pointField& /*points*/,
+  const faceList& /*faces*/,
   const word& fieldName,
   const Field<Type>& values,
-  const bool isNodeValues,
+  const bool /*isNodeValues*/,
   const bool verbose
 ) const
 {
@@ -73,7 +73,7 @@ void mousse::starcdSurfaceWriter::writeTemplate
     Info<< "Writing field " << fieldName << " to " << os.name() << endl;
   }
   // no header, just write values
-  forAll(values, elemI)
+  FOR_ALL(values, elemI)
   {
     os  << elemI+1 << ' ';
     writeData(os, values[elemI]);

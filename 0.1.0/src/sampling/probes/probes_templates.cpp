@@ -44,7 +44,7 @@ void mousse::probes::sampleAndWrite
     unsigned int w = IOstream::defaultPrecision() + 7;
     OFstream& os = *probeFilePtrs_[vField.name()];
     os  << setw(w) << vField.time().timeToUserTime(vField.time().value());
-    forAll(values, probeI)
+    FOR_ALL(values, probeI)
     {
       os  << ' ' << setw(w) << values[probeI];
     }
@@ -63,7 +63,7 @@ void mousse::probes::sampleAndWrite
     unsigned int w = IOstream::defaultPrecision() + 7;
     OFstream& os = *probeFilePtrs_[sField.name()];
     os  << setw(w) << sField.time().timeToUserTime(sField.time().value());
-    forAll(values, probeI)
+    FOR_ALL(values, probeI)
     {
       os  << ' ' << setw(w) << values[probeI];
     }
@@ -73,7 +73,7 @@ void mousse::probes::sampleAndWrite
 template<class Type>
 void mousse::probes::sampleAndWrite(const fieldGroup<Type>& fields)
 {
-  forAll(fields, fieldI)
+  FOR_ALL(fields, fieldI)
   {
     if (loadFromFiles_)
     {
@@ -119,7 +119,7 @@ void mousse::probes::sampleAndWrite(const fieldGroup<Type>& fields)
 template<class Type>
 void mousse::probes::sampleAndWriteSurfaceFields(const fieldGroup<Type>& fields)
 {
-  forAll(fields, fieldI)
+  FOR_ALL(fields, fieldI)
   {
     if (loadFromFiles_)
     {
@@ -182,7 +182,7 @@ mousse::probes::sample
     (
       interpolation<Type>::New(interpolationScheme_, vField)
     );
-    forAll(*this, probeI)
+    FOR_ALL(*this, probeI)
     {
       if (elementList_[probeI] >= 0)
       {
@@ -198,7 +198,7 @@ mousse::probes::sample
   }
   else
   {
-    forAll(*this, probeI)
+    FOR_ALL(*this, probeI)
     {
       if (elementList_[probeI] >= 0)
       {
@@ -235,7 +235,7 @@ mousse::probes::sample
     new Field<Type>(this->size(), unsetVal)
   );
   Field<Type>& values = tValues();
-  forAll(*this, probeI)
+  FOR_ALL(*this, probeI)
   {
     if (faceList_[probeI] >= 0)
     {

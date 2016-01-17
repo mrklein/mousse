@@ -24,17 +24,11 @@ class filmTurbulenceModel
 :
   public filmSubModelBase
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    filmTurbulenceModel(const filmTurbulenceModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const filmTurbulenceModel&);
 public:
   //- Runtime type information
-  TypeName("filmTurbulenceModel");
+  TYPE_NAME("filmTurbulenceModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       filmTurbulenceModel,
@@ -55,6 +49,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    filmTurbulenceModel(const filmTurbulenceModel&) = delete;
+    //- Disallow default bitwise assignment
+    filmTurbulenceModel& operator=(const filmTurbulenceModel&) = delete;
   // Selectors
     //- Return a reference to the selected injection model
     static autoPtr<filmTurbulenceModel> New

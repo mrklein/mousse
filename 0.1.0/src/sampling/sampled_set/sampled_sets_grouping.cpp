@@ -57,12 +57,12 @@ mousse::label mousse::sampledSets::classifyFields()
     // Check files for a particular time
     IOobjectList objects(mesh_, mesh_.time().timeName());
     wordList allFields = objects.sortedNames();
-    forAll(fieldSelection_, i)
+    FOR_ALL(fieldSelection_, i)
     {
       labelList indices = findStrings(fieldSelection_[i], allFields);
       if (indices.size())
       {
-        forAll(indices, fieldI)
+        FOR_ALL(indices, fieldI)
         {
           const word& fieldName = allFields[indices[fieldI]];
           nFields += appendFieldGroup
@@ -74,7 +74,7 @@ mousse::label mousse::sampledSets::classifyFields()
       }
       else
       {
-        WarningIn("sampledSets::classifyFields()")
+        WARNING_IN("sampledSets::classifyFields()")
           << "Cannot find field file matching "
           << fieldSelection_[i] << endl;
       }
@@ -85,12 +85,12 @@ mousse::label mousse::sampledSets::classifyFields()
     // Check currently available fields
     wordList allFields = mesh_.sortedNames();
     labelList indices = findStrings(fieldSelection_, allFields);
-    forAll(fieldSelection_, i)
+    FOR_ALL(fieldSelection_, i)
     {
       labelList indices = findStrings(fieldSelection_[i], allFields);
       if (indices.size())
       {
-        forAll(indices, fieldI)
+        FOR_ALL(indices, fieldI)
         {
           const word& fieldName = allFields[indices[fieldI]];
           nFields += appendFieldGroup
@@ -102,7 +102,7 @@ mousse::label mousse::sampledSets::classifyFields()
       }
       else
       {
-        WarningIn("sampledSets::classifyFields()")
+        WARNING_IN("sampledSets::classifyFields()")
           << "Cannot find registered field matching "
           << fieldSelection_[i] << endl;
       }

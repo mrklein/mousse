@@ -16,7 +16,7 @@ mousse::sampledPatchInternalField::sampleField
   // One value per face
   tmp<Field<Type> > tvalues(new Field<Type>(patchFaceLabels().size()));
   Field<Type>& values = tvalues();
-  forAll(patchStart(), i)
+  FOR_ALL(patchStart(), i)
   {
     // Get patchface wise data by sampling internal field
     Field<Type> interpVals = vField.internalField();
@@ -43,13 +43,13 @@ mousse::sampledPatchInternalField::interpolateField
 ) const
 {
   label sz = 0;
-  forAll(patchIDs(), i)
+  FOR_ALL(patchIDs(), i)
   {
     sz += mesh().boundaryMesh()[patchIDs()[i]].size();
   }
   Field<Type> allPatchVals(sz);
   sz = 0;
-  forAll(patchIDs(), i)
+  FOR_ALL(patchIDs(), i)
   {
     // See mappedFixedValueFvPatchField
     const mapDistribute& distMap = mappers_[i].map();
@@ -59,7 +59,7 @@ mousse::sampledPatchInternalField::interpolateField
     vectorField samples(mappers_[i].samplePoints());
     distMap.reverseDistribute(mesh().nCells(), point::max, samples);
     Field<Type> patchVals(mesh().nCells());
-    forAll(samples, cellI)
+    FOR_ALL(samples, cellI)
     {
       if (samples[cellI] != point::max)
       {
@@ -80,10 +80,10 @@ mousse::sampledPatchInternalField::interpolateField
   // interpolation.
   labelList meshFaceLabels(allPatchVals.size());
   sz = 0;
-  forAll(patchIDs(), i)
+  FOR_ALL(patchIDs(), i)
   {
     const polyPatch& pp = mesh().boundaryMesh()[patchIDs()[i]];
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       meshFaceLabels[sz++] = pp.start()+i;
     }

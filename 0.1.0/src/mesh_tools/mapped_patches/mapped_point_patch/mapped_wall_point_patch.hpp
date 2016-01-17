@@ -7,10 +7,13 @@
 //   mappedWallPointPatch patch.
 // SourceFiles
 //   mapped_wall_point_patch.cpp
+
 #ifndef mapped_wall_point_patch_hpp_
 #define mapped_wall_point_patch_hpp_
+
 #include "wall_point_patch.hpp"
 #include "mapped_wall_poly_patch.hpp"
+
 namespace mousse
 {
 class mappedWallPointPatch
@@ -19,7 +22,7 @@ class mappedWallPointPatch
 {
 public:
   //- Runtime type information
-  TypeName(mappedWallPolyPatch::typeName_());
+  TYPE_NAME(mappedWallPolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     mappedWallPointPatch

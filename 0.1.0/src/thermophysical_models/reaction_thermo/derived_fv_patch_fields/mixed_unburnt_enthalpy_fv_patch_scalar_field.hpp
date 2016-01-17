@@ -18,7 +18,7 @@ class mixedUnburntEnthalpyFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("mixedUnburntEnthalpy");
+  TYPE_NAME("mixedUnburntEnthalpy");
   // Constructors
     //- Construct from patch and internal field
     mixedUnburntEnthalpyFvPatchScalarField

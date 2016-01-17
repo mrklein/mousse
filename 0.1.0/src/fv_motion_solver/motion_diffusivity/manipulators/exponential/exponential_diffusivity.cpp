@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(exponentialDiffusivity, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(exponentialDiffusivity, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionDiffusivity,
     exponentialDiffusivity,

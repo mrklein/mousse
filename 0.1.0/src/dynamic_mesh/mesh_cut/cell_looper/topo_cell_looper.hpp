@@ -93,19 +93,19 @@ class topoCellLooper
       DynamicList<label>& loop,
       DynamicList<scalar>& loopWeights
     ) const;
-    //- Disallow default bitwise copy construct
-    topoCellLooper(const topoCellLooper&);
-    //- Disallow default bitwise assignment
-    void operator=(const topoCellLooper&);
 public:
   //- Runtime type information
-  TypeName("topoCellLooper");
+  TYPE_NAME("topoCellLooper");
   // Static data members
     //- Cos of angle for feature recognition (of splitHexes)
     static const scalar featureCos;
   // Constructors
     //- Construct from components
     topoCellLooper(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    topoCellLooper(const topoCellLooper&) = delete;
+    //- Disallow default bitwise assignment
+    topoCellLooper& operator=(const topoCellLooper&) = delete;
   //- Destructor
   virtual ~topoCellLooper();
   // Member Functions

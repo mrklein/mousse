@@ -11,7 +11,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(partialWrite, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(partialWrite, 0);
 }
 // Constructors 
 mousse::partialWrite::partialWrite
@@ -19,11 +19,11 @@ mousse::partialWrite::partialWrite
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr)
+  name_{name},
+  obr_{obr}
 {
   read(dict);
 }
@@ -39,13 +39,13 @@ void mousse::partialWrite::read(const dictionary& dict)
   Info<< type() << " " << name() << ":" << nl
     << "    dumping every " << writeInterval_
     << " th outputTime : " << nl << endl ;
-  forAllConstIter(HashSet<word>, objectNames_, iter)
+  FOR_ALL_CONST_ITER(HashSet<word>, objectNames_, iter)
   {
     Info<< ' ' << iter.key();
   }
   if (writeInterval_ < 1)
   {
-    FatalIOErrorIn("partialWrite::read(const dictionary&)", dict)
+    FATAL_IO_ERROR_IN("partialWrite::read(const dictionary&)", dict)
       << "Illegal value for writeInterval " << writeInterval_
       << ". It should be >= 1."
       << exit(FatalIOError);
@@ -61,7 +61,7 @@ void mousse::partialWrite::read(const dictionary& dict)
   sSpheretf_.clear();
   sSymmtf_.clear();
   stf_.clear();
-  forAllConstIter(HashSet<word>, objectNames_, iter)
+  FOR_ALL_CONST_ITER(HashSet<word>, objectNames_, iter)
   {
     loadField<scalar>(iter.key(), vsf_, ssf_);
     loadField<vector>(iter.key(), vvf_, svf_);

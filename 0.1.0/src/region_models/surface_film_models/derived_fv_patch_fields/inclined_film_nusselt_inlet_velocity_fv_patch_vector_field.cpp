@@ -14,10 +14,10 @@ inclinedFilmNusseltInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  GammaMean_(),
-  a_(),
-  omega_()
+  fixedValueFvPatchVectorField{p, iF},
+  GammaMean_{},
+  a_{},
+  omega_{}
 {}
 mousse::inclinedFilmNusseltInletVelocityFvPatchVectorField::
 inclinedFilmNusseltInletVelocityFvPatchVectorField
@@ -28,10 +28,10 @@ inclinedFilmNusseltInletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(ptf, p, iF, mapper),
-  GammaMean_(ptf.GammaMean_().clone().ptr()),
-  a_(ptf.a_().clone().ptr()),
-  omega_(ptf.omega_().clone().ptr())
+  fixedValueFvPatchVectorField{ptf, p, iF, mapper},
+  GammaMean_{ptf.GammaMean_().clone().ptr()},
+  a_{ptf.a_().clone().ptr()},
+  omega_{ptf.omega_().clone().ptr()}
 {}
 mousse::inclinedFilmNusseltInletVelocityFvPatchVectorField::
 inclinedFilmNusseltInletVelocityFvPatchVectorField
@@ -41,10 +41,10 @@ inclinedFilmNusseltInletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  GammaMean_(DataEntry<scalar>::New("GammaMean", dict)),
-  a_(DataEntry<scalar>::New("a", dict)),
-  omega_(DataEntry<scalar>::New("omega", dict))
+  fixedValueFvPatchVectorField{p, iF},
+  GammaMean_{DataEntry<scalar>::New("GammaMean", dict)},
+  a_{DataEntry<scalar>::New("a", dict)},
+  omega_{DataEntry<scalar>::New("omega", dict)}
 {
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
 }
@@ -54,10 +54,10 @@ inclinedFilmNusseltInletVelocityFvPatchVectorField
   const inclinedFilmNusseltInletVelocityFvPatchVectorField& fmfrpvf
 )
 :
-  fixedValueFvPatchVectorField(fmfrpvf),
-  GammaMean_(fmfrpvf.GammaMean_().clone().ptr()),
-  a_(fmfrpvf.a_().clone().ptr()),
-  omega_(fmfrpvf.omega_().clone().ptr())
+  fixedValueFvPatchVectorField{fmfrpvf},
+  GammaMean_{fmfrpvf.GammaMean_().clone().ptr()},
+  a_{fmfrpvf.a_().clone().ptr()},
+  omega_{fmfrpvf.omega_().clone().ptr()}
 {}
 mousse::inclinedFilmNusseltInletVelocityFvPatchVectorField::
 inclinedFilmNusseltInletVelocityFvPatchVectorField
@@ -66,10 +66,10 @@ inclinedFilmNusseltInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(fmfrpvf, iF),
-  GammaMean_(fmfrpvf.GammaMean_().clone().ptr()),
-  a_(fmfrpvf.a_().clone().ptr()),
-  omega_(fmfrpvf.omega_().clone().ptr())
+  fixedValueFvPatchVectorField{fmfrpvf, iF},
+  GammaMean_{fmfrpvf.GammaMean_().clone().ptr()},
+  a_{fmfrpvf.a_().clone().ptr()},
+  omega_{fmfrpvf.omega_().clone().ptr()}
 {}
 // Member Functions 
 void mousse::inclinedFilmNusseltInletVelocityFvPatchVectorField::updateCoeffs()
@@ -97,7 +97,7 @@ void mousse::inclinedFilmNusseltInletVelocityFvPatchVectorField::updateCoeffs()
   const scalarField gTan(film.gTan()().boundaryField()[patchI] & n);
   if (patch().size() && (max(mag(gTan)) < SMALL))
   {
-    WarningIn
+    WARNING_IN
     (
       "void mousse::inclinedFilmNusseltInletVelocityFvPatchVectorField::"
       "updateCoeffs()"
@@ -141,9 +141,9 @@ void mousse::inclinedFilmNusseltInletVelocityFvPatchVectorField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    inclinedFilmNusseltInletVelocityFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  inclinedFilmNusseltInletVelocityFvPatchVectorField
+);
 }

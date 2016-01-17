@@ -31,7 +31,7 @@ void mousse::fv::actuationDiskSource::addActuationDiskAxialInertialResistance
   reduce(upU, minOp<vector>());
   reduce(upRho, minOp<scalar>());
   scalar T = 2.0*upRho*diskArea_*mag(upU)*a*(1 - a);
-  forAll(cells, i)
+  FOR_ALL(cells, i)
   {
     Usource[cells[i]] += ((Vcells[cells[i]]/V())*T*E) & upU;
   }

@@ -23,17 +23,16 @@ class fvMotionSolverEngineMesh
     //- Mesh-motion solver to solve for the "z" component of the cell-centre
     //  displacements
     velocityComponentLaplacianFvMotionSolver motionSolver_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fvMotionSolverEngineMesh(const fvMotionSolverEngineMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvMotionSolverEngineMesh&);
 public:
   //- Runtime type information
-  TypeName("fvMotionSolver");
+  TYPE_NAME("fvMotionSolver");
   // Constructors
     //- Construct from IOobject
     fvMotionSolverEngineMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    fvMotionSolverEngineMesh(const fvMotionSolverEngineMesh&) = delete;
+    //- Disallow default bitwise assignment
+    fvMotionSolverEngineMesh& operator=(const fvMotionSolverEngineMesh&) = delete;
   //- Destructor
   ~fvMotionSolverEngineMesh();
   // Member Functions

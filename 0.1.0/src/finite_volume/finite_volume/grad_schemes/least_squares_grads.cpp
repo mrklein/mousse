@@ -4,4 +4,5 @@
 
 #include "fv_mesh.hpp"
 #include "least_squares_grad.hpp"
-makeFvGradScheme(leastSquaresGrad)
+
+MAKE_FV_GRAD_SCHEME(leastSquaresGrad)

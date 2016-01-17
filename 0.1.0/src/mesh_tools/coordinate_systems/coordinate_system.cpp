@@ -10,8 +10,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(coordinateSystem, 0);
-  defineRunTimeSelectionTable(coordinateSystem, dictionary);
+
+DEFINE_TYPE_NAME_AND_DEBUG(coordinateSystem, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(coordinateSystem, dictionary);
+
 }
 // Constructors 
 mousse::coordinateSystem::coordinateSystem()
@@ -106,7 +108,7 @@ mousse::coordinateSystem::coordinateSystem
     }
     if (index < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "coordinateSystem::coordinateSystem"
         "(const objectRegistry&, const dictionary&):"

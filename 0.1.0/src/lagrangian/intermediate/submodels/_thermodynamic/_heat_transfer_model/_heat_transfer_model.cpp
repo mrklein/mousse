@@ -7,8 +7,8 @@
 template<class CloudType>
 mousse::HeatTransferModel<CloudType>::HeatTransferModel(CloudType& owner)
 :
-  CloudSubModelBase<CloudType>(owner),
-  BirdCorrection_(false)
+  CloudSubModelBase<CloudType>{owner},
+  BirdCorrection_{false}
 {}
 template<class CloudType>
 mousse::HeatTransferModel<CloudType>::HeatTransferModel
@@ -18,8 +18,8 @@ mousse::HeatTransferModel<CloudType>::HeatTransferModel
   const word& type
 )
 :
-  CloudSubModelBase<CloudType>(owner, dict, typeName, type),
-  BirdCorrection_(this->coeffDict().lookup("BirdCorrection"))
+  CloudSubModelBase<CloudType>{owner, dict, typeName, type},
+  BirdCorrection_{this->coeffDict().lookup("BirdCorrection")}
 {}
 template<class CloudType>
 mousse::HeatTransferModel<CloudType>::HeatTransferModel
@@ -27,8 +27,8 @@ mousse::HeatTransferModel<CloudType>::HeatTransferModel
   const HeatTransferModel<CloudType>& htm
 )
 :
-  CloudSubModelBase<CloudType>(htm),
-  BirdCorrection_(htm.BirdCorrection_)
+  CloudSubModelBase<CloudType>{htm},
+  BirdCorrection_{htm.BirdCorrection_}
 {}
 // Destructor 
 template<class CloudType>

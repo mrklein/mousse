@@ -89,9 +89,9 @@ protected:
     virtual void clearGeom() const;
 public:
   //- Runtime type information
-  TypeName("sampledSurface");
+  TYPE_NAME("sampledSurface");
   //- Declare run-time constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     sampledSurface,
@@ -139,7 +139,7 @@ public:
     //- Clone
     autoPtr<sampledSurface> clone() const
     {
-      notImplemented("autoPtr<sampledSurface> clone() const");
+      NOT_IMPLEMENTED("autoPtr<sampledSurface> clone() const");
       return autoPtr<sampledSurface>(NULL);
     }
   // Selectors

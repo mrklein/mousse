@@ -7,23 +7,27 @@
 //   Nearest-mapping Arbitrary Mesh Interface (AMI) method
 // SourceFiles
 //   map_nearest_ami.cpp
+
 #ifndef map_nearest_ami_hpp_
 #define map_nearest_ami_hpp_
+
 #include "ami_method.hpp"
+
 namespace mousse
 {
+
 template<class SourcePatch, class TargetPatch>
 class mapNearestAMI
 :
   public AMIMethod<SourcePatch, TargetPatch>
 {
+
 private:
+
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    mapNearestAMI(const mapNearestAMI&);
-    //- Disallow default bitwise assignment
-    void operator=(const mapNearestAMI&);
+
     // Marching front
+
       //- Find nearest target face for source face srcFaceI
       void findNearestFace
       (
@@ -32,6 +36,7 @@ private:
         const label& srcFaceI,
         label& tgtFaceI
       ) const;
+
       //- Determine next source-target face pair
       void setNextNearestFaces
       (
@@ -40,23 +45,30 @@ private:
         label& srcFaceI,
         label& tgtFaceI
       ) const;
+
       //- Find mapped source face
       label findMappedSrcFace
       (
         const label tgtFaceI,
         const List<DynamicList<label> >& tgtToSrc
       ) const;
+
     // Evaluation
+
       //- Area of intersection between source and target faces
       scalar interArea
       (
         const label srcFaceI,
         const label tgtFaceI
       ) const;
+
 public:
+
   //- Runtime type information
-  TypeName("mapNearestAMI");
+  TYPE_NAME("mapNearestAMI");
+
   // Constructors
+
     //- Construct from components
     mapNearestAMI
     (
@@ -68,10 +80,20 @@ public:
       const bool reverseTarget = false,
       const bool requireMatch = true
     );
+
+    //- Disallow default bitwise copy construct
+    mapNearestAMI(const mapNearestAMI&) = delete;
+
+    //- Disallow default bitwise assignment
+    mapNearestAMI& operator=(const mapNearestAMI&) = delete;
+
   //- Destructor
   virtual ~mapNearestAMI();
+
   // Member Functions
+
     // Manipulation
+
       //- Update addressing and weights
       virtual void calculate
       (
@@ -83,7 +105,9 @@ public:
         label tgtFaceI = -1
       );
 };
+
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "map_nearest_ami.cpp"
 #endif

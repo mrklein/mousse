@@ -16,7 +16,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(intersectedSurface, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(intersectedSurface, 0);
 }
 const mousse::label mousse::intersectedSurface::UNVISITED = 0;
 const mousse::label mousse::intersectedSurface::STARTTOEND = 1;
@@ -31,12 +31,12 @@ void mousse::intersectedSurface::writeOBJ
   Ostream& os
 )
 {
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     os << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
   }
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     os << "l " << e.start()+1 << ' ' << e.end()+1 << nl;
@@ -51,12 +51,12 @@ void mousse::intersectedSurface::writeOBJ
   Ostream& os
 )
 {
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     os << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
   }
-  forAll(faceEdges, i)
+  FOR_ALL(faceEdges, i)
   {
     const edge& e = edges[faceEdges[i]];
     os << "l " << e.start()+1 << ' ' << e.end()+1 << nl;
@@ -74,10 +74,10 @@ void mousse::intersectedSurface::writeLocalOBJ
   OFstream os(fName);
   labelList pointMap(points.size(), -1);
   label maxVertI = 0;
-  forAll(faceEdges, i)
+  FOR_ALL(faceEdges, i)
   {
     const edge& e = edges[faceEdges[i]];
-    forAll(e, i)
+    FOR_ALL(e, i)
     {
       label pointI = e[i];
       if (pointMap[pointI] == -1)
@@ -88,7 +88,7 @@ void mousse::intersectedSurface::writeLocalOBJ
       }
     }
   }
-  forAll(faceEdges, i)
+  FOR_ALL(faceEdges, i)
   {
     const edge& e = edges[faceEdges[i]];
     os << "l " << pointMap[e.start()]+1 << ' ' << pointMap[e.end()]+1
@@ -103,13 +103,13 @@ void mousse::intersectedSurface::writeOBJ
   Ostream& os
 )
 {
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     os << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
   }
   os << 'f';
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     os << ' ' << f[fp]+1;
   }
@@ -124,7 +124,7 @@ void mousse::intersectedSurface::printVisit
 )
 {
   Pout<< "Visited:" << nl;
-  forAll(edgeLabels, i)
+  FOR_ALL(edgeLabels, i)
   {
     label edgeI = edgeLabels[i];
     const edge& e = edges[edgeI];
@@ -160,7 +160,7 @@ bool mousse::intersectedSurface::sameEdgeOrder
   const labelledTri& fB
 )
 {
-  forAll(fA, fpA)
+  FOR_ALL(fA, fpA)
   {
     label fpB = findIndex(fB, fA[fpA]);
     if (fpB != -1)
@@ -182,14 +182,14 @@ bool mousse::intersectedSurface::sameEdgeOrder
       }
       else
       {
-        FatalErrorIn("intersectedSurface::sameEdgeOrder")
+        FATAL_ERROR_IN("intersectedSurface::sameEdgeOrder")
           << "Triangle:" << fA << " and triangle:" << fB
           << " share a point but not an edge"
           << abort(FatalError);
       }
     }
   }
-  FatalErrorIn("intersectedSurface::sameEdgeOrder")
+  FATAL_ERROR_IN("intersectedSurface::sameEdgeOrder")
     << "Triangle:" << fA << " and triangle:" << fB
     << " do not share an edge"
     << abort(FatalError);
@@ -226,7 +226,7 @@ mousse::intersectedSurface::calcPointEdgeAddressing
   const edgeList& edges = eSurf.edges();
   const labelList& fEdges = eSurf.faceEdges()[faceI];
   Map<DynamicList<label> > facePointEdges(4*fEdges.size());
-  forAll(fEdges, i)
+  FOR_ALL(fEdges, i)
   {
     label edgeI = fEdges[i];
     const edge& e = edges[edgeI];
@@ -258,13 +258,13 @@ mousse::intersectedSurface::calcPointEdgeAddressing
     }
   }
   // Shrink it
-  forAllIter(Map< DynamicList<label> >, facePointEdges, iter)
+  FOR_ALL_ITER(Map< DynamicList<label> >, facePointEdges, iter)
   {
     iter().shrink();
     // Check on dangling points.
     if (iter().empty())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "intersectedSurface::calcPointEdgeAddressing"
         "(const edgeSurface&, const label)"
@@ -276,7 +276,7 @@ mousse::intersectedSurface::calcPointEdgeAddressing
   {
     // Print facePointEdges
     Pout<< "calcPointEdgeAddressing: face consisting of edges:" << endl;
-    forAll(fEdges, i)
+    FOR_ALL(fEdges, i)
     {
       label edgeI = fEdges[i];
       const edge& e = edges[edgeI];
@@ -285,7 +285,7 @@ mousse::intersectedSurface::calcPointEdgeAddressing
         << points[e.end()] << endl;
     }
     Pout<< "    Constructed point-edge adressing:" << endl;
-    forAllConstIter(Map< DynamicList<label> >, facePointEdges, iter)
+    FOR_ALL_CONST_ITER(Map< DynamicList<label> >, facePointEdges, iter)
     {
       Pout<< "    vertex " << iter.key() << " is connected to edges "
         << iter() << endl;
@@ -324,7 +324,7 @@ mousse::label mousse::intersectedSurface::nextEdge
       Pout<< "Writing connectedEdges edges to faceEdges.obj" << endl;
       writeLocalOBJ(points, edges, connectedEdges, "faceEdges.obj");
     }
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "intersectedSurface::nextEdge(const pointField&, const edgeList&"
       ", const vector&, Map<DynamicList<label> >, const label"
@@ -374,7 +374,7 @@ mousse::label mousse::intersectedSurface::nextEdge
       Pout<< "Writing connectedEdges edges to faceEdges.obj" << endl;
       writeLocalOBJ(points, edges, connectedEdges, "faceEdges.obj");
     }
-    FatalErrorIn("intersectedSurface::nextEdge")
+    FATAL_ERROR_IN("intersectedSurface::nextEdge")
       << "Unnormalized normal e1:" << e1
       << " formed from cross product of e0:" << e0 << " n:" << n
       << abort(FatalError);
@@ -384,7 +384,7 @@ mousse::label mousse::intersectedSurface::nextEdge
   //
   scalar maxAngle = -GREAT;
   label maxEdgeI = -1;
-  forAll(connectedEdges, connI)
+  FOR_ALL(connectedEdges, connI)
   {
     label edgeI = connectedEdges[connI];
     if (edgeI != prevEdgeI)
@@ -428,7 +428,7 @@ mousse::label mousse::intersectedSurface::nextEdge
       Pout<< "Writing connectedEdges edges to faceEdges.obj" << endl;
       writeLocalOBJ(points, edges, connectedEdges, "faceEdges.obj");
     }
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "intersectedSurface::nextEdge(const pointField&, const edgeList&"
       ", const Map<label>&, const vector&"
@@ -527,7 +527,7 @@ void mousse::intersectedSurface::findNearestVisited
 {
   minVertI = -1;
   minDist = GREAT;
-  forAllConstIter(Map<label>, pointVisited, iter)
+  FOR_ALL_CONST_ITER(Map<label>, pointVisited, iter)
   {
     label pointI = iter.key();
     if (pointI != excludePointI)
@@ -548,10 +548,10 @@ void mousse::intersectedSurface::findNearestVisited
   if (minVertI == -1)
   {
     const labelList& fEdges = eSurf.faceEdges()[faceI];
-    SeriousErrorIn("intersectedSurface::findNearestVisited")
+    SERIOUS_ERROR_IN("intersectedSurface::findNearestVisited")
       << "Dumping face edges to faceEdges.obj" << endl;
     writeLocalOBJ(eSurf.points(), eSurf.edges(), fEdges, "faceEdges.obj");
-    FatalErrorIn("intersectedSurface::findNearestVisited")
+    FATAL_ERROR_IN("intersectedSurface::findNearestVisited")
       << "No fully visited edge found for pt " << pt
       << abort(FatalError);
   }
@@ -586,14 +586,14 @@ mousse::faceList mousse::intersectedSurface::resplitFace
     OFstream str0("visitedNone.obj");
     OFstream str1("visitedOnce.obj");
     OFstream str2("visitedTwice.obj");
-    forAll(eSurf.points(), pointI)
+    FOR_ALL(eSurf.points(), pointI)
     {
       const point& pt = eSurf.points()[pointI];
       str0 << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
       str1 << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
       str2 << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
     }
-  forAllConstIter(Map<label>, visited, iter)
+  FOR_ALL_CONST_ITER(Map<label>, visited, iter)
   {
     label edgeI = iter.key();
     const edge& e = eSurf.edges()[edgeI];
@@ -619,7 +619,7 @@ mousse::faceList mousse::intersectedSurface::resplitFace
   }
   }
   {
-    forAllConstIter(Map<label>, pointVisited, iter)
+    FOR_ALL_CONST_ITER(Map<label>, pointVisited, iter)
     {
       label pointI = iter.key();
       label nVisits = iter();
@@ -633,7 +633,7 @@ mousse::faceList mousse::intersectedSurface::resplitFace
   label unvisitedVert0 = -1;
   {
     scalar minDist = GREAT;
-    forAllConstIter(Map<DynamicList<label> >, facePointEdges, iter)
+    FOR_ALL_CONST_ITER(Map<DynamicList<label> >, facePointEdges, iter)
     {
       label pointI = iter.key();
       label nVisits = pointVisited[pointI];
@@ -668,7 +668,7 @@ mousse::faceList mousse::intersectedSurface::resplitFace
   label unvisitedVert1 = -1;
   {
     scalar minDist = GREAT;
-    forAllConstIter(Map<DynamicList<label> >, facePointEdges, iter)
+    FOR_ALL_CONST_ITER(Map<DynamicList<label> >, facePointEdges, iter)
     {
       label pointI = iter.key();
       if (pointI != unvisitedVert0)
@@ -747,7 +747,7 @@ mousse::faceList mousse::intersectedSurface::splitFace
   );
   // Order in which edges have been walked. Initialize outside edges.
   Map<label> visited(fEdges.size()*2);
-  forAll(fEdges, i)
+  FOR_ALL(fEdges, i)
   {
     label edgeI = fEdges[i];
     if (eSurf.isSurfaceEdge(edgeI))
@@ -792,7 +792,7 @@ mousse::faceList mousse::intersectedSurface::splitFace
     // Give priority to triangle edges.
     label startEdgeI = -1;
     label startVertI = -1;
-    forAll(fEdges, i)
+    FOR_ALL(fEdges, i)
     {
       label edgeI = fEdges[i];
       const edge& e = edges[edgeI];
@@ -844,16 +844,16 @@ mousse::faceList mousse::intersectedSurface::splitFace
     );
   }
   // Check if any unvisited edges left.
-  forAll(fEdges, i)
+  FOR_ALL(fEdges, i)
   {
     label edgeI = fEdges[i];
     label stat = visited[edgeI];
     if (eSurf.isSurfaceEdge(edgeI) && stat != BOTH)
     {
-      SeriousErrorIn("mousse::intersectedSurface::splitFace")
+      SERIOUS_ERROR_IN("mousse::intersectedSurface::splitFace")
         << "Dumping face edges to faceEdges.obj" << endl;
       writeLocalOBJ(points, edges, fEdges, "faceEdges.obj");
-      FatalErrorIn("intersectedSurface::splitFace")
+      FATAL_ERROR_IN("intersectedSurface::splitFace")
        << "Problem: edge " << edgeI << " vertices "
         << edges[edgeI] << " on face " << faceI
         << " has visited status " << stat << " from a "
@@ -870,7 +870,7 @@ mousse::faceList mousse::intersectedSurface::splitFace
       //
       //    OFstream str("faces.obj");
       //
-      //    forAll(faces, i)
+      //    FOR_ALL(faces, i)
       //    {
       //        writeOBJ(points, faces[i], str);
       //    }
@@ -893,7 +893,7 @@ mousse::faceList mousse::intersectedSurface::splitFace
   vector n = faces[0].normal(eSurf.points());
   if ((n & surf.faceNormals()[faceI]) < 0)
   {
-    forAll(faces, i)
+    FOR_ALL(faces, i)
     {
       reverse(faces[i]);
     }
@@ -936,7 +936,7 @@ mousse::intersectedSurface::intersectedSurface
     triSurface::operator=(surf);
     // Identity for face map
     faceMap_.setSize(size());
-    forAll(faceMap_, faceI)
+    FOR_ALL(faceMap_, faceI)
     {
       faceMap_[faceI] = faceI;
     }
@@ -953,7 +953,7 @@ mousse::intersectedSurface::intersectedSurface
   DynamicList<labelledTri> newTris(eSurf.edges().size()/2);
   // Start in newTris for decomposed face.
   labelList startTriI(surf.size(), 0);
-  forAll(surf, faceI)
+  FOR_ALL(surf, faceI)
   {
     startTriI[faceI] = newTris.size();
     if (eSurf.faceEdges()[faceI].size() != surf.faceEdges()[faceI].size())
@@ -972,7 +972,7 @@ mousse::intersectedSurface::intersectedSurface
                     // + intersection
         )
       );
-      forAll(newFaces, newFaceI)
+      FOR_ALL(newFaces, newFaceI)
       {
         const face& newF = newFaces[newFaceI];
 //                {
@@ -989,12 +989,12 @@ mousse::intersectedSurface::intersectedSurface
 //
 //                    OFstream str(fName);
 //
-//                    forAll(newF, fp)
+//                    FOR_ALL(newF, fp)
 //                    {
 //                        meshTools::writeOBJ(str, eSurf.points()[newF[fp]]);
 //                    }
 //                    str << 'l';
-//                    forAll(newF, fp)
+//                    FOR_ALL(newF, fp)
 //                    {
 //                        str << ' ' << fp+1;
 //                    }
@@ -1003,14 +1003,14 @@ mousse::intersectedSurface::intersectedSurface
         const vector& n = surf.faceNormals()[faceI];
         const label region = surf[faceI].region();
         faceTriangulation tris(eSurf.points(), newF, n);
-        forAll(tris, triI)
+        FOR_ALL(tris, triI)
         {
           const triFace& t = tris[triI];
-          forAll(t, i)
+          FOR_ALL(t, i)
           {
             if (t[i] < 0 || t[i] >= eSurf.points().size())
             {
-              FatalErrorIn
+              FATAL_ERROR_IN
               (
                 "intersectedSurface::intersectedSurface"
               )   << "Face triangulation of face " << faceI
@@ -1074,7 +1074,7 @@ mousse::intersectedSurface::intersectedSurface
     // Find edge connected to surfStartI which also uses surfEndI.
     label surfEdgeI = -1;
     const labelList& pEdges = pointEdges()[surfStartI];
-    forAll(pEdges, i)
+    FOR_ALL(pEdges, i)
     {
       const edge& surfE = edges()[pEdges[i]];
       // Edge already connected to surfStart for sure. See if also
@@ -1091,7 +1091,7 @@ mousse::intersectedSurface::intersectedSurface
     }
     else
     {
-      FatalErrorIn("intersectedSurface::intersectedSurface")
+      FATAL_ERROR_IN("intersectedSurface::intersectedSurface")
         << "Cannot find edge among candidates " << pEdges
         << " which uses points " << surfStartI
         << " and " << surfEndI

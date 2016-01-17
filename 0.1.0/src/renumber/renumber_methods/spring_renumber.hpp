@@ -29,16 +29,15 @@ class springRenumber
     const scalar maxCo_;
     const label maxIter_;
     const scalar freezeFraction_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const springRenumber&);
-    springRenumber(const springRenumber&);
 public:
   //- Runtime type information
-  TypeName("spring");
+  TYPE_NAME("spring");
   // Constructors
     //- Construct given the renumber dictionary
     springRenumber(const dictionary& renumberDict);
+    //- Disallow default bitwise copy construct and assignment
+    springRenumber& operator=(const springRenumber&) = delete;
+    springRenumber(const springRenumber&) = delete;
   //- Destructor
   virtual ~springRenumber()
   {}
@@ -48,7 +47,7 @@ public:
     //  This is only defined for geometric renumberMethods.
     virtual labelList renumber(const pointField&) const
     {
-      notImplemented("springRenumber::renumber(const pointField&)");
+      NOT_IMPLEMENTED("springRenumber::renumber(const pointField&)");
       return labelList(0);
     }
     //- Return the order in which cells need to be visited, i.e.

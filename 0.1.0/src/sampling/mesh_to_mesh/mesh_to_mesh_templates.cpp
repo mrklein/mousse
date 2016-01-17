@@ -23,7 +23,7 @@ namespace mousse
         {
           label sz = x.size();
           x.setSize(sz + y.size());
-          forAll(y, i)
+          FOR_ALL(y, i)
           {
             x[sz++] = y[i];
           }
@@ -44,7 +44,7 @@ void mousse::meshToMesh::add
   const label offset
 ) const
 {
-  forAll(fld, i)
+  FOR_ALL(fld, i)
   {
     fld[i] += offset;
   }
@@ -59,7 +59,7 @@ void mousse::meshToMesh::mapSrcToTgt
 {
   if (result.size() != tgtToSrcCellAddr_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::meshToMesh::mapSrcToTgt"
       "("
@@ -79,7 +79,7 @@ void mousse::meshToMesh::mapSrcToTgt
     const mapDistribute& map = srcMapPtr_();
     List<Type> work(srcField);
     map.distribute(work);
-    forAll(result, cellI)
+    FOR_ALL(result, cellI)
     {
       const labelList& srcAddress = tgtToSrcCellAddr_[cellI];
       const scalarList& srcWeight = tgtToSrcCellWght_[cellI];
@@ -87,7 +87,7 @@ void mousse::meshToMesh::mapSrcToTgt
       {
 //                result[cellI] = pTraits<Type>::zero;
         result[cellI] *= (1.0 - sum(srcWeight));
-        forAll(srcAddress, i)
+        FOR_ALL(srcAddress, i)
         {
           label srcI = srcAddress[i];
           scalar w = srcWeight[i];
@@ -98,7 +98,7 @@ void mousse::meshToMesh::mapSrcToTgt
   }
   else
   {
-    forAll(result, cellI)
+    FOR_ALL(result, cellI)
     {
       const labelList& srcAddress = tgtToSrcCellAddr_[cellI];
       const scalarList& srcWeight = tgtToSrcCellWght_[cellI];
@@ -106,7 +106,7 @@ void mousse::meshToMesh::mapSrcToTgt
       {
 //                result[cellI] = pTraits<Type>::zero;
         result[cellI] *= (1.0 - sum(srcWeight));
-        forAll(srcAddress, i)
+        FOR_ALL(srcAddress, i)
         {
           label srcI = srcAddress[i];
           scalar w = srcWeight[i];
@@ -169,7 +169,7 @@ void mousse::meshToMesh::mapTgtToSrc
 {
   if (result.size() != srcToTgtCellAddr_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::meshToMesh::mapTgtToSrc"
       "("
@@ -189,14 +189,14 @@ void mousse::meshToMesh::mapTgtToSrc
     const mapDistribute& map = tgtMapPtr_();
     List<Type> work(tgtField);
     map.distribute(work);
-    forAll(result, cellI)
+    FOR_ALL(result, cellI)
     {
       const labelList& tgtAddress = srcToTgtCellAddr_[cellI];
       const scalarList& tgtWeight = srcToTgtCellWght_[cellI];
       if (tgtAddress.size())
       {
         result[cellI] *= (1.0 - sum(tgtWeight));
-        forAll(tgtAddress, i)
+        FOR_ALL(tgtAddress, i)
         {
           label tgtI = tgtAddress[i];
           scalar w = tgtWeight[i];
@@ -207,14 +207,14 @@ void mousse::meshToMesh::mapTgtToSrc
   }
   else
   {
-    forAll(result, cellI)
+    FOR_ALL(result, cellI)
     {
       const labelList& tgtAddress = srcToTgtCellAddr_[cellI];
       const scalarList& tgtWeight = srcToTgtCellWght_[cellI];
       if (tgtAddress.size())
       {
         result[cellI] *= (1.0 - sum(tgtWeight));
-        forAll(tgtAddress, i)
+        FOR_ALL(tgtAddress, i)
         {
           label tgtI = tgtAddress[i];
           scalar w = tgtWeight[i];
@@ -277,7 +277,7 @@ void mousse::meshToMesh::mapSrcToTgt
 {
   mapSrcToTgt(field, cop, result.internalField());
   const PtrList<AMIPatchToPatchInterpolation>& AMIList = patchAMIs();
-  forAll(AMIList, i)
+  FOR_ALL(AMIList, i)
   {
     label srcPatchI = srcPatchID_[i];
     label tgtPatchI = tgtPatchID_[i];
@@ -315,7 +315,7 @@ void mousse::meshToMesh::mapSrcToTgt
       UList<Type>::null()
     );
   }
-  forAll(cuttingPatches_, i)
+  FOR_ALL(cuttingPatches_, i)
   {
     label patchI = cuttingPatches_[i];
     fvPatchField<Type>& pf = result.boundaryField()[patchI];
@@ -339,7 +339,7 @@ mousse::meshToMesh::mapSrcToTgt
   // constuct tgt boundary patch types as copy of 'field' boundary types
   // note: this will provide place holders for fields with additional
   // entries, but these values will need to be reset
-  forAll(tgtPatchID_, i)
+  FOR_ALL(tgtPatchID_, i)
   {
     label srcPatchI = srcPatchID_[i];
     label tgtPatchI = tgtPatchID_[i];
@@ -362,7 +362,7 @@ mousse::meshToMesh::mapSrcToTgt
     }
   }
   // Any unset tgtPatchFields become calculated
-  forAll(tgtPatchFields, tgtPatchI)
+  FOR_ALL(tgtPatchFields, tgtPatchI)
   {
     if (!tgtPatchFields.set(tgtPatchI))
     {
@@ -439,7 +439,7 @@ void mousse::meshToMesh::mapTgtToSrc
 {
   mapTgtToSrc(field, cop, result.internalField());
   const PtrList<AMIPatchToPatchInterpolation>& AMIList = patchAMIs();
-  forAll(AMIList, i)
+  FOR_ALL(AMIList, i)
   {
     label srcPatchI = srcPatchID_[i];
     label tgtPatchI = tgtPatchID_[i];
@@ -477,7 +477,7 @@ void mousse::meshToMesh::mapTgtToSrc
       UList<Type>::null()
     );
   }
-  forAll(cuttingPatches_, i)
+  FOR_ALL(cuttingPatches_, i)
   {
     label patchI = cuttingPatches_[i];
     fvPatchField<Type>& pf = result.boundaryField()[patchI];
@@ -501,7 +501,7 @@ mousse::meshToMesh::mapTgtToSrc
   // constuct src boundary patch types as copy of 'field' boundary types
   // note: this will provide place holders for fields with additional
   // entries, but these values will need to be reset
-  forAll(srcPatchID_, i)
+  FOR_ALL(srcPatchID_, i)
   {
     label srcPatchI = srcPatchID_[i];
     label tgtPatchI = tgtPatchID_[i];
@@ -524,7 +524,7 @@ mousse::meshToMesh::mapTgtToSrc
     }
   }
   // Any unset srcPatchFields become calculated
-  forAll(srcPatchFields, srcPatchI)
+  FOR_ALL(srcPatchFields, srcPatchI)
   {
     if (!srcPatchFields.set(srcPatchI))
     {

@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(tetherPotential, 0);
-  defineRunTimeSelectionTable(tetherPotential, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(tetherPotential, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(tetherPotential, dictionary);
 }
 // Constructors 
 mousse::tetherPotential::tetherPotential

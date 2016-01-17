@@ -29,7 +29,7 @@ class genericPointPatchField
     HashPtrTable<tensorField> tensorFields_;
 public:
   //- Runtime type information
-  TypeName("generic");
+  TYPE_NAME("generic");
   // Constructors
     //- Construct from patch and internal field
     genericPointPatchField

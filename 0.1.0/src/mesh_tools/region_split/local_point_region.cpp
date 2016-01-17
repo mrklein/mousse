@@ -9,10 +9,13 @@
 #include "global_index.hpp"
 #include "indirect_primitive_patch.hpp"
 #include "dummy_transform.hpp"
+#include "pstream_reduce_ops.hpp"
+#include "processor_poly_patch.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(localPointRegion, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(localPointRegion, 0);
 // Reduction class to get minimum value over face.
 class minEqOpFace
 {
@@ -22,7 +25,7 @@ public:
     if (x.size())
     {
       label j = 0;
-      forAll(x, i)
+      FOR_ALL(x, i)
       {
         x[i] = min(x[i], y[j]);
         j = y.rcIndex(j);
@@ -31,7 +34,7 @@ public:
   }
 };
 }
-// Private Member Functions 
+// Private Member Functions
 // Are two lists identical either in forward or in reverse order.
 bool mousse::localPointRegion::isDuplicate
 (
@@ -45,7 +48,7 @@ bool mousse::localPointRegion::isDuplicate
   {
     return false;
   }
-  forAll(f0, fp0)
+  FOR_ALL(f0, fp0)
   {
     if (f0[fp0] != f1[fp1])
     {
@@ -80,7 +83,7 @@ void mousse::localPointRegion::countPointRegions
   DynamicList<labelList> pointRegions(meshPointMap_.size());
   // From faces with any duplicated point on it to local face
   meshFaceMap_.resize(meshPointMap_.size());
-  forAllConstIter(Map<label>, candidateFace, iter)
+  FOR_ALL_CONST_ITER(Map<label>, candidateFace, iter)
   {
     label faceI = iter.key();
     if (!mesh.isInternalFace(faceI))
@@ -88,12 +91,12 @@ void mousse::localPointRegion::countPointRegions
       const face& f = mesh.faces()[faceI];
       if (minRegion[faceI].empty())
       {
-        FatalErrorIn("localPointRegion::countPointRegions(..)")
+        FATAL_ERROR_IN("localPointRegion::countPointRegions(..)")
           << "Face from candidateFace without minRegion set." << endl
           << "Face:" << faceI << " fc:" << mesh.faceCentres()[faceI]
           << " verts:" << f << abort(FatalError);
       }
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label pointI = f[fp];
         // Even points which were not candidates for splitting might
@@ -138,13 +141,13 @@ void mousse::localPointRegion::countPointRegions
   minPointRegion.clear();
   // Add internal faces that use any duplicated point. Can only have one
   // region!
-  forAllConstIter(Map<label>, candidateFace, iter)
+  FOR_ALL_CONST_ITER(Map<label>, candidateFace, iter)
   {
     label faceI = iter.key();
     if (mesh.isInternalFace(faceI))
     {
       const face& f = mesh.faces()[faceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         // Note: candidatePoint test not really necessary but
         // speeds up rejection.
@@ -159,13 +162,13 @@ void mousse::localPointRegion::countPointRegions
   // Transfer to member data
   pointRegions.shrink();
   pointRegions_.setSize(pointRegions.size());
-  forAll(pointRegions, i)
+  FOR_ALL(pointRegions, i)
   {
     pointRegions_[i].transfer(pointRegions[i]);
   }
   // Compact minRegion
   faceRegions_.setSize(meshFaceMap_.size());
-  forAllConstIter(Map<label>, meshFaceMap_, iter)
+  FOR_ALL_CONST_ITER(Map<label>, meshFaceMap_, iter)
   {
     faceRegions_[iter()].labelList::transfer(minRegion[iter.key()]);
     //// Print a bit
@@ -174,7 +177,7 @@ void mousse::localPointRegion::countPointRegions
     //    const face& f = mesh.faces()[faceI];
     //    Pout<< "Face:" << faceI << " fc:" << mesh.faceCentres()[faceI]
     //        << " verts:" << f << endl;
-    //    forAll(f, fp)
+    //    FOR_ALL(f, fp)
     //    {
     //        Pout<< "    " << f[fp] << " min:" << faceRegions_[iter()][fp]
     //            << endl;
@@ -208,10 +211,10 @@ void mousse::localPointRegion::calcPointRegions
   label candidateFaceI = 0;
   Map<label> candidateCell(nBnd);
   label candidateCellI = 0;
-  forAll(mesh.faces(), faceI)
+  FOR_ALL(mesh.faces(), faceI)
   {
     const face& f = mesh.faces()[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (candidatePoint[f[fp]])
       {
@@ -244,7 +247,7 @@ void mousse::localPointRegion::calcPointRegions
   // only ones using a
   // candidate point so the only ones that can be affected)
   faceList minRegion(mesh.nFaces());
-  forAllConstIter(Map<label>, candidateFace, iter)
+  FOR_ALL_CONST_ITER(Map<label>, candidateFace, iter)
   {
     label faceI = iter.key();
     const face& f = mesh.faces()[faceI];
@@ -269,19 +272,19 @@ void mousse::localPointRegion::calcPointRegions
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Map<label> minPointValue(100);
     label nChanged = 0;
-    forAllConstIter(Map<label>, candidateCell, iter)
+    FOR_ALL_CONST_ITER(Map<label>, candidateCell, iter)
     {
       minPointValue.clear();
       label cellI = iter.key();
       const cell& cFaces = mesh.cells()[cellI];
       // Determine minimum per point
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         label faceI = cFaces[cFaceI];
         if (minRegion[faceI].size())
         {
           const face& f = mesh.faces()[faceI];
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             label pointI = f[fp];
             Map<label>::iterator iter = minPointValue.find(pointI);
@@ -298,13 +301,13 @@ void mousse::localPointRegion::calcPointRegions
         }
       }
       // Set face minimum from point minimum
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         label faceI = cFaces[cFaceI];
         if (minRegion[faceI].size())
         {
           const face& f = mesh.faces()[faceI];
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             label minVal = minPointValue[f[fp]];
             if (minVal != minRegion[faceI][fp])
@@ -341,14 +344,14 @@ void mousse::localPointRegion::calcPointRegions
   countPointRegions(mesh, candidatePoint, candidateFace, minRegion);
   minRegion.clear();
   //// Print points with multiple regions. These points need to be duplicated.
-  //forAllConstIter(Map<label>, meshPointMap_, iter)
+  //FOR_ALL_CONST_ITER(Map<label>, meshPointMap_, iter)
   //{
   //    Pout<< "point:" << iter.key()
   //        << " coord:" << mesh.points()[iter.key()]
   //        << " regions:" << pointRegions_[iter()] << endl;
   //}
 }
-// Constructors 
+// Constructors
 mousse::localPointRegion::localPointRegion(const polyMesh& mesh)
 :
   //nRegions_(0),
@@ -360,12 +363,12 @@ mousse::localPointRegion::localPointRegion(const polyMesh& mesh)
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   // Get any point on the outside which is on a non-coupled boundary
   boolList candidatePoint(mesh.nPoints(), false);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (!patches[patchI].coupled())
     {
       const polyPatch& pp = patches[patchI];
-      forAll(pp.meshPoints(), i)
+      FOR_ALL(pp.meshPoints(), i)
       {
         candidatePoint[pp.meshPoints()[i]] = true;
       }
@@ -386,13 +389,14 @@ mousse::localPointRegion::localPointRegion
   faceRegions_(0)
 {
   boolList candidatePoint(mesh.nPoints(), false);
-  forAll(candidatePoints, i)
+  FOR_ALL(candidatePoints, i)
   {
     candidatePoint[candidatePoints[i]] = true;
   }
   calcPointRegions(mesh, candidatePoint);
 }
-// Member Functions 
+
+// Member Functions
 // Return a list (in allPatch indices) with either -1 or the face label
 // of the face that uses the same vertices.
 mousse::labelList mousse::localPointRegion::findDuplicateFaces
@@ -410,13 +414,13 @@ mousse::labelList mousse::localPointRegion::findDuplicateFaces
   labelList duplicateFace(allPatch.size(), -1);
   label nDuplicateFaces = 0;
   // Find all duplicate faces.
-  forAll(allPatch, bFaceI)
+  FOR_ALL(allPatch, bFaceI)
   {
     const face& f = allPatch.localFaces()[bFaceI];
     // Get faces connected to f[0].
     // Check whether share all points with f.
     const labelList& pFaces = allPatch.pointFaces()[f[0]];
-    forAll(pFaces, i)
+    FOR_ALL(pFaces, i)
     {
       label otherFaceI = pFaces[i];
       if (otherFaceI > bFaceI)
@@ -424,7 +428,7 @@ mousse::labelList mousse::localPointRegion::findDuplicateFaces
         const face& otherF = allPatch.localFaces()[otherFaceI];
         if (isDuplicate(f, otherF, true))
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "findDuplicateFaces(const primitiveMesh&"
             ", const labelList&)"
@@ -445,7 +449,7 @@ mousse::labelList mousse::localPointRegion::findDuplicateFaces
           || duplicateFace[otherFaceI] != -1
           )
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "findDuplicateFaces(const primitiveMesh&"
               ", const labelList&)"
@@ -485,7 +489,7 @@ mousse::List<mousse::labelPair> mousse::localPointRegion::findDuplicateFacePairs
   const labelList duplicateFace(findDuplicateFaces(mesh, testFaces));
   // Convert into list of coupled face pairs (mesh face labels).
   DynamicList<labelPair> baffles(testFaces.size());
-  forAll(duplicateFace, i)
+  FOR_ALL(duplicateFace, i)
   {
     label otherFaceI = duplicateFace[i];
     if (otherFaceI != -1 && i < otherFaceI)
@@ -501,7 +505,7 @@ mousse::List<mousse::labelPair> mousse::localPointRegion::findDuplicateFacePairs
       || (patch1 != -1 && isA<processorPolyPatch>(patches[patch1]))
       )
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "localPointRegion::findDuplicateFacePairs(const polyMesh&)"
         )   << "One of two duplicate faces is on"
@@ -523,7 +527,7 @@ void mousse::localPointRegion::updateMesh(const mapPolyMesh& map)
 {
   {
     Map<label> newMap(meshFaceMap_.size());
-    forAllConstIter(Map<label>, meshFaceMap_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, meshFaceMap_, iter)
     {
       label newFaceI = map.reverseFaceMap()[iter.key()];
       if (newFaceI >= 0)
@@ -535,7 +539,7 @@ void mousse::localPointRegion::updateMesh(const mapPolyMesh& map)
   }
   {
     Map<label> newMap(meshPointMap_.size());
-    forAllConstIter(Map<label>, meshPointMap_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, meshPointMap_, iter)
     {
       label newPointI = map.reversePointMap()[iter.key()];
       if (newPointI >= 0)

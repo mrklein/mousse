@@ -30,7 +30,7 @@ tmp<scalarField> nutkWallFunctionFvPatchScalarField::calcNut() const
   const scalar Cmu25 = pow025(Cmu_);
   tmp<scalarField> tnutw(new scalarField(patch().size(), 0.0));
   scalarField& nutw = tnutw();
-  forAll(nutw, faceI)
+  FOR_ALL(nutw, faceI)
   {
     label faceCellI = patch().faceCells()[faceI];
     scalar yPlus = Cmu25*y[faceI]*sqrt(k[faceCellI])/nuw[faceI];
@@ -48,7 +48,7 @@ nutkWallFunctionFvPatchScalarField::nutkWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF)
+  nutWallFunctionFvPatchScalarField{p, iF}
 {}
 nutkWallFunctionFvPatchScalarField::nutkWallFunctionFvPatchScalarField
 (
@@ -58,7 +58,7 @@ nutkWallFunctionFvPatchScalarField::nutkWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  nutWallFunctionFvPatchScalarField(ptf, p, iF, mapper)
+  nutWallFunctionFvPatchScalarField{ptf, p, iF, mapper}
 {}
 nutkWallFunctionFvPatchScalarField::nutkWallFunctionFvPatchScalarField
 (
@@ -67,14 +67,14 @@ nutkWallFunctionFvPatchScalarField::nutkWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF, dict)
+  nutWallFunctionFvPatchScalarField{p, iF, dict}
 {}
 nutkWallFunctionFvPatchScalarField::nutkWallFunctionFvPatchScalarField
 (
   const nutkWallFunctionFvPatchScalarField& wfpsf
 )
 :
-  nutWallFunctionFvPatchScalarField(wfpsf)
+  nutWallFunctionFvPatchScalarField{wfpsf}
 {}
 nutkWallFunctionFvPatchScalarField::nutkWallFunctionFvPatchScalarField
 (
@@ -82,7 +82,7 @@ nutkWallFunctionFvPatchScalarField::nutkWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(wfpsf, iF)
+  nutWallFunctionFvPatchScalarField{wfpsf, iF}
 {}
 // Member Functions 
 tmp<scalarField> nutkWallFunctionFvPatchScalarField::yPlus() const
@@ -104,7 +104,7 @@ tmp<scalarField> nutkWallFunctionFvPatchScalarField::yPlus() const
   const scalarField& nuw = tnuw();
   return pow025(Cmu_)*y*sqrt(kwc)/nuw;
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   nutkWallFunctionFvPatchScalarField

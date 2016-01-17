@@ -15,7 +15,7 @@ mixedUnburntEnthalpyFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF)
+  mixedFvPatchScalarField{p, iF}
 {
   valueFraction() = 0.0;
   refValue() = 0.0;
@@ -30,7 +30,7 @@ mixedUnburntEnthalpyFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(ptf, p, iF, mapper)
+  mixedFvPatchScalarField{ptf, p, iF, mapper}
 {}
 mousse::mixedUnburntEnthalpyFvPatchScalarField::
 mixedUnburntEnthalpyFvPatchScalarField
@@ -40,7 +40,7 @@ mixedUnburntEnthalpyFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF, dict)
+  mixedFvPatchScalarField{p, iF, dict}
 {}
 mousse::mixedUnburntEnthalpyFvPatchScalarField::
 mixedUnburntEnthalpyFvPatchScalarField
@@ -48,7 +48,7 @@ mixedUnburntEnthalpyFvPatchScalarField
   const mixedUnburntEnthalpyFvPatchScalarField& tppsf
 )
 :
-  mixedFvPatchScalarField(tppsf)
+  mixedFvPatchScalarField{tppsf}
 {}
 mousse::mixedUnburntEnthalpyFvPatchScalarField::
 mixedUnburntEnthalpyFvPatchScalarField
@@ -57,7 +57,7 @@ mixedUnburntEnthalpyFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(tppsf, iF)
+  mixedFvPatchScalarField{tppsf, iF}
 {}
 // Member Functions 
 void mousse::mixedUnburntEnthalpyFvPatchScalarField::updateCoeffs()
@@ -89,9 +89,9 @@ void mousse::mixedUnburntEnthalpyFvPatchScalarField::updateCoeffs()
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    mixedUnburntEnthalpyFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  mixedUnburntEnthalpyFvPatchScalarField
+);
 }

@@ -12,8 +12,8 @@ namespace mousse
 {
 namespace sixDoFRigidBodyMotionRestraints
 {
-  defineTypeNameAndDebug(tabulatedAxialAngularSpring, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(tabulatedAxialAngularSpring, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     sixDoFRigidBodyMotionRestraint,
     tabulatedAxialAngularSpring,
@@ -102,7 +102,7 @@ bool mousse::sixDoFRigidBodyMotionRestraints::tabulatedAxialAngularSpring::read
   refQ_ = sDoFRBMRCoeffs_.lookupOrDefault<tensor>("referenceOrientation", I);
   if (mag(mag(refQ_) - sqrt(3.0)) > 1e-9)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sixDoFRigidBodyMotionRestraints::"
       "tabulatedAxialAngularSpring::read"
@@ -123,7 +123,7 @@ bool mousse::sixDoFRigidBodyMotionRestraints::tabulatedAxialAngularSpring::read
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sixDoFRigidBodyMotionRestraints::"
       "tabulatedAxialAngularSpring::read"
@@ -146,7 +146,7 @@ bool mousse::sixDoFRigidBodyMotionRestraints::tabulatedAxialAngularSpring::read
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sixDoFRigidBodyMotionRestraints::"
       "tabulatedAxialAngularSpring::read"

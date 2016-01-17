@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace sixDoFSolvers
 {
-  defineTypeNameAndDebug(CrankNicolson, 0);
-  addToRunTimeSelectionTable(sixDoFSolver, CrankNicolson, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(CrankNicolson, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sixDoFSolver, CrankNicolson, dictionary);
 }
 }
 // Constructors 
@@ -30,11 +30,11 @@ mousse::sixDoFSolvers::CrankNicolson::~CrankNicolson()
 // Member Functions 
 void mousse::sixDoFSolvers::CrankNicolson::solve
 (
-  bool firstIter,
+  bool /*firstIter*/,
   const vector& fGlobal,
   const vector& tauGlobal,
   scalar deltaT,
-  scalar deltaT0
+  scalar /*deltaT0*/
 )
 {
   // Update the linear acceleration and torque

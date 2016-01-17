@@ -32,7 +32,7 @@ protected:
     void setMapper();
 public:
   //- Runtime type information
-  TypeName("interRegionOption");
+  TYPE_NAME("interRegionOption");
   // Constructors
     //- Construct from dictionary
     interRegionOption
@@ -56,5 +56,23 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#include "inter_region_option_i.hpp"
+
+inline const mousse::word&
+mousse::fv::interRegionOption::nbrRegionName() const
+{
+  return nbrRegionName_;
+}
+inline const mousse::meshToMesh&
+mousse::fv::interRegionOption::meshInterp() const
+{
+  if (!meshInterpPtr_.valid())
+  {
+    FATAL_ERROR_IN
+    (
+      "const meshToMesh& interRegionOption::meshInterp() const"
+    )   << "Interpolation object not set"
+      << abort(FatalError);
+  }
+  return meshInterpPtr_();
+}
 #endif

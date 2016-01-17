@@ -19,7 +19,7 @@ class genericFvPatch
 {
 public:
   //- Runtime type information
-  TypeName(genericPolyPatch::typeName_());
+  TYPE_NAME(genericPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     genericFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)

@@ -41,7 +41,7 @@ class partialSlipFvPatchField
     scalarField valueFraction_;
 public:
   //- Runtime type information
-  TypeName("partialSlip");
+  TYPE_NAME("partialSlip");
   // Constructors
     //- Construct from patch and internal field
     partialSlipFvPatchField

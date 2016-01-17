@@ -27,7 +27,7 @@ class MixedDiffuseSpecular
     scalar diffuseFraction_;
 public:
   //- Runtime type information
-  TypeName("MixedDiffuseSpecular");
+  TYPE_NAME("MixedDiffuseSpecular");
   // Constructors
     //- Construct from dictionary
     MixedDiffuseSpecular

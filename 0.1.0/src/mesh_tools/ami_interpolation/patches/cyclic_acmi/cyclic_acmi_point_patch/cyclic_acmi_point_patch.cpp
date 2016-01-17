@@ -8,13 +8,13 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicACMIPointPatch, 0);
-  addToRunTimeSelectionTable
-  (
-    facePointPatch,
-    cyclicACMIPointPatch,
-    polyPatch
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicACMIPointPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  facePointPatch,
+  cyclicACMIPointPatch,
+  polyPatch
+);
 }
 // Protected Member Functions 
 void mousse::cyclicACMIPointPatch::initGeometry(PstreamBuffers&)

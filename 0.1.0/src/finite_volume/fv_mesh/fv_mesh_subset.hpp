@@ -69,14 +69,14 @@ private:
     );
     //- Create zones for submesh
     void subsetZones();
-    //- Disallow default bitwise copy construct
-    fvMeshSubset(const fvMeshSubset&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvMeshSubset&);
 public:
   // Constructors
     //- Construct given a mesh to subset
     explicit fvMeshSubset(const fvMesh&);
+    //- Disallow default bitwise copy construct
+    fvMeshSubset(const fvMeshSubset&) = delete;
+    //- Disallow default bitwise assignment
+    fvMeshSubset& operator=(const fvMeshSubset&) = delete;
   // Member Functions
     // Edit
       //- Set the subset. Create "oldInternalFaces" patch for exposed

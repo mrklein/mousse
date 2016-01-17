@@ -15,9 +15,9 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  mixedFvPatchVectorField(p, iF),
-  phiName_("phi"),
-  rhoName_("rho")
+  mixedFvPatchVectorField{p, iF},
+  phiName_{"phi"},
+  rhoName_{"rho"}
 {
   refValue() = *this;
   refGrad() = vector::zero;
@@ -32,9 +32,9 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchVectorField(ptf, p, iF, mapper),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_)
+  mixedFvPatchVectorField{ptf, p, iF, mapper},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_}
 {}
 mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::
 pressureInletOutletParSlipVelocityFvPatchVectorField
@@ -44,9 +44,9 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  mixedFvPatchVectorField(p, iF),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho"))
+  mixedFvPatchVectorField{p, iF},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")}
 {
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
   refValue() = *this;
@@ -59,9 +59,9 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   const pressureInletOutletParSlipVelocityFvPatchVectorField& pivpvf
 )
 :
-  mixedFvPatchVectorField(pivpvf),
-  phiName_(pivpvf.phiName_),
-  rhoName_(pivpvf.rhoName_)
+  mixedFvPatchVectorField{pivpvf},
+  phiName_{pivpvf.phiName_},
+  rhoName_{pivpvf.rhoName_}
 {}
 mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::
 pressureInletOutletParSlipVelocityFvPatchVectorField
@@ -70,9 +70,9 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  mixedFvPatchVectorField(pivpvf, iF),
-  phiName_(pivpvf.phiName_),
-  rhoName_(pivpvf.rhoName_)
+  mixedFvPatchVectorField{pivpvf, iF},
+  phiName_{pivpvf.phiName_},
+  rhoName_{pivpvf.rhoName_}
 {}
 // Member Functions 
 void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::updateCoeffs()
@@ -102,7 +102,7 @@ void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::updateCoeffs(
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pressureInletOutletParSlipVelocityFvPatchVectorField::"
       "updateCoeffs()"
@@ -135,9 +135,9 @@ void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::operator=
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    pressureInletOutletParSlipVelocityFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  pressureInletOutletParSlipVelocityFvPatchVectorField
+);
 }

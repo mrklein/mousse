@@ -19,19 +19,14 @@ class pointLinear
 :
   public linear<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    pointLinear(const pointLinear&);
-    //- Disallow default bitwise assignment
-    void operator=(const pointLinear&);
 public:
   //- Runtime type information
-  TypeName("pointLinear");
+  TYPE_NAME("pointLinear");
   // Constructors
     //- Construct from mesh
     pointLinear(const fvMesh& mesh)
     :
-      linear<Type>(mesh)
+      linear<Type>{mesh}
     {}
     //- Construct from mesh and Istream
     pointLinear
@@ -40,7 +35,7 @@ public:
       Istream&
     )
     :
-      linear<Type>(mesh)
+      linear<Type>{mesh}
     {}
     //- Construct from mesh, faceFlux and Istream
     pointLinear
@@ -50,8 +45,12 @@ public:
       Istream&
     )
     :
-      linear<Type>(mesh)
+      linear<Type>{mesh}
     {}
+    //- Disallow default bitwise copy construct
+    pointLinear(const pointLinear&) = delete;
+    //- Disallow default bitwise assignment
+    pointLinear& operator=(const pointLinear&) = delete;
   // Member Functions
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const

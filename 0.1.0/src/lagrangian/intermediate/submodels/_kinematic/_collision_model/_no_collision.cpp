@@ -7,7 +7,7 @@
 template<class CloudType>
 mousse::NoCollision<CloudType>::NoCollision
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& owner
 )
 :

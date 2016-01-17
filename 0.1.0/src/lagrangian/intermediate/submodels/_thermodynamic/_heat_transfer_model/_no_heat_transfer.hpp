@@ -17,7 +17,7 @@ class NoHeatTransfer
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from dictionary
     NoHeatTransfer(const dictionary&, CloudType& owner);

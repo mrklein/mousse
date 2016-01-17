@@ -390,13 +390,9 @@ class autoSnapDriver
           vectorField& patchAttraction,
           List<pointConstraint>& patchConstraints
         ) const;
-    //- Disallow default bitwise copy construct
-    autoSnapDriver(const autoSnapDriver&);
-    //- Disallow default bitwise assignment
-    void operator=(const autoSnapDriver&);
 public:
   //- Runtime type information
-  ClassName("autoSnapDriver");
+  CLASS_NAME("autoSnapDriver");
   // Constructors
     //- Construct from components
     autoSnapDriver
@@ -405,6 +401,10 @@ public:
       const labelList& globalToMasterPatch,
       const labelList& globalToSlavePatch
     );
+    //- Disallow default bitwise copy construct
+    autoSnapDriver(const autoSnapDriver&) = delete;
+    //- Disallow default bitwise assignment
+    autoSnapDriver& operator=(const autoSnapDriver&) = delete;
   // Member Functions
     // Snapping
       //- Merge baffles.

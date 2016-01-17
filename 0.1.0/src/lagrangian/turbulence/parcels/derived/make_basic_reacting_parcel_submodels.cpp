@@ -8,6 +8,6 @@
 
 namespace mousse
 {
-  makeThermoParcelTurbulenceForces(basicReactingCloud);
-  makeParcelTurbulenceDispersionModels(basicReactingCloud);
+MAKE_THERMO_PARCEL_TURBULENCE_FORCES(basicReactingCloud);
+MAKE_PARCEL_TURBULENCE_DISPERSION_MODELS(basicReactingCloud);
 }

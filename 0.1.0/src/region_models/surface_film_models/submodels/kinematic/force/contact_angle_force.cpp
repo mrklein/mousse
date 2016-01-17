@@ -15,8 +15,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(contactAngleForce, 0);
-addToRunTimeSelectionTable(force, contactAngleForce, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(contactAngleForce, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(force, contactAngleForce, dictionary);
 // Private Member Functions 
 void contactAngleForce::initialise()
 {
@@ -28,7 +28,7 @@ void contactAngleForce::initialise()
     Info<< "        Assigning zero contact force within " << dLim
       << " of patches:" << endl;
     labelHashSet patchIDs = pbm.patchSet(zeroForcePatches);
-    forAllConstIter(labelHashSet, patchIDs, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
     {
       label patchI = iter.key();
       Info<< "            " << pbm[patchI].name() << endl;
@@ -116,7 +116,7 @@ tmp<fvVectorMatrix> contactAngleForce::correct(volVectorField& U)
   const volScalarField& alpha = owner_.alpha();
   const volScalarField& sigma = owner_.sigma();
   volVectorField gradAlpha(fvc::grad(alpha));
-  forAll(nbr, faceI)
+  FOR_ALL(nbr, faceI)
   {
     const label cellO = own[faceI];
     const label cellN = nbr[faceI];
@@ -138,7 +138,7 @@ tmp<fvVectorMatrix> contactAngleForce::correct(volVectorField& U)
       force[cellI] += Ccf_*n*sigma[cellI]*(1.0 - theta)/invDx;
     }
   }
-  forAll(alpha.boundaryField(), patchI)
+  FOR_ALL(alpha.boundaryField(), patchI)
   {
     if (!owner().isCoupledPatch(patchI))
     {
@@ -146,7 +146,7 @@ tmp<fvVectorMatrix> contactAngleForce::correct(volVectorField& U)
       const fvPatchField<scalar>& maskf = mask_.boundaryField()[patchI];
       const scalarField& invDx = alphaf.patch().deltaCoeffs();
       const labelUList& faceCells = alphaf.patch().faceCells();
-      forAll(alphaf, faceI)
+      FOR_ALL(alphaf, faceI)
       {
         if (maskf[faceI] > 0.5)
         {

@@ -71,7 +71,7 @@ class meshToMesh0
     static const scalar directHitTol;
 public:
   // Declare name of the class and its debug switch
-  ClassName("meshToMesh0");
+  CLASS_NAME("meshToMesh0");
   //- Enumeration specifying required accuracy
   enum order
   {

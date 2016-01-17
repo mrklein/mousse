@@ -40,10 +40,6 @@ class twoDPointCorrector
     //- Wedge angle (if wedge geometry)
     mutable scalar wedgeAngle_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    twoDPointCorrector(const twoDPointCorrector&);
-    //- Disallow default bitwise assignment
-    void operator=(const twoDPointCorrector&);
     //- Calculate addressing
     void calcAddressing() const;
     //- Clear addressing
@@ -55,10 +51,14 @@ class twoDPointCorrector
     static const scalar edgeOrthogonalityTol;
 public:
   // Declare name of the class and its debug switch
-  ClassName("twoDPointCorrector");
+  CLASS_NAME("twoDPointCorrector");
   // Constructors
     //- Construct from components
     twoDPointCorrector(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    twoDPointCorrector(const twoDPointCorrector&) = delete;
+    //- Disallow default bitwise assignment
+    twoDPointCorrector& operator=(const twoDPointCorrector&) = delete;
   //- Destructor
   ~twoDPointCorrector();
   // Member Functions

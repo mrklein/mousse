@@ -47,7 +47,7 @@ private:
       SMDMethods SMDMethod_;
 public:
   //- Runtime type information
-  TypeName("TAB");
+  TYPE_NAME("TAB");
   // Constructors
     //- Construct from dictionary
     TAB(const dictionary& dict, CloudType& owner);

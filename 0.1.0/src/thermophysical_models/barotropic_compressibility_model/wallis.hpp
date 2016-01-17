@@ -26,7 +26,7 @@ class Wallis
     dimensionedScalar rholSat_;
 public:
   //- Runtime type information
-  TypeName("Wallis");
+  TYPE_NAME("Wallis");
   // Constructors
     //- Construct from components
     Wallis

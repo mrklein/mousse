@@ -14,8 +14,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(slidingInterface, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(slidingInterface, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     polyMeshModifier,
     slidingInterface,
@@ -48,7 +48,7 @@ void mousse::slidingInterface::checkDefinition()
   || !slavePatchID_.active()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void slidingInterface::checkDefinition()"
     )   << "Not all zones and patches needed in the definition "
@@ -62,7 +62,7 @@ void mousse::slidingInterface::checkDefinition()
   || mesh.faceZones()[slaveFaceZoneID_.index()].empty()
   )
   {
-    FatalErrorIn("void slidingInterface::checkDefinition()")
+    FATAL_ERROR_IN("void slidingInterface::checkDefinition()")
       << "Master or slave face zone contain no faces.  "
       << "Please check your mesh definition."
       << abort(FatalError);
@@ -159,7 +159,7 @@ mousse::slidingInterface::slidingInterface
   checkDefinition();
   if (attached_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::slidingInterface::slidingInterface\n"
       "(\n"
@@ -389,7 +389,7 @@ void mousse::slidingInterface::modifyMotionPoints(pointField& motionPoints) cons
     const edgeList& slaveEdges = slavePatch.edges();
     const pointField& slaveLocalPoints = slavePatch.localPoints();
     const vectorField& slavePointNormals = slavePatch.pointNormals();
-    forAll(cutPoints, pointI)
+    FOR_ALL(cutPoints, pointI)
     {
       // Try to find the cut point in retired points
       Map<label>::const_iterator rpmIter = rpm.find(cutPoints[pointI]);
@@ -545,7 +545,7 @@ void mousse::slidingInterface::modifyMotionPoints(pointField& motionPoints) cons
         }
         else
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void slidingInterface::modifyMotionPoints"
             "(pointField&) const"
@@ -563,7 +563,7 @@ void mousse::slidingInterface::modifyMotionPoints(pointField& motionPoints) cons
     }
   }
 }
-void mousse::slidingInterface::updateMesh(const mapPolyMesh& m)
+void mousse::slidingInterface::updateMesh(const mapPolyMesh&)
 {
   if (debug)
   {

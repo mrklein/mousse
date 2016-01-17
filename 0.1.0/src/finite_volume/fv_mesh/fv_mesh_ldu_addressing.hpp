@@ -7,10 +7,14 @@
 //   mousse::fvMeshLduAddressing
 // SourceFiles
 //   fv_mesh_ldu_addressing.cpp
+
 #ifndef fv_mesh_ldu_addressing_hpp_
 #define fv_mesh_ldu_addressing_hpp_
+
 #include "ldu_addressing.hpp"
 #include "fv_mesh.hpp"
+#include "global_mesh_data.hpp"
+
 namespace mousse
 {
 class fvMeshLduAddressing
@@ -26,34 +30,33 @@ class fvMeshLduAddressing
     List<const labelUList*> patchAddr_;
     //- Patch field evaluation schedule
     const lduSchedule& patchSchedule_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fvMeshLduAddressing(const fvMeshLduAddressing&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvMeshLduAddressing&);
 public:
   // Constructors
     //- Construct from components
     fvMeshLduAddressing(const fvMesh& mesh)
     :
-      lduAddressing(mesh.nCells()),
+      lduAddressing{mesh.nCells()},
       lowerAddr_
-      (
+      {
         labelList::subList
         (
           mesh.faceOwner(),
           mesh.nInternalFaces()
         )
-      ),
+      },
       upperAddr_(mesh.faceNeighbour()),
       patchAddr_(mesh.boundary().size()),
       patchSchedule_(mesh.globalData().patchSchedule())
     {
-      forAll(mesh.boundary(), patchI)
+      FOR_ALL(mesh.boundary(), patchI)
       {
         patchAddr_[patchI] = &mesh.boundary()[patchI].faceCells();
       }
     }
+    //- Disallow default bitwise copy construct
+    fvMeshLduAddressing(const fvMeshLduAddressing&) = delete;
+    //- Disallow default bitwise assignment
+    fvMeshLduAddressing& operator=(const fvMeshLduAddressing&) = delete;
   //- Destructor
   ~fvMeshLduAddressing()
   {}

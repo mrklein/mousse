@@ -17,9 +17,9 @@ oscillatingDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(p, iF),
-  amplitude_(vector::zero),
-  omega_(0.0)
+  fixedValuePointPatchField<vector>{p, iF},
+  amplitude_{vector::zero},
+  omega_{0.0}
 {}
 oscillatingDisplacementPointPatchVectorField::
 oscillatingDisplacementPointPatchVectorField
@@ -29,9 +29,9 @@ oscillatingDisplacementPointPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValuePointPatchField<vector>(p, iF, dict),
-  amplitude_(dict.lookup("amplitude")),
-  omega_(readScalar(dict.lookup("omega")))
+  fixedValuePointPatchField<vector>{p, iF, dict},
+  amplitude_{dict.lookup("amplitude")},
+  omega_{readScalar(dict.lookup("omega"))}
 {
   if (!dict.found("value"))
   {
@@ -47,9 +47,9 @@ oscillatingDisplacementPointPatchVectorField
   const pointPatchFieldMapper& mapper
 )
 :
-  fixedValuePointPatchField<vector>(ptf, p, iF, mapper),
-  amplitude_(ptf.amplitude_),
-  omega_(ptf.omega_)
+  fixedValuePointPatchField<vector>{ptf, p, iF, mapper},
+  amplitude_{ptf.amplitude_},
+  omega_{ptf.omega_}
 {}
 oscillatingDisplacementPointPatchVectorField::
 oscillatingDisplacementPointPatchVectorField
@@ -58,9 +58,9 @@ oscillatingDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(ptf, iF),
-  amplitude_(ptf.amplitude_),
-  omega_(ptf.omega_)
+  fixedValuePointPatchField<vector>{ptf, iF},
+  amplitude_{ptf.amplitude_},
+  omega_{ptf.omega_}
 {}
 // Member Functions 
 void oscillatingDisplacementPointPatchVectorField::updateCoeffs()
@@ -77,13 +77,11 @@ void oscillatingDisplacementPointPatchVectorField::updateCoeffs()
 void oscillatingDisplacementPointPatchVectorField::write(Ostream& os) const
 {
   pointPatchField<vector>::write(os);
-  os.writeKeyword("amplitude")
-    << amplitude_ << token::END_STATEMENT << nl;
-  os.writeKeyword("omega")
-    << omega_ << token::END_STATEMENT << nl;
+  os.writeKeyword("amplitude") << amplitude_ << token::END_STATEMENT << nl;
+  os.writeKeyword("omega") << omega_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePointPatchTypeField
+MAKE_POINT_PATCH_TYPE_FIELD
 (
   pointPatchVectorField,
   oscillatingDisplacementPointPatchVectorField

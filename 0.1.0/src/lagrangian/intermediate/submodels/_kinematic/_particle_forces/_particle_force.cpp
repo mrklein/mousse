@@ -20,7 +20,7 @@ mousse::ParticleForce<CloudType>::ParticleForce
 {
   if (readCoeffs && (coeffs_.dictName() != forceType))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "mousse::ParticleForce<CloudType>::ParticleForce"
       "("
@@ -48,16 +48,16 @@ mousse::ParticleForce<CloudType>::~ParticleForce()
 {}
 // Member Functions 
 template<class CloudType>
-void mousse::ParticleForce<CloudType>::cacheFields(const bool store)
+void mousse::ParticleForce<CloudType>::cacheFields(const bool /*store*/)
 {}
 template<class CloudType>
 mousse::forceSuSp mousse::ParticleForce<CloudType>::calcCoupled
 (
   const typename CloudType::parcelType&,
-  const scalar dt,
-  const scalar mass,
-  const scalar Re,
-  const scalar muc
+  const scalar /*dt*/,
+  const scalar /*mass*/,
+  const scalar /*Re*/,
+  const scalar /*muc*/
 ) const
 {
   forceSuSp value;
@@ -69,10 +69,10 @@ template<class CloudType>
 mousse::forceSuSp mousse::ParticleForce<CloudType>::calcNonCoupled
 (
   const typename CloudType::parcelType&,
-  const scalar dt,
-  const scalar mass,
-  const scalar Re,
-  const scalar muc
+  const scalar /*dt*/,
+  const scalar /*mass*/,
+  const scalar /*Re*/,
+  const scalar /*muc*/
 ) const
 {
   forceSuSp value;
@@ -83,8 +83,8 @@ mousse::forceSuSp mousse::ParticleForce<CloudType>::calcNonCoupled
 template<class CloudType>
 mousse::scalar mousse::ParticleForce<CloudType>::massAdd
 (
-  const typename CloudType::parcelType& p,
-  const scalar mass
+  const typename CloudType::parcelType& /*p*/,
+  const scalar /*mass*/
 ) const
 {
   return 0.0;

@@ -6,6 +6,7 @@
 #include "poly_mesh.hpp"
 #include "global_mesh_data.hpp"
 #include "patch_tools.hpp"
+
 // Static Data Members
 template
 <
@@ -15,6 +16,7 @@ template
 >
 mousse::scalar mousse::PatchEdgeFaceWave<PrimitivePatchType, Type, TrackingData>::
 propagationTol_ = 0.01;
+
 template
 <
   class PrimitivePatchType,
@@ -24,6 +26,7 @@ template
 mousse::label
 mousse::PatchEdgeFaceWave<PrimitivePatchType, Type, TrackingData>::
 dummyTrackData_ = 12345;
+
 // Private Member Functions 
 // Update info for edgeI, at position pt, with information from
 // neighbouring face.
@@ -72,6 +75,8 @@ updateEdge
   }
   return propagate;
 }
+
+
 // Update info for faceI, at position pt, with information from
 // neighbouring edge.
 // Updates:
@@ -119,6 +124,8 @@ updateFace
   }
   return propagate;
 }
+
+
 template
 <
   class PrimitivePatchType,
@@ -135,7 +142,7 @@ syncEdges()
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //- Construct with all data in consistent orientation
   List<Type> cppEdgeData(map.constructSize());
-  forAll(patchEdges_, i)
+  FOR_ALL(patchEdges_, i)
   {
     label patchEdgeI = patchEdges_[i];
     label coupledEdgeI = coupledEdges_[i];
@@ -187,7 +194,7 @@ syncEdges()
   );
   // Back from cpp-edge to patch-edge data
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(patchEdges_, i)
+  FOR_ALL(patchEdges_, i)
   {
     label patchEdgeI = patchEdges_[i];
     label coupledEdgeI = coupledEdges_[i];
@@ -216,6 +223,8 @@ syncEdges()
     }
   }
 }
+
+
 // Constructors 
 // Iterate, propagating changedEdgesInfo across patch, until no change (or
 // maxIter reached). Initial edge values specified.
@@ -263,29 +272,31 @@ PatchEdgeFaceWave
   );
   if (allEdgeInfo_.size() != patch_.nEdges())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PatchEdgeFaceWave<Type, TrackingData>::PatchEdgeFaceWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
       " List<Type>&, List<Type>&, const label maxIter)"
-    )   << "size of edgeInfo work array is not equal to the number"
-      << " of edges in the patch" << endl
-      << "    edgeInfo   :" << allEdgeInfo_.size() << endl
-      << "    patch.nEdges:" << patch_.nEdges()
-      << exit(FatalError);
+    )
+    << "size of edgeInfo work array is not equal to the number"
+    << " of edges in the patch" << endl
+    << "    edgeInfo   :" << allEdgeInfo_.size() << endl
+    << "    patch.nEdges:" << patch_.nEdges()
+    << exit(FatalError);
   }
   if (allFaceInfo_.size() != patch_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PatchEdgeFaceWave<Type, TrackingData>::PatchEdgeFaceWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
       " List<Type>&, List<Type>&, const label maxIter)"
-    )   << "size of edgeInfo work array is not equal to the number"
-      << " of faces in the patch" << endl
-      << "    faceInfo   :" << allFaceInfo_.size() << endl
-      << "    patch.size:" << patch_.size()
-      << exit(FatalError);
+    )
+    << "size of edgeInfo work array is not equal to the number"
+    << " of faces in the patch" << endl
+    << "    faceInfo   :" << allFaceInfo_.size() << endl
+    << "    patch.size:" << patch_.size()
+    << exit(FatalError);
   }
   // Set from initial changed edges data
   setEdgeInfo(changedEdges, changedEdgesInfo);
@@ -297,18 +308,21 @@ PatchEdgeFaceWave
   label iter = iterate(maxIter);
   if ((maxIter > 0) && (iter >= maxIter))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PatchEdgeFaceWave<Type, TrackingData>::PatchEdgeFaceWave"
       "(const polyMesh&, const labelList&, const List<Type>,"
       " List<Type>&, List<Type>&, const label maxIter)"
-    )   << "Maximum number of iterations reached. Increase maxIter." << endl
-      << "    maxIter:" << maxIter << endl
-      << "    changedEdges:" << changedEdges_.size() << endl
-      << "    changedFaces:" << changedFaces_.size() << endl
-      << exit(FatalError);
+    )
+    << "Maximum number of iterations reached. Increase maxIter." << endl
+    << "    maxIter:" << maxIter << endl
+    << "    changedEdges:" << changedEdges_.size() << endl
+    << "    changedFaces:" << changedFaces_.size() << endl
+    << exit(FatalError);
   }
 }
+
+
 template
 <
   class PrimitivePatchType,
@@ -349,6 +363,8 @@ PatchEdgeFaceWave
     sameEdgeOrientation_
   );
 }
+
+
 // Member Functions 
 template
 <
@@ -361,6 +377,8 @@ getUnsetEdges() const
 {
   return nUnvisitedEdges_;
 }
+
+
 template
 <
   class PrimitivePatchType,
@@ -372,6 +390,8 @@ getUnsetFaces() const
 {
   return nUnvisitedFaces_;
 }
+
+
 // Copy edge information into member data
 template
 <
@@ -386,7 +406,7 @@ setEdgeInfo
   const List<Type>& changedEdgesInfo
 )
 {
-  forAll(changedEdges, changedEdgeI)
+  FOR_ALL(changedEdges, changedEdgeI)
   {
     label edgeI = changedEdges[changedEdgeI];
     bool wasValid = allEdgeInfo_[edgeI].valid(td_);
@@ -405,6 +425,8 @@ setEdgeInfo
     }
   }
 }
+
+
 // Propagate information from face to edge. Return number of edges changed.
 template
 <
@@ -417,12 +439,12 @@ faceToEdge()
 {
   changedEdges_.clear();
   changedEdge_ = false;
-  forAll(changedFaces_, changedFaceI)
+  FOR_ALL(changedFaces_, changedFaceI)
   {
     label faceI = changedFaces_[changedFaceI];
     if (!changedFace_[faceI])
     {
-      FatalErrorIn("PatchEdgeFaceWave<Type, TrackingData>::faceToEdge()")
+      FATAL_ERROR_IN("PatchEdgeFaceWave<Type, TrackingData>::faceToEdge()")
         << "face " << faceI
         << " not marked as having been changed" << nl
         << "This might be caused by multiple occurences of the same"
@@ -431,7 +453,7 @@ faceToEdge()
     const Type& neighbourWallInfo = allFaceInfo_[faceI];
     // Evaluate all connected edges
     const labelList& fEdges = patch_.faceEdges()[faceI];
-    forAll(fEdges, fEdgeI)
+    FOR_ALL(fEdges, fEdgeI)
     {
       label edgeI = fEdges[fEdgeI];
       Type& currentWallInfo = allEdgeInfo_[edgeI];
@@ -454,6 +476,8 @@ faceToEdge()
   }
   return returnReduce(changedEdges_.size(), sumOp<label>());
 }
+
+
 // Propagate information from edge to face. Return number of faces changed.
 template
 <
@@ -467,12 +491,12 @@ edgeToFace()
   changedFaces_.clear();
   changedFace_ = false;
   const labelListList& edgeFaces = patch_.edgeFaces();
-  forAll(changedEdges_, changedEdgeI)
+  FOR_ALL(changedEdges_, changedEdgeI)
   {
     label edgeI = changedEdges_[changedEdgeI];
     if (!changedEdge_[edgeI])
     {
-      FatalErrorIn("PatchEdgeFaceWave<Type, TrackingData>::edgeToFace()")
+      FATAL_ERROR_IN("PatchEdgeFaceWave<Type, TrackingData>::edgeToFace()")
         << "edge " << edgeI
         << " not marked as having been changed" << nl
         << "This might be caused by multiple occurences of the same"
@@ -481,7 +505,7 @@ edgeToFace()
     const Type& neighbourWallInfo = allEdgeInfo_[edgeI];
     // Evaluate all connected faces
     const labelList& eFaces = edgeFaces[edgeI];
-    forAll(eFaces, eFaceI)
+    FOR_ALL(eFaces, eFaceI)
     {
       label faceI = eFaces[eFaceI];
       Type& currentWallInfo = allFaceInfo_[faceI];
@@ -503,6 +527,8 @@ edgeToFace()
   }
   return returnReduce(changedFaces_.size(), sumOp<label>());
 }
+
+
 // Iterate
 template
 <
@@ -552,3 +578,4 @@ iterate
   }
   return iter;
 }
+

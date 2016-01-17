@@ -18,9 +18,9 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  inletOutletFvPatchScalarField(p, iF),
-  mixingLength_(0.0),
-  kName_("undefined-k")
+  inletOutletFvPatchScalarField{p, iF},
+  mixingLength_{0.0},
+  kName_{"undefined-k"}
 {
   this->refValue() = 0.0;
   this->refGrad() = 0.0;
@@ -35,9 +35,9 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  inletOutletFvPatchScalarField(ptf, p, iF, mapper),
-  mixingLength_(ptf.mixingLength_),
-  kName_(ptf.kName_)
+  inletOutletFvPatchScalarField{ptf, p, iF, mapper},
+  mixingLength_{ptf.mixingLength_},
+  kName_{ptf.kName_}
 {}
 turbulentMixingLengthFrequencyInletFvPatchScalarField::
 turbulentMixingLengthFrequencyInletFvPatchScalarField
@@ -47,9 +47,9 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   const dictionary& dict
 )
 :
-  inletOutletFvPatchScalarField(p, iF),
-  mixingLength_(readScalar(dict.lookup("mixingLength"))),
-  kName_(dict.lookupOrDefault<word>("k", "k"))
+  inletOutletFvPatchScalarField{p, iF},
+  mixingLength_{readScalar(dict.lookup("mixingLength"))},
+  kName_{dict.lookupOrDefault<word>("k", "k")}
 {
   this->phiName_ = dict.lookupOrDefault<word>("phi", "phi");
   fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
@@ -63,9 +63,9 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   const turbulentMixingLengthFrequencyInletFvPatchScalarField& ptf
 )
 :
-  inletOutletFvPatchScalarField(ptf),
-  mixingLength_(ptf.mixingLength_),
-  kName_(ptf.kName_)
+  inletOutletFvPatchScalarField{ptf},
+  mixingLength_{ptf.mixingLength_},
+  kName_{ptf.kName_}
 {}
 turbulentMixingLengthFrequencyInletFvPatchScalarField::
 turbulentMixingLengthFrequencyInletFvPatchScalarField
@@ -74,9 +74,9 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  inletOutletFvPatchScalarField(ptf, iF),
-  mixingLength_(ptf.mixingLength_),
-  kName_(ptf.kName_)
+  inletOutletFvPatchScalarField{ptf, iF},
+  mixingLength_{ptf.mixingLength_},
+  kName_{ptf.kName_}
 {}
 // Member Functions 
 void turbulentMixingLengthFrequencyInletFvPatchScalarField::updateCoeffs()
@@ -117,7 +117,7 @@ void turbulentMixingLengthFrequencyInletFvPatchScalarField::write
   os.writeKeyword("k") << kName_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   turbulentMixingLengthFrequencyInletFvPatchScalarField

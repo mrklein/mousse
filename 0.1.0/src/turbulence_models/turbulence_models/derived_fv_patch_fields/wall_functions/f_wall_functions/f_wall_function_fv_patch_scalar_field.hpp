@@ -58,7 +58,7 @@ protected:
     scalar yPlusLam(const scalar kappa, const scalar E);
 public:
   //- Runtime type information
-  TypeName("fWallFunction");
+  TYPE_NAME("fWallFunction");
   // Constructors
     //- Construct from patch and internal field
     fWallFunctionFvPatchScalarField

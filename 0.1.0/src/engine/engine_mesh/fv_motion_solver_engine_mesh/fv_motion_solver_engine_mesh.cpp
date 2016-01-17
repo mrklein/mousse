@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(fvMotionSolverEngineMesh, 0);
-  addToRunTimeSelectionTable(engineMesh, fvMotionSolverEngineMesh, IOobject);
+  DEFINE_TYPE_NAME_AND_DEBUG(fvMotionSolverEngineMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(engineMesh, fvMotionSolverEngineMesh, IOobject);
 }
 // Constructors 
 mousse::fvMotionSolverEngineMesh::fvMotionSolverEngineMesh(const IOobject& io)

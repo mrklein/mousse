@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace TimeScaleModels
 {
-  defineTypeNameAndDebug(equilibrium, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(equilibrium, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     TimeScaleModel,
     equilibrium,
@@ -43,7 +43,7 @@ mousse::TimeScaleModels::equilibrium::oneByTau
   const FieldField<Field, scalar>& alpha,
   const FieldField<Field, scalar>& r32,
   const FieldField<Field, scalar>& uSqr,
-  const FieldField<Field, scalar>& f
+  const FieldField<Field, scalar>& /*f*/
 ) const
 {
   static const scalar a =

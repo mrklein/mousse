@@ -23,7 +23,7 @@ class AverageIOField
     //- The average of the field
     Type average_;
 public:
-  TypeName("AverageField");
+  TYPE_NAME("AverageField");
   // Constructors
     //- Construct from IOobject
     AverageIOField

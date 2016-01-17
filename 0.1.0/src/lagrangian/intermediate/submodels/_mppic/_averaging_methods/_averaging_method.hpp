@@ -7,7 +7,6 @@
 //   Base class for lagrangian averaging methods.
 // SourceFiles
 //   _averaging_method.cpp
-//   _averaging_method_i.hpp
 #ifndef _averaging_method_hpp_
 #define _averaging_method_hpp_
 #include "iodictionary.hpp"
@@ -35,9 +34,9 @@ protected:
     virtual void updateGrad();
 public:
   //- Runtime type information
-  TypeName("averagingMethod");
+  TYPE_NAME("averagingMethod");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     AveragingMethod,
@@ -61,9 +60,9 @@ public:
     //- Construct a copy
     AveragingMethod(const AveragingMethod<Type>& am);
     //- Construct and return a clone
-    virtual autoPtr<AveragingMethod<Type> > clone() const = 0;
+    virtual autoPtr<AveragingMethod<Type>> clone() const = 0;
   //- Selector
-  static autoPtr<AveragingMethod<Type> > New
+  static autoPtr<AveragingMethod<Type>> New
   (
     const IOobject& io,
     const dictionary& dict,
@@ -99,22 +98,78 @@ public:
     //- Write using setting from DB
     virtual bool write() const;
     //- Return an internal field of the average
-    virtual tmp<Field<Type> > internalField() const = 0;
+    virtual tmp<Field<Type>> internalField() const = 0;
     //- Assign to another average
     inline void operator=(const AveragingMethod<Type>& x);
     //- Assign to value
     inline void operator=(const Type& x);
     //- Assign to tmp
-    inline void operator=(tmp<FieldField<Field, Type> > x);
+    inline void operator=(tmp<FieldField<Field, Type>> x);
     //- Add-equal tmp
-    inline void operator+=(tmp<FieldField<Field, Type> > x);
+    inline void operator+=(tmp<FieldField<Field, Type>> x);
     //- Multiply-equal tmp
-    inline void operator*=(tmp<FieldField<Field, Type> > x);
+    inline void operator*=(tmp<FieldField<Field, Type>> x);
     //- Divide-equal tmp
-    inline void operator/=(tmp<FieldField<Field, scalar> > x);
+    inline void operator/=(tmp<FieldField<Field, scalar>> x);
 };
 }  // namespace mousse
-#include "_averaging_method_i.hpp"
+
+// Member Functions 
+template<class Type>
+inline void mousse::AveragingMethod<Type>::operator=
+(
+  const AveragingMethod<Type>& x
+)
+{
+  FieldField<Field, Type>::operator=(x);
+  updateGrad();
+}
+template<class Type>
+inline void mousse::AveragingMethod<Type>::operator=
+(
+  const Type& x
+)
+{
+  FieldField<Field, Type>::operator=(x);
+  updateGrad();
+}
+template<class Type>
+inline void mousse::AveragingMethod<Type>::operator=
+(
+  tmp<FieldField<Field, Type>> x
+)
+{
+  FieldField<Field, Type>::operator=(x());
+  updateGrad();
+}
+template<class Type>
+inline void mousse::AveragingMethod<Type>::operator+=
+(
+  tmp<FieldField<Field, Type>> x
+)
+{
+  FieldField<Field, Type>::operator+=(x());
+  updateGrad();
+}
+template<class Type>
+inline void mousse::AveragingMethod<Type>::operator*=
+(
+  tmp<FieldField<Field, Type>> x
+)
+{
+  FieldField<Field, Type>::operator*=(x());
+  updateGrad();
+}
+template<class Type>
+inline void mousse::AveragingMethod<Type>::operator/=
+(
+  tmp<FieldField<Field, scalar>> x
+)
+{
+  FieldField<Field, Type>::operator/=(x());
+  updateGrad();
+}
+
 #ifdef NoRepository
 #   include "_averaging_method.cpp"
 #endif

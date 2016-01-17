@@ -22,18 +22,18 @@ namespace mousse
 int main(int argc, char *argv[])
 {
   mousse::timeSelector::addOptions();
-  #include "add_region_option.hpp"
+  #include "add_region_option.inc"
   mousse::argList::addBoolOption
   (
     "noWrite",
     "suppress writing results"
   );
-  #include "add_dict_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_dict_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   mousse::instantList timeDirs = mousse::timeSelector::select0(runTime, args);
-  #include "create_named_mesh.hpp"
-  forAll(timeDirs, timeI)
+  #include "create_named_mesh.inc"
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     mousse::Info<< "Time = " << runTime.timeName() << mousse::endl;

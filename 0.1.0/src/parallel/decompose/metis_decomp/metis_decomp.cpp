@@ -12,8 +12,8 @@ extern "C"
 }
 namespace mousse
 {
-  defineTypeNameAndDebug(metisDecomp, 0);
-  addToRunTimeSelectionTable(decompositionMethod, metisDecomp, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(metisDecomp, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(decompositionMethod, metisDecomp, dictionary);
 }
 // Private Member Functions 
 mousse::label mousse::metisDecomp::decompose
@@ -49,20 +49,20 @@ mousse::label mousse::metisDecomp::decompose
   {
     if (minWeights <= 0)
     {
-      WarningInFunction
+      WARNING_IN_FUNCTION
         << "Illegal minimum weight " << minWeights
         << endl;
     }
     if (cWeights.size() != numCells)
     {
-      FatalErrorInFunction
+      FATAL_ERROR_IN_FUNCTION
         << "Number of cell weights " << cWeights.size()
         << " does not equal number of cells " << numCells
         << exit(FatalError);
     }
     // Convert to integers.
     cellWeights.setSize(cWeights.size());
-    forAll(cellWeights, i)
+    FOR_ALL(cellWeights, i)
     {
       cellWeights[i] = int(cWeights[i]/minWeights);
     }
@@ -77,7 +77,7 @@ mousse::label mousse::metisDecomp::decompose
     {
       if (method != "recursive" && method != "k-way")
       {
-        FatalErrorInFunction
+        FATAL_ERROR_IN_FUNCTION
           << "Method " << method << " in metisCoeffs in dictionary : "
           << decompositionDict_.name()
           << " should be 'recursive' or 'k-way'"
@@ -90,7 +90,7 @@ mousse::label mousse::metisDecomp::decompose
     {
       if (options.size() != METIS_NOPTIONS)
       {
-        FatalErrorInFunction
+        FATAL_ERROR_IN_FUNCTION
           << "Number of options in metisCoeffs in dictionary : "
           << decompositionDict_.name()
           << " should be " << METIS_NOPTIONS
@@ -104,38 +104,13 @@ mousse::label mousse::metisDecomp::decompose
       processorWeights /= sum(processorWeights);
       if (processorWeights.size() != nProcessors_)
       {
-        FatalErrorInFunction
+        FATAL_ERROR_IN_FUNCTION
           << "Number of processor weights "
           << processorWeights.size()
           << " does not equal number of domains " << nProcessors_
           << exit(FatalError);
       }
     }
-    //if (metisCoeffs.readIfPresent("cellWeightsFile", weightsFile))
-    //{
-    //    Info<< "metisDecomp : Using cell-based weights." << endl;
-    //
-    //    IOList<label> cellIOWeights
-    //    (
-    //        IOobject
-    //        (
-    //            weightsFile,
-    //            mesh_.time().timeName(),
-    //            mesh_,
-    //            IOobject::MUST_READ,
-    //            IOobject::AUTO_WRITE
-    //        )
-    //    );
-    //    cellWeights.transfer(cellIOWeights);
-    //
-    //    if (cellWeights.size() != xadj.size()-1)
-    //    {
-    //        FatalErrorInFunction
-    //            << "Number of cell weights " << cellWeights.size()
-    //            << " does not equal number of cells " << xadj.size()-1
-    //            << exit(FatalError);
-    //    }
-    //}
   }
   label ncon = 1;
   label nProcs = nProcessors_;
@@ -198,7 +173,7 @@ mousse::labelList mousse::metisDecomp::decompose
 {
   if (points.size() != mesh.nCells())
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "Can use this decomposition method only for the whole mesh"
       << endl
       << "and supply one coordinate (cellCentre) for every cell." << endl
@@ -230,7 +205,7 @@ mousse::labelList mousse::metisDecomp::decompose
 {
   if (agglom.size() != mesh.nCells())
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "Size of cell-to-coarse map " << agglom.size()
       << " differs from number of cells in mesh " << mesh.nCells()
       << exit(FatalError);
@@ -245,7 +220,7 @@ mousse::labelList mousse::metisDecomp::decompose
   decompose(cellCells.m(), cellCells.offsets(), agglomWeights, finalDecomp);
   // Rework back into decomposition for original mesh
   labelList fineDistribution(agglom.size());
-  forAll(fineDistribution, i)
+  FOR_ALL(fineDistribution, i)
   {
     fineDistribution[i] = finalDecomp[agglom[i]];
   }
@@ -260,7 +235,7 @@ mousse::labelList mousse::metisDecomp::decompose
 {
   if (cellCentres.size() != globalCellCells.size())
   {
-    FatalErrorInFunction
+    FATAL_ERROR_IN_FUNCTION
       << "Inconsistent number of cells (" << globalCellCells.size()
       << ") and number of cell centres (" << cellCentres.size()
       << ")." << exit(FatalError);

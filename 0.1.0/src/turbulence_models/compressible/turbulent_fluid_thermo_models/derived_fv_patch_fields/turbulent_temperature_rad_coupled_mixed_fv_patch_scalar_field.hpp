@@ -77,7 +77,7 @@ class turbulentTemperatureRadCoupledMixedFvPatchScalarField
     scalar contactRes_;
 public:
   //- Runtime type information
-  TypeName("compressible::turbulentTemperatureRadCoupledMixed");
+  TYPE_NAME("compressible::turbulentTemperatureRadCoupledMixed");
   // Constructors
     //- Construct from patch and internal field
     turbulentTemperatureRadCoupledMixedFvPatchScalarField

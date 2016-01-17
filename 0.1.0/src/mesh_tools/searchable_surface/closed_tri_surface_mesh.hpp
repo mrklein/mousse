@@ -18,14 +18,9 @@ class closedTriSurfaceMesh
 :
   public triSurfaceMesh
 {
-private:
-    //- Disallow default bitwise copy construct
-    closedTriSurfaceMesh(const closedTriSurfaceMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const closedTriSurfaceMesh&);
 public:
   //- Runtime type information
-  TypeName("closedTriSurfaceMesh");
+  TYPE_NAME("closedTriSurfaceMesh");
   // Constructors
     //- Construct from triSurface
     closedTriSurfaceMesh(const IOobject&, const triSurface&);
@@ -38,6 +33,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    closedTriSurfaceMesh(const closedTriSurfaceMesh&) = delete;
+    //- Disallow default bitwise assignment
+    closedTriSurfaceMesh& operator=(const closedTriSurfaceMesh&) = delete;
   // Destructor
     virtual ~closedTriSurfaceMesh();
   // Member Functions

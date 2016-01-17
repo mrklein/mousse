@@ -32,7 +32,7 @@ class powerLaw
     tmp<volScalarField> calcNu() const;
 public:
   //- Runtime type information
-  TypeName("powerLaw");
+  TYPE_NAME("powerLaw");
   // Constructors
     //- Construct from components
     powerLaw

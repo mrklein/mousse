@@ -16,7 +16,7 @@
 using namespace mousse;
 // Global Functions 
 template<class Type>
-tmp<GeometricField<Type, fvPatchField, volMesh> >
+tmp<GeometricField<Type, fvPatchField, volMesh>>
 volField
 (
   const fvMeshSubset& meshSubsetter,
@@ -25,7 +25,7 @@ volField
 {
   if (meshSubsetter.hasSubMesh())
   {
-    tmp<GeometricField<Type, fvPatchField, volMesh> > tfld
+    tmp<GeometricField<Type, fvPatchField, volMesh>> tfld
     (
       meshSubsetter.interpolate(vf)
     );
@@ -47,12 +47,12 @@ Field<Type> map
 )
 {
   Field<Type> mf(map1.size() + map2.size());
-  forAll(map1, i)
+  FOR_ALL(map1, i)
   {
     mf[i] = vf[map1[i]];
   }
   label offset = map1.size();
-  forAll(map2, i)
+  FOR_ALL(map2, i)
   {
     mf[i + offset] = vf[map2[i]];
   }
@@ -96,7 +96,7 @@ template<class Type>
 bool writePatchField
 (
   const Field<Type>& pf,
-  const label patchi,
+  const label /*patchi*/,
   const label ensightPatchI,
   const faceSets& boundaryFaceSet,
   const ensightMesh::nFacePrimitives& nfp,
@@ -155,7 +155,7 @@ void writePatchField
     nPatchPrims = eMesh.nPatchPrims();
   label ensightPatchI = eMesh.patchPartOffset();
   label patchi = -1;
-  forAll(allPatchNames, i)
+  FOR_ALL(allPatchNames, i)
   {
     if (allPatchNames[i] == patchName)
     {
@@ -341,7 +341,7 @@ void ensightField
     );
   }
   label ensightPatchI = eMesh.patchPartOffset();
-  forAll(allPatchNames, patchi)
+  FOR_ALL(allPatchNames, patchi)
   {
     const word& patchName = allPatchNames[patchi];
     eMesh.barrier();
@@ -373,7 +373,7 @@ void ensightField
     (
       linearInterpolate(vf)
     );
-    forAllConstIter(wordHashSet, faceZoneNames, iter)
+    FOR_ALL_CONST_ITER(wordHashSet, faceZoneNames, iter)
     {
       const word& faceZoneName = iter.key();
       eMesh.barrier();
@@ -381,7 +381,7 @@ void ensightField
       const faceZone& fz = mesh.faceZones()[zoneID];
       // Prepare data to write
       label nIncluded = 0;
-      forAll(fz, i)
+      FOR_ALL(fz, i)
       {
         if (eMesh.faceToBeIncluded(fz[i]))
         {
@@ -391,7 +391,7 @@ void ensightField
       Field<Type> values(nIncluded);
       // Loop on the faceZone and store the needed field values
       label j = 0;
-      forAll(fz, i)
+      FOR_ALL(fz, i)
       {
         label faceI = fz[i];
         if (mesh.isInternalFace(faceI))
@@ -504,7 +504,7 @@ void ensightPointField
     );
   }
   label ensightPatchI = eMesh.patchPartOffset();
-  forAll(allPatchNames, patchi)
+  FOR_ALL(allPatchNames, patchi)
   {
     const word& patchName = allPatchNames[patchi];
     eMesh.barrier();
@@ -545,7 +545,7 @@ void ensightPointField
   // write faceZones, if requested
   if (faceZoneNames.size())
   {
-    forAllConstIter(wordHashSet, faceZoneNames, iter)
+    FOR_ALL_CONST_ITER(wordHashSet, faceZoneNames, iter)
     {
       const word& faceZoneName = iter.key();
       eMesh.barrier();
@@ -602,10 +602,10 @@ void ensightField
 {
   if (nodeValues)
   {
-    tmp<GeometricField<Type, pointPatchField, pointMesh> > pfld
-    (
+    tmp<GeometricField<Type, pointPatchField, pointMesh>> pfld
+    {
       volPointInterpolation::New(vf.mesh()).interpolate(vf)
-    );
+    };
     pfld().rename(vf.name());
     ensightPointField<Type>
     (

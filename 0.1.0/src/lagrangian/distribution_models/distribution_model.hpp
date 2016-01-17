@@ -43,9 +43,9 @@ protected:
     virtual void check() const;
 public:
   //-Runtime type information
-  TypeName("distributionModel");
+  TYPE_NAME("distributionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     distributionModel,

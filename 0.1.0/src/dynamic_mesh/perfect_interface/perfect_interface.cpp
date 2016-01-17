@@ -16,8 +16,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(perfectInterface, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(perfectInterface, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     polyMeshModifier,
     perfectInterface,
@@ -34,7 +34,7 @@ mousse::pointField mousse::perfectInterface::calcFaceCentres
 {
   const pointField& points = pp.points();
   pointField ctrs(pp.size());
-  forAll(ctrs, patchFaceI)
+  FOR_ALL(ctrs, patchFaceI)
   {
     ctrs[patchFaceI] = pp[patchFaceI].centre(points);
   }
@@ -123,7 +123,7 @@ void mousse::perfectInterface::setRefinement
   const labelList& meshPts1 = pp1.meshPoints();
   // Get local dimension as fraction of minimum edge length
   scalar minLen = GREAT;
-  forAll(edges0, edgeI)
+  FOR_ALL(edges0, edgeI)
   {
     minLen = min(minLen, edges0[edgeI].mag(pts0));
   }
@@ -137,7 +137,7 @@ void mousse::perfectInterface::setRefinement
   // Determine pointMapping in mesh point labels. Uses geometric
   // comparison to find correspondence between patch points.
   labelList renumberPoints(mesh.points().size());
-  forAll(renumberPoints, i)
+  FOR_ALL(renumberPoints, i)
   {
     renumberPoints[i] = i;
   }
@@ -153,13 +153,13 @@ void mousse::perfectInterface::setRefinement
     );
     if (!matchOk)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "perfectInterface::setRefinement(polyTopoChange& ref) const"
       )   << "Points on patch sides do not match to within tolerance "
         << typDim << exit(FatalError);
     }
-    forAll(pts1, i)
+    FOR_ALL(pts1, i)
     {
       renumberPoints[meshPts1[i]] = meshPts0[from1To0Points[i]];
     }
@@ -176,7 +176,7 @@ void mousse::perfectInterface::setRefinement
   );
   if (!matchOk)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "perfectInterface::setRefinement(polyTopoChange& ref) const"
     )   << "Face centres of patch sides do not match to within tolerance "
@@ -188,19 +188,19 @@ void mousse::perfectInterface::setRefinement
   // - modify patch0 faces to be internal.
   // 1. Get faces to be renumbered
   labelHashSet affectedFaces(2*pp1.size());
-  forAll(meshPts1, i)
+  FOR_ALL(meshPts1, i)
   {
     label meshPointI = meshPts1[i];
     if (meshPointI != renumberPoints[meshPointI])
     {
       const labelList& pFaces = mesh.pointFaces()[meshPointI];
-      forAll(pFaces, pFaceI)
+      FOR_ALL(pFaces, pFaceI)
       {
         affectedFaces.insert(pFaces[pFaceI]);
       }
     }
   }
-  forAll(pp1, i)
+  FOR_ALL(pp1, i)
   {
     affectedFaces.erase(pp1.addressing()[i]);
   }
@@ -208,12 +208,12 @@ void mousse::perfectInterface::setRefinement
   // patch0 and 1 should not share any point (if created by mergeMeshing)
   // so affectedFaces should not contain any patch0 faces but you can
   // never be sure what the user is doing.
-  forAll(pp0, i)
+  FOR_ALL(pp0, i)
   {
     label faceI = pp0.addressing()[i];
     if (affectedFaces.erase(faceI))
     {
-      WarningIn
+      WARNING_IN
       (
         "perfectInterface::setRefinement(polyTopoChange&) const"
       )   << "Found face " << faceI << " vertices "
@@ -222,12 +222,12 @@ void mousse::perfectInterface::setRefinement
     }
   }
   // 2. Renumber (non patch0/1) faces.
-  forAllConstIter(labelHashSet, affectedFaces, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, affectedFaces, iter)
   {
     const label faceI = iter.key();
     const face& f = mesh.faces()[faceI];
     face newFace(f.size());
-    forAll(newFace, fp)
+    FOR_ALL(newFace, fp)
     {
       newFace[fp] = renumberPoints[f[fp]];
     }
@@ -265,7 +265,7 @@ void mousse::perfectInterface::setRefinement
     );
   }
   // 3. Remove patch1 points
-  forAll(meshPts1, i)
+  FOR_ALL(meshPts1, i)
   {
     label meshPointI = meshPts1[i];
     if (meshPointI != renumberPoints[meshPointI])
@@ -274,7 +274,7 @@ void mousse::perfectInterface::setRefinement
     }
   }
   // 4. Remove patch1 faces
-  forAll(pp1, i)
+  FOR_ALL(pp1, i)
   {
     label faceI = pp1.addressing()[i];
     ref.setAction(polyRemoveFace(faceI));
@@ -284,12 +284,12 @@ void mousse::perfectInterface::setRefinement
   // becoming internal.
   const boolList& mfFlip =
     mesh.faceZones()[faceZoneID_.index()].flipMap();
-  forAll(pp0, i)
+  FOR_ALL(pp0, i)
   {
     label faceI = pp0.addressing()[i];
     const face& f = mesh.faces()[faceI];
     face newFace(f.size());
-    forAll(newFace, fp)
+    FOR_ALL(newFace, fp)
     {
       newFace[fp] = renumberPoints[f[fp]];
     }
@@ -370,12 +370,12 @@ void mousse::perfectInterface::setRefinement(polyTopoChange& ref) const
     setRefinement(pp0, pp1, ref);
   }
 }
-void mousse::perfectInterface::modifyMotionPoints(pointField& motionPoints) const
+void mousse::perfectInterface::modifyMotionPoints(pointField& /*motionPoints*/) const
 {
   // Update only my points. Nothing to be done here as points already
   // shared by now.
 }
-void mousse::perfectInterface::updateMesh(const mapPolyMesh& morphMap)
+void mousse::perfectInterface::updateMesh(const mapPolyMesh&)
 {
   // Mesh has changed topologically.  Update local topological data
   const polyMesh& mesh = topoChanger().mesh();

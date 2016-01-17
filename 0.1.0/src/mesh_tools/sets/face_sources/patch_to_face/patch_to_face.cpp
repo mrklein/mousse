@@ -8,16 +8,18 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(patchToFace, 0);
-addToRunTimeSelectionTable(topoSetSource, patchToFace, word);
-addToRunTimeSelectionTable(topoSetSource, patchToFace, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(patchToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, patchToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, patchToFace, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::patchToFace::usage_
 (
   patchToFace::typeName,
   "\n    Usage: patchToFace patch\n\n"
   "    Select all faces in the patch. Note:accepts wildcards for patch.\n\n"
 );
+
 // Private Member Functions 
 void mousse::patchToFace::combine(topoSet& set, const bool add) const
 {
@@ -27,7 +29,7 @@ void mousse::patchToFace::combine(topoSet& set, const bool add) const
     true,           // warn if not found
     true            // use patch groups if available
   );
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     label patchI = iter.key();
     const polyPatch& pp = mesh_.boundaryMesh()[patchI];
@@ -45,7 +47,7 @@ void mousse::patchToFace::combine(topoSet& set, const bool add) const
   }
   if (patchIDs.empty())
   {
-    WarningIn("patchToFace::combine(topoSet&, const bool)")
+    WARNING_IN("patchToFace::combine(topoSet&, const bool)")
       << "Cannot find any patch named " << patchName_ << endl
       << "Valid names are " << mesh_.boundaryMesh().names() << endl;
   }

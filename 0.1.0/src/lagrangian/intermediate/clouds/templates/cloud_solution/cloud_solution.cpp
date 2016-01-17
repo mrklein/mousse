@@ -94,7 +94,7 @@ void mousse::cloudSolution::read()
       schemesDict(dict_.subDict("sourceTerms").subDict("schemes"));
     wordList vars(schemesDict.toc());
     schemes_.setSize(vars.size());
-    forAll(vars, i)
+    FOR_ALL(vars, i)
     {
       // read solution variable name
       schemes_[i].first() = vars[i];
@@ -111,7 +111,7 @@ void mousse::cloudSolution::read()
       }
       else
       {
-        FatalErrorIn("void cloudSolution::read()")
+        FATAL_ERROR_IN("void cloudSolution::read()")
           << "Invalid scheme " << scheme << ". Valid schemes are "
           << "explicit and semiImplicit" << exit(FatalError);
       }
@@ -122,28 +122,28 @@ void mousse::cloudSolution::read()
 }
 mousse::scalar mousse::cloudSolution::relaxCoeff(const word& fieldName) const
 {
-  forAll(schemes_, i)
+  FOR_ALL(schemes_, i)
   {
     if (fieldName == schemes_[i].first())
     {
       return schemes_[i].second().second();
     }
   }
-  FatalErrorIn("scalar cloudSolution::relaxCoeff(const word&) const")
+  FATAL_ERROR_IN("scalar cloudSolution::relaxCoeff(const word&) const")
     << "Field name " << fieldName << " not found in schemes"
     << abort(FatalError);
   return 1.0;
 }
 bool mousse::cloudSolution::semiImplicit(const word& fieldName) const
 {
-  forAll(schemes_, i)
+  FOR_ALL(schemes_, i)
   {
     if (fieldName == schemes_[i].first())
     {
       return schemes_[i].second().first();
     }
   }
-  FatalErrorIn("bool cloudSolution::semiImplicit(const word&) const")
+  FATAL_ERROR_IN("bool cloudSolution::semiImplicit(const word&) const")
     << "Field name " << fieldName << " not found in schemes"
     << abort(FatalError);
   return false;

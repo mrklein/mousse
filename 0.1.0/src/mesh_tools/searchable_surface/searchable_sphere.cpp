@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(searchableSphere, 0);
-addToRunTimeSelectionTable(searchableSurface, searchableSphere, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(searchableSphere, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchableSphere, dict);
 }
 // Private Member Functions 
 mousse::pointIndexHit mousse::searchableSphere::findNearest
@@ -147,7 +147,7 @@ void mousse::searchableSphere::findNearest
 ) const
 {
   info.setSize(samples.size());
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     info[i] = findNearest(samples[i], nearestDistSqr[i]);
   }
@@ -161,7 +161,7 @@ void mousse::searchableSphere::findLine
 {
   info.setSize(start.size());
   pointIndexHit b;
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     // Pick nearest intersection. If none intersected take second one.
     findLineAll(start[i], end[i], info[i], b);
@@ -180,7 +180,7 @@ void mousse::searchableSphere::findLineAny
 {
   info.setSize(start.size());
   pointIndexHit b;
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     // Discard far intersection
     findLineAll(start[i], end[i], info[i], b);
@@ -198,7 +198,7 @@ void mousse::searchableSphere::findLineAll
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     pointIndexHit near, far;
     findLineAll(start[i], end[i], near, far);
@@ -247,7 +247,7 @@ void mousse::searchableSphere::getNormal
 {
   normal.setSize(info.size());
   normal = vector::zero;
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     if (info[i].hit())
     {
@@ -268,7 +268,7 @@ void mousse::searchableSphere::getVolumeType
 {
   volType.setSize(points.size());
   volType = volumeType::INSIDE;
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     if (magSqr(pt - centre_) <= sqr(radius_))

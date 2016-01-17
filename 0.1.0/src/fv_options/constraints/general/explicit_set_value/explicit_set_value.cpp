@@ -4,8 +4,8 @@
 
 #include "make_fv_option.hpp"
 #include "_explicit_set_value.hpp"
-makeFvOption(ExplicitSetValue, scalar);
-makeFvOption(ExplicitSetValue, vector);
-makeFvOption(ExplicitSetValue, sphericalTensor);
-makeFvOption(ExplicitSetValue, symmTensor);
-makeFvOption(ExplicitSetValue, tensor);
+MAKE_FV_OPTION(ExplicitSetValue, scalar);
+MAKE_FV_OPTION(ExplicitSetValue, vector);
+MAKE_FV_OPTION(ExplicitSetValue, sphericalTensor);
+MAKE_FV_OPTION(ExplicitSetValue, symmTensor);
+MAKE_FV_OPTION(ExplicitSetValue, tensor);

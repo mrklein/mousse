@@ -8,66 +8,66 @@
 #include "thermo_physics_types.hpp"
 namespace mousse
 {
-  // Chemistry moldels based on sensibleEnthalpy
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    constGasHThermoPhysics
-  );
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    gasHThermoPhysics
-  );
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    constIncompressibleGasHThermoPhysics
-  );
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    incompressibleGasHThermoPhysics
-  );
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    icoPoly8HThermoPhysics
-  );
-  // Chemistry moldels based on sensibleInternalEnergy
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    constGasEThermoPhysics
-  );
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    gasEThermoPhysics
-  );
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    constIncompressibleGasEThermoPhysics
-  );
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    incompressibleGasEThermoPhysics
-  );
-  makeChemistryModel
-  (
-    chemistryModel,
-    psiChemistryModel,
-    icoPoly8EThermoPhysics
-  );
+// Chemistry moldels based on sensibleEnthalpy
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  constGasHThermoPhysics
+);
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  gasHThermoPhysics
+);
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  constIncompressibleGasHThermoPhysics
+);
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  incompressibleGasHThermoPhysics
+);
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  icoPoly8HThermoPhysics
+);
+// Chemistry moldels based on sensibleInternalEnergy
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  constGasEThermoPhysics
+);
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  gasEThermoPhysics
+);
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  constIncompressibleGasEThermoPhysics
+);
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  incompressibleGasEThermoPhysics
+);
+MAKE_CHEMISTRY_MODEL
+(
+  chemistryModel,
+  psiChemistryModel,
+  icoPoly8EThermoPhysics
+);
 }

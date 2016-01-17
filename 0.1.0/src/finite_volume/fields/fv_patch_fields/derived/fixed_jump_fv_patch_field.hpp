@@ -48,7 +48,7 @@ protected:
     Field<Type> jump_;
 public:
   //- Runtime type information
-  TypeName("fixedJump");
+  TYPE_NAME("fixedJump");
   // Constructors
     //- Construct from patch and internal field
     fixedJumpFvPatchField

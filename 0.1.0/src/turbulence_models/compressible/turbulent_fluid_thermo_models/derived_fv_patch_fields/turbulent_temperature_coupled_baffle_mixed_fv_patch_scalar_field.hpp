@@ -75,7 +75,7 @@ class turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
     scalar contactRes_;
 public:
   //- Runtime type information
-  TypeName("compressible::turbulentTemperatureCoupledBaffleMixed");
+  TYPE_NAME("compressible::turbulentTemperatureCoupledBaffleMixed");
   // Constructors
     //- Construct from patch and internal field
     turbulentTemperatureCoupledBaffleMixedFvPatchScalarField

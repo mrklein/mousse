@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(processorFvPatch, 0);
-  addToRunTimeSelectionTable(fvPatch, processorFvPatch, polyPatch);
+  DEFINE_TYPE_NAME_AND_DEBUG(processorFvPatch, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, processorFvPatch, polyPatch);
 }
 // Member Functions 
 void mousse::processorFvPatch::makeWeights(scalarField& w) const

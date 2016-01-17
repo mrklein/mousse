@@ -3,12 +3,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "surf_zone_io_list.hpp"
+#include "ptr_list.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(surfZoneIOList, 0);
+
+DEFINE_TYPE_NAME_AND_DEBUG(surfZoneIOList, 0);
+
 }
-// Constructors 
+
+// Constructors
 mousse::surfZoneIOList::surfZoneIOList
 (
   const IOobject& io
@@ -31,7 +36,7 @@ mousse::surfZoneIOList::surfZoneIOList
     PtrList<entry> dictEntries(is);
     zones.setSize(dictEntries.size());
     label faceI = 0;
-    forAll(zones, zoneI)
+    FOR_ALL(zones, zoneI)
     {
       const dictionary& dict = dictEntries[zoneI].dict();
       label zoneSize = readLabel(dict.lookup("nFaces"));
@@ -50,7 +55,7 @@ mousse::surfZoneIOList::surfZoneIOList
       }
       if (startFaceI != faceI)
       {
-        FatalErrorIn(functionName)
+        FATAL_ERROR_IN(functionName)
           << "surfZones are not ordered. Start of zone " << zoneI
           << " does not correspond to sum of preceding zones." << nl
           << "while reading " << io.objectPath() << endl
@@ -81,24 +86,27 @@ mousse::surfZoneIOList::surfZoneIOList
   surfZoneList(zones),
   regIOobject(io)
 {}
-// Destructor 
+
+// Destructor
 mousse::surfZoneIOList::~surfZoneIOList()
 {}
-// Member Functions 
+
+// Member Functions
 // writeData member function required by regIOobject
 bool mousse::surfZoneIOList::writeData(Ostream& os) const
 {
-  os  << *this;
+  os << *this;
   return os.good();
 }
-// Friend Operators 
+
+// Friend Operators
 mousse::Ostream& mousse::operator<<(Ostream& os, const surfZoneIOList& L)
 {
-  os  << L.size() << nl << token::BEGIN_LIST << incrIndent << nl;
-  forAll(L, i)
+  os << L.size() << nl << token::BEGIN_LIST << incrIndent << nl;
+  FOR_ALL(L, i)
   {
     L[i].writeDict(os);
   }
-  os  << decrIndent << token::END_LIST;
+  os << decrIndent << token::END_LIST;
   return os;
 }

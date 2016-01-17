@@ -11,7 +11,7 @@
 //   value is calculated via the maximum blending factor for any cell face.
 // SourceFiles
 //   blending_factor.cpp
-//   i_oblending_factor.hpp
+//   io_blending_factor.hpp
 #ifndef blending_factor_hpp_
 #define blending_factor_hpp_
 #include "vol_fields_fwd.hpp"
@@ -39,10 +39,6 @@ class blendingFactor
     //- Field name
     word fieldName_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    blendingFactor(const blendingFactor&);
-    //- Disallow default bitwise assignment
-    void operator=(const blendingFactor&);
     //- Return the blending factor field from the database
     template<class Type>
     volScalarField& factor
@@ -54,7 +50,7 @@ class blendingFactor
     void calc();
 public:
   //- Runtime type information
-  TypeName("blendingFactor");
+  TYPE_NAME("blendingFactor");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -65,6 +61,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    blendingFactor(const blendingFactor&) = delete;
+    //- Disallow default bitwise assignment
+    blendingFactor& operator=(const blendingFactor&) = delete;
   //- Destructor
   virtual ~blendingFactor();
   // Member Functions

@@ -48,7 +48,7 @@ void mousse::attachDetach::attachInterface
   const labelList& slaveMeshPoints = slavePatch.meshPoints();
   const Map<label>& removedPointMap = pointMatchMap();
   const labelList removedPoints = removedPointMap.toc();
-  forAll(removedPoints, pointI)
+  FOR_ALL(removedPoints, pointI)
   {
     //Pout<< "Removing point:" << removedPoints[pointI]
     //    << " currently at:" << ref.points()[removedPoints[pointI]]
@@ -57,7 +57,7 @@ void mousse::attachDetach::attachInterface
   }
 // Pout<< "Points to be mapped: " << removedPoints << endl;
   // Remove all faces from the slave patch
-  forAll(slavePatch, i)
+  FOR_ALL(slavePatch, i)
   {
     //Pout<< "Removing face " << i + slavePatchStart
     //    << " with verts:" << ref.faces()[i + slavePatchStart]
@@ -74,7 +74,7 @@ void mousse::attachDetach::attachInterface
   const labelList& masterFaceCells = masterPatch.faceCells();
   const labelList& slaveFaceCells = slavePatch.faceCells();
   const boolList& mfFlip = mesh.faceZones()[faceZoneID_.index()].flipMap();
-  forAll(masterFaceCells, faceI)
+  FOR_ALL(masterFaceCells, faceI)
   {
     // If slave neighbour is greater than master, face does not need
     // turning.  Modify it to become internal
@@ -126,10 +126,10 @@ void mousse::attachDetach::attachInterface
   const labelListList& pf = mesh.pointFaces();
   // Grab all the faces off the points in the slave patch.  If the face has
   //  not been removed, add it to the map of faces to renumber
-  forAll(slaveMeshPoints, pointI)
+  FOR_ALL(slaveMeshPoints, pointI)
   {
     const labelList& curFaces = pf[slaveMeshPoints[pointI]];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       if (!ref.faceRemoved(curFaces[faceI]))
       {
@@ -139,14 +139,14 @@ void mousse::attachDetach::attachInterface
   }
   // Grab the faces to be renumbered
   const labelList ftm = facesToModifyMap.toc();
-  forAll(ftm, faceI)
+  FOR_ALL(ftm, faceI)
   {
     // For every face to modify, copy the face and re-map the vertices.
     // It is known all the faces will be changed since they hang off
     // re-mapped vertices
     label curFaceID = ftm[faceI];
     face newFace(faces[curFaceID]);
-    forAll(newFace, pointI)
+    FOR_ALL(newFace, pointI)
     {
       Map<label>::const_iterator rpmIter =
         removedPointMap.find(newFace[pointI]);
@@ -221,7 +221,7 @@ void mousse::attachDetach::modifyMotionPoints
       << "Adjusting motion points." << endl;
     // Calculate the difference in motion point positions
     scalar pointDiff = 0;
-    forAll(removedPoints, pointI)
+    FOR_ALL(removedPoints, pointI)
     {
       pointDiff +=
         mag
@@ -236,7 +236,7 @@ void mousse::attachDetach::modifyMotionPoints
     }
   }
   // Put the slave point on top of the master point
-  forAll(removedPoints, pointI)
+  FOR_ALL(removedPoints, pointI)
   {
     motionPoints[removedPoints[pointI]] =
       motionPoints[removedPointMap.find(removedPoints[pointI])()];

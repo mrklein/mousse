@@ -2,6 +2,8 @@
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
+#pragma GCC diagnostic ignored "-Winvalid-offsetof"
+
 #include "particle.hpp"
 #include "iostreams.hpp"
 // Static Data Members
@@ -17,15 +19,15 @@ const std::size_t mousse::particle::sizeofFields_
 // Constructors 
 mousse::particle::particle(const polyMesh& mesh, Istream& is, bool readFields)
 :
-  mesh_(mesh),
-  position_(),
-  cellI_(-1),
-  faceI_(-1),
-  stepFraction_(0.0),
-  tetFaceI_(-1),
-  tetPtI_(-1),
-  origProc_(Pstream::myProcNo()),
-  origId_(-1)
+  mesh_{mesh},
+  position_{},
+  cellI_{-1},
+  faceI_{-1},
+  stepFraction_{0.0},
+  tetFaceI_{-1},
+  tetPtI_{-1},
+  origProc_{Pstream::myProcNo()},
+  origId_{-1}
 {
   if (is.format() == IOstream::ASCII)
   {

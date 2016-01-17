@@ -14,7 +14,7 @@ void mousse::pairPatchAgglomeration::restrictField
   const labelList& fineToCoarse = restrictAddressing_[fineLevelIndex];
   if (ff.size() != fineToCoarse.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void pairPatchAgglomeration::restrictField"
       "(Field<Type>& cf, const Field<Type>& ff, "
@@ -25,7 +25,7 @@ void mousse::pairPatchAgglomeration::restrictField
       << abort(FatalError);
   }
   cf = pTraits<Type>::zero;
-  forAll(ff, i)
+  FOR_ALL(ff, i)
   {
     cf[fineToCoarse[i]] += ff[i];
   }
@@ -39,7 +39,7 @@ void mousse::pairPatchAgglomeration::prolongField
 ) const
 {
   const labelList& fineToCoarse = restrictAddressing_[coarseLevelIndex];
-  forAll(fineToCoarse, i)
+  FOR_ALL(fineToCoarse, i)
   {
     ff[i] = cf[fineToCoarse[i]];
   }

@@ -8,12 +8,16 @@
 //   correction to given scheme.
 // SourceFiles
 //   skew_corrected.cpp
+
 #ifndef skew_corrected_hpp_
 #define skew_corrected_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "skew_correction_vectors.hpp"
 #include "linear.hpp"
 #include "gauss_grad.hpp"
+#include "time.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -23,14 +27,9 @@ class skewCorrected
 {
   // Private member data
     tmp<surfaceInterpolationScheme<Type> > tScheme_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    skewCorrected(const skewCorrected&);
-    //- Disallow default bitwise assignment
-    void operator=(const skewCorrected&);
 public:
   //- Runtime type information
-  TypeName("skewCorrected");
+  TYPE_NAME("skewCorrected");
   // Constructors
     //- Construct from mesh and Istream
     skewCorrected
@@ -53,12 +52,16 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       tScheme_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {}
+    //- Disallow default bitwise copy construct
+    skewCorrected(const skewCorrected&) = delete;
+    //- Disallow default bitwise assignment
+    skewCorrected& operator=(const skewCorrected&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights

@@ -14,8 +14,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(liquidFilmThermo, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(liquidFilmThermo, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   filmThermoModel,
   liquidFilmThermo,
@@ -26,7 +26,7 @@ const thermoSingleLayer& liquidFilmThermo::thermoFilm() const
 {
   if (!isA<thermoSingleLayer>(owner_))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const thermoSingleLayer& liquidFilmThermo::thermoFilm() const"
     )
@@ -190,7 +190,7 @@ tmp<volScalarField> liquidFilmThermo::rho() const
   scalarField& rho = trho().internalField();
   if (useReferenceValues_)
   {
-    forAll(rho, cellI)
+    FOR_ALL(rho, cellI)
     {
       rho[cellI] = this->rho(pRef_, TRef_);
     }
@@ -200,7 +200,7 @@ tmp<volScalarField> liquidFilmThermo::rho() const
     const thermoSingleLayer& film = thermoFilm();
     const volScalarField& T = film.T();
     const volScalarField& p = film.pPrimary();
-    forAll(rho, cellI)
+    FOR_ALL(rho, cellI)
     {
       rho[cellI] = this->rho(p[cellI], T[cellI]);
     }
@@ -230,7 +230,7 @@ tmp<volScalarField> liquidFilmThermo::mu() const
   scalarField& mu = tmu().internalField();
   if (useReferenceValues_)
   {
-    forAll(mu, cellI)
+    FOR_ALL(mu, cellI)
     {
       mu[cellI] = this->mu(pRef_, TRef_);
     }
@@ -240,7 +240,7 @@ tmp<volScalarField> liquidFilmThermo::mu() const
     const thermoSingleLayer& film = thermoFilm();
     const volScalarField& T = film.T();
     const volScalarField& p = film.pPrimary();
-    forAll(mu, cellI)
+    FOR_ALL(mu, cellI)
     {
       mu[cellI] = this->mu(p[cellI], T[cellI]);
     }
@@ -270,7 +270,7 @@ tmp<volScalarField> liquidFilmThermo::sigma() const
   scalarField& sigma = tsigma().internalField();
   if (useReferenceValues_)
   {
-    forAll(sigma, cellI)
+    FOR_ALL(sigma, cellI)
     {
       sigma[cellI] = this->sigma(pRef_, TRef_);
     }
@@ -280,7 +280,7 @@ tmp<volScalarField> liquidFilmThermo::sigma() const
     const thermoSingleLayer& film = thermoFilm();
     const volScalarField& T = film.T();
     const volScalarField& p = film.pPrimary();
-    forAll(sigma, cellI)
+    FOR_ALL(sigma, cellI)
     {
       sigma[cellI] = this->sigma(p[cellI], T[cellI]);
     }
@@ -310,7 +310,7 @@ tmp<volScalarField> liquidFilmThermo::Cp() const
   scalarField& Cp = tCp().internalField();
   if (useReferenceValues_)
   {
-    forAll(Cp, cellI)
+    FOR_ALL(Cp, cellI)
     {
       Cp[cellI] = this->Cp(pRef_, TRef_);
     }
@@ -320,7 +320,7 @@ tmp<volScalarField> liquidFilmThermo::Cp() const
     const thermoSingleLayer& film = thermoFilm();
     const volScalarField& T = film.T();
     const volScalarField& p = film.pPrimary();
-    forAll(Cp, cellI)
+    FOR_ALL(Cp, cellI)
     {
       Cp[cellI] = this->Cp(p[cellI], T[cellI]);
     }
@@ -350,7 +350,7 @@ tmp<volScalarField> liquidFilmThermo::kappa() const
   scalarField& kappa = tkappa().internalField();
   if (useReferenceValues_)
   {
-    forAll(kappa, cellI)
+    FOR_ALL(kappa, cellI)
     {
       kappa[cellI] = this->kappa(pRef_, TRef_);
     }
@@ -360,7 +360,7 @@ tmp<volScalarField> liquidFilmThermo::kappa() const
     const thermoSingleLayer& film = thermoFilm();
     const volScalarField& T = film.T();
     const volScalarField& p = film.pPrimary();
-    forAll(kappa, cellI)
+    FOR_ALL(kappa, cellI)
     {
       kappa[cellI] = this->kappa(p[cellI], T[cellI]);
     }

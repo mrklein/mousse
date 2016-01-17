@@ -20,7 +20,7 @@ void writeSurfFields
 )
 {
   const fvMesh& mesh = vMesh.mesh();
-  std::ofstream str(fileName.c_str());
+  std::ofstream str{fileName.c_str()};
   writeFuns::writeHeader
   (
     str,
@@ -39,31 +39,31 @@ void writeSurfFields
   str << "POINT_DATA " << mesh.nFaces() << std::endl
     << "FIELD attributes " << surfVectorFields.size() << std::endl;
   // surfVectorFields
-  forAll(surfVectorFields, fieldI)
+  FOR_ALL(surfVectorFields, fieldI)
   {
     const surfaceVectorField& svf = surfVectorFields[fieldI];
     str << svf.name() << " 3 "
       << mesh.nFaces() << " float" << std::endl;
-    DynamicList<floatScalar> fField(3*mesh.nFaces());
+    DynamicList<floatScalar> fField{3*mesh.nFaces()};
     for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
     {
       writeFuns::insert(svf[faceI], fField);
     }
-    forAll(svf.boundaryField(), patchI)
+    FOR_ALL(svf.boundaryField(), patchI)
     {
       const fvsPatchVectorField& pf = svf.boundaryField()[patchI];
       const fvPatch& pp = mesh.boundary()[patchI];
       if (isA<emptyFvsPatchVectorField>(pf))
       {
         // Note: loop over polypatch size, not fvpatch size.
-        forAll(pp.patch(), i)
+        FOR_ALL(pp.patch(), i)
         {
           writeFuns::insert(vector::zero, fField);
         }
       }
       else
       {
-        forAll(pf, i)
+        FOR_ALL(pf, i)
         {
           writeFuns::insert(pf[i], fField);
         }

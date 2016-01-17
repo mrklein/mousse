@@ -34,7 +34,7 @@ void mousse::CorrectPhi
     zeroGradientFvPatchScalarField::typeName
   );
   // Set BCs of pcorr to fixed-value for patches at which p is fixed
-  forAll(p.boundaryField(), patchi)
+  FOR_ALL(p.boundaryField(), patchi)
   {
     if (p.boundaryField()[patchi].fixesValue())
     {
@@ -99,7 +99,7 @@ void mousse::CorrectPhi
     zeroGradientFvPatchScalarField::typeName
   );
   // Set BCs of pcorr to fixed-value for patches at which p is fixed
-  forAll(p.boundaryField(), patchi)
+  FOR_ALL(p.boundaryField(), patchi)
   {
     if (p.boundaryField()[patchi].fixesValue())
     {

@@ -11,8 +11,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(surfaceFilmModel, 0);
-defineRunTimeSelectionTable(surfaceFilmModel, mesh);
+DEFINE_TYPE_NAME_AND_DEBUG(surfaceFilmModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(surfaceFilmModel, mesh);
 // Protected Member Functions 
 bool surfaceFilmModel::read()
 {
@@ -52,7 +52,7 @@ mousse::scalar surfaceFilmModel::CourantNumber() const
 }
 tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Srho() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Srho() const"
   )
@@ -61,7 +61,7 @@ tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Srho() const
 tmp<DimensionedField<scalar, volMesh> >
 surfaceFilmModel::Srho(const label) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Srho"
     "(const label) const"
@@ -70,7 +70,7 @@ surfaceFilmModel::Srho(const label) const
 }
 tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Sh() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Sh() const"
   )

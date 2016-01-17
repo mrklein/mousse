@@ -12,8 +12,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(interRegionExplicitPorositySource, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(interRegionExplicitPorositySource, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     interRegionExplicitPorositySource,
@@ -41,24 +41,24 @@ void mousse::fv::interRegionExplicitPorositySource::initialise()
     (
       zoneID,
       new cellZone
-      (
+      {
         zoneName,
         nbrMesh.faceNeighbour(), // neighbour internal cells
         zoneID,
         cellZones
-      )
+      }
     );
     cz.clearAddressing();
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::fv::interRegionExplicitPorositySource::initialise()"
     )
-      << "Unable to create porous cellZone " << zoneName
-      << ": zone already exists"
-      << abort(FatalError);
+    << "Unable to create porous cellZone " << zoneName
+    << ": zone already exists"
+    << abort(FatalError);
   }
   porosityPtr_.reset
   (
@@ -81,11 +81,11 @@ mousse::fv::interRegionExplicitPorositySource::interRegionExplicitPorositySource
   const fvMesh& mesh
 )
 :
-  interRegionOption(name, modelType, dict, mesh),
-  porosityPtr_(NULL),
-  firstIter_(-1),
-  UName_(coeffs_.lookupOrDefault<word>("UName", "U")),
-  muName_(coeffs_.lookupOrDefault<word>("muName", "thermo:mu"))
+  interRegionOption{name, modelType, dict, mesh},
+  porosityPtr_{NULL},
+  firstIter_{false},
+  UName_{coeffs_.lookupOrDefault<word>("UName", "U")},
+  muName_{coeffs_.lookupOrDefault<word>("muName", "thermo:mu")}
 {
   if (active_)
   {
@@ -97,25 +97,26 @@ mousse::fv::interRegionExplicitPorositySource::interRegionExplicitPorositySource
 void mousse::fv::interRegionExplicitPorositySource::addSup
 (
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   initialise();
   const fvMesh& nbrMesh = mesh_.time().lookupObject<fvMesh>(nbrRegionName_);
   const volVectorField& U = eqn.psi();
   volVectorField UNbr
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       name_ + ":UNbr",
       nbrMesh.time().timeName(),
       nbrMesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     nbrMesh,
-    dimensionedVector("zero", U.dimensions(), vector::zero)
-  );
+    // dimensionedVector("zero", U.dimensions(), vector::zero)
+    {"zero", U.dimensions(), vector::zero}
+  };
   // map local velocity onto neighbour region
   meshInterp().mapSrcToTgt
   (
@@ -139,25 +140,26 @@ void mousse::fv::interRegionExplicitPorositySource::addSup
 (
   const volScalarField& rho,
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   initialise();
   const fvMesh& nbrMesh = mesh_.time().lookupObject<fvMesh>(nbrRegionName_);
   const volVectorField& U = eqn.psi();
   volVectorField UNbr
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       name_ + ":UNbr",
       nbrMesh.time().timeName(),
       nbrMesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     nbrMesh,
-    dimensionedVector("zero", U.dimensions(), vector::zero)
-  );
+    // dimensionedVector("zero", U.dimensions(), vector::zero)
+    {"zero", U.dimensions(), vector::zero}
+  };
   // map local velocity onto neighbour region
   meshInterp().mapSrcToTgt
   (
@@ -167,33 +169,34 @@ void mousse::fv::interRegionExplicitPorositySource::addSup
   );
   fvMatrix<vector> nbrEqn(UNbr, eqn.dimensions());
   volScalarField rhoNbr
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "rho:UNbr",
       nbrMesh.time().timeName(),
       nbrMesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     nbrMesh,
-    dimensionedScalar("zero", dimDensity, 0.0)
-  );
+    // dimensionedScalar("zero", dimDensity, 0.0)
+    {"zero", dimDensity, 0.0}
+  };
   volScalarField muNbr
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "mu:UNbr",
       nbrMesh.time().timeName(),
       nbrMesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     nbrMesh,
-    dimensionedScalar("zero", dimViscosity, 0.0)
-  );
-  const volScalarField& mu =
-    mesh_.lookupObject<volScalarField>(muName_);
+    // dimensionedScalar("zero", dimViscosity, 0.0)
+    {"zero", dimViscosity, 0.0}
+  };
+  const volScalarField& mu = mesh_.lookupObject<volScalarField>(muName_);
   // map local rho onto neighbour region
   meshInterp().mapSrcToTgt
   (

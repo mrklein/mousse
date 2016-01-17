@@ -72,17 +72,13 @@ protected:
     //- Co-ordinate system to transform to
     coordinateSystem coordSys_;
   // Protected Member Functions
-    //- Disallow default bitwise copy construct
-    fieldCoordinateSystemTransform(const fieldCoordinateSystemTransform&);
-    //- Disallow default bitwise assignment
-    void operator=(const fieldCoordinateSystemTransform&);
     template<class Type>
     void transform(const word& fieldName) const;
     template<class Type>
     void transformField(const Type& field) const;
 public:
   //- Runtime type information
-  TypeName("fieldCoordinateSystemTransform");
+  TYPE_NAME("fieldCoordinateSystemTransform");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -93,6 +89,16 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    fieldCoordinateSystemTransform
+    (
+      const fieldCoordinateSystemTransform&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    fieldCoordinateSystemTransform& operator=
+    (
+      const fieldCoordinateSystemTransform&
+    ) = delete;
   //- Destructor
   virtual ~fieldCoordinateSystemTransform();
   // Member Functions

@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(turbulenceModel, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(turbulenceModel, 0);
 }
 const mousse::word mousse::turbulenceModel::propertiesName("turbulenceProperties");
 // Constructors 

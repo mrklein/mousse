@@ -65,7 +65,7 @@ private:
     void extrudeMesh(const List<polyPatch*>& regionPatches);
 public:
   //- Runtime type information
-  TypeName("extrudePatchMesh");
+  TYPE_NAME("extrudePatchMesh");
   // Constructors
     //- Construct from mesh, patch and dictionary
     extrudePatchMesh

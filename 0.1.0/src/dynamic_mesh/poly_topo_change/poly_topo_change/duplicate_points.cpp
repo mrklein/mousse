@@ -14,7 +14,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(duplicatePoints, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(duplicatePoints, 0);
 }
 // Constructors 
 // Construct from mesh
@@ -39,7 +39,7 @@ void mousse::duplicatePoints::setRefinement
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Per point-to-be-duplicated, in order of the regions the point added.
   duplicates_.setSize(meshPointMap.size());
-  forAllConstIter(Map<label>, meshPointMap, iter)
+  FOR_ALL_CONST_ITER(Map<label>, meshPointMap, iter)
   {
     label pointI = iter.key();
     label localI = iter();
@@ -58,7 +58,7 @@ void mousse::duplicatePoints::setRefinement
     }
     //Pout<< "For point:" << pointI << " coord:" << mesh_.points()[pointI]
     //    << endl;
-    //forAll(duplicates_[localI], i)
+    //FOR_ALL(duplicates_[localI], i)
     //{
     //    Pout<< "    region:" << regions[i]
     //        << "  addedpoint:" << duplicates_[localI][i]
@@ -68,7 +68,7 @@ void mousse::duplicatePoints::setRefinement
   // Modfify faces according to face region
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   face newFace;
-  forAllConstIter(Map<label>, meshFaceMap, iter)
+  FOR_ALL_CONST_ITER(Map<label>, meshFaceMap, iter)
   {
     label faceI = iter.key();
     label localI = iter();
@@ -76,7 +76,7 @@ void mousse::duplicatePoints::setRefinement
     const face& fRegion = faceRegions[localI];
     const face& f = mesh_.faces()[faceI];
     newFace.setSize(f.size());
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label pointI = f[fp];
       Map<label>::const_iterator iter = meshPointMap.find(pointI);
@@ -139,11 +139,11 @@ void mousse::duplicatePoints::setRefinement
     // Output duplicated points
     {
       OFstream str(mesh_.time().path()/"duplicatedPoints.obj");
-      forAllConstIter(Map<label>, meshPointMap, iter)
+      FOR_ALL_CONST_ITER(Map<label>, meshPointMap, iter)
       {
         label localI = iter();
         const labelList& dups = duplicates_[localI];
-        forAll(dups, i)
+        FOR_ALL(dups, i)
         {
           meshTools::writeOBJ(str, meshMod.points()[dups[i]]);
         }
@@ -153,7 +153,7 @@ void mousse::duplicatePoints::setRefinement
 }
 void mousse::duplicatePoints::updateMesh(const mapPolyMesh& map)
 {
-  forAll(duplicates_, masterI)
+  FOR_ALL(duplicates_, masterI)
   {
     inplaceRenumber(map.reversePointMap(), duplicates_[masterI]);
   }

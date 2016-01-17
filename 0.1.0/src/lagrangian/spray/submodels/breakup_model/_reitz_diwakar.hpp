@@ -41,7 +41,7 @@ private:
     scalar Cs_;
 public:
   //- Runtime type information
-  TypeName("ReitzDiwakar");
+  TYPE_NAME("ReitzDiwakar");
   // Constructors
     //- Construct from dictionary
     ReitzDiwakar(const dictionary&, CloudType&);

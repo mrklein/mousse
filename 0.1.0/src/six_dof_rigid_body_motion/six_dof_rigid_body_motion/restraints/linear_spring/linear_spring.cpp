@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace sixDoFRigidBodyMotionRestraints
 {
-  defineTypeNameAndDebug(linearSpring, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(linearSpring, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     sixDoFRigidBodyMotionRestraint,
     linearSpring,

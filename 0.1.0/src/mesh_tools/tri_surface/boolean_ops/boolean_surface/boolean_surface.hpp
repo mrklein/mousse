@@ -102,7 +102,7 @@ class booleanSurface
       labelList& side
     );
 public:
-  ClassName("booleanSurface");
+  CLASS_NAME("booleanSurface");
   // Data types
     //- Enumeration listing the possible volume operator types
     enum booleanOpType
@@ -152,7 +152,7 @@ public:
     {
       if (!from1(faceI))
       {
-        FatalErrorIn("booleanSurface::surf1Face(const label)")
+        FATAL_ERROR_IN("booleanSurface::surf1Face(const label)")
           << "face " << faceI << " not from surface 1"
           << abort(FatalError);
       }
@@ -162,7 +162,7 @@ public:
     {
       if (from1(faceI))
       {
-        FatalErrorIn("booleanSurface::surf2Face(const label)")
+        FATAL_ERROR_IN("booleanSurface::surf2Face(const label)")
           << "face " << faceI << " not from surface 2"
           << abort(FatalError);
       }

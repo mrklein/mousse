@@ -10,9 +10,12 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   gamma.cpp
+
 #ifndef gamma_hpp_
 #define gamma_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimiterFunc>
@@ -24,11 +27,11 @@ class GammaLimiter
 public:
   GammaLimiter(Istream& is)
   :
-    k_(readScalar(is))
+    k_{readScalar(is)}
   {
     if (k_ < 0 || k_ > 1)
     {
-      FatalIOErrorIn("GammaLimiter(Istream& is)", is)
+      FATAL_IO_ERROR_IN("GammaLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
         << exit(FatalIOError);
@@ -37,9 +40,10 @@ public:
     // and avoid the /0 when k_ = 0
     k_ = max(k_/2.0, SMALL);
   }
+
   scalar limiter
   (
-    const scalar cdWeight,
+    const scalar /*cdWeight*/,
     const scalar faceFlux,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,

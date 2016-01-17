@@ -52,9 +52,9 @@ public:
       //- cp/cp []
       scalar cpBycpv
       (
-        const Thermo& thermo,
-        const scalar p,
-        const scalar T
+        const Thermo& /*thermo*/,
+        const scalar /*p*/,
+        const scalar /*T*/
       ) const
       {
         return 1;

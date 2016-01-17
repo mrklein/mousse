@@ -23,7 +23,7 @@ void mousse::fileFormats::VTKedgeFormat::writeHeader
     << "DATASET POLYDATA" << nl;
   // Write vertex coords
   os  << "POINTS " << pointLst.size() << " float" << nl;
-  forAll(pointLst, ptI)
+  FOR_ALL(pointLst, ptI)
   {
     const point& pt = pointLst[ptI];
     os  << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
@@ -36,7 +36,7 @@ void mousse::fileFormats::VTKedgeFormat::writeEdges
 )
 {
   os  << "LINES " << edgeLst.size() << ' ' << 3*edgeLst.size() << nl;
-  forAll(edgeLst, edgeI)
+  FOR_ALL(edgeLst, edgeI)
   {
     const edge& e = edgeLst[edgeI];
     os  << "2 " << e[0] << ' ' << e[1] << nl;
@@ -59,7 +59,7 @@ bool mousse::fileFormats::VTKedgeFormat::read
   IFstream is(filename);
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::VTKedgeFormat::read(const fileName&)"
     )   << "Cannot read file " << filename
@@ -92,13 +92,13 @@ bool mousse::fileFormats::VTKedgeFormat::read
   // Extract lines
   storedPoints().transfer(reader.points());
   label nEdges = 0;
-  forAll(reader.lines(), lineI)
+  FOR_ALL(reader.lines(), lineI)
   {
     nEdges += reader.lines()[lineI].size()-1;
   }
   storedEdges().setSize(nEdges);
   nEdges = 0;
-  forAll(reader.lines(), lineI)
+  FOR_ALL(reader.lines(), lineI)
   {
     const labelList& verts = reader.lines()[lineI];
     for (label i = 1; i < verts.size(); i++)
@@ -117,7 +117,7 @@ void mousse::fileFormats::VTKedgeFormat::write
   OFstream os(filename);
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::VTKedgeFormat::write"
       "(const fileName&, const edgeMesh&)"

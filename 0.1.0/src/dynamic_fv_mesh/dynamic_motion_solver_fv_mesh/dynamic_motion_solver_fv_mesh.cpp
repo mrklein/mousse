@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(dynamicMotionSolverFvMesh, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(dynamicMotionSolverFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     dynamicFvMesh,
     dynamicMotionSolverFvMesh,

@@ -17,7 +17,7 @@ class topoAction
 public:
   // Static data members
     //- Runtime type information
-    TypeName("topoAction");
+    TYPE_NAME("topoAction");
   // Constructors
     //- Construct null
     topoAction()

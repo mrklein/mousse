@@ -24,7 +24,7 @@ class meshSearchFACE_CENTRE_TRISMeshObject
 {
 public:
   // Declare name of the class and its debug switch
-  TypeName("meshSearchFACE_CENTRE_TRISMeshObject");
+  TYPE_NAME("meshSearchFACE_CENTRE_TRISMeshObject");
   // Constructors
     //- Constructor given polyMesh
     explicit meshSearchFACE_CENTRE_TRISMeshObject(const polyMesh& mesh);

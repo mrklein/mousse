@@ -74,9 +74,11 @@ void mousse::pressureInletUniformVelocityFvPatchVectorField::operator=
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    pressureInletUniformVelocityFvPatchVectorField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  pressureInletUniformVelocityFvPatchVectorField
+);
+
 }

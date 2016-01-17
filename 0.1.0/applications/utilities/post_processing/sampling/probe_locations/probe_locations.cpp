@@ -9,30 +9,27 @@ using namespace mousse;
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   IOprobes sniff
-  (
+  {
     probes::typeName,
     mesh,
     word("probesDict"), // force the use of the system directory
     IOobject::MUST_READ,
     true
-  );
-  forAll(timeDirs, timeI)
+  };
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     Info<< "Time = " << runTime.timeName() << endl;
     // Handle geometry/topology changes
     polyMesh::readUpdateState state = mesh.readUpdate();
-    if
-    (
-      state == polyMesh::POINTS_MOVED
-    || state == polyMesh::TOPO_CHANGE
-    )
+    if (state == polyMesh::POINTS_MOVED
+        || state == polyMesh::TOPO_CHANGE)
     {
       sniff.read();
     }

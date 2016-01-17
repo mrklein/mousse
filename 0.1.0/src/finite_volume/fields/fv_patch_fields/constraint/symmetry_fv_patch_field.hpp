@@ -33,7 +33,7 @@ class symmetryFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName(symmetryFvPatch::typeName_());
+  TYPE_NAME(symmetryFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     symmetryFvPatchField

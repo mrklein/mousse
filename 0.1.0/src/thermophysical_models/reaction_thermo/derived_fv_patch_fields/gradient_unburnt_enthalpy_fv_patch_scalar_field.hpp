@@ -18,7 +18,7 @@ class gradientUnburntEnthalpyFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("gradientUnburntEnthalpy");
+  TYPE_NAME("gradientUnburntEnthalpy");
   // Constructors
     //- Construct from patch and internal field
     gradientUnburntEnthalpyFvPatchScalarField

@@ -25,7 +25,7 @@ class labelToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("labelToCell");
+  TYPE_NAME("labelToCell");
   // Constructors
     //- Construct from components
     labelToCell

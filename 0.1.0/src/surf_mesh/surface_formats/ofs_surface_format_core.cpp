@@ -4,7 +4,9 @@
 
 #include "ofs_surface_format_core.hpp"
 #include "clock.hpp"
-// Private Member Functions 
+#include "ioobject.hpp"
+
+// Private Member Functions
 void mousse::fileFormats::OFSsurfaceFormatCore::writeHeader
 (
   Ostream& os,
@@ -26,7 +28,7 @@ void mousse::fileFormats::OFSsurfaceFormatCore::writeHeader
   else
   {
     os  << zoneLst.size() << nl << token::BEGIN_LIST << incrIndent << nl;
-    forAll(zoneLst, zoneI)
+    FOR_ALL(zoneLst, zoneI)
     {
       zoneLst[zoneI].writeDict(os);
     }

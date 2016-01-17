@@ -62,7 +62,7 @@ protected:
     virtual void correctNut();
 public:
   //- Runtime type information
-  TypeName("qZeta");
+  TYPE_NAME("qZeta");
   // Constructors
     //- Construct from components
     qZeta

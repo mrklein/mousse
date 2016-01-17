@@ -26,7 +26,7 @@ void mousse::autoLayerDriver::sumWeights
 {
   const pointField& pts = meshRefiner_.mesh().points();
   invSumWeight = 0;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (isMasterEdge.get(meshEdges[edgeI]) == 1)
     {
@@ -55,7 +55,7 @@ void mousse::autoLayerDriver::sumWeights
     plusEqOp<scalar>(),
     scalar(0.0)         // null value
   );
-  forAll(invSumWeight, pointI)
+  FOR_ALL(invSumWeight, pointI)
   {
     scalar w = invSumWeight[pointI];
     if (w > 0.0)
@@ -105,7 +105,7 @@ void mousse::autoLayerDriver::smoothField
       average
     );
     // Transfer to field
-    forAll(field, pointI)
+    FOR_ALL(field, pointI)
     {
       //full smoothing neighbours + point value
       average[pointI] = 0.5*(field[pointI]+average[pointI]);
@@ -182,7 +182,7 @@ void mousse::autoLayerDriver::smoothField
 //            average
 //        );
 //
-//        forAll(field, i)
+//        FOR_ALL(field, i)
 //        {
 //            if (field[i] >= fieldMin[i])
 //            {
@@ -204,7 +204,7 @@ void mousse::autoLayerDriver::smoothField
 //            average
 //        );
 //
-//        forAll(field, i)
+//        FOR_ALL(field, i)
 //        {
 //            if (field[i] >= fieldMin[i])
 //            {
@@ -277,7 +277,7 @@ void mousse::autoLayerDriver::smoothPatchNormals
       Info<< "    Iteration " << iter << "   residual " << resid << endl;
     }
     // Transfer to normals vector field
-    forAll(average, pointI)
+    FOR_ALL(average, pointI)
     {
       // full smoothing neighbours + point value
       average[pointI] = 0.5*(normals[pointI]+average[pointI]);
@@ -303,7 +303,7 @@ void mousse::autoLayerDriver::smoothNormals
   // Points that do not change.
   PackedBoolList isFixedPoint(mesh.nPoints());
   // Internal points that are fixed
-  forAll(fixedPoints, i)
+  FOR_ALL(fixedPoints, i)
   {
     label meshPointI = fixedPoints[i];
     isFixedPoint.set(meshPointI, 1);
@@ -350,7 +350,7 @@ void mousse::autoLayerDriver::smoothNormals
       Info<< "    Iteration " << iter << "   residual " << resid << endl;
     }
     // Transfer to normals vector field
-    forAll(average, pointI)
+    FOR_ALL(average, pointI)
     {
       if (isFixedPoint.get(pointI) == 0)
       {
@@ -430,10 +430,10 @@ void mousse::autoLayerDriver::handleFeatureAngleLayerTerminations
   // Mark faces that have all points extruded
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   boolList extrudedFaces(pp.size(), true);
-  forAll(pp.localFaces(), faceI)
+  FOR_ALL(pp.localFaces(), faceI)
   {
     const face& f = pp.localFaces()[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (extrudeStatus[f[fp]] == NOEXTRUDE)
       {
@@ -451,12 +451,12 @@ void mousse::autoLayerDriver::handleFeatureAngleLayerTerminations
   const labelListList& edgeFaces = pp.edgeFaces();
   const vectorField& faceNormals = pp.faceNormals();
   const labelList& meshPoints = pp.meshPoints();
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     const labelList& eFaces = edgeFaces[edgeI];
     edgeFaceNormals[edgeI].setSize(eFaces.size());
     edgeFaceExtrude[edgeI].setSize(eFaces.size());
-    forAll(eFaces, i)
+    FOR_ALL(eFaces, i)
     {
       label faceI = eFaces[i];
       edgeFaceNormals[edgeI][i] = faceNormals[faceI];
@@ -479,7 +479,7 @@ void mousse::autoLayerDriver::handleFeatureAngleLayerTerminations
     globalMeshData::ListPlusEqOp<List<bool> >(),    // combine operator
     List<bool>()                // null value
   );
-  forAll(edgeFaceNormals, edgeI)
+  FOR_ALL(edgeFaceNormals, edgeI)
   {
     const List<point>& eFaceNormals = edgeFaceNormals[edgeI];
     const List<bool>& eFaceExtrude = edgeFaceExtrude[edgeI];
@@ -587,10 +587,10 @@ void mousse::autoLayerDriver::findIsolatedRegions
     // faces are not grown
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     boolList extrudedFaces(pp.size(), true);
-    forAll(pp.localFaces(), faceI)
+    FOR_ALL(pp.localFaces(), faceI)
     {
       const face& f = pp.localFaces()[faceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (extrudeStatus[f[fp]] == NOEXTRUDE)
         {
@@ -601,10 +601,10 @@ void mousse::autoLayerDriver::findIsolatedRegions
     }
     const labelListList& pointFaces = pp.pointFaces();
     boolList keptPoints(pp.nPoints(), false);
-    forAll(keptPoints, patchPointI)
+    FOR_ALL(keptPoints, patchPointI)
     {
       const labelList& pFaces = pointFaces[patchPointI];
-      forAll(pFaces, i)
+      FOR_ALL(pFaces, i)
       {
         label faceI = pFaces[i];
         if (extrudedFaces[faceI])
@@ -623,7 +623,7 @@ void mousse::autoLayerDriver::findIsolatedRegions
       false               // null value
     );
     label nChanged = 0;
-    forAll(keptPoints, patchPointI)
+    FOR_ALL(keptPoints, patchPointI)
     {
       if (!keptPoints[patchPointI])
       {
@@ -652,7 +652,7 @@ void mousse::autoLayerDriver::findIsolatedRegions
   // Count number of mesh edges using a point
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelList isolatedPoint(pp.nPoints(),0);
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (isMasterEdge.get(meshEdges[edgeI]) == 1)
     {
@@ -679,11 +679,11 @@ void mousse::autoLayerDriver::findIsolatedRegions
   );
   // stop layer growth on isolated faces
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(pp, faceI)
+  FOR_ALL(pp, faceI)
   {
     const face& f = pp.localFaces()[faceI];
     bool failed = false;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (isolatedPoint[f[fp]] > 2)
       {
@@ -694,7 +694,7 @@ void mousse::autoLayerDriver::findIsolatedRegions
     bool allPointsExtruded = true;
     if (!failed)
     {
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (extrudeStatus[f[fp]] == NOEXTRUDE)
         {
@@ -704,7 +704,7 @@ void mousse::autoLayerDriver::findIsolatedRegions
       }
       if (allPointsExtruded)
       {
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if
           (
@@ -813,7 +813,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
   {
     // Seed data.
     List<pointData> wallInfo(meshPoints.size());
-    forAll(meshPoints, patchPointI)
+    FOR_ALL(meshPoints, patchPointI)
     {
       label pointI = meshPoints[patchPointI];
       wallInfo[patchPointI] = pointData
@@ -843,7 +843,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
     );
     if (nUnvisit > 0)
     {
-      WarningIn("autoLayerDriver::medialAxisSmoothingInfo(..)")
+      WARNING_IN("autoLayerDriver::medialAxisSmoothingInfo(..)")
         << "Walking did not visit all points." << nl
         << "    Did not visit " << nUnvisit
         << " out of " << mesh.globalData().nTotalPoints()
@@ -859,7 +859,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
     scalarField distSqr(pointWallDist.size());
     //NA scalarField passiveS(pointWallDist.size());
     pointField passiveV(pointWallDist.size());
-    forAll(pointWallDist, pointI)
+    FOR_ALL(pointWallDist, pointI)
     {
       origin[pointI] = pointWallDist[pointI].origin();
       distSqr[pointI] = pointWallDist[pointI].distSqr();
@@ -881,7 +881,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
     DynamicList<label> maxPoints(meshPoints.size());
     // 1. Medial axis points
     const edgeList& edges = mesh.edges();
-    forAll(edges, edgeI)
+    FOR_ALL(edges, edgeI)
     {
       const edge& e = edges[edgeI];
       if
@@ -922,7 +922,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
           {
             medialAxisPt = p0+(s-dist0)*eVec;
           }
-          forAll(e, ep)
+          FOR_ALL(e, ep)
           {
             label pointI = e[ep];
             if (!pointMedialDist[pointI].valid(dummyTrackData))
@@ -947,7 +947,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
     // 2. Seed non-adapt patches
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
     labelHashSet adaptPatches(meshMover.adaptPatchIDs());
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       const pointPatchVectorField& pvf =
@@ -970,7 +970,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
           // Disable all movement on fixedValue patchFields
           Info<< "Inserting all points on patch " << pp.name()
             << endl;
-          forAll(meshPoints, i)
+          FOR_ALL(meshPoints, i)
           {
             label pointI = meshPoints[i];
             if (!pointMedialDist[pointI].valid(dummyTrackData))
@@ -1002,7 +1002,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
             << featureAngle << " degrees." << endl;
           scalar featureAngleCos = mousse::cos(degToRad(featureAngle));
           pointField pointNormals(PatchTools::pointNormals(mesh, pp));
-          forAll(meshPoints, i)
+          FOR_ALL(meshPoints, i)
           {
             label pointI = meshPoints[i];
             if
@@ -1058,7 +1058,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
       dummyTrackData
     );
     // Extract medial axis distance as pointScalarField
-    forAll(pointMedialDist, pointI)
+    FOR_ALL(pointMedialDist, pointI)
     {
       medialDist[pointI] = mousse::sqrt(pointMedialDist[pointI].distSqr());
       medialVec[pointI] = pointMedialDist[pointI].origin();
@@ -1071,7 +1071,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
     }
   }
   // Extract transported surface normals as pointVectorField
-  forAll(dispVec, i)
+  FOR_ALL(dispVec, i)
   {
     if (!pointWallDist[i].valid(dummyTrackData))
     {
@@ -1096,7 +1096,7 @@ void mousse::autoLayerDriver::medialAxisSmoothingInfo
     meshRefinement::testSyncPointList("smoothed dispVec", mesh, dispVec);
   }
   // Calculate ratio point medial distance to point wall distance
-  forAll(medialRatio, pointI)
+  FOR_ALL(medialRatio, pointI)
   {
     if (!pointWallDist[pointI].valid(dummyTrackData))
     {
@@ -1196,7 +1196,7 @@ void mousse::autoLayerDriver::shrinkMeshMedialDistance
   );
   scalarField thickness(layerThickness.size());
   thickness = mag(patchDisp);
-  forAll(thickness, patchPointI)
+  FOR_ALL(thickness, patchPointI)
   {
     if (extrudeStatus[patchPointI] == NOEXTRUDE)
     {
@@ -1238,7 +1238,7 @@ void mousse::autoLayerDriver::shrinkMeshMedialDistance
     Info<< "Writing points with too large an extrusion distance to "
       << medialVecStr().name() << endl;
   }
-  forAll(meshPoints, patchPointI)
+  FOR_ALL(meshPoints, patchPointI)
   {
     if (extrudeStatus[patchPointI] != NOEXTRUDE)
     {
@@ -1319,7 +1319,7 @@ void mousse::autoLayerDriver::shrinkMeshMedialDistance
     patchNLayers
   );
   // Update thickess for changed extrusion
-  forAll(thickness, patchPointI)
+  FOR_ALL(thickness, patchPointI)
   {
     if (extrudeStatus[patchPointI] == NOEXTRUDE)
     {
@@ -1349,7 +1349,7 @@ void mousse::autoLayerDriver::shrinkMeshMedialDistance
     labelList wallPoints(meshPoints.size());
     // Seed data.
     List<pointData> wallInfo(meshPoints.size());
-    forAll(meshPoints, patchPointI)
+    FOR_ALL(meshPoints, patchPointI)
     {
       label pointI = meshPoints[patchPointI];
       wallPoints[patchPointI] = pointI;
@@ -1375,7 +1375,7 @@ void mousse::autoLayerDriver::shrinkMeshMedialDistance
   }
   // Calculate scaled displacement vector
   pointVectorField& displacement = meshMover.displacement();
-  forAll(displacement, pointI)
+  FOR_ALL(displacement, pointI)
   {
     if (!pointWallDist[pointI].valid(dummyTrackData))
     {
@@ -1425,7 +1425,7 @@ void mousse::autoLayerDriver::shrinkMeshMedialDistance
         displacement,
         average
       );
-      forAll(displacement, i)
+      FOR_ALL(displacement, i)
       {
         if (medialRatio[i] > SMALL && medialRatio[i] < 1-SMALL)
         {
@@ -1446,7 +1446,7 @@ void mousse::autoLayerDriver::shrinkMeshMedialDistance
         displacement,
         average
       );
-      forAll(displacement, i)
+      FOR_ALL(displacement, i)
       {
         if (medialRatio[i] > SMALL && medialRatio[i] < 1-SMALL)
         {
@@ -1477,7 +1477,7 @@ void mousse::autoLayerDriver::shrinkMeshMedialDistance
     meshRefinement::testSyncPointList("mesh.points()", mesh, mesh.points());
     // pointWallDist
     scalarField pWallDist(pointWallDist.size());
-    forAll(pointWallDist, pointI)
+    FOR_ALL(pointWallDist, pointI)
     {
       pWallDist[pointI] = pointWallDist[pointI].s();
     }

@@ -26,7 +26,7 @@ const mousse::NamedEnum
   mousse::energyRegionCoupledFvPatchScalarField::kappaMethodType,
   3
 > mousse::energyRegionCoupledFvPatchScalarField::methodTypeNames_;
-// * * * * * * * * * * * * * * * * Private members  * * * * * * * * * * * * *//
+// Private members
 void mousse::energyRegionCoupledFvPatchScalarField::setMethod() const
 {
   if (method_ == UNDEFINED)
@@ -94,7 +94,7 @@ kappa() const
     break;
     case UNDEFINED:
     {
-      FatalErrorIn("energyRegionCoupledFvPatchScalarField::kappa() const")
+      FATAL_ERROR_IN("energyRegionCoupledFvPatchScalarField::kappa() const")
           << " on mesh " << this->db().name() << " patch "
           << patch().name()
           << " could not find a method in. Methods are:  "
@@ -135,16 +135,16 @@ weights() const
     )
   );
   const scalarField nbrDeltas
-  (
+  {
     regionCoupledPatch_.regionCoupledPatch().interpolate
     (
       nbrPatch.nf() & nbrPatch.delta()
     )
-  );
-  const scalarField nbrAlphaDelta(nbrAlpha/nbrDeltas);
-  tmp<scalarField> tw(new scalarField(deltas.size()));
+  };
+  const scalarField nbrAlphaDelta{nbrAlpha/nbrDeltas};
+  tmp<scalarField> tw{new scalarField{deltas.size()}};
   scalarField& w = tw();
-  forAll(alphaDelta, faceI)
+  FOR_ALL(alphaDelta, faceI)
   {
     scalar di = alphaDelta[faceI];
     scalar dni = nbrAlphaDelta[faceI];
@@ -160,11 +160,11 @@ energyRegionCoupledFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  coupledFvPatchField<scalar>(p, iF),
-  regionCoupledPatch_(refCast<const regionCoupledBaseFvPatch>(p)),
-  method_(UNDEFINED),
-  nbrThermoPtr_(NULL),
-  thermoPtr_(NULL)
+  coupledFvPatchField<scalar>{p, iF},
+  regionCoupledPatch_{refCast<const regionCoupledBaseFvPatch>(p)},
+  method_{UNDEFINED},
+  nbrThermoPtr_{NULL},
+  thermoPtr_{NULL}
 {}
 mousse::energyRegionCoupledFvPatchScalarField::
 energyRegionCoupledFvPatchScalarField
@@ -175,11 +175,11 @@ energyRegionCoupledFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  coupledFvPatchField<scalar>(ptf, p, iF, mapper),
-  regionCoupledPatch_(refCast<const regionCoupledBaseFvPatch>(p)),
-  method_(ptf.method_),
-  nbrThermoPtr_(NULL),
-  thermoPtr_(NULL)
+  coupledFvPatchField<scalar>{ptf, p, iF, mapper},
+  regionCoupledPatch_{refCast<const regionCoupledBaseFvPatch>(p)},
+  method_{ptf.method_},
+  nbrThermoPtr_{NULL},
+  thermoPtr_{NULL}
 {}
 mousse::energyRegionCoupledFvPatchScalarField::
 energyRegionCoupledFvPatchScalarField
@@ -189,15 +189,15 @@ energyRegionCoupledFvPatchScalarField
   const dictionary& dict
 )
 :
-  coupledFvPatchField<scalar>(p, iF, dict),
-  regionCoupledPatch_(refCast<const regionCoupledBaseFvPatch>(p)),
-  method_(UNDEFINED),
-  nbrThermoPtr_(NULL),
-  thermoPtr_(NULL)
+  coupledFvPatchField<scalar>{p, iF, dict},
+  regionCoupledPatch_{refCast<const regionCoupledBaseFvPatch>(p)},
+  method_{UNDEFINED},
+  nbrThermoPtr_{NULL},
+  thermoPtr_{NULL}
 {
   if (!isA<regionCoupledBase>(this->patch().patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "energyRegionCoupledFvPatchScalarField::"
       "energyRegionCoupledFvPatchScalarField\n"
@@ -206,12 +206,13 @@ energyRegionCoupledFvPatchScalarField
       "    const DimensionedField<scalar, volMesh>& iF,\n"
       "    const dictionary& dict\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not type '" << regionCoupledBase::typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not type '" << regionCoupledBase::typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
 }
 mousse::energyRegionCoupledFvPatchScalarField::
@@ -220,11 +221,11 @@ energyRegionCoupledFvPatchScalarField
   const energyRegionCoupledFvPatchScalarField& ptf
 )
 :
-  coupledFvPatchField<scalar>(ptf),
-  regionCoupledPatch_(ptf.regionCoupledPatch_),
-  method_(ptf.method_),
-  nbrThermoPtr_(NULL),
-  thermoPtr_(NULL)
+  coupledFvPatchField<scalar>{ptf},
+  regionCoupledPatch_{ptf.regionCoupledPatch_},
+  method_{ptf.method_},
+  nbrThermoPtr_{NULL},
+  thermoPtr_{NULL}
 {}
 mousse::energyRegionCoupledFvPatchScalarField::
 energyRegionCoupledFvPatchScalarField
@@ -233,25 +234,24 @@ energyRegionCoupledFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  coupledFvPatchField<scalar>(ptf, iF),
-  regionCoupledPatch_(ptf.regionCoupledPatch_),
-  method_(ptf.method_),
-  nbrThermoPtr_(NULL),
-  thermoPtr_(NULL)
+  coupledFvPatchField<scalar>{ptf, iF},
+  regionCoupledPatch_{ptf.regionCoupledPatch_},
+  method_{ptf.method_},
+  nbrThermoPtr_{NULL},
+  thermoPtr_{NULL}
 {}
 // Member Functions 
 mousse::tmp<mousse::scalarField> mousse::energyRegionCoupledFvPatchScalarField::
 snGrad() const
 {
-  Debug("snGrad");
+  DEBUG("snGrad");
   return
-    regionCoupledPatch_.patch().deltaCoeffs()
-   *(*this - patchInternalField());
+    regionCoupledPatch_.patch().deltaCoeffs()*(*this - patchInternalField());
 }
 mousse::tmp<mousse::scalarField> mousse::energyRegionCoupledFvPatchScalarField::
 snGrad(const scalarField&) const
 {
-  Debug("snGrad");
+  DEBUG("snGrad");
   return snGrad();
 }
 void mousse::energyRegionCoupledFvPatchScalarField::evaluate
@@ -268,13 +268,10 @@ void mousse::energyRegionCoupledFvPatchScalarField::evaluate
   const scalarField lWeights(weights());
   scalarField::operator=
   (
-    thermoPtr_->he
-    (
-      pp,
-      lWeights*patchInternalTemperatureField()
-    + (1.0 - lWeights)*patchNeighbourTemperatureField(),
-      patchi
-    )
+    thermoPtr_->he(pp,
+                   lWeights*patchInternalTemperatureField()
+                   + (1.0 - lWeights)*patchNeighbourTemperatureField(),
+                   patchi)
   );
   fvPatchScalarField::evaluate();
 }
@@ -285,10 +282,7 @@ patchNeighbourField() const
   const fvPatch& nbrPatch = regionCoupledPatch_.neighbFvPatch();
   const labelUList& nbrFaceCells = nbrPatch.faceCells();
   setMethod();
-  const scalarField nbrIntT
-  (
-    nbrThermoPtr_->T().internalField(), nbrFaceCells
-  );
+  const scalarField nbrIntT(nbrThermoPtr_->T().internalField(), nbrFaceCells);
   scalarField intNbrT
   (
     regionCoupledPatch_.regionCoupledPatch().interpolate(nbrIntT)
@@ -316,9 +310,9 @@ patchInternalTemperatureField() const
 {
   const labelUList& faceCells = regionCoupledPatch_.faceCells();
   tmp<scalarField> tintT
-  (
-    new scalarField(thermoPtr_->T().internalField(), faceCells)
-  );
+  {
+    new scalarField{thermoPtr_->T().internalField(), faceCells}
+  };
   return tintT;
 }
 void mousse::energyRegionCoupledFvPatchScalarField::updateInterfaceMatrix
@@ -326,7 +320,7 @@ void mousse::energyRegionCoupledFvPatchScalarField::updateInterfaceMatrix
   Field<scalar>& result,
   const scalarField& psiInternal,
   const scalarField& coeffs,
-  const direction cmpt,
+  const direction /*cmpt*/,
   const Pstream::commsTypes
 ) const
 {
@@ -343,27 +337,27 @@ void mousse::energyRegionCoupledFvPatchScalarField::updateInterfaceMatrix
   {
     //NOTE: This is not correct for preconditioned solvers
     // psiInternal is not the information needed of the slave
-    forAll(*this, facei)
+    FOR_ALL(*this, facei)
     {
       myHE[facei] = psiInternal[regionCoupledPatch_.faceCells()[facei]];
     }
   }
   // Multiply the field by coefficients and add into the result
   const labelUList& faceCells = regionCoupledPatch_.faceCells();
-  forAll(faceCells, elemI)
+  FOR_ALL(faceCells, elemI)
   {
     result[faceCells[elemI]] -= coeffs[elemI]*myHE[elemI];
   }
 }
 void mousse::energyRegionCoupledFvPatchScalarField::updateInterfaceMatrix
 (
-  Field<scalar>& result,
-  const Field<scalar>& psiInternal,
-  const scalarField& coeffs,
+  Field<scalar>& /*result*/,
+  const Field<scalar>& /*psiInternal*/,
+  const scalarField& /*coeffs*/,
   const Pstream::commsTypes
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "energyRegionCoupledFvPatchScalarField::updateInterfaceMatrix()"
     "("
@@ -380,9 +374,9 @@ void mousse::energyRegionCoupledFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    energyRegionCoupledFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  energyRegionCoupledFvPatchScalarField
+);
 };

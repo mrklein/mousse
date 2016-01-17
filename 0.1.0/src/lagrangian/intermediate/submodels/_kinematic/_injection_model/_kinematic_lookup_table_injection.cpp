@@ -44,7 +44,7 @@ mousse::KinematicLookupTableInjection<CloudType>::KinematicLookupTableInjection
   updateMesh();
   // Determine volume of particles to inject
   this->volumeTotal_ = 0.0;
-  forAll(injectors_, i)
+  FOR_ALL(injectors_, i)
   {
     this->volumeTotal_ += injectors_[i].mDot()/injectors_[i].rho();
   }
@@ -75,7 +75,7 @@ template<class CloudType>
 void mousse::KinematicLookupTableInjection<CloudType>::updateMesh()
 {
   // Set/cache the injector cells
-  forAll(injectors_, i)
+  FOR_ALL(injectors_, i)
   {
     this->findCellAtPosition
     (
@@ -117,7 +117,7 @@ mousse::scalar mousse::KinematicLookupTableInjection<CloudType>::volumeToInject
   scalar volume = 0.0;
   if ((time0 >= 0.0) && (time0 < duration_))
   {
-    forAll(injectors_, i)
+    FOR_ALL(injectors_, i)
     {
       volume += injectors_[i].mDot()/injectors_[i].rho()*(time1 - time0);
     }
@@ -129,7 +129,7 @@ void mousse::KinematicLookupTableInjection<CloudType>::setPositionAndCell
 (
   const label parcelI,
   const label nParcels,
-  const scalar time,
+  const scalar /*time*/,
   vector& position,
   label& cellOwner,
   label& tetFaceI,

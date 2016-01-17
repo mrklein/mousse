@@ -8,16 +8,18 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(boundaryToFace, 0);
-addToRunTimeSelectionTable(topoSetSource, boundaryToFace, word);
-addToRunTimeSelectionTable(topoSetSource, boundaryToFace, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(boundaryToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, boundaryToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, boundaryToFace, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::boundaryToFace::usage_
 (
   boundaryToFace::typeName,
   "\n    Usage: boundaryToFace\n\n"
   "    Select all boundary faces\n\n"
 );
+
 // Private Member Functions 
 void mousse::boundaryToFace::combine(topoSet& set, const bool add) const
 {
@@ -35,21 +37,21 @@ void mousse::boundaryToFace::combine(topoSet& set, const bool add) const
 // Construct from components
 mousse::boundaryToFace::boundaryToFace(const polyMesh& mesh)
 :
-  topoSetSource(mesh)
+  topoSetSource{mesh}
 {}
 // Construct from dictionary
 mousse::boundaryToFace::boundaryToFace(const polyMesh& mesh, const dictionary&)
 :
-  topoSetSource(mesh)
+  topoSetSource{mesh}
 {}
 // Construct from Istream
 mousse::boundaryToFace::boundaryToFace
 (
   const polyMesh& mesh,
-  Istream& is
+  Istream&
 )
 :
-  topoSetSource(mesh)
+  topoSetSource{mesh}
 {}
 // Destructor 
 mousse::boundaryToFace::~boundaryToFace()

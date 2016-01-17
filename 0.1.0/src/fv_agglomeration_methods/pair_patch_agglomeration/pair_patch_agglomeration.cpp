@@ -25,7 +25,7 @@ bool mousse::pairPatchAgglomeration::continueAgglomerating
 void mousse::pairPatchAgglomeration::setBasedEdgeWeights()
 {
   const bPatch& coarsePatch = patchLevels_[0];
-  forAll(coarsePatch.edges(), i)
+  FOR_ALL(coarsePatch.edges(), i)
   {
     if (coarsePatch.isInternalEdge(i))
     {
@@ -53,7 +53,7 @@ void mousse::pairPatchAgglomeration::setBasedEdgeWeights()
       }
       else
       {
-        forAll(eFaces, j)
+        FOR_ALL(eFaces, j)
         {
           for (label k = j+1; k<eFaces.size(); k++)
           {
@@ -79,7 +79,7 @@ void mousse::pairPatchAgglomeration::setEdgeWeights
   labelListList coarseToFine(invertOneToMany(nCoarseI, fineToCoarse));
   HashSet<edge, Hash<edge> > fineFeaturedFaces(coarsePatch.nEdges()/10);
   // Map fine faces with featured edge into coarse faces
-  forAllConstIter(EdgeMap<scalar>, facePairWeight_, iter)
+  FOR_ALL_CONST_ITER(EdgeMap<scalar>, facePairWeight_, iter)
   {
     if (iter() == -1.0)
     {
@@ -95,7 +95,7 @@ void mousse::pairPatchAgglomeration::setEdgeWeights
   // Clean old weitghs
   facePairWeight_.clear();
   facePairWeight_.resize(coarsePatch.nEdges());
-  forAll(coarsePatch.edges(), i)
+  FOR_ALL(coarsePatch.edges(), i)
   {
     if (coarsePatch.isInternalEdge(i))
     {
@@ -123,7 +123,7 @@ void mousse::pairPatchAgglomeration::setEdgeWeights
       else
       {
         // Set edge as barrier by setting weight to -1
-        forAll(eFaces, j)
+        FOR_ALL(eFaces, j)
         {
           for (label k = j+1; k<eFaces.size(); k++)
           {
@@ -143,7 +143,7 @@ mousse::pairPatchAgglomeration::pairPatchAgglomeration
 (
   const polyPatch& patch,
   const dictionary& controlDict,
-  const bool additionalWeights
+  const bool /*additionalWeights*/
 )
 :
   mergeLevels_
@@ -197,7 +197,7 @@ void mousse::pairPatchAgglomeration::mapBaseToTopAgglom
 )
 {
   const labelList& fineToCoarse = restrictAddressing_[fineLevelIndex];
-  forAll (restrictTopBottomAddressing_, i)
+  FOR_ALL(restrictTopBottomAddressing_, i)
   {
     restrictTopBottomAddressing_[i] =
       fineToCoarse[restrictTopBottomAddressing_[i]];
@@ -212,7 +212,7 @@ bool mousse::pairPatchAgglomeration::agglomeratePatch
 {
   if (min(fineToCoarse) == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pairPatchAgglomeration::agglomeratePatch"
       "("
@@ -228,7 +228,7 @@ bool mousse::pairPatchAgglomeration::agglomeratePatch
   }
   if (fineToCoarse.size() != patch.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pairPatchAgglomeration::agglomeratePatch"
       "("
@@ -369,7 +369,7 @@ mousse::tmp<mousse::labelField> mousse::pairPatchAgglomeration::agglomerateOneLe
   labelField& coarseCellMap = tcoarseCellMap();
   const labelListList& faceFaces = patch.faceFaces();
   nCoarseFaces = 0;
-  forAll(faceFaces, facei)
+  FOR_ALL(faceFaces, facei)
   {
     const labelList& fFaces = faceFaces[facei];
     if (coarseCellMap[facei] < 0)
@@ -378,7 +378,7 @@ mousse::tmp<mousse::labelField> mousse::pairPatchAgglomeration::agglomerateOneLe
       label matchFaceNeibNo = -1;
       scalar maxFaceWeight = -GREAT;
       // Check faces to find ungrouped neighbour with largest face weight
-      forAll(fFaces, i)
+      FOR_ALL(fFaces, i)
       {
         label faceNeig = fFaces[i];
         const edge edgeCommon = edge(facei, faceNeig);
@@ -408,7 +408,7 @@ mousse::tmp<mousse::labelField> mousse::pairPatchAgglomeration::agglomerateOneLe
         // put the cell there
         label clusterMatchFaceNo = -1;
         scalar clusterMaxFaceCoeff = -GREAT;
-        forAll(fFaces, i)
+        FOR_ALL(fFaces, i)
         {
           label faceNeig = fFaces[i];
           const edge edgeCommon = edge(facei, faceNeig);
@@ -442,7 +442,7 @@ mousse::tmp<mousse::labelField> mousse::pairPatchAgglomeration::agglomerateOneLe
   {
     if (coarseCellMap[facei] < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "pairPatchAgglomeration::agglomerateOneLevel "
         "(label&, const bPatch&) "
@@ -462,7 +462,7 @@ void mousse::pairPatchAgglomeration::combineLevels(const label curLevel)
   // finer level
   const labelList& curResAddr = restrictAddressing_[curLevel];
   labelList& prevResAddr = restrictAddressing_[prevLevel];
-  forAll(prevResAddr, i)
+  FOR_ALL(prevResAddr, i)
   {
     prevResAddr[i] = curResAddr[prevResAddr[i]];
   }

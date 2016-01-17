@@ -28,7 +28,7 @@ void mousse::LimitedScheme<Type, Limiter, LimitFunc>::calcLimiter
   const labelUList& neighbour = mesh.neighbour();
   const vectorField& C = mesh.C();
   scalarField& pLim = limiterField.internalField();
-  forAll(pLim, face)
+  FOR_ALL(pLim, face)
   {
     label own = owner[face];
     label nei = neighbour[face];
@@ -45,7 +45,7 @@ void mousse::LimitedScheme<Type, Limiter, LimitFunc>::calcLimiter
   }
   surfaceScalarField::GeometricBoundaryField& bLim =
     limiterField.boundaryField();
-  forAll(bLim, patchi)
+  FOR_ALL(bLim, patchi)
   {
     scalarField& pLim = bLim[patchi];
     if (bLim[patchi].coupled())
@@ -71,7 +71,7 @@ void mousse::LimitedScheme<Type, Limiter, LimitFunc>::calcLimiter
       );
       // Build the d-vectors
       vectorField pd(CDweights.boundaryField()[patchi].patch().delta());
-      forAll(pLim, face)
+      FOR_ALL(pLim, face)
       {
         pLim[face] = Limiter::limiter
         (

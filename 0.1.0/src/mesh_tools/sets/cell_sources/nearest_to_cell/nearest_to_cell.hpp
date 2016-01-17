@@ -25,7 +25,7 @@ class nearestToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("nearestToCell");
+  TYPE_NAME("nearestToCell");
   // Constructors
     //- Construct from components
     nearestToCell

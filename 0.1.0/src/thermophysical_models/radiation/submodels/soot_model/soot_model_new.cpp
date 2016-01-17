@@ -22,7 +22,7 @@ mousse::radiation::sootModel::New
       dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "sootModel::New(const dictionary&, const fvMesh&)"
     )   << "Unknown sootModel type "

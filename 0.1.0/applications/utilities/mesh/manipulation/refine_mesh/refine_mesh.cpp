@@ -37,7 +37,7 @@ void printEdgeStats(const primitiveMesh& mesh)
   scalar minOther = GREAT;
   scalar maxOther = -GREAT;
   const edgeList& edges = mesh.edges();
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     vector eVec(e.vec(mesh.points()));
@@ -84,18 +84,18 @@ int main(int argc, char *argv[])
   (
     "refine cells in multiple directions"
   );
-  #include "add_overwrite_option.hpp"
-  #include "add_region_option.hpp"
-  #include "add_dict_option.hpp"
+  #include "add_overwrite_option.inc"
+  #include "add_region_option.inc"
+  #include "add_dict_option.inc"
   mousse::argList::addBoolOption
   (
     "all",
     "Refine all cells"
   );
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   runTime.functionObjects().off();
-  #include "create_named_poly_mesh.hpp"
+  #include "create_named_poly_mesh.inc"
   const word oldInstance = mesh.pointsInstance();
   printEdgeStats(mesh);
   //
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
     );
     if (!dictIO.headerOk())
     {
-      FatalErrorIn(args.executable())
+      FATAL_ERROR_IN(args.executable())
         << "Cannot open specified refinement dictionary "
         << dictPath
         << exit(FatalError);
@@ -135,16 +135,16 @@ int main(int argc, char *argv[])
   else if (!refineAllCells)
   {
     IOobject dictIO
-    (
+    {
       dictName,
       runTime.system(),
       mesh,
       IOobject::MUST_READ
-    );
+    };
     if (dictIO.headerOk())
     {
       Info<< "Refining according to " << dictName << nl << endl;
-      refineDict = IOdictionary(dictIO);
+      refineDict = IOdictionary{dictIO};
     }
     else
     {
@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
   }
   if (refineDict.size())
   {
-    const word setName(refineDict.lookup("set"));
+    const word setName{refineDict.lookup("set")};
     cellSet cells(mesh, setName);
     Pout<< "Read " << cells.size() << " cells from cellSet "
       << cells.instance()/cells.local()/cells.name()
@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
     Info<< "Refining all cells" << nl << endl;
     // Select all cells
     refCells.setSize(mesh.nCells());
-    forAll(mesh.cells(), cellI)
+    FOR_ALL(mesh.cells(), cellI)
     {
       refCells[cellI] = cellI;
     }
@@ -182,8 +182,8 @@ int main(int argc, char *argv[])
     }
     else
     {
-      const Vector<label> dirs(mesh.geometricD());
-      wordList directions(2);
+      const Vector<label> dirs{mesh.geometricD()};
+      wordList directions{2};
       if (dirs.x() == -1)
       {
         Info<< "2D case; refining in directions y,z\n" << endl;
@@ -231,11 +231,11 @@ int main(int argc, char *argv[])
   // (is for every cell in old mesh the cells they have been split into)
   const labelListList& oldToNew = multiRef.addedCells();
   // Create cellSet with added cells for easy inspection
-  cellSet newCells(mesh, "refinedCells", refCells.size());
-  forAll(oldToNew, oldCellI)
+  cellSet newCells{mesh, "refinedCells", refCells.size()};
+  FOR_ALL(oldToNew, oldCellI)
   {
     const labelList& added = oldToNew[oldCellI];
-    forAll(added, i)
+    FOR_ALL(added, i)
     {
       newCells.insert(added[i]);
     }
@@ -248,29 +248,29 @@ int main(int argc, char *argv[])
   // Invert cell split to construct map from new to old
   //
   labelIOList newToOld
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "cellMap",
       runTime.timeName(),
       polyMesh::meshSubDir,
       mesh,
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh.nCells()
-  );
+  };
   newToOld.note() =
     "From cells in mesh at "
    + runTime.timeName()
    + " to cells in mesh at "
    + oldTimeName;
-  forAll(oldToNew, oldCellI)
+  FOR_ALL(oldToNew, oldCellI)
   {
     const labelList& added = oldToNew[oldCellI];
     if (added.size())
     {
-      forAll(added, i)
+      FOR_ALL(added, i)
       {
         newToOld[added[i]] = oldCellI;
       }

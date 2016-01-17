@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(fieldValue, 0);
-  defineRunTimeSelectionTable(fieldValue, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(fieldValue, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(fieldValue, dictionary);
 }
 // Protected Member Functions 
 void mousse::fieldValue::read(const dictionary& dict)
@@ -38,7 +38,7 @@ mousse::fieldValue::fieldValue
   const objectRegistry& obr,
   const dictionary& dict,
   const word& valueType,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
   functionObjectFile(obr, name, valueType),
@@ -59,7 +59,7 @@ mousse::fieldValue::fieldValue
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "fieldValue::fieldValue"
       "("

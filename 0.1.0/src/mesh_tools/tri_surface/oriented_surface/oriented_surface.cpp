@@ -9,8 +9,9 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(orientedSurface, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(orientedSurface, 0);
 }
+
 // Private Member Functions 
 // Return true if edge is used in opposite order in faces
 bool mousse::orientedSurface::consistentEdge
@@ -30,10 +31,10 @@ mousse::labelList mousse::orientedSurface::faceToEdge
 {
   labelList changedEdges(3*changedFaces.size());
   label changedI = 0;
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     const labelList& fEdges = s.faceEdges()[changedFaces[i]];
-    forAll(fEdges, j)
+    FOR_ALL(fEdges, j)
     {
       changedEdges[changedI++] = fEdges[j];
     }
@@ -50,7 +51,7 @@ mousse::labelList mousse::orientedSurface::edgeToFace
 {
   labelList changedFaces(2*changedEdges.size());
   label changedI = 0;
-  forAll(changedEdges, i)
+  FOR_ALL(changedEdges, i)
   {
     label edgeI = changedEdges[i];
     const labelList& eFaces = s.edgeFaces()[edgeI];
@@ -68,7 +69,7 @@ mousse::labelList mousse::orientedSurface::edgeToFace
       {
         if (flip[face1] == UNVISITED)
         {
-          FatalErrorIn("orientedSurface::edgeToFace(..)") << "Problem"
+          FATAL_ERROR_IN("orientedSurface::edgeToFace(..)") << "Problem"
             << abort(FatalError);
         }
         else
@@ -205,7 +206,7 @@ void mousse::orientedSurface::findZoneSide
   isOutside = false;
   pointField start(1, outsidePoint);
   List<List<pointIndexHit> > hits(1, List<pointIndexHit>());
-  forAll(faceZone, faceI)
+  FOR_ALL(faceZone, faceI)
   {
     if (faceZone[faceI] == zoneI)
     {
@@ -224,7 +225,7 @@ void mousse::orientedSurface::findZoneSide
         //    << " with centre " << fc << endl;
         surfSearches.findLineAll(start, end, hits);
         label zoneIndex = -1;
-        forAll(hits[0], i)
+        FOR_ALL(hits[0], i)
         {
           if (hits[0][i].index() == faceI)
           {
@@ -259,15 +260,16 @@ bool mousse::orientedSurface::flipSurface
 {
   bool hasFlipped = false;
   // Flip tris in s
-  forAll(flipState, faceI)
+  FOR_ALL(flipState, faceI)
   {
     if (flipState[faceI] == UNVISITED)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "orientSurface(const point&, const label, const point&)"
-      )   << "unvisited face " << faceI
-        << abort(FatalError);
+      )
+      << "unvisited face " << faceI
+      << abort(FatalError);
     }
     else if (flipState[faceI] == FLIP)
     {
@@ -377,7 +379,7 @@ bool mousse::orientedSurface::orient
     scalar minDist = GREAT;
     point minPoint;
     label minFaceI = -1;
-    forAll(s, faceI)
+    FOR_ALL(s, faceI)
     {
       if (flipState[faceI] == UNVISITED)
       {
@@ -426,7 +428,7 @@ bool mousse::orientedSurface::orient
   bool topoFlipped = orientConsistent(s);
   // Determine disconnected parts of surface
   boolList borderEdge(s.nEdges(), false);
-  forAll(s.edgeFaces(), edgeI)
+  FOR_ALL(s.edgeFaces(), edgeI)
   {
     if (s.edgeFaces()[edgeI].size() != 2)
     {

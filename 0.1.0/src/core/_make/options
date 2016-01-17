@@ -1,0 +1,6 @@
+EXE_INC = -I$(OBJECTS_DIR)
+
+LIB_LIBS = \
+    $(MOUSSE_LIBBIN)/libmousse_os_specific.o \
+    -L$(MOUSSE_LIBBIN)/dummy -lmousse_pstream \
+    -lz

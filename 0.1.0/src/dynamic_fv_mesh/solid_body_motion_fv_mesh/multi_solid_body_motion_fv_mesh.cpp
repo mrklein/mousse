@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(multiSolidBodyMotionFvMesh, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(multiSolidBodyMotionFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     dynamicFvMesh,
     multiSolidBodyMotionFvMesh,
@@ -55,7 +55,7 @@ mousse::multiSolidBodyMotionFvMesh::multiSolidBodyMotionFvMesh(const IOobject& i
 {
   if (undisplacedPoints_.size() != nPoints())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "multiSolidBodyMotionFvMesh::multiSolidBodyMotionFvMesh"
       "(const IOobject&)",
@@ -69,14 +69,14 @@ mousse::multiSolidBodyMotionFvMesh::multiSolidBodyMotionFvMesh(const IOobject& i
   SBMFs_.setSize(dynamicMeshCoeffs_.size());
   pointIDs_.setSize(dynamicMeshCoeffs_.size());
   label zoneI = 0;
-  forAllConstIter(dictionary, dynamicMeshCoeffs_, iter)
+  FOR_ALL_CONST_ITER(dictionary, dynamicMeshCoeffs_, iter)
   {
     if (iter().isDict())
     {
       zoneIDs_[zoneI] = cellZones().findZoneID(iter().keyword());
       if (zoneIDs_[zoneI] == -1)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "multiSolidBodyMotionFvMesh::"
           "multiSolidBodyMotionFvMesh(const IOobject&)",
@@ -94,14 +94,14 @@ mousse::multiSolidBodyMotionFvMesh::multiSolidBodyMotionFvMesh(const IOobject& i
       // Collect points of cell zone.
       const cellZone& cz = cellZones()[zoneIDs_[zoneI]];
       boolList movePts(nPoints(), false);
-      forAll(cz, i)
+      FOR_ALL(cz, i)
       {
         label cellI = cz[i];
         const cell& c = cells()[cellI];
-        forAll(c, j)
+        FOR_ALL(c, j)
         {
           const face& f = faces()[c[j]];
-          forAll(f, k)
+          FOR_ALL(f, k)
           {
             label pointI = f[k];
             movePts[pointI] = true;
@@ -110,7 +110,7 @@ mousse::multiSolidBodyMotionFvMesh::multiSolidBodyMotionFvMesh(const IOobject& i
       }
       syncTools::syncPointList(*this, movePts, orEqOp<bool>(), false);
       DynamicList<label> ptIDs(nPoints());
-      forAll(movePts, i)
+      FOR_ALL(movePts, i)
       {
         if (movePts[i])
         {
@@ -136,7 +136,7 @@ bool mousse::multiSolidBodyMotionFvMesh::update()
 {
   static bool hasWarned = false;
   pointField transformedPts(undisplacedPoints_);
-  forAll(zoneIDs_, i)
+  FOR_ALL(zoneIDs_, i)
   {
     const labelList& zonePoints = pointIDs_[i];
     UIndirectList<point>(transformedPts, zonePoints) =
@@ -155,7 +155,7 @@ bool mousse::multiSolidBodyMotionFvMesh::update()
   else if (!hasWarned)
   {
     hasWarned = true;
-    WarningIn("multiSolidBodyMotionFvMesh::update()")
+    WARNING_IN("multiSolidBodyMotionFvMesh::update()")
       << "Did not find volVectorField U."
       << " Not updating U boundary conditions." << endl;
   }

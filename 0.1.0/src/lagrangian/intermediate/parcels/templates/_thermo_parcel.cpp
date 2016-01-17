@@ -23,7 +23,7 @@ void mousse::ThermoParcel<ParcelType>::setCellValues
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "void mousse::ThermoParcel<ParcelType>::setCellValues"
         "("
@@ -42,7 +42,7 @@ template<class TrackData>
 void mousse::ThermoParcel<ParcelType>::cellValueSourceCorrection
 (
   TrackData& td,
-  const scalar dt,
+  const scalar /*dt*/,
   const label cellI
 )
 {
@@ -53,7 +53,7 @@ void mousse::ThermoParcel<ParcelType>::cellValueSourceCorrection
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "void mousse::ThermoParcel<ParcelType>::cellValueSourceCorrection"
         "("
@@ -61,8 +61,9 @@ void mousse::ThermoParcel<ParcelType>::cellValueSourceCorrection
           "const scalar, "
           "const label"
         ")"
-      )   << "Limiting observed temperature in cell " << cellI << " to "
-        << td.cloud().constProps().TMin() <<  nl << endl;
+      )
+      << "Limiting observed temperature in cell " << cellI << " to "
+      << td.cloud().constProps().TMin() <<  nl << endl;
     }
     Tc_ = td.cloud().constProps().TMin();
   }
@@ -72,7 +73,7 @@ template<class TrackData>
 void mousse::ThermoParcel<ParcelType>::calcSurfaceValues
 (
   TrackData& td,
-  const label cellI,
+  const label /*cellI*/,
   const scalar T,
   scalar& Ts,
   scalar& rhos,
@@ -87,7 +88,7 @@ void mousse::ThermoParcel<ParcelType>::calcSurfaceValues
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "void mousse::ThermoParcel<ParcelType>::calcSurfaceValues"
         "("
@@ -202,7 +203,7 @@ mousse::scalar mousse::ThermoParcel<ParcelType>::calcHeatTransfer
 (
   TrackData& td,
   const scalar dt,
-  const label cellI,
+  const label /*cellI*/,
   const scalar Re,
   const scalar Pr,
   const scalar kappa,

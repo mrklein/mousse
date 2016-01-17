@@ -10,10 +10,10 @@
 
 namespace mousse
 {
-  typedef DSMCCloud<dsmcParcel> CloudType;
-  makeWallInteractionModel(CloudType);
-  // Add instances of wall interaction model to the table
-  makeWallInteractionModelType(MaxwellianThermal, CloudType);
-  makeWallInteractionModelType(SpecularReflection, CloudType);
-  makeWallInteractionModelType(MixedDiffuseSpecular, CloudType);
+typedef DSMCCloud<dsmcParcel> CloudType;
+MAKE_WALL_INTERACTION_MODEL(CloudType);
+// Add instances of wall interaction model to the table
+MAKE_WALL_INTERACTION_MODEL_TYPE(MaxwellianThermal, CloudType);
+MAKE_WALL_INTERACTION_MODEL_TYPE(SpecularReflection, CloudType);
+MAKE_WALL_INTERACTION_MODEL_TYPE(MixedDiffuseSpecular, CloudType);
 }

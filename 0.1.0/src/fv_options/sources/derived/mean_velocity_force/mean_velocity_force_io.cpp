@@ -4,9 +4,9 @@
 
 #include "mean_velocity_force.hpp"
 // Private Member Functions 
-bool mousse::fv::meanVelocityForce::read(const dictionary& dict)
+bool mousse::fv::meanVelocityForce::read(const dictionary&)
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "bool mousse::fv::meanVelocityForce::read"
     "("

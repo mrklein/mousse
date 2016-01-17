@@ -8,14 +8,14 @@ void mousse::meshReader::calcPointCells() const
   static const label UNIT_POINT_CELLS = 12;
   if (pointCellsPtr_)
   {
-    FatalErrorIn("meshReader::calcPointCells() const")
+    FATAL_ERROR_IN("meshReader::calcPointCells() const")
       << "pointCells already calculated"
       << abort(FatalError);
   }
   label nPoints = points_.size();
   pointCellsPtr_ = new labelListList(nPoints);
   labelListList& ptCells = *pointCellsPtr_;
-  forAll(ptCells, i)
+  FOR_ALL(ptCells, i)
   {
     ptCells[i].setSize(UNIT_POINT_CELLS);
   }
@@ -29,14 +29,14 @@ void mousse::meshReader::calcPointCells() const
   // addressing, because this removes a lot of waste later.
   faceListList& cFaces = cellFaces();
   // For each cell
-  forAll(cFaces, cellI)
+  FOR_ALL(cFaces, cellI)
   {
     const faceList& faces = cFaces[cellI];
-    forAll(faces, i)
+    FOR_ALL(faces, i)
     {
       // For each vertex
       const labelList& labels = faces[i];
-      forAll(labels, j)
+      FOR_ALL(labels, j)
       {
         // Set working point label
         label curPoint = labels[j];
@@ -71,7 +71,7 @@ void mousse::meshReader::calcPointCells() const
   // - adjust points, pointCells, and cellFaces accordingly
   label pointI = 0;
   labelList oldToNew(nPoints, -1);
-  forAll(ptCells, i)
+  FOR_ALL(ptCells, i)
   {
     ptCells[i].setSize(cellCount[i]);
     if (cellCount[i] > 0)
@@ -93,11 +93,11 @@ void mousse::meshReader::calcPointCells() const
     ptCells.setSize(nPoints);
     // adjust cellFaces - this could be faster
     // For each cell
-    forAll(cFaces, cellI)
+    FOR_ALL(cFaces, cellI)
     {
       faceList& faces = cFaces[cellI];
       // For each face
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         inplaceRenumber(oldToNew, faces[i]);
       }

@@ -46,13 +46,9 @@ private:
       const point& start,
       const point& end
     ) const;
-    //- Disallow default bitwise copy construct
-    searchablePlate(const searchablePlate&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchablePlate&);
 public:
   //- Runtime type information
-  TypeName("searchablePlate");
+  TYPE_NAME("searchablePlate");
   // Constructors
     //- Construct from components
     searchablePlate
@@ -67,6 +63,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchablePlate(const searchablePlate&) = delete;
+    //- Disallow default bitwise assignment
+    searchablePlate& operator=(const searchablePlate&) = delete;
   //- Destructor
   virtual ~searchablePlate();
   // Member Functions
@@ -143,7 +143,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchablePlate::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchablePlate::writeData(Ostream&) const");
         return false;
       }
 };

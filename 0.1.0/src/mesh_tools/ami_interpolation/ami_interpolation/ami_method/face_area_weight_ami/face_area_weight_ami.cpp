@@ -3,14 +3,15 @@
 // Copyright (C) 2016 mousse project
 
 #include "face_area_weight_ami.hpp"
+
 // Protected Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::calcAddressing
 (
-  List<DynamicList<label> >& srcAddr,
-  List<DynamicList<scalar> >& srcWght,
-  List<DynamicList<label> >& tgtAddr,
-  List<DynamicList<scalar> >& tgtWght,
+  List<DynamicList<label>>& srcAddr,
+  List<DynamicList<scalar>>& srcWght,
+  List<DynamicList<label>>& tgtAddr,
+  List<DynamicList<scalar>>& tgtWght,
   label srcFaceI,
   label tgtFaceI
 )
@@ -66,6 +67,8 @@ void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::calcAddressing
   } while (nFacesRemaining > 0);
   this->srcNonOverlap_.transfer(nonOverlapFaces);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 bool mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::processSourceFace
 (
@@ -76,10 +79,10 @@ bool mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::processSourceFace
   // list of faces currently visited for srcFaceI to avoid multiple hits
   DynamicList<label>& visitedFaces,
   // temporary storage for addressing and weights
-  List<DynamicList<label> >& srcAddr,
-  List<DynamicList<scalar> >& srcWght,
-  List<DynamicList<label> >& tgtAddr,
-  List<DynamicList<scalar> >& tgtWght
+  List<DynamicList<label>>& srcAddr,
+  List<DynamicList<scalar>>& srcWght,
+  List<DynamicList<label>>& tgtAddr,
+  List<DynamicList<scalar>>& tgtWght
 )
 {
   if (tgtStartFaceI == -1)
@@ -123,6 +126,8 @@ bool mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::processSourceFace
   } while (nbrFaces.size() > 0);
   return faceProcessed;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::setNextFaces
 (
@@ -140,12 +145,12 @@ void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::setNextFaces
   tgtFaceI = -1;
   // set possible seeds for later use
   bool valuesSet = false;
-  forAll(srcNbrFaces, i)
+  FOR_ALL(srcNbrFaces, i)
   {
     label faceS = srcNbrFaces[i];
     if (mapFlag[faceS] && seedFaces[faceS] == -1)
     {
-      forAll(visitedFaces, j)
+      FOR_ALL(visitedFaces, j)
       {
         label faceT = visitedFaces[j];
         scalar area = interArea(faceS, faceT);
@@ -217,7 +222,7 @@ void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::setNextFaces
     }
     if (errorOnNotFound)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::"
         "setNextFaces"
@@ -230,10 +235,13 @@ void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::setNextFaces
           "const DynamicList<label>&, "
           "bool"
         ") const"
-      )  << "Unable to set source and target faces" << abort(FatalError);
+      )
+      << "Unable to set source and target faces" << abort(FatalError);
     }
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::scalar mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::interArea
 (
@@ -273,7 +281,7 @@ mousse::scalar mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::interArea
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::"
       "interArea"
@@ -281,11 +289,12 @@ mousse::scalar mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::interArea
         "const label, "
         "const label"
       ") const"
-    )   << "Invalid normal for source face " << srcFaceI
-      << " points " << UIndirectList<point>(srcPoints, src)
-      << " target face " << tgtFaceI
-      << " points " << UIndirectList<point>(tgtPoints, tgt)
-      << endl;
+    )
+    << "Invalid normal for source face " << srcFaceI
+    << " points " << UIndirectList<point>(srcPoints, src)
+    << " target face " << tgtFaceI
+    << " points " << UIndirectList<point>(tgtPoints, tgt)
+    << endl;
   }
   if ((debug > 1) && (area > 0))
   {
@@ -293,20 +302,22 @@ mousse::scalar mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::interArea
   }
   return area;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::
 restartUncoveredSourceFace
 (
-  List<DynamicList<label> >& srcAddr,
-  List<DynamicList<scalar> >& srcWght,
-  List<DynamicList<label> >& tgtAddr,
-  List<DynamicList<scalar> >& tgtWght
+  List<DynamicList<label>>& srcAddr,
+  List<DynamicList<scalar>>& srcWght,
+  List<DynamicList<label>>& tgtAddr,
+  List<DynamicList<scalar>>& tgtWght
 )
 {
   // Collect all src faces with a low weight
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelHashSet lowWeightFaces(100);
-  forAll(srcWght, srcFaceI)
+  FOR_ALL(srcWght, srcFaceI)
   {
     scalar s = sum(srcWght[srcFaceI]);
     scalar t = s/this->srcMagSf_[srcFaceI];
@@ -327,13 +338,13 @@ restartUncoveredSourceFace
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     DynamicList<label> okSrcFaces(10);
     DynamicList<scalar> okSrcWeights(10);
-    forAll(tgtAddr, tgtFaceI)
+    FOR_ALL(tgtAddr, tgtFaceI)
     {
       okSrcFaces.clear();
       okSrcWeights.clear();
       DynamicList<label>& srcFaces = tgtAddr[tgtFaceI];
       DynamicList<scalar>& srcWeights = tgtWght[tgtFaceI];
-      forAll(srcFaces, i)
+      FOR_ALL(srcFaces, i)
       {
         if (!lowWeightFaces.found(srcFaces[i]))
         {
@@ -353,7 +364,7 @@ restartUncoveredSourceFace
     DynamicList<label> nbrFaces(10);
     // list of faces currently visited for srcFaceI to avoid multiple hits
     DynamicList<label> visitedFaces(10);
-    forAllConstIter(labelHashSet, lowWeightFaces, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, lowWeightFaces, iter)
     {
       label srcFaceI = iter.key();
       label tgtFaceI = this->findTargetFace(srcFaceI);
@@ -376,6 +387,8 @@ restartUncoveredSourceFace
     }
   }
 }
+
+
 // Constructors 
 template<class SourcePatch, class TargetPatch>
 mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::faceAreaWeightAMI
@@ -391,7 +404,7 @@ mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::faceAreaWeightAMI
 )
 :
   AMIMethod<SourcePatch, TargetPatch>
-  (
+  {
     srcPatch,
     tgtPatch,
     srcMagSf,
@@ -399,13 +412,17 @@ mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::faceAreaWeightAMI
     triMode,
     reverseTarget,
     requireMatch
-  ),
-  restartUncoveredSourceFace_(restartUncoveredSourceFace)
+  },
+  restartUncoveredSourceFace_{restartUncoveredSourceFace}
 {}
+
+
 // Destructor
 template<class SourcePatch, class TargetPatch>
 mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::~faceAreaWeightAMI()
 {}
+
+
 // Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::calculate
@@ -433,10 +450,10 @@ void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::calculate
     return;
   }
   // temporary storage for addressing and weights
-  List<DynamicList<label> > srcAddr(this->srcPatch_.size());
-  List<DynamicList<scalar> > srcWght(srcAddr.size());
-  List<DynamicList<label> > tgtAddr(this->tgtPatch_.size());
-  List<DynamicList<scalar> > tgtWght(tgtAddr.size());
+  List<DynamicList<label>> srcAddr(this->srcPatch_.size());
+  List<DynamicList<scalar>> srcWght(srcAddr.size());
+  List<DynamicList<label>> tgtAddr(this->tgtPatch_.size());
+  List<DynamicList<scalar>> tgtWght(tgtAddr.size());
   calcAddressing
   (
     srcAddr,
@@ -464,12 +481,12 @@ void mousse::faceAreaWeightAMI<SourcePatch, TargetPatch>::calculate
     );
   }
   // transfer data to persistent storage
-  forAll(srcAddr, i)
+  FOR_ALL(srcAddr, i)
   {
     srcAddress[i].transfer(srcAddr[i]);
     srcWeights[i].transfer(srcWght[i]);
   }
-  forAll(tgtAddr, i)
+  FOR_ALL(tgtAddr, i)
   {
     tgtAddress[i].transfer(tgtAddr[i]);
     tgtWeights[i].transfer(tgtWght[i]);

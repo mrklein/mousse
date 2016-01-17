@@ -9,14 +9,14 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(enrichedPatch, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(enrichedPatch, 0);
 }
 // Private Member Functions 
 void mousse::enrichedPatch::calcMeshPoints() const
 {
   if (meshPointsPtr_)
   {
-    FatalErrorIn("void enrichedPatch::calcMeshPoints() const")
+    FATAL_ERROR_IN("void enrichedPatch::calcMeshPoints() const")
       << "Mesh points already calculated."
       << abort(FatalError);
   }
@@ -28,26 +28,26 @@ void mousse::enrichedPatch::calcLocalFaces() const
 {
   if (localFacesPtr_)
   {
-    FatalErrorIn("void enrichedPatch::calcLocalFaces() const")
+    FATAL_ERROR_IN("void enrichedPatch::calcLocalFaces() const")
       << "Local faces already calculated."
       << abort(FatalError);
   }
   // Invert mesh points and renumber faces using it
   const labelList& mp = meshPoints();
   Map<label> mpLookup(2*mp.size());
-  forAll(mp, mpI)
+  FOR_ALL(mp, mpI)
   {
     mpLookup.insert(mp[mpI], mpI);
   }
   const faceList& faces = enrichedFaces();
   localFacesPtr_ = new faceList(faces.size());
   faceList& lf = *localFacesPtr_;
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     face& curlf = lf[faceI];
     curlf.setSize(f.size());
-    forAll(f, pointI)
+    FOR_ALL(f, pointI)
     {
       curlf[pointI] = mpLookup.find(f[pointI])();
     }
@@ -57,14 +57,14 @@ void mousse::enrichedPatch::calcLocalPoints() const
 {
   if (localPointsPtr_)
   {
-    FatalErrorIn("void enrichedPatch::calcLocalPoints() const")
+    FATAL_ERROR_IN("void enrichedPatch::calcLocalPoints() const")
       << "Local points already calculated."
       << abort(FatalError);
   }
   const labelList& mp = meshPoints();
   localPointsPtr_ = new pointField(mp.size());
   pointField& lp = *localPointsPtr_;
-  forAll(lp, i)
+  FOR_ALL(lp, i)
   {
     lp[i] = pointMap().find(mp[i])();
   }
@@ -154,14 +154,14 @@ bool mousse::enrichedPatch::checkSupport() const
 {
   const faceList& faces = enrichedFaces();
   bool error = false;
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& curFace = faces[faceI];
-    forAll(curFace, pointI)
+    FOR_ALL(curFace, pointI)
     {
       if (!pointMap().found(curFace[pointI]))
       {
-        WarningIn("void enrichedPatch::checkSupport()")
+        WARNING_IN("void enrichedPatch::checkSupport()")
           << "Point " << pointI << " of face " << faceI
           << " global point index: " << curFace[pointI]
           << " not supported in point map.  This is not allowed."
@@ -176,16 +176,16 @@ void mousse::enrichedPatch::writeOBJ(const fileName& fName) const
 {
   OFstream str(fName);
   const pointField& lp = localPoints();
-  forAll(lp, pointI)
+  FOR_ALL(lp, pointI)
   {
     meshTools::writeOBJ(str, lp[pointI]);
   }
   const faceList& faces = localFaces();
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     str << 'f';
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       str << ' ' << f[fp]+1;
     }

@@ -35,7 +35,7 @@ class ensightSurfaceWriter
     ) const;
 public:
   //- Runtime type information
-  TypeName("ensight");
+  TYPE_NAME("ensight");
   // Constructors
     //- Construct null
     ensightSurfaceWriter();

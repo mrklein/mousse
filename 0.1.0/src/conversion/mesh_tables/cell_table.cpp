@@ -14,7 +14,7 @@ mousse::Map<mousse::label> mousse::cellTable::zoneMap() const
 {
   Map<label> lookup;
   label zoneI = 0;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     lookup.insert(iter.key(), zoneI++);
   }
@@ -25,7 +25,7 @@ mousse::wordList mousse::cellTable::namesList() const
   Map<word> lookup = names();
   wordList lst(lookup.size());
   label zoneI = 0;
-  forAllConstIter(Map<word>, lookup, iter)
+  FOR_ALL_CONST_ITER(Map<word>, lookup, iter)
   {
     lst[zoneI++] = iter();
   }
@@ -33,7 +33,7 @@ mousse::wordList mousse::cellTable::namesList() const
 }
 void mousse::cellTable::addDefaults()
 {
-  forAllIter(Map<dictionary>, *this, iter)
+  FOR_ALL_ITER(Map<dictionary>, *this, iter)
   {
     if (!iter().found("MaterialType"))
     {
@@ -83,7 +83,7 @@ mousse::cellTable::~cellTable()
 mousse::label mousse::cellTable::append(const dictionary& dict)
 {
   label maxId = -1;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     if (maxId < iter.key())
     {
@@ -96,7 +96,7 @@ mousse::label mousse::cellTable::append(const dictionary& dict)
 mousse::Map<mousse::word> mousse::cellTable::names() const
 {
   Map<word> lookup;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     lookup.insert
     (
@@ -116,7 +116,7 @@ mousse::Map<mousse::word> mousse::cellTable::names
 ) const
 {
   Map<word> lookup;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     word lookupName = iter().lookupOrDefault<word>
     (
@@ -146,7 +146,7 @@ mousse::label mousse::cellTable::findIndex(const word& name) const
   {
     return -1;
   }
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     if (iter().lookupOrDefault<word>("Label", word::null) == name)
     {
@@ -158,7 +158,7 @@ mousse::label mousse::cellTable::findIndex(const word& name) const
 mousse::Map<mousse::word> mousse::cellTable::materialTypes() const
 {
   Map<word> lookup;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     lookup.insert
     (
@@ -171,7 +171,7 @@ mousse::Map<mousse::word> mousse::cellTable::materialTypes() const
 mousse::Map<mousse::word> mousse::cellTable::selectType(const word& matl) const
 {
   Map<word> lookup;
-  forAllConstIter(Map<dictionary>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<dictionary>, *this, iter)
   {
     if
     (
@@ -297,7 +297,7 @@ void mousse::cellTable::operator=(const polyMesh& mesh)
   wordList zoneNames = mesh.cellZones().names();
   label unZonedType = zoneNames.size() + 1;
   // do cell zones
-  forAll(mesh.cellZones(), zoneI)
+  FOR_ALL(mesh.cellZones(), zoneI)
   {
     const cellZone& cZone = mesh.cellZones()[zoneI];
     nZoneCells += cZone.size();
@@ -332,7 +332,7 @@ void mousse::cellTable::addCellZones
 {
   Map<label> typeToZone = zoneMap();
   List<DynamicList<label> > zoneCells(size());
-  forAll(tableIds, cellI)
+  FOR_ALL(tableIds, cellI)
   {
     Map<label>::const_iterator iter = typeToZone.find(tableIds[cellI]);
     if (iter != typeToZone.end())
@@ -344,7 +344,7 @@ void mousse::cellTable::addCellZones
   labelList zoneUsed(zoneCells.size());
   wordList  zoneNames(namesList());
   label nZone = 0;
-  forAll(zoneCells, zoneI)
+  FOR_ALL(zoneCells, zoneI)
   {
     zoneCells[zoneI].shrink();
     if (zoneCells[zoneI].size())
@@ -361,7 +361,7 @@ void mousse::cellTable::addCellZones
     return;
   }
   czMesh.setSize(nZone);
-  forAll(zoneUsed, zoneI)
+  FOR_ALL(zoneUsed, zoneI)
   {
     const label origZoneI = zoneUsed[zoneI];
     Info<< "cellZone " << zoneI
@@ -390,12 +390,12 @@ void mousse::cellTable::combine(const dictionary& mapDict, labelList& tableIds)
   Map<word> origNames(names());
   labelList mapping(identity(max(origNames.toc()) + 1));
   bool remap = false;
-  forAllConstIter(dictionary, mapDict, iter)
+  FOR_ALL_CONST_ITER(dictionary, mapDict, iter)
   {
     wordReList patterns(iter().stream());
     // find all matches
     Map<word> matches;
-    forAllConstIter(Map<word>, origNames, namesIter)
+    FOR_ALL_CONST_ITER(Map<word>, origNames, namesIter)
     {
       if (findStrings(patterns, namesIter()))
       {
@@ -423,7 +423,7 @@ void mousse::cellTable::combine(const dictionary& mapDict, labelList& tableIds)
       // remove matched names, leaving targetId on 'this'
       this->erase(matches);
       origNames.erase(matches);
-      forAllConstIter(Map<word>, matches, matchIter)
+      FOR_ALL_CONST_ITER(Map<word>, matches, matchIter)
       {
         mapping[matchIter.key()] = targetId;
         Info<< " " << matchIter();

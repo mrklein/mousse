@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(pairPotential, 0);
-  defineRunTimeSelectionTable(pairPotential, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(pairPotential, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(pairPotential, dictionary);
 }
 // Private Member Functions 
 void mousse::pairPotential::scaleEnergy(scalar& e, const scalar r) const
@@ -46,7 +46,7 @@ void mousse::pairPotential::setLookupTables()
   label N = label((rCut_ - rMin_)/dr_) + 1;
   forceLookup_.setSize(N);
   energyLookup_.setSize(N);
-  forAll(forceLookup_, k)
+  FOR_ALL(forceLookup_, k)
   {
     energyLookup_[k] = scaledEnergy(k*dr_ + rMin_);
     forceLookup_[k] = -energyDerivative((k*dr_ + rMin_), true);
@@ -58,7 +58,7 @@ mousse::scalar mousse::pairPotential::force(const scalar r) const
   label k = label(k_rIJ);
   if (k < 0)
   {
-    FatalErrorIn("pairPotential::force(const scalar) const")
+    FATAL_ERROR_IN("pairPotential::force(const scalar) const")
       << "r less than rMin in pair potential " << name_ << nl
       << abort(FatalError);
   }
@@ -71,7 +71,7 @@ mousse::List< mousse::Pair< mousse::scalar > >
 mousse::pairPotential::forceTable() const
 {
   List<Pair<scalar> > forceTab(forceLookup_.size());
-  forAll(forceLookup_,k)
+  FOR_ALL(forceLookup_,k)
   {
     forceTab[k].first() = rMin_ + k*dr_;
     forceTab[k].second() = forceLookup_[k];
@@ -84,7 +84,7 @@ mousse::scalar mousse::pairPotential::energy(const scalar r) const
   label k = label(k_rIJ);
   if (k < 0)
   {
-    FatalErrorIn("pairPotential::energy(const scalar) const")
+    FATAL_ERROR_IN("pairPotential::energy(const scalar) const")
       << "r less than rMin in pair potential " << name_ << nl
       << abort(FatalError);
   }
@@ -97,7 +97,7 @@ mousse::List< mousse::Pair< mousse::scalar > >
   mousse::pairPotential::energyTable() const
 {
   List<Pair<scalar> > energyTab(energyLookup_.size());
-  forAll(energyLookup_,k)
+  FOR_ALL(energyLookup_,k)
   {
     energyTab[k].first() = rMin_ + k*dr_;
     energyTab[k].second() = energyLookup_[k];

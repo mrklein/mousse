@@ -31,7 +31,7 @@ mousse::combustionModels::psiCombustionModel::New
     dictionaryConstructorTablePtr_->find(combModelName);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "psiCombustionModel::New"
     )   << "Unknown psiCombustionModel type "

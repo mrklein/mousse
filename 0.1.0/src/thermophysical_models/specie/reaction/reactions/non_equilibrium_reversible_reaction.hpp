@@ -26,16 +26,9 @@ class NonEquilibriumReversibleReaction
   // Private data
     ReactionRate fk_;
     ReactionRate rk_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=
-    (
-      const NonEquilibriumReversibleReaction
-        <ReactionType, ReactionThermo, ReactionRate>&
-    );
 public:
   //- Runtime type information
-  TypeName("nonEquilibriumReversible");
+  TYPE_NAME("nonEquilibriumReversible");
   // Constructors
     //- Construct from components
     NonEquilibriumReversibleReaction
@@ -87,6 +80,12 @@ public:
           (*this, species)
       );
     }
+    //- Disallow default bitwise assignment
+    void operator=
+    (
+      const NonEquilibriumReversibleReaction
+        <ReactionType, ReactionThermo, ReactionRate>&
+    ) = delete;
   //- Destructor
   virtual ~NonEquilibriumReversibleReaction()
   {}

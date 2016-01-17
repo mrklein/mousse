@@ -9,10 +9,10 @@
 #include "_o_rourke_collision.hpp"
 #include "_trajectory_collision.hpp"
 
-#define makeSprayParcelStochasticCollisionModels(CloudType)                   \
+#define MAKE_SPRAY_PARCEL_STOCHASTIC_COLLISION_MODELS(CloudType)              \
                                                                               \
-  makeStochasticCollisionModel(CloudType);                                    \
-  makeStochasticCollisionModelType(NoStochasticCollision, CloudType);         \
-  makeStochasticCollisionModelType(ORourkeCollision, CloudType);              \
-  makeStochasticCollisionModelType(TrajectoryCollision, CloudType);
+  MAKE_STOCHASTIC_COLLISION_MODEL(CloudType);                                 \
+  MAKE_STOCHASTIC_COLLISION_MODEL_TYPE(NoStochasticCollision, CloudType);     \
+  MAKE_STOCHASTIC_COLLISION_MODEL_TYPE(ORourkeCollision, CloudType);          \
+  MAKE_STOCHASTIC_COLLISION_MODEL_TYPE(TrajectoryCollision, CloudType);
 #endif

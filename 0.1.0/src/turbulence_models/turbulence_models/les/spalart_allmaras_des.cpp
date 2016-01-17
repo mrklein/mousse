@@ -107,12 +107,12 @@ tmp<volScalarField> SpalartAllmarasDES<BasicTurbulenceModel>::fw
 template<class BasicTurbulenceModel>
 tmp<volScalarField> SpalartAllmarasDES<BasicTurbulenceModel>::dTilda
 (
-  const volScalarField& chi,
-  const volScalarField& fv1,
-  const volTensorField& gradU
+  const volScalarField& /*chi*/,
+  const volScalarField& /*fv1*/,
+  const volTensorField& /*gradU*/
 ) const
 {
-  tmp<volScalarField> tdTilda(CDES_*this->delta());
+  tmp<volScalarField> tdTilda{CDES_*this->delta()};
   min(tdTilda().dimensionedInternalField(), tdTilda(), y_);
   return tdTilda;
 }

@@ -9,13 +9,13 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-defineTypeNameAndDebug(nutWallFunctionFvPatchScalarField, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(nutWallFunctionFvPatchScalarField, 0);
 // Protected Member Functions 
 void nutWallFunctionFvPatchScalarField::checkType()
 {
   if (!isA<wallFvPatch>(patch()))
   {
-    FatalErrorIn("nutWallFunctionFvPatchScalarField::checkType()")
+    FATAL_ERROR_IN("nutWallFunctionFvPatchScalarField::checkType()")
       << "Invalid wall function specification" << nl
       << "    Patch type for patch " << patch().name()
       << " must be wall" << nl

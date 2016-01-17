@@ -11,6 +11,8 @@
    ------ local definitions
  \* ------------------------------------------------------------------------ */
 
+#pragma clang diagnostic ignored "-Wdeprecated-register"
+
 #include "stl_surface_format_core.hpp"
 
 using namespace mousse;
@@ -19,7 +21,7 @@ using namespace mousse;
 //! \cond dummy
 int yyFlexLexer::yylex()
 {
-    FatalErrorIn("yyFlexLexer::yylex()")
+    FATAL_ERROR_IN("yyFlexLexer::yylex()")
         << "Should not have called this function"
         << abort(FatalError);
     return 0;
@@ -351,7 +353,7 @@ endsolid              {space}("endsolid"|"ENDSOLID")({some_space}{word})*
 
 <stlError>.* {
         yy_pop_state();
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
             "fileFormats::STLsurfaceFormatCore::readASCII(const fileName&)"
         )   << "while " << stateNames[YY_START] << " on line " << lineNo_ << nl

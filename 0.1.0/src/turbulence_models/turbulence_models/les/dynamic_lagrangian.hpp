@@ -28,10 +28,6 @@ class dynamicLagrangian
 :
   public LESeddyViscosity<BasicTurbulenceModel>
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    dynamicLagrangian(const dynamicLagrangian&);
-    dynamicLagrangian& operator=(const dynamicLagrangian&);
 protected:
   // Protected data
     volScalarField flm_;
@@ -51,7 +47,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("dynamicLagrangian");
+  TYPE_NAME("dynamicLagrangian");
   // Constructors
     //- Construct from components
     dynamicLagrangian
@@ -65,6 +61,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    dynamicLagrangian(const dynamicLagrangian&) = delete;
+    dynamicLagrangian& operator=(const dynamicLagrangian&) = delete;
   //- Destructor
   virtual ~dynamicLagrangian()
   {}

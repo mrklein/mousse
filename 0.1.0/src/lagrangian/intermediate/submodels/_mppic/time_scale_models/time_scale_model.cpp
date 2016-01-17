@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(TimeScaleModel, 0);
-  defineRunTimeSelectionTable(TimeScaleModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(TimeScaleModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(TimeScaleModel, dictionary);
 }
 // Constructors 
 mousse::TimeScaleModel::TimeScaleModel
@@ -40,7 +40,7 @@ mousse::autoPtr<mousse::TimeScaleModel> mousse::TimeScaleModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "TimeScaleModel::New"
       "("

@@ -7,9 +7,9 @@
 
 #include "_no_stochastic_collision.hpp"
 
-#define makeParcelStochasticCollisionModels(CloudType)                        \
+#define MAKE_PARCEL_STOCHASTIC_COLLISION_MODELS(CloudType)                    \
                                                                               \
-  makeStochasticCollisionModel(CloudType);                                    \
-  makeStochasticCollisionModelType(NoStochasticCollision, CloudType);
+  MAKE_STOCHASTIC_COLLISION_MODEL(CloudType);                                 \
+  MAKE_STOCHASTIC_COLLISION_MODEL_TYPE(NoStochasticCollision, CloudType);
 
 #endif

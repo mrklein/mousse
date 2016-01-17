@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace LESModels
 {
-  defineTypeNameAndDebug(maxDeltaxyz, 0);
-  addToRunTimeSelectionTable(LESdelta, maxDeltaxyz, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(maxDeltaxyz, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESdelta, maxDeltaxyz, dictionary);
 }
 }
 // Private Member Functions 
@@ -35,12 +35,12 @@ void mousse::LESModels::maxDeltaxyz::calcDelta()
     )
   );
   const cellList& cells = mesh.cells();
-  forAll(cells,cellI)
+  FOR_ALL(cells,cellI)
   {
     scalar deltaMaxTmp = 0.0;
     const labelList& cFaces = mesh.cells()[cellI];
     const point& centrevector = mesh.cellCentres()[cellI];
-    forAll(cFaces, cFaceI)
+    FOR_ALL(cFaces, cFaceI)
     {
       label faceI = cFaces[cFaceI];
       const point& facevector = mesh.faceCentres()[faceI];
@@ -58,14 +58,14 @@ void mousse::LESModels::maxDeltaxyz::calcDelta()
   }
   else if (nD == 2)
   {
-    WarningIn("maxDeltaxyz::calcDelta()")
+    WARNING_IN("maxDeltaxyz::calcDelta()")
       << "Case is 2D, LES is not strictly applicable\n"
       << endl;
     delta_.internalField() = hmax();
   }
   else
   {
-    FatalErrorIn("maxDeltaxyz::calcDelta()")
+    FATAL_ERROR_IN("maxDeltaxyz::calcDelta()")
       << "Case is not 3D or 2D, LES is not applicable"
       << exit(FatalError);
   }

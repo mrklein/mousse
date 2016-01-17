@@ -10,7 +10,7 @@ bool mousse::pairPotential::writeEnergyAndForceTables(Ostream& os) const
     << name_ << endl;
   List< Pair <scalar> > eTab(energyTable());
   List< Pair <scalar> > fTab(forceTable());
-  forAll(eTab, e)
+  FOR_ALL(eTab, e)
   {
     os  << eTab[e].first()
       << token::SPACE

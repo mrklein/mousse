@@ -14,8 +14,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(effectivenessHeatExchangerSource, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(effectivenessHeatExchangerSource, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     effectivenessHeatExchangerSource,
@@ -31,7 +31,7 @@ void mousse::fv::effectivenessHeatExchangerSource::initialise()
   facePatchId_.setSize(fZone.size());
   faceSign_.setSize(fZone.size());
   label count = 0;
-  forAll(fZone, i)
+  FOR_ALL(fZone, i)
   {
     label faceI = fZone[i];
     label faceId = -1;
@@ -92,7 +92,7 @@ void mousse::fv::effectivenessHeatExchangerSource::calculateTotalArea
 )
 {
   area = 0;
-  forAll(faceId_, i)
+  FOR_ALL(faceId_, i)
   {
     label faceI = faceId_[i];
     if (facePatchId_[i] != -1)
@@ -133,7 +133,7 @@ mousse::fv::effectivenessHeatExchangerSource::effectivenessHeatExchangerSource
 {
   if (zoneID_ < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "effectivenessHeatExchangerSource::effectivenessHeatExchangerSource"
       "("
@@ -160,7 +160,7 @@ mousse::fv::effectivenessHeatExchangerSource::effectivenessHeatExchangerSource
 // Member Functions 
 void mousse::fv::effectivenessHeatExchangerSource::addSup
 (
-  const volScalarField& rho,
+  const volScalarField& /*rho*/,
   fvMatrix<scalar>& eqn,
   const label
 )
@@ -172,7 +172,7 @@ void mousse::fv::effectivenessHeatExchangerSource::addSup
     mesh_.lookupObject<surfaceScalarField>(phiName_);
   scalar totalphi = 0;
   scalar CpfMean = 0;
-  forAll(faceId_, i)
+  FOR_ALL(faceId_, i)
   {
     label faceI = faceId_[i];
     if (facePatchId_[i] != -1)
@@ -209,7 +209,7 @@ void mousse::fv::effectivenessHeatExchangerSource::addSup
     reduce(Tref, minOp<scalar>());
   }
   scalarField deltaTCells(cells_.size(), 0);
-  forAll(deltaTCells, i)
+  FOR_ALL(deltaTCells, i)
   {
     if (Qt > 0)
     {
@@ -223,7 +223,7 @@ void mousse::fv::effectivenessHeatExchangerSource::addSup
   const volVectorField& U = mesh_.lookupObject<volVectorField>(UName_);
   const scalarField& V = mesh_.V();
   scalar sumWeight = 0;
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     sumWeight += V[cells_[i]]*mag(U[cells_[i]])*deltaTCells[i];
   }
@@ -231,7 +231,7 @@ void mousse::fv::effectivenessHeatExchangerSource::addSup
   if (this->V() > VSMALL && mag(Qt) > VSMALL)
   {
     scalarField& heSource = eqn.source();
-    forAll(cells_, i)
+    FOR_ALL(cells_, i)
     {
       heSource[cells_[i]] -=
         Qt*V[cells_[i]]*mag(U[cells_[i]])*deltaTCells[i]/sumWeight;

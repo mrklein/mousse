@@ -62,14 +62,11 @@ private:
     const word& phiName_;
     //- Reference to the dictionary
     const dictionary& dict_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const IntegrationScheme&);
 public:
   //- Runtime type information
-  TypeName("integrationScheme");
+  TYPE_NAME("integrationScheme");
   //- Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       IntegrationScheme,
@@ -87,6 +84,8 @@ public:
     IntegrationScheme(const IntegrationScheme& is);
     //- Construct and return clone
     virtual autoPtr<IntegrationScheme<Type> > clone() const = 0;
+    //- Disallow default bitwise assignment
+    IntegrationScheme& operator=(const IntegrationScheme&) = delete;
   // Selectors
     //- Return a reference to the selected radiation model
     static autoPtr<IntegrationScheme> New
@@ -108,19 +107,19 @@ public:
 };
 }  // namespace mousse
 
-#define makeIntegrationScheme(Type)                                           \
+#define MAKE_INTEGRATION_SCHEME(Type)                                         \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(IntegrationScheme<Type>, 0);            \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(IntegrationScheme<Type>, 0);      \
                                                                               \
-  defineTemplateRunTimeSelectionTable                                         \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
   (                                                                           \
     IntegrationScheme<Type>,                                                  \
     dictionary                                                                \
   );
 
-#define makeIntegrationSchemeType(SS, Type)                                   \
+#define MAKE_INTEGRATION_SCHEME_TYPE(SS, Type)                                \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(SS<Type>, 0);                           \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<Type>, 0);                     \
                                                                               \
   IntegrationScheme<Type>::adddictionaryConstructorToTable<SS<Type> >         \
     add##SS##Type##ConstructorToTable_;

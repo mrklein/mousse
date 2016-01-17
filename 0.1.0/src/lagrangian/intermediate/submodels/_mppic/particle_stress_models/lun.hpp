@@ -42,7 +42,7 @@ class Lun
     scalar eps_;
 public:
   //- Runtime type information
-  TypeName("Lun");
+  TYPE_NAME("Lun");
   //- Constructors
     //- Construct from components
     Lun(const dictionary& dict);

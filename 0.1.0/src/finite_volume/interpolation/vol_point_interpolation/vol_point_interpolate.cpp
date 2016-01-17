@@ -23,16 +23,16 @@ void volPointInterpolation::pushUntransformedData
   const mapDistribute& slavesMap = gmd.globalCoPointSlavesMap();
   const labelListList& slaves = gmd.globalCoPointSlaves();
   List<Type> elems(slavesMap.constructSize());
-  forAll(meshPoints, i)
+  FOR_ALL(meshPoints, i)
   {
     elems[i] = pointData[meshPoints[i]];
   }
   // Combine master data with slave data
-  forAll(slaves, i)
+  FOR_ALL(slaves, i)
   {
     const labelList& slavePoints = slaves[i];
     // Copy master data to slave slots
-    forAll(slavePoints, j)
+    FOR_ALL(slavePoints, j)
     {
       elems[slavePoints[j]] = elems[i];
     }
@@ -40,7 +40,7 @@ void volPointInterpolation::pushUntransformedData
   // Push slave-slot data back to slaves
   slavesMap.reverseDistribute(elems.size(), elems, false);
   // Extract back onto mesh
-  forAll(meshPoints, i)
+  FOR_ALL(meshPoints, i)
   {
     pointData[meshPoints[i]] = elems[i];
   }
@@ -55,7 +55,7 @@ void volPointInterpolation::addSeparated
   {
     Pout<< "volPointInterpolation::addSeparated" << endl;
   }
-  forAll(pf.boundaryField(), patchI)
+  FOR_ALL(pf.boundaryField(), patchI)
   {
     if (pf.boundaryField()[patchI].coupled())
     {
@@ -69,7 +69,7 @@ void volPointInterpolation::addSeparated
   }
   // Block for any outstanding requests
   Pstream::waitRequests();
-  forAll(pf.boundaryField(), patchI)
+  FOR_ALL(pf.boundaryField(), patchI)
   {
     if (pf.boundaryField()[patchI].coupled())
     {
@@ -99,14 +99,14 @@ void volPointInterpolation::interpolateInternalField
   }
   const labelListList& pointCells = vf.mesh().pointCells();
   // Multiply volField by weighting factor matrix to create pointField
-  forAll(pointCells, pointi)
+  FOR_ALL(pointCells, pointi)
   {
     if (!isPatchPoint_[pointi])
     {
       const scalarList& pw = pointWeights_[pointi];
       const labelList& ppc = pointCells[pointi];
       pf[pointi] = pTraits<Type>::zero;
-      forAll(ppc, pointCelli)
+      FOR_ALL(ppc, pointCelli)
       {
         pf[pointi] += pw[pointCelli]*vf[ppc[pointCelli]];
       }
@@ -126,7 +126,7 @@ tmp<Field<Type> > volPointInterpolation::flatBoundaryField
     new Field<Type>(mesh.nFaces()-mesh.nInternalFaces())
   );
   Field<Type>& boundaryVals = tboundaryVals();
-  forAll(vf.boundaryField(), patchI)
+  FOR_ALL(vf.boundaryField(), patchI)
   {
     label bFaceI = bm[patchI].patch().start() - mesh.nInternalFaces();
     if
@@ -145,7 +145,7 @@ tmp<Field<Type> > volPointInterpolation::flatBoundaryField
     else
     {
       const polyPatch& pp = bm[patchI].patch();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         boundaryVals[bFaceI++] = pTraits<Type>::zero;
       }
@@ -167,7 +167,7 @@ void volPointInterpolation::interpolateBoundaryField
   const Field<Type>& boundaryVals = tboundaryVals();
   // Do points on 'normal' patches from the surrounding patch faces
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(boundary.meshPoints(), i)
+  FOR_ALL(boundary.meshPoints(), i)
   {
     label pointI = boundary.meshPoints()[i];
     if (isPatchPoint_[pointI])
@@ -176,7 +176,7 @@ void volPointInterpolation::interpolateBoundaryField
       const scalarList& pWeights = boundaryPointWeights_[i];
       Type& val = pfi[pointI];
       val = pTraits<Type>::zero;
-      forAll(pFaces, j)
+      FOR_ALL(pFaces, j)
       {
         if (boundaryIsPatchFace_[pFaces[j]])
         {

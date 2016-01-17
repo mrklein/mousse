@@ -57,7 +57,7 @@ protected:
     scalar yPlusLam(const scalar kappa, const scalar E);
 public:
   //- Runtime type information
-  TypeName("kLowReWallFunction");
+  TYPE_NAME("kLowReWallFunction");
   // Constructors
     //- Construct from patch and internal field
     kLowReWallFunctionFvPatchScalarField

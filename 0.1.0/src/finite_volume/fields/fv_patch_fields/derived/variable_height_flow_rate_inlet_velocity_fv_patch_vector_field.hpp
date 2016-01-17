@@ -51,7 +51,7 @@ class variableHeightFlowRateInletVelocityFvPatchVectorField
     word alphaName_;
 public:
  //- Runtime type information
- TypeName("variableHeightFlowRateInletVelocity");
+ TYPE_NAME("variableHeightFlowRateInletVelocity");
  // Constructors
     //- Construct from patch and internal field
     variableHeightFlowRateInletVelocityFvPatchVectorField

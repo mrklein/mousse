@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(motionSolver, 0);
-  defineRunTimeSelectionTable(motionSolver, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(motionSolver, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(motionSolver, dictionary);
 }
 // Static Member Functions
 mousse::IOobject mousse::motionSolver::stealRegistration
@@ -32,17 +32,17 @@ mousse::IOobject mousse::motionSolver::stealRegistration
 mousse::motionSolver::motionSolver(const polyMesh& mesh)
 :
   IOdictionary
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "dynamicMeshDict",
       mesh.time().constant(),
       mesh,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::AUTO_WRITE
-    )
-  ),
-  mesh_(mesh)
+    }
+  },
+  mesh_{mesh}
 {}
 mousse::motionSolver::motionSolver
 (
@@ -51,9 +51,9 @@ mousse::motionSolver::motionSolver
   const word& type
 )
 :
-  IOdictionary(stealRegistration(dict), dict),
-  mesh_(mesh),
-  coeffDict_(dict.subDict(type + "Coeffs"))
+  IOdictionary{stealRegistration(dict), dict},
+  mesh_{mesh},
+  coeffDict_{dict.subDict(type + "Coeffs")}
 {}
 // Selectors
 mousse::autoPtr<mousse::motionSolver> mousse::motionSolver::New
@@ -72,20 +72,20 @@ mousse::autoPtr<mousse::motionSolver> mousse::motionSolver::New
   );
   if (!dictionaryConstructorTablePtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "motionSolver::New(const polyMesh& mesh)"
-    )   << "solver table is empty"
+    ) << "solver table is empty"
       << exit(FatalError);
   }
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(solverTypeName);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "motionSolver::New(const polyMesh&)"
-    )   << "Unknown solver type "
+    ) << "Unknown solver type "
       << solverTypeName << nl << nl
       << "Valid solver types are:" << endl
       << dictionaryConstructorTablePtr_->sortedToc()
@@ -96,16 +96,16 @@ mousse::autoPtr<mousse::motionSolver> mousse::motionSolver::New
 mousse::autoPtr<mousse::motionSolver> mousse::motionSolver::New(const polyMesh& mesh)
 {
   IOdictionary solverDict
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "dynamicMeshDict",
       mesh.time().constant(),
       mesh,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::AUTO_WRITE
-    )
-  );
+    }
+  };
   return New(mesh, solverDict);
 }
 // Destructor 
@@ -121,13 +121,13 @@ void mousse::motionSolver::twoDCorrectPoints(pointField& p) const
 {
   twoDPointCorrector::New(mesh_).correctPoints(p);
 }
-void mousse::motionSolver::updateMesh(const mapPolyMesh& mpm)
+void mousse::motionSolver::updateMesh(const mapPolyMesh&)
 {}
 bool mousse::motionSolver::writeObject
 (
-  IOstream::streamFormat fmt,
-  IOstream::versionNumber ver,
-  IOstream::compressionType cmp
+  IOstream::streamFormat /*fmt*/,
+  IOstream::versionNumber /*ver*/,
+  IOstream::compressionType /*cmp*/
 ) const
 {
   return true;

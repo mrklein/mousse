@@ -31,15 +31,15 @@ class TRIsurfaceFormatCore
     //- The solid count, in the order of their first appearance
     List<label> sizes_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    TRIsurfaceFormatCore(const TRIsurfaceFormatCore&);
-    //- Disallow default bitwise assignment
-    void operator=(const TRIsurfaceFormatCore&);
     bool read(const fileName&);
 public:
   // Constructors
     //- Read from file, filling in the information
     TRIsurfaceFormatCore(const fileName&);
+    //- Disallow default bitwise copy construct
+    TRIsurfaceFormatCore(const TRIsurfaceFormatCore&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const TRIsurfaceFormatCore&) = delete;
   //- Destructor
   ~TRIsurfaceFormatCore();
   // Member Functions

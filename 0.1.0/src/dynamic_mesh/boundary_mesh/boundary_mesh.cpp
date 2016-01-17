@@ -16,7 +16,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(boundaryMesh, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(boundaryMesh, 0);
 // Normal along which to divide faces into categories (used in getNearest)
 const vector boundaryMesh::splitNormal_(3, 2, 1);
 // Distance to face tolerance for getNearest
@@ -28,7 +28,7 @@ mousse::label mousse::boundaryMesh::nFeatureEdges(label pointI) const
 {
   label nFeats = 0;
   const labelList& pEdges = mesh().pointEdges()[pointI];
-  forAll(pEdges, pEdgeI)
+  FOR_ALL(pEdges, pEdgeI)
   {
     label edgeI = pEdges[pEdgeI];
     if (edgeToFeature_[edgeI] != -1)
@@ -46,7 +46,7 @@ mousse::label mousse::boundaryMesh::nextFeatureEdge
 ) const
 {
   const labelList& pEdges = mesh().pointEdges()[vertI];
-  forAll(pEdges, pEdgeI)
+  FOR_ALL(pEdges, pEdgeI)
   {
     label nbrEdgeI = pEdges[pEdgeI];
     if (nbrEdgeI != edgeI)
@@ -103,7 +103,7 @@ mousse::labelList mousse::boundaryMesh::collectSegment
     label featI = edgeToFeature_[edgeI];
     if (featI == -1)
     {
-      FatalErrorIn("boundaryMesh::collectSegment")
+      FATAL_ERROR_IN("boundaryMesh::collectSegment")
         << "Problem" << abort(FatalError);
     }
     featLabels[featLabelI++] = featI;
@@ -149,7 +149,7 @@ void mousse::boundaryMesh::markEdges
     const edge& e = mesh().edges()[edgeI];
     // Do edges connected to e.start
     const labelList& startEdges = mesh().pointEdges()[e.start()];
-    forAll(startEdges, pEdgeI)
+    FOR_ALL(startEdges, pEdgeI)
     {
       markEdges
       (
@@ -162,7 +162,7 @@ void mousse::boundaryMesh::markEdges
     }
     // Do edges connected to e.end
     const labelList& endEdges = mesh().pointEdges()[e.end()];
-    forAll(endEdges, pEdgeI)
+    FOR_ALL(endEdges, pEdgeI)
     {
       markEdges
       (
@@ -181,7 +181,7 @@ mousse::label mousse::boundaryMesh::findPatchID
   const word& patchName
 ) const
 {
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (patches[patchI].name() == patchName)
     {
@@ -193,7 +193,7 @@ mousse::label mousse::boundaryMesh::findPatchID
 mousse::wordList mousse::boundaryMesh::patchNames() const
 {
   wordList names(patches_.size());
-  forAll(patches_, patchI)
+  FOR_ALL(patches_, patchI)
   {
     names[patchI] = patches_[patchI].name();
   }
@@ -205,7 +205,7 @@ mousse::label mousse::boundaryMesh::whichPatch
   const label faceI
 ) const
 {
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if ((faceI >= pp.start()) && (faceI < (pp.start() + pp.size())))
@@ -227,11 +227,11 @@ mousse::labelList mousse::boundaryMesh::faceToEdge
 {
   labelList changedEdges(mesh().nEdges(), -1);
   label changedI = 0;
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label faceI = changedFaces[i];
     const labelList& fEdges = mesh().faceEdges()[faceI];
-    forAll(fEdges, fEdgeI)
+    FOR_ALL(fEdges, fEdgeI)
     {
       label edgeI = fEdges[fEdgeI];
       if (!regionEdge[edgeI] && (edgeRegion[edgeI] == -1))
@@ -254,11 +254,11 @@ mousse::labelList mousse::boundaryMesh::edgeToFace
 {
   labelList changedFaces(mesh().size(), -1);
   label changedI = 0;
-  forAll(changedEdges, i)
+  FOR_ALL(changedEdges, i)
   {
     label edgeI = changedEdges[i];
     const labelList& eFaces = mesh().edgeFaces()[edgeI];
-    forAll(eFaces, eFaceI)
+    FOR_ALL(eFaces, eFaceI)
     {
       label faceI = eFaces[eFaceI];
       if (faceRegion[faceI] == -1)
@@ -357,7 +357,7 @@ void mousse::boundaryMesh::read(const polyMesh& mesh)
   meshFace_.setSize(nBFaces);
   label bFaceI = 0;
   // Collect all boundary faces.
-  forAll(mesh.boundaryMesh(), patchI)
+  FOR_ALL(mesh.boundaryMesh(), patchI)
   {
     const polyPatch& pp = mesh.boundaryMesh()[patchI];
     patches_.set
@@ -373,7 +373,7 @@ void mousse::boundaryMesh::read(const polyMesh& mesh)
       )
     );
     // Collect all faces in global numbering.
-    forAll(pp, patchFaceI)
+    FOR_ALL(pp, patchFaceI)
     {
       meshFace_[bFaceI] = pp.start() + patchFaceI;
       bFaces[bFaceI] = pp[patchFaceI];
@@ -383,7 +383,7 @@ void mousse::boundaryMesh::read(const polyMesh& mesh)
   if (debug)
   {
     Pout<< "read : patches now:" << endl;
-    forAll(patches_, patchI)
+    FOR_ALL(patches_, patchI)
     {
       const boundaryPatch& bp = patches_[patchI];
       Pout<< "    name  : " << bp.name() << endl
@@ -409,11 +409,11 @@ void mousse::boundaryMesh::read(const polyMesh& mesh)
   {
     const bMesh& msh = *meshPtr_;
     Pout<< "** Start of Faces **" << endl;
-    forAll(msh, faceI)
+    FOR_ALL(msh, faceI)
     {
       const face& f = msh[faceI];
       point ctr(vector::zero);
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         ctr += msh.points()[f[fp]];
       }
@@ -425,7 +425,7 @@ void mousse::boundaryMesh::read(const polyMesh& mesh)
     }
     Pout<< "** End of Faces **" << endl;
     Pout<< "** Start of Points **" << endl;
-    forAll(msh.points(), pointI)
+    FOR_ALL(msh.points(), pointI)
     {
       Pout<< "    " << pointI
         << " coord:" << msh.points()[pointI]
@@ -451,7 +451,7 @@ void mousse::boundaryMesh::readTriSurface(const fileName& fName)
   }
   // Sort according to region
   SortableList<label> regions(surf.size());
-  forAll(surf, triI)
+  FOR_ALL(surf, triI)
   {
     regions[triI] = surf[triI].region();
   }
@@ -460,7 +460,7 @@ void mousse::boundaryMesh::readTriSurface(const fileName& fName)
   Map<label> regionToBoundaryPatch;
   label oldRegion = -1111;
   label boundPatch = 0;
-  forAll(regions, i)
+  FOR_ALL(regions, i)
   {
     if (regions[i] != oldRegion)
     {
@@ -477,7 +477,7 @@ void mousse::boundaryMesh::readTriSurface(const fileName& fName)
     // so use the surface patches
     patches_.setSize(surfPatches.size());
     // Take over patches, setting size to 0 for now.
-    forAll(surfPatches, patchI)
+    FOR_ALL(surfPatches, patchI)
     {
       const geometricSurfacePatch& surfPatch = surfPatches[patchI];
       patches_.set
@@ -498,7 +498,7 @@ void mousse::boundaryMesh::readTriSurface(const fileName& fName)
   {
     // There are not enough surface patches. Make up my own.
     patches_.setSize(regionToBoundaryPatch.size());
-    forAll(patches_, patchI)
+    FOR_ALL(patches_, patchI)
     {
       patches_.set
       (
@@ -528,7 +528,7 @@ void mousse::boundaryMesh::readTriSurface(const fileName& fName)
     << foamRegion << " with name " << patches_[foamRegion].name() << endl;
   // Index in bFaces of start of current patch
   label startFaceI = 0;
-  forAll(indices, indexI)
+  FOR_ALL(indices, indexI)
   {
     label triI = indices[indexI];
     const labelledTri& tri = surf.localFaces()[triI];
@@ -570,7 +570,7 @@ void mousse::boundaryMesh::readTriSurface(const fileName& fName)
 void mousse::boundaryMesh::writeTriSurface(const fileName& fName) const
 {
   geometricSurfacePatchList surfPatches(patches_.size());
-  forAll(patches_, patchI)
+  FOR_ALL(patches_, patchI)
   {
     const boundaryPatch& bp = patches_[patchI];
     surfPatches[patchI] =
@@ -590,7 +590,7 @@ void mousse::boundaryMesh::writeTriSurface(const fileName& fName) const
   // Determine per face the starting triangle.
   labelList startTri(mesh().size());
   label triI = 0;
-  forAll(mesh(), faceI)
+  FOR_ALL(mesh(), faceI)
   {
     startTri[faceI] = triI;
     triI += nTris[faceI];
@@ -601,10 +601,10 @@ void mousse::boundaryMesh::writeTriSurface(const fileName& fName) const
   // Convert to labelledTri
   List<labelledTri> tris(totalNTris);
   triI = 0;
-  forAll(patches_, patchI)
+  FOR_ALL(patches_, patchI)
   {
     const boundaryPatch& bp = patches_[patchI];
-    forAll(bp, patchFaceI)
+    FOR_ALL(bp, patchFaceI)
     {
       label faceI = bp.start() + patchFaceI;
       label triVertI = 3*startTri[faceI];
@@ -643,7 +643,7 @@ mousse::labelList mousse::boundaryMesh::getNearest
   // - right ,,
   DynamicList<label> leftFaces(mesh().size()/2);
   DynamicList<label> rightFaces(mesh().size()/2);
-  forAll(mesh(), bFaceI)
+  FOR_ALL(mesh(), bFaceI)
   {
     scalar sign = mesh().faceNormals()[bFaceI] & splitNormal_;
     if (sign > -1e-5)
@@ -734,7 +734,7 @@ mousse::labelList mousse::boundaryMesh::getNearest
   labelList nearestBFaceI(pMesh.nFaces() - pMesh.nInternalFaces());
   treeBoundBox tightest;
   const scalar searchDimSqr = magSqr(searchSpan);
-  forAll(nearestBFaceI, patchFaceI)
+  FOR_ALL(nearestBFaceI, patchFaceI)
   {
     label meshFaceI = pMesh.nInternalFaces() + patchFaceI;
     const point& ctr = pMesh.faceCentres()[meshFaceI];
@@ -749,7 +749,7 @@ mousse::labelList mousse::boundaryMesh::getNearest
     n /= area;
     scalar typDim = -GREAT;
     const face& f = pMesh.faces()[meshFaceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       typDim = max(typDim, mag(pMesh.points()[f[fp]] - ctr));
     }
@@ -859,7 +859,7 @@ void mousse::boundaryMesh::patchify
   HashTable<label> nameToIndex(2*patches_.size());
   Map<word> indexToName(2*patches_.size());
   label nNewPatches = patches_.size();
-  forAll(oldPatches, oldPatchI)
+  FOR_ALL(oldPatches, oldPatchI)
   {
     const polyPatch& patch = oldPatches[oldPatchI];
     const label newPatchI = findPatchID(patch.name());
@@ -871,7 +871,7 @@ void mousse::boundaryMesh::patchify
   }
   // Include all boundaryPatches not yet in nameToIndex (i.e. not in old
   // patches)
-  forAll(patches_, bPatchI)
+  FOR_ALL(patches_, bPatchI)
   {
     const boundaryPatch& bp = patches_[bPatchI];
     if (!nameToIndex.found(bp.name()))
@@ -889,7 +889,7 @@ void mousse::boundaryMesh::patchify
   label meshFaceI = newMesh.nInternalFaces();
   // First patch gets all non-coupled faces
   label facesToBeDone = newMesh.nFaces() - newMesh.nInternalFaces();
-  forAll(patches_, bPatchI)
+  FOR_ALL(patches_, bPatchI)
   {
     const boundaryPatch& bp = patches_[bPatchI];
     const label newPatchI = nameToIndex[bp.name()];
@@ -940,7 +940,7 @@ void mousse::boundaryMesh::patchify
   if (debug)
   {
     Pout<< "Patchify : new polyPatch list:" << endl;
-    forAll(newPatchPtrList, patchI)
+    FOR_ALL(newPatchPtrList, patchI)
     {
       const polyPatch& newPatch = *newPatchPtrList[patchI];
       if (debug)
@@ -965,7 +965,7 @@ void mousse::boundaryMesh::patchify
     label nAvgFaces =
       (newMesh.nFaces() - newMesh.nInternalFaces())
      / nNewPatches;
-    forAll(patchFaces, newPatchI)
+    FOR_ALL(patchFaces, newPatchI)
     {
       patchFaces[newPatchI].setCapacity(nAvgFaces);
     }
@@ -973,10 +973,10 @@ void mousse::boundaryMesh::patchify
     // Sort faces acc. to new patch index. Can loop over all old patches
     // since will contain all faces.
     //
-    forAll(oldPatches, oldPatchI)
+    FOR_ALL(oldPatches, oldPatchI)
     {
       const polyPatch& patch = oldPatches[oldPatchI];
-      forAll(patch, patchFaceI)
+      FOR_ALL(patch, patchFaceI)
       {
         // Put face into region given by nearest boundary face
         label meshFaceI = patch.start() + patchFaceI;
@@ -984,7 +984,7 @@ void mousse::boundaryMesh::patchify
         patchFaces[whichPatch(nearest[bFaceI])].append(meshFaceI);
       }
     }
-    forAll(patchFaces, newPatchI)
+    FOR_ALL(patchFaces, newPatchI)
     {
       patchFaces[newPatchI].shrink();
     }
@@ -993,7 +993,7 @@ void mousse::boundaryMesh::patchify
     for (label newPatchI = 1; newPatchI < patchFaces.size(); newPatchI++)
     {
       const labelList& pFaces = patchFaces[newPatchI];
-      forAll(pFaces, pFaceI)
+      FOR_ALL(pFaces, pFaceI)
       {
         polyMeshRepatcher.changePatchID(pFaces[pFaceI], newPatchI);
       }
@@ -1012,7 +1012,7 @@ void mousse::boundaryMesh::setFeatureEdges(const scalar minCos)
   if (minCos >= 0.9999)
   {
     // Select everything
-    forAll(mesh().edges(), edgeI)
+    FOR_ALL(mesh().edges(), edgeI)
     {
       edgeToFeature_[edgeI] = featureI;
       featureToEdge_[featureI++] = edgeI;
@@ -1020,7 +1020,7 @@ void mousse::boundaryMesh::setFeatureEdges(const scalar minCos)
   }
   else
   {
-    forAll(mesh().edges(), edgeI)
+    FOR_ALL(mesh().edges(), edgeI)
     {
       const labelList& eFaces = mesh().edgeFaces()[edgeI];
       if (eFaces.size() == 2)
@@ -1063,7 +1063,7 @@ void mousse::boundaryMesh::setFeatureEdges(const scalar minCos)
   featurePoints_.setSize(mesh().nPoints());
   labelList featToMeshPoint(mesh().nPoints(), -1);
   label featPtI = 0;
-  forAll(featureToEdge_, fEdgeI)
+  FOR_ALL(featureToEdge_, fEdgeI)
   {
     label edgeI = featureToEdge_[fEdgeI];
     const edge& e = mesh().edges()[edgeI];
@@ -1095,7 +1095,7 @@ void mousse::boundaryMesh::setFeatureEdges(const scalar minCos)
   // edges the angle between them should be less than xxx.
   //
   boolList isFeaturePoint(mesh().nPoints(), false);
-  forAll(featureToEdge_, featI)
+  FOR_ALL(featureToEdge_, featI)
   {
     label edgeI = featureToEdge_[featI];
     const edge& e = mesh().edges()[edgeI];
@@ -1117,7 +1117,7 @@ void mousse::boundaryMesh::setFeatureEdges(const scalar minCos)
   do
   {
     label startFeatI = -1;
-    forAll(featVisited, featI)
+    FOR_ALL(featVisited, featI)
     {
       if (!featVisited[featI])
       {
@@ -1145,7 +1145,7 @@ void mousse::boundaryMesh::setFeatureEdges(const scalar minCos)
   // Store in *this
   //
   featureSegments_.setSize(segments.size());
-  forAll(featureSegments_, segmentI)
+  FOR_ALL(featureSegments_, segmentI)
   {
     featureSegments_[segmentI] = segments[segmentI];
   }
@@ -1162,7 +1162,7 @@ void mousse::boundaryMesh::setExtraEdges(const label edgeI)
 }
 mousse::label mousse::boundaryMesh::whichPatch(const label faceI) const
 {
-  forAll(patches_, patchI)
+  FOR_ALL(patches_, patchI)
   {
     const boundaryPatch& bp = patches_[patchI];
     if ((faceI >= bp.start()) && (faceI < (bp.start() + bp.size())))
@@ -1170,7 +1170,7 @@ mousse::label mousse::boundaryMesh::whichPatch(const label faceI) const
       return patchI;
     }
   }
-  FatalErrorIn("boundaryMesh::whichPatch(const label)")
+  FATAL_ERROR_IN("boundaryMesh::whichPatch(const label)")
     << "Cannot find face " << faceI << " in list of boundaryPatches "
     << patches_
     << abort(FatalError);
@@ -1178,7 +1178,7 @@ mousse::label mousse::boundaryMesh::whichPatch(const label faceI) const
 }
 mousse::label mousse::boundaryMesh::findPatchID(const word& patchName) const
 {
-  forAll(patches_, patchI)
+  FOR_ALL(patches_, patchI)
   {
     if (patches_[patchI].name() == patchName)
     {
@@ -1204,7 +1204,7 @@ void mousse::boundaryMesh::addPatch(const word& patchName)
   if (debug)
   {
     Pout<< "addPatch : patches now:" << endl;
-    forAll(patches_, patchI)
+    FOR_ALL(patches_, patchI)
     {
       const boundaryPatch& bp = patches_[patchI];
       Pout<< "    name  : " << bp.name() << endl
@@ -1220,13 +1220,13 @@ void mousse::boundaryMesh::deletePatch(const word& patchName)
   const label delPatchI = findPatchID(patchName);
   if (delPatchI == -1)
   {
-    FatalErrorIn("boundaryMesh::deletePatch(const word&")
+    FATAL_ERROR_IN("boundaryMesh::deletePatch(const word&")
       << "Can't find patch named " << patchName
       << abort(FatalError);
   }
   if (patches_[delPatchI].size())
   {
-    FatalErrorIn("boundaryMesh::deletePatch(const word&")
+    FATAL_ERROR_IN("boundaryMesh::deletePatch(const word&")
       << "Trying to delete non-empty patch " << patchName
       << endl << "Current size:" << patches_[delPatchI].size()
       << abort(FatalError);
@@ -1246,7 +1246,7 @@ void mousse::boundaryMesh::deletePatch(const word& patchName)
   if (debug)
   {
     Pout<< "deletePatch : patches now:" << endl;
-    forAll(patches_, patchI)
+    FOR_ALL(patches_, patchI)
     {
       const boundaryPatch& bp = patches_[patchI];
       Pout<< "    name  : " << bp.name() << endl
@@ -1266,14 +1266,14 @@ void mousse::boundaryMesh::changePatchType
   const label changeI = findPatchID(patchName);
   if (changeI == -1)
   {
-    FatalErrorIn("boundaryMesh::changePatchType(const word&, const word&)")
+    FATAL_ERROR_IN("boundaryMesh::changePatchType(const word&, const word&)")
       << "Can't find patch named " << patchName
       << abort(FatalError);
   }
   // Cause we can't reassign to individual PtrList elems ;-(
   // work on copy
   PtrList<boundaryPatch> newPatches(patches_.size());
-  forAll(patches_, patchI)
+  FOR_ALL(patches_, patchI)
   {
     if (patchI == changeI)
     {
@@ -1305,7 +1305,7 @@ void mousse::boundaryMesh::changeFaces
 {
   if (patchIDs.size() != mesh().size())
   {
-    FatalErrorIn("boundaryMesh::changeFaces(const labelList& patchIDs)")
+    FATAL_ERROR_IN("boundaryMesh::changeFaces(const labelList& patchIDs)")
       << "List of patchIDs not equal to number of faces." << endl
       << "PatchIDs size:" << patchIDs.size()
       << " nFaces::" << mesh().size()
@@ -1313,12 +1313,12 @@ void mousse::boundaryMesh::changeFaces
   }
   // Count number of faces for each patch
   labelList nFaces(patches_.size(), 0);
-  forAll(patchIDs, faceI)
+  FOR_ALL(patchIDs, faceI)
   {
     label patchID = patchIDs[faceI];
     if (patchID < 0 || patchID >= patches_.size())
     {
-      FatalErrorIn("boundaryMesh::changeFaces(const labelList&)")
+      FATAL_ERROR_IN("boundaryMesh::changeFaces(const labelList&)")
         << "PatchID " << patchID << " out of range"
         << abort(FatalError);
     }
@@ -1333,7 +1333,7 @@ void mousse::boundaryMesh::changeFaces
   }
   // Update patch info
   PtrList<boundaryPatch> newPatches(patches_.size());
-  forAll(patches_, patchI)
+  FOR_ALL(patches_, patchI)
   {
     const boundaryPatch& bp = patches_[patchI];
     newPatches.set
@@ -1353,7 +1353,7 @@ void mousse::boundaryMesh::changeFaces
   if (debug)
   {
     Pout<< "changeFaces : patches now:" << endl;
-    forAll(patches_, patchI)
+    FOR_ALL(patches_, patchI)
     {
       const boundaryPatch& bp = patches_[patchI];
       Pout<< "    name  : " << bp.name() << endl
@@ -1365,7 +1365,7 @@ void mousse::boundaryMesh::changeFaces
   }
   // Construct face mapping array
   oldToNew.setSize(patchIDs.size());
-  forAll(patchIDs, faceI)
+  FOR_ALL(patchIDs, faceI)
   {
     int patchID = patchIDs[faceI];
     oldToNew[faceI] = startFace[patchID]++;
@@ -1373,7 +1373,7 @@ void mousse::boundaryMesh::changeFaces
   // Copy faces into correct position and maintain label of original face
   faceList newFaces(mesh().size());
   labelList newMeshFace(mesh().size());
-  forAll(oldToNew, faceI)
+  FOR_ALL(oldToNew, faceI)
   {
     newFaces[oldToNew[faceI]] = mesh()[faceI];
     newMeshFace[oldToNew[faceI]] = meshFace_[faceI];
@@ -1431,7 +1431,7 @@ void mousse::boundaryMesh::triangulate
     label nTri = 0;
     f.triangles(mesh().points(), nTri, triFaces);
     // Copy into triVerts
-    forAll(triFaces, triFaceI)
+    FOR_ALL(triFaces, triFaceI)
     {
       const face& triF = triFaces[triFaceI];
       triVerts[vertI++] = triF[0];
@@ -1477,7 +1477,7 @@ void mousse::boundaryMesh::triangulateLocal
     label nTri = 0;
     f.triangles(patch.localPoints(), nTri, triFaces);
     // Copy into triVerts
-    forAll(triFaces, triFaceI)
+    FOR_ALL(triFaces, triFaceI)
     {
       const face& triF = triFaces[triFaceI];
       triVerts[vertI++] = triF[0];
@@ -1494,7 +1494,7 @@ void mousse::boundaryMesh::markFaces
 ) const
 {
   boolList protectedEdge(mesh().nEdges(), false);
-  forAll(protectedEdges, i)
+  FOR_ALL(protectedEdges, i)
   {
     protectedEdge[protectedEdges[i]] = true;
   }
@@ -1504,7 +1504,7 @@ void mousse::boundaryMesh::markFaces
   markZone(protectedEdge, seedFaceI, 0, currentZone);
   // Set in visited all reached ones.
   visited.setSize(mesh().size());
-  forAll(currentZone, faceI)
+  FOR_ALL(currentZone, faceI)
   {
     if (currentZone[faceI] == 0)
     {

@@ -25,14 +25,11 @@ class vanDriestDelta
     scalar Cdelta_;
     label calcInterval_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    vanDriestDelta(const vanDriestDelta&);
-    void operator=(const vanDriestDelta&);
     // Calculate the delta values
     void calcDelta();
 public:
   //- Runtime type information
-  TypeName("vanDriest");
+  TYPE_NAME("vanDriest");
   // Constructors
     //- Construct from name, turbulenceModel and dictionary
     vanDriestDelta
@@ -41,6 +38,9 @@ public:
       const turbulenceModel& turbulence,
       const dictionary&
     );
+    //- Disallow default bitwise copy construct and assignment
+    vanDriestDelta(const vanDriestDelta&) = delete;
+    vanDriestDelta& operator=(const vanDriestDelta&) = delete;
   //- Destructor
   virtual ~vanDriestDelta()
   {}

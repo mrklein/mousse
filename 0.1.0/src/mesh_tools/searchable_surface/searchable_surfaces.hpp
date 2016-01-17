@@ -7,11 +7,15 @@
 //   Container for searchableSurfaces.
 // SourceFiles
 //   searchable_surfaces.cpp
+
 #ifndef searchable_surfaces_hpp_
 #define searchable_surfaces_hpp_
+
 #include "searchable_surface.hpp"
 #include "label_pair.hpp"
 #include "writer.hpp"
+#include "ptr_list.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
@@ -37,12 +41,8 @@ class searchableSurfaces
       const label edgeI,
       const pointIndexHit& hit
     );
-    //- Disallow default bitwise copy construct
-    searchableSurfaces(const searchableSurfaces&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableSurfaces&);
 public:
-  ClassName("searchableSurfaces");
+  CLASS_NAME("searchableSurfaces");
   // Constructors
     //- Construct with length specified. Fill later.
     explicit searchableSurfaces(const label);
@@ -58,6 +58,10 @@ public:
       const dictionary&,
       const bool singleRegionName
     );
+    //- Disallow default bitwise copy construct
+    searchableSurfaces(const searchableSurfaces&) = delete;
+    //- Disallow default bitwise assignment
+    searchableSurfaces& operator=(const searchableSurfaces&) = delete;
   // Member Functions
     const wordList& names() const
     {

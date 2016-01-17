@@ -42,15 +42,14 @@ class refinementParameters
     //- Allowed load unbalance
     scalar maxLoadUnbalance_;
     Switch handleSnapProblems_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    refinementParameters(const refinementParameters&);
-    //- Disallow default bitwise assignment
-    void operator=(const refinementParameters&);
 public:
   // Constructors
     //- Construct from dictionary - new syntax
     refinementParameters(const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    refinementParameters(const refinementParameters&) = delete;
+    //- Disallow default bitwise assignment
+    refinementParameters& operator=(const refinementParameters&) = delete;
   // Member Functions
     // Access
       //- Total number of cells

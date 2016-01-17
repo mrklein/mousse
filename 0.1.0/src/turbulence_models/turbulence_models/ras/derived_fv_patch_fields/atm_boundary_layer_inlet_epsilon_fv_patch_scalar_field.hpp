@@ -41,7 +41,7 @@ class atmBoundaryLayerInletEpsilonFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("atmBoundaryLayerInletEpsilon");
+  TYPE_NAME("atmBoundaryLayerInletEpsilon");
   // Constructors
     //- Construct from patch and internal field
     atmBoundaryLayerInletEpsilonFvPatchScalarField

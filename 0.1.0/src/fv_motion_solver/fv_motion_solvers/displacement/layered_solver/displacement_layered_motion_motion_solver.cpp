@@ -14,8 +14,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(displacementLayeredMotionMotionSolver, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(displacementLayeredMotionMotionSolver, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionSolver,
     displacementLayeredMotionMotionSolver,
@@ -41,10 +41,10 @@ void mousse::displacementLayeredMotionMotionSolver::calcZoneMask
   {
     const cellZone& cz = mesh().cellZones()[cellZoneI];
     label nPoints = 0;
-    forAll(cz, i)
+    FOR_ALL(cz, i)
     {
       const labelList& cPoints = mesh().cellPoints(cz[i]);
-      forAll(cPoints, cPointI)
+      FOR_ALL(cPoints, cPointI)
       {
         if (!isZonePoint[cPoints[cPointI]])
         {
@@ -62,10 +62,10 @@ void mousse::displacementLayeredMotionMotionSolver::calcZoneMask
     );
     // Mark edge inside cellZone
     label nEdges = 0;
-    forAll(cz, i)
+    FOR_ALL(cz, i)
     {
       const labelList& cEdges = mesh().cellEdges(cz[i]);
-      forAll(cEdges, cEdgeI)
+      FOR_ALL(cEdges, cEdgeI)
       {
         if (!isZoneEdge[cEdges[cEdgeI]])
         {
@@ -93,7 +93,7 @@ void mousse::displacementLayeredMotionMotionSolver::calcZoneMask
 // Find distance to starting point
 void mousse::displacementLayeredMotionMotionSolver::walkStructured
 (
-  const label cellZoneI,
+  const label /*cellZoneI*/,
   const PackedBoolList& isZonePoint,
   const PackedBoolList& isZoneEdge,
   const labelList& seedPoints,
@@ -103,7 +103,7 @@ void mousse::displacementLayeredMotionMotionSolver::walkStructured
 ) const
 {
   List<pointEdgeStructuredWalk> seedInfo(seedPoints.size());
-  forAll(seedPoints, i)
+  FOR_ALL(seedPoints, i)
   {
     seedInfo[i] = pointEdgeStructuredWalk
     (
@@ -118,7 +118,7 @@ void mousse::displacementLayeredMotionMotionSolver::walkStructured
   // Mark points inside cellZone.
   // Note that we use points0, not mesh.points()
   // so as not to accumulate errors.
-  forAll(isZonePoint, pointI)
+  FOR_ALL(isZonePoint, pointI)
   {
     if (isZonePoint[pointI])
     {
@@ -134,7 +134,7 @@ void mousse::displacementLayeredMotionMotionSolver::walkStructured
   // Current info on edges
   List<pointEdgeStructuredWalk> allEdgeInfo(mesh().nEdges());
   // Mark edges inside cellZone
-  forAll(isZoneEdge, edgeI)
+  FOR_ALL(isZoneEdge, edgeI)
   {
     if (isZoneEdge[edgeI])
     {
@@ -158,7 +158,7 @@ void mousse::displacementLayeredMotionMotionSolver::walkStructured
     mesh().globalData().nTotalPoints()  // max iterations
   );
   // Extract distance and passive data
-  forAll(allPointInfo, pointI)
+  FOR_ALL(allPointInfo, pointI)
   {
     if (isZonePoint[pointI])
     {
@@ -194,7 +194,7 @@ mousse::displacementLayeredMotionMotionSolver::faceZoneEvaluate
   {
     if ((patchI % 2) != 1)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "displacementLayeredMotionMotionSolver::faceZoneEvaluate"
         "("
@@ -231,7 +231,7 @@ mousse::displacementLayeredMotionMotionSolver::faceZoneEvaluate
   }
   else
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "displacementLayeredMotionMotionSolver::faceZoneEvaluate"
       "("
@@ -259,7 +259,7 @@ void mousse::displacementLayeredMotionMotionSolver::cellZoneSolve
   const dictionary& patchesDict = zoneDict.subDict("boundaryField");
   if (patchesDict.size() != 2)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "displacementLayeredMotionMotionSolver::"
       "cellZoneSolve(const label, const dictionary&)",
@@ -273,13 +273,13 @@ void mousse::displacementLayeredMotionMotionSolver::cellZoneSolve
   PtrList<pointVectorField> patchDisp(patchesDict.size());
   // Allocate the fields
   label patchI = 0;
-  forAllConstIter(dictionary, patchesDict, patchIter)
+  FOR_ALL_CONST_ITER(dictionary, patchesDict, patchIter)
   {
     const word& faceZoneName = patchIter().keyword();
     label zoneI = mesh().faceZones().findZoneID(faceZoneName);
     if (zoneI == -1)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "displacementLayeredMotionMotionSolver::"
         "cellZoneSolve(const label, const dictionary&)",
@@ -316,7 +316,7 @@ void mousse::displacementLayeredMotionMotionSolver::cellZoneSolve
   // Make sure we can pick up bc values from field
   pointDisplacement_.correctBoundaryConditions();
   patchI = 0;
-  forAllConstIter(dictionary, patchesDict, patchIter)
+  FOR_ALL_CONST_ITER(dictionary, patchesDict, patchIter)
   {
     const word& faceZoneName = patchIter().keyword();
     const dictionary& faceZoneDict = patchIter().dict();
@@ -324,7 +324,7 @@ void mousse::displacementLayeredMotionMotionSolver::cellZoneSolve
     const faceZone& fz = mesh().faceZones()[faceZoneName];
     const labelList& fzMeshPoints = fz().meshPoints();
     DynamicList<label> meshPoints(fzMeshPoints.size());
-    forAll(fzMeshPoints, i)
+    FOR_ALL(fzMeshPoints, i)
     {
       if (isZonePoint[fzMeshPoints[i]])
       {
@@ -385,7 +385,7 @@ void mousse::displacementLayeredMotionMotionSolver::cellZoneSolve
       pointMesh::New(mesh()),
       dimensionedScalar("zero", dimLength, 0.0)
     );
-    forAll(distance, pointI)
+    FOR_ALL(distance, pointI)
     {
       scalar d1 = patchDist[0][pointI];
       scalar d2 = patchDist[1][pointI];
@@ -403,7 +403,7 @@ void mousse::displacementLayeredMotionMotionSolver::cellZoneSolve
   const word interpolationScheme = zoneDict.lookup("interpolationScheme");
   if (interpolationScheme == "oneSided")
   {
-    forAll(pointDisplacement_, pointI)
+    FOR_ALL(pointDisplacement_, pointI)
     {
       if (isZonePoint[pointI])
       {
@@ -413,7 +413,7 @@ void mousse::displacementLayeredMotionMotionSolver::cellZoneSolve
   }
   else if (interpolationScheme == "linear")
   {
-    forAll(pointDisplacement_, pointI)
+    FOR_ALL(pointDisplacement_, pointI)
     {
       if (isZonePoint[pointI])
       {
@@ -428,7 +428,7 @@ void mousse::displacementLayeredMotionMotionSolver::cellZoneSolve
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "displacementLayeredMotionMotionSolver::"
       "cellZoneSolve(const label, const dictionary&)"
@@ -470,7 +470,7 @@ void mousse::displacementLayeredMotionMotionSolver::solve()
   pointDisplacement_.boundaryField().updateCoeffs();
   // Solve motion on all regions (=cellZones)
   const dictionary& regionDicts = coeffDict().subDict("regions");
-  forAllConstIter(dictionary, regionDicts, regionIter)
+  FOR_ALL_CONST_ITER(dictionary, regionDicts, regionIter)
   {
     const word& cellZoneName = regionIter().keyword();
     const dictionary& regionDict = regionIter().dict();
@@ -478,7 +478,7 @@ void mousse::displacementLayeredMotionMotionSolver::solve()
     Info<< "solving for zone: " << cellZoneName << endl;
     if (zoneI == -1)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "displacementLayeredMotionMotionSolver::solve()",
         *this
@@ -500,7 +500,7 @@ void mousse::displacementLayeredMotionMotionSolver::updateMesh
 {
   displacementMotionSolver::updateMesh(mpm);
   const vectorField displacement(this->newPoints() - points0_);
-  forAll(points0_, pointI)
+  FOR_ALL(points0_, pointI)
   {
     label oldPointI = mpm.pointMap()[pointI];
     if (oldPointI >= 0)

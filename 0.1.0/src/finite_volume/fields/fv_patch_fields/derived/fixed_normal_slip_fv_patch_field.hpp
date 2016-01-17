@@ -39,7 +39,7 @@ class fixedNormalSlipFvPatchField
     Field<Type> fixedValue_;
 public:
   //- Runtime type information
-  TypeName("fixedNormalSlip");
+  TYPE_NAME("fixedNormalSlip");
   // Constructors
     //- Construct from patch and internal field
     fixedNormalSlipFvPatchField

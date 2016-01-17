@@ -23,10 +23,6 @@ class polyTopoChanger
   public regIOobject
 {
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    polyTopoChanger(const polyTopoChanger&);
-    //- Disallow default bitwise assignment
-    void operator=(const polyTopoChanger&);
     void readModifiers();
 protected:
   // Protected data
@@ -34,12 +30,16 @@ protected:
     polyMesh& mesh_;
 public:
   //- Runtime type information
-  TypeName("polyTopoChanger");
+  TYPE_NAME("polyTopoChanger");
   // Constructors
     //- Read constructor given IOobject and a polyMesh
     polyTopoChanger(const IOobject&, polyMesh&);
     //- Read constructor for given polyMesh
     explicit polyTopoChanger(polyMesh&);
+    //- Disallow default bitwise copy construct
+    polyTopoChanger(const polyTopoChanger&) = delete;
+    //- Disallow default bitwise assignment
+    polyTopoChanger& operator=(const polyTopoChanger&) = delete;
   //- Destructor
   virtual ~polyTopoChanger()
   {}

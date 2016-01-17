@@ -17,13 +17,13 @@ angularOscillatingVelocityPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(p, iF),
-  axis_(vector::zero),
-  origin_(vector::zero),
-  angle0_(0.0),
-  amplitude_(0.0),
-  omega_(0.0),
-  p0_(p.localPoints())
+  fixedValuePointPatchField<vector>{p, iF},
+  axis_{vector::zero},
+  origin_{vector::zero},
+  angle0_{0.0},
+  amplitude_{0.0},
+  omega_{0.0},
+  p0_{p.localPoints()}
 {}
 angularOscillatingVelocityPointPatchVectorField::
 angularOscillatingVelocityPointPatchVectorField
@@ -33,12 +33,12 @@ angularOscillatingVelocityPointPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValuePointPatchField<vector>(p, iF, dict),
-  axis_(dict.lookup("axis")),
-  origin_(dict.lookup("origin")),
-  angle0_(readScalar(dict.lookup("angle0"))),
-  amplitude_(readScalar(dict.lookup("amplitude"))),
-  omega_(readScalar(dict.lookup("omega")))
+  fixedValuePointPatchField<vector>{p, iF, dict},
+  axis_{dict.lookup("axis")},
+  origin_{dict.lookup("origin")},
+  angle0_{readScalar(dict.lookup("angle0"))},
+  amplitude_{readScalar(dict.lookup("amplitude"))},
+  omega_{readScalar(dict.lookup("omega"))}
 {
   if (!dict.found("value"))
   {
@@ -62,13 +62,13 @@ angularOscillatingVelocityPointPatchVectorField
   const pointPatchFieldMapper& mapper
 )
 :
-  fixedValuePointPatchField<vector>(ptf, p, iF, mapper),
-  axis_(ptf.axis_),
-  origin_(ptf.origin_),
-  angle0_(ptf.angle0_),
-  amplitude_(ptf.amplitude_),
-  omega_(ptf.omega_),
-  p0_(ptf.p0_)
+  fixedValuePointPatchField<vector>{ptf, p, iF, mapper},
+  axis_{ptf.axis_},
+  origin_{ptf.origin_},
+  angle0_{ptf.angle0_},
+  amplitude_{ptf.amplitude_},
+  omega_{ptf.omega_},
+  p0_{ptf.p0_}
 {}
 angularOscillatingVelocityPointPatchVectorField::
 angularOscillatingVelocityPointPatchVectorField
@@ -77,13 +77,13 @@ angularOscillatingVelocityPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(ptf, iF),
-  axis_(ptf.axis_),
-  origin_(ptf.origin_),
-  angle0_(ptf.angle0_),
-  amplitude_(ptf.amplitude_),
-  omega_(ptf.omega_),
-  p0_(ptf.p0_)
+  fixedValuePointPatchField<vector>{ptf, iF},
+  axis_{ptf.axis_},
+  origin_{ptf.origin_},
+  angle0_{ptf.angle0_},
+  amplitude_{ptf.amplitude_},
+  omega_{ptf.omega_},
+  p0_{ptf.p0_}
 {}
 // Member Functions 
 void angularOscillatingVelocityPointPatchVectorField::autoMap
@@ -135,20 +135,15 @@ void angularOscillatingVelocityPointPatchVectorField::write
 ) const
 {
   pointPatchField<vector>::write(os);
-  os.writeKeyword("axis")
-    << axis_ << token::END_STATEMENT << nl;
-  os.writeKeyword("origin")
-    << origin_ << token::END_STATEMENT << nl;
-  os.writeKeyword("angle0")
-    << angle0_ << token::END_STATEMENT << nl;
-  os.writeKeyword("amplitude")
-    << amplitude_ << token::END_STATEMENT << nl;
-  os.writeKeyword("omega")
-    << omega_ << token::END_STATEMENT << nl;
+  os.writeKeyword("axis") << axis_ << token::END_STATEMENT << nl;
+  os.writeKeyword("origin") << origin_ << token::END_STATEMENT << nl;
+  os.writeKeyword("angle0") << angle0_ << token::END_STATEMENT << nl;
+  os.writeKeyword("amplitude") << amplitude_ << token::END_STATEMENT << nl;
+  os.writeKeyword("omega") << omega_ << token::END_STATEMENT << nl;
   p0_.writeEntry("p0", os);
   writeEntry("value", os);
 }
-makePointPatchTypeField
+MAKE_POINT_PATCH_TYPE_FIELD
 (
   pointPatchVectorField,
   angularOscillatingVelocityPointPatchVectorField

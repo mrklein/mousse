@@ -51,7 +51,7 @@ void mousse::momentOfInertia::massPropertiesSolid
   const scalar r120 = 1.0/120.0;
   // order:  1, x, y, z, x^2, y^2, z^2, xy, yz, zx
   scalarField integrals(10, 0.0);
-  forAll(triFaces, i)
+  FOR_ALL(triFaces, i)
   {
     const triFace& tri(triFaces[i]);
     // vertices of triangle i
@@ -151,7 +151,7 @@ void mousse::momentOfInertia::massPropertiesShell
   cM = vector::zero;
   J = tensor::zero;
   // Find centre of mass
-  forAll(triFaces, i)
+  FOR_ALL(triFaces, i)
   {
     const triFace& tri(triFaces[i]);
     triPointRef t
@@ -167,7 +167,7 @@ void mousse::momentOfInertia::massPropertiesShell
   cM /= mass;
   mass *= density;
   // Find inertia around centre of mass
-  forAll(triFaces, i)
+  FOR_ALL(triFaces, i)
   {
     const triFace& tri(triFaces[i]);
     J += triPointRef
@@ -188,7 +188,7 @@ void mousse::momentOfInertia::massPropertiesSolid
 )
 {
   triFaceList faces(surf.size());
-  forAll(surf, i)
+  FOR_ALL(surf, i)
   {
     faces[i] = triFace(surf[i]);
   }
@@ -204,7 +204,7 @@ void mousse::momentOfInertia::massPropertiesShell
 )
 {
   triFaceList faces(surf.size());
-  forAll(surf, i)
+  FOR_ALL(surf, i)
   {
     faces[i] = triFace(surf[i]);
   }
@@ -231,7 +231,7 @@ mousse::tmp<mousse::tensorField> mousse::momentOfInertia::meshInertia
 {
   tmp<tensorField> tTf = tmp<tensorField>(new tensorField(mesh.nCells()));
   tensorField& tf = tTf();
-  forAll(tf, cI)
+  FOR_ALL(tf, cI)
   {
     tf[cI] = meshInertia(mesh, cI);
   }
@@ -249,7 +249,7 @@ mousse::tensor mousse::momentOfInertia::meshInertia
     cellI
   );
   triFaceList faces(cellTets.size());
-  forAll(cellTets, cTI)
+  FOR_ALL(cellTets, cTI)
   {
     faces[cTI] = cellTets[cTI].faceTriIs(mesh);
   }

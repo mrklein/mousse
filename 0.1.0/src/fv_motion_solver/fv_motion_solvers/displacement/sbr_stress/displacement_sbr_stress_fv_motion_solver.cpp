@@ -15,8 +15,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(displacementSBRStressFvMotionSolver, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(displacementSBRStressFvMotionSolver, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionSolver,
     displacementSBRStressFvMotionSolver,

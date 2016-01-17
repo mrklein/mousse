@@ -20,19 +20,18 @@ class opaqueSolid
 :
   public radiationModel
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    opaqueSolid(const opaqueSolid&);
-    //- Disallow default bitwise assignment
-    void operator=(const opaqueSolid&);
 public:
   //- Runtime type information
-  TypeName("opaqueSolid");
+  TYPE_NAME("opaqueSolid");
   // Constructors
     //- Construct from components
     opaqueSolid(const volScalarField& T);
     //- Construct from components
     opaqueSolid(const dictionary& dict, const volScalarField& T);
+    //- Disallow default bitwise copy construct
+    opaqueSolid(const opaqueSolid&) = delete;
+    //- Disallow default bitwise assignment
+    opaqueSolid& operator=(const opaqueSolid&) = delete;
   //- Destructor
   virtual ~opaqueSolid();
   // Member functions

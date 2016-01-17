@@ -75,13 +75,9 @@ private:
       const RhoFieldType& rho,
       const vectorField& U
     ) const;
-    //- Disallow default bitwise copy construct
-    actuationDiskSource(const actuationDiskSource&);
-    //- Disallow default bitwise assignment
-    void operator=(const actuationDiskSource&);
 public:
   //- Runtime type information
-  TypeName("actuationDiskSource");
+  TYPE_NAME("actuationDiskSource");
   // Constructors
     //- Construct from components
     actuationDiskSource
@@ -91,6 +87,10 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    actuationDiskSource(const actuationDiskSource&) = delete;
+    //- Disallow default bitwise assignment
+    actuationDiskSource& operator=(const actuationDiskSource&) = delete;
   //- Destructor
   virtual ~actuationDiskSource()
   {}

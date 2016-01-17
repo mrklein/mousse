@@ -1,0 +1,38 @@
+EXE_DEBUG = -DFULLDEBUG -g -O0
+EXE_NDEBUG = -DNDEBUG
+
+CGAL_EXACT = /*-DCGAL_DONT_USE_LAZY_KERNEL*/
+CGAL_INEXACT = -DCGAL_INEXACT
+
+include $(GENERAL_RULES)/CGAL
+
+EXE_INC = \
+    ${ROUNDING_MATH} \
+    ${EXE_NDEBUG} \
+    ${CGAL_EXACT} \
+    ${CGAL_INEXACT} \
+    ${CGAL_INC} \
+    ${c++LESSWARN} \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/parallel/decompose/decomposition_methods/_lninclude \
+    -I$(LIB_SRC)/edge_mesh/_lninclude \
+    -I$(LIB_SRC)/file_formats/_lninclude \
+    -I$(LIB_SRC)/dynamic_mesh/_lninclude \
+    -I$(LIB_SRC)/surf_mesh/_lninclude \
+    -I$(LIB_SRC)/tri_surface/_lninclude \
+    -I$(LIB_SRC)/sampling/_lninclude \
+    -I$(LIB_SRC)/mesh/auto_mesh/_lninclude \
+    -IPrint_table \
+    -I/usr/include
+
+LIB_LIBS = \
+    ${CGAL_LIBS} \
+    -lmousse_mesh_tools \
+    -lmousse_edge_mesh \
+    -lmousse_file_formats \
+    -lmousse_tri_surface \
+    -lmousse_dynamic_mesh \
+    -lmousse_surf_mesh \
+    -lmousse_sampling \
+    -lmousse_auto_mesh

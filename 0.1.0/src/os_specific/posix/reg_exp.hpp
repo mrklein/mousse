@@ -27,10 +27,6 @@ class regExp
     //- Precompiled regular expression
     mutable regex_t* preg_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    regExp(const regExp&);
-    //- Disallow default bitwise assignment
-    void operator=(const regExp&);
     //- Return true if it matches and sets the sub-groups matched.
     //  Templated to support both std::string and mousse::string
     template<class StringType>
@@ -65,6 +61,10 @@ public:
     regExp(const char*, const bool ignoreCase=false);
     //- Construct from std::string (or string), optionally ignoring case
     regExp(const std::string&, const bool ignoreCase=false);
+    //- Disallow default bitwise copy construct
+    regExp(const regExp&) = delete;
+    //- Disallow default bitwise assignment
+    regExp& operator=(const regExp&) = delete;
   //- Destructor
   ~regExp();
   // Member functions

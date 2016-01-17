@@ -5,13 +5,15 @@
 #include "zone_to_face.hpp"
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(zoneToFace, 0);
-addToRunTimeSelectionTable(topoSetSource, zoneToFace, word);
-addToRunTimeSelectionTable(topoSetSource, zoneToFace, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(zoneToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, zoneToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, zoneToFace, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::zoneToFace::usage_
 (
   zoneToFace::typeName,
@@ -19,11 +21,12 @@ mousse::topoSetSource::addToUsageTable mousse::zoneToFace::usage_
   "    Select all faces in the faceZone."
   " Note:accepts wildcards for zone.\n\n"
 );
+
 // Private Member Functions 
 void mousse::zoneToFace::combine(topoSet& set, const bool add) const
 {
   bool hasMatched = false;
-  forAll(mesh_.faceZones(), i)
+  FOR_ALL(mesh_.faceZones(), i)
   {
     const faceZone& zone = mesh_.faceZones()[i];
     if (zoneName_.match(zone.name()))
@@ -32,7 +35,7 @@ void mousse::zoneToFace::combine(topoSet& set, const bool add) const
       Info<< "    Found matching zone " << zone.name()
         << " with " << faceLabels.size() << " faces." << endl;
       hasMatched = true;
-      forAll(faceLabels, i)
+      FOR_ALL(faceLabels, i)
       {
         // Only do active faces
         if (faceLabels[i] < mesh_.nFaces())
@@ -44,7 +47,7 @@ void mousse::zoneToFace::combine(topoSet& set, const bool add) const
   }
   if (!hasMatched)
   {
-    WarningIn("zoneToFace::combine(topoSet&, const bool)")
+    WARNING_IN("zoneToFace::combine(topoSet&, const bool)")
       << "Cannot find any faceZone named " << zoneName_ << endl
       << "Valid names are " << mesh_.faceZones().names() << endl;
   }

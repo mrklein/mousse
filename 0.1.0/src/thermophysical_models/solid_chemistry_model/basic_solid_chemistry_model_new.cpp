@@ -88,7 +88,7 @@ New
     fvMeshConstructorTablePtr_->find(chemistryTypeName);
   if (cstrIter == fvMeshConstructorTablePtr_->end())
   {
-    FatalErrorIn(typeName + "::New(const mesh&)")
+    FATAL_ERROR_IN(typeName + "::New(const mesh&)")
       << "Unknown " << typeName << " type " << nl
       << "chemistryType" << chemistryTypeDict << nl << nl
       << "Valid " << typeName << " types are:"
@@ -106,12 +106,12 @@ New
       validChemistryTypeNames.size() + 1
     );
     validChemistryTypeNameCmpts[0].setSize(nCmpt);
-    forAll(validChemistryTypeNameCmpts[0], j)
+    FOR_ALL(validChemistryTypeNameCmpts[0], j)
     {
       validChemistryTypeNameCmpts[0][j] = cmptNames[j];
     }
     // Split the thermo package names into their constituent parts
-    forAll(validChemistryTypeNames, i)
+    FOR_ALL(validChemistryTypeNames, i)
     {
       validChemistryTypeNameCmpts[i+1] = basicThermo::splitThermoName
       (

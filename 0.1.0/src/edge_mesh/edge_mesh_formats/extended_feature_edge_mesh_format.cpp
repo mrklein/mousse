@@ -23,7 +23,7 @@ bool mousse::fileFormats::extendedFeatureEdgeMeshFormat::read
   IFstream is(filename);
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::extendedFeatureEdgeMeshFormat::read(const fileName&)"
     )

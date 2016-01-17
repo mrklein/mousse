@@ -7,10 +7,10 @@
 #include "_damping_model.hpp"
 #include "_no_damping.hpp"
 #include "_relaxation.hpp"
-#define makeMPPICParcelDampingModels(CloudType)                               \
+#define MAKE_MPPIC_PARCEL_DAMPING_MODELS(CloudType)                           \
                                                                               \
-  makeDampingModel(CloudType);                                                \
+  MAKE_DAMPING_MODEL(CloudType);                                              \
                                                                               \
-  makeDampingModelType(NoDamping, CloudType);                                 \
-  makeDampingModelType(Relaxation, CloudType);
+  MAKE_DAMPING_MODEL_TYPE(NoDamping, CloudType);                              \
+  MAKE_DAMPING_MODEL_TYPE(Relaxation, CloudType);
 #endif

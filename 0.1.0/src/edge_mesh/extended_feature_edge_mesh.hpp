@@ -21,7 +21,7 @@ class extendedFeatureEdgeMesh
 {
 public:
   //- Runtime type information
-  TypeName("extendedFeatureEdgeMesh");
+  TYPE_NAME("extendedFeatureEdgeMesh");
   // Constructors
     //- Construct (read) given an IOobject
     extendedFeatureEdgeMesh(const IOobject&);

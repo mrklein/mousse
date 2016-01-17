@@ -44,7 +44,7 @@ singleStepCombustion<CombThermoType, ThermoType>::singleStepCombustion
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "singleStepCombustion<CombThermoType, ThermoType>::"
       "singleStepCombustion"

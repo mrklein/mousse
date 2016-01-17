@@ -161,12 +161,9 @@ class sampledSets
     );
     template<class Type>
     void sampleAndWrite(fieldGroup<Type>& fields);
-    //- Disallow default bitwise copy construct and assignment
-    sampledSets(const sampledSets&);
-    void operator=(const sampledSets&);
 public:
   //- Runtime type information
-  TypeName("sets");
+  TYPE_NAME("sets");
   // Constructors
     //- Construct for given objectRegistry and dictionary
     //  allow the possibility to load fields from files
@@ -177,6 +174,9 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct and assignment
+    sampledSets(const sampledSets&) = delete;
+    sampledSets& operator=(const sampledSets&) = delete;
   //- Destructor
   virtual ~sampledSets();
   // Member Functions

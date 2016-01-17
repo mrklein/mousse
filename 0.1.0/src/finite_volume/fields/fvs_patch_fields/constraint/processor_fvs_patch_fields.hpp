@@ -4,10 +4,13 @@
 
 #ifndef processor_fvs_patch_fields_hpp_
 #define processor_fvs_patch_fields_hpp_
+
 #include "processor_fvs_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makeFvsPatchTypeFieldTypedefs(processor);
+MAKE_FVS_PATCH_TYPE_FIELD_TYPEDEFS(processor);
 }  // namespace mousse
+
 #endif

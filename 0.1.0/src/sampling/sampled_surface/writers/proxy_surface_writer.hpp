@@ -22,7 +22,7 @@ class proxySurfaceWriter
     word ext_;
 public:
   //- Runtime type information
-  TypeName("proxy");
+  TYPE_NAME("proxy");
   // Constructors
     //- Construct for a given extension
     proxySurfaceWriter(const word& ext);

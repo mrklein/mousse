@@ -93,6 +93,6 @@ mousse::point mousse::BSpline::position
 }
 mousse::scalar mousse::BSpline::length() const
 {
-  notImplemented("BSpline::length() const");
+  NOT_IMPLEMENTED("BSpline::length() const");
   return 1.0;
 }

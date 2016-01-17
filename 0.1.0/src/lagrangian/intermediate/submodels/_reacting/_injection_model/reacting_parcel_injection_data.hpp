@@ -36,7 +36,7 @@ protected:
     scalarList Y_;
 public:
   //- Runtime type information
-  TypeName("reactingParcelInjectionData");
+  TYPE_NAME("reactingParcelInjectionData");
   // Constructors
     //- Null constructor
     reactingParcelInjectionData();
@@ -67,5 +67,14 @@ public:
     );
 };
 }  // namespace mousse
-#include "reacting_parcel_injection_data_i.hpp"
+
+inline const mousse::scalarList& mousse::reactingParcelInjectionData::Y() const
+{
+  return Y_;
+}
+inline mousse::scalarList& mousse::reactingParcelInjectionData::Y()
+{
+  return Y_;
+}
+
 #endif

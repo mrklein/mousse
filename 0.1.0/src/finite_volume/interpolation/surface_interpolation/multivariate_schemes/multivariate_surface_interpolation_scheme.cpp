@@ -6,9 +6,12 @@
 #include "multivariate_surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
 namespace mousse
 {
+
 // Constructors 
+
 //- Construct from face-flux field and coefficient
 template<class Type>
 multivariateSurfaceInterpolationScheme<Type>::
@@ -20,13 +23,16 @@ multivariateSurfaceInterpolationScheme
   Istream&
 )
 :
-  mesh_(mesh),
-  fields_(vtfs)
+  mesh_{mesh},
+  fields_{vtfs}
 {}
+
+
 // Selectors
+
 // Return weighting factors for scheme given by name in dictionary
 template<class Type>
-tmp<multivariateSurfaceInterpolationScheme<Type> >
+tmp<multivariateSurfaceInterpolationScheme<Type>>
 multivariateSurfaceInterpolationScheme<Type>::New
 (
   const fvMesh& mesh,
@@ -48,22 +54,27 @@ multivariateSurfaceInterpolationScheme<Type>::New
     IstreamConstructorTablePtr_->find(schemeName);
   if (constructorIter == IstreamConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "multivariateSurfaceInterpolationScheme<Type>::New"
       "(const fvMesh& mesh, const fieldTable&, "
       "const surfaceScalarField&, Istream&)",
       schemeData
-    )   << "Unknown discretisation scheme " << schemeName << nl << nl
-      << "Valid schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "Unknown discretisation scheme " << schemeName << nl << nl
+    << "Valid schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
   return constructorIter()(mesh, vtfs, faceFlux, schemeData);
 }
+
+
 // Destructor 
 template<class Type>
 multivariateSurfaceInterpolationScheme<Type>::
 ~multivariateSurfaceInterpolationScheme()
 {}
+
+
 }  // namespace mousse

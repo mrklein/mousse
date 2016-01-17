@@ -6,7 +6,6 @@
 // Description
 //   Chemistry model for compressibility-based thermodynamics
 // SourceFiles
-//   psi_chemistry_model_i.hpp
 //   psi_chemistry_model.cpp
 //   new_chemistry_model.cpp
 #ifndef psi_chemistry_model_hpp_
@@ -23,20 +22,15 @@ class psiChemistryModel
 :
   public basicChemistryModel
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    psiChemistryModel(const psiChemistryModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const psiChemistryModel&);
 protected:
   // Protected data
     //- Thermo package
     autoPtr<psiReactionThermo> thermo_;
 public:
   //- Runtime type information
-  TypeName("psi");
+  TYPE_NAME("psi");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     psiChemistryModel,
@@ -47,6 +41,10 @@ public:
   // Constructors
     //- Construct from mesh and phase name
     psiChemistryModel(const fvMesh& mesh, const word& phaseName);
+    //- Construct as copy (not implemented)
+    psiChemistryModel(const psiChemistryModel&) = delete;
+    //- Disallow default bitwise assignment
+    psiChemistryModel& operator=(const psiChemistryModel&) = delete;
   //- Selector
   static autoPtr<psiChemistryModel> New
   (
@@ -62,5 +60,14 @@ public:
     inline const psiReactionThermo& thermo() const;
 };
 }  // namespace mousse
-#include "psi_chemistry_model_i.hpp"
+
+// Member Functions 
+inline mousse::psiReactionThermo& mousse::psiChemistryModel::thermo()
+{
+  return thermo_();
+}
+inline const mousse::psiReactionThermo& mousse::psiChemistryModel::thermo() const
+{
+  return thermo_();
+}
 #endif

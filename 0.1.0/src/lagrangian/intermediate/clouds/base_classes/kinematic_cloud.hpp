@@ -15,17 +15,16 @@ namespace mousse
 {
 class kinematicCloud
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    kinematicCloud(const kinematicCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const kinematicCloud&);
 public:
   //- Runtime type information
-  TypeName("kinematicCloud");
+  TYPE_NAME("kinematicCloud");
   // Constructors
     //- Null constructor
     kinematicCloud();
+    //- Disallow default bitwise copy construct
+    kinematicCloud(const kinematicCloud&) = delete;
+    //- Disallow default bitwise assignment
+    kinematicCloud& operator=(const kinematicCloud&) = delete;
   // Member functions
     // Check
       //-  Number of parcels

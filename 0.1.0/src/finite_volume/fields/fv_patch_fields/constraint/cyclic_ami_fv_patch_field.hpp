@@ -50,7 +50,7 @@ class cyclicAMIFvPatchField
     ) const;
 public:
   //- Runtime type information
-  TypeName(cyclicAMIFvPatch::typeName_());
+  TYPE_NAME(cyclicAMIFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     cyclicAMIFvPatchField

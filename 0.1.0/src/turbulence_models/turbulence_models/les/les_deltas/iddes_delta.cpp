@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace LESModels
 {
-  defineTypeNameAndDebug(IDDESDelta, 0);
-  addToRunTimeSelectionTable(LESdelta, IDDESDelta, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(IDDESDelta, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESdelta, IDDESDelta, dictionary);
 }
 }
 // Private Member Functions 
@@ -40,16 +40,16 @@ void mousse::LESModels::IDDESDelta::calcDelta()
   scalarField& faceToFacenMax = tfaceToFacenMax().internalField();
   const cellList& cells = mesh.cells();
   const vectorField& faceCentres = mesh.faceCentres();
-  forAll(cells, celli)
+  FOR_ALL(cells, celli)
   {
     scalar maxDelta = 0.0;
     const labelList& cFaces = cells[celli];
     const vector nci = n[celli];
-    forAll(cFaces, cFacei)
+    FOR_ALL(cFaces, cFacei)
     {
       label facei = cFaces[cFacei];
       const point& fci = faceCentres[facei];
-      forAll(cFaces, cFacej)
+      FOR_ALL(cFaces, cFacej)
       {
         label facej = cFaces[cFacej];
         const point& fcj = faceCentres[facej];
@@ -65,13 +65,13 @@ void mousse::LESModels::IDDESDelta::calcDelta()
   label nD = mesh.nGeometricD();
   if (nD == 2)
   {
-    WarningIn("IDDESDelta::calcDelta()")
+    WARNING_IN("IDDESDelta::calcDelta()")
       << "Case is 2D, LES is not strictly applicable" << nl
       << endl;
   }
   else if (nD != 3)
   {
-    FatalErrorIn("IDDESDelta::calcDelta()")
+    FATAL_ERROR_IN("IDDESDelta::calcDelta()")
       << "Case must be either 2D or 3D" << exit(FatalError);
   }
   delta_.internalField() =

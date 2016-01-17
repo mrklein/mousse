@@ -8,7 +8,7 @@ namespace mousse
 {
 namespace regionModels
 {
-  defineTypeNameAndDebug(regionModel1D, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(regionModel1D, 0);
 }
 }
 // Private Member Functions 
@@ -42,11 +42,11 @@ void mousse::regionModels::regionModel1D::initialise()
   DynamicList<label> cellIDs;
   label localPyrolysisFaceI = 0;
   const polyBoundaryMesh& rbm = regionMesh().boundaryMesh();
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     const polyPatch& ppCoupled = rbm[patchI];
-    forAll(ppCoupled, localFaceI)
+    FOR_ALL(ppCoupled, localFaceI)
     {
       label faceI = ppCoupled.start() + localFaceI;
       label cellI = -1;
@@ -84,18 +84,18 @@ void mousse::regionModels::regionModel1D::initialise()
   boundaryFaceCells_.setSize(localPyrolysisFaceI);
   surfaceScalarField& nMagSf = nMagSfPtr_();
   localPyrolysisFaceI = 0;
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     const polyPatch& ppCoupled = rbm[patchI];
     const vectorField& pNormals = ppCoupled.faceNormals();
     nMagSf.boundaryField()[patchI] =
       regionMesh().Sf().boundaryField()[patchI] & pNormals;
-    forAll(pNormals, localFaceI)
+    FOR_ALL(pNormals, localFaceI)
     {
       const vector& n = pNormals[localFaceI];
       const labelList& faces = boundaryFaceFaces_[localPyrolysisFaceI++];
-      forAll (faces, faceI)
+      FOR_ALL(faces, faceI)
       {
         const label faceID = faces[faceI];
         nMagSf[faceID] = regionMesh().Sf()[faceID] & n;
@@ -144,12 +144,12 @@ mousse::tmp<mousse::labelField> mousse::regionModels::regionModel1D::moveMesh
   pointField newPoints = oldPoints;
   const polyBoundaryMesh& bm = regionMesh().boundaryMesh();
   label totalFaceId = 0;
-  forAll(intCoupledPatchIDs_, localPatchI)
+  FOR_ALL(intCoupledPatchIDs_, localPatchI)
   {
     label patchI = intCoupledPatchIDs_[localPatchI];
     const polyPatch pp = bm[patchI];
     const vectorField& cf = regionMesh().Cf().boundaryField()[patchI];
-    forAll(pp, patchFaceI)
+    FOR_ALL(pp, patchFaceI)
     {
       const labelList& faces = boundaryFaceFaces_[totalFaceId];
       const labelList& cells = boundaryFaceCells_[totalFaceId];
@@ -157,20 +157,20 @@ mousse::tmp<mousse::labelField> mousse::regionModels::regionModel1D::moveMesh
       const vector sf = pp.faceAreas()[patchFaceI];
       List<point> oldCf(faces.size() + 1);
       oldCf[0] = cf[patchFaceI];
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         oldCf[i + 1] = regionMesh().faceCentres()[faces[i]];
       }
       vector newDelta = vector::zero;
       point nbrCf = oldCf[0];
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         const label faceI = faces[i];
         const label cellI = cells[i];
         const face f = regionMesh().faces()[faceI];
         newDelta += (deltaV[cellI]/mag(sf))*n;
         vector localDelta = vector::zero;
-        forAll(f, pti)
+        FOR_ALL(f, pti)
         {
           const label pointI = f[pti];
           if
@@ -191,7 +191,7 @@ mousse::tmp<mousse::labelField> mousse::regionModels::regionModel1D::moveMesh
       const face f = regionMesh().faces()[bFaceI];
       const label cellI = cells[cells.size() - 1];
       newDelta += (deltaV[cellI]/mag(sf))*n;
-      forAll(f, pti)
+      FOR_ALL(f, pti)
       {
         const label pointI = f[pti];
         if

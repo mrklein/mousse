@@ -16,7 +16,7 @@ mousse::autoPtr<mousse::sixDoFSolver> mousse::sixDoFSolver::New
     dictionaryConstructorTablePtr_->find(sixDoFSolverType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn("sixDoFSolver::New")
+    FATAL_ERROR_IN("sixDoFSolver::New")
       << "Unknown sixDoFSolverType type "
       << sixDoFSolverType << endl << endl
       << "Valid sixDoFSolver types are : " << endl

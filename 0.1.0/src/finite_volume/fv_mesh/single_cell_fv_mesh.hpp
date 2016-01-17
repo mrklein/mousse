@@ -10,11 +10,14 @@
 // SourceFiles
 //   single_cell_fv_mesh.cpp
 //   single_cell_fv_mesh_interpolate.cpp
+
 #ifndef single_cell_fv_mesh_hpp_
 #define single_cell_fv_mesh_hpp_
+
 #include "fv_patch_field_mapper.hpp"
 #include "fv_mesh.hpp"
 #include "label_list_io_list.hpp"
+
 namespace mousse
 {
 class singleCellFvMesh
@@ -34,10 +37,6 @@ class singleCellFvMesh
   // Private Member Functions
     //- Calculate agglomerated mesh
     void agglomerateMesh(const fvMesh&, const labelListList&);
-    //- Disallow default bitwise copy construct
-    singleCellFvMesh(const singleCellFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const singleCellFvMesh&);
 public:
     //- Patch field mapper class for agglomerated meshes
     class agglomPatchFieldMapper
@@ -56,11 +55,11 @@ public:
           const scalarListList& weights
         )
         :
-          addressing_(addressing),
-          weights_(weights),
-          hasUnmapped_(false)
+          addressing_{addressing},
+          weights_{weights},
+          hasUnmapped_{false}
         {
-          forAll(addressing_, i)
+          FOR_ALL(addressing_, i)
           {
             if (addressing_[i].empty())
             {
@@ -104,6 +103,10 @@ public:
     );
     //- Read from IOobject
     singleCellFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    singleCellFvMesh(const singleCellFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    singleCellFvMesh& operator=(const singleCellFvMesh&) = delete;
   // Member Functions
     bool agglomerate() const
     {
@@ -140,7 +143,9 @@ public:
     ) const;
 };
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "single_cell_fv_mesh_interpolate.cpp"
 #endif
+
 #endif

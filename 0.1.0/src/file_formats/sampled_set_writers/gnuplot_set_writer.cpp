@@ -3,20 +3,26 @@
 // Copyright (C) 2016 mousse project
 
 #include "gnuplot_set_writer.hpp"
+
 #include "coord_set.hpp"
 #include "file_name.hpp"
 #include "ofstream.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Constructors 
 template<class Type>
 mousse::gnuplotSetWriter<Type>::gnuplotSetWriter()
 :
   writer<Type>()
 {}
+
+
 // Destructor 
 template<class Type>
 mousse::gnuplotSetWriter<Type>::~gnuplotSetWriter()
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::fileName mousse::gnuplotSetWriter<Type>::getFileName
@@ -27,6 +33,8 @@ mousse::fileName mousse::gnuplotSetWriter<Type>::getFileName
 {
   return this->getBaseName(points, valueSetNames) + ".gplt";
 }
+
+
 template<class Type>
 void mousse::gnuplotSetWriter<Type>::write
 (
@@ -36,28 +44,30 @@ void mousse::gnuplotSetWriter<Type>::write
   Ostream& os
 ) const
 {
-  os  << "set term postscript color" << nl
+  os<< "set term postscript color" << nl
     << "set output \"" << points.name() << ".ps\"" << nl
     << "plot";
-  forAll(valueSets, i)
+  FOR_ALL(valueSets, i)
   {
     if (i != 0)
     {
       os << ',';
     }
-    os  << " \"-\" title \"" << valueSetNames[i] << "\" with lines";
+    os << " \"-\" title \"" << valueSetNames[i] << "\" with lines";
   }
-  os  << nl;
-  forAll(valueSets, i)
+  os << nl;
+  FOR_ALL(valueSets, i)
   {
     this->writeTable(points, *valueSets[i], os);
-    os  << "e" << nl;
+    os << "e" << nl;
   }
 }
+
+
 template<class Type>
 void mousse::gnuplotSetWriter<Type>::write
 (
-  const bool writeTracks,
+  const bool /*writeTracks*/,
   const PtrList<coordSet>& trackPoints,
   const wordList& valueSetNames,
   const List<List<Field<Type> > >& valueSets,
@@ -66,28 +76,28 @@ void mousse::gnuplotSetWriter<Type>::write
 {
   if (valueSets.size() != valueSetNames.size())
   {
-    FatalErrorIn("gnuplotSetWriter<Type>::write(..)")
+    FATAL_ERROR_IN("gnuplotSetWriter<Type>::write(..)")
       << "Number of variables:" << valueSetNames.size() << endl
       << "Number of valueSets:" << valueSets.size()
       << exit(FatalError);
   }
   if (trackPoints.size() > 0)
   {
-    os  << "set term postscript color" << nl
+    os<< "set term postscript color" << nl
       << "set output \"" << trackPoints[0].name() << ".ps\"" << nl;
-    forAll(trackPoints, trackI)
+    FOR_ALL(trackPoints, trackI)
     {
-      os  << "plot";
-      forAll(valueSets, i)
+      os << "plot";
+      FOR_ALL(valueSets, i)
       {
         if (i != 0)
         {
           os << ',';
         }
-        os  << " \"-\" title \"" << valueSetNames[i] << "\" with lines";
+        os << " \"-\" title \"" << valueSetNames[i] << "\" with lines";
       }
       os << nl;
-      forAll(valueSets, i)
+      FOR_ALL(valueSets, i)
       {
         this->writeTable(trackPoints[trackI], valueSets[i][trackI], os);
         os  << "e" << nl;

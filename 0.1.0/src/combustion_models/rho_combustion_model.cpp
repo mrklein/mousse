@@ -8,8 +8,8 @@ namespace mousse
 {
 namespace combustionModels
 {
-  defineTypeNameAndDebug(rhoCombustionModel, 0);
-  defineRunTimeSelectionTable(rhoCombustionModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(rhoCombustionModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(rhoCombustionModel, dictionary);
 }
 }
 // Constructors 

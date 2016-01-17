@@ -49,11 +49,11 @@ mousse::tmp
     )
   );
   WeightedFieldType& wf = twf();
-  forAll(wf, celli)
+  FOR_ALL(wf, celli)
   {
     const List<Type>& stField = stencilFld[celli];
     const List<WeightType>& stWeight = stencilWeights[celli];
-    forAll(stField, i)
+    FOR_ALL(stField, i)
     {
       wf[celli] += stWeight[i]*stField[i];
     }

@@ -7,10 +7,13 @@
 //   Abstract base class for multi-variate surface interpolation schemes.
 // SourceFiles
 //   multivariate_surface_interpolation_scheme.cpp
+
 #ifndef multivariate_surface_interpolation_scheme_hpp_
 #define multivariate_surface_interpolation_scheme_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "hash_table.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -38,19 +41,11 @@ private:
     const fvMesh& mesh_;
     //- HashTable of pointers to the field set
     const fieldTable& fields_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    multivariateSurfaceInterpolationScheme
-    (
-      const multivariateSurfaceInterpolationScheme&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const multivariateSurfaceInterpolationScheme&);
 public:
   //- Runtime type information
   virtual const word& type() const = 0;
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       tmp,
       multivariateSurfaceInterpolationScheme,
@@ -72,6 +67,16 @@ public:
       const surfaceScalarField& faceFlux,
       Istream& schemeData
     );
+    //- Disallow default bitwise copy construct
+    multivariateSurfaceInterpolationScheme
+    (
+      const multivariateSurfaceInterpolationScheme&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    multivariateSurfaceInterpolationScheme& operator=
+    (
+      const multivariateSurfaceInterpolationScheme&
+    ) = delete;
   // Selectors
     //- Return a pointer to a new gradScheme created on freestore
     static tmp<multivariateSurfaceInterpolationScheme<Type> > New
@@ -108,7 +113,7 @@ public:
           const GeometricField<Type, fvPatchField, volMesh>& field
         )
         :
-          surfaceInterpolationScheme<Type>(field.mesh())
+          surfaceInterpolationScheme<Type>{field.mesh()}
         {}
       // Member Functions
         //- Return the interpolation weighting factors
@@ -123,21 +128,24 @@ public:
     ) const = 0;
 };
 }  // namespace mousse
+
 // Add the patch constructor functions to the hash tables
-#define makeMultivariateSurfaceInterpolationTypeScheme(SS, Type)               \
-                                       \
-defineNamedTemplateTypeNameAndDebug(SS<Type>, 0);                              \
-                                       \
-multivariateSurfaceInterpolationScheme<Type>::                                 \
-addIstreamConstructorToTable<SS<Type> >                                        \
+#define MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, Type)         \
+                                                                              \
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<Type>, 0);                       \
+                                                                              \
+multivariateSurfaceInterpolationScheme<Type>::                                \
+addIstreamConstructorToTable<SS<Type> >                                       \
   add##SS##Type##ConstructorToTable_;
-#define makeMultivariateSurfaceInterpolationScheme(SS)                         \
-                                       \
-makeMultivariateSurfaceInterpolationTypeScheme(SS, scalar)                     \
-makeMultivariateSurfaceInterpolationTypeScheme(SS, vector)                     \
-makeMultivariateSurfaceInterpolationTypeScheme(SS, sphericalTensor)            \
-makeMultivariateSurfaceInterpolationTypeScheme(SS, symmTensor)                 \
-makeMultivariateSurfaceInterpolationTypeScheme(SS, tensor)
+
+#define MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME(SS)                    \
+                                                                              \
+MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, scalar)               \
+MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, vector)               \
+MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, sphericalTensor)      \
+MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, symmTensor)           \
+MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, tensor)
+
 #ifdef NoRepository
 #   include "multivariate_surface_interpolation_scheme.cpp"
 #endif

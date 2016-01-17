@@ -35,7 +35,7 @@ protected:
     tmp<volScalarField> epsilonModel() const;
 public:
   //- Runtime type information
-  TypeName("dispersionRASModel");
+  TYPE_NAME("dispersionRASModel");
   // Constructors
     //- Construct from components
     DispersionRASModel(const dictionary& dict, CloudType& owner);

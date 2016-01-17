@@ -26,7 +26,7 @@ mousse::label mousse::checkTopology
   // Check that empty patches cover all sides of the mesh
   {
     label nEmpty = 0;
-    forAll(mesh.boundaryMesh(), patchI)
+    FOR_ALL(mesh.boundaryMesh(), patchI)
     {
       if (isA<emptyPolyPatch>(mesh.boundaryMesh()[patchI]))
       {
@@ -63,15 +63,15 @@ mousse::label mousse::checkTopology
     noFailedChecks++;
   }
   {
-    cellSet cells(mesh, "illegalCells", mesh.nCells()/100);
-    forAll(mesh.cells(), cellI)
+    cellSet cells{mesh, "illegalCells", mesh.nCells()/100};
+    FOR_ALL(mesh.cells(), cellI)
     {
       const cell& cFaces = mesh.cells()[cellI];
       if (cFaces.size() <= 3)
       {
         cells.insert(cellI);
       }
-      forAll(cFaces, i)
+      FOR_ALL(cFaces, i)
       {
         if (cFaces[i] < 0 || cFaces[i] >= mesh.nFaces())
         {
@@ -97,7 +97,7 @@ mousse::label mousse::checkTopology
     }
   }
   {
-    pointSet points(mesh, "unusedPoints", mesh.nPoints()/100);
+    pointSet points{mesh, "unusedPoints", mesh.nPoints()/100};
     if (mesh.checkPoints(true, &points))
     {
       noFailedChecks++;
@@ -109,7 +109,7 @@ mousse::label mousse::checkTopology
     }
   }
   {
-    faceSet faces(mesh, "upperTriangularFace", mesh.nFaces()/100);
+    faceSet faces{mesh, "upperTriangularFace", mesh.nFaces()/100};
     if (mesh.checkUpperTriangular(true, &faces))
     {
       noFailedChecks++;
@@ -138,7 +138,7 @@ mousse::label mousse::checkTopology
   }
   if (allTopology)
   {
-    cellSet cells(mesh, "zipUpCells", mesh.nCells()/100);
+    cellSet cells{mesh, "zipUpCells", mesh.nCells()/100};
     if (mesh.checkCellsZipUp(true, &cells))
     {
       noFailedChecks++;
@@ -152,7 +152,7 @@ mousse::label mousse::checkTopology
   }
   if (allTopology)
   {
-    faceSet faces(mesh, "edgeFaces", mesh.nFaces()/100);
+    faceSet faces{mesh, "edgeFaces", mesh.nFaces()/100};
     if (mesh.checkFaceFaces(true, &faces))
     {
       noFailedChecks++;
@@ -169,27 +169,27 @@ mousse::label mousse::checkTopology
   }
   if (allTopology)
   {
-    labelList nInternalFaces(mesh.nCells(), 0);
+    labelList nInternalFaces{mesh.nCells(), 0};
     for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
     {
       nInternalFaces[mesh.faceOwner()[faceI]]++;
       nInternalFaces[mesh.faceNeighbour()[faceI]]++;
     }
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       if (patches[patchI].coupled())
       {
         const labelUList& owners = patches[patchI].faceCells();
-        forAll(owners, i)
+        FOR_ALL(owners, i)
         {
           nInternalFaces[owners[i]]++;
         }
       }
     }
-    cellSet oneCells(mesh, "oneInternalFaceCells", mesh.nCells()/100);
-    cellSet twoCells(mesh, "twoInternalFacesCells", mesh.nCells()/100);
-    forAll(nInternalFaces, cellI)
+    cellSet oneCells{mesh, "oneInternalFaceCells", mesh.nCells()/100};
+    cellSet twoCells{mesh, "twoInternalFacesCells", mesh.nCells()/100};
+    FOR_ALL(nInternalFaces, cellI)
     {
       if (nInternalFaces[cellI] <= 1)
       {
@@ -237,34 +237,34 @@ mousse::label mousse::checkTopology
         << mesh.time().timeName()/"cellToRegion"
         << endl;
       labelIOList ctr
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "cellToRegion",
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         rs
-      );
+      };
       ctr.write();
       // write cellSet for each region
-      PtrList<cellSet> cellRegions(rs.nRegions());
+      PtrList<cellSet> cellRegions{rs.nRegions()};
       for (label i = 0; i < rs.nRegions(); i++)
       {
         cellRegions.set
         (
           i,
           new cellSet
-          (
+          {
             mesh,
             "region" + mousse::name(i),
             mesh.nCells()/100
-          )
+          }
         );
       }
-      forAll(rs, i)
+      FOR_ALL(rs, i)
       {
         cellRegions[rs[i]].insert(i);
       }
@@ -290,11 +290,11 @@ mousse::label mousse::checkTopology
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
     // Non-manifold points
     pointSet points
-    (
+    {
       mesh,
       "nonManifoldPoints",
       mesh.nPoints()/1000
-    );
+    };
     Pout.setf(ios_base::left);
     Info<< "    "
       << setw(20) << "Patch"
@@ -309,7 +309,7 @@ mousse::label mousse::checkTopology
       Info<< " Bounding box";
     }
     Info<< endl;
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (!isA<processorPolyPatch>(pp))
@@ -360,8 +360,8 @@ mousse::label mousse::checkTopology
           const labelList& mp = pp.meshPoints();
           if (returnReduce(mp.size(), sumOp<label>()) > 0)
           {
-            boundBox bb(point::max, point::min);
-            forAll (mp, i)
+            boundBox bb{point::max, point::min};
+            FOR_ALL (mp, i)
             {
               bb.min() = min(bb.min(), pts[mp[i]]);
               bb.max() = max(bb.max(), pts[mp[i]]);

@@ -17,7 +17,7 @@ mousse::BinaryCollisionModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "BinaryCollisionModel<CloudType>::New"
       "(const dictionary&, CloudType&)"

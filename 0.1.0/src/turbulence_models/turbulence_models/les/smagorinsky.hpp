@@ -49,10 +49,6 @@ class Smagorinsky
 :
   public LESeddyViscosity<BasicTurbulenceModel>
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    Smagorinsky(const Smagorinsky&);
-    Smagorinsky& operator=(const Smagorinsky&);
 protected:
   // Protected data
     dimensionedScalar Ck_;
@@ -67,7 +63,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("Smagorinsky");
+  TYPE_NAME("Smagorinsky");
   // Constructors
     //- Construct from components
     Smagorinsky
@@ -81,6 +77,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    Smagorinsky(const Smagorinsky&) = delete;
+    Smagorinsky& operator=(const Smagorinsky&) = delete;
   //- Destructor
   virtual ~Smagorinsky()
   {}

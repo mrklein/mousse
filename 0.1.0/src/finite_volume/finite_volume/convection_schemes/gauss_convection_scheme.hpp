@@ -7,9 +7,13 @@
 //   Basic second-order convection using face-gradients and Gauss' theorem.
 // SourceFiles
 //   gauss_convection_scheme.cpp
+
 #ifndef gauss_convection_scheme_hpp_
 #define gauss_convection_scheme_hpp_
+
 #include "convection_scheme.hpp"
+#include "fv_mesh.hpp"
+
 namespace mousse
 {
 namespace fv
@@ -24,14 +28,9 @@ class gaussConvectionScheme
 {
   // Private data
     tmp<surfaceInterpolationScheme<Type> > tinterpScheme_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    gaussConvectionScheme(const gaussConvectionScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const gaussConvectionScheme&);
 public:
   //- Runtime type information
-  TypeName("Gauss");
+  TYPE_NAME("Gauss");
   // Constructors
     //- Construct from flux and interpolation scheme
     gaussConvectionScheme
@@ -41,8 +40,8 @@ public:
       const tmp<surfaceInterpolationScheme<Type> >& scheme
     )
     :
-      convectionScheme<Type>(mesh, faceFlux),
-      tinterpScheme_(scheme)
+      convectionScheme<Type>{mesh, faceFlux},
+      tinterpScheme_{scheme}
     {}
     //- Construct from flux and Istream
     gaussConvectionScheme
@@ -52,23 +51,20 @@ public:
       Istream& is
     )
     :
-      convectionScheme<Type>(mesh, faceFlux),
+      convectionScheme<Type>{mesh, faceFlux},
       tinterpScheme_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {
       is.rewind();
       word bounded(is);
-      if
-      (
-        warnUnboundedGauss
-      && word(mesh.ddtScheme("default")) == "steadyState"
-      && bounded != "bounded"
-      )
+      if (warnUnboundedGauss
+          && word(mesh.ddtScheme("default")) == "steadyState"
+          && bounded != "bounded")
       {
         fileNameList controlDictFiles(findEtcFiles("controlDict"));
-        IOWarningIn("gaussConvectionScheme", is)
+        IO_WARNING_IN("gaussConvectionScheme", is)
           << "Unbounded 'Gauss' div scheme used in "
            "steady-state solver, use 'bounded Gauss' "
            "to ensure boundedness.\n"
@@ -78,6 +74,10 @@ public:
           << endl;
       }
     }
+    //- Disallow default bitwise copy construct
+    gaussConvectionScheme(const gaussConvectionScheme&) = delete;
+    //- Disallow default bitwise assignment
+    gaussConvectionScheme& operator=(const gaussConvectionScheme&) = delete;
   // Member Functions
     const surfaceInterpolationScheme<Type>& interpScheme() const;
     tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate

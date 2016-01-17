@@ -5,11 +5,13 @@
 #include "surf_zone.hpp"
 #include "dictionary.hpp"
 #include "word.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(surfZone, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(surfZone, 0);
 }
+
 // Constructors 
 mousse::surfZone::surfZone()
 :

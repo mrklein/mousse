@@ -28,9 +28,9 @@ protected:
     autoPtr<TimeScaleModel> timeScaleModel_;
 public:
   //- Runtime type information
-  TypeName("isotropyModel");
+  TYPE_NAME("isotropyModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     IsotropyModel,
@@ -69,10 +69,10 @@ public:
 };
 }  // namespace mousse
 
-#define makeIsotropyModel(CloudType)                                          \
+#define MAKE_ISOTROPY_MODEL(CloudType)                                        \
                                                                               \
   typedef mousse::CloudType::MPPICCloudType MPPICCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::IsotropyModel<MPPICCloudType>,                                    \
     0                                                                         \
@@ -80,17 +80,17 @@ public:
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       IsotropyModel<MPPICCloudType>,                                          \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeIsotropyModelType(SS, CloudType)                                  \
+#define MAKE_ISOTROPY_MODEL_TYPE(SS, CloudType)                               \
                                                                               \
   typedef mousse::CloudType::MPPICCloudType MPPICCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
     (mousse::IsotropyModels::SS<MPPICCloudType>, 0);                          \
                                                                               \
   mousse::IsotropyModel<MPPICCloudType>::                                     \

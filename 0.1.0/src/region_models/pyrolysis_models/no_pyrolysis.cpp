@@ -13,9 +13,9 @@ namespace regionModels
 namespace pyrolysisModels
 {
 // Static Data Members
-defineTypeNameAndDebug(noPyrolysis, 0);
-addToRunTimeSelectionTable(pyrolysisModel, noPyrolysis, mesh);
-addToRunTimeSelectionTable(pyrolysisModel, noPyrolysis, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(noPyrolysis, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(pyrolysisModel, noPyrolysis, mesh);
+ADD_TO_RUN_TIME_SELECTION_TABLE(pyrolysisModel, noPyrolysis, dictionary);
 // Protected Member Functions 
 void noPyrolysis::constructThermoChemistry()
 {
@@ -53,15 +53,15 @@ bool noPyrolysis::read(const dictionary& dict)
 // Constructors 
 noPyrolysis::noPyrolysis
 (
-  const word& modelType,
+  const word& /*modelType*/,
   const fvMesh& mesh,
   const word& regionType
 )
 :
-  pyrolysisModel(mesh, regionType),
-  solidChemistry_(NULL),
-  solidThermo_(NULL),
-  radiation_(NULL)
+  pyrolysisModel{mesh, regionType},
+  solidChemistry_{NULL},
+  solidThermo_{NULL},
+  radiation_{NULL}
 {
   if (active())
   {
@@ -70,16 +70,16 @@ noPyrolysis::noPyrolysis
 }
 noPyrolysis::noPyrolysis
 (
-  const word& modelType,
+  const word& /*modelType*/,
   const fvMesh& mesh,
-  const dictionary& dict,
+  const dictionary& /*dict*/,
   const word& regionType
 )
 :
-  pyrolysisModel(mesh, regionType),
-  solidChemistry_(NULL),
-  solidThermo_(NULL),
-  radiation_(NULL)
+  pyrolysisModel{mesh, regionType},
+  solidChemistry_{NULL},
+  solidThermo_{NULL},
+  radiation_{NULL}
 {
   if (active())
   {
@@ -120,7 +120,7 @@ tmp<volScalarField> noPyrolysis::kappa() const
 }
 const surfaceScalarField& noPyrolysis::phiGas() const
 {
-  FatalErrorIn("const volScalarField& noPyrolysis::phiGas() const")
+  FATAL_ERROR_IN("const volScalarField& noPyrolysis::phiGas() const")
     << "phiGas field not available for " << type() << abort(FatalError);
   return surfaceScalarField::null();
 }

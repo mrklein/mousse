@@ -286,26 +286,26 @@ steadyStateDdtScheme<Type>::fvcDdtUfCorr
 )
 {
   return tmp<fluxFieldType>
-  (
+  {
     new fluxFieldType
-    (
+    {
       IOobject
-      (
+      {
         "ddtCorr("
-       + rho.name()
-       + ',' + U.name() + ',' + Uf.name() + ')',
+          + rho.name()
+          + ',' + U.name() + ',' + Uf.name() + ')',
         mesh().time().timeName(),
         mesh()
-      ),
+      },
       mesh(),
       dimensioned<typename flux<Type>::type>
-      (
+      {
         "0",
         Uf.dimensions()*dimArea/dimTime,
         pTraits<typename flux<Type>::type>::zero
-      )
-    )
-  );
+      }
+    }
+  };
 }
 template<class Type>
 tmp<typename steadyStateDdtScheme<Type>::fluxFieldType>
@@ -317,50 +317,50 @@ steadyStateDdtScheme<Type>::fvcDdtPhiCorr
 )
 {
   return tmp<fluxFieldType>
-  (
+  {
     new fluxFieldType
-    (
+    {
       IOobject
-      (
+      {
         "ddtCorr("
-       + rho.name()
-       + ',' + U.name() + ',' + phi.name() + ')',
+          + rho.name()
+          + ',' + U.name() + ',' + phi.name() + ')',
         mesh().time().timeName(),
         mesh()
-      ),
+      },
       mesh(),
       dimensioned<typename flux<Type>::type>
-      (
+      {
         "0",
         phi.dimensions()/dimTime,
         pTraits<typename flux<Type>::type>::zero
-      )
-    )
-  );
+      }
+    }
+  };
 }
 template<class Type>
 tmp<surfaceScalarField> steadyStateDdtScheme<Type>::meshPhi
 (
-  const GeometricField<Type, fvPatchField, volMesh>& vf
+  const GeometricField<Type, fvPatchField, volMesh>& /*vf*/
 )
 {
   return tmp<surfaceScalarField>
-  (
+  {
     new surfaceScalarField
-    (
+    {
       IOobject
-      (
+      {
         "meshPhi",
         mesh().time().timeName(),
         mesh(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh(),
-      dimensionedScalar("0", dimVolume/dimTime, 0.0)
-    )
-  );
+      dimensionedScalar{"0", dimVolume/dimTime, 0.0}
+    }
+  };
 }
 }  // namespace fv
 }  // namespace mousse

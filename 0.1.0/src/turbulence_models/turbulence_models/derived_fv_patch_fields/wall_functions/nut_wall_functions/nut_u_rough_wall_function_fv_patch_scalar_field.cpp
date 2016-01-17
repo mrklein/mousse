@@ -31,7 +31,7 @@ tmp<scalarField> nutURoughWallFunctionFvPatchScalarField::calcNut() const
   scalarField& yPlus = tyPlus();
   tmp<scalarField> tnutw(new scalarField(patch().size(), 0.0));
   scalarField& nutw = tnutw();
-  forAll(yPlus, facei)
+  FOR_ALL(yPlus, facei)
   {
     if (yPlus[facei] > yPlusLam_)
     {
@@ -71,7 +71,7 @@ tmp<scalarField> nutURoughWallFunctionFvPatchScalarField::calcYPlus
     {
       // If KsPlus is based on YPlus the extra term added to the law
       // of the wall will depend on yPlus
-      forAll(yPlus, facei)
+      FOR_ALL(yPlus, facei)
       {
         const scalar magUpara = magUp[facei];
         const scalar Re = magUpara*y[facei]/nuw[facei];
@@ -125,7 +125,7 @@ tmp<scalarField> nutURoughWallFunctionFvPatchScalarField::calcYPlus
   else
   {
     // Smooth Walls
-    forAll(yPlus, facei)
+    FOR_ALL(yPlus, facei)
     {
       const scalar magUpara = magUp[facei];
       const scalar Re = magUpara*y[facei]/nuw[facei];
@@ -151,10 +151,10 @@ nutURoughWallFunctionFvPatchScalarField::nutURoughWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF),
-  roughnessHeight_(pTraits<scalar>::zero),
-  roughnessConstant_(pTraits<scalar>::zero),
-  roughnessFactor_(pTraits<scalar>::zero)
+  nutWallFunctionFvPatchScalarField{p, iF},
+  roughnessHeight_{pTraits<scalar>::zero},
+  roughnessConstant_{pTraits<scalar>::zero},
+  roughnessFactor_{pTraits<scalar>::zero}
 {}
 nutURoughWallFunctionFvPatchScalarField::nutURoughWallFunctionFvPatchScalarField
 (
@@ -164,10 +164,10 @@ nutURoughWallFunctionFvPatchScalarField::nutURoughWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  nutWallFunctionFvPatchScalarField(ptf, p, iF, mapper),
-  roughnessHeight_(ptf.roughnessHeight_),
-  roughnessConstant_(ptf.roughnessConstant_),
-  roughnessFactor_(ptf.roughnessFactor_)
+  nutWallFunctionFvPatchScalarField{ptf, p, iF, mapper},
+  roughnessHeight_{ptf.roughnessHeight_},
+  roughnessConstant_{ptf.roughnessConstant_},
+  roughnessFactor_{ptf.roughnessFactor_}
 {}
 nutURoughWallFunctionFvPatchScalarField::nutURoughWallFunctionFvPatchScalarField
 (
@@ -176,20 +176,20 @@ nutURoughWallFunctionFvPatchScalarField::nutURoughWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF, dict),
-  roughnessHeight_(readScalar(dict.lookup("roughnessHeight"))),
-  roughnessConstant_(readScalar(dict.lookup("roughnessConstant"))),
-  roughnessFactor_(readScalar(dict.lookup("roughnessFactor")))
+  nutWallFunctionFvPatchScalarField{p, iF, dict},
+  roughnessHeight_{readScalar(dict.lookup("roughnessHeight"))},
+  roughnessConstant_{readScalar(dict.lookup("roughnessConstant"))},
+  roughnessFactor_{readScalar(dict.lookup("roughnessFactor"))}
 {}
 nutURoughWallFunctionFvPatchScalarField::nutURoughWallFunctionFvPatchScalarField
 (
   const nutURoughWallFunctionFvPatchScalarField& rwfpsf
 )
 :
-  nutWallFunctionFvPatchScalarField(rwfpsf),
-  roughnessHeight_(rwfpsf.roughnessHeight_),
-  roughnessConstant_(rwfpsf.roughnessConstant_),
-  roughnessFactor_(rwfpsf.roughnessFactor_)
+  nutWallFunctionFvPatchScalarField{rwfpsf},
+  roughnessHeight_{rwfpsf.roughnessHeight_},
+  roughnessConstant_{rwfpsf.roughnessConstant_},
+  roughnessFactor_{rwfpsf.roughnessFactor_}
 {}
 nutURoughWallFunctionFvPatchScalarField::nutURoughWallFunctionFvPatchScalarField
 (
@@ -197,10 +197,10 @@ nutURoughWallFunctionFvPatchScalarField::nutURoughWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(rwfpsf, iF),
-  roughnessHeight_(rwfpsf.roughnessHeight_),
-  roughnessConstant_(rwfpsf.roughnessConstant_),
-  roughnessFactor_(rwfpsf.roughnessFactor_)
+  nutWallFunctionFvPatchScalarField{rwfpsf, iF},
+  roughnessHeight_{rwfpsf.roughnessHeight_},
+  roughnessConstant_{rwfpsf.roughnessConstant_},
+  roughnessFactor_{rwfpsf.roughnessFactor_}
 {}
 // Member Functions 
 tmp<scalarField> nutURoughWallFunctionFvPatchScalarField::yPlus() const
@@ -230,7 +230,7 @@ void nutURoughWallFunctionFvPatchScalarField::write(Ostream& os) const
     << roughnessFactor_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   nutURoughWallFunctionFvPatchScalarField

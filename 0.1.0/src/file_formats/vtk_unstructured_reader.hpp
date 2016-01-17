@@ -18,18 +18,25 @@
 //    in faces() back to vtk numbering.
 // SourceFiles
 //   vtk_unstructured_reader.cpp
+
 #ifndef vtk_unstructured_reader_hpp_
 #define vtk_unstructured_reader_hpp_
+
 #include "object_registry.hpp"
 #include "cell_shape_list.hpp"
 #include "hash_set.hpp"
 #include "named_enum.hpp"
+
 namespace mousse
 {
+
 class vtkUnstructuredReader
 {
+
 public:
+
   // Public data types
+
     //- Enumeration defining the vtk data types
     enum vtkDataType
     {
@@ -43,6 +50,7 @@ public:
       VTK_ID
     };
     static const NamedEnum<vtkDataType, 8> vtkDataTypeNames;
+
     //- Enumeration defining the vtk dataset types
     enum vtkDataSetType
     {
@@ -51,6 +59,7 @@ public:
       VTK_VECTORS
     };
     static const NamedEnum<vtkDataSetType, 3> vtkDataSetTypeNames;
+
     //- Enumeration defining the parse mode - what type of data is being
     //  read
     enum parseMode
@@ -62,6 +71,7 @@ public:
       POINT_DATA
     };
     static const NamedEnum<parseMode, 5> parseModeNames;
+
     //- Enumeration defining the cell types
     enum vtkTypes
     {
@@ -83,35 +93,52 @@ public:
       VTK_PENTAGONAL_PRISM = 15,
       VTK_HEXAGONAL_PRISM  = 16,
     };
+
 private:
+
   //- Header
   string header_;
+
   //- Title
   string title_;
+
   //- DataType
   string dataType_;
+
   // Geometry
+
     //- Points
     pointField points_;
+
     //- 3D cells.
     cellShapeList cells_;
+
     //- Map from cells back to original ID
     labelList cellMap_;
+
     //- 2D cells (=faces)
     faceList faces_;
+
     //- Map from faces back to original ID
     labelList faceMap_;
+
     //- 1D cells (=edges)
     labelListList lines_;
     labelList lineMap_;
+
   // Data
+
     //- Cell based fields
     objectRegistry cellData_;
+
     //- Point based fields
     objectRegistry pointData_;
+
     //- Other fields
     objectRegistry otherData_;
+
   // Private Member Functions
+
     template<class T>
     void readBlock
     (
@@ -119,18 +146,21 @@ private:
       const label n,
       List<T>& lst
     ) const;
+
     void warnUnhandledType
     (
       Istream& inFile,
       const label type,
       labelHashSet& warningGiven
     ) const;
+
     void extractCells
     (
       Istream& inFile,
       const labelList& cellTypes,
       const labelList& cellVertData
     );
+
     void readField
     (
       ISstream& inFile,
@@ -139,118 +169,151 @@ private:
       const word& dataType,
       const label size
     ) const;
+
     wordList readFieldArray
     (
       ISstream& inFile,
       objectRegistry& obj,
       const label wantedSize
     ) const;
+
     objectRegistry& selectRegistry(const parseMode readMode);
+
     void read(ISstream& inFile);
-    //- Dissallow assignment
-    void operator=(const vtkUnstructuredReader&);
+
 public:
+
   //- Runtime type information
-  ClassName("vtkUnstructuredReader");
+  CLASS_NAME("vtkUnstructuredReader");
+
   // Constructors
+
     //- Construct from Istream, read all
     vtkUnstructuredReader(const objectRegistry& obr, ISstream&);
+
+    //- Dissallow assignment
+    void operator=(const vtkUnstructuredReader&) = delete;
+
   // Member Functions
+
     //- Header
     const string header() const
     {
       return header_;
     }
+
     //- Title
     const string& title() const
     {
       return title_;
     }
+
     //- DataType
     const string& dataType() const
     {
       return dataType_;
     }
+
     //- Points
     const pointField& points() const
     {
       return points_;
     }
+
     pointField& points()
     {
       return points_;
     }
+
     //- 3D cells.
     const cellShapeList& cells() const
     {
       return cells_;
     }
+
     cellShapeList& cells()
     {
       return cells_;
     }
+
     const labelList& cellMap() const
     {
       return cellMap_;
     }
+
     //- 2D cells (=faces)
     const faceList& faces() const
     {
       return faces_;
     }
+
     faceList& faces()
     {
       return faces_;
     }
+
     const labelList& faceMap() const
     {
       return faceMap_;
     }
+
     //- 1D cells (=open lines)
     const labelListList& lines() const
     {
       return lines_;
     }
+
     labelListList& lines()
     {
       return lines_;
     }
+
     const labelList& lineMap() const
     {
       return lineMap_;
     }
+
     //- Cell based fields
     const objectRegistry& cellData() const
     {
       return cellData_;
     }
+
     objectRegistry& cellData()
     {
       return cellData_;
     }
+
     //- Point based fields
     const objectRegistry& pointData() const
     {
       return pointData_;
     }
+
     objectRegistry& pointData()
     {
       return pointData_;
     }
+
     //- Other fields
     const objectRegistry& otherData() const
     {
       return otherData_;
     }
+
     objectRegistry& otherData()
     {
       return otherData_;
     }
+
     //- Debug: print contents of objectRegistry
     template<class Type>
     void printFieldStats(const objectRegistry&) const;
+
 };
+
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "vtk_unstructured_reader_templates.cpp"
 #endif

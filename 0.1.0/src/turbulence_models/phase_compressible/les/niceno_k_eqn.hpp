@@ -52,9 +52,6 @@ class NicenoKEqn
       typename BasicTurbulenceModel::transportModel
     >&
     gasTurbulence() const;
-    // Disallow default bitwise copy construct and assignment
-    NicenoKEqn(const NicenoKEqn&);
-    NicenoKEqn& operator=(const NicenoKEqn&);
 protected:
   // Protected data
     // Model coefficients
@@ -71,7 +68,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("NicenoKEqn");
+  TYPE_NAME("NicenoKEqn");
   // Constructors
     //- Construct from components
     NicenoKEqn
@@ -85,6 +82,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    NicenoKEqn(const NicenoKEqn&) = delete;
+    NicenoKEqn& operator=(const NicenoKEqn&) = delete;
   //- Destructor
   virtual ~NicenoKEqn()
   {}

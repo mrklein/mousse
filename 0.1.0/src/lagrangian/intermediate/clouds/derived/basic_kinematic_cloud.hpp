@@ -12,6 +12,6 @@
 #include "basic_kinematic_parcel.hpp"
 namespace mousse
 {
-  typedef KinematicCloud<Cloud<basicKinematicParcel> > basicKinematicCloud;
+  typedef KinematicCloud<Cloud<basicKinematicParcel>> basicKinematicCloud;
 }
 #endif

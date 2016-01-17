@@ -45,7 +45,7 @@ class PatchFlowRateInjection
     const autoPtr<distributionModels::distributionModel> sizeDistribution_;
 public:
   //- Runtime type information
-  TypeName("patchFlowRateInjection");
+  TYPE_NAME("patchFlowRateInjection");
   // Constructors
     //- Construct from dictionary
     PatchFlowRateInjection

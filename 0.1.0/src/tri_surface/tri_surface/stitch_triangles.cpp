@@ -28,7 +28,7 @@ bool mousse::triSurface::stitchTriangles
     ps.transfer(newPoints);
     // Reset the triangle point labels to the unique points array
     label newTriangleI = 0;
-    forAll(*this, i)
+    FOR_ALL(*this, i)
     {
       const labelledTri& tri = operator[](i);
       labelledTri newTri
@@ -72,10 +72,10 @@ bool mousse::triSurface::stitchTriangles
       // 1. Detect only
       PackedBoolList pointIsUsed(ps.size());
       label nPoints = 0;
-      forAll(*this, i)
+      FOR_ALL(*this, i)
       {
         const triSurface::FaceType& f = operator[](i);
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label pointI = f[fp];
           if (pointIsUsed.set(pointI, 1))
@@ -89,7 +89,7 @@ bool mousse::triSurface::stitchTriangles
         // 2. Compact.
         pointMap.setSize(ps.size());
         label newPointI = 0;
-        forAll(pointIsUsed, pointI)
+        FOR_ALL(pointIsUsed, pointI)
         {
           if (pointIsUsed[pointI])
           {
@@ -99,7 +99,7 @@ bool mousse::triSurface::stitchTriangles
         }
         ps.setSize(newPointI);
         newTriangleI = 0;
-        forAll(*this, i)
+        FOR_ALL(*this, i)
         {
           const labelledTri& tri = operator[](i);
           operator[](newTriangleI++) = labelledTri

@@ -32,14 +32,9 @@ private:
       scalar beta_;
       //- Bar(kappa) coefficient
       scalar kappaBar_;
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    standardRadiation(const standardRadiation&);
-    //- Disallow default bitwise assignment
-    void operator=(const standardRadiation&);
 public:
   //- Runtime type information
-  TypeName("standardRadiation");
+  TYPE_NAME("standardRadiation");
   // Constructors
     //- Construct from surface film model and dictionary
     standardRadiation
@@ -47,6 +42,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    standardRadiation(const standardRadiation&) = delete;
+    //- Disallow default bitwise assignment
+    standardRadiation& operator=(const standardRadiation&) = delete;
   //- Destructor
   virtual ~standardRadiation();
   // Member Functions

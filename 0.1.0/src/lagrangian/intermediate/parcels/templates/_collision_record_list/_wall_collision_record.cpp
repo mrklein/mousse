@@ -50,7 +50,7 @@ void mousse::WallCollisionRecord<Type>::operator=
   // Check for assignment to self
   if (this == &rhs)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::WallCollisionRecord<Type>::operator="
       "(const mousse::WallCollisionRecord<Type>&)"

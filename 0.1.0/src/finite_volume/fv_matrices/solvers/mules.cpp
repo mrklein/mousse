@@ -24,7 +24,7 @@ void mousse::MULES::explicitSolve
 }
 void mousse::MULES::limitSum(UPtrList<scalarField>& phiPsiCorrs)
 {
-  forAll(phiPsiCorrs[0], facei)
+  FOR_ALL(phiPsiCorrs[0], facei)
   {
     scalar sumPos = 0;
     scalar sumNeg = 0;

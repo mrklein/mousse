@@ -56,7 +56,7 @@ class regionToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("regionToCell");
+  TYPE_NAME("regionToCell");
   // Constructors
     //- Construct from components
     regionToCell

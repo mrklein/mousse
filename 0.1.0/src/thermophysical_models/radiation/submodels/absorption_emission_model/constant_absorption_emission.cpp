@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(constantAbsorptionEmission, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(constantAbsorptionEmission, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       absorptionEmissionModel,
       constantAbsorptionEmission,
@@ -36,51 +36,51 @@ mousse::radiation::constantAbsorptionEmission::~constantAbsorptionEmission()
 {}
 // Member Functions 
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::constantAbsorptionEmission::aCont(const label bandI) const
+mousse::radiation::constantAbsorptionEmission::aCont(const label /*bandI*/) const
 {
   tmp<volScalarField> ta
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "a",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
       a_
-    )
-  );
+    }
+  };
   return ta;
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::constantAbsorptionEmission::eCont(const label bandI) const
+mousse::radiation::constantAbsorptionEmission::eCont(const label /*bandI*/) const
 {
   tmp<volScalarField> te
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "e",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
       e_
-    )
-  );
+    }
+  };
   return te;
 }
 mousse::tmp<mousse::volScalarField>
-mousse::radiation::constantAbsorptionEmission::ECont(const label bandI) const
+mousse::radiation::constantAbsorptionEmission::ECont(const label /*bandI*/) const
 {
   tmp<volScalarField> tE
   (

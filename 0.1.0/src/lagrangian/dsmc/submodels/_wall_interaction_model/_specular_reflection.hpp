@@ -20,7 +20,7 @@ class SpecularReflection
 {
 public:
   //- Runtime type information
-  TypeName("SpecularReflection");
+  TYPE_NAME("SpecularReflection");
   // Constructors
     //- Construct from dictionary
     SpecularReflection

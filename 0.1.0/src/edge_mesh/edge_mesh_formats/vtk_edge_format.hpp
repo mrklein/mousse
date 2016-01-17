@@ -18,11 +18,6 @@ class VTKedgeFormat
 :
   public edgeMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    VTKedgeFormat(const VTKedgeFormat&);
-    //- Disallow default bitwise assignment
-    void operator=(const VTKedgeFormat&);
 protected:
   // Protected Member Functions
     //- Write header information with points
@@ -37,6 +32,10 @@ public:
   // Constructors
     //- Construct from file name
     VTKedgeFormat(const fileName&);
+    //- Disallow default bitwise copy construct
+    VTKedgeFormat(const VTKedgeFormat&) = delete;
+    //- Disallow default bitwise assignment
+    VTKedgeFormat& operator=(const VTKedgeFormat&) = delete;
   // Selectors
     //- Read file and return surface
     static autoPtr<edgeMesh> New(const fileName& name)

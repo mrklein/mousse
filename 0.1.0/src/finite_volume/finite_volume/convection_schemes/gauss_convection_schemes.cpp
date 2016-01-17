@@ -4,8 +4,10 @@
 
 #include "gauss_convection_scheme.hpp"
 #include "fv_mesh.hpp"
+
 int mousse::fv::warnUnboundedGauss
 (
   mousse::debug::debugSwitch("warnUnboundedGauss", true)
 );
-makeFvConvectionScheme(gaussConvectionScheme)
+
+MAKE_FV_CONVECTION_SCHEME(gaussConvectionScheme)

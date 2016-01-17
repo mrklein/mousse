@@ -32,9 +32,9 @@ protected:
     scalar TABtwoWeCrit_;
 public:
   //- Runtime type information
-  TypeName("breakupModel");
+  TYPE_NAME("breakupModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     BreakupModel,
@@ -59,11 +59,11 @@ public:
     //- Construct copy
     BreakupModel(const BreakupModel<CloudType>& bum);
     //- Construct and return a clone
-    virtual autoPtr<BreakupModel<CloudType> > clone() const = 0;
+    virtual autoPtr<BreakupModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~BreakupModel();
   //- Selector
-  static autoPtr<BreakupModel<CloudType> > New
+  static autoPtr<BreakupModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -123,10 +123,10 @@ public:
 };
 }  // namespace mousse
 
-#define makeBreakupModel(CloudType)                                           \
+#define MAKE_BREAKUP_MODEL(CloudType)                                         \
                                                                               \
   typedef mousse::CloudType::sprayCloudType sprayCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::BreakupModel<sprayCloudType>,                                     \
     0                                                                         \
@@ -134,23 +134,23 @@ public:
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       BreakupModel<sprayCloudType>,                                           \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeBreakupModelType(SS, CloudType)                                   \
+#define MAKE_BREAKUP_MODEL_TYPE(SS, CloudType)                                \
                                                                               \
   typedef mousse::CloudType::sprayCloudType sprayCloudType;                   \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<sprayCloudType>, 0);         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<sprayCloudType>, 0);   \
                                                                               \
   mousse::BreakupModel<sprayCloudType>::                                      \
-    adddictionaryConstructorToTable<mousse::SS<sprayCloudType> >              \
+    adddictionaryConstructorToTable<mousse::SS<sprayCloudType>>               \
       add##SS##CloudType##sprayCloudType##ConstructorToTable_;
 
 #ifdef NoRepository
-#   include "_breakup_model.cpp"
+#include "_breakup_model.cpp"
 #endif
 #endif

@@ -39,7 +39,7 @@ class processorCyclicFvPatchField
     const processorCyclicFvPatch& procPatch_;
 public:
   //- Runtime type information
-  TypeName(processorCyclicFvPatch::typeName_());
+  TYPE_NAME(processorCyclicFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     processorCyclicFvPatchField

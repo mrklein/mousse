@@ -4,11 +4,14 @@
 //   surface_interpolate.cpp
 #ifndef surface_interpolate_hpp_
 #define surface_interpolate_hpp_
+
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "surface_interpolation_scheme.hpp"
 #include "one.hpp"
+#include "field_field.hpp"
+
 namespace mousse
 {
 namespace fvc
@@ -109,11 +112,14 @@ namespace fvc
     const tmp<GeometricField<Type, fvPatchField, volMesh> >& tvf
   );
   //- Interpolate field onto faces using 'interpolate(\<name\>)'
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-internal"
   template<class Type>
   static tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate
   (
     const GeometricField<Type, fvPatchField, volMesh>& tvf
   );
+#pragma clang diagnostic pop
   //- Interpolate boundary field onto faces (simply a type conversion)
   template<class Type>
   static tmp<FieldField<fvsPatchField, Type> > interpolate

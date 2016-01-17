@@ -8,6 +8,6 @@
 #include "field_types.hpp"
 namespace mousse
 {
-makePatchTypeFieldTypedefs(cellMotion);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(cellMotion);
 }  // namespace mousse
 #endif

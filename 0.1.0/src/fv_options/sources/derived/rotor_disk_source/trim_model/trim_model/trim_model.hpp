@@ -26,9 +26,9 @@ protected:
     dictionary coeffs_;
 public:
   //- Run-time type information
-  TypeName("trimModel");
+  TYPE_NAME("trimModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       trimModel,

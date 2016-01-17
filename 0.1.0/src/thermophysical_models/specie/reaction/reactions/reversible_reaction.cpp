@@ -107,7 +107,7 @@ mousse::scalar mousse::ReversibleReaction
   const scalar kfwd,
   const scalar p,
   const scalar T,
-  const scalarField& c
+  const scalarField& /*c*/
 ) const
 {
   scalar Kc = this->Kc(p, T);

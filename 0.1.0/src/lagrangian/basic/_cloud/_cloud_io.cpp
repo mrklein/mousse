@@ -13,7 +13,7 @@ template<class ParticleType>
 void mousse::Cloud<ParticleType>::readCloudUniformProperties()
 {
   IOobject dictObj
-  (
+  {
     cloudPropertiesName,
     time().timeName(),
     "uniform"/cloud::prefix/name(),
@@ -21,7 +21,7 @@ void mousse::Cloud<ParticleType>::readCloudUniformProperties()
     IOobject::MUST_READ_IF_MODIFIED,
     IOobject::NO_WRITE,
     false
-  );
+  };
   if (dictObj.headerOk())
   {
     const IOdictionary uniformPropsDict(dictObj);
@@ -41,9 +41,9 @@ template<class ParticleType>
 void mousse::Cloud<ParticleType>::writeCloudUniformProperties() const
 {
   IOdictionary uniformPropsDict
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       cloudPropertiesName,
       time().timeName(),
       "uniform"/cloud::prefix/name(),
@@ -51,13 +51,13 @@ void mousse::Cloud<ParticleType>::writeCloudUniformProperties() const
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    )
-  );
+    }
+  };
   labelList np(Pstream::nProcs(), 0);
   np[Pstream::myProcNo()] = ParticleType::particleCount_;
   Pstream::listCombineGather(np, maxEqOp<label>());
   Pstream::listCombineScatter(np);
-  forAll(np, i)
+  FOR_ALL(np, i)
   {
     word procName("processor" + mousse::name(i));
     uniformPropsDict.add(procName, dictionary());
@@ -97,7 +97,7 @@ void mousse::Cloud<ParticleType>::initCloud(const bool checkClass)
   // them, otherwise, if some processors have no particles then
   // there is a comms mismatch.
   polyMesh_.tetBasePtIs();
-  forAllIter(typename Cloud<ParticleType>, *this, pIter)
+  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter)
   {
     ParticleType& p = pIter();
     p.initCellFacePt();
@@ -146,14 +146,14 @@ mousse::IOobject mousse::Cloud<ParticleType>::fieldIOobject
 ) const
 {
   return IOobject
-  (
+  {
     fieldName,
     time().timeName(),
     *this,
     r,
     IOobject::NO_WRITE,
     false
-  );
+  };
 }
 template<class ParticleType>
 template<class DataType>
@@ -165,14 +165,15 @@ void mousse::Cloud<ParticleType>::checkFieldIOobject
 {
   if (data.size() != c.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void Cloud<ParticleType>::checkFieldIOobject"
       "(const Cloud<ParticleType>&, const IOField<DataType>&) const"
-    )   << "Size of " << data.name()
-      << " field " << data.size()
-      << " does not match the number of particles " << c.size()
-      << abort(FatalError);
+    )
+    << "Size of " << data.name()
+    << " field " << data.size()
+    << " does not match the number of particles " << c.size()
+    << abort(FatalError);
   }
 }
 template<class ParticleType>
@@ -185,17 +186,18 @@ void mousse::Cloud<ParticleType>::checkFieldFieldIOobject
 {
   if (data.size() != c.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void Cloud<ParticleType>::checkFieldFieldIOobject"
       "("
         "const Cloud<ParticleType>&, "
         "const CompactIOField<Field<DataType>, DataType>&"
       ") const"
-    )   << "Size of " << data.name()
-      << " field " << data.size()
-      << " does not match the number of particles " << c.size()
-      << abort(FatalError);
+    )
+    << "Size of " << data.name()
+    << " field " << data.size()
+    << " does not match the number of particles " << c.size()
+    << abort(FatalError);
   }
 }
 template<class ParticleType>

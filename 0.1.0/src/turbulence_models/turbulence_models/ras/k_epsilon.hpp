@@ -49,10 +49,6 @@ class kEpsilon
 :
   public eddyViscosity<RASModel<BasicTurbulenceModel> >
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    kEpsilon(const kEpsilon&);
-    kEpsilon& operator=(const kEpsilon&);
 protected:
   // Protected data
     // Model coefficients
@@ -74,7 +70,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("kEpsilon");
+  TYPE_NAME("kEpsilon");
   // Constructors
     //- Construct from components
     kEpsilon
@@ -88,6 +84,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    kEpsilon(const kEpsilon&) = delete;
+    kEpsilon& operator=(const kEpsilon&) = delete;
   //- Destructor
   virtual ~kEpsilon()
   {}

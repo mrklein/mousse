@@ -15,11 +15,11 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  filmRegionName_("surfaceFilmProperties"),
-  pyrolysisRegionName_("pyrolysisProperties"),
-  phiName_("phi"),
-  rhoName_("rho")
+  fixedValueFvPatchVectorField{p, iF},
+  filmRegionName_{"surfaceFilmProperties"},
+  pyrolysisRegionName_{"pyrolysisProperties"},
+  phiName_{"phi"},
+  rhoName_{"rho"}
 {}
 mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::
 filmPyrolysisVelocityCoupledFvPatchVectorField
@@ -30,11 +30,11 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(ptf, p, iF, mapper),
-  filmRegionName_(ptf.filmRegionName_),
-  pyrolysisRegionName_(ptf.pyrolysisRegionName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_)
+  fixedValueFvPatchVectorField{ptf, p, iF, mapper},
+  filmRegionName_{ptf.filmRegionName_},
+  pyrolysisRegionName_{ptf.pyrolysisRegionName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_}
 {}
 mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::
 filmPyrolysisVelocityCoupledFvPatchVectorField
@@ -44,17 +44,17 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
+  fixedValueFvPatchVectorField{p, iF},
   filmRegionName_
-  (
+  {
     dict.lookupOrDefault<word>("filmRegion", "surfaceFilmProperties")
-  ),
+  },
   pyrolysisRegionName_
-  (
+  {
     dict.lookupOrDefault<word>("pyrolysisRegion", "pyrolysisProperties")
-  ),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho"))
+  },
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")}
 {
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
 }
@@ -64,11 +64,11 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   const filmPyrolysisVelocityCoupledFvPatchVectorField& fpvpvf
 )
 :
-  fixedValueFvPatchVectorField(fpvpvf),
-  filmRegionName_(fpvpvf.filmRegionName_),
-  pyrolysisRegionName_(fpvpvf.pyrolysisRegionName_),
-  phiName_(fpvpvf.phiName_),
-  rhoName_(fpvpvf.rhoName_)
+  fixedValueFvPatchVectorField{fpvpvf},
+  filmRegionName_{fpvpvf.filmRegionName_},
+  pyrolysisRegionName_{fpvpvf.pyrolysisRegionName_},
+  phiName_{fpvpvf.phiName_},
+  rhoName_{fpvpvf.rhoName_}
 {}
 mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::
 filmPyrolysisVelocityCoupledFvPatchVectorField
@@ -77,11 +77,11 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(fpvpvf, iF),
-  filmRegionName_(fpvpvf.filmRegionName_),
-  pyrolysisRegionName_(fpvpvf.pyrolysisRegionName_),
-  phiName_(fpvpvf.phiName_),
-  rhoName_(fpvpvf.rhoName_)
+  fixedValueFvPatchVectorField{fpvpvf, iF},
+  filmRegionName_{fpvpvf.filmRegionName_},
+  pyrolysisRegionName_{fpvpvf.pyrolysisRegionName_},
+  phiName_{fpvpvf.phiName_},
+  rhoName_{fpvpvf.rhoName_}
 {}
 // Member Functions 
 void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()
@@ -134,15 +134,16 @@ void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()"
-    )   << "Unable to process flux field phi with dimensions "
-      << phi.dimensions() << nl
-      << "    on patch " << patch().name()
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "Unable to process flux field phi with dimensions "
+    << phi.dimensions() << nl
+    << "    on patch " << patch().name()
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   const scalarField UAvePyr(-phiPyr/patch().magSf());
   const vectorField& nf = patch().nf();
@@ -178,9 +179,9 @@ void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    filmPyrolysisVelocityCoupledFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  filmPyrolysisVelocityCoupledFvPatchVectorField
+);
 }

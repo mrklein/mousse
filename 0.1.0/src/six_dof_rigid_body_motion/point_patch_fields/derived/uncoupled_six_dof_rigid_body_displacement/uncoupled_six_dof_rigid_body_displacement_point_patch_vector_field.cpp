@@ -19,10 +19,10 @@ uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(p, iF),
-  motion_(),
-  initialPoints_(p.localPoints()),
-  curTimeIndex_(-1)
+  fixedValuePointPatchField<vector>{p, iF},
+  motion_{},
+  initialPoints_{p.localPoints()},
+  curTimeIndex_{-1}
 {}
 uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField::
 uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField
@@ -32,9 +32,9 @@ uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValuePointPatchField<vector>(p, iF, dict),
-  motion_(dict, dict),
-  curTimeIndex_(-1)
+  fixedValuePointPatchField<vector>{p, iF, dict},
+  motion_{dict, dict},
+  curTimeIndex_{-1}
 {
   if (!dict.found("value"))
   {
@@ -58,10 +58,10 @@ uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField
   const pointPatchFieldMapper& mapper
 )
 :
-  fixedValuePointPatchField<vector>(ptf, p, iF, mapper),
-  motion_(ptf.motion_),
-  initialPoints_(ptf.initialPoints_, mapper),
-  curTimeIndex_(-1)
+  fixedValuePointPatchField<vector>{ptf, p, iF, mapper},
+  motion_{ptf.motion_},
+  initialPoints_{ptf.initialPoints_, mapper},
+  curTimeIndex_{-1}
 {}
 uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField::
 uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField
@@ -70,10 +70,10 @@ uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(ptf, iF),
-  motion_(ptf.motion_),
-  initialPoints_(ptf.initialPoints_),
-  curTimeIndex_(-1)
+  fixedValuePointPatchField<vector>{ptf, iF},
+  motion_{ptf.motion_},
+  initialPoints_{ptf.initialPoints_},
+  curTimeIndex_{-1}
 {}
 // Member Functions 
 void uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField::autoMap
@@ -146,7 +146,7 @@ void uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField::write
   initialPoints_.writeEntry("initialPoints", os);
   writeEntry("value", os);
 }
-makePointPatchTypeField
+MAKE_POINT_PATCH_TYPE_FIELD
 (
   pointPatchVectorField,
   uncoupledSixDoFRigidBodyDisplacementPointPatchVectorField

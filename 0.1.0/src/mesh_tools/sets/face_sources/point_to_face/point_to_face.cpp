@@ -9,21 +9,23 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(pointToFace, 0);
-  addToRunTimeSelectionTable(topoSetSource, pointToFace, word);
-  addToRunTimeSelectionTable(topoSetSource, pointToFace, istream);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::pointToFace::pointAction,
-    3
-  >::names[] =
-  {
-    "any",
-    "all",
-    "edge"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(pointToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, pointToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, pointToFace, istream);
+
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::pointToFace::pointAction,
+  3
+>::names[] =
+{
+  "any",
+  "all",
+  "edge"
+};
 }
+
 mousse::topoSetSource::addToUsageTable mousse::pointToFace::usage_
 (
   pointToFace::typeName,
@@ -33,6 +35,7 @@ mousse::topoSetSource::addToUsageTable mousse::pointToFace::usage_
   "    -all points in the pointSet\n\n"
   "    -two consecutive points (an edge) in the pointSet\n\n"
 );
+
 const mousse::NamedEnum<mousse::pointToFace::pointAction, 3>
   mousse::pointToFace::pointActionNames_;
 // Private Member Functions 
@@ -43,11 +46,11 @@ void mousse::pointToFace::combine(topoSet& set, const bool add) const
   if (option_ == ANY)
   {
     // Add faces with any point in loadedSet
-    forAllConstIter(pointSet, loadedSet, iter)
+    FOR_ALL_CONST_ITER(pointSet, loadedSet, iter)
     {
       const label pointI = iter.key();
       const labelList& pFaces = mesh_.pointFaces()[pointI];
-      forAll(pFaces, pFaceI)
+      FOR_ALL(pFaces, pFaceI)
       {
         addOrDelete(set, pFaces[pFaceI], add);
       }
@@ -58,11 +61,11 @@ void mousse::pointToFace::combine(topoSet& set, const bool add) const
     // Add all faces whose points are all in set.
     // Count number of points using face.
     Map<label> numPoints(loadedSet.size());
-    forAllConstIter(pointSet, loadedSet, iter)
+    FOR_ALL_CONST_ITER(pointSet, loadedSet, iter)
     {
       const label pointI = iter.key();
       const labelList& pFaces = mesh_.pointFaces()[pointI];
-      forAll(pFaces, pFaceI)
+      FOR_ALL(pFaces, pFaceI)
       {
         const label faceI = pFaces[pFaceI];
         Map<label>::iterator fndFace = numPoints.find(faceI);
@@ -78,7 +81,7 @@ void mousse::pointToFace::combine(topoSet& set, const bool add) const
     }
     // Include faces that are referenced as many times as there are points
     // in face -> all points of face
-    forAllConstIter(Map<label>, numPoints, iter)
+    FOR_ALL_CONST_ITER(Map<label>, numPoints, iter)
     {
       const label faceI = iter.key();
       if (iter() == mesh_.faces()[faceI].size())
@@ -90,10 +93,10 @@ void mousse::pointToFace::combine(topoSet& set, const bool add) const
   else if (option_ == EDGE)
   {
     const faceList& faces = mesh_.faces();
-    forAll(faces, faceI)
+    FOR_ALL(faces, faceI)
     {
       const face& f = faces[faceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (loadedSet.found(f[fp]) && loadedSet.found(f.nextLabel(fp)))
         {

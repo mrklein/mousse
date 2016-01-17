@@ -10,7 +10,7 @@ mousse::label mousse::ParticleErosion<CloudType>::applyToPatch
   const label globalPatchI
 ) const
 {
-  forAll(patchIDs_, i)
+  FOR_ALL(patchIDs_, i)
   {
     if (patchIDs_[i] == globalPatchI)
     {
@@ -28,7 +28,7 @@ void mousse::ParticleErosion<CloudType>::write()
   }
   else
   {
-    FatalErrorIn("void mousse::ParticleErosion<CloudType>::write()")
+    FATAL_ERROR_IN("void mousse::ParticleErosion<CloudType>::write()")
       << "QPtr not valid" << abort(FatalError);
   }
 }
@@ -51,12 +51,12 @@ mousse::ParticleErosion<CloudType>::ParticleErosion
   const wordList allPatchNames = owner.mesh().boundaryMesh().names();
   wordList patchName(this->coeffDict().lookup("patches"));
   labelHashSet uniquePatchIDs;
-  forAllReverse(patchName, i)
+  FOR_ALL_REVERSE(patchName, i)
   {
     labelList patchIDs = findStrings(patchName[i], allPatchNames);
     if (patchIDs.empty())
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::ParticleErosion<CloudType>::ParticleErosion"
         "("

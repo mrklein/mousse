@@ -48,7 +48,7 @@ void mousse::epsilonLowReWallFunctionFvPatchScalarField::calculate
       turbModel.GName()
     );
   // Set epsilon and G
-  forAll(nutw, facei)
+  FOR_ALL(nutw, facei)
   {
     label celli = patch.faceCells()[facei];
     scalar yPlus = Cmu25*sqrt(k[celli])*y[facei]/nuw[facei];
@@ -78,8 +78,8 @@ epsilonLowReWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  epsilonWallFunctionFvPatchScalarField(p, iF),
-  yPlusLam_(yPlusLam(kappa_, E_))
+  epsilonWallFunctionFvPatchScalarField{p, iF},
+  yPlusLam_{yPlusLam(kappa_, E_)}
 {}
 mousse::epsilonLowReWallFunctionFvPatchScalarField::
 epsilonLowReWallFunctionFvPatchScalarField
@@ -90,8 +90,8 @@ epsilonLowReWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  epsilonWallFunctionFvPatchScalarField(ptf, p, iF, mapper),
-  yPlusLam_(ptf.yPlusLam_)
+  epsilonWallFunctionFvPatchScalarField{ptf, p, iF, mapper},
+  yPlusLam_{ptf.yPlusLam_}
 {}
 mousse::epsilonLowReWallFunctionFvPatchScalarField::
 epsilonLowReWallFunctionFvPatchScalarField
@@ -101,8 +101,8 @@ epsilonLowReWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  epsilonWallFunctionFvPatchScalarField(p, iF, dict),
-  yPlusLam_(yPlusLam(kappa_, E_))
+  epsilonWallFunctionFvPatchScalarField{p, iF, dict},
+  yPlusLam_{yPlusLam(kappa_, E_)}
 {}
 mousse::epsilonLowReWallFunctionFvPatchScalarField::
 epsilonLowReWallFunctionFvPatchScalarField
@@ -110,8 +110,8 @@ epsilonLowReWallFunctionFvPatchScalarField
   const epsilonLowReWallFunctionFvPatchScalarField& ewfpsf
 )
 :
-  epsilonWallFunctionFvPatchScalarField(ewfpsf),
-  yPlusLam_(ewfpsf.yPlusLam_)
+  epsilonWallFunctionFvPatchScalarField{ewfpsf},
+  yPlusLam_{ewfpsf.yPlusLam_}
 {}
 mousse::epsilonLowReWallFunctionFvPatchScalarField::
 epsilonLowReWallFunctionFvPatchScalarField
@@ -120,14 +120,14 @@ epsilonLowReWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  epsilonWallFunctionFvPatchScalarField(ewfpsf, iF),
-  yPlusLam_(ewfpsf.yPlusLam_)
+  epsilonWallFunctionFvPatchScalarField{ewfpsf, iF},
+  yPlusLam_{ewfpsf.yPlusLam_}
 {}
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    epsilonLowReWallFunctionFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  epsilonLowReWallFunctionFvPatchScalarField
+);
 }

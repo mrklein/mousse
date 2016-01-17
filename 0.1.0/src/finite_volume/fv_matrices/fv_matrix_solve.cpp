@@ -4,6 +4,7 @@
 
 #include "_ldu_matrix.hpp"
 #include "diag_tensor_field.hpp"
+
 // Member Functions 
 template<class Type>
 void mousse::fvMatrix<Type>::setComponentReference
@@ -26,6 +27,8 @@ void mousse::fvMatrix<Type>::setComponentReference
     }
   }
 }
+
+
 template<class Type>
 mousse::solverPerformance mousse::fvMatrix<Type>::solve
 (
@@ -58,16 +61,19 @@ mousse::solverPerformance mousse::fvMatrix<Type>::solve
   }
   else
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "fvMatrix<Type>::solve(const dictionary& solverControls)",
       solverControls
-    )   << "Unknown type " << type
-      << "; currently supported solver types are segregated and coupled"
-      << exit(FatalIOError);
+    )
+    << "Unknown type " << type
+    << "; currently supported solver types are segregated and coupled"
+    << exit(FatalIOError);
     return solverPerformance();
   }
 }
+
+
 template<class Type>
 mousse::solverPerformance mousse::fvMatrix<Type>::solveSegregated
 (
@@ -85,12 +91,12 @@ mousse::solverPerformance mousse::fvMatrix<Type>::solveSegregated
   GeometricField<Type, fvPatchField, volMesh>& psi =
    const_cast<GeometricField<Type, fvPatchField, volMesh>&>(psi_);
   solverPerformance solverPerfVec
-  (
+  {
     "fvMatrix<Type>::solveSegregated",
     psi.name()
-  );
-  scalarField saveDiag(diag());
-  Field<Type> source(source_);
+  };
+  scalarField saveDiag{diag()};
+  Field<Type> source{source_};
   // At this point include the boundary source from the coupled boundaries.
   // This is corrected for the implict part by updateMatrixInterfaces within
   // the component loop.
@@ -107,17 +113,17 @@ mousse::solverPerformance mousse::fvMatrix<Type>::solveSegregated
   {
     if (validComponents[cmpt] == -1) continue;
     // copy field and source
-    scalarField psiCmpt(psi.internalField().component(cmpt));
+    scalarField psiCmpt{psi.internalField().component(cmpt)};
     addBoundaryDiag(diag(), cmpt);
-    scalarField sourceCmpt(source.component(cmpt));
+    scalarField sourceCmpt{source.component(cmpt)};
     FieldField<Field, scalar> bouCoeffsCmpt
-    (
+    {
       boundaryCoeffs_.component(cmpt)
-    );
+    };
     FieldField<Field, scalar> intCoeffsCmpt
-    (
+    {
       internalCoeffs_.component(cmpt)
-    );
+    };
     lduInterfaceFieldPtrsList interfaces =
       psi.boundaryField().scalarInterfaces();
     // Use the initMatrixInterfaces and updateMatrixInterfaces to correct
@@ -163,6 +169,8 @@ mousse::solverPerformance mousse::fvMatrix<Type>::solveSegregated
   psi.mesh().setSolverPerformance(psi.name(), solverPerfVec);
   return solverPerfVec;
 }
+
+
 template<class Type>
 mousse::solverPerformance mousse::fvMatrix<Type>::solveCoupled
 (
@@ -211,6 +219,8 @@ mousse::solverPerformance mousse::fvMatrix<Type>::solveCoupled
   // psi.mesh().setSolverPerformance(psi.name(), solverPerf);
   return solverPerformance();
 }
+
+
 template<class Type>
 mousse::autoPtr<typename mousse::fvMatrix<Type>::fvSolver>
 mousse::fvMatrix<Type>::solver()
@@ -227,6 +237,8 @@ mousse::fvMatrix<Type>::solver()
     )
   );
 }
+
+
 template<class Type>
 mousse::solverPerformance mousse::fvMatrix<Type>::fvSolver::solve()
 {
@@ -242,6 +254,8 @@ mousse::solverPerformance mousse::fvMatrix<Type>::fvSolver::solve()
     )
   );
 }
+
+
 template<class Type>
 mousse::solverPerformance mousse::fvMatrix<Type>::solve()
 {
@@ -257,22 +271,24 @@ mousse::solverPerformance mousse::fvMatrix<Type>::solve()
     )
   );
 }
+
+
 template<class Type>
-mousse::tmp<mousse::Field<Type> > mousse::fvMatrix<Type>::residual() const
+mousse::tmp<mousse::Field<Type>> mousse::fvMatrix<Type>::residual() const
 {
-  tmp<Field<Type> > tres(new Field<Type>(source_));
+  tmp<Field<Type>> tres{new Field<Type>{source_}};
   Field<Type>& res = tres();
   addBoundarySource(res);
   // Loop over field components
   for (direction cmpt=0; cmpt<Type::nComponents; cmpt++)
   {
-    scalarField psiCmpt(psi_.internalField().component(cmpt));
-    scalarField boundaryDiagCmpt(psi_.size(), 0.0);
+    scalarField psiCmpt{psi_.internalField().component(cmpt)};
+    scalarField boundaryDiagCmpt{psi_.size(), 0.0};
     addBoundaryDiag(boundaryDiagCmpt, cmpt);
     FieldField<Field, scalar> bouCoeffsCmpt
-    (
+    {
       boundaryCoeffs_.component(cmpt)
-    );
+    };
     res.replace
     (
       cmpt,

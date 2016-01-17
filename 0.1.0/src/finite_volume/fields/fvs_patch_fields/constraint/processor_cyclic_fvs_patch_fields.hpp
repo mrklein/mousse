@@ -4,10 +4,13 @@
 
 #ifndef processor_cyclic_fvs_patch_fields_hpp_
 #define processor_cyclic_fvs_patch_fields_hpp_
+
 #include "processor_cyclic_fvs_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makeFvsPatchTypeFieldTypedefs(processorCyclic);
+MAKE_FVS_PATCH_TYPE_FIELD_TYPEDEFS(processorCyclic);
 }  // namespace mousse
+
 #endif

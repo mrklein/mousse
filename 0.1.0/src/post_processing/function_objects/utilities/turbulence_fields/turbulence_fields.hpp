@@ -99,10 +99,6 @@ protected:
     //- Fields to load
     wordHashSet fieldSet_;
   // Protected Member Functions
-    //- Disallow default bitwise copy construct
-    turbulenceFields(const turbulenceFields&);
-    //- Disallow default bitwise assignment
-    void operator=(const turbulenceFields&);
     //- Return true if compressible turbulence model is identified
     bool compressible();
     //- Process the turbulence field
@@ -114,7 +110,7 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("turbulenceFields");
+  TYPE_NAME("turbulenceFields");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -125,6 +121,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    turbulenceFields(const turbulenceFields&) = delete;
+    //- Disallow default bitwise assignment
+    turbulenceFields& operator=(const turbulenceFields&) = delete;
   //- Destructor
   virtual ~turbulenceFields();
   // Member Functions

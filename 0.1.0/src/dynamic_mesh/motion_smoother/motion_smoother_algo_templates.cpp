@@ -20,7 +20,7 @@ void mousse::motionSmootherAlgo::checkConstraints
   const polyBoundaryMesh& bm = mesh.boundaryMesh();
   // first count the total number of patch-patch points
   label nPatchPatchPoints = 0;
-  forAll(bm, patchi)
+  FOR_ALL(bm, patchi)
   {
     if (!isA<emptyPolyPatch>(bm[patchi]))
     {
@@ -29,24 +29,24 @@ void mousse::motionSmootherAlgo::checkConstraints
   }
   typename FldType::GeometricBoundaryField& bFld = pf.boundaryField();
   // Evaluate in reverse order
-  forAllReverse(bFld, patchi)
+  FOR_ALL_REVERSE(bFld, patchi)
   {
     bFld[patchi].initEvaluate(Pstream::blocking);   // buffered
   }
-  forAllReverse(bFld, patchi)
+  FOR_ALL_REVERSE(bFld, patchi)
   {
     bFld[patchi].evaluate(Pstream::blocking);
   }
   // Save the values
   Field<Type> boundaryPointValues(nPatchPatchPoints);
   nPatchPatchPoints = 0;
-  forAll(bm, patchi)
+  FOR_ALL(bm, patchi)
   {
     if (!isA<emptyPolyPatch>(bm[patchi]))
     {
       const labelList& bp = bm[patchi].boundaryPoints();
       const labelList& meshPoints = bm[patchi].meshPoints();
-      forAll(bp, pointi)
+      FOR_ALL(bp, pointi)
       {
         label ppp = meshPoints[bp[pointi]];
         boundaryPointValues[nPatchPatchPoints++] = pf[ppp];
@@ -57,19 +57,19 @@ void mousse::motionSmootherAlgo::checkConstraints
   bFld.evaluate();
   // Check
   nPatchPatchPoints = 0;
-  forAll(bm, patchi)
+  FOR_ALL(bm, patchi)
   {
     if (!isA<emptyPolyPatch>(bm[patchi]))
     {
       const labelList& bp = bm[patchi].boundaryPoints();
       const labelList& meshPoints = bm[patchi].meshPoints();
-      forAll(bp, pointi)
+      FOR_ALL(bp, pointi)
       {
         label ppp = meshPoints[bp[pointi]];
         const Type& savedVal = boundaryPointValues[nPatchPatchPoints++];
         if (savedVal != pf[ppp])
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "motionSmootherAlgo::checkConstraints"
             "(GeometricField<Type, pointPatchField, pointMesh>&)"
@@ -95,31 +95,31 @@ mousse::motionSmootherAlgo::avg
 ) const
 {
   tmp<GeometricField<Type, pointPatchField, pointMesh> > tres
-  (
+  {
     new GeometricField<Type, pointPatchField, pointMesh>
-    (
+    {
       IOobject
-      (
+      {
         "avg("+fld.name()+')',
         fld.time().timeName(),
         fld.db(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       fld.mesh(),
       dimensioned<Type>("zero", fld.dimensions(), pTraits<Type>::zero)
-    )
-  );
+    }
+  };
   GeometricField<Type, pointPatchField, pointMesh>& res = tres();
   const polyMesh& mesh = fld.mesh()();
   // Sum local weighted values and weights
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Note: on coupled edges use only one edge (through isMasterEdge)
   // This is done so coupled edges do not get counted double.
-  scalarField sumWeight(mesh.nPoints(), 0.0);
+  scalarField sumWeight{mesh.nPoints(), 0.0};
   const edgeList& edges = mesh.edges();
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (isMasterEdge_.get(edgeI) == 1)
     {
@@ -149,7 +149,7 @@ mousse::motionSmootherAlgo::avg
   );
   // Average
   // ~~~~~~~
-  forAll(res, pointI)
+  FOR_ALL(res, pointI)
   {
     if (mag(sumWeight[pointI]) < VSMALL)
     {
@@ -176,7 +176,7 @@ void mousse::motionSmootherAlgo::smooth
 {
   tmp<pointVectorField> tavgFld = avg(fld, edgeWeight);
   const pointVectorField& avgFld = tavgFld();
-  forAll(fld, pointI)
+  FOR_ALL(fld, pointI)
   {
     if (isInternalPoint(pointI))
     {
@@ -209,11 +209,11 @@ void mousse::motionSmootherAlgo::testSyncField
     cop,
     zero
   );
-  forAll(syncedFld, i)
+  FOR_ALL(syncedFld, i)
   {
     if (mag(syncedFld[i] - fld[i]) > maxMag)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "motionSmootherAlgo::testSyncField"
         "(const Field<Type>&, const CombineOp&"

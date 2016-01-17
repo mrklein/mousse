@@ -7,7 +7,9 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-// Constructors 
+#include "time.hpp"
+
+// Constructors
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
 (
@@ -15,9 +17,10 @@ rotatingTotalPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  totalPressureFvPatchScalarField(p, iF),
-  omega_()
+  totalPressureFvPatchScalarField{p, iF},
+  omega_{}
 {}
+
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
 (
@@ -27,9 +30,10 @@ rotatingTotalPressureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  totalPressureFvPatchScalarField(ptf, p, iF, mapper),
-  omega_(ptf.omega_().clone().ptr())
+  totalPressureFvPatchScalarField{ptf, p, iF, mapper},
+  omega_{ptf.omega_().clone().ptr()}
 {}
+
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
 (
@@ -38,18 +42,20 @@ rotatingTotalPressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  totalPressureFvPatchScalarField(p, iF, dict),
-  omega_(DataEntry<vector>::New("omega", dict))
+  totalPressureFvPatchScalarField{p, iF, dict},
+  omega_{DataEntry<vector>::New("omega", dict)}
 {}
+
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
 (
   const rotatingTotalPressureFvPatchScalarField& rtppsf
 )
 :
-  totalPressureFvPatchScalarField(rtppsf),
-  omega_(rtppsf.omega_().clone().ptr())
+  totalPressureFvPatchScalarField{rtppsf},
+  omega_{rtppsf.omega_().clone().ptr()}
 {}
+
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
 (
@@ -57,10 +63,11 @@ rotatingTotalPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  totalPressureFvPatchScalarField(rtppsf, iF),
-  omega_(rtppsf.omega_().clone().ptr())
+  totalPressureFvPatchScalarField{rtppsf, iF},
+  omega_{rtppsf.omega_().clone().ptr()}
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::rotatingTotalPressureFvPatchScalarField::updateCoeffs()
 {
   if (updated())
@@ -84,11 +91,12 @@ void mousse::rotatingTotalPressureFvPatchScalarField::write(Ostream& os) const
   totalPressureFvPatchScalarField::write(os);
   omega_->writeData(os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    rotatingTotalPressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  rotatingTotalPressureFvPatchScalarField
+);
 }

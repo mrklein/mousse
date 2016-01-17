@@ -26,9 +26,9 @@ class CollisionModel
     typedef typename CloudType::parcelType parcelType;
 public:
   //- Runtime type information
-  TypeName("collisionModel");
+  TYPE_NAME("collisionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     CollisionModel,
@@ -52,11 +52,11 @@ public:
     //- Construct copy
     CollisionModel(const CollisionModel<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<CollisionModel<CloudType> > clone() const = 0;
+    virtual autoPtr<CollisionModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~CollisionModel();
   //- Selector
-  static autoPtr<CollisionModel<CloudType> > New
+  static autoPtr<CollisionModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -73,30 +73,30 @@ public:
 };
 }  // namespace mousse
 
-#define makeCollisionModel(CloudType)                                         \
+#define MAKE_COLLISION_MODEL(CloudType)                                       \
                                                                               \
   typedef mousse::CloudType::collidingCloudType collidingCloudType;           \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::CollisionModel<collidingCloudType>,                               \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       CollisionModel<collidingCloudType>,                                     \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeCollisionModelType(SS, CloudType)                                 \
+#define MAKE_COLLISION_MODEL_TYPE(SS, CloudType)                              \
                                                                               \
   typedef mousse::CloudType::collidingCloudType collidingCloudType;           \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<collidingCloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<collidingCloudType>, 0);\
                                                                               \
   mousse::CollisionModel<collidingCloudType>::                                \
-    adddictionaryConstructorToTable<mousse::SS<collidingCloudType> >          \
+    adddictionaryConstructorToTable<mousse::SS<collidingCloudType>>           \
       add##SS##CloudType##collidingCloudType##ConstructorToTable_;
 
 #ifdef NoRepository

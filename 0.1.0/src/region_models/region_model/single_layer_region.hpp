@@ -20,10 +20,6 @@ class singleLayerRegion
 {
 private:
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    singleLayerRegion(const singleLayerRegion&);
-    //- Disallow default bitwise assignment
-    void operator=(const singleLayerRegion&);
     //- Construct region mesh and fields
     void constructMeshObjects();
     //- Initialise the region
@@ -43,7 +39,7 @@ protected:
     virtual bool read();
 public:
   //- Runtime type information
-  TypeName("regionModel");
+  TYPE_NAME("regionModel");
   // Constructors
     //- Construct null
     singleLayerRegion(const fvMesh& mesh, const word& regionType);
@@ -55,6 +51,10 @@ public:
       const word& modelName,
       bool readFields = true
     );
+    //- Disallow default bitwise copy construct
+    singleLayerRegion(const singleLayerRegion&) = delete;
+    //- Disallow default bitwise assignment
+    singleLayerRegion& operator=(const singleLayerRegion&) = delete;
   //- Destructor
   virtual ~singleLayerRegion();
   // Member Functions

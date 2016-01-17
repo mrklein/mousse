@@ -8,59 +8,58 @@
 #include "rho_chemistry_model.hpp"
 namespace mousse
 {
-  // Chemistry solvers based on sensibleEnthalpy
-  makeChemistrySolverTypes(psiChemistryModel, constGasHThermoPhysics);
-  makeChemistrySolverTypes(psiChemistryModel, gasHThermoPhysics);
-  makeChemistrySolverTypes
-  (
-    psiChemistryModel,
-    constIncompressibleGasHThermoPhysics
-  );
-  makeChemistrySolverTypes
-  (
-    psiChemistryModel,
-    incompressibleGasHThermoPhysics)
-  ;
-  makeChemistrySolverTypes(psiChemistryModel, icoPoly8HThermoPhysics);
-  makeChemistrySolverTypes(rhoChemistryModel, constGasHThermoPhysics);
-  makeChemistrySolverTypes(rhoChemistryModel, gasHThermoPhysics);
-  makeChemistrySolverTypes
-  (
-    rhoChemistryModel,
-    constIncompressibleGasHThermoPhysics
-  );
-  makeChemistrySolverTypes
-  (
-    rhoChemistryModel,
-    incompressibleGasHThermoPhysics
-  );
-  makeChemistrySolverTypes(rhoChemistryModel, icoPoly8HThermoPhysics);
-  // Chemistry solvers based on sensibleInternalEnergy
-  makeChemistrySolverTypes(psiChemistryModel, constGasEThermoPhysics);
-  makeChemistrySolverTypes(psiChemistryModel, gasEThermoPhysics);
-  makeChemistrySolverTypes
-  (
-    psiChemistryModel,
-    constIncompressibleGasEThermoPhysics
-  );
-  makeChemistrySolverTypes
-  (
-    psiChemistryModel,
-    incompressibleGasEThermoPhysics
-  );
-  makeChemistrySolverTypes(psiChemistryModel, icoPoly8EThermoPhysics);
-  makeChemistrySolverTypes(rhoChemistryModel, constGasEThermoPhysics);
-  makeChemistrySolverTypes(rhoChemistryModel, gasEThermoPhysics);
-  makeChemistrySolverTypes
-  (
-    rhoChemistryModel,
-    constIncompressibleGasEThermoPhysics
-  );
-  makeChemistrySolverTypes
-  (
-    rhoChemistryModel,
-    incompressibleGasEThermoPhysics
-  );
-  makeChemistrySolverTypes(rhoChemistryModel, icoPoly8EThermoPhysics);
+// Chemistry solvers based on sensibleEnthalpy
+MAKE_CHEMISTRY_SOLVER_TYPES(psiChemistryModel, constGasHThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES(psiChemistryModel, gasHThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES
+(
+  psiChemistryModel,
+  constIncompressibleGasHThermoPhysics
+);
+MAKE_CHEMISTRY_SOLVER_TYPES
+(
+  psiChemistryModel,
+  incompressibleGasHThermoPhysics)
+;
+MAKE_CHEMISTRY_SOLVER_TYPES(psiChemistryModel, icoPoly8HThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES(rhoChemistryModel, constGasHThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES(rhoChemistryModel, gasHThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES
+(
+  rhoChemistryModel,
+  constIncompressibleGasHThermoPhysics
+);
+MAKE_CHEMISTRY_SOLVER_TYPES
+(
+  rhoChemistryModel,
+  incompressibleGasHThermoPhysics
+);
+MAKE_CHEMISTRY_SOLVER_TYPES(rhoChemistryModel, icoPoly8HThermoPhysics);
+// Chemistry solvers based on sensibleInternalEnergy
+MAKE_CHEMISTRY_SOLVER_TYPES(psiChemistryModel, constGasEThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES(psiChemistryModel, gasEThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES
+(
+  psiChemistryModel,
+  constIncompressibleGasEThermoPhysics
+);
+MAKE_CHEMISTRY_SOLVER_TYPES
+(
+  psiChemistryModel,
+  incompressibleGasEThermoPhysics
+);
+MAKE_CHEMISTRY_SOLVER_TYPES(psiChemistryModel, icoPoly8EThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES(rhoChemistryModel, constGasEThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES(rhoChemistryModel, gasEThermoPhysics);
+MAKE_CHEMISTRY_SOLVER_TYPES
+(
+  rhoChemistryModel,
+  constIncompressibleGasEThermoPhysics
+);
+MAKE_CHEMISTRY_SOLVER_TYPES
+(
+  rhoChemistryModel,
+  incompressibleGasEThermoPhysics
+);
+MAKE_CHEMISTRY_SOLVER_TYPES(rhoChemistryModel, icoPoly8EThermoPhysics);
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

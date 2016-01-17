@@ -15,12 +15,12 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(meshCutter, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(meshCutter, 0);
 }
 // Private Static Functions 
 bool mousse::meshCutter::uses(const labelList& elems1, const labelList& elems2)
 {
-  forAll(elems1, elemI)
+  FOR_ALL(elems1, elemI)
   {
     if (findIndex(elems2, elems1[elemI]) != -1)
     {
@@ -53,7 +53,7 @@ mousse::label mousse::meshCutter::findCutCell
   const labelList& cellLabels
 ) const
 {
-  forAll(cellLabels, labelI)
+  FOR_ALL(cellLabels, labelI)
   {
     label cellI = cellLabels[labelI];
     if (cuts.cellLoops()[cellI].size())
@@ -68,11 +68,11 @@ mousse::label mousse::meshCutter::findInternalFacePoint
   const labelList& pointLabels
 ) const
 {
-  forAll(pointLabels, labelI)
+  FOR_ALL(pointLabels, labelI)
   {
     label pointI = pointLabels[labelI];
     const labelList& pFaces = mesh().pointFaces()[pointI];
-    forAll(pFaces, pFaceI)
+    FOR_ALL(pFaces, pFaceI)
     {
       label faceI = pFaces[pFaceI];
       if (mesh().isInternalFace(faceI))
@@ -83,7 +83,7 @@ mousse::label mousse::meshCutter::findInternalFacePoint
   }
   if (pointLabels.empty())
   {
-    FatalErrorIn("meshCutter::findInternalFacePoint(const labelList&)")
+    FATAL_ERROR_IN("meshCutter::findInternalFacePoint(const labelList&)")
       << "Empty pointLabels" << abort(FatalError);
   }
   return -1;
@@ -307,7 +307,7 @@ void mousse::meshCutter::splitFace
   label startFp = findIndex(f, v0);
   if (startFp == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshCutter::splitFace"
       ", const face&, const label, const label, face&, face&)"
@@ -318,7 +318,7 @@ void mousse::meshCutter::splitFace
   label endFp = findIndex(f, v1);
   if (endFp == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshCutter::splitFace("
       ", const face&, const label, const label, face&, face&)"
@@ -336,7 +336,7 @@ mousse::face mousse::meshCutter::addEdgeCutsToFace(const label faceI) const
   const face& f = mesh().faces()[faceI];
   face newFace(2 * f.size());
   label newFp = 0;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     // Duplicate face vertex .
     newFace[newFp++] = f[fp];
@@ -355,13 +355,13 @@ mousse::face mousse::meshCutter::addEdgeCutsToFace(const label faceI) const
 }
 mousse::face mousse::meshCutter::loopToFace
 (
-  const label cellI,
+  const label /*cellI*/,
   const labelList& loop
 ) const
 {
   face newFace(2*loop.size());
   label newFaceI = 0;
-  forAll(loop, fp)
+  FOR_ALL(loop, fp)
   {
     label cut = loop[fp];
     if (isEdge(cut))
@@ -432,7 +432,7 @@ void mousse::meshCutter::setRefinement
   //
   // Add new points along cut edges.
   //
-  forAll(cuts.edgeIsCut(), edgeI)
+  FOR_ALL(cuts.edgeIsCut(), edgeI)
   {
     if (cuts.edgeIsCut()[edgeI])
     {
@@ -440,7 +440,7 @@ void mousse::meshCutter::setRefinement
       // Check if there is any cell using this edge.
       if (debug && findCutCell(cuts, mesh().edgeCells()[edgeI]) == -1)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "meshCutter::setRefinement(const cellCuts&"
           ", polyTopoChange&)"
@@ -479,7 +479,7 @@ void mousse::meshCutter::setRefinement
   //
   // Add cells (on 'anchor' side of cell)
   //
-  forAll(cellLoops, cellI)
+  FOR_ALL(cellLoops, cellI)
   {
     if (cellLoops[cellI].size())
     {
@@ -507,7 +507,7 @@ void mousse::meshCutter::setRefinement
   //
   // For all cut cells add an internal face
   //
-  forAll(cellLoops, cellI)
+  FOR_ALL(cellLoops, cellI)
   {
     const labelList& loop = cellLoops[cellI];
     if (loop.size())
@@ -540,7 +540,7 @@ void mousse::meshCutter::setRefinement
       {
         // Gets edgeweights of loop
         scalarField weights(loop.size());
-        forAll(loop, i)
+        FOR_ALL(loop, i)
         {
           label cut = loop[i];
           weights[i] =
@@ -568,7 +568,7 @@ void mousse::meshCutter::setRefinement
   // -new owner/neighbour)
   boolList faceUptodate(mesh().nFaces(), false);
   const Map<edge>& faceSplitCuts = cuts.faceSplitCut();
-  forAllConstIter(Map<edge>, faceSplitCuts, iter)
+  FOR_ALL_CONST_ITER(Map<edge>, faceSplitCuts, iter)
   {
     label faceI = iter.key();
     // Renumber face to include split edges.
@@ -709,12 +709,12 @@ void mousse::meshCutter::setRefinement
   // to be reachable from an edgeCut.
   //
   const boolList& edgeIsCut = cuts.edgeIsCut();
-  forAll(edgeIsCut, edgeI)
+  FOR_ALL(edgeIsCut, edgeI)
   {
     if (edgeIsCut[edgeI])
     {
       const labelList& eFaces = mesh().edgeFaces()[edgeI];
-      forAll(eFaces, i)
+      FOR_ALL(eFaces, i)
       {
         label faceI = eFaces[i];
         if (!faceUptodate[faceI])
@@ -739,12 +739,12 @@ void mousse::meshCutter::setRefinement
   //
   // Correct any original faces on split cell for new neighbour/owner
   //
-  forAll(cellLoops, cellI)
+  FOR_ALL(cellLoops, cellI)
   {
     if (cellLoops[cellI].size())
     {
       const labelList& cllFaces = mesh().cells()[cellI];
-      forAll(cllFaces, cllFaceI)
+      FOR_ALL(cllFaces, cllFaceI)
       {
         label faceI = cllFaces[cllFaceI];
         if (!faceUptodate[faceI])
@@ -753,7 +753,7 @@ void mousse::meshCutter::setRefinement
           const face& f = mesh().faces()[faceI];
           if (debug && (f != addEdgeCutsToFace(faceI)))
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "meshCutter::setRefinement(const cellCuts&"
               ", polyTopoChange&)"
@@ -796,7 +796,7 @@ void mousse::meshCutter::updateMesh(const mapPolyMesh& morphMap)
     // Create copy since new label might (temporarily) clash with existing
     // key.
     Map<label> newAddedCells(addedCells_.size());
-    forAllConstIter(Map<label>, addedCells_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, addedCells_, iter)
     {
       label cellI = iter.key();
       label newCellI = morphMap.reverseCellMap()[cellI];
@@ -823,7 +823,7 @@ void mousse::meshCutter::updateMesh(const mapPolyMesh& morphMap)
   }
   {
     Map<label> newAddedFaces(addedFaces_.size());
-    forAllConstIter(Map<label>, addedFaces_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, addedFaces_, iter)
     {
       label cellI = iter.key();
       label newCellI = morphMap.reverseCellMap()[cellI];

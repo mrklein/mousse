@@ -75,7 +75,7 @@ protected:
     virtual void correctNonlinearStress(const volTensorField& gradU);
 public:
   //- Runtime type information
-  TypeName("LienCubicKE");
+  TYPE_NAME("LienCubicKE");
   // Constructors
     //- Construct from components
     LienCubicKE

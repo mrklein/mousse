@@ -67,7 +67,7 @@ template<class ThermoType>
 bool mousse::ReactionList<ThermoType>::readReactionDict()
 {
   const dictionary& reactions(dict_.subDict("reactions"));
-  forAllConstIter(dictionary, reactions, iter)
+  FOR_ALL_CONST_ITER(dictionary, reactions, iter)
   {
     const word reactionName = iter().keyword();
     this->append
@@ -87,7 +87,7 @@ void mousse::ReactionList<ThermoType>::write(Ostream& os) const
 {
   os  << "reactions" << nl;
   os  << token::BEGIN_BLOCK << incrIndent << nl;
-  forAllConstIter(typename SLPtrList<Reaction<ThermoType> >, *this, iter)
+  FOR_ALL_CONST_ITER(typename SLPtrList<Reaction<ThermoType> >, *this, iter)
   {
     const Reaction<ThermoType>& r = iter();
     os  << indent << r.name() << nl

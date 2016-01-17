@@ -30,7 +30,7 @@ class zeroGradientFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("zeroGradient");
+  TYPE_NAME("zeroGradient");
   // Constructors
     //- Construct from patch and internal field
     zeroGradientFvPatchField

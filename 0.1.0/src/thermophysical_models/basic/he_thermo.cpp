@@ -11,7 +11,7 @@ void mousse::heThermo<BasicThermo, MixtureType>::
 heBoundaryCorrection(volScalarField& h)
 {
   volScalarField::GeometricBoundaryField& hbf = h.boundaryField();
-  forAll(hbf, patchi)
+  FOR_ALL(hbf, patchi)
   {
     if (isA<gradientEnergyFvPatchScalarField>(hbf[patchi]))
     {
@@ -31,12 +31,12 @@ void mousse::heThermo<BasicThermo, MixtureType>::init()
   scalarField& heCells = he_.internalField();
   const scalarField& pCells = this->p_.internalField();
   const scalarField& TCells = this->T_.internalField();
-  forAll(heCells, celli)
+  FOR_ALL(heCells, celli)
   {
     heCells[celli] =
       this->cellMixture(celli).HE(pCells[celli], TCells[celli]);
   }
-  forAll(he_.boundaryField(), patchi)
+  FOR_ALL(he_.boundaryField(), patchi)
   {
     he_.boundaryField()[patchi] == he
     (
@@ -143,17 +143,17 @@ mousse::tmp<mousse::volScalarField> mousse::heThermo<BasicThermo, MixtureType>::
   scalarField& heCells = he.internalField();
   const scalarField& pCells = p.internalField();
   const scalarField& TCells = T.internalField();
-  forAll(heCells, celli)
+  FOR_ALL(heCells, celli)
   {
     heCells[celli] =
       this->cellMixture(celli).HE(pCells[celli], TCells[celli]);
   }
-  forAll(he.boundaryField(), patchi)
+  FOR_ALL(he.boundaryField(), patchi)
   {
     scalarField& hep = he.boundaryField()[patchi];
     const scalarField& pp = p.boundaryField()[patchi];
     const scalarField& Tp = T.boundaryField()[patchi];
-    forAll(hep, facei)
+    FOR_ALL(hep, facei)
     {
       hep[facei] =
         this->patchFaceMixture(patchi, facei).HE(pp[facei], Tp[facei]);
@@ -171,7 +171,7 @@ mousse::tmp<mousse::scalarField> mousse::heThermo<BasicThermo, MixtureType>::he
 {
   tmp<scalarField> the(new scalarField(T.size()));
   scalarField& he = the();
-  forAll(T, celli)
+  FOR_ALL(T, celli)
   {
     he[celli] = this->cellMixture(cells[celli]).HE(p[celli], T[celli]);
   }
@@ -187,7 +187,7 @@ mousse::tmp<mousse::scalarField> mousse::heThermo<BasicThermo, MixtureType>::he
 {
   tmp<scalarField> the(new scalarField(T.size()));
   scalarField& he = the();
-  forAll(T, facei)
+  FOR_ALL(T, facei)
   {
     he[facei] =
       this->patchFaceMixture(patchi, facei).HE(p[facei], T[facei]);
@@ -218,14 +218,14 @@ mousse::heThermo<BasicThermo, MixtureType>::hc() const
   );
   volScalarField& hcf = thc();
   scalarField& hcCells = hcf.internalField();
-  forAll(hcCells, celli)
+  FOR_ALL(hcCells, celli)
   {
     hcCells[celli] = this->cellMixture(celli).Hc();
   }
-  forAll(hcf.boundaryField(), patchi)
+  FOR_ALL(hcf.boundaryField(), patchi)
   {
     scalarField& hcp = hcf.boundaryField()[patchi];
-    forAll(hcp, facei)
+    FOR_ALL(hcp, facei)
     {
       hcp[facei] = this->patchFaceMixture(patchi, facei).Hc();
     }
@@ -242,7 +242,7 @@ mousse::tmp<mousse::scalarField> mousse::heThermo<BasicThermo, MixtureType>::Cp
 {
   tmp<scalarField> tCp(new scalarField(T.size()));
   scalarField& cp = tCp();
-  forAll(T, facei)
+  FOR_ALL(T, facei)
   {
     cp[facei] =
       this->patchFaceMixture(patchi, facei).Cp(p[facei], T[facei]);
@@ -272,17 +272,17 @@ mousse::heThermo<BasicThermo, MixtureType>::Cp() const
     )
   );
   volScalarField& cp = tCp();
-  forAll(this->T_, celli)
+  FOR_ALL(this->T_, celli)
   {
     cp[celli] =
       this->cellMixture(celli).Cp(this->p_[celli], this->T_[celli]);
   }
-  forAll(this->T_.boundaryField(), patchi)
+  FOR_ALL(this->T_.boundaryField(), patchi)
   {
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
     fvPatchScalarField& pCp = cp.boundaryField()[patchi];
-    forAll(pT, facei)
+    FOR_ALL(pT, facei)
     {
       pCp[facei] =
         this->patchFaceMixture(patchi, facei).Cp(pp[facei], pT[facei]);
@@ -301,7 +301,7 @@ mousse::heThermo<BasicThermo, MixtureType>::Cv
 {
   tmp<scalarField> tCv(new scalarField(T.size()));
   scalarField& cv = tCv();
-  forAll(T, facei)
+  FOR_ALL(T, facei)
   {
     cv[facei] =
       this->patchFaceMixture(patchi, facei).Cv(p[facei], T[facei]);
@@ -331,12 +331,12 @@ mousse::heThermo<BasicThermo, MixtureType>::Cv() const
     )
   );
   volScalarField& cv = tCv();
-  forAll(this->T_, celli)
+  FOR_ALL(this->T_, celli)
   {
     cv[celli] =
       this->cellMixture(celli).Cv(this->p_[celli], this->T_[celli]);
   }
-  forAll(this->T_.boundaryField(), patchi)
+  FOR_ALL(this->T_.boundaryField(), patchi)
   {
     cv.boundaryField()[patchi] = Cv
     (
@@ -357,7 +357,7 @@ mousse::tmp<mousse::scalarField> mousse::heThermo<BasicThermo, MixtureType>::gam
 {
   tmp<scalarField> tgamma(new scalarField(T.size()));
   scalarField& cpv = tgamma();
-  forAll(T, facei)
+  FOR_ALL(T, facei)
   {
     cpv[facei] =
       this->patchFaceMixture(patchi, facei).gamma(p[facei], T[facei]);
@@ -387,17 +387,17 @@ mousse::heThermo<BasicThermo, MixtureType>::gamma() const
     )
   );
   volScalarField& cpv = tgamma();
-  forAll(this->T_, celli)
+  FOR_ALL(this->T_, celli)
   {
     cpv[celli] =
       this->cellMixture(celli).gamma(this->p_[celli], this->T_[celli]);
   }
-  forAll(this->T_.boundaryField(), patchi)
+  FOR_ALL(this->T_.boundaryField(), patchi)
   {
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
     fvPatchScalarField& pgamma = cpv.boundaryField()[patchi];
-    forAll(pT, facei)
+    FOR_ALL(pT, facei)
     {
       pgamma[facei] = this->patchFaceMixture(patchi, facei).gamma
       (
@@ -418,7 +418,7 @@ mousse::tmp<mousse::scalarField> mousse::heThermo<BasicThermo, MixtureType>::Cpv
 {
   tmp<scalarField> tCpv(new scalarField(T.size()));
   scalarField& cpv = tCpv();
-  forAll(T, facei)
+  FOR_ALL(T, facei)
   {
     cpv[facei] =
       this->patchFaceMixture(patchi, facei).Cpv(p[facei], T[facei]);
@@ -448,17 +448,17 @@ mousse::heThermo<BasicThermo, MixtureType>::Cpv() const
     )
   );
   volScalarField& cpv = tCpv();
-  forAll(this->T_, celli)
+  FOR_ALL(this->T_, celli)
   {
     cpv[celli] =
       this->cellMixture(celli).Cpv(this->p_[celli], this->T_[celli]);
   }
-  forAll(this->T_.boundaryField(), patchi)
+  FOR_ALL(this->T_.boundaryField(), patchi)
   {
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
     fvPatchScalarField& pCpv = cpv.boundaryField()[patchi];
-    forAll(pT, facei)
+    FOR_ALL(pT, facei)
     {
       pCpv[facei] =
         this->patchFaceMixture(patchi, facei).Cpv(pp[facei], pT[facei]);
@@ -476,7 +476,7 @@ mousse::tmp<mousse::scalarField> mousse::heThermo<BasicThermo, MixtureType>::CpB
 {
   tmp<scalarField> tCpByCpv(new scalarField(T.size()));
   scalarField& cpByCpv = tCpByCpv();
-  forAll(T, facei)
+  FOR_ALL(T, facei)
   {
     cpByCpv[facei] =
       this->patchFaceMixture(patchi, facei).cpBycpv(p[facei], T[facei]);
@@ -506,7 +506,7 @@ mousse::heThermo<BasicThermo, MixtureType>::CpByCpv() const
     )
   );
   volScalarField& cpByCpv = tCpByCpv();
-  forAll(this->T_, celli)
+  FOR_ALL(this->T_, celli)
   {
     cpByCpv[celli] = this->cellMixture(celli).cpBycpv
     (
@@ -514,12 +514,12 @@ mousse::heThermo<BasicThermo, MixtureType>::CpByCpv() const
       this->T_[celli]
     );
   }
-  forAll(this->T_.boundaryField(), patchi)
+  FOR_ALL(this->T_.boundaryField(), patchi)
   {
     const fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
     const fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
     fvPatchScalarField& pCpByCpv = cpByCpv.boundaryField()[patchi];
-    forAll(pT, facei)
+    FOR_ALL(pT, facei)
     {
       pCpByCpv[facei] = this->patchFaceMixture(patchi, facei).cpBycpv
       (
@@ -541,7 +541,7 @@ mousse::tmp<mousse::scalarField> mousse::heThermo<BasicThermo, MixtureType>::THE
 {
   tmp<scalarField> tT(new scalarField(h.size()));
   scalarField& T = tT();
-  forAll(h, celli)
+  FOR_ALL(h, celli)
   {
     T[celli] =
       this->cellMixture(cells[celli]).THE(h[celli], p[celli], T0[celli]);
@@ -559,7 +559,7 @@ mousse::tmp<mousse::scalarField> mousse::heThermo<BasicThermo, MixtureType>::THE
 {
   tmp<scalarField> tT(new scalarField(h.size()));
   scalarField& T = tT();
-  forAll(h, facei)
+  FOR_ALL(h, facei)
   {
     T[facei] = this->patchFaceMixture
     (

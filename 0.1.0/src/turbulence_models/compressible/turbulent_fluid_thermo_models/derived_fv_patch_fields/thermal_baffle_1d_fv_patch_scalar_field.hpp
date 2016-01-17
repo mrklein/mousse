@@ -100,7 +100,7 @@ class thermalBaffle1DFvPatchScalarField
     bool owner() const;
 public:
   //- Runtime type information
-  TypeName("compressible::thermalBaffle1D");
+  TYPE_NAME("compressible::thermalBaffle1D");
   // Constructors
     //- Construct from patch and internal field
     thermalBaffle1DFvPatchScalarField

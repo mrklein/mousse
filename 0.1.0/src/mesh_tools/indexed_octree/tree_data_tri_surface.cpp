@@ -15,7 +15,7 @@ mousse::volumeType mousse::treeDataPrimitivePatch<mousse::triSurface>::getVolume
   pointIndexHit info = oc.findNearest(sample, sqr(GREAT));
   if (info.index() == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "treeDataPrimitivePatch::getSampleType"
       "(indexedOctree<treeDataPrimitivePatch>&, const point&)"
@@ -44,7 +44,7 @@ mousse::volumeType mousse::treeDataPrimitivePatch<mousse::triSurface>::getVolume
   }
   else
   {
-    FatalErrorIn("treeDataPrimitivePatch<PatchType>::getVolumeType(..)")
+    FATAL_ERROR_IN("treeDataPrimitivePatch<PatchType>::getVolumeType(..)")
       << "problem" << abort(FatalError);
     return volumeType::UNKNOWN;
   }

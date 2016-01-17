@@ -18,16 +18,15 @@ class manualDecomp
 {
   // Private data
     fileName decompDataFile_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const manualDecomp&);
-    manualDecomp(const manualDecomp&);
 public:
   //- Runtime type information
-  TypeName("manual");
+  TYPE_NAME("manual");
   // Constructors
     //- Construct given the decomposition dictionary
     manualDecomp(const dictionary& decompositionDict);
+    //- Disallow default bitwise copy construct and assignment
+    manualDecomp& operator=(const manualDecomp&) = delete;
+    manualDecomp(const manualDecomp&) = delete;
   //- Destructor
   virtual ~manualDecomp()
   {}
@@ -55,12 +54,12 @@ public:
     //  - the connections are across coupled patches
     virtual labelList decompose
     (
-      const labelListList& globalCellCells,
-      const pointField& cc,
-      const scalarField& cWeights
+      const labelListList& /*globalCellCells*/,
+      const pointField&,
+      const scalarField& /*cWeights*/
     )
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "decompose(const labelListList&, const pointField&"
         ", const scalarField&)"

@@ -31,16 +31,16 @@ class rawTopoChangerFvMesh
     );
     template<class Type, template<class> class PatchField, class GeoMesh>
     void zeroUnmappedValues(const PackedBoolList&) const;
-    //- Disallow default bitwise copy construct
-    rawTopoChangerFvMesh(const rawTopoChangerFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const rawTopoChangerFvMesh&);
 public:
   //- Runtime type information
-  TypeName("rawTopoChangerFvMesh");
+  TYPE_NAME("rawTopoChangerFvMesh");
   // Constructors
     //- Construct from database
     explicit rawTopoChangerFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    rawTopoChangerFvMesh(const rawTopoChangerFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    rawTopoChangerFvMesh& operator=(const rawTopoChangerFvMesh&) = delete;
   //- Destructor
   virtual ~rawTopoChangerFvMesh();
   // Member Functions

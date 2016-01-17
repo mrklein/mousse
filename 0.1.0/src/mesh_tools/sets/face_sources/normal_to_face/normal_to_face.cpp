@@ -9,10 +9,11 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(normalToFace, 0);
-addToRunTimeSelectionTable(topoSetSource, normalToFace, word);
-addToRunTimeSelectionTable(topoSetSource, normalToFace, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(normalToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, normalToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, normalToFace, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::normalToFace::usage_
 (
   normalToFace::typeName,
@@ -20,6 +21,7 @@ mousse::topoSetSource::addToUsageTable mousse::normalToFace::usage_
   "    Select faces with normal aligned to unit vector (nx ny nz)\n"
   "    to within tol\n"
 );
+
 // Private Member Functions 
 void mousse::normalToFace::setNormal()
 {
@@ -27,7 +29,7 @@ void mousse::normalToFace::setNormal()
   Info<< "    normalToFace : Normalized vector to " << normal_ << endl;
   if (tol_ < -1 || tol_ > 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "normalToFace::normalToFace(const polyMesh&, const vector&"
       ", const scalar)"
@@ -82,7 +84,7 @@ void mousse::normalToFace::applyToSet
   {
     Info<< "    Adding faces according to normal being aligned with "
       << normal_ << " (to within " << tol_ << ") ..." << endl;
-    forAll(mesh_.faceAreas(), faceI)
+    FOR_ALL(mesh_.faceAreas(), faceI)
     {
       vector n = mesh_.faceAreas()[faceI];
       n /= mag(n) + VSMALL;
@@ -97,7 +99,7 @@ void mousse::normalToFace::applyToSet
     Info<< "    Removing faces according to normal being aligned with "
       << normal_ << " (to within " << tol_ << ") ..." << endl;
     DynamicList<label> toBeRemoved(set.size()/10);
-    forAllConstIter(topoSet, set, iter)
+    FOR_ALL_CONST_ITER(topoSet, set, iter)
     {
       const label faceI = iter.key();
       vector n = mesh_.faceAreas()[faceI];
@@ -107,7 +109,7 @@ void mousse::normalToFace::applyToSet
         toBeRemoved.append(faceI);
       }
     }
-    forAll(toBeRemoved, i)
+    FOR_ALL(toBeRemoved, i)
     {
       set.erase(toBeRemoved[i]);
     }

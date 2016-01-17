@@ -62,16 +62,16 @@ class boundaryCutter
       bool& modifiedFace,     // have we already 'used' faceI?
       polyTopoChange& meshMod
     ) const;
-    //- Disallow default bitwise copy construct
-    boundaryCutter(const boundaryCutter&);
-    //- Disallow default bitwise assignment
-    void operator=(const boundaryCutter&);
 public:
   //- Runtime type information
-  ClassName("boundaryCutter");
+  CLASS_NAME("boundaryCutter");
   // Constructors
     //- Construct from mesh
     boundaryCutter(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    boundaryCutter(const boundaryCutter&) = delete;
+    //- Disallow default bitwise assignment
+    boundaryCutter& operator=(const boundaryCutter&) = delete;
   //- Destructor
   ~boundaryCutter();
   // Member Functions

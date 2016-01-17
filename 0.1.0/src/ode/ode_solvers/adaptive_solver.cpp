@@ -44,7 +44,7 @@ void mousse::adaptiveSolver::solve
       dx *= scale;
       if (dx < VSMALL)
       {
-        FatalErrorIn("adaptiveSolver::solve")
+        FATAL_ERROR_IN("adaptiveSolver::solve")
           << "stepsize underflow"
           << exit(FatalError);
       }

@@ -66,7 +66,7 @@ protected:
     scalar lInf_;
 public:
   //- Runtime type information
-  TypeName("advective");
+  TYPE_NAME("advective");
   // Constructors
     //- Construct from patch and internal field
     advectiveFvPatchField

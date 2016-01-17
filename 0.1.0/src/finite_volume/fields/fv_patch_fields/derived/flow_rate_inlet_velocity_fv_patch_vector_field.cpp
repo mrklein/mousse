@@ -7,6 +7,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
+#include "time.hpp"
+
 // Constructors 
 mousse::flowRateInletVelocityFvPatchVectorField::
 flowRateInletVelocityFvPatchVectorField
@@ -61,7 +63,7 @@ flowRateInletVelocityFvPatchVectorField
   }
   else
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "flowRateInletVelocityFvPatchVectorField::"
       "flowRateInletVelocityFvPatchVectorField"
@@ -139,7 +141,7 @@ void mousse::flowRateInletVelocityFvPatchVectorField::updateCoeffs()
       // Use constant density
       if (rhoInlet_ < 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "flowRateInletVelocityFvPatchVectorField::updateCoeffs()"
         )   << "Did not find registered density field " << rhoName_
@@ -164,9 +166,9 @@ void mousse::flowRateInletVelocityFvPatchVectorField::write(Ostream& os) const
 }
 namespace mousse
 {
- makePatchTypeField
- (
-   fvPatchVectorField,
-   flowRateInletVelocityFvPatchVectorField
- );
+MAKE_PATCH_TYPE_FIELD
+(
+ fvPatchVectorField,
+ flowRateInletVelocityFvPatchVectorField
+);
 }

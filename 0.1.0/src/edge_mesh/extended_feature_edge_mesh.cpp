@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(extendedFeatureEdgeMesh, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(extendedFeatureEdgeMesh, 0);
 }
 // Constructors 
 mousse::extendedFeatureEdgeMesh::extendedFeatureEdgeMesh(const IOobject& io)
@@ -24,7 +24,7 @@ mousse::extendedFeatureEdgeMesh::extendedFeatureEdgeMesh(const IOobject& io)
   {
     if (readOpt() == IOobject::MUST_READ_IF_MODIFIED)
     {
-      WarningIn
+      WARNING_IN
       (
         "extendedFeatureEdgeMesh::extendedFeatureEdgeMesh"
         "(const IOobject&)"
@@ -39,7 +39,7 @@ mousse::extendedFeatureEdgeMesh::extendedFeatureEdgeMesh(const IOobject& io)
       const edgeList& eds(edges());
       const pointField& pts(points());
       edgeDirections_.setSize(eds.size());
-      forAll(eds, eI)
+      FOR_ALL(eds, eI)
       {
         edgeDirections_[eI] = eds[eI].vec(pts);
       }

@@ -8,11 +8,14 @@
 #include "map_nearest_ami.hpp"
 #include "face_area_weight_ami.hpp"
 #include "partial_face_area_weight_ami.hpp"
+
 namespace mousse
 {
-  makeAMIMethod(AMIPatchToPatchInterpolation);
-  makeAMIMethodType(AMIPatchToPatchInterpolation, directAMI);
-  makeAMIMethodType(AMIPatchToPatchInterpolation, mapNearestAMI);
-  makeAMIMethodType(AMIPatchToPatchInterpolation, faceAreaWeightAMI);
-  makeAMIMethodType(AMIPatchToPatchInterpolation, partialFaceAreaWeightAMI);
+
+MAKE_AMI_METHOD(AMIPatchToPatchInterpolation);
+MAKE_AMI_METHOD_TYPE(AMIPatchToPatchInterpolation, directAMI);
+MAKE_AMI_METHOD_TYPE(AMIPatchToPatchInterpolation, mapNearestAMI);
+MAKE_AMI_METHOD_TYPE(AMIPatchToPatchInterpolation, faceAreaWeightAMI);
+MAKE_AMI_METHOD_TYPE(AMIPatchToPatchInterpolation, partialFaceAreaWeightAMI);
+
 }

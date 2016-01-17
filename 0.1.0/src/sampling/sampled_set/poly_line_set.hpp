@@ -49,7 +49,7 @@ class polyLineSet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("polyLine");
+  TYPE_NAME("polyLine");
   // Constructors
     //- Construct from components
     polyLineSet

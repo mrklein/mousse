@@ -42,7 +42,7 @@ protected:
     void setFieldData(const dictionary& dict);
 public:
   //- Runtime type information
-  TypeName("explicitSetValue");
+  TYPE_NAME("explicitSetValue");
   // Constructors
     //- Construct from components
     ExplicitSetValue

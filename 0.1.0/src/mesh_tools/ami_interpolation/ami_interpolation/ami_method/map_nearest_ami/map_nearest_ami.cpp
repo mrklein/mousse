@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "map_nearest_ami.hpp"
+
 // Private Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::mapNearestAMI<SourcePatch, TargetPatch>::findNearestFace
@@ -39,6 +40,8 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::findNearestFace
     }
   } while (tgtFaces.size() > 0);
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::mapNearestAMI<SourcePatch, TargetPatch>::setNextNearestFaces
 (
@@ -50,7 +53,7 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::setNextNearestFaces
 {
   const labelList& srcNbr = this->srcPatch_.faceFaces()[srcFaceI];
   srcFaceI = -1;
-  forAll(srcNbr, i)
+  FOR_ALL(srcNbr, i)
   {
     label faceI = srcNbr[i];
     if (mapFlag[faceI])
@@ -60,7 +63,7 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::setNextNearestFaces
       return;
     }
   }
-  forAll(mapFlag, faceI)
+  FOR_ALL(mapFlag, faceI)
   {
     if (mapFlag[faceI])
     {
@@ -69,7 +72,7 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::setNextNearestFaces
       if (tgtFaceI == -1)
       {
         const vectorField& srcCf = this->srcPatch_.faceCentres();
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::mapNearestAMI<SourcePatch, TargetPatch>::"
           "setNextNearestFaces"
@@ -80,14 +83,16 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::setNextNearestFaces
             "label&"
           ") const"
         )
-          << "Unable to find target face for source face "
-          << srcFaceI << " with face centre " << srcCf[srcFaceI]
-          << abort(FatalError);
+        << "Unable to find target face for source face "
+        << srcFaceI << " with face centre " << srcCf[srcFaceI]
+        << abort(FatalError);
       }
       break;
     }
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::label mousse::mapNearestAMI<SourcePatch, TargetPatch>::findMappedSrcFace
 (
@@ -112,7 +117,7 @@ mousse::label mousse::mapNearestAMI<SourcePatch, TargetPatch>::findMappedSrcFace
       else
       {
         const labelList& nbrFaces = this->tgtPatch_.faceFaces()[tgtI];
-        forAll(nbrFaces, i)
+        FOR_ALL(nbrFaces, i)
         {
           if (findIndex(visitedFaces, nbrFaces[i]) == -1)
           {
@@ -125,6 +130,8 @@ mousse::label mousse::mapNearestAMI<SourcePatch, TargetPatch>::findMappedSrcFace
   // did not find any match - should not be possible to get here!
   return -1;
 }
+
+
 // Constructors 
 template<class SourcePatch, class TargetPatch>
 mousse::mapNearestAMI<SourcePatch, TargetPatch>::mapNearestAMI
@@ -139,7 +146,7 @@ mousse::mapNearestAMI<SourcePatch, TargetPatch>::mapNearestAMI
 )
 :
   AMIMethod<SourcePatch, TargetPatch>
-  (
+  {
     srcPatch,
     tgtPatch,
     srcMagSf,
@@ -147,12 +154,16 @@ mousse::mapNearestAMI<SourcePatch, TargetPatch>::mapNearestAMI
     triMode,
     reverseTarget,
     requireMatch
-  )
+  }
 {}
+
+
 // Destructor
 template<class SourcePatch, class TargetPatch>
 mousse::mapNearestAMI<SourcePatch, TargetPatch>::~mapNearestAMI()
 {}
+
+
 // Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::mapNearestAMI<SourcePatch, TargetPatch>::calculate
@@ -180,12 +191,12 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::calculate
     return;
   }
   // temporary storage for addressing and weights
-  List<DynamicList<label> > srcAddr(this->srcPatch_.size());
-  List<DynamicList<label> > tgtAddr(this->tgtPatch_.size());
+  List<DynamicList<label>> srcAddr{this->srcPatch_.size()};
+  List<DynamicList<label>> tgtAddr{this->tgtPatch_.size()};
   // construct weights and addressing
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // list to keep track of whether src face can be mapped
-  boolList mapFlag(srcAddr.size(), true);
+  boolList mapFlag{srcAddr.size(), true};
   // reset starting seed
   label startSeedI = 0;
   DynamicList<label> nonOverlapFaces;
@@ -208,7 +219,7 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::calculate
   // nearest source face only and discard the others
   const vectorField& srcCf = this->srcPatch_.faceCentres();
   const vectorField& tgtCf = this->tgtPatch_.faceCentres();
-  forAll(tgtAddr, targetFaceI)
+  FOR_ALL(tgtAddr, targetFaceI)
   {
     if (tgtAddr[targetFaceI].size() > 1)
     {
@@ -232,7 +243,7 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::calculate
   }
   // If there are more target faces than source faces, some target faces
   // might not yet be mapped
-  forAll(tgtAddr, tgtFaceI)
+  FOR_ALL(tgtAddr, tgtFaceI)
   {
     if (tgtAddr[tgtFaceI].empty())
     {
@@ -252,13 +263,13 @@ void mousse::mapNearestAMI<SourcePatch, TargetPatch>::calculate
     }
   }
   // transfer data to persistent storage
-  forAll(srcAddr, i)
+  FOR_ALL(srcAddr, i)
   {
     scalar magSf = this->srcMagSf_[i];
     srcAddress[i].transfer(srcAddr[i]);
     srcWeights[i] = scalarList(1, magSf);
   }
-  forAll(tgtAddr, i)
+  FOR_ALL(tgtAddr, i)
   {
     scalar magSf = this->tgtMagSf_[i];
     tgtAddress[i].transfer(tgtAddr[i]);

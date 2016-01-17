@@ -34,7 +34,7 @@ class interstitialInletVelocityFvPatchVectorField
     word alphaName_;
 public:
  //- Runtime type information
- TypeName("interstitialInletVelocity");
+ TYPE_NAME("interstitialInletVelocity");
  // Constructors
     //- Construct from patch and internal field
     interstitialInletVelocityFvPatchVectorField

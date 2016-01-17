@@ -4,7 +4,8 @@
 
 #include "downwind.hpp"
 #include "fv_mesh.hpp"
+
 namespace mousse
 {
-  makeSurfaceInterpolationScheme(downwind)
+MAKE_SURFACE_INTERPOLATION_SCHEME(downwind)
 }

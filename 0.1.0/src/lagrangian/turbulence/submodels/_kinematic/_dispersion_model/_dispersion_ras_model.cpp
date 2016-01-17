@@ -26,7 +26,7 @@ mousse::DispersionRASModel<CloudType>::kModel() const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::tmp<mousse::volScalarField>"
       "mousse::DispersionRASModel<CloudType>::kModel() const"
@@ -56,7 +56,7 @@ mousse::DispersionRASModel<CloudType>::epsilonModel() const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::tmp<mousse::volScalarField>"
       "mousse::DispersionRASModel<CloudType>::epsilonModel() const"

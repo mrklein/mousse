@@ -49,16 +49,16 @@ private:
       labelList& faceVerts,
       pointField& facePoints
     ) const;
-    //- Disallow default bitwise copy construct
-    hexCellLooper(const hexCellLooper&);
-    //- Disallow default bitwise assignment
-    void operator=(const hexCellLooper&);
 public:
   //- Runtime type information
-  TypeName("hexCellLooper");
+  TYPE_NAME("hexCellLooper");
   // Constructors
     //- Construct from components
     hexCellLooper(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    hexCellLooper(const hexCellLooper&) = delete;
+    //- Disallow default bitwise assignment
+    hexCellLooper& operator=(const hexCellLooper&) = delete;
   //- Destructor
   virtual ~hexCellLooper();
   // Member Functions

@@ -6,7 +6,6 @@
 // Description
 //   Base class for surface film models
 // SourceFiles
-//   surface_film_model_i.hpp
 //   surface_film_model.cpp
 //   surface_film_model_new.cpp
 #ifndef surface_film_model_hpp_
@@ -28,12 +27,6 @@ class surfaceFilmModel
 :
   public singleLayerRegion
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    surfaceFilmModel(const surfaceFilmModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const surfaceFilmModel&);
 protected:
   // Protected data
     //- Acceleration due to gravity [m/s2]
@@ -43,9 +36,9 @@ protected:
     virtual bool read();
 public:
   //- Runtime type information
-  TypeName("surfaceFilmModel");
+  TYPE_NAME("surfaceFilmModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       surfaceFilmModel,
@@ -67,6 +60,10 @@ public:
       const dimensionedVector& g,
       const word& regionType
     );
+    //- Disallow default bitwise copy construct
+    surfaceFilmModel(const surfaceFilmModel&) = delete;
+    //- Disallow default bitwise assignment
+    surfaceFilmModel& operator=(const surfaceFilmModel&) = delete;
   // Selectors
     //- Return a reference to the selected surface film model
     static autoPtr<surfaceFilmModel> New
@@ -141,5 +138,18 @@ public:
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
-#include "surface_film_model_i.hpp"
+
+namespace mousse
+{
+namespace regionModels
+{
+namespace surfaceFilmModels
+{
+inline const mousse::dimensionedVector& surfaceFilmModel::g() const
+{
+  return g_;
+}
+}  // namespace surfaceFilmModels
+}  // namespace regionModels
+}  // namespace mousse
 #endif

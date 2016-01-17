@@ -27,7 +27,7 @@ mousse::autoPtr<mousse::laminarFlameSpeed> mousse::laminarFlameSpeed::New
     dictionaryConstructorTablePtr_->find(corrType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "laminarFlameSpeed::New(const psiuReactionThermo&)",
       propDict

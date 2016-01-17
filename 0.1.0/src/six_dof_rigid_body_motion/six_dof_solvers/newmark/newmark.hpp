@@ -40,7 +40,7 @@ class Newmark
     const scalar beta_;
 public:
   //- Runtime type information
-  TypeName("Newmark");
+  TYPE_NAME("Newmark");
   // Constructors
     //- Construct from a dictionary and the body
     Newmark

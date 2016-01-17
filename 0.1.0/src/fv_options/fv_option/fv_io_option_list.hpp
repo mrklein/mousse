@@ -25,14 +25,14 @@ private:
   // Private Member Functions
     //- Create IO object if dictionary is present
     IOobject createIOobject(const fvMesh& mesh) const;
-    //- Disallow default bitwise copy construct
-    IOoptionList(const IOoptionList&);
-    //- Disallow default bitwise assignment
-    void operator=(const IOoptionList&);
 public:
   // Constructors
     //- Construct from components with list of field names
     IOoptionList(const fvMesh& mesh);
+    //- Disallow default bitwise copy construct
+    IOoptionList(const IOoptionList&) = delete;
+    //- Disallow default bitwise assignment
+    IOoptionList& operator=(const IOoptionList&) = delete;
   //- Destructor
   virtual ~IOoptionList()
   {}

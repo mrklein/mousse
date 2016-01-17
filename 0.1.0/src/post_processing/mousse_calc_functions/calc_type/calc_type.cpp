@@ -4,8 +4,8 @@
 
 #include "calc_type.hpp"
 // Static Data Members
-defineTypeNameAndDebug(calcType, 0);
-defineRunTimeSelectionTable(calcType, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(calcType, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(calcType, dictionary);
 // Constructors 
 mousse::calcType::calcType()
 {}
@@ -19,27 +19,27 @@ void mousse::calcType::init()
 }
 void mousse::calcType::preCalc
 (
-  const argList& args,
-  const Time& runTime,
-  const fvMesh& mesh
+  const argList& /*args*/,
+  const Time& /*runTime*/,
+  const fvMesh& /*mesh*/
 )
 {
   // Do nothing
 }
 void mousse::calcType::calc
 (
-  const argList& args,
-  const Time& runTime,
-  const fvMesh& mesh
+  const argList& /*args*/,
+  const Time& /*runTime*/,
+  const fvMesh& /*mesh*/
 )
 {
   // Do nothing
 }
 void mousse::calcType::postCalc
 (
-  const argList& args,
-  const Time& runTime,
-  const fvMesh& mesh
+  const argList& /*args*/,
+  const Time& /*runTime*/,
+  const fvMesh& /*mesh*/
 )
 {
   // Do nothing

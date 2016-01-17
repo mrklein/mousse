@@ -23,11 +23,6 @@ class MeshedSurfaceIOAllocator
     faceCompactIOList faces_;
     //- Surface zones
     surfZoneIOList zones_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    MeshedSurfaceIOAllocator(const MeshedSurfaceIOAllocator&);
-    //- Disallow default bitwise assignment
-    void operator=(const MeshedSurfaceIOAllocator&);
 public:
   // Constructors
     //- Read construct from IOobjects
@@ -57,6 +52,13 @@ public:
       const IOobject& ioZones,
       const Xfer<surfZoneList>& zones
     );
+    //- Disallow default bitwise copy construct
+    MeshedSurfaceIOAllocator(const MeshedSurfaceIOAllocator&) = delete;
+    //- Disallow default bitwise assignment
+    MeshedSurfaceIOAllocator& operator=
+    (
+      const MeshedSurfaceIOAllocator&
+    ) = delete;
   // Member Functions
     // Access
       //- Non-const access to the points

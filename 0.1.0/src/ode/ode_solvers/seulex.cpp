@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(seulex, 0);
-  addToRunTimeSelectionTable(ODESolver, seulex, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(seulex, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ODESolver, seulex, dictionary);
   const scalar
     seulex::stepFactor1_ = 0.6,
     seulex::stepFactor2_ = 0.93,
@@ -169,7 +169,7 @@ void mousse::seulex::solve
     scalar logTol = -log10(relTol_[0] + absTol_[0])*0.6 + 0.5;
     kTarg_ = max(1, min(kMaxx_ - 1, int(logTol)));
   }
-  forAll(scale_, i)
+  FOR_ALL(scale_, i)
   {
     scale_[i] = absTol_[i] + relTol_[i]*mag(y[i]);
   }
@@ -189,7 +189,7 @@ void mousse::seulex::solve
     step.reject = false;
     if (mag(dx) <= mag(x)*sqr(SMALL))
     {
-      WarningIn("seulex::solve(scalar& x, scalarField& y, stepState&")
+      WARNING_IN("seulex::solve(scalar& x, scalarField& y, stepState&")
           << "step size underflow :"  << dx << endl;
     }
     scalar errOld = 0;
@@ -208,7 +208,7 @@ void mousse::seulex::solve
       }
       else
       {
-        forAll(ySequence_, i)
+        FOR_ALL(ySequence_, i)
         {
           table_[k-1][i] = ySequence_[i];
         }
@@ -217,7 +217,7 @@ void mousse::seulex::solve
       {
         extrapolate(k, table_, y);
         scalar err = 0.0;
-        forAll(scale_, i)
+        FOR_ALL(scale_, i)
         {
           scale_[i] = absTol_[i] + relTol_[i]*mag(y0_[i]);
           err += sqr((y[i] - table_[0][i])/scale_[i]);

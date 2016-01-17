@@ -34,7 +34,7 @@ class multiNormal
       List<scalar> strength_;
 public:
   //- Runtime type information
-  TypeName("multiNormal");
+  TYPE_NAME("multiNormal");
   // Constructors
     //- Construct from components
     multiNormal(const dictionary& dict, cachedRandom& rndGen);

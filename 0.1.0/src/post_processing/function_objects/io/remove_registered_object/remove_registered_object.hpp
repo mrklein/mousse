@@ -50,14 +50,9 @@ protected:
     // Read from dictionary
       //- Names of objects to control
       wordList objectNames_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    removeRegisteredObject(const removeRegisteredObject&);
-    //- Disallow default bitwise assignment
-    void operator=(const removeRegisteredObject&);
 public:
   //- Runtime type information
-  TypeName("removeRegisteredObject");
+  TYPE_NAME("removeRegisteredObject");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -68,6 +63,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    removeRegisteredObject(const removeRegisteredObject&) = delete;
+    //- Disallow default bitwise assignment
+    removeRegisteredObject& operator=(const removeRegisteredObject&) = delete;
   //- Destructor
   virtual ~removeRegisteredObject();
   // Member Functions

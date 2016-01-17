@@ -6,7 +6,6 @@
 // Description
 //   List of cloud function objects
 // SourceFiles
-//   _cloud_function_object_list_i.hpp
 //   _cloud_function_object_list.cpp
 #ifndef _cloud_function_object_list_hpp_
 #define _cloud_function_object_list_hpp_
@@ -80,7 +79,23 @@ public:
       );
 };
 }  // namespace mousse
-#include "_cloud_function_object_list_i.hpp"
+
+template<class CloudType>
+inline const CloudType& mousse::CloudFunctionObjectList<CloudType>::owner() const
+{
+  return owner_;
+}
+template<class CloudType>
+inline CloudType& mousse::CloudFunctionObjectList<CloudType>::owner()
+{
+  return owner_;
+}
+template<class CloudType>
+inline const mousse::dictionary&
+mousse::CloudFunctionObjectList<CloudType>::dict() const
+{
+  return dict_;
+}
 #ifdef NoRepository
   #include "_cloud_function_object_list.cpp"
 #endif

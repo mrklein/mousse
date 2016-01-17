@@ -10,10 +10,10 @@ void triSurface::writeSMESH(const bool writeSorted, Ostream& os) const
 {
   const pointField& ps = points();
   // Write header
-  os  << "# tetgen .smesh file" << endl
+  os<< "# tetgen .smesh file" << endl
     << ps.size() << " 3" << endl;   // 3 dimensions
   // Write vertex coords
-  forAll(ps, pointi)
+  FOR_ALL(ps, pointi)
   {
     os  << pointi << ' '
       << ps[pointi].x() << ' '
@@ -26,7 +26,7 @@ void triSurface::writeSMESH(const bool writeSorted, Ostream& os) const
     surfacePatchList myPatches(calcPatches(faceMap));
     os  << size() << " 1" << endl;   // 1 attribute: region number
     label faceIndex = 0;
-    forAll(myPatches, patchI)
+    FOR_ALL(myPatches, patchI)
     {
       // Print all faces belonging to this patch
       for
@@ -50,8 +50,8 @@ void triSurface::writeSMESH(const bool writeSorted, Ostream& os) const
   }
   else
   {
-    os  << size() << " 1" << endl;   // 1 attribute: region number
-    forAll(*this, faceI)
+    os<< size() << " 1" << endl;   // 1 attribute: region number
+    FOR_ALL(*this, faceI)
     {
       os  << "3 "
         << operator[](faceI)[0] << ' '
@@ -60,7 +60,7 @@ void triSurface::writeSMESH(const bool writeSorted, Ostream& os) const
         << operator[](faceI).region()       // region number
         << endl;
     }
-    os  << '0' << endl      // holes
+    os<< '0' << endl      // holes
       << '0' << endl;     // regions
   }
 }

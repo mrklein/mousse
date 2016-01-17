@@ -4,7 +4,10 @@
 
 #include "fv_mesh.hpp"
 #include "blended.hpp"
+
 namespace mousse
 {
-  makelimitedSurfaceInterpolationScheme(blended)
+
+MAKELIMITED_SURFACE_INTERPOLATION_SCHEME(blended)
+
 }

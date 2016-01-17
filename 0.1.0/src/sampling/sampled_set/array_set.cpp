@@ -13,8 +13,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(arraySet, 0);
-  addToRunTimeSelectionTable(sampledSet, arraySet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(arraySet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, arraySet, word);
 }
 // Private Member Functions 
 void mousse::arraySet::calcSamples
@@ -50,11 +50,11 @@ void mousse::arraySet::calcSamples
       }
     }
   }
-  forAll(sampleCoords, i)
+  FOR_ALL(sampleCoords, i)
   {
     sampleCoords[i] = transform(coordSys_.R().R(), sampleCoords[i]);
   }
-  forAll(sampleCoords, sampleI)
+  FOR_ALL(sampleCoords, sampleI)
   {
     label cellI = queryMesh.findCell(sampleCoords[sampleI]);
     if (cellI != -1)

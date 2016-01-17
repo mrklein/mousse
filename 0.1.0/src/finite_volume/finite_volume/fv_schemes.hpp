@@ -43,16 +43,16 @@ class fvSchemes
     void clear();
     //- Read settings from the dictionary
     void read(const dictionary&);
-    //- Disallow default bitwise copy construct
-    fvSchemes(const fvSchemes&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvSchemes&);
 public:
   //- Debug switch
   static int debug;
   // Constructors
     //- Construct for objectRegistry
     fvSchemes(const objectRegistry& obr);
+    //- Disallow default bitwise copy construct
+    fvSchemes(const fvSchemes&) = delete;
+    //- Disallow default bitwise assignment
+    fvSchemes& operator=(const fvSchemes&) = delete;
   // Member Functions
     // Access
       const dictionary& schemesDict() const;

@@ -5,13 +5,16 @@
 #include "fv.hpp"
 #include "hash_table.hpp"
 #include "linear.hpp"
+
 namespace mousse
 {
+
 namespace fv
 {
+
 // Selectors
 template<class Type>
-tmp<divScheme<Type> > divScheme<Type>::New
+tmp<divScheme<Type>> divScheme<Type>::New
 (
   const fvMesh& mesh,
   Istream& schemeData
@@ -25,36 +28,40 @@ tmp<divScheme<Type> > divScheme<Type>::New
   }
   if (schemeData.eof())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "divScheme<Type>::New(const fvMesh&, Istream&)",
       schemeData
-    )   << "Div scheme not specified" << endl << endl
-      << "Valid div schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "Div scheme not specified" << endl << endl
+    << "Valid div schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
-  const word schemeName(schemeData);
+  const word schemeName{schemeData};
   typename IstreamConstructorTable::iterator cstrIter =
     IstreamConstructorTablePtr_->find(schemeName);
   if (cstrIter == IstreamConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "divScheme<Type>::New(const fvMesh&, Istream&)",
       schemeData
-    )   << "unknown div scheme "
-      << schemeName << nl << nl
-      << "Valid div schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "unknown div scheme "
+    << schemeName << nl << nl
+    << "Valid div schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
   return cstrIter()(mesh, schemeData);
 }
+
 // Destructor 
 template<class Type>
 divScheme<Type>::~divScheme()
 {}
-// Member Functions 
+
 }  // namespace fv
+
 }  // namespace mousse

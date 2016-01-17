@@ -7,7 +7,6 @@
 //   Accumulating histogram of values.  Specified bin resolution
 //   automatic generation of bins.
 // SourceFiles
-//   distribution_i.hpp
 //   distribution.cpp
 #ifndef distribution_hpp_
 #define distribution_hpp_
@@ -23,13 +22,13 @@ class distribution
     scalar binWidth_;
 public:
   //- Runtime type information
-    TypeName("distribution");
+    TYPE_NAME("distribution");
   // Static functions
     //- Write to file
       static void write
       (
         const fileName& file,
-        const List<Pair<scalar> >& pairs
+        const List<Pair<scalar>>& pairs
       );
   // Constructors
     //- Construct null
@@ -49,10 +48,10 @@ public:
     void add(const scalar valueToAdd);
     void add(const label valueToAdd);
     void insertMissingKeys();
-    List<Pair<scalar> > normalised();
-    List<Pair<scalar> > normalisedMinusMean();
-    List<Pair<scalar> > normalisedShifted(scalar shiftValue);
-    List<Pair<scalar> > raw();
+    List<Pair<scalar>> normalised();
+    List<Pair<scalar>> normalisedMinusMean();
+    List<Pair<scalar>> normalisedShifted(scalar shiftValue);
+    List<Pair<scalar>> raw();
     // Access
       inline scalar binWidth() const;
   // Member Operators
@@ -61,5 +60,10 @@ public:
     friend Ostream& operator<<(Ostream&, const distribution&);
 };
 }  // namespace mousse
-#include "distribution_i.hpp"
+
+// Member Functions 
+inline mousse::scalar mousse::distribution::binWidth() const
+{
+  return binWidth_;
+}
 #endif

@@ -48,7 +48,7 @@ class mappedFixedPushedInternalValueFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("mappedFixedPushedInternalValue");
+  TYPE_NAME("mappedFixedPushedInternalValue");
   // Constructors
     //- Construct from patch and internal field
     mappedFixedPushedInternalValueFvPatchField

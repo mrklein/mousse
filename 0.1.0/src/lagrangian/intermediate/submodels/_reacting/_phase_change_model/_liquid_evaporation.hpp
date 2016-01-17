@@ -34,7 +34,7 @@ protected:
     tmp<scalarField> calcXc(const label cellI) const;
 public:
   //- Runtime type information
-  TypeName("liquidEvaporation");
+  TYPE_NAME("liquidEvaporation");
   // Constructors
     //- Construct from dictionary
     LiquidEvaporation(const dictionary& dict, CloudType& cloud);

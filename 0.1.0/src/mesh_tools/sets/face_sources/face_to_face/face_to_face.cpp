@@ -9,9 +9,9 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(faceToFace, 0);
-addToRunTimeSelectionTable(topoSetSource, faceToFace, word);
-addToRunTimeSelectionTable(topoSetSource, faceToFace, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(faceToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceToFace, istream);
 }
 mousse::topoSetSource::addToUsageTable mousse::faceToFace::usage_
 (

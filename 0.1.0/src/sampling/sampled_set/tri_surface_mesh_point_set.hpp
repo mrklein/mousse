@@ -36,7 +36,7 @@ class triSurfaceMeshPointSet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("triSurfaceMeshPointSet");
+  TYPE_NAME("triSurfaceMeshPointSet");
   // Constructors
     //- Construct from dictionary
     triSurfaceMeshPointSet

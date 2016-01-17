@@ -92,14 +92,14 @@ mousse::jumpCyclicAMIFvPatchField<Type>::patchNeighbourField() const
 template<class Type>
 void mousse::jumpCyclicAMIFvPatchField<Type>::updateInterfaceMatrix
 (
-  scalarField& result,
-  const scalarField& psiInternal,
-  const scalarField& coeffs,
-  const direction cmpt,
+  scalarField& /*result*/,
+  const scalarField& /*psiInternal*/,
+  const scalarField& /*coeffs*/,
+  const direction /*cmpt*/,
   const Pstream::commsTypes
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "void mousse::jumpCyclicAMIFvPatchField<Type>::updateInterfaceMatrix"
     "("
@@ -150,7 +150,7 @@ void mousse::jumpCyclicAMIFvPatchField<Type>::updateInterfaceMatrix
   this->transformCoupleField(pnf);
   // Multiply the field by coefficients and add into the result
   const labelUList& faceCells = this->cyclicAMIPatch().faceCells();
-  forAll(faceCells, elemI)
+  FOR_ALL(faceCells, elemI)
   {
     result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
   }

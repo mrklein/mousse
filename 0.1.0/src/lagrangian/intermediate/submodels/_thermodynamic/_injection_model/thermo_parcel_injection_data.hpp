@@ -37,7 +37,7 @@ protected:
     scalar Cp_;
 public:
   //- Runtime type information
-  TypeName("thermoParcelInjectionData");
+  TYPE_NAME("thermoParcelInjectionData");
   // Constructors
     //- Null constructor
     thermoParcelInjectionData();
@@ -72,5 +72,21 @@ public:
     );
 };
 }  // namespace mousse
-#include "thermo_parcel_injection_data_i.hpp"
+
+inline mousse::scalar mousse::thermoParcelInjectionData::T() const
+{
+  return T_;
+}
+inline mousse::scalar mousse::thermoParcelInjectionData::Cp() const
+{
+  return Cp_;
+}
+inline mousse::scalar& mousse::thermoParcelInjectionData::T()
+{
+  return T_;
+}
+inline mousse::scalar& mousse::thermoParcelInjectionData::Cp()
+{
+  return Cp_;
+}
 #endif

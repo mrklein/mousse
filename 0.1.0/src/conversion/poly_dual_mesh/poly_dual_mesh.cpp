@@ -11,7 +11,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(polyDualMesh, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyDualMesh, 0);
 }
 // Private Member Functions 
 // Determine order for faces:
@@ -28,11 +28,11 @@ mousse::labelList mousse::polyDualMesh::getFaceOrder
   labelList oldToNew(faceOwner.size(), -1);
   // First unassigned face
   label newFaceI = 0;
-  forAll(cells, cellI)
+  FOR_ALL(cells, cellI)
   {
     const labelList& cFaces = cells[cellI];
     SortableList<label> nbr(cFaces.size());
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       label faceI = cFaces[i];
       label nbrCellI = faceNeighbour[faceI];
@@ -61,7 +61,7 @@ mousse::labelList mousse::polyDualMesh::getFaceOrder
       }
     }
     nbr.sort();
-    forAll(nbr, i)
+    FOR_ALL(nbr, i)
     {
       if (nbr[i] != -1)
       {
@@ -79,11 +79,11 @@ mousse::labelList mousse::polyDualMesh::getFaceOrder
     oldToNew[faceI] = faceI;
   }
   // Check done all faces.
-  forAll(oldToNew, faceI)
+  FOR_ALL(oldToNew, faceI)
   {
     if (oldToNew[faceI] == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyDualMesh::getFaceOrder"
         "(const labelList&, const labelList&, const label) const"
@@ -112,7 +112,7 @@ void mousse::polyDualMesh::getPointEdges
   const face& f = patch.localFaces()[faceI];
   e0 = -1;
   e1 = -1;
-  forAll(fEdges, i)
+  FOR_ALL(fEdges, i)
   {
     label edgeI = fEdges[i];
     const edge& e = patch.edges()[edgeI];
@@ -151,7 +151,7 @@ void mousse::polyDualMesh::getPointEdges
       }
     }
   }
-  FatalErrorIn("getPointEdges") << "Cannot find two edges on face:" << faceI
+  FATAL_ERROR_IN("getPointEdges") << "Cannot find two edges on face:" << faceI
     << " vertices:" << patch.localFaces()[faceI]
     << " that uses point:" << pointI
     << abort(FatalError);
@@ -186,7 +186,7 @@ mousse::labelList mousse::polyDualMesh::collectPatchSideFace
   // Store dual vertex for starting edge.
   if (edgeToDualPoint[patch.meshEdges()[edgeI]] < 0)
   {
-    FatalErrorIn("polyDualMesh::collectPatchSideFace") << edgeI
+    FATAL_ERROR_IN("polyDualMesh::collectPatchSideFace") << edgeI
       << abort(FatalError);
   }
   dualFace.append(edgeToDualPoint[patch.meshEdges()[edgeI]]);
@@ -323,7 +323,7 @@ void mousse::polyDualMesh::collectPatchInternalFace
   {
     reverse(dualFace2);
     // Correct featEdgeIndices for change in dualFace2
-    forAll(featEdgeIndices2, i)
+    FOR_ALL(featEdgeIndices2, i)
     {
       featEdgeIndices2[i] = dualFace2.size() -1 - featEdgeIndices2[i];
     }
@@ -362,7 +362,7 @@ void mousse::polyDualMesh::splitFace
     {
       // Do 'face-centre' decomposition. Start from first feature
       // edge create face up until next feature edge.
-      forAll(featEdgeIndices, i)
+      FOR_ALL(featEdgeIndices, i)
       {
         label startFp = featEdgeIndices[i];
         label endFp = featEdgeIndices[(i+1) % featEdgeIndices.size()];
@@ -410,7 +410,7 @@ void mousse::polyDualMesh::splitFace
       // number of feature edges > 2.
       // Storage for new face
       DynamicList<label> subFace(dualFace.size());
-      forAll(featEdgeIndices, featI)
+      FOR_ALL(featEdgeIndices, featI)
       {
         label startFp = featEdgeIndices[featI];
         label endFp = featEdgeIndices[featEdgeIndices.fcIndex(featI)];
@@ -457,7 +457,7 @@ void mousse::polyDualMesh::dualPatch
   const label patchToDualOffset,
   const labelList& edgeToDualPoint,
   const labelList& pointToDualPoint,
-  const pointField& dualPoints,
+  const pointField& /*dualPoints*/,
   DynamicList<face>& dualFaces,
   DynamicList<label>& dualOwner,
   DynamicList<label>& dualNeighbour,
@@ -474,13 +474,13 @@ void mousse::polyDualMesh::dualPatch
   boolList donePoint(patch.nPoints(), false);
   // Do points on edge of patch
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(doneEdgeSide, patchEdgeI)
+  FOR_ALL(doneEdgeSide, patchEdgeI)
   {
     const labelList& eFaces = patch.edgeFaces()[patchEdgeI];
     if (eFaces.size() == 1)
     {
       const edge& e = patch.edges()[patchEdgeI];
-      forAll(e, eI)
+      FOR_ALL(e, eI)
       {
         label bitMask = 1<<eI;
         if ((doneEdgeSide[patchEdgeI] & bitMask) == 0)
@@ -522,7 +522,7 @@ void mousse::polyDualMesh::dualPatch
   }
   // Do patch-internal points
   // ~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(donePoint, pointI)
+  FOR_ALL(donePoint, pointI)
   {
     if (!donePoint[pointI])
     {
@@ -599,7 +599,7 @@ void mousse::polyDualMesh::calcDual
     if (nonManifoldPoints.size())
     {
       nonManifoldPoints.write();
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyDualMesh::calcDual(const polyMesh&, const labelList&"
         ", const labelList&)"
@@ -630,7 +630,7 @@ void mousse::polyDualMesh::calcDual
   // Cell centres.
   const pointField& cellCentres = mesh.cellCentres();
   cellPoint_.setSize(cellCentres.size());
-  forAll(cellCentres, cellI)
+  FOR_ALL(cellCentres, cellI)
   {
     cellPoint_[cellI] = dualPointI;
     dualPoints[dualPointI++] = cellCentres[cellI];
@@ -648,12 +648,12 @@ void mousse::polyDualMesh::calcDual
   //  -1 : is boundary edge.
   //  -2 : is internal edge.
   labelList edgeToDualPoint(mesh.nEdges(), -2);
-  forAll(meshEdges, patchEdgeI)
+  FOR_ALL(meshEdges, patchEdgeI)
   {
     label edgeI = meshEdges[patchEdgeI];
     edgeToDualPoint[edgeI] = -1;
   }
-  forAll(featureEdges, i)
+  FOR_ALL(featureEdges, i)
   {
     label edgeI = featureEdges[i];
     const edge& e = mesh.edges()[edgeI];
@@ -666,24 +666,24 @@ void mousse::polyDualMesh::calcDual
   //  -2 : is point on patch (but not on edge)
   //  -3 : is internal point.
   labelList pointToDualPoint(mesh.nPoints(), -3);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const labelList& meshPoints = patches[patchI].meshPoints();
-    forAll(meshPoints, i)
+    FOR_ALL(meshPoints, i)
     {
       pointToDualPoint[meshPoints[i]] = -2;
     }
     const labelListList& loops = patches[patchI].edgeLoops();
-    forAll(loops, i)
+    FOR_ALL(loops, i)
     {
       const labelList& loop = loops[i];
-      forAll(loop, j)
+      FOR_ALL(loop, j)
       {
         pointToDualPoint[meshPoints[loop[j]]] = -1;
       }
     }
   }
-  forAll(featurePoints, i)
+  FOR_ALL(featurePoints, i)
   {
     label pointI = featurePoints[i];
     pointToDualPoint[pointI] = dualPointI;
@@ -697,7 +697,7 @@ void mousse::polyDualMesh::calcDual
   DynamicList<label> dynDualRegion(mesh.nEdges());
   // Generate faces from edges on the boundary
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(meshEdges, patchEdgeI)
+  FOR_ALL(meshEdges, patchEdgeI)
   {
     label edgeI = meshEdges[patchEdgeI];
     const edge& e = mesh.edges()[edgeI];
@@ -717,7 +717,7 @@ void mousse::polyDualMesh::calcDual
     const labelList& patchFaces = allBoundary.edgeFaces()[patchEdgeI];
     if (patchFaces.size() != 2)
     {
-      FatalErrorIn("polyDualMesh::calcDual")
+      FATAL_ERROR_IN("polyDualMesh::calcDual")
         << "Cannot handle edges with " << patchFaces.size()
         << " connected boundary faces."
         << abort(FatalError);
@@ -798,7 +798,7 @@ void mousse::polyDualMesh::calcDual
       vector n = f.normal(dualPoints);
       if (((mesh.points()[owner] - dualPoints[f[0]]) & n) > 0)
       {
-        WarningIn("calcDual") << "Incorrect orientation"
+        WARNING_IN("calcDual") << "Incorrect orientation"
           << " on boundary edge:" << edgeI
           << mesh.points()[mesh.edges()[edgeI][0]]
           << mesh.points()[mesh.edges()[edgeI][1]]
@@ -808,7 +808,7 @@ void mousse::polyDualMesh::calcDual
   }
   // Generate faces from internal edges
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(edgeToDualPoint, edgeI)
+  FOR_ALL(edgeToDualPoint, edgeI)
   {
     if (edgeToDualPoint[edgeI] == -2)
     {
@@ -889,7 +889,7 @@ void mousse::polyDualMesh::calcDual
         vector n = f.normal(dualPoints);
         if (((mesh.points()[owner] - dualPoints[f[0]]) & n) > 0)
         {
-          WarningIn("calcDual") << "Incorrect orientation"
+          WARNING_IN("calcDual") << "Incorrect orientation"
             << " on internal edge:" << edgeI
             << mesh.points()[mesh.edges()[edgeI][0]]
             << mesh.points()[mesh.edges()[edgeI][1]]
@@ -908,15 +908,15 @@ void mousse::polyDualMesh::calcDual
     OFstream str("dualInternalFaces.obj");
     Pout<< "polyDualMesh::calcDual : dumping internal faces to "
       << str.name() << endl;
-    forAll(dualPoints, dualPointI)
+    FOR_ALL(dualPoints, dualPointI)
     {
       meshTools::writeOBJ(str, dualPoints[dualPointI]);
     }
-    forAll(dynDualFaces, dualFaceI)
+    FOR_ALL(dynDualFaces, dualFaceI)
     {
       const face& f = dynDualFaces[dualFaceI];
       str<< 'f';
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         str<< ' ' << f[fp]+1;
       }
@@ -926,7 +926,7 @@ void mousse::polyDualMesh::calcDual
   const label nInternalFaces = dynDualFaces.size();
   // Outside faces
   // ~~~~~~~~~~~~~
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     dualPatch
@@ -958,15 +958,15 @@ void mousse::polyDualMesh::calcDual
     OFstream str("dualFaces.obj");
     Pout<< "polyDualMesh::calcDual : dumping all faces to "
       << str.name() << endl;
-    forAll(dualPoints, dualPointI)
+    FOR_ALL(dualPoints, dualPointI)
     {
       meshTools::writeOBJ(str, dualPoints[dualPointI]);
     }
-    forAll(dualFaces, dualFaceI)
+    FOR_ALL(dualFaces, dualFaceI)
     {
       const face& f = dualFaces[dualFaceI];
       str<< 'f';
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         str<< ' ' << f[fp]+1;
       }
@@ -975,11 +975,11 @@ void mousse::polyDualMesh::calcDual
   }
   // Create cells.
   cellList dualCells(mesh.nPoints());
-  forAll(dualCells, cellI)
+  FOR_ALL(dualCells, cellI)
   {
     dualCells[cellI].setSize(0);
   }
-  forAll(dualOwner, faceI)
+  FOR_ALL(dualOwner, faceI)
   {
     label cellI = dualOwner[faceI];
     labelList& cFaces = dualCells[cellI];
@@ -987,7 +987,7 @@ void mousse::polyDualMesh::calcDual
     cFaces.setSize(sz+1);
     cFaces[sz] = faceI;
   }
-  forAll(dualNeighbour, faceI)
+  FOR_ALL(dualNeighbour, faceI)
   {
     label cellI = dualNeighbour[faceI];
     if (cellI != -1)
@@ -1016,13 +1016,13 @@ void mousse::polyDualMesh::calcDual
   inplaceReorder(oldToNew, dualOwner);
   inplaceReorder(oldToNew, dualNeighbour);
   inplaceReorder(oldToNew, dualRegion);
-  forAll(dualCells, cellI)
+  FOR_ALL(dualCells, cellI)
   {
     inplaceRenumber(oldToNew, dualCells[cellI]);
   }
   // Create patches
   labelList patchSizes(patches.size(), 0);
-  forAll(dualRegion, faceI)
+  FOR_ALL(dualRegion, faceI)
   {
     if (dualRegion[faceI] >= 0)
     {
@@ -1031,7 +1031,7 @@ void mousse::polyDualMesh::calcDual
   }
   labelList patchStarts(patches.size(), 0);
   label faceI = nInternalFaces;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     patchStarts[patchI] = faceI;
     faceI += patchSizes[patchI];
@@ -1042,7 +1042,7 @@ void mousse::polyDualMesh::calcDual
     << endl;
   // Add patches. First add zero sized (since mesh still 0 size)
   List<polyPatch*> dualPatches(patches.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     dualPatches[patchI] = pp.clone
@@ -1206,10 +1206,10 @@ void mousse::polyDualMesh::calcFeatures
   // For ease of use store patch number per face in allBoundary.
   labelList allRegion(allBoundary.size());
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       allRegion[i + pp.start() - mesh.nInternalFaces()] = patchI;
     }
@@ -1220,14 +1220,14 @@ void mousse::polyDualMesh::calcFeatures
   const vectorField& faceNormals = allBoundary.faceNormals();
   const labelList& meshPoints = allBoundary.meshPoints();
   boolList isFeatureEdge(edgeFaces.size(), false);
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     const labelList& eFaces = edgeFaces[edgeI];
     if (eFaces.size() != 2)
     {
       // Non-manifold. Problem?
       const edge& e = allBoundary.edges()[edgeI];
-      WarningIn("polyDualMesh::calcFeatures") << "Edge "
+      WARNING_IN("polyDualMesh::calcFeatures") << "Edge "
         << meshPoints[e[0]] << ' ' << meshPoints[e[1]]
         << "  coords:" << mesh.points()[meshPoints[e[0]]]
         << mesh.points()[meshPoints[e[1]]]
@@ -1252,11 +1252,11 @@ void mousse::polyDualMesh::calcFeatures
   // ~~~~~~~~~~~~~~~~~~~~~~~~
   const labelListList& pointEdges = allBoundary.pointEdges();
   DynamicList<label> allFeaturePoints(pointEdges.size());
-  forAll(pointEdges, pointI)
+  FOR_ALL(pointEdges, pointI)
   {
     const labelList& pEdges = pointEdges[pointI];
     label nFeatEdges = 0;
-    forAll(pEdges, i)
+    FOR_ALL(pEdges, i)
     {
       if (isFeatureEdge[pEdges[i]])
       {
@@ -1275,7 +1275,7 @@ void mousse::polyDualMesh::calcFeatures
     OFstream str("featurePoints.obj");
     Pout<< "polyDualMesh::calcFeatures : dumping feature points to "
       << str.name() << endl;
-    forAll(featurePoints, i)
+    FOR_ALL(featurePoints, i)
     {
       label pointI = featurePoints[i];
       meshTools::writeOBJ(str, mesh.points()[pointI]);
@@ -1297,7 +1297,7 @@ void mousse::polyDualMesh::calcFeatures
     )
   );
   DynamicList<label> allFeatureEdges(isFeatureEdge.size());
-  forAll(isFeatureEdge, edgeI)
+  FOR_ALL(isFeatureEdge, edgeI)
   {
     if (isFeatureEdge[edgeI])
     {

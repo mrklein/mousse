@@ -38,7 +38,7 @@ protected:
     virtual void updateMesh(PstreamBuffers&);
 public:
   //- Runtime type information
-  TypeName("mappedPatch");
+  TYPE_NAME("mappedPatch");
   // Constructors
     //- Construct from components
     mappedPolyPatch

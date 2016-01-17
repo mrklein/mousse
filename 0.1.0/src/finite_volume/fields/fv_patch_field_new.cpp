@@ -14,34 +14,36 @@ mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
 {
   if (debug)
   {
-    Info<< "fvPatchField<Type>::New(const word&, const word&, "
-       "const fvPatch&, const DimensionedField<Type, volMesh>&) :"
-       " patchFieldType="
+    Info
+      << "fvPatchField<Type>::New(const word&, const word&, "
+         "const fvPatch&, const DimensionedField<Type, volMesh>&) :"
+         " patchFieldType="
       << patchFieldType
       << " : " << p.type()
       << endl;
   }
+
   typename patchConstructorTable::iterator cstrIter =
     patchConstructorTablePtr_->find(patchFieldType);
+
   if (cstrIter == patchConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvPatchField<Type>::New(const word&, const word&, const fvPatch&,"
       "const DimensionedField<Type, volMesh>&)"
-    )   << "Unknown patchField type "
-      << patchFieldType << nl << nl
-      << "Valid patchField types are :" << endl
-      << patchConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown patchField type "
+    << patchFieldType << nl << nl
+    << "Valid patchField types are :" << endl
+    << patchConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
+
   typename patchConstructorTable::iterator patchTypeCstrIter =
     patchConstructorTablePtr_->find(p.type());
-  if
-  (
-    actualPatchType == word::null
-  || actualPatchType != p.type()
-  )
+
+  if (actualPatchType == word::null || actualPatchType != p.type())
   {
     if (patchTypeCstrIter != patchConstructorTablePtr_->end())
     {
@@ -54,7 +56,7 @@ mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
   }
   else
   {
-    tmp<fvPatchField<Type> > tfvp = cstrIter()(p, iF);
+    tmp<fvPatchField<Type>> tfvp = cstrIter()(p, iF);
     // Check if constraint type override and store patchType if so
     if ((patchTypeCstrIter != patchConstructorTablePtr_->end()))
     {
@@ -63,8 +65,10 @@ mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
     return tfvp;
   }
 }
+
+
 template<class Type>
-mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
+mousse::tmp<mousse::fvPatchField<Type>> mousse::fvPatchField<Type>::New
 (
   const word& patchFieldType,
   const fvPatch& p,
@@ -73,8 +77,10 @@ mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
 {
   return New(patchFieldType, word::null, p, iF);
 }
+
+
 template<class Type>
-mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
+mousse::tmp<mousse::fvPatchField<Type>> mousse::fvPatchField<Type>::New
 (
   const fvPatch& p,
   const DimensionedField<Type, volMesh>& iF,
@@ -99,49 +105,46 @@ mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
     }
     if (cstrIter == dictionaryConstructorTablePtr_->end())
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "fvPatchField<Type>::New(const fvPatch&, "
         "const DimensionedField<Type, volMesh>&, "
         "const dictionary&)",
         dict
-      )   << "Unknown patchField type " << patchFieldType
-        << " for patch type " << p.type() << nl << nl
-        << "Valid patchField types are :" << endl
-        << dictionaryConstructorTablePtr_->sortedToc()
-        << exit(FatalIOError);
+      )
+      << "Unknown patchField type " << patchFieldType
+      << " for patch type " << p.type() << nl << nl
+      << "Valid patchField types are :" << endl
+      << dictionaryConstructorTablePtr_->sortedToc()
+      << exit(FatalIOError);
     }
   }
-  if
-  (
-   !dict.found("patchType")
-  || word(dict.lookup("patchType")) != p.type()
-  )
+  if (!dict.found("patchType") || word(dict.lookup("patchType")) != p.type())
   {
     typename dictionaryConstructorTable::iterator patchTypeCstrIter
       = dictionaryConstructorTablePtr_->find(p.type());
-    if
-    (
-      patchTypeCstrIter != dictionaryConstructorTablePtr_->end()
-    && patchTypeCstrIter() != cstrIter()
-    )
+    if (patchTypeCstrIter != dictionaryConstructorTablePtr_->end()
+        && patchTypeCstrIter() != cstrIter())
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "fvPatchField<Type>::New(const fvPatch&, "
         "const DimensionedField<Type, volMesh>&, "
         "const dictionary&)",
         dict
-      )   << "inconsistent patch and patchField types for \n"
-         "    patch type " << p.type()
-        << " and patchField type " << patchFieldType
-        << exit(FatalIOError);
+      )
+      << "inconsistent patch and patchField types for \n"
+      "    patch type " << p.type()
+      << " and patchField type " << patchFieldType
+      << exit(FatalIOError);
     }
   }
   return cstrIter()(p, iF, dict);
 }
+
+
 template<class Type>
-mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
+mousse::tmp<mousse::fvPatchField<Type>> mousse::fvPatchField<Type>::New
 (
   const fvPatchField<Type>& ptf,
   const fvPatch& p,
@@ -161,15 +164,17 @@ mousse::tmp<mousse::fvPatchField<Type> > mousse::fvPatchField<Type>::New
     patchMapperConstructorTablePtr_->find(ptf.type());
   if (cstrIter == patchMapperConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvPatchField<Type>::New(const fvPatchField<Type>&, "
       "const fvPatch&, const DimensionedField<Type, volMesh>&, "
       "const fvPatchFieldMapper&)"
-    )   << "Unknown patchField type " << ptf.type() << nl << nl
-      << "Valid patchField types are :" << endl
-      << patchMapperConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown patchField type " << ptf.type() << nl << nl
+    << "Valid patchField types are :" << endl
+    << patchMapperConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
+
   return cstrIter()(ptf, p, iF, pfMapper);
 }

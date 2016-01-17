@@ -57,7 +57,7 @@ void mousse::FacePostProcessing<CloudType>::write()
   totalTime_ += timeElapsed;
   const scalar alpha = (totalTime_ - timeElapsed)/totalTime_;
   const scalar beta = timeElapsed/totalTime_;
-  forAll(faceZoneIDs_, zoneI)
+  FOR_ALL(faceZoneIDs_, zoneI)
   {
     massFlowRate_[zoneI] =
       alpha*massFlowRate_[zoneI] + beta*mass_[zoneI]/timeElapsed;
@@ -67,7 +67,7 @@ void mousse::FacePostProcessing<CloudType>::write()
   Info<< type() << " output:" << nl;
   List<scalarField> zoneMassTotal(mass_.size());
   List<scalarField> zoneMassFlowRate(massFlowRate_.size());
-  forAll(faceZoneIDs_, zoneI)
+  FOR_ALL(faceZoneIDs_, zoneI)
   {
     const word& zoneName = fzm[faceZoneIDs_[zoneI]].name();
     scalarListList allProcMass(Pstream::nProcs());
@@ -102,7 +102,7 @@ void mousse::FacePostProcessing<CloudType>::write()
   Info<< endl;
   if (surfaceFormat_ != "none")
   {
-    forAll(faceZoneIDs_, zoneI)
+    FOR_ALL(faceZoneIDs_, zoneI)
     {
       const faceZone& fZone = fzm[faceZoneIDs_[zoneI]];
       labelList pointToGlobal;
@@ -120,7 +120,7 @@ void mousse::FacePostProcessing<CloudType>::write()
       allProcPoints[procI] = uniquePoints;
       Pstream::gatherList(allProcPoints);
       faceList faces(fZone().localFaces());
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         inplaceRenumber(pointToGlobal, faces[i]);
       }
@@ -177,14 +177,14 @@ void mousse::FacePostProcessing<CloudType>::write()
   }
   if (resetOnWrite_)
   {
-    forAll(faceZoneIDs_, zoneI)
+    FOR_ALL(faceZoneIDs_, zoneI)
     {
       massFlowRate_[zoneI] = 0.0;
     }
     timeOld_ = timeNew;
     totalTime_ = 0.0;
   }
-  forAll(mass_, zoneI)
+  FOR_ALL(mass_, zoneI)
   {
     mass_[zoneI] = 0.0;
   }
@@ -220,7 +220,7 @@ mousse::FacePostProcessing<CloudType>::FacePostProcessing
   const faceZoneMesh& fzm = owner.mesh().faceZones();
   const surfaceScalarField& magSf = owner.mesh().magSf();
   const polyBoundaryMesh& pbm = owner.mesh().boundaryMesh();
-  forAll(faceZoneNames, i)
+  FOR_ALL(faceZoneNames, i)
   {
     const word& zoneName = faceZoneNames[i];
     label zoneI = fzm.findZoneID(zoneName);
@@ -234,7 +234,7 @@ mousse::FacePostProcessing<CloudType>::FacePostProcessing
       label nFaces = returnReduce(fz.size(), sumOp<label>());
       Info<< "        " << zoneName << " faces: " << nFaces << nl;
       scalar totArea = 0.0;
-      forAll(fz, j)
+      FOR_ALL(fz, j)
       {
         label faceI = fz[j];
         if (faceI < owner.mesh().nInternalFaces())
@@ -302,11 +302,11 @@ void mousse::FacePostProcessing<CloudType>::postFace
   )
   {
     const faceZoneMesh& fzm = this->owner().mesh().faceZones();
-    forAll(faceZoneIDs_, i)
+    FOR_ALL(faceZoneIDs_, i)
     {
       const faceZone& fz = fzm[faceZoneIDs_[i]];
       label faceId = -1;
-      forAll(fz, j)
+      FOR_ALL(fz, j)
       {
         if (fz[j] == faceI)
         {

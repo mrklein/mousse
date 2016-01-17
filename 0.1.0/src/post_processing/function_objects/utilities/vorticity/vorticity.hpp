@@ -9,7 +9,7 @@
 //   This function object calculates the vorticity, the curl of the velocity.
 // SourceFiles
 //   vorticity.cpp
-//   i_ovorticity.hpp
+//   io_vorticity.hpp
 #ifndef vorticity_hpp_
 #define vorticity_hpp_
 #include "vol_fields_fwd.hpp"
@@ -33,14 +33,9 @@ class vorticity
     word UName_;
     //- Name of vorticity field
     word outputName_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    vorticity(const vorticity&);
-    //- Disallow default bitwise assignment
-    void operator=(const vorticity&);
 public:
   //- Runtime type information
-  TypeName("vorticity");
+  TYPE_NAME("vorticity");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -51,6 +46,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    vorticity(const vorticity&) = delete;
+    //- Disallow default bitwise assignment
+    vorticity& operator=(const vorticity&) = delete;
   //- Destructor
   virtual ~vorticity();
   // Member Functions

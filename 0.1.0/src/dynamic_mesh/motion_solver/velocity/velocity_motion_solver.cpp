@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(velocityMotionSolver, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(velocityMotionSolver, 0);
 }
 // Constructors 
 mousse::velocityMotionSolver::velocityMotionSolver
@@ -35,7 +35,7 @@ mousse::velocityMotionSolver::velocityMotionSolver
 mousse::velocityMotionSolver::~velocityMotionSolver()
 {}
 // Member Functions 
-void mousse::velocityMotionSolver::movePoints(const pointField& p)
+void mousse::velocityMotionSolver::movePoints(const pointField&)
 {
   // No local data that needs adapting.
 }

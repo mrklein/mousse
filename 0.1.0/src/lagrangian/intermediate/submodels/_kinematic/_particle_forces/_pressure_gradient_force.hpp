@@ -6,7 +6,6 @@
 // Description
 //   Calculates particle pressure gradient force
 // SourceFiles
-//   _pressure_gradient_force_i.hpp
 //   _pressure_gradient_force.cpp
 #ifndef _pressure_gradient_force_hpp_
 #define _pressure_gradient_force_hpp_
@@ -28,7 +27,7 @@ protected:
     autoPtr<interpolation<vector> > DUcDtInterpPtr_;
 public:
   //- Runtime type information
-  TypeName("pressureGradient");
+  TYPE_NAME("pressureGradient");
   // Constructors
     //- Construct from mesh
     PressureGradientForce
@@ -74,7 +73,23 @@ public:
       ) const;
 };
 }  // namespace mousse
-#include "_pressure_gradient_force_i.hpp"
+
+template<class CloudType>
+inline const mousse::interpolation<mousse::vector>&
+mousse::PressureGradientForce<CloudType>::DUcDtInterp() const
+{
+  if (!DUcDtInterpPtr_.valid())
+  {
+    FATAL_ERROR_IN
+    (
+      "inline const mousse::interpolation<mousse::vector>&"
+      "mousse::PressureGradientForce<CloudType>::DUcDtInterp() const"
+    )
+    << "Carrier phase DUcDt interpolation object not set"
+    << abort(FatalError);
+  }
+  return DUcDtInterpPtr_();
+}
 #ifdef NoRepository
   #include "_pressure_gradient_force.cpp"
 #endif

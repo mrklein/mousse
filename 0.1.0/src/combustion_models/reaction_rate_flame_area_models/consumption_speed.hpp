@@ -28,16 +28,16 @@ class consumptionSpeed
   // Private member functions
     //- Return consumption rate
     scalar omega0Sigma(scalar sigma, scalar a) const;
-    //- Disallow copy construct
-    consumptionSpeed(const consumptionSpeed&);
-    //- Disallow default bitwise assignment
-    void operator=(const consumptionSpeed&);
 public:
   //- Runtime type information
-  TypeName("consumptionSpeed");
+  TYPE_NAME("consumptionSpeed");
   // Constructors
     //- Construct from dictionary
     consumptionSpeed(const dictionary& dict);
+    //- Disallow copy construct
+    consumptionSpeed(const consumptionSpeed&) = delete;
+    //- Disallow default bitwise assignment
+    consumptionSpeed& operator=(const consumptionSpeed&) = delete;
   //- Destructor
     virtual ~consumptionSpeed();
   // Member functions

@@ -51,16 +51,16 @@ private:
   // Private Member Functions
     //- Update localState_ from any events.
     void checkFiles() const;
-    //- Disallow default bitwise copy construct
-    fileMonitor(const fileMonitor&);
-    //- Disallow default bitwise assignment
-    void operator=(const fileMonitor&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("fileMonitor");
+  CLASS_NAME("fileMonitor");
   // Constructors
     //- Construct null
     fileMonitor(const bool useInotify);
+    //- Disallow default bitwise copy construct
+    fileMonitor(const fileMonitor&) = delete;
+    //- Disallow default bitwise assignment
+    fileMonitor& operator=(const fileMonitor&) = delete;
   //- Destructor
   ~fileMonitor();
   // Member Functions

@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace fv
   {
-    defineTypeNameAndDebug(option, 0);
-    defineRunTimeSelectionTable(option, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(option, 0);
+    DEFINE_RUN_TIME_SELECTION_TABLE(option, dictionary);
   }
 }
 // Constructors 
@@ -48,7 +48,7 @@ mousse::autoPtr<mousse::fv::option> mousse::fv::option::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "option::New(const word&, const dictionary&, const fvMesh&)"
     )   << "Unknown Model type " << modelType << nl << nl
@@ -71,11 +71,11 @@ mousse::label mousse::fv::option::applyToField(const word& fieldName) const
 }
 void mousse::fv::option::checkApplied() const
 {
-  forAll(applied_, i)
+  FOR_ALL(applied_, i)
   {
     if (!applied_[i])
     {
-      WarningIn("void option::checkApplied() const")
+      WARNING_IN("void option::checkApplied() const")
         << "Source " << name_ << " defined for field "
         << fieldNames_[i] << " but never used" << endl;
     }
@@ -83,67 +83,67 @@ void mousse::fv::option::checkApplied() const
 }
 void mousse::fv::option::addSup
 (
-  fvMatrix<scalar>& eqn,
-  const label fieldI
+  fvMatrix<scalar>&,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  fvMatrix<vector>& eqn,
-  const label fieldI
+  fvMatrix<vector>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  fvMatrix<sphericalTensor>& eqn,
-  const label fieldI
+  fvMatrix<sphericalTensor>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  fvMatrix<symmTensor>& eqn,
-  const label fieldI
+  fvMatrix<symmTensor>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  fvMatrix<tensor>& eqn,
-  const label fieldI
+  fvMatrix<tensor>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  const volScalarField& rho,
-  fvMatrix<scalar>& eqn,
-  const label fieldI
+  const volScalarField& /*rho*/,
+  fvMatrix<scalar>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  const volScalarField& rho,
-  fvMatrix<vector>& eqn,
-  const label fieldI
+  const volScalarField& /*rho*/,
+  fvMatrix<vector>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  const volScalarField& rho,
-  fvMatrix<sphericalTensor>& eqn,
-  const label fieldI
+  const volScalarField& /*rho*/,
+  fvMatrix<sphericalTensor>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  const volScalarField& rho,
-  fvMatrix<symmTensor>& eqn,
-  const label fieldI
+  const volScalarField& /*rho*/,
+  fvMatrix<symmTensor>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
 (
-  const volScalarField& rho,
-  fvMatrix<tensor>& eqn,
-  const label fieldI
+  const volScalarField& /*rho*/,
+  fvMatrix<tensor>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::addSup
@@ -196,31 +196,43 @@ void mousse::fv::option::addSup
 {
   addSup(alpha*rho, eqn, fieldI);
 }
-void mousse::fv::option::constrain(fvMatrix<scalar>& eqn, const label fieldI)
-{}
-void mousse::fv::option::constrain(fvMatrix<vector>& eqn, const label fieldI)
-{}
 void mousse::fv::option::constrain
 (
-  fvMatrix<sphericalTensor>& eqn,
-  const label fieldI
+  fvMatrix<scalar>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
 void mousse::fv::option::constrain
 (
-  fvMatrix<symmTensor>& eqn,
-  const label fieldI
+  fvMatrix<vector>& /*eqn*/,
+  const label /*fieldI*/
 )
 {}
-void mousse::fv::option::constrain(fvMatrix<tensor>& eqn, const label fieldI)
+void mousse::fv::option::constrain
+(
+  fvMatrix<sphericalTensor>& /*eqn*/,
+  const label /*fieldI*/
+)
 {}
-void mousse::fv::option::correct(volScalarField& field)
+void mousse::fv::option::constrain
+(
+  fvMatrix<symmTensor>& /*eqn*/,
+  const label /*fieldI*/
+)
 {}
-void mousse::fv::option::correct(volVectorField& field)
+void mousse::fv::option::constrain
+(
+  fvMatrix<tensor>& /*eqn*/,
+  const label /*fieldI*/
+)
 {}
-void mousse::fv::option::correct(volSphericalTensorField& field)
+void mousse::fv::option::correct(volScalarField& /*field*/)
 {}
-void mousse::fv::option::correct(volSymmTensorField& field)
+void mousse::fv::option::correct(volVectorField& /*field*/)
 {}
-void mousse::fv::option::correct(volTensorField& field)
+void mousse::fv::option::correct(volSphericalTensorField& /*field*/)
+{}
+void mousse::fv::option::correct(volSymmTensorField& /*field*/)
+{}
+void mousse::fv::option::correct(volTensorField& /*field*/)
 {}

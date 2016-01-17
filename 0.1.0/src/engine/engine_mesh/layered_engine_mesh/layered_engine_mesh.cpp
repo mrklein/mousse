@@ -9,8 +9,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(layeredEngineMesh, 0);
-  addToRunTimeSelectionTable(engineMesh, layeredEngineMesh, IOobject);
+  DEFINE_TYPE_NAME_AND_DEBUG(layeredEngineMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(engineMesh, layeredEngineMesh, IOobject);
 }
 // Constructors 
 mousse::layeredEngineMesh::layeredEngineMesh(const IOobject& io)
@@ -31,7 +31,7 @@ void mousse::layeredEngineMesh::move()
   // Position of the top of the static mesh layers above the piston
   scalar pistonPlusLayers = pistonPosition_.value() + pistonLayers_.value();
   pointField newPoints(points());
-  forAll(newPoints, pointi)
+  FOR_ALL(newPoints, pointi)
   {
     point& p = newPoints[pointi];
     if (p.z() < pistonPlusLayers)           // In piston bowl

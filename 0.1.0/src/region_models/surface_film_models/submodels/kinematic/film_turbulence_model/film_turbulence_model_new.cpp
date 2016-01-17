@@ -22,7 +22,7 @@ autoPtr<filmTurbulenceModel> filmTurbulenceModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "filmTurbulenceModel::New"
       "("

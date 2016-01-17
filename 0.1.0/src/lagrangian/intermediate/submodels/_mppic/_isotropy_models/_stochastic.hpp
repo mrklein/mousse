@@ -38,7 +38,7 @@ private:
     scalar sampleGauss();
 public:
   //- Runtime type information
-  TypeName("stochastic");
+  TYPE_NAME("stochastic");
   // Constructors
     //- Construct from components
     Stochastic(const dictionary& dict, CloudType& owner);

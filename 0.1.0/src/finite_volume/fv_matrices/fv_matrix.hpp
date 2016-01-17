@@ -167,7 +167,7 @@ public:
       //  Solver controls read from fvSolution
       solverPerformance solve();
   };
-  ClassName("fvMatrix");
+  CLASS_NAME("fvMatrix");
   // Constructors
     //- Construct given a field to solve for
     fvMatrix

@@ -37,7 +37,7 @@ class kqRWallFunctionFvPatchField
     void checkType();
 public:
   //- Runtime type information
-  TypeName("kqRWallFunction");
+  TYPE_NAME("kqRWallFunction");
   // Constructors
     //- Construct from patch and internal field
     kqRWallFunctionFvPatchField

@@ -6,6 +6,9 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+#include "transform_field.hpp"
+#include "symm_transform_field.hpp"
+
 // Constructors 
 mousse::fixedNormalInletOutletVelocityFvPatchVectorField::
 fixedNormalInletOutletVelocityFvPatchVectorField
@@ -153,9 +156,11 @@ void mousse::fixedNormalInletOutletVelocityFvPatchVectorField::operator=
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    fixedNormalInletOutletVelocityFvPatchVectorField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  fixedNormalInletOutletVelocityFvPatchVectorField
+);
+
 }

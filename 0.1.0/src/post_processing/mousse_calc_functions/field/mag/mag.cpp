@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace calcTypes
   {
-    defineTypeNameAndDebug(mag, 0);
-    addToRunTimeSelectionTable(calcType, mag, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(mag, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(calcType, mag, dictionary);
   }
 }
 // Constructors 
@@ -29,9 +29,9 @@ void mousse::calcTypes::mag::init()
 }
 void mousse::calcTypes::mag::preCalc
 (
-  const argList& args,
-  const Time& runTime,
-  const fvMesh& mesh
+  const argList& /*args*/,
+  const Time& /*runTime*/,
+  const fvMesh& /*mesh*/
 )
 {}
 void mousse::calcTypes::mag::calc

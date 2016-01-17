@@ -6,11 +6,11 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledPointPatch, 0);
-  addToRunTimeSelectionTable
-  (
-    facePointPatch,
-    regionCoupledPointPatch,
-    polyPatch
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledPointPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  facePointPatch,
+  regionCoupledPointPatch,
+  polyPatch
+);
 }  // namespace mousse

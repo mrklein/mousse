@@ -39,12 +39,7 @@ public:
 private:
   // Private data
     //- Cloud copy pointer
-    autoPtr<ReactingMultiphaseCloud<CloudType> > cloudCopyPtr_;
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    ReactingMultiphaseCloud(const ReactingMultiphaseCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const ReactingMultiphaseCloud&);
+    autoPtr<ReactingMultiphaseCloud<CloudType>> cloudCopyPtr_;
 protected:
   // Protected data
     //- Parcel constant properties
@@ -53,13 +48,13 @@ protected:
       //- Devolatilisation model
       autoPtr
       <
-        DevolatilisationModel<ReactingMultiphaseCloud<CloudType> >
+        DevolatilisationModel<ReactingMultiphaseCloud<CloudType>>
       >
       devolatilisationModel_;
       //- Surface reaction model
       autoPtr
       <
-        SurfaceReactionModel<ReactingMultiphaseCloud<CloudType> >
+        SurfaceReactionModel<ReactingMultiphaseCloud<CloudType>>
       >
       surfaceReactionModel_;
     // Check
@@ -101,21 +96,28 @@ public:
       const ReactingMultiphaseCloud<CloudType>& c
     );
     //- Construct and return clone based on (this) with new name
-    virtual autoPtr<Cloud<parcelType> > clone(const word& name)
+    virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType> >
+      return autoPtr<Cloud<parcelType>>
       (
         new ReactingMultiphaseCloud(*this, name)
       );
     }
     //- Construct and return bare clone based on (this) with new name
-    virtual autoPtr<Cloud<parcelType> > cloneBare(const word& name) const
+    virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType> >
+      return autoPtr<Cloud<parcelType>>
       (
         new ReactingMultiphaseCloud(this->mesh(), name, *this)
       );
     }
+    //- Disallow default bitwise copy construct
+    ReactingMultiphaseCloud(const ReactingMultiphaseCloud&) = delete;
+    //- Disallow default bitwise assignment
+    ReactingMultiphaseCloud& operator=
+    (
+      const ReactingMultiphaseCloud&
+    ) = delete;
   //- Destructor
   virtual ~ReactingMultiphaseCloud();
   // Member Functions
@@ -185,7 +187,63 @@ public:
       virtual void writeFields() const;
 };
 }  // namespace mousse
-#include "_reacting_multiphase_cloud_i.hpp"
+
+// Member Functions 
+template<class CloudType>
+inline const mousse::ReactingMultiphaseCloud<CloudType>&
+mousse::ReactingMultiphaseCloud<CloudType>::cloudCopy() const
+{
+  return cloudCopyPtr_();
+}
+template<class CloudType>
+inline const typename CloudType::particleType::constantProperties&
+mousse::ReactingMultiphaseCloud<CloudType>::constProps() const
+{
+  return constProps_;
+}
+template<class CloudType>
+inline typename CloudType::particleType::constantProperties&
+mousse::ReactingMultiphaseCloud<CloudType>::constProps()
+{
+  return constProps_;
+}
+template<class CloudType>
+inline const mousse::DevolatilisationModel
+<
+  mousse::ReactingMultiphaseCloud<CloudType>
+>&
+mousse::ReactingMultiphaseCloud<CloudType>::devolatilisation() const
+{
+  return devolatilisationModel_;
+}
+template<class CloudType>
+inline mousse::DevolatilisationModel
+<
+  mousse::ReactingMultiphaseCloud<CloudType>
+>&
+mousse::ReactingMultiphaseCloud<CloudType>::devolatilisation()
+{
+  return devolatilisationModel_();
+}
+template<class CloudType>
+inline const mousse::SurfaceReactionModel
+<
+  mousse::ReactingMultiphaseCloud<CloudType>
+>&
+mousse::ReactingMultiphaseCloud<CloudType>::surfaceReaction() const
+{
+  return surfaceReactionModel_;
+}
+template<class CloudType>
+inline mousse::SurfaceReactionModel
+<
+  mousse::ReactingMultiphaseCloud<CloudType>
+>&
+mousse::ReactingMultiphaseCloud<CloudType>::surfaceReaction()
+{
+  return surfaceReactionModel_();
+}
+
 #ifdef NoRepository
   #include "_reacting_multiphase_cloud.cpp"
 #endif

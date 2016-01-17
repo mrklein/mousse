@@ -66,7 +66,7 @@ class supersonicFreestreamFvPatchVectorField
     scalar gamma_;
 public:
   //- Runtime type information
-  TypeName("supersonicFreestream");
+  TYPE_NAME("supersonicFreestream");
   // Constructors
     //- Construct from patch and internal field
     supersonicFreestreamFvPatchVectorField

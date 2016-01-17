@@ -29,14 +29,9 @@ class tabulated6DoFAcceleration
     scalarField times_;
     //- Field of acceleration "vectors"
     Field<accelerationVectors> values_;
-  // Private Member Functions
-    //- Disallow copy construct
-    tabulated6DoFAcceleration(const tabulated6DoFAcceleration&);
-    //- Disallow default bitwise assignment
-    void operator=(const tabulated6DoFAcceleration&);
 public:
   //- Runtime type information
-  TypeName("tabulated6DoFAcceleration");
+  TYPE_NAME("tabulated6DoFAcceleration");
   // Constructors
     //- Construct from components
     tabulated6DoFAcceleration
@@ -44,6 +39,13 @@ public:
       const dictionary& accelerationCoeffs,
       const Time& runTime
     );
+    //- Disallow copy construct
+    tabulated6DoFAcceleration(const tabulated6DoFAcceleration&) = delete;
+    //- Disallow default bitwise assignment
+    tabulated6DoFAcceleration& operator=
+    (
+      const tabulated6DoFAcceleration&
+    ) = delete;
   //- Destructor
   virtual ~tabulated6DoFAcceleration();
   // Member Functions

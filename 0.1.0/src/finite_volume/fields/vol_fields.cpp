@@ -3,27 +3,41 @@
 // Copyright (C) 2016 mousse project
 
 #include "vol_fields.hpp"
+
 namespace mousse
 {
 // Static Data Members
-defineTemplate2TypeNameAndDebug(volScalarField::DimensionedInternalField, 0);
-defineTemplate2TypeNameAndDebug(volVectorField::DimensionedInternalField, 0);
-defineTemplate2TypeNameAndDebug
+DEFINE_TEMPLATE2_TYPE_NAME_AND_DEBUG
+(
+  volScalarField::DimensionedInternalField,
+  0
+);
+DEFINE_TEMPLATE2_TYPE_NAME_AND_DEBUG
+(
+  volVectorField::DimensionedInternalField,
+  0
+);
+DEFINE_TEMPLATE2_TYPE_NAME_AND_DEBUG
 (
   volSphericalTensorField::DimensionedInternalField,
   0
 );
-defineTemplate2TypeNameAndDebug
+DEFINE_TEMPLATE2_TYPE_NAME_AND_DEBUG
 (
   volSymmTensorField::DimensionedInternalField,
   0
 );
-defineTemplate2TypeNameAndDebug(volTensorField::DimensionedInternalField, 0);
-defineTemplateTypeNameAndDebug(volScalarField, 0);
-defineTemplateTypeNameAndDebug(volVectorField, 0);
-defineTemplateTypeNameAndDebug(volSphericalTensorField, 0);
-defineTemplateTypeNameAndDebug(volSymmTensorField, 0);
-defineTemplateTypeNameAndDebug(volTensorField, 0);
+DEFINE_TEMPLATE2_TYPE_NAME_AND_DEBUG
+(
+  volTensorField::DimensionedInternalField,
+  0
+);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(volScalarField, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(volVectorField, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(volSphericalTensorField, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(volSymmTensorField, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(volTensorField, 0);
+
 // specialization for scalar fields
 template<>
 tmp<GeometricField<scalar, fvPatchField, volMesh> >
@@ -34,6 +48,7 @@ GeometricField<scalar, fvPatchField, volMesh>::component
 {
   return *this;
 }
+
 // specialization for scalar fields
 template<>
 void GeometricField<scalar, fvPatchField, volMesh>::replace
@@ -44,5 +59,5 @@ void GeometricField<scalar, fvPatchField, volMesh>::replace
 {
   *this == gsf;
 }
+
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(pressureTools, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(pressureTools, 0);
 }
 // Private Member Functions 
 mousse::word mousse::pressureTools::pName() const
@@ -132,27 +132,27 @@ mousse::pressureTools::pressureTools
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  pName_("p"),
-  UName_("U"),
-  rhoName_("rho"),
-  calcTotal_(false),
-  pRef_(0.0),
-  calcCoeff_(false),
-  pInf_(0.0),
-  UInf_(vector::zero),
-  rhoInf_(0.0)
+  name_{name},
+  obr_{obr},
+  active_{true},
+  pName_{"p"},
+  UName_{"U"},
+  rhoName_{"rho"},
+  calcTotal_{false},
+  pRef_{0.0},
+  calcCoeff_{false},
+  pInf_{0.0},
+  UInf_{vector::zero},
+  rhoInf_{0.0}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "pressureTools::pressureTools"
       "("
@@ -161,34 +161,35 @@ mousse::pressureTools::pressureTools
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   read(dict);
   if (active_)
   {
-    dimensionSet pDims(dimPressure);
+    dimensionSet pDims{dimPressure};
     if (calcCoeff_)
     {
       pDims /= dimPressure;
     }
     const fvMesh& mesh = refCast<const fvMesh>(obr_);
     volScalarField* pPtr
-    (
+    {
       new volScalarField
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           pName(),
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedScalar("0", pDims, 0.0)
-      )
-    );
+        {"0", pDims, 0.0}
+      }
+    };
     mesh.objectRegistry::store(pPtr);
   }
 }
@@ -221,7 +222,7 @@ void mousse::pressureTools::read(const dictionary& dict)
       scalar zeroCheck = 0.5*rhoInf_*magSqr(UInf_) + pInf_;
       if (mag(zeroCheck) < ROOTVSMALL)
       {
-        WarningIn("void mousse::pressureTools::read(const dictionary&)")
+        WARNING_IN("void mousse::pressureTools::read(const dictionary&)")
           << type() << " " << name_ << ": "
           << "Coefficient calculation requested, but reference "
           << "pressure level is zero.  Please check the supplied "

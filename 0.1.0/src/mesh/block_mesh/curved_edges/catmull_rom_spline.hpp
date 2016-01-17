@@ -37,19 +37,18 @@ class CatmullRomSpline
 :
   public polyLine
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    CatmullRomSpline(const CatmullRomSpline&);
-    //- Disallow default bitwise assignment
-    void operator=(const CatmullRomSpline&);
 public:
   // Constructors
     //- Construct from components
     CatmullRomSpline
     (
       const pointField& knots,
-      const bool notImplementedClosed = false
+      const bool NOT_IMPLEMENTEDClosed = false
     );
+    //- Disallow default bitwise copy construct
+    CatmullRomSpline(const CatmullRomSpline&) = delete;
+    //- Disallow default bitwise assignment
+    CatmullRomSpline& operator=(const CatmullRomSpline&) = delete;
   // Member Functions
     //- Return the point position corresponding to the curve parameter
     //  0 <= lambda <= 1

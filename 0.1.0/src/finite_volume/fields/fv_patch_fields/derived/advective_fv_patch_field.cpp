@@ -75,7 +75,7 @@ mousse::advectiveFvPatchField<Type>::advectiveFvPatchField
     dict.lookup("fieldInf") >> fieldInf_;
     if (lInf_ < 0.0)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "advectiveFvPatchField<Type>::"
         "advectiveFvPatchField"
@@ -85,11 +85,12 @@ mousse::advectiveFvPatchField<Type>::advectiveFvPatchField
           "const dictionary&"
         ")",
         dict
-      )   << "unphysical lInf specified (lInf < 0)" << nl
-        << "    on patch " << this->patch().name()
-        << " of field " << this->dimensionedInternalField().name()
-        << " in file " << this->dimensionedInternalField().objectPath()
-        << exit(FatalIOError);
+      )
+      << "unphysical lInf specified (lInf < 0)" << nl
+      << "    on patch " << this->patch().name()
+      << " of field " << this->dimensionedInternalField().name()
+      << " in file " << this->dimensionedInternalField().objectPath()
+      << exit(FatalIOError);
     }
   }
 }
@@ -200,7 +201,7 @@ void mousse::advectiveFvPatchField<Type>::updateCoeffs()
     }
     else
     {
-      FatalErrorIn("advectiveFvPatchField<Type>::updateCoeffs()")
+      FATAL_ERROR_IN("advectiveFvPatchField<Type>::updateCoeffs()")
         << "    Unsupported temporal differencing scheme : "
         << ddtScheme << nl
         << "    on patch " << this->patch().name()
@@ -211,11 +212,8 @@ void mousse::advectiveFvPatchField<Type>::updateCoeffs()
   }
   else
   {
-    if
-    (
-      ddtScheme == fv::EulerDdtScheme<scalar>::typeName
-    || ddtScheme == fv::CrankNicolsonDdtScheme<scalar>::typeName
-    )
+    if (ddtScheme == fv::EulerDdtScheme<scalar>::typeName
+        || ddtScheme == fv::CrankNicolsonDdtScheme<scalar>::typeName)
     {
       this->refValue() = field.oldTime().boundaryField()[patchi];
       this->valueFraction() = 1.0/(1.0 + alpha);
@@ -231,15 +229,16 @@ void mousse::advectiveFvPatchField<Type>::updateCoeffs()
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "advectiveFvPatchField<Type>::updateCoeffs()"
-      )   << "    Unsupported temporal differencing scheme : "
-        << ddtScheme
-        << "\n    on patch " << this->patch().name()
-        << " of field " << this->dimensionedInternalField().name()
-        << " in file " << this->dimensionedInternalField().objectPath()
-        << exit(FatalError);
+      )
+      << "    Unsupported temporal differencing scheme : "
+      << ddtScheme
+      << "\n    on patch " << this->patch().name()
+      << " of field " << this->dimensionedInternalField().name()
+      << " in file " << this->dimensionedInternalField().objectPath()
+      << exit(FatalError);
     }
   }
   mixedFvPatchField<Type>::updateCoeffs();

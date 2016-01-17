@@ -52,9 +52,9 @@ void mousse::writeFuns::write
 {
   if (binary)
   {
-#       ifdef LITTLEENDIAN
+#ifdef LITTLEENDIAN
     swapWords(fField.size(), reinterpret_cast<label*>(fField.begin()));
-#       endif
+#endif
     os.write
     (
       reinterpret_cast<char*>(fField.begin()),
@@ -64,7 +64,7 @@ void mousse::writeFuns::write
   }
   else
   {
-    forAll(fField, i)
+    FOR_ALL(fField, i)
     {
       os  << fField[i];
       if (i > 0 && (i % 10) == 0)
@@ -98,9 +98,9 @@ void mousse::writeFuns::write
 {
   if (binary)
   {
-#       ifdef LITTLEENDIAN
+#ifdef LITTLEENDIAN
     swapWords(elems.size(), reinterpret_cast<label*>(elems.begin()));
-#       endif
+#endif
     os.write
     (
       reinterpret_cast<char*>(elems.begin()),
@@ -110,7 +110,7 @@ void mousse::writeFuns::write
   }
   else
   {
-    forAll(elems, i)
+    FOR_ALL(elems, i)
     {
       os  << elems[i];
       if (i > 0 && (i % 10) == 0)
@@ -142,16 +142,8 @@ void mousse::writeFuns::writeHeader
   const std::string& title
 )
 {
-  os  << "# vtk DataFile Version 2.0" << std::endl
-    << title << std::endl;
-  if (binary)
-  {
-    os  << "BINARY" << std::endl;
-  }
-  else
-  {
-    os  << "ASCII" << std::endl;
-  }
+  os << "# vtk DataFile Version 2.0" << std::endl << title << std::endl;
+  os << ((binary) ? "BINARY" : "ASCII") << std::endl;
 }
 void mousse::writeFuns::writeCellDataHeader
 (
@@ -160,7 +152,7 @@ void mousse::writeFuns::writeCellDataHeader
   const label nFields
 )
 {
-  os  << "CELL_DATA " << nCells << std::endl
+  os << "CELL_DATA " << nCells << std::endl
     << "FIELD attributes " << nFields << std::endl;
 }
 void mousse::writeFuns::writePointDataHeader

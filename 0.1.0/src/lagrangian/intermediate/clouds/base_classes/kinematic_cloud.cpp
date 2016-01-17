@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(kinematicCloud, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(kinematicCloud, 0);
 }
 // Constructors 
 mousse::kinematicCloud::kinematicCloud()

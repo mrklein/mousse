@@ -26,9 +26,9 @@ class HeatTransferModel
     const Switch BirdCorrection_;
 public:
   //- Runtime type information
-  TypeName("heatTransferModel");
+  TYPE_NAME("heatTransferModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     HeatTransferModel,
@@ -84,27 +84,27 @@ public:
 };
 }  // namespace mousse
 
-#define makeHeatTransferModel(CloudType)                                      \
+#define MAKE_HEAT_TRANSFER_MODEL(CloudType)                                   \
                                                                               \
   typedef mousse::CloudType::thermoCloudType thermoCloudType;                 \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::HeatTransferModel<thermoCloudType>,                               \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       HeatTransferModel<thermoCloudType>,                                     \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeHeatTransferModelType(SS, CloudType)                              \
+#define MAKE_HEAT_TRANSFER_MODEL_TYPE(SS, CloudType)                          \
                                                                               \
   typedef mousse::CloudType::thermoCloudType thermoCloudType;                 \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<thermoCloudType>, 0);        \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<thermoCloudType>, 0);  \
                                                                               \
   mousse::HeatTransferModel<thermoCloudType>::                                \
     adddictionaryConstructorToTable<mousse::SS<thermoCloudType> >             \

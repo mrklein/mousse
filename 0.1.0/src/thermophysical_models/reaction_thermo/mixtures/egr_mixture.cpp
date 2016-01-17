@@ -86,7 +86,7 @@ const ThermoType& mousse::egrMixture<ThermoType>::getLocalThermo
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const ThermoType& mousse::egrMixture<ThermoType>::getLocalThermo"
       "("

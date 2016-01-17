@@ -2,25 +2,31 @@
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#include "meshed_surface.hpp"
 #include "unsorted_meshed_surface.hpp"
+
+#include "meshed_surface.hpp"
 #include "meshed_surface_proxy.hpp"
 #include "ifstream.hpp"
 #include "ofstream.hpp"
 #include "time.hpp"
 #include "poly_boundary_mesh.hpp"
 #include "poly_mesh.hpp"
+
 // Static Member Functions
 template<class Face>
 mousse::wordHashSet mousse::UnsortedMeshedSurface<Face>::readTypes()
 {
   return wordHashSet(*fileExtensionConstructorTablePtr_);
 }
+
+
 template<class Face>
 mousse::wordHashSet mousse::UnsortedMeshedSurface<Face>::writeTypes()
 {
   return wordHashSet(*writefileExtensionMemberFunctionTablePtr_);
 }
+
+
 template<class Face>
 bool mousse::UnsortedMeshedSurface<Face>::canReadType
 (
@@ -36,6 +42,8 @@ bool mousse::UnsortedMeshedSurface<Face>::canReadType
    "reading"
  );
 }
+
+
 template<class Face>
 bool mousse::UnsortedMeshedSurface<Face>::canWriteType
 (
@@ -51,6 +59,8 @@ bool mousse::UnsortedMeshedSurface<Face>::canWriteType
     "writing"
   );
 }
+
+
 template<class Face>
 bool mousse::UnsortedMeshedSurface<Face>::canRead
 (
@@ -65,6 +75,8 @@ bool mousse::UnsortedMeshedSurface<Face>::canRead
   }
   return canReadType(ext, verbose);
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::write
 (
@@ -92,7 +104,7 @@ void mousse::UnsortedMeshedSurface<Face>::write
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "UnsortedMeshedSurface::write"
         "(const fileName&, const UnsortedMeshedSurface&)"
@@ -107,12 +119,16 @@ void mousse::UnsortedMeshedSurface<Face>::write
     mfIter()(name, surf);
   }
 }
+
+
 // Constructors 
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface()
 :
-  ParentType()
+  ParentType{}
 {}
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 (
@@ -122,10 +138,12 @@ mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
   const Xfer<surfZoneIdentifierList>& zoneTofc
 )
 :
-  ParentType(pointLst, faceLst),
-  zoneIds_(zoneIds),
-  zoneToc_(zoneTofc)
+  ParentType{pointLst, faceLst},
+  zoneIds_{zoneIds},
+  zoneToc_{zoneTofc}
 {}
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 (
@@ -135,7 +153,7 @@ mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
   const UList<word>& zoneNames
 )
 :
-  ParentType(pointLst, faceLst)
+  ParentType{pointLst, faceLst}
 {
   if (zoneSizes.size())
   {
@@ -153,6 +171,8 @@ mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
     setOneZone();
   }
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 (
@@ -160,13 +180,15 @@ mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 )
 :
   ParentType
-  (
+  {
     xferCopy(surf.points()),
     xferCopy(surf.faces())
-  ),
-  zoneIds_(surf.zoneIds()),
-  zoneToc_(surf.zoneToc())
+  },
+  zoneIds_{surf.zoneIds()},
+  zoneToc_{surf.zoneToc()}
 {}
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 (
@@ -174,33 +196,39 @@ mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 )
 :
   ParentType
-  (
+  {
     xferCopy(surf.points()),
     xferCopy(surf.faces())
-  )
+  }
 {
   setZones(surf.surfZones());
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 (
   const Xfer<UnsortedMeshedSurface<Face> >& surf
 )
 :
-  ParentType()
+  ParentType{}
 {
   transfer(surf());
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 (
   const Xfer<MeshedSurface<Face> >& surf
 )
 :
-  ParentType()
+  ParentType{}
 {
   transfer(surf());
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 (
@@ -208,17 +236,21 @@ mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
   const word& ext
 )
 :
-  ParentType()
+  ParentType{}
 {
   read(name, ext);
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface(const fileName& name)
 :
-  ParentType()
+  ParentType{}
 {
   read(name);
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
 (
@@ -226,15 +258,19 @@ mousse::UnsortedMeshedSurface<Face>::UnsortedMeshedSurface
   const word& surfName
 )
 :
-  ParentType()
+  ParentType{}
 {
   MeshedSurface<Face> surf(t, surfName);
   transfer(surf);
 }
+
+
 // Destructor 
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::~UnsortedMeshedSurface()
 {}
+
+
 // Protected Member Functions 
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::setOneZone()
@@ -254,6 +290,8 @@ void mousse::UnsortedMeshedSurface<Face>::setOneZone()
   zoneToc_.setSize(1);
   zoneToc_[0] = surfZoneIdentifier(zoneName, 0);
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::setZones
 (
@@ -262,7 +300,7 @@ void mousse::UnsortedMeshedSurface<Face>::setZones
 {
   zoneIds_.setSize(size());
   zoneToc_.setSize(zoneLst.size());
-  forAll(zoneToc_, zoneI)
+  FOR_ALL(zoneToc_, zoneI)
   {
     const surfZone& zone = zoneLst[zoneI];
     zoneToc_[zoneI] = zone;
@@ -271,6 +309,8 @@ void mousse::UnsortedMeshedSurface<Face>::setZones
     subZone = zoneI;
   }
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::setZones
 (
@@ -281,7 +321,7 @@ void mousse::UnsortedMeshedSurface<Face>::setZones
   zoneIds_.setSize(size());
   zoneToc_.setSize(sizes.size());
   label start = 0;
-  forAll(zoneToc_, zoneI)
+  FOR_ALL(zoneToc_, zoneI)
   {
     zoneToc_[zoneI] = surfZoneIdentifier(names[zoneI], zoneI);
     // assign sub-zone Ids
@@ -290,6 +330,8 @@ void mousse::UnsortedMeshedSurface<Face>::setZones
     start += sizes[zoneI];
   }
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::setZones
 (
@@ -299,19 +341,21 @@ void mousse::UnsortedMeshedSurface<Face>::setZones
   zoneIds_.setSize(size());
   zoneToc_.setSize(sizes.size());
   label start = 0;
-  forAll(zoneToc_, zoneI)
+  FOR_ALL(zoneToc_, zoneI)
   {
     zoneToc_[zoneI] = surfZoneIdentifier
     (
-      word("zone") + ::mousse::name(zoneI),
+      word{"zone"} + ::mousse::name(zoneI),
       zoneI
     );
     // assign sub-zone Ids
-    SubList<label> subZone(zoneIds_, sizes[zoneI], start);
+    SubList<label> subZone{zoneIds_, sizes[zoneI], start};
     subZone = zoneI;
     start += sizes[zoneI];
   }
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::remapFaces
 (
@@ -332,8 +376,8 @@ void mousse::UnsortedMeshedSurface<Face>::remapFaces
     }
     else
     {
-      List<label> newZones(faceMap.size());
-      forAll(faceMap, faceI)
+      List<label> newZones{faceMap.size()};
+      FOR_ALL(faceMap, faceI)
       {
         newZones[faceI] = zoneIds_[faceMap[faceI]];
       }
@@ -341,6 +385,8 @@ void mousse::UnsortedMeshedSurface<Face>::remapFaces
     }
   }
 }
+
+
 // Member Functions 
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::setSize(const label s)
@@ -349,6 +395,8 @@ void mousse::UnsortedMeshedSurface<Face>::setSize(const label s)
   // if zones extend: set with last zoneId
   zoneIds_.setSize(s, zoneToc_.size() - 1);
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::clear()
 {
@@ -356,6 +404,8 @@ void mousse::UnsortedMeshedSurface<Face>::clear()
   zoneIds_.clear();
   zoneToc_.clear();
 }
+
+
 template<class Face>
 mousse::surfZoneList mousse::UnsortedMeshedSurface<Face>::sortedZones
 (
@@ -364,7 +414,7 @@ mousse::surfZoneList mousse::UnsortedMeshedSurface<Face>::sortedZones
 {
   // supply some zone names
   Map<word> zoneNames;
-  forAll(zoneToc_, zoneI)
+  FOR_ALL(zoneToc_, zoneI)
   {
     zoneNames.insert(zoneI, zoneToc_[zoneI].name());
   }
@@ -374,7 +424,7 @@ mousse::surfZoneList mousse::UnsortedMeshedSurface<Face>::sortedZones
   // number of items, just do it ourselves
   // step 1: get zone sizes and store (origId => zoneI)
   Map<label> lookup;
-  forAll(zoneIds_, faceI)
+  FOR_ALL(zoneIds_, faceI)
   {
     const label origId = zoneIds_[faceI];
     Map<label>::iterator fnd = lookup.find(origId);
@@ -389,10 +439,10 @@ mousse::surfZoneList mousse::UnsortedMeshedSurface<Face>::sortedZones
   }
   // step 2: assign start/size (and name) to the newZones
   // re-use the lookup to map (zoneId => zoneI)
-  surfZoneList zoneLst(lookup.size());
+  surfZoneList zoneLst{lookup.size()};
   label start = 0;
   label zoneI = 0;
-  forAllIter(Map<label>, lookup, iter)
+  FOR_ALL_ITER(Map<label>, lookup, iter)
   {
     label origId = iter.key();
     word name;
@@ -419,7 +469,7 @@ mousse::surfZoneList mousse::UnsortedMeshedSurface<Face>::sortedZones
   }
   // step 3: build the re-ordering
   faceMap.setSize(zoneIds_.size());
-  forAll(zoneIds_, faceI)
+  FOR_ALL(zoneIds_, faceI)
   {
     label zoneI = lookup[zoneIds_[faceI]];
     faceMap[faceI] = zoneLst[zoneI].start() + zoneLst[zoneI].size()++;
@@ -427,6 +477,8 @@ mousse::surfZoneList mousse::UnsortedMeshedSurface<Face>::sortedZones
   // with reordered faces registered in faceMap
   return zoneLst;
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>
 mousse::UnsortedMeshedSurface<Face>::subsetMesh
@@ -441,23 +493,23 @@ mousse::UnsortedMeshedSurface<Face>::subsetMesh
   // Fill pointMap, faceMap
   PatchTools::subsetMap(*this, include, pointMap, faceMap);
   // Create compact coordinate list and forward mapping array
-  pointField newPoints(pointMap.size());
-  labelList  oldToNew(locPoints.size());
-  forAll(pointMap, pointI)
+  pointField newPoints{pointMap.size()};
+  labelList  oldToNew{locPoints.size()};
+  FOR_ALL(pointMap, pointI)
   {
     newPoints[pointI] = locPoints[pointMap[pointI]];
     oldToNew[pointMap[pointI]] = pointI;
   }
   // Renumber face node labels and compact
-  List<Face>  newFaces(faceMap.size());
-  List<label> newZones(faceMap.size());
-  forAll(faceMap, faceI)
+  List<Face>  newFaces{faceMap.size()};
+  List<label> newZones{faceMap.size()};
+  FOR_ALL(faceMap, faceI)
   {
     const label origFaceI = faceMap[faceI];
     newFaces[faceI] = Face(locFaces[origFaceI]);
     // Renumber labels for face
     Face& f = newFaces[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       f[fp] = oldToNew[f[fp]];
     }
@@ -473,6 +525,8 @@ mousse::UnsortedMeshedSurface<Face>::subsetMesh
     xferCopy(zoneToc_)
   );
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face> mousse::UnsortedMeshedSurface<Face>::subsetMesh
 (
@@ -482,6 +536,8 @@ mousse::UnsortedMeshedSurface<Face> mousse::UnsortedMeshedSurface<Face>::subsetM
   labelList pointMap, faceMap;
   return subsetMesh(include, pointMap, faceMap);
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::reset
 (
@@ -501,6 +557,8 @@ void mousse::UnsortedMeshedSurface<Face>::reset
     zoneIds_.transfer(zoneIds());
   }
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::reset
 (
@@ -520,6 +578,8 @@ void mousse::UnsortedMeshedSurface<Face>::reset
     zoneIds_.transfer(zoneIds());
   }
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::transfer
 (
@@ -536,6 +596,8 @@ void mousse::UnsortedMeshedSurface<Face>::transfer
   zoneToc_.transfer(surf.zoneToc_);
   surf.clear();
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::transfer
 (
@@ -557,6 +619,8 @@ mousse::UnsortedMeshedSurface<Face>::xfer()
 {
   return xferMove(*this);
 }
+
+
 // Read from file, determine format from extension
 template<class Face>
 bool mousse::UnsortedMeshedSurface<Face>::read(const fileName& name)
@@ -572,6 +636,8 @@ bool mousse::UnsortedMeshedSurface<Face>::read(const fileName& name)
     return read(name, ext);
   }
 }
+
+
 // Read from file in given format
 template<class Face>
 bool mousse::UnsortedMeshedSurface<Face>::read
@@ -585,6 +651,8 @@ bool mousse::UnsortedMeshedSurface<Face>::read
   transfer(New(name, ext)());
   return true;
 }
+
+
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::write
 (
@@ -594,6 +662,8 @@ void mousse::UnsortedMeshedSurface<Face>::write
 {
   MeshedSurfaceProxy<Face>(*this).write(t, surfName);
 }
+
+
 // Member Operators 
 template<class Face>
 void mousse::UnsortedMeshedSurface<Face>::operator=
@@ -607,6 +677,8 @@ void mousse::UnsortedMeshedSurface<Face>::operator=
   zoneIds_ = surf.zoneIds_;
   zoneToc_ = surf.zoneToc_;
 }
+
+
 template<class Face>
 mousse::UnsortedMeshedSurface<Face>::operator
 mousse::MeshedSurfaceProxy<Face>() const
@@ -621,4 +693,5 @@ mousse::MeshedSurfaceProxy<Face>() const
     faceMap
   );
 }
+
 #include "unsorted_meshed_surface_new.cpp"

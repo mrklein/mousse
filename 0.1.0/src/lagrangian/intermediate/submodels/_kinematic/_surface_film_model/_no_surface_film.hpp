@@ -23,7 +23,7 @@ protected:
     typedef typename CloudType::parcelType parcelType;
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from dictionary
     NoSurfaceFilm(const dictionary&, CloudType&);

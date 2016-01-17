@@ -34,7 +34,7 @@ class thresholdCellFaces
     );
 public:
   //- Runtime type information
-  TypeName("thresholdCellFaces");
+  TYPE_NAME("thresholdCellFaces");
   // Constructors
     //- Construct from mesh, field and threshold value
     thresholdCellFaces

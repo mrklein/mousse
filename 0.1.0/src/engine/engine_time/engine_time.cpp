@@ -9,11 +9,7 @@ void mousse::engineTime::timeAdjustment()
 {
   deltaT_  = degToTime(deltaT_);
   endTime_ = degToTime(endTime_);
-  if
-  (
-    writeControl_ == wcRunTime
-  || writeControl_ == wcAdjustableRunTime
-  )
+  if (writeControl_ == wcRunTime || writeControl_ == wcAdjustableRunTime)
   {
     writeInterval_ = degToTime(writeInterval_);
   }
@@ -27,34 +23,34 @@ mousse::engineTime::engineTime
   const fileName& caseName,
   const fileName& systemName,
   const fileName& constantName,
-  const fileName& dictName
+  const fileName& /*dictName*/
 )
 :
   Time
-  (
+  {
     name,
     rootPath,
     caseName,
     systemName,
     constantName
-  ),
+  },
   dict_
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "engineGeometry",
       constant(),
       *this,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE,
       false
-    )
-  ),
-  rpm_(dict_.lookup("rpm")),
-  conRodLength_(dimensionedScalar("conRodLength", dimLength, 0)),
-  bore_(dimensionedScalar("bore", dimLength, 0)),
-  stroke_(dimensionedScalar("stroke", dimLength, 0)),
-  clearance_(dimensionedScalar("clearance", dimLength, 0))
+    }
+  },
+  rpm_{dict_.lookup("rpm")},
+  conRodLength_{dimensionedScalar("conRodLength", dimLength, 0)},
+  bore_{dimensionedScalar("bore", dimLength, 0)},
+  stroke_{dimensionedScalar("stroke", dimLength, 0)},
+  clearance_{dimensionedScalar("clearance", dimLength, 0)}
 {
   // geometric parameters are not strictly required for Time
   dict_.readIfPresent("conRodLength", conRodLength_);
@@ -62,10 +58,10 @@ mousse::engineTime::engineTime
   dict_.readIfPresent("stroke", stroke_);
   dict_.readIfPresent("clearance", clearance_);
   timeAdjustment();
-  startTime_  = degToTime(startTime_);
-  value()     = degToTime(value());
+  startTime_ = degToTime(startTime_);
+  value() = degToTime(value());
   deltaTSave_ = deltaT_;
-  deltaT0_    = deltaT_;
+  deltaT0_ = deltaT_;
 }
 // Member Functions 
 // Read the controlDict and set all the parameters
@@ -123,46 +119,28 @@ mousse::scalar mousse::engineTime::deltaTheta() const
 mousse::scalar mousse::engineTime::pistonPosition(const scalar theta) const
 {
   return
-  (
-    conRodLength_.value()
-   + stroke_.value()/2.0
-   + clearance_.value()
-  )
- - (
-    stroke_.value()*::cos(degToRad(theta))/2.0
-   + ::sqrt
-    (
-      sqr(conRodLength_.value())
-      - sqr(stroke_.value()*::sin(degToRad(theta))/2.0)
-    )
-  );
+    (conRodLength_.value() + stroke_.value()/2.0 + clearance_.value())
+    - (stroke_.value()*::cos(degToRad(theta))/2.0
+       + ::sqrt(sqr(conRodLength_.value())
+                - sqr(stroke_.value()*::sin(degToRad(theta))/2.0)));
 }
 mousse::dimensionedScalar mousse::engineTime::pistonPosition() const
 {
-  return dimensionedScalar
-  (
-    "pistonPosition",
-    dimLength,
-    pistonPosition(theta())
-  );
+  return {"pistonPosition",
+          dimLength,
+          pistonPosition(theta())};
 }
 mousse::dimensionedScalar mousse::engineTime::pistonDisplacement() const
 {
-  return dimensionedScalar
-  (
-    "pistonDisplacement",
-    dimLength,
-    pistonPosition(theta() - deltaTheta()) - pistonPosition().value()
-  );
+  return {"pistonDisplacement",
+          dimLength,
+          pistonPosition(theta() - deltaTheta()) - pistonPosition().value()};
 }
 mousse::dimensionedScalar mousse::engineTime::pistonSpeed() const
 {
-  return dimensionedScalar
-  (
-    "pistonSpeed",
-    dimVelocity,
-    pistonDisplacement().value()/(deltaTValue() + VSMALL)
-  );
+  return {"pistonSpeed",
+          dimVelocity,
+          pistonDisplacement().value()/(deltaTValue() + VSMALL)};
 }
 mousse::scalar mousse::engineTime::userTimeToTime(const scalar theta) const
 {

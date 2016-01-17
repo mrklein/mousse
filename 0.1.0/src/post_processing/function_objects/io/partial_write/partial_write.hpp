@@ -72,10 +72,6 @@ protected:
     //- Current dump instance. If reaches writeInterval do a full write.
     label writeInstance_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    partialWrite(const partialWrite&);
-    //- Disallow default bitwise assignment
-    void operator=(const partialWrite&);
     //- Load objects in the objectNames
     template<class Type>
     void loadField
@@ -93,7 +89,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("partialWrite");
+  TYPE_NAME("partialWrite");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -104,6 +100,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    partialWrite(const partialWrite&) = delete;
+    //- Disallow default bitwise assignment
+    partialWrite& operator=(const partialWrite&) = delete;
   //- Destructor
   virtual ~partialWrite();
   // Member Functions

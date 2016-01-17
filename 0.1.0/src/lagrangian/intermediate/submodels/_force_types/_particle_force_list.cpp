@@ -43,7 +43,7 @@ mousse::ParticleForceList<CloudType>::ParticleForceList
     {
       this->setSize(modelNames.size());
       label i = 0;
-      forAllConstIter(IDLList<entry>, dict, iter)
+      FOR_ALL_CONST_ITER(IDLList<entry>, dict, iter)
       {
         const word& model = iter().keyword();
         if (iter().isDict())
@@ -101,7 +101,7 @@ mousse::ParticleForceList<CloudType>::~ParticleForceList()
 template<class CloudType>
 void mousse::ParticleForceList<CloudType>::cacheFields(const bool store)
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     this->operator[](i).cacheFields(store);
   }
@@ -119,7 +119,7 @@ mousse::forceSuSp mousse::ParticleForceList<CloudType>::calcCoupled
   forceSuSp value(vector::zero, 0.0);
   if (calcCoupled_)
   {
-    forAll(*this, i)
+    FOR_ALL(*this, i)
     {
       value += this->operator[](i).calcCoupled(p, dt, mass, Re, muc);
     }
@@ -139,7 +139,7 @@ mousse::forceSuSp mousse::ParticleForceList<CloudType>::calcNonCoupled
   forceSuSp value(vector::zero, 0.0);
   if (calcNonCoupled_)
   {
-    forAll(*this, i)
+    FOR_ALL(*this, i)
     {
       value += this->operator[](i).calcNonCoupled(p, dt, mass, Re, muc);
     }
@@ -154,7 +154,7 @@ mousse::scalar mousse::ParticleForceList<CloudType>::massEff
 ) const
 {
   scalar massEff = mass;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     massEff += this->operator[](i).massAdd(p, mass);
   }

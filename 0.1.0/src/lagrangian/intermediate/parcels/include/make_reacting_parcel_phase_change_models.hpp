@@ -9,11 +9,11 @@
 #include "_liquid_evaporation.hpp"
 #include "_liquid_evaporation_boil.hpp"
 
-#define makeReactingParcelPhaseChangeModels(CloudType)                        \
+#define MAKE_REACTING_PARCEL_PHASE_CHANGE_MODELS(CloudType)                   \
                                                                               \
-  makePhaseChangeModel(CloudType);                                            \
-  makePhaseChangeModelType(NoPhaseChange, CloudType);                         \
-  makePhaseChangeModelType(LiquidEvaporation, CloudType);                     \
-  makePhaseChangeModelType(LiquidEvaporationBoil, CloudType);
+  MAKE_PHASE_CHANGE_MODEL(CloudType);                                         \
+  MAKE_PHASE_CHANGE_MODEL_TYPE(NoPhaseChange, CloudType);                     \
+  MAKE_PHASE_CHANGE_MODEL_TYPE(LiquidEvaporation, CloudType);                 \
+  MAKE_PHASE_CHANGE_MODEL_TYPE(LiquidEvaporationBoil, CloudType);
 
 #endif

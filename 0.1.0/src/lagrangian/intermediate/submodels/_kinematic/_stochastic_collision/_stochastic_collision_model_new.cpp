@@ -17,20 +17,21 @@ mousse::StochasticCollisionModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "StochasticCollisionModel<CloudType>::New"
       "("
         "const dictionary&, "
         "CloudType&"
       ")"
-    )   << "Unknown model type type "
-      << modelType << ", constructor not in hash table" << nl << nl
-      << "    Valid model types are:" << nl
-      << dictionaryConstructorTablePtr_->sortedToc() << exit(FatalError);
+    )
+    << "Unknown model type type "
+    << modelType << ", constructor not in hash table" << nl << nl
+    << "    Valid model types are:" << nl
+    << dictionaryConstructorTablePtr_->sortedToc() << exit(FatalError);
   }
   return autoPtr<StochasticCollisionModel<CloudType> >
-  (
+  {
     cstrIter()(dict, owner)
-  );
+  };
 }

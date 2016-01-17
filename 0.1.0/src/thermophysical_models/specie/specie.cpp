@@ -8,7 +8,7 @@
 /* * * * * * * * * * * * * * * public constants  * * * * * * * * * * * * * * */
 namespace mousse
 {
-  defineTypeNameAndDebug(specie, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(specie, 0);
 }
 // Constructors 
 mousse::specie::specie(Istream& is)

@@ -9,11 +9,11 @@ using namespace mousse::constant::mathematical;
 template<class CloudType>
 mousse::NoBinaryCollision<CloudType>::NoBinaryCollision
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& cloud
 )
 :
-  BinaryCollisionModel<CloudType>(cloud)
+  BinaryCollisionModel<CloudType>{cloud}
 {}
 // Destructor 
 template<class CloudType>
@@ -28,11 +28,11 @@ bool mousse::NoBinaryCollision<CloudType>::active() const
 template<class CloudType>
 mousse::scalar mousse::NoBinaryCollision<CloudType>::sigmaTcR
 (
-  const typename CloudType::parcelType& pP,
-  const typename CloudType::parcelType& pQ
+  const typename CloudType::parcelType& /*pP*/,
+  const typename CloudType::parcelType& /*pQ*/
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "mousse::scalar mousse::NoBinaryCollision<CloudType>::sigmaTcR"
     "("
@@ -40,17 +40,17 @@ mousse::scalar mousse::NoBinaryCollision<CloudType>::sigmaTcR
       "const typename CloudType::parcelType"
     ") const"
   )
-    << "sigmaTcR called on NoBinaryCollision model, this should "
-    << "not happen, this is not an actual model." << nl
-    << "Enclose calls to sigmaTcR within a if (binaryCollision().active()) "
-    << " check."
-    << abort(FatalError);
+  << "sigmaTcR called on NoBinaryCollision model, this should "
+  << "not happen, this is not an actual model." << nl
+  << "Enclose calls to sigmaTcR within a if (binaryCollision().active()) "
+  << " check."
+  << abort(FatalError);
   return 0.0;
 }
 template<class CloudType>
 void mousse::NoBinaryCollision<CloudType>::collide
 (
-  typename CloudType::parcelType& pP,
-  typename CloudType::parcelType& pQ
+  typename CloudType::parcelType& /*pP*/,
+  typename CloudType::parcelType& /*pQ*/
 )
 {}

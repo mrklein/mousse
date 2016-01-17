@@ -24,7 +24,7 @@ void mousse::CellZoneInjection<CloudType>::setPositions
   DynamicList<label> injectorTetPts(nCells);      // initial size only
   scalar newParticlesTotal = 0.0;
   label addParticlesTotal = 0;
-  forAll(cellZoneCells, i)
+  FOR_ALL(cellZoneCells, i)
   {
     const label cellI = cellZoneCells[i];
     // Calc number of particles to add
@@ -55,7 +55,7 @@ void mousse::CellZoneInjection<CloudType>::setPositions
     {
       const scalar volFrac = rnd.sample01<scalar>();
       label tetI = 0;
-      forAll(cTetVFrac, vfI)
+      FOR_ALL(cTetVFrac, vfI)
       {
         if (cTetVFrac[vfI] > volFrac)
         {
@@ -111,7 +111,7 @@ void mousse::CellZoneInjection<CloudType>::setPositions
   if (debug)
   {
     OFstream points("points.obj");
-    forAll(positions_, i)
+    FOR_ALL(positions_, i)
     {
       meshTools::writeOBJ(points, positions_[i]);
     }
@@ -175,7 +175,7 @@ void mousse::CellZoneInjection<CloudType>::updateMesh()
   const label zoneI = mesh.cellZones().findZoneID(cellZoneName_);
   if (zoneI < 0)
   {
-    FatalErrorIn("mousse::CellZoneInjection<CloudType>::updateMesh()")
+    FATAL_ERROR_IN("mousse::CellZoneInjection<CloudType>::updateMesh()")
       << "Unknown cell zone name: " << cellZoneName_
       << ". Valid cell zones are: " << mesh.cellZones().names()
       << nl << exit(FatalError);
@@ -189,7 +189,7 @@ void mousse::CellZoneInjection<CloudType>::updateMesh()
   Info<< "    cell zone volume    = " << VCellsTotal << endl;
   if ((nCellsTotal == 0) || (VCellsTotal*numberDensity_ < 1))
   {
-    WarningIn("mousse::CellZoneInjection<CloudType>::updateMesh()")
+    WARNING_IN("mousse::CellZoneInjection<CloudType>::updateMesh()")
       << "Number of particles to be added to cellZone " << cellZoneName_
       << " is zero" << endl;
   }
@@ -200,7 +200,7 @@ void mousse::CellZoneInjection<CloudType>::updateMesh()
       << "    number of particles = " << positions_.size() << endl;
     // Construct parcel diameters
     diameters_.setSize(positions_.size());
-    forAll(diameters_, i)
+    FOR_ALL(diameters_, i)
     {
       diameters_[i] = sizeDistribution_->sample();
     }
@@ -251,8 +251,8 @@ template<class CloudType>
 void mousse::CellZoneInjection<CloudType>::setPositionAndCell
 (
   const label parcelI,
-  const label nParcels,
-  const scalar time,
+  const label /*nParcels*/,
+  const scalar /*time*/,
   vector& position,
   label& cellOwner,
   label& tetFaceI,

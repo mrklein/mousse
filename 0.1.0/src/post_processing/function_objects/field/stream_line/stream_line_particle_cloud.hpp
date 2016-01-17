@@ -17,11 +17,6 @@ class streamLineParticleCloud
 :
   public Cloud<streamLineParticle>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    streamLineParticleCloud(const streamLineParticleCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const streamLineParticleCloud&);
 public:
   //- Type of parcel the cloud was instantiated for
   typedef streamLineParticle parcelType;
@@ -40,6 +35,10 @@ public:
       const word& cloudName,
       const IDLList<streamLineParticle>& particles
     );
+    //- Disallow default bitwise copy construct
+    streamLineParticleCloud(const streamLineParticleCloud&) = delete;
+    //- Disallow default bitwise assignment
+    streamLineParticleCloud& operator=(const streamLineParticleCloud&) = delete;
 };
 }  // namespace mousse
 #endif

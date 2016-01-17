@@ -54,15 +54,11 @@ protected:
       labelListList& tgtToTgtAddr,
       scalarListList& tgtToTgtWght
     ) const;
-    //- Disallow default bitwise copy construct
-    meshToMeshMethod(const meshToMeshMethod&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshToMeshMethod&);
 public:
   //- Run-time type information
-  TypeName("meshToMeshMethod");
+  TYPE_NAME("meshToMeshMethod");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     meshToMeshMethod,
@@ -73,8 +69,13 @@ public:
     ),
     (src, tgt)
   );
-  //- Construct from source and target meshes
-  meshToMeshMethod(const polyMesh& src, const polyMesh& tgt);
+  // Constructors
+    //- Construct from source and target meshes
+    meshToMeshMethod(const polyMesh& src, const polyMesh& tgt);
+    //- Disallow default bitwise copy construct
+    meshToMeshMethod(const meshToMeshMethod&) = delete;
+    //- Disallow default bitwise assignment
+    meshToMeshMethod& operator=(const meshToMeshMethod&) = delete;
   //- Selector
   static autoPtr<meshToMeshMethod> New
   (
@@ -111,5 +112,17 @@ public:
       ) const;
 };
 }  // namespace mousse
-#include "mesh_to_mesh_method_i.hpp"
+
+const mousse::polyMesh& mousse::meshToMeshMethod::src() const
+{
+  return src_;
+}
+const mousse::polyMesh& mousse::meshToMeshMethod::tgt() const
+{
+  return tgt_;
+}
+mousse::scalar mousse::meshToMeshMethod::V() const
+{
+  return V_;
+}
 #endif

@@ -3,16 +3,20 @@
 // Copyright (C) 2016 mousse project
 
 #include "x3d_surface_format.hpp"
+
 #include "clock.hpp"
 #include "ifstream.hpp"
 #include "istring_stream.hpp"
 #include "ostream.hpp"
 #include "ofstream.hpp"
 #include "list_ops.hpp"
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::X3DsurfaceFormat<Face>::X3DsurfaceFormat()
 {}
+
+
 // Member Functions 
 template<class Face>
 void mousse::fileFormats::X3DsurfaceFormat<Face>::write
@@ -32,10 +36,10 @@ void mousse::fileFormats::X3DsurfaceFormat<Face>::write
    : surf.surfZones()
   );
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::X3DsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
@@ -53,15 +57,15 @@ void mousse::fileFormats::X3DsurfaceFormat<Face>::write
   os  <<
     "  <IndexedFaceSet coordIndex='\n";
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceMap[faceIndex++]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << f[fp] << ' ';
         }
@@ -70,10 +74,10 @@ void mousse::fileFormats::X3DsurfaceFormat<Face>::write
     }
     else
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceIndex++];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << f[fp] << ' ';
         }
@@ -85,12 +89,12 @@ void mousse::fileFormats::X3DsurfaceFormat<Face>::write
     "' >\n"
     "    <Coordinate point='\n";
   // Write vertex coords
-  forAll(pointLst, ptI)
+  FOR_ALL(pointLst, ptI)
   {
     const point& pt = pointLst[ptI];
-    os  << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
+    os << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
   }
-  os  <<
+  os <<
     "' />\n"                       // end Coordinate
     "   </IndexedFaceSet>\n"
     "  </Shape>\n"

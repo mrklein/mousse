@@ -23,12 +23,6 @@ class noPyrolysis
 :
   public pyrolysisModel
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    noPyrolysis(const noPyrolysis&);
-    //- Disallow default bitwise assignment
-    void operator=(const noPyrolysis&);
 protected:
   // Protected member functions
     //- Read control parameters from dictionary
@@ -45,7 +39,7 @@ protected:
     autoPtr<radiation::radiationModel> radiation_;
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from type name and mesh
     noPyrolysis
@@ -62,6 +56,10 @@ public:
       const dictionary& dict,
       const word& regionType
     );
+    //- Disallow default bitwise copy construct
+    noPyrolysis(const noPyrolysis&) = delete;
+    //- Disallow default bitwise assignment
+    noPyrolysis& operator=(const noPyrolysis&) = delete;
   //- Destructor
   virtual ~noPyrolysis();
   // Member Functions

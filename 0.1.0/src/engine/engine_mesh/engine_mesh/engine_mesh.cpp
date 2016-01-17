@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(engineMesh, 0);
-defineRunTimeSelectionTable(engineMesh, IOobject);
+DEFINE_TYPE_NAME_AND_DEBUG(engineMesh, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(engineMesh, IOobject);
 }
 // Constructors 
 mousse::engineMesh::engineMesh(const IOobject& io)
@@ -24,7 +24,7 @@ mousse::engineMesh::engineMesh(const IOobject& io)
   bool foundPiston = false;
   bool foundLiner = false;
   bool foundCylinderHead = false;
-  forAll(boundary(), i)
+  FOR_ALL(boundary(), i)
   {
     if (boundary()[i].name() == "piston")
     {
@@ -47,19 +47,19 @@ mousse::engineMesh::engineMesh(const IOobject& io)
   reduce(foundCylinderHead, orOp<bool>());
   if (!foundPiston)
   {
-    FatalErrorIn("engineMesh::engineMesh(const IOobject& io)")
+    FATAL_ERROR_IN("engineMesh::engineMesh(const IOobject& io)")
       << "cannot find piston patch"
       << exit(FatalError);
   }
   if (!foundLiner)
   {
-    FatalErrorIn("engineMesh::engineMesh(const IOobject& io)")
+    FATAL_ERROR_IN("engineMesh::engineMesh(const IOobject& io)")
       << "cannot find liner patch"
       << exit(FatalError);
   }
   if (!foundCylinderHead)
   {
-    FatalErrorIn("engineMesh::engineMesh(const IOobject& io)")
+    FATAL_ERROR_IN("engineMesh::engineMesh(const IOobject& io)")
       << "cannot find cylinderHead patch"
       << exit(FatalError);
   }

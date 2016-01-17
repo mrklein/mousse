@@ -15,7 +15,7 @@ void mousse::meshReader::warnDuplicates
 {
   HashTable<label> hashed(list.size());
   bool duplicates = false;
-  forAll(list, listI)
+  FOR_ALL(list, listI)
   {
     // check duplicate name
     HashTable<label>::iterator iter = hashed.find(list[listI]);
@@ -33,7 +33,7 @@ void mousse::meshReader::warnDuplicates
   if (duplicates)
   {
     Info<< nl << "WARNING: " << context << " with identical names:";
-    forAllConstIter(HashTable<label>, hashed, iter)
+    FOR_ALL_CONST_ITER(HashTable<label>, hashed, iter)
     {
       if (*iter > 1)
       {

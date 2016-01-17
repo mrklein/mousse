@@ -34,7 +34,7 @@ void mousse::faceAreaIntersect::triSliceWithPlane
   label posI = -1;
   label negI = -1;
   label copI = -1;
-  forAll(tri, i)
+  FOR_ALL(tri, i)
   {
     d[i] = ((tri[i] - p.refPoint()) & p.normal());
     if (mag(d[i]) < tol*len)
@@ -278,7 +278,7 @@ mousse::scalar mousse::faceAreaIntersect::calc
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::scalar mousse::faceAreaIntersect::calc"
         "("
@@ -287,18 +287,19 @@ mousse::scalar mousse::faceAreaIntersect::calc
           "const vector&, "
           "const triangulationMode&"
         ")"
-      )   << "Unknown triangulation mode enumeration"
-        << abort(FatalError);
+      )
+      << "Unknown triangulation mode enumeration"
+      << abort(FatalError);
     }
   }
   // intersect triangles
   scalar totalArea = 0.0;
-  forAll(trisA, tA)
+  FOR_ALL(trisA, tA)
   {
     triPoints tpA = getTriPoints(pointsA_, trisA[tA], false);
 //        if (triArea(tpA) > ROOTVSMALL)
     {
-      forAll(trisB, tB)
+      FOR_ALL(trisB, tB)
       {
         triPoints tpB = getTriPoints(pointsB_, trisB[tB], !reverseB_);
 //                if (triArea(tpB) > ROOTVSMALL)

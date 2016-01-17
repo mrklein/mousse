@@ -39,7 +39,7 @@ mousse::COxidationIntrinsicRate<CloudType>::COxidationIntrinsicRate
   HcCO2_ = owner.thermo().carrier().Hc(CO2GlobalId_);
   if (Sb_ < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "COxidationIntrinsicRate<CloudType>"
       "("
@@ -89,16 +89,16 @@ mousse::scalar mousse::COxidationIntrinsicRate<CloudType>::calculate
   const scalar d,
   const scalar T,
   const scalar Tc,
-  const scalar pc,
+  const scalar /*pc*/,
   const scalar rhoc,
   const scalar mass,
-  const scalarField& YGas,
-  const scalarField& YLiquid,
+  const scalarField& /*YGas*/,
+  const scalarField& /*YLiquid*/,
   const scalarField& YSolid,
   const scalarField& YMixture,
-  const scalar N,
-  scalarField& dMassGas,
-  scalarField& dMassLiquid,
+  const scalar /*N*/,
+  scalarField& /*dMassGas*/,
+  scalarField& /*dMassLiquid*/,
   scalarField& dMassSolid,
   scalarField& dMassSRCarrier
 ) const

@@ -111,7 +111,7 @@ const mousse::word& mousse::PatchInteractionModel<CloudType>::UName() const
   return UName_;
 }
 template<class CloudType>
-void mousse::PatchInteractionModel<CloudType>::info(Ostream& os)
+void mousse::PatchInteractionModel<CloudType>::info(Ostream&)
 {
   // do nothing
 }

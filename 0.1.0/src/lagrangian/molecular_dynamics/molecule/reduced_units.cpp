@@ -15,7 +15,7 @@ void mousse::reducedUnits::calcRefValues()
   || refMass_ < VSMALL
   )
   {
-    FatalErrorIn("mousse::reducedUnits::calcRefValues() ")
+    FATAL_ERROR_IN("mousse::reducedUnits::calcRefValues() ")
       << "One of more referencence values too small for floating point "
       << "calculation: "
       << "refTime_ = " << refTime_
@@ -35,9 +35,9 @@ void mousse::reducedUnits::calcRefValues()
 // Constructors 
 mousse::reducedUnits::reducedUnits()
 :
-  refLength_(1e-9),
-  refTime_(1e-12),
-  refMass_(1.660538782e-27)
+  refLength_{1e-9},
+  refTime_{1e-12},
+  refMass_{1.660538782e-27}
 {
   calcRefValues();
 }
@@ -48,17 +48,17 @@ mousse::reducedUnits::reducedUnits
   scalar refMass
 )
 :
-  refLength_(refLength),
-  refTime_(refTime),
-  refMass_(refMass)
+  refLength_{refLength},
+  refTime_{refTime},
+  refMass_{refMass}
 {
   calcRefValues();
 }
 mousse::reducedUnits::reducedUnits(const IOdictionary& reducedUnitsDict)
 :
-  refLength_(),
-  refTime_(),
-  refMass_()
+  refLength_{},
+  refTime_{},
+  refMass_{}
 {
   setRefValues(reducedUnitsDict);
 }
@@ -88,16 +88,4 @@ void mousse::reducedUnits::setRefValues
   refMass_  = readScalar(reducedUnitsDict.lookup("refMass"));
   calcRefValues();
 }
-// Member Operators 
-void mousse::reducedUnits::operator=(const reducedUnits& rhs)
-{
-  // Check for assignment to self
-  if (this == &rhs)
-  {
-    FatalErrorIn
-    (
-      "mousse::reducedUnits::operator=(const mousse::reducedUnits&)"
-    )   << "Attempted assignment to self"
-      << abort(FatalError);
-  }
-}
+

@@ -29,7 +29,7 @@ class inclinedFilmNusseltHeightFvPatchScalarField
     autoPtr<DataEntry<scalar> > omega_;
 public:
   //- Runtime type information
-  TypeName("inclinedFilmNusseltHeight");
+  TYPE_NAME("inclinedFilmNusseltHeight");
   // Constructors
     //- Construct from patch and internal field
     inclinedFilmNusseltHeightFvPatchScalarField

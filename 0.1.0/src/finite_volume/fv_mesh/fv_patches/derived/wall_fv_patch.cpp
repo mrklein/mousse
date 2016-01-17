@@ -6,6 +6,6 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-defineTypeNameAndDebug(wallFvPatch, 0);
-addToRunTimeSelectionTable(fvPatch, wallFvPatch, polyPatch);
+DEFINE_TYPE_NAME_AND_DEBUG(wallFvPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, wallFvPatch, polyPatch);
 }  // namespace mousse

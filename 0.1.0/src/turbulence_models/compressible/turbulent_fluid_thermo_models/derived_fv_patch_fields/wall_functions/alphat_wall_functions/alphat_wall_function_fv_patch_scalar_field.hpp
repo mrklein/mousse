@@ -55,7 +55,7 @@ class alphatWallFunctionFvPatchScalarField
     scalar Prt_;
 public:
   //- Runtime type information
-  TypeName("compressible::alphatWallFunction");
+  TYPE_NAME("compressible::alphatWallFunction");
   // Constructors
     //- Construct from patch and internal field
     alphatWallFunctionFvPatchScalarField

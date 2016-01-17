@@ -51,7 +51,7 @@ void mousse::wallDistData<TransferType>::correct()
   labelHashSet wallPatchIDs(getPatchIDs<wallPolyPatch>());
   // Collect pointers to data on patches
   UPtrList<Field<Type> > patchData(mesh.boundaryMesh().size());
-  forAll(field_.boundaryField(), patchI)
+  FOR_ALL(field_.boundaryField(), patchI)
   {
     patchData.set(patchI, &field_.boundaryField()[patchI]);
   }
@@ -67,7 +67,7 @@ void mousse::wallDistData<TransferType>::correct()
   transfer(wave.distance());
   field_.transfer(wave.cellData());
   // Transfer values on patches into boundaryField of *this and field_
-  forAll(boundaryField(), patchI)
+  FOR_ALL(boundaryField(), patchI)
   {
     scalarField& waveFld = wave.patchDistance()[patchI];
     if (!isA<emptyFvPatchScalarField>(boundaryField()[patchI]))

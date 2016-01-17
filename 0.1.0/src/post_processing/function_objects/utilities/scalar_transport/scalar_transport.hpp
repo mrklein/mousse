@@ -17,7 +17,7 @@
 //    from the turbulence model (if applicable)
 // SourceFiles
 //   scalar_transport.cpp
-//   i_oscalar_transport.hpp
+//   io_scalar_transport.hpp
 #ifndef scalar_transport_hpp_
 #define scalar_transport_hpp_
 #include "vol_fields.hpp"
@@ -65,13 +65,9 @@ class scalarTransport
     wordList boundaryTypes() const;
     //- Return the diffusivity field
     tmp<volScalarField> DT(const surfaceScalarField& phi) const;
-    //- Disallow default bitwise copy construct
-    scalarTransport(const scalarTransport&);
-    //- Disallow default bitwise assignment
-    void operator=(const scalarTransport&);
 public:
   //- Runtime type information
-  TypeName("scalarTransport");
+  TYPE_NAME("scalarTransport");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -82,6 +78,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    scalarTransport(const scalarTransport&) = delete;
+    //- Disallow default bitwise assignment
+    scalarTransport& operator=(const scalarTransport&) = delete;
   //- Destructor
   virtual ~scalarTransport();
   // Member Functions

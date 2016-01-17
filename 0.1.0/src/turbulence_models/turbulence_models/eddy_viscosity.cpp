@@ -58,7 +58,7 @@ mousse::eddyViscosity<BasicTurbulenceModel>::R() const
   wordList patchFieldTypes(tk().boundaryField().types());
   // For k patchField types which do not have an equivalent for symmTensor
   // set to calculated
-  forAll(patchFieldTypes, i)
+  FOR_ALL(patchFieldTypes, i)
   {
     if
     (

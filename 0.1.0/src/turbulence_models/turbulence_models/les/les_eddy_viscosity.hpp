@@ -22,10 +22,6 @@ class LESeddyViscosity
 :
   public eddyViscosity<LESModel<BasicTurbulenceModel> >
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    LESeddyViscosity(const LESeddyViscosity&);
-    LESeddyViscosity& operator=(const LESeddyViscosity&);
 protected:
   // Protected data
     dimensionedScalar Ce_;
@@ -46,6 +42,9 @@ public:
       const transportModel& transport,
       const word& propertiesName = turbulenceModel::propertiesName
     );
+    // Disallow default bitwise copy construct and assignment
+    LESeddyViscosity(const LESeddyViscosity&) = delete;
+    LESeddyViscosity& operator=(const LESeddyViscosity&) = delete;
   //- Destructor
   virtual ~LESeddyViscosity()
   {}

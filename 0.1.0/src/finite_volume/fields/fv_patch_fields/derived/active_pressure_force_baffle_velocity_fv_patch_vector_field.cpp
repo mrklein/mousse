@@ -7,7 +7,9 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "cyclic_fv_patch.hpp"
-// Constructors 
+#include "time.hpp"
+
+// Constructors
 mousse::activePressureForceBaffleVelocityFvPatchVectorField::
 activePressureForceBaffleVelocityFvPatchVectorField
 (
@@ -140,7 +142,8 @@ activePressureForceBaffleVelocityFvPatchVectorField
   fBased_(ptf.fBased_),
   baffleActivated_(ptf.baffleActivated_)
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::activePressureForceBaffleVelocityFvPatchVectorField::autoMap
 (
   const fvPatchFieldMapper& m
@@ -153,7 +156,7 @@ void mousse::activePressureForceBaffleVelocityFvPatchVectorField::autoMap
   //- Note: we don't want to use Sf here since triggers rebuilding of
   //  fvMesh::S() which will give problems when mapped (since already
   //  on new mesh)
-  forAll (patch().boundaryMesh().mesh().faceAreas(), i)
+  FOR_ALL(patch().boundaryMesh().mesh().faceAreas(), i)
   {
     if (mag(patch().boundaryMesh().mesh().faceAreas()[i]) == 0)
     {
@@ -223,12 +226,12 @@ void mousse::activePressureForceBaffleVelocityFvPatchVectorField::updateCoeffs()
     if (fBased_)
     {
       // Add this side
-      forAll(cyclicFaceCells, facei)
+      FOR_ALL(cyclicFaceCells, facei)
       {
         valueDiff +=p[cyclicFaceCells[facei]]*mag(initCyclicSf_[facei]);
       }
       // Remove other side
-      forAll(nbrFaceCells, facei)
+      FOR_ALL(nbrFaceCells, facei)
       {
         valueDiff -=p[nbrFaceCells[facei]]*mag(initCyclicSf_[facei]);
       }
@@ -236,11 +239,11 @@ void mousse::activePressureForceBaffleVelocityFvPatchVectorField::updateCoeffs()
     }
     else //pressure based
     {
-      forAll(cyclicFaceCells, facei)
+      FOR_ALL(cyclicFaceCells, facei)
       {
         valueDiff += p[cyclicFaceCells[facei]];
       }
-      forAll(nbrFaceCells, facei)
+      FOR_ALL(nbrFaceCells, facei)
       {
         valueDiff -= p[nbrFaceCells[facei]];
       }
@@ -270,7 +273,7 @@ void mousse::activePressureForceBaffleVelocityFvPatchVectorField::updateCoeffs()
     Info<< "Open fraction = " << openFraction_ << endl;
     vectorField::subField Sfw = patch().patch().faceAreas();
     vectorField newSfw((1 - openFraction_)*initWallSf_);
-    forAll(Sfw, facei)
+    FOR_ALL(Sfw, facei)
     {
       Sfw[facei] = newSfw[facei];
     }
@@ -312,9 +315,11 @@ write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    activePressureForceBaffleVelocityFvPatchVectorField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  activePressureForceBaffleVelocityFvPatchVectorField
+);
+
 }

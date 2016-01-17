@@ -24,7 +24,7 @@ void MapLagrangianFields
 {
   {
     IOobjectList fields = objects.lookupClass(IOField<Type>::typeName);
-    forAllIter(IOobjectList, fields, fieldIter)
+    FOR_ALL_ITER(IOobjectList, fields, fieldIter)
     {
       const word& fieldName = fieldIter()->name();
       Info<< "    mapping lagrangian field " << fieldName << endl;
@@ -45,7 +45,7 @@ void MapLagrangianFields
         ),
         addParticles.size()
       );
-      forAll(addParticles, i)
+      FOR_ALL(addParticles, i)
       {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }
@@ -56,7 +56,7 @@ void MapLagrangianFields
   {
     IOobjectList fieldFields =
       objects.lookupClass(IOField<Field<Type> >::typeName);
-    forAllIter(IOobjectList, fieldFields, fieldIter)
+    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
     {
       const word& fieldName = fieldIter()->name();
       Info<< "    mapping lagrangian fieldField " << fieldName << endl;
@@ -78,7 +78,7 @@ void MapLagrangianFields
         ),
         addParticles.size()
       );
-      forAll(addParticles, i)
+      FOR_ALL(addParticles, i)
       {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }
@@ -89,7 +89,7 @@ void MapLagrangianFields
   {
     IOobjectList fieldFields =
       objects.lookupClass(CompactIOField<Field<Type>, Type>::typeName);
-    forAllIter(IOobjectList, fieldFields, fieldIter)
+    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
     {
       Info<< "    mapping lagrangian fieldField "
         << fieldIter()->name() << endl;
@@ -110,7 +110,7 @@ void MapLagrangianFields
         ),
         addParticles.size()
       );
-      forAll(addParticles, i)
+      FOR_ALL(addParticles, i)
       {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }

@@ -454,13 +454,9 @@ private:
         const Map<label>& zoneToOrientation,
         boolList& meshFlipMap
       ) const;
-    //- Disallow default bitwise copy construct
-    meshRefinement(const meshRefinement&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshRefinement&);
 public:
   //- Runtime type information
-  ClassName("meshRefinement");
+  CLASS_NAME("meshRefinement");
   // Constructors
     //- Construct from components
     meshRefinement
@@ -472,6 +468,10 @@ public:
       const refinementFeatures&,
       const shellSurfaces&
     );
+    //- Disallow default bitwise copy construct
+    meshRefinement(const meshRefinement&) = delete;
+    //- Disallow default bitwise assignment
+    meshRefinement& operator=(const meshRefinement&) = delete;
   // Member Functions
     // Access
       //- Reference to mesh

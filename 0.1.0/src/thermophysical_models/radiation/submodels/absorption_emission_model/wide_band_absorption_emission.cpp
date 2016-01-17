@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(wideBandAbsorptionEmission, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(wideBandAbsorptionEmission, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       absorptionEmissionModel,
       wideBandAbsorptionEmission,
@@ -41,7 +41,7 @@ mousse::radiation::wideBandAbsorptionEmission::wideBandAbsorptionEmission
 {
   label nBand = 0;
   const dictionary& functionDicts = dict.subDict(typeName +"Coeffs");
-  forAllConstIter(dictionary, functionDicts, iter)
+  FOR_ALL_CONST_ITER(dictionary, functionDicts, iter)
   {
     // safety:
     if (!iter().isDict())
@@ -54,7 +54,7 @@ mousse::radiation::wideBandAbsorptionEmission::wideBandAbsorptionEmission
     totalWaveLength_ += iBands_[nBand][1] - iBands_[nBand][0];
     label nSpec = 0;
     const dictionary& specDicts = dict.subDict("species");
-    forAllConstIter(dictionary, specDicts, iter)
+    FOR_ALL_CONST_ITER(dictionary, specDicts, iter)
     {
       const word& key = iter().keyword();
       if (nBand == 0)
@@ -65,7 +65,7 @@ mousse::radiation::wideBandAbsorptionEmission::wideBandAbsorptionEmission
       {
         if (!speciesNames_.found(key))
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "mousse::radiation::wideBandAbsorptionEmission(const"
             "dictionary& dict, const fvMesh& mesh)"
@@ -82,7 +82,7 @@ mousse::radiation::wideBandAbsorptionEmission::wideBandAbsorptionEmission
   // Check that all the species on the dictionary are present in the
   // look-up table  and save the corresponding indices of the look-up table
   label j = 0;
-  forAllConstIter(HashTable<label>, speciesNames_, iter)
+  FOR_ALL_CONST_ITER(HashTable<label>, speciesNames_, iter)
   {
     if (lookUpTable_.found(iter.key()))
     {
@@ -102,7 +102,7 @@ mousse::radiation::wideBandAbsorptionEmission::wideBandAbsorptionEmission
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "radiation::wideBandAbsorptionEmission(const"
         "dictionary& dict, const fvMesh& mesh)"
@@ -141,7 +141,7 @@ mousse::radiation::wideBandAbsorptionEmission::aCont(const label bandI) const
     )
   );
   scalarField& a = ta().internalField();
-  forAll(a, i)
+  FOR_ALL(a, i)
   {
     const List<scalar>& species = lookUpTable_.lookUp(ft[i]);
     for (label n=0; n<nSpecies; n++)
@@ -222,7 +222,7 @@ mousse::radiation::wideBandAbsorptionEmission::ECont(const label bandI) const
     }
     else
     {
-      WarningIn
+      WARNING_IN
       (
         "tmp<volScalarField>"
         "radiation::wideBandAbsorptionEmission::ECont"

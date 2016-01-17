@@ -56,7 +56,7 @@ mousse::IsotropyModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "IsotropyModel<CloudType>::New"
       "("

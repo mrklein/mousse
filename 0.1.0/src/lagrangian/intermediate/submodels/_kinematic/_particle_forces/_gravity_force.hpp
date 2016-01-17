@@ -6,7 +6,6 @@
 // Description
 //   Calculates particle gravity force
 // SourceFiles
-//   _gravity_force_i.hpp
 //   _gravity_force.cpp
 #ifndef _gravity_force_hpp_
 #define _gravity_force_hpp_
@@ -24,7 +23,7 @@ class GravityForce
     const vector& g_;
 public:
   //- Runtime type information
-  TypeName("gravity");
+  TYPE_NAME("gravity");
   // Constructors
     //- Construct from mesh
     GravityForce
@@ -61,7 +60,12 @@ public:
       ) const;
 };
 }  // namespace mousse
-#include "_gravity_force_i.hpp"
+
+template<class CloudType>
+inline const mousse::vector& mousse::GravityForce<CloudType>::g() const
+{
+  return g_;
+}
 #ifdef NoRepository
   #include "_gravity_force.cpp"
 #endif

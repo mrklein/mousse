@@ -7,7 +7,7 @@
 template<class CloudType>
 void mousse::CloudFunctionObject<CloudType>::write()
 {
-  notImplemented("void mousse::CloudFunctionObject<CloudType>::write()");
+  NOT_IMPLEMENTED("void mousse::CloudFunctionObject<CloudType>::write()");
 }
 // Constructors 
 template<class CloudType>

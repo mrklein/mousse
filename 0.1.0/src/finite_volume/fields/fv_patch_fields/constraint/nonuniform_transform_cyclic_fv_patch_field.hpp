@@ -27,7 +27,7 @@ class nonuniformTransformCyclicFvPatchField
   // Private data
 public:
   //- Runtime type information
-  TypeName(nonuniformTransformCyclicFvPatch::typeName_());
+  TYPE_NAME(nonuniformTransformCyclicFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     nonuniformTransformCyclicFvPatchField

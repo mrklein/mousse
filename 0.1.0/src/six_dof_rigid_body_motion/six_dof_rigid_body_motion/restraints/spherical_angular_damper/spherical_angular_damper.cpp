@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace sixDoFRigidBodyMotionRestraints
 {
-  defineTypeNameAndDebug(sphericalAngularDamper, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(sphericalAngularDamper, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     sixDoFRigidBodyMotionRestraint,
     sphericalAngularDamper,
@@ -27,8 +27,8 @@ sphericalAngularDamper
   const dictionary& sDoFRBMRDict
 )
 :
-  sixDoFRigidBodyMotionRestraint(name, sDoFRBMRDict),
-  coeff_()
+  sixDoFRigidBodyMotionRestraint{name, sDoFRBMRDict},
+  coeff_{}
 {
   read(sDoFRBMRDict);
 }
@@ -40,7 +40,7 @@ mousse::sixDoFRigidBodyMotionRestraints::sphericalAngularDamper::
 void mousse::sixDoFRigidBodyMotionRestraints::sphericalAngularDamper::restrain
 (
   const sixDoFRigidBodyMotion& motion,
-  vector& restraintPosition,
+  vector& /*restraintPosition*/,
   vector& restraintForce,
   vector& restraintMoment
 ) const

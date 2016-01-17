@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(laminarFlameSpeed, 0);
-  defineRunTimeSelectionTable(laminarFlameSpeed, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(laminarFlameSpeed, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(laminarFlameSpeed, dictionary);
 }
 // Constructors 
 mousse::laminarFlameSpeed::laminarFlameSpeed

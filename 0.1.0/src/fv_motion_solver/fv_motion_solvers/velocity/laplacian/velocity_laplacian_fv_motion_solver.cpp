@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(velocityLaplacianFvMotionSolver, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(velocityLaplacianFvMotionSolver, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionSolver,
     velocityLaplacianFvMotionSolver,

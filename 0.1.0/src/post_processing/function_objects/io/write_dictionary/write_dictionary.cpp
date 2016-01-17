@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(writeDictionary, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(writeDictionary, 0);
 }
 // Private Member Functions 
 bool mousse::writeDictionary::tryDirectory
@@ -54,13 +54,13 @@ mousse::writeDictionary::writeDictionary
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  dictNames_(),
-  digests_()
+  name_{name},
+  obr_{obr},
+  dictNames_{},
+  digests_{}
 {
   read(dict);
   execute();
@@ -78,7 +78,7 @@ void mousse::writeDictionary::read(const dictionary& dict)
   Info<< type() << " " << name_ << ": monitoring dictionaries:" << nl;
   if (dictNames_.size())
   {
-    forAll(dictNames_, i)
+    FOR_ALL(dictNames_, i)
     {
       Info<< "    " << dictNames_[i] << endl;
     }
@@ -92,12 +92,11 @@ void mousse::writeDictionary::read(const dictionary& dict)
 void mousse::writeDictionary::execute()
 {
   bool firstDict = true;
-  forAll(dictNames_, i)
+  FOR_ALL(dictNames_, i)
   {
     if (obr_.foundObject<dictionary>(dictNames_[i]))
     {
-      const dictionary& dict =
-        obr_.lookupObject<dictionary>(dictNames_[i]);
+      const dictionary& dict = obr_.lookupObject<dictionary>(dictNames_[i]);
       if (dict.digest() != digests_[i])
       {
         if (firstDict)

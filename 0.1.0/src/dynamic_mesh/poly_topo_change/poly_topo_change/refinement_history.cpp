@@ -11,7 +11,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(refinementHistory, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(refinementHistory, 0);
 }
 // Private Member Functions 
 void mousse::refinementHistory::writeEntry
@@ -51,7 +51,7 @@ void mousse::refinementHistory::writeDebug
 {
   string oldPrefix = Pout.prefix();
   Pout.prefix() = "";
-  forAll(visibleCells, cellI)
+  FOR_ALL(visibleCells, cellI)
   {
     label index = visibleCells[cellI];
     if (index >= 0)
@@ -138,11 +138,11 @@ mousse::Ostream& mousse::operator<<
 void mousse::refinementHistory::checkIndices() const
 {
   // Check indices.
-  forAll(visibleCells_, i)
+  FOR_ALL(visibleCells_, i)
   {
     if (visibleCells_[i] < 0 && visibleCells_[i] >= splitCells_.size())
     {
-      FatalErrorIn("refinementHistory::checkIndices() const")
+      FATAL_ERROR_IN("refinementHistory::checkIndices() const")
         << "Illegal entry " << visibleCells_[i]
         << " in visibleCells at location" << i << nl
         << "It points outside the range of splitCells : 0.."
@@ -197,7 +197,7 @@ void mousse::refinementHistory::freeSplitCell(const label index)
       label myPos = findIndex(subCells, index);
       if (myPos == -1)
       {
-        FatalErrorIn("refinementHistory::freeSplitCell")
+        FATAL_ERROR_IN("refinementHistory::freeSplitCell")
           << "Problem: cannot find myself in"
           << " parents' children" << abort(FatalError);
       }
@@ -233,7 +233,7 @@ void mousse::refinementHistory::markSplit
     if (split.addedCellsPtr_.valid())
     {
       const FixedList<label, 8>& splits = split.addedCellsPtr_();
-      forAll(splits, i)
+      FOR_ALL(splits, i)
       {
         if (splits[i] >= 0)
         {
@@ -251,7 +251,7 @@ mousse::refinementHistory::refinementHistory(const IOobject& io)
   // Temporary warning
   if (io.readOpt() == IOobject::MUST_READ_IF_MODIFIED)
   {
-    WarningIn
+    WARNING_IN
     (
       "refinementHistory::refinementHistory(const IOobject&)"
     )   << "Specified IOobject::MUST_READ_IF_MODIFIED but class"
@@ -293,7 +293,7 @@ mousse::refinementHistory::refinementHistory
   // Temporary warning
   if (io.readOpt() == IOobject::MUST_READ_IF_MODIFIED)
   {
-    WarningIn
+    WARNING_IN
     (
       "refinementHistory::refinementHistory"
       "(const IOobject&, const List<splitCell8>&, const labelList&)"
@@ -335,7 +335,7 @@ mousse::refinementHistory::refinementHistory
   // Temporary warning
   if (io.readOpt() == IOobject::MUST_READ_IF_MODIFIED)
   {
-    WarningIn
+    WARNING_IN
     (
       "refinementHistory::refinementHistory"
       "(const IOobject&, const label)"
@@ -434,7 +434,7 @@ void mousse::refinementHistory::updateMesh(const mapPolyMesh& map)
     const labelList& reverseCellMap = map.reverseCellMap();
     // Note that only the live cells need to be renumbered.
     labelList newVisibleCells(map.cellMap().size(), -1);
-    forAll(visibleCells_, cellI)
+    FOR_ALL(visibleCells_, cellI)
     {
       if (visibleCells_[cellI] != -1)
       {
@@ -442,7 +442,7 @@ void mousse::refinementHistory::updateMesh(const mapPolyMesh& map)
         // Check not already set
         if (splitCells_[index].addedCellsPtr_.valid())
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "refinementHistory::updateMesh(const mapPolyMesh&)"
           )   << "Problem" << abort(FatalError);
@@ -467,22 +467,22 @@ void mousse::refinementHistory::updateMesh(const mapPolyMesh& map)
 // Update numbering for subsetting
 void mousse::refinementHistory::subset
 (
-  const labelList& pointMap,
-  const labelList& faceMap,
+  const labelList& /*pointMap*/,
+  const labelList& /*faceMap*/,
   const labelList& cellMap
 )
 {
   if (active())
   {
     labelList newVisibleCells(cellMap.size(), -1);
-    forAll(newVisibleCells, cellI)
+    FOR_ALL(newVisibleCells, cellI)
     {
       label oldCellI = cellMap[cellI];
       label index = visibleCells_[oldCellI];
       // Check that cell is live (so its parent has no refinement)
       if (index >= 0 && splitCells_[index].addedCellsPtr_.valid())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "refinementHistory::subset"
           "(const labelList&, const labelList&, const labelList&)"
@@ -541,7 +541,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
 {
   if (!active())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "refinementHistory::distribute(const mapDistributePolyMesh&)"
     )   << "Calling distribute on inactive history" << abort(FatalError);
@@ -566,10 +566,10 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
   // Per visible cell the processor it goes to.
   labelList destination(visibleCells_.size());
   const labelListList& subCellMap = map.cellMap().subMap();
-  forAll(subCellMap, procI)
+  FOR_ALL(subCellMap, procI)
   {
     const labelList& newToOld = subCellMap[procI];
-    forAll(newToOld, i)
+    FOR_ALL(newToOld, i)
     {
       label oldCellI = newToOld[i];
       destination[oldCellI] = procI;
@@ -581,7 +581,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
   labelList splitCellProc(splitCells_.size(), -1);
   // Per splitCell entry the number of live cells that move to that processor
   labelList splitCellNum(splitCells_.size(), 0);
-  forAll(visibleCells_, cellI)
+  FOR_ALL(visibleCells_, cellI)
   {
     label index = visibleCells_[cellI];
     if (index >= 0)
@@ -611,7 +611,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
     DynamicList<splitCell8> newSplitCells(splitCells_.size());
     // Loop over all entries. Note: could recurse like countProc so only
     // visit used entries but is probably not worth it.
-    forAll(splitCells_, index)
+    FOR_ALL(splitCells_, index)
     {
 //            Pout<< "oldCell:" << index
 //                << " proc:" << splitCellProc[index]
@@ -629,7 +629,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
       }
     }
     // Add live cells that are subsetted.
-    forAll(visibleCells_, cellI)
+    FOR_ALL(visibleCells_, cellI)
     {
       label index = visibleCells_[cellI];
       if (index >= 0 && destination[cellI] == procI)
@@ -643,14 +643,14 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
         newSplitCells.append(splitCell8(parent));
       }
     }
-    //forAll(oldToNew, index)
+    //FOR_ALL(oldToNew, index)
     //{
     //    Pout<< "old:" << index << " new:" << oldToNew[index]
     //        << endl;
     //}
     newSplitCells.shrink();
     // Renumber contents of newSplitCells
-    forAll(newSplitCells, index)
+    FOR_ALL(newSplitCells, index)
     {
       splitCell8& split = newSplitCells[index];
       if (split.parent_ >= 0)
@@ -660,7 +660,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
       if (split.addedCellsPtr_.valid())
       {
         FixedList<label, 8>& splits = split.addedCellsPtr_();
-        forAll(splits, i)
+        FOR_ALL(splits, i)
         {
           if (splits[i] >= 0)
           {
@@ -672,7 +672,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
     const labelList& subMap = subCellMap[procI];
     // New visible cells.
     labelList newVisibleCells(subMap.size(), -1);
-    forAll(subMap, newCellI)
+    FOR_ALL(subMap, newCellI)
     {
       label oldCellI = subMap[newCellI];
       label oldIndex = visibleCells_[oldCellI];
@@ -707,7 +707,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
     label offset = splitCells_.size();
     //Pout<< "**Renumbering data from proc " << procI << " with offset "
     //    << offset << endl;
-    forAll(newSplitCells, index)
+    FOR_ALL(newSplitCells, index)
     {
       splitCell8& split = newSplitCells[index];
       if (split.parent_ >= 0)
@@ -717,7 +717,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
       if (split.addedCellsPtr_.valid())
       {
         FixedList<label, 8>& splits = split.addedCellsPtr_();
-        forAll(splits, i)
+        FOR_ALL(splits, i)
         {
           if (splits[i] >= 0)
           {
@@ -729,7 +729,7 @@ void mousse::refinementHistory::distribute(const mapDistributePolyMesh& map)
     }
     // Combine visibleCell.
     const labelList& constructMap = map.cellMap().constructMap()[procI];
-    forAll(newVisibleCells, i)
+    FOR_ALL(newVisibleCells, i)
     {
       if (newVisibleCells[i] >= 0)
       {
@@ -752,18 +752,18 @@ void mousse::refinementHistory::compact()
       << " visibleCells_:" << visibleCells_.size()
       << endl;
     // Check all free splitCells are marked as such
-    forAll(freeSplitCells_, i)
+    FOR_ALL(freeSplitCells_, i)
     {
       label index = freeSplitCells_[i];
       if (splitCells_[index].parent_ != -2)
       {
-        FatalErrorIn("refinementHistory::compact()")
+        FATAL_ERROR_IN("refinementHistory::compact()")
           << "Problem index:" << index
           << abort(FatalError);
       }
     }
     // Check none of the visible cells are marked as free
-    forAll(visibleCells_, cellI)
+    FOR_ALL(visibleCells_, cellI)
     {
       if
       (
@@ -771,7 +771,7 @@ void mousse::refinementHistory::compact()
       && splitCells_[visibleCells_[cellI]].parent_ == -2
       )
       {
-        FatalErrorIn("refinementHistory::compact()")
+        FATAL_ERROR_IN("refinementHistory::compact()")
           << "Problem : visible cell:" << cellI
           << " is marked as being free." << abort(FatalError);
       }
@@ -783,7 +783,7 @@ void mousse::refinementHistory::compact()
   // Mark all used splitCell entries. These are either indexed by visibleCells
   // or indexed from other splitCell entries.
   // Mark from visibleCells
-  forAll(visibleCells_, cellI)
+  FOR_ALL(visibleCells_, cellI)
   {
     label index = visibleCells_[cellI];
     if (index >= 0)
@@ -801,7 +801,7 @@ void mousse::refinementHistory::compact()
     }
   }
   // Mark from splitCells
-  forAll(splitCells_, index)
+  FOR_ALL(splitCells_, index)
   {
     if (splitCells_[index].parent_ == -2)
     {
@@ -825,7 +825,7 @@ void mousse::refinementHistory::compact()
   // Now oldToNew is fully complete and compacted elements are in
   // newSplitCells.
   // Renumber contents of newSplitCells and visibleCells.
-  forAll(newSplitCells, index)
+  FOR_ALL(newSplitCells, index)
   {
     splitCell8& split = newSplitCells[index];
     if (split.parent_ >= 0)
@@ -835,7 +835,7 @@ void mousse::refinementHistory::compact()
     if (split.addedCellsPtr_.valid())
     {
       FixedList<label, 8>& splits = split.addedCellsPtr_();
-      forAll(splits, i)
+      FOR_ALL(splits, i)
       {
         if (splits[i] >= 0)
         {
@@ -861,7 +861,7 @@ void mousse::refinementHistory::compact()
       << endl;
   }
   // Adapt indices in visibleCells_
-  forAll(visibleCells_, cellI)
+  FOR_ALL(visibleCells_, cellI)
   {
     label index = visibleCells_[cellI];
     if (index >= 0)
@@ -902,7 +902,7 @@ void mousse::refinementHistory::storeSplit
   }
   // Create live entries for added cells that point to the
   // cell they were created from (parentIndex)
-  forAll(addedCells, i)
+  FOR_ALL(addedCells, i)
   {
     label addedCellI = addedCells[i];
     // Create entries for the split off cells. All of them
@@ -919,7 +919,7 @@ void mousse::refinementHistory::combineCells
   // Save the parent structure
   label parentIndex = splitCells_[visibleCells_[masterCellI]].parent_;
   // Remove the information for the combined cells
-  forAll(combinedCells, i)
+  FOR_ALL(combinedCells, i)
   {
     label cellI = combinedCells[i];
     freeSplitCell(visibleCells_[cellI]);

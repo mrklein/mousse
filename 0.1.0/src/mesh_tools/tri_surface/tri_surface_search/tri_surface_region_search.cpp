@@ -6,7 +6,9 @@
 #include "indexed_octree.hpp"
 #include "tri_surface.hpp"
 #include "patch_tools.hpp"
-// Constructors 
+#include "map.hpp"
+
+// Constructors
 mousse::triSurfaceRegionSearch::triSurfaceRegionSearch(const triSurface& surface)
 :
   triSurfaceSearch(surface),
@@ -23,7 +25,8 @@ mousse::triSurfaceRegionSearch::triSurfaceRegionSearch
   indirectRegionPatches_(),
   treeByRegion_()
 {}
-// Destructor 
+
+// Destructor
 mousse::triSurfaceRegionSearch::~triSurfaceRegionSearch()
 {
   clearOut();
@@ -33,14 +36,15 @@ void mousse::triSurfaceRegionSearch::clearOut()
   triSurfaceSearch::clearOut();
   treeByRegion_.clear();
 }
-// Member Functions 
+
+// Member Functions
 const mousse::PtrList<mousse::triSurfaceRegionSearch::treeType>&
 mousse::triSurfaceRegionSearch::treeByRegion() const
 {
   if (treeByRegion_.empty())
   {
     Map<label> regionSizes;
-    forAll(surface(), fI)
+    FOR_ALL(surface(), fI)
     {
       const label regionI = surface()[fI].region();
       regionSizes(regionI)++;
@@ -49,17 +53,17 @@ mousse::triSurfaceRegionSearch::treeByRegion() const
     indirectRegionPatches_.setSize(nRegions);
     treeByRegion_.setSize(nRegions);
     labelListList regionsAddressing(nRegions);
-    forAll(regionsAddressing, regionI)
+    FOR_ALL(regionsAddressing, regionI)
     {
       regionsAddressing[regionI] = labelList(regionSizes[regionI], -1);
     }
     labelList nFacesInRegions(nRegions, 0);
-    forAll(surface(), fI)
+    FOR_ALL(surface(), fI)
     {
       const label regionI = surface()[fI].region();
       regionsAddressing[regionI][nFacesInRegions[regionI]++] = fI;
     }
-    forAll(regionsAddressing, regionI)
+    FOR_ALL(regionsAddressing, regionI)
     {
       scalar oldTol = treeType::perturbTol();
       treeType::perturbTol() = tolerance();
@@ -147,14 +151,14 @@ void mousse::triSurfaceRegionSearch::findNearest
     treeType::perturbTol() = tolerance();
     const PtrList<treeType>& octrees = treeByRegion();
     info.setSize(samples.size());
-    forAll(octrees, treeI)
+    FOR_ALL(octrees, treeI)
     {
       if (findIndex(regionIndices, treeI) == -1)
       {
         continue;
       }
       const treeType& octree = octrees[treeI];
-      forAll(samples, i)
+      FOR_ALL(samples, i)
       {
 //                if (!octree.bb().contains(samples[i]))
 //                {

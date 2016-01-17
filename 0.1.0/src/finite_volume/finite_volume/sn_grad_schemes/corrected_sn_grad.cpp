@@ -8,10 +8,13 @@
 #include "linear.hpp"
 #include "fvc_grad.hpp"
 #include "gauss_grad.hpp"
+
 // Destructor 
 template<class Type>
 mousse::fv::correctedSnGrad<Type>::~correctedSnGrad()
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh> >
@@ -35,6 +38,8 @@ mousse::fv::correctedSnGrad<Type>::fullGradCorrection
   tssf().rename("snGradCorr(" + vf.name() + ')');
   return tssf;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh> >
 mousse::fv::correctedSnGrad<Type>::correction
@@ -45,21 +50,21 @@ mousse::fv::correctedSnGrad<Type>::correction
   const fvMesh& mesh = this->mesh();
   // construct GeometricField<Type, fvsPatchField, surfaceMesh>
   tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tssf
-  (
+  {
     new GeometricField<Type, fvsPatchField, surfaceMesh>
-    (
+    {
       IOobject
-      (
+      {
         "snGradCorr("+vf.name()+')',
         vf.instance(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       mesh,
       vf.dimensions()*mesh.nonOrthDeltaCoeffs().dimensions()
-    )
-  );
+    }
+  };
   GeometricField<Type, fvsPatchField, surfaceMesh>& ssf = tssf();
   for (direction cmpt = 0; cmpt < pTraits<Type>::nComponents; cmpt++)
   {

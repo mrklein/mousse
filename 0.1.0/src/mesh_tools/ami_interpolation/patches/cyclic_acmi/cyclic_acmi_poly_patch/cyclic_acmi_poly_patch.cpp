@@ -5,22 +5,22 @@
 #include "cyclic_acmi_poly_patch.hpp"
 #include "sub_field.hpp"
 #include "time.hpp"
+#include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicACMIPolyPatch, 0);
-  addToRunTimeSelectionTable(polyPatch, cyclicACMIPolyPatch, word);
-  addToRunTimeSelectionTable(polyPatch, cyclicACMIPolyPatch, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicACMIPolyPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, cyclicACMIPolyPatch, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, cyclicACMIPolyPatch, dictionary);
 }
+
 const mousse::scalar mousse::cyclicACMIPolyPatch::tolerance_ = 1e-6;
-// Protected Member Functions 
+
+// Protected Member Functions
 void mousse::cyclicACMIPolyPatch::initPatchFaceAreas() const
 {
-  if
-  (
-    !empty()
-  && (faceAreas0_.empty() || boundaryMesh().mesh().moving())
-  )
+  if (!empty() && (faceAreas0_.empty() || boundaryMesh().mesh().moving()))
   {
     faceAreas0_ = faceAreas();
   }
@@ -47,7 +47,7 @@ void mousse::cyclicACMIPolyPatch::resetAMI
     // Reset patch face areas based on original patch for AMI calculation
     vectorField::subField Sf = faceAreas();
     vectorField::subField noSf = nonOverlapPatch.faceAreas();
-    forAll(Sf, faceI)
+    FOR_ALL(Sf, faceI)
     {
       Sf[faceI] = faceAreas0_[faceI];
       noSf[faceI] = faceAreas0_[faceI];
@@ -61,7 +61,7 @@ void mousse::cyclicACMIPolyPatch::resetAMI
       min(scalar(1) - tolerance_, max(tolerance_, AMI().srcWeightsSum()));
     tgtMask_ =
       min(scalar(1) - tolerance_, max(tolerance_, AMI().tgtWeightsSum()));
-    forAll(Sf, faceI)
+    FOR_ALL(Sf, faceI)
     {
       Sf[faceI] *= srcMask_[faceI];
       noSf[faceI] *= 1.0 - srcMask_[faceI];
@@ -81,7 +81,7 @@ void mousse::cyclicACMIPolyPatch::setNeighbourFaceAreas() const
   {
     vectorField::subField Sf = cp.faceAreas();
     vectorField::subField noSf = pp.faceAreas();
-    forAll(Sf, faceI)
+    FOR_ALL(Sf, faceI)
     {
       Sf[faceI] = tgtMask_[faceI]*faceAreas0[faceI];
       noSf[faceI] = (1.0 - tgtMask_[faceI])*faceAreas0[faceI];
@@ -89,7 +89,7 @@ void mousse::cyclicACMIPolyPatch::setNeighbourFaceAreas() const
   }
   else
   {
-    WarningIn("cyclicACMIPolyPatch::setNeighbourFaceAreas() const")
+    WARNING_IN("cyclicACMIPolyPatch::setNeighbourFaceAreas() const")
       << "Target mask size differs to that of the neighbour patch\n"
       << "    May occur when decomposing." << endl;
   }
@@ -142,7 +142,7 @@ const mousse::scalarField& mousse::cyclicACMIPolyPatch::tgtMask() const
 {
   return tgtMask_;
 }
-// Constructors 
+// Constructors
 mousse::cyclicACMIPolyPatch::cyclicACMIPolyPatch
 (
   const word& name,
@@ -186,7 +186,7 @@ mousse::cyclicACMIPolyPatch::cyclicACMIPolyPatch
   AMIRequireMatch_ = false;
   if (nonOverlapPatchName_ == name)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "cyclicACMIPolyPatch::cyclicACMIPolyPatch"
       "("
@@ -244,7 +244,7 @@ mousse::cyclicACMIPolyPatch::cyclicACMIPolyPatch
   AMIRequireMatch_ = false;
   if (nonOverlapPatchName_ == name())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const cyclicACMIPolyPatch& "
       "const polyBoundaryMesh&, "
@@ -279,10 +279,12 @@ mousse::cyclicACMIPolyPatch::cyclicACMIPolyPatch
 {
   AMIRequireMatch_ = false;
 }
-// Destructor 
+
+// Destructor
 mousse::cyclicACMIPolyPatch::~cyclicACMIPolyPatch()
 {}
-// Member Functions 
+
+// Member Functions
 const mousse::cyclicACMIPolyPatch& mousse::cyclicACMIPolyPatch::neighbPatch() const
 {
   const polyPatch& pp = this->boundaryMesh()[neighbPatchID()];
@@ -296,7 +298,7 @@ mousse::label mousse::cyclicACMIPolyPatch::nonOverlapPatchID() const
       this->boundaryMesh().findPatchID(nonOverlapPatchName_);
     if (nonOverlapPatchID_ == -1)
     {
-      FatalErrorIn("cyclicPolyAMIPatch::neighbPatchID() const")
+      FATAL_ERROR_IN("cyclicPolyAMIPatch::neighbPatchID() const")
         << "Illegal non-overlapping patch name " << nonOverlapPatchName_
         << nl << "Valid patch names are "
         << this->boundaryMesh().names()
@@ -304,7 +306,7 @@ mousse::label mousse::cyclicACMIPolyPatch::nonOverlapPatchID() const
     }
     if (nonOverlapPatchID_ < index())
     {
-      FatalErrorIn("cyclicPolyAMIPatch::neighbPatchID() const")
+      FATAL_ERROR_IN("cyclicPolyAMIPatch::neighbPatchID() const")
         << "Boundary ordering error: " << type()
         << " patch must be defined prior to its non-overlapping patch"
         << nl
@@ -319,7 +321,7 @@ mousse::label mousse::cyclicACMIPolyPatch::nonOverlapPatchID() const
     {
       const scalarField magSf(mag(faceAreas()));
       const scalarField noMagSf(mag(noPp.faceAreas()));
-      forAll(magSf, faceI)
+      FOR_ALL(magSf, faceI)
       {
         scalar ratio = mag(magSf[faceI]/(noMagSf[faceI] + ROOTVSMALL));
         if (ratio - 1 > tolerance_)
@@ -335,7 +337,7 @@ mousse::label mousse::cyclicACMIPolyPatch::nonOverlapPatchID() const
     }
     if (!ok)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::label "
         "mousse::cyclicACMIPolyPatch::nonOverlapPatchID() const"

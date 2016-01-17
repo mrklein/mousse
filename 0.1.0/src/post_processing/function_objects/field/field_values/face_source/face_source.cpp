@@ -43,8 +43,8 @@ namespace mousse
   };
   namespace fieldValues
   {
-    defineTypeNameAndDebug(faceSource, 0);
-    addToRunTimeSelectionTable(fieldValue, faceSource, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(faceSource, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(fieldValue, faceSource, dictionary);
   }
 }
 const mousse::NamedEnum<mousse::fieldValues::faceSource::sourceType, 3>
@@ -57,7 +57,7 @@ void mousse::fieldValues::faceSource::setFaceZoneFaces()
   label zoneId = mesh().faceZones().findZoneID(sourceName_);
   if (zoneId < 0)
   {
-    FatalErrorIn("faceSource::faceSource::setFaceZoneFaces()")
+    FATAL_ERROR_IN("faceSource::faceSource::setFaceZoneFaces()")
       << type() << " " << name_ << ": "
       << sourceTypeNames_[source_] << "(" << sourceName_ << "):" << nl
       << "    Unknown face zone name: " << sourceName_
@@ -68,7 +68,7 @@ void mousse::fieldValues::faceSource::setFaceZoneFaces()
   DynamicList<label> faceIds(fZone.size());
   DynamicList<label> facePatchIds(fZone.size());
   DynamicList<label> faceSigns(fZone.size());
-  forAll(fZone, i)
+  FOR_ALL(fZone, i)
   {
     label faceI = fZone[i];
     label faceId = -1;
@@ -132,7 +132,7 @@ void mousse::fieldValues::faceSource::setPatchFaces()
   const label patchId = mesh().boundaryMesh().findPatchID(sourceName_);
   if (patchId < 0)
   {
-    FatalErrorIn("faceSource::constructFaceAddressing()")
+    FATAL_ERROR_IN("faceSource::constructFaceAddressing()")
       << type() << " " << name_ << ": "
       << sourceTypeNames_[source_] << "(" << sourceName_ << "):" << nl
       << "    Unknown patch name: " << sourceName_
@@ -150,7 +150,7 @@ void mousse::fieldValues::faceSource::setPatchFaces()
   facePatchId_.setSize(nFaces);
   faceSign_.setSize(nFaces);
   nFaces_ = returnReduce(faceId_.size(), sumOp<label>());
-  forAll(faceId_, faceI)
+  FOR_ALL(faceId_, faceI)
   {
     faceId_[faceI] = faceI;
     facePatchId_[faceI] = patchId;
@@ -177,7 +177,7 @@ void mousse::fieldValues::faceSource::combineMeshGeometry
   List<faceList> allFaces(Pstream::nProcs());
   List<pointField> allPoints(Pstream::nProcs());
   labelList globalFacesIs(faceId_);
-  forAll(globalFacesIs, i)
+  FOR_ALL(globalFacesIs, i)
   {
     if (facePatchId_[i] != -1)
     {
@@ -198,7 +198,7 @@ void mousse::fieldValues::faceSource::combineMeshGeometry
   // Renumber and flatten
   label nFaces = 0;
   label nPoints = 0;
-  forAll(allFaces, procI)
+  FOR_ALL(allFaces, procI)
   {
     nFaces += allFaces[procI].size();
     nPoints += allPoints[procI].size();
@@ -210,40 +210,40 @@ void mousse::fieldValues::faceSource::combineMeshGeometry
   // My own data first
   {
     const faceList& fcs = allFaces[Pstream::myProcNo()];
-    forAll(fcs, i)
+    FOR_ALL(fcs, i)
     {
       const face& f = fcs[i];
       face& newF = faces[nFaces++];
       newF.setSize(f.size());
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         newF[fp] = f[fp] + nPoints;
       }
     }
     const pointField& pts = allPoints[Pstream::myProcNo()];
-    forAll(pts, i)
+    FOR_ALL(pts, i)
     {
       points[nPoints++] = pts[i];
     }
   }
   // Other proc data follows
-  forAll(allFaces, procI)
+  FOR_ALL(allFaces, procI)
   {
     if (procI != Pstream::myProcNo())
     {
       const faceList& fcs = allFaces[procI];
-      forAll(fcs, i)
+      FOR_ALL(fcs, i)
       {
         const face& f = fcs[i];
         face& newF = faces[nFaces++];
         newF.setSize(f.size());
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           newF[fp] = f[fp] + nPoints;
         }
       }
       const pointField& pts = allPoints[procI];
-      forAll(pts, i)
+      FOR_ALL(pts, i)
       {
         points[nPoints++] = pts[i];
       }
@@ -268,7 +268,7 @@ void mousse::fieldValues::faceSource::combineMeshGeometry
         << " down to " << newPoints.size() << " points" << endl;
     }
     points.transfer(newPoints);
-    forAll(faces, i)
+    FOR_ALL(faces, i)
     {
       inplaceRenumber(oldToNew, faces[i]);
     }
@@ -344,7 +344,7 @@ void mousse::fieldValues::faceSource::initialise(const dictionary& dict)
     }
     default:
     {
-      FatalErrorIn("faceSource::initialise()")
+      FATAL_ERROR_IN("faceSource::initialise()")
         << type() << " " << name_ << ": "
         << sourceTypeNames_[source_] << "(" << sourceName_ << "):"
         << nl << "    Unknown source type. Valid source types are:"
@@ -353,7 +353,7 @@ void mousse::fieldValues::faceSource::initialise(const dictionary& dict)
   }
   if (nFaces_ == 0)
   {
-    WarningIn
+    WARNING_IN
     (
       "mousse::fieldValues::faceSource::initialise(const dictionary&)"
     )
@@ -378,7 +378,7 @@ void mousse::fieldValues::faceSource::initialise(const dictionary& dict)
     Info<< "    weight field = " << weightFieldName_ << nl;
     if (source_ == stSampledSurface)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "void mousse::fieldValues::faceSource::initialise"
         "("
@@ -400,7 +400,7 @@ void mousse::fieldValues::faceSource::initialise(const dictionary& dict)
     }
     else
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "void mousse::fieldValues::faceSource::initialise"
         "("
@@ -438,7 +438,7 @@ void mousse::fieldValues::faceSource::initialise(const dictionary& dict)
     );
   }
 }
-void mousse::fieldValues::faceSource::writeFileHeader(const label i)
+void mousse::fieldValues::faceSource::writeFileHeader(const label /*i*/)
 {
   writeCommented(file(), "Source : ");
   file() << sourceTypeNames_[source_] << " " << sourceName_ << endl;
@@ -451,7 +451,7 @@ void mousse::fieldValues::faceSource::writeFileHeader(const label i)
   {
     file() << tab << "Area";
   }
-  forAll(fields_, i)
+  FOR_ALL(fields_, i)
   {
     file()
       << tab << operationTypeNames_[operation_]
@@ -602,7 +602,7 @@ void mousse::fieldValues::faceSource::write()
     // Combine onto master
     combineFields(weightField);
     // process the fields
-    forAll(fields_, i)
+    FOR_ALL(fields_, i)
     {
       const word& fieldName = fields_[i];
       bool ok = false;
@@ -615,7 +615,7 @@ void mousse::fieldValues::faceSource::write()
       ok = ok || writeValues<tensor>(fieldName, weightField, orient);
       if (!ok)
       {
-        WarningIn("void mousse::fieldValues::faceSource::write()")
+        WARNING_IN("void mousse::fieldValues::faceSource::write()")
           << "Requested field " << fieldName
           << " not found in database and not processed"
           << endl;

@@ -20,7 +20,7 @@ class coupledFvsPatchField
 {
 public:
   //- Runtime type information
-  TypeName(coupledFvPatch::typeName_());
+  TYPE_NAME(coupledFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     coupledFvsPatchField

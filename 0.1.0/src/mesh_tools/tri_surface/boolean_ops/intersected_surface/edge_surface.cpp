@@ -10,7 +10,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(edgeSurface, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(edgeSurface, 0);
 }
 // Private Member Functions 
 // Write whole pointField and edges to stream
@@ -21,12 +21,12 @@ void mousse::edgeSurface::writeOBJ
   Ostream& os
 )
 {
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     os << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << endl;
   }
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     os << "l " << e.start()+1 << ' ' << e.end()+1 << endl;
@@ -41,12 +41,12 @@ void mousse::edgeSurface::writeOBJ
   Ostream& os
 )
 {
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     os << "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << endl;
   }
-  forAll(edgeLabels, i)
+  FOR_ALL(edgeLabels, i)
   {
     const edge& e = edges[edgeLabels[i]];
     os << "l " << e.start()+1 << ' ' << e.end()+1 << endl;
@@ -57,18 +57,18 @@ void mousse::edgeSurface::calcPointEdges()
 {
   pointEdges_.setSize(points_.size());
   labelList pointNEdges(points_.size(), 0);
-  forAll(edges_, edgeI)
+  FOR_ALL(edges_, edgeI)
   {
     const edge& e = edges_[edgeI];
     pointNEdges[e[0]]++;
     pointNEdges[e[1]]++;
   }
-  forAll(pointEdges_, pointI)
+  FOR_ALL(pointEdges_, pointI)
   {
     pointEdges_[pointI].setSize(pointNEdges[pointI]);
   }
   pointNEdges = 0;
-  forAll(edges_, edgeI)
+  FOR_ALL(edges_, edgeI)
   {
     const edge& e = edges_[edgeI];
     labelList& pEdges0 = pointEdges_[e[0]];
@@ -98,12 +98,12 @@ mousse::edgeSurface::edgeSurface
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   label pointI = 0;
   const pointField& surfPoints = surf.localPoints();
-  forAll(surfPoints, i)
+  FOR_ALL(surfPoints, i)
   {
     points_[pointI++] = surfPoints[i];
   }
   const pointField& cutPoints = inter.cutPoints();
-  forAll(cutPoints, i)
+  FOR_ALL(cutPoints, i)
   {
     points_[pointI++] = cutPoints[i];
   }
@@ -114,7 +114,7 @@ mousse::edgeSurface::edgeSurface
   List<DynamicList<label> > allFaceEdges(surf.size());
   // Copy surface edges (can be split!)
   const edgeList& surfEdges = surf.edges();
-  forAll(surfEdges, edgeI)
+  FOR_ALL(surfEdges, edgeI)
   {
     const edge& e = surfEdges[edgeI];
     // Get additional vertices for this edge.
@@ -165,7 +165,7 @@ mousse::edgeSurface::edgeSurface
     for (label eI = freeNewEdgeI; eI < allEdges.size(); eI++)
     {
       allParentEdges.append(edgeI);
-      forAll(myFaces, myFaceI)
+      FOR_ALL(myFaces, myFaceI)
       {
         allFaceEdges[myFaces[myFaceI]].append(eI);
       }
@@ -176,14 +176,14 @@ mousse::edgeSurface::edgeSurface
   // Copy intersection edges
   // (note no parentEdges)
   const edgeList& cutEdges = inter.cutEdges();
-  forAll(cutEdges, i)
+  FOR_ALL(cutEdges, i)
   {
     const edge& e = cutEdges[i];
     allEdges.append(edge(e[0] + nSurfacePoints_, e[1] + nSurfacePoints_));
   }
   // Add intersection edges to faceEdges
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAllConstIter(labelPairLookup, inter.facePairToEdge(), iter)
+  FOR_ALL_CONST_ITER(labelPairLookup, inter.facePairToEdge(), iter)
   {
     // Edge label in intersection
     const label edgeI = iter();
@@ -204,7 +204,7 @@ mousse::edgeSurface::edgeSurface
   // Transfer.
   edges_.transfer(allEdges);
   parentEdges_.transfer(allParentEdges);
-  forAll(allFaceEdges, faceI)
+  FOR_ALL(allFaceEdges, faceI)
   {
     faceEdges_[faceI].transfer(allFaceEdges[faceI]);
   }
@@ -214,7 +214,7 @@ mousse::edgeSurface::edgeSurface
   if (debug & 4)
   {
     Pout<< "edgeSurface : Dumping faceEdges to files" << endl;
-    forAll(faceEdges_, faceI)
+    FOR_ALL(faceEdges_, faceI)
     {
       const labelList& fEdges = faceEdges_[faceI];
       if (fEdges.size() != 3)
@@ -252,7 +252,7 @@ void mousse::edgeSurface::addIntersectionEdges
   {
     Pout<< "Old face consisted of edges:" << endl;
     const labelList& fEdges = faceEdges_[faceI];
-    forAll(fEdges, i)
+    FOR_ALL(fEdges, i)
     {
       const edge& e = edges_[fEdges[i]];
       Pout<< "    " << fEdges[i] << ' ' << e
@@ -264,7 +264,7 @@ void mousse::edgeSurface::addIntersectionEdges
   edges_.setSize(oldNEdges + additionalEdges.size());
   // Append new intersection edges
   label newEdgeI = oldNEdges;
-  forAll(additionalEdges, i)
+  FOR_ALL(additionalEdges, i)
   {
     edges_[newEdgeI] = additionalEdges[i];  // Vertices already in eSurf
                         // indices.
@@ -274,7 +274,7 @@ void mousse::edgeSurface::addIntersectionEdges
   labelList& fEdges = faceEdges_[faceI];
   label nFEdges = fEdges.size();
   fEdges.setSize(nFEdges + additionalEdges.size());
-  forAll(additionalEdges, i)
+  FOR_ALL(additionalEdges, i)
   {
     fEdges[nFEdges++] = oldNEdges + i;
   }
@@ -284,7 +284,7 @@ void mousse::edgeSurface::addIntersectionEdges
   {
     const labelList& fEdges = faceEdges_[faceI];
     Pout<< "New face consists of edges:" << endl;
-    forAll(fEdges, i)
+    FOR_ALL(fEdges, i)
     {
       const edge& e = edges_[fEdges[i]];
       Pout<< "    " << fEdges[i] << ' ' << e

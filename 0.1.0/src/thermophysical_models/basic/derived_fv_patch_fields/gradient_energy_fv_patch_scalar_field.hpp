@@ -44,7 +44,7 @@ class gradientEnergyFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("gradientEnergy");
+  TYPE_NAME("gradientEnergy");
   // Constructors
     //- Construct from patch and internal field
     gradientEnergyFvPatchScalarField

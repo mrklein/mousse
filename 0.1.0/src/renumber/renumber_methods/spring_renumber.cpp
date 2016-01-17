@@ -7,8 +7,8 @@
 #include "decomposition_method.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(springRenumber, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(springRenumber, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     renumberMethod,
     springRenumber,
@@ -45,13 +45,13 @@ mousse::labelList mousse::springRenumber::renumber
 mousse::labelList mousse::springRenumber::renumber
 (
   const labelListList& cellCells,
-  const pointField& points
+  const pointField& /*points*/
 ) const
 {
   // Look at cell index as a 1D position parameter.
   // Move cells to the average 'position' of their neighbour.
   scalarField position(cellCells.size());
-  forAll(position, cellI)
+  FOR_ALL(position, cellI)
   {
     position[cellI] = cellI;
   }
@@ -69,11 +69,11 @@ mousse::labelList mousse::springRenumber::renumber
     //    << endl;
     // Sum force per cell.
     scalarField sumForce(cellCells.size(), 0.0);
-    forAll(cellCells, oldCellI)
+    FOR_ALL(cellCells, oldCellI)
     {
       const labelList& cCells = cellCells[oldCellI];
       label cellI = oldToNew[oldCellI];
-      forAll(cCells, i)
+      FOR_ALL(cCells, i)
       {
         label nbrCellI = oldToNew[cCells[i]];
         sumForce[cellI] += (position[nbrCellI]-position[cellI]);

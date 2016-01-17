@@ -16,17 +16,16 @@ class fvSolution
 :
   public solution
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    fvSolution(const fvSolution&);
-    void operator=(const fvSolution&);
 public:
   // Constructors
     //- Construct for objectRegistry
     fvSolution(const objectRegistry& obr)
     :
-      solution(obr, "fvSolution")
+      solution{obr, "fvSolution"}
     {}
+    //- Disallow default bitwise copy construct and assignment
+    fvSolution(const fvSolution&) = delete;
+    fvSolution& operator=(const fvSolution&) = delete;
 };
 }  // namespace mousse
 #endif

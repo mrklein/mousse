@@ -7,7 +7,6 @@
 //   Stores the patch ID and templated data to represent a collision
 //   with a wall to be passed to the wall model.
 // SourceFiles
-//   _wall_site_data_i.hpp
 //   _wall_site_data.cpp
 //   _wall_site_data_io.cpp
 #ifndef _wall_site_data_hpp_
@@ -61,7 +60,28 @@ public:
     (Ostream&, const WallSiteData<Type>&);
 };
 }  // namespace mousse
-#include "_wall_site_data_i.hpp"
+
+// Member Functions 
+template<class Type>
+mousse::label mousse::WallSiteData<Type>::patchIndex() const
+{
+  return patchI_;
+}
+template<class Type>
+mousse::label& mousse::WallSiteData<Type>::patchIndex()
+{
+  return patchI_;
+}
+template<class Type>
+const Type& mousse::WallSiteData<Type>::wallData() const
+{
+  return wallData_;
+}
+template<class Type>
+Type& mousse::WallSiteData<Type>::wallData()
+{
+  return wallData_;
+}
 #ifdef NoRepository
 #   include "_wall_site_data.cpp"
 #endif

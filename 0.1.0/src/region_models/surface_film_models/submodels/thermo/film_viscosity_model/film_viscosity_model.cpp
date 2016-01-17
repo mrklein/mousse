@@ -10,8 +10,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(filmViscosityModel, 0);
-defineRunTimeSelectionTable(filmViscosityModel, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(filmViscosityModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(filmViscosityModel, dictionary);
 // Constructors 
 filmViscosityModel::filmViscosityModel
 (
@@ -28,7 +28,7 @@ filmViscosityModel::filmViscosityModel
 filmViscosityModel::~filmViscosityModel()
 {}
 // Member Functions 
-void filmViscosityModel::info(Ostream& os) const
+void filmViscosityModel::info(Ostream&) const
 {}
 } // end namespace surfaceFilmModels
 } // end namespace regionModels

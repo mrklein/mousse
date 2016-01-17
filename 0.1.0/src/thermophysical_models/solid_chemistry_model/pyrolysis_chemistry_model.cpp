@@ -14,25 +14,25 @@ pyrolysisChemistryModel
   const word& phaseName
 )
 :
-  solidChemistryModel<CompType, SolidThermo>(mesh, phaseName),
-  pyrolisisGases_(this->reactions_[0].gasSpecies()),
-  gasThermo_(pyrolisisGases_.size()),
-  nGases_(pyrolisisGases_.size()),
-  nSpecie_(this->Ys_.size() + nGases_),
-  RRg_(nGases_),
-  Ys0_(this->nSolids_),
-  cellCounter_(0)
+  solidChemistryModel<CompType, SolidThermo>{mesh, phaseName},
+  pyrolisisGases_{this->reactions_[0].gasSpecies()},
+  gasThermo_{pyrolisisGases_.size()},
+  nGases_{pyrolisisGases_.size()},
+  nSpecie_{this->Ys_.size() + nGases_},
+  RRg_{nGases_},
+  Ys0_{this->nSolids_},
+  cellCounter_{0}
 {
   // create the fields for the chemistry sources
-  forAll(this->RRs_, fieldI)
+  FOR_ALL(this->RRs_, fieldI)
   {
     IOobject header
-    (
+    {
       this->Ys_[fieldI].name() + "0",
       mesh.time().timeName(),
       mesh,
       IOobject::NO_READ
-    );
+    };
     // check if field exists and can be read
     if (header.headerOk())
     {
@@ -40,48 +40,48 @@ pyrolysisChemistryModel
       (
         fieldI,
         new volScalarField
-        (
-          IOobject
-          (
+        {
+          // IOobject
+          {
             this->Ys_[fieldI].name() + "0",
             mesh.time().timeName(),
             mesh,
             IOobject::MUST_READ,
             IOobject::AUTO_WRITE
-          ),
+          },
           mesh
-        )
+        }
       );
     }
     else
     {
       volScalarField Y0Default
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "Y0Default",
           mesh.time().timeName(),
           mesh,
           IOobject::MUST_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh
-      );
+      };
       Ys0_.set
       (
         fieldI,
         new volScalarField
-        (
-          IOobject
-          (
+        {
+          // IOobject
+          {
             this->Ys_[fieldI].name() + "0",
             mesh.time().timeName(),
             mesh,
             IOobject::NO_READ,
             IOobject::AUTO_WRITE
-          ),
+          },
           Y0Default
-        )
+        }
       );
       // Calculate inital values of Ysi0 = rho*delta*Yi
       Ys0_[fieldI].internalField() =
@@ -89,27 +89,27 @@ pyrolysisChemistryModel
        *max(this->Ys_[fieldI], scalar(0.001))*mesh.V();
     }
   }
-  forAll(RRg_, fieldI)
+  FOR_ALL(RRg_, fieldI)
   {
     RRg_.set
     (
       fieldI,
       new DimensionedField<scalar, volMesh>
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "RRg." + pyrolisisGases_[fieldI],
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
         dimensionedScalar("zero", dimMass/dimVolume/dimTime, 0.0)
-      )
+      }
     );
   }
-  forAll(gasThermo_, gasI)
+  FOR_ALL(gasThermo_, gasI)
   {
     dictionary thermoDict =
       mesh.lookupObject<dictionary>
@@ -125,7 +125,7 @@ pyrolysisChemistryModel
   Info<< "pyrolysisChemistryModel: " << nl;
   Info<< indent << "Number of solids = " << this->nSolids_ << nl;
   Info<< indent << "Number of gases = " << nGases_ << nl;
-  forAll(this->reactions_, i)
+  FOR_ALL(this->reactions_, i)
   {
     Info<< dynamic_cast<const solidReaction<SolidThermo>& >
     (
@@ -153,7 +153,7 @@ pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::omega
   label lRef, rRef;
   const label cellI = cellCounter_;
   scalarField om(nEqns(), 0.0);
-  forAll(this->reactions_, i)
+  FOR_ALL(this->reactions_, i)
   {
     const Reaction<SolidThermo>& R = this->reactions_[i];
     scalar omegai = omega
@@ -161,14 +161,14 @@ pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::omega
       R, c, T, p, pf, cf, lRef, pr, cr, rRef
     );
     scalar rhoL = 0.0;
-    forAll(R.lhs(), s)
+    FOR_ALL(R.lhs(), s)
     {
       label si = R.lhs()[s].index;
       om[si] -= omegai;
       rhoL = this->solidThermo_[si].rho(p, T);
     }
     scalar sr = 0.0;
-    forAll(R.rhs(), s)
+    FOR_ALL(R.rhs(), s)
     {
       label si = R.rhs()[s].index;
       scalar rhoR = this->solidThermo_[si].rho(p, T);
@@ -179,7 +179,7 @@ pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::omega
         Ys0_[si][cellI] += sr*omegai;
       }
     }
-    forAll(R.grhs(), g)
+    FOR_ALL(R.grhs(), g)
     {
       label gi = R.grhs()[g].index;
       om[gi + this->nSolids_] += (1.0 - sr)*omegai;
@@ -195,12 +195,12 @@ mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::omega
   const scalarField& c,
   const scalar T,
   const scalar p,
-  scalar& pf,
-  scalar& cf,
-  label& lRef,
-  scalar& pr,
-  scalar& cr,
-  label& rRef
+  scalar& /*pf*/,
+  scalar& /*cf*/,
+  label& /*lRef*/,
+  scalar& /*pr*/,
+  scalar& /*cr*/,
+  label& /*rRef*/
 ) const
 {
   scalarField c1(nSpecie_, 0.0);
@@ -245,7 +245,7 @@ template<class CompType, class SolidThermo, class GasThermo>
 void mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::
 derivatives
 (
-  const scalar time,
+  const scalar /*time*/,
   const scalarField &c,
   scalarField& dcdt
 ) const
@@ -279,7 +279,7 @@ template<class CompType, class SolidThermo, class GasThermo>
 void mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::
 jacobian
 (
-  const scalar t,
+  const scalar /*t*/,
   const scalarField& c,
   scalarField& dcdt,
   scalarSquareMatrix& dfdc
@@ -305,11 +305,11 @@ jacobian
   {
     const Reaction<SolidThermo>& R = this->reactions_[ri];
     scalar kf0 = R.kf(p, T, c2);
-    forAll(R.lhs(), j)
+    FOR_ALL(R.lhs(), j)
     {
       label sj = R.lhs()[j].index;
       scalar kf = kf0;
-      forAll(R.lhs(), i)
+      FOR_ALL(R.lhs(), i)
       {
         label si = R.lhs()[i].index;
         scalar exp = R.lhs()[i].exponent;
@@ -338,12 +338,12 @@ jacobian
           kf = 0.0;
         }
       }
-      forAll(R.lhs(), i)
+      FOR_ALL(R.lhs(), i)
       {
         label si = R.lhs()[i].index;
         dfdc[si][sj] -= kf;
       }
-      forAll(R.rhs(), i)
+      FOR_ALL(R.rhs(), i)
       {
         label si = R.rhs()[i].index;
         dfdc[si][sj] += kf;
@@ -375,27 +375,27 @@ calculate()
     return;
   }
   const volScalarField rho
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "rho",
       this->time().timeName(),
       this->mesh(),
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     this->solidThermo().rho()
-  );
-  forAll(this->RRs_, i)
+  };
+  FOR_ALL(this->RRs_, i)
   {
     this->RRs_[i].field() = 0.0;
   }
-  forAll(RRg_, i)
+  FOR_ALL(RRg_, i)
   {
     RRg_[i].field() = 0.0;
   }
-  forAll(rho, celli)
+  FOR_ALL(rho, celli)
   {
     cellCounter_ = celli;
     const scalar delta = this->mesh().V()[celli];
@@ -410,11 +410,11 @@ calculate()
         c[i] = rhoi*this->Ys_[i][celli]*delta;
       }
       const scalarField dcdt = omega(c, Ti, pi, true);
-      forAll(this->RRs_, i)
+      FOR_ALL(this->RRs_, i)
       {
         this->RRs_[i][celli] = dcdt[i]/delta;
       }
-      forAll(RRg_, i)
+      FOR_ALL(RRg_, i)
       {
         RRg_[i][celli] = dcdt[this->nSolids_ + i]/delta;
       }
@@ -434,23 +434,23 @@ mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::solve
     return deltaTMin;
   }
   const volScalarField rho
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "rho",
       this->time().timeName(),
       this->mesh(),
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     this->solidThermo().rho()
-  );
-  forAll(this->RRs_, i)
+  };
+  FOR_ALL(this->RRs_, i)
   {
     this->RRs_[i].field() = 0.0;
   }
-  forAll(RRg_, i)
+  FOR_ALL(RRg_, i)
   {
     RRg_[i].field() = 0.0;
   }
@@ -460,7 +460,7 @@ mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::solve
   scalarField c0(nSpecie_, 0.0);
   scalarField dc(nSpecie_, 0.0);
   scalarField delta(this->mesh().V());
-  forAll(rho, celli)
+  FOR_ALL(rho, celli)
   {
     if (this->reactingCells_[celli])
     {
@@ -484,11 +484,11 @@ mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::solve
       }
       deltaTMin = min(this->deltaTChem_[celli], deltaTMin);
       dc = c - c0;
-      forAll(this->RRs_, i)
+      FOR_ALL(this->RRs_, i)
       {
         this->RRs_[i][celli] = dc[i]/(deltaT*delta[celli]);
       }
-      forAll(RRg_, i)
+      FOR_ALL(RRg_, i)
       {
         RRg_[i][celli] = dc[this->nSolids_ + i]/(deltaT*delta[celli]);
       }
@@ -510,26 +510,26 @@ mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::gasHs
 ) const
 {
   tmp<volScalarField> tHs
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "Hs_" + pyrolisisGases_[index],
         this->mesh_.time().timeName(),
         this->mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       this->mesh_,
-      dimensionedScalar("zero", dimEnergy/dimMass, 0.0),
+      dimensionedScalar{"zero", dimEnergy/dimMass, 0.0},
       zeroGradientFvPatchScalarField::typeName
-    )
-  );
+    }
+  };
   volScalarField::InternalField& gasHs = tHs().internalField();
   const GasThermo& mixture = gasThermo_[index];
-  forAll(gasHs, cellI)
+  FOR_ALL(gasHs, cellI)
   {
     gasHs[cellI] = mixture.Hs(p[cellI], T[cellI]);
   }
@@ -538,14 +538,14 @@ mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::gasHs
 template<class CompType, class SolidThermo, class GasThermo>
 void mousse::pyrolysisChemistryModel<CompType, SolidThermo, GasThermo>::solve
 (
-  scalarField &c,
-  scalar& T,
-  scalar& p,
-  scalar& deltaT,
-  scalar& subDeltaT
+  scalarField& /*c*/,
+  scalar& /*T*/,
+  scalar& /*p*/,
+  scalar& /*deltaT*/,
+  scalar& /*subDeltaT*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "pyrolysisChemistryModel::solve"
     "("

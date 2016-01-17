@@ -104,7 +104,7 @@ protected:
     }
 public:
   //- Runtime type information
-  TypeName("epsilonWallFunction");
+  TYPE_NAME("epsilonWallFunction");
   // Constructors
     //- Construct from patch and internal field
     epsilonWallFunctionFvPatchScalarField

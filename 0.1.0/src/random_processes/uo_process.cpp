@@ -42,7 +42,7 @@ UOprocess::UOprocess
   scalar sqrKupper = sqr(Kupper);
   scalar sqrKlower = sqr(Klower) + SMALL;
   scalar sqrK;
-  forAll(UOfield, i)
+  FOR_ALL(UOfield, i)
   {
     if ((sqrK = magSqr(K[i])) < sqrKupper && sqrK > sqrKlower)
     {
@@ -67,7 +67,7 @@ const complexVectorField& UOprocess::newField()
   scalar sqrKupper = sqr(Kupper);
   scalar sqrKlower = sqr(Klower) + SMALL;
   scalar sqrK;
-  forAll(UOfield, i)
+  FOR_ALL(UOfield, i)
   {
     if ((sqrK = magSqr(K[i])) < sqrKupper && sqrK > sqrKlower)
     {

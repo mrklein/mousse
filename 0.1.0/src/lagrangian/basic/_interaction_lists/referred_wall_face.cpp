@@ -6,9 +6,9 @@
 // Constructors 
 mousse::referredWallFace::referredWallFace()
 :
-  face(),
-  pts_(),
-  patchI_()
+  face{},
+  pts_{},
+  patchI_{}
 {}
 mousse::referredWallFace::referredWallFace
 (
@@ -17,13 +17,13 @@ mousse::referredWallFace::referredWallFace
   label patchI
 )
 :
-  face(f),
-  pts_(pts),
-  patchI_(patchI)
+  face{f},
+  pts_{pts},
+  patchI_{patchI}
 {
   if (this->size() != pts_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::referredWallFace::referredWallFace"
       "("
@@ -31,26 +31,28 @@ mousse::referredWallFace::referredWallFace
         "const pointField& pts, "
         "label patchI"
       ")"
-    )   << "Face and pointField are not the same size. " << nl << (*this)
-      << abort(FatalError);
+    )
+    << "Face and pointField are not the same size. " << nl << (*this)
+    << abort(FatalError);
   }
 }
 mousse::referredWallFace::referredWallFace(const referredWallFace& rWF)
 :
-  face(rWF),
-  pts_(rWF.pts_),
-  patchI_(rWF.patchI_)
+  face{rWF},
+  pts_{rWF.pts_},
+  patchI_{rWF.patchI_}
 {
   if (this->size() != pts_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::referredWallFace::referredWallFace"
       "("
         "const referredWallFace& rWF"
       ")"
-    )   << "Face and pointField are not the same size. " << nl << (*this)
-      << abort(FatalError);
+    )
+    << "Face and pointField are not the same size. " << nl << (*this)
+    << abort(FatalError);
   }
 }
 // Destructor 
@@ -59,12 +61,9 @@ mousse::referredWallFace::~referredWallFace()
 // Member Operators 
 bool mousse::referredWallFace::operator==(const referredWallFace& rhs) const
 {
-  return
-  (
-    static_cast<const face&>(rhs) == static_cast<face>(*this)
-  && rhs.pts_ == pts_
-  && rhs.patchI_ == patchI_
-  );
+  return (static_cast<const face&>(rhs) == static_cast<face>(*this)
+          && rhs.pts_ == pts_
+          && rhs.patchI_ == patchI_);
 }
 bool mousse::referredWallFace::operator!=(const referredWallFace& rhs) const
 {
@@ -84,7 +83,7 @@ mousse::Istream& mousse::operator>>(Istream& is, referredWallFace& rWF)
 }
 mousse::Ostream& mousse::operator<<(Ostream& os, const referredWallFace& rWF)
 {
-  os  << static_cast<const face&>(rWF) << token::SPACE
+  os << static_cast<const face&>(rWF) << token::SPACE
     << rWF.pts_ << token::SPACE
     << rWF.patchI_;
   // Check state of Ostream

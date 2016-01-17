@@ -8,10 +8,10 @@
 #include "_no_surface_film.hpp"
 #include "_thermo_surface_film.hpp"
 
-#define makeReactingParcelSurfaceFilmModels(CloudType)                        \
+#define MAKE_REACTING_PARCEL_SURFACE_FILM_MODELS(CloudType)                   \
                                                                               \
-  makeSurfaceFilmModel(CloudType);                                            \
-  makeSurfaceFilmModelType(NoSurfaceFilm, CloudType);                         \
-  makeSurfaceFilmModelType(ThermoSurfaceFilm, CloudType);
+  MAKE_SURFACE_FILM_MODEL(CloudType);                                         \
+  MAKE_SURFACE_FILM_MODEL_TYPE(NoSurfaceFilm, CloudType);                     \
+  MAKE_SURFACE_FILM_MODEL_TYPE(ThermoSurfaceFilm, CloudType);
 
 #endif

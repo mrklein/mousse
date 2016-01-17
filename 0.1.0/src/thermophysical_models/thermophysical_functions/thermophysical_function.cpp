@@ -7,9 +7,9 @@
 #include "hash_table.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(thermophysicalFunction, 0);
-  defineRunTimeSelectionTable(thermophysicalFunction, Istream);
-  defineRunTimeSelectionTable(thermophysicalFunction, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(thermophysicalFunction, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(thermophysicalFunction, Istream);
+  DEFINE_RUN_TIME_SELECTION_TABLE(thermophysicalFunction, dictionary);
 }
 // Constructors 
 mousse::autoPtr<mousse::thermophysicalFunction> mousse::thermophysicalFunction::New
@@ -28,7 +28,7 @@ mousse::autoPtr<mousse::thermophysicalFunction> mousse::thermophysicalFunction::
     IstreamConstructorTablePtr_->find(thermophysicalFunctionType);
   if (cstrIter == IstreamConstructorTablePtr_->end())
   {
-    FatalErrorIn("thermophysicalFunction::New(Istream&)")
+    FATAL_ERROR_IN("thermophysicalFunction::New(Istream&)")
       << "Unknown thermophysicalFunction type "
       << thermophysicalFunctionType
       << nl << nl
@@ -54,7 +54,7 @@ mousse::autoPtr<mousse::thermophysicalFunction> mousse::thermophysicalFunction::
     dictionaryConstructorTablePtr_->find(thermophysicalFunctionType);
   if (cstrIter == IstreamConstructorTablePtr_->end())
   {
-    FatalErrorIn("thermophysicalFunction::New(const dictionary&)")
+    FATAL_ERROR_IN("thermophysicalFunction::New(const dictionary&)")
       << "Unknown thermophysicalFunction type "
       << thermophysicalFunctionType
       << nl << nl

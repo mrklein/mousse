@@ -61,89 +61,131 @@
 //   mixedFvPatchField
 // SourceFiles
 //   external_coupled_mixed_fv_patch_field.cpp
+
 #ifndef external_coupled_mixed_fv_patch_field_hpp_
 #define external_coupled_mixed_fv_patch_field_hpp_
+
 #include "mixed_fv_patch_fields.hpp"
 #include "ofstream.hpp"
+#include "geometric_fields.hpp"
+
 namespace mousse
 {
+
 class IFstream;
+
 template<class Type>
 class externalCoupledMixedFvPatchField
 :
   public mixedFvPatchField<Type>
 {
 private:
+
   // Private data
+
     //- Convenience typedefs
     typedef externalCoupledMixedFvPatchField<Type> patchType;
     typedef GeometricField<Type, fvPatchField, volMesh> volFieldType;
+
     //- Path to communications directory
     fileName commsDir_;
+
     //- Name of data file
     word fName_;
+
     //- Interval time between checking for return data [s]
     label waitInterval_;
+
     //- Time out time [s]
     label timeOut_;
+
     //- Calculation frequency
     label calcFrequency_;
+
     //- Flag to indicate values are initialised by external application
     bool initByExternal_;
+
     //- Log flag
     bool log_;
+
     //- Master patch flag - controls when to pause/resume execution
     //  Note: only valid when collate option is selected
     bool master_;
+
     //- Offsets in data file to start reading at correct position
     List<List<label> > offsets_;
+
     //- Initialised flag
     bool initialised_;
+
     //- List of coupled patch IDs
     List<label> coupledPatchIDs_;
+
   // Private Member Functions
+
     //- Initialise
     void initialise(const fileName& transferFile);
+
     //- Set the master flag when collate option is selected
     void setMaster(const labelList& patchIDs);
+
     //- Return the file path to the base communications directory
     fileName baseDir() const;
+
     //- Write the geometry to the comms dir
     void writeGeometry(OFstream& osPoints, OFstream& osFaces) const;
+
     //- Return the file path to the lock file
     fileName lockFile() const;
+
     //- Create lock file
     void createLockFile() const;
+
     //- Remove lock file
     void removeLockFile() const;
+
     //- Wait for response from external source
     void startWait() const;
+
     //- Wait for response from external source
     void wait() const;
+
     //- Initialise input stream for reading
     void initialiseRead(IFstream& is) const;
+
 protected:
+
   // Protected Member Functions
+
     //- Read data from external source
     virtual void readData(const fileName& transferFile);
+
     //- Write data for external source - calls transferData
     virtual void writeData(const fileName& transferFile) const;
+
     //- Write header to transfer file
     virtual void writeHeader(OFstream& os) const;
+
 public:
+
   //- Runtime type information
-  TypeName("externalCoupled");
+  TYPE_NAME("externalCoupled");
+
   //- Name of lock file
   static word lockName;
+
   //- Name of patch key, e.g. '# Patch:' when looking for start of patch data
   static string patchKey;
+
   // Constructors
+
     //- Construct from patch and internal field
     externalCoupledMixedFvPatchField
     (
       const fvPatch&,
       const DimensionedField<Type, volMesh>&
     );
+
     //- Construct from patch, internal field and dictionary
     externalCoupledMixedFvPatchField
     (
@@ -151,6 +193,7 @@ public:
       const DimensionedField<Type, volMesh>&,
       const dictionary&
     );
+
     //- Construct by mapping given externalCoupledMixedFvPatchField
     //  onto a new patch
     externalCoupledMixedFvPatchField
@@ -160,11 +203,13 @@ public:
       const DimensionedField<Type, volMesh>&,
       const fvPatchFieldMapper&
     );
+
     //- Construct as copy
     externalCoupledMixedFvPatchField
     (
       const externalCoupledMixedFvPatchField&
     );
+
     //- Construct and return a clone
     virtual tmp<fvPatchField<Type> > clone() const
     {
@@ -173,12 +218,14 @@ public:
         new externalCoupledMixedFvPatchField<Type>(*this)
       );
     }
+
     //- Construct as copy setting internal field reference
     externalCoupledMixedFvPatchField
     (
       const externalCoupledMixedFvPatchField&,
       const DimensionedField<Type, volMesh>&
     );
+
     //- Construct and return a clone setting internal field reference
     virtual tmp<fvPatchField<Type> > clone
     (
@@ -186,42 +233,55 @@ public:
     ) const
     {
       return tmp<fvPatchField<Type> >
-      (
-        new externalCoupledMixedFvPatchField<Type>(*this, iF)
-      );
+      {
+        new externalCoupledMixedFvPatchField<Type>{*this, iF}
+      };
     }
+
   //- Destructor
   virtual ~externalCoupledMixedFvPatchField();
+
   // Member functions
+
     // Access
+
       //- Return the log flag
       bool log() const
       {
         return log_;
       }
+
       //- Return the master flag
       bool master() const
       {
         return master_;
       }
+
       //- Return the master flag
       bool& master()
       {
         return master_;
       }
+
     // Evaluation functions
+
       //- Evaluate the patch field
       virtual void evaluate
       (
         const Pstream::commsTypes commsType=Pstream::blocking
       );
+
       //- Transfer data for external source
       virtual void transferData(OFstream& os) const;
+
     //- Write the geometry to the comms dir
     void writeGeometry() const;
+
     //- Write
     virtual void write(Ostream&) const;
+
 };
+
 }  // namespace mousse
 #ifdef NoRepository
 #   include "external_coupled_mixed_fv_patch_field.cpp"

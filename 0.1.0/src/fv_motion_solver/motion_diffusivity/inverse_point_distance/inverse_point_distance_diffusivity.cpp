@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(inversePointDistanceDiffusivity, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(inversePointDistanceDiffusivity, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionDiffusivity,
     inversePointDistanceDiffusivity,
@@ -39,7 +39,7 @@ void mousse::inversePointDistanceDiffusivity::correct()
   const polyBoundaryMesh& bdry = mesh().boundaryMesh();
   labelHashSet patchSet(bdry.patchSet(patchNames_));
   label nPatchEdges = 0;
-  forAllConstIter(labelHashSet, patchSet, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet, iter)
   {
     nPatchEdges += bdry[iter.key()].nEdges();
   }
@@ -52,11 +52,11 @@ void mousse::inversePointDistanceDiffusivity::correct()
     List<pointEdgePoint> seedInfo(nPatchEdges);
     labelList seedPoints(nPatchEdges);
     nPatchEdges = 0;
-    forAllConstIter(labelHashSet, patchSet, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, patchSet, iter)
     {
       const polyPatch& patch = bdry[iter.key()];
       const labelList& meshPoints = patch.meshPoints();
-      forAll(meshPoints, i)
+      FOR_ALL(meshPoints, i)
       {
         label pointI = meshPoints[i];
         if (!pointWallDist[pointI].valid(dummyTrackData))
@@ -91,28 +91,28 @@ void mousse::inversePointDistanceDiffusivity::correct()
   {
     const face& f = mesh().faces()[faceI];
     scalar dist = 0;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       dist += sqrt(pointWallDist[f[fp]].distSqr());
     }
     dist /= f.size();
     faceDiffusivity_[faceI] = 1.0/dist;
   }
-  forAll(faceDiffusivity_.boundaryField(), patchI)
+  FOR_ALL(faceDiffusivity_.boundaryField(), patchI)
   {
     fvsPatchScalarField& bfld = faceDiffusivity_.boundaryField()[patchI];
     if (patchSet.found(patchI))
     {
       const labelUList& faceCells = bfld.patch().faceCells();
-      forAll(bfld, i)
+      FOR_ALL(bfld, i)
       {
         const cell& ownFaces = mesh().cells()[faceCells[i]];
         labelHashSet cPoints(4*ownFaces.size());
         scalar dist = 0;
-        forAll(ownFaces, ownFaceI)
+        FOR_ALL(ownFaces, ownFaceI)
         {
           const face& f = mesh().faces()[ownFaces[ownFaceI]];
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             if (cPoints.insert(f[fp]))
             {
@@ -127,11 +127,11 @@ void mousse::inversePointDistanceDiffusivity::correct()
     else
     {
       const label start = bfld.patch().start();
-      forAll(bfld, i)
+      FOR_ALL(bfld, i)
       {
         const face& f = mesh().faces()[start+i];
         scalar dist = 0;
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           dist += sqrt(pointWallDist[f[fp]].distSqr());
         }

@@ -16,7 +16,7 @@ template<class CloudType>
 void mousse::PairCollision<CloudType>::preInteraction()
 {
   // Set accumulated quantities to zero
-  forAllIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter)
   {
     typename CloudType::parcelType& p = iter();
     p.f() = vector::zero;
@@ -42,25 +42,25 @@ void mousse::PairCollision<CloudType>::realRealInteraction()
   typename CloudType::parcelType* pB_ptr = NULL;
   List<DynamicList<typename CloudType::parcelType*> >& cellOccupancy =
     this->owner().cellOccupancy();
-  forAll(dil, realCellI)
+  FOR_ALL(dil, realCellI)
   {
     // Loop over all Parcels in cell A (a)
-    forAll(cellOccupancy[realCellI], a)
+    FOR_ALL(cellOccupancy[realCellI], a)
     {
       pA_ptr = cellOccupancy[realCellI][a];
-      forAll(dil[realCellI], interactingCells)
+      FOR_ALL(dil[realCellI], interactingCells)
       {
         List<typename CloudType::parcelType*> cellBParcels =
           cellOccupancy[dil[realCellI][interactingCells]];
         // Loop over all Parcels in cell B (b)
-        forAll(cellBParcels, b)
+        FOR_ALL(cellBParcels, b)
         {
           pB_ptr = cellBParcels[b];
           evaluatePair(*pA_ptr, *pB_ptr);
         }
       }
       // Loop over the other Parcels in cell A (aO)
-      forAll(cellOccupancy[realCellI], aO)
+      FOR_ALL(cellOccupancy[realCellI], aO)
       {
         pB_ptr = cellOccupancy[realCellI][aO];
         // Do not double-evaluate, compare pointers, arbitrary
@@ -83,13 +83,13 @@ void mousse::PairCollision<CloudType>::realReferredInteraction()
   List<DynamicList<typename CloudType::parcelType*> >& cellOccupancy =
     this->owner().cellOccupancy();
   // Loop over all referred cells
-  forAll(ril, refCellI)
+  FOR_ALL(ril, refCellI)
   {
     IDLList<typename CloudType::parcelType>& refCellRefParticles =
       referredParticles[refCellI];
     const labelList& realCells = ril[refCellI];
     // Loop over all referred parcels in the referred cell
-    forAllIter
+    FOR_ALL_ITER
     (
       typename IDLList<typename CloudType::parcelType>,
       refCellRefParticles,
@@ -98,11 +98,11 @@ void mousse::PairCollision<CloudType>::realReferredInteraction()
     {
       // Loop over all real cells in that the referred cell is
       // to supply interactions to
-      forAll(realCells, realCellI)
+      FOR_ALL(realCells, realCellI)
       {
         List<typename CloudType::parcelType*> realCellParcels =
           cellOccupancy[realCells[realCellI]];
-        forAll(realCellParcels, realParcelI)
+        FOR_ALL(realCellParcels, realParcelI)
         {
           evaluatePair
           (
@@ -134,12 +134,12 @@ void mousse::PairCollision<CloudType>::wallInteraction()
   DynamicList<point> sharpSitePoints;
   DynamicList<scalar> sharpSiteExclusionDistancesSqr;
   DynamicList<WallSiteData<vector> > sharpSiteData;
-  forAll(dil, realCellI)
+  FOR_ALL(dil, realCellI)
   {
     // The real wall faces in range of this real cell
     const labelList& realWallFaces = directWallFaces[realCellI];
     // Loop over all Parcels in cell
-    forAll(cellOccupancy[realCellI], cellParticleI)
+    FOR_ALL(cellOccupancy[realCellI], cellParticleI)
     {
       flatSitePoints.clear();
       flatSiteExclusionDistancesSqr.clear();
@@ -155,7 +155,7 @@ void mousse::PairCollision<CloudType>::wallInteraction()
       const point& pos = p.position();
       scalar r = wallModel_->pREff(p);
       // real wallFace interactions
-      forAll(realWallFaces, realWallFaceI)
+      FOR_ALL(realWallFaces, realWallFaceI)
       {
         label realFaceI = realWallFaces[realWallFaceI];
         pointHit nearest = mesh.faces()[realFaceI].nearestPoint
@@ -230,7 +230,7 @@ void mousse::PairCollision<CloudType>::wallInteraction()
       // referred wallFace interactions
       // The labels of referred wall faces in range of this real cell
       const labelList& cellRefWallFaces = il_.rwfilInverse()[realCellI];
-      forAll(cellRefWallFaces, rWFI)
+      FOR_ALL(cellRefWallFaces, rWFI)
       {
         label refWallFaceI = cellRefWallFaces[rWFI];
         const referredWallFace& rwf =
@@ -299,7 +299,7 @@ void mousse::PairCollision<CloudType>::wallInteraction()
       // grouping occurs around the closest in any group
       labelList sortedOtherSiteIndices;
       sortedOrder(otherSiteDistances, sortedOtherSiteIndices);
-      forAll(sortedOtherSiteIndices, siteI)
+      FOR_ALL(sortedOtherSiteIndices, siteI)
       {
         label orderedIndex = sortedOtherSiteIndices[siteI];
         const point& otherPt = otherSitePoints[orderedIndex];
@@ -353,7 +353,7 @@ bool mousse::PairCollision<CloudType>::duplicatePointInList
   scalar duplicateRangeSqr
 ) const
 {
-  forAll(existingPoints, i)
+  FOR_ALL(existingPoints, i)
   {
     if (magSqr(existingPoints[i] - pointToTest) < duplicateRangeSqr)
     {
@@ -370,7 +370,7 @@ bool mousse::PairCollision<CloudType>::duplicatePointInList
   const scalarList& duplicateRangeSqr
 ) const
 {
-  forAll(existingPoints, i)
+  FOR_ALL(existingPoints, i)
   {
     if (magSqr(existingPoints[i] - pointToTest) < duplicateRangeSqr[i])
     {
@@ -383,7 +383,7 @@ template<class CloudType>
 void mousse::PairCollision<CloudType>::postInteraction()
 {
   // Delete any collision records where no collision occurred this step
-  forAllIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter)
   {
     typename CloudType::parcelType& p = iter();
     p.collisionRecords().update();
@@ -425,25 +425,25 @@ mousse::PairCollision<CloudType>::PairCollision
   CloudType& owner
 )
 :
-  CollisionModel<CloudType>(dict, owner, typeName),
+  CollisionModel<CloudType>{dict, owner, typeName},
   pairModel_
-  (
+  {
     PairModel<CloudType>::New
     (
       this->coeffDict(),
       this->owner()
     )
-  ),
+  },
   wallModel_
-  (
+  {
     WallModel<CloudType>::New
     (
       this->coeffDict(),
       this->owner()
     )
-  ),
+  },
   il_
-  (
+  {
     owner.mesh(),
     readScalar(this->coeffDict().lookup("maxInteractionDistance")),
     Switch
@@ -455,7 +455,7 @@ mousse::PairCollision<CloudType>::PairCollision
       )
     ),
     this->coeffDict().lookupOrDefault("UName", word("U"))
-  )
+  }
 {}
 template<class CloudType>
 mousse::PairCollision<CloudType>::PairCollision
@@ -463,13 +463,13 @@ mousse::PairCollision<CloudType>::PairCollision
   const PairCollision<CloudType>& cm
 )
 :
-  CollisionModel<CloudType>(cm),
-  pairModel_(NULL),
-  wallModel_(NULL),
-  il_(cm.owner().mesh())
+  CollisionModel<CloudType>{cm},
+  pairModel_{NULL},
+  wallModel_{NULL},
+  il_{cm.owner().mesh()}
 {
   // Need to clone to PairModel and WallModel
-  NotImplemented;
+  NOTIMPLEMENTED;
 }
 // Destructor 
 template<class CloudType>

@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(ParticleStressModel, 0);
-  defineRunTimeSelectionTable(ParticleStressModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(ParticleStressModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(ParticleStressModel, dictionary);
 }
 // Constructors
 mousse::ParticleStressModel::ParticleStressModel
@@ -38,7 +38,7 @@ mousse::autoPtr<mousse::ParticleStressModel> mousse::ParticleStressModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ParticleStressModel::New"
       "("
@@ -72,7 +72,7 @@ mousse::ParticleStressModel::tau
   (
     new FieldField<Field, scalar>(alpha.size())
   );
-  forAll(alpha, i)
+  FOR_ALL(alpha, i)
   {
     value->set(i, tau(alpha[i], rho[i], uRms[i]));
   }

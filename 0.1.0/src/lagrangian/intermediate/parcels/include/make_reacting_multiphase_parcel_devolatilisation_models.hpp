@@ -9,12 +9,12 @@
 #include "_no_devolatilisation.hpp"
 #include "_single_kinetic_rate_devolatilisation.hpp"
 
-#define makeReactingMultiphaseParcelDevolatilisationModels(CloudType)         \
+#define MAKE_REACTING_MULTIPHASE_PARCEL_DEVOLATILISATION_MODELS(CloudType)    \
                                                                               \
-  makeDevolatilisationModel(CloudType);                                       \
-  makeDevolatilisationModelType(ConstantRateDevolatilisation, CloudType);     \
-  makeDevolatilisationModelType(NoDevolatilisation, CloudType);               \
-  makeDevolatilisationModelType                                               \
+  MAKE_DEVOLATILISATION_MODEL(CloudType);                                     \
+  MAKE_DEVOLATILISATION_MODEL_TYPE(ConstantRateDevolatilisation, CloudType);  \
+  MAKE_DEVOLATILISATION_MODEL_TYPE(NoDevolatilisation, CloudType);            \
+  MAKE_DEVOLATILISATION_MODEL_TYPE                                            \
   (                                                                           \
     SingleKineticRateDevolatilisation,                                        \
     CloudType                                                                 \

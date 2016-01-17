@@ -15,7 +15,7 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(fvDOM, 0);
+    DEFINE_TYPE_NAME_AND_DEBUG(fvDOM, 0);
     addToRadiationRunTimeSelectionTables(fvDOM);
   }
 }
@@ -63,7 +63,7 @@ void mousse::radiation::fvDOM::initialise()
     // Currently 2D solution is limited to the x-y plane
     if (mesh_.solutionD()[vector::Z] != -1)
     {
-      FatalErrorIn("fvDOM::initialise()")
+      FATAL_ERROR_IN("fvDOM::initialise()")
         << "Currently 2D solution is limited to the x-y plane"
         << exit(FatalError);
     }
@@ -102,7 +102,7 @@ void mousse::radiation::fvDOM::initialise()
     // Currently 1D solution is limited to the x-direction
     if (mesh_.solutionD()[vector::X] != 1)
     {
-      FatalErrorIn("fvDOM::initialise()")
+      FATAL_ERROR_IN("fvDOM::initialise()")
         << "Currently 1D solution is limited to the x-direction"
         << exit(FatalError);
     }
@@ -136,7 +136,7 @@ void mousse::radiation::fvDOM::initialise()
     }
   }
   // Construct absorption field for each wavelength
-  forAll(aLambda_, lambdaI)
+  FOR_ALL(aLambda_, lambdaI)
   {
     aLambda_.set
     (
@@ -163,7 +163,7 @@ void mousse::radiation::fvDOM::initialise()
     for (label lambdaI = 0; lambdaI < nLambda_; lambdaI++)
     {
       fvRayDiv_[lambdaI].setSize(nRay_);
-      forAll(IRay_, rayId)
+      FOR_ALL(IRay_, rayId)
       {
         const surfaceScalarField Ji(IRay_[rayId].dAve() & mesh_.Sf());
         const volScalarField& iRayLambdaI =
@@ -179,7 +179,7 @@ void mousse::radiation::fvDOM::initialise()
       }
     }
   }
-  forAll(IRay_, rayId)
+  FOR_ALL(IRay_, rayId)
   {
     if (omegaMax_ <  IRay_[rayId].omega())
     {
@@ -392,7 +392,7 @@ void mousse::radiation::fvDOM::calculate()
     Info<< "Radiation solver iter: " << radIter << endl;
     radIter++;
     maxResidual = 0.0;
-    forAll(IRay_, rayI)
+    FOR_ALL(IRay_, rayI)
     {
       if (!rayIdConv[rayI])
       {
@@ -452,7 +452,7 @@ void mousse::radiation::fvDOM::updateG()
   Qr_ = dimensionedScalar("zero",dimMass/pow3(dimTime), 0.0);
   Qem_ = dimensionedScalar("zero", dimMass/pow3(dimTime), 0.0);
   Qin_ = dimensionedScalar("zero", dimMass/pow3(dimTime), 0.0);
-  forAll(IRay_, rayI)
+  FOR_ALL(IRay_, rayI)
   {
     IRay_[rayI].addIntensity();
     G_ += IRay_[rayI].I()*IRay_[rayI].omega();

@@ -41,7 +41,7 @@ void mousse::cuttingPlane::calcCutCells
     }
     const labelList& cEdges = cellEdges[cellI];
     label nCutEdges = 0;
-    forAll(cEdges, i)
+    FOR_ALL(cEdges, i)
     {
       const edge& e = edges[cEdges[i]];
       if
@@ -75,7 +75,7 @@ void mousse::cuttingPlane::intersectEdges
   // Per edge -1 or the label of the intersection point
   edgePoint.setSize(edges.size());
   DynamicList<point> dynCuttingPoints(4*cutCells_.size());
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     if
@@ -134,7 +134,7 @@ bool mousse::cuttingPlane::walkCell
     // than 2 intersections with the face (warped/non-convex face).
     // If so should e.g. decompose the cells on both faces and redo
     // the calculation.
-    forAll(fEdges, i)
+    FOR_ALL(fEdges, i)
     {
       label edge2I = fEdges[i];
       if (edge2I != edgeI && edgePoint[edge2I] != -1)
@@ -146,7 +146,7 @@ bool mousse::cuttingPlane::walkCell
     if (nextEdgeI == -1)
     {
       // Did not find another cut edge on faceI. Do what?
-      WarningIn("mousse::cuttingPlane::walkCell")
+      WARNING_IN("mousse::cuttingPlane::walkCell")
         << "Did not find closed walk along surface of cell " << cellI
         << " starting from edge " << startEdgeI
         << " in " << nIter << " iterations." << nl
@@ -158,7 +158,7 @@ bool mousse::cuttingPlane::walkCell
     nIter++;
     if (nIter > 1000)
     {
-      WarningIn("mousse::cuttingPlane::walkCell")
+      WARNING_IN("mousse::cuttingPlane::walkCell")
         << "Did not find closed walk along surface of cell " << cellI
         << " starting from edge " << startEdgeI
         << " in " << nIter << " iterations." << nl
@@ -173,7 +173,7 @@ bool mousse::cuttingPlane::walkCell
   }
   else
   {
-    WarningIn("mousse::cuttingPlane::walkCell")
+    WARNING_IN("mousse::cuttingPlane::walkCell")
       << "Did not find closed walk along surface of cell " << cellI
       << " starting from edge " << startEdgeI << nl
       << "Collected cutPoints so far:" << faceVerts
@@ -194,13 +194,13 @@ void mousse::cuttingPlane::walkCellCuts
   DynamicList<label> dynCutCells(cutCells_.size());
   // scratch space for calculating the face vertices
   DynamicList<label> faceVerts(10);
-  forAll(cutCells_, i)
+  FOR_ALL(cutCells_, i)
   {
     label cellI = cutCells_[i];
     // Find the starting edge to walk from.
     const labelList& cEdges = mesh.cellEdges()[cellI];
     label startEdgeI = -1;
-    forAll(cEdges, cEdgeI)
+    FOR_ALL(cEdges, cEdgeI)
     {
       label edgeI = cEdges[cEdgeI];
       if (edgePoint[edgeI] != -1)
@@ -212,7 +212,7 @@ void mousse::cuttingPlane::walkCellCuts
     // Check for the unexpected ...
     if (startEdgeI == -1)
     {
-      FatalErrorIn("mousse::cuttingPlane::walkCellCuts(..)")
+      FATAL_ERROR_IN("mousse::cuttingPlane::walkCellCuts(..)")
         << "Cannot find cut edge for cut cell " << cellI
         << abort(FatalError);
     }
@@ -301,7 +301,7 @@ void mousse::cuttingPlane::remapFaces
   {
     MeshStorage::remapFaces(faceMap);
     List<label> newCutCells(faceMap.size());
-    forAll(faceMap, faceI)
+    FOR_ALL(faceMap, faceI)
     {
       newCutCells[faceI] = cutCells_[faceMap[faceI]];
     }
@@ -314,7 +314,7 @@ void mousse::cuttingPlane::operator=(const cuttingPlane& rhs)
   // Check for assignment to self
   if (this == &rhs)
   {
-    FatalErrorIn ("mousse::cuttingPlane::operator=(const cuttingPlane&)")
+    FATAL_ERROR_IN ("mousse::cuttingPlane::operator=(const cuttingPlane&)")
       << "Attempted assignment to self"
       << abort(FatalError);
   }

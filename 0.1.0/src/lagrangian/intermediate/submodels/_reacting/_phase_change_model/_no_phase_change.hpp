@@ -17,7 +17,7 @@ class NoPhaseChange
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from dictionary
     NoPhaseChange(const dictionary&, CloudType&);

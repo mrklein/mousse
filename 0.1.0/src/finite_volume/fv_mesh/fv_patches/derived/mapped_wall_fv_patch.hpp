@@ -19,7 +19,7 @@ class mappedWallFvPatch
 {
 public:
   //- Runtime type information
-  TypeName(mappedWallPolyPatch::typeName_());
+  TYPE_NAME(mappedWallPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     mappedWallFvPatch

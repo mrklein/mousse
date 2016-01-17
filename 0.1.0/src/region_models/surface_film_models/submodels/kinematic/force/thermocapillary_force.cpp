@@ -12,16 +12,16 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(thermocapillaryForce, 0);
-addToRunTimeSelectionTable(force, thermocapillaryForce, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(thermocapillaryForce, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(force, thermocapillaryForce, dictionary);
 // Constructors 
 thermocapillaryForce::thermocapillaryForce
 (
   surfaceFilmModel& owner,
-  const dictionary& dict
+  const dictionary& /*dict*/
 )
 :
-  force(owner)
+  force{owner}
 {}
 // Destructor 
 thermocapillaryForce::~thermocapillaryForce()

@@ -25,7 +25,7 @@ class ode
     mutable scalarField cTp_;
 public:
   //- Runtime type information
-  TypeName("ode");
+  TYPE_NAME("ode");
   // Constructors
     //- Construct from mesh and phase name
     ode(const fvMesh& mesh, const word& phaseName);

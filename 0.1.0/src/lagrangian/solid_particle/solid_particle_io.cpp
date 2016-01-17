@@ -46,7 +46,7 @@ void mousse::solidParticle::readFields(Cloud<solidParticle>& c)
   IOField<vector> U(c.fieldIOobject("U", IOobject::MUST_READ));
   c.checkFieldIOobject(c, U);
   label i = 0;
-  forAllIter(Cloud<solidParticle>, c, iter)
+  FOR_ALL_ITER(Cloud<solidParticle>, c, iter)
   {
     solidParticle& p = iter();
     p.d_ = d[i];
@@ -61,7 +61,7 @@ void mousse::solidParticle::writeFields(const Cloud<solidParticle>& c)
   IOField<scalar> d(c.fieldIOobject("d", IOobject::NO_READ), np);
   IOField<vector> U(c.fieldIOobject("U", IOobject::NO_READ), np);
   label i = 0;
-  forAllConstIter(Cloud<solidParticle>, c, iter)
+  FOR_ALL_CONST_ITER(Cloud<solidParticle>, c, iter)
   {
     const solidParticle& p = iter();
     d[i] = p.d_;

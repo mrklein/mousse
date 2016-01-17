@@ -4,10 +4,13 @@
 
 #ifndef wedge_fvs_patch_fields_hpp_
 #define wedge_fvs_patch_fields_hpp_
+
 #include "wedge_fvs_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makeFvsPatchTypeFieldTypedefs(wedge);
+MAKE_FVS_PATCH_TYPE_FIELD_TYPEDEFS(wedge);
 }  // namespace mousse
+
 #endif

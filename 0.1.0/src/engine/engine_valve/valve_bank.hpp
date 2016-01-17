@@ -15,12 +15,6 @@ class valveBank
 :
   public PtrList<engineValve>
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    valveBank(const valveBank&);
-    //- Disallow default bitwise assignment
-    void operator=(const valveBank&);
 public:
   // Constructors
     //- Construct from Istream
@@ -30,22 +24,26 @@ public:
       Istream& is
     )
     {
-      PtrList<entry> valveEntries(is);
+      PtrList<entry> valveEntries{is};
       setSize(valveEntries.size());
-      forAll(valveEntries, valveI)
+      FOR_ALL(valveEntries, valveI)
       {
         valveI,
         set
         (
           new engineValve
-          (
+          {
             valveEntries[valveI].keyword(),
             mesh,
             valveEntries[valveI].dict()
-          )
+          }
         );
       }
     }
+    //- Disallow default bitwise copy construct
+    valveBank(const valveBank&) = delete;
+    //- Disallow default bitwise assignment
+    valveBank& operator=(const valveBank&) = delete;
   // Destructor - default
   // Member Functions
 };

@@ -9,19 +9,20 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(pointToCell, 0);
-  addToRunTimeSelectionTable(topoSetSource, pointToCell, word);
-  addToRunTimeSelectionTable(topoSetSource, pointToCell, istream);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::pointToCell::pointAction,
-    2
-  >::names[] =
-  {
-    "any",
-    "edge"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(pointToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, pointToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, pointToCell, istream);
+
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::pointToCell::pointAction,
+  2
+>::names[] =
+{
+  "any",
+  "edge"
+};
 }
 mousse::topoSetSource::addToUsageTable mousse::pointToCell::usage_
 (
@@ -40,11 +41,11 @@ void mousse::pointToCell::combine(topoSet& set, const bool add) const
   // Handle any selection
   if (option_ == ANY)
   {
-    forAllConstIter(pointSet, loadedSet, iter)
+    FOR_ALL_CONST_ITER(pointSet, loadedSet, iter)
     {
       const label pointI = iter.key();
       const labelList& pCells = mesh_.pointCells()[pointI];
-      forAll(pCells, pCellI)
+      FOR_ALL(pCells, pCellI)
       {
         addOrDelete(set, pCells[pCellI], add);
       }
@@ -53,10 +54,10 @@ void mousse::pointToCell::combine(topoSet& set, const bool add) const
   else if (option_ == EDGE)
   {
     const faceList& faces = mesh_.faces();
-    forAll(faces, faceI)
+    FOR_ALL(faces, faceI)
     {
       const face& f = faces[faceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (loadedSet.found(f[fp]) && loadedSet.found(f.nextLabel(fp)))
         {

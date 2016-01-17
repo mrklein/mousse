@@ -6,5 +6,5 @@
 #include "make_coal_parcel_surface_reaction_models.hpp"
 namespace mousse
 {
-  makeCoalParcelSurfaceReactionModels(coalCloud);
+MAKE_COAL_PARCEL_SURFACE_REACTION_MODELS(coalCloud);
 }

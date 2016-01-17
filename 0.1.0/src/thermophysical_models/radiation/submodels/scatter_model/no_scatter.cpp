@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(noScatter, 0);
-    addToRunTimeSelectionTable(scatterModel, noScatter, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(noScatter, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(scatterModel, noScatter, dictionary);
   }
 }
 // Constructors 

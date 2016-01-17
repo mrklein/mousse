@@ -9,10 +9,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(yPlus, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(yPlus, 0);
 }
 // Private Member Functions 
-void mousse::yPlus::writeFileHeader(const label i)
+void mousse::yPlus::writeFileHeader(const label /*i*/)
 {
   writeHeader(file(), "y+ ()");
   writeCommented(file(), "Time");
@@ -27,8 +27,8 @@ mousse::yPlus::yPlus
 (
   const word& name,
   const objectRegistry& obr,
-  const dictionary& dict,
-  const bool loadFromFiles
+  const dictionary&,
+  const bool /*loadFromFiles*/
 )
 :
   functionObjectFile(obr, name, typeName),
@@ -42,7 +42,7 @@ mousse::yPlus::yPlus
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "yPlus::yPlus"
       "("
@@ -117,7 +117,7 @@ void mousse::yPlus::execute()
     }
     else
     {
-      FatalErrorIn("void mousse::yPlus::write()")
+      FATAL_ERROR_IN("void mousse::yPlus::write()")
         << "Unable to find turbulence model in the "
         << "database" << exit(FatalError);
     }

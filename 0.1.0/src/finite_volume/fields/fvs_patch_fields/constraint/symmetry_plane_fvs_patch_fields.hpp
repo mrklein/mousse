@@ -4,10 +4,13 @@
 
 #ifndef symmetry_plane_fvs_patch_fields_hpp_
 #define symmetry_plane_fvs_patch_fields_hpp_
+
 #include "symmetry_plane_fvs_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makeFvsPatchTypeFieldTypedefs(symmetryPlane);
+MAKE_FVS_PATCH_TYPE_FIELD_TYPEDEFS(symmetryPlane);
 }  // namespace mousse
+
 #endif

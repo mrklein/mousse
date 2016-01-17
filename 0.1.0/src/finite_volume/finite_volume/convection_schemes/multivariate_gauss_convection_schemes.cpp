@@ -4,4 +4,5 @@
 
 #include "multivariate_gauss_convection_scheme.hpp"
 #include "fv_mesh.hpp"
-makeMultivariateFvConvectionScheme(multivariateGaussConvectionScheme)
+
+MAKE_MULTIVARIATE_FV_CONVECTION_SCHEME(multivariateGaussConvectionScheme)

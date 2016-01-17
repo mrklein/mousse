@@ -20,14 +20,14 @@ class regionProperties
 :
   public HashTable<wordList>
 {
-    //- Disallow default bitwise copy construct
-    regionProperties(const regionProperties&);
-    //- Disallow default bitwise assignment
-    void operator=(const regionProperties&);
 public:
   // Constructors
     //- Construct from components
     regionProperties(const Time& runTime);
+    //- Disallow default bitwise copy construct
+    regionProperties(const regionProperties&) = delete;
+    //- Disallow default bitwise assignment
+    regionProperties& operator=(const regionProperties&) = delete;
   //- Destructor
   ~regionProperties();
 };

@@ -11,7 +11,7 @@ namespace mousse
 namespace fileFormats
 {
 // read UnsortedMeshedSurface
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   FTRsurfaceFormat,
@@ -19,7 +19,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   ftr
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   UnsortedMeshedSurface,
   FTRsurfaceFormat,

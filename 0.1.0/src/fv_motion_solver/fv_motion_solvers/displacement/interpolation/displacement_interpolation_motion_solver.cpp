@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(displacementInterpolationMotionSolver, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(displacementInterpolationMotionSolver, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionSolver,
     displacementInterpolationMotionSolver,
@@ -42,13 +42,13 @@ displacementInterpolationMotionSolver
   const faceZoneMesh& fZones = mesh.faceZones();
   times_.setSize(fZones.size());
   displacements_.setSize(fZones.size());
-  forAll(faceZoneToTable, i)
+  FOR_ALL(faceZoneToTable, i)
   {
     const word& zoneName = faceZoneToTable[i][0];
     label zoneI = fZones.findZoneID(zoneName);
     if (zoneI == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "displacementInterpolationMotionSolver::"
         "displacementInterpolationMotionSolver(const polyMesh&,"
@@ -74,7 +74,7 @@ displacementInterpolationMotionSolver
     // Copy table
     times_[zoneI].setSize(table.size());
     displacements_[zoneI].setSize(table.size());
-    forAll(table, j)
+    FOR_ALL(table, j)
     {
       times_[zoneI][j] = table[j].first();
       displacements_[zoneI][j] = table[j].second();
@@ -87,13 +87,13 @@ displacementInterpolationMotionSolver
   {
     // min and max coordinates of all faceZones
     SortableList<scalar> zoneCoordinates(2*faceZoneToTable.size());
-    forAll(faceZoneToTable, i)
+    FOR_ALL(faceZoneToTable, i)
     {
       const word& zoneName = faceZoneToTable[i][0];
       const faceZone& fz = fZones[zoneName];
       scalar minCoord = VGREAT;
       scalar maxCoord = -VGREAT;
-      forAll(fz().meshPoints(), localI)
+      FOR_ALL(fz().meshPoints(), localI)
       {
         label pointI = fz().meshPoints()[localI];
         const scalar coord = points0()[pointI][dir];
@@ -150,7 +150,7 @@ displacementInterpolationMotionSolver
       }
       rangeI = 1;
     }
-    forAll(zoneCoordinates, i)
+    FOR_ALL(zoneCoordinates, i)
     {
       rangeToCoord[rangeI] = zoneCoordinates[i];
       rangeZone[rangeI] = zoneCoordinates.indices()[i]/2;
@@ -182,12 +182,12 @@ displacementInterpolationMotionSolver
     // ~~~~~~~~~~~~~~~
     // Count all the points inbetween rangeI and rangeI+1
     labelList nRangePoints(rangeToCoord.size(), 0);
-    forAll(meshCoords, pointI)
+    FOR_ALL(meshCoords, pointI)
     {
       label rangeI = findLower(rangeToCoord, meshCoords[pointI]);
       if (rangeI == -1 || rangeI == rangeToCoord.size()-1)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "displacementInterpolationMotionSolver::"
           "displacementInterpolationMotionSolver"
@@ -214,13 +214,13 @@ displacementInterpolationMotionSolver
     // Sort
     rangePoints.setSize(nRangePoints.size());
     rangeWeights.setSize(nRangePoints.size());
-    forAll(rangePoints, rangeI)
+    FOR_ALL(rangePoints, rangeI)
     {
       rangePoints[rangeI].setSize(nRangePoints[rangeI]);
       rangeWeights[rangeI].setSize(nRangePoints[rangeI]);
     }
     nRangePoints = 0;
-    forAll(meshCoords, pointI)
+    FOR_ALL(meshCoords, pointI)
     {
       label rangeI = findLower(rangeToCoord, meshCoords[pointI]);
       label& nPoints = nRangePoints[rangeI];
@@ -242,7 +242,7 @@ mousse::displacementInterpolationMotionSolver::curPoints() const
 {
   if (mesh().nPoints() != points0().size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "displacementInterpolationMotionSolver::curPoints() const"
     )   << "The number of points in the mesh seems to have changed." << endl
@@ -254,7 +254,7 @@ mousse::displacementInterpolationMotionSolver::curPoints() const
   pointField& curPoints = tcurPoints();
   // Interpolate the displacement of the face zones.
   vectorField zoneDisp(displacements_.size(), vector::zero);
-  forAll(zoneDisp, zoneI)
+  FOR_ALL(zoneDisp, zoneI)
   {
     if (times_[zoneI].size())
     {
@@ -289,7 +289,7 @@ mousse::displacementInterpolationMotionSolver::curPoints() const
       //vector maxDisp =
       //    (maxZoneI == -1 ? vector::zero : zoneDisp[maxZoneI]);
       scalar maxDisp = (maxZoneI == -1 ? 0.0 : zoneDisp[maxZoneI][dir]);
-      forAll(rPoints, i)
+      FOR_ALL(rPoints, i)
       {
         label pointI = rPoints[i];
         scalar w = rWeights[i];

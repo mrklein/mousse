@@ -16,7 +16,7 @@ mousse::autoPtr<mousse::solidBodyMotionFunction> mousse::solidBodyMotionFunction
     dictionaryConstructorTablePtr_->find(motionType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "solidBodyMotionFunction::New"
       "("

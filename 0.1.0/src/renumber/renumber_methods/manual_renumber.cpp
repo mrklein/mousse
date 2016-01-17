@@ -8,8 +8,8 @@
 #include "label_io_list.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(manualRenumber, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(manualRenumber, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     renumberMethod,
     manualRenumber,
@@ -47,7 +47,7 @@ mousse::labelList mousse::manualRenumber::renumber
   // check if the final renumbering is OK
   if (newToOld.size() != points.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "manualRenumber::renumber(const pointField&, const scalarField&)"
     )   << "Size of renumber list does not correspond "
@@ -60,12 +60,12 @@ mousse::labelList mousse::manualRenumber::renumber
   }
   // Invert to see if one to one
   labelList oldToNew(points.size(), -1);
-  forAll(newToOld, i)
+  FOR_ALL(newToOld, i)
   {
     label origCellI = newToOld[i];
     if (origCellI < 0 || origCellI >= points.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "manualRenumber::renumber(const pointField&"
         ", const scalarField&)"
@@ -81,7 +81,7 @@ mousse::labelList mousse::manualRenumber::renumber
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "manualRenumber::renumber(const pointField&"
         ", const scalarField&)"

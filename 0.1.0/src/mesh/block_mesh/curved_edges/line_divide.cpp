@@ -35,7 +35,7 @@ mousse::lineDivide::lineDivide
     labelList secnDivs(gd.size());
     label sumSecnDivs = 0;
     label secnMaxDivs = 0;
-    forAll(gd, sectioni)
+    FOR_ALL(gd, sectioni)
     {
       scalar nDivFrac = gd[sectioni].nDivFraction();
       secnDivs[sectioni] = label(nDivFrac*nDiv + 0.5);
@@ -52,7 +52,7 @@ mousse::lineDivide::lineDivide
     {
       secnDivs[secnMaxDivs] += (nDiv - sumSecnDivs);
     }
-    forAll(gd, sectioni)
+    FOR_ALL(gd, sectioni)
     {
       scalar blockFrac = gd[sectioni].blockFraction();
       scalar expRatio = gd[sectioni].expansionRatio();

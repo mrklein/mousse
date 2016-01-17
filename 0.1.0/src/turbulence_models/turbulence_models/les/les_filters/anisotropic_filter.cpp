@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(anisotropicFilter, 0);
-  addToRunTimeSelectionTable(LESfilter, anisotropicFilter, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(anisotropicFilter, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESfilter, anisotropicFilter, dictionary);
 }
 // Constructors 
 mousse::anisotropicFilter::anisotropicFilter

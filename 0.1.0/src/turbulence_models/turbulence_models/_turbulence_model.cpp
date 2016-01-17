@@ -26,15 +26,15 @@ TurbulenceModel
 )
 :
   BasicTurbulenceModel
-  (
+  {
     rho,
     U,
     alphaRhoPhi,
     phi,
     propertiesName
-  ),
-  alpha_(alpha),
-  transport_(transport)
+  },
+  alpha_{alpha},
+  transport_{transport}
 {}
 // Selectors
 template
@@ -62,36 +62,36 @@ mousse::TurbulenceModel<Alpha, Rho, BasicTurbulenceModel, TransportModel>::New
   // get model name, but do not register the dictionary
   // otherwise it is registered in the database twice
   const word modelType
-  (
+  {
     IOdictionary
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         IOobject::groupName(propertiesName, U.group()),
         U.time().constant(),
         U.db(),
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE,
         false
-      )
-    ).lookup("simulationType")
-  );
+      }
+    }.lookup("simulationType")
+  };
   Info<< "Selecting turbulence model type " << modelType << endl;
   typename dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "TurbulenceModel::New"
       "(const alphaField&, const rhoField&, "
       "const volVectorField&, const surfaceScalarField&, "
       "transportModel&, const word&)"
     )   << "Unknown TurbulenceModel type "
-      << modelType << nl << nl
-      << "Valid TurbulenceModel types:" << endl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    << modelType << nl << nl
+    << "Valid TurbulenceModel types:" << endl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
   return autoPtr<TurbulenceModel>
   (

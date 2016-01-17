@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace distributionModels
   {
-    defineTypeNameAndDebug(multiNormal, 0);
-    addToRunTimeSelectionTable(distributionModel, multiNormal, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(multiNormal, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(distributionModel, multiNormal, dictionary);
   }
 }
 // Constructors 
@@ -102,7 +102,7 @@ mousse::scalar mousse::distributionModels::multiNormal::maxValue() const
 mousse::scalar mousse::distributionModels::multiNormal::meanValue() const
 {
   scalar mean = 0.0;
-  forAll(strength_, i)
+  FOR_ALL(strength_, i)
   {
     mean += strength_[i]*expectation_[i];
   }

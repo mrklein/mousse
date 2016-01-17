@@ -5,26 +5,29 @@
 #include "box_to_face.hpp"
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(boxToFace, 0);
-addToRunTimeSelectionTable(topoSetSource, boxToFace, word);
-addToRunTimeSelectionTable(topoSetSource, boxToFace, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(boxToFace, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, boxToFace, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, boxToFace, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::boxToFace::usage_
 (
   boxToFace::typeName,
   "\n    Usage: boxToFace ((minx miny minz) (maxx maxy maxz))\n\n"
   "    Select all face with faceCentre within bounding box\n\n"
 );
+
 // Private Member Functions 
 void mousse::boxToFace::combine(topoSet& set, const bool add) const
 {
   const pointField& ctrs = mesh_.faceCentres();
-  forAll(ctrs, faceI)
+  FOR_ALL(ctrs, faceI)
   {
-    forAll(bbs_, i)
+    FOR_ALL(bbs_, i)
     {
       if (bbs_[i].contains(ctrs[faceI]))
       {

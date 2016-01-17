@@ -9,5 +9,5 @@
 namespace mousse
 {
 // Static Data Members
-makePatchFields(kqRWallFunction);
+MAKE_PATCH_FIELDS(kqRWallFunction);
 }  // namespace mousse

@@ -2,9 +2,12 @@
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#include "corrected_sn_grad.hpp"
+#include "surface_fields.hpp"
 #include "fv_mesh.hpp"
-makeSnGradScheme(correctedSnGrad)
+#include "corrected_sn_grad.hpp"
+
+MAKE_SN_GRAD_SCHEME(correctedSnGrad)
+
 template<>
 mousse::tmp<mousse::surfaceScalarField>
 mousse::fv::correctedSnGrad<mousse::scalar>::correction
@@ -14,6 +17,7 @@ mousse::fv::correctedSnGrad<mousse::scalar>::correction
 {
   return fullGradCorrection(vsf);
 }
+
 template<>
 mousse::tmp<mousse::surfaceVectorField>
 mousse::fv::correctedSnGrad<mousse::vector>::correction

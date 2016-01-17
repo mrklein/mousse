@@ -88,11 +88,12 @@ void mousse::fixedPressureCompressibleDensityFvPatchScalarField::write
   writeEntryIfDifferent<word>(os, "p", "p", pName_);
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    fixedPressureCompressibleDensityFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  fixedPressureCompressibleDensityFvPatchScalarField
+);
 }

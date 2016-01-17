@@ -33,7 +33,7 @@ private:
   scalar angle_;
 public:
   //- Runtime type information
-  TypeName("blobsSheetAtomization");
+  TYPE_NAME("blobsSheetAtomization");
   // Constructors
     //- Construct from dictionary
     BlobsSheetAtomization(const dictionary& dict, CloudType& cloud);

@@ -52,7 +52,7 @@ class sampledThresholdCellFaces
     interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
-  TypeName("sampledThresholdCellFaces");
+  TYPE_NAME("sampledThresholdCellFaces");
   // Constructors
     //- Construct from dictionary
     sampledThresholdCellFaces

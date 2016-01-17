@@ -14,9 +14,12 @@
 //   mousse::fv::CoEulerDdtScheme
 // SourceFiles
 //   slts_ddt_scheme.cpp
+
 #ifndef slts_ddt_scheme_hpp_
 #define slts_ddt_scheme_hpp_
+
 #include "ddt_scheme.hpp"
+
 namespace mousse
 {
 namespace fv
@@ -35,116 +38,137 @@ class SLTSDdtScheme
     //- Under-relaxation factor
     scalar alpha_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    SLTSDdtScheme(const SLTSDdtScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const SLTSDdtScheme&);
     //- Calculate a relaxed diagonal from the given flux field
     void relaxedDiag(scalarField& rD, const surfaceScalarField& phi) const;
     //- Return the reciprocal of the stabilised local time-step
     tmp<volScalarField> SLrDeltaT() const;
 public:
   //- Runtime type information
-  TypeName("SLTS");
+  TYPE_NAME("SLTS");
+
   // Constructors
     //- Construct from mesh and Istream
     SLTSDdtScheme(const fvMesh& mesh, Istream& is)
     :
-      ddtScheme<Type>(mesh, is),
-      phiName_(is),
-      rhoName_(is),
-      alpha_(readScalar(is))
+      ddtScheme<Type>{mesh, is},
+      phiName_{is},
+      rhoName_{is},
+      alpha_{readScalar(is)}
     {}
+
+    //- Disallow default bitwise copy construct
+    SLTSDdtScheme(const SLTSDdtScheme&) = delete;
+
+    //- Disallow default bitwise assignment
+    SLTSDdtScheme& operator=(const SLTSDdtScheme&) = delete;
+
   // Member Functions
     //- Return mesh reference
     const fvMesh& mesh() const
     {
       return fv::ddtScheme<Type>::mesh();
     }
+
     tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
     (
       const dimensioned<Type>&
     );
+
     tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
+
     tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
+
     tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
+
     tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& psi
     );
+
     tmp<fvMatrix<Type> > fvmDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
+
     tmp<fvMatrix<Type> > fvmDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
+
     tmp<fvMatrix<Type> > fvmDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
+
     tmp<fvMatrix<Type> > fvmDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& psi
     );
+
     typedef typename ddtScheme<Type>::fluxFieldType fluxFieldType;
     tmp<fluxFieldType> fvcDdtUfCorr
     (
       const GeometricField<Type, fvPatchField, volMesh>& U,
       const GeometricField<Type, fvsPatchField, surfaceMesh>& Uf
     );
+
     tmp<fluxFieldType> fvcDdtPhiCorr
     (
       const GeometricField<Type, fvPatchField, volMesh>& U,
       const fluxFieldType& phi
     );
+
     tmp<fluxFieldType> fvcDdtUfCorr
     (
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& U,
       const GeometricField<Type, fvsPatchField, surfaceMesh>& Uf
     );
+
     tmp<fluxFieldType> fvcDdtPhiCorr
     (
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& U,
       const fluxFieldType& phi
     );
+
     tmp<surfaceScalarField> meshPhi
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 };
+
 template<>
 tmp<surfaceScalarField> SLTSDdtScheme<scalar>::fvcDdtUfCorr
 (
   const GeometricField<scalar, fvPatchField, volMesh>& U,
   const GeometricField<scalar, fvsPatchField, surfaceMesh>& Uf
 );
+
 template<>
 tmp<surfaceScalarField> SLTSDdtScheme<scalar>::fvcDdtPhiCorr
 (
   const volScalarField& U,
   const surfaceScalarField& phi
 );
+
 template<>
 tmp<surfaceScalarField> SLTSDdtScheme<scalar>::fvcDdtUfCorr
 (
@@ -152,6 +176,7 @@ tmp<surfaceScalarField> SLTSDdtScheme<scalar>::fvcDdtUfCorr
   const volScalarField& U,
   const surfaceScalarField& Uf
 );
+
 template<>
 tmp<surfaceScalarField> SLTSDdtScheme<scalar>::fvcDdtPhiCorr
 (
@@ -159,8 +184,10 @@ tmp<surfaceScalarField> SLTSDdtScheme<scalar>::fvcDdtPhiCorr
   const volScalarField& U,
   const surfaceScalarField& phi
 );
+
 }  // namespace fv
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "slts_ddt_scheme.cpp"
 #endif

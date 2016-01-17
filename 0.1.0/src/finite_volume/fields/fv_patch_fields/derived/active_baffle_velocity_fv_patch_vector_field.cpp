@@ -7,7 +7,9 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "cyclic_fv_patch.hpp"
-// Constructors 
+#include "time.hpp"
+
+// Constructors
 mousse::activeBaffleVelocityFvPatchVectorField::
 activeBaffleVelocityFvPatchVectorField
 (
@@ -118,7 +120,8 @@ activeBaffleVelocityFvPatchVectorField
   maxOpenFractionDelta_(ptf.maxOpenFractionDelta_),
   curTimeIndex_(-1)
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::activeBaffleVelocityFvPatchVectorField::autoMap
 (
   const fvPatchFieldMapper& m
@@ -189,12 +192,12 @@ void mousse::activeBaffleVelocityFvPatchVectorField::updateCoeffs()
     const labelList& nbrFaceCells = nbrPatch.patch().faceCells();
     scalar forceDiff = 0;
     // Add this side
-    forAll(cyclicFaceCells, facei)
+    FOR_ALL(cyclicFaceCells, facei)
     {
       forceDiff += p[cyclicFaceCells[facei]]*mag(initCyclicSf_[facei]);
     }
     // Remove other side
-    forAll(nbrFaceCells, facei)
+    FOR_ALL(nbrFaceCells, facei)
     {
       forceDiff -= p[nbrFaceCells[facei]]*mag(nbrCyclicSf_[facei]);
     }
@@ -217,7 +220,7 @@ void mousse::activeBaffleVelocityFvPatchVectorField::updateCoeffs()
     Info<< "openFraction = " << openFraction_ << endl;
     vectorField::subField Sfw = this->patch().patch().faceAreas();
     const vectorField newSfw((1 - openFraction_)*initWallSf_);
-    forAll(Sfw, facei)
+    FOR_ALL(Sfw, facei)
     {
       Sfw[facei] = newSfw[facei];
     }
@@ -255,7 +258,7 @@ void mousse::activeBaffleVelocityFvPatchVectorField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
+  MAKE_PATCH_TYPE_FIELD
   (
     fvPatchVectorField,
     activeBaffleVelocityFvPatchVectorField

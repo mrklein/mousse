@@ -9,10 +9,10 @@
 #include "_larsen_borgnakke_variable_hard_sphere.hpp"
 namespace mousse
 {
-  typedef DSMCCloud<dsmcParcel> CloudType;
-  makeBinaryCollisionModel(DSMCCloud<dsmcParcel>);
-  // Add instances of collision model to the table
-  makeBinaryCollisionModelType(NoBinaryCollision, CloudType);
-  makeBinaryCollisionModelType(VariableHardSphere, CloudType);
-  makeBinaryCollisionModelType(LarsenBorgnakkeVariableHardSphere, CloudType);
+typedef DSMCCloud<dsmcParcel> CloudType;
+MAKE_BINARY_COLLISION_MODEL(DSMCCloud<dsmcParcel>);
+// Add instances of collision model to the table
+MAKE_BINARY_COLLISION_MODEL_TYPE(NoBinaryCollision, CloudType);
+MAKE_BINARY_COLLISION_MODEL_TYPE(VariableHardSphere, CloudType);
+MAKE_BINARY_COLLISION_MODEL_TYPE(LarsenBorgnakkeVariableHardSphere, CloudType);
 }

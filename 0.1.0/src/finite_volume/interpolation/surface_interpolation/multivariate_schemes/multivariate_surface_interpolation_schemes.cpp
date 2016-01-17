@@ -3,32 +3,39 @@
 // Copyright (C) 2016 mousse project
 
 #include "multivariate_surface_interpolation_scheme.hpp"
+
 namespace mousse
 {
+
 // Define the constructor function hash tables
-defineTemplateRunTimeSelectionTable
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   multivariateSurfaceInterpolationScheme<scalar>,
   Istream
 );
-defineTemplateRunTimeSelectionTable
+
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   multivariateSurfaceInterpolationScheme<vector>,
   Istream
 );
-defineTemplateRunTimeSelectionTable
+
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   multivariateSurfaceInterpolationScheme<sphericalTensor>,
   Istream
 );
-defineTemplateRunTimeSelectionTable
+
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   multivariateSurfaceInterpolationScheme<symmTensor>,
   Istream
 );
-defineTemplateRunTimeSelectionTable
+
+DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   multivariateSurfaceInterpolationScheme<tensor>,
   Istream
 );
+
 }  // namespace mousse

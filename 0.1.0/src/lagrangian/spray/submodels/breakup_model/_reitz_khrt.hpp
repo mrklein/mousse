@@ -30,7 +30,7 @@ private:
     scalar weberLimit_;
 public:
   //- Runtime type information
-  TypeName("ReitzKHRT");
+  TYPE_NAME("ReitzKHRT");
   // Constructors
     //- Construct from dictionary
     ReitzKHRT(const dictionary&, CloudType&);

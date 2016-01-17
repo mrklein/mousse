@@ -6,11 +6,15 @@
 // Description
 //   Upwind biased fit surface interpolation scheme that applies an explicit
 //   correction to upwind.
+
 #ifndef pure_upwind_fit_scheme_hpp_
 #define pure_upwind_fit_scheme_hpp_
+
 #include "upwind_fit_data.hpp"
 #include "upwind.hpp"
 #include "switch.hpp"
+#include "extended_upwind_cell_to_face_stencil.hpp"
+
 namespace mousse
 {
 template<class Type, class Polynomial, class Stencil>
@@ -25,14 +29,10 @@ class PureUpwindFitScheme
     const scalar linearLimitFactor_;
     //- Weights for central stencil
     const scalar centralWeight_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    PureUpwindFitScheme(const PureUpwindFitScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const PureUpwindFitScheme&);
 public:
   //- Runtime type information
-  TypeName("PureUpwindFitScheme");
+  TYPE_NAME("PureUpwindFitScheme");
+
   // Constructors
     //- Construct from mesh and Istream
     //  The name of the flux field is read from the Istream and looked-up
@@ -40,13 +40,14 @@ public:
     PureUpwindFitScheme(const fvMesh& mesh, Istream& is)
     :
       upwind<Type>
-      (
+      {
         mesh,
-        mesh.lookupObject<surfaceScalarField>(word(is))
-      ),
-      linearLimitFactor_(readScalar(is)),
-      centralWeight_(1000)
+        mesh.lookupObject<surfaceScalarField>(word{is})
+      },
+      linearLimitFactor_{readScalar(is)},
+      centralWeight_{1000}
     {}
+
     //- Construct from mesh, faceFlux and Istream
     PureUpwindFitScheme
     (
@@ -55,16 +56,24 @@ public:
       Istream& is
     )
     :
-      upwind<Type>(mesh, faceFlux),
-      linearLimitFactor_(readScalar(is)),
-      centralWeight_(1000)
+      upwind<Type>{mesh, faceFlux},
+      linearLimitFactor_{readScalar(is)},
+      centralWeight_{1000}
     {}
+
+    //- Disallow default bitwise copy construct
+    PureUpwindFitScheme(const PureUpwindFitScheme&) = delete;
+
+    //- Disallow default bitwise assignment
+    void operator=(const PureUpwindFitScheme&) = delete;
+
   // Member Functions
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
     {
       return true;
     }
+
     //- Return the explicit correction to the face-interpolate
     virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
     correction
@@ -90,44 +99,64 @@ public:
     }
 };
 }  // namespace mousse
+
 // Add the patch constructor functions to the hash tables
-#define makePureUpwindFitSurfaceInterpolationTypeScheme\
+#define MAKE_PURE_UPWIND_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME\
 (                                                                             \
-  SS,                                                                       \
-  POLYNOMIAL,                                                               \
-  STENCIL,                                                                  \
-  TYPE                                                                      \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  TYPE                                                                        \
 )                                                                             \
-                                       \
+                                                                              \
 typedef PureUpwindFitScheme<TYPE, POLYNOMIAL, STENCIL>                        \
-  PureUpwindFitScheme##TYPE##POLYNOMIAL##STENCIL##_;                        \
-defineTemplateTypeNameAndDebugWithName                                        \
-  (PureUpwindFitScheme##TYPE##POLYNOMIAL##STENCIL##_, #SS, 0);              \
-                                       \
+  PureUpwindFitScheme##TYPE##POLYNOMIAL##STENCIL##_;                          \
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                                 \
+  (PureUpwindFitScheme##TYPE##POLYNOMIAL##STENCIL##_, #SS, 0);                \
+                                                                              \
 surfaceInterpolationScheme<TYPE>::addMeshConstructorToTable                   \
 <PureUpwindFitScheme<TYPE, POLYNOMIAL, STENCIL> >                             \
-  add##SS##STENCIL##TYPE##MeshConstructorToTable_;                          \
-                                       \
+  add##SS##STENCIL##TYPE##MeshConstructorToTable_;                            \
+                                                                              \
 surfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable               \
 <PureUpwindFitScheme<TYPE, POLYNOMIAL, STENCIL> >                             \
   add##SS##STENCIL##TYPE##MeshFluxConstructorToTable_;
-#define makePureUpwindFitSurfaceInterpolationScheme(SS, POLYNOMIAL, STENCIL)  \
-                                       \
-makePureUpwindFitSurfaceInterpolationTypeScheme(SS,POLYNOMIAL,STENCIL,scalar) \
-makePureUpwindFitSurfaceInterpolationTypeScheme(SS,POLYNOMIAL,STENCIL,vector) \
-makePureUpwindFitSurfaceInterpolationTypeScheme                               \
+
+#define MAKE_PURE_UPWIND_FIT_SURFACE_INTERPOLATION_SCHEME\
+(SS, POLYNOMIAL, STENCIL)                                                     \
+                                                                              \
+MAKE_PURE_UPWIND_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                        \
 (                                                                             \
-  SS,                                                                       \
-  POLYNOMIAL,                                                               \
-  STENCIL,                                                                  \
-  sphericalTensor                                                           \
-)                                                                             \
-makePureUpwindFitSurfaceInterpolationTypeScheme                               \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  scalar)                                                                     \
+MAKE_PURE_UPWIND_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                        \
 (                                                                             \
-  SS,                                                                       \
-  POLYNOMIAL,                                                               \
-  STENCIL,                                                                  \
-  symmTensor                                                                \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  vector                                                                      \
 )                                                                             \
-makePureUpwindFitSurfaceInterpolationTypeScheme(SS,POLYNOMIAL,STENCIL,tensor)
+MAKE_PURE_UPWIND_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                        \
+(                                                                             \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  sphericalTensor                                                             \
+)                                                                             \
+MAKE_PURE_UPWIND_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                        \
+(                                                                             \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  symmTensor                                                                  \
+)                                                                             \
+MAKE_PURE_UPWIND_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME                        \
+(                                                                             \
+  SS,                                                                         \
+  POLYNOMIAL,                                                                 \
+  STENCIL,                                                                    \
+  tensor                                                                      \
+)
 #endif

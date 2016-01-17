@@ -15,7 +15,7 @@ void mousse::PairSpringSliderDashpot<CloudType>::findMinMaxProperties
   RMin = VGREAT;
   rhoMax = -VGREAT;
   UMagMax = -VGREAT;
-  forAllConstIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_CONST_ITER(typename CloudType, this->owner(), iter)
   {
     const typename CloudType::parcelType& p = iter();
     // Finding minimum diameter to avoid excessive arithmetic

@@ -29,7 +29,7 @@ tmp<scalarField> nutkAtmRoughWallFunctionFvPatchScalarField::calcNut() const
   const scalar Cmu25 = pow025(Cmu_);
   tmp<scalarField> tnutw(new scalarField(*this));
   scalarField& nutw = tnutw();
-  forAll(nutw, faceI)
+  FOR_ALL(nutw, faceI)
   {
     label faceCellI = patch().faceCells()[faceI];
     scalar uStar = Cmu25*sqrt(k[faceCellI]);
@@ -67,8 +67,8 @@ nutkAtmRoughWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  nutkWallFunctionFvPatchScalarField(ptf, p, iF, mapper),
-  z0_(ptf.z0_, mapper)
+  nutkWallFunctionFvPatchScalarField{ptf, p, iF, mapper},
+  z0_{ptf.z0_, mapper}
 {}
 nutkAtmRoughWallFunctionFvPatchScalarField::
 nutkAtmRoughWallFunctionFvPatchScalarField
@@ -78,8 +78,8 @@ nutkAtmRoughWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  nutkWallFunctionFvPatchScalarField(p, iF, dict),
-  z0_("z0", dict, p.size())
+  nutkWallFunctionFvPatchScalarField{p, iF, dict},
+  z0_{"z0", dict, p.size()}
 {}
 nutkAtmRoughWallFunctionFvPatchScalarField::
 nutkAtmRoughWallFunctionFvPatchScalarField
@@ -87,8 +87,8 @@ nutkAtmRoughWallFunctionFvPatchScalarField
   const nutkAtmRoughWallFunctionFvPatchScalarField& rwfpsf
 )
 :
-  nutkWallFunctionFvPatchScalarField(rwfpsf),
-  z0_(rwfpsf.z0_)
+  nutkWallFunctionFvPatchScalarField{rwfpsf},
+  z0_{rwfpsf.z0_}
 {}
 nutkAtmRoughWallFunctionFvPatchScalarField::
 nutkAtmRoughWallFunctionFvPatchScalarField
@@ -97,8 +97,8 @@ nutkAtmRoughWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutkWallFunctionFvPatchScalarField(rwfpsf, iF),
-  z0_(rwfpsf.z0_)
+  nutkWallFunctionFvPatchScalarField{rwfpsf, iF},
+  z0_{rwfpsf.z0_}
 {}
 // Member Functions 
 void nutkAtmRoughWallFunctionFvPatchScalarField::autoMap
@@ -127,7 +127,7 @@ void nutkAtmRoughWallFunctionFvPatchScalarField::write(Ostream& os) const
   z0_.writeEntry("z0", os);
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   nutkAtmRoughWallFunctionFvPatchScalarField

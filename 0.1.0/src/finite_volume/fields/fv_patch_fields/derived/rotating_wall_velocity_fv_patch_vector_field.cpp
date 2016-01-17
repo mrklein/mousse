@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+#include "time.hpp"
+
 // Constructors 
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
@@ -14,11 +16,12 @@ rotatingWallVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(p, iF),
-  origin_(),
-  axis_(vector::zero),
-  omega_(0)
+  fixedValueFvPatchField<vector>{p, iF},
+  origin_{},
+  axis_{vector::zero},
+  omega_{0}
 {}
+
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
 (
@@ -28,11 +31,12 @@ rotatingWallVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<vector>(ptf, p, iF, mapper),
-  origin_(ptf.origin_),
-  axis_(ptf.axis_),
-  omega_(ptf.omega_().clone().ptr())
+  fixedValueFvPatchField<vector>{ptf, p, iF, mapper},
+  origin_{ptf.origin_},
+  axis_{ptf.axis_},
+  omega_{ptf.omega_().clone().ptr()}
 {}
+
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
 (
@@ -41,10 +45,10 @@ rotatingWallVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<vector>(p, iF),
-  origin_(dict.lookup("origin")),
-  axis_(dict.lookup("axis")),
-  omega_(DataEntry<scalar>::New("omega", dict))
+  fixedValueFvPatchField<vector>{p, iF},
+  origin_{dict.lookup("origin")},
+  axis_{dict.lookup("axis")},
+  omega_{DataEntry<scalar>::New("omega", dict)}
 {
   if (dict.found("value"))
   {
@@ -59,17 +63,19 @@ rotatingWallVelocityFvPatchVectorField
     updateCoeffs();
   }
 }
+
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
 (
   const rotatingWallVelocityFvPatchVectorField& rwvpvf
 )
 :
-  fixedValueFvPatchField<vector>(rwvpvf),
-  origin_(rwvpvf.origin_),
-  axis_(rwvpvf.axis_),
-  omega_(rwvpvf.omega_().clone().ptr())
+  fixedValueFvPatchField<vector>{rwvpvf},
+  origin_{rwvpvf.origin_},
+  axis_{rwvpvf.axis_},
+  omega_{rwvpvf.omega_().clone().ptr()}
 {}
+
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
 (
@@ -77,11 +83,12 @@ rotatingWallVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(rwvpvf, iF),
-  origin_(rwvpvf.origin_),
-  axis_(rwvpvf.axis_),
-  omega_(rwvpvf.omega_().clone().ptr())
+  fixedValueFvPatchField<vector>{rwvpvf, iF},
+  origin_{rwvpvf.origin_},
+  axis_{rwvpvf.axis_},
+  omega_{rwvpvf.omega_().clone().ptr()}
 {}
+
 // Member Functions 
 void mousse::rotatingWallVelocityFvPatchVectorField::updateCoeffs()
 {
@@ -110,11 +117,14 @@ void mousse::rotatingWallVelocityFvPatchVectorField::write(Ostream& os) const
   omega_->writeData(os);
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    rotatingWallVelocityFvPatchVectorField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  rotatingWallVelocityFvPatchVectorField
+);
+
 }

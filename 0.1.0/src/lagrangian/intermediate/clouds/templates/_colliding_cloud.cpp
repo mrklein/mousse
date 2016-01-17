@@ -60,7 +60,7 @@ mousse::CollidingCloud<CloudType>::CollidingCloud
 {
   if (this->solution().steadyState())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::CollidingCloud<CloudType>::CollidingCloud"
       "("

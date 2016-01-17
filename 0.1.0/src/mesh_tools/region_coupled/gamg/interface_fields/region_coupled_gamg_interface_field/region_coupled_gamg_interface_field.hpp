@@ -21,16 +21,9 @@ class regionCoupledGAMGInterfaceField
     //- Local reference cast into the cyclic interface
     const regionCoupledGAMGInterface& regionCoupledGAMGInterface_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    regionCoupledGAMGInterfaceField
-    (
-      const regionCoupledGAMGInterfaceField&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const regionCoupledGAMGInterfaceField&);
 public:
   //- Runtime type information
-  TypeName("regionCoupled");
+  TYPE_NAME("regionCoupled");
   // Constructors
     //- Construct from GAMG interface and fine level interface field
     regionCoupledGAMGInterfaceField
@@ -45,6 +38,16 @@ public:
       const bool doTransform,
       const int rank
     );
+    //- Disallow default bitwise copy construct
+    regionCoupledGAMGInterfaceField
+    (
+      const regionCoupledGAMGInterfaceField&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    regionCoupledGAMGInterfaceField& operator=
+    (
+      const regionCoupledGAMGInterfaceField&
+    ) = delete;
   //- Destructor
   virtual ~regionCoupledGAMGInterfaceField();
   // Member Functions
@@ -61,7 +64,7 @@ public:
         const scalarField&,
         const scalarField&,
         const direction,
-        const Pstream::commsTypes commsType
+        const Pstream::commsTypes
       ) const
       {}
 };

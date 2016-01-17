@@ -24,7 +24,7 @@ class pitchForkRing
     scalar rOrbit_;
 public:
   //- Runtime type information
-  TypeName("pitchForkRing");
+  TYPE_NAME("pitchForkRing");
   // Constructors
     //- Construct from components
     pitchForkRing

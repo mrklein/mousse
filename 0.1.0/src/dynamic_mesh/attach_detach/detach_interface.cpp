@@ -58,11 +58,11 @@ void mousse::attachDetach::detachInterface
       {
         if (faceLabels[i] <= faceLabels[i-1])
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "attachDetach::detachInterface"
             "(polyTopoChange&) const"
-          )   << "faceZone " << zoneMesh[faceZoneID_.index()].name()
+          ) << "faceZone " << zoneMesh[faceZoneID_.index()].name()
             << " does not have mesh face labels in"
             << " increasing order." << endl
             << "Face label " << faceLabels[i]
@@ -90,7 +90,7 @@ void mousse::attachDetach::detachInterface
   {
     const labelList& curFaces = meshEdgeFaces[meshEdges[curEdgeID]];
     bool edgeIsInternal = true;
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       if (!mesh.isInternalFace(curFaces[faceI]))
       {
@@ -107,9 +107,8 @@ void mousse::attachDetach::detachInterface
       addedPoints[e.end()] = mp[e.end()];
     }
   }
-// Pout<< "addedPoints before point creation: " << addedPoints << endl;
   // Create new points for face zone
-  forAll(addedPoints, pointI)
+  FOR_ALL(addedPoints, pointI)
   {
     if (addedPoints[pointI] < 0)
     {
@@ -124,10 +123,6 @@ void mousse::attachDetach::detachInterface
             true                       // supports a cell
           )
         );
-      //Pout<< "Adding point " << addedPoints[pointI]
-      //    << " coord1:" << points[mp[pointI]]
-      //    << " coord2:" << masterFaceLayer.localPoints()[pointI]
-      //    << " for original point " << mp[pointI] << endl;
     }
   }
   // Modify faces in the master zone and duplicate for the slave zone
@@ -137,13 +132,13 @@ void mousse::attachDetach::detachInterface
   const faceList& faces = mesh.faces();
   const labelList& own = mesh.faceOwner();
   const labelList& nei = mesh.faceNeighbour();
-  forAll(mf, faceI)
+  FOR_ALL(mf, faceI)
   {
     const label curFaceID = mf[faceI];
     // Build the face for the slave patch by renumbering
     const face oldFace = zoneFaces[faceI].reverseFace();
     face newFace(oldFace.size());
-    forAll(oldFace, pointI)
+    FOR_ALL(oldFace, pointI)
     {
       newFace[pointI] = addedPoints[oldFace[pointI]];
     }
@@ -183,15 +178,6 @@ void mousse::attachDetach::detachInterface
           false                           // zone flip
         )
       );
-      //{
-      //    pointField newPts(ref.points());
-      //Pout<< "Flip.  Modifying face: " << ref.faces()[curFaceID]
-      //    << " fc:" <<  ref.faces()[curFaceID].centre(newPts)
-      //    << " next to cell: " << nei[curFaceID]
-      //    << " and adding face: " << newFace
-      //    << " fc:" << ref.faces()[addedFaceI].centre(newPts)
-      //    << " next to cell: " << own[curFaceID] << endl;
-      //}
     }
     else
     {
@@ -229,15 +215,6 @@ void mousse::attachDetach::detachInterface
           false                           // face flip in zone
         )
       );
-      //{
-      //    pointField newPts(ref.points());
-      //Pout<< "No flip.  Modifying face: " << ref.faces()[curFaceID]
-      //    << " fc:" <<  ref.faces()[curFaceID].centre(newPts)
-      //    << " next to cell: " << own[curFaceID]
-      //    << " and adding face: " << newFace
-      //    << " fc:" << ref.faces()[addedFaceI].centre(newPts)
-      //    << " next to cell: " << nei[curFaceID] << endl;
-      //}
     }
   }
   // Modify the remaining faces of the master cells to reconnect to the new
@@ -257,10 +234,10 @@ void mousse::attachDetach::detachInterface
     mesh.faceZones()[faceZoneID_.index()].masterCells();
   labelHashSet masterCellFaceMap(6*mc.size());
   const cellList& cells = mesh.cells();
-  forAll(mc, cellI)
+  FOR_ALL(mc, cellI)
   {
     const labelList& curFaces = cells[mc[cellI]];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       // Check if the face belongs to the master patch; if not add it
       if (zoneMesh.whichZone(curFaces[faceI]) != faceZoneID_.index())
@@ -274,7 +251,7 @@ void mousse::attachDetach::detachInterface
   { // Protection and memory management
     // Make a map of master cells for quick reject
     labelHashSet mcMap(2*mc.size());
-    forAll(mc, mcI)
+    FOR_ALL(mc, mcI)
     {
       mcMap.insert(mc[mcI]);
     }
@@ -282,7 +259,7 @@ void mousse::attachDetach::detachInterface
     // cells around them are not already used, add all of their
     // faces to the map
     const labelList mcf = masterCellFaceMap.toc();
-    forAll(mcf, mcfI)
+    FOR_ALL(mcf, mcfI)
     {
       // Do the owner side
       const label ownCell = own[mcf[mcfI]];
@@ -290,7 +267,7 @@ void mousse::attachDetach::detachInterface
       {
         // Cell not found. Add its faces to the map
         const cell& curFaces = cells[ownCell];
-        forAll(curFaces, faceI)
+        FOR_ALL(curFaces, faceI)
         {
           masterCellFaceMap.insert(curFaces[faceI]);
         }
@@ -303,7 +280,7 @@ void mousse::attachDetach::detachInterface
         {
           // Cell not found. Add its faces to the map
           const cell& curFaces = cells[neiCell];
-          forAll(curFaces, faceI)
+          FOR_ALL(curFaces, faceI)
           {
             masterCellFaceMap.insert(curFaces[faceI]);
           }
@@ -313,7 +290,7 @@ void mousse::attachDetach::detachInterface
   }
   // Create the master layer point map
   Map<label> masterLayerPointMap(2*mp.size());
-  forAll(mp, pointI)
+  FOR_ALL(mp, pointI)
   {
     masterLayerPointMap.insert
     (
@@ -323,7 +300,7 @@ void mousse::attachDetach::detachInterface
   }
   // Grab the list of faces of the master layer
   const labelList masterCellFaces = masterCellFaceMap.toc();
-  forAll(masterCellFaces, faceI)
+  FOR_ALL(masterCellFaces, faceI)
   {
     // Attempt to renumber the face using the masterLayerPointMap.
     // Missing point remain the same
@@ -331,7 +308,7 @@ void mousse::attachDetach::detachInterface
     const face& oldFace = faces[curFaceID];
     face newFace(oldFace.size());
     bool changed = false;
-    forAll(oldFace, pointI)
+    FOR_ALL(oldFace, pointI)
     {
       if (masterLayerPointMap.found(oldFace[pointI]))
       {
@@ -363,12 +340,6 @@ void mousse::attachDetach::detachInterface
             false                       // face zone flip
           )
         );
-        // Pout<< "modifying stick-out face. Internal Old face: "
-        //     << oldFace
-        //     << " new face: " << newFace
-        //     << " own: " << own[curFaceID]
-        //     << " nei: " << nei[curFaceID]
-        //     << endl;
       }
       else
       {
@@ -387,13 +358,6 @@ void mousse::attachDetach::detachInterface
             false                         // face zone flip
           )
         );
-        // Pout<< "modifying stick-out face. Boundary Old face: "
-        //     << oldFace
-        //     << " new face: " << newFace
-        //     << " own: " << own[curFaceID]
-        //     << " patch: "
-        //     << mesh.boundaryMesh().whichPatch(curFaceID)
-        //     << endl;
       }
     }
   }

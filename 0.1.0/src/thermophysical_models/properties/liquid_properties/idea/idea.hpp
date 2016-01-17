@@ -57,7 +57,7 @@ class IDEA
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("IDEA");
+  TYPE_NAME("IDEA");
   // Constructors
     //- Construct null
     IDEA();

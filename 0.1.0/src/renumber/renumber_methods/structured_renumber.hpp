@@ -28,16 +28,15 @@ class structuredRenumber
     const Switch depthFirst_;
     const autoPtr<renumberMethod> method_;
     const Switch reverse_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const structuredRenumber&);
-    structuredRenumber(const structuredRenumber&);
 public:
   //- Runtime type information
-  TypeName("structured");
+  TYPE_NAME("structured");
   // Constructors
     //- Construct given the renumber dictionary
     structuredRenumber(const dictionary& renumberDict);
+    //- Disallow default bitwise copy construct and assignment
+    structuredRenumber& operator=(const structuredRenumber&) = delete;
+    structuredRenumber(const structuredRenumber&) = delete;
   //- Destructor
   virtual ~structuredRenumber()
   {}
@@ -47,11 +46,11 @@ public:
     //  This is only defined for geometric renumberMethods.
     virtual labelList renumber(const pointField&) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "structuredRenumber::renumber(const pointField&)"
       );
-      return labelList(0);
+      return labelList{0};
     }
     //- Return the order in which cells need to be visited, i.e.
     //  from ordered back to original cell label.
@@ -67,16 +66,16 @@ public:
     //  - the connections are across coupled patches
     virtual labelList renumber
     (
-      const labelListList& cellCells,
-      const pointField& cc
+      const labelListList& /*cellCells*/,
+      const pointField& /*cc*/
     ) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "structuredRenumber::renumber"
         "(const labelListList&, const pointField&)"
       );
-      return labelList(0);
+      return labelList{0};
     }
 };
 }  // namespace mousse

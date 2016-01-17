@@ -11,7 +11,10 @@
 #include <vector>
 #include <iostream>
 #include <boost/graph/adjacency_list.hpp>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include <boost/graph/sloan_ordering.hpp>
+#pragma GCC diagnostic pop
 #include <boost/graph/properties.hpp>
 #include <boost/graph/bandwidth.hpp>
 #include <boost/graph/profile.hpp>
@@ -44,8 +47,8 @@ typedef graph_traits<Graph>::vertex_descriptor Vertex;
 typedef graph_traits<Graph>::vertices_size_type size_type;
 namespace mousse
 {
-  defineTypeNameAndDebug(SloanRenumber, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(SloanRenumber, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     renumberMethod,
     SloanRenumber,
@@ -67,14 +70,14 @@ mousse::SloanRenumber::SloanRenumber(const dictionary& renumberDict)
 mousse::labelList mousse::SloanRenumber::renumber
 (
   const polyMesh& mesh,
-  const pointField& points
+  const pointField& /*points*/
 ) const
 {
   const polyBoundaryMesh& pbm = mesh.boundaryMesh();
   // Construct graph : faceOwner + connections across cyclics.
   // Determine neighbour cell
   labelList nbr(mesh.nFaces()-mesh.nInternalFaces(), -1);
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     if (pbm[patchI].coupled() && !isA<processorPolyPatch>(pbm[patchI]))
     {
@@ -89,12 +92,12 @@ mousse::labelList mousse::SloanRenumber::renumber
   syncTools::swapBoundaryFaceList(mesh, nbr);
   Graph G(mesh.nCells());
   // Add internal faces
-  forAll(mesh.faceNeighbour(), faceI)
+  FOR_ALL(mesh.faceNeighbour(), faceI)
   {
     add_edge(mesh.faceOwner()[faceI], mesh.faceNeighbour()[faceI], G);
   }
   // Add cyclics
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     if
     (
@@ -104,7 +107,7 @@ mousse::labelList mousse::SloanRenumber::renumber
     )
     {
       const labelUList& faceCells = pbm[patchI].faceCells();
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         label bFaceI = pbm[patchI].start()+i-mesh.nInternalFaces();
         label nbrCellI = nbr[bFaceI];
@@ -138,7 +141,7 @@ mousse::labelList mousse::SloanRenumber::renumber
     get(vertex_priority, G)
   );
   labelList orderedToOld(sloan_order.size());
-  forAll(orderedToOld, c)
+  FOR_ALL(orderedToOld, c)
   {
     orderedToOld[c] = index_map[sloan_order[c]];
   }
@@ -151,14 +154,14 @@ mousse::labelList mousse::SloanRenumber::renumber
 mousse::labelList mousse::SloanRenumber::renumber
 (
   const labelListList& cellCells,
-  const pointField& points
+  const pointField& /*points*/
 ) const
 {
   Graph G(cellCells.size());
-  forAll(cellCells, cellI)
+  FOR_ALL(cellCells, cellI)
   {
     const labelList& nbrs = cellCells[cellI];
-    forAll(nbrs, i)
+    FOR_ALL(nbrs, i)
     {
       if (nbrs[i] > cellI)
       {
@@ -185,7 +188,7 @@ mousse::labelList mousse::SloanRenumber::renumber
     get(vertex_priority, G)
   );
   labelList orderedToOld(sloan_order.size());
-  forAll(orderedToOld, c)
+  FOR_ALL(orderedToOld, c)
   {
     orderedToOld[c] = index_map[sloan_order[c]];
   }

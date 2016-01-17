@@ -6,7 +6,6 @@
 // Description
 //   Base class for particle lift force models
 // SourceFiles
-//   _lift_force_i.hpp
 //   _lift_force.cpp
 #ifndef _lift_force_hpp_
 #define _lift_force_hpp_
@@ -75,7 +74,23 @@ public:
       ) const;
 };
 }  // namespace mousse
-#include "_lift_force_i.hpp"
+
+template<class CloudType>
+inline const mousse::interpolation<mousse::vector>&
+mousse::LiftForce<CloudType>::curlUcInterp() const
+{
+  if (!curlUcInterpPtr_.valid())
+  {
+    FATAL_ERROR_IN
+    (
+      "inline const mousse::interpolation<mousse::vector>&"
+      "mousse::LiftForce<CloudType>::curlUcInterp() const"
+    )
+    << "Carrier phase curlUc interpolation object not set"
+    << abort(FatalError);
+  }
+  return curlUcInterpPtr_();
+}
 #ifdef NoRepository
   #include "_lift_force.cpp"
 #endif

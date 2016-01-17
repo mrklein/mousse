@@ -11,7 +11,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(surfMesh, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(surfMesh, 0);
 }
 mousse::word mousse::surfMesh::meshSubDir = "surfMesh";
 // Private Member Functions 
@@ -284,14 +284,14 @@ void mousse::surfMesh::checkZones()
   else
   {
     label count = 0;
-    forAll(zones, zoneI)
+    FOR_ALL(zones, zoneI)
     {
       zones[zoneI].start() = count;
       count += zones[zoneI].size();
     }
     if (count < nFaces())
     {
-      WarningIn
+      WARNING_IN
       (
         "surfMesh::checkZones()\n"
       )
@@ -302,7 +302,7 @@ void mousse::surfMesh::checkZones()
     }
     else if (count > size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "surfMesh::checkZones()\n"
       )
@@ -319,7 +319,7 @@ void mousse::surfMesh::addZones
 )
 {
   surfZoneList& zones = Allocator::storedIOZones();
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     zones[zoneI] = surfZone(srfZones[zoneI], zoneI);
   }

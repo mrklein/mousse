@@ -7,9 +7,9 @@
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 namespace mousse
 {
-  defineTypeNameAndDebug(solidThermo, 0);
-  defineRunTimeSelectionTable(solidThermo, fvMesh);
-  defineRunTimeSelectionTable(solidThermo, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(solidThermo, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(solidThermo, fvMesh);
+  DEFINE_RUN_TIME_SELECTION_TABLE(solidThermo, dictionary);
 }
 // Constructors 
 mousse::solidThermo::solidThermo

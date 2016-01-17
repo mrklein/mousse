@@ -18,20 +18,20 @@ void mousse::CFCFaceToCellStencil::calcFaceBoundaryData
   const label nBnd = mesh().nFaces()-mesh().nInternalFaces();
   const labelList& own = mesh().faceOwner();
   neiGlobal.setSize(nBnd);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     label faceI = pp.start();
     if (pp.coupled())
     {
       // For coupled faces get the faces of the cell on the other side
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         const labelList& cFaces = mesh().cells()[own[faceI]];
         labelList& globFaces = neiGlobal[faceI-mesh().nInternalFaces()];
         globFaces.setSize(cFaces.size()-1);
         label globI = 0;
-        forAll(cFaces, j)
+        FOR_ALL(cFaces, j)
         {
           if (cFaces[j] != faceI)
           {
@@ -77,13 +77,13 @@ const
   // Non-empty boundary faces
   boolList validBFace(mesh().nFaces()-mesh().nInternalFaces(), true);
   const polyBoundaryMesh& patches = mesh().boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (isA<emptyPolyPatch>(pp))
     {
       label bFaceI = pp.start()-mesh().nInternalFaces();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         validBFace[bFaceI++] = false;
       }
@@ -93,12 +93,12 @@ const
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   DynamicList<label> allGlobalFaces(100);
   globalCellFaces.setSize(mesh().nCells());
-  forAll(globalCellFaces, cellI)
+  FOR_ALL(globalCellFaces, cellI)
   {
     const cell& cFaces = mesh().cells()[cellI];
     allGlobalFaces.clear();
     // My faces first
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       label faceI = cFaces[i];
       if
@@ -111,7 +111,7 @@ const
       }
     }
     // faces of neighbouring cells second
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       label faceI = cFaces[i];
       if (mesh().isInternalFace(faceI))
@@ -122,7 +122,7 @@ const
           nbrCellI = nei[faceI];
         }
         const cell& nbrFaces = mesh().cells()[nbrCellI];
-        forAll(nbrFaces, j)
+        FOR_ALL(nbrFaces, j)
         {
           label nbrFaceI = nbrFaces[j];
           if
@@ -144,7 +144,7 @@ const
       {
         const labelList& nbrGlobalFaces =
           neiGlobal[faceI-mesh().nInternalFaces()];
-        forAll(nbrGlobalFaces, j)
+        FOR_ALL(nbrGlobalFaces, j)
         {
           label nbrGlobalI = nbrGlobalFaces[j];
           // Check if already there. Note:should use hashset?
@@ -160,7 +160,7 @@ const
     //    << " at:" << mesh().cellCentres()[cellI]
     //    << endl;
     //const labelList& globalFaces = globalCellFaces[cellI];
-    //forAll(globalFaces, i)
+    //FOR_ALL(globalFaces, i)
     //{
     //    label faceI = globalNumbering().toLocal(globalFaces[i]);
     //    Pout<< "    face:" << faceI

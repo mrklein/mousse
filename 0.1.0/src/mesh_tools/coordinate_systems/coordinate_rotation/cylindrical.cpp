@@ -10,21 +10,23 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cylindrical, 0);
-  addToRunTimeSelectionTable
-  (
-    coordinateRotation,
-    cylindrical,
-    dictionary
-  );
-  addToRunTimeSelectionTable
-  (
-    coordinateRotation,
-    cylindrical,
-    objectRegistry
-  );
+
+DEFINE_TYPE_NAME_AND_DEBUG(cylindrical, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  coordinateRotation,
+  cylindrical,
+  dictionary
+);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  coordinateRotation,
+  cylindrical,
+  objectRegistry
+);
+
 }
-// Private Member Functions 
+// Private Member Functions
 void mousse::cylindrical::init
 (
   const objectRegistry& obr,
@@ -37,7 +39,7 @@ void mousse::cylindrical::init
   {
     Rptr_.reset(new tensorField(cells.size()));
     tensorField& R = Rptr_();
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       label cellI = cells[i];
       vector dir = cc[cellI] - origin_;
@@ -49,7 +51,7 @@ void mousse::cylindrical::init
   {
     Rptr_.reset(new tensorField(mesh.nCells()));
     tensorField& R = Rptr_();
-    forAll(cc, cellI)
+    FOR_ALL(cc, cellI)
     {
       vector dir = cc[cellI] - origin_;
       dir /= mag(dir) + VSMALL;
@@ -57,7 +59,7 @@ void mousse::cylindrical::init
     }
   }
 }
-// Constructors 
+// Constructors
 mousse::cylindrical::cylindrical
 (
   const dictionary& dict,
@@ -104,13 +106,13 @@ mousse::cylindrical::cylindrical
 {
   init(obr, cells);
 }
-mousse::cylindrical::cylindrical(const dictionary& dict)
+mousse::cylindrical::cylindrical(const dictionary&)
 :
   Rptr_(),
   origin_(),
   e3_()
 {
-  FatalErrorIn("cylindrical(const dictionary&)")
+  FATAL_ERROR_IN("cylindrical(const dictionary&)")
     << " cylindrical can not be constructed from dictionary "
     << " use the construtctor : "
      "("
@@ -126,7 +128,7 @@ mousse::cylindrical::cylindrical(const tensorField& R)
 {
   Rptr_() = R;
 }
-// Member Functions 
+// Member Functions
 void mousse::cylindrical::clear()
 {
   if (!Rptr_.empty())
@@ -142,7 +144,7 @@ void mousse::cylindrical::updateCells
 {
   const vectorField& cc = mesh.cellCentres();
   tensorField& R = Rptr_();
-  forAll(cells, i)
+  FOR_ALL(cells, i)
   {
     label cellI = cells[i];
     vector dir = cc[cellI] - origin_;
@@ -157,7 +159,7 @@ mousse::tmp<mousse::vectorField> mousse::cylindrical::transform
 {
   if (Rptr_->size() != vf.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "tmp<vectorField> cylindrical::transform(const vectorField&)"
     )
@@ -166,9 +168,9 @@ mousse::tmp<mousse::vectorField> mousse::cylindrical::transform
   }
   return (Rptr_() & vf);
 }
-mousse::vector mousse::cylindrical::transform(const vector& v) const
+mousse::vector mousse::cylindrical::transform(const vector&) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "vector cylindrical::transform(const vector&) const"
   );
@@ -189,9 +191,9 @@ mousse::tmp<mousse::vectorField> mousse::cylindrical::invTransform
 {
   return (Rptr_().T() & vf);
 }
-mousse::vector mousse::cylindrical::invTransform(const vector& v) const
+mousse::vector mousse::cylindrical::invTransform(const vector&) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "vector cylindrical::invTransform(const vector&) const"
   );
@@ -212,7 +214,7 @@ mousse::tmp<mousse::tensorField> mousse::cylindrical::transformTensor
 {
   if (Rptr_->size() != tf.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "tmp<tensorField> cylindrical::transformTensor"
       "("
@@ -226,10 +228,10 @@ mousse::tmp<mousse::tensorField> mousse::cylindrical::transformTensor
 }
 mousse::tensor mousse::cylindrical::transformTensor
 (
-  const tensor& t
+  const tensor&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tensor cylindrical::transformTensor(const tensor&) const"
   );
@@ -243,7 +245,7 @@ mousse::tmp<mousse::tensorField> mousse::cylindrical::transformTensor
 {
   if (cellMap.size() != tf.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "tmp<tensorField> cylindrical::transformTensor"
       "("
@@ -258,7 +260,7 @@ mousse::tmp<mousse::tensorField> mousse::cylindrical::transformTensor
   const tensorField Rtr(R.T());
   tmp<tensorField> tt(new tensorField(cellMap.size()));
   tensorField& t = tt();
-  forAll(cellMap, i)
+  FOR_ALL(cellMap, i)
   {
     const label cellI = cellMap[i];
     t[i] = R[cellI] & tf[i] & Rtr[cellI];
@@ -272,14 +274,14 @@ mousse::tmp<mousse::symmTensorField> mousse::cylindrical::transformVector
 {
   if (Rptr_->size() != vf.size())
   {
-    FatalErrorIn("cylindrical::transformVector(const vectorField&)")
+    FATAL_ERROR_IN("cylindrical::transformVector(const vectorField&)")
       << "tensorField vf has different size to tensorField Tr"
       << abort(FatalError);
   }
   tmp<symmTensorField> tfld(new symmTensorField(Rptr_->size()));
   symmTensorField& fld = tfld();
   const tensorField& R = Rptr_();
-  forAll(fld, i)
+  FOR_ALL(fld, i)
   {
     fld[i] = transformPrincipal(R[i], vf[i]);
   }
@@ -287,10 +289,10 @@ mousse::tmp<mousse::symmTensorField> mousse::cylindrical::transformVector
 }
 mousse::symmTensor mousse::cylindrical::transformVector
 (
-  const vector& v
+  const vector&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tensor cylindrical::transformVector(const vector&) const"
   );

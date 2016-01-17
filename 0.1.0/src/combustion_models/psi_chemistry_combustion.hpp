@@ -20,11 +20,6 @@ class psiChemistryCombustion
 :
   public psiCombustionModel
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    psiChemistryCombustion(const psiChemistryCombustion&);
-    //- Disallow default bitwise assignment
-    void operator=(const psiChemistryCombustion&);
 protected:
   // Protected data
     //- Pointer to chemistry model
@@ -38,6 +33,10 @@ public:
       const fvMesh& mesh,
       const word& phaseName
     );
+    //- Construct as copy (not implemented)
+    psiChemistryCombustion(const psiChemistryCombustion&) = delete;
+    //- Disallow default bitwise assignment
+    psiChemistryCombustion& operator=(const psiChemistryCombustion&) = delete;
   //- Destructor
   virtual ~psiChemistryCombustion();
   // Member Functions

@@ -29,7 +29,7 @@ protected:
 public:
   friend class surfaceInterpolation;
   //- Runtime type information
-  TypeName(coupledPolyPatch::typeName_());
+  TYPE_NAME(coupledPolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     coupledFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)
@@ -71,8 +71,8 @@ public:
       //- Initialise neighbour field transfer
       virtual void initInternalFieldTransfer
       (
-        const Pstream::commsTypes commsType,
-        labelUList& iF
+        const Pstream::commsTypes,
+        labelUList& /*iF - internal field*/
       ) const
       {}
       //- Return neighbour field

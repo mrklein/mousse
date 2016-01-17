@@ -18,11 +18,11 @@ void readFields
 )
 {
   // Search list of objects for volScalarFields
-  IOobjectList fieldObjects(objects.lookupClass(GeoField::typeName));
+  IOobjectList fieldObjects{objects.lookupClass(GeoField::typeName)};
   // Construct the vol scalar fields
   fields.setSize(fieldObjects.size());
   label nFields = 0;
-  forAllIter(IOobjectList, fieldObjects, iter)
+  FOR_ALL_ITER(IOobjectList, fieldObjects, iter)
   {
     if (selectedFields.empty() || selectedFields.found(iter()->name()))
     {

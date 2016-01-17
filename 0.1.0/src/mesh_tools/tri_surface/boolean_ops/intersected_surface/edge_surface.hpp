@@ -61,7 +61,7 @@ private:
     //- Calculate pointEdges
     void calcPointEdges();
 public:
-  ClassName("edgeSurface");
+  CLASS_NAME("edgeSurface");
   // Constructors
     //- Construct from surface and intersection description
     edgeSurface
@@ -102,7 +102,7 @@ public:
         }
         else
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "edgeSurface::parentEdge(const label edgeI) const"
           )   << "Trying to get parent (i.e. surface) edge for"

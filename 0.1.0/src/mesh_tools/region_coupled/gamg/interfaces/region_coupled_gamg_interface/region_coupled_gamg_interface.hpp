@@ -16,14 +16,9 @@ class regionCoupledGAMGInterface
 :
   public regionCoupledBaseGAMGInterface
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    regionCoupledGAMGInterface(const regionCoupledGAMGInterface&);
-    //- Disallow default bitwise assignment
-    void operator=(const regionCoupledGAMGInterface&);
 public:
   //- Runtime type information
-  TypeName("regionCoupled");
+  TYPE_NAME("regionCoupled");
   // Constructors
     //- Construct from fine level interface,
     //  local and neighbour restrict addressing
@@ -37,6 +32,13 @@ public:
       const label fineLevelIndex,
       const label coarseComm
     );
+    //- Disallow default bitwise copy construct
+    regionCoupledGAMGInterface(const regionCoupledGAMGInterface&) = delete;
+    //- Disallow default bitwise assignment
+    regionCoupledGAMGInterface& operator=
+    (
+      const regionCoupledGAMGInterface&
+    ) = delete;
   //- Destructor
   virtual ~regionCoupledGAMGInterface();
     // I/O
@@ -45,7 +47,7 @@ public:
       {
         //TBD. How to serialise the AMI such that we can stream
         // regionCoupledGAMGInterface.
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "regionCoupledGAMGInterface::write(Ostream&) const"
         );

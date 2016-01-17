@@ -23,21 +23,15 @@ class filmViscosityModel
 :
   public filmSubModelBase
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    filmViscosityModel(const filmViscosityModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const filmViscosityModel&);
 protected:
   // Protected Member Data
     //- Reference to the viscosity field
     volScalarField& mu_;
 public:
   //- Runtime type information
-  TypeName("filmViscosityModel");
+  TYPE_NAME("filmViscosityModel");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       filmViscosityModel,
@@ -58,6 +52,10 @@ public:
       const dictionary& dict,
       volScalarField& mu
     );
+    //- Disallow default bitwise copy construct
+    filmViscosityModel(const filmViscosityModel&) = delete;
+    //- Disallow default bitwise assignment
+    filmViscosityModel& operator=(const filmViscosityModel&) = delete;
   // Selectors
     //- Return a reference to the selected phase change model
     static autoPtr<filmViscosityModel> New

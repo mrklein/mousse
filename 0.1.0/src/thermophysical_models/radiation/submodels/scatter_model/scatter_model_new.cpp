@@ -17,7 +17,7 @@ mousse::autoPtr<mousse::radiation::scatterModel> mousse::radiation::scatterModel
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "scatterModel::New(const dictionary&, const fvMesh&)"
     )   << "Unknown scatterModel type "

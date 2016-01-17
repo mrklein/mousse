@@ -27,11 +27,12 @@ void mousse::attachDetach::calcPointMatchMap() const
   }
   if (pointMatchMapPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void attachDetach::calcPointMatchMap() const"
-    )   << "Point match map already calculated for object " << name()
-      << abort(FatalError);
+    )
+    << "Point match map already calculated for object " << name()
+    << abort(FatalError);
   }
   const polyMesh& mesh = topoChanger().mesh();
   const faceList& faces = mesh.faces();
@@ -44,7 +45,7 @@ void mousse::attachDetach::calcPointMatchMap() const
     mesh.points()
   );
   const label slavePatchStart = slavePatch.start();
-  forAll(reverseSlavePatch, faceI)
+  FOR_ALL(reverseSlavePatch, faceI)
   {
     reverseSlavePatch[faceI] =
       faces[slavePatchStart + faceI].reverseFace();
@@ -56,11 +57,11 @@ void mousse::attachDetach::calcPointMatchMap() const
   const faceList& slaveLocalFaces = reverseSlavePatch.localFaces();
   pointMatchMapPtr_ = new Map<label>(2*slaveMeshPoints.size());
   Map<label>& removedPointMap = *pointMatchMapPtr_;
-  forAll(masterLocalFaces, faceI)
+  FOR_ALL(masterLocalFaces, faceI)
   {
     const face& curMasterPoints = masterLocalFaces[faceI];
     const face& curSlavePoints = slaveLocalFaces[faceI];
-    forAll(curMasterPoints, pointI)
+    FOR_ALL(curMasterPoints, pointI)
     {
       // If the master and slave point labels are the same, the
       // point remains.  Otherwise, the slave point is removed and

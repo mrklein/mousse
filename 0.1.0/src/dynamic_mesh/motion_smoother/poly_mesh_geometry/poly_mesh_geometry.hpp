@@ -74,7 +74,7 @@ class polyMeshGeometry
       labelHashSet* setPtr
     );
 public:
-  ClassName("polyMeshGeometry");
+  CLASS_NAME("polyMeshGeometry");
   // Constructors
     //- Construct from mesh
     polyMeshGeometry(const polyMesh&);

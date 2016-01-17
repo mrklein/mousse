@@ -84,7 +84,7 @@ protected:
     void setFieldData(const dictionary& dict);
 public:
   //- Runtime type information
-  TypeName("SemiImplicitSource");
+  TYPE_NAME("SemiImplicitSource");
   // Constructors
     //- Construct from components
     SemiImplicitSource
@@ -125,9 +125,36 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
+
+// Member Functions 
+template<class Type>
+inline const typename mousse::fv::SemiImplicitSource<Type>::volumeModeType&
+mousse::fv::SemiImplicitSource<Type>::volumeMode() const
+{
+  return volumeMode_;
+}
+template<class Type>
+inline const mousse::List<mousse::Tuple2<Type, mousse::scalar> >&
+mousse::fv::SemiImplicitSource<Type>::injectionRate() const
+{
+  return injectionRate_;
+}
+template<class Type>
+inline typename mousse::fv::SemiImplicitSource<Type>::volumeModeType&
+mousse::fv::SemiImplicitSource<Type>::volumeMode()
+{
+  return volumeMode_;
+}
+template<class Type>
+inline mousse::List<mousse::Tuple2<Type,
+mousse::scalar> >& mousse::fv::SemiImplicitSource<Type>::injectionRate()
+{
+  return injectionRate_;
+}
+
 #ifdef NoRepository
 #   include "_semi_implicit_source.cpp"
 #   include "_semi_implicit_source_io.cpp"
 #endif
-#include "_semi_implicit_source_i.hpp"
+
 #endif

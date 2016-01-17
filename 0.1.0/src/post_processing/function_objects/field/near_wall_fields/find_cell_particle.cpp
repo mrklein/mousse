@@ -82,10 +82,10 @@ bool mousse::findCellParticle::move
 bool mousse::findCellParticle::hitPatch
 (
   const polyPatch&,
-  trackingData& td,
-  const label patchI,
-  const scalar trackFraction,
-  const tetIndices& tetIs
+  trackingData&,
+  const label /*patchI*/,
+  const scalar /*trackFraction*/,
+  const tetIndices& /*tetIs*/
 )
 {
   return false;
@@ -137,7 +137,7 @@ void mousse::findCellParticle::hitProcessorPatch
 }
 void mousse::findCellParticle::hitWallPatch
 (
-  const wallPolyPatch& wpp,
+  const wallPolyPatch&,
   trackingData& td,
   const tetIndices&
 )
@@ -147,7 +147,7 @@ void mousse::findCellParticle::hitWallPatch
 }
 void mousse::findCellParticle::hitPatch
 (
-  const polyPatch& wpp,
+  const polyPatch&,
   trackingData& td
 )
 {

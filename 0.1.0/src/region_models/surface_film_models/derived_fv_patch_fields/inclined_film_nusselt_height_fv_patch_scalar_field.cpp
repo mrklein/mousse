@@ -14,10 +14,10 @@ inclinedFilmNusseltHeightFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  GammaMean_(),
-  a_(),
-  omega_()
+  fixedValueFvPatchScalarField{p, iF},
+  GammaMean_{},
+  a_{},
+  omega_{}
 {}
 mousse::inclinedFilmNusseltHeightFvPatchScalarField::
 inclinedFilmNusseltHeightFvPatchScalarField
@@ -28,10 +28,10 @@ inclinedFilmNusseltHeightFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  GammaMean_(ptf.GammaMean_().clone().ptr()),
-  a_(ptf.a_().clone().ptr()),
-  omega_(ptf.omega_().clone().ptr())
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  GammaMean_{ptf.GammaMean_().clone().ptr()},
+  a_{ptf.a_().clone().ptr()},
+  omega_{ptf.omega_().clone().ptr()}
 {}
 mousse::inclinedFilmNusseltHeightFvPatchScalarField::
 inclinedFilmNusseltHeightFvPatchScalarField
@@ -41,10 +41,10 @@ inclinedFilmNusseltHeightFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  GammaMean_(DataEntry<scalar>::New("GammaMean", dict)),
-  a_(DataEntry<scalar>::New("a", dict)),
-  omega_(DataEntry<scalar>::New("omega", dict))
+  fixedValueFvPatchScalarField{p, iF},
+  GammaMean_{DataEntry<scalar>::New("GammaMean", dict)},
+  a_{DataEntry<scalar>::New("a", dict)},
+  omega_{DataEntry<scalar>::New("omega", dict)}
 {
   fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
 }
@@ -54,10 +54,10 @@ inclinedFilmNusseltHeightFvPatchScalarField
   const inclinedFilmNusseltHeightFvPatchScalarField& wmfrhpsf
 )
 :
-  fixedValueFvPatchScalarField(wmfrhpsf),
-  GammaMean_(wmfrhpsf.GammaMean_().clone().ptr()),
-  a_(wmfrhpsf.a_().clone().ptr()),
-  omega_(wmfrhpsf.omega_().clone().ptr())
+  fixedValueFvPatchScalarField{wmfrhpsf},
+  GammaMean_{wmfrhpsf.GammaMean_().clone().ptr()},
+  a_{wmfrhpsf.a_().clone().ptr()},
+  omega_{wmfrhpsf.omega_().clone().ptr()}
 {}
 mousse::inclinedFilmNusseltHeightFvPatchScalarField::
 inclinedFilmNusseltHeightFvPatchScalarField
@@ -66,10 +66,10 @@ inclinedFilmNusseltHeightFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(wmfrhpsf, iF),
-  GammaMean_(wmfrhpsf.GammaMean_().clone().ptr()),
-  a_(wmfrhpsf.a_().clone().ptr()),
-  omega_(wmfrhpsf.omega_().clone().ptr())
+  fixedValueFvPatchScalarField{wmfrhpsf, iF},
+  GammaMean_{wmfrhpsf.GammaMean_().clone().ptr()},
+  a_{wmfrhpsf.a_().clone().ptr()},
+  omega_{wmfrhpsf.omega_().clone().ptr()}
 {}
 // Member Functions 
 void mousse::inclinedFilmNusseltHeightFvPatchScalarField::updateCoeffs()
@@ -97,7 +97,7 @@ void mousse::inclinedFilmNusseltHeightFvPatchScalarField::updateCoeffs()
   const scalarField gTan(film.gTan()().boundaryField()[patchI] & n);
   if (patch().size() && (max(mag(gTan)) < SMALL))
   {
-    WarningIn
+    WARNING_IN
     (
       "void mousse::inclinedFilmNusseltHeightFvPatchScalarField::"
       "updateCoeffs()"
@@ -144,9 +144,9 @@ void mousse::inclinedFilmNusseltHeightFvPatchScalarField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    inclinedFilmNusseltHeightFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  inclinedFilmNusseltHeightFvPatchScalarField
+);
 }

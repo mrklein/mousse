@@ -26,18 +26,16 @@ class attachPolyTopoChanger
 :
   public polyTopoChanger
 {
-  // Private data
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    attachPolyTopoChanger(const attachPolyTopoChanger&);
-    //- Disallow default bitwise assignment
-    void operator=(const attachPolyTopoChanger&);
 public:
   // Constructors
     //- Read constructor from IOobject and a polyMesh
     attachPolyTopoChanger(const IOobject& io, polyMesh&);
     //- Read constructor for given polyMesh
     explicit attachPolyTopoChanger(polyMesh&);
+    //- Disallow default bitwise copy construct
+    attachPolyTopoChanger(const attachPolyTopoChanger&) = delete;
+    //- Disallow default bitwise assignment
+    attachPolyTopoChanger& operator=(const attachPolyTopoChanger&) = delete;
   //- Destructor
   virtual ~attachPolyTopoChanger()
   {}

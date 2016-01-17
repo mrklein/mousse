@@ -7,5 +7,5 @@
 
 namespace mousse
 {
-  makeParcelTurbulenceDispersionModels(basicKinematicCollidingCloud);
+MAKE_PARCEL_TURBULENCE_DISPERSION_MODELS(basicKinematicCollidingCloud);
 }

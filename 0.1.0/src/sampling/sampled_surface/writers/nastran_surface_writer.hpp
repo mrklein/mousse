@@ -97,7 +97,7 @@ private:
     ) const;
 public:
   //- Runtime type information
-  TypeName("nastran");
+  TYPE_NAME("nastran");
   // Constructors
     //- Construct null
     nastranSurfaceWriter();

@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(extrudeModel, 0);
-  defineRunTimeSelectionTable(extrudeModel, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(extrudeModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(extrudeModel, dictionary);
 }
 // Constructors 
 mousse::extrudeModel::extrudeModel

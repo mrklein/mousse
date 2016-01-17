@@ -5,13 +5,13 @@
 #include "tri_surface.hpp"
 #include "ifstream.hpp"
 #include "istring_stream.hpp"
-// Member Functions 
+// Member Functions
 bool mousse::triSurface::readOBJ(const fileName& OBJfileName)
 {
   IFstream OBJfile(OBJfileName);
   if (!OBJfile.good())
   {
-    FatalErrorIn("triSurface::readOBJ(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readOBJ(const fileName&)")
       << "Cannot read file " << OBJfileName
       << exit(FatalError);
   }
@@ -116,7 +116,7 @@ bool mousse::triSurface::readOBJ(const fileName& OBJfileName)
   }
   else
   {
-    forAllConstIter(HashTable<label>, groupToPatch, iter)
+    FOR_ALL_CONST_ITER(HashTable<label>, groupToPatch, iter)
     {
       patches[iter()] = geometricSurfacePatch
       (

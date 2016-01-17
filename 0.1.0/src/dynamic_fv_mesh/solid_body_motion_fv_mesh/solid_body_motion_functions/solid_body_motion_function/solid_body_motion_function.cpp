@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(solidBodyMotionFunction, 0);
-defineRunTimeSelectionTable(solidBodyMotionFunction, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(solidBodyMotionFunction, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(solidBodyMotionFunction, dictionary);
 }
 // Constructors 
 mousse::solidBodyMotionFunction::solidBodyMotionFunction

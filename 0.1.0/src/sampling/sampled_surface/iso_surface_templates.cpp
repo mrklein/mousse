@@ -49,7 +49,7 @@ mousse::isoSurface::adaptPatchFields
   FieldType& sliceFld = tsliceFld();
   const fvMesh& mesh = fld.mesh();
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if
@@ -76,7 +76,7 @@ mousse::isoSurface::adaptPatchFields
         mesh.boundary()[patchI].patch().faceCells();
       Field<Type>& pfld = sliceFld.boundaryField()[patchI];
       pfld.setSize(faceCells.size());
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         pfld[i] = sliceFld[faceCells[i]];
       }
@@ -99,7 +99,7 @@ mousse::isoSurface::adaptPatchFields
       (
         collocatedFaces(refCast<const processorPolyPatch>(pp))
       );
-      forAll(isCollocated, i)
+      FOR_ALL(isCollocated, i)
       {
         if (!isCollocated[i])
         {
@@ -340,7 +340,7 @@ mousse::label mousse::isoSurface::generateFaceTriPoints
   label own = mesh_.faceOwner()[faceI];
   label oldNPoints = triPoints.size();
   const face& f = mesh_.faces()[faceI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label pointI = f[fp];
     label nextPointI = f[f.fcIndex(fp)];
@@ -412,7 +412,7 @@ void mousse::isoSurface::generateTriPoints
   || (snappedPoint.size() != mesh_.nPoints())
   )
   {
-    FatalErrorIn("isoSurface::generateTriPoints(..)")
+    FATAL_ERROR_IN("isoSurface::generateTriPoints(..)")
       << "Incorrect size." << endl
       << "mesh: nCells:" << mesh_.nCells()
       << " points:" << mesh_.nPoints() << endl
@@ -457,13 +457,13 @@ void mousse::isoSurface::generateTriPoints
   // Determine neighbouring snap status
   boolList neiSnapped(mesh_.nFaces()-mesh_.nInternalFaces(), false);
   List<Type> neiSnappedPoint(neiSnapped.size(), pTraits<Type>::zero);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled())
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label bFaceI = faceI-mesh_.nInternalFaces();
         label snappedIndex = snappedCc[own[faceI]];
@@ -478,7 +478,7 @@ void mousse::isoSurface::generateTriPoints
   }
   syncTools::swapBoundaryFaceList(mesh_, neiSnapped);
   syncTools::swapBoundaryFaceList(mesh_, neiSnappedPoint);
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (isA<processorPolyPatch>(pp))
@@ -486,7 +486,7 @@ void mousse::isoSurface::generateTriPoints
       const processorPolyPatch& cpp =
         refCast<const processorPolyPatch>(pp);
       PackedBoolList isCollocated(collocatedFaces(cpp));
-      forAll(isCollocated, i)
+      FOR_ALL(isCollocated, i)
       {
         label faceI = pp.start()+i;
         if (faceCutType_[faceI] != NOTCUT)
@@ -537,7 +537,7 @@ void mousse::isoSurface::generateTriPoints
     else
     {
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         if (faceCutType_[faceI] != NOTCUT)
         {
@@ -613,7 +613,7 @@ mousse::isoSurface::interpolate
   );
   Field<Type>& values = tvalues();
   labelList nValues(values.size(), 0);
-  forAll(triPoints, i)
+  FOR_ALL(triPoints, i)
   {
     label mergedPointI = triPointMergeMap_[i];
     if (mergedPointI >= 0)
@@ -626,11 +626,11 @@ mousse::isoSurface::interpolate
   {
     Pout<< "nValues:" << values.size() << endl;
     label nMult = 0;
-    forAll(nValues, i)
+    FOR_ALL(nValues, i)
     {
       if (nValues[i] == 0)
       {
-        FatalErrorIn("isoSurface::interpolate(..)")
+        FATAL_ERROR_IN("isoSurface::interpolate(..)")
           << "point:" << i << " nValues:" << nValues[i]
           << abort(FatalError);
       }
@@ -641,7 +641,7 @@ mousse::isoSurface::interpolate
     }
     Pout<< "Of which mult:" << nMult << endl;
   }
-  forAll(values, i)
+  FOR_ALL(values, i)
   {
     values[i] /= scalar(nValues[i]);
   }

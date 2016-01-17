@@ -54,10 +54,10 @@ mousse::tmp<mousse::Field<Type> > mousse::fieldValues::faceSource::getFieldValue
           new Field<Type>(faces.size(), pTraits<Type>::zero)
         );
         Field<Type>& avg = tavg();
-        forAll(faces, faceI)
+        FOR_ALL(faces, faceI)
         {
           const face& f = faces[faceI];
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             avg[faceI] += intFld[f[fp]];
           }
@@ -77,7 +77,7 @@ mousse::tmp<mousse::Field<Type> > mousse::fieldValues::faceSource::getFieldValue
   }
   if (mustGet)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::tmp<mousse::Field<Type> > "
       "mousse::fieldValues::faceSource::getFieldValues"
@@ -114,7 +114,7 @@ Type mousse::fieldValues::faceSource::processSameTypeValues
     }
     case opSumDirection:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "template<class Type>"
         "Type mousse::fieldValues::faceSource::processSameTypeValues"
@@ -133,7 +133,7 @@ Type mousse::fieldValues::faceSource::processSameTypeValues
     }
     case opSumDirectionBalance:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "template<class Type>"
         "Type mousse::fieldValues::faceSource::processSameTypeValues"
@@ -313,7 +313,7 @@ mousse::tmp<mousse::Field<Type> > mousse::fieldValues::faceSource::filterField
 {
   tmp<Field<Type> > tvalues(new Field<Type>(faceId_.size()));
   Field<Type>& values = tvalues();
-  forAll(values, i)
+  FOR_ALL(values, i)
   {
     label faceI = faceId_[i];
     label patchI = facePatchId_[i];
@@ -323,7 +323,7 @@ mousse::tmp<mousse::Field<Type> > mousse::fieldValues::faceSource::filterField
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "fieldValues::faceSource::filterField"
         "("
@@ -339,7 +339,7 @@ mousse::tmp<mousse::Field<Type> > mousse::fieldValues::faceSource::filterField
   }
   if (applyOrientation)
   {
-    forAll(values, i)
+    FOR_ALL(values, i)
     {
       values[i] *= faceSign_[i];
     }
@@ -355,7 +355,7 @@ mousse::tmp<mousse::Field<Type> > mousse::fieldValues::faceSource::filterField
 {
   tmp<Field<Type> > tvalues(new Field<Type>(faceId_.size()));
   Field<Type>& values = tvalues();
-  forAll(values, i)
+  FOR_ALL(values, i)
   {
     label faceI = faceId_[i];
     label patchI = facePatchId_[i];
@@ -370,7 +370,7 @@ mousse::tmp<mousse::Field<Type> > mousse::fieldValues::faceSource::filterField
   }
   if (applyOrientation)
   {
-    forAll(values, i)
+    FOR_ALL(values, i)
     {
       values[i] *= faceSign_[i];
     }

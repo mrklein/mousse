@@ -26,7 +26,7 @@ class patchToFace
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("patchToFace");
+  TYPE_NAME("patchToFace");
   // Constructors
     //- Construct from components
     patchToFace

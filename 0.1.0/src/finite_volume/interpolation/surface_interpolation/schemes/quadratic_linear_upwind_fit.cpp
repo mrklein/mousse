@@ -7,15 +7,18 @@
 #include "upwind_fec_cell_to_face_stencil_object.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug
-  (
-    UpwindFitData<quadraticLinearUpwindFitPolynomial>,
-    0
-  );
-  makeUpwindFitSurfaceInterpolationScheme
-  (
-    quadraticLinearUpwindFit,
-    quadraticLinearUpwindFitPolynomial,
-    upwindFECCellToFaceStencilObject
-  );
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG
+(
+  UpwindFitData<quadraticLinearUpwindFitPolynomial>,
+  0
+);
+
+MAKE_UPWIND_FIT_SURFACE_INTERPOLATION_SCHEME
+(
+  quadraticLinearUpwindFit,
+  quadraticLinearUpwindFitPolynomial,
+  upwindFECCellToFaceStencilObject
+);
+
 }

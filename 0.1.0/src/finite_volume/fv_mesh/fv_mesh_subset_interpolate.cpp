@@ -23,7 +23,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> > fvMeshSubset::interpolate
 {
   // 1. Create the complete field with dummy patch fields
   PtrList<fvPatchField<Type> > patchFields(patchMap.size());
-  forAll(patchFields, patchI)
+  FOR_ALL(patchFields, patchI)
   {
     // Set the first one by hand as it corresponds to the
     // exposed internal faces. Additional interpolation can be put here
@@ -77,7 +77,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> > fvMeshSubset::interpolate
   //  constructor (with reference to the now correct internal field)
   typename GeometricField<Type, fvPatchField, volMesh>::
     GeometricBoundaryField& bf = resF.boundaryField();
-  forAll(bf, patchI)
+  FOR_ALL(bf, patchI)
   {
     if (patchMap[patchI] != -1)
     {
@@ -87,7 +87,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> > fvMeshSubset::interpolate
       const label baseStart = basePatch.start();
       const label baseSize = basePatch.size();
       labelList directAddressing(subPatch.size());
-      forAll(directAddressing, i)
+      FOR_ALL(directAddressing, i)
       {
         label baseFaceI = faceMap[subPatch.start()+i];
         if (baseFaceI >= baseStart && baseFaceI < baseStart+baseSize)
@@ -142,7 +142,7 @@ tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > fvMeshSubset::interpolate
 {
   // 1. Create the complete field with dummy patch fields
   PtrList<fvsPatchField<Type> > patchFields(patchMap.size());
-  forAll(patchFields, patchI)
+  FOR_ALL(patchFields, patchI)
   {
     // Set the first one by hand as it corresponds to the
     // exposed internal faces. Additional interpolation can be put here
@@ -205,7 +205,7 @@ tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > fvMeshSubset::interpolate
   //  constructor (with reference to the now correct internal field)
   typename GeometricField<Type, fvsPatchField, surfaceMesh>::
     GeometricBoundaryField& bf = resF.boundaryField();
-  forAll(bf, patchI)
+  FOR_ALL(bf, patchI)
   {
     if (patchMap[patchI] != -1)
     {
@@ -215,7 +215,7 @@ tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > fvMeshSubset::interpolate
       const label baseStart = basePatch.start();
       const label baseSize = basePatch.size();
       labelList directAddressing(subPatch.size());
-      forAll(directAddressing, i)
+      FOR_ALL(directAddressing, i)
       {
         label baseFaceI = faceMap[subPatch.start()+i];
         if (baseFaceI >= baseStart && baseFaceI < baseStart+baseSize)
@@ -243,7 +243,7 @@ tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > fvMeshSubset::interpolate
       );
       // Postprocess patch field for exposed faces
       fvsPatchField<Type>& pfld = bf[patchI];
-      forAll(pfld, i)
+      FOR_ALL(pfld, i)
       {
         label baseFaceI = faceMap[subPatch.start()+i];
         if (baseFaceI < vf.internalField().size())
@@ -294,7 +294,7 @@ fvMeshSubset::interpolate
 {
   // 1. Create the complete field with dummy patch fields
   PtrList<pointPatchField<Type> > patchFields(patchMap.size());
-  forAll(patchFields, patchI)
+  FOR_ALL(patchFields, patchI)
   {
     // Set the first one by hand as it corresponds to the
     // exposed internal faces.  Additional interpolation can be put here
@@ -349,7 +349,7 @@ fvMeshSubset::interpolate
   //  constructor (with reference to the now correct internal field)
   typename GeometricField<Type, pointPatchField, pointMesh>::
     GeometricBoundaryField& bf = resF.boundaryField();
-  forAll(bf, patchI)
+  FOR_ALL(bf, patchI)
   {
     // Set the first one by hand as it corresponds to the
     // exposed internal faces.  Additional interpolation can be put here
@@ -362,7 +362,7 @@ fvMeshSubset::interpolate
       const labelList& meshPoints = basePatch.meshPoints();
       // Make addressing from mesh to patch point
       Map<label> meshPointMap(2*meshPoints.size());
-      forAll(meshPoints, localI)
+      FOR_ALL(meshPoints, localI)
       {
         meshPointMap.insert(meshPoints[localI], localI);
       }
@@ -371,7 +371,7 @@ fvMeshSubset::interpolate
       const labelList& subMeshPoints = subPatch.meshPoints();
       // If mapped from outside patch leave handling up to patchField
       labelList directAddressing(subPatch.size(), -1);
-      forAll(subMeshPoints, localI)
+      FOR_ALL(subMeshPoints, localI)
       {
         // Get mesh point on original mesh.
         label meshPointI = pointMap[subMeshPoints[localI]];

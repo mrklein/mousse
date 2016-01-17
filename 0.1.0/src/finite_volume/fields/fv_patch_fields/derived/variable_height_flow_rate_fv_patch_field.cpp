@@ -99,7 +99,7 @@ void mousse::variableHeightFlowRateFvPatchScalarField::updateCoeffs()
   const fvsPatchField<scalar>& phip =
     patch().lookupPatchField<surfaceScalarField, scalar>(phiName_);
   scalarField alphap(this->patchInternalField());
-  forAll(phip, i)
+  FOR_ALL(phip, i)
   {
     if (phip[i] < -SMALL)
     {
@@ -138,9 +138,9 @@ void mousse::variableHeightFlowRateFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    variableHeightFlowRateFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  variableHeightFlowRateFvPatchScalarField
+);
 }

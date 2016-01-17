@@ -19,11 +19,6 @@ class magGrad
 :
   public calcType
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    magGrad(const magGrad&);
-    //- Disallow default bitwise assignment
-    void operator=(const magGrad&);
 protected:
   // Member Functions
     // Calculation routines
@@ -55,10 +50,14 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("magGrad");
+  TYPE_NAME("magGrad");
   // Constructors
     //- Construct null
     magGrad();
+    //- Disallow default bitwise copy construct
+    magGrad(const magGrad&) = delete;
+    //- Disallow default bitwise assignment
+    magGrad& operator=(const magGrad&) = delete;
   //- Destructor
   virtual ~magGrad();
 };

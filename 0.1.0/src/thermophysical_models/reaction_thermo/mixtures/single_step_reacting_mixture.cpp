@@ -10,14 +10,14 @@ void mousse::singleStepReactingMixture<ThermoType>::calculateqFuel()
 {
   const Reaction<ThermoType>& reaction = this->operator[](0);
   const  scalar Wu = this->speciesData()[fuelIndex_].W();
-  forAll(reaction.lhs(), i)
+  FOR_ALL(reaction.lhs(), i)
   {
     const label speciei = reaction.lhs()[i].index;
     const scalar stoichCoeff = reaction.lhs()[i].stoichCoeff;
     specieStoichCoeffs_[speciei] = -stoichCoeff;
     qFuel_.value() += this->speciesData()[speciei].hc()*stoichCoeff/Wu;
   }
-  forAll(reaction.rhs(), i)
+  FOR_ALL(reaction.rhs(), i)
   {
     const label speciei = reaction.rhs()[i].index;
     const scalar stoichCoeff = reaction.rhs()[i].stoichCoeff;
@@ -51,25 +51,25 @@ void mousse::singleStepReactingMixture<ThermoType>::calculateMaxProducts()
   const Reaction<ThermoType>& reaction = this->operator[](0);
   scalar Wm = 0.0;
   scalar totalMol = 0.0;
-  forAll(reaction.rhs(), i)
+  FOR_ALL(reaction.rhs(), i)
   {
     label speciei = reaction.rhs()[i].index;
     totalMol += mag(specieStoichCoeffs_[speciei]);
   }
   scalarList Xi(reaction.rhs().size());
-  forAll(reaction.rhs(), i)
+  FOR_ALL(reaction.rhs(), i)
   {
     const label speciei = reaction.rhs()[i].index;
     Xi[i] = mag(specieStoichCoeffs_[speciei])/totalMol;
     Wm += Xi[i]*this->speciesData()[speciei].W();
   }
-  forAll(reaction.rhs(), i)
+  FOR_ALL(reaction.rhs(), i)
   {
     const label speciei = reaction.rhs()[i].index;
     Yprod0_[speciei] =  this->speciesData()[speciei].W()/Wm*Xi[i];
   }
   Info << "Maximum products mass concentrations:" << nl;
-  forAll(Yprod0_, i)
+  FOR_ALL(Yprod0_, i)
   {
     if (Yprod0_[i] > 0)
     {
@@ -77,7 +77,7 @@ void mousse::singleStepReactingMixture<ThermoType>::calculateMaxProducts()
     }
   }
   // Normalize the stoichiometric coeff to mass
-  forAll(specieStoichCoeffs_, i)
+  FOR_ALL(specieStoichCoeffs_, i)
   {
     specieStoichCoeffs_[i] =
       specieStoichCoeffs_[i]
@@ -94,7 +94,7 @@ void mousse::singleStepReactingMixture<ThermoType>::fresCorrect()
   const volScalarField& YFuel = this->Y()[fuelIndex_];
   const volScalarField& YO2 = this->Y()[O2Index];
   // reactants
-  forAll(reaction.lhs(), i)
+  FOR_ALL(reaction.lhs(), i)
   {
     const label speciei = reaction.lhs()[i].index;
     if (speciei == fuelIndex_)
@@ -107,12 +107,12 @@ void mousse::singleStepReactingMixture<ThermoType>::fresCorrect()
     }
   }
   // products
-  forAll(reaction.rhs(), i)
+  FOR_ALL(reaction.rhs(), i)
   {
     const label speciei = reaction.rhs()[i].index;
     if (speciei != inertIndex_)
     {
-      forAll(fres_[speciei], cellI)
+      FOR_ALL(fres_[speciei], cellI)
       {
         if (fres_[fuelIndex_][cellI] > 0.0)
         {
@@ -158,7 +158,7 @@ mousse::singleStepReactingMixture<ThermoType>::singleStepReactingMixture
 {
   if (this->size() == 1)
   {
-    forAll(fres_, fresI)
+    FOR_ALL(fres_, fresI)
     {
       IOobject header
       (
@@ -186,7 +186,7 @@ mousse::singleStepReactingMixture<ThermoType>::singleStepReactingMixture
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "singleStepReactingMixture::<ThermoType>::singleStepReactingMixture"
       "("
@@ -201,6 +201,6 @@ mousse::singleStepReactingMixture<ThermoType>::singleStepReactingMixture
 template<class ThermoType>
 void mousse::singleStepReactingMixture<ThermoType>::read
 (
-  const dictionary& thermoDict
+  const dictionary& /*thermoDict*/
 )
 {}

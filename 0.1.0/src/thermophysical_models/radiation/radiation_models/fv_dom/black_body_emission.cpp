@@ -130,7 +130,7 @@ mousse::radiation::blackBodyEmission::blackBodyEmission
   bLambda_(nLambda),
   T_(T)
 {
-  forAll(bLambda_, lambdaI)
+  FOR_ALL(bLambda_, lambdaI)
   {
     bLambda_.set
     (
@@ -189,7 +189,7 @@ mousse::radiation::blackBodyEmission::EbDeltaLambdaT
   }
   else
   {
-    forAll(T, i)
+    FOR_ALL(T, i)
     {
       scalar T1 = fLambdaT(band[1]*T[i]);
       scalar T2 = fLambdaT(band[0]*T[i]);

@@ -6,13 +6,20 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "time.hpp"
 #include "list_ops.hpp"
+#include "pstream_reduce_ops.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(searchableSurfaceWithGaps, 0);
-addToRunTimeSelectionTable(searchableSurface, searchableSurfaceWithGaps, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(searchableSurfaceWithGaps, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  searchableSurface,
+  searchableSurfaceWithGaps,
+  dict
+);
 }
-// Private Member Functions 
+// Private Member Functions
 mousse::Pair<mousse::vector> mousse::searchableSurfaceWithGaps::offsetVecs
 (
   const point& start,
@@ -59,7 +66,7 @@ void mousse::searchableSurfaceWithGaps::offsetVecs
 {
   offset0.setSize(start.size());
   offset1.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     const Pair<vector> offsets(offsetVecs(start[i], end[i]));
     offset0[i] = offsets[0];
@@ -73,7 +80,7 @@ mousse::label mousse::searchableSurfaceWithGaps::countMisses
 )
 {
   label nMiss = 0;
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     if (!info[i].hit())
     {
@@ -82,7 +89,7 @@ mousse::label mousse::searchableSurfaceWithGaps::countMisses
   }
   missMap.setSize(nMiss);
   nMiss = 0;
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     if (!info[i].hit())
     {
@@ -100,7 +107,7 @@ mousse::label mousse::searchableSurfaceWithGaps::countMisses
 )
 {
   label nMiss = 0;
-  forAll(plusInfo, i)
+  FOR_ALL(plusInfo, i)
   {
     if (!plusInfo[i].hit() || !minInfo[i].hit())
     {
@@ -109,7 +116,7 @@ mousse::label mousse::searchableSurfaceWithGaps::countMisses
   }
   missMap.setSize(nMiss);
   nMiss = 0;
-  forAll(plusInfo, i)
+  FOR_ALL(plusInfo, i)
   {
     if (!plusInfo[i].hit() || !minInfo[i].hit())
     {
@@ -118,7 +125,7 @@ mousse::label mousse::searchableSurfaceWithGaps::countMisses
   }
   return nMiss;
 }
-// Constructors 
+// Constructors
 mousse::searchableSurfaceWithGaps::searchableSurfaceWithGaps
 (
   const IOobject& io,
@@ -135,10 +142,12 @@ mousse::searchableSurfaceWithGaps::searchableSurfaceWithGaps
   subGeom_.set(0, &const_cast<searchableSurface&>(s));
   bounds() = subGeom_[0].bounds();
 }
-// Destructor 
+
+// Destructor
 mousse::searchableSurfaceWithGaps::~searchableSurfaceWithGaps()
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::searchableSurfaceWithGaps::findLine
 (
   const pointField& start,
@@ -188,7 +197,7 @@ void mousse::searchableSurfaceWithGaps::findLine
       minInfo
     );
     // Extract any hits
-    forAll(plusInfo, i)
+    FOR_ALL(plusInfo, i)
     {
       if (plusInfo[i].hit() && minInfo[i].hit())
       {
@@ -205,7 +214,7 @@ void mousse::searchableSurfaceWithGaps::findLine
       // Test with offset1 perturbed vectors
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       // Extract (inplace possible because of order)
-      forAll(plusMissMap, i)
+      FOR_ALL(plusMissMap, i)
       {
         label mapI = plusMissMap[i];
         compactStart[i] = compactStart[mapI];
@@ -233,7 +242,7 @@ void mousse::searchableSurfaceWithGaps::findLine
         minInfo
       );
       // Extract any hits
-      forAll(plusInfo, i)
+      FOR_ALL(plusInfo, i)
       {
         if (plusInfo[i].hit() && minInfo[i].hit())
         {
@@ -265,7 +274,7 @@ void mousse::searchableSurfaceWithGaps::findLineAll
   List<pointIndexHit> nearestInfo;
   findLine(start, end, nearestInfo);
   info.setSize(start.size());
-  forAll(info, pointI)
+  FOR_ALL(info, pointI)
   {
     if (nearestInfo[pointI].hit())
     {

@@ -12,8 +12,8 @@
 namespace mousse
 {
   const scalar sampledSet::tol = 1e-6;
-  defineTypeNameAndDebug(sampledSet, 0);
-  defineRunTimeSelectionTable(sampledSet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(sampledSet, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(sampledSet, word);
 }
 // Private Member Functions 
 mousse::label mousse::sampledSet::getBoundaryCell(const label faceI) const
@@ -28,7 +28,7 @@ mousse::label mousse::sampledSet::getCell
 {
   if (faceI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "sampledSet::getCell(const label, const point&)"
     )   << "Illegal face label " << faceI
@@ -39,7 +39,7 @@ mousse::label mousse::sampledSet::getCell
     label cellI = getBoundaryCell(faceI);
     if (!mesh().pointInCell(sample, cellI, searchEngine_.decompMode()))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "sampledSet::getCell(const label, const point&)"
       )   << "Found cell " << cellI << " using face " << faceI
@@ -65,7 +65,7 @@ mousse::label mousse::sampledSet::getCell
       }
       else
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "sampledSet::getCell(const label, const point&)"
         )   << "None of the neighbours of face "
@@ -103,7 +103,7 @@ mousse::label mousse::sampledSet::findNearFace
 ) const
 {
   const cell& myFaces = mesh().cells()[cellI];
-  forAll(myFaces, myFaceI)
+  FOR_ALL(myFaces, myFaceI)
   {
     const face& f = mesh().faces()[myFaces[myFaceI]];
     pointHit inter = f.nearestPoint(sample, mesh().points());
@@ -158,7 +158,7 @@ mousse::point mousse::sampledSet::pushIn
   }
   if (tetFaceI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "sampledSet::pushIn(const point&, const label)"
     )   << "After pushing " << facePt << " to " << newPosition
@@ -294,7 +294,7 @@ void mousse::sampledSet::setSamples
   || (curveDist_.size() != size())
   )
   {
-    FatalErrorIn("sampledSet::setSamples()")
+    FATAL_ERROR_IN("sampledSet::setSamples()")
       << "sizes not equal : "
       << "  points:" << size()
       << "  cells:" << cells_.size()
@@ -303,7 +303,7 @@ void mousse::sampledSet::setSamples
       << "  curveDist:" << curveDist_.size()
       << abort(FatalError);
   }
-  forAll(samplingPts, sampleI)
+  FOR_ALL(samplingPts, sampleI)
   {
     operator[](sampleI) = samplingPts[sampleI];
   }
@@ -360,7 +360,7 @@ mousse::autoPtr<mousse::sampledSet> mousse::sampledSet::New
     wordConstructorTablePtr_->find(sampleType);
   if (cstrIter == wordConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "sampledSet::New"
       "(const word&, const polyMesh&, const meshSearch&"
@@ -386,7 +386,7 @@ mousse::Ostream& mousse::sampledSet::write(Ostream& os) const
 {
   coordSet::write(os);
   os  << endl << "\t(cellI)\t(faceI)" << endl;
-  forAll(*this, sampleI)
+  FOR_ALL(*this, sampleI)
   {
     os  << '\t' << cells_[sampleI]
       << '\t' << faces_[sampleI]

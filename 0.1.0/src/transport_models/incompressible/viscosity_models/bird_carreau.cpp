@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace viscosityModels
 {
-  defineTypeNameAndDebug(BirdCarreau, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(BirdCarreau, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     viscosityModel,
     BirdCarreau,

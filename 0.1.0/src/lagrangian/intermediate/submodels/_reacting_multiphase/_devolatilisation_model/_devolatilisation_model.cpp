@@ -10,8 +10,8 @@ mousse::DevolatilisationModel<CloudType>::DevolatilisationModel
   CloudType& owner
 )
 :
-  CloudSubModelBase<CloudType>(owner),
-  dMass_(0.0)
+  CloudSubModelBase<CloudType>{owner},
+  dMass_{0.0}
 {}
 template<class CloudType>
 mousse::DevolatilisationModel<CloudType>::DevolatilisationModel
@@ -21,8 +21,8 @@ mousse::DevolatilisationModel<CloudType>::DevolatilisationModel
   const word& type
 )
 :
-  CloudSubModelBase<CloudType>(owner, dict, typeName, type),
-  dMass_(0.0)
+  CloudSubModelBase<CloudType>{owner, dict, typeName, type},
+  dMass_{0.0}
 {}
 template<class CloudType>
 mousse::DevolatilisationModel<CloudType>::DevolatilisationModel
@@ -30,8 +30,8 @@ mousse::DevolatilisationModel<CloudType>::DevolatilisationModel
   const DevolatilisationModel<CloudType>& dm
 )
 :
-  CloudSubModelBase<CloudType>(dm),
-  dMass_(dm.dMass_)
+  CloudSubModelBase<CloudType>{dm},
+  dMass_{dm.dMass_}
 {}
 // Destructor
 template<class CloudType>
@@ -47,7 +47,7 @@ void mousse::DevolatilisationModel<CloudType>::addToDevolatilisationMass
   dMass_ += dMass;
 }
 template<class CloudType>
-void mousse::DevolatilisationModel<CloudType>::info(Ostream& os)
+void mousse::DevolatilisationModel<CloudType>::info(Ostream&)
 {
   const scalar mass0 = this->template getBaseProperty<scalar>("mass");
   const scalar massTotal = mass0 + returnReduce(dMass_, sumOp<scalar>());

@@ -11,7 +11,7 @@ bool mousse::triSurface::readGTS(const fileName& GTSfileName)
   IFstream GTSfile(GTSfileName);
   if (!GTSfile.good())
   {
-    FatalErrorIn("triSurface::readGTS(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readGTS(const fileName&)")
       << "Cannot read file " << GTSfileName
       << exit(FatalError);
   }
@@ -25,7 +25,7 @@ bool mousse::triSurface::readGTS(const fileName& GTSfileName)
   // Read points
   pointField& points_ = const_cast<pointField&>(points());
   points_.setSize(nPoints);
-  forAll(points_, pointi)
+  FOR_ALL(points_, pointi)
   {
     scalar x, y, z;
     line = getLineNoComment(GTSfile);
@@ -37,7 +37,7 @@ bool mousse::triSurface::readGTS(const fileName& GTSfileName)
   }
   // Read edges (Foam indexing)
   edgeList edges(nEdges);
-  forAll(edges, edgei)
+  FOR_ALL(edges, edgei)
   {
     label start, end;
     line = getLineNoComment(GTSfile);
@@ -49,7 +49,7 @@ bool mousse::triSurface::readGTS(const fileName& GTSfileName)
   }
   // Read triangles. Convert references to edges into pointlabels
   setSize(nElems);
-  forAll(*this, trianglei)
+  FOR_ALL(*this, trianglei)
   {
     label e0Label, e1Label, e2Label;
     label region = 0;
@@ -78,7 +78,7 @@ bool mousse::triSurface::readGTS(const fileName& GTSfileName)
     label common01 = e0.commonVertex(e1);
     if (common01 == -1)
     {
-      FatalErrorIn("triSurface::readGTS(const fileName&)")
+      FATAL_ERROR_IN("triSurface::readGTS(const fileName&)")
         << "Edges 0 and 1 of triangle " << trianglei
         << " do not share a point.\n"
         << "    edge0:" << e0 << endl
@@ -90,7 +90,7 @@ bool mousse::triSurface::readGTS(const fileName& GTSfileName)
     label common12 = e1.commonVertex(e2);
     if (common12 == -1)
     {
-      FatalErrorIn("triSurface::readGTS(const fileName&)")
+      FATAL_ERROR_IN("triSurface::readGTS(const fileName&)")
         << "Edges 1 and 2 of triangle " << trianglei
         << " do not share a point.\n"
         << "    edge1:" << e1 << endl
@@ -101,7 +101,7 @@ bool mousse::triSurface::readGTS(const fileName& GTSfileName)
     // Does edge2 sit between edge1 and 0?
     if ((common12 != e1Far) || (e2Far != e0Far))
     {
-      FatalErrorIn("triSurface::readGTS(const fileName&)")
+      FATAL_ERROR_IN("triSurface::readGTS(const fileName&)")
         << "Edges of triangle " << trianglei
         << " reference more than three points.\n"
         << "    edge0:" << e0 << endl

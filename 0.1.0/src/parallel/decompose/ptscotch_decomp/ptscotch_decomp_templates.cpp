@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "ptscotch_decomp.hpp"
+
 // Member Functions 
 // Insert at front of list
 template<class Type>
@@ -20,7 +21,7 @@ void mousse::ptscotchDecomp::prepend
     lst[i] = lst[i-nExtra];
   }
   // Insert at front
-  forAll(extraLst, i)
+  FOR_ALL(extraLst, i)
   {
     lst[i] = extraLst[i];
   }
@@ -37,7 +38,7 @@ void mousse::ptscotchDecomp::append
   // Make space for initial elements
   lst.setSize(sz + extraLst.size());
   // Insert at back
-  forAll(extraLst, i)
+  FOR_ALL(extraLst, i)
   {
     lst[sz++] = extraLst[i];
   }

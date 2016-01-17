@@ -56,10 +56,6 @@ class SSG
 :
   public ReynoldsStress<RASModel<BasicTurbulenceModel> >
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    SSG(const SSG&);
-    SSG& operator=(const SSG&);
 protected:
   // Protected data
     // Model coefficients
@@ -86,7 +82,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("SSG");
+  TYPE_NAME("SSG");
   // Constructors
     //- Construct from components
     SSG
@@ -100,6 +96,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    SSG(const SSG&) = delete;
+    SSG& operator=(const SSG&) = delete;
   //- Destructor
   virtual ~SSG()
   {}

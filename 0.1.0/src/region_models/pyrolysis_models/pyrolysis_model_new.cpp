@@ -39,7 +39,7 @@ autoPtr<pyrolysisModel> pyrolysisModel::New
     meshConstructorTablePtr_->find(modelType);
   if (cstrIter == meshConstructorTablePtr_->end())
   {
-    FatalErrorIn("pyrolysisModel::New(const fvMesh&, const word&)")
+    FATAL_ERROR_IN("pyrolysisModel::New(const fvMesh&, const word&)")
       << "Unknown pyrolysisModel type " << modelType
       << nl << nl << "Valid pyrolisisModel types are:" << nl
       << meshConstructorTablePtr_->sortedToc()
@@ -60,7 +60,7 @@ autoPtr<pyrolysisModel> pyrolysisModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pyrolysisModel::New"
       "("

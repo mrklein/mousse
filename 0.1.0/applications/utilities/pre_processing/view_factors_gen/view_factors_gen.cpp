@@ -36,19 +36,19 @@ triSurface triangulate
   );
   label newPatchI = 0;
   label localTriFaceI = 0;
-  forAllConstIter(labelHashSet, includePatches, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, includePatches, iter)
   {
     const label patchI = iter.key();
     const polyPatch& patch = bMesh[patchI];
     const pointField& points = patch.points();
     label nTriTotal = 0;
-    forAll(patch, patchFaceI)
+    FOR_ALL(patch, patchFaceI)
     {
       const face& f = patch[patchFaceI];
       faceList triFaces(f.nTriangles(points));
       label nTri = 0;
       f.triangles(points, nTri, triFaces);
-      forAll(triFaces, triFaceI)
+      FOR_ALL(triFaces, triFaceI)
       {
         const face& f = triFaces[triFaceI];
         triangles.append(labelledTri(f[0], f[1], f[2], newPatchI));
@@ -76,7 +76,7 @@ triSurface triangulate
   // Add patch names to surface
   surface.patches().setSize(newPatchI);
   newPatchI = 0;
-  forAllConstIter(labelHashSet, includePatches, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, includePatches, iter)
   {
     const label patchI = iter.key();
     const polyPatch& patch = bMesh[patchI];
@@ -95,13 +95,13 @@ void writeRays
   const labelListList& visibleFaceFaces
 )
 {
-  OFstream str(fName);
+  OFstream str{fName};
   label vertI = 0;
   Pout<< "Dumping rays to " << str.name() << endl;
-  forAll(myFc, faceI)
+  FOR_ALL(myFc, faceI)
   {
     const labelList visFaces = visibleFaceFaces[faceI];
-    forAll(visFaces, faceRemote)
+    FOR_ALL(visFaces, faceRemote)
     {
       label compactI = visFaces[faceRemote];
       const point& remoteFc = compactCf[compactI];
@@ -112,7 +112,7 @@ void writeRays
       str << "l " << vertI-1 << ' ' << vertI << nl;
     }
   }
-  string cmd("objToVTK " + fName + " " + fName.lessExt() + ".vtk");
+  string cmd{"objToVTK " + fName + " " + fName.lessExt() + ".vtk"};
   Pout<< "cmd:" << cmd << endl;
   system(cmd);
 }
@@ -134,11 +134,8 @@ scalar calculateViewFactorFij
     vector nj = dAj/dAjMag;
     scalar cosThetaJ = mag(nj & r)/rMag;
     scalar cosThetaI = mag(ni & r)/rMag;
-    return
-    (
-      (cosThetaI*cosThetaJ*dAjMag*dAiMag)
-      /(sqr(rMag)*constant::mathematical::pi)
-    );
+    return (cosThetaI*cosThetaJ*dAjMag*dAiMag)
+      /(sqr(rMag)*constant::mathematical::pi);
   }
   else
   {
@@ -154,12 +151,12 @@ void insertMatrixElements
   scalarSquareMatrix& matrix
 )
 {
-  forAll(viewFactors, faceI)
+  FOR_ALL(viewFactors, faceI)
   {
     const scalarList& vf = viewFactors[faceI];
     const labelList& globalFaces = globalFaceFaces[faceI];
     label globalI = globalNumbering.toGlobal(fromProcI, faceI);
-    forAll(globalFaces, i)
+    FOR_ALL(globalFaces, i)
     {
       matrix[globalI][globalFaces[i]] = vf[i];
     }
@@ -167,77 +164,75 @@ void insertMatrixElements
 }
 int main(int argc, char *argv[])
 {
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
-  #include "create_named_mesh.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
+  #include "create_named_mesh.inc"
   // Read view factor dictionary
   IOdictionary viewFactorDict
-  (
-   IOobject
-   (
+  {
+    // IOobject
+    {
       "viewFactorsDict",
       runTime.constant(),
       mesh,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE
-   )
-  );
+    }
+  };
   const bool writeViewFactors =
     viewFactorDict.lookupOrDefault<bool>("writeViewFactorMatrix", false);
   const bool dumpRays =
     viewFactorDict.lookupOrDefault<bool>("dumpRays", false);
   const label debug = viewFactorDict.lookupOrDefault<label>("debug", 0);
   volScalarField Qr
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "Qr",
       runTime.timeName(),
       mesh,
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    ),
+    },
     mesh
-  );
+  };
   // Read agglomeration map
   labelListIOList finalAgglom
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "finalAgglom",
       mesh.facesInstance(),
       mesh,
       IOobject::MUST_READ,
       IOobject::NO_WRITE,
       false
-    )
-  );
+    }
+  };
   // Create the coarse mesh  using agglomeration
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   if (debug)
   {
     Pout << "\nCreating single cell mesh..." << endl;
   }
   singleCellFvMesh coarseMesh
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "coarse:" + mesh.name(),
       runTime.timeName(),
       runTime,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     mesh,
     finalAgglom
-  );
+  };
   if (debug)
   {
     Pout << "\nCreated single cell mesh..." << endl;
   }
   // Calculate total number of fine and coarse faces
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   label nCoarseFaces = 0;      //total number of coarse faces
   label nFineFaces = 0;        //total number of fine faces
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
@@ -245,7 +240,7 @@ int main(int argc, char *argv[])
   labelList viewFactorsPatches(patches.size());
   const volScalarField::GeometricBoundaryField& Qrb = Qr.boundaryField();
   label count = 0;
-  forAll(Qrb, patchI)
+  FOR_ALL(Qrb, patchI)
   {
     const polyPatch& pp = patches[patchI];
     const fvPatchScalarField& QrpI = Qrb[patchI];
@@ -272,10 +267,10 @@ int main(int argc, char *argv[])
   }
   // Collect local Cf and Sf on coarse mesh
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  DynamicList<point> localCoarseCf(nCoarseFaces);
-  DynamicList<point> localCoarseSf(nCoarseFaces);
-  DynamicList<label> localAgg(nCoarseFaces);
-  forAll (viewFactorsPatches, i)
+  DynamicList<point> localCoarseCf{nCoarseFaces};
+  DynamicList<point> localCoarseSf{nCoarseFaces};
+  DynamicList<label> localAgg{nCoarseFaces};
+  FOR_ALL(viewFactorsPatches, i)
   {
     const label patchID = viewFactorsPatches[i];
     const polyPatch& pp = patches[patchID];
@@ -287,7 +282,7 @@ int main(int argc, char *argv[])
     const pointField& coarseSf = coarseMesh.Sf().boundaryField()[patchID];
     labelHashSet includePatches;
     includePatches.insert(patchID);
-    forAll(coarseCf, faceI)
+    FOR_ALL(coarseCf, faceI)
     {
       point cf = coarseCf[faceI];
       const label coarseFaceI = coarsePatchFace[faceI];
@@ -301,24 +296,23 @@ int main(int argc, char *argv[])
         pp.points()
       );
       List<point> availablePoints
-      (
-        upp.faceCentres().size()
-       + upp.localPoints().size()
-      );
+      {
+        upp.faceCentres().size() + upp.localPoints().size()
+      };
       SubList<point>
-      (
+      {
         availablePoints,
         upp.faceCentres().size()
-      ).assign(upp.faceCentres());
+      }.assign(upp.faceCentres());
       SubList<point>
-      (
+      {
         availablePoints,
         upp.localPoints().size(),
         upp.faceCentres().size()
-      ).assign(upp.localPoints());
+      }.assign(upp.localPoints());
       point cfo = cf;
       scalar dist = GREAT;
-      forAll(availablePoints, iPoint)
+      FOR_ALL(availablePoints, iPoint)
       {
         point cfFine = availablePoints[iPoint];
         if (mag(cfFine-cfo) < dist)
@@ -334,10 +328,9 @@ int main(int argc, char *argv[])
     }
   }
   // Distribute local coarse Cf and Sf for shooting rays
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  List<pointField> remoteCoarseCf(Pstream::nProcs());
-  List<pointField> remoteCoarseSf(Pstream::nProcs());
-  List<labelField> remoteCoarseAgg(Pstream::nProcs());
+  List<pointField> remoteCoarseCf{Pstream::nProcs()};
+  List<pointField> remoteCoarseSf{Pstream::nProcs()};
+  List<labelField> remoteCoarseAgg{Pstream::nProcs()};
   remoteCoarseCf[Pstream::myProcNo()] = localCoarseCf;
   remoteCoarseSf[Pstream::myProcNo()] = localCoarseSf;
   remoteCoarseAgg[Pstream::myProcNo()] = localAgg;
@@ -347,26 +340,26 @@ int main(int argc, char *argv[])
   Pstream::scatterList(remoteCoarseSf);
   Pstream::gatherList(remoteCoarseAgg);
   Pstream::scatterList(remoteCoarseAgg);
-  globalIndex globalNumbering(nCoarseFaces);
+  globalIndex globalNumbering{nCoarseFaces};
   // Set up searching engine for obstacles
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #include "searching_engine.hpp"
+  #include "searching_engine.inc"
   // Determine rays between coarse face centres
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  DynamicList<label> rayStartFace(nCoarseFaces + 0.01*nCoarseFaces);
-  DynamicList<label> rayEndFace(rayStartFace.size());
+  DynamicList<label> rayStartFace
+  {
+    static_cast<label>(nCoarseFaces + 0.01*nCoarseFaces)
+  };
+  DynamicList<label> rayEndFace{rayStartFace.size()};
   // Return rayStartFace in local index andrayEndFace in global index
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #include "shoot_rays.hpp"
+  #include "shoot_rays.inc"
   // Calculate number of visible faces from local index
-  labelList nVisibleFaceFaces(nCoarseFaces, 0);
-  forAll(rayStartFace, i)
+  labelList nVisibleFaceFaces{nCoarseFaces, 0};
+  FOR_ALL(rayStartFace, i)
   {
     nVisibleFaceFaces[rayStartFace[i]]++;
   }
-  labelListList visibleFaceFaces(nCoarseFaces);
+  labelListList visibleFaceFaces{nCoarseFaces};
   label nViewFactors = 0;
-  forAll(nVisibleFaceFaces, faceI)
+  FOR_ALL(nVisibleFaceFaces, faceI)
   {
     visibleFaceFaces[faceI].setSize(nVisibleFaceFaces[faceI]);
     nViewFactors += nVisibleFaceFaces[faceI];
@@ -376,55 +369,55 @@ int main(int argc, char *argv[])
   //   (per processor (!= myProcNo) a map from remote index to compact index)
   // - construct distribute map
   // - renumber rayEndFace into compact addressing
-  List<Map<label> > compactMap(Pstream::nProcs());
-  mapDistribute map(globalNumbering, rayEndFace, compactMap);
+  List<Map<label> > compactMap{Pstream::nProcs()};
+  mapDistribute map{globalNumbering, rayEndFace, compactMap};
   labelListIOList IOsubMap
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "subMap",
       mesh.facesInstance(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     map.subMap()
-  );
+  };
   IOsubMap.write();
   labelListIOList IOconstructMap
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "constructMap",
       mesh.facesInstance(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     map.constructMap()
-  );
+  };
   IOconstructMap.write();
   IOList<label> consMapDim
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "constructMapDim",
       mesh.facesInstance(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
-    List<label>(1, map.constructSize())
-  );
+    },
+    List<label>{1, map.constructSize()}
+  };
   consMapDim.write();
   // visibleFaceFaces has:
   //    (local face, local viewed face) = compact viewed face
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   nVisibleFaceFaces = 0;
-  forAll(rayStartFace, i)
+  FOR_ALL(rayStartFace, i)
   {
     label faceI = rayStartFace[i];
     label compactI = rayEndFace[i];
@@ -433,24 +426,24 @@ int main(int argc, char *argv[])
   // Construct data in compact addressing
   // I need coarse Sf (Ai), fine Sf (dAi) and fine Cf(r) to calculate Fij
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  pointField compactCoarseCf(map.constructSize(), pTraits<vector>::zero);
-  pointField compactCoarseSf(map.constructSize(), pTraits<vector>::zero);
-  List<List<point> > compactFineSf(map.constructSize());
-  List<List<point> > compactFineCf(map.constructSize());
-  DynamicList<label> compactPatchId(map.constructSize());
+  pointField compactCoarseCf{map.constructSize(), pTraits<vector>::zero};
+  pointField compactCoarseSf{map.constructSize(), pTraits<vector>::zero};
+  List<List<point> > compactFineSf{map.constructSize()};
+  List<List<point> > compactFineCf{map.constructSize()};
+  DynamicList<label> compactPatchId{map.constructSize()};
   // Insert my coarse local values
   SubList<point>(compactCoarseSf, nCoarseFaces).assign(localCoarseSf);
   SubList<point>(compactCoarseCf, nCoarseFaces).assign(localCoarseCf);
   // Insert my fine local values
   label compactI = 0;
-  forAll(viewFactorsPatches, i)
+  FOR_ALL(viewFactorsPatches, i)
   {
     label patchID = viewFactorsPatches[i];
     const labelList& agglom = finalAgglom[patchID];
     label nAgglom = max(agglom)+1;
     labelListList coarseToFine(invertOneToMany(nAgglom, agglom));
     const labelList& coarsePatchFace = coarseMesh.patchFaceMap()[patchID];
-    forAll(coarseToFine, coarseI)
+    FOR_ALL(coarseToFine, coarseI)
     {
       compactPatchId.append(patchID);
       List<point>& fineCf = compactFineCf[compactI];
@@ -491,35 +484,35 @@ int main(int argc, char *argv[])
   // Fill local view factor matrix
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   scalarListIOList F
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "F",
       mesh.facesInstance(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     nCoarseFaces
-  );
+  };
   label totalPatches = coarsePatches.size();
   reduce(totalPatches, maxOp<label>());
   // Matrix sum in j(Fij) for each i (if enclosure sum = 1)
   scalarSquareMatrix sumViewFactorPatch
-  (
+  {
     totalPatches,
     totalPatches,
     0.0
-  );
-  scalarList patchArea(totalPatches, 0.0);
+  };
+  scalarList patchArea{totalPatches, 0.0};
   if (Pstream::master())
   {
     Info<< "\nCalculating view factors..." << endl;
   }
   if (mesh.nSolutionD() == 3)
   {
-    forAll (localCoarseSf, coarseFaceI)
+    FOR_ALL(localCoarseSf, coarseFaceI)
     {
       const List<point>& localFineSf = compactFineSf[coarseFaceI];
       const vector Ai = sum(localFineSf);
@@ -527,7 +520,7 @@ int main(int argc, char *argv[])
       const label fromPatchId = compactPatchId[coarseFaceI];
       patchArea[fromPatchId] += mag(Ai);
       const labelList& visCoarseFaces = visibleFaceFaces[coarseFaceI];
-      forAll(visCoarseFaces, visCoarseFaceI)
+      FOR_ALL(visCoarseFaces, visCoarseFaceI)
       {
         F[coarseFaceI].setSize(visCoarseFaces.size());
         label compactJ = visCoarseFaces[visCoarseFaceI];
@@ -535,11 +528,11 @@ int main(int argc, char *argv[])
         const List<point>& remoteFineCj = compactFineCf[compactJ];
         const label toPatchId = compactPatchId[compactJ];
         scalar Fij = 0;
-        forAll (localFineSf, i)
+        FOR_ALL(localFineSf, i)
         {
           const vector& dAi = localFineSf[i];
           const vector& dCi = localFineCf[i];
-          forAll (remoteFineSj, j)
+          FOR_ALL(remoteFineSj, j)
           {
             const vector& dAj = remoteFineSj[j];
             const vector& dCj = remoteFineCj[j];
@@ -563,7 +556,7 @@ int main(int argc, char *argv[])
     const boundBox& box = mesh.bounds();
     const Vector<label>& dirs = mesh.geometricD();
     vector emptyDir = vector::zero;
-    forAll(dirs, i)
+    FOR_ALL(dirs, i)
     {
       if (dirs[i] == -1)
       {
@@ -571,7 +564,7 @@ int main(int argc, char *argv[])
       }
     }
     scalar wideBy2 = (box.span() & emptyDir)*2.0;
-    forAll(localCoarseSf, coarseFaceI)
+    FOR_ALL(localCoarseSf, coarseFaceI)
     {
       const vector& Ai = localCoarseSf[coarseFaceI];
       const vector& Ci = localCoarseCf[coarseFaceI];
@@ -581,7 +574,7 @@ int main(int argc, char *argv[])
       const label fromPatchId = compactPatchId[coarseFaceI];
       patchArea[fromPatchId] += mag(Ai);
       const labelList& visCoarseFaces = visibleFaceFaces[coarseFaceI];
-      forAll (visCoarseFaces, visCoarseFaceI)
+      FOR_ALL(visCoarseFaces, visCoarseFaceI)
       {
         F[coarseFaceI].setSize(visCoarseFaces.size());
         label compactJ = visCoarseFaces[visCoarseFaceI];
@@ -611,10 +604,10 @@ int main(int argc, char *argv[])
   reduce(patchArea, sumOp<scalarList>());
   if (Pstream::master() && debug)
   {
-    forAll(viewFactorsPatches, i)
+    FOR_ALL(viewFactorsPatches, i)
     {
       label patchI =  viewFactorsPatches[i];
-      forAll(viewFactorsPatches, i)
+      FOR_ALL(viewFactorsPatches, i)
       {
         label patchJ =  viewFactorsPatches[i];
         Info << "F" << patchI << patchJ << ": "
@@ -626,33 +619,32 @@ int main(int argc, char *argv[])
   if (writeViewFactors)
   {
     volScalarField viewFactorField
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "viewFactorField",
         mesh.time().timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       mesh,
-      dimensionedScalar("viewFactorField", dimless, 0)
-    );
+      {"viewFactorField", dimless, 0}
+    };
     label compactI = 0;
-    forAll(viewFactorsPatches, i)
+    FOR_ALL(viewFactorsPatches, i)
     {
       label patchID = viewFactorsPatches[i];
       const labelList& agglom = finalAgglom[patchID];
       label nAgglom = max(agglom)+1;
-      labelListList coarseToFine(invertOneToMany(nAgglom, agglom));
-      const labelList& coarsePatchFace =
-        coarseMesh.patchFaceMap()[patchID];
-      forAll(coarseToFine, coarseI)
+      labelListList coarseToFine{invertOneToMany(nAgglom, agglom)};
+      const labelList& coarsePatchFace = coarseMesh.patchFaceMap()[patchID];
+      FOR_ALL(coarseToFine, coarseI)
       {
         const scalar Fij = sum(F[compactI]);
         const label coarseFaceID = coarsePatchFace[coarseI];
         const labelList& fineFaces = coarseToFine[coarseFaceID];
-        forAll (fineFaces, fineId)
+        FOR_ALL(fineFaces, fineId)
         {
           const label faceID = fineFaces[fineId];
           viewFactorField.boundaryField()[patchID][faceID] = Fij;
@@ -665,16 +657,16 @@ int main(int argc, char *argv[])
   // Invert compactMap (from processor+localface to compact) to go
   // from compact to processor+localface (expressed as a globalIndex)
   // globalIndex globalCoarFaceNum(coarseMesh.nFaces());
-  labelList compactToGlobal(map.constructSize());
+  labelList compactToGlobal{map.constructSize()};
   // Local indices first (note: are not in compactMap)
   for (label i = 0; i < globalNumbering.localSize(); i++)
   {
     compactToGlobal[i] = globalNumbering.toGlobal(i);
   }
-  forAll(compactMap, procI)
+  FOR_ALL(compactMap, procI)
   {
     const Map<label>& localToCompactMap = compactMap[procI];
-    forAllConstIter(Map<label>, localToCompactMap, iter)
+    FOR_ALL_CONST_ITER(Map<label>, localToCompactMap, iter)
     {
       compactToGlobal[iter()] = globalNumbering.toGlobal
       (
@@ -685,11 +677,11 @@ int main(int argc, char *argv[])
   }
   if (Pstream::master())
   {
-    scalarSquareMatrix Fmatrix(totalNCoarseFaces, totalNCoarseFaces, 0.0);
-    labelListList globalFaceFaces(visibleFaceFaces.size());
+    scalarSquareMatrix Fmatrix{totalNCoarseFaces, totalNCoarseFaces, 0.0};
+    labelListList globalFaceFaces{visibleFaceFaces.size()};
     // Create globalFaceFaces needed to insert view factors
     // in F to the global matrix Fmatrix
-    forAll(globalFaceFaces, faceI)
+    FOR_ALL(globalFaceFaces, faceI)
     {
       globalFaceFaces[faceI] = renumber
       (
@@ -698,24 +690,24 @@ int main(int argc, char *argv[])
       );
     }
     labelListIOList IOglobalFaceFaces
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "globalFaceFaces",
         mesh.facesInstance(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       globalFaceFaces
-    );
+    };
     IOglobalFaceFaces.write();
   }
   else
   {
-    labelListList globalFaceFaces(visibleFaceFaces.size());
-    forAll(globalFaceFaces, faceI)
+    labelListList globalFaceFaces{visibleFaceFaces.size()};
+    FOR_ALL(globalFaceFaces, faceI)
     {
       globalFaceFaces[faceI] = renumber
       (
@@ -724,18 +716,18 @@ int main(int argc, char *argv[])
       );
     }
     labelListIOList IOglobalFaceFaces
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "globalFaceFaces",
         mesh.facesInstance(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       globalFaceFaces
-    );
+    };
     IOglobalFaceFaces.write();
   }
   Info<< "End\n" << endl;

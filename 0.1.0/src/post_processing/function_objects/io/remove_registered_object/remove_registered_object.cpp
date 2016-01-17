@@ -8,7 +8,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(removeRegisteredObject, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(removeRegisteredObject, 0);
 }
 // Constructors 
 mousse::removeRegisteredObject::removeRegisteredObject
@@ -16,12 +16,12 @@ mousse::removeRegisteredObject::removeRegisteredObject
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  objectNames_()
+  name_{name},
+  obr_{obr},
+  objectNames_{}
 {
   read(dict);
 }
@@ -35,7 +35,7 @@ void mousse::removeRegisteredObject::read(const dictionary& dict)
 }
 void mousse::removeRegisteredObject::execute()
 {
-  forAll(objectNames_, i)
+  FOR_ALL(objectNames_, i)
   {
     if (obr_.foundObject<regIOobject>(objectNames_[i]))
     {

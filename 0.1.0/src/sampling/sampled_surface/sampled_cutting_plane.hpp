@@ -61,7 +61,7 @@ class sampledCuttingPlane
     interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
-  TypeName("sampledCuttingPlane");
+  TYPE_NAME("sampledCuttingPlane");
   // Constructors
     //- Construct from dictionary
     sampledCuttingPlane
@@ -94,7 +94,7 @@ public:
       {
         const triSurface& s = surface();
         facesPtr_.reset(new faceList(s.size()));
-        forAll(s, i)
+        FOR_ALL(s, i)
         {
           facesPtr_()[i] = s[i].triFaceFace();
         }

@@ -12,7 +12,7 @@ template<class Type>
 void UnMapped(const IOobjectList& objects)
 {
   IOobjectList fields = objects.lookupClass(Type::typeName);
-  forAllConstIter(IOobjectList, fields, fieldIter)
+  FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
   {
     mvBak(fieldIter()->objectPath(), "unmapped");
   }

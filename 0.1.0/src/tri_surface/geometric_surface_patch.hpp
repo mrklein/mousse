@@ -27,7 +27,7 @@ class geometricSurfacePatch
     label index_;
 public:
   //- Runtime type information
-  ClassName("geometricSurfacePatch");
+  CLASS_NAME("geometricSurfacePatch");
   // Constructors
     //- Construct null
     geometricSurfacePatch();

@@ -5,7 +5,6 @@
 //   mousse::CollisionRecordList
 // Description
 // SourceFiles
-//   _collision_record_list_i.hpp
 //   _collision_record_list.cpp
 //   _collision_record_list_io.cpp
 #ifndef _collision_record_list_hpp_
@@ -152,7 +151,20 @@ public:
       );
 };
 }  // namespace mousse
-#include "_collision_record_list_i.hpp"
+
+// Member Functions 
+template<class PairType, class WallType>
+const mousse::DynamicList<mousse::PairCollisionRecord<PairType> >&
+mousse::CollisionRecordList<PairType, WallType>::pairRecords() const
+{
+  return pairRecords_;
+}
+template<class PairType, class WallType>
+const mousse::DynamicList<mousse::WallCollisionRecord<WallType> >&
+mousse::CollisionRecordList<PairType, WallType>::wallRecords() const
+{
+  return wallRecords_;
+}
 #ifdef NoRepository
 #   include "_collision_record_list.cpp"
 #endif

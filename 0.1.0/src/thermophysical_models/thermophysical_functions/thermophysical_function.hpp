@@ -19,9 +19,9 @@ class thermophysicalFunction
 {
 public:
   //- Runtime type information
-  TypeName("thermophysicalFunction");
+  TYPE_NAME("thermophysicalFunction");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       thermophysicalFunction,
@@ -29,7 +29,7 @@ public:
       (Istream& is),
       (is)
     );
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       thermophysicalFunction,

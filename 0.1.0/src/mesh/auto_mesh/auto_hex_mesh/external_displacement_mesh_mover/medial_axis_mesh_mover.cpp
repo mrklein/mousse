@@ -16,8 +16,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(medialAxisMeshMover, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(medialAxisMeshMover, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     externalDisplacementMeshMover,
     medialAxisMeshMover,
@@ -31,7 +31,7 @@ mousse::labelList mousse::medialAxisMeshMover::getFixedValueBCs
 )
 {
   DynamicList<label> adaptPatchIDs;
-  forAll(fld.boundaryField(), patchI)
+  FOR_ALL(fld.boundaryField(), patchI)
   {
     const pointPatchField<vector>& patchFld =
       fld.boundaryField()[patchI];
@@ -60,7 +60,7 @@ mousse::medialAxisMeshMover::getPatch
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   // Count faces.
   label nFaces = 0;
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     const polyPatch& pp = patches[patchIDs[i]];
     nFaces += pp.size();
@@ -68,11 +68,11 @@ mousse::medialAxisMeshMover::getPatch
   // Collect faces.
   labelList addressing(nFaces);
   nFaces = 0;
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     const polyPatch& pp = patches[patchIDs[i]];
     label meshFaceI = pp.start();
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       addressing[nFaces++] = meshFaceI++;
     }
@@ -135,7 +135,7 @@ void mousse::medialAxisMeshMover::smoothPatchNormals
       Info<< "    Iteration " << iter << "   residual " << resid << endl;
     }
     // Transfer to normals vector field
-    forAll(average, pointI)
+    FOR_ALL(average, pointI)
     {
       // full smoothing neighbours + point value
       average[pointI] = 0.5*(normals[pointI]+average[pointI]);
@@ -161,7 +161,7 @@ void mousse::medialAxisMeshMover::smoothNormals
   // Points that do not change.
   PackedBoolList isFixedPoint(mesh().nPoints());
   // Internal points that are fixed
-  forAll(fixedPoints, i)
+  FOR_ALL(fixedPoints, i)
   {
     label meshPointI = fixedPoints[i];
     isFixedPoint.set(meshPointI, 1);
@@ -208,7 +208,7 @@ void mousse::medialAxisMeshMover::smoothNormals
       Info<< "    Iteration " << iter << "   residual " << resid << endl;
     }
     // Transfer to normals vector field
-    forAll(average, pointI)
+    FOR_ALL(average, pointI)
     {
       if (isFixedPoint.get(pointI) == 0)
       {
@@ -366,7 +366,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
   {
     // Seed data.
     List<pointData> wallInfo(meshPoints.size());
-    forAll(meshPoints, patchPointI)
+    FOR_ALL(meshPoints, patchPointI)
     {
       label pointI = meshPoints[patchPointI];
       wallInfo[patchPointI] = pointData
@@ -407,7 +407,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
       }
       else
       {
-        WarningIn
+        WARNING_IN
         (
           "medialAxisMeshMover::"
           "medialAxisSmoothingInfo(..)"
@@ -430,7 +430,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
     DynamicList<label> maxPoints(meshPoints.size());
     // 1. Medial axis points
     const edgeList& edges = mesh().edges();
-    forAll(edges, edgeI)
+    FOR_ALL(edges, edgeI)
     {
       const edge& e = edges[edgeI];
       if
@@ -440,7 +440,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
       )
       {
         // Unvisited point. See above about nUnvisit warning
-        forAll(e, ep)
+        FOR_ALL(e, ep)
         {
           label pointI = e[ep];
           if (!pointMedialDist[pointI].valid(dummyTrackData))
@@ -490,7 +490,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
           {
             medialAxisPt = p0+(s-dist0)*eVec;
           }
-          forAll(e, ep)
+          FOR_ALL(e, ep)
           {
             label pointI = e[ep];
             if (!pointMedialDist[pointI].valid(dummyTrackData))
@@ -515,7 +515,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
     // 2. Seed non-adapt patches
     const polyBoundaryMesh& patches = mesh().boundaryMesh();
     labelHashSet adaptPatches(adaptPatchIDs_);
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       const pointPatchVectorField& pvf =
@@ -539,7 +539,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
           Info<< typeName
             << " : Inserting all points on patch " << pp.name()
             << endl;
-          forAll(meshPoints, i)
+          FOR_ALL(meshPoints, i)
           {
             label pointI = meshPoints[i];
             if (!pointMedialDist[pointI].valid(dummyTrackData))
@@ -578,7 +578,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
           (
             PatchTools::pointNormals(mesh(), pp)
           );
-          forAll(meshPoints, i)
+          FOR_ALL(meshPoints, i)
           {
             label pointI = meshPoints[i];
             if
@@ -635,7 +635,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
     );
     medialDistCalc.iterate(2*nMedialAxisIter);
     // Extract medial axis distance as pointScalarField
-    forAll(pointMedialDist, pointI)
+    FOR_ALL(pointMedialDist, pointI)
     {
       if (pointMedialDist[pointI].valid(dummyTrackData))
       {
@@ -654,7 +654,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
     }
   }
   // Extract transported surface normals as pointVectorField
-  forAll(dispVec_, i)
+  FOR_ALL(dispVec_, i)
   {
     if (!pointWallDist[i].valid(dummyTrackData))
     {
@@ -675,7 +675,7 @@ void mousse::medialAxisMeshMover::update(const dictionary& coeffDict)
     dispVec_
   );
   // Calculate ratio point medial distance to point wall distance
-  forAll(medialRatio_, pointI)
+  FOR_ALL(medialRatio_, pointI)
   {
     if (!pointWallDist[pointI].valid(dummyTrackData))
     {
@@ -768,7 +768,7 @@ void mousse::medialAxisMeshMover::syncPatchDisplacement
       point::rootMax           // null value
     );
     // Unmark if displacement too small
-    forAll(patchDisp, i)
+    FOR_ALL(patchDisp, i)
     {
       if (mag(patchDisp[i]) < minThickness[i])
       {
@@ -791,7 +791,7 @@ void mousse::medialAxisMeshMover::syncPatchDisplacement
     //
     //// Reset if differs
     //// 1. take max
-    //forAll(syncPatchNLayers, i)
+    //FOR_ALL(syncPatchNLayers, i)
     //{
     //    if (syncPatchNLayers[i] != patchNLayers[i])
     //    {
@@ -822,7 +822,7 @@ void mousse::medialAxisMeshMover::syncPatchDisplacement
     //
     //// Reset if differs
     //// 2. take min
-    //forAll(syncPatchNLayers, i)
+    //FOR_ALL(syncPatchNLayers, i)
     //{
     //    if (syncPatchNLayers[i] != patchNLayers[i])
     //    {
@@ -891,7 +891,7 @@ void mousse::medialAxisMeshMover::minSmoothField
     );
     average *= invSumWeight;
     // Transfer to field
-    forAll(field, pointI)
+    FOR_ALL(field, pointI)
     {
       //full smoothing neighbours + point value
       average[pointI] = 0.5*(field[pointI]+average[pointI]);
@@ -934,10 +934,10 @@ handleFeatureAngleLayerTerminations
   // Mark faces that have all points extruded
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   boolList extrudedFaces(pp.size(), true);
-  forAll(pp.localFaces(), faceI)
+  FOR_ALL(pp.localFaces(), faceI)
   {
     const face& f = pp.localFaces()[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (extrudeStatus[f[fp]] == autoLayerDriver::NOEXTRUDE)
       {
@@ -954,12 +954,12 @@ handleFeatureAngleLayerTerminations
   List<List<bool> > edgeFaceExtrude(pp.nEdges());
   const labelListList& edgeFaces = pp.edgeFaces();
   const vectorField& faceNormals = pp.faceNormals();
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     const labelList& eFaces = edgeFaces[edgeI];
     edgeFaceNormals[edgeI].setSize(eFaces.size());
     edgeFaceExtrude[edgeI].setSize(eFaces.size());
-    forAll(eFaces, i)
+    FOR_ALL(eFaces, i)
     {
       label faceI = eFaces[i];
       edgeFaceNormals[edgeI][i] = faceNormals[faceI];
@@ -982,7 +982,7 @@ handleFeatureAngleLayerTerminations
     globalMeshData::ListPlusEqOp<List<bool> >(),    // combine operator
     List<bool>()                // null value
   );
-  forAll(edgeFaceNormals, edgeI)
+  FOR_ALL(edgeFaceNormals, edgeI)
   {
     const List<point>& eFaceNormals = edgeFaceNormals[edgeI];
     const List<bool>& eFaceExtrude = edgeFaceExtrude[edgeI];
@@ -1090,10 +1090,10 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
       // points are not grown
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       labelList islandPoint(pp.size(), -1);
-      forAll(pp, faceI)
+      FOR_ALL(pp, faceI)
       {
         const face& f = pp.localFaces()[faceI];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if (extrudeStatus[f[fp]] != autoLayerDriver::NOEXTRUDE)
           {
@@ -1115,12 +1115,12 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
       //  -2 : >= 2 points extruded on face
       //  >=0: label of point extruded
       // Check all surrounding faces that I am the islandPoint
-      forAll(pointFaces, patchPointI)
+      FOR_ALL(pointFaces, patchPointI)
       {
         if (extrudeStatus[patchPointI] != autoLayerDriver::NOEXTRUDE)
         {
           const labelList& pFaces = pointFaces[patchPointI];
-          forAll(pFaces, i)
+          FOR_ALL(pFaces, i)
           {
             label faceI = pFaces[i];
             if (islandPoint[faceI] != patchPointI)
@@ -1138,10 +1138,10 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
       // faces are not grown
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       boolList extrudedFaces(pp.size(), true);
-      forAll(pp.localFaces(), faceI)
+      FOR_ALL(pp.localFaces(), faceI)
       {
         const face& f = pp.localFaces()[faceI];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if (extrudeStatus[f[fp]] == autoLayerDriver::NOEXTRUDE)
           {
@@ -1151,10 +1151,10 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
         }
       }
       const labelListList& pointFaces = pp.pointFaces();
-      forAll(keptPoints, patchPointI)
+      FOR_ALL(keptPoints, patchPointI)
       {
         const labelList& pFaces = pointFaces[patchPointI];
-        forAll(pFaces, i)
+        FOR_ALL(pFaces, i)
         {
           label faceI = pFaces[i];
           if (extrudedFaces[faceI])
@@ -1174,7 +1174,7 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
       false               // null value
     );
     label nChanged = 0;
-    forAll(keptPoints, patchPointI)
+    FOR_ALL(keptPoints, patchPointI)
     {
       if (!keptPoints[patchPointI])
       {
@@ -1198,7 +1198,7 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
   // Count number of mesh edges using a point
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelList isolatedPoint(pp.nPoints(),0);
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (isPatchMasterEdge[edgeI])
     {
@@ -1225,11 +1225,11 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
   );
   // stop layer growth on isolated faces
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(pp, faceI)
+  FOR_ALL(pp, faceI)
   {
     const face& f = pp.localFaces()[faceI];
     bool failed = false;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (isolatedPoint[f[fp]] > 2)
       {
@@ -1240,7 +1240,7 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
     bool allPointsExtruded = true;
     if (!failed)
     {
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (extrudeStatus[f[fp]] == autoLayerDriver::NOEXTRUDE)
         {
@@ -1250,7 +1250,7 @@ void mousse::medialAxisMeshMover::findIsolatedRegions
       }
       if (allPointsExtruded)
       {
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if
           (
@@ -1318,7 +1318,7 @@ void mousse::medialAxisMeshMover::smoothLambdaMuDisplacement
       average
     );
     average *= invSumWeight;
-    forAll(displacement, i)
+    FOR_ALL(displacement, i)
     {
       if (medialRatio_[i] > SMALL && medialRatio_[i] < 1-SMALL)
       {
@@ -1336,7 +1336,7 @@ void mousse::medialAxisMeshMover::smoothLambdaMuDisplacement
       average
     );
     average *= invSumWeight;
-    forAll(displacement, i)
+    FOR_ALL(displacement, i)
     {
       if (medialRatio_[i] > SMALL && medialRatio_[i] < 1-SMALL)
       {
@@ -1533,7 +1533,7 @@ void mousse::medialAxisMeshMover::calculateDisplacement
   );
   scalarField thickness(patchDisp.size());
   thickness = mag(patchDisp);
-  forAll(thickness, patchPointI)
+  FOR_ALL(thickness, patchPointI)
   {
     if (extrudeStatus[patchPointI] == autoLayerDriver::NOEXTRUDE)
     {
@@ -1577,7 +1577,7 @@ void mousse::medialAxisMeshMover::calculateDisplacement
       << " : Writing medial axis vectors on points with too large"
       << " an extrusion distance to " << medialVecStr().name() << endl;
   }
-  forAll(meshPoints, patchPointI)
+  FOR_ALL(meshPoints, patchPointI)
   {
     if (extrudeStatus[patchPointI] != autoLayerDriver::NOEXTRUDE)
     {
@@ -1657,7 +1657,7 @@ void mousse::medialAxisMeshMover::calculateDisplacement
     patchDisp
   );
   // Update thickess for changed extrusion
-  forAll(thickness, patchPointI)
+  FOR_ALL(thickness, patchPointI)
   {
     if (extrudeStatus[patchPointI] == autoLayerDriver::NOEXTRUDE)
     {
@@ -1685,7 +1685,7 @@ void mousse::medialAxisMeshMover::calculateDisplacement
     labelList wallPoints(meshPoints.size());
     // Seed data.
     List<pointData> wallInfo(meshPoints.size());
-    forAll(meshPoints, patchPointI)
+    FOR_ALL(meshPoints, patchPointI)
     {
       label pointI = meshPoints[patchPointI];
       wallPoints[patchPointI] = pointI;
@@ -1712,7 +1712,7 @@ void mousse::medialAxisMeshMover::calculateDisplacement
   }
   // Calculate scaled displacement vector
   pointField& displacement = pointDisplacement_;
-  forAll(displacement, pointI)
+  FOR_ALL(displacement, pointI)
   {
     if (!pointWallDist[pointI].valid(dummyTrackData))
     {
@@ -1834,7 +1834,7 @@ bool mousse::medialAxisMeshMover::move
     pp.nPoints(),
     autoLayerDriver::EXTRUDE
   );
-  forAll(extrudeStatus, pointI)
+  FOR_ALL(extrudeStatus, pointI)
   {
     if (mag(patchDisp[pointI]) <= minThickness[pointI]+SMALL)
     {

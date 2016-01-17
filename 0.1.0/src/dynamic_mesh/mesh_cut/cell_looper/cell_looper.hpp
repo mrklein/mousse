@@ -59,18 +59,12 @@ protected:
     //- Return edge from cellEdges that is most perpendicular
     //  to refinement direction.
     label getMisAlignedEdge(const vector& refDir, const label cellI) const;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    cellLooper(const cellLooper&);
-    //- Disallow default bitwise assignment
-    void operator=(const cellLooper&);
 public:
   //- Runtime type information
-  TypeName("cellLooper");
+  TYPE_NAME("cellLooper");
   // Declare run-time constructor selection table
     // For the direct constructor
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       cellLooper,
@@ -86,9 +80,13 @@ public:
     //- Clone
     autoPtr<cellLooper> clone() const
     {
-      notImplemented("autoPtr<tcellLooper> clone() const");
+      NOT_IMPLEMENTED("autoPtr<tcellLooper> clone() const");
       return autoPtr<cellLooper>(NULL);
     }
+    //- Disallow default bitwise copy construct
+    cellLooper(const cellLooper&) = delete;
+    //- Disallow default bitwise assignment
+    cellLooper& operator=(const cellLooper&) = delete;
   // Selectors
     //- Return a reference to the selected cellLooper
     static autoPtr<cellLooper> New

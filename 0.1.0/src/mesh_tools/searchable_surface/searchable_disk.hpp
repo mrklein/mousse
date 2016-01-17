@@ -44,13 +44,9 @@ private:
       const point& end,
       pointIndexHit&
     ) const;
-    //- Disallow default bitwise copy construct
-    searchableDisk(const searchableDisk&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableDisk&);
 public:
   //- Runtime type information
-  TypeName("searchableDisk");
+  TYPE_NAME("searchableDisk");
   // Constructors
     //- Construct from components
     searchableDisk
@@ -66,6 +62,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableDisk(const searchableDisk&) = delete;
+    //- Disallow default bitwise assignment
+    searchableDisk& operator=(const searchableDisk&) = delete;
   //- Destructor
   virtual ~searchableDisk();
   // Member Functions
@@ -100,9 +100,9 @@ public:
       return coordinates();
     }
     //- Does any part of the surface overlap the supplied bound box?
-    virtual bool overlaps(const boundBox& bb) const
+    virtual bool overlaps(const boundBox&) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "searchableDisk::overlaps(const boundBox&) const"
       );
@@ -156,7 +156,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchableDisk::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchableDisk::writeData(Ostream&) const");
         return false;
       }
 };

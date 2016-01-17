@@ -89,7 +89,7 @@ bool mousse::slidingInterface::projectPoints() const
   // Calculate min edge length for the points and faces of master patch
   scalarField minMasterPointLength(masterLocalPoints.size(), GREAT);
   scalarField minMasterFaceLength(masterPatch.size(), GREAT);
-  forAll(masterEdges, edgeI)
+  FOR_ALL(masterEdges, edgeI)
   {
     const edge& curEdge = masterEdges[edgeI];
     const scalar curLength =
@@ -109,7 +109,7 @@ bool mousse::slidingInterface::projectPoints() const
       );
     // Do faces
     const labelList& curFaces = masterEdgeFaces[edgeI];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       minMasterFaceLength[curFaces[faceI]] =
         min
@@ -124,7 +124,7 @@ bool mousse::slidingInterface::projectPoints() const
   // Calculate min edge length for the points and faces of slave patch
   scalarField minSlavePointLength(slaveLocalPoints.size(), GREAT);
   scalarField minSlaveFaceLength(slavePatch.size(), GREAT);
-  forAll(slaveEdges, edgeI)
+  FOR_ALL(slaveEdges, edgeI)
   {
     const edge& curEdge = slaveEdges[edgeI];
     const scalar curLength =
@@ -144,7 +144,7 @@ bool mousse::slidingInterface::projectPoints() const
       );
     // Do faces
     const labelList& curFaces = slaveEdgeFaces[edgeI];
-    forAll(curFaces, faceI)
+    FOR_ALL(curFaces, faceI)
     {
       minSlaveFaceLength[curFaces[faceI]] =
         min
@@ -177,7 +177,7 @@ bool mousse::slidingInterface::projectPoints() const
   if (debug)
   {
     label nHits = 0;
-    forAll(slavePointFaceHits, pointI)
+    FOR_ALL(slavePointFaceHits, pointI)
     {
       if (slavePointFaceHits[pointI].hit())
       {
@@ -205,7 +205,7 @@ bool mousse::slidingInterface::projectPoints() const
         << name() << " : "
         << "Adjusting point projection for integral match: ";
     }
-    forAll(slavePointFaceHits, pointI)
+    FOR_ALL(slavePointFaceHits, pointI)
     {
       if (slavePointFaceHits[pointI].hit())
       {
@@ -272,7 +272,7 @@ bool mousse::slidingInterface::projectPoints() const
   }
   else if (matchType_ == PARTIAL)
   {
-    forAll(slavePointFaceHits, pointI)
+    FOR_ALL(slavePointFaceHits, pointI)
     {
       if (slavePointFaceHits[pointI].hit())
       {
@@ -296,7 +296,7 @@ bool mousse::slidingInterface::projectPoints() const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "bool slidingInterface::projectPoints() const"
     )   << "Problem in point projection.  Unknown sliding match type "
@@ -311,7 +311,7 @@ bool mousse::slidingInterface::projectPoints() const
     scalar minEdgeLength = GREAT;
     scalar el = 0;
     label nShortEdges = 0;
-    forAll(slaveEdges, edgeI)
+    FOR_ALL(slaveEdges, edgeI)
     {
       el = slaveEdges[edgeI].mag(projectedSlavePoints);
       if (el < SMALL)
@@ -325,7 +325,7 @@ bool mousse::slidingInterface::projectPoints() const
     }
     if (nShortEdges > 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "bool slidingInterface::projectPoints() const"
       )   << "Problem in point projection.  " << nShortEdges
@@ -357,7 +357,7 @@ bool mousse::slidingInterface::projectPoints() const
   // 4) If a master point has been hit directly, it cannot be merged
   // into the edge. Mark it as used in the reverse list
   label nMergedPoints = 0;
-  forAll(projectedSlavePoints, pointI)
+  FOR_ALL(projectedSlavePoints, pointI)
   {
     if (slavePointFaceHits[pointI].hit())
     {
@@ -369,7 +369,7 @@ bool mousse::slidingInterface::projectPoints() const
       label mergePoint = -1;
       scalar mergeDist = GREAT;
       // Try all point before deciding on best fit.
-      forAll(hitFace, hitPointI)
+      FOR_ALL(hitFace, hitPointI)
       {
         scalar dist =
           mag(masterLocalPoints[hitFace[hitPointI]] - curPoint);
@@ -411,7 +411,7 @@ bool mousse::slidingInterface::projectPoints() const
     // Check for zero-length edges in slave projection
     scalar minEdgeLength = GREAT;
     scalar el = 0;
-    forAll(slaveEdges, edgeI)
+    FOR_ALL(slaveEdges, edgeI)
     {
       el = slaveEdges[edgeI].mag(projectedSlavePoints);
       if (el < SMALL)
@@ -424,7 +424,7 @@ bool mousse::slidingInterface::projectPoints() const
     }
     if (minEdgeLength < SMALL)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "bool slidingInterface::projectPoints() const"
       )   << "Problem in point projection.  Short projected edge "
@@ -439,7 +439,7 @@ bool mousse::slidingInterface::projectPoints() const
   // Merge projected points against master edges
   labelList slavePointEdgeHits(slaveLocalPoints.size(), -1);
   label nMovedPoints = 0;
-  forAll(projectedSlavePoints, pointI)
+  FOR_ALL(projectedSlavePoints, pointI)
   {
     // Eliminate the points merged into points
     if (slavePointPointHits[pointI] < 0)
@@ -458,7 +458,7 @@ bool mousse::slidingInterface::projectPoints() const
         );
       const scalar mergeTol = pointMergeTol_*mergeLength;
       scalar minDistance = GREAT;
-      forAll(hitFaceEdges, edgeI)
+      FOR_ALL(hitFaceEdges, edgeI)
       {
         const edge& curEdge = masterEdges[hitFaceEdges[edgeI]];
         pointHit edgeHit =
@@ -497,7 +497,7 @@ bool mousse::slidingInterface::projectPoints() const
           masterEdges[slavePointEdgeHits[pointI]];
         label mergePoint = -1;
         scalar mergeDist = GREAT;
-        forAll(hitMasterEdge, hmeI)
+        FOR_ALL(hitMasterEdge, hmeI)
         {
           scalar hmeDist =
             mag(masterLocalPoints[hitMasterEdge[hmeI]] - curPoint);
@@ -544,7 +544,7 @@ bool mousse::slidingInterface::projectPoints() const
     // Check for zero-length edges in slave projection
     scalar minEdgeLength = GREAT;
     scalar el = 0;
-    forAll(slaveEdges, edgeI)
+    FOR_ALL(slaveEdges, edgeI)
     {
       el = slaveEdges[edgeI].mag(projectedSlavePoints);
       if (el < SMALL)
@@ -557,7 +557,7 @@ bool mousse::slidingInterface::projectPoints() const
     }
     if (minEdgeLength < SMALL)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "bool slidingInterface::projectPoints() const"
       )   << "Problem in point projection.  Short projected edge "
@@ -620,7 +620,7 @@ bool mousse::slidingInterface::projectPoints() const
     nFacesPerSlaveEdge_*primitiveMesh::edgesPerFace_
   );
   labelHashSet addedFaces(2*primitiveMesh::edgesPerFace_);
-  forAll(slaveEdges, edgeI)
+  FOR_ALL(slaveEdges, edgeI)
   {
     const edge& curEdge = slaveEdges[edgeI];
     {
@@ -654,10 +654,10 @@ bool mousse::slidingInterface::projectPoints() const
         // Add all face neighbours of face in the map
         const labelList cf = addedFaces.toc();
         addedFaces.clear();
-        forAll(cf, cfI)
+        FOR_ALL(cf, cfI)
         {
           const labelList& curNbrs = masterFaceFaces[cf[cfI]];
-          forAll(curNbrs, nbrI)
+          FOR_ALL(curNbrs, nbrI)
           {
             if (!curFaceMap.found(curNbrs[nbrI]))
             {
@@ -694,10 +694,10 @@ bool mousse::slidingInterface::projectPoints() const
           // Add all face neighbours of face in the map
           const labelList cf = addedFaces.toc();
           addedFaces.clear();
-          forAll(cf, cfI)
+          FOR_ALL(cf, cfI)
           {
             const labelList& curNbrs = masterFaceFaces[cf[cfI]];
-            forAll(curNbrs, nbrI)
+            FOR_ALL(curNbrs, nbrI)
             {
               if (!curFaceMap.found(curNbrs[nbrI]))
               {
@@ -735,10 +735,10 @@ bool mousse::slidingInterface::projectPoints() const
       );
       const labelList curFaces = curFaceMap.toc();
 //             Pout<< "curFaces: " << curFaces << endl;
-      forAll(curFaces, faceI)
+      FOR_ALL(curFaces, faceI)
       {
         const face& f = masterLocalFaces[curFaces[faceI]];
-        forAll(f, pointI)
+        FOR_ALL(f, pointI)
         {
           curPointMap.insert(f[pointI]);
         }
@@ -782,7 +782,7 @@ bool mousse::slidingInterface::projectPoints() const
          + slavePointNormals[curEdge.end()]
         );
       edgeNormalInPlane /= mag(edgeNormalInPlane);
-      forAll(curMasterPoints, pointI)
+      FOR_ALL(curMasterPoints, pointI)
       {
         const label cmp = curMasterPoints[pointI];
         // Skip the current point if the edge start or end has
@@ -980,7 +980,7 @@ bool mousse::slidingInterface::projectPoints() const
     // another point or edge
     bool faceHitsDifferent = false;
     const List<objectHit>& oldPointFaceHits = *slavePointFaceHitsPtr_;
-    forAll(slavePointFaceHits, pointI)
+    FOR_ALL(slavePointFaceHits, pointI)
     {
       if
       (

@@ -22,7 +22,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(polyTopoChange, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyTopoChange, 0);
 }
 // Private Member Functions 
 // Renumber with special handling for merged items (marked with <-1)
@@ -32,7 +32,7 @@ void mousse::polyTopoChange::renumberReverseMap
   DynamicList<label>& elems
 )
 {
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     label val = elems[elemI];
     if (val >= 0)
@@ -53,7 +53,7 @@ void mousse::polyTopoChange::renumber
 )
 {
   labelHashSet newElems(elems.size());
-  forAllConstIter(labelHashSet, elems, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, elems, iter)
   {
     label newElem = map[iter.key()];
     if (newElem >= 0)
@@ -71,7 +71,7 @@ void mousse::polyTopoChange::renumberCompact
 )
 {
   label newElemI = 0;
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     label newVal = map[elems[elemI]];
     if (newVal != -1)
@@ -95,7 +95,7 @@ void mousse::polyTopoChange::countMap
   nInflate = 0;
   nMerge = 0;
   nRemove = 0;
-  forAll(map, newCellI)
+  FOR_ALL(map, newCellI)
   {
     label oldCellI = map[newCellI];
     if (oldCellI >= 0)
@@ -117,11 +117,11 @@ void mousse::polyTopoChange::countMap
     }
     else
     {
-      FatalErrorIn("countMap") << "old:" << oldCellI
+      FATAL_ERROR_IN("countMap") << "old:" << oldCellI
         << " new:" << newCellI << abort(FatalError);
     }
   }
-  forAll(reverseMap, oldCellI)
+  FOR_ALL(reverseMap, oldCellI)
   {
     label newCellI = reverseMap[oldCellI];
     if (newCellI >= 0)
@@ -146,7 +146,7 @@ mousse::labelHashSet mousse::polyTopoChange::getSetIndices
 )
 {
   labelHashSet values(lst.count());
-  forAll(lst, i)
+  FOR_ALL(lst, i)
   {
     if (lst[i])
     {
@@ -160,7 +160,7 @@ void mousse::polyTopoChange::writeMeshStats(const polyMesh& mesh, Ostream& os)
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   labelList patchSizes(patches.size());
   labelList patchStarts(patches.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     patchSizes[patchI] = patches[patchI].size();
     patchStarts[patchI] = patches[patchI].start();
@@ -181,7 +181,7 @@ void mousse::polyTopoChange::getMergeSets
 {
   // Per new cell the number of old cells that have been merged into it
   labelList nMerged(cellMap.size(), 1);
-  forAll(reverseCellMap, oldCellI)
+  FOR_ALL(reverseCellMap, oldCellI)
   {
     label newCellI = reverseCellMap[oldCellI];
     if (newCellI < -1)
@@ -193,7 +193,7 @@ void mousse::polyTopoChange::getMergeSets
   // From merged cell to set index
   labelList cellToMergeSet(cellMap.size(), -1);
   label nSets = 0;
-  forAll(nMerged, cellI)
+  FOR_ALL(nMerged, cellI)
   {
     if (nMerged[cellI] > 1)
     {
@@ -206,7 +206,7 @@ void mousse::polyTopoChange::getMergeSets
   // - masterObjects : list of old cells that have been merged. Element 0
   //                   will be the original destination cell label.
   cellsFromCells.setSize(nSets);
-  forAll(reverseCellMap, oldCellI)
+  FOR_ALL(reverseCellMap, oldCellI)
   {
     label newCellI = reverseCellMap[oldCellI];
     if (newCellI < -1)
@@ -235,7 +235,7 @@ void mousse::polyTopoChange::getMergeSets
 }
 bool mousse::polyTopoChange::hasValidPoints(const face& f) const
 {
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if (f[fp] < 0 || f[fp] >= points_.size())
     {
@@ -247,11 +247,11 @@ bool mousse::polyTopoChange::hasValidPoints(const face& f) const
 mousse::pointField mousse::polyTopoChange::facePoints(const face& f) const
 {
   pointField points(f.size());
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if (f[fp] < 0 && f[fp] >= points_.size())
     {
-      FatalErrorIn("polyTopoChange::facePoints(const face&) const")
+      FATAL_ERROR_IN("polyTopoChange::facePoints(const face&) const")
         << "Problem." << abort(FatalError);
     }
     points[fp] = points_[f[fp]];
@@ -276,7 +276,7 @@ void mousse::polyTopoChange::checkFace
     }
     else if (patchI == -1 || patchI >= nPatches_)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyTopoChange::checkFace(const face&, const label"
         ", const label, const label, const label)"
@@ -299,7 +299,7 @@ void mousse::polyTopoChange::checkFace
   {
     if (patchI != -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyTopoChange::checkFace(const face&, const label"
         ", const label, const label, const label)"
@@ -318,7 +318,7 @@ void mousse::polyTopoChange::checkFace
     }
     if (nei <= own)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyTopoChange::checkFace(const face&, const label"
         ", const label, const label, const label)"
@@ -339,7 +339,7 @@ void mousse::polyTopoChange::checkFace
   }
   if (f.size() < 3 || findIndex(f, -1) != -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "polyTopoChange::checkFace(const face&, const label"
       ", const label, const label, const label)"
@@ -359,7 +359,7 @@ void mousse::polyTopoChange::checkFace
   }
   if (faceI >= 0 && faceI < faces_.size() && faceRemoved(faceI))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "polyTopoChange::checkFace(const face&, const label"
       ", const label, const label, const label)"
@@ -377,11 +377,11 @@ void mousse::polyTopoChange::checkFace
       }
       FatalError << abort(FatalError);
   }
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if (f[fp] < points_.size() && pointRemoved(f[fp]))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyTopoChange::checkFace(const face&, const label"
         ", const label, const label, const label)"
@@ -417,7 +417,7 @@ void mousse::polyTopoChange::makeCells
   {
     if (faceOwner_[faceI] < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyTopoChange::makeCells\n"
         "(\n"
@@ -441,7 +441,7 @@ void mousse::polyTopoChange::makeCells
   }
   // 2. Calculate offsets
   cellFaceOffsets[0] = 0;
-  forAll(nNbrs, cellI)
+  FOR_ALL(nNbrs, cellI)
   {
     cellFaceOffsets[cellI+1] = cellFaceOffsets[cellI] + nNbrs[cellI];
   }
@@ -525,7 +525,7 @@ mousse::label mousse::polyTopoChange::getCellOrder
     // For a disconnected region find the lowest connected cell.
     label currentCell = -1;
     label minWeight = labelMax;
-    forAll(visited, cellI)
+    FOR_ALL(visited, cellI)
     {
       // find the lowest connected cell that has not been visited yet
       if (!cellRemoved(cellI) && !visited[cellI])
@@ -563,7 +563,7 @@ mousse::label mousse::polyTopoChange::getCellOrder
         // 1. Count neighbours of unvisited neighbours
         nbrs.clear();
         weights.clear();
-        forAll(neighbours, nI)
+        FOR_ALL(neighbours, nI)
         {
           label nbr = neighbours[nI];
           if (!cellRemoved(nbr) && !visited[nbr])
@@ -576,7 +576,7 @@ mousse::label mousse::polyTopoChange::getCellOrder
         // 2. Sort
         sortedOrder(weights, order);
         // 3. Add in sorted order
-        forAll(order, i)
+        FOR_ALL(order, i)
         {
           nextCell.append(nbrs[i]);
         }
@@ -608,7 +608,7 @@ void mousse::polyTopoChange::getFaceOrder
   label newFaceI = 0;
   labelList nbr;
   labelList order;
-  forAll(cellMap_, cellI)
+  FOR_ALL(cellMap_, cellI)
   {
     label startOfCell = cellFaceOffsets[cellI];
     label nFaces = cellFaceOffsets[cellI+1] - startOfCell;
@@ -651,7 +651,7 @@ void mousse::polyTopoChange::getFaceOrder
     //nbr.sort();
     order.setSize(nFaces);
     sortedOrder(nbr, order);
-    //forAll(nbr, i)
+    //FOR_ALL(nbr, i)
     //{
     //    if (nbr[i] != -1)
     //    {
@@ -659,7 +659,7 @@ void mousse::polyTopoChange::getFaceOrder
     //            newFaceI++;
     //    }
     //}
-    forAll(order, i)
+    FOR_ALL(order, i)
     {
       label index = order[i];
       if (nbr[index] != -1)
@@ -684,7 +684,7 @@ void mousse::polyTopoChange::getFaceOrder
       }
     }
     label faceI = patchStarts[0];
-    forAll(patchStarts, patchI)
+    FOR_ALL(patchStarts, patchI)
     {
       patchStarts[patchI] = faceI;
       faceI += patchSizes[patchI];
@@ -709,11 +709,11 @@ void mousse::polyTopoChange::getFaceOrder
     oldToNew[faceI] = faceI;
   }
   // Check done all faces.
-  forAll(oldToNew, faceI)
+  FOR_ALL(oldToNew, faceI)
   {
     if (oldToNew[faceI] == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyTopoChange::getFaceOrder"
         "(const label, const labelList&, const labelList&)"
@@ -797,7 +797,7 @@ void mousse::polyTopoChange::compact
     if (!orderPoints)
     {
       nInternalPoints = -1;
-      forAll(points_, pointI)
+      FOR_ALL(points_, pointI)
       {
         if (!pointRemoved(pointI) && !retiredPoints_.found(pointI))
         {
@@ -808,7 +808,7 @@ void mousse::polyTopoChange::compact
     }
     else
     {
-      forAll(points_, pointI)
+      FOR_ALL(points_, pointI)
       {
         if (!pointRemoved(pointI) && !retiredPoints_.found(pointI))
         {
@@ -816,7 +816,7 @@ void mousse::polyTopoChange::compact
         }
       }
       // Mark boundary points
-      forAll(faceOwner_, faceI)
+      FOR_ALL(faceOwner_, faceI)
       {
         if
         (
@@ -827,7 +827,7 @@ void mousse::polyTopoChange::compact
         {
           // Valid boundary face
           const face& f = faces_[faceI];
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             label pointI = f[fp];
             if (localPointMap[pointI] == -1)
@@ -838,7 +838,7 @@ void mousse::polyTopoChange::compact
               || retiredPoints_.found(pointI)
               )
               {
-                FatalErrorIn("polyTopoChange::compact(..)")
+                FATAL_ERROR_IN("polyTopoChange::compact(..)")
                   << "Removed or retired point " << pointI
                   << " in face " << f
                   << " at position " << faceI << endl
@@ -853,7 +853,7 @@ void mousse::polyTopoChange::compact
       label nBoundaryPoints = newPointI;
       nInternalPoints = nActivePoints - nBoundaryPoints;
       // Move the boundary addressing up
-      forAll(localPointMap, pointI)
+      FOR_ALL(localPointMap, pointI)
       {
         if (localPointMap[pointI] != -1)
         {
@@ -862,7 +862,7 @@ void mousse::polyTopoChange::compact
       }
       newPointI = 0;
       // Mark internal points
-      forAll(faceOwner_, faceI)
+      FOR_ALL(faceOwner_, faceI)
       {
         if
         (
@@ -873,7 +873,7 @@ void mousse::polyTopoChange::compact
         {
           // Valid internal face
           const face& f = faces_[faceI];
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             label pointI = f[fp];
             if (localPointMap[pointI] == -1)
@@ -884,7 +884,7 @@ void mousse::polyTopoChange::compact
               || retiredPoints_.found(pointI)
               )
               {
-                FatalErrorIn("polyTopoChange::compact(..)")
+                FATAL_ERROR_IN("polyTopoChange::compact(..)")
                   << "Removed or retired point " << pointI
                   << " in face " << f
                   << " at position " << faceI << endl
@@ -898,12 +898,12 @@ void mousse::polyTopoChange::compact
       }
       if (newPointI != nInternalPoints)
       {
-        FatalErrorIn("polyTopoChange::compact(..)")
+        FATAL_ERROR_IN("polyTopoChange::compact(..)")
           << "Problem." << abort(FatalError);
       }
       newPointI = nActivePoints;
     }
-    forAllConstIter(labelHashSet, retiredPoints_, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, retiredPoints_, iter)
     {
       localPointMap[iter.key()] = newPointI++;
     }
@@ -921,14 +921,14 @@ void mousse::polyTopoChange::compact
     renumberKey(localPointMap, pointZone_);
     renumber(localPointMap, retiredPoints_);
     // Use map to relabel face vertices
-    forAll(faces_, faceI)
+    FOR_ALL(faces_, faceI)
     {
       face& f = faces_[faceI];
       //labelList oldF(f);
       renumberCompact(localPointMap, f);
       if (!faceRemoved(faceI) && f.size() < 3)
       {
-        FatalErrorIn("polyTopoChange::compact(..)")
+        FATAL_ERROR_IN("polyTopoChange::compact(..)")
           << "Created illegal face " << f
           //<< " from face " << oldF
           << " at position:" << faceI
@@ -941,7 +941,7 @@ void mousse::polyTopoChange::compact
   {
     labelList localFaceMap(faces_.size(), -1);
     label newFaceI = 0;
-    forAll(faces_, faceI)
+    FOR_ALL(faces_, faceI)
     {
       if (!faceRemoved(faceI) && faceOwner_[faceI] >= 0)
       {
@@ -949,7 +949,7 @@ void mousse::polyTopoChange::compact
       }
     }
     nActiveFaces_ = newFaceI;
-    forAll(faces_, faceI)
+    FOR_ALL(faces_, faceI)
     {
       if (!faceRemoved(faceI) && faceOwner_[faceI] < 0)
       {
@@ -983,7 +983,7 @@ void mousse::polyTopoChange::compact
       localCellMap.setSize(cellMap_.size());
       localCellMap = -1;
       newCellI = 0;
-      forAll(cellMap_, cellI)
+      FOR_ALL(cellMap_, cellI)
       {
         if (!cellRemoved(cellI))
         {
@@ -1009,7 +1009,7 @@ void mousse::polyTopoChange::compact
       renumberKey(localCellMap, cellFromFace_);
       // Renumber owner/neighbour. Take into account if neighbour suddenly
       // gets lower cell than owner.
-      forAll(faceOwner_, faceI)
+      FOR_ALL(faceOwner_, faceI)
       {
         label own = faceOwner_[faceI];
         label nei = faceNeighbour_[faceI];
@@ -1089,7 +1089,7 @@ mousse::labelList mousse::polyTopoChange::selectFaces
 )
 {
   label nFaces = 0;
-  forAll(faceLabels, i)
+  FOR_ALL(faceLabels, i)
   {
     label faceI = faceLabels[i];
     if (internalFacesOnly == mesh.isInternalFace(faceI))
@@ -1108,7 +1108,7 @@ mousse::labelList mousse::polyTopoChange::selectFaces
   {
     collectedFaces.setSize(nFaces);
     nFaces = 0;
-    forAll(faceLabels, i)
+    FOR_ALL(faceLabels, i)
     {
       label faceI = faceLabels[i];
       if (internalFacesOnly == mesh.isInternalFace(faceI))
@@ -1129,13 +1129,13 @@ void mousse::polyTopoChange::calcPatchPointMap
 ) const
 {
   patchPointMap.setSize(boundary.size());
-  forAll(boundary, patchI)
+  FOR_ALL(boundary, patchI)
   {
     const labelList& meshPoints = boundary[patchI].meshPoints();
     const Map<label>& oldMeshPointMap = oldPatchMeshPointMaps[patchI];
     labelList& curPatchPointRnb = patchPointMap[patchI];
     curPatchPointRnb.setSize(meshPoints.size());
-    forAll(meshPoints, i)
+    FOR_ALL(meshPoints, i)
     {
       if (meshPoints[i] < pointMap_.size())
       {
@@ -1175,7 +1175,7 @@ void mousse::polyTopoChange::calcFaceInflationMaps
   {
     label nFacesFromPoints = 0;
     // Collect all still existing faces connected to this point.
-    forAllConstIter(Map<label>, faceFromPoint_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, faceFromPoint_, iter)
     {
       label newFaceI = iter.key();
       if (region_[newFaceI] == -1)
@@ -1215,7 +1215,7 @@ void mousse::polyTopoChange::calcFaceInflationMaps
   {
     label nFacesFromEdges = 0;
     // Collect all still existing faces connected to this edge.
-    forAllConstIter(Map<label>, faceFromEdge_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, faceFromEdge_, iter)
     {
       label newFaceI = iter.key();
       if (region_[newFaceI] == -1)
@@ -1271,7 +1271,7 @@ void mousse::polyTopoChange::calcCellInflationMaps
   {
     label nCellsFromPoints = 0;
     // Collect all still existing faces connected to this point.
-    forAllConstIter(Map<label>, cellFromPoint_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, cellFromPoint_, iter)
     {
       cellsFromPoints[nCellsFromPoints++] = objectMap
       (
@@ -1285,7 +1285,7 @@ void mousse::polyTopoChange::calcCellInflationMaps
   {
     label nCellsFromEdges = 0;
     // Collect all still existing faces connected to this point.
-    forAllConstIter(Map<label>, cellFromEdge_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, cellFromEdge_, iter)
     {
       cellsFromEdges[nCellsFromEdges++] = objectMap
       (
@@ -1300,7 +1300,7 @@ void mousse::polyTopoChange::calcCellInflationMaps
     label nCellsFromFaces = 0;
     labelList twoCells(2);
     // Collect all still existing faces connected to this point.
-    forAllConstIter(Map<label>, cellFromFace_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, cellFromFace_, iter)
     {
       label oldFaceI = iter();
       if (mesh.isInternalFace(oldFaceI))
@@ -1348,12 +1348,12 @@ void mousse::polyTopoChange::resetZones
     const pointZoneMesh& pointZones = mesh.pointZones();
     // Count points per zone
     labelList nPoints(pointZones.size(), 0);
-    forAllConstIter(Map<label>, pointZone_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, pointZone_, iter)
     {
       label zoneI = iter();
       if (zoneI < 0 || zoneI >= pointZones.size())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "resetZones(const polyMesh&, polyMesh&, labelListList&"
           "labelListList&, labelListList&)"
@@ -1365,30 +1365,30 @@ void mousse::polyTopoChange::resetZones
     }
     // Distribute points per zone
     labelListList addressing(pointZones.size());
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       addressing[zoneI].setSize(nPoints[zoneI]);
     }
     nPoints = 0;
-    forAllConstIter(Map<label>, pointZone_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, pointZone_, iter)
     {
       label zoneI = iter();
       addressing[zoneI][nPoints[zoneI]++] = iter.key();
     }
     // Sort the addressing
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       stableSort(addressing[zoneI]);
     }
     // So now we both have old zones and the new addressing.
     // Invert the addressing to get pointZoneMap.
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       const pointZone& oldZone = pointZones[zoneI];
       const labelList& newZoneAddr = addressing[zoneI];
       labelList& curPzRnb = pointZoneMap[zoneI];
       curPzRnb.setSize(newZoneAddr.size());
-      forAll(newZoneAddr, i)
+      FOR_ALL(newZoneAddr, i)
       {
         if (newZoneAddr[i] < pointMap_.size())
         {
@@ -1402,7 +1402,7 @@ void mousse::polyTopoChange::resetZones
     }
     // Reset the addresing on the zone
     newMesh.pointZones().clearAddressing();
-    forAll(newMesh.pointZones(), zoneI)
+    FOR_ALL(newMesh.pointZones(), zoneI)
     {
       if (debug)
       {
@@ -1420,12 +1420,12 @@ void mousse::polyTopoChange::resetZones
   {
     const faceZoneMesh& faceZones = mesh.faceZones();
     labelList nFaces(faceZones.size(), 0);
-    forAllConstIter(Map<label>, faceZone_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, faceZone_, iter)
     {
       label zoneI = iter();
       if (zoneI < 0 || zoneI >= faceZones.size())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "resetZones(const polyMesh&, polyMesh&, labelListList&"
           "labelListList&, labelListList&)"
@@ -1437,13 +1437,13 @@ void mousse::polyTopoChange::resetZones
     }
     labelListList addressing(faceZones.size());
     boolListList flipMode(faceZones.size());
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       addressing[zoneI].setSize(nFaces[zoneI]);
       flipMode[zoneI].setSize(nFaces[zoneI]);
     }
     nFaces = 0;
-    forAllConstIter(Map<label>, faceZone_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, faceZone_, iter)
     {
       label zoneI = iter();
       label faceI = iter.key();
@@ -1452,13 +1452,13 @@ void mousse::polyTopoChange::resetZones
       flipMode[zoneI][index] = faceZoneFlip_[faceI];
     }
     // Sort the addressing
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       labelList newToOld;
       sortedOrder(addressing[zoneI], newToOld);
       {
         labelList newAddressing(addressing[zoneI].size());
-        forAll(newAddressing, i)
+        FOR_ALL(newAddressing, i)
         {
           newAddressing[i] = addressing[zoneI][newToOld[i]];
         }
@@ -1466,7 +1466,7 @@ void mousse::polyTopoChange::resetZones
       }
       {
         boolList newFlipMode(flipMode[zoneI].size());
-        forAll(newFlipMode, i)
+        FOR_ALL(newFlipMode, i)
         {
           newFlipMode[i] = flipMode[zoneI][newToOld[i]];
         }
@@ -1475,13 +1475,13 @@ void mousse::polyTopoChange::resetZones
     }
     // So now we both have old zones and the new addressing.
     // Invert the addressing to get faceZoneFaceMap.
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       const faceZone& oldZone = faceZones[zoneI];
       const labelList& newZoneAddr = addressing[zoneI];
       labelList& curFzFaceRnb = faceZoneFaceMap[zoneI];
       curFzFaceRnb.setSize(newZoneAddr.size());
-      forAll(newZoneAddr, i)
+      FOR_ALL(newZoneAddr, i)
       {
         if (newZoneAddr[i] < faceMap_.size())
         {
@@ -1496,7 +1496,7 @@ void mousse::polyTopoChange::resetZones
     }
     // Reset the addresing on the zone
     newMesh.faceZones().clearAddressing();
-    forAll(newMesh.faceZones(), zoneI)
+    FOR_ALL(newMesh.faceZones(), zoneI)
     {
       if (debug)
       {
@@ -1518,12 +1518,12 @@ void mousse::polyTopoChange::resetZones
   {
     const cellZoneMesh& cellZones = mesh.cellZones();
     labelList nCells(cellZones.size(), 0);
-    forAll(cellZone_, cellI)
+    FOR_ALL(cellZone_, cellI)
     {
       label zoneI = cellZone_[cellI];
       if (zoneI >= cellZones.size())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "resetZones(const polyMesh&, polyMesh&, labelListList&"
           "labelListList&, labelListList&)"
@@ -1536,12 +1536,12 @@ void mousse::polyTopoChange::resetZones
       }
     }
     labelListList addressing(cellZones.size());
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       addressing[zoneI].setSize(nCells[zoneI]);
     }
     nCells = 0;
-    forAll(cellZone_, cellI)
+    FOR_ALL(cellZone_, cellI)
     {
       label zoneI = cellZone_[cellI];
       if (zoneI >= 0)
@@ -1550,19 +1550,19 @@ void mousse::polyTopoChange::resetZones
       }
     }
     // Sort the addressing
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       stableSort(addressing[zoneI]);
     }
     // So now we both have old zones and the new addressing.
     // Invert the addressing to get cellZoneMap.
-    forAll(addressing, zoneI)
+    FOR_ALL(addressing, zoneI)
     {
       const cellZone& oldZone = cellZones[zoneI];
       const labelList& newZoneAddr = addressing[zoneI];
       labelList& curCellRnb = cellZoneMap[zoneI];
       curCellRnb.setSize(newZoneAddr.size());
-      forAll(newZoneAddr, i)
+      FOR_ALL(newZoneAddr, i)
       {
         if (newZoneAddr[i] < cellMap_.size())
         {
@@ -1577,7 +1577,7 @@ void mousse::polyTopoChange::resetZones
     }
     // Reset the addresing on the zone
     newMesh.cellZones().clearAddressing();
-    forAll(newMesh.cellZones(), zoneI)
+    FOR_ALL(newMesh.cellZones(), zoneI)
     {
       if (debug)
       {
@@ -1599,14 +1599,14 @@ void mousse::polyTopoChange::calcFaceZonePointMap
 {
   const faceZoneMesh& faceZones = mesh.faceZones();
   faceZonePointMap.setSize(faceZones.size());
-  forAll(faceZones, zoneI)
+  FOR_ALL(faceZones, zoneI)
   {
     const faceZone& newZone = faceZones[zoneI];
     const labelList& newZoneMeshPoints = newZone().meshPoints();
     const Map<label>& oldZoneMeshPointMap = oldFaceZoneMeshPointMaps[zoneI];
     labelList& curFzPointRnb = faceZonePointMap[zoneI];
     curFzPointRnb.setSize(newZoneMeshPoints.size());
-    forAll(newZoneMeshPoints, pointI)
+    FOR_ALL(newZoneMeshPoints, pointI)
     {
       if (newZoneMeshPoints[pointI] < pointMap_.size())
       {
@@ -1647,7 +1647,7 @@ void mousse::polyTopoChange::reorderCoupledFaces
   labelList rotation(faces_.size(), 0);
   PstreamBuffers pBufs(Pstream::nonBlocking);
   // Send ordering
-  forAll(boundary, patchI)
+  FOR_ALL(boundary, patchI)
   {
     if (syncParallel || !isA<processorPolyPatch>(boundary[patchI]))
     {
@@ -1673,7 +1673,7 @@ void mousse::polyTopoChange::reorderCoupledFaces
   }
   // Receive and calculate ordering
   bool anyChanged = false;
-  forAll(boundary, patchI)
+  FOR_ALL(boundary, patchI)
   {
     if (syncParallel || !isA<processorPolyPatch>(boundary[patchI]))
     {
@@ -1699,12 +1699,12 @@ void mousse::polyTopoChange::reorderCoupledFaces
       {
         // Merge patch face reordering into mesh face reordering table
         label start = patchStarts[patchI];
-        forAll(patchFaceMap, patchFaceI)
+        FOR_ALL(patchFaceMap, patchFaceI)
         {
           oldToNew[patchFaceI + start] =
             start + patchFaceMap[patchFaceI];
         }
-        forAll(patchFaceRotation, patchFaceI)
+        FOR_ALL(patchFaceRotation, patchFaceI)
         {
           rotation[patchFaceI + start] =
             patchFaceRotation[patchFaceI];
@@ -1722,7 +1722,7 @@ void mousse::polyTopoChange::reorderCoupledFaces
     // Reorder faces according to oldToNew.
     reorderCompactFaces(oldToNew.size(), oldToNew);
     // Rotate faces (rotation is already in new face indices).
-    forAll(rotation, faceI)
+    FOR_ALL(rotation, faceI)
     {
       if (rotation[faceI] != 0)
       {
@@ -1757,7 +1757,7 @@ void mousse::polyTopoChange::compactAndReorder
 {
   if (mesh.boundaryMesh().size() != nPatches_)
   {
-    FatalErrorIn("polyTopoChange::compactAndReorder(..)")
+    FATAL_ERROR_IN("polyTopoChange::compactAndReorder(..)")
       << "polyTopoChange was constructed with a mesh with "
       << nPatches_ << " patches." << endl
       << "The mesh now provided has a different number of patches "
@@ -1825,7 +1825,7 @@ void mousse::polyTopoChange::compactAndReorder
   oldPatchMeshPointMaps.setSize(boundary.size());
   oldPatchNMeshPoints.setSize(boundary.size());
   oldPatchStarts.setSize(boundary.size());
-  forAll(boundary, patchI)
+  FOR_ALL(boundary, patchI)
   {
     // Copy old face zone mesh point maps
     oldPatchMeshPointMaps[patchI] = boundary[patchI].meshPointMap();
@@ -1836,7 +1836,7 @@ void mousse::polyTopoChange::compactAndReorder
   // These need to be saved before resetting the mesh and are used
   // later on to calculate the faceZone pointMaps.
   oldFaceZoneMeshPointMaps.setSize(mesh.faceZones().size());
-  forAll(mesh.faceZones(), zoneI)
+  FOR_ALL(mesh.faceZones(), zoneI)
   {
     const faceZone& oldZone = mesh.faceZones()[zoneI];
     oldFaceZoneMeshPointMaps[zoneI] = oldZone().meshPointMap();
@@ -1951,7 +1951,7 @@ void mousse::polyTopoChange::addMesh
 )
 {
   label maxRegion = nPatches_ - 1;
-  forAll(patchMap, i)
+  FOR_ALL(patchMap, i)
   {
     maxRegion = max(maxRegion, patchMap[i]);
   }
@@ -1967,10 +1967,10 @@ void mousse::polyTopoChange::addMesh
     pointZone_.resize(pointZone_.size() + points.size()/100);
     // Precalc offset zones
     labelList newZoneID(points.size(), -1);
-    forAll(pointZones, zoneI)
+    FOR_ALL(pointZones, zoneI)
     {
       const labelList& pointLabels = pointZones[zoneI];
-      forAll(pointLabels, j)
+      FOR_ALL(pointLabels, j)
       {
         newZoneID[pointLabels[j]] = pointZoneMap[zoneI];
       }
@@ -2002,15 +2002,15 @@ void mousse::polyTopoChange::addMesh
     cellZone_.setCapacity(cellZone_.size() + nAllCells);
     // Precalc offset zones
     labelList newZoneID(nAllCells, -1);
-    forAll(cellZones, zoneI)
+    FOR_ALL(cellZones, zoneI)
     {
       const labelList& cellLabels = cellZones[zoneI];
-      forAll(cellLabels, j)
+      FOR_ALL(cellLabels, j)
       {
         label cellI = cellLabels[j];
         if (newZoneID[cellI] != -1)
         {
-          WarningIn
+          WARNING_IN
           (
             "polyTopoChange::addMesh"
             "(const polyMesh&, const labelList&,"
@@ -2060,11 +2060,11 @@ void mousse::polyTopoChange::addMesh
     // Precalc offset zones
     labelList newZoneID(nAllFaces, -1);
     boolList zoneFlip(nAllFaces, false);
-    forAll(faceZones, zoneI)
+    FOR_ALL(faceZones, zoneI)
     {
       const labelList& faceLabels = faceZones[zoneI];
       const boolList& flipMap = faceZones[zoneI].flipMap();
-      forAll(faceLabels, j)
+      FOR_ALL(faceLabels, j)
       {
         newZoneID[faceLabels[j]] = faceZoneMap[zoneI];
         zoneFlip[faceLabels[j]] = flipMap[j];
@@ -2089,12 +2089,12 @@ void mousse::polyTopoChange::addMesh
       );
     }
     // 2. Patch faces
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (pp.start() != faces_.size())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "polyTopoChange::polyTopoChange"
           "(const polyMesh& mesh, const bool strict)"
@@ -2105,7 +2105,7 @@ void mousse::polyTopoChange::addMesh
           << "Are patches in incremental order?"
           << abort(FatalError);
       }
-      forAll(pp, patchFaceI)
+      FOR_ALL(pp, patchFaceI)
       {
         label faceI = pp.start() + patchFaceI;
         addFace
@@ -2257,7 +2257,7 @@ mousse::label mousse::polyTopoChange::setAction(const topoAction& action)
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "label polyTopoChange::setAction(const topoAction& action)"
     )   << "Unknown type of topoChange: " << action.type()
@@ -2298,7 +2298,7 @@ void mousse::polyTopoChange::modifyPoint
 {
   if (pointI < 0 || pointI >= points_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "polyTopoChange::modifyPoint(const label, const point&)"
     )   << "illegal point label " << pointI << endl
@@ -2307,7 +2307,7 @@ void mousse::polyTopoChange::modifyPoint
   }
   if (pointRemoved(pointI) || pointMap_[pointI] == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "polyTopoChange::modifyPoint(const label, const point&)"
     )   << "point " << pointI << " already marked for removal"
@@ -2343,13 +2343,13 @@ void mousse::polyTopoChange::movePoints(const pointField& newPoints)
 {
   if (newPoints.size() != points_.size())
   {
-    FatalErrorIn("polyTopoChange::movePoints(const pointField&)")
+    FATAL_ERROR_IN("polyTopoChange::movePoints(const pointField&)")
       << "illegal pointField size." << endl
       << "Size:" << newPoints.size() << endl
       << "Points in mesh:" << points_.size()
       << abort(FatalError);
   }
-  forAll(points_, pointI)
+  FOR_ALL(points_, pointI)
   {
     points_[pointI] = newPoints[pointI];
   }
@@ -2362,7 +2362,7 @@ void mousse::polyTopoChange::removePoint
 {
   if (pointI < 0 || pointI >= points_.size())
   {
-    FatalErrorIn("polyTopoChange::removePoint(const label, const label)")
+    FATAL_ERROR_IN("polyTopoChange::removePoint(const label, const label)")
       << "illegal point label " << pointI << endl
       << "Valid point labels are 0 .. " << points_.size()-1
       << abort(FatalError);
@@ -2373,14 +2373,14 @@ void mousse::polyTopoChange::removePoint
   && (pointRemoved(pointI) || pointMap_[pointI] == -1)
   )
   {
-    FatalErrorIn("polyTopoChange::removePoint(const label, const label)")
+    FATAL_ERROR_IN("polyTopoChange::removePoint(const label, const label)")
       << "point " << pointI << " already marked for removal" << nl
       << "Point:" << points_[pointI] << " pointMap:" << pointMap_[pointI]
       << abort(FatalError);
   }
   if (pointI == mergePointI)
   {
-    FatalErrorIn("polyTopoChange::removePoint(const label, const label)")
+    FATAL_ERROR_IN("polyTopoChange::removePoint(const label, const label)")
       << "Cannot remove/merge point " << pointI << " onto itself."
       << abort(FatalError);
   }
@@ -2438,7 +2438,7 @@ mousse::label mousse::polyTopoChange::addFace
   else
   {
     // Allow inflate-from-nothing?
-    //FatalErrorIn("polyTopoChange::addFace")
+    //FATAL_ERROR_IN("polyTopoChange::addFace")
     //    << "Need to specify a master point, edge or face"
     //    << "face:" << f << " own:" << own << " nei:" << nei
     //    << abort(FatalError);
@@ -2497,7 +2497,7 @@ void mousse::polyTopoChange::removeFace(const label faceI, const label mergeFace
 {
   if (faceI < 0 || faceI >= faces_.size())
   {
-    FatalErrorIn("polyTopoChange::removeFace(const label, const label)")
+    FATAL_ERROR_IN("polyTopoChange::removeFace(const label, const label)")
       << "illegal face label " << faceI << endl
       << "Valid face labels are 0 .. " << faces_.size()-1
       << abort(FatalError);
@@ -2508,7 +2508,7 @@ void mousse::polyTopoChange::removeFace(const label faceI, const label mergeFace
   && (faceRemoved(faceI) || faceMap_[faceI] == -1)
   )
   {
-    FatalErrorIn("polyTopoChange::removeFace(const label, const label)")
+    FATAL_ERROR_IN("polyTopoChange::removeFace(const label, const label)")
       << "face " << faceI
       << " already marked for removal"
       << abort(FatalError);
@@ -2577,14 +2577,14 @@ void mousse::polyTopoChange::removeCell(const label cellI, const label mergeCell
 {
   if (cellI < 0 || cellI >= cellMap_.size())
   {
-    FatalErrorIn("polyTopoChange::removeCell(const label, const label)")
+    FATAL_ERROR_IN("polyTopoChange::removeCell(const label, const label)")
       << "illegal cell label " << cellI << endl
       << "Valid cell labels are 0 .. " << cellMap_.size()-1
       << abort(FatalError);
   }
   if (strict_ && cellMap_[cellI] == -2)
   {
-    FatalErrorIn("polyTopoChange::removeCell(const label, const label)")
+    FATAL_ERROR_IN("polyTopoChange::removeCell(const label, const label)")
       << "cell " << cellI
       << " already marked for removal"
       << abort(FatalError);
@@ -2681,7 +2681,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::polyTopoChange::changeMesh
     // Keep (renumbered) mesh points, store new points in map for inflation
     // (appended points (i.e. from nowhere) get value zero)
     pointField renumberedMeshPoints(newPoints.size());
-    forAll(pointMap_, newPointI)
+    FOR_ALL(pointMap_, newPointI)
     {
       label oldPointI = pointMap_[newPointI];
       if (oldPointI >= 0)
@@ -2949,7 +2949,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::polyTopoChange::makeMesh
   {
     const polyBoundaryMesh& oldPatches = mesh.boundaryMesh();
     List<polyPatch*> newBoundary(oldPatches.size());
-    forAll(oldPatches, patchI)
+    FOR_ALL(oldPatches, patchI)
     {
       newBoundary[patchI] = oldPatches[patchI].clone
       (
@@ -2967,7 +2967,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::polyTopoChange::makeMesh
   const pointZoneMesh& oldPointZones = mesh.pointZones();
   List<pointZone*> pZonePtrs(oldPointZones.size());
   {
-    forAll(oldPointZones, i)
+    FOR_ALL(oldPointZones, i)
     {
       pZonePtrs[i] = new pointZone
       (
@@ -2981,7 +2981,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::polyTopoChange::makeMesh
   const faceZoneMesh& oldFaceZones = mesh.faceZones();
   List<faceZone*> fZonePtrs(oldFaceZones.size());
   {
-    forAll(oldFaceZones, i)
+    FOR_ALL(oldFaceZones, i)
     {
       fZonePtrs[i] = new faceZone
       (
@@ -2996,7 +2996,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::polyTopoChange::makeMesh
   const cellZoneMesh& oldCellZones = mesh.cellZones();
   List<cellZone*> cZonePtrs(oldCellZones.size());
   {
-    forAll(oldCellZones, i)
+    FOR_ALL(oldCellZones, i)
     {
       cZonePtrs[i] = new cellZone
       (

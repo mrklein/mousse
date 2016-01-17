@@ -29,7 +29,7 @@ void mousse::repatchPolyTopoChanger::changePatches
 {
   if (meshModPtr_.valid())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "repatchPolyTopoChanger::changePatches(const List<polyPatch*>&)"
     )   << "Cannot change patches after having changed faces. " << nl
@@ -56,7 +56,7 @@ void mousse::repatchPolyTopoChanger::changePatchID
     || mesh_.isInternalFace(faceID)
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::repatchPolyTopoChanger::changePatchID\n"
         "(\n"
@@ -104,7 +104,7 @@ void mousse::repatchPolyTopoChanger::setFaceZone
     // Check that the request is possible
     if (faceID > mesh_.faces().size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::repatchPolyTopoChanger::setFaceZone"
         "(\n"
@@ -144,7 +144,7 @@ void mousse::repatchPolyTopoChanger::changeAnchorPoint
     // Check that the request is possible
     if (faceID > mesh_.faces().size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::repatchPolyTopoChanger::setFaceZone"
         "(\n"
@@ -160,7 +160,7 @@ void mousse::repatchPolyTopoChanger::changeAnchorPoint
   const face& f = mesh_.faces()[faceID];
   if ((fp < 0) || (fp >= f.size()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::repatchPolyTopoChanger::changeAnchorPoint"
       "(\n"
@@ -203,7 +203,7 @@ void mousse::repatchPolyTopoChanger::changeAnchorPoint
     // Construct new face with fp as first point.
     face newFace(f.size());
     label fVert = fp;
-    forAll(f, i)
+    FOR_ALL(f, i)
     {
       newFace[i] = f[fVert++];
       if (fVert == f.size())

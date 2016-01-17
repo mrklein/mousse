@@ -17,21 +17,21 @@ FieldType& mousse::calcMag::magField
   if (!mesh.foundObject<FieldType>(magName))
   {
     FieldType* magFieldPtr
-    (
+    {
       new FieldType
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           magName,
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedScalar("zero", dims, 0.0)
-      )
-    );
+        {"zero", dims, 0.0}
+      }
+    };
     mesh.objectRegistry::store(magFieldPtr);
   }
   const FieldType& f = mesh.lookupObject<FieldType>(magName);
@@ -42,7 +42,7 @@ template<class Type>
 void mousse::calcMag::calc
 (
   const word& fieldName,
-  const word& resultName,
+  const word& /*resultName*/,
   bool& processed
 )
 {

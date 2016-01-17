@@ -25,15 +25,14 @@ class splitCell
     //- Cells replacing this or null
     splitCell* master_;
     splitCell* slave_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    splitCell(const splitCell&);
-    //- Disallow default bitwise assignment
-    void operator=(const splitCell&);
 public:
   // Constructors
     //- Construct from cell number and parent
     splitCell(const label cellI, splitCell* parent);
+    //- Disallow default bitwise copy construct
+    splitCell(const splitCell&) = delete;
+    //- Disallow default bitwise assignment
+    splitCell& operator=(const splitCell&) = delete;
   //- Destructor
   ~splitCell();
   // Member Functions

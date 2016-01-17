@@ -5,7 +5,10 @@
 #include "csv_set_writer.hpp"
 #include "writers.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
-  makeSetWriters(csvSetWriter);
+
+MAKE_SET_WRITERS(csvSetWriter);
+
 }

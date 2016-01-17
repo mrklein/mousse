@@ -42,13 +42,9 @@ protected:
     const thermoSingleLayer& thermoFilm() const;
     //- Initialise the liquid pointer
     void initLiquid(const dictionary& dict);
-    //- Disallow default bitwise copy construct
-    liquidFilmThermo(const liquidFilmThermo&);
-    //- Disallow default bitwise assignment
-    void operator=(const liquidFilmThermo&);
 public:
   //- Runtime type information
-  TypeName("liquid");
+  TYPE_NAME("liquid");
   // Constructors
     //- Construct from surface film model and dictionary
     liquidFilmThermo
@@ -56,6 +52,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    liquidFilmThermo(const liquidFilmThermo&) = delete;
+    //- Disallow default bitwise assignment
+    liquidFilmThermo& operator=(const liquidFilmThermo&) = delete;
   //- Destructor
   virtual ~liquidFilmThermo();
   // Member Functions

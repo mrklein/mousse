@@ -26,7 +26,7 @@ bool mousse::triSurface::readSTLBINARY(const fileName& STLfileName)
   istream& STLfile = STLfilePtr();
   if (!STLfile.good())
   {
-    FatalErrorIn("triSurface::readSTLBINARY(const fileName&)")
+    FATAL_ERROR_IN("triSurface::readSTLBINARY(const fileName&)")
       << "Cannot read file " << STLfileName
       << " or file " << STLfileName + ".gz"
       << exit(FatalError);
@@ -85,7 +85,7 @@ bool mousse::triSurface::readSTLBINARY(const fileName& STLfileName)
   );
   pointField& sp = storedPoints();
   sp.setSize(nUniquePoints);
-  forAll(STLpoints, pointI)
+  FOR_ALL(STLpoints, pointI)
   {
     const floatVector& pt = STLpoints[pointI];
     sp[pointMap[pointI]] = vector
@@ -97,7 +97,7 @@ bool mousse::triSurface::readSTLBINARY(const fileName& STLfileName)
   }
   // Assign triangles
   pointI = 0;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i)[0] = pointMap[pointI++];
     operator[](i)[1] = pointMap[pointI++];

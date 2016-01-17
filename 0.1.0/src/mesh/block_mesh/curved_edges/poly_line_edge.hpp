@@ -18,14 +18,9 @@ class polyLineEdge
   public curvedEdge,
   public polyLine
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    polyLineEdge(const polyLineEdge&);
-    //- Disallow default bitwise assignment
-    void operator=(const polyLineEdge&);
 public:
   // Static data members
-  TypeName("polyLine");
+  TYPE_NAME("polyLine");
   // Constructors
     //- Construct from components
     polyLineEdge
@@ -37,6 +32,10 @@ public:
     );
     //- Construct from Istream
     polyLineEdge(const pointField&, Istream&);
+    //- Disallow default bitwise copy construct
+    polyLineEdge(const polyLineEdge&) = delete;
+    //- Disallow default bitwise assignment
+    polyLineEdge& operator=(const polyLineEdge&) = delete;
     //- Destructor
     virtual ~polyLineEdge();
   // Member Functions

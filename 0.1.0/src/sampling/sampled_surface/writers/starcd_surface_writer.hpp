@@ -51,7 +51,7 @@ class starcdSurfaceWriter
     ) const;
 public:
   //- Runtime type information
-  TypeName("starcd");
+  TYPE_NAME("starcd");
   // Constructors
     //- Construct null
     starcdSurfaceWriter();

@@ -12,7 +12,7 @@ void mousse::enrichedPatch::calcPointPoints() const
   // Calculate point-point addressing
   if (pointPointsPtr_)
   {
-    FatalErrorIn("void enrichedPatch::calcPointPoints() const")
+    FATAL_ERROR_IN("void enrichedPatch::calcPointPoints() const")
       << "Point-point addressing already calculated."
       << abort(FatalError);
   }
@@ -24,17 +24,17 @@ void mousse::enrichedPatch::calcPointPoints() const
     pp(meshPoints().size());
   const faceList& lf = localFaces();
   bool found = false;
-  forAll(lf, faceI)
+  FOR_ALL(lf, faceI)
   {
     const face& curFace = lf[faceI];
-    forAll(curFace, pointI)
+    FOR_ALL(curFace, pointI)
     {
       DynamicList<label, primitiveMesh::edgesPerPoint_>&
         curPp = pp[curFace[pointI]];
       // Do next label
       label next = curFace.nextLabel(pointI);
       found = false;
-      forAll(curPp, i)
+      FOR_ALL(curPp, i)
       {
         if (curPp[i] == next)
         {
@@ -49,7 +49,7 @@ void mousse::enrichedPatch::calcPointPoints() const
       // Do previous label
       label prev = curFace.prevLabel(pointI);
       found = false;
-      forAll(curPp, i)
+      FOR_ALL(curPp, i)
       {
         if (curPp[i] == prev)
         {
@@ -66,7 +66,7 @@ void mousse::enrichedPatch::calcPointPoints() const
   // Re-pack the list
   pointPointsPtr_ = new labelListList(pp.size());
   labelListList& ppAddr = *pointPointsPtr_;
-  forAll(pp, pointI)
+  FOR_ALL(pp, pointI)
   {
     ppAddr[pointI].transfer(pp[pointI]);
   }

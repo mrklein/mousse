@@ -18,16 +18,12 @@ tmp<volScalarField> SpalartAllmarasDDES<BasicTurbulenceModel>::rd
   (
     min
     (
-      this->nuEff()
-     /(
-       max
-       (
-         magGradU,
-         dimensionedScalar("SMALL", magGradU.dimensions(), SMALL)
-       )
-       *sqr(this->kappa_*this->y_)
-      ),
-      scalar(10)
+      this->nuEff()/(max(magGradU,
+                         dimensionedScalar("SMALL",
+                                           magGradU.dimensions(),
+                                           SMALL))
+                     *sqr(this->kappa_*this->y_)),
+      scalar{10}
     )
   );
   tr().boundaryField() == 0.0;
@@ -45,20 +41,15 @@ tmp<volScalarField> SpalartAllmarasDDES<BasicTurbulenceModel>::fd
 template<class BasicTurbulenceModel>
 tmp<volScalarField> SpalartAllmarasDDES<BasicTurbulenceModel>::dTilda
 (
-  const volScalarField& chi,
-  const volScalarField& fv1,
+  const volScalarField& /*chi*/,
+  const volScalarField& /*fv1*/,
   const volTensorField& gradU
 ) const
 {
   return max
   (
-    this->y_
-   - fd(mag(gradU))
-   *max
-    (
-      this->y_ - this->CDES_*this->delta(),
-      dimensionedScalar("zero", dimLength, 0)
-    ),
+    this->y_ - fd(mag(gradU))*max(this->y_ - this->CDES_*this->delta(),
+                                  dimensionedScalar("zero", dimLength, 0)),
     dimensionedScalar("small", dimLength, SMALL)
   );
 }
@@ -73,11 +64,11 @@ SpalartAllmarasDDES<BasicTurbulenceModel>::SpalartAllmarasDDES
   const surfaceScalarField& phi,
   const transportModel& transport,
   const word& propertiesName,
-  const word& type
+  const word& /*type*/
 )
 :
   SpalartAllmarasDES<BasicTurbulenceModel>
-  (
+  {
     alpha,
     rho,
     U,
@@ -85,7 +76,7 @@ SpalartAllmarasDDES<BasicTurbulenceModel>::SpalartAllmarasDDES
     phi,
     transport,
     propertiesName
-  )
+  }
 {}
 }  // namespace LESModels
 }  // namespace mousse

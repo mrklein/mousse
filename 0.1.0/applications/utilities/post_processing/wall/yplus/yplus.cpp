@@ -26,7 +26,7 @@ void calcYPlus
   const volScalarField::GeometricBoundaryField nuBf =
     turbulenceModel->nu()().boundaryField();
   const fvPatchList& patches = mesh.boundary();
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     const fvPatch& patch = patches[patchi];
     if (isA<nutWallFunctionFvPatchScalarField>(nutBf[patchi]))
@@ -69,7 +69,7 @@ void calcIncompressibleYPlus
   volScalarField& yPlus
 )
 {
-  #include "create_phi.hpp"
+  #include "create_phi.inc"
   singlePhaseTransportModel laminarTransport(U, phi);
   autoPtr<incompressible::turbulenceModel> turbulenceModel
   (
@@ -86,25 +86,25 @@ void calcCompressibleYPlus
 )
 {
   IOobject rhoHeader
-  (
+  {
     "rho",
     runTime.timeName(),
     mesh,
     IOobject::MUST_READ,
     IOobject::NO_WRITE
-  );
+  };
   if (!rhoHeader.headerOk())
   {
     Info<< "    no rho field" << endl;
     return;
   }
   Info<< "Reading field rho\n" << endl;
-  volScalarField rho(rhoHeader, mesh);
-  #include "compressible_create_phi.hpp"
-  autoPtr<fluidThermo> pThermo(fluidThermo::New(mesh));
+  volScalarField rho{rhoHeader, mesh};
+  #include "compressible_create_phi.inc"
+  autoPtr<fluidThermo> pThermo{fluidThermo::New(mesh)};
   fluidThermo& thermo = pThermo();
   autoPtr<compressible::turbulenceModel> turbulenceModel
-  (
+  {
     compressible::turbulenceModel::New
     (
       rho,
@@ -112,55 +112,55 @@ void calcCompressibleYPlus
       phi,
       thermo
     )
-  );
+  };
   calcYPlus(turbulenceModel, mesh, U, yPlus);
 }
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   instantList timeDirs = timeSelector::select(runTime, args, "yPlus");
-  #include "create_named_mesh.hpp"
-  forAll(timeDirs, timeI)
+  #include "create_named_mesh.inc"
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     Info<< "Time = " << runTime.timeName() << endl;
     mesh.readUpdate();
     volScalarField yPlus
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "yPlus",
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       mesh,
-      dimensionedScalar("yPlus", dimless, 0.0)
-    );
+      {"yPlus", dimless, 0.0}
+    };
     IOobject UHeader
-    (
+    {
       "U",
       runTime.timeName(),
       mesh,
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    );
+    };
     if (UHeader.headerOk())
     {
       Info<< "Reading field U\n" << endl;
-      volVectorField U(UHeader, mesh);
+      volVectorField U{UHeader, mesh};
       if
       (
         IOobject
-        (
+        {
           basicThermo::dictName,
           runTime.constant(),
           mesh
-        ).headerOk()
+        }.headerOk()
       )
       {
         calcCompressibleYPlus(mesh, runTime, U, yPlus);

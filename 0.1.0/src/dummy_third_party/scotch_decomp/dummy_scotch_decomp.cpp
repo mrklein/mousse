@@ -18,29 +18,31 @@ static const char* notImplementedMessage =
 #endif
 "The scotchDecomp library can then be built in "
 "$MOUSSE_SRC/parallel/decompose/decomposition_methods/scotch_decomp\n";
+
 namespace mousse
 {
-  defineTypeNameAndDebug(scotchDecomp, 0);
-  addToRunTimeSelectionTable
-  (
-    decompositionMethod,
-    scotchDecomp,
-    dictionary
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(scotchDecomp, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  decompositionMethod,
+  scotchDecomp,
+  dictionary
+);
 }
+
 // Private Member Functions 
-void mousse::scotchDecomp::check(const int retVal, const char* str)
+void mousse::scotchDecomp::check(const int /*retVal*/, const char* /*str*/)
 {}
 mousse::label mousse::scotchDecomp::decompose
 (
-  const fileName& meshPath,
-  const List<label>& adjncy,
-  const List<label>& xadj,
-  const scalarField& cWeights,
-  List<label>& finalDecomp
+  const fileName& /*meshPath*/,
+  const List<label>& /*adjncy*/,
+  const List<label>& /*xadj*/,
+  const scalarField& /*cWeights*/,
+  List<label>& /*finalDecomp*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "label scotchDecomp::decompose\n"
     "(\n"
@@ -64,12 +66,12 @@ mousse::scotchDecomp::scotchDecomp
 // Member Functions 
 mousse::labelList mousse::scotchDecomp::decompose
 (
-  const polyMesh& mesh,
-  const pointField& points,
-  const scalarField& pointWeights
+  const polyMesh&,
+  const pointField&,
+  const scalarField& /*pointWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList scotchDecomp::decompose"
     "("
@@ -81,13 +83,13 @@ mousse::labelList mousse::scotchDecomp::decompose
 }
 mousse::labelList mousse::scotchDecomp::decompose
 (
-  const polyMesh& mesh,
-  const labelList& agglom,
-  const pointField& agglomPoints,
-  const scalarField& pointWeights
+  const polyMesh&,
+  const labelList& /*agglom*/,
+  const pointField& /*agglomPoints*/,
+  const scalarField& /*pointWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList scotchDecomp::decompose"
     "("
@@ -100,12 +102,12 @@ mousse::labelList mousse::scotchDecomp::decompose
 }
 mousse::labelList mousse::scotchDecomp::decompose
 (
-  const labelListList& globalCellCells,
-  const pointField& cellCentres,
-  const scalarField& cWeights
+  const labelListList& /*globalCellCells*/,
+  const pointField& /*cellCentres*/,
+  const scalarField& /*cWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList scotchDecomp::decompose"
     "("

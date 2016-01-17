@@ -17,14 +17,14 @@ mousse::autoPtr<mousse::calcType> mousse::calcType::New
     // exit without stack trace
     if (calcTypeName == "-help")
     {
-      FatalErrorIn("calcType::New()")
+      FATAL_ERROR_IN("calcType::New()")
         << "Valid calcType selections are:" << nl
         << dictionaryConstructorTablePtr_->sortedToc() << nl
         << exit(FatalError);
     }
     else
     {
-      FatalErrorIn("calcType::New()")
+      FATAL_ERROR_IN("calcType::New()")
         << "Unknown calcType type " << calcTypeName << nl
         << "Valid calcType selections are:" << nl
         << dictionaryConstructorTablePtr_->sortedToc() << nl

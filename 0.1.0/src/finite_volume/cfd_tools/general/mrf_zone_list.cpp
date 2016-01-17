@@ -12,8 +12,8 @@ mousse::MRFZoneList::MRFZoneList
   const dictionary& dict
 )
 :
-  PtrList<MRFZone>(),
-  mesh_(mesh)
+  PtrList<MRFZone>{},
+  mesh_{mesh}
 {
   reset(dict);
   active(true);
@@ -25,7 +25,7 @@ mousse::MRFZoneList::~MRFZoneList()
 bool mousse::MRFZoneList::active(const bool warn) const
 {
   bool a = false;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     a = a || this->operator[](i).active();
   }
@@ -38,7 +38,7 @@ bool mousse::MRFZoneList::active(const bool warn) const
 void mousse::MRFZoneList::reset(const dictionary& dict)
 {
   label count = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (iter().isDict())
     {
@@ -47,7 +47,7 @@ void mousse::MRFZoneList::reset(const dictionary& dict)
   }
   this->setSize(count);
   label i = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     if (iter().isDict())
     {
@@ -65,7 +65,7 @@ void mousse::MRFZoneList::reset(const dictionary& dict)
 bool mousse::MRFZoneList::read(const dictionary& dict)
 {
   bool allOk = true;
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     MRFZone& pm = this->operator[](i);
     bool ok = pm.read(dict.subDict(pm.name()));
@@ -75,7 +75,7 @@ bool mousse::MRFZoneList::read(const dictionary& dict)
 }
 bool mousse::MRFZoneList::writeData(Ostream& os) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     os  << nl;
     this->operator[](i).writeData(os);
@@ -88,14 +88,14 @@ void mousse::MRFZoneList::addAcceleration
   volVectorField& ddtU
 ) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).addCoriolis(U, ddtU);
   }
 }
 void mousse::MRFZoneList::addAcceleration(fvVectorMatrix& UEqn) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).addCoriolis(UEqn);
   }
@@ -106,7 +106,7 @@ void mousse::MRFZoneList::addAcceleration
   fvVectorMatrix& UEqn
 ) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).addCoriolis(rho, UEqn);
   }
@@ -117,21 +117,21 @@ mousse::tmp<mousse::volVectorField> mousse::MRFZoneList::DDt
 ) const
 {
   tmp<volVectorField> tacceleration
-  (
+  {
     new volVectorField
-    (
+    {
       IOobject
-      (
+      {
         "MRFZoneList:acceleration",
         U.mesh().time().timeName(),
         U.mesh()
-      ),
+      },
       U.mesh(),
       dimensionedVector("0", U.dimensions()/dimTime, vector::zero)
-    )
-  );
+    }
+  };
   volVectorField& acceleration = tacceleration();
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).addCoriolis(U, acceleration);
   }
@@ -147,14 +147,14 @@ mousse::tmp<mousse::volVectorField> mousse::MRFZoneList::DDt
 }
 void mousse::MRFZoneList::makeRelative(volVectorField& U) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).makeRelative(U);
   }
 }
 void mousse::MRFZoneList::makeRelative(surfaceScalarField& phi) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).makeRelative(phi);
   }
@@ -164,18 +164,18 @@ mousse::tmp<mousse::surfaceScalarField> mousse::MRFZoneList::relative
   const tmp<surfaceScalarField>& phi
 ) const
 {
-  tmp<surfaceScalarField> rphi(phi.ptr());
+  tmp<surfaceScalarField> rphi{phi.ptr()};
   makeRelative(rphi());
   return rphi;
 }
-mousse::tmp<mousse::FieldField<mousse::fvsPatchField, mousse::scalar> >
+mousse::tmp<mousse::FieldField<mousse::fvsPatchField, mousse::scalar>>
 mousse::MRFZoneList::relative
 (
-  const tmp<FieldField<fvsPatchField, scalar> >& phi
+  const tmp<FieldField<fvsPatchField, scalar>>& phi
 ) const
 {
-  tmp<FieldField<fvsPatchField, scalar> > rphi(phi.ptr());
-  forAll(*this, i)
+  tmp<FieldField<fvsPatchField, scalar>> rphi{phi.ptr()};
+  FOR_ALL(*this, i)
   {
     operator[](i).makeRelative(rphi());
   }
@@ -187,21 +187,21 @@ void mousse::MRFZoneList::makeRelative
   surfaceScalarField& phi
 ) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).makeRelative(rho, phi);
   }
 }
 void mousse::MRFZoneList::makeAbsolute(volVectorField& U) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).makeAbsolute(U);
   }
 }
 void mousse::MRFZoneList::makeAbsolute(surfaceScalarField& phi) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).makeAbsolute(phi);
   }
@@ -221,14 +221,14 @@ void mousse::MRFZoneList::makeAbsolute
   surfaceScalarField& phi
 ) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).makeAbsolute(rho, phi);
   }
 }
 void mousse::MRFZoneList::correctBoundaryVelocity(volVectorField& U) const
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).correctBoundaryVelocity(U);
   }
@@ -240,15 +240,12 @@ void mousse::MRFZoneList::correctBoundaryFlux
 ) const
 {
   FieldField<fvsPatchField, scalar> phibf
-  (
-    relative(mesh_.Sf().boundaryField() & U.boundaryField())
-  );
-  forAll(mesh_.boundary(), patchi)
   {
-    if
-    (
-      isA<fixedValueFvsPatchScalarField>(phi.boundaryField()[patchi])
-    )
+    relative(mesh_.Sf().boundaryField() & U.boundaryField())
+  };
+  FOR_ALL(mesh_.boundary(), patchi)
+  {
+    if (isA<fixedValueFvsPatchScalarField>(phi.boundaryField()[patchi]))
     {
       phi.boundaryField()[patchi] == phibf[patchi];
     }

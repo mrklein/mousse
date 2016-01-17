@@ -26,20 +26,11 @@ protected:
     List<labelPair> baffles_;
     //- Reference to point motion field
     pointVectorField& pointDisplacement_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    externalDisplacementMeshMover
-    (
-      const externalDisplacementMeshMover&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const externalDisplacementMeshMover&);
 public:
   //- Runtime type information
-  TypeName("externalDisplacementMeshMover");
+  TYPE_NAME("externalDisplacementMeshMover");
   // Declare run-time New selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       externalDisplacementMeshMover,
@@ -60,6 +51,16 @@ public:
       const List<labelPair>& baffles,
       pointVectorField& pointDisplacement
     );
+    //- Disallow default bitwise copy construct
+    externalDisplacementMeshMover
+    (
+      const externalDisplacementMeshMover&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    externalDisplacementMeshMover& operator=
+    (
+      const externalDisplacementMeshMover&
+    ) = delete;
   // Selectors
     //- Return a reference to the selected meshMover model
     static autoPtr<externalDisplacementMeshMover> New

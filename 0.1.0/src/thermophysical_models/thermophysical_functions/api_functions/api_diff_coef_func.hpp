@@ -26,7 +26,7 @@ class APIdiffCoefFunc
     scalar alpha_, beta_;
 public:
   //- Runtime type information
-  TypeName("APIdiffCoefFunc");
+  TYPE_NAME("APIdiffCoefFunc");
   // Constructors
     //- Construct from components
     APIdiffCoefFunc

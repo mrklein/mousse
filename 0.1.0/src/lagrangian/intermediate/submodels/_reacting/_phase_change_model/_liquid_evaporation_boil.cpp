@@ -14,7 +14,7 @@ mousse::tmp<mousse::scalarField> mousse::LiquidEvaporationBoil<CloudType>::calcX
 ) const
 {
   scalarField Xc(this->owner().thermo().carrier().Y().size());
-  forAll(Xc, i)
+  FOR_ALL(Xc, i)
   {
     Xc[i] =
       this->owner().thermo().carrier().Y()[i][cellI]
@@ -47,7 +47,7 @@ mousse::LiquidEvaporationBoil<CloudType>::LiquidEvaporationBoil
 {
   if (activeLiquids_.size() == 0)
   {
-    WarningIn
+    WARNING_IN
     (
       "mousse::LiquidEvaporationBoil<CloudType>::LiquidEvaporationBoil"
       "("
@@ -61,7 +61,7 @@ mousse::LiquidEvaporationBoil<CloudType>::LiquidEvaporationBoil
   {
     Info<< "Participating liquid species:" << endl;
     // Determine mapping between liquid and carrier phase species
-    forAll(activeLiquids_, i)
+    FOR_ALL(activeLiquids_, i)
     {
       Info<< "    " << activeLiquids_[i] << endl;
       liqToCarrierMap_[i] =
@@ -69,7 +69,7 @@ mousse::LiquidEvaporationBoil<CloudType>::LiquidEvaporationBoil
     }
     // Determine mapping between model active liquids and global liquids
     const label idLiquid = owner.composition().idLiquid();
-    forAll(activeLiquids_, i)
+    FOR_ALL(activeLiquids_, i)
     {
       liqToLiqMap_[i] =
         owner.composition().localId(idLiquid, activeLiquids_[i]);
@@ -99,7 +99,7 @@ void mousse::LiquidEvaporationBoil<CloudType>::calculate
   const scalar dt,
   const label cellI,
   const scalar Re,
-  const scalar Pr,
+  const scalar /*Pr*/,
   const scalar d,
   const scalar nu,
   const scalar T,
@@ -115,7 +115,7 @@ void mousse::LiquidEvaporationBoil<CloudType>::calculate
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "void mousse::LiquidEvaporationBoil<CloudType>::calculate"
         "("
@@ -135,7 +135,7 @@ void mousse::LiquidEvaporationBoil<CloudType>::calculate
       )   << "Parcel reached critical conditions: "
         << "evaporating all avaliable mass" << endl;
     }
-    forAll(activeLiquids_, i)
+    FOR_ALL(activeLiquids_, i)
     {
       const label lid = liqToLiqMap_[i];
       dMassPC[lid] = GREAT;
@@ -153,7 +153,7 @@ void mousse::LiquidEvaporationBoil<CloudType>::calculate
   scalar Hc = 0.0;
   scalar Cpc = 0.0;
   scalar kappac = 0.0;
-  forAll(this->owner().thermo().carrier().Y(), i)
+  FOR_ALL(this->owner().thermo().carrier().Y(), i)
   {
     scalar Yc = this->owner().thermo().carrier().Y()[i][cellI];
     Hc += Yc*this->owner().thermo().carrier().Ha(i, pc, Tc);
@@ -162,7 +162,7 @@ void mousse::LiquidEvaporationBoil<CloudType>::calculate
     kappac += Yc*this->owner().thermo().carrier().kappa(i, ps, Ts);
   }
   // calculate mass transfer of each specie in liquid
-  forAll(activeLiquids_, i)
+  FOR_ALL(activeLiquids_, i)
   {
     const label gid = liqToCarrierMap_[i];
     const label lid = liqToLiqMap_[i];
@@ -279,7 +279,7 @@ mousse::scalar mousse::LiquidEvaporationBoil<CloudType>::dh
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::scalar mousse::LiquidEvaporationBoil<CloudType>::dh"
         "("

@@ -14,19 +14,20 @@ supersonicFreestreamFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  mixedFvPatchVectorField(p, iF),
-  TName_("T"),
-  pName_("p"),
-  psiName_("thermo:psi"),
-  UInf_(vector::zero),
-  pInf_(0),
-  TInf_(0),
-  gamma_(0)
+  mixedFvPatchVectorField{p, iF},
+  TName_{"T"},
+  pName_{"p"},
+  psiName_{"thermo:psi"},
+  UInf_{vector::zero},
+  pInf_{0},
+  TInf_{0},
+  gamma_{0}
 {
   refValue() = patchInternalField();
   refGrad() = vector::zero;
   valueFraction() = 1;
 }
+
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
 (
@@ -36,15 +37,16 @@ supersonicFreestreamFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchVectorField(ptf, p, iF, mapper),
-  TName_(ptf.TName_),
-  pName_(ptf.pName_),
-  psiName_(ptf.psiName_),
-  UInf_(ptf.UInf_),
-  pInf_(ptf.pInf_),
-  TInf_(ptf.TInf_),
-  gamma_(ptf.gamma_)
+  mixedFvPatchVectorField{ptf, p, iF, mapper},
+  TName_{ptf.TName_},
+  pName_{ptf.pName_},
+  psiName_{ptf.psiName_},
+  UInf_{ptf.UInf_},
+  pInf_{ptf.pInf_},
+  TInf_{ptf.TInf_},
+  gamma_{ptf.gamma_}
 {}
+
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
 (
@@ -53,14 +55,14 @@ supersonicFreestreamFvPatchVectorField
   const dictionary& dict
 )
 :
-  mixedFvPatchVectorField(p, iF),
-  TName_(dict.lookupOrDefault<word>("T", "T")),
-  pName_(dict.lookupOrDefault<word>("p", "p")),
-  psiName_(dict.lookupOrDefault<word>("psi", "thermo:psi")),
-  UInf_(dict.lookup("UInf")),
-  pInf_(readScalar(dict.lookup("pInf"))),
-  TInf_(readScalar(dict.lookup("TInf"))),
-  gamma_(readScalar(dict.lookup("gamma")))
+  mixedFvPatchVectorField{p, iF},
+  TName_{dict.lookupOrDefault<word>("T", "T")},
+  pName_{dict.lookupOrDefault<word>("p", "p")},
+  psiName_{dict.lookupOrDefault<word>("psi", "thermo:psi")},
+  UInf_{dict.lookup("UInf")},
+  pInf_{readScalar(dict.lookup("pInf"))},
+  TInf_{readScalar(dict.lookup("TInf"))},
+  gamma_{readScalar(dict.lookup("gamma"))}
 {
   if (dict.found("value"))
   {
@@ -78,34 +80,37 @@ supersonicFreestreamFvPatchVectorField
   valueFraction() = 1;
   if (pInf_ < SMALL)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "supersonicFreestreamFvPatchVectorField::"
       "supersonicFreestreamFvPatchVectorField"
       "(const fvPatch&, const vectorField&, const dictionary&)",
       dict
-    )   << "    unphysical pInf specified (pInf <= 0.0)"
-      << "\n    on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "    unphysical pInf specified (pInf <= 0.0)"
+    << "\n    on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
 (
   const supersonicFreestreamFvPatchVectorField& sfspvf
 )
 :
-  mixedFvPatchVectorField(sfspvf),
-  TName_(sfspvf.TName_),
-  pName_(sfspvf.pName_),
-  psiName_(sfspvf.psiName_),
-  UInf_(sfspvf.UInf_),
-  pInf_(sfspvf.pInf_),
-  TInf_(sfspvf.TInf_),
-  gamma_(sfspvf.gamma_)
+  mixedFvPatchVectorField{sfspvf},
+  TName_{sfspvf.TName_},
+  pName_{sfspvf.pName_},
+  psiName_{sfspvf.psiName_},
+  UInf_{sfspvf.UInf_},
+  pInf_{sfspvf.pInf_},
+  TInf_{sfspvf.TInf_},
+  gamma_{sfspvf.gamma_}
 {}
+
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
 (
@@ -113,15 +118,16 @@ supersonicFreestreamFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  mixedFvPatchVectorField(sfspvf, iF),
-  TName_(sfspvf.TName_),
-  pName_(sfspvf.pName_),
-  psiName_(sfspvf.psiName_),
-  UInf_(sfspvf.UInf_),
-  pInf_(sfspvf.pInf_),
-  TInf_(sfspvf.TInf_),
-  gamma_(sfspvf.gamma_)
+  mixedFvPatchVectorField{sfspvf, iF},
+  TName_{sfspvf.TName_},
+  pName_{sfspvf.pName_},
+  psiName_{sfspvf.psiName_},
+  UInf_{sfspvf.UInf_},
+  pInf_{sfspvf.pInf_},
+  TInf_{sfspvf.TInf_},
+  gamma_{sfspvf.gamma_}
 {}
+
 // Member Functions 
 void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
 {
@@ -141,7 +147,7 @@ void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
   scalar MachInf = mag(UInf_)/sqrt(gamma_*R*TInf_);
   if (MachInf < 1.0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "supersonicFreestreamFvPatchVectorField::updateCoeffs()"
     )   << "    MachInf < 1.0, free stream must be supersonic"
@@ -175,7 +181,7 @@ void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
    - atan(sqr(MachInf) - 1);
   // Set the patch boundary condition based on the Mach number and direction
   // of the flow dictated by the boundary/free-stream pressure difference
-  forAll(Up, facei)
+  FOR_ALL(Up, facei)
   {
     if (pp[facei] >= pInf_) // If outflow
     {
@@ -219,7 +225,7 @@ void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
       }
       else // If subsonic
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "supersonicFreestreamFvPatchVectorField::updateCoeffs()"
         )   << "unphysical subsonic inflow has been generated"
@@ -233,6 +239,7 @@ void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
   }
   mixedFvPatchVectorField::updateCoeffs();
 }
+
 void mousse::supersonicFreestreamFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
@@ -245,11 +252,12 @@ void mousse::supersonicFreestreamFvPatchVectorField::write(Ostream& os) const
   os.writeKeyword("gamma") << gamma_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    supersonicFreestreamFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  supersonicFreestreamFvPatchVectorField
+);
 }

@@ -20,11 +20,11 @@ mousse::Xfer<mousse::pointField> mousse::extrudedMesh::extrudedPoints
   const pointField& surfacePoints = extrudePatch.localPoints();
   const vectorField& surfaceNormals = extrudePatch.pointNormals();
   const label nLayers = model.nLayers();
-  pointField ePoints((nLayers + 1)*surfacePoints.size());
+  pointField ePoints{(nLayers + 1)*surfacePoints.size()};
   for (label layer=0; layer<=nLayers; layer++)
   {
     label offset = layer*surfacePoints.size();
-    forAll(surfacePoints, i)
+    FOR_ALL(surfacePoints, i)
     {
       ePoints[offset + i] = model
       (
@@ -51,8 +51,8 @@ mousse::Xfer<mousse::faceList> mousse::extrudedMesh::extrudedFaces
   const label nLayers = model.nLayers();
   label nFaces =
     (nLayers + 1)*surfaceFaces.size() + nLayers*surfaceEdges.size();
-  faceList eFaces(nFaces);
-  labelList quad(4);
+  faceList eFaces{nFaces};
+  labelList quad{4};
   label facei = 0;
   // Internal faces
   for (label layer=0; layer<nLayers; layer++)
@@ -66,11 +66,8 @@ mousse::Xfer<mousse::faceList> mousse::extrudedMesh::extrudedFaces
       const labelList& edgeFaces = extrudePatch.edgeFaces()[edgeI];
       face& f = eFaces[facei++];
       f.setSize(4);
-      if
-      (
-        (edgeFaces[0] < edgeFaces[1])
-      == sameOrder(surfaceFaces[edgeFaces[0]], e)
-      )
+      if ((edgeFaces[0] < edgeFaces[1])
+          == sameOrder(surfaceFaces[edgeFaces[0]], e))
       {
         f[0] = e[0] + currentLayerOffset;
         f[1] = e[1] + currentLayerOffset;
@@ -88,7 +85,7 @@ mousse::Xfer<mousse::faceList> mousse::extrudedMesh::extrudedFaces
     // Faces between layer and layer+1
     if (layer < nLayers-1)
     {
-      forAll(surfaceFaces, i)
+      FOR_ALL(surfaceFaces, i)
       {
         eFaces[facei++] =
           face
@@ -128,12 +125,12 @@ mousse::Xfer<mousse::faceList> mousse::extrudedMesh::extrudedFaces
     }
   }
   // Bottom faces
-  forAll(surfaceFaces, i)
+  FOR_ALL(surfaceFaces, i)
   {
     eFaces[facei++] = face(surfaceFaces[i]).reverseFace();
   }
   // Top faces
-  forAll(surfaceFaces, i)
+  FOR_ALL(surfaceFaces, i)
   {
     eFaces[facei++] =
       face
@@ -158,7 +155,7 @@ mousse::Xfer<mousse::cellList> mousse::extrudedMesh::extrudedCells
   const label nLayers = model.nLayers();
   cellList eCells(nLayers*surfaceFaces.size());
   // Size the cells
-  forAll(surfaceFaces, i)
+  FOR_ALL(surfaceFaces, i)
   {
     const face& f = surfaceFaces[i];
     for (label layer=0; layer<nLayers; layer++)
@@ -167,7 +164,7 @@ mousse::Xfer<mousse::cellList> mousse::extrudedMesh::extrudedCells
     }
   }
   // Current face count per cell.
-  labelList nCellFaces(eCells.size(), 0);
+  labelList nCellFaces{eCells.size(), 0};
   label facei = 0;
   for (label layer=0; layer<nLayers; layer++)
   {
@@ -186,7 +183,7 @@ mousse::Xfer<mousse::cellList> mousse::extrudedMesh::extrudedCells
     // Faces between layer and layer+1
     if (layer < nLayers-1)
     {
-      forAll(surfaceFaces, i)
+      FOR_ALL(surfaceFaces, i)
       {
         label cell0 = layer*surfaceFaces.size() + i;
         label cell1 = (layer+1)*surfaceFaces.size() + i;
@@ -211,13 +208,13 @@ mousse::Xfer<mousse::cellList> mousse::extrudedMesh::extrudedCells
     }
   }
   // Top faces
-  forAll(surfaceFaces, i)
+  FOR_ALL(surfaceFaces, i)
   {
     eCells[i][nCellFaces[i]++] = facei;
     facei++;
   }
   // Bottom faces
-  forAll(surfaceFaces, i)
+  FOR_ALL(surfaceFaces, i)
   {
     label cell0 = (nLayers-1)*surfaceFaces.size() + i;
     eCells[cell0][nCellFaces[cell0]++] = facei;
@@ -241,47 +238,46 @@ mousse::extrudedMesh::extrudedMesh
 )
 :
   polyMesh
-  (
+  {
     io,
     extrudedPoints(extrudePatch, model),
     extrudedFaces(extrudePatch, model),
     extrudedCells(extrudePatch, model)
-  ),
-  model_(model)
+  },
+  model_{model}
 {
-  List<polyPatch*> patches(3);
+  List<polyPatch*> patches{3};
   label facei = nInternalFaces();
   label sz =
-    model_.nLayers()
-   *(extrudePatch.nEdges() - extrudePatch.nInternalEdges());
+    model_.nLayers()*(extrudePatch.nEdges() - extrudePatch.nInternalEdges());
   patches[0] = new wallPolyPatch
-  (
+  {
     "sides",
     sz,
     facei,
     0,
     boundaryMesh(),
     wallPolyPatch::typeName
-  );
+  };
   facei += sz;
   patches[1] = new polyPatch
-  (
+  {
     "originalPatch",
     extrudePatch.size(),
     facei,
     1,
     boundaryMesh(),
     polyPatch::typeName
-  );
+  };
   facei += extrudePatch.size();
   patches[2] = new polyPatch
-  (
+  {
     "otherSide",
     extrudePatch.size(),
     facei,
     2,
     boundaryMesh(),
     polyPatch::typeName
-  );
+  };
   addPatches(patches);
 }

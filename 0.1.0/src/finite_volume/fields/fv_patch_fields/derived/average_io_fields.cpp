@@ -4,6 +4,7 @@
 
 #include "average_io_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
 // Static Data Members
@@ -12,34 +13,40 @@ typedef AverageIOField<vector> vectorAverageIOField;
 typedef AverageIOField<sphericalTensor> sphericalTensorAverageIOField;
 typedef AverageIOField<symmTensor> symmTensorAverageIOField;
 typedef AverageIOField<tensor> tensorAverageIOField;
-defineTemplateTypeNameAndDebugWithName
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
 (
   scalarAverageIOField,
   "scalarAverageField",
   0
 );
-defineTemplateTypeNameAndDebugWithName
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
 (
   vectorAverageIOField,
   "vectorAverageField",
   0
 );
-defineTemplateTypeNameAndDebugWithName
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
 (
   sphericalTensorAverageIOField,
   "sphericalTensorAverageField",
   0
 );
-defineTemplateTypeNameAndDebugWithName
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
 (
   symmTensorAverageIOField,
   "symmTensorAverageField",
   0
 );
-defineTemplateTypeNameAndDebugWithName
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
 (
   tensorAverageIOField,
   "tensorAverageField",
   0
 );
+
 }  // namespace mousse

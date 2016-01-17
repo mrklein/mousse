@@ -26,7 +26,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::nonOrthogonality() const
   const vectorField& areas = mesh_.faceAreas();
   const labelList& own = mesh_.faceOwner();
   const labelList& nei = mesh_.faceNeighbour();
-  forAll(nei, faceI)
+  FOR_ALL(nei, faceI)
   {
     vector d = centres[nei[faceI]] - centres[own[faceI]];
     vector s = areas[faceI];
@@ -36,7 +36,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::nonOrthogonality() const
     result[own[faceI]] = max(cosDDotS, result[own[faceI]]);
     result[nei[faceI]] = max(cosDDotS, result[nei[faceI]]);
   }
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     const labelUList& faceCells =
       mesh_.boundaryMesh()[patchI].faceCells();
@@ -44,7 +44,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::nonOrthogonality() const
       mesh_.boundaryMesh()[patchI].faceCentres();
     const vectorField::subField faceAreas =
       mesh_.boundaryMesh()[patchI].faceAreas();
-    forAll(faceCentres, faceI)
+    FOR_ALL(faceCentres, faceI)
     {
       vector d = faceCentres[faceI] - centres[faceCells[faceI]];
       vector s = faceAreas[faceI];
@@ -72,7 +72,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::skewness() const
   const vectorField& areas = mesh_.faceAreas();
   const labelList& own = mesh_.faceOwner();
   const labelList& nei = mesh_.faceNeighbour();
-  forAll(nei, faceI)
+  FOR_ALL(nei, faceI)
   {
     scalar dOwn = mag
     (
@@ -91,7 +91,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::skewness() const
     result[own[faceI]] = max(skewness, result[own[faceI]]);
     result[nei[faceI]] = max(skewness, result[nei[faceI]]);
   }
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     const labelUList& faceCells =
       mesh_.boundaryMesh()[patchI].faceCells();
@@ -99,7 +99,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::skewness() const
       mesh_.boundaryMesh()[patchI].faceCentres();
     const vectorField::subField faceAreas =
       mesh_.boundaryMesh()[patchI].faceAreas();
-    forAll(faceCentres, faceI)
+    FOR_ALL(faceCentres, faceI)
     {
       vector n = faceAreas[faceI]/mag(faceAreas[faceI]);
       point faceIntersection =
@@ -130,7 +130,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::faceNonOrthogonality() con
   const vectorField& areas = mesh_.faceAreas();
   const labelList& own = mesh_.faceOwner();
   const labelList& nei = mesh_.faceNeighbour();
-  forAll(nei, faceI)
+  FOR_ALL(nei, faceI)
   {
     vector d = centres[nei[faceI]] - centres[own[faceI]];
     vector s = areas[faceI];
@@ -140,7 +140,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::faceNonOrthogonality() con
     result[faceI] = cosDDotS;
   }
   label globalFaceI = mesh_.nInternalFaces();
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     const labelUList& faceCells =
       mesh_.boundaryMesh()[patchI].faceCells();
@@ -148,7 +148,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::faceNonOrthogonality() con
       mesh_.boundaryMesh()[patchI].faceCentres();
     const vectorField::subField faceAreas =
       mesh_.boundaryMesh()[patchI].faceAreas();
-    forAll(faceCentres, faceI)
+    FOR_ALL(faceCentres, faceI)
     {
       vector d = faceCentres[faceI] - centres[faceCells[faceI]];
       vector s = faceAreas[faceI];
@@ -175,7 +175,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::faceSkewness() const
   const vectorField& areas = mesh_.faceAreas();
   const labelList& own = mesh_.faceOwner();
   const labelList& nei = mesh_.faceNeighbour();
-  forAll(nei, faceI)
+  FOR_ALL(nei, faceI)
   {
     scalar dOwn = mag
     (
@@ -193,7 +193,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::faceSkewness() const
      /(mag(cellCtrs[nei[faceI]] - cellCtrs[own[faceI]]) + VSMALL);
   }
   label globalFaceI = mesh_.nInternalFaces();
-  forAll(mesh_.boundaryMesh(), patchI)
+  FOR_ALL(mesh_.boundaryMesh(), patchI)
   {
     const labelUList& faceCells =
       mesh_.boundaryMesh()[patchI].faceCells();
@@ -201,7 +201,7 @@ mousse::tmp<mousse::scalarField> mousse::cellQuality::faceSkewness() const
       mesh_.boundaryMesh()[patchI].faceCentres();
     const vectorField::subField faceAreas =
       mesh_.boundaryMesh()[patchI].faceAreas();
-    forAll(faceCentres, faceI)
+    FOR_ALL(faceCentres, faceI)
     {
       vector n = faceAreas[faceI]/mag(faceAreas[faceI]);
       point faceIntersection =

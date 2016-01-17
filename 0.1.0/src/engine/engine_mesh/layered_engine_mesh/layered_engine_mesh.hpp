@@ -19,17 +19,16 @@ class layeredEngineMesh
 {
   // Private data
     dimensionedScalar pistonLayers_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    layeredEngineMesh(const layeredEngineMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const layeredEngineMesh&);
 public:
   //- Runtime type information
-  TypeName("layered");
+  TYPE_NAME("layered");
   // Constructors
     //- Construct from IOobject
     layeredEngineMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    layeredEngineMesh(const layeredEngineMesh&) = delete;
+    //- Disallow default bitwise assignment
+    layeredEngineMesh& operator=(const layeredEngineMesh&) = delete;
   //- Destructor
   ~layeredEngineMesh();
   // Member Functions

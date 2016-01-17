@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(surfaceInterpolateFields, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(surfaceInterpolateFields, 0);
 }
 // Constructors 
 mousse::surfaceInterpolateFields::surfaceInterpolateFields
@@ -14,7 +14,7 @@ mousse::surfaceInterpolateFields::surfaceInterpolateFields
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
   name_(name),
@@ -30,7 +30,7 @@ mousse::surfaceInterpolateFields::surfaceInterpolateFields
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "surfaceInterpolateFields::surfaceInterpolateFields"
       "("
@@ -91,23 +91,23 @@ void mousse::surfaceInterpolateFields::write()
     Info<< type() << " " << name_ << " output:" << nl;
     Info<< "    Writing interpolated surface fields to "
       << obr_.time().timeName() << endl;
-    forAll(ssf_, i)
+    FOR_ALL(ssf_, i)
     {
       ssf_[i].write();
     }
-    forAll(svf_, i)
+    FOR_ALL(svf_, i)
     {
       svf_[i].write();
     }
-    forAll(sSpheretf_, i)
+    FOR_ALL(sSpheretf_, i)
     {
       sSpheretf_[i].write();
     }
-    forAll(sSymmtf_, i)
+    FOR_ALL(sSymmtf_, i)
     {
       sSymmtf_[i].write();
     }
-    forAll(stf_, i)
+    FOR_ALL(stf_, i)
     {
       stf_[i].write();
     }

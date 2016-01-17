@@ -8,10 +8,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cloudInfo, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(cloudInfo, 0);
 }
 // Protected Member Functions 
-void mousse::cloudInfo::writeFileHeader(const label i)
+void mousse::cloudInfo::writeFileHeader(const label /*i*/)
 {
   writeHeader(file(), "Cloud information");
   writeCommented(file(), "Time");
@@ -25,13 +25,13 @@ mousse::cloudInfo::cloudInfo
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  functionObjectFile(obr, name),
-  name_(name),
-  obr_(obr),
-  active_(true)
+  functionObjectFile{obr, name},
+  name_{name},
+  obr_{obr},
+  active_{true}
 {
   read(dict);
 }
@@ -48,7 +48,7 @@ void mousse::cloudInfo::read(const dictionary& dict)
     if (names().size())
     {
       Info<< "applying to clouds:" << nl;
-      forAll(names(), i)
+      FOR_ALL(names(), i)
       {
         Info<< "    " << names()[i] << nl;
       }
@@ -71,7 +71,7 @@ void mousse::cloudInfo::write()
   if (active_)
   {
     functionObjectFile::write();
-    forAll(names(), i)
+    FOR_ALL(names(), i)
     {
       const word& cloudName = names()[i];
       const kinematicCloud& cloud =

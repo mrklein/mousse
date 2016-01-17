@@ -11,17 +11,17 @@
 #include "_wall_spring_slider_dashpot.hpp"
 #include "_wall_local_spring_slider_dashpot.hpp"
 
-#define makeParcelCollisionModels(CloudType)                                  \
+#define MAKE_PARCEL_COLLISION_MODELS(CloudType)                               \
                                                                               \
-  makeCollisionModel(CloudType);                                              \
-  makeCollisionModelType(NoCollision, CloudType);                             \
-  makeCollisionModelType(PairCollision, CloudType);                           \
+  MAKE_COLLISION_MODEL(CloudType);                                            \
+  MAKE_COLLISION_MODEL_TYPE(NoCollision, CloudType);                          \
+  MAKE_COLLISION_MODEL_TYPE(PairCollision, CloudType);                        \
                                                                               \
-  makePairModel(CloudType);                                                   \
-  makePairModelType(PairSpringSliderDashpot, CloudType);                      \
+  MAKE_PAIR_MODEL(CloudType);                                                 \
+  MAKE_PAIR_MODEL_TYPE(PairSpringSliderDashpot, CloudType);                   \
                                                                               \
-  makeWallModel(CloudType);                                                   \
-  makeWallModelType(WallSpringSliderDashpot, CloudType);                      \
-  makeWallModelType(WallLocalSpringSliderDashpot, CloudType);
+  MAKE_WALL_MODEL(CloudType);                                                 \
+  MAKE_WALL_MODEL_TYPE(WallSpringSliderDashpot, CloudType);                   \
+  MAKE_WALL_MODEL_TYPE(WallLocalSpringSliderDashpot, CloudType);
 
 #endif

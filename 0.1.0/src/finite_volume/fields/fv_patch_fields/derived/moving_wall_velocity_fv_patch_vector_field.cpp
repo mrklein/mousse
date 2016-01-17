@@ -7,6 +7,8 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "fvc_mesh_phi.hpp"
+#include "time.hpp"
+
 // Constructors 
 mousse::movingWallVelocityFvPatchVectorField::
 movingWallVelocityFvPatchVectorField
@@ -76,7 +78,7 @@ void mousse::movingWallVelocityFvPatchVectorField::updateCoeffs()
     const polyPatch& pp = p.patch();
     const pointField& oldPoints = mesh.oldPoints();
     vectorField oldFc(pp.size());
-    forAll(oldFc, i)
+    FOR_ALL(oldFc, i)
     {
       oldFc[i] = pp[i].centre(oldPoints);
     }
@@ -102,9 +104,11 @@ void mousse::movingWallVelocityFvPatchVectorField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    movingWallVelocityFvPatchVectorField
-  );
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  movingWallVelocityFvPatchVectorField
+);
+
 }

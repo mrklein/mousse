@@ -9,20 +9,21 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(faceAreaPairGAMGAgglomeration, 0);
-  addToRunTimeSelectionTable
-  (
-    GAMGAgglomeration,
-    faceAreaPairGAMGAgglomeration,
-    lduMesh
-  );
-  addToRunTimeSelectionTable
-  (
-    GAMGAgglomeration,
-    faceAreaPairGAMGAgglomeration,
-    geometry
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(faceAreaPairGAMGAgglomeration, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGAgglomeration,
+  faceAreaPairGAMGAgglomeration,
+  lduMesh
+);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGAgglomeration,
+  faceAreaPairGAMGAgglomeration,
+  geometry
+);
 }
+
 // Constructors 
 mousse::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration
 (
@@ -30,10 +31,9 @@ mousse::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration
   const dictionary& controlDict
 )
 :
-  pairGAMGAgglomeration(mesh, controlDict)
+  pairGAMGAgglomeration{mesh, controlDict}
 {
   const fvMesh& fvmesh = refCast<const fvMesh>(mesh);
-  //agglomerate(mesh, sqrt(fvmesh.magSf().internalField()));
   agglomerate
   (
     mesh,
@@ -41,25 +41,23 @@ mousse::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration
     (
       cmptMultiply
       (
-        fvmesh.Sf().internalField()
-       /sqrt(fvmesh.magSf().internalField()),
+        fvmesh.Sf().internalField()/sqrt(fvmesh.magSf().internalField()),
         vector(1, 1.01, 1.02)
-        //vector::one
       )
     )
   );
 }
+
 mousse::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration
 (
   const lduMesh& mesh,
-  const scalarField& cellVolumes,
+  const scalarField& /*cellVolumes*/,
   const vectorField& faceAreas,
   const dictionary& controlDict
 )
 :
-  pairGAMGAgglomeration(mesh, controlDict)
+  pairGAMGAgglomeration{mesh, controlDict}
 {
-  //agglomerate(mesh, sqrt(mag(faceAreas)));
   agglomerate
   (
     mesh,
@@ -67,11 +65,10 @@ mousse::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration
     (
       cmptMultiply
       (
-        faceAreas
-       /sqrt(mag(faceAreas)),
+        faceAreas/sqrt(mag(faceAreas)),
         vector(1, 1.01, 1.02)
-        //vector::one
       )
     )
   );
 }
+

@@ -85,7 +85,7 @@ class edgeIntersections
       boolList& affectedEdges
     ) const;
 public:
-  ClassName("edgeIntersections");
+  CLASS_NAME("edgeIntersections");
   // Static data members
     //- Cosine between edge and face normal when considered parallel
     //  (note: should be private and make access- and set- function)

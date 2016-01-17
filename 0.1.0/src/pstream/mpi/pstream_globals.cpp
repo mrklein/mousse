@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "pstream_globals.hpp"
+#include "iostreams.hpp"
 namespace mousse
 {
 // Static Data Members
@@ -43,7 +44,7 @@ void PstreamGlobals::checkCommunicator
   || comm >= PstreamGlobals::MPICommunicators_.size()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PstreamGlobals::checkCommunicator(const label, const label)"
     )   << "otherProcNo:" << otherProcNo << " : illegal communicator "

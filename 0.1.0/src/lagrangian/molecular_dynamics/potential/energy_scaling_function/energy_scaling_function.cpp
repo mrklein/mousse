@@ -6,8 +6,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(energyScalingFunction, 0);
-  defineRunTimeSelectionTable(energyScalingFunction, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(energyScalingFunction, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(energyScalingFunction, dictionary);
 }
 // Constructors 
 mousse::energyScalingFunction::energyScalingFunction

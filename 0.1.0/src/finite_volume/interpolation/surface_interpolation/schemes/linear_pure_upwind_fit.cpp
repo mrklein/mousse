@@ -7,15 +7,18 @@
 #include "pure_upwind_cfc_cell_to_face_stencil_object.hpp"
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug
-  (
-    UpwindFitData<linearFitPolynomial>,
-    0
-  );
-  makePureUpwindFitSurfaceInterpolationScheme
-  (
-    linearPureUpwindFit,
-    linearFitPolynomial,
-    pureUpwindCFCCellToFaceStencilObject
-  );
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG
+(
+  UpwindFitData<linearFitPolynomial>,
+  0
+);
+
+MAKE_PURE_UPWIND_FIT_SURFACE_INTERPOLATION_SCHEME
+(
+  linearPureUpwindFit,
+  linearFitPolynomial,
+  pureUpwindCFCCellToFaceStencilObject
+);
+
 }

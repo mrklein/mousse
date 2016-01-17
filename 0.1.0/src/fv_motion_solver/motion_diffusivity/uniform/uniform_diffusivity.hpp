@@ -20,18 +20,16 @@ class uniformDiffusivity
 protected:
   // Protected data
     surfaceScalarField faceDiffusivity_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    uniformDiffusivity(const uniformDiffusivity&);
-    //- Disallow default bitwise assignment
-    void operator=(const uniformDiffusivity&);
 public:
   //- Runtime type information
-  TypeName("uniform");
+  TYPE_NAME("uniform");
   // Constructors
     //- Construct for the given fvMesh and data Istream
     uniformDiffusivity(const fvMesh& mesh, Istream& mdData);
+    //- Disallow default bitwise copy construct
+    uniformDiffusivity(const uniformDiffusivity&) = delete;
+    //- Disallow default bitwise assignment
+    uniformDiffusivity& operator=(const uniformDiffusivity&) = delete;
   //- Destructor
   virtual ~uniformDiffusivity();
   // Member Functions

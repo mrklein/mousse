@@ -3,11 +3,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "solution_control.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(solutionControl, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(solutionControl, 0);
 }
+
 // Protected Member Functions 
 void mousse::solutionControl::read(const bool absTolOnly)
 {
@@ -25,7 +27,7 @@ void mousse::solutionControl::read(const bool absTolOnly)
     solutionDict.subOrEmptyDict("residualControl")
   );
   DynamicList<fieldData> data(residualControl_);
-  forAllConstIter(dictionary, residualDict, iter)
+  FOR_ALL_CONST_ITER(dictionary, residualDict, iter)
   {
     const word& fName = iter().keyword();
     const label fieldI = applyToField(fName, false);
@@ -50,7 +52,7 @@ void mousse::solutionControl::read(const bool absTolOnly)
         }
         else
         {
-          FatalErrorIn("bool mousse::solutionControl::read()")
+          FATAL_ERROR_IN("bool mousse::solutionControl::read()")
             << "Residual data for " << iter().keyword()
             << " must be specified as a dictionary"
             << exit(FatalError);
@@ -75,7 +77,7 @@ void mousse::solutionControl::read(const bool absTolOnly)
         }
         else
         {
-          FatalErrorIn("bool mousse::solutionControl::read()")
+          FATAL_ERROR_IN("bool mousse::solutionControl::read()")
             << "Residual data for " << iter().keyword()
             << " must be specified as a dictionary"
             << exit(FatalError);
@@ -86,7 +88,7 @@ void mousse::solutionControl::read(const bool absTolOnly)
   residualControl_.transfer(data);
   if (debug)
   {
-    forAll(residualControl_, i)
+    FOR_ALL(residualControl_, i)
     {
       const fieldData& fd = residualControl_[i];
       Info<< "residualControl[" << i << "]:" << nl
@@ -97,17 +99,19 @@ void mousse::solutionControl::read(const bool absTolOnly)
     }
   }
 }
+
 void mousse::solutionControl::read()
 {
   read(false);
 }
+
 mousse::label mousse::solutionControl::applyToField
 (
   const word& fieldName,
   const bool useRegEx
 ) const
 {
-  forAll(residualControl_, i)
+  FOR_ALL(residualControl_, i)
   {
     if (useRegEx && residualControl_[i].name.match(fieldName))
     {
@@ -120,6 +124,7 @@ mousse::label mousse::solutionControl::applyToField
   }
   return -1;
 }
+
 void mousse::solutionControl::storePrevIterFields() const
 {
 //    storePrevIter<label>();
@@ -129,25 +134,27 @@ void mousse::solutionControl::storePrevIterFields() const
   storePrevIter<symmTensor>();
   storePrevIter<tensor>();
 }
+
 // Constructors 
 mousse::solutionControl::solutionControl(fvMesh& mesh, const word& algorithmName)
 :
   IOobject
-  (
+  {
     "solutionControl",
     mesh.time().timeName(),
     mesh
-  ),
-  mesh_(mesh),
-  residualControl_(),
-  algorithmName_(algorithmName),
-  nNonOrthCorr_(0),
-  momentumPredictor_(true),
-  transonic_(false),
-  consistent_(false),
-  corr_(0),
-  corrNonOrtho_(0)
+  },
+  mesh_{mesh},
+  residualControl_{},
+  algorithmName_{algorithmName},
+  nNonOrthCorr_{0},
+  momentumPredictor_{true},
+  transonic_{false},
+  consistent_{false},
+  corr_{0},
+  corrNonOrtho_{0}
 {}
+
 // Destructor 
 mousse::solutionControl::~solutionControl()
 {}

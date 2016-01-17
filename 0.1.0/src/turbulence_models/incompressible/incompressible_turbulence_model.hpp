@@ -27,15 +27,9 @@ protected:
     //  thermal transport layer is complete
     virtual void correctNut()
     {}
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    incompressibleTurbulenceModel(const incompressibleTurbulenceModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const incompressibleTurbulenceModel&);
 public:
   //- Runtime type information
-  TypeName("incompressibleTurbulenceModel");
+  TYPE_NAME("incompressibleTurbulenceModel");
   // Constructors
     //- Construct from components
     incompressibleTurbulenceModel
@@ -46,6 +40,16 @@ public:
       const surfaceScalarField& phi,
       const word& propertiesName
     );
+    //- Disallow default bitwise copy construct
+    incompressibleTurbulenceModel
+    (
+      const incompressibleTurbulenceModel&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    incompressibleTurbulenceModel& operator=
+    (
+      const incompressibleTurbulenceModel&
+    ) = delete;
   //- Destructor
   virtual ~incompressibleTurbulenceModel()
   {}

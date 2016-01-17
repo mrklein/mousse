@@ -27,7 +27,7 @@ protected:
     virtual void collide(const scalar dt);
 public:
   //- Runtime type information
-  TypeName("suppressionCollision");
+  TYPE_NAME("suppressionCollision");
   // Constructors
     //- Construct from dictionary
     SuppressionCollision(const dictionary& dict, CloudType& owner);

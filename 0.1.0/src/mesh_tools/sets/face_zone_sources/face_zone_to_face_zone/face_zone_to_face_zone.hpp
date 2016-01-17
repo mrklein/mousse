@@ -23,7 +23,7 @@ class faceZoneToFaceZone
     word setName_;
 public:
   //- Runtime type information
-  TypeName("faceZoneToFaceZone");
+  TYPE_NAME("faceZoneToFaceZone");
   // Constructors
     //- Construct from components
     faceZoneToFaceZone

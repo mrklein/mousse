@@ -19,19 +19,18 @@ class noRadiation
 :
   public radiationModel
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    noRadiation(const noRadiation&);
-    //- Disallow default bitwise assignment
-    void operator=(const noRadiation&);
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from components
     noRadiation(const volScalarField& T);
     //- Construct from components
     noRadiation(const dictionary& dict, const volScalarField& T);
+    //- Disallow default bitwise copy construct
+    noRadiation(const noRadiation&) = delete;
+    //- Disallow default bitwise assignment
+    noRadiation& operator=(const noRadiation&) = delete;
   //- Destructor
   virtual ~noRadiation();
   // Member functions

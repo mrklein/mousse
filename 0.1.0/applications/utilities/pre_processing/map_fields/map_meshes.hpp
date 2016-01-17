@@ -25,7 +25,7 @@ void MapConsistentMesh
     << meshSource.time().timeName() << nl << endl;
   {
     // Search for list of objects for this time
-    IOobjectList objects(meshSource, meshSource.time().timeName());
+    IOobjectList objects{meshSource, meshSource.time().timeName()};
     // Map volFields
     // ~~~~~~~~~~~~~
     MapConsistentVolFields<scalar>
@@ -66,7 +66,7 @@ void MapConsistentMesh
   }
   {
     // Search for list of target objects for this time
-    IOobjectList objects(meshTarget, meshTarget.time().timeName());
+    IOobjectList objects{meshTarget, meshTarget.time().timeName()};
     // Mark surfaceFields as unmapped
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     UnMapped<surfaceScalarField>(objects);
@@ -96,18 +96,18 @@ void MapSubMesh
 {
   // Create the interpolation scheme
   meshToMesh0 meshToMesh0Interp
-  (
+  {
     meshSource,
     meshTarget,
     patchMap,
     cuttingPatches
-  );
+  };
   Info<< nl
     << "Mapping fields for time " << meshSource.time().timeName()
     << nl << endl;
   {
     // Search for list of source objects for this time
-    IOobjectList objects(meshSource, meshSource.time().timeName());
+    IOobjectList objects{meshSource, meshSource.time().timeName()};
     // Map volFields
     // ~~~~~~~~~~~~~
     MapVolFields<scalar>
@@ -176,7 +176,7 @@ void MapConsistentSubMesh
 {
   HashTable<word> patchMap;
   HashTable<label> cuttingPatchTable;
-  forAll(meshTarget.boundary(), patchi)
+  FOR_ALL(meshTarget.boundary(), patchi)
   {
     if (!isA<processorFvPatch>(meshTarget.boundary()[patchi]))
     {

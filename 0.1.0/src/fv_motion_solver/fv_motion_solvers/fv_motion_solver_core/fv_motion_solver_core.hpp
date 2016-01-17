@@ -29,7 +29,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  ClassName("displacementMotionSolver");
+  CLASS_NAME("displacementMotionSolver");
   // Constructors
     //- Construct from polyMesh
     fvMotionSolverCore(const polyMesh&);

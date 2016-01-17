@@ -3,8 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "mesh_wave.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(MeshWaveName, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(MeshWaveName, 0);
 }

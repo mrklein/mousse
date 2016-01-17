@@ -23,7 +23,7 @@ class pointToPoint
     word setName_;
 public:
   //- Runtime type information
-  TypeName("pointToPoint");
+  TYPE_NAME("pointToPoint");
   // Constructors
     //- Construct from components
     pointToPoint

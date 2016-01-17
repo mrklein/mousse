@@ -31,9 +31,9 @@ private:
     void operator=(const laminarFlameSpeed&);
 public:
   //- Runtime type information
-  TypeName("laminarFlameSpeed");
+  TYPE_NAME("laminarFlameSpeed");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       laminarFlameSpeed,

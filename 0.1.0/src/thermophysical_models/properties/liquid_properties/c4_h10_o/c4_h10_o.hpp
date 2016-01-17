@@ -42,7 +42,7 @@ class C4H10O
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("C4H10O");
+  TYPE_NAME("C4H10O");
   // Constructors
     //- Construct null
     C4H10O();

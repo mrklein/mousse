@@ -35,11 +35,6 @@ class BSpline
 :
   public polyLine
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    BSpline(const BSpline&);
-    //- Disallow default bitwise assignment
-    void operator=(const BSpline&);
 public:
   // Constructors
     //- Construct from components
@@ -48,6 +43,10 @@ public:
       const pointField& knots,
       const bool notImplementedClosed = false
     );
+    //- Disallow default bitwise copy construct
+    BSpline(const BSpline&) = delete;
+    //- Disallow default bitwise assignment
+    BSpline& operator=(const BSpline&) = delete;
   // Member Functions
     //- Return the point position corresponding to the curve parameter
     //  0 <= lambda <= 1

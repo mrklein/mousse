@@ -6,7 +6,6 @@
 // Description
 //   Chemistry model for density-based thermodynamics
 // SourceFiles
-//   rho_chemistry_model_i.hpp
 //   rho_chemistry_model.cpp
 //   new_chemistry_model.cpp
 #ifndef rho_chemistry_model_hpp_
@@ -23,20 +22,15 @@ class rhoChemistryModel
 :
   public basicChemistryModel
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    rhoChemistryModel(const rhoChemistryModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const rhoChemistryModel&);
 protected:
   // Protected data
     //- Thermo package
     autoPtr<rhoReactionThermo> thermo_;
 public:
   //- Runtime type information
-  TypeName("rho");
+  TYPE_NAME("rho");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     rhoChemistryModel,
@@ -47,6 +41,10 @@ public:
   // Constructors
     //- Construct from mesh and phase name
     rhoChemistryModel(const fvMesh& mesh, const word& phaseName);
+    //- Construct as copy (not implemented)
+    rhoChemistryModel(const rhoChemistryModel&) = delete;
+    //- Disallow default bitwise assignment
+    rhoChemistryModel& operator=(const rhoChemistryModel&) = delete;
   //- Selector
   static autoPtr<rhoChemistryModel> New
   (
@@ -62,5 +60,14 @@ public:
     inline const rhoReactionThermo& thermo() const;
 };
 }  // namespace mousse
-#include "rho_chemistry_model_i.hpp"
+
+// Member Functions 
+inline mousse::rhoReactionThermo& mousse::rhoChemistryModel::thermo()
+{
+  return thermo_();
+}
+inline const mousse::rhoReactionThermo& mousse::rhoChemistryModel::thermo() const
+{
+  return thermo_();
+}
 #endif

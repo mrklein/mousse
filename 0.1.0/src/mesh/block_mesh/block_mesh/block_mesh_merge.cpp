@@ -14,7 +14,7 @@ void mousse::blockMesh::calcMergeInfo()
   blockOffsets_.setSize(blocks.size());
   nPoints_ = 0;
   nCells_  = 0;
-  forAll(blocks, blockI)
+  FOR_ALL(blocks, blockI)
   {
     blockOffsets_[blockI] = nPoints_;
     nPoints_ += blocks[blockI].nPoints();
@@ -34,7 +34,7 @@ void mousse::blockMesh::calcMergeInfo()
   // For efficiency, create merge pairs in the first pass
   labelListListList glueMergePairs(blockFaces.size());
   const labelList& faceNeighbourBlocks = topology().faceNeighbour();
-  forAll(blockFaces, blockFaceLabel)
+  FOR_ALL(blockFaces, blockFaceLabel)
   {
     label blockPlabel = faceOwnerBlocks[blockFaceLabel];
     const pointField& blockPpoints = blocks[blockPlabel].points();
@@ -56,7 +56,7 @@ void mousse::blockMesh::calcMergeInfo()
     }
     if (!foundFace)
     {
-      FatalErrorIn("blockMesh::calcMergeInfo()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
         << "Cannot find merge face for block " << blockPlabel
         << exit(FatalError);
     }
@@ -74,13 +74,13 @@ void mousse::blockMesh::calcMergeInfo()
     const scalar mergeSqrDist = magSqr(10*SMALL*bb.span());
     // This is an N^2 algorithm
     scalar sqrMergeTol = GREAT;
-    forAll(blockPfaceFaces, blockPfaceFaceLabel)
+    FOR_ALL(blockPfaceFaces, blockPfaceFaceLabel)
     {
       const labelList& blockPfaceFacePoints
         = blockPfaceFaces[blockPfaceFaceLabel];
-      forAll(blockPfaceFacePoints, blockPfaceFacePointLabel)
+      FOR_ALL(blockPfaceFacePoints, blockPfaceFacePointLabel)
       {
-        forAll(blockPfaceFacePoints, blockPfaceFacePointLabel2)
+        FOR_ALL(blockPfaceFacePoints, blockPfaceFacePointLabel2)
         {
           if (blockPfaceFacePointLabel != blockPfaceFacePointLabel2)
           {
@@ -146,7 +146,7 @@ void mousse::blockMesh::calcMergeInfo()
     }
     if (!foundFace)
     {
-      FatalErrorIn("blockMesh::calcMergeInfo()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
         << "Cannot find merge face for block " << blockNlabel
         << exit(FatalError);
     }
@@ -154,27 +154,27 @@ void mousse::blockMesh::calcMergeInfo()
       blocks[blockNlabel].boundaryPatches()[blockNfaceLabel];
     if (blockPfaceFaces.size() != blockNfaceFaces.size())
     {
-      FatalErrorIn("blockMesh::calcMergeInfo()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
         << "Inconsistent number of faces between block pair "
         << blockPlabel << " and " << blockNlabel
         << exit(FatalError);
     }
     // N-squared point search over all points of all faces of
     // master block over all point of all faces of slave block
-    forAll(blockPfaceFaces, blockPfaceFaceLabel)
+    FOR_ALL(blockPfaceFaces, blockPfaceFaceLabel)
     {
       const labelList& blockPfaceFacePoints
         = blockPfaceFaces[blockPfaceFaceLabel];
       labelList& cp = curPairs[blockPfaceFaceLabel];
       cp.setSize(blockPfaceFacePoints.size());
       cp = -1;
-      forAll(blockPfaceFacePoints, blockPfaceFacePointLabel)
+      FOR_ALL(blockPfaceFacePoints, blockPfaceFacePointLabel)
       {
-        forAll(blockNfaceFaces, blockNfaceFaceLabel)
+        FOR_ALL(blockNfaceFaces, blockNfaceFaceLabel)
         {
           const labelList& blockNfaceFacePoints
             = blockNfaceFaces[blockNfaceFaceLabel];
-          forAll(blockNfaceFacePoints, blockNfaceFacePointLabel)
+          FOR_ALL(blockNfaceFacePoints, blockNfaceFacePointLabel)
           {
             if
             (
@@ -211,11 +211,11 @@ void mousse::blockMesh::calcMergeInfo()
           }
         }
       }
-      forAll(blockPfaceFacePoints, blockPfaceFacePointLabel)
+      FOR_ALL(blockPfaceFacePoints, blockPfaceFacePointLabel)
       {
         if (cp[blockPfaceFacePointLabel] == -1)
         {
-          FatalErrorIn("blockMesh::calcMergeInfo()")
+          FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
             << "Inconsistent point locations between block pair "
             << blockPlabel << " and " << blockNlabel << nl
             << "    probably due to inconsistent grading."
@@ -236,7 +236,7 @@ void mousse::blockMesh::calcMergeInfo()
   {
     changedPointMerge = false;
     nPasses++;
-    forAll(blockInternalFaces, blockFaceLabel)
+    FOR_ALL(blockInternalFaces, blockFaceLabel)
     {
       label blockPlabel = faceOwnerBlocks[blockFaceLabel];
       label blockNlabel = faceNeighbourBlocks[blockFaceLabel];
@@ -279,12 +279,12 @@ void mousse::blockMesh::calcMergeInfo()
       }
       const labelListList& blockPfaceFaces =
         blocks[blockPlabel].boundaryPatches()[blockPfaceLabel];
-      forAll(blockPfaceFaces, blockPfaceFaceLabel)
+      FOR_ALL(blockPfaceFaces, blockPfaceFaceLabel)
       {
         const labelList& blockPfaceFacePoints
           = blockPfaceFaces[blockPfaceFaceLabel];
         const labelList& cp = curPairs[blockPfaceFaceLabel];
-        forAll(blockPfaceFacePoints, blockPfaceFacePointLabel)
+        FOR_ALL(blockPfaceFacePoints, blockPfaceFacePointLabel)
         {
           label PpointLabel =
             blockPfaceFacePoints[blockPfaceFacePointLabel]
@@ -316,7 +316,7 @@ void mousse::blockMesh::calcMergeInfo()
     }
     if (nPasses > 100)
     {
-      FatalErrorIn("blockMesh::calcMergeInfo()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
         << "Point merging failed after max number of passes."
         << exit(FatalError);
     }
@@ -326,7 +326,7 @@ void mousse::blockMesh::calcMergeInfo()
   {
     Info<< endl;
   }
-  forAll(blockInternalFaces, blockFaceLabel)
+  FOR_ALL(blockInternalFaces, blockFaceLabel)
   {
     label blockPlabel = faceOwnerBlocks[blockFaceLabel];
     label blockNlabel = faceNeighbourBlocks[blockFaceLabel];
@@ -355,7 +355,7 @@ void mousse::blockMesh::calcMergeInfo()
     }
     if (!foundFace)
     {
-      FatalErrorIn("blockMesh::calcMergeInfo()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
         << "Cannot find merge face for block " << blockPlabel
         << exit(FatalError);
     }
@@ -380,7 +380,7 @@ void mousse::blockMesh::calcMergeInfo()
     }
     if (!foundFace)
     {
-      FatalErrorIn("blockMesh::calcMergeInfo()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
         << "Cannot find merge face for block " << blockNlabel
         << exit(FatalError);
     }
@@ -388,18 +388,18 @@ void mousse::blockMesh::calcMergeInfo()
       blocks[blockPlabel].boundaryPatches()[blockPfaceLabel];
     const labelListList& blockNfaceFaces =
       blocks[blockNlabel].boundaryPatches()[blockNfaceLabel];
-    forAll(blockPfaceFaces, blockPfaceFaceLabel)
+    FOR_ALL(blockPfaceFaces, blockPfaceFaceLabel)
     {
       const labelList& blockPfaceFacePoints
         = blockPfaceFaces[blockPfaceFaceLabel];
-      forAll(blockPfaceFacePoints, blockPfaceFacePointLabel)
+      FOR_ALL(blockPfaceFacePoints, blockPfaceFacePointLabel)
       {
         label PpointLabel =
           blockPfaceFacePoints[blockPfaceFacePointLabel]
          + blockOffsets_[blockPlabel];
         if (mergeList_[PpointLabel] == -1)
         {
-          FatalErrorIn("blockMesh::calcMergeInfo()")
+          FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
             << "Unable to merge point "
             << blockPfaceFacePointLabel
             << ' ' << blockPpoints[blockPfaceFacePointLabel]
@@ -411,18 +411,18 @@ void mousse::blockMesh::calcMergeInfo()
         }
       }
     }
-    forAll(blockNfaceFaces, blockNfaceFaceLabel)
+    FOR_ALL(blockNfaceFaces, blockNfaceFaceLabel)
     {
       const labelList& blockNfaceFacePoints
         = blockNfaceFaces[blockNfaceFaceLabel];
-      forAll(blockNfaceFacePoints, blockNfaceFacePointLabel)
+      FOR_ALL(blockNfaceFacePoints, blockNfaceFacePointLabel)
       {
         label NpointLabel =
           blockNfaceFacePoints[blockNfaceFacePointLabel]
          + blockOffsets_[blockNlabel];
         if (mergeList_[NpointLabel] == -1)
         {
-          FatalErrorIn("blockMesh::calcMergeInfo()")
+          FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
             << "unable to merge point "
             << blockNfaceFacePointLabel
             << ' ' << blockNpoints[blockNfaceFacePointLabel]
@@ -438,11 +438,11 @@ void mousse::blockMesh::calcMergeInfo()
   // Sort merge list to return new point label (in new shorter list)
   // given old point label
   label newPointLabel = 0;
-  forAll(mergeList_, pointLabel)
+  FOR_ALL(mergeList_, pointLabel)
   {
     if (mergeList_[pointLabel] > pointLabel)
     {
-      FatalErrorIn("blockMesh::calcMergeInfo()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfo()")
         << "Merge list contains point index out of range"
         << exit(FatalError);
     }

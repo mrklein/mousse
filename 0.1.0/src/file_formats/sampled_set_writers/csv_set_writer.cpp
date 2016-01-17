@@ -3,19 +3,25 @@
 // Copyright (C) 2016 mousse project
 
 #include "csv_set_writer.hpp"
+
 #include "coord_set.hpp"
 #include "file_name.hpp"
 #include "ofstream.hpp"
+
 // Constructors 
 template<class Type>
 mousse::csvSetWriter<Type>::csvSetWriter()
 :
   writer<Type>()
 {}
+
+
 // Destructor 
 template<class Type>
 mousse::csvSetWriter<Type>::~csvSetWriter()
 {}
+
+
 // Member Functions 
 template<class Type>
 mousse::fileName mousse::csvSetWriter<Type>::getFileName
@@ -26,6 +32,8 @@ mousse::fileName mousse::csvSetWriter<Type>::getFileName
 {
   return this->getBaseName(points, valueSetNames) + ".csv";
 }
+
+
 template<class Type>
 void mousse::csvSetWriter<Type>::write
 (
@@ -37,71 +45,79 @@ void mousse::csvSetWriter<Type>::write
 {
   writeHeader(points,valueSetNames,os);
   // Collect sets into columns
-  List<const List<Type>*> columns(valueSets.size());
-  forAll(valueSets, i)
+  List<const List<Type>*> columns{valueSets.size()};
+  FOR_ALL(valueSets, i)
   {
     columns[i] = valueSets[i];
   }
   this->writeTable(points, columns, os);
 }
+
+
 template<class Type>
 void mousse::csvSetWriter<Type>::write
 (
-  const bool writeTracks,
+  const bool /*writeTracks*/,
   const PtrList<coordSet>& points,
   const wordList& valueSetNames,
-  const List<List<Field<Type> > >& valueSets,
+  const List<List<Field<Type>>>& valueSets,
   Ostream& os
 ) const
 {
   writeHeader(points[0],valueSetNames,os);
   if (valueSets.size() != valueSetNames.size())
   {
-    FatalErrorIn("csvSetWriter<Type>::write(..)")
+    FATAL_ERROR_IN("csvSetWriter<Type>::write(..)")
       << "Number of variables:" << valueSetNames.size() << endl
       << "Number of valueSets:" << valueSets.size()
       << exit(FatalError);
   }
-  List<const List<Type>*> columns(valueSets.size());
-  forAll(points, trackI)
+  List<const List<Type>*> columns{valueSets.size()};
+  FOR_ALL(points, trackI)
   {
     // Collect sets into columns
-    forAll(valueSets, i)
+    FOR_ALL(valueSets, i)
     {
       columns[i] = &valueSets[i][trackI];
     }
     this->writeTable(points[trackI], columns, os);
-    os  << nl << nl;
+    os << nl << nl;
   }
 }
+
+
 template<class Type>
 void mousse::csvSetWriter<Type>::writeSeparator(Ostream& os) const
 {
   os << token::COMMA;
 }
+
+
 namespace mousse
 {
-  // otherwise compiler complains about specialization
-  template<>
-  void csvSetWriter<scalar>::writeHeader
-  (
-    const coordSet& points,
-    const wordList& valueSetNames,
-    Ostream& os
-  ) const
+// otherwise compiler complains about specialization
+template<>
+void csvSetWriter<scalar>::writeHeader
+(
+  const coordSet& points,
+  const wordList& valueSetNames,
+  Ostream& os
+) const
+{
+  writeCoordHeader(points, os);
+  FOR_ALL(valueSetNames, i)
   {
-    writeCoordHeader(points, os);
-    forAll(valueSetNames, i)
+    if (i > 0)
     {
-      if (i > 0)
-      {
-        writeSeparator(os);
-      }
-      os << valueSetNames[i];
+      writeSeparator(os);
     }
-    os << nl;
+    os << valueSetNames[i];
   }
+  os << nl;
+}
 } // end namespace
+
+
 template<class Type>
 void mousse::csvSetWriter<Type>::writeHeader
 (
@@ -111,7 +127,7 @@ void mousse::csvSetWriter<Type>::writeHeader
 ) const
 {
   writeCoordHeader(points, os);
-  forAll(valueSetNames, i)
+  FOR_ALL(valueSetNames, i)
   {
     for (label j=0; j<Type::nComponents; j++)
     {
@@ -124,6 +140,8 @@ void mousse::csvSetWriter<Type>::writeHeader
   }
   os << nl;
 }
+
+
 template<class Type>
 void mousse::csvSetWriter<Type>::writeCoordHeader
 (
@@ -133,7 +151,7 @@ void mousse::csvSetWriter<Type>::writeCoordHeader
 {
   if (points.hasVectorAxis())
   {
-    forAll(points, i)
+    FOR_ALL(points, i)
     {
       os << points.axis()[i];
       writeSeparator(os);

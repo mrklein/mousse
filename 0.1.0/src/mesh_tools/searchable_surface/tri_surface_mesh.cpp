@@ -12,8 +12,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(triSurfaceMesh, 0);
-addToRunTimeSelectionTable(searchableSurface, triSurfaceMesh, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(triSurfaceMesh, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, triSurfaceMesh, dict);
 }
 // Private Member Functions 
 //// Special version of Time::findInstance that does not check headerOk
@@ -81,7 +81,7 @@ const mousse::fileName& mousse::triSurfaceMesh::checkFile
 {
   if (fName.empty())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "triSurfaceMesh::checkFile(const fileName&, const fileName&)"
     )   << "Cannot find triSurfaceMesh starting from "
@@ -122,11 +122,11 @@ bool mousse::triSurfaceMesh::isSurfaceClosed() const
   // To prevent doing work twice per edge only look at edges to higher
   // point
   EdgeMap<label> facesPerEdge(100);
-  forAll(pointFaces, pointI)
+  FOR_ALL(pointFaces, pointI)
   {
     const labelList& pFaces = pointFaces[pointI];
     facesPerEdge.clear();
-    forAll(pFaces, i)
+    FOR_ALL(pFaces, i)
     {
       const triSurface::FaceType& f = triSurface::operator[](pFaces[i]);
       label fp = findIndex(f, pointI);
@@ -163,7 +163,7 @@ bool mousse::triSurfaceMesh::isSurfaceClosed() const
       }
     }
     // Check for any edges used only once.
-    forAllConstIter(EdgeMap<label>, facesPerEdge, iter)
+    FOR_ALL_CONST_ITER(EdgeMap<label>, facesPerEdge, iter)
     {
       if (iter() != 2)
       {
@@ -341,11 +341,11 @@ void mousse::triSurfaceMesh::boundingSpheres
   radiusSqr.setSize(size());
   radiusSqr = 0.0;
   const pointField& pts = triSurface::points();
-  forAll(*this, faceI)
+  FOR_ALL(*this, faceI)
   {
     const labelledTri& f = triSurface::operator[](faceI);
     const point& fc = centres[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       const point& pt = pts[f[fp]];
       radiusSqr[faceI] = max(radiusSqr[faceI], mousse::magSqr(fc-pt));
@@ -431,7 +431,7 @@ const mousse::wordList& mousse::triSurfaceMesh::regions() const
   if (regions_.empty())
   {
     regions_.setSize(patches().size());
-    forAll(regions_, regionI)
+    FOR_ALL(regions_, regionI)
     {
       regions_[regionI] = patches()[regionI].name();
     }
@@ -513,7 +513,7 @@ void mousse::triSurfaceMesh::getRegion
 ) const
 {
   region.setSize(info.size());
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     if (info[i].hit())
     {
@@ -539,7 +539,7 @@ void mousse::triSurfaceMesh::getNormal
     // Make sure we don't use triangles with low quality since
     // normal is not reliable.
     const labelListList& faceFaces = s.faceFaces();
-    forAll(info, i)
+    FOR_ALL(info, i)
     {
       if (info[i].hit())
       {
@@ -550,7 +550,7 @@ void mousse::triSurfaceMesh::getNormal
         {
           // Search neighbouring triangles
           const labelList& fFaces = faceFaces[faceI];
-          forAll(fFaces, j)
+          FOR_ALL(fFaces, j)
           {
             label nbrI = fFaces[j];
             scalar nbrQual = s[nbrI].tri(pts).quality();
@@ -572,7 +572,7 @@ void mousse::triSurfaceMesh::getNormal
   }
   else
   {
-    forAll(info, i)
+    FOR_ALL(info, i)
     {
       if (info[i].hit())
       {
@@ -627,7 +627,7 @@ void mousse::triSurfaceMesh::getField
     (
       "values"
     );
-    forAll(info, i)
+    FOR_ALL(info, i)
     {
       if (info[i].hit())
       {
@@ -645,7 +645,7 @@ void mousse::triSurfaceMesh::getVolumeType
   volType.setSize(points.size());
   scalar oldTol = indexedOctree<treeDataTriSurface>::perturbTol();
   indexedOctree<treeDataTriSurface>::perturbTol() = tolerance();
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     if (!tree().bb().contains(pt))
@@ -666,9 +666,9 @@ void mousse::triSurfaceMesh::getVolumeType
 //- Write using given format, version and compression
 bool mousse::triSurfaceMesh::writeObject
 (
-  IOstream::streamFormat fmt,
-  IOstream::versionNumber ver,
-  IOstream::compressionType cmp
+  IOstream::streamFormat /*fmt*/,
+  IOstream::versionNumber /*ver*/,
+  IOstream::compressionType /*cmp*/
 ) const
 {
   fileName fullPath(searchableSurface::objectPath());

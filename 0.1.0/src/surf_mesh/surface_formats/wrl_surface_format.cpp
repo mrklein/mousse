@@ -3,13 +3,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "wrl_surface_format.hpp"
+
 #include "ostream.hpp"
 #include "ofstream.hpp"
 #include "list_ops.hpp"
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::WRLsurfaceFormat<Face>::WRLsurfaceFormat()
 {}
+
+
 // Member Functions 
 template<class Face>
 void mousse::fileFormats::WRLsurfaceFormat<Face>::write
@@ -19,7 +23,7 @@ void mousse::fileFormats::WRLsurfaceFormat<Face>::write
 )
 {
   const pointField& pointLst = surf.points();
-  const List<Face>&  faceLst = surf.faces();
+  const List<Face>& faceLst = surf.faces();
   const List<label>& faceMap = surf.faceMap();
   // for no zones, suppress the group name
   const List<surfZone>& zones =
@@ -29,10 +33,10 @@ void mousse::fileFormats::WRLsurfaceFormat<Face>::write
    : surf.surfZones()
   );
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::WRLsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
@@ -41,35 +45,35 @@ void mousse::fileFormats::WRLsurfaceFormat<Face>::write
       << exit(FatalError);
   }
   writeHeader(os, pointLst, faceLst.size(), zones);
-  os  << "\n"
+  os<< "\n"
     "Group {\n"
     " children [\n"
     "  Shape {\n";
- writeAppearance(os);
- os  <<
+  writeAppearance(os);
+  os<<
     "   geometry IndexedFaceSet {\n"
     "    coord Coordinate {\n"
     "     point [\n";
   // Write vertex coords
-  forAll(pointLst, ptI)
+  FOR_ALL(pointLst, ptI)
   {
     const point& pt = pointLst[ptI];
-    os  << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
+    os << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
   }
-  os  <<
+  os<<
     "     ]\n"                     // end point
     "    }\n"                      // end coord Coordinate
     "    coordIndex [\n";
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceMap[faceIndex++]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << f[fp] << ' ';
         }
@@ -78,10 +82,10 @@ void mousse::fileFormats::WRLsurfaceFormat<Face>::write
     }
     else
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceIndex++];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << ' ' << f[fp];
         }

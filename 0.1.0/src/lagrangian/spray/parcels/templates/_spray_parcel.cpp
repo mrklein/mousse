@@ -105,7 +105,7 @@ void mousse::SprayParcel<ParcelType>::calcAtomization
 (
   TrackData& td,
   const scalar dt,
-  const label cellI
+  const label /*cellI*/
 )
 {
   typedef typename TrackData::cloudType::reactingCloudType reactingCloudType;
@@ -261,7 +261,7 @@ mousse::scalar mousse::SprayParcel<ParcelType>::chi
   scalar p0 = this->pc();
   scalar pAmb = td.cloud().pAmbient();
   scalar pv = composition.liquids().pv(p0, T0, X);
-  forAll(composition.liquids(), i)
+  FOR_ALL(composition.liquids(), i)
   {
     if (pv >= 0.999*pAmb)
     {

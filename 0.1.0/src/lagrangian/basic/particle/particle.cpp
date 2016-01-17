@@ -11,7 +11,7 @@ const mousse::scalar mousse::particle::lambdaDistanceToleranceCoeff = 1e3*SMALL;
 const mousse::scalar mousse::particle::minStepFractionTol = 1e5*SMALL;
 namespace mousse
 {
-  defineTypeNameAndDebug(particle, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(particle, 0);
 }
 // Constructors 
 mousse::particle::particle
@@ -23,15 +23,15 @@ mousse::particle::particle
   const label tetPtI
 )
 :
-  mesh_(mesh),
-  position_(position),
-  cellI_(cellI),
-  faceI_(-1),
-  stepFraction_(0.0),
-  tetFaceI_(tetFaceI),
-  tetPtI_(tetPtI),
-  origProc_(Pstream::myProcNo()),
-  origId_(getNewParticleID())
+  mesh_{mesh},
+  position_{position},
+  cellI_{cellI},
+  faceI_{-1},
+  stepFraction_{0.0},
+  tetFaceI_{tetFaceI},
+  tetPtI_{tetPtI},
+  origProc_{Pstream::myProcNo()},
+  origId_{getNewParticleID()}
 {}
 mousse::particle::particle
 (
@@ -41,15 +41,15 @@ mousse::particle::particle
   bool doCellFacePt
 )
 :
-  mesh_(mesh),
-  position_(position),
-  cellI_(cellI),
-  faceI_(-1),
-  stepFraction_(0.0),
-  tetFaceI_(-1),
-  tetPtI_(-1),
-  origProc_(Pstream::myProcNo()),
-  origId_(getNewParticleID())
+  mesh_{mesh},
+  position_{position},
+  cellI_{cellI},
+  faceI_{-1},
+  stepFraction_{0.0},
+  tetFaceI_{-1},
+  tetPtI_{-1},
+  origProc_{Pstream::myProcNo()},
+  origId_{getNewParticleID()}
 {
   if (doCellFacePt)
   {
@@ -58,27 +58,27 @@ mousse::particle::particle
 }
 mousse::particle::particle(const particle& p)
 :
-  mesh_(p.mesh_),
-  position_(p.position_),
-  cellI_(p.cellI_),
-  faceI_(p.faceI_),
-  stepFraction_(p.stepFraction_),
-  tetFaceI_(p.tetFaceI_),
-  tetPtI_(p.tetPtI_),
-  origProc_(p.origProc_),
-  origId_(p.origId_)
+  mesh_{p.mesh_},
+  position_{p.position_},
+  cellI_{p.cellI_},
+  faceI_{p.faceI_},
+  stepFraction_{p.stepFraction_},
+  tetFaceI_{p.tetFaceI_},
+  tetPtI_{p.tetPtI_},
+  origProc_{p.origProc_},
+  origId_{p.origId_}
 {}
 mousse::particle::particle(const particle& p, const polyMesh& mesh)
 :
-  mesh_(mesh),
-  position_(p.position_),
-  cellI_(p.cellI_),
-  faceI_(p.faceI_),
-  stepFraction_(p.stepFraction_),
-  tetFaceI_(p.tetFaceI_),
-  tetPtI_(p.tetPtI_),
-  origProc_(p.origProc_),
-  origId_(p.origId_)
+  mesh_{mesh},
+  position_{p.position_},
+  cellI_{p.cellI_},
+  faceI_{p.faceI_},
+  stepFraction_{p.stepFraction_},
+  tetFaceI_{p.tetFaceI_},
+  tetPtI_{p.tetPtI_},
+  origProc_{p.origProc_},
+  origId_{p.origId_}
 {}
 // Member Functions 
 void mousse::particle::transformProperties(const tensor&)

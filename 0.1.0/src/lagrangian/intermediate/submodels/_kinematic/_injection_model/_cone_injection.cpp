@@ -76,7 +76,7 @@ mousse::ConeInjection<CloudType>::ConeInjection
   duration_ = owner.db().time().userTimeToTime(duration_);
   // Normalise direction vector and determine direction vectors
   // tangential to injector axis direction
-  forAll(positionAxis_, i)
+  FOR_ALL(positionAxis_, i)
   {
     vector& axis = positionAxis_[i].second();
     axis /= mag(axis);
@@ -127,7 +127,7 @@ template<class CloudType>
 void mousse::ConeInjection<CloudType>::updateMesh()
 {
   // Set/cache the injector cells
-  forAll(positionAxis_, i)
+  FOR_ALL(positionAxis_, i)
   {
     this->findCellAtPosition
     (

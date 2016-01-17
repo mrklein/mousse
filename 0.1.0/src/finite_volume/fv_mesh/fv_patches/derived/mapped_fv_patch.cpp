@@ -4,8 +4,10 @@
 
 #include "mapped_fv_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"
+#include "map_distribute.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(mappedFvPatch, 0);
-  addToRunTimeSelectionTable(fvPatch, mappedFvPatch, polyPatch);
+  DEFINE_TYPE_NAME_AND_DEBUG(mappedFvPatch, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, mappedFvPatch, polyPatch);
 }

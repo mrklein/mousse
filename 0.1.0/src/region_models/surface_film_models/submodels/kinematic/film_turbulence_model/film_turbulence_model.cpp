@@ -10,8 +10,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(filmTurbulenceModel, 0);
-defineRunTimeSelectionTable(filmTurbulenceModel, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(filmTurbulenceModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(filmTurbulenceModel, dictionary);
 // Constructors 
 filmTurbulenceModel::filmTurbulenceModel(surfaceFilmModel& owner)
 :

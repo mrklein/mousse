@@ -13,17 +13,17 @@ mousse::surfaceMeshWriter::surfaceMeshWriter
   const fileName& fName
 )
 :
-  binary_(binary),
-  pp_(pp),
-  fName_(fName),
-  os_(fName.c_str())
+  binary_{binary},
+  pp_{pp},
+  fName_{fName},
+  os_{fName.c_str()}
 {
   // Write header
   writeFuns::writeHeader(os_, binary_, name);
   os_ << "DATASET POLYDATA" << std::endl;
   // Write topology
   label nFaceVerts = 0;
-  forAll(pp, faceI)
+  FOR_ALL(pp, faceI)
   {
     nFaceVerts += pp[faceI].size() + 1;
   }
@@ -32,8 +32,8 @@ mousse::surfaceMeshWriter::surfaceMeshWriter
   writeFuns::insert(pp.localPoints(), ptField);
   writeFuns::write(os_, binary, ptField);
   os_ << "POLYGONS " << pp.size() << ' ' << nFaceVerts << std::endl;
-  DynamicList<label> vertLabels(nFaceVerts);
-  forAll(pp, faceI)
+  DynamicList<label> vertLabels{nFaceVerts};
+  FOR_ALL(pp, faceI)
   {
     const face& f = pp.localFaces()[faceI];
     vertLabels.append(f.size());

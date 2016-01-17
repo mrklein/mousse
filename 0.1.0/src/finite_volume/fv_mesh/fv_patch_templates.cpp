@@ -13,7 +13,7 @@ mousse::tmp<mousse::Field<Type> > mousse::fvPatch::patchInternalField
   tmp<Field<Type> > tpif(new Field<Type>(size()));
   Field<Type>& pif = tpif();
   const labelUList& faceCells = this->faceCells();
-  forAll(pif, facei)
+  FOR_ALL(pif, facei)
   {
     pif[facei] = f[faceCells[facei]];
   }
@@ -28,7 +28,7 @@ void mousse::fvPatch::patchInternalField
 {
   pif.setSize(size());
   const labelUList& faceCells = this->faceCells();
-  forAll(pif, facei)
+  FOR_ALL(pif, facei)
   {
     pif[facei] = f[faceCells[facei]];
   }

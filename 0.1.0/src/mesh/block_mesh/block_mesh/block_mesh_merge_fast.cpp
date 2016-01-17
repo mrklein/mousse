@@ -72,7 +72,7 @@ Pair<int> faceMap
       return faceFaceRotMap[facePi][faceNi][rot];
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "faceMap(const label facePi, const face& faceP, "
     "const label faceNi, const face& faceN)"
@@ -90,7 +90,7 @@ void setBlockFaceCorrespondence
   List<Pair<label> >& mergeBlock
 )
 {
-  forAll(topoInternalFaces, topoFacei)
+  FOR_ALL(topoInternalFaces, topoFacei)
   {
     label topoPi = topoFaceCell[topoFacei];
     const labelList& topoPfaces = topoCells[topoPi];
@@ -111,7 +111,7 @@ void setBlockFaceCorrespondence
     }
     if (!foundFace)
     {
-      FatalErrorIn("setBlockFaceCorrespondence()")
+      FATAL_ERROR_IN("setBlockFaceCorrespondence()")
         << "Cannot find merge face for block " << topoPi
         << exit(FatalError);
     }
@@ -252,7 +252,7 @@ void mousse::blockMesh::calcMergeInfoFast()
   blockOffsets_.setSize(blocks.size());
   nPoints_ = 0;
   nCells_  = 0;
-  forAll(blocks, blockI)
+  FOR_ALL(blocks, blockI)
   {
     blockOffsets_[blockI] = nPoints_;
     nPoints_ += blocks[blockI].nPoints();
@@ -299,7 +299,7 @@ void mousse::blockMesh::calcMergeInfoFast()
   {
     Info<< endl;
   }
-  forAll(topoInternalFaces, topoFacei)
+  FOR_ALL(topoInternalFaces, topoFacei)
   {
     if (debug)
     {
@@ -337,7 +337,7 @@ void mousse::blockMesh::calcMergeInfoFast()
       NPnij[1] = Nnij[mag(fmap[1]) - 1];
       if (Pnij != NPnij)
       {
-        FatalErrorIn("blockMesh::calcMergeInfoFast()")
+        FATAL_ERROR_IN("blockMesh::calcMergeInfoFast()")
           << "Sub-division mismatch between face "
           << blockPfacei << " of block " << blockPi << Pnij
           << " and face "
@@ -370,7 +370,7 @@ void mousse::blockMesh::calcMergeInfoFast()
         );
         if (sqrDist > testSqrDist)
         {
-          FatalErrorIn("blockMesh::calcMergeInfoFast()")
+          FATAL_ERROR_IN("blockMesh::calcMergeInfoFast()")
             << "Point merge failure between face "
             << blockPfacei << " of block " << blockPi
             << " and face "
@@ -409,7 +409,7 @@ void mousse::blockMesh::calcMergeInfoFast()
   {
     changedPointMerge = false;
     nPasses++;
-    forAll(topoInternalFaces, topoFacei)
+    FOR_ALL(topoInternalFaces, topoFacei)
     {
       label blockPi = mergeBlockP[topoFacei].first();
       label blockPfacei = mergeBlockP[topoFacei].second();
@@ -454,18 +454,18 @@ void mousse::blockMesh::calcMergeInfoFast()
     }
     if (nPasses > 100)
     {
-      FatalErrorIn("blockMesh::calcMergeInfoFast()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfoFast()")
         << "Point merging failed after 100 passes."
         << exit(FatalError);
     }
   } while (changedPointMerge);
   // Sort merge list and count number of unique points
   label nUniqPoints = 0;
-  forAll(mergeList_, pointi)
+  FOR_ALL(mergeList_, pointi)
   {
     if (mergeList_[pointi] > pointi)
     {
-      FatalErrorIn("blockMesh::calcMergeInfoFast()")
+      FATAL_ERROR_IN("blockMesh::calcMergeInfoFast()")
         << "Merge list contains point index out of range"
         << exit(FatalError);
     }

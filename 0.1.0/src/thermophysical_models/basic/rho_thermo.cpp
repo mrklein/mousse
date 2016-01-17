@@ -5,8 +5,8 @@
 #include "rho_thermo.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(rhoThermo, 0);
-  defineRunTimeSelectionTable(rhoThermo, fvMesh);
+  DEFINE_TYPE_NAME_AND_DEBUG(rhoThermo, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(rhoThermo, fvMesh);
 }
 // Constructors 
 mousse::rhoThermo::rhoThermo(const fvMesh& mesh, const word& phaseName)

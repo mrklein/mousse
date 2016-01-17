@@ -97,7 +97,7 @@ public:
     //- Name of the H code template to be used
     static const word codeTemplateH;
   //- Runtime type information
-  TypeName("codedMixed");
+  TYPE_NAME("codedMixed");
   // Constructors
     //- Construct from patch and internal field
     codedMixedFvPatchField

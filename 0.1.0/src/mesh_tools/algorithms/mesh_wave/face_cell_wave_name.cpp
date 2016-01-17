@@ -3,8 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "face_cell_wave.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(FaceCellWaveName, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(FaceCellWaveName, 0);
 }

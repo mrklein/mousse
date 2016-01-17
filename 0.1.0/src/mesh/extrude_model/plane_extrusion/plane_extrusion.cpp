@@ -9,8 +9,8 @@ namespace mousse
 namespace extrudeModels
 {
 // Static Data Members
-defineTypeNameAndDebug(plane, 0);
-addToRunTimeSelectionTable(extrudeModel, plane, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(plane, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(extrudeModel, plane, dictionary);
 // Constructors 
 plane::plane(const dictionary& dict)
 :
@@ -18,7 +18,7 @@ plane::plane(const dictionary& dict)
 {
   if (nLayers_ != 1)
   {
-    IOWarningIn("plane::plane(const dictionary& dict)", dict)
+    IO_WARNING_IN("plane::plane(const dictionary& dict)", dict)
       << "Expected nLayers (if specified) to be 1"
       << endl;
     nLayers_ = 1;

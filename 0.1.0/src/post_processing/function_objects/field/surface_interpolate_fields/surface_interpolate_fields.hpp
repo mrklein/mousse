@@ -65,10 +65,6 @@ protected:
     PtrList<surfaceSymmTensorField> sSymmtf_;
     PtrList<surfaceTensorField> stf_;
   // Protected Member Functions
-    //- Disallow default bitwise copy construct
-    surfaceInterpolateFields(const surfaceInterpolateFields&);
-    //- Disallow default bitwise assignment
-    void operator=(const surfaceInterpolateFields&);
     template<class Type>
     void interpolateFields
     (
@@ -76,7 +72,7 @@ protected:
     ) const;
 public:
   //- Runtime type information
-  TypeName("surfaceInterpolateFields");
+  TYPE_NAME("surfaceInterpolateFields");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -87,6 +83,13 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    surfaceInterpolateFields(const surfaceInterpolateFields&) = delete;
+    //- Disallow default bitwise assignment
+    surfaceInterpolateFields& operator=
+    (
+      const surfaceInterpolateFields&
+    ) = delete;
   //- Destructor
   virtual ~surfaceInterpolateFields();
   // Member Functions

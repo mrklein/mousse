@@ -51,7 +51,7 @@ class pressureInletOutletVelocityFvPatchVectorField
     vectorField tangentialVelocity_;
 public:
   //- Runtime type information
-  TypeName("pressureInletOutletVelocity");
+  TYPE_NAME("pressureInletOutletVelocity");
   // Constructors
     //- Construct from patch and internal field
     pressureInletOutletVelocityFvPatchVectorField

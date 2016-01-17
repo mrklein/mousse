@@ -17,10 +17,10 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchField<scalar>(p, iF),
-  phiName_("phi"),
-  rhoName_("none"),
-  massFluxFraction_(1.0)
+  mixedFvPatchField<scalar>{p, iF},
+  phiName_{"phi"},
+  rhoName_{"none"},
+  massFluxFraction_{1.0}
 {
   refValue() = 0.0;
   refGrad() = 0.0;
@@ -34,10 +34,10 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchField<scalar>(p, iF),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "none")),
-  massFluxFraction_(dict.lookupOrDefault<scalar>("massFluxFraction", 1.0))
+  mixedFvPatchField<scalar>{p, iF},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "none")},
+  massFluxFraction_{dict.lookupOrDefault<scalar>("massFluxFraction", 1.0)}
 {
   refValue() = 1.0;
   refGrad() = 0.0;
@@ -63,10 +63,10 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchField<scalar>(ptf, p, iF, mapper),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_),
-  massFluxFraction_(ptf.massFluxFraction_)
+  mixedFvPatchField<scalar>{ptf, p, iF, mapper},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_},
+  massFluxFraction_{ptf.massFluxFraction_}
 {}
 mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::
 totalFlowRateAdvectiveDiffusiveFvPatchScalarField
@@ -74,10 +74,10 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   const totalFlowRateAdvectiveDiffusiveFvPatchScalarField& tppsf
 )
 :
-  mixedFvPatchField<scalar>(tppsf),
-  phiName_(tppsf.phiName_),
-  rhoName_(tppsf.rhoName_),
-  massFluxFraction_(tppsf.massFluxFraction_)
+  mixedFvPatchField<scalar>{tppsf},
+  phiName_{tppsf.phiName_},
+  rhoName_{tppsf.rhoName_},
+  massFluxFraction_{tppsf.massFluxFraction_}
 {}
 mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::
 totalFlowRateAdvectiveDiffusiveFvPatchScalarField
@@ -86,10 +86,10 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchField<scalar>(tppsf, iF),
-  phiName_(tppsf.phiName_),
-  rhoName_(tppsf.rhoName_),
-  massFluxFraction_(tppsf.massFluxFraction_)
+  mixedFvPatchField<scalar>{tppsf, iF},
+  phiName_{tppsf.phiName_},
+  rhoName_{tppsf.rhoName_},
+  massFluxFraction_{tppsf.massFluxFraction_}
 {}
 // Member Functions 
 void mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::autoMap
@@ -161,9 +161,9 @@ write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    totalFlowRateAdvectiveDiffusiveFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  totalFlowRateAdvectiveDiffusiveFvPatchScalarField
+);
 }

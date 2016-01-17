@@ -28,7 +28,7 @@ mousse::coalCloudList::coalCloudList
   const wordHashSet cloudNames(wordList(props.lookup("clouds")));
   setSize(cloudNames.size());
   label i = 0;
-  forAllConstIter(wordHashSet, cloudNames, iter)
+  FOR_ALL_CONST_ITER(wordHashSet, cloudNames, iter)
   {
     const word& name = iter.key();
     Info<< "creating cloud: " << name << endl;
@@ -50,7 +50,7 @@ mousse::coalCloudList::coalCloudList
 // Member Functions 
 void mousse::coalCloudList::evolve()
 {
-  forAll(*this, i)
+  FOR_ALL(*this, i)
   {
     operator[](i).evolve();
   }

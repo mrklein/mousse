@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(calcFvcGrad, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(calcFvcGrad, 0);
 }
 // Constructors 
 mousse::calcFvcGrad::calcFvcGrad
@@ -17,20 +17,20 @@ mousse::calcFvcGrad::calcFvcGrad
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  fieldName_("undefined-fieldName"),
-  resultName_("undefined-resultName")
+  name_{name},
+  obr_{obr},
+  active_{true},
+  fieldName_{"undefined-fieldName"},
+  resultName_{"undefined-resultName"}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "calcFvcGrad::calcFvcGrad"
       "("
@@ -39,8 +39,9 @@ mousse::calcFvcGrad::calcFvcGrad
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating." << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating." << nl
+    << endl;
   }
   read(dict);
 }
@@ -69,7 +70,7 @@ void mousse::calcFvcGrad::execute()
     calcGrad<vector>(fieldName_, resultName_, processed);
     if (!processed)
     {
-      WarningIn("void mousse::calcFvcGrad::write()")
+      WARNING_IN("void mousse::calcFvcGrad::write()")
         << "Unprocessed field " << fieldName_ << endl;
     }
   }

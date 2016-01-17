@@ -20,7 +20,7 @@ class linearRadial
     scalar Rsurface_;
 public:
   //- Runtime type information
-  TypeName("linearRadial");
+  TYPE_NAME("linearRadial");
   // Constructors
     //- Construct from dictionary
     linearRadial(const dictionary& dict);

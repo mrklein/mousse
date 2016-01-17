@@ -36,7 +36,7 @@ class sampledPatchInternalField
     tmp<Field<Type> > interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
-  TypeName("sampledPatchInternalField");
+  TYPE_NAME("sampledPatchInternalField");
   // Constructors
     //- Construct from dictionary
     sampledPatchInternalField

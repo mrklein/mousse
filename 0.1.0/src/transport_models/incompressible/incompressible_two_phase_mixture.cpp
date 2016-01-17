@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(incompressibleTwoPhaseMixture, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(incompressibleTwoPhaseMixture, 0);
 }
 // Private Member Functions 
 //- Calculate and return the laminar viscosity

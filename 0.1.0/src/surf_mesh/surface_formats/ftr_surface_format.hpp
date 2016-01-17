@@ -10,11 +10,14 @@
 //   Other formats are better. (deprecated Mar 2009)
 // SourceFiles
 //   ftr_surface_format.cpp
+
 #ifndef ftr_surface_format_hpp_
 #define ftr_surface_format_hpp_
+
 #include "ifstream.hpp"
 #include "meshed_surface.hpp"
 #include "unsorted_meshed_surface.hpp"
+
 namespace mousse
 {
 namespace fileFormats
@@ -25,6 +28,7 @@ class FTRsurfaceFormat
   public UnsortedMeshedSurface<Face>
 {
   // Private classes
+
     //- Read compatibility for ftr patch definitions
     class ftrPatch
     {
@@ -43,33 +47,43 @@ class FTRsurfaceFormat
         return is;
       }
     };
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    FTRsurfaceFormat(const FTRsurfaceFormat<Face>&);
-    //- Disallow default bitwise assignment
-    void operator=(const FTRsurfaceFormat<Face>&);
+
 public:
   // Constructors
     //- Construct from file name
     FTRsurfaceFormat(const fileName&);
+
+    //- Disallow default bitwise copy construct
+    FTRsurfaceFormat(const FTRsurfaceFormat<Face>&) = delete;
+
+    //- Disallow default bitwise assignment
+    FTRsurfaceFormat<Face>& operator=(const FTRsurfaceFormat<Face>&) = delete;
+
   // Selectors
+
     //- Read file and return surface
-    static autoPtr<UnsortedMeshedSurface<Face> > New(const fileName& name)
+    static autoPtr<UnsortedMeshedSurface<Face>> New(const fileName& name)
     {
-      return autoPtr<UnsortedMeshedSurface<Face> >
-      (
+      return autoPtr<UnsortedMeshedSurface<Face>>
+      {
         new FTRsurfaceFormat<Face>(name)
-      );
+      };
     }
+
   //- Destructor
   virtual ~FTRsurfaceFormat()
   {}
+
   // Member Functions
     //- Read from file
     virtual bool read(const fileName&);
+
 };
+
 }  // namespace fileFormats
+
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "ftr_surface_format.cpp"
 #endif

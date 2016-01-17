@@ -18,20 +18,20 @@ class topoChangerFvMesh
 :
   public dynamicFvMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    topoChangerFvMesh(const topoChangerFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const topoChangerFvMesh&);
+
 protected:
   // Protected Data
     polyTopoChanger topoChanger_;
 public:
   //- Runtime type information
-  TypeName("topoChangerFvMesh");
+  TYPE_NAME("topoChangerFvMesh");
   // Constructors
     //- Construct from objectRegistry, and read/write options
     explicit topoChangerFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    topoChangerFvMesh(const topoChangerFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    topoChangerFvMesh& operator=(const topoChangerFvMesh&) = delete;
   //- Destructor
   virtual ~topoChangerFvMesh();
   // Member Functions

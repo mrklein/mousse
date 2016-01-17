@@ -30,7 +30,7 @@ void mousse::pairPotentialList::readPairPotentialDict
         }
         else
         {
-          FatalErrorIn("pairPotentialList::buildPotentials") << nl
+          FATAL_ERROR_IN("pairPotentialList::buildPotentials") << nl
             << "Pair pairPotential specification subDict "
             << idA << "-" << idB << " not found"
             << nl << abort(FatalError);
@@ -48,7 +48,7 @@ void mousse::pairPotentialList::readPairPotentialDict
         }
         else
         {
-          FatalErrorIn("pairPotentialList::buildPotentials") << nl
+          FATAL_ERROR_IN("pairPotentialList::buildPotentials") << nl
             << "Pair pairPotential specification subDict "
             << idA << "-" << idB << " or "
             << idB << "-" << idA << " not found"
@@ -60,7 +60,7 @@ void mousse::pairPotentialList::readPairPotentialDict
         && pairPotentialDict.found(idB+"-"+idA)
         )
         {
-          FatalErrorIn("pairPotentialList::buildPotentials") << nl
+          FATAL_ERROR_IN("pairPotentialList::buildPotentials") << nl
             << "Pair pairPotential specification subDict "
             << idA << "-" << idB << " and "
             << idB << "-" << idA << " found multiple definition"
@@ -91,7 +91,7 @@ void mousse::pairPotentialList::readPairPotentialDict
           )
         )
         {
-          FatalErrorIn("pairPotentialList::readPairPotentialDict")
+          FATAL_ERROR_IN("pairPotentialList::readPairPotentialDict")
             << "Failed writing to "
             << ppTabFile.name() << nl
             << abort(FatalError);
@@ -101,7 +101,7 @@ void mousse::pairPotentialList::readPairPotentialDict
   }
   if (!pairPotentialDict.found("electrostatic"))
   {
-    FatalErrorIn("pairPotentialList::buildPotentials") << nl
+    FATAL_ERROR_IN("pairPotentialList::buildPotentials") << nl
       << "Pair pairPotential specification subDict electrostatic"
       << nl << abort(FatalError);
   }
@@ -119,7 +119,7 @@ void mousse::pairPotentialList::readPairPotentialDict
     OFstream ppTabFile(mesh.time().path()/"electrostatic");
     if (!electrostaticPotential_->writeEnergyAndForceTables(ppTabFile))
     {
-      FatalErrorIn("pairPotentialList::readPairPotentialDict")
+      FATAL_ERROR_IN("pairPotentialList::readPairPotentialDict")
         << "Failed writing to "
         << ppTabFile.name() << nl
         << abort(FatalError);

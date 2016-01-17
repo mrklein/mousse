@@ -22,7 +22,7 @@ class StochasticDispersionRAS
 {
 public:
   //- Runtime type information
-  TypeName("stochasticDispersionRAS");
+  TYPE_NAME("stochasticDispersionRAS");
   // Constructors
     //- Construct from components
     StochasticDispersionRAS(const dictionary& dict, CloudType& owner);

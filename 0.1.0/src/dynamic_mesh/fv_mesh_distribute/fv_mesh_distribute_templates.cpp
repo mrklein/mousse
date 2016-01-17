@@ -11,13 +11,13 @@ void mousse::fvMeshDistribute::printFieldInfo(const fvMesh& mesh)
   (
     mesh.objectRegistry::lookupClass<GeoField>()
   );
-  forAllConstIter(typename HashTable<const GeoField*>, flds, iter)
+  FOR_ALL_CONST_ITER(typename HashTable<const GeoField*>, flds, iter)
   {
     const GeoField& fld = *iter();
     Pout<< "Field:" << iter.key() << " internalsize:" << fld.size()
       //<< " value:" << fld
       << endl;
-    forAll(fld.boundaryField(), patchI)
+    FOR_ALL(fld.boundaryField(), patchI)
     {
       Pout<< "    " << patchI
         << ' ' << fld.boundaryField()[patchI].patch().name()
@@ -41,7 +41,7 @@ void mousse::fvMeshDistribute::saveBoundaryFields
   );
   bflds.setSize(flds.size());
   label i = 0;
-  forAllConstIter(typename HashTable<const fldType*>, flds, iter)
+  FOR_ALL_CONST_ITER(typename HashTable<const fldType*>, flds, iter)
   {
     const fldType& fld = *iter();
     bflds.set(i, fld.boundaryField().clone().ptr());
@@ -65,26 +65,26 @@ void mousse::fvMeshDistribute::mapBoundaryFields
   );
   if (flds.size() != oldBflds.size())
   {
-    FatalErrorIn("fvMeshDistribute::mapBoundaryFields(..)") << "problem"
+    FATAL_ERROR_IN("fvMeshDistribute::mapBoundaryFields(..)") << "problem"
       << abort(FatalError);
   }
   label fieldI = 0;
-  forAllIter(typename HashTable<fldType*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<fldType*>, flds, iter)
   {
     fldType& fld = *iter();
     typename fldType::GeometricBoundaryField& bfld =
       fld.boundaryField();
     const FieldField<fvsPatchField, T>& oldBfld = oldBflds[fieldI++];
     // Pull from old boundary field into bfld.
-    forAll(bfld, patchI)
+    FOR_ALL(bfld, patchI)
     {
       fvsPatchField<T>& patchFld = bfld[patchI];
       label faceI = patchFld.patch().start();
-      forAll(patchFld, i)
+      FOR_ALL(patchFld, i)
       {
         label oldFaceI = faceMap[faceI++];
         // Find patch and local patch face oldFaceI was in.
-        forAll(oldPatchStarts, oldPatchI)
+        FOR_ALL(oldPatchStarts, oldPatchI)
         {
           label oldLocalI = oldFaceI - oldPatchStarts[oldPatchI];
           if (oldLocalI >= 0 && oldLocalI < oldBfld[oldPatchI].size())
@@ -107,12 +107,12 @@ void mousse::fvMeshDistribute::initPatchFields
   (
     mesh_.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     typename GeoField::GeometricBoundaryField& bfld =
       fld.boundaryField();
-    forAll(bfld, patchI)
+    FOR_ALL(bfld, patchI)
     {
       if (isA<PatchFieldType>(bfld[patchI]))
       {
@@ -129,7 +129,7 @@ void mousse::fvMeshDistribute::correctBoundaryConditions()
   (
     mesh_.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     const GeoField& fld = *iter();
     fld.correctBoundaryConditions();
@@ -162,7 +162,7 @@ void mousse::fvMeshDistribute::sendFields
 )
 {
   toNbr << GeoField::typeName << token::NL << token::BEGIN_BLOCK << token::NL;
-  forAll(fieldNames, i)
+  FOR_ALL(fieldNames, i)
   {
     if (debug)
     {
@@ -198,7 +198,7 @@ void mousse::fvMeshDistribute::receiveFields
       << " from domain:" << domain << endl;
   }
   fields.setSize(fieldNames.size());
-  forAll(fieldNames, i)
+  FOR_ALL(fieldNames, i)
   {
     if (debug)
     {

@@ -20,7 +20,7 @@ class wedge
 {
 public:
   //- Runtime type information
-  TypeName("wedge");
+  TYPE_NAME("wedge");
   // Constructors
     //- Construct from dictionary
     wedge(const dictionary& dict);

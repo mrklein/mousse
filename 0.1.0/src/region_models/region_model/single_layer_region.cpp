@@ -11,7 +11,7 @@ namespace mousse
 {
 namespace regionModels
 {
-  defineTypeNameAndDebug(singleLayerRegion, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(singleLayerRegion, 0);
 }
 }
 // Private Member Functions 
@@ -64,7 +64,7 @@ void mousse::regionModels::singleLayerRegion::initialise()
   const polyBoundaryMesh& rbm = regionMesh().boundaryMesh();
   volVectorField& nHat = nHatPtr_();
   volScalarField& magSf = magSfPtr_();
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     const polyPatch& pp = rbm[patchI];
@@ -77,7 +77,7 @@ void mousse::regionModels::singleLayerRegion::initialise()
   magSf.correctBoundaryConditions();
   if (nBoundaryFaces != regionMesh().nCells())
   {
-    FatalErrorIn("singleLayerRegion::initialise()")
+    FATAL_ERROR_IN("singleLayerRegion::initialise()")
       << "Number of primary region coupled boundary faces not equal to "
       << "the number of cells in the local region" << nl << nl
       << "Number of cells = " << regionMesh().nCells() << nl
@@ -86,7 +86,7 @@ void mousse::regionModels::singleLayerRegion::initialise()
   }
   scalarField passiveMagSf(magSf.size(), 0.0);
   passivePatchIDs_.setSize(intCoupledPatchIDs_.size(), -1);
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     const polyPatch& ppIntCoupled = rbm[patchI];
@@ -156,7 +156,7 @@ const mousse::volVectorField& mousse::regionModels::singleLayerRegion::nHat() co
 {
   if (!nHatPtr_.valid())
   {
-    FatalErrorIn("const fvMesh& singleLayerRegion::nHat() const")
+    FATAL_ERROR_IN("const fvMesh& singleLayerRegion::nHat() const")
       << "Region patch normal vectors not available"
       << abort(FatalError);
   }
@@ -166,7 +166,7 @@ const mousse::volScalarField& mousse::regionModels::singleLayerRegion::magSf() c
 {
   if (!magSfPtr_.valid())
   {
-    FatalErrorIn("const fvMesh& singleLayerRegion::magSf() const")
+    FATAL_ERROR_IN("const fvMesh& singleLayerRegion::magSf() const")
       << "Region patch areas not available"
       << abort(FatalError);
   }

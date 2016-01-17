@@ -26,9 +26,9 @@ protected:
   virtual void collide(const scalar dt) = 0;
 public:
   //- Runtime type information
-  TypeName("collisionModel");
+  TYPE_NAME("collisionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     StochasticCollisionModel,
@@ -52,11 +52,11 @@ public:
     //- Construct copy
     StochasticCollisionModel(const StochasticCollisionModel<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<StochasticCollisionModel<CloudType> > clone() const = 0;
+    virtual autoPtr<StochasticCollisionModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~StochasticCollisionModel();
   //- Selector
-  static autoPtr<StochasticCollisionModel<CloudType> > New
+  static autoPtr<StochasticCollisionModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -67,33 +67,33 @@ public:
 };
 }  // namespace mousse
 
-#define makeStochasticCollisionModel(CloudType)                               \
+#define MAKE_STOCHASTIC_COLLISION_MODEL(CloudType)                            \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::StochasticCollisionModel<kinematicCloudType>,                     \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       StochasticCollisionModel<kinematicCloudType>,                           \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeStochasticCollisionModelType(SS, CloudType)                       \
+#define MAKE_STOCHASTIC_COLLISION_MODEL_TYPE(SS, CloudType)                   \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<kinematicCloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::StochasticCollisionModel<kinematicCloudType>::                      \
-    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \
+    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>           \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
 #ifdef NoRepository
-#   include "_stochastic_collision_model.cpp"
+#include "_stochastic_collision_model.cpp"
 #endif
 #endif

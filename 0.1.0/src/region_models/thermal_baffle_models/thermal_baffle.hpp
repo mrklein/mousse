@@ -7,11 +7,11 @@
 //   2D thermal baffle
 // SourceFiles
 //   thermal_baffle.cpp
-//   thermal_baffle_i.hpp
 #ifndef thermal_baffle_hpp_
 #define thermal_baffle_hpp_
 #include "thermal_baffle_model.hpp"
 #include "vol_fields_fwd.hpp"
+#include "zero_gradient_fv_patch_fields.hpp"
 namespace mousse
 {
 namespace regionModels
@@ -24,10 +24,6 @@ class thermalBaffle
 {
 private:
   // Private member functions
-    //- Disallow default bitwise copy construct
-    thermalBaffle(const thermalBaffle&);
-    //- Disallow default bitwise assignment
-    void operator=(const thermalBaffle&);
     //- Initialize thermalBaffle
     void init();
 protected:
@@ -58,7 +54,7 @@ protected:
       void solveEnergy();
 public:
   //- Runtime type information
-  TypeName("thermalBaffle");
+  TYPE_NAME("thermalBaffle");
   // Constructors
     //- Construct from components
     thermalBaffle(const word& modelType, const fvMesh& mesh);
@@ -69,6 +65,10 @@ public:
       const fvMesh& mesh,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    thermalBaffle(const thermalBaffle&) = delete;
+    //- Disallow default bitwise assignment
+    thermalBaffle& operator=(const thermalBaffle&) = delete;
   //- Destructor
   virtual ~thermalBaffle();
   // Member Functions
@@ -110,5 +110,27 @@ public:
 }  // namespace thermalBaffleModels
 }  // namespace regionModels
 }  // namespace mousse
-#include "thermal_baffle_i.hpp"
+
+namespace mousse
+{
+namespace regionModels
+{
+namespace thermalBaffleModels
+{
+inline tmp<scalarField> thermalBaffle::he
+(
+  const scalarField& p,
+  const scalarField& T,
+  const label patchI
+) const
+{
+  return thermo_->he(p, T, patchI);
+}
+inline tmp<volScalarField> thermalBaffle::he() const
+{
+  return thermo_->he();
+}
+}  // namespace thermalBaffleModels
+}  // namespace regionModels
+}  // namespace mousse
 #endif

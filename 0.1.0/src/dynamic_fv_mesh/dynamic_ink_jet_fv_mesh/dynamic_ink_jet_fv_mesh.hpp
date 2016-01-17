@@ -28,17 +28,16 @@ class dynamicInkJetFvMesh
     scalar frequency_;
     scalar refPlaneX_;
     pointIOField stationaryPoints_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    dynamicInkJetFvMesh(const dynamicInkJetFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const dynamicInkJetFvMesh&);
 public:
   //- Runtime type information
-  TypeName("dynamicInkJetFvMesh");
+  TYPE_NAME("dynamicInkJetFvMesh");
   // Constructors
     //- Construct from IOobject
     dynamicInkJetFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    dynamicInkJetFvMesh(const dynamicInkJetFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    dynamicInkJetFvMesh& operator=(const dynamicInkJetFvMesh&) = delete;
   //- Destructor
   ~dynamicInkJetFvMesh();
   // Member Functions

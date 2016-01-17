@@ -24,7 +24,7 @@ class SRFForce
     const typename SRF::SRFModel* srfPtr_;
 public:
   //- Runtime type information
-  TypeName("SRF");
+  TYPE_NAME("SRF");
   // Constructors
     //- Construct from mesh
     SRFForce

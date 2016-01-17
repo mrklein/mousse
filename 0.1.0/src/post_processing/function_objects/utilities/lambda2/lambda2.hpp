@@ -36,14 +36,9 @@ class Lambda2
     bool active_;
     //- Name of velocity field, default is "U"
     word UName_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    Lambda2(const Lambda2&);
-    //- Disallow default bitwise assignment
-    void operator=(const Lambda2&);
 public:
   //- Runtime type information
-  TypeName("Lambda2");
+  TYPE_NAME("Lambda2");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -54,6 +49,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    Lambda2(const Lambda2&) = delete;
+    //- Disallow default bitwise assignment
+    Lambda2& operator=(const Lambda2&) = delete;
   //- Destructor
   virtual ~Lambda2();
   // Member Functions

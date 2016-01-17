@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledFvPatch, 0);
-  addToRunTimeSelectionTable(fvPatch, regionCoupledFvPatch, polyPatch);
+  DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledFvPatch, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, regionCoupledFvPatch, polyPatch);
 }
 // Member Functions 
 mousse::tmp<mousse::labelField> mousse::regionCoupledFvPatch::interfaceInternalField
@@ -20,7 +20,7 @@ mousse::tmp<mousse::labelField> mousse::regionCoupledFvPatch::interfaceInternalF
 }
 mousse::tmp<mousse::labelField> mousse::regionCoupledFvPatch::internalFieldTransfer
 (
-  const Pstream::commsTypes commsType,
+  const Pstream::commsTypes,
   const labelUList& iF
 ) const
 {

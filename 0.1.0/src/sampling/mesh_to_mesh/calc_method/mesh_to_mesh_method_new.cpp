@@ -19,7 +19,7 @@ mousse::autoPtr<mousse::meshToMeshMethod> mousse::meshToMeshMethod::New
     componentsConstructorTablePtr_->find(methodName);
   if (cstrIter == componentsConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::autoPtr<mousse::meshToMeshMethod> mousse::meshToMeshMethod::New"
       "("

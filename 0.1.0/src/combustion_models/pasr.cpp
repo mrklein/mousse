@@ -51,7 +51,7 @@ void mousse::combustionModels::PaSR<Type>::correct()
       const volScalarField& tc = ttc();
       tmp<volScalarField> trho(this->rho());
       const volScalarField& rho = trho();
-      forAll(epsilon, i)
+      FOR_ALL(epsilon, i)
       {
         scalar tk =
           Cmix_*sqrt(max(muEff[i]/rho[i]/(epsilon[i] + SMALL), 0));

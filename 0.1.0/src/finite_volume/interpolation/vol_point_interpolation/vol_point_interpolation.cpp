@@ -9,10 +9,13 @@
 #include "demand_driven_data.hpp"
 #include "point_constraints.hpp"
 #include "surface_fields.hpp"
+#include "empty_poly_patch.hpp"
+
 namespace mousse
 {
 // Static Data Members
-defineTypeNameAndDebug(volPointInterpolation, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(volPointInterpolation, 0);
+
 // Private Member Functions 
 void volPointInterpolation::calcBoundaryAddressing()
 {
@@ -44,7 +47,7 @@ void volPointInterpolation::calcBoundaryAddressing()
   // Get precalculated volField only so we can use coupled() tests for
   // cyclicAMI
   const surfaceScalarField& magSf = mesh().magSf();
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     const polyPatch& pp = pbm[patchI];
     if
@@ -54,11 +57,11 @@ void volPointInterpolation::calcBoundaryAddressing()
     )
     {
       label bFaceI = pp.start()-mesh().nInternalFaces();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         boundaryIsPatchFace_[bFaceI] = true;
         const face& f = boundary[bFaceI++];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           isPatchPoint_[f[fp]] = true;
         }
@@ -76,7 +79,7 @@ void volPointInterpolation::calcBoundaryAddressing()
       isPatchPoint_,
       orEqOp<bool>()
     );
-    forAll(isPatchPoint_, pointI)
+    FOR_ALL(isPatchPoint_, pointI)
     {
       if (isPatchPoint_[pointI] != oldData[pointI])
       {
@@ -87,7 +90,7 @@ void volPointInterpolation::calcBoundaryAddressing()
       }
     }
     label nPatchFace = 0;
-    forAll(boundaryIsPatchFace_, i)
+    FOR_ALL(boundaryIsPatchFace_, i)
     {
       if (boundaryIsPatchFace_[i])
       {
@@ -95,7 +98,7 @@ void volPointInterpolation::calcBoundaryAddressing()
       }
     }
     label nPatchPoint = 0;
-    forAll(isPatchPoint_, i)
+    FOR_ALL(isPatchPoint_, i)
     {
       if (isPatchPoint_[i])
       {
@@ -109,6 +112,7 @@ void volPointInterpolation::calcBoundaryAddressing()
       << "    of which on proper patch:" << nPatchPoint << endl;
   }
 }
+
 void volPointInterpolation::makeInternalWeights(scalarField& sumWeights)
 {
   if (debug)
@@ -125,14 +129,14 @@ void volPointInterpolation::makeInternalWeights(scalarField& sumWeights)
   pointWeights_.setSize(points.size());
   // Calculate inverse distances between cell centres and points
   // and store in weighting factor array
-  forAll(points, pointi)
+  FOR_ALL(points, pointi)
   {
     if (!isPatchPoint_[pointi])
     {
       const labelList& pcp = pointCells[pointi];
       scalarList& pw = pointWeights_[pointi];
       pw.setSize(pcp.size());
-      forAll(pcp, pointCelli)
+      FOR_ALL(pcp, pointCelli)
       {
         pw[pointCelli] =
           1.0/mag(points[pointi] - cellCentres[pcp[pointCelli]]);
@@ -141,6 +145,7 @@ void volPointInterpolation::makeInternalWeights(scalarField& sumWeights)
     }
   }
 }
+
 void volPointInterpolation::makeBoundaryWeights(scalarField& sumWeights)
 {
   if (debug)
@@ -153,7 +158,7 @@ void volPointInterpolation::makeBoundaryWeights(scalarField& sumWeights)
   const primitivePatch& boundary = boundaryPtr_();
   boundaryPointWeights_.clear();
   boundaryPointWeights_.setSize(boundary.meshPoints().size());
-  forAll(boundary.meshPoints(), i)
+  FOR_ALL(boundary.meshPoints(), i)
   {
     label pointI = boundary.meshPoints()[i];
     if (isPatchPoint_[pointI])
@@ -162,7 +167,7 @@ void volPointInterpolation::makeBoundaryWeights(scalarField& sumWeights)
       scalarList& pw = boundaryPointWeights_[i];
       pw.setSize(pFaces.size());
       sumWeights[pointI] = 0.0;
-      forAll(pFaces, i)
+      FOR_ALL(pFaces, i)
       {
         if (boundaryIsPatchFace_[pFaces[i]])
         {
@@ -178,6 +183,7 @@ void volPointInterpolation::makeBoundaryWeights(scalarField& sumWeights)
     }
   }
 }
+
 void volPointInterpolation::makeWeights()
 {
   if (debug)
@@ -204,7 +210,7 @@ void volPointInterpolation::makeWeights()
   makeInternalWeights(sumWeights);
   // Create boundary weights; override sumWeights
   makeBoundaryWeights(sumWeights);
-  //forAll(boundary.meshPoints(), i)
+  //FOR_ALL(boundary.meshPoints(), i)
   //{
   //    label pointI = boundary.meshPoints()[i];
   //
@@ -232,23 +238,23 @@ void volPointInterpolation::makeWeights()
   // structure.
   pushUntransformedData(sumWeights);
   // Normalise internal weights
-  forAll(pointWeights_, pointI)
+  FOR_ALL(pointWeights_, pointI)
   {
     scalarList& pw = pointWeights_[pointI];
     // Note:pw only sized for !isPatchPoint
-    forAll(pw, i)
+    FOR_ALL(pw, i)
     {
       pw[i] /= sumWeights[pointI];
     }
   }
   // Normalise boundary weights
   const primitivePatch& boundary = boundaryPtr_();
-  forAll(boundary.meshPoints(), i)
+  FOR_ALL(boundary.meshPoints(), i)
   {
     label pointI = boundary.meshPoints()[i];
     scalarList& pw = boundaryPointWeights_[i];
     // Note:pw only sized for isPatchPoint
-    forAll(pw, i)
+    FOR_ALL(pw, i)
     {
       pw[i] /= sumWeights[pointI];
     }
@@ -260,26 +266,31 @@ void volPointInterpolation::makeWeights()
       << endl;
   }
 }
+
 // Constructors 
 volPointInterpolation::volPointInterpolation(const fvMesh& vm)
 :
-  MeshObject<fvMesh, mousse::UpdateableMeshObject, volPointInterpolation>(vm)
+  MeshObject<fvMesh, mousse::UpdateableMeshObject, volPointInterpolation>{vm}
 {
   makeWeights();
 }
+
 // Destructor 
 volPointInterpolation::~volPointInterpolation()
 {}
+
 // Member Functions 
 void volPointInterpolation::updateMesh(const mapPolyMesh&)
 {
   makeWeights();
 }
+
 bool volPointInterpolation::movePoints()
 {
   makeWeights();
   return true;
 }
+
 void volPointInterpolation::interpolateDisplacement
 (
   const volVectorField& vf,
@@ -293,4 +304,5 @@ void volPointInterpolation::interpolateDisplacement
   const pointConstraints& pcs = pointConstraints::New(pf.mesh());
   pcs.constrainDisplacement(pf, false);
 }
+
 }  // namespace mousse

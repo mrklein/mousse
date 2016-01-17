@@ -39,13 +39,9 @@ private:
       const point& sample,
       const scalar nearestDistSqr
     ) const;
-    //- Disallow default bitwise copy construct
-    searchableBox(const searchableBox&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableBox&);
 public:
   //- Runtime type information
-  TypeName("searchableBox");
+  TYPE_NAME("searchableBox");
   // Constructors
     //- Construct from components
     searchableBox(const IOobject& io, const treeBoundBox& bb);
@@ -55,6 +51,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableBox(const searchableBox&) = delete;
+    //- Disallow default bitwise assignment
+    searchableBox& operator=(const searchableBox&) = delete;
   //- Destructor
   virtual ~searchableBox();
   // Member Functions
@@ -181,7 +181,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchableBox::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchableBox::writeData(Ostream&) const");
         return false;
       }
 };

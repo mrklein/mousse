@@ -87,7 +87,7 @@ private:
     UPtrList<volScalarField> Yj_;
 public:
   //- Runtime type information
-  TypeName("greyMeanAbsorptionEmission");
+  TYPE_NAME("greyMeanAbsorptionEmission");
   // Constructors
     //- Construct from components
     greyMeanAbsorptionEmission(const dictionary& dict, const fvMesh& mesh);

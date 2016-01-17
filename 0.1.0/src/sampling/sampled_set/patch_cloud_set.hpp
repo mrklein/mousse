@@ -39,7 +39,7 @@ class patchCloudSet
     void genSamples();
 public:
   //- Runtime type information
-  TypeName("patchCloud");
+  TYPE_NAME("patchCloud");
   // Constructors
     //- Construct from components
     patchCloudSet

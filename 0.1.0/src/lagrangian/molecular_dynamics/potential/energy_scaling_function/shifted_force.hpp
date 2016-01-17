@@ -23,7 +23,7 @@ class shiftedForce
     scalar de_dr_at_rCut_;
 public:
   //- Runtime type information
-  TypeName("shiftedForce");
+  TYPE_NAME("shiftedForce");
   // Constructors
     //- Construct from components
     shiftedForce

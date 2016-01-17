@@ -6,7 +6,6 @@
 // Description
 //   Base class for surface film sub-models
 // SourceFiles
-//   film_sub_model_base_i.hpp
 //   film_sub_model_base.cpp
 #ifndef film_sub_model_base_hpp_
 #define film_sub_model_base_hpp_
@@ -64,7 +63,24 @@ public:
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
-#include "film_sub_model_base_i.hpp"
+
+namespace mousse
+{
+namespace regionModels
+{
+namespace surfaceFilmModels
+{
+inline const surfaceFilmModel& filmSubModelBase::owner() const
+{
+  return owner_;
+}
+inline surfaceFilmModel& filmSubModelBase::owner()
+{
+  return owner_;
+}
+}  // namespace surfaceFilmModels
+}  // namespace regionModels
+}  // namespace mousse
 #ifdef NoRepository
   #include "film_sub_model_base_templates.cpp"
 #endif

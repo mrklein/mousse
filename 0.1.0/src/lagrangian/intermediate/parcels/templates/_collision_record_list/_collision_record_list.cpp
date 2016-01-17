@@ -47,7 +47,7 @@ mousse::CollisionRecordList<PairType, WallType>::CollisionRecordList
   || pairData.size() != nPair
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::CollisionRecordList<PairType, WallType>::CollisionRecordList"
       "("
@@ -67,7 +67,7 @@ mousse::CollisionRecordList<PairType, WallType>::CollisionRecordList
       << pairData << nl
       << abort(FatalError);
   }
-  forAll(pairAccessed, i)
+  FOR_ALL(pairAccessed, i)
   {
     pairRecords_.append
     (
@@ -83,7 +83,7 @@ mousse::CollisionRecordList<PairType, WallType>::CollisionRecordList
   label nWall = wallAccessed.size();
   if (wallPRel.size() != nWall || wallData.size() != nWall)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::CollisionRecordList<PairType, WallType>::CollisionRecordList"
       "("
@@ -102,7 +102,7 @@ mousse::CollisionRecordList<PairType, WallType>::CollisionRecordList
       << wallData << nl
       << abort(FatalError);
   }
-  forAll(wallAccessed, i)
+  FOR_ALL(wallAccessed, i)
   {
     wallRecords_.append
     (
@@ -125,7 +125,7 @@ mousse::labelField
 mousse::CollisionRecordList<PairType, WallType>::pairAccessed() const
 {
   labelField f(pairRecords_.size());
-  forAll(pairRecords_, i)
+  FOR_ALL(pairRecords_, i)
   {
     f[i] = pairRecords_[i].accessed();
   }
@@ -136,7 +136,7 @@ mousse::labelField
 mousse::CollisionRecordList<PairType, WallType>::pairOrigProcOfOther() const
 {
   labelField f(pairRecords_.size());
-  forAll(pairRecords_, i)
+  FOR_ALL(pairRecords_, i)
   {
     f[i] = pairRecords_[i].origProcOfOther();
   }
@@ -147,7 +147,7 @@ mousse::labelField
 mousse::CollisionRecordList<PairType, WallType>::pairOrigIdOfOther() const
 {
   labelField f(pairRecords_.size());
-  forAll(pairRecords_, i)
+  FOR_ALL(pairRecords_, i)
   {
     f[i] = pairRecords_[i].origIdOfOther();
   }
@@ -158,7 +158,7 @@ mousse::Field<PairType>
 mousse::CollisionRecordList<PairType, WallType>::pairData() const
 {
   Field<PairType> f(pairRecords_.size());
-  forAll(pairRecords_, i)
+  FOR_ALL(pairRecords_, i)
   {
     f[i] = pairRecords_[i].collisionData();
   }
@@ -169,7 +169,7 @@ mousse::labelField
 mousse::CollisionRecordList<PairType, WallType>::wallAccessed() const
 {
   labelField f(wallRecords_.size());
-  forAll(wallRecords_, i)
+  FOR_ALL(wallRecords_, i)
   {
     f[i] = wallRecords_[i].accessed();
   }
@@ -180,7 +180,7 @@ mousse::vectorField
 mousse::CollisionRecordList<PairType, WallType>::wallPRel() const
 {
   vectorField f(wallRecords_.size());
-  forAll(wallRecords_, i)
+  FOR_ALL(wallRecords_, i)
   {
     f[i] = wallRecords_[i].pRel();
   }
@@ -191,7 +191,7 @@ mousse::Field<WallType>
 mousse::CollisionRecordList<PairType, WallType>::wallData() const
 {
   Field<WallType> f(wallRecords_.size());
-  forAll(wallRecords_, i)
+  FOR_ALL(wallRecords_, i)
   {
     f[i] = wallRecords_[i].collisionData();
   }
@@ -208,7 +208,7 @@ mousse::CollisionRecordList<PairType, WallType>::matchPairRecord
   // Returning the first record that matches the particle
   // identifiers.  Two records with the same identification is not
   // supported.
-  forAll(pairRecords_, i)
+  FOR_ALL(pairRecords_, i)
   {
     PairCollisionRecord<PairType>& pCR = pairRecords_[i];
     if (pCR.match(origProcOfOther, origIdOfOther))
@@ -233,7 +233,7 @@ bool mousse::CollisionRecordList<PairType, WallType>::checkPairRecord
   label origIdOfOther
 )
 {
-  forAll(pairRecords_, i)
+  FOR_ALL(pairRecords_, i)
   {
     PairCollisionRecord<PairType>& pCR = pairRecords_[i];
     if (pCR.match(origProcOfOther, origIdOfOther))
@@ -253,7 +253,7 @@ mousse::CollisionRecordList<PairType, WallType>::matchWallRecord
 {
   // Returning the first record that matches the relative position.
   // Two records with the same relative position is not supported.
-  forAll(wallRecords_, i)
+  FOR_ALL(wallRecords_, i)
   {
     WallCollisionRecord<WallType>& wCR = wallRecords_[i];
     if (wCR.match(pRel, radius))
@@ -275,7 +275,7 @@ bool mousse::CollisionRecordList<PairType, WallType>::checkWallRecord
   scalar radius
 )
 {
-  forAll(wallRecords_, i)
+  FOR_ALL(wallRecords_, i)
   {
     WallCollisionRecord<WallType>& wCR = wallRecords_[i];
     if (wCR.match(pRel, radius))
@@ -290,7 +290,7 @@ void mousse::CollisionRecordList<PairType, WallType>::update()
 {
   {
     DynamicList<PairCollisionRecord<PairType> > updatedRecords;
-    forAll(pairRecords_, i)
+    FOR_ALL(pairRecords_, i)
     {
       if (pairRecords_[i].accessed())
       {
@@ -302,7 +302,7 @@ void mousse::CollisionRecordList<PairType, WallType>::update()
   }
   {
     DynamicList<WallCollisionRecord<WallType> > updatedRecords;
-    forAll(wallRecords_, i)
+    FOR_ALL(wallRecords_, i)
     {
       if (wallRecords_[i].accessed())
       {
@@ -323,7 +323,7 @@ void mousse::CollisionRecordList<PairType, WallType>::operator=
   // Check for assignment to self
   if (this == &rhs)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::CollisionRecordList<PairType, WallType>::operator="
       "(const mousse::CollisionRecordList<PairType, WallType>&)"

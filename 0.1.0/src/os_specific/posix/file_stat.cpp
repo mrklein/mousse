@@ -5,9 +5,11 @@
 #include "file_stat.hpp"
 #include "iostreams.hpp"
 #include "timer.hpp"
+#include "fixed_list.hpp"
 #include <signal.h>
 #include <unistd.h>
-// Constructors 
+
+// Constructors
 mousse::fileStat::fileStat()
 :
   isValid_(false)
@@ -35,7 +37,7 @@ mousse::fileStat::fileStat(Istream& is)
 {
   is >> *this;
 }
-// Member Functions 
+// Member Functions
 bool mousse::fileStat::sameDevice(const fileStat& stat2) const
 {
   return
@@ -53,7 +55,8 @@ bool mousse::fileStat::sameINode(const label iNode) const
 {
   return isValid_ && (status_.st_ino == ino_t(iNode));
 }
-// Friend Operators 
+
+// Friend Operators
 mousse::Istream& mousse::operator>>(Istream& is, fileStat& fStat)
 {
   FixedList<label, 13> stat(is);

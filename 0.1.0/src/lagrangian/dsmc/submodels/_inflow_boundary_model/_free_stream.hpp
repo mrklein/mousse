@@ -38,7 +38,7 @@ class FreeStream
     List<List<Field<scalar> > > particleFluxAccumulators_;
 public:
   //- Runtime type information
-  TypeName("FreeStream");
+  TYPE_NAME("FreeStream");
   // Constructors
     //- Construct from dictionary
     FreeStream

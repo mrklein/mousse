@@ -89,7 +89,7 @@ private:
     bool update(const meshSearch& meshSearcher);
 public:
   //- Runtime type information
-  TypeName("sampledTriSurfaceMesh");
+  TYPE_NAME("sampledTriSurfaceMesh");
   // Constructors
     //- Construct from components
     sampledTriSurfaceMesh

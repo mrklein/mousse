@@ -36,7 +36,7 @@ protected:
     virtual tmp<scalarField> calcNut() const;
 public:
   //- Runtime type information
-  TypeName("nutkWallFunction");
+  TYPE_NAME("nutkWallFunction");
   // Constructors
     //- Construct from patch and internal field
     nutkWallFunctionFvPatchScalarField

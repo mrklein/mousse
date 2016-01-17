@@ -18,11 +18,6 @@ class interpolate
 :
   public calcType
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    interpolate(const interpolate&);
-    //- Disallow default bitwise assignment
-    void operator=(const interpolate&);
 protected:
   // Member Functions
     // Calculation routines
@@ -54,10 +49,14 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("interpolate");
+  TYPE_NAME("interpolate");
   // Constructors
     //- Construct null
     interpolate();
+    //- Disallow default bitwise copy construct
+    interpolate(const interpolate&) = delete;
+    //- Disallow default bitwise assignment
+    interpolate& operator=(const interpolate&) = delete;
   //- Destructor
   virtual ~interpolate();
 };

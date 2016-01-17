@@ -43,19 +43,26 @@
 //   mousse::backward
 // SourceFiles
 //   crank_nicolson_ddt_scheme.cpp
+
 #ifndef crank_nicolson_ddt_scheme_hpp_
 #define crank_nicolson_ddt_scheme_hpp_
+
 #include "ddt_scheme.hpp"
+#include "ioobject.hpp"
+
 namespace mousse
 {
+
 namespace fv
 {
+
 template<class Type>
 class CrankNicolsonDdtScheme
 :
   public fv::ddtScheme<Type>
 {
   // Private Data
+
     //- Class to store the ddt0 fields on the objectRegistry for use in the
     //  next time-step.  The start-time index of the CN scheme is also
     //  stored to help handle the transition from Euler to CN
@@ -65,13 +72,16 @@ class CrankNicolsonDdtScheme
       public GeoField
     {
       label startTimeIndex_;
+
     public:
+
       //- Constructor from file for restart.
       DDt0Field
       (
         const IOobject& io,
         const fvMesh& mesh
       );
+
       //- Constructor from components, initisalised to zero with given
       //  dimensions.
       DDt0Field
@@ -80,170 +90,211 @@ class CrankNicolsonDdtScheme
         const fvMesh& mesh,
         const dimensioned<typename GeoField::value_type>& dimType
       );
+
       //- Return the start-time index
       label startTimeIndex() const;
+
       //- Cast to the underlying GeoField
       GeoField& operator()();
+
       //- Assignment to a GeoField
       void operator=(const GeoField& gf);
+
     };
+
     //- Off-centering coefficient, 1 -> CN, less than one blends with EI
     scalar ocCoeff_;
+
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    CrankNicolsonDdtScheme(const CrankNicolsonDdtScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const CrankNicolsonDdtScheme&);
+
     template<class GeoField>
     DDt0Field<GeoField>& ddt0_
     (
       const word& name,
       const dimensionSet& dims
     );
+
     //- Check if the ddt0 needs to be evaluated for this time-step
     template<class GeoField>
     bool evaluate(const DDt0Field<GeoField>& ddt0) const;
+
     //- Return the coefficient for Euler scheme for the first time-step
     //  for and CN thereafter
     template<class GeoField>
     scalar coef_(const DDt0Field<GeoField>&) const;
+
     //- Return the old time-step coefficient for Euler scheme for the
     //  second time-step and for CN thereafter
     template<class GeoField>
     scalar coef0_(const DDt0Field<GeoField>&) const;
+
     //- Return the reciprocal time-step coefficient for Euler for the
     //  first time-step and CN thereafter
     template<class GeoField>
     dimensionedScalar rDtCoef_(const DDt0Field<GeoField>&) const;
+
     //- Return the reciprocal old time-step coefficient for Euler for the
     //  second time-step and CN thereafter
     template<class GeoField>
     dimensionedScalar rDtCoef0_(const DDt0Field<GeoField>&) const;
+
     //- Return ddt0 multiplied by the off-centreing coefficient
     template<class GeoField>
     tmp<GeoField> offCentre_(const GeoField& ddt0) const;
+
 public:
+
   //- Runtime type information
-  TypeName("CrankNicolson");
+  TYPE_NAME("CrankNicolson");
+
   // Constructors
+
     //- Construct from mesh
     CrankNicolsonDdtScheme(const fvMesh& mesh)
     :
-      ddtScheme<Type>(mesh),
-      ocCoeff_(1.0)
+      ddtScheme<Type>{mesh},
+      ocCoeff_{1.0}
     {}
+
     //- Construct from mesh and Istream
     CrankNicolsonDdtScheme(const fvMesh& mesh, Istream& is)
     :
-      ddtScheme<Type>(mesh, is),
-      ocCoeff_(readScalar(is))
+      ddtScheme<Type>{mesh, is},
+      ocCoeff_{readScalar(is)}
     {
       if (ocCoeff_ < 0 || ocCoeff_ > 1)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "CrankNicolsonDdtScheme(const fvMesh& mesh, Istream& is)",
           is
-        )   << "Off-centreing coefficient = " << ocCoeff_
-          << " should be >= 0 and <= 1"
-          << exit(FatalIOError);
+        )
+        << "Off-centreing coefficient = " << ocCoeff_
+        << " should be >= 0 and <= 1"
+        << exit(FatalIOError);
       }
     }
+
+    //- Disallow default bitwise copy construct
+    CrankNicolsonDdtScheme(const CrankNicolsonDdtScheme&) = delete;
+
+    //- Disallow default bitwise assignment
+    CrankNicolsonDdtScheme& operator=(const CrankNicolsonDdtScheme&) = delete;
+
   // Member Functions
     //- Return mesh reference
     const fvMesh& mesh() const
     {
       return fv::ddtScheme<Type>::mesh();
     }
+
     //- Return the off-centreing coefficient
     scalar ocCoeff() const
     {
       return ocCoeff_;
     }
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensioned<Type>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& psi
     );
-    tmp<fvMatrix<Type> > fvmDdt
+
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmDdt
+
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmDdt
+
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmDdt
+
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& psi
     );
+
     typedef typename ddtScheme<Type>::fluxFieldType fluxFieldType;
     tmp<fluxFieldType> fvcDdtUfCorr
     (
       const GeometricField<Type, fvPatchField, volMesh>& U,
       const GeometricField<Type, fvsPatchField, surfaceMesh>& Uf
     );
+
     tmp<fluxFieldType> fvcDdtPhiCorr
     (
       const GeometricField<Type, fvPatchField, volMesh>& U,
       const fluxFieldType& phi
     );
+
     tmp<fluxFieldType> fvcDdtUfCorr
     (
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& U,
       const GeometricField<Type, fvsPatchField, surfaceMesh>& Uf
     );
+
     tmp<fluxFieldType> fvcDdtPhiCorr
     (
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& U,
       const fluxFieldType& phi
     );
+
     tmp<surfaceScalarField> meshPhi
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
+
 };
+
 template<>
 tmp<surfaceScalarField> CrankNicolsonDdtScheme<scalar>::fvcDdtUfCorr
 (
   const GeometricField<scalar, fvPatchField, volMesh>& U,
   const GeometricField<scalar, fvsPatchField, surfaceMesh>& Uf
 );
+
 template<>
 tmp<surfaceScalarField> CrankNicolsonDdtScheme<scalar>::fvcDdtPhiCorr
 (
   const volScalarField& U,
   const surfaceScalarField& phi
 );
+
 template<>
 tmp<surfaceScalarField> CrankNicolsonDdtScheme<scalar>::fvcDdtUfCorr
 (
@@ -251,6 +302,7 @@ tmp<surfaceScalarField> CrankNicolsonDdtScheme<scalar>::fvcDdtUfCorr
   const volScalarField& U,
   const surfaceScalarField& Uf
 );
+
 template<>
 tmp<surfaceScalarField> CrankNicolsonDdtScheme<scalar>::fvcDdtPhiCorr
 (
@@ -258,6 +310,7 @@ tmp<surfaceScalarField> CrankNicolsonDdtScheme<scalar>::fvcDdtPhiCorr
   const volScalarField& U,
   const surfaceScalarField& phi
 );
+
 }  // namespace fv
 }  // namespace mousse
 #ifdef NoRepository

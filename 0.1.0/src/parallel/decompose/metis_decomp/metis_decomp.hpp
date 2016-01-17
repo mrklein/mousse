@@ -25,15 +25,15 @@ class metisDecomp
       const scalarField& cellWeights,
       List<label>& finalDecomp
     );
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const metisDecomp&);
-    metisDecomp(const metisDecomp&);
 public:
   //- Runtime type information
-  TypeName("metis");
+  TYPE_NAME("metis");
   // Constructors
     //- Construct given the decomposition dictionary
     metisDecomp(const dictionary&);
+    //- Disallow default bitwise copy construct and assignment
+    metisDecomp& operator=(const metisDecomp&) = delete;
+    metisDecomp(const metisDecomp&) = delete;
   //- Destructor
   virtual ~metisDecomp()
   {}

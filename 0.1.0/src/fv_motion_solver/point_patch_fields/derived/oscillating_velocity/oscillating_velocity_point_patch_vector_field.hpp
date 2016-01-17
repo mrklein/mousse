@@ -22,7 +22,7 @@ class oscillatingVelocityPointPatchVectorField
     pointField p0_;
 public:
   //- Runtime type information
-  TypeName("oscillatingVelocity");
+  TYPE_NAME("oscillatingVelocity");
   // Constructors
     //- Construct from patch and internal field
     oscillatingVelocityPointPatchVectorField

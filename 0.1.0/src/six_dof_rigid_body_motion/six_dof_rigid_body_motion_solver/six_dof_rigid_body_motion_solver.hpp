@@ -43,17 +43,9 @@ class sixDoFRigidBodyMotionSolver
     pointScalarField scale_;
     //- Current time index (used for updating)
     label curTimeIndex_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    sixDoFRigidBodyMotionSolver
-    (
-      const sixDoFRigidBodyMotionSolver&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const sixDoFRigidBodyMotionSolver&);
 public:
   //- Runtime type information
-  TypeName("sixDoFRigidBodyMotion");
+  TYPE_NAME("sixDoFRigidBodyMotion");
   // Constructors
     //- Construct from polyMesh and IOdictionary
     sixDoFRigidBodyMotionSolver
@@ -61,6 +53,16 @@ public:
       const polyMesh&,
       const IOdictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    sixDoFRigidBodyMotionSolver
+    (
+      const sixDoFRigidBodyMotionSolver&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    sixDoFRigidBodyMotionSolver& operator=
+    (
+      const sixDoFRigidBodyMotionSolver&
+    ) = delete;
   //- Destructor
   ~sixDoFRigidBodyMotionSolver();
   // Member Functions

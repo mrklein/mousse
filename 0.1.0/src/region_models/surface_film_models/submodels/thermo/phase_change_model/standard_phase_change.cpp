@@ -12,8 +12,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(standardPhaseChange, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(standardPhaseChange, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   phaseChangeModel,
   standardPhaseChange,
@@ -78,7 +78,7 @@ void standardPhaseChange::correctModel
   (
     max(scalar(0.0), availableMass - deltaMin_*rho*magSf)
   );
-  forAll(dMass, cellI)
+  FOR_ALL(dMass, cellI)
   {
     if (delta[cellI] > deltaMin_)
     {

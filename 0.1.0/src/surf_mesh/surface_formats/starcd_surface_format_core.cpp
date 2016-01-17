@@ -56,7 +56,7 @@ void mousse::fileFormats::STARCDsurfaceFormatCore::writeCase
     << "! " << pointLst.size() << " points, " << nFaces << " faces" << nl
     << "! case " << caseName << nl
     << "! ------------------------------" << nl;
-  forAll(zoneLst, zoneI)
+  FOR_ALL(zoneLst, zoneI)
   {
     os  << "ctable " << zoneI + 1 << " shell" << " ,,,,,," << nl
       << "ctname " << zoneI + 1 << " "

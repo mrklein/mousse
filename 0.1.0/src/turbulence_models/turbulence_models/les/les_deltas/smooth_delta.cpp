@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace LESModels
 {
-  defineTypeNameAndDebug(smoothDelta, 0);
-  addToRunTimeSelectionTable(LESdelta, smoothDelta, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(smoothDelta, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(LESdelta, smoothDelta, dictionary);
 }
 }
 // Private Member Functions 
@@ -41,12 +41,12 @@ void mousse::LESModels::smoothDelta::setChangedFaces
   }
   // Insert all faces of coupled patches no matter what. Let FaceCellWave
   // sort it out.
-  forAll(mesh.boundaryMesh(), patchI)
+  FOR_ALL(mesh.boundaryMesh(), patchI)
   {
     const polyPatch& patch = mesh.boundaryMesh()[patchI];
     if (patch.coupled())
     {
-      forAll(patch, patchFaceI)
+      FOR_ALL(patch, patchFaceI)
       {
         label meshFaceI = patch.start() + patchFaceI;
         scalar ownDelta = delta[mesh.faceOwner()[meshFaceI]];
@@ -68,7 +68,7 @@ void mousse::LESModels::smoothDelta::calcDelta()
   setChangedFaces(mesh, geometricDelta, changedFaces, changedFacesInfo);
   // Set initial field on cells.
   List<deltaData> cellDeltaData(mesh.nCells());
-  forAll(geometricDelta, cellI)
+  FOR_ALL(geometricDelta, cellI)
   {
     cellDeltaData[cellI] = geometricDelta[cellI];
   }
@@ -85,7 +85,7 @@ void mousse::LESModels::smoothDelta::calcDelta()
     mesh.globalData().nTotalCells()+1,  // max iterations
     maxDeltaRatio_
   );
-  forAll(delta_, cellI)
+  FOR_ALL(delta_, cellI)
   {
     delta_[cellI] = cellDeltaData[cellI].delta();
   }

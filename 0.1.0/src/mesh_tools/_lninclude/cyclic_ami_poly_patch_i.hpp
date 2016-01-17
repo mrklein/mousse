@@ -1,1 +1,0 @@
-../ami_interpolation/patches/cyclic_ami/cyclic_ami_poly_patch/cyclic_ami_poly_patch_i.hpp

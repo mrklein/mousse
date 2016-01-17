@@ -8,12 +8,14 @@
 #include "cell_set.hpp"
 #include "sync_tools.hpp"
 #include "add_to_run_time_selection_table.hpp"
+#include "pstream_reduce_ops.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(regionToCell, 0);
-addToRunTimeSelectionTable(topoSetSource, regionToCell, word);
-addToRunTimeSelectionTable(topoSetSource, regionToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(regionToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, regionToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, regionToCell, istream);
 }
 mousse::topoSetSource::addToUsageTable mousse::regionToCell::usage_
 (
@@ -22,7 +24,7 @@ mousse::topoSetSource::addToUsageTable mousse::regionToCell::usage_
   "    Select all cells in the connected region containing"
   " points (pt0..ptn).\n"
 );
-// Private Member Functions 
+// Private Member Functions
 void mousse::regionToCell::markRegionFaces
 (
   const boolList& selectedCell,
@@ -32,7 +34,7 @@ void mousse::regionToCell::markRegionFaces
   // Internal faces
   const labelList& faceOwner = mesh_.faceOwner();
   const labelList& faceNeighbour = mesh_.faceNeighbour();
-  forAll(faceNeighbour, faceI)
+  FOR_ALL(faceNeighbour, faceI)
   {
     if
     (
@@ -48,11 +50,11 @@ void mousse::regionToCell::markRegionFaces
   syncTools::swapBoundaryCellList(mesh_, selectedCell, nbrSelected);
   // Boundary faces
   const polyBoundaryMesh& pbm = mesh_.boundaryMesh();
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     const polyPatch& pp = pbm[patchI];
     const labelUList& faceCells = pp.faceCells();
-    forAll(faceCells, i)
+    FOR_ALL(faceCells, i)
     {
       label faceI = pp.start()+i;
       label bFaceI = faceI-mesh_.nInternalFaces();
@@ -74,7 +76,7 @@ mousse::boolList mousse::regionToCell::findRegions
 ) const
 {
   boolList keepRegion(cellRegion.nRegions(), false);
-  forAll(insidePoints_, i)
+  FOR_ALL(insidePoints_, i)
   {
     // Find the region containing the insidePoint
     label cellI = mesh_.findCell(insidePoints_[i]);
@@ -90,7 +92,7 @@ mousse::boolList mousse::regionToCell::findRegions
     reduce(keepProcI, maxOp<label>());
     if (keepProcI == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "outsideCellSelection::findRegions"
         "(const bool, const regionSplit&)"
@@ -121,7 +123,7 @@ void mousse::regionToCell::unselectOutsideRegions
   // Determine regions containing insidePoints_
   boolList keepRegion(findRegions(true, cellRegion));
   // Go back to bool per cell
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     if (!keepRegion[cellRegion[cellI]])
     {
@@ -138,27 +140,27 @@ void mousse::regionToCell::shrinkRegions
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   boolList boundaryPoint(mesh_.nPoints(), false);
   const polyBoundaryMesh& pbm = mesh_.boundaryMesh();
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     const polyPatch& pp = pbm[patchI];
     if (!pp.coupled() && !isA<emptyPolyPatch>(pp))
     {
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         const face& f = pp[i];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           boundaryPoint[f[fp]] = true;
         }
       }
     }
   }
-  forAll(selectedCell, cellI)
+  FOR_ALL(selectedCell, cellI)
   {
     if (!selectedCell[cellI])
     {
       const labelList& cPoints = mesh_.cellPoints(cellI);
-      forAll(cPoints, i)
+      FOR_ALL(cPoints, i)
       {
         boundaryPoint[cPoints[i]] = true;
       }
@@ -168,12 +170,12 @@ void mousse::regionToCell::shrinkRegions
   // Select all cells using these points
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   label nChanged = 0;
-  forAll(boundaryPoint, pointI)
+  FOR_ALL(boundaryPoint, pointI)
   {
     if (boundaryPoint[pointI])
     {
       const labelList& pCells = mesh_.pointCells(pointI);
-      forAll(pCells, i)
+      FOR_ALL(pCells, i)
       {
         label cellI = pCells[i];
         if (selectedCell[cellI])
@@ -211,7 +213,7 @@ void mousse::regionToCell::erode
   boolList keepRegion(findRegions(true, cellRegion));
   // Extract cells in regions that are not to be kept.
   boolList removeCell(mesh_.nCells(), false);
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     if (shrunkSelectedCell[cellI] && !keepRegion[cellRegion[cellI]])
     {
@@ -225,12 +227,12 @@ void mousse::regionToCell::erode
   {
     // Grow selected cell in regions that are not for keeping
     boolList boundaryPoint(mesh_.nPoints(), false);
-    forAll(removeCell, cellI)
+    FOR_ALL(removeCell, cellI)
     {
       if (removeCell[cellI])
       {
         const labelList& cPoints = mesh_.cellPoints(cellI);
-        forAll(cPoints, i)
+        FOR_ALL(cPoints, i)
         {
           boundaryPoint[cPoints[i]] = true;
         }
@@ -239,12 +241,12 @@ void mousse::regionToCell::erode
     syncTools::syncPointList(mesh_, boundaryPoint, orEqOp<bool>(), false);
     // Select all cells using these points
     label nChanged = 0;
-    forAll(boundaryPoint, pointI)
+    FOR_ALL(boundaryPoint, pointI)
     {
       if (boundaryPoint[pointI])
       {
         const labelList& pCells = mesh_.pointCells(pointI);
-        forAll(pCells, i)
+        FOR_ALL(pCells, i)
         {
           label cellI = pCells[i];
           if (!removeCell[cellI])
@@ -259,7 +261,7 @@ void mousse::regionToCell::erode
   //Info<< "removeCell after:" << count(removeCell) << endl;
   //generateField("removeCell_after", removeCell)().write();
   // Unmark removeCell
-  forAll(removeCell, cellI)
+  FOR_ALL(removeCell, cellI)
   {
     if (removeCell[cellI])
     {
@@ -277,7 +279,7 @@ void mousse::regionToCell::combine(topoSet& set, const bool add) const
       << endl;
     cellSet subSet(mesh_, setName_);
     selectedCell = false;
-    forAllConstIter(cellSet, subSet, iter)
+    FOR_ALL_CONST_ITER(cellSet, subSet, iter)
     {
       selectedCell[iter.key()] = true;
     }
@@ -287,7 +289,7 @@ void mousse::regionToCell::combine(topoSet& set, const bool add) const
   {
     erode(selectedCell);
   }
-  forAll(selectedCell, cellI)
+  FOR_ALL(selectedCell, cellI)
   {
     if (selectedCell[cellI])
     {
@@ -295,7 +297,7 @@ void mousse::regionToCell::combine(topoSet& set, const bool add) const
     }
   }
 }
-// Constructors 
+// Constructors
 // Construct from components
 mousse::regionToCell::regionToCell
 (
@@ -339,10 +341,12 @@ mousse::regionToCell::regionToCell
   insidePoints_(checkIs(is)),
   nErode_(0)
 {}
-// Destructor 
+
+// Destructor
 mousse::regionToCell::~regionToCell()
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::regionToCell::applyToSet
 (
   const topoSetSource::setAction action,

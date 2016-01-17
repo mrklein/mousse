@@ -50,7 +50,7 @@ class mappedFlowRateFvPatchVectorField
     word rhoName_;
 public:
  //- Runtime type information
- TypeName("mappedFlowRate");
+ TYPE_NAME("mappedFlowRate");
  // Constructors
     //- Construct from patch and internal field
     mappedFlowRateFvPatchVectorField

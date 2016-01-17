@@ -30,13 +30,9 @@ private:
     ) const;
     //- Return the boundBox of the plane
     boundBox calcBounds() const;
-    //- Disallow default bitwise copy construct
-    searchablePlane(const searchablePlane&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchablePlane&);
 public:
   //- Runtime type information
-  TypeName("searchablePlane");
+  TYPE_NAME("searchablePlane");
   // Constructors
     //- Construct from components
     searchablePlane
@@ -51,6 +47,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchablePlane(const searchablePlane&) = delete;
+    //- Disallow default bitwise assignment
+    searchablePlane& operator=(const searchablePlane&) = delete;
   //- Destructor
   virtual ~searchablePlane();
   // Member Functions
@@ -86,9 +86,9 @@ public:
       return coordinates();
     }
     //- Does any part of the surface overlap the supplied bound box?
-    virtual bool overlaps(const boundBox& bb) const
+    virtual bool overlaps(const boundBox&) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "searchablePlane::overlaps(const boundBox&) const"
       );
@@ -142,7 +142,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchablePlane::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchablePlane::writeData(Ostream&) const");
         return false;
       }
 };

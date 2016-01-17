@@ -145,7 +145,7 @@ protected:
     virtual void correctNut();
 public:
   //- Runtime type information
-  TypeName("kkLOmega");
+  TYPE_NAME("kkLOmega");
   // Constructors
     //- Construct from components
     kkLOmega

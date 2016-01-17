@@ -4,7 +4,8 @@
 
 #include "fv_mesh.hpp"
 #include "cell_co_blended.hpp"
+
 namespace mousse
 {
-  makeSurfaceInterpolationScheme(cellCoBlended);
+MAKE_SURFACE_INTERPOLATION_SCHEME(cellCoBlended);
 }

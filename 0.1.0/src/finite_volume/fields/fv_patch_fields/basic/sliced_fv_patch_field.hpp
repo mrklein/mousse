@@ -27,7 +27,7 @@ class slicedFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("sliced");
+  TYPE_NAME("sliced");
   // Constructors
     //- Construct from patch, internal field and field to slice
     slicedFvPatchField
@@ -105,13 +105,13 @@ public:
       //- Initialise the evaluation of the patch field
       virtual void initEvaluate
       (
-        const Pstream::commsTypes commsType=Pstream::blocking
+        const Pstream::commsTypes=Pstream::blocking
       )
       {}
       //- Evaluate the patch field, sets Updated to false
       virtual void evaluate
       (
-        const Pstream::commsTypes commsType=Pstream::blocking
+        const Pstream::commsTypes=Pstream::blocking
       )
       {}
       //- Return the matrix diagonal coefficients corresponding to the

@@ -32,8 +32,8 @@ namespace mousse
   };
   namespace fieldValues
   {
-    defineTypeNameAndDebug(cellSource, 0);
-    addToRunTimeSelectionTable(fieldValue, cellSource, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(cellSource, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(fieldValue, cellSource, dictionary);
   }
 }
 const mousse::NamedEnum<mousse::fieldValues::cellSource::sourceType, 2>
@@ -51,7 +51,7 @@ void mousse::fieldValues::cellSource::setCellZoneCells()
       label zoneId = mesh().cellZones().findZoneID(sourceName_);
       if (zoneId < 0)
       {
-        FatalErrorIn("cellSource::cellSource::setCellZoneCells()")
+        FATAL_ERROR_IN("cellSource::cellSource::setCellZoneCells()")
           << "Unknown cell zone name: " << sourceName_
           << ". Valid cell zones are: " << mesh().cellZones().names()
           << nl << exit(FatalError);
@@ -68,7 +68,7 @@ void mousse::fieldValues::cellSource::setCellZoneCells()
     }
     default:
     {
-      FatalErrorIn("cellSource::setCellZoneCells()")
+      FATAL_ERROR_IN("cellSource::setCellZoneCells()")
        << "Unknown source type. Valid source types are:"
         << sourceTypeNames_ << nl << exit(FatalError);
     }
@@ -88,7 +88,7 @@ void mousse::fieldValues::cellSource::initialise(const dictionary& dict)
   setCellZoneCells();
   if (nCells_ == 0)
   {
-    WarningIn
+    WARNING_IN
     (
       "mousse::fieldValues::cellSource::initialise(const dictionary&)"
     )   << type() << " " << name_ << ": "
@@ -109,7 +109,7 @@ void mousse::fieldValues::cellSource::initialise(const dictionary& dict)
   }
   Info<< nl << endl;
 }
-void mousse::fieldValues::cellSource::writeFileHeader(const label i)
+void mousse::fieldValues::cellSource::writeFileHeader(const label /*i*/)
 {
   writeCommented(file(), "Source : ");
   file() << sourceTypeNames_[source_] << " " << sourceName_ << endl;
@@ -122,7 +122,7 @@ void mousse::fieldValues::cellSource::writeFileHeader(const label i)
   {
     file() << tab << "Volume";
   }
-  forAll(fields_, i)
+  FOR_ALL(fields_, i)
   {
     file()
       << tab << operationTypeNames_[operation_]
@@ -180,7 +180,7 @@ void mousse::fieldValues::cellSource::write()
       }
       if (log_) Info<< "    total volume = " << volume_ << endl;
     }
-    forAll(fields_, i)
+    FOR_ALL(fields_, i)
     {
       const word& fieldName = fields_[i];
       bool processed = false;
@@ -191,7 +191,7 @@ void mousse::fieldValues::cellSource::write()
       processed = processed || writeValues<tensor>(fieldName);
       if (!processed)
       {
-        WarningIn("void mousse::fieldValues::cellSource::write()")
+        WARNING_IN("void mousse::fieldValues::cellSource::write()")
           << "Requested field " << fieldName
           << " not found in database and not processed"
           << endl;

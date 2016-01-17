@@ -12,8 +12,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(meanVelocityForce, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(meanVelocityForce, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     meanVelocityForce,
@@ -66,7 +66,7 @@ mousse::fv::meanVelocityForce::meanVelocityForce
   coeffs_.lookup("fieldNames") >> fieldNames_;
   if (fieldNames_.size() != 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::fv::meanVelocityForce::"
       "meanVelocityForce"
@@ -101,7 +101,7 @@ mousse::scalar mousse::fv::meanVelocityForce::magUbarAve
 {
   scalar magUbarAve = 0.0;
   const scalarField& cv = mesh_.V();
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     label cellI = cells_[i];
     scalar volCell = cv[cellI];
@@ -117,7 +117,7 @@ void mousse::fv::meanVelocityForce::correct(volVectorField& U)
   // Integrate flow variables over cell set
   scalar rAUave = 0.0;
   const scalarField& cv = mesh_.V();
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     label cellI = cells_[i];
     scalar volCell = cv[cellI];
@@ -132,7 +132,7 @@ void mousse::fv::meanVelocityForce::correct(volVectorField& U)
   // flow-rate to the desired value
   dGradP_ = relaxation_*(mag(Ubar_) - magUbarAve)/rAUave;
   // Apply correction to velocity field
-  forAll(cells_, i)
+  FOR_ALL(cells_, i)
   {
     label cellI = cells_[i];
     U[cellI] += flowDir_*rAU[cellI]*dGradP_;
@@ -167,7 +167,7 @@ void mousse::fv::meanVelocityForce::addSup
 }
 void mousse::fv::meanVelocityForce::addSup
 (
-  const volScalarField& rho,
+  const volScalarField& /*rho*/,
   fvMatrix<vector>& eqn,
   const label fieldI
 )

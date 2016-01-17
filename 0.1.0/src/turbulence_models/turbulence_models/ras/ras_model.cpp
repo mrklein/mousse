@@ -112,7 +112,7 @@ mousse::RASModel<BasicTurbulenceModel>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "RASModel::New"
       "("

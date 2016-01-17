@@ -60,13 +60,9 @@ private:
       List<List<pointIndexHit> >& surfInfo,
       labelListList& infoMap
     ) const;
-    //- Disallow default bitwise copy construct
-    searchableSurfaceCollection(const searchableSurfaceCollection&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableSurfaceCollection&);
 public:
   //- Runtime type information
-  TypeName("searchableSurfaceCollection");
+  TYPE_NAME("searchableSurfaceCollection");
   // Constructors
     //- Construct from dictionary (used by searchableSurface)
     searchableSurfaceCollection
@@ -74,6 +70,13 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableSurfaceCollection(const searchableSurfaceCollection&) = delete;
+    //- Disallow default bitwise assignment
+    searchableSurfaceCollection& operator=
+    (
+      const searchableSurfaceCollection&
+    ) = delete;
   //- Destructor
   virtual ~searchableSurfaceCollection();
   // Member Functions
@@ -118,9 +121,9 @@ public:
     //- Get the points that define the surface.
     virtual tmp<pointField> points() const;
     //- Does any part of the surface overlap the supplied bound box?
-    virtual bool overlaps(const boundBox& bb) const
+    virtual bool overlaps(const boundBox&) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "searchableSurfaceCollection::overlaps(const boundBox&) const"
       );
@@ -192,7 +195,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "searchableSurfaceCollection::writeData(Ostream&) const"
         );

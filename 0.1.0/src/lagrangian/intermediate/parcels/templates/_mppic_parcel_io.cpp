@@ -55,7 +55,7 @@ void mousse::MPPICParcel<ParcelType>::readFields(CloudType& c)
   IOField<vector> UCorrect(c.fieldIOobject("UCorrect", IOobject::MUST_READ));
   c.checkFieldIOobject(c, UCorrect);
   label i = 0;
-  forAllIter(typename CloudType, c, iter)
+  FOR_ALL_ITER(typename CloudType, c, iter)
   {
     MPPICParcel<ParcelType>& p = iter();
     p.UCorrect_ = UCorrect[i];
@@ -71,7 +71,7 @@ void mousse::MPPICParcel<ParcelType>::writeFields(const CloudType& c)
   IOField<vector>
     UCorrect(c.fieldIOobject("UCorrect", IOobject::NO_READ), np);
   label i = 0;
-  forAllConstIter(typename CloudType, c, iter)
+  FOR_ALL_CONST_ITER(typename CloudType, c, iter)
   {
     const MPPICParcel<ParcelType>& p = iter();
     UCorrect[i] = p.UCorrect();

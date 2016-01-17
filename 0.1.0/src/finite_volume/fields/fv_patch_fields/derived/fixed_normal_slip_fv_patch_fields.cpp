@@ -7,15 +7,18 @@
 #include "vol_fields.hpp"
 namespace mousse
 {
+
 // Static Data Members
-makeTemplatePatchTypeField
+MAKE_TEMPLATE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   fixedNormalSlipFvPatchVectorField
 );
-makeTemplatePatchTypeField
+
+MAKE_TEMPLATE_PATCH_TYPE_FIELD
 (
   fvPatchTensorField,
   fixedNormalSlipFvPatchTensorField
 );
+
 }  // namespace mousse

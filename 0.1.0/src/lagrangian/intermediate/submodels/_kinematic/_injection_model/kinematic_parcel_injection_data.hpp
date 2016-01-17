@@ -43,7 +43,7 @@ protected:
     scalar mDot_;
 public:
   //- Runtime type information
-  TypeName("kinematicParcelInjectionData");
+  TYPE_NAME("kinematicParcelInjectionData");
   // Constructors
     //- Null constructor
     kinematicParcelInjectionData();
@@ -78,11 +78,11 @@ public:
   // Friend Operators
     friend bool operator==
     (
-      const kinematicParcelInjectionData& a,
-      const kinematicParcelInjectionData& b
+      const kinematicParcelInjectionData& /*a*/,
+      const kinematicParcelInjectionData& /*b*/
     )
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "operator=="
         "("
@@ -94,11 +94,11 @@ public:
     }
     friend bool operator!=
     (
-      const kinematicParcelInjectionData& a,
-      const kinematicParcelInjectionData& b
+      const kinematicParcelInjectionData& /*a*/,
+      const kinematicParcelInjectionData& /*b*/
     )
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "operator=="
         "("
@@ -123,5 +123,45 @@ public:
     );
 };
 }  // namespace mousse
-#include "kinematic_parcel_injection_data_i.hpp"
+
+inline const mousse::point& mousse::kinematicParcelInjectionData::x() const
+{
+  return x_;
+}
+inline const mousse::vector& mousse::kinematicParcelInjectionData::U() const
+{
+  return U_;
+}
+inline mousse::scalar mousse::kinematicParcelInjectionData::d() const
+{
+  return d_;
+}
+inline mousse::scalar mousse::kinematicParcelInjectionData::rho() const
+{
+  return rho_;
+}
+inline mousse::scalar mousse::kinematicParcelInjectionData::mDot() const
+{
+  return mDot_;
+}
+inline mousse::point& mousse::kinematicParcelInjectionData::x()
+{
+  return x_;
+}
+inline mousse::vector& mousse::kinematicParcelInjectionData::U()
+{
+  return U_;
+}
+inline mousse::scalar& mousse::kinematicParcelInjectionData::d()
+{
+  return d_;
+}
+inline mousse::scalar& mousse::kinematicParcelInjectionData::rho()
+{
+  return rho_;
+}
+inline mousse::scalar& mousse::kinematicParcelInjectionData::mDot()
+{
+  return mDot_;
+}
 #endif

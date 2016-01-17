@@ -13,7 +13,7 @@ mousse::edge mousse::wallBoundedParticle::currentEdge() const
 {
   if ((meshEdgeStart_ != -1) == (diagEdge_ != -1))
   {
-    FatalErrorIn("wallBoundedParticle::currentEdge() const")
+    FATAL_ERROR_IN("wallBoundedParticle::currentEdge() const")
       << "Particle:"
       << info()
       << "cannot both be on a mesh edge and a face-diagonal edge."
@@ -58,7 +58,7 @@ void mousse::wallBoundedParticle::crossEdgeConnectedFace
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "wallBoundedParticle::crossEdgeConnectedFace"
         "(const edge&)"
@@ -76,7 +76,7 @@ void mousse::wallBoundedParticle::crossEdgeConnectedFace
   const edge eNew(f[meshEdgeStart_], f.nextLabel(meshEdgeStart_));
   if (eNew != meshEdge)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "wallBoundedParticle::crossEdgeConnectedFace"
       "(const edge&)"
@@ -87,14 +87,14 @@ void mousse::wallBoundedParticle::crossDiagonalEdge()
 {
   if (diagEdge_ == -1)
   {
-    FatalErrorIn("wallBoundedParticle::crossDiagonalEdge()")
+    FATAL_ERROR_IN("wallBoundedParticle::crossDiagonalEdge()")
       << "Particle:"
       << info()
       << "not on a diagonal edge" << abort(FatalError);
   }
   if (meshEdgeStart_ != -1)
   {
-    FatalErrorIn("wallBoundedParticle::crossDiagonalEdge()")
+    FATAL_ERROR_IN("wallBoundedParticle::crossDiagonalEdge()")
       << "Particle:"
       << info()
       << "meshEdgeStart_:" << meshEdgeStart_ << abort(FatalError);
@@ -114,7 +114,7 @@ void mousse::wallBoundedParticle::crossDiagonalEdge()
     }
     else
     {
-      FatalErrorIn("wallBoundedParticle::crossDiagonalEdge()")
+      FATAL_ERROR_IN("wallBoundedParticle::crossDiagonalEdge()")
         << "Particle:"
         << info()
         << "tetPt:" << tetPt()
@@ -144,7 +144,7 @@ mousse::scalar mousse::wallBoundedParticle::trackFaceTri
   }
   // Determine path along line position+s*d to see where intersections
   // are.
-  forAll(tri, i)
+  FOR_ALL(tri, i)
   {
     label j = tri.fcIndex(i);
     const point& pt0 = mesh_.points()[tri[i]];
@@ -207,7 +207,7 @@ bool mousse::wallBoundedParticle::isTriAlongTrack
     || findIndex(triVerts, currentE[1]) == -1
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "wallBoundedParticle::isTriAlongTrack"
         "(const point&)"
@@ -220,7 +220,7 @@ bool mousse::wallBoundedParticle::isTriAlongTrack
   // Get normal of currentE
   vector n = triVerts.normal(mesh_.points());
   n /= mag(n);
-  forAll(triVerts, i)
+  FOR_ALL(triVerts, i)
   {
     label j = triVerts.fcIndex(i);
     const point& pt0 = mesh_.points()[triVerts[i]];
@@ -231,7 +231,7 @@ bool mousse::wallBoundedParticle::isTriAlongTrack
       return (dir&edgeNormal) < 0;
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "wallBoundedParticle::isTriAlongTrack"
     "(const point&)"

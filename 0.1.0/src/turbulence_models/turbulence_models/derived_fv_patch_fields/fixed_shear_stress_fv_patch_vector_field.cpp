@@ -15,8 +15,8 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  tau0_(vector::zero)
+  fixedValueFvPatchVectorField{p, iF},
+  tau0_{vector::zero}
 {}
 mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 (
@@ -25,8 +25,8 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  tau0_(dict.lookupOrDefault<vector>("tau", vector::zero))
+  fixedValueFvPatchVectorField{p, iF},
+  tau0_{dict.lookupOrDefault<vector>("tau", vector::zero)}
 {
   fvPatchField<vector>::operator=(patchInternalField());
 }
@@ -38,16 +38,16 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(ptf, p, iF, mapper),
-  tau0_(ptf.tau0_)
+  fixedValueFvPatchVectorField{ptf, p, iF, mapper},
+  tau0_{ptf.tau0_}
 {}
 mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 (
   const fixedShearStressFvPatchVectorField& ptf
 )
 :
-  fixedValueFvPatchVectorField(ptf),
-  tau0_(ptf.tau0_)
+  fixedValueFvPatchVectorField{ptf},
+  tau0_{ptf.tau0_}
 {}
 mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 (
@@ -55,8 +55,8 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(ptf, iF),
-  tau0_(ptf.tau0_)
+  fixedValueFvPatchVectorField{ptf, iF},
+  tau0_{ptf.tau0_}
 {}
 // Member Functions 
 void mousse::fixedShearStressFvPatchVectorField::updateCoeffs()
@@ -88,9 +88,9 @@ void mousse::fixedShearStressFvPatchVectorField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    fixedShearStressFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  fixedShearStressFvPatchVectorField
+);
 }

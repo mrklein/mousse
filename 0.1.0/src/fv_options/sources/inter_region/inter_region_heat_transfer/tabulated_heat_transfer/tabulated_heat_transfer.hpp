@@ -38,7 +38,7 @@ private:
     const word startTimeName_;
 public:
   //- Runtime type information
-    TypeName("tabulatedHeatTransfer");
+    TYPE_NAME("tabulatedHeatTransfer");
   // Constructors
     //- Construct from dictionary
     tabulatedHeatTransfer

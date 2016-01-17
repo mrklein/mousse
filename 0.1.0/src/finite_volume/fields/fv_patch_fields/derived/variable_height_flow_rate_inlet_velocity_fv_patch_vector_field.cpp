@@ -7,6 +7,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
+
 // Constructors 
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
@@ -15,10 +16,11 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(p, iF),
-  flowRate_(0),
-  alphaName_("none")
+  fixedValueFvPatchField<vector>{p, iF},
+  flowRate_{0},
+  alphaName_{"none"}
 {}
+
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
 (
@@ -28,10 +30,11 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<vector>(ptf, p, iF, mapper),
-  flowRate_(ptf.flowRate_),
-  alphaName_(ptf.alphaName_)
+  fixedValueFvPatchField<vector>{ptf, p, iF, mapper},
+  flowRate_{ptf.flowRate_},
+  alphaName_{ptf.alphaName_}
 {}
+
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
 (
@@ -40,20 +43,22 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<vector>(p, iF, dict),
-  flowRate_(readScalar(dict.lookup("flowRate"))),
-  alphaName_(dict.lookup("alpha"))
+  fixedValueFvPatchField<vector>{p, iF, dict},
+  flowRate_{readScalar(dict.lookup("flowRate"))},
+  alphaName_{dict.lookup("alpha")}
 {}
+
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
 (
   const variableHeightFlowRateInletVelocityFvPatchVectorField& ptf
 )
 :
-  fixedValueFvPatchField<vector>(ptf),
-  flowRate_(ptf.flowRate_),
-  alphaName_(ptf.alphaName_)
+  fixedValueFvPatchField<vector>{ptf},
+  flowRate_{ptf.flowRate_},
+  alphaName_{ptf.alphaName_}
 {}
+
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
 (
@@ -61,10 +66,11 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(ptf, iF),
-  flowRate_(ptf.flowRate_),
-  alphaName_(ptf.alphaName_)
+  fixedValueFvPatchField<vector>{ptf, iF},
+  flowRate_{ptf.flowRate_},
+  alphaName_{ptf.alphaName_}
 {}
+
 // Member Functions 
 void mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::updateCoeffs()
@@ -83,6 +89,7 @@ void mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   operator==(n*avgU*alphap);
   fixedValueFvPatchField<vector>::updateCoeffs();
 }
+
 void mousse::variableHeightFlowRateInletVelocityFvPatchVectorField::write
 (
   Ostream& os
@@ -95,11 +102,12 @@ void mousse::variableHeightFlowRateInletVelocityFvPatchVectorField::write
     << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
 namespace mousse
 {
- makePatchTypeField
- (
-   fvPatchVectorField,
-   variableHeightFlowRateInletVelocityFvPatchVectorField
- );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  variableHeightFlowRateInletVelocityFvPatchVectorField
+);
 }

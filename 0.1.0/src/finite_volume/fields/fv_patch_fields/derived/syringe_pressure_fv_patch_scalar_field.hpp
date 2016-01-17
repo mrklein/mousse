@@ -90,7 +90,7 @@ class syringePressureFvPatchScalarField
     scalar Vs(const scalar t) const;
 public:
   //- Runtime type information
-  TypeName("syringePressure");
+  TYPE_NAME("syringePressure");
   // Constructors
     //- Construct from patch and internal field
     syringePressureFvPatchScalarField

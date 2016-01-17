@@ -8,10 +8,13 @@
 #include "surface_fields.hpp"
 #include "fvc_surface_integrate.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
+
 namespace mousse
 {
+
 namespace fvc
 {
+
 template<class Type>
 tmp
 <
@@ -27,26 +30,29 @@ reconstruct
 {
   typedef typename outerProduct<vector, Type>::type GradType;
   const fvMesh& mesh = ssf.mesh();
-  surfaceVectorField SfHat(mesh.Sf()/mesh.magSf());
-  tmp<GeometricField<GradType, fvPatchField, volMesh> > treconField
-  (
+  surfaceVectorField SfHat{mesh.Sf()/mesh.magSf()};
+  tmp<GeometricField<GradType, fvPatchField, volMesh>> treconField
+  {
     new GeometricField<GradType, fvPatchField, volMesh>
-    (
+    {
       IOobject
-      (
-        "volIntegrate("+ssf.name()+')',
+      {
+        "volIntegrate(" + ssf.name() + ')',
         ssf.instance(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
-      inv(surfaceSum(SfHat*mesh.Sf()))&surfaceSum(SfHat*ssf),
+      },
+      inv(surfaceSum(SfHat*mesh.Sf())) & surfaceSum(SfHat*ssf),
       zeroGradientFvPatchField<GradType>::typeName
-    )
-  );
+    }
+  };
   treconField().correctBoundaryConditions();
+
   return treconField;
 }
+
+
 template<class Type>
 tmp
 <
@@ -62,11 +68,14 @@ reconstruct
 {
   typedef typename outerProduct<vector, Type>::type GradType;
   tmp<GeometricField<GradType, fvPatchField, volMesh> > tvf
-  (
+  {
     fvc::reconstruct(tssf())
-  );
+  };
   tssf.clear();
+
   return tvf;
 }
+
 }  // namespace fvc
+
 }  // namespace mousse

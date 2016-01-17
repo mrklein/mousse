@@ -82,7 +82,7 @@ void mousse::sigFpe::sigHandler(int)
   // Reset old handling
   if (sigaction(SIGFPE, &oldAction_, NULL) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigSegv::sigHandler()"
     )   << "Cannot reset SIGFPE trapping"
@@ -113,7 +113,7 @@ mousse::sigFpe::~sigFpe()
     if (oldAction_.sa_handler && sigaction(SIGFPE, &oldAction_, NULL) < 0)
     #endif
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::sigFpe::~sigFpe()"
       )   << "Cannot reset SIGFPE trapping"
@@ -146,7 +146,7 @@ void mousse::sigFpe::set(const bool verbose)
 {
   if (oldAction_.sa_handler)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigFpe::set()"
     )   << "Cannot call sigFpe::set() more than once"
@@ -179,7 +179,7 @@ void mousse::sigFpe::set(const bool verbose)
     if (sigaction(SIGFPE, &newAction, &oldAction_) < 0)
     #endif
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::sigFpe::set()"
       )   << "Cannot set SIGFPE trapping"

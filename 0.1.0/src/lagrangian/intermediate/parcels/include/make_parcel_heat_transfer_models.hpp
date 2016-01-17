@@ -8,11 +8,11 @@
 #include "_no_heat_transfer.hpp"
 #include "_ranz_marshall.hpp"
 
-#define makeParcelHeatTransferModels(CloudType)                               \
+#define MAKE_PARCEL_HEAT_TRANSFER_MODELS(CloudType)                           \
                                                                               \
-  makeHeatTransferModel(CloudType);                                           \
+  MAKE_HEAT_TRANSFER_MODEL(CloudType);                                        \
                                                                               \
-  makeHeatTransferModelType(NoHeatTransfer, CloudType);                       \
-  makeHeatTransferModelType(RanzMarshall, CloudType);
+  MAKE_HEAT_TRANSFER_MODEL_TYPE(NoHeatTransfer, CloudType);                   \
+  MAKE_HEAT_TRANSFER_MODEL_TYPE(RanzMarshall, CloudType);
 
 #endif

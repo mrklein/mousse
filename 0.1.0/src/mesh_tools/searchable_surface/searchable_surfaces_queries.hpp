@@ -82,7 +82,7 @@ class searchableSurfacesQueries
     );
 public:
   // Declare name of the class and its debug switch
-  ClassName("searchableSurfacesQueries");
+  CLASS_NAME("searchableSurfacesQueries");
     // Multiple point queries.
       //- Find any intersection. Return hit point information and
       //  index in surfacesToTest. If multiple surfaces hit the first

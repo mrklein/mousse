@@ -24,7 +24,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(hexRef8, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(hexRef8, 0);
   //- Reduction class. If x and y are not equal assign value.
   template<label value>
   class ifEqEqOp
@@ -46,12 +46,12 @@ void mousse::hexRef8::reorder
 )
 {
   labelList newElems(len, null);
-  forAll(elems, i)
+  FOR_ALL(elems, i)
   {
     label newI = map[i];
     if (newI >= len)
     {
-      FatalErrorIn("hexRef8::reorder(..)") << abort(FatalError);
+      FATAL_ERROR_IN("hexRef8::reorder(..)") << abort(FatalError);
     }
     if (newI >= 0)
     {
@@ -146,7 +146,7 @@ mousse::label mousse::hexRef8::addInternalFace
 (
   polyTopoChange& meshMod,
   const label meshFaceI,
-  const label meshPointI,
+  const label /*meshPointI*/,
   const face& newFace,
   const label own,
   const label nei
@@ -202,7 +202,7 @@ mousse::label mousse::hexRef8::addInternalFace
     //
     //const labelList& pFaces = mesh_.pointFaces()[meshPointI];
     //
-    //forAll(pFaces, i)
+    //FOR_ALL(pFaces, i)
     //{
     //    if (mesh_.isInternalFace(pFaces[i]))
     //    {
@@ -296,7 +296,7 @@ mousse::scalar mousse::hexRef8::getLevel0EdgeLength() const
 {
   if (cellLevel_.size() != mesh_.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::getLevel0EdgeLength() const"
     )   << "Number of cells in mesh:" << mesh_.nCells()
@@ -316,11 +316,11 @@ mousse::scalar mousse::hexRef8::getLevel0EdgeLength() const
     // Per edge the cellLevel of connected cells. -1 if not set,
     // labelMax if different levels, otherwise levels of connected cells.
     labelList edgeLevel(mesh_.nEdges(), -1);
-    forAll(cellLevel_, cellI)
+    FOR_ALL(cellLevel_, cellI)
     {
       const label cLevel = cellLevel_[cellI];
       const labelList& cEdges = mesh_.cellEdges(cellI);
-      forAll(cEdges, i)
+      FOR_ALL(cEdges, i)
       {
         label edgeI = cEdges[i];
         if (edgeLevel[edgeI] == -1)
@@ -349,7 +349,7 @@ mousse::scalar mousse::hexRef8::getLevel0EdgeLength() const
     );
     // Now use the edgeLevel with a valid value to determine the
     // length per level.
-    forAll(edgeLevel, edgeI)
+    FOR_ALL(edgeLevel, edgeI)
     {
       const label eLevel = edgeLevel[edgeI];
       if (eLevel >= 0 && eLevel < labelMax)
@@ -376,11 +376,11 @@ mousse::scalar mousse::hexRef8::getLevel0EdgeLength() const
   //    edges sized according to highest celllevel)
   //    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   scalarField maxEdgeLenSqr(nLevels, -GREAT2);
-  forAll(cellLevel_, cellI)
+  FOR_ALL(cellLevel_, cellI)
   {
     const label cLevel = cellLevel_[cellI];
     const labelList& cEdges = mesh_.cellEdges(cellI);
-    forAll(cEdges, i)
+    FOR_ALL(cEdges, i)
     {
       const edge& e = mesh_.edges()[cEdges[i]];
       scalar edgeLenSqr = magSqr(e.vec(mesh_.points()));
@@ -397,7 +397,7 @@ mousse::scalar mousse::hexRef8::getLevel0EdgeLength() const
   }
   // 3. Combine the two sets of lengths
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(typEdgeLenSqr, levelI)
+  FOR_ALL(typEdgeLenSqr, levelI)
   {
     if (typEdgeLenSqr[levelI] == GREAT2 && maxEdgeLenSqr[levelI] >= 0)
     {
@@ -412,7 +412,7 @@ mousse::scalar mousse::hexRef8::getLevel0EdgeLength() const
   }
   // Find lowest level present
   scalar level0Size = -1;
-  forAll(typEdgeLenSqr, levelI)
+  FOR_ALL(typEdgeLenSqr, levelI)
   {
     scalar lenSqr = typEdgeLenSqr[levelI];
     if (lenSqr < GREAT2)
@@ -431,7 +431,7 @@ mousse::scalar mousse::hexRef8::getLevel0EdgeLength() const
   }
   if (level0Size == -1)
   {
-    FatalErrorIn("hexRef8::getLevel0EdgeLength()")
+    FATAL_ERROR_IN("hexRef8::getLevel0EdgeLength()")
       << "Problem : typEdgeLenSqr:" << typEdgeLenSqr << abort(FatalError);
   }
   return level0Size;
@@ -458,7 +458,7 @@ mousse::label mousse::hexRef8::getAnchorCell
     // Maybe we are already a refined face so check all the face
     // vertices.
     const face& f = mesh_.faces()[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label index = findIndex(cellAnchorPoints[cellI], f[fp]);
       if (index != -1)
@@ -470,7 +470,7 @@ mousse::label mousse::hexRef8::getAnchorCell
     dumpCell(cellI);
     Perr<< "cell:" << cellI << " anchorPoints:" << cellAnchorPoints[cellI]
       << endl;
-    FatalErrorIn("hexRef8::getAnchorCell(..)")
+    FATAL_ERROR_IN("hexRef8::getAnchorCell(..)")
       << "Could not find point " << pointI
       << " in the anchorPoints for cell " << cellI << endl
       << "Does your original mesh obey the 2:1 constraint and"
@@ -525,7 +525,7 @@ mousse::label mousse::hexRef8::findMinLevel(const labelList& f) const
 {
   label minLevel = labelMax;
   label minFp = -1;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label level = pointLevel_[f[fp]];
     if (level < minLevel)
@@ -541,7 +541,7 @@ mousse::label mousse::hexRef8::findMaxLevel(const labelList& f) const
 {
   label maxLevel = labelMin;
   label maxFp = -1;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label level = pointLevel_[f[fp]];
     if (level > maxLevel)
@@ -559,7 +559,7 @@ mousse::label mousse::hexRef8::countAnchors
 ) const
 {
   label nAnchors = 0;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if (pointLevel_[f[fp]] <= anchorLevel)
     {
@@ -575,10 +575,10 @@ void mousse::hexRef8::dumpCell(const label cellI) const
   const cell& cFaces = mesh_.cells()[cellI];
   Map<label> pointToObjVert;
   label objVertI = 0;
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     const face& f = mesh_.faces()[cFaces[i]];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (pointToObjVert.insert(f[fp], objVertI))
       {
@@ -587,10 +587,10 @@ void mousse::hexRef8::dumpCell(const label cellI) const
       }
     }
   }
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     const face& f = mesh_.faces()[cFaces[i]];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label pointI = f[fp];
       label nexPointI = f[f.fcIndex(fp)];
@@ -610,7 +610,7 @@ mousse::label mousse::hexRef8::findLevel
 ) const
 {
   label fp = startFp;
-  forAll(f, i)
+  FOR_ALL(f, i)
   {
     label pointI = f[fp];
     if (pointLevel_[pointI] < wantedLevel)
@@ -620,7 +620,7 @@ mousse::label mousse::hexRef8::findLevel
       {
         dumpCell(mesh_.faceNeighbour()[faceI]);
       }
-      FatalErrorIn("hexRef8::findLevel(..)")
+      FATAL_ERROR_IN("hexRef8::findLevel(..)")
         << "face:" << f
         << " level:" << UIndirectList<label>(pointLevel_, f)()
         << " startFp:" << startFp
@@ -645,7 +645,7 @@ mousse::label mousse::hexRef8::findLevel
   {
     dumpCell(mesh_.faceNeighbour()[faceI]);
   }
-  FatalErrorIn("hexRef8::findLevel(..)")
+  FATAL_ERROR_IN("hexRef8::findLevel(..)")
     << "face:" << f
     << " level:" << UIndirectList<label>(pointLevel_, f)()
     << " startFp:" << startFp
@@ -694,7 +694,7 @@ void mousse::hexRef8::checkInternalOrientation
   vector dir(neiPt - ownPt);
   if ((dir & n) < 0)
   {
-    FatalErrorIn("checkInternalOrientation(..)")
+    FATAL_ERROR_IN("checkInternalOrientation(..)")
       << "cell:" << cellI << " old face:" << faceI
       << " newFace:" << newFace << endl
       << " coords:" << compactPoints
@@ -706,7 +706,7 @@ void mousse::hexRef8::checkInternalOrientation
   scalar s = (fcToOwn&n) / (dir&n);
   if (s < 0.1 || s > 0.9)
   {
-    FatalErrorIn("checkInternalOrientation(..)")
+    FATAL_ERROR_IN("checkInternalOrientation(..)")
       << "cell:" << cellI << " old face:" << faceI
       << " newFace:" << newFace << endl
       << " coords:" << compactPoints
@@ -732,7 +732,7 @@ void mousse::hexRef8::checkBoundaryOrientation
   vector dir(boundaryPt - ownPt);
   if ((dir & n) < 0)
   {
-    FatalErrorIn("checkBoundaryOrientation(..)")
+    FATAL_ERROR_IN("checkBoundaryOrientation(..)")
       << "cell:" << cellI << " old face:" << faceI
       << " newFace:" << newFace
       << " coords:" << compactPoints
@@ -744,7 +744,7 @@ void mousse::hexRef8::checkBoundaryOrientation
   scalar s = (fcToOwn&dir) / magSqr(dir);
   if (s < 0.7 || s > 1.3)
   {
-    WarningIn("checkBoundaryOrientation(..)")
+    WARNING_IN("checkBoundaryOrientation(..)")
       << "cell:" << cellI << " old face:" << faceI
       << " newFace:" << newFace
       << " coords:" << compactPoints
@@ -998,7 +998,7 @@ void mousse::hexRef8::createInternalFaces
   DynamicList<label> storage;
   // Running count of number of internal faces added so far.
   label nFacesAdded = 0;
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     label faceI = cFaces[i];
     const face& f = mesh_.faces()[faceI];
@@ -1013,7 +1013,7 @@ void mousse::hexRef8::createInternalFaces
       // been split using cLevel+1 and cLevel+2 points.
       // Find the one anchor.
       label anchorFp = -1;
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (pointLevel_[f[fp]] <= cLevel)
         {
@@ -1053,7 +1053,7 @@ void mousse::hexRef8::createInternalFaces
       {
         dumpCell(mesh_.faceNeighbour()[faceI]);
       }
-      FatalErrorIn("createInternalFaces(..)")
+      FATAL_ERROR_IN("createInternalFaces(..)")
         << "nAnchors:" << nAnchors
         << " faceI:" << faceI
         << abort(FatalError);
@@ -1061,7 +1061,7 @@ void mousse::hexRef8::createInternalFaces
     // Now loop over all the anchors (might be just one) and store
     // the edge mids connected to it. storeMidPointInfo will collect
     // all the info and combine it all.
-    forAll(f, fp0)
+    FOR_ALL(f, fp0)
     {
       label point0 = f[fp0];
       if (pointLevel_[point0] <= cLevel)
@@ -1081,7 +1081,7 @@ void mousse::hexRef8::createInternalFaces
           {
             dumpCell(cellI);
             const labelList& cPoints = mesh_.cellPoints(cellI);
-            FatalErrorIn("createInternalFaces(..)")
+            FATAL_ERROR_IN("createInternalFaces(..)")
               << "cell:" << cellI << " cLevel:" << cLevel
               << " cell points:" << cPoints
               << " pointLevel:"
@@ -1139,7 +1139,7 @@ void mousse::hexRef8::createInternalFaces
           {
             dumpCell(cellI);
             const labelList& cPoints = mesh_.cellPoints(cellI);
-            FatalErrorIn("createInternalFaces(..)")
+            FATAL_ERROR_IN("createInternalFaces(..)")
               << "cell:" << cellI << " cLevel:" << cLevel
               << " cell points:" << cPoints
               << " pointLevel:"
@@ -1331,7 +1331,7 @@ mousse::label mousse::hexRef8::faceConsistentRefinement
   // Coupled faces. Swap owner level to get neighbouring cell level.
   // (only boundary faces of neiLevel used)
   labelList neiLevel(mesh_.nFaces()-mesh_.nInternalFaces());
-  forAll(neiLevel, i)
+  FOR_ALL(neiLevel, i)
   {
     label own = mesh_.faceOwner()[i+mesh_.nInternalFaces()];
     neiLevel[i] = cellLevel_[own] + refineCell.get(own);
@@ -1339,7 +1339,7 @@ mousse::label mousse::hexRef8::faceConsistentRefinement
   // Swap to neighbour
   syncTools::swapBoundaryFaceList(mesh_, neiLevel);
   // Now we have neighbour value see which cells need refinement
-  forAll(neiLevel, i)
+  FOR_ALL(neiLevel, i)
   {
     label own = mesh_.faceOwner()[i+mesh_.nInternalFaces()];
     label ownLevel = cellLevel_[own] + refineCell.get(own);
@@ -1369,7 +1369,7 @@ void mousse::hexRef8::checkWantedRefinementLevels
 ) const
 {
   PackedBoolList refineCell(mesh_.nCells());
-  forAll(cellsToRefine, i)
+  FOR_ALL(cellsToRefine, i)
   {
     refineCell.set(cellsToRefine[i]);
   }
@@ -1383,7 +1383,7 @@ void mousse::hexRef8::checkWantedRefinementLevels
     {
       dumpCell(own);
       dumpCell(nei);
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "hexRef8::checkWantedRefinementLevels(const labelList&)"
       )   << "cell:" << own
@@ -1401,7 +1401,7 @@ void mousse::hexRef8::checkWantedRefinementLevels
   // Coupled faces. Swap owner level to get neighbouring cell level.
   // (only boundary faces of neiLevel used)
   labelList neiLevel(mesh_.nFaces()-mesh_.nInternalFaces());
-  forAll(neiLevel, i)
+  FOR_ALL(neiLevel, i)
   {
     label own = mesh_.faceOwner()[i+mesh_.nInternalFaces()];
     neiLevel[i] = cellLevel_[own] + refineCell.get(own);
@@ -1409,7 +1409,7 @@ void mousse::hexRef8::checkWantedRefinementLevels
   // Swap to neighbour
   syncTools::swapBoundaryFaceList(mesh_, neiLevel);
   // Now we have neighbour value see which cells need refinement
-  forAll(neiLevel, i)
+  FOR_ALL(neiLevel, i)
   {
     label faceI = i + mesh_.nInternalFaces();
     label own = mesh_.faceOwner()[faceI];
@@ -1418,7 +1418,7 @@ void mousse::hexRef8::checkWantedRefinementLevels
     {
       label patchI = mesh_.boundaryMesh().whichPatch(faceI);
       dumpCell(own);
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "hexRef8::checkWantedRefinementLevels(const labelList&)"
       )   << "Celllevel does not satisfy 2:1 constraint."
@@ -1456,7 +1456,7 @@ void mousse::hexRef8::collectLevelPoints
   DynamicList<label>& points
 ) const
 {
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     if (pointLevel_[f[fp]] <= level)
     {
@@ -1472,7 +1472,7 @@ void mousse::hexRef8::collectLevelPoints
   DynamicList<label>& points
 ) const
 {
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label pointI = meshPoints[f[fp]];
     if (pointLevel_[pointI] <= level)
@@ -1494,7 +1494,7 @@ bool mousse::hexRef8::matchHexShape
   DynamicList<label> verts(4);
   quads.clear();
   // 1. pick up any faces with four cellLevel points
-  forAll(cFaces, i)
+  FOR_ALL(cFaces, i)
   {
     label faceI = cFaces[i];
     const face& f = mesh_.faces()[faceI];
@@ -1514,7 +1514,7 @@ bool mousse::hexRef8::matchHexShape
   if (quads.size() < 6)
   {
     Map<labelList> pointFaces(2*cFaces.size());
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       label faceI = cFaces[i];
       const face& f = mesh_.faces()[faceI];
@@ -1528,7 +1528,7 @@ bool mousse::hexRef8::matchHexShape
       {
         // Add to pointFaces for any level+1 point (this might be
         // a midpoint of a split face)
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label pointI = f[fp];
           if (pointLevel_[pointI] == cellLevel+1)
@@ -1556,14 +1556,14 @@ bool mousse::hexRef8::matchHexShape
       }
     }
     // 2. Check if we've collected any midPoints.
-    forAllConstIter(Map<labelList>, pointFaces, iter)
+    FOR_ALL_CONST_ITER(Map<labelList>, pointFaces, iter)
     {
       const labelList& pFaces = iter();
       if (pFaces.size() == 4)
       {
         // Collect and orient.
         faceList fourFaces(pFaces.size());
-        forAll(pFaces, pFaceI)
+        FOR_ALL(pFaces, pFaceI)
         {
           label faceI = pFaces[pFaceI];
           const face& f = mesh_.faces()[faceI];
@@ -1682,7 +1682,7 @@ mousse::hexRef8::hexRef8(const polyMesh& mesh, const bool readHistory)
   }
   if (history_.active() && history_.visibleCells().size() != mesh_.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::hexRef8(const polyMesh&)"
     )   << "History enabled but number of visible cells "
@@ -1698,7 +1698,7 @@ mousse::hexRef8::hexRef8(const polyMesh& mesh, const bool readHistory)
   || pointLevel_.size() != mesh_.nPoints()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::hexRef8(const polyMesh&)"
     )   << "Restarted from inconsistent cellLevel or pointLevel files."
@@ -1793,7 +1793,7 @@ mousse::hexRef8::hexRef8
 {
   if (history_.active() && history_.visibleCells().size() != mesh_.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::hexRef8(const polyMesh&, const labelList&"
       ", const labelList&, const refinementHistory&)"
@@ -1808,7 +1808,7 @@ mousse::hexRef8::hexRef8
   || pointLevel_.size() != mesh_.nPoints()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::hexRef8(const polyMesh&, const labelList&"
       ", const labelList&, const refinementHistory&)"
@@ -1905,7 +1905,7 @@ mousse::hexRef8::hexRef8
   || pointLevel_.size() != mesh_.nPoints()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::hexRef8(const polyMesh&, const labelList&"
       ", const labelList&)"
@@ -1937,7 +1937,7 @@ mousse::labelList mousse::hexRef8::consistentRefinement
   // maxSet = true  : select cells to refine
   // Go to straight boolList.
   PackedBoolList refineCell(mesh_.nCells());
-  forAll(cellsToRefine, i)
+  FOR_ALL(cellsToRefine, i)
   {
     refineCell.set(cellsToRefine[i]);
   }
@@ -1958,7 +1958,7 @@ mousse::labelList mousse::hexRef8::consistentRefinement
   }
   // Convert back to labelList.
   label nRefined = 0;
-  forAll(refineCell, cellI)
+  FOR_ALL(refineCell, cellI)
   {
     if (refineCell.get(cellI))
     {
@@ -1967,7 +1967,7 @@ mousse::labelList mousse::hexRef8::consistentRefinement
   }
   labelList newCellsToRefine(nRefined);
   nRefined = 0;
-  forAll(refineCell, cellI)
+  FOR_ALL(refineCell, cellI)
   {
     if (refineCell.get(cellI))
     {
@@ -1999,7 +1999,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
   const labelList& faceNeighbour = mesh_.faceNeighbour();
   if (maxFaceDiff <= 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::consistentSlowRefinement"
       "(const label, const labelList&, const labelList&"
@@ -2017,7 +2017,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
   List<refinementData> allCellInfo(mesh_.nCells());
   // Initial information about (distance to) cellLevel on all faces
   List<refinementData> allFaceInfo(mesh_.nFaces());
-  forAll(allCellInfo, cellI)
+  FOR_ALL(allCellInfo, cellI)
   {
     // maxFaceDiff since refinementData counts both
     // faces and cells.
@@ -2028,7 +2028,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
     );
   }
   // Cells to be refined will have cellLevel+1
-  forAll(cellsToRefine, i)
+  FOR_ALL(cellsToRefine, i)
   {
     label cellI = cellsToRefine[i];
     allCellInfo[cellI].count() = allCellInfo[cellI].refinementCount();
@@ -2042,13 +2042,13 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
   // Additional buffer layer thickness by changing initial count. Usually
   // this happens on boundary faces. Bit tricky. Use allFaceInfo to mark
   // off thus marked faces so they're skipped in the next loop.
-  forAll(facesToCheck, i)
+  FOR_ALL(facesToCheck, i)
   {
     label faceI = facesToCheck[i];
     if (allFaceInfo[faceI].valid(dummyTrackData))
     {
       // Can only occur if face has already gone through loop below.
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "hexRef8::consistentSlowRefinement"
         "(const label, const labelList&, const labelList&"
@@ -2107,7 +2107,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
   // Just seed with all faces inbetween different refinement levels for now
   // (alternatively only seed faces on cellsToRefine but that gives problems
   //  if no cells to refine)
-  forAll(faceNeighbour, faceI)
+  FOR_ALL(faceNeighbour, faceI)
   {
     // Check if face already handled in loop above
     if (!allFaceInfo[faceI].valid(dummyTrackData))
@@ -2203,11 +2203,11 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
     // Determine per point the max cell level. (done as count, not
     // as cell level purely for ease)
     labelList maxPointCount(mesh_.nPoints(), 0);
-    forAll(maxPointCount, pointI)
+    FOR_ALL(maxPointCount, pointI)
     {
       label& pLevel = maxPointCount[pointI];
       const labelList& pCells = mesh_.pointCells(pointI);
-      forAll(pCells, i)
+      FOR_ALL(pCells, i)
       {
         pLevel = max(pLevel, allCellInfo[pCells[i]].count());
       }
@@ -2224,13 +2224,13 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
     // (usually on boundary faces)
     // Per face the new refinement data
     Map<refinementData> changedFacesInfo(pointsToCheck.size());
-    forAll(pointsToCheck, i)
+    FOR_ALL(pointsToCheck, i)
     {
       label pointI = pointsToCheck[i];
       // Loop over all cells using the point and check whether their
       // refinement level is much less than the maximum.
       const labelList& pCells = mesh_.pointCells(pointI);
-      forAll(pCells, pCellI)
+      FOR_ALL(pCells, pCellI)
       {
         label cellI = pCells[pCellI];
         refinementData& cellInfo = allCellInfo[cellI];
@@ -2247,7 +2247,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
           cellInfo.count() = cellInfo.refinementCount();
           // Insert faces of cell as seed faces.
           const cell& cFaces = mesh_.cells()[cellI];
-          forAll(cFaces, cFaceI)
+          FOR_ALL(cFaces, cFaceI)
           {
             label faceI = cFaces[cFaceI];
             refinementData faceData;
@@ -2277,7 +2277,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
     // Transfer into seedFaces, seedFacesInfo
     seedFaces.setCapacity(changedFacesInfo.size());
     seedFacesInfo.setCapacity(changedFacesInfo.size());
-    forAllConstIter(Map<refinementData>, changedFacesInfo, iter)
+    FOR_ALL_CONST_ITER(Map<refinementData>, changedFacesInfo, iter)
     {
       seedFaces.append(iter.key());
       seedFacesInfo.append(iter());
@@ -2299,7 +2299,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
       {
         dumpCell(own);
         dumpCell(nei);
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "hexRef8::consistentSlowRefinement"
           "(const label, const labelList&, const labelList&"
@@ -2324,7 +2324,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
     labelList neiLevel(mesh_.nFaces()-mesh_.nInternalFaces());
     labelList neiCount(mesh_.nFaces()-mesh_.nInternalFaces());
     labelList neiRefCount(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(neiLevel, i)
+    FOR_ALL(neiLevel, i)
     {
       label own = mesh_.faceOwner()[i+mesh_.nInternalFaces()];
       neiLevel[i] = cellLevel_[own];
@@ -2336,7 +2336,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
     syncTools::swapBoundaryFaceList(mesh_, neiCount);
     syncTools::swapBoundaryFaceList(mesh_, neiRefCount);
     // Now we have neighbour value see which cells need refinement
-    forAll(neiLevel, i)
+    FOR_ALL(neiLevel, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       label own = mesh_.faceOwner()[faceI];
@@ -2350,7 +2350,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
       {
         dumpCell(own);
         label patchI = mesh_.boundaryMesh().whichPatch(faceI);
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "hexRef8::consistentSlowRefinement"
           "(const label, const labelList&, const labelList&"
@@ -2379,7 +2379,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
   }
   // Convert back to labelList of cells to refine.
   label nRefined = 0;
-  forAll(allCellInfo, cellI)
+  FOR_ALL(allCellInfo, cellI)
   {
     if (allCellInfo[cellI].isRefined())
     {
@@ -2389,7 +2389,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement
   // Updated list of cells to refine
   labelList newCellsToRefine(nRefined);
   nRefined = 0;
-  forAll(allCellInfo, cellI)
+  FOR_ALL(allCellInfo, cellI)
   {
     if (allCellInfo[cellI].isRefined())
     {
@@ -2415,7 +2415,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   const labelList& faceNeighbour = mesh_.faceNeighbour();
   if (maxFaceDiff <= 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::consistentSlowRefinement2"
       "(const label, const labelList&, const labelList&)"
@@ -2434,7 +2434,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   // Dummy additional info for FaceCellWave
   int dummyTrackData = 0;
   // Mark cells with wanted refinement level
-  forAll(cellsToRefine, i)
+  FOR_ALL(cellsToRefine, i)
   {
     label cellI = cellsToRefine[i];
     allCellInfo[cellI] = refinementDistanceData
@@ -2445,7 +2445,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
     );
   }
   // Mark all others with existing refinement level
-  forAll(allCellInfo, cellI)
+  FOR_ALL(allCellInfo, cellI)
   {
     if (!allCellInfo[cellI].valid(dummyTrackData))
     {
@@ -2462,13 +2462,13 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   // refinementLevel data on seed faces
   DynamicList<refinementDistanceData> seedFacesInfo(mesh_.nFaces()/100);
   const pointField& cc = mesh_.cellCentres();
-  forAll(facesToCheck, i)
+  FOR_ALL(facesToCheck, i)
   {
     label faceI = facesToCheck[i];
     if (allFaceInfo[faceI].valid(dummyTrackData))
     {
       // Can only occur if face has already gone through loop below.
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "hexRef8::consistentSlowRefinement2"
         "(const label, const labelList&, const labelList&)"
@@ -2566,7 +2566,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   // Create some initial seeds to start walking from. This is only if there
   // are no facesToCheck.
   // Just seed with all faces inbetween different refinement levels for now
-  forAll(faceNeighbour, faceI)
+  FOR_ALL(faceNeighbour, faceI)
   {
     // Check if face already handled in loop above
     if (!allFaceInfo[faceI].valid(dummyTrackData))
@@ -2647,7 +2647,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   //        dimensionedScalar("zero", dimless, 0)
   //    );
   //
-  //    forAll(wantedLevel, cellI)
+  //    FOR_ALL(wantedLevel, cellI)
   //    {
   //        wantedLevel[cellI] = allCellInfo[cellI].wantedLevel(cc[cellI]);
   //    }
@@ -2660,7 +2660,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   // 1. Force original refinement cells to be picked up by setting the
   // originLevel of input cells to be a very large level (but within range
   // of 1<< shift inside refinementDistanceData::wantedLevel)
-  forAll(cellsToRefine, i)
+  FOR_ALL(cellsToRefine, i)
   {
     label cellI = cellsToRefine[i];
     allCellInfo[cellI].originLevel() = sizeof(label)*8-2;
@@ -2670,7 +2670,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   // 2. Extend to 2:1. For non-cube cells the scalar distance does not work
   // so make sure it at least provides 2:1.
   PackedBoolList refineCell(mesh_.nCells());
-  forAll(allCellInfo, cellI)
+  FOR_ALL(allCellInfo, cellI)
   {
     label wanted = allCellInfo[cellI].wantedLevel(cc[cellI]);
     if (wanted > cellLevel_[cellI]+1)
@@ -2696,7 +2696,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   }
   // 3. Convert back to labelList.
   label nRefined = 0;
-  forAll(refineCell, cellI)
+  FOR_ALL(refineCell, cellI)
   {
 //        if (refineCell.get(cellI))
     if (refineCell[cellI])
@@ -2706,7 +2706,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
   }
   labelList newCellsToRefine(nRefined);
   nRefined = 0;
-  forAll(refineCell, cellI)
+  FOR_ALL(refineCell, cellI)
   {
 //        if (refineCell.get(cellI))
     if (refineCell[cellI])
@@ -2736,7 +2736,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
     }
     // Extend to 2:1
     PackedBoolList refineCell(mesh_.nCells());
-    forAll(newCellsToRefine, i)
+    FOR_ALL(newCellsToRefine, i)
     {
       refineCell.set(newCellsToRefine[i]);
     }
@@ -2747,7 +2747,7 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
       (
         mesh_, "cellsToRefineOut2", newCellsToRefine.size()
       );
-      forAll(refineCell, cellI)
+      FOR_ALL(refineCell, cellI)
       {
         if (refineCell.get(cellI))
         {
@@ -2761,12 +2761,12 @@ mousse::labelList mousse::hexRef8::consistentSlowRefinement2
     }
     if (nChanged > 0)
     {
-      forAll(refineCell, cellI)
+      FOR_ALL(refineCell, cellI)
       {
         if (refineCell.get(cellI) && !savedRefineCell.get(cellI))
         {
           dumpCell(cellI);
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "hexRef8::consistentSlowRefinement2"
             "(const label, const labelList&, const labelList&)"
@@ -2802,12 +2802,12 @@ mousse::labelListList mousse::hexRef8::setRefinement
   savedCellLevel_.clear();
   // New point/cell level. Copy of pointLevel for existing points.
   DynamicList<label> newCellLevel(cellLevel_.size());
-  forAll(cellLevel_, cellI)
+  FOR_ALL(cellLevel_, cellI)
   {
     newCellLevel.append(cellLevel_[cellI]);
   }
   DynamicList<label> newPointLevel(pointLevel_.size());
-  forAll(pointLevel_, pointI)
+  FOR_ALL(pointLevel_, pointI)
   {
     newPointLevel.append(pointLevel_[pointI]);
   }
@@ -2821,7 +2821,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   // -1 : not refined
   // >=0: label of mid point.
   labelList cellMidPoint(mesh_.nCells(), -1);
-  forAll(cellLabels, i)
+  FOR_ALL(cellLabels, i)
   {
     label cellI = cellLabels[i];
     label anchorPointI = mesh_.faces()[mesh_.cells()[cellI][0]][0];
@@ -2840,7 +2840,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   if (debug)
   {
     cellSet splitCells(mesh_, "splitCells", cellLabels.size());
-    forAll(cellMidPoint, cellI)
+    FOR_ALL(cellMidPoint, cellI)
     {
       if (cellMidPoint[cellI] >= 0)
       {
@@ -2866,12 +2866,12 @@ mousse::labelListList mousse::hexRef8::setRefinement
   // >=0 : label of introduced mid point
   labelList edgeMidPoint(mesh_.nEdges(), -1);
   // Note: Loop over cells to be refined or edges?
-  forAll(cellMidPoint, cellI)
+  FOR_ALL(cellMidPoint, cellI)
   {
     if (cellMidPoint[cellI] >= 0)
     {
       const labelList& cEdges = mesh_.cellEdges(cellI);
-      forAll(cEdges, i)
+      FOR_ALL(cEdges, i)
       {
         label edgeI = cEdges[i];
         const edge& e = mesh_.edges()[edgeI];
@@ -2902,7 +2902,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
     // This needs doing for if people do not write binary and we slowly
     // get differences.
     pointField edgeMids(mesh_.nEdges(), point(-GREAT, -GREAT, -GREAT));
-    forAll(edgeMidPoint, edgeI)
+    FOR_ALL(edgeMidPoint, edgeI)
     {
       if (edgeMidPoint[edgeI] >= 0)
       {
@@ -2918,7 +2918,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
       point(-GREAT, -GREAT, -GREAT)
     );
     // Phase 2: introduce points at the synced locations.
-    forAll(edgeMidPoint, edgeI)
+    FOR_ALL(edgeMidPoint, edgeI)
     {
       if (edgeMidPoint[edgeI] >= 0)
       {
@@ -2948,7 +2948,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   if (debug)
   {
     OFstream str(mesh_.time().path()/"edgeMidPoint.obj");
-    forAll(edgeMidPoint, edgeI)
+    FOR_ALL(edgeMidPoint, edgeI)
     {
       if (edgeMidPoint[edgeI] >= 0)
       {
@@ -3008,7 +3008,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   //  refinining and subsetting)
   {
     labelList newNeiLevel(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(newNeiLevel, i)
+    FOR_ALL(newNeiLevel, i)
     {
       label own = mesh_.faceOwner()[i+mesh_.nInternalFaces()];
       label ownLevel = cellLevel_[own];
@@ -3018,7 +3018,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
     // Swap.
     syncTools::swapBoundaryFaceList(mesh_, newNeiLevel);
     // So now we have information on the neighbour.
-    forAll(newNeiLevel, i)
+    FOR_ALL(newNeiLevel, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       if (faceAnchorLevel[faceI] >= 0)
@@ -3054,7 +3054,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
       mesh_.nFaces()-mesh_.nInternalFaces(),
       point(-GREAT, -GREAT, -GREAT)
     );
-    forAll(bFaceMids, i)
+    FOR_ALL(bFaceMids, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       if (faceMidPoint[faceI] >= 0)
@@ -3068,7 +3068,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
       bFaceMids,
       maxEqOp<vector>()
     );
-    forAll(faceMidPoint, faceI)
+    FOR_ALL(faceMidPoint, faceI)
     {
       if (faceMidPoint[faceI] >= 0)
       {
@@ -3098,7 +3098,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   if (debug)
   {
     faceSet splitFaces(mesh_, "splitFaces", cellLabels.size());
-    forAll(faceMidPoint, faceI)
+    FOR_ALL(faceMidPoint, faceI)
     {
       if (faceMidPoint[faceI] >= 0)
       {
@@ -3130,17 +3130,17 @@ mousse::labelListList mousse::hexRef8::setRefinement
   labelListList cellAnchorPoints(mesh_.nCells());
   {
     labelList nAnchorPoints(mesh_.nCells(), 0);
-    forAll(cellMidPoint, cellI)
+    FOR_ALL(cellMidPoint, cellI)
     {
       if (cellMidPoint[cellI] >= 0)
       {
         cellAnchorPoints[cellI].setSize(8);
       }
     }
-    forAll(pointLevel_, pointI)
+    FOR_ALL(pointLevel_, pointI)
     {
       const labelList& pCells = mesh_.pointCells(pointI);
-      forAll(pCells, pCellI)
+      FOR_ALL(pCells, pCellI)
       {
         label cellI = pCells[pCellI];
         if
@@ -3152,7 +3152,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
           if (nAnchorPoints[cellI] == 8)
           {
             dumpCell(cellI);
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "hexRef8::setRefinement(const labelList&"
               ", polyTopoChange&)"
@@ -3167,7 +3167,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
         }
       }
     }
-    forAll(cellMidPoint, cellI)
+    FOR_ALL(cellMidPoint, cellI)
     {
       if (cellMidPoint[cellI] >= 0)
       {
@@ -3175,7 +3175,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
         {
           dumpCell(cellI);
           const labelList& cPoints = mesh_.cellPoints(cellI);
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "hexRef8::setRefinement(const labelList&"
             ", polyTopoChange&)"
@@ -3201,7 +3201,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   }
   // Per cell the 7 added cells (+ original cell)
   labelListList cellAddedCells(mesh_.nCells());
-  forAll(cellAnchorPoints, cellI)
+  FOR_ALL(cellAnchorPoints, cellI)
   {
     const labelList& cAnchors = cellAnchorPoints[cellI];
     if (cAnchors.size() == 8)
@@ -3244,30 +3244,30 @@ mousse::labelListList mousse::hexRef8::setRefinement
   // Get all affected faces.
   PackedBoolList affectedFace(mesh_.nFaces());
   {
-    forAll(cellMidPoint, cellI)
+    FOR_ALL(cellMidPoint, cellI)
     {
       if (cellMidPoint[cellI] >= 0)
       {
         const cell& cFaces = mesh_.cells()[cellI];
-        forAll(cFaces, i)
+        FOR_ALL(cFaces, i)
         {
           affectedFace.set(cFaces[i]);
         }
       }
     }
-    forAll(faceMidPoint, faceI)
+    FOR_ALL(faceMidPoint, faceI)
     {
       if (faceMidPoint[faceI] >= 0)
       {
         affectedFace.set(faceI);
       }
     }
-    forAll(edgeMidPoint, edgeI)
+    FOR_ALL(edgeMidPoint, edgeI)
     {
       if (edgeMidPoint[edgeI] >= 0)
       {
         const labelList& eFaces = mesh_.edgeFaces(edgeI);
-        forAll(eFaces, i)
+        FOR_ALL(eFaces, i)
         {
           affectedFace.set(eFaces[i]);
         }
@@ -3280,7 +3280,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   {
     Pout<< "hexRef8::setRefinement : Splitting faces" << endl;
   }
-  forAll(faceMidPoint, faceI)
+  FOR_ALL(faceMidPoint, faceI)
   {
     if (faceMidPoint[faceI] >= 0 && affectedFace.get(faceI))
     {
@@ -3293,7 +3293,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
       bool modifiedFace = false;
       label anchorLevel = faceAnchorLevel[faceI];
       face newFace(4);
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label pointI = f[fp];
         if (pointLevel_[pointI] <= anchorLevel)
@@ -3392,13 +3392,13 @@ mousse::labelListList mousse::hexRef8::setRefinement
   }
   DynamicList<label> eFacesStorage;
   DynamicList<label> fEdgesStorage;
-  forAll(edgeMidPoint, edgeI)
+  FOR_ALL(edgeMidPoint, edgeI)
   {
     if (edgeMidPoint[edgeI] >= 0)
     {
       // Split edge. Check that face not already handled above.
       const labelList& eFaces = mesh_.edgeFaces(edgeI, eFacesStorage);
-      forAll(eFaces, i)
+      FOR_ALL(eFaces, i)
       {
         label faceI = eFaces[i];
         if (faceMidPoint[faceI] < 0 && affectedFace.get(faceI))
@@ -3411,7 +3411,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
             fEdgesStorage
           );
           DynamicList<label> newFaceVerts(f.size());
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             newFaceVerts.append(f[fp]);
             label edgeI = fEdges[fp];
@@ -3480,7 +3480,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
       << " Changing owner/neighbour for otherwise unaffected faces"
       << endl;
   }
-  forAll(affectedFace, faceI)
+  FOR_ALL(affectedFace, faceI)
   {
     if (affectedFace.get(faceI))
     {
@@ -3514,7 +3514,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
       << " Create new internal faces for split cells"
       << endl;
   }
-  forAll(cellMidPoint, cellI)
+  FOR_ALL(cellMidPoint, cellI)
   {
     if (cellMidPoint[cellI] >= 0)
     {
@@ -3538,7 +3538,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   {
     label minPointI = labelMax;
     label maxPointI = labelMin;
-    forAll(cellMidPoint, cellI)
+    FOR_ALL(cellMidPoint, cellI)
     {
       if (cellMidPoint[cellI] >= 0)
       {
@@ -3546,7 +3546,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
         maxPointI = max(maxPointI, cellMidPoint[cellI]);
       }
     }
-    forAll(faceMidPoint, faceI)
+    FOR_ALL(faceMidPoint, faceI)
     {
       if (faceMidPoint[faceI] >= 0)
       {
@@ -3554,7 +3554,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
         maxPointI = max(maxPointI, faceMidPoint[faceI]);
       }
     }
-    forAll(edgeMidPoint, edgeI)
+    FOR_ALL(edgeMidPoint, edgeI)
     {
       if (edgeMidPoint[edgeI] >= 0)
       {
@@ -3564,7 +3564,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
     }
     if (minPointI != labelMax && minPointI != mesh_.nPoints())
     {
-      FatalErrorIn("hexRef8::setRefinement(..)")
+      FATAL_ERROR_IN("hexRef8::setRefinement(..)")
         << "Added point labels not consecutive to existing mesh points."
         << nl
         << "mesh_.nPoints():" << mesh_.nPoints()
@@ -3590,7 +3590,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
     }
     // Extend refinement history for new cells
     history_.resize(cellLevel_.size());
-    forAll(cellAddedCells, cellI)
+    FOR_ALL(cellAddedCells, cellI)
     {
       const labelList& addedCells = cellAddedCells[cellI];
       if (addedCells.size())
@@ -3602,7 +3602,7 @@ mousse::labelListList mousse::hexRef8::setRefinement
   }
   // Compact cellAddedCells.
   labelListList refinedCells(cellLabels.size());
-  forAll(cellLabels, i)
+  FOR_ALL(cellLabels, i)
   {
     label cellI = cellLabels[i];
     refinedCells[i].transfer(cellAddedCells[cellI]);
@@ -3612,18 +3612,18 @@ mousse::labelListList mousse::hexRef8::setRefinement
 void mousse::hexRef8::storeData
 (
   const labelList& pointsToStore,
-  const labelList& facesToStore,
+  const labelList& /*facesToStore*/,
   const labelList& cellsToStore
 )
 {
   savedPointLevel_.resize(2*pointsToStore.size());
-  forAll(pointsToStore, i)
+  FOR_ALL(pointsToStore, i)
   {
     label pointI = pointsToStore[i];
     savedPointLevel_.insert(pointI, pointLevel_[pointI]);
   }
   savedCellLevel_.resize(2*cellsToStore.size());
-  forAll(cellsToStore, i)
+  FOR_ALL(cellsToStore, i)
   {
     label cellI = cellsToStore[i];
     savedCellLevel_.insert(cellI, cellLevel_[cellI]);
@@ -3644,7 +3644,7 @@ void mousse::hexRef8::updateMesh
 (
   const mapPolyMesh& map,
   const Map<label>& pointsToRestore,
-  const Map<label>& facesToRestore,
+  const Map<label>& /*facesToRestore*/,
   const Map<label>& cellsToRestore
 )
 {
@@ -3685,7 +3685,7 @@ void mousse::hexRef8::updateMesh
       // Map data
       const labelList& cellMap = map.cellMap();
       labelList newCellLevel(cellMap.size());
-      forAll(cellMap, newCellI)
+      FOR_ALL(cellMap, newCellI)
       {
         label oldCellI = cellMap[newCellI];
         if (oldCellI == -1)
@@ -3701,14 +3701,14 @@ void mousse::hexRef8::updateMesh
     }
     // See if any cells to restore. This will be for some new cells
     // the corresponding old cell.
-    forAllConstIter(Map<label>, cellsToRestore, iter)
+    FOR_ALL_CONST_ITER(Map<label>, cellsToRestore, iter)
     {
       label newCellI = iter.key();
       label storedCellI = iter();
       Map<label>::iterator fnd = savedCellLevel_.find(storedCellI);
       if (fnd == savedCellLevel_.end())
       {
-        FatalErrorIn("hexRef8::updateMesh(const mapPolyMesh&)")
+        FATAL_ERROR_IN("hexRef8::updateMesh(const mapPolyMesh&)")
           << "Problem : trying to restore old value for new cell "
           << newCellI << " but cannot find old cell " << storedCellI
           << " in map of stored values " << savedCellLevel_
@@ -3718,7 +3718,7 @@ void mousse::hexRef8::updateMesh
     }
     //if (findIndex(cellLevel_, -1) != -1)
     //{
-    //    WarningIn("hexRef8::updateMesh(const mapPolyMesh&)")
+    //    WARNING_IN("hexRef8::updateMesh(const mapPolyMesh&)")
     //        << "Problem : "
     //        << "cellLevel_ contains illegal value -1 after mapping
     //        << " at cell " << findIndex(cellLevel_, -1) << endl
@@ -3741,12 +3741,12 @@ void mousse::hexRef8::updateMesh
       // Map data
       const labelList& pointMap = map.pointMap();
       labelList newPointLevel(pointMap.size());
-      forAll(pointMap, newPointI)
+      FOR_ALL(pointMap, newPointI)
       {
         label oldPointI = pointMap[newPointI];
         if (oldPointI == -1)
         {
-          //FatalErrorIn("hexRef8::updateMesh(const mapPolyMesh&)")
+          //FATAL_ERROR_IN("hexRef8::updateMesh(const mapPolyMesh&)")
           //    << "Problem : point " << newPointI
           //    << " at " << mesh_.points()[newPointI]
           //    << " does not originate from another point"
@@ -3764,14 +3764,14 @@ void mousse::hexRef8::updateMesh
     }
     // See if any points to restore. This will be for some new points
     // the corresponding old point (the one from the call to storeData)
-    forAllConstIter(Map<label>, pointsToRestore, iter)
+    FOR_ALL_CONST_ITER(Map<label>, pointsToRestore, iter)
     {
       label newPointI = iter.key();
       label storedPointI = iter();
       Map<label>::iterator fnd = savedPointLevel_.find(storedPointI);
       if (fnd == savedPointLevel_.end())
       {
-        FatalErrorIn("hexRef8::updateMesh(const mapPolyMesh&)")
+        FATAL_ERROR_IN("hexRef8::updateMesh(const mapPolyMesh&)")
           << "Problem : trying to restore old value for new point "
           << newPointI << " but cannot find old point "
           << storedPointI
@@ -3782,7 +3782,7 @@ void mousse::hexRef8::updateMesh
     }
     //if (findIndex(pointLevel_, -1) != -1)
     //{
-    //    WarningIn("hexRef8::updateMesh(const mapPolyMesh&)")
+    //    WARNING_IN("hexRef8::updateMesh(const mapPolyMesh&)")
     //        << "Problem : "
     //        << "pointLevel_ contains illegal value -1 after mapping"
     //        << " at point" << findIndex(pointLevel_, -1) << endl
@@ -3821,7 +3821,7 @@ void mousse::hexRef8::subset
   }
   if (history_.active())
   {
-    WarningIn
+    WARNING_IN
     (
       "hexRef8::subset(const labelList&, const labelList&"
       ", const labelList&)"
@@ -3832,14 +3832,14 @@ void mousse::hexRef8::subset
   // Update celllevel
   {
     labelList newCellLevel(cellMap.size());
-    forAll(cellMap, newCellI)
+    FOR_ALL(cellMap, newCellI)
     {
       newCellLevel[newCellI] = cellLevel_[cellMap[newCellI]];
     }
     cellLevel_.transfer(newCellLevel);
     if (findIndex(cellLevel_, -1) != -1)
     {
-      FatalErrorIn("hexRef8::subset(..)")
+      FATAL_ERROR_IN("hexRef8::subset(..)")
         << "Problem : "
         << "cellLevel_ contains illegal value -1 after mapping:"
         << cellLevel_
@@ -3849,14 +3849,14 @@ void mousse::hexRef8::subset
   // Update pointlevel
   {
     labelList newPointLevel(pointMap.size());
-    forAll(pointMap, newPointI)
+    FOR_ALL(pointMap, newPointI)
     {
       newPointLevel[newPointI] = pointLevel_[pointMap[newPointI]];
     }
     pointLevel_.transfer(newPointLevel);
     if (findIndex(pointLevel_, -1) != -1)
     {
-      FatalErrorIn("hexRef8::subset(..)")
+      FATAL_ERROR_IN("hexRef8::subset(..)")
         << "Problem : "
         << "pointLevel_ contains illegal value -1 after mapping:"
         << pointLevel_
@@ -3913,14 +3913,14 @@ void mousse::hexRef8::checkMesh() const
   // cells
   {
     labelList nei(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(nei, i)
+    FOR_ALL(nei, i)
     {
       nei[i] = mesh_.faceOwner()[i+mesh_.nInternalFaces()];
     }
     // Replace data on coupled patches with their neighbour ones.
     syncTools::swapBoundaryFaceList(mesh_, nei);
     const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (pp.coupled())
@@ -3930,14 +3930,14 @@ void mousse::hexRef8::checkMesh() const
         HashTable<label, labelPair, labelPair::Hash<> >
           cellToFace(2*pp.size());
         label faceI = pp.start();
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label own = mesh_.faceOwner()[faceI];
           label bFaceI = faceI-mesh_.nInternalFaces();
           if (!cellToFace.insert(labelPair(own, nei[bFaceI]), faceI))
           {
             dumpCell(own);
-            FatalErrorIn("hexRef8::checkMesh()")
+            FATAL_ERROR_IN("hexRef8::checkMesh()")
               << "Faces do not seem to be correct across coupled"
               << " boundaries" << endl
               << "Coupled face " << faceI
@@ -3958,13 +3958,13 @@ void mousse::hexRef8::checkMesh() const
   // ~~~~~~~~~~~~~~~~~
   {
     scalarField neiFaceAreas(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(neiFaceAreas, i)
+    FOR_ALL(neiFaceAreas, i)
     {
       neiFaceAreas[i] = mag(mesh_.faceAreas()[i+mesh_.nInternalFaces()]);
     }
     // Replace data on coupled patches with their neighbour ones.
     syncTools::swapBoundaryFaceList(mesh_, neiFaceAreas);
-    forAll(neiFaceAreas, i)
+    FOR_ALL(neiFaceAreas, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       const scalar magArea = mag(mesh_.faceAreas()[faceI]);
@@ -3973,7 +3973,7 @@ void mousse::hexRef8::checkMesh() const
         const face& f = mesh_.faces()[faceI];
         label patchI = mesh_.boundaryMesh().whichPatch(faceI);
         dumpCell(mesh_.faceOwner()[faceI]);
-        FatalErrorIn("hexRef8::checkMesh()")
+        FATAL_ERROR_IN("hexRef8::checkMesh()")
           << "Faces do not seem to be correct across coupled"
           << " boundaries" << endl
           << "Coupled face " << faceI
@@ -3992,13 +3992,13 @@ void mousse::hexRef8::checkMesh() const
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   {
     labelList nVerts(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(nVerts, i)
+    FOR_ALL(nVerts, i)
     {
       nVerts[i] = mesh_.faces()[i+mesh_.nInternalFaces()].size();
     }
     // Replace data on coupled patches with their neighbour ones.
     syncTools::swapBoundaryFaceList(mesh_, nVerts);
-    forAll(nVerts, i)
+    FOR_ALL(nVerts, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       const face& f = mesh_.faces()[faceI];
@@ -4006,7 +4006,7 @@ void mousse::hexRef8::checkMesh() const
       {
         dumpCell(mesh_.faceOwner()[faceI]);
         label patchI = mesh_.boundaryMesh().whichPatch(faceI);
-        FatalErrorIn("hexRef8::checkMesh()")
+        FATAL_ERROR_IN("hexRef8::checkMesh()")
           << "Faces do not seem to be correct across coupled"
           << " boundaries" << endl
           << "Coupled face " << faceI
@@ -4025,7 +4025,7 @@ void mousse::hexRef8::checkMesh() const
   {
     // Anchor points.
     pointField anchorPoints(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(anchorPoints, i)
+    FOR_ALL(anchorPoints, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       const point& fc = mesh_.faceCentres()[faceI];
@@ -4037,7 +4037,7 @@ void mousse::hexRef8::checkMesh() const
     // rotation transformation (but not separation since is relative vector
     // to point on same face.
     syncTools::swapBoundaryFaceList(mesh_, anchorPoints);
-    forAll(anchorPoints, i)
+    FOR_ALL(anchorPoints, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       const point& fc = mesh_.faceCentres()[faceI];
@@ -4047,7 +4047,7 @@ void mousse::hexRef8::checkMesh() const
       {
         dumpCell(mesh_.faceOwner()[faceI]);
         label patchI = mesh_.boundaryMesh().whichPatch(faceI);
-        FatalErrorIn("hexRef8::checkMesh()")
+        FATAL_ERROR_IN("hexRef8::checkMesh()")
           << "Faces do not seem to be correct across coupled"
           << " boundaries" << endl
           << "Coupled face " << faceI
@@ -4084,7 +4084,7 @@ void mousse::hexRef8::checkRefinementLevels
   || pointLevel_.size() != mesh_.nPoints()
   )
   {
-    FatalErrorIn("hexRef8::checkRefinementLevels(const label)")
+    FATAL_ERROR_IN("hexRef8::checkRefinementLevels(const label)")
       << "cellLevel size should be number of cells"
       << " and pointLevel size should be number of points."<< nl
       << "cellLevel:" << cellLevel_.size()
@@ -4105,7 +4105,7 @@ void mousse::hexRef8::checkRefinementLevels
       {
         dumpCell(own);
         dumpCell(nei);
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "hexRef8::checkRefinementLevels(const label)"
         )   << "Celllevel does not satisfy 2:1 constraint." << nl
@@ -4118,14 +4118,14 @@ void mousse::hexRef8::checkRefinementLevels
     }
     // Coupled faces. Get neighbouring value
     labelList neiLevel(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(neiLevel, i)
+    FOR_ALL(neiLevel, i)
     {
       label own = mesh_.faceOwner()[i+mesh_.nInternalFaces()];
       neiLevel[i] = cellLevel_[own];
     }
     // No separation
     syncTools::swapBoundaryFaceList(mesh_, neiLevel);
-    forAll(neiLevel, i)
+    FOR_ALL(neiLevel, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       label own = mesh_.faceOwner()[faceI];
@@ -4133,7 +4133,7 @@ void mousse::hexRef8::checkRefinementLevels
       {
         dumpCell(own);
         label patchI = mesh_.boundaryMesh().whichPatch(faceI);
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "hexRef8::checkRefinementLevels(const label)"
         )   << "Celllevel does not satisfy 2:1 constraint."
@@ -4160,11 +4160,11 @@ void mousse::hexRef8::checkRefinementLevels
       minEqOp<label>(),
       labelMax
     );
-    forAll(syncPointLevel, pointI)
+    FOR_ALL(syncPointLevel, pointI)
     {
       if (pointLevel_[pointI] != syncPointLevel[pointI])
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "hexRef8::checkRefinementLevels(const label)"
         )   << "PointLevel is not consistent across coupled patches."
@@ -4182,11 +4182,11 @@ void mousse::hexRef8::checkRefinementLevels
   {
     // Determine per point the max cell level.
     labelList maxPointLevel(mesh_.nPoints(), 0);
-    forAll(maxPointLevel, pointI)
+    FOR_ALL(maxPointLevel, pointI)
     {
       const labelList& pCells = mesh_.pointCells(pointI);
       label& pLevel = maxPointLevel[pointI];
-      forAll(pCells, i)
+      FOR_ALL(pCells, i)
       {
         pLevel = max(pLevel, cellLevel_[pCells[i]]);
       }
@@ -4200,11 +4200,11 @@ void mousse::hexRef8::checkRefinementLevels
       labelMin            // null value
     );
     // Check 2:1 across boundary points
-    forAll(pointsToCheck, i)
+    FOR_ALL(pointsToCheck, i)
     {
       label pointI = pointsToCheck[i];
       const labelList& pCells = mesh_.pointCells(pointI);
-      forAll(pCells, i)
+      FOR_ALL(pCells, i)
       {
         label cellI = pCells[i];
         if
@@ -4214,7 +4214,7 @@ void mousse::hexRef8::checkRefinementLevels
         )
         {
           dumpCell(cellI);
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "hexRef8::checkRefinementLevels(const label)"
           )   << "Too big a difference between"
@@ -4239,13 +4239,13 @@ void mousse::hexRef8::checkRefinementLevels
   //
   //    const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   //
-  //    forAll(patches, patchI)
+  //    FOR_ALL(patches, patchI)
   //    {
   //        const polyPatch& pp = patches[patchI];
   //
   //        const labelList& meshPoints = pp.meshPoints();
   //
-  //        forAll(meshPoints, i)
+  //        FOR_ALL(meshPoints, i)
   //        {
   //            label pointI = meshPoints[i];
   //
@@ -4271,7 +4271,7 @@ void mousse::hexRef8::checkRefinementLevels
   //
   //    label nHanging = 0;
   //
-  //    forAll(isHangingPoint, pointI)
+  //    FOR_ALL(isHangingPoint, pointI)
   //    {
   //        if (isHangingPoint[pointI])
   //        {
@@ -4286,7 +4286,7 @@ void mousse::hexRef8::checkRefinementLevels
   //
   //    if (returnReduce(nHanging, sumOp<label>()) > 0)
   //    {
-  //        FatalErrorIn
+  //        FATAL_ERROR_IN
   //        (
   //            "hexRef8::checkRefinementLevels(const label)"
   //        )   << "Detected a point used by two edges only (hanging point)"
@@ -4310,7 +4310,7 @@ const mousse::cellShapeList& mousse::hexRef8::cellShapes() const
     cellShapesPtr_.reset(new cellShapeList(meshShapes));
     label nSplitHex = 0;
     label nUnrecognised = 0;
-    forAll(cellLevel_, cellI)
+    FOR_ALL(cellLevel_, cellI)
     {
       if (meshShapes[cellI].model().index() == 0)
       {
@@ -4365,7 +4365,7 @@ mousse::labelList mousse::hexRef8::getSplitPoints() const
   }
   if (!history_.active())
   {
-    FatalErrorIn("hexRef8::getSplitPoints()")
+    FATAL_ERROR_IN("hexRef8::getSplitPoints()")
       << "Only call if constructed with history capability"
       << abort(FatalError);
   }
@@ -4387,14 +4387,14 @@ mousse::labelList mousse::hexRef8::getSplitPoints() const
   }
   // Unmark all with different master cells
   const labelList& visibleCells = history_.visibleCells();
-  forAll(visibleCells, cellI)
+  FOR_ALL(visibleCells, cellI)
   {
     const labelList& cPoints = mesh_.cellPoints(cellI);
     if (visibleCells[cellI] != -1 && history_.parentIndex(cellI) >= 0)
     {
       label parentIndex = history_.parentIndex(cellI);
       // Check same master.
-      forAll(cPoints, i)
+      FOR_ALL(cPoints, i)
       {
         label pointI = cPoints[i];
         label masterCellI = splitMaster[pointI];
@@ -4426,7 +4426,7 @@ mousse::labelList mousse::hexRef8::getSplitPoints() const
     else
     {
       // Either not visible or is unrefined cell
-      forAll(cPoints, i)
+      FOR_ALL(cPoints, i)
       {
         label pointI = cPoints[i];
         splitMaster[pointI] = -2;
@@ -4442,14 +4442,14 @@ mousse::labelList mousse::hexRef8::getSplitPoints() const
   )
   {
     const face& f = mesh_.faces()[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       splitMaster[f[fp]] = -2;
     }
   }
   // Collect into labelList
   label nSplitPoints = 0;
-  forAll(splitMaster, pointI)
+  FOR_ALL(splitMaster, pointI)
   {
     if (splitMaster[pointI] >= 0)
     {
@@ -4458,7 +4458,7 @@ mousse::labelList mousse::hexRef8::getSplitPoints() const
   }
   labelList splitPoints(nSplitPoints);
   nSplitPoints = 0;
-  forAll(splitMaster, pointI)
+  FOR_ALL(splitMaster, pointI)
   {
     if (splitMaster[pointI] >= 0)
     {
@@ -4515,7 +4515,7 @@ mousse::labelList mousse::hexRef8::getSplitPoints() const
 //
 //    labelList indexLevel(splitCells.size(), -1);
 //
-//    forAll(visibleCells, cellI)
+//    FOR_ALL(visibleCells, cellI)
 //    {
 //        label index = visibleCells[cellI];
 //
@@ -4540,7 +4540,7 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
   }
   if (maxSet)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::consistentUnrefinement(const labelList&, const bool"
     )   << "maxSet not implemented yet."
@@ -4552,7 +4552,7 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
   // maxSet = true: select points to refine
   // Maintain boolList for pointsToUnrefine and cellsToUnrefine
   PackedBoolList unrefinePoint(mesh_.nPoints());
-  forAll(pointsToUnrefine, i)
+  FOR_ALL(pointsToUnrefine, i)
   {
     label pointI = pointsToUnrefine[i];
     unrefinePoint.set(pointI);
@@ -4562,12 +4562,12 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
     // Construct cells to unrefine
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     PackedBoolList unrefineCell(mesh_.nCells());
-    forAll(unrefinePoint, pointI)
+    FOR_ALL(unrefinePoint, pointI)
     {
       if (unrefinePoint.get(pointI))
       {
         const labelList& pCells = mesh_.pointCells(pointI);
-        forAll(pCells, j)
+        FOR_ALL(pCells, j)
         {
           unrefineCell.set(pCells[j]);
         }
@@ -4596,13 +4596,13 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
           // could also combine with unset:
           // if (!unrefineCell.unset(own))
           // {
-          //     FatalErrorIn("hexRef8::consistentUnrefinement(..)")
+          //     FATAL_ERROR_IN("hexRef8::consistentUnrefinement(..)")
           //         << "problem cell already unset"
           //         << abort(FatalError);
           // }
           if (unrefineCell.get(own) == 0)
           {
-            FatalErrorIn("hexRef8::consistentUnrefinement(..)")
+            FATAL_ERROR_IN("hexRef8::consistentUnrefinement(..)")
               << "problem" << abort(FatalError);
           }
           unrefineCell.unset(own);
@@ -4619,7 +4619,7 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
         {
           if (unrefineCell.get(nei) == 0)
           {
-            FatalErrorIn("hexRef8::consistentUnrefinement(..)")
+            FATAL_ERROR_IN("hexRef8::consistentUnrefinement(..)")
               << "problem" << abort(FatalError);
           }
           unrefineCell.unset(nei);
@@ -4629,14 +4629,14 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
     }
     // Coupled faces. Swap owner level to get neighbouring cell level.
     labelList neiLevel(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(neiLevel, i)
+    FOR_ALL(neiLevel, i)
     {
       label own = mesh_.faceOwner()[i+mesh_.nInternalFaces()];
       neiLevel[i] = cellLevel_[own] - unrefineCell.get(own);
     }
     // Swap to neighbour
     syncTools::swapBoundaryFaceList(mesh_, neiLevel);
-    forAll(neiLevel, i)
+    FOR_ALL(neiLevel, i)
     {
       label faceI = i+mesh_.nInternalFaces();
       label own = mesh_.faceOwner()[faceI];
@@ -4647,7 +4647,7 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
         {
           if (unrefineCell.get(own) == 0)
           {
-            FatalErrorIn("hexRef8::consistentUnrefinement(..)")
+            FATAL_ERROR_IN("hexRef8::consistentUnrefinement(..)")
               << "problem" << abort(FatalError);
           }
           unrefineCell.unset(own);
@@ -4660,7 +4660,7 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
         {
           if (unrefineCell.get(own) == 1)
           {
-            FatalErrorIn("hexRef8::consistentUnrefinement(..)")
+            FATAL_ERROR_IN("hexRef8::consistentUnrefinement(..)")
               << "problem" << abort(FatalError);
           }
           unrefineCell.set(own);
@@ -4683,12 +4683,12 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
     // Convert cellsToUnrefine back into points to unrefine
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Knock out any point whose cell neighbour cannot be unrefined.
-    forAll(unrefinePoint, pointI)
+    FOR_ALL(unrefinePoint, pointI)
     {
       if (unrefinePoint.get(pointI))
       {
         const labelList& pCells = mesh_.pointCells(pointI);
-        forAll(pCells, j)
+        FOR_ALL(pCells, j)
         {
           if (!unrefineCell.get(pCells[j]))
           {
@@ -4701,7 +4701,7 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
   }
   // Convert back to labelList.
   label nSet = 0;
-  forAll(unrefinePoint, pointI)
+  FOR_ALL(unrefinePoint, pointI)
   {
     if (unrefinePoint.get(pointI))
     {
@@ -4710,7 +4710,7 @@ mousse::labelList mousse::hexRef8::consistentUnrefinement
   }
   labelList newPointsToUnrefine(nSet);
   nSet = 0;
-  forAll(unrefinePoint, pointI)
+  FOR_ALL(unrefinePoint, pointI)
   {
     if (unrefinePoint.get(pointI))
     {
@@ -4727,7 +4727,7 @@ void mousse::hexRef8::setUnrefinement
 {
   if (!history_.active())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "hexRef8::setUnrefinement(const labelList&, polyTopoChange&)"
     )   << "Only call if constructed with history capability"
@@ -4738,11 +4738,11 @@ void mousse::hexRef8::setUnrefinement
     Pout<< "hexRef8::setUnrefinement :"
       << " Checking initial mesh just to make sure" << endl;
     checkMesh();
-    forAll(cellLevel_, cellI)
+    FOR_ALL(cellLevel_, cellI)
     {
       if (cellLevel_[cellI] < 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "hexRef8::setUnrefinement"
           "("
@@ -4758,10 +4758,10 @@ void mousse::hexRef8::setUnrefinement
     pointSet pSet(mesh_, "splitPoints", splitPointLabels);
     pSet.write();
     cellSet cSet(mesh_, "splitPointCells", splitPointLabels.size());
-    forAll(splitPointLabels, i)
+    FOR_ALL(splitPointLabels, i)
     {
       const labelList& pCells = mesh_.pointCells(splitPointLabels[i]);
-      forAll(pCells, j)
+      FOR_ALL(pCells, j)
       {
         cSet.insert(pCells[j]);
       }
@@ -4779,10 +4779,10 @@ void mousse::hexRef8::setUnrefinement
   labelList facesToRemove;
   {
     labelHashSet splitFaces(12*splitPointLabels.size());
-    forAll(splitPointLabels, i)
+    FOR_ALL(splitPointLabels, i)
     {
       const labelList& pFaces = mesh_.pointFaces()[splitPointLabels[i]];
-      forAll(pFaces, j)
+      FOR_ALL(pFaces, j)
       {
         splitFaces.insert(pFaces[j]);
       }
@@ -4798,7 +4798,7 @@ void mousse::hexRef8::setUnrefinement
     );
     if (facesToRemove.size() != splitFaces.size())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "hexRef8::setUnrefinement(const labelList&, polyTopoChange&)"
       )   << "Ininitial set of split points to unrefine does not"
@@ -4809,7 +4809,7 @@ void mousse::hexRef8::setUnrefinement
   // Redo the region master so it is consistent with our master.
   // This will guarantee that the new cell (for which faceRemover uses
   // the region master) is already compatible with our refinement structure.
-  forAll(splitPointLabels, i)
+  FOR_ALL(splitPointLabels, i)
   {
     label pointI = splitPointLabels[i];
     // Get original cell label
@@ -4817,7 +4817,7 @@ void mousse::hexRef8::setUnrefinement
     // Check
     if (pCells.size() != 8)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "hexRef8::setUnrefinement(const labelList&, polyTopoChange&)"
       )   << "splitPoint " << pointI
@@ -4829,13 +4829,13 @@ void mousse::hexRef8::setUnrefinement
     //if (debug)
     {
       label masterCellI = min(pCells);
-      forAll(pCells, j)
+      FOR_ALL(pCells, j)
       {
         label cellI = pCells[j];
         label region = cellRegion[cellI];
         if (region == -1)
         {
-          FatalErrorIn("hexRef8::setUnrefinement(..)")
+          FATAL_ERROR_IN("hexRef8::setUnrefinement(..)")
             << "Ininitial set of split points to unrefine does not"
             << " seem to be consistent or not mid points"
             << " of refined cells" << nl
@@ -4845,7 +4845,7 @@ void mousse::hexRef8::setUnrefinement
         }
         if (masterCellI != cellRegionMaster[region])
         {
-          FatalErrorIn("hexRef8::setUnrefinement(..)")
+          FATAL_ERROR_IN("hexRef8::setUnrefinement(..)")
             << "cell:" << cellI << " on splitPoint:" << pointI
             << " in region " << region
             << " has master:" << cellRegionMaster[region]
@@ -4868,12 +4868,12 @@ void mousse::hexRef8::setUnrefinement
   // Remove the 8 cells that originated from merging around the split point
   // and adapt cell levels (not that pointLevels stay the same since points
   // either get removed or stay at the same position.
-  forAll(splitPointLabels, i)
+  FOR_ALL(splitPointLabels, i)
   {
     label pointI = splitPointLabels[i];
     const labelList& pCells = mesh_.pointCells(pointI);
     label masterCellI = min(pCells);
-    forAll(pCells, j)
+    FOR_ALL(pCells, j)
     {
       cellLevel_[pCells[j]]--;
     }

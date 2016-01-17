@@ -180,36 +180,37 @@ mousse::layerParameters::layerParameters
   }
   if (layerSpec_ == ILLEGAL || nSpec != 2)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "layerParameters::layerParameters"
       "(const dictionary&, const polyBoundaryMesh&)",
       dict
-    )   << "Over- or underspecified layer thickness."
-      << " Please specify" << nl
-      << "    first layer thickness ('firstLayerThickness')"
-      << " and overall thickness ('thickness') or" << nl
-      << "    first layer thickness ('firstLayerThickness')"
-      << " and expansion ratio ('expansionRatio') or" << nl
-      << "    final layer thickness ('finalLayerThickness')"
-      << " and expansion ratio ('expansionRatio') or" << nl
-      << "    final layer thickness ('finalLayerThickness')"
-      << " and overall thickness ('thickness') or" << nl
-      << "    overall thickness ('thickness')"
-      << " and expansion ratio ('expansionRatio'"
-      << exit(FatalIOError);
+    )
+    << "Over- or underspecified layer thickness."
+    << " Please specify" << nl
+    << "    first layer thickness ('firstLayerThickness')"
+    << " and overall thickness ('thickness') or" << nl
+    << "    first layer thickness ('firstLayerThickness')"
+    << " and expansion ratio ('expansionRatio') or" << nl
+    << "    final layer thickness ('finalLayerThickness')"
+    << " and expansion ratio ('expansionRatio') or" << nl
+    << "    final layer thickness ('finalLayerThickness')"
+    << " and overall thickness ('thickness') or" << nl
+    << "    overall thickness ('thickness')"
+    << " and expansion ratio ('expansionRatio'"
+    << exit(FatalIOError);
   }
   dict.readIfPresent("nRelaxedIter", nRelaxedIter_);
   if (nLayerIter_ < 0 || nRelaxedIter_ < 0)
   {
-    FatalIOErrorIn("layerParameters::layerParameters(..)", dict)
+    FATAL_IO_ERROR_IN("layerParameters::layerParameters(..)", dict)
       << "Layer iterations should be >= 0." << endl
       << "nLayerIter:" << nLayerIter_
       << " nRelaxedIter:" << nRelaxedIter_
       << exit(FatalIOError);
   }
   const dictionary& layersDict = dict.subDict("layers");
-  forAllConstIter(dictionary, layersDict, iter)
+  FOR_ALL_CONST_ITER(dictionary, layersDict, iter)
   {
     if (iter().isDict())
     {
@@ -220,7 +221,7 @@ mousse::layerParameters::layerParameters
       );
       if (patchIDs.size() == 0)
       {
-        IOWarningIn("layerParameters::layerParameters(..)", layersDict)
+        IO_WARNING_IN("layerParameters::layerParameters(..)", layersDict)
           << "Layer specification for " << key
           << " does not match any patch." << endl
           << "Valid patches are " << boundaryMesh.names() << endl;
@@ -228,7 +229,7 @@ mousse::layerParameters::layerParameters
       else
       {
         const dictionary& layerDict = iter().dict();
-        forAllConstIter(labelHashSet, patchIDs, patchIter)
+        FOR_ALL_CONST_ITER(labelHashSet, patchIDs, patchIter)
         {
           label patchI = patchIter.key();
           numLayers_[patchI] =
@@ -296,7 +297,7 @@ mousse::layerParameters::layerParameters
               );
             break;
             default:
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "layerParameters::layerParameters(..)",
                 dict
@@ -363,7 +364,7 @@ mousse::scalar mousse::layerParameters::layerThickness
     break;
     default:
     {
-      FatalErrorIn("layerParameters::layerThickness(..)")
+      FATAL_ERROR_IN("layerParameters::layerThickness(..)")
         << "Illegal thickness specification " <<    layerSpec_
         << exit(FatalError);
       return -VGREAT;
@@ -410,7 +411,7 @@ mousse::scalar mousse::layerParameters::layerExpansionRatio
     break;
     default:
     {
-      FatalErrorIn("layerParameters::layerThickness(..)")
+      FATAL_ERROR_IN("layerParameters::layerThickness(..)")
         << "Illegal thickness specification" << exit(FatalError);
       return -VGREAT;
     }
@@ -463,7 +464,7 @@ mousse::scalar mousse::layerParameters::firstLayerThickness
     break;
     default:
     {
-      FatalErrorIn("layerParameters::layerThickness(..)")
+      FATAL_ERROR_IN("layerParameters::layerThickness(..)")
         << "Illegal thickness specification" << exit(FatalError);
       return -VGREAT;
     }

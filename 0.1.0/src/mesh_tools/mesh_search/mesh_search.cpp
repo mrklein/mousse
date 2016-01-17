@@ -12,7 +12,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(meshSearch, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(meshSearch, 0);
 scalar meshSearch::tol_ = 1e-3;
 }
 // Private Member Functions 
@@ -25,7 +25,7 @@ bool mousse::meshSearch::findNearer
 )
 {
   bool nearer = false;
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     scalar distSqr = magSqr(points[pointI] - sample);
     if (distSqr < nearestDistSqr)
@@ -47,7 +47,7 @@ bool mousse::meshSearch::findNearer
 )
 {
   bool nearer = false;
-  forAll(indices, i)
+  FOR_ALL(indices, i)
   {
     label pointI = indices[i];
     scalar distSqr = magSqr(points[pointI] - sample);
@@ -99,7 +99,7 @@ mousse::label mousse::meshSearch::findNearestCellWalk
 {
   if (seedCellI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshSearch::findNearestCellWalk(const point&, const label)"
     )   << "illegal seedCell:" << seedCellI << exit(FatalError);
@@ -177,7 +177,7 @@ mousse::label mousse::meshSearch::findNearestFaceWalk
 {
   if (seedFaceI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshSearch::findNearestFaceWalk(const point&, const label)"
     )   << "illegal seedFace:" << seedFaceI << exit(FatalError);
@@ -251,7 +251,7 @@ mousse::label mousse::meshSearch::findCellWalk
 {
   if (seedCellI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshSearch::findCellWalk(const point&, const label)"
     )   << "illegal seedCell:" << seedCellI << exit(FatalError);
@@ -268,7 +268,7 @@ mousse::label mousse::meshSearch::findCellWalk
     // Try neighbours of curCellI
     const cell& cFaces = mesh_.cells()[curCellI];
     label nearestCellI = -1;
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       label faceI = cFaces[i];
       if (mesh_.isInternalFace(faceI))
@@ -309,7 +309,7 @@ mousse::label mousse::meshSearch::findNearestBoundaryFaceWalk
 {
   if (seedFaceI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshSearch::findNearestBoundaryFaceWalk"
       "(const point&, const label)"
@@ -331,12 +331,12 @@ mousse::label mousse::meshSearch::findNearestBoundaryFaceWalk
     // across edges
     label lastFaceI = curFaceI;
     const labelList& myEdges = mesh_.faceEdges()[curFaceI];
-    forAll(myEdges, myEdgeI)
+    FOR_ALL(myEdges, myEdgeI)
     {
       const labelList& neighbours = mesh_.edgeFaces()[myEdges[myEdgeI]];
       // Check any face which uses edge, is boundary face and
       // is not curFaceI itself.
-      forAll(neighbours, nI)
+      FOR_ALL(neighbours, nI)
       {
         label faceI = neighbours[nI];
         if
@@ -441,7 +441,7 @@ const
     }
     // all boundary faces (not just walls)
     labelList bndFaces(mesh_.nFaces()-mesh_.nInternalFaces());
-    forAll(bndFaces, i)
+    FOR_ALL(bndFaces, i)
     {
       bndFaces[i] = mesh_.nInternalFaces() + i;
     }
@@ -525,7 +525,7 @@ const
 //        // side of the ray.
 //        scalar oldTol = intersection::setPlanarTol(0.0);
 //
-//        forAll(cFaces, i)
+//        FOR_ALL(cFaces, i)
 //        {
 //            label faceI = cFaces[i];
 //
@@ -564,7 +564,7 @@ const
 //        const vectorField& cf = mesh_.faceCentres();
 //        const vectorField& Sf = mesh_.faceAreas();
 //
-//        forAll(f, facei)
+//        FOR_ALL(f, facei)
 //        {
 //            label nFace = f[facei];
 //            vector proj = p - cf[nFace];

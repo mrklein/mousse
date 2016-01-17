@@ -50,11 +50,6 @@ private:
       point
     >
     MeshReference;
-  // Private Member Functions
-    //- Disallow construct as copy
-    surfMesh(const surfMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const surfMesh&);
 protected:
   // Protected Member Functions
     //- Non-const access to global points
@@ -84,7 +79,7 @@ public:
   //- Placeholder only, but do not remove - it is needed for GeoMesh
   typedef bool BoundaryMesh;
   //- Runtime type information
-  TypeName("surfMesh");
+  TYPE_NAME("surfMesh");
   //- Return the mesh sub-directory name (normally "surfMesh")
   static word meshSubDir;
   // Constructors
@@ -106,6 +101,10 @@ public:
       const Xfer<MeshedSurface<face> >& surf,
       const word& surfName=""
     );
+    //- Disallow construct as copy
+    surfMesh(const surfMesh&) = delete;
+    //- Disallow default bitwise assignment
+    surfMesh& operator=(const surfMesh&) = delete;
   //- Destructor
   virtual ~surfMesh();
   // Member Functions

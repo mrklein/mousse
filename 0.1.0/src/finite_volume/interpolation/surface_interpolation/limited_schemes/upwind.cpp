@@ -4,7 +4,8 @@
 
 #include "upwind.hpp"
 #include "fv_mesh.hpp"
+
 namespace mousse
 {
-  makelimitedSurfaceInterpolationScheme(upwind)
+MAKELIMITED_SURFACE_INTERPOLATION_SCHEME(upwind)
 }

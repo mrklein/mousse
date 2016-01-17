@@ -25,7 +25,7 @@ class timeVaryingAlphaContactAngleFvPatchScalarField
     scalar thetaTe_;
 public:
   //- Runtime type information
-  TypeName("timeVaryingAlphaContactAngle");
+  TYPE_NAME("timeVaryingAlphaContactAngle");
   // Constructors
     //- Construct from patch and internal field
     timeVaryingAlphaContactAngleFvPatchScalarField

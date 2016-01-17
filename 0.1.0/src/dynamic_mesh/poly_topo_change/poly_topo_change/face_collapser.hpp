@@ -64,16 +64,16 @@ class faceCollapser
       const label faceI,
       polyTopoChange& meshMod
     ) const;
-    //- Disallow default bitwise copy construct
-    faceCollapser(const faceCollapser&);
-    //- Disallow default bitwise assignment
-    void operator=(const faceCollapser&);
 public:
   //- Runtime type information
-  ClassName("faceCollapser");
+  CLASS_NAME("faceCollapser");
   // Constructors
     //- Construct from mesh.
     faceCollapser(const polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    faceCollapser(const faceCollapser&) = delete;
+    //- Disallow default bitwise assignment
+    faceCollapser& operator=(const faceCollapser&) = delete;
   // Member Functions
     // Edit
       //- Collapse faces along endpoints. Play commands into

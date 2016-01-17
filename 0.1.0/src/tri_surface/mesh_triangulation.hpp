@@ -55,7 +55,7 @@ class meshTriangulation
       label& triI
     );
 public:
-  ClassName("meshTriangulation");
+  CLASS_NAME("meshTriangulation");
   // Constructors
     //- Construct null
     meshTriangulation();

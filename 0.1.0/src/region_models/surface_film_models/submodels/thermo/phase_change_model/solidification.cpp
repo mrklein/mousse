@@ -12,8 +12,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(solidification, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(solidification, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   phaseChangeModel,
   solidification,
@@ -77,10 +77,10 @@ solidification::~solidification()
 // Member Functions 
 void solidification::correctModel
 (
-  const scalar dt,
+  const scalar /*dt*/,
   scalarField& availableMass,
   scalarField& dMass,
-  scalarField& dEnergy
+  scalarField& /*dEnergy*/
 )
 {
   const thermoSingleLayer& film = filmType<thermoSingleLayer>();
@@ -94,7 +94,7 @@ void solidification::correctModel
      *owner_.regionMesh().time().deltaTValue()
     ).value()
   );
-  forAll(alpha, celli)
+  FOR_ALL(alpha, celli)
   {
     if (alpha[celli] > 0.5)
     {

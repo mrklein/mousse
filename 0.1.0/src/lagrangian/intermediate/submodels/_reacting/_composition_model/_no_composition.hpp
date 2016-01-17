@@ -20,7 +20,7 @@ class NoComposition
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from dictionary
     NoComposition(const dictionary& dict, CloudType& owner);

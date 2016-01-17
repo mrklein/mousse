@@ -4,18 +4,22 @@
 
 #include "meshed_surface_proxy.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
+
 // Static Data Members
-#define makeSurface(surfType, faceType)                                       \
-  defineNamedTemplateTypeNameAndDebug(surfType<faceType>, 0);               \
-  defineTemplatedMemberFunctionSelectionTable                               \
-  (                                                                         \
-    surfType,                                                             \
-    write,                                                                \
-    fileExtension,                                                        \
-    faceType                                                              \
+#define MAKE_SURFACE(surfType, faceType)                                      \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(surfType<faceType>, 0);           \
+  DEFINE_TEMPLATED_MEMBER_FUNCTION_SELECTION_TABLE                            \
+  (                                                                           \
+    surfType,                                                                 \
+    write,                                                                    \
+    fileExtension,                                                            \
+    faceType                                                                  \
   );
-makeSurface(MeshedSurfaceProxy, face)
-makeSurface(MeshedSurfaceProxy, triFace)
+
+MAKE_SURFACE(MeshedSurfaceProxy, face)
+MAKE_SURFACE(MeshedSurfaceProxy, triFace)
+
 }  // namespace mousse

@@ -11,8 +11,8 @@ namespace mousse
 {
 namespace solidBodyMotionFunctions
 {
-  defineTypeNameAndDebug(SDA, 0);
-  addToRunTimeSelectionTable(solidBodyMotionFunction, SDA, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(SDA, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(solidBodyMotionFunction, SDA, dictionary);
 }
 }
 // Constructors 

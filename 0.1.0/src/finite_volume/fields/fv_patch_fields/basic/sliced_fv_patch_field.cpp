@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "sliced_fv_patch_field.hpp"
+
 namespace mousse
 {
+
 // Member Functions 
 template<class Type>
 slicedFvPatchField<Type>::slicedFvPatchField
@@ -14,11 +16,13 @@ slicedFvPatchField<Type>::slicedFvPatchField
   const Field<Type>& completeField
 )
 :
-  fvPatchField<Type>(p, iF, Field<Type>())
+  fvPatchField<Type>{p, iF, Field<Type>()}
 {
   // Set the fvPatchField to a slice of the given complete field
   UList<Type>::operator=(p.patchSlice(completeField));
 }
+
+
 template<class Type>
 slicedFvPatchField<Type>::slicedFvPatchField
 (
@@ -26,8 +30,10 @@ slicedFvPatchField<Type>::slicedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(p, iF, Field<Type>())
+  fvPatchField<Type>{p, iF, Field<Type>()}
 {}
+
+
 template<class Type>
 slicedFvPatchField<Type>::slicedFvPatchField
 (
@@ -37,15 +43,17 @@ slicedFvPatchField<Type>::slicedFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fvPatchField<Type>(ptf, p, iF, mapper)
+  fvPatchField<Type>{ptf, p, iF, mapper}
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "slicedFvPatchField(const slicedFvPatchField<Type>&, "
     "const fvPatch&, const Field<Type>&, const fvPatchFieldMapper&)"
   );
 }
+
+
 template<class Type>
 slicedFvPatchField<Type>::slicedFvPatchField
 (
@@ -54,14 +62,16 @@ slicedFvPatchField<Type>::slicedFvPatchField
   const dictionary& dict
 )
 :
-  fvPatchField<Type>(p, iF, dict)
+  fvPatchField<Type>{p, iF, dict}
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "slicedFvPatchField(const Field<Type>&, const dictionary&)"
   );
 }
+
+
 template<class Type>
 slicedFvPatchField<Type>::slicedFvPatchField
 (
@@ -69,19 +79,23 @@ slicedFvPatchField<Type>::slicedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(ptf.patch(), iF, Field<Type>())
+  fvPatchField<Type>{ptf.patch(), iF, Field<Type>()}
 {
   // Transfer the slice from the argument
   UList<Type>::operator=(ptf);
 }
+
+
 template<class Type>
 tmp<fvPatchField<Type> > slicedFvPatchField<Type>::clone() const
 {
   return tmp<fvPatchField<Type> >
-  (
-    new slicedFvPatchField<Type>(*this)
-  );
+  {
+    new slicedFvPatchField<Type>{*this}
+  };
 }
+
+
 template<class Type>
 slicedFvPatchField<Type>::slicedFvPatchField
 (
@@ -89,15 +103,17 @@ slicedFvPatchField<Type>::slicedFvPatchField
 )
 :
   fvPatchField<Type>
-  (
+  {
     ptf.patch(),
     ptf.dimensionedInternalField(),
     Field<Type>()
-  )
+  }
 {
   // Transfer the slice from the argument
   UList<Type>::operator=(ptf);
 }
+
+
 template<class Type>
 tmp<fvPatchField<Type> > slicedFvPatchField<Type>::clone
 (
@@ -105,10 +121,12 @@ tmp<fvPatchField<Type> > slicedFvPatchField<Type>::clone
 ) const
 {
   return tmp<fvPatchField<Type> >
-  (
-    new slicedFvPatchField<Type>(*this, iF)
-  );
+  {
+    new slicedFvPatchField<Type>{*this, iF}
+  };
 }
+
+
 template<class Type>
 slicedFvPatchField<Type>::~slicedFvPatchField<Type>()
 {
@@ -116,118 +134,141 @@ slicedFvPatchField<Type>::~slicedFvPatchField<Type>()
   // to protect the field it a slice of.
   UList<Type>::operator=(UList<Type>(NULL, 0));
 }
+
+
 // Member Functions 
 template<class Type>
 tmp<Field<Type> > slicedFvPatchField<Type>::snGrad() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "snGrad()"
   );
   return Field<Type>::null();
 }
+
+
 template<class Type>
 void slicedFvPatchField<Type>::updateCoeffs()
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "updateCoeffs()"
   );
 }
+
+
 template<class Type>
 tmp<Field<Type> > slicedFvPatchField<Type>::patchInternalField() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "patchInternalField()"
   );
   return Field<Type>::null();
 }
+
+
 template<class Type>
 void slicedFvPatchField<Type>::patchInternalField(Field<Type>&) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "patchInternalField(Field<Type>&)"
   );
 }
+
+
 template<class Type>
 tmp<Field<Type> > slicedFvPatchField<Type>::patchNeighbourField
 (
-  const Field<Type>& iField
+  const Field<Type>& /*iField*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "patchNeighbourField(const DimensionedField<Type, volMesh>& iField)"
   );
   return Field<Type>::null();
 }
+
+
 template<class Type>
 tmp<Field<Type> > slicedFvPatchField<Type>::patchNeighbourField() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "patchNeighbourField()"
   );
   return Field<Type>::null();
 }
+
+
 template<class Type>
 tmp<Field<Type> > slicedFvPatchField<Type>::valueInternalCoeffs
 (
   const tmp<scalarField>&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "valueInternalCoeffs(const tmp<scalarField>&)"
   );
   return Field<Type>::null();
 }
+
+
 template<class Type>
 tmp<Field<Type> > slicedFvPatchField<Type>::valueBoundaryCoeffs
 (
   const tmp<scalarField>&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "valueBoundaryCoeffs(const tmp<scalarField>&)"
   );
   return Field<Type>::null();
 }
+
+
 template<class Type>
 tmp<Field<Type> > slicedFvPatchField<Type>::gradientInternalCoeffs() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "gradientInternalCoeffs()"
   );
   return Field<Type>::null();
 }
+
+
 template<class Type>
 tmp<Field<Type> > slicedFvPatchField<Type>::gradientBoundaryCoeffs() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "slicedFvPatchField<Type>::"
     "gradientBoundaryCoeffs()"
   );
   return Field<Type>::null();
 }
+
+
 template<class Type>
 void slicedFvPatchField<Type>::write(Ostream& os) const
 {
   fvPatchField<Type>::write(os);
   this->writeEntry("value", os);
 }
+
 }  // namespace mousse

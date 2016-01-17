@@ -113,7 +113,7 @@ protected:
     }
 public:
   //- Runtime type information
-  TypeName("omegaWallFunction");
+  TYPE_NAME("omegaWallFunction");
   // Constructors
     //- Construct from patch and internal field
     omegaWallFunctionFvPatchScalarField

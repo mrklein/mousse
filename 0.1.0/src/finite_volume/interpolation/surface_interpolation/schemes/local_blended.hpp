@@ -7,10 +7,14 @@
 //   Two-scheme localBlended differencing scheme.
 // SourceFiles
 //   local_blended.cpp
+
 #ifndef local_blended_hpp_
 #define local_blended_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "blended_scheme_base.hpp"
+#include "surface_fields.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -24,13 +28,9 @@ class localBlended
     tmp<surfaceInterpolationScheme<Type> > tScheme1_;
     //- Scheme 2
     tmp<surfaceInterpolationScheme<Type> > tScheme2_;
-    //- Disallow default bitwise copy construct
-    localBlended(const localBlended&);
-    //- Disallow default bitwise assignment
-    void operator=(const localBlended&);
 public:
   //- Runtime type information
-  TypeName("localBlended");
+  TYPE_NAME("localBlended");
   // Constructors
     //- Construct from mesh and Istream.
     //  The name of the flux field is read from the Istream and looked-up
@@ -41,15 +41,15 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      ),
+      },
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      )
+      }
     {}
     //- Construct from mesh, faceFlux and Istream
     localBlended
@@ -59,16 +59,20 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      ),
+      },
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {}
+    //- Disallow default bitwise copy construct
+    localBlended(const localBlended&) = delete;
+    //- Disallow default bitwise assignment
+    localBlended& operator=(const localBlended&) = delete;
   //- Destructor
   virtual ~localBlended()
   {}
@@ -83,7 +87,7 @@ public:
         this->mesh().objectRegistry::template
           lookupObject<const surfaceScalarField>
           (
-            word(vf.name() + "BlendingFactor")
+            word{vf.name() + "BlendingFactor"}
           );
     }
     //- Return the interpolation weighting factors
@@ -96,7 +100,7 @@ public:
         this->mesh().objectRegistry::template
           lookupObject<const surfaceScalarField>
           (
-            word(vf.name() + "BlendingFactor")
+            word{vf.name() + "BlendingFactor"}
           );
       return
         blendingFactor*tScheme1_().weights(vf)

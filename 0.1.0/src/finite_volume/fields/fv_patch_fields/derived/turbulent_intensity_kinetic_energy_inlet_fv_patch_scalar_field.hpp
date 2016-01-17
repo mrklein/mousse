@@ -55,7 +55,7 @@ class turbulentIntensityKineticEnergyInletFvPatchScalarField
     word UName_;
 public:
   //- Runtime type information
-  TypeName("turbulentIntensityKineticEnergyInlet");
+  TYPE_NAME("turbulentIntensityKineticEnergyInlet");
   // Constructors
     //- Construct from patch and internal field
     turbulentIntensityKineticEnergyInletFvPatchScalarField

@@ -52,13 +52,9 @@ private:
     ) const;
     //- Return the boundBox of the cylinder
     boundBox calcBounds() const;
-    //- Disallow default bitwise copy construct
-    searchableCylinder(const searchableCylinder&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableCylinder&);
 public:
   //- Runtime type information
-  TypeName("searchableCylinder");
+  TYPE_NAME("searchableCylinder");
   // Constructors
     //- Construct from components
     searchableCylinder
@@ -74,6 +70,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableCylinder(const searchableCylinder&) = delete;
+    //- Disallow default bitwise assignment
+    searchableCylinder& operator=(const searchableCylinder&) = delete;
   //- Destructor
   virtual ~searchableCylinder();
   // Member Functions
@@ -101,9 +101,9 @@ public:
     //- Get the points that define the surface.
     virtual tmp<pointField> points() const;
     //- Does any part of the surface overlap the supplied bound box?
-    virtual bool overlaps(const boundBox& bb) const
+    virtual bool overlaps(const boundBox&) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "searchableCylinder::overlaps(const boundBox&) const"
       );
@@ -157,7 +157,7 @@ public:
     // regIOobject implementation
       bool writeData(Ostream&) const
       {
-        notImplemented("searchableCylinder::writeData(Ostream&) const");
+        NOT_IMPLEMENTED("searchableCylinder::writeData(Ostream&) const");
         return false;
       }
 };

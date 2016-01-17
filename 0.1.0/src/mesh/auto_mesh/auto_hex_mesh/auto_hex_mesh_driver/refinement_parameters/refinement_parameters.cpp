@@ -53,7 +53,7 @@ const
   globalIndex globalCells(mesh.nCells());
   // Cell label per point
   labelList cellLabels(keepPoints_.size());
-  forAll(keepPoints_, i)
+  FOR_ALL(keepPoints_, i)
   {
     const point& keepPoint = keepPoints_[i];
     label localCellI = mesh.findCell(keepPoint);
@@ -65,7 +65,7 @@ const
     reduce(globalCellI, maxOp<label>());
     if (globalCellI == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "refinementParameters::findCells(const polyMesh&) const"
       )   << "Point " << keepPoint

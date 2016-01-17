@@ -10,7 +10,7 @@ void mousse::fvBoundaryMesh::addPatches(const polyBoundaryMesh& basicBdry)
   setSize(basicBdry.size());
   // Set boundary patches
   fvPatchList& Patches = *this;
-  forAll(Patches, patchI)
+  FOR_ALL(Patches, patchI)
   {
     Patches.set(patchI, fvPatch::New(basicBdry[patchI], *this));
   }
@@ -39,7 +39,7 @@ mousse::fvBoundaryMesh::fvBoundaryMesh
 mousse::label mousse::fvBoundaryMesh::findPatchID(const word& patchName) const
 {
   const fvPatchList& patches = *this;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (patches[patchI].name() == patchName)
     {
@@ -59,11 +59,11 @@ mousse::labelList mousse::fvBoundaryMesh::findIndices
 }
 void mousse::fvBoundaryMesh::movePoints()
 {
-  forAll(*this, patchI)
+  FOR_ALL(*this, patchI)
   {
     operator[](patchI).initMovePoints();
   }
-  forAll(*this, patchI)
+  FOR_ALL(*this, patchI)
   {
     operator[](patchI).movePoints();
   }
@@ -71,7 +71,7 @@ void mousse::fvBoundaryMesh::movePoints()
 mousse::lduInterfacePtrsList mousse::fvBoundaryMesh::interfaces() const
 {
   lduInterfacePtrsList interfaces(size());
-  forAll(interfaces, patchI)
+  FOR_ALL(interfaces, patchI)
   {
     if (isA<lduInterface>(this->operator[](patchI)))
     {
@@ -98,7 +98,7 @@ const mousse::fvPatch& mousse::fvBoundaryMesh::operator[]
   const label patchI = findPatchID(patchName);
   if (patchI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvBoundaryMesh::operator[](const word&) const"
     )   << "Patch named " << patchName << " not found." << nl
@@ -114,7 +114,7 @@ mousse::fvPatch& mousse::fvBoundaryMesh::operator[]
   const label patchI = findPatchID(patchName);
   if (patchI < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fvBoundaryMesh::operator[](const word&)"
     )   << "Patch named " << patchName << " not found." << nl

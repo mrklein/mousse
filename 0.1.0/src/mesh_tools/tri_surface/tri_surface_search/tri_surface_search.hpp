@@ -41,10 +41,6 @@ class triSurfaceSearch
       const DynamicList<pointIndexHit, 1, 1>& hits,
       const vector& lineVec
     ) const;
-    //- Disallow default bitwise copy construct
-    triSurfaceSearch(const triSurfaceSearch&);
-    //- Disallow default bitwise assignment
-    void operator=(const triSurfaceSearch&);
 public:
   // Constructors
     //- Construct from surface. Holds reference to surface!
@@ -58,6 +54,10 @@ public:
       const scalar tolerance,
       const label maxTreeDepth
     );
+    //- Disallow default bitwise copy construct
+    triSurfaceSearch(const triSurfaceSearch&) = delete;
+    //- Disallow default bitwise assignment
+    triSurfaceSearch& operator=(const triSurfaceSearch&) = delete;
   //- Destructor
   ~triSurfaceSearch();
     //- Clear storage

@@ -33,14 +33,9 @@ class dsmcFields
     const objectRegistry& obr_;
     //- on/off switch
     bool active_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    dsmcFields(const dsmcFields&);
-    //- Disallow default bitwise assignment
-    void operator=(const dsmcFields&);
 public:
   //- Runtime type information
-  TypeName("dsmcFields");
+  TYPE_NAME("dsmcFields");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -51,6 +46,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    dsmcFields(const dsmcFields&) = delete;
+    //- Disallow default bitwise assignment
+    dsmcFields& operator=(const dsmcFields&) = delete;
   //- Destructor
   virtual ~dsmcFields();
   // Member Functions

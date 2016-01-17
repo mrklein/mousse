@@ -20,7 +20,7 @@ void alphatJayatillekeWallFunctionFvPatchScalarField::checkType()
 {
   if (!isA<wallFvPatch>(patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "alphatJayatillekeWallFunctionFvPatchScalarField::checkType()"
     )   << "Invalid wall function specification" << nl
@@ -180,7 +180,7 @@ void alphatJayatillekeWallFunctionFvPatchScalarField::updateCoeffs()
   );
   // Populate boundary values
   scalarField& alphatw = *this;
-  forAll(alphatw, faceI)
+  FOR_ALL(alphatw, faceI)
   {
     label faceCellI = patch().faceCells()[faceI];
     // y+
@@ -213,7 +213,7 @@ void alphatJayatillekeWallFunctionFvPatchScalarField::write(Ostream& os) const
   os.writeKeyword("E") << E_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   alphatJayatillekeWallFunctionFvPatchScalarField

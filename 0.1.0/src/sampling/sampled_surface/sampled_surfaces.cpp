@@ -12,7 +12,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledSurfaces, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(sampledSurfaces, 0);
 }
 bool mousse::sampledSurfaces::verbose_ = false;
 mousse::scalar mousse::sampledSurfaces::mergeTol_ = 1e-10;
@@ -22,7 +22,7 @@ void mousse::sampledSurfaces::writeGeometry() const
   // Write to time directory under outputPath_
   // Skip surface without faces (eg, a failed cut-plane)
   const fileName outputDir = outputPath_/mesh_.time().timeName();
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     const sampledSurface& s = operator[](surfI);
     if (Pstream::parRun())
@@ -164,7 +164,7 @@ void mousse::sampledSurfaces::read(const dictionary& dict)
     if (this->size())
     {
       Info<< "Reading surface description:" << nl;
-      forAll(*this, surfI)
+      FOR_ALL(*this, surfI)
       {
         Info<< "    " << operator[](surfI).name() << nl;
       }
@@ -175,7 +175,7 @@ void mousse::sampledSurfaces::read(const dictionary& dict)
   {
     Pout<< "sample fields:" << fieldSelection_ << nl
       << "sample surfaces:" << nl << "(" << nl;
-    forAll(*this, surfI)
+    FOR_ALL(*this, surfI)
     {
       Pout<< "  " << operator[](surfI) << endl;
     }
@@ -200,7 +200,7 @@ void mousse::sampledSurfaces::readUpdate(const polyMesh::readUpdateState state)
 }
 bool mousse::sampledSurfaces::needsUpdate() const
 {
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     if (operator[](surfI).needsUpdate())
     {
@@ -212,7 +212,7 @@ bool mousse::sampledSurfaces::needsUpdate() const
 bool mousse::sampledSurfaces::expire()
 {
   bool justExpired = false;
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     if (operator[](surfI).expire())
     {
@@ -237,7 +237,7 @@ bool mousse::sampledSurfaces::update()
   // Serial: quick and easy, no merging required
   if (!Pstream::parRun())
   {
-    forAll(*this, surfI)
+    FOR_ALL(*this, surfI)
     {
       if (operator[](surfI).update())
       {
@@ -253,7 +253,7 @@ bool mousse::sampledSurfaces::update()
     Pout<< nl << "Merging all points within "
       << mergeDim << " metre" << endl;
   }
-  forAll(*this, surfI)
+  FOR_ALL(*this, surfI)
   {
     sampledSurface& s = operator[](surfI);
     if (s.update())

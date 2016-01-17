@@ -18,7 +18,7 @@ mousse::autoPtr<mousse::energyScalingFunction> mousse::energyScalingFunction::Ne
     dictionaryConstructorTablePtr_->find(scalingType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "energyScalingFunction::New()"
     )   << "Unknown energyScalingFunction type "

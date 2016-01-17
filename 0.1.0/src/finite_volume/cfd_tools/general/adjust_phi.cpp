@@ -6,6 +6,8 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "inlet_outlet_fv_patch_fields.hpp"
+#include "pstream_reduce_ops.hpp"
+
 // Global Functions 
 bool mousse::adjustPhi
 (
@@ -20,7 +22,8 @@ bool mousse::adjustPhi
     scalar fixedMassOut = 0.0;
     scalar adjustableMassOut = 0.0;
     surfaceScalarField::GeometricBoundaryField& bphi = phi.boundaryField();
-    forAll(bphi, patchi)
+
+    FOR_ALL(bphi, patchi)
     {
       const fvPatchVectorField& Up = U.boundaryField()[patchi];
       const fvsPatchScalarField& phip = bphi[patchi];
@@ -28,7 +31,7 @@ bool mousse::adjustPhi
       {
         if (Up.fixesValue() && !isA<inletOutletFvPatchVectorField>(Up))
         {
-          forAll(phip, i)
+          FOR_ALL(phip, i)
           {
             if (phip[i] < 0.0)
             {
@@ -42,7 +45,7 @@ bool mousse::adjustPhi
         }
         else
         {
-          forAll(phip, i)
+          FOR_ALL(phip, i)
           {
             if (phip[i] < 0.0)
             {
@@ -56,6 +59,7 @@ bool mousse::adjustPhi
         }
       }
     }
+
     // Calculate the total flux in the domain, used for normalisation
     scalar totalFlux = VSMALL + sum(mag(phi)).value();
     reduce(massIn, sumOp<scalar>());
@@ -66,14 +70,14 @@ bool mousse::adjustPhi
     if
     (
       magAdjustableMassOut > VSMALL
-    && magAdjustableMassOut/totalFlux > SMALL
+      && magAdjustableMassOut/totalFlux > SMALL
     )
     {
       massCorr = (massIn - fixedMassOut)/adjustableMassOut;
     }
     else if (mag(fixedMassOut - massIn)/totalFlux > 1e-8)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "adjustPhi"
         "("
@@ -81,16 +85,18 @@ bool mousse::adjustPhi
           "const volVectorField&,"
           "volScalarField&"
         ")"
-      )   << "Continuity error cannot be removed by adjusting the"
-         " outflow.\nPlease check the velocity boundary conditions"
-         " and/or run potentialFoam to initialise the outflow." << nl
-        << "Total flux              : " << totalFlux << nl
-        << "Specified mass inflow   : " << massIn << nl
-        << "Specified mass outflow  : " << fixedMassOut << nl
-        << "Adjustable mass outflow : " << adjustableMassOut << nl
-        << exit(FatalError);
+      )
+      << "Continuity error cannot be removed by adjusting the"
+      " outflow.\nPlease check the velocity boundary conditions"
+      " and/or run potentialFoam to initialise the outflow." << nl
+      << "Total flux              : " << totalFlux << nl
+      << "Specified mass inflow   : " << massIn << nl
+      << "Specified mass outflow  : " << fixedMassOut << nl
+      << "Adjustable mass outflow : " << adjustableMassOut << nl
+      << exit(FatalError);
     }
-    forAll(bphi, patchi)
+
+    FOR_ALL(bphi, patchi)
     {
       const fvPatchVectorField& Up = U.boundaryField()[patchi];
       fvsPatchScalarField& phip = bphi[patchi];
@@ -102,7 +108,7 @@ bool mousse::adjustPhi
         || isA<inletOutletFvPatchVectorField>(Up)
         )
         {
-          forAll(phip, i)
+          FOR_ALL(phip, i)
           {
             if (phip[i] > 0.0)
             {
@@ -112,6 +118,7 @@ bool mousse::adjustPhi
         }
       }
     }
+
     return mag(massIn)/totalFlux < SMALL
       && mag(fixedMassOut)/totalFlux < SMALL
       && mag(adjustableMassOut)/totalFlux < SMALL;

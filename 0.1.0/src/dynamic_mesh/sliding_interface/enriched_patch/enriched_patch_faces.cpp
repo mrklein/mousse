@@ -16,7 +16,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
 {
   if (enrichedFacesPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void enrichedPatch::calcEnrichedFaces\n"
       "(\n"
@@ -50,7 +50,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
   // Get reference to the point merge map
   const Map<label>& pmm = pointMergeMap();
   // Add slave faces into the enriched faces list
-  forAll(slavePatch_, faceI)
+  FOR_ALL(slavePatch_, faceI)
   {
     const face oldFace = slavePatch_[faceI];
     const face oldLocalFace = slaveLocalFaces[faceI];
@@ -59,7 +59,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
     DynamicList<label> newFace(oldFace.size()*enrichedFaceRatio_);
     // Note: The number of points and edges in a face is always identical
     // so both can be done is the same loop
-    forAll(oldFace, i)
+    FOR_ALL(oldFace, i)
     {
       // Add the point
       Map<label>::const_iterator mpIter =
@@ -109,7 +109,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
         }
         else
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void enrichedPatch::calcEnrichedFaces\n"
             "(\n"
@@ -122,7 +122,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
             << abort(FatalError);
         }
         pointField slavePosOnEdge(slavePointsOnEdge.size());
-        forAll(slavePointsOnEdge, edgePointI)
+        FOR_ALL(slavePointsOnEdge, edgePointI)
         {
           slavePosOnEdge[edgePointI] =
             pointMap().find(slavePointsOnEdge[edgePointI])();
@@ -134,7 +134,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
           // Check weights: all new points should be on the edge
           if (min(edgePointWeights) < 0 || max(edgePointWeights) > 1)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "void enrichedPatch::calcEnrichedFaces\n"
               "(\n"
@@ -153,13 +153,13 @@ void mousse::enrichedPatch::calcEnrichedFaces
         // Go through the points and collect them based on
         // weights from lower to higher.  This gives the
         // correct order of points along the edge.
-        forAll(edgePointWeights, passI)
+        FOR_ALL(edgePointWeights, passI)
         {
           // Max weight can only be one, so the sorting is
           // done by elimination.
           label nextPoint = -1;
           scalar dist = 2;
-          forAll(edgePointWeights, wI)
+          FOR_ALL(edgePointWeights, wI)
           {
             if (edgePointWeights[wI] < dist)
             {
@@ -186,7 +186,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
     nEnrichedFaces++;
   }
   // Add master faces into the enriched faces list
-  forAll(masterPatch_, faceI)
+  FOR_ALL(masterPatch_, faceI)
   {
     const face& oldFace = masterPatch_[faceI];
     const face& oldLocalFace = masterLocalFaces[faceI];
@@ -195,7 +195,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
     DynamicList<label> newFace(oldFace.size()*enrichedFaceRatio_);
     // Note: The number of points and edges in a face is always identical
     // so both can be done is the same loop
-    forAll(oldFace, i)
+    FOR_ALL(oldFace, i)
     {
       // Add the point
       Map<label>::const_iterator mpIter =
@@ -238,7 +238,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
         }
         else
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "void enrichedPatch::calcEnrichedFaces\n"
             "(\n"
@@ -251,7 +251,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
             << abort(FatalError);
         }
         pointField masterPosOnEdge(masterPointsOnEdge.size());
-        forAll(masterPointsOnEdge, edgePointI)
+        FOR_ALL(masterPointsOnEdge, edgePointI)
         {
           masterPosOnEdge[edgePointI] =
             pointMap().find(masterPointsOnEdge[edgePointI])();
@@ -263,7 +263,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
           // Check weights: all new points should be on the edge
           if (min(edgePointWeights) < 0 || max(edgePointWeights) > 1)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "void enrichedPatch::calcEnrichedFaces\n"
               "(\n"
@@ -282,13 +282,13 @@ void mousse::enrichedPatch::calcEnrichedFaces
         // Go through the points and collect them based on
         // weights from lower to higher.  This gives the
         // correct order of points along the edge.
-        forAll(edgePointWeights, passI)
+        FOR_ALL(edgePointWeights, passI)
         {
           // Max weight can only be one, so the sorting is
           // done by elimination.
           label nextPoint = -1;
           scalar dist = 2;
-          forAll(edgePointWeights, wI)
+          FOR_ALL(edgePointWeights, wI)
           {
             if (edgePointWeights[wI] < dist)
             {
@@ -325,7 +325,7 @@ void mousse::enrichedPatch::calcEnrichedFaces
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void enrichedPatch::calcEnrichedFaces\n"
         "(\n"
@@ -343,7 +343,7 @@ const mousse::faceList& mousse::enrichedPatch::enrichedFaces() const
 {
   if (!enrichedFacesPtr_)
   {
-    FatalErrorIn("const faceList& enrichedPatch::enrichedFaces() const")
+    FATAL_ERROR_IN("const faceList& enrichedPatch::enrichedFaces() const")
       << "Enriched faces not available yet.  Please use "
       << "void enrichedPatch::calcEnrichedFaces\n"
       << "(\n"

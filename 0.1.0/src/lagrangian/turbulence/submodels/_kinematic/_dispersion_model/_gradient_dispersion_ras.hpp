@@ -29,19 +29,19 @@ protected:
       mutable bool ownGradK_;
 public:
   //- Runtime type information
-  TypeName("gradientDispersionRAS");
+  TYPE_NAME("gradientDispersionRAS");
   // Constructors
     //- Construct from components
     GradientDispersionRAS(const dictionary& dict, CloudType& owner);
     //- Construct copy
     GradientDispersionRAS(const GradientDispersionRAS<CloudType>& dm);
     //- Construct and return a clone
-    virtual autoPtr<DispersionModel<CloudType> > clone() const
+    virtual autoPtr<DispersionModel<CloudType>> clone() const
     {
-      return autoPtr<DispersionModel<CloudType> >
-      (
-        new GradientDispersionRAS<CloudType>(*this)
-      );
+      return autoPtr<DispersionModel<CloudType>>
+      {
+        new GradientDispersionRAS<CloudType>{*this}
+      };
     }
   //- Destructor
   virtual ~GradientDispersionRAS();
@@ -62,6 +62,6 @@ public:
 }  // namespace mousse
 
 #ifdef NoRepository
-#   include "_gradient_dispersion_ras.cpp"
+#include "_gradient_dispersion_ras.cpp"
 #endif
 #endif

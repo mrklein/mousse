@@ -10,16 +10,19 @@
 #include "wall_point_data.hpp"
 #include "empty_fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+#include "switch.hpp"
+
 // Static Data Members
 namespace mousse
 {
 namespace patchDistMethods
 {
-  defineTypeNameAndDebug(meshWave, 0);
-  addToRunTimeSelectionTable(patchDistMethod, meshWave, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(meshWave, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(patchDistMethod, meshWave, dictionary);
 }
 }
-// Constructors 
+
+// Constructors
 mousse::patchDistMethods::meshWave::meshWave
 (
   const dictionary& dict,
@@ -42,7 +45,8 @@ mousse::patchDistMethods::meshWave::meshWave
   correctWalls_(correctWalls),
   nUnset_(0)
 {}
-// Member Functions 
+
+// Member Functions
 bool mousse::patchDistMethods::meshWave::correct(volScalarField& y)
 {
   y = dimensionedScalar("yWall", dimLength, GREAT);
@@ -51,7 +55,7 @@ bool mousse::patchDistMethods::meshWave::correct(volScalarField& y)
   // Transfer cell values from wave into y
   y.transfer(wave.distance());
   // Transfer values on patches into boundaryField of y
-  forAll(y.boundaryField(), patchI)
+  FOR_ALL(y.boundaryField(), patchI)
   {
     if (!isA<emptyFvPatchScalarField>(y.boundaryField()[patchI]))
     {
@@ -72,7 +76,7 @@ bool mousse::patchDistMethods::meshWave::correct
   y = dimensionedScalar("yWall", dimLength, GREAT);
   // Collect pointers to data on patches
   UPtrList<vectorField> patchData(mesh_.boundaryMesh().size());
-  forAll(n.boundaryField(), patchI)
+  FOR_ALL(n.boundaryField(), patchI)
   {
     patchData.set(patchI, &n.boundaryField()[patchI]);
   }
@@ -88,7 +92,7 @@ bool mousse::patchDistMethods::meshWave::correct
   y.transfer(wave.distance());
   n.transfer(wave.cellData());
   // Transfer values on patches into boundaryField of y and n
-  forAll(y.boundaryField(), patchI)
+  FOR_ALL(y.boundaryField(), patchI)
   {
     scalarField& waveFld = wave.patchDistance()[patchI];
     if (!isA<emptyFvPatchScalarField>(y.boundaryField()[patchI]))

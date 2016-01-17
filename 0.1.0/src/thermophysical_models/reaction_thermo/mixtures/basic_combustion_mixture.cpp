@@ -6,7 +6,7 @@
 // Static Member Functions
 namespace mousse
 {
-  defineTypeNameAndDebug(basicCombustionMixture, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(basicCombustionMixture, 0);
 }
 // Constructors 
 mousse::basicCombustionMixture::basicCombustionMixture

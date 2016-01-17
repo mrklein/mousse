@@ -8,7 +8,7 @@ template<class TransportModel>
 mousse::CompressibleTurbulenceModel<TransportModel>::
 CompressibleTurbulenceModel
 (
-  const word& type,
+  const word& /*type*/,
   const geometricOneField& alpha,
   const volScalarField& rho,
   const volVectorField& U,

@@ -1,0 +1,15 @@
+// mousse: CFD toolbox
+// Copyright (C) 2011 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+
+#undef UNARY_FUNCTION
+#undef UNARY_OPERATOR
+#undef BINARY_FUNCTION
+#undef BINARY_TYPE_FUNCTION_SF
+#undef BINARY_TYPE_FUNCTION_FS
+#undef BINARY_TYPE_FUNCTION
+#undef BINARY_OPERATOR
+#undef BINARY_TYPE_OPERATOR_SF
+#undef BINARY_TYPE_OPERATOR_FS
+#undef BINARY_TYPE_OPERATOR
+#undef TEMPLATE

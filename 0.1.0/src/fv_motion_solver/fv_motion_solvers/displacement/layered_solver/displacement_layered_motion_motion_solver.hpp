@@ -63,16 +63,9 @@ class displacementLayeredMotionMotionSolver
       const label cellZoneI,
       const dictionary& zoneDict
     );
-    //- Disallow default bitwise copy construct
-    displacementLayeredMotionMotionSolver
-    (
-      const displacementLayeredMotionMotionSolver&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const displacementLayeredMotionMotionSolver&);
 public:
   //- Runtime type information
-  TypeName("displacementLayeredMotion");
+  TYPE_NAME("displacementLayeredMotion");
   // Constructors
     //- Construct from polyMesh and IOdictionary
     displacementLayeredMotionMotionSolver
@@ -80,6 +73,16 @@ public:
       const polyMesh&,
       const IOdictionary&
     );
+    //- Disallow default bitwise copy construct
+    displacementLayeredMotionMotionSolver
+    (
+      const displacementLayeredMotionMotionSolver&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    displacementLayeredMotionMotionSolver& operator=
+    (
+      const displacementLayeredMotionMotionSolver&
+    ) = delete;
   //- Destructor
   ~displacementLayeredMotionMotionSolver();
   // Member Functions

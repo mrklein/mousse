@@ -171,7 +171,7 @@ private:
     );
   // Private Member Functions
 public:
-  ClassName("intersectedSurface");
+  CLASS_NAME("intersectedSurface");
   // Constructors
     //- Construct null
     intersectedSurface();

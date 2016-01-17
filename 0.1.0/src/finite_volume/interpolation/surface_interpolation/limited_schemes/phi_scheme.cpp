@@ -7,6 +7,7 @@
 #include "fvc_grad.hpp"
 #include "coupled_fv_patch_fields.hpp"
 #include "surface_interpolate.hpp"
+
 template<class Type, class PhiLimiter>
 mousse::tmp<mousse::surfaceScalarField>
 mousse::PhiScheme<Type, PhiLimiter>::limiter
@@ -16,19 +17,19 @@ mousse::PhiScheme<Type, PhiLimiter>::limiter
 {
   const fvMesh& mesh = this->mesh();
   tmp<surfaceScalarField> tLimiter
-  (
+  {
     new surfaceScalarField
-    (
+    {
       IOobject
-      (
+      {
         "PhiLimiter",
         mesh.time().timeName(),
         mesh
-      ),
+      },
       mesh,
       dimless
-    )
-  );
+    }
+  };
   surfaceScalarField& Limiter = tLimiter();
   const surfaceScalarField& CDweights = mesh.surfaceInterpolation::weights();
   const surfaceVectorField& Sf = mesh.Sf();
@@ -45,16 +46,17 @@ mousse::PhiScheme<Type, PhiLimiter>::limiter
   }
   else if (this->faceFlux_.dimensions() != dimVelocity*dimArea)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PhiScheme<PhiLimiter>::limiter"
       "(const GeometricField<Type, fvPatchField, volMesh>& phi)"
-    )   << "dimensions of faceFlux are not correct"
-      << exit(FatalError);
+    )
+    << "dimensions of faceFlux are not correct"
+    << exit(FatalError);
   }
   const surfaceScalarField& Uflux = tUflux();
   scalarField& pLimiter = Limiter.internalField();
-  forAll(pLimiter, face)
+  FOR_ALL(pLimiter, face)
   {
     pLimiter[face] = PhiLimiter::limiter
     (
@@ -68,7 +70,7 @@ mousse::PhiScheme<Type, PhiLimiter>::limiter
   }
   surfaceScalarField::GeometricBoundaryField& bLimiter =
     Limiter.boundaryField();
-  forAll(bLimiter, patchI)
+  FOR_ALL(bLimiter, patchI)
   {
     scalarField& pLimiter = bLimiter[patchI];
     if (bLimiter[patchI].coupled())
@@ -85,7 +87,7 @@ mousse::PhiScheme<Type, PhiLimiter>::limiter
       (
         phi.boundaryField()[patchI].patchNeighbourField()
       );
-      forAll(pLimiter, face)
+      FOR_ALL(pLimiter, face)
       {
         pLimiter[face] = PhiLimiter::limiter
         (

@@ -25,23 +25,19 @@ class gaussLaplacianScheme
       const surfaceVectorField& SfGammaCorr,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    //- Disallow default bitwise copy construct
-    gaussLaplacianScheme(const gaussLaplacianScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const gaussLaplacianScheme&);
 public:
   //- Runtime type information
-  TypeName("Gauss");
+  TYPE_NAME("Gauss");
   // Constructors
     //- Construct null
     gaussLaplacianScheme(const fvMesh& mesh)
     :
-      laplacianScheme<Type, GType>(mesh)
+      laplacianScheme<Type, GType>{mesh}
     {}
     //- Construct from Istream
     gaussLaplacianScheme(const fvMesh& mesh, Istream& is)
     :
-      laplacianScheme<Type, GType>(mesh, is)
+      laplacianScheme<Type, GType>{mesh, is}
     {}
     //- Construct from mesh, interpolation and snGradScheme schemes
     gaussLaplacianScheme
@@ -51,8 +47,12 @@ public:
       const tmp<snGradScheme<Type> >& sngs
     )
     :
-      laplacianScheme<Type, GType>(mesh, igs, sngs)
+      laplacianScheme<Type, GType>{mesh, igs, sngs}
     {}
+    //- Disallow default bitwise copy construct
+    gaussLaplacianScheme(const gaussLaplacianScheme&) = delete;
+    //- Disallow default bitwise assignment
+    gaussLaplacianScheme& operator=(const gaussLaplacianScheme&) = delete;
   //- Destructor
   virtual ~gaussLaplacianScheme()
   {}

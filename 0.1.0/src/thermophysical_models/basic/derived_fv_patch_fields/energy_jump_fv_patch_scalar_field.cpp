@@ -94,9 +94,9 @@ void mousse::energyJumpFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
- makePatchTypeField
- (
-   fvPatchScalarField,
-   energyJumpFvPatchScalarField
- );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  energyJumpFvPatchScalarField
+);
 }

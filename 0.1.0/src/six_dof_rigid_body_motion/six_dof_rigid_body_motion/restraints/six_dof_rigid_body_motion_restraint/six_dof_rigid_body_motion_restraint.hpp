@@ -29,9 +29,9 @@ protected:
     dictionary sDoFRBMRCoeffs_;
 public:
   //- Runtime type information
-  TypeName("sixDoFRigidBodyMotionRestraint");
+  TYPE_NAME("sixDoFRigidBodyMotionRestraint");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       sixDoFRigidBodyMotionRestraint,

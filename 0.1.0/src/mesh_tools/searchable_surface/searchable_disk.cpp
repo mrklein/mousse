@@ -7,8 +7,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(searchableDisk, 0);
-addToRunTimeSelectionTable(searchableSurface, searchableDisk, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(searchableDisk, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchableDisk, dict);
 }
 // Private Member Functions 
 mousse::pointIndexHit mousse::searchableDisk::findNearest
@@ -161,7 +161,7 @@ void mousse::searchableDisk::findNearest
 ) const
 {
   info.setSize(samples.size());
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     info[i] = findNearest(samples[i], nearestDistSqr[i]);
   }
@@ -174,7 +174,7 @@ void mousse::searchableDisk::findLine
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     findLine(start[i], end[i], info[i]);
   }
@@ -196,7 +196,7 @@ void mousse::searchableDisk::findLineAll
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     pointIndexHit inter;
     findLine(start[i], end[i], inter);
@@ -231,11 +231,11 @@ void mousse::searchableDisk::getNormal
 }
 void mousse::searchableDisk::getVolumeType
 (
-  const pointField& points,
-  List<volumeType>& volType
+  const pointField&,
+  List<volumeType>&
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "searchableDisk::getVolumeType(const pointField&"
     ", List<volumeType>&) const"

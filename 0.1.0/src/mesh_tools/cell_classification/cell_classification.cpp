@@ -15,12 +15,14 @@
 #include "cpu_time.hpp"
 #include "tri_surface.hpp"
 #include "global_mesh_data.hpp"
+#include "pstream_reduce_ops.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(cellClassification, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(cellClassification, 0);
 }
-// Private Member Functions 
+// Private Member Functions
 mousse::label mousse::cellClassification::count
 (
   const labelList& elems,
@@ -28,7 +30,7 @@ mousse::label mousse::cellClassification::count
 )
 {
   label cnt = 0;
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     if (elems[elemI] == elem)
     {
@@ -52,7 +54,7 @@ mousse::boolList mousse::cellClassification::markFaces
   label nCutFaces = 0;
   // Intersect mesh edges with surface (is fast) and mark all faces that
   // use edge.
-  forAll(mesh_.edges(), edgeI)
+  FOR_ALL(mesh_.edges(), edgeI)
   {
     if (debug && (edgeI % 10000 == 0))
     {
@@ -66,7 +68,7 @@ mousse::boolList mousse::cellClassification::markFaces
     if (pHit.hit())
     {
       const labelList& myFaces = mesh_.edgeFaces()[edgeI];
-      forAll(myFaces, myFaceI)
+      FOR_ALL(myFaces, myFaceI)
       {
         label faceI = myFaces[myFaceI];
         if (!cutFace[faceI])
@@ -87,7 +89,7 @@ mousse::boolList mousse::cellClassification::markFaces
   //
   labelList allFaces(mesh_.nFaces() - nCutFaces);
   label allFaceI = 0;
-  forAll(cutFace, faceI)
+  FOR_ALL(cutFace, faceI)
   {
     if (!cutFace[faceI])
     {
@@ -122,7 +124,7 @@ mousse::boolList mousse::cellClassification::markFaces
   const edgeList& edges = surf.edges();
   const pointField& localPoints = surf.localPoints();
   label nAddFaces = 0;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (debug && (edgeI % 10000 == 0))
     {
@@ -185,7 +187,7 @@ void mousse::cellClassification::markCells
   // Construct null; sets type to NOTSET
   List<cellInfo> cellInfoList(mesh_.nCells());
   // Mark cut cells first
-  forAll(piercedFace, faceI)
+  FOR_ALL(piercedFace, faceI)
   {
     if (piercedFace[faceI])
     {
@@ -203,13 +205,13 @@ void mousse::cellClassification::markCells
   //
   // Coarse guess number of faces
   labelHashSet outsideFacesMap(outsidePts.size() * 6 * 2);
-  forAll(outsidePts, outsidePtI)
+  FOR_ALL(outsidePts, outsidePtI)
   {
     // Use linear search for points.
     label cellI = queryMesh.findCell(outsidePts[outsidePtI], -1, false);
     if (returnReduce(cellI, maxOp<label>()) == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "List<cellClassification::cType> markCells"
         "(const meshSearch&, const boolList&, const pointField&)"
@@ -223,7 +225,7 @@ void mousse::cellClassification::markCells
       cellInfoList[cellI] = cellInfo(cellClassification::OUTSIDE);
       // Mark faces of cellI
       const labelList& myFaces = mesh_.cells()[cellI];
-      forAll(myFaces, myFaceI)
+      FOR_ALL(myFaces, myFaceI)
       {
         outsideFacesMap.insert(myFaces[myFaceI]);
       }
@@ -248,7 +250,7 @@ void mousse::cellClassification::markCells
   );
   // Get information out of cellInfoList
   const List<cellInfo>& allInfo = cellInfoCalc.allCellInfo();
-  forAll(allInfo, cellI)
+  FOR_ALL(allInfo, cellI)
   {
     label t = allInfo[cellI].type();
     if (t == cellClassification::NOTSET)
@@ -266,11 +268,11 @@ void mousse::cellClassification::classifyPoints
 ) const
 {
   pointSide.setSize(mesh_.nPoints());
-  forAll(mesh_.pointCells(), pointI)
+  FOR_ALL(mesh_.pointCells(), pointI)
   {
     const labelList& pCells = mesh_.pointCells()[pointI];
     pointSide[pointI] = UNSET;
-    forAll(pCells, i)
+    FOR_ALL(pCells, i)
     {
       label type = cellType[pCells[i]];
       if (type == meshType)
@@ -308,10 +310,10 @@ bool mousse::cellClassification::usesMixedPointsOnly
 {
   const faceList& faces = mesh_.faces();
   const cell& cFaces = mesh_.cells()[cellI];
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     const face& f = faces[cFaces[cFaceI]];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (pointSide[f[fp]] != MIXED)
       {
@@ -366,7 +368,7 @@ void mousse::cellClassification::getMeshOutside
   outsideFaces.setSize(outsideI);
   outsideOwner.setSize(outsideI);
 }
-// Constructors 
+// Constructors
 // Construct from mesh and surface and point(s) on outside
 mousse::cellClassification::cellClassification
 (
@@ -398,7 +400,7 @@ mousse::cellClassification::cellClassification
 {
   if (mesh_.nCells() != size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "cellClassification::cellClassification"
       "(const polyMesh&, const labelList&)"
@@ -412,7 +414,7 @@ mousse::cellClassification::cellClassification(const cellClassification& cType)
   labelList(cType),
   mesh_(cType.mesh())
 {}
-// Member Functions 
+// Member Functions
 // Makes cutCells further than nLayers away from meshType to
 // fillType. Returns number of cells changed.
 mousse::label mousse::cellClassification::trimCutCells
@@ -425,7 +427,7 @@ mousse::label mousse::cellClassification::trimCutCells
   // Temporary cell type for growing.
   labelList newCellType(*this);
 //    // Split types into outside and rest
-//    forAll(*this, cellI)
+//    FOR_ALL(*this, cellI)
 //    {
 //        label type = operator[](cellI);
 //
@@ -448,13 +450,13 @@ mousse::label mousse::cellClassification::trimCutCells
     List<pointStatus> pointSide(mesh_.nPoints());
     classifyPoints(meshType, newCellType, pointSide);
     // Grow layer of outside cells
-    forAll(pointSide, pointI)
+    FOR_ALL(pointSide, pointI)
     {
       if (pointSide[pointI] == MIXED)
       {
         // Make cut
         const labelList& pCells = mesh_.pointCells()[pointI];
-        forAll(pCells, i)
+        FOR_ALL(pCells, i)
         {
           label type = newCellType[pCells[i]];
           if (type == cellClassification::CUT)
@@ -472,7 +474,7 @@ mousse::label mousse::cellClassification::trimCutCells
   // - leave nonMesh cells intact
   // - make cutcells fillType if they were not marked in newCellType
   label nChanged = 0;
-  forAll(newCellType, cellI)
+  FOR_ALL(newCellType, cellI)
   {
     if (operator[](cellI) == cellClassification::CUT)
     {
@@ -496,11 +498,11 @@ mousse::label mousse::cellClassification::growSurface
 {
   boolList hasMeshType(mesh_.nPoints(), false);
   // Mark points used by meshType cells
-  forAll(mesh_.pointCells(), pointI)
+  FOR_ALL(mesh_.pointCells(), pointI)
   {
     const labelList& myCells = mesh_.pointCells()[pointI];
     // Check if one of cells has meshType
-    forAll(myCells, myCellI)
+    FOR_ALL(myCells, myCellI)
     {
       label type = operator[](myCells[myCellI]);
       if (type == meshType)
@@ -512,12 +514,12 @@ mousse::label mousse::cellClassification::growSurface
   }
   // Change neighbours of marked points
   label nChanged = 0;
-  forAll(hasMeshType, pointI)
+  FOR_ALL(hasMeshType, pointI)
   {
     if (hasMeshType[pointI])
     {
       const labelList& myCells = mesh_.pointCells()[pointI];
-      forAll(myCells, myCellI)
+      FOR_ALL(myCells, myCellI)
       {
         if (operator[](myCells[myCellI]) != meshType)
         {
@@ -550,12 +552,12 @@ mousse::label mousse::cellClassification::fillHangingCells
     // Check all cells using mixed point type for whether they use mixed
     // points only. Note: could probably speed this up by counting number
     // of mixed verts per face and mixed faces per cell or something?
-    forAll(pointSide, pointI)
+    FOR_ALL(pointSide, pointI)
     {
       if (pointSide[pointI] == MIXED)
       {
         const labelList& pCells = mesh_.pointCells()[pointI];
-        forAll(pCells, i)
+        FOR_ALL(pCells, i)
         {
           label cellI = pCells[i];
           if (operator[](cellI) == meshType)
@@ -599,14 +601,14 @@ mousse::label mousse::cellClassification::fillRegionEdges
     const labelListList& edgeFaces = fp.edgeFaces();
     label nChanged = 0;
     // Check all edgeFaces for non-manifoldness
-    forAll(edgeFaces, edgeI)
+    FOR_ALL(edgeFaces, edgeI)
     {
       const labelList& eFaces = edgeFaces[edgeI];
       if (eFaces.size() > 2)
       {
         // patch connected through pinched edge. Remove first face using
         // edge (and not yet changed)
-        forAll(eFaces, i)
+        FOR_ALL(eFaces, i)
         {
           label patchFaceI = eFaces[i];
           label ownerCell = outsideOwner[patchFaceI];
@@ -651,7 +653,7 @@ mousse::label mousse::cellClassification::fillRegionPoints
     fp.checkPointManifold(false, &nonManifoldPoints);
     const Map<label>& meshPointMap = fp.meshPointMap();
     label nChanged = 0;
-    forAllConstIter(labelHashSet, nonManifoldPoints, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, nonManifoldPoints, iter)
     {
       // Find a face on fp using point and remove it.
       const label patchPointI = meshPointMap[iter.key()];
@@ -659,7 +661,7 @@ mousse::label mousse::cellClassification::fillRegionPoints
       // Remove any face using conflicting point. Does first face which
       // has not yet been done. Could be more intelligent and decide which
       // one would be best to remove.
-      forAll(pFaces, i)
+      FOR_ALL(pFaces, i)
       {
         const label patchFaceI = pFaces[i];
         const label ownerCell  = outsideOwner[patchFaceI];
@@ -689,7 +691,8 @@ void mousse::cellClassification::writeStats(Ostream& os) const
     << "    inside  : " << count(*this, INSIDE) << endl
     << "    outside : " << count(*this, OUTSIDE) << endl;
 }
-// Member Operators 
+
+// Member Operators
 void mousse::cellClassification::operator=(const mousse::cellClassification& rhs)
 {
   labelList::operator=(rhs);

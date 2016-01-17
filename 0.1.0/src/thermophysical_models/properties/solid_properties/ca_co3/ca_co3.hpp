@@ -24,7 +24,7 @@ class CaCO3
 {
 public:
   //- Runtime type information
-  TypeName("CaCO3");
+  TYPE_NAME("CaCO3");
   // Constructors
     //- Construct null
     CaCO3();

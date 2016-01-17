@@ -8,8 +8,8 @@
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 namespace mousse
 {
-  defineTypeNameAndDebug(basicSolidChemistryModel, 0);
-  defineRunTimeSelectionTable(basicSolidChemistryModel, fvMesh);
+  DEFINE_TYPE_NAME_AND_DEBUG(basicSolidChemistryModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(basicSolidChemistryModel, fvMesh);
 }
 // Constructors 
 mousse::basicSolidChemistryModel::basicSolidChemistryModel
@@ -25,9 +25,9 @@ mousse::basicSolidChemistryModel::basicSolidChemistryModel
 mousse::basicSolidChemistryModel::~basicSolidChemistryModel()
 {}
 const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
-mousse::basicSolidChemistryModel::RR(const label i) const
+mousse::basicSolidChemistryModel::RR(const label) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&"
     "basicSolidChemistryModel::RR(const label)"
@@ -35,9 +35,9 @@ mousse::basicSolidChemistryModel::RR(const label i) const
   return (DimensionedField<scalar, volMesh>::null());
 }
 mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
-mousse::basicSolidChemistryModel::RR(const label i)
+mousse::basicSolidChemistryModel::RR(const label)
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::DimensionedField<mousse::scalar, mousse::volMesh>&"
     "basicSolidChemistryModel::RR(const label)"
@@ -53,11 +53,11 @@ mousse::basicSolidChemistryModel::RR(const label i)
 mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >
 mousse::basicSolidChemistryModel::calculateRR
 (
-  const label reactionI,
-  const label speciei
+  const label /*reactionI*/,
+  const label /*speciei*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::DimensionedField<mousse::scalar, mousse::volMesh>&"
     "basicSolidChemistryModel::calculateRR(const label)"

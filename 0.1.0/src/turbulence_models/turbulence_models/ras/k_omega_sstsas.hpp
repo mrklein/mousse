@@ -60,10 +60,6 @@ class kOmegaSSTSAS
 :
   public kOmegaSST<BasicTurbulenceModel>
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    kOmegaSSTSAS(const kOmegaSSTSAS&);
-    kOmegaSSTSAS& operator=(const kOmegaSSTSAS&);
 protected:
   // Protected data
     // Model constants
@@ -88,7 +84,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("kOmegaSSTSAS");
+  TYPE_NAME("kOmegaSSTSAS");
   // Constructors
     //- Construct from components
     kOmegaSSTSAS
@@ -102,6 +98,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    kOmegaSSTSAS(const kOmegaSSTSAS&) = delete;
+    kOmegaSSTSAS& operator=(const kOmegaSSTSAS&) = delete;
   //- Destructor
   virtual ~kOmegaSSTSAS()
   {}

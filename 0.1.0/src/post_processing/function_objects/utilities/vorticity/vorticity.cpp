@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(vorticity, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(vorticity, 0);
 }
 // Constructors 
 mousse::vorticity::vorticity
@@ -17,20 +17,20 @@ mousse::vorticity::vorticity
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  UName_("U"),
-  outputName_(typeName)
+  name_{name},
+  obr_{obr},
+  active_{true},
+  UName_{"U"},
+  outputName_{typeName}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "vorticity::vorticity"
       "("
@@ -39,29 +39,30 @@ mousse::vorticity::vorticity
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   read(dict);
   if (active_)
   {
     const fvMesh& mesh = refCast<const fvMesh>(obr_);
     volVectorField* vorticityPtr
-    (
+    {
       new volVectorField
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           outputName_,
           mesh.time().timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh,
-        dimensionedVector("0", dimless/dimTime, vector::zero)
-      )
-    );
+        {"0", dimless/dimTime, vector::zero}
+      }
+    };
     mesh.objectRegistry::store(vorticityPtr);
   }
 }

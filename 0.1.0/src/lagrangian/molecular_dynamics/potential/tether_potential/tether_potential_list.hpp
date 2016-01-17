@@ -31,10 +31,6 @@ class tetherPotentialList
       const dictionary& tetherPotentialDict,
       const List<word>& tetherSiteIdList
     );
-    //- Disallow default bitwise assignment
-    void operator=(const tetherPotentialList&);
-    //- Disallow default bitwise copy construct
-    tetherPotentialList(const tetherPotentialList&);
 public:
   // Constructors
     tetherPotentialList();
@@ -45,6 +41,10 @@ public:
       const dictionary& tetherPotentialDict,
       const List<word>& tetherSiteIdList
     );
+    //- Disallow default bitwise assignment
+    tetherPotentialList& operator=(const tetherPotentialList&) = delete;
+    //- Disallow default bitwise copy construct
+    tetherPotentialList(const tetherPotentialList&) = delete;
   //- Destructor
   ~tetherPotentialList();
   // Member Functions
@@ -61,5 +61,27 @@ public:
       scalar energy (const label a, const vector rIT) const;
 };
 }  // namespace mousse
-#include "tether_potential_list_i.hpp"
+
+// Private Member Functions 
+inline mousse::label mousse::tetherPotentialList::tetherPotentialIndex
+(
+  const label a
+) const
+{
+  label index = idMap_[a];
+  if (index == -1 || a >= idMap_.size())
+  {
+    FATAL_ERROR_IN
+    (
+      "mousse::tetherPotentialList::tetherPotentialIndex(const label a)"
+    )
+    << "Attempting to access an undefined tetherPotential."
+    << abort(FatalError);
+    return -1;
+  }
+  else
+  {
+    return index;
+  }
+}
 #endif

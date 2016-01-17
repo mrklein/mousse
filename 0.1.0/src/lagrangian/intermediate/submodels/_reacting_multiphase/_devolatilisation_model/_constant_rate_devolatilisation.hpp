@@ -30,7 +30,7 @@ class ConstantRateDevolatilisation
       const scalar residualCoeff_;
 public:
   //- Runtime type information
-  TypeName("constantRateDevolatilisation");
+  TYPE_NAME("constantRateDevolatilisation");
   // Constructors
     //- Construct from dictionary
     ConstantRateDevolatilisation(const dictionary& dict, CloudType& owner);

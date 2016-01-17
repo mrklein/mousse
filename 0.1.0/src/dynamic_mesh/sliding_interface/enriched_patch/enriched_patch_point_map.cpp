@@ -8,7 +8,7 @@ void mousse::enrichedPatch::completePointMap() const
 {
   if (pointMapComplete_)
   {
-    FatalErrorIn("void enrichedPatch::completePointMap() const")
+    FATAL_ERROR_IN("void enrichedPatch::completePointMap() const")
       << "Point map already completed"
       << abort(FatalError);
   }
@@ -19,7 +19,7 @@ void mousse::enrichedPatch::completePointMap() const
   // Do master patch
   const labelList& masterMeshPoints = masterPatch_.meshPoints();
   const pointField& masterLocalPoints = masterPatch_.localPoints();
-  forAll(masterMeshPoints, pointI)
+  FOR_ALL(masterMeshPoints, pointI)
   {
     if (!pmm.found(masterMeshPoints[pointI]))
     {
@@ -33,7 +33,7 @@ void mousse::enrichedPatch::completePointMap() const
   // Do slave patch
   const labelList& slaveMeshPoints = slavePatch_.meshPoints();
   const pointField& slaveLocalPoints = slavePatch_.localPoints();
-  forAll(slaveMeshPoints, pointI)
+  FOR_ALL(slaveMeshPoints, pointI)
   {
     if (!pmm.found(slaveMeshPoints[pointI]))
     {

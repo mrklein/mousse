@@ -19,7 +19,7 @@ class fixedValueFvsPatchField
 {
 public:
   //- Runtime type information
-  TypeName("fixedValue");
+  TYPE_NAME("fixedValue");
   // Constructors
     //- Construct from patch and internal field
     fixedValueFvsPatchField

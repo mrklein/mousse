@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-defineTypeNameAndDebug(cyclicSlipFvPatch, 0);
-addToRunTimeSelectionTable(fvPatch, cyclicSlipFvPatch, polyPatch);
+
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicSlipFvPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, cyclicSlipFvPatch, polyPatch);
+
 }  // namespace mousse

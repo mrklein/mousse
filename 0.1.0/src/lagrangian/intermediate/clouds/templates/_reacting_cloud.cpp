@@ -36,7 +36,7 @@ void mousse::ReactingCloud<CloudType>::checkSuppliedComposition
 {
   if (YSupplied.size() != Y.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "ReactingCloud<CloudType>::checkSuppliedComposition"
       "("
@@ -87,7 +87,7 @@ mousse::ReactingCloud<CloudType>::ReactingCloud
     }
   }
   // Set storage for mass source fields and initialise to zero
-  forAll(rhoTrans_, i)
+  FOR_ALL(rhoTrans_, i)
   {
     const word& specieName = thermo.carrier().species()[i];
     rhoTrans_.set
@@ -128,7 +128,7 @@ mousse::ReactingCloud<CloudType>::ReactingCloud
   phaseChangeModel_(c.phaseChangeModel_->clone()),
   rhoTrans_(c.rhoTrans_.size())
 {
-  forAll(c.rhoTrans_, i)
+  FOR_ALL(c.rhoTrans_, i)
   {
     const word& specieName = this->thermo().carrier().species()[i];
     rhoTrans_.set
@@ -225,7 +225,7 @@ template<class CloudType>
 void mousse::ReactingCloud<CloudType>::resetSourceTerms()
 {
   CloudType::resetSourceTerms();
-  forAll(rhoTrans_, i)
+  FOR_ALL(rhoTrans_, i)
   {
     rhoTrans_[i].field() = 0.0;
   }
@@ -238,7 +238,7 @@ void mousse::ReactingCloud<CloudType>::relaxSources
 {
   CloudType::relaxSources(cloudOldTime);
   typedef DimensionedField<scalar, volMesh> dsfType;
-  forAll(rhoTrans_, fieldI)
+  FOR_ALL(rhoTrans_, fieldI)
   {
     dsfType& rhoT = rhoTrans_[fieldI];
     const dsfType& rhoT0 = cloudOldTime.rhoTrans()[fieldI];
@@ -250,7 +250,7 @@ void mousse::ReactingCloud<CloudType>::scaleSources()
 {
   CloudType::scaleSources();
   typedef DimensionedField<scalar, volMesh> dsfType;
-  forAll(rhoTrans_, fieldI)
+  FOR_ALL(rhoTrans_, fieldI)
   {
     dsfType& rhoT = rhoTrans_[fieldI];
     this->scale(rhoT, "rho");

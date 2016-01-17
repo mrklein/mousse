@@ -19,9 +19,9 @@ class DispersionModel
 {
 public:
   //- Runtime type information
-  TypeName("dispersionModel");
+  TYPE_NAME("dispersionModel");
   // Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     DispersionModel,
@@ -68,25 +68,25 @@ public:
 };
 }  // namespace mousse
 
-#define makeDispersionModel(CloudType)                                        \
+#define MAKE_DISPERSION_MODEL(CloudType)                                      \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineTemplateTypeNameAndDebug                                              \
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG                                         \
     (mousse::DispersionModel<kinematicCloudType>, 0);                         \
                                                                               \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       DispersionModel<kinematicCloudType>,                                    \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeDispersionModelType(SS, CloudType)                                \
+#define MAKE_DISPERSION_MODEL_TYPE(SS, CloudType)                             \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  defineNamedTemplateTypeNameAndDebug(mousse::SS<kinematicCloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::DispersionModel<kinematicCloudType>::                               \
     adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \

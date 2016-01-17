@@ -21,14 +21,14 @@ mousse::fv::SemiImplicitSource<Type>::wordToVolumeModeType
   const word& vmtName
 ) const
 {
-  forAll(volumeModeTypeNames_, i)
+  FOR_ALL(volumeModeTypeNames_, i)
   {
     if (vmtName == volumeModeTypeNames_[i])
     {
       return volumeModeType(i);
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "SemiImplicitSource<Type>::volumeModeType"
     "SemiImplicitSource<Type>::wordToVolumeModeType(const word&)"
@@ -59,7 +59,7 @@ void mousse::fv::SemiImplicitSource<Type>::setFieldData(const dictionary& dict)
   injectionRate_.setSize(fieldNames_.size());
   applied_.setSize(fieldNames_.size(), false);
   label i = 0;
-  forAllConstIter(dictionary, dict, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict, iter)
   {
     fieldNames_[i] = iter().keyword();
     dict.lookup(iter().keyword()) >> injectionRate_[i];
@@ -147,7 +147,7 @@ void mousse::fv::SemiImplicitSource<Type>::addSup
 template<class Type>
 void mousse::fv::SemiImplicitSource<Type>::addSup
 (
-  const volScalarField& rho,
+  const volScalarField& /*rho*/,
   fvMatrix<Type>& eqn,
   const label fieldI
 )

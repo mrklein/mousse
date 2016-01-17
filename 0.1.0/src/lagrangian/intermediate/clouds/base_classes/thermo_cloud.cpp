@@ -6,7 +6,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(thermoCloud, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(thermoCloud, 0);
 }
 // Constructors 
 mousse::thermoCloud::thermoCloud()

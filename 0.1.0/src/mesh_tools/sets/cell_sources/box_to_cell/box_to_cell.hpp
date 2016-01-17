@@ -26,7 +26,7 @@ class boxToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("boxToCell");
+  TYPE_NAME("boxToCell");
   // Constructors
     //- Construct from components
     boxToCell

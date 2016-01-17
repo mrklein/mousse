@@ -60,7 +60,7 @@ class fluxCorrectedVelocityFvPatchVectorField
     word rhoName_;
 public:
   //- Runtime type information
-  TypeName("fluxCorrectedVelocity");
+  TYPE_NAME("fluxCorrectedVelocity");
   // Constructors
     //- Construct from patch and internal field
     fluxCorrectedVelocityFvPatchVectorField

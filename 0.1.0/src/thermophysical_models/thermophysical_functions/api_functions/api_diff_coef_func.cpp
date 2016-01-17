@@ -6,14 +6,14 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(APIdiffCoefFunc, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(APIdiffCoefFunc, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     thermophysicalFunction,
     APIdiffCoefFunc,
     Istream
   );
-  addToRunTimeSelectionTable
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     thermophysicalFunction,
     APIdiffCoefFunc,

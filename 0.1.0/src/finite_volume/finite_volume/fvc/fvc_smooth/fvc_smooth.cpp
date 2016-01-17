@@ -7,6 +7,8 @@
 #include "face_cell_wave.hpp"
 #include "smooth_data.hpp"
 #include "sweep_data.hpp"
+#include "global_mesh_data.hpp"
+
 void mousse::fvc::smooth
 (
   volScalarField& field,
@@ -19,7 +21,7 @@ void mousse::fvc::smooth
   DynamicList<smoothData> changedFacesInfo(changedFaces.size());
   const labelUList& owner = mesh.owner();
   const labelUList& neighbour = mesh.neighbour();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     const label own = owner[facei];
     const label nbr = neighbour[facei];
@@ -36,12 +38,12 @@ void mousse::fvc::smooth
     }
   }
   // Insert all faces of coupled patches - FaceCellWave will correct them
-  forAll(mesh.boundaryMesh(), patchi)
+  FOR_ALL(mesh.boundaryMesh(), patchi)
   {
     const polyPatch& patch = mesh.boundaryMesh()[patchi];
     if (patch.coupled())
     {
-      forAll(patch, patchFacei)
+      FOR_ALL(patch, patchFacei)
       {
         label facei = patch.start() + patchFacei;
         label own = mesh.faceOwner()[facei];
@@ -54,7 +56,7 @@ void mousse::fvc::smooth
   changedFacesInfo.shrink();
   // Set initial field on cells
   List<smoothData> cellData(mesh.nCells());
-  forAll(field, celli)
+  FOR_ALL(field, celli)
   {
     cellData[celli] = field[celli];
   }
@@ -73,36 +75,40 @@ void mousse::fvc::smooth
     mesh.globalData().nTotalCells(),   // max iterations
     td
   );
-  forAll(field, celli)
+  FOR_ALL(field, celli)
   {
     field[celli] = cellData[celli].value();
   }
   field.correctBoundaryConditions();
 }
+
+
 void mousse::fvc::spread
 (
   volScalarField& field,
   const volScalarField& alpha,
   const label nLayers,
   const scalar alphaDiff,
-  const scalar alphaMax,
-  const scalar alphaMin
+  const scalar /*alphaMax*/,
+  const scalar /*alphaMin*/
 )
 {
   const fvMesh& mesh = field.mesh();
-  DynamicList<label> changedFaces(mesh.nFaces()/100 + 100);
-  DynamicList<smoothData> changedFacesInfo(changedFaces.size());
+  DynamicList<label> changedFaces{mesh.nFaces()/100 + 100};
+  DynamicList<smoothData> changedFacesInfo{changedFaces.size()};
+
   // Set initial field on cells
-  List<smoothData> cellData(mesh.nCells());
-  forAll(field, celli)
+  List<smoothData> cellData{mesh.nCells()};
+  FOR_ALL(field, celli)
   {
     cellData[celli] = field[celli];
   }
+
   // Set initial field on faces
-  List<smoothData> faceData(mesh.nFaces());
+  List<smoothData> faceData{mesh.nFaces()};
   const labelUList& owner = mesh.owner();
   const labelUList& neighbour = mesh.neighbour();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     const label own = owner[facei];
     const label nbr = neighbour[facei];
@@ -115,13 +121,14 @@ void mousse::fvc::spread
       );
     }
   }
+
   // Insert all faces of coupled patches - FaceCellWave will correct them
-  forAll(mesh.boundaryMesh(), patchi)
+  FOR_ALL(mesh.boundaryMesh(), patchi)
   {
     const polyPatch& patch = mesh.boundaryMesh()[patchi];
     if (patch.coupled())
     {
-      forAll(patch, patchFacei)
+      FOR_ALL(patch, patchFacei)
       {
         label facei = patch.start() + patchFacei;
         label own = mesh.faceOwner()[facei];
@@ -141,22 +148,25 @@ void mousse::fvc::spread
   changedFacesInfo.shrink();
   smoothData::trackData td;
   td.maxRatio = 1.0;
+
   // Propagate information over whole domain
   FaceCellWave<smoothData, smoothData::trackData> smoothData
-  (
+  {
     mesh,
     faceData,
     cellData,
     td
-  );
+  };
   smoothData.setFaceInfo(changedFaces, changedFacesInfo);
   smoothData.iterate(nLayers);
-  forAll(field, celli)
+  FOR_ALL(field, celli)
   {
     field[celli] = cellData[celli].value();
   }
   field.correctBoundaryConditions();
 }
+
+
 void mousse::fvc::sweep
 (
   volScalarField& field,
@@ -166,16 +176,18 @@ void mousse::fvc::sweep
 )
 {
   const fvMesh& mesh = field.mesh();
-  DynamicList<label> changedFaces(mesh.nFaces()/100 + 100);
-  DynamicList<sweepData> changedFacesInfo(changedFaces.size());
+  DynamicList<label> changedFaces{mesh.nFaces()/100 + 100};
+  DynamicList<sweepData> changedFacesInfo{changedFaces.size()};
+
   // Set initial field on cells
-  List<sweepData> cellData(mesh.nCells());
+  List<sweepData> cellData{mesh.nCells()};
+
   // Set initial field on faces
-  List<sweepData> faceData(mesh.nFaces());
+  List<sweepData> faceData{mesh.nFaces()};
   const labelUList& owner = mesh.owner();
   const labelUList& neighbour = mesh.neighbour();
   const vectorField& Cf = mesh.faceCentres();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     const label own = owner[facei];
     const label nbr = neighbour[facei];
@@ -188,13 +200,14 @@ void mousse::fvc::sweep
       );
     }
   }
+
   // Insert all faces of coupled patches - FaceCellWave will correct them
-  forAll(mesh.boundaryMesh(), patchi)
+  FOR_ALL(mesh.boundaryMesh(), patchi)
   {
     const polyPatch& patch = mesh.boundaryMesh()[patchi];
     if (patch.coupled())
     {
-      forAll(patch, patchFacei)
+      FOR_ALL(patch, patchFacei)
       {
         label facei = patch.start() + patchFacei;
         label own = mesh.faceOwner()[facei];
@@ -215,16 +228,17 @@ void mousse::fvc::sweep
   }
   changedFaces.shrink();
   changedFacesInfo.shrink();
+
   // Propagate information over whole domain
   FaceCellWave<sweepData> sweepData
-  (
+  {
     mesh,
     faceData,
     cellData
-  );
+  };
   sweepData.setFaceInfo(changedFaces, changedFacesInfo);
   sweepData.iterate(nLayers);
-  forAll(field, celli)
+  FOR_ALL(field, celli)
   {
     if (cellData[celli].valid(sweepData.data()))
     {

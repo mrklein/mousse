@@ -4,7 +4,7 @@
 
 #include "_collision_model.hpp"
 template<class CloudType>
-mousse::autoPtr<mousse::CollisionModel<CloudType> >
+mousse::autoPtr<mousse::CollisionModel<CloudType>>
 mousse::CollisionModel<CloudType>::New
 (
   const dictionary& dict,
@@ -17,17 +17,18 @@ mousse::CollisionModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "CollisionModel<CloudType>::New"
       "("
         "const dictionary&, "
         "CloudType&"
       ")"
-    )   << "Unknown collision model type " << modelType
-      << ", constructor not in hash table" << nl << nl
-      << "    Valid collision model types are:" << nl
-      << dictionaryConstructorTablePtr_->sortedToc() << exit(FatalError);
+    )
+    << "Unknown collision model type " << modelType
+    << ", constructor not in hash table" << nl << nl
+    << "    Valid collision model types are:" << nl
+    << dictionaryConstructorTablePtr_->sortedToc() << exit(FatalError);
   }
-  return autoPtr<CollisionModel<CloudType> >(cstrIter()(dict, owner));
+  return autoPtr<CollisionModel<CloudType>>(cstrIter()(dict, owner));
 }

@@ -31,10 +31,10 @@ mousse::extendedCentredCellToFaceStencil::extendedCentredCellToFaceStencil
 void mousse::extendedCentredCellToFaceStencil::compact()
 {
   boolList isInStencil(map().constructSize(), false);
-  forAll(stencil_, faceI)
+  FOR_ALL(stencil_, faceI)
   {
     const labelList& stencilCells = stencil_[faceI];
-    forAll(stencilCells, i)
+    FOR_ALL(stencilCells, i)
     {
       isInStencil[stencilCells[i]] = true;
     }

@@ -14,8 +14,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(decompositionMethod, 0);
-  defineRunTimeSelectionTable(decompositionMethod, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(decompositionMethod, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(decompositionMethod, dictionary);
 }
 // Member Functions 
 mousse::autoPtr<mousse::decompositionMethod> mousse::decompositionMethod::New
@@ -33,7 +33,7 @@ mousse::autoPtr<mousse::decompositionMethod> mousse::decompositionMethod::New
     dictionaryConstructorTablePtr_->find(methodType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "decompositionMethod::New"
       "(const dictionary& decompositionDict)"
@@ -83,7 +83,7 @@ mousse::labelList mousse::decompositionMethod::decompose
   );
   // Rework back into decomposition for original mesh_
   labelList fineDistribution(fineToCoarse.size());
-  forAll(fineDistribution, i)
+  FOR_ALL(fineDistribution, i)
   {
     fineDistribution[i] = coarseDistribution[fineToCoarse[i]];
   }
@@ -138,14 +138,14 @@ void mousse::decompositionMethod::calcCellCells
   // Get agglomerate owner on other side of coupled faces
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelList globalNeighbour(mesh.nFaces()-mesh.nInternalFaces());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled() && (parallel || !isA<processorPolyPatch>(pp)))
     {
       label faceI = pp.start();
       label bFaceI = pp.start() - mesh.nInternalFaces();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         globalNeighbour[bFaceI] = globalAgglom.toGlobal
         (
@@ -169,14 +169,14 @@ void mousse::decompositionMethod::calcCellCells
     nFacesPerCell[own]++;
     nFacesPerCell[nei]++;
   }
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled() && (parallel || !isA<processorPolyPatch>(pp)))
     {
       label faceI = pp.start();
       label bFaceI = pp.start()-mesh.nInternalFaces();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label own = agglom[faceOwner[faceI]];
         label globalNei = globalNeighbour[bFaceI];
@@ -208,14 +208,14 @@ void mousse::decompositionMethod::calcCellCells
     m[offsets[nei] + nFacesPerCell[nei]++] = globalAgglom.toGlobal(own);
   }
   // For boundary faces is offsetted coupled neighbour
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     if (pp.coupled() && (parallel || !isA<processorPolyPatch>(pp)))
     {
       label faceI = pp.start();
       label bFaceI = pp.start()-mesh.nInternalFaces();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label own = agglom[faceOwner[faceI]];
         label globalNei = globalNeighbour[bFaceI];
@@ -242,7 +242,7 @@ void mousse::decompositionMethod::calcCellCells
     return;
   }
   label startIndex = cellCells.offsets()[0];
-  forAll(cellCells, cellI)
+  FOR_ALL(cellCells, cellI)
   {
     nbrCells.clear();
     nbrCells.insert(globalAgglom.toGlobal(cellI));
@@ -258,16 +258,16 @@ void mousse::decompositionMethod::calcCellCells
     cellCells.offsets()[cellI+1] = newIndex;
   }
   cellCells.m().setSize(newIndex);
-  //forAll(cellCells, cellI)
+  //FOR_ALL(cellCells, cellI)
   //{
   //    Pout<< "Original: Coarse cell " << cellI << endl;
-  //    forAll(mesh.cellCells()[cellI], i)
+  //    FOR_ALL(mesh.cellCells()[cellI], i)
   //    {
   //        Pout<< "    nbr:" << mesh.cellCells()[cellI][i] << endl;
   //    }
   //    Pout<< "Compacted: Coarse cell " << cellI << endl;
   //    const labelUList cCells = cellCells[cellI];
-  //    forAll(cCells, i)
+  //    FOR_ALL(cCells, i)
   //    {
   //        Pout<< "    nbr:" << cCells[i] << endl;
   //    }
@@ -306,7 +306,7 @@ void mousse::decompositionMethod::calcCellCells
 //
 //    labelList globalNeighbour(mesh.nFaces()-mesh.nInternalFaces());
 //
-//    forAll(patches, patchI)
+//    FOR_ALL(patches, patchI)
 //    {
 //        const polyPatch& pp = patches[patchI];
 //
@@ -315,7 +315,7 @@ void mousse::decompositionMethod::calcCellCells
 //            label faceI = pp.start();
 //            label bFaceI = pp.start() - mesh.nInternalFaces();
 //
-//            forAll(pp, i)
+//            FOR_ALL(pp, i)
 //            {
 //                globalNeighbour[bFaceI] = globalAgglom.toGlobal
 //                (
@@ -352,7 +352,7 @@ void mousse::decompositionMethod::calcCellCells
 //    }
 //
 //    // 2. Coupled faces
-//    forAll(patches, patchI)
+//    FOR_ALL(patches, patchI)
 //    {
 //        const polyPatch& pp = patches[patchI];
 //
@@ -361,7 +361,7 @@ void mousse::decompositionMethod::calcCellCells
 //            label faceI = pp.start();
 //            label bFaceI = pp.start()-mesh.nInternalFaces();
 //
-//            forAll(pp, i)
+//            FOR_ALL(pp, i)
 //            {
 //                if (!blockedFace[faceI])
 //                {
@@ -385,7 +385,7 @@ void mousse::decompositionMethod::calcCellCells
 //    }
 //
 //    // 3. Explicit connections between non-coupled boundary faces
-//    forAll(explicitConnections, i)
+//    FOR_ALL(explicitConnections, i)
 //    {
 //        const labelPair& baffle = explicitConnections[i];
 //        label f0 = baffle.first();
@@ -481,7 +481,7 @@ void mousse::decompositionMethod::calcCellCells
 //    }
 //
 //    // 2. For boundary faces is offsetted coupled neighbour
-//    forAll(patches, patchI)
+//    FOR_ALL(patches, patchI)
 //    {
 //        const polyPatch& pp = patches[patchI];
 //
@@ -490,7 +490,7 @@ void mousse::decompositionMethod::calcCellCells
 //            label faceI = pp.start();
 //            label bFaceI = pp.start()-mesh.nInternalFaces();
 //
-//            forAll(pp, i)
+//            FOR_ALL(pp, i)
 //            {
 //                if (!blockedFace[faceI])
 //                {
@@ -515,7 +515,7 @@ void mousse::decompositionMethod::calcCellCells
 //    }
 //
 //    // 3. Explicit connections between non-coupled boundary faces
-//    forAll(explicitConnections, i)
+//    FOR_ALL(explicitConnections, i)
 //    {
 //        const labelPair& baffle = explicitConnections[i];
 //        label f0 = baffle.first();
@@ -611,7 +611,7 @@ void mousse::decompositionMethod::calcCellCells
 //
 //    label startIndex = cellCells.offsets()[0];
 //
-//    forAll(cellCells, cellI)
+//    FOR_ALL(cellCells, cellI)
 //    {
 //        nbrCells.clear();
 //        nbrCells.insert(globalAgglom.toGlobal(cellI));
@@ -631,16 +631,16 @@ void mousse::decompositionMethod::calcCellCells
 //
 //    cellCells.m().setSize(newIndex);
 //
-//    //forAll(cellCells, cellI)
+//    //FOR_ALL(cellCells, cellI)
 //    //{
 //    //    Pout<< "Original: Coarse cell " << cellI << endl;
-//    //    forAll(mesh.cellCells()[cellI], i)
+//    //    FOR_ALL(mesh.cellCells()[cellI], i)
 //    //    {
 //    //        Pout<< "    nbr:" << mesh.cellCells()[cellI][i] << endl;
 //    //    }
 //    //    Pout<< "Compacted: Coarse cell " << cellI << endl;
 //    //    const labelUList cCells = cellCells[cellI];
-//    //    forAll(cCells, i)
+//    //    FOR_ALL(cCells, i)
 //    //    {
 //    //        Pout<< "    nbr:" << cCells[i] << endl;
 //    //    }
@@ -665,7 +665,7 @@ mousse::labelList mousse::decompositionMethod::decompose
   label nWeights = returnReduce(cellWeights.size(), sumOp<label>());
   if (nWeights > 0 && cellWeights.size() != mesh.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "decompositionMethod::decompose\n"
       "(\n"
@@ -681,7 +681,7 @@ mousse::labelList mousse::decompositionMethod::decompose
   }
   // Any processor sets?
   label nProcSets = 0;
-  forAll(specifiedProcessorFaces, setI)
+  FOR_ALL(specifiedProcessorFaces, setI)
   {
     nProcSets += specifiedProcessorFaces[setI].size();
   }
@@ -694,7 +694,7 @@ mousse::labelList mousse::decompositionMethod::decompose
   );
   // Any faces not blocked?
   label nUnblocked = 0;
-  forAll(blockedFace, faceI)
+  FOR_ALL(blockedFace, faceI)
   {
     if (!blockedFace[faceI])
     {
@@ -749,7 +749,7 @@ mousse::labelList mousse::decompositionMethod::decompose
     // somewhere in the middle of the domain which might not be anywhere
     // near any of the cells.
     pointField regionCentres(localRegion.nLocalRegions(), point::max);
-    forAll(localRegion, cellI)
+    FOR_ALL(localRegion, cellI)
     {
       label regionI = localRegion[cellI];
       if (regionCentres[regionI] == point::max)
@@ -762,7 +762,7 @@ mousse::labelList mousse::decompositionMethod::decompose
     scalarField regionWeights(localRegion.nLocalRegions(), 0);
     if (nWeights > 0)
     {
-      forAll(localRegion, cellI)
+      FOR_ALL(localRegion, cellI)
       {
         label regionI = localRegion[cellI];
         regionWeights[regionI] += cellWeights[cellI];
@@ -770,7 +770,7 @@ mousse::labelList mousse::decompositionMethod::decompose
     }
     else
     {
-      forAll(localRegion, cellI)
+      FOR_ALL(localRegion, cellI)
       {
         label regionI = localRegion[cellI];
         regionWeights[regionI] += 1.0;
@@ -785,7 +785,7 @@ mousse::labelList mousse::decompositionMethod::decompose
     );
     // Implement the explicitConnections since above decompose
     // does not know about them
-    forAll(explicitConnections, i)
+    FOR_ALL(explicitConnections, i)
     {
       const labelPair& baffle = explicitConnections[i];
       label f0 = baffle.first();
@@ -804,7 +804,7 @@ mousse::labelList mousse::decompositionMethod::decompose
       }
       else if (blockedFace[f0] != blockedFace[f1])
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "labelList decompose\n"
           "(\n"
@@ -835,7 +835,7 @@ mousse::labelList mousse::decompositionMethod::decompose
       // Take over blockedFaces by seeding a negative number
       // (so is always less than the decomposition)
       label nUnblocked = 0;
-      forAll(blockedFace, faceI)
+      FOR_ALL(blockedFace, faceI)
       {
         if (blockedFace[faceI])
         {
@@ -850,7 +850,7 @@ mousse::labelList mousse::decompositionMethod::decompose
       labelList seedFaces(nUnblocked);
       List<minData> seedData(nUnblocked);
       nUnblocked = 0;
-      forAll(blockedFace, faceI)
+      FOR_ALL(blockedFace, faceI)
       {
         if (!blockedFace[faceI])
         {
@@ -871,7 +871,7 @@ mousse::labelList mousse::decompositionMethod::decompose
         mesh.globalData().nTotalCells()+1
       );
       // And extract
-      forAll(finalDecomp, cellI)
+      FOR_ALL(finalDecomp, cellI)
       {
         if (cellData[cellI].valid(deltaCalc.data()))
         {
@@ -892,7 +892,7 @@ mousse::labelList mousse::decompositionMethod::decompose
     //
     // Note that reworking the cellToProc might make the decomposition
     // unbalanced.
-    forAll(specifiedProcessorFaces, setI)
+    FOR_ALL(specifiedProcessorFaces, setI)
     {
       const labelList& set = specifiedProcessorFaces[setI];
       label procI = specifiedProcessor[setI];
@@ -902,13 +902,13 @@ mousse::labelList mousse::decompositionMethod::decompose
         // 0th element
         procI = finalDecomp[mesh.faceOwner()[set[0]]];
       }
-      forAll(set, fI)
+      FOR_ALL(set, fI)
       {
         const face& f = mesh.faces()[set[fI]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           const labelList& pFaces = mesh.pointFaces()[f[fp]];
-          forAll(pFaces, i)
+          FOR_ALL(pFaces, i)
           {
             label faceI = pFaces[i];
             finalDecomp[mesh.faceOwner()[faceI]] = procI;
@@ -925,12 +925,12 @@ mousse::labelList mousse::decompositionMethod::decompose
       labelList nbrDecomp;
       syncTools::swapBoundaryCellList(mesh, finalDecomp, nbrDecomp);
       const polyBoundaryMesh& patches = mesh.boundaryMesh();
-      forAll(patches, patchI)
+      FOR_ALL(patches, patchI)
       {
         const polyPatch& pp = patches[patchI];
         if (pp.coupled())
         {
-          forAll(pp, i)
+          FOR_ALL(pp, i)
           {
             label faceI = pp.start()+i;
             label own = mesh.faceOwner()[faceI];
@@ -941,7 +941,7 @@ mousse::labelList mousse::decompositionMethod::decompose
               label nbrProc = nbrDecomp[bFaceI];
               if (ownProc != nbrProc)
               {
-                FatalErrorIn("decompositionMethod::decompose()")
+                FATAL_ERROR_IN("decompositionMethod::decompose()")
                   << "patch:" << pp.name()
                   << " face:" << faceI
                   << " at:" << mesh.faceCentres()[faceI]
@@ -978,18 +978,18 @@ void mousse::decompositionMethod::setConstraints
       << "Keeping owner of faces in patches " << pNames
       << " on same processor. This only makes sense for cyclics." << endl;
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
-    forAll(pNames, i)
+    FOR_ALL(pNames, i)
     {
       const label patchI = patches.findPatchID(pNames[i]);
       if (patchI == -1)
       {
-        FatalErrorIn("decompositionMethod::decompose(const polyMesh&)")
+        FATAL_ERROR_IN("decompositionMethod::decompose(const polyMesh&)")
           << "Unknown preservePatch " << pNames[i]
           << endl << "Valid patches are " << patches.names()
           << exit(FatalError);
       }
       const polyPatch& pp = patches[patchI];
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         if (blockedFace[pp.start() + i])
         {
@@ -1006,18 +1006,18 @@ void mousse::decompositionMethod::setConstraints
       << "Keeping owner and neighbour of faces in zones " << zNames
       << " on same processor" << endl;
     const faceZoneMesh& fZones = mesh.faceZones();
-    forAll(zNames, i)
+    FOR_ALL(zNames, i)
     {
       label zoneI = fZones.findZoneID(zNames[i]);
       if (zoneI == -1)
       {
-        FatalErrorIn("decompositionMethod::decompose(const polyMesh&)")
+        FATAL_ERROR_IN("decompositionMethod::decompose(const polyMesh&)")
           << "Unknown preserveFaceZone " << zNames[i]
           << endl << "Valid faceZones are " << fZones.names()
           << exit(FatalError);
       }
       const faceZone& fz = fZones[zoneI];
-      forAll(fz, i)
+      FOR_ALL(fz, i)
       {
         if (blockedFace[fz[i]])
         {
@@ -1038,7 +1038,7 @@ void mousse::decompositionMethod::setConstraints
       << "Keeping owner of faces in baffles "
       << " on same processor." << endl;
     explicitConnections = localPointRegion::findDuplicateFacePairs(mesh);
-    forAll(explicitConnections, i)
+    FOR_ALL(explicitConnections, i)
     {
       blockedFace[explicitConnections[i].first()] = false;
       blockedFace[explicitConnections[i].second()] = false;
@@ -1064,7 +1064,7 @@ void mousse::decompositionMethod::setConstraints
     );
     specifiedProcessorFaces.setSize(zNameAndProcs.size());
     specifiedProcessor.setSize(zNameAndProcs.size());
-    forAll(zNameAndProcs, setI)
+    FOR_ALL(zNameAndProcs, setI)
     {
       Info<< "Keeping all cells connected to faceSet "
         << zNameAndProcs[setI].first()
@@ -1079,13 +1079,13 @@ void mousse::decompositionMethod::setConstraints
     // Unblock all point connected faces
     // 1. Mark all points on specifiedProcessorFaces
     boolList procFacePoint(mesh.nPoints(), false);
-    forAll(specifiedProcessorFaces, setI)
+    FOR_ALL(specifiedProcessorFaces, setI)
     {
       const labelList& set = specifiedProcessorFaces[setI];
-      forAll(set, fI)
+      FOR_ALL(set, fI)
       {
         const face& f = mesh.faces()[set[fI]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           procFacePoint[f[fp]] = true;
         }
@@ -1093,12 +1093,12 @@ void mousse::decompositionMethod::setConstraints
     }
     syncTools::syncPointList(mesh, procFacePoint, orEqOp<bool>(), false);
     // 2. Unblock all faces on procFacePoint
-    forAll(procFacePoint, pointI)
+    FOR_ALL(procFacePoint, pointI)
     {
       if (procFacePoint[pointI])
       {
         const labelList& pFaces = mesh.pointFaces()[pointI];
-        forAll(pFaces, i)
+        FOR_ALL(pFaces, i)
         {
           blockedFace[pFaces[i]] = false;
         }

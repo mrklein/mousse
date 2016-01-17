@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "_least_squares_vectors.hpp"
+
 // Constructors
 template<class Stencil>
 mousse::fv::LeastSquaresVectors<Stencil>::LeastSquaresVectors
@@ -10,15 +11,17 @@ mousse::fv::LeastSquaresVectors<Stencil>::LeastSquaresVectors
   const fvMesh& mesh
 )
 :
-  MeshObject<fvMesh, mousse::MoveableMeshObject, LeastSquaresVectors>(mesh),
-  vectors_(mesh.nCells())
+  MeshObject<fvMesh, mousse::MoveableMeshObject, LeastSquaresVectors>{mesh},
+  vectors_{mesh.nCells()}
 {
   calcLeastSquaresVectors();
 }
+
 // Destructor
 template<class Stencil>
 mousse::fv::LeastSquaresVectors<Stencil>::~LeastSquaresVectors()
 {}
+
 // Member Functions 
 template<class Stencil>
 void mousse::fv::LeastSquaresVectors<Stencil>::calcLeastSquaresVectors()
@@ -35,7 +38,7 @@ void mousse::fv::LeastSquaresVectors<Stencil>::calcLeastSquaresVectors()
   // Create the base form of the dd-tensor
   // including components for the "empty" directions
   symmTensor dd0(sqr((Vector<label>::one - mesh.geometricD())/2));
-  forAll (vectors_, i)
+  FOR_ALL (vectors_, i)
   {
     List<vector>& lsvi = vectors_[i];
     symmTensor dd(dd0);

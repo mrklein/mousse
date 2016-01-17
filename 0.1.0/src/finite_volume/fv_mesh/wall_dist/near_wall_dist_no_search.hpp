@@ -24,14 +24,14 @@ class nearWallDistNoSearch
   // Private Member Functions
     //- Do all calculations.
     void doAll();
-    //- Disallow default bitwise copy construct
-    nearWallDistNoSearch(const nearWallDistNoSearch&);
-    //- Disallow default bitwise assignment
-    void operator=(const nearWallDistNoSearch&);
 public:
   // Constructors
     //- Construct from components
     nearWallDistNoSearch(const fvMesh& mesh);
+    //- Disallow default bitwise copy construct
+    nearWallDistNoSearch(const nearWallDistNoSearch&) = delete;
+    //- Disallow default bitwise assignment
+    nearWallDistNoSearch& operator=(const nearWallDistNoSearch&) = delete;
   //- Destructor
   virtual ~nearWallDistNoSearch();
   // Member Functions

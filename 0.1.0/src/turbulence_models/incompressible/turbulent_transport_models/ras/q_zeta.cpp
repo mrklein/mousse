@@ -12,8 +12,8 @@ namespace incompressible
 namespace RASModels
 {
 // Static Data Members
-defineTypeNameAndDebug(qZeta, 0);
-addToRunTimeSelectionTable(RASModel, qZeta, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(qZeta, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(RASModel, qZeta, dictionary);
 // Private Member Functions 
 tmp<volScalarField> qZeta::fMu() const
 {

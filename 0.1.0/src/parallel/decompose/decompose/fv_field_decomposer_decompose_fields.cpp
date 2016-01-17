@@ -19,7 +19,7 @@ mousse::fvFieldDecomposer::decomposeField
 {
   // 1. Create the complete field with dummy patch fields
   PtrList<fvPatchField<Type> > patchFields(boundaryAddressing_.size());
-  forAll(boundaryAddressing_, patchi)
+  FOR_ALL(boundaryAddressing_, patchi)
   {
     patchFields.set
     (
@@ -56,7 +56,7 @@ mousse::fvFieldDecomposer::decomposeField
   //  constructor (with reference to the now correct internal field)
   typename GeometricField<Type, fvPatchField, volMesh>::
     GeometricBoundaryField& bf = resF.boundaryField();
-  forAll(bf, patchi)
+  FOR_ALL(bf, patchi)
   {
     if (patchFieldDecomposerPtrs_[patchi])
     {
@@ -120,7 +120,7 @@ mousse::fvFieldDecomposer::decomposeField
     }
     else
     {
-      FatalErrorIn("fvFieldDecomposer::decomposeField()")
+      FATAL_ERROR_IN("fvFieldDecomposer::decomposeField()")
         << "Unknown type." << abort(FatalError);
     }
   }
@@ -142,7 +142,7 @@ mousse::fvFieldDecomposer::decomposeField
       procMesh_.nInternalFaces()
     )
   );
-  forAll(mapAddr, i)
+  FOR_ALL(mapAddr, i)
   {
     mapAddr[i] -= 1;
   }
@@ -158,22 +158,22 @@ mousse::fvFieldDecomposer::decomposeField
   // mechanism for surfaceFields correspond to the one of faces in polyMesh
   // (i.e. using slices)
   Field<Type> allFaceField(field.mesh().nFaces());
-  forAll(field.internalField(), i)
+  FOR_ALL(field.internalField(), i)
   {
     allFaceField[i] = field.internalField()[i];
   }
-  forAll(field.boundaryField(), patchi)
+  FOR_ALL(field.boundaryField(), patchi)
   {
     const Field<Type> & p = field.boundaryField()[patchi];
     const label patchStart = field.mesh().boundaryMesh()[patchi].start();
-    forAll(p, i)
+    FOR_ALL(p, i)
     {
       allFaceField[patchStart + i] = p[i];
     }
   }
   // 1. Create the complete field with dummy patch fields
   PtrList<fvsPatchField<Type> > patchFields(boundaryAddressing_.size());
-  forAll(boundaryAddressing_, patchi)
+  FOR_ALL(boundaryAddressing_, patchi)
   {
     patchFields.set
     (
@@ -209,7 +209,7 @@ mousse::fvFieldDecomposer::decomposeField
   //  constructor (with reference to the now correct internal field)
   typename GeometricField<Type, fvsPatchField, surfaceMesh>::
     GeometricBoundaryField& bf = resF.boundaryField();
-  forAll(boundaryAddressing_, patchi)
+  FOR_ALL(boundaryAddressing_, patchi)
   {
     if (patchFieldDecomposerPtrs_[patchi])
     {
@@ -261,7 +261,7 @@ mousse::fvFieldDecomposer::decomposeField
     }
     else
     {
-      FatalErrorIn("fvFieldDecomposer::decomposeField()")
+      FATAL_ERROR_IN("fvFieldDecomposer::decomposeField()")
         << "Unknown type." << abort(FatalError);
     }
   }
@@ -274,7 +274,7 @@ void mousse::fvFieldDecomposer::decomposeFields
   const PtrList<GeoField>& fields
 ) const
 {
-  forAll(fields, fieldI)
+  FOR_ALL(fields, fieldI)
   {
     decomposeField(fields[fieldI])().write();
   }

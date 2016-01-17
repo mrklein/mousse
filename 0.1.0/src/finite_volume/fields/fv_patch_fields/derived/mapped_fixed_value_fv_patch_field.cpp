@@ -5,8 +5,10 @@
 #include "mapped_fixed_value_fv_patch_field.hpp"
 #include "mapped_patch_base.hpp"
 #include "vol_fields.hpp"
+
 namespace mousse
 {
+
 // Constructors 
 template<class Type>
 mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
@@ -15,9 +17,11 @@ mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<Type>(p, iF),
-  mappedPatchFieldBase<Type>(this->mapper(p, iF), *this)
+  fixedValueFvPatchField<Type>{p, iF},
+  mappedPatchFieldBase<Type>{this->mapper(p, iF), *this}
 {}
+
+
 template<class Type>
 mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
 (
@@ -27,9 +31,11 @@ mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<Type>(ptf, p, iF, mapper),
-  mappedPatchFieldBase<Type>(this->mapper(p, iF), *this, ptf)
+  fixedValueFvPatchField<Type>{ptf, p, iF, mapper},
+  mappedPatchFieldBase<Type>{this->mapper(p, iF), *this, ptf}
 {}
+
+
 template<class Type>
 mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
 (
@@ -38,18 +44,22 @@ mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<Type>(p, iF, dict),
-  mappedPatchFieldBase<Type>(this->mapper(p, iF), *this, dict)
+  fixedValueFvPatchField<Type>{p, iF, dict},
+  mappedPatchFieldBase<Type>{this->mapper(p, iF), *this, dict}
 {}
+
+
 template<class Type>
 mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
 (
   const mappedFixedValueFvPatchField<Type>& ptf
 )
 :
-  fixedValueFvPatchField<Type>(ptf),
-  mappedPatchFieldBase<Type>(ptf)
+  fixedValueFvPatchField<Type>{ptf},
+  mappedPatchFieldBase<Type>{ptf}
 {}
+
+
 template<class Type>
 mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
 (
@@ -57,9 +67,11 @@ mappedFixedValueFvPatchField<Type>::mappedFixedValueFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<Type>(ptf, iF),
-  mappedPatchFieldBase<Type>(this->mapper(this->patch(), iF), *this, ptf)
+  fixedValueFvPatchField<Type>{ptf, iF},
+  mappedPatchFieldBase<Type>{this->mapper(this->patch(), iF), *this, ptf}
 {}
+
+
 // Member Functions 
 template<class Type>
 const mappedPatchBase& mappedFixedValueFvPatchField<Type>::mapper
@@ -70,18 +82,22 @@ const mappedPatchBase& mappedFixedValueFvPatchField<Type>::mapper
 {
   if (!isA<mappedPatchBase>(p.patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mappedFixedValueFvPatchField<Type>::mapper()"
-    )   << "\n    patch type '" << p.patch().type()
-      << "' not type '" << mappedPatchBase::typeName << "'"
-      << "\n    for patch " << p.patch().name()
-      << " of field " << iF.name()
-      << " in file " << iF.objectPath()
-      << exit(FatalError);
+    )
+    << "\n    patch type '" << p.patch().type()
+    << "' not type '" << mappedPatchBase::typeName << "'"
+    << "\n    for patch " << p.patch().name()
+    << " of field " << iF.name()
+    << " in file " << iF.objectPath()
+    << exit(FatalError);
   }
+
   return refCast<const mappedPatchBase>(p.patch());
 }
+
+
 template<class Type>
 void mappedFixedValueFvPatchField<Type>::updateCoeffs()
 {
@@ -102,6 +118,8 @@ void mappedFixedValueFvPatchField<Type>::updateCoeffs()
   }
   fixedValueFvPatchField<Type>::updateCoeffs();
 }
+
+
 template<class Type>
 void mappedFixedValueFvPatchField<Type>::write(Ostream& os) const
 {
@@ -109,4 +127,5 @@ void mappedFixedValueFvPatchField<Type>::write(Ostream& os) const
   mappedPatchFieldBase<Type>::write(os);
   this->writeEntry("value", os);
 }
+
 }  // namespace mousse

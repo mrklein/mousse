@@ -26,7 +26,7 @@ class zoneToFace
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("zoneToFace");
+  TYPE_NAME("zoneToFace");
   // Constructors
     //- Construct from components
     zoneToFace

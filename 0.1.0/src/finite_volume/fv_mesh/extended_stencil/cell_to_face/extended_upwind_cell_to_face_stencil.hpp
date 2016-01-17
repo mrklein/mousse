@@ -65,10 +65,6 @@ class extendedUpwindCellToFaceStencil
       labelListList& ownStencil,
       labelListList& neiStencil
     );
-    //- Disallow default bitwise copy construct
-    extendedUpwindCellToFaceStencil(const extendedUpwindCellToFaceStencil&);
-    //- Disallow default bitwise assignment
-    void operator=(const extendedUpwindCellToFaceStencil&);
 public:
   // Constructors
     //- Construct from mesh and uncompacted centred face stencil.
@@ -86,6 +82,16 @@ public:
     (
       const cellToFaceStencil&
     );
+    //- Disallow default bitwise copy construct
+    extendedUpwindCellToFaceStencil
+    (
+      const extendedUpwindCellToFaceStencil&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    extendedUpwindCellToFaceStencil& operator=
+    (
+      const extendedUpwindCellToFaceStencil&
+    ) = delete;
   // Member Functions
     bool pureUpwind() const
     {

@@ -67,7 +67,7 @@ public:
     ) const;
   };
   // Declare name of the class and its debug switch
-  ClassName("treeDataPoint");
+  CLASS_NAME("treeDataPoint");
   // Constructors
     //- Construct from pointField. Holds reference!
     treeDataPoint(const pointField&);

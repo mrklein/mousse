@@ -87,12 +87,12 @@ wordList addProcessorPatches
 {
   // Add the processor patches to the cutting list
   HashSet<word> cuttingPatchTable;
-  forAll(cuttingPatches, i)
+  FOR_ALL(cuttingPatches, i)
   {
     cuttingPatchTable.insert(cuttingPatches[i]);
   }
   const polyBoundaryMesh& pbm = meshTarget.boundaryMesh();
-  forAll(pbm, patchI)
+  FOR_ALL(pbm, patchI)
   {
     if (isA<processorPolyPatch>(pbm[patchI]))
     {
@@ -155,9 +155,9 @@ int main(int argc, char *argv[])
     "noLagrangian",
     "skip mapping lagrangian positions and fields"
   );
-  argList args(argc, argv);
-  fileName rootDirTarget(args.rootPath());
-  fileName caseDirTarget(args.globalCaseName());
+  argList args{argc, argv};
+  fileName rootDirTarget{args.rootPath()};
+  fileName caseDirTarget{args.globalCaseName()};
   const fileName casePath = args[1];
   const fileName rootDirSource = casePath.path();
   const fileName caseDirSource = casePath.name();
@@ -176,8 +176,7 @@ int main(int argc, char *argv[])
     Info<< "Target region: " << targetRegion << endl;
   }
   const bool consistent = args.optionFound("consistent");
-  meshToMesh::interpolationMethod mapMethod =
-    meshToMesh::imCellVolumeWeight;
+  meshToMesh::interpolationMethod mapMethod = meshToMesh::imCellVolumeWeight;
   if (args.optionFound("mapMethod"))
   {
     mapMethod = meshToMesh::interpolationMethodNames_[args["mapMethod"]];
@@ -195,46 +194,46 @@ int main(int argc, char *argv[])
     args.optionLookup("fields")() >> selectedFields;
   }
   const bool noLagrangian = args.optionFound("noLagrangian");
-  #include "create_times.hpp"
+  #include "create_times.inc"
   HashTable<word> patchMap;
   wordList cuttingPatches;
   if (!consistent)
   {
     IOdictionary mapFieldsParDict
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "mapFieldsParDict",
         runTimeTarget.system(),
         runTimeTarget,
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     mapFieldsParDict.lookup("patchMap") >> patchMap;
     mapFieldsParDict.lookup("cuttingPatches") >>  cuttingPatches;
   }
-  #include "set_time_index.hpp"
+  #include "set_time_index.inc"
   Info<< "\nCreate meshes\n" << endl;
   fvMesh meshSource
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       sourceRegion,
       runTimeSource.timeName(),
       runTimeSource
-    )
-  );
+    }
+  };
   fvMesh meshTarget
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       targetRegion,
       runTimeTarget.timeName(),
       runTimeTarget
-    )
-  );
+    }
+  };
   Info<< "Source mesh size: " << meshSource.nCells() << tab
     << "Target mesh size: " << meshTarget.nCells() << nl << endl;
   if (consistent)

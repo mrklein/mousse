@@ -28,7 +28,7 @@ protected:
     void makeWeights(scalarField&) const;
 public:
   //- Runtime type information
-  TypeName(cyclicAMIPolyPatch::typeName_());
+  TYPE_NAME(cyclicAMIPolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     cyclicAMIFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)

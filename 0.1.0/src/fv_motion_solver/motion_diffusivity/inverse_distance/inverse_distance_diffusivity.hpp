@@ -24,16 +24,19 @@ class inverseDistanceDiffusivity
   // Private Member Functions
     //- Return patch-cell-centre distance field
     tmp<scalarField> y() const;
-    //- Disallow default bitwise copy construct
-    inverseDistanceDiffusivity(const inverseDistanceDiffusivity&);
-    //- Disallow default bitwise assignment
-    void operator=(const inverseDistanceDiffusivity&);
 public:
   //- Runtime type information
-  TypeName("inverseDistance");
+  TYPE_NAME("inverseDistance");
   // Constructors
     //- Construct for the given fvMesh and data Istream
     inverseDistanceDiffusivity(const fvMesh& mesh, Istream& mdData);
+    //- Disallow default bitwise copy construct
+    inverseDistanceDiffusivity(const inverseDistanceDiffusivity&) = delete;
+    //- Disallow default bitwise assignment
+    inverseDistanceDiffusivity& operator=
+    (
+      const inverseDistanceDiffusivity&
+    ) = delete;
   //- Destructor
   virtual ~inverseDistanceDiffusivity();
   // Member Functions

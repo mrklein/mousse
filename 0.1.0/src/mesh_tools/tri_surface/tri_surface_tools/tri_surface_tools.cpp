@@ -9,10 +9,12 @@
 #include "poly_mesh.hpp"
 #include "plane.hpp"
 #include "geompack.hpp"
+
 // Static Data Members
 const mousse::label mousse::triSurfaceTools::ANYEDGE = -1;
 const mousse::label mousse::triSurfaceTools::NOEDGE = -2;
 const mousse::label mousse::triSurfaceTools::COLLAPSED = -3;
+
 // Private Member Functions 
 /*
   Refine by splitting all three edges of triangle ('red' refinement).
@@ -38,7 +40,7 @@ void mousse::triSurfaceTools::calcRefineStatus
     // Not marked or marked for 'green' refinement. Refine.
     refine[faceI] = RED;
     const labelList& myNeighbours = surf.faceFaces()[faceI];
-    forAll(myNeighbours, myNeighbourI)
+    FOR_ALL(myNeighbours, myNeighbourI)
     {
       label neighbourFaceI = myNeighbours[myNeighbourI];
       if (refine[neighbourFaceI] == GREEN)
@@ -126,7 +128,7 @@ mousse::triSurface mousse::triSurfaceTools::doRefine
 {
   // Storage for new points. (start after old points)
   DynamicList<point> newPoints(surf.nPoints());
-  forAll(surf.localPoints(), pointI)
+  FOR_ALL(surf.localPoints(), pointI)
   {
     newPoints.append(surf.localPoints()[pointI]);
   }
@@ -135,13 +137,13 @@ mousse::triSurface mousse::triSurfaceTools::doRefine
   DynamicList<labelledTri> newFaces(surf.size());
   // Point index for midpoint on edge
   labelList edgeMid(surf.nEdges(), -1);
-  forAll(refineStatus, faceI)
+  FOR_ALL(refineStatus, faceI)
   {
     if (refineStatus[faceI] == RED)
     {
       // Create new vertices on all edges to be refined.
       const labelList& fEdges = surf.faceEdges()[faceI];
-      forAll(fEdges, i)
+      FOR_ALL(fEdges, i)
       {
         label edgeI = fEdges[i];
         if (edgeMid[edgeI] == -1)
@@ -205,7 +207,7 @@ mousse::triSurface mousse::triSurfaceTools::doRefine
         )
       );
       // Create triangles for GREEN refinement.
-      forAll(fEdges, i)
+      FOR_ALL(fEdges, i)
       {
         const label edgeI = fEdges[i];
         label otherFaceI = otherFace(surf, faceI, edgeI);
@@ -224,7 +226,7 @@ mousse::triSurface mousse::triSurfaceTools::doRefine
     }
   }
   // Copy unmarked triangles since keep original vertex numbering.
-  forAll(refineStatus, faceI)
+  FOR_ALL(refineStatus, faceI)
   {
     if (refineStatus[faceI] == NONE)
     {
@@ -270,7 +272,7 @@ void mousse::triSurfaceTools::protectNeighbours
 )
 {
 //    const labelList& myFaces = surf.pointFaces()[vertI];
-//    forAll(myFaces, i)
+//    FOR_ALL(myFaces, i)
 //    {
 //        label faceI = myFaces[i];
 //
@@ -280,10 +282,10 @@ void mousse::triSurfaceTools::protectNeighbours
 //        }
 //    }
   const labelList& myEdges = surf.pointEdges()[vertI];
-  forAll(myEdges, i)
+  FOR_ALL(myEdges, i)
   {
     const labelList& myFaces = surf.edgeFaces()[myEdges[i]];
-    forAll(myFaces, myFaceI)
+    FOR_ALL(myFaces, myFaceI)
     {
       label faceI = myFaces[myFaceI];
       if ((faceStatus[faceI] == ANYEDGE) || (faceStatus[faceI] >= 0))
@@ -309,7 +311,7 @@ mousse::labelHashSet mousse::triSurfaceTools::getCollapsedFaces
   // Faces using edge will certainly get collapsed.
   const labelList& myFaces = surf.edgeFaces()[edgeI];
   labelHashSet facesToBeCollapsed(2*myFaces.size());
-  forAll(myFaces, myFaceI)
+  FOR_ALL(myFaces, myFaceI)
   {
     facesToBeCollapsed.insert(myFaces[myFaceI]);
   }
@@ -318,7 +320,7 @@ mousse::labelHashSet mousse::triSurfaceTools::getCollapsedFaces
   //  - share edge: are part of 'splay' tree and will collapse if edge
   //    collapses
   const labelList& v1Faces = surf.pointFaces()[v1];
-  forAll(v1Faces, v1FaceI)
+  FOR_ALL(v1Faces, v1FaceI)
   {
     label face1I = v1Faces[v1FaceI];
     label otherEdgeI = oppositeEdge(surf, face1I, v1);
@@ -347,7 +349,7 @@ mousse::label mousse::triSurfaceTools::vertexUsesFace
 )
 {
   const labelList& myFaces = surf.pointFaces()[vertI];
-  forAll(myFaces, myFaceI)
+  FOR_ALL(myFaces, myFaceI)
   {
     label face1I = myFaces[myFaceI];
     if (faceUsed.found(face1I))
@@ -374,14 +376,14 @@ void mousse::triSurfaceTools::getMergedEdges
   const labelList& v2Faces = surf.pointFaces()[v2];
   // Mark all (non collapsed) faces using v2
   labelHashSet v2FacesHash(v2Faces.size());
-  forAll(v2Faces, v2FaceI)
+  FOR_ALL(v2Faces, v2FaceI)
   {
     if (!collapsedFaces.found(v2Faces[v2FaceI]))
     {
       v2FacesHash.insert(v2Faces[v2FaceI]);
     }
   }
-  forAll(v1Faces, v1FaceI)
+  FOR_ALL(v1Faces, v1FaceI)
   {
     label face1I = v1Faces[v1FaceI];
     if (collapsedFaces.found(face1I))
@@ -504,7 +506,7 @@ mousse::scalar mousse::triSurfaceTools::edgeCosAngle
     }
     else
     {
-      FatalErrorIn("edgeCosAngle")
+      FATAL_ERROR_IN("edgeCosAngle")
         << "face " << faceI << " does not use vertex "
         << v1 << " of collapsed edge" << abort(FatalError);
     }
@@ -525,7 +527,7 @@ mousse::scalar mousse::triSurfaceTools::collapseMinCosAngle
 {
   const labelList& v1Faces = surf.pointFaces()[v1];
   scalar minCos = 1;
-  forAll(v1Faces, v1FaceI)
+  FOR_ALL(v1Faces, v1FaceI)
   {
     label faceI = v1Faces[v1FaceI];
     if (collapsedFaces.found(faceI))
@@ -533,7 +535,7 @@ mousse::scalar mousse::triSurfaceTools::collapseMinCosAngle
       continue;
     }
     const labelList& myEdges = surf.faceEdges()[faceI];
-    forAll(myEdges, myEdgeI)
+    FOR_ALL(myEdges, myEdgeI)
     {
       label edgeI = myEdges[myEdgeI];
       minCos =
@@ -570,7 +572,7 @@ bool mousse::triSurfaceTools::collapseCreatesFold
 )
 {
   const labelList& v1Faces = surf.pointFaces()[v1];
-  forAll(v1Faces, v1FaceI)
+  FOR_ALL(v1Faces, v1FaceI)
   {
     label faceI = v1Faces[v1FaceI];
     if (collapsedFaces.found(faceI))
@@ -578,7 +580,7 @@ bool mousse::triSurfaceTools::collapseCreatesFold
       continue;
     }
     const labelList& myEdges = surf.faceEdges()[faceI];
-    forAll(myEdges, myEdgeI)
+    FOR_ALL(myEdges, myEdgeI)
     {
       label edgeI = myEdges[myEdgeI];
       if
@@ -625,7 +627,7 @@ bool mousse::triSurfaceTools::collapseCreatesFold
 //
 //    labelList collapsed = collapsedFaces.toc();
 //
-//    forAll(collapsed, collapseI)
+//    FOR_ALL(collapsed, collapseI)
 //    {
 //        const label faceI = collapsed[collapseI];
 //
@@ -634,7 +636,7 @@ bool mousse::triSurfaceTools::collapseCreatesFold
 //        Pout<< "collapsing faceI:" << faceI << " uses edges:" << myEdges
 //            << endl;
 //
-//        forAll(myEdges, myEdgeI)
+//        FOR_ALL(myEdges, myEdgeI)
 //        {
 //            const labelList& myFaces = surf.edgeFaces()[myEdges[myEdgeI]];
 //
@@ -676,7 +678,7 @@ bool mousse::triSurfaceTools::collapseCreatesFold
 //Pout<< "edgeI:" << edgeI << "  neighbourList:" << neighbourList << endl;
 //
 //
-//    forAll(neighbourList, i)
+//    FOR_ALL(neighbourList, i)
 //    {
 //        const labelList& faceIEdges = surf.faceEdges()[neighbourList[i]];
 //
@@ -685,9 +687,9 @@ bool mousse::triSurfaceTools::collapseCreatesFold
 //            const labelList& faceJEdges = surf.faceEdges()[neighbourList[j]];
 //
 //            // Check if faceI and faceJ share an edge
-//            forAll(faceIEdges, fI)
+//            FOR_ALL(faceIEdges, fI)
 //            {
-//                forAll(faceJEdges, fJ)
+//                FOR_ALL(faceJEdges, fJ)
 //                {
 //                    Pout<< " comparing " << faceIEdges[fI] << " to "
 //                        << faceJEdges[fJ] << endl;
@@ -713,7 +715,7 @@ mousse::surfaceLocation mousse::triSurfaceTools::cutEdge
   const label triI,
   const label excludeEdgeI,
   const label excludePointI,
-  const point& triPoint,
+  const point& /*triPoint*/,
   const plane& cutPlane,
   const point& toPoint
 )
@@ -724,13 +726,13 @@ mousse::surfaceLocation mousse::triSurfaceTools::cutEdge
   // Get normal distance to planeN
   FixedList<scalar, 3> d;
   scalar norm = 0;
-  forAll(d, fp)
+  FOR_ALL(d, fp)
   {
     d[fp] = (points[f[fp]]-cutPlane.refPoint()) & cutPlane.normal();
     norm += mag(d[fp]);
   }
   // Normalise and truncate
-  forAll(d, i)
+  FOR_ALL(d, i)
   {
     d[i] /= norm;
     if (mag(d[i]) < 1e-6)
@@ -746,7 +748,7 @@ mousse::surfaceLocation mousse::triSurfaceTools::cutEdge
     label fp0 = findIndex(s.localFaces()[triI], excludePointI);
     if (fp0 == -1)
     {
-      FatalErrorIn("cutEdge(..)") << "excludePointI:" << excludePointI
+      FATAL_ERROR_IN("cutEdge(..)") << "excludePointI:" << excludePointI
         << " localF:" << s.localFaces()[triI] << abort(FatalError);
     }
     label fp1 = f.fcIndex(fp0);
@@ -791,14 +793,14 @@ mousse::surfaceLocation mousse::triSurfaceTools::cutEdge
     // Find the two intersections
     FixedList<surfaceLocation, 2> inters;
     label interI = 0;
-    forAll(f, fp0)
+    FOR_ALL(f, fp0)
     {
       label fp1 = f.fcIndex(fp0);
       if (d[fp0] == 0)
       {
         if (interI >= 2)
         {
-          FatalErrorIn("cutEdge(..)")
+          FATAL_ERROR_IN("cutEdge(..)")
             << "problem : triangle has three intersections." << nl
             << "triangle:" << f.tri(points)
             << " d:" << d << abort(FatalError);
@@ -817,7 +819,7 @@ mousse::surfaceLocation mousse::triSurfaceTools::cutEdge
       {
         if (interI >= 2)
         {
-          FatalErrorIn("cutEdge(..)")
+          FATAL_ERROR_IN("cutEdge(..)")
             << "problem : triangle has three intersections." << nl
             << "triangle:" << f.tri(points)
             << " d:" << d << abort(FatalError);
@@ -1019,7 +1021,7 @@ mousse::surfaceLocation mousse::triSurfaceTools::visitFaces
 {
   surfaceLocation nearest;
   scalar minDistSqr = mousse::sqr(GREAT);
-  forAll(eFaces, i)
+  FOR_ALL(eFaces, i)
   {
     label triI = eFaces[i];
     // Make sure we don't revisit previous face
@@ -1049,7 +1051,7 @@ mousse::surfaceLocation mousse::triSurfaceTools::visitFaces
         // If crossing an edge we expect next edge to be cut.
         if (excludeEdgeI != -1 && !cutInfo.hit())
         {
-          FatalErrorIn("triSurfaceTools::visitFaces(..)")
+          FATAL_ERROR_IN("triSurfaceTools::visitFaces(..)")
             << "Triangle:" << triI
             << " excludeEdge:" << excludeEdgeI
             << " point:" << start.rawPoint()
@@ -1087,7 +1089,7 @@ void mousse::triSurfaceTools::writeOBJ
 )
 {
   OFstream outFile(fName);
-  forAll(pts, pointI)
+  FOR_ALL(pts, pointI)
   {
     const point& pt = pts[pointI];
     outFile<< "v " << pt.x() << ' ' << pt.y() << ' ' << pt.z() << endl;
@@ -1104,7 +1106,7 @@ void mousse::triSurfaceTools::writeOBJ
 {
   OFstream outFile(fName);
   label nVerts = 0;
-  forAll(markedVerts, vertI)
+  FOR_ALL(markedVerts, vertI)
   {
     if (markedVerts[vertI])
     {
@@ -1138,11 +1140,11 @@ void mousse::triSurfaceTools::getVertexTriangles
   // (= faces using edge)
   edgeTris.setSize(startFaces.size() + endFaces.size() - myFaces.size());
   label nTris = 0;
-  forAll(startFaces, startFaceI)
+  FOR_ALL(startFaces, startFaceI)
   {
     edgeTris[nTris++] = startFaces[startFaceI];
   }
-  forAll(endFaces, endFaceI)
+  FOR_ALL(endFaces, endFaceI)
   {
     label faceI = endFaces[endFaceI];
     if ((faceI != face1I) && (faceI != face2I))
@@ -1164,13 +1166,13 @@ mousse::labelList mousse::triSurfaceTools::getVertexVertices
   // Get all vertices connected to v1 or v2 through an edge
   labelHashSet vertexNeighbours;
   const labelList& v1Edges = surf.pointEdges()[v1];
-  forAll(v1Edges, v1EdgeI)
+  FOR_ALL(v1Edges, v1EdgeI)
   {
     const edge& e = edges[v1Edges[v1EdgeI]];
     vertexNeighbours.insert(e.otherVertex(v1));
   }
   const labelList& v2Edges = surf.pointEdges()[v2];
-  forAll(v2Edges, v2EdgeI)
+  FOR_ALL(v2Edges, v2EdgeI)
   {
     const edge& e = edges[v2Edges[v2EdgeI]];
     label vertI = e.otherVertex(v2);
@@ -1263,7 +1265,7 @@ void mousse::triSurfaceTools::otherEdges
   label i0 = findIndex(eFaces, edgeI);
   if (i0 == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "otherEdges"
       "(const triSurface&, const label, const label,"
@@ -1304,7 +1306,7 @@ void mousse::triSurfaceTools::otherVertices
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "otherVertices"
       "(const triSurface&, const label, const label,"
@@ -1321,7 +1323,7 @@ mousse::label mousse::triSurfaceTools::oppositeEdge
 )
 {
   const labelList& myEdges = surf.faceEdges()[faceI];
-  forAll(myEdges, myEdgeI)
+  FOR_ALL(myEdges, myEdgeI)
   {
     label edgeI = myEdges[myEdgeI];
     const edge& e = surf.edges()[edgeI];
@@ -1330,7 +1332,7 @@ mousse::label mousse::triSurfaceTools::oppositeEdge
       return edgeI;
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "oppositeEdge"
     "(const triSurface&, const label, const label)"
@@ -1348,7 +1350,7 @@ mousse::label mousse::triSurfaceTools::oppositeVertex
 {
   const triSurface::FaceType& f = surf.localFaces()[faceI];
   const edge& e = surf.edges()[edgeI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label vertI = f[fp];
     if (vertI != e.start() && vertI != e.end())
@@ -1356,7 +1358,7 @@ mousse::label mousse::triSurfaceTools::oppositeVertex
       return vertI;
     }
   }
-  FatalErrorIn("triSurfaceTools::oppositeVertex")
+  FATAL_ERROR_IN("triSurfaceTools::oppositeVertex")
     << "Cannot find vertex opposite edge " << edgeI << " vertices " << e
     << " in face " << faceI << " vertices " << f << abort(FatalError);
   return -1;
@@ -1370,7 +1372,7 @@ mousse::label mousse::triSurfaceTools::getEdge
 )
 {
   const labelList& v1Edges = surf.pointEdges()[v1];
-  forAll(v1Edges, v1EdgeI)
+  FOR_ALL(v1Edges, v1EdgeI)
   {
     label edgeI = v1Edges[v1EdgeI];
     const edge& e = surf.edges()[edgeI];
@@ -1392,7 +1394,7 @@ mousse::label mousse::triSurfaceTools::getTriangle
 {
   if ((e0I == e1I) || (e0I == e2I) || (e1I == e2I))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "getTriangle"
       "(const triSurface&, const label, const label,"
@@ -1402,7 +1404,7 @@ mousse::label mousse::triSurfaceTools::getTriangle
       << abort(FatalError);
   }
   const labelList& eFaces = surf.edgeFaces()[e0I];
-  forAll(eFaces, eFaceI)
+  FOR_ALL(eFaces, eFaceI)
   {
     label faceI = eFaces[eFaceI];
     const labelList& myEdges = surf.faceEdges()[faceI];
@@ -1434,7 +1436,7 @@ mousse::triSurface mousse::triSurfaceTools::collapseEdges
 )
 {
   pointField edgeMids(surf.nEdges());
-  forAll(edgeMids, edgeI)
+  FOR_ALL(edgeMids, edgeI)
   {
     const edge& e = surf.edges()[edgeI];
     edgeMids[edgeI] =
@@ -1446,7 +1448,7 @@ mousse::triSurface mousse::triSurfaceTools::collapseEdges
   }
   labelList faceStatus(surf.size(), ANYEDGE);
   //// Protect triangles which are on the border of different regions
-  //forAll(edges, edgeI)
+  //FOR_ALL(edges, edgeI)
   //{
   //    const labelList& neighbours = edgeFaces[edgeI];
   //
@@ -1487,17 +1489,17 @@ mousse::triSurface mousse::triSurfaceTools::collapseEdges
   pointField newPoints(localPoints);
   // Map for old to new points
   labelList pointMap(localPoints.size());
-  forAll(localPoints, pointI)
+  FOR_ALL(localPoints, pointI)
   {
     pointMap[pointI] = pointI;
   }
   // Do actual 'collapsing' of edges
-  forAll(collapseEdgeLabels, collapseEdgeI)
+  FOR_ALL(collapseEdgeLabels, collapseEdgeI)
   {
     const label edgeI = collapseEdgeLabels[collapseEdgeI];
     if ((edgeI < 0) || (edgeI >= surf.nEdges()))
     {
-      FatalErrorIn("collapseEdges")
+      FATAL_ERROR_IN("collapseEdges")
         << "Edge label outside valid range." << endl
         << "edge label:" << edgeI << endl
         << "total number of edges:" << surf.nEdges() << endl
@@ -1523,7 +1525,7 @@ mousse::triSurface mousse::triSurfaceTools::collapseEdges
         || (pointMap[e.end()] != e.end())
         )
         {
-          FatalErrorIn("collapseEdges")
+          FATAL_ERROR_IN("collapseEdges")
             << "points already mapped. Double collapse." << endl
             << "edgeI:" << edgeI
             << "  start:" << e.start()
@@ -1559,7 +1561,7 @@ mousse::triSurface mousse::triSurfaceTools::collapseEdges
             surf,
             edgeI
           ).toc();
-        forAll(collapseFaces, collapseI)
+        FOR_ALL(collapseFaces, collapseI)
         {
           faceStatus[collapseFaces[collapseI]] = COLLAPSED;
         }
@@ -1571,7 +1573,7 @@ mousse::triSurface mousse::triSurfaceTools::collapseEdges
   label newTriI = 0;
   const List<labelledTri>& localFaces = surf.localFaces();
   // Get only non-collapsed triangles and renumber vertex labels.
-  forAll(localFaces, faceI)
+  FOR_ALL(localFaces, faceI)
   {
     const labelledTri& f = localFaces[faceI];
     const label a = pointMap[f[0]];
@@ -1611,7 +1613,7 @@ mousse::triSurface mousse::triSurfaceTools::redGreenRefine
 {
   List<refineType> refineStatus(surf.size(), NONE);
   // Mark & propagate refinement
-  forAll(refineFaces, refineFaceI)
+  FOR_ALL(refineFaces, refineFaceI)
   {
     calcRefineStatus(surf, refineFaces[refineFaceI], refineStatus);
   }
@@ -1632,12 +1634,12 @@ mousse::triSurface mousse::triSurfaceTools::greenRefine
   newPoints.setSize(surf.nPoints() + surf.nEdges());
   label newPointI = surf.nPoints();
   // Refine edges
-  forAll(refineEdges, refineEdgeI)
+  FOR_ALL(refineEdges, refineEdgeI)
   {
     label edgeI = refineEdges[refineEdgeI];
     const labelList& myFaces = surf.edgeFaces()[edgeI];
     bool neighbourIsRefined= false;
-    forAll(myFaces, myFaceI)
+    FOR_ALL(myFaces, myFaceI)
     {
       if (refineStatus[myFaces[myFaceI]] != NONE)
       {
@@ -1657,7 +1659,7 @@ mousse::triSurface mousse::triSurfaceTools::greenRefine
         );
       newPoints[newPointI] = mid;
       // Refine faces using edge
-      forAll(myFaces, myFaceI)
+      FOR_ALL(myFaces, myFaceI)
       {
         // Add faces to newFaces
         greenRefine
@@ -1675,7 +1677,7 @@ mousse::triSurface mousse::triSurfaceTools::greenRefine
     }
   }
   // Add unrefined faces
-  forAll(surf.localFaces(), faceI)
+  FOR_ALL(surf.localFaces(), faceI)
   {
     if (refineStatus[faceI] == NONE)
     {
@@ -1696,7 +1698,7 @@ mousse::label mousse::triSurfaceTools::minEdge
 {
   scalar minLength = GREAT;
   label minIndex = -1;
-  forAll(edgeIndices, i)
+  FOR_ALL(edgeIndices, i)
   {
     const edge& e = surf.edges()[edgeIndices[i]];
     scalar length =
@@ -1722,7 +1724,7 @@ mousse::label mousse::triSurfaceTools::maxEdge
 {
   scalar maxLength = -GREAT;
   label maxIndex = -1;
-  forAll(edgeIndices, i)
+  FOR_ALL(edgeIndices, i)
   {
     const edge& e = surf.edges()[edgeIndices[i]];
     scalar length =
@@ -1762,7 +1764,7 @@ mousse::triSurface mousse::triSurfaceTools::mergePoints
     // Storage for new triangles
     List<labelledTri> newTriangles(surf.size());
     label newTriangleI = 0;
-    forAll(surf, faceI)
+    FOR_ALL(surf, faceI)
     {
       const labelledTri& f = surf.localFaces()[faceI];
       label newA = pointMap[f[0]];
@@ -1812,7 +1814,7 @@ mousse::vector mousse::triSurfaceTools::surfaceNormal
     // Calculate edge normal by averaging face normals
     const labelList& eFaces = surf.edgeFaces()[edgeI];
     vector edgeNormal(vector::zero);
-    forAll(eFaces, i)
+    FOR_ALL(eFaces, i)
     {
       edgeNormal += surf.faceNormals()[eFaces[i]];
     }
@@ -1951,7 +1953,7 @@ mousse::triSurfaceTools::sideType mousse::triSurfaceTools::surfaceSide
     const labelList& pEdges = surf.pointEdges()[nearPointI];
     scalar minDistSqr = mousse::sqr(GREAT);
     label minEdgeI = -1;
-    forAll(pEdges, i)
+    FOR_ALL(pEdges, i)
     {
       label edgeI = pEdges[i];
       const edge& e = edges[edgeI];
@@ -1974,7 +1976,7 @@ mousse::triSurfaceTools::sideType mousse::triSurfaceTools::surfaceSide
     }
     if (minEdgeI == -1)
     {
-      FatalErrorIn("treeDataTriSurface::getSide")
+      FATAL_ERROR_IN("treeDataTriSurface::getSide")
         << "Problem: did not find edge closer than " << minDistSqr
         << abort(FatalError);
     }
@@ -1996,19 +1998,19 @@ mousse::triSurface mousse::triSurfaceTools::triangulate
     mesh.nFaces() - mesh.nInternalFaces()
   );
   label newPatchI = 0;
-  forAllConstIter(labelHashSet, includePatches, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, includePatches, iter)
   {
     const label patchI = iter.key();
     const polyPatch& patch = bMesh[patchI];
     const pointField& points = patch.points();
     label nTriTotal = 0;
-    forAll(patch, patchFaceI)
+    FOR_ALL(patch, patchFaceI)
     {
       const face& f = patch[patchFaceI];
       faceList triFaces(f.nTriangles(points));
       label nTri = 0;
       f.triangles(points, nTri, triFaces);
-      forAll(triFaces, triFaceI)
+      FOR_ALL(triFaces, triFaceI)
       {
         const face& f = triFaces[triFaceI];
         triangles.append(labelledTri(f[0], f[1], f[2], newPatchI));
@@ -2035,7 +2037,7 @@ mousse::triSurface mousse::triSurfaceTools::triangulate
   // Add patch names to surface
   surface.patches().setSize(newPatchI);
   newPatchI = 0;
-  forAllConstIter(labelHashSet, includePatches, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, includePatches, iter)
   {
     const label patchI = iter.key();
     const polyPatch& patch = bMesh[patchI];
@@ -2059,11 +2061,11 @@ mousse::triSurface mousse::triSurfaceTools::triangulateFaceCentre
   const pointField& faceCentres = mesh.faceCentres();
   pointField newPoints(points.size() + faceCentres.size());
   label newPointI = 0;
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     newPoints[newPointI++] = points[pointI];
   }
-  forAll(faceCentres, faceI)
+  FOR_ALL(faceCentres, faceI)
   {
     newPoints[newPointI++] = faceCentres[faceI];
   }
@@ -2073,18 +2075,18 @@ mousse::triSurface mousse::triSurfaceTools::triangulateFaceCentre
     mesh.nFaces() - mesh.nInternalFaces()
   );
   label newPatchI = 0;
-  forAllConstIter(labelHashSet, includePatches, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, includePatches, iter)
   {
     const label patchI = iter.key();
     const polyPatch& patch = bMesh[patchI];
     label nTriTotal = 0;
-    forAll(patch, patchFaceI)
+    FOR_ALL(patch, patchFaceI)
     {
       // Face in global coords.
       const face& f = patch[patchFaceI];
       // Index in newPointI of face centre.
       label fc = points.size() + patchFaceI + patch.start();
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label fp1 = f.fcIndex(fp);
         triangles.append(labelledTri(f[fp], f[fp1], fc, newPatchI));
@@ -2111,7 +2113,7 @@ mousse::triSurface mousse::triSurfaceTools::triangulateFaceCentre
   // Add patch names to surface
   surface.patches().setSize(newPatchI);
   newPatchI = 0;
-  forAllConstIter(labelHashSet, includePatches, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, includePatches, iter)
   {
     const label patchI = iter.key();
     const polyPatch& patch = bMesh[patchI];
@@ -2127,7 +2129,7 @@ mousse::triSurface mousse::triSurfaceTools::delaunay2D(const List<vector2D>& pts
   // pts.begin() if double precision.
   List<doubleScalar> geompackVertices(2*pts.size());
   label doubleI = 0;
-  forAll(pts, i)
+  FOR_ALL(pts, i)
   {
     geompackVertices[doubleI++] = pts[i][0];
     geompackVertices[doubleI++] = pts[i][1];
@@ -2148,7 +2150,7 @@ mousse::triSurface mousse::triSurfaceTools::delaunay2D(const List<vector2D>& pts
   );
   if (err != 0)
   {
-    FatalErrorIn("triSurfaceTools::delaunay2D(const List<vector2D>&)")
+    FATAL_ERROR_IN("triSurfaceTools::delaunay2D(const List<vector2D>&)")
       << "Failed dtris2 with vertices:" << pts.size()
       << abort(FatalError);
   }
@@ -2157,7 +2159,7 @@ mousse::triSurface mousse::triSurfaceTools::delaunay2D(const List<vector2D>& pts
   triangle_neighbor.setSize(3*nTris);
   // Convert to triSurface.
   List<labelledTri> faces(nTris);
-  forAll(faces, i)
+  FOR_ALL(faces, i)
   {
     faces[i] = labelledTri
     (
@@ -2168,7 +2170,7 @@ mousse::triSurface mousse::triSurfaceTools::delaunay2D(const List<vector2D>& pts
     );
   }
   pointField points(pts.size());
-  forAll(pts, i)
+  FOR_ALL(pts, i)
   {
     points[i][0] = pts[i][0];
     points[i][1] = pts[i][1];
@@ -2214,13 +2216,13 @@ void mousse::triSurfaceTools::calcInterpolationWeights
   allVerts.setSize(samplePts.size());
   allWeights.setSize(samplePts.size());
   const pointField& points = s.points();
-  forAll(samplePts, i)
+  FOR_ALL(samplePts, i)
   {
     const point& samplePt = samplePts[i];
     FixedList<label, 3>& verts = allVerts[i];
     FixedList<scalar, 3>& weights = allWeights[i];
     scalar minDistance = GREAT;
-    forAll(s, faceI)
+    FOR_ALL(s, faceI)
     {
       const labelledTri& f = s[faceI];
       triPointRef tri(f.tri(points));

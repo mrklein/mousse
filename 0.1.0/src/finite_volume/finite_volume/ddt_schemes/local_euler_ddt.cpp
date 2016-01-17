@@ -4,6 +4,9 @@
 
 #include "local_euler_ddt_scheme.hpp"
 #include "fv_mesh.hpp"
+#include "time.hpp"
+#include "vol_fields.hpp"
+
 // Static Data Members
 mousse::word mousse::fv::localEulerDdt::rDeltaTName("rDeltaT");
 mousse::word mousse::fv::localEulerDdt::rSubDeltaTName("rSubDeltaTName");

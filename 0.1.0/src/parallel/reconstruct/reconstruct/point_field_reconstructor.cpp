@@ -22,11 +22,11 @@ mousse::pointFieldReconstructor::pointFieldReconstructor
   // Inverse-addressing of the patch point labels.
   labelList pointMap(mesh_.size(), -1);
   // Create the pointPatch addressing
-  forAll(procMeshes_, proci)
+  FOR_ALL(procMeshes_, proci)
   {
     const pointMesh& procMesh = procMeshes_[proci];
     patchPointAddressing_[proci].setSize(procMesh.boundary().size());
-    forAll(procMesh.boundary(), patchi)
+    FOR_ALL(procMesh.boundary(), patchi)
     {
       if (boundaryProcAddressing_[proci][patchi] >= 0)
       {
@@ -36,13 +36,13 @@ mousse::pointFieldReconstructor::pointFieldReconstructor
           mesh_.boundary()[boundaryProcAddressing_[proci][patchi]]
           .meshPoints();
         // Create the inverse-addressing of the patch point labels.
-        forAll(patchPointLabels, pointi)
+        FOR_ALL(patchPointLabels, pointi)
         {
           pointMap[patchPointLabels[pointi]] = pointi;
         }
         const labelList& procPatchPoints =
           procMesh.boundary()[patchi].meshPoints();
-        forAll(procPatchPoints, pointi)
+        FOR_ALL(procPatchPoints, pointi)
         {
           procPatchAddr[pointi] =
             pointMap
@@ -52,7 +52,7 @@ mousse::pointFieldReconstructor::pointFieldReconstructor
         }
         if (procPatchAddr.size() && min(procPatchAddr) < 0)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "pointFieldReconstructor::pointFieldReconstructor"
             "(\n"

@@ -46,7 +46,7 @@ class HarrisCrighton
     tmp<Field<scalar> > denominator(const Field<scalar>& alpha) const;
 public:
   //- Runtime type information
-  TypeName("HarrisCrighton");
+  TYPE_NAME("HarrisCrighton");
   //- Constructors
     //- Construct from components
     HarrisCrighton(const dictionary& dict);

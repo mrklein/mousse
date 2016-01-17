@@ -35,20 +35,14 @@ protected:
   // Protected Member Functions
     //- Print model coefficients
     virtual void printCoeffs(const word& type);
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    LESModel(const LESModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const LESModel&);
 public:
   typedef typename BasicTurbulenceModel::alphaField alphaField;
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("LES");
+  TYPE_NAME("LES");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       LESModel,
@@ -77,6 +71,10 @@ public:
       const transportModel& transport,
       const word& propertiesName
     );
+    //- Disallow default bitwise copy construct
+    LESModel(const LESModel&) = delete;
+    //- Disallow default bitwise assignment
+    LESModel& operator=(const LESModel&) = delete;
   // Selectors
     //- Return a reference to the selected LES model
     static autoPtr<LESModel> New

@@ -13,8 +13,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(noRadiation, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(noRadiation, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   filmRadiationModel,
   noRadiation,
@@ -24,7 +24,7 @@ addToRunTimeSelectionTable
 noRadiation::noRadiation
 (
   surfaceFilmModel& owner,
-  const dictionary& dict
+  const dictionary& /*dict*/
 )
 :
   filmRadiationModel(owner)

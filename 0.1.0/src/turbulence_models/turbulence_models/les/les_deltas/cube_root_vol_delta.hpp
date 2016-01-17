@@ -21,14 +21,11 @@ class cubeRootVolDelta
   // Private data
     scalar deltaCoeff_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    cubeRootVolDelta(const cubeRootVolDelta&);
-    void operator=(const cubeRootVolDelta&);
     // Calculate the delta values
     void calcDelta();
 public:
   //- Runtime type information
-  TypeName("cubeRootVol");
+  TYPE_NAME("cubeRootVol");
   // Constructors
     //- Construct from name, turbulenceModel and dictionary
     cubeRootVolDelta
@@ -37,6 +34,9 @@ public:
       const turbulenceModel& turbulence,
       const dictionary&
     );
+    //- Disallow default bitwise copy construct and assignment
+    cubeRootVolDelta(const cubeRootVolDelta&) = delete;
+    cubeRootVolDelta& operator=(const cubeRootVolDelta&) = delete;
   //- Destructor
   virtual ~cubeRootVolDelta()
   {}

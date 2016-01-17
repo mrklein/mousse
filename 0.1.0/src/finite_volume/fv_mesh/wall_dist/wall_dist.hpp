@@ -49,13 +49,9 @@ class wallDist
   // Private Member Functions
     //- Construct the normal-to-wall field as required
     void constructn() const;
-    //- Disallow default bitwise copy construct
-    wallDist(const wallDist&);
-    //- Disallow default bitwise assignment
-    void operator=(const wallDist&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("wallDist");
+  CLASS_NAME("wallDist");
   // Constructors
     //- Construct from mesh and optional patch type name
     wallDist
@@ -70,6 +66,10 @@ public:
       const labelHashSet& patchIDs,
       const word& patchTypeName = "patch"
     );
+    //- Disallow default bitwise copy construct
+    wallDist(const wallDist&) = delete;
+    //- Disallow default bitwise assignment
+    wallDist& operator=(const wallDist&) = delete;
   //- Destructor
   virtual ~wallDist();
   // Member Functions

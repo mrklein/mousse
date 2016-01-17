@@ -24,28 +24,30 @@ tmp<d2dt2Scheme<Type> > d2dt2Scheme<Type>::New
   }
   if (schemeData.eof())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "d2dt2Scheme<Type>::New(const fvMesh&, Istream&)",
       schemeData
-    )   << "D2dt2 scheme not specified" << endl << endl
-      << "Valid d2dt2 schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "D2dt2 scheme not specified" << endl << endl
+    << "Valid d2dt2 schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
   const word schemeName(schemeData);
   typename IstreamConstructorTable::iterator cstrIter =
     IstreamConstructorTablePtr_->find(schemeName);
   if (cstrIter == IstreamConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "d2dt2Scheme<Type>::New(const fvMesh&, Istream&)",
       schemeData
-    )   << "Unknown d2dt2 scheme " << schemeName << nl << nl
-      << "Valid d2dt2 schemes are :" << endl
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "Unknown d2dt2 scheme " << schemeName << nl << nl
+    << "Valid d2dt2 schemes are :" << endl
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
   return cstrIter()(mesh, schemeData);
 }

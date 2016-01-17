@@ -14,15 +14,15 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
 :
   calculatedFvPatchField<Type>(p, iF)
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "genericFvPatchField<Type>::genericFvPatchField"
     "(const fvPatch& p, const DimensionedField<Type, volMesh>& iF)"
   )   << "Not Implemented\n    "
-    << "Trying to construct an genericFvPatchField on patch "
-    << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << abort(FatalError);
+  << "Trying to construct an genericFvPatchField on patch "
+  << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << abort(FatalError);
 }
 template<class Type>
 mousse::genericFvPatchField<Type>::genericFvPatchField
@@ -32,56 +32,45 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
   const dictionary& dict
 )
 :
-  calculatedFvPatchField<Type>(p, iF, dict, false),
-  actualTypeName_(dict.lookup("type")),
-  dict_(dict)
+  calculatedFvPatchField<Type>{p, iF, dict, false},
+  actualTypeName_{dict.lookup("type")},
+  dict_{dict}
 {
   if (!dict.found("value"))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "genericFvPatchField<Type>::genericFvPatchField"
       "(const fvPatch&, const Field<Type>&, const dictionary&)",
       dict
-    )   << "\n    Cannot find 'value' entry"
-      << " on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << nl
-      << "    which is required to set the"
-       " values of the generic patch field." << nl
-      << "    (Actual type " << actualTypeName_ << ")" << nl
-      << "\n    Please add the 'value' entry to the write function "
-       "of the user-defined boundary-condition\n"
-      << exit(FatalIOError);
+    )
+    << "\n    Cannot find 'value' entry"
+    << " on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << nl
+    << "    which is required to set the"
+    " values of the generic patch field." << nl
+    << "    (Actual type " << actualTypeName_ << ")" << nl
+    << "\n    Please add the 'value' entry to the write function "
+    "of the user-defined boundary-condition\n"
+    << exit(FatalIOError);
   }
-  forAllConstIter(dictionary, dict_, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict_, iter)
   {
     if (iter().keyword() != "type" && iter().keyword() != "value")
     {
-      if
-      (
-        iter().isStream()
-      && iter().stream().size()
-      )
+      if (iter().isStream() && iter().stream().size())
       {
         ITstream& is = iter().stream();
         // Read first token
         token firstToken(is);
-        if
-        (
-          firstToken.isWord()
-        && firstToken.wordToken() == "nonuniform"
-        )
+        if (firstToken.isWord() && firstToken.wordToken() == "nonuniform")
         {
           token fieldToken(is);
           if (!fieldToken.isCompound())
           {
-            if
-            (
-              fieldToken.isLabel()
-            && fieldToken.labelToken() == 0
-            )
+            if (fieldToken.isLabel() && fieldToken.labelToken() == 0)
             {
               scalarFields_.insert
               (
@@ -91,74 +80,70 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
             }
             else
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericFvPatchField<Type>::genericFvPatchField"
                 "(const fvPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    token following 'nonuniform' "
-                 "is not a compound"
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
+              )
+              << "\n    token following 'nonuniform' "
+              "is not a compound"
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
               << exit(FatalIOError);
             }
           }
-          else if
-          (
-            fieldToken.compoundToken().type()
-          == token::Compound<List<scalar> >::typeName
-          )
+          else if (fieldToken.compoundToken().type()
+                   == token::Compound<List<scalar>>::typeName)
           {
             scalarField* fPtr = new scalarField;
             fPtr->transfer
             (
-              dynamicCast<token::Compound<List<scalar> > >
+              dynamicCast<token::Compound<List<scalar>>>
               (
                 fieldToken.transferCompoundToken(is)
               )
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericFvPatchField<Type>::genericFvPatchField"
                 "(const fvPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    size of field " << iter().keyword()
-                << " (" << fPtr->size() << ')'
-                << " is not the same size as the patch ("
-                << this->size() << ')'
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
+              )
+              << "\n    size of field " << iter().keyword()
+              << " (" << fPtr->size() << ')'
+              << " is not the same size as the patch ("
+              << this->size() << ')'
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
+              << exit(FatalIOError);
             }
             scalarFields_.insert(iter().keyword(), fPtr);
           }
-          else if
-          (
-            fieldToken.compoundToken().type()
-          == token::Compound<List<vector> >::typeName
-          )
+          else if (fieldToken.compoundToken().type()
+                   == token::Compound<List<vector>>::typeName)
           {
             vectorField* fPtr = new vectorField;
             fPtr->transfer
             (
-              dynamicCast<token::Compound<List<vector> > >
+              dynamicCast<token::Compound<List<vector>>>
               (
                 fieldToken.transferCompoundToken(is)
               )
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericFvPatchField<Type>::genericFvPatchField"
                 "(const fvPatch&, const Field<Type>&, "
@@ -180,7 +165,7 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
           else if
           (
             fieldToken.compoundToken().type()
-          == token::Compound<List<sphericalTensor> >::typeName
+          == token::Compound<List<sphericalTensor>>::typeName
           )
           {
             sphericalTensorField* fPtr = new sphericalTensorField;
@@ -188,7 +173,7 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
             (
               dynamicCast
               <
-                token::Compound<List<sphericalTensor> >
+                token::Compound<List<sphericalTensor>>
               >
               (
                 fieldToken.transferCompoundToken(is)
@@ -196,7 +181,7 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericFvPatchField<Type>::genericFvPatchField"
                 "(const fvPatch&, const Field<Type>&, "
@@ -215,18 +200,15 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
             }
             sphericalTensorFields_.insert(iter().keyword(), fPtr);
           }
-          else if
-          (
-            fieldToken.compoundToken().type()
-          == token::Compound<List<symmTensor> >::typeName
-          )
+          else if (fieldToken.compoundToken().type()
+                   == token::Compound<List<symmTensor>>::typeName)
           {
             symmTensorField* fPtr = new symmTensorField;
             fPtr->transfer
             (
               dynamicCast
               <
-                token::Compound<List<symmTensor> >
+                token::Compound<List<symmTensor>>
               >
               (
                 fieldToken.transferCompoundToken(is)
@@ -234,85 +216,82 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericFvPatchField<Type>::genericFvPatchField"
                 "(const fvPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    size of field " << iter().keyword()
-                << " (" << fPtr->size() << ')'
-                << " is not the same size as the patch ("
-                << this->size() << ')'
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
-            }
-            symmTensorFields_.insert(iter().keyword(), fPtr);
-          }
-          else if
-          (
-            fieldToken.compoundToken().type()
-          == token::Compound<List<tensor> >::typeName
-          )
-          {
-            tensorField* fPtr = new tensorField;
-            fPtr->transfer
-            (
-              dynamicCast<token::Compound<List<tensor> > >
-              (
-                fieldToken.transferCompoundToken(is)
               )
-            );
-            if (fPtr->size() != this->size())
-            {
-              FatalIOErrorIn
-              (
-                "genericFvPatchField<Type>::genericFvPatchField"
-                "(const fvPatch&, const Field<Type>&, "
-                "const dictionary&)",
-                dict
-              )   << "\n    size of field " << iter().keyword()
-                << " (" << fPtr->size() << ')'
-                << " is not the same size as the patch ("
-                << this->size() << ')'
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
-            }
-            tensorFields_.insert(iter().keyword(), fPtr);
-          }
-          else
-          {
-            FatalIOErrorIn
-            (
-              "genericFvPatchField<Type>::genericFvPatchField"
-              "(const fvPatch&, const Field<Type>&, "
-              "const dictionary&)",
-              dict
-            )   << "\n    compound " << fieldToken.compoundToken()
-              << " not supported"
+              << "\n    size of field " << iter().keyword()
+              << " (" << fPtr->size() << ')'
+              << " is not the same size as the patch ("
+              << this->size() << ')'
               << "\n    on patch " << this->patch().name()
               << " of field "
               << this->dimensionedInternalField().name()
               << " in file "
               << this->dimensionedInternalField().objectPath()
               << exit(FatalIOError);
+            }
+            symmTensorFields_.insert(iter().keyword(), fPtr);
+          }
+          else if (fieldToken.compoundToken().type()
+                   == token::Compound<List<tensor>>::typeName)
+          {
+            tensorField* fPtr = new tensorField;
+            fPtr->transfer
+            (
+              dynamicCast<token::Compound<List<tensor>>>
+              (
+                fieldToken.transferCompoundToken(is)
+              )
+            );
+            if (fPtr->size() != this->size())
+            {
+              FATAL_IO_ERROR_IN
+              (
+                "genericFvPatchField<Type>::genericFvPatchField"
+                "(const fvPatch&, const Field<Type>&, "
+                "const dictionary&)",
+                dict
+              )
+              << "\n    size of field " << iter().keyword()
+              << " (" << fPtr->size() << ')'
+              << " is not the same size as the patch ("
+              << this->size() << ')'
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
+              << exit(FatalIOError);
+            }
+            tensorFields_.insert(iter().keyword(), fPtr);
+          }
+          else
+          {
+            FATAL_IO_ERROR_IN
+            (
+              "genericFvPatchField<Type>::genericFvPatchField"
+              "(const fvPatch&, const Field<Type>&, "
+              "const dictionary&)",
+              dict
+            )
+            << "\n    compound " << fieldToken.compoundToken()
+            << " not supported"
+            << "\n    on patch " << this->patch().name()
+            << " of field "
+            << this->dimensionedInternalField().name()
+            << " in file "
+            << this->dimensionedInternalField().objectPath()
+            << exit(FatalIOError);
           }
         }
-        else if
-        (
-          firstToken.isWord()
-        && firstToken.wordToken() == "uniform"
-        )
+        else if (firstToken.isWord()
+                 && firstToken.wordToken() == "uniform")
         {
-          token fieldToken(is);
+          token fieldToken{is};
           if (!fieldToken.isPunctuation())
           {
             scalarFields_.insert
@@ -373,19 +352,20 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
             }
             else
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericFvPatchField<Type>::genericFvPatchField"
                 "(const fvPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    unrecognised native type " << l
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
+              )
+              << "\n    unrecognised native type " << l
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
+              << exit(FatalIOError);
             }
           }
         }
@@ -406,7 +386,7 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
   actualTypeName_(ptf.actualTypeName_),
   dict_(ptf.dict_)
 {
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<scalarField>,
     ptf.scalarFields_,
@@ -419,7 +399,7 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
       new scalarField(*iter(), mapper)
     );
   }
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<vectorField>,
     ptf.vectorFields_,
@@ -432,7 +412,7 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
       new vectorField(*iter(), mapper)
     );
   }
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<sphericalTensorField>,
     ptf.sphericalTensorFields_,
@@ -445,7 +425,7 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
       new sphericalTensorField(*iter(), mapper)
     );
   }
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<symmTensorField>,
     ptf.symmTensorFields_,
@@ -458,7 +438,7 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
       new symmTensorField(*iter(), mapper)
     );
   }
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<tensorField>,
     ptf.tensorFields_,
@@ -478,14 +458,14 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
   const genericFvPatchField<Type>& ptf
 )
 :
-  calculatedFvPatchField<Type>(ptf),
-  actualTypeName_(ptf.actualTypeName_),
-  dict_(ptf.dict_),
-  scalarFields_(ptf.scalarFields_),
-  vectorFields_(ptf.vectorFields_),
-  sphericalTensorFields_(ptf.sphericalTensorFields_),
-  symmTensorFields_(ptf.symmTensorFields_),
-  tensorFields_(ptf.tensorFields_)
+  calculatedFvPatchField<Type>{ptf},
+  actualTypeName_{ptf.actualTypeName_},
+  dict_{ptf.dict_},
+  scalarFields_{ptf.scalarFields_},
+  vectorFields_{ptf.vectorFields_},
+  sphericalTensorFields_{ptf.sphericalTensorFields_},
+  symmTensorFields_{ptf.symmTensorFields_},
+  tensorFields_{ptf.tensorFields_}
 {}
 template<class Type>
 mousse::genericFvPatchField<Type>::genericFvPatchField
@@ -494,14 +474,14 @@ mousse::genericFvPatchField<Type>::genericFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  calculatedFvPatchField<Type>(ptf, iF),
-  actualTypeName_(ptf.actualTypeName_),
-  dict_(ptf.dict_),
-  scalarFields_(ptf.scalarFields_),
-  vectorFields_(ptf.vectorFields_),
-  sphericalTensorFields_(ptf.sphericalTensorFields_),
-  symmTensorFields_(ptf.symmTensorFields_),
-  tensorFields_(ptf.tensorFields_)
+  calculatedFvPatchField<Type>{ptf, iF},
+  actualTypeName_{ptf.actualTypeName_},
+  dict_{ptf.dict_},
+  scalarFields_{ptf.scalarFields_},
+  vectorFields_{ptf.vectorFields_},
+  sphericalTensorFields_{ptf.sphericalTensorFields_},
+  symmTensorFields_{ptf.symmTensorFields_},
+  tensorFields_{ptf.tensorFields_}
 {}
 // Member Functions 
 template<class Type>
@@ -511,7 +491,7 @@ void mousse::genericFvPatchField<Type>::autoMap
 )
 {
   calculatedFvPatchField<Type>::autoMap(m);
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<scalarField>,
     scalarFields_,
@@ -520,7 +500,7 @@ void mousse::genericFvPatchField<Type>::autoMap
   {
     iter()->autoMap(m);
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<vectorField>,
     vectorFields_,
@@ -529,7 +509,7 @@ void mousse::genericFvPatchField<Type>::autoMap
   {
     iter()->autoMap(m);
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<sphericalTensorField>,
     sphericalTensorFields_,
@@ -538,7 +518,7 @@ void mousse::genericFvPatchField<Type>::autoMap
   {
     iter()->autoMap(m);
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<symmTensorField>,
     symmTensorFields_,
@@ -547,7 +527,7 @@ void mousse::genericFvPatchField<Type>::autoMap
   {
     iter()->autoMap(m);
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<tensorField>,
     tensorFields_,
@@ -566,8 +546,8 @@ void mousse::genericFvPatchField<Type>::rmap
 {
   calculatedFvPatchField<Type>::rmap(ptf, addr);
   const genericFvPatchField<Type>& dptf =
-    refCast<const genericFvPatchField<Type> >(ptf);
-  forAllIter
+    refCast<const genericFvPatchField<Type>>(ptf);
+  FOR_ALL_ITER
   (
     HashPtrTable<scalarField>,
     scalarFields_,
@@ -581,7 +561,7 @@ void mousse::genericFvPatchField<Type>::rmap
       iter()->rmap(*dptfIter(), addr);
     }
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<vectorField>,
     vectorFields_,
@@ -595,7 +575,7 @@ void mousse::genericFvPatchField<Type>::rmap
       iter()->rmap(*dptfIter(), addr);
     }
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<sphericalTensorField>,
     sphericalTensorFields_,
@@ -609,7 +589,7 @@ void mousse::genericFvPatchField<Type>::rmap
       iter()->rmap(*dptfIter(), addr);
     }
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<symmTensorField>,
     symmTensorFields_,
@@ -623,7 +603,7 @@ void mousse::genericFvPatchField<Type>::rmap
       iter()->rmap(*dptfIter(), addr);
     }
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<tensorField>,
     tensorFields_,
@@ -639,102 +619,103 @@ void mousse::genericFvPatchField<Type>::rmap
   }
 }
 template<class Type>
-mousse::tmp<mousse::Field<Type> >
+mousse::tmp<mousse::Field<Type>>
 mousse::genericFvPatchField<Type>::valueInternalCoeffs
 (
   const tmp<scalarField>&
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "genericFvPatchField<Type>::"
     "valueInternalCoeffs(const tmp<scalarField>&) const"
-  )   << "\n    "
-     "valueInternalCoeffs cannot be called for a genericFvPatchField"
-     " (actual type " << actualTypeName_ << ")"
-    << "\n    on patch " << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << " in file " << this->dimensionedInternalField().objectPath()
-    << "\n    You are probably trying to solve for a field with a "
-     "generic boundary condition."
-    << exit(FatalError);
+  )
+  << "\n    "
+  "valueInternalCoeffs cannot be called for a genericFvPatchField"
+  " (actual type " << actualTypeName_ << ")"
+  << "\n    on patch " << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << " in file " << this->dimensionedInternalField().objectPath()
+  << "\n    You are probably trying to solve for a field with a "
+  "generic boundary condition."
+  << exit(FatalError);
   return *this;
 }
 template<class Type>
-mousse::tmp<mousse::Field<Type> >
+mousse::tmp<mousse::Field<Type>>
 mousse::genericFvPatchField<Type>::valueBoundaryCoeffs
 (
   const tmp<scalarField>&
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "genericFvPatchField<Type>::"
     "valueBoundaryCoeffs(const tmp<scalarField>&) const"
-  )   << "\n    "
-     "valueBoundaryCoeffs cannot be called for a genericFvPatchField"
-     " (actual type " << actualTypeName_ << ")"
-    << "\n    on patch " << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << " in file " << this->dimensionedInternalField().objectPath()
-    << "\n    You are probably trying to solve for a field with a "
-     "generic boundary condition."
-    << exit(FatalError);
+  )
+  << "\n    "
+  "valueBoundaryCoeffs cannot be called for a genericFvPatchField"
+  " (actual type " << actualTypeName_ << ")"
+  << "\n    on patch " << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << " in file " << this->dimensionedInternalField().objectPath()
+  << "\n    You are probably trying to solve for a field with a "
+  "generic boundary condition."
+  << exit(FatalError);
   return *this;
 }
 template<class Type>
-mousse::tmp<mousse::Field<Type> >
+mousse::tmp<mousse::Field<Type>>
 mousse::genericFvPatchField<Type>::gradientInternalCoeffs() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "genericFvPatchField<Type>::"
     "gradientInternalCoeffs() const"
-  )   << "\n    "
-     "gradientInternalCoeffs cannot be called for a genericFvPatchField"
-     " (actual type " << actualTypeName_ << ")"
-    << "\n    on patch " << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << " in file " << this->dimensionedInternalField().objectPath()
-    << "\n    You are probably trying to solve for a field with a "
-     "generic boundary condition."
-    << exit(FatalError);
+  )
+  << "\n    "
+  "gradientInternalCoeffs cannot be called for a genericFvPatchField"
+  " (actual type " << actualTypeName_ << ")"
+  << "\n    on patch " << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << " in file " << this->dimensionedInternalField().objectPath()
+  << "\n    You are probably trying to solve for a field with a "
+  "generic boundary condition."
+  << exit(FatalError);
   return *this;
 }
 template<class Type>
-mousse::tmp<mousse::Field<Type> >
+mousse::tmp<mousse::Field<Type>>
 mousse::genericFvPatchField<Type>::gradientBoundaryCoeffs() const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "genericFvPatchField<Type>::"
     "gradientBoundaryCoeffs() const"
-  )   << "\n    "
-     "gradientBoundaryCoeffs cannot be called for a genericFvPatchField"
-     " (actual type " << actualTypeName_ << ")"
-    << "\n    on patch " << this->patch().name()
-    << " of field " << this->dimensionedInternalField().name()
-    << " in file " << this->dimensionedInternalField().objectPath()
-    << "\n    You are probably trying to solve for a field with a "
-     "generic boundary condition."
-    << exit(FatalError);
+  )
+  << "\n    "
+  "gradientBoundaryCoeffs cannot be called for a genericFvPatchField"
+  " (actual type " << actualTypeName_ << ")"
+  << "\n    on patch " << this->patch().name()
+  << " of field " << this->dimensionedInternalField().name()
+  << " in file " << this->dimensionedInternalField().objectPath()
+  << "\n    You are probably trying to solve for a field with a "
+  "generic boundary condition."
+  << exit(FatalError);
   return *this;
 }
 template<class Type>
 void mousse::genericFvPatchField<Type>::write(Ostream& os) const
 {
   os.writeKeyword("type") << actualTypeName_ << token::END_STATEMENT << nl;
-  forAllConstIter(dictionary, dict_, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict_, iter)
   {
     if (iter().keyword() != "type" && iter().keyword() != "value")
     {
-      if
-      (
-        iter().isStream()
-      && iter().stream().size()
-      && iter().stream()[0].isWord()
-      && iter().stream()[0].wordToken() == "nonuniform"
-      )
+      if (iter().isStream()
+          && iter().stream().size()
+          && iter().stream()[0].isWord()
+          && iter().stream()[0].wordToken() == "nonuniform")
       {
         if (scalarFields_.found(iter().keyword()))
         {

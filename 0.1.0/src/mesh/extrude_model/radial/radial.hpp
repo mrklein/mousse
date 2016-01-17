@@ -20,7 +20,7 @@ class radial
     autoPtr<DataEntry<scalar> > R_;
 public:
   //- Runtime type information
-  TypeName("radial");
+  TYPE_NAME("radial");
   // Constructors
     //- Construct from dictionary
     radial(const dictionary& dict);

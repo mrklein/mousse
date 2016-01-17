@@ -37,7 +37,7 @@ bool mousse::meshReaders::STARCD::readHeader(IFstream& is, word fileSignature)
 {
   if (!is.good())
   {
-    FatalErrorIn("meshReaders::STARCD::readHeader()")
+    FATAL_ERROR_IN("meshReaders::STARCD::readHeader()")
       << "cannot read " << fileSignature  << "  " << is.name()
       << abort(FatalError);
   }
@@ -127,7 +127,7 @@ void mousse::meshReaders::STARCD::readPoints
   }
   else
   {
-    FatalErrorIn("meshReaders::STARCD::readPoints()")
+    FATAL_ERROR_IN("meshReaders::STARCD::readPoints()")
       << "no points in file " << inputName
       << abort(FatalError);
   }
@@ -237,7 +237,7 @@ void mousse::meshReaders::STARCD::readCells(const fileName& inputName)
   // construct cellFaces_ and possibly cellShapes_
   if (nCells <= 0)
   {
-    FatalErrorIn("meshReaders::STARCD::readCells()")
+    FATAL_ERROR_IN("meshReaders::STARCD::readCells()")
       << "no cells in file " << inputName
       << abort(FatalError);
   }
@@ -381,7 +381,7 @@ void mousse::meshReaders::STARCD::readCells(const fileName& inputName)
         }
         if (nFaces < 4)
         {
-          FatalErrorIn("meshReaders::STARCD::readCells()")
+          FATAL_ERROR_IN("meshReaders::STARCD::readCells()")
             << "star cell " << starCellId << " has " << nFaces
             << abort(FatalError);
         }
@@ -435,7 +435,7 @@ void mousse::meshReaders::STARCD::readCells(const fileName& inputName)
   }
   if (unknownVertices)
   {
-    FatalErrorIn("meshReaders::STARCD::readCells()")
+    FATAL_ERROR_IN("meshReaders::STARCD::readCells()")
       << "cells with unknown vertices"
       << abort(FatalError);
   }
@@ -533,7 +533,7 @@ void mousse::meshReaders::STARCD::readBoundary(const fileName& inputName)
   patchTypes_[nPatches-1] = "none";
   // create names
   // - use 'Label' entry from "constant/boundaryRegion" dictionary
-  forAll(patchTypes_, patchI)
+  FOR_ALL(patchTypes_, patchI)
   {
     bool foundName = false, foundType = false;
     Map<dictionary>::const_iterator
@@ -558,7 +558,7 @@ void mousse::meshReaders::STARCD::readBoundary(const fileName& inputName)
     if (!foundType)
     {
       // transform
-      forAllIter(string, patchTypes_[patchI], i)
+      FOR_ALL_ITER(string, patchTypes_[patchI], i)
       {
         *i = tolower(*i);
       }
@@ -594,7 +594,7 @@ void mousse::meshReaders::STARCD::readBoundary(const fileName& inputName)
     labelList sortedIndices;
     sortedOrder(SubList<label>(origRegion, nPatches-1), sortedIndices);
     labelList oldToNew = identity(nPatches);
-    forAll(sortedIndices, i)
+    FOR_ALL(sortedIndices, i)
     {
       oldToNew[sortedIndices[i]] = i;
     }
@@ -627,12 +627,12 @@ void mousse::meshReaders::STARCD::readBoundary(const fileName& inputName)
     inplaceReorder(oldToNew, nPatchFaces);
   }
   mapToFoamPatchId.setSize(maxId+1, -1);
-  forAll(origRegion, patchI)
+  FOR_ALL(origRegion, patchI)
   {
     mapToFoamPatchId[origRegion[patchI]] = patchI;
   }
   boundaryIds_.setSize(nPatches);
-  forAll(boundaryIds_, patchI)
+  FOR_ALL(boundaryIds_, patchI)
   {
     boundaryIds_[patchI].setSize(nPatchFaces[patchI]);
     nPatchFaces[patchI] = 0;
@@ -697,7 +697,7 @@ void mousse::meshReaders::STARCD::readBoundary(const fileName& inputName)
   }
   // retain original information in patchPhysicalTypes_ - overwrite latter
   patchPhysicalTypes_.setSize(patchTypes_.size());
-  forAll(boundaryIds_, patchI)
+  FOR_ALL(boundaryIds_, patchI)
   {
     // resize - avoid invalid boundaries
     if (nPatchFaces[patchI] < boundaryIds_[patchI].size())
@@ -751,13 +751,13 @@ void mousse::meshReaders::STARCD::cullPoints()
   label nPoints = points_.size();
   labelList oldToNew(nPoints, -1);
   // loop through cell faces and note which points are being used
-  forAll(cellFaces_, cellI)
+  FOR_ALL(cellFaces_, cellI)
   {
     const faceList& faces = cellFaces_[cellI];
-    forAll(faces, i)
+    FOR_ALL(faces, i)
     {
       const labelList& labels = faces[i];
-      forAll(labels, j)
+      FOR_ALL(labels, j)
       {
         oldToNew[labels[j]]++;
       }
@@ -765,7 +765,7 @@ void mousse::meshReaders::STARCD::cullPoints()
   }
   // the new ordering and the count of unused points
   label pointI = 0;
-  forAll(oldToNew, i)
+  FOR_ALL(oldToNew, i)
   {
     if (oldToNew[i] >= 0)
     {
@@ -781,16 +781,16 @@ void mousse::meshReaders::STARCD::cullPoints()
     inplaceReorder(oldToNew, points_);
     points_.setSize(nPoints);
     // adjust cellFaces - with mesh shapes this might be faster
-    forAll(cellFaces_, cellI)
+    FOR_ALL(cellFaces_, cellI)
     {
       faceList& faces = cellFaces_[cellI];
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         inplaceRenumber(oldToNew, faces[i]);
       }
     }
     // adjust baffles
-    forAll(baffleFaces_, faceI)
+    FOR_ALL(baffleFaces_, faceI)
     {
       inplaceRenumber(oldToNew, baffleFaces_[faceI]);
     }

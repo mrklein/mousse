@@ -16,7 +16,7 @@ template<class T> void mousse::meshRefinement::updateList
 )
 {
   List<T> newElems(newToOld.size(), nullValue);
-  forAll(newElems, i)
+  FOR_ALL(newElems, i)
   {
     label oldI = newToOld[i];
     if (oldI >= 0)
@@ -35,7 +35,7 @@ T mousse::meshRefinement::gAverage
 {
   if (values.size() != isMasterElem.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshRefinement::gAverage\n"
       "(\n"
@@ -49,7 +49,7 @@ T mousse::meshRefinement::gAverage
   }
   T sum = pTraits<T>::zero;
   label n = 0;
-  forAll(values, i)
+  FOR_ALL(values, i)
   {
     if (isMasterElem[i])
     {
@@ -81,7 +81,7 @@ void mousse::meshRefinement::testSyncBoundaryFaceList
   label nBFaces = mesh_.nFaces() - mesh_.nInternalFaces();
   if (faceData.size() != nBFaces || syncedFaceData.size() != nBFaces)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshRefinement::testSyncBoundaryFaceList"
       "(const scalar, const string&, const List<T>&, const List<T>&)"
@@ -91,18 +91,18 @@ void mousse::meshRefinement::testSyncBoundaryFaceList
       << abort(FatalError);
   }
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     label bFaceI = pp.start() - mesh_.nInternalFaces();
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       const T& data = faceData[bFaceI];
       const T& syncData = syncedFaceData[bFaceI];
       if (mag(data - syncData) > tol)
       {
         label faceI = pp.start()+i;
-        FatalErrorIn("testSyncFaces")
+        FATAL_ERROR_IN("testSyncFaces")
           << msg
           << "patchFace:" << i
           << " face:" << faceI
@@ -150,7 +150,7 @@ void mousse::meshRefinement::collectAndPrint
   scalarField magAllPoints(mag(allPoints-point(-0.317, 0.117, 0.501)));
   labelList visitOrder;
   sortedOrder(magAllPoints, visitOrder);
-  forAll(visitOrder, i)
+  FOR_ALL(visitOrder, i)
   {
     label allPointI = visitOrder[i];
     Info<< allPoints[allPointI] << " : " << allData[allPointI]
@@ -169,7 +169,7 @@ void mousse::meshRefinement::addPatchFields
   (
     mesh.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     typename GeoField::GeometricBoundaryField& bfld = fld.boundaryField();
@@ -199,7 +199,7 @@ void mousse::meshRefinement::reorderPatchFields
   (
     mesh.objectRegistry::lookupClass<GeoField>()
   );
-  forAllIter(typename HashTable<GeoField*>, flds, iter)
+  FOR_ALL_ITER(typename HashTable<GeoField*>, flds, iter)
   {
     GeoField& fld = *iter();
     typename GeoField::GeometricBoundaryField& bfld = fld.boundaryField();
@@ -214,7 +214,7 @@ int mousse::meshRefinement::readFlags
 )
 {
   int flags = 0;
-  forAll(words, i)
+  FOR_ALL(words, i)
   {
     int index = namedEnum[words[i]];
     int val = 1<<index;
@@ -241,7 +241,7 @@ void mousse::meshRefinement::weightedSum
   || meshPoints.size() != pointData.size()
   )
   {
-    FatalErrorIn("medialAxisMeshMover::weightedSum(..)")
+    FATAL_ERROR_IN("medialAxisMeshMover::weightedSum(..)")
       << "Inconsistent sizes for edge or point data:"
       << " isMasterEdge:" << isMasterEdge.size()
       << " edgeWeights:" << edgeWeights.size()
@@ -252,7 +252,7 @@ void mousse::meshRefinement::weightedSum
   }
   sum.setSize(meshPoints.size());
   sum = pTraits<Type>::zero;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (isMasterEdge[edgeI])
     {

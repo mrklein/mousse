@@ -9,8 +9,8 @@ namespace mousse
 namespace energyScalingFunctions
 {
 // Static Data Members
-defineTypeNameAndDebug(sigmoid, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(sigmoid, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   energyScalingFunction,
   sigmoid,

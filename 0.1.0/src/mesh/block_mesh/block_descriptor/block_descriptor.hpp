@@ -47,9 +47,6 @@ class blockDescriptor
     void makeBlockEdges();
     //- Set the edge points/weights
     void setEdge(label edgeI, label start, label end, label dim);
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const blockDescriptor&);
 public:
   // Constructors
     //- Construct from components. Optional cellSet/zone name.
@@ -72,9 +69,11 @@ public:
     //- Clone
     autoPtr<blockDescriptor> clone() const
     {
-      notImplemented("blockDescriptor::clone()");
-      return autoPtr<blockDescriptor>(NULL);
+      NOT_IMPLEMENTED("blockDescriptor::clone()");
+      return autoPtr<blockDescriptor>{NULL};
     }
+    //- Disallow default bitwise assignment
+    blockDescriptor& operator=(const blockDescriptor&) = delete;
   //- Destructor
   ~blockDescriptor();
   // Member Functions

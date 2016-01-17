@@ -20,19 +20,13 @@ class noFilm
 :
   public surfaceFilmModel
 {
-private:
-  // Private member functions
-    //- Disallow default bitwise copy construct
-    noFilm(const noFilm&);
-    //- Disallow default bitwise assignment
-    void operator=(const noFilm&);
 protected:
   // Protected member functions
     //- Read control parameters from dictionary
     virtual bool read();
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from components
     noFilm
@@ -42,6 +36,10 @@ public:
       const dimensionedVector& g,
       const word& regionType
     );
+    //- Disallow default bitwise copy construct
+    noFilm(const noFilm&) = delete;
+    //- Disallow default bitwise assignment
+    noFilm& operator=(const noFilm&) = delete;
   //- Destructor
   virtual ~noFilm();
   // Member Functions

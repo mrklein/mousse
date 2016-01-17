@@ -31,7 +31,7 @@ void mousse::ConeNozzleInjection<CloudType>::setInjectionMethod()
   }
   else
   {
-    FatalErrorIn("mousse::InjectionModel<CloudType>::setInjectionMethod()")
+    FATAL_ERROR_IN("mousse::InjectionModel<CloudType>::setInjectionMethod()")
       << "injectionMethod must be either 'point' or 'disc'"
       << exit(FatalError);
   }
@@ -57,7 +57,7 @@ void mousse::ConeNozzleInjection<CloudType>::setFlowType()
   }
   else
   {
-    FatalErrorIn("mousse::InjectionModel<CloudType>::setFlowType()")
+    FATAL_ERROR_IN("mousse::InjectionModel<CloudType>::setFlowType()")
       << "flowType must be either 'constantVelocity', "
       <<"'pressureDrivenVelocity' or 'flowRateAndDischarge'"
       << exit(FatalError);
@@ -131,7 +131,7 @@ mousse::ConeNozzleInjection<CloudType>::ConeNozzleInjection
 {
   if (innerDiameter_ >= outerDiameter_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::ConeNozzleInjection<CloudType>::ConeNozzleInjection"
       "("
@@ -299,7 +299,7 @@ void mousse::ConeNozzleInjection<CloudType>::setPositionAndCell
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::ConeNozzleInjection<CloudType>::setPositionAndCell"
         "("
@@ -319,7 +319,7 @@ void mousse::ConeNozzleInjection<CloudType>::setPositionAndCell
 template<class CloudType>
 void mousse::ConeNozzleInjection<CloudType>::setProperties
 (
-  const label parcelI,
+  const label /*parcelI*/,
   const label,
   const scalar time,
   typename CloudType::parcelType& parcel

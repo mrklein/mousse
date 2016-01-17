@@ -160,7 +160,7 @@ protected:
     virtual void writeFileHeader(const label i);
 public:
   //- Run-time type information
-  TypeName("cellSource");
+  TYPE_NAME("cellSource");
   //- Construct from components
   cellSource
   (
@@ -191,7 +191,18 @@ public:
 };
 }  // namespace fieldValues
 }  // namespace mousse
-#include "cell_source_i.hpp"
+
+// Member Functions 
+inline const mousse::fieldValues::cellSource::sourceType&
+mousse::fieldValues::cellSource::source() const
+{
+  return source_;
+}
+inline const mousse::labelList&
+mousse::fieldValues::cellSource::cellId() const
+{
+  return cellId_;
+}
 #ifdef NoRepository
   #include "cell_source_templates.cpp"
 #endif

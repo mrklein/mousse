@@ -25,7 +25,7 @@ class uniform
     scalar maxValue_;
 public:
   //- Runtime type information
-  TypeName("uniform");
+  TYPE_NAME("uniform");
   // Constructors
     //- Construct from components
     uniform(const dictionary& dict, cachedRandom& rndGen);

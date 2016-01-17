@@ -42,7 +42,7 @@ class surfaceNormalFixedValueFvPatchVectorField
     scalarField refValue_;
 public:
   //- Runtime type information
-  TypeName("surfaceNormalFixedValue");
+  TYPE_NAME("surfaceNormalFixedValue");
   // Constructors
     //- Construct from patch and internal field
     surfaceNormalFixedValueFvPatchVectorField

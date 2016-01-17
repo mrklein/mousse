@@ -7,10 +7,13 @@
 //   Central-differencing interpolation scheme class
 // SourceFiles
 //   linear.cpp
+
 #ifndef linear_hpp_
 #define linear_hpp_
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -18,22 +21,19 @@ class linear
 :
   public surfaceInterpolationScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const linear&);
 public:
   //- Runtime type information
-  TypeName("linear");
+  TYPE_NAME("linear");
   // Constructors
     //- Construct from mesh
     linear(const fvMesh& mesh)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from Istream
     linear(const fvMesh& mesh, Istream&)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from faceFlux and Istream
     linear
@@ -43,8 +43,10 @@ public:
       Istream&
     )
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
+    //- Disallow default bitwise assignment
+    linear& operator=(const linear&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights

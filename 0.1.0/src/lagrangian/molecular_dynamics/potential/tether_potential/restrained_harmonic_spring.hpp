@@ -23,7 +23,7 @@ class restrainedHarmonicSpring
     scalar rR_;
 public:
   //- Runtime type information
-  TypeName("restrainedHarmonicSpring");
+  TYPE_NAME("restrainedHarmonicSpring");
   // Constructors
     //- Construct from components
     restrainedHarmonicSpring

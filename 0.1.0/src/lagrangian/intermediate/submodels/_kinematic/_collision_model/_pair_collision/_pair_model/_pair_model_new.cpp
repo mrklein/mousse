@@ -17,7 +17,7 @@ mousse::PairModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(PairModelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "PairModel<CloudType>::New"
       "("

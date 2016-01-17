@@ -19,7 +19,7 @@ mousse::CloudFunctionObject<CloudType>::New
     dictionaryConstructorTablePtr_->find(objectType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "CloudFunctionObject<CloudType>::New"
       "("

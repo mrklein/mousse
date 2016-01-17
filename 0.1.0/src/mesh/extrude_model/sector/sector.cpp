@@ -10,8 +10,8 @@ namespace mousse
 namespace extrudeModels
 {
 // Static Data Members
-defineTypeNameAndDebug(sector, 0);
-addToRunTimeSelectionTable(extrudeModel, sector, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(sector, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(extrudeModel, sector, dictionary);
 // Constructors 
 sector::sector(const dictionary& dict)
 :
@@ -30,7 +30,7 @@ sector::~sector()
 point sector::operator()
 (
   const point& surfacePoint,
-  const vector& surfaceNormal,
+  const vector& /*surfaceNormal*/,
   const label layer
 ) const
 {

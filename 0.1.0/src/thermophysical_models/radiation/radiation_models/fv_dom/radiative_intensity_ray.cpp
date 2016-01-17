@@ -110,7 +110,7 @@ mousse::radiation::radiativeIntensityRay::radiativeIntensityRay
     0.5*deltaPhi*mousse::sin(2.0*theta)*mousse::sin(deltaTheta)
   );
   autoPtr<volScalarField> IDefaultPtr;
-  forAll(ILambda_, lambdaI)
+  FOR_ALL(ILambda_, lambdaI)
   {
     IOobject IHeader
     (
@@ -170,7 +170,7 @@ mousse::scalar mousse::radiation::radiativeIntensityRay::correct()
   // Reset boundary heat flux to zero
   Qr_.boundaryField() = 0.0;
   scalar maxResidual = -GREAT;
-  forAll(ILambda_, lambdaI)
+  FOR_ALL(ILambda_, lambdaI)
   {
     const volScalarField& k = dom_.aLambda(lambdaI);
     tmp<fvScalarMatrix> IiEq;
@@ -222,7 +222,7 @@ mousse::scalar mousse::radiation::radiativeIntensityRay::correct()
 void mousse::radiation::radiativeIntensityRay::addIntensity()
 {
   I_ = dimensionedScalar("zero", dimMass/pow3(dimTime), 0.0);
-  forAll(ILambda_, lambdaI)
+  FOR_ALL(ILambda_, lambdaI)
   {
     I_ += ILambda_[lambdaI];
   }

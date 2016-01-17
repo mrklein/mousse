@@ -18,7 +18,7 @@ void mousse::meshToMesh0::mapField
 ) const
 {
   // Direct mapping of nearest-cell values
-  forAll(toF, celli)
+  FOR_ALL(toF, celli)
   {
     if (adr[celli] != -1)
     {
@@ -38,12 +38,12 @@ void mousse::meshToMesh0::interpolateField
 ) const
 {
   // Inverse volume weighted interpolation
-  forAll(toF, celli)
+  FOR_ALL(toF, celli)
   {
     const labelList& overlapCells = adr[celli];
     const scalarList& w = weights[celli];
     Type f = pTraits<Type>::zero;
-    forAll(overlapCells, i)
+    FOR_ALL(overlapCells, i)
     {
       label fromCelli = overlapCells[i];
       f += fromVf[fromCelli]*w[i];
@@ -64,7 +64,7 @@ void mousse::meshToMesh0::interpolateField
   // Inverse distance weighted interpolation
   // get reference to cellCells
   const labelListList& cc = fromMesh_.cellCells();
-  forAll(toF, celli)
+  FOR_ALL(toF, celli)
   {
     if (adr[celli] != -1)
     {
@@ -91,7 +91,7 @@ void mousse::meshToMesh0::interpolateField
 {
   // Cell-Point interpolation
   interpolationCellPoint<Type> interpolator(fromVf);
-  forAll(toF, celli)
+  FOR_ALL(toF, celli)
   {
     if (adr[celli] != -1)
     {
@@ -118,7 +118,7 @@ void mousse::meshToMesh0::interpolateInternalField
 {
   if (fromVf.mesh() != fromMesh_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshToMesh0::interpolateInternalField(Field<Type>&, "
       "const GeometricField<Type, fvPatchField, volMesh>&, "
@@ -130,7 +130,7 @@ void mousse::meshToMesh0::interpolateInternalField
   }
   if (toF.size() != toMesh_.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshToMesh0::interpolateInternalField(Field<Type>&, "
       "const GeometricField<Type, fvPatchField, volMesh>&, "
@@ -184,7 +184,7 @@ void mousse::meshToMesh0::interpolateInternalField
       break;
     }
     default:
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "meshToMesh0::interpolateInternalField(Field<Type>&, "
         "const GeometricField<Type, fvPatchField, volMesh>&, "
@@ -215,7 +215,7 @@ void mousse::meshToMesh0::interpolate
 ) const
 {
   interpolateInternalField(toVf, fromVf, ord, cop);
-  forAll(toMesh_.boundaryMesh(), patchi)
+  FOR_ALL(toMesh_.boundaryMesh(), patchi)
   {
     const fvPatch& toPatch = toMesh_.boundary()[patchi];
     if (cuttingPatches_.found(toPatch.name()))
@@ -263,7 +263,7 @@ void mousse::meshToMesh0::interpolate
           break;
         }
         default:
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "meshToMesh0::interpolate("
             "GeometricField<Type, fvPatchField, volMesh>&, "
@@ -337,7 +337,7 @@ mousse::meshToMesh0::interpolate
   // of boundary patches
   if (fromMesh_.boundary().size() != toMesh_.boundary().size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshToMesh0::interpolate"
       "(const GeometricField<Type, fvPatchField, volMesh>&,"
@@ -351,7 +351,7 @@ mousse::meshToMesh0::interpolate
   (
     boundaryAddressing_.size()
   );
-  forAll(boundaryAddressing_, patchI)
+  FOR_ALL(boundaryAddressing_, patchI)
   {
     patchFields.set
     (

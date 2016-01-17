@@ -35,7 +35,7 @@ class tetOverlapVolume
     ) const;
 public:
   //- Runtime type information
-  ClassName("tetOverlapVolume");
+  CLASS_NAME("tetOverlapVolume");
   // Constructors
     //- Null constructor
     tetOverlapVolume();

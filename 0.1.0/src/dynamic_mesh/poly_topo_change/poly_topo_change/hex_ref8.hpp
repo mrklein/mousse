@@ -259,13 +259,9 @@ class hexRef8
         const label cellLevel,
         DynamicList<face>& quads
       ) const;
-    //- Disallow default bitwise copy construct
-    hexRef8(const hexRef8&);
-    //- Disallow default bitwise assignment
-    void operator=(const hexRef8&);
 public:
   //- Runtime type information
-  ClassName("hexRef8");
+  CLASS_NAME("hexRef8");
   // Constructors
     //- Construct from mesh, read_if_present refinement data
     //  (from write below). If readHistory is true does read_if_present
@@ -290,6 +286,10 @@ public:
       const labelList& pointLevel,
       const scalar level0Edge = -GREAT
     );
+    //- Disallow default bitwise copy construct
+    hexRef8(const hexRef8&) = delete;
+    //- Disallow default bitwise assignment
+    hexRef8& operator=(const hexRef8&) = delete;
   // Member Functions
     // Access
       const polyMesh& mesh() const

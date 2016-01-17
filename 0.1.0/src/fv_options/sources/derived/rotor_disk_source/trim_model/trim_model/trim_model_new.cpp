@@ -16,7 +16,7 @@ mousse::autoPtr<mousse::trimModel> mousse::trimModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "trimModel::New(const rotorDiskSource&, const dictionary&)"
     )   << "Unknown " << typeName << " type "

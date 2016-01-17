@@ -54,9 +54,6 @@ class LaheyKEpsilon
       typename BasicTurbulenceModel::transportModel
     >&
     gasTurbulence() const;
-    // Disallow default bitwise copy construct and assignment
-    LaheyKEpsilon(const LaheyKEpsilon&);
-    LaheyKEpsilon& operator=(const LaheyKEpsilon&);
 protected:
   // Protected data
     // Model coefficients
@@ -75,7 +72,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("LaheyKEpsilon");
+  TYPE_NAME("LaheyKEpsilon");
   // Constructors
     //- Construct from components
     LaheyKEpsilon
@@ -89,6 +86,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    LaheyKEpsilon(const LaheyKEpsilon&) = delete;
+    LaheyKEpsilon& operator=(const LaheyKEpsilon&) = delete;
   //- Destructor
   virtual ~LaheyKEpsilon()
   {}

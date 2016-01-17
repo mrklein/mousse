@@ -48,7 +48,7 @@ class outletPhaseMeanVelocityFvPatchVectorField
     word alphaName_;
 public:
  //- Runtime type information
- TypeName("outletPhaseMeanVelocity");
+ TYPE_NAME("outletPhaseMeanVelocity");
  // Constructors
     //- Construct from patch and internal field
     outletPhaseMeanVelocityFvPatchVectorField

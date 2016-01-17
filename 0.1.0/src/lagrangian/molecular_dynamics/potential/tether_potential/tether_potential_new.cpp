@@ -16,7 +16,7 @@ mousse::autoPtr<mousse::tetherPotential> mousse::tetherPotential::New
     dictionaryConstructorTablePtr_->find(potentialType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "tetherPotential::New()"
     )   << "Unknown tetherPotential type "

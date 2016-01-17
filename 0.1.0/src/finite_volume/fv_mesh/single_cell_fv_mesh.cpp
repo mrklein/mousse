@@ -5,6 +5,9 @@
 #include "single_cell_fv_mesh.hpp"
 #include "sync_tools.hpp"
 #include "uindirect_primitive_patch.hpp"
+#include "vector_field.hpp"
+#include "point_field.hpp"
+
 // Private Member Functions 
 // Conversion is a two step process:
 // - from original (fine) patch faces to agglomerations (aggloms might not
@@ -19,17 +22,17 @@ void mousse::singleCellFvMesh::agglomerateMesh
   const polyBoundaryMesh& oldPatches = mesh.boundaryMesh();
   // Check agglomeration within patch face range and continuous
   labelList nAgglom(oldPatches.size(), 0);
-  forAll(oldPatches, patchI)
+  FOR_ALL(oldPatches, patchI)
   {
     const polyPatch& pp = oldPatches[patchI];
     if (pp.size() > 0)
     {
       nAgglom[patchI] = max(agglom[patchI])+1;
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         if (agglom[patchI][i] < 0  || agglom[patchI][i] >= pp.size())
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "singleCellFvMesh::agglomerateMesh(..)"
           )   << "agglomeration on patch " << patchI
@@ -43,13 +46,13 @@ void mousse::singleCellFvMesh::agglomerateMesh
   {
     // Get neighbouring agglomeration
     labelList nbrAgglom(mesh.nFaces()-mesh.nInternalFaces());
-    forAll(oldPatches, patchI)
+    FOR_ALL(oldPatches, patchI)
     {
       const polyPatch& pp = oldPatches[patchI];
       if (pp.coupled())
       {
         label offset = pp.start()-mesh.nInternalFaces();
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           nbrAgglom[offset+i] = agglom[patchI][i];
         }
@@ -58,13 +61,13 @@ void mousse::singleCellFvMesh::agglomerateMesh
     syncTools::swapBoundaryFaceList(mesh, nbrAgglom);
     // Get correspondence between this agglomeration and remote one
     Map<label> localToNbr(nbrAgglom.size()/10);
-    forAll(oldPatches, patchI)
+    FOR_ALL(oldPatches, patchI)
     {
       const polyPatch& pp = oldPatches[patchI];
       if (pp.coupled())
       {
         label offset = pp.start()-mesh.nInternalFaces();
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           label bFaceI = offset+i;
           label myZone = agglom[patchI][i];
@@ -81,7 +84,7 @@ void mousse::singleCellFvMesh::agglomerateMesh
             // Check that zone numbers are still the same.
             if (iter() != nbrZone)
             {
-              FatalErrorIn
+              FATAL_ERROR_IN
               (
                 "singleCellFvMesh::agglomerateMesh(..)"
               )   << "agglomeration is not synchronised across"
@@ -97,7 +100,7 @@ void mousse::singleCellFvMesh::agglomerateMesh
     }
   }
   label coarseI = 0;
-  forAll(nAgglom, patchI)
+  FOR_ALL(nAgglom, patchI)
   {
     coarseI += nAgglom[patchI];
   }
@@ -113,7 +116,7 @@ void mousse::singleCellFvMesh::agglomerateMesh
   reverseFaceMap_.labelList::operator=(-1);
   // Face counter
   coarseI = 0;
-  forAll(oldPatches, patchI)
+  FOR_ALL(oldPatches, patchI)
   {
     patchStarts[patchI] = coarseI;
     const polyPatch& pp = oldPatches[patchI];
@@ -127,7 +130,7 @@ void mousse::singleCellFvMesh::agglomerateMesh
       );
       // From agglomeration to compact patch face
       labelList agglomToFace(nAgglom[patchI], -1);
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         label myAgglom = agglom[patchI][i];
         if (agglomToFace[myAgglom] == -1)
@@ -142,7 +145,7 @@ void mousse::singleCellFvMesh::agglomerateMesh
           agglomToFace[myAgglom] = coarsePatchFaceI;
           const labelList& fineFaces = agglomToPatch[myAgglom];
           // Create overall map from fine mesh faces to coarseI.
-          forAll(fineFaces, fineI)
+          FOR_ALL(fineFaces, fineI)
           {
             reverseFaceMap_[pp.start()+fineFaces[fineI]] = coarseI;
           }
@@ -154,14 +157,15 @@ void mousse::singleCellFvMesh::agglomerateMesh
           );
           if (upp.edgeLoops().size() != 1)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "singleCellFvMesh::agglomerateMesh(..)"
-            )   << "agglomeration does not create a"
-              << " single, non-manifold"
-              << " face for agglomeration " << myAgglom
-              << " on patch " <<  patchI
-              << exit(FatalError);
+            )
+            << "agglomeration does not create a"
+            << " single, non-manifold"
+            << " face for agglomeration " << myAgglom
+            << " on patch " <<  patchI
+            << exit(FatalError);
           }
           patchFaces[coarseI++] = face
           (
@@ -182,10 +186,10 @@ void mousse::singleCellFvMesh::agglomerateMesh
   reversePointMap_.setSize(mesh.nPoints());
   reversePointMap_.labelList::operator=(-1);
   label newI = 0;
-  forAll(patchFaces, coarseI)
+  FOR_ALL(patchFaces, coarseI)
   {
     face& f = patchFaces[coarseI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (reversePointMap_[f[fp]] == -1)
       {
@@ -199,7 +203,7 @@ void mousse::singleCellFvMesh::agglomerateMesh
   pointField boundaryPoints(mesh.points(), pointMap_);
   // Add patches (on still zero sized mesh)
   List<polyPatch*> newPatches(oldPatches.size());
-  forAll(oldPatches, patchI)
+  FOR_ALL(oldPatches, patchI)
   {
     newPatches[patchI] = oldPatches[patchI].clone
     (
@@ -228,7 +232,7 @@ void mousse::singleCellFvMesh::agglomerateMesh
   cellZones().clear();
   cellZones().setSize(mesh.cellZones().size());
   {
-    forAll(mesh.cellZones(), zoneI)
+    FOR_ALL(mesh.cellZones(), zoneI)
     {
       const cellZone& oldFz = mesh.cellZones()[zoneI];
       DynamicList<label> newAddressing;
@@ -254,12 +258,12 @@ void mousse::singleCellFvMesh::agglomerateMesh
   faceZones().clear();
   faceZones().setSize(mesh.faceZones().size());
   {
-    forAll(mesh.faceZones(), zoneI)
+    FOR_ALL(mesh.faceZones(), zoneI)
     {
       const faceZone& oldFz = mesh.faceZones()[zoneI];
       DynamicList<label> newAddressing(oldFz.size());
       DynamicList<bool> newFlipMap(oldFz.size());
-      forAll(oldFz, i)
+      FOR_ALL(oldFz, i)
       {
         label newFaceI = reverseFaceMap_[oldFz[i]];
         if (newFaceI != -1)
@@ -284,11 +288,11 @@ void mousse::singleCellFvMesh::agglomerateMesh
   pointZones().clear();
   pointZones().setSize(mesh.pointZones().size());
   {
-    forAll(mesh.pointZones(), zoneI)
+    FOR_ALL(mesh.pointZones(), zoneI)
     {
       const pointZone& oldFz = mesh.pointZones()[zoneI];
       DynamicList<label> newAddressing(oldFz.size());
-      forAll(oldFz, i)
+      FOR_ALL(oldFz, i)
       {
         label newPointI  = reversePointMap_[oldFz[i]];
         if (newPointI != -1)
@@ -393,7 +397,7 @@ mousse::singleCellFvMesh::singleCellFvMesh
 {
   const polyBoundaryMesh& oldPatches = mesh.boundaryMesh();
   labelListList agglom(oldPatches.size());
-  forAll(oldPatches, patchI)
+  FOR_ALL(oldPatches, patchI)
   {
     agglom[patchI] = identity(oldPatches[patchI].size());
   }

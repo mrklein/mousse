@@ -8,16 +8,16 @@
 #include "psi_thermo_combustion.hpp"
 #include "rho_thermo_combustion.hpp"
 #include "no_combustion.hpp"
-makeCombustionTypes
+
+MAKE_COMBUSTION_TYPES
 (
   noCombustion,
   psiThermoCombustion,
   psiCombustionModel
 );
-makeCombustionTypes
+MAKE_COMBUSTION_TYPES
 (
   noCombustion,
   rhoThermoCombustion,
   rhoCombustionModel
 );
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

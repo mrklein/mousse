@@ -52,22 +52,22 @@ class powerLaw
       const RhoFieldType& rho,
       const vectorField& U
     ) const;
-    //- Disallow default bitwise copy construct
-    powerLaw(const powerLaw&);
-    //- Disallow default bitwise assignment
-    void operator=(const powerLaw&);
 public:
   //- Runtime type information
-  TypeName("powerLaw");
+  TYPE_NAME("powerLaw");
   //- Constructor
-  powerLaw
-  (
-    const word& name,
-    const word& modelType,
-    const fvMesh& mesh,
-    const dictionary& dict,
-    const word& cellZoneName
-  );
+    powerLaw
+    (
+      const word& name,
+      const word& modelType,
+      const fvMesh& mesh,
+      const dictionary& dict,
+      const word& cellZoneName
+    );
+    //- Disallow default bitwise copy construct
+    powerLaw(const powerLaw&) = delete;
+    //- Disallow default bitwise assignment
+    powerLaw& operator=(const powerLaw&) = delete;
   //- Destructor
   virtual ~powerLaw();
   // Member Functions

@@ -37,13 +37,7 @@ bool mousse::blockMesh::readPatches
   patchStream.readBegin("patches");
   nPatches = 0;
   token lastToken(patchStream);
-  while
-  (
-    !(
-      lastToken.isPunctuation()
-      && lastToken.pToken() == token::END_LIST
-    )
-  )
+  while (!(lastToken.isPunctuation() && lastToken.pToken() == token::END_LIST))
   {
     if (tmpBlocksPatches.size() <= nPatches)
     {
@@ -53,9 +47,7 @@ bool mousse::blockMesh::readPatches
       nbrPatchNames.setSize(nPatches + 1);
     }
     patchStream.putBack(lastToken);
-    patchStream
-      >> patchTypes[nPatches]
-      >> patchNames[nPatches];
+    patchStream >> patchTypes[nPatches] >> patchNames[nPatches];
     // Read patch faces
     patchStream >> tmpBlocksPatches[nPatches];
     // Catch multiple patches asap.
@@ -63,13 +55,14 @@ bool mousse::blockMesh::readPatches
     {
       if (patchNames[nPatches] == patchNames[i])
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "blockMesh::createTopology(IOdictionary&)"
-        )   << "Duplicate patch " << patchNames[nPatches]
-          << " at line " << patchStream.lineNumber()
-          << ". Exiting !" << nl
-          << exit(FatalError);
+        )
+        << "Duplicate patch " << patchNames[nPatches]
+        << " at line " << patchStream.lineNumber()
+        << ". Exiting !" << nl
+        << exit(FatalError);
       }
     }
     topologyOK = topologyOK && patchLabelsOK
@@ -84,7 +77,7 @@ bool mousse::blockMesh::readPatches
     {
       word halfA = patchNames[nPatches-1] + "_half0";
       word halfB = patchNames[nPatches-1] + "_half1";
-      WarningIn("blockMesh::createTopology(IOdictionary&)")
+      WARNING_IN("blockMesh::createTopology(IOdictionary&)")
         << "Old-style cyclic definition."
         << " Splitting patch "
         << patchNames[nPatches-1] << " into two halves "
@@ -109,23 +102,21 @@ bool mousse::blockMesh::readPatches
       // Split faces
       if ((tmpBlocksPatches[nPatches-1].size() % 2) != 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "blockMesh::createTopology(IOdictionary&)"
-        )   << "Size of cyclic faces is not a multiple of 2 :"
-          << tmpBlocksPatches[nPatches-1]
-          << exit(FatalError);
+        )
+        << "Size of cyclic faces is not a multiple of 2 :"
+        << tmpBlocksPatches[nPatches-1]
+        << exit(FatalError);
       }
       label sz = tmpBlocksPatches[nPatches-1].size()/2;
       faceList unsplitFaces(tmpBlocksPatches[nPatches-1], true);
-      tmpBlocksPatches[nPatches-1] = faceList
-      (
-        SubList<face>(unsplitFaces, sz)
-      );
+      tmpBlocksPatches[nPatches-1] = faceList{SubList<face>{unsplitFaces, sz}};
       tmpBlocksPatches[nPatches] = faceList
-      (
-        SubList<face>(unsplitFaces, sz, sz)
-      );
+      {
+        SubList<face>{unsplitFaces, sz, sz}
+      };
       nPatches++;
     }
     patchStream >> lastToken;
@@ -152,12 +143,12 @@ bool mousse::blockMesh::readBoundary
   patchNames.setSize(patchesInfo.size());
   tmpBlocksPatches.setSize(patchesInfo.size());
   patchDicts.setSize(patchesInfo.size());
-  forAll(tmpBlocksPatches, patchI)
+  FOR_ALL(tmpBlocksPatches, patchI)
   {
     const entry& patchInfo = patchesInfo[patchI];
     if (!patchInfo.isDict())
     {
-      FatalIOErrorIn("blockMesh::readBoundary(..)", meshDescription)
+      FATAL_IO_ERROR_IN("blockMesh::readBoundary(..)", meshDescription)
         << "Entry " << patchInfo << " in boundary section is not a"
         << " valid dictionary." << exit(FatalIOError);
     }
@@ -182,12 +173,12 @@ void mousse::blockMesh::createCellShapes
 {
   const blockMesh& blocks = *this;
   tmpBlockCells.setSize(blocks.size());
-  forAll(blocks, blockI)
+  FOR_ALL(blocks, blockI)
   {
     tmpBlockCells[blockI] = cellShape(blocks[blockI].blockShape());
     if (tmpBlockCells[blockI].mag(blockPointField_) < 0.0)
     {
-      WarningIn
+      WARNING_IN
       (
         "blockMesh::createTopology(IOdictionary&)"
       )   << "negative volume block : " << blockI
@@ -360,7 +351,7 @@ mousse::polyMesh* mousse::blockMesh::createTopology
     );
     if (!topologyOK)
     {
-      FatalErrorIn("blockMesh::createTopology(IOdictionary&)")
+      FATAL_ERROR_IN("blockMesh::createTopology(IOdictionary&)")
         << "Cannot create mesh due to errors in topology, exiting !"
         << nl << exit(FatalError);
     }
@@ -381,7 +372,7 @@ mousse::polyMesh* mousse::blockMesh::createTopology
       defaultPatchType
     );
     // Add cyclic info (might not be present from older file)
-    forAll(patchDicts, patchI)
+    FOR_ALL(patchDicts, patchI)
     {
       if (!patchDicts.set(patchI))
       {
@@ -395,15 +386,16 @@ mousse::polyMesh* mousse::blockMesh::createTopology
       }
       else if (word(dict.lookup("type")) != patchTypes[patchI])
       {
-        IOWarningIn
+        IO_WARNING_IN
         (
           "blockMesh::createTopology(IOdictionary&)",
           meshDescription
-        )   << "For patch " << patchNames[patchI]
-          << " overriding type '" << patchTypes[patchI]
-          << "' with '" << word(dict.lookup("type"))
-          << "' (read from boundary file)"
-          << endl;
+        )
+        << "For patch " << patchNames[patchI]
+        << " overriding type '" << patchTypes[patchI]
+        << "' with '" << word(dict.lookup("type"))
+        << "' (read from boundary file)"
+        << endl;
       }
       // Override neighbourpatch name
       if (nbrPatchNames[patchI] != word::null)
@@ -445,7 +437,7 @@ mousse::polyMesh* mousse::blockMesh::createTopology
     );
     if (!topologyOK)
     {
-      FatalErrorIn("blockMesh::createTopology(IOdictionary&)")
+      FATAL_ERROR_IN("blockMesh::createTopology(IOdictionary&)")
         << "Cannot create mesh due to errors in topology, exiting !"
         << nl << exit(FatalError);
     }

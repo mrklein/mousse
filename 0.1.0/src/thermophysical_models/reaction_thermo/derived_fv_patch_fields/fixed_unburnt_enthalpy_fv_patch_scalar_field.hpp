@@ -18,7 +18,7 @@ class fixedUnburntEnthalpyFvPatchScalarField
 {
 public:
   //- Runtime type information
-  TypeName("fixedUnburntEnthalpy");
+  TYPE_NAME("fixedUnburntEnthalpy");
   // Constructors
     //- Construct from patch and internal field
     fixedUnburntEnthalpyFvPatchScalarField

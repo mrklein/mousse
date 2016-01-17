@@ -18,7 +18,7 @@ class cyclicACMILduInterfaceField
 {
 public:
   //- Runtime type information
-  TypeName("cyclicACMILduInterfaceField");
+  TYPE_NAME("cyclicACMILduInterfaceField");
   // Constructors
     //- Construct null
     cyclicACMILduInterfaceField()

@@ -17,11 +17,6 @@ namespace mousse
 {
 class polyLine
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    polyLine(const polyLine&);
-    //- Disallow default bitwise assignment
-    void operator=(const polyLine&);
 protected:
   // Protected data
     //- The control points or ends of each segments
@@ -43,8 +38,12 @@ public:
     polyLine
     (
       const pointField&,
-      const bool notImplementedClosed = false
+      const bool NOT_IMPLEMENTEDClosed = false
     );
+    //- Disallow default bitwise copy construct
+    polyLine(const polyLine&) = delete;
+    //- Disallow default bitwise assignment
+    polyLine& operator=(const polyLine&) = delete;
   // Member Functions
     //- Return const-access to the control-points
     const pointField& points() const;

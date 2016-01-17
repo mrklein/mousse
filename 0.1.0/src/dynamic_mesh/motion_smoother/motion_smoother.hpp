@@ -53,7 +53,7 @@ class motionSmoother
 {
   // Private class
 public:
-  ClassName("motionSmoother");
+  CLASS_NAME("motionSmoother");
   // Constructors
     //- Construct from mesh, patches to work on and smoothing parameters.
     //  Reads displacement field (only boundary conditions used)

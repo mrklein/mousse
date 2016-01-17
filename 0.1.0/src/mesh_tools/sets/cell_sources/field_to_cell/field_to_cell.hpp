@@ -36,7 +36,7 @@ class fieldToCell
     ) const;
 public:
   //- Runtime type information
-  TypeName("fieldToCell");
+  TYPE_NAME("fieldToCell");
   // Constructors
     //- Construct from components
     fieldToCell

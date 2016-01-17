@@ -38,7 +38,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(meshRefinement, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(meshRefinement, 0);
   template<>
   const char* mousse::NamedEnum
   <
@@ -95,13 +95,13 @@ void mousse::meshRefinement::calcNeighbourData
   label nBoundaryFaces = mesh_.nFaces() - mesh_.nInternalFaces();
   if (neiLevel.size() != nBoundaryFaces || neiCc.size() != nBoundaryFaces)
   {
-    FatalErrorIn("meshRefinement::calcNeighbour(..)") << "nBoundaries:"
+    FATAL_ERROR_IN("meshRefinement::calcNeighbour(..)") << "nBoundaries:"
       << nBoundaryFaces << " neiLevel:" << neiLevel.size()
       << abort(FatalError);
   }
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   labelHashSet addedPatchIDSet(meshedPatches());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     const labelUList& faceCells = pp.faceCells();
@@ -110,7 +110,7 @@ void mousse::meshRefinement::calcNeighbourData
     label bFaceI = pp.start()-mesh_.nInternalFaces();
     if (pp.coupled())
     {
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         neiLevel[bFaceI] = cellLevel[faceCells[i]];
         neiCc[bFaceI] = cellCentres[faceCells[i]];
@@ -124,7 +124,7 @@ void mousse::meshRefinement::calcNeighbourData
       // - cells same size.
       // - preserved cell smaller. Not handled.
       // - preserved cell larger.
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         // Extrapolate the face centre.
         vector fn = faceAreas[i];
@@ -147,7 +147,7 @@ void mousse::meshRefinement::calcNeighbourData
     }
     else
     {
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         neiLevel[bFaceI] = cellLevel[faceCells[i]];
         neiCc[bFaceI] = faceCentres[i];
@@ -168,7 +168,7 @@ void mousse::meshRefinement::updateIntersections(const labelList& changedFaces)
   PackedBoolList isMasterFace(syncTools::getMasterFaces(mesh_));
   {
     label nMasterFaces = 0;
-    forAll(isMasterFace, faceI)
+    FOR_ALL(isMasterFace, faceI)
     {
       if (isMasterFace.get(faceI) == 1)
       {
@@ -177,7 +177,7 @@ void mousse::meshRefinement::updateIntersections(const labelList& changedFaces)
     }
     reduce(nMasterFaces, sumOp<label>());
     label nChangedFaces = 0;
-    forAll(changedFaces, i)
+    FOR_ALL(changedFaces, i)
     {
       if (isMasterFace.get(changedFaces[i]) == 1)
       {
@@ -197,7 +197,7 @@ void mousse::meshRefinement::updateIntersections(const labelList& changedFaces)
   // Collect segments we want to test for
   pointField start(changedFaces.size());
   pointField end(changedFaces.size());
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label faceI = changedFaces[i];
     label own = mesh_.faceOwner()[faceI];
@@ -231,7 +231,7 @@ void mousse::meshRefinement::updateIntersections(const labelList& changedFaces)
     );
   }
   // Keep just surface hit
-  forAll(surfaceHit, i)
+  FOR_ALL(surfaceHit, i)
   {
     surfaceIndex_[changedFaces[i]] = surfaceHit[i];
   }
@@ -253,7 +253,7 @@ void mousse::meshRefinement::testSyncPointList
 {
   if (fld.size() != mesh.nPoints())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshRefinement::testSyncPointList(const polyMesh&"
       ", const List<scalar>&)"
@@ -278,7 +278,7 @@ void mousse::meshRefinement::testSyncPointList
     maxEqOp<scalar>(),
     -GREAT
   );
-  forAll(minFld, pointI)
+  FOR_ALL(minFld, pointI)
   {
     const scalar& minVal = minFld[pointI];
     const scalar& maxVal = maxFld[pointI];
@@ -300,7 +300,7 @@ void mousse::meshRefinement::testSyncPointList
 {
   if (fld.size() != mesh.nPoints())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshRefinement::testSyncPointList(const polyMesh&"
       ", const List<point>&)"
@@ -325,7 +325,7 @@ void mousse::meshRefinement::testSyncPointList
     maxMagSqrEqOp<point>(),
     vector::zero
   );
-  forAll(minFld, pointI)
+  FOR_ALL(minFld, pointI)
   {
     const point& minVal = minFld[pointI];
     const point& maxVal = maxFld[pointI];
@@ -384,7 +384,7 @@ void mousse::meshRefinement::checkData()
     // Collect segments we want to test for
     pointField start(mesh_.nFaces());
     pointField end(mesh_.nFaces());
-    forAll(start, faceI)
+    FOR_ALL(start, faceI)
     {
       start[faceI] = mesh_.cellCentres()[mesh_.faceOwner()[faceI]];
       if (mesh_.isInternalFace(faceI))
@@ -427,13 +427,13 @@ void mousse::meshRefinement::checkData()
     );
     syncTools::swapBoundaryFaceList(mesh_, neiHit);
     // Check
-    forAll(surfaceHit, faceI)
+    FOR_ALL(surfaceHit, faceI)
     {
       if (surfaceIndex_[faceI] != surfaceHit[faceI])
       {
         if (mesh_.isInternalFace(faceI))
         {
-          WarningIn("meshRefinement::checkData()")
+          WARNING_IN("meshRefinement::checkData()")
             << "Internal face:" << faceI
             << " fc:" << mesh_.faceCentres()[faceI]
             << " cached surfaceIndex_:" << surfaceIndex_[faceI]
@@ -450,7 +450,7 @@ void mousse::meshRefinement::checkData()
         != neiHit[faceI-mesh_.nInternalFaces()]
         )
         {
-          WarningIn("meshRefinement::checkData()")
+          WARNING_IN("meshRefinement::checkData()")
             << "Boundary face:" << faceI
             << " fc:" << mesh_.faceCentres()[faceI]
             << " cached surfaceIndex_:" << surfaceIndex_[faceI]
@@ -500,7 +500,7 @@ void mousse::meshRefinement::checkData()
   // Count
   {
     label nDup = 0;
-    forAll(duplicateFace, i)
+    FOR_ALL(duplicateFace, i)
     {
       if (duplicateFace[i] != -1)
       {
@@ -574,7 +574,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitFaces
 )
 {
   polyTopoChange meshMod(mesh_);
-  forAll(splitFaces, i)
+  FOR_ALL(splitFaces, i)
   {
     label faceI = splitFaces[i];
     const face& f = mesh_.faces()[faceI];
@@ -589,14 +589,14 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitFaces
     // Split into f0, f1
     face f0(nVerts);
     label fp = split[0];
-    forAll(f0, i)
+    FOR_ALL(f0, i)
     {
       f0[i] = f[fp];
       fp = f.fcIndex(fp);
     }
     face f1(f.size()-f0.size()+2);
     fp = split[1];
-    forAll(f1, i)
+    FOR_ALL(f1, i)
     {
       f1[i] = f[fp];
       fp = f.fcIndex(fp);
@@ -672,7 +672,7 @@ Pout<< "face:" << faceI << " verts:" << f
   // Add added faces (every splitFaces becomes two faces)
   label sz = newSplitFaces.size();
   newSplitFaces.setSize(2*sz);
-  forAll(map().faceMap(), faceI)
+  FOR_ALL(map().faceMap(), faceI)
   {
     label oldFaceI = map().faceMap()[faceI];
     if (oldToNew[oldFaceI] != faceI)
@@ -696,13 +696,13 @@ Pout<< "face:" << faceI << " verts:" << f
 //{
 //    const polyBoundaryMesh& patches = mesh_.boundaryMesh();
 //
-//    forAll(patches, patchI)
+//    FOR_ALL(patches, patchI)
 //    {
 //        const polyPatch& pp = patches[patchI];
 //
 //        if (isA<processorPolyPatch>(pp))
 //        {
-//            forAll(pp, i)
+//            FOR_ALL(pp, i)
 //            {
 //                label faceI = pp.start()+i;
 //
@@ -758,7 +758,7 @@ Pout<< "face:" << faceI << " verts:" << f
 //    DynamicList<point> localCc(globalRegion.size()/2);
 //    DynamicList<scalar> localWts(globalRegion.size()/2);
 //
-//    forAll(globalRegion, cellI)
+//    FOR_ALL(globalRegion, cellI)
 //    {
 //        Map<label>::const_iterator fndMaster =
 //            coupledRegionToMaster.find(globalRegion[cellI]);
@@ -801,7 +801,7 @@ Pout<< "face:" << faceI << " verts:" << f
 //
 //    if (localPoints.size() != globalToLocalRegion.size())
 //    {
-//        FatalErrorIn("calcLocalRegions(..)")
+//        FATAL_ERROR_IN("calcLocalRegions(..)")
 //            << "localPoints:" << localPoints.size()
 //            << " globalToLocalRegion:" << globalToLocalRegion.size()
 //            << exit(FatalError);
@@ -857,7 +857,7 @@ Pout<< "face:" << faceI << " verts:" << f
 //
 //    // Redo the coupledRegionToMaster to be in shifted region indexing.
 //    Map<label> coupledRegionToShifted(coupledRegionToMaster.size());
-//    forAllConstIter(Map<label>, coupledRegionToMaster, iter)
+//    FOR_ALL_CONST_ITER(Map<label>, coupledRegionToMaster, iter)
 //    {
 //        label region = iter.key();
 //
@@ -887,7 +887,7 @@ Pout<< "face:" << faceI << " verts:" << f
 //    // Transfer lists.
 //    PtrList<HashSet<edge, Hash<edge> > > regionConnectivity
 //    (Pstream::nProcs());
-//    forAll(regionConnectivity, procI)
+//    FOR_ALL(regionConnectivity, procI)
 //    {
 //        if (procI != Pstream::myProcNo())
 //        {
@@ -968,7 +968,7 @@ Pout<< "face:" << faceI << " verts:" << f
 //
 //
 //    // Send
-//    forAll(regionConnectivity, procI)
+//    FOR_ALL(regionConnectivity, procI)
 //    {
 //        if (procI != Pstream::myProcNo())
 //        {
@@ -977,7 +977,7 @@ Pout<< "face:" << faceI << " verts:" << f
 //        }
 //    }
 //    // Receive
-//    forAll(regionConnectivity, procI)
+//    FOR_ALL(regionConnectivity, procI)
 //    {
 //        if (procI != Pstream::myProcNo())
 //        {
@@ -987,7 +987,7 @@ Pout<< "face:" << faceI << " verts:" << f
 //    }
 //
 //    // Add to addressing.
-//    forAll(regionConnectivity, procI)
+//    FOR_ALL(regionConnectivity, procI)
 //    {
 //        if (procI != Pstream::myProcNo())
 //        {
@@ -1017,7 +1017,7 @@ Pout<< "face:" << faceI << " verts:" << f
 //
 //                if (!someLocal)
 //                {
-//                    FatalErrorIn("calcRegionRegions(..)")
+//                    FATAL_ERROR_IN("calcRegionRegions(..)")
 //                        << "Received from processor " << procI
 //                        << " connection " << e
 //                        << " where none of the elements is local to me."
@@ -1076,7 +1076,7 @@ mousse::label mousse::meshRefinement::countHits() const
   // Stats on edges to test. Count proc faces only once.
   PackedBoolList isMasterFace(syncTools::getMasterFaces(mesh_));
   label nHits = 0;
-  forAll(surfaceIndex_, faceI)
+  FOR_ALL(surfaceIndex_, faceI)
   {
     if (surfaceIndex_[faceI] >= 0 && isMasterFace.get(faceI) == 1)
     {
@@ -1181,7 +1181,7 @@ mousse::label mousse::meshRefinement::countHits() const
 //
 //    // Transfer destination processor back to all. Use global reduce for now.
 //    Map<label> regionToDist(coupledRegionToMaster.size());
-//    forAllConstIter(Map<label>, coupledRegionToMaster, iter)
+//    FOR_ALL_CONST_ITER(Map<label>, coupledRegionToMaster, iter)
 //    {
 //        label region = iter.key();
 //
@@ -1207,7 +1207,7 @@ mousse::label mousse::meshRefinement::countHits() const
 //    // Determine destination for all cells
 //    labelList distribution(mesh_.nCells());
 //
-//    forAll(globalRegion, cellI)
+//    FOR_ALL(globalRegion, cellI)
 //    {
 //        Map<label>::const_iterator fndRegion =
 //            regionToDist.find(globalRegion[cellI]);
@@ -1280,14 +1280,14 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::meshRefinement::balance
         const polyBoundaryMesh& pbm = mesh_.boundaryMesh();
         // Get faces whose owner and neighbour should stay together,
         // i.e. they are not 'blocked'.
-        forAll(surfZones, surfI)
+        FOR_ALL(surfZones, surfI)
         {
           const word& fzName = surfZones[surfI].faceZoneName();
           if (fzName.size())
           {
             // Get zone
             const faceZone& fZone = fZones[fzName];
-            forAll(fZone, i)
+            FOR_ALL(fZone, i)
             {
               label faceI = fZone[i];
               if (blockedFace[faceI])
@@ -1326,7 +1326,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::meshRefinement::balance
         boolList separatedCoupledFace(mesh_.nFaces(), false);
         selectSeparatedCoupledFaces(separatedCoupledFace);
         label nSeparated = 0;
-        forAll(separatedCoupledFace, faceI)
+        FOR_ALL(separatedCoupledFace, faceI)
         {
           if (separatedCoupledFace[faceI])
           {
@@ -1354,13 +1354,13 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::meshRefinement::balance
           );
           // Merge with any couples from
           // decompositionMethod::setConstraints
-          forAll(couples, i)
+          FOR_ALL(couples, i)
           {
             const labelPair& baffle = couples[i];
             coupledFace[baffle.first()] = baffle.second();
             coupledFace[baffle.second()] = baffle.first();
           }
-          forAll(allCouples, i)
+          FOR_ALL(allCouples, i)
           {
             const labelPair& baffle = allCouples[i];
             coupledFace[baffle.first()] = baffle.second();
@@ -1369,7 +1369,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::meshRefinement::balance
         }
         couples.setSize(nBnd);
         label nCpl = 0;
-        forAll(coupledFace, faceI)
+        FOR_ALL(coupledFace, faceI)
         {
           if (coupledFace[faceI] != -1 && faceI < coupledFace[faceI])
           {
@@ -1402,7 +1402,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::meshRefinement::balance
       //    Pstream::listCombineScatter(nProcCells);
       //
       //    Info<< "Calculated decomposition:" << endl;
-      //    forAll(nProcCells, procI)
+      //    FOR_ALL(nProcCells, procI)
       //    {
       //        Info<< "    " << procI << '\t' << nProcCells[procI]
       //            << endl;
@@ -1430,7 +1430,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::meshRefinement::balance
     //    );
     //}
     // Make sure blockedFace not set on couples
-    forAll(couples, i)
+    FOR_ALL(couples, i)
     {
       const labelPair& baffle = couples[i];
       blockedFace[baffle.first()] = false;
@@ -1452,7 +1452,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::meshRefinement::balance
       Pstream::listCombineGather(nProcCells, plusEqOp<label>());
       Pstream::listCombineScatter(nProcCells);
       Pout<< "Wanted resulting decomposition:" << endl;
-      forAll(nProcCells, procI)
+      FOR_ALL(nProcCells, procI)
       {
         Pout<< "    " << procI << '\t' << nProcCells[procI] << endl;
       }
@@ -1472,7 +1472,7 @@ mousse::autoPtr<mousse::mapDistributePolyMesh> mousse::meshRefinement::balance
 mousse::labelList mousse::meshRefinement::intersectedFaces() const
 {
   label nBoundaryFaces = 0;
-  forAll(surfaceIndex_, faceI)
+  FOR_ALL(surfaceIndex_, faceI)
   {
     if (surfaceIndex_[faceI] != -1)
     {
@@ -1481,7 +1481,7 @@ mousse::labelList mousse::meshRefinement::intersectedFaces() const
   }
   labelList surfaceFaces(nBoundaryFaces);
   nBoundaryFaces = 0;
-  forAll(surfaceIndex_, faceI)
+  FOR_ALL(surfaceIndex_, faceI)
   {
     if (surfaceIndex_[faceI] != -1)
     {
@@ -1497,12 +1497,12 @@ mousse::labelList mousse::meshRefinement::intersectedPoints() const
   // Mark all points on faces that will become baffles
   PackedBoolList isBoundaryPoint(mesh_.nPoints());
   label nBoundaryPoints = 0;
-  forAll(surfaceIndex_, faceI)
+  FOR_ALL(surfaceIndex_, faceI)
   {
     if (surfaceIndex_[faceI] != -1)
     {
       const face& f = faces[faceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (isBoundaryPoint.set(f[fp], 1u))
         {
@@ -1513,7 +1513,7 @@ mousse::labelList mousse::meshRefinement::intersectedPoints() const
   }
   //// Insert all meshed patches.
   //labelList adaptPatchIDs(meshedPatches());
-  //forAll(adaptPatchIDs, i)
+  //FOR_ALL(adaptPatchIDs, i)
   //{
   //    label patchI = adaptPatchIDs[i];
   //
@@ -1523,11 +1523,11 @@ mousse::labelList mousse::meshRefinement::intersectedPoints() const
   //
   //        label faceI = pp.start();
   //
-  //        forAll(pp, i)
+  //        FOR_ALL(pp, i)
   //        {
   //            const face& f = faces[faceI];
   //
-  //            forAll(f, fp)
+  //            FOR_ALL(f, fp)
   //            {
   //                if (isBoundaryPoint.set(f[fp], 1u))
   //                    nBoundaryPoints++;
@@ -1540,7 +1540,7 @@ mousse::labelList mousse::meshRefinement::intersectedPoints() const
   // Pack
   labelList boundaryPoints(nBoundaryPoints);
   nBoundaryPoints = 0;
-  forAll(isBoundaryPoint, pointI)
+  FOR_ALL(isBoundaryPoint, pointI)
   {
     if (isBoundaryPoint.get(pointI) == 1u)
     {
@@ -1559,7 +1559,7 @@ mousse::autoPtr<mousse::indirectPrimitivePatch> mousse::meshRefinement::makePatc
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   // Count faces.
   label nFaces = 0;
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     const polyPatch& pp = patches[patchIDs[i]];
     nFaces += pp.size();
@@ -1567,11 +1567,11 @@ mousse::autoPtr<mousse::indirectPrimitivePatch> mousse::meshRefinement::makePatc
   // Collect faces.
   labelList addressing(nFaces);
   nFaces = 0;
-  forAll(patchIDs, i)
+  FOR_ALL(patchIDs, i)
   {
     const polyPatch& pp = patches[patchIDs[i]];
     label meshFaceI = pp.start();
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       addressing[nFaces++] = meshFaceI++;
     }
@@ -1600,12 +1600,12 @@ mousse::tmp<mousse::pointVectorField> mousse::meshRefinement::makeDisplacementFi
     pointPatches.size(),
     slipPointPatchVectorField::typeName
   );
-  forAll(adaptPatchIDs, i)
+  FOR_ALL(adaptPatchIDs, i)
   {
     patchFieldTypes[adaptPatchIDs[i]] =
       fixedValuePointPatchVectorField::typeName;
   }
-  forAll(pointPatches, patchI)
+  FOR_ALL(pointPatches, patchI)
   {
     if (isA<processorPointPatch>(pointPatches[patchI]))
     {
@@ -1647,13 +1647,13 @@ void mousse::meshRefinement::checkCoupledFaceZones(const polyMesh& mesh)
     Pstream::gatherList(zoneNames);
     Pstream::scatterList(zoneNames);
     // All have same data now. Check.
-    forAll(zoneNames, procI)
+    FOR_ALL(zoneNames, procI)
     {
       if (procI != Pstream::myProcNo())
       {
         if (zoneNames[procI] != zoneNames[Pstream::myProcNo()])
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "meshRefinement::checkCoupledFaceZones(const polyMesh&)"
           )   << "faceZones are not synchronised on processors." << nl
@@ -1669,10 +1669,10 @@ void mousse::meshRefinement::checkCoupledFaceZones(const polyMesh& mesh)
   }
   // Check that coupled faces are present on both sides.
   labelList faceToZone(mesh.nFaces()-mesh.nInternalFaces(), -1);
-  forAll(fZones, zoneI)
+  FOR_ALL(fZones, zoneI)
   {
     const faceZone& fZone = fZones[zoneI];
-    forAll(fZone, i)
+    FOR_ALL(fZone, i)
     {
       label bFaceI = fZone[i]-mesh.nInternalFaces();
       if (bFaceI >= 0)
@@ -1683,7 +1683,7 @@ void mousse::meshRefinement::checkCoupledFaceZones(const polyMesh& mesh)
         }
         else if (faceToZone[bFaceI] == zoneI)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "meshRefinement::checkCoupledFaceZones(const polyMesh&)"
           )   << "Face " << fZone[i] << " in zone "
@@ -1693,7 +1693,7 @@ void mousse::meshRefinement::checkCoupledFaceZones(const polyMesh& mesh)
         }
         else
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "meshRefinement::checkCoupledFaceZones(const polyMesh&)"
           )   << "Face " << fZone[i] << " in zone "
@@ -1707,11 +1707,11 @@ void mousse::meshRefinement::checkCoupledFaceZones(const polyMesh& mesh)
   }
   labelList neiFaceToZone(faceToZone);
   syncTools::swapBoundaryFaceList(mesh, neiFaceToZone);
-  forAll(faceToZone, i)
+  FOR_ALL(faceToZone, i)
   {
     if (faceToZone[i] != neiFaceToZone[i])
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "meshRefinement::checkCoupledFaceZones(const polyMesh&)"
       )   << "Face " << mesh.nInternalFaces()+i
@@ -1735,7 +1735,7 @@ void mousse::meshRefinement::calculateEdgeWeights
   // Calculate edgeWeights and inverse sum of edge weights
   edgeWeights.setSize(isMasterEdge.size());
   invSumWeight.setSize(meshPoints.size());
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     scalar eMag = max
@@ -1761,7 +1761,7 @@ void mousse::meshRefinement::calculateEdgeWeights
     invSumWeight
   );
   // Inplace invert
-  forAll(invSumWeight, pointI)
+  FOR_ALL(invSumWeight, pointI)
   {
     scalar w = invSumWeight[pointI];
     if (w > 0.0)
@@ -1879,7 +1879,7 @@ mousse::label mousse::meshRefinement::addPatch
   }
   label insertPatchI = polyPatches.size();
   label startFaceI = mesh.nFaces();
-  forAll(polyPatches, patchI)
+  FOR_ALL(polyPatches, patchI)
   {
     const polyPatch& pp = polyPatches[patchI];
     if (isA<processorPolyPatch>(pp))
@@ -1970,12 +1970,12 @@ mousse::labelList mousse::meshRefinement::meshedPatches() const
 {
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   DynamicList<label> patchIDs(meshedPatches_.size());
-  forAll(meshedPatches_, i)
+  FOR_ALL(meshedPatches_, i)
   {
     label patchI = patches.findPatchID(meshedPatches_[i]);
     if (patchI == -1)
     {
-      FatalErrorIn("meshRefinement::meshedPatches() const")
+      FATAL_ERROR_IN("meshRefinement::meshedPatches() const")
         << "Problem : did not find patch " << meshedPatches_[i]
         << endl << "Valid patches are " << patches.names()
         << abort(FatalError);
@@ -1990,7 +1990,7 @@ mousse::labelList mousse::meshRefinement::meshedPatches() const
 void mousse::meshRefinement::selectSeparatedCoupledFaces(boolList& selected) const
 {
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     // Check all coupled. Avoid using .coupled() so we also pick up AMI.
     if (isA<coupledPolyPatch>(patches[patchI]))
@@ -2001,7 +2001,7 @@ void mousse::meshRefinement::selectSeparatedCoupledFaces(boolList& selected) con
       );
       if (cpp.separated() || !cpp.parallel())
       {
-        forAll(cpp, i)
+        FOR_ALL(cpp, i)
         {
           selected[cpp.start()+i] = true;
         }
@@ -2039,7 +2039,7 @@ mousse::label mousse::meshRefinement::findRegion
 mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMeshRegions
 (
   const labelList& globalToMasterPatch,
-  const labelList& globalToSlavePatch,
+  const labelList& /*globalToSlavePatch*/,
   const point& keepPoint
 )
 {
@@ -2059,7 +2059,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMeshRegions
   );
   if (regionI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshRefinement::splitMeshRegions(const point&)"
     )   << "Point " << keepPoint
@@ -2071,7 +2071,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMeshRegions
   // ~~~~~~
   // Get cells to remove
   DynamicList<label> cellsToRemove(mesh_.nCells());
-  forAll(cellRegion, cellI)
+  FOR_ALL(cellRegion, cellI)
   {
     if (cellRegion[cellI] != regionI)
     {
@@ -2093,7 +2093,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMeshRegions
   label nExposedFaces = returnReduce(exposedFaces.size(), sumOp<label>());
   if (nExposedFaces)
   {
-    //FatalErrorIn
+    //FATAL_ERROR_IN
     //(
     //    "meshRefinement::splitMeshRegions(const point&)"
     //)   << "Removing non-reachable cells should only expose"
@@ -2105,7 +2105,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::meshRefinement::splitMeshRegions
     {
       defaultPatch = globalToMasterPatch[0];
     }
-    WarningIn
+    WARNING_IN
     (
       "meshRefinement::splitMeshRegions(const point&)"
     )   << "Removing non-reachable cells exposes "
@@ -2130,7 +2130,7 @@ void mousse::meshRefinement::distribute(const mapDistributePolyMesh& map)
   // surfaceIndex is face data.
   map.distributeFaceData(surfaceIndex_);
   // maintainedFaces are indices of faces.
-  forAll(userFaceData_, i)
+  FOR_ALL(userFaceData_, i)
   {
     map.distributeFaceData(userFaceData_[i].second());
   }
@@ -2145,7 +2145,7 @@ void mousse::meshRefinement::distribute(const mapDistributePolyMesh& map)
     // Distribute all geometry (so refinementSurfaces and shellSurfaces)
     searchableSurfaces& geometry =
       const_cast<searchableSurfaces&>(surfaces_.geometry());
-    forAll(geometry, i)
+    FOR_ALL(geometry, i)
     {
       autoPtr<mapDistribute> faceMap;
       autoPtr<mapDistribute> pointMap;
@@ -2214,7 +2214,7 @@ void mousse::meshRefinement::updateMesh
   // Update cached intersection information
   updateIntersections(changedFaces);
   // Update maintained faces
-  forAll(userFaceData_, i)
+  FOR_ALL(userFaceData_, i)
   {
     labelList& data = userFaceData_[i].second();
     if (userFaceData_[i].first() == KEEPALL)
@@ -2226,7 +2226,7 @@ void mousse::meshRefinement::updateMesh
     {
       // keep master only
       labelList newFaceData(map.faceMap().size(), -1);
-      forAll(newFaceData, faceI)
+      FOR_ALL(newFaceData, faceI)
       {
         label oldFaceI = map.faceMap()[faceI];
         if (oldFaceI >= 0 && map.reverseFaceMap()[oldFaceI] == faceI)
@@ -2243,7 +2243,7 @@ void mousse::meshRefinement::updateMesh
       // 1. Determine all old faces that get referenced more than once.
       // These get marked with -1 in reverseFaceMap
       labelList reverseFaceMap(map.reverseFaceMap());
-      forAll(map.faceMap(), faceI)
+      FOR_ALL(map.faceMap(), faceI)
       {
         label oldFaceI = map.faceMap()[faceI];
         if (oldFaceI >= 0)
@@ -2257,7 +2257,7 @@ void mousse::meshRefinement::updateMesh
       }
       // 2. Map only faces with intact reverseFaceMap
       labelList newFaceData(map.faceMap().size(), -1);
-      forAll(newFaceData, faceI)
+      FOR_ALL(newFaceData, faceI)
       {
         label oldFaceI = map.faceMap()[faceI];
         if (oldFaceI >= 0)
@@ -2284,7 +2284,7 @@ bool mousse::meshRefinement::write() const
   // has been changed or not.
   searchableSurfaces& geometry =
     const_cast<searchableSurfaces&>(surfaces_.geometry());
-  forAll(geometry, i)
+  FOR_ALL(geometry, i)
   {
     searchableSurface& s = geometry[i];
     // Check if instance() of surface is not constant or system.
@@ -2312,7 +2312,7 @@ mousse::PackedBoolList mousse::meshRefinement::getMasterPoints
 {
   const globalIndex globalPoints(meshPoints.size());
   labelList myPoints(meshPoints.size());
-  forAll(meshPoints, pointI)
+  FOR_ALL(meshPoints, pointI)
   {
     myPoints[pointI] = globalPoints.toGlobal(pointI);
   }
@@ -2325,7 +2325,7 @@ mousse::PackedBoolList mousse::meshRefinement::getMasterPoints
     labelMax
   );
   PackedBoolList isPatchMasterPoint(meshPoints.size());
-  forAll(meshPoints, pointI)
+  FOR_ALL(meshPoints, pointI)
   {
     if (myPoints[pointI] == globalPoints.toGlobal(pointI))
     {
@@ -2342,7 +2342,7 @@ mousse::PackedBoolList mousse::meshRefinement::getMasterEdges
 {
   const globalIndex globalEdges(meshEdges.size());
   labelList myEdges(meshEdges.size());
-  forAll(meshEdges, edgeI)
+  FOR_ALL(meshEdges, edgeI)
   {
     myEdges[edgeI] = globalEdges.toGlobal(edgeI);
   }
@@ -2355,7 +2355,7 @@ mousse::PackedBoolList mousse::meshRefinement::getMasterEdges
     labelMax
   );
   PackedBoolList isMasterEdge(meshEdges.size());
-  forAll(meshEdges, edgeI)
+  FOR_ALL(meshEdges, edgeI)
   {
     if (myEdges[edgeI] == globalEdges.toGlobal(edgeI))
     {
@@ -2379,7 +2379,7 @@ const
   {
     PackedBoolList isMasterFace(syncTools::getMasterFaces(mesh_));
     label nMasterFaces = 0;
-    forAll(isMasterFace, i)
+    FOR_ALL(isMasterFace, i)
     {
       if (isMasterFace[i])
       {
@@ -2388,7 +2388,7 @@ const
     }
     PackedBoolList isMeshMasterPoint(syncTools::getMasterPoints(mesh_));
     label nMasterPoints = 0;
-    forAll(isMeshMasterPoint, i)
+    FOR_ALL(isMeshMasterPoint, i)
     {
       if (isMeshMasterPoint[i])
       {
@@ -2405,14 +2405,14 @@ const
   {
     const labelList& cellLevel = meshCutter_.cellLevel();
     labelList nCells(gMax(cellLevel)+1, 0);
-    forAll(cellLevel, cellI)
+    FOR_ALL(cellLevel, cellI)
     {
       nCells[cellLevel[cellI]]++;
     }
     Pstream::listCombineGather(nCells, plusEqOp<label>());
     Pstream::listCombineScatter(nCells);
     Info<< "Cells per refinement level:" << endl;
-    forAll(nCells, levelI)
+    FOR_ALL(nCells, levelI)
     {
       Info<< "    " << levelI << '\t' << nCells[levelI]
         << endl;
@@ -2452,7 +2452,7 @@ void mousse::meshRefinement::dumpRefinementLevel() const
       zeroGradientFvPatchScalarField::typeName
     );
     const labelList& cellLevel = meshCutter_.cellLevel();
-    forAll(volRefLevel, cellI)
+    FOR_ALL(volRefLevel, cellI)
     {
       volRefLevel[cellI] = cellLevel[cellI];
     }
@@ -2476,7 +2476,7 @@ void mousse::meshRefinement::dumpRefinementLevel() const
       dimensionedScalar("zero", dimless, 0)
     );
     const labelList& pointLevel = meshCutter_.pointLevel();
-    forAll(pointRefLevel, pointI)
+    FOR_ALL(pointRefLevel, pointI)
     {
       pointRefLevel[pointI] = pointLevel[pointI];
     }
@@ -2502,7 +2502,7 @@ void mousse::meshRefinement::dumpIntersections(const fileName& prefix) const
     // Collect segments we want to test for
     pointField start(intersectionFaces.size());
     pointField end(intersectionFaces.size());
-    forAll(intersectionFaces, i)
+    FOR_ALL(intersectionFaces, i)
     {
       label faceI = intersectionFaces[i];
       start[i] = cellCentres[mesh_.faceOwner()[faceI]];
@@ -2531,7 +2531,7 @@ void mousse::meshRefinement::dumpIntersections(const fileName& prefix) const
       surfaceHit,
       surfaceHitInfo
     );
-    forAll(intersectionFaces, i)
+    FOR_ALL(intersectionFaces, i)
     {
       if (surfaceHit[i] != -1)
       {

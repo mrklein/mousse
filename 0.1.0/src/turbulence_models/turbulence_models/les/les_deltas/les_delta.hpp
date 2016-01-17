@@ -20,16 +20,11 @@ protected:
   // Protected data
     const turbulenceModel& turbulenceModel_;
     volScalarField delta_;
-private:
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    LESdelta(const LESdelta&);
-    void operator=(const LESdelta&);
 public:
   //- Runtime type information
-  TypeName("LESdelta");
+  TYPE_NAME("LESdelta");
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       LESdelta,
@@ -41,6 +36,9 @@ public:
       ),
       (name, turbulence, dict)
     );
+    // Disallow default bitwise copy construct and assignment
+    LESdelta(const LESdelta&) = delete;
+    LESdelta& operator=(const LESdelta&) = delete;
   // Constructors
     //- Construct from name, turbulenceModel and dictionary
     LESdelta

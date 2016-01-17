@@ -19,24 +19,24 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(distributedTriSurfaceMesh, 0);
-  addToRunTimeSelectionTable
-  (
-    searchableSurface,
-    distributedTriSurfaceMesh,
-    dict
-  );
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::distributedTriSurfaceMesh::distributionType,
-    3
-  >::names[] =
-  {
-    "follow",
-    "independent",
-    "frozen"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(distributedTriSurfaceMesh, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  searchableSurface,
+  distributedTriSurfaceMesh,
+  dict
+);
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::distributedTriSurfaceMesh::distributionType,
+  3
+>::names[] =
+{
+  "follow",
+  "independent",
+  "frozen"
+};
 }
 const mousse::NamedEnum<mousse::distributedTriSurfaceMesh::distributionType, 3>
   mousse::distributedTriSurfaceMesh::distributionTypeNames_;
@@ -63,7 +63,7 @@ bool mousse::distributedTriSurfaceMesh::isLocal
   const point& end
 )
 {
-  forAll(myBbs, bbI)
+  FOR_ALL(myBbs, bbI)
   {
     if (myBbs[bbI].contains(start) && myBbs[bbI].contains(end))
     {
@@ -72,66 +72,6 @@ bool mousse::distributedTriSurfaceMesh::isLocal
   }
   return false;
 }
-//void mousse::distributedTriSurfaceMesh::splitSegment
-//(
-//    const label segmentI,
-//    const point& start,
-//    const point& end,
-//    const treeBoundBox& bb,
-//
-//    DynamicList<segment>& allSegments,
-//    DynamicList<label>& allSegmentMap,
-//    DynamicList<label> sendMap
-//) const
-//{
-//    // Work points
-//    point clipPt0, clipPt1;
-//
-//    if (bb.contains(start))
-//    {
-//        // start within, trim end to bb
-//        bool clipped = bb.intersects(end, start, clipPt0);
-//
-//        if (clipped)
-//        {
-//            // segment from start to clippedStart passes
-//            // through proc.
-//            sendMap[procI].append(allSegments.size());
-//            allSegmentMap.append(segmentI);
-//            allSegments.append(segment(start, clipPt0));
-//        }
-//    }
-//    else if (bb.contains(end))
-//    {
-//        // end within, trim start to bb
-//        bool clipped = bb.intersects(start, end, clipPt0);
-//
-//        if (clipped)
-//        {
-//            sendMap[procI].append(allSegments.size());
-//            allSegmentMap.append(segmentI);
-//            allSegments.append(segment(clipPt0, end));
-//        }
-//    }
-//    else
-//    {
-//        // trim both
-//        bool clippedStart = bb.intersects(start, end, clipPt0);
-//
-//        if (clippedStart)
-//        {
-//            bool clippedEnd = bb.intersects(end, clipPt0, clipPt1);
-//
-//            if (clippedEnd)
-//            {
-//                // middle part of segment passes through proc.
-//                sendMap[procI].append(allSegments.size());
-//                allSegmentMap.append(segmentI);
-//                allSegments.append(segment(clipPt0, clipPt1));
-//            }
-//        }
-//    }
-//}
 void mousse::distributedTriSurfaceMesh::distributeSegment
 (
   const label segmentI,
@@ -150,7 +90,7 @@ void mousse::distributedTriSurfaceMesh::distributeSegment
   // 2. If fully inside one other processor, then only need to send
   // to that one processor even if it intersects another. Rare occurrence
   // but cheap to test.
-  forAll(procBb_, procI)
+  FOR_ALL(procBb_, procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -166,10 +106,10 @@ void mousse::distributedTriSurfaceMesh::distributeSegment
   }
   // 3. If not contained in single processor send to all intersecting
   // processors.
-  forAll(procBb_, procI)
+  FOR_ALL(procBb_, procI)
   {
     const List<treeBoundBox>& bbs = procBb_[procI];
-    forAll(bbs, bbI)
+    FOR_ALL(bbs, bbI)
     {
       const treeBoundBox& bb = bbs[bbI];
       // Scheme a: any processor that intersects the segment gets
@@ -221,7 +161,7 @@ mousse::distributedTriSurfaceMesh::distributeSegments
     DynamicList<label> dynAllSegmentMap(start.size());
     // Per processor indices into allSegments to send
     List<DynamicList<label> > dynSendMap(Pstream::nProcs());
-    forAll(start, segmentI)
+    FOR_ALL(start, segmentI)
     {
       distributeSegment
       (
@@ -235,7 +175,7 @@ mousse::distributedTriSurfaceMesh::distributeSegments
     }
     // Convert dynamicList to labelList
     sendMap.setSize(Pstream::nProcs());
-    forAll(sendMap, procI)
+    FOR_ALL(sendMap, procI)
     {
       dynSendMap[procI].shrink();
       sendMap[procI].transfer(dynSendMap[procI]);
@@ -246,7 +186,7 @@ mousse::distributedTriSurfaceMesh::distributeSegments
   // Send over how many I need to receive.
   labelListList sendSizes(Pstream::nProcs());
   sendSizes[Pstream::myProcNo()].setSize(Pstream::nProcs());
-  forAll(sendMap, procI)
+  FOR_ALL(sendMap, procI)
   {
     sendSizes[Pstream::myProcNo()][procI] = sendMap[procI].size();
   }
@@ -260,7 +200,7 @@ mousse::distributedTriSurfaceMesh::distributeSegments
     sendMap[Pstream::myProcNo()].size()
   );
   label segmentI = constructMap[Pstream::myProcNo()].size();
-  forAll(constructMap, procI)
+  FOR_ALL(constructMap, procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -294,13 +234,13 @@ void mousse::distributedTriSurfaceMesh::findLine
   const indexedOctree<treeDataTriSurface>& octree = tree();
   // Initialise
   info.setSize(start.size());
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     info[i].setMiss();
   }
   if (!Pstream::parRun())
   {
-    forAll(start, i)
+    FOR_ALL(start, i)
     {
       if (nearestIntersection)
       {
@@ -319,7 +259,7 @@ void mousse::distributedTriSurfaceMesh::findLine
     // Do any local queries
     // ~~~~~~~~~~~~~~~~~~~~
     label nLocal = 0;
-    forAll(start, i)
+    FOR_ALL(start, i)
     {
       if (isLocal(procBb_[Pstream::myProcNo()], start[i], end[i]))
       {
@@ -341,7 +281,7 @@ void mousse::distributedTriSurfaceMesh::findLine
     if
     (
       returnReduce(nLocal, sumOp<label>())
-     < returnReduce(start.size(), sumOp<label>())
+      < returnReduce(start.size(), sumOp<label>())
     )
     {
       // Not all can be resolved locally. Build segments and map,
@@ -371,7 +311,7 @@ void mousse::distributedTriSurfaceMesh::findLine
       // ~~~~~~~~~~~~~~~~~~~~~
       // Intersections
       List<pointIndexHit> intersections(allSegments.size());
-      forAll(allSegments, i)
+      FOR_ALL(allSegments, i)
       {
         if (nearestIntersection)
         {
@@ -403,7 +343,7 @@ void mousse::distributedTriSurfaceMesh::findLine
       map.reverseDistribute(nOldAllSegments, intersections);
       // Extract the hits
       // ~~~~~~~~~~~~~~~~
-      forAll(intersections, i)
+      FOR_ALL(intersections, i)
       {
         const pointIndexHit& allInfo = intersections[i];
         label segmentI = allSegmentMap[i];
@@ -450,7 +390,7 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
   // cheap we do a multi-pass algorithm to save some memory temporarily.
   // 1. Count
   labelList nSend(Pstream::nProcs(), 0);
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     if (info[i].hit())
     {
@@ -460,13 +400,13 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
   }
   // 2. Size sendMap
   labelListList sendMap(Pstream::nProcs());
-  forAll(nSend, procI)
+  FOR_ALL(nSend, procI)
   {
     sendMap[procI].setSize(nSend[procI]);
     nSend[procI] = 0;
   }
   // 3. Fill sendMap
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     if (info[i].hit())
     {
@@ -483,7 +423,7 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelListList sendSizes(Pstream::nProcs());
   sendSizes[Pstream::myProcNo()].setSize(Pstream::nProcs());
-  forAll(sendMap, procI)
+  FOR_ALL(sendMap, procI)
   {
     sendSizes[Pstream::myProcNo()][procI] = sendMap[procI].size();
   }
@@ -498,7 +438,7 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
     sendMap[Pstream::myProcNo()].size()
   );
   label segmentI = constructMap[Pstream::myProcNo()].size();
-  forAll(constructMap, procI)
+  FOR_ALL(constructMap, procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -537,10 +477,10 @@ mousse::label mousse::distributedTriSurfaceMesh::calcOverlappingProcs
 {
   overlaps = false;
   label nOverlaps = 0;
-  forAll(procBb_, procI)
+  FOR_ALL(procBb_, procI)
   {
     const List<treeBoundBox>& bbs = procBb_[procI];
-    forAll(bbs, bbI)
+    FOR_ALL(bbs, bbI)
     {
       if (bbs[bbI].overlaps(centre, radiusSqr))
       {
@@ -578,7 +518,7 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
     List<DynamicList<label> > dynSendMap(Pstream::nProcs());
     // Work array - whether processor bb overlaps the bounding sphere.
     boolList procBbOverlaps(Pstream::nProcs());
-    forAll(centres, centreI)
+    FOR_ALL(centres, centreI)
     {
       // Find the processor this sample+radius overlaps.
       calcOverlappingProcs
@@ -587,7 +527,7 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
         radiusSqr[centreI],
         procBbOverlaps
       );
-      forAll(procBbOverlaps, procI)
+      FOR_ALL(procBbOverlaps, procI)
       {
         if (procI != Pstream::myProcNo() && procBbOverlaps[procI])
         {
@@ -600,7 +540,7 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
     }
     // Convert dynamicList to labelList
     sendMap.setSize(Pstream::nProcs());
-    forAll(sendMap, procI)
+    FOR_ALL(sendMap, procI)
     {
       dynSendMap[procI].shrink();
       sendMap[procI].transfer(dynSendMap[procI]);
@@ -612,7 +552,7 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
   // Send over how many I need to receive.
   labelListList sendSizes(Pstream::nProcs());
   sendSizes[Pstream::myProcNo()].setSize(Pstream::nProcs());
-  forAll(sendMap, procI)
+  FOR_ALL(sendMap, procI)
   {
     sendSizes[Pstream::myProcNo()][procI] = sendMap[procI].size();
   }
@@ -626,7 +566,7 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
     sendMap[Pstream::myProcNo()].size()
   );
   label segmentI = constructMap[Pstream::myProcNo()].size();
-  forAll(constructMap, procI)
+  FOR_ALL(constructMap, procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -640,14 +580,14 @@ mousse::distributedTriSurfaceMesh::calcLocalQueries
     }
   }
   autoPtr<mapDistribute> mapPtr
-  (
+  {
     new mapDistribute
-    (
+    {
       segmentI,       // size after construction
       sendMap.xfer(),
       constructMap.xfer()
-    )
-  );
+    }
+  };
   return mapPtr;
 }
 // Find bounding boxes that guarantee a more or less uniform distribution
@@ -667,31 +607,32 @@ mousse::distributedTriSurfaceMesh::independentlyDistributedBbs
     // Use current decomposer.
     // Note: or always use hierarchical?
     IOdictionary decomposeDict
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "decomposeParDict",
         searchableSurface::time().system(),
         searchableSurface::time(),
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     decomposer_ = decompositionMethod::New(decomposeDict);
     if (!decomposer_().parallelAware())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "distributedTriSurfaceMesh::independentlyDistributedBbs"
         "(const triSurface&)"
-      )   << "The decomposition method " << decomposer_().typeName
-        << " does not decompose in parallel."
-        << " Please choose one that does." << exit(FatalError);
+      )
+      << "The decomposition method " << decomposer_().typeName
+      << " does not decompose in parallel."
+      << " Please choose one that does." << exit(FatalError);
     }
     if (!isA<geomDecomp>(decomposer_()))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "distributedTriSurfaceMesh::independentlyDistributedBbs"
         "(const triSurface&)"
@@ -704,7 +645,7 @@ mousse::distributedTriSurfaceMesh::independentlyDistributedBbs
   }
   // Do decomposition according to triangle centre
   pointField triCentres(s.size());
-  forAll(s, triI)
+  FOR_ALL(s, triI)
   {
     triCentres[triI] = s[triI].centre(s.points());
   }
@@ -714,19 +655,19 @@ mousse::distributedTriSurfaceMesh::independentlyDistributedBbs
   // Find bounding box for all triangles on new distribution.
   // Initialise to inverted box (VGREAT, -VGREAT)
   List<List<treeBoundBox> > bbs(Pstream::nProcs());
-  forAll(bbs, procI)
+  FOR_ALL(bbs, procI)
   {
     bbs[procI].setSize(1);
     //bbs[procI][0] = boundBox::invertedBox;
     bbs[procI][0].min() = point( VGREAT,  VGREAT,  VGREAT);
     bbs[procI][0].max() = point(-VGREAT, -VGREAT, -VGREAT);
   }
-  forAll(s, triI)
+  FOR_ALL(s, triI)
   {
     point& bbMin = bbs[distribution[triI]][0].min();
     point& bbMax = bbs[distribution[triI]][0].max();
     const triSurface::FaceType& f = s[triI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       const point& pt = s.points()[f[fp]];
       bbMin = ::mousse::min(bbMin, pt);
@@ -734,9 +675,9 @@ mousse::distributedTriSurfaceMesh::independentlyDistributedBbs
     }
   }
   // Now combine for all processors and convert to correct format.
-  forAll(bbs, procI)
+  FOR_ALL(bbs, procI)
   {
-    forAll(bbs[procI], i)
+    FOR_ALL(bbs[procI], i)
     {
       reduce(bbs[procI][i].min(), minOp<point>());
       reduce(bbs[procI][i].max(), maxOp<point>());
@@ -753,7 +694,7 @@ bool mousse::distributedTriSurfaceMesh::overlaps
   const point& p2
 )
 {
-  forAll(bbs, bbI)
+  FOR_ALL(bbs, bbI)
   {
     const treeBoundBox& bb = bbs[bbI];
     treeBoundBox triBb(p0, p0);
@@ -801,7 +742,7 @@ void mousse::distributedTriSurfaceMesh::subsetMeshMap
   {
     label faceI = 0;
     label pointI = 0;
-    forAll(include, oldFacei)
+    FOR_ALL(include, oldFacei)
     {
       if (include[oldFacei])
       {
@@ -809,7 +750,7 @@ void mousse::distributedTriSurfaceMesh::subsetMeshMap
         newToOldFaces[faceI++] = oldFacei;
         // Renumber labels for face
         const triSurface::FaceType& f = s[oldFacei];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label oldPointI = f[fp];
           if (oldToNewPoints[oldPointI] == -1)
@@ -833,13 +774,13 @@ mousse::triSurface mousse::distributedTriSurfaceMesh::subsetMesh
 {
   // Extract points
   pointField newPoints(newToOldPoints.size());
-  forAll(newToOldPoints, i)
+  FOR_ALL(newToOldPoints, i)
   {
     newPoints[i] = s.points()[newToOldPoints[i]];
   }
   // Extract faces
   List<labelledTri> newTriangles(newToOldFaces.size());
-  forAll(newToOldFaces, i)
+  FOR_ALL(newToOldFaces, i)
   {
     // Get old vertex labels
     const labelledTri& tri = s[newToOldFaces[i]];
@@ -860,7 +801,7 @@ mousse::triSurface mousse::distributedTriSurfaceMesh::subsetMesh
 )
 {
   label n = 0;
-  forAll(include, i)
+  FOR_ALL(include, i)
   {
     if (include[i])
     {
@@ -906,13 +847,13 @@ mousse::triSurface mousse::distributedTriSurfaceMesh::subsetMesh
   labelList oldToNewPoints(s.points().size(), -1);
   {
     label pointI = 0;
-    forAll(include, oldFacei)
+    FOR_ALL(include, oldFacei)
     {
       if (include[oldFacei])
       {
         // Renumber labels for face
         const triSurface::FaceType& f = s[oldFacei];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label oldPointI = f[fp];
           if (oldToNewPoints[oldPointI] == -1)
@@ -942,7 +883,7 @@ mousse::label mousse::distributedTriSurfaceMesh::findTriangle
 {
   // allFaces connected to otherF[0]
   const labelList& pFaces = allPointFaces[otherF[0]];
-  forAll(pFaces, i)
+  FOR_ALL(pFaces, i)
   {
     const labelledTri& f = allFaces[pFaces[i]];
     if (f.region() == otherF.region())
@@ -985,7 +926,7 @@ void mousse::distributedTriSurfaceMesh::merge
   // Add all unmatched points
   // ~~~~~~~~~~~~~~~~~~~~~~~~
   label allPointI = nOldAllPoints;
-  forAll(pointConstructMap, pointI)
+  FOR_ALL(pointConstructMap, pointI)
   {
     if (pointConstructMap[pointI] == -1)
     {
@@ -995,7 +936,7 @@ void mousse::distributedTriSurfaceMesh::merge
   if (allPointI > nOldAllPoints)
   {
     allPoints.setSize(allPointI);
-    forAll(pointConstructMap, pointI)
+    FOR_ALL(pointConstructMap, pointI)
     {
       if (pointConstructMap[pointI] >= nOldAllPoints)
       {
@@ -1011,7 +952,7 @@ void mousse::distributedTriSurfaceMesh::merge
   label allTriI = allTris.size();
   allTris.setSize(allTriI + subTris.size());
   faceConstructMap.setSize(subTris.size());
-  forAll(subTris, triI)
+  FOR_ALL(subTris, triI)
   {
     const labelledTri& subTri = subTris[triI];
     // Get triangle in new numbering
@@ -1024,7 +965,7 @@ void mousse::distributedTriSurfaceMesh::merge
     );
     // Check if all points were already in surface
     bool fullMatch = true;
-    forAll(mappedTri, fp)
+    FOR_ALL(mappedTri, fp)
     {
       if (mappedTri[fp] >= nOldAllPoints)
       {
@@ -1072,11 +1013,11 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
   const dictionary& dict
 )
 :
-  triSurfaceMesh(io, s),
+  triSurfaceMesh{io, s},
   dict_
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       searchableSurface::name() + "Dict",
       searchableSurface::instance(),
       searchableSurface::local(),
@@ -1084,9 +1025,9 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
       searchableSurface::NO_READ,
       searchableSurface::writeOpt(),
       searchableSurface::registerObject()
-    ),
+    },
     dict
-  )
+  }
 {
   read();
   reduce(bounds().min(), minOp<point>());
@@ -1100,7 +1041,7 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
     Pstream::gatherList(nTris);
     Pstream::scatterList(nTris);
     Info<< endl<< "\tproc\ttris\tbb" << endl;
-    forAll(nTris, procI)
+    FOR_ALL(nTris, procI)
     {
       Info<< '\t' << procI << '\t' << nTris[procI]
         << '\t' << procBb_[procI] << endl;
@@ -1110,11 +1051,10 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
 }
 mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh(const IOobject& io)
 :
-  //triSurfaceMesh(io),
   triSurfaceMesh
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       io.name(),
       io.time().findInstance(io.local(), word::null),
       io.local(),
@@ -1122,12 +1062,12 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh(const IOobject& io)
       io.readOpt(),
       io.writeOpt(),
       io.registerObject()
-    )
-  ),
+    }
+  },
   dict_
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       searchableSurface::name() + "Dict",
       searchableSurface::instance(),
       searchableSurface::local(),
@@ -1135,8 +1075,8 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh(const IOobject& io)
       searchableSurface::readOpt(),
       searchableSurface::writeOpt(),
       searchableSurface::registerObject()
-    )
-  )
+    }
+  }
 {
   if
   (
@@ -1151,7 +1091,7 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh(const IOobject& io)
     )
   )
   {
-    FatalErrorIn("mousse::distributedTriSurfaceMesh::read()")
+    FATAL_ERROR_IN("mousse::distributedTriSurfaceMesh::read()")
       << "    distributedTriSurfaceMesh is being constructed\n"
       << "    using 'timeStampMaster' or 'inotifyMaster.'\n"
       << "    Modify the entry fileModificationChecking\n"
@@ -1172,7 +1112,7 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh(const IOobject& io)
     Pstream::gatherList(nTris);
     Pstream::scatterList(nTris);
     Info<< endl<< "\tproc\ttris\tbb" << endl;
-    forAll(nTris, procI)
+    FOR_ALL(nTris, procI)
     {
       Info<< '\t' << procI << '\t' << nTris[procI]
         << '\t' << procBb_[procI] << endl;
@@ -1188,9 +1128,9 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
 :
   //triSurfaceMesh(io, dict),
   triSurfaceMesh
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       io.name(),
       io.time().findInstance(io.local(), word::null),
       io.local(),
@@ -1198,13 +1138,13 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
       io.readOpt(),
       io.writeOpt(),
       io.registerObject()
-    ),
+    },
     dict
-  ),
+  },
   dict_
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       searchableSurface::name() + "Dict",
       searchableSurface::instance(),
       searchableSurface::local(),
@@ -1212,8 +1152,8 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
       searchableSurface::readOpt(),
       searchableSurface::writeOpt(),
       searchableSurface::registerObject()
-    )
-  )
+    }
+  }
 {
   if
   (
@@ -1228,7 +1168,7 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
     )
   )
   {
-    FatalErrorIn("mousse::distributedTriSurfaceMesh::read()")
+    FATAL_ERROR_IN("mousse::distributedTriSurfaceMesh::read()")
       << "    distributedTriSurfaceMesh is being constructed\n"
       << "    using 'timeStampMaster' or 'inotifyMaster.'\n"
       << "    Modify the entry fileModificationChecking\n"
@@ -1249,7 +1189,7 @@ mousse::distributedTriSurfaceMesh::distributedTriSurfaceMesh
     Pstream::gatherList(nTris);
     Pstream::scatterList(nTris);
     Info<< endl<< "\tproc\ttris\tbb" << endl;
-    forAll(nTris, procI)
+    FOR_ALL(nTris, procI)
     {
       Info<< '\t' << procI << '\t' << nTris[procI]
         << '\t' << procBb_[procI] << endl;
@@ -1289,7 +1229,7 @@ void mousse::distributedTriSurfaceMesh::findNearest
   // Initialise
   // ~~~~~~~~~~
   info.setSize(samples.size());
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     info[i].setMiss();
   }
@@ -1299,7 +1239,7 @@ void mousse::distributedTriSurfaceMesh::findNearest
   {
     // Work array - whether processor bb overlaps the bounding sphere.
     boolList procBbOverlaps(Pstream::nProcs());
-    forAll(samples, i)
+    FOR_ALL(samples, i)
     {
       // Find the processor this sample+radius overlaps.
       label nProcs = calcOverlappingProcs
@@ -1341,7 +1281,7 @@ void mousse::distributedTriSurfaceMesh::findNearest
     scalarField allRadiusSqr;
     labelList allSegmentMap;
     autoPtr<mapDistribute> mapPtr
-    (
+    {
       calcLocalQueries
       (
         samples,
@@ -1350,7 +1290,7 @@ void mousse::distributedTriSurfaceMesh::findNearest
         allRadiusSqr,
         allSegmentMap
       )
-    );
+    };
     const mapDistribute& map = mapPtr();
     // swap samples to local processor
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1359,7 +1299,7 @@ void mousse::distributedTriSurfaceMesh::findNearest
     // Do my tests
     // ~~~~~~~~~~~
     List<pointIndexHit> allInfo(allCentres.size());
-    forAll(allInfo, i)
+    FOR_ALL(allInfo, i)
     {
       allInfo[i] = octree.findNearest
       (
@@ -1376,7 +1316,7 @@ void mousse::distributedTriSurfaceMesh::findNearest
     map.reverseDistribute(allSegmentMap.size(), allInfo);
     // Extract information
     // ~~~~~~~~~~~~~~~~~~~
-    forAll(allInfo, i)
+    FOR_ALL(allInfo, i)
     {
       if (allInfo[i].hit())
       {
@@ -1471,7 +1411,7 @@ void mousse::distributedTriSurfaceMesh::findLineAll
   pointField e1(start.size());
   label compactI = 0;
   info.setSize(hitInfo.size());
-  forAll(hitInfo, pointI)
+  FOR_ALL(hitInfo, pointI)
   {
     if (hitInfo[pointI].hit())
     {
@@ -1505,7 +1445,7 @@ void mousse::distributedTriSurfaceMesh::findLineAll
     );
     // Extract
     label compactI = 0;
-    forAll(hitInfo, i)
+    FOR_ALL(hitInfo, i)
     {
       if (hitInfo[i].hit())
       {
@@ -1538,7 +1478,7 @@ void mousse::distributedTriSurfaceMesh::getRegion
   if (!Pstream::parRun())
   {
     region.setSize(info.size());
-    forAll(info, i)
+    FOR_ALL(info, i)
     {
       if (info[i].hit())
       {
@@ -1555,19 +1495,19 @@ void mousse::distributedTriSurfaceMesh::getRegion
   // ~~~~~~~~~~~~~~
   labelList triangleIndex(info.size());
   autoPtr<mapDistribute> mapPtr
-  (
+  {
     calcLocalQueries
     (
       info,
       triangleIndex
     )
-  );
+  };
   const mapDistribute& map = mapPtr();
   // Do my tests
   // ~~~~~~~~~~~
   const triSurface& s = static_cast<const triSurface&>(*this);
   region.setSize(triangleIndex.size());
-  forAll(triangleIndex, i)
+  FOR_ALL(triangleIndex, i)
   {
     label triI = triangleIndex[i];
     region[i] = s[triI].region();
@@ -1603,7 +1543,7 @@ void mousse::distributedTriSurfaceMesh::getNormal
   // ~~~~~~~~~~~
   const triSurface& s = static_cast<const triSurface&>(*this);
   normal.setSize(triangleIndex.size());
-  forAll(triangleIndex, i)
+  FOR_ALL(triangleIndex, i)
   {
     label triI = triangleIndex[i];
     normal[i] = s[triI].normal(s.points());
@@ -1645,7 +1585,7 @@ void mousse::distributedTriSurfaceMesh::getField
     // Do my tests
     // ~~~~~~~~~~~
     values.setSize(triangleIndex.size());
-    forAll(triangleIndex, i)
+    FOR_ALL(triangleIndex, i)
     {
       label triI = triangleIndex[i];
       values[i] = fld[triI];
@@ -1657,16 +1597,17 @@ void mousse::distributedTriSurfaceMesh::getField
 }
 void mousse::distributedTriSurfaceMesh::getVolumeType
 (
-  const pointField& points,
-  List<volumeType>& volType
+  const pointField& /*points*/,
+  List<volumeType>& /*volType*/
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "distributedTriSurfaceMesh::getVolumeType"
     "(const pointField&, List<volumeType>&) const"
-  )   << "Volume type not supported for distributed surfaces."
-    << exit(FatalError);
+  )
+  << "Volume type not supported for distributed surfaces."
+  << exit(FatalError);
 }
 // Subset the part of surface that is overlapping bb.
 mousse::triSurface mousse::distributedTriSurfaceMesh::overlappingSurface
@@ -1682,14 +1623,14 @@ mousse::triSurface mousse::distributedTriSurfaceMesh::overlappingSurface
   // Create a slightly larger bounding box.
   List<treeBoundBox> bbsX(bbs.size());
   const scalar eps = 1.0e-4;
-  forAll(bbs, i)
+  FOR_ALL(bbs, i)
   {
     const point mid = 0.5*(bbs[i].min() + bbs[i].max());
     const vector halfSpan = (1.0+eps)*(bbs[i].max() - mid);
     bbsX[i].min() = mid - halfSpan;
     bbsX[i].max() = mid + halfSpan;
   }
-  forAll(s, triI)
+  FOR_ALL(s, triI)
   {
     const labelledTri& f = s[triI];
     const point& p0 = s.points()[f[0]];
@@ -1718,7 +1659,7 @@ void mousse::distributedTriSurfaceMesh::distribute
     {
       case FOLLOW:
         newProcBb[Pstream::myProcNo()].setSize(bbs.size());
-        forAll(bbs, i)
+        FOR_ALL(bbs, i)
         {
           newProcBb[Pstream::myProcNo()][i] = bbs[i];
         }
@@ -1732,16 +1673,10 @@ void mousse::distributedTriSurfaceMesh::distribute
         return;
       break;
       default:
-        FatalErrorIn("distributedTriSurfaceMesh::distribute(..)")
+        FATAL_ERROR_IN("distributedTriSurfaceMesh::distribute(..)")
           << "Unsupported distribution type." << exit(FatalError);
       break;
     }
-    //if (debug)
-    //{
-    //    Info<< "old bb:" << procBb_ << endl << endl;
-    //    Info<< "new bb:" << newProcBb << endl << endl;
-    //    Info<< "Same:" << (newProcBb == procBb_) << endl;
-    //}
     if (newProcBb == procBb_)
     {
       return;
@@ -1762,7 +1697,7 @@ void mousse::distributedTriSurfaceMesh::distribute
     Info<< "distributedTriSurfaceMesh::distribute : before distribution:"
       << endl
       << "\tproc\ttris" << endl;
-    forAll(nTris, procI)
+    FOR_ALL(nTris, procI)
     {
       Info<< '\t' << procI << '\t' << nTris[procI] << endl;
     }
@@ -1772,7 +1707,7 @@ void mousse::distributedTriSurfaceMesh::distribute
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelListList faceSendMap(Pstream::nProcs());
   labelListList pointSendMap(Pstream::nProcs());
-  forAll(procBb_, procI)
+  FOR_ALL(procBb_, procI)
   {
     overlappingSurface
     (
@@ -1794,11 +1729,11 @@ void mousse::distributedTriSurfaceMesh::distribute
     // not mapped to any processor so they stay local.
     const triSurface& s = static_cast<const triSurface&>(*this);
     boolList includedFace(s.size(), true);
-    forAll(faceSendMap, procI)
+    FOR_ALL(faceSendMap, procI)
     {
       if (procI != Pstream::myProcNo())
       {
-        forAll(faceSendMap[procI], i)
+        FOR_ALL(faceSendMap[procI], i)
         {
           includedFace[faceSendMap[procI][i]] = false;
         }
@@ -1806,7 +1741,7 @@ void mousse::distributedTriSurfaceMesh::distribute
     }
     // Combine includedFace (all triangles that are not on any neighbour)
     // with overlap.
-    forAll(faceSendMap[Pstream::myProcNo()], i)
+    FOR_ALL(faceSendMap[Pstream::myProcNo()], i)
     {
       includedFace[faceSendMap[Pstream::myProcNo()][i]] = true;
     }
@@ -1822,7 +1757,7 @@ void mousse::distributedTriSurfaceMesh::distribute
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelListList faceSendSizes(Pstream::nProcs());
   faceSendSizes[Pstream::myProcNo()].setSize(Pstream::nProcs());
-  forAll(faceSendMap, procI)
+  FOR_ALL(faceSendMap, procI)
   {
     faceSendSizes[Pstream::myProcNo()][procI] = faceSendMap[procI].size();
   }
@@ -1861,7 +1796,7 @@ void mousse::distributedTriSurfaceMesh::distribute
   }
   // Send all
   // ~~~~~~~~
-  forAll(faceSendSizes, procI)
+  FOR_ALL(faceSendSizes, procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -1878,20 +1813,13 @@ void mousse::distributedTriSurfaceMesh::distribute
             pointMap
           )
         );
-        //if (debug)
-        //{
-        //    Pout<< "Sending to " << procI
-        //        << " faces:" << faceSendMap[procI].size()
-        //        << " points:" << subSurface.points().size() << endl
-        //        << endl;
-        //}
         str << subSurface;
      }
     }
   }
   // Receive and merge all
   // ~~~~~~~~~~~~~~~~~~~~~
-  forAll(faceSendSizes, procI)
+  FOR_ALL(faceSendSizes, procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -1900,14 +1828,6 @@ void mousse::distributedTriSurfaceMesh::distribute
         IPstream str(Pstream::blocking, procI);
         // Receive
         triSurface subSurface(str);
-        //if (debug)
-        //{
-        //    Pout<< "Received from " << procI
-        //        << " faces:" << subSurface.size()
-        //        << " points:" << subSurface.points().size() << endl
-        //        << endl;
-        //}
-        // Merge into allSurf
         merge
         (
           mergeDist_,
@@ -1918,31 +1838,26 @@ void mousse::distributedTriSurfaceMesh::distribute
           faceConstructMap[procI],
           pointConstructMap[procI]
         );
-        //if (debug)
-        //{
-        //    Pout<< "Current merged surface : faces:" << allTris.size()
-        //        << " points:" << allPoints.size() << endl << endl;
-        //}
      }
     }
   }
   faceMap.reset
   (
     new mapDistribute
-    (
+    {
       allTris.size(),
       faceSendMap.xfer(),
       faceConstructMap.xfer()
-    )
+    }
   );
   pointMap.reset
   (
     new mapDistribute
-    (
+    {
       allPoints.size(),
       pointSendMap.xfer(),
       pointConstructMap.xfer()
-    )
+    }
   );
   // Construct triSurface. Reuse storage.
   triSurface::operator=(triSurface(allTris, patches(), allPoints, true));
@@ -1968,7 +1883,7 @@ void mousse::distributedTriSurfaceMesh::distribute
     Info<< "distributedTriSurfaceMesh::distribute : after distribution:"
       << endl
       << "\tproc\ttris" << endl;
-    forAll(nTris, procI)
+    FOR_ALL(nTris, procI)
     {
       Info<< '\t' << procI << '\t' << nTris[procI] << endl;
     }
@@ -1978,7 +1893,7 @@ void mousse::distributedTriSurfaceMesh::distribute
 //- Write using given format, version and compression
 bool mousse::distributedTriSurfaceMesh::writeObject
 (
-  IOstream::streamFormat fmt,
+  IOstream::streamFormat /*fmt*/,
   IOstream::versionNumber ver,
   IOstream::compressionType cmp
 ) const
@@ -2011,7 +1926,7 @@ void mousse::distributedTriSurfaceMesh::writeStats(Ostream& os) const
   PatchTools::calcBounds(static_cast<const triSurface&>(*this), bb, nPoints);
   reduce(bb.min(), minOp<point>());
   reduce(bb.max(), maxOp<point>());
-  os  << "Triangles    : " << returnReduce(triSurface::size(), sumOp<label>())
+  os<< "Triangles    : " << returnReduce(triSurface::size(), sumOp<label>())
     << endl
     << "Vertices     : " << returnReduce(nPoints, sumOp<label>()) << endl
     << "Bounding Box : " << bb << endl;

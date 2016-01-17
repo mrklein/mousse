@@ -28,9 +28,9 @@ protected:
     psiThermo(const psiThermo&);
 public:
   //- Runtime type information
-  TypeName("psiThermo");
+  TYPE_NAME("psiThermo");
   //- Declare run-time constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     psiThermo,

@@ -189,7 +189,7 @@ template<class CloudType>
 mousse::vector mousse::PackingModels::Implicit<CloudType>::velocityCorrection
 (
   typename CloudType::parcelType& p,
-  const scalar deltaT
+  const scalar /*deltaT*/
 ) const
 {
   const fvMesh& mesh = this->owner().mesh();

@@ -25,8 +25,10 @@
 //   surface_intersection.cpp
 //   surface_intersection_funcs.cpp
 //   surface_intersection_templates.cpp
+
 #ifndef surface_intersection_hpp_
 #define surface_intersection_hpp_
+
 #include "dynamic_list.hpp"
 #include "point.hpp"
 #include "edge.hpp"
@@ -34,35 +36,46 @@
 #include "type_info.hpp"
 #include "edge_list.hpp"
 #include "point_index_hit.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
 class triSurfaceSearch;
 class triSurface;
 class edgeIntersections;
+
 class surfaceIntersection
 {
   // Private data
+
     //- Newly introduced points.
     pointField cutPoints_;
+
     //- Newly introduced edges (are on both surfaces). Reference into
     //  cutPoints.
     edgeList cutEdges_;
+
     //- From face on surf1 and face on surf2 to intersection point
     // (label in cutPoints)
     labelPairLookup facePairToVertex_;
+
     //- From face on surf1 and face on surf2 to intersection edge
     //  (label in cutEdges)
     labelPairLookup facePairToEdge_;
+
     //- Edges on surf1 that are cut. From edge on surf1 to label in cutPoint
     //  If multiple cuts:sorted from edge.start to edge.end
     labelListList surf1EdgeCuts_;
+
     //- Edges on surf2 that are cut. From edge on surf2 to label in cutPoint
     //  If multiple cuts:sorted from edge.start to edge.end
     labelListList surf2EdgeCuts_;
+
   // Private Member Functions
+
     //- Write point in obj format.
     static void writeOBJ(const point& pt, Ostream& os);
+
     //- Write points and edges in obj format
     static void writeOBJ
     (
@@ -70,11 +83,14 @@ class surfaceIntersection
       const List<edge>&,
       Ostream&
     );
+
     //- Transfer contents of List<DynamicList<..> > to List<List<..>>
     template<class T>
     static void transfer(List<DynamicList<T> >&,  List<List<T> >&);
+
     //- Get minimum length of all edges connected to point
     static scalar minEdgeLen(const triSurface& surf, const label pointI);
+
     //- Get edge label of edge between face vertices fp and fp+1
     static label getEdge
     (
@@ -82,16 +98,21 @@ class surfaceIntersection
       const label faceI,
       const label fp
     );
+
     //- Remove duplicates from ordered dynamic list. Returns map from old
     //  to new (-1 if element removed)
     static void removeDuplicates(const labelList& map, labelList& labels);
+
     //- Apply map to elements of a labelList
     static void inlineRemap(const labelList& map, labelList& elems);
+
     // Remove all duplicate and degenerate elements. Return unique elements
     // and map from old to new.
     static edgeList filterEdges(const edgeList&, labelList& map);
+
     //- Remove all duplicate elements.
     static labelList filterLabels(const labelList& elems, labelList& map);
+
     //- Do some checks if edge and face (resulting from hit)
     //  should not be considered. Returns true if can be discarded.
     static bool excludeEdgeHit
@@ -101,18 +122,7 @@ class surfaceIntersection
       const label faceI,
       const scalar tol
     );
-    ////- Given edge (eStart - eEnd) and normal direction construct plane
-    ////  and intersect all edges of hitFace with it.
-    ////  Return the edge and coordinate of hit.
-    //static pointIndexHit faceEdgeIntersection
-    //(
-    //    const triSurface&,
-    //    const label hitFaceI,
-    //
-    //    const vector& n,
-    //    const point& eStart,
-    //    const point& eEnd
-    //);
+
     //- Debugging: Dump intersected edges to stream
     void writeIntersectedEdges
     (
@@ -120,6 +130,7 @@ class surfaceIntersection
       const labelListList& edgeCutVerts,
       Ostream& os
     ) const;
+
     //- Detect if point close to edge of end. Returns -1: not close.
     //  0:close (within startTol) to start, 1:close (within endTol) to end
     static label classify
@@ -130,6 +141,7 @@ class surfaceIntersection
       const edge& e,
       const pointField& points
     );
+
     //- Update reference between faceA and faceB. Updates facePairToVertex_
     //  (first occurrence of face pair) and facePairToEdge_ (second occ.)
     void storeIntersection
@@ -140,6 +152,7 @@ class surfaceIntersection
       DynamicList<edge>&,
       DynamicList<point>&
     );
+
     //- Investigate pHit to whether is case of point hits point,
     //  point hits edge, point hits face or edge hits face.
     void classifyHit
@@ -155,6 +168,7 @@ class surfaceIntersection
       DynamicList<point>& allCutPoints,
       List<DynamicList<label> >& surfEdgeCuts
     );
+
     //- Cut edges of surf1 with surface 2.
     void doCutEdges
     (
@@ -166,11 +180,16 @@ class surfaceIntersection
       DynamicList<point>& allCutPoints,
       List<DynamicList<label> >& surfEdgeCuts
     );
+
 public:
-  ClassName("surfaceIntersection");
+
+  CLASS_NAME("surfaceIntersection");
+
   // Constructors
+
     //- Construct null
     surfaceIntersection();
+
     //- Construct from precalculated intersection information.
     //  Advantage: intersection information is guaranteed to have no
     //  degenerate cuts.
@@ -181,6 +200,7 @@ public:
       const triSurface& surf2,
       const edgeIntersections& intersections2
     );
+
     //- Construct from two surfaces. Does all its own cutting.
     //  Has problems with degenerate cuts
     surfaceIntersection
@@ -188,9 +208,11 @@ public:
       const triSurfaceSearch& querySurf1,
       const triSurfaceSearch& querySurf2
     );
+
     //- Special: intersect surface with itself. Used to check for
     //  self-intersection.
     surfaceIntersection(const triSurfaceSearch& querySurf1);
+
   // Member Functions
     const pointField& cutPoints() const;
     const edgeList& cutEdges() const;
@@ -203,6 +225,7 @@ public:
     const labelListList& surf2EdgeCuts() const;
 };
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "surface_intersection_templates.cpp"
 #endif

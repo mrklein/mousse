@@ -3,9 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "ami_method.hpp"
+
 #include "mesh_tools.hpp"
 #include "map_distribute.hpp"
 #include "unit_conversion.hpp"
+
 // Private Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIMethod<SourcePatch, TargetPatch>::checkPatches() const
@@ -26,7 +28,7 @@ void mousse::AMIMethod<SourcePatch, TargetPatch>::checkPatches() const
     bbTgtInf.inflate(maxBoundsError);
     if (!bbTgtInf.contains(bbSrc))
     {
-      WarningIn("AMIMethod<SourcePatch, TargetPatch>::checkPatches()")
+      WARNING_IN("AMIMethod<SourcePatch, TargetPatch>::checkPatches()")
         << "Source and target patch bounding boxes are not similar"
         << nl
         << "    source box span     : " << bbSrc.span() << nl
@@ -37,6 +39,8 @@ void mousse::AMIMethod<SourcePatch, TargetPatch>::checkPatches() const
     }
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 bool mousse::AMIMethod<SourcePatch, TargetPatch>::initialise
 (
@@ -62,7 +66,7 @@ bool mousse::AMIMethod<SourcePatch, TargetPatch>::initialise
   }
   else if (!tgtPatch_.size())
   {
-    WarningIn
+    WARNING_IN
     (
       "void mousse::AMIMethod<SourcePatch, TargetPatch>::initialise"
       "("
@@ -74,7 +78,7 @@ bool mousse::AMIMethod<SourcePatch, TargetPatch>::initialise
         "label&"
       ")"
     )
-      << srcPatch_.size() << " source faces but no target faces" << endl;
+    << srcPatch_.size() << " source faces but no target faces" << endl;
     return false;
   }
   // reset the octree
@@ -85,7 +89,7 @@ bool mousse::AMIMethod<SourcePatch, TargetPatch>::initialise
     srcFaceI = 0;
     tgtFaceI = 0;
     bool foundFace = false;
-    forAll(srcPatch_, faceI)
+    FOR_ALL(srcPatch_, faceI)
     {
       tgtFaceI = findTargetFace(faceI);
       if (tgtFaceI >= 0)
@@ -99,7 +103,7 @@ bool mousse::AMIMethod<SourcePatch, TargetPatch>::initialise
     {
       if (requireMatch_)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::AMIMethod<SourcePatch, TargetPatch>::initialise"
           "("
@@ -110,8 +114,9 @@ bool mousse::AMIMethod<SourcePatch, TargetPatch>::initialise
             "label&, "
             "label&"
           ")"
-        )   << "Unable to find initial target face"
-          << abort(FatalError);
+        )
+        << "Unable to find initial target face"
+        << abort(FatalError);
       }
       return false;
     }
@@ -122,6 +127,8 @@ bool mousse::AMIMethod<SourcePatch, TargetPatch>::initialise
   }
   return true;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIMethod<SourcePatch, TargetPatch>::writeIntersectionOBJ
 (
@@ -142,35 +149,37 @@ void mousse::AMIMethod<SourcePatch, TargetPatch>::writeIntersectionOBJ
     << "    f2 pts  = " << f2pts << nl
     << "    area    = " << area
     << endl;
-  OFstream os("areas" + name(count) + ".obj");
-  forAll(f1pts, i)
+  OFstream os{"areas" + name(count) + ".obj"};
+  FOR_ALL(f1pts, i)
   {
     meshTools::writeOBJ(os, f1pts[i]);
   }
   os<< "l";
-  forAll(f1pts, i)
+  FOR_ALL(f1pts, i)
   {
     os<< " " << i + 1;
   }
   os<< " 1" << endl;
-  forAll(f2pts, i)
+  FOR_ALL(f2pts, i)
   {
     meshTools::writeOBJ(os, f2pts[i]);
   }
   os<< "l";
-  forAll(f2pts, i)
+  FOR_ALL(f2pts, i)
   {
     os<< " " << f1pts.size() + i + 1;
   }
   os<< " " << f1pts.size() + 1 << endl;
   count++;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIMethod<SourcePatch, TargetPatch>::resetTree()
 {
   // Clear the old octree
   treePtr_.clear();
-  treeBoundBox bb(tgtPatch_.points());
+  treeBoundBox bb{tgtPatch_.points()};
   bb.inflate(0.01);
   if (!treePtr_.valid())
   {
@@ -192,6 +201,8 @@ void mousse::AMIMethod<SourcePatch, TargetPatch>::resetTree()
     );
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 mousse::label mousse::AMIMethod<SourcePatch, TargetPatch>::findTargetFace
 (
@@ -216,6 +227,8 @@ mousse::label mousse::AMIMethod<SourcePatch, TargetPatch>::findTargetFace
   }
   return targetFaceI;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::AMIMethod<SourcePatch, TargetPatch>::appendNbrFaces
 (
@@ -227,11 +240,11 @@ void mousse::AMIMethod<SourcePatch, TargetPatch>::appendNbrFaces
 {
   const labelList& nbrFaces = patch.faceFaces()[faceI];
   // filter out faces already visited from face neighbours
-  forAll(nbrFaces, i)
+  FOR_ALL(nbrFaces, i)
   {
     label nbrFaceI = nbrFaces[i];
     bool valid = true;
-    forAll(visitedFaces, j)
+    FOR_ALL(visitedFaces, j)
     {
       if (nbrFaceI == visitedFaces[j])
       {
@@ -241,7 +254,7 @@ void mousse::AMIMethod<SourcePatch, TargetPatch>::appendNbrFaces
     }
     if (valid)
     {
-      forAll(faceIDs, j)
+      FOR_ALL(faceIDs, j)
       {
         if (nbrFaceI == faceIDs[j])
         {
@@ -263,6 +276,8 @@ void mousse::AMIMethod<SourcePatch, TargetPatch>::appendNbrFaces
     }
   }
 }
+
+
 // Constructors 
 template<class SourcePatch, class TargetPatch>
 mousse::AMIMethod<SourcePatch, TargetPatch>::AMIMethod
@@ -276,19 +291,23 @@ mousse::AMIMethod<SourcePatch, TargetPatch>::AMIMethod
   const bool requireMatch
 )
 :
-  srcPatch_(srcPatch),
-  tgtPatch_(tgtPatch),
-  reverseTarget_(reverseTarget),
-  requireMatch_(requireMatch),
-  srcMagSf_(srcMagSf),
-  tgtMagSf_(tgtMagSf),
-  srcNonOverlap_(),
-  triMode_(triMode)
+  srcPatch_{srcPatch},
+  tgtPatch_{tgtPatch},
+  reverseTarget_{reverseTarget},
+  requireMatch_{requireMatch},
+  srcMagSf_{srcMagSf},
+  tgtMagSf_{tgtMagSf},
+  srcNonOverlap_{},
+  triMode_{triMode}
 {}
+
+
 // Destructor
 template<class SourcePatch, class TargetPatch>
 mousse::AMIMethod<SourcePatch, TargetPatch>::~AMIMethod()
 {}
+
+
 // Member Functions 
 template<class SourcePatch, class TargetPatch>
 bool mousse::AMIMethod<SourcePatch, TargetPatch>::conformal() const

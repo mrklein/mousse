@@ -50,9 +50,6 @@ class mixtureKEpsilon
   // Private data
     mutable mixtureKEpsilon<BasicTurbulenceModel> *liquidTurbulencePtr_;
   // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    mixtureKEpsilon(const mixtureKEpsilon&);
-    mixtureKEpsilon& operator=(const mixtureKEpsilon&);
     //- Return the turbulence model for the other phase
     mixtureKEpsilon<BasicTurbulenceModel>& liquidTurbulence() const;
 protected:
@@ -133,7 +130,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("mixtureKEpsilon");
+  TYPE_NAME("mixtureKEpsilon");
   // Constructors
     //- Construct from components
     mixtureKEpsilon
@@ -147,6 +144,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    mixtureKEpsilon(const mixtureKEpsilon&) = delete;
+    mixtureKEpsilon& operator=(const mixtureKEpsilon&) = delete;
   //- Destructor
   virtual ~mixtureKEpsilon()
   {}

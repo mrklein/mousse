@@ -15,11 +15,6 @@ class fvBoundaryMeshMapper
 :
   public PtrList<fvPatchMapper>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fvBoundaryMeshMapper(const fvBoundaryMeshMapper&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvBoundaryMeshMapper&);
 public:
   // Constructors
     //- Construct from components
@@ -32,19 +27,23 @@ public:
       PtrList<fvPatchMapper>(mesh.boundary().size())
     {
       const fvBoundaryMesh& patches = mesh.boundary();
-      forAll(patches, patchI)
+      FOR_ALL(patches, patchI)
       {
         set
         (
           patchI,
           new fvPatchMapper
-          (
+          {
             patches[patchI],
             faceMap
-          )
+          }
         );
       }
     }
+    //- Disallow default bitwise copy construct
+    fvBoundaryMeshMapper(const fvBoundaryMeshMapper&) = delete;
+    //- Disallow default bitwise assignment
+    fvBoundaryMeshMapper& operator=(const fvBoundaryMeshMapper&) = delete;
 };
 }  // namespace mousse
 #endif

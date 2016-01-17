@@ -13,8 +13,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledTriSurfaceMesh, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(sampledTriSurfaceMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     sampledSurface,
     sampledTriSurfaceMesh,
@@ -58,12 +58,12 @@ mousse::sampledTriSurfaceMesh::nonCoupledboundaryTree() const
     const polyBoundaryMesh& patches = mesh().boundaryMesh();
     labelList bndFaces(mesh().nFaces()-mesh().nInternalFaces());
     label bndI = 0;
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       const polyPatch& pp = patches[patchI];
       if (!pp.coupled())
       {
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           bndFaces[bndI++] = pp.start()+i;
         }
@@ -108,7 +108,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
    ? mesh().nCells()
    : mesh().nFaces()
   );
-  forAll(nearest, i)
+  FOR_ALL(nearest, i)
   {
     nearest[i].first() = GREAT;
     nearest[i].second() = labelMax;
@@ -117,7 +117,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
   {
     // Search for nearest cell
     const indexedOctree<treeDataCell>& cellTree = meshSearcher.cellTree();
-    forAll(fc, triI)
+    FOR_ALL(fc, triI)
     {
       pointIndexHit nearInfo = cellTree.findNearest
       (
@@ -135,7 +135,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
   {
     // Search for cell containing point
     const indexedOctree<treeDataCell>& cellTree = meshSearcher.cellTree();
-    forAll(fc, triI)
+    FOR_ALL(fc, triI)
     {
       if (cellTree.bb().contains(fc[triI]))
       {
@@ -155,7 +155,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
     //const indexedOctree<treeDataFace>& bTree = meshSearcher.boundaryTree()
     //- Search on all non-coupled boundary faces
     const indexedOctree<treeDataFace>& bTree = nonCoupledboundaryTree();
-    forAll(fc, triI)
+    FOR_ALL(fc, triI)
     {
       pointIndexHit nearInfo = bTree.findNearest
       (
@@ -178,7 +178,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
   Pstream::listCombineScatter(nearest);
   labelList cellOrFaceLabels(fc.size(), -1);
   label nFound = 0;
-  forAll(nearest, triI)
+  FOR_ALL(nearest, triI)
   {
     if (nearest[triI].second() == labelMax)
     {
@@ -210,13 +210,13 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
   {
     label newPointI = 0;
     label newFaceI = 0;
-    forAll(s, faceI)
+    FOR_ALL(s, faceI)
     {
       if (cellOrFaceLabels[faceI] != -1)
       {
         faceMap[newFaceI++] = faceI;
         const triSurface::FaceType& f = s[faceI];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if (reversePointMap[f[fp]] == -1)
           {
@@ -236,7 +236,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
   // Create faces and points for subsetted surface
   faceList& faces = this->storedFaces();
   faces.setSize(faceMap.size());
-  forAll(faceMap, i)
+  FOR_ALL(faceMap, i)
   {
     const triFace& f = s[faceMap[i]];
     triFace newF
@@ -246,7 +246,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
       reversePointMap[f[2]]
     );
     faces[i] = newF.triFaceFace();
-    forAll(newF, fp)
+    FOR_ALL(newF, fp)
     {
       pointToFace[newF[fp]] = i;
     }
@@ -267,7 +267,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
     {
       // samplePoints_   : per surface point a location inside the cell
       // sampleElements_ : per surface point the cell
-      forAll(points(), pointI)
+      FOR_ALL(points(), pointI)
       {
         const point& pt = points()[pointI];
         label cellI = cellOrFaceLabels[pointToFace[pointI]];
@@ -290,7 +290,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
           // Find nearest point on faces of cell
           const cell& cFaces = mesh().cells()[cellI];
           scalar minDistSqr = VGREAT;
-          forAll(cFaces, i)
+          FOR_ALL(cFaces, i)
           {
             const face& f = mesh().faces()[cFaces[i]];
             pointHit info = f.nearestPoint(pt, mesh().points());
@@ -307,7 +307,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
     {
       // samplePoints_   : per surface point a location inside the cell
       // sampleElements_ : per surface point the cell
-      forAll(points(), pointI)
+      FOR_ALL(points(), pointI)
       {
         const point& pt = points()[pointI];
         label cellI = cellOrFaceLabels[pointToFace[pointI]];
@@ -320,7 +320,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
       // samplePoints_   : per surface point a location on the boundary
       // sampleElements_ : per surface point the boundary face containing
       //                   the location
-      forAll(points(), pointI)
+      FOR_ALL(points(), pointI)
       {
         const point& pt = points()[pointI];
         label faceI = cellOrFaceLabels[pointToFace[pointI]];
@@ -358,7 +358,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
     {
       if (sampleSource_ == cells || sampleSource_ == insideCells)
       {
-        forAll(samplePoints_, pointI)
+        FOR_ALL(samplePoints_, pointI)
         {
           meshTools::writeOBJ(str, points()[pointI]);
           vertI++;
@@ -373,7 +373,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
       }
       else
       {
-        forAll(samplePoints_, pointI)
+        FOR_ALL(samplePoints_, pointI)
         {
           meshTools::writeOBJ(str, points()[pointI]);
           vertI++;
@@ -391,7 +391,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
     {
       if (sampleSource_ == cells || sampleSource_ == insideCells)
       {
-        forAll(sampleElements_, triI)
+        FOR_ALL(sampleElements_, triI)
         {
           meshTools::writeOBJ(str, faceCentres()[triI]);
           vertI++;
@@ -403,7 +403,7 @@ bool mousse::sampledTriSurfaceMesh::update(const meshSearch& meshSearcher)
       }
       else
       {
-        forAll(sampleElements_, triI)
+        FOR_ALL(sampleElements_, triI)
         {
           meshTools::writeOBJ(str, faceCentres()[triI]);
           vertI++;

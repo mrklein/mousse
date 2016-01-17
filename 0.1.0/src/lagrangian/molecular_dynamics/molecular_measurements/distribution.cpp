@@ -6,7 +6,7 @@
 #include "ofstream.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(distribution, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(distribution, 0);
 }
 // Static Member Functions
 void mousse::distribution::write
@@ -16,7 +16,7 @@ void mousse::distribution::write
 )
 {
   OFstream os(file);
-  forAll(pairs, i)
+  FOR_ALL(pairs, i)
   {
     os  << pairs[i].first() << ' ' << pairs[i].second() << nl;
   }
@@ -44,12 +44,12 @@ mousse::distribution::~distribution()
 mousse::label mousse::distribution::totalEntries() const
 {
   label sumOfEntries = 0;
-  forAllConstIter(Map<label>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<label>, *this, iter)
   {
     sumOfEntries += iter();
     if (sumOfEntries < 0)
     {
-      WarningIn("label distribution::totalEntries()")
+      WARNING_IN("label distribution::totalEntries()")
         << "Accumulated distribution values total has become negative: "
         << "sumOfEntries = " << sumOfEntries
         << ". This is most likely to be because too many samples "
@@ -65,7 +65,7 @@ mousse::label mousse::distribution::totalEntries() const
 mousse::scalar mousse::distribution::approxTotalEntries() const
 {
   scalar sumOfEntries = 0;
-  forAllConstIter(Map<label>, *this, iter)
+  FOR_ALL_CONST_ITER(Map<label>, *this, iter)
   {
     sumOfEntries += scalar(iter());
   }
@@ -76,7 +76,7 @@ mousse::scalar mousse::distribution::mean() const
   scalar runningSum = 0;
   scalar totEnt = approxTotalEntries();
   List<label> keys = toc();
-  forAll(keys,k)
+  FOR_ALL(keys,k)
   {
     label key = keys[k];
     runningSum +=
@@ -118,7 +118,7 @@ mousse::scalar mousse::distribution::median()
     else
     {
       label lastNonZeroIndex = 0;
-      forAll(normDist,nD)
+      FOR_ALL(normDist,nD)
       {
         if (runningSum + (normDist[nD].second()*binWidth_) > 0.5)
         {
@@ -154,7 +154,7 @@ void mousse::distribution::add(const scalar valueToAdd)
   }
   if ((*this)[n] < 0)
   {
-    FatalErrorIn("distribution::add(const scalar valueToAdd)")
+    FATAL_ERROR_IN("distribution::add(const scalar valueToAdd)")
       << "Accumulated distribution value has become negative: "
       << "bin = " << (0.5 + scalar(n)) * binWidth_
       << ", value = " << (*this)[n]
@@ -191,7 +191,7 @@ mousse::List<mousse::Pair<mousse::scalar> > mousse::distribution::normalised()
   List<label> keys = toc();
   sort(keys);
   List<Pair<scalar> > normDist(size());
-  forAll(keys,k)
+  FOR_ALL(keys,k)
   {
     label key = keys[k];
     normDist[k].first() = (0.5 + scalar(key))*binWidth_;
@@ -214,7 +214,7 @@ mousse::List<mousse::Pair<mousse::scalar> > mousse::distribution::normalisedShif
 {
   List<Pair<scalar> > oldDist(normalised());
   List<Pair<scalar> > newDist(oldDist.size());
-  forAll(oldDist,u)
+  FOR_ALL(oldDist,u)
   {
     oldDist[u].first() -= shiftValue;
   }
@@ -234,13 +234,13 @@ mousse::List<mousse::Pair<mousse::scalar> > mousse::distribution::normalisedShif
       << nl << interpolationStartDirection
       << endl;
     scalar checkNormalisation = 0;
-    forAll(oldDist, oD)
+    FOR_ALL(oldDist, oD)
     {
       checkNormalisation += oldDist[oD].second()*binWidth_;
     }
     Info<< "Initial normalisation = " << checkNormalisation << endl;
   }
-  forAll(oldDist,u)
+  FOR_ALL(oldDist,u)
   {
     newDist[u].first() = (0.5 + scalar(newKey)) * binWidth_;
     if (interpolationStartDirection < 0)
@@ -292,7 +292,7 @@ mousse::List<mousse::Pair<mousse::scalar> > mousse::distribution::normalisedShif
   if (debug)
   {
     scalar checkNormalisation = 0;
-    forAll(newDist, nD)
+    FOR_ALL(newDist, nD)
     {
       checkNormalisation += newDist[nD].second()*binWidth_;
     }
@@ -306,7 +306,7 @@ mousse::List<mousse::Pair<mousse::scalar> > mousse::distribution::raw()
   List<label> keys = toc();
   sort(keys);
   List<Pair<scalar> > rawDist(size());
-  forAll(keys,k)
+  FOR_ALL(keys,k)
   {
     label key = keys[k];
     rawDist[k].first() = (0.5 + scalar(key))*binWidth_;
@@ -320,7 +320,7 @@ void mousse::distribution::operator=(const distribution& rhs)
   // Check for assignment to self
   if (this == &rhs)
   {
-    FatalErrorIn("distribution::operator=(const distribution&)")
+    FATAL_ERROR_IN("distribution::operator=(const distribution&)")
       << "Attempted assignment to self"
       << abort(FatalError);
   }

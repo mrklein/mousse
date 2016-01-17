@@ -30,7 +30,7 @@ void mousse::ensightPart::writeField
     }
     else
     {
-      forAll(elementTypes(), elemI)
+      FOR_ALL(elementTypes(), elemI)
       {
         const labelUList& idList = elemLists_[elemI];
         if (idList.size())

@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(polyTopoChanger, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyTopoChanger, 0);
 }
 // Constructors 
 void mousse::polyTopoChanger::readModifiers()
@@ -23,7 +23,7 @@ void mousse::polyTopoChanger::readModifiers()
   {
     if (readOpt() == IOobject::MUST_READ_IF_MODIFIED)
     {
-      WarningIn("polyTopoChanger::readModifiers()")
+      WARNING_IN("polyTopoChanger::readModifiers()")
         << "Specified IOobject::MUST_READ_IF_MODIFIED but class"
         << " does not support automatic re-reading."
         << endl;
@@ -33,7 +33,7 @@ void mousse::polyTopoChanger::readModifiers()
     Istream& is = readStream(typeName);
     PtrList<entry> patchEntries(is);
     modifiers.setSize(patchEntries.size());
-    forAll(modifiers, modifierI)
+    FOR_ALL(modifiers, modifierI)
     {
       modifiers.set
       (
@@ -92,7 +92,7 @@ mousse::wordList mousse::polyTopoChanger::types() const
 {
   const PtrList<polyMeshModifier>& modifiers = *this;
   wordList t(modifiers.size());
-  forAll(modifiers, modifierI)
+  FOR_ALL(modifiers, modifierI)
   {
     t[modifierI] = modifiers[modifierI].type();
   }
@@ -102,7 +102,7 @@ mousse::wordList mousse::polyTopoChanger::names() const
 {
   const PtrList<polyMeshModifier>& modifiers = *this;
   wordList t(modifiers.size());
-  forAll(modifiers, modifierI)
+  FOR_ALL(modifiers, modifierI)
   {
     t[modifierI] = modifiers[modifierI].name();
   }
@@ -113,7 +113,7 @@ bool mousse::polyTopoChanger::changeTopology() const
   // Go through all mesh modifiers and accumulate the morphing information
   const PtrList<polyMeshModifier>& topoChanges = *this;
   bool triggerChange = false;
-  forAll(topoChanges, morphI)
+  FOR_ALL(topoChanges, morphI)
   {
     if (topoChanges[morphI].active())
     {
@@ -151,7 +151,7 @@ mousse::polyTopoChanger::topoChangeRequest() const
   const PtrList<polyMeshModifier>& topoChanges = *this;
   polyTopoChange* refPtr(new polyTopoChange(mesh()));
   polyTopoChange& ref = *refPtr;
-  forAll(topoChanges, morphI)
+  FOR_ALL(topoChanges, morphI)
   {
     if (topoChanges[morphI].active())
     {
@@ -163,7 +163,7 @@ mousse::polyTopoChanger::topoChangeRequest() const
 void mousse::polyTopoChanger::modifyMotionPoints(pointField& p) const
 {
   const PtrList<polyMeshModifier>& topoChanges = *this;
-  forAll(topoChanges, morphI)
+  FOR_ALL(topoChanges, morphI)
   {
     if (topoChanges[morphI].active())
     {
@@ -175,7 +175,7 @@ void mousse::polyTopoChanger::update(const mapPolyMesh& m)
 {
   // Go through all mesh modifiers and accumulate the morphing information
   PtrList<polyMeshModifier>& topoChanges = *this;
-  forAll(topoChanges, morphI)
+  FOR_ALL(topoChanges, morphI)
   {
     topoChanges[morphI].updateMesh(m);
   }
@@ -220,11 +220,11 @@ void mousse::polyTopoChanger::addTopologyModifiers
 {
   setSize(tm.size());
   // Copy the patch pointers
-  forAll(tm, tmI)
+  FOR_ALL(tm, tmI)
   {
     if (tm[tmI]->topoChanger() != *this)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void polyTopoChanger::addTopologyModifiers"
         "("
@@ -243,7 +243,7 @@ mousse::label mousse::polyTopoChanger::findModifierID
 ) const
 {
   const PtrList<polyMeshModifier>& topoChanges = *this;
-  forAll(topoChanges, morphI)
+  FOR_ALL(topoChanges, morphI)
   {
     if (topoChanges[morphI].name() == modName)
     {
@@ -253,7 +253,7 @@ mousse::label mousse::polyTopoChanger::findModifierID
   // Modifier not found
   if (debug)
   {
-    WarningIn("label polyTopoChanger::findModifierID(const word&) const")
+    WARNING_IN("label polyTopoChanger::findModifierID(const word&) const")
       << "Modifier named " << modName << " not found.  "
       << "List of available modifier names: " << names() << endl;
   }
@@ -278,7 +278,7 @@ bool mousse::polyTopoChanger::operator==(const polyTopoChanger& me) const
 mousse::Ostream& mousse::operator<<(Ostream& os, const polyTopoChanger& mme)
 {
   os  << mme.size() << nl << token::BEGIN_LIST;
-  forAll(mme, mmeI)
+  FOR_ALL(mme, mmeI)
   {
     mme[mmeI].writeDict(os);
   }

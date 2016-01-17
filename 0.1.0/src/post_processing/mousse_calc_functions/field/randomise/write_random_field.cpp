@@ -17,7 +17,7 @@ void mousse::calcTypes::randomise::writeRandomField
   {
     Info<< "    Reading " << header.name() << endl;
     fieldType field(header, mesh);
-    forAll(field, cellI)
+    FOR_ALL(field, cellI)
     {
       Type rndPert;
       rand.randomise(rndPert);

@@ -25,14 +25,14 @@ class repatchPolyTopoChanger
   // Private Member Functions
     //- Demand driven access to polyTopoChange
     polyTopoChange& meshMod();
-    //- Disallow default bitwise copy construct
-    repatchPolyTopoChanger(const repatchPolyTopoChanger&);
-    //- Disallow default bitwise assignment
-    void operator=(const repatchPolyTopoChanger&);
 public:
   // Constructors
     //- Construct for given mesh
     explicit repatchPolyTopoChanger(polyMesh& mesh);
+    //- Disallow default bitwise copy construct
+    repatchPolyTopoChanger(const repatchPolyTopoChanger&) = delete;
+    //- Disallow default bitwise assignment
+    repatchPolyTopoChanger& operator=(const repatchPolyTopoChanger&) = delete;
   //- Destructor
   virtual ~repatchPolyTopoChanger()
   {}

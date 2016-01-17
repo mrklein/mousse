@@ -29,7 +29,7 @@ mousse::refinementSurfaces::refinementSurfaces
   // and try to find a match.
   // Count number of surfaces.
   label surfI = 0;
-  forAll(allGeometry_.names(), geomI)
+  FOR_ALL(allGeometry_.names(), geomI)
   {
     const word& geomName = allGeometry_.names()[geomI];
     if (surfacesDict.found(geomName))
@@ -47,14 +47,14 @@ mousse::refinementSurfaces::refinementSurfaces
   labelList globalLevelIncr(surfI, 0);
   scalarField globalAngle(surfI, -GREAT);
   PtrList<dictionary> globalPatchInfo(surfI);
-  List<Map<label> > regionMinLevel(surfI);
-  List<Map<label> > regionMaxLevel(surfI);
-  List<Map<label> > regionLevelIncr(surfI);
-  List<Map<scalar> > regionAngle(surfI);
-  List<Map<autoPtr<dictionary> > > regionPatchInfo(surfI);
+  List<Map<label>> regionMinLevel(surfI);
+  List<Map<label>> regionMaxLevel(surfI);
+  List<Map<label>> regionLevelIncr(surfI);
+  List<Map<scalar>> regionAngle(surfI);
+  List<Map<autoPtr<dictionary>>> regionPatchInfo(surfI);
   HashSet<word> unmatchedKeys(surfacesDict.toc());
   surfI = 0;
-  forAll(allGeometry_.names(), geomI)
+  FOR_ALL(allGeometry_.names(), geomI)
   {
     const word& geomName = allGeometry_.names()[geomI];
     const entry* ePtr = surfacesDict.lookupEntryPtr(geomName, false, true);
@@ -72,24 +72,22 @@ mousse::refinementSurfaces::refinementSurfaces
         "gapLevelIncrement",
         gapLevelIncrement
       );
-      if
-      (
-        globalMinLevel[surfI] < 0
-      || globalMaxLevel[surfI] < globalMinLevel[surfI]
-      || globalLevelIncr[surfI] < 0
-      )
+      if (globalMinLevel[surfI] < 0
+          || globalMaxLevel[surfI] < globalMinLevel[surfI]
+          || globalLevelIncr[surfI] < 0)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "refinementSurfaces::refinementSurfaces"
           "(const searchableSurfaces&, const dictionary>&",
           dict
-        )   << "Illegal level specification for surface "
-          << names_[surfI]
-          << " : minLevel:" << globalMinLevel[surfI]
-          << " maxLevel:" << globalMaxLevel[surfI]
-          << " levelIncrement:" << globalLevelIncr[surfI]
-          << exit(FatalIOError);
+        )
+        << "Illegal level specification for surface "
+        << names_[surfI]
+        << " : minLevel:" << globalMinLevel[surfI]
+        << " maxLevel:" << globalMaxLevel[surfI]
+        << " levelIncrement:" << globalLevelIncr[surfI]
+        << exit(FatalIOError);
       }
       const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
       // Surface zones
@@ -108,7 +106,7 @@ mousse::refinementSurfaces::refinementSurfaces
       {
         const dictionary& regionsDict = dict.subDict("regions");
         const wordList& regionNames = surface.regions();
-        forAll(regionNames, regionI)
+        FOR_ALL(regionNames, regionI)
         {
           if (regionsDict.found(regionNames[regionI]))
           {
@@ -126,25 +124,21 @@ mousse::refinementSurfaces::refinementSurfaces
               gapLevelIncrement
             );
             regionLevelIncr[surfI].insert(regionI, levelIncr);
-            if
-            (
-              refLevel[0] < 0
-            || refLevel[1] < refLevel[0]
-            || levelIncr < 0
-            )
+            if (refLevel[0] < 0 || refLevel[1] < refLevel[0] || levelIncr < 0)
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "refinementSurfaces::refinementSurfaces"
                 "(const searchableSurfaces&, const dictionary&",
                 dict
-              )   << "Illegal level specification for surface "
-                << names_[surfI] << " region "
-                << regionNames[regionI]
-                << " : minLevel:" << refLevel[0]
-                << " maxLevel:" << refLevel[1]
-                << " levelIncrement:" << levelIncr
-                << exit(FatalIOError);
+              )
+              << "Illegal level specification for surface "
+              << names_[surfI] << " region "
+              << regionNames[regionI]
+              << " : minLevel:" << refLevel[0]
+              << " maxLevel:" << refLevel[1]
+              << " levelIncrement:" << levelIncr
+              << exit(FatalIOError);
             }
             if (regionDict.found("perpendicularAngle"))
             {
@@ -173,18 +167,19 @@ mousse::refinementSurfaces::refinementSurfaces
   }
   if (unmatchedKeys.size() > 0)
   {
-    IOWarningIn
+    IO_WARNING_IN
     (
       "refinementSurfaces::refinementSurfaces(..)",
       surfacesDict
-    )   << "Not all entries in refinementSurfaces dictionary were used."
-      << " The following entries were not used : "
-      << unmatchedKeys.sortedToc()
-      << endl;
+    )
+    << "Not all entries in refinementSurfaces dictionary were used."
+    << " The following entries were not used : "
+    << unmatchedKeys.sortedToc()
+    << endl;
   }
   // Calculate local to global region offset
   label nRegions = 0;
-  forAll(surfaces_, surfI)
+  FOR_ALL(surfaces_, surfI)
   {
     regionOffset_[surfI] = nRegions;
     nRegions += allGeometry_[surfaces_[surfI]].regions().size();
@@ -199,7 +194,7 @@ mousse::refinementSurfaces::refinementSurfaces
   perpendicularAngle_.setSize(nRegions);
   perpendicularAngle_ = -GREAT;
   patchInfo_.setSize(nRegions);
-  forAll(globalMinLevel, surfI)
+  FOR_ALL(globalMinLevel, surfI)
   {
     label nRegions = allGeometry_[surfaces_[surfI]].regions().size();
     // Initialise to global (i.e. per surface)
@@ -222,7 +217,7 @@ mousse::refinementSurfaces::refinementSurfaces
       }
     }
     // Overwrite with region specific information
-    forAllConstIter(Map<label>, regionMinLevel[surfI], iter)
+    FOR_ALL_CONST_ITER(Map<label>, regionMinLevel[surfI], iter)
     {
       label globalRegionI = regionOffset_[surfI] + iter.key();
       minLevel_[globalRegionI] = iter();
@@ -231,13 +226,13 @@ mousse::refinementSurfaces::refinementSurfaces
         maxLevel_[globalRegionI]
        + regionLevelIncr[surfI][iter.key()];
     }
-    forAllConstIter(Map<scalar>, regionAngle[surfI], iter)
+    FOR_ALL_CONST_ITER(Map<scalar>, regionAngle[surfI], iter)
     {
       label globalRegionI = regionOffset_[surfI] + iter.key();
       perpendicularAngle_[globalRegionI] = regionAngle[surfI][iter.key()];
     }
-    const Map<autoPtr<dictionary> >& localInfo = regionPatchInfo[surfI];
-    forAllConstIter(Map<autoPtr<dictionary> >, localInfo, iter)
+    const Map<autoPtr<dictionary>>& localInfo = regionPatchInfo[surfI];
+    FOR_ALL_CONST_ITER(Map<autoPtr<dictionary>>, localInfo, iter)
     {
       label globalRegionI = regionOffset_[surfI] + iter.key();
       patchInfo_.set(globalRegionI, iter()().clone());
@@ -269,7 +264,7 @@ mousse::refinementSurfaces::refinementSurfaces
   perpendicularAngle_(perpendicularAngle),
   patchInfo_(patchInfo.size())
 {
-  forAll(patchInfo_, pI)
+  FOR_ALL(patchInfo_, pI)
   {
     if (patchInfo.set(pI))
     {
@@ -285,7 +280,7 @@ mousse::refinementSurfaces::refinementSurfaces
 //
 //     labelList nTris(regions.size(), 0);
 //
-//     forAll(s, triI)
+//     FOR_ALL(s, triI)
 //     {
 //         nTris[s[triI].region()]++;
 //     }
@@ -311,7 +306,7 @@ mousse::refinementSurfaces::refinementSurfaces
 //     minLevelField.setSize(ctrs.size());
 //     minLevelField = -1;
 //
-//     forAll(minLevelField, i)
+//     FOR_ALL(minLevelField, i)
 //     {
 //         if (info[i].hit())
 //         {
@@ -324,7 +319,7 @@ mousse::refinementSurfaces::refinementSurfaces
 //     labelList shellLevel;
 //     shells.findHigherLevel(ctrs, minLevelField, shellLevel);
 //
-//     forAll(minLevelField, i)
+//     FOR_ALL(minLevelField, i)
 //     {
 //         minLevelField[i] = max(minLevelField[i], shellLevel[i]);
 //     }
@@ -336,7 +331,7 @@ void mousse::refinementSurfaces::setMinLevelFields
   const shellSurfaces& shells
 )
 {
-  forAll(surfaces_, surfI)
+  FOR_ALL(surfaces_, surfI)
   {
     const searchableSurface& geom = allGeometry_[surfaces_[surfI]];
     // Precalculation only makes sense if there are different regions
@@ -361,7 +356,7 @@ void mousse::refinementSurfaces::setMinLevelFields
         labelList region;
         geom.getRegion(info, region);
         // From the region get the surface-wise refinement level
-        forAll(minLevelField, i)
+        FOR_ALL(minLevelField, i)
         {
           if (info[i].hit()) //Note: should not be necessary
           {
@@ -373,7 +368,7 @@ void mousse::refinementSurfaces::setMinLevelFields
       // What level does shell want to refine fc to?
       labelList shellLevel;
       shells.findHigherLevel(ctrs, minLevelField, shellLevel);
-      forAll(minLevelField, i)
+      FOR_ALL(minLevelField, i)
       {
         minLevelField[i] = max(minLevelField[i], shellLevel[i]);
       }
@@ -429,7 +424,7 @@ void mousse::refinementSurfaces::findHigherIntersection
     }
     if (haveLevelField)
     {
-      forAll(intersectionInfo, i)
+      FOR_ALL(intersectionInfo, i)
       {
         if
         (
@@ -449,7 +444,7 @@ void mousse::refinementSurfaces::findHigherIntersection
   pointField p1(end);
   labelList intersectionToPoint(identity(start.size()));
   List<pointIndexHit> intersectionInfo(start.size());
-  forAll(surfaces_, surfI)
+  FOR_ALL(surfaces_, surfI)
   {
     const searchableSurface& geom = allGeometry_[surfaces_[surfI]];
     // Do intersection test
@@ -459,7 +454,7 @@ void mousse::refinementSurfaces::findHigherIntersection
     geom.getField(intersectionInfo, minLevelField);
     // Copy all hits into arguments, In-place compact misses.
     label missI = 0;
-    forAll(intersectionInfo, i)
+    FOR_ALL(intersectionInfo, i)
     {
       // Get the minLevel for the point
       label minLocalLevel = -1;
@@ -521,10 +516,10 @@ void mousse::refinementSurfaces::findAllHigherIntersections
     return;
   }
   // Work arrays
-  List<List<pointIndexHit> > hitInfo;
+  List<List<pointIndexHit>> hitInfo;
   labelList pRegions;
   vectorField pNormals;
-  forAll(surfaces_, surfI)
+  FOR_ALL(surfaces_, surfI)
   {
     const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
     surface.findLineAll(start, end, hitInfo);
@@ -532,17 +527,17 @@ void mousse::refinementSurfaces::findAllHigherIntersections
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // To avoid overhead of calling getRegion for every point
     label n = 0;
-    forAll(hitInfo, pointI)
+    FOR_ALL(hitInfo, pointI)
     {
       n += hitInfo[pointI].size();
     }
     List<pointIndexHit> surfInfo(n);
     labelList pointMap(n);
     n = 0;
-    forAll(hitInfo, pointI)
+    FOR_ALL(hitInfo, pointI)
     {
       const List<pointIndexHit>& pHits = hitInfo[pointI];
-      forAll(pHits, i)
+      FOR_ALL(pHits, i)
       {
         surfInfo[n] = pHits[i];
         pointMap[n] = pointI;
@@ -556,7 +551,7 @@ void mousse::refinementSurfaces::findAllHigherIntersections
     surfInfo.clear();
     // Extract back into pointwise
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    forAll(surfRegion, i)
+    FOR_ALL(surfRegion, i)
     {
       label region = globalRegion(surfI, surfRegion[i]);
       label pointI = pointMap[i];
@@ -591,10 +586,10 @@ void mousse::refinementSurfaces::findAllHigherIntersections
     return;
   }
   // Work arrays
-  List<List<pointIndexHit> > hitInfo;
+  List<List<pointIndexHit>> hitInfo;
   labelList pRegions;
   vectorField pNormals;
-  forAll(surfaces_, surfI)
+  FOR_ALL(surfaces_, surfI)
   {
     const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
     surface.findLineAll(start, end, hitInfo);
@@ -602,17 +597,17 @@ void mousse::refinementSurfaces::findAllHigherIntersections
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // To avoid overhead of calling getRegion for every point
     label n = 0;
-    forAll(hitInfo, pointI)
+    FOR_ALL(hitInfo, pointI)
     {
       n += hitInfo[pointI].size();
     }
     List<pointIndexHit> surfInfo(n);
     labelList pointMap(n);
     n = 0;
-    forAll(hitInfo, pointI)
+    FOR_ALL(hitInfo, pointI)
     {
       const List<pointIndexHit>& pHits = hitInfo[pointI];
-      forAll(pHits, i)
+      FOR_ALL(pHits, i)
       {
         surfInfo[n] = pHits[i];
         pointMap[n] = pointI;
@@ -625,7 +620,7 @@ void mousse::refinementSurfaces::findAllHigherIntersections
     surface.getNormal(surfInfo, surfNormal);
     // Extract back into pointwise
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    forAll(surfRegion, i)
+    FOR_ALL(surfRegion, i)
     {
       label region = globalRegion(surfI, surfRegion[i]);
       label pointI = pointMap[i];
@@ -668,7 +663,7 @@ void mousse::refinementSurfaces::findNearestIntersection
   // Work array
   List<pointIndexHit> nearestInfo(start.size());
   labelList region;
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     label surfI = surfacesToTest[testI];
     const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
@@ -684,7 +679,7 @@ void mousse::refinementSurfaces::findNearestIntersection
       nearestInfo,
       region
     );
-    forAll(nearestInfo, pointI)
+    FOR_ALL(nearestInfo, pointI)
     {
       if (nearestInfo[pointI].hit())
       {
@@ -703,7 +698,7 @@ void mousse::refinementSurfaces::findNearestIntersection
   hit2 = hit1;
   region2 = region1;
   // Set current end of segment to test.
-  forAll(nearest, pointI)
+  FOR_ALL(nearest, pointI)
   {
     if (hit1[pointI].hit())
     {
@@ -715,7 +710,7 @@ void mousse::refinementSurfaces::findNearestIntersection
       nearest[pointI] = end[pointI];
     }
   }
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     label surfI = surfacesToTest[testI];
     const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
@@ -731,7 +726,7 @@ void mousse::refinementSurfaces::findNearestIntersection
       nearestInfo,
       region
     );
-    forAll(nearestInfo, pointI)
+    FOR_ALL(nearestInfo, pointI)
     {
       if (nearestInfo[pointI].hit())
       {
@@ -744,7 +739,7 @@ void mousse::refinementSurfaces::findNearestIntersection
   }
   // Make sure that if hit1 has hit something, hit2 will have at least the
   // same point (due to tolerances it might miss its end point)
-  forAll(hit1, pointI)
+  FOR_ALL(hit1, pointI)
   {
     if (hit1[pointI].hit() && !hit2[pointI].hit())
     {
@@ -785,7 +780,7 @@ void mousse::refinementSurfaces::findNearestIntersection
   List<pointIndexHit> nearestInfo(start.size());
   labelList region;
   vectorField normal;
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     label surfI = surfacesToTest[testI];
     const searchableSurface& geom = allGeometry_[surfaces_[surfI]];
@@ -793,7 +788,7 @@ void mousse::refinementSurfaces::findNearestIntersection
     geom.findLine(start, nearest, nearestInfo);
     geom.getRegion(nearestInfo, region);
     geom.getNormal(nearestInfo, normal);
-    forAll(nearestInfo, pointI)
+    FOR_ALL(nearestInfo, pointI)
     {
       if (nearestInfo[pointI].hit())
       {
@@ -814,7 +809,7 @@ void mousse::refinementSurfaces::findNearestIntersection
   region2 = region1;
   normal2 = normal1;
   // Set current end of segment to test.
-  forAll(nearest, pointI)
+  FOR_ALL(nearest, pointI)
   {
     if (hit1[pointI].hit())
     {
@@ -826,7 +821,7 @@ void mousse::refinementSurfaces::findNearestIntersection
       nearest[pointI] = end[pointI];
     }
   }
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     label surfI = surfacesToTest[testI];
     const searchableSurface& geom = allGeometry_[surfaces_[surfI]];
@@ -834,7 +829,7 @@ void mousse::refinementSurfaces::findNearestIntersection
     geom.findLine(end, nearest, nearestInfo);
     geom.getRegion(nearestInfo, region);
     geom.getNormal(nearestInfo, normal);
-    forAll(nearestInfo, pointI)
+    FOR_ALL(nearestInfo, pointI)
     {
       if (nearestInfo[pointI].hit())
       {
@@ -848,7 +843,7 @@ void mousse::refinementSurfaces::findNearestIntersection
   }
   // Make sure that if hit1 has hit something, hit2 will have at least the
   // same point (due to tolerances it might miss its end point)
-  forAll(hit1, pointI)
+  FOR_ALL(hit1, pointI)
   {
     if (hit1[pointI].hit() && !hit2[pointI].hit())
     {
@@ -898,7 +893,7 @@ void mousse::refinementSurfaces::findNearest
     hitInfo
   );
   // Rework the hitSurface to be surface (i.e. index into surfaces_)
-  forAll(hitSurface, pointI)
+  FOR_ALL(hitSurface, pointI)
   {
     if (hitSurface[pointI] != -1)
     {
@@ -928,7 +923,7 @@ void mousse::refinementSurfaces::findNearestRegion
     hitInfo
   );
   // Rework the hitSurface to be surface (i.e. index into surfaces_)
-  forAll(hitSurface, pointI)
+  FOR_ALL(hitSurface, pointI)
   {
     if (hitSurface[pointI] != -1)
     {
@@ -938,7 +933,7 @@ void mousse::refinementSurfaces::findNearestRegion
   // Collect the region
   hitRegion.setSize(hitSurface.size());
   hitRegion = -1;
-  forAll(surfacesToTest, i)
+  FOR_ALL(surfacesToTest, i)
   {
     label surfI = surfacesToTest[i];
     // Collect hits for surfI
@@ -953,7 +948,7 @@ void mousse::refinementSurfaces::findNearestRegion
     );
     labelList localRegion;
     allGeometry_[surfaces_[surfI]].getRegion(localHits, localRegion);
-    forAll(localIndices, i)
+    FOR_ALL(localIndices, i)
     {
       hitRegion[localIndices[i]] = localRegion[i];
     }
@@ -982,7 +977,7 @@ void mousse::refinementSurfaces::findNearestRegion
     hitInfo
   );
   // Rework the hitSurface to be surface (i.e. index into surfaces_)
-  forAll(hitSurface, pointI)
+  FOR_ALL(hitSurface, pointI)
   {
     if (hitSurface[pointI] != -1)
     {
@@ -994,7 +989,7 @@ void mousse::refinementSurfaces::findNearestRegion
   hitRegion = -1;
   hitNormal.setSize(hitSurface.size());
   hitNormal = vector::zero;
-  forAll(surfacesToTest, i)
+  FOR_ALL(surfacesToTest, i)
   {
     label surfI = surfacesToTest[i];
     // Collect hits for surfI
@@ -1010,14 +1005,14 @@ void mousse::refinementSurfaces::findNearestRegion
     // Region
     labelList localRegion;
     allGeometry_[surfaces_[surfI]].getRegion(localHits, localRegion);
-    forAll(localIndices, i)
+    FOR_ALL(localIndices, i)
     {
       hitRegion[localIndices[i]] = localRegion[i];
     }
     // Normal
     vectorField localNormal;
     allGeometry_[surfaces_[surfI]].getNormal(localHits, localNormal);
-    forAll(localIndices, i)
+    FOR_ALL(localIndices, i)
     {
       hitNormal[localIndices[i]] = localNormal[i];
     }
@@ -1039,7 +1034,7 @@ void mousse::refinementSurfaces::findNearestRegion
 //    // maxLevel of maxSurface
 //    label maxLevel = currentLevel;
 //
-//    forAll(*this, surfI)
+//    FOR_ALL(*this, surfI)
 //    {
 //        pointIndexHit hit = operator[](surfI).findLineAny(start, end);
 //
@@ -1075,7 +1070,7 @@ void mousse::refinementSurfaces::findInside
 {
   insideSurfaces.setSize(pt.size());
   insideSurfaces = -1;
-  forAll(testSurfaces, i)
+  FOR_ALL(testSurfaces, i)
   {
     label surfI = testSurfaces[i];
     const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
@@ -1087,7 +1082,7 @@ void mousse::refinementSurfaces::findInside
     && selectionMethod != surfaceZonesInfo::OUTSIDE
     )
     {
-      FatalErrorIn("refinementSurfaces::findInside(..)")
+      FATAL_ERROR_IN("refinementSurfaces::findInside(..)")
         << "Trying to use surface "
         << surface.name()
         << " which has non-geometric inside selection method "
@@ -1098,7 +1093,7 @@ void mousse::refinementSurfaces::findInside
     {
       List<volumeType> volType;
       surface.getVolumeType(pt, volType);
-      forAll(volType, pointI)
+      FOR_ALL(volType, pointI)
       {
         if (insideSurfaces[pointI] == -1)
         {

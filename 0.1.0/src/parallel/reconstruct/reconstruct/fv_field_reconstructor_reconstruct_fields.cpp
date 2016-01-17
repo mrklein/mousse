@@ -20,7 +20,7 @@ mousse::fvFieldReconstructor::reconstructFvVolumeInternalField
 {
   // Create the internalField
   Field<Type> internalField(mesh_.nCells());
-  forAll(procMeshes_, procI)
+  FOR_ALL(procMeshes_, procI)
   {
     const DimensionedField<Type, volMesh>& procField = procFields[procI];
     // Set the cell values in the reconstructed field
@@ -53,7 +53,7 @@ mousse::fvFieldReconstructor::reconstructFvVolumeInternalField
   (
     procMeshes_.size()
   );
-  forAll(procMeshes_, procI)
+  FOR_ALL(procMeshes_, procI)
   {
     procFields.set
     (
@@ -97,7 +97,7 @@ mousse::fvFieldReconstructor::reconstructFvVolumeField
   Field<Type> internalField(mesh_.nCells());
   // Create the patch fields
   PtrList<fvPatchField<Type> > patchFields(mesh_.boundary().size());
-  forAll(procFields, procI)
+  FOR_ALL(procFields, procI)
   {
     const GeometricField<Type, fvPatchField, volMesh>& procField =
       procFields[procI];
@@ -108,7 +108,7 @@ mousse::fvFieldReconstructor::reconstructFvVolumeField
       cellProcAddressing_[procI]
     );
     // Set the boundary patch values in the reconstructed field
-    forAll(boundaryProcAddressing_[procI], patchI)
+    FOR_ALL(boundaryProcAddressing_[procI], patchI)
     {
       // Get patch index of the original patch
       const label curBPatch = boundaryProcAddressing_[procI][patchI];
@@ -142,12 +142,12 @@ mousse::fvFieldReconstructor::reconstructFvVolumeField
         const label curPatchStart =
           mesh_.boundaryMesh()[curBPatch].start();
         labelList reverseAddressing(cp.size());
-        forAll(cp, faceI)
+        FOR_ALL(cp, faceI)
         {
           // Check
           if (cp[faceI] <= 0)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "fvFieldReconstructor::reconstructFvVolumeField\n"
               "(\n"
@@ -179,7 +179,7 @@ mousse::fvFieldReconstructor::reconstructFvVolumeField
           procField.boundaryField()[patchI];
         // In processor patches, there's a mix of internal faces (some
         // of them turned) and possible cyclics. Slow loop
-        forAll(cp, faceI)
+        FOR_ALL(cp, faceI)
         {
           // Subtract one to take into account offsets for
           // face direction.
@@ -212,7 +212,7 @@ mousse::fvFieldReconstructor::reconstructFvVolumeField
       }
     }
   }
-  forAll(mesh_.boundary(), patchI)
+  FOR_ALL(mesh_.boundary(), patchI)
   {
     // add empty patches
     if
@@ -259,7 +259,7 @@ mousse::fvFieldReconstructor::reconstructFvVolumeField
   (
     procMeshes_.size()
   );
-  forAll(procMeshes_, procI)
+  FOR_ALL(procMeshes_, procI)
   {
     procFields.set
     (
@@ -303,7 +303,7 @@ mousse::fvFieldReconstructor::reconstructFvSurfaceField
   Field<Type> internalField(mesh_.nInternalFaces());
   // Create the patch fields
   PtrList<fvsPatchField<Type> > patchFields(mesh_.boundary().size());
-  forAll(procMeshes_, procI)
+  FOR_ALL(procMeshes_, procI)
   {
     const GeometricField<Type, fvsPatchField, surfaceMesh>& procField =
       procFields[procI];
@@ -317,7 +317,7 @@ mousse::fvFieldReconstructor::reconstructFvSurfaceField
       Field<Type> procInternalField(procField.internalField());
       // Addressing into original field
       labelList curAddr(procInternalField.size());
-      forAll(procInternalField, addrI)
+      FOR_ALL(procInternalField, addrI)
       {
         curAddr[addrI] = mag(faceMap[addrI])-1;
         if (faceMap[addrI] < 0)
@@ -329,7 +329,7 @@ mousse::fvFieldReconstructor::reconstructFvSurfaceField
       internalField.rmap(procInternalField, curAddr);
     }
     // Set the boundary patch values in the reconstructed field
-    forAll(boundaryProcAddressing_[procI], patchI)
+    FOR_ALL(boundaryProcAddressing_[procI], patchI)
     {
       // Get patch index of the original patch
       const label curBPatch = boundaryProcAddressing_[procI][patchI];
@@ -363,7 +363,7 @@ mousse::fvFieldReconstructor::reconstructFvSurfaceField
         const label curPatchStart =
           mesh_.boundaryMesh()[curBPatch].start();
         labelList reverseAddressing(cp.size());
-        forAll(cp, faceI)
+        FOR_ALL(cp, faceI)
         {
           // Subtract one to take into account offsets for
           // face direction.
@@ -381,7 +381,7 @@ mousse::fvFieldReconstructor::reconstructFvSurfaceField
           procField.boundaryField()[patchI];
         // In processor patches, there's a mix of internal faces (some
         // of them turned) and possible cyclics. Slow loop
-        forAll(cp, faceI)
+        FOR_ALL(cp, faceI)
         {
           label curF = cp[faceI] - 1;
           // Is the face turned the right side round
@@ -423,7 +423,7 @@ mousse::fvFieldReconstructor::reconstructFvSurfaceField
       }
     }
   }
-  forAll(mesh_.boundary(), patchI)
+  FOR_ALL(mesh_.boundary(), patchI)
   {
     // add empty patches
     if
@@ -470,7 +470,7 @@ mousse::fvFieldReconstructor::reconstructFvSurfaceField
   (
     procMeshes_.size()
   );
-  forAll(procMeshes_, procI)
+  FOR_ALL(procMeshes_, procI)
   {
     procFields.set
     (
@@ -514,7 +514,7 @@ void mousse::fvFieldReconstructor::reconstructFvVolumeInternalFields
   if (fields.size())
   {
     Info<< "    Reconstructing " << fieldClassName << "s\n" << endl;
-    forAllConstIter(IOobjectList, fields, fieldIter)
+    FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
     {
       if
       (
@@ -543,7 +543,7 @@ void mousse::fvFieldReconstructor::reconstructFvVolumeFields
   if (fields.size())
   {
     Info<< "    Reconstructing " << fieldClassName << "s\n" << endl;
-    forAllConstIter(IOobjectList, fields, fieldIter)
+    FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
     {
       if
       (
@@ -572,7 +572,7 @@ void mousse::fvFieldReconstructor::reconstructFvSurfaceFields
   if (fields.size())
   {
     Info<< "    Reconstructing " << fieldClassName << "s\n" << endl;
-    forAllConstIter(IOobjectList, fields, fieldIter)
+    FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
     {
       if
       (

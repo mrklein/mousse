@@ -9,7 +9,11 @@
 #include "surface_mesh.hpp"
 #include "vol_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-makeFvGradScheme(faceLimitedGrad)
+#include "fvs_patch_field.hpp"
+#include "fv.hpp"
+
+MAKE_FV_GRAD_SCHEME(faceLimitedGrad)
+
 template<>
 mousse::tmp<mousse::volVectorField>
 mousse::fv::faceLimitedGrad<mousse::scalar>::calcGrad
@@ -32,7 +36,7 @@ mousse::fv::faceLimitedGrad<mousse::scalar>::calcGrad
   // create limiter
   scalarField limiter(vsf.internalField().size(), 1.0);
   scalar rk = (1.0/k_ - 1.0);
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -58,8 +62,9 @@ mousse::fv::faceLimitedGrad<mousse::scalar>::calcGrad
       (Cf[facei] - C[nei]) & g[nei]
     );
   }
+
   const volScalarField::GeometricBoundaryField& bsf = vsf.boundaryField();
-  forAll(bsf, patchi)
+  FOR_ALL(bsf, patchi)
   {
     const fvPatchScalarField& psf = bsf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
@@ -67,7 +72,7 @@ mousse::fv::faceLimitedGrad<mousse::scalar>::calcGrad
     if (psf.coupled())
     {
       const scalarField psfNei(psf.patchNeighbourField());
-      forAll(pOwner, pFacei)
+      FOR_ALL(pOwner, pFacei)
       {
         label own = pOwner[pFacei];
         scalar vsfOwn = vsf[own];
@@ -87,7 +92,7 @@ mousse::fv::faceLimitedGrad<mousse::scalar>::calcGrad
     }
     else if (psf.fixesValue())
     {
-      forAll(pOwner, pFacei)
+      FOR_ALL(pOwner, pFacei)
       {
         label own = pOwner[pFacei];
         scalar vsfOwn = vsf[own];
@@ -106,6 +111,7 @@ mousse::fv::faceLimitedGrad<mousse::scalar>::calcGrad
       }
     }
   }
+
   if (fv::debug)
   {
     Info<< "gradient limiter for: " << vsf.name()
@@ -118,6 +124,8 @@ mousse::fv::faceLimitedGrad<mousse::scalar>::calcGrad
   gaussGrad<scalar>::correctBoundaryConditions(vsf, g);
   return tGrad;
 }
+
+
 template<>
 mousse::tmp<mousse::volTensorField>
 mousse::fv::faceLimitedGrad<mousse::vector>::calcGrad
@@ -138,9 +146,9 @@ mousse::fv::faceLimitedGrad<mousse::vector>::calcGrad
   const volVectorField& C = mesh.C();
   const surfaceVectorField& Cf = mesh.Cf();
   // create limiter
-  scalarField limiter(vvf.internalField().size(), 1.0);
+  scalarField limiter{vvf.internalField().size(), 1.0};
   scalar rk = (1.0/k_ - 1.0);
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -174,8 +182,9 @@ mousse::fv::faceLimitedGrad<mousse::vector>::calcGrad
       magSqr(gradf)
     );
   }
+
   const volVectorField::GeometricBoundaryField& bvf = vvf.boundaryField();
-  forAll(bvf, patchi)
+  FOR_ALL(bvf, patchi)
   {
     const fvPatchVectorField& psf = bvf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
@@ -183,7 +192,7 @@ mousse::fv::faceLimitedGrad<mousse::vector>::calcGrad
     if (psf.coupled())
     {
       const vectorField psfNei(psf.patchNeighbourField());
-      forAll(pOwner, pFacei)
+      FOR_ALL(pOwner, pFacei)
       {
         label own = pOwner[pFacei];
         vector vvfOwn = vvf[own];
@@ -206,7 +215,7 @@ mousse::fv::faceLimitedGrad<mousse::vector>::calcGrad
     }
     else if (psf.fixesValue())
     {
-      forAll(pOwner, pFacei)
+      FOR_ALL(pOwner, pFacei)
       {
         label own = pOwner[pFacei];
         vector vvfOwn = vvf[own];

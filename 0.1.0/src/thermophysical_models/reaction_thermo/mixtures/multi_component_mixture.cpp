@@ -10,7 +10,7 @@ const ThermoType& mousse::multiComponentMixture<ThermoType>::constructSpeciesDat
   const dictionary& thermoDict
 )
 {
-  forAll(species_, i)
+  FOR_ALL(species_, i)
   {
     speciesData_.set
     (
@@ -31,7 +31,7 @@ void mousse::multiComponentMixture<ThermoType>::correctMassFractions()
   }
   if (mag(max(Yt).value()) < ROOTVSMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void mousse::multiComponentMixture<ThermoType>::"
       "correctMassFractions()"
@@ -39,7 +39,7 @@ void mousse::multiComponentMixture<ThermoType>::correctMassFractions()
       << "Sum of mass fractions is zero for species " << this->species()
       << exit(FatalError);
   }
-  forAll(Y_, n)
+  FOR_ALL(Y_, n)
   {
     Y_[n] /= Yt;
   }
@@ -60,7 +60,7 @@ mousse::multiComponentMixture<ThermoType>::multiComponentMixture
   mixture_("mixture", *thermoData[specieNames[0]]),
   mixtureVol_("volMixture", *thermoData[specieNames[0]])
 {
-  forAll(species_, i)
+  FOR_ALL(species_, i)
   {
     speciesData_.set
     (
@@ -132,7 +132,7 @@ const ThermoType& mousse::multiComponentMixture<ThermoType>::cellVolMixture
 ) const
 {
   scalar rhoInv = 0.0;
-  forAll(speciesData_, i)
+  FOR_ALL(speciesData_, i)
   {
     rhoInv += Y_[i][celli]/speciesData_[i].rho(p, T);
   }
@@ -156,7 +156,7 @@ patchFaceVolMixture
 ) const
 {
   scalar rhoInv = 0.0;
-  forAll(speciesData_, i)
+  FOR_ALL(speciesData_, i)
   {
     rhoInv +=
       Y_[i].boundaryField()[patchi][facei]/speciesData_[i].rho(p, T);
@@ -178,7 +178,7 @@ void mousse::multiComponentMixture<ThermoType>::read
   const dictionary& thermoDict
 )
 {
-  forAll(species_, i)
+  FOR_ALL(species_, i)
   {
     speciesData_[i] = ThermoType(thermoDict.subDict(species_[i]));
   }

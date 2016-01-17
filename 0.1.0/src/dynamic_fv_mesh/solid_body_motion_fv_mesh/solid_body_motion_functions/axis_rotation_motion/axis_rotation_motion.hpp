@@ -26,14 +26,9 @@ class axisRotationMotion
     point origin_;
     //- Rotational velocity (deg/s)
     vector radialVelocity_;
-  // Private Member Functions
-    //- Disallow copy construct
-    axisRotationMotion(const axisRotationMotion&);
-    //- Disallow default bitwise assignment
-    void operator=(const axisRotationMotion&);
 public:
   //- Runtime type information
-  TypeName("axisRotationMotion");
+  TYPE_NAME("axisRotationMotion");
   // Constructors
     //- Construct from components
     axisRotationMotion
@@ -45,14 +40,18 @@ public:
     virtual autoPtr<solidBodyMotionFunction> clone() const
     {
       return autoPtr<solidBodyMotionFunction>
-      (
+      {
         new axisRotationMotion
-        (
+        {
           SBMFCoeffs_,
           time_
-        )
-      );
+        }
+      };
     }
+    //- Disallow copy construct
+    axisRotationMotion(const axisRotationMotion&) = delete;
+    //- Disallow default bitwise assignment
+    axisRotationMotion& operator=(const axisRotationMotion&) = delete;
   //- Destructor
   virtual ~axisRotationMotion();
   // Member Functions

@@ -14,9 +14,9 @@ mousse::regionCoupledBaseGAMGInterface::regionCoupledBaseGAMGInterface
   const lduInterfacePtrsList& coarseInterfaces,
   const lduInterface& fineInterface,
   const labelField& localRestrictAddressing,
-  const labelField& neighbourRestrictAddressing,
-  const label fineLevelIndex,
-  const label coarseComm
+  const labelField& /*neighbourRestrictAddressing*/,
+  const label /*fineLevelIndex*/,
+  const label /*coarseComm*/
 )
 :
   GAMGInterface
@@ -39,7 +39,7 @@ mousse::regionCoupledBaseGAMGInterface::regionCoupledBaseGAMGInterface
       localRestrictAddressing.size()
     );
     Map<label> masterToCoarseFace(localRestrictAddressing.size());
-    forAll(localRestrictAddressing, ffi)
+    FOR_ALL(localRestrictAddressing, ffi)
     {
       label curMaster = localRestrictAddressing[ffi];
       Map<label>::const_iterator fnd = masterToCoarseFace.find
@@ -111,7 +111,7 @@ mousse::regionCoupledBaseGAMGInterface::regionCoupledBaseGAMGInterface
           nbrPatchRestrictMap.size()
         );
         Map<label> masterToCoarseFace(nbrPatchRestrictMap.size());
-        forAll(nbrPatchRestrictMap, ffi)
+        FOR_ALL(nbrPatchRestrictMap, ffi)
         {
           label curMaster = nbrPatchRestrictMap[ffi];
           Map<label>::const_iterator fnd = masterToCoarseFace.find
@@ -190,7 +190,7 @@ internalFieldTransfer
   const labelUList& nbrFaceCells = nbrLduInterface().faceCells();
   tmp<labelField> tpnf(new labelField(nbrFaceCells.size()));
   labelField& pnf = tpnf();
-  forAll(pnf, facei)
+  FOR_ALL(pnf, facei)
   {
     pnf[facei] = iF[nbrFaceCells[facei]];
   }

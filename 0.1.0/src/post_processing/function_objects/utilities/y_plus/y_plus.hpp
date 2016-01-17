@@ -50,13 +50,9 @@ class yPlus
       const fvMesh& mesh,
       volScalarField& yPlus
     );
-    //- Disallow default bitwise copy construct
-    yPlus(const yPlus&);
-    //- Disallow default bitwise assignment
-    void operator=(const yPlus&);
 public:
   //- Runtime type information
-  TypeName("yPlus");
+  TYPE_NAME("yPlus");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -67,6 +63,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    yPlus(const yPlus&) = delete;
+    //- Disallow default bitwise assignment
+    yPlus& operator=(const yPlus&) = delete;
   //- Destructor
   virtual ~yPlus();
   // Member Functions

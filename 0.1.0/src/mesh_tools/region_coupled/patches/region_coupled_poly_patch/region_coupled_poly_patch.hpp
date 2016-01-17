@@ -33,7 +33,7 @@ protected:
     virtual void updateMesh(PstreamBuffers&);
 public:
   //- Runtime type information
-  TypeName("regionCoupled");
+  TYPE_NAME("regionCoupled");
   // Constructors
     //- Construct from (base couped patch) components
     regionCoupledPolyPatch

@@ -6,13 +6,15 @@
 #include "poly_mesh.hpp"
 #include "face_zone_set.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(setToFaceZone, 0);
-addToRunTimeSelectionTable(topoSetSource, setToFaceZone, word);
-addToRunTimeSelectionTable(topoSetSource, setToFaceZone, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(setToFaceZone, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setToFaceZone, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, setToFaceZone, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::setToFaceZone::usage_
 (
   setToFaceZone::typeName,
@@ -20,6 +22,7 @@ mousse::topoSetSource::addToUsageTable mousse::setToFaceZone::usage_
   "    Select all faces in the faceSet."
   " Sets flipMap.\n\n"
 );
+
 // Constructors 
 // Construct from components
 mousse::setToFaceZone::setToFaceZone
@@ -63,7 +66,7 @@ void mousse::setToFaceZone::applyToSet
 {
   if (!isA<faceZoneSet>(set))
   {
-    WarningIn
+    WARNING_IN
     (
       "setToFaceZone::applyToSet(const topoSetSource::setAction"
       ", topoSet"
@@ -81,7 +84,7 @@ void mousse::setToFaceZone::applyToSet
       // Start off from copy
       DynamicList<label> newAddressing(fzSet.addressing());
       DynamicList<bool> newFlipMap(fzSet.flipMap());
-      forAllConstIter(faceSet, fSet, iter)
+      FOR_ALL_CONST_ITER(faceSet, fSet, iter)
       {
         label faceI = iter.key();
         if (!fzSet.found(faceI))
@@ -103,7 +106,7 @@ void mousse::setToFaceZone::applyToSet
       // Start off empty
       DynamicList<label> newAddressing(fzSet.addressing().size());
       DynamicList<bool> newFlipMap(fzSet.flipMap().size());
-      forAll(fzSet.addressing(), i)
+      FOR_ALL(fzSet.addressing(), i)
       {
         if (!loadedSet.found(fzSet.addressing()[i]))
         {

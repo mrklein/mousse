@@ -26,7 +26,7 @@ class Chung
     dimensionedScalar rholSat_;
 public:
   //- Runtime type information
-  TypeName("Chung");
+  TYPE_NAME("Chung");
   // Constructors
     //- Construct from components
     Chung

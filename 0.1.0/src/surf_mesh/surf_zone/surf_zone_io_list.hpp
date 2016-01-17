@@ -7,12 +7,15 @@
 //   IOobject for a surfZoneList
 // SourceFiles
 //   surf_zone_io_list.cpp
+
 #ifndef surf_zone_io_list_hpp_
 #define surf_zone_io_list_hpp_
+
 #include "surf_zone_list.hpp"
 #include "reg_ioobject.hpp"
 #include "face_list.hpp"
 #include "class_name.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
@@ -21,14 +24,9 @@ class surfZoneIOList
   public surfZoneList,
   public regIOobject
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    surfZoneIOList(const surfZoneIOList&);
-    //- Disallow default bitwise assignment
-    void operator=(const surfZoneIOList&);
 public:
   //- Runtime type information
-  TypeName("surfZoneList");
+  TYPE_NAME("surfZoneList");
   // Constructors
     //- Construct from IOobject
     explicit surfZoneIOList(const IOobject&);
@@ -36,6 +34,10 @@ public:
     surfZoneIOList(const IOobject&, const surfZoneList&);
     //- Construct from IOobject and surfZoneList
     surfZoneIOList(const IOobject&, const Xfer<surfZoneList>&);
+    //- Disallow default bitwise copy construct
+    surfZoneIOList(const surfZoneIOList&) = delete;
+    //- Disallow default bitwise assignment
+    surfZoneIOList& operator=(const surfZoneIOList&) = delete;
   //- Destructor
   ~surfZoneIOList();
   // Member Functions

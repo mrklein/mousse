@@ -16,7 +16,7 @@ mousse::pointField mousse::faceCoupleInfo::calcFaceCentres
 {
   pointField fc(size);
   label faceI = start;
-  forAll(fc, i)
+  FOR_ALL(fc, i)
   {
     fc[i] = faces[faceI++].centre(points);
   }

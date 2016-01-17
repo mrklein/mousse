@@ -20,7 +20,7 @@ class cyclicSlipFvsPatchField
 {
 public:
   //- Runtime type information
-  TypeName(cyclicSlipFvPatch::typeName_());
+  TYPE_NAME(cyclicSlipFvPatch::typeName_());
   // Constructors
     //- Construct from patch and internal field
     cyclicSlipFvsPatchField

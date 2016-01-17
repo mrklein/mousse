@@ -7,12 +7,17 @@
 //   Data for centred fit snGrad schemes
 // SourceFiles
 //   centred_fit_sn_grad_data.cpp
+
 #ifndef centred_fit_sn_grad_data_hpp_
 #define centred_fit_sn_grad_data_hpp_
+
 #include "fit_data.hpp"
+
 namespace mousse
 {
+
 class extendedCentredCellToFaceStencil;
+
 template<class Polynomial>
 class CentredFitSnGradData
 :
@@ -28,7 +33,8 @@ class CentredFitSnGradData
     //  values of the stencil to obtain the gradient for each direction
     List<scalarList> coeffs_;
 public:
-  TypeName("CentredFitSnGradData");
+  TYPE_NAME("CentredFitSnGradData");
+
   // Constructors
     //- Construct from components
     CentredFitSnGradData
@@ -38,27 +44,31 @@ public:
       const scalar linearLimitFactor,
       const scalar centralWeight
     );
+
   //- Destructor
   virtual ~CentredFitSnGradData()
   {}
+
   // Member functions
     //- Return reference to fit coefficients
     const List<scalarList>& coeffs() const
     {
       return coeffs_;
     }
+
     //- Calculate the fit for the specified face and set the coefficients
     void calcFit
     (
       scalarList& coeffsi, // coefficients to be set
       const List<point>&,  // Stencil points
       const scalar wLin,   // Weight for linear approximation (weights
-                // nearest neighbours)
+                           // nearest neighbours)
       const scalar deltaCoeff, // uncorrected delta coefficient
       const label faci     // Current face index
     );
     void calcFit();
 };
+
 }  // namespace mousse
 #ifdef NoRepository
 #   include "centred_fit_sn_grad_data.cpp"

@@ -53,7 +53,7 @@ class ReactingLookupTableInjection
     labelList injectorTetPts_;
 public:
   //- Runtime type information
-  TypeName("reactingLookupTableInjection");
+  TYPE_NAME("reactingLookupTableInjection");
   // Constructors
     //- Construct from dictionary
     ReactingLookupTableInjection

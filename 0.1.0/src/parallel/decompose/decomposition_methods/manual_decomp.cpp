@@ -8,8 +8,8 @@
 #include "label_io_list.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(manualDecomp, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(manualDecomp, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     decompositionMethod,
     manualDecomp,
@@ -31,7 +31,7 @@ mousse::labelList mousse::manualDecomp::decompose
 (
   const polyMesh& mesh,
   const pointField& points,
-  const scalarField& pointWeights
+  const scalarField& /*pointWeights*/
 )
 {
   labelIOList finalDecomp
@@ -49,7 +49,7 @@ mousse::labelList mousse::manualDecomp::decompose
   // check if the final decomposition is OK
   if (finalDecomp.size() != points.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "manualDecomp::decompose(const pointField&, const scalarField&)"
     )   << "Size of decomposition list does not correspond "
@@ -62,7 +62,7 @@ mousse::labelList mousse::manualDecomp::decompose
   }
   if (min(finalDecomp) < 0 || max(finalDecomp) > nProcessors_ - 1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "manualDecomp::decompose(const pointField&, const scalarField&)"
     )   << "According to the decomposition, cells assigned to "

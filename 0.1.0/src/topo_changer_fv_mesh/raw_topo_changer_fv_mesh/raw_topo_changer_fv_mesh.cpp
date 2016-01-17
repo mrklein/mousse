@@ -10,8 +10,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(rawTopoChangerFvMesh, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(rawTopoChangerFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     topoChangerFvMesh,
     rawTopoChangerFvMesh,
@@ -67,17 +67,17 @@ bool mousse::rawTopoChangerFvMesh::update()
       }
     }
     const List<objectMap>& fromFaces = topoChangeMap().facesFromFacesMap();
-    forAll(fromFaces, i)
+    FOR_ALL(fromFaces, i)
     {
       mappedFace[fromFaces[i].index()] = 1;
     }
     const List<objectMap>& fromEdges = topoChangeMap().facesFromEdgesMap();
-    forAll(fromEdges, i)
+    FOR_ALL(fromEdges, i)
     {
       mappedFace[fromEdges[i].index()] = 1;
     }
     const List<objectMap>& fromPts = topoChangeMap().facesFromPointsMap();
-    forAll(fromPts, i)
+    FOR_ALL(fromPts, i)
     {
       mappedFace[fromPts[i].index()] = 1;
     }

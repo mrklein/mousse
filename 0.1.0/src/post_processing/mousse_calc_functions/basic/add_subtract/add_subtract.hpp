@@ -69,10 +69,6 @@ private:
         const fvMesh& mesh,
         const IOobject& baseFieldHeader
       );
-    //- Disallow default bitwise copy construct
-    addSubtract(const addSubtract&);
-    //- Disallow default bitwise assignment
-    void operator=(const addSubtract&);
 protected:
   // Member Functions
     // Calculation routines
@@ -114,10 +110,14 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("addSubtract");
+  TYPE_NAME("addSubtract");
   // Constructors
     //- Construct null
     addSubtract();
+    //- Disallow default bitwise copy construct
+    addSubtract(const addSubtract&) = delete;
+    //- Disallow default bitwise assignment
+    addSubtract& operator=(const addSubtract&) = delete;
   //- Destructor
   virtual ~addSubtract();
 };

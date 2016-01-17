@@ -20,7 +20,7 @@ void mousse::enrichedPatch::calcCutFaces() const
 {
   if (cutFacesPtr_ || cutFaceMasterPtr_ || cutFaceSlavePtr_)
   {
-    FatalErrorIn("void enrichedPatch::calcCutFaces() const")
+    FATAL_ERROR_IN("void enrichedPatch::calcCutFaces() const")
       << "Cut faces addressing already calculated."
       << abort(FatalError);
   }
@@ -62,7 +62,7 @@ void mousse::enrichedPatch::calcCutFaces() const
   HashSet<edge, Hash<edge> > edgesUsedOnce(pp.size());
   HashSet<edge, Hash<edge> > edgesUsedTwice
     (pp.size()*primitiveMesh::edgesPerPoint_);
-  forAll(lf, faceI)
+  FOR_ALL(lf, faceI)
   {
     const face& curLocalFace = lf[faceI];
     const face& curGlobalFace = enFaces[faceI];
@@ -84,7 +84,7 @@ void mousse::enrichedPatch::calcCutFaces() const
     // }
     // {
     //     pointField facePoints = curLocalFace.points(lp);
-    //     forAll(curLocalFace, pointI)
+    //     FOR_ALL(curLocalFace, pointI)
     //     {
     //         Pout<< "v " << facePoints[pointI].x() << " "
     //             << facePoints[pointI].y() << " "
@@ -102,7 +102,7 @@ void mousse::enrichedPatch::calcCutFaces() const
     SLList<edge> edgeSeeds;
     // Insert the edges of current face into the seed list.
     edgeList cfe = curLocalFace.edges();
-    forAll(curLocalFace, edgeI)
+    FOR_ALL(curLocalFace, edgeI)
     {
       edgeSeeds.append(cfe[edgeI]);
     }
@@ -172,7 +172,7 @@ void mousse::enrichedPatch::calcCutFaces() const
         //     << endl;
         scalar atanTurn = -GREAT;
         label bestAtanPoint = -1;
-        forAll(nextPoints, nextI)
+        FOR_ALL(nextPoints, nextI)
         {
           // Exclude the point we are coming from; there will always
           // be more than one edge, so this is safe
@@ -191,7 +191,7 @@ void mousse::enrichedPatch::calcCutFaces() const
             //     << " mag: " << mag(newDir) << flush;
             if (magNewDir < SMALL)
             {
-              FatalErrorIn
+              FATAL_ERROR_IN
               (
                 "void enrichedPatch::"
                 "calcCutFaces() const"
@@ -268,7 +268,7 @@ void mousse::enrichedPatch::calcCutFaces() const
           // Go through all edges of the cut faces.
           // If the edge corresponds to a starting face edge,
           // mark the starting face edge as true
-          forAll(cutFaceLocal, cutI)
+          FOR_ALL(cutFaceLocal, cutI)
           {
             const edge curCutFaceEdge
             (
@@ -375,9 +375,9 @@ void mousse::enrichedPatch::calcCutFaces() const
                   mpfAddrPointIter();
                 // For every current face, try to find it in the
                 // zero-list
-                forAll(curMasterFaces, i)
+                FOR_ALL(curMasterFaces, i)
                 {
-                  forAll(masterFacesOfPZero, j)
+                  FOR_ALL(masterFacesOfPZero, j)
                   {
                     if
                     (
@@ -394,7 +394,7 @@ void mousse::enrichedPatch::calcCutFaces() const
               // If all point are found attempt matching
               if (!miss)
               {
-                forAll(hits, pointI)
+                FOR_ALL(hits, pointI)
                 {
                   if (hits[pointI] == cutFaceGlobal.size())
                   {
@@ -460,7 +460,7 @@ void mousse::enrichedPatch::calcCutFaces() const
           {
             faceSizeDebug *= 2;
             // Check for duplicate points in the face
-            forAll(cutFaceGlobalPoints, checkI)
+            FOR_ALL(cutFaceGlobalPoints, checkI)
             {
               for
               (
@@ -494,7 +494,7 @@ void mousse::enrichedPatch::calcCutFaces() const
                       masterPatch_.localFaces()
                       [faceI - slavePatch_.size()];
                   }
-                  FatalErrorIn
+                  FATAL_ERROR_IN
                   (
                     "void enrichedPatch::"
                     "calcCutFaces() const"

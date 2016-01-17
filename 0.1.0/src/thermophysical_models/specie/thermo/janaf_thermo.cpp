@@ -10,19 +10,19 @@ void mousse::janafThermo<EquationOfState>::checkInputData() const
 {
   if (Tlow_ >= Thigh_)
   {
-    FatalErrorIn("janafThermo<EquationOfState>::check()")
+    FATAL_ERROR_IN("janafThermo<EquationOfState>::check()")
       << "Tlow(" << Tlow_ << ") >= Thigh(" << Thigh_ << ')'
       << exit(FatalError);
   }
   if (Tcommon_ <= Tlow_)
   {
-    FatalErrorIn("janafThermo<EquationOfState>::check()")
+    FATAL_ERROR_IN("janafThermo<EquationOfState>::check()")
       << "Tcommon(" << Tcommon_ << ") <= Tlow(" << Tlow_ << ')'
       << exit(FatalError);
   }
   if (Tcommon_ > Thigh_)
   {
-    FatalErrorIn("janafThermo<EquationOfState>::check()")
+    FATAL_ERROR_IN("janafThermo<EquationOfState>::check()")
       << "Tcommon(" << Tcommon_ << ") > Thigh(" << Thigh_ << ')'
       << exit(FatalError);
   }
@@ -37,11 +37,11 @@ mousse::janafThermo<EquationOfState>::janafThermo(Istream& is)
   Tcommon_(readScalar(is))
 {
   checkInputData();
-  forAll(highCpCoeffs_, i)
+  FOR_ALL(highCpCoeffs_, i)
   {
     is >> highCpCoeffs_[i];
   }
-  forAll(lowCpCoeffs_, i)
+  FOR_ALL(lowCpCoeffs_, i)
   {
     is >> lowCpCoeffs_[i];
   }
@@ -86,12 +86,12 @@ mousse::Ostream& mousse::operator<<
     << tab << jt.Thigh_
     << tab << jt.Tcommon_;
   os << nl << "    ";
-  forAll(jt.highCpCoeffs_, i)
+  FOR_ALL(jt.highCpCoeffs_, i)
   {
     os << jt.highCpCoeffs_[i] << ' ';
   }
   os << nl << "    ";
-  forAll(jt.lowCpCoeffs_, i)
+  FOR_ALL(jt.lowCpCoeffs_, i)
   {
     os << jt.lowCpCoeffs_[i] << ' ';
   }

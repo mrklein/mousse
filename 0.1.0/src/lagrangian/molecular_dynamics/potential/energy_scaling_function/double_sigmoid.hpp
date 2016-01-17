@@ -32,7 +32,7 @@ class doubleSigmoid
     ) const;
 public:
   //- Runtime type information
-  TypeName("doubleSigmoid");
+  TYPE_NAME("doubleSigmoid");
   // Constructors
     //- Construct from components
     doubleSigmoid

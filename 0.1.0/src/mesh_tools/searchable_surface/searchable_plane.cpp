@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(searchablePlane, 0);
-addToRunTimeSelectionTable(searchableSurface, searchablePlane, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(searchablePlane, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchablePlane, dict);
 }
 // Private Member Functions 
 mousse::pointIndexHit mousse::searchablePlane::findLine
@@ -102,7 +102,7 @@ void mousse::searchablePlane::findNearest
 ) const
 {
   info.setSize(samples.size());
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     info[i].setPoint(nearestPoint(samples[i]));
     if (magSqr(samples[i]-info[i].rawPoint()) > nearestDistSqr[i])
@@ -125,7 +125,7 @@ void mousse::searchablePlane::findLine
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     info[i] = findLine(start[i], end[i]);
   }
@@ -149,7 +149,7 @@ void mousse::searchablePlane::findLineAll
   List<pointIndexHit> nearestInfo;
   findLine(start, end, nearestInfo);
   info.setSize(start.size());
-  forAll(info, pointI)
+  FOR_ALL(info, pointI)
   {
     if (nearestInfo[pointI].hit())
     {
@@ -182,11 +182,11 @@ void mousse::searchablePlane::getNormal
 }
 void mousse::searchablePlane::getVolumeType
 (
-  const pointField& points,
-  List<volumeType>& volType
+  const pointField&,
+  List<volumeType>&
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "searchableCollection::getVolumeType(const pointField&"
     ", List<volumeType>&) const"

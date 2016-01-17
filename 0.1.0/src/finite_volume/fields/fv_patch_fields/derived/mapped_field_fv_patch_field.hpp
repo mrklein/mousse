@@ -57,7 +57,7 @@ class mappedFieldFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("mappedField");
+  TYPE_NAME("mappedField");
   // Constructors
     //- Construct from patch and internal field
     mappedFieldFvPatchField

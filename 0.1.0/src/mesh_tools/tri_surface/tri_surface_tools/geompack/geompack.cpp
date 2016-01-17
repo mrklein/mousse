@@ -2351,7 +2351,7 @@ int s_len_trim ( const char *s )
 }
 //******************************************************************************
 int swapec ( int i, int *top, int *btri, int *bedg, int point_num,
- double point_xy[], int tri_num, int tri_vert[], int tri_nabe[],
+ double point_xy[], int /*tri_num*/, int tri_vert[], int tri_nabe[],
  int stack[] )
 //******************************************************************************
 //
@@ -3092,7 +3092,7 @@ void triangulation_print ( int point_num, double xc[], int tri_num,
 # undef DIM_NUM
 }
 //******************************************************************************
-void vbedg ( double x, double y, int point_num, double point_xy[], int tri_num,
+void vbedg ( double x, double y, int /*point_num*/, double point_xy[], int /*tri_num*/,
  int tri_vert[], int tri_nabe[], int *ltri, int *ledg, int *rtri, int *redg )
 //******************************************************************************
 //

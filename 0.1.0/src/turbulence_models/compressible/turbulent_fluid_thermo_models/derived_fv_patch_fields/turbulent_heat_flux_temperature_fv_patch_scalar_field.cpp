@@ -40,11 +40,11 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedGradientFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), "undefined", "undefined", "undefined-K"),
-  heatSource_(hsPower),
-  q_(p.size(), 0.0),
-  QrName_("undefinedQr")
+  fixedGradientFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), "undefined", "undefined", "undefined-K"},
+  heatSource_{hsPower},
+  q_{p.size(), 0.0},
+  QrName_{"undefinedQr"}
 {}
 turbulentHeatFluxTemperatureFvPatchScalarField::
 turbulentHeatFluxTemperatureFvPatchScalarField
@@ -55,11 +55,11 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedGradientFvPatchScalarField(ptf, p, iF, mapper),
-  temperatureCoupledBase(patch(), ptf),
-  heatSource_(ptf.heatSource_),
-  q_(ptf.q_, mapper),
-  QrName_(ptf.QrName_)
+  fixedGradientFvPatchScalarField{ptf, p, iF, mapper},
+  temperatureCoupledBase{patch(), ptf},
+  heatSource_{ptf.heatSource_},
+  q_{ptf.q_, mapper},
+  QrName_{ptf.QrName_}
 {}
 turbulentHeatFluxTemperatureFvPatchScalarField::
 turbulentHeatFluxTemperatureFvPatchScalarField
@@ -69,11 +69,11 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedGradientFvPatchScalarField(p, iF),
-  temperatureCoupledBase(patch(), dict),
-  heatSource_(heatSourceTypeNames_.read(dict.lookup("heatSource"))),
-  q_("q", dict, p.size()),
-  QrName_(dict.lookupOrDefault<word>("Qr", "none"))
+  fixedGradientFvPatchScalarField{p, iF},
+  temperatureCoupledBase{patch(), dict},
+  heatSource_{heatSourceTypeNames_.read(dict.lookup("heatSource"))},
+  q_{"q", dict, p.size()},
+  QrName_{dict.lookupOrDefault<word>("Qr", "none")}
 {
   if (dict.found("value") && dict.found("gradient"))
   {
@@ -93,11 +93,11 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   const turbulentHeatFluxTemperatureFvPatchScalarField& thftpsf
 )
 :
-  fixedGradientFvPatchScalarField(thftpsf),
-  temperatureCoupledBase(patch(), thftpsf),
-  heatSource_(thftpsf.heatSource_),
-  q_(thftpsf.q_),
-  QrName_(thftpsf.QrName_)
+  fixedGradientFvPatchScalarField{thftpsf},
+  temperatureCoupledBase{patch(), thftpsf},
+  heatSource_{thftpsf.heatSource_},
+  q_{thftpsf.q_},
+  QrName_{thftpsf.QrName_}
 {}
 turbulentHeatFluxTemperatureFvPatchScalarField::
 turbulentHeatFluxTemperatureFvPatchScalarField
@@ -106,11 +106,11 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedGradientFvPatchScalarField(thftpsf, iF),
-  temperatureCoupledBase(patch(), thftpsf),
-  heatSource_(thftpsf.heatSource_),
-  q_(thftpsf.q_),
-  QrName_(thftpsf.QrName_)
+  fixedGradientFvPatchScalarField{thftpsf, iF},
+  temperatureCoupledBase{patch(), thftpsf},
+  heatSource_{thftpsf.heatSource_},
+  q_{thftpsf.q_},
+  QrName_{thftpsf.QrName_}
 {}
 // Member Functions 
 void turbulentHeatFluxTemperatureFvPatchScalarField::autoMap
@@ -163,7 +163,7 @@ void turbulentHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "turbulentHeatFluxTemperatureFvPatchScalarField::updateCoeffs()"
       )   << "Unknown heat source type. Valid types are: "
@@ -185,7 +185,7 @@ void turbulentHeatFluxTemperatureFvPatchScalarField::write
   os.writeKeyword("Qr")<< QrName_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   turbulentHeatFluxTemperatureFvPatchScalarField

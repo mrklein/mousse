@@ -112,9 +112,9 @@ void mousse::dynamicAlphaContactAngleFvPatchScalarField::write(Ostream& os) cons
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    dynamicAlphaContactAngleFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  dynamicAlphaContactAngleFvPatchScalarField
+);
 }

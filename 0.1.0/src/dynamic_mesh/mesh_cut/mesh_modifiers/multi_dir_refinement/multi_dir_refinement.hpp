@@ -81,13 +81,9 @@ class multiDirRefinement
       const dictionary& dict,
       const bool writeMesh
     );
-    //- Disallow default bitwise copy construct
-    multiDirRefinement(const multiDirRefinement&);
-    //- Disallow default bitwise assignment
-    void operator=(const multiDirRefinement&);
 public:
   //- Runtime type information
-  ClassName("multiDirRefinement");
+  CLASS_NAME("multiDirRefinement");
   // Constructors
     //- Construct from dictionary. After construction all refinement will
     //  have been done (and runTime will have increased a few time steps if
@@ -117,6 +113,10 @@ public:
       const List<vectorField>& directions,
       const bool writeMesh = false    // write intermediate meshes
     );
+    //- Disallow default bitwise copy construct
+    multiDirRefinement(const multiDirRefinement&) = delete;
+    //- Disallow default bitwise assignment
+    multiDirRefinement& operator=(const multiDirRefinement&) = delete;
   // Member Functions
     //- Access to addedCells (on the original mesh; see above)
     const labelListList& addedCells() const

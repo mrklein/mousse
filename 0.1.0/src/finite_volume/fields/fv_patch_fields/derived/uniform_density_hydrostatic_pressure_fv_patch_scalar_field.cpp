@@ -8,6 +8,7 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "uniform_dimensioned_fields.hpp"
+
 // Constructors 
 mousse::uniformDensityHydrostaticPressureFvPatchScalarField::
 uniformDensityHydrostaticPressureFvPatchScalarField
@@ -16,11 +17,12 @@ uniformDensityHydrostaticPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  rho_(0.0),
-  pRefValue_(0.0),
-  pRefPoint_(vector::zero)
+  fixedValueFvPatchScalarField{p, iF},
+  rho_{0.0},
+  pRefValue_{0.0},
+  pRefPoint_{vector::zero}
 {}
+
 mousse::uniformDensityHydrostaticPressureFvPatchScalarField::
 uniformDensityHydrostaticPressureFvPatchScalarField
 (
@@ -29,10 +31,10 @@ uniformDensityHydrostaticPressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  rho_(readScalar(dict.lookup("rho"))),
-  pRefValue_(readScalar(dict.lookup("pRefValue"))),
-  pRefPoint_(dict.lookup("pRefPoint"))
+  fixedValueFvPatchScalarField{p, iF},
+  rho_{readScalar(dict.lookup("rho"))},
+  pRefValue_{readScalar(dict.lookup("pRefValue"))},
+  pRefPoint_{dict.lookup("pRefPoint")}
 {
   if (dict.found("value"))
   {
@@ -46,6 +48,7 @@ uniformDensityHydrostaticPressureFvPatchScalarField
     evaluate();
   }
 }
+
 mousse::uniformDensityHydrostaticPressureFvPatchScalarField::
 uniformDensityHydrostaticPressureFvPatchScalarField
 (
@@ -55,22 +58,24 @@ uniformDensityHydrostaticPressureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  rho_(ptf.rho_),
-  pRefValue_(ptf.pRefValue_),
-  pRefPoint_(ptf.pRefPoint_)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  rho_{ptf.rho_},
+  pRefValue_{ptf.pRefValue_},
+  pRefPoint_{ptf.pRefPoint_}
 {}
+
 mousse::uniformDensityHydrostaticPressureFvPatchScalarField::
 uniformDensityHydrostaticPressureFvPatchScalarField
 (
   const uniformDensityHydrostaticPressureFvPatchScalarField& ptf
 )
 :
-  fixedValueFvPatchScalarField(ptf),
-  rho_(ptf.rho_),
-  pRefValue_(ptf.pRefValue_),
-  pRefPoint_(ptf.pRefPoint_)
+  fixedValueFvPatchScalarField{ptf},
+  rho_{ptf.rho_},
+  pRefValue_{ptf.pRefValue_},
+  pRefPoint_{ptf.pRefPoint_}
 {}
+
 mousse::uniformDensityHydrostaticPressureFvPatchScalarField::
 uniformDensityHydrostaticPressureFvPatchScalarField
 (
@@ -78,11 +83,12 @@ uniformDensityHydrostaticPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(ptf, iF),
-  rho_(ptf.rho_),
-  pRefValue_(ptf.pRefValue_),
-  pRefPoint_(ptf.pRefPoint_)
+  fixedValueFvPatchScalarField{ptf, iF},
+  rho_{ptf.rho_},
+  pRefValue_{ptf.pRefValue_},
+  pRefPoint_{ptf.pRefPoint_}
 {}
+
 // Member Functions 
 void mousse::uniformDensityHydrostaticPressureFvPatchScalarField::updateCoeffs()
 {
@@ -99,6 +105,7 @@ void mousse::uniformDensityHydrostaticPressureFvPatchScalarField::updateCoeffs()
   );
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
 void mousse::uniformDensityHydrostaticPressureFvPatchScalarField::write
 (
   Ostream& os
@@ -110,11 +117,12 @@ void mousse::uniformDensityHydrostaticPressureFvPatchScalarField::write
   os.writeKeyword("pRefPoint") << pRefPoint_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    uniformDensityHydrostaticPressureFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  uniformDensityHydrostaticPressureFvPatchScalarField
+);
 }

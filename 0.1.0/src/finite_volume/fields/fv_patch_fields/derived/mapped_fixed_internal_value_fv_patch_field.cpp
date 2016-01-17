@@ -4,6 +4,7 @@
 
 #include "mapped_fixed_internal_value_fv_patch_field.hpp"
 #include "uindirect_list.hpp"
+
 // Constructors 
 template<class Type>
 mousse::mappedFixedInternalValueFvPatchField<Type>::
@@ -13,8 +14,10 @@ mappedFixedInternalValueFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  mappedFixedValueFvPatchField<Type>(p, iF)
+  mappedFixedValueFvPatchField<Type>{p, iF}
 {}
+
+
 template<class Type>
 mousse::mappedFixedInternalValueFvPatchField<Type>::
 mappedFixedInternalValueFvPatchField
@@ -25,8 +28,10 @@ mappedFixedInternalValueFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  mappedFixedValueFvPatchField<Type>(ptf, p, iF, mapper)
+  mappedFixedValueFvPatchField<Type>{ptf, p, iF, mapper}
 {}
+
+
 template<class Type>
 mousse::mappedFixedInternalValueFvPatchField<Type>::
 mappedFixedInternalValueFvPatchField
@@ -36,8 +41,10 @@ mappedFixedInternalValueFvPatchField
   const dictionary& dict
 )
 :
-  mappedFixedValueFvPatchField<Type>(p, iF, dict)
+  mappedFixedValueFvPatchField<Type>{p, iF, dict}
 {}
+
+
 template<class Type>
 mousse::mappedFixedInternalValueFvPatchField<Type>::
 mappedFixedInternalValueFvPatchField
@@ -45,8 +52,10 @@ mappedFixedInternalValueFvPatchField
   const mappedFixedInternalValueFvPatchField<Type>& ptf
 )
 :
-  mappedFixedValueFvPatchField<Type>(ptf)
+  mappedFixedValueFvPatchField<Type>{ptf}
 {}
+
+
 template<class Type>
 mousse::mappedFixedInternalValueFvPatchField<Type>::
 mappedFixedInternalValueFvPatchField
@@ -55,8 +64,10 @@ mappedFixedInternalValueFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  mappedFixedValueFvPatchField<Type>(ptf, iF)
+  mappedFixedValueFvPatchField<Type>{ptf, iF}
 {}
+
+
 // Member Functions 
 template<class Type>
 void mousse::mappedFixedInternalValueFvPatchField<Type>::updateCoeffs()
@@ -81,16 +92,14 @@ void mousse::mappedFixedInternalValueFvPatchField<Type>::updateCoeffs()
   {
     case mappedPatchBase::NEARESTCELL:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mappedFixedValueFvPatchField<Type>::updateCoeffs()"
-      )   << "Cannot apply "
-        << mappedPatchBase::sampleModeNames_
-         [
-           mappedPatchBase::NEARESTCELL
-         ]
-        << " mapping mode for patch " << this->patch().name()
-        << exit(FatalError);
+      )
+      << "Cannot apply "
+      << mappedPatchBase::sampleModeNames_[mappedPatchBase::NEARESTCELL]
+      << " mapping mode for patch " << this->patch().name()
+      << exit(FatalError);
       break;
     }
     case mappedPatchBase::NEARESTPATCHFACE:
@@ -107,12 +116,12 @@ void mousse::mappedFixedInternalValueFvPatchField<Type>::updateCoeffs()
     {
       Field<Type> allValues(nbrMesh.nFaces(), pTraits<Type>::zero);
       const FieldType& nbrField = this->sampleField();
-      forAll(nbrField.boundaryField(), patchI)
+      FOR_ALL(nbrField.boundaryField(), patchI)
       {
         const fvPatchField<Type>& pf = nbrField.boundaryField()[patchI];
         const Field<Type> pif(pf.patchInternalField());
         label faceStart = pf.patch().start();
-        forAll(pf, faceI)
+        FOR_ALL(pf, faceI)
         {
           allValues[faceStart++] = pif[faceI];
         }
@@ -123,7 +132,7 @@ void mousse::mappedFixedInternalValueFvPatchField<Type>::updateCoeffs()
     }
     default:
     {
-      FatalErrorIn("mappedFixedValueFvPatchField<Type>::updateCoeffs()")
+      FATAL_ERROR_IN("mappedFixedValueFvPatchField<Type>::updateCoeffs()")
         << "Unknown sampling mode: " << mpp.mode()
         << abort(FatalError);
     }
@@ -134,6 +143,8 @@ void mousse::mappedFixedInternalValueFvPatchField<Type>::updateCoeffs()
   Field<Type>& intFld = const_cast<Field<Type>&>(this->internalField());
   UIndirectList<Type>(intFld, this->patch().faceCells()) = nbrIntFld;
 }
+
+
 template<class Type>
 void mousse::mappedFixedInternalValueFvPatchField<Type>::write
 (

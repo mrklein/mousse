@@ -103,9 +103,9 @@ void mousse::timeVaryingAlphaContactAngleFvPatchScalarField::write
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    timeVaryingAlphaContactAngleFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  timeVaryingAlphaContactAngleFvPatchScalarField
+);
 }

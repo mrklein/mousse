@@ -50,7 +50,7 @@ class freestreamPressureFvPatchScalarField
     word rhoName_;
 public:
   //- Runtime type information
-  TypeName("freestreamPressure");
+  TYPE_NAME("freestreamPressure");
   // Constructors
     //- Construct from patch and internal field
     freestreamPressureFvPatchScalarField

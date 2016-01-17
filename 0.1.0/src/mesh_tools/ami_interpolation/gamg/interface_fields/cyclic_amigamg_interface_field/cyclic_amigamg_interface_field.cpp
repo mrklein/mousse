@@ -8,19 +8,19 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cyclicAMIGAMGInterfaceField, 0);
-  addToRunTimeSelectionTable
-  (
-    GAMGInterfaceField,
-    cyclicAMIGAMGInterfaceField,
-    lduInterface
-  );
-  addToRunTimeSelectionTable
-  (
-    GAMGInterfaceField,
-    cyclicAMIGAMGInterfaceField,
-    lduInterfaceField
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(cyclicAMIGAMGInterfaceField, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGInterfaceField,
+  cyclicAMIGAMGInterfaceField,
+  lduInterface
+);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  GAMGInterfaceField,
+  cyclicAMIGAMGInterfaceField,
+  lduInterfaceField
+);
 }
 // Constructors 
 mousse::cyclicAMIGAMGInterfaceField::cyclicAMIGAMGInterfaceField
@@ -80,7 +80,7 @@ void mousse::cyclicAMIGAMGInterfaceField::updateInterfaceMatrix
     pnf = cyclicAMIInterface_.neighbPatch().AMI().interpolateToTarget(pnf);
   }
   const labelUList& faceCells = cyclicAMIInterface_.faceCells();
-  forAll(faceCells, elemI)
+  FOR_ALL(faceCells, elemI)
   {
     result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
   }

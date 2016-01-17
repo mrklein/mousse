@@ -18,14 +18,14 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(scalarTransport, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(scalarTransport, 0);
 }
 // Private Member Functions 
 mousse::wordList mousse::scalarTransport::boundaryTypes() const
 {
   const volVectorField& U = mesh_.lookupObject<volVectorField>(UName_);
   wordList bTypes(U.boundaryField().size());
-  forAll(bTypes, patchI)
+  FOR_ALL(bTypes, patchI)
   {
     const fvPatchField<vector>& pf = U.boundaryField()[patchI];
     if (isA<fixedValueFvPatchVectorField>(pf))
@@ -107,40 +107,40 @@ mousse::scalarTransport::scalarTransport
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  mesh_(refCast<const fvMesh>(obr)),
-  active_(true),
-  phiName_("phi"),
-  UName_("U"),
-  rhoName_("rho"),
-  DT_(0.0),
-  userDT_(false),
-  resetOnStartUp_(false),
-  nCorr_(0),
-  autoSchemes_(false),
-  fvOptions_(mesh_),
+  name_{name},
+  mesh_{refCast<const fvMesh>(obr)},
+  active_{true},
+  phiName_{"phi"},
+  UName_{"U"},
+  rhoName_{"rho"},
+  DT_{0.0},
+  userDT_{false},
+  resetOnStartUp_{false},
+  nCorr_{0},
+  autoSchemes_{false},
+  fvOptions_{mesh_},
   T_
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       name,
       mesh_.time().timeName(),
       mesh_,
       IOobject::READ_IF_PRESENT,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh_,
-    dimensionedScalar("zero", dimless, 0.0),
+    {"zero", dimless, 0.0},
     boundaryTypes()
-  )
+  }
 {
   read(dict);
   if (resetOnStartUp_)
   {
-    T_ == dimensionedScalar("zero", dimless, 0.0);
+    T_ == dimensionedScalar{"zero", dimless, 0.0};
   }
 }
 // Destructor 
@@ -174,15 +174,15 @@ void mousse::scalarTransport::execute()
     const surfaceScalarField& phi =
       mesh_.lookupObject<surfaceScalarField>(phiName_);
     // calculate the diffusivity
-    volScalarField DT(this->DT(phi));
+    volScalarField DT{this->DT(phi)};
     // set schemes
     word schemeVar = T_.name();
     if (autoSchemes_)
     {
       schemeVar = UName_;
     }
-    word divScheme("div(phi," + schemeVar + ")");
-    word laplacianScheme("laplacian(" + DT.name() + "," + schemeVar + ")");
+    word divScheme{"div(phi," + schemeVar + ")"};
+    word laplacianScheme{"laplacian(" + DT.name() + "," + schemeVar + ")"};
     // set under-relaxation coeff
     scalar relaxCoeff = 0.0;
     if (mesh_.relaxEquation(schemeVar))
@@ -197,13 +197,13 @@ void mousse::scalarTransport::execute()
       for (label i = 0; i <= nCorr_; i++)
       {
         fvScalarMatrix TEqn
-        (
+        {
           fvm::ddt(rho, T_)
          + fvm::div(phi, T_, divScheme)
          - fvm::laplacian(DT, T_, laplacianScheme)
         ==
           fvOptions_(rho, T_)
-        );
+        };
         TEqn.relax(relaxCoeff);
         fvOptions_.constrain(TEqn);
         TEqn.solve(mesh_.solverDict(schemeVar));
@@ -215,13 +215,13 @@ void mousse::scalarTransport::execute()
       for (label i = 0; i <= nCorr_; i++)
       {
         fvScalarMatrix TEqn
-        (
+        {
           fvm::ddt(T_)
          + fvm::div(phi, T_, divScheme)
          - fvm::laplacian(DT, T_, laplacianScheme)
         ==
           fvOptions_(T_)
-        );
+        };
         TEqn.relax(relaxCoeff);
         fvOptions_.constrain(TEqn);
         TEqn.solve(mesh_.solverDict(schemeVar));
@@ -229,7 +229,7 @@ void mousse::scalarTransport::execute()
     }
     else
     {
-      FatalErrorIn("void mousse::scalarTransport::execute()")
+      FATAL_ERROR_IN("void mousse::scalarTransport::execute()")
         << "Incompatible dimensions for phi: " << phi.dimensions() << nl
         << "Dimensions should be " << dimMass/dimTime << " or "
         << dimVolume/dimTime << endl;

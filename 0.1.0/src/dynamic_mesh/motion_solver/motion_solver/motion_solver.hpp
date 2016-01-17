@@ -31,9 +31,9 @@ private:
     static IOobject stealRegistration(const IOdictionary& dict);
 public:
   //- Runtime type information
-  TypeName("motionSolver");
+  TYPE_NAME("motionSolver");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       motionSolver,

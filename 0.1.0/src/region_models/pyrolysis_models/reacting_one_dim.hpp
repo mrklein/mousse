@@ -24,10 +24,6 @@ class reactingOneDim
 {
 private:
   // Private member functions
-    //- Disallow default bitwise copy construct
-    reactingOneDim(const reactingOneDim&);
-    //- Disallow default bitwise assignment
-    void operator=(const reactingOneDim&);
     //- Read model controls
     void readReactingOneDimControls();
 protected:
@@ -105,7 +101,7 @@ protected:
       void solveSpeciesMass();
 public:
   //- Runtime type information
-  TypeName("reactingOneDim");
+  TYPE_NAME("reactingOneDim");
   // Constructors
     //- Construct from type name and mesh
     reactingOneDim
@@ -122,6 +118,10 @@ public:
       const dictionary& dict,
       const word& regionType
     );
+    //- Disallow default bitwise copy construct
+    reactingOneDim(const reactingOneDim&) = delete;
+    //- Disallow default bitwise assignment
+    reactingOneDim& operator=(const reactingOneDim&) = delete;
   //- Destructor
   virtual ~reactingOneDim();
   // Member Functions
@@ -165,5 +165,10 @@ public:
 }  // namespace pyrolysisModels
 }  // namespace regionModels
 }  // namespace mousse
-#include "reacting_one_dim_i.hpp"
+
+inline mousse::label
+mousse::regionModels::pyrolysisModels::reactingOneDim::nNonOrthCorr() const
+{
+  return nNonOrthCorr_;
+}
 #endif

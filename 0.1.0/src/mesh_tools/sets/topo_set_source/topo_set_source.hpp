@@ -9,8 +9,10 @@
 //   its function and the setAction (one of add/delete/new)
 // SourceFiles
 //   topo_set_source.cpp
+
 #ifndef topo_set_source_hpp_
 #define topo_set_source_hpp_
+
 #include "point_field.hpp"
 #include "word.hpp"
 #include "label_list.hpp"
@@ -20,6 +22,8 @@
 #include "auto_ptr.hpp"
 #include "named_enum.hpp"
 #include "hash_table.hpp"
+#include "dictionary.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
@@ -82,14 +86,9 @@ protected:
 private:
     static const NamedEnum<setAction, 8> actionNames_;
     static const string illegalSource_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    topoSetSource(const topoSetSource&);
-    //- Disallow default bitwise assignment
-    void operator=(const topoSetSource&);
 public:
   //- Runtime type information
-  TypeName("topoSetSource");
+  TYPE_NAME("topoSetSource");
   // Static Functions
     //- Convert string to action
     static setAction toAction(const word& actionName)
@@ -100,7 +99,7 @@ public:
     static Istream& checkIs(Istream& is);
   // Declare run-time constructor selection table
     // For the dictionary constructor
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       topoSetSource,
@@ -112,7 +111,7 @@ public:
       (mesh, dict)
     );
     // For the Istream constructor
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       topoSetSource,
@@ -162,9 +161,13 @@ public:
     //- Clone
     autoPtr<topoSetSource> clone() const
     {
-      notImplemented("autoPtr<topoSetSource> clone() const");
-      return autoPtr<topoSetSource>(NULL);
+      NOT_IMPLEMENTED("autoPtr<topoSetSource> clone() const");
+      return autoPtr<topoSetSource>{NULL};
     }
+    //- Disallow default bitwise copy construct
+    topoSetSource(const topoSetSource&) = delete;
+    //- Disallow default bitwise assignment
+    topoSetSource& operator=(const topoSetSource&) = delete;
   // Selectors
     //- Return a reference to the selected topoSetSource
     static autoPtr<topoSetSource> New

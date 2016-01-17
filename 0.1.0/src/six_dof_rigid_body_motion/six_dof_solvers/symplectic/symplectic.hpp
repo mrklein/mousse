@@ -40,7 +40,7 @@ class symplectic
 {
 public:
   //- Runtime type information
-  TypeName("symplectic");
+  TYPE_NAME("symplectic");
   // Constructors
     //- Construct from a dictionary and the body
     symplectic

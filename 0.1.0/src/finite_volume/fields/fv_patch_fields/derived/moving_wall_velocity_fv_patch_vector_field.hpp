@@ -43,7 +43,7 @@ class movingWallVelocityFvPatchVectorField
    word UName_;
 public:
   //- Runtime type information
-  TypeName("movingWallVelocity");
+  TYPE_NAME("movingWallVelocity");
   // Constructors
     //- Construct from patch and internal field
     movingWallVelocityFvPatchVectorField

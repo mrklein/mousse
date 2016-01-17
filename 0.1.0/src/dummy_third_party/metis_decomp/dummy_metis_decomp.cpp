@@ -20,26 +20,28 @@ static const char* notImplementedMessage =
 "$MOUSSE_SRC/parallel/decompose/metisDecomp and dynamically loading or linking"
 " this library will add metis as a decomposition method.\n"
 "Please be aware that there are license restrictions on using Metis.";
+
 namespace mousse
 {
-  defineTypeNameAndDebug(metisDecomp, 0);
-  addToRunTimeSelectionTable
-  (
-    decompositionMethod,
-    metisDecomp,
-    dictionary
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(metisDecomp, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  decompositionMethod,
+  metisDecomp,
+  dictionary
+);
 }
-// Private Member Functions 
+
+// Private Member Functions
 mousse::label mousse::metisDecomp::decompose
 (
-  const List<label>& adjncy,
-  const List<label>& xadj,
-  const scalarField& cellWeights,
-  List<label>& finalDecomp
+  const List<label>& /*adjncy*/,
+  const List<label>& /*xadj*/,
+  const scalarField& /*cellWeights*/,
+  List<label>& /*finalDecomp*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList metisDecomp::decompose"
     "("
@@ -51,7 +53,7 @@ mousse::label mousse::metisDecomp::decompose
   )   << notImplementedMessage << exit(FatalError);
   return -1;
 }
-// Constructors 
+// Constructors
 mousse::metisDecomp::metisDecomp
 (
   const dictionary& decompositionDict
@@ -59,15 +61,15 @@ mousse::metisDecomp::metisDecomp
 :
   decompositionMethod(decompositionDict)
 {}
-// Member Functions 
+// Member Functions
 mousse::labelList mousse::metisDecomp::decompose
 (
-  const polyMesh& mesh,
-  const pointField& points,
-  const scalarField& pointWeights
+  const polyMesh&,
+  const pointField&,
+  const scalarField& /*pointWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList metisDecomp::decompose"
     "("
@@ -79,13 +81,13 @@ mousse::labelList mousse::metisDecomp::decompose
 }
 mousse::labelList mousse::metisDecomp::decompose
 (
-  const polyMesh& mesh,
-  const labelList& agglom,
-  const pointField& agglomPoints,
-  const scalarField& agglomWeights
+  const polyMesh&,
+  const labelList& /*agglom*/,
+  const pointField& /*agglomPoints*/,
+  const scalarField& /*agglomWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList metisDecomp::decompose"
     "("
@@ -98,12 +100,12 @@ mousse::labelList mousse::metisDecomp::decompose
 }
 mousse::labelList mousse::metisDecomp::decompose
 (
-  const labelListList& globalCellCells,
-  const pointField& cellCentres,
-  const scalarField& cellWeights
+  const labelListList& /*globalCellCells*/,
+  const pointField& /*cellCentres*/,
+  const scalarField& /*cellWeights*/
 )
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "labelList metisDecomp::decompose"
     "("

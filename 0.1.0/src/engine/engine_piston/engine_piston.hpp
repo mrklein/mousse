@@ -32,11 +32,6 @@ class enginePiston
       const scalar minLayer_;
       //- Max layer thickness
       const scalar maxLayer_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    enginePiston(const enginePiston&);
-    //- Disallow default bitwise assignment
-    void operator=(const enginePiston&);
 public:
   // Static data members
   // Constructors
@@ -55,6 +50,10 @@ public:
       const polyMesh& mesh,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    enginePiston(const enginePiston&) = delete;
+    //- Disallow default bitwise assignment
+    enginePiston& operator=(const enginePiston&) = delete;
   // Destructor - default
   // Member Functions
     //- Return coordinate system

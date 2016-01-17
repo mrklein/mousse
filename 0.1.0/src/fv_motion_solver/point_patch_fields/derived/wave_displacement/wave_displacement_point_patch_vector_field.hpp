@@ -22,7 +22,7 @@ class waveDisplacementPointPatchVectorField
     vector waveNumber_;
 public:
   //- Runtime type information
-  TypeName("waveDisplacement");
+  TYPE_NAME("waveDisplacement");
   // Constructors
     //- Construct from patch and internal field
     waveDisplacementPointPatchVectorField

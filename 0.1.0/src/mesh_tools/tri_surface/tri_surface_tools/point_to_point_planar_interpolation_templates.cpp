@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "point_to_point_planar_interpolation.hpp"
+
 // Member Functions 
 template<class Type>
 mousse::tmp<mousse::Field<Type> > mousse::pointToPointPlanarInterpolation::interpolate
@@ -12,17 +13,18 @@ mousse::tmp<mousse::Field<Type> > mousse::pointToPointPlanarInterpolation::inter
 {
   if (nPoints_ != sourceFld.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pointToPointPlanarInterpolation::interpolate"
       "(const Field<Type>&) const"
-    )   << "Number of source points = " << nPoints_
-      << " number of values = " << sourceFld.size()
-      << exit(FatalError);
+    )
+    << "Number of source points = " << nPoints_
+    << " number of values = " << sourceFld.size()
+    << exit(FatalError);
   }
   tmp<Field<Type> > tfld(new Field<Type>(nearestVertex_.size()));
   Field<Type>& fld = tfld();
-  forAll(fld, i)
+  FOR_ALL(fld, i)
   {
     const FixedList<label, 3>& verts = nearestVertex_[i];
     const FixedList<scalar, 3>& w = nearestVertexWeight_[i];

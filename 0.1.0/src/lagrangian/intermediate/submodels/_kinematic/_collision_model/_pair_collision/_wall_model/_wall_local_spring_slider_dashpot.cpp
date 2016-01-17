@@ -15,7 +15,7 @@ void mousse::WallLocalSpringSliderDashpot<CloudType>::findMinMaxProperties
   rMin = VGREAT;
   rhoMax = -VGREAT;
   UMagMax = -VGREAT;
-  forAllConstIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_CONST_ITER(typename CloudType, this->owner(), iter)
   {
     const typename CloudType::parcelType& p = iter();
     // Finding minimum diameter to avoid excessive arithmetic
@@ -146,7 +146,7 @@ mousse::WallLocalSpringSliderDashpot<CloudType>::WallLocalSpringSliderDashpot
   const polyBoundaryMesh& bMesh = mesh.boundaryMesh();
   patchMap_.setSize(bMesh.size(), -1);
   DynamicList<label> wallPatchIndices;
-  forAll(bMesh, patchI)
+  FOR_ALL(bMesh, patchI)
   {
     if (isA<wallPolyPatch>(bMesh[patchI]))
     {
@@ -162,7 +162,7 @@ mousse::WallLocalSpringSliderDashpot<CloudType>::WallLocalSpringSliderDashpot
   cohesionEnergyDensity_.setSize(nWallPatches);
   cohesion_.setSize(nWallPatches);
   scalar maxEstar = -GREAT;
-  forAll(wallPatchIndices, wPI)
+  FOR_ALL(wallPatchIndices, wPI)
   {
     const dictionary& patchCoeffDict
     (
@@ -243,7 +243,7 @@ void mousse::WallLocalSpringSliderDashpot<CloudType>::evaluateWall
 ) const
 {
   scalar pREff = this->pREff(p);
-  forAll(flatSitePoints, siteI)
+  FOR_ALL(flatSitePoints, siteI)
   {
     evaluateWall
     (
@@ -254,7 +254,7 @@ void mousse::WallLocalSpringSliderDashpot<CloudType>::evaluateWall
       true
     );
   }
-  forAll(sharpSitePoints, siteI)
+  FOR_ALL(sharpSitePoints, siteI)
   {
     // Treating sharp sites like flat sites, except suppress cohesion
     evaluateWall

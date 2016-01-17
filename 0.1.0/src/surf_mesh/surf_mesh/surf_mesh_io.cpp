@@ -98,7 +98,7 @@ mousse::surfMesh::readUpdateState mousse::surfMesh::readUpdate()
     }
     else
     {
-      forAll(zones, zoneI)
+      FOR_ALL(zones, zoneI)
       {
         if (zones[zoneI].name() != newZones[zoneI].name())
         {
@@ -110,7 +110,7 @@ mousse::surfMesh::readUpdateState mousse::surfMesh::readUpdate()
     zones.transfer(newZones);
     if (zonesChanged)
     {
-      WarningIn("surfMesh::readUpdateState surfMesh::readUpdate()")
+      WARNING_IN("surfMesh::readUpdateState surfMesh::readUpdate()")
         << "Number of zones has changed.  This may have "
         << "unexpected consequences.  Proceed with care." << endl;
       return surfMesh::TOPO_PATCH_CHANGE;

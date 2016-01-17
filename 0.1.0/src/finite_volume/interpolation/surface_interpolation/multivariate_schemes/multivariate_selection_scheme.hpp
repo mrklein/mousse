@@ -23,14 +23,9 @@ class multivariateSelectionScheme
     dictionary schemes_;
     const surfaceScalarField& faceFlux_;
     surfaceScalarField weights_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    multivariateSelectionScheme(const multivariateSelectionScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const multivariateSelectionScheme&);
 public:
   //- Runtime type information
-  TypeName("multivariateSelection");
+  TYPE_NAME("multivariateSelection");
   // Constructors
     //- Construct for field, faceFlux and Istream
     multivariateSelectionScheme
@@ -41,6 +36,13 @@ public:
       const surfaceScalarField& faceFlux,
       Istream& schemeData
     );
+    //- Disallow default bitwise copy construct
+    multivariateSelectionScheme(const multivariateSelectionScheme&) = delete;
+    //- Disallow default bitwise assignment
+    multivariateSelectionScheme& operator=
+    (
+      const multivariateSelectionScheme&
+    ) = delete;
   // Member Operators
     //- surfaceInterpolationScheme sub-class returned by operator(field)
     //  which is used as the interpolation scheme for the field

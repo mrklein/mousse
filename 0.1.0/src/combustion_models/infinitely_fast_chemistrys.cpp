@@ -8,28 +8,28 @@
 #include "rho_thermo_combustion.hpp"
 #include "infinitely_fast_chemistry.hpp"
 // Combustion models based on sensibleEnthalpy
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   infinitelyFastChemistry,
   psiThermoCombustion,
   gasHThermoPhysics,
   psiCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   infinitelyFastChemistry,
   psiThermoCombustion,
   constGasHThermoPhysics,
   psiCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   infinitelyFastChemistry,
   rhoThermoCombustion,
   gasHThermoPhysics,
   rhoCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   infinitelyFastChemistry,
   rhoThermoCombustion,
@@ -37,32 +37,31 @@ makeCombustionTypesThermo
   rhoCombustionModel
 );
 // Combustion models based on sensibleInternalEnergy
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   infinitelyFastChemistry,
   psiThermoCombustion,
   gasEThermoPhysics,
   psiCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   infinitelyFastChemistry,
   psiThermoCombustion,
   constGasEThermoPhysics,
   psiCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   infinitelyFastChemistry,
   rhoThermoCombustion,
   gasEThermoPhysics,
   rhoCombustionModel
 );
-makeCombustionTypesThermo
+MAKE_COMBUSTION_TYPES_THERMO
 (
   infinitelyFastChemistry,
   rhoThermoCombustion,
   constGasEThermoPhysics,
   rhoCombustionModel
 );
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

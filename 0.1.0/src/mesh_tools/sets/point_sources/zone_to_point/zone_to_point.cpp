@@ -5,13 +5,15 @@
 #include "zone_to_point.hpp"
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(zoneToPoint, 0);
-addToRunTimeSelectionTable(topoSetSource, zoneToPoint, word);
-addToRunTimeSelectionTable(topoSetSource, zoneToPoint, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(zoneToPoint, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, zoneToPoint, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, zoneToPoint, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::zoneToPoint::usage_
 (
   zoneToPoint::typeName,
@@ -19,11 +21,12 @@ mousse::topoSetSource::addToUsageTable mousse::zoneToPoint::usage_
   "    Select all points in the pointZone."
   " Note:accepts wildcards for zone.\n\n"
 );
+
 // Private Member Functions 
 void mousse::zoneToPoint::combine(topoSet& set, const bool add) const
 {
   bool hasMatched = false;
-  forAll(mesh_.pointZones(), i)
+  FOR_ALL(mesh_.pointZones(), i)
   {
     const pointZone& zone = mesh_.pointZones()[i];
     if (zoneName_.match(zone.name()))
@@ -32,7 +35,7 @@ void mousse::zoneToPoint::combine(topoSet& set, const bool add) const
       Info<< "    Found matching zone " << zone.name()
         << " with " << pointLabels.size() << " points." << endl;
       hasMatched = true;
-      forAll(pointLabels, i)
+      FOR_ALL(pointLabels, i)
       {
         // Only do active points
         if (pointLabels[i] < mesh_.nPoints())
@@ -44,7 +47,7 @@ void mousse::zoneToPoint::combine(topoSet& set, const bool add) const
   }
   if (!hasMatched)
   {
-    WarningIn("zoneToPoint::combine(topoSet&, const bool)")
+    WARNING_IN("zoneToPoint::combine(topoSet&, const bool)")
       << "Cannot find any pointZone named " << zoneName_ << endl
       << "Valid names are " << mesh_.pointZones().names() << endl;
   }

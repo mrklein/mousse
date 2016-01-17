@@ -3,18 +3,19 @@
 // Copyright (C) 2016 mousse project
 
 #include "uopstream.hpp"
+#include "iostreams.hpp"
 // Member Functions 
 bool mousse::UOPstream::write
 (
-  const commsTypes commsType,
-  const int toProcNo,
-  const char* buf,
-  const std::streamsize bufSize,
-  const int tag,
-  const label communicator
+  const commsTypes /*commsType*/,
+  const int /*toProcNo*/,
+  const char* /*buf*/,
+  const std::streamsize /*bufSize*/,
+  const int /*tag*/,
+  const label /*communicator*/
 )
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "UOPstream::write"
     "("

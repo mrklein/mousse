@@ -22,14 +22,9 @@ class LUST
 :
   public linearUpwind<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    LUST(const LUST&);
-    //- Disallow default bitwise assignment
-    void operator=(const LUST&);
 public:
   //- Runtime type information
-  TypeName("LUST");
+  TYPE_NAME("LUST");
   // Constructors
     //- Construct from mesh and Istream
     LUST
@@ -38,7 +33,7 @@ public:
       Istream& schemeData
     )
     :
-      linearUpwind<Type>(mesh, schemeData)
+      linearUpwind<Type>{mesh, schemeData}
     {}
     //- Construct from mesh, faceFlux and Istream
     LUST
@@ -48,8 +43,12 @@ public:
       Istream& schemeData
     )
     :
-      linearUpwind<Type>(mesh, faceFlux, schemeData)
+      linearUpwind<Type>{mesh, faceFlux, schemeData}
     {}
+    //- Disallow default bitwise copy construct
+    LUST(const LUST&) = delete;
+    //- Disallow default bitwise assignment
+    LUST& operator=(const LUST&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     virtual tmp<surfaceScalarField> weights
@@ -57,9 +56,8 @@ public:
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const
     {
-      return
-        0.75*this->mesh().surfaceInterpolation::weights()
-       + 0.25*linearUpwind<Type>::weights();
+      return 0.75*this->mesh().surfaceInterpolation::weights()
+        + 0.25*linearUpwind<Type>::weights();
     }
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const

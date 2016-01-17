@@ -20,7 +20,7 @@ mousse::autoPtr<mousse::reactionRateFlameArea> mousse::reactionRateFlameArea::Ne
     dictionaryConstructorTablePtr_->find(reactionRateFlameAreaType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "reactionRateFlameArea::New(const psiReactionThermo&)",
       dict

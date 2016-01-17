@@ -22,11 +22,11 @@ void mousse::surfaceIntersection::writeOBJ
   Ostream& os
 )
 {
-  forAll(pts, i)
+  FOR_ALL(pts, i)
   {
     writeOBJ(pts[i], os);
   }
-  forAll(edges, i)
+  FOR_ALL(edges, i)
   {
     const edge& e = edges[i];
     os << "l " << e.start()+1 << ' ' << e.end()+1 << endl;
@@ -41,7 +41,7 @@ mousse::scalar mousse::surfaceIntersection::minEdgeLen
 {
   const labelList& pEdges = surf.pointEdges()[pointI];
   scalar minLen = GREAT;
-  forAll(pEdges, pEdgeI)
+  FOR_ALL(pEdges, pEdgeI)
   {
     const edge& e = surf.edges()[pEdges[pEdgeI]];
     minLen = min(minLen, e.mag(surf.localPoints()));
@@ -58,7 +58,7 @@ mousse::label mousse::surfaceIntersection::getEdge
 {
   const edge faceEdge = surf.localFaces()[faceI].faceEdge(fp);
   const labelList& eLabels = surf.faceEdges()[faceI];
-  forAll(eLabels, eI)
+  FOR_ALL(eLabels, eI)
   {
     const label edgeI = eLabels[eI];
     if (surf.edges()[edgeI] == faceEdge)
@@ -66,13 +66,14 @@ mousse::label mousse::surfaceIntersection::getEdge
       return edgeI;
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "surfaceIntersection::getEdge(const triSurface&"
     ", const label, const label"
-  )   << "Problem:: Cannot find edge with vertices " << faceEdge
-    << " in face " << faceI
-    << abort(FatalError);
+  )
+  << "Problem:: Cannot find edge with vertices " << faceEdge
+  << " in face " << faceI
+  << abort(FatalError);
   return -1;
 }
 // Given a map remove all consecutive duplicate elements.
@@ -84,7 +85,7 @@ void mousse::surfaceIntersection::removeDuplicates
 {
   bool hasDuplicate = false;
   label prevVertI = -1;
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     label newVertI = map[elems[elemI]];
     if (newVertI == prevVertI)
@@ -120,7 +121,7 @@ void mousse::surfaceIntersection::inlineRemap
   labelList& elems
 )
 {
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     elems[elemI] = map[elems[elemI]];
   }
@@ -138,7 +139,7 @@ mousse::edgeList mousse::surfaceIntersection::filterEdges
   map.setSize(edges.size());
   map = -1;
   label newEdgeI = 0;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     if
@@ -168,7 +169,7 @@ mousse::labelList mousse::surfaceIntersection::filterLabels
   map.setSize(elems.size());
   map = -1;
   label newElemI = 0;
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     label elem = elems[elemI];
     if (uniqueElems.find(elem) == uniqueElems.end())
@@ -191,15 +192,15 @@ void mousse::surfaceIntersection::writeIntersectedEdges
 {
   // Dump all points (surface followed by cutPoints)
   const pointField& pts = surf.localPoints();
-  forAll(pts, pointI)
+  FOR_ALL(pts, pointI)
   {
     writeOBJ(pts[pointI], os);
   }
-  forAll(cutPoints(), cutPointI)
+  FOR_ALL(cutPoints(), cutPointI)
   {
     writeOBJ(cutPoints()[cutPointI], os);
   }
-  forAll(edgeCutVerts, edgeI)
+  FOR_ALL(edgeCutVerts, edgeI)
   {
     const labelList& extraVerts = edgeCutVerts[edgeI];
     if (extraVerts.size())

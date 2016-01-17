@@ -42,7 +42,7 @@ protected:
     virtual void updateMesh(PstreamBuffers&);
 public:
   //- Runtime type information
-  TypeName(cyclicACMIPolyPatch::typeName_());
+  TYPE_NAME(cyclicACMIPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     cyclicACMIPointPatch

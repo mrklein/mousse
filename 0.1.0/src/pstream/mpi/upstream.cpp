@@ -44,7 +44,7 @@ bool mousse::UPstream::init(int& argc, char**& argv)
   }
   if (numprocs <= 1)
   {
-    FatalErrorIn("UPstream::init(int& argc, char**& argv)")
+    FATAL_ERROR_IN("UPstream::init(int& argc, char**& argv)")
       << "bool IPstream::init(int& argc, char**& argv) : "
        "attempt to run parallel on 1 processor"
       << mousse::abort(FatalError);
@@ -63,7 +63,7 @@ bool mousse::UPstream::init(int& argc, char**& argv)
   }
   else
   {
-    FatalErrorIn("UPstream::init(int& argc, char**& argv)")
+    FATAL_ERROR_IN("UPstream::init(int& argc, char**& argv)")
       << "UPstream::init(int& argc, char**& argv) : "
       << "environment variable MPI_BUFFER_SIZE not defined"
       << mousse::abort(FatalError);
@@ -83,17 +83,17 @@ void mousse::UPstream::exit(int errnum)
   {
     Pout<< "UPstream::exit." << endl;
   }
-#   ifndef SGIMPI
+#ifndef SGIMPI
   int size;
   char* buff;
   MPI_Buffer_detach(&buff, &size);
   delete[] buff;
-#   endif
+#endif
   if (PstreamGlobals::outstandingRequests_.size())
   {
     label n = PstreamGlobals::outstandingRequests_.size();
     PstreamGlobals::outstandingRequests_.clear();
-    WarningIn("UPstream::exit(int)")
+    WARNING_IN("UPstream::exit(int)")
       << "There are still " << n << " outstanding MPI_Requests." << endl
       << "This means that your code exited before doing a"
       << " UPstream::waitRequests()." << endl
@@ -101,7 +101,7 @@ void mousse::UPstream::exit(int errnum)
       << endl;
   }
   // Clean mpi communicators
-  forAll(myProcNo_, communicator)
+  FOR_ALL(myProcNo_, communicator)
   {
     if (myProcNo_[communicator] != -1)
     {
@@ -248,7 +248,7 @@ void mousse::UPstream::allocatePstreamCommunicator
   }
   else if (index > PstreamGlobals::MPIGroups_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "UPstream::allocatePstreamCommunicator\n"
       "(\n"
@@ -263,7 +263,7 @@ void mousse::UPstream::allocatePstreamCommunicator
     // Allocate world communicator
     if (index != UPstream::worldComm)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "UPstream::allocateCommunicator\n"
         "(\n"
@@ -285,7 +285,7 @@ void mousse::UPstream::allocatePstreamCommunicator
     MPI_Comm_size(PstreamGlobals::MPICommunicators_[index], &numProcs);
     //procIDs_[index] = identity(numProcs);
     procIDs_[index].setSize(numProcs);
-    forAll(procIDs_[index], i)
+    FOR_ALL(procIDs_[index], i)
     {
       procIDs_[index][i] = i;
     }
@@ -322,7 +322,7 @@ void mousse::UPstream::allocatePstreamCommunicator
         )
       )
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "UPstream::allocatePstreamCommunicator\n"
           "(\n"
@@ -392,7 +392,7 @@ void mousse::UPstream::waitRequests(const label start)
       )
     )
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "UPstream::waitRequests()"
       )   << "MPI_Waitall returned with error" << mousse::endl;
@@ -413,7 +413,7 @@ void mousse::UPstream::waitRequest(const label i)
   }
   if (i >= PstreamGlobals::outstandingRequests_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "UPstream::waitRequest(const label)"
     )   << "There are " << PstreamGlobals::outstandingRequests_.size()
@@ -431,7 +431,7 @@ void mousse::UPstream::waitRequest(const label i)
     )
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "UPstream::waitRequest()"
     )   << "MPI_Wait returned with error" << mousse::endl;
@@ -451,7 +451,7 @@ bool mousse::UPstream::finishedRequest(const label i)
   }
   if (i >= PstreamGlobals::outstandingRequests_.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "UPstream::finishedRequest(const label)"
     )   << "There are " << PstreamGlobals::outstandingRequests_.size()

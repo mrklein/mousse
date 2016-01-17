@@ -25,57 +25,77 @@
 //   correspondence at the start and then reuse this; task to be done)
 // SourceFiles
 //   point_edge_wave.cpp
+
 #ifndef point_edge_wave_hpp_
 #define point_edge_wave_hpp_
+
 #include "bool_list.hpp"
 #include "scalar_field.hpp"
 #include "tensor_field.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes
 class polyMesh;
 class polyPatch;
-TemplateName(PointEdgeWave);
+TEMPLATE_NAME(PointEdgeWave);
+
 template<class Type, class TrackingData = int>
 class PointEdgeWave
 :
   public PointEdgeWaveName
 {
  // Private static data
+
     //- Relative tolerance. Stop propagation if relative changes
     //  less than this tolerance (responsability for checking this is
     //  up to Type implementation)
     static scalar propagationTol_;
+
     //- Used as default trackdata value to satisfy default template
     //  argument.
     static int dummyTrackData_;
+
   // Private data
+
     //- Reference to mesh
     const polyMesh& mesh_;
+
     //- Wall information for all points
     UList<Type>& allPointInfo_;
+
     //- Information on all mesh edges
     UList<Type>& allEdgeInfo_;
+
     //- Additional data to be passed into container
     TrackingData& td_;
+
     //- Has point changed
     boolList changedPoint_;
+
     //- List of changed points
     labelList changedPoints_;
+
     //- Number of changed points
     label nChangedPoints_;
+
     //- Edges that have changed
     boolList changedEdge_;
     labelList changedEdges_;
     label nChangedEdges_;
+
     //- Number of cyclic patches
     label nCyclicPatches_;
+
     //- Number of evaluations
     label nEvals_;
+
     //- Number of unvisited edges/points
     label nUnvisitedPoints_;
     label nUnvisitedEdges_;
+
   // Private Member Functions
+
     //- Adapt pointInfo for leaving domain
     void leaveDomain
     (
@@ -83,6 +103,7 @@ class PointEdgeWave
       const List<label>& patchPointLabels,
       List<Type>& pointInfo
     ) const;
+
     //- Adapt pointInfo for entering domain
     void enterDomain
     (
@@ -90,6 +111,7 @@ class PointEdgeWave
       const List<label>& patchPointLabels,
       List<Type>& pointInfo
     ) const;
+
     //- Transform. Implementation referred to Type
     void transform
     (
@@ -97,6 +119,7 @@ class PointEdgeWave
       const tensorField& rotTensor,
       List<Type>& pointInfo
     ) const;
+
     //- Updates pointInfo with information from neighbour. Updates all
     //  statistics.
     bool updatePoint
@@ -106,6 +129,7 @@ class PointEdgeWave
       const Type& neighbourInfo,
       Type& pointInfo
     );
+
     //- Updates pointInfo with information from same point. Updates all
     //  statistics.
     bool updatePoint
@@ -114,6 +138,7 @@ class PointEdgeWave
       const Type& neighbourInfo,
       Type& pointInfo
     );
+
     //- Updates edgeInfo with information from neighbour. Updates all
     //  statistics.
     bool updateEdge
@@ -123,33 +148,40 @@ class PointEdgeWave
       const Type& neighbourInfo,
       Type& edgeInfo
     );
+
     // Parallel, cyclic
+
       //- Has patches of certain type?
       template<class PatchType>
       label countPatchType() const;
+
       //- Merge data from across processor boundaries
       void handleProcPatches();
+
       //- Merge data from across cyclic boundaries
       void handleCyclicPatches();
+
       //- Explicitly sync all collocated points
       label handleCollocatedPoints();
-    //- Disallow default bitwise copy construct
-    PointEdgeWave(const PointEdgeWave&);
-    //- Disallow default bitwise assignment
-    void operator=(const PointEdgeWave&);
+
 public:
+
   // Static Functions
+
     //- Access to tolerance
     static scalar propagationTol()
     {
       return propagationTol_;
     }
+
     //- Change tolerance
     static void setPropagationTol(const scalar tol)
     {
       propagationTol_ = tol;
     }
+
   // Constructors
+
     //- Construct from mesh, list of changed points with the Type
     //  for these points. Gets work arrays to operate on, one of size
     //  number of mesh points, the other number of mesh edges.
@@ -165,6 +197,7 @@ public:
       const label maxIter,
       TrackingData& td = dummyTrackData_
     );
+
     //- Construct from mesh. Use setPointInfo and iterate() to do
     //  actual calculation
     PointEdgeWave
@@ -174,24 +207,36 @@ public:
       UList<Type>& allEdgeInfo,
       TrackingData& td = dummyTrackData_
     );
+
+    //- Disallow default bitwise copy construct
+    PointEdgeWave(const PointEdgeWave&) = delete;
+
+    //- Disallow default bitwise assignment
+    PointEdgeWave& operator=(const PointEdgeWave&) = delete;
+
   //- Destructor
   ~PointEdgeWave();
+
   // Member Functions
+
     //- Access allPointInfo
     UList<Type>& allPointInfo() const
     {
       return allPointInfo_;
     }
+
     //- Access allEdgeInfo
     UList<Type>& allEdgeInfo() const
     {
       return allEdgeInfo_;
     }
+
     //- Additional data to be passed into container
     const TrackingData& data() const
     {
       return td_;
     }
+
     //- Get number of unvisited edges, i.e. edges that were not (yet)
     //  reached from walking across mesh. This can happen from
     //  - not enough iterations done
@@ -199,22 +244,28 @@ public:
     //  - a mesh without walls in it
     label getUnsetEdges() const;
     label getUnsetPoints() const;
+
     //- Copy initial data into allPointInfo_
     void setPointInfo
     (
       const labelList& changedPoints,
       const List<Type>& changedPointsInfo
     );
+
     //- Propagate from point to edge. Returns total number of edges
     //  (over all processors) changed.
     label pointToEdge();
+
     //- Propagate from edge to point. Returns total number of points
     //  (over all processors) changed.
     label edgeToPoint();
+
     //- Iterate until no changes or maxIter reached. Returns actual
     //  number of iterations.
     label iterate(const label maxIter);
+
 };
+
 //- List update operation
 template<class Type, class TrackingData = int>
 class listUpdateOp
@@ -222,15 +273,16 @@ class listUpdateOp
   //- Additional data to be passed into container
   const scalar tol_;
   TrackingData& td_;
+
 public:
   listUpdateOp(const scalar tol, TrackingData& td)
   :
-    tol_(tol),
-    td_(td)
+    tol_{tol},
+    td_{td}
   {}
   void operator()(List<Type>& x, const List<Type>& y) const
   {
-    forAll(x, i)
+    FOR_ALL(x, i)
     {
       if (y[i].valid(td_))
       {
@@ -239,7 +291,9 @@ public:
     }
   }
 };
+
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "point_edge_wave.cpp"
 #endif

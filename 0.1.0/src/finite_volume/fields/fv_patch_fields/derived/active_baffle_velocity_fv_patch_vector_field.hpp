@@ -92,7 +92,7 @@ class activeBaffleVelocityFvPatchVectorField
     label curTimeIndex_;
 public:
   //- Runtime type information
-  TypeName("activeBaffleVelocity");
+  TYPE_NAME("activeBaffleVelocity");
   // Constructors
     //- Construct from patch and internal field
     activeBaffleVelocityFvPatchVectorField

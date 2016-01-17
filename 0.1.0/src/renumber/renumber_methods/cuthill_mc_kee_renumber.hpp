@@ -19,16 +19,15 @@ class CuthillMcKeeRenumber
 {
   // Private data
     const Switch reverse_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    void operator=(const CuthillMcKeeRenumber&);
-    CuthillMcKeeRenumber(const CuthillMcKeeRenumber&);
 public:
   //- Runtime type information
-  TypeName("CuthillMcKee");
+  TYPE_NAME("CuthillMcKee");
   // Constructors
     //- Construct given the renumber dictionary
     CuthillMcKeeRenumber(const dictionary& renumberDict);
+    //- Disallow default bitwise copy construct and assignment
+    CuthillMcKeeRenumber& operator=(const CuthillMcKeeRenumber&) = delete;
+    CuthillMcKeeRenumber(const CuthillMcKeeRenumber&) = delete;
   //- Destructor
   virtual ~CuthillMcKeeRenumber()
   {}
@@ -38,7 +37,7 @@ public:
     //  This is only defined for geometric renumberMethods.
     virtual labelList renumber(const pointField&) const
     {
-      notImplemented("CuthillMcKeeRenumber::renumber(const pointField&)");
+      NOT_IMPLEMENTED("CuthillMcKeeRenumber::renumber(const pointField&)");
       return labelList(0);
     }
     //- Return the order in which cells need to be visited, i.e.

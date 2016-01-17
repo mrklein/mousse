@@ -5,8 +5,10 @@
 //   mousse::interpolation
 // Description
 //   Abstract base class for interpolation
+
 #ifndef interpolation_hpp_
 #define interpolation_hpp_
+
 #include "face_list.hpp"
 #include "vol_fields_fwd.hpp"
 #include "point_fields.hpp"
@@ -14,6 +16,7 @@
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "tet_indices.hpp"
+
 namespace mousse
 {
 class polyMesh;
@@ -32,7 +35,7 @@ public:
   //- Runtime type information
   virtual const word& type() const = 0;
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       interpolation,
@@ -92,19 +95,22 @@ public:
     }
 };
 }  // namespace mousse
-#define makeInterpolationType(SS, Type)                                        \
-                                       \
-defineNamedTemplateTypeNameAndDebug(SS<Type>, 0);                              \
-                                       \
-interpolation<Type>::adddictionaryConstructorToTable<SS<Type> >                \
+
+#define MAKE_INTERPOLATION_TYPE(SS, Type)                                     \
+                                                                              \
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<Type>, 0);                       \
+                                                                              \
+interpolation<Type>::adddictionaryConstructorToTable<SS<Type> >               \
   add##SS##Type##ConstructorToTable_;
-#define makeInterpolation(SS)                                                  \
-                                       \
-makeInterpolationType(SS, scalar)                                              \
-makeInterpolationType(SS, vector)                                              \
-makeInterpolationType(SS, sphericalTensor)                                     \
-makeInterpolationType(SS, symmTensor)                                          \
-makeInterpolationType(SS, tensor)
+
+#define MAKE_INTERPOLATION(SS)                                                \
+                                                                              \
+MAKE_INTERPOLATION_TYPE(SS, scalar)                                           \
+MAKE_INTERPOLATION_TYPE(SS, vector)                                           \
+MAKE_INTERPOLATION_TYPE(SS, sphericalTensor)                                  \
+MAKE_INTERPOLATION_TYPE(SS, symmTensor)                                       \
+MAKE_INTERPOLATION_TYPE(SS, tensor)
+
 #ifdef NoRepository
 #   include "interpolation.cpp"
 #endif

@@ -6,6 +6,8 @@
 #include "fv_mesh.hpp"
 #include "vol_point_interpolation.hpp"
 #include "triangle.hpp"
+#include "surface_fields.hpp"
+
 template<class Type>
 mousse::tmp<mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh> >
 mousse::pointLinear<Type>::
@@ -28,7 +30,7 @@ correction
   const scalarField& w = mesh.weights().internalField();
   const labelList& owner = mesh.owner();
   const labelList& neighbour = mesh.neighbour();
-  forAll(sfCorr, facei)
+  FOR_ALL(sfCorr, facei)
   {
     point pi =
       w[owner[facei]]*C[owner[facei]]
@@ -67,7 +69,7 @@ correction
   }
   typename GeometricField<Type, fvsPatchField, surfaceMesh>::
     GeometricBoundaryField& bSfCorr = tsfCorr().boundaryField();
-  forAll(bSfCorr, patchi)
+  FOR_ALL(bSfCorr, patchi)
   {
     fvsPatchField<Type>& pSfCorr = bSfCorr[patchi];
     if (pSfCorr.coupled())
@@ -76,7 +78,7 @@ correction
       const scalarField& pWghts = mesh.weights().boundaryField()[patchi];
       const labelUList& pOwner = fvp.faceCells();
       const vectorField& pNbrC = mesh.C().boundaryField()[patchi];
-      forAll(pOwner, facei)
+      FOR_ALL(pOwner, facei)
       {
         label own = pOwner[facei];
         point pi =
@@ -122,7 +124,8 @@ correction
   }
   return tsfCorr;
 }
+
 namespace mousse
 {
-  makeSurfaceInterpolationScheme(pointLinear);
+MAKE_SURFACE_INTERPOLATION_SCHEME(pointLinear);
 }

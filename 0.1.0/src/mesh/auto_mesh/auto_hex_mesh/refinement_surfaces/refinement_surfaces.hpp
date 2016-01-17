@@ -45,11 +45,6 @@ class refinementSurfaces
     scalarField perpendicularAngle_;
     //- From global region number to patchType
     PtrList<dictionary> patchInfo_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    refinementSurfaces(const refinementSurfaces&);
-    //- Disallow default bitwise assignment
-    void operator=(const refinementSurfaces&);
 public:
   // Constructors
     //- Construct from surfaces and dictionary
@@ -73,6 +68,10 @@ public:
       const scalarField& perpendicularAngle,
       PtrList<dictionary>& patchInfo
     );
+    //- Disallow default bitwise copy construct
+    refinementSurfaces(const refinementSurfaces&) = delete;
+    //- Disallow default bitwise assignment
+    refinementSurfaces& operator=(const refinementSurfaces&) = delete;
   // Member Functions
     // Access
       const searchableSurfaces& geometry() const

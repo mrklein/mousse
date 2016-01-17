@@ -13,8 +13,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(displacementLaplacianFvMotionSolver, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(displacementLaplacianFvMotionSolver, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     motionSolver,
     displacementLaplacianFvMotionSolver,
@@ -140,7 +140,7 @@ mousse::displacementLaplacianFvMotionSolver::curPoints() const
     if (frozenPointsZone_ != -1)
     {
       const pointZone& pz = fvMesh_.pointZones()[frozenPointsZone_];
-      forAll(pz, i)
+      FOR_ALL(pz, i)
       {
         pointLocation_()[pz[i]] = points0()[pz[i]];
       }
@@ -158,7 +158,7 @@ mousse::displacementLaplacianFvMotionSolver::curPoints() const
     if (frozenPointsZone_ != -1)
     {
       const pointZone& pz = fvMesh_.pointZones()[frozenPointsZone_];
-      forAll(pz, i)
+      FOR_ALL(pz, i)
       {
         tcurPoints()[pz[i]] = points0()[pz[i]];
       }

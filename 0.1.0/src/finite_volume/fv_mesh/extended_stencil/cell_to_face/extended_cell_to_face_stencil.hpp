@@ -41,7 +41,7 @@ protected:
     );
 public:
   // Declare name of the class and its debug switch
-  ClassName("extendedCellToFaceStencil");
+  CLASS_NAME("extendedCellToFaceStencil");
   // Constructors
     //- Construct from mesh
     explicit extendedCellToFaceStencil(const polyMesh&);

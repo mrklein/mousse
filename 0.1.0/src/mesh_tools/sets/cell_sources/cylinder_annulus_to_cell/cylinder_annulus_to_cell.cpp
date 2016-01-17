@@ -8,10 +8,11 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(cylinderAnnulusToCell, 0);
-  addToRunTimeSelectionTable(topoSetSource, cylinderAnnulusToCell, word);
-  addToRunTimeSelectionTable(topoSetSource, cylinderAnnulusToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(cylinderAnnulusToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, cylinderAnnulusToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, cylinderAnnulusToCell, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::cylinderAnnulusToCell::usage_
 (
   cylinderAnnulusToCell::typeName,
@@ -19,6 +20,7 @@ mousse::topoSetSource::addToUsageTable mousse::cylinderAnnulusToCell::usage_
   " outerRadius innerRadius\n\n"
   "    Select all cells with cell centre within bounding cylinder annulus\n\n"
 );
+
 // Private Member Functions 
 void mousse::cylinderAnnulusToCell::combine(topoSet& set, const bool add) const
 {
@@ -27,7 +29,7 @@ void mousse::cylinderAnnulusToCell::combine(topoSet& set, const bool add) const
   const scalar irad2 = sqr(innerRadius_);
   const scalar magAxis2 = magSqr(axis);
   const pointField& ctrs = mesh_.cellCentres();
-  forAll(ctrs, cellI)
+  FOR_ALL(ctrs, cellI)
   {
     vector d = ctrs[cellI] - p1_;
     scalar magD = d & axis;

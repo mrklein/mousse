@@ -26,7 +26,7 @@ class surfacePatch
     label start_;
 public:
   //- Runtime type information
-  ClassName("surfacePatch");
+  CLASS_NAME("surfacePatch");
   // Constructors
     //- Construct null
     surfacePatch();

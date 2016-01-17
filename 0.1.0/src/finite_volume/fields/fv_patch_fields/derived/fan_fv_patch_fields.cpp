@@ -8,16 +8,20 @@
 #include "surface_fields.hpp"
 #include "tuple2.hpp"
 #include "polynomial_entry.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  makeTemplatePatchTypeField
-  (
-    fvPatchScalarField,
-    fanFvPatchScalarField
-  );
+
+MAKE_TEMPLATE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  fanFvPatchScalarField
+);
+
 }
-// Private Member Functions 
+
+// Private Member Functions
 template<>
 void mousse::fanFvPatchField<mousse::scalar>::calcFanJump()
 {
@@ -35,7 +39,7 @@ void mousse::fanFvPatchField<mousse::scalar>::calcFanJump()
     this->jump_ = max(this->jumpTable_->value(Un), scalar(0));
   }
 }
-// Constructors 
+// Constructors
 template<>
 mousse::fanFvPatchField<mousse::scalar>::fanFvPatchField
 (
@@ -57,7 +61,7 @@ mousse::fanFvPatchField<mousse::scalar>::fanFvPatchField
       is.format(IOstream::ASCII);
       scalarList f(is);
       label nPows = 0;
-      forAll(f, powI)
+      FOR_ALL(f, powI)
       {
         if (mag(f[powI]) > VSMALL)
         {
@@ -66,7 +70,7 @@ mousse::fanFvPatchField<mousse::scalar>::fanFvPatchField
       }
       List<Tuple2<scalar, scalar> > coeffs(nPows);
       nPows = 0;
-      forAll(f, powI)
+      FOR_ALL(f, powI)
       {
         if (mag(f[powI]) > VSMALL)
         {

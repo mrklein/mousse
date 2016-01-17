@@ -4,10 +4,13 @@
 
 #ifndef nonuniform_transform_cyclic_fvs_patch_fields_hpp_
 #define nonuniform_transform_cyclic_fvs_patch_fields_hpp_
+
 #include "nonuniform_transform_cyclic_fvs_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makeFvsPatchTypeFieldTypedefs(nonuniformTransformCyclic);
+MAKE_FVS_PATCH_TYPE_FIELD_TYPEDEFS(nonuniformTransformCyclic);
 }  // namespace mousse
+
 #endif

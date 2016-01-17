@@ -10,7 +10,7 @@ mousse::extendedCellToCellStencil::extendedCellToCellStencil(const polyMesh& mes
 {
   // Check for transformation - not supported.
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (patches[patchI].coupled())
     {
@@ -18,7 +18,7 @@ mousse::extendedCellToCellStencil::extendedCellToCellStencil(const polyMesh& mes
         refCast<const coupledPolyPatch>(patches[patchI]);
       if (!cpp.parallel() || cpp.separated())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "extendedCellToCellStencil::extendedCellToCellStencil"
           "(const polyMesh&)"

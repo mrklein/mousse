@@ -42,7 +42,7 @@ protected:
     scalarField emissivity_;
 public:
   //- Runtime type information
-  TypeName("radiationCoupledBase");
+  TYPE_NAME("radiationCoupledBase");
   // Constructors
     //- Construct from patch, emissivity mode and emissivity
     radiationCoupledBase

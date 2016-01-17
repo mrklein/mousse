@@ -60,7 +60,7 @@ private:
       scalar corePerc_;
 public:
   //- Runtime type information
-  TypeName("SHF");
+  TYPE_NAME("SHF");
   // Constructors
     //- Construct from dictionary
     SHF(const dictionary&, CloudType&);

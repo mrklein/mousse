@@ -23,7 +23,7 @@ void mousse::printMeshStats(const polyMesh& mesh, const bool allTopology)
     Info<< "    internal points:  " << nInternalPoints << nl;
     if (returnReduce(mesh.nInternalPoints(), minOp<label>()) == -1)
     {
-      WarningIn("mousse::printMeshStats(const polyMesh&, const bool)")
+      WARNING_IN("mousse::printMeshStats(const polyMesh&, const bool)")
         << "Some processors have their points sorted into internal"
         << " and external and some do not." << endl
         << "This can cause problems later on." << endl;
@@ -137,7 +137,7 @@ void mousse::printMeshStats(const polyMesh& mesh, const bool allTopology)
     Info<< "    Breakdown of polyhedra by number of faces:" << nl
       << "        faces" << "   number of cells" << endl;
     const labelList sortedKeys = polyhedralFaces.sortedToc();
-    forAll(sortedKeys, keyI)
+    FOR_ALL(sortedKeys, keyI)
     {
       const label nFaces = sortedKeys[keyI];
       Info<< setf(std::ios::right) << setw(13)

@@ -261,7 +261,7 @@ tmp<volScalarField> SpalartAllmaras<BasicTurbulenceModel>::k() const
 template<class BasicTurbulenceModel>
 tmp<volScalarField> SpalartAllmaras<BasicTurbulenceModel>::epsilon() const
 {
-  WarningIn("tmp<volScalarField> SpalartAllmaras::epsilon() const")
+  WARNING_IN("tmp<volScalarField> SpalartAllmaras::epsilon() const")
     << "Turbulence kinetic energy dissipation rate not defined for "
     << "Spalart-Allmaras model. Returning zero field"
     << endl;

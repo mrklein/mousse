@@ -19,7 +19,7 @@ class wallFvPatch
 {
 public:
   //- Runtime type information
-  TypeName(wallPolyPatch::typeName_());
+  TYPE_NAME(wallPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     wallFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)

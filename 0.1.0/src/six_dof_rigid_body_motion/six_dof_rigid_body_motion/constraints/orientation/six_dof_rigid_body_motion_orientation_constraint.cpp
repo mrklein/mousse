@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace sixDoFRigidBodyMotionConstraints
 {
-  defineTypeNameAndDebug(orientation, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(orientation, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     sixDoFRigidBodyMotionConstraint,
     orientation,
@@ -38,7 +38,7 @@ mousse::sixDoFRigidBodyMotionConstraints::orientation::~orientation()
 void mousse::sixDoFRigidBodyMotionConstraints::orientation::
 constrainTranslation
 (
-  pointConstraint& pc
+  pointConstraint&
 ) const
 {}
 void mousse::sixDoFRigidBodyMotionConstraints::orientation::
@@ -59,7 +59,7 @@ bool mousse::sixDoFRigidBodyMotionConstraints::orientation::read
 }
 void mousse::sixDoFRigidBodyMotionConstraints::orientation::write
 (
-  Ostream& os
+  Ostream&
 ) const
 {
 }

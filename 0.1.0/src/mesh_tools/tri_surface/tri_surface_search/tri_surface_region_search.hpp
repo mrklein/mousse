@@ -38,17 +38,16 @@ class triSurfaceRegionSearch
     mutable PtrList<indirectTriSurface> indirectRegionPatches_;
     //- Search tree for each region
     mutable PtrList<treeType> treeByRegion_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    triSurfaceRegionSearch(const triSurfaceRegionSearch&);
-    //- Disallow default bitwise assignment
-    void operator=(const triSurfaceRegionSearch&);
 public:
   // Constructors
     //- Construct from surface. Holds reference to surface!
     explicit triSurfaceRegionSearch(const triSurface&);
     //- Construct from surface and dictionary. Holds reference to surface!
     triSurfaceRegionSearch(const triSurface&, const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    triSurfaceRegionSearch(const triSurfaceRegionSearch&) = delete;
+    //- Disallow default bitwise assignment
+    triSurfaceRegionSearch& operator=(const triSurfaceRegionSearch&) = delete;
   //- Destructor
   ~triSurfaceRegionSearch();
     //- Clear storage

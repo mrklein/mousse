@@ -45,7 +45,7 @@ class pressureInletVelocityFvPatchVectorField
     word rhoName_;
 public:
   //- Runtime type information
-  TypeName("pressureInletVelocity");
+  TYPE_NAME("pressureInletVelocity");
   // Constructors
     //- Construct from patch and internal field
     pressureInletVelocityFvPatchVectorField

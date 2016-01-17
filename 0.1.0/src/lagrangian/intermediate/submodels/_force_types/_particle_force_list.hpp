@@ -6,7 +6,6 @@
 // Description
 //   List of particle forces
 // SourceFiles
-//   _particle_force_list_i.hpp
 //   _particle_force_list.cpp
 #ifndef _particle_force_list_hpp_
 #define _particle_force_list_hpp_
@@ -89,7 +88,37 @@ public:
       ) const;
 };
 }  // namespace mousse
-#include "_particle_force_list_i.hpp"
+
+template<class CloudType>
+inline const CloudType& mousse::ParticleForceList<CloudType>::owner() const
+{
+  return owner_;
+}
+template<class CloudType>
+inline CloudType& mousse::ParticleForceList<CloudType>::owner()
+{
+  return owner_;
+}
+template<class CloudType>
+inline const mousse::fvMesh& mousse::ParticleForceList<CloudType>::mesh() const
+{
+  return mesh_;
+}
+template<class CloudType>
+inline const mousse::dictionary& mousse::ParticleForceList<CloudType>::dict() const
+{
+  return dict_;
+}
+template<class CloudType>
+inline void mousse::ParticleForceList<CloudType>::setCalcCoupled(bool flag)
+{
+  calcCoupled_ = flag;
+}
+template<class CloudType>
+inline void mousse::ParticleForceList<CloudType>::setCalcNonCoupled(bool flag)
+{
+  calcNonCoupled_ = flag;
+}
 #ifdef NoRepository
   #include "_particle_force_list.cpp"
 #endif

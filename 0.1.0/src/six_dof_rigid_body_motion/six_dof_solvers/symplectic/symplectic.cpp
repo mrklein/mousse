@@ -9,14 +9,14 @@ namespace mousse
 {
 namespace sixDoFSolvers
 {
-  defineTypeNameAndDebug(symplectic, 0);
-  addToRunTimeSelectionTable(sixDoFSolver, symplectic, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(symplectic, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sixDoFSolver, symplectic, dictionary);
 }
 }
 // Constructors 
 mousse::sixDoFSolvers::symplectic::symplectic
 (
-  const dictionary& dict,
+  const dictionary&,
   sixDoFRigidBodyMotion& body
 )
 :
@@ -37,7 +37,7 @@ void mousse::sixDoFSolvers::symplectic::solve
 {
   if (!firstIter)
   {
-    FatalErrorIn("sixDoFSolvers::symplectic::solve")
+    FATAL_ERROR_IN("sixDoFSolvers::symplectic::solve")
       << "The symplectic integrator is explicit "
        "and can only be solved once per time-step"
       << exit(FatalError);

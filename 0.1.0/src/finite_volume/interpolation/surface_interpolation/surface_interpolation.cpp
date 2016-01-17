@@ -10,7 +10,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(surfaceInterpolation, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(surfaceInterpolation, 0);
 }
 // Protected Member Functions 
 void mousse::surfaceInterpolation::clearOut()
@@ -114,7 +114,7 @@ void mousse::surfaceInterpolation::makeWeights() const
   const vectorField& Sf = mesh_.faceAreas();
   // ... and reference to the internal field of the weighting factors
   scalarField& w = weights.internalField();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     // Note: mag in the dot-product.
     // For all valid meshes, the non-orthogonality will be less that
@@ -125,7 +125,7 @@ void mousse::surfaceInterpolation::makeWeights() const
     scalar SfdNei = mag(Sf[facei] & (C[neighbour[facei]] - Cf[facei]));
     w[facei] = SfdNei/(SfdOwn + SfdNei);
   }
-  forAll(mesh_.boundary(), patchi)
+  FOR_ALL(mesh_.boundary(), patchi)
   {
     mesh_.boundary()[patchi].makeWeights
     (
@@ -169,11 +169,11 @@ void mousse::surfaceInterpolation::makeDeltaCoeffs() const
   const volVectorField& C = mesh_.C();
   const labelUList& owner = mesh_.owner();
   const labelUList& neighbour = mesh_.neighbour();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     DeltaCoeffs[facei] = 1.0/mag(C[neighbour[facei]] - C[owner[facei]]);
   }
-  forAll(DeltaCoeffs.boundaryField(), patchi)
+  FOR_ALL(DeltaCoeffs.boundaryField(), patchi)
   {
     DeltaCoeffs.boundaryField()[patchi] =
       1.0/mag(mesh_.boundary()[patchi].delta());
@@ -211,7 +211,7 @@ void mousse::surfaceInterpolation::makeNonOrthDeltaCoeffs() const
   const labelUList& neighbour = mesh_.neighbour();
   const surfaceVectorField& Sf = mesh_.Sf();
   const surfaceScalarField& magSf = mesh_.magSf();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     vector delta = C[neighbour[facei]] - C[owner[facei]];
     vector unitArea = Sf[facei]/magSf[facei];
@@ -224,7 +224,7 @@ void mousse::surfaceInterpolation::makeNonOrthDeltaCoeffs() const
     // Stabilised form for bad meshes
     nonOrthDeltaCoeffs[facei] = 1.0/max(unitArea & delta, 0.05*mag(delta));
   }
-  forAll(nonOrthDeltaCoeffs.boundaryField(), patchi)
+  FOR_ALL(nonOrthDeltaCoeffs.boundaryField(), patchi)
   {
     vectorField delta(mesh_.boundary()[patchi].delta());
     nonOrthDeltaCoeffs.boundaryField()[patchi] =
@@ -261,7 +261,7 @@ void mousse::surfaceInterpolation::makeNonOrthCorrectionVectors() const
   const surfaceVectorField& Sf = mesh_.Sf();
   const surfaceScalarField& magSf = mesh_.magSf();
   const surfaceScalarField& NonOrthDeltaCoeffs = nonOrthDeltaCoeffs();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     vector unitArea = Sf[facei]/magSf[facei];
     vector delta = C[neighbour[facei]] - C[owner[facei]];
@@ -270,7 +270,7 @@ void mousse::surfaceInterpolation::makeNonOrthCorrectionVectors() const
   // Boundary correction vectors set to zero for boundary patches
   // and calculated consistently with internal corrections for
   // coupled patches
-  forAll(corrVecs.boundaryField(), patchi)
+  FOR_ALL(corrVecs.boundaryField(), patchi)
   {
     fvsPatchVectorField& patchCorrVecs = corrVecs.boundaryField()[patchi];
     if (!patchCorrVecs.coupled())
@@ -283,7 +283,7 @@ void mousse::surfaceInterpolation::makeNonOrthCorrectionVectors() const
         = NonOrthDeltaCoeffs.boundaryField()[patchi];
       const fvPatch& p = patchCorrVecs.patch();
       const vectorField patchDeltas(mesh_.boundary()[patchi].delta());
-      forAll(p, patchFacei)
+      FOR_ALL(p, patchFacei)
       {
         vector unitArea =
           Sf.boundaryField()[patchi][patchFacei]

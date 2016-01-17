@@ -19,16 +19,11 @@ class renumberMethod
 protected:
   // Protected data
     const dictionary& renumberDict_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    renumberMethod(const renumberMethod&);
-    void operator=(const renumberMethod&);
 public:
   //- Runtime type information
-  TypeName("renumberMethod");
+  TYPE_NAME("renumberMethod");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       renumberMethod,
@@ -50,6 +45,9 @@ public:
     :
       renumberDict_(renumberDict)
     {}
+    //- Disallow default bitwise copy construct and assignment
+    renumberMethod(const renumberMethod&) = delete;
+    renumberMethod& operator=(const renumberMethod&) = delete;
   //- Destructor
   virtual ~renumberMethod()
   {}
@@ -59,7 +57,7 @@ public:
     //  This is only defined for geometric renumberMethods.
     virtual labelList renumber(const pointField&) const
     {
-      notImplemented
+      NOT_IMPLEMENTED
       (
         "renumberMethod:renumber(const pointField&)"
       );

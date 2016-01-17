@@ -59,7 +59,7 @@ template<class CloudType>
 mousse::forceSuSp mousse::WenYuDragForce<CloudType>::calcCoupled
 (
   const typename CloudType::parcelType& p,
-  const scalar dt,
+  const scalar /*dt*/,
   const scalar mass,
   const scalar Re,
   const scalar muc

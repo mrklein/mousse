@@ -14,17 +14,16 @@ namespace mousse
 {
 class sprayCloud
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    sprayCloud(const sprayCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const sprayCloud&);
 public:
   //- Runtime type information
-  TypeName("sprayCloud");
+  TYPE_NAME("sprayCloud");
   // Constructors
     //- Null constructor
     sprayCloud();
+    //- Disallow default bitwise copy construct
+    sprayCloud(const sprayCloud&) = delete;
+    //- Disallow default bitwise assignment
+    sprayCloud& operator=(const sprayCloud&) = delete;
   //- Destructor
   virtual ~sprayCloud();
 };

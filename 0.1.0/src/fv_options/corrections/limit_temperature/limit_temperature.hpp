@@ -31,15 +31,9 @@ protected:
     scalar Tmin_;
     //- Maximum temperature limit [K]
     scalar Tmax_;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    limitTemperature(const limitTemperature&);
-    //- Disallow default bitwise assignment
-    void operator=(const limitTemperature&);
 public:
   //- Runtime type information
-  TypeName("limitTemperature");
+  TYPE_NAME("limitTemperature");
   // Constructors
     //- Construct from components
     limitTemperature
@@ -49,6 +43,10 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    limitTemperature(const limitTemperature&) = delete;
+    //- Disallow default bitwise assignment
+    limitTemperature& operator=(const limitTemperature&) = delete;
   //- Destructor
   virtual ~limitTemperature()
   {}

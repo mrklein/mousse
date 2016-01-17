@@ -11,12 +11,14 @@
 #include "cpu_time.hpp"
 #include "demand_driven_data.hpp"
 #include "add_to_run_time_selection_table.hpp"
+#include "pstream_reduce_ops.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(surfaceToCell, 0);
-  addToRunTimeSelectionTable(topoSetSource, surfaceToCell, word);
-  addToRunTimeSelectionTable(topoSetSource, surfaceToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(surfaceToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, surfaceToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, surfaceToCell, istream);
 }
 mousse::topoSetSource::addToUsageTable mousse::surfaceToCell::usage_
 (
@@ -34,7 +36,7 @@ mousse::topoSetSource::addToUsageTable mousse::surfaceToCell::usage_
   "    (curvature defined as difference in surface normal at nearest"
   " point on surface for each vertex of cell)\n\n"
 );
-// Private Member Functions 
+// Private Member Functions
 mousse::label mousse::surfaceToCell::getNearest
 (
   const triSurfaceSearch& querySurf,
@@ -74,10 +76,10 @@ bool mousse::surfaceToCell::differingPointNormals
   const faceList& faces = mesh().faces();
   const pointField& points = mesh().points();
   const labelList& cFaces = mesh().cells()[cellI];
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     const face& f = faces[cFaces[cFaceI]];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label pointI = f[fp];
       label pointTriI =
@@ -111,7 +113,7 @@ void mousse::surfaceToCell::combine(topoSet& set, const bool add) const
     boolList isInside(querySurf().calcInside(mesh_.cellCentres()));
     Info<< "    Marked inside/outside using surface orientation in = "
       << timer.cpuTimeIncrement() << " s" << endl << endl;
-    forAll(isInside, cellI)
+    FOR_ALL(isInside, cellI)
     {
       if (isInside[cellI] && includeInside_)
       {
@@ -131,14 +133,14 @@ void mousse::surfaceToCell::combine(topoSet& set, const bool add) const
     // Construct search engine on mesh
     const meshSearch queryMesh(mesh_);
     // Check all 'outside' points
-    forAll(outsidePoints_, outsideI)
+    FOR_ALL(outsidePoints_, outsideI)
     {
       const point& outsidePoint = outsidePoints_[outsideI];
       // Find cell point is in. Linear search.
       label cellI = queryMesh.findCell(outsidePoint, -1, false);
       if (returnReduce(cellI, maxOp<label>()) == -1)
       {
-        FatalErrorIn("surfaceToCell::combine(topoSet&, const bool)")
+        FATAL_ERROR_IN("surfaceToCell::combine(topoSet&, const bool)")
           << "outsidePoint " << outsidePoint
           << " is not inside any cell"
           << exit(FatalError);
@@ -155,7 +157,7 @@ void mousse::surfaceToCell::combine(topoSet& set, const bool add) const
     Info<< "    Marked inside/outside using surface intersection in = "
       << timer.cpuTimeIncrement() << " s" << endl << endl;
     //- Add/remove cells using set
-    forAll(cellType, cellI)
+    FOR_ALL(cellType, cellI)
     {
       label cType = cellType[cellI];
       if
@@ -191,7 +193,7 @@ void mousse::surfaceToCell::combine(topoSet& set, const bool add) const
       Info<< "    Selecting cells with cellCentre closer than "
         << nearDist_ << " to surface" << endl;
       // No need to test curvature. Insert near cells into set.
-      forAll(ctrs, cellI)
+      FOR_ALL(ctrs, cellI)
       {
         const point& c = ctrs[cellI];
         pointIndexHit inter = querySurf().nearest(c, span);
@@ -211,7 +213,7 @@ void mousse::surfaceToCell::combine(topoSet& set, const bool add) const
         << " less than " << curvature_ << endl;
       // Cache for nearest surface triangle for a point
       Map<label> pointToNearest(mesh_.nCells()/10);
-      forAll(ctrs, cellI)
+      FOR_ALL(ctrs, cellI)
       {
         const point& c = ctrs[cellI];
         pointIndexHit inter = querySurf().nearest(c, span);
@@ -250,7 +252,7 @@ void mousse::surfaceToCell::checkSettings() const
     )
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "surfaceToCell:checkSettings()"
     )   << "Illegal include cell specification."
@@ -262,7 +264,7 @@ void mousse::surfaceToCell::checkSettings() const
   }
   if (useSurfaceOrientation_ && includeCut_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "surfaceToCell:checkSettings()"
     )   << "Illegal include cell specification."
@@ -272,7 +274,7 @@ void mousse::surfaceToCell::checkSettings() const
       << exit(FatalError);
   }
 }
-// Constructors 
+// Constructors
 mousse::surfaceToCell::surfaceToCell
 (
   const polyMesh& mesh,
@@ -376,7 +378,8 @@ mousse::surfaceToCell::surfaceToCell
 {
   checkSettings();
 }
-// Destructor 
+
+// Destructor
 mousse::surfaceToCell::~surfaceToCell()
 {
   if (IOwnPtrs_)
@@ -385,7 +388,8 @@ mousse::surfaceToCell::~surfaceToCell()
     deleteDemandDrivenData(querySurfPtr_);
   }
 }
-// Member Functions 
+
+// Member Functions
 void mousse::surfaceToCell::applyToSet
 (
   const topoSetSource::setAction action,

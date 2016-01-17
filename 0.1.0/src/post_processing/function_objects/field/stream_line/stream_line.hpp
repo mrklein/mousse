@@ -145,13 +145,9 @@ class streamLine
     autoPtr<indirectPrimitivePatch> wallPatch() const;
     //- Do all seeding and tracking
     void track();
-    //- Disallow default bitwise copy construct
-    streamLine(const streamLine&);
-    //- Disallow default bitwise assignment
-    void operator=(const streamLine&);
 public:
   //- Runtime type information
-  TypeName("streamLine");
+  TYPE_NAME("streamLine");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -162,6 +158,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    streamLine(const streamLine&) = delete;
+    //- Disallow default bitwise assignment
+    streamLine& operator=(const streamLine&) = delete;
   //- Destructor
   virtual ~streamLine();
   // Member Functions

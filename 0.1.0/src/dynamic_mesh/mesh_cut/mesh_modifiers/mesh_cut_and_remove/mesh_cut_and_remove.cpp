@@ -16,7 +16,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(meshCutAndRemove, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(meshCutAndRemove, 0);
 }
 // Private Static Functions 
 // Returns -1 or index in elems1 of first shared element.
@@ -26,7 +26,7 @@ mousse::label mousse::meshCutAndRemove::firstCommon
   const labelList& elems2
 )
 {
-  forAll(elems1, elemI)
+  FOR_ALL(elems1, elemI)
   {
     label index1 = findIndex(elems2, elems1[elemI]);
     if (index1 != -1)
@@ -62,7 +62,7 @@ mousse::label mousse::meshCutAndRemove::findCutCell
   const labelList& cellLabels
 ) const
 {
-  forAll(cellLabels, labelI)
+  FOR_ALL(cellLabels, labelI)
   {
     label cellI = cellLabels[labelI];
     if (cuts.cellLoops()[cellI].size())
@@ -81,11 +81,11 @@ mousse::label mousse::meshCutAndRemove::findInternalFacePoint
   const labelList& pointLabels
 ) const
 {
-  forAll(pointLabels, labelI)
+  FOR_ALL(pointLabels, labelI)
   {
     label pointI = pointLabels[labelI];
     const labelList& pFaces = mesh().pointFaces()[pointI];
-    forAll(pFaces, pFaceI)
+    FOR_ALL(pFaces, pFaceI)
     {
       label faceI = pFaces[pFaceI];
       if (mesh().isInternalFace(faceI))
@@ -96,7 +96,7 @@ mousse::label mousse::meshCutAndRemove::findInternalFacePoint
   }
   if (pointLabels.empty())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshCutAndRemove::findInternalFacePoint(const labelList&)"
     )
@@ -114,13 +114,13 @@ mousse::label mousse::meshCutAndRemove::findPatchFacePoint
 {
   const labelListList& pointFaces = mesh().pointFaces();
   const polyBoundaryMesh& patches = mesh().boundaryMesh();
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     label pointI = f[fp];
     if (pointI < mesh().nPoints())
     {
       const labelList& pFaces = pointFaces[pointI];
-      forAll(pFaces, i)
+      FOR_ALL(pFaces, i)
       {
         if (patches.whichPatch(pFaces[i]) == exposedPatchI)
         {
@@ -370,7 +370,7 @@ void mousse::meshCutAndRemove::splitFace
   label startFp = findIndex(f, v0);
   if (startFp == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshCutAndRemove::splitFace"
       ", const face&, const label, const label, face&, face&)"
@@ -381,7 +381,7 @@ void mousse::meshCutAndRemove::splitFace
   label endFp = findIndex(f, v1);
   if (endFp == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshCutAndRemove::splitFace("
       ", const face&, const label, const label, face&, face&)"
@@ -401,7 +401,7 @@ mousse::face mousse::meshCutAndRemove::addEdgeCutsToFace(const label faceI) cons
   const face& f = mesh().faces()[faceI];
   face newFace(2 * f.size());
   label newFp = 0;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     // Duplicate face vertex.
     newFace[newFp++] = f[fp];
@@ -423,13 +423,13 @@ mousse::face mousse::meshCutAndRemove::addEdgeCutsToFace(const label faceI) cons
 // Note: tricky bit is that it can use existing edges which have been split.
 mousse::face mousse::meshCutAndRemove::loopToFace
 (
-  const label cellI,
+  const label /*cellI*/,
   const labelList& loop
 ) const
 {
   face newFace(2*loop.size());
   label newFaceI = 0;
-  forAll(loop, fp)
+  FOR_ALL(loop, fp)
   {
     label cut = loop[fp];
     if (isEdge(cut))
@@ -497,7 +497,7 @@ void mousse::meshCutAndRemove::setRefinement
   const polyBoundaryMesh& patches = mesh().boundaryMesh();
   if (exposedPatchI < 0 || exposedPatchI >= patches.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "meshCutAndRemove::setRefinement("
       ", const label, const cellCuts&, const labelList&"
@@ -508,7 +508,7 @@ void mousse::meshCutAndRemove::setRefinement
   //
   // Add new points along cut edges.
   //
-  forAll(cuts.edgeIsCut(), edgeI)
+  FOR_ALL(cuts.edgeIsCut(), edgeI)
   {
     if (cuts.edgeIsCut()[edgeI])
     {
@@ -516,7 +516,7 @@ void mousse::meshCutAndRemove::setRefinement
       // Check if there is any cell using this edge.
       if (debug && findCutCell(cuts, mesh().edgeCells()[edgeI]) == -1)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "meshCutAndRemove::setRefinement("
           ", const label, const cellCuts&, const labelList&"
@@ -558,13 +558,13 @@ void mousse::meshCutAndRemove::setRefinement
   //
   {
     boolList usedPoint(mesh().nPoints(), false);
-    forAll(cellLoops, cellI)
+    FOR_ALL(cellLoops, cellI)
     {
       const labelList& loop = cellLoops[cellI];
       if (loop.size())
       {
         // Cell is cut. Uses only anchor points and loop itself.
-        forAll(loop, fp)
+        FOR_ALL(loop, fp)
         {
           label cut = loop[fp];
           if (!isEdge(cut))
@@ -573,7 +573,7 @@ void mousse::meshCutAndRemove::setRefinement
           }
         }
         const labelList& anchors = anchorPts[cellI];
-        forAll(anchors, i)
+        FOR_ALL(anchors, i)
         {
           usedPoint[anchors[i]] = true;
         }
@@ -582,7 +582,7 @@ void mousse::meshCutAndRemove::setRefinement
       {
         // Cell is not cut so use all its points
         const labelList& cPoints = mesh().cellPoints()[cellI];
-        forAll(cPoints, i)
+        FOR_ALL(cPoints, i)
         {
           usedPoint[cPoints[i]] = true;
         }
@@ -590,10 +590,10 @@ void mousse::meshCutAndRemove::setRefinement
     }
     // Check
     const Map<edge>& faceSplitCut = cuts.faceSplitCut();
-    forAllConstIter(Map<edge>, faceSplitCut, iter)
+    FOR_ALL_CONST_ITER(Map<edge>, faceSplitCut, iter)
     {
       const edge& fCut = iter();
-      forAll(fCut, i)
+      FOR_ALL(fCut, i)
       {
         label cut = fCut[i];
         if (!isEdge(cut))
@@ -601,7 +601,7 @@ void mousse::meshCutAndRemove::setRefinement
           label pointI = getVertex(cut);
           if (!usedPoint[pointI])
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "meshCutAndRemove::setRefinement("
               ", const label, const cellCuts&, const labelList&"
@@ -615,13 +615,13 @@ void mousse::meshCutAndRemove::setRefinement
         }
       }
     }
-    forAll(cuts.pointIsCut(), pointI)
+    FOR_ALL(cuts.pointIsCut(), pointI)
     {
       if (cuts.pointIsCut()[pointI])
       {
         if (!usedPoint[pointI])
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "meshCutAndRemove::setRefinement("
             ", const label, const cellCuts&, const labelList&"
@@ -636,7 +636,7 @@ void mousse::meshCutAndRemove::setRefinement
       }
     }
     // Remove unused points.
-    forAll(usedPoint, pointI)
+    FOR_ALL(usedPoint, pointI)
     {
       if (!usedPoint[pointI])
       {
@@ -651,14 +651,14 @@ void mousse::meshCutAndRemove::setRefinement
   //
   // For all cut cells add an internal or external face
   //
-  forAll(cellLoops, cellI)
+  FOR_ALL(cellLoops, cellI)
   {
     const labelList& loop = cellLoops[cellI];
     if (loop.size())
     {
       if (cutPatch[cellI] < 0 || cutPatch[cellI] >= patches.size())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "meshCutAndRemove::setRefinement("
           ", const label, const cellCuts&, const labelList&"
@@ -702,7 +702,7 @@ void mousse::meshCutAndRemove::setRefinement
           << " from Loop:";
         // Gets edgeweights of loop
         scalarField weights(loop.size());
-        forAll(loop, i)
+        FOR_ALL(loop, i)
         {
           label cut = loop[i];
           weights[i] =
@@ -725,7 +725,7 @@ void mousse::meshCutAndRemove::setRefinement
   // -new owner/neighbour)
   boolList faceUptodate(mesh().nFaces(), false);
   const Map<edge>& faceSplitCuts = cuts.faceSplitCut();
-  forAllConstIter(Map<edge>, faceSplitCuts, iter)
+  FOR_ALL_CONST_ITER(Map<edge>, faceSplitCuts, iter)
   {
     label faceI = iter.key();
     // Renumber face to include split edges.
@@ -989,12 +989,12 @@ void mousse::meshCutAndRemove::setRefinement
   // to be reachable from an edgeCut.
   //
   const boolList& edgeIsCut = cuts.edgeIsCut();
-  forAll(edgeIsCut, edgeI)
+  FOR_ALL(edgeIsCut, edgeI)
   {
     if (edgeIsCut[edgeI])
     {
       const labelList& eFaces = mesh().edgeFaces()[edgeI];
-      forAll(eFaces, i)
+      FOR_ALL(eFaces, i)
       {
         label faceI = eFaces[i];
         if (!faceUptodate[faceI])
@@ -1044,7 +1044,7 @@ void mousse::meshCutAndRemove::setRefinement
   //       looping over all faces is cleaner and probably faster for dense
   //       cut patterns.
   const faceList& faces = mesh().faces();
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     if (!faceUptodate[faceI])
     {
@@ -1080,7 +1080,7 @@ void mousse::meshCutAndRemove::updateMesh(const mapPolyMesh& map)
   // Update stored labels for mesh change.
   {
     Map<label> newAddedFaces(addedFaces_.size());
-    forAllConstIter(Map<label>, addedFaces_, iter)
+    FOR_ALL_CONST_ITER(Map<label>, addedFaces_, iter)
     {
       label cellI = iter.key();
       label newCellI = map.reverseCellMap()[cellI];

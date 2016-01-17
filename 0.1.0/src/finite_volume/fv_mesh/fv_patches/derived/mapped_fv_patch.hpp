@@ -7,10 +7,13 @@
 //   mousse::mappedFvPatch
 // SourceFiles
 //   mapped_fv_patch.cpp
+
 #ifndef mapped_fv_patch_hpp_
 #define mapped_fv_patch_hpp_
+
 #include "fv_patch.hpp"
 #include "mapped_poly_patch.hpp"
+
 namespace mousse
 {
 class mappedFvPatch
@@ -19,7 +22,7 @@ class mappedFvPatch
 {
 public:
   //- Runtime type information
-  TypeName(mappedPolyPatch::typeName_());
+  TYPE_NAME(mappedPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     mappedFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm)
@@ -28,4 +31,5 @@ public:
     {}
 };
 }  // namespace mousse
+
 #endif

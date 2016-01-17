@@ -22,13 +22,13 @@ mousse::phasePropertiesList::phasePropertiesList
   phaseTypeNames_(),
   stateLabels_()
 {
-  forAll(props_, i)
+  FOR_ALL(props_, i)
   {
     props_[i].reorder(gasNames, liquidNames, solidNames);
   }
   phaseTypeNames_.setSize(props_.size());
   stateLabels_.setSize(props_.size());
-  forAll(props_, i)
+  FOR_ALL(props_, i)
   {
     phaseTypeNames_[i] = props_[i].phaseTypeName();
     stateLabels_[i] = props_[i].stateLabel();

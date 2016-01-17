@@ -13,7 +13,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> >
 Su
 (
   const GeometricField<Type, fvPatchField, volMesh>& su,
-  const GeometricField<Type, fvPatchField, volMesh>& vf
+  const GeometricField<Type, fvPatchField, volMesh>& /*vf*/
 )
 {
   return su;
@@ -23,7 +23,7 @@ tmp<GeometricField<Type, fvPatchField, volMesh> >
 Su
 (
   const tmp<GeometricField<Type, fvPatchField, volMesh> >& tsu,
-  const GeometricField<Type, fvPatchField, volMesh>& vf
+  const GeometricField<Type, fvPatchField, volMesh>& /*vf*/
 )
 {
   return tsu;

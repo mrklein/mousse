@@ -6,8 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledWallFvPatch, 0);
-  addToRunTimeSelectionTable(fvPatch, regionCoupledWallFvPatch, polyPatch);
+  DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledWallFvPatch, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, regionCoupledWallFvPatch, polyPatch);
 }
 // Member Functions 
 mousse::tmp<mousse::labelField> mousse::regionCoupledWallFvPatch::
@@ -21,7 +21,7 @@ interfaceInternalField
 mousse::tmp<mousse::labelField> mousse::regionCoupledWallFvPatch::
 internalFieldTransfer
 (
-  const Pstream::commsTypes commsType,
+  const Pstream::commsTypes,
   const labelUList& iF
 ) const
 {

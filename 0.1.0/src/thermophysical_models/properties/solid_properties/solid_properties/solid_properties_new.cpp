@@ -19,7 +19,7 @@ mousse::autoPtr<mousse::solidProperties> mousse::solidProperties::New(Istream& i
       ConstructorTablePtr_->find(solidType);
     if (cstrIter == ConstructorTablePtr_->end())
     {
-      FatalErrorIn("solidProperties::New(Istream&)")
+      FATAL_ERROR_IN("solidProperties::New(Istream&)")
         << "Unknown solidProperties type " << solidType << nl << nl
         << "Valid solidProperties types are :" << endl
         << ConstructorTablePtr_->sortedToc()
@@ -33,7 +33,7 @@ mousse::autoPtr<mousse::solidProperties> mousse::solidProperties::New(Istream& i
   }
   else
   {
-    FatalErrorIn("solidProperties::New(Istream&)")
+    FATAL_ERROR_IN("solidProperties::New(Istream&)")
       << "solidProperties type " << solidType
       << ", option " << coeffs << " given"
       << ", should be coeffs or defaultCoeffs"
@@ -59,7 +59,7 @@ mousse::autoPtr<mousse::solidProperties> mousse::solidProperties::New
       ConstructorTablePtr_->find(solidType);
     if (cstrIter == ConstructorTablePtr_->end())
     {
-      FatalErrorIn("solidProperties::New(const dictionary&)")
+      FATAL_ERROR_IN("solidProperties::New(const dictionary&)")
         << "Unknown solidProperties type " << solidType << nl << nl
         << "Valid solidProperties types are :" << endl
         << ConstructorTablePtr_->sortedToc()

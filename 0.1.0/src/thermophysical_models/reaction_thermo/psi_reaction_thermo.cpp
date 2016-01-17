@@ -6,8 +6,8 @@
 #include "fv_mesh.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(psiReactionThermo, 0);
-  defineRunTimeSelectionTable(psiReactionThermo, fvMesh);
+  DEFINE_TYPE_NAME_AND_DEBUG(psiReactionThermo, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(psiReactionThermo, fvMesh);
 }
 // Constructors 
 mousse::psiReactionThermo::psiReactionThermo

@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(radialActuationDiskSource, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(radialActuationDiskSource, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     radialActuationDiskSource,
@@ -37,7 +37,7 @@ mousse::fv::radialActuationDiskSource::radialActuationDiskSource
 void mousse::fv::radialActuationDiskSource::addSup
 (
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   const scalarField& cellsV = mesh_.V();
@@ -59,7 +59,7 @@ void mousse::fv::radialActuationDiskSource::addSup
 (
   const volScalarField& rho,
   fvMatrix<vector>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   const scalarField& cellsV = mesh_.V();

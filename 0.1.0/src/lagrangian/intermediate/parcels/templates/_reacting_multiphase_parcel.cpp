@@ -265,19 +265,19 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::calc
     {
       scalar dm = np0*mass0;
       // Absorb parcel into carrier phase
-      forAll(YGas_, i)
+      FOR_ALL(YGas_, i)
       {
         label gid = composition.localToCarrierId(GAS, i);
         td.cloud().rhoTrans(gid)[cellI] += dm*YMix[GAS]*YGas_[i];
       }
-      forAll(YLiquid_, i)
+      FOR_ALL(YLiquid_, i)
       {
         label gid = composition.localToCarrierId(LIQ, i);
         td.cloud().rhoTrans(gid)[cellI] += dm*YMix[LIQ]*YLiquid_[i];
       }
       // No mapping between solid components and carrier phase
       /*
-      forAll(YSolid_, i)
+      FOR_ALL(YSolid_, i)
       {
         label gid = composition.localToCarrierId(SLD, i);
         td.cloud().rhoTrans(gid)[cellI] += dm*YMix[SLD]*YSolid_[i];
@@ -322,7 +322,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::calc
   if (td.cloud().solution().coupled())
   {
     // Transfer mass lost to carrier mass, momentum and enthalpy sources
-    forAll(YGas_, i)
+    FOR_ALL(YGas_, i)
     {
       scalar dm = np0*dMassGas[i];
       label gid = composition.localToCarrierId(GAS, i);
@@ -331,7 +331,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::calc
       td.cloud().UTrans()[cellI] += dm*U0;
       td.cloud().hsTrans()[cellI] += dm*hs;
     }
-    forAll(YLiquid_, i)
+    FOR_ALL(YLiquid_, i)
     {
       scalar dm = np0*dMassLiquid[i];
       label gid = composition.localToCarrierId(LIQ, i);
@@ -342,7 +342,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::calc
     }
     // No mapping between solid components and carrier phase
     /*
-    forAll(YSolid_, i)
+    FOR_ALL(YSolid_, i)
     {
       scalar dm = np0*dMassSolid[i];
       label gid = composition.localToCarrierId(SLD, i);
@@ -352,7 +352,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::calc
       td.cloud().hsTrans()[cellI] += dm*hs;
     }
     */
-    forAll(dMassSRCarrier, i)
+    FOR_ALL(dMassSRCarrier, i)
     {
       scalar dm = np0*dMassSRCarrier[i];
       scalar hs = composition.carrier().Hs(i, pc, T0);
@@ -446,7 +446,7 @@ void mousse::ReactingMultiphaseParcel<ParcelType>::calcDevolatilisation
     // Note: hardcoded gaseous diffusivities for now
     // TODO: add to carrier thermo
     const scalar beta = sqr(cbrt(15.0) + cbrt(15.0));
-    forAll(dMassDV, i)
+    FOR_ALL(dMassDV, i)
     {
       const label id = composition.localToCarrierId(GAS, i);
       const scalar Cp = composition.carrier().Cp(id, this->pc_, Ts);

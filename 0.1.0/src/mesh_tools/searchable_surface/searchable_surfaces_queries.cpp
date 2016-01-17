@@ -7,11 +7,14 @@
 #include "ofstream.hpp"
 #include "mesh_tools.hpp"
 #include "dynamic_field.hpp"
+#include "ptr_list.hpp"
+
 namespace mousse
 {
-defineTypeNameAndDebug(searchableSurfacesQueries, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(searchableSurfacesQueries, 0);
 }
-// Private Member Functions 
+
+// Private Member Functions
 mousse::pointIndexHit mousse::searchableSurfacesQueries::tempFindNearest
 (
   const searchableSurface& surf,
@@ -35,7 +38,7 @@ mousse::scalar mousse::searchableSurfacesQueries::sumDistSqr
 )
 {
   scalar sum = 0;
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     label surfI = surfacesToTest[testI];
     pointIndexHit hit
@@ -78,7 +81,7 @@ bool mousse::searchableSurfacesQueries::morphTet
 (
   const PtrList<searchableSurface>& allSurfaces,
   const labelList& surfacesToTest,
-  const scalar initDistSqr,
+  const scalar /*initDistSqr*/,
   const scalar convergenceDistSqr,
   const label maxIter,
   List<vector>& p,
@@ -91,7 +94,7 @@ bool mousse::searchableSurfacesQueries::morphTet
   if (debug)
   {
     wordList names(surfacesToTest.size());
-    forAll(surfacesToTest, i)
+    FOR_ALL(surfacesToTest, i)
     {
       names[i] = allSurfaces[surfacesToTest[i]].name();
     }
@@ -173,7 +176,7 @@ bool mousse::searchableSurfacesQueries::morphTet
       if (ytry >= ysave)
       {
         // Contract around lowest point.
-        forAll(p, i)
+        FOR_ALL(p, i)
         {
           if (i != ilo)
           {
@@ -231,7 +234,7 @@ bool mousse::searchableSurfacesQueries::morphTet
 //
 //        label nHits = 0;
 //
-//        forAll(intersectInfo, i)
+//        FOR_ALL(intersectInfo, i)
 //        {
 //            if (intersectInfo[i].hit())
 //            {
@@ -278,11 +281,11 @@ void mousse::searchableSurfacesQueries::mergeHits
 {
   // Precalculate distances
   scalarList surfDistSqr(surfHits.size());
-  forAll(surfHits, i)
+  FOR_ALL(surfHits, i)
   {
     surfDistSqr[i] = magSqr(surfHits[i].hitPoint() - start);
   }
-  forAll(surfDistSqr, i)
+  FOR_ALL(surfDistSqr, i)
   {
     label index = findLower(allDistSqr, surfDistSqr[i]);
     // Check if equal to lower.
@@ -327,7 +330,8 @@ void mousse::searchableSurfacesQueries::mergeHits
     }
   }
 }
-// Member Functions 
+
+// Member Functions
 // Find any intersection
 void mousse::searchableSurfacesQueries::findAnyIntersection
 (
@@ -347,13 +351,13 @@ void mousse::searchableSurfacesQueries::findAnyIntersection
   pointField p0(start);
   pointField p1(end);
   List<pointIndexHit> intersectInfo(start.size());
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     // Do synchronised call to all surfaces.
     allSurfaces[surfacesToTest[testI]].findLineAny(p0, p1, intersectInfo);
     // Copy all hits into arguments, continue with misses
     label newI = 0;
-    forAll(intersectInfo, i)
+    FOR_ALL(intersectInfo, i)
     {
       if (intersectInfo[i].hit())
       {
@@ -408,7 +412,7 @@ void mousse::searchableSurfacesQueries::findAllIntersections
   allSurfaces[surfacesToTest[0]].findLineAll(start, end, hitInfo);
   // Set hitSurfaces and distance
   List<scalarList> hitDistSqr(hitInfo.size());
-  forAll(hitInfo, pointI)
+  FOR_ALL(hitInfo, pointI)
   {
     const List<pointIndexHit>& pHits = hitInfo[pointI];
     labelList& pSurfaces = hitSurfaces[pointI];
@@ -416,7 +420,7 @@ void mousse::searchableSurfacesQueries::findAllIntersections
     pSurfaces = 0;
     scalarList& pDistSqr = hitDistSqr[pointI];
     pDistSqr.setSize(pHits.size());
-    forAll(pHits, i)
+    FOR_ALL(pHits, i)
     {
       pDistSqr[i] = magSqr(pHits[i].hitPoint() - start[pointI]);
     }
@@ -433,7 +437,7 @@ void mousse::searchableSurfacesQueries::findAllIntersections
         end,
         surfHits
       );
-      forAll(surfHits, pointI)
+      FOR_ALL(surfHits, pointI)
       {
         mergeHits
         (
@@ -471,7 +475,7 @@ void mousse::searchableSurfacesQueries::findNearestIntersection
  pointField nearest(end);
  // Work array
  List<pointIndexHit> nearestInfo(start.size());
- forAll(surfacesToTest, testI)
+ FOR_ALL(surfacesToTest, testI)
  {
    // See if any intersection between start and current nearest
    allSurfaces[surfacesToTest[testI]].findLine
@@ -480,7 +484,7 @@ void mousse::searchableSurfacesQueries::findNearestIntersection
      nearest,
      nearestInfo
    );
-   forAll(nearestInfo, pointI)
+   FOR_ALL(nearestInfo, pointI)
    {
      if (nearestInfo[pointI].hit())
      {
@@ -497,7 +501,7 @@ void mousse::searchableSurfacesQueries::findNearestIntersection
  surface2 = surface1;
  hit2 = hit1;
  // Set current end of segment to test.
- forAll(nearest, pointI)
+ FOR_ALL(nearest, pointI)
  {
    if (hit1[pointI].hit())
    {
@@ -509,11 +513,11 @@ void mousse::searchableSurfacesQueries::findNearestIntersection
      nearest[pointI] = end[pointI];
    }
  }
- forAll(surfacesToTest, testI)
+ FOR_ALL(surfacesToTest, testI)
  {
    // See if any intersection between end and current nearest
    allSurfaces[surfacesToTest[testI]].findLine(end, nearest, nearestInfo);
-   forAll(nearestInfo, pointI)
+   FOR_ALL(nearestInfo, pointI)
    {
      if (nearestInfo[pointI].hit())
      {
@@ -542,7 +546,7 @@ void mousse::searchableSurfacesQueries::findNearest
   // Work arrays
   scalarField minDistSqr(nearestDistSqr);
   List<pointIndexHit> hitInfo(samples.size());
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     allSurfaces[surfacesToTest[testI]].findNearest
     (
@@ -551,7 +555,7 @@ void mousse::searchableSurfacesQueries::findNearest
       hitInfo
     );
     // Update minDistSqr and arguments
-    forAll(hitInfo, pointI)
+    FOR_ALL(hitInfo, pointI)
     {
       if (hitInfo[pointI].hit())
       {
@@ -597,7 +601,7 @@ void mousse::searchableSurfacesQueries::findNearest
   // Work arrays
   scalarField minDistSqr(nearestDistSqr);
   List<pointIndexHit> hitInfo(samples.size());
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     allSurfaces[surfacesToTest[testI]].findNearest
     (
@@ -607,7 +611,7 @@ void mousse::searchableSurfacesQueries::findNearest
       hitInfo
     );
     // Update minDistSqr and arguments
-    forAll(hitInfo, pointI)
+    FOR_ALL(hitInfo, pointI)
     {
       if (hitInfo[pointI].hit())
       {
@@ -650,12 +654,12 @@ void mousse::searchableSurfacesQueries::signedDistance
   // Determine sign of nearest. Sort by surface to do this.
   DynamicField<point> surfPoints(samples.size());
   DynamicList<label> surfIndices(samples.size());
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     // Extract samples on this surface
     surfPoints.clear();
     surfIndices.clear();
-    forAll(nearestSurfaces, i)
+    FOR_ALL(nearestSurfaces, i)
     {
       if (nearestSurfaces[i] == testI)
       {
@@ -667,7 +671,7 @@ void mousse::searchableSurfacesQueries::signedDistance
     List<volumeType> volType;
     allSurfaces[surfacesToTest[testI]].getVolumeType(surfPoints, volType);
     // Push back to original
-    forAll(volType, i)
+    FOR_ALL(volType, i)
     {
       label pointI = surfIndices[i];
       scalar dist = mag(samples[pointI] - nearestInfo[pointI].hitPoint());
@@ -696,7 +700,7 @@ void mousse::searchableSurfacesQueries::signedDistance
           }
           default:
           {
-            FatalErrorIn("signedDistance()")
+            FATAL_ERROR_IN("signedDistance()")
               << "getVolumeType failure,"
               << " neither INSIDE or OUTSIDE."
               << " point:" << surfPoints[i]
@@ -719,7 +723,7 @@ mousse::boundBox mousse::searchableSurfacesQueries::bounds
 )
 {
   pointField bbPoints(2*surfacesToTest.size());
-  forAll(surfacesToTest, testI)
+  FOR_ALL(surfacesToTest, testI)
   {
     const searchableSurface& surface(allSurfaces[surfacesToTest[testI]]);
     bbPoints[2*testI] = surface.bounds().min();
@@ -741,7 +745,7 @@ mousse::pointIndexHit mousse::searchableSurfacesQueries::facesIntersection
   // starting point onto the surfaces and the mid point
   List<point> nearest(surfacesToTest.size()+1);
   point sumNearest = vector::zero;
-  forAll(surfacesToTest, i)
+  FOR_ALL(surfacesToTest, i)
   {
     pointIndexHit hit
     (
@@ -754,7 +758,7 @@ mousse::pointIndexHit mousse::searchableSurfacesQueries::facesIntersection
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "searchableSurfacesQueries::facesIntersection"
         "(const labelList&, const scalar, const scalar, const point&)"
@@ -768,7 +772,7 @@ mousse::pointIndexHit mousse::searchableSurfacesQueries::facesIntersection
   nearest.last() = sumNearest / surfacesToTest.size();
   // Get the sum of distances (initial evaluation)
   List<scalar> nearestDist(nearest.size());
-  forAll(nearestDist, i)
+  FOR_ALL(nearestDist, i)
   {
     nearestDist[i] = sumDistSqr
     (
@@ -812,7 +816,7 @@ mousse::pointIndexHit mousse::searchableSurfacesQueries::facesIntersection
   //    nearest[3] = nearest[0];
   //    nearest[3].z() += smallDist;
   //
-  //    forAll(nearestDist, i)
+  //    FOR_ALL(nearestDist, i)
   //    {
   //        nearestDist[i] = sumDistSqr
   //        (

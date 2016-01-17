@@ -27,7 +27,7 @@ protected:
     void makeDeltaCoeffs(scalarField& dc) const;
 public:
   //- Runtime type information
-  TypeName(mappedVariableThicknessWallPolyPatch::typeName_());
+  TYPE_NAME(mappedVariableThicknessWallPolyPatch::typeName_());
   // Constructors
     //- Construct from components
     mappedVariableThicknessWallFvPatch

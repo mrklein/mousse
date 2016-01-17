@@ -19,9 +19,9 @@ namespace regionModels
 namespace pyrolysisModels
 {
 // Static Data Members
-defineTypeNameAndDebug(reactingOneDim, 0);
-addToRunTimeSelectionTable(pyrolysisModel, reactingOneDim, mesh);
-addToRunTimeSelectionTable(pyrolysisModel, reactingOneDim, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(reactingOneDim, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(pyrolysisModel, reactingOneDim, mesh);
+ADD_TO_RUN_TIME_SELECTION_TABLE(pyrolysisModel, reactingOneDim, dictionary);
 // Protected Member Functions 
 void reactingOneDim::readReactingOneDimControls()
 {
@@ -64,7 +64,7 @@ void reactingOneDim::updateQr()
   Qr_ == dimensionedScalar("zero", Qr_.dimensions(), 0.0);
   // Retrieve field from coupled region using mapped boundary conditions
   Qr_.correctBoundaryConditions();
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     scalarField& Qrp = Qr_.boundaryField()[patchI];
@@ -76,18 +76,18 @@ void reactingOneDim::updateQr()
   tmp<volScalarField> kappa = kappaRad();
   // Propagate Qr through 1-D regions
   label localPyrolysisFaceI = 0;
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     const scalarField& Qrp = Qr_.boundaryField()[patchI];
     const vectorField& Cf = regionMesh().Cf().boundaryField()[patchI];
-    forAll(Qrp, faceI)
+    FOR_ALL(Qrp, faceI)
     {
       const scalar Qr0 = Qrp[faceI];
       point Cf0 = Cf[faceI];
       const labelList& cells = boundaryFaceCells_[localPyrolysisFaceI++];
       scalar kappaInt = 0.0;
-      forAll(cells, k)
+      FOR_ALL(cells, k)
       {
         const label cellI = cells[k];
         const point& Cf1 = cellC[cellI];
@@ -104,7 +104,7 @@ void reactingOneDim::updatePhiGas()
   phiHsGas_ ==  dimensionedScalar("zero", phiHsGas_.dimensions(), 0.0);
   phiGas_ == dimensionedScalar("zero", phiGas_.dimensions(), 0.0);
   const speciesTable& gasTable = solidChemistry_->gasTable();
-  forAll(gasTable, gasI)
+  FOR_ALL(gasTable, gasI)
   {
     tmp<volScalarField> tHsiGas =
       solidChemistry_->gasHs(solidThermo_.p(), solidThermo_.T(), gasI);
@@ -112,16 +112,16 @@ void reactingOneDim::updatePhiGas()
     const DimensionedField<scalar, volMesh>& RRiGas =
       solidChemistry_->RRg(gasI);
     label totalFaceId = 0;
-    forAll(intCoupledPatchIDs_, i)
+    FOR_ALL(intCoupledPatchIDs_, i)
     {
       const label patchI = intCoupledPatchIDs_[i];
       scalarField& phiGasp = phiGas_.boundaryField()[patchI];
       const scalarField& cellVol = regionMesh().V();
-      forAll(phiGasp, faceI)
+      FOR_ALL(phiGasp, faceI)
       {
         const labelList& cells = boundaryFaceCells_[totalFaceId++];
         scalar massInt = 0.0;
-        forAllReverse(cells, k)
+        FOR_ALL_REVERSE(cells, k)
         {
           const label cellI = cells[k];
           massInt += RRiGas[cellI]*cellVol[cellI];
@@ -162,7 +162,7 @@ void reactingOneDim::updateMesh(const scalarField& mass0)
   // move the mesh
   const labelList moveMap = moveMesh(regionMesh().V() - newV, minimumDelta_);
   // flag any cells that have not moved as non-reacting
-  forAll(moveMap, i)
+  FOR_ALL(moveMap, i)
   {
     if (moveMap[i] == 0)
     {
@@ -265,7 +265,7 @@ void reactingOneDim::solveEnergy()
 void reactingOneDim::calculateMassTransfer()
 {
   totalGasMassFlux_ = 0;
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     totalGasMassFlux_ += gSum(phiGas_.boundaryField()[patchI]);
@@ -474,7 +474,7 @@ reactingOneDim::~reactingOneDim()
 scalar reactingOneDim::addMassSources(const label patchI, const label faceI)
 {
   label index = 0;
-  forAll(primaryPatchIDs_, i)
+  FOR_ALL(primaryPatchIDs_, i)
   {
     if (primaryPatchIDs_[i] == patchI)
     {
@@ -538,7 +538,7 @@ void reactingOneDim::preEvolveRegion()
 {
   pyrolysisModel::preEvolveRegion();
   // Initialise all cells as able to react
-  forAll(h_, cellI)
+  FOR_ALL(h_, cellI)
   {
     solidChemistry_->setCellReacting(cellI, true);
   }

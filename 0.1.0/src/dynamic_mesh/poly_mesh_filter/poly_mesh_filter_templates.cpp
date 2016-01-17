@@ -12,7 +12,7 @@ void mousse::polyMeshFilter::updateSets(const mapPolyMesh& map)
 {
   HashTable<const SetType*> sets =
     map.mesh().objectRegistry::lookupClass<const SetType>();
-  forAllIter(typename HashTable<const SetType*>, sets, iter)
+  FOR_ALL_ITER(typename HashTable<const SetType*>, sets, iter)
   {
     SetType& set = const_cast<SetType&>(*iter());
     set.updateMesh(map);
@@ -25,7 +25,7 @@ void mousse::polyMeshFilter::updateSets(const mapPolyMesh& map)
     "polyMesh/sets"
   );
   IOobjectList fileSets(Objects.lookupClass(SetType::typeName));
-  forAllConstIter(IOobjectList, fileSets, iter)
+  FOR_ALL_CONST_ITER(IOobjectList, fileSets, iter)
   {
     if (!sets.found(iter.key()))
     {
@@ -45,7 +45,7 @@ void mousse::polyMeshFilter::copySets
 {
   HashTable<const SetType*> sets =
     oldMesh.objectRegistry::lookupClass<const SetType>();
-  forAllConstIter(typename HashTable<const SetType*>, sets, iter)
+  FOR_ALL_CONST_ITER(typename HashTable<const SetType*>, sets, iter)
   {
     const SetType& set = *iter();
     if (newMesh.objectRegistry::foundObject<SetType>(set.name()))

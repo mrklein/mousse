@@ -62,7 +62,7 @@ class InflationInjection
     const autoPtr<distributionModels::distributionModel> sizeDistribution_;
 public:
   //- Runtime type information
-  TypeName("inflationInjection");
+  TYPE_NAME("inflationInjection");
   // Constructors
     //- Construct from dictionary
     InflationInjection

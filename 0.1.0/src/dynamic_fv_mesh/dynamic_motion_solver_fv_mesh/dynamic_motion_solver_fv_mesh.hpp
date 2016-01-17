@@ -19,17 +19,19 @@ class dynamicMotionSolverFvMesh
 {
   // Private data
     autoPtr<motionSolver> motionPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    dynamicMotionSolverFvMesh(const dynamicMotionSolverFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const dynamicMotionSolverFvMesh&);
 public:
   //- Runtime type information
-  TypeName("dynamicMotionSolverFvMesh");
+  TYPE_NAME("dynamicMotionSolverFvMesh");
   // Constructors
     //- Construct from IOobject
     dynamicMotionSolverFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    dynamicMotionSolverFvMesh(const dynamicMotionSolverFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    dynamicMotionSolverFvMesh& operator=
+    (
+      const dynamicMotionSolverFvMesh&
+    ) = delete;
   //- Destructor
   ~dynamicMotionSolverFvMesh();
   // Member Functions

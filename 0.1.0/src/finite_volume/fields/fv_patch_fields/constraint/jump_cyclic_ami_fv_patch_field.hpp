@@ -26,7 +26,7 @@ class jumpCyclicAMIFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("jumpCyclicAMI");
+  TYPE_NAME("jumpCyclicAMI");
   // Constructors
     //- Construct from patch and internal field
     jumpCyclicAMIFvPatchField

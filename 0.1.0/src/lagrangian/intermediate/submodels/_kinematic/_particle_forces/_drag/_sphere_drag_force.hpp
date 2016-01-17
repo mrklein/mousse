@@ -20,7 +20,7 @@ class SphereDragForce
     scalar CdRe(const scalar Re) const;
 public:
   //- Runtime type information
-  TypeName("sphereDrag");
+  TYPE_NAME("sphereDrag");
   // Constructors
     //- Construct from mesh
     SphereDragForce

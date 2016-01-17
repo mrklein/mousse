@@ -25,7 +25,7 @@ class angularOscillatingDisplacementPointPatchVectorField
     pointField p0_;
 public:
   //- Runtime type information
-  TypeName("angularOscillatingDisplacement");
+  TYPE_NAME("angularOscillatingDisplacement");
   // Constructors
     //- Construct from patch and internal field
     angularOscillatingDisplacementPointPatchVectorField

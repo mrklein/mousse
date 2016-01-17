@@ -16,7 +16,7 @@ mousse::gradingDescriptors::gradingDescriptors(const gradingDescriptor& gd)
 mousse::gradingDescriptors mousse::gradingDescriptors::inv() const
 {
   gradingDescriptors ret(*this);
-  forAll(ret, i)
+  FOR_ALL(ret, i)
   {
     ret[i] = operator[](ret.size() - i - 1).inv();
   }
@@ -42,12 +42,12 @@ mousse::Istream& mousse::operator>>(Istream& is, gradingDescriptors& gds)
     // of the list of gradingDescriptors
     scalar sumBlockFraction = 0;
     scalar sumNDivFraction = 0;
-    forAll(gds, i)
+    FOR_ALL(gds, i)
     {
       sumBlockFraction += gds[i].blockFraction_;
       sumNDivFraction += gds[i].nDivFraction_;
     }
-    forAll(gds, i)
+    FOR_ALL(gds, i)
     {
       gds[i].blockFraction_ /= sumBlockFraction;
       gds[i].nDivFraction_ /= sumNDivFraction;

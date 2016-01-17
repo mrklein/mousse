@@ -27,11 +27,6 @@ private:
   // Private data
     //- List of mass injected per patch
     scalarField massInjected_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    injectionModelList(const injectionModelList&);
-    //- Disallow default bitwise assignment
-    void operator=(const injectionModelList&);
 public:
   // Constructors
     //- Construct null
@@ -42,6 +37,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    injectionModelList(const injectionModelList&) = delete;
+    //- Disallow default bitwise assignment
+    injectionModelList& operator=(const injectionModelList&) = delete;
   //- Destructor
   virtual ~injectionModelList();
   // Member Functions

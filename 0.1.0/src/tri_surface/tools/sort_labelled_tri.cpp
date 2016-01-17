@@ -24,7 +24,7 @@ sortLabelledTri::sortLabelledTri(const triSurface& surf)
   List<surfAndLabel>(surf.size(), surfAndLabel(surf, -1))
 {
   // Set the face label
-  forAll(surf, faceI)
+  FOR_ALL(surf, faceI)
   {
     operator[](faceI).index_ = faceI;
   }
@@ -35,7 +35,7 @@ sortLabelledTri::sortLabelledTri(const triSurface& surf)
 void sortLabelledTri::indices(labelList& newIndices) const
 {
   newIndices.setSize(size());
-  forAll(newIndices, i)
+  FOR_ALL(newIndices, i)
   {
     newIndices[i] = operator[](i).index_;
   }

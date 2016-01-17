@@ -63,7 +63,7 @@ void ensightCloudField
     ensightFile.setf(ios_base::scientific, ios_base::floatfield);
     ensightFile.precision(5);
     label count = 0;
-    forAll(vf, i)
+    FOR_ALL(vf, i)
     {
       Type v = vf[i];
       if (mag(v) < 1.0e-90)

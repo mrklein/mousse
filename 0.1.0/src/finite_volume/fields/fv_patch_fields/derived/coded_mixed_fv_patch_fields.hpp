@@ -4,10 +4,13 @@
 
 #ifndef coded_mixed_fv_patch_fields_hpp_
 #define coded_mixed_fv_patch_fields_hpp_
+
 #include "coded_mixed_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(codedMixed);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(codedMixed);
 }  // namespace mousse
+
 #endif

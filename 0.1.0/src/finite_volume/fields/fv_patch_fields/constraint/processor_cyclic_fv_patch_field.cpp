@@ -6,6 +6,7 @@
 #include "processor_cyclic_fv_patch.hpp"
 #include "demand_driven_data.hpp"
 #include "transform_field.hpp"
+
 // Constructors
 template<class Type>
 mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
@@ -14,9 +15,11 @@ mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  processorFvPatchField<Type>(p, iF),
-  procPatch_(refCast<const processorCyclicFvPatch>(p))
+  processorFvPatchField<Type>{p, iF},
+  procPatch_{refCast<const processorCyclicFvPatch>(p)}
 {}
+
+
 template<class Type>
 mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
 (
@@ -25,10 +28,11 @@ mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
   const Field<Type>& f
 )
 :
-  //coupledFvPatchField<Type>(p, iF, f),
-  processorFvPatchField<Type>(p, iF, f),
-  procPatch_(refCast<const processorCyclicFvPatch>(p))
+  processorFvPatchField<Type>{p, iF, f},
+  procPatch_{refCast<const processorCyclicFvPatch>(p)}
 {}
+
+
 // Construct by mapping given processorCyclicFvPatchField<Type>
 template<class Type>
 mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
@@ -39,13 +43,12 @@ mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  //coupledFvPatchField<Type>(ptf, p, iF, mapper),
-  processorFvPatchField<Type>(ptf, p, iF, mapper),
-  procPatch_(refCast<const processorCyclicFvPatch>(p))
+  processorFvPatchField<Type>{ptf, p, iF, mapper},
+  procPatch_{refCast<const processorCyclicFvPatch>(p)}
 {
   if (!isType<processorCyclicFvPatch>(this->patch()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "processorCyclicFvPatchField<Type>::processorCyclicFvPatchField\n"
       "(\n"
@@ -54,14 +57,17 @@ mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
       "    const DimensionedField<Type, volMesh>& iF,\n"
       "    const fvPatchFieldMapper& mapper\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
 }
+
+
 template<class Type>
 mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
 (
@@ -70,13 +76,12 @@ mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
   const dictionary& dict
 )
 :
-  //coupledFvPatchField<Type>(p, iF, dict),
-  processorFvPatchField<Type>(p, iF, dict),
-  procPatch_(refCast<const processorCyclicFvPatch>(p))
+  processorFvPatchField<Type>{p, iF, dict},
+  procPatch_{refCast<const processorCyclicFvPatch>(p)}
 {
   if (!isType<processorCyclicFvPatch>(p))
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "processorCyclicFvPatchField<Type>::processorCyclicFvPatchField\n"
       "(\n"
@@ -85,16 +90,17 @@ mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
       "    const dictionary& dict\n"
       ")\n",
       dict
-    )   << "\n    patch type '" << p.type()
-      << "' not constraint type '" << typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalIOError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not constraint type '" << typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalIOError);
   }
   if (Pstream::defaultCommsType == Pstream::scheduled)
   {
-    WarningIn
+    WARNING_IN
     (
       "processorCyclicFvPatchField<Type>::processorCyclicFvPatchField\n"
       "(\n"
@@ -102,21 +108,24 @@ mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
       "    const DimensionedField<Type, volMesh>& iF,\n"
       "    const dictionary& dict\n"
       ")\n"
-    )   << "Scheduled communication with split cyclics not supported."
-      << endl;
+    )
+    << "Scheduled communication with split cyclics not supported."
+    << endl;
   }
 }
+
+
 template<class Type>
 mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
 (
   const processorCyclicFvPatchField<Type>& ptf
 )
 :
-  //processorLduInterfaceField(),
-  //coupledFvPatchField<Type>(ptf),
-  processorFvPatchField<Type>(ptf),
-  procPatch_(refCast<const processorCyclicFvPatch>(ptf.patch()))
+  processorFvPatchField<Type>{ptf},
+  procPatch_{refCast<const processorCyclicFvPatch>(ptf.patch())}
 {}
+
+
 template<class Type>
 mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
 (
@@ -124,10 +133,11 @@ mousse::processorCyclicFvPatchField<Type>::processorCyclicFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  //coupledFvPatchField<Type>(ptf, iF),
-  processorFvPatchField<Type>(ptf, iF),
-  procPatch_(refCast<const processorCyclicFvPatch>(ptf.patch()))
+  processorFvPatchField<Type>{ptf, iF},
+  procPatch_{refCast<const processorCyclicFvPatch>(ptf.patch())}
 {}
+
+
 // Destructor 
 template<class Type>
 mousse::processorCyclicFvPatchField<Type>::~processorCyclicFvPatchField()

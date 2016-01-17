@@ -64,16 +64,16 @@ class FSD
   // Private Member Functions
     //- Calculate the normalised fuel source term
     void calculateSourceNorm();
-    //- Disallow copy construct
-    FSD(const FSD&);
-    //- Disallow default bitwise assignment
-    void operator=(const FSD&);
 public:
   //- Runtime type information
-  TypeName("FSD");
+  TYPE_NAME("FSD");
   // Constructors
     //- Construct from components
     FSD(const word& modelType, const fvMesh& mesh, const word& phaseName);
+    //- Disallow copy construct
+    FSD(const FSD&) = delete;
+    //- Disallow default bitwise assignment
+    FSD& operator=(const FSD&) = delete;
   // Destructor
     virtual ~FSD();
   // Evolution

@@ -16,13 +16,18 @@
 //     limited <coefficient>;  // Backward compatibility
 // SourceFiles
 //   limited_sn_grad.cpp
+
 #ifndef limited_sn_grad_hpp_
 #define limited_sn_grad_hpp_
+
 #include "corrected_sn_grad.hpp"
+
 namespace mousse
 {
+
 namespace fv
 {
+
 template<class Type>
 class limitedSnGrad
 :
@@ -30,65 +35,76 @@ class limitedSnGrad
 {
   // Private data
     tmp<snGradScheme<Type> > correctedScheme_;
+
     scalar limitCoeff_;
+
   // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const limitedSnGrad&);
     //- Lookup function for the corrected to support backward compatibility
     //  of dictionary specification
     tmp<snGradScheme<Type> > lookupCorrectedScheme(Istream& schemeData)
     {
-      token nextToken(schemeData);
+      token nextToken{schemeData};
       if (nextToken.isNumber())
       {
         limitCoeff_ = nextToken.number();
-        return tmp<snGradScheme<Type> >
-        (
-          new correctedSnGrad<Type>(this->mesh())
-        );
+        return tmp<snGradScheme<Type>>
+        {
+          new correctedSnGrad<Type>{this->mesh()}
+        };
       }
       else
       {
         schemeData.putBack(nextToken);
-        tmp<snGradScheme<Type> > tcorrectedScheme
-        (
+        tmp<snGradScheme<Type>> tcorrectedScheme
+        {
           fv::snGradScheme<Type>::New(this->mesh(), schemeData)
-        );
+        };
         schemeData >> limitCoeff_;
+
         return tcorrectedScheme;
       }
     }
+
 public:
   //- Runtime type information
-  TypeName("limited");
+  TYPE_NAME("limited");
+
   // Constructors
     //- Construct from mesh
     limitedSnGrad(const fvMesh& mesh)
     :
-      snGradScheme<Type>(mesh),
-      correctedScheme_(new correctedSnGrad<Type>(this->mesh())),
-      limitCoeff_(1)
+      snGradScheme<Type>{mesh},
+      correctedScheme_{new correctedSnGrad<Type>(this->mesh())},
+      limitCoeff_{1}
     {}
+
     //- Construct from mesh and data stream
     limitedSnGrad(const fvMesh& mesh, Istream& schemeData)
     :
-      snGradScheme<Type>(mesh),
-      correctedScheme_(lookupCorrectedScheme(schemeData))
+      snGradScheme<Type>{mesh},
+      correctedScheme_{lookupCorrectedScheme(schemeData)}
     {
       if (limitCoeff_ < 0 || limitCoeff_ > 1)
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "limitedSnGrad(const fvMesh& mesh, Istream& schemeData) : ",
           schemeData
-        )   << "limitCoeff is specified as " << limitCoeff_
-          << " but should be >= 0 && <= 1"
-          << exit(FatalIOError);
+        )
+        << "limitCoeff is specified as " << limitCoeff_
+        << " but should be >= 0 && <= 1"
+        << exit(FatalIOError);
       }
     }
+
+    //- Disallow default bitwise assignment
+    limitedSnGrad& operator=(const limitedSnGrad&) = delete;
+
   //- Destructor
   virtual ~limitedSnGrad();
+
   // Member Functions
+  //
     //- Return the interpolation weighting factors for the given field
     virtual tmp<surfaceScalarField> deltaCoeffs
     (
@@ -97,18 +113,23 @@ public:
     {
       return this->mesh().nonOrthDeltaCoeffs();
     }
+
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
     {
       return true;
     }
+
     //- Return the explicit correction to the limitedSnGrad
     //  for the given field
     virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
     correction(const GeometricField<Type, fvPatchField, volMesh>&) const;
 };
+
 }  // namespace fv
+
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "limited_sn_grad.cpp"
 #endif

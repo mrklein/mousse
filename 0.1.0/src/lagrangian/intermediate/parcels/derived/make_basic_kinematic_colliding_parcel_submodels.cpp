@@ -12,12 +12,12 @@
 #include "make_parcel_patch_interaction_models.hpp"
 #include "make_parcel_stochastic_collision_models.hpp"
 #include "make_parcel_surface_film_models.hpp"
-makeParcelCloudFunctionObjects(basicKinematicCollidingCloud);
+MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS(basicKinematicCollidingCloud);
 // Kinematic sub-models
-makeParcelForces(basicKinematicCollidingCloud);
-makeParcelDispersionModels(basicKinematicCollidingCloud);
-makeParcelInjectionModels(basicKinematicCollidingCloud);
-makeParcelCollisionModels(basicKinematicCollidingCloud);
-makeParcelPatchInteractionModels(basicKinematicCollidingCloud);
-makeParcelStochasticCollisionModels(basicKinematicCollidingCloud);
-makeParcelSurfaceFilmModels(basicKinematicCollidingCloud);
+MAKE_PARCEL_FORCES(basicKinematicCollidingCloud);
+MAKE_PARCEL_DISPERSION_MODELS(basicKinematicCollidingCloud);
+MAKE_PARCEL_INJECTION_MODELS(basicKinematicCollidingCloud);
+MAKE_PARCEL_COLLISION_MODELS(basicKinematicCollidingCloud);
+MAKE_PARCEL_PATCH_INTERACTION_MODELS(basicKinematicCollidingCloud);
+MAKE_PARCEL_STOCHASTIC_COLLISION_MODELS(basicKinematicCollidingCloud);
+MAKE_PARCEL_SURFACE_FILM_MODELS(basicKinematicCollidingCloud);

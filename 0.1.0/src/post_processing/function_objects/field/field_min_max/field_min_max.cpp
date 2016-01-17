@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(fieldMinMax, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(fieldMinMax, 0);
   template<>
   const char* NamedEnum
   <
@@ -27,23 +27,23 @@ mousse::fieldMinMax::fieldMinMax
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  functionObjectFile(obr, name, typeName),
-  name_(name),
-  obr_(obr),
-  active_(true),
-  log_(true),
-  location_(true),
-  mode_(mdMag),
-  fieldSet_()
+  functionObjectFile{obr, name, typeName},
+  name_{name},
+  obr_{obr},
+  active_{true},
+  log_{true},
+  location_{true},
+  mode_{mdMag},
+  fieldSet_{}
 {
   // Check if the available mesh is an fvMesh otherise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "fieldMinMax::fieldMinMax"
       "("
@@ -52,8 +52,9 @@ mousse::fieldMinMax::fieldMinMax
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_
+    << endl;
   }
   read(dict);
 }
@@ -71,7 +72,7 @@ void mousse::fieldMinMax::read(const dictionary& dict)
     dict.lookup("fields") >> fieldSet_;
   }
 }
-void mousse::fieldMinMax::writeFileHeader(const label i)
+void mousse::fieldMinMax::writeFileHeader(const label /*i*/)
 {
   OFstream& file = this->file();
   writeHeader(file, "Field minima and maxima");
@@ -94,13 +95,13 @@ void mousse::fieldMinMax::writeFileHeader(const label i)
   }
   else
   {
-    forAll(fieldSet_, fieldI)
+    FOR_ALL(fieldSet_, fieldI)
     {
       writeTabbed(file, "min(" + fieldSet_[fieldI] + ')');
       writeTabbed(file, "max(" + fieldSet_[fieldI] + ')');
     }
   }
-  file<< endl;
+  file << endl;
 }
 void mousse::fieldMinMax::execute()
 {
@@ -121,7 +122,7 @@ void mousse::fieldMinMax::write()
     functionObjectFile::write();
     if (!location_) file()<< obr_.time().value();
     if (log_) Info<< type() << " " << name_ <<  " output:" << nl;
-    forAll(fieldSet_, fieldI)
+    FOR_ALL(fieldSet_, fieldI)
     {
       calcMinMaxFields<scalar>(fieldSet_[fieldI], mdCmpt);
       calcMinMaxFields<vector>(fieldSet_[fieldI], mode_);

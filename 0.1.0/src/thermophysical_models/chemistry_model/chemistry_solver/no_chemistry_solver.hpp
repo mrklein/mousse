@@ -20,7 +20,7 @@ class noChemistrySolver
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from mesh and phase name
     noChemistrySolver(const fvMesh& mesh, const word& phaseName);

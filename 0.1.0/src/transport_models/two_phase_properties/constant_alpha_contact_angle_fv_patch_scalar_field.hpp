@@ -22,7 +22,7 @@ class constantAlphaContactAngleFvPatchScalarField
     scalar theta0_;
 public:
   //- Runtime type information
-  TypeName("constantAlphaContactAngle");
+  TYPE_NAME("constantAlphaContactAngle");
   // Constructors
     //- Construct from patch and internal field
     constantAlphaContactAngleFvPatchScalarField

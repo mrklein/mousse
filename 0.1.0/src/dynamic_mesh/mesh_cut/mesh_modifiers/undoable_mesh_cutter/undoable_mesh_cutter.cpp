@@ -15,7 +15,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(undoableMeshCutter, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(undoableMeshCutter, 0);
 }
 // Private Member Functions 
 // For debugging
@@ -37,7 +37,7 @@ void mousse::undoableMeshCutter::printCellRefTree
 // For debugging
 void mousse::undoableMeshCutter::printRefTree(Ostream& os) const
 {
-  forAllConstIter(Map<splitCell*>, liveSplitCells_, iter)
+  FOR_ALL_CONST_ITER(Map<splitCell*>, liveSplitCells_, iter)
   {
     const splitCell* splitPtr = iter();
     // Walk to top (master path only)
@@ -71,12 +71,12 @@ void mousse::undoableMeshCutter::updateLabels
 {
   // Pass1 : check if changed
   bool changed = false;
-  forAllConstIter(Map<splitCell*>, liveSplitCells, iter)
+  FOR_ALL_CONST_ITER(Map<splitCell*>, liveSplitCells, iter)
   {
     const splitCell* splitPtr = iter();
     if (!splitPtr)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "undoableMeshCutter::updateLabels"
         "(const labelList&, Map<splitCell*>&)"
@@ -96,7 +96,7 @@ void mousse::undoableMeshCutter::updateLabels
     // Build new liveSplitCells
     // since new labels (= keys in Map) might clash with existing ones.
     Map<splitCell*> newLiveSplitCells(2*liveSplitCells.size());
-    forAllIter(Map<splitCell*>, liveSplitCells, iter)
+    FOR_ALL_ITER(Map<splitCell*>, liveSplitCells, iter)
     {
       splitCell* splitPtr = iter();
       label cellI = splitPtr->cellLabel();
@@ -140,7 +140,7 @@ mousse::undoableMeshCutter::undoableMeshCutter
 mousse::undoableMeshCutter::~undoableMeshCutter()
 {
   // Clean split cell tree.
-  forAllIter(Map<splitCell*>, liveSplitCells_, iter)
+  FOR_ALL_ITER(Map<splitCell*>, liveSplitCells_, iter)
   {
     splitCell* splitPtr = iter();
     while (splitPtr)
@@ -172,7 +172,7 @@ void mousse::undoableMeshCutter::setRefinement
   if (undoable_)
   {
     // Use cells cut in this iteration to update splitCell tree.
-    forAllConstIter(Map<label>, addedCells(), iter)
+    FOR_ALL_CONST_ITER(Map<label>, addedCells(), iter)
     {
       label cellI = iter.key();
       label addedCellI = iter();
@@ -196,7 +196,7 @@ void mousse::undoableMeshCutter::setRefinement
         // Insert master and slave into live splitcell list
         if (liveSplitCells_.found(addedCellI))
         {
-          FatalErrorIn("undoableMeshCutter::setRefinement")
+          FATAL_ERROR_IN("undoableMeshCutter::setRefinement")
             << "problem addedCell:" << addedCellI
             << abort(FatalError);
         }
@@ -218,7 +218,7 @@ void mousse::undoableMeshCutter::setRefinement
         // Insert master and slave into live splitcell list
         if (liveSplitCells_.found(addedCellI))
         {
-          FatalErrorIn("undoableMeshCutter::setRefinement")
+          FATAL_ERROR_IN("undoableMeshCutter::setRefinement")
             << "problem addedCell:" << addedCellI
             << abort(FatalError);
         }
@@ -250,17 +250,17 @@ mousse::labelList mousse::undoableMeshCutter::getSplitFaces() const
 {
   if (!undoable_)
   {
-    FatalErrorIn("undoableMeshCutter::getSplitFaces()")
+    FATAL_ERROR_IN("undoableMeshCutter::getSplitFaces()")
       << "Only call if constructed with unrefinement capability"
       << abort(FatalError);
   }
   DynamicList<label> liveSplitFaces(liveSplitCells_.size());
-  forAllConstIter(Map<splitCell*>, liveSplitCells_, iter)
+  FOR_ALL_CONST_ITER(Map<splitCell*>, liveSplitCells_, iter)
   {
     const splitCell* splitPtr = iter();
     if (!splitPtr->parent())
     {
-      FatalErrorIn("undoableMeshCutter::getSplitFaces()")
+      FATAL_ERROR_IN("undoableMeshCutter::getSplitFaces()")
         << "Live split cell without parent" << endl
         << "splitCell:" << splitPtr->cellLabel()
         << abort(FatalError);
@@ -298,17 +298,17 @@ mousse::Map<mousse::label> mousse::undoableMeshCutter::getAddedCells() const
   // (code copied from getSplitFaces)
   if (!undoable_)
   {
-    FatalErrorIn("undoableMeshCutter::getAddedCells()")
+    FATAL_ERROR_IN("undoableMeshCutter::getAddedCells()")
       << "Only call if constructed with unrefinement capability"
       << abort(FatalError);
   }
   Map<label> addedCells(liveSplitCells_.size());
-  forAllConstIter(Map<splitCell*>, liveSplitCells_, iter)
+  FOR_ALL_CONST_ITER(Map<splitCell*>, liveSplitCells_, iter)
   {
     const splitCell* splitPtr = iter();
     if (!splitPtr->parent())
     {
-      FatalErrorIn("undoableMeshCutter::getAddedCells()")
+      FATAL_ERROR_IN("undoableMeshCutter::getAddedCells()")
         << "Live split cell without parent" << endl
         << "splitCell:" << splitPtr->cellLabel()
         << abort(FatalError);
@@ -339,7 +339,7 @@ mousse::labelList mousse::undoableMeshCutter::removeSplitFaces
 {
   if (!undoable_)
   {
-    FatalErrorIn("undoableMeshCutter::removeSplitFaces(const labelList&)")
+    FATAL_ERROR_IN("undoableMeshCutter::removeSplitFaces(const labelList&)")
       << "Only call if constructed with unrefinement capability"
       << abort(FatalError);
   }
@@ -359,7 +359,7 @@ mousse::labelList mousse::undoableMeshCutter::removeSplitFaces
   {
     Pout<< "cellRegion:" << cellRegion << endl;
     Pout<< "cellRegionMaster:" << cellRegionMaster << endl;
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "undoableMeshCutter::removeSplitFaces(const labelList&)"
     )   << "Faces to remove:" << splitFaces << endl
@@ -368,12 +368,12 @@ mousse::labelList mousse::undoableMeshCutter::removeSplitFaces
   }
   // Every face removed will result in neighbour and owner being merged
   // into owner.
-  forAll(facesToRemove, facesToRemoveI)
+  FOR_ALL(facesToRemove, facesToRemoveI)
   {
     label faceI = facesToRemove[facesToRemoveI];
     if (!mesh().isInternalFace(faceI))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "undoableMeshCutter::removeSplitFaces(const labelList&)"
       )   << "Trying to remove face that is not internal"
@@ -409,7 +409,7 @@ mousse::labelList mousse::undoableMeshCutter::removeSplitFaces
       }
       if (!parentPtr)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "undoableMeshCutter::removeSplitFaces(const labelList&)"
         )   << "No parent for owner " << ownPtr->cellLabel()
@@ -417,7 +417,7 @@ mousse::labelList mousse::undoableMeshCutter::removeSplitFaces
       }
       if (!nbrPtr->parent())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "undoableMeshCutter::removeSplitFaces(const labelList&)"
         )   << "No parent for neighbour " << nbrPtr->cellLabel()
@@ -425,7 +425,7 @@ mousse::labelList mousse::undoableMeshCutter::removeSplitFaces
       }
       if (parentPtr != nbrPtr->parent())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "undoableMeshCutter::removeSplitFaces(const labelList&)"
         )   << "Owner and neighbour liveSplitCell entries do not have"
@@ -443,7 +443,7 @@ mousse::labelList mousse::undoableMeshCutter::removeSplitFaces
       )
       {
         // Live owner and neighbour are refined themselves.
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "undoableMeshCutter::removeSplitFaces(const labelList&)"
         )   << "Owner and neighbour liveSplitCell entries are"

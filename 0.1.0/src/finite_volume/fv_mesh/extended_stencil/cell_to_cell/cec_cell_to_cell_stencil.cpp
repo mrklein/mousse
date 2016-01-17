@@ -16,7 +16,7 @@ void mousse::CECCellToCellStencil::calcEdgeBoundaryData
 {
   neiGlobal.resize(2*boundaryEdges.size());
   labelHashSet edgeGlobals;
-  forAll(boundaryEdges, i)
+  FOR_ALL(boundaryEdges, i)
   {
     label edgeI = boundaryEdges[i];
     neiGlobal.insert
@@ -53,7 +53,7 @@ void mousse::CECCellToCellStencil::calcCellStencil
   //    Pout<< "DUmping boundary edges to " << str.name() << endl;
   //
   //    label vertI = 0;
-  //    forAll(boundaryEdges, i)
+  //    FOR_ALL(boundaryEdges, i)
   //    {
   //        label edgeI = boundaryEdges[i];
   //        const edge& e = mesh().edges()[edgeI];
@@ -85,13 +85,13 @@ void mousse::CECCellToCellStencil::calcCellStencil
   );
   globalCellCells.setSize(mesh().nCells());
   // Do coupled edges first
-  forAll(boundaryEdges, i)
+  FOR_ALL(boundaryEdges, i)
   {
     label edgeI = boundaryEdges[i];
     const labelList& eGlobals = neiGlobal[mesh().edges()[edgeI]];
     // Distribute to all edgeCells
     const labelList& eCells = mesh().edgeCells(edgeI);
-    forAll(eCells, j)
+    FOR_ALL(eCells, j)
     {
       label cellI = eCells[j];
       // Insert pGlobals into globalCellCells
@@ -118,7 +118,7 @@ void mousse::CECCellToCellStencil::calcCellStencil
       )
     );
     const labelList& eCells = mesh().edgeCells(edgeI);
-    forAll(eCells, j)
+    FOR_ALL(eCells, j)
     {
       label cellI = eCells[j];
       merge

@@ -21,9 +21,9 @@ class solidReactionThermo
 {
 public:
   //- Runtime type information
-  TypeName("solidReactionThermo");
+  TYPE_NAME("solidReactionThermo");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     solidReactionThermo,
@@ -32,7 +32,7 @@ public:
     (mesh, phaseName)
   );
   // Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     solidReactionThermo,

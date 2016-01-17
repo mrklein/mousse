@@ -8,8 +8,10 @@
 // SourceFiles
 //   fv_patch.cpp
 //   fv_patch_new.cpp
+
 #ifndef fv_patch_hpp_
 #define fv_patch_hpp_
+
 #include "poly_patch.hpp"
 #include "label_list.hpp"
 #include "sub_list.hpp"
@@ -20,6 +22,7 @@
 #include "fv_patch_fields_fwd.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
+
 namespace mousse
 {
 class fvBoundaryMesh;
@@ -31,11 +34,6 @@ class fvPatch
     const polyPatch& polyPatch_;
     //- Reference to boundary mesh
     const fvBoundaryMesh& boundaryMesh_;
-  // Private Member Functions
-    //- Disallow construct as copy
-    fvPatch(const fvPatch&);
-    //- Disallow assignment
-    void operator=(const fvPatch&);
 protected:
   // Protected Member Functions
     //- Make patch weighting factors
@@ -49,9 +47,9 @@ public:
   friend class fvBoundaryMesh;
   friend class surfaceInterpolation;
   //- Runtime type information
-  TypeName(polyPatch::typeName_());
+  TYPE_NAME(polyPatch::typeName_());
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       fvPatch,
@@ -62,6 +60,10 @@ public:
   // Constructors
     //- Construct from polyPatch and fvBoundaryMesh
     fvPatch(const polyPatch&, const fvBoundaryMesh&);
+    //- Disallow construct as copy
+    fvPatch(const fvPatch&) = delete;
+    //- Disallow assignment
+    fvPatch& operator=(const fvPatch&) = delete;
   // Selectors
     //- Return a pointer to a new patch created on freestore from polyPatch
     static autoPtr<fvPatch> New

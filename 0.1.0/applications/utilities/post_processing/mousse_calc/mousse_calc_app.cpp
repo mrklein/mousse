@@ -7,13 +7,13 @@
 int main(int argc, char *argv[])
 {
   mousse::timeSelector::addOptions();
-  #include "add_region_option.hpp"
+  #include "add_region_option.inc"
   mousse::argList::addBoolOption
   (
     "noWrite",
     "suppress writing results"
   );
-  #include "add_dict_option.hpp"
+  #include "add_dict_option.inc"
   if (argc < 2)
   {
     FatalError
@@ -26,12 +26,12 @@ int main(int argc, char *argv[])
     calcType::New(utilityName)
   );
   utility().tryInit();
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   mousse::instantList timeDirs = mousse::timeSelector::select0(runTime, args);
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   utility().tryPreCalc(args, runTime, mesh);
-  forAll(timeDirs, timeI)
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     mousse::Info<< "Time = " << runTime.timeName() << mousse::endl;

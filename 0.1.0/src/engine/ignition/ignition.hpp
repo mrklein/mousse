@@ -21,17 +21,16 @@ class ignition
     const fvMesh& mesh_;
     Switch ignite_;
     PtrList<ignitionSite> ignSites_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    ignition(const ignition&);
-    //- Disallow default bitwise assignment
-    void operator=(const ignition&);
 public:
   // Constructors
     //- Construct from Istream and database
     ignition(const dictionary&, const Time&, const fvMesh&);
     //- Construct from Istream and engineTime
     ignition(const dictionary&, const engineTime&, const fvMesh&);
+    //- Disallow default bitwise copy construct
+    ignition(const ignition&) = delete;
+    //- Disallow default bitwise assignment
+    ignition& operator=(const ignition&) = delete;
   // Member Functions
     //- Return the set of ignition sites
     const PtrList<ignitionSite>& sites()

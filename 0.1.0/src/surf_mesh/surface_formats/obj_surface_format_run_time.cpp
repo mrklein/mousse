@@ -5,13 +5,14 @@
 #include "obj_surface_format.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "add_to_member_function_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
 namespace fileFormats
 {
 // read MeshedSurface
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   OBJsurfaceFormat,
@@ -19,7 +20,7 @@ addNamedTemplatedToRunTimeSelectionTable
   fileExtension,
   obj
 );
-addNamedTemplatedToRunTimeSelectionTable
+ADD_NAMED_TEMPLATED_TO_RUN_TIME_SELECTION_TABLE
 (
   MeshedSurface,
   OBJsurfaceFormat,
@@ -28,7 +29,7 @@ addNamedTemplatedToRunTimeSelectionTable
   obj
 );
 // write MeshedSurfaceProxy
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   OBJsurfaceFormat,
@@ -37,7 +38,7 @@ addNamedTemplatedToMemberFunctionSelectionTable
   fileExtension,
   obj
 );
-addNamedTemplatedToMemberFunctionSelectionTable
+ADD_NAMED_TEMPLATED_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   MeshedSurfaceProxy,
   OBJsurfaceFormat,

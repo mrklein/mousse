@@ -441,13 +441,9 @@ private:
           pointField& patchDisp,
           labelList& patchNLayers
         ) const;
-    //- Disallow default bitwise copy construct
-    autoLayerDriver(const autoLayerDriver&);
-    //- Disallow default bitwise assignment
-    void operator=(const autoLayerDriver&);
 public:
   //- Runtime type information
-  ClassName("autoLayerDriver");
+  CLASS_NAME("autoLayerDriver");
   // Constructors
     //- Construct from components
     autoLayerDriver
@@ -456,6 +452,10 @@ public:
       const labelList& globalToMasterPatch,
       const labelList& globalToSlavePatch
     );
+    //- Disallow default bitwise copy construct
+    autoLayerDriver(const autoLayerDriver&) = delete;
+    //- Disallow default bitwise assignment
+    autoLayerDriver& operator=(const autoLayerDriver&) = delete;
   // Member Functions
       //- Merge patch faces on same cell.
       void mergePatchFacesUndo

@@ -55,7 +55,7 @@ void mousse::fieldAverageItem::operator=(const fieldAverageItem& rhs)
   // Check for assignment to self
   if (this == &rhs)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::fieldAverageItem::operator=(const mousse::fieldAverageItem&)"
     )   << "Attempted assignment to self" << nl

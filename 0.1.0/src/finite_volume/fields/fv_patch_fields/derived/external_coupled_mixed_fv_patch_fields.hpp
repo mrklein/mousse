@@ -4,10 +4,13 @@
 
 #ifndef external_coupled_mixed_fv_patch_fields_hpp_
 #define external_coupled_mixed_fv_patch_fields_hpp_
+
 #include "external_coupled_mixed_fv_patch_field.hpp"
 #include "field_types.hpp"
+
 namespace mousse
 {
-makePatchTypeFieldTypedefs(externalCoupledMixed);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(externalCoupledMixed);
 }  // namespace mousse
+
 #endif

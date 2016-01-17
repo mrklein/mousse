@@ -22,18 +22,20 @@ class extendedCentredCellToCellStencil
     autoPtr<mapDistribute> mapPtr_;
     //- Per cell the stencil.
     labelListList stencil_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    extendedCentredCellToCellStencil
-    (
-      const extendedCentredCellToCellStencil&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const extendedCentredCellToCellStencil&);
 public:
   // Constructors
     //- Construct from uncompacted cell stencil
     explicit extendedCentredCellToCellStencil(const cellToCellStencil&);
+    //- Disallow default bitwise copy construct
+    extendedCentredCellToCellStencil
+    (
+      const extendedCentredCellToCellStencil&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    extendedCentredCellToCellStencil& operator=
+    (
+      const extendedCentredCellToCellStencil&
+    ) = delete;
   // Member Functions
     //- Return reference to the parallel distribution map
     const mapDistribute& map() const

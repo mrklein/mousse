@@ -9,8 +9,8 @@
 #include "face_cell_wave.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(structuredRenumber, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(structuredRenumber, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     renumberMethod,
     structuredRenumber,
@@ -40,7 +40,7 @@ mousse::labelList mousse::structuredRenumber::renumber
 {
   if (points.size() != mesh.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "structuredDecomp::renumber(const polyMesh&, const pointField&)"
     )   << "Number of points " << points.size()
@@ -50,16 +50,16 @@ mousse::labelList mousse::structuredRenumber::renumber
   const polyBoundaryMesh& pbm = mesh.boundaryMesh();
   const labelHashSet patchIDs(pbm.patchSet(patches_));
   label nFaces = 0;
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     nFaces += pbm[iter.key()].size();
   }
   // Extract a submesh.
   labelHashSet patchCells(2*nFaces);
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     const labelUList& fc = pbm[iter.key()].faceCells();
-    forAll(fc, i)
+    FOR_ALL(fc, i)
     {
       patchCells.insert(fc[i]);
     }
@@ -86,7 +86,7 @@ mousse::labelList mousse::structuredRenumber::renumber
     labelList subOrder(method_().renumber(subMesh, subPoints));
     labelList subOrigToOrdered(invert(subOrder.size(), subOrder));
     // Transfer to final decomposition
-    forAll(subOrder, i)
+    FOR_ALL(subOrder, i)
     {
       orderedToOld[subsetter.cellMap()[i]] = subOrigToOrdered[i];
     }
@@ -95,11 +95,11 @@ mousse::labelList mousse::structuredRenumber::renumber
   labelList patchFaces(nFaces);
   List<topoDistanceData> patchData(nFaces);
   nFaces = 0;
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     const polyPatch& pp = pbm[iter.key()];
     const labelUList& fc = pp.faceCells();
-    forAll(fc, i)
+    FOR_ALL(fc, i)
     {
       patchFaces[nFaces] = pp.start()+i;
       patchData[nFaces] = topoDistanceData
@@ -127,13 +127,13 @@ mousse::labelList mousse::structuredRenumber::renumber
   // And extract.
   // Note that distance is distance from face so starts at 1.
   bool haveWarned = false;
-  forAll(orderedToOld, cellI)
+  FOR_ALL(orderedToOld, cellI)
   {
     if (!cellData[cellI].valid(deltaCalc.data()))
     {
       if (!haveWarned)
       {
-        WarningIn("structuredDecomp::renumber(..)")
+        WARNING_IN("structuredDecomp::renumber(..)")
           << "Did not visit some cells, e.g. cell " << cellI
           << " at " << mesh.cellCentres()[cellI] << endl
           << "Assigning these cells to domain 0." << endl;

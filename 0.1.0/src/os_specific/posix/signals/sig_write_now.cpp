@@ -67,7 +67,7 @@ mousse::sigWriteNow::~sigWriteNow()
   {
     if (sigaction(signal_, &oldAction_, NULL) < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::sigWriteNow::~sigWriteNow()"
       )   << "Cannot reset " << signal_ << " trapping"
@@ -86,7 +86,7 @@ void mousse::sigWriteNow::set(const bool verbose)
     sigemptyset(&newAction.sa_mask);
     if (sigaction(signal_, &newAction, &oldAction_) < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::sigWriteNow::sigWriteNow(const bool, const Time&)"
       )   << "Cannot set " << signal_ << " trapping"

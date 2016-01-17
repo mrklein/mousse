@@ -62,7 +62,7 @@ private:
     void syncDualData();
 public:
   //- Runtime type information
-  TypeName("dual");
+  TYPE_NAME("dual");
   //- Constructors
     //- Construct from components
     Dual

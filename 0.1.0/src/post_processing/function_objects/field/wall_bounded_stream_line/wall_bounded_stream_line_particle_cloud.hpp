@@ -17,14 +17,6 @@ class wallBoundedStreamLineParticleCloud
 :
   public Cloud<wallBoundedStreamLineParticle>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    wallBoundedStreamLineParticleCloud
-    (
-      const wallBoundedStreamLineParticleCloud&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const wallBoundedStreamLineParticleCloud&);
 public:
   //- Type of parcel the cloud was instantiated for
   typedef wallBoundedStreamLineParticle parcelType;
@@ -43,6 +35,16 @@ public:
       const word& cloudName,
       const IDLList<wallBoundedStreamLineParticle>& particles
     );
+    //- Disallow default bitwise copy construct
+    wallBoundedStreamLineParticleCloud
+    (
+      const wallBoundedStreamLineParticleCloud&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    wallBoundedStreamLineParticleCloud& operator=
+    (
+      const wallBoundedStreamLineParticleCloud&
+    ) = delete;
 };
 }  // namespace mousse
 #endif

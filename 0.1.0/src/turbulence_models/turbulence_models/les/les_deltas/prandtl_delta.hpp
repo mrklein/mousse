@@ -42,14 +42,11 @@ class PrandtlDelta
     scalar kappa_;
     scalar Cdelta_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    PrandtlDelta(const PrandtlDelta&);
-    void operator=(const PrandtlDelta&);
     // Calculate the delta values
     void calcDelta();
 public:
   //- Runtime type information
-  TypeName("Prandtl");
+  TYPE_NAME("Prandtl");
   // Constructors
     //- Construct from name, turbulenceModel and dictionary
     PrandtlDelta
@@ -58,6 +55,9 @@ public:
       const turbulenceModel& turbulence,
       const dictionary&
     );
+    //- Disallow default bitwise copy construct and assignment
+    PrandtlDelta(const PrandtlDelta&) = delete;
+    PrandtlDelta& operator=(const PrandtlDelta&) = delete;
   //- Destructor
   virtual ~PrandtlDelta()
   {}

@@ -28,7 +28,7 @@ class directionMixedFvPatchField
     symmTensorField valueFraction_;
 public:
   //- Runtime type information
-  TypeName("directionMixed");
+  TYPE_NAME("directionMixed");
   // Constructors
     //- Construct from patch and internal field
     directionMixedFvPatchField

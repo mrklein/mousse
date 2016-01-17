@@ -7,6 +7,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
+
 // Constructors 
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
@@ -15,14 +16,15 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  mixedFvPatchField<vector>(p, iF),
-  Umean_(0),
-  alphaName_("none")
+  mixedFvPatchField<vector>{p, iF},
+  Umean_{0},
+  alphaName_{"none"}
 {
   refValue() = vector::zero;
   refGrad() = vector::zero;
   valueFraction() = 0.0;
 }
+
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
 (
@@ -32,10 +34,11 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchField<vector>(ptf, p, iF, mapper),
-  Umean_(ptf.Umean_),
-  alphaName_(ptf.alphaName_)
+  mixedFvPatchField<vector>{ptf, p, iF, mapper},
+  Umean_{ptf.Umean_},
+  alphaName_{ptf.alphaName_}
 {}
+
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
 (
@@ -44,9 +47,9 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  mixedFvPatchField<vector>(p, iF),
-  Umean_(readScalar(dict.lookup("Umean"))),
-  alphaName_(dict.lookup("alpha"))
+  mixedFvPatchField<vector>{p, iF},
+  Umean_{readScalar(dict.lookup("Umean"))},
+  alphaName_{dict.lookup("alpha")}
 {
   refValue() = vector::zero;
   refGrad() = vector::zero;
@@ -55,7 +58,7 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   {
     fvPatchVectorField::operator=
     (
-      vectorField("value", dict, p.size())
+      vectorField{"value", dict, p.size()}
     );
   }
   else
@@ -63,16 +66,18 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
     fvPatchVectorField::operator=(patchInternalField());
   }
 }
+
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
 (
   const outletPhaseMeanVelocityFvPatchVectorField& ptf
 )
 :
-  mixedFvPatchField<vector>(ptf),
-  Umean_(ptf.Umean_),
-  alphaName_(ptf.alphaName_)
+  mixedFvPatchField<vector>{ptf},
+  Umean_{ptf.Umean_},
+  alphaName_{ptf.alphaName_}
 {}
+
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
 (
@@ -80,10 +85,11 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  mixedFvPatchField<vector>(ptf, iF),
-  Umean_(ptf.Umean_),
-  alphaName_(ptf.alphaName_)
+  mixedFvPatchField<vector>{ptf, iF},
+  Umean_{ptf.Umean_},
+  alphaName_{ptf.alphaName_}
 {}
+
 // Member Functions 
 void mousse::outletPhaseMeanVelocityFvPatchVectorField::updateCoeffs()
 {
@@ -115,6 +121,7 @@ void mousse::outletPhaseMeanVelocityFvPatchVectorField::updateCoeffs()
   }
   mixedFvPatchField<vector>::updateCoeffs();
 }
+
 void mousse::outletPhaseMeanVelocityFvPatchVectorField::write
 (
   Ostream& os
@@ -127,11 +134,12 @@ void mousse::outletPhaseMeanVelocityFvPatchVectorField::write
     << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
 namespace mousse
 {
- makePatchTypeField
- (
-   fvPatchVectorField,
-   outletPhaseMeanVelocityFvPatchVectorField
- );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  outletPhaseMeanVelocityFvPatchVectorField
+);
 }

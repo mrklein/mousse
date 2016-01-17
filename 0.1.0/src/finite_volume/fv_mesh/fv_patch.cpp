@@ -9,23 +9,27 @@
 #include "primitive_mesh.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(fvPatch, 0);
-  defineRunTimeSelectionTable(fvPatch, polyPatch);
-  addToRunTimeSelectionTable(fvPatch, fvPatch, polyPatch);
+DEFINE_TYPE_NAME_AND_DEBUG(fvPatch, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(fvPatch, polyPatch);
+ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, fvPatch, polyPatch);
 }
-// Constructors 
+
+// Constructors
 mousse::fvPatch::fvPatch(const polyPatch& p, const fvBoundaryMesh& bm)
 :
   polyPatch_(p),
   boundaryMesh_(bm)
 {}
-// Destructor 
+
+// Destructor
 mousse::fvPatch::~fvPatch()
 {}
-// Member Functions 
+
+// Member Functions
 bool mousse::fvPatch::constraintType(const word& pt)
 {
   return fvPatchField<scalar>::patchConstructorTablePtr_->found(pt);
@@ -65,7 +69,7 @@ mousse::tmp<mousse::vectorField> mousse::fvPatch::Cn() const
   const labelUList& faceCells = this->faceCells();
   // get reference to global cell centres
   const vectorField& gcc = boundaryMesh().mesh().cellCentres();
-  forAll(faceCells, faceI)
+  FOR_ALL(faceCells, faceI)
   {
     cc[faceI] = gcc[faceCells[faceI]];
   }

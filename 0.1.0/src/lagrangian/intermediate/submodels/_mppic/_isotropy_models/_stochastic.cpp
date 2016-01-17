@@ -119,7 +119,7 @@ void mousse::IsotropyModels::Stochastic<CloudType>::calculate()
       )
     )();
   // random sampling
-  forAllIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter)
   {
     typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), mesh);
@@ -149,7 +149,7 @@ void mousse::IsotropyModels::Stochastic<CloudType>::calculate()
     )
   );
   AveragingMethod<vector>& uTildeAverage = uTildeAveragePtr();
-  forAllIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter)
   {
     typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), mesh);
@@ -171,7 +171,7 @@ void mousse::IsotropyModels::Stochastic<CloudType>::calculate()
     )
   );
   AveragingMethod<scalar>& uTildeSqrAverage = uTildeSqrAveragePtr();
-  forAllIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter)
   {
     typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), mesh);
@@ -185,7 +185,7 @@ void mousse::IsotropyModels::Stochastic<CloudType>::calculate()
   }
   uTildeSqrAverage.average(massAverage);
   // conservation correction
-  forAllIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_ITER(typename CloudType, this->owner(), iter)
   {
     typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), mesh);

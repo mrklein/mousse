@@ -16,11 +16,6 @@ namespace mousse
 {
 class calcType
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    calcType(const calcType&);
-    //- Disallow default bitwise assignment
-    void operator=(const calcType&);
 protected:
   // Protected Member Functions
     // Calculation routines
@@ -50,9 +45,9 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("calcType");
+  TYPE_NAME("calcType");
   // Declare runtime constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       calcType,
@@ -63,6 +58,10 @@ public:
   // Constructors
     //- Construct null
     calcType();
+    //- Disallow default bitwise copy construct
+    calcType(const calcType&) = delete;
+    //- Disallow default bitwise assignment
+    calcType& operator=(const calcType&) = delete;
   // Selectors
     static autoPtr<calcType> New(const word& calcTypeName);
   //- Destructor

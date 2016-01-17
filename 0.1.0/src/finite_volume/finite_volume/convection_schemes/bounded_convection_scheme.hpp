@@ -26,14 +26,9 @@ class boundedConvectionScheme
 {
   // Private data
     tmp<fv::convectionScheme<Type> > scheme_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    boundedConvectionScheme(const boundedConvectionScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const boundedConvectionScheme&);
 public:
   //- Runtime type information
-  TypeName("bounded");
+  TYPE_NAME("bounded");
   // Constructors
     //- Construct from flux and Istream
     boundedConvectionScheme
@@ -43,12 +38,16 @@ public:
       Istream& is
     )
     :
-      convectionScheme<Type>(mesh, faceFlux),
+      convectionScheme<Type>{mesh, faceFlux},
       scheme_
-      (
+      {
         fv::convectionScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {}
+    //- Disallow default bitwise copy construct
+    boundedConvectionScheme(const boundedConvectionScheme&) = delete;
+    //- Disallow default bitwise assignment
+    boundedConvectionScheme& operator=(const boundedConvectionScheme&) = delete;
   // Member Functions
     tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate
     (

@@ -60,11 +60,9 @@ private:
   // Private Member Functions
     //- Calculate displacement (w.r.t. points0()) to project onto surface
     void calcProjection(vectorField& displacement) const;
-    //- Disallow default bitwise assignment
-    void operator=(const surfaceSlipDisplacementPointPatchVectorField&);
 public:
   //- Runtime type information
-  TypeName("surfaceSlipDisplacement");
+  TYPE_NAME("surfaceSlipDisplacement");
   // Constructors
     //- Construct from patch and internal field
     surfaceSlipDisplacementPointPatchVectorField
@@ -96,12 +94,9 @@ public:
     virtual autoPtr<pointPatchVectorField> clone() const
     {
       return autoPtr<pointPatchVectorField>
-      (
-        new surfaceSlipDisplacementPointPatchVectorField
-        (
-          *this
-        )
-      );
+      {
+        new surfaceSlipDisplacementPointPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     surfaceSlipDisplacementPointPatchVectorField
@@ -116,14 +111,15 @@ public:
     ) const
     {
       return autoPtr<pointPatchVectorField>
-      (
-        new surfaceSlipDisplacementPointPatchVectorField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new surfaceSlipDisplacementPointPatchVectorField{*this, iF}
+      };
     }
+    //- Disallow default bitwise assignment
+    surfaceSlipDisplacementPointPatchVectorField& operator=
+    (
+      const surfaceSlipDisplacementPointPatchVectorField&
+    ) = delete;
   // Member Functions
     //- Surface to follow. Demand loads surfaceNames.
     const searchableSurfaces& surfaces() const;

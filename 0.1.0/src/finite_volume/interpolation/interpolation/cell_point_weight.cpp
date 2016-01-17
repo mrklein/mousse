@@ -29,7 +29,7 @@ void mousse::cellPointWeight::findTetrahedron
   );
   const faceList& pFaces = mesh.faces();
   const scalar cellVolume = mesh.cellVolumes()[cellI];
-  forAll(cellTets, tetI)
+  FOR_ALL(cellTets, tetI)
   {
     const tetIndices& tetIs = cellTets[tetI];
     const face& f = pFaces[tetIs.face()];
@@ -59,7 +59,7 @@ void mousse::cellPointWeight::findTetrahedron
   // nearest.
   scalar minNearDist = VGREAT;
   label nearestTetI = -1;
-  forAll(cellTets, tetI)
+  FOR_ALL(cellTets, tetI)
   {
     const tetIndices& tetIs = cellTets[tetI];
     scalar nearDist = tetIs.tet(mesh).nearestPoint(position).distance();
@@ -109,7 +109,7 @@ void mousse::cellPointWeight::findTriangle
   );
   const scalar faceAreaSqr = magSqr(mesh.faceAreas()[faceI]);
   const face& f =  mesh.faces()[faceI];
-  forAll(faceTets, tetI)
+  FOR_ALL(faceTets, tetI)
   {
     const tetIndices& tetIs = faceTets[tetI];
     List<scalar> triWeights(3);
@@ -141,7 +141,7 @@ void mousse::cellPointWeight::findTriangle
   // A suitable point in a triangle was not found, find the nearest.
   scalar minNearDist = VGREAT;
   label nearestTetI = -1;
-  forAll(faceTets, tetI)
+  FOR_ALL(faceTets, tetI)
   {
     const tetIndices& tetIs = faceTets[tetI];
     scalar nearDist = tetIs.faceTri(mesh).nearestPoint(position).distance();

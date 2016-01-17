@@ -7,8 +7,8 @@
 
 #include "_brownian_motion_force.hpp"
 
-#define makeThermoParcelTurbulenceForces(CloudType)                           \
+#define MAKE_THERMO_PARCEL_TURBULENCE_FORCES(CloudType)                       \
                                                                               \
-  makeParticleForceModelType(BrownianMotionForce, CloudType);
+  MAKE_PARTICLE_FORCE_MODEL_TYPE(BrownianMotionForce, CloudType);
 
 #endif

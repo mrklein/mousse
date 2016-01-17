@@ -34,7 +34,7 @@ class SingleMixtureFraction
     void constructIds();
 public:
   //- Runtime type information
-  TypeName("singleMixtureFraction");
+  TYPE_NAME("singleMixtureFraction");
   // Constructors
     //- Construct from dictionary
     SingleMixtureFraction(const dictionary& dict, CloudType& owner);

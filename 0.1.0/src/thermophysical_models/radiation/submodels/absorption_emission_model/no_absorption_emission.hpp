@@ -20,7 +20,7 @@ class noAbsorptionEmission
 {
 public:
   //- Runtime type information
-  TypeName("none");
+  TYPE_NAME("none");
   // Constructors
     //- Construct from components
     noAbsorptionEmission(const dictionary& dict, const fvMesh& mesh);

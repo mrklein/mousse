@@ -5,11 +5,14 @@
 //   mousse::centredCPCCellToFaceStencilObject
 // Description
 // SourceFiles
+
 #ifndef centred_cpc_cell_to_face_stencil_object_hpp_
 #define centred_cpc_cell_to_face_stencil_object_hpp_
+
 #include "extended_centred_cell_to_face_stencil.hpp"
 #include "cpc_cell_to_face_stencil.hpp"
 #include "_mesh_object.hpp"
+
 namespace mousse
 {
 class centredCPCCellToFaceStencilObject
@@ -23,7 +26,8 @@ class centredCPCCellToFaceStencilObject
   public extendedCentredCellToFaceStencil
 {
 public:
-  TypeName("centredCPCCellToFaceStencil");
+  TYPE_NAME("centredCPCCellToFaceStencil");
+
   // Constructors
     //- Construct from uncompacted face stencil
     explicit centredCPCCellToFaceStencilObject
@@ -36,8 +40,8 @@ public:
         fvMesh,
         mousse::TopologicalMeshObject,
         centredCPCCellToFaceStencilObject
-      >(mesh),
-      extendedCentredCellToFaceStencil(CPCCellToFaceStencil(mesh))
+      >{mesh},
+      extendedCentredCellToFaceStencil{CPCCellToFaceStencil{mesh}}
     {
       if (extendedCellToFaceStencil::debug)
       {
@@ -50,5 +54,6 @@ public:
   virtual ~centredCPCCellToFaceStencilObject()
   {}
 };
+
 }  // namespace mousse
 #endif

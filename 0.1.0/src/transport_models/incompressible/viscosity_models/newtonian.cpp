@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace viscosityModels
 {
-  defineTypeNameAndDebug(Newtonian, 0);
-  addToRunTimeSelectionTable(viscosityModel, Newtonian, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(Newtonian, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(viscosityModel, Newtonian, dictionary);
 }
 }
 // Constructors 

@@ -15,7 +15,7 @@ void mousse::WallSpringSliderDashpot<CloudType>::findMinMaxProperties
   rMin = VGREAT;
   rhoMax = -VGREAT;
   UMagMax = -VGREAT;
-  forAllConstIter(typename CloudType, this->owner(), iter)
+  FOR_ALL_CONST_ITER(typename CloudType, this->owner(), iter)
   {
     const typename CloudType::parcelType& p = iter();
     // Finding minimum diameter to avoid excessive arithmetic
@@ -195,7 +195,7 @@ void mousse::WallSpringSliderDashpot<CloudType>::evaluateWall
 {
   scalar pREff = this->pREff(p);
   scalar kN = (4.0/3.0)*sqrt(pREff)*Estar_;
-  forAll(flatSitePoints, siteI)
+  FOR_ALL(flatSitePoints, siteI)
   {
     evaluateWall
     (
@@ -207,7 +207,7 @@ void mousse::WallSpringSliderDashpot<CloudType>::evaluateWall
       cohesion_
     );
   }
-  forAll(sharpSitePoints, siteI)
+  FOR_ALL(sharpSitePoints, siteI)
   {
     // Treating sharp sites like flat sites, except suppress cohesion
     evaluateWall

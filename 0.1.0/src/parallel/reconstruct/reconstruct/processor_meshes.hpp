@@ -34,14 +34,14 @@ class processorMeshes
   // Private Member Functions
     //- Read all meshes
     void read();
-    //- Disallow default bitwise copy construct
-    processorMeshes(const processorMeshes&);
-    //- Disallow default bitwise assignment
-    void operator=(const processorMeshes&);
 public:
   // Constructors
     //- Construct from components
     processorMeshes(PtrList<Time>& databases, const word& meshName);
+    //- Disallow default bitwise copy construct
+    processorMeshes(const processorMeshes&) = delete;
+    //- Disallow default bitwise assignment
+    processorMeshes& operator=(const processorMeshes&) = delete;
   // Member Functions
     //- Update the meshes based on the mesh files saved in time directories
     fvMesh::readUpdateState readUpdate();

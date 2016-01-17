@@ -12,14 +12,14 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(sampledThresholdCellFaces, 0);
-  addNamedToRunTimeSelectionTable
-  (
-    sampledSurface,
-    sampledThresholdCellFaces,
-    word,
-    thresholdCellFaces
-  );
+DEFINE_TYPE_NAME_AND_DEBUG(sampledThresholdCellFaces, 0);
+ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
+(
+  sampledSurface,
+  sampledThresholdCellFaces,
+  word,
+  thresholdCellFaces
+);
 }
 // Private Member Functions 
 bool mousse::sampledThresholdCellFaces::updateGeometry() const
@@ -120,7 +120,7 @@ mousse::sampledThresholdCellFaces::sampledThresholdCellFaces
 {
   if (!dict.found("lowerLimit") && !dict.found("upperLimit"))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
       (
         "sampledThresholdCellFaces::sampledThresholdCellFaces(..)"
       )

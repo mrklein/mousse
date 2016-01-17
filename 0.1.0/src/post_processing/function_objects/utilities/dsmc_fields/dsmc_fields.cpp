@@ -11,7 +11,7 @@ using namespace mousse::constant;
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(dsmcFields, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(dsmcFields, 0);
 }
 // Constructors 
 mousse::dsmcFields::dsmcFields
@@ -19,18 +19,18 @@ mousse::dsmcFields::dsmcFields
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true)
+  name_{name},
+  obr_{obr},
+  active_{true}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (!isA<fvMesh>(obr_))
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "dsmcFields::dsmcFields"
       "("
@@ -39,8 +39,9 @@ mousse::dsmcFields::dsmcFields
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
   read(dict);
 }
@@ -48,7 +49,7 @@ mousse::dsmcFields::dsmcFields
 mousse::dsmcFields::~dsmcFields()
 {}
 // Member Functions 
-void mousse::dsmcFields::read(const dictionary& dict)
+void mousse::dsmcFields::read(const dictionary&)
 {
   if (active_)
   {
@@ -110,68 +111,68 @@ void mousse::dsmcFields::write()
       Info<< "Calculating dsmcFields." << endl;
       Info<< "    Calculating UMean field." << endl;
       volVectorField UMean
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "UMean",
           obr_.time().timeName(),
           obr_,
           IOobject::NO_READ
-        ),
+        },
         momentumMean/rhoMMean
-      );
+      };
       Info<< "    Calculating translationalT field." << endl;
       volScalarField translationalT
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "translationalT",
           obr_.time().timeName(),
           obr_,
           IOobject::NO_READ
-        ),
+        },
         2.0/(3.0*physicoChemical::k.value()*rhoNMean)
-       *(linearKEMean - 0.5*rhoMMean*(UMean & UMean))
-      );
+          *(linearKEMean - 0.5*rhoMMean*(UMean & UMean))
+      };
       Info<< "    Calculating internalT field." << endl;
       volScalarField internalT
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "internalT",
           obr_.time().timeName(),
           obr_,
           IOobject::NO_READ
-        ),
+        },
         (2.0/physicoChemical::k.value())*(internalEMean/iDofMean)
-      );
+      };
       Info<< "    Calculating overallT field." << endl;
       volScalarField overallT
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "overallT",
           obr_.time().timeName(),
           obr_,
           IOobject::NO_READ
-        ),
+        },
         2.0/(physicoChemical::k.value()*(3.0*rhoNMean + iDofMean))
-       *(linearKEMean - 0.5*rhoMMean*(UMean & UMean) + internalEMean)
-      );
+          *(linearKEMean - 0.5*rhoMMean*(UMean & UMean) + internalEMean)
+      };
       Info<< "    Calculating pressure field." << endl;
       volScalarField p
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "p",
           obr_.time().timeName(),
           obr_,
           IOobject::NO_READ
-        ),
+        },
         physicoChemical::k.value()*rhoNMean*translationalT
-      );
+      };
       const fvMesh& mesh = fDMean.mesh();
-      forAll(mesh.boundaryMesh(), i)
+      FOR_ALL(mesh.boundaryMesh(), i)
       {
         const polyPatch& patch = mesh.boundaryMesh()[i];
         if (isA<wallPolyPatch>(patch))

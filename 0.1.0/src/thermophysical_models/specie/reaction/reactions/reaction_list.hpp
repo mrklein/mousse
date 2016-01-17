@@ -29,9 +29,6 @@ class ReactionList
     const HashPtrTable<ThermoType>& thermoDb_;
     //- The dictionary used for construction
     const dictionary dict_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const ReactionList&);
 public:
   // Constructors
     //- Construct null
@@ -56,6 +53,8 @@ public:
     );
     //- Construct copy
     ReactionList(const ReactionList<ThermoType>& reactions);
+    //- Disallow default bitwise assignment
+    ReactionList& operator=(const ReactionList&) = delete;
   //- Destructor
   ~ReactionList();
   // Public Member Functions

@@ -47,7 +47,7 @@ class COxidationKineticDiffusionLimitedRate
       scalar HcCO2_;
 public:
   //- Runtime type information
-  TypeName("COxidationKineticDiffusionLimitedRate");
+  TYPE_NAME("COxidationKineticDiffusionLimitedRate");
   // Constructors
     //- Construct from dictionary
     COxidationKineticDiffusionLimitedRate

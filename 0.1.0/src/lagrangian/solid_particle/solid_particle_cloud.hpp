@@ -6,7 +6,6 @@
 // Description
 //   A Cloud of solid particles
 // SourceFiles
-//   solid_particle_cloud_i.hpp
 //   solid_particle_cloud.cpp
 //   solid_particle_cloud_io.cpp
 #ifndef solid_particle_cloud_hpp_
@@ -28,11 +27,6 @@ class solidParticleCloud
     scalar rhop_;
     scalar e_;
     scalar mu_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    solidParticleCloud(const solidParticleCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const solidParticleCloud&);
 public:
   // Constructors
     //- Construct given mesh
@@ -42,6 +36,10 @@ public:
       const word& cloudName = "defaultCloud",
       bool readFields = true
     );
+    //- Disallow default bitwise copy construct
+    solidParticleCloud(const solidParticleCloud&) = delete;
+    //- Disallow default bitwise assignment
+    solidParticleCloud& operator=(const solidParticleCloud&) = delete;
   // Member Functions
     // Access
       virtual bool hasWallImpactDistance() const;
@@ -55,5 +53,22 @@ public:
       void move(const dimensionedVector& g);
 };
 }  // namespace mousse
-#include "solid_particle_cloud_i.hpp"
+
+// Member Functions 
+inline const mousse::fvMesh& mousse::solidParticleCloud::mesh() const
+{
+  return mesh_;
+}
+inline mousse::scalar mousse::solidParticleCloud::rhop() const
+{
+  return rhop_;
+}
+inline mousse::scalar mousse::solidParticleCloud::e() const
+{
+  return e_;
+}
+inline mousse::scalar mousse::solidParticleCloud::mu() const
+{
+  return mu_;
+}
 #endif

@@ -12,7 +12,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(tetDecomposer, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(tetDecomposer, 0);
   template<>
   const char* NamedEnum<tetDecomposer::decompositionType, 2>::names[] =
   {
@@ -148,7 +148,7 @@ void mousse::tetDecomposer::setRefinement
 )
 {
   cellToPoint_.setSize(mesh_.nCells());
-  forAll(mesh_.cellCentres(), cellI)
+  FOR_ALL(mesh_.cellCentres(), cellI)
   {
     // Any point on the cell
     label masterPointI = mesh_.faces()[mesh_.cells()[cellI][0]][0];
@@ -164,7 +164,7 @@ void mousse::tetDecomposer::setRefinement
   if (decomposeType == FACE_CENTRE_TRIS)
   {
     faceToPoint_.setSize(mesh_.nFaces());
-    forAll(mesh_.faceCentres(), faceI)
+    FOR_ALL(mesh_.faceCentres(), faceI)
     {
       // Any point on the face
       const label masterPointI = mesh_.faces()[faceI][0];
@@ -182,7 +182,7 @@ void mousse::tetDecomposer::setRefinement
   faceNeighbourCells_.setSize(mesh_.nFaces());
   if (decomposeType == FACE_CENTRE_TRIS)
   {
-    forAll(faceOwnerCells_, faceI)
+    FOR_ALL(faceOwnerCells_, faceI)
     {
       const face& f = mesh_.faces()[faceI];
       faceOwnerCells_[faceI].setSize(f.size(), -1);
@@ -193,18 +193,18 @@ void mousse::tetDecomposer::setRefinement
   {
     // Force construction of diagonal decomposition
     (void)mesh_.tetBasePtIs();
-    forAll(faceOwnerCells_, faceI)
+    FOR_ALL(faceOwnerCells_, faceI)
     {
       const face& f = mesh_.faces()[faceI];
       faceOwnerCells_[faceI].setSize(f.size()-2, -1);
       faceNeighbourCells_[faceI].setSize(f.size()-2, -1);
     }
   }
-  forAll(mesh_.cells(), cellI)
+  FOR_ALL(mesh_.cells(), cellI)
   {
     const cell& cFaces = mesh_.cells()[cellI];
     EdgeMap<label> edgeToFace(8*cFaces.size());
-    forAll(cFaces, cFaceI)
+    FOR_ALL(cFaces, cFaceI)
     {
       label faceI = cFaces[cFaceI];
       const face& f = mesh_.faces()[faceI];
@@ -217,7 +217,7 @@ void mousse::tetDecomposer::setRefinement
       );
       if (decomposeType == FACE_CENTRE_TRIS)
       {
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if (cFaceI == 0 && fp == 0)
           {
@@ -263,7 +263,7 @@ void mousse::tetDecomposer::setRefinement
   }
   // Add triangle faces
   face triangle(3);
-  forAll(mesh_.faces(), faceI)
+  FOR_ALL(mesh_.faces(), faceI)
   {
     label own = mesh_.faceOwner()[faceI];
     const labelList& addedOwn = faceOwnerCells_[faceI];
@@ -283,7 +283,7 @@ void mousse::tetDecomposer::setRefinement
     }
     if (decomposeType == FACE_CENTRE_TRIS)
     {
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         // 1. Front triangle (decomposition of face itself)
         //    (between owner and neighbour cell)
@@ -468,11 +468,11 @@ void mousse::tetDecomposer::setRefinement
   }
   // Add triangles for all edges.
   EdgeMap<label> edgeToFace;
-  forAll(mesh_.cells(), cellI)
+  FOR_ALL(mesh_.cells(), cellI)
   {
     const cell& cFaces = mesh_.cells()[cellI];
     edgeToFace.clear();
-    forAll(cFaces, cFaceI)
+    FOR_ALL(cFaces, cFaceI)
     {
       label faceI = cFaces[cFaceI];
       label zoneI = mesh_.faceZones().whichZone(faceI);
@@ -484,7 +484,7 @@ void mousse::tetDecomposer::setRefinement
       }
       const face& f = mesh_.faces()[faceI];
       //const labelList& fEdges = mesh_.faceEdges()[faceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label p0 = f[fp];
         label p1 = f[f.fcIndex(fp)];
@@ -513,7 +513,7 @@ void mousse::tetDecomposer::setRefinement
           }
           else
           {
-            FatalErrorIn("tetDecomposer::setRefinement(..)")
+            FATAL_ERROR_IN("tetDecomposer::setRefinement(..)")
               << "problem." << abort(FatalError);
           }
           // Triangle from edge to cell centre
@@ -595,11 +595,11 @@ void mousse::tetDecomposer::updateMesh(const mapPolyMesh& map)
 {
   inplaceRenumber(map.reversePointMap(), cellToPoint_);
   inplaceRenumber(map.reversePointMap(), faceToPoint_);
-  forAll(faceOwnerCells_, faceI)
+  FOR_ALL(faceOwnerCells_, faceI)
   {
     inplaceRenumber(map.reverseCellMap(), faceOwnerCells_[faceI]);
   }
-  forAll(faceNeighbourCells_, faceI)
+  FOR_ALL(faceNeighbourCells_, faceI)
   {
     inplaceRenumber(map.reverseCellMap(), faceNeighbourCells_[faceI]);
   }

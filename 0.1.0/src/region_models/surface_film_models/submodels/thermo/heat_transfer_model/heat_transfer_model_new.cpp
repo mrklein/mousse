@@ -22,7 +22,7 @@ autoPtr<heatTransferModel> heatTransferModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "heatTransferModel::New(surfaceFilmModel&, const dictionary&)"
     )   << "Unknown heatTransferModel type " << modelType << nl << nl

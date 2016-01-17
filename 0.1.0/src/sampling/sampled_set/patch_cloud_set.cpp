@@ -14,8 +14,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(patchCloudSet, 0);
-  addToRunTimeSelectionTable(sampledSet, patchCloudSet, word);
+  DEFINE_TYPE_NAME_AND_DEBUG(patchCloudSet, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, patchCloudSet, word);
 }
 // Private Member Functions 
 void mousse::patchCloudSet::calcSamples
@@ -33,7 +33,7 @@ void mousse::patchCloudSet::calcSamples
   }
   // Construct search tree for all patch faces.
   label sz = 0;
-  forAllConstIter(labelHashSet, patchSet_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
   {
     const polyPatch& pp = mesh().boundaryMesh()[iter.key()];
     sz += pp.size();
@@ -45,10 +45,10 @@ void mousse::patchCloudSet::calcSamples
   labelList patchFaces(sz);
   sz = 0;
   treeBoundBox bb(point::max, point::min);
-  forAllConstIter(labelHashSet, patchSet_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
   {
     const polyPatch& pp = mesh().boundaryMesh()[iter.key()];
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       patchFaces[sz++] = pp.start()+i;
     }
@@ -81,7 +81,7 @@ void mousse::patchCloudSet::calcSamples
   (void)mesh().tetBasePtIs();
   // All the info for nearest. Construct to miss
   List<mappedPatchBase::nearInfo> nearest(sampleCoords_.size());
-  forAll(sampleCoords_, sampleI)
+  FOR_ALL(sampleCoords_, sampleI)
   {
     const point& sample = sampleCoords_[sampleI];
     pointIndexHit& nearInfo = nearest[sampleI].first();
@@ -126,7 +126,7 @@ void mousse::patchCloudSet::calcSamples
     Info<< "Dumping mapping as lines from supplied points to"
       << " nearest patch face to file " << str.name() << endl;
     label vertI = 0;
-    forAll(nearest, i)
+    FOR_ALL(nearest, i)
     {
       if (nearest[i].first().hit())
       {
@@ -139,7 +139,7 @@ void mousse::patchCloudSet::calcSamples
     }
   }
   // Store the sampling locations on the nearest processor
-  forAll(nearest, sampleI)
+  FOR_ALL(nearest, sampleI)
   {
     const pointIndexHit& nearInfo = nearest[sampleI].first();
     if (nearInfo.hit())

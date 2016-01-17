@@ -42,7 +42,7 @@ class MB
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("MB");
+  TYPE_NAME("MB");
   // Constructors
     //- Construct null
     MB();

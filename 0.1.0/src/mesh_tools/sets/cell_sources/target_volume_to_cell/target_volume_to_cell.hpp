@@ -38,7 +38,7 @@ class targetVolumeToCell
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("targetVolumeToCell");
+  TYPE_NAME("targetVolumeToCell");
   // Constructors
     //- Construct from components
     targetVolumeToCell

@@ -6,11 +6,14 @@
 #include "limited_scheme.hpp"
 #include "limited01.hpp"
 #include "muscl.hpp"
+
 namespace mousse
 {
-  makeLimitedMultivariateSurfaceInterpolationScheme
-  (
-    MUSCL,
-    MUSCLLimiter
-  )
+
+MAKE_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME
+(
+  MUSCL,
+  MUSCLLimiter
+)
+
 }

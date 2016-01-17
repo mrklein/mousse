@@ -9,8 +9,8 @@ namespace mousse
 namespace extrudeModels
 {
 // Static Data Members
-defineTypeNameAndDebug(linearNormal, 0);
-addToRunTimeSelectionTable(extrudeModel, linearNormal, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(linearNormal, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(extrudeModel, linearNormal, dictionary);
 // Constructors 
 linearNormal::linearNormal(const dictionary& dict)
 :
@@ -21,14 +21,14 @@ linearNormal::linearNormal(const dictionary& dict)
 {
   if (thickness_ <= 0)
   {
-    FatalErrorIn("linearNormal(const dictionary&)")
+    FATAL_ERROR_IN("linearNormal(const dictionary&)")
       << "thickness should be positive : " << thickness_
       << exit(FatalError);
   }
   coeffDict_.readIfPresent("firstCellThickness", firstCellThickness_);
   if (firstCellThickness_ >= thickness_)
   {
-    FatalErrorIn("linearNormal(const dictionary&)")
+    FATAL_ERROR_IN("linearNormal(const dictionary&)")
       << "firstCellThickness is larger than thickness"
       << exit(FatalError);
   }

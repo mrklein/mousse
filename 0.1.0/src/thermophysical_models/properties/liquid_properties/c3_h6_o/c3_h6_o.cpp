@@ -7,10 +7,10 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(C3H6O, 0);
-  addToRunTimeSelectionTable(liquidProperties, C3H6O,);
-  addToRunTimeSelectionTable(liquidProperties, C3H6O, Istream);
-  addToRunTimeSelectionTable(liquidProperties, C3H6O, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(C3H6O, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(liquidProperties, C3H6O,);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(liquidProperties, C3H6O, Istream);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(liquidProperties, C3H6O, dictionary);
 }
 // Constructors 
 mousse::C3H6O::C3H6O()

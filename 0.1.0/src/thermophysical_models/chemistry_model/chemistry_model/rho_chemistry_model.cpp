@@ -7,8 +7,8 @@
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 namespace mousse
 {
-  defineTypeNameAndDebug(rhoChemistryModel, 0);
-  defineRunTimeSelectionTable(rhoChemistryModel, fvMesh);
+  DEFINE_TYPE_NAME_AND_DEBUG(rhoChemistryModel, 0);
+  DEFINE_RUN_TIME_SELECTION_TABLE(rhoChemistryModel, fvMesh);
 }
 // Constructors 
 mousse::rhoChemistryModel::rhoChemistryModel

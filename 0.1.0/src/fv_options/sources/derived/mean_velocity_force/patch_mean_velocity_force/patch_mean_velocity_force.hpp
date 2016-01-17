@@ -42,15 +42,9 @@ protected:
     //- Calculate and return the magnitude of the mean velocity
     //  averaged over the specified patch
     virtual scalar magUbarAve(const volVectorField& U) const;
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    patchMeanVelocityForce(const patchMeanVelocityForce&);
-    //- Disallow default bitwise assignment
-    void operator=(const patchMeanVelocityForce&);
 public:
   //- Runtime type information
-  TypeName("patchMeanVelocityForce");
+  TYPE_NAME("patchMeanVelocityForce");
   // Constructors
     //- Construct from explicit source name and mesh
     patchMeanVelocityForce
@@ -60,6 +54,10 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    patchMeanVelocityForce(const patchMeanVelocityForce&) = delete;
+    //- Disallow default bitwise assignment
+    patchMeanVelocityForce& operator=(const patchMeanVelocityForce&) = delete;
 };
 }  // namespace fv
 }  // namespace mousse

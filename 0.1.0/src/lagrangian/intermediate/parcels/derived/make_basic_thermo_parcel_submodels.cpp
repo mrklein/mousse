@@ -13,13 +13,13 @@
 #include "make_thermo_parcel_surface_film_models.hpp" // thermo variant
 // Thermodynamic
 #include "make_parcel_heat_transfer_models.hpp"
-makeParcelCloudFunctionObjects(basicThermoCloud);
+MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS(basicThermoCloud);
 // Kinematic sub-models
-makeThermoParcelForces(basicThermoCloud);
-makeParcelDispersionModels(basicThermoCloud);
-makeParcelInjectionModels(basicThermoCloud);
-makeParcelPatchInteractionModels(basicThermoCloud);
-makeParcelStochasticCollisionModels(basicThermoCloud);
-makeParcelSurfaceFilmModels(basicThermoCloud);
+MAKE_THERMO_PARCEL_FORCES(basicThermoCloud);
+MAKE_PARCEL_DISPERSION_MODELS(basicThermoCloud);
+MAKE_PARCEL_INJECTION_MODELS(basicThermoCloud);
+MAKE_PARCEL_PATCH_INTERACTION_MODELS(basicThermoCloud);
+MAKE_PARCEL_STOCHASTIC_COLLISION_MODELS(basicThermoCloud);
+MAKE_PARCEL_SURFACE_FILM_MODELS(basicThermoCloud);
 // Thermo sub-models
-makeParcelHeatTransferModels(basicThermoCloud);
+MAKE_PARCEL_HEAT_TRANSFER_MODELS(basicThermoCloud);

@@ -13,7 +13,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(faceCoupleInfo, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(faceCoupleInfo, 0);
 const scalar faceCoupleInfo::angleTol_ = 1e-3;
 }
 // Private Member Functions 
@@ -31,10 +31,10 @@ void mousse::faceCoupleInfo::writeOBJ
   if (compact)
   {
     label newPointI = 0;
-    forAll(edges, edgeI)
+    FOR_ALL(edges, edgeI)
     {
       const edge& e = edges[edgeI];
-      forAll(e, eI)
+      FOR_ALL(e, eI)
       {
         label pointI = e[eI];
         if (pointMap[pointI] == -1)
@@ -47,13 +47,13 @@ void mousse::faceCoupleInfo::writeOBJ
   }
   else
   {
-    forAll(points, pointI)
+    FOR_ALL(points, pointI)
     {
       meshTools::writeOBJ(str, points[pointI]);
     }
     pointMap = identity(points.size());
   }
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     str<< "l " << pointMap[e[0]]+1 << ' ' << pointMap[e[1]]+1 << nl;
@@ -70,7 +70,7 @@ void mousse::faceCoupleInfo::writeOBJ
   Pout<< "Writing connections as edges to " << fName << endl;
   OFstream str(fName);
   label vertI = 0;
-  forAll(points0, i)
+  FOR_ALL(points0, i)
   {
     meshTools::writeOBJ(str, points0[i]);
     vertI++;
@@ -123,7 +123,7 @@ void mousse::faceCoupleInfo::writePointsFaces() const
   {
     Pout<< "Writing cutToMasterFaces to cutToMasterFaces.obj" << endl;
     pointField equivMasterFaces(c.size());
-    forAll(cutToMasterFaces(), cutFaceI)
+    FOR_ALL(cutToMasterFaces(), cutFaceI)
     {
       label masterFaceI = cutToMasterFaces()[cutFaceI];
       if (masterFaceI != -1)
@@ -132,7 +132,7 @@ void mousse::faceCoupleInfo::writePointsFaces() const
       }
       else
       {
-        WarningIn("writePointsFaces()")
+        WARNING_IN("writePointsFaces()")
           << "No master face for cut face " << cutFaceI
           << " at position " << c[cutFaceI].centre(c.points())
           << endl;
@@ -149,7 +149,7 @@ void mousse::faceCoupleInfo::writePointsFaces() const
   {
     Pout<< "Writing cutToSlaveFaces to cutToSlaveFaces.obj" << endl;
     pointField equivSlaveFaces(c.size());
-    forAll(cutToSlaveFaces(), cutFaceI)
+    FOR_ALL(cutToSlaveFaces(), cutFaceI)
     {
       label slaveFaceI = cutToSlaveFaces()[cutFaceI];
       equivSlaveFaces[cutFaceI] = s[slaveFaceI].centre(s.points());
@@ -177,7 +177,7 @@ void mousse::faceCoupleInfo::writeEdges
     OFstream str("cutToMasterEdges.obj");
     Pout<< "Writing cutToMasterEdges to " << str.name() << endl;
     label vertI = 0;
-    forAll(cutToMasterEdges, cutEdgeI)
+    FOR_ALL(cutToMasterEdges, cutEdgeI)
     {
       if (cutToMasterEdges[cutEdgeI] != -1)
       {
@@ -206,7 +206,7 @@ void mousse::faceCoupleInfo::writeEdges
     Pout<< "Writing cutToSlaveEdges to " << str.name() << endl;
     label vertI = 0;
     labelList slaveToCut(invert(s.nEdges(), cutToSlaveEdges));
-    forAll(slaveToCut, edgeI)
+    FOR_ALL(slaveToCut, edgeI)
     {
       if (slaveToCut[edgeI] != -1)
       {
@@ -241,7 +241,7 @@ mousse::labelList mousse::faceCoupleInfo::findMappedEdges
 )
 {
   labelList toPatchEdges(edges.size());
-  forAll(toPatchEdges, edgeI)
+  FOR_ALL(toPatchEdges, edgeI)
   {
     const edge& e = edges[edgeI];
     label v0 = pointMap[e[0]];
@@ -274,7 +274,7 @@ bool mousse::faceCoupleInfo::regionEdge
   {
     // Count how many different patches connected to this edge.
     label patch0 = -1;
-    forAll(eFaces, i)
+    FOR_ALL(eFaces, i)
     {
       label faceI = eFaces[i];
       label meshFaceI = slavePatch().addressing()[faceI];
@@ -324,7 +324,7 @@ mousse::label mousse::faceCoupleInfo::mostAlignedCutEdge
   // Find the edge that gets us nearest end.
   label maxEdgeI = -1;
   scalar maxCos = -GREAT;
-  forAll(pEdges, i)
+  FOR_ALL(pEdges, i)
   {
     label edgeI = pEdges[i];
     if
@@ -356,7 +356,7 @@ mousse::label mousse::faceCoupleInfo::mostAlignedCutEdge
       scalar magEVec = mag(eVec);
       if (magEVec < VSMALL)
       {
-        WarningIn("faceCoupleInfo::mostAlignedEdge")
+        WARNING_IN("faceCoupleInfo::mostAlignedEdge")
           << "Crossing zero sized edge " << edgeI
           << " coords:" << localPoints[otherPointI]
           << localPoints[pointI]
@@ -413,7 +413,7 @@ void mousse::faceCoupleInfo::setCutEdgeToPoints(const labelList& cutToMasterEdge
    + slavePatch().nEdges()
    + cutEdges.size()
   );
-  forAll(masterToCutEdges, masterEdgeI)
+  FOR_ALL(masterToCutEdges, masterEdgeI)
   {
     const edge& masterE = masterPatch().edges()[masterEdgeI];
     //Pout<< "Master:" << masterPatch().localPoints()[masterE[0]] << ' '
@@ -421,7 +421,7 @@ void mousse::faceCoupleInfo::setCutEdgeToPoints(const labelList& cutToMasterEdge
     const labelList& stringedEdges = masterToCutEdges[masterEdgeI];
     if (stringedEdges.empty())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "faceCoupleInfo::setCutEdgeToPoints"
         "(const labelList&)"
@@ -456,7 +456,7 @@ void mousse::faceCoupleInfo::setCutEdgeToPoints(const labelList& cutToMasterEdge
         // and insert any points into splitPoints
         // For checking
         label oldStart = startVertI;
-        forAll(stringedEdges, i)
+        FOR_ALL(stringedEdges, i)
         {
           label edgeI = stringedEdges[i];
           if (edgeI != startEdgeI)
@@ -490,7 +490,7 @@ void mousse::faceCoupleInfo::setCutEdgeToPoints(const labelList& cutToMasterEdge
         // Check
         if (oldStart == startVertI)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "faceCoupleInfo::setCutEdgeToPoints"
             "(const labelList&)"
@@ -527,7 +527,7 @@ mousse::label mousse::faceCoupleInfo::matchFaces
 {
   if (f0.size() != f1.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "faceCoupleInfo::matchFaces"
       "(const scalar, const face&, const pointField&"
@@ -540,13 +540,13 @@ mousse::label mousse::faceCoupleInfo::matchFaces
   }
   const scalar absTolSqr = sqr(absTol);
   label matchFp = -1;
-  forAll(f0, startFp)
+  FOR_ALL(f0, startFp)
   {
     // See -if starting from startFp on f0- the two faces match.
     bool fullMatch = true;
     label fp0 = startFp;
     label fp1 = 0;
-    forAll(f1, i)
+    FOR_ALL(f1, i)
     {
       scalar distSqr = mousse::magSqr(points0[f0[fp0]] - points1[f1[fp1]]);
       if (distSqr > absTolSqr)
@@ -572,7 +572,7 @@ mousse::label mousse::faceCoupleInfo::matchFaces
   }
   if (matchFp == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "faceCoupleInfo::matchFaces"
       "(const scalar, const face&, const pointField&"
@@ -613,7 +613,7 @@ bool mousse::faceCoupleInfo::matchPointsThroughFaces
   // gives the point to compact to.
   labelList cutPointRegion(cutPoints.size(), -1);
   DynamicList<label> cutPointRegionMaster;
-  forAll(patchFaces, patchFaceI)
+  FOR_ALL(patchFaces, patchFaceI)
   {
     const face& patchF = patchFaces[patchFaceI];
     //const face& cutF = cutFaces[patchToCutFaces[patchFaceI]];
@@ -628,7 +628,7 @@ bool mousse::faceCoupleInfo::matchPointsThroughFaces
       cutF,
       sameOrientation        // orientation
     );
-    forAll(cutF, cutFp)
+    FOR_ALL(cutF, cutFp)
     {
       label cutPointI = cutF[cutFp];
       label patchPointI = patchF[patchFp];
@@ -636,7 +636,7 @@ bool mousse::faceCoupleInfo::matchPointsThroughFaces
       //const point& patchPt = patchPoints[patchPointI];
       //if (mag(cutPt - patchPt) > SMALL)
       //{
-      //    FatalErrorIn("matchPointsThroughFaces")
+      //    FATAL_ERROR_IN("matchPointsThroughFaces")
       //    << "cutP:" << cutPt
       //    << " patchP:" << patchPt
       //    << abort(FatalError);
@@ -695,7 +695,7 @@ bool mousse::faceCoupleInfo::matchPointsThroughFaces
   cutToCompact.setSize(cutPointRegion.size());
   cutToCompact = -1;
   label compactPointI = 0;
-  forAll(cutPointRegion, i)
+  FOR_ALL(cutPointRegion, i)
   {
     if (cutPointRegion[i] == -1)
     {
@@ -730,7 +730,7 @@ mousse::scalar mousse::faceCoupleInfo::maxDistance
 )
 {
   scalar maxDist = -GREAT;
-  forAll(cutF, fp)
+  FOR_ALL(cutF, fp)
   {
     const point& cutPt = cutPoints[cutF[fp]];
     pointHit pHit = masterF.nearestPoint(cutPt, masterPoints);
@@ -796,7 +796,7 @@ void mousse::faceCoupleInfo::findPerfectMatchingFaces
   label nMatched = 0;
   mesh0Faces.setSize(fc0.size());
   mesh1Faces.setSize(fc1.size());
-  forAll(from1To0, i)
+  FOR_ALL(from1To0, i)
   {
     if (from1To0[i] != -1)
     {
@@ -819,7 +819,7 @@ void mousse::faceCoupleInfo::findSlavesCoveringMaster
 {
   // Construct octree from all mesh0 boundary faces
   labelList bndFaces(mesh0.nFaces()-mesh0.nInternalFaces());
-  forAll(bndFaces, i)
+  FOR_ALL(bndFaces, i)
   {
     bndFaces[i] = mesh0.nInternalFaces() + i;
   }
@@ -908,7 +908,7 @@ mousse::label mousse::faceCoupleInfo::growCutFaces
     const labelListList& cutFaceEdges = cutFaces().faceEdges();
     const labelListList& cutEdgeFaces = cutFaces().edgeFaces();
     label nChanged = 0;
-    forAll(cutToMasterFaces_, cutFaceI)
+    FOR_ALL(cutToMasterFaces_, cutFaceI)
     {
       const label masterFaceI = cutToMasterFaces_[cutFaceI];
       if (masterFaceI != -1)
@@ -917,7 +917,7 @@ mousse::label mousse::faceCoupleInfo::growCutFaces
         // master face. Grow this masterface across any internal edge
         // (internal: no corresponding master edge)
         const labelList& fEdges = cutFaceEdges[cutFaceI];
-        forAll(fEdges, i)
+        FOR_ALL(fEdges, i)
         {
           const label cutEdgeI = fEdges[i];
           if (cutToMasterEdges[cutEdgeI] == -1)
@@ -928,7 +928,7 @@ mousse::label mousse::faceCoupleInfo::growCutFaces
             // - on cutFaceI which corresponds to masterFace.
             // Mark all connected faces with this masterFace.
             const labelList& eFaces = cutEdgeFaces[cutEdgeI];
-            forAll(eFaces, j)
+            FOR_ALL(eFaces, j)
             {
               const label faceI = eFaces[j];
               if (cutToMasterFaces_[faceI] == -1)
@@ -947,7 +947,7 @@ mousse::label mousse::faceCoupleInfo::growCutFaces
                 label myMaster = cutToMasterFaces_[faceI];
                 const face& myF = masterPatch()[myMaster];
                 const face& nbrF = masterPatch()[masterFaceI];
-                FatalErrorIn
+                FATAL_ERROR_IN
                 (
                   "faceCoupleInfo::growCutFaces"
                   "(const labelList&, Map<labelList>&)"
@@ -992,7 +992,7 @@ void mousse::faceCoupleInfo::checkMatch(const labelList& cutToMasterEdges) const
   const pointField& cutLocalPoints = cutFaces().localPoints();
   const pointField& masterLocalPoints = masterPatch().localPoints();
   const faceList& masterLocalFaces = masterPatch().localFaces();
-  forAll(cutToMasterEdges, cutEdgeI)
+  FOR_ALL(cutToMasterEdges, cutEdgeI)
   {
     const edge& e = cutFaces().edges()[cutEdgeI];
     if (cutToMasterEdges[cutEdgeI] == -1)
@@ -1000,7 +1000,7 @@ void mousse::faceCoupleInfo::checkMatch(const labelList& cutToMasterEdges) const
       // Internal edge. Check that master face is same on both sides.
       const labelList& cutEFaces = cutFaces().edgeFaces()[cutEdgeI];
       label masterFaceI = -1;
-      forAll(cutEFaces, i)
+      FOR_ALL(cutEFaces, i)
       {
         label cutFaceI = cutEFaces[i];
         if (cutToMasterFaces_[cutFaceI] != -1)
@@ -1014,7 +1014,7 @@ void mousse::faceCoupleInfo::checkMatch(const labelList& cutToMasterEdges) const
             label myMaster = cutToMasterFaces_[cutFaceI];
             const face& myF = masterLocalFaces[myMaster];
             const face& nbrF = masterLocalFaces[masterFaceI];
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "faceCoupleInfo::checkMatch(const labelList&) const"
             )
@@ -1048,7 +1048,7 @@ mousse::label mousse::faceCoupleInfo::matchEdgeFaces
   candidates.clear();
   candidates.resize(cutFaces().size());
   label nChanged = 0;
-  forAll(cutToMasterEdges, cutEdgeI)
+  FOR_ALL(cutToMasterEdges, cutEdgeI)
   {
     label masterEdgeI = cutToMasterEdges[cutEdgeI];
     if (masterEdgeI != -1)
@@ -1058,7 +1058,7 @@ mousse::label mousse::faceCoupleInfo::matchEdgeFaces
       const labelList& cutEFaces = cutFaces().edgeFaces()[cutEdgeI];
       const labelList& masterEFaces =
         masterPatch().edgeFaces()[masterEdgeI];
-      forAll(cutEFaces, i)
+      FOR_ALL(cutEFaces, i)
       {
         label cutFaceI = cutEFaces[i];
         if (cutToMasterFaces_[cutFaceI] == -1)
@@ -1083,7 +1083,7 @@ mousse::label mousse::faceCoupleInfo::matchEdgeFaces
             // the current set of master faces.
             const labelList& masterFaces = fnd();
             DynamicList<label> newCandidates(masterFaces.size());
-            forAll(masterEFaces, j)
+            FOR_ALL(masterEFaces, j)
             {
               if (findIndex(masterFaces, masterEFaces[j]) != -1)
               {
@@ -1142,7 +1142,7 @@ mousse::label mousse::faceCoupleInfo::geometricMatchEdgeFaces
       cutToMasterFaces_
     )
   );
-  forAllConstIter(Map<labelList>, candidates, iter)
+  FOR_ALL_CONST_ITER(Map<labelList>, candidates, iter)
   {
     label cutFaceI = iter.key();
     const face& cutF = cutFaces()[cutFaceI];
@@ -1152,7 +1152,7 @@ mousse::label mousse::faceCoupleInfo::geometricMatchEdgeFaces
       // Find the best matching master face.
       scalar minDist = GREAT;
       label minMasterFaceI = -1;
-      forAll(masterFaces, i)
+      FOR_ALL(masterFaces, i)
       {
         label masterFaceI = masterFaces[i];
         if (masterToCutFaces[masterFaces[i]].empty())
@@ -1180,7 +1180,7 @@ mousse::label mousse::faceCoupleInfo::geometricMatchEdgeFaces
     }
   }
   // (inefficiently) force candidates to be uptodate.
-  forAll(cutToMasterFaces_, cutFaceI)
+  FOR_ALL(cutToMasterFaces_, cutFaceI)
   {
     if (cutToMasterFaces_[cutFaceI] != -1)
     {
@@ -1266,7 +1266,7 @@ void mousse::faceCoupleInfo::perfectPointMatch
   }
   if (!matchedAllFaces)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "faceCoupleInfo::perfectPointMatch"
       "(const scalar, const bool)"
@@ -1297,7 +1297,7 @@ void mousse::faceCoupleInfo::perfectPointMatch
   {
     const faceList& cutLocalFaces = cutFaces().localFaces();
     faceList compactFaces(cutLocalFaces.size());
-    forAll(cutLocalFaces, i)
+    FOR_ALL(cutLocalFaces, i)
     {
       compactFaces[i] = renumber(cutToCompact, cutLocalFaces[i]);
     }
@@ -1334,7 +1334,7 @@ void mousse::faceCoupleInfo::subDivisionMatch
   cutPoints_ = slavePatch().localPoints();
   {
     faceList cutFaces(slavePatch().size());
-    forAll(cutFaces, i)
+    FOR_ALL(cutFaces, i)
     {
       cutFaces[i] = slavePatch().localFaces()[i].reverseFace();
     }
@@ -1360,7 +1360,7 @@ void mousse::faceCoupleInfo::subDivisionMatch
       << " addressing for slave patch fully done."
       << " Dumping region edges to " << str.name() << endl;
     label vertI = 0;
-    forAll(slavePatch().edges(), slaveEdgeI)
+    FOR_ALL(slavePatch().edges(), slaveEdgeI)
     {
       if (regionEdge(slaveMesh, slaveEdgeI))
       {
@@ -1392,7 +1392,7 @@ void mousse::faceCoupleInfo::subDivisionMatch
   );
   if (!matchedAllPoints)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "faceCoupleInfo::subDivisionMatch"
       "(const polyMesh&, const bool, const scalar)"
@@ -1416,7 +1416,7 @@ void mousse::faceCoupleInfo::subDivisionMatch
   const pointField& masterPoints = masterPatch().localPoints();
   const edgeList& cutEdges = cutFaces().edges();
   labelList cutToMasterEdges(cutFaces().nEdges(), -1);
-  forAll(masterEdges, masterEdgeI)
+  FOR_ALL(masterEdges, masterEdgeI)
   {
     const edge& masterEdge = masterEdges[masterEdgeI];
     label cutPoint0 = masterToCutPoints_[masterEdge[0]];
@@ -1469,7 +1469,7 @@ void mousse::faceCoupleInfo::subDivisionMatch
           cutFaces().localPoints(),
           false
         );
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "faceCoupleInfo::subDivisionMatch"
           "(const polyMesh&, const bool, const scalar)"
@@ -1548,12 +1548,12 @@ void mousse::faceCoupleInfo::subDivisionMatch
     }
   }
   // All cut faces matched?
-  forAll(cutToMasterFaces_, cutFaceI)
+  FOR_ALL(cutToMasterFaces_, cutFaceI)
   {
     if (cutToMasterFaces_[cutFaceI] == -1)
     {
       const face& cutF = cutFaces()[cutFaceI];
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "faceCoupleInfo::subDivisionMatch"
         "(const polyMesh&, const bool, const scalar)"
@@ -1698,7 +1698,7 @@ mousse::faceCoupleInfo::faceCoupleInfo
 {
   if (perfectMatch && (masterAddressing.size() != slaveAddressing.size()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "faceCoupleInfo::faceCoupleInfo(const primitiveMesh&"
       ", const primitiveMesh&, const scalar, const bool"
@@ -1714,7 +1714,7 @@ mousse::faceCoupleInfo::faceCoupleInfo
   && min(masterAddressing) < masterMesh.nInternalFaces()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "faceCoupleInfo::faceCoupleInfo(const primitiveMesh&"
       ", const primitiveMesh&, const scalar, const bool"
@@ -1728,7 +1728,7 @@ mousse::faceCoupleInfo::faceCoupleInfo
   && min(slaveAddressing) < slaveMesh.nInternalFaces()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "faceCoupleInfo::faceCoupleInfo(const primitiveMesh&"
       ", const primitiveMesh&, const scalar, const bool"
@@ -1758,7 +1758,7 @@ mousse::labelList mousse::faceCoupleInfo::faceLabels(const polyPatch& pp)
 {
   labelList faces(pp.size());
   label faceI = pp.start();
-  forAll(pp, i)
+  FOR_ALL(pp, i)
   {
     faces[i] = faceI++;
   }
@@ -1767,7 +1767,7 @@ mousse::labelList mousse::faceCoupleInfo::faceLabels(const polyPatch& pp)
 mousse::Map<mousse::label> mousse::faceCoupleInfo::makeMap(const labelList& lst)
 {
   Map<label> map(lst.size());
-  forAll(lst, i)
+  FOR_ALL(lst, i)
   {
     if (lst[i] != -1)
     {
@@ -1782,7 +1782,7 @@ mousse::Map<mousse::labelList> mousse::faceCoupleInfo::makeMap
 )
 {
   Map<labelList> map(lst.size());
-  forAll(lst, i)
+  FOR_ALL(lst, i)
   {
     if (lst[i].size())
     {

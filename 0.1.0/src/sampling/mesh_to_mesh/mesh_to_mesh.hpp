@@ -156,49 +156,50 @@ private:
         labelList& tgtFaceNeighbours,
         labelList& tgtCellIDs
       ) const;
-    //- Disallow default bitwise copy construct
-    meshToMesh(const meshToMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshToMesh&);
 public:
   //- Run-time type information
-  TypeName("meshToMesh");
-  //- Construct from source and target meshes
-  meshToMesh
-  (
-    const polyMesh& src,
-    const polyMesh& tgt,
-    const interpolationMethod& method,
-    const bool interpAllPatches = true
-  );
-  //- Construct from source and target meshes, generic mapping methods
-  meshToMesh
-  (
-    const polyMesh& src,
-    const polyMesh& tgt,
-    const word& methodName,     // internal mapping
-    const word& AMIMethodName,  // boundary mapping
-    const bool interpAllPatches = true
-  );
-  //- Construct from source and target meshes
-  meshToMesh
-  (
-    const polyMesh& src,
-    const polyMesh& tgt,
-    const interpolationMethod& method,
-    const HashTable<word>& patchMap,
-    const wordList& cuttingPatches
-  );
-  //- Construct from source and target meshes, generic mapping methods
-  meshToMesh
-  (
-    const polyMesh& src,
-    const polyMesh& tgt,
-    const word& methodName,     // internal mapping
-    const word& AMIMethodName,  // boundary mapping
-    const HashTable<word>& patchMap,
-    const wordList& cuttingPatches
-  );
+  TYPE_NAME("meshToMesh");
+  // Constructors
+    //- Construct from source and target meshes
+    meshToMesh
+    (
+      const polyMesh& src,
+      const polyMesh& tgt,
+      const interpolationMethod& method,
+      const bool interpAllPatches = true
+    );
+    //- Construct from source and target meshes, generic mapping methods
+    meshToMesh
+    (
+      const polyMesh& src,
+      const polyMesh& tgt,
+      const word& methodName,     // internal mapping
+      const word& AMIMethodName,  // boundary mapping
+      const bool interpAllPatches = true
+    );
+    //- Construct from source and target meshes
+    meshToMesh
+    (
+      const polyMesh& src,
+      const polyMesh& tgt,
+      const interpolationMethod& method,
+      const HashTable<word>& patchMap,
+      const wordList& cuttingPatches
+    );
+    //- Construct from source and target meshes, generic mapping methods
+    meshToMesh
+    (
+      const polyMesh& src,
+      const polyMesh& tgt,
+      const word& methodName,     // internal mapping
+      const word& AMIMethodName,  // boundary mapping
+      const HashTable<word>& patchMap,
+      const wordList& cuttingPatches
+    );
+    //- Disallow default bitwise copy construct
+    meshToMesh(const meshToMesh&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const meshToMesh&) = delete;
   //- Destructor
   virtual ~meshToMesh();
   // Member Functions
@@ -394,7 +395,45 @@ public:
         ) const;
 };
 }  // namespace mousse
-#include "mesh_to_mesh_i.hpp"
+
+// Member Functions 
+inline const mousse::polyMesh& mousse::meshToMesh::srcRegion() const
+{
+  return srcRegion_;
+}
+inline const mousse::polyMesh& mousse::meshToMesh::tgtRegion() const
+{
+  return tgtRegion_;
+}
+inline const mousse::labelListList&
+mousse::meshToMesh::srcToTgtCellAddr() const
+{
+  return srcToTgtCellAddr_;
+}
+inline const mousse::labelListList&
+mousse::meshToMesh::tgtToSrcCellAddr() const
+{
+  return tgtToSrcCellAddr_;
+}
+inline const mousse::scalarListList&
+mousse::meshToMesh::srcToTgtCellWght() const
+{
+  return srcToTgtCellWght_;
+}
+inline const mousse::scalarListList&
+mousse::meshToMesh::tgtToSrcCellWght() const
+{
+  return tgtToSrcCellWght_;
+}
+inline mousse::scalar mousse::meshToMesh::V() const
+{
+  return V_;
+}
+inline const mousse::PtrList<mousse::AMIPatchToPatchInterpolation>&
+mousse::meshToMesh::patchAMIs() const
+{
+  return patchAMIs_;
+}
 #ifdef NoRepository
   #include "mesh_to_mesh_templates.cpp"
 #endif

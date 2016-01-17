@@ -127,18 +127,18 @@ class polyMeshFilter
       const labelList& currToNew,
       labelList& origToCurrentPointMap
     ) const;
-    //- Disallow default bitwise copy construct
-    polyMeshFilter(const polyMeshFilter&);
-    //- Disallow default bitwise assignment
-    void operator=(const polyMeshFilter&);
 public:
   //- Runtime type information
-  ClassName("polyMeshFilter");
+  CLASS_NAME("polyMeshFilter");
   // Constructors
     //- Construct from fvMesh
     explicit polyMeshFilter(const fvMesh& mesh);
     //- Construct from fvMesh and a label list of point priorities
     polyMeshFilter(const fvMesh& mesh, const labelList& pointPriority);
+    //- Disallow default bitwise copy construct
+    polyMeshFilter(const polyMeshFilter&) = delete;
+    //- Disallow default bitwise assignment
+    polyMeshFilter& operator=(const polyMeshFilter&) = delete;
   //- Destructor
   ~polyMeshFilter();
   // Member Functions

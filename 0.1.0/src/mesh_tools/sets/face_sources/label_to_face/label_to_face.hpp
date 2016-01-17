@@ -25,7 +25,7 @@ class labelToFace
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("labelToFace");
+  TYPE_NAME("labelToFace");
   // Constructors
     //- Construct from components
     labelToFace

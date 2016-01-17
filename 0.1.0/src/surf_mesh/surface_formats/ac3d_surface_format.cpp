@@ -3,10 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "ac3d_surface_format.hpp"
+
 #include "clock.hpp"
 #include "istring_stream.hpp"
 #include "tensor.hpp"
 #include "primitive_patch.hpp"
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::AC3DsurfaceFormat<Face>::AC3DsurfaceFormat
@@ -16,6 +18,8 @@ mousse::fileFormats::AC3DsurfaceFormat<Face>::AC3DsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
@@ -25,39 +29,39 @@ bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
 {
   const bool mustTriangulate = this->isTri();
   this->clear();
-  IFstream is(filename);
+  IFstream is{filename};
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::AC3DsurfaceFormat::read(const fileName&)"
     )
-      << "Cannot read file " << filename
-      << exit(FatalError);
+    << "Cannot read file " << filename
+    << exit(FatalError);
   }
   string line, cmd, args;
   is.getLine(line);
   string version = line.substr(4);
   if (version != "b")
   {
-    WarningIn
+    WARNING_IN
     (
       "fileFormats::AC3DsurfaceFormat::read(const fileName&)"
     )
-      << "When reading AC3D file " << filename
-      << " read header " << line << " with version "
-      << version << endl
-      << "Only tested reading with version 'b'."
-      << " This might give problems" << endl;
+    << "When reading AC3D file " << filename
+    << " read header " << line << " with version "
+    << version << endl
+    << "Only tested reading with version 'b'."
+    << " This might give problems" << endl;
   }
   if (!cueTo(is, "OBJECT", args) || (args != "world"))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::AC3DsurfaceFormat::read(const fileName&)"
     )
-      << "Cannot find \"OBJECT world\" in file " << filename
-      << exit(FatalError);
+    << "Cannot find \"OBJECT world\" in file " << filename
+    << exit(FatalError);
   }
   // # of kids is the # of zones
   args = cueToOrDie(is, "kids");
@@ -65,9 +69,9 @@ bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
   // Start of vertices for object/zones
   label vertexOffset = 0;
   DynamicList<point> dynPoints;
-  DynamicList<Face>  dynFaces;
-  List<word>         names(nZones);
-  List<label>        sizes(nZones, 0);
+  DynamicList<Face> dynFaces;
+  List<word> names{nZones};
+  List<label> sizes{nZones, 0};
   for (label zoneI = 0; zoneI < nZones; ++zoneI)
   {
     names[zoneI] = word("zone") + mousse::name(zoneI);
@@ -83,13 +87,13 @@ bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
       // zone should always end with 'kids' command ?not sure.
       if (!readCmd(is, cmd, args))
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "fileFormats::AC3DsurfaceFormat::read(const fileName&)"
         )
-          << "Did not read up to \"kids 0\" while reading zone "
-          << zoneI << " from file " << filename
-          << exit(FatalError);
+        << "Did not read up to \"kids 0\" while reading zone "
+        << zoneI << " from file " << filename
+        << exit(FatalError);
       }
       if (cmd == "name")
       {
@@ -100,21 +104,14 @@ bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
       }
       else if (cmd == "rot")
       {
-        // rot  %f %f %f  %f %f %f  %f %f %f
-        // IStringStream lineStream(args);
-        //
-        // lineStream
-        //     >> rotation.xx() >> rotation.xy() >> rotation.xz()
-        //     >> rotation.yx() >> rotation.yy() >> rotation.yz()
-        //     >> rotation.zx() >> rotation.zy() >> rotation.zz();
-        WarningIn
+        WARNING_IN
         (
           "fileFormats::AC3DsurfaceFormat::read"
           "(const fileName&)"
         )
-          << "rot (rotation tensor) command not implemented"
-          << "Line:" << cmd << ' ' << args << endl
-          << "while reading zone " << zoneI << endl;
+        << "rot (rotation tensor) command not implemented"
+        << "Line:" << cmd << ' ' << args << endl
+        << "while reading zone " << zoneI << endl;
       }
       else if (cmd == "loc")
       {
@@ -134,8 +131,7 @@ bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
           is.getLine(line);
           IStringStream lineStream(line);
           point pt;
-          lineStream
-            >> pt.x() >> pt.y() >> pt.z();
+          lineStream >> pt.x() >> pt.y() >> pt.z();
           // Offset with current translation vector
           dynPoints.append(location + pt);
         }
@@ -155,7 +151,7 @@ bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
           args = cueToOrDie(is, "refs", errorMsg);
           label nVert = parse<int>(args);
           List<label> verts(nVert);
-          forAll(verts, vertI)
+          FOR_ALL(verts, vertI)
           {
             is.getLine(line);
             verts[vertI] = parse<int>(line) + vertexOffset;
@@ -188,14 +184,14 @@ bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
         label nKids = parse<int>(args);
         if (nKids != 0)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "fileFormats::AC3DsurfaceFormat::read(const fileName&)"
           )
-            << "Can only read objects without kids."
-            << " Encountered " << nKids << " kids when"
-            << " reading zone " << zoneI
-            << exit(FatalError);
+          << "Can only read objects without kids."
+          << " Encountered " << nKids << " kids when"
+          << " reading zone " << zoneI
+          << exit(FatalError);
         }
         // Done reading current zone
         break;
@@ -210,6 +206,8 @@ bool mousse::fileFormats::AC3DsurfaceFormat<Face>::read
   this->stitchFaces(SMALL);
   return true;
 }
+
+
 template<class Face>
 void mousse::fileFormats::AC3DsurfaceFormat<Face>::write
 (
@@ -228,27 +226,27 @@ void mousse::fileFormats::AC3DsurfaceFormat<Face>::write
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
   if (useFaceMap)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::AC3DsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "output with faceMap is not supported " << filename
-      << exit(FatalError);
+    << "output with faceMap is not supported " << filename
+    << exit(FatalError);
   }
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::AC3DsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   writeHeader(os, zones);
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     os  << "OBJECT poly" << nl
@@ -256,29 +254,29 @@ void mousse::fileFormats::AC3DsurfaceFormat<Face>::write
     // Temporary PrimitivePatch to calculate compact points & faces
     // use 'UList' to avoid allocations!
     PrimitivePatch<Face, UList, const pointField&> patch
-    (
+    {
       SubList<Face>
-      (
+      {
         faceLst,
         zone.size(),
         zone.start()
-      ),
+      },
       pointLst
-    );
+    };
     os << "numvert " << patch.nPoints() << endl;
-    forAll(patch.localPoints(), ptI)
+    FOR_ALL(patch.localPoints(), ptI)
     {
       const point& pt = patch.localPoints()[ptI];
       os << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
     }
     os << "numsurf " << patch.localFaces().size() << endl;
-    forAll(patch.localFaces(), localFaceI)
+    FOR_ALL(patch.localFaces(), localFaceI)
     {
       const Face& f = patch.localFaces()[localFaceI];
-      os  << "SURF 0x20" << nl          // polygon
+      os<< "SURF 0x20" << nl          // polygon
         << "mat " << zoneI << nl
         << "refs " << f.size() << nl;
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         os << f[fp] << " 0 0" << nl;
       }
@@ -286,6 +284,8 @@ void mousse::fileFormats::AC3DsurfaceFormat<Face>::write
     os << "kids 0" << endl;
   }
 }
+
+
 template<class Face>
 void mousse::fileFormats::AC3DsurfaceFormat<Face>::write
 (
@@ -310,27 +310,27 @@ void mousse::fileFormats::AC3DsurfaceFormat<Face>::write
   }
   else
   {
-    OFstream os(filename);
+    OFstream os{filename};
     if (!os.good())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "fileFormats::AC3DsurfaceFormat::write"
         "(const fileName&, const MeshedSurfaceProxy<Face>&)"
       )
-        << "Cannot open file for writing " << filename
-        << exit(FatalError);
+      << "Cannot open file for writing " << filename
+      << exit(FatalError);
     }
     writeHeader(os, zoneLst);
     label faceIndex = 0;
-    forAll(zoneLst, zoneI)
+    FOR_ALL(zoneLst, zoneI)
     {
       const surfZone& zone = zoneLst[zoneI];
-      os  << "OBJECT poly" << nl
+      os<< "OBJECT poly" << nl
         << "name \"" << zone.name() << "\"\n";
       // Create zone with only zone faces included for ease of addressing
       labelHashSet include(surf.size());
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const label faceI = faceMap[faceIndex++];
         include.insert(faceI);
@@ -338,19 +338,19 @@ void mousse::fileFormats::AC3DsurfaceFormat<Face>::write
       UnsortedMeshedSurface<Face> subm = surf.subsetMesh(include);
       // Now we have isolated surface for this patch alone. Write it.
       os << "numvert " << subm.nPoints() << endl;
-      forAll(subm.localPoints(), ptI)
+      FOR_ALL(subm.localPoints(), ptI)
       {
         const point& pt = subm.localPoints()[ptI];
         os << pt.x() << ' ' << pt.y() << ' ' << pt.z() << endl;
       }
       os << "numsurf " << subm.localFaces().size() << endl;
-      forAll(subm.localFaces(), localFaceI)
+      FOR_ALL(subm.localFaces(), localFaceI)
       {
         const Face& f = subm.localFaces()[localFaceI];
         os  << "SURF 0x20" << nl          // polygon
           << "mat " << zoneI << nl
           << "refs " << f.size() << nl;
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << f[fp] << " 0 0" << nl;
         }

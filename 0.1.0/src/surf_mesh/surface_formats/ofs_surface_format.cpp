@@ -3,9 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "ofs_surface_format.hpp"
+
 #include "ifstream.hpp"
 #include "istring_stream.hpp"
 #include "list_ops.hpp"
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::OFSsurfaceFormat<Face>::OFSsurfaceFormat
@@ -15,6 +17,8 @@ mousse::fileFormats::OFSsurfaceFormat<Face>::OFSsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
@@ -23,15 +27,15 @@ bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
 )
 {
   this->clear();
-  IFstream is(filename);
+  IFstream is{filename};
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::OFSsurfaceFormat::read(const fileName&)"
     )
-      << "Cannot read file " << filename
-      << exit(FatalError);
+    << "Cannot read file " << filename
+    << exit(FatalError);
   }
   // read surfZones:
   is >> this->storedZones();
@@ -57,6 +61,8 @@ bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
   }
   return true;
 }
+
+
 template<class Face>
 bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
 (
@@ -68,13 +74,13 @@ bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
 {
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::OFSsurfaceFormat::read"
       "(Istream&, pointField&, List<Face>&, List<surfZone>&)"
     )
-      << "read error "
-      << exit(FatalError);
+    << "read error "
+    << exit(FatalError);
   }
   // read surfZones:
   is >> zoneLst;
@@ -84,7 +90,7 @@ bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
   if (MeshedSurface<Face>::isTri())
   {
     // read faces as 'face' and transcribe to 'triFace'
-    List<face> origFaces(is);
+    List<face> origFaces{is};
     MeshedSurface<face> origSurf
     (
       xferMove(pointLst),
@@ -101,6 +107,8 @@ bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
   }
   return true;
 }
+
+
 template<class Face>
 bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
 (
@@ -111,7 +119,7 @@ bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
   surf.clear();
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::OFSsurfaceFormat::read"
       "(Istream&, MeshedSurface<Face>&)"
@@ -131,6 +139,8 @@ bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
   );
   return true;
 }
+
+
 template<class Face>
 bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
 (
@@ -143,6 +153,8 @@ bool mousse::fileFormats::OFSsurfaceFormat<Face>::read
   surf.transfer(origSurf);
   return true;
 }
+
+
 template<class Face>
 void mousse::fileFormats::OFSsurfaceFormat<Face>::write
 (
@@ -155,13 +167,13 @@ void mousse::fileFormats::OFSsurfaceFormat<Face>::write
   OFstream os(filename);
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::OFSsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
   OFSsurfaceFormatCore::writeHeader(os, surf.points(), surf.surfZones());
   const List<surfZone>& zones = surf.surfZones();
@@ -171,11 +183,11 @@ void mousse::fileFormats::OFSsurfaceFormat<Face>::write
     os  << "\n// faces:"  << nl
       << faceLst.size() << token::BEGIN_LIST << nl;
     label faceI = 0;
-    forAll(zones, zoneI)
+    FOR_ALL(zones, zoneI)
     {
       // Print all faces belonging to this zone
       const surfZone& zone = zones[zoneI];
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         os << faceLst[faceMap[faceI++]] << nl;
       }

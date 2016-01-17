@@ -17,19 +17,15 @@ namespace mousse
 {
 class ParticleStressModel
 {
-private:
-  //- Private member functions
-    //- Disallow default bitwise assignment
-    void operator=(const ParticleStressModel&);
 protected:
   // Protected data
     //- Close pack volume fraction
     scalar alphaPacked_;
 public:
   //- Runtime type information
-  TypeName("particleStressModel");
+  TYPE_NAME("particleStressModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     ParticleStressModel,
@@ -44,6 +40,8 @@ public:
     ParticleStressModel(const ParticleStressModel& sm);
     //- Construct and return a clone
     virtual autoPtr<ParticleStressModel> clone() const = 0;
+    //- Disallow default bitwise assignment
+    ParticleStressModel& operator=(const ParticleStressModel&) = delete;
   //- Selector
   static autoPtr<ParticleStressModel> New
   (

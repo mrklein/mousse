@@ -24,14 +24,9 @@ class cyclicACMIGAMGInterface
     const cyclicACMILduInterface& fineCyclicACMIInterface_;
     //- AMI interface
     autoPtr<AMIPatchToPatchInterpolation> amiPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    cyclicACMIGAMGInterface(const cyclicACMIGAMGInterface&);
-    //- Disallow default bitwise assignment
-    void operator=(const cyclicACMIGAMGInterface&);
 public:
   //- Runtime type information
-  TypeName("cyclicACMI");
+  TYPE_NAME("cyclicACMI");
   // Constructors
     //- Construct from fine level interface,
     //  local and neighbour restrict addressing
@@ -45,6 +40,13 @@ public:
       const label fineLevelIndex,
       const label coarseComm
     );
+    //- Disallow default bitwise copy construct
+    cyclicACMIGAMGInterface(const cyclicACMIGAMGInterface&) = delete;
+    //- Disallow default bitwise assignment
+    cyclicACMIGAMGInterface& operator=
+    (
+      const cyclicACMIGAMGInterface&
+    ) = delete;
   //- Destructor
   virtual ~cyclicACMIGAMGInterface();
   // Member Functions
@@ -92,7 +94,7 @@ public:
       {
         //TBD. How to serialise the AMI such that we can stream
         // cyclicACMIGAMGInterface.
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "cyclicACMIGAMGInterface::write(Ostream&) const"
         );

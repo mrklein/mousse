@@ -26,7 +26,7 @@ private:
     autoPtr<volScalarField> AoV_;
 public:
   //- Runtime type information
-   TypeName("constantHeatTransfer");
+   TYPE_NAME("constantHeatTransfer");
   // Constructors
     //- Construct from dictionary
     constantHeatTransfer

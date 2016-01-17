@@ -149,7 +149,7 @@ public:
     //- Placeholder only, but do not remove - it is needed for GeoMesh
     typedef bool BoundaryMesh;
     //- Runtime type information
-    ClassName("triSurface");
+    CLASS_NAME("triSurface");
   // Static
     //- Name of triSurface directory to use.
     static fileName triSurfInstance(const Time&);

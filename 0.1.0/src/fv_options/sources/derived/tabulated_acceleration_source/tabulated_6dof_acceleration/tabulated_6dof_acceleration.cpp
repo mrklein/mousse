@@ -9,7 +9,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(tabulated6DoFAcceleration, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(tabulated6DoFAcceleration, 0);
 }
 // Constructors 
 mousse::tabulated6DoFAcceleration::tabulated6DoFAcceleration
@@ -33,7 +33,7 @@ mousse::tabulated6DoFAcceleration::acceleration() const
   scalar t = time_.value();
   if (t < times_[0])
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "tabulated6DoFAcceleration::acceleration()"
     )   << "current time (" << t
@@ -43,7 +43,7 @@ mousse::tabulated6DoFAcceleration::acceleration() const
   }
   if (t > times_.last())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "tabulated6DoFAcceleration::acceleration()"
     )   << "current time (" << t
@@ -84,7 +84,7 @@ bool mousse::tabulated6DoFAcceleration::read
       );
       times_.setSize(timeValues.size());
       values_.setSize(timeValues.size());
-      forAll(timeValues, i)
+      FOR_ALL(timeValues, i)
       {
         times_[i] = timeValues[i].first();
         values_[i] = timeValues[i].second();
@@ -92,7 +92,7 @@ bool mousse::tabulated6DoFAcceleration::read
     }
     else
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "tabulated6DoFAcceleration::read(const dictionary&)"
       )   << "Cannot open time data file " << timeDataFileName_

@@ -9,9 +9,12 @@
 //   Used in conjunction with the template class PhiScheme.
 // SourceFiles
 //   phi.cpp
+
 #ifndef phi_hpp_
 #define phi_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 class PhiLimiter
@@ -20,11 +23,11 @@ class PhiLimiter
 public:
   PhiLimiter(Istream& is)
   :
-    k_(readScalar(is))
+    k_{readScalar(is)}
   {
     if (k_ < 0 || k_ > 1)
     {
-      FatalIOErrorIn("PhiLimiter(Istream& is)", is)
+      FATAL_IO_ERROR_IN("PhiLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
         << exit(FatalIOError);

@@ -63,7 +63,7 @@ public:
   typedef typename IDLList<ParticleType>::iterator iterator;
   typedef typename IDLList<ParticleType>::const_iterator const_iterator;
   //-Runtime type information
-  TypeName("Cloud");
+  TYPE_NAME("Cloud");
   // Static data
     //- Name of cloud properties dictionary
     static word cloudPropertiesName;

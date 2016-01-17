@@ -6,5 +6,5 @@
 // Member Functions 
 namespace mousse
 {
-  defineTypeNameAndDebug(regionCoupledBaseFvPatch, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(regionCoupledBaseFvPatch, 0);
 }

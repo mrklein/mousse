@@ -6,7 +6,7 @@
 #include "processor_point_patch_fields.hpp"
 // Member Functions 
 template<class Type>
-mousse::tmp<mousse::GeometricField<Type, mousse::pointPatchField, mousse::pointMesh> >
+mousse::tmp<mousse::GeometricField<Type, mousse::pointPatchField, mousse::pointMesh>>
 mousse::pointFieldDecomposer::decomposeField
 (
   const GeometricField<Type, pointPatchField, pointMesh>& field
@@ -15,9 +15,9 @@ mousse::pointFieldDecomposer::decomposeField
   // Create and map the internal field values
   Field<Type> internalField(field.internalField(), pointAddressing_);
   // Create a list of pointers for the patchFields
-  PtrList<pointPatchField<Type> > patchFields(boundaryAddressing_.size());
+  PtrList<pointPatchField<Type>> patchFields(boundaryAddressing_.size());
   // Create and map the patch field values
-  forAll(boundaryAddressing_, patchi)
+  FOR_ALL(boundaryAddressing_, patchi)
   {
     if (patchFieldDecomposerPtrs_[patchi])
     {
@@ -39,33 +39,33 @@ mousse::pointFieldDecomposer::decomposeField
       (
         patchi,
         new processorPointPatchField<Type>
-        (
+        {
           procMesh_.boundary()[patchi],
           DimensionedField<Type, pointMesh>::null()
-        )
+        }
       );
     }
   }
   // Create the field for the processor
-  return tmp<GeometricField<Type, pointPatchField, pointMesh> >
-  (
+  return tmp<GeometricField<Type, pointPatchField, pointMesh>>
+  {
     new GeometricField<Type, pointPatchField, pointMesh>
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         field.name(),
         procMesh_().time().timeName(),
         procMesh_(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       procMesh_,
       field.dimensions(),
       internalField,
       patchFields
-    )
-  );
+    }
+  };
 }
 template<class GeoField>
 void mousse::pointFieldDecomposer::decomposeFields
@@ -73,7 +73,7 @@ void mousse::pointFieldDecomposer::decomposeFields
   const PtrList<GeoField>& fields
 ) const
 {
-  forAll(fields, fieldI)
+  FOR_ALL(fields, fieldI)
   {
     decomposeField(fields[fieldI])().write();
   }

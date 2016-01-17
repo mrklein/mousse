@@ -41,7 +41,7 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("trajectory");
+  TYPE_NAME("trajectory");
   // Constructors
     //- Construct from dictionary
     TrajectoryCollision(const dictionary& dict, CloudType& cloud);

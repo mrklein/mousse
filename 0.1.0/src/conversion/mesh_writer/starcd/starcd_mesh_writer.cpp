@@ -22,7 +22,7 @@ mousse::label mousse::meshWriters::STARCD::findDefaultBoundary() const
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   label id = -1;
   // find Default_Boundary_Region if it exists
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (defaultBoundaryName == patches[patchI].name())
     {
@@ -63,7 +63,7 @@ void mousse::meshWriters::STARCD::getCellTable()
     }
     else
     {
-      WarningIn("STARCD::getCellTable()")
+      WARNING_IN("STARCD::getCellTable()")
         << ioList.objectPath() << " has incorrect number of cells "
         << " - use cellZone information"
         << endl;
@@ -86,7 +86,7 @@ void mousse::meshWriters::STARCD::getCellTable()
     label nUnzoned = mesh_.nCells();
     // get the cellZone <-> cellTable correspondence
     Info<< "matching cellZones to cellTable" << endl;
-    forAll(mesh_.cellZones(), zoneI)
+    FOR_ALL(mesh_.cellZones(), zoneI)
     {
       const cellZone& cZone = mesh_.cellZones()[zoneI];
       if (cZone.size())
@@ -100,7 +100,7 @@ void mousse::meshWriters::STARCD::getCellTable()
           dict.add("MaterialType", "fluid");
           tableId = cellTable_.append(dict);
         }
-        forAll(cZone, i)
+        FOR_ALL(cZone, i)
         {
           cellTableId_[cZone[i]] = tableId;
         }
@@ -112,7 +112,7 @@ void mousse::meshWriters::STARCD::getCellTable()
       dict.add("Label", "__unZonedCells__");
       dict.add("MaterialType", "fluid");
       label tableId = cellTable_.append(dict);
-      forAll(cellTableId_, i)
+      FOR_ALL(cellTableId_, i)
       {
         if (cellTableId_[i] < 0)
         {
@@ -146,7 +146,7 @@ void mousse::meshWriters::STARCD::writePoints(const fileName& prefix) const
   const pointField& points = mesh_.points();
   Info<< "Writing " << os.name() << " : "
     << points.size() << " points" << endl;
-  forAll(points, ptI)
+  FOR_ALL(points, ptI)
   {
     // convert [m] -> [mm]
     os
@@ -174,7 +174,7 @@ void mousse::meshWriters::STARCD::writeCells(const fileName& prefix) const
   const labelList& owner = mesh_.faceOwner();
   Info<< "Writing " << os.name() << " : "
     << cells.size() << " cells" << endl;
-  forAll(cells, cellId)
+  FOR_ALL(cells, cellId)
   {
     label tableId = cellTableId_[cellId];
     label materialType  = 1;        // 1(fluid)
@@ -206,7 +206,7 @@ void mousse::meshWriters::STARCD::writeCells(const fileName& prefix) const
       // primitives have <= 8 vertices, but prevent overrun anyhow
       // indent following lines for ease of reading
       label count = 0;
-      forAll(vrtList, i)
+      FOR_ALL(vrtList, i)
       {
         if ((count % 8) == 0)
         {
@@ -227,7 +227,7 @@ void mousse::meshWriters::STARCD::writeCells(const fileName& prefix) const
       indices[0] = indices.size();
       label count = indices.size();
       // determine the total number of vertices
-      forAll(cFaces, faceI)
+      FOR_ALL(cFaces, faceI)
       {
         count += faces[cFaces[faceI]].size();
         indices[faceI+1] = count;
@@ -240,7 +240,7 @@ void mousse::meshWriters::STARCD::writeCells(const fileName& prefix) const
       // write indices - max 8 per line
       // indent following lines for ease of reading
       count = 0;
-      forAll(indices, i)
+      FOR_ALL(indices, i)
       {
         if ((count % 8) == 0)
         {
@@ -251,7 +251,7 @@ void mousse::meshWriters::STARCD::writeCells(const fileName& prefix) const
         count++;
       }
       // write faces - max 8 per line
-      forAll(cFaces, faceI)
+      FOR_ALL(cFaces, faceI)
       {
         label meshFace = cFaces[faceI];
         face f;
@@ -263,7 +263,7 @@ void mousse::meshWriters::STARCD::writeCells(const fileName& prefix) const
         {
           f = faces[meshFace].reverseFace();
         }
-        forAll(f, i)
+        FOR_ALL(f, i)
         {
           if ((count % 8) == 0)
           {
@@ -302,7 +302,7 @@ void mousse::meshWriters::STARCD::writeBoundary(const fileName& prefix) const
   // write boundary faces - skip Default_Boundary_Region entirely
   //
   label boundId = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     label regionId = patchI;
     if (regionId == defaultId)
@@ -341,7 +341,7 @@ void mousse::meshWriters::STARCD::writeBoundary(const fileName& prefix) const
       if (faceLookupIndex.found(mapIndex))
       {
         const faceList sFaces = shape.faces();
-        forAll(sFaces, sFaceI)
+        FOR_ALL(sFaces, sFaceI)
         {
           if (faces[faceI] == sFaces[sFaceI])
           {

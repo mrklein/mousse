@@ -12,13 +12,17 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
+#include "field_field.hpp"
+#include "fvs_patch_field.hpp"
+#include "time.hpp"
+
 // Static Data Members
 namespace mousse
 {
 namespace patchDistMethods
 {
-  defineTypeNameAndDebug(advectionDiffusion, 0);
-  addToRunTimeSelectionTable(patchDistMethod, advectionDiffusion, dictionary);
+  DEFINE_TYPE_NAME_AND_DEBUG(advectionDiffusion, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(patchDistMethod, advectionDiffusion, dictionary);
 }
 }
 // Constructors 
@@ -77,7 +81,7 @@ bool mousse::patchDistMethods::advectionDiffusion::correct
     patchTypes<vector>(mesh_, patchIDs_)
   );
   const fvPatchList& patches = mesh_.boundary();
-  forAllConstIter(labelHashSet, patchIDs_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs_, iter)
   {
     label patchi = iter.key();
     ny.boundaryField()[patchi] == -patches[patchi].nf();

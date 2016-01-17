@@ -94,12 +94,9 @@ class sampledSurfaces
     );
     //- Sample and write all sampled fields
     template<class Type> void sampleAndWrite(const IOobjectList& objects);
-    //- Disallow default bitwise copy construct and assignment
-    sampledSurfaces(const sampledSurfaces&);
-    void operator=(const sampledSurfaces&);
 public:
   //- Runtime type information
-  TypeName("surfaces");
+  TYPE_NAME("surfaces");
   // Constructors
     //- Construct for given objectRegistry and dictionary
     //  allow the possibility to load fields from files
@@ -110,6 +107,9 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct and assignment
+    sampledSurfaces(const sampledSurfaces&) = delete;
+    sampledSurfaces& operator=(const sampledSurfaces&) = delete;
   //- Destructor
   virtual ~sampledSurfaces();
   // Member Functions

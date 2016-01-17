@@ -43,7 +43,7 @@ private:
     autoPtr<CorrectionLimitingMethod> correctionLimiting_;
 public:
   //- Runtime type information
-  TypeName("explicit");
+  TYPE_NAME("explicit");
   // Constructors
     //- Construct from components
     Explicit(const dictionary& dict, CloudType& owner);

@@ -62,7 +62,7 @@ class cylindricalInletVelocityFvPatchVectorField
     autoPtr<DataEntry<scalar> > rpm_;
 public:
  //- Runtime type information
- TypeName("cylindricalInletVelocity");
+ TYPE_NAME("cylindricalInletVelocity");
  // Constructors
     //- Construct from patch and internal field
     cylindricalInletVelocityFvPatchVectorField

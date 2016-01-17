@@ -9,9 +9,12 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   muscl.cpp
+
 #ifndef muscl_hpp_
 #define muscl_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimiterFunc>
@@ -22,9 +25,10 @@ class MUSCLLimiter
 public:
   MUSCLLimiter(Istream&)
   {}
+
   scalar limiter
   (
-    const scalar cdWeight,
+    const scalar /*cdWeight*/,
     const scalar faceFlux,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,

@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "surface_interpolate.hpp"
+
 namespace mousse
 {
 namespace fvc
@@ -246,7 +247,7 @@ tmp<FieldField<fvsPatchField, Type> > interpolate
   (
     new FieldField<fvsPatchField, Type>(fvpff.size())
   );
-  forAll(*fvspffPtr, patchi)
+  FOR_ALL(*fvspffPtr, patchi)
   {
     fvspffPtr->set
     (

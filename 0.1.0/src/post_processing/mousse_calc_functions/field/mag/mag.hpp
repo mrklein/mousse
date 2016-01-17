@@ -18,11 +18,6 @@ class mag
 :
   public calcType
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    mag(const mag&);
-    //- Disallow default bitwise assignment
-    void operator=(const mag&);
 protected:
   // Member Functions
     // Calculation routines
@@ -54,10 +49,14 @@ protected:
       );
 public:
   //- Runtime type information
-  TypeName("mag");
+  TYPE_NAME("mag");
   // Constructors
     //- Construct null
     mag();
+    //- Disallow default bitwise copy construct
+    mag(const mag&) = delete;
+    //- Disallow default bitwise assignment
+    mag& operator=(const mag&) = delete;
   //- Destructor
   virtual ~mag();
 };

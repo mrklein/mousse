@@ -16,17 +16,19 @@ class inverseVolumeDiffusivity
 :
   public uniformDiffusivity
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    inverseVolumeDiffusivity(const inverseVolumeDiffusivity&);
-    //- Disallow default bitwise assignment
-    void operator=(const inverseVolumeDiffusivity&);
 public:
   //- Runtime type information
-  TypeName("inverseVolume");
+  TYPE_NAME("inverseVolume");
   // Constructors
     //- Construct for the given fvMesh and data Istream
     inverseVolumeDiffusivity(const fvMesh& mesh, Istream& mdData);
+    //- Disallow default bitwise copy construct
+    inverseVolumeDiffusivity(const inverseVolumeDiffusivity&) = delete;
+    //- Disallow default bitwise assignment
+    inverseVolumeDiffusivity& operator=
+    (
+      const inverseVolumeDiffusivity&
+    ) = delete;
   //- Destructor
   virtual ~inverseVolumeDiffusivity();
   // Member Functions

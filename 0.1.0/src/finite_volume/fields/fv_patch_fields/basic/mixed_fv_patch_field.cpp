@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "mixed_fv_patch_field.hpp"
+
 namespace mousse
 {
+
 // Member Functions 
 template<class Type>
 mixedFvPatchField<Type>::mixedFvPatchField
@@ -13,11 +15,13 @@ mixedFvPatchField<Type>::mixedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(p, iF),
-  refValue_(p.size()),
-  refGrad_(p.size()),
-  valueFraction_(p.size())
+  fvPatchField<Type>{p, iF},
+  refValue_{p.size()},
+  refGrad_{p.size()},
+  valueFraction_{p.size()}
 {}
+
+
 template<class Type>
 mixedFvPatchField<Type>::mixedFvPatchField
 (
@@ -27,14 +31,14 @@ mixedFvPatchField<Type>::mixedFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fvPatchField<Type>(ptf, p, iF, mapper),
-  refValue_(ptf.refValue_, mapper),
-  refGrad_(ptf.refGrad_, mapper),
-  valueFraction_(ptf.valueFraction_, mapper)
+  fvPatchField<Type>{ptf, p, iF, mapper},
+  refValue_{ptf.refValue_, mapper},
+  refGrad_{ptf.refGrad_, mapper},
+  valueFraction_{ptf.valueFraction_, mapper}
 {
   if (notNull(iF) && mapper.hasUnmapped())
   {
-    WarningIn
+    WARNING_IN
     (
       "mixedFvPatchField<Type>::mixedFvPatchField\n"
       "(\n"
@@ -43,13 +47,16 @@ mixedFvPatchField<Type>::mixedFvPatchField
       "    const DimensionedField<Type, volMesh>&,\n"
       "    const fvPatchFieldMapper&\n"
       ")\n"
-    )   << "On field " << iF.name() << " patch " << p.name()
-      << " patchField " << this->type()
-      << " : mapper does not map all values." << nl
-      << "    To avoid this warning fully specify the mapping in derived"
-      << " patch fields." << endl;
+    )
+    << "On field " << iF.name() << " patch " << p.name()
+    << " patchField " << this->type()
+    << " : mapper does not map all values." << nl
+    << "    To avoid this warning fully specify the mapping in derived"
+    << " patch fields." << endl;
   }
 }
+
+
 template<class Type>
 mixedFvPatchField<Type>::mixedFvPatchField
 (
@@ -58,24 +65,28 @@ mixedFvPatchField<Type>::mixedFvPatchField
   const dictionary& dict
 )
 :
-  fvPatchField<Type>(p, iF, dict),
-  refValue_("refValue", dict, p.size()),
-  refGrad_("refGradient", dict, p.size()),
-  valueFraction_("valueFraction", dict, p.size())
+  fvPatchField<Type>{p, iF, dict},
+  refValue_{"refValue", dict, p.size()},
+  refGrad_{"refGradient", dict, p.size()},
+  valueFraction_{"valueFraction", dict, p.size()}
 {
   evaluate();
 }
+
+
 template<class Type>
 mixedFvPatchField<Type>::mixedFvPatchField
 (
   const mixedFvPatchField<Type>& ptf
 )
 :
-  fvPatchField<Type>(ptf),
-  refValue_(ptf.refValue_),
-  refGrad_(ptf.refGrad_),
-  valueFraction_(ptf.valueFraction_)
+  fvPatchField<Type>{ptf},
+  refValue_{ptf.refValue_},
+  refGrad_{ptf.refGrad_},
+  valueFraction_{ptf.valueFraction_}
 {}
+
+
 template<class Type>
 mixedFvPatchField<Type>::mixedFvPatchField
 (
@@ -83,11 +94,13 @@ mixedFvPatchField<Type>::mixedFvPatchField
   const DimensionedField<Type, volMesh>& iF
 )
 :
-  fvPatchField<Type>(ptf, iF),
-  refValue_(ptf.refValue_),
-  refGrad_(ptf.refGrad_),
-  valueFraction_(ptf.valueFraction_)
+  fvPatchField<Type>{ptf, iF},
+  refValue_{ptf.refValue_},
+  refGrad_{ptf.refGrad_},
+  valueFraction_{ptf.valueFraction_}
 {}
+
+
 // Member Functions 
 template<class Type>
 void mixedFvPatchField<Type>::autoMap
@@ -100,6 +113,8 @@ void mixedFvPatchField<Type>::autoMap
   refGrad_.autoMap(m);
   valueFraction_.autoMap(m);
 }
+
+
 template<class Type>
 void mixedFvPatchField<Type>::rmap
 (
@@ -114,6 +129,8 @@ void mixedFvPatchField<Type>::rmap
   refGrad_.rmap(mptf.refGrad_, addr);
   valueFraction_.rmap(mptf.valueFraction_, addr);
 }
+
+
 template<class Type>
 void mixedFvPatchField<Type>::evaluate(const Pstream::commsTypes)
 {
@@ -123,25 +140,22 @@ void mixedFvPatchField<Type>::evaluate(const Pstream::commsTypes)
   }
   Field<Type>::operator=
   (
-    valueFraction_*refValue_
-   +
-    (1.0 - valueFraction_)*
-    (
-      this->patchInternalField()
-     + refGrad_/this->patch().deltaCoeffs()
-    )
+    valueFraction_*refValue_ + (1.0 - valueFraction_)
+      *(this->patchInternalField() + refGrad_/this->patch().deltaCoeffs())
   );
   fvPatchField<Type>::evaluate();
 }
+
+
 template<class Type>
 tmp<Field<Type> > mixedFvPatchField<Type>::snGrad() const
 {
   return
-    valueFraction_
-   *(refValue_ - this->patchInternalField())
-   *this->patch().deltaCoeffs()
-   + (1.0 - valueFraction_)*refGrad_;
+    valueFraction_*(refValue_ - this->patchInternalField())
+      *this->patch().deltaCoeffs() + (1.0 - valueFraction_)*refGrad_;
 }
+
+
 template<class Type>
 tmp<Field<Type> > mixedFvPatchField<Type>::valueInternalCoeffs
 (
@@ -150,6 +164,8 @@ tmp<Field<Type> > mixedFvPatchField<Type>::valueInternalCoeffs
 {
   return Type(pTraits<Type>::one)*(1.0 - valueFraction_);
 }
+
+
 template<class Type>
 tmp<Field<Type> > mixedFvPatchField<Type>::valueBoundaryCoeffs
 (
@@ -158,20 +174,26 @@ tmp<Field<Type> > mixedFvPatchField<Type>::valueBoundaryCoeffs
 {
   return
     valueFraction_*refValue_
-   + (1.0 - valueFraction_)*refGrad_/this->patch().deltaCoeffs();
+    + (1.0 - valueFraction_)*refGrad_/this->patch().deltaCoeffs();
 }
+
+
 template<class Type>
 tmp<Field<Type> > mixedFvPatchField<Type>::gradientInternalCoeffs() const
 {
   return -Type(pTraits<Type>::one)*valueFraction_*this->patch().deltaCoeffs();
 }
+
+
 template<class Type>
 tmp<Field<Type> > mixedFvPatchField<Type>::gradientBoundaryCoeffs() const
 {
   return
     valueFraction_*this->patch().deltaCoeffs()*refValue_
-   + (1.0 - valueFraction_)*refGrad_;
+    + (1.0 - valueFraction_)*refGrad_;
 }
+
+
 template<class Type>
 void mixedFvPatchField<Type>::write(Ostream& os) const
 {
@@ -181,4 +203,5 @@ void mixedFvPatchField<Type>::write(Ostream& os) const
   valueFraction_.writeEntry("valueFraction", os);
   this->writeEntry("value", os);
 }
+
 }  // namespace mousse

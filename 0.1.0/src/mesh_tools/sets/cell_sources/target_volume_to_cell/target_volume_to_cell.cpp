@@ -8,27 +8,31 @@
 #include "plane.hpp"
 #include "cell_set.hpp"
 #include "add_to_run_time_selection_table.hpp"
+#include "pstream_reduce_ops.hpp"
+
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(targetVolumeToCell, 0);
-addToRunTimeSelectionTable(topoSetSource, targetVolumeToCell, word);
-addToRunTimeSelectionTable(topoSetSource, targetVolumeToCell, istream);
+DEFINE_TYPE_NAME_AND_DEBUG(targetVolumeToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, targetVolumeToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, targetVolumeToCell, istream);
 }
+
 mousse::topoSetSource::addToUsageTable mousse::targetVolumeToCell::usage_
 (
   targetVolumeToCell::typeName,
   "\n    Usage: targetVolumeToCell (nx ny nz)\n\n"
   "    Adjust plane until obtained selected volume\n\n"
 );
-// Private Member Functions 
+
+// Private Member Functions
 mousse::scalar mousse::targetVolumeToCell::volumeOfSet
 (
   const PackedBoolList& selected
 ) const
 {
   scalar sumVol = 0.0;
-  forAll(selected, cellI)
+  FOR_ALL(selected, cellI)
   {
     if (selected[cellI])
     {
@@ -47,7 +51,7 @@ mousse::label mousse::targetVolumeToCell::selectCells
   selected.setSize(mesh_.nCells());
   selected = false;
   label nSelected = 0;
-  forAll(mesh_.cellCentres(), cellI)
+  FOR_ALL(mesh_.cellCentres(), cellI)
   {
     const point& cc = mesh_.cellCentres()[cellI];
     if (maskSet[cellI] && ((cc&n_) < normalComp))
@@ -74,7 +78,7 @@ void mousse::targetVolumeToCell::combine(topoSet& set, const bool add) const
       << endl;
     maskSet = 0;
     cellSet subset(mesh_, maskSetName_);
-    forAllConstIter(cellSet, subset, iter)
+    FOR_ALL_CONST_ITER(cellSet, subset, iter)
     {
       maskSet[iter.key()] = 1;
     }
@@ -92,7 +96,7 @@ void mousse::targetVolumeToCell::combine(topoSet& set, const bool add) const
     pointField points(bb.points());
     //label minPointI = -1;
     label maxPointI = -1;
-    forAll(points, pointI)
+    FOR_ALL(points, pointI)
     {
       scalar c = (points[pointI]&n_);
       if (c > maxComp)
@@ -112,7 +116,7 @@ void mousse::targetVolumeToCell::combine(topoSet& set, const bool add) const
     // Check that maxPoint indeed selects all cells
     if (maxCells != nTotCells)
     {
-      WarningIn("targetVolumeToCell::combine(topoSet&, const bool) const")
+      WARNING_IN("targetVolumeToCell::combine(topoSet&, const bool) const")
         << "Plane " << plane(points[maxPointI], n_)
         << " selects " << maxCells
         << " cells instead of all " << nTotCells
@@ -174,7 +178,7 @@ void mousse::targetVolumeToCell::combine(topoSet& set, const bool add) const
     }
     else
     {
-      WarningIn("targetVolumeToCell::combine(topoSet&, const bool) const")
+      WARNING_IN("targetVolumeToCell::combine(topoSet&, const bool) const")
         << "Did not converge onto plane. " << nl
         << "high plane:"
         << plane(high*n_, n_)
@@ -186,7 +190,7 @@ void mousse::targetVolumeToCell::combine(topoSet& set, const bool add) const
   }
   Info<< "    Selected " << nSelected << " with actual volume " << selectedVol
     << endl;
-  forAll(selected, cellI)
+  FOR_ALL(selected, cellI)
   {
     if (selected[cellI])
     {
@@ -194,7 +198,7 @@ void mousse::targetVolumeToCell::combine(topoSet& set, const bool add) const
     }
   }
 }
-// Constructors 
+// Constructors
 // Construct from components
 mousse::targetVolumeToCell::targetVolumeToCell
 (
@@ -230,10 +234,12 @@ mousse::targetVolumeToCell::targetVolumeToCell
   vol_(readScalar(checkIs(is))),
   n_(checkIs(is))
 {}
-// Destructor 
+
+// Destructor
 mousse::targetVolumeToCell::~targetVolumeToCell()
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::targetVolumeToCell::applyToSet
 (
   const topoSetSource::setAction action,

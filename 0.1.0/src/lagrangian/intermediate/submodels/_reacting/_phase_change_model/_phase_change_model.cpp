@@ -22,14 +22,14 @@ typename mousse::PhaseChangeModel<CloudType>::enthalpyTransferType
 mousse::PhaseChangeModel<CloudType>::wordToEnthalpyTransfer(const word& etName)
 const
 {
-  forAll(enthalpyTransferTypeNames, i)
+  FOR_ALL(enthalpyTransferTypeNames, i)
   {
     if (etName == enthalpyTransferTypeNames[i])
     {
       return enthalpyTransferType(i);
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "PhaseChangeModel<CloudType>::enthalpyTransferType"
     "PhaseChangeModel<CloudType>::wordToEnthalpyTransfer(const word&) const"
@@ -87,10 +87,10 @@ mousse::PhaseChangeModel<CloudType>::enthalpyTransfer() const
 template<class CloudType>
 mousse::scalar mousse::PhaseChangeModel<CloudType>::dh
 (
-  const label idc,
-  const label idl,
-  const scalar p,
-  const scalar T
+  const label /*idc*/,
+  const label /*idl*/,
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   return 0.0;
@@ -98,14 +98,14 @@ mousse::scalar mousse::PhaseChangeModel<CloudType>::dh
 template<class CloudType>
 mousse::scalar mousse::PhaseChangeModel<CloudType>::TMax
 (
-  const scalar p,
-  const scalarField& X
+  const scalar /*p*/,
+  const scalarField& /*X*/
 ) const
 {
   return GREAT;
 }
 template<class CloudType>
-mousse::scalar mousse::PhaseChangeModel<CloudType>::Tvap(const scalarField& X) const
+mousse::scalar mousse::PhaseChangeModel<CloudType>::Tvap(const scalarField& /*X*/) const
 {
   return -GREAT;
 }
@@ -115,7 +115,7 @@ void mousse::PhaseChangeModel<CloudType>::addToPhaseChangeMass(const scalar dMas
   dMass_ += dMass;
 }
 template<class CloudType>
-void mousse::PhaseChangeModel<CloudType>::info(Ostream& os)
+void mousse::PhaseChangeModel<CloudType>::info(Ostream&)
 {
   const scalar mass0 = this->template getBaseProperty<scalar>("mass");
   const scalar massTotal = mass0 + returnReduce(dMass_, sumOp<scalar>());

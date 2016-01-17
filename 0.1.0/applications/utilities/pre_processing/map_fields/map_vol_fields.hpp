@@ -25,32 +25,32 @@ void MapVolFields
     GeometricField<Type, fvPatchField, volMesh>::typeName
   );
   IOobjectList fields = objects.lookupClass(fieldClassName);
-  forAllIter(IOobjectList, fields, fieldIter)
+  FOR_ALL_ITER(IOobjectList, fields, fieldIter)
   {
     IOobject fieldTargetIOobject
-    (
+    {
       fieldIter()->name(),
       meshTarget.time().timeName(),
       meshTarget,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    );
+    };
     if (fieldTargetIOobject.headerOk())
     {
       Info<< "    interpolating " << fieldIter()->name()
         << endl;
       // Read field fieldSource
       GeometricField<Type, fvPatchField, volMesh> fieldSource
-      (
+      {
         *fieldIter(),
         meshSource
-      );
+      };
       // Read fieldTarget
       GeometricField<Type, fvPatchField, volMesh> fieldTarget
-      (
+      {
         fieldTargetIOobject,
         meshTarget
-      );
+      };
       // Interpolate field
       meshToMesh0Interp.interpolate
       (

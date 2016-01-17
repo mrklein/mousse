@@ -38,14 +38,9 @@ class Q
     bool active_;
     //- Name of velocity field, default is "U"
     word UName_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    Q(const Q&);
-    //- Disallow default bitwise assignment
-    void operator=(const Q&);
 public:
   //- Runtime type information
-  TypeName("Q");
+  TYPE_NAME("Q");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -56,6 +51,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    Q(const Q&) = delete;
+    //- Disallow default bitwise assignment
+    Q& operator=(const Q&) = delete;
   //- Destructor
   virtual ~Q();
   // Member Functions

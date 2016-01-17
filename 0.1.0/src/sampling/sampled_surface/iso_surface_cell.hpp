@@ -245,7 +245,7 @@ class isoSurfaceCell
     void combineCellTriangles();
 public:
   //- Runtime type information
-  TypeName("isoSurfaceCell");
+  TYPE_NAME("isoSurfaceCell");
   // Constructors
     //- Construct from dictionary
     isoSurfaceCell

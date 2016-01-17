@@ -14,7 +14,7 @@ mousse::tmp<mousse::scalarField> mousse::LiquidEvaporation<CloudType>::calcXc
 ) const
 {
   scalarField Xc(this->owner().thermo().carrier().Y().size());
-  forAll(Xc, i)
+  FOR_ALL(Xc, i)
   {
     Xc[i] =
       this->owner().thermo().carrier().Y()[i][cellI]
@@ -47,7 +47,7 @@ mousse::LiquidEvaporation<CloudType>::LiquidEvaporation
 {
   if (activeLiquids_.size() == 0)
   {
-    WarningIn
+    WARNING_IN
     (
       "mousse::LiquidEvaporation<CloudType>::LiquidEvaporation"
       "("
@@ -61,7 +61,7 @@ mousse::LiquidEvaporation<CloudType>::LiquidEvaporation
   {
     Info<< "Participating liquid species:" << endl;
     // Determine mapping between liquid and carrier phase species
-    forAll(activeLiquids_, i)
+    FOR_ALL(activeLiquids_, i)
     {
       Info<< "    " << activeLiquids_[i] << endl;
       liqToCarrierMap_[i] =
@@ -69,7 +69,7 @@ mousse::LiquidEvaporation<CloudType>::LiquidEvaporation
     }
     // Determine mapping between model active liquids and global liquids
     const label idLiquid = owner.composition().idLiquid();
-    forAll(activeLiquids_, i)
+    FOR_ALL(activeLiquids_, i)
     {
       liqToLiqMap_[i] =
         owner.composition().localId(idLiquid, activeLiquids_[i]);
@@ -99,13 +99,13 @@ void mousse::LiquidEvaporation<CloudType>::calculate
   const scalar dt,
   const label cellI,
   const scalar Re,
-  const scalar Pr,
+  const scalar /*Pr*/,
   const scalar d,
   const scalar nu,
   const scalar T,
   const scalar Ts,
   const scalar pc,
-  const scalar Tc,
+  const scalar /*Tc*/,
   const scalarField& X,
   scalarField& dMassPC
 ) const
@@ -115,7 +115,7 @@ void mousse::LiquidEvaporation<CloudType>::calculate
   {
     if (debug)
     {
-      WarningIn
+      WARNING_IN
       (
         "void mousse::LiquidEvaporation<CloudType>::calculate"
         "("
@@ -135,7 +135,7 @@ void mousse::LiquidEvaporation<CloudType>::calculate
       )   << "Parcel reached critical conditions: "
         << "evaporating all avaliable mass" << endl;
     }
-    forAll(activeLiquids_, i)
+    FOR_ALL(activeLiquids_, i)
     {
       const label lid = liqToLiqMap_[i];
       dMassPC[lid] = GREAT;
@@ -145,7 +145,7 @@ void mousse::LiquidEvaporation<CloudType>::calculate
   // construct carrier phase species volume fractions for cell, cellI
   const scalarField Xc(calcXc(cellI));
   // calculate mass transfer of each specie in liquid
-  forAll(activeLiquids_, i)
+  FOR_ALL(activeLiquids_, i)
   {
     const label gid = liqToCarrierMap_[i];
     const label lid = liqToLiqMap_[i];
@@ -201,7 +201,7 @@ mousse::scalar mousse::LiquidEvaporation<CloudType>::dh
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::scalar mousse::LiquidEvaporation<CloudType>::dh"
         "("

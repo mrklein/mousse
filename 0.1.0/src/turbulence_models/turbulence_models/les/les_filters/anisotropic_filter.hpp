@@ -26,18 +26,17 @@ class anisotropicFilter
   // Private data
     scalar widthCoeff_;
     volVectorField coeff_;
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    anisotropicFilter(const anisotropicFilter&);
-    void operator=(const anisotropicFilter&);
 public:
   //- Runtime type information
-  TypeName("anisotropic");
+  TYPE_NAME("anisotropic");
   // Constructors
     //- Construct from components
     anisotropicFilter(const fvMesh& mesh, scalar widthCoeff);
     //- Construct from IOdictionary
     anisotropicFilter(const fvMesh& mesh, const dictionary&);
+    // Disallow default bitwise copy construct and assignment
+    anisotropicFilter(const anisotropicFilter&) = delete;
+    anisotropicFilter& operator=(const anisotropicFilter&) = delete;
   //- Destructor
   virtual ~anisotropicFilter()
   {}

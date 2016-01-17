@@ -18,7 +18,7 @@ mousse::BreakupModel<CloudType>::New
     dictionaryConstructorTablePtr_->find(BreakupModelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "BreakupModel<CloudType>::New"
       "("

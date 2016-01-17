@@ -72,10 +72,6 @@ class enrichedPatch
       //  - -1 for boundary face
       mutable labelList* cutFaceSlavePtr_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    enrichedPatch(const enrichedPatch&);
-    //- Disallow default bitwise assignment
-    void operator=(const enrichedPatch&);
     // Creation of demand-driven private data
       //- Calculate point merge map
       void calcPointMergeMap() const;
@@ -106,7 +102,7 @@ class enrichedPatch
     static const label maxFaceSizeDebug_;
 public:
   // Static data members
-  ClassName("enrichedPatch");
+  CLASS_NAME("enrichedPatch");
   // Constructors
     //- Construct from components
     enrichedPatch
@@ -120,6 +116,10 @@ public:
       const List<objectHit>& slavePointFaceHits
                       // master face snapped to
     );
+    //- Disallow default bitwise copy construct
+    enrichedPatch(const enrichedPatch&) = delete;
+    //- Disallow default bitwise assignment
+    enrichedPatch& operator=(const enrichedPatch&) = delete;
   //- Destructor
   ~enrichedPatch();
   // Member Functions

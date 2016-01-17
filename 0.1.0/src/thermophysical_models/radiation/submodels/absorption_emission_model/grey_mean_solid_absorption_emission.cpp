@@ -11,8 +11,8 @@ namespace mousse
 {
   namespace radiation
   {
-    defineTypeNameAndDebug(greyMeanSolidAbsorptionEmission, 0);
-    addToRunTimeSelectionTable
+    DEFINE_TYPE_NAME_AND_DEBUG(greyMeanSolidAbsorptionEmission, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE
     (
       absorptionEmissionModel,
       greyMeanSolidAbsorptionEmission,
@@ -30,18 +30,17 @@ greyMeanSolidAbsorptionEmission::X(const word specie) const
   scalarField& Xj = tXj();
   tmp<scalarField> tRhoInv(new scalarField(T.internalField().size(), 0.0));
   scalarField& rhoInv = tRhoInv();
-  forAll(mixture_.Y(), specieI)
+  FOR_ALL(mixture_.Y(), specieI)
   {
     const scalarField& Yi = mixture_.Y()[specieI];
-    forAll (rhoInv, iCell)
+    FOR_ALL(rhoInv, iCell)
     {
-      rhoInv[iCell] +=
-        Yi[iCell]/mixture_.rho(specieI, p[iCell], T[iCell]);
+      rhoInv[iCell] += Yi[iCell]/mixture_.rho(specieI, p[iCell], T[iCell]);
     }
   }
   const scalarField& Yj = mixture_.Y(specie);
   const label mySpecieI = mixture_.species()[specie];
-  forAll(Xj, iCell)
+  FOR_ALL(Xj, iCell)
   {
     Xj[iCell] = Yj[iCell]/mixture_.rho(mySpecieI, p[iCell], T[iCell]);
   }
@@ -64,7 +63,7 @@ greyMeanSolidAbsorptionEmission
 {
   if (!isA<basicSpecieMixture>(thermo_))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "radiation::greyMeanSolidAbsorptionEmission::"
       "greyMeanSolidAbsorptionEmission"
@@ -77,7 +76,7 @@ greyMeanSolidAbsorptionEmission
   }
   label nFunc = 0;
   const dictionary& functionDicts = dict.subDict(typeName + "Coeffs");
-  forAllConstIter(dictionary, functionDicts, iter)
+  FOR_ALL_CONST_ITER(dictionary, functionDicts, iter)
   {
     // safety:
     if (!iter().isDict())
@@ -87,7 +86,7 @@ greyMeanSolidAbsorptionEmission
     const word& key = iter().keyword();
     if (!mixture_.contains(key))
     {
-      WarningIn
+      WARNING_IN
       (
         "greyMeanSolidAbsorptionEmission::"
         "greyMeanSolidAbsorptionEmission "
@@ -134,7 +133,7 @@ calc(const label propertyId) const
     )
   );
   scalarField& a = ta().internalField();
-  forAllConstIter(HashTable<label>, speciesNames_, iter)
+  FOR_ALL_CONST_ITER(HashTable<label>, speciesNames_, iter)
   {
     if (mixture_.contains(iter.key()))
     {
@@ -147,7 +146,7 @@ calc(const label propertyId) const
 mousse::tmp<mousse::volScalarField>
 mousse::radiation::greyMeanSolidAbsorptionEmission::eCont
 (
-  const label bandI
+  const label /*bandI*/
 ) const
 {
  return calc(emissivity);
@@ -155,7 +154,7 @@ mousse::radiation::greyMeanSolidAbsorptionEmission::eCont
 mousse::tmp<mousse::volScalarField>
 mousse::radiation::greyMeanSolidAbsorptionEmission::aCont
 (
-  const label bandI
+  const label /*bandI*/
 ) const
 {
  return calc(absorptivity);

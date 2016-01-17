@@ -29,7 +29,7 @@ public:
   {
     if (k_ < 0 || k_ > 1)
     {
-      FatalIOErrorIn("limitedCubicLimiter(Istream& is)", is)
+      FATAL_IO_ERROR_IN("limitedCubicLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
         << exit(FatalIOError);

@@ -22,13 +22,9 @@ class setUpdater
     //- Updates all sets
     template<class Type>
     void updateSets(const mapPolyMesh& morphMap) const;
-    //- Disallow default bitwise copy construct
-    setUpdater(const setUpdater&);
-    //- Disallow default bitwise assignment
-    void operator=(const setUpdater&);
 public:
   //- Runtime type information
-  TypeName("setUpdater");
+  TYPE_NAME("setUpdater");
   // Constructors
     //- Construct from dictionary
     setUpdater
@@ -38,6 +34,10 @@ public:
       const label index,
       const polyTopoChanger& mme
     );
+    //- Disallow default bitwise copy construct
+    setUpdater(const setUpdater&) = delete;
+    //- Disallow default bitwise assignment
+    setUpdater& operator=(const setUpdater&) = delete;
   //- Destructor
   virtual ~setUpdater();
   // Member Functions

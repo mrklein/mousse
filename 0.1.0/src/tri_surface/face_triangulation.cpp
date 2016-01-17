@@ -4,6 +4,8 @@
 
 #include "face_triangulation.hpp"
 #include "plane.hpp"
+#include "uindirect_list.hpp"
+
 // Static Data Members
 const mousse::scalar mousse::faceTriangulation::edgeRelTol = 1e-6;
 // Edge to the right of face vertex i
@@ -26,7 +28,7 @@ mousse::tmp<mousse::vectorField> mousse::faceTriangulation::calcEdges
 {
   tmp<vectorField> tedges(new vectorField(f.size()));
   vectorField& edges = tedges();
-  forAll(f, i)
+  FOR_ALL(f, i)
   {
     point thisPt = points[f[i]];
     point nextPt = points[f[f.fcIndex(i)]];
@@ -122,7 +124,7 @@ bool mousse::faceTriangulation::triangleContainsPoint
   }
   else if ((area01Pt < 0) && (area12Pt < 0) && (area20Pt < 0))
   {
-    FatalErrorIn("triangleContainsPoint") << abort(FatalError);
+    FATAL_ERROR_IN("triangleContainsPoint") << abort(FatalError);
     return false;
   }
   else
@@ -280,7 +282,7 @@ mousse::label mousse::faceTriangulation::findStart
   const label size = f.size();
   scalar minCos = GREAT;
   label minIndex = -1;
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     const vector& rightEdge = edges[right(size, fp)];
     const vector leftEdge = -edges[left(size, fp)];
@@ -298,7 +300,7 @@ mousse::label mousse::faceTriangulation::findStart
   {
     // No concave angle found. Get flattest convex angle
     minCos = GREAT;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       const vector& rightEdge = edges[right(size, fp)];
       const vector leftEdge = -edges[left(size, fp)];
@@ -312,7 +314,7 @@ mousse::label mousse::faceTriangulation::findStart
   }
   return minIndex;
 }
-// Private Member Functions 
+// Private Member Functions
 // Split face f into triangles. Handles all simple (convex & concave)
 // polygons.
 bool mousse::faceTriangulation::split
@@ -327,7 +329,7 @@ bool mousse::faceTriangulation::split
   const label size = f.size();
   if (size <= 2)
   {
-    WarningIn
+    WARNING_IN
     (
       "split(const bool, const pointField&, const face&"
       ", const vector&, label&)"
@@ -355,7 +357,7 @@ bool mousse::faceTriangulation::split
     // Find diagonal to split face across
     label index1 = -1;
     label index2 = -1;
-    forAll(f, iter)
+    FOR_ALL(f, iter)
     {
       findDiagonal
       (
@@ -383,7 +385,7 @@ bool mousse::faceTriangulation::split
         // triangulating from.
         label maxIndex = -1;
         scalar maxCos = -GREAT;
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           const vector& rightEdge = edges[right(size, fp)];
           const vector leftEdge = -edges[left(size, fp)];
@@ -394,7 +396,7 @@ bool mousse::faceTriangulation::split
             maxIndex = fp;
           }
         }
-        WarningIn
+        WARNING_IN
         (
           "split(const bool, const pointField&, const face&"
           ", const vector&, label&)"
@@ -418,7 +420,7 @@ bool mousse::faceTriangulation::split
       }
       else
       {
-        WarningIn
+        WARNING_IN
         (
           "split(const bool, const pointField&, const face&"
           ", const vector&, label&)"
@@ -447,7 +449,7 @@ bool mousse::faceTriangulation::split
     label nPoints2 = size - diff + 1;
     if (nPoints1 == size || nPoints2 == size)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "split(const bool, const pointField&, const face&"
         ", const vector&, label&)"
@@ -484,7 +486,8 @@ bool mousse::faceTriangulation::split
     return splitOk;
   }
 }
-// Constructors 
+
+// Constructors
 // Null constructor
 mousse::faceTriangulation::faceTriangulation()
 :

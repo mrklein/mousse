@@ -70,10 +70,6 @@ private:
     void setBasedEdgeWeights();
     //- Maps current level with base patch
     void mapBaseToTopAgglom(const label fineLevelIndex);
-    //- Disallow default bitwise copy construct
-    pairPatchAgglomeration(const pairPatchAgglomeration&);
-    //- Disallow default bitwise assignment
-    void operator=(const pairPatchAgglomeration&);
 public:
   // Constructors
     //- Construct given mesh and controls
@@ -83,6 +79,10 @@ public:
       const dictionary& controlDict,
       const bool additionalWeights = false
     );
+    //- Disallow default bitwise copy construct
+    pairPatchAgglomeration(const pairPatchAgglomeration&) = delete;
+    //- Disallow default bitwise assignment
+    pairPatchAgglomeration& operator=(const pairPatchAgglomeration&) = delete;
   // Destructor
   ~pairPatchAgglomeration();
   // Member Functions

@@ -72,7 +72,7 @@ protected:
     void setCellSet();
 public:
   //- Runtime type information
-  TypeName("cellSetOption");
+  TYPE_NAME("cellSetOption");
   // Constructors
     //- Construct from components
     cellSetOption
@@ -115,5 +115,45 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#include "cell_set_option_i.hpp"
+
+// Member Functions 
+inline mousse::scalar mousse::fv::cellSetOption::timeStart() const
+{
+  return timeStart_;
+}
+inline mousse::scalar mousse::fv::cellSetOption::duration() const
+{
+  return duration_;
+}
+inline bool mousse::fv::cellSetOption::inTimeLimits(const scalar /*time*/) const
+{
+  return ((timeStart_ < 0)
+          || ((mesh_.time().value() >= timeStart_)
+              && (mesh_.time().value() <= (timeStart_ + duration_))));
+}
+inline const mousse::fv::cellSetOption::selectionModeType&
+mousse::fv::cellSetOption::selectionMode() const
+{
+  return selectionMode_;
+}
+inline const mousse::word& mousse::fv::cellSetOption::cellSetName() const
+{
+  return cellSetName_;
+}
+inline mousse::scalar mousse::fv::cellSetOption::V() const
+{
+  return V_;
+}
+inline const mousse::labelList& mousse::fv::cellSetOption::cells() const
+{
+  return cells_;
+}
+inline mousse::scalar& mousse::fv::cellSetOption::timeStart()
+{
+  return timeStart_;
+}
+inline mousse::scalar& mousse::fv::cellSetOption::duration()
+{
+  return duration_;
+}
 #endif

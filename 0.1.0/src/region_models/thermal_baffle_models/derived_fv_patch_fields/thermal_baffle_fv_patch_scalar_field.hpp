@@ -148,7 +148,7 @@ class thermalBaffleFvPatchScalarField
     void createPatchMesh();
 public:
   //- Runtime type information
-  TypeName("compressible::thermalBaffle");
+  TYPE_NAME("compressible::thermalBaffle");
   // Constructors
     //- Construct from patch and internal field
     thermalBaffleFvPatchScalarField

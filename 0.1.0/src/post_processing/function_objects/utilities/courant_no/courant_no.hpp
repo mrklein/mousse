@@ -41,13 +41,9 @@ class CourantNo
     (
       const tmp<volScalarField::DimensionedInternalField>& Co
     ) const;
-    //- Disallow default bitwise copy construct
-    CourantNo(const CourantNo&);
-    //- Disallow default bitwise assignment
-    void operator=(const CourantNo&);
 public:
   //- Runtime type information
-  TypeName("CourantNo");
+  TYPE_NAME("CourantNo");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -58,6 +54,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    CourantNo(const CourantNo&) = delete;
+    //- Disallow default bitwise assignment
+    CourantNo& operator=(const CourantNo&) = delete;
   //- Destructor
   virtual ~CourantNo();
   // Member Functions

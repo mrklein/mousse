@@ -4,4 +4,5 @@
 
 #include "bounded_convection_scheme.hpp"
 #include "fv_mesh.hpp"
-makeFvConvectionScheme(boundedConvectionScheme)
+
+MAKE_FV_CONVECTION_SCHEME(boundedConvectionScheme)

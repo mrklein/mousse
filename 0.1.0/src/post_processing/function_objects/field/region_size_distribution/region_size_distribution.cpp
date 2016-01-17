@@ -11,7 +11,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(regionSizeDistribution, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(regionSizeDistribution, 0);
   //- Plus op for FixedList<scalar>
   template<class T, unsigned Size>
   class ListPlusEqOp
@@ -23,7 +23,7 @@ namespace mousse
       const FixedList<T, Size>& y
     ) const
     {
-      forAll(x, i)
+      FOR_ALL(x, i)
       {
         x[i] += y[i];
       }
@@ -38,13 +38,13 @@ void mousse::regionSizeDistribution::writeGraph
   const scalarField& values
 ) const
 {
-  const wordList valNames(1, valueName);
+  const wordList valNames{1, valueName};
   fileName outputPath = baseTimeDir();
   mkDir(outputPath);
-  OFstream str(outputPath/formatterPtr_().getFileName(coords, valNames));
+  OFstream str{outputPath/formatterPtr_().getFileName(coords, valNames)};
   Info<< "Writing distribution of " << valueName << " to " << str.name()
     << endl;
-  List<const scalarField*> valPtrs(1);
+  List<const scalarField*> valPtrs{1};
   valPtrs[0] = &values;
   formatterPtr_().write(coords, valNames, valPtrs, str);
 }
@@ -65,31 +65,31 @@ void mousse::regionSizeDistribution::writeAlphaFields
   //  - backgroundAlpha       : remaining alpha
   // Construct field
   volScalarField liquidCore
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       alphaName_ + "_liquidCore",
       obr_.time().timeName(),
       obr_,
       IOobject::NO_READ
-    ),
+    },
     alpha,
     fvPatchField<scalar>::calculatedType()
-  );
+  };
   volScalarField backgroundAlpha
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       alphaName_ + "_background",
       obr_.time().timeName(),
       obr_,
       IOobject::NO_READ
-    ),
+    },
     alpha,
     fvPatchField<scalar>::calculatedType()
-  );
+  };
   // Knock out any cell not in patchRegions
-  forAll(liquidCore, cellI)
+  FOR_ALL(liquidCore, cellI)
   {
     label regionI = regions[cellI];
     if (patchRegions.found(regionI))
@@ -130,17 +130,17 @@ mousse::Map<mousse::label> mousse::regionSizeDistribution::findPatchRegions
   // Count number of patch faces (just for initial sizing)
   const labelHashSet patchIDs(mesh.boundaryMesh().patchSet(patchNames_));
   label nPatchFaces = 0;
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     nPatchFaces += mesh.boundaryMesh()[iter.key()].size();
   }
   Map<label> patchRegions(nPatchFaces);
-  forAllConstIter(labelHashSet, patchIDs, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchIDs, iter)
   {
     const polyPatch& pp = mesh.boundaryMesh()[iter.key()];
     // Collect all regions on the patch
     const labelList& faceCells = pp.faceCells();
-    forAll(faceCells, i)
+    FOR_ALL(faceCells, i)
     {
       patchRegions.insert
       (
@@ -160,9 +160,9 @@ mousse::tmp<mousse::scalarField> mousse::regionSizeDistribution::divide
   const scalarField& denom
 )
 {
-  tmp<scalarField> tresult(new scalarField(num.size()));
+  tmp<scalarField> tresult{new scalarField{num.size()}};
   scalarField& result = tresult();
-  forAll(denom, i)
+  FOR_ALL(denom, i)
   {
     if (denom[i] != 0)
     {
@@ -188,14 +188,14 @@ void mousse::regionSizeDistribution::writeGraphs
   {
     // Calculate per-bin average
     scalarField binSum(nBins_, 0.0);
-    forAll(sortedField, i)
+    FOR_ALL(sortedField, i)
     {
       binSum[indices[i]] += sortedField[i];
     }
     scalarField binAvg(divide(binSum, binCount));
     // Per bin deviation
     scalarField binSqrSum(nBins_, 0.0);
-    forAll(sortedField, i)
+    FOR_ALL(sortedField, i)
     {
       binSqrSum[indices[i]] += mousse::sqr(sortedField[i]);
     }
@@ -250,15 +250,15 @@ mousse::regionSizeDistribution::regionSizeDistribution
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  functionObjectFile(obr, name, typeName),
-  name_(name),
-  obr_(obr),
-  active_(true),
-  alphaName_(dict.lookup("field")),
-  patchNames_(dict.lookup("patches"))
+  functionObjectFile{obr, name, typeName},
+  name_{name},
+  obr_{obr},
+  active_{true},
+  alphaName_{dict.lookup("field")},
+  patchNames_{dict.lookup("patches")}
 {
   // Check if the available mesh is an fvMesh, otherwise deactivate
   if (isA<fvMesh>(obr_))
@@ -268,7 +268,7 @@ mousse::regionSizeDistribution::regionSizeDistribution
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "regionSizeDistribution::regionSizeDistribution"
       "("
@@ -277,8 +277,9 @@ mousse::regionSizeDistribution::regionSizeDistribution
         "const dictionary&, "
         "const bool"
       ")"
-    )   << "No fvMesh available, deactivating " << name_ << nl
-      << endl;
+    )
+    << "No fvMesh available, deactivating " << name_ << nl
+    << endl;
   }
 }
 // Destructor 
@@ -383,7 +384,7 @@ void mousse::regionSizeDistribution::write()
         }
       }
       // Block coupled faces
-      forAll(alpha.boundaryField(), patchI)
+      FOR_ALL(alpha.boundaryField(), patchI)
       {
         const fvPatchScalarField& fvp = alpha.boundaryField()[patchI];
         if (fvp.coupled())
@@ -393,7 +394,7 @@ void mousse::regionSizeDistribution::write()
           tmp<scalarField> tnbrFld(fvp.patchNeighbourField());
           const scalarField& nbrFld = tnbrFld();
           label start = fvp.patch().patch().start();
-          forAll(ownFld, i)
+          FOR_ALL(ownFld, i)
           {
             scalar ownVal = ownFld[i];
             scalar neiVal = nbrFld[i];
@@ -430,7 +431,7 @@ void mousse::regionSizeDistribution::write()
       );
       Info<< "    Dumping region as volScalarField to " << region.name()
         << endl;
-      forAll(regions, cellI)
+      FOR_ALL(regions, cellI)
       {
         region[cellI] = regions[cellI];
       }
@@ -494,7 +495,7 @@ void mousse::regionSizeDistribution::write()
         << token::TAB << "Volume(mesh)"
         << token::TAB << "Volume(" << alpha.name() << "):"
         << endl;
-      forAllConstIter(Map<label>, patchRegions, iter)
+      FOR_ALL_CONST_ITER(Map<label>, patchRegions, iter)
       {
         label regionI = iter.key();
         Info<< "    " << token::TAB << iter.key()
@@ -543,7 +544,7 @@ void mousse::regionSizeDistribution::write()
     // (patchRegions) and background regions from maps.
     // Note that we have to use mesh volume (allRegionVolume) and not
     // allRegionAlphaVolume since background might not have alpha in it.
-    forAllIter(Map<scalar>, allRegionVolume, vIter)
+    FOR_ALL_ITER(Map<scalar>, allRegionVolume, vIter)
     {
       label regionI = vIter.key();
       if
@@ -562,7 +563,7 @@ void mousse::regionSizeDistribution::write()
       // Construct mids of bins for plotting
       pointField xBin(nBins_);
       scalar x = 0.5*delta;
-      forAll(xBin, i)
+      FOR_ALL(xBin, i)
       {
         xBin[i] = point(x, 0, 0);
         x += delta;
@@ -581,7 +582,7 @@ void mousse::regionSizeDistribution::write()
       );
       // Calculate the diameters
       scalarField sortedDiameters(sortedVols.size());
-      forAll(sortedDiameters, i)
+      FOR_ALL(sortedDiameters, i)
       {
         sortedDiameters[i] = mousse::cbrt
         (
@@ -591,13 +592,13 @@ void mousse::regionSizeDistribution::write()
       }
       // Determine the bin index for all the diameters
       labelList indices(sortedDiameters.size());
-      forAll(sortedDiameters, i)
+      FOR_ALL(sortedDiameters, i)
       {
         indices[i] = (sortedDiameters[i]-minDiam_)/delta;
       }
       // Calculate the counts per diameter bin
       scalarField binCount(nBins_, 0.0);
-      forAll(sortedDiameters, i)
+      FOR_ALL(sortedDiameters, i)
       {
         binCount[indices[i]] += 1.0;
       }
@@ -614,7 +615,7 @@ void mousse::regionSizeDistribution::write()
           << token::TAB << "Count:"
           << endl;
         scalar diam = 0.0;
-        forAll(binCount, binI)
+        FOR_ALL(binCount, binI)
         {
           Info<< "    " << token::TAB << binI
             << token::TAB << diam
@@ -636,7 +637,7 @@ void mousse::regionSizeDistribution::write()
       {
         wordList scalarNames(obr_.names(volScalarField::typeName));
         labelList selected = findStrings(fields_, scalarNames);
-        forAll(selected, i)
+        FOR_ALL(selected, i)
         {
           const word& fldName = scalarNames[selected[i]];
           Info<< "    Scalar field " << fldName << endl;
@@ -660,7 +661,7 @@ void mousse::regionSizeDistribution::write()
       {
         wordList vectorNames(obr_.names(volVectorField::typeName));
         labelList selected = findStrings(fields_, vectorNames);
-        forAll(selected, i)
+        FOR_ALL(selected, i)
         {
           const word& fldName = vectorNames[selected[i]];
           Info<< "    Vector field " << fldName << endl;

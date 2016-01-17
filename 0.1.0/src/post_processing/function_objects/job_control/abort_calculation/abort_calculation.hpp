@@ -14,7 +14,7 @@
 //   - nextWrite
 // SourceFiles
 //   abort_calculation.cpp
-//   i_oabort_calculation.hpp
+//   io_abort_calculation.hpp
 #ifndef abort_calculation_hpp_
 #define abort_calculation_hpp_
 #include "named_enum.hpp"
@@ -50,13 +50,9 @@ private:
   // Private Member Functions
     //- Remove abort file.
     void removeFile() const;
-    //- Disallow default bitwise copy construct
-    abortCalculation(const abortCalculation&);
-    //- Disallow default bitwise assignment
-    void operator=(const abortCalculation&);
 public:
   //- Runtime type information
-  TypeName("abort");
+  TYPE_NAME("abort");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     abortCalculation
@@ -66,6 +62,10 @@ public:
       const dictionary&,
       const bool loadFromFilesUnused = false
     );
+    //- Disallow default bitwise copy construct
+    abortCalculation(const abortCalculation&) = delete;
+    //- Disallow default bitwise assignment
+    abortCalculation& operator=(const abortCalculation&) = delete;
   //- Destructor
   virtual ~abortCalculation();
   // Member Functions

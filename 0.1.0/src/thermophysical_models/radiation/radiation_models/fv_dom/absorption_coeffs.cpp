@@ -29,7 +29,7 @@ void mousse::radiation::absorptionCoeffs::checkT(const scalar T) const
 {
   if (T < Tlow_ || T > Thigh_)
   {
-    WarningIn
+    WARNING_IN
     (
       "absorptionCoeffs::checkT(const scalar T) const"
     )   << "usinf absCoeff out of temperature range:" << nl

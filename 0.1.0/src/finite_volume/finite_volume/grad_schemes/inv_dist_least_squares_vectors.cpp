@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(leastSquaresVectors, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(leastSquaresVectors, 0);
 }
 // Constructors
 mousse::leastSquaresVectors::leastSquaresVectors(const fvMesh& mesh)
@@ -63,7 +63,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
   const volVectorField& C = mesh.C();
   // Set up temporary storage for the dd tensor (before inversion)
   symmTensorField dd(mesh_.nCells(), symmTensor::zero);
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -74,14 +74,14 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
   }
   surfaceVectorField::GeometricBoundaryField& blsP =
     pVectors_.boundaryField();
-  forAll(blsP, patchi)
+  FOR_ALL(blsP, patchi)
   {
     const fvsPatchVectorField& patchLsP = blsP[patchi];
     const fvPatch& p = patchLsP.patch();
     const labelUList& faceCells = p.patch().faceCells();
     // Build the d-vectors
     vectorField pd(p.delta());
-    forAll(pd, patchFacei)
+    FOR_ALL(pd, patchFacei)
     {
       const vector& d = pd[patchFacei];
       dd[faceCells[patchFacei]] += sqr(d)/magSqr(d);
@@ -90,7 +90,7 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
   // Invert the dd tensor
   const symmTensorField invDd(inv(dd));
   // Revisit all faces and calculate the pVectors_ and nVectors_ vectors
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -98,14 +98,14 @@ void mousse::leastSquaresVectors::calcLeastSquaresVectors()
     pVectors_[facei] = (invDd[own] & d)/magSqr(d);
     nVectors_[facei] = -(invDd[nei] & d)/magSqr(d);
   }
-  forAll(blsP, patchi)
+  FOR_ALL(blsP, patchi)
   {
     fvsPatchVectorField& patchLsP = blsP[patchi];
     const fvPatch& p = patchLsP.patch();
     const labelUList& faceCells = p.faceCells();
     // Build the d-vectors
     vectorField pd(p.delta());
-    forAll(pd, patchFacei)
+    FOR_ALL(pd, patchFacei)
     {
       const vector& d = pd[patchFacei];
       patchLsP[patchFacei] = (invDd[faceCells[patchFacei]] & d)/magSqr(d);

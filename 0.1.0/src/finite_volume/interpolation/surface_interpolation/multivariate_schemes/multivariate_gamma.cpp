@@ -6,11 +6,14 @@
 #include "limited_scheme.hpp"
 #include "limited01.hpp"
 #include "gamma.hpp"
+
 namespace mousse
 {
-  makeLimitedMultivariateSurfaceInterpolationScheme
-  (
-    Gamma,
-    GammaLimiter
-  )
+
+MAKE_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME
+(
+  Gamma,
+  GammaLimiter
+)
+
 }

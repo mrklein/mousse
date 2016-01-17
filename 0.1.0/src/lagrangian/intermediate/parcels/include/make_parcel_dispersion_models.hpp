@@ -6,9 +6,9 @@
 #define make_parcel_dispersion_models_hpp_
 
 #include "_no_dispersion.hpp"
-#define makeParcelDispersionModels(CloudType)                                 \
+#define MAKE_PARCEL_DISPERSION_MODELS(CloudType)                              \
                                                                               \
-  makeDispersionModel(CloudType);                                             \
-  makeDispersionModelType(NoDispersion, CloudType);
+  MAKE_DISPERSION_MODEL(CloudType);                                           \
+  MAKE_DISPERSION_MODEL_TYPE(NoDispersion, CloudType);
 
 #endif

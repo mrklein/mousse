@@ -25,20 +25,9 @@ class IrreversibleReaction
 {
   // Private data
     ReactionRate k_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=
-    (
-      const IrreversibleReaction
-      <
-        ReactionType,
-        ReactionThermo,
-        ReactionRate
-      >&
-    );
 public:
   //- Runtime type information
-  TypeName("irreversible");
+  TYPE_NAME("irreversible");
   // Constructors
     //- Construct from components
     IrreversibleReaction
@@ -104,6 +93,16 @@ public:
         )
       );
     }
+    //- Disallow default bitwise assignment
+    void operator=
+    (
+      const IrreversibleReaction
+      <
+        ReactionType,
+        ReactionThermo,
+        ReactionRate
+      >&
+    ) = delete;
   //- Destructor
   virtual ~IrreversibleReaction()
   {}

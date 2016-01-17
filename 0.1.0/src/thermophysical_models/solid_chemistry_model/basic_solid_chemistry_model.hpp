@@ -6,7 +6,6 @@
 // Description
 //   Chemistry model for solid thermodynamics
 // SourceFiles
-//   basic_solid_chemistry_model_i.hpp
 //   basic_solid_chemistry_model.cpp
 //   new_chemistry_solid_model.cpp
 #ifndef basic_solid_chemistry_model_hpp_
@@ -23,20 +22,15 @@ class basicSolidChemistryModel
 :
   public basicChemistryModel
 {
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    basicSolidChemistryModel(const basicSolidChemistryModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const basicSolidChemistryModel&);
 protected:
   // Protected data
     //- Solid thermo package
     autoPtr<solidReactionThermo> solidThermo_;
 public:
   //- Runtime type information
-  TypeName("basicSolidChemistryModel");
+  TYPE_NAME("basicSolidChemistryModel");
   //- Declare run-time constructor selection tables
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     basicSolidChemistryModel,
@@ -47,6 +41,13 @@ public:
   // Constructors
     //- Construct from mesh
     basicSolidChemistryModel(const fvMesh& mesh, const word& phaseName);
+    //- Construct as copy (not implemented)
+    basicSolidChemistryModel(const basicSolidChemistryModel&) = delete;
+    //- Disallow default bitwise assignment
+    basicSolidChemistryModel& operator=
+    (
+      const basicSolidChemistryModel&
+    ) = delete;
   //- Selector
   static autoPtr<basicSolidChemistryModel> New
   (
@@ -102,5 +103,15 @@ public:
     virtual DimensionedField<scalar, volMesh>& RR(const label i);
 };
 }  // namespace mousse
-#include "basic_solid_chemistry_model_i.hpp"
+
+// Member Functions 
+inline mousse::solidReactionThermo& mousse::basicSolidChemistryModel::solidThermo()
+{
+  return solidThermo_();
+}
+inline const mousse::solidReactionThermo&
+mousse::basicSolidChemistryModel::solidThermo() const
+{
+  return solidThermo_();
+}
 #endif

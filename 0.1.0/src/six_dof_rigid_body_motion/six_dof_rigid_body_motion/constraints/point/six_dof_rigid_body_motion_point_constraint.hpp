@@ -27,7 +27,7 @@ class point
     mousse::point centreOfRotation_;
 public:
   //- Runtime type information
-  TypeName("point");
+  TYPE_NAME("point");
   // Constructors
     //- Construct from components
     point

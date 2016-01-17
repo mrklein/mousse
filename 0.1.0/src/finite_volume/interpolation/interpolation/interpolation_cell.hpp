@@ -5,9 +5,12 @@
 //   mousse::interpolationCell
 // Description
 //   Uses the cell value for any point in the cell
+
 #ifndef interpolation_cell_hpp_
 #define interpolation_cell_hpp_
+
 #include "interpolation.hpp"
+
 namespace mousse
 {
 class fvMesh;
@@ -18,7 +21,7 @@ class interpolationCell
 {
 public:
   //- Runtime type information
-  TypeName("cell");
+  TYPE_NAME("cell");
   // Constructors
     //- Construct from components
     interpolationCell

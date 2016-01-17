@@ -67,7 +67,7 @@ protected:
     scalarField p0_;
 public:
   //- Runtime type information
-  TypeName("prghTotalPressure");
+  TYPE_NAME("prghTotalPressure");
   // Constructors
     //- Construct from patch and internal field
     prghTotalPressureFvPatchScalarField

@@ -113,7 +113,7 @@ bool mousse::InjectionModel<CloudType>::findCellAtPosition
   {
     if (errorOnNotFound)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::InjectionModel<CloudType>::findCellAtPosition"
         "("
@@ -166,7 +166,7 @@ mousse::scalar mousse::InjectionModel<CloudType>::setNumberOfParticles
     default:
     {
       nP = 0.0;
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "mousse::scalar "
         "mousse::InjectionModel<CloudType>::setNumberOfParticles"
@@ -288,7 +288,7 @@ mousse::InjectionModel<CloudType>::InjectionModel
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::InjectionModel<CloudType>::InjectionModel"
       "("
@@ -453,7 +453,7 @@ template<class TrackData>
 void mousse::InjectionModel<CloudType>::injectSteadyState
 (
   TrackData& td,
-  const scalar trackTime
+  const scalar /*trackTime*/
 )
 {
   if (!this->active())

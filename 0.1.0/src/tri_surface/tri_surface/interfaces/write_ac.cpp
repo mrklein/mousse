@@ -27,7 +27,7 @@ void mousse::triSurface::writeAC(Ostream& os) const
   surfacePatchList myPatches(calcPatches(faceMap));
   // Write header. Define materials.
   os  << "AC3Db" << endl;
-  forAll(myPatches, patchI)
+  FOR_ALL(myPatches, patchI)
   {
     const word& pName = myPatches[patchI].name();
     label colourI = patchI % 8;
@@ -43,14 +43,14 @@ void mousse::triSurface::writeAC(Ostream& os) const
     << "kids " << myPatches.size() << endl;
   // Write patch points & faces.
   label faceIndex = 0;
-  forAll(myPatches, patchI)
+  FOR_ALL(myPatches, patchI)
   {
     const surfacePatch& sp = myPatches[patchI];
     os  << "OBJECT poly" << endl
       << "name \"" << sp.name() << '"' << endl;
     // Create patch with only patch faces included for ease of addressing
     boolList include(size(), false);
-    forAll(sp, patchFaceI)
+    FOR_ALL(sp, patchFaceI)
     {
       const label faceI = faceMap[faceIndex++];
       include[faceI] = true;
@@ -60,13 +60,13 @@ void mousse::triSurface::writeAC(Ostream& os) const
     triSurface patch = subsetMesh(include, pointMap, faceMap);
     // Now we have triSurface for this patch alone. Write it.
     os << "numvert " << patch.nPoints() << endl;
-    forAll(patch.localPoints(), ptI)
+    FOR_ALL(patch.localPoints(), ptI)
     {
       const point& pt = patch.localPoints()[ptI];
       os << pt.x() << ' ' << pt.y() << ' ' << pt.z() << endl;
     }
     os << "numsurf " << patch.localFaces().size() << endl;
-    forAll(patch.localFaces(), faceI)
+    FOR_ALL(patch.localFaces(), faceI)
     {
       const labelledTri& f = patch.localFaces()[faceI];
       os  << "SURF 0x20" << endl          // polygon

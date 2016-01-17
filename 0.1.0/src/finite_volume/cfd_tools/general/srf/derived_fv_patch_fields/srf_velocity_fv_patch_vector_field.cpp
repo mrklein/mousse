@@ -13,9 +13,9 @@ mousse::SRFVelocityFvPatchVectorField::SRFVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  relative_(0),
-  inletValue_(p.size(), vector::zero)
+  fixedValueFvPatchVectorField{p, iF},
+  relative_{0},
+  inletValue_{p.size(), vector::zero}
 {}
 mousse::SRFVelocityFvPatchVectorField::SRFVelocityFvPatchVectorField
 (
@@ -25,9 +25,9 @@ mousse::SRFVelocityFvPatchVectorField::SRFVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(ptf, p, iF, mapper),
-  relative_(ptf.relative_),
-  inletValue_(ptf.inletValue_, mapper)
+  fixedValueFvPatchVectorField{ptf, p, iF, mapper},
+  relative_{ptf.relative_},
+  inletValue_{ptf.inletValue_, mapper}
 {}
 mousse::SRFVelocityFvPatchVectorField::SRFVelocityFvPatchVectorField
 (
@@ -36,9 +36,9 @@ mousse::SRFVelocityFvPatchVectorField::SRFVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  relative_(dict.lookup("relative")),
-  inletValue_("inletValue", dict, p.size())
+  fixedValueFvPatchVectorField{p, iF},
+  relative_{dict.lookup("relative")},
+  inletValue_{"inletValue", dict, p.size()}
 {
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
 }
@@ -47,9 +47,9 @@ mousse::SRFVelocityFvPatchVectorField::SRFVelocityFvPatchVectorField
   const SRFVelocityFvPatchVectorField& srfvpvf
 )
 :
-  fixedValueFvPatchVectorField(srfvpvf),
-  relative_(srfvpvf.relative_),
-  inletValue_(srfvpvf.inletValue_)
+  fixedValueFvPatchVectorField{srfvpvf},
+  relative_{srfvpvf.relative_},
+  inletValue_{srfvpvf.inletValue_}
 {}
 mousse::SRFVelocityFvPatchVectorField::SRFVelocityFvPatchVectorField
 (
@@ -57,9 +57,9 @@ mousse::SRFVelocityFvPatchVectorField::SRFVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(srfvpvf, iF),
-  relative_(srfvpvf.relative_),
-  inletValue_(srfvpvf.inletValue_)
+  fixedValueFvPatchVectorField{srfvpvf, iF},
+  relative_{srfvpvf.relative_},
+  inletValue_{srfvpvf.inletValue_}
 {}
 // Member Functions
 void mousse::SRFVelocityFvPatchVectorField::autoMap
@@ -114,9 +114,9 @@ void mousse::SRFVelocityFvPatchVectorField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchVectorField,
-    SRFVelocityFvPatchVectorField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  SRFVelocityFvPatchVectorField
+);
 }

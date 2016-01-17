@@ -8,9 +8,9 @@
 template<class CloudType>
 mousse::InflowBoundaryModel<CloudType>::InflowBoundaryModel(CloudType& owner)
 :
-  dict_(dictionary::null),
-  owner_(owner),
-  coeffDict_(dictionary::null)
+  dict_{dictionary::null},
+  owner_{owner},
+  coeffDict_{dictionary::null}
 {}
 template<class CloudType>
 mousse::InflowBoundaryModel<CloudType>::InflowBoundaryModel
@@ -20,9 +20,9 @@ mousse::InflowBoundaryModel<CloudType>::InflowBoundaryModel
   const word& type
 )
 :
-  dict_(dict),
-  owner_(owner),
-  coeffDict_(dict.subDict(type + "Coeffs"))
+  dict_{dict},
+  owner_{owner},
+  coeffDict_{dict.subDict(type + "Coeffs")}
 {}
 // Destructor
 template<class CloudType>

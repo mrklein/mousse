@@ -18,22 +18,21 @@ namespace mousse
 template<class ThermoType>
 class chemistryReader
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    chemistryReader(const chemistryReader&);
-    //- Disallow default bitwise assignment
-    void operator=(const chemistryReader&);
 public:
   //- Runtime type information
-  TypeName("chemistryReader");
+  TYPE_NAME("chemistryReader");
   //- The type of thermo package the reader was instantiated for
   typedef ThermoType thermoType;
   // Constructors
     //- Construct null
     chemistryReader()
     {}
+    //- Disallow default bitwise copy construct
+    chemistryReader(const chemistryReader&) = delete;
+    //- Disallow default bitwise assignment
+    chemistryReader& operator=(const chemistryReader&) = delete;
   // Declare run-time constructor selection table
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       chemistryReader,
@@ -66,21 +65,26 @@ public:
 #ifdef NoRepository
 #   include "chemistry_reader.cpp"
 #endif
-#define makeChemistryReader(Thermo)                                           \
-  defineTemplateTypeNameAndDebug(chemistryReader<Thermo>, 0);               \
-  defineTemplateRunTimeSelectionTable(chemistryReader<Thermo>, dictionary)
-#define makeChemistryReaderType(Reader, Thermo)                               \
-  defineNamedTemplateTypeNameAndDebug(Reader<Thermo>, 0);                   \
-  chemistryReader<Thermo>::adddictionaryConstructorToTable<Reader<Thermo> > \
+
+#define MAKE_CHEMISTRY_READER(Thermo)                                         \
+  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(chemistryReader<Thermo>, 0);            \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(chemistryReader<Thermo>, dictionary)
+
+#define MAKE_CHEMISTRY_READER_TYPE(Reader, Thermo)                            \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(Reader<Thermo>, 0);               \
+  chemistryReader<Thermo>::adddictionaryConstructorToTable<Reader<Thermo> >   \
     add##Reader##Thermo##ConstructorToTable_
+
 // for non-templated chemistry readers
-#define addChemistryReaderType(Reader, Thermo)                                \
-  defineTypeNameAndDebug(Reader, 0);                                        \
-  chemistryReader<Thermo>::adddictionaryConstructorToTable<Reader>          \
+#define ADD_CHEMISTRY_READER_TYPE(Reader, Thermo)                             \
+  DEFINE_TYPE_NAME_AND_DEBUG(Reader, 0);                                      \
+  chemistryReader<Thermo>::adddictionaryConstructorToTable<Reader>            \
     add##Reader##Thermo##ConstructorToTable_
+
 // for templated chemistry readers
-#define addTemplateChemistryReaderType(Reader, Thermo)                        \
-  defineNamedTemplateTypeNameAndDebug(Reader, 0);                           \
-  chemistryReader<Thermo>::adddictionaryConstructorToTable<Reader>          \
+#define ADD_TEMPLATE_CHEMISTRY_READER_TYPE(Reader, Thermo)                    \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(Reader, 0);                       \
+  chemistryReader<Thermo>::adddictionaryConstructorToTable<Reader>            \
     add##Reader##Thermo##ConstructorToTable_
+
 #endif

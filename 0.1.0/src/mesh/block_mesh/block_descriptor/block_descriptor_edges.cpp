@@ -42,7 +42,7 @@ void mousse::blockDescriptor::setEdge
   const pointField blockPoints = blockShape_.points(blockPointField_);
   // Set the edge points/weights
   // The edge is a straight-line if it is not in the list of curvedEdges
-  forAll(curvedEdges_, cedgeI)
+  FOR_ALL(curvedEdges_, cedgeI)
   {
     const curvedEdge& cedge = curvedEdges_[cedgeI];
     int cmp = cedge.compare(blockLabels[start], blockLabels[end]);
@@ -66,7 +66,7 @@ void mousse::blockDescriptor::setEdge
         edgePoints_[edgeI].setSize(p.size());
         edgeWeights_[edgeI].setSize(d.size());
         label pMax = p.size() - 1;
-        forAll(p, pI)
+        FOR_ALL(p, pI)
         {
           edgePoints_[edgeI][pI]  = p[pMax - pI];
           edgeWeights_[edgeI][pI] = 1.0 - d[pMax - pI];

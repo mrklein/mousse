@@ -24,7 +24,7 @@ class C
 {
 public:
   //- Runtime type information
-  TypeName("C");
+  TYPE_NAME("C");
   // Constructors
     //- Construct null
     C();

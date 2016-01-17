@@ -23,7 +23,7 @@ void mousse::yPlus::calcYPlus
   const volScalarField::GeometricBoundaryField nuBf =
     turbulenceModel.nu()().boundaryField();
   const fvPatchList& patches = mesh.boundary();
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     const fvPatch& patch = patches[patchi];
     if (isA<nutWallFunctionFvPatchScalarField>(nutBf[patchi]))

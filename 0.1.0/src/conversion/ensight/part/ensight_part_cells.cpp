@@ -11,8 +11,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(ensightPartCells, 0);
-  addToRunTimeSelectionTable(ensightPart, ensightPartCells, istream);
+  DEFINE_TYPE_NAME_AND_DEBUG(ensightPartCells, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(ensightPart, ensightPartCells, istream);
 }
 const mousse::List<mousse::word> mousse::ensightPartCells::elemTypes_
 (
@@ -194,18 +194,18 @@ mousse::ensightPart::localPoints mousse::ensightPartCells::calcLocalPoints() con
   localPoints ptList(points_);
   labelList& usedPoints = ptList.list;
   label nPoints = 0;
-  forAll(elemLists_, typeI)
+  FOR_ALL(elemLists_, typeI)
   {
     const labelUList& idList = elemLists_[typeI];
     // add all points from cells
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       const label id = idList[i] + offset_;
       const labelUList& cFaces = mesh_.cells()[id];
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         const face& f = mesh_.faces()[cFaces[cFaceI]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if (usedPoints[f[fp]] == -1)
           {
@@ -217,7 +217,7 @@ mousse::ensightPart::localPoints mousse::ensightPartCells::calcLocalPoints() con
   }
   // this is not absolutely necessary, but renumber anyhow
   nPoints = 0;
-  forAll(usedPoints, ptI)
+  FOR_ALL(usedPoints, ptI)
   {
     if (usedPoints[ptI] > -1)
     {
@@ -244,7 +244,7 @@ void mousse::ensightPartCells::writeConnectivity
     const faceList& meshFaces = mesh_.faces();
     const labelUList& owner = mesh_.faceOwner();
     // write the number of faces per element
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       const label id = idList[i] + offset_;
       const labelUList& cFace = mesh_.cells()[id];
@@ -252,11 +252,11 @@ void mousse::ensightPartCells::writeConnectivity
       os.newline();
     }
     // write the number of points per element face
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       const label id = idList[i] + offset_;
       const labelUList& cFace = mesh_.cells()[id];
-      forAll(cFace, faceI)
+      FOR_ALL(cFace, faceI)
       {
         const face& cf = meshFaces[cFace[faceI]];
         os.write(cf.size());
@@ -264,11 +264,11 @@ void mousse::ensightPartCells::writeConnectivity
       }
     }
     // write the points describing each element face
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       const label id = idList[i] + offset_;
       const labelUList& cFace = mesh_.cells()[id];
-      forAll(cFace, cFaceI)
+      FOR_ALL(cFace, cFaceI)
       {
         const label faceId = cFace[cFaceI];
         const face& cf = meshFaces[faceId];
@@ -277,7 +277,7 @@ void mousse::ensightPartCells::writeConnectivity
         // ensight >= 9 needs consistently oriented nfaced cells
         if (id == owner[faceId])
         {
-          forAll(cf, ptI)
+          FOR_ALL(cf, ptI)
           {
             os.write(pointMap[cf[ptI]] + 1);
           }
@@ -299,13 +299,13 @@ void mousse::ensightPartCells::writeConnectivity
   {
     // write primitive
     const cellShapeList& cellShapes = mesh_.cellShapes();
-    forAll(idList, i)
+    FOR_ALL(idList, i)
     {
       const label id = idList[i] + offset_;
       const cellShape& cellPoints = cellShapes[id];
       // convert global -> local index
       // (note: Ensight indices start with 1)
-      forAll(cellPoints, ptI)
+      FOR_ALL(cellPoints, ptI)
       {
         os.write(pointMap[cellPoints[ptI]] + 1);
       }

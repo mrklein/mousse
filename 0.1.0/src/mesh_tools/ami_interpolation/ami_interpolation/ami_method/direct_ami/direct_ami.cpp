@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "direct_ami.hpp"
+
 // Private Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::directAMI<SourcePatch, TargetPatch>::appendToDirectSeeds
@@ -20,7 +21,7 @@ void mousse::directAMI<SourcePatch, TargetPatch>::appendToDirectSeeds
   const pointField& srcPoints = this->srcPatch_.points();
   const pointField& tgtPoints = this->tgtPatch_.points();
   const vectorField& srcCf = this->srcPatch_.faceCentres();
-  forAll(srcNbr, i)
+  FOR_ALL(srcNbr, i)
   {
     label srcI = srcNbr[i];
     if ((mapFlag[srcI] == 0) && (srcTgtSeed[srcI] == -1))
@@ -29,7 +30,7 @@ void mousse::directAMI<SourcePatch, TargetPatch>::appendToDirectSeeds
       const face& srcF = this->srcPatch_[srcI];
       const point& srcC = srcCf[srcI];
       scalar tol = GREAT;
-      forAll(srcF, fpI)
+      FOR_ALL(srcF, fpI)
       {
         const point& p = srcPoints[srcF[fpI]];
         scalar d2 = magSqr(p - srcC);
@@ -40,7 +41,7 @@ void mousse::directAMI<SourcePatch, TargetPatch>::appendToDirectSeeds
       }
       tol = max(SMALL, 0.0001*sqrt(tol));
       bool found = false;
-      forAll(tgtNbr, j)
+      FOR_ALL(tgtNbr, j)
       {
         label tgtI = tgtNbr[j];
         const face& tgtF = this->tgtPatch_[tgtI];
@@ -58,7 +59,7 @@ void mousse::directAMI<SourcePatch, TargetPatch>::appendToDirectSeeds
       if (!found)
       {
         const vector srcN = srcF.normal(srcPoints);
-        forAll(tgtNbr, j)
+        FOR_ALL(tgtNbr, j)
         {
           label tgtI = tgtNbr[j];
           const face& tgtF = this->tgtPatch_[tgtI];
@@ -86,7 +87,7 @@ void mousse::directAMI<SourcePatch, TargetPatch>::appendToDirectSeeds
             << " points=" << srcF.points(srcPoints)
             << endl;
           Pout<< "target neighbours:" << nl;
-          forAll(tgtNbr, j)
+          FOR_ALL(tgtNbr, j)
           {
             label tgtI = tgtNbr[j];
             const face& tgtF = this->tgtPatch_[tgtI];
@@ -111,6 +112,8 @@ void mousse::directAMI<SourcePatch, TargetPatch>::appendToDirectSeeds
     tgtFaceI = -1;
   }
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::directAMI<SourcePatch, TargetPatch>::restartAdvancingFront
 (
@@ -120,7 +123,7 @@ void mousse::directAMI<SourcePatch, TargetPatch>::restartAdvancingFront
   label& tgtFaceI
 ) const
 {
-  forAll(mapFlag, faceI)
+  FOR_ALL(mapFlag, faceI)
   {
     if (mapFlag[faceI] == 0)
     {
@@ -138,6 +141,8 @@ void mousse::directAMI<SourcePatch, TargetPatch>::restartAdvancingFront
     }
   }
 }
+
+
 // Constructors 
 template<class SourcePatch, class TargetPatch>
 mousse::directAMI<SourcePatch, TargetPatch>::directAMI
@@ -152,7 +157,7 @@ mousse::directAMI<SourcePatch, TargetPatch>::directAMI
 )
 :
   AMIMethod<SourcePatch, TargetPatch>
-  (
+  {
     srcPatch,
     tgtPatch,
     srcMagSf,
@@ -160,12 +165,16 @@ mousse::directAMI<SourcePatch, TargetPatch>::directAMI
     triMode,
     reverseTarget,
     requireMatch
-  )
+  }
 {}
+
+
 // Destructor
 template<class SourcePatch, class TargetPatch>
 mousse::directAMI<SourcePatch, TargetPatch>::~directAMI()
 {}
+
+
 // Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::directAMI<SourcePatch, TargetPatch>::calculate
@@ -193,18 +202,18 @@ void mousse::directAMI<SourcePatch, TargetPatch>::calculate
     return;
   }
   // temporary storage for addressing and weights
-  List<DynamicList<label> > srcAddr(this->srcPatch_.size());
-  List<DynamicList<label> > tgtAddr(this->tgtPatch_.size());
+  List<DynamicList<label>> srcAddr{this->srcPatch_.size()};
+  List<DynamicList<label>> tgtAddr{this->tgtPatch_.size()};
   // construct weights and addressing
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // list of faces currently visited for srcFaceI to avoid multiple hits
-  DynamicList<label> srcSeeds(10);
+  DynamicList<label> srcSeeds{10};
   // list to keep track of tgt faces used to seed src faces
-  labelList srcTgtSeed(srcAddr.size(), -1);
+  labelList srcTgtSeed{srcAddr.size(), -1};
   srcTgtSeed[srcFaceI] = tgtFaceI;
   // list to keep track of whether src face can be mapped
   // 1 = mapped, 0 = untested, -1 = cannot map
-  labelList mapFlag(srcAddr.size(), 0);
+  labelList mapFlag{srcAddr.size(), 0};
   label nTested = 0;
   DynamicList<label> nonOverlapFaces;
   do
@@ -236,14 +245,14 @@ void mousse::directAMI<SourcePatch, TargetPatch>::calculate
     this->srcNonOverlap_.transfer(nonOverlapFaces);
   }
   // transfer data to persistent storage
-  forAll(srcAddr, i)
+  FOR_ALL(srcAddr, i)
   {
     scalar magSf = this->srcMagSf_[i];
 //        srcWeights[i] = scalarList(srcAddr[i].size(), magSf);
     srcWeights[i] = scalarList(1, magSf);
     srcAddress[i].transfer(srcAddr[i]);
   }
-  forAll(tgtAddr, i)
+  FOR_ALL(tgtAddr, i)
   {
     scalar magSf = this->tgtMagSf_[i];
 //        tgtWeights[i] = scalarList(tgtAddr[i].size(), magSf);

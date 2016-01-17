@@ -6,25 +6,28 @@
 #include "poly_mesh.hpp"
 #include "face_set.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(faceToCell, 0);
-  addToRunTimeSelectionTable(topoSetSource, faceToCell, word);
-  addToRunTimeSelectionTable(topoSetSource, faceToCell, istream);
-  template<>
-  const char* mousse::NamedEnum
-  <
-    mousse::faceToCell::faceAction,
-    4
-  >::names[] =
-  {
-    "neighbour",
-    "owner",
-    "any",
-    "all"
-  };
+DEFINE_TYPE_NAME_AND_DEBUG(faceToCell, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceToCell, word);
+ADD_TO_RUN_TIME_SELECTION_TABLE(topoSetSource, faceToCell, istream);
+
+template<>
+const char* mousse::NamedEnum
+<
+  mousse::faceToCell::faceAction,
+  4
+>::names[] =
+{
+  "neighbour",
+  "owner",
+  "any",
+  "all"
+};
 }
+
 mousse::topoSetSource::addToUsageTable mousse::faceToCell::usage_
 (
   faceToCell::typeName,
@@ -40,7 +43,7 @@ void mousse::faceToCell::combine(topoSet& set, const bool add) const
   // Load the set
   faceSet loadedSet(mesh_, setName_);
   // Handle owner/neighbour/any selection
-  forAllConstIter(faceSet, loadedSet, iter)
+  FOR_ALL_CONST_ITER(faceSet, loadedSet, iter)
   {
     const label faceI = iter.key();
     if ((option_ == OWNER) || (option_ == ANY))
@@ -62,7 +65,7 @@ void mousse::faceToCell::combine(topoSet& set, const bool add) const
   {
     // Count number of selected faces per cell.
     Map<label> facesPerCell(loadedSet.size());
-    forAllConstIter(faceSet, loadedSet, iter)
+    FOR_ALL_CONST_ITER(faceSet, loadedSet, iter)
     {
       const label faceI = iter.key();
       const label own = mesh_.faceOwner()[faceI];
@@ -91,7 +94,7 @@ void mousse::faceToCell::combine(topoSet& set, const bool add) const
     }
     // Include cells that are referenced as many times as they have faces
     // -> all faces in set.
-    forAllConstIter(Map<label>, facesPerCell, iter)
+    FOR_ALL_CONST_ITER(Map<label>, facesPerCell, iter)
     {
       const label cellI = iter.key();
       if (iter() == mesh_.cells()[cellI].size())

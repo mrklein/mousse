@@ -8,19 +8,21 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(STARCDCoordinateRotation, 0);
-  addToRunTimeSelectionTable
-  (
-    coordinateRotation,
-    STARCDCoordinateRotation,
-    dictionary
-  );
-  addToRunTimeSelectionTable
-  (
-    coordinateRotation,
-    STARCDCoordinateRotation,
-    objectRegistry
-  );
+
+DEFINE_TYPE_NAME_AND_DEBUG(STARCDCoordinateRotation, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  coordinateRotation,
+  STARCDCoordinateRotation,
+  dictionary
+);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  coordinateRotation,
+  STARCDCoordinateRotation,
+  objectRegistry
+);
+
 }
 // Member Functions 
 mousse::vector mousse::STARCDCoordinateRotation::transform(const vector& st) const
@@ -36,10 +38,10 @@ mousse::vector mousse::STARCDCoordinateRotation::invTransform
 }
 mousse::tmp<mousse::vectorField> mousse::STARCDCoordinateRotation::transform
 (
-  const vectorField& st
+  const vectorField&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<vectorField> mousse::STARCDCoordinateRotation:: "
     "transform(const vectorField& st) const"
@@ -48,10 +50,10 @@ mousse::tmp<mousse::vectorField> mousse::STARCDCoordinateRotation::transform
 }
 mousse::tmp<mousse::vectorField> mousse::STARCDCoordinateRotation::invTransform
 (
-  const vectorField& st
+  const vectorField&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<vectorField>  mousse::STARCDCoordinateRotation::"
     "invTransform(const vectorField& st) const"
@@ -60,7 +62,7 @@ mousse::tmp<mousse::vectorField> mousse::STARCDCoordinateRotation::invTransform
 }
 const mousse::tensorField& mousse::STARCDCoordinateRotation::Tr() const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "const tensorField& STARCDCoordinateRotatio::Tr() const"
   );
@@ -68,10 +70,10 @@ const mousse::tensorField& mousse::STARCDCoordinateRotation::Tr() const
 }
 mousse::tmp<mousse::tensorField> mousse::STARCDCoordinateRotation::transformTensor
 (
-  const tensorField& st
+  const tensorField&
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<mousse::tensorField> STARCDCoordinateRotation::transformTensor()"
   );
@@ -86,11 +88,11 @@ mousse::tensor mousse::STARCDCoordinateRotation::transformTensor
 }
 mousse::tmp<mousse::tensorField> mousse::STARCDCoordinateRotation::transformTensor
 (
-  const tensorField& st,
-  const labelList& cellMap
+  const tensorField&,
+  const labelList& /*cellMap*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "tmp<mousse::tensorField> STARCDCoordinateRotation::transformTensor "
     " const tensorField& st,"
@@ -107,7 +109,7 @@ transformVector
 {
   tmp<symmTensorField> tfld(new symmTensorField(st.size()));
   symmTensorField& fld = tfld();
-  forAll(fld, i)
+  FOR_ALL(fld, i)
   {
     fld[i] = transformPrincipal(R_, st[i]);
   }
@@ -120,7 +122,7 @@ mousse::symmTensor mousse::STARCDCoordinateRotation::transformVector
 {
   return transformPrincipal(R_, st);
 }
-// Private Member Functions 
+// Private Member Functions
 void mousse::STARCDCoordinateRotation::calcTransform
 (
   const scalar rotZ,
@@ -229,4 +231,3 @@ void mousse::STARCDCoordinateRotation::write(Ostream& os) const
   os.writeKeyword("e2") << e2() << token::END_STATEMENT << nl;
   os.writeKeyword("e3") << e3() << token::END_STATEMENT << nl;
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

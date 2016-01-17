@@ -16,19 +16,19 @@
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   label nD = mesh.nGeometricD();
   if (nD != 2)
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "Case is not 2D, stream-function cannot be computed"
       << exit(FatalError);
   }
-  Vector<label> slabNormal((Vector<label>::one - mesh.geometricD())/2);
+  Vector<label> slabNormal{(Vector<label>::one - mesh.geometricD())/2};
   const direction slabDir
   (
     slabNormal
@@ -36,48 +36,48 @@ int main(int argc, char *argv[])
   );
   scalar thickness = vector(slabNormal) & mesh.bounds().span();
   const pointMesh& pMesh = pointMesh::New(mesh);
-  forAll(timeDirs, timeI)
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     Info<< nl << "Time: " << runTime.timeName() << endl;
     IOobject phiHeader
-    (
+    {
       "phi",
       runTime.timeName(),
       mesh,
       IOobject::NO_READ
-    );
+    };
     if (phiHeader.headerOk())
     {
       mesh.readUpdate();
       Info<< nl << "Reading field phi" << endl;
       surfaceScalarField phi
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "phi",
           runTime.timeName(),
           mesh,
           IOobject::MUST_READ,
           IOobject::NO_WRITE
-        ),
+        },
         mesh
-      );
+      };
       pointScalarField streamFunction
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "streamFunction",
           runTime.timeName(),
           mesh,
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         pMesh,
-        dimensionedScalar("zero", phi.dimensions(), 0.0)
-      );
-      labelList visitedPoint(mesh.nPoints());
-      forAll(visitedPoint, pointI)
+        {"zero", phi.dimensions(), 0.0}
+      };
+      labelList visitedPoint{mesh.nPoints()};
+      FOR_ALL(visitedPoint, pointI)
       {
         visitedPoint[pointI] = 0;
       }
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
       const faceUList& faces = mesh.faces();
       const pointField& points = mesh.points();
       label nInternalFaces = mesh.nInternalFaces();
-      vectorField unitAreas(mesh.faceAreas());
+      vectorField unitAreas{mesh.faceAreas()};
       unitAreas /= mag(unitAreas);
       const polyPatchList& patches = mesh.boundaryMesh();
       bool finished = true;
@@ -96,23 +96,19 @@ int main(int argc, char *argv[])
       do
       {
         found = false;
-        forAll(patches, patchI)
+        FOR_ALL(patches, patchI)
         {
           const primitivePatch& bouFaces = patches[patchI];
           if (!isType<emptyPolyPatch>(patches[patchI]))
           {
-            forAll(bouFaces, faceI)
+            FOR_ALL(bouFaces, faceI)
             {
-              if
-              (
-                magSqr(phi.boundaryField()[patchI][faceI])
-               < SMALL
-              )
+              if (magSqr(phi.boundaryField()[patchI][faceI]) < SMALL)
               {
                 const labelList& zeroPoints = bouFaces[faceI];
                 // Zero flux face found
                 found = true;
-                forAll(zeroPoints, pointI)
+                FOR_ALL(zeroPoints, pointI)
                 {
                   if (visitedPoint[zeroPoints[pointI]] == 1)
                   {
@@ -124,7 +120,7 @@ int main(int argc, char *argv[])
                 {
                   Info<< "Zero face: patch: " << patchI
                     << "    face: " << faceI << endl;
-                  forAll(zeroPoints, pointI)
+                  FOR_ALL(zeroPoints, pointI)
                   {
                     streamFunction[zeroPoints[pointI]] = 0;
                     visitedPoint[zeroPoints[pointI]] = 1;
@@ -143,11 +139,11 @@ int main(int argc, char *argv[])
             << "Using cell as a reference."
             << endl;
           const cellList& c = mesh.cells();
-          forAll(c, cI)
+          FOR_ALL(c, cI)
           {
             labelList zeroPoints = c[cI].labels(mesh.faces());
             bool found = true;
-            forAll(zeroPoints, pointI)
+            FOR_ALL(zeroPoints, pointI)
             {
               if (visitedPoint[zeroPoints[pointI]] == 1)
               {
@@ -157,7 +153,7 @@ int main(int argc, char *argv[])
             }
             if (found)
             {
-              forAll(zeroPoints, pointI)
+              FOR_ALL(zeroPoints, pointI)
               {
                 streamFunction[zeroPoints[pointI]] = 0.0;
                 visitedPoint[zeroPoints[pointI]] = 1;
@@ -167,7 +163,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-              FatalErrorIn(args.executable())
+              FATAL_ERROR_IN(args.executable())
                 << "Cannot find initialisation face or a cell."
                 << abort(FatalError);
             }
@@ -192,7 +188,7 @@ int main(int argc, char *argv[])
             bool bPointFound = false;
             scalar currentBStream = 0.0;
             vector currentBStreamPoint(0, 0, 0);
-            forAll(curBPoints, pointI)
+            FOR_ALL(curBPoints, pointI)
             {
               // Check if the point has been visited
               if (visitedPoint[curBPoints[pointI]] == 1)
@@ -209,7 +205,7 @@ int main(int argc, char *argv[])
             if (bPointFound)
             {
               // Sort out other points on the face
-              forAll(curBPoints, pointI)
+              FOR_ALL(curBPoints, pointI)
               {
                 // Check if the point has been visited
                 if (visitedPoint[curBPoints[pointI]] == 0)
@@ -304,7 +300,7 @@ int main(int argc, char *argv[])
             bool pointFound = false;
             scalar currentStream = 0.0;
             point currentStreamPoint(0, 0, 0);
-            forAll(curPoints, pointI)
+            FOR_ALL(curPoints, pointI)
             {
               // Check if the point has been visited
               if (visitedPoint[curPoints[pointI]] == 1)
@@ -321,7 +317,7 @@ int main(int argc, char *argv[])
             if (pointFound)
             {
               // Sort out other points on the face
-              forAll(curPoints, pointI)
+              FOR_ALL(curPoints, pointI)
               {
                 // Check if the point has been visited
                 if (visitedPoint[curPoints[pointI]] == 0)
@@ -380,7 +376,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-      WarningIn(args.executable())
+      WARNING_IN(args.executable())
         << "Flux field does not exist."
         << " Stream function not calculated" << endl;
     }

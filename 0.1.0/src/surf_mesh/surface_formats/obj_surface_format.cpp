@@ -3,12 +3,14 @@
 // Copyright (C) 2016 mousse project
 
 #include "obj_surface_format.hpp"
+
 #include "clock.hpp"
 #include "ifstream.hpp"
 #include "istring_stream.hpp"
 #include "ostream.hpp"
 #include "ofstream.hpp"
 #include "list_ops.hpp"
+
 // Constructors 
 template<class Face>
 mousse::fileFormats::OBJsurfaceFormat<Face>::OBJsurfaceFormat
@@ -18,6 +20,8 @@ mousse::fileFormats::OBJsurfaceFormat<Face>::OBJsurfaceFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 template<class Face>
 bool mousse::fileFormats::OBJsurfaceFormat<Face>::read
@@ -27,24 +31,24 @@ bool mousse::fileFormats::OBJsurfaceFormat<Face>::read
 {
   const bool mustTriangulate = this->isTri();
   this->clear();
-  IFstream is(filename);
+  IFstream is{filename};
   if (!is.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::OBJsurfaceFormat::read(const fileName&)"
     )
-      << "Cannot read file " << filename
-      << exit(FatalError);
+    << "Cannot read file " << filename
+    << exit(FatalError);
   }
   // assume that the groups are not intermixed
   bool sorted = true;
   DynamicList<point> dynPoints;
-  DynamicList<Face>  dynFaces;
+  DynamicList<Face> dynFaces;
   DynamicList<label> dynZones;
-  DynamicList<word>  dynNames;
+  DynamicList<word> dynNames;
   DynamicList<label> dynSizes;
-  HashTable<label>   lookup;
+  HashTable<label> lookup;
   // place faces without a group in zone0
   label zoneI = 0;
   lookup.insert("zone0", zoneI);
@@ -60,7 +64,7 @@ bool mousse::fileFormats::OBJsurfaceFormat<Face>::read
       line += this->getLineNoComment(is);
     }
     // Read first word
-    IStringStream lineStream(line);
+    IStringStream lineStream{line};
     word cmd;
     lineStream >> cmd;
     if (cmd == "v")
@@ -157,6 +161,8 @@ bool mousse::fileFormats::OBJsurfaceFormat<Face>::read
   this->addZones(dynSizes, dynNames, true);
   return true;
 }
+
+
 template<class Face>
 void mousse::fileFormats::OBJsurfaceFormat<Face>::write
 (
@@ -175,33 +181,32 @@ void mousse::fileFormats::OBJsurfaceFormat<Face>::write
    : surf.surfZones()
   );
   const bool useFaceMap = (surf.useFaceMap() && zones.size() > 1);
-  OFstream os(filename);
+  OFstream os{filename};
   if (!os.good())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "fileFormats::OBJsurfaceFormat::write"
       "(const fileName&, const MeshedSurfaceProxy<Face>&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
-  os  << "# Wavefront OBJ file written " << clock::dateTime().c_str() << nl
+  os << "# Wavefront OBJ file written " << clock::dateTime().c_str() << nl
     << "o " << os.name().lessExt().name() << nl
     << nl
     << "# points : " << pointLst.size() << nl
     << "# faces  : " << faceLst.size() << nl
     << "# zones  : " << zones.size() << nl;
   // Print zone names as comment
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
-    os  << "#   " << zoneI << "  " << zones[zoneI].name()
+    os << "#   " << zoneI << "  " << zones[zoneI].name()
       << "  (nFaces: " << zones[zoneI].size() << ")" << nl;
   }
-  os  << nl
-    << "# <points count=\"" << pointLst.size() << "\">" << nl;
+  os << nl << "# <points count=\"" << pointLst.size() << "\">" << nl;
   // Write vertex coords
-  forAll(pointLst, ptI)
+  FOR_ALL(pointLst, ptI)
   {
     const point& pt = pointLst[ptI];
     os  << "v " << pt.x() << ' '  << pt.y() << ' '  << pt.z() << nl;
@@ -210,7 +215,7 @@ void mousse::fileFormats::OBJsurfaceFormat<Face>::write
     << nl
     << "# <faces count=\"" << faceLst.size() << "\">" << endl;
   label faceIndex = 0;
-  forAll(zones, zoneI)
+  FOR_ALL(zones, zoneI)
   {
     const surfZone& zone = zones[zoneI];
     if (zone.name().size())
@@ -219,11 +224,11 @@ void mousse::fileFormats::OBJsurfaceFormat<Face>::write
     }
     if (useFaceMap)
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceMap[faceIndex++]];
         os << 'f';
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << ' ' << f[fp] + 1;
         }
@@ -232,11 +237,11 @@ void mousse::fileFormats::OBJsurfaceFormat<Face>::write
     }
     else
     {
-      forAll(zone, localFaceI)
+      FOR_ALL(zone, localFaceI)
       {
         const Face& f = faceLst[faceIndex++];
         os << 'f';
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           os << ' ' << f[fp] + 1;
         }

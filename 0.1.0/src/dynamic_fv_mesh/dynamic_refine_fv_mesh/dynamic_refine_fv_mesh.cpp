@@ -15,8 +15,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(dynamicRefineFvMesh, 0);
-  addToRunTimeSelectionTable(dynamicFvMesh, dynamicRefineFvMesh, IOobject);
+  DEFINE_TYPE_NAME_AND_DEBUG(dynamicRefineFvMesh, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(dynamicFvMesh, dynamicRefineFvMesh, IOobject);
 }
 // Private Member Functions 
 // the PackedBoolList::count method would probably be faster
@@ -28,7 +28,7 @@ mousse::label mousse::dynamicRefineFvMesh::count
 )
 {
   label n = 0;
-  forAll(l, i)
+  FOR_ALL(l, i)
   {
     if (l.get(i) == val)
     {
@@ -66,7 +66,7 @@ void mousse::dynamicRefineFvMesh::calculateProtectedCells
   {
     // Pick up faces on border of protected cells
     boolList seedFace(nFaces(), false);
-    forAll(faceNeighbour(), faceI)
+    FOR_ALL(faceNeighbour(), faceI)
     {
       label own = faceOwner()[faceI];
       bool ownProtected = unrefineableCell.get(own);
@@ -156,7 +156,7 @@ void mousse::dynamicRefineFvMesh::readDict()
   );
   // Rework into hashtable.
   correctFluxes_.resize(fluxVelocities.size());
-  forAll(fluxVelocities, i)
+  FOR_ALL(fluxVelocities, i)
   {
     correctFluxes_.insert(fluxVelocities[i][0], fluxVelocities[i][1]);
   }
@@ -187,7 +187,7 @@ mousse::dynamicRefineFvMesh::refine
       label oldFaceI = map().faceMap()[faceI];
       if (oldFaceI >= nInternalFaces())
       {
-        FatalErrorIn("dynamicRefineFvMesh::refine(const labelList&)")
+        FATAL_ERROR_IN("dynamicRefineFvMesh::refine(const labelList&)")
           << "New internal face:" << faceI
           << " fc:" << faceCentres()[faceI]
           << " originates from boundary oldFace:" << oldFaceI
@@ -223,7 +223,7 @@ mousse::dynamicRefineFvMesh::refine
     // on the coarse cell that get split into four (or rather the
     // master face gets modified and three faces get added from the master)
     labelHashSet masterFaces(4*cellsToRefine.size());
-    forAll(faceMap, faceI)
+    FOR_ALL(faceMap, faceI)
     {
       label oldFaceI = faceMap[faceI];
       if (oldFaceI >= 0)
@@ -231,7 +231,7 @@ mousse::dynamicRefineFvMesh::refine
         label masterFaceI = reverseFaceMap[oldFaceI];
         if (masterFaceI < 0)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "dynamicRefineFvMesh::refine(const labelList&)"
           )   << "Problem: should not have removed faces"
@@ -252,11 +252,11 @@ mousse::dynamicRefineFvMesh::refine
     (
       lookupClass<surfaceScalarField>()
     );
-    forAllIter(HashTable<surfaceScalarField*>, fluxes, iter)
+    FOR_ALL_ITER(HashTable<surfaceScalarField*>, fluxes, iter)
     {
       if (!correctFluxes_.found(iter.key()))
       {
-        WarningIn("dynamicRefineFvMesh::refine(const labelList&)")
+        WARNING_IN("dynamicRefineFvMesh::refine(const labelList&)")
           << "Cannot find surfaceScalarField " << iter.key()
           << " in user-provided flux mapping table "
           << correctFluxes_ << endl
@@ -313,13 +313,13 @@ mousse::dynamicRefineFvMesh::refine
       // Recalculate new boundary faces.
       surfaceScalarField::GeometricBoundaryField& bphi =
         phi.boundaryField();
-      forAll(bphi, patchI)
+      FOR_ALL(bphi, patchI)
       {
         fvsPatchScalarField& patchPhi = bphi[patchI];
         const fvsPatchScalarField& patchPhiU =
           phiU.boundaryField()[patchI];
         label faceI = patchPhi.patch().start();
-        forAll(patchPhi, i)
+        FOR_ALL(patchPhi, i)
         {
           label oldFaceI = faceMap[faceI];
           if (oldFaceI == -1)
@@ -336,7 +336,7 @@ mousse::dynamicRefineFvMesh::refine
         }
       }
       // Update master faces
-      forAllConstIter(labelHashSet, masterFaces, iter)
+      FOR_ALL_CONST_ITER(labelHashSet, masterFaces, iter)
       {
         label faceI = iter.key();
         if (isInternalFace(faceI))
@@ -361,7 +361,7 @@ mousse::dynamicRefineFvMesh::refine
   if (protectedCell_.size())
   {
     PackedBoolList newProtectedCell(nCells());
-    forAll(newProtectedCell, cellI)
+    FOR_ALL(newProtectedCell, cellI)
     {
       label oldCellI = map().cellMap()[cellI];
       newProtectedCell.set(cellI, protectedCell_.get(oldCellI));
@@ -390,15 +390,15 @@ mousse::dynamicRefineFvMesh::unrefine
   // midpoint
   Map<label> faceToSplitPoint(3*splitPoints.size());
   {
-    forAll(splitPoints, i)
+    FOR_ALL(splitPoints, i)
     {
       label pointI = splitPoints[i];
       const labelList& pEdges = pointEdges()[pointI];
-      forAll(pEdges, j)
+      FOR_ALL(pEdges, j)
       {
         label otherPointI = edges()[pEdges[j]].otherVertex(pointI);
         const labelList& pFaces = pointFaces()[otherPointI];
-        forAll(pFaces, pFaceI)
+        FOR_ALL(pFaces, pFaceI)
         {
           faceToSplitPoint.insert(pFaces[pFaceI], otherPointI);
         }
@@ -435,11 +435,11 @@ mousse::dynamicRefineFvMesh::unrefine
     (
       lookupClass<surfaceScalarField>()
     );
-    forAllIter(HashTable<surfaceScalarField*>, fluxes, iter)
+    FOR_ALL_ITER(HashTable<surfaceScalarField*>, fluxes, iter)
     {
       if (!correctFluxes_.found(iter.key()))
       {
-        WarningIn("dynamicRefineFvMesh::refine(const labelList&)")
+        WARNING_IN("dynamicRefineFvMesh::refine(const labelList&)")
           << "Cannot find surfaceScalarField " << iter.key()
           << " in user-provided flux mapping table "
           << correctFluxes_ << endl
@@ -472,7 +472,7 @@ mousse::dynamicRefineFvMesh::unrefine
         )
        & Sf()
       );
-      forAllConstIter(Map<label>, faceToSplitPoint, iter)
+      FOR_ALL_CONST_ITER(Map<label>, faceToSplitPoint, iter)
       {
         label oldFaceI = iter.key();
         label oldPointI = iter();
@@ -506,7 +506,7 @@ mousse::dynamicRefineFvMesh::unrefine
   if (protectedCell_.size())
   {
     PackedBoolList newProtectedCell(nCells());
-    forAll(newProtectedCell, cellI)
+    FOR_ALL(newProtectedCell, cellI)
     {
       label oldCellI = map().cellMap()[cellI];
       if (oldCellI >= 0)
@@ -525,10 +525,10 @@ mousse::scalarField
 mousse::dynamicRefineFvMesh::maxPointField(const scalarField& pFld) const
 {
   scalarField vFld(nCells(), -GREAT);
-  forAll(pointCells(), pointI)
+  FOR_ALL(pointCells(), pointI)
   {
     const labelList& pCells = pointCells()[pointI];
-    forAll(pCells, i)
+    FOR_ALL(pCells, i)
     {
       vFld[pCells[i]] = max(vFld[pCells[i]], pFld[pointI]);
     }
@@ -540,10 +540,10 @@ mousse::scalarField
 mousse::dynamicRefineFvMesh::maxCellField(const volScalarField& vFld) const
 {
   scalarField pFld(nPoints(), -GREAT);
-  forAll(pointCells(), pointI)
+  FOR_ALL(pointCells(), pointI)
   {
     const labelList& pCells = pointCells()[pointI];
-    forAll(pCells, i)
+    FOR_ALL(pCells, i)
     {
       pFld[pointI] = max(pFld[pointI], vFld[pCells[i]]);
     }
@@ -555,11 +555,11 @@ mousse::scalarField
 mousse::dynamicRefineFvMesh::cellToPoint(const scalarField& vFld) const
 {
   scalarField pFld(nPoints());
-  forAll(pointCells(), pointI)
+  FOR_ALL(pointCells(), pointI)
   {
     const labelList& pCells = pointCells()[pointI];
     scalar sum = 0.0;
-    forAll(pCells, i)
+    FOR_ALL(pCells, i)
     {
       sum += vFld[pCells[i]];
     }
@@ -576,7 +576,7 @@ mousse::scalarField mousse::dynamicRefineFvMesh::error
 ) const
 {
   scalarField c(fld.size(), -1);
-  forAll(fld, i)
+  FOR_ALL(fld, i)
   {
     scalar err = min(fld[i]-minLevel, maxLevel-fld[i]);
     if (err >= 0)
@@ -609,7 +609,7 @@ void mousse::dynamicRefineFvMesh::selectRefineCandidates
     )
   );
   // Mark cells that are candidates for refinement.
-  forAll(cellError, cellI)
+  FOR_ALL(cellError, cellI)
   {
     if (cellError[cellI] > 0)
     {
@@ -638,7 +638,7 @@ mousse::labelList mousse::dynamicRefineFvMesh::selectRefineCells
   DynamicList<label> candidates(nLocalCandidates);
   if (nCandidates < nTotToRefine)
   {
-    forAll(candidateCell, cellI)
+    FOR_ALL(candidateCell, cellI)
     {
       if
       (
@@ -659,7 +659,7 @@ mousse::labelList mousse::dynamicRefineFvMesh::selectRefineCells
     // Sort by error? For now just truncate.
     for (label level = 0; level < maxRefinement; level++)
     {
-      forAll(candidateCell, cellI)
+      FOR_ALL(candidateCell, cellI)
       {
         if
         (
@@ -704,7 +704,7 @@ mousse::labelList mousse::dynamicRefineFvMesh::selectUnrefinePoints
   // All points that can be unrefined
   const labelList splitPoints(meshCutter_.getSplitPoints());
   DynamicList<label> newSplitPoints(splitPoints.size());
-  forAll(splitPoints, i)
+  FOR_ALL(splitPoints, i)
   {
     label pointI = splitPoints[i];
     if (pFld[pointI] < unrefineLevel)
@@ -712,7 +712,7 @@ mousse::labelList mousse::dynamicRefineFvMesh::selectUnrefinePoints
       // Check that all cells are not marked
       const labelList& pCells = pointCells()[pointI];
       bool hasMarked = false;
-      forAll(pCells, pCellI)
+      FOR_ALL(pCells, pCellI)
       {
         if (markedCell.get(pCells[pCellI]))
         {
@@ -749,12 +749,12 @@ void mousse::dynamicRefineFvMesh::extendMarkedCells
 {
   // Mark faces using any marked cell
   boolList markedFace(nFaces(), false);
-  forAll(markedCell, cellI)
+  FOR_ALL(markedCell, cellI)
   {
     if (markedCell.get(cellI))
     {
       const cell& cFaces = cells()[cellI];
-      forAll(cFaces, i)
+      FOR_ALL(cFaces, i)
       {
         markedFace[cFaces[i]] = true;
       }
@@ -787,10 +787,10 @@ void mousse::dynamicRefineFvMesh::checkEightAnchorPoints
   const labelList& cellLevel = meshCutter_.cellLevel();
   const labelList& pointLevel = meshCutter_.pointLevel();
   labelList nAnchorPoints(nCells(), 0);
-  forAll(pointLevel, pointI)
+  FOR_ALL(pointLevel, pointI)
   {
     const labelList& pCells = pointCells(pointI);
-    forAll(pCells, pCellI)
+    FOR_ALL(pCells, pCellI)
     {
       label cellI = pCells[pCellI];
       if (pointLevel[pointI] <= cellLevel[cellI])
@@ -810,7 +810,7 @@ void mousse::dynamicRefineFvMesh::checkEightAnchorPoints
       }
     }
   }
-  forAll(protectedCell, cellI)
+  FOR_ALL(protectedCell, cellI)
   {
     if (!protectedCell[cellI] && nAnchorPoints[cellI] != 8)
     {
@@ -840,10 +840,10 @@ mousse::dynamicRefineFvMesh::dynamicRefineFvMesh(const IOobject& io)
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelList nAnchors(nCells(), 0);
   label nProtected = 0;
-  forAll(pointCells(), pointI)
+  FOR_ALL(pointCells(), pointI)
   {
     const labelList& pCells = pointCells()[pointI];
-    forAll(pCells, i)
+    FOR_ALL(pCells, i)
     {
       label cellI = pCells[i];
       if (!protectedCell_.get(cellI))
@@ -876,7 +876,7 @@ mousse::dynamicRefineFvMesh::dynamicRefineFvMesh(const IOobject& io)
     }
     syncTools::swapFaceList(*this, neiLevel);
     boolList protectedFace(nFaces(), false);
-    forAll(faceOwner(), faceI)
+    FOR_ALL(faceOwner(), faceI)
     {
       label faceLevel = max
       (
@@ -885,7 +885,7 @@ mousse::dynamicRefineFvMesh::dynamicRefineFvMesh(const IOobject& io)
       );
       const face& f = faces()[faceI];
       label nAnchors = 0;
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         if (pointLevel[f[fp]] <= faceLevel)
         {
@@ -918,7 +918,7 @@ mousse::dynamicRefineFvMesh::dynamicRefineFvMesh(const IOobject& io)
       }
     }
     // Also protect any cells that are less than hex
-    forAll(cells(), cellI)
+    FOR_ALL(cells(), cellI)
     {
       const cell& cFaces = cells()[cellI];
       if (cFaces.size() < 6)
@@ -930,7 +930,7 @@ mousse::dynamicRefineFvMesh::dynamicRefineFvMesh(const IOobject& io)
       }
       else
       {
-        forAll(cFaces, cFaceI)
+        FOR_ALL(cFaces, cFaceI)
         {
           if (faces()[cFaces[cFaceI]].size() < 4)
           {
@@ -953,7 +953,7 @@ mousse::dynamicRefineFvMesh::dynamicRefineFvMesh(const IOobject& io)
   else
   {
     cellSet protectedCells(*this, "protectedCells", nProtected);
-    forAll(protectedCell_, cellI)
+    FOR_ALL(protectedCell_, cellI)
     {
       if (protectedCell_[cellI])
       {
@@ -1001,7 +1001,7 @@ bool mousse::dynamicRefineFvMesh::update()
   }
   else if (refineInterval < 0)
   {
-    FatalErrorIn("dynamicRefineFvMesh::update()")
+    FATAL_ERROR_IN("dynamicRefineFvMesh::update()")
       << "Illegal refineInterval " << refineInterval << nl
       << "The refineInterval setting in the dynamicMeshDict should"
       << " be >= 1." << nl
@@ -1014,7 +1014,7 @@ bool mousse::dynamicRefineFvMesh::update()
     label maxCells = readLabel(refineDict.lookup("maxCells"));
     if (maxCells <= 0)
     {
-      FatalErrorIn("dynamicRefineFvMesh::update()")
+      FATAL_ERROR_IN("dynamicRefineFvMesh::update()")
         << "Illegal maximum number of cells " << maxCells << nl
         << "The maxCells setting in the dynamicMeshDict should"
         << " be > 0." << nl
@@ -1023,7 +1023,7 @@ bool mousse::dynamicRefineFvMesh::update()
     label maxRefinement = readLabel(refineDict.lookup("maxRefinement"));
     if (maxRefinement <= 0)
     {
-      FatalErrorIn("dynamicRefineFvMesh::update()")
+      FATAL_ERROR_IN("dynamicRefineFvMesh::update()")
         << "Illegal maximum refinement level " << maxRefinement << nl
         << "The maxCells setting in the dynamicMeshDict should"
         << " be > 0." << nl
@@ -1079,7 +1079,7 @@ bool mousse::dynamicRefineFvMesh::update()
           const labelList& cellMap = map().cellMap();
           const labelList& reverseCellMap = map().reverseCellMap();
           PackedBoolList newRefineCell(cellMap.size());
-          forAll(cellMap, cellI)
+          FOR_ALL(cellMap, cellI)
           {
             label oldCellI = cellMap[cellI];
             if (oldCellI < 0)
@@ -1177,7 +1177,7 @@ bool mousse::dynamicRefineFvMesh::writeObject
       dimensionedScalar("level", dimless, 0)
     );
     const labelList& cellLevel = meshCutter_.cellLevel();
-    forAll(cellLevel, cellI)
+    FOR_ALL(cellLevel, cellI)
     {
       scalarCellLevel[cellI] = cellLevel[cellI];
     }

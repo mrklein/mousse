@@ -4,6 +4,7 @@
 
 #include "interpolation.hpp"
 #include "vol_fields.hpp"
+
 template<class Type>
 mousse::autoPtr<mousse::interpolation<Type> > mousse::interpolation<Type>::New
 (
@@ -15,18 +16,21 @@ mousse::autoPtr<mousse::interpolation<Type> > mousse::interpolation<Type>::New
     dictionaryConstructorTablePtr_->find(interpolationType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "interpolation::New(const word&, "
       "const GeometricField<Type, fvPatchField, volMesh>&)"
-    )   << "Unknown interpolation type " << interpolationType
-      << " for field " << psi.name() << nl << nl
-      << "Valid interpolation types : " << endl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown interpolation type " << interpolationType
+    << " for field " << psi.name() << nl << nl
+    << "Valid interpolation types : " << endl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<interpolation<Type> >(cstrIter()(psi));
+  return autoPtr<interpolation<Type>>{cstrIter()(psi)};
 }
+
+
 template<class Type>
 mousse::autoPtr<mousse::interpolation<Type> > mousse::interpolation<Type>::New
 (

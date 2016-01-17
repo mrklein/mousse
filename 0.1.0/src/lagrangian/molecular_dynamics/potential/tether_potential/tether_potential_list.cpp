@@ -14,13 +14,13 @@ void mousse::tetherPotentialList::readTetherPotentialDict
   Info<< nl << "Building tether potentials." << endl;
   idMap_ = List<label>(siteIdList.size(), -1);
   label tetherMapIndex = 0;
-  forAll(tetherSiteIdList, t)
+  FOR_ALL(tetherSiteIdList, t)
   {
     word tetherPotentialName = tetherSiteIdList[t];
     label tetherId = findIndex(siteIdList, tetherPotentialName);
     if (tetherId == -1)
     {
-      FatalErrorIn("tetherPotentialList::readTetherPotentialDict")
+      FATAL_ERROR_IN("tetherPotentialList::readTetherPotentialDict")
         << nl
         << "No matching entry found in siteIdList for tether name "
         << tetherPotentialName
@@ -28,7 +28,7 @@ void mousse::tetherPotentialList::readTetherPotentialDict
     }
     else if (!tetherPotentialDict.found(tetherPotentialName))
     {
-      FatalErrorIn("tetherPotentialList::readTetherPotentialDict")
+      FATAL_ERROR_IN("tetherPotentialList::readTetherPotentialDict")
         << nl << "tether potential specification subDict "
         << tetherPotentialName << " not found"
         << abort(FatalError);

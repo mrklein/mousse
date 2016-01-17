@@ -29,7 +29,7 @@ class slipFvPatchField
 {
 public:
   //- Runtime type information
-  TypeName("slip");
+  TYPE_NAME("slip");
   // Constructors
     //- Construct from patch and internal field
     slipFvPatchField

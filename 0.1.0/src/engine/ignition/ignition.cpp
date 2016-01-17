@@ -12,7 +12,7 @@ bool mousse::ignition::igniting() const
     return false;
   }
   bool igning = false;
-  forAll(ignSites_, i)
+  FOR_ALL(ignSites_, i)
   {
     if (ignSites_[i].igniting())
     {
@@ -28,7 +28,7 @@ bool mousse::ignition::ignited() const
     return false;
   }
   bool igned = false;
-  forAll(ignSites_, i)
+  FOR_ALL(ignSites_, i)
   {
     if (ignSites_[i].ignited())
     {

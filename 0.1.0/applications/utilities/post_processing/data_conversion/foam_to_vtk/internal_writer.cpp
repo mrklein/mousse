@@ -22,18 +22,14 @@ mousse::internalWriter::internalWriter
   // Write header
   writeFuns::writeHeader(os_, binary_, mesh.time().caseName());
   os_ << "DATASET UNSTRUCTURED_GRID" << std::endl;
-  //------------------------------------------------------------------
-  //
   // Write topology
-  //
-  //------------------------------------------------------------------
   const labelList& addPointCellLabels = topo.addPointCellLabels();
   const label nTotPoints = mesh.nPoints() + addPointCellLabels.size();
   os_ << "POINTS " << nTotPoints << " float" << std::endl;
-  DynamicList<floatScalar> ptField(3*nTotPoints);
+  DynamicList<floatScalar> ptField{3*nTotPoints};
   writeFuns::insert(mesh.points(), ptField);
   const pointField& ctrs = mesh.cellCentres();
-  forAll(addPointCellLabels, api)
+  FOR_ALL(addPointCellLabels, api)
   {
     writeFuns::insert(ctrs[addPointCellLabels[api]], ptField);
   }
@@ -44,13 +40,13 @@ mousse::internalWriter::internalWriter
   const labelListList& vtkVertLabels = topo.vertLabels();
   // Count total number of vertices referenced.
   label nFaceVerts = 0;
-  forAll(vtkVertLabels, cellI)
+  FOR_ALL(vtkVertLabels, cellI)
   {
     nFaceVerts += vtkVertLabels[cellI].size() + 1;
   }
   os_ << "CELLS " << vtkVertLabels.size() << ' ' << nFaceVerts << std::endl;
-  DynamicList<label> vertLabels(nFaceVerts);
-  forAll(vtkVertLabels, cellI)
+  DynamicList<label> vertLabels{nFaceVerts};
+  FOR_ALL(vtkVertLabels, cellI)
   {
     const labelList& vtkVerts = vtkVertLabels[cellI];
     vertLabels.append(vtkVerts.size());
@@ -60,7 +56,7 @@ mousse::internalWriter::internalWriter
   const labelList& vtkCellTypes = topo.cellTypes();
   os_ << "CELL_TYPES " << vtkCellTypes.size() << std::endl;
   // Make copy since writing might swap stuff.
-  DynamicList<label> cellTypes(vtkCellTypes.size());
+  DynamicList<label> cellTypes{vtkCellTypes.size()};
   writeFuns::insert(vtkCellTypes, cellTypes);
   writeFuns::write(os_, binary_, cellTypes);
 }
@@ -78,11 +74,11 @@ void mousse::internalWriter::writeCellIDs()
   if (vMesh_.useSubMesh())
   {
     const labelList& cMap = vMesh_.subsetter().cellMap();
-    forAll(mesh.cells(), cellI)
+    FOR_ALL(mesh.cells(), cellI)
     {
       cellId[labelI++] = cMap[cellI];
     }
-    forAll(superCells, superCellI)
+    FOR_ALL(superCells, superCellI)
     {
       label origCellI = cMap[superCells[superCellI]];
       cellId[labelI++] = origCellI;
@@ -90,11 +86,11 @@ void mousse::internalWriter::writeCellIDs()
   }
   else
   {
-    forAll(mesh.cells(), cellI)
+    FOR_ALL(mesh.cells(), cellI)
     {
       cellId[labelI++] = cellI;
     }
-    forAll(superCells, superCellI)
+    FOR_ALL(superCells, superCellI)
     {
       label origCellI = superCells[superCellI];
       cellId[labelI++] = origCellI;

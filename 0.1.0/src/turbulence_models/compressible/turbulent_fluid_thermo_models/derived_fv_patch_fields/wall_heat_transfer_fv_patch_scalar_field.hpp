@@ -41,7 +41,7 @@ class wallHeatTransferFvPatchScalarField
     scalarField alphaWall_;
 public:
   //- Runtime type information
-  TypeName("wallHeatTransfer");
+  TYPE_NAME("wallHeatTransfer");
   // Constructors
     //- Construct from patch and internal field
     wallHeatTransferFvPatchScalarField

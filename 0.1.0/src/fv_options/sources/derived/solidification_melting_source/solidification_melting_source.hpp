@@ -122,13 +122,9 @@ private:
     //- Helper function to apply to the energy equation
     template<class RhoFieldType>
     void apply(const RhoFieldType& rho, fvMatrix<scalar>& eqn);
-    //- Disallow default bitwise copy construct
-    solidificationMeltingSource(const solidificationMeltingSource&);
-    //- Disallow default bitwise assignment
-    void operator=(const solidificationMeltingSource&);
 public:
   //- Runtime type information
-  TypeName("solidificationMeltingSource");
+  TYPE_NAME("solidificationMeltingSource");
   // Constructors
     //- Construct from explicit source name and mesh
     solidificationMeltingSource
@@ -138,6 +134,13 @@ public:
       const dictionary& dict,
       const fvMesh& mesh
     );
+    //- Disallow default bitwise copy construct
+    solidificationMeltingSource(const solidificationMeltingSource&) = delete;
+    //- Disallow default bitwise assignment
+    solidificationMeltingSource& operator=
+    (
+      const solidificationMeltingSource&
+    ) = delete;
   // Member Functions
     // Add explicit and implicit contributions
       //- Add explicit contribution to enthalpy equation

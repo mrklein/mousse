@@ -112,7 +112,7 @@ void mousse::regionModels::regionModel::toPrimary
   List<Type>& regionField
 ) const
 {
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     if (intCoupledPatchIDs_[i] == regionPatchI)
     {
@@ -125,7 +125,7 @@ void mousse::regionModels::regionModel::toPrimary
       return;
     }
   }
-  FatalErrorIn("const void toPrimary(const label, List<Type>&) const")
+  FATAL_ERROR_IN("const void toPrimary(const label, List<Type>&) const")
     << "Region patch ID " << regionPatchI << " not found in region mesh"
     << abort(FatalError);
 }
@@ -136,7 +136,7 @@ void mousse::regionModels::regionModel::toRegion
   List<Type>& primaryField
 ) const
 {
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     if (intCoupledPatchIDs_[i] == regionPatchI)
     {
@@ -149,7 +149,7 @@ void mousse::regionModels::regionModel::toRegion
       return;
     }
   }
-  FatalErrorIn("const void toRegion(const label, List<Type>&) const")
+  FATAL_ERROR_IN("const void toRegion(const label, List<Type>&) const")
     << "Region patch ID " << regionPatchI << " not found in region mesh"
     << abort(FatalError);
 }
@@ -161,7 +161,7 @@ void mousse::regionModels::regionModel::toPrimary
   const CombineOp& cop
 ) const
 {
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     if (intCoupledPatchIDs_[i] == regionPatchI)
     {
@@ -174,7 +174,7 @@ void mousse::regionModels::regionModel::toPrimary
       return;
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const void toPrimary"
     "("
@@ -193,7 +193,7 @@ void mousse::regionModels::regionModel::toRegion
   const CombineOp& cop
 ) const
 {
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     if (intCoupledPatchIDs_[i] == regionPatchI)
     {
@@ -206,7 +206,7 @@ void mousse::regionModels::regionModel::toRegion
       return;
     }
   }
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "const void toRegion(const label, List<Type>&, const CombineOp&) const"
   )   << "Region patch ID " << regionPatchI << " not found in region mesh"

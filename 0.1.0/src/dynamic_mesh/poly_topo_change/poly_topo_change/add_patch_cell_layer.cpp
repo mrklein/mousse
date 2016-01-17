@@ -16,7 +16,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(addPatchCellLayer, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(addPatchCellLayer, 0);
 }
 // Private Member Functions 
 mousse::label mousse::addPatchCellLayer::nbrFace
@@ -95,7 +95,7 @@ mousse::labelPair mousse::addPatchCellLayer::getEdgeString
   label startFp = -1;
   label endFp = -1;
   // Get edge that hasn't been done yet but needs extrusion
-  forAll(fEdges, fp)
+  FOR_ALL(fEdges, fp)
   {
     label edgeI = fEdges[fp];
     const edge& e = pp.edges()[edgeI];
@@ -198,7 +198,7 @@ mousse::label mousse::addPatchCellLayer::addSideFace
   // Check mesh faces using edge
   if (addToMesh_)
   {
-    forAll(meshFaces, i)
+    FOR_ALL(meshFaces, i)
     {
       if (mesh_.isInternalFace(meshFaces[i]))
       {
@@ -222,7 +222,7 @@ mousse::label mousse::addPatchCellLayer::addSideFace
     // see if we can find a face that is otherPatchID
     // Get my mesh face and its zone.
     label meshFaceI = pp.addressing()[ownFaceI];
-    forAll(meshFaces, k)
+    FOR_ALL(meshFaces, k)
     {
       label faceI = meshFaces[k];
       if
@@ -356,7 +356,7 @@ mousse::label mousse::addPatchCellLayer::findProcPatch
 )
 {
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(mesh.globalData().processorPatches(), i)
+  FOR_ALL(mesh.globalData().processorPatches(), i)
   {
     label patchI = mesh.globalData().processorPatches()[i];
     if
@@ -408,7 +408,7 @@ mousse::labelListList mousse::addPatchCellLayer::addedCells
 )
 {
   labelListList layerCells(layerFaces.size());
-  forAll(layerFaces, patchFaceI)
+  FOR_ALL(layerFaces, patchFaceI)
   {
     const labelList& faceLabels = layerFaces[patchFaceI];
     if (faceLabels.size())
@@ -441,14 +441,14 @@ mousse::labelListList mousse::addPatchCellLayer::globalEdgeFaces
   // pp edges.
   labelListList globalEdgeFaces(mesh.nEdges());
   const labelListList& edgeFaces = pp.edgeFaces();
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     label meshEdgeI = meshEdges[edgeI];
     const labelList& eFaces = edgeFaces[edgeI];
     // Store face and processor as unique tag.
     labelList& globalEFaces = globalEdgeFaces[meshEdgeI];
     globalEFaces.setSize(eFaces.size());
-    forAll(eFaces, i)
+    FOR_ALL(eFaces, i)
     {
       globalEFaces[i] = globalFaces.toGlobal(pp.addressing()[eFaces[i]]);
     }
@@ -489,7 +489,7 @@ void mousse::addPatchCellLayer::calcSidePatch
   labelList sideZoneID(pp.nEdges(), -1);
   boolList sideFlip(pp.nEdges(), false);
   nPatches = patches.size();
-  forAll(globalEdgeFaces, edgeI)
+  FOR_ALL(globalEdgeFaces, edgeI)
   {
     const labelList& eGlobalFaces = globalEdgeFaces[edgeI];
     if
@@ -538,7 +538,7 @@ void mousse::addPatchCellLayer::calcSidePatch
   // ------------------------------------------------------
   const labelListList& edgeFaces = pp.edgeFaces();
   DynamicList<label> dynMeshEdgeFaces;
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     if (edgeFaces[edgeI].size() == 1 && sidePatchID[edgeI] == -1)
     {
@@ -551,7 +551,7 @@ void mousse::addPatchCellLayer::calcSidePatch
         meshEdgeI,
         dynMeshEdgeFaces
       );
-      forAll(meshFaces, k)
+      FOR_ALL(meshFaces, k)
       {
         label faceI = meshFaces[k];
         if (faceI != myFaceI && !mesh.isInternalFace(faceI))
@@ -574,13 +574,13 @@ void mousse::addPatchCellLayer::calcSidePatch
   // Now hopefully every boundary edge has a side patch. Check
   if (debug)
   {
-    forAll(edgeFaces, edgeI)
+    FOR_ALL(edgeFaces, edgeI)
     {
       if (edgeFaces[edgeI].size() == 1 && sidePatchID[edgeI] == -1)
       {
         const edge& e = pp.edges()[edgeI];
-        //FatalErrorIn("addPatchCellLayer::calcSidePatch(..)")
-        WarningIn("addPatchCellLayer::calcSidePatch(..)")
+        //FATAL_ERROR_IN("addPatchCellLayer::calcSidePatch(..)")
+        WARNING_IN("addPatchCellLayer::calcSidePatch(..)")
           << "Have no sidePatchID for edge " << edgeI << " points "
           << pp.points()[pp.meshPoints()[e[0]]]
           << pp.points()[pp.meshPoints()[e[1]]]
@@ -591,7 +591,7 @@ void mousse::addPatchCellLayer::calcSidePatch
   }
   // Now we have sidepatch see if we have patchface or edge to inflate
   // from.
-  forAll(edgeFaces, edgeI)
+  FOR_ALL(edgeFaces, edgeI)
   {
     if
     (
@@ -609,7 +609,7 @@ void mousse::addPatchCellLayer::calcSidePatch
         meshEdgeI,
         dynMeshEdgeFaces
       );
-      forAll(meshFaces, k)
+      FOR_ALL(meshFaces, k)
       {
         label faceI = meshFaces[k];
         if (faceI != myFaceI)
@@ -668,7 +668,7 @@ void mousse::addPatchCellLayer::setRefinement
   || pp.size() != nFaceLayers.size()
   )
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "addPatchCellLayer::setRefinement"
       "(const scalar, const indirectPrimitivePatch&"
@@ -682,11 +682,11 @@ void mousse::addPatchCellLayer::setRefinement
       << "  nFaceLayers:" << nFaceLayers.size()
       << abort(FatalError);
   }
-  forAll(nPointLayers, i)
+  FOR_ALL(nPointLayers, i)
   {
     if (nPointLayers[i] < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "addPatchCellLayer::setRefinement"
         "(const scalar, const indirectPrimitivePatch&"
@@ -695,11 +695,11 @@ void mousse::addPatchCellLayer::setRefinement
         << " at patch point " << i << abort(FatalError);
     }
   }
-  forAll(nFaceLayers, i)
+  FOR_ALL(nFaceLayers, i)
   {
     if (nFaceLayers[i] < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "addPatchCellLayer::setRefinement"
         "(const scalar, const indirectPrimitivePatch&"
@@ -708,14 +708,14 @@ void mousse::addPatchCellLayer::setRefinement
         << " at patch face " << i << abort(FatalError);
     }
   }
-  forAll(globalEdgeFaces, edgeI)
+  FOR_ALL(globalEdgeFaces, edgeI)
   {
     if (globalEdgeFaces[edgeI].size() > 2)
     {
       const edge& e = pp.edges()[edgeI];
       if (nPointLayers[e[0]] > 0 || nPointLayers[e[1]] > 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "addPatchCellLayer::setRefinement"
           "(const scalar, const indirectPrimitivePatch&"
@@ -743,12 +743,12 @@ void mousse::addPatchCellLayer::setRefinement
       UIndirectList<label>(n, meshPoints) = nPointLayers;
       syncTools::syncPointList(mesh_, n, maxEqOp<label>(), label(0));
       // Non-synced
-      forAll(meshPoints, i)
+      FOR_ALL(meshPoints, i)
       {
         label meshPointI = meshPoints[i];
         if (n[meshPointI] != nPointLayers[i])
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "addPatchCellLayer::setRefinement"
             "(const scalar, const indirectPrimitivePatch&"
@@ -765,10 +765,10 @@ void mousse::addPatchCellLayer::setRefinement
       // Check that nPointLayers equals the max layers of connected faces
       // (or 0). Anything else makes no sense.
       labelList nFromFace(mesh_.nPoints(), 0);
-      forAll(nFaceLayers, i)
+      FOR_ALL(nFaceLayers, i)
       {
         const face& f = pp[i];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label pointI = f[fp];
           nFromFace[pointI] = max(nFromFace[pointI], nFaceLayers[i]);
@@ -781,7 +781,7 @@ void mousse::addPatchCellLayer::setRefinement
         maxEqOp<label>(),
         label(0)
       );
-      forAll(nPointLayers, i)
+      FOR_ALL(nPointLayers, i)
       {
         label meshPointI = meshPoints[i];
         if
@@ -790,7 +790,7 @@ void mousse::addPatchCellLayer::setRefinement
         && nPointLayers[i] != nFromFace[meshPointI]
         )
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "addPatchCellLayer::setRefinement"
             "(const scalar, const indirectPrimitivePatch&"
@@ -815,12 +815,12 @@ void mousse::addPatchCellLayer::setRefinement
         minEqOp<vector>(),
         vector::max
       );
-      forAll(meshPoints, i)
+      FOR_ALL(meshPoints, i)
       {
         label meshPointI = meshPoints[i];
         if (mag(d[meshPointI] - firstLayerDisp[i]) > SMALL)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "addPatchCellLayer::setRefinement"
             "(const scalar, const indirectPrimitivePatch&"
@@ -851,7 +851,7 @@ void mousse::addPatchCellLayer::setRefinement
         // First check: pp should be single connected.
         if (eFaces.size() != 1)
         {
-          FatalErrorIn
+          FATAL_ERROR_IN
           (
             "addPatchCellLayer::setRefinement"
             "(const scalar, const indirectPrimitivePatch&"
@@ -870,7 +870,7 @@ void mousse::addPatchCellLayer::setRefinement
         // Check that there is only one patchface using edge.
         const polyBoundaryMesh& patches = mesh_.boundaryMesh();
         label bFaceI = -1;
-        forAll(meshFaces, i)
+        FOR_ALL(meshFaces, i)
         {
           label faceI = meshFaces[i];
           if (faceI != myFaceI)
@@ -883,7 +883,7 @@ void mousse::addPatchCellLayer::setRefinement
               }
               else
               {
-                FatalErrorIn
+                FATAL_ERROR_IN
                 (
                   "addPatchCellLayer::setRefinement"
                   "(const scalar"
@@ -912,7 +912,7 @@ void mousse::addPatchCellLayer::setRefinement
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   // Precalculated patchID for each patch face
   labelList patchID(pp.size());
-  forAll(pp, patchFaceI)
+  FOR_ALL(pp, patchFaceI)
   {
     label meshFaceI = pp.addressing()[patchFaceI];
     patchID[patchFaceI] = patches.whichPatch(meshFaceI);
@@ -922,7 +922,7 @@ void mousse::addPatchCellLayer::setRefinement
   addedPoints_.setSize(pp.nPoints());
   // Mark points that do not get extruded by setting size of addedPoints_ to 0
   label nTruncated = 0;
-  forAll(nPointLayers, patchPointI)
+  FOR_ALL(nPointLayers, patchPointI)
   {
     if (nPointLayers[patchPointI] > 0)
     {
@@ -946,7 +946,7 @@ void mousse::addPatchCellLayer::setRefinement
   if (!addToMesh_)
   {
     copiedPatchPoints.setSize(firstLayerDisp.size());
-    forAll(firstLayerDisp, patchPointI)
+    FOR_ALL(firstLayerDisp, patchPointI)
     {
       if (addedPoints_[patchPointI].size())
       {
@@ -966,7 +966,7 @@ void mousse::addPatchCellLayer::setRefinement
     }
   }
   // Create points for additional layers
-  forAll(firstLayerDisp, patchPointI)
+  FOR_ALL(firstLayerDisp, patchPointI)
   {
     if (addedPoints_[patchPointI].size())
     {
@@ -974,7 +974,7 @@ void mousse::addPatchCellLayer::setRefinement
       label zoneI = mesh_.pointZones().whichZone(meshPointI);
       point pt = mesh_.points()[meshPointI];
       vector disp = firstLayerDisp[patchPointI];
-      forAll(addedPoints_[patchPointI], i)
+      FOR_ALL(addedPoints_[patchPointI], i)
       {
         pt += disp;
         label addedVertI = meshMod.setAction
@@ -996,7 +996,7 @@ void mousse::addPatchCellLayer::setRefinement
   // Add cells to all boundaryFaces
   //
   labelListList addedCells(pp.size());
-  forAll(pp, patchFaceI)
+  FOR_ALL(pp, patchFaceI)
   {
     if (nFaceLayers[patchFaceI] > 0)
     {
@@ -1030,7 +1030,7 @@ void mousse::addPatchCellLayer::setRefinement
   // of increasing cell number. So orientation should be same as original
   // patch face for them to have owner<neighbour.
   layerFaces_.setSize(pp.size());
-  forAll(pp.localFaces(), patchFaceI)
+  FOR_ALL(pp.localFaces(), patchFaceI)
   {
     label meshFaceI = pp.addressing()[patchFaceI];
     if (addedCells[patchFaceI].size())
@@ -1039,9 +1039,9 @@ void mousse::addPatchCellLayer::setRefinement
       // Get duplicated vertices on the patch face.
       const face& f = pp.localFaces()[patchFaceI];
       face newFace(f.size());
-      forAll(addedCells[patchFaceI], i)
+      FOR_ALL(addedCells[patchFaceI], i)
       {
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           if (addedPoints_[f[fp]].empty())
           {
@@ -1109,7 +1109,7 @@ void mousse::addPatchCellLayer::setRefinement
   //
   if (addToMesh_)
   {
-    forAll(pp, patchFaceI)
+    FOR_ALL(pp, patchFaceI)
     {
       if (addedCells[patchFaceI].size())
       {
@@ -1137,7 +1137,7 @@ void mousse::addPatchCellLayer::setRefinement
   {
     // If creating new mesh: reverse original faces and put them
     // in the exposed patch ID.
-    forAll(pp, patchFaceI)
+    FOR_ALL(pp, patchFaceI)
     {
       if (nFaceLayers[patchFaceI] > 0)
       {
@@ -1151,7 +1151,7 @@ void mousse::addPatchCellLayer::setRefinement
         }
         // Reverse and renumber old patch face.
         face f(pp.localFaces()[patchFaceI].reverseFace());
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           f[fp] = copiedPatchPoints[f[fp]];
         }
@@ -1187,7 +1187,7 @@ void mousse::addPatchCellLayer::setRefinement
     // Use list over mesh.nEdges() since syncTools does not yet support
     // partial list synchronisation.
     labelList meshEdgeLayers(mesh_.nEdges(), -1);
-    forAll(meshEdges, edgeI)
+    FOR_ALL(meshEdges, edgeI)
     {
       const edge& e = edges[edgeI];
       label meshEdgeI = meshEdges[edgeI];
@@ -1198,7 +1198,7 @@ void mousse::addPatchCellLayer::setRefinement
       else
       {
         const labelList& eFaces = pp.edgeFaces()[edgeI];
-        forAll(eFaces, i)
+        FOR_ALL(eFaces, i)
         {
           meshEdgeLayers[meshEdgeI] = max
           (
@@ -1215,7 +1215,7 @@ void mousse::addPatchCellLayer::setRefinement
       maxEqOp<label>(),
       label(0)            // initial value
     );
-    forAll(meshEdges, edgeI)
+    FOR_ALL(meshEdges, edgeI)
     {
       edgeLayers[edgeI] = meshEdgeLayers[meshEdges[edgeI]];
     }
@@ -1224,10 +1224,10 @@ void mousse::addPatchCellLayer::setRefinement
   boolList doneEdge(pp.nEdges(), false);
   // Create faces. Per face walk connected edges and find string of edges
   // between the same two faces and extrude string into a single face.
-  forAll(pp, patchFaceI)
+  FOR_ALL(pp, patchFaceI)
   {
     const labelList& fEdges = faceEdges[patchFaceI];
-    forAll(fEdges, fp)
+    FOR_ALL(fEdges, fp)
     {
       // Get string of edges that needs to be extruded as a single face.
       // Returned as indices in fEdges.
@@ -1307,7 +1307,7 @@ void mousse::addPatchCellLayer::setRefinement
           // points of layer-1.
           if (i == 0)
           {
-            forAll(stringedVerts, stringedI)
+            FOR_ALL(stringedVerts, stringedI)
             {
               label v = stringedVerts[stringedI];
               addVertex
@@ -1324,7 +1324,7 @@ void mousse::addPatchCellLayer::setRefinement
           }
           else
           {
-            forAll(stringedVerts, stringedI)
+            FOR_ALL(stringedVerts, stringedI)
             {
               label v = stringedVerts[stringedI];
               if (addedPoints_[v].size())
@@ -1371,7 +1371,7 @@ void mousse::addPatchCellLayer::setRefinement
               }
             }
           }
-          forAllReverse(stringedVerts, stringedI)
+          FOR_ALL_REVERSE(stringedVerts, stringedI)
           {
             label v = stringedVerts[stringedI];
             if (addedPoints_[v].size())
@@ -1425,11 +1425,11 @@ void mousse::addPatchCellLayer::setRefinement
             if (debug)
             {
               labelHashSet verts(2*newFace.size());
-              forAll(newFace, fp)
+              FOR_ALL(newFace, fp)
               {
                 if (!verts.insert(newFace[fp]))
                 {
-                  FatalErrorIn
+                  FATAL_ERROR_IN
                   (
                     "addPatchCellLayer::setRefinement(..)"
                   )   << "Duplicate vertex in face"
@@ -1506,14 +1506,14 @@ void mousse::addPatchCellLayer::updateMesh
 {
   {
     labelListList newAddedPoints(pointMap.size());
-    forAll(newAddedPoints, newPointI)
+    FOR_ALL(newAddedPoints, newPointI)
     {
       label oldPointI = pointMap[newPointI];
       const labelList& added = addedPoints_[oldPointI];
       labelList& newAdded = newAddedPoints[newPointI];
       newAdded.setSize(added.size());
       label newI = 0;
-      forAll(added, i)
+      FOR_ALL(added, i)
       {
         label newPointI = morphMap.reversePointMap()[added[i]];
         if (newPointI >= 0)
@@ -1527,14 +1527,14 @@ void mousse::addPatchCellLayer::updateMesh
   }
   {
     labelListList newLayerFaces(faceMap.size());
-    forAll(newLayerFaces, newFaceI)
+    FOR_ALL(newLayerFaces, newFaceI)
     {
       label oldFaceI = faceMap[newFaceI];
       const labelList& added = layerFaces_[oldFaceI];
       labelList& newAdded = newLayerFaces[newFaceI];
       newAdded.setSize(added.size());
       label newI = 0;
-      forAll(added, i)
+      FOR_ALL(added, i)
       {
         label newFaceI = morphMap.reverseFaceMap()[added[i]];
         if (newFaceI >= 0)

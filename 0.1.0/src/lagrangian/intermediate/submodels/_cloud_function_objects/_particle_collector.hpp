@@ -157,7 +157,7 @@ protected:
     void write();
 public:
   //- Runtime type information
-  TypeName("particleCollector");
+  TYPE_NAME("particleCollector");
   // Constructors
     //- Construct from dictionary
     ParticleCollector
@@ -194,7 +194,13 @@ public:
       );
 };
 }  // namespace mousse
-#include "_particle_collector_i.hpp"
+
+template<class CloudType>
+inline const mousse::Switch&
+mousse::ParticleCollector<CloudType>::resetOnWrite() const
+{
+  return resetOnWrite_;
+}
 #ifdef NoRepository
 #   include "_particle_collector.cpp"
 #endif

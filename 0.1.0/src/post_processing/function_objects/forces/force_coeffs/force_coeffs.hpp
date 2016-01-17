@@ -84,17 +84,12 @@ class forceCoeffs
       scalar lRef_;
       //- Area
       scalar Aref_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    forceCoeffs(const forceCoeffs&);
-    //- Disallow default bitwise assignment
-    void operator=(const forceCoeffs&);
 protected:
   //- Output file header information
   virtual void writeFileHeader(const label i);
 public:
   //- Runtime type information
-  TypeName("forceCoeffs");
+  TYPE_NAME("forceCoeffs");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -105,6 +100,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    forceCoeffs(const forceCoeffs&) = delete;
+    //- Disallow default bitwise assignment
+    forceCoeffs& operator=(const forceCoeffs&) = delete;
   //- Destructor
   virtual ~forceCoeffs();
   // Member Functions

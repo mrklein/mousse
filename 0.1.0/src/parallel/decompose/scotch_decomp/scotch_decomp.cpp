@@ -23,8 +23,8 @@ extern "C"
 #endif
 namespace mousse
 {
-  defineTypeNameAndDebug(scotchDecomp, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(scotchDecomp, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     decompositionMethod,
     scotchDecomp,
@@ -36,7 +36,7 @@ void mousse::scotchDecomp::check(const int retVal, const char* str)
 {
   if (retVal)
   {
-    FatalErrorIn("scotchDecomp::decompose(..)")
+    FATAL_ERROR_IN("scotchDecomp::decompose(..)")
       << "Call to scotch routine " << str << " failed."
       << exit(FatalError);
   }
@@ -78,13 +78,13 @@ mousse::label mousse::scotchDecomp::decompose
       scalarField allWeights(globalCells.size());
       // Insert my own
       label nTotalCells = 0;
-      forAll(cWeights, cellI)
+      FOR_ALL(cWeights, cellI)
       {
         allXadj[nTotalCells] = xadj[cellI];
         allWeights[nTotalCells++] = cWeights[cellI];
       }
       nTotalConnections = 0;
-      forAll(adjncy, i)
+      FOR_ALL(adjncy, i)
       {
         allAdjncy[nTotalConnections++] = adjncy[i];
       }
@@ -96,13 +96,13 @@ mousse::label mousse::scotchDecomp::decompose
         scalarField nbrWeights(fromSlave);
         // Append.
         //label procStart = nTotalCells;
-        forAll(nbrXadj, cellI)
+        FOR_ALL(nbrXadj, cellI)
         {
           allXadj[nTotalCells] = nTotalConnections+nbrXadj[cellI];
           allWeights[nTotalCells++] = nbrWeights[cellI];
         }
         // No need to renumber xadj since already global.
-        forAll(nbrAdjncy, i)
+        FOR_ALL(nbrAdjncy, i)
         {
           allAdjncy[nTotalConnections++] = nbrAdjncy[i];
         }
@@ -226,7 +226,7 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   {
     if (minWeights <= 0)
     {
-      WarningIn
+      WARNING_IN
       (
         "scotchDecomp::decompose(...)"
       )   << "Illegal minimum weight " << minWeights
@@ -234,7 +234,7 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
     }
     if (cWeights.size() != xadj.size()-1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "scotchDecomp::decompose(...)"
       )   << "Number of cell weights " << cWeights.size()
@@ -248,7 +248,7 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
       // 0.9 factor of safety to avoid floating point round-off in
       // rangeScale tipping the subsequent sum over the integer limit.
       rangeScale = 0.9*scalar(labelMax - 1)/velotabSum;
-      WarningIn
+      WARNING_IN
       (
         "scotchDecomp::decompose(...)"
       )   << "Sum of weights has overflowed integer: " << velotabSum
@@ -257,7 +257,7 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
     }
     // Convert to integers.
     velotab.setSize(cWeights.size());
-    forAll(velotab, i)
+    FOR_ALL(velotab, i)
     {
       velotab[i] = int((cWeights[i]/minWeights - 1)*rangeScale) + 1;
     }
@@ -411,7 +411,7 @@ mousse::labelList mousse::scotchDecomp::decompose
 {
   if (points.size() != mesh.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "scotchDecomp::decompose(const polyMesh&, const pointField&"
       ", const scalarField&)"
@@ -444,7 +444,7 @@ mousse::labelList mousse::scotchDecomp::decompose
   );
   // Copy back to labelList
   labelList decomp(finalDecomp.size());
-  forAll(decomp, i)
+  FOR_ALL(decomp, i)
   {
     decomp[i] = finalDecomp[i];
   }
@@ -460,7 +460,7 @@ mousse::labelList mousse::scotchDecomp::decompose
 {
   if (agglom.size() != mesh.nCells())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "scotchDecomp::decompose"
       "(const polyMesh&, const labelList&, const pointField&"
@@ -491,7 +491,7 @@ mousse::labelList mousse::scotchDecomp::decompose
   );
   // Rework back into decomposition for original mesh_
   labelList fineDistribution(agglom.size());
-  forAll(fineDistribution, i)
+  FOR_ALL(fineDistribution, i)
   {
     fineDistribution[i] = finalDecomp[agglom[i]];
   }
@@ -506,7 +506,7 @@ mousse::labelList mousse::scotchDecomp::decompose
 {
   if (cellCentres.size() != globalCellCells.size())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "scotchDecomp::decompose"
       "(const labelListList&, const pointField&, const scalarField&)"
@@ -530,7 +530,7 @@ mousse::labelList mousse::scotchDecomp::decompose
   );
   // Copy back to labelList
   labelList decomp(finalDecomp.size());
-  forAll(decomp, i)
+  FOR_ALL(decomp, i)
   {
     decomp[i] = finalDecomp[i];
   }

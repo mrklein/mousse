@@ -55,7 +55,7 @@ class Gulders
     void operator=(const Gulders&);
 public:
   //- Runtime type information
-  TypeName("Gulders");
+  TYPE_NAME("Gulders");
   // Constructors
     //- Construct from dictionary and psiuReactionThermo
     Gulders

@@ -54,7 +54,7 @@ void mousse::PairCollisionRecord<Type>::operator=
   // Check for assignment to self
   if (this == &rhs)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::PairCollisionRecord<Type>::operator="
       "(const mousse::PairCollisionRecord<Type>&)"

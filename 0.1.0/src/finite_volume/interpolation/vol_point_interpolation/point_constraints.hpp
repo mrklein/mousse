@@ -14,12 +14,15 @@
 // SourceFiles
 //   point_constraints.cpp
 //   point_constraints_templates.cpp
+//
 #ifndef point_constraints_hpp_
 #define point_constraints_hpp_
+
 #include "_mesh_object.hpp"
 #include "tensor_field.hpp"
 #include "point_fields_fwd.hpp"
 #include "point_constraint.hpp"
+
 namespace mousse
 {
 class pointMesh;
@@ -39,16 +42,16 @@ class pointConstraints
   // Private Member Functions
     //- Make patch-patch constraints
     void makePatchPatchAddressing();
-    //- Disallow default bitwise copy construct
-    pointConstraints(const pointConstraints&);
-    //- Disallow default bitwise assignment
-    void operator=(const pointConstraints&);
 public:
   // Declare name of the class and its debug switch
-  ClassName("pointConstraints");
+  CLASS_NAME("pointConstraints");
   // Constructors
     //- Constructor from pointMesh.
     explicit pointConstraints(const pointMesh&);
+    //- Disallow default bitwise copy construct
+    pointConstraints(const pointConstraints&) = delete;
+    //- Disallow default bitwise assignment
+    pointConstraints& operator=(const pointConstraints&) = delete;
   //- Destructor
   ~pointConstraints();
   // Member functions
@@ -115,6 +118,7 @@ public:
         const bool overrideValue = false
       ) const;
 };
+
 template<>
 void pointConstraints::constrainCorners<scalar>
 (
@@ -126,6 +130,7 @@ void pointConstraints::constrainCorners<label>
   GeometricField<label, pointPatchField, pointMesh>& pf
 ) const;
 }  // namespace mousse
+
 #ifdef NoRepository
 #   include "point_constraints_templates.cpp"
 #endif

@@ -69,7 +69,7 @@ mousse::fv::fourthGrad<Type>::calcGrad
   const labelUList& nei = mesh.neighbour();
   // Assemble the fourth-order gradient
   // Internal faces
-  forAll(own, facei)
+  FOR_ALL(own, facei)
   {
     Type dDotGradDelta = 0.5*
     (
@@ -80,7 +80,7 @@ mousse::fv::fourthGrad<Type>::calcGrad
     fGrad[nei[facei]] -= (1.0 - lambda[facei])*neiLs[facei]*dDotGradDelta;
   }
   // Boundary faces
-  forAll(vsf.boundaryField(), patchi)
+  FOR_ALL(vsf.boundaryField(), patchi)
   {
     if (secondfGrad.boundaryField()[patchi].coupled())
     {
@@ -95,7 +95,7 @@ mousse::fv::fourthGrad<Type>::calcGrad
       (
         secondfGrad.boundaryField()[patchi].patchNeighbourField()
       );
-      forAll(faceCells, patchFaceI)
+      FOR_ALL(faceCells, patchFaceI)
       {
         fGrad[faceCells[patchFaceI]] -=
           0.5*lambdap[patchFaceI]*patchOwnLs[patchFaceI]

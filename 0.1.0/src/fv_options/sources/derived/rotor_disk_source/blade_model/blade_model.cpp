@@ -82,7 +82,7 @@ mousse::bladeModel::bladeModel(const dictionary& dict)
     radius_.setSize(data.size());
     twist_.setSize(data.size());
     chord_.setSize(data.size());
-    forAll(data, i)
+    FOR_ALL(data, i)
     {
       profileName_[i] = data[i].first();
       profileID_[i] = -1;
@@ -93,7 +93,7 @@ mousse::bladeModel::bladeModel(const dictionary& dict)
   }
   else
   {
-    FatalErrorIn("mousse::bladeModel::bladeModel(const dictionary&)")
+    FATAL_ERROR_IN("mousse::bladeModel::bladeModel(const dictionary&)")
       << "No blade data specified" << exit(FatalError);
   }
 }

@@ -20,7 +20,7 @@ mousse::barotropicCompressibilityModel::New
     dictionaryConstructorTablePtr_->find(modelType);
   if (cstrIter == dictionaryConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "barotropicCompressibilityModel::New(const volScalarField&)"
     )   << "Unknown barotropicCompressibilityModel type "

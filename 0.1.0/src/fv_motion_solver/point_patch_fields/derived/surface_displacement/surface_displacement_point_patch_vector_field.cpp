@@ -59,7 +59,7 @@ void surfaceDisplacementPointPatchVectorField::calcProjection
     "dynamicMeshDict"
   ).points0();
   pointField start(meshPoints.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     start[i] = points0[meshPoints[i]] + displacement[i];
   }
@@ -75,7 +75,7 @@ void surfaceDisplacementPointPatchVectorField::calcProjection
       hitSurfaces,
       nearest
     );
-    forAll(nearest, i)
+    FOR_ALL(nearest, i)
     {
       if (zonePtr && (zonePtr->whichPoint(meshPoints[i]) >= 0))
       {
@@ -127,7 +127,7 @@ void surfaceDisplacementPointPatchVectorField::calcProjection
     scalarField offset(start.size(), 0.0);
     if (wedgePlane_ >= 0 && wedgePlane_ <= vector::nComponents)
     {
-      forAll(offset, i)
+      FOR_ALL(offset, i)
       {
         offset[i] = start[i][wedgePlane_];
         start[i][wedgePlane_] = 0;
@@ -157,7 +157,7 @@ void surfaceDisplacementPointPatchVectorField::calcProjection
       );
     }
     // 3. Choose either -fixed, nearest, right, left.
-    forAll(displacement, i)
+    FOR_ALL(displacement, i)
     {
       if (zonePtr && (zonePtr->whichPoint(meshPoints[i]) >= 0))
       {
@@ -244,11 +244,11 @@ surfaceDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchVectorField(p, iF),
-  velocity_(vector::zero),
-  projectMode_(NEAREST),
-  projectDir_(vector::zero),
-  wedgePlane_(-1)
+  fixedValuePointPatchVectorField{p, iF},
+  velocity_{vector::zero},
+  projectMode_{NEAREST},
+  projectDir_{vector::zero},
+  wedgePlane_{-1}
 {}
 surfaceDisplacementPointPatchVectorField::
 surfaceDisplacementPointPatchVectorField
@@ -258,17 +258,17 @@ surfaceDisplacementPointPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValuePointPatchVectorField(p, iF, dict),
-  velocity_(dict.lookup("velocity")),
-  surfacesDict_(dict.subDict("geometry")),
-  projectMode_(projectModeNames_.read(dict.lookup("projectMode"))),
-  projectDir_(dict.lookup("projectDirection")),
-  wedgePlane_(dict.lookupOrDefault("wedgePlane", -1)),
-  frozenPointsZone_(dict.lookupOrDefault("frozenPointsZone", word::null))
+  fixedValuePointPatchVectorField{p, iF, dict},
+  velocity_{dict.lookup("velocity")},
+  surfacesDict_{dict.subDict("geometry")},
+  projectMode_{projectModeNames_.read(dict.lookup("projectMode"))},
+  projectDir_{dict.lookup("projectDirection")},
+  wedgePlane_{dict.lookupOrDefault("wedgePlane", -1)},
+  frozenPointsZone_{dict.lookupOrDefault("frozenPointsZone", word::null)}
 {
   if (velocity_.x() < 0 || velocity_.y() < 0 || velocity_.z() < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "surfaceDisplacementPointPatchVectorField::\n"
       "surfaceDisplacementPointPatchVectorField\n"
@@ -277,10 +277,11 @@ surfaceDisplacementPointPatchVectorField
       "    const DimensionedField<vector, pointMesh>& iF,\n"
       "    const dictionary& dict\n"
       ")\n"
-    )   << "All components of velocity have to be positive : "
-      << velocity_ << nl
-      << "Set velocity components to a great value if no clipping"
-      << " necessary." << exit(FatalError);
+    )
+    << "All components of velocity have to be positive : "
+    << velocity_ << nl
+    << "Set velocity components to a great value if no clipping"
+    << " necessary." << exit(FatalError);
   }
 }
 surfaceDisplacementPointPatchVectorField::
@@ -292,13 +293,13 @@ surfaceDisplacementPointPatchVectorField
   const pointPatchFieldMapper& mapper
 )
 :
-  fixedValuePointPatchVectorField(ppf, p, iF, mapper),
-  velocity_(ppf.velocity_),
-  surfacesDict_(ppf.surfacesDict_),
-  projectMode_(ppf.projectMode_),
-  projectDir_(ppf.projectDir_),
-  wedgePlane_(ppf.wedgePlane_),
-  frozenPointsZone_(ppf.frozenPointsZone_)
+  fixedValuePointPatchVectorField{ppf, p, iF, mapper},
+  velocity_{ppf.velocity_},
+  surfacesDict_{ppf.surfacesDict_},
+  projectMode_{ppf.projectMode_},
+  projectDir_{ppf.projectDir_},
+  wedgePlane_{ppf.wedgePlane_},
+  frozenPointsZone_{ppf.frozenPointsZone_}
 {}
 surfaceDisplacementPointPatchVectorField::
 surfaceDisplacementPointPatchVectorField
@@ -306,13 +307,13 @@ surfaceDisplacementPointPatchVectorField
   const surfaceDisplacementPointPatchVectorField& ppf
 )
 :
-  fixedValuePointPatchVectorField(ppf),
-  velocity_(ppf.velocity_),
-  surfacesDict_(ppf.surfacesDict_),
-  projectMode_(ppf.projectMode_),
-  projectDir_(ppf.projectDir_),
-  wedgePlane_(ppf.wedgePlane_),
-  frozenPointsZone_(ppf.frozenPointsZone_)
+  fixedValuePointPatchVectorField{ppf},
+  velocity_{ppf.velocity_},
+  surfacesDict_{ppf.surfacesDict_},
+  projectMode_{ppf.projectMode_},
+  projectDir_{ppf.projectDir_},
+  wedgePlane_{ppf.wedgePlane_},
+  frozenPointsZone_{ppf.frozenPointsZone_}
 {}
 surfaceDisplacementPointPatchVectorField::
 surfaceDisplacementPointPatchVectorField
@@ -321,13 +322,13 @@ surfaceDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchVectorField(ppf, iF),
-  velocity_(ppf.velocity_),
-  surfacesDict_(ppf.surfacesDict_),
-  projectMode_(ppf.projectMode_),
-  projectDir_(ppf.projectDir_),
-  wedgePlane_(ppf.wedgePlane_),
-  frozenPointsZone_(ppf.frozenPointsZone_)
+  fixedValuePointPatchVectorField{ppf, iF},
+  velocity_{ppf.velocity_},
+  surfacesDict_{ppf.surfacesDict_},
+  projectMode_{ppf.projectMode_},
+  projectDir_{ppf.projectDir_},
+  wedgePlane_{ppf.wedgePlane_},
+  frozenPointsZone_{ppf.frozenPointsZone_}
 {}
 // Member Functions 
 const searchableSurfaces&
@@ -338,19 +339,19 @@ surfaceDisplacementPointPatchVectorField::surfaces() const
     surfacesPtr_.reset
     (
       new searchableSurfaces
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "abc",                              // dummy name
           db().time().constant(),             // directory
           "triSurface",                       // instance
           db().time(),                        // registry
           IOobject::MUST_READ,
           IOobject::NO_WRITE
-        ),
+        },
         surfacesDict_,
         true                // allow single-region shortcut
-      )
+      }
     );
   }
   return surfacesPtr_();
@@ -371,7 +372,7 @@ void surfaceDisplacementPointPatchVectorField::updateCoeffs()
   // Clip offset to maximum displacement possible: velocity*timestep
   const scalar deltaT = mesh.time().deltaTValue();
   const vector clipVelocity = velocity_*deltaT;
-  forAll(displacement, i)
+  FOR_ALL(displacement, i)
   {
     vector& d = offset[i];
     for (direction cmpt = 0; cmpt < vector::nComponents; cmpt++)
@@ -408,7 +409,7 @@ void surfaceDisplacementPointPatchVectorField::write(Ostream& os) const
       << token::END_STATEMENT << nl;
   }
 }
-makePointPatchTypeField
+MAKE_POINT_PATCH_TYPE_FIELD
 (
   fixedValuePointPatchVectorField,
   surfaceDisplacementPointPatchVectorField

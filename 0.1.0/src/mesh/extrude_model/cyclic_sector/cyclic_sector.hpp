@@ -20,7 +20,7 @@ class cyclicSector
 {
 public:
   //- Runtime type information
-  TypeName("cyclicSector");
+  TYPE_NAME("cyclicSector");
   // Constructors
     //- Construct from dictionary
     cyclicSector(const dictionary& dict);

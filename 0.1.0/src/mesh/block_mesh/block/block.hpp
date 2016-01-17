@@ -41,10 +41,6 @@ class block
     void createCells() const;
     //- Creates boundary patch faces for the block
     void createBoundary() const;
-    //- Disallow default bitwise copy construct
-    block(const block&);
-    //- Disallow default bitwise assignment
-    void operator=(const block&);
 public:
   // Constructors
     //- Construct from components with Istream
@@ -59,9 +55,13 @@ public:
     //- Clone
     autoPtr<block> clone() const
     {
-      notImplemented("block::clone()");
-      return autoPtr<block>(NULL);
+      NOT_IMPLEMENTED("block::clone()");
+      return autoPtr<block>{NULL};
     }
+    //- Disallow default bitwise copy construct
+    block(const block&) = delete;
+    //- Disallow default bitwise assignment
+    block& operator=(const block&) = delete;
   //- Destructor
   ~block();
   // Member Functions
@@ -83,5 +83,20 @@ public:
     friend Ostream& operator<<(Ostream&, const block&);
 };
 }  // namespace mousse
-#include "block_i.hpp"
+
+// Private Member Functions 
+inline mousse::label mousse::block::vtxLabel(label i, label j, label k) const
+{
+  return
+  (
+    i
+    + j*(meshDensity().x() + 1)
+    + k*(meshDensity().x() + 1)*(meshDensity().y() + 1)
+  );
+}
+// Member Functions 
+inline const mousse::blockDescriptor& mousse::block::blockDef() const
+{
+  return *this;
+}
 #endif

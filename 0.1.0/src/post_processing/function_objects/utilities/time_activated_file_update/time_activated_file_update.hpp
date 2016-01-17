@@ -57,13 +57,9 @@ class timeActivatedFileUpdate
   // Private Member Functions
     //- Update file
     void updateFile();
-    //- Disallow default bitwise copy construct
-    timeActivatedFileUpdate(const timeActivatedFileUpdate&);
-    //- Disallow default bitwise assignment
-    void operator=(const timeActivatedFileUpdate&);
 public:
   //- Runtime type information
-  TypeName("timeActivatedFileUpdate");
+  TYPE_NAME("timeActivatedFileUpdate");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -74,6 +70,13 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    timeActivatedFileUpdate(const timeActivatedFileUpdate&) = delete;
+    //- Disallow default bitwise assignment
+    timeActivatedFileUpdate& operator=
+    (
+      const timeActivatedFileUpdate&
+    ) = delete;
   //- Destructor
   virtual ~timeActivatedFileUpdate();
   // Member Functions

@@ -28,7 +28,7 @@ class plane
     vector normal_;
 public:
   //- Runtime type information
-  TypeName("plane");
+  TYPE_NAME("plane");
   // Constructors
     //- Construct from components
     plane

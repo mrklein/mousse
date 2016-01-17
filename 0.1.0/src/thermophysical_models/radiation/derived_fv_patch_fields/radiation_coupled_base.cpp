@@ -11,7 +11,7 @@
 // Static Member Data 
 namespace mousse
 {
-  defineTypeNameAndDebug(radiationCoupledBase, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(radiationCoupledBase, 0);
 }
 namespace mousse
 {
@@ -67,7 +67,7 @@ mousse::radiationCoupledBase::radiationCoupledBase
     {
       if (!isA<mappedPatchBase>(patch_.patch()))
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "radiationCoupledBase::radiationCoupledBase\n"
           "(\n"
@@ -87,7 +87,7 @@ mousse::radiationCoupledBase::radiationCoupledBase
     {
       if (!dict.found("emissivity"))
       {
-        FatalIOErrorIn
+        FATAL_IO_ERROR_IN
         (
           "radiationCoupledBase::radiationCoupledBase\n"
           "(\n"
@@ -147,7 +147,7 @@ mousse::scalarField mousse::radiationCoupledBase::emissivity() const
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "radiationCoupledBase::emissivity(const scalarField&)"
       )   << "Unimplemented method " << method_ << endl

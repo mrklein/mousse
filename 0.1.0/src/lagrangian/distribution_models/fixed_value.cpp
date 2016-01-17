@@ -9,8 +9,8 @@ namespace mousse
 {
   namespace distributionModels
   {
-    defineTypeNameAndDebug(fixedValue, 0);
-    addToRunTimeSelectionTable(distributionModel, fixedValue, dictionary);
+    DEFINE_TYPE_NAME_AND_DEBUG(fixedValue, 0);
+    ADD_TO_RUN_TIME_SELECTION_TABLE(distributionModel, fixedValue, dictionary);
   }
 }
 // Constructors 

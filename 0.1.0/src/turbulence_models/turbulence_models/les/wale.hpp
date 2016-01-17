@@ -40,10 +40,6 @@ class WALE
 :
   public LESeddyViscosity<BasicTurbulenceModel>
 {
-  // Private Member Functions
-    // Disallow default bitwise copy construct and assignment
-    WALE(const WALE&);
-    WALE& operator=(const WALE&);
 protected:
   // Protected data
     dimensionedScalar Ck_;
@@ -62,7 +58,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("WALE");
+  TYPE_NAME("WALE");
   // Constructors
     //- Construct from components
     WALE
@@ -76,6 +72,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    WALE(const WALE&) = delete;
+    WALE& operator=(const WALE&) = delete;
   //- Destructor
   virtual ~WALE()
   {}

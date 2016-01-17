@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(treeDataEdge, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(treeDataEdge, 0);
 }
 // Private Member Functions 
 mousse::treeBoundBox mousse::treeDataEdge::calcBb(const label edgeI) const
@@ -22,7 +22,7 @@ void mousse::treeDataEdge::update()
   if (cacheBb_)
   {
     bbs_.setSize(edgeLabels_.size());
-    forAll(edgeLabels_, i)
+    FOR_ALL(edgeLabels_, i)
     {
       bbs_[i] = calcBb(edgeLabels_[i]);
     }
@@ -68,14 +68,14 @@ mousse::treeDataEdge::findNearestOp::findNearestOp
 {}
 mousse::treeDataEdge::findIntersectOp::findIntersectOp
 (
-  const indexedOctree<treeDataEdge>& tree
+  const indexedOctree<treeDataEdge>&
 )
 {}
 // Member Functions 
 mousse::pointField mousse::treeDataEdge::shapePoints() const
 {
   pointField eMids(edgeLabels_.size());
-  forAll(edgeLabels_, i)
+  FOR_ALL(edgeLabels_, i)
   {
     const edge& e = edges_[edgeLabels_[i]];
     eMids[i] = e.centre(points_);
@@ -86,8 +86,8 @@ mousse::pointField mousse::treeDataEdge::shapePoints() const
 //  Only makes sense for closed surfaces.
 mousse::volumeType mousse::treeDataEdge::getVolumeType
 (
-  const indexedOctree<treeDataEdge>& oc,
-  const point& sample
+  const indexedOctree<treeDataEdge>&,
+  const point& /*sample*/
 ) const
 {
   return volumeType::UNKNOWN;
@@ -132,7 +132,7 @@ void mousse::treeDataEdge::findNearestOp::operator()
 ) const
 {
   const treeDataEdge& shape = tree_.shapes();
-  forAll(indices, i)
+  FOR_ALL(indices, i)
   {
     const label index = indices[i];
     const edge& e = shape.edges()[shape.edgeLabels()[index]];
@@ -159,7 +159,7 @@ void mousse::treeDataEdge::findNearestOp::operator()
   const treeDataEdge& shape = tree_.shapes();
   // Best so far
   scalar nearestDistSqr = magSqr(linePoint - nearestPoint);
-  forAll(indices, i)
+  FOR_ALL(indices, i)
   {
     const label index = indices[i];
     const edge& e = shape.edges()[shape.edgeLabels()[index]];
@@ -193,13 +193,13 @@ void mousse::treeDataEdge::findNearestOp::operator()
 }
 bool mousse::treeDataEdge::findIntersectOp::operator()
 (
-  const label index,
-  const point& start,
-  const point& end,
-  point& result
+  const label /*index*/,
+  const point& /*start*/,
+  const point& /*end*/,
+  point& /*result*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "treeDataEdge::intersects(const label, const point&,"
     "const point&, point&)"

@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace TimeScaleModels
 {
-  defineTypeNameAndDebug(isotropic, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(isotropic, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     TimeScaleModel,
     isotropic,
@@ -41,8 +41,8 @@ mousse::tmp<mousse::FieldField<mousse::Field, mousse::scalar> >
 mousse::TimeScaleModels::isotropic::oneByTau
 (
   const FieldField<Field, scalar>& alpha,
-  const FieldField<Field, scalar>& r32,
-  const FieldField<Field, scalar>& uSqr,
+  const FieldField<Field, scalar>& /*r32*/,
+  const FieldField<Field, scalar>& /*uSqr*/,
   const FieldField<Field, scalar>& f
 ) const
 {

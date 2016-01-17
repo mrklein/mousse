@@ -13,8 +13,8 @@ namespace incompressible
 namespace RASModels
 {
 // Static Data Members
-defineTypeNameAndDebug(kkLOmega, 0);
-addToRunTimeSelectionTable(RASModel, kkLOmega, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(kkLOmega, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(RASModel, kkLOmega, dictionary);
 // Private Member Functions 
 tmp<volScalarField> kkLOmega::fv(const volScalarField& Ret) const
 {
@@ -162,7 +162,7 @@ void kkLOmega::correctNut()
 {
   // Currently this function is not implemented due to the complexity of
   // evaluating nut.  Better calculate nut at the end of correct()
-  notImplemented("kkLOmega::correctNut()");
+  NOT_IMPLEMENTED("kkLOmega::correctNut()");
 }
 // Constructors 
 kkLOmega::kkLOmega

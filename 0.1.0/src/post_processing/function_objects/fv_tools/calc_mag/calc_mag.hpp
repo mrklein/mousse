@@ -52,13 +52,9 @@ class calcMag
       const word& resultName,
       bool& processed
     );
-    //- Disallow default bitwise copy construct
-    calcMag(const calcMag&);
-    //- Disallow default bitwise assignment
-    void operator=(const calcMag&);
 public:
   //- Runtime type information
-  TypeName("calcMag");
+  TYPE_NAME("calcMag");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -69,6 +65,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    calcMag(const calcMag&) = delete;
+    //- Disallow default bitwise assignment
+    calcMag& operator=(const calcMag&) = delete;
   //- Destructor
   virtual ~calcMag();
   // Member Functions

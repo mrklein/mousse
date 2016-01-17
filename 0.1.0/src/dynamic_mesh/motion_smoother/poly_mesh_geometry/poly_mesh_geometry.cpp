@@ -11,7 +11,7 @@
 #include "primitive_mesh_tools.hpp"
 namespace mousse
 {
-defineTypeNameAndDebug(polyMeshGeometry, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(polyMeshGeometry, 0);
 }
 // Private Member Functions 
 void mousse::polyMeshGeometry::updateFaceCentresAndAreas
@@ -21,7 +21,7 @@ void mousse::polyMeshGeometry::updateFaceCentresAndAreas
 )
 {
   const faceList& fs = mesh_.faces();
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label facei = changedFaces[i];
     const labelList& f = fs[facei];
@@ -75,7 +75,7 @@ void mousse::polyMeshGeometry::updateCellCentresAndVols
   UIndirectList<vector>(cEst, changedCells) = vector::zero;
   scalarField nCellFaces(mesh_.nCells());
   UIndirectList<scalar>(nCellFaces, changedCells) = 0.0;
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label faceI = changedFaces[i];
     cEst[own[faceI]] += faceCentres_[faceI];
@@ -86,12 +86,12 @@ void mousse::polyMeshGeometry::updateCellCentresAndVols
       nCellFaces[nei[faceI]] += 1;
     }
   }
-  forAll(changedCells, i)
+  FOR_ALL(changedCells, i)
   {
     label cellI = changedCells[i];
     cEst[cellI] /= nCellFaces[cellI];
   }
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label faceI = changedFaces[i];
     // Calculate 3*face-pyramid volume
@@ -124,7 +124,7 @@ void mousse::polyMeshGeometry::updateCellCentresAndVols
       cellVolumes_[nei[faceI]] += pyr3Vol;
     }
   }
-  forAll(changedCells, i)
+  FOR_ALL(changedCells, i)
   {
     label cellI = changedCells[i];
     cellCentres_[cellI] /= cellVolumes_[cellI] + VSMALL;
@@ -140,7 +140,7 @@ mousse::labelList mousse::polyMeshGeometry::affectedCells
   const labelList& own = mesh.faceOwner();
   const labelList& nei = mesh.faceNeighbour();
   labelHashSet affectedCells(2*changedFaces.size());
-  forAll(changedFaces, i)
+  FOR_ALL(changedFaces, i)
   {
     label faceI = changedFaces[i];
     affectedCells.insert(own[faceI]);
@@ -191,7 +191,7 @@ mousse::scalar mousse::polyMeshGeometry::checkNonOrtho
       // Non-orthogonality greater than 90 deg
       if (report)
       {
-        WarningIn
+        WARNING_IN
         (
           "polyMeshGeometry::checkFaceDotProduct"
           "(const bool, const scalar, const labelList&"
@@ -227,7 +227,7 @@ bool mousse::polyMeshGeometry::checkFaceTet
 )
 {
   const face& f = mesh.faces()[faceI];
-  forAll(f, fp)
+  FOR_ALL(f, fp)
   {
     scalar tetQual = tetPointRef
     (
@@ -320,7 +320,7 @@ bool mousse::polyMeshGeometry::checkFaceDotProduct
   label nDDotS = 0;
   label severeNonOrth = 0;
   label errorNonOrth = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     const point& ownCc = cellCentres[own[faceI]];
@@ -371,7 +371,7 @@ bool mousse::polyMeshGeometry::checkFaceDotProduct
       }
     }
   }
-  forAll(baffles, i)
+  FOR_ALL(baffles, i)
   {
     label face0 = baffles[i].first();
     label face1 = baffles[i].second();
@@ -424,7 +424,7 @@ bool mousse::polyMeshGeometry::checkFaceDotProduct
   {
     if (report)
     {
-      SeriousErrorIn
+      SERIOUS_ERROR_IN
       (
         "polyMeshGeometry::checkFaceDotProduct"
         "(const bool, const scalar, const labelList&, labelHashSet*)"
@@ -458,7 +458,7 @@ bool mousse::polyMeshGeometry::checkFacePyramids
   const labelList& nei = mesh.faceNeighbour();
   const faceList& f = mesh.faces();
   label nErrorPyrs = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     // Create the owner pyramid - it will have negative volume
@@ -516,7 +516,7 @@ bool mousse::polyMeshGeometry::checkFacePyramids
       }
     }
   }
-  forAll(baffles, i)
+  FOR_ALL(baffles, i)
   {
     label face0 = baffles[i].first();
     label face1 = baffles[i].second();
@@ -578,7 +578,7 @@ bool mousse::polyMeshGeometry::checkFacePyramids
   {
     if (report)
     {
-      SeriousErrorIn
+      SERIOUS_ERROR_IN
       (
         "polyMeshGeometry::checkFacePyramids("
         "const bool, const scalar, const pointField&"
@@ -623,7 +623,7 @@ bool mousse::polyMeshGeometry::checkFaceTets
   }
   syncTools::swapBoundaryFacePositions(mesh, neiCc);
   label nErrorTets = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     // Create the owner pyramid - note: exchange cell and face centre
@@ -725,7 +725,7 @@ bool mousse::polyMeshGeometry::checkFaceTets
       }
     }
   }
-  forAll(baffles, i)
+  FOR_ALL(baffles, i)
   {
     label face0 = baffles[i].first();
     label face1 = baffles[i].second();
@@ -784,7 +784,7 @@ bool mousse::polyMeshGeometry::checkFaceTets
   {
     if (report)
     {
-      SeriousErrorIn
+      SERIOUS_ERROR_IN
       (
         "polyMeshGeometry::checkFaceTets("
         "const bool, const scalar, const pointField&, const pointField&"
@@ -828,7 +828,7 @@ bool mousse::polyMeshGeometry::checkFaceSkewness
   syncTools::swapBoundaryCellPositions(mesh, cellCentres, neiCc);
   scalar maxSkew = 0;
   label nWarnSkew = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     if (mesh.isInternalFace(faceI))
@@ -921,7 +921,7 @@ bool mousse::polyMeshGeometry::checkFaceSkewness
       maxSkew = max(maxSkew, skewness);
     }
   }
-  forAll(baffles, i)
+  FOR_ALL(baffles, i)
   {
     label face0 = baffles[i].first();
     label face1 = baffles[i].second();
@@ -961,7 +961,7 @@ bool mousse::polyMeshGeometry::checkFaceSkewness
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkFaceSkewness"
         "(const bool, const scalar, const labelList&, labelHashSet*)"
@@ -1009,7 +1009,7 @@ bool mousse::polyMeshGeometry::checkFaceWeights
   syncTools::swapBoundaryFacePositions(mesh, neiCc);
   scalar minWeight = GREAT;
   label nWarnWeight = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     const point& fc = faceCentres[faceI];
@@ -1058,7 +1058,7 @@ bool mousse::polyMeshGeometry::checkFaceWeights
       }
     }
   }
-  forAll(baffles, i)
+  FOR_ALL(baffles, i)
   {
     label face0 = baffles[i].first();
     label face1 = baffles[i].second();
@@ -1089,7 +1089,7 @@ bool mousse::polyMeshGeometry::checkFaceWeights
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkFaceWeights"
         "(const bool, const scalar, const labelList&, labelHashSet*)"
@@ -1134,7 +1134,7 @@ bool mousse::polyMeshGeometry::checkVolRatio
   syncTools::swapBoundaryFaceList(mesh, neiVols);
   scalar minRatio = GREAT;
   label nWarnRatio = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     scalar ownVol = mag(cellVolumes[own[faceI]]);
@@ -1170,7 +1170,7 @@ bool mousse::polyMeshGeometry::checkVolRatio
       minRatio = min(minRatio, ratio);
     }
   }
-  forAll(baffles, i)
+  FOR_ALL(baffles, i)
   {
     label face0 = baffles[i].first();
     label face1 = baffles[i].second();
@@ -1201,7 +1201,7 @@ bool mousse::polyMeshGeometry::checkVolRatio
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkVolRatio"
         "(const bool, const scalar, const labelList&, labelHashSet*)"
@@ -1239,7 +1239,7 @@ bool mousse::polyMeshGeometry::checkFaceAngles
 {
   if (maxDeg < -SMALL || maxDeg > 180+SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "polyMeshGeometry::checkFaceAngles"
       "(const bool, const scalar, const pointField&, const labelList&"
@@ -1252,7 +1252,7 @@ bool mousse::polyMeshGeometry::checkFaceAngles
   scalar maxEdgeSin = 0.0;
   label nConcave = 0;
   label errorFaceI = -1;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     const face& f = fcs[faceI];
@@ -1262,7 +1262,7 @@ bool mousse::polyMeshGeometry::checkFaceAngles
     vector ePrev(p[f.first()] - p[f.last()]);
     scalar magEPrev = mag(ePrev);
     ePrev /= magEPrev + VSMALL;
-    forAll(f, fp0)
+    FOR_ALL(f, fp0)
     {
       // Get vertex after fp
       label fp1 = f.fcIndex(fp0);
@@ -1325,7 +1325,7 @@ bool mousse::polyMeshGeometry::checkFaceAngles
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkFaceAngles"
         "(const bool, const scalar,  const pointField&"
@@ -1349,7 +1349,7 @@ bool mousse::polyMeshGeometry::checkFaceTwist
   const scalar minTwist,
   const polyMesh& mesh,
   const vectorField& cellCentres,
-  const vectorField& faceAreas,
+  const vectorField& /*faceAreas*/,
   const vectorField& faceCentres,
   const pointField& p,
   const labelList& checkFaces,
@@ -1358,7 +1358,7 @@ bool mousse::polyMeshGeometry::checkFaceTwist
 {
   if (minTwist < -1-SMALL || minTwist > 1+SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "polyMeshGeometry::checkFaceTwist"
       "(const bool, const scalar, const polyMesh&, const pointField&"
@@ -1369,7 +1369,7 @@ bool mousse::polyMeshGeometry::checkFaceTwist
   }
   const faceList& fcs = mesh.faces();
   label nWarped = 0;
-//    forAll(checkFaces, i)
+//    FOR_ALL(checkFaces, i)
 //    {
 //        label faceI = checkFaces[i];
 //
@@ -1383,7 +1383,7 @@ bool mousse::polyMeshGeometry::checkFaceTwist
 //
 //            const point& fc = faceCentres[faceI];
 //
-//            forAll(f, fpI)
+//            FOR_ALL(f, fpI)
 //            {
 //                vector triArea
 //                (
@@ -1421,7 +1421,7 @@ bool mousse::polyMeshGeometry::checkFaceTwist
     neiCc[faceI-mesh.nInternalFaces()] = cellCentres[own[faceI]];
   }
   syncTools::swapBoundaryFacePositions(mesh, neiCc);
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     const face& f = fcs[faceI];
@@ -1448,7 +1448,7 @@ bool mousse::polyMeshGeometry::checkFaceTwist
       if (nf != vector::zero)
       {
         const point& fc = faceCentres[faceI];
-        forAll(f, fpI)
+        FOR_ALL(f, fpI)
         {
           vector triArea
           (
@@ -1494,7 +1494,7 @@ bool mousse::polyMeshGeometry::checkFaceTwist
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkFaceTwist"
         "(const bool, const scalar, const polyMesh&, const pointField&"
@@ -1518,7 +1518,7 @@ bool mousse::polyMeshGeometry::checkTriangleTwist
   const bool report,
   const scalar minTwist,
   const polyMesh& mesh,
-  const vectorField& faceAreas,
+  const vectorField& /*faceAreas*/,
   const vectorField& faceCentres,
   const pointField& p,
   const labelList& checkFaces,
@@ -1527,7 +1527,7 @@ bool mousse::polyMeshGeometry::checkTriangleTwist
 {
   if (minTwist < -1-SMALL || minTwist > 1+SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "polyMeshGeometry::checkTriangleTwist"
       "(const bool, const scalar, const polyMesh&, const pointField&"
@@ -1537,7 +1537,7 @@ bool mousse::polyMeshGeometry::checkTriangleTwist
   }
   const faceList& fcs = mesh.faces();
   label nWarped = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     const face& f = fcs[faceI];
@@ -1547,7 +1547,7 @@ bool mousse::polyMeshGeometry::checkTriangleTwist
       // Find starting triangle (at startFp) with non-zero area
       label startFp = -1;
       vector prevN;
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         prevN = triPointRef
         (
@@ -1628,7 +1628,7 @@ bool mousse::polyMeshGeometry::checkTriangleTwist
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkTriangleTwist"
         "(const bool, const scalar, const polyMesh&"
@@ -1659,7 +1659,7 @@ bool mousse::polyMeshGeometry::checkFaceFlatness
 {
   if (minFlatness < -SMALL || minFlatness > 1+SMALL)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "polyMeshGeometry::checkFaceFlatness"
       "(const bool, const scalar, const polyMesh&, const pointField&"
@@ -1669,7 +1669,7 @@ bool mousse::polyMeshGeometry::checkFaceFlatness
   }
   const faceList& fcs = mesh.faces();
   label nWarped = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     const face& f = fcs[faceI];
@@ -1678,7 +1678,7 @@ bool mousse::polyMeshGeometry::checkFaceFlatness
       const point& fc = faceCentres[faceI];
       // Sum triangle areas
       scalar sumArea = 0.0;
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         sumArea += triPointRef
         (
@@ -1718,7 +1718,7 @@ bool mousse::polyMeshGeometry::checkFaceFlatness
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkFaceFlatness"
         "(const bool, const scalar, const polyMesh&"
@@ -1741,14 +1741,14 @@ bool mousse::polyMeshGeometry::checkFaceArea
 (
   const bool report,
   const scalar minArea,
-  const polyMesh& mesh,
+  const polyMesh&,
   const vectorField& faceAreas,
   const labelList& checkFaces,
   labelHashSet* setPtr
 )
 {
   label nZeroArea = 0;
-  forAll(checkFaces, i)
+  FOR_ALL(checkFaces, i)
   {
     label faceI = checkFaces[i];
     if (mag(faceAreas[faceI]) < minArea)
@@ -1777,7 +1777,7 @@ bool mousse::polyMeshGeometry::checkFaceArea
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkFaceArea"
         "(const bool, const scalar, const polyMesh&"
@@ -1799,7 +1799,7 @@ bool mousse::polyMeshGeometry::checkCellDeterminant
   const scalar warnDet,
   const polyMesh& mesh,
   const vectorField& faceAreas,
-  const labelList& checkFaces,
+  const labelList& /*checkFaces*/,
   const labelList& affectedCells,
   labelHashSet* setPtr
 )
@@ -1809,12 +1809,12 @@ bool mousse::polyMeshGeometry::checkCellDeterminant
   scalar sumDet = 0.0;
   label nSumDet = 0;
   label nWarnDet = 0;
-  forAll(affectedCells, i)
+  FOR_ALL(affectedCells, i)
   {
     const cell& cFaces = cells[affectedCells[i]];
     tensor areaSum(tensor::zero);
     scalar magAreaSum = 0;
-    forAll(cFaces, cFaceI)
+    FOR_ALL(cFaces, cFaceI)
     {
       label faceI = cFaces[cFaceI];
       scalar magArea = mag(faceAreas[faceI]);
@@ -1830,7 +1830,7 @@ bool mousse::polyMeshGeometry::checkCellDeterminant
       if (setPtr)
       {
         // Insert all faces of the cell.
-        forAll(cFaces, cFaceI)
+        FOR_ALL(cFaces, cFaceI)
         {
           label faceI = cFaces[cFaceI];
           setPtr->insert(faceI);
@@ -1866,7 +1866,7 @@ bool mousse::polyMeshGeometry::checkCellDeterminant
   {
     if (report)
     {
-      WarningIn
+      WARNING_IN
       (
         "polyMeshGeometry::checkCellDeterminant"
         "(const bool, const scalar, const polyMesh&"

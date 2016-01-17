@@ -10,8 +10,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(force, 0);
-defineRunTimeSelectionTable(force, dictionary);
+DEFINE_TYPE_NAME_AND_DEBUG(force, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(force, dictionary);
 // Constructors 
 force::force(surfaceFilmModel& owner)
 :

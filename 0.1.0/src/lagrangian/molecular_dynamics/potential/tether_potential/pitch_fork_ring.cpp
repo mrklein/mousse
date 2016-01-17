@@ -9,8 +9,8 @@ namespace mousse
 namespace tetherPotentials
 {
 // Static Data Members
-defineTypeNameAndDebug(pitchForkRing, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(pitchForkRing, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   tetherPotential,
   pitchForkRing,

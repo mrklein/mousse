@@ -27,7 +27,7 @@ void mousse::lagrangianFieldDecomposer::readFields
     )
   );
   label lagrangianFieldi = 0;
-  forAllIter(IOobjectList, lagrangianTypeObjects, iter)
+  FOR_ALL_ITER(IOobjectList, lagrangianTypeObjects, iter)
   {
     lagrangianFields[cloudI].set
     (
@@ -66,7 +66,7 @@ void mousse::lagrangianFieldDecomposer::readFieldFields
     )
   );
   label lagrangianFieldi = 0;
-  forAllIter(IOobjectList, lagrangianTypeObjectsA, iter)
+  FOR_ALL_ITER(IOobjectList, lagrangianTypeObjectsA, iter)
   {
     lagrangianFields[cloudI].set
     (
@@ -74,7 +74,7 @@ void mousse::lagrangianFieldDecomposer::readFieldFields
       new CompactIOField<Field<Type>, Type>(*iter())
     );
   }
-  forAllIter(IOobjectList, lagrangianTypeObjectsB, iter)
+  FOR_ALL_ITER(IOobjectList, lagrangianTypeObjectsB, iter)
   {
     lagrangianFields[cloudI].set
     (
@@ -150,7 +150,7 @@ void mousse::lagrangianFieldDecomposer::decomposeFields
 {
   if (particleIndices_.size())
   {
-    forAll(fields, fieldI)
+    FOR_ALL(fields, fieldI)
     {
       decomposeField(cloudName, fields[fieldI])().write();
     }
@@ -165,7 +165,7 @@ void mousse::lagrangianFieldDecomposer::decomposeFieldFields
 {
   if (particleIndices_.size())
   {
-    forAll(fields, fieldI)
+    FOR_ALL(fields, fieldI)
     {
       decomposeFieldField(cloudName, fields[fieldI])().write();
     }

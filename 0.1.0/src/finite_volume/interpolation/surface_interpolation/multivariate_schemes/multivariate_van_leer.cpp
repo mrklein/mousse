@@ -6,11 +6,14 @@
 #include "limited_scheme.hpp"
 #include "limited01.hpp"
 #include "van_leer.hpp"
+
 namespace mousse
 {
-  makeLimitedMultivariateSurfaceInterpolationScheme
-  (
-    vanLeer,
-    vanLeerLimiter
-  )
+
+MAKE_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME
+(
+  vanLeer,
+  vanLeerLimiter
+)
+
 }

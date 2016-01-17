@@ -14,9 +14,9 @@ genericPointPatchField<Type>::genericPointPatchField
   const DimensionedField<Type, pointMesh>& iF
 )
 :
-  calculatedPointPatchField<Type>(p, iF)
+  calculatedPointPatchField<Type>{p, iF}
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "genericPointPatchField<Type>::genericPointPatchField"
     "(const pointPatch& p, const DimensionedField<Type, volMesh>& iF)"
@@ -30,11 +30,11 @@ genericPointPatchField<Type>::genericPointPatchField
   const dictionary& dict
 )
 :
-  calculatedPointPatchField<Type>(p, iF, dict),
-  actualTypeName_(dict.lookup("type")),
-  dict_(dict)
+  calculatedPointPatchField<Type>{p, iF, dict},
+  actualTypeName_{dict.lookup("type")},
+  dict_{dict}
 {
-  forAllConstIter(dictionary, dict_, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict_, iter)
   {
     if (iter().keyword() != "type")
     {
@@ -70,20 +70,21 @@ genericPointPatchField<Type>::genericPointPatchField
             }
             else
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericPointPatchField<Type>::"
                 "genericPointPatchField"
                 "(const pointPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    token following 'nonuniform' "
-                 "is not a compound"
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
+              )
+              << "\n    token following 'nonuniform' "
+              "is not a compound"
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
               << exit(FatalIOError);
             }
           }
@@ -103,23 +104,24 @@ genericPointPatchField<Type>::genericPointPatchField
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericPointPatchField<Type>::"
                 "genericPointPatchField"
                 "(const pointPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    size of field " << iter().keyword()
-                << " (" << fPtr->size() << ')'
-                << " is not the same size as the patch ("
-                << this->size() << ')'
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
+              )
+              << "\n    size of field " << iter().keyword()
+              << " (" << fPtr->size() << ')'
+              << " is not the same size as the patch ("
+              << this->size() << ')'
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
+              << exit(FatalIOError);
             }
             scalarFields_.insert(iter().keyword(), fPtr);
           }
@@ -139,23 +141,24 @@ genericPointPatchField<Type>::genericPointPatchField
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericPointPatchField<Type>::"
                 "genericPointPatchField"
                 "(const pointPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    size of field " << iter().keyword()
-                << " (" << fPtr->size() << ')'
-                << " is not the same size as the patch ("
-                << this->size() << ')'
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
+              )
+              << "\n    size of field " << iter().keyword()
+              << " (" << fPtr->size() << ')'
+              << " is not the same size as the patch ("
+              << this->size() << ')'
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
+              << exit(FatalIOError);
             }
             vectorFields_.insert(iter().keyword(), fPtr);
           }
@@ -178,23 +181,24 @@ genericPointPatchField<Type>::genericPointPatchField
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericPointPatchField<Type>::"
                 "genericPointPatchField"
                 "(const pointPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    size of field " << iter().keyword()
-                << " (" << fPtr->size() << ')'
-                << " is not the same size as the patch ("
-                << this->size() << ')'
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
+              )
+              << "\n    size of field " << iter().keyword()
+              << " (" << fPtr->size() << ')'
+              << " is not the same size as the patch ("
+              << this->size() << ')'
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
+              << exit(FatalIOError);
             }
             sphericalTensorFields_.insert(iter().keyword(), fPtr);
           }
@@ -217,23 +221,24 @@ genericPointPatchField<Type>::genericPointPatchField
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericPointPatchField<Type>::"
                 "genericPointPatchField"
                 "(const pointPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    size of field " << iter().keyword()
-                << " (" << fPtr->size() << ')'
-                << " is not the same size as the patch ("
-                << this->size() << ')'
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
+              )
+              << "\n    size of field " << iter().keyword()
+              << " (" << fPtr->size() << ')'
+              << " is not the same size as the patch ("
+              << this->size() << ')'
+              << "\n    on patch " << this->patch().name()
+              << " of field "
+              << this->dimensionedInternalField().name()
+              << " in file "
+              << this->dimensionedInternalField().objectPath()
+              << exit(FatalIOError);
             }
             symmTensorFields_.insert(iter().keyword(), fPtr);
           }
@@ -253,43 +258,45 @@ genericPointPatchField<Type>::genericPointPatchField
             );
             if (fPtr->size() != this->size())
             {
-              FatalIOErrorIn
+              FATAL_IO_ERROR_IN
               (
                 "genericPointPatchField<Type>::"
                 "genericPointPatchField"
                 "(const pointPatch&, const Field<Type>&, "
                 "const dictionary&)",
                 dict
-              )   << "\n    size of field " << iter().keyword()
-                << " (" << fPtr->size() << ')'
-                << " is not the same size as the patch ("
-                << this->size() << ')'
-                << "\n    on patch " << this->patch().name()
-                << " of field "
-                << this->dimensionedInternalField().name()
-                << " in file "
-                << this->dimensionedInternalField().objectPath()
-                << exit(FatalIOError);
-            }
-            tensorFields_.insert(iter().keyword(), fPtr);
-          }
-          else
-          {
-            FatalIOErrorIn
-            (
-              "genericPointPatchField<Type>::"
-              "genericPointPatchField"
-              "(const pointPatch&, const Field<Type>&, "
-              "const dictionary&)",
-              dict
-            )   << "\n    compound " << fieldToken.compoundToken()
-              << " not supported"
+              )
+              << "\n    size of field " << iter().keyword()
+              << " (" << fPtr->size() << ')'
+              << " is not the same size as the patch ("
+              << this->size() << ')'
               << "\n    on patch " << this->patch().name()
               << " of field "
               << this->dimensionedInternalField().name()
               << " in file "
               << this->dimensionedInternalField().objectPath()
               << exit(FatalIOError);
+            }
+            tensorFields_.insert(iter().keyword(), fPtr);
+          }
+          else
+          {
+            FATAL_IO_ERROR_IN
+            (
+              "genericPointPatchField<Type>::"
+              "genericPointPatchField"
+              "(const pointPatch&, const Field<Type>&, "
+              "const dictionary&)",
+              dict
+            )
+            << "\n    compound " << fieldToken.compoundToken()
+            << " not supported"
+            << "\n    on patch " << this->patch().name()
+            << " of field "
+            << this->dimensionedInternalField().name()
+            << " in file "
+            << this->dimensionedInternalField().objectPath()
+            << exit(FatalIOError);
           }
         }
       }
@@ -305,11 +312,11 @@ genericPointPatchField<Type>::genericPointPatchField
   const pointPatchFieldMapper& mapper
 )
 :
-  calculatedPointPatchField<Type>(ptf, p, iF, mapper),
-  actualTypeName_(ptf.actualTypeName_),
-  dict_(ptf.dict_)
+  calculatedPointPatchField<Type>{ptf, p, iF, mapper},
+  actualTypeName_{ptf.actualTypeName_},
+  dict_{ptf.dict_}
 {
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<scalarField>,
     ptf.scalarFields_,
@@ -322,7 +329,7 @@ genericPointPatchField<Type>::genericPointPatchField
       new scalarField(*iter(), mapper)
     );
   }
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<vectorField>,
     ptf.vectorFields_,
@@ -335,7 +342,7 @@ genericPointPatchField<Type>::genericPointPatchField
       new vectorField(*iter(), mapper)
     );
   }
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<sphericalTensorField>,
     ptf.sphericalTensorFields_,
@@ -348,7 +355,7 @@ genericPointPatchField<Type>::genericPointPatchField
       new sphericalTensorField(*iter(), mapper)
     );
   }
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<symmTensorField>,
     ptf.symmTensorFields_,
@@ -361,7 +368,7 @@ genericPointPatchField<Type>::genericPointPatchField
       new symmTensorField(*iter(), mapper)
     );
   }
-  forAllConstIter
+  FOR_ALL_CONST_ITER
   (
     HashPtrTable<tensorField>,
     ptf.tensorFields_,
@@ -382,14 +389,14 @@ genericPointPatchField<Type>::genericPointPatchField
   const DimensionedField<Type, pointMesh>& iF
 )
 :
-  calculatedPointPatchField<Type>(ptf, iF),
-  actualTypeName_(ptf.actualTypeName_),
-  dict_(ptf.dict_),
-  scalarFields_(ptf.scalarFields_),
-  vectorFields_(ptf.vectorFields_),
-  sphericalTensorFields_(ptf.sphericalTensorFields_),
-  symmTensorFields_(ptf.symmTensorFields_),
-  tensorFields_(ptf.tensorFields_)
+  calculatedPointPatchField<Type>{ptf, iF},
+  actualTypeName_{ptf.actualTypeName_},
+  dict_{ptf.dict_},
+  scalarFields_{ptf.scalarFields_},
+  vectorFields_{ptf.vectorFields_},
+  sphericalTensorFields_{ptf.sphericalTensorFields_},
+  symmTensorFields_{ptf.symmTensorFields_},
+  tensorFields_{ptf.tensorFields_}
 {}
 // Member Functions 
 template<class Type>
@@ -398,7 +405,7 @@ void genericPointPatchField<Type>::autoMap
   const pointPatchFieldMapper& m
 )
 {
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<scalarField>,
     scalarFields_,
@@ -407,7 +414,7 @@ void genericPointPatchField<Type>::autoMap
   {
     iter()->autoMap(m);
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<vectorField>,
     vectorFields_,
@@ -416,7 +423,7 @@ void genericPointPatchField<Type>::autoMap
   {
     iter()->autoMap(m);
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<sphericalTensorField>,
     sphericalTensorFields_,
@@ -425,7 +432,7 @@ void genericPointPatchField<Type>::autoMap
   {
     iter()->autoMap(m);
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<symmTensorField>,
     symmTensorFields_,
@@ -434,7 +441,7 @@ void genericPointPatchField<Type>::autoMap
   {
     iter()->autoMap(m);
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<tensorField>,
     tensorFields_,
@@ -453,7 +460,7 @@ void genericPointPatchField<Type>::rmap
 {
   const genericPointPatchField<Type>& dptf =
     refCast<const genericPointPatchField<Type> >(ptf);
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<scalarField>,
     scalarFields_,
@@ -467,7 +474,7 @@ void genericPointPatchField<Type>::rmap
       iter()->rmap(*dptfIter(), addr);
     }
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<vectorField>,
     vectorFields_,
@@ -481,7 +488,7 @@ void genericPointPatchField<Type>::rmap
       iter()->rmap(*dptfIter(), addr);
     }
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<sphericalTensorField>,
     sphericalTensorFields_,
@@ -495,7 +502,7 @@ void genericPointPatchField<Type>::rmap
       iter()->rmap(*dptfIter(), addr);
     }
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<symmTensorField>,
     symmTensorFields_,
@@ -509,7 +516,7 @@ void genericPointPatchField<Type>::rmap
       iter()->rmap(*dptfIter(), addr);
     }
   }
-  forAllIter
+  FOR_ALL_ITER
   (
     HashPtrTable<tensorField>,
     tensorFields_,
@@ -528,17 +535,14 @@ template<class Type>
 void genericPointPatchField<Type>::write(Ostream& os) const
 {
   os.writeKeyword("type") << actualTypeName_ << token::END_STATEMENT << nl;
-  forAllConstIter(dictionary, dict_, iter)
+  FOR_ALL_CONST_ITER(dictionary, dict_, iter)
   {
     if (iter().keyword() != "type")
     {
-      if
-      (
-        iter().isStream()
-      && iter().stream().size()
-      && iter().stream()[0].isWord()
-      && iter().stream()[0].wordToken() == "nonuniform"
-      )
+      if (iter().isStream()
+          && iter().stream().size()
+          && iter().stream()[0].isWord()
+          && iter().stream()[0].wordToken() == "nonuniform")
       {
         if (scalarFields_.found(iter().keyword()))
         {

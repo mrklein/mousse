@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "partial_face_area_weight_ami.hpp"
+
 // Private Member Functions 
 template<class SourcePatch, class TargetPatch>
 void mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::setNextFaces
@@ -13,7 +14,7 @@ void mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::setNextFaces
   const boolList& mapFlag,
   labelList& seedFaces,
   const DynamicList<label>& visitedFaces,
-  const bool errorOnNotFound
+  const bool /*errorOnNotFound*/
 ) const
 {
   faceAreaWeightAMI<SourcePatch, TargetPatch>::setNextFaces
@@ -27,6 +28,8 @@ void mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::setNextFaces
     false // no error on not found
   );
 }
+
+
 // Constructors 
 template<class SourcePatch, class TargetPatch>
 mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::
@@ -42,7 +45,7 @@ partialFaceAreaWeightAMI
 )
 :
   faceAreaWeightAMI<SourcePatch, TargetPatch>
-  (
+  {
     srcPatch,
     tgtPatch,
     srcMagSf,
@@ -50,19 +53,25 @@ partialFaceAreaWeightAMI
     triMode,
     reverseTarget,
     requireMatch
-  )
+  }
 {}
+
+
 // Destructor
 template<class SourcePatch, class TargetPatch>
 mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::
 ~partialFaceAreaWeightAMI()
 {}
+
+
 // Member Functions 
 template<class SourcePatch, class TargetPatch>
 bool mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::conformal() const
 {
   return false;
 }
+
+
 template<class SourcePatch, class TargetPatch>
 void mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::calculate
 (
@@ -89,10 +98,10 @@ void mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::calculate
     return;
   }
   // temporary storage for addressing and weights
-  List<DynamicList<label> > srcAddr(this->srcPatch_.size());
-  List<DynamicList<scalar> > srcWght(srcAddr.size());
-  List<DynamicList<label> > tgtAddr(this->tgtPatch_.size());
-  List<DynamicList<scalar> > tgtWght(tgtAddr.size());
+  List<DynamicList<label>> srcAddr(this->srcPatch_.size());
+  List<DynamicList<scalar>> srcWght(srcAddr.size());
+  List<DynamicList<label>> tgtAddr(this->tgtPatch_.size());
+  List<DynamicList<scalar>> tgtWght(tgtAddr.size());
   faceAreaWeightAMI<SourcePatch, TargetPatch>::calcAddressing
   (
     srcAddr,
@@ -103,12 +112,12 @@ void mousse::partialFaceAreaWeightAMI<SourcePatch, TargetPatch>::calculate
     tgtFaceI
   );
   // transfer data to persistent storage
-  forAll(srcAddr, i)
+  FOR_ALL(srcAddr, i)
   {
     srcAddress[i].transfer(srcAddr[i]);
     srcWeights[i].transfer(srcWght[i]);
   }
-  forAll(tgtAddr, i)
+  FOR_ALL(tgtAddr, i)
   {
     tgtAddress[i].transfer(tgtAddr[i]);
     tgtWeights[i].transfer(tgtWght[i]);

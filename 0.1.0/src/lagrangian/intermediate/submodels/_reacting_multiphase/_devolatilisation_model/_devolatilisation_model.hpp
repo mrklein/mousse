@@ -27,9 +27,9 @@ protected:
     scalar dMass_;
 public:
   //- Runtime type information
-  TypeName("devolatilisationModel");
+  TYPE_NAME("devolatilisationModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     DevolatilisationModel,
@@ -85,29 +85,29 @@ public:
 };
 }  // namespace mousse
 
-#define makeDevolatilisationModel(CloudType)                                  \
+#define MAKE_DEVOLATILISATION_MODEL(CloudType)                                \
                                                                               \
   typedef mousse::CloudType::reactingMultiphaseCloudType                      \
     reactingMultiphaseCloudType;                                              \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
   (                                                                           \
     mousse::DevolatilisationModel<reactingMultiphaseCloudType>,               \
     0                                                                         \
   );                                                                          \
   namespace mousse                                                            \
   {                                                                           \
-    defineTemplateRunTimeSelectionTable                                       \
+    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
     (                                                                         \
       DevolatilisationModel<reactingMultiphaseCloudType>,                     \
       dictionary                                                              \
     );                                                                        \
   }
 
-#define makeDevolatilisationModelType(SS, CloudType)                          \
+#define MAKE_DEVOLATILISATION_MODEL_TYPE(SS, CloudType)                       \
                                                                               \
   typedef mousse::CloudType::reactingMultiphaseCloudType                      \
     reactingMultiphaseCloudType;                                              \
-  defineNamedTemplateTypeNameAndDebug                                         \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
     (mousse::SS<reactingMultiphaseCloudType>, 0);                             \
                                                                               \
   mousse::DevolatilisationModel<reactingMultiphaseCloudType>::                \
@@ -116,6 +116,6 @@ public:
     add##SS##CloudType##reactingMultiphaseCloudType##ConstructorToTable_;
 
 #ifdef NoRepository
-#   include "_devolatilisation_model.cpp"
+#include "_devolatilisation_model.cpp"
 #endif
 #endif

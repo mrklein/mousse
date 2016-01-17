@@ -30,9 +30,9 @@ class WallInteractionModel
     const dictionary coeffDict_;
 public:
   //- Runtime type information
-  TypeName("WallInteractionModel");
+  TYPE_NAME("WallInteractionModel");
   //- Declare runtime constructor selection table
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     WallInteractionModel,
@@ -80,25 +80,25 @@ public:
 };
 }  // namespace mousse
 
-#define makeWallInteractionModel(CloudType)                                   \
+#define MAKE_WALL_INTERACTION_MODEL(CloudType)                                \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(WallInteractionModel<CloudType>, 0);    \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(WallInteractionModel<CloudType>, 0);\
                                                                               \
-  defineTemplateRunTimeSelectionTable                                         \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
   (                                                                           \
     WallInteractionModel<CloudType>,                                          \
     dictionary                                                                \
   );
 
-#define makeWallInteractionModelType(SS, CloudType)                           \
+#define MAKE_WALL_INTERACTION_MODEL_TYPE(SS, CloudType)                       \
                                                                               \
-  defineNamedTemplateTypeNameAndDebug(SS<CloudType>, 0);                      \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<CloudType>, 0);                \
                                                                               \
   WallInteractionModel<CloudType>::                                           \
-    adddictionaryConstructorToTable<SS<CloudType> >                           \
+    adddictionaryConstructorToTable<SS<CloudType>>                            \
       add##SS##CloudType##ConstructorToTable_;
 
 #ifdef NoRepository
-#   include "_wall_interaction_model.cpp"
+#include "_wall_interaction_model.cpp"
 #endif
 #endif

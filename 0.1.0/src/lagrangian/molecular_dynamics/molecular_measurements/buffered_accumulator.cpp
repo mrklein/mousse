@@ -67,13 +67,13 @@ void mousse::bufferedAccumulator<Type>::setSizes
 )
 {
   (*this).setSize(nBuffers + 1);
-  forAll((*this), b)
+  FOR_ALL((*this), b)
   {
     (*this)[b] = Field<Type>(bufferLength, pTraits<Type>::zero);
   }
   averagesTaken_ = 0;
   bufferOffsets_.setSize(nBuffers);
-  forAll(bufferOffsets_, bO)
+  FOR_ALL(bufferOffsets_, bO)
   {
     bufferOffsets_[bO] = -bufferingInterval * bO - 1;
   }
@@ -102,7 +102,7 @@ mousse::label mousse::bufferedAccumulator<Type>::addToBuffers
     {
       if (bufferToRefill != -1)
       {
-        FatalErrorIn("bufferedAccumulator<Type>::addToBuffers ")
+        FATAL_ERROR_IN("bufferedAccumulator<Type>::addToBuffers ")
           << "More than one bufferedAccumulator accumulation "
           << "buffer filled at once, this is considered an error."
           << abort(FatalError);
@@ -122,7 +122,7 @@ mousse::Field<Type> mousse::bufferedAccumulator<Type>::averaged() const
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "bufferedAccumulator<Type>::averagedbufferedAccumulator() const"
     )   << "Averaged correlation function requested but averagesTaken = "
@@ -148,7 +148,7 @@ void mousse::bufferedAccumulator<Type>::operator=
   // Check for assignment to self
   if (this == &rhs)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "bufferedAccumulator<Type>::operator=(const bufferedAccumulator&)"
     )   << "Attempted assignment to self"

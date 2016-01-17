@@ -13,8 +13,8 @@ namespace regionModels
 namespace surfaceFilmModels
 {
 // Static Data Members
-defineTypeNameAndDebug(constantRadiation, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(constantRadiation, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   filmRadiationModel,
   constantRadiation,

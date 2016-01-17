@@ -30,7 +30,7 @@ class constantAbsorptionEmission
     dimensionedScalar E_;
 public:
   //- Runtime type information
-  TypeName("constantAbsorptionEmission");
+  TYPE_NAME("constantAbsorptionEmission");
   // Constructors
     //- Construct from components
     constantAbsorptionEmission(const dictionary& dict, const fvMesh& mesh);

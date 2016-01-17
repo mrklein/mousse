@@ -139,10 +139,10 @@ template<class CloudType>
 mousse::forceSuSp mousse::NonInertialFrameForce<CloudType>::calcNonCoupled
 (
   const typename CloudType::parcelType& p,
-  const scalar dt,
+  const scalar /*dt*/,
   const scalar mass,
-  const scalar Re,
-  const scalar muc
+  const scalar /*Re*/,
+  const scalar /*muc*/
 ) const
 {
   forceSuSp value(vector::zero, 0.0);

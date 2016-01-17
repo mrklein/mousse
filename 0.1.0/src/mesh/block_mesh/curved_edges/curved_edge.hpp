@@ -36,9 +36,9 @@ protected:
     );
 public:
   //- Runtime type information
-  TypeName("curvedEdge");
+  TYPE_NAME("curvedEdge");
   // Declare run-time constructor selection tables
-    declareRunTimeSelectionTable
+    DECLARE_RUN_TIME_SELECTION_TABLE
     (
       autoPtr,
       curvedEdge,
@@ -101,5 +101,37 @@ public:
     friend Ostream& operator<<(Ostream&, const curvedEdge&);
 };
 }  // namespace mousse
-#include "curved_edge_i.hpp"
+
+// Member Functions 
+inline mousse::label mousse::curvedEdge::start() const
+{
+  return start_;
+}
+inline mousse::label mousse::curvedEdge::end() const
+{
+  return end_;
+}
+inline int mousse::curvedEdge::compare(const label start, const label end) const
+{
+  if (start_ == start && end_ == end)
+  {
+    return 1;
+  }
+  else if (start_ == end && end_ == start)
+  {
+    return -1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+inline int mousse::curvedEdge::compare(const curvedEdge& e) const
+{
+  return mousse::curvedEdge::compare(e.start(), e.end());
+}
+inline int mousse::curvedEdge::compare(const edge& e) const
+{
+  return mousse::curvedEdge::compare(e.start(), e.end());
+}
 #endif

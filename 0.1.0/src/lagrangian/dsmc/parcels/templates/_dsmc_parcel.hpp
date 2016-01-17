@@ -6,7 +6,6 @@
 // Description
 //   DSMC parcel class
 // SourceFiles
-//   _dsmc_parcel_i.hpp
 //   _dsmc_parcel.cpp
 //   _dsmc_parcel_io.cpp
 #ifndef _dsmc_parcel_hpp_
@@ -16,6 +15,7 @@
 #include "auto_ptr.hpp"
 #include "contiguous.hpp"
 #include "_dsmc_cloud.hpp"
+#include "mathematical_constants.hpp"
 namespace mousse
 {
 template<class ParcelType>
@@ -95,7 +95,7 @@ protected:
       label typeId_;
 public:
   //- Runtime type information
-  TypeName("DSMCParcel");
+  TYPE_NAME("DSMCParcel");
   friend class Cloud<ParcelType>;
   // Constructors
     //- Construct from components
@@ -210,7 +210,103 @@ public:
     );
 };
 }  // namespace mousse
-#include "_dsmc_parcel_i.hpp"
+
+// Constructors 
+template<class ParcelType>
+inline mousse::DSMCParcel<ParcelType>::constantProperties::constantProperties()
+:
+  mass_{0},
+  d_{0}
+{}
+template<class ParcelType>
+inline mousse::DSMCParcel<ParcelType>::constantProperties::constantProperties
+(
+  const dictionary& dict
+)
+:
+  mass_{readScalar(dict.lookup("mass"))},
+  d_{readScalar(dict.lookup("diameter"))},
+  internalDegreesOfFreedom_
+  {
+    static_cast<unsigned char>(readInt(dict.lookup("internalDegreesOfFreedom")))
+  },
+  omega_{readScalar(dict.lookup("omega"))}
+{}
+template<class ParcelType>
+inline mousse::DSMCParcel<ParcelType>::DSMCParcel
+(
+  const polyMesh& mesh,
+  const vector& position,
+  const vector& U,
+  const scalar Ei,
+  const label cellI,
+  const label tetFaceI,
+  const label tetPtI,
+  const label typeId
+)
+:
+  ParcelType{mesh, position, cellI, tetFaceI, tetPtI},
+  U_{U},
+  Ei_{Ei},
+  typeId_{typeId}
+{}
+// constantProperties Member Functions
+template<class ParcelType>
+inline mousse::scalar
+mousse::DSMCParcel<ParcelType>::constantProperties::mass() const
+{
+  return mass_;
+}
+template<class ParcelType>
+inline mousse::scalar mousse::DSMCParcel<ParcelType>::constantProperties::d() const
+{
+  return d_;
+}
+template<class ParcelType>
+inline mousse::scalar
+mousse::DSMCParcel<ParcelType>::constantProperties::sigmaT() const
+{
+  return constant::mathematical::pi*d_*d_;
+}
+template<class ParcelType>
+inline mousse::direction
+mousse::DSMCParcel<ParcelType>::constantProperties::internalDegreesOfFreedom()
+const
+{
+  return internalDegreesOfFreedom_;
+}
+template<class ParcelType>
+inline mousse::scalar
+mousse::DSMCParcel<ParcelType>::constantProperties::omega() const
+{
+  return omega_;
+}
+// DSMCParcel Member Functions 
+template<class ParcelType>
+inline mousse::label mousse::DSMCParcel<ParcelType>::typeId() const
+{
+  return typeId_;
+}
+template<class ParcelType>
+inline const mousse::vector& mousse::DSMCParcel<ParcelType>::U() const
+{
+  return U_;
+}
+template<class ParcelType>
+inline mousse::scalar mousse::DSMCParcel<ParcelType>::Ei() const
+{
+  return Ei_;
+}
+template<class ParcelType>
+inline mousse::vector& mousse::DSMCParcel<ParcelType>::U()
+{
+  return U_;
+}
+template<class ParcelType>
+inline mousse::scalar& mousse::DSMCParcel<ParcelType>::Ei()
+{
+  return Ei_;
+}
 #ifdef NoRepository
   #include "_dsmc_parcel.cpp"
 #endif

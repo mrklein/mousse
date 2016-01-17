@@ -77,7 +77,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("realizableKE");
+  TYPE_NAME("realizableKE");
   // Constructors
     //- Construct from components
     realizableKE

@@ -13,8 +13,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(circleSet, 0);
-  addToRunTimeSelectionTable(sampledSet, circleSet, word);
+DEFINE_TYPE_NAME_AND_DEBUG(circleSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, circleSet, word);
 }
 // Private Member Functions 
 void mousse::circleSet::calcSamples
@@ -49,7 +49,7 @@ void mousse::circleSet::calcSamples
   }
   else
   {
-    WarningInFunction
+    WARNING_IN_FUNCTION
       << "Unable to find cell at point id " << 0
       << " at location " << startPoint_ << endl;
   }
@@ -62,7 +62,7 @@ void mousse::circleSet::calcSamples
   const scalar radius = mag(axis1);
   if (mag(axis1 & circleAxis_) > SMALL)
   {
-    WarningInFunction
+    WARNING_IN_FUNCTION
       << "Vector defined by (startPoint - origin) not orthogonal to "
       << "circleAxis:" << nl
       << "    startPoint - origin = " << axis1 << nl
@@ -92,7 +92,7 @@ void mousse::circleSet::calcSamples
     }
     else
     {
-      WarningInFunction
+      WARNING_IN_FUNCTION
         << "Unable to find cell at point id " << nPoint
         << " at location " << pt << endl;
     }
@@ -142,11 +142,11 @@ mousse::circleSet::circleSet
   const scalar dTheta
 )
 :
-  sampledSet(name, mesh, searchEngine, axis),
-  origin_(origin),
-  circleAxis_(circleAxis),
-  startPoint_(startPoint),
-  dTheta_(dTheta)
+  sampledSet{name, mesh, searchEngine, axis},
+  origin_{origin},
+  circleAxis_{circleAxis},
+  startPoint_{startPoint},
+  dTheta_{dTheta}
 {
   genSamples();
   if (debug)
@@ -162,11 +162,11 @@ mousse::circleSet::circleSet
   const dictionary& dict
 )
 :
-  sampledSet(name, mesh, searchEngine, dict),
-  origin_(dict.lookup("origin")),
-  circleAxis_(dict.lookup("circleAxis")),
-  startPoint_(dict.lookup("startPoint")),
-  dTheta_(readScalar(dict.lookup("dTheta")))
+  sampledSet{name, mesh, searchEngine, dict},
+  origin_{dict.lookup("origin")},
+  circleAxis_{dict.lookup("circleAxis")},
+  startPoint_{dict.lookup("startPoint")},
+  dTheta_{readScalar(dict.lookup("dTheta"))}
 {
   // normalise circleAxis
   circleAxis_ /= mag(circleAxis_);
@@ -180,7 +180,7 @@ mousse::circleSet::circleSet
 mousse::circleSet::~circleSet()
 {}
 // Member Functions 
-mousse::point mousse::circleSet::getRefPoint(const List<point>& pts) const
+mousse::point mousse::circleSet::getRefPoint(const List<point>& /*pts*/) const
 {
   return startPoint_;
 }

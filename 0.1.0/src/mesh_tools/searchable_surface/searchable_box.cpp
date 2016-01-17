@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(searchableBox, 0);
-  addToRunTimeSelectionTable(searchableSurface, searchableBox, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(searchableBox, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchableBox, dict);
 }
 // Private Member Functions 
 void mousse::searchableBox::projectOntoCoordPlane
@@ -32,7 +32,7 @@ void mousse::searchableBox::projectOntoCoordPlane
   }
   else
   {
-    FatalErrorIn("searchableBox::projectOntoCoordPlane(..)")
+    FATAL_ERROR_IN("searchableBox::projectOntoCoordPlane(..)")
       << "Point on plane " << planePt
       << " is not on coordinate " << min()[dir]
       << " nor " << max()[dir] << abort(FatalError);
@@ -130,7 +130,7 @@ mousse::searchableBox::searchableBox
 {
   if (!contains(midpoint()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::searchableBox::searchableBox\n"
       "(\n"
@@ -153,7 +153,7 @@ mousse::searchableBox::searchableBox
 {
   if (!contains(midpoint()))
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::searchableBox::searchableBox\n"
       "(\n"
@@ -184,7 +184,7 @@ mousse::tmp<mousse::pointField> mousse::searchableBox::coordinates() const
   pointField& ctrs = tCtrs();
   const pointField pts(treeBoundBox::points());
   const faceList& fcs = treeBoundBox::faces;
-  forAll(fcs, i)
+  FOR_ALL(fcs, i)
   {
     ctrs[i] = fcs[i].centre(pts);
   }
@@ -201,11 +201,11 @@ void mousse::searchableBox::boundingSpheres
   radiusSqr = 0.0;
   const pointField pts(treeBoundBox::points());
   const faceList& fcs = treeBoundBox::faces;
-  forAll(fcs, i)
+  FOR_ALL(fcs, i)
   {
     const face& f = fcs[i];
     centres[i] = f.centre(pts);
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       const point& pt = pts[f[fp]];
       radiusSqr[i] = mousse::max
@@ -290,12 +290,12 @@ mousse::pointIndexHit mousse::searchableBox::findNearestOnEdge
 }
 mousse::pointIndexHit mousse::searchableBox::findNearest
 (
-  const linePointRef& ln,
-  treeBoundBox& tightest,
-  point& linePoint
+  const linePointRef&,
+  treeBoundBox& /*tightest*/,
+  point& /*linePoint*/
 ) const
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "searchableBox::findNearest"
     "(const linePointRef&, treeBoundBox&, point&)"
@@ -347,7 +347,7 @@ mousse::pointIndexHit mousse::searchableBox::findLine
     }
     if (info.index() == -1)
     {
-      FatalErrorIn("searchableBox::findLine(const point&, const point&)")
+      FATAL_ERROR_IN("searchableBox::findLine(const point&, const point&)")
         << "point " << info.rawPoint()
         << " on segment " << start << end
         << " should be on face of " << *this
@@ -373,7 +373,7 @@ void mousse::searchableBox::findNearest
 {
   info.setSize(samples.size());
   const point bbMid(midpoint());
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     info[i] = findNearest(bbMid, samples[i], nearestDistSqr[i]);
   }
@@ -386,7 +386,7 @@ void mousse::searchableBox::findLine
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     info[i] = findLine(start[i], end[i]);
   }
@@ -399,7 +399,7 @@ void mousse::searchableBox::findLineAny
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     info[i] = findLineAny(start[i], end[i]);
   }
@@ -427,7 +427,7 @@ void mousse::searchableBox::findLineAll
     ROOTSMALL*dirVec
    + vector(ROOTVSMALL,ROOTVSMALL,ROOTVSMALL)
   );
-  forAll(start, pointI)
+  FOR_ALL(start, pointI)
   {
     // See if any intersection between pt and end
     pointIndexHit inter = findLine(start[pointI], end[pointI]);
@@ -478,7 +478,7 @@ void mousse::searchableBox::getNormal
 {
   normal.setSize(info.size());
   normal = vector::zero;
-  forAll(info, i)
+  FOR_ALL(info, i)
   {
     if (info[i].hit())
     {
@@ -498,7 +498,7 @@ void mousse::searchableBox::getVolumeType
 {
   volType.setSize(points.size());
   volType = volumeType::INSIDE;
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     const point& pt = points[pointI];
     for (direction dir = 0; dir < vector::nComponents; dir++)

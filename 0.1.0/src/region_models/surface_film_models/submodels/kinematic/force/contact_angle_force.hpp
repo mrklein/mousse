@@ -37,13 +37,9 @@ private:
   // Private member functions
     //- Initialise
     void initialise();
-    //- Disallow default bitwise copy construct
-    contactAngleForce(const contactAngleForce&);
-    //- Disallow default bitwise assignment
-    void operator=(const contactAngleForce&);
 public:
   //- Runtime type information
-  TypeName("contactAngle");
+  TYPE_NAME("contactAngle");
   // Constructors
     //- Construct from surface film model
     contactAngleForce
@@ -51,6 +47,10 @@ public:
       surfaceFilmModel& owner,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    contactAngleForce(const contactAngleForce&) = delete;
+    //- Disallow default bitwise assignment
+    contactAngleForce& operator=(const contactAngleForce&) = delete;
   //- Destructor
   virtual ~contactAngleForce();
   // Member Functions

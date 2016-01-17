@@ -24,7 +24,7 @@ class linearDamper
     scalar coeff_;
 public:
   //- Runtime type information
-  TypeName("linearDamper");
+  TYPE_NAME("linearDamper");
   // Constructors
     //- Construct from components
     linearDamper

@@ -7,11 +7,11 @@
 template<class CloudType>
 mousse::DampingModels::NoDamping<CloudType>::NoDamping
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& owner
 )
 :
-  DampingModel<CloudType>(owner)
+  DampingModel<CloudType>{owner}
 {}
 template<class CloudType>
 mousse::DampingModels::NoDamping<CloudType>::NoDamping
@@ -19,7 +19,7 @@ mousse::DampingModels::NoDamping<CloudType>::NoDamping
   const NoDamping<CloudType>& cm
 )
 :
-  DampingModel<CloudType>(cm)
+  DampingModel<CloudType>{cm}
 {}
 // Destructor 
 template<class CloudType>
@@ -29,8 +29,8 @@ mousse::DampingModels::NoDamping<CloudType>::~NoDamping()
 template<class CloudType>
 mousse::vector mousse::DampingModels::NoDamping<CloudType>::velocityCorrection
 (
-  typename CloudType::parcelType& p,
-  const scalar deltaT
+  typename CloudType::parcelType& /*p*/,
+  const scalar /*deltaT*/
 ) const
 {
   return vector::zero;

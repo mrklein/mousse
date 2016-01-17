@@ -90,7 +90,7 @@ void mousse::nastranSurfaceWriter::writeTemplate
 {
   if (!fieldMap_.found(fieldName))
   {
-    WarningIn
+    WARNING_IN
     (
       "void mousse::nastranSurfaceWriter::writeTemplate"
       "("
@@ -137,14 +137,14 @@ void mousse::nastranSurfaceWriter::writeTemplate
   if (isNodeValues)
   {
     label n = 0;
-    forAll(decomposedFaces, i)
+    FOR_ALL(decomposedFaces, i)
     {
       const DynamicList<face>& dFaces = decomposedFaces[i];
-      forAll(dFaces, faceI)
+      FOR_ALL(dFaces, faceI)
       {
         Type v = pTraits<Type>::zero;
         const face& f = dFaces[faceI];
-        forAll(f, fptI)
+        FOR_ALL(f, fptI)
         {
           v += values[f[fptI]];
         }
@@ -156,10 +156,10 @@ void mousse::nastranSurfaceWriter::writeTemplate
   else
   {
     label n = 0;
-    forAll(decomposedFaces, i)
+    FOR_ALL(decomposedFaces, i)
     {
       const DynamicList<face>& dFaces = decomposedFaces[i];
-      forAll(dFaces, faceI)
+      FOR_ALL(dFaces, faceI)
       {
         writeFaceValue(nasFieldName, values[faceI], ++n, os);
       }

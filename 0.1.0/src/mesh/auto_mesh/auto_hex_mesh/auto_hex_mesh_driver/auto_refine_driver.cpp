@@ -19,7 +19,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(autoRefineDriver, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(autoRefineDriver, 0);
 }  // namespace mousse
 // Constructors 
 // Construct from components
@@ -247,7 +247,7 @@ mousse::label mousse::autoRefineDriver::gapOnlyRefine
   label maxIncrement = 0;
   const labelList& maxLevel = meshRefiner_.surfaces().maxLevel();
   const labelList& gapLevel = meshRefiner_.surfaces().gapLevel();
-  forAll(maxLevel, i)
+  FOR_ALL(maxLevel, i)
   {
     maxIncrement = max(maxIncrement, gapLevel[i]-maxLevel[i]);
   }
@@ -294,7 +294,7 @@ mousse::label mousse::autoRefineDriver::gapOnlyRefine
     // Grow by one layer to make sure we're covering the gap
     {
       boolList isCandidateCell(mesh.nCells(), false);
-      forAll(candidateCells, i)
+      FOR_ALL(candidateCells, i)
       {
         isCandidateCell[candidateCells[i]] = true;
       }
@@ -338,7 +338,7 @@ mousse::label mousse::autoRefineDriver::gapOnlyRefine
         isCandidateCell.transfer(newIsCandidateCell);
       }
       label n = 0;
-      forAll(isCandidateCell, cellI)
+      FOR_ALL(isCandidateCell, cellI)
       {
         if (isCandidateCell[cellI])
         {
@@ -347,7 +347,7 @@ mousse::label mousse::autoRefineDriver::gapOnlyRefine
       }
       candidateCells.setSize(n);
       n = 0;
-      forAll(isCandidateCell, cellI)
+      FOR_ALL(isCandidateCell, cellI)
       {
         if (isCandidateCell[cellI])
         {
@@ -451,11 +451,11 @@ mousse::label mousse::autoRefineDriver::danglingCellRefine
     labelList candidateCells;
     {
       cellSet candidateCellSet(mesh, "candidateCells", cells.size()/1000);
-      forAll(cells, cellI)
+      FOR_ALL(cells, cellI)
       {
         const cell& cFaces = cells[cellI];
         label nIntFaces = 0;
-        forAll(cFaces, i)
+        FOR_ALL(cFaces, i)
         {
           label bFaceI = cFaces[i]-mesh.nInternalFaces();
           if (bFaceI < 0)
@@ -910,7 +910,7 @@ void mousse::autoRefineDriver::splitAndMergeBaffles
 }
 void mousse::autoRefineDriver::mergePatchFaces
 (
-  const refinementParameters& refineParams,
+  const refinementParameters& /*refineParams*/,
   const dictionary& motionDict
 )
 {
@@ -939,7 +939,7 @@ void mousse::autoRefineDriver::mergePatchFaces
 }
 void mousse::autoRefineDriver::doRefine
 (
-  const dictionary& refineDict,
+  const dictionary& /*refineDict*/,
   const refinementParameters& refineParams,
   const snapParameters& snapParams,
   const bool prepareForSnapping,

@@ -14,7 +14,7 @@ void mousse::sigSegv::sigHandler(int)
   // Reset old handling
   if (sigaction(SIGSEGV, &oldAction_, NULL) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigSegv::sigHandler()"
     )   << "Cannot reset SIGSEGV trapping"
@@ -37,7 +37,7 @@ mousse::sigSegv::~sigSegv()
   // Reset old handling
   if (sigaction(SIGSEGV, &oldAction_, NULL) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigSegv::~sigSegv()"
     )   << "Cannot reset SIGSEGV trapping"
@@ -49,7 +49,7 @@ void mousse::sigSegv::set(const bool)
 {
   if (oldAction_.sa_handler)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigSegv::set()"
     )   << "Cannot call sigSegv::set() more than once"
@@ -61,7 +61,7 @@ void mousse::sigSegv::set(const bool)
   sigemptyset(&newAction.sa_mask);
   if (sigaction(SIGSEGV, &newAction, &oldAction_) < 0)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mousse::sigSegv::set()"
     )   << "Cannot set SIGSEGV trapping"

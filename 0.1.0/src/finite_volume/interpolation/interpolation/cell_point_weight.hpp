@@ -9,7 +9,10 @@
 //   cell_point_weight.cpp
 #ifndef cell_point_weight_hpp_
 #define cell_point_weight_hpp_
+
 #include "vector.hpp"
+#include "list.hpp"
+
 namespace mousse
 {
 class polyMesh;

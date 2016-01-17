@@ -19,7 +19,7 @@ void mousse::fileFormats::VTKsurfaceFormatCore::writeHeader
     << "DATASET POLYDATA" << nl;
   // Write vertex coords
   os  << "POINTS " << pointLst.size() << " float" << nl;
-  forAll(pointLst, ptI)
+  FOR_ALL(pointLst, ptI)
   {
     const point& pt = pointLst[ptI];
     os  << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
@@ -32,7 +32,7 @@ void mousse::fileFormats::VTKsurfaceFormatCore::writeTail
 )
 {
   label nFaces = 0;
-  forAll(zoneLst, zoneI)
+  FOR_ALL(zoneLst, zoneI)
   {
     nFaces += zoneLst[zoneI].size();
   }
@@ -41,9 +41,9 @@ void mousse::fileFormats::VTKsurfaceFormatCore::writeTail
     << "CELL_DATA " << nFaces << nl
     << "FIELD attributes 1" << nl
     << "region 1 " << nFaces << " float" << nl;
-  forAll(zoneLst, zoneI)
+  FOR_ALL(zoneLst, zoneI)
   {
-    forAll(zoneLst[zoneI], localFaceI)
+    FOR_ALL(zoneLst[zoneI], localFaceI)
     {
       if (localFaceI)
       {
@@ -68,11 +68,11 @@ void mousse::fileFormats::VTKsurfaceFormatCore::writeTail
 )
 {
   // Print zone numbers
-  os  << nl
+  os<< nl
     << "CELL_DATA " << zoneIds.size() << nl
     << "FIELD attributes 1" << nl
     << "region 1 " << zoneIds.size() << " float" << nl;
-  forAll(zoneIds, faceI)
+  FOR_ALL(zoneIds, faceI)
   {
     if (faceI)
     {
@@ -85,7 +85,7 @@ void mousse::fileFormats::VTKsurfaceFormatCore::writeTail
         os << nl;
       }
     }
-    os  << zoneIds[faceI] + 1;
+    os<< zoneIds[faceI] + 1;
   }
-  os  << nl;
+  os<< nl;
 }

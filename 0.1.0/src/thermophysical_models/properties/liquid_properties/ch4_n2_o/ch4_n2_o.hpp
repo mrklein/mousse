@@ -43,7 +43,7 @@ class CH4N2O
     APIdiffCoefFunc D_;
 public:
   //- Runtime type information
-  TypeName("CH4N2O");
+  TYPE_NAME("CH4N2O");
   // Constructors
     //- Construct null
     CH4N2O();

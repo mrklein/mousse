@@ -51,7 +51,7 @@ class maitlandSmith
     scalar epsilon_;
 public:
   //- Runtime type information
-  TypeName("maitlandSmith");
+  TYPE_NAME("maitlandSmith");
   // Constructors
     //- Construct from components
     maitlandSmith

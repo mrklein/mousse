@@ -9,8 +9,8 @@ namespace mousse
 namespace pairPotentials
 {
 // Static Data Members
-defineTypeNameAndDebug(maitlandSmith, 0);
-addToRunTimeSelectionTable
+DEFINE_TYPE_NAME_AND_DEBUG(maitlandSmith, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   pairPotential,
   maitlandSmith,

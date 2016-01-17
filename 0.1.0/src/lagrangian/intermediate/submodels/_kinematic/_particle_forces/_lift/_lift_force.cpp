@@ -8,10 +8,10 @@
 template<class CloudType>
 mousse::scalar mousse::LiftForce<CloudType>::LiftForce::Cl
 (
-  const typename CloudType::parcelType& p,
-  const vector& curlUc,
-  const scalar Re,
-  const scalar muc
+  const typename CloudType::parcelType& /*p*/,
+  const vector& /*curlUc*/,
+  const scalar /*Re*/,
+  const scalar /*muc*/
 ) const
 {
   // dummy
@@ -84,7 +84,7 @@ template<class CloudType>
 mousse::forceSuSp mousse::LiftForce<CloudType>::calcCoupled
 (
   const typename CloudType::parcelType& p,
-  const scalar dt,
+  const scalar /*dt*/,
   const scalar mass,
   const scalar Re,
   const scalar muc

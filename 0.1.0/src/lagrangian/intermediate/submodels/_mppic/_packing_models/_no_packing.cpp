@@ -7,11 +7,11 @@
 template<class CloudType>
 mousse::PackingModels::NoPacking<CloudType>::NoPacking
 (
-  const dictionary& dict,
+  const dictionary&,
   CloudType& owner
 )
 :
-  PackingModel<CloudType>(owner)
+  PackingModel<CloudType>{owner}
 {}
 template<class CloudType>
 mousse::PackingModels::NoPacking<CloudType>::NoPacking
@@ -19,7 +19,7 @@ mousse::PackingModels::NoPacking<CloudType>::NoPacking
   const NoPacking<CloudType>& cm
 )
 :
-  PackingModel<CloudType>(cm)
+  PackingModel<CloudType>{cm}
 {}
 // Destructor 
 template<class CloudType>
@@ -29,8 +29,8 @@ mousse::PackingModels::NoPacking<CloudType>::~NoPacking()
 template<class CloudType>
 mousse::vector mousse::PackingModels::NoPacking<CloudType>::velocityCorrection
 (
-  typename CloudType::parcelType& p,
-  const scalar deltaT
+  typename CloudType::parcelType& /*p*/,
+  const scalar /*deltaT*/
 ) const
 {
   return vector::zero;

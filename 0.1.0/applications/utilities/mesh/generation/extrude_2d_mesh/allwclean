@@ -1,0 +1,6 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wclean libso extrude_2d_mesh
+wclean

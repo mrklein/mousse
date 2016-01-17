@@ -33,7 +33,7 @@ void mousse::slidingInterface::calcAttachedAddressing() const
       faceZones[masterFaceZoneID_.index()].flipMap();
     masterFaceCellsPtr_ = new labelList(masterPatchFaces.size());
     labelList& mfc = *masterFaceCellsPtr_;
-    forAll(masterPatchFaces, faceI)
+    FOR_ALL(masterPatchFaces, faceI)
     {
       if (masterFlip[faceI])
       {
@@ -53,7 +53,7 @@ void mousse::slidingInterface::calcAttachedAddressing() const
       faceZones[slaveFaceZoneID_.index()].flipMap();
     slaveFaceCellsPtr_ = new labelList(slavePatchFaces.size());
     labelList& sfc = *slaveFaceCellsPtr_;
-    forAll(slavePatchFaces, faceI)
+    FOR_ALL(slavePatchFaces, faceI)
     {
       if (slaveFlip[faceI])
       {
@@ -69,7 +69,7 @@ void mousse::slidingInterface::calcAttachedAddressing() const
     {
       if (debug)
       {
-        forAll(mfc, faceI)
+        FOR_ALL(mfc, faceI)
         {
           if (mfc[faceI] < 0)
           {
@@ -80,7 +80,7 @@ void mousse::slidingInterface::calcAttachedAddressing() const
               << " flip: " << masterFlip[faceI] << endl;
           }
         }
-        forAll(sfc, faceI)
+        FOR_ALL(sfc, faceI)
         {
           if (sfc[faceI] < 0)
           {
@@ -92,7 +92,7 @@ void mousse::slidingInterface::calcAttachedAddressing() const
           }
         }
       }
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void slidingInterface::calcAttachedAddressing()"
         "const"
@@ -108,10 +108,10 @@ void mousse::slidingInterface::calcAttachedAddressing() const
       primitiveMesh::facesPerCell_*(masterPatch.size())
     );
     const labelList& masterMeshPoints = masterPatch.meshPoints();
-    forAll(masterMeshPoints, pointI)
+    FOR_ALL(masterMeshPoints, pointI)
     {
       const labelList& curFaces = pointFaces[masterMeshPoints[pointI]];
-      forAll(curFaces, faceI)
+      FOR_ALL(curFaces, faceI)
       {
         // Check if the face belongs to the master face zone;
         // if not add it
@@ -132,10 +132,10 @@ void mousse::slidingInterface::calcAttachedAddressing() const
       primitiveMesh::facesPerCell_*(slavePatch.size())
     );
     const labelList& slaveMeshPoints = slavePatch.meshPoints();
-    forAll(slaveMeshPoints, pointI)
+    FOR_ALL(slaveMeshPoints, pointI)
     {
       const labelList& curFaces = pointFaces[slaveMeshPoints[pointI]];
-      forAll(curFaces, faceI)
+      FOR_ALL(curFaces, faceI)
       {
         // Check if the face belongs to the slave face zone;
         // if not add it
@@ -167,7 +167,7 @@ void mousse::slidingInterface::calcAttachedAddressing() const
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void slidingInterface::calcAttachedAddressing() const"
     )   << "The interface is attached.  The zone face-cell addressing "
@@ -207,7 +207,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
   labelList& newMfc = *newMfcPtr;
   const labelList& mfzRenumber =
     m.faceZoneFaceMap()[masterFaceZoneID_.index()];
-  forAll(mfc, faceI)
+  FOR_ALL(mfc, faceI)
   {
     label newCellI = reverseCellMap[mfc[mfzRenumber[faceI]]];
     if (newCellI >= 0)
@@ -220,7 +220,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
   labelList& newSfc = *newSfcPtr;
   const labelList& sfzRenumber =
     m.faceZoneFaceMap()[slaveFaceZoneID_.index()];
-  forAll(sfc, faceI)
+  FOR_ALL(sfc, faceI)
   {
     label newCellI = reverseCellMap[sfc[sfzRenumber[faceI]]];
     if (newCellI >= 0)
@@ -233,7 +233,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
     // Check if all the mapped cells are live
     if (min(newMfc) < 0 || min(newSfc) < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void slidingInterface::renumberAttachedAddressing("
         "const mapPolyMesh& m) const"
@@ -249,7 +249,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
   const labelList& msof = masterStickOutFaces();
   labelList* newMsofPtr = new labelList(msof.size(), -1);
   labelList& newMsof = *newMsofPtr;
-  forAll(msof, faceI)
+  FOR_ALL(msof, faceI)
   {
     label newFaceI = reverseFaceMap[msof[faceI]];
     if (newFaceI >= 0)
@@ -262,7 +262,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
   const labelList& ssof = slaveStickOutFaces();
   labelList* newSsofPtr = new labelList(ssof.size(), -1);
   labelList& newSsof = *newSsofPtr;
-  forAll(ssof, faceI)
+  FOR_ALL(ssof, faceI)
   {
     label newFaceI = reverseFaceMap[ssof[faceI]];
     if (newFaceI >= 0)
@@ -276,7 +276,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
     // Check if all the mapped cells are live
     if (min(newMsof) < 0 || min(newSsof) < 0)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void slidingInterface::renumberAttachedAddressing("
         "const mapPolyMesh& m) const"
@@ -294,7 +294,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
   // Get reference to point renumbering
   const labelList& reversePointMap = m.reversePointMap();
   label key, value;
-  forAll(rpmToc, rpmTocI)
+  FOR_ALL(rpmToc, rpmTocI)
   {
     key = reversePointMap[rpmToc[rpmTocI]];
     value = reversePointMap[rpm.find(rpmToc[rpmTocI])()];
@@ -303,7 +303,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
       // Check if all the mapped cells are live
       if (key < 0 || value < 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void slidingInterface::renumberAttachedAddressing("
           "const mapPolyMesh& m) const"
@@ -320,7 +320,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
   Map<Pair<edge> >* newCpepmPtr = new Map<Pair<edge> >(cpepm.size());
   Map<Pair<edge> >& newCpepm = *newCpepmPtr;
   const labelList cpepmToc = cpepm.toc();
-  forAll(cpepmToc, cpepmTocI)
+  FOR_ALL(cpepmToc, cpepmTocI)
   {
     key = reversePointMap[cpepmToc[cpepmTocI]];
     const Pair<edge>& oldPe = cpepm.find(cpepmToc[cpepmTocI])();
@@ -334,7 +334,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
       // Check if all the mapped cells are live
       if (key < 0 || ms < 0 || me < 0 || ss < 0 || se < 0)
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void slidingInterface::renumberAttachedAddressing("
           "const mapPolyMesh& m) const"
@@ -347,7 +347,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
   }
   if (!projectedSlavePointsPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "void slidingInterface::renumberAttachedAddressing("
       "const mapPolyMesh& m) const"
@@ -363,7 +363,7 @@ void mousse::slidingInterface::renumberAttachedAddressing
   pointField& newProjectedSlavePoints = *newProjectedSlavePointsPtr;
   const labelList& sfzPointRenumber =
     m.faceZonePointMap()[slaveFaceZoneID_.index()];
-  forAll(newProjectedSlavePoints, pointI)
+  FOR_ALL(newProjectedSlavePoints, pointI)
   {
     if (sfzPointRenumber[pointI] > -1)
     {
@@ -386,7 +386,7 @@ const mousse::labelList& mousse::slidingInterface::masterFaceCells() const
 {
   if (!masterFaceCellsPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelList& slidingInterface::masterFaceCells() const"
     )   << "Master zone face-cell addressing not available for object "
@@ -399,7 +399,7 @@ const mousse::labelList& mousse::slidingInterface::slaveFaceCells() const
 {
   if (!slaveFaceCellsPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelList& slidingInterface::slaveFaceCells() const"
     )   << "Slave zone face-cell addressing not available for object "
@@ -412,7 +412,7 @@ const mousse::labelList& mousse::slidingInterface::masterStickOutFaces() const
 {
   if (!masterStickOutFacesPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelList& slidingInterface::masterStickOutFaces() const"
     )   << "Master zone stick-out face addressing not available for object "
@@ -425,7 +425,7 @@ const mousse::labelList& mousse::slidingInterface::slaveStickOutFaces() const
 {
   if (!slaveStickOutFacesPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const labelList& slidingInterface::slaveStickOutFaces() const"
     )   << "Slave zone stick-out face addressing not available for object "
@@ -438,7 +438,7 @@ const mousse::Map<mousse::label>& mousse::slidingInterface::retiredPointMap() co
 {
   if (!retiredPointMapPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const Map<label>& slidingInterface::retiredPointMap() const"
     )   << "Retired point map not available for object " << name()
@@ -451,7 +451,7 @@ mousse::slidingInterface::cutPointEdgePairMap() const
 {
   if (!cutPointEdgePairMapPtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "const Map<Pair<edge> >& slidingInterface::"
       "cutPointEdgePairMap() const"

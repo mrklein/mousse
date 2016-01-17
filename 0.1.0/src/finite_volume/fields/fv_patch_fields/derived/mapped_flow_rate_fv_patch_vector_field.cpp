@@ -120,7 +120,7 @@ void mousse::mappedFlowRateFvPatchVectorField::updateCoeffs()
   }
   else
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "mappedFlowRateFvPatchVectorField::updateCoeffs()"
     )   << "dimensions of " << phiName_ << " are incorrect" << nl
@@ -146,9 +146,9 @@ void mousse::mappedFlowRateFvPatchVectorField::write
 }
 namespace mousse
 {
- makePatchTypeField
- (
-   fvPatchVectorField,
-   mappedFlowRateFvPatchVectorField
- );
+MAKE_PATCH_TYPE_FIELD
+(
+ fvPatchVectorField,
+ mappedFlowRateFvPatchVectorField
+);
 }

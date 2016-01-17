@@ -13,7 +13,7 @@ const FilmType& filmSubModelBase::filmType() const
 {
   if (!isA<FilmType>(owner_))
   {
-    FatalErrorIn("FilmType& surfaceFilmModel::film() const")
+    FATAL_ERROR_IN("FilmType& surfaceFilmModel::film() const")
       << "Model " << this->modelType() << " requested film type "
       << FilmType::typeName << " but film is type " << owner_.type()
       << abort(FatalError);

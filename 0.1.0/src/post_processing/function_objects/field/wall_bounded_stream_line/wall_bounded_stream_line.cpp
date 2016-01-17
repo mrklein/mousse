@@ -19,7 +19,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(wallBoundedStreamLine, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(wallBoundedStreamLine, 0);
 }
 // Private Member Functions 
 mousse::autoPtr<mousse::indirectPrimitivePatch>
@@ -28,7 +28,7 @@ mousse::wallBoundedStreamLine::wallPatch() const
   const fvMesh& mesh = dynamic_cast<const fvMesh&>(obr_);
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   label nFaces = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     //if (!polyPatch::constraintType(patches[patchI].type()))
     if (isA<wallPolyPatch>(patches[patchI]))
@@ -36,32 +36,32 @@ mousse::wallBoundedStreamLine::wallPatch() const
       nFaces += patches[patchI].size();
     }
   }
-  labelList addressing(nFaces);
+  labelList addressing{nFaces};
   nFaces = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     //if (!polyPatch::constraintType(patches[patchI].type()))
     if (isA<wallPolyPatch>(patches[patchI]))
     {
       const polyPatch& pp = patches[patchI];
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         addressing[nFaces++] = pp.start()+i;
       }
     }
   }
   return autoPtr<indirectPrimitivePatch>
-  (
+  {
     new indirectPrimitivePatch
-    (
+    {
       IndirectList<face>
-      (
+      {
         mesh.faces(),
         addressing
-      ),
+      },
       mesh.points()
-    )
-  );
+    }
+  };
 }
 mousse::tetIndices mousse::wallBoundedStreamLine::findNearestTet
 (
@@ -75,7 +75,7 @@ mousse::tetIndices mousse::wallBoundedStreamLine::findNearestTet
   label minFaceI = -1;
   label minTetPtI = -1;
   scalar minDistSqr = sqr(GREAT);
-  forAll(cFaces, cFaceI)
+  FOR_ALL(cFaces, cFaceI)
   {
     label faceI = cFaces[cFaceI];
     if (isWallPatch[faceI])
@@ -102,13 +102,10 @@ mousse::tetIndices mousse::wallBoundedStreamLine::findNearestTet
     }
   }
   // Put particle in tet
-  return tetIndices
-  (
-    cellI,
-    minFaceI,
-    minTetPtI,
-    mesh
-  );
+  return tetIndices(cellI,
+                    minFaceI,
+                    minTetPtI,
+                    mesh);
 }
 void mousse::wallBoundedStreamLine::track()
 {
@@ -117,26 +114,24 @@ void mousse::wallBoundedStreamLine::track()
   // Determine the 'wall' patches
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // These are the faces that need to be followed
-  autoPtr<indirectPrimitivePatch> boundaryPatch(wallPatch());
-  PackedBoolList isWallPatch(mesh.nFaces());
-  forAll(boundaryPatch().addressing(), i)
+  autoPtr<indirectPrimitivePatch> boundaryPatch{wallPatch()};
+  PackedBoolList isWallPatch{mesh.nFaces()};
+  FOR_ALL(boundaryPatch().addressing(), i)
   {
     isWallPatch[boundaryPatch().addressing()[i]] = 1;
   }
   // Find nearest wall particle for the seedPoints
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   IDLList<wallBoundedStreamLineParticle> initialParticles;
-  wallBoundedStreamLineParticleCloud particles
-  (
-    mesh,
-    cloudName_,
-    initialParticles
-  );
+  wallBoundedStreamLineParticleCloud particles(mesh,
+                                               cloudName_,
+                                               initialParticles);
+
   {
     // Get the seed points
     // ~~~~~~~~~~~~~~~~~~~
     const sampledSet& seedPoints = sampledSetPtr_();
-    forAll(seedPoints, i)
+    FOR_ALL(seedPoints, i)
     {
       const point& seedPt = seedPoints[i];
       label cellI = seedPoints.cells()[i];
@@ -152,7 +147,7 @@ void mousse::wallBoundedStreamLine::track()
         particles.addParticle
         (
           new wallBoundedStreamLineParticle
-          (
+          {
             mesh,
             ids.faceTri(mesh).centre(),
             ids.cell(),
@@ -161,7 +156,7 @@ void mousse::wallBoundedStreamLine::track()
             -1,             // not on a mesh edge
             -1,             // not on a diagonal edge
             lifeTime_       // lifetime
-          )
+          }
         );
       }
       else
@@ -175,21 +170,21 @@ void mousse::wallBoundedStreamLine::track()
   Info<< type() << " : seeded " << nSeeds << " particles." << endl;
   // Read or lookup fields
   PtrList<volScalarField> vsFlds;
-  PtrList<interpolation<scalar> > vsInterp;
+  PtrList<interpolation<scalar>> vsInterp;
   PtrList<volVectorField> vvFlds;
-  PtrList<interpolation<vector> > vvInterp;
+  PtrList<interpolation<vector>> vvInterp;
   label UIndex = -1;
   if (loadFromFiles_)
   {
-    IOobjectList allObjects(mesh, runTime.timeName());
-    IOobjectList objects(2*fields_.size());
-    forAll(fields_, i)
+    IOobjectList allObjects{mesh, runTime.timeName()};
+    IOobjectList objects{2*fields_.size()};
+    FOR_ALL(fields_, i)
     {
       objects.add(*allObjects[fields_[i]]);
     }
     ReadFields(mesh, objects, vsFlds);
     vsInterp.setSize(vsFlds.size());
-    forAll(vsFlds, i)
+    FOR_ALL(vsFlds, i)
     {
       vsInterp.set
       (
@@ -203,7 +198,7 @@ void mousse::wallBoundedStreamLine::track()
     }
     ReadFields(mesh, objects, vvFlds);
     vvInterp.setSize(vvFlds.size());
-    forAll(vvFlds, i)
+    FOR_ALL(vvFlds, i)
     {
       vvInterp.set
       (
@@ -220,7 +215,7 @@ void mousse::wallBoundedStreamLine::track()
   {
     label nScalar = 0;
     label nVector = 0;
-    forAll(fields_, i)
+    FOR_ALL(fields_, i)
     {
       if (mesh.foundObject<volScalarField>(fields_[i]))
       {
@@ -232,7 +227,7 @@ void mousse::wallBoundedStreamLine::track()
       }
       else
       {
-        FatalErrorIn("wallBoundedStreamLine::execute()")
+        FATAL_ERROR_IN("wallBoundedStreamLine::execute()")
           << "Cannot find field " << fields_[i] << endl
           << "Valid scalar fields are:"
           << mesh.names(volScalarField::typeName) << endl
@@ -245,7 +240,7 @@ void mousse::wallBoundedStreamLine::track()
     nScalar = 0;
     vvInterp.setSize(nVector);
     nVector = 0;
-    forAll(fields_, i)
+    FOR_ALL(fields_, i)
     {
       if (mesh.foundObject<volScalarField>(fields_[i]))
       {
@@ -287,19 +282,19 @@ void mousse::wallBoundedStreamLine::track()
   }
   // Store the names
   scalarNames_.setSize(vsInterp.size());
-  forAll(vsInterp, i)
+  FOR_ALL(vsInterp, i)
   {
     scalarNames_[i] = vsInterp[i].psi().name();
   }
   vectorNames_.setSize(vvInterp.size());
-  forAll(vvInterp, i)
+  FOR_ALL(vvInterp, i)
   {
     vectorNames_[i] = vvInterp[i].psi().name();
   }
   // Check that we know the index of U in the interpolators.
   if (UIndex == -1)
   {
-    FatalErrorIn("wallBoundedStreamLine::execute()")
+    FATAL_ERROR_IN("wallBoundedStreamLine::execute()")
       << "Cannot find field to move particles with : " << UName_
       << endl
       << "This field has to be present in the sampled fields "
@@ -313,20 +308,20 @@ void mousse::wallBoundedStreamLine::track()
   allTracks_.clear();
   allTracks_.setCapacity(nSeeds);
   allScalars_.setSize(vsInterp.size());
-  forAll(allScalars_, i)
+  FOR_ALL(allScalars_, i)
   {
     allScalars_[i].clear();
     allScalars_[i].setCapacity(nSeeds);
   }
   allVectors_.setSize(vvInterp.size());
-  forAll(allVectors_, i)
+  FOR_ALL(allVectors_, i)
   {
     allVectors_[i].clear();
     allVectors_[i].setCapacity(nSeeds);
   }
   // additional particle info
   wallBoundedStreamLineParticle::trackingData td
-  (
+  {
     particles,
     vsInterp,
     vvInterp,
@@ -337,7 +332,7 @@ void mousse::wallBoundedStreamLine::track()
     allTracks_,
     allScalars_,
     allVectors_
-  );
+  };
   // Set very large dt. Note: cannot use GREAT since 1/GREAT is SMALL
   // which is a trigger value for the tracking...
   const scalar trackTime = mousse::sqrt(GREAT);
@@ -353,11 +348,11 @@ mousse::wallBoundedStreamLine::wallBoundedStreamLine
   const bool loadFromFiles
 )
 :
-  dict_(dict),
-  name_(name),
-  obr_(obr),
-  loadFromFiles_(loadFromFiles),
-  active_(true)
+  dict_{dict},
+  name_{name},
+  obr_{obr},
+  loadFromFiles_{loadFromFiles},
+  active_{true}
 {
   // Only active if a fvMesh is available
   if (isA<fvMesh>(obr_))
@@ -367,7 +362,7 @@ mousse::wallBoundedStreamLine::wallBoundedStreamLine
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "wallBoundedStreamLine::wallBoundedStreamLine\n"
       "("
@@ -376,8 +371,9 @@ mousse::wallBoundedStreamLine::wallBoundedStreamLine
         "const dictionary&, "
         "const bool "
       ")"
-    )   << "No fvMesh available, deactivating " << name_
-      << nl << endl;
+    )
+    << "No fvMesh available, deactivating " << name_
+    << nl << endl;
   }
 }
 // Destructor 
@@ -399,31 +395,33 @@ void mousse::wallBoundedStreamLine::read(const dictionary& dict)
       UName_ = "U";
       if (dict.found("U"))
       {
-        IOWarningIn
+        IO_WARNING_IN
         (
           "wallBoundedStreamLine::read(const dictionary&)",
           dict
-        )   << "Using deprecated entry \"U\"."
-          << " Please use \"UName\" instead."
-          << endl;
+        )
+        << "Using deprecated entry \"U\"."
+        << " Please use \"UName\" instead."
+        << endl;
         dict.lookup("U") >> UName_;
       }
     }
     if (findIndex(fields_, UName_) == -1)
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "wallBoundedStreamLine::read(const dictionary&)",
         dict
-      )   << "Velocity field for tracking " << UName_
-        << " should be present in the list of fields " << fields_
-        << exit(FatalIOError);
+      )
+      << "Velocity field for tracking " << UName_
+      << " should be present in the list of fields " << fields_
+      << exit(FatalIOError);
     }
     dict.lookup("trackForward") >> trackForward_;
     dict.lookup("lifeTime") >> lifeTime_;
     if (lifeTime_ < 1)
     {
-      FatalErrorIn(":wallBoundedStreamLine::read(const dictionary&)")
+      FATAL_ERROR_IN(":wallBoundedStreamLine::read(const dictionary&)")
         << "Illegal value " << lifeTime_ << " for lifeTime"
         << exit(FatalError);
     }
@@ -476,7 +474,7 @@ void mousse::wallBoundedStreamLine::read(const dictionary& dict)
       )
       {
         label nFaces = returnReduce(faces.size(), sumOp<label>());
-        WarningIn("wallBoundedStreamLine::read(const dictionary&)")
+        WARNING_IN("wallBoundedStreamLine::read(const dictionary&)")
           << "Found " << nFaces
           <<" faces with low quality or negative volume "
           << "decomposition tets. Writing to faceSet " << faces.name()
@@ -484,15 +482,15 @@ void mousse::wallBoundedStreamLine::read(const dictionary& dict)
       }
       // 2. all edges on a cell having two faces
       EdgeMap<label> numFacesPerEdge;
-      forAll(mesh.cells(), cellI)
+      FOR_ALL(mesh.cells(), cellI)
       {
         const cell& cFaces = mesh.cells()[cellI];
         numFacesPerEdge.clear();
-        forAll(cFaces, cFaceI)
+        FOR_ALL(cFaces, cFaceI)
         {
           label faceI = cFaces[cFaceI];
           const face& f = mesh.faces()[faceI];
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             const edge e(f[fp], f.nextLabel(fp));
             EdgeMap<label>::iterator eFnd =
@@ -507,11 +505,11 @@ void mousse::wallBoundedStreamLine::read(const dictionary& dict)
             }
           }
         }
-        forAllConstIter(EdgeMap<label>, numFacesPerEdge, iter)
+        FOR_ALL_CONST_ITER(EdgeMap<label>, numFacesPerEdge, iter)
         {
           if (iter() != 2)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "wallBoundedStreamLine::read(const dictionary&)"
             )   << "problem cell:" << cellI
@@ -549,11 +547,11 @@ void mousse::wallBoundedStreamLine::write()
         // Master: receive all. My own first, then consecutive
         // processors.
         label trackI = 0;
-        forAll(recvMap, procI)
+        FOR_ALL(recvMap, procI)
         {
           labelList& fromProc = recvMap[procI];
           fromProc.setSize(globalTrackIDs.localSize(procI));
-          forAll(fromProc, i)
+          FOR_ALL(fromProc, i)
           {
             fromProc[i] = trackI++;
           }
@@ -561,7 +559,7 @@ void mousse::wallBoundedStreamLine::write()
       }
       labelList& toMaster = sendMap[0];
       toMaster.setSize(globalTrackIDs.localSize());
-      forAll(toMaster, i)
+      FOR_ALL(toMaster, i)
       {
         toMaster[i] = i;
       }
@@ -583,7 +581,7 @@ void mousse::wallBoundedStreamLine::write()
         allTracks_
       );
       // Distribute the scalars
-      forAll(allScalars_, scalarI)
+      FOR_ALL(allScalars_, scalarI)
       {
         mapDistribute::distribute
         (
@@ -596,7 +594,7 @@ void mousse::wallBoundedStreamLine::write()
         );
       }
       // Distribute the vectors
-      forAll(allVectors_, vectorI)
+      FOR_ALL(allVectors_, vectorI)
       {
         mapDistribute::distribute
         (
@@ -610,7 +608,7 @@ void mousse::wallBoundedStreamLine::write()
       }
     }
     label n = 0;
-    forAll(allTracks_, trackI)
+    FOR_ALL(allTracks_, trackI)
     {
       n += allTracks_[trackI].size();
     }
@@ -635,43 +633,38 @@ void mousse::wallBoundedStreamLine::write()
       mkDir(vtkPath);
       // Convert track positions
       PtrList<coordSet> tracks(allTracks_.size());
-      forAll(allTracks_, trackI)
+      FOR_ALL(allTracks_, trackI)
       {
         tracks.set
         (
           trackI,
           new coordSet
-          (
+          {
             "track" + mousse::name(trackI),
             sampledSetAxis_                 //"xyz"
-          )
+          }
         );
         tracks[trackI].transfer(allTracks_[trackI]);
       }
       // Convert scalar values
       if (allScalars_.size() > 0)
       {
-        List<List<scalarField> > scalarValues(allScalars_.size());
-        forAll(allScalars_, scalarI)
+        List<List<scalarField>> scalarValues(allScalars_.size());
+        FOR_ALL(allScalars_, scalarI)
         {
           DynamicList<scalarList>& allTrackVals =
             allScalars_[scalarI];
           scalarValues[scalarI].setSize(allTrackVals.size());
-          forAll(allTrackVals, trackI)
+          FOR_ALL(allTrackVals, trackI)
           {
             scalarList& trackVals = allTrackVals[trackI];
             scalarValues[scalarI][trackI].transfer(trackVals);
           }
         }
         fileName vtkFile
-        (
-          vtkPath
-         / scalarFormatterPtr_().getFileName
-          (
-            tracks[0],
-            scalarNames_
-          )
-        );
+        {
+          vtkPath/scalarFormatterPtr_().getFileName(tracks[0], scalarNames_)
+        };
         Info<< "Writing data to " << vtkFile.path() << endl;
         scalarFormatterPtr_().write
         (
@@ -685,13 +678,13 @@ void mousse::wallBoundedStreamLine::write()
       // Convert vector values
       if (allVectors_.size() > 0)
       {
-        List<List<vectorField> > vectorValues(allVectors_.size());
-        forAll(allVectors_, vectorI)
+        List<List<vectorField>> vectorValues{allVectors_.size()};
+        FOR_ALL(allVectors_, vectorI)
         {
           DynamicList<vectorList>& allTrackVals =
             allVectors_[vectorI];
           vectorValues[vectorI].setSize(allTrackVals.size());
-          forAll(allTrackVals, trackI)
+          FOR_ALL(allTrackVals, trackI)
           {
             vectorList& trackVals = allTrackVals[trackI];
             vectorValues[vectorI][trackI].transfer(trackVals);

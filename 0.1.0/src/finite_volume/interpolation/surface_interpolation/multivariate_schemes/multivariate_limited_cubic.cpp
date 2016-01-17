@@ -6,11 +6,14 @@
 #include "limited_scheme.hpp"
 #include "limited01.hpp"
 #include "limited_cubic.hpp"
+
 namespace mousse
 {
-  makeLimitedMultivariateSurfaceInterpolationScheme
-  (
-    limitedCubic,
-    limitedCubicLimiter
-  )
+
+MAKE_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME
+(
+  limitedCubic,
+  limitedCubicLimiter
+)
+
 }

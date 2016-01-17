@@ -13,9 +13,9 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  Tinf_(p.size(), 0.0),
-  alphaWall_(p.size(), 0.0)
+  mixedFvPatchScalarField{p, iF},
+  Tinf_{p.size(), 0.0},
+  alphaWall_{p.size(), 0.0}
 {
   refValue() = 0.0;
   refGrad() = 0.0;
@@ -29,9 +29,9 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(ptf, p, iF, mapper),
-  Tinf_(ptf.Tinf_, mapper),
-  alphaWall_(ptf.alphaWall_, mapper)
+  mixedFvPatchScalarField{ptf, p, iF, mapper},
+  Tinf_{ptf.Tinf_, mapper},
+  alphaWall_{ptf.alphaWall_, mapper}
 {}
 mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
 (
@@ -40,9 +40,9 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  Tinf_("Tinf", dict, p.size()),
-  alphaWall_("alphaWall", dict, p.size())
+  mixedFvPatchScalarField{p, iF},
+  Tinf_{"Tinf", dict, p.size()},
+  alphaWall_{"alphaWall", dict, p.size()}
 {
   refValue() = Tinf_;
   refGrad() = 0.0;
@@ -64,9 +64,9 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   const wallHeatTransferFvPatchScalarField& tppsf
 )
 :
-  mixedFvPatchScalarField(tppsf),
-  Tinf_(tppsf.Tinf_),
-  alphaWall_(tppsf.alphaWall_)
+  mixedFvPatchScalarField{tppsf},
+  Tinf_{tppsf.Tinf_},
+  alphaWall_{tppsf.alphaWall_}
 {}
 mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
 (
@@ -74,9 +74,9 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(tppsf, iF),
-  Tinf_(tppsf.Tinf_),
-  alphaWall_(tppsf.alphaWall_)
+  mixedFvPatchScalarField{tppsf, iF},
+  Tinf_{tppsf.Tinf_},
+  alphaWall_{tppsf.alphaWall_}
 {}
 // Member Functions 
 void mousse::wallHeatTransferFvPatchScalarField::autoMap
@@ -133,9 +133,9 @@ void mousse::wallHeatTransferFvPatchScalarField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePatchTypeField
-  (
-    fvPatchScalarField,
-    wallHeatTransferFvPatchScalarField
-  );
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchScalarField,
+  wallHeatTransferFvPatchScalarField
+);
 }

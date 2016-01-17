@@ -21,7 +21,7 @@ class wedgeFvPatch
     const wedgePolyPatch& wedgePolyPatch_;
 public:
   //- Runtime type information
-  TypeName(wedgePolyPatch::typeName_());
+  TYPE_NAME(wedgePolyPatch::typeName_());
   // Constructors
     //- Construct from polyPatch
     wedgeFvPatch(const polyPatch& patch, const fvBoundaryMesh& bm);

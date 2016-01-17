@@ -15,10 +15,10 @@ waveDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(p, iF),
-  amplitude_(vector::zero),
-  omega_(0.0),
-  waveNumber_(vector::zero)
+  fixedValuePointPatchField<vector>{p, iF},
+  amplitude_{vector::zero},
+  omega_{0.0},
+  waveNumber_{vector::zero}
 {}
 mousse::waveDisplacementPointPatchVectorField::
 waveDisplacementPointPatchVectorField
@@ -28,10 +28,10 @@ waveDisplacementPointPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValuePointPatchField<vector>(p, iF, dict),
-  amplitude_(dict.lookup("amplitude")),
-  omega_(readScalar(dict.lookup("omega"))),
-  waveNumber_(dict.lookupOrDefault<vector>("waveNumber", vector::zero))
+  fixedValuePointPatchField<vector>{p, iF, dict},
+  amplitude_{dict.lookup("amplitude")},
+  omega_{readScalar(dict.lookup("omega"))},
+  waveNumber_{dict.lookupOrDefault<vector>("waveNumber", vector::zero)}
 {
   if (!dict.found("value"))
   {
@@ -47,10 +47,10 @@ waveDisplacementPointPatchVectorField
   const pointPatchFieldMapper& mapper
 )
 :
-  fixedValuePointPatchField<vector>(ptf, p, iF, mapper),
-  amplitude_(ptf.amplitude_),
-  omega_(ptf.omega_),
-  waveNumber_(ptf.waveNumber_)
+  fixedValuePointPatchField<vector>{ptf, p, iF, mapper},
+  amplitude_{ptf.amplitude_},
+  omega_{ptf.omega_},
+  waveNumber_{ptf.waveNumber_}
 {}
 mousse::waveDisplacementPointPatchVectorField::
 waveDisplacementPointPatchVectorField
@@ -59,10 +59,10 @@ waveDisplacementPointPatchVectorField
   const DimensionedField<vector, pointMesh>& iF
 )
 :
-  fixedValuePointPatchField<vector>(ptf, iF),
-  amplitude_(ptf.amplitude_),
-  omega_(ptf.omega_),
-  waveNumber_(ptf.waveNumber_)
+  fixedValuePointPatchField<vector>{ptf, iF},
+  amplitude_{ptf.amplitude_},
+  omega_{ptf.omega_},
+  waveNumber_{ptf.waveNumber_}
 {}
 // Member Functions 
 void mousse::waveDisplacementPointPatchVectorField::updateCoeffs()
@@ -93,9 +93,9 @@ void mousse::waveDisplacementPointPatchVectorField::write(Ostream& os) const
 }
 namespace mousse
 {
-  makePointPatchTypeField
-  (
-    pointPatchVectorField,
-    waveDisplacementPointPatchVectorField
-  );
+MAKE_POINT_PATCH_TYPE_FIELD
+(
+  pointPatchVectorField,
+  waveDisplacementPointPatchVectorField
+);
 }

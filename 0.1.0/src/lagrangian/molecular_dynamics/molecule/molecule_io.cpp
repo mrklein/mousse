@@ -5,6 +5,7 @@
 #include "molecule.hpp"
 #include "iostreams.hpp"
 #include "molecule_cloud.hpp"
+#pragma GCC diagnostic ignored "-Winvalid-offsetof"
 // Static Data Members
 const std::size_t mousse::molecule::sizeofFields_
 (
@@ -18,19 +19,19 @@ mousse::molecule::molecule
   bool readFields
 )
 :
-  particle(mesh, is, readFields),
-  Q_(tensor::zero),
-  v_(vector::zero),
-  a_(vector::zero),
-  pi_(vector::zero),
-  tau_(vector::zero),
-  specialPosition_(vector::zero),
-  potentialEnergy_(0.0),
-  rf_(tensor::zero),
-  special_(0),
-  id_(0),
-  siteForces_(0),
-  sitePositions_(0)
+  particle{mesh, is, readFields},
+  Q_{tensor::zero},
+  v_{vector::zero},
+  a_{vector::zero},
+  pi_{vector::zero},
+  tau_{vector::zero},
+  specialPosition_{vector::zero},
+  potentialEnergy_{0.0},
+  rf_{tensor::zero},
+  special_{0},
+  id_{0},
+  siteForces_{0},
+  sitePositions_{0}
 {
   if (readFields)
   {
@@ -89,7 +90,7 @@ void mousse::molecule::readFields(Cloud<molecule>& mC)
   IOField<label> id(mC.fieldIOobject("id", IOobject::MUST_READ));
   mC.checkFieldIOobject(mC, id);
   label i = 0;
-  forAllIter(moleculeCloud, mC, iter)
+  FOR_ALL_ITER(moleculeCloud, mC, iter)
   {
     molecule& mol = iter();
     mol.Q_ = Q[i];
@@ -107,46 +108,46 @@ void mousse::molecule::writeFields(const Cloud<molecule>& mC)
 {
   particle::writeFields(mC);
   label np = mC.size();
-  IOField<tensor> Q(mC.fieldIOobject("Q", IOobject::NO_READ), np);
-  IOField<vector> v(mC.fieldIOobject("v", IOobject::NO_READ), np);
-  IOField<vector> a(mC.fieldIOobject("a", IOobject::NO_READ), np);
-  IOField<vector> pi(mC.fieldIOobject("pi", IOobject::NO_READ), np);
-  IOField<vector> tau(mC.fieldIOobject("tau", IOobject::NO_READ), np);
+  IOField<tensor> Q{mC.fieldIOobject("Q", IOobject::NO_READ), np};
+  IOField<vector> v{mC.fieldIOobject("v", IOobject::NO_READ), np};
+  IOField<vector> a{mC.fieldIOobject("a", IOobject::NO_READ), np};
+  IOField<vector> pi{mC.fieldIOobject("pi", IOobject::NO_READ), np};
+  IOField<vector> tau{mC.fieldIOobject("tau", IOobject::NO_READ), np};
   IOField<vector> specialPosition
-  (
+  {
     mC.fieldIOobject("specialPosition", IOobject::NO_READ),
     np
-  );
-  IOField<label> special(mC.fieldIOobject("special", IOobject::NO_READ), np);
-  IOField<label> id(mC.fieldIOobject("id", IOobject::NO_READ), np);
+  };
+  IOField<label> special{mC.fieldIOobject("special", IOobject::NO_READ), np};
+  IOField<label> id{mC.fieldIOobject("id", IOobject::NO_READ), np};
   // Post processing fields
   IOField<vector> piGlobal
-  (
+  {
     mC.fieldIOobject("piGlobal", IOobject::NO_READ),
     np
-  );
+  };
   IOField<vector> tauGlobal
-  (
+  {
     mC.fieldIOobject("tauGlobal", IOobject::NO_READ),
     np
-  );
+  };
   IOField<vector> orientation1
-  (
+  {
     mC.fieldIOobject("orientation1", IOobject::NO_READ),
     np
-  );
+  };
   IOField<vector> orientation2
-  (
+  {
     mC.fieldIOobject("orientation2", IOobject::NO_READ),
     np
-  );
+  };
   IOField<vector> orientation3
-  (
+  {
     mC.fieldIOobject("orientation3", IOobject::NO_READ),
     np
-  );
+  };
   label i = 0;
-  forAllConstIter(moleculeCloud, mC, iter)
+  FOR_ALL_CONST_ITER(moleculeCloud, mC, iter)
   {
     const molecule& mol = iter();
     Q[i] = mol.Q_;

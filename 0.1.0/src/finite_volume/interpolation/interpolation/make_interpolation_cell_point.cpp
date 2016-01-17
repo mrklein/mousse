@@ -3,7 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "interpolation_cell_point.hpp"
+#include "vol_fields.hpp"
+
 namespace mousse
 {
-  makeInterpolation(interpolationCellPoint);
+MAKE_INTERPOLATION(interpolationCellPoint);
 }

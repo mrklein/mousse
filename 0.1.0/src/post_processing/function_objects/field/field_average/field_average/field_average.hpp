@@ -173,13 +173,9 @@ protected:
       void writeAveragingProperties() const;
       //- Read averaging properties - steps and time
       void readAveragingProperties();
-    //- Disallow default bitwise copy construct
-    fieldAverage(const fieldAverage&);
-    //- Disallow default bitwise assignment
-    void operator=(const fieldAverage&);
 public:
   //- Runtime type information
-  TypeName("fieldAverage");
+  TYPE_NAME("fieldAverage");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -190,6 +186,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    fieldAverage(const fieldAverage&) = delete;
+    //- Disallow default bitwise assignment
+    fieldAverage& operator=(const fieldAverage&) = delete;
   //- Destructor
   virtual ~fieldAverage();
   // Member Functions

@@ -13,9 +13,12 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   filtered_linear2.cpp
+
 #ifndef filtered_linear2_hpp_
 #define filtered_linear2_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimiterFunc>
@@ -38,29 +41,30 @@ class filteredLinear2Limiter
 public:
   filteredLinear2Limiter(Istream& is)
   :
-    k_(readScalar(is)),
-    l_(readScalar(is))
+    k_{readScalar(is)},
+    l_{readScalar(is)}
   {
     if (k_ < 0 || k_ > 1)
     {
-      FatalIOErrorIn("filteredLinearV2Limiter(Istream& is)", is)
+      FATAL_IO_ERROR_IN("filteredLinearV2Limiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
         << exit(FatalIOError);
     }
     if (l_ < 0 || l_ > 1)
     {
-      FatalIOErrorIn("filteredLinearV2Limiter(Istream& is)", is)
+      FATAL_IO_ERROR_IN("filteredLinearV2Limiter(Istream& is)", is)
         << "coefficient = " << l_
         << " should be >= 0 and <= 1"
         << exit(FatalIOError);
     }
     l_ += 1.0;
   }
+
   scalar limiter
   (
-    const scalar cdWeight,
-    const scalar faceFlux,
+    const scalar /*cdWeight*/,
+    const scalar /*faceFlux*/,
     const typename LimiterFunc::phiType& phiP,
     const typename LimiterFunc::phiType& phiN,
     const typename LimiterFunc::gradPhiType& gradcP,

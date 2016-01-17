@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(skewCorrectionVectors, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(skewCorrectionVectors, 0);
 }
 // Constructors
 mousse::skewCorrectionVectors::skewCorrectionVectors(const fvMesh& mesh)
@@ -47,7 +47,7 @@ void mousse::skewCorrectionVectors::calcSkewCorrectionVectors()
   const surfaceVectorField& Sf = mesh_.Sf();
   const labelUList& owner = mesh_.owner();
   const labelUList& neighbour = mesh_.neighbour();
-  forAll(owner, facei)
+  FOR_ALL(owner, facei)
   {
     label own = owner[facei];
     label nei = neighbour[facei];
@@ -56,7 +56,7 @@ void mousse::skewCorrectionVectors::calcSkewCorrectionVectors()
     skewCorrectionVectors_[facei] =
       Cpf - ((Sf[facei] & Cpf)/(Sf[facei] & d))*d;
   }
-  forAll(skewCorrectionVectors_.boundaryField(), patchI)
+  FOR_ALL(skewCorrectionVectors_.boundaryField(), patchI)
   {
     fvsPatchVectorField& patchSkewCorrVecs =
       skewCorrectionVectors_.boundaryField()[patchI];
@@ -71,7 +71,7 @@ void mousse::skewCorrectionVectors::calcSkewCorrectionVectors()
       const vectorField& patchFaceCentres = Cf.boundaryField()[patchI];
       const vectorField& patchSf = Sf.boundaryField()[patchI];
       const vectorField patchD(p.delta());
-      forAll(p, patchFaceI)
+      FOR_ALL(p, patchFaceI)
       {
         vector Cpf =
           patchFaceCentres[patchFaceI] - C[faceCells[patchFaceI]];

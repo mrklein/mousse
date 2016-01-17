@@ -15,14 +15,14 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(topoAction, 0);
-  defineTypeNameAndDebug(polyAddPoint, 0);
-  defineTypeNameAndDebug(polyModifyPoint, 0);
-  defineTypeNameAndDebug(polyRemovePoint, 0);
-  defineTypeNameAndDebug(polyAddFace, 0);
-  defineTypeNameAndDebug(polyModifyFace, 0);
-  defineTypeNameAndDebug(polyRemoveFace, 0);
-  defineTypeNameAndDebug(polyAddCell, 0);
-  defineTypeNameAndDebug(polyModifyCell, 0);
-  defineTypeNameAndDebug(polyRemoveCell, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(topoAction, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyAddPoint, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyModifyPoint, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyRemovePoint, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyAddFace, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyModifyFace, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyRemoveFace, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyAddCell, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyModifyCell, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(polyRemoveCell, 0);
 }

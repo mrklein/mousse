@@ -4,8 +4,8 @@
 
 #include "make_fv_option.hpp"
 #include "_semi_implicit_source.hpp"
-makeFvOption(SemiImplicitSource, scalar);
-makeFvOption(SemiImplicitSource, vector);
-makeFvOption(SemiImplicitSource, sphericalTensor);
-makeFvOption(SemiImplicitSource, symmTensor);
-makeFvOption(SemiImplicitSource, tensor);
+MAKE_FV_OPTION(SemiImplicitSource, scalar);
+MAKE_FV_OPTION(SemiImplicitSource, vector);
+MAKE_FV_OPTION(SemiImplicitSource, sphericalTensor);
+MAKE_FV_OPTION(SemiImplicitSource, symmTensor);
+MAKE_FV_OPTION(SemiImplicitSource, tensor);

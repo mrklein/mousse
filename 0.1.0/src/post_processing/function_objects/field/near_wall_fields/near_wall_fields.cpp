@@ -10,7 +10,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(nearWallFields, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(nearWallFields, 0);
 }
 // Private Member Functions 
 void mousse::nearWallFields::calcAddressing()
@@ -18,7 +18,7 @@ void mousse::nearWallFields::calcAddressing()
   const fvMesh& mesh = refCast<const fvMesh>(obr_);
   // Count number of faces
   label nPatchFaces = 0;
-  forAllConstIter(labelHashSet, patchSet_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
   {
     label patchI = iter.key();
     nPatchFaces += mesh.boundary()[patchI].size();
@@ -34,13 +34,13 @@ void mousse::nearWallFields::calcAddressing()
   Cloud<findCellParticle> cloud(mesh, IDLList<findCellParticle>());
   // Add particles to track to sample locations
   nPatchFaces = 0;
-  forAllConstIter(labelHashSet, patchSet_, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
   {
     label patchI = iter.key();
     const fvPatch& patch = mesh.boundary()[patchI];
     vectorField nf(patch.nf());
     vectorField faceCellCentres(patch.patch().faceCellCentres());
-    forAll(patch, patchFaceI)
+    FOR_ALL(patch, patchFaceI)
     {
       label meshFaceI = patch.start()+patchFaceI;
       // Find starting point on face (since faceCentre might not
@@ -97,7 +97,7 @@ void mousse::nearWallFields::calcAddressing()
     );
     Info<< "nearWallFields::calcAddressing() :"
       << "Dumping tracks to " << str.name() << endl;
-    forAllConstIter(Cloud<findCellParticle>, cloud, iter)
+    FOR_ALL_CONST_ITER(Cloud<findCellParticle>, cloud, iter)
     {
       const findCellParticle& tp = iter();
       str.write(linePointRef(tp.position(), tp.end()));
@@ -116,7 +116,7 @@ void mousse::nearWallFields::calcAddressing()
   {
     start.setSize(nPatchFaces);
     nPatchFaces = 0;
-    forAllConstIter(Cloud<findCellParticle>, cloud, iter)
+    FOR_ALL_CONST_ITER(Cloud<findCellParticle>, cloud, iter)
     {
       const findCellParticle& tp = iter();
       start[nPatchFaces++] = tp.position();
@@ -146,11 +146,11 @@ void mousse::nearWallFields::calcAddressing()
       );
       Info<< "nearWallFields::calcAddressing() :"
         << "Dumping obtained to " << str.name() << endl;
-      forAll(cellToWalls_, cellI)
+      FOR_ALL(cellToWalls_, cellI)
       {
         const List<point>& ends = cellToSamples_[cellI];
         const labelList& cData = cellToWalls_[cellI];
-        forAll(cData, i)
+        FOR_ALL(cData, i)
         {
           str.write(linePointRef(ends[i], start[cData[i]]));
         }
@@ -164,13 +164,13 @@ mousse::nearWallFields::nearWallFields
   const word& name,
   const objectRegistry& obr,
   const dictionary& dict,
-  const bool loadFromFiles
+  const bool /*loadFromFiles*/
 )
 :
-  name_(name),
-  obr_(obr),
-  active_(true),
-  fieldSet_()
+  name_{name},
+  obr_{obr},
+  active_{true},
+  fieldSet_{}
 {
   // Check if the available mesh is an fvMesh otherise deactivate
   if (isA<fvMesh>(obr_))
@@ -180,7 +180,7 @@ mousse::nearWallFields::nearWallFields
   else
   {
     active_ = false;
-    WarningIn
+    WARNING_IN
     (
       "nearWallFields::nearWallFields"
       "("
@@ -227,7 +227,7 @@ void mousse::nearWallFields::read(const dictionary& dict)
     // Convert field to map
     fieldMap_.resize(2*fieldSet_.size());
     reverseFieldMap_.resize(2*fieldSet_.size());
-    forAll(fieldSet_, setI)
+    FOR_ALL(fieldSet_, setI)
     {
       const word& fldName = fieldSet_[setI].first();
       const word& sampleFldName = fieldSet_[setI].second();
@@ -302,23 +302,23 @@ void mousse::nearWallFields::write()
   {
     Info<< "    Writing sampled fields to " << obr_.time().timeName()
       << endl;
-    forAll(vsf_, i)
+    FOR_ALL(vsf_, i)
     {
       vsf_[i].write();
     }
-    forAll(vvf_, i)
+    FOR_ALL(vvf_, i)
     {
       vvf_[i].write();
     }
-    forAll(vSpheretf_, i)
+    FOR_ALL(vSpheretf_, i)
     {
       vSpheretf_[i].write();
     }
-    forAll(vSymmtf_, i)
+    FOR_ALL(vSymmtf_, i)
     {
       vSymmtf_[i].write();
     }
-    forAll(vtf_, i)
+    FOR_ALL(vtf_, i)
     {
       vtf_[i].write();
     }

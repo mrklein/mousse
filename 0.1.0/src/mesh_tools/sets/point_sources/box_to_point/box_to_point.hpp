@@ -26,7 +26,7 @@ class boxToPoint
     void combine(topoSet& set, const bool add) const;
 public:
   //- Runtime type information
-  TypeName("boxToPoint");
+  TYPE_NAME("boxToPoint");
   // Constructors
     //- Construct from components
     boxToPoint

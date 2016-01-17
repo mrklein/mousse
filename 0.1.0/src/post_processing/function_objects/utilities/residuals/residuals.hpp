@@ -29,7 +29,7 @@
 //   mousse::OutputFilterFunctionObject
 // SourceFiles
 //   residuals.cpp
-//   i_oresiduals.hpp
+//   io_residuals.hpp
 #ifndef residuals_hpp_
 #define residuals_hpp_
 #include "function_object_file.hpp"
@@ -62,15 +62,11 @@ protected:
     //- Fields to write residuals
     wordList fieldSet_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    residuals(const residuals&);
-    //- Disallow default bitwise assignment
-    void operator=(const residuals&);
     //- Output file header information
     virtual void writeFileHeader(const label i);
 public:
   //- Runtime type information
-  TypeName("residuals");
+  TYPE_NAME("residuals");
   // Constructors
     //- Construct for given objectRegistry and dictionary.
     //  Allow the possibility to load fields from files
@@ -81,6 +77,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    residuals(const residuals&) = delete;
+    //- Disallow default bitwise assignment
+    residuals& operator=(const residuals&) = delete;
   //- Destructor
   virtual ~residuals();
   // Member Functions

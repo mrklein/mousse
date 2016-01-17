@@ -10,7 +10,7 @@
 namespace mousse
 {
   makeSurfaceWriterType(nastranSurfaceWriter);
-  addToRunTimeSelectionTable(surfaceWriter, nastranSurfaceWriter, wordDict);
+  ADD_TO_RUN_TIME_SELECTION_TABLE(surfaceWriter, nastranSurfaceWriter, wordDict);
   // create write methods
   defineSurfaceWriterWriteFields(nastranSurfaceWriter);
   template<>
@@ -118,7 +118,7 @@ void mousse::nastranSurfaceWriter::writeCoord
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::nastranSurfaceWriter::writeCoord"
         "("
@@ -158,7 +158,7 @@ void mousse::nastranSurfaceWriter::writeFace
       os.setf(ios_base::right);
       os  << setw(8) << nFace++
         << "        ";
-      forAll(facePts, i)
+      FOR_ALL(facePts, i)
       {
         os  << setw(8) << facePts[i] + 1;
       }
@@ -174,7 +174,7 @@ void mousse::nastranSurfaceWriter::writeFace
       os.setf(ios_base::right);
       os  << setw(16) << nFace++
         << "                ";
-      forAll(facePts, i)
+      FOR_ALL(facePts, i)
       {
         os  << setw(16) << facePts[i] + 1;
         if (i == 1)
@@ -195,7 +195,7 @@ void mousse::nastranSurfaceWriter::writeFace
     {
       os  << faceType << ','
         << ++nFace << ',';
-      forAll(facePts, i)
+      FOR_ALL(facePts, i)
       {
         os  << ',' << facePts[i] + 1;
       }
@@ -204,7 +204,7 @@ void mousse::nastranSurfaceWriter::writeFace
     }
     default:
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void mousse::nastranSurfaceWriter::writeFace"
         "("
@@ -229,7 +229,7 @@ void mousse::nastranSurfaceWriter::writeGeometry
   os  << "$" << nl
     << "$ Points" << nl
     << "$" << nl;
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     writeCoord(points[pointI], pointI, os);
   }
@@ -238,7 +238,7 @@ void mousse::nastranSurfaceWriter::writeGeometry
     << "$ Faces" << nl
     << "$" << nl;
   label nFace = 1;
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     if (f.size() == 3)
@@ -257,7 +257,7 @@ void mousse::nastranSurfaceWriter::writeGeometry
       label nTri = 0;
       faceList triFaces;
       f.triangles(points, nTri, triFaces);
-      forAll(triFaces, triI)
+      FOR_ALL(triFaces, triI)
       {
         writeFace("CTRIA3", triFaces[triI], nFace, os);
         decomposedFaces[faceI].append(triFaces[triI]);
@@ -285,7 +285,7 @@ mousse::nastranSurfaceWriter::nastranSurfaceWriter(const dictionary& options)
     writeFormat_ = writeFormatNames_.read(options.lookup("format"));
   }
   List<Tuple2<word, word> > fieldSet(options.lookup("fields"));
-  forAll(fieldSet, i)
+  FOR_ALL(fieldSet, i)
   {
     fieldMap_.insert(fieldSet[i].first(), fieldSet[i].second());
   }

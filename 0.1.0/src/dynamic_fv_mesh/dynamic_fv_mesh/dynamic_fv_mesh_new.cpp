@@ -36,7 +36,7 @@ mousse::autoPtr<mousse::dynamicFvMesh> mousse::dynamicFvMesh::New(const IOobject
   );
   if (!IOobjectConstructorTablePtr_)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "dynamicFvMesh::New(const IOobject&)"
     )   << "dynamicFvMesh table is empty"
@@ -46,7 +46,7 @@ mousse::autoPtr<mousse::dynamicFvMesh> mousse::dynamicFvMesh::New(const IOobject
     IOobjectConstructorTablePtr_->find(dynamicFvMeshTypeName);
   if (cstrIter == IOobjectConstructorTablePtr_->end())
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "dynamicFvMesh::New(const IOobject&)"
     )   << "Unknown dynamicFvMesh type "

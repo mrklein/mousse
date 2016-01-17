@@ -4,8 +4,9 @@
 
 #include "generic_fv_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 namespace mousse
 {
-  defineTypeNameAndDebug(genericFvPatch, 0);
-  addToRunTimeSelectionTable(fvPatch, genericFvPatch, polyPatch);
+DEFINE_TYPE_NAME_AND_DEBUG(genericFvPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(fvPatch, genericFvPatch, polyPatch);
 }

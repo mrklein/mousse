@@ -90,9 +90,6 @@ class kOmegaSSTSato
       typename BasicTurbulenceModel::transportModel
     >&
     gasTurbulence() const;
-    // Disallow default bitwise copy construct and assignment
-    kOmegaSSTSato(const kOmegaSSTSato&);
-    kOmegaSSTSato& operator=(const kOmegaSSTSato&);
 protected:
   // Protected data
     // Model coefficients
@@ -104,7 +101,7 @@ public:
   typedef typename BasicTurbulenceModel::rhoField rhoField;
   typedef typename BasicTurbulenceModel::transportModel transportModel;
   //- Runtime type information
-  TypeName("kOmegaSSTSato");
+  TYPE_NAME("kOmegaSSTSato");
   // Constructors
     //- Construct from components
     kOmegaSSTSato
@@ -118,6 +115,9 @@ public:
       const word& propertiesName = turbulenceModel::propertiesName,
       const word& type = typeName
     );
+    // Disallow default bitwise copy construct and assignment
+    kOmegaSSTSato(const kOmegaSSTSato&) = delete;
+    kOmegaSSTSato& operator=(const kOmegaSSTSato&) = delete;
   //- Destructor
   virtual ~kOmegaSSTSato()
   {}

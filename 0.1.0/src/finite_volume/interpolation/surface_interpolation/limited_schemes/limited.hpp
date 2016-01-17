@@ -5,9 +5,12 @@
 //   mousse::LimitedLimiter
 // Description
 //   mousse::LimitedLimiter
+
 #ifndef limited_hpp_
 #define limited_hpp_
+
 #include "vector.hpp"
+
 namespace mousse
 {
 template<class LimitedScheme>
@@ -21,13 +24,14 @@ class LimitedLimiter
   {
     if (lowerBound_ > upperBound_)
     {
-      FatalIOErrorIn("checkParameters()", is)
+      FATAL_IO_ERROR_IN("checkParameters()", is)
         << "Invalid bounds.  Lower = " << lowerBound_
         << "  Upper = " << upperBound_
         << ".  Lower bound is higher than the upper bound."
         << exit(FatalIOError);
     }
   }
+
 public:
   LimitedLimiter
   (
@@ -36,20 +40,22 @@ public:
     Istream& is
   )
   :
-    LimitedScheme(is),
-    lowerBound_(lowerBound),
-    upperBound_(upperBound)
+    LimitedScheme{is},
+    lowerBound_{lowerBound},
+    upperBound_{upperBound}
   {
     checkParameters(is);
   }
+
   LimitedLimiter(Istream& is)
   :
-    LimitedScheme(is),
-    lowerBound_(readScalar(is)),
-    upperBound_(readScalar(is))
+    LimitedScheme{is},
+    lowerBound_{readScalar(is)},
+    upperBound_{readScalar(is)}
   {
     checkParameters(is);
   }
+
   scalar limiter
   (
     const scalar cdWeight,
@@ -65,7 +71,7 @@ public:
     if
     (
       (faceFlux > 0 && (phiP < lowerBound_ || phiN > upperBound_))
-    || (faceFlux < 0 && (phiN < lowerBound_ || phiP > upperBound_))
+      || (faceFlux < 0 && (phiN < lowerBound_ || phiP > upperBound_))
     /*
       phiP < lowerBound_
     || phiP > upperBound_

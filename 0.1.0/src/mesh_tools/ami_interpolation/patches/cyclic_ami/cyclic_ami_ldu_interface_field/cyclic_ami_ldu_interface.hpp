@@ -17,7 +17,7 @@ class cyclicAMILduInterface
 {
 public:
   //- Runtime type information
-  TypeName("cyclicAMILduInterface");
+  TYPE_NAME("cyclicAMILduInterface");
   // Constructors
     //- Construct null
     cyclicAMILduInterface()

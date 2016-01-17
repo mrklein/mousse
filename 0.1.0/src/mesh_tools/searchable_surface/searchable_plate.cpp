@@ -8,8 +8,8 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(searchablePlate, 0);
-addToRunTimeSelectionTable(searchableSurface, searchablePlate, dict);
+DEFINE_TYPE_NAME_AND_DEBUG(searchablePlate, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchablePlate, dict);
 }
 // Private Member Functions 
 mousse::direction mousse::searchablePlate::calcNormal(const point& span)
@@ -19,7 +19,7 @@ mousse::direction mousse::searchablePlate::calcNormal(const point& span)
   {
     if (span[dir] < 0)
     {
-      FatalErrorIn("searchablePlate::calcNormal()")
+      FATAL_ERROR_IN("searchablePlate::calcNormal()")
         << "Span should have two positive and one zero entry. Now:"
         << span << exit(FatalError);
     }
@@ -39,7 +39,7 @@ mousse::direction mousse::searchablePlate::calcNormal(const point& span)
   }
   if (normalDir == 3)
   {
-    FatalErrorIn("searchablePlate::calcNormal()")
+    FATAL_ERROR_IN("searchablePlate::calcNormal()")
       << "Span should have two positive and one zero entry. Now:"
       << span << exit(FatalError);
   }
@@ -145,7 +145,7 @@ mousse::pointIndexHit mousse::searchablePlate::findLine
     bb.max()[normalDir_] += 1e-6;
     if (!bb.contains(info.hitPoint()))
     {
-      FatalErrorIn("searchablePlate::findLine(..)")
+      FATAL_ERROR_IN("searchablePlate::findLine(..)")
         << "bb:" << bb << endl
         << "origin_:" << origin_ << endl
         << "span_:" << span_ << endl
@@ -273,7 +273,7 @@ void mousse::searchablePlate::findNearest
 ) const
 {
   info.setSize(samples.size());
-  forAll(samples, i)
+  FOR_ALL(samples, i)
   {
     info[i] = findNearest(samples[i], nearestDistSqr[i]);
   }
@@ -286,7 +286,7 @@ void mousse::searchablePlate::findLine
 ) const
 {
   info.setSize(start.size());
-  forAll(start, i)
+  FOR_ALL(start, i)
   {
     info[i] = findLine(start[i], end[i]);
   }
@@ -310,7 +310,7 @@ void mousse::searchablePlate::findLineAll
   List<pointIndexHit> nearestInfo;
   findLine(start, end, nearestInfo);
   info.setSize(start.size());
-  forAll(info, pointI)
+  FOR_ALL(info, pointI)
   {
     if (nearestInfo[pointI].hit())
     {
@@ -340,18 +340,18 @@ void mousse::searchablePlate::getNormal
 {
   normal.setSize(info.size());
   normal = vector::zero;
-  forAll(normal, i)
+  FOR_ALL(normal, i)
   {
     normal[i][normalDir_] = 1.0;
   }
 }
 void mousse::searchablePlate::getVolumeType
 (
-  const pointField& points,
-  List<volumeType>& volType
+  const pointField&,
+  List<volumeType>&
 ) const
 {
-  FatalErrorIn
+  FATAL_ERROR_IN
   (
     "searchableCollection::getVolumeType(const pointField&"
     ", List<volumeType>&) const"

@@ -9,13 +9,12 @@
 //   Introduces chemistry equation system and evaluation of chemical source
 //   terms.
 // SourceFiles
-//   solid_chemistry_model_i.hpp
 //   solid_chemistry_model.cpp
 #ifndef solid_chemistry_model_hpp_
 #define solid_chemistry_model_hpp_
 #include "reaction.hpp"
 #include "ode_system.hpp"
-#include "vol_fields_fwd.hpp"
+#include "vol_fields.hpp"
 #include "dimensioned_field.hpp"
 #include "simple_matrix.hpp"
 namespace mousse
@@ -28,11 +27,6 @@ class solidChemistryModel
   public CompType,
   public ODESystem
 {
-  // Private Member Functions
-    //- Disallow copy constructor
-    solidChemistryModel(const solidChemistryModel&);
-    //- Disallow default bitwise assignment
-    void operator=(const solidChemistryModel&);
 protected:
     //- Reference to solid mass fractions
     PtrList<volScalarField>& Ys_;
@@ -55,10 +49,14 @@ protected:
     void setCellReacting(const label cellI, const bool active);
 public:
   //- Runtime type information
-  TypeName("solidChemistryModel");
+  TYPE_NAME("solidChemistryModel");
   // Constructors
     //- Construct from mesh and phase name
     solidChemistryModel(const fvMesh& mesh, const word& phaseName);
+    //- Disallow copy constructor
+    solidChemistryModel(const solidChemistryModel&) = delete;
+    //- Disallow default bitwise assignment
+    solidChemistryModel& operator=(const solidChemistryModel&) = delete;
   //- Destructor
   virtual ~solidChemistryModel();
   // Member Functions
@@ -152,7 +150,68 @@ public:
       ) const = 0;
 };
 }  // namespace mousse
-#   include "solid_chemistry_model_i.hpp"
+
+// Member Functions 
+template<class CompType, class SolidThermo>
+inline mousse::PtrList<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >&
+mousse::solidChemistryModel<CompType, SolidThermo>::RRs()
+{
+  return RRs_;
+}
+template<class CompType, class SolidThermo>
+inline const mousse::PtrList<mousse::Reaction<SolidThermo> >&
+mousse::solidChemistryModel<CompType, SolidThermo>::reactions() const
+{
+  return reactions_;
+}
+template<class CompType, class SolidThermo>
+inline mousse::label
+mousse::solidChemistryModel<CompType, SolidThermo>::
+nReaction() const
+{
+  return nReaction_;
+}
+template<class CompType, class SolidThermo>
+inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
+mousse::solidChemistryModel<CompType, SolidThermo>::RRs
+(
+  const label i
+) const
+{
+  return RRs_[i];
+}
+template<class CompType, class SolidThermo>
+inline mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >
+mousse::solidChemistryModel<CompType, SolidThermo>::RRs() const
+{
+  tmp<DimensionedField<scalar, volMesh> > tRRs
+  {
+    new DimensionedField<scalar, volMesh>
+    {
+      // IOobject
+      {
+        "RRs",
+        this->time().timeName(),
+        this->mesh(),
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+      },
+      this->mesh(),
+      // dimensionedScalar("zero", dimMass/dimVolume/dimTime, 0.0)
+      {"zero", dimMass/dimVolume/dimTime, 0.0}
+    }
+  };
+  if (this->chemistry_)
+  {
+    DimensionedField<scalar, volMesh>& RRs = tRRs();
+    for (label i=0; i < nSolids_; i++)
+    {
+      RRs += RRs_[i];
+    }
+  }
+  return tRRs;
+}
+
 #ifdef NoRepository
 #   include "solid_chemistry_model.cpp"
 #endif

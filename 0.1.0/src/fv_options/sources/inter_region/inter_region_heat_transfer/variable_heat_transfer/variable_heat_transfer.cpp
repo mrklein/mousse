@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(variableHeatTransfer, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(variableHeatTransfer, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     option,
     variableHeatTransfer,

@@ -14,12 +14,12 @@ void mousse::porosityModels::DarcyForchheimer::apply
   const vectorField& U
 ) const
 {
-  forAll(cellZoneIDs_, zoneI)
+  FOR_ALL(cellZoneIDs_, zoneI)
   {
     const tensorField& dZones = D_[zoneI];
     const tensorField& fZones = F_[zoneI];
     const labelList& cells = mesh_.cellZones()[cellZoneIDs_[zoneI]];
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       const label cellI = cells[i];
       const label j = this->fieldIndex(i);
@@ -40,12 +40,12 @@ void mousse::porosityModels::DarcyForchheimer::apply
   const vectorField& U
 ) const
 {
-  forAll(cellZoneIDs_, zoneI)
+  FOR_ALL(cellZoneIDs_, zoneI)
   {
     const tensorField& dZones = D_[zoneI];
     const tensorField& fZones = F_[zoneI];
     const labelList& cells = mesh_.cellZones()[cellZoneIDs_[zoneI]];
-    forAll(cells, i)
+    FOR_ALL(cells, i)
     {
       const label cellI = cells[i];
       const label j = this->fieldIndex(i);

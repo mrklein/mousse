@@ -57,7 +57,7 @@ mousse::autoPtr<mousse::mapAddedPolyMesh> mousse::fvMeshAdder::add
   const polyBoundaryMesh& patches = mesh0.boundaryMesh();
   fvBoundaryMesh& fvPatches = const_cast<fvBoundaryMesh&>(mesh0.boundary());
   fvPatches.setSize(patches.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     fvPatches.set(patchI, fvPatch::New(patches[patchI], fvPatches));
   }

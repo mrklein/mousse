@@ -43,7 +43,7 @@ tmp<scalarField> nutUTabulatedWallFunctionFvPatchScalarField::calcUPlus
 {
   tmp<scalarField> tuPlus(new scalarField(patch().size(), 0.0));
   scalarField& uPlus = tuPlus();
-  forAll(uPlus, faceI)
+  FOR_ALL(uPlus, faceI)
   {
     uPlus[faceI] = uPlusTable_.interpolateLog10(Rey[faceI]);
   }
@@ -57,21 +57,21 @@ nutUTabulatedWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF),
-  uPlusTableName_("undefined-uPlusTableName"),
+  nutWallFunctionFvPatchScalarField{p, iF},
+  uPlusTableName_{"undefined-uPlusTableName"},
   uPlusTable_
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       uPlusTableName_,
       patch().boundaryMesh().mesh().time().constant(),
       patch().boundaryMesh().mesh(),
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     false
-  )
+  }
 {}
 nutUTabulatedWallFunctionFvPatchScalarField::
 nutUTabulatedWallFunctionFvPatchScalarField
@@ -82,9 +82,9 @@ nutUTabulatedWallFunctionFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  nutWallFunctionFvPatchScalarField(ptf, p, iF, mapper),
-  uPlusTableName_(ptf.uPlusTableName_),
-  uPlusTable_(ptf.uPlusTable_)
+  nutWallFunctionFvPatchScalarField{ptf, p, iF, mapper},
+  uPlusTableName_{ptf.uPlusTableName_},
+  uPlusTable_{ptf.uPlusTable_}
 {}
 nutUTabulatedWallFunctionFvPatchScalarField::
 nutUTabulatedWallFunctionFvPatchScalarField
@@ -94,21 +94,21 @@ nutUTabulatedWallFunctionFvPatchScalarField
   const dictionary& dict
 )
 :
-  nutWallFunctionFvPatchScalarField(p, iF, dict),
-  uPlusTableName_(dict.lookup("uPlusTable")),
+  nutWallFunctionFvPatchScalarField{p, iF, dict},
+  uPlusTableName_{dict.lookup("uPlusTable")},
   uPlusTable_
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       uPlusTableName_,
       patch().boundaryMesh().mesh().time().constant(),
       patch().boundaryMesh().mesh(),
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     true
-  )
+  }
 {}
 nutUTabulatedWallFunctionFvPatchScalarField::
 nutUTabulatedWallFunctionFvPatchScalarField
@@ -116,9 +116,9 @@ nutUTabulatedWallFunctionFvPatchScalarField
   const nutUTabulatedWallFunctionFvPatchScalarField& wfpsf
 )
 :
-  nutWallFunctionFvPatchScalarField(wfpsf),
-  uPlusTableName_(wfpsf.uPlusTableName_),
-  uPlusTable_(wfpsf.uPlusTable_)
+  nutWallFunctionFvPatchScalarField{wfpsf},
+  uPlusTableName_{wfpsf.uPlusTableName_},
+  uPlusTable_{wfpsf.uPlusTable_}
 {}
 nutUTabulatedWallFunctionFvPatchScalarField::
 nutUTabulatedWallFunctionFvPatchScalarField
@@ -127,9 +127,9 @@ nutUTabulatedWallFunctionFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  nutWallFunctionFvPatchScalarField(wfpsf, iF),
-  uPlusTableName_(wfpsf.uPlusTableName_),
-  uPlusTable_(wfpsf.uPlusTable_)
+  nutWallFunctionFvPatchScalarField{wfpsf, iF},
+  uPlusTableName_{wfpsf.uPlusTableName_},
+  uPlusTable_{wfpsf.uPlusTable_}
 {}
 // Member Functions 
 tmp<scalarField> nutUTabulatedWallFunctionFvPatchScalarField::yPlus() const
@@ -158,7 +158,7 @@ void nutUTabulatedWallFunctionFvPatchScalarField::write(Ostream& os) const
     << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-makePatchTypeField
+MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   nutUTabulatedWallFunctionFvPatchScalarField

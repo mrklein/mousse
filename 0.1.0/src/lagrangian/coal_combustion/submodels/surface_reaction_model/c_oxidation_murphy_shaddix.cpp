@@ -83,13 +83,13 @@ mousse::scalar mousse::COxidationMurphyShaddix<CloudType>::calculate
   const scalar pc,
   const scalar rhoc,
   const scalar mass,
-  const scalarField& YGas,
-  const scalarField& YLiquid,
+  const scalarField& /*YGas*/,
+  const scalarField& /*YLiquid*/,
   const scalarField& YSolid,
   const scalarField& YMixture,
   const scalar N,
-  scalarField& dMassGas,
-  scalarField& dMassLiquid,
+  scalarField& /*dMassGas*/,
+  scalarField& /*dMassLiquid*/,
   scalarField& dMassSolid,
   scalarField& dMassSRCarrier
 ) const
@@ -154,7 +154,7 @@ mousse::scalar mousse::COxidationMurphyShaddix<CloudType>::calculate
   }
   if (iter > maxIters_)
   {
-    WarningIn
+    WARNING_IN
     (
       "scalar mousse::COxidationMurphyShaddix<CloudType>::calculate(...)"
     )   << "iter limit reached (" << maxIters_ << ")" << nl << endl;

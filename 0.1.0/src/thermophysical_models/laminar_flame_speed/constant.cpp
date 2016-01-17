@@ -9,8 +9,8 @@ namespace mousse
 {
 namespace laminarFlameSpeedModels
 {
-  defineTypeNameAndDebug(constant, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(constant, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     laminarFlameSpeed,
     constant,

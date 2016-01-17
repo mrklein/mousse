@@ -89,7 +89,7 @@ class blockMesh
     blockMesh(const blockMesh&);
 public:
   // Static data members
-    ClassName("blockMesh");
+    CLASS_NAME("blockMesh");
   // Constructors
     //- Construct from IOdictionary
     blockMesh(const IOdictionary&, const word& regionName);

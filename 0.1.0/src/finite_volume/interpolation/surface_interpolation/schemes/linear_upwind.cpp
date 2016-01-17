@@ -4,8 +4,10 @@
 
 #include "linear_upwind.hpp"
 #include "fv_mesh.hpp"
+
 template<class Type>
-mousse::tmp<mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh> >
+mousse::tmp<
+mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh>>
 mousse::linearUpwind<Type>::correction
 (
   const GeometricField<Type, fvPatchField, volMesh>& vf
@@ -13,22 +15,22 @@ mousse::linearUpwind<Type>::correction
 {
   const fvMesh& mesh = this->mesh();
   tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tsfCorr
-  (
+  {
     new GeometricField<Type, fvsPatchField, surfaceMesh>
-    (
+    {
       IOobject
-      (
+      {
         "linearUpwind::correction(" + vf.name() + ')',
         mesh.time().timeName(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh,
-      dimensioned<Type>(vf.name(), vf.dimensions(), pTraits<Type>::zero)
-    )
-  );
+      dimensioned<Type>{vf.name(), vf.dimensions(), pTraits<Type>::zero}
+    }
+  };
   GeometricField<Type, fvsPatchField, surfaceMesh>& sfCorr = tsfCorr();
   const surfaceScalarField& faceFlux = this->faceFlux_;
   const labelList& owner = mesh.owner();
@@ -50,14 +52,14 @@ mousse::linearUpwind<Type>::correction
     fvPatchField,
     volMesh
   >& gradVf = tgradVf();
-  forAll(faceFlux, facei)
+  FOR_ALL(faceFlux, facei)
   {
     label celli = (faceFlux[facei] > 0) ? owner[facei] : neighbour[facei];
     sfCorr[facei] = (Cf[facei] - C[celli]) & gradVf[celli];
   }
   typename GeometricField<Type, fvsPatchField, surfaceMesh>::
     GeometricBoundaryField& bSfCorr = sfCorr.boundaryField();
-  forAll(bSfCorr, patchi)
+  FOR_ALL(bSfCorr, patchi)
   {
     fvsPatchField<Type>& pSfCorr = bSfCorr[patchi];
     if (pSfCorr.coupled())
@@ -72,7 +74,7 @@ mousse::linearUpwind<Type>::correction
       );
       // Build the d-vectors
       vectorField pd(Cf.boundaryField()[patchi].patch().delta());
-      forAll(pOwner, facei)
+      FOR_ALL(pOwner, facei)
       {
         label own = pOwner[facei];
         if (pFaceFlux[facei] > 0)
@@ -89,9 +91,11 @@ mousse::linearUpwind<Type>::correction
   }
   return tsfCorr;
 }
+
 namespace mousse
 {
-  //makelimitedSurfaceInterpolationScheme(linearUpwind)
-  makelimitedSurfaceInterpolationTypeScheme(linearUpwind, scalar)
-  makelimitedSurfaceInterpolationTypeScheme(linearUpwind, vector)
+
+MAKELIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(linearUpwind, scalar)
+MAKELIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(linearUpwind, vector)
+
 }

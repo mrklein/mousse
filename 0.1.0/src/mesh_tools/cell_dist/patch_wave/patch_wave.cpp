@@ -6,7 +6,9 @@
 #include "poly_mesh.hpp"
 #include "wall_point.hpp"
 #include "global_mesh_data.hpp"
-// Private Member Functions 
+#include "sub_field.hpp"
+
+// Private Member Functions
 void mousse::patchWave::setChangedFaces
 (
   const labelHashSet& patchIDs,
@@ -16,12 +18,12 @@ void mousse::patchWave::setChangedFaces
 {
   const polyMesh& mesh = cellDistFuncs::mesh();
   label nChangedFaces = 0;
-  forAll(mesh.boundaryMesh(), patchI)
+  FOR_ALL(mesh.boundaryMesh(), patchI)
   {
     if (patchIDs.found(patchI))
     {
       const polyPatch& patch = mesh.boundaryMesh()[patchI];
-      forAll(patch.faceCentres(), patchFaceI)
+      FOR_ALL(patch.faceCentres(), patchFaceI)
       {
         label meshFaceI = patch.start() + patchFaceI;
         changedFaces[nChangedFaces] = meshFaceI;
@@ -43,7 +45,7 @@ mousse::label mousse::patchWave::getValues(const MeshWave<wallPoint>& waveInfo)
   label nIllegal = 0;
   // Copy cell values
   distance_.setSize(cellInfo.size());
-  forAll(cellInfo, cellI)
+  FOR_ALL(cellInfo, cellI)
   {
     scalar dist = cellInfo[cellI].distSqr();
     if (cellInfo[cellI].valid(waveInfo.data()))
@@ -57,14 +59,14 @@ mousse::label mousse::patchWave::getValues(const MeshWave<wallPoint>& waveInfo)
     }
   }
   // Copy boundary values
-  forAll(patchDistance_, patchI)
+  FOR_ALL(patchDistance_, patchI)
   {
     const polyPatch& patch = mesh().boundaryMesh()[patchI];
     // Allocate storage for patchDistance
     scalarField* patchDistPtr = new scalarField(patch.size());
     patchDistance_.set(patchI, patchDistPtr);
     scalarField& patchField = *patchDistPtr;
-    forAll(patchField, patchFaceI)
+    FOR_ALL(patchField, patchFaceI)
     {
       label meshFaceI = patch.start() + patchFaceI;
       scalar dist = faceInfo[meshFaceI].distSqr();
@@ -83,7 +85,7 @@ mousse::label mousse::patchWave::getValues(const MeshWave<wallPoint>& waveInfo)
   }
   return nIllegal;
 }
-// Constructors 
+// Constructors
 mousse::patchWave::patchWave
 (
   const polyMesh& mesh,
@@ -100,10 +102,12 @@ mousse::patchWave::patchWave
 {
   patchWave::correct();
 }
-// Destructor 
+
+// Destructor
 mousse::patchWave::~patchWave()
 {}
-// Member Functions 
+
+// Member Functions
 void mousse::patchWave::correct()
 {
   // Set initial changed faces: set wallPoint for wall faces to wall centre

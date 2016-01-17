@@ -36,7 +36,7 @@ class NSRDSfunc7
     scalar a_, b_, c_, d_, e_;
 public:
   //- Runtime type information
-  TypeName("NSRDSfunc7");
+  TYPE_NAME("NSRDSfunc7");
   // Constructors
     //- Construct from components
     NSRDSfunc7

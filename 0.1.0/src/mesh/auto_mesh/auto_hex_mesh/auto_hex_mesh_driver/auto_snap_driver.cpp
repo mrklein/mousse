@@ -22,7 +22,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(autoSnapDriver, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(autoSnapDriver, 0);
 }  // namespace mousse
 // Private Member Functions 
 // Calculate geometrically collocated points, Requires PackedList to be
@@ -52,7 +52,7 @@ mousse::label mousse::autoSnapDriver::getCollocatedPoints
   // Per old point the newPoint. Or -1 (not set yet) or -2 (already seen
   // twice)
   labelList firstOldPoint(nUnique, -1);
-  forAll(pointMap, oldPointI)
+  FOR_ALL(pointMap, oldPointI)
   {
     label newPointI = pointMap[oldPointI];
     if (firstOldPoint[newPointI] == -1)
@@ -113,7 +113,7 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
   // Get labels of faces to count (master of coupled faces and baffle pairs)
   PackedBoolList isMasterFace(syncTools::getMasterFaces(mesh));
   {
-    forAll(baffles, i)
+    FOR_ALL(baffles, i)
     {
       label f0 = baffles[i].first();
       label f1 = baffles[i].second();
@@ -128,7 +128,7 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
       }
       else
       {
-        FatalErrorIn("autoSnapDriver::smoothPatchDisplacement(..)")
+        FATAL_ERROR_IN("autoSnapDriver::smoothPatchDisplacement(..)")
           << "Both sides of baffle consisting of faces " << f0
           << " and " << f1 << " are already slave faces."
           << abort(FatalError);
@@ -139,10 +139,10 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   vectorField avgBoundary(pointFaces.size(), vector::zero);
   labelList nBoundary(pointFaces.size(), 0);
-  forAll(pointFaces, patchPointI)
+  FOR_ALL(pointFaces, patchPointI)
   {
     const labelList& pFaces = pointFaces[patchPointI];
-    forAll(pFaces, pfI)
+    FOR_ALL(pFaces, pfI)
     {
       label faceI = pFaces[pfI];
       if (isMasterFace.get(pp.addressing()[faceI]))
@@ -168,7 +168,7 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
     plusEqOp<label>(),  // combine op
     label(0)            // null value
   );
-  forAll(avgBoundary, i)
+  FOR_ALL(avgBoundary, i)
   {
     avgBoundary[i] /= nBoundary[i];
   }
@@ -185,7 +185,7 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
     {
       const face& f = faces[faceI];
       const point& fc = mesh.faceCentres()[faceI];
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         globalSum[f[fp]] += fc;
         globalNum[f[fp]]++;
@@ -193,7 +193,7 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
     }
     // Count coupled faces as internal ones (but only once)
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       if
       (
@@ -204,11 +204,11 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
         const coupledPolyPatch& pp =
           refCast<const coupledPolyPatch>(patches[patchI]);
         const vectorField::subField faceCentres = pp.faceCentres();
-        forAll(pp, i)
+        FOR_ALL(pp, i)
         {
           const face& f = pp[i];
           const point& fc = faceCentres[i];
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             globalSum[f[fp]] += fc;
             globalNum[f[fp]]++;
@@ -232,7 +232,7 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
     );
     avgInternal.setSize(meshPoints.size());
     nInternal.setSize(meshPoints.size());
-    forAll(avgInternal, patchPointI)
+    FOR_ALL(avgInternal, patchPointI)
     {
       label meshPointI = meshPoints[patchPointI];
       nInternal[patchPointI] = globalNum[meshPointI];
@@ -251,11 +251,11 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
   // Precalculate any cell using mesh point (replacement of pointCells()[])
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   labelList anyCell(mesh.nPoints(), -1);
-  forAll(mesh.faceNeighbour(), faceI)
+  FOR_ALL(mesh.faceNeighbour(), faceI)
   {
     label own = mesh.faceOwner()[faceI];
     const face& f = mesh.faces()[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       anyCell[f[fp]] = own;
     }
@@ -264,14 +264,14 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
   {
     label own = mesh.faceOwner()[faceI];
     const face& f = mesh.faces()[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       anyCell[f[fp]] = own;
     }
   }
   // Displacement to calculate.
   pointField patchDisp(meshPoints.size(), vector::zero);
-  forAll(pointFaces, i)
+  FOR_ALL(pointFaces, i)
   {
     label meshPointI = meshPoints[i];
     const point& currentPos = pp.points()[meshPointI];
@@ -334,13 +334,13 @@ mousse::pointField mousse::autoSnapDriver::smoothPatchDisplacement
 //    tmp<pointField> tavg(new pointField(pointEdges.size(), vector::zero));
 //    pointField& avg = tavg();
 //
-//    forAll(pointEdges, vertI)
+//    FOR_ALL(pointEdges, vertI)
 //    {
 //        vector& avgPos = avg[vertI];
 //
 //        const labelList& pEdges = pointEdges[vertI];
 //
-//        forAll(pEdges, myEdgeI)
+//        FOR_ALL(pEdges, myEdgeI)
 //        {
 //            const edge& e = edges[pEdges[myEdgeI]];
 //
@@ -391,7 +391,7 @@ mousse::tmp<mousse::scalarField> mousse::autoSnapDriver::edgePatchDist
   const polyMesh& mesh = pMesh();
   // Set initial changed points to all the patch points
   List<pointEdgePoint> wallInfo(pp.nPoints());
-  forAll(pp.localPoints(), ppI)
+  FOR_ALL(pp.localPoints(), ppI)
   {
     wallInfo[ppI] = pointEdgePoint(pp.localPoints()[ppI], 0.0);
   }
@@ -411,7 +411,7 @@ mousse::tmp<mousse::scalarField> mousse::autoSnapDriver::edgePatchDist
   // Copy edge values into scalarField
   tmp<scalarField> tedgeDist(new scalarField(mesh.nEdges()));
   scalarField& edgeDist = tedgeDist();
-  forAll(allEdgeInfo, edgeI)
+  FOR_ALL(allEdgeInfo, edgeI)
   {
     edgeDist[edgeI] = mousse::sqrt(allEdgeInfo[edgeI].distSqr());
   }
@@ -431,7 +431,7 @@ mousse::tmp<mousse::scalarField> mousse::autoSnapDriver::edgePatchDist
   //        dimensionedScalar("pointDist", dimless, 0.0)
   //    );
   //
-  //    forAll(allEdgeInfo, edgeI)
+  //    FOR_ALL(allEdgeInfo, edgeI)
   //    {
   //        scalar d = mousse::sqrt(allEdgeInfo[edgeI].distSqr());
   //
@@ -440,7 +440,7 @@ mousse::tmp<mousse::scalarField> mousse::autoSnapDriver::edgePatchDist
   //        pointDist[e[0]] += d;
   //        pointDist[e[1]] += d;
   //    }
-  //    forAll(pointDist, pointI)
+  //    FOR_ALL(pointDist, pointI)
   //    {
   //        pointDist[pointI] /= mesh.pointEdges()[pointI].size();
   //    }
@@ -462,7 +462,7 @@ void mousse::autoSnapDriver::dumpMove
   Info<< "Dumping move direction to " << fName << endl;
   OFstream nearestStream(fName);
   label vertI = 0;
-  forAll(meshPts, ptI)
+  FOR_ALL(meshPts, ptI)
   {
     meshTools::writeOBJ(nearestStream, meshPts[ptI]);
     vertI++;
@@ -481,7 +481,7 @@ bool mousse::autoSnapDriver::outwardsDisplacement
 {
   const vectorField& faceNormals = pp.faceNormals();
   const labelListList& pointFaces = pp.pointFaces();
-  forAll(pointFaces, pointI)
+  FOR_ALL(pointFaces, pointI)
   {
     const labelList& pFaces = pointFaces[pointI];
     vector disp(patchDisp[pointI]);
@@ -552,10 +552,10 @@ mousse::scalarField mousse::autoSnapDriver::calcSnapDistance
   const labelListList& pointEdges = pp.pointEdges();
   const pointField& localPoints = pp.localPoints();
   scalarField maxEdgeLen(localPoints.size(), -GREAT);
-  forAll(pointEdges, pointI)
+  FOR_ALL(pointEdges, pointI)
   {
     const labelList& pEdges = pointEdges[pointI];
-    forAll(pEdges, pEdgeI)
+    FOR_ALL(pEdges, pEdgeI)
     {
       const edge& e = edges[pEdges[pEdgeI]];
       scalar len = e.mag(localPoints);
@@ -593,7 +593,7 @@ void mousse::autoSnapDriver::preSmoothPatch
   {
     Info<< "Smoothing iteration " << smoothIter << endl;
     checkFaces.setSize(mesh.nFaces());
-    forAll(checkFaces, faceI)
+    FOR_ALL(checkFaces, faceI)
     {
       checkFaces[faceI] = faceI;
     }
@@ -663,7 +663,7 @@ mousse::labelList mousse::autoSnapDriver::getZoneSurfacePoints
   label zoneI = mesh.faceZones().findZoneID(zoneName);
   if (zoneI == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "autoSnapDriver::getZoneSurfacePoints"
       "(const fvMesh&, const indirectPrimitivePatch&, const word&)"
@@ -674,10 +674,10 @@ mousse::labelList mousse::autoSnapDriver::getZoneSurfacePoints
   // Could use PrimitivePatch & localFaces to extract points but might just
   // as well do it ourselves.
   boolList pointOnZone(pp.nPoints(), false);
-  forAll(fZone, i)
+  FOR_ALL(fZone, i)
   {
     const face& f = mesh.faces()[fZone[i]];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label meshPointI = f[fp];
       Map<label>::const_iterator iter =
@@ -704,10 +704,10 @@ mousse::tmp<mousse::pointField> mousse::autoSnapDriver::avgCellCentres
   );
   pointField& avgBoundary = tavgBoundary();
   labelList nBoundary(pointFaces.size(), 0);
-  forAll(pointFaces, pointI)
+  FOR_ALL(pointFaces, pointI)
   {
     const labelList& pFaces = pointFaces[pointI];
-    forAll(pFaces, pfI)
+    FOR_ALL(pFaces, pfI)
     {
       label faceI = pFaces[pfI];
       label meshFaceI = pp.addressing()[faceI];
@@ -732,7 +732,7 @@ mousse::tmp<mousse::pointField> mousse::autoSnapDriver::avgCellCentres
     plusEqOp<label>(),  // combine op
     label(0)            // null value
   );
-  forAll(avgBoundary, i)
+  FOR_ALL(avgBoundary, i)
   {
     avgBoundary[i] /= nBoundary[i];
   }
@@ -756,11 +756,11 @@ mousse::tmp<mousse::pointField> mousse::autoSnapDriver::avgCellCentres
 //
 //        labelList maxPointLevel(pp.nPoints(), labelMin);
 //
-//        forAll(pp, i)
+//        FOR_ALL(pp, i)
 //        {
 //            label ownLevel = cellLevel[mesh.faceOwner()[pp.addressing()[i]]];
 //            const face& f = pp.localFaces()[i];
-//            forAll(f, fp)
+//            FOR_ALL(f, fp)
 //            {
 //                maxPointLevel[f[fp]] = max(maxPointLevel[f[fp]], ownLevel);
 //            }
@@ -776,7 +776,7 @@ mousse::tmp<mousse::pointField> mousse::autoSnapDriver::avgCellCentres
 //        );
 //
 //
-//        forAll(maxPointLevel, pointI)
+//        FOR_ALL(maxPointLevel, pointI)
 //        {
 //            // Find undistorted edge size for this level.
 //            edgeLen[pointI] = edge0Len/(1<<maxPointLevel[pointI]);
@@ -788,8 +788,8 @@ void mousse::autoSnapDriver::detectNearSurfaces
 (
   const scalar planarCos,
   const indirectPrimitivePatch& pp,
-  const pointField& nearestPoint,
-  const vectorField& nearestNormal,
+  const pointField& /*nearestPoint*/,
+  const vectorField& /*nearestNormal*/,
   vectorField& disp
 ) const
 {
@@ -813,7 +813,7 @@ void mousse::autoSnapDriver::detectNearSurfaces
   //    pointField end(start.size());
   //
   //    label rayI = 0;
-  //    forAll(localPoints, pointI)
+  //    FOR_ALL(localPoints, pointI)
   //    {
   //        const point& pt = localPoints[pointI];
   //
@@ -963,7 +963,7 @@ void mousse::autoSnapDriver::detectNearSurfaces
   //        Info<< "Dumping intersections with rays to " << str.name()
   //            << endl;
   //
-  //        forAll(hit1, i)
+  //        FOR_ALL(hit1, i)
   //        {
   //            if (hit1[i].hit())
   //            {
@@ -987,7 +987,7 @@ void mousse::autoSnapDriver::detectNearSurfaces
   //        Info<< "Dumping intersections with co-planar surfaces to "
   //            << str.name() << endl;
   //
-  //        forAll(localPoints, pointI)
+  //        FOR_ALL(localPoints, pointI)
   //        {
   //            bool hasNormal = false;
   //            point surfPointA;
@@ -1079,7 +1079,7 @@ void mousse::autoSnapDriver::detectNearSurfaces
   // Construct rays through localPoints to beyond cell centre
   pointField start(pp.nPoints());
   pointField end(pp.nPoints());
-  forAll(localPoints, pointI)
+  FOR_ALL(localPoints, pointI)
   {
     const point& pt = localPoints[pointI];
     const vector d = 2*(avgCc[pointI]-pt);
@@ -1138,7 +1138,7 @@ void mousse::autoSnapDriver::detectNearSurfaces
       region2,
       normal2
     );
-    forAll(localPoints, pointI)
+    FOR_ALL(localPoints, pointI)
     {
       // Current location
       const point& pt = localPoints[pointI];
@@ -1220,7 +1220,7 @@ void mousse::autoSnapDriver::detectNearSurfaces
     (
       surfZones
     );
-    forAll(zonedSurfaces, i)
+    FOR_ALL(zonedSurfaces, i)
     {
       label zoneSurfI = zonedSurfaces[i];
       const word& faceZoneName = surfZones[zoneSurfI].faceZoneName();
@@ -1258,7 +1258,7 @@ void mousse::autoSnapDriver::detectNearSurfaces
         region2,
         normal2
       );
-      forAll(hit1, i)
+      FOR_ALL(hit1, i)
       {
         label pointI = zonePointIndices[i];
         // Current location
@@ -1385,7 +1385,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
           hitRegion,
           hitNormal
         );
-        forAll(hitInfo, pointI)
+        FOR_ALL(hitInfo, pointI)
         {
           if (hitInfo[pointI].hit())
           {
@@ -1405,7 +1405,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
           hitInfo
         );
       }
-      forAll(hitInfo, pointI)
+      FOR_ALL(hitInfo, pointI)
       {
         if (hitInfo[pointI].hit())
         {
@@ -1422,7 +1422,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
     const PtrList<surfaceZonesInfo>& surfZones = surfaces.surfZones();
     // Current best snap distance
     scalarField minSnapDist(snapDist);
-    forAll(zonedSurfaces, i)
+    FOR_ALL(zonedSurfaces, i)
     {
       label zoneSurfI = zonedSurfaces[i];
       const word& faceZoneName = surfZones[zoneSurfI].faceZoneName();
@@ -1454,7 +1454,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
           hitRegion,
           hitNormal
         );
-        forAll(hitInfo, i)
+        FOR_ALL(hitInfo, i)
         {
           if (hitInfo[i].hit())
           {
@@ -1475,7 +1475,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
           hitInfo
         );
       }
-      forAll(hitInfo, i)
+      FOR_ALL(hitInfo, i)
       {
         label pointI = zonePointIndices[i];
         if (hitInfo[i].hit())
@@ -1493,11 +1493,11 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
       }
     }
     // Check if all points are being snapped
-    forAll(snapSurf, pointI)
+    FOR_ALL(snapSurf, pointI)
     {
       if (snapSurf[pointI] == -1)
       {
-        WarningIn("autoSnapDriver::calcNearestSurface(..)")
+        WARNING_IN("autoSnapDriver::calcNearestSurface(..)")
           << "For point:" << pointI
           << " coordinate:" << localPoints[pointI]
           << " did not find any surface within:"
@@ -1524,7 +1524,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
   Info<< "Calculated surface displacement in = "
     << mesh.time().cpuTimeIncrement() << " s\n" << nl << endl;
   // Limit amount of movement.
-  forAll(patchDisp, patchPointI)
+  FOR_ALL(patchDisp, patchPointI)
   {
     scalar magDisp = mag(patchDisp[patchPointI]);
     if (magDisp > snapDist[patchPointI])
@@ -1561,11 +1561,11 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
 //
 //    boolList pointOnZone(allPp.nPoints(), false);
 //
-//    forAll(pp, i)
+//    FOR_ALL(pp, i)
 //    {
 //        const face& f = pp[i];
 //
-//        forAll(f, fp)
+//        FOR_ALL(f, fp)
 //        {
 //            label meshPointI = f[fp];
 //
@@ -1604,12 +1604,12 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
 ////    labelList minPatch(mesh.nPoints(), labelMax);
 ////    labelList maxPatch(mesh.nPoints(), labelMin);
 ////
-////    forAll(meshMover.adaptPatchIDs(), i)
+////    FOR_ALL(meshMover.adaptPatchIDs(), i)
 ////    {
 ////        label patchI = meshMover.adaptPatchIDs()[i];
 ////        const labelList& meshPoints = pbm[patchI].meshPoints();
 ////
-////        forAll(meshPoints, meshPointI)
+////        FOR_ALL(meshPoints, meshPointI)
 ////        {
 ////            label meshPointI = meshPoints[meshPointI];
 ////            minPatch[meshPointI] = min(minPatch[meshPointI], patchI);
@@ -1643,11 +1643,11 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
 //    labelList snapSurf(localPoints.size(), -1);
 //
 //    const labelList& surfaceGeometry = surfaces.surfaces();
-//    forAll(surfaceGeometry, surfI)
+//    FOR_ALL(surfaceGeometry, surfI)
 //    {
 //        label geomI = surfaceGeometry[surfI];
 //        const wordList& regNames = allGeometry.regionNames()[geomI];
-//        forAll(regNames, regionI)
+//        FOR_ALL(regNames, regionI)
 //        {
 //            label globalRegionI = surfaces.globalRegion(surfI, regionI);
 //            // Collect master patch points
@@ -1675,7 +1675,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
 //                hitInfo
 //            );
 //
-//            forAll(hitInfo, i)
+//            FOR_ALL(hitInfo, i)
 //            {
 //                label pointI = patchPointIndices[i];
 //
@@ -1716,7 +1716,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
 //                    hitInfo
 //                );
 //
-//                forAll(hitInfo, i)
+//                FOR_ALL(hitInfo, i)
 //                {
 //                    label pointI = patchPointIndices[i];
 //
@@ -1738,11 +1738,11 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
 //
 //
 //    // Check if all points are being snapped
-//    forAll(snapSurf, pointI)
+//    FOR_ALL(snapSurf, pointI)
 //    {
 //        if (snapSurf[pointI] == -1)
 //        {
-//            WarningIn("autoSnapDriver::calcNearestLocalSurface(..)")
+//            WARNING_IN("autoSnapDriver::calcNearestLocalSurface(..)")
 //                << "For point:" << pointI
 //                << " coordinate:" << localPoints[pointI]
 //                << " did not find any surface within:"
@@ -1766,7 +1766,7 @@ mousse::vectorField mousse::autoSnapDriver::calcNearestSurface
 //
 //
 //    // Limit amount of movement.
-//    forAll(patchDisp, patchPointI)
+//    FOR_ALL(patchDisp, patchPointI)
 //    {
 //        scalar magDisp = mag(patchDisp[patchPointI]);
 //
@@ -1936,7 +1936,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::autoSnapDriver::repatchToSurface
   PackedBoolList isZonedFace(mesh.nFaces());
   {
     // 1. Preserve faces in preserveFaces list
-    forAll(preserveFaces, faceI)
+    FOR_ALL(preserveFaces, faceI)
     {
       if (preserveFaces[faceI] != -1)
       {
@@ -1946,11 +1946,11 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::autoSnapDriver::repatchToSurface
     // 2. All faces on zoned surfaces
     const PtrList<surfaceZonesInfo>& surfZones = surfaces.surfZones();
     const faceZoneMesh& fZones = mesh.faceZones();
-    forAll(zonedSurfaces, i)
+    FOR_ALL(zonedSurfaces, i)
     {
       const label zoneSurfI = zonedSurfaces[i];
       const faceZone& fZone = fZones[surfZones[zoneSurfI].faceZoneName()];
-      forAll(fZone, i)
+      FOR_ALL(fZone, i)
       {
         isZonedFace.set(fZone[i], 1);
       }
@@ -1975,10 +1975,10 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::autoSnapDriver::repatchToSurface
         )
       );
       const faceList& localFaces = pp.localFaces();
-      forAll(localFaces, faceI)
+      FOR_ALL(localFaces, faceI)
       {
         const face& f = localFaces[faceI];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           faceSnapDist[faceI] = max
           (
@@ -2001,7 +2001,7 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::autoSnapDriver::repatchToSurface
       hitRegion
     );
     // Get patch
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       label faceI = pp.addressing()[i];
       if (hitSurface[i] != -1 && !isZonedFace.get(faceI))
@@ -2022,17 +2022,17 @@ mousse::autoPtr<mousse::mapPolyMesh> mousse::autoSnapDriver::repatchToSurface
   labelList ownPatch(mesh.nFaces(), -1);
   labelList neiPatch(mesh.nFaces(), -1);
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
-    forAll(pp, i)
+    FOR_ALL(pp, i)
     {
       ownPatch[pp.start()+i] = patchI;
       neiPatch[pp.start()+i] = patchI;
     }
   }
   label nChanged = 0;
-  forAll(closestPatch, i)
+  FOR_ALL(closestPatch, i)
   {
     label faceI = pp.addressing()[i];
     if (closestPatch[i] != -1 && closestPatch[i] != ownPatch[faceI])
@@ -2067,7 +2067,7 @@ void mousse::autoSnapDriver::detectWarpedFaces
   const vectorField pointNormals(PatchTools::pointNormals(mesh, pp));
   face f0(4);
   face f1(4);
-  forAll(localFaces, faceI)
+  FOR_ALL(localFaces, faceI)
   {
     const face& f = localFaces[faceI];
     if (f.size() >= 4)
@@ -2127,7 +2127,7 @@ void mousse::autoSnapDriver::detectWarpedFaces
 }
 void mousse::autoSnapDriver::doSnap
 (
-  const dictionary& snapDict,
+  const dictionary& /*snapDict*/,
   const dictionary& motionDict,
   const scalar featureCos,
   const scalar planarAngle,
@@ -2186,7 +2186,7 @@ void mousse::autoSnapDriver::doSnap
   // Maintain map from face to baffle face (-1 for non-baffle faces). Used
   // later on to prevent patchface merging if faceType=baffle
   labelList duplicateFace(mesh.nFaces(), -1);
-  forAll(baffles, i)
+  FOR_ALL(baffles, i)
   {
     const labelPair& baffle = baffles[i];
     duplicateFace[baffle.first()] = baffle.second();
@@ -2207,7 +2207,7 @@ void mousse::autoSnapDriver::doSnap
     // Per point whether it need to be duplicated
     PackedBoolList duplicatePoint(mesh.nPoints());
     label nDuplicatePoints = 0;
-    forAll(surfZones, surfI)
+    FOR_ALL(surfZones, surfI)
     {
       const word& faceZoneName = surfZones[surfI].faceZoneName();
       if (faceZoneName.size())
@@ -2223,7 +2223,7 @@ void mousse::autoSnapDriver::doSnap
           // Filter out all faces for this zone.
           label zoneI = fZones.findZoneID(faceZoneName);
           const faceZone& fZone = fZones[zoneI];
-          forAll(fZone, i)
+          FOR_ALL(fZone, i)
           {
             label faceI = fZone[i];
             filterFace[faceI] = zoneI;
@@ -2231,13 +2231,13 @@ void mousse::autoSnapDriver::doSnap
           }
           if (faceType == surfaceZonesInfo::BOUNDARY)
           {
-            forAll(fZone, i)
+            FOR_ALL(fZone, i)
             {
               label faceI = fZone[i];
               // Allow combining patch faces across this face
               duplicateFace[faceI] = -1;
               const face& f = mesh.faces()[faceI];
-              forAll(f, fp)
+              FOR_ALL(f, fp)
               {
                 if (!duplicatePoint[f[fp]])
                 {
@@ -2274,7 +2274,7 @@ void mousse::autoSnapDriver::doSnap
       // Collect all points (recount since syncPointList might have
       // increased set)
       nDuplicatePoints = 0;
-      forAll(duplicatePoint, pointI)
+      FOR_ALL(duplicatePoint, pointI)
       {
         if (duplicatePoint[pointI])
         {
@@ -2283,7 +2283,7 @@ void mousse::autoSnapDriver::doSnap
       }
       labelList candidatePoints(nDuplicatePoints);
       nDuplicatePoints = 0;
-      forAll(duplicatePoint, pointI)
+      FOR_ALL(duplicatePoint, pointI)
       {
         if (duplicatePoint[pointI])
         {
@@ -2309,7 +2309,7 @@ void mousse::autoSnapDriver::doSnap
       );
       // Update baffles and baffle-to-baffle addressing
       const labelList& reverseFaceMap = mapPtr().reverseFaceMap();
-      forAll(baffles, i)
+      FOR_ALL(baffles, i)
       {
         labelPair& baffle = baffles[i];
         baffle.first() = reverseFaceMap[baffle.first()];
@@ -2335,7 +2335,7 @@ void mousse::autoSnapDriver::doSnap
     }
     // Forget about baffles in a BAFFLE/BOUNDARY type zone
     DynamicList<labelPair> newBaffles(baffles.size());
-    forAll(baffles, i)
+    FOR_ALL(baffles, i)
     {
       const labelPair& baffle = baffles[i];
       if
@@ -2490,7 +2490,7 @@ void mousse::autoSnapDriver::doSnap
       //    DynamicList<label> splitFaces(bFaces.size());
       //    DynamicList<labelPair> splits(bFaces.size());
       //
-      //    forAll(bFaces, faceI)
+      //    FOR_ALL(bFaces, faceI)
       //    {
       //        const labelPair split
       //        (
@@ -2523,7 +2523,7 @@ void mousse::autoSnapDriver::doSnap
       //    const labelList& faceMap = mapPtr().faceMap();
       //    meshRefinement::updateList(faceMap, -1, duplicateFace);
       //    const labelList& reverseFaceMap = mapPtr().reverseFaceMap();
-      //    forAll(baffles, i)
+      //    FOR_ALL(baffles, i)
       //    {
       //        labelPair& baffle = baffles[i];
       //        baffle.first() = reverseFaceMap[baffle.first()];
@@ -2602,7 +2602,7 @@ void mousse::autoSnapDriver::doSnap
       //    const labelList& faceMap = mapPtr().faceMap();
       //    meshRefinement::updateList(faceMap, -1, duplicateFace);
       //    const labelList& reverseFaceMap = mapPtr().reverseFaceMap();
-      //    forAll(baffles, i)
+      //    FOR_ALL(baffles, i)
       //    {
       //        labelPair& baffle = baffles[i];
       //        baffle.first() = reverseFaceMap[baffle.first()];
@@ -2726,7 +2726,7 @@ void mousse::autoSnapDriver::doSnap
       );
       if (!meshOk)
       {
-        WarningIn("autoSnapDriver::doSnap(..)")
+        WARNING_IN("autoSnapDriver::doSnap(..)")
           << "Did not succesfully snap mesh."
           << " Continuing to snap to resolve easy" << nl
           << "    surfaces but the"
@@ -2765,7 +2765,7 @@ void mousse::autoSnapDriver::doSnap
     autoPtr<mapPolyMesh> mapPtr = mergeZoneBaffles(baffles);
     if (mapPtr.valid())
     {
-      forAll(duplicateFace, faceI)
+      FOR_ALL(duplicateFace, faceI)
       {
         if (duplicateFace[faceI] != -1)
         {

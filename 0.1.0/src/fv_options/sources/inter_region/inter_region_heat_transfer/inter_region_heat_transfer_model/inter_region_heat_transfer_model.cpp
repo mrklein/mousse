@@ -13,7 +13,7 @@ namespace mousse
 {
 namespace fv
 {
-  defineTypeNameAndDebug(interRegionHeatTransferModel, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(interRegionHeatTransferModel, 0);
 }
 }
 //  Protected member functions
@@ -26,7 +26,7 @@ void mousse::fv::interRegionHeatTransferModel::setNbrModel()
   const fvMesh& nbrMesh = mesh_.time().lookupObject<fvMesh>(nbrRegionName_);
   const optionList& fvOptions = nbrMesh.lookupObject<optionList>("fvOptions");
   bool nbrModelFound = false;
-  forAll(fvOptions, i)
+  FOR_ALL(fvOptions, i)
   {
     if (fvOptions[i].name() == nbrModelName_)
     {
@@ -40,7 +40,7 @@ void mousse::fv::interRegionHeatTransferModel::setNbrModel()
   }
   if (!nbrModelFound)
   {
-    FatalErrorIn("interRegionHeatTransferModel::setNbrModel()")
+    FATAL_ERROR_IN("interRegionHeatTransferModel::setNbrModel()")
       << "Neighbour model not found" << nbrModelName_
       << " in region " << nbrMesh.name() << nl
       << exit(FatalError);
@@ -122,7 +122,7 @@ mousse::fv::interRegionHeatTransferModel::~interRegionHeatTransferModel()
 void mousse::fv::interRegionHeatTransferModel::addSup
 (
   fvMatrix<scalar>& eqn,
-  const label fieldI
+  const label /*fieldI*/
 )
 {
   setNbrModel();
@@ -181,7 +181,7 @@ void mousse::fv::interRegionHeatTransferModel::addSup
       }
       else
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::fv::interRegionHeatTransferModel::addSup"
           "("
@@ -207,7 +207,7 @@ void mousse::fv::interRegionHeatTransferModel::addSup
 }
 void mousse::fv::interRegionHeatTransferModel::addSup
 (
-  const volScalarField& rho,
+  const volScalarField& /*rho*/,
   fvMatrix<scalar>& eqn,
   const label fieldI
 )

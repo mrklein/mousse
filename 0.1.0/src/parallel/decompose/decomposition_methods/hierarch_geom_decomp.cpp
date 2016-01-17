@@ -8,8 +8,8 @@
 #include "sortable_list.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(hierarchGeomDecomp, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(hierarchGeomDecomp, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     decompositionMethod,
     hierarchGeomDecomp,
@@ -21,7 +21,7 @@ void mousse::hierarchGeomDecomp::setDecompOrder()
   const word order(geomDecomDict_.lookup("order"));
   if (order.size() != 3)
   {
-    FatalIOErrorIn
+    FATAL_IO_ERROR_IN
     (
       "hierarchGeomDecomp::hierarchGeomDecomp"
       "(const dictionary& decompositionDict)",
@@ -45,7 +45,7 @@ void mousse::hierarchGeomDecomp::setDecompOrder()
     }
     else
     {
-      FatalIOErrorIn
+      FATAL_IO_ERROR_IN
       (
         "hierarchGeomDecomp::hierarchGeomDecomp"
         "(const dictionary& decompositionDict)",
@@ -107,7 +107,7 @@ void mousse::hierarchGeomDecomp::calculateSortedWeightedSizes
 {
   // Evaluate cumulative weights.
   sortedWeightedSizes[0] = 0;
-  forAll(current, i)
+  FOR_ALL(current, i)
   {
     label pointI = current[indices[i]];
     sortedWeightedSizes[i + 1] = sortedWeightedSizes[i] + weights[pointI];
@@ -176,7 +176,7 @@ void mousse::hierarchGeomDecomp::findBinary
     bool hasNotChanged = (mag(midValue-midValuePrev) < SMALL);
     if (returnReduce(hasNotChanged, andOp<bool>()))
     {
-      WarningIn("hierarchGeomDecomp::findBinary(..)")
+      WARNING_IN("hierarchGeomDecomp::findBinary(..)")
         << "unable to find desired decomposition split, making do!"
         << endl;
       break;
@@ -244,7 +244,7 @@ void mousse::hierarchGeomDecomp::findBinary
     bool hasNotChanged = (mag(midValue-midValuePrev) < SMALL);
     if (returnReduce(hasNotChanged, andOp<bool>()))
     {
-      WarningIn("hierarchGeomDecomp::findBinary(..)")
+      WARNING_IN("hierarchGeomDecomp::findBinary(..)")
         << "unable to find desired deomposition split, making do!"
         << endl;
       break;
@@ -272,7 +272,7 @@ void mousse::hierarchGeomDecomp::sortComponent
   }
   // Storage for sorted component compI
   SortableList<scalar> sortedCoord(current.size());
-  forAll(current, i)
+  FOR_ALL(current, i)
   {
     label pointI = current[i];
     sortedCoord[i] = points[pointI][compI];
@@ -362,7 +362,7 @@ void mousse::hierarchGeomDecomp::sortComponent
     }
     // Copy localSize elements starting from leftIndex.
     labelList slice(localSize);
-    forAll(slice, i)
+    FOR_ALL(slice, i)
     {
       label pointI = current[sortedCoord.indices()[leftIndex+i]];
       // Mark point into correct bin
@@ -419,7 +419,7 @@ void mousse::hierarchGeomDecomp::sortComponent
   }
   // Storage for sorted component compI
   SortableList<scalar> sortedCoord(current.size());
-  forAll(current, i)
+  FOR_ALL(current, i)
   {
     label pointI = current[i];
     sortedCoord[i] = points[pointI][compI];
@@ -516,7 +516,7 @@ void mousse::hierarchGeomDecomp::sortComponent
     }
     // Copy localSize elements starting from leftIndex.
     labelList slice(localSize);
-    forAll(slice, i)
+    FOR_ALL(slice, i)
     {
       label pointI = current[sortedCoord.indices()[leftIndex+i]];
       // Mark point into correct bin
@@ -562,7 +562,7 @@ mousse::labelList mousse::hierarchGeomDecomp::decompose
   labelList finalDecomp(points.size(), 0);
   // Start off with every point sorted onto itself.
   labelList slice(points.size());
-  forAll(slice, i)
+  FOR_ALL(slice, i)
   {
     slice[i] = i;
   }
@@ -595,7 +595,7 @@ mousse::labelList mousse::hierarchGeomDecomp::decompose
   labelList finalDecomp(points.size(), 0);
   // Start off with every point sorted onto itself.
   labelList slice(points.size());
-  forAll(slice, i)
+  FOR_ALL(slice, i)
   {
     slice[i] = i;
   }

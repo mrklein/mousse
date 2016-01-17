@@ -37,10 +37,10 @@ protected:
     symmTensor transformPrincipal(const tensor&, const vector&) const;
 public:
   //- Runtime type information
-  TypeName("coordinateRotation");
+  TYPE_NAME("coordinateRotation");
   // Declare run-time constructor selection table
   // for constructors with dictionary and objectRegistry
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     coordinateRotation,
@@ -52,7 +52,7 @@ public:
   );
   // Declare run-time constructor selection table
   // for constructors with dictionary
-  declareRunTimeSelectionTable
+  DECLARE_RUN_TIME_SELECTION_TABLE
   (
     autoPtr,
     coordinateRotation,

@@ -10,8 +10,8 @@ namespace mousse
 {
 namespace viscosityModels
 {
-  defineTypeNameAndDebug(CrossPowerLaw, 0);
-  addToRunTimeSelectionTable
+  DEFINE_TYPE_NAME_AND_DEBUG(CrossPowerLaw, 0);
+  ADD_TO_RUN_TIME_SELECTION_TABLE
   (
     viscosityModel,
     CrossPowerLaw,

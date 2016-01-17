@@ -13,7 +13,7 @@ mousse::regionModels::singleLayerRegion::mappedFieldAndInternalPatchTypes() cons
 {
   wordList bTypes(regionMesh().boundaryMesh().size());
   bTypes = zeroGradientFvPatchField<Type>::typeName;
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     bTypes[patchI] = mappedFixedInternalValueFvPatchField<Type>::typeName;
@@ -26,7 +26,7 @@ mousse::regionModels::singleLayerRegion::mappedPushedFieldPatchTypes() const
 {
   wordList bTypes(regionMesh().boundaryMesh().size());
   bTypes = zeroGradientFvPatchField<Type>::typeName;
-  forAll(intCoupledPatchIDs_, i)
+  FOR_ALL(intCoupledPatchIDs_, i)
   {
     const label patchI = intCoupledPatchIDs_[i];
     bTypes[patchI] =

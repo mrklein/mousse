@@ -13,9 +13,12 @@
 //   just to use the underlying scheme directly.
 // SourceFiles
 //   fixed_blended.cpp
+
 #ifndef fixed_blended_hpp_
 #define fixed_blended_hpp_
+
 #include "surface_interpolation_scheme.hpp"
+
 namespace mousse
 {
 template<class Type>
@@ -30,13 +33,9 @@ class fixedBlended
     tmp<surfaceInterpolationScheme<Type> > tScheme1_;
     //- Scheme 2
     tmp<surfaceInterpolationScheme<Type> > tScheme2_;
-    //- Disallow default bitwise copy construct
-    fixedBlended(const fixedBlended&);
-    //- Disallow default bitwise assignment
-    void operator=(const fixedBlended&);
 public:
   //- Runtime type information
-  TypeName("fixedBlended");
+  TYPE_NAME("fixedBlended");
   // Constructors
     //- Construct from mesh and Istream.
     //  The name of the flux field is read from the Istream and looked-up
@@ -47,27 +46,28 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      blendingFactor_(readScalar(is)),
+      surfaceInterpolationScheme<Type>{mesh},
+      blendingFactor_{readScalar(is)},
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      ),
+      },
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      )
+      }
     {
       if (blendingFactor_ < 0 || blendingFactor_ > 1)
       {
-        FatalIOErrorIn("fixedBlended(const fvMesh&, Istream&)", is)
+        FATAL_IO_ERROR_IN("fixedBlended(const fvMesh&, Istream&)", is)
           << "coefficient = " << blendingFactor_
           << " should be >= 0 and <= 1"
           << exit(FatalIOError);
       }
       if (surfaceInterpolationScheme<Type>::debug)
       {
-        Info<<"fixedBlended: " << blendingFactor_
+        Info
+          << "fixedBlended: " << blendingFactor_
           << "*" << tScheme1_().type()
           << " + (1-" << blendingFactor_ << ")*"
           << tScheme2_().type()
@@ -82,33 +82,38 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      blendingFactor_(readScalar(is)),
+      surfaceInterpolationScheme<Type>{mesh},
+      blendingFactor_{readScalar(is)},
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      ),
+      },
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {
       if (blendingFactor_ < 0 || blendingFactor_ > 1)
       {
-        FatalIOErrorIn("fixedBlended(const fvMesh&, Istream&)", is)
+        FATAL_IO_ERROR_IN("fixedBlended(const fvMesh&, Istream&)", is)
           << "coefficient = " << blendingFactor_
           << " should be >= 0 and <= 1"
           << exit(FatalIOError);
       }
       if (surfaceInterpolationScheme<Type>::debug)
       {
-        Info<<"fixedBlended: " << blendingFactor_
+        Info
+          << "fixedBlended: " << blendingFactor_
           << "*" << tScheme1_().type()
           << " + (1-" << blendingFactor_ << ")*"
           << tScheme2_().type()
           <<endl;
       }
     }
+    //- Disallow default bitwise copy construct
+    fixedBlended(const fixedBlended&) = delete;
+    //- Disallow default bitwise assignment
+    fixedBlended& operator=(const fixedBlended&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField>

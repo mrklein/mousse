@@ -61,7 +61,7 @@ void mousse::DSMCParcel<ParcelType>::readFields(Cloud<DSMCParcel<ParcelType> >& 
   IOField<label> typeId(c.fieldIOobject("typeId", IOobject::MUST_READ));
   c.checkFieldIOobject(c, typeId);
   label i = 0;
-  forAllIter(typename Cloud<DSMCParcel<ParcelType> >, c, iter)
+  FOR_ALL_ITER(typename Cloud<DSMCParcel<ParcelType> >, c, iter)
   {
     DSMCParcel<ParcelType>& p = iter();
     p.U_ = U[i];
@@ -82,7 +82,7 @@ void mousse::DSMCParcel<ParcelType>::writeFields
   IOField<scalar> Ei(c.fieldIOobject("Ei", IOobject::NO_READ), np);
   IOField<label> typeId(c.fieldIOobject("typeId", IOobject::NO_READ), np);
   label i = 0;
-  forAllConstIter(typename Cloud<DSMCParcel<ParcelType> >, c, iter)
+  FOR_ALL_CONST_ITER(typename Cloud<DSMCParcel<ParcelType> >, c, iter)
   {
     const DSMCParcel<ParcelType>& p = iter();
     U[i] = p.U();

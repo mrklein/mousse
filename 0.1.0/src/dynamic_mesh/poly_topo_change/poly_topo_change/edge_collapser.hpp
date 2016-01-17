@@ -175,18 +175,18 @@ private:
       const List<pointEdgeCollapse>& allPointInfo,
       face& f
     ) const;
-    //- Disallow default bitwise copy construct
-    edgeCollapser(const edgeCollapser&);
-    //- Disallow default bitwise assignment
-    void operator=(const edgeCollapser&);
 public:
   //- Runtime type information
-  ClassName("edgeCollapser");
+  CLASS_NAME("edgeCollapser");
   // Constructors
     //- Construct from mesh
     edgeCollapser(const polyMesh& mesh);
     //- Construct from mesh and dict
     edgeCollapser(const polyMesh& mesh, const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    edgeCollapser(const edgeCollapser&) = delete;
+    //- Disallow default bitwise assignment
+    edgeCollapser& operator=(const edgeCollapser&) = delete;
   // Member Functions
     // Check
       //- Calls motionSmoother::checkMesh and returns a set of bad faces

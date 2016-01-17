@@ -42,10 +42,6 @@ class layerAdditionRemoval
     //- Layer addition trigger time index
     mutable label triggerAddition_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    layerAdditionRemoval(const layerAdditionRemoval&);
-    //- Disallow default bitwise assignment
-    void operator=(const layerAdditionRemoval&);
     //- Check validity of construction data
     void checkDefinition();
     // Topological changes
@@ -77,7 +73,7 @@ class layerAdditionRemoval
     static const scalar removeDelta_;
 public:
   //- Runtime type information
-  TypeName("layerAdditionRemoval");
+  TYPE_NAME("layerAdditionRemoval");
   // Constructors
     //- Construct from components
     layerAdditionRemoval
@@ -98,6 +94,10 @@ public:
       const label index,
       const polyTopoChanger& ptc
     );
+    //- Disallow default bitwise copy construct
+    layerAdditionRemoval(const layerAdditionRemoval&) = delete;
+    //- Disallow default bitwise assignment
+    layerAdditionRemoval& operator=(const layerAdditionRemoval&) = delete;
   //- Destructor
   virtual ~layerAdditionRemoval();
   // Member Functions

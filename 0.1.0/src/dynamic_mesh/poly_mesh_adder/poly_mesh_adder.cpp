@@ -96,7 +96,7 @@ void mousse::polyMeshAdder::mergePatchNames
   // Empty patches are filtered out much much later on.
   // Add mesh1 patches and build map both ways.
   from1ToAllPatches.setSize(patches1.size());
-  forAll(patches1, patchI)
+  FOR_ALL(patches1, patchI)
   {
     from1ToAllPatches[patchI] = patchIndex
     (
@@ -110,7 +110,7 @@ void mousse::polyMeshAdder::mergePatchNames
   // Invert 1 to all patch map
   fromAllTo1Patches.setSize(allPatchNames.size());
   fromAllTo1Patches = -1;
-  forAll(from1ToAllPatches, i)
+  FOR_ALL(from1ToAllPatches, i)
   {
     fromAllTo1Patches[from1ToAllPatches[i]] = i;
   }
@@ -121,7 +121,7 @@ mousse::labelList mousse::polyMeshAdder::getPatchStarts
 )
 {
   labelList patchStarts(patches.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     patchStarts[patchI] = patches[patchI].start();
   }
@@ -133,7 +133,7 @@ mousse::labelList mousse::polyMeshAdder::getPatchSizes
 )
 {
   labelList patchSizes(patches.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     patchSizes[patchI] = patches[patchI].size();
   }
@@ -162,7 +162,7 @@ mousse::List<mousse::polyPatch*> mousse::polyMeshAdder::combinePatches
   label startFaceI = nInternalFaces;
   // Copy patches0 with new sizes. First patches always come from
   // mesh0 and will always be present.
-  forAll(patches0, patchI)
+  FOR_ALL(patches0, patchI)
   {
     // Originates from mesh0. Clone with new size & filter out empty
     // patch.
@@ -197,7 +197,7 @@ mousse::List<mousse::polyPatch*> mousse::polyMeshAdder::combinePatches
     }
   }
   // Copy unique patches of mesh1.
-  forAll(from1ToAllPatches, patchI)
+  FOR_ALL(from1ToAllPatches, patchI)
   {
     label allPatchI = from1ToAllPatches[patchI];
     if (allPatchI >= patches0.size())
@@ -251,11 +251,11 @@ mousse::labelList mousse::polyMeshAdder::getFaceOrder
   }
   // First unassigned face
   label newFaceI = 0;
-  forAll(cells, cellI)
+  FOR_ALL(cells, cellI)
   {
     const labelList& cFaces = cells[cellI];
     SortableList<label> nbr(cFaces.size());
-    forAll(cFaces, i)
+    FOR_ALL(cFaces, i)
     {
       label faceI = cFaces[i];
       label nbrCellI = neighbour[faceI];
@@ -284,7 +284,7 @@ mousse::labelList mousse::polyMeshAdder::getFaceOrder
       }
     }
     nbr.sort();
-    forAll(nbr, i)
+    FOR_ALL(nbr, i)
     {
       if (nbr[i] != -1)
       {
@@ -293,11 +293,11 @@ mousse::labelList mousse::polyMeshAdder::getFaceOrder
     }
   }
   // Check done all faces.
-  forAll(oldToNew, faceI)
+  FOR_ALL(oldToNew, faceI)
   {
     if (oldToNew[faceI] == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "polyMeshAdder::getFaceOrder"
         "(const cellList&, const label, const labelList&"
@@ -324,7 +324,7 @@ void mousse::polyMeshAdder::insertVertices
   workFace.clear();
   // Check any edge for being cut (check on the cut so takes account
   // for any point merging on the cut)
-  forAll(masterF, fp)
+  FOR_ALL(masterF, fp)
   {
     label v0 = masterF[fp];
     label v1 = masterF.nextLabel(fp);
@@ -351,14 +351,14 @@ void mousse::polyMeshAdder::insertVertices
           // cutPoints first in allPoints so no need for renumbering
           if (e[0] == cutEdge[0])
           {
-            forAll(addedPoints, i)
+            FOR_ALL(addedPoints, i)
             {
               workFace.append(addedPoints[i]);
             }
           }
           else
           {
-            forAllReverse(addedPoints, i)
+            FOR_ALL_REVERSE(addedPoints, i)
             {
               workFace.append(addedPoints[i]);
             }
@@ -443,18 +443,18 @@ void mousse::polyMeshAdder::mergePrimitives
         coupleInfo.slaveToCutPoints()
       )
     );
-    forAll(cutPoints, i)
+    FOR_ALL(cutPoints, i)
     {
       allPoints[allPointI] = cutPoints[i];
       // Mark all master and slave points referring to this point.
       const labelList& masterPoints = cutToMasterPoints[i];
-      forAll(masterPoints, j)
+      FOR_ALL(masterPoints, j)
       {
         label mesh0PointI = masterPatch.meshPoints()[masterPoints[j]];
         from0ToAllPoints[mesh0PointI] = allPointI;
       }
       const labelList& slavePoints = cutToSlavePoints[i];
-      forAll(slavePoints, j)
+      FOR_ALL(slavePoints, j)
       {
         label mesh1PointI = slavePatch.meshPoints()[slavePoints[j]];
         from1ToAllPoints[mesh1PointI] = allPointI;
@@ -463,7 +463,7 @@ void mousse::polyMeshAdder::mergePrimitives
     }
   }
   // Add uncoupled mesh0 points
-  forAll(mesh0.points(), pointI)
+  FOR_ALL(mesh0.points(), pointI)
   {
     if (from0ToAllPoints[pointI] == -1)
     {
@@ -473,7 +473,7 @@ void mousse::polyMeshAdder::mergePrimitives
     }
   }
   // Add uncoupled mesh1 points
-  forAll(mesh1.points(), pointI)
+  FOR_ALL(mesh1.points(), pointI)
   {
     if (from1ToAllPoints[pointI] == -1)
     {
@@ -511,7 +511,7 @@ void mousse::polyMeshAdder::mergePrimitives
   // slave. Also uncount as boundary faces all the newly coupled faces.
   const labelList& cutToMasterFaces = coupleInfo.cutToMasterFaces();
   const labelList& cutToSlaveFaces = coupleInfo.cutToSlaveFaces();
-  forAll(cutFaces, i)
+  FOR_ALL(cutFaces, i)
   {
     label masterFaceI = cutToMasterFaces[i];
     label mesh0FaceI = masterPatch.addressing()[masterFaceI];
@@ -556,7 +556,7 @@ void mousse::polyMeshAdder::mergePrimitives
       const polyPatch& pp = patches0[allPatchI];
       nFacesPerPatch[allPatchI] += pp.size();
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         if (from0ToAllFaces[faceI] == -1)
         {
@@ -579,7 +579,7 @@ void mousse::polyMeshAdder::mergePrimitives
       const polyPatch& pp = patches1[fromAllTo1Patches[allPatchI]];
       nFacesPerPatch[allPatchI] += pp.size();
       label faceI = pp.start();
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         if (from1ToAllFaces[faceI] == -1)
         {
@@ -617,13 +617,13 @@ void mousse::polyMeshAdder::mergePrimitives
     // Get map of master face (in mesh labels) that are in cut. These faces
     // do not need to be renumbered.
     labelHashSet masterCutFaces(cutToMasterFaces.size());
-    forAll(cutToMasterFaces, i)
+    FOR_ALL(cutToMasterFaces, i)
     {
       label meshFaceI = masterPatch.addressing()[cutToMasterFaces[i]];
       masterCutFaces.insert(meshFaceI);
     }
     DynamicList<label> workFace(100);
-    forAll(from0ToAllFaces, face0)
+    FOR_ALL(from0ToAllFaces, face0)
     {
       if (!masterCutFaces.found(face0))
       {
@@ -641,12 +641,12 @@ void mousse::polyMeshAdder::mergePrimitives
     }
     // Same for slave face
     labelHashSet slaveCutFaces(cutToSlaveFaces.size());
-    forAll(cutToSlaveFaces, i)
+    FOR_ALL(cutToSlaveFaces, i)
     {
       label meshFaceI = slavePatch.addressing()[cutToSlaveFaces[i]];
       slaveCutFaces.insert(meshFaceI);
     }
-    forAll(from1ToAllFaces, face1)
+    FOR_ALL(from1ToAllFaces, face1)
     {
       if (!slaveCutFaces.found(face1))
       {
@@ -668,7 +668,7 @@ void mousse::polyMeshAdder::mergePrimitives
   // ~~~~~
   from1ToAllCells.setSize(mesh1.nCells());
   from1ToAllCells = -1;
-  forAll(mesh1.cells(), i)
+  FOR_ALL(mesh1.cells(), i)
   {
     from1ToAllCells[i] = i + mesh0.nCells();
   }
@@ -708,7 +708,7 @@ void mousse::polyMeshAdder::mergePointZones
   zoneNames.setCapacity(pz0.size() + pz1.size());
   zoneNames.append(pz0.names());
   from1ToAll.setSize(pz1.size());
-  forAll(pz1, zoneI)
+  FOR_ALL(pz1, zoneI)
   {
     from1ToAll[zoneI] = zoneIndex(pz1[zoneI].name(), zoneNames);
   }
@@ -720,10 +720,10 @@ void mousse::polyMeshAdder::mergePointZones
   labelList pointToZone(nAllPoints, -1);
   labelListList addPointToZones(nAllPoints);
   // mesh0 zones kept
-  forAll(pz0, zoneI)
+  FOR_ALL(pz0, zoneI)
   {
     const pointZone& pz = pz0[zoneI];
-    forAll(pz, i)
+    FOR_ALL(pz, i)
     {
       label point0 = pz[i];
       label allPointI = from0ToAllPoints[point0];
@@ -742,11 +742,11 @@ void mousse::polyMeshAdder::mergePointZones
     }
   }
   // mesh1 zones renumbered
-  forAll(pz1, zoneI)
+  FOR_ALL(pz1, zoneI)
   {
     const pointZone& pz = pz1[zoneI];
     const label allZoneI = from1ToAll[zoneI];
-    forAll(pz, i)
+    FOR_ALL(pz, i)
     {
       label point1 = pz[i];
       label allPointI = from1ToAllPoints[point1];
@@ -767,7 +767,7 @@ void mousse::polyMeshAdder::mergePointZones
   // Extract back into zones
   // 1. Count
   labelList nPoints(zoneNames.size(), 0);
-  forAll(pointToZone, allPointI)
+  FOR_ALL(pointToZone, allPointI)
   {
     label zoneI = pointToZone[allPointI];
     if (zoneI != -1)
@@ -775,21 +775,21 @@ void mousse::polyMeshAdder::mergePointZones
       nPoints[zoneI]++;
     }
   }
-  forAll(addPointToZones, allPointI)
+  FOR_ALL(addPointToZones, allPointI)
   {
     const labelList& pZones = addPointToZones[allPointI];
-    forAll(pZones, i)
+    FOR_ALL(pZones, i)
     {
       nPoints[pZones[i]]++;
     }
   }
   // 2. Fill
   pzPoints.setSize(zoneNames.size());
-  forAll(pzPoints, zoneI)
+  FOR_ALL(pzPoints, zoneI)
   {
     pzPoints[zoneI].setCapacity(nPoints[zoneI]);
   }
-  forAll(pointToZone, allPointI)
+  FOR_ALL(pointToZone, allPointI)
   {
     label zoneI = pointToZone[allPointI];
     if (zoneI != -1)
@@ -797,15 +797,15 @@ void mousse::polyMeshAdder::mergePointZones
       pzPoints[zoneI].append(allPointI);
     }
   }
-  forAll(addPointToZones, allPointI)
+  FOR_ALL(addPointToZones, allPointI)
   {
     const labelList& pZones = addPointToZones[allPointI];
-    forAll(pZones, i)
+    FOR_ALL(pZones, i)
     {
       pzPoints[pZones[i]].append(allPointI);
     }
   }
-  forAll(pzPoints, i)
+  FOR_ALL(pzPoints, i)
   {
     pzPoints[i].shrink();
     stableSort(pzPoints[i]);
@@ -832,7 +832,7 @@ void mousse::polyMeshAdder::mergeFaceZones
   zoneNames.setCapacity(fz0.size() + fz1.size());
   zoneNames.append(fz0.names());
   from1ToAll.setSize(fz1.size());
-  forAll(fz1, zoneI)
+  FOR_ALL(fz1, zoneI)
   {
     from1ToAll[zoneI] = zoneIndex(fz1[zoneI].name(), zoneNames);
   }
@@ -843,11 +843,11 @@ void mousse::polyMeshAdder::mergeFaceZones
   boolList faceToFlip(allOwner.size(), false);
   boolListList addFaceToFlips(allOwner.size());
   // mesh0 zones kept
-  forAll(fz0, zoneI)
+  FOR_ALL(fz0, zoneI)
   {
     const labelList& addressing = fz0[zoneI];
     const boolList& flipMap = fz0[zoneI].flipMap();
-    forAll(addressing, i)
+    FOR_ALL(addressing, i)
     {
       label face0 = addressing[i];
       bool flip0 = flipMap[i];
@@ -879,12 +879,12 @@ void mousse::polyMeshAdder::mergeFaceZones
     }
   }
   // mesh1 zones renumbered
-  forAll(fz1, zoneI)
+  FOR_ALL(fz1, zoneI)
   {
     const labelList& addressing = fz1[zoneI];
     const boolList& flipMap = fz1[zoneI].flipMap();
     const label allZoneI = from1ToAll[zoneI];
-    forAll(addressing, i)
+    FOR_ALL(addressing, i)
     {
       label face1 = addressing[i];
       bool flip1 = flipMap[i];
@@ -918,7 +918,7 @@ void mousse::polyMeshAdder::mergeFaceZones
   // Extract back into zones
   // 1. Count
   labelList nFaces(zoneNames.size(), 0);
-  forAll(faceToZone, allFaceI)
+  FOR_ALL(faceToZone, allFaceI)
   {
     label zoneI = faceToZone[allFaceI];
     if (zoneI != -1)
@@ -926,10 +926,10 @@ void mousse::polyMeshAdder::mergeFaceZones
       nFaces[zoneI]++;
     }
   }
-  forAll(addFaceToZones, allFaceI)
+  FOR_ALL(addFaceToZones, allFaceI)
   {
     const labelList& fZones = addFaceToZones[allFaceI];
-    forAll(fZones, i)
+    FOR_ALL(fZones, i)
     {
       nFaces[fZones[i]]++;
     }
@@ -937,12 +937,12 @@ void mousse::polyMeshAdder::mergeFaceZones
   // 2. Fill
   fzFaces.setSize(zoneNames.size());
   fzFlips.setSize(zoneNames.size());
-  forAll(fzFaces, zoneI)
+  FOR_ALL(fzFaces, zoneI)
   {
     fzFaces[zoneI].setCapacity(nFaces[zoneI]);
     fzFlips[zoneI].setCapacity(nFaces[zoneI]);
   }
-  forAll(faceToZone, allFaceI)
+  FOR_ALL(faceToZone, allFaceI)
   {
     label zoneI = faceToZone[allFaceI];
     bool flip = faceToFlip[allFaceI];
@@ -952,18 +952,18 @@ void mousse::polyMeshAdder::mergeFaceZones
       fzFlips[zoneI].append(flip);
     }
   }
-  forAll(addFaceToZones, allFaceI)
+  FOR_ALL(addFaceToZones, allFaceI)
   {
     const labelList& fZones = addFaceToZones[allFaceI];
     const boolList& flipZones = addFaceToFlips[allFaceI];
-    forAll(fZones, i)
+    FOR_ALL(fZones, i)
     {
       label zoneI = fZones[i];
       fzFaces[zoneI].append(allFaceI);
       fzFlips[zoneI].append(flipZones[i]);
     }
   }
-  forAll(fzFaces, i)
+  FOR_ALL(fzFaces, i)
   {
     fzFaces[i].shrink();
     fzFlips[i].shrink();
@@ -987,7 +987,7 @@ void mousse::polyMeshAdder::mergeCellZones
   zoneNames.setCapacity(cz0.size() + cz1.size());
   zoneNames.append(cz0.names());
   from1ToAll.setSize(cz1.size());
-  forAll(cz1, zoneI)
+  FOR_ALL(cz1, zoneI)
   {
     from1ToAll[zoneI] = zoneIndex(cz1[zoneI].name(), zoneNames);
   }
@@ -999,10 +999,10 @@ void mousse::polyMeshAdder::mergeCellZones
   labelList cellToZone(nAllCells, -1);
   labelListList addCellToZones(nAllCells);
   // mesh0 zones kept
-  forAll(cz0, zoneI)
+  FOR_ALL(cz0, zoneI)
   {
     const cellZone& cz = cz0[zoneI];
-    forAll(cz, i)
+    FOR_ALL(cz, i)
     {
       label cell0 = cz[i];
       if (cellToZone[cell0] == -1)
@@ -1020,11 +1020,11 @@ void mousse::polyMeshAdder::mergeCellZones
     }
   }
   // mesh1 zones renumbered
-  forAll(cz1, zoneI)
+  FOR_ALL(cz1, zoneI)
   {
     const cellZone& cz = cz1[zoneI];
     const label allZoneI = from1ToAll[zoneI];
-    forAll(cz, i)
+    FOR_ALL(cz, i)
     {
       label cell1 = cz[i];
       label allCellI = from1ToAllCells[cell1];
@@ -1045,7 +1045,7 @@ void mousse::polyMeshAdder::mergeCellZones
   // Extract back into zones
   // 1. Count
   labelList nCells(zoneNames.size(), 0);
-  forAll(cellToZone, allCellI)
+  FOR_ALL(cellToZone, allCellI)
   {
     label zoneI = cellToZone[allCellI];
     if (zoneI != -1)
@@ -1053,21 +1053,21 @@ void mousse::polyMeshAdder::mergeCellZones
       nCells[zoneI]++;
     }
   }
-  forAll(addCellToZones, allCellI)
+  FOR_ALL(addCellToZones, allCellI)
   {
     const labelList& cZones = addCellToZones[allCellI];
-    forAll(cZones, i)
+    FOR_ALL(cZones, i)
     {
       nCells[cZones[i]]++;
     }
   }
   // 2. Fill
   czCells.setSize(zoneNames.size());
-  forAll(czCells, zoneI)
+  FOR_ALL(czCells, zoneI)
   {
     czCells[zoneI].setCapacity(nCells[zoneI]);
   }
-  forAll(cellToZone, allCellI)
+  FOR_ALL(cellToZone, allCellI)
   {
     label zoneI = cellToZone[allCellI];
     if (zoneI != -1)
@@ -1075,15 +1075,15 @@ void mousse::polyMeshAdder::mergeCellZones
       czCells[zoneI].append(allCellI);
     }
   }
-  forAll(addCellToZones, allCellI)
+  FOR_ALL(addCellToZones, allCellI)
   {
     const labelList& cZones = addCellToZones[allCellI];
-    forAll(cZones, i)
+    FOR_ALL(cZones, i)
     {
       czCells[cZones[i]].append(allCellI);
     }
   }
-  forAll(czCells, i)
+  FOR_ALL(czCells, i)
   {
     czCells[i].shrink();
     stableSort(czCells[i]);
@@ -1161,7 +1161,7 @@ void mousse::polyMeshAdder::addZones
 )
 {
   List<pointZone*> pZones(pzPoints.size());
-  forAll(pZones, i)
+  FOR_ALL(pZones, i)
   {
     pZones[i] = new pointZone
     (
@@ -1172,7 +1172,7 @@ void mousse::polyMeshAdder::addZones
     );
   }
   List<faceZone*> fZones(fzFaces.size());
-  forAll(fZones, i)
+  FOR_ALL(fZones, i)
   {
     fZones[i] = new faceZone
     (
@@ -1184,7 +1184,7 @@ void mousse::polyMeshAdder::addZones
     );
   }
   List<cellZone*> cZones(czCells.size());
-  forAll(cZones, i)
+  FOR_ALL(cZones, i)
   {
     cZones[i] = new cellZone
     (
@@ -1487,7 +1487,7 @@ mousse::autoPtr<mousse::mapAddedPolyMesh> mousse::polyMeshAdder::add
   // Copy patches0 with new sizes. First patches always come from
   // mesh0 and will always be present.
   label allPatchI = 0;
-  forAll(from0ToAllPatches, patch0)
+  FOR_ALL(from0ToAllPatches, patch0)
   {
     // Originates from mesh0. Clone with new size & filter out empty
     // patch.
@@ -1532,7 +1532,7 @@ mousse::autoPtr<mousse::mapAddedPolyMesh> mousse::polyMeshAdder::add
     }
   }
   // Copy unique patches of mesh1.
-  forAll(from1ToAllPatches, patch1)
+  FOR_ALL(from1ToAllPatches, patch1)
   {
     label uncompactAllPatchI = from1ToAllPatches[patch1];
     if (uncompactAllPatchI >= from0ToAllPatches.size())
@@ -1643,7 +1643,7 @@ mousse::Map<mousse::label> mousse::polyMeshAdder::findSharedPoints
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Map<labelList> sharedToMesh(sharedPointLabels.size());
   label nMultiple = 0;
-  forAll(sharedPointLabels, i)
+  FOR_ALL(sharedPointLabels, i)
   {
     label pointI = sharedPointLabels[i];
     label sharedI = sharedPointAddr[i];
@@ -1657,7 +1657,7 @@ mousse::Map<mousse::label> mousse::polyMeshAdder::findSharedPoints
       // Check just to make sure.
       if (findIndex(connectedPointLabels, pointI) != -1)
       {
-        FatalErrorIn("polyMeshAdder::findSharedPoints(..)")
+        FATAL_ERROR_IN("polyMeshAdder::findSharedPoints(..)")
           << "Duplicate point in sharedPoint addressing." << endl
           << "When trying to add point " << pointI << " on shared "
           << sharedI  << " with connected points "
@@ -1675,7 +1675,7 @@ mousse::Map<mousse::label> mousse::polyMeshAdder::findSharedPoints
   // Assign single master for every shared with multiple geometric points
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Map<label> pointToMaster(nMultiple);
-  forAllConstIter(Map<labelList>, sharedToMesh, iter)
+  FOR_ALL_CONST_ITER(Map<labelList>, sharedToMesh, iter)
   {
     const labelList& connectedPointLabels = iter();
     //Pout<< "For shared:" << iter.key()
@@ -1709,19 +1709,19 @@ mousse::Map<mousse::label> mousse::polyMeshAdder::findSharedPoints
           )
         );
         // Find master for valid merges
-        forAll(mergeSets, setI)
+        FOR_ALL(mergeSets, setI)
         {
           const labelList& mergeSet = mergeSets[setI];
           if (mergeSet.size() > 1)
           {
             // Pick lowest numbered point
             label masterPointI = labelMax;
-            forAll(mergeSet, i)
+            FOR_ALL(mergeSet, i)
             {
               label pointI = connectedPointLabels[mergeSet[i]];
               masterPointI = min(masterPointI, pointI);
             }
-            forAll(mergeSet, i)
+            FOR_ALL(mergeSet, i)
             {
               label pointI = connectedPointLabels[mergeSet[i]];
               //Pout<< "Merging point " << pointI
@@ -1769,7 +1769,7 @@ mousse::Map<mousse::label> mousse::polyMeshAdder::findSharedPoints
   //
   //    label nMergeSets = 0;
   //
-  //    forAll(mergeSets, setI)
+  //    FOR_ALL(mergeSets, setI)
   //    {
   //        const labelList& mergeSet = mergeSets[setI];
   //
@@ -1783,14 +1783,14 @@ mousse::Map<mousse::label> mousse::polyMeshAdder::findSharedPoints
   //
   //            label masterI = labelMax;
   //
-  //            forAll(mergeSet, i)
+  //            FOR_ALL(mergeSet, i)
   //            {
   //                label sharedI = mergeSet[i];
   //
   //                masterI = min(masterI, sharedPointLabels[sharedI]);
   //            }
   //
-  //            forAll(mergeSet, i)
+  //            FOR_ALL(mergeSet, i)
   //            {
   //                label sharedI = mergeSet[i];
   //
@@ -1816,7 +1816,7 @@ void mousse::polyMeshAdder::mergePoints
 )
 {
   // Remove all non-master points.
-  forAll(mesh.points(), pointI)
+  FOR_ALL(mesh.points(), pointI)
   {
     Map<label>::const_iterator iter = pointToMaster.find(pointI);
     if (iter != pointToMaster.end())
@@ -1830,11 +1830,11 @@ void mousse::polyMeshAdder::mergePoints
   // Modify faces for points. Note: could use pointFaces here but want to
   // avoid addressing calculation.
   const faceList& faces = mesh.faces();
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     bool hasMerged = false;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label pointI = f[fp];
       Map<label>::const_iterator iter = pointToMaster.find(pointI);
@@ -1850,7 +1850,7 @@ void mousse::polyMeshAdder::mergePoints
     if (hasMerged)
     {
       face newF(f);
-      forAll(f, fp)
+      FOR_ALL(f, fp)
       {
         label pointI = f[fp];
         Map<label>::const_iterator iter = pointToMaster.find(pointI);
