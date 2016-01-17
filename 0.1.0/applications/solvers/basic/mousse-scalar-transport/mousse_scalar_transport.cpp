@@ -5,16 +5,17 @@
 #include "fv_cfd.hpp"
 #include "fv_io_option_list.hpp"
 #include "simple_control.hpp"
+
 int main(int argc, char *argv[])
 {
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
-  #include "create_mesh.hpp"
+#include "set_root_case.inc"
+#include "create_time.inc"
+#include "create_mesh.inc"
   simpleControl simple(mesh);
-  #include "create_fields.inc"
-  #include "create_fv_options.hpp"
-    Info<< "\nCalculating scalar transport\n" << endl;
-  #include "courant_no.hpp"
+#include "create_fields.inc"
+#include "create_fv_options.inc"
+  Info<< "\nCalculating scalar transport\n" << endl;
+#include "courant_no.inc"
   while (simple.loop())
   {
     Info<< "Time = " << runTime.timeName() << nl << endl;
@@ -23,9 +24,9 @@ int main(int argc, char *argv[])
       solve
       (
         fvm::ddt(T)
-       + fvm::div(phi, T)
-       - fvm::laplacian(DT, T)
-      ==
+        + fvm::div(phi, T)
+        - fvm::laplacian(DT, T)
+        ==
         fvOptions(T)
       );
     }

@@ -1,16 +1,16 @@
 Info<< "Reading velocity field U\n" << endl;
 volVectorField U
-(
-  IOobject
-  (
+{
+  // IOobject
+  {
     "U",
     runTime.timeName(),
     mesh,
     IOobject::MUST_READ,
     IOobject::AUTO_WRITE
-  ),
+  },
   mesh
-);
+};
 U = dimensionedVector("0", U.dimensions(), vector::zero);
 surfaceScalarField phi
 (
@@ -39,7 +39,7 @@ wordList pBCTypes
   U.boundaryField().size(),
   fixedValueFvPatchScalarField::typeName
 );
-forAll(U.boundaryField(), patchi)
+FOR_ALL(U.boundaryField(), patchi)
 {
   if (U.boundaryField()[patchi].fixesValue())
   {

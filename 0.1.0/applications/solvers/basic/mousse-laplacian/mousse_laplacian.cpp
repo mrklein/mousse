@@ -7,9 +7,9 @@
 
 int main(int argc, char *argv[])
 {
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
-  #include "create_mesh.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
+  #include "create_mesh.inc"
   simpleControl simple(mesh);
   #include "create_fields.inc"
     Info<< "\nCalculating temperature distribution\n" << endl;

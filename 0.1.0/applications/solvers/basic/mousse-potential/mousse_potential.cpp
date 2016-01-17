@@ -33,13 +33,13 @@ int main(int argc, char *argv[])
     "withFunctionObjects",
     "execute functionObjects"
   );
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
-  #include "create_mesh.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
+  #include "create_mesh.inc"
   pisoControl potentialFlow(mesh, "potentialFlow");
   #include "create_fields.inc"
-  #include "create_mrf.hpp"
-  #include "create_fv_options.hpp"
+  #include "create_mrf.inc"
+  #include "create_fv_options.inc"
     Info<< nl << "Calculating potential flow" << endl;
   // Since solver contains no time loop it would never execute
   // function objects so do it ourselves
