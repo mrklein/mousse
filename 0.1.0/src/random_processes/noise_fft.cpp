@@ -30,7 +30,7 @@ mousse::noiseFFT::noiseFFT(const fileName& pFileName, const label skip)
   // Check pFile stream is OK
   if (!pFile.good())
   {
-    FatalErrorIn("noiseFFT::noiseFFT(const scalar, const scalarField&)")
+    FATAL_ERROR_IN("noiseFFT::noiseFFT(const scalar, const scalarField&)")
       << "Cannot read file " << pFileName
       << exit(FatalError);
   }
@@ -42,7 +42,7 @@ mousse::noiseFFT::noiseFFT(const fileName& pFileName, const label skip)
       pFile >> dummyt;
       if (!pFile.good() || pFile.eof())
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "noiseFFT::noiseFFT(const scalar, const scalarField&)"
         )
@@ -68,7 +68,7 @@ mousse::noiseFFT::noiseFFT(const fileName& pFileName, const label skip)
 mousse::graph mousse::noiseFFT::pt() const
 {
   scalarField t(size());
-  forAll(t, i)
+  FOR_ALL(t, i)
   {
     t[i] = i*deltat_;
   }
@@ -90,7 +90,7 @@ mousse::tmp<mousse::scalarField> mousse::noiseFFT::window
   label windowOffset = N;
   if ((N + ni*windowOffset) > size())
   {
-    FatalErrorIn("noiseFFT::window(const label, const label) const")
+    FATAL_ERROR_IN("noiseFFT::window(const label, const label) const")
       << "Requested window is outside set of data" << endl
       << "number of data = " << size() << endl
       << "size of window = " << N << endl
@@ -100,7 +100,7 @@ mousse::tmp<mousse::scalarField> mousse::noiseFFT::window
   tmp<scalarField> tpw(new scalarField(N));
   scalarField& pw = tpw();
   label offset = ni*windowOffset;
-  forAll(pw, i)
+  FOR_ALL(pw, i)
   {
     pw[i] = operator[](i + offset);
   }
@@ -109,7 +109,7 @@ mousse::tmp<mousse::scalarField> mousse::noiseFFT::window
 mousse::tmp<mousse::scalarField> mousse::noiseFFT::Hanning(const label N) const
 {
   scalarField t(N);
-  forAll(t, i)
+  FOR_ALL(t, i)
   {
     t[i] = i*deltat_;
   }
@@ -153,7 +153,7 @@ mousse::graph mousse::noiseFFT::meanPf
 {
   if (N > size())
   {
-    FatalErrorIn("noiseFFT::meanPf(const label, const label) const")
+    FATAL_ERROR_IN("noiseFFT::meanPf(const label, const label) const")
       << "Requested window is outside set of data" << nl
       << "number of data = " << size() << nl
       << "size of window = " << N << nl
@@ -169,7 +169,7 @@ mousse::graph mousse::noiseFFT::meanPf
   MeanPf /= nw;
   scalarField f(MeanPf.size());
   scalar deltaf = 1.0/(N*deltat_);
-  forAll(f, i)
+  FOR_ALL(f, i)
   {
     f[i] = i*deltaf;
   }
@@ -190,7 +190,7 @@ mousse::graph mousse::noiseFFT::RMSmeanPf
 {
   if (N > size())
   {
-    FatalErrorIn("noiseFFT::RMSmeanPf(const label, const label) const")
+    FATAL_ERROR_IN("noiseFFT::RMSmeanPf(const label, const label) const")
       << "Requested window is outside set of data" << endl
       << "number of data = " << size() << endl
       << "size of window = " << N << endl
@@ -206,7 +206,7 @@ mousse::graph mousse::noiseFFT::RMSmeanPf
   RMSMeanPf = sqrt(RMSMeanPf/nw);
   scalarField f(RMSMeanPf.size());
   scalar deltaf = 1.0/(N*deltat_);
-  forAll(f, i)
+  FOR_ALL(f, i)
   {
     f[i] = i*deltaf;
   }
@@ -318,7 +318,7 @@ mousse::scalar mousse::noiseFFT::Lsum(const graph& gLf) const
 {
   const scalarField& Lf = gLf.y();
   scalar lsum = 0.0;
-  forAll(Lf, i)
+  FOR_ALL(Lf, i)
   {
     lsum += pow(10, Lf[i]/10.0);
   }

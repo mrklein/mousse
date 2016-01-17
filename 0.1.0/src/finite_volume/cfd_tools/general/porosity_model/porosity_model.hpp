@@ -71,7 +71,6 @@ protected:
     ) const = 0;
     //- Return label index
     label fieldIndex(const label index) const;
-
 public:
   //- Runtime type information
   TYPE_NAME("porosityModel");
@@ -99,6 +98,10 @@ public:
     const dictionary& dict,
     const word& cellZoneName = word::null
   );
+  //- Disallow default bitwise copy construct
+  porosityModel(const porosityModel&) = delete;
+  //- Disallow default bitwise assignment
+  porosityModel& operator=(const porosityModel&) = delete;
   //- Return pointer to new porosityModel object created on the freestore
   //  from an Istream
   class iNew
@@ -113,21 +116,21 @@ public:
       const word& name
     )
     :
-      mesh_(mesh),
-      name_(name)
+      mesh_{mesh},
+      name_{name}
     {}
     autoPtr<porosityModel> operator()(Istream& is) const
     {
       const dictionary dict(is);
       return autoPtr<porosityModel>
-      (
+      {
         porosityModel::New
         (
           name_,
           mesh_,
           dict
         )
-      );
+      };
     }
   };
   //- Selector
@@ -138,10 +141,6 @@ public:
     const dictionary& dict,
     const word& cellZoneName = word::null
   );
-  //- Disallow default bitwise copy construct
-  porosityModel(const porosityModel&) = delete;
-  //- Disallow default bitwise assignment
-  porosityModel& operator=(const porosityModel&) = delete;
   //- Destructor
   virtual ~porosityModel();
   // Member Functions

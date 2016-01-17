@@ -6,7 +6,6 @@
 // Description
 //   Base class for surface film models
 // SourceFiles
-//   surface_film_model_i.hpp
 //   surface_film_model.cpp
 //   surface_film_model_new.cpp
 #ifndef surface_film_model_hpp_
@@ -139,5 +138,18 @@ public:
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
-#include "surface_film_model_i.hpp"
+
+namespace mousse
+{
+namespace regionModels
+{
+namespace surfaceFilmModels
+{
+inline const mousse::dimensionedVector& surfaceFilmModel::g() const
+{
+  return g_;
+}
+}  // namespace surfaceFilmModels
+}  // namespace regionModels
+}  // namespace mousse
 #endif

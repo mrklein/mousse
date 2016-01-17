@@ -60,10 +60,6 @@ private:
       List<List<pointIndexHit> >& surfInfo,
       labelListList& infoMap
     ) const;
-    //- Disallow default bitwise copy construct
-    searchableSurfaceCollection(const searchableSurfaceCollection&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableSurfaceCollection&);
 public:
   //- Runtime type information
   TYPE_NAME("searchableSurfaceCollection");
@@ -74,6 +70,13 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableSurfaceCollection(const searchableSurfaceCollection&) = delete;
+    //- Disallow default bitwise assignment
+    searchableSurfaceCollection& operator=
+    (
+      const searchableSurfaceCollection&
+    ) = delete;
   //- Destructor
   virtual ~searchableSurfaceCollection();
   // Member Functions

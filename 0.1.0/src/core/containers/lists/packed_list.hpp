@@ -60,7 +60,6 @@
 // SeeAlso
 //   mousse::DynamicList
 // SourceFiles
-//   packed_list_i.hpp
 //   packed_list.cpp
 
 #ifndef packed_list_hpp_
@@ -785,7 +784,7 @@ template<unsigned nBits>
 inline mousse::autoPtr<mousse::PackedList<nBits> >
 mousse::PackedList<nBits>::clone() const
 {
-  return autoPtr<PackedList<nBits>>{new PackedList<nBits>{*this}};
+  return {new PackedList<nBits>{*this}};
 }
 
 

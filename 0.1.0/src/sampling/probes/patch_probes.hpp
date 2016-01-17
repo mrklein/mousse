@@ -59,10 +59,6 @@ class patchProbes
     //- Sample a single field on all sample locations
     template<class Type>
     tmp<Field<Type> > sample(const word& fieldName) const;
-    //- Disallow default bitwise copy construct
-    patchProbes(const patchProbes&);
-    //- Disallow default bitwise assignment
-    void operator=(const patchProbes&);
 public:
   //- Runtime type information
   TYPE_NAME("patchProbes");
@@ -76,6 +72,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    patchProbes(const patchProbes&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const patchProbes&) = delete;
   //- Destructor
   virtual ~patchProbes();
   //- Public members

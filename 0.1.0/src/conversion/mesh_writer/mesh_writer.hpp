@@ -42,11 +42,6 @@ namespace mousse
 {
 class meshWriter
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    meshWriter(const meshWriter&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshWriter&);
 protected:
   // Protected data
     //- Mesh reference
@@ -78,6 +73,11 @@ public:
       const polyMesh&,
       const scalar scaleFactor = 1.0
     );
+  // Private Member Functions
+    //- Disallow default bitwise copy construct
+    meshWriter(const meshWriter&) = delete;
+    //- Disallow default bitwise assignment
+    meshWriter& operator=(const meshWriter&) = delete;
   //- Destructor
   virtual ~meshWriter();
   // Member Functions

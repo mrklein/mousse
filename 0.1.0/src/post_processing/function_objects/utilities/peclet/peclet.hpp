@@ -37,11 +37,6 @@ class Peclet
     word phiName_;
     //- Name of density field (compressible cases only), default is "rho"
     word rhoName_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    Peclet(const Peclet&);
-    //- Disallow default bitwise assignment
-    void operator=(const Peclet&);
 public:
   //- Runtime type information
   TYPE_NAME("Peclet");
@@ -55,6 +50,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    Peclet(const Peclet&) = delete;
+    //- Disallow default bitwise assignment
+    Peclet& operator=(const Peclet&) = delete;
   //- Destructor
   virtual ~Peclet();
   // Member Functions

@@ -9,7 +9,6 @@
 //   The element operator [] returns a reference to the object rather than a
 //   pointer.
 // SourceFiles
-//   ptr_list_i.hpp
 //   ptr_list.cpp
 //   ptr_list_io.cpp
 

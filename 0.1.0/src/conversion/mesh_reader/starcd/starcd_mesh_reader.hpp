@@ -42,10 +42,6 @@ protected:
     //- Boundary region data
     boundaryRegion boundaryRegion_;
   // Protected Member Functions
-    //- Disallow default bitwise copy construct
-    STARCD(const STARCD&);
-    //- Disallow default bitwise assignment
-    void operator=(const STARCD&);
     //- Read the mesh from the file(s)
     virtual bool readGeometry(const scalar scaleFactor = 1.0);
     //- Read points from file
@@ -95,6 +91,10 @@ public:
       const objectRegistry&,
       const scalar scaleFactor = 1.0
     );
+    //- Disallow default bitwise copy construct
+    STARCD(const STARCD&) = delete;
+    //- Disallow default bitwise assignment
+    STARCD& operator=(const STARCD&) = delete;
   //- Destructor
   virtual ~STARCD();
 };

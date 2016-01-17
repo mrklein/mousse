@@ -6,7 +6,6 @@
 // Description
 //   A wordList with hashed indices for faster lookup by name.
 // SourceFiles
-//   hashed_word_list_i.hpp
 //   hashed_word_list.cpp
 #ifndef hashed_word_list_hpp_
 #define hashed_word_list_hpp_
@@ -67,5 +66,32 @@ public:
     friend Ostream& operator<<(Ostream&, const hashedWordList&);
 };
 }  // namespace mousse
-#include "hashed_word_list_i.hpp"
+
+// Member Functions 
+inline bool mousse::hashedWordList::contains(const word& name) const
+{
+  return indices_.found(name);
+}
+// Member Operators 
+inline void mousse::hashedWordList::operator=(const UList<word>& lst)
+{
+  List<word>::operator=(lst);
+  rehash();
+}
+inline void mousse::hashedWordList::operator=(const hashedWordList& lst)
+{
+  operator=(static_cast<const UList<word>&>(lst));
+}
+inline const mousse::word& mousse::hashedWordList::operator[]
+(
+  const label index
+) const
+{
+  return List<word>::operator[](index);
+}
+// could return -1 instead of bombing out
+inline mousse::label mousse::hashedWordList::operator[](const word& name) const
+{
+  return indices_[name];
+}
 #endif

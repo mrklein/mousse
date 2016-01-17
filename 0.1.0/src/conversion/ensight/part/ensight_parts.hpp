@@ -21,17 +21,16 @@ class ensightParts
   // Private Data
     //- List of parts
     PtrList<ensightPart> partsList_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    ensightParts(const ensightParts&);
-    //- Disallow default bitwise assignment
-    void operator=(const ensightParts&);
 public:
   // Constructors
     //- Construct from polyMesh
     ensightParts(const polyMesh&);
     //- Construct from IOobject
     ensightParts(const IOobject&);
+    //- Disallow default bitwise copy construct
+    ensightParts(const ensightParts&) = delete;
+    //- Disallow default bitwise assignment
+    ensightParts& operator=(const ensightParts&) = delete;
   //- Destructor
   ~ensightParts();
   // Member functions

@@ -51,8 +51,6 @@ class cellTable
     //- Add required entries - MaterialType
     void addDefaults();
     void setEntry(const label id, const word& keyWord, const word& value);
-    //- Disallow default bitwise copy construct
-    cellTable(const cellTable&);
 public:
   // Constructors
     //- Construct null
@@ -64,6 +62,8 @@ public:
       const word& name = "cellTable",
       const fileName& instance = "constant"
     );
+    //- Disallow default bitwise copy construct
+    cellTable(const cellTable&) = delete;
   //- Destructor
   ~cellTable();
   // Member Functions

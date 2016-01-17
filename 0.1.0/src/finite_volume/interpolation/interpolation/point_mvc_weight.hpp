@@ -19,6 +19,7 @@
 #include "map.hpp"
 #include "dynamic_list.hpp"
 #include "point.hpp"
+#include "point_fields.hpp"
 namespace mousse
 {
 class polyMesh;
@@ -90,5 +91,20 @@ public:
     ) const;
 };
 }  // namespace mousse
-#include "point_mvc_weight_i.hpp"
+
+// Member Functions 
+template<class Type>
+inline Type mousse::pointMVCWeight::interpolate
+(
+  const GeometricField<Type, pointPatchField, pointMesh>& psip
+) const
+{
+  const labelList& vertices = psip.mesh()().cellPoints()[cellIndex_];
+  Type t = pTraits<Type>::zero;
+  FOR_ALL(vertices, i)
+  {
+    t += psip[vertices[i]]*weights_[i];
+  }
+  return t;
+}
 #endif

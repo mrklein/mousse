@@ -6,11 +6,10 @@
 // Description
 //   An objectMap is a pair of labels defining the mapping of an object from
 //   another object, e.g. a cell mapped from a point.
-// SourceFiles
-//   object_map_i.hpp
 #ifndef object_map_hpp_
 #define object_map_hpp_
 #include "label_list.hpp"
+#include "iostreams.hpp"
 namespace mousse
 {
 // Forward declaration of friend functions and operators
@@ -49,5 +48,78 @@ public:
     friend Istream& operator>>(Istream&, objectMap&);
 };
 }  // namespace mousse
-#include "object_map_i.hpp"
+
+namespace mousse
+{
+// Constructors 
+inline objectMap::objectMap()
+:
+  index_{-1},
+  masterObjects_{0}
+{}
+inline objectMap::objectMap(const label index, const labelList& master)
+:
+  index_{index},
+  masterObjects_{master}
+{}
+inline objectMap::objectMap(Istream& is)
+{
+  // Read beginning of objectMap
+  is.readBegin("objectMap");
+  is >> index_ >> static_cast<labelList&>(masterObjects_);
+  // Read master of objectMap
+  is.readEnd("objectMap");
+  // Check state of Istream
+  is.check("objectMap::objectMap(Istream&)");
+}
+// Member Functions 
+label& objectMap::index()
+{
+  return index_;
+}
+inline label objectMap::index() const
+{
+  return index_;
+}
+inline labelList& objectMap::masterObjects()
+{
+  return masterObjects_;
+}
+inline const labelList& objectMap::masterObjects() const
+{
+  return masterObjects_;
+}
+// Friend Operators 
+inline bool operator==(const objectMap& a, const objectMap& b)
+{
+  return
+  (
+    (a.index_ == b.index_) && (a.masterObjects_ == b.masterObjects_)
+  );
+}
+inline bool operator!=(const objectMap& a, const objectMap& b)
+{
+  return (!(a == b));
+}
+// Ostream Operator
+inline Ostream& operator<<(Ostream& os, const objectMap& a)
+{
+  os<< token::BEGIN_LIST
+    << a.index_ << token::SPACE
+    << a.masterObjects_
+    << token::END_LIST;
+  // Check state of Ostream
+  os.check("Ostream& operator<<(Ostream&, const objectMap&)");
+  return os;
+}
+inline Istream& operator>>(Istream& is, objectMap& a)
+{
+  is.readBegin("objectMap");
+  is  >> a.index_ >> a.masterObjects_;
+  is.readEnd("objectMap");
+  // Check state of Istream
+  is.check("Istream& operator>>(Istream&, objectMap&)");
+  return is;
+}
+}  // namespace mousse
 #endif

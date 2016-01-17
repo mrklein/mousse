@@ -19,11 +19,6 @@ class components
 :
   public calcType
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    components(const components&);
-    //- Disallow default bitwise assignment
-    void operator=(const components&);
 protected:
   // Member Functions
     // Calculation routines
@@ -59,6 +54,10 @@ public:
   // Constructors
     //- Construct null
     components();
+    //- Disallow default bitwise copy construct
+    components(const components&) = delete;
+    //- Disallow default bitwise assignment
+    components& operator=(const components&) = delete;
   //- Destructor
   virtual ~components();
 };

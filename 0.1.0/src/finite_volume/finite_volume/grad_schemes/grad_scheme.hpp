@@ -55,10 +55,10 @@ public:
     {}
 
     //- Disallow copy construct
-    gradScheme(const gradScheme&);
+    gradScheme(const gradScheme&) = delete;
 
     //- Disallow default bitwise assignment
-    gradScheme& operator=(const gradScheme&);
+    gradScheme& operator=(const gradScheme&) = delete;
 
   // Selectors
     //- Return a pointer to a new gradScheme created on freestore

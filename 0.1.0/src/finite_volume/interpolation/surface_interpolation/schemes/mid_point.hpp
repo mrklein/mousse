@@ -22,9 +22,6 @@ class midPoint
 :
   public surfaceInterpolationScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const midPoint&);
 public:
   //- Runtime type information
   TYPE_NAME("midPoint");
@@ -32,12 +29,12 @@ public:
     //- Construct from mesh
     midPoint(const fvMesh& mesh)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from Istream
     midPoint(const fvMesh& mesh, Istream&)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from faceFlux and Istream
     midPoint
@@ -47,8 +44,10 @@ public:
       Istream&
     )
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
+    //- Disallow default bitwise assignment
+    midPoint& operator=(const midPoint&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights

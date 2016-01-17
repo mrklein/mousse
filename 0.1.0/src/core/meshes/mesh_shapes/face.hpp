@@ -8,7 +8,6 @@
 // SeeAlso
 //   mousse::triFace
 // SourceFiles
-//   face_i.hpp
 //   face.cpp
 //   face_intersection.cpp
 //   face_contact_sphere.cpp
@@ -326,19 +325,19 @@ inline mousse::face::face()
 {}
 inline mousse::face::face(label s)
 :
-  labelList(s, -1)
+  labelList{s, -1}
 {}
 inline mousse::face::face(const labelUList& lst)
 :
-  labelList(lst)
+  labelList{lst}
 {}
 inline mousse::face::face(const labelList& lst)
 :
-  labelList(lst)
+  labelList{lst}
 {}
 inline mousse::face::face(const Xfer<labelList>& lst)
 :
-  labelList(lst)
+  labelList{lst}
 {}
 inline mousse::face::face(Istream& is)
 {
@@ -348,7 +347,7 @@ inline mousse::face::face(Istream& is)
 inline mousse::pointField mousse::face::points(const pointField& meshPoints) const
 {
   // There are as many points as there labels for them
-  pointField p(size());
+  pointField p{size()};
   // For each point in list, set it to the point in 'pnts' addressed
   // by 'labs'
   FOR_ALL(p, i)
@@ -369,7 +368,7 @@ inline mousse::label mousse::face::nEdges() const
 }
 inline mousse::edge mousse::face::faceEdge(const label n) const
 {
-  return edge(operator[](n), operator[](fcIndex(n)));
+  return {operator[](n), operator[](fcIndex(n))};
 }
 // Next vertex on face
 inline mousse::label mousse::face::nextLabel(const label i) const
@@ -418,7 +417,6 @@ inline mousse::Istream& mousse::operator>>(Istream& is, face& f)
   return is;
 }
 
-// #include "face_i.hpp"
 #ifdef NoRepository
 #   include "face_templates.cpp"
 #endif

@@ -27,11 +27,6 @@ class cyclicACMIGAMGInterfaceField
     bool doTransform_;
     //- Rank of component for transformation
     int rank_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    cyclicACMIGAMGInterfaceField(const cyclicACMIGAMGInterfaceField&);
-    //- Disallow default bitwise assignment
-    void operator=(const cyclicACMIGAMGInterfaceField&);
 public:
   //- Runtime type information
   TYPE_NAME("cyclicACMI");
@@ -49,6 +44,13 @@ public:
       const bool doTransform,
       const int rank
     );
+    //- Disallow default bitwise copy construct
+    cyclicACMIGAMGInterfaceField(const cyclicACMIGAMGInterfaceField&) = delete;
+    //- Disallow default bitwise assignment
+    cyclicACMIGAMGInterfaceField& operator=
+    (
+      const cyclicACMIGAMGInterfaceField&
+    ) = delete;
   //- Destructor
   virtual ~cyclicACMIGAMGInterfaceField();
   // Member Functions

@@ -28,7 +28,7 @@ mousse::Kmesh::Kmesh(const fvMesh& mesh)
   vector cellL = 2*(box.max() - cornerCellCentre);
   vector rdeltaByL;
   label nTot = 1;
-  forAll(nn_, i)
+  FOR_ALL(nn_, i)
   {
     nn_[i] = label(l_[i]/cellL[i] + 0.5);
     nTot *= nn_[i];
@@ -40,7 +40,7 @@ mousse::Kmesh::Kmesh(const fvMesh& mesh)
   }
   if (nTot != mesh.nCells())
   {
-    FatalErrorIn("Kmesh::Kmesh(const fvMesh& mesh)")
+    FATAL_ERROR_IN("Kmesh::Kmesh(const fvMesh& mesh)")
       << "calculated number of cells is incorrect"
       << abort(FatalError);
   }

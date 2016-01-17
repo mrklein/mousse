@@ -20,11 +20,6 @@ class multivariateUpwind
 {
   // Private data
     const surfaceScalarField& faceFlux_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    multivariateUpwind(const multivariateUpwind&);
-    //- Disallow default bitwise assignment
-    void operator=(const multivariateUpwind&);
 public:
   //- Runtime type information
   TYPE_NAME("upwind");
@@ -40,14 +35,18 @@ public:
     )
     :
       multivariateSurfaceInterpolationScheme<Type>
-      (
+      {
         mesh,
         fields,
         faceFlux,
         schemeData
-      ),
-      faceFlux_(faceFlux)
+      },
+      faceFlux_{faceFlux}
     {}
+    //- Disallow default bitwise copy construct
+    multivariateUpwind(const multivariateUpwind&) = delete;
+    //- Disallow default bitwise assignment
+    multivariateUpwind& operator=(const multivariateUpwind&) = delete;
   // Member Operators
     //- surfaceInterpolationScheme sub-class returned by operator(field)
     //  which is used as the interpolation scheme for the field
@@ -65,9 +64,8 @@ public:
           const surfaceScalarField& faceFlux
         )
         :
-          multivariateSurfaceInterpolationScheme<Type>::
-            fieldScheme(field),
-          faceFlux_(faceFlux)
+          multivariateSurfaceInterpolationScheme<Type>::fieldScheme{field},
+          faceFlux_{faceFlux}
         {}
       // Member Functions
         //- Return the interpolation weighting factors
@@ -85,9 +83,9 @@ public:
     ) const
     {
       return tmp<surfaceInterpolationScheme<Type> >
-      (
-        new fieldScheme(field, faceFlux_)
-      );
+      {
+        new fieldScheme{field, faceFlux_}
+      };
     }
 };
 }  // namespace mousse

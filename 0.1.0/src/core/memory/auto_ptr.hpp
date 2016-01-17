@@ -70,13 +70,13 @@ public:
 template<class T>
 inline mousse::autoPtr<T>::autoPtr(T* p)
 :
-  ptr_(p)
+  ptr_{p}
 {}
 
 template<class T>
 inline mousse::autoPtr<T>::autoPtr(const autoPtr<T>& ap)
 :
-  ptr_(ap.ptr_)
+  ptr_{ap.ptr_}
 {
   ap.ptr_ = 0;
 }
@@ -215,7 +215,5 @@ inline void mousse::autoPtr<T>::operator=(const autoPtr<T>& ap)
     reset(const_cast<autoPtr<T>&>(ap).ptr());
   }
 }
-
-// #include "auto_ptr_i.hpp"
 
 #endif

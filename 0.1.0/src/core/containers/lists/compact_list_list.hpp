@@ -16,7 +16,6 @@
 //   offsets_ (instead of size 1).
 // SourceFiles
 //   compact_list_list.cpp
-//   compact_list_list_i.hpp
 //   compact_list_list_io.cpp
 
 #ifndef compact_list_list_hpp_

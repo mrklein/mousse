@@ -14,17 +14,16 @@ namespace mousse
 {
 class DSMCBaseCloud
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    DSMCBaseCloud(const DSMCBaseCloud&);
-    //- Disallow default bitwise assignment
-    void operator=(const DSMCBaseCloud&);
 public:
   //- Runtime type information
   TYPE_NAME("DSMCBaseCloud");
   // Constructors
     //- Null constructor
     DSMCBaseCloud();
+    //- Disallow default bitwise copy construct
+    DSMCBaseCloud(const DSMCBaseCloud&) = delete;
+    //- Disallow default bitwise assignment
+    DSMCBaseCloud& operator=(const DSMCBaseCloud&) = delete;
   //- Destructor
   virtual ~DSMCBaseCloud();
 };

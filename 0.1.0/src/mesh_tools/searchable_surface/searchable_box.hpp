@@ -39,10 +39,6 @@ private:
       const point& sample,
       const scalar nearestDistSqr
     ) const;
-    //- Disallow default bitwise copy construct
-    searchableBox(const searchableBox&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableBox&);
 public:
   //- Runtime type information
   TYPE_NAME("searchableBox");
@@ -55,6 +51,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableBox(const searchableBox&) = delete;
+    //- Disallow default bitwise assignment
+    searchableBox& operator=(const searchableBox&) = delete;
   //- Destructor
   virtual ~searchableBox();
   // Member Functions

@@ -46,10 +46,6 @@ private:
       const point& start,
       const point& end
     ) const;
-    //- Disallow default bitwise copy construct
-    searchablePlate(const searchablePlate&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchablePlate&);
 public:
   //- Runtime type information
   TYPE_NAME("searchablePlate");
@@ -67,6 +63,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchablePlate(const searchablePlate&) = delete;
+    //- Disallow default bitwise assignment
+    searchablePlate& operator=(const searchablePlate&) = delete;
   //- Destructor
   virtual ~searchablePlate();
   // Member Functions

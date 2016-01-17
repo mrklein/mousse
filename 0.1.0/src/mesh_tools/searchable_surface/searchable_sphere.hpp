@@ -43,10 +43,6 @@ private:
       pointIndexHit& near,
       pointIndexHit& far
     ) const;
-    //- Disallow default bitwise copy construct
-    searchableSphere(const searchableSphere&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableSphere&);
 public:
   //- Runtime type information
   TYPE_NAME("searchableSphere");
@@ -59,6 +55,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableSphere(const searchableSphere&) = delete;
+    //- Disallow default bitwise assignment
+    searchableSphere& operator=(const searchableSphere&) = delete;
   //- Destructor
   virtual ~searchableSphere();
   // Member Functions

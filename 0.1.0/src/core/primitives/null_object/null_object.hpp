@@ -6,7 +6,6 @@
 // Description
 //   Singleton null-object class and instance
 // SourceFiles
-//   null_object_i.hpp
 //   null_object.cpp
 #ifndef null_object_hpp_
 #define null_object_hpp_
@@ -46,5 +45,35 @@ inline bool isNull(const T* t);
 template <class T>
 inline bool notNull(const T* t);
 }  // namespace mousse
-#include "null_object_i.hpp"
+
+template <class T>
+inline const T& mousse::NullObjectRef()
+{
+  return *reinterpret_cast<const T*>(nullObjectPtr);
+}
+template <class T>
+inline const T* mousse::NullObjectPtr()
+{
+  return reinterpret_cast<const T*>(nullObjectPtr);
+}
+template <class T>
+inline bool mousse::isNull(const T& t)
+{
+  return &t == NullObjectPtr<T>();
+}
+template <class T>
+inline bool mousse::notNull(const T& t)
+{
+  return &t != NullObjectPtr<T>();
+}
+template <class T>
+inline bool mousse::isNull(const T* t)
+{
+  return t == NullObjectPtr<T>();
+}
+template <class T>
+inline bool mousse::notNull(const T* t)
+{
+  return t != NullObjectPtr<T>();
+}
 #endif

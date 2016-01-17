@@ -25,11 +25,6 @@ class regionCoupledBaseGAMGInterface
     const regionCoupledLduInterface& fineRegionCoupledLduInterface_;
     //- AMI interface
     //autoPtr<AMIPatchToPatchInterpolation> amiPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    regionCoupledBaseGAMGInterface(const regionCoupledBaseGAMGInterface&);
-    //- Disallow default bitwise assignment
-    void operator=(const regionCoupledBaseGAMGInterface&);
 public:
   // Constructors
     //- Construct from fine level interface,
@@ -44,6 +39,16 @@ public:
       const label fineLevelIndex,
       const label coarseComm
     );
+    //- Disallow default bitwise copy construct
+    regionCoupledBaseGAMGInterface
+    (
+      const regionCoupledBaseGAMGInterface&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    regionCoupledBaseGAMGInterface& operator=
+    (
+      const regionCoupledBaseGAMGInterface&
+    ) = delete;
   //- Destructor
   virtual ~regionCoupledBaseGAMGInterface();
   // Member Functions

@@ -150,10 +150,6 @@ class wallBoundedStreamLine
     ) const;
     //- Do all seeding and tracking
     void track();
-    //- Disallow default bitwise copy construct
-    wallBoundedStreamLine(const wallBoundedStreamLine&);
-    //- Disallow default bitwise assignment
-    void operator=(const wallBoundedStreamLine&);
 public:
   //- Runtime type information
   TYPE_NAME("wallBoundedStreamLine");
@@ -167,6 +163,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    wallBoundedStreamLine(const wallBoundedStreamLine&) = delete;
+    //- Disallow default bitwise assignment
+    wallBoundedStreamLine& operator=(const wallBoundedStreamLine&) = delete;
   //- Destructor
   virtual ~wallBoundedStreamLine();
   // Member Functions

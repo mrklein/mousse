@@ -6,7 +6,6 @@
 // Description
 //   Generic input stream.
 // SourceFiles
-//   isstream_i.hpp
 //   isstream.cpp
 
 #ifndef isstream_hpp_

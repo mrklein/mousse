@@ -95,7 +95,13 @@ public:
       );
 };
 }  // namespace mousse
-#include "_face_post_processing_i.hpp"
+
+template<class CloudType>
+inline const mousse::Switch&
+mousse::FacePostProcessing<CloudType>::resetOnWrite() const
+{
+  return resetOnWrite_;
+}
 #ifdef NoRepository
 #   include "_face_post_processing.cpp"
 #endif

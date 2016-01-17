@@ -9,7 +9,6 @@
 //   Storage is allocated on free-store during construction.
 // SourceFiles
 //   list.cpp
-//   list_i.hpp
 //   list_io.cpp
 
 #ifndef list_hpp_

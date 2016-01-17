@@ -9,7 +9,6 @@
 // SeeAlso
 //   mousse::face, mousse::triangle
 // SourceFiles
-//   tri_face_i.hpp
 //   tri_face_templates.cpp
 
 #ifndef tri_face_hpp_
@@ -488,8 +487,6 @@ inline bool mousse::operator!=(const triFace& a, const triFace& b)
 {
   return triFace::compare(a,b) == 0;
 }
-
-// #include "tri_face_i.hpp"
 
 #ifdef NoRepository
 #   include "tri_face_templates.cpp"

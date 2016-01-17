@@ -21,9 +21,6 @@ class linear
 :
   public surfaceInterpolationScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const linear&);
 public:
   //- Runtime type information
   TYPE_NAME("linear");
@@ -31,12 +28,12 @@ public:
     //- Construct from mesh
     linear(const fvMesh& mesh)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from Istream
     linear(const fvMesh& mesh, Istream&)
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
     //- Construct from faceFlux and Istream
     linear
@@ -46,8 +43,10 @@ public:
       Istream&
     )
     :
-      surfaceInterpolationScheme<Type>(mesh)
+      surfaceInterpolationScheme<Type>{mesh}
     {}
+    //- Disallow default bitwise assignment
+    linear& operator=(const linear&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField> weights

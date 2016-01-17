@@ -50,22 +50,22 @@ class fixedCoeff
       const vectorField& U,
       const scalar rho
     ) const;
-    //- Disallow default bitwise copy construct
-    fixedCoeff(const fixedCoeff&);
-    //- Disallow default bitwise assignment
-    void operator=(const fixedCoeff&);
 public:
   //- Runtime type information
   TYPE_NAME("fixedCoeff");
   //- Constructor
-  fixedCoeff
-  (
-    const word& name,
-    const word& modelType,
-    const fvMesh& mesh,
-    const dictionary& dict,
-    const word& cellZoneName
-  );
+    fixedCoeff
+    (
+      const word& name,
+      const word& modelType,
+      const fvMesh& mesh,
+      const dictionary& dict,
+      const word& cellZoneName
+    );
+    //- Disallow default bitwise copy construct
+    fixedCoeff(const fixedCoeff&) = delete;
+    //- Disallow default bitwise assignment
+    fixedCoeff& operator=(const fixedCoeff&) = delete;
   //- Destructor
   virtual ~fixedCoeff();
   // Member Functions

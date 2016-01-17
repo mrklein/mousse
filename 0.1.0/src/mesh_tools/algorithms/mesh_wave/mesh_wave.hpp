@@ -25,11 +25,6 @@ class MeshWave
     List<Type> allCellInfo_;
     //- Wave calculation engine.
     FaceCellWave<Type, TrackingData> calc_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    MeshWave(const MeshWave&);
-    //- Disallow default bitwise assignment
-    void operator=(const MeshWave&);
    // Private static data
       //- Used as default trackdata value to satisfy default template
       //  argument.
@@ -60,6 +55,10 @@ public:
       const label maxIter,
       TrackingData& td = dummyTrackData_
     );
+    //- Disallow default bitwise copy construct
+    MeshWave(const MeshWave&) = delete;
+    //- Disallow default bitwise assignment
+    MeshWave& operator=(const MeshWave&) = delete;
   // Member Functions
     //- Get allFaceInfo
     const List<Type>& allFaceInfo() const

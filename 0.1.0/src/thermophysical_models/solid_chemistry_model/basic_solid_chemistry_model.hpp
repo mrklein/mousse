@@ -6,7 +6,6 @@
 // Description
 //   Chemistry model for solid thermodynamics
 // SourceFiles
-//   basic_solid_chemistry_model_i.hpp
 //   basic_solid_chemistry_model.cpp
 //   new_chemistry_solid_model.cpp
 #ifndef basic_solid_chemistry_model_hpp_
@@ -104,5 +103,15 @@ public:
     virtual DimensionedField<scalar, volMesh>& RR(const label i);
 };
 }  // namespace mousse
-#include "basic_solid_chemistry_model_i.hpp"
+
+// Member Functions 
+inline mousse::solidReactionThermo& mousse::basicSolidChemistryModel::solidThermo()
+{
+  return solidThermo_();
+}
+inline const mousse::solidReactionThermo&
+mousse::basicSolidChemistryModel::solidThermo() const
+{
+  return solidThermo_();
+}
 #endif

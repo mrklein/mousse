@@ -55,10 +55,6 @@ class calcFvcDiv
       const word& resultName,
       bool& processed
     );
-    //- Disallow default bitwise copy construct
-    calcFvcDiv(const calcFvcDiv&);
-    //- Disallow default bitwise assignment
-    void operator=(const calcFvcDiv&);
 public:
   //- Runtime type information
   TYPE_NAME("calcFvcDiv");
@@ -72,6 +68,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    calcFvcDiv(const calcFvcDiv&) = delete;
+    //- Disallow default bitwise assignment
+    calcFvcDiv& operator=(const calcFvcDiv&) = delete;
   //- Destructor
   virtual ~calcFvcDiv();
   // Member Functions

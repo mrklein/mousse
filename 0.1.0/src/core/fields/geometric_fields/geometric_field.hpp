@@ -6,7 +6,6 @@
 // Description
 //   Generic GeometricField class.
 // SourceFiles
-//   geometric_field_i.hpp
 //   geometric_field.cpp
 //   geometric_boundary_field.cpp
 //   geometric_field_functions.hpp
@@ -35,7 +34,7 @@ template<class Type, template<class> class PatchField, class GeoMesh>
 Ostream& operator<<
 (
   Ostream&,
-  const tmp<GeometricField<Type, PatchField, GeoMesh> >&
+  const tmp<GeometricField<Type, PatchField, GeoMesh>>&
 );
 template<class Type, template<class> class PatchField, class GeoMesh>
 class GeometricField
@@ -87,12 +86,12 @@ public:
       );
       //- Construct from a BoundaryMesh,
       //  reference to the internal field
-      //  and a PtrList<PatchField<Type> >
+      //  and a PtrList<PatchField<Type>>
       GeometricBoundaryField
       (
         const BoundaryMesh&,
         const DimensionedInternalField&,
-        const PtrList<PatchField<Type> >&
+        const PtrList<PatchField<Type>>&
       );
       //- Construct as copy setting the reference to the internal field
       GeometricBoundaryField
@@ -225,7 +224,7 @@ public:
       const Mesh&,
       const dimensionSet&,
       const Field<Type>&,
-      const PtrList<PatchField<Type> >&
+      const PtrList<PatchField<Type>>&
     );
     //- Construct and read given IOobject
     GeometricField
@@ -249,7 +248,7 @@ public:
     #ifndef NoConstructFromTmp
     GeometricField
     (
-      const tmp<GeometricField<Type, PatchField, GeoMesh> >&
+      const tmp<GeometricField<Type, PatchField, GeoMesh>>&
     );
     #endif
     //- Construct as copy resetting IO parameters
@@ -263,7 +262,7 @@ public:
     GeometricField
     (
       const IOobject&,
-      const tmp<GeometricField<Type, PatchField, GeoMesh> >&
+      const tmp<GeometricField<Type, PatchField, GeoMesh>>&
     );
     #endif
     //- Construct as copy resetting name
@@ -277,7 +276,7 @@ public:
     GeometricField
     (
       const word& newName,
-      const tmp<GeometricField<Type, PatchField, GeoMesh> >&
+      const tmp<GeometricField<Type, PatchField, GeoMesh>>&
     );
     #endif
     //- Construct as copy resetting IO parameters and patch type
@@ -334,14 +333,14 @@ public:
     //- Does the field need a reference level for solution
     bool needReference() const;
     //- Return a component of the field
-    tmp<GeometricField<cmptType, PatchField, GeoMesh> > component
+    tmp<GeometricField<cmptType, PatchField, GeoMesh>> component
     (
       const direction
     ) const;
     //- WriteData member function required by regIOobject
     bool writeData(Ostream&) const;
     //- Return transpose (only if it is a tensor field)
-    tmp<GeometricField<Type, PatchField, GeoMesh> > T() const;
+    tmp<GeometricField<Type, PatchField, GeoMesh>> T() const;
     //- Relax field (for steady-state solution).
     //  alpha = 1 : no relaxation
     //  alpha < 1 : relaxation
@@ -392,18 +391,18 @@ public:
     );
   // Member operators
     void operator=(const GeometricField<Type, PatchField, GeoMesh>&);
-    void operator=(const tmp<GeometricField<Type, PatchField, GeoMesh> >&);
+    void operator=(const tmp<GeometricField<Type, PatchField, GeoMesh>>&);
     void operator=(const dimensioned<Type>&);
-    void operator==(const tmp<GeometricField<Type, PatchField, GeoMesh> >&);
+    void operator==(const tmp<GeometricField<Type, PatchField, GeoMesh>>&);
     void operator==(const dimensioned<Type>&);
     void operator+=(const GeometricField<Type, PatchField, GeoMesh>&);
-    void operator+=(const tmp<GeometricField<Type, PatchField, GeoMesh> >&);
+    void operator+=(const tmp<GeometricField<Type, PatchField, GeoMesh>>&);
     void operator-=(const GeometricField<Type, PatchField, GeoMesh>&);
-    void operator-=(const tmp<GeometricField<Type, PatchField, GeoMesh> >&);
+    void operator-=(const tmp<GeometricField<Type, PatchField, GeoMesh>>&);
     void operator*=(const GeometricField<scalar, PatchField, GeoMesh>&);
-    void operator*=(const tmp<GeometricField<scalar,PatchField,GeoMesh> >&);
+    void operator*=(const tmp<GeometricField<scalar,PatchField,GeoMesh>>&);
     void operator/=(const GeometricField<scalar, PatchField, GeoMesh>&);
-    void operator/=(const tmp<GeometricField<scalar,PatchField,GeoMesh> >&);
+    void operator/=(const tmp<GeometricField<scalar,PatchField,GeoMesh>>&);
     void operator+=(const dimensioned<Type>&);
     void operator-=(const dimensioned<Type>&);
     void operator*=(const dimensioned<scalar>&);
@@ -417,7 +416,7 @@ public:
     friend Ostream& operator<< <Type, PatchField, GeoMesh>
     (
       Ostream&,
-      const tmp<GeometricField<Type, PatchField, GeoMesh> >&
+      const tmp<GeometricField<Type, PatchField, GeoMesh>>&
     );
 };
 template<class Type, template<class> class PatchField, class GeoMesh>
@@ -428,7 +427,50 @@ Ostream& operator<<
   GeometricBoundaryField&
 );
 }  // namespace mousse
-#include "geometric_field_i.hpp"
+
+// Member Functions 
+template<class Type, template<class> class PatchField, class GeoMesh>
+inline const mousse::GeometricField<Type, PatchField, GeoMesh>&
+mousse::GeometricField<Type, PatchField, GeoMesh>::null()
+{
+  return NullObjectRef<GeometricField<Type, PatchField, GeoMesh>>();
+}
+template<class Type, template<class> class PatchField, class GeoMesh>
+inline
+const typename
+mousse::GeometricField<Type, PatchField, GeoMesh>::DimensionedInternalField&
+mousse::GeometricField<Type, PatchField, GeoMesh>::
+dimensionedInternalField() const
+{
+  return *this;
+}
+template<class Type, template<class> class PatchField, class GeoMesh>
+inline
+const typename
+mousse::GeometricField<Type, PatchField, GeoMesh>::InternalField&
+mousse::GeometricField<Type, PatchField, GeoMesh>::internalField() const
+{
+  return *this;
+}
+template<class Type, template<class> class PatchField, class GeoMesh>
+inline const typename mousse::GeometricField<Type, PatchField, GeoMesh>::
+GeometricBoundaryField&
+mousse::GeometricField<Type, PatchField, GeoMesh>::boundaryField() const
+{
+  return boundaryField_;
+}
+template<class Type, template<class> class PatchField, class GeoMesh>
+inline mousse::label
+mousse::GeometricField<Type, PatchField, GeoMesh>::timeIndex() const
+{
+  return timeIndex_;
+}
+template<class Type, template<class> class PatchField, class GeoMesh>
+inline mousse::label&
+mousse::GeometricField<Type, PatchField, GeoMesh>::timeIndex()
+{
+  return timeIndex_;
+}
 #ifdef NoRepository
 #   include "geometric_field.cpp"
 #endif

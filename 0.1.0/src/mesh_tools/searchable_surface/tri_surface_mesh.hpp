@@ -77,10 +77,6 @@ private:
       const vector& smallVec,
       DynamicList<pointIndexHit, 1, 1>& hits
     );
-    //- Disallow default bitwise copy construct
-    triSurfaceMesh(const triSurfaceMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const triSurfaceMesh&);
 public:
   //- Runtime type information
   TYPE_NAME("triSurfaceMesh");
@@ -96,6 +92,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    triSurfaceMesh(const triSurfaceMesh&) = delete;
+    //- Disallow default bitwise assignment
+    triSurfaceMesh& operator=(const triSurfaceMesh&) = delete;
   //- Destructor
   virtual ~triSurfaceMesh();
     //- Clear storage

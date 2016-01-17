@@ -69,15 +69,16 @@ protected:
       const label tgtCellI,
       const List<DynamicList<label> >& tgtToSrc
     ) const;
-    //- Disallow default bitwise copy construct
-    mapNearestMethod(const mapNearestMethod&);
-    //- Disallow default bitwise assignment
-    void operator=(const mapNearestMethod&);
 public:
   //- Run-time type information
   TYPE_NAME("mapNearest");
-  //- Construct from source and target meshes
-  mapNearestMethod(const polyMesh& src, const polyMesh& tgt);
+  // Constructors
+    //- Construct from source and target meshes
+    mapNearestMethod(const polyMesh& src, const polyMesh& tgt);
+    //- Disallow default bitwise copy construct
+    mapNearestMethod(const mapNearestMethod&) = delete;
+    //- Disallow default bitwise assignment
+    mapNearestMethod& operator=(const mapNearestMethod&) = delete;
   //- Destructor
   virtual ~mapNearestMethod();
   // Member Functions

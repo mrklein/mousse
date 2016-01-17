@@ -38,10 +38,6 @@ class STARCDedgeFormat
       Ostream&,
       const edgeList&
     );
-    //- Disallow default bitwise copy construct
-    STARCDedgeFormat(const STARCDedgeFormat&);
-    //- Disallow default bitwise assignment
-    void operator=(const STARCDedgeFormat&);
 protected:
   // Protected Member Functions
   static void writeCase
@@ -58,11 +54,12 @@ public:
     //- Read file and return edgeMesh
     static autoPtr<edgeMesh> New(const fileName& name)
     {
-      return autoPtr<edgeMesh>
-      (
-        new STARCDedgeFormat(name)
-      );
+      return autoPtr<edgeMesh>{new STARCDedgeFormat{name}};
     }
+    //- Disallow default bitwise copy construct
+    STARCDedgeFormat(const STARCDedgeFormat&) = delete;
+    //- Disallow default bitwise assignment
+    STARCDedgeFormat& operator=(const STARCDedgeFormat&) = delete;
   //- Destructor
   virtual ~STARCDedgeFormat()
   {}

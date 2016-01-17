@@ -96,10 +96,6 @@ private:
     //- Face sets for monitoring
     HashTable<List<label>, word, string::hash> monitoringSets_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    meshReader(const meshReader&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshReader&);
     //- Calculate pointCells
     void calcPointCells() const;
     const labelListList& pointCells() const;
@@ -187,6 +183,10 @@ public:
   // Constructors
     //- Construct from fileName
     meshReader(const fileName&, const scalar scaleFactor = 1.0);
+    //- Disallow default bitwise copy construct
+    meshReader(const meshReader&) = delete;
+    //- Disallow default bitwise assignment
+    meshReader& operator=(const meshReader&) = delete;
   //- Destructor
   virtual ~meshReader();
   // Member Functions

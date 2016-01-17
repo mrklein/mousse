@@ -65,11 +65,6 @@ protected:
     // Read from dictionary
       //- Names of objects to control
       wordReList objectNames_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    writeRegisteredObject(const writeRegisteredObject&);
-    //- Disallow default bitwise assignment
-    void operator=(const writeRegisteredObject&);
 public:
   //- Runtime type information
   TYPE_NAME("writeRegisteredObject");
@@ -83,6 +78,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    writeRegisteredObject(const writeRegisteredObject&) = delete;
+    //- Disallow default bitwise assignment
+    writeRegisteredObject& operator=(const writeRegisteredObject&) = delete;
   //- Destructor
   virtual ~writeRegisteredObject();
   // Member Functions

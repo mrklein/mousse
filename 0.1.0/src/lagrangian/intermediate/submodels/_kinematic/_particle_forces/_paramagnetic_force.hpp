@@ -6,7 +6,6 @@
 // Description
 //   Calculates particle paramagnetic (magnetic field) force
 // SourceFiles
-//   _paramagnetic_force_i.hpp
 //   _paramagnetic_force.cpp
 #ifndef _paramagnetic_force_hpp_
 #define _paramagnetic_force_hpp_
@@ -70,7 +69,19 @@ public:
       ) const;
 };
 }  // namespace mousse
-#include "_paramagnetic_force_i.hpp"
+
+template<class CloudType>
+inline const mousse::word&
+mousse::ParamagneticForce<CloudType>::HdotGradHName() const
+{
+  return HdotGradHName_;
+}
+template<class CloudType>
+inline mousse::scalar
+mousse::ParamagneticForce<CloudType>::magneticSusceptibility() const
+{
+  return magneticSusceptibility_;
+}
 #ifdef NoRepository
   #include "_paramagnetic_force.cpp"
 #endif

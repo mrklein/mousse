@@ -99,10 +99,6 @@ protected:
       const Type& minValue,
       const Type& maxValue
     );
-    //- Disallow default bitwise copy construct
-    fieldMinMax(const fieldMinMax&);
-    //- Disallow default bitwise assignment
-    void operator=(const fieldMinMax&);
     //- Output file header information
     virtual void writeFileHeader(const label i);
 public:
@@ -118,6 +114,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    fieldMinMax(const fieldMinMax&) = delete;
+    //- Disallow default bitwise assignment
+    fieldMinMax& operator=(const fieldMinMax&) = delete;
   //- Destructor
   virtual ~fieldMinMax();
   // Member Functions

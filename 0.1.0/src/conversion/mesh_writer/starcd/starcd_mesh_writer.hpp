@@ -24,10 +24,6 @@ class STARCD
   // Private Data
     static const char* defaultBoundaryName;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    STARCD(const STARCD&);
-    //- Disallow default bitwise assignment
-    void operator=(const STARCD&);
     //- Pro-STAR 4+ header format
     static void writeHeader(Ostream&, const char* filetype);
     //- Write points
@@ -49,6 +45,10 @@ public:
       const polyMesh&,
       const scalar scaleFactor = 1.0
     );
+    //- Disallow default bitwise copy construct
+    STARCD(const STARCD&) = delete;
+    //- Disallow default bitwise assignment
+    STARCD& operator=(const STARCD&) = delete;
   //- Destructor
   virtual ~STARCD();
   // Member Functions

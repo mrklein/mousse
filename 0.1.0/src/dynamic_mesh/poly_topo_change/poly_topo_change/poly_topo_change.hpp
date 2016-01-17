@@ -31,7 +31,6 @@
 //   uses the cyclicPolyPatch,processorPolyPatch functionality.
 // SourceFiles
 //   poly_topo_change.cpp
-//   poly_topo_change_i.hpp
 //   poly_topo_change_templates.cpp
 #ifndef poly_topo_change_hpp_
 #define poly_topo_change_hpp_
@@ -468,9 +467,9 @@ public:
 inline bool mousse::polyTopoChange::pointRemoved(const label pointI) const
 {
   const point& pt = points_[pointI];
-  return pt.x() > 0.5*vector::max.x()
-    && pt.y() > 0.5*vector::max.y()
-    && pt.z() > 0.5*vector::max.z();
+  return (pt.x() > 0.5*vector::max.x()
+          && pt.y() > 0.5*vector::max.y()
+          && pt.z() > 0.5*vector::max.z());
 }
 inline bool mousse::polyTopoChange::faceRemoved(const label faceI) const
 {

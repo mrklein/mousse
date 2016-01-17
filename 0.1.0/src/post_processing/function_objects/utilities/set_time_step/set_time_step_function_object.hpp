@@ -32,10 +32,6 @@ class setTimeStepFunctionObject
       bool enabled_;
       //- Time step
       autoPtr<DataEntry<scalar> > timeStepPtr_;
-    //- Disallow default bitwise copy construct
-    setTimeStepFunctionObject(const setTimeStepFunctionObject&);
-    //- Disallow default bitwise assignment
-    void operator=(const setTimeStepFunctionObject&);
 public:
   //- Runtime type information
   TYPE_NAME("setTimeStep");
@@ -47,6 +43,13 @@ public:
       const Time& runTime,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    setTimeStepFunctionObject(const setTimeStepFunctionObject&) = delete;
+    //- Disallow default bitwise assignment
+    setTimeStepFunctionObject& operator=
+    (
+      const setTimeStepFunctionObject&
+    ) = delete;
   // Member Functions
     // Access
       //- Return time database

@@ -6,7 +6,6 @@
 // Description
 //   Read solid reactions of the type S1 = S2 + G1
 // SourceFiles
-//   solid_reaction_i.hpp
 //   solid_reaction.cpp
 #ifndef solid_reaction_hpp_
 #define solid_reaction_hpp_
@@ -113,7 +112,22 @@ public:
     );
 };
 }  // namespace mousse
-#include "solid_reaction_i.hpp"
+
+namespace mousse
+{
+// Ostream Operator 
+template<class ReactionThermo>
+inline Ostream& operator<<
+(
+  Ostream& os,
+  const solidReaction<ReactionThermo>& r
+)
+{
+  OStringStream reaction;
+  os << r.solidReactionStr(reaction)<< token::END_STATEMENT <<nl;
+  return os;
+}
+}  // namespace mousse
 #ifdef NoRepository
 #   include "solid_reaction.cpp"
 #endif

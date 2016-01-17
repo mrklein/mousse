@@ -20,11 +20,6 @@ class EulerD2dt2Scheme
 :
   public fv::d2dt2Scheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    EulerD2dt2Scheme(const EulerD2dt2Scheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const EulerD2dt2Scheme&);
 public:
   //- Runtime type information
   TYPE_NAME("Euler");
@@ -32,13 +27,17 @@ public:
     //- Construct from mesh
     EulerD2dt2Scheme(const fvMesh& mesh)
     :
-      d2dt2Scheme<Type>(mesh)
+      d2dt2Scheme<Type>{mesh}
     {}
     //- Construct from mesh and Istream
     EulerD2dt2Scheme(const fvMesh& mesh, Istream& is)
     :
-      d2dt2Scheme<Type>(mesh, is)
+      d2dt2Scheme<Type>{mesh, is}
     {}
+    //- Disallow default bitwise copy construct
+    EulerD2dt2Scheme(const EulerD2dt2Scheme&) = delete;
+    //- Disallow default bitwise assignment
+    EulerD2dt2Scheme& operator=(const EulerD2dt2Scheme&) = delete;
   // Member Functions
     //- Return mesh reference
     const fvMesh& mesh() const

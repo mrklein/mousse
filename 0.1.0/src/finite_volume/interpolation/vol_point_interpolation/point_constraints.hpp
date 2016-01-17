@@ -42,16 +42,16 @@ class pointConstraints
   // Private Member Functions
     //- Make patch-patch constraints
     void makePatchPatchAddressing();
-    //- Disallow default bitwise copy construct
-    pointConstraints(const pointConstraints&);
-    //- Disallow default bitwise assignment
-    void operator=(const pointConstraints&);
 public:
   // Declare name of the class and its debug switch
   CLASS_NAME("pointConstraints");
   // Constructors
     //- Constructor from pointMesh.
     explicit pointConstraints(const pointMesh&);
+    //- Disallow default bitwise copy construct
+    pointConstraints(const pointConstraints&) = delete;
+    //- Disallow default bitwise assignment
+    pointConstraints& operator=(const pointConstraints&) = delete;
   //- Destructor
   ~pointConstraints();
   // Member functions

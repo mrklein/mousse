@@ -10,7 +10,6 @@
 //   Is slower to insert than the standard HashTable, but should be more
 //   memory efficient and faster to access.
 // SourceFiles
-//   static_hash_table_i.hpp
 //   static_hash_table.cpp
 //   static_hash_table_io.cpp
 
@@ -365,9 +364,9 @@ inline mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::Iterator
   label elemIndex
 )
 :
-  hashTable_(hashTbl),
-  hashIndex_(hashIndex),
-  elemIndex_(elemIndex)
+  hashTable_{hashTbl},
+  hashIndex_{hashIndex},
+  elemIndex_{elemIndex}
 {}
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
@@ -376,9 +375,9 @@ inline mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::Iterator
   const iterator& iter
 )
 :
-  hashTable_(iter.hashTable_),
-  hashIndex_(iter.hashIndex_),
-  elemIndex_(iter.elemIndex_)
+  hashTable_{iter.hashTable_},
+  hashIndex_{iter.hashIndex_},
+  elemIndex_{iter.elemIndex_}
 {}
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
@@ -476,11 +475,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator
   }
   // Step to the next table entry
   elemIndex_ = 0;
-  while
-  (
-    ++hashIndex_ < hashTable_.objects_.size()
-  && !hashTable_.objects_[hashIndex_].size()
-  )
+  while (++hashIndex_ < hashTable_.objects_.size()
+         && !hashTable_.objects_[hashIndex_].size())
   {}
   if (hashIndex_ >= hashTable_.objects_.size())
   {

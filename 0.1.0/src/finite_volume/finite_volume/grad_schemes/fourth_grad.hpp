@@ -19,11 +19,6 @@ class fourthGrad
 :
   public fv::gradScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fourthGrad(const fourthGrad&);
-    //- Disallow default bitwise assignment
-    void operator=(const fourthGrad&);
 public:
   //- Runtime type information
   TYPE_NAME("fourth");
@@ -31,8 +26,12 @@ public:
     //- Construct from Istream
     fourthGrad(const fvMesh& mesh, Istream&)
     :
-      gradScheme<Type>(mesh)
+      gradScheme<Type>{mesh}
     {}
+    //- Disallow default bitwise copy construct
+    fourthGrad(const fourthGrad&) = delete;
+    //- Disallow default bitwise assignment
+    fourthGrad& operator=(const fourthGrad&) = delete;
   // Member Functions
     //- Return the gradient of the given field to the gradScheme::grad
     //  for optional caching
@@ -49,6 +48,6 @@ public:
 }  // namespace fv
 }  // namespace mousse
 #ifdef NoRepository
-#   include "fourth_grad.cpp"
+#include "fourth_grad.cpp"
 #endif
 #endif

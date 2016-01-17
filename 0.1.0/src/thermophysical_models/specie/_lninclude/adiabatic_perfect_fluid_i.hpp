@@ -1,1 +1,0 @@
-../equation_of_state/adiabatic_perfect_fluid_i.hpp

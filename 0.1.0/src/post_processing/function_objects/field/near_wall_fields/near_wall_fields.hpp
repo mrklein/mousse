@@ -104,11 +104,6 @@ protected:
     (
       PtrList<GeometricField<Type, fvPatchField, volMesh> >&
     ) const;
-private:
-    //- Disallow default bitwise copy construct
-    nearWallFields(const nearWallFields&);
-    //- Disallow default bitwise assignment
-    void operator=(const nearWallFields&);
 public:
   //- Runtime type information
   TYPE_NAME("nearWallFields");
@@ -122,6 +117,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    nearWallFields(const nearWallFields&) = delete;
+    //- Disallow default bitwise assignment
+    nearWallFields& operator=(const nearWallFields&) = delete;
   //- Destructor
   virtual ~nearWallFields();
   // Member Functions

@@ -25,5 +25,20 @@ public:
     inline UniformField field() const;
 };
 }  // namespace mousse
-#include "uniform_field_i.hpp"
+
+template<class Type>
+inline mousse::UniformField<Type>::UniformField(const Type& value)
+:
+  value_{value}
+{}
+template<class Type>
+inline Type mousse::UniformField<Type>::operator[](const label) const
+{
+  return value_;
+}
+template<class Type>
+inline mousse::UniformField<Type> mousse::UniformField<Type>::field() const
+{
+  return {value_};
+}
 #endif

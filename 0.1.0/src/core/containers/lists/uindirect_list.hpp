@@ -9,8 +9,6 @@
 //   Note the const_cast of the completeList. This is so we can use it both
 //   on const and non-const lists. Alternative would be to have a const_
 //   variant etc.
-// SourceFiles
-//   uindirect_list_i.hpp
 
 #ifndef uindirect_list_hpp_
 #define uindirect_list_hpp_

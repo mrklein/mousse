@@ -21,7 +21,6 @@
 //   \endverbatim
 //   For the front plane add 4 to the point labels.
 // SourceFiles
-//   tree_bound_box_i.hpp
 //   tree_bound_box.cpp
 //   tree_bound_box_templates.cpp
 

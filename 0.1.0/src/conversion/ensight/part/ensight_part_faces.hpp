@@ -17,8 +17,6 @@ class ensightPartFaces
   public ensightPart
 {
   // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const ensightPartFaces&);
     //- Track points used
     virtual localPoints calcLocalPoints() const;
     //- Element connectivity
@@ -89,8 +87,10 @@ public:
     //- Reconstruct part characteristics on freestore from Istream
     static autoPtr<ensightPartFaces> New(Istream& is)
     {
-      return autoPtr<ensightPartFaces>(new ensightPartFaces(is));
+      return autoPtr<ensightPartFaces>(new ensightPartFaces{is});
     }
+    //- Disallow default bitwise assignment
+    ensightPartFaces& operator=(const ensightPartFaces&) = delete;
   //- Destructor
   virtual ~ensightPartFaces();
   // Member Functions

@@ -27,5 +27,9 @@ public:
     inline zeroField operator[](const label) const;
 };
 }  // namespace mousse
-#   include "zero_field_field_i.hpp"
+
+inline mousse::zeroField mousse::zeroFieldField::operator[](const label) const
+{
+  return zeroField();
+}
 #endif

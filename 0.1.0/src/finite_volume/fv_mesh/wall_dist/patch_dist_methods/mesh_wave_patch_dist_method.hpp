@@ -42,11 +42,6 @@ class meshWave
     const bool correctWalls_;
     //- Number of unset cells and faces.
     mutable label nUnset_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    meshWave(const meshWave&);
-    //- Disallow default bitwise assignment
-    void operator=(const meshWave&);
 public:
   //- Runtime type information
   TYPE_NAME("meshWave");
@@ -69,6 +64,10 @@ public:
       const labelHashSet& patchIDs,
       const bool correctWalls = true
     );
+    //- Disallow default bitwise copy construct
+    meshWave(const meshWave&) = delete;
+    //- Disallow default bitwise assignment
+    meshWave& operator=(const meshWave&) = delete;
   // Member Functions
     label nUnset() const
     {

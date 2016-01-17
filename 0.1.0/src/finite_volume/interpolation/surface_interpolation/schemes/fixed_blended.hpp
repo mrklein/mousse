@@ -33,10 +33,6 @@ class fixedBlended
     tmp<surfaceInterpolationScheme<Type> > tScheme1_;
     //- Scheme 2
     tmp<surfaceInterpolationScheme<Type> > tScheme2_;
-    //- Disallow default bitwise copy construct
-    fixedBlended(const fixedBlended&);
-    //- Disallow default bitwise assignment
-    void operator=(const fixedBlended&);
 public:
   //- Runtime type information
   TYPE_NAME("fixedBlended");
@@ -50,16 +46,16 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      blendingFactor_(readScalar(is)),
+      surfaceInterpolationScheme<Type>{mesh},
+      blendingFactor_{readScalar(is)},
       tScheme1_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      ),
+      },
       tScheme2_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      )
+      }
     {
       if (blendingFactor_ < 0 || blendingFactor_ > 1)
       {
@@ -114,6 +110,10 @@ public:
           <<endl;
       }
     }
+    //- Disallow default bitwise copy construct
+    fixedBlended(const fixedBlended&) = delete;
+    //- Disallow default bitwise assignment
+    fixedBlended& operator=(const fixedBlended&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     tmp<surfaceScalarField>

@@ -24,10 +24,6 @@ protected:
     void read();
     //- Return true if all convergence checks are satisfied
     bool criteriaSatisfied();
-    //- Disallow default bitwise copy construct
-    simpleControl(const simpleControl&);
-    //- Disallow default bitwise assignment
-    void operator=(const simpleControl&);
 public:
   // Static Data Members
     //- Run-time type information
@@ -35,6 +31,10 @@ public:
   // Constructors
     //- Construct from mesh
     simpleControl(fvMesh& mesh);
+    //- Disallow default bitwise copy construct
+    simpleControl(const simpleControl&) = delete;
+    //- Disallow default bitwise assignment
+    simpleControl& operator=(const simpleControl&) = delete;
   //- Destructor
   virtual ~simpleControl();
   // Member Functions

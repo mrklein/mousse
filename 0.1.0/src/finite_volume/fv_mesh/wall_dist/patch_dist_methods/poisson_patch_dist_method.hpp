@@ -79,11 +79,6 @@ class Poisson
   // Private Member Data
     //- Cache yPsi for moving meshes
     tmp<volScalarField> tyPsi_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    Poisson(const Poisson&);
-    //- Disallow default bitwise assignment
-    void operator=(const Poisson&);
 public:
   //- Runtime type information
   TYPE_NAME("Poisson");
@@ -102,6 +97,10 @@ public:
       const fvMesh& mesh,
       const labelHashSet& patchIDs
     );
+    //- Disallow default bitwise copy construct
+    Poisson(const Poisson&) = delete;
+    //- Disallow default bitwise assignment
+    Poisson& operator=(const Poisson&) = delete;
   // Member Functions
     //- Correct the given distance-to-patch field
     virtual bool correct(volScalarField& y);

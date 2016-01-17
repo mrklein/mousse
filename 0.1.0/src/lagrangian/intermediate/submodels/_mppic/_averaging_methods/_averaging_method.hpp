@@ -7,7 +7,6 @@
 //   Base class for lagrangian averaging methods.
 // SourceFiles
 //   _averaging_method.cpp
-//   _averaging_method_i.hpp
 #ifndef _averaging_method_hpp_
 #define _averaging_method_hpp_
 #include "iodictionary.hpp"

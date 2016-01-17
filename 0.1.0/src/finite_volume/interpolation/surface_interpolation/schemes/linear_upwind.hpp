@@ -24,10 +24,6 @@ class linearUpwind
     word gradSchemeName_;
     tmp<fv::gradScheme<Type> > gradScheme_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    linearUpwind(const linearUpwind&);
-    //- Disallow default bitwise assignment
-    void operator=(const linearUpwind&);
 public:
   //- Runtime type information
   TYPE_NAME("linearUpwind");
@@ -39,12 +35,12 @@ public:
       const surfaceScalarField& faceFlux
     )
     :
-      upwind<Type>(mesh, faceFlux),
-      gradSchemeName_("grad"),
+      upwind<Type>{mesh, faceFlux},
+      gradSchemeName_{"grad"},
       gradScheme_
-      (
-        new fv::gaussGrad<Type>(mesh)
-      )
+      {
+        new fv::gaussGrad<Type>{mesh}
+      }
     {}
     //- Construct from Istream.
     //  The name of the flux field is read from the Istream and looked-up
@@ -55,16 +51,16 @@ public:
       Istream& schemeData
     )
     :
-      upwind<Type>(mesh, schemeData),
-      gradSchemeName_(schemeData),
+      upwind<Type>{mesh, schemeData},
+      gradSchemeName_{schemeData},
       gradScheme_
-      (
+      {
         fv::gradScheme<Type>::New
         (
           mesh,
           mesh.gradScheme(gradSchemeName_)
         )
-      )
+      }
     {}
     //- Construct from faceFlux and Istream
     linearUpwind
@@ -74,17 +70,21 @@ public:
       Istream& schemeData
     )
     :
-      upwind<Type>(mesh, faceFlux, schemeData),
-      gradSchemeName_(schemeData),
+      upwind<Type>{mesh, faceFlux, schemeData},
+      gradSchemeName_{schemeData},
       gradScheme_
-      (
+      {
         fv::gradScheme<Type>::New
         (
           mesh,
           mesh.gradScheme(gradSchemeName_)
         )
-      )
+      }
     {}
+    //- Disallow default bitwise copy construct
+    linearUpwind(const linearUpwind&) = delete;
+    //- Disallow default bitwise assignment
+    linearUpwind& operator=(const linearUpwind&) = delete;
   // Member Functions
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const

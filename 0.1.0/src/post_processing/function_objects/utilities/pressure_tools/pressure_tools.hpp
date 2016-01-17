@@ -127,10 +127,6 @@ class pressureTools
     tmp<volScalarField> pDyn(const volScalarField& p) const;
     //- Convert to coeff by applying the freestream dynamic pressure scaling
     tmp<volScalarField> convertToCoeff(const volScalarField& p) const;
-    //- Disallow default bitwise copy construct
-    pressureTools(const pressureTools&);
-    //- Disallow default bitwise assignment
-    void operator=(const pressureTools&);
 public:
   //- Runtime type information
   TYPE_NAME("pressureTools");
@@ -144,6 +140,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    pressureTools(const pressureTools&) = delete;
+    //- Disallow default bitwise assignment
+    pressureTools& operator=(const pressureTools&) = delete;
   //- Destructor
   virtual ~pressureTools();
   // Member Functions

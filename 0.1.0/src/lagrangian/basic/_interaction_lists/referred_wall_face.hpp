@@ -7,7 +7,6 @@
 //   Storage for referred wall faces.  Stores patch index, face and
 //   associated points
 // SourceFiles
-//   referred_wall_face_i.hpp
 //   referred_wall_face.cpp
 #ifndef referred_wall_face_hpp_
 #define referred_wall_face_hpp_
@@ -64,5 +63,22 @@ public:
     friend Ostream& operator<<(Ostream&, const referredWallFace&);
 };
 }  // namespace mousse
-#include "referred_wall_face_i.hpp"
+
+// Member Functions 
+const mousse::pointField& mousse::referredWallFace::points() const
+{
+  return pts_;
+}
+mousse::pointField& mousse::referredWallFace::points()
+{
+  return pts_;
+}
+mousse::label mousse::referredWallFace::patchIndex() const
+{
+  return patchI_;
+}
+mousse::label& mousse::referredWallFace::patchIndex()
+{
+  return patchI_;
+}
 #endif

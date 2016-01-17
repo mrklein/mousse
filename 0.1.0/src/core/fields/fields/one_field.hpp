@@ -28,5 +28,13 @@ public:
     inline oneField field() const;
 };
 }  // namespace mousse
-#   include "one_field_i.hpp"
+
+inline mousse::scalar mousse::oneField::operator[](const label) const
+{
+  return {1.0};
+}
+inline mousse::oneField mousse::oneField::field() const
+{
+  return oneField();
+}
 #endif

@@ -63,8 +63,6 @@ protected:
       const pointField& coords,
       const label maxLen
     ) const;
-    //- Disallow default bitwise copy construct
-    topoSet(const topoSet&);
 public:
   //- Runtime type information
   TYPE_NAME("topoSet");
@@ -156,8 +154,10 @@ public:
     autoPtr<topoSet> clone() const
     {
       NOT_IMPLEMENTED("autoPtr<topoSet> clone() const");
-      return autoPtr<topoSet>(NULL);
+      return autoPtr<topoSet>{NULL};
     }
+    //- Disallow default bitwise copy construct
+    topoSet(const topoSet&) = delete;
   // Selectors
     //- Return a pointer to a toposet read from file
     static autoPtr<topoSet> New

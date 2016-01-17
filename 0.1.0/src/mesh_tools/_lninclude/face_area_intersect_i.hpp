@@ -1,1 +1,0 @@
-../ami_interpolation/face_area_intersect/face_area_intersect_i.hpp

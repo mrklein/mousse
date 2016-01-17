@@ -42,10 +42,6 @@ protected:
       const word& location,
       bool& firstDict
     );
-    //- Disallow default bitwise copy construct
-    writeDictionary(const writeDictionary&);
-    //- Disallow default bitwise assignment
-    void operator=(const writeDictionary&);
 public:
   //- Runtime type information
   TYPE_NAME("writeDictionary");
@@ -59,6 +55,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    writeDictionary(const writeDictionary&) = delete;
+    //- Disallow default bitwise assignment
+    writeDictionary& operator=(const writeDictionary&) = delete;
   //- Destructor
   virtual ~writeDictionary();
   // Member Functions

@@ -217,7 +217,24 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#include "rotor_disk_source_i.hpp"
+
+mousse::scalar mousse::fv::rotorDiskSource::rhoRef() const
+{
+  return rhoRef_;
+}
+mousse::scalar mousse::fv::rotorDiskSource::omega() const
+{
+  return omega_;
+}
+const mousse::List<mousse::point>& mousse::fv::rotorDiskSource::x() const
+{
+  return x_;
+}
+const mousse::cylindricalCS& mousse::fv::rotorDiskSource::coordSys() const
+{
+  return coordSys_;
+}
+
 #ifdef NoRepository
   #include "rotor_disk_source_templates.cpp"
 #endif

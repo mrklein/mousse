@@ -43,5 +43,41 @@ inline const geometricOneField& operator/
   const geometricOneField&
 );
 }  // namespace mousse
-#   include "geometric_one_field_i.hpp"
+
+inline const mousse::dimensionSet& mousse::geometricOneField::dimensions() const
+{
+  return dimless;
+}
+inline mousse::scalar mousse::geometricOneField::operator[](const label) const
+{
+  return scalar{1};
+}
+inline mousse::oneField mousse::geometricOneField::field() const
+{
+  return oneField();
+}
+inline mousse::oneField mousse::geometricOneField::oldTime() const
+{
+  return oneField();
+}
+inline mousse::oneFieldField mousse::geometricOneField::boundaryField() const
+{
+  return oneFieldField();
+}
+inline const mousse::geometricOneField& mousse::operator*
+(
+  const geometricOneField& gof,
+  const geometricOneField&
+)
+{
+  return gof;
+}
+inline const mousse::geometricOneField& mousse::operator/
+(
+  const geometricOneField& gof,
+  const geometricOneField&
+)
+{
+  return gof;
+}
 #endif

@@ -70,7 +70,7 @@ void fftRenumber
 {
   List<complex> renumData(data);
   label nnprod(1);
-  forAll(nn, i)
+  FOR_ALL(nn, i)
   {
     nnprod *= nn[i];
   }

@@ -87,10 +87,6 @@ class PatchEdgeFaceWave
     );
     //- Update coupled edges
     void syncEdges();
-    //- Disallow default bitwise copy construct
-    PatchEdgeFaceWave(const PatchEdgeFaceWave&);
-    //- Disallow default bitwise assignment
-    void operator=(const PatchEdgeFaceWave&);
 public:
   // Static Functions
     //- Access to tolerance
@@ -130,6 +126,10 @@ public:
       UList<Type>& allFaceInfo,
       TrackingData& td = dummyTrackData_
     );
+    //- Disallow default bitwise copy construct
+    PatchEdgeFaceWave(const PatchEdgeFaceWave&) = delete;
+    //- Disallow default bitwise assignment
+    PatchEdgeFaceWave& operator=(const PatchEdgeFaceWave&) = delete;
   // Member Functions
     //- Access allEdgeInfo
     UList<Type>& allEdgeInfo() const

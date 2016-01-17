@@ -42,7 +42,7 @@ class Polynomial
   public VectorSpace<Polynomial<PolySize>, scalar, PolySize>
 {
   //- Size must be positive (non-zero)
-  StaticAssert(PolySize > 0);
+  STATIC_ASSERT(PolySize > 0);
   // Private data
     //- Include the log term? - only activated using integralMinus1()
     bool logActive_;

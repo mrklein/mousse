@@ -21,18 +21,20 @@ class extendedCentredFaceToCellStencil
     autoPtr<mapDistribute> mapPtr_;
     //- Per face the stencil.
     labelListList stencil_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    extendedCentredFaceToCellStencil
-    (
-      const extendedCentredFaceToCellStencil&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const extendedCentredFaceToCellStencil&);
 public:
   // Constructors
     //- Construct from uncompacted face stencil
     explicit extendedCentredFaceToCellStencil(const faceToCellStencil&);
+    //- Disallow default bitwise copy construct
+    extendedCentredFaceToCellStencil
+    (
+      const extendedCentredFaceToCellStencil&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    extendedCentredFaceToCellStencil& operator=
+    (
+      const extendedCentredFaceToCellStencil&
+    ) = delete;
   // Member Functions
     //- Return reference to the parallel distribution map
     const mapDistribute& map() const

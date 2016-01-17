@@ -83,7 +83,29 @@ public:
       ) const;
 };
 }  // namespace mousse
-#include "_non_inertial_frame_force_i.hpp"
+
+template<class CloudType>
+inline const mousse::vector& mousse::NonInertialFrameForce<CloudType>::W() const
+{
+  return W_;
+}
+template<class CloudType>
+inline const mousse::vector& mousse::NonInertialFrameForce<CloudType>::omega() const
+{
+  return omega_;
+}
+template<class CloudType>
+inline const mousse::vector&
+mousse::NonInertialFrameForce<CloudType>::omegaDot() const
+{
+  return omegaDot_;
+}
+template<class CloudType>
+inline const mousse::vector&
+mousse::NonInertialFrameForce<CloudType>::centreOfRotation() const
+{
+  return centreOfRotation_;
+}
 #ifdef NoRepository
   #include "_non_inertial_frame_force.cpp"
 #endif

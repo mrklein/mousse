@@ -76,11 +76,6 @@ protected:
     stringList endCalls_;
     //- List of calls to execute - write steps
     stringList writeCalls_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    systemCall(const systemCall&);
-    //- Disallow default bitwise assignment
-    void operator=(const systemCall&);
 public:
   //- Runtime type information
   TYPE_NAME("systemCall");
@@ -94,6 +89,10 @@ public:
       const dictionary&,
       const bool loadFromFilesUnused = false
     );
+    //- Disallow default bitwise copy construct
+    systemCall(const systemCall&) = delete;
+    //- Disallow default bitwise assignment
+    systemCall& operator=(const systemCall&) = delete;
   //- Destructor
   virtual ~systemCall();
   // Member Functions

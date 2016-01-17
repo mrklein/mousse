@@ -9,8 +9,6 @@
 //   The constructor should remain non-explicit. This allows automatic
 //   conversion from UList\<wordRe\> to wordReListMatcher in search
 //   functions.
-// SourceFiles
-//   word_re_list_matcher_i.hpp
 #ifndef word_re_list_matcher_hpp_
 #define word_re_list_matcher_hpp_
 #include "word_re_list.hpp"
@@ -38,5 +36,43 @@ public:
       inline bool match(const string&, bool literalMatch=false) const;
 };
 }  // namespace mousse
-#include "word_re_list_matcher_i.hpp"
+
+// Constructors 
+inline mousse::wordReListMatcher::wordReListMatcher
+(
+  const UList<wordRe>& lst
+)
+:
+  reList_{lst}
+{}
+// Member Functions 
+inline mousse::label mousse::wordReListMatcher::size() const
+{
+  return reList_.size();
+}
+inline bool mousse::wordReListMatcher::empty() const
+{
+  return reList_.empty();
+}
+inline const mousse::UList<mousse::wordRe>&
+mousse::wordReListMatcher::operator()() const
+{
+  return reList_;
+}
+inline bool mousse::wordReListMatcher::match
+(
+  const string& str,
+  bool literalMatch
+) const
+{
+  const label nElem = reList_.size();
+  for (label elemI = 0; elemI < nElem; ++elemI)
+  {
+    if (reList_[elemI].match(str, literalMatch))
+    {
+      return true;
+    }
+  }
+  return false;
+}
 #endif

@@ -57,15 +57,16 @@ protected:
       label& srcSeedI,
       label& tgtSeedI
     ) const;
-    //- Disallow default bitwise copy construct
-    directMethod(const directMethod&);
-    //- Disallow default bitwise assignment
-    void operator=(const directMethod&);
 public:
   //- Run-time type information
   TYPE_NAME("direct");
-  //- Construct from source and target meshes
-  directMethod(const polyMesh& src, const polyMesh& tgt);
+  // Constructors
+    //- Construct from source and target meshes
+    directMethod(const polyMesh& src, const polyMesh& tgt);
+    //- Disallow default bitwise copy construct
+    directMethod(const directMethod&) = delete;
+    //- Disallow default bitwise assignment
+    directMethod& operator=(const directMethod&) = delete;
   //- Destructor
   virtual ~directMethod();
   // Member Functions

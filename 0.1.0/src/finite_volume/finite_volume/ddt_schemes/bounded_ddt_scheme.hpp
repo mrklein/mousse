@@ -26,11 +26,6 @@ class boundedDdtScheme
 {
   // Private data
     tmp<fv::ddtScheme<Type> > scheme_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    boundedDdtScheme(const boundedDdtScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const boundedDdtScheme&);
 public:
   //- Runtime type information
   TYPE_NAME("bounded");
@@ -38,12 +33,16 @@ public:
     //- Construct from mesh and Istream
     boundedDdtScheme(const fvMesh& mesh, Istream& is)
     :
-      ddtScheme<Type>(mesh, is),
+      ddtScheme<Type>{mesh, is},
       scheme_
-      (
+      {
         fv::ddtScheme<Type>::New(mesh, is)
-      )
+      }
     {}
+    //- Disallow default bitwise copy construct
+    boundedDdtScheme(const boundedDdtScheme&) = delete;
+    //- Disallow default bitwise assignment
+    boundedDdtScheme& operator=(const boundedDdtScheme&) = delete;
   // Member Functions
     //- Return mesh reference
     const fvMesh& mesh() const

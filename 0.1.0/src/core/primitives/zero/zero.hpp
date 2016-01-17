@@ -6,8 +6,6 @@
 // Description
 //   A class representing the concept of 0 used to avoid unnecessary
 //   manipulations for objects that are known to be zero at compile-time.
-// SourceFiles
-//   zero_i.hpp
 #ifndef zero_hpp_
 #define zero_hpp_
 namespace mousse
@@ -19,5 +17,43 @@ public:
   {}
 };
 }  // namespace mousse
-#   include "zero_i.hpp"
+
+namespace mousse
+{
+template<class Type>
+inline const Type& operator+(const Type& t, const zero&)
+{
+  return t;
+}
+template<class Type>
+inline const Type& operator+(const zero&, const Type& t)
+{
+  return t;
+}
+template<class Type>
+inline const Type& operator-(const Type& t, const zero&)
+{
+  return t;
+}
+template<class Type>
+inline Type operator-(const zero&, const Type& t)
+{
+  return -t;
+}
+template<class Type>
+inline zero operator*(const Type&, const zero&)
+{
+  return zero();
+}
+template<class Type>
+inline zero operator*(const zero&, const Type&)
+{
+  return zero();
+}
+template<class Type>
+inline zero operator/(const zero&, const Type&)
+{
+  return zero();
+}
+}  // namespace mousse
 #endif

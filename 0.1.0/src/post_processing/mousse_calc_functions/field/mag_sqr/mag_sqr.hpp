@@ -18,11 +18,6 @@ class magSqr
 :
   public calcType
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    magSqr(const magSqr&);
-    //- Disallow default bitwise assignment
-    void operator=(const magSqr&);
 protected:
   // Member Functions
     // Calculation routines
@@ -58,6 +53,10 @@ public:
   // Constructors
     //- Construct null
     magSqr();
+    //- Disallow default bitwise copy construct
+    magSqr(const magSqr&) = delete;
+    //- Disallow default bitwise assignment
+    magSqr& operator=(const magSqr&) = delete;
   //- Destructor
   virtual ~magSqr();
 };

@@ -65,10 +65,6 @@ protected:
   // Protected Member Functions
     //- File header information
     virtual void writeFileHeader(const label i);
-    //- Disallow default bitwise copy construct
-    cloudInfo(const cloudInfo&);
-    //- Disallow default bitwise assignment
-    void operator=(const cloudInfo&);
 public:
   //- Runtime type information
   TYPE_NAME("cloudInfo");
@@ -82,6 +78,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    cloudInfo(const cloudInfo&) = delete;
+    //- Disallow default bitwise assignment
+    cloudInfo& operator=(const cloudInfo&) = delete;
   //- Destructor
   virtual ~cloudInfo();
   // Member Functions

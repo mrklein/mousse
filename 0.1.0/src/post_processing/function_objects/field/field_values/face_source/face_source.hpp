@@ -309,7 +309,28 @@ vector faceSource::processValues
 ) const;
 }  // namespace fieldValues
 }  // namespace mousse
-#include "face_source_i.hpp"
+
+// Member Functions 
+inline const mousse::fieldValues::faceSource::sourceType&
+mousse::fieldValues::faceSource::source() const
+{
+  return source_;
+}
+inline const mousse::labelList&
+mousse::fieldValues::faceSource::faceId() const
+{
+  return faceId_;
+}
+inline const mousse::labelList&
+mousse::fieldValues::faceSource::facePatch() const
+{
+  return facePatchId_;
+}
+inline const mousse::labelList&
+mousse::fieldValues::faceSource::faceSign() const
+{
+  return faceSign_;
+}
 #ifdef NoRepository
   #include "face_source_templates.cpp"
 #endif

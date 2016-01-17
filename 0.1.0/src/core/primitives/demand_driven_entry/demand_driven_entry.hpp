@@ -9,7 +9,6 @@
 //   is requested and has not already been cached
 // SourceFiles
 //   demand_driven_entry.cpp
-//   demand_driven_entry_i.hpp
 #ifndef demand_driven_entry_hpp_
 #define demand_driven_entry_hpp_
 #include "dictionary.hpp"
@@ -63,7 +62,33 @@ public:
     inline void reset();
 };
 }  // namespace mousse
-#include "demand_driven_entry_i.hpp"
+
+template<class Type>
+inline void mousse::demandDrivenEntry<Type>::initialise() const
+{
+  if (!stored_)
+  {
+    dict_.lookup(keyword_) >> value_;
+    stored_ = true;
+  }
+}
+template<class Type>
+inline const Type& mousse::demandDrivenEntry<Type>::value() const
+{
+  initialise();
+  return value_;
+}
+template<class Type>
+inline void mousse::demandDrivenEntry<Type>::setValue(const Type& value)
+{
+  value_ = value;
+  stored_ = true;
+}
+template<class Type>
+inline void mousse::demandDrivenEntry<Type>::reset()
+{
+  stored_ = false;
+}
 #ifdef NoRepository
   #include "demand_driven_entry.cpp"
 #endif

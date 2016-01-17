@@ -6,7 +6,6 @@
 // Description
 //   Base class for chemistry models
 // SourceFiles
-//   basic_chemistry_model_i.hpp
 //   basic_chemistry_model.cpp
 #ifndef basic_chemistry_model_hpp_
 #define basic_chemistry_model_hpp_

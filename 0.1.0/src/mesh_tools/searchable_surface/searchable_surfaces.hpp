@@ -41,10 +41,6 @@ class searchableSurfaces
       const label edgeI,
       const pointIndexHit& hit
     );
-    //- Disallow default bitwise copy construct
-    searchableSurfaces(const searchableSurfaces&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableSurfaces&);
 public:
   CLASS_NAME("searchableSurfaces");
   // Constructors
@@ -62,6 +58,10 @@ public:
       const dictionary&,
       const bool singleRegionName
     );
+    //- Disallow default bitwise copy construct
+    searchableSurfaces(const searchableSurfaces&) = delete;
+    //- Disallow default bitwise assignment
+    searchableSurfaces& operator=(const searchableSurfaces&) = delete;
   // Member Functions
     const wordList& names() const
     {

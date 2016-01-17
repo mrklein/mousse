@@ -6,7 +6,6 @@
 // Description
 //   Calculates particle Brownian motion force
 // SourceFiles
-//   _brownian_motion_force_i.hpp
 //   _brownian_motion_force.cpp
 
 #ifndef _brownian_motion_force_hpp_

@@ -17,6 +17,7 @@
 #include "dictionary.hpp"
 #include "field.hpp"
 #include "run_time_selection_tables.hpp"
+#include "fv_mesh.hpp"
 namespace mousse
 {
 // Forward declaration of classes
@@ -127,10 +128,51 @@ public:
       void combineFields(Field<Type>& field);
       //- Combine fields from all processor domains into single field
       template<class Type>
-      void combineFields(tmp<Field<Type> >&);
+      void combineFields(tmp<Field<Type>>&);
 };
 }  // namespace mousse
-#include "field_value_i.hpp"
+
+// Member Functions 
+inline const mousse::word& mousse::fieldValue::name() const
+{
+  return name_;
+}
+inline const mousse::objectRegistry& mousse::fieldValue::obr() const
+{
+  return obr_;
+}
+inline const mousse::dictionary& mousse::fieldValue::dict() const
+{
+  return dict_;
+}
+inline bool mousse::fieldValue::active() const
+{
+  return active_;
+}
+inline const mousse::Switch& mousse::fieldValue::log() const
+{
+  return log_;
+}
+inline const mousse::word& mousse::fieldValue::sourceName() const
+{
+  return sourceName_;
+}
+inline const mousse::wordList& mousse::fieldValue::fields() const
+{
+  return fields_;
+}
+inline const mousse::Switch& mousse::fieldValue::valueOutput() const
+{
+  return valueOutput_;
+}
+inline const mousse::fvMesh& mousse::fieldValue::mesh() const
+{
+  return refCast<const fvMesh>(obr_);
+}
+inline const mousse::dictionary& mousse::fieldValue::resultDict() const
+{
+  return resultDict_;
+}
 #ifdef NoRepository
   #include "field_value_templates.cpp"
 #endif

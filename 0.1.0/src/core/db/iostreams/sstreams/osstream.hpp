@@ -6,7 +6,6 @@
 // Description
 //   Generic output stream.
 // SourceFiles
-//   osstream_i.hpp
 //   osstream.cpp
 
 #ifndef osstream_hpp_

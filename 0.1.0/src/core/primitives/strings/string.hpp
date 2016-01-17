@@ -151,22 +151,22 @@ inline mousse::string::string()
 {}
 inline mousse::string::string(const std::string& str)
 :
-  std::string(str)
+  std::string{str}
 {}
 // Copy character array
 inline mousse::string::string(const char* str)
 :
-  std::string(str)
+  std::string{str}
 {}
 // Construct from a given number of characters in a character array
 inline mousse::string::string(const char* str, const size_type len)
 :
-  std::string(str, len)
+  std::string{str, len}
 {}
 // Construct from a single character
 inline mousse::string::string(const char c)
 :
-  std::string(1, c)
+  std::string{1, c}
 {}
 // Member Functions 
 template<class String>
@@ -292,7 +292,4 @@ inline unsigned mousse::string::hash::operator()
 {
   return Hasher(key.data(), key.size(), seed);
 }
-
-// #include "string_i.hpp"
-
 #endif

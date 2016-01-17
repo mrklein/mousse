@@ -78,11 +78,6 @@ protected:
     virtual void clearRedirect() const;
     // Get the dictionary to initialize the codeContext
     virtual const dictionary& codeDict() const;
-private:
-    //- Disallow default bitwise copy construct
-    codedFunctionObject(const codedFunctionObject&);
-    //- Disallow default bitwise assignment
-    void operator=(const codedFunctionObject&);
 public:
   //- Runtime type information
   TYPE_NAME("coded");
@@ -96,6 +91,10 @@ public:
       const dictionary& dict,
       bool readNow=true   // allow child-classes to avoid compilation
     );
+    //- Disallow default bitwise copy construct
+    codedFunctionObject(const codedFunctionObject&) = delete;
+    //- Disallow default bitwise assignment
+    codedFunctionObject& operator=(const codedFunctionObject&) = delete;
   //- Destructor
   virtual ~codedFunctionObject();
   // Member Functions

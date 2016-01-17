@@ -69,10 +69,6 @@ protected:
     PtrList<surfaceSymmTensorField> sSymmtf_;
     PtrList<surfaceTensorField> stf_;
   // Protected Member Functions
-    //- Disallow default bitwise copy construct
-    readFields(const readFields&);
-    //- Disallow default bitwise assignment
-    void operator=(const readFields&);
     template<class Type>
     void loadField
     (
@@ -93,6 +89,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    readFields(const readFields&) = delete;
+    //- Disallow default bitwise assignment
+    readFields& operator=(const readFields&) = delete;
   //- Destructor
   virtual ~readFields();
   // Member Functions

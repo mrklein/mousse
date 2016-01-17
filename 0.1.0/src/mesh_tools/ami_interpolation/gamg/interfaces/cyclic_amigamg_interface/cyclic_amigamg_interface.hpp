@@ -24,11 +24,6 @@ class cyclicAMIGAMGInterface
     const cyclicAMILduInterface& fineCyclicAMIInterface_;
     //- AMI interface
     autoPtr<AMIPatchToPatchInterpolation> amiPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    cyclicAMIGAMGInterface(const cyclicAMIGAMGInterface&);
-    //- Disallow default bitwise assignment
-    void operator=(const cyclicAMIGAMGInterface&);
 public:
   //- Runtime type information
   TYPE_NAME("cyclicAMI");
@@ -45,6 +40,13 @@ public:
       const label fineLevelIndex,
       const label coarseComm
     );
+    //- Disallow default bitwise copy construct
+    cyclicAMIGAMGInterface(const cyclicAMIGAMGInterface&) = delete;
+    //- Disallow default bitwise assignment
+    cyclicAMIGAMGInterface& operator=
+    (
+      const cyclicAMIGAMGInterface&
+    ) = delete;
   //- Destructor
   virtual ~cyclicAMIGAMGInterface();
   // Member Functions

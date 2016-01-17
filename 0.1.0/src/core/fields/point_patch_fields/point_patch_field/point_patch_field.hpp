@@ -136,7 +136,7 @@ public:
     pointPatchField(const pointPatchField<Type>&);
 
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const = 0;
+    virtual autoPtr<pointPatchField<Type>> clone() const = 0;
 
     //- Construct as copy setting internal field reference
     pointPatchField
@@ -146,7 +146,7 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const = 0;
@@ -155,7 +155,7 @@ public:
     //- Return a pointer to a new patchField created on freestore given
     //  patch and internal field
     //  (does not set the patch field values)
-    static autoPtr<pointPatchField<Type> > New
+    static autoPtr<pointPatchField<Type>> New
     (
       const word&,
       const pointPatch&,
@@ -166,7 +166,7 @@ public:
     //  patch and internal field
     //  (does not set the patch field values).
     //  Allows override of constraint type
-    static autoPtr<pointPatchField<Type> > New
+    static autoPtr<pointPatchField<Type>> New
     (
       const word&,
       const word& actualPatchType,
@@ -176,7 +176,7 @@ public:
 
     //- Return a pointer to a new patchField created on freestore from
     //  a given pointPatchField mapped onto a new patch
-    static autoPtr<pointPatchField<Type> > New
+    static autoPtr<pointPatchField<Type>> New
     (
       const pointPatchField<Type>&,
       const pointPatch&,
@@ -186,7 +186,7 @@ public:
 
     //- Return a pointer to a new patchField created on freestore
     //  from dictionary
-    static autoPtr<pointPatchField<Type> > New
+    static autoPtr<pointPatchField<Type>> New
     (
       const pointPatch&,
       const DimensionedField<Type, pointMesh>&,
@@ -196,7 +196,7 @@ public:
     //- Return a pointer to a new CalculatedpointPatchField created on
     //  freestore without setting patchField values
     template<class Type2>
-    static autoPtr<pointPatchField<Type> >
+    static autoPtr<pointPatchField<Type>>
     NewCalculatedType
     (
       const pointPatchField<Type2>&
@@ -267,12 +267,12 @@ public:
       }
 
       //- Return field created from appropriate internal field values
-      tmp<Field<Type> > patchInternalField() const;
+      tmp<Field<Type>> patchInternalField() const;
 
       //- Return field created from appropriate internal field values
       //  given internal field reference
       template<class Type1>
-      tmp<Field<Type1> > patchInternalField
+      tmp<Field<Type1>> patchInternalField
       (
         const Field<Type1>& iF
       ) const;
@@ -280,7 +280,7 @@ public:
       //- Return field created from selected internal field values
       //  given internal field reference
       template<class Type1>
-      tmp<Field<Type1> > patchInternalField
+      tmp<Field<Type1>> patchInternalField
       (
         const Field<Type1>& iF,
         const labelList& meshPoints

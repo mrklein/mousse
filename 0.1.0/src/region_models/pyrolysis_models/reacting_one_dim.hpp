@@ -165,5 +165,10 @@ public:
 }  // namespace pyrolysisModels
 }  // namespace regionModels
 }  // namespace mousse
-#include "reacting_one_dim_i.hpp"
+
+inline mousse::label
+mousse::regionModels::pyrolysisModels::reactingOneDim::nNonOrthCorr() const
+{
+  return nNonOrthCorr_;
+}
 #endif

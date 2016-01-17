@@ -86,11 +86,6 @@ protected:
 private:
     static const NamedEnum<setAction, 8> actionNames_;
     static const string illegalSource_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    topoSetSource(const topoSetSource&);
-    //- Disallow default bitwise assignment
-    void operator=(const topoSetSource&);
 public:
   //- Runtime type information
   TYPE_NAME("topoSetSource");
@@ -167,8 +162,12 @@ public:
     autoPtr<topoSetSource> clone() const
     {
       NOT_IMPLEMENTED("autoPtr<topoSetSource> clone() const");
-      return autoPtr<topoSetSource>(NULL);
+      return autoPtr<topoSetSource>{NULL};
     }
+    //- Disallow default bitwise copy construct
+    topoSetSource(const topoSetSource&) = delete;
+    //- Disallow default bitwise assignment
+    topoSetSource& operator=(const topoSetSource&) = delete;
   // Selectors
     //- Return a reference to the selected topoSetSource
     static autoPtr<topoSetSource> New

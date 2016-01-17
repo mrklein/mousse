@@ -32,22 +32,21 @@ class fvMeshMapper
     fvSurfaceMapper surfaceMap_;
     //- Boundary mapper
     fvBoundaryMeshMapper boundaryMap_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    fvMeshMapper(const fvMeshMapper&);
-    //- Disallow default bitwise assignment
-    void operator=(const fvMeshMapper&);
 public:
   // Constructors
     //- Construct from fvMesh
     fvMeshMapper(const fvMesh& mesh, const mapPolyMesh& mpm)
     :
-      mesh_(mesh),
-      faceMap_(mpm),
-      cellMap_(mpm),
-      surfaceMap_(mesh, faceMap_),
-      boundaryMap_(mesh, faceMap_)
+      mesh_{mesh},
+      faceMap_{mpm},
+      cellMap_{mpm},
+      surfaceMap_{mesh, faceMap_},
+      boundaryMap_{mesh, faceMap_}
     {}
+    //- Disallow default bitwise copy construct
+    fvMeshMapper(const fvMeshMapper&) = delete;
+    //- Disallow default bitwise assignment
+    fvMeshMapper& operator=(const fvMeshMapper&) = delete;
   // Member Functions
     //- Return reference to mesh
     const fvMesh& mesh() const

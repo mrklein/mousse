@@ -21,9 +21,6 @@ class downwind
 {
   // Private data
     const surfaceScalarField& faceFlux_;
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const downwind&);
 public:
   //- Runtime type information
   TYPE_NAME("downwind");
@@ -35,8 +32,8 @@ public:
       const surfaceScalarField& faceFlux
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      faceFlux_(faceFlux)
+      surfaceInterpolationScheme<Type>{mesh},
+      faceFlux_{faceFlux}
     {}
     //- Construct from Istream.
     //  The name of the flux field is read from the Istream and looked-up
@@ -47,14 +44,14 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       faceFlux_
-      (
+      {
         mesh.lookupObject<surfaceScalarField>
         (
           word(is)
         )
-      )
+      }
     {}
     //- Construct from faceFlux and Istream
     downwind
@@ -64,9 +61,11 @@ public:
       Istream&
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
-      faceFlux_(faceFlux)
+      surfaceInterpolationScheme<Type>{mesh},
+      faceFlux_{faceFlux}
     {}
+    //- Disallow default bitwise assignment
+    downwind& operator=(const downwind&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
     virtual tmp<surfaceScalarField> weights

@@ -13,7 +13,6 @@
 //   call to sample01().
 //   Note: the copy constructor cannot be used if count = -1.
 // SourceFiles
-//   cached_random_i.hpp
 //   cached_random.cpp
 //   cached_random_templates.cpp
 #ifndef cached_random_hpp_
@@ -122,7 +121,24 @@ scalar cachedRandom::globalPosition<scalar>
 template<>
 label cachedRandom::globalPosition<label>(const label& start, const label& end);
 }  // namespace mousse
-#include "cached_random_i.hpp"
+
+inline mousse::label mousse::cachedRandom::seed() const
+{
+  return seed_;
+}
+inline const mousse::scalarList& mousse::cachedRandom::samples() const
+{
+  return samples_;
+}
+inline mousse::label mousse::cachedRandom::sampleI() const
+{
+  return sampleI_;
+}
+inline mousse::label& mousse::cachedRandom::sampleI()
+{
+  return sampleI_;
+}
+
 #ifdef NoRepository
 #   include "cached_random_templates.cpp"
 #endif

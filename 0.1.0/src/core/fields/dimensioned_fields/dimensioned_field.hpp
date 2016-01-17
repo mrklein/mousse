@@ -7,7 +7,6 @@
 //   Field with dimensions and associated with geometry type GeoMesh which is
 //   used to size the field and a reference to it is maintained.
 // SourceFiles
-//   dimensioned_field_i.hpp
 //   dimensioned_field.cpp
 //   dimensioned_field_io.cpp
 

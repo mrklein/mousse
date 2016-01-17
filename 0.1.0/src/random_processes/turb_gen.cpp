@@ -21,7 +21,7 @@ mousse::vectorField mousse::turbGen::U()
 {
   vectorField s(K.size());
   scalarField rndPhases(K.size());
-  forAll(K, i)
+  FOR_ALL(K, i)
   {
     s[i] = RanGen.vector01();
     rndPhases[i] = RanGen.scalar01();

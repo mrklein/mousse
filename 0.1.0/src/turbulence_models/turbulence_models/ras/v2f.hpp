@@ -73,7 +73,7 @@ namespace RASModels
 template<class BasicTurbulenceModel>
 class v2f
 :
-  public eddyViscosity<RASModel<BasicTurbulenceModel> >,
+  public eddyViscosity<RASModel<BasicTurbulenceModel>>,
   public v2fBase
 {
 protected:

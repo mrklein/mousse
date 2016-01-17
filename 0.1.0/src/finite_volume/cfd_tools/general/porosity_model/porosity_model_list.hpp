@@ -22,19 +22,17 @@ class porosityModelList
 :
   public PtrList<porosityModel>
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    porosityModelList(const porosityModelList&);
-    //- Disallow default bitwise assignment
-    void operator=(const porosityModelList&);
 protected:
   // Protected data
     //- Reference to the mesh database
     const fvMesh& mesh_;
 public:
   //- Constructor
-  porosityModelList(const fvMesh& mesh, const dictionary& dict);
+    porosityModelList(const fvMesh& mesh, const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    porosityModelList(const porosityModelList&) = delete;
+    //- Disallow default bitwise assignment
+    porosityModelList& operator=(const porosityModelList&) = delete;
   //- Destructor
   ~porosityModelList();
   // Member Functions

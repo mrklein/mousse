@@ -1,1 +1,0 @@
-../surface_formats/stl_triangle_i.hpp

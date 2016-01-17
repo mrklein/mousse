@@ -19,11 +19,6 @@ class steadyStateD2dt2Scheme
 :
   public fv::d2dt2Scheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    steadyStateD2dt2Scheme(const steadyStateD2dt2Scheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const steadyStateD2dt2Scheme&);
 public:
   //- Runtime type information
   TYPE_NAME("steadyState");
@@ -31,13 +26,17 @@ public:
     //- Construct from mesh
     steadyStateD2dt2Scheme(const fvMesh& mesh)
     :
-      d2dt2Scheme<Type>(mesh)
+      d2dt2Scheme<Type>{mesh}
     {}
     //- Construct from mesh and Istream
     steadyStateD2dt2Scheme(const fvMesh& mesh, Istream& is)
     :
-      d2dt2Scheme<Type>(mesh, is)
+      d2dt2Scheme<Type>{mesh, is}
     {}
+    //- Disallow default bitwise copy construct
+    steadyStateD2dt2Scheme(const steadyStateD2dt2Scheme&) = delete;
+    //- Disallow default bitwise assignment
+    steadyStateD2dt2Scheme& operator=(const steadyStateD2dt2Scheme&) = delete;
   // Member Functions
     //- Return mesh reference
     const fvMesh& mesh() const

@@ -19,11 +19,6 @@ class leastSquaresGrad
 :
   public fv::gradScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    leastSquaresGrad(const leastSquaresGrad&);
-    //- Disallow default bitwise assignment
-    void operator=(const leastSquaresGrad&);
 public:
   //- Runtime type information
   TYPE_NAME("leastSquares");
@@ -31,13 +26,17 @@ public:
     //- Construct from mesh
     leastSquaresGrad(const fvMesh& mesh)
     :
-      gradScheme<Type>(mesh)
+      gradScheme<Type>{mesh}
     {}
     //- Construct from Istream
     leastSquaresGrad(const fvMesh& mesh, Istream&)
     :
-      gradScheme<Type>(mesh)
+      gradScheme<Type>{mesh}
     {}
+    //- Disallow default bitwise copy construct
+    leastSquaresGrad(const leastSquaresGrad&) = delete;
+    //- Disallow default bitwise assignment
+    leastSquaresGrad& operator=(const leastSquaresGrad&) = delete;
   // Member Functions
     //- Return the gradient of the given field to the gradScheme::grad
     //  for optional caching

@@ -1,11 +1,14 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   posix.cpp
+//   included from posix.cpp
+
 #ifndef os_specific_hpp_
 #define os_specific_hpp_
+
 #include "file_name_list.hpp"
 #include <sys/types.h>
+
 namespace mousse
 {
 //- Return the PID of this process
@@ -139,4 +142,5 @@ label osRandomInteger();
 //- Return random double precision (uniform distribution between 0 and 1)
 scalar osRandomDouble();
 }  // namespace mousse
+
 #endif

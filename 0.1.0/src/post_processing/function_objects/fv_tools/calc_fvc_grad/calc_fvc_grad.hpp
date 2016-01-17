@@ -58,10 +58,6 @@ class calcFvcGrad
       const word& resultName,
       bool& processed
     );
-    //- Disallow default bitwise copy construct
-    calcFvcGrad(const calcFvcGrad&);
-    //- Disallow default bitwise assignment
-    void operator=(const calcFvcGrad&);
 public:
   //- Runtime type information
   TYPE_NAME("calcFvcGrad");
@@ -75,6 +71,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    calcFvcGrad(const calcFvcGrad&) = delete;
+    //- Disallow default bitwise assignment
+    calcFvcGrad& operator=(const calcFvcGrad&) = delete;
   //- Destructor
   virtual ~calcFvcGrad();
   // Member Functions

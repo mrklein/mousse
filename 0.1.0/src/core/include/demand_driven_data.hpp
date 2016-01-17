@@ -4,6 +4,7 @@
 
 #ifndef demand_driven_data_hpp_
 #define demand_driven_data_hpp_
+
 namespace mousse
 {
 template<class DataPtr>
@@ -16,4 +17,5 @@ inline void deleteDemandDrivenData(DataPtr& dataPtr)
   }
 }
 }  // namespace mousse
+
 #endif

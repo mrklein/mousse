@@ -18,15 +18,17 @@ class extendedFeatureEdgeMeshFormat
 :
   public edgeMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    extendedFeatureEdgeMeshFormat(const extendedFeatureEdgeMeshFormat&);
-    //- Disallow default bitwise assignment
-    void operator=(const extendedFeatureEdgeMeshFormat&);
 public:
   // Constructors
     //- Construct from file name
     extendedFeatureEdgeMeshFormat(const fileName&);
+    //- Disallow default bitwise copy construct
+    extendedFeatureEdgeMeshFormat(const extendedFeatureEdgeMeshFormat&) = delete;
+    //- Disallow default bitwise assignment
+    extendedFeatureEdgeMeshFormat& operator=
+    (
+      const extendedFeatureEdgeMeshFormat&
+    ) = delete;
   // Selectors
     //- Read file and return surface
     static autoPtr<edgeMesh> New(const fileName& name)

@@ -68,22 +68,22 @@ class DarcyForchheimer
       const scalarField& mu,
       const vectorField& U
     ) const;
-    //- Disallow default bitwise copy construct
-    DarcyForchheimer(const DarcyForchheimer&);
-    //- Disallow default bitwise assignment
-    void operator=(const DarcyForchheimer&);
 public:
   //- Runtime type information
   TYPE_NAME("DarcyForchheimer");
   //- Constructor
-  DarcyForchheimer
-  (
-    const word& name,
-    const word& modelType,
-    const fvMesh& mesh,
-    const dictionary& dict,
-    const word& cellZoneName
-  );
+    DarcyForchheimer
+    (
+      const word& name,
+      const word& modelType,
+      const fvMesh& mesh,
+      const dictionary& dict,
+      const word& cellZoneName
+    );
+    //- Disallow default bitwise copy construct
+    DarcyForchheimer(const DarcyForchheimer&) = delete;
+    //- Disallow default bitwise assignment
+    DarcyForchheimer& operator=(const DarcyForchheimer&) = delete;
   //- Destructor
   virtual ~DarcyForchheimer();
   // Member Functions

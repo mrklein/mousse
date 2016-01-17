@@ -28,11 +28,6 @@ class gaussConvectionScheme
 {
   // Private data
     tmp<surfaceInterpolationScheme<Type> > tinterpScheme_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    gaussConvectionScheme(const gaussConvectionScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const gaussConvectionScheme&);
 public:
   //- Runtime type information
   TYPE_NAME("Gauss");
@@ -45,8 +40,8 @@ public:
       const tmp<surfaceInterpolationScheme<Type> >& scheme
     )
     :
-      convectionScheme<Type>(mesh, faceFlux),
-      tinterpScheme_(scheme)
+      convectionScheme<Type>{mesh, faceFlux},
+      tinterpScheme_{scheme}
     {}
     //- Construct from flux and Istream
     gaussConvectionScheme
@@ -56,20 +51,17 @@ public:
       Istream& is
     )
     :
-      convectionScheme<Type>(mesh, faceFlux),
+      convectionScheme<Type>{mesh, faceFlux},
       tinterpScheme_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
-      )
+      }
     {
       is.rewind();
       word bounded(is);
-      if
-      (
-        warnUnboundedGauss
-      && word(mesh.ddtScheme("default")) == "steadyState"
-      && bounded != "bounded"
-      )
+      if (warnUnboundedGauss
+          && word(mesh.ddtScheme("default")) == "steadyState"
+          && bounded != "bounded")
       {
         fileNameList controlDictFiles(findEtcFiles("controlDict"));
         IO_WARNING_IN("gaussConvectionScheme", is)
@@ -82,6 +74,10 @@ public:
           << endl;
       }
     }
+    //- Disallow default bitwise copy construct
+    gaussConvectionScheme(const gaussConvectionScheme&) = delete;
+    //- Disallow default bitwise assignment
+    gaussConvectionScheme& operator=(const gaussConvectionScheme&) = delete;
   // Member Functions
     const surfaceInterpolationScheme<Type>& interpScheme() const;
     tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate

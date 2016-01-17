@@ -26,11 +26,6 @@ class multivariateIndependentScheme
   // Private data
     dictionary schemes_;
     const surfaceScalarField& faceFlux_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    multivariateIndependentScheme(const multivariateIndependentScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const multivariateIndependentScheme&);
 public:
   //- Runtime type information
   TYPE_NAME("multivariateIndependent");
@@ -44,6 +39,13 @@ public:
       const surfaceScalarField& faceFlux,
       Istream& schemeData
     );
+    //- Disallow default bitwise copy construct
+    multivariateIndependentScheme(const multivariateIndependentScheme&) = delete;
+    //- Disallow default bitwise assignment
+    multivariateIndependentScheme& operator=
+    (
+      const multivariateIndependentScheme&
+    ) = delete;
   // Member Operators
     tmp<surfaceInterpolationScheme<Type> > operator()
     (

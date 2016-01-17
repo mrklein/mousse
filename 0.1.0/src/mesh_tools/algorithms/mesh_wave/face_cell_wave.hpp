@@ -66,10 +66,6 @@ class FaceCellWave
     label nUnvisitedCells_;
     label nUnvisitedFaces_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    FaceCellWave(const FaceCellWave&);
-    //- Disallow default bitwise assignment
-    void operator=(const FaceCellWave&);
     //- Updates cellInfo with information from neighbour. Updates all
     //  statistics.
     bool updateCell
@@ -200,6 +196,10 @@ public:
       const label maxIter,
       TrackingData& td = dummyTrackData_
     );
+    //- Disallow default bitwise copy construct
+    FaceCellWave(const FaceCellWave&) = delete;
+    //- Disallow default bitwise assignment
+    FaceCellWave& operator=(const FaceCellWave&) = delete;
   // Member Functions
     // Access
       //- Access allFaceInfo

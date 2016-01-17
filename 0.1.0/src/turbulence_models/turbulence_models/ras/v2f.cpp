@@ -42,7 +42,7 @@ v2f<BasicTurbulenceModel>::v2f
   const word& type
 )
 :
-  eddyViscosity<RASModel<BasicTurbulenceModel> >
+  eddyViscosity<RASModel<BasicTurbulenceModel>>
   (
     type,
     alpha,
@@ -209,7 +209,7 @@ v2f<BasicTurbulenceModel>::v2f
 template<class BasicTurbulenceModel>
 bool v2f<BasicTurbulenceModel>::read()
 {
-  if (eddyViscosity<RASModel<BasicTurbulenceModel> >::read())
+  if (eddyViscosity<RASModel<BasicTurbulenceModel>>::read())
   {
     Cmu_.readIfPresent(this->coeffDict());
     CmuKEps_.readIfPresent(this->coeffDict());
@@ -241,7 +241,7 @@ void v2f<BasicTurbulenceModel>::correct()
   const surfaceScalarField& alphaRhoPhi = this->alphaRhoPhi_;
   const volVectorField& U = this->U_;
   volScalarField& nut = this->nut_;
-  eddyViscosity<RASModel<BasicTurbulenceModel> >::correct();
+  eddyViscosity<RASModel<BasicTurbulenceModel>>::correct();
   volScalarField divU(fvc::div(fvc::absolute(this->phi(), U)));
   // Use N=6 so that f=0 at walls
   const dimensionedScalar N("N", dimless, 6.0);

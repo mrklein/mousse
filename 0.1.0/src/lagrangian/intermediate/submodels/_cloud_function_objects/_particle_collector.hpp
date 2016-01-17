@@ -194,7 +194,13 @@ public:
       );
 };
 }  // namespace mousse
-#include "_particle_collector_i.hpp"
+
+template<class CloudType>
+inline const mousse::Switch&
+mousse::ParticleCollector<CloudType>::resetOnWrite() const
+{
+  return resetOnWrite_;
+}
 #ifdef NoRepository
 #   include "_particle_collector.cpp"
 #endif

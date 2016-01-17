@@ -149,11 +149,6 @@ class advectionDiffusion
     int maxIter_;
     //- Flag to indicate the predictor step has been executed
     bool predicted_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    advectionDiffusion(const advectionDiffusion&);
-    //- Disallow default bitwise assignment
-    void operator=(const advectionDiffusion&);
 public:
   //- Runtime type information
   TYPE_NAME("advectionDiffusion");
@@ -166,6 +161,10 @@ public:
       const fvMesh& mesh,
       const labelHashSet& patchIDs
     );
+    //- Disallow default bitwise copy construct
+    advectionDiffusion(const advectionDiffusion&) = delete;
+    //- Disallow default bitwise assignment
+    advectionDiffusion& operator=(const advectionDiffusion&) = delete;
   // Member Functions
     //- Correct the given distance-to-patch field
     virtual bool correct(volScalarField& y);

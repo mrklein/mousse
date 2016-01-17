@@ -300,7 +300,29 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#include "cyclic_ami_poly_patch_i.hpp"
+
+inline const mousse::word& mousse::cyclicAMIPolyPatch::neighbPatchName() const
+{
+  if (nbrPatchName_.empty())
+  {
+    // Try and use patchGroup to find samplePatch and sampleRegion
+    label patchID = coupleGroup_.findOtherPatchID(*this);
+    nbrPatchName_ = boundaryMesh()[patchID].name();
+  }
+  return nbrPatchName_;
+}
+inline const mousse::vector& mousse::cyclicAMIPolyPatch::rotationAxis() const
+{
+  return rotationAxis_;
+}
+inline const mousse::point& mousse::cyclicAMIPolyPatch::rotationCentre() const
+{
+  return rotationCentre_;
+}
+inline const mousse::vector& mousse::cyclicAMIPolyPatch::separationVector() const
+{
+  return separationVector_;
+}
 #ifdef NoRepository
   #include "cyclic_ami_poly_patch_templates.cpp"
 #endif

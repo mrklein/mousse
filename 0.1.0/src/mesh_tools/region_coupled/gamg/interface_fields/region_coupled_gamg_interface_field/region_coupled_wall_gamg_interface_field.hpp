@@ -20,14 +20,6 @@ class regionCoupledWallGAMGInterfaceField
   // Private data
     //- Local reference cast into the region coupled interface
     const regionCoupledWallGAMGInterface& regionCoupledGAMGInterface_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    regionCoupledWallGAMGInterfaceField
-    (
-      const regionCoupledWallGAMGInterfaceField&
-    );
-    //- Disallow default bitwise assignment
-    void operator=(const regionCoupledWallGAMGInterfaceField&);
 public:
   //- Runtime type information
   TYPE_NAME("regionCoupledWall");
@@ -45,6 +37,16 @@ public:
       const bool doTransform,
       const int rank
     );
+    //- Disallow default bitwise copy construct
+    regionCoupledWallGAMGInterfaceField
+    (
+      const regionCoupledWallGAMGInterfaceField&
+    ) = delete;
+    //- Disallow default bitwise assignment
+    regionCoupledWallGAMGInterfaceField& operator=
+    (
+      const regionCoupledWallGAMGInterfaceField&
+    ) = delete;
   //- Destructor
   virtual ~regionCoupledWallGAMGInterfaceField();
   // Member Functions

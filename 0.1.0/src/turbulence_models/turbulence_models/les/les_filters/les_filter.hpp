@@ -40,7 +40,7 @@ public:
     //- Construct from components
     LESfilter(const fvMesh& mesh)
     :
-      mesh_(mesh)
+      mesh_{mesh}
     {}
     // Disallow default bitwise copy construct and assignment
     LESfilter(const LESfilter&) = delete;

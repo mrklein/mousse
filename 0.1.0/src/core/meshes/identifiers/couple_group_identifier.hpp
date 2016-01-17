@@ -55,5 +55,14 @@ public:
     friend Ostream& operator<<(Ostream&, const coupleGroupIdentifier&);
 };
 }  // namespace mousse
-#include "couple_group_identifier_i.hpp"
+
+// Member Functions 
+const mousse::word& mousse::coupleGroupIdentifier::name() const
+{
+  return name_;
+}
+bool mousse::coupleGroupIdentifier::valid() const
+{
+  return !name_.empty();
+}
 #endif

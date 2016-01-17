@@ -21,7 +21,6 @@
 //   The edge direction and feature edge and feature point adjacent normals
 //   are stored.
 // SourceFiles
-//   extended_edge_mesh_i.hpp
 //   extended_edge_mesh.cpp
 //   extended_edge_mesh_new.cpp
 

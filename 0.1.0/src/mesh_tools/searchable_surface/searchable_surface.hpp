@@ -39,11 +39,6 @@ class searchableSurface
   // Private data
     const word name_;
     boundBox bounds_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    searchableSurface(const searchableSurface&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableSurface&);
 public:
   //- Runtime type information
   TYPE_NAME("searchableSurface");
@@ -88,6 +83,10 @@ public:
       NOT_IMPLEMENTED("autoPtr<searchableSurface> clone() const");
       return autoPtr<searchableSurface>(NULL);
     }
+    //- Disallow default bitwise copy construct
+    searchableSurface(const searchableSurface&) = delete;
+    //- Disallow default bitwise assignment
+    searchableSurface& operator=(const searchableSurface&) = delete;
   // Selectors
     //- Return a reference to the selected searchableSurface
     static autoPtr<searchableSurface> New

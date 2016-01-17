@@ -78,10 +78,6 @@ protected:
       const volSymmTensorField& Reff,
       volVectorField& shearStress
     );
-    //- Disallow default bitwise copy construct
-    wallShearStress(const wallShearStress&);
-    //- Disallow default bitwise assignment
-    void operator=(const wallShearStress&);
 public:
   //- Runtime type information
   TYPE_NAME("wallShearStress");
@@ -95,6 +91,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    wallShearStress(const wallShearStress&) = delete;
+    //- Disallow default bitwise assignment
+    wallShearStress& operator=(const wallShearStress&) = delete;
   //- Destructor
   virtual ~wallShearStress();
   // Member Functions

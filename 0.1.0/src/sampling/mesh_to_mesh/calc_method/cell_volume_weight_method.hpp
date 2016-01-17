@@ -53,15 +53,16 @@ protected:
       const DynamicList<label>& visitedCells,
       labelList& seedCells
     ) const;
-    //- Disallow default bitwise copy construct
-    cellVolumeWeightMethod(const cellVolumeWeightMethod&);
-    //- Disallow default bitwise assignment
-    void operator=(const cellVolumeWeightMethod&);
 public:
   //- Run-time type information
   TYPE_NAME("cellVolumeWeight");
-  //- Construct from source and target meshes
-  cellVolumeWeightMethod(const polyMesh& src, const polyMesh& tgt);
+  // Constructors
+    //- Construct from source and target meshes
+    cellVolumeWeightMethod(const polyMesh& src, const polyMesh& tgt);
+    //- Disallow default bitwise copy construct
+    cellVolumeWeightMethod(const cellVolumeWeightMethod&) = delete;
+    //- Disallow default bitwise assignment
+    cellVolumeWeightMethod& operator=(const cellVolumeWeightMethod&) = delete;
   //- Destructor
   virtual ~cellVolumeWeightMethod();
   // Member Functions

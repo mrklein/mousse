@@ -51,11 +51,6 @@ protected:
     const objectRegistry& obr_;
     //- on/off switch
     bool active_;
-  // Protected Member Functions
-    //- Disallow default bitwise copy construct
-    processorField(const processorField&);
-    //- Disallow default bitwise assignment
-    void operator=(const processorField&);
 public:
   //- Runtime type information
   TYPE_NAME("processorField");
@@ -69,6 +64,10 @@ public:
       const dictionary&,
       const bool loadFromFiles = false
     );
+    //- Disallow default bitwise copy construct
+    processorField(const processorField&) = delete;
+    //- Disallow default bitwise assignment
+    processorField& operator=(const processorField&) = delete;
   //- Destructor
   virtual ~processorField();
   // Member Functions

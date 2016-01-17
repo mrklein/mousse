@@ -13,6 +13,7 @@
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "dictionary.hpp"
+#include "specie.hpp"
 namespace mousse
 {
 class solidProperties;
@@ -81,7 +82,7 @@ public:
     //- Construct and return clone
     virtual autoPtr<solidProperties> clone() const
     {
-      return autoPtr<solidProperties>(new solidProperties(*this));
+      return autoPtr<solidProperties>{new solidProperties(*this)};
     }
   // Selectors
     //- Return a pointer to a new solidProperties created from input
@@ -112,5 +113,29 @@ public:
     friend Ostream& operator<<(Ostream& os, const solidProperties& s);
 };
 }  // namespace mousse
-#include "solid_properties_i.hpp"
+
+inline mousse::scalar mousse::solidProperties::rho() const
+{
+  return rho_;
+}
+inline mousse::scalar mousse::solidProperties::Cp() const
+{
+  return Cp_;
+}
+inline mousse::scalar mousse::solidProperties::K() const
+{
+  return K_;
+}
+inline mousse::scalar mousse::solidProperties::Hf() const
+{
+  return Hf_;
+}
+inline mousse::scalar mousse::solidProperties::Hs(const scalar T) const
+{
+  return Cp_*(T - Tstd);
+}
+inline mousse::scalar mousse::solidProperties::emissivity() const
+{
+  return emissivity_;
+}
 #endif

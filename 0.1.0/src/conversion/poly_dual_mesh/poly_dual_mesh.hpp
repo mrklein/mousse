@@ -90,10 +90,6 @@ class polyDualMesh
       const labelList& featureEdges,
       const labelList& featurePoints
     );
-    //- Disallow default bitwise copy construct
-    polyDualMesh(const polyDualMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const polyDualMesh&);
 public:
   //- Runtime type information
   CLASS_NAME("polyDualMesh");
@@ -125,6 +121,10 @@ public:
       labelList& featureEdges,
       labelList& featurePoints
     );
+    //- Disallow default bitwise copy construct
+    polyDualMesh(const polyDualMesh&) = delete;
+    //- Disallow default bitwise assignment
+    polyDualMesh& operator=(const polyDualMesh&) = delete;
   //- Destructor
   ~polyDualMesh();
   // Member Functions

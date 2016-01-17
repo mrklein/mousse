@@ -8,8 +8,6 @@
 //   Since the SubList is itself unallocated, no storage is allocated or
 //   de-allocated during its use.  To achieve this behaviour, SubList is
 //   derived from UList rather than List.
-// SourceFiles
-//   sub_list_i.hpp
 #ifndef sub_list_hpp_
 #define sub_list_hpp_
 #include "list.hpp"
@@ -45,5 +43,62 @@ public:
     inline void operator=(const T&);
 };
 }  // namespace mousse
-#include "sub_list_i.hpp"
+
+// Constructors 
+template<class T>
+inline mousse::SubList<T>::SubList
+(
+  const UList<T>& list,
+  const label subSize
+)
+:
+  UList<T>{list.v_, subSize}
+{
+#ifdef FULLDEBUG
+  list.checkSize(subSize);
+#endif
+}
+template<class T>
+inline mousse::SubList<T>::SubList
+(
+  const UList<T>& list,
+  const label subSize,
+  const label startIndex
+)
+:
+  UList<T>{&(list.v_[startIndex]), subSize}
+{
+#ifdef FULLDEBUG
+  // Artificially allow the start of a zero-sized subList to be
+  // one past the end of the original list.
+  if (subSize)
+  {
+    list.checkStart(startIndex);
+    list.checkSize(startIndex + subSize);
+  }
+  else
+  {
+    // Start index needs to fall between 0 and size.  One position
+    // behind the last element is allowed
+    list.checkSize(startIndex);
+  }
+#endif
+}
+// Member Functions 
+template<class T>
+inline const mousse::SubList<T>& mousse::SubList<T>::null()
+{
+  return NullObjectRef<SubList<T> >();
+}
+// Member Operators 
+template<class T>
+inline mousse::SubList<T>::operator const mousse::List<T>&() const
+{
+  return *reinterpret_cast< const List<T>* >(this);
+}
+template<class T>
+inline void mousse::SubList<T>::operator=(const T& t)
+{
+  UList<T>::operator=(t);
+}
 #endif

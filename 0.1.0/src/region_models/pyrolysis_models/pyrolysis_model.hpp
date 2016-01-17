@@ -6,7 +6,6 @@
 // Description
 //   Base class for pyrolysis models
 // SourceFiles
-//   pyrolysis_model_i.hpp
 //   pyrolysis_model.cpp
 #ifndef pyrolysis_model_hpp_
 #define pyrolysis_model_hpp_

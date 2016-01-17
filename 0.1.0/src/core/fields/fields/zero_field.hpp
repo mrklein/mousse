@@ -28,5 +28,13 @@ public:
     inline zeroField field() const;
 };
 }  // namespace mousse
-#include "zero_field_i.hpp"
+
+inline mousse::scalar mousse::zeroField::operator[](const label) const
+{
+  return scalar(0);
+}
+inline mousse::zeroField mousse::zeroField::field() const
+{
+  return zeroField();
+}
 #endif

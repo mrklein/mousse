@@ -5,8 +5,6 @@
 //   mousse::cell
 // Description
 //   A cell is defined as a list of faces with extra functionality
-// SourceFiles
-//   cell_i.hpp
 #ifndef cell_hpp_
 #define cell_hpp_
 #include "face_list.hpp"
@@ -72,5 +70,38 @@ public:
     friend bool operator!=(const cell&, const cell&);
 };
 }  // namespace mousse
-#include "cell_i.hpp"
+
+// Constructors 
+// Construct null
+inline mousse::cell::cell()
+{}
+// Construct given size
+inline mousse::cell::cell(label s)
+:
+  labelList{s, -1}
+{}
+// Construct from components
+inline mousse::cell::cell(const labelUList& lst)
+:
+  labelList{lst}
+{}
+inline mousse::cell::cell(const Xfer<labelList>& lst)
+:
+  labelList{lst}
+{}
+// Construct from Istream
+inline mousse::cell::cell(Istream& is)
+:
+  labelList{is}
+{}
+// Member Functions 
+// Number of faces
+inline mousse::label mousse::cell::nFaces() const
+{
+  return size();
+}
+inline bool mousse::operator!=(const cell& a, const cell& b)
+{
+  return (!(a == b));
+}
 #endif

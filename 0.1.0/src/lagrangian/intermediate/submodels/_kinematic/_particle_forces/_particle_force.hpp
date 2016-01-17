@@ -6,7 +6,6 @@
 // Description
 //   Abstract base class for particle forces
 // SourceFiles
-//   _particle_force_i.hpp
 //   _particle_force.cpp
 //   _particle_force_new.cpp
 #ifndef _particle_force_hpp_

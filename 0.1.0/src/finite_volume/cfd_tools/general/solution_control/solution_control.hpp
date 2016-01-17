@@ -63,10 +63,6 @@ protected:
     //- Store previous iteration field for vol<Type>Fields
     template<class Type>
     void storePrevIter() const;
-    //- Disallow default bitwise copy construct
-    solutionControl(const solutionControl&);
-    //- Disallow default bitwise assignment
-    void operator=(const solutionControl&);
 public:
   // Static Data Members
     //- Run-time type information
@@ -74,6 +70,10 @@ public:
   // Constructors
     //- Construct from mesh
     solutionControl(fvMesh& mesh, const word& algorithmName);
+    //- Disallow default bitwise copy construct
+    solutionControl(const solutionControl&) = delete;
+    //- Disallow default bitwise assignment
+    solutionControl& operator=(const solutionControl&) = delete;
   //- Destructor
   virtual ~solutionControl();
   // Member Functions
@@ -103,8 +103,60 @@ public:
       inline bool correctNonOrthogonal();
 };
 }  // namespace mousse
+
+// Member Functions 
+inline const mousse::dictionary& mousse::solutionControl::dict() const
+{
+  return mesh_.solutionDict().subDict(algorithmName_);
+}
+inline mousse::label mousse::solutionControl::corr() const
+{
+  return corr_;
+}
+inline mousse::label mousse::solutionControl::corrNonOrtho() const
+{
+  return corrNonOrtho_;
+}
+inline mousse::label mousse::solutionControl::nNonOrthCorr() const
+{
+  return nNonOrthCorr_;
+}
+inline bool mousse::solutionControl::finalNonOrthogonalIter() const
+{
+  return corrNonOrtho_ == nNonOrthCorr_ + 1;
+}
+inline bool mousse::solutionControl::momentumPredictor() const
+{
+  return momentumPredictor_;
+}
+inline bool mousse::solutionControl::transonic() const
+{
+  return transonic_;
+}
+inline bool mousse::solutionControl::consistent() const
+{
+  return consistent_;
+}
+inline bool mousse::solutionControl::correctNonOrthogonal()
+{
+  corrNonOrtho_++;
+  if (debug)
+  {
+    Info<< algorithmName_ << " correctNonOrthogonal: corrNonOrtho = "
+      << corrNonOrtho_ << endl;
+  }
+  if (corrNonOrtho_ <= nNonOrthCorr_ + 1)
+  {
+    return true;
+  }
+  else
+  {
+    corrNonOrtho_ = 0;
+    return false;
+  }
+}
+
 #ifdef NoRepository
   #include "solution_control_templates.cpp"
 #endif
-#include "solution_control_i.hpp"
 #endif

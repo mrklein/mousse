@@ -52,10 +52,6 @@ private:
     ) const;
     //- Return the boundBox of the cylinder
     boundBox calcBounds() const;
-    //- Disallow default bitwise copy construct
-    searchableCylinder(const searchableCylinder&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableCylinder&);
 public:
   //- Runtime type information
   TYPE_NAME("searchableCylinder");
@@ -74,6 +70,10 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableCylinder(const searchableCylinder&) = delete;
+    //- Disallow default bitwise assignment
+    searchableCylinder& operator=(const searchableCylinder&) = delete;
   //- Destructor
   virtual ~searchableCylinder();
   // Member Functions

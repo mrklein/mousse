@@ -37,14 +37,14 @@ private:
   // Private Member Functions
     //- Create IO object if dictionary is present
     IOobject createIOobject(const fvMesh& mesh) const;
-    //- Disallow default bitwise copy construct
-    IOMRFZoneList(const IOMRFZoneList&);
-    //- Disallow default bitwise assignment
-    void operator=(const IOMRFZoneList&);
 public:
   // Constructors
     //- Construct from mesh
     IOMRFZoneList(const fvMesh& mesh);
+    //- Disallow default bitwise copy construct
+    IOMRFZoneList(const IOMRFZoneList&) = delete;
+    //- Disallow default bitwise assignment
+    IOMRFZoneList& operator=(const IOMRFZoneList&) = delete;
     //- Destructor
     virtual ~IOMRFZoneList()
     {}

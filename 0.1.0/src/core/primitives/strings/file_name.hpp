@@ -137,45 +137,38 @@ inline void mousse::fileName::stripInvalid()
 // Constructors 
 inline mousse::fileName::fileName()
 :
-  string()
+  string{}
 {}
 inline mousse::fileName::fileName(const fileName& fn)
 :
-  string(fn)
+  string{fn}
 {}
 inline mousse::fileName::fileName(const word& w)
 :
-  string(w)
+  string{w}
 {}
 inline mousse::fileName::fileName(const string& str)
 :
-  string(str)
+  string{str}
 {
   stripInvalid();
 }
 inline mousse::fileName::fileName(const std::string& str)
 :
-  string(str)
+  string{str}
 {
   stripInvalid();
 }
 inline mousse::fileName::fileName(const char* str)
 :
-  string(str)
+  string{str}
 {
   stripInvalid();
 }
 // Member Functions 
 inline bool mousse::fileName::valid(char c)
 {
-  return
-  (
-    !isspace(c)
-  && c != '"'   // string quote
-  && c != '\''  // string quote
-  );
+  return !isspace(c) && c != '"' && c != '\'';
 }
-
-// #include "file_name_i.hpp"
 
 #endif

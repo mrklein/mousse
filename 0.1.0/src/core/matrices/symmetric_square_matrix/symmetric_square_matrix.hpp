@@ -7,7 +7,6 @@
 //   A templated 2D square symmetric matrix of objects of \<T\>, where the
 //   n x n matrix dimension is known and used for subscript bounds checking, etc.
 // SourceFiles
-//   symmetric_square_matrix_i.hpp
 //   symmetric_square_matrix.cpp
 #ifndef symmetric_square_matrix_hpp_
 #define symmetric_square_matrix_hpp_
@@ -53,7 +52,88 @@ scalar detDecomposed(const SymmetricSquareMatrix<Type>&);
 template<class Type>
 scalar det(const SymmetricSquareMatrix<Type>&);
 }  // namespace mousse
-#   include "symmetric_square_matrix_i.hpp"
+
+// Constructors 
+template<class Type>
+inline mousse::SymmetricSquareMatrix<Type>::SymmetricSquareMatrix()
+:
+  Matrix<SymmetricSquareMatrix<Type>, Type>{}
+{}
+template<class Type>
+inline mousse::SymmetricSquareMatrix<Type>::SymmetricSquareMatrix(const label n)
+:
+  Matrix<SymmetricSquareMatrix<Type>, Type>{n, n}
+{}
+template<class Type>
+inline mousse::SymmetricSquareMatrix<Type>::SymmetricSquareMatrix
+(
+  const label m,
+  const label n
+)
+:
+  Matrix<SymmetricSquareMatrix<Type>, Type>{m, n}
+{
+  if (m != n)
+  {
+    FATAL_ERROR_IN
+    (
+      "SymmetricSquareMatrix<Type>::SymmetricSquareMatrix"
+      "(const label m, const label n)"
+    )
+    << "m != n for constructing a symmetric square matrix"
+    << exit(FatalError);
+  }
+}
+template<class Type>
+inline mousse::SymmetricSquareMatrix<Type>::SymmetricSquareMatrix
+(
+  const label m,
+  const label n,
+  const Type& t
+)
+:
+  Matrix<SymmetricSquareMatrix<Type>, Type>{m, n, t}
+{
+  if (m != n)
+  {
+    FATAL_ERROR_IN
+    (
+      "SymmetricSquareMatrix<Type>::SymmetricSquareMatrix"
+      "(const label m, const label n, const Type&)"
+    )
+    << "m != n for constructing a symmetric square matrix"
+    << exit(FatalError);
+  }
+}
+template<class Type>
+inline mousse::SymmetricSquareMatrix<Type>::SymmetricSquareMatrix(Istream& is)
+:
+  Matrix<SymmetricSquareMatrix<Type>, Type>{is}
+{}
+template<class Type>
+inline mousse::autoPtr<mousse::SymmetricSquareMatrix<Type> >
+mousse::SymmetricSquareMatrix<Type>::clone() const
+{
+  return {new SymmetricSquareMatrix<Type>(*this)};
+}
+template<class Type>
+inline Type& mousse::SymmetricSquareMatrix<Type>::operator()
+(
+  const label r,
+  const label c
+)
+{
+  return (r > c) ? this->operator[](r)[c] : this->operator[](c)[r];
+}
+template<class Type>
+inline const Type& mousse::SymmetricSquareMatrix<Type>::operator()
+(
+  const label r,
+  const label c
+) const
+{
+  return (r > c) ? this->operator[](r)[c] : this->operator[](c)[r];
+}
 #ifdef NoRepository
 #   include "symmetric_square_matrix.cpp"
 #endif

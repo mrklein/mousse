@@ -8,7 +8,6 @@
 //   to allow rapid scatter to other processors.  The processors must all
 //   maintain exactly the same state data to avoid any drift or inconsistency.
 // SourceFiles
-//   six_dof_rigid_body_motion_state_i.hpp
 //   six_dof_rigid_body_motion_state.cpp
 //   six_dof_rigid_body_motion_state_io.cpp
 #ifndef six_dof_rigid_body_motion_state_hpp_
@@ -91,5 +90,55 @@ public:
     friend Ostream& operator<<(Ostream&, const sixDoFRigidBodyMotionState&);
 };
 }  // namespace mousse
-#include "six_dof_rigid_body_motion_state_i.hpp"
+
+// Member Functions 
+inline const mousse::point&
+mousse::sixDoFRigidBodyMotionState::centreOfRotation() const
+{
+  return centreOfRotation_;
+}
+inline const mousse::tensor& mousse::sixDoFRigidBodyMotionState::Q() const
+{
+  return Q_;
+}
+inline const mousse::vector& mousse::sixDoFRigidBodyMotionState::v() const
+{
+  return v_;
+}
+inline const mousse::vector& mousse::sixDoFRigidBodyMotionState::a() const
+{
+  return a_;
+}
+inline const mousse::vector& mousse::sixDoFRigidBodyMotionState::pi() const
+{
+  return pi_;
+}
+inline const mousse::vector& mousse::sixDoFRigidBodyMotionState::tau() const
+{
+  return tau_;
+}
+inline mousse::point& mousse::sixDoFRigidBodyMotionState::centreOfRotation()
+{
+  return centreOfRotation_;
+}
+inline mousse::tensor& mousse::sixDoFRigidBodyMotionState::Q()
+{
+  return Q_;
+}
+inline mousse::vector& mousse::sixDoFRigidBodyMotionState::v()
+{
+  return v_;
+}
+inline mousse::vector& mousse::sixDoFRigidBodyMotionState::a()
+{
+  return a_;
+}
+inline mousse::vector& mousse::sixDoFRigidBodyMotionState::pi()
+{
+  return pi_;
+}
+inline mousse::vector& mousse::sixDoFRigidBodyMotionState::tau()
+{
+  return tau_;
+}
 #endif

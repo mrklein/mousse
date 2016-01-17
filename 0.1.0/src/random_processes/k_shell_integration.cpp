@@ -47,13 +47,13 @@ mousse::graph mousse::kShellMean
   scalarField EWeight(NoSubintervals);
   scalar kmax = K.max()*pow(1.0/vector::dim,0.5);
   scalar delta_k = kmax/(NoSubintervals);
-  forAll(Ek1D, a)
+  FOR_ALL(Ek1D, a)
   {
     k1D[a] = (a + 1)*delta_k;
     Ek1D[a] = 0.0;
     EWeight[a] = 0;
   }
-  forAll(K, l)
+  FOR_ALL(K, l)
   {
     scalar kmag = mag(K[l]);
     for (label a=0; a<NoSubintervals; a++)

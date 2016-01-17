@@ -15,13 +15,13 @@ void fft::transform
   transformDirection isign
 )
 {
-  forAll(nn, idim)
+  FOR_ALL(nn, idim)
   {
     // Check for power of two
     unsigned int dimCount = nn[idim];
     if (!dimCount || (dimCount & (dimCount - 1)))
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "fft::transform(complexField&, const labelList&, "
         "transformDirection)"
@@ -43,7 +43,7 @@ void fft::transform
     fftRenumber(field, nn);
   }
   label ntot = 1;
-  forAll(nn, idim)
+  FOR_ALL(nn, idim)
   {
     ntot *= nn[idim];
   }
@@ -118,7 +118,7 @@ void fft::transform
   }
   // scale result (symmetric scale both forward and inverse transform)
   scalar recRootN = 1.0/sqrt(scalar(ntot));
-  forAll(field, i)
+  FOR_ALL(field, i)
   {
     field[i] *= recRootN;
   }

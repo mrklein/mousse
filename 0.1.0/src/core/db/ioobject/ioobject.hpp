@@ -344,6 +344,4 @@ inline Stream& mousse::IOobject::writeEndDivider(Stream& os)
   return os;
 }
 
-// #include "ioobject_i.hpp"
-
 #endif

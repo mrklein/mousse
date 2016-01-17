@@ -13,7 +13,7 @@ inline tmp<scalarField> Ek
   /*
   scalarField& Ekf = tEk();
   label i;
-  forAll(Ekf, i)
+  FOR_ALL(Ekf, i)
   {
     if (k[i] < 2 || k[i] > 10)
     {

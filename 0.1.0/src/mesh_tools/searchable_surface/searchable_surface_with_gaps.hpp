@@ -52,10 +52,6 @@ private:
       const List<pointIndexHit>& minInfo,
       labelList& missMap
     );
-    //- Disallow default bitwise copy construct
-    searchableSurfaceWithGaps(const searchableSurfaceWithGaps&);
-    //- Disallow default bitwise assignment
-    void operator=(const searchableSurfaceWithGaps&);
 public:
   //- Runtime type information
   TYPE_NAME("searchableSurfaceWithGaps");
@@ -66,6 +62,13 @@ public:
       const IOobject& io,
       const dictionary& dict
     );
+    //- Disallow default bitwise copy construct
+    searchableSurfaceWithGaps(const searchableSurfaceWithGaps&) = delete;
+    //- Disallow default bitwise assignment
+    searchableSurfaceWithGaps& operator=
+    (
+      const searchableSurfaceWithGaps&
+    ) = delete;
   //- Destructor
   virtual ~searchableSurfaceWithGaps();
   // Member Functions

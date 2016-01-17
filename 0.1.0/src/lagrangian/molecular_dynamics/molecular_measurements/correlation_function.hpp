@@ -35,10 +35,6 @@ class correlationFunction
     label sampleSteps_;
   // Private Member Functions
     void setTimesAndSizes(const label);
-    //- Disallow default bitwise copy construct
-    correlationFunction(const correlationFunction<Type>&);
-    //- Disallow default bitwise assignment
-    void operator=(const correlationFunction<Type>&);
 public:
   //- Component type
   typedef typename pTraits<Type>::cmptType cmptType;
@@ -61,6 +57,13 @@ public:
       const scalar sampleInterval,
       const scalar averagingInterval
     );
+    //- Disallow default bitwise copy construct
+    correlationFunction(const correlationFunction<Type>&) = delete;
+    //- Disallow default bitwise assignment
+    correlationFunction<Type>& operator=
+    (
+      const correlationFunction<Type>&
+    ) = delete;
   //- Destructor
   ~correlationFunction();
   // Member Functions

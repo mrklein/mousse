@@ -7,7 +7,6 @@
 //   Accumulating histogram of component values.
 //   Specified bin resolution, automatic generation of bins.
 // SourceFiles
-//   distribution_i.hpp
 //   distribution.cpp
 //   distribution_io.cpp
 #ifndef distribution_hpp_
@@ -25,7 +24,7 @@ Ostream& operator<<(Ostream&, const Distribution<Type>&);
 template<class Type>
 class Distribution
 :
-  public List< List<scalar> >
+  public List< List<scalar>>
 {
   // Private data
     //- Width of the bin for each component
@@ -67,15 +66,15 @@ public:
     );
     //- Return the normalised distribution (probability density)
     //  and bins
-    List< List<Pair<scalar> > > normalised() const;
+    List< List<Pair<scalar>>> normalised() const;
     //- Return the distribution of the total bin weights
-    List< List < Pair<scalar> > > raw() const;
+    List< List < Pair<scalar>>> raw() const;
     //- Return the cumulative normalised distribution and
     //  integration locations (at end of bins)
-    List< List<Pair<scalar> > > cumulativeNormalised() const;
+    List< List<Pair<scalar>>> cumulativeNormalised() const;
     //- Return the cumulative total bin weights and integration
     //  locations (at end of bins)
-    List< List<Pair<scalar> > > cumulativeRaw() const;
+    List< List<Pair<scalar>>> cumulativeRaw() const;
     //- Resets the Distribution by clearing the stored lists.
     //  Leaves the same number of them and the same binWidth.
     void clear();
@@ -110,7 +109,19 @@ Distribution<Type> operator+
   const Distribution<Type>&
 );
 }  // namespace mousse
-#include "distribution_i.hpp"
+
+// Member Functions 
+template<class Type>
+inline const Type& mousse::Distribution<Type>::binWidth() const
+{
+  return binWidth_;
+}
+template<class Type>
+inline const
+mousse::List<mousse::label>& mousse::Distribution<Type>::listStarts() const
+{
+  return listStarts_;
+}
 #ifdef NoRepository
 #   include "distribution.cpp"
 #endif

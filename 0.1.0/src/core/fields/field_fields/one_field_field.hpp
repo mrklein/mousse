@@ -27,5 +27,9 @@ public:
     inline oneField operator[](const label) const;
 };
 }  // namespace mousse
-#   include "one_field_field_i.hpp"
+
+inline mousse::oneField mousse::oneFieldField::operator[](const label) const
+{
+  return oneField();
+}
 #endif

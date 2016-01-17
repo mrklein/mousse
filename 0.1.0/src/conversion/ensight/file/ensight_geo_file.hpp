@@ -14,11 +14,6 @@ class ensightGeoFile
 :
   public ensightFile
 {
-  // Private Member Functions
-    //- Disallow default bitwise assignment
-    void operator=(const ensightGeoFile&);
-    //- Disallow default copy constructor
-    ensightGeoFile(const ensightGeoFile&);
 public:
   // Constructors
     //- Construct from pathname
@@ -27,6 +22,10 @@ public:
       const fileName& pathname,
       IOstream::streamFormat format=IOstream::BINARY
     );
+    //- Disallow default bitwise assignment
+    ensightGeoFile& operator=(const ensightGeoFile&) = delete;
+    //- Disallow default copy constructor
+    ensightGeoFile(const ensightGeoFile&) = delete;
   //- Destructor
   ~ensightGeoFile();
   // Output

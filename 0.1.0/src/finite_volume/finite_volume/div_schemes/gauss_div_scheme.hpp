@@ -19,11 +19,6 @@ class gaussDivScheme
 :
   public fv::divScheme<Type>
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    gaussDivScheme(const gaussDivScheme&);
-    //- Disallow default bitwise assignment
-    void operator=(const gaussDivScheme&);
 public:
   //- Runtime type information
   TYPE_NAME("Gauss");
@@ -31,13 +26,17 @@ public:
     //- Construct null
     gaussDivScheme(const fvMesh& mesh)
     :
-      divScheme<Type>(mesh)
+      divScheme<Type>{mesh}
     {}
     //- Construct from Istream
     gaussDivScheme(const fvMesh& mesh, Istream& is)
     :
-      divScheme<Type>(mesh, is)
+      divScheme<Type>{mesh, is}
     {}
+    //- Disallow default bitwise copy construct
+    gaussDivScheme(const gaussDivScheme&) = delete;
+    //- Disallow default bitwise assignment
+    gaussDivScheme& operator=(const gaussDivScheme&) = delete;
   // Member Functions
     tmp
     <

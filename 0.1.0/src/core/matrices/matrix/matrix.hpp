@@ -8,7 +8,6 @@
 //   dimensions are known and used for subscript bounds checking, etc.
 // SourceFiles
 //   matrix.cpp
-//   matrix_i.hpp
 //   matrix_io.cpp
 
 #ifndef matrix_hpp_

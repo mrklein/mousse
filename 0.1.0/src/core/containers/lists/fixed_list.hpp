@@ -7,7 +7,6 @@
 //   A 1D vector of objects of type \<T\> with a fixed size \<Size\>.
 // SourceFiles
 //   fixed_list.cpp
-//   fixed_list_i.hpp
 //   fixed_list_io.cpp
 
 #ifndef fixed_list_hpp_
@@ -44,7 +43,7 @@ class FixedList
 public:
   //- Hashing function class.
   //  Use Hasher directly for contiguous data. Otherwise hash incrementally.
-  template< class HashT=Hash<T> >
+  template< class HashT=Hash<T>>
   class Hash
   {
   public:
@@ -75,7 +74,7 @@ public:
     //- Construct from Istream.
     FixedList(Istream&);
     //- Clone
-    inline autoPtr< FixedList<T, Size> > clone() const;
+    inline autoPtr< FixedList<T, Size>> clone() const;
   // Member Functions
     // Access
       //- Return the forward circular index, i.e. the next index
@@ -220,7 +219,6 @@ public:
     );
 };
 }  // namespace mousse
-// #include "fixed_list_i.hpp"
 
 // Constructors
 template<class T, unsigned Size>
@@ -275,16 +273,16 @@ inline mousse::FixedList<T, Size>::FixedList(const FixedList<T, Size>& lst)
   }
 }
 template<class T, unsigned Size>
-inline mousse::autoPtr< mousse::FixedList<T, Size> >
+inline mousse::autoPtr< mousse::FixedList<T, Size>>
 mousse::FixedList<T, Size>::clone() const
 {
-  return autoPtr< FixedList<T, Size> >(new FixedList<T, Size>(*this));
+  return autoPtr< FixedList<T, Size>>{new FixedList<T, Size>{*this}};
 }
 // Member Functions
 template<class T, unsigned Size>
 inline const mousse::FixedList<T, Size>& mousse::FixedList<T, Size>::null()
 {
-  return NullObjectRef<FixedList<T, Size> >();
+  return NullObjectRef<FixedList<T, Size>>();
 }
 template<class T, unsigned Size>
 inline mousse::label mousse::FixedList<T, Size>::fcIndex(const label i) const

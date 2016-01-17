@@ -9,9 +9,9 @@
 // SourceFiles
 #ifndef tet_points_hpp_
 #define tet_points_hpp_
-#include "tetrahedron.hpp"
 #include "fixed_list.hpp"
 #include "tree_bound_box.hpp"
+#include "tetrahedron.hpp"
 namespace mousse
 {
 class tetPoints

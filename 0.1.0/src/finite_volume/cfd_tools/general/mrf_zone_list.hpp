@@ -22,19 +22,17 @@ class MRFZoneList
 :
   PtrList<MRFZone>
 {
-private:
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    MRFZoneList(const MRFZoneList&);
-    //- Disallow default bitwise assignment
-    void operator=(const MRFZoneList&);
 protected:
   // Protected data
     //- Reference to the mesh database
     const fvMesh& mesh_;
 public:
   //- Constructor
-  MRFZoneList(const fvMesh& mesh, const dictionary& dict);
+    MRFZoneList(const fvMesh& mesh, const dictionary& dict);
+    //- Disallow default bitwise copy construct
+    MRFZoneList(const MRFZoneList&) = delete;
+    //- Disallow default bitwise assignment
+    MRFZoneList& operator=(const MRFZoneList&) = delete;
   //- Destructor
   ~MRFZoneList();
   // Member Functions

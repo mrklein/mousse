@@ -19,15 +19,14 @@ class extendedEdgeMeshFormat
 :
   public extendedEdgeMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    extendedEdgeMeshFormat(const extendedEdgeMeshFormat&);
-    //- Disallow default bitwise assignment
-    void operator=(const extendedEdgeMeshFormat&);
 public:
   // Constructors
     //- Construct from file name
     extendedEdgeMeshFormat(const fileName&);
+    //- Disallow default bitwise copy construct
+    extendedEdgeMeshFormat(const extendedEdgeMeshFormat&) = delete;
+    //- Disallow default bitwise assignment
+    extendedEdgeMeshFormat& operator=(const extendedEdgeMeshFormat&) = delete;
   //- Destructor
   virtual ~extendedEdgeMeshFormat()
   {}
