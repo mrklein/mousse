@@ -23,46 +23,38 @@ void mousse::writeFaceSet
     set.name()
   );
   ostr<< "DATASET POLYDATA" << std::endl;
-  //------------------------------------------------------------------
-  //
   // Write topology
-  //
-  //------------------------------------------------------------------
   // Construct primitivePatch of faces in faceSet.
-  faceList setFaces(set.size());
-  labelList setFaceLabels(set.size());
+  faceList setFaces{set.size()};
+  labelList setFaceLabels{set.size()};
   label setFaceI = 0;
-  forAllConstIter(faceSet, set, iter)
+  FOR_ALL_CONST_ITER(faceSet, set, iter)
   {
     setFaceLabels[setFaceI] = iter.key();
     setFaces[setFaceI] = faces[iter.key()];
     setFaceI++;
   }
-  primitiveFacePatch fp(setFaces, vMesh.mesh().points());
+  primitiveFacePatch fp{setFaces, vMesh.mesh().points()};
   // Write points and faces as polygons
   ostr<< "POINTS " << fp.nPoints() << " float" << std::endl;
-  DynamicList<floatScalar> ptField(3*fp.nPoints());
+  DynamicList<floatScalar> ptField{3*fp.nPoints()};
   writeFuns::insert(fp.localPoints(), ptField);
   writeFuns::write(ostr, binary, ptField);
   label nFaceVerts = 0;
-  forAll(fp.localFaces(), faceI)
+  FOR_ALL(fp.localFaces(), faceI)
   {
     nFaceVerts += fp.localFaces()[faceI].size() + 1;
   }
   ostr<< "POLYGONS " << fp.size() << ' ' << nFaceVerts << std::endl;
   DynamicList<label> vertLabels(nFaceVerts);
-  forAll(fp.localFaces(), faceI)
+  FOR_ALL(fp.localFaces(), faceI)
   {
     const face& f = fp.localFaces()[faceI];
     vertLabels.append(f.size());
     writeFuns::insert(f, vertLabels);
   }
   writeFuns::write(ostr, binary, vertLabels);
-  //-----------------------------------------------------------------
-  //
   // Write data
-  //
-  //-----------------------------------------------------------------
   // Write faceID
   ostr
     << "CELL_DATA " << fp.size() << std::endl

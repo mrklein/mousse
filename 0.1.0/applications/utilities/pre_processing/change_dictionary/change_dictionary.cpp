@@ -11,20 +11,20 @@
 using namespace mousse;
 namespace mousse
 {
-  defineTemplateTypeNameAndDebug(IOPtrList<entry>, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(IOPtrList<entry>, 0);
 }
 // Extract groupPatch (= shortcut) info from boundary file info
 HashTable<wordList, word> extractPatchGroups(const dictionary& boundaryDict)
 {
   HashTable<wordList, word> groupToPatch;
-  forAllConstIter(dictionary, boundaryDict, iter)
+  FOR_ALL_CONST_ITER(dictionary, boundaryDict, iter)
   {
     const word& patchName = iter().keyword();
     const dictionary& patchDict = iter().dict();
     wordList groups;
     if (patchDict.readIfPresent("inGroups", groups))
     {
-      forAll(groups, i)
+      FOR_ALL(groups, i)
       {
         HashTable<wordList, word>::iterator fndGroup = groupToPatch.find
         (
@@ -106,11 +106,11 @@ labelList findMatches
   {
     // See if patchGroups expand to valid thisKeys
     labelList indices = findStrings(key, shortcutNames);
-    forAll(indices, i)
+    FOR_ALL(indices, i)
     {
       const word& name = shortcutNames[indices[i]];
       const wordList& keys = shortcuts[name];
-      forAll(keys, j)
+      FOR_ALL(keys, j)
       {
         label index = findIndex(thisKeys, keys[j]);
         if (index != -1)
@@ -141,13 +141,13 @@ bool merge
   HashSet<word> thisKeysSet;
   {
     List<keyType> keys = thisDict.keys(false);
-    forAll(keys, i)
+    FOR_ALL(keys, i)
     {
       thisKeysSet.insert(keys[i]);
     }
   }
   // Pass 1. All literal matches
-  forAllConstIter(IDLList<entry>, mergeDict, mergeIter)
+  FOR_ALL_CONST_ITER(IDLList<entry>, mergeDict, mergeIter)
   {
     const keyType& key = mergeIter().keyword();
     if (key[0] == '~')
@@ -202,7 +202,7 @@ bool merge
   {
     // Pick up remaining dictionary entries
     wordList thisKeys(thisKeysSet.toc());
-    forAllConstIter(IDLList<entry>, mergeDict, mergeIter)
+    FOR_ALL_CONST_ITER(IDLList<entry>, mergeDict, mergeIter)
     {
       const keyType& key = mergeIter().keyword();
       if (key[0] == '~')
@@ -220,7 +220,7 @@ bool merge
           )
         );
         // Remove all matches
-        forAll(matches, i)
+        FOR_ALL(matches, i)
         {
           const word& thisKey = thisKeys[matches[i]];
           thisKeysSet.erase(thisKey);
@@ -241,7 +241,7 @@ bool merge
           )
         );
         // Add all matches
-        forAll(matches, i)
+        FOR_ALL(matches, i)
         {
           const word& thisKey = thisKeys[matches[i]];
           entry& thisEntry = const_cast<entry&>
@@ -256,8 +256,7 @@ bool merge
               thisEntry,
               mergeIter(),
               literalRE,
-              HashTable<wordList, word>(0)    // no shortcuts
-                              // at deeper levels
+              HashTable<wordList, word>(0)    // no shortcuts at deeper levels
             )
           )
           {
@@ -271,7 +270,7 @@ bool merge
 }
 int main(int argc, char *argv[])
 {
-  #include "add_dict_option.hpp"
+  #include "add_dict_option.inc"
   argList::addOption
   (
     "instance",
@@ -295,19 +294,19 @@ int main(int argc, char *argv[])
     "disablePatchGroups",
     "disable matching keys to patch groups"
   );
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   // Optionally override controlDict time with -time options
   instantList times = timeSelector::selectIfPresent(runTime, args);
   if (times.size() < 1)
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "No times selected." << exit(FatalError);
   }
   runTime.setTime(times[0], 0);
   word instance = args.optionLookupOrDefault("instance", runTime.timeName());
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   const bool literalRE = args.optionFound("literalRE");
   if (literalRE)
   {
@@ -345,7 +344,7 @@ int main(int argc, char *argv[])
   regIOobject::fileModificationChecking = regIOobject::timeStamp;
   // Get the replacement rules from a dictionary
   const word dictName("changeDictionaryDict");
-  #include "set_system_mesh_dictionary_io.hpp"
+  #include "set_system_mesh_dictionary_io.inc"
   IOdictionary dict(dictIO);
   const dictionary& replaceDicts = dict.subDict("dictionaryReplacement");
   Info<< "Read dictionary " << dict.name()
@@ -359,9 +358,9 @@ int main(int argc, char *argv[])
   const word oldTypeName = IOPtrList<entry>::typeName;
   const_cast<word&>(IOPtrList<entry>::typeName) = word::null;
   IOPtrList<entry> dictList
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "boundary",
       runTime.findInstance
       (
@@ -374,14 +373,14 @@ int main(int argc, char *argv[])
       IOobject::READ_IF_PRESENT,
       IOobject::NO_WRITE,
       false
-    )
-  );
+    }
+  };
   const_cast<word&>(IOPtrList<entry>::typeName) = oldTypeName;
   // Fake type back to what was in field
   const_cast<word&>(dictList.type()) = dictList.headerClassName();
   // Temporary convert to dictionary
   dictionary fieldDict;
-  forAll(dictList, i)
+  FOR_ALL(dictList, i)
   {
     fieldDict.add(dictList[i].keyword(), dictList[i].dict());
   }
@@ -399,8 +398,8 @@ int main(int argc, char *argv[])
     if (patchGroups.size())
     {
       Info<< "Extracted patch groups:" << endl;
-      wordList groups(patchGroups.sortedToc());
-      forAll(groups, i)
+      wordList groups{patchGroups.sortedToc()};
+      FOR_ALL(groups, i)
       {
         Info<< "    group " << groups[i] << " with patches "
           << patchGroups[groups[i]] << endl;
@@ -408,7 +407,7 @@ int main(int argc, char *argv[])
     }
   }
   // Every replacement is a dictionary name and a keyword in this
-  forAllConstIter(dictionary, replaceDicts, fieldIter)
+  FOR_ALL_CONST_ITER(dictionary, replaceDicts, fieldIter)
   {
     const word& fieldName = fieldIter().keyword();
     Info<< "Replacing entries in dictionary " << fieldName << endl;
@@ -428,7 +427,7 @@ int main(int argc, char *argv[])
       // Convert back into dictList
       wordList doneKeys(dictList.size());
       label nEntries = fieldDict.size();
-      forAll(dictList, i)
+      FOR_ALL(dictList, i)
       {
         doneKeys[i] = dictList[i].keyword();
         dictList.set
@@ -446,7 +445,7 @@ int main(int argc, char *argv[])
       // Add remaining entries
       label sz = dictList.size();
       dictList.setSize(nEntries);
-      forAllConstIter(dictionary, fieldDict, iter)
+      FOR_ALL_CONST_ITER(dictionary, fieldDict, iter)
       {
         dictList.set(sz++, iter().clone());
       }
@@ -466,17 +465,17 @@ int main(int argc, char *argv[])
       const word oldTypeName = IOdictionary::typeName;
       const_cast<word&>(IOdictionary::typeName) = word::null;
       IOdictionary fieldDict
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           fieldName,
           instance,
           mesh,
           IOobject::MUST_READ_IF_MODIFIED,
           IOobject::NO_WRITE,
           false
-        )
-      );
+        }
+      };
       const_cast<word&>(IOdictionary::typeName) = oldTypeName;
       // Fake type back to what was in field
       const_cast<word&>(fieldDict.type()) = fieldDict.headerClassName();

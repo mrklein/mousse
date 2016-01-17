@@ -14,7 +14,9 @@
 #include "ofstream.hpp"
 #include "pair.hpp"
 #include "sliding_interface.hpp"
+
 using namespace mousse;
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
@@ -29,10 +31,10 @@ int main(int argc, char *argv[])
     "file",
     "specify alternative dictionary for the blockMesh description"
   );
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
-  const word dictName("blockMeshDict");
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
+  const word dictName{"blockMeshDict"};
   word regionName;
   word regionPath;
   // Check if the region is specified otherwise mesh the default region
@@ -57,16 +59,11 @@ int main(int argc, char *argv[])
   // Check if dictionary is present in the constant directory
   else if
   (
-    exists
-    (
-      runTime.path()/runTime.constant()
-     /regionPath/polyMesh::meshSubDir/dictName
-    )
+    exists(runTime.path()/runTime.constant()
+           /regionPath/polyMesh::meshSubDir/dictName)
   )
   {
-    dictPath =
-      runTime.constant()
-     /regionPath/polyMesh::meshSubDir/dictName;
+    dictPath = runTime.constant()/regionPath/polyMesh::meshSubDir/dictName;
   }
   // Otherwise assume the dictionary is present in the system directory
   else
@@ -74,16 +71,16 @@ int main(int argc, char *argv[])
     dictPath = runTime.system()/regionPath/dictName;
   }
   IOobject meshDictIO
-  (
+  {
     dictPath,
     runTime,
     IOobject::MUST_READ,
     IOobject::NO_WRITE,
     false
-  );
+  };
   if (!meshDictIO.headerOk())
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "Cannot open mesh description file\n    "
       << meshDictIO.objectPath()
       << nl
@@ -92,33 +89,36 @@ int main(int argc, char *argv[])
   Info<< "Creating block mesh from\n    "
     << meshDictIO.objectPath() << endl;
   blockMesh::verbose(true);
-  IOdictionary meshDict(meshDictIO);
-  blockMesh blocks(meshDict, regionName);
+  IOdictionary meshDict{meshDictIO};
+  blockMesh blocks{meshDict, regionName};
   if (args.optionFound("blockTopology"))
   {
+
     // Write mesh as edges.
     {
-      fileName objMeshFile("blockTopology.obj");
-      OFstream str(runTime.path()/objMeshFile);
+      fileName objMeshFile{"blockTopology.obj"};
+      OFstream str{runTime.path()/objMeshFile};
       Info<< nl << "Dumping block structure as Lightwave obj format"
         << " to " << objMeshFile << endl;
       blocks.writeTopology(str);
     }
+
     // Write centres of blocks
     {
-      fileName objCcFile("blockCentres.obj");
-      OFstream str(runTime.path()/objCcFile);
+      fileName objCcFile{"blockCentres.obj"};
+      OFstream str{runTime.path()/objCcFile};
       Info<< nl << "Dumping block centres as Lightwave obj format"
         << " to " << objCcFile << endl;
       const polyMesh& topo = blocks.topology();
       const pointField& cellCentres = topo.cellCentres();
-      forAll(cellCentres, cellI)
+      FOR_ALL(cellCentres, cellI)
       {
         //point cc = b.blockShape().centre(b.points());
         const point& cc = cellCentres[cellI];
         str << "v " << cc.x() << ' ' << cc.y() << ' ' << cc.z() << nl;
       }
     }
+
     Info<< nl << "end" << endl;
     return 0;
   }
@@ -126,13 +126,13 @@ int main(int argc, char *argv[])
   word defaultFacesName = "defaultFaces";
   word defaultFacesType = emptyPolyPatch::typeName;
   polyMesh mesh
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       regionName,
       runTime.constant(),
       runTime
-    ),
+    },
     xferCopy(blocks.points()),           // could we re-use space?
     blocks.cells(),
     blocks.patches(),
@@ -140,15 +140,12 @@ int main(int argc, char *argv[])
     blocks.patchDicts(),
     defaultFacesName,
     defaultFacesType
-  );
+  };
   // Read in a list of dictionaries for the merge patch pairs
   if (meshDict.found("mergePatchPairs"))
   {
-    List<Pair<word> > mergePatchPairs
-    (
-      meshDict.lookup("mergePatchPairs")
-    );
-    #include "merge_patch_pairs.hpp"
+    List<Pair<word>> mergePatchPairs{meshDict.lookup("mergePatchPairs")};
+    #include "merge_patch_pairs.inc"
   }
   else
   {
@@ -161,14 +158,14 @@ int main(int argc, char *argv[])
   {
     Info<< nl << "Adding cell zones" << endl;
     // Map from zoneName to cellZone index
-    HashTable<label> zoneMap(nZones);
+    HashTable<label> zoneMap{nZones};
     // Cells per zone.
-    List<DynamicList<label> > zoneCells(nZones);
+    List<DynamicList<label>> zoneCells{nZones};
     // Running cell counter
     label cellI = 0;
     // Largest zone so far
     label freeZoneI = 0;
-    forAll(blocks, blockI)
+    FOR_ALL(blocks, blockI)
     {
       const block& b = blocks[blockI];
       const labelListList& blockCells = b.cells();
@@ -187,7 +184,7 @@ int main(int argc, char *argv[])
         {
           zoneI = iter();
         }
-        forAll(blockCells, i)
+        FOR_ALL(blockCells, i)
         {
           zoneCells[zoneI].append(cellI++);
         }
@@ -197,18 +194,18 @@ int main(int argc, char *argv[])
         cellI += b.cells().size();
       }
     }
-    List<cellZone*> cz(zoneMap.size());
+    List<cellZone*> cz{zoneMap.size()};
     Info<< nl << "Writing cell zones as cellSets" << endl;
-    forAllConstIter(HashTable<label>, zoneMap, iter)
+    FOR_ALL_CONST_ITER(HashTable<label>, zoneMap, iter)
     {
       label zoneI = iter();
       cz[zoneI] = new cellZone
-      (
+      {
         iter.key(),
         zoneCells[zoneI].shrink(),
         zoneI,
         mesh.cellZones()
-      );
+      };
       // Write as cellSet for ease of processing
       cellSet cset(mesh, iter.key(), zoneCells[zoneI].shrink());
       cset.write();
@@ -224,7 +221,7 @@ int main(int argc, char *argv[])
   mesh.removeFiles();
   if (!mesh.write())
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "Failed writing polyMesh."
       << exit(FatalError);
   }
@@ -244,10 +241,9 @@ int main(int argc, char *argv[])
     Info<< "----------------" << nl
       << "Patches" << nl
       << "----------------" << nl;
-    forAll(patches, patchI)
+    for (const auto& p : patches)
     {
-      const polyPatch& p = patches[patchI];
-      Info<< "  " << "patch " << patchI
+      Info<< "  " << "patch " << p.index()
         << " (start: " << p.start()
         << " size: " << p.size()
         << ") name: " << p.name()

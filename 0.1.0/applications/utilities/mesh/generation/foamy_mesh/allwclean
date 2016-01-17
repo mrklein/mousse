@@ -1,0 +1,11 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+set -x
+
+wclean conformal_voronoi_mesh
+wclean conformal_voronoi_2d_mesh
+wclean foamy_quad_mesh
+wclean foamy_hex_mesh
+wclean foamy_hex_mesh_surface_simplify
+wclean foamy_hex_mesh_background_mesh
+wclean cell_size_and_alignment_grid

@@ -12,24 +12,24 @@ mousse::pointFieldDecomposer::patchFieldDecomposer::patchFieldDecomposer
 )
 :
   pointPatchFieldMapperPatchRef
-  (
+  {
     completeMeshPatch,
     procMeshPatch
-  ),
-  directAddressing_(procMeshPatch.size(), -1),
-  hasUnmapped_(false)
+  },
+  directAddressing_{procMeshPatch.size(), -1},
+  hasUnmapped_{false}
 {
   // Create the inverse-addressing of the patch point labels.
-  labelList pointMap(completeMeshPatch.boundaryMesh().mesh().size(), -1);
+  labelList pointMap{completeMeshPatch.boundaryMesh().mesh().size(), -1};
   const labelList& completeMeshPatchPoints = completeMeshPatch.meshPoints();
-  forAll(completeMeshPatchPoints, pointi)
+  FOR_ALL(completeMeshPatchPoints, pointi)
   {
     pointMap[completeMeshPatchPoints[pointi]] = pointi;
   }
   // Use the inverse point addressing to create the addressing table for this
   // patch
   const labelList& procMeshPatchPoints = procMeshPatch.meshPoints();
-  forAll(procMeshPatchPoints, pointi)
+  FOR_ALL(procMeshPatchPoints, pointi)
   {
     directAddressing_[pointi] =
       pointMap[directAddr[procMeshPatchPoints[pointi]]];
@@ -38,11 +38,12 @@ mousse::pointFieldDecomposer::patchFieldDecomposer::patchFieldDecomposer
   if (directAddressing_.size() && min(directAddressing_) < 0)
   {
     hasUnmapped_ = true;
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "pointFieldDecomposer::patchFieldDecomposer()"
-    )   << "Incomplete patch point addressing"
-      << abort(FatalError);
+    )
+    << "Incomplete patch point addressing"
+    << abort(FatalError);
   }
 }
 mousse::pointFieldDecomposer::pointFieldDecomposer
@@ -53,17 +54,17 @@ mousse::pointFieldDecomposer::pointFieldDecomposer
   const labelList& boundaryAddressing
 )
 :
-  completeMesh_(completeMesh),
-  procMesh_(procMesh),
-  pointAddressing_(pointAddressing),
-  boundaryAddressing_(boundaryAddressing),
+  completeMesh_{completeMesh},
+  procMesh_{procMesh},
+  pointAddressing_{pointAddressing},
+  boundaryAddressing_{boundaryAddressing},
   patchFieldDecomposerPtrs_
-  (
+  {
     procMesh_.boundary().size(),
     static_cast<patchFieldDecomposer*>(NULL)
-  )
+  }
 {
-  forAll(boundaryAddressing_, patchi)
+  FOR_ALL(boundaryAddressing_, patchi)
   {
     if (boundaryAddressing_[patchi] >= 0)
     {
@@ -79,7 +80,7 @@ mousse::pointFieldDecomposer::pointFieldDecomposer
 // Destructor 
 mousse::pointFieldDecomposer::~pointFieldDecomposer()
 {
-  forAll(patchFieldDecomposerPtrs_, patchi)
+  FOR_ALL(patchFieldDecomposerPtrs_, patchi)
   {
     if (patchFieldDecomposerPtrs_[patchi])
     {

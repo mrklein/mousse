@@ -14,12 +14,12 @@ mousse::patchWriter::patchWriter
   const labelList& patchIDs
 )
 :
-  vMesh_(vMesh),
-  binary_(binary),
-  nearCellValue_(nearCellValue),
-  fName_(fName),
-  patchIDs_(patchIDs),
-  os_(fName.c_str())
+  vMesh_{vMesh},
+  binary_{binary},
+  nearCellValue_{nearCellValue},
+  fName_{fName},
+  patchIDs_{patchIDs},
+  os_{fName.c_str()}
 {
   const fvMesh& mesh = vMesh_.mesh();
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
@@ -37,31 +37,31 @@ mousse::patchWriter::patchWriter
   nPoints_ = 0;
   nFaces_ = 0;
   label nFaceVerts = 0;
-  forAll(patchIDs_, i)
+  FOR_ALL(patchIDs_, i)
   {
     const polyPatch& pp = patches[patchIDs_[i]];
     nPoints_ += pp.nPoints();
     nFaces_ += pp.size();
-    forAll(pp, faceI)
+    FOR_ALL(pp, faceI)
     {
       nFaceVerts += pp[faceI].size() + 1;
     }
   }
   os_ << "POINTS " << nPoints_ << " float" << std::endl;
-  DynamicList<floatScalar> ptField(3*nPoints_);
-  forAll(patchIDs_, i)
+  DynamicList<floatScalar> ptField{3*nPoints_};
+  FOR_ALL(patchIDs_, i)
   {
     const polyPatch& pp = patches[patchIDs_[i]];
     writeFuns::insert(pp.localPoints(), ptField);
   }
   writeFuns::write(os_, binary_, ptField);
   os_ << "POLYGONS " << nFaces_ << ' ' << nFaceVerts << std::endl;
-  DynamicList<label> vertLabels(nFaceVerts);
+  DynamicList<label> vertLabels{nFaceVerts};
   label offset = 0;
-  forAll(patchIDs_, i)
+  FOR_ALL(patchIDs_, i)
   {
     const polyPatch& pp = patches[patchIDs_[i]];
-    forAll(pp, faceI)
+    FOR_ALL(pp, faceI)
     {
       const face& f = pp.localFaces()[faceI];
       vertLabels.append(f.size());
@@ -75,9 +75,9 @@ mousse::patchWriter::patchWriter
 void mousse::patchWriter::writePatchIDs()
 {
   const fvMesh& mesh = vMesh_.mesh();
-  DynamicList<floatScalar> fField(nFaces_);
+  DynamicList<floatScalar> fField{nFaces_};
   os_ << "patchID 1 " << nFaces_ << " float" << std::endl;
-  forAll(patchIDs_, i)
+  FOR_ALL(patchIDs_, i)
   {
     label patchI = patchIDs_[i];
     const polyPatch& pp = mesh.boundaryMesh()[patchI];

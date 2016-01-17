@@ -17,25 +17,17 @@ mousse::label mousse::findOppositeWedge
 {
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   scalar wppCosAngle = wpp.cosAngle();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
-    if
-    (
-      patchI != wpp.index()
-    && patches[patchI].size()
-    && isA<wedgePolyPatch>(patches[patchI])
-    )
+    if (patchI != wpp.index() && patches[patchI].size()
+        && isA<wedgePolyPatch>(patches[patchI]))
     {
       const wedgePolyPatch& pp =
         refCast<const wedgePolyPatch>(patches[patchI]);
       // Calculate (cos of) angle to wpp (not pp!) centre normal
       scalar ppCosAngle = wpp.centreNormal() & pp.n();
-      if
-      (
-        pp.size() == wpp.size()
-      && mag(pp.axis() & wpp.axis()) >= (1-1e-3)
-      && mag(ppCosAngle - wppCosAngle) >= 1e-3
-      )
+      if (pp.size() == wpp.size() && mag(pp.axis() & wpp.axis()) >= (1-1e-3)
+          && mag(ppCosAngle - wppCosAngle) >= 1e-3)
       {
         return patchI;
       }
@@ -56,7 +48,7 @@ bool mousse::checkWedges
   const pointField& p = mesh.points();
   const faceList& fcs = mesh.faces();
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (patches[patchI].size() && isA<wedgePolyPatch>(patches[patchI]))
     {
@@ -96,10 +88,10 @@ bool mousse::checkWedges
         return true;
       }
       // Mark edges on wedgePatches
-      forAll(pp, i)
+      FOR_ALL(pp, i)
       {
         const face& f = pp[i];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           label p0 = f[fp];
           label p1 = f.nextLabel(fp);
@@ -108,7 +100,7 @@ bool mousse::checkWedges
       }
       // Check that wedge patch is flat
       const point& p0 = p[pp.meshPoints()[0]];
-      forAll(pp.meshPoints(), i)
+      FOR_ALL(pp.meshPoints(), i)
       {
         const point& pt = p[pp.meshPoints()[i]];
         scalar d = mag((pt - p0) & pp.n());
@@ -128,10 +120,10 @@ bool mousse::checkWedges
   }
   // Check all non-wedge faces
   label nEdgesInError = 0;
-  forAll(fcs, faceI)
+  FOR_ALL(fcs, faceI)
   {
     const face& f = fcs[faceI];
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label p0 = f[fp];
       label p1 = f.nextLabel(fp);
@@ -197,7 +189,7 @@ bool mousse::checkWedges
     if (setPtr)
     {
       setPtr->resize(2*nEdgesInError);
-      forAllConstIter(EdgeMap<label>, edgesInError, iter)
+      FOR_ALL_CONST_ITER(EdgeMap<label>, edgesInError, iter)
       {
         if (iter() >= 0)
         {
@@ -234,7 +226,7 @@ namespace mousse
       // Each element of pts is all the points in the face. Convert into
       // lists of size cpp to transform.
       List<pointField> newPts(pts.size());
-      forAll(pts, faceI)
+      FOR_ALL(pts, faceI)
       {
         newPts[faceI].setSize(pts[faceI].size());
       }
@@ -244,7 +236,7 @@ namespace mousse
         label n = 0;
         // Extract for every face the i'th position
         pointField ptsAtIndex(pts.size(), vector::zero);
-        forAll(cpp, faceI)
+        FOR_ALL(cpp, faceI)
         {
           const pointField& facePts = pts[faceI];
           if (facePts.size() > index)
@@ -261,7 +253,7 @@ namespace mousse
         // the position of the i'th vertex. Transform.
         cpp.transformPosition(ptsAtIndex);
         // Extract back from ptsAtIndex into newPts
-        forAll(cpp, faceI)
+        FOR_ALL(cpp, faceI)
         {
           pointField& facePts = newPts[faceI];
           if (facePts.size() > index)
@@ -289,7 +281,7 @@ bool mousse::checkCoupledPoints
   //pointField nbrZeroPoint(fcs.size()-mesh.nInternalFaces(), vector::max);
   List<pointField> nbrPoints(fcs.size() - mesh.nInternalFaces());
   // Exchange zero point
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (patches[patchI].coupled())
     {
@@ -297,12 +289,12 @@ bool mousse::checkCoupledPoints
       (
         patches[patchI]
       );
-      forAll(cpp, i)
+      FOR_ALL(cpp, i)
       {
         label bFaceI = cpp.start() + i - mesh.nInternalFaces();
         const face& f = cpp[i];
         nbrPoints[bFaceI].setSize(f.size());
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           const point& p0 = p[f[fp]];
           nbrPoints[bFaceI][fp] = p0;
@@ -321,7 +313,7 @@ bool mousse::checkCoupledPoints
   label nErrorFaces = 0;
   scalar avgMismatch = 0;
   label nCoupledPoints = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (patches[patchI].coupled())
     {
@@ -339,25 +331,26 @@ bool mousse::checkCoupledPoints
             cpp.faceCentres()
           )
         );
-        forAll(cpp, i)
+        FOR_ALL(cpp, i)
         {
           label bFaceI = cpp.start() + i - mesh.nInternalFaces();
           const face& f = cpp[i];
           if (f.size() != nbrPoints[bFaceI].size())
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "mousse::checkCoupledPoints\n"
               "(\n"
               "   const polyMesh&, const bool, labelHashSet*\n"
               ")\n"
-            )   << "Local face size : " << f.size()
-              << " does not equal neighbour face size : "
-              << nbrPoints[bFaceI].size()
-              << abort(FatalError);
+            )
+            << "Local face size : " << f.size()
+            << " does not equal neighbour face size : "
+            << nbrPoints[bFaceI].size()
+            << abort(FatalError);
           }
           label fp = 0;
-          forAll(f, j)
+          FOR_ALL(f, j)
           {
             const point& p0 = p[f[fp]];
             scalar d = mag(p0 - nbrPoints[bFaceI][j]);

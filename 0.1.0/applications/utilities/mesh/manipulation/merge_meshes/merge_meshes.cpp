@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     "merge two meshes"
   );
   argList::noParallel();
-  #include "add_overwrite_option.hpp"
+  #include "add_overwrite_option.inc"
   argList::validArgs.append("masterCase");
   argList::addOption
   (
@@ -63,26 +63,26 @@ int main(int argc, char *argv[])
   Info<< "Reading master mesh for time = " << runTimeMaster.timeName() << nl;
   Info<< "Create mesh\n" << endl;
   mergePolyMesh masterMesh
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       masterRegion,
       runTimeMaster.timeName(),
       runTimeMaster
-    )
-  );
+    }
+  };
   const word oldInstance = masterMesh.pointsInstance();
   Info<< "Reading mesh to add for time = " << runTimeToAdd.timeName() << nl;
   Info<< "Create mesh\n" << endl;
   polyMesh meshToAdd
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       addRegion,
       runTimeToAdd.timeName(),
       runTimeToAdd
-    )
-  );
+    }
+  };
   if (!overwrite)
   {
     runTimeMaster++;

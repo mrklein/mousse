@@ -25,9 +25,18 @@ bool inFileNameList
   const word& name
 )
 {
-  forAll(nameList, i)
+#if 0
+  FOR_ALL(nameList, i)
   {
     if (nameList[i] == name)
+    {
+      return true;
+    }
+  }
+#endif
+  for(const auto& n : nameList)
+  {
+    if (n == name)
     {
       return true;
     }
@@ -37,7 +46,7 @@ bool inFileNameList
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
-  #include "add_region_option.hpp"
+  #include "add_region_option.inc"
   argList::addBoolOption
   (
     "ascii",
@@ -78,13 +87,13 @@ int main(int argc, char *argv[])
     "word",
     "specify cellZone to write"
   );
-  #include "set_root_case.hpp"
+  #include "set_root_case.inc"
   // Check options
   const bool binary = !args.optionFound("ascii");
   const bool nodeValues = args.optionFound("nodeValues");
-  #include "create_time.hpp"
+  #include "create_time.inc"
   instantList Times = timeSelector::select0(runTime, args);
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   // Mesh instance (region0 gets filtered out)
   fileName regionPrefix = "";
   if (regionName != polyMesh::defaultRegion)
@@ -121,10 +130,10 @@ int main(int argc, char *argv[])
     Info<< nl << "write case: " << caseFileName.c_str() << endl;
     // the case file is always ASCII
     ensightCaseFilePtr = new OFstream
-    (
+    {
       ensightDir/caseFileName,
       IOstream::ASCII
-    );
+    };
     *ensightCaseFilePtr
       << "FORMAT" << nl
       << "type: ensight gold" << nl << nl;
@@ -163,7 +172,7 @@ int main(int argc, char *argv[])
     meshSubsetter.setLargeCellSubset(c0, 0);
   }
   ensightMesh eMesh
-  (
+  {
     (
       meshSubsetter.hasSubMesh()
      ? meshSubsetter.subMesh()
@@ -175,11 +184,11 @@ int main(int argc, char *argv[])
     selectedZones,
     zonePatterns,
     binary
-  );
+  };
   // Set Time to the last time before looking for the lagrangian objects
   runTime.setTime(Times.last(), Times.size()-1);
-  IOobjectList objects(mesh, runTime.timeName());
-  #include "check_mesh_moving.hpp"
+  IOobjectList objects{mesh, runTime.timeName()};
+  #include "check_mesh_moving.inc"
   if (meshMoving)
   {
     Info<< "Detected a moving mesh (multiple polyMesh/points files)."
@@ -201,7 +210,7 @@ int main(int argc, char *argv[])
   }
   // Identify if lagrangian data exists at each time, and add clouds
   // to the 'allCloudNames' hash set
-  forAll(Times, timeI)
+  FOR_ALL(Times, timeI)
   {
     runTime.setTime(Times[timeI], timeI);
     fileNameList cloudDirs = readDir
@@ -209,14 +218,14 @@ int main(int argc, char *argv[])
       runTime.timePath()/regionPrefix/cloud::prefix,
       fileName::DIRECTORY
     );
-    forAll(cloudDirs, cloudI)
+    FOR_ALL(cloudDirs, cloudI)
     {
       IOobjectList cloudObjs
-      (
+      {
         mesh,
         runTime.timeName(),
         cloud::prefix/cloudDirs[cloudI]
-      );
+      };
       IOobject* positionsPtr = cloudObjs.lookup(word("positions"));
       if (positionsPtr)
       {
@@ -224,8 +233,8 @@ int main(int argc, char *argv[])
       }
     }
   }
-  HashTable<HashTable<word> > allCloudFields;
-  forAllConstIter(wordHashSet, allCloudNames, cloudIter)
+  HashTable<HashTable<word>> allCloudFields;
+  FOR_ALL_CONST_ITER(wordHashSet, allCloudNames, cloudIter)
   {
     // Add the name of the cloud(s) to the case file header
     if (Pstream::master())
@@ -242,20 +251,20 @@ int main(int argc, char *argv[])
     // Create a new hash table for each cloud
     allCloudFields.insert(cloudIter.key(), HashTable<word>());
     // Identify the new cloud in the hash table
-    HashTable<HashTable<word> >::iterator newCloudIter =
+    HashTable<HashTable<word>>::iterator newCloudIter =
       allCloudFields.find(cloudIter.key());
     // Loop over all times to build list of fields and field types
     // for each cloud
-    forAll(Times, timeI)
+    FOR_ALL(Times, timeI)
     {
       runTime.setTime(Times[timeI], timeI);
       IOobjectList cloudObjs
-      (
+      {
         mesh,
         runTime.timeName(),
         cloud::prefix/cloudIter.key()
-      );
-      forAllConstIter(IOobjectList, cloudObjs, fieldIter)
+      };
+      FOR_ALL_CONST_ITER(IOobjectList, cloudObjs, fieldIter)
       {
         const IOobject obj = *fieldIter();
         if (obj.name() != "positions")
@@ -271,7 +280,7 @@ int main(int argc, char *argv[])
     }
   }
   label nTimeSteps = 0;
-  forAll(Times, timeIndex)
+  FOR_ALL(Times, timeIndex)
   {
     nTimeSteps++;
     runTime.setTime(Times[timeIndex], timeIndex);
@@ -315,7 +324,7 @@ int main(int argc, char *argv[])
     for (label i=0; i<nVolFieldTypes; i++)
     {
       wordList fieldNames = objects.names(volFieldTypes[i]);
-      forAll(fieldNames, j)
+      FOR_ALL(fieldNames, j)
       {
         const word& fieldName = fieldNames[j];
         // Check if the field has to be exported
@@ -326,19 +335,19 @@ int main(int argc, char *argv[])
             continue;
           }
         }
-        #include "check_data.hpp"
+        #include "check_data.inc"
         if (!variableGood)
         {
           continue;
         }
         IOobject fieldObject
-        (
+        {
           fieldName,
           mesh.time().timeName(),
           mesh,
           IOobject::MUST_READ,
           IOobject::NO_WRITE
-        );
+        };
         if (volFieldTypes[i] == volScalarField::typeName)
         {
           volScalarField vf(fieldObject, mesh);
@@ -418,7 +427,7 @@ int main(int argc, char *argv[])
     }
     // Cloud field data output
     // ~~~~~~~~~~~~~~~~~~~~~~~
-    forAllConstIter(HashTable<HashTable<word> >, allCloudFields, cloudIter)
+    FOR_ALL_CONST_ITER(HashTable<HashTable<word>>, allCloudFields, cloudIter)
     {
       const word& cloudName = cloudIter.key();
       fileNameList currentCloudDirs = readDir
@@ -435,18 +444,18 @@ int main(int argc, char *argv[])
         cloudName,
         cloudExists
       );
-      forAllConstIter(HashTable<word>, cloudIter(), fieldIter)
+      FOR_ALL_CONST_ITER(HashTable<word>, cloudIter(), fieldIter)
       {
         const word& fieldName = fieldIter.key();
         const word& fieldType = fieldIter();
         IOobject fieldObject
-        (
+        {
           fieldName,
           mesh.time().timeName(),
           cloud::prefix/cloudName,
           mesh,
           IOobject::MUST_READ
-        );
+        };
         bool fieldExists = fieldObject.headerOk();
         if (fieldType == scalarIOField::typeName)
         {
@@ -482,7 +491,7 @@ int main(int argc, char *argv[])
       }
     }
   }
-  #include "ensight_case_tail.hpp"
+  #include "ensight_case_tail.inc"
   if (Pstream::master())
   {
     delete ensightCaseFilePtr;

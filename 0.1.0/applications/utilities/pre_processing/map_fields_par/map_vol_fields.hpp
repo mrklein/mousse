@@ -22,7 +22,7 @@ void MapVolFields
   const fvMesh& meshSource = static_cast<const fvMesh&>(interp.srcRegion());
   const fvMesh& meshTarget = static_cast<const fvMesh&>(interp.tgtRegion());
   IOobjectList fields = objects.lookupClass(fieldType::typeName);
-  forAllIter(IOobjectList, fields, fieldIter)
+  FOR_ALL_ITER(IOobjectList, fields, fieldIter)
   {
     const word& fieldName = fieldIter()->name();
     if (selectedFields.empty() || selectedFields.found(fieldName))

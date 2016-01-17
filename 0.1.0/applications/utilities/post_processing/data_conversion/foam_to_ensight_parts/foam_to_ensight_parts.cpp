@@ -64,8 +64,8 @@ int main(int argc, char *argv[])
   cloudFieldTypes.insert(vectorIOField::typeName);
   cloudFieldTypes.insert(tensorIOField::typeName);
   const char* geometryName = "geometry";
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   // get times list
   instantList timeDirs = timeSelector::select0(runTime, args);
   // default to binary output, unless otherwise specified
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
   }
   mkDir(ensightDir);
   mkDir(dataDir);
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   // Mesh instance (region0 gets filtered out)
   fileName regionPrefix;
   if (regionName != polyMesh::defaultRegion)
@@ -120,8 +120,8 @@ int main(int argc, char *argv[])
       << "// summary of ensight parts" << nl << nl;
     partsList.writeSummary(partsInfoFile);
   }
-  #include "check_has_moving_mesh.hpp"
-  #include "find_fields.hpp"
+  #include "check_has_moving_mesh.inc"
+  #include "find_fields.inc"
   if (hasMovingMesh && optNoMesh)
   {
     Info<< "mesh is moving: ignoring '-noMesh' option" << endl;
@@ -132,16 +132,16 @@ int main(int argc, char *argv[])
   // Track the time indices used by the volume fields
   DynamicList<label> fieldTimesUsed;
   // Track the time indices used by each cloud
-  HashTable<DynamicList<label> > cloudTimesUsed;
+  HashTable<DynamicList<label>> cloudTimesUsed;
   // Create a new DynamicList for each cloud
-  forAllConstIter(HashTable<HashTable<word> >, cloudFields, cloudIter)
+  FOR_ALL_CONST_ITER(HashTable<HashTable<word>>, cloudFields, cloudIter)
   {
     cloudTimesUsed.insert(cloudIter.key(), DynamicList<label>());
   }
-  forAll(timeDirs, timeI)
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
-    #include "get_time_index.hpp"
+    #include "get_time_index.inc"
     // remember the time index
     fieldTimesUsed.append(timeIndex);
     // the data/ITER subdirectory must exist
@@ -149,12 +149,12 @@ int main(int argc, char *argv[])
     mkDir(dataDir/subDir);
     // place a timestamp in the directory for future reference
     {
-      OFstream timeStamp(dataDir/subDir/"time");
+      OFstream timeStamp{dataDir/subDir/"time"};
       timeStamp
         << "#   timestep time" << nl
         << subDir.c_str() << " " << runTime.timeName() << nl;
     }
-    #include "move_mesh.hpp"
+    #include "move_mesh.inc"
     if (timeI == 0 || mesh.moving())
     {
       if (mesh.moving())
@@ -174,18 +174,18 @@ int main(int argc, char *argv[])
       }
     }
     Info<< "write volume field (" << flush;
-    forAllConstIter(HashTable<word>, volumeFields, fieldIter)
+    FOR_ALL_CONST_ITER(HashTable<word>, volumeFields, fieldIter)
     {
       const word& fieldName = fieldIter.key();
       const word& fieldType = fieldIter();
       IOobject fieldObject
-      (
+      {
         fieldName,
         mesh.time().timeName(),
         mesh,
         IOobject::MUST_READ,
         IOobject::NO_WRITE
-      );
+      };
       if (fieldType == volScalarField::typeName)
       {
         ensightVolField<scalar>
@@ -249,7 +249,7 @@ int main(int argc, char *argv[])
     }
     Info<< " )" << endl;
     // check for clouds
-    forAllConstIter(HashTable<HashTable<word> >, cloudFields, cloudIter)
+    FOR_ALL_CONST_ITER(HashTable<HashTable<word> >, cloudFields, cloudIter)
     {
       const word& cloudName = cloudIter.key();
       if
@@ -264,11 +264,11 @@ int main(int argc, char *argv[])
         continue;
       }
       IOobjectList cloudObjs
-      (
+      {
         mesh,
         runTime.timeName(),
         cloud::prefix/cloudName
-      );
+      };
       // check that the positions field is present for this time
       IOobject* positionPtr = cloudObjs.lookup(word("positions"));
       if (positionPtr != NULL)
@@ -287,7 +287,7 @@ int main(int argc, char *argv[])
         continue;
       }
       Info<< "write " << cloudName << " (" << flush;
-      forAllConstIter(HashTable<word>, cloudIter(), fieldIter)
+      FOR_ALL_CONST_ITER(HashTable<word>, cloudIter(), fieldIter)
       {
         const word& fieldName = fieldIter.key();
         const word& fieldType = fieldIter();
@@ -295,8 +295,7 @@ int main(int argc, char *argv[])
         if (!fieldObject)
         {
           Info<< "missing "
-            << runTime.timeName()/cloud::prefix/cloudName
-            / fieldName
+            << runTime.timeName()/cloud::prefix/cloudName/fieldName
             << endl;
           continue;
         }
@@ -339,7 +338,7 @@ int main(int argc, char *argv[])
       cloudTimesUsed[cloudName].append(timeIndex);
     }
   }
-  #include "ensight_output_case.hpp"
+  #include "ensight_output_case.inc"
   Info<< "\nEnd\n"<< endl;
   return 0;
 }

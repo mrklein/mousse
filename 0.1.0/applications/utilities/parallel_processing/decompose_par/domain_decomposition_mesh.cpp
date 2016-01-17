@@ -18,8 +18,8 @@ void mousse::domainDecomposition::addInterProcFace
   const label facei,
   const label ownerProc,
   const label nbrProc,
-  List<Map<label> >& nbrToInterPatch,
-  List<DynamicList<DynamicList<label> > >& interPatchFaces
+  List<Map<label>>& nbrToInterPatch,
+  List<DynamicList<DynamicList<label>>>& interPatchFaces
 ) const
 {
   Map<label>::iterator patchIter = nbrToInterPatch[ownerProc].find(nbrProc);
@@ -79,7 +79,7 @@ void mousse::domainDecomposition::decomposeMesh()
   // it belongs to both processors.
   procFaceAddressing_.setSize(nProcs_);
   // Internal faces
-  forAll(neighbour, facei)
+  FOR_ALL(neighbour, facei)
   {
     if (cellToProc_[owner[facei]] == cellToProc_[neighbour[facei]])
     {
@@ -89,15 +89,15 @@ void mousse::domainDecomposition::decomposeMesh()
   }
   // for all processors, set the size of start index and patch size
   // lists to the number of patches in the mesh
-  forAll(procPatchSize_, procI)
+  FOR_ALL(procPatchSize_, procI)
   {
     procPatchSize_[procI].setSize(patches.size());
     procPatchStartIndex_[procI].setSize(patches.size());
   }
-  forAll(patches, patchi)
+  FOR_ALL(patches, patchi)
   {
     // Reset size and start index for all processors
-    forAll(procPatchSize_, procI)
+    FOR_ALL(procPatchSize_, procI)
     {
       procPatchSize_[procI][patchi] = 0;
       procPatchStartIndex_[procI][patchi] =
@@ -110,7 +110,7 @@ void mousse::domainDecomposition::decomposeMesh()
       // next to the face lives
       const labelUList& patchFaceCells =
         patches[patchi].faceCells();
-      forAll(patchFaceCells, facei)
+      FOR_ALL(patchFaceCells, facei)
       {
         const label curProc = cellToProc_[patchFaceCells[facei]];
         // add the face without turning index
@@ -129,7 +129,7 @@ void mousse::domainDecomposition::decomposeMesh()
       const labelUList& patchFaceCells = pp.faceCells();
       const labelUList& nbrPatchFaceCells =
         pp.neighbPatch().faceCells();
-      forAll(patchFaceCells, facei)
+      FOR_ALL(patchFaceCells, facei)
       {
         const label curProc = cellToProc_[patchFaceCells[facei]];
         const label nbrProc = cellToProc_[nbrPatchFaceCells[facei]];
@@ -146,11 +146,11 @@ void mousse::domainDecomposition::decomposeMesh()
   // Done internal bits of the new mesh and the ordinary patches.
   // Per processor, from neighbour processor to the inter-processor patch
   // that communicates with that neighbour
-  List<Map<label> > procNbrToInterPatch(nProcs_);
+  List<Map<label>> procNbrToInterPatch(nProcs_);
   // Per processor the faces per inter-processor patch
-  List<DynamicList<DynamicList<label> > > interPatchFaces(nProcs_);
+  List<DynamicList<DynamicList<label>>> interPatchFaces(nProcs_);
   // Processor boundaries from internal faces
-  forAll(neighbour, facei)
+  FOR_ALL(neighbour, facei)
   {
     label ownerProc = cellToProc_[owner[facei]];
     label nbrProc = cellToProc_[neighbour[facei]];
@@ -171,7 +171,7 @@ void mousse::domainDecomposition::decomposeMesh()
   // originating from internal faces this is always -1.
   List<labelListList> subPatchIDs(nProcs_);
   List<labelListList> subPatchStarts(nProcs_);
-  forAll(interPatchFaces, procI)
+  FOR_ALL(interPatchFaces, procI)
   {
     label nInterfaces = interPatchFaces[procI].size();
     subPatchIDs[procI].setSize(nInterfaces, labelList(1, label(-1)));
@@ -241,7 +241,7 @@ void mousse::domainDecomposition::decomposeMesh()
   );
   // Sort inter-proc patch by neighbour
   labelList order;
-  forAll(procNbrToInterPatch, procI)
+  FOR_ALL(procNbrToInterPatch, procI)
   {
     label nInterfaces = procNbrToInterPatch[procI].size();
     procNeighbourProcessors_[procI].setSize(nInterfaces);
@@ -254,9 +254,9 @@ void mousse::domainDecomposition::decomposeMesh()
     const Map<label>& curNbrToInterPatch = procNbrToInterPatch[procI];
     labelList nbrs = curNbrToInterPatch.toc();
     sortedOrder(nbrs, order);
-    DynamicList<DynamicList<label> >& curInterPatchFaces =
+    DynamicList<DynamicList<label>>& curInterPatchFaces =
       interPatchFaces[procI];
-    forAll(nbrs, i)
+    FOR_ALL(nbrs, i)
     {
       const label nbrProc = nbrs[i];
       const label interPatch = curNbrToInterPatch[nbrProc];
@@ -292,7 +292,7 @@ void mousse::domainDecomposition::decomposeMesh()
       // And add all the face labels for interPatch
       DynamicList<label>& interPatchFaces =
         curInterPatchFaces[interPatch];
-      forAll(interPatchFaces, j)
+      FOR_ALL(interPatchFaces, j)
       {
         procFaceAddressing_[procI].append(interPatchFaces[j]);
       }
@@ -303,7 +303,7 @@ void mousse::domainDecomposition::decomposeMesh()
   }
 ////XXXXXXX
 //// Print a bit
-//    forAll(procPatchStartIndex_, procI)
+//    FOR_ALL(procPatchStartIndex_, procI)
 //    {
 //        Info<< "Processor:" << procI << endl;
 //
@@ -312,7 +312,7 @@ void mousse::domainDecomposition::decomposeMesh()
 //
 //        const labelList& curProcPatchStartIndex = procPatchStartIndex_[procI];
 //
-//        forAll(curProcPatchStartIndex, patchI)
+//        FOR_ALL(curProcPatchStartIndex, patchI)
 //        {
 //            Info<< "    patch:" << patchI
 //                << "\tstart:" << curProcPatchStartIndex[patchI]
@@ -322,11 +322,11 @@ void mousse::domainDecomposition::decomposeMesh()
 //    }
 //    Info<< endl;
 //
-//    forAll(procNeighbourProcessors_, procI)
+//    FOR_ALL(procNeighbourProcessors_, procI)
 //    {
 //        Info<< "Processor " << procI << endl;
 //
-//        forAll(procNeighbourProcessors_[procI], i)
+//        FOR_ALL(procNeighbourProcessors_[procI], i)
 //        {
 //            Info<< "    nbr:" << procNeighbourProcessors_[procI][i] << endl;
 //            Info<< "    size:" << procProcessorPatchSize_[procI][i] << endl;
@@ -336,7 +336,7 @@ void mousse::domainDecomposition::decomposeMesh()
 //    }
 //    Info<< endl;
 //
-//    forAll(procFaceAddressing_, procI)
+//    FOR_ALL(procFaceAddressing_, procI)
 //    {
 //        Info<< "Processor:" << procI << endl;
 //
@@ -347,16 +347,16 @@ void mousse::domainDecomposition::decomposeMesh()
   // For every face, loop through the list of points and mark the point as
   // used for the processor. Collect the list of used points for the
   // processor.
-  forAll(procPointAddressing_, procI)
+  FOR_ALL(procPointAddressing_, procI)
   {
     boolList pointLabels(nPoints(), false);
     // Get reference to list of used faces
     const labelList& procFaceLabels = procFaceAddressing_[procI];
-    forAll(procFaceLabels, facei)
+    FOR_ALL(procFaceLabels, facei)
     {
       // Because of the turning index, some labels may be negative
       const labelList& facePoints = fcs[mag(procFaceLabels[facei]) - 1];
-      forAll(facePoints, pointi)
+      FOR_ALL(facePoints, pointi)
       {
         // Mark the point as used
         pointLabels[facePoints[pointi]] = true;
@@ -366,7 +366,7 @@ void mousse::domainDecomposition::decomposeMesh()
     labelList& procPointLabels = procPointAddressing_[procI];
     procPointLabels.setSize(pointLabels.size());
     label nUsedPoints = 0;
-    forAll(pointLabels, pointi)
+    FOR_ALL(pointLabels, pointi)
     {
       if (pointLabels[pointi])
       {

@@ -16,11 +16,11 @@ mousse::lagrangianWriter::lagrangianWriter
   const bool dummyCloud
 )
 :
-  vMesh_(vMesh),
-  binary_(binary),
-  fName_(fName),
-  cloudName_(cloudName),
-  os_(fName.c_str())
+  vMesh_{vMesh},
+  binary_{binary},
+  fName_{fName},
+  cloudName_{cloudName},
+  os_{fName.c_str()}
 {
   const fvMesh& mesh = vMesh_.mesh();
   // Write header
@@ -37,7 +37,7 @@ mousse::lagrangianWriter::lagrangianWriter
     nParcels_ = parcels.size();
     os_ << "POINTS " << nParcels_ << " float" << std::endl;
     DynamicList<floatScalar> partField(3*parcels.size());
-    forAllConstIter(Cloud<passiveParticle>, parcels, elmnt)
+    FOR_ALL_CONST_ITER(Cloud<passiveParticle>, parcels, elmnt)
     {
       writeFuns::insert(elmnt().position(), partField);
     }

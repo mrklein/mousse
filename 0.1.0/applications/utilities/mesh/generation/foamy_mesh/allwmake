@@ -1,0 +1,9 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wmake libso conformal_voronoi_mesh
+wmake libso conformal_voronoi_2d_mesh
+wmake foamy_quad_mesh
+wmake foamy_hex_mesh
+

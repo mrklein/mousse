@@ -1,0 +1,3 @@
+foamy_hex_mesh.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-foamy-hex-mesh

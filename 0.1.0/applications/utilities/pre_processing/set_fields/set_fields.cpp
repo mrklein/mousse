@@ -24,25 +24,25 @@ bool setCellFieldType
   {
     return false;
   }
-  word fieldName(fieldValueStream);
+  word fieldName{fieldValueStream};
   // Check the current time directory
   IOobject fieldHeader
-  (
+  {
     fieldName,
     mesh.time().timeName(),
     mesh,
     IOobject::MUST_READ
-  );
+  };
   // Check the "constant" directory
   if (!fieldHeader.headerOk())
   {
     fieldHeader = IOobject
-    (
+    {
       fieldName,
       mesh.time().constant(),
       mesh,
       IOobject::MUST_READ
-    );
+    };
   }
   // Check field exists
   if (fieldHeader.headerOk())
@@ -58,19 +58,19 @@ bool setCellFieldType
     }
     else
     {
-      forAll(selectedCells, celli)
+      FOR_ALL(selectedCells, celli)
       {
         field[selectedCells[celli]] = value;
       }
     }
-    forAll(field.boundaryField(), patchi)
+    FOR_ALL(field.boundaryField(), patchi)
     {
       field.boundaryField()[patchi] =
         field.boundaryField()[patchi].patchInternalField();
     }
     if (!field.write())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void setCellFieldType"
         "(const fvMesh& mesh, const labelList& selectedCells,"
@@ -80,7 +80,7 @@ bool setCellFieldType
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "void setCellFieldType"
       "(const fvMesh& mesh, const labelList& selectedCells,"
@@ -107,8 +107,8 @@ public:
   public:
     iNew(const fvMesh& mesh, const labelList& selectedCells)
     :
-      mesh_(mesh),
-      selectedCells_(selectedCells)
+      mesh_{mesh},
+      selectedCells_{selectedCells}
     {}
     autoPtr<setCellField> operator()(Istream& fieldValues) const
     {
@@ -129,11 +129,11 @@ public:
         )
       )
       {
-        WarningIn("setCellField::iNew::operator()(Istream& is)")
+        WARNING_IN("setCellField::iNew::operator()(Istream& is)")
           << "field type " << fieldType << " not currently supported"
           << endl;
       }
-      return autoPtr<setCellField>(new setCellField());
+      return autoPtr<setCellField>{new setCellField()};
     }
   };
 };
@@ -154,22 +154,22 @@ bool setFaceFieldType
   word fieldName(fieldValueStream);
   // Check the current time directory
   IOobject fieldHeader
-  (
+  {
     fieldName,
     mesh.time().timeName(),
     mesh,
     IOobject::MUST_READ
-  );
+  };
   // Check the "constant" directory
   if (!fieldHeader.headerOk())
   {
     fieldHeader = IOobject
-    (
+    {
       fieldName,
       mesh.time().constant(),
       mesh,
       IOobject::MUST_READ
-    );
+    };
   }
   // Check field exists
   if (fieldHeader.headerOk())
@@ -177,11 +177,11 @@ bool setFaceFieldType
     Info<< "    Setting patchField values of "
       << fieldHeader.headerClassName()
       << " " << fieldName << endl;
-    fieldType field(fieldHeader, mesh);
+    fieldType field{fieldHeader, mesh};
     const Type& value = pTraits<Type>(fieldValueStream);
     // Create flat list of selected faces and their value.
-    Field<Type> allBoundaryValues(mesh.nFaces()-mesh.nInternalFaces());
-    forAll(field.boundaryField(), patchi)
+    Field<Type> allBoundaryValues{mesh.nFaces()-mesh.nInternalFaces()};
+    FOR_ALL(field.boundaryField(), patchi)
     {
       SubField<Type>
       (
@@ -194,11 +194,11 @@ bool setFaceFieldType
     // Override
     bool hasWarned = false;
     labelList nChanged
-    (
+    {
       returnReduce(field.boundaryField().size(), maxOp<label>()),
       0
-    );
-    forAll(selectedFaces, i)
+    };
+    FOR_ALL(selectedFaces, i)
     {
       label facei = selectedFaces[i];
       if (mesh.isInternalFace(facei))
@@ -206,7 +206,7 @@ bool setFaceFieldType
         if (!hasWarned)
         {
           hasWarned = true;
-          WarningIn("setFaceFieldType(..)")
+          WARNING_IN("setFaceFieldType(..)")
             << "Ignoring internal face " << facei
             << ". Suppressing further warnings." << endl;
         }
@@ -221,7 +221,7 @@ bool setFaceFieldType
     Pstream::listCombineGather(nChanged, plusEqOp<label>());
     Pstream::listCombineScatter(nChanged);
     // Reassign.
-    forAll(field.boundaryField(), patchi)
+    FOR_ALL(field.boundaryField(), patchi)
     {
       if (nChanged[patchi] > 0)
       {
@@ -239,7 +239,7 @@ bool setFaceFieldType
     }
     if (!field.write())
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "void setFaceFieldType"
         "(const fvMesh& mesh, const labelList& selectedFaces,"
@@ -249,7 +249,7 @@ bool setFaceFieldType
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "void setFaceFieldType"
       "(const fvMesh& mesh, const labelList& selectedFaces,"
@@ -267,7 +267,7 @@ public:
   {}
   autoPtr<setFaceField> clone() const
   {
-    return autoPtr<setFaceField>(new setFaceField());
+    return autoPtr<setFaceField>{new setFaceField()};
   }
   class iNew
   {
@@ -276,8 +276,8 @@ public:
   public:
     iNew(const fvMesh& mesh, const labelList& selectedFaces)
     :
-      mesh_(mesh),
-      selectedFaces_(selectedFaces)
+      mesh_{mesh},
+      selectedFaces_{selectedFaces}
     {}
     autoPtr<setFaceField> operator()(Istream& fieldValues) const
     {
@@ -298,32 +298,32 @@ public:
         )
       )
       {
-        WarningIn("setFaceField::iNew::operator()(Istream& is)")
+        WARNING_IN("setFaceField::iNew::operator()(Istream& is)")
           << "field type " << fieldType << " not currently supported"
           << endl;
       }
-      return autoPtr<setFaceField>(new setFaceField());
+      return autoPtr<setFaceField>{new setFaceField()};
     }
   };
 };
 int main(int argc, char *argv[])
 {
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
-  #include "create_named_mesh.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
+  #include "create_named_mesh.inc"
   Info<< "Reading setFieldsDict\n" << endl;
   IOdictionary setFieldsDict
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "setFieldsDict",
       runTime.system(),
       mesh,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE
-    )
-  );
+    }
+  };
   if (setFieldsDict.found("defaultFieldValues"))
   {
     Info<< "Setting field default values" << endl;
@@ -336,7 +336,7 @@ int main(int argc, char *argv[])
   }
   Info<< "Setting field region values" << endl;
   PtrList<entry> regions(setFieldsDict.lookup("regions"));
-  forAll(regions, regionI)
+  FOR_ALL(regions, regionI)
   {
     const entry& region = regions[regionI];
     autoPtr<topoSetSource> source =
@@ -344,40 +344,40 @@ int main(int argc, char *argv[])
     if (source().setType() == topoSetSource::CELLSETSOURCE)
     {
       cellSet selectedCellSet
-      (
+      {
         mesh,
         "cellSet",
         mesh.nCells()/10+1  // Reasonable size estimate.
-      );
+      };
       source->applyToSet
       (
         topoSetSource::NEW,
         selectedCellSet
       );
       PtrList<setCellField> fieldValues
-      (
+      {
         region.dict().lookup("fieldValues"),
         setCellField::iNew(mesh, selectedCellSet.toc())
-      );
+      };
     }
     else if (source().setType() == topoSetSource::FACESETSOURCE)
     {
       faceSet selectedFaceSet
-      (
+      {
         mesh,
         "faceSet",
         (mesh.nFaces()-mesh.nInternalFaces())/10+1
-      );
+      };
       source->applyToSet
       (
         topoSetSource::NEW,
         selectedFaceSet
       );
       PtrList<setFaceField> fieldValues
-      (
+      {
         region.dict().lookup("fieldValues"),
         setFaceField::iNew(mesh, selectedFaceSet.toc())
-      );
+      };
     }
   }
   Info<< "\nEnd\n" << endl;

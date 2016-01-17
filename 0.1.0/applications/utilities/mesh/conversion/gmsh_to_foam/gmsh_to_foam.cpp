@@ -40,7 +40,7 @@ void renumber
   labelList& labels
 )
 {
-  forAll(labels, labelI)
+  FOR_ALL(labels, labelI)
   {
     labels[labelI] = mshToFoam[labels[labelI]];
   }
@@ -60,13 +60,13 @@ label findFace(const primitivePatch& pp, const labelList& meshF)
   const labelList& pFaces = pp.pointFaces()[meshPointMap[meshF[0]]];
   // Go through all these faces and check if there is one which uses all of
   // meshF vertices (in any order ;-)
-  forAll(pFaces, i)
+  FOR_ALL(pFaces, i)
   {
     label faceI = pFaces[i];
     const face& f = pp[faceI];
     // Count uses of vertices of meshF for f
     label nMatched = 0;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (findIndex(meshF, f[fp]) != -1)
       {
@@ -84,13 +84,13 @@ label findFace(const primitivePatch& pp, const labelList& meshF)
 label findInternalFace(const primitiveMesh& mesh, const labelList& meshF)
 {
   const labelList& pFaces = mesh.pointFaces()[meshF[0]];
-  forAll(pFaces, i)
+  FOR_ALL(pFaces, i)
   {
     label faceI = pFaces[i];
     const face& f = mesh.faces()[faceI];
     // Count uses of vertices of meshF for f
     label nMatched = 0;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       if (findIndex(meshF, f[fp]) != -1)
       {
@@ -112,7 +112,7 @@ bool correctOrientation(const pointField& points, const cellShape& shape)
   point cc(shape.centre(points));
   // Get outwards pointing faces.
   faceList faces(shape.faces());
-  forAll(faces, i)
+  FOR_ALL(faces, i)
   {
     const face& f = faces[i];
     vector n(f.normal(points));
@@ -168,7 +168,7 @@ scalar readMeshFormat(IFstream& inFile)
   Info<< "Read format version " << version << "  ascii " << asciiFlag << endl;
   if (asciiFlag != 0)
   {
-    FatalIOErrorIn("readMeshFormat(IFstream&)", inFile)
+    FATAL_IO_ERROR_IN("readMeshFormat(IFstream&)", inFile)
       << "Can only read ascii msh files."
       << exit(FatalIOError);
   }
@@ -177,7 +177,7 @@ scalar readMeshFormat(IFstream& inFile)
   word tag(tagStr);
   if (tag != "$EndMeshFormat")
   {
-    FatalIOErrorIn("readMeshFormat(IFstream&)", inFile)
+    FATAL_IO_ERROR_IN("readMeshFormat(IFstream&)", inFile)
       << "Did not find $ENDNOD tag on line "
       << inFile.lineNumber() << exit(FatalIOError);
   }
@@ -216,7 +216,7 @@ void readPoints(IFstream& inFile, pointField& points, Map<label>& mshToFoam)
   word tag(tagStr);
   if (tag != "$ENDNOD" && tag != "$EndNodes")
   {
-    FatalIOErrorIn("readPoints(..)", inFile)
+    FATAL_IO_ERROR_IN("readPoints(..)", inFile)
       << "Did not find $ENDNOD tag on line "
       << inFile.lineNumber() << exit(FatalIOError);
   }
@@ -276,7 +276,7 @@ void readPhysNames(IFstream& inFile, Map<word>& physicalNames)
   word tag(tagStr);
   if (tag != "$EndPhysicalNames")
   {
-    FatalIOErrorIn("readPhysicalNames(..)", inFile)
+    FATAL_IO_ERROR_IN("readPhysicalNames(..)", inFile)
       << "Did not find $EndPhysicalNames tag on line "
       << inFile.lineNumber() << exit(FatalIOError);
   }
@@ -516,12 +516,12 @@ void readCells
   word tag(tagStr);
   if (tag != "$ENDELM" && tag != "$EndElements")
   {
-    FatalIOErrorIn("readCells(..)", inFile)
+    FATAL_IO_ERROR_IN("readCells(..)", inFile)
       << "Did not find $ENDELM tag on line "
       << inFile.lineNumber() << exit(FatalIOError);
   }
   cells.setSize(cellI);
-  forAll(patchFaces, patchI)
+  FOR_ALL(patchFaces, patchI)
   {
     patchFaces[patchI].shrink();
   }
@@ -534,7 +534,7 @@ void readCells
   << endl;
   if (cells.size() == 0)
   {
-    FatalIOErrorIn("readCells(..)", inFile)
+    FATAL_IO_ERROR_IN("readCells(..)", inFile)
       << "No cells read from file " << inFile.name() << nl
       << "Does your file specify any 3D elements (hex=" << MSHHEX
       << ", prism=" << MSHPRISM << ", pyramid=" << MSHPYR
@@ -544,7 +544,7 @@ void readCells
   }
   Info<< "CellZones:" << nl
     << "Zone\tSize" << endl;
-  forAll(zoneCells, zoneI)
+  FOR_ALL(zoneCells, zoneI)
   {
     zoneCells[zoneI].shrink();
     const labelList& zCells = zoneCells[zoneI];
@@ -564,9 +564,9 @@ int main(int argc, char *argv[])
     "keepOrientation",
     "retain raw orientation for prisms/hexs"
   );
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   mousse::word regionName;
   if (args.optionReadIfPresent("region", regionName))
   {
@@ -642,7 +642,7 @@ int main(int argc, char *argv[])
     }
   }
   label nValidCellZones = 0;
-  forAll(zoneCells, zoneI)
+  FOR_ALL(zoneCells, zoneI)
   {
     if (zoneCells[zoneI].size())
     {
@@ -659,7 +659,7 @@ int main(int argc, char *argv[])
   // (but without any faces in it)
   faceListList boundaryFaces(patchFaces.size());
   wordList boundaryPatchNames(boundaryFaces.size());
-  forAll(boundaryPatchNames, patchI)
+  FOR_ALL(boundaryPatchNames, patchI)
   {
     label physReg = patchToPhys[patchI];
     Map<word>::const_iterator iter = physicalNames.find(physReg);
@@ -707,11 +707,11 @@ int main(int argc, char *argv[])
   // Storage for faceZones.
   List<DynamicList<label> > zoneFaces(patchFaces.size());
   // Go through all the patchFaces and find corresponding face in pp.
-  forAll(patchFaces, patchI)
+  FOR_ALL(patchFaces, patchI)
   {
     const DynamicList<face>& pFaces = patchFaces[patchI];
     Info<< "Finding faces of patch " << patchI << endl;
-    forAll(pFaces, i)
+    FOR_ALL(pFaces, i)
     {
       const face& f = pFaces[i];
       // Find face in pp using all vertices of f.
@@ -732,7 +732,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-          WarningIn(args.executable())
+          WARNING_IN(args.executable())
             << "Could not match gmsh face " << f
             << " to any of the interior or exterior faces"
             << " that share the same 0th point" << endl;
@@ -745,7 +745,7 @@ int main(int argc, char *argv[])
   label nValidFaceZones = 0;
   Info<< "FaceZones:" << nl
     << "Zone\tSize" << endl;
-  forAll(zoneFaces, zoneI)
+  FOR_ALL(zoneFaces, zoneI)
   {
     zoneFaces[zoneI].shrink();
     const labelList& zFaces = zoneFaces[zoneI];
@@ -768,7 +768,7 @@ int main(int argc, char *argv[])
   {
     cz.setSize(nValidCellZones);
     nValidCellZones = 0;
-    forAll(zoneCells, zoneI)
+    FOR_ALL(zoneCells, zoneI)
     {
       if (zoneCells[zoneI].size())
       {
@@ -799,7 +799,7 @@ int main(int argc, char *argv[])
   {
     fz.setSize(nValidFaceZones);
     nValidFaceZones = 0;
-    forAll(zoneFaces, zoneI)
+    FOR_ALL(zoneFaces, zoneI)
     {
       if (zoneFaces[zoneI].size())
       {
@@ -837,7 +837,7 @@ int main(int argc, char *argv[])
   {
     List<polyPatch*> newPatchPtrList((mesh.boundaryMesh().size() - 1));
     label newPatchI = 0;
-    forAll(mesh.boundaryMesh(), patchI)
+    FOR_ALL(mesh.boundaryMesh(), patchI)
     {
       if (patchI != defaultPatchID)
       {

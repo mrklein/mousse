@@ -40,15 +40,14 @@ void mousse::ensightMesh::correct()
     {
       allPatchNames_.setSize
       (
-        mesh_.boundary().size()
-       - mesh_.globalData().processorPatches().size()
+        mesh_.boundary().size() - mesh_.globalData().processorPatches().size()
       );
     }
     if (patches_)
     {
       if (patchPatterns_.empty())
       {
-        forAll(allPatchNames_, nameI)
+        FOR_ALL(allPatchNames_, nameI)
         {
           patchNames_.insert(allPatchNames_[nameI]);
         }
@@ -56,7 +55,7 @@ void mousse::ensightMesh::correct()
       else
       {
         // Find patch names which match that requested at command-line
-        forAll(allPatchNames_, nameI)
+        FOR_ALL(allPatchNames_, nameI)
         {
           const word& patchName = allPatchNames_[nameI];
           if (findStrings(patchPatterns_, patchName))
@@ -93,7 +92,7 @@ void mousse::ensightMesh::correct()
     label nWedges = 0;
     label nHexes = 0;
     label nPolys = 0;
-    forAll(cellShapes, cellI)
+    FOR_ALL(cellShapes, cellI)
     {
       const cellShape& cellShape = cellShapes[cellI];
       const cellModel& cellModel = cellShape.model();
@@ -147,7 +146,7 @@ void mousse::ensightMesh::correct()
   }
   if (!noPatches_)
   {
-    forAll(mesh_.boundary(), patchi)
+    FOR_ALL(mesh_.boundary(), patchi)
     {
       if (mesh_.boundary()[patchi].size())
       {
@@ -161,7 +160,7 @@ void mousse::ensightMesh::correct()
         label nTris = 0;
         label nQuads = 0;
         label nPolys = 0;
-        forAll(p, faceI)
+        FOR_ALL(p, faceI)
         {
           const face& f = p[faceI];
           if (f.size() == 3)
@@ -183,7 +182,7 @@ void mousse::ensightMesh::correct()
       }
     }
   }
-  forAll(allPatchNames_, patchi)
+  FOR_ALL(allPatchNames_, patchi)
   {
     const word& patchName = allPatchNames_[patchi];
     nFacePrimitives nfp;
@@ -209,7 +208,7 @@ void mousse::ensightMesh::correct()
     // from processor to processor...
     sort(faceZoneNamesAll);
     // Find faceZone names which match that requested at command-line
-    forAll(faceZoneNamesAll, nameI)
+    FOR_ALL(faceZoneNamesAll, nameI)
     {
       const word& zoneName = faceZoneNamesAll[nameI];
       if (findStrings(faceZonePatterns_, zoneName))
@@ -220,28 +219,24 @@ void mousse::ensightMesh::correct()
     // Build list of boundary faces to be exported
     boundaryFaceToBeIncluded_.setSize
     (
-      mesh_.nFaces()
-     - mesh_.nInternalFaces(),
+      mesh_.nFaces() - mesh_.nInternalFaces(),
       1
     );
-    forAll(mesh_.boundaryMesh(), patchI)
+    FOR_ALL(mesh_.boundaryMesh(), patchI)
     {
       const polyPatch& pp = mesh_.boundaryMesh()[patchI];
-      if
-      (
-        isA<processorPolyPatch>(pp)
-      && !refCast<const processorPolyPatch>(pp).owner()
-      )
+      if (isA<processorPolyPatch>(pp)
+          && !refCast<const processorPolyPatch>(pp).owner())
       {
-        label bFaceI = pp.start()-mesh_.nInternalFaces();
-        forAll(pp, i)
+        label bFaceI = pp.start() - mesh_.nInternalFaces();
+        FOR_ALL(pp, i)
         {
           boundaryFaceToBeIncluded_[bFaceI++] = 0;
         }
       }
     }
     // Count face types in each faceZone
-    forAll(faceZoneNamesAll, zoneI)
+    FOR_ALL(faceZoneNamesAll, zoneI)
     {
       const word& zoneName = faceZoneNamesAll[zoneI];
       const label faceZoneId = mesh_.faceZones().findZoneID(zoneName);
@@ -258,7 +253,7 @@ void mousse::ensightMesh::correct()
         label nQuads = 0;
         label nPolys = 0;
         label faceCounter = 0;
-        forAll(fz, i)
+        FOR_ALL(fz, i)
         {
           label faceI = fz[i];
           // Avoid counting faces on processor boundaries twice
@@ -285,19 +280,16 @@ void mousse::ensightMesh::correct()
         polys.setSize(nPolys);
       }
     }
-    forAll(faceZoneNamesAll, zoneI)
+    FOR_ALL(faceZoneNamesAll, zoneI)
     {
       const word& zoneName = faceZoneNamesAll[zoneI];
       nFacePrimitives nfp;
       const label faceZoneId = mesh_.faceZones().findZoneID(zoneName);
       if (faceZoneNames_.found(zoneName))
       {
-        if
-        (
-          faceZoneFaceSets_[faceZoneId].tris.size()
-        || faceZoneFaceSets_[faceZoneId].quads.size()
-        || faceZoneFaceSets_[faceZoneId].polys.size()
-        )
+        if (faceZoneFaceSets_[faceZoneId].tris.size()
+            || faceZoneFaceSets_[faceZoneId].quads.size()
+            || faceZoneFaceSets_[faceZoneId].polys.size())
         {
           nfp.nTris   = faceZoneFaceSets_[faceZoneId].tris.size();
           nfp.nQuads  = faceZoneFaceSets_[faceZoneId].quads.size();
@@ -323,14 +315,14 @@ mousse::ensightMesh::ensightMesh
   const bool binary
 )
 :
-  mesh_(mesh),
-  noPatches_(noPatches),
-  patches_(patches),
-  patchPatterns_(patchPatterns),
-  faceZones_(faceZones),
-  faceZonePatterns_(faceZonePatterns),
-  binary_(binary),
-  meshCellSets_(mesh.nCells())
+  mesh_{mesh},
+  noPatches_{noPatches},
+  patches_{patches},
+  patchPatterns_{patchPatterns},
+  faceZones_{faceZones},
+  faceZonePatterns_{faceZonePatterns},
+  binary_{binary},
+  meshCellSets_{mesh.nCells()}
 {
   correct();
 }
@@ -364,7 +356,7 @@ mousse::cellShapeList mousse::ensightMesh::map
 ) const
 {
   cellShapeList mcsl(prims.size());
-  forAll(prims, i)
+  FOR_ALL(prims, i)
   {
     mcsl[i] = cellShapes[prims[i]];
     inplaceRenumber(pointToGlobal, mcsl[i]);
@@ -380,7 +372,7 @@ mousse::cellShapeList mousse::ensightMesh::map
 ) const
 {
   cellShapeList mcsl(hexes.size() + wedges.size());
-  forAll(hexes, i)
+  FOR_ALL(hexes, i)
   {
     mcsl[i] = cellShapes[hexes[i]];
     inplaceRenumber(pointToGlobal, mcsl[i]);
@@ -388,7 +380,7 @@ mousse::cellShapeList mousse::ensightMesh::map
   label offset = hexes.size();
   const cellModel& hex = *(cellModeller::lookup("hex"));
   labelList hexLabels(8);
-  forAll(wedges, i)
+  FOR_ALL(wedges, i)
   {
     const cellShape& cellPoints = cellShapes[wedges[i]];
     hexLabels[0] = cellPoints[0];
@@ -416,11 +408,11 @@ void mousse::ensightMesh::writePrims
     if (ensightGeometryFile.ascii())
     {
       // Workaround for paraview issue : write one cell per line
-      forAll(cellShapes, i)
+      FOR_ALL(cellShapes, i)
       {
         const cellShape& cellPoints = cellShapes[i];
-        List<int> temp(cellPoints.size());
-        forAll(cellPoints, pointI)
+        List<int> temp{cellPoints.size()};
+        FOR_ALL(cellPoints, pointI)
         {
           temp[pointI] = cellPoints[pointI] + 1;
         }
@@ -431,12 +423,12 @@ void mousse::ensightMesh::writePrims
     {
       // All the cellShapes have the same number of elements!
       int numIntElem = cellShapes.size()*cellShapes[0].size();
-      List<int> temp(numIntElem);
+      List<int> temp{numIntElem};
       int n = 0;
-      forAll(cellShapes, i)
+      FOR_ALL(cellShapes, i)
       {
         const cellShape& cellPoints = cellShapes[i];
-        forAll(cellPoints, pointI)
+        FOR_ALL(cellPoints, pointI)
         {
           temp[n] = cellPoints[pointI] + 1;
           n++;
@@ -453,7 +445,7 @@ void mousse::ensightMesh::writePolysNFaces
   ensightStream& ensightGeometryFile
 ) const
 {
-  forAll(polys, i)
+  FOR_ALL(polys, i)
   {
     ensightGeometryFile.write(cellFaces[polys[i]].size());
   }
@@ -466,10 +458,10 @@ void mousse::ensightMesh::writePolysNPointsPerFace
   ensightStream& ensightGeometryFile
 ) const
 {
-  forAll(polys, i)
+  FOR_ALL(polys, i)
   {
     const labelList& cf = cellFaces[polys[i]];
-    forAll(cf, faceI)
+    FOR_ALL(cf, faceI)
     {
       ensightGeometryFile.write(faces[cf[faceI]].size());
     }
@@ -484,10 +476,10 @@ void mousse::ensightMesh::writePolysPoints
   ensightStream& ensightGeometryFile
 ) const
 {
-  forAll(polys, i)
+  FOR_ALL(polys, i)
   {
     const labelList& cf = cellFaces[polys[i]];
-    forAll(cf, faceI)
+    FOR_ALL(cf, faceI)
     {
       const label faceId = cf[faceI];
       const face& f = faces[faceId];  // points of face (in global points)
@@ -517,8 +509,8 @@ void mousse::ensightMesh::writePolysPoints
       // in reverse order.
       // EnSight prefers to have all the faces of an nfaced cell
       // oriented in the same way.
-      List<int> temp(np);
-      forAll(f, pointI)
+      List<int> temp{np};
+      FOR_ALL(f, pointI)
       {
         if (reverseOrder)
         {
@@ -544,8 +536,8 @@ void mousse::ensightMesh::writeAllPolys
     const cellList& cellFaces = mesh_.cells();
     const labelList& faceOwner = mesh_.faceOwner();
     // Renumber faces to use global point numbers
-    faceList faces(mesh_.faces());
-    forAll(faces, i)
+    faceList faces{mesh_.faces()};
+    FOR_ALL(faces, i)
     {
       inplaceRenumber(pointToGlobal, faces[i]);
     }
@@ -567,9 +559,9 @@ void mousse::ensightMesh::writeAllPolys
       // Slaves
       for (int slave=1; slave<Pstream::nProcs(); slave++)
       {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        labelList polys(fromSlave);
-        cellList cellFaces(fromSlave);
+        IPstream fromSlave{Pstream::scheduled, slave};
+        labelList polys{fromSlave};
+        cellList cellFaces{fromSlave};
         writePolysNFaces
         (
           polys,
@@ -580,7 +572,7 @@ void mousse::ensightMesh::writeAllPolys
     }
     else
     {
-      OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+      OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
       toMaster<< meshCellSets_.polys << cellFaces;
     }
     // Number of points for each face of the above list
@@ -597,10 +589,10 @@ void mousse::ensightMesh::writeAllPolys
       // Slaves
       for (int slave=1; slave<Pstream::nProcs(); slave++)
       {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        labelList polys(fromSlave);
-        cellList cellFaces(fromSlave);
-        faceList faces(fromSlave);
+        IPstream fromSlave{Pstream::scheduled, slave};
+        labelList polys{fromSlave};
+        cellList cellFaces{fromSlave};
+        faceList faces{fromSlave};
         writePolysNPointsPerFace
         (
           polys,
@@ -612,7 +604,7 @@ void mousse::ensightMesh::writeAllPolys
     }
     else
     {
-      OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+      OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
       toMaster<< meshCellSets_.polys << cellFaces << faces;
     }
     // List of points id for each face of the above list
@@ -630,11 +622,11 @@ void mousse::ensightMesh::writeAllPolys
       // Slaves
       for (int slave=1; slave<Pstream::nProcs(); slave++)
       {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        labelList polys(fromSlave);
-        cellList cellFaces(fromSlave);
-        faceList faces(fromSlave);
-        labelList faceOwner(fromSlave);
+        IPstream fromSlave{Pstream::scheduled, slave};
+        labelList polys{fromSlave};
+        cellList cellFaces{fromSlave};
+        faceList faces{fromSlave};
+        labelList faceOwner{fromSlave};
         writePolysPoints
         (
           polys,
@@ -647,7 +639,7 @@ void mousse::ensightMesh::writeAllPolys
     }
     else
     {
-      OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+      OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
       toMaster<< meshCellSets_.polys << cellFaces << faces << faceOwner;
     }
   }
@@ -669,14 +661,14 @@ void mousse::ensightMesh::writeAllPrims
       writePrims(cellShapes, ensightGeometryFile);
       for (int slave=1; slave<Pstream::nProcs(); slave++)
       {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        cellShapeList cellShapes(fromSlave);
+        IPstream fromSlave{Pstream::scheduled, slave};
+        cellShapeList cellShapes{fromSlave};
         writePrims(cellShapes, ensightGeometryFile);
       }
     }
     else
     {
-      OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+      OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
       toMaster<< cellShapes;
     }
   }
@@ -687,11 +679,11 @@ void mousse::ensightMesh::writeFacePrims
   ensightStream& ensightGeometryFile
 ) const
 {
-  forAll(patchFaces, i)
+  FOR_ALL(patchFaces, i)
   {
     const face& patchFace = patchFaces[i];
-    List<int> temp(patchFace.size());
-    forAll(patchFace, pointI)
+    List<int> temp{patchFace.size()};
+    FOR_ALL(patchFace, pointI)
     {
       temp[pointI] = patchFace[pointI] + 1;
     }
@@ -720,14 +712,14 @@ void mousse::ensightMesh::writeAllFacePrims
       );
       for (int slave=1; slave<Pstream::nProcs(); slave++)
       {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        faceList patchFaces(fromSlave);
+        IPstream fromSlave{Pstream::scheduled, slave};
+        faceList patchFaces{fromSlave};
         writeFacePrims(patchFaces, ensightGeometryFile);
       }
     }
     else
     {
-      OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+      OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
       toMaster<< UIndirectList<face>(patchFaces, prims);
     }
   }
@@ -738,7 +730,7 @@ void mousse::ensightMesh::writeNSidedNPointsPerFace
   ensightStream& ensightGeometryFile
 ) const
 {
-  forAll(patchFaces, i)
+  FOR_ALL(patchFaces, i)
   {
     ensightGeometryFile.write(patchFaces[i].size());
   }
@@ -776,8 +768,8 @@ void mousse::ensightMesh::writeAllNSided
       );
       for (int slave=1; slave<Pstream::nProcs(); slave++)
       {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        faceList patchFaces(fromSlave);
+        IPstream fromSlave{Pstream::scheduled, slave};
+        faceList patchFaces{fromSlave};
         writeNSidedNPointsPerFace
         (
           patchFaces,
@@ -787,7 +779,7 @@ void mousse::ensightMesh::writeAllNSided
     }
     else
     {
-      OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+      OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
       toMaster<< UIndirectList<face>(patchFaces, prims);
     }
     // List of points id for each face
@@ -800,14 +792,14 @@ void mousse::ensightMesh::writeAllNSided
       );
       for (int slave=1; slave<Pstream::nProcs(); slave++)
       {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        faceList patchFaces(fromSlave);
+        IPstream fromSlave{Pstream::scheduled, slave};
+        faceList patchFaces{fromSlave};
         writeNSidedPoints(patchFaces, ensightGeometryFile);
       }
     }
     else
     {
-      OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+      OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
       toMaster<< UIndirectList<face>(patchFaces, prims);
     }
   }
@@ -833,8 +825,8 @@ void mousse::ensightMesh::writeAllPoints
       ensightGeometryFile.write(uniquePoints.component(d));
       for (int slave=1; slave<Pstream::nProcs(); slave++)
       {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        scalarField patchPointsComponent(fromSlave);
+        IPstream fromSlave{Pstream::scheduled, slave};
+        scalarField patchPointsComponent{fromSlave};
         ensightGeometryFile.write(patchPointsComponent);
       }
     }
@@ -843,7 +835,7 @@ void mousse::ensightMesh::writeAllPoints
   {
     for (direction d=0; d<vector::nComponents; d++)
     {
-      OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+      OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
       toMaster<< uniquePoints.component(d);
     }
   }
@@ -854,7 +846,7 @@ void mousse::ensightMesh::write
   const word& prepend,
   const label timeIndex,
   const bool meshMoving,
-  Ostream& ensightCaseFile
+  Ostream& /*ensightCaseFile*/
 ) const
 {
   const Time& runTime = mesh_.time();
@@ -953,7 +945,7 @@ void mousse::ensightMesh::write
     );
   }
   label ensightPatchI = patchPartOffset_;
-  forAll(allPatchNames_, patchi)
+  FOR_ALL(allPatchNames_, patchi)
   {
     const word& patchName = allPatchNames_[patchi];
     if (patchNames_.empty() || patchNames_.found(patchName))
@@ -979,7 +971,7 @@ void mousse::ensightMesh::write
         pointField uniquePoints(mesh_.points(), uniqueMeshPointLabels);
         // Renumber the patch faces
         faceList patchFaces(p.localFaces());
-        forAll(patchFaces, i)
+        FOR_ALL(patchFaces, i)
         {
           inplaceRenumber(pointToGlobal, patchFaces[i]);
         }
@@ -1018,7 +1010,7 @@ void mousse::ensightMesh::write
     }
   }
   // write faceZones, if requested
-  forAllConstIter(wordHashSet, faceZoneNames_, iter)
+  FOR_ALL_CONST_ITER(wordHashSet, faceZoneNames_, iter)
   {
     const word& faceZoneName = iter.key();
     label faceID = mesh_.faceZones().findZoneID(faceZoneName);
@@ -1047,7 +1039,7 @@ void mousse::ensightMesh::write
       // Count how many master faces belong to the faceZone. Is there
       // a better way of doing this?
       label nMasterFaces = 0;
-      forAll(fz, faceI)
+      FOR_ALL(fz, faceI)
       {
         if (faceToBeIncluded(fz[faceI]))
         {
@@ -1057,7 +1049,7 @@ void mousse::ensightMesh::write
       // Create the faceList for the master faces only and fill it.
       faceList faceZoneMasterFaces(nMasterFaces);
       label currentFace = 0;
-      forAll(fz, faceI)
+      FOR_ALL(fz, faceI)
       {
         if (faceToBeIncluded(fz[faceI]))
         {
@@ -1066,7 +1058,7 @@ void mousse::ensightMesh::write
         }
       }
       // Renumber the faceZone master faces
-      forAll(faceZoneMasterFaces, i)
+      FOR_ALL(faceZoneMasterFaces, i)
       {
         inplaceRenumber(pointToGlobal, faceZoneMasterFaces[i]);
       }

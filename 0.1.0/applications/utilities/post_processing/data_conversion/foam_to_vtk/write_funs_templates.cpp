@@ -12,25 +12,11 @@ void mousse::writeFuns::insert
   DynamicList<floatScalar>& dest
 )
 {
-  forAll(source, i)
+  FOR_ALL(source, i)
   {
     insert(source[i], dest);
   }
 }
-//// Store List (indexed through map) in dest
-//template<class Type>
-//void mousse::writeFuns::insert
-//(
-//    const labelList& map,
-//    const List<Type>& source,
-//    DynamicList<floatScalar>& dest
-//)
-//{
-//    forAll(map, i)
-//    {
-//        insert(source[map[i]], dest);
-//    }
-//}
 template<class Type>
 void mousse::writeFuns::write
 (
@@ -47,7 +33,7 @@ void mousse::writeFuns::write
     << nValues << " float" << std::endl;
   DynamicList<floatScalar> fField(pTraits<Type>::nComponents*nValues);
   insert(vvf.internalField(), fField);
-  forAll(superCells, superCellI)
+  FOR_ALL(superCells, superCellI)
   {
     label origCellI = superCells[superCellI];
     insert(vvf[origCellI], fField);
@@ -71,7 +57,7 @@ void mousse::writeFuns::write
     << nTotPoints << " float" << std::endl;
   DynamicList<floatScalar> fField(pTraits<Type>::nComponents*nTotPoints);
   insert(pvf, fField);
-  forAll(addPointCellLabels, api)
+  FOR_ALL(addPointCellLabels, api)
   {
     label origCellI = addPointCellLabels[api];
     insert(interpolatePointToCell(pvf, origCellI), fField);
@@ -92,11 +78,11 @@ void mousse::writeFuns::write
   const vtkTopo& topo = vMesh.topo();
   const labelList& addPointCellLabels = topo.addPointCellLabels();
   const label nTotPoints = mesh.nPoints() + addPointCellLabels.size();
-  os  << vvf.name() << ' ' << pTraits<Type>::nComponents << ' '
+  os << vvf.name() << ' ' << pTraits<Type>::nComponents << ' '
     << nTotPoints << " float" << std::endl;
-  DynamicList<floatScalar> fField(pTraits<Type>::nComponents*nTotPoints);
+  DynamicList<floatScalar> fField{pTraits<Type>::nComponents*nTotPoints};
   insert(pvf, fField);
-  forAll(addPointCellLabels, api)
+  FOR_ALL(addPointCellLabels, api)
   {
     label origCellI = addPointCellLabels[api];
     insert(vvf[origCellI], fField);
@@ -112,7 +98,7 @@ void mousse::writeFuns::write
   const vtkMesh& vMesh
 )
 {
-  forAll(flds, i)
+  FOR_ALL(flds, i)
   {
     write(os, binary, flds[i], vMesh);
   }
@@ -127,7 +113,7 @@ void mousse::writeFuns::write
   const vtkMesh& vMesh
 )
 {
-  forAll(flds, i)
+  FOR_ALL(flds, i)
   {
     write(os, binary, flds[i], pInterp.interpolate(flds[i])(), vMesh);
   }

@@ -12,7 +12,7 @@ void mousse::readFields
 )
 {
   // Search list of objects for fields of type GeomField
-  IOobjectList fieldObjects(objects.lookupClass(GeoField::typeName));
+  IOobjectList fieldObjects{objects.lookupClass(GeoField::typeName)};
   // Remove the cellDist field
   IOobjectList::iterator celDistIter = fieldObjects.find("cellDist");
   if (celDistIter != fieldObjects.end())
@@ -22,12 +22,12 @@ void mousse::readFields
   // Construct the fields
   fields.setSize(fieldObjects.size());
   label fieldI = 0;
-  forAllIter(IOobjectList, fieldObjects, iter)
+  FOR_ALL_ITER(IOobjectList, fieldObjects, iter)
   {
     fields.set
     (
       fieldI++,
-      new GeoField(*iter(), mesh)
+      new GeoField{*iter(), mesh}
     );
   }
 }

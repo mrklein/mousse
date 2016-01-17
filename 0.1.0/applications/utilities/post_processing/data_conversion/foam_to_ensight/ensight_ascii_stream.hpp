@@ -19,28 +19,27 @@ class ensightAsciiStream
   // Private data
     //- Description of data_
     OFstream str_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    ensightAsciiStream(const ensightAsciiStream&);
-    //- Disallow default bitwise assignment
-    void operator=(const ensightAsciiStream&);
 public:
   // Constructors
     //- Construct from components
     ensightAsciiStream(const fileName& f, const Time& runTime)
     :
-      ensightStream(f),
+      ensightStream{f},
       str_
-      (
+      {
         f,
         runTime.writeFormat(),
         runTime.writeVersion(),
         IOstream::UNCOMPRESSED
-      )
+      }
     {
       str_.setf(ios_base::scientific, ios_base::floatfield);
       str_.precision(5);
     }
+    //- Disallow default bitwise copy construct
+    ensightAsciiStream(const ensightAsciiStream&) = delete;
+    //- Disallow default bitwise assignment
+    ensightAsciiStream& operator=(const ensightAsciiStream&) = delete;
   //- Destructor
   virtual ~ensightAsciiStream()
   {}
@@ -59,7 +58,7 @@ public:
     }
     virtual void write(const scalarField& sf)
     {
-      forAll(sf, i)
+      FOR_ALL(sf, i)
       {
         if (mag(sf[i]) >= scalar(floatScalarVSMALL))
         {
@@ -73,7 +72,7 @@ public:
     }
     virtual void write(const List<int>& sf)
     {
-      forAll(sf, i)
+      FOR_ALL(sf, i)
       {
         str_ << setw(10) << sf[i];
       }

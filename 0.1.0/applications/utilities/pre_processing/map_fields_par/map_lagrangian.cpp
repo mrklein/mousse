@@ -57,7 +57,7 @@ void mapLagrangian(const meshToMesh& interp)
       fileName::DIRECTORY
     )
   );
-  forAll(cloudDirs, cloudI)
+  FOR_ALL(cloudDirs, cloudI)
   {
     // Search for list of lagrangian objects for this time
     IOobjectList objects
@@ -95,7 +95,7 @@ void mapLagrangian(const meshToMesh& interp)
       // Initial: track from fine-mesh cell centre to particle position
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       // This requires there to be no boundary in the way.
-      forAllConstIter(Cloud<passiveParticle>, sourceParcels, iter)
+      FOR_ALL_CONST_ITER(Cloud<passiveParticle>, sourceParcels, iter)
       {
         bool foundCell = false;
         // Assume that cell from read parcel is the correct one...
@@ -106,7 +106,7 @@ void mapLagrangian(const meshToMesh& interp)
           // Particle probably in one of the targetcells. Try
           // all by tracking from their cell centre to the parcel
           // position.
-          forAll(targetCells, i)
+          FOR_ALL(targetCells, i)
           {
             // Track from its cellcentre to position to make sure.
             autoPtr<passiveParticle> newPtr
@@ -145,7 +145,7 @@ void mapLagrangian(const meshToMesh& interp)
       if (unmappedSource.size())
       {
         sourceParticleI = 0;
-        forAllIter(Cloud<passiveParticle>, sourceParcels, iter)
+        FOR_ALL_ITER(Cloud<passiveParticle>, sourceParcels, iter)
         {
           if (unmappedSource.found(sourceParticleI))
           {

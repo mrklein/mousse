@@ -11,7 +11,7 @@ void mousse::patchToPoly2DMesh::flipFaceOrder()
   const faceList& localFaces = patch_.localFaces();
   const labelList& meshPoints = patch_.meshPoints();
   Info<< "Flipping face order if necessary." << endl;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     faces_[edgeI].setSize(2);
@@ -36,7 +36,7 @@ void mousse::patchToPoly2DMesh::createNeighbours()
   const edgeList& edges = patch_.edges();
   const labelListList& edgeFaces = patch_.edgeFaces();
   Info<< "Calculating neighbours." << endl;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const labelList& eFaces = edgeFaces[edgeI];
     if (eFaces.size() == 2)
@@ -56,7 +56,7 @@ void mousse::patchToPoly2DMesh::createNeighbours()
     }
     else
     {
-      FatalErrorIn("polyMesh neighbour construction")
+      FATAL_ERROR_IN("polyMesh neighbour construction")
         << abort(FatalError);
     }
   }
@@ -64,14 +64,14 @@ void mousse::patchToPoly2DMesh::createNeighbours()
 mousse::labelList mousse::patchToPoly2DMesh::internalFaceOrder()
 {
   const labelListList& faceEdges = patch_.faceEdges();
-  labelList oldToNew(owner_.size(), -1);
+  labelList oldToNew{owner_.size(), -1};
   label newFaceI = 0;
-  forAll(faceEdges, faceI)
+  FOR_ALL(faceEdges, faceI)
   {
     const labelList& fEdges = faceEdges[faceI];
     // Neighbouring faces
-    SortableList<label> nbr(fEdges.size(), -1);
-    forAll(fEdges, feI)
+    SortableList<label> nbr{fEdges.size(), -1};
+    FOR_ALL(fEdges, feI)
     {
       if (fEdges[feI] < neighbour_.size())
       {
@@ -89,7 +89,7 @@ mousse::labelList mousse::patchToPoly2DMesh::internalFaceOrder()
       }
     }
     nbr.sort();
-    forAll(nbr, i)
+    FOR_ALL(nbr, i)
     {
       if (nbr[i] != -1)
       {
@@ -104,9 +104,9 @@ void mousse::patchToPoly2DMesh::addPatchFacesToFaces()
   const labelList& meshPoints = patch_.meshPoints();
   label offset = patch_.nInternalEdges();
   face f(2);
-  forAll(patchNames_, patchI)
+  FOR_ALL(patchNames_, patchI)
   {
-    forAllConstIter(EdgeMap<label>, mapEdgesRegion_, eIter)
+    FOR_ALL_CONST_ITER(EdgeMap<label>, mapEdgesRegion_, eIter)
     {
       if (eIter() == patchI)
       {
@@ -127,27 +127,14 @@ void mousse::patchToPoly2DMesh::addPatchFacesToOwner()
   // Reorder patch faces on owner list.
   labelList newOwner = owner_;
   label nMatched = 0;
-  for
-  (
-    label bFaceI = nInternalEdges;
-    bFaceI < faces_.size();
-    ++bFaceI
-  )
+  for (label bFaceI = nInternalEdges; bFaceI < faces_.size(); ++bFaceI)
   {
     const face& e = faces_[bFaceI];
     bool matched = false;
-    for
-    (
-      label bEdgeI = nInternalEdges;
-      bEdgeI < faces_.size();
-      ++bEdgeI
-    )
+    for (label bEdgeI = nInternalEdges; bEdgeI < faces_.size(); ++bEdgeI)
     {
-      if
-      (
-        e[0] == meshPoints[patch_.edges()[bEdgeI][0]]
-      && e[1] == meshPoints[patch_.edges()[bEdgeI][1]]
-      )
+      if (e[0] == meshPoints[patch_.edges()[bEdgeI][0]]
+          && e[1] == meshPoints[patch_.edges()[bEdgeI][1]])
       {
         const face& f = faces[owner_[bEdgeI]];
         label fp = findIndex(f, e[0]);
@@ -161,11 +148,8 @@ void mousse::patchToPoly2DMesh::addPatchFacesToOwner()
         nMatched++;
         matched = true;
       }
-      else if
-      (
-        e[0] == meshPoints[patch_.edges()[bEdgeI][1]]
-      && e[1] == meshPoints[patch_.edges()[bEdgeI][0]]
-      )
+      else if (e[0] == meshPoints[patch_.edges()[bEdgeI][1]]
+               && e[1] == meshPoints[patch_.edges()[bEdgeI][0]])
       {
         Info<< "Warning: Wrong orientation." << endl;
         nMatched++;
@@ -207,15 +191,15 @@ mousse::patchToPoly2DMesh::patchToPoly2DMesh
   const EdgeMap<label>& mapEdgesRegion
 )
 :
-  patch_(patch),
-  patchNames_(patchNames),
-  patchSizes_(patchSizes),
-  patchStarts_(patchNames.size(), 0),
-  mapEdgesRegion_(mapEdgesRegion),
-  points_(patch.points()),
-  faces_(patch.nEdges()),
-  owner_(PatchTools::edgeOwner(patch)),
-  neighbour_(patch.nInternalEdges())
+  patch_{patch},
+  patchNames_{patchNames},
+  patchSizes_{patchSizes},
+  patchStarts_{patchNames.size(), 0},
+  mapEdgesRegion_{mapEdgesRegion},
+  points_{patch.points()},
+  faces_{patch.nEdges()},
+  owner_{PatchTools::edgeOwner(patch)},
+  neighbour_{patch.nInternalEdges()}
 {}
 // Destructor 
 mousse::patchToPoly2DMesh::~patchToPoly2DMesh()
@@ -227,22 +211,17 @@ void mousse::patchToPoly2DMesh::createMesh()
   {
     if (patch_.edgeFaces()[edgeI].size() != 2)
     {
-      FatalErrorIn("patchToPoly2DMesh::patchToPoly2DMesh(..)")
+      FATAL_ERROR_IN("patchToPoly2DMesh::patchToPoly2DMesh(..)")
         << "internal edge:" << edgeI
         << " patch.edgeFaces()[edgeI]:" << patch_.edgeFaces()[edgeI]
         << abort(FatalError);
     }
   }
-  for
-  (
-    label edgeI = patch_.nInternalEdges();
-    edgeI < patch_.nEdges();
-    edgeI++
-  )
+  for (label edgeI = patch_.nInternalEdges(); edgeI < patch_.nEdges(); edgeI++)
   {
     if (patch_.edgeFaces()[edgeI].size() != 1)
     {
-      FatalErrorIn("patchToPoly2DMesh::patchToPoly2DMesh(..)")
+      FATAL_ERROR_IN("patchToPoly2DMesh::patchToPoly2DMesh(..)")
         << "boundary edge:" << edgeI
         << " patch.edgeFaces()[edgeI]:" << patch_.edgeFaces()[edgeI]
         << abort(FatalError);
@@ -250,7 +229,7 @@ void mousse::patchToPoly2DMesh::createMesh()
   }
   createPolyMeshComponents();
   label startFace = patch_.nInternalEdges();
-  forAll(patchNames_, patchI)
+  FOR_ALL(patchNames_, patchI)
   {
     patchStarts_[patchI] = startFace;
     startFace += patchSizes_[patchI];

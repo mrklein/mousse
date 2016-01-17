@@ -8,17 +8,17 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(extrude2DMesh, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(extrude2DMesh, 0);
 }
 // Private Member Functions 
 void mousse::extrude2DMesh::check2D() const
 {
   const faceList& faces = mesh_.faces();
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     if (faces[faceI].size() != 2)
     {
-      FatalErrorIn("void mousse::extrude2DMesh::check2D() const")
+      FATAL_ERROR_IN("void mousse::extrude2DMesh::check2D() const")
         << "Face " << faceI << " size " << faces[faceI].size()
         << " is not of size 2: mesh is not a valid two-dimensional "
         << "mesh" << exit(FatalError);
@@ -51,14 +51,14 @@ mousse::extrude2DMesh::extrude2DMesh
   const extrudeModel& model
 )
 :
-  mesh_(mesh),
-  dict_(dict),
-  //patchDict_(dict.subDict("patchInfo")),
-  model_(model),
-  modelType_(dict.lookup("extrudeModel")),
-  patchType_(dict.lookup("patchType")),
-  frontPatchI_(-1),
-  backPatchI_(-1)
+  mesh_{mesh},
+  dict_{dict},
+  //patchDict_{dict.subDict("patchInfo")},
+  model_{model},
+  modelType_{dict.lookup("extrudeModel")},
+  patchType_{dict.lookup("patchType")},
+  frontPatchI_{-1},
+  backPatchI_{-1}
 {
   check2D();
 }
@@ -72,8 +72,8 @@ void mousse::extrude2DMesh::addFrontBackPatches()
   frontPatchI_ = patches.findPatchID("front");
   backPatchI_ = patches.findPatchID("back");
   // Add patch.
-  List<polyPatch*> newPatches(patches.size() + 2);
-  forAll(patches, patchI)
+  List<polyPatch*> newPatches{patches.size() + 2};
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     newPatches[patchI] =
@@ -98,13 +98,6 @@ void mousse::extrude2DMesh::addFrontBackPatches()
         frontPatchI_,
         patches
       ).ptr();
-//        newPatches[frontPatchI_] = polyPatch::New
-//        (
-//            "front",
-//            patchDict_,
-//            frontPatchI_,
-//            patches
-//        ).ptr();
     Info<< "Adding patch " << newPatches[frontPatchI_]->name()
       << " at index " << frontPatchI_
       << " for front faces." << nl << endl;
@@ -122,13 +115,6 @@ void mousse::extrude2DMesh::addFrontBackPatches()
         backPatchI_,
         patches
       ).ptr();
-//        newPatches[frontPatchI_] = polyPatch::New
-//        (
-//            "back",
-//            patchDict_,
-//            backPatchI_,
-//            patches
-//        ).ptr();
     Info<< "Adding patch " << newPatches[backPatchI_]->name()
       << " at index " << backPatchI_
       << " for back faces." << nl << endl;
@@ -147,7 +133,7 @@ void mousse::extrude2DMesh::setRefinement
   for (label layer = 0; layer < nLayers; ++layer)
   {
     label offset = layer * mesh_.nCells();
-    forAll(mesh_.cells(), cellI)
+    FOR_ALL(mesh_.cells(), cellI)
     {
       meshMod.addCell
       (
@@ -164,7 +150,7 @@ void mousse::extrude2DMesh::setRefinement
   for (label layer = 0; layer <= nLayers; ++layer)
   {
     label offset = layer * points.size();
-    forAll(points, pointI)
+    FOR_ALL(points, pointI)
     {
       // Don't need the surface normal for either linearDirection or
       // wedge. Will need to add to be able to use others.
@@ -208,21 +194,7 @@ void mousse::extrude2DMesh::setRefinement
       newFace[1] = f[1] + currentLayerOffset;
       newFace[2] = f[1] + nextLayerOffset;
       newFace[3] = f[0] + nextLayerOffset;
-//{
-//    vector n = newFace.normal(pointField(meshMod.points()));
-//    label own = mesh_.faceOwner()[faceI];
-//    const labelList& ownPoints = mesh_.cellPoints()[own];
-//    point ownCc = sum(pointField(mesh_.points(), ownPoints))/ownPoints.size();
-//    label nei = mesh_.faceNeighbour()[faceI];
-//    const labelList& neiPoints = mesh_.cellPoints()[nei];
-//    point neiCc = sum(pointField(mesh_.points(), neiPoints))/neiPoints.size();
-//    vector d = neiCc - ownCc;
-//    Pout<< "face:" << faceI << " at:" << f.centre(mesh_.points()) << endl
-//        << "    own:" << own << " at:" << ownCc << endl
-//        << "    nei:" << nei << " at:" << neiCc << endl
-//        << "    sign:" << (n & d) << endl
-//        << endl;
-//}
+
       label offset = layer * mesh_.nCells();
       meshMod.addFace
       (
@@ -247,7 +219,7 @@ void mousse::extrude2DMesh::setRefinement
       }
     }
   }
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     for (label layer=0; layer < nLayers; layer++)
     {
@@ -296,7 +268,7 @@ void mousse::extrude2DMesh::setRefinement
   }
   // Add extra internal faces that need special treatment for owners and
   // neighbours.
-  forAll(mesh_.cells(), cellI)
+  FOR_ALL(mesh_.cells(), cellI)
   {
     const cell& cFaces = mesh_.cells()[cellI];
     face frontFace(cFaces.size());
@@ -318,7 +290,7 @@ void mousse::extrude2DMesh::setRefinement
     {
       frontFace[i] = nextPointI;
       // Find face containing pointI
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         label faceI = cFaces[cFaceI];
         if (faceI != nextFaceI)
@@ -342,7 +314,7 @@ void mousse::extrude2DMesh::setRefinement
     for (label layer = 0; layer < nLayers - 1; ++layer)
     {
       // Offset to create front face.
-      forAll(frontFace, fp)
+      FOR_ALL(frontFace, fp)
       {
         frontFace[fp] += mesh_.nPoints();
       }
@@ -377,7 +349,7 @@ void mousse::extrude2DMesh::setRefinement
   }
   // Generate front and back faces
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  forAll(mesh_.cells(), cellI)
+  FOR_ALL(mesh_.cells(), cellI)
   {
     const cell& cFaces = mesh_.cells()[cellI];
     face frontFace(cFaces.size());
@@ -399,7 +371,7 @@ void mousse::extrude2DMesh::setRefinement
     {
       frontFace[i] = nextPointI;
       // Find face containing pointI
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         label faceI = cFaces[cFaceI];
         if (faceI != nextFaceI)
@@ -442,7 +414,7 @@ void mousse::extrude2DMesh::setRefinement
         << endl;
     }
     // Offset to create front face.
-    forAll(frontFace, fp)
+    FOR_ALL(frontFace, fp)
     {
       frontFace[fp] += mesh_.nPoints()* (nLayers);
     }

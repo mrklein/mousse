@@ -42,7 +42,7 @@ void createDummyFvMeshFiles(const polyMesh& mesh, const word& regionName)
   // Create dummy system/fv*
   {
     IOobject io
-    (
+    {
       "fvSchemes",
       mesh.time().system(),
       regionName,
@@ -50,7 +50,7 @@ void createDummyFvMeshFiles(const polyMesh& mesh, const word& regionName)
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    );
+    };
     Info<< "Testing:" << io.objectPath() << endl;
     if (!io.headerOk())
     {
@@ -67,7 +67,7 @@ void createDummyFvMeshFiles(const polyMesh& mesh, const word& regionName)
   }
   {
     IOobject io
-    (
+    {
       "fvSolution",
       mesh.time().system(),
       regionName,
@@ -75,7 +75,7 @@ void createDummyFvMeshFiles(const polyMesh& mesh, const word& regionName)
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    );
+    };
     if (!io.headerOk())
     {
       Info<< "Writing dummy " << regionName/io.name() << endl;
@@ -89,7 +89,7 @@ label findPatchID(const polyBoundaryMesh& patches, const word& name)
   const label patchID = patches.findPatchID(name);
   if (patchID == -1)
   {
-    FatalErrorIn("findPatchID(const polyBoundaryMesh&, const word&)")
+    FATAL_ERROR_IN("findPatchID(const polyBoundaryMesh&, const word&)")
       << "Cannot find patch " << name
       << " in the source mesh.\n"
       << "Valid patch names are " << patches.names()
@@ -100,17 +100,17 @@ label findPatchID(const polyBoundaryMesh& patches, const word& name)
 labelList patchFaces(const polyBoundaryMesh& patches, const wordList& names)
 {
   label n = 0;
-  forAll(names, i)
+  FOR_ALL(names, i)
   {
     const polyPatch& pp = patches[findPatchID(patches, names[i])];
     n += pp.size();
   }
   labelList faceLabels(n);
   n = 0;
-  forAll(names, i)
+  FOR_ALL(names, i)
   {
     const polyPatch& pp = patches[findPatchID(patches, names[i])];
-    forAll(pp, j)
+    FOR_ALL(pp, j)
     {
       faceLabels[n++] = pp.start()+j;
     }
@@ -120,9 +120,9 @@ labelList patchFaces(const polyBoundaryMesh& patches, const wordList& names)
 void updateFaceLabels(const mapPolyMesh& map, labelList& faceLabels)
 {
   const labelList& reverseMap = map.reverseFaceMap();
-  labelList newFaceLabels(faceLabels.size());
+  labelList newFaceLabels{faceLabels.size()};
   label newI = 0;
-  forAll(faceLabels, i)
+  FOR_ALL(faceLabels, i)
   {
     label oldFaceI = faceLabels[i];
     if (reverseMap[oldFaceI] >= 0)
@@ -136,8 +136,8 @@ void updateFaceLabels(const mapPolyMesh& map, labelList& faceLabels)
 void updateCellSet(const mapPolyMesh& map, labelHashSet& cellLabels)
 {
   const labelList& reverseMap = map.reverseCellMap();
-  labelHashSet newCellLabels(2*cellLabels.size());
-  forAll(cellLabels, i)
+  labelHashSet newCellLabels{2*cellLabels.size()};
+  FOR_ALL(cellLabels, i)
   {
     label oldCellI = cellLabels[i];
     if (reverseMap[oldCellI] >= 0)
@@ -158,23 +158,23 @@ void changeFrontBackPatches
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   label frontPatchI = findPatchID(patches, frontPatchName);
   label backPatchI = findPatchID(patches, backPatchName);
-  DynamicList<polyPatch*> newPatches(patches.size());
-  forAll(patches, patchI)
+  DynamicList<polyPatch*> newPatches{patches.size()};
+  FOR_ALL(patches, patchI)
   {
-    const polyPatch& pp(patches[patchI]);
+    const polyPatch& pp = patches[patchI];
     if (patchI == frontPatchI || patchI == backPatchI)
     {
       newPatches.append
       (
         new PatchType
-        (
+        {
           pp.name(),
           pp.size(),
           pp.start(),
           pp.index(),
           mesh.boundaryMesh(),
           PatchType::typeName
-        )
+        }
       );
     }
     else
@@ -188,8 +188,8 @@ void changeFrontBackPatches
 }
 int main(int argc, char *argv[])
 {
-  #include "add_region_option.hpp"
-  #include "set_root_case.hpp"
+  #include "add_region_option.inc"
+  #include "set_root_case.inc"
   #include "create_time_extruded.inc"
   // Get optional regionName
   word regionName;
@@ -207,26 +207,26 @@ int main(int argc, char *argv[])
       << runTimeExtruded.timeName() << nl << endl;
   }
   IOdictionary dict
-  (
-    IOobject
-    (
+  {
+    // IOobject
+    {
       "extrudeMeshDict",
       runTimeExtruded.system(),
       runTimeExtruded,
       IOobject::MUST_READ_IF_MODIFIED
-    )
-  );
+    }
+  };
   // Point generator
-  autoPtr<extrudeModel> model(extrudeModel::New(dict));
+  autoPtr<extrudeModel> model{extrudeModel::New(dict)};
   // Whether to flip normals
-  const Switch flipNormals(dict.lookup("flipNormals"));
+  const Switch flipNormals{dict.lookup("flipNormals")};
   // What to extrude
   const ExtrudeMode mode = ExtrudeModeNames.read
   (
     dict.lookup("constructFrom")
   );
   // Any merging of small edges
-  const scalar mergeTol(dict.lookupOrDefault<scalar>("mergeTol", 1e-4));
+  const scalar mergeTol{dict.lookupOrDefault<scalar>("mergeTol", 1e-4)};
   Info<< "Extruding from " << ExtrudeModeNames[mode]
     << " using model " << model().type() << endl;
   if (flipNormals)
@@ -256,19 +256,18 @@ int main(int argc, char *argv[])
   {
     if (flipNormals && mode == MESH)
     {
-      FatalErrorIn(args.executable())
+      FATAL_ERROR_IN(args.executable())
         << "Flipping normals not supported for extrusions from mesh."
         << exit(FatalError);
     }
-    fileName sourceCasePath(dict.lookup("sourceCase"));
+    fileName sourceCasePath{dict.lookup("sourceCase")};
     sourceCasePath.expand();
     fileName sourceRootDir = sourceCasePath.path();
     fileName sourceCaseDir = sourceCasePath.name();
     if (Pstream::parRun())
     {
-      sourceCaseDir =
-        sourceCaseDir
-       /"processor" + mousse::name(Pstream::myProcNo());
+      sourceCaseDir = sourceCaseDir/"processor"
+        + mousse::name(Pstream::myProcNo());
     }
     wordList sourcePatches;
     dict.lookup("sourcePatches") >> sourcePatches;
@@ -280,23 +279,23 @@ int main(int argc, char *argv[])
       << " on mesh " << sourceCasePath << nl
       << endl;
     Time runTime
-    (
+    {
       Time::controlDictName,
       sourceRootDir,
       sourceCaseDir
-    );
-    #include "create_mesh.hpp"
+    };
+    #include "create_mesh.inc"
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
     // Extrusion engine. Either adding to existing mesh or
     // creating separate mesh.
-    addPatchCellLayer layerExtrude(mesh, (mode == MESH));
-    const labelList meshFaces(patchFaces(patches, sourcePatches));
+    addPatchCellLayer layerExtrude{mesh, (mode == MESH)};
+    const labelList meshFaces{patchFaces(patches, sourcePatches)};
     if (mode == PATCH && flipNormals)
     {
       // Cheat. Flip patch faces in mesh. This invalidates the
       // mesh (open cells) but does produce the correct extrusion.
-      polyTopoChange meshMod(mesh);
-      forAll(meshFaces, i)
+      polyTopoChange meshMod{mesh};
+      FOR_ALL(meshFaces, i)
       {
         label meshFaceI = meshFaces[i];
         label patchI = patches.whichPatch(meshFaceI);
@@ -336,41 +335,41 @@ int main(int argc, char *argv[])
       }
     }
     indirectPrimitivePatch extrudePatch
-    (
+    {
       IndirectList<face>
-      (
+      {
         mesh.faces(),
         meshFaces
-      ),
+      },
       mesh.points()
-    );
+    };
     // Determine extrudePatch normal
     pointField extrudePatchPointNormals
-    (
+    {
       PatchTools::pointNormals(mesh, extrudePatch)
-    );
+    };
     // Precalculate mesh edges for pp.edges.
     const labelList meshEdges
-    (
+    {
       extrudePatch.meshEdges
       (
         mesh.edges(),
         mesh.pointEdges()
       )
-    );
+    };
     // Global face indices engine
-    const globalIndex globalFaces(mesh.nFaces());
+    const globalIndex globalFaces{mesh.nFaces()};
     // Determine extrudePatch.edgeFaces in global numbering (so across
     // coupled patches)
     labelListList edgeGlobalFaces
-    (
+    {
       addPatchCellLayer::globalEdgeFaces
       (
         mesh,
         globalFaces,
         extrudePatch
       )
-    );
+    };
     // Determine what patches boundary edges need to get extruded into.
     // This might actually cause edge-connected processors to become
     // face-connected so might need to introduce new processor boundaries.
@@ -400,8 +399,8 @@ int main(int argc, char *argv[])
     Info<< "Adding overall " << nAdded << " processor patches." << endl;
     if (nAdded > 0)
     {
-      DynamicList<polyPatch*> newPatches(nPatches);
-      forAll(mesh.boundaryMesh(), patchI)
+      DynamicList<polyPatch*> newPatches{nPatches};
+      FOR_ALL(mesh.boundaryMesh(), patchI)
       {
         newPatches.append
         (
@@ -432,15 +431,15 @@ int main(int argc, char *argv[])
         newPatches.append
         (
           new processorPolyPatch
-          (
+          {
             name,
             0,                  // size
             mesh.nFaces(),      // start
             patchI,             // index
             mesh.boundaryMesh(),// polyBoundaryMesh
             Pstream::myProcNo(),// myProcNo
-            nbrProcI            // neighbProcNo
-          )
+            static_cast<int>(nbrProcI) // neighbProcNo
+          }
         );
       }
       // Add patches. Do no parallel updates.
@@ -459,9 +458,9 @@ int main(int argc, char *argv[])
       );
     }
     // Determine points and extrusion
-    pointField layer0Points(extrudePatch.nPoints());
-    pointField displacement(extrudePatch.nPoints());
-    forAll(displacement, pointI)
+    pointField layer0Points{extrudePatch.nPoints()};
+    pointField displacement{extrudePatch.nPoints()};
+    FOR_ALL(displacement, pointI)
     {
       const vector& patchNormal = extrudePatchPointNormals[pointI];
       // layer0 point
@@ -487,31 +486,31 @@ int main(int argc, char *argv[])
       Info<< "Moving mesh to layer0 points since differ from original"
         << " points - this can happen for wedge extrusions." << nl
         << endl;
-      pointField newPoints(mesh.points());
-      forAll(extrudePatch.meshPoints(), i)
+      pointField newPoints{mesh.points()};
+      FOR_ALL(extrudePatch.meshPoints(), i)
       {
         newPoints[extrudePatch.meshPoints()[i]] = layer0Points[i];
       }
       mesh.movePoints(newPoints);
     }
     // Layers per face
-    labelList nFaceLayers(extrudePatch.size(), model().nLayers());
+    labelList nFaceLayers{extrudePatch.size(), model().nLayers()};
     // Layers per point
-    labelList nPointLayers(extrudePatch.nPoints(), model().nLayers());
+    labelList nPointLayers{extrudePatch.nPoints(), model().nLayers()};
     // Displacement for first layer
-    vectorField firstLayerDisp(displacement*model().sumThickness(1));
+    vectorField firstLayerDisp{displacement*model().sumThickness(1)};
     // Expansion ratio not used.
-    scalarField ratio(extrudePatch.nPoints(), 1.0);
+    scalarField ratio{extrudePatch.nPoints(), 1.0};
     // Topo change container. Either copy an existing mesh or start
     // with empty storage (number of patches only needed for checking)
     autoPtr<polyTopoChange> meshMod
-    (
+    {
       (
         mode == MESH
-       ? new polyTopoChange(mesh)
-       : new polyTopoChange(patches.size())
+       ? new polyTopoChange{mesh}
+       : new polyTopoChange{patches.size()}
       )
-    );
+    };
     layerExtrude.setRefinement
     (
       globalFaces,
@@ -526,21 +525,21 @@ int main(int argc, char *argv[])
       meshMod()
     );
     // Reset points according to extrusion model
-    forAll(layerExtrude.addedPoints(), pointI)
+    FOR_ALL(layerExtrude.addedPoints(), pointI)
     {
       const labelList& pPoints = layerExtrude.addedPoints()[pointI];
-      forAll(pPoints, pPointI)
+      FOR_ALL(pPoints, pPointI)
       {
         label meshPointI = pPoints[pPointI];
         point modelPt
-        (
+        {
           model()
           (
             extrudePatch.localPoints()[pointI],
             extrudePatchPointNormals[pointI],
             pPointI+1       // layer
           )
-        );
+        };
         const_cast<DynamicList<point>&>
         (
           meshMod().points()
@@ -552,7 +551,7 @@ int main(int argc, char *argv[])
     const labelListList& layerFaces = layerExtrude.layerFaces();
     backPatchFaces.setSize(layerFaces.size());
     frontPatchFaces.setSize(layerFaces.size());
-    forAll(backPatchFaces, patchFaceI)
+    FOR_ALL(backPatchFaces, patchFaceI)
     {
       backPatchFaces[patchFaceI]  = layerFaces[patchFaceI].first();
       frontPatchFaces[patchFaceI] = layerFaces[patchFaceI].last();
@@ -564,14 +563,14 @@ int main(int argc, char *argv[])
     (
       meshFromMesh,
       IOobject
-      (
+      {
         regionName,
         runTimeExtruded.constant(),
         runTimeExtruded,
         IOobject::NO_READ,
         IOobject::AUTO_WRITE,
         false
-      ),
+      },
       mesh
     );
     layerExtrude.updateMesh
@@ -602,10 +601,10 @@ int main(int argc, char *argv[])
           layerExtrude.layerFaces()
         )
       );
-      forAll(addedCells, faceI)
+      FOR_ALL(addedCells, faceI)
       {
         const labelList& aCells = addedCells[faceI];
-        forAll(aCells, i)
+        FOR_ALL(aCells, i)
         {
           addedCellsSet.insert(aCells[i]);
         }
@@ -615,16 +614,16 @@ int main(int argc, char *argv[])
   else
   {
     // Read from surface
-    fileName surfName(dict.lookup("surface"));
+    fileName surfName{dict.lookup("surface")};
     surfName.expand();
     Info<< "Extruding surfaceMesh read from file " << surfName << nl
       << endl;
-    MeshedSurface<face> fMesh(surfName);
+    MeshedSurface<face> fMesh{surfName};
     if (flipNormals)
     {
       Info<< "Flipping faces." << nl << endl;
       faceList& faces = const_cast<faceList&>(fMesh.faces());
-      forAll(faces, i)
+      FOR_ALL(faces, i)
       {
         faces[i] = fMesh[i].reverseFace();
       }
@@ -638,16 +637,16 @@ int main(int argc, char *argv[])
     meshFromSurface.reset
     (
       new extrudedMesh
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           extrudedMesh::defaultRegion,
           runTimeExtruded.constant(),
           runTimeExtruded
-        ),
+        },
         fMesh,
         model()
-      )
+      }
     );
     // Get the faces on front and back
     frontPatchName = "originalPatch";
@@ -685,9 +684,9 @@ int main(int argc, char *argv[])
     edgeCollapser collapser(mesh);
     const edgeList& edges = mesh.edges();
     const pointField& points = mesh.points();
-    PackedBoolList collapseEdge(mesh.nEdges());
-    Map<point> collapsePointToLocation(mesh.nPoints());
-    forAll(edges, edgeI)
+    PackedBoolList collapseEdge{mesh.nEdges()};
+    Map<point> collapsePointToLocation{mesh.nPoints()};
+    FOR_ALL(edges, edgeI)
     {
       const edge& e = edges[edgeI];
       scalar d = e.mag(points);
@@ -700,8 +699,8 @@ int main(int argc, char *argv[])
       }
     }
     List<pointEdgeCollapse> allPointInfo;
-    const globalIndex globalPoints(mesh.nPoints());
-    labelList pointPriority(mesh.nPoints(), 0);
+    const globalIndex globalPoints{mesh.nPoints()};
+    labelList pointPriority{mesh.nPoints(), 0};
     collapser.consistentCollapse
     (
       globalPoints,
@@ -711,7 +710,7 @@ int main(int argc, char *argv[])
       allPointInfo
     );
     // Topo change container
-    polyTopoChange meshMod(mesh);
+    polyTopoChange meshMod{mesh};
     // Put all modifications into meshMod
     bool anyChange = collapser.setRefinement(allPointInfo, meshMod);
     if (anyChange)
@@ -754,12 +753,12 @@ int main(int argc, char *argv[])
   }
   // Merging front and back patch faces
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Switch mergeFaces(dict.lookup("mergeFaces"));
+  Switch mergeFaces{dict.lookup("mergeFaces")};
   if (mergeFaces)
   {
     if (mode == MESH)
     {
-      FatalErrorIn(args.executable())
+      FATAL_ERROR_IN(args.executable())
         << "Cannot stitch front and back of extrusion since"
         << " in 'mesh' mode (extrusion appended to mesh)."
         << exit(FatalError);
@@ -770,60 +769,60 @@ int main(int argc, char *argv[])
       << backPatchName << " together ..." << nl << endl;
     if (frontPatchFaces.size() != backPatchFaces.size())
     {
-      FatalErrorIn(args.executable())
+      FATAL_ERROR_IN(args.executable())
         << "Differing number of faces on front ("
         << frontPatchFaces.size() << ") and back ("
         << backPatchFaces.size() << ")"
         << exit(FatalError);
     }
-    polyTopoChanger stitcher(mesh);
+    polyTopoChanger stitcher{mesh};
     stitcher.setSize(1);
-    const word cutZoneName("originalCutFaceZone");
+    const word cutZoneName{"originalCutFaceZone"};
     List<faceZone*> fz
-    (
+    {
       1,
       new faceZone
-      (
+      {
         cutZoneName,
         frontPatchFaces,
-        boolList(frontPatchFaces.size(), false),
+        {frontPatchFaces.size(), false},
         0,
         mesh.faceZones()
-      )
-    );
-    mesh.addZones(List<pointZone*>(0), fz, List<cellZone*>(0));
+      }
+    };
+    mesh.addZones(List<pointZone*>{0}, fz, List<cellZone*>{0});
     // Add the perfect interface mesh modifier
     perfectInterface perfectStitcher
-    (
+    {
       "couple",
       0,
       stitcher,
       cutZoneName,
       word::null,         // dummy patch name
       word::null          // dummy patch name
-    );
+    };
     // Topo change container
-    polyTopoChange meshMod(mesh);
+    polyTopoChange meshMod{mesh};
     perfectStitcher.setRefinement
     (
       indirectPrimitivePatch
-      (
+      {
         IndirectList<face>
-        (
+        {
           mesh.faces(),
           frontPatchFaces
-        ),
+        },
         mesh.points()
-      ),
+      },
       indirectPrimitivePatch
-      (
+      {
         IndirectList<face>
-        (
+        {
           mesh.faces(),
           backPatchFaces
-        ),
+        },
         mesh.points()
-      ),
+      },
       meshMod
     );
     // Construct new mesh from polyTopoChange.
@@ -842,19 +841,19 @@ int main(int argc, char *argv[])
   Info<< "Writing mesh to " << mesh.objectPath() << nl << endl;
   if (!mesh.write())
   {
-    FatalErrorIn(args.executable()) << "Failed writing mesh"
+    FATAL_ERROR_IN(args.executable()) << "Failed writing mesh"
       << exit(FatalError);
   }
   // Need writing cellSet
   label nAdded = returnReduce(addedCellsSet.size(), sumOp<label>());
   if (nAdded > 0)
   {
-    cellSet addedCells(mesh, "addedCells", addedCellsSet);
+    cellSet addedCells{mesh, "addedCells", addedCellsSet};
     Info<< "Writing added cells to cellSet " << addedCells.name()
       << nl << endl;
     if (!addedCells.write())
     {
-      FatalErrorIn(args.executable()) << "Failed writing cellSet"
+      FATAL_ERROR_IN(args.executable()) << "Failed writing cellSet"
         << addedCells.name()
         << exit(FatalError);
     }

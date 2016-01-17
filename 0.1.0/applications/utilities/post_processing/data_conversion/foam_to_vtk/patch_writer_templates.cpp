@@ -10,13 +10,13 @@ void mousse::patchWriter::write
   const PtrList<GeometricField<Type, fvPatchField, volMesh> >& flds
 )
 {
-  forAll(flds, fieldI)
+  FOR_ALL(flds, fieldI)
   {
     const GeometricField<Type, fvPatchField, volMesh>& fld = flds[fieldI];
     os_ << fld.name() << ' ' << pTraits<Type>::nComponents << ' '
       << nFaces_ << " float" << std::endl;
-    DynamicList<floatScalar> fField(pTraits<Type>::nComponents*nFaces_);
-    forAll(patchIDs_, j)
+    DynamicList<floatScalar> fField{pTraits<Type>::nComponents*nFaces_};
+    FOR_ALL(patchIDs_, j)
     {
       label patchI = patchIDs_[j];
       const fvPatchField<Type>& pfld = fld.boundaryField()[patchI];
@@ -38,14 +38,14 @@ void mousse::patchWriter::write
   const PtrList<GeometricField<Type, pointPatchField, pointMesh> >& flds
 )
 {
-  forAll(flds, fieldI)
+  FOR_ALL(flds, fieldI)
   {
     const GeometricField<Type, pointPatchField, pointMesh>& fld =
       flds[fieldI];
     os_ << fld.name() << ' ' << pTraits<Type>::nComponents << ' '
       << nPoints_ << " float" << std::endl;
     DynamicList<floatScalar> fField(pTraits<Type>::nComponents*nPoints_);
-    forAll(patchIDs_, j)
+    FOR_ALL(patchIDs_, j)
     {
       label patchI = patchIDs_[j];
       const pointPatchField<Type>& pfld = fld.boundaryField()[patchI];
@@ -61,13 +61,13 @@ void mousse::patchWriter::write
   const PtrList<GeometricField<Type, fvPatchField, volMesh> >& flds
 )
 {
-  forAll(flds, fieldI)
+  FOR_ALL(flds, fieldI)
   {
     const GeometricField<Type, fvPatchField, volMesh>& fld = flds[fieldI];
     os_ << fld.name() << ' ' << pTraits<Type>::nComponents << ' '
       << nPoints_ << " float" << std::endl;
-    DynamicList<floatScalar> fField(pTraits<Type>::nComponents*nPoints_);
-    forAll(patchIDs_, j)
+    DynamicList<floatScalar> fField{pTraits<Type>::nComponents*nPoints_};
+    FOR_ALL(patchIDs_, j)
     {
       label patchI = patchIDs_[j];
       const fvPatchField<Type>& pfld = fld.boundaryField()[patchI];

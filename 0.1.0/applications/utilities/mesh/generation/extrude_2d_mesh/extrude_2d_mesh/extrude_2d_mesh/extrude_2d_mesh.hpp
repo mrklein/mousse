@@ -41,13 +41,9 @@ class extrude2DMesh
     void check2D() const;
     //- Find extrusion direction
     //void findExtrudeDirection();
-    //- Disallow default bitwise copy construct
-    extrude2DMesh(const extrude2DMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const extrude2DMesh&);
 public:
   //- Runtime type information
-  ClassName("extrude2DMesh");
+  CLASS_NAME("extrude2DMesh");
   // Constructors
     extrude2DMesh
     (
@@ -55,6 +51,10 @@ public:
       const dictionary& dict,
       const extrudeModel& model
     );
+    //- Disallow default bitwise copy construct
+    extrude2DMesh(const extrude2DMesh&) = delete;
+    //- Disallow default bitwise assignment
+    extrude2DMesh& operator=(const extrude2DMesh&) = delete;
   //- Destructor
   ~extrude2DMesh();
   // Member Functions

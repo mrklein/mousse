@@ -12,11 +12,11 @@ bool mousse::vtkTopo::decomposePoly = true;
 // Constructors 
 mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
 :
-  mesh_(mesh),
-  vertLabels_(),
-  cellTypes_(),
-  addPointCellLabels_(),
-  superCells_()
+  mesh_{mesh},
+  vertLabels_{},
+  cellTypes_{},
+  addPointCellLabels_{},
+  superCells_{}
 {
   const cellModel& tet = *(cellModeller::lookup("tet"));
   const cellModel& pyr = *(cellModeller::lookup("pyr"));
@@ -35,7 +35,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
   // and cells
   if (decomposePoly)
   {
-    forAll(cellShapes, cellI)
+    FOR_ALL(cellShapes, cellI)
     {
       const cellModel& model = cellShapes[cellI].model();
       if
@@ -49,7 +49,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
       )
       {
         const cell& cFaces = mesh_.cells()[cellI];
-        forAll(cFaces, cFaceI)
+        FOR_ALL(cFaces, cFaceI)
         {
           const face& f = mesh_.faces()[cFaces[cFaceI]];
           label nQuads = 0;
@@ -74,7 +74,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
   cellTypes_.setSize(cellShapes.size() + nAddCells);
   // Set counters for additional points and additional cells
   label addPointI = 0, addCellI = 0;
-  forAll(cellShapes, cellI)
+  FOR_ALL(cellShapes, cellI)
   {
     const cellShape& cellShape = cellShapes[cellI];
     const cellModel& cellModel = cellShape.model();
@@ -139,7 +139,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
       // Whether to insert cell in place of original or not.
       bool substituteCell = true;
       const labelList& cFaces = mesh_.cells()[cellI];
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         const face& f = mesh_.faces()[cFaces[cFaceI]];
         const bool isOwner = (owner[cFaces[cFaceI]] == cellI);
@@ -153,7 +153,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
         label trii = 0;
         label quadi = 0;
         f.trianglesQuads(mesh_.points(), trii, quadi, triFcs, quadFcs);
-        forAll(quadFcs, quadI)
+        FOR_ALL(quadFcs, quadI)
         {
           label thisCellI;
           if (substituteCell)
@@ -193,7 +193,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
           addVtkVerts[4] = newVertexLabel;
           cellTypes_[thisCellI] = VTK_PYRAMID;
         }
-        forAll(triFcs, triI)
+        FOR_ALL(triFcs, triI)
         {
           label thisCellI;
           if (substituteCell)
@@ -236,7 +236,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
       // space for the number of faces and size of each face
       label nData = 1 + cFaces.size();
       // count total number of face points
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         const face& f = mesh.faces()[cFaces[cFaceI]];
         nData += f.size();   // space for the face labels
@@ -245,7 +245,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
       nData = 0;
       vtkVerts[nData++] = cFaces.size();
       // build face stream
-      forAll(cFaces, cFaceI)
+      FOR_ALL(cFaces, cFaceI)
       {
         const face& f = mesh.faces()[cFaces[cFaceI]];
         const bool isOwner = (owner[cFaces[cFaceI]] == cellI);
@@ -253,7 +253,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
         vtkVerts[nData++] = f.size();
         if (isOwner)
         {
-          forAll(f, fp)
+          FOR_ALL(f, fp)
           {
             vtkVerts[nData++] = f[fp];
           }
@@ -262,7 +262,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
         {
           // fairly immaterial if we reverse the list
           // or use face::reverseFace()
-          forAllReverse(f, fp)
+          FOR_ALL_REVERSE(f, fp)
           {
             vtkVerts[nData++] = f[fp];
           }

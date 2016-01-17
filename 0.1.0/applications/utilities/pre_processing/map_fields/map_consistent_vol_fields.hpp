@@ -25,32 +25,32 @@ void MapConsistentVolFields
     GeometricField<Type, fvPatchField, volMesh>::typeName
   );
   IOobjectList fields = objects.lookupClass(fieldClassName);
-  forAllIter(IOobjectList, fields, fieldIter)
+  FOR_ALL_ITER(IOobjectList, fields, fieldIter)
   {
     Info<< "    interpolating " << fieldIter()->name()
       << endl;
     // Read field
     GeometricField<Type, fvPatchField, volMesh> fieldSource
-    (
+    {
       *fieldIter(),
       meshSource
-    );
+    };
     IOobject fieldTargetIOobject
-    (
+    {
       fieldIter()->name(),
       meshTarget.time().timeName(),
       meshTarget,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    );
+    };
     if (fieldTargetIOobject.headerOk())
     {
       // Read fieldTarget
       GeometricField<Type, fvPatchField, volMesh> fieldTarget
-      (
+      {
         fieldTargetIOobject,
         meshTarget
-      );
+      };
       // Interpolate field
       meshToMesh0Interp.interpolate
       (
@@ -67,7 +67,7 @@ void MapConsistentVolFields
       fieldTargetIOobject.readOpt() = IOobject::NO_READ;
       // Interpolate field
       GeometricField<Type, fvPatchField, volMesh> fieldTarget
-      (
+      {
         fieldTargetIOobject,
         meshToMesh0Interp.interpolate
         (
@@ -75,7 +75,7 @@ void MapConsistentVolFields
           mapOrder,
           cop
         )
-      );
+      };
       // Write field
       fieldTarget.write();
     }

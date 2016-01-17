@@ -15,7 +15,7 @@ using namespace mousse;
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
-  #include "add_region_option.hpp"
+  #include "add_region_option.inc"
   argList::addBoolOption
   (
     "noTopology",
@@ -36,10 +36,10 @@ int main(int argc, char *argv[])
     "meshQuality",
     "read user-defined mesh quality criterions from system/meshQualityDict"
   );
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
-  #include "create_named_poly_mesh.hpp"
+  #include "create_named_poly_mesh.inc"
   const bool noTopology  = args.optionFound("noTopology");
   const bool allGeometry = args.optionFound("allGeometry");
   const bool allTopology = args.optionFound("allTopology");
@@ -67,28 +67,23 @@ int main(int argc, char *argv[])
     qualDict.reset
     (
       new IOdictionary
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           "meshQualityDict",
           mesh.time().system(),
           mesh,
           IOobject::MUST_READ,
-          IOobject::NO_WRITE
-        )
-     )
+        }
+      }
     );
   }
-  forAll(timeDirs, timeI)
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     polyMesh::readUpdateState state = mesh.readUpdate();
-    if
-    (
-      !timeI
-    || state == polyMesh::TOPO_CHANGE
-    || state == polyMesh::TOPO_PATCH_CHANGE
-    )
+    if (!timeI || state == polyMesh::TOPO_CHANGE
+        || state == polyMesh::TOPO_PATCH_CHANGE)
     {
       Info<< "Time = " << runTime.timeName() << nl << endl;
       // Clear mesh before checking

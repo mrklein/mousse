@@ -13,7 +13,7 @@ mousse::tmp<Field<Type> > mousse::surfaceMeshWriter::getFaceField
   const polyBoundaryMesh& patches = sfld.mesh().boundaryMesh();
   tmp<Field<Type> > tfld(new Field<Type>(pp_.size()));
   Field<Type>& fld = tfld();
-  forAll(pp_.addressing(), i)
+  FOR_ALL(pp_.addressing(), i)
   {
     label faceI = pp_.addressing()[i];
     label patchI = patches.whichPatch(faceI);
@@ -35,13 +35,13 @@ void mousse::surfaceMeshWriter::write
   const PtrList<GeometricField<Type, fvsPatchField, surfaceMesh> >& sflds
 )
 {
-  forAll(sflds, fieldI)
+  FOR_ALL(sflds, fieldI)
   {
     const GeometricField<Type, fvsPatchField, surfaceMesh>& fld =
       sflds[fieldI];
     os_ << fld.name() << ' ' << pTraits<Type>::nComponents << ' '
       << pp_.size() << " float" << std::endl;
-    DynamicList<floatScalar> fField(pTraits<Type>::nComponents*pp_.size());
+    DynamicList<floatScalar> fField{pTraits<Type>::nComponents*pp_.size()};
     writeFuns::insert(getFaceField(fld)(), fField);
     writeFuns::write(os_, binary_, fField);
   }

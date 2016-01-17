@@ -18,26 +18,25 @@ class ensightBinaryStream
   // Private data
     //- Description of data_
     autoPtr<std::ofstream> str_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    ensightBinaryStream(const ensightBinaryStream&);
-    //- Disallow default bitwise assignment
-    void operator=(const ensightBinaryStream&);
 public:
   // Constructors
     //- Construct from components
     ensightBinaryStream(const fileName& f, const Time&)
     :
-      ensightStream(f),
+      ensightStream{f},
       str_
-      (
+      {
         new std::ofstream
-        (
+        {
           f.c_str(),
           ios_base::out | ios_base::binary | ios_base::trunc
-        )
-      )
+        }
+      }
     {}
+    //- Disallow default bitwise copy construct
+    ensightBinaryStream(const ensightBinaryStream&) = delete;
+    //- Disallow default bitwise assignment
+    ensightBinaryStream& operator=(const ensightBinaryStream&) = delete;
   //- Destructor
   virtual ~ensightBinaryStream()
   {}
@@ -60,8 +59,8 @@ public:
     {
       if (sf.size())
       {
-        List<float> temp(sf.size());
-        forAll(sf, i)
+        List<float> temp{sf.size()};
+        FOR_ALL(sf, i)
         {
           temp[i] = float(sf[i]);
         }

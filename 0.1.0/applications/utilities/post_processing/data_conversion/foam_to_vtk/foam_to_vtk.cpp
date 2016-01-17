@@ -31,7 +31,7 @@ void print(const char* msg, Ostream& os, const PtrList<GeoField>& flds)
   if (flds.size())
   {
     os  << msg;
-    forAll(flds, i)
+    FOR_ALL(flds, i)
     {
       os  << ' ' << flds[i].name();
     }
@@ -40,7 +40,7 @@ void print(const char* msg, Ostream& os, const PtrList<GeoField>& flds)
 }
 void print(Ostream& os, const wordList& flds)
 {
-  forAll(flds, i)
+  FOR_ALL(flds, i)
   {
     os  << ' ' << flds[i];
   }
@@ -54,14 +54,11 @@ labelList getSelectedPatches
 {
   DynamicList<label> patchIDs(patches.size());
   Info<< "Combining patches:" << endl;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
-    if
-    (
-      isType<emptyPolyPatch>(pp)
-      || (Pstream::parRun() && isType<processorPolyPatch>(pp))
-    )
+    if (isType<emptyPolyPatch>(pp)
+        || (Pstream::parRun() && isType<processorPolyPatch>(pp)))
     {
       Info<< "    discarding empty/processor patch " << patchI
         << " " << pp.name() << endl;
@@ -86,7 +83,7 @@ int main(int argc, char *argv[])
     "legacy VTK file format writer"
   );
   timeSelector::addOptions();
-  #include "add_region_option.hpp"
+  #include "add_region_option.inc"
   argList::addOption
   (
     "fields",
@@ -167,8 +164,8 @@ int main(int argc, char *argv[])
     "useTimeName",
     "use the time name instead of the time index when naming the files"
   );
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   const bool doWriteInternal = !args.optionFound("noInternal");
   const bool doFaceZones     = !args.optionFound("noFaceZones");
   const bool doLinks         = !args.optionFound("noLinks");
@@ -178,7 +175,7 @@ int main(int argc, char *argv[])
   vtkTopo::decomposePoly     = !args.optionFound("poly");
   if (binary && (sizeof(floatScalar) != 4 || sizeof(label) != 4))
   {
-    FatalErrorIn(args.executable())
+    FATAL_ERROR_IN(args.executable())
       << "floatScalar and/or label are not 4 bytes in size" << nl
       << "Hence cannot use binary VTK format. Please use -ascii"
       << exit(FatalError);
@@ -186,14 +183,14 @@ int main(int argc, char *argv[])
   const bool nearCellValue = args.optionFound("nearCellValue");
   if (nearCellValue)
   {
-    WarningIn(args.executable())
+    WARNING_IN(args.executable())
       << "Using neighbouring cell value instead of patch value"
       << nl << endl;
   }
   const bool noPointValues = args.optionFound("noPointValues");
   if (noPointValues)
   {
-    WarningIn(args.executable())
+    WARNING_IN(args.executable())
       << "Outputting cell values only" << nl << endl;
   }
   const bool allPatches = args.optionFound("allPatches");
@@ -223,7 +220,7 @@ int main(int argc, char *argv[])
   args.optionReadIfPresent("faceSet", faceSetName);
   args.optionReadIfPresent("pointSet", pointSetName);
   instantList timeDirs = timeSelector::select0(runTime, args);
-  #include "create_named_mesh.hpp"
+  #include "create_named_mesh.inc"
   // VTK/ directory in the case
   fileName fvPath(runTime.path()/"VTK");
   // Directory of mesh (region0 gets filtered out)
@@ -258,7 +255,7 @@ int main(int argc, char *argv[])
   vtkMesh vMesh(mesh, cellSetName);
   // Scan for all possible lagrangian clouds
   HashSet<fileName> allCloudDirs;
-  forAll(timeDirs, timeI)
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     fileNameList cloudDirs
@@ -269,14 +266,14 @@ int main(int argc, char *argv[])
         fileName::DIRECTORY
       )
     );
-    forAll(cloudDirs, i)
+    FOR_ALL(cloudDirs, i)
     {
       IOobjectList sprayObjs
-      (
+      {
         mesh,
         runTime.timeName(),
         cloud::prefix/cloudDirs[i]
-      );
+      };
       IOobject* positionsPtr = sprayObjs.lookup(word("positions"));
       if (positionsPtr)
       {
@@ -289,7 +286,7 @@ int main(int argc, char *argv[])
       }
     }
   }
-  forAll(timeDirs, timeI)
+  FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
     Info<< "Time: " << runTime.timeName() << endl;
@@ -311,16 +308,11 @@ int main(int argc, char *argv[])
     if (faceSetName.size())
     {
       // Load the faceSet
-      faceSet set(mesh, faceSetName);
+      faceSet set{mesh, faceSetName};
       // Filename as if patch with same name.
       mkDir(fvPath/set.name());
-      fileName patchFileName
-      (
-        fvPath/set.name()/set.name()
-       + "_"
-       + timeDesc
-       + ".vtk"
-      );
+      fileName patchFileName(fvPath/set.name()/set.name() + "_" + timeDesc
+                             + ".vtk");
       Info<< "    FaceSet   : " << patchFileName << endl;
       writeFaceSet(binary, vMesh, set, patchFileName);
       continue;
@@ -344,7 +336,7 @@ int main(int argc, char *argv[])
       continue;
     }
     // Search for list of objects for this time
-    IOobjectList objects(mesh, runTime.timeName());
+    IOobjectList objects{mesh, runTime.timeName()};
     HashSet<word> selectedFields;
     bool specifiedFields = args.optionReadIfPresent
     (
@@ -512,11 +504,7 @@ int main(int argc, char *argv[])
         writer.write(pInterp, vtf);
       }
     }
-    //---------------------------------------------------------------------
-    //
     // Write surface fields
-    //
-    //---------------------------------------------------------------------
     if (args.optionFound("surfaceFields"))
     {
       PtrList<surfaceScalarField> ssf;
@@ -545,7 +533,7 @@ int main(int argc, char *argv[])
         label sz = svf.size();
         svf.setSize(sz+ssf.size());
         surfaceVectorField n(mesh.Sf()/mesh.magSf());
-        forAll(ssf, i)
+        FOR_ALL(ssf, i)
         {
           svf.set(sz+i, ssf[i]*n);
           svf[sz+i].rename(ssf[i].name());
@@ -570,11 +558,7 @@ int main(int argc, char *argv[])
         );
       }
     }
-    //---------------------------------------------------------------------
-    //
     // Write patches (POLYDATA file, one for each patch)
-    //
-    //---------------------------------------------------------------------
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
     if (allPatches)
     {
@@ -640,7 +624,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-      forAll(patches, patchI)
+      FOR_ALL(patches, patchI)
       {
         const polyPatch& pp = patches[patchI];
         if (!findStrings(excludePatches, pp.name()))
@@ -719,11 +703,7 @@ int main(int argc, char *argv[])
         }
       }
     }
-    //---------------------------------------------------------------------
-    //
     // Write faceZones (POLYDATA file, one for each zone)
-    //
-    //---------------------------------------------------------------------
     if (doFaceZones)
     {
       PtrList<surfaceScalarField> ssf;
@@ -747,7 +727,7 @@ int main(int argc, char *argv[])
       );
       print("    surfVectorFields  :", Info, svf);
       const faceZoneMesh& zones = mesh.faceZones();
-      forAll(zones, zoneI)
+      FOR_ALL(zones, zoneI)
       {
         const faceZone& fz = zones[zoneI];
         mkDir(fvPath/fz.name());
@@ -792,12 +772,8 @@ int main(int argc, char *argv[])
         writer.write(svf);
       }
     }
-    //---------------------------------------------------------------------
-    //
     // Write lagrangian data
-    //
-    //---------------------------------------------------------------------
-    forAllConstIter(HashSet<fileName>, allCloudDirs, iter)
+    FOR_ALL_CONST_ITER(HashSet<fileName>, allCloudDirs, iter)
     {
       const fileName& cloudName = iter.key();
       // Always create the cloud directory.
@@ -888,11 +864,7 @@ int main(int argc, char *argv[])
       }
     }
   }
-  //---------------------------------------------------------------------
-  //
   // Link parallel outputs back to undecomposed case for ease of loading
-  //
-  //---------------------------------------------------------------------
   if (Pstream::parRun() && doLinks)
   {
     mkDir(runTime.path()/".."/"VTK");
@@ -910,10 +882,10 @@ int main(int argc, char *argv[])
     label sz = dirs.size();
     dirs.setSize(sz+1);
     dirs[sz] = ".";
-    forAll(dirs, i)
+    FOR_ALL(dirs, i)
     {
       fileNameList subFiles(readDir(procVTK/dirs[i], fileName::FILE));
-      forAll(subFiles, j)
+      FOR_ALL(subFiles, j)
       {
         fileName procFile(procVTK/dirs[i]/subFiles[j]);
         if (exists(procFile))
@@ -930,7 +902,7 @@ int main(int argc, char *argv[])
           );
           if (system(cmd.c_str()) == -1)
           {
-            WarningIn(args.executable())
+            WARNING_IN(args.executable())
               << "Could not execute command " << cmd << endl;
           }
         }

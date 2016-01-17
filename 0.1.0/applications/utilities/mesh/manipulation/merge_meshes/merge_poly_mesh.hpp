@@ -32,20 +32,20 @@ class mergePolyMesh
     //- Cell zone names
     DynamicList<word> cellZoneNames_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    mergePolyMesh(const mergePolyMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const mergePolyMesh&);
     //- Return patch index given a name and type
     label patchIndex(const polyPatch&);
     //- Return zone index given a list of active zones and a name
     label zoneIndex(DynamicList<word>&, const word&);
 public:
   //- Runtime type information
-  TypeName("mergePolyMesh");
+  TYPE_NAME("mergePolyMesh");
   // Constructors
     //- Construct from IOobject
     mergePolyMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    mergePolyMesh(const mergePolyMesh&) = delete;
+    //- Disallow default bitwise assignment
+    mergePolyMesh& operator=(const mergePolyMesh&) = delete;
   //- Destructor
   virtual ~mergePolyMesh()
   {}

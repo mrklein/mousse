@@ -50,7 +50,7 @@ void ensightParticlePositions
     ensightFile<< setw(8) << parcels.size() << nl;
     label nParcels = 0;
     // Output positions
-    forAllConstIter(Cloud<passiveParticle>, parcels, elmnt)
+    FOR_ALL_CONST_ITER(Cloud<passiveParticle>, parcels, elmnt)
     {
       const vector& p = elmnt().position();
       ensightFile

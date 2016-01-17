@@ -101,11 +101,11 @@ wordList addProcessorPatches
 {
   // Add the processor patches to the cutting list
   HashTable<label> cuttingPatchTable;
-  forAll(cuttingPatches, i)
+  FOR_ALL(cuttingPatches, i)
   {
     cuttingPatchTable.insert(cuttingPatches[i], i);
   }
-  forAll(meshTarget.boundary(), patchi)
+  FOR_ALL(meshTarget.boundary(), patchi)
   {
     if (isA<processorFvPatch>(meshTarget.boundary()[patchi]))
     {
@@ -184,8 +184,8 @@ int main(int argc, char *argv[])
   {
     FatalError.exit();
   }
-  fileName rootDirTarget(args.rootPath());
-  fileName caseDirTarget(args.globalCaseName());
+  fileName rootDirTarget{args.rootPath()};
+  fileName caseDirTarget{args.globalCaseName()};
   const fileName casePath = args[1];
   const fileName rootDirSource = casePath.path();
   const fileName caseDirSource = casePath.name();
@@ -224,7 +224,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-      FatalErrorIn(args.executable())
+      FATAL_ERROR_IN(args.executable())
         << "Unknown mapMethod " << mapMethod << ". Valid options are: "
         << "mapNearest, interpolate and cellPointInterpolate"
         << exit(FatalError);
@@ -236,70 +236,70 @@ int main(int argc, char *argv[])
   {
     Info<< "Subtracting mapped source field from target" << endl;
   }
-  #include "create_times.hpp"
+  #include "create_times.inc"
   HashTable<word> patchMap;
   wordList cuttingPatches;
   if (!consistent)
   {
     IOdictionary mapFieldsDict
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "mapFieldsDict",
         runTimeTarget.system(),
         runTimeTarget,
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     mapFieldsDict.lookup("patchMap") >> patchMap;
     mapFieldsDict.lookup("cuttingPatches") >>  cuttingPatches;
   }
   if (parallelSource && !parallelTarget)
   {
     IOdictionary decompositionDict
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "decomposeParDict",
         runTimeSource.system(),
         runTimeSource,
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE
-      )
-    );
-    int nProcs(readInt(decompositionDict.lookup("numberOfSubdomains")));
+      }
+    };
+    int nProcs{readInt(decompositionDict.lookup("numberOfSubdomains"))};
     Info<< "Create target mesh\n" << endl;
     fvMesh meshTarget
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         targetRegion,
         runTimeTarget.timeName(),
         runTimeTarget
-      )
-    );
+      }
+    };
     Info<< "Target mesh size: " << meshTarget.nCells() << endl;
     for (int procI=0; procI<nProcs; procI++)
     {
       Info<< nl << "Source processor " << procI << endl;
       Time runTimeSource
-      (
+      {
         Time::controlDictName,
         rootDirSource,
         caseDirSource/fileName(word("processor") + name(procI))
-      );
-      #include "set_time_index.hpp"
+      };
+      #include "set_time_index.inc"
       fvMesh meshSource
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           sourceRegion,
           runTimeSource.timeName(),
           runTimeSource
-        )
-      );
+        }
+      };
       Info<< "mesh size: " << meshSource.nCells() << endl;
       if (consistent)
       {
@@ -328,47 +328,47 @@ int main(int argc, char *argv[])
   else if (!parallelSource && parallelTarget)
   {
     IOdictionary decompositionDict
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "decomposeParDict",
         runTimeTarget.system(),
         runTimeTarget,
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE
-      )
-    );
-    int nProcs(readInt(decompositionDict.lookup("numberOfSubdomains")));
+      }
+    };
+    int nProcs{readInt(decompositionDict.lookup("numberOfSubdomains"))};
     Info<< "Create source mesh\n" << endl;
-    #include "set_time_index.hpp"
+    #include "set_time_index.inc"
     fvMesh meshSource
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         sourceRegion,
         runTimeSource.timeName(),
         runTimeSource
-      )
-    );
+      }
+    };
     Info<< "Source mesh size: " << meshSource.nCells() << endl;
     for (int procI=0; procI<nProcs; procI++)
     {
       Info<< nl << "Target processor " << procI << endl;
       Time runTimeTarget
-      (
+      {
         Time::controlDictName,
         rootDirTarget,
         caseDirTarget/fileName(word("processor") + name(procI))
-      );
+      };
       fvMesh meshTarget
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           targetRegion,
           runTimeTarget.timeName(),
           runTimeTarget
-        )
-      );
+        }
+      };
       Info<< "mesh size: " << meshTarget.nCells() << endl;
       if (consistent)
       {
@@ -397,58 +397,58 @@ int main(int argc, char *argv[])
   else if (parallelSource && parallelTarget)
   {
     IOdictionary decompositionDictSource
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "decomposeParDict",
         runTimeSource.system(),
         runTimeSource,
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE
-      )
-    );
+      }
+    };
     int nProcsSource
-    (
+    {
       readInt(decompositionDictSource.lookup("numberOfSubdomains"))
-    );
+    };
     IOdictionary decompositionDictTarget
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         "decomposeParDict",
         runTimeTarget.system(),
         runTimeTarget,
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE
-      )
-    );
+      }
+    };
     int nProcsTarget
-    (
+    {
       readInt(decompositionDictTarget.lookup("numberOfSubdomains"))
-    );
-    List<boundBox> bbsTarget(nProcsTarget);
-    List<bool> bbsTargetSet(nProcsTarget, false);
+    };
+    List<boundBox> bbsTarget{nProcsTarget};
+    List<bool> bbsTargetSet{nProcsTarget, false};
     for (int procISource=0; procISource<nProcsSource; procISource++)
     {
       Info<< nl << "Source processor " << procISource << endl;
       Time runTimeSource
-      (
+      {
         Time::controlDictName,
         rootDirSource,
         caseDirSource/fileName(word("processor") + name(procISource))
-      );
-      #include "set_time_index.hpp"
+      };
+      #include "set_time_index.inc"
       fvMesh meshSource
-      (
-        IOobject
-        (
+      {
+        // IOobject
+        {
           sourceRegion,
           runTimeSource.timeName(),
           runTimeSource
-        )
-      );
+        }
+      };
       Info<< "mesh size: " << meshSource.nCells() << endl;
-      boundBox bbSource(meshSource.bounds());
+      boundBox bbSource{meshSource.bounds()};
       for (int procITarget=0; procITarget<nProcsTarget; procITarget++)
       {
         if
@@ -462,21 +462,21 @@ int main(int argc, char *argv[])
         {
           Info<< nl << "Target processor " << procITarget << endl;
           Time runTimeTarget
-          (
+          {
             Time::controlDictName,
             rootDirTarget,
             caseDirTarget/fileName(word("processor")
            + name(procITarget))
-          );
+          };
           fvMesh meshTarget
-          (
-            IOobject
-            (
+          {
+            // IOobject
+            {
               targetRegion,
               runTimeTarget.timeName(),
               runTimeTarget
-            )
-          );
+            }
+          };
           Info<< "mesh size: " << meshTarget.nCells() << endl;
           bbsTarget[procITarget] = meshTarget.bounds();
           bbsTargetSet[procITarget] = true;
@@ -511,26 +511,26 @@ int main(int argc, char *argv[])
   }
   else
   {
-    #include "set_time_index.hpp"
+    #include "set_time_index.inc"
     Info<< "Create meshes\n" << endl;
     fvMesh meshSource
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         sourceRegion,
         runTimeSource.timeName(),
         runTimeSource
-      )
-    );
+      }
+    };
     fvMesh meshTarget
-    (
-      IOobject
-      (
+    {
+      // IOobject
+      {
         targetRegion,
         runTimeTarget.timeName(),
         runTimeTarget
-      )
-    );
+      }
+    };
     Info<< "Source mesh size: " << meshSource.nCells() << tab
       << "Target mesh size: " << meshTarget.nCells() << nl << endl;
     if (consistent)
