@@ -4,8 +4,8 @@ cd ${0%/*} || exit 1
 target_type=libso
 . $WM_PROJECT_DIR/wmake/scripts/allwmake-parse-arguments
 
-wmake_check_pwd "$WM_PROJECT_DIR/applications" || {
-    echo "Allwmake error: Current directory is not \$WM_PROJECT_DIR/applications"
+wmake-check-pwd "$WM_PROJECT_DIR/applications" || {
+    echo "allwmake error: Current directory is not \$WM_PROJECT_DIR/applications"
     echo "    The environment variables are inconsistent with the installation."
     echo "    Check the mousse entries in your dot-files and source them."
     exit 1
