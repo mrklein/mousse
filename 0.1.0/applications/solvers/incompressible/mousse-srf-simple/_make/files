@@ -1,0 +1,3 @@
+mousse_srf_simple.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-srf-simple

@@ -1,0 +1,3 @@
+mousse_srf_pimple.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-srf-pimple

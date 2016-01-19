@@ -1,0 +1,3 @@
+mousse_non_newtonian_ico.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-non-newtonian-ico
