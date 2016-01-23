@@ -1,0 +1,3 @@
+fluent_3d_mesh_to_foam.lpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-fluent-3d-mesh-to-foam

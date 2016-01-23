@@ -1,0 +1,6 @@
+extruded_triangle_cell_shape.cpp
+extruded_quad_cell_shape.cpp
+create_3d_cell_shape.cpp
+fluent_mesh_to_foam.lpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-fluent-mesh-to-foam
