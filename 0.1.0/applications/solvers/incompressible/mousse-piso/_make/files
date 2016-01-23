@@ -1,3 +1,0 @@
-mousse_piso.cpp
-
-EXE =  $(MOUSSE_APPBIN)/mousse-piso

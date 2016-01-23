@@ -1,3 +1,0 @@
-mousse_dym_pimple.cpp
-
-EXE =  $(MOUSSE_APPBIN)/mousse-dym-pimple

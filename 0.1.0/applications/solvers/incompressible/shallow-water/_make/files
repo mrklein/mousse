@@ -1,0 +1,3 @@
+shallow_water.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-shallow-water

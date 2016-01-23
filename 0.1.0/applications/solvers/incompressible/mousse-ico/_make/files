@@ -1,3 +1,0 @@
-mousse_ico.cpp
-
-EXE =  $(MOUSSE_APPBIN)/mousse-ico

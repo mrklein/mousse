@@ -1,3 +1,0 @@
-mousse_porous_simple.cpp
-
-EXE =  $(MOUSSE_APPBIN)/mousse-porous-simple

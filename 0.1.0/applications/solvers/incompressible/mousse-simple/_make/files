@@ -1,3 +1,0 @@
-mousse_simple.cpp
-
-EXE =  $(MOUSSE_APPBIN)/mousse-simple
