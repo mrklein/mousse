@@ -64,14 +64,14 @@ public:
         //- Construct from number
         versionNumber(const scalar num)
         :
-          versionNumber_(num),
-          index_(numberToIndex(num))
+          versionNumber_{num},
+          index_{numberToIndex(num)}
         {}
         //- Construct from Istream
         versionNumber(Istream& is)
         :
-          versionNumber_(readScalar(is)),
-          index_(numberToIndex(versionNumber_))
+          versionNumber_{readScalar(is)},
+          index_{numberToIndex(versionNumber_)}
         {}
       // Member functions
         //- Convert a version number into an index
@@ -182,12 +182,12 @@ public:
       compressionType compression=UNCOMPRESSED
     )
     :
-      format_(format),
-      version_(version),
-      compression_(compression),
-      openClosed_(CLOSED),
-      ioState_(ios_base::iostate(0)),
-      lineNumber_(0)
+      format_{format},
+      version_{version},
+      compression_{compression},
+      openClosed_{CLOSED},
+      ioState_{ios_base::iostate(0)},
+      lineNumber_{0}
     {
       setBad();
     }
@@ -396,9 +396,7 @@ Ostream& operator<<(Ostream& os, const IOstream::streamFormat& sf);
 Ostream& operator<<(Ostream& os, const IOstream::versionNumber& vn);
 template<>
 Ostream& operator<<(Ostream& os, const InfoProxy<IOstream>& ip);
-// --------------------------------------------------------------------
-// ------ Manipulators (not taking arguments)
-// --------------------------------------------------------------------
+
 typedef IOstream& (*IOstreamManip)(IOstream&);
 //- operator<< handling for manipulators without arguments
 inline IOstream& operator<<(IOstream& io, IOstreamManip f)

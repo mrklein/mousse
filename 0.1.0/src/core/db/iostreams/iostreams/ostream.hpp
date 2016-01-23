@@ -8,6 +8,7 @@
 //   (streams, files, token lists, etc).
 // SourceFiles
 //   ostream.cpp
+
 #ifndef ostream_hpp_
 #define ostream_hpp_
 
@@ -25,9 +26,9 @@ class Ostream
 protected:
   // Protected data
     //- Number of spaces per indent level
-    static const unsigned short indentSize_ = 4;
+    static const unsigned short indentSize_ = 2;
     //- Indentation of the entry from the start of the keyword
-    static const unsigned short entryIndentation_ = 16;
+    static const unsigned short entryIndentation_ = 1;
     //- Current indent level
     unsigned short indentLevel_;
 public:
@@ -40,8 +41,8 @@ public:
       compressionType compression=UNCOMPRESSED
     )
     :
-      IOstream(format, version, compression),
-      indentLevel_(0)
+      IOstream{format, version, compression},
+      indentLevel_{0}
     {}
   //- Destructor
   virtual ~Ostream()
@@ -120,9 +121,7 @@ public:
       return const_cast<Ostream&>(*this);
     }
 };
-// --------------------------------------------------------------------
-// ------ Manipulators (not taking arguments)
-// --------------------------------------------------------------------
+
 typedef Ostream& (*OstreamManip)(Ostream&);
 //- operator<< handling for manipulators without arguments
 inline Ostream& operator<<(Ostream& os, OstreamManip f)

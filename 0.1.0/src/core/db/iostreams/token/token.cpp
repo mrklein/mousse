@@ -18,7 +18,7 @@ DEFINE_RUN_TIME_SELECTION_TABLE(tokenCompound, Istream);
 // Private Member Functions
 void mousse::token::parseError(const char* expected) const
 {
-  FatalIOError
+  FATAL_IO_ERROR
     << "Parse error, expected a " << expected
     << ", found \n    " << info() << endl;
 }
@@ -53,10 +53,7 @@ mousse::autoPtr<mousse::token::compound> mousse::token::compound::New
 bool mousse::token::compound::isCompound(const word& name)
 {
   return
-  (
-    IstreamConstructorTablePtr_
-    && IstreamConstructorTablePtr_->found(name)
-  );
+    IstreamConstructorTablePtr_ && IstreamConstructorTablePtr_->found(name);
 }
 
 

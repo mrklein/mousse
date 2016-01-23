@@ -326,7 +326,7 @@ inline Stream& mousse::IOobject::writeBanner(Stream& os, bool noHint)
   {
     os  << "// -*- c++ -*-\n";
   }
-  os << "// mousse: CFD toolbox (v. " << mousse_version << ")\n";
+  os << "// mousse: CFD toolbox (v." << mousse_version << ")\n";
   return os;
 }
 template<class Stream>
@@ -340,7 +340,7 @@ template<class Stream>
 inline Stream& mousse::IOobject::writeEndDivider(Stream& os)
 {
   os  << "\n"
-    "// vim: set ft=openfoam sw=4 ts=4 sts=4 et:\n";
+    "// vim: set ft=foam et sw=2 ts=2 sts=2:\n";
   return os;
 }
 

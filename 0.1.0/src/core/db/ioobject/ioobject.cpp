@@ -96,16 +96,16 @@ mousse::IOobject::IOobject
   bool registerObject
 )
 :
-  name_(name),
-  headerClassName_(typeName),
-  note_(),
-  instance_(instance),
-  local_(),
-  db_(registry),
-  rOpt_(ro),
-  wOpt_(wo),
-  registerObject_(registerObject),
-  objState_(GOOD)
+  name_{name},
+  headerClassName_{typeName},
+  note_{},
+  instance_{instance},
+  local_{},
+  db_{registry},
+  rOpt_{ro},
+  wOpt_{wo},
+  registerObject_{registerObject},
+  objState_{GOOD}
 {
   if (objectRegistry::debug)
   {
@@ -125,16 +125,16 @@ mousse::IOobject::IOobject
   bool registerObject
 )
 :
-  name_(name),
-  headerClassName_(typeName),
-  note_(),
-  instance_(instance),
-  local_(local),
-  db_(registry),
-  rOpt_(ro),
-  wOpt_(wo),
-  registerObject_(registerObject),
-  objState_(GOOD)
+  name_{name},
+  headerClassName_{typeName},
+  note_{},
+  instance_{instance},
+  local_{local},
+  db_{registry},
+  rOpt_{ro},
+  wOpt_{wo},
+  registerObject_{registerObject},
+  objState_{GOOD}
 {
   if (objectRegistry::debug)
   {
@@ -152,16 +152,16 @@ mousse::IOobject::IOobject
   bool registerObject
 )
 :
-  name_(),
-  headerClassName_(typeName),
-  note_(),
-  instance_(),
-  local_(),
-  db_(registry),
-  rOpt_(ro),
-  wOpt_(wo),
-  registerObject_(registerObject),
-  objState_(GOOD)
+  name_{},
+  headerClassName_{typeName},
+  note_{},
+  instance_{},
+  local_{},
+  db_{registry},
+  rOpt_{ro},
+  wOpt_{wo},
+  registerObject_{registerObject},
+  objState_{GOOD}
 {
   if (!fileNameComponents(path, instance_, local_, name_))
   {
@@ -176,12 +176,12 @@ mousse::IOobject::IOobject
         "bool"
       ")"
     )
-      << " invalid path specification"
-      << exit(FatalError);
+    << " invalid path specification"
+    << exit(FatalError);
   }
   if (objectRegistry::debug)
   {
-    Info<< "Constructing IOobject called " << name_
+    Info << "Constructing IOobject called " << name_
       << " of type " << headerClassName_
       << endl;
   }
@@ -274,18 +274,13 @@ mousse::fileName mousse::IOobject::filePath() const
     }
     else
     {
-      if
-      (
-        time().processorCase()
-      && (
-          instance() == time().system()
-        || instance() == time().constant()
-        )
+      if (time().processorCase() && (instance() == time().system()
+                                     || instance() == time().constant())
       )
       {
         fileName parentObjectPath =
-          rootPath()/time().globalCaseName()
-         /instance()/db_.dbDir()/local()/name();
+          rootPath()/time().globalCaseName()/instance()/db_.dbDir()/local()
+          /name();
         if (isFile(parentObjectPath))
         {
           return parentObjectPath;
@@ -300,10 +295,9 @@ mousse::fileName mousse::IOobject::filePath() const
         if (newInstancePath.size())
         {
           fileName fName
-          (
-            rootPath()/caseName()
-           /newInstancePath/db_.dbDir()/local()/name()
-          );
+          {
+            rootPath()/caseName()/newInstancePath/db_.dbDir()/local()/name()
+          };
           if (isFile(fName))
           {
             return fName;
@@ -322,7 +316,7 @@ mousse::Istream* mousse::IOobject::objectStream(const fileName& fName)
 {
   if (fName.size())
   {
-    IFstream* isPtr = new IFstream(fName);
+    IFstream* isPtr = new IFstream{fName};
     if (isPtr->good())
     {
       return isPtr;
