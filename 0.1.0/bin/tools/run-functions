@@ -6,7 +6,7 @@
 # Description
 #     Miscellaneous functions for running tutorial cases
 
-SIPEnabled()
+sip_enabled()
 {
     $(which -s csrutil) && {
     [ $(csrutil status | awk '{print $5}' | tr -d ".") = "enabled" ] \
@@ -16,23 +16,23 @@ SIPEnabled()
 }
 
 # Workaround for cleared DYLD_LIBRARY_PATH
-[ "$(uname -s)" = "Darwin" ] && SIPEnabled && . $WM_PROJECT_DIR/etc/bashrc
+[ "$(uname -s)" = "Darwin" ] && sip_enabled && . $WM_PROJECT_DIR/etc/bashrc
 
-getNumberOfProcessors()
+get_number_of_processors()
 {
     grep numberOfSubdomains system/decomposeParDict \
         | awk '{print $2}' \
         | tr -d ";"
 }
 
-getApplication()
+get_application()
 {
     grep application system/controlDict \
         | awk '{print $2}' \
         | tr -d ";"
 }
 
-guessApplication()
+guess_application()
 {
     local app_path="$1"
     [ -x "$(which $app_path)" ] && { echo $app_path; return 0; }
@@ -54,11 +54,11 @@ guessApplication()
         }
     fi
 
-    echo "mousse-not-found"
+    echo $app_path
     return 1
 }
 
-runApplication()
+run_application()
 {
     local force=
     local append=
@@ -81,7 +81,7 @@ runApplication()
 
     [ -x "$(which $app_run)" ] || {
     # Try to test mousse-$app_run variant
-    app_run=$(guessApplication $app_run)
+    app_run=$(guess_application $app_run)
     [ -x "$(which $app_run)" ] || {
     echo "Application $app_run does not exist or is not executable."
     exit 1
@@ -105,7 +105,7 @@ runApplication()
     fi
 }
 
-runParallel()
+run_parallel()
 {
     local force=
     local append=
@@ -151,13 +151,13 @@ runParallel()
     fi
 }
 
-compileApplication()
+compile_application()
 {
     echo "Compiling $1 application"
     wmake "$1"
 }
 
-cloneCase()
+clone_case()
 {
     if [ -d "$2" ]
     then
@@ -165,7 +165,7 @@ cloneCase()
     else
         echo "Cloning $2 case from $1"
         mkdir "$2"
-        cpfiles="0 system constant"
+        local cpfiles="0 system constant"
         for f in $cpfiles
         do
             cp -r "$1/$f" "$2"

@@ -1,0 +1,94 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+readonly CAVITY_CASES="cavity cavity_fine cavity_grade cavity_high_re cavity_clipped"
+
+run_map_fields()
+{
+	echo "Running mapFields from $1 to $2"
+	mousse-map-fields $1 -case $2 -sourceTime latestTime \
+		> $2/log.map-fields 2>&1
+}
+
+run_map_fields_consistent()
+{
+	echo "Running mapFields from $1 to $2"
+	mousse-map-fields $1 -case $2 -sourceTime latestTime -consistent \
+		> $2/log.map-fields 2>&1
+}
+
+copy_solution_dirs()
+{
+	echo "Copying $2/0* directory to $1"
+	cp -r $2/0* $1
+}
+
+set_cavity_fine()
+{
+	local block_mesh_dict="$case_name/system/blockMeshDict"
+	local control_dict="$case_name/system/controlDict"
+	perl -pi -e 's/20 20 1/41 41 1/g' $block_mesh_dict
+	perl -pi \
+		-e 's/(startTime[ \t]*) 0;/\1 0.5;/g;' \
+		-e 's/(endTime[ \t]*) 0.5;/\1 0.7;/g;' \
+		-e 's/(deltaT[ \t]*) 0.005;/\1 0.0025;/g;' \
+		-e 's/(writeControl[ \t]*) timeStep;/\1 runTime;/g;' \
+		-e 's/(writeInterval[ \t]*) 20;/\1 0.1;/g' \
+		$control_dict
+}
+
+set_cavity_high_re()
+{
+	echo "Setting cavity_high_re to generate a secondary vortex"
+	local control_dict="$case_name/system/controlDict"
+	local transport_properties="$case_name/constant/transportProperties"
+	perl -pi \
+		-e 's/(startFrom[ \t]*) startTime;/\1 latestTime;/g;' \
+		-e 's/(endTime[ \t]*) 0.5;/\1 2.0;/g' \
+		$control_dict
+	perl -pi -e 's/0.01/0.001/g' $transport_properties
+}
+
+
+for case_name in $CAVITY_CASES
+do
+	if [ "$case_name" = cavity_fine ]
+	then
+		clone_case cavity $case_name
+		set_cavity_fine
+	fi
+
+	if [ "$case_name" = cavity_high_re ]
+	then
+		clone_case cavity $case_name
+		set_cavity_high_re
+		copy_solution_dirs $case_name cavity
+	fi
+
+	( cd $case_name && run_application block-mesh )
+
+	case "$case_name" in
+	cavity_fine | cavity_grade)
+		run_map_fields_consistent $previous_case $case_name
+		;;
+	cavity_clipped)
+		cp -r $case_name/0 $case_name/0.5
+		run_map_fields cavity $case_name
+		if [ ".$(grep nonuniform $case_name/0.5/U)" != "." ]
+		then
+			./reset_fixed_walls.py $case_name/0.5/U
+		fi
+		;;
+	esac
+
+	previous_case="$case_name"
+	( cd $case_name && run_application $(get_application) )
+done
+
+
+# elbow case for testing Fluent-FOAM conversion tools
+(cd elbow && ./allrun)
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

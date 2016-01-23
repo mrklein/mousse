@@ -1,0 +1,5 @@
+adjoint_outlet_pressure/adjoint_outlet_pressure_fv_patch_scalar_field.cpp
+adjoint_outlet_velocity/adjoint_outlet_velocity_fv_patch_vector_field.cpp
+adjoint_shape_optimization.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-adjoint-shape-optimization

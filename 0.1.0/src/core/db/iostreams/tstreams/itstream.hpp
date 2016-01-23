@@ -6,11 +6,14 @@
 // Description
 //   Input token stream.
 // SourceFiles
-//   i_tstream.cpp
+//   itstream.cpp
+
 #ifndef itstream_hpp_
 #define itstream_hpp_
+
 #include "istream.hpp"
 #include "token_list.hpp"
+
 namespace mousse
 {
 class ITstream
@@ -34,10 +37,10 @@ public:
       versionNumber version=currentVersion
     )
     :
-      Istream(format, version),
-      tokenList(tokens),
-      name_(name),
-      tokenIndex_(0)
+      Istream{format, version},
+      tokenList{tokens},
+      name_{name},
+      tokenIndex_{0}
     {
       setOpened();
       setGood();
@@ -51,10 +54,10 @@ public:
       versionNumber version=currentVersion
     )
     :
-      Istream(format, version),
-      tokenList(tokens),
-      name_(name),
-      tokenIndex_(0)
+      Istream{format, version},
+      tokenList{tokens},
+      name_{name},
+      tokenIndex_{0}
     {
       setOpened();
       setGood();
@@ -62,10 +65,10 @@ public:
     //- Construct as copy
     ITstream(const ITstream& its)
     :
-      Istream(ASCII, currentVersion),
-      tokenList(its),
-      name_(its.name_),
-      tokenIndex_(0)
+      Istream{ASCII, currentVersion},
+      tokenList{its},
+      name_{its.name_},
+      tokenIndex_{0}
     {
       setOpened();
       setGood();

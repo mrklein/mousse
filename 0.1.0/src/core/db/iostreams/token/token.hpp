@@ -381,15 +381,15 @@ inline void token::clear()
 // Construct null
 inline token::token()
 :
-  type_(UNDEFINED),
-  lineNumber_(0)
+  type_{UNDEFINED},
+  lineNumber_{0}
 {}
 
 // Construct as copy
 inline token::token(const token& t)
 :
-  type_(t.type_),
-  lineNumber_(t.lineNumber_)
+  type_{t.type_},
+  lineNumber_{t.lineNumber_}
 {
   switch (type_)
   {
@@ -435,9 +435,9 @@ inline token::token(punctuationToken p, label lineNumber)
 // Construct word token
 inline token::token(const word& w, label lineNumber)
 :
-  type_(WORD),
-  wordTokenPtr_(new word(w)),
-  lineNumber_(lineNumber)
+  type_{WORD},
+  wordTokenPtr_{new word(w)},
+  lineNumber_{lineNumber}
 {}
 
 // Construct string token

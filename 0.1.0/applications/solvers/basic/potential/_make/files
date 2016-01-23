@@ -1,0 +1,3 @@
+potential.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-potential

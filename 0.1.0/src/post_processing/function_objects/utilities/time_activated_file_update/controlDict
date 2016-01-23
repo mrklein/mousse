@@ -1,9 +1,9 @@
 FoamFile
 {
-    version     2.0;
-    format      ascii;
-    class       dictionary;
-    object      controlDict;
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      controlDict;
 }
 
 application     icoFoam;
@@ -38,22 +38,23 @@ runTimeModifiable true;
 
 functions
 {
-    fileUpdate1
-    {
-        type            timeActivatedFileUpdate;
-        functionObjectLibs ("libmousse_utility_function_objects.so");
-        outputControl   timeStep;
-        outputInterval  1;
-        fileToUpdate    "$MOUSSE_CASE/system/fvSolution";
+  fileUpdate1
+  {
+    functionObjectLibs ("libmousse_utility_function_objects.so");
 
-        timeVsFile
-        (
-            ( -1   "$MOUSSE_CASE/system/fvSolution.0"  )
-            ( 0.10 "$MOUSSE_CASE/system/fvSolution.10" )
-            ( 0.20 "$MOUSSE_CASE/system/fvSolution.20" )
-            ( 0.35 "$MOUSSE_CASE/system/fvSolution.35" )
-        );
-    }
+    type            timeActivatedFileUpdate;
+    outputControl   timeStep;
+    outputInterval  1;
+    fileToUpdate    "$MOUSSE_CASE/system/fvSolution";
+
+    timeVsFile
+    (
+      ( -1   "$MOUSSE_CASE/system/fvSolution.0"  )
+      ( 0.10 "$MOUSSE_CASE/system/fvSolution.10" )
+      ( 0.20 "$MOUSSE_CASE/system/fvSolution.20" )
+      ( 0.35 "$MOUSSE_CASE/system/fvSolution.35" )
+    );
+  }
 }
 
-// vim: set ft=openfoam et sw=4 ts=4 sts=4:
+// vim: set ft=foam et sw=2 ts=2 sts=2:

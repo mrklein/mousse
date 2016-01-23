@@ -1,3 +1,0 @@
-mousse_laplacian.cpp
-
-EXE =  $(MOUSSE_APPBIN)/mousse-laplacian

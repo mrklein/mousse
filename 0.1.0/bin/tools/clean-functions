@@ -21,24 +21,24 @@
 #    rm -rf {log,log.*,log-*,logSummary.*,.fxLock,*.xml,ParaView*,paraFoam*,*.OpenFOAM} > /dev/null 2>&1
 #}
 
-cleanTimeDirectories()
+clean_time_directories()
 {
     echo "Cleaning $PWD case"
-    zeros=""
+    local zeros=""
     while [ ${#zeros} -lt 8 ]
     do
-        timeDir="0.${zeros}[1-9]*"
-        rm -rf ./${timeDir} ./-${timeDir} > /dev/null 2>&1
+        local time_dir="0.${zeros}[1-9]*"
+        rm -rf ./${time_dir} ./-${time_dir} > /dev/null 2>&1
         zeros="0$zeros"
     done
-    rm -rf ./[1-9]* ./-[1-9]* ./log ./log.* ./log-* ./logSummary.* ./.fxLock ./*.xml ./ParaView* ./paraFoam* ./*.OpenFOAM ./*.blockMesh ./.setSet > /dev/null 2>&1
+    rm -rf ./[1-9]* ./-[1-9]* ./log ./log.* ./log-* ./logSummary.* ./.fxLock ./*.xml ./ParaView* ./paraFoam* ./*.OpenFOAM ./*.foam ./*.blockMesh ./.setSet > /dev/null 2>&1
 }
 
 
 #
 # Remove dynamic_code subdirectory if it looks appropriate
 #
-cleanDynamicCode()
+clean_dynamic_code()
 {
     if [ -d system -a -d dynamic_code ]
     then
@@ -47,10 +47,10 @@ cleanDynamicCode()
 }
 
 
-cleanCase()
+clean_case()
 {
-    cleanTimeDirectories
-    cleanDynamicCode
+    clean_time_directories
+    clean_dynamic_code
 
     rm -rf processor* > /dev/null 2>&1
     rm -rf postProcessing > /dev/null 2>&1
@@ -90,23 +90,23 @@ cleanCase()
     fi
 }
 
-removeCase()
+remove_case()
 {
     echo "Removing ${1:-unknown} case"
     rm -rf $1
 }
 
-cleanSamples()
+clean_samples()
 {
     rm -rf ./sets ./samples ./sampleSurfaces > /dev/null 2>&1
 }
 
-cleanUcomponents()
+clean_ucomponents()
 {
     rm -rf 0/Ux 0/Uy 0/Uz > /dev/null 2>&1
 }
 
-cleanApplication()
+clean_application()
 {
     echo "Cleaning $PWD application"
     wclean
