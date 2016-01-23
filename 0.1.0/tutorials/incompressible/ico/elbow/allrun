@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+application=$(get_application)
+
+echo $application
+
+run_application mousse-fluent-mesh-to-foam elbow.msh
+run_application "$application"
+run_application mousse-foam-mesh-to-fluent
+run_application mousse-foam-data-to-fluent

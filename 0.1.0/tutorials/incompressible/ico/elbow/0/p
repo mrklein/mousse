@@ -1,0 +1,47 @@
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volScalarField;
+  object      p;
+}
+
+dimensions [0 2 -2 0 0 0 0];
+
+internalField uniform 0;
+
+boundaryField
+{
+  wall-4
+  {
+    type  zeroGradient;
+  }
+
+  velocity-inlet-5
+  {
+    type  zeroGradient;
+  }
+
+  velocity-inlet-6
+  {
+    type  zeroGradient;
+  }
+
+  pressure-outlet-7
+  {
+    type  fixedValue;
+    value uniform 0;
+  }
+
+  wall-8
+  {
+    type  zeroGradient;
+  }
+
+  frontAndBackPlanes
+  {
+    type  empty;
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

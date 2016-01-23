@@ -1,0 +1,31 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/clean-functions
+
+readonly KEEP_CASES="cavity cavity_grade cavity_clipped elbow"
+readonly LOSE_CASES="cavity_fine cavity_high_re"
+
+for case_name in $KEEP_CASES
+do
+	(
+	cd $case_name || exit
+
+	mousse-clean-tutorials
+
+	if [ "$caseName" = elbow ]
+	then
+		rm -rf fluentInterface
+	fi
+	)
+done
+
+for case_name in $LOSE_CASES
+do
+	remove_case $case_name
+done
+
+
+(cd elbow && ./allclean)
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:
