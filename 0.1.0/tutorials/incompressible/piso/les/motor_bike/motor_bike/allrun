@@ -1,0 +1,29 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+readonly N_PROCS=$(get_number_of_processors)
+
+# copy motorbike surface from resources directory
+cp $MOUSSE_TUTORIALS/resources/geometry/motorBike.obj.gz constant/triSurface/
+
+# Make dummy 0 directory
+mkdir -p 0
+
+run_application block-mesh
+cp system/decomposeParDict.hierarchical system/decomposeParDict
+run_application decompose-par
+
+cp system/decomposeParDict.ptscotch system/decomposeParDict
+run_parallel snappy-hex-mesh $N_PROCS -overwrite -parallel
+
+find . -type f -iname "*level*" -exec rm {} \;
+
+ls -d processor* | xargs -I {} cp -r 0.org ./{}/0 $1
+
+run_parallel renumber-mesh $N_PROCS -overwrite
+run_parallel potential $N_PROCS -initialiseUBCs
+run_parallel $(get_application) $N_PROCS
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

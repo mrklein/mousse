@@ -1,0 +1,33 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+
+clone_parallel_case()
+{
+	if [ -d "$2" ]
+	then
+		echo "Case already cloned: remove case directory $2 to clone"
+	else
+		echo "Cloning $2 case from $1 in parallel mode"
+		mkdir $2
+		local cpfiles="processor* system constant"
+		for f in $cpfiles
+		do
+			cp -r $1/$f $2
+		done
+	fi
+}
+
+# Do the Spalart-Allmaras steady-state case
+(cd motor_bike && mousse-run-tutorials)
+
+# Clone the steady-state case to the LES case
+clone_parallel_case motor_bike motor_bike_les
+
+# Do the LES case
+cp les_files/allrun motor_bike_les/
+(cd motor_bike_les && mousse-run-tutorials)
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

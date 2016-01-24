@@ -2,112 +2,98 @@
 # Copyright (C) 2011-2015 OpenFOAM Foundation
 # Copyright (C) 2016 mousse project
 # Script
-#     clean-functions
+#   clean-functions
 #
 # Description
-#     Miscellaneous cleanup functions for tutorial cases
-
-#cleanTimeDirectories()
-#{
-#    echo "Cleaning $PWD case"
-#    for time in $(foamInfoExec -times)
-#    do
-#        # keep 0 and constant directories
-#        [ "$time" = "0" -o "$time" = constant ] || {
-#            echo "Deleting directory $time"
-#            rm -rf $time > /dev/null 2>&1
-#        }
-#    done
-#    rm -rf {log,log.*,log-*,logSummary.*,.fxLock,*.xml,ParaView*,paraFoam*,*.OpenFOAM} > /dev/null 2>&1
-#}
+#   Miscellaneous cleanup functions for tutorial cases
 
 clean_time_directories()
 {
-    echo "Cleaning $PWD case"
-    local zeros=""
-    while [ ${#zeros} -lt 8 ]
-    do
-        local time_dir="0.${zeros}[1-9]*"
-        rm -rf ./${time_dir} ./-${time_dir} > /dev/null 2>&1
-        zeros="0$zeros"
-    done
-    rm -rf ./[1-9]* ./-[1-9]* ./log ./log.* ./log-* ./logSummary.* ./.fxLock ./*.xml ./ParaView* ./paraFoam* ./*.OpenFOAM ./*.foam ./*.blockMesh ./.setSet > /dev/null 2>&1
+	echo "Cleaning $PWD case"
+	local zeros=""
+	while [ ${#zeros} -lt 8 ]
+	do
+		local time_dir="0.${zeros}[1-9]*"
+		rm -rf ./${time_dir} ./-${time_dir} > /dev/null 2>&1
+		zeros="0$zeros"
+	done
+	rm -rf ./[1-9]* ./-[1-9]* ./log ./log.* ./log-* ./logSummary.* \
+		./.fxLock ./*.xml ./ParaView* ./paraFoam* ./*.OpenFOAM ./*.foam \
+		./*.blockMesh ./.setSet > /dev/null 2>&1
 }
 
 
-#
 # Remove dynamic_code subdirectory if it looks appropriate
-#
 clean_dynamic_code()
 {
-    if [ -d system -a -d dynamic_code ]
-    then
-        rm -rf dynamic_code > /dev/null 2>&1
-    fi
+	if [ -d system -a -d dynamic_code ]
+	then
+		rm -rf dynamic_code > /dev/null 2>&1
+	fi
 }
 
 
 clean_case()
 {
-    clean_time_directories
-    clean_dynamic_code
+	clean_time_directories
+	clean_dynamic_code
 
-    rm -rf processor* > /dev/null 2>&1
-    rm -rf postProcessing > /dev/null 2>&1
-    rm -rf probes* > /dev/null 2>&1
-    rm -rf forces* > /dev/null 2>&1
-    rm -rf graphs* > /dev/null 2>&1
-    rm -rf sets > /dev/null 2>&1
-    rm -rf surfaceSampling > /dev/null 2>&1
-    rm -rf cuttingPlane > /dev/null 2>&1
-    rm -rf system/machines > /dev/null 2>&1
+	rm -rf processor* > /dev/null 2>&1
+	rm -rf postProcessing > /dev/null 2>&1
+	rm -rf probes* > /dev/null 2>&1
+	rm -rf forces* > /dev/null 2>&1
+	rm -rf graphs* > /dev/null 2>&1
+	rm -rf sets > /dev/null 2>&1
+	rm -rf surfaceSampling > /dev/null 2>&1
+	rm -rf cuttingPlane > /dev/null 2>&1
+	rm -rf system/machines > /dev/null 2>&1
 
-    if [ -d constant/polyMesh ]
-    then
-        (cd constant/polyMesh && \
-            rm -rf \
-            allOwner* cell* face* meshModifiers* \
-            owner* neighbour* point* edge* \
-            cellLevel* pointLevel* refinementHistory* level0Edge* surfaceIndex* sets \
-            boundary \
-            > /dev/null 2>&1 \
-        )
-    fi
-    (cd constant && \
-        rm -rf \
-        cellToRegion cellLevel* pointLevel* \
-        > /dev/null 2>&1 \
-    )
+	if [ -d constant/polyMesh ]
+	then
+		(cd constant/polyMesh && \
+			rm -rf \
+			allOwner* cell* face* meshModifiers* \
+			owner* neighbour* point* edge* \
+			cellLevel* pointLevel* refinementHistory* level0Edge* surfaceIndex* sets \
+			boundary \
+			> /dev/null 2>&1)
+	fi
+	(cd constant && \
+		rm -rf \
+		cellToRegion cellLevel* pointLevel* \
+		> /dev/null 2>&1)
 
-    rm -rf constant/tetDualMesh > /dev/null 2>&1
+	rm -rf constant/tetDualMesh > /dev/null 2>&1
 
-    rm -rf VTK > /dev/null 2>&1
-    rm -f 0/cellLevel 0/pointLevel 0/cellDist constant/cellDecomposition
+	rm -rf VTK > /dev/null 2>&1
+	rm -f 0/cellLevel 0/pointLevel 0/cellDist constant/cellDecomposition
 
-    if [ -e system/blockMeshDict.m4 ]
-    then
-        rm -f system/blockMeshDict > /dev/null 2>&1
-    fi
+	if [ -e system/blockMeshDict.m4 ]
+	then
+		rm -f system/blockMeshDict > /dev/null 2>&1
+	fi
 }
 
 remove_case()
 {
-    echo "Removing ${1:-unknown} case"
-    rm -rf $1
+	echo "Removing ${1:-unknown} case"
+	rm -rf $1
 }
 
 clean_samples()
 {
-    rm -rf ./sets ./samples ./sampleSurfaces > /dev/null 2>&1
+	rm -rf ./sets ./samples ./sampleSurfaces > /dev/null 2>&1
 }
 
 clean_ucomponents()
 {
-    rm -rf 0/Ux 0/Uy 0/Uz > /dev/null 2>&1
+	rm -rf 0/Ux 0/Uy 0/Uz > /dev/null 2>&1
 }
 
 clean_application()
 {
-    echo "Cleaning $PWD application"
-    wclean
+	echo "Cleaning $PWD application"
+	wclean
 }
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

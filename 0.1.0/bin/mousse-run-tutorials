@@ -1,0 +1,71 @@
+#!/bin/sh
+# Script
+#   mousse-run-tutorials
+#
+# Description
+#   Run either allrun or block-mesh/application in current directory
+#   and all its subdirectories.
+
+# normally use "make"
+MAKE="make"
+RUN_TESTS=false
+SKIP_FIRST=false
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+THIS_SCRIPT="$0"
+
+[ "/${THIS_SCRIPT#/}" != "$THIS_SCRIPT" ] && THIS_SCRIPT="$PWD/$THIS_SCRIPT"
+
+# parse options
+while [ "$#" -gt 0 ]
+do
+	case "$1" in
+	-t | -test | --test)
+		RUN_TESTS=true
+		shift
+		;;
+	-s | -skipFirst | --skip-first)
+		SKIP_FIRST=true
+		shift
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+# If an argument is supplied do not execute ./allrun to avoid recursion
+if ! $SKIP_FIRST && $RUN_TESTS && [ -f "./alltest" ]
+then
+	# Run a special test script.
+	./alltest
+elif ! $SKIP_FIRST && [ -f "./allrun" ]
+then
+	# Specialised script.
+	./allrun
+elif [ -d system ]
+then
+	# Normal case.
+	PARENT_DIR=$(dirname $PWD)
+	APPLICATION=$(get_application)
+	run_application block-mesh
+	run_application $APPLICATION
+else
+	# Loop over sub-directories and compile any applications
+	for case_name in *
+	do
+		if [ -d $case_name -a -d "$case_name/_make" ]
+		then
+			( compile_application $case_name )
+		fi
+	done
+	MOUSSE_TARGETS=$(for d in *; do [ -d "$d" ] && echo "$d"; done | xargs)
+	PASS_ARGS=$(if $RUN_TESTS; then echo "-test"; fi)
+	$MAKE -k -f $WM_PROJECT_DIR/bin/tools/makefile-dirs \
+		MOUSSE_TARGETS="$FOAM_TARGETS" \
+		MOUSSE_APP="$THIS_SCRIPT" \
+		MOUSSE_ARGS="$PASS_ARGS"
+fi
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

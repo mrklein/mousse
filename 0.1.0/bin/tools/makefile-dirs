@@ -1,0 +1,18 @@
+# mousse: CFD toolkit
+# Copyright (C) 2011 OpenFOAM Foundation
+# Copyright (C) 2016 mousse project
+#
+# File
+#   makefile-dirs
+#
+# Description
+#     makefile used by
+#         mousse-run-tutorials
+#     to call some script in subdirectories.
+
+.PHONY: application $(MOUSSE_TARGETS)
+
+application: $(MOUSSE_TARGETS)
+
+$(MOUSSE_TARGETS):
+	+@(cd $@ && $(MOUSSE_APP) $(MOUSSE_ARGS))
