@@ -1,0 +1,9 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+# Do the Spalart-Allmaras steady-state case
+(cd motor_bike && mousse-run-tutorials)
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

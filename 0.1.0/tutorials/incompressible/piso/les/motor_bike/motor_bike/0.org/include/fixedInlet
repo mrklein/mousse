@@ -1,0 +1,5 @@
+inlet
+{
+  type  fixedValue;
+  value $internalField;
+}

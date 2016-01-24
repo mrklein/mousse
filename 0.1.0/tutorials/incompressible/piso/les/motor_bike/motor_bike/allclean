@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/clean-functions
+
+\rm -f constant/triSurface/motorBike.obj.gz
+rm -rf 0 > /dev/null 2>&1
+
+clean_case
+
+cp system/decomposeParDict.hierarchical system/decomposeParDict
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

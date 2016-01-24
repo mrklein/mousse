@@ -1,0 +1,9 @@
+upperWall
+{
+  type symmetryPlane;
+}
+
+"(front|back)"
+{
+  type symmetryPlane;
+}

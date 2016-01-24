@@ -1,0 +1,17 @@
+#!/bin/sh
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+readonly N_PROCS=$(get_number_of_processors)
+
+# Set-up the LES case
+cp ../les_files/fvS* ../lesFiles/controlDict system/
+cp ../les_files/turbulenceProperties constant/
+
+ls -d processor* | xargs -I {} rm -rf ./{}/0 $1
+ls -d processor* | xargs -I {} mv ./{}/500 ./{}/0 $1
+ls -d processor* | xargs -I {} rm -rf ./{}/0/uniform $1
+
+run_parallel piso $N_PROCS
+run_application reconstruct-par-mesh -constant -mergeTol 1e-6
+run_application reconstruct-par
