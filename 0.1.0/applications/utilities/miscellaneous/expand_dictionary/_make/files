@@ -1,0 +1,3 @@
+expand_dictionary.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-expand-dictionary
