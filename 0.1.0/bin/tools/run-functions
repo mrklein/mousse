@@ -2,17 +2,17 @@
 # Copyright (C) 2011-2012 OpenFOAM Foundation
 # Copyright (C) 2016 mousse project
 # Script
-#     run-functions
+#   run-functions
 # Description
-#     Miscellaneous functions for running tutorial cases
+#   Miscellaneous functions for running tutorial cases
 
 sip_enabled()
 {
-    $(which -s csrutil) && {
-    [ $(csrutil status | awk '{print $5}' | tr -d ".") = "enabled" ] \
-        && return 0
-    }
-    return 1
+	$(which -s csrutil) && {
+	[ $(csrutil status | awk '{print $5}' | tr -d ".") = "enabled" ] \
+		&& return 0
+	}
+	return 1
 }
 
 # Workaround for cleared DYLD_LIBRARY_PATH
@@ -20,157 +20,163 @@ sip_enabled()
 
 get_number_of_processors()
 {
-    grep numberOfSubdomains system/decomposeParDict \
-        | awk '{print $2}' \
-        | tr -d ";"
+	grep numberOfSubdomains system/decomposeParDict \
+		| awk '{print $2}' \
+		| tr -d ";"
 }
 
 get_application()
 {
-    grep application system/controlDict \
-        | awk '{print $2}' \
-        | tr -d ";"
+	grep application system/controlDict \
+		| awk '{print $2}' \
+		| tr -d ";"
 }
 
 guess_application()
 {
-    local app_path="$1"
-    [ -x "$(which $app_path)" ] && { echo $app_path; return 0; }
+	local app_path="$1"
+	[ -x "$(which $app_path)" ] && { echo $app_path; return 0; }
 
-    local app_base=$(basename $app_path)
-    local app_dir=$(dirname $app_path)
-    [ "$app_dir" == "." ] && app_dir=""
+	local app_base=$(basename $app_path)
+	local app_dir=$(dirname $app_path)
+	[ "$app_dir" == "." ] && app_dir=""
 
-    if [ "x$app_dir" == "x" ]
-    then
-        [ -x "$(which mousse-$app_base)" ] && {
-        echo "mousse-$app_base"
-        return 0
-        }
-    else
-        [ -x "$app_dir/mousse-$app_base" ] && {
-        echo "$app_dir/mousse-$app_base"
-        return 0
-        }
-    fi
+	if [ "x$app_dir" == "x" ]
+	then
+		[ -x "$(which mousse-$app_base)" ] && {
+		echo "mousse-$app_base"
+		return 0
+		}
+	else
+		[ -x "$app_dir/mousse-$app_base" ] && {
+		echo "$app_dir/mousse-$app_base"
+		return 0
+		}
+	fi
 
-    echo $app_path
-    return 1
+	echo $app_path
+	return 1
 }
 
 run_application()
 {
-    local force=
-    local append=
+	local force=
+	local append=
 
-    local app_run="$1"
-    while [ "$(echo $app_run | cut -c1)" = "-" ]; do
-        case $app_run in
-        -f|--force|-force|-overwrite)
-            force=y
-            ;;
-        -a|--append|-append)
-            append=y
-            ;;
-        esac
-        shift
-        app_run="$1"
-    done
-    shift
-    local app_name=${app_run##*/}
+	local app_run="$1"
+	while [ "$(echo $app_run | cut -c1)" = "-" ]; do
+		case $app_run in
+		-f|--force|-force|-overwrite)
+			force=y
+			;;
+		-a|--append|-append)
+			append=y
+			;;
+		esac
+		shift
+		app_run="$1"
+	done
+	shift
+	local app_name=${app_run##*/}
 
-    [ -x "$(which $app_run)" ] || {
-    # Try to test mousse-$app_run variant
-    app_run=$(guess_application $app_run)
-    [ -x "$(which $app_run)" ] || {
-    echo "Application $app_run does not exist or is not executable."
-    exit 1
-    }
-    }
+	[ -x "$(which $app_run)" ] || {
+	# Try to test mousse-$app_run variant
+	app_run=$(guess_application $app_run)
+	[ -x "$(which $app_run)" ] || {
+	echo "Application $app_run does not exist or is not executable."
+	exit 1
+	}
+	}
 
-    [ "$force" = "y" ] && rm -f "log.$app_name"
+	[ "$force" = "y" ] && rm -f "log.$app_name"
 
-    if [ -f "log.$app_name" ]
-    then
-        if [ "$append" = "y" ]
-        then
-            echo "Running $app_run on $PWD (appending to log.$app_name)"
-            $app_run "$@" >> "log.$app_name" 2>&1
-        else
-            echo "$app_name already run on $PWD: remove log file to re-run"
-        fi
-    else
-        echo "Running $app_run on $PWD"
-        $app_run "$@" > "log.$app_name" 2>&1
-    fi
+	if [ -f "log.$app_name" ]
+	then
+		if [ "$append" = "y" ]
+		then
+			echo "Running $app_run on $PWD (appending to log.$app_name)"
+			$app_run "$@" >> "log.$app_name" 2>&1
+		else
+			echo "$app_name already run on $PWD: remove log file to re-run"
+		fi
+	else
+		echo "Running $app_run on $PWD"
+		$app_run "$@" > "log.$app_name" 2>&1
+	fi
 }
 
 run_parallel()
 {
-    local force=
-    local append=
+	local force=
+	local append=
 
-    local app_run="$1"
-    while [ "$(echo $app_run | cut -c1)" = "-" ]; do
-        case $app_run in
-        -f|--force|-force|-o|-overwrite)
-            force=y
-            ;;
-        -a|--append|-append)
-            append=y
-            ;;
-        esac
-        shift
-        app_run="$1"
-    done
-    shift
-    local app_name=${app_run##*/}
+	local app_run="$1"
+	while [ "$(echo $app_run | cut -c1)" = "-" ]; do
+		case $app_run in
+		-f|--force|-force|-o|-overwrite)
+			force=y
+			;;
+		-a|--append|-append)
+			append=y
+			;;
+		esac
+		shift
+		app_run="$1"
+	done
+	shift
+	local app_name=${app_run##*/}
 
-    [ -x "$(which $app_run)" ] || {
-    echo "Application $app_run does not exist or is not executable."
-    exit 1
-    }
+	[ -x "$(which $app_run)" ] || {
+	# Try to test mousse-$app_run variant
+	app_run=$(guess_application $app_run)
+	[ -x "$(which $app_run)" ] || {
+	echo "Application $app_run does not exist or is not executable."
+	exit 1
+	}
+	}
 
-    [ "$force" = "y" ] && rm -f "log.$app_name"
+	[ "$force" = "y" ] && rm -f "log.$app_name"
 
-    local n_procs="$1"
-    shift
+	local n_procs="$1"
+	shift
 
-    if [ -f "log.$app_name" ]
-    then
-        if [ "$append" = "y" ]
-        then
-            echo
-        else
-            echo "$app_name already run on $PWD: remove log file to re-run"
-        fi
-    else
-        echo "Running $app_run in parallel on $PWD using $n_procs processes"
+	if [ -f "log.$app_name" ]
+	then
+		if [ "$append" = "y" ]
+		then
+			echo "Running $app_run in parallel on $PWD using $n_procs processes"
 
-        ( mpirun -np "$n_procs" $app_run -parallel "$@" < /dev/null > "log.$app_name" 2>&1 )
-    fi
+			( mpirun -np "$n_procs" $app_run -parallel "$@" < /dev/null >> "log.$app_name" 2>&1 )
+		else
+			echo "$app_name already run on $PWD: remove log file to re-run"
+		fi
+	else
+		echo "Running $app_run in parallel on $PWD using $n_procs processes"
+
+		( mpirun -np "$n_procs" $app_run -parallel "$@" < /dev/null > "log.$app_name" 2>&1 )
+	fi
 }
 
 compile_application()
 {
-    echo "Compiling $1 application"
-    wmake "$1"
+	echo "Compiling $1 application"
+	wmake "$1"
 }
 
 clone_case()
 {
-    if [ -d "$2" ]
-    then
-        echo "Case already cloned: remove case directory $2 to clone"
-    else
-        echo "Cloning $2 case from $1"
-        mkdir "$2"
-        local cpfiles="0 system constant"
-        for f in $cpfiles
-        do
-            cp -r "$1/$f" "$2"
-        done
-    fi
+	if [ -d "$2" ]
+	then
+		echo "Case already cloned: remove case directory $2 to clone"
+	else
+		echo "Cloning $2 case from $1"
+		mkdir "$2"
+		local cpfiles="0 system constant"
+		for f in $cpfiles
+		do
+			cp -r "$1/$f" "$2"
+		done
+	fi
 }
 
-# vim: set ft=sh noet sw=4 ts=4 sts=4:
+# vim: set ft=sh noet sw=2 ts=2 sts=2:
