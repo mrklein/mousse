@@ -1,0 +1,3 @@
+patch_summary.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-patch-summary
