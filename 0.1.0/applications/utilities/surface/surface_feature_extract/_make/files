@@ -1,0 +1,3 @@
+surface_feature_extract.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-surface-feature-extract
