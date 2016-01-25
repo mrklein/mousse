@@ -1,0 +1,27 @@
+SUFFIXES += .C
+SUFFIXES += .cxx
+SUFFIXES += .cc
+SUFFIXES += .cpp
+
+c++WARN     = -Wall -Wextra
+
+CC          = xcrun c++ -arch x86_64
+
+include $(RULES)/c++$(WM_COMPILE_OPTION)
+
+ptFLAGS     = -DNoRepository -ftemplate-depth-100
+
+c++FLAGS    = $(GFLAGS) $(c++WARN) $(c++OPT) $(c++DBUG) $(ptFLAGS) $(LIB_HEADER_DIRS) -fPIC -isysroot $(OSX_SDK_PATH) -std=c++14
+
+Ctoo        = $(WM_SCHEDULER) $(CC) $(c++FLAGS) -c $< -o $@
+cxxtoo      = $(Ctoo)
+cctoo       = $(Ctoo)
+cpptoo      = $(Ctoo)
+
+LINK_LIBS   = $(c++DBUG)
+
+LINKLIBSO   = $(CC) $(c++FLAGS) -Wl,-dylib,-undefined,dynamic_lookup
+
+LINKEXE     = $(CC) $(c++FLAGS) -Wl,-execute,-undefined,dynamic_lookup
+
+# vim: set ft=make:
