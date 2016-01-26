@@ -30,11 +30,11 @@ lex.yy.c
 # _lninclude (symlink) directories - anywhere
 _lninclude
 
-# Build directories - anywhere
-linux*clang*/
-linux*gcc*/
-darwin*clang*/
-darwin*gcc*/
+# Build directories - except rules
+!rules!linux*clang*/
+!rules!linux*gcc*/
+!rules!darwin*clang*/
+!rules!darwin*gcc*/
 platforms/
 
 # Reinstate wmake/rules that might look like build directories

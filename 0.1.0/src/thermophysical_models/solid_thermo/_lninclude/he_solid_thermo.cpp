@@ -1,1 +1,0 @@
-../he_solid_thermo.cpp

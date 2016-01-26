@@ -7,7 +7,7 @@
 #     wmake-lninclude
 #
 # Description
-#     Link all the source files in the <dir> directory into <dir>/lninclude
+#     Link all the source files in the <dir> directory into <dir>/_lninclude
 #
 #     Usage: wmake-lninclude [-f] <dir>
 #

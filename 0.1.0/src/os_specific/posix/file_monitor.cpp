@@ -104,7 +104,7 @@ namespace mousse
           if (!hasWarned)
           {
             hasWarned = true;
-            WarningIn("fileMonitorWatcher(const bool, const label)")
+            WARNING_IN("fileMonitorWatcher(const bool, const label)")
               << "Failed allocating an inotify descriptor : "
               << string(strerror(errno)) << endl
               << "    Please increase the number of allowable "
@@ -139,13 +139,13 @@ namespace mousse
       #ifdef MOUSSE_USE_INOTIFY
       if (useInotify_ && inotifyFd_ >= 0)
       {
-        forAll(dirWatches_, i)
+        FOR_ALL(dirWatches_, i)
         {
           if (dirWatches_[i] >= 0)
           {
             if (inotify_rm_watch(inotifyFd_, int(dirWatches_[i])))
             {
-              WarningIn("fileMonitor::~fileMonitor()")
+              WARNING_IN("fileMonitor::~fileMonitor()")
                 << "Failed deleting directory watch "
                 << dirWatches_[i] << endl;
             }
@@ -178,7 +178,7 @@ namespace mousse
           );
           if (dirWatchID < 0)
           {
-            FatalErrorIn("addWatch(const label, const fileName&)")
+            FATAL_ERROR_IN("addWatch(const label, const fileName&)")
               << "Failed adding watch " << watchFd
               << " to directory " << fName << " due to "
               << string(strerror(errno))
@@ -188,7 +188,7 @@ namespace mousse
         if (watchFd < dirWatches_.size() && dirWatches_[watchFd] != -1)
         {
           // Reuse of watchFd : should have dir watchID set to -1.
-          FatalErrorIn("addWatch(const label, const fileName&)")
+          FATAL_ERROR_IN("addWatch(const label, const fileName&)")
             << "Problem adding watch " << watchFd
             << " to file " << fName
             << abort(FatalError);
@@ -255,7 +255,7 @@ void mousse::fileMonitor::checkFiles() const
       );
       if (ready < 0)
       {
-        FatalErrorIn("fileMonitor::checkFiles()")
+        FATAL_ERROR_IN("fileMonitor::checkFiles()")
           << "Problem in issuing select."
           << abort(FatalError);
       }
@@ -270,7 +270,7 @@ void mousse::fileMonitor::checkFiles() const
         );
         if (nBytes < 0)
         {
-          FatalErrorIn("fileMonitor::checkFiles()")
+          FATAL_ERROR_IN("fileMonitor::checkFiles()")
             << "read of " << watcher_->inotifyFd_
             << " failed with " << label(nBytes)
             << abort(FatalError);
@@ -289,21 +289,15 @@ void mousse::fileMonitor::checkFiles() const
           //  << endl;
           //Pout<< "file:" << fileName(inotifyEvent->name) << endl;
           //Pout<< "len:" << inotifyEvent->len << endl;
-          if
-          (
-            (inotifyEvent->mask & IN_CLOSE_WRITE)
-          && inotifyEvent->len
-          )
+          if ((inotifyEvent->mask & IN_CLOSE_WRITE)
+              && inotifyEvent->len)
           {
             // Search for file
-            forAll(watcher_->dirWatches_, i)
+            FOR_ALL(watcher_->dirWatches_, i)
             {
               label id = watcher_->dirWatches_[i];
-              if
-              (
-                id == inotifyEvent->wd
-              && inotifyEvent->name == watcher_->dirFiles_[i]
-              )
+              if (id == inotifyEvent->wd
+                  && inotifyEvent->name == watcher_->dirFiles_[i])
               {
                 // Correct directory and name
                 localState_[i] = MODIFIED;
@@ -352,12 +346,12 @@ void mousse::fileMonitor::checkFiles() const
 // Constructors
 mousse::fileMonitor::fileMonitor(const bool useInotify)
 :
-  useInotify_(useInotify),
-  localState_(20),
-  state_(20),
-  watchFile_(20),
-  freeWatchFds_(2),
-  watcher_(new fileMonitorWatcher(useInotify_, 20))
+  useInotify_{useInotify},
+  localState_{20},
+  state_{20},
+  watchFile_{20},
+  freeWatchFds_{2},
+  watcher_{new fileMonitorWatcher{useInotify_, 20}}
 {}
 // Destructor
 mousse::fileMonitor::~fileMonitor()

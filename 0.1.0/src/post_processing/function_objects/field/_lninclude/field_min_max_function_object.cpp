@@ -1,1 +1,0 @@
-../field_min_max/field_min_max_function_object.cpp

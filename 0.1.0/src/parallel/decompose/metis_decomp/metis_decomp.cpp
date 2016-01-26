@@ -15,7 +15,7 @@ namespace mousse
   DEFINE_TYPE_NAME_AND_DEBUG(metisDecomp, 0);
   ADD_TO_RUN_TIME_SELECTION_TABLE(decompositionMethod, metisDecomp, dictionary);
 }
-// Private Member Functions 
+// Private Member Functions
 mousse::label mousse::metisDecomp::decompose
 (
   const List<label>& adjncy,
@@ -24,28 +24,46 @@ mousse::label mousse::metisDecomp::decompose
   List<label>& finalDecomp
 )
 {
+  // Temporal storage in terms of METIS types
+  List<idx_t> t_adjncy(adjncy.size());
+  List<idx_t> t_xadj(xadj.size());
+  Field<real_t> t_cWeights(cWeights.size());
+  List<idx_t> t_finalDecomp(finalDecomp.size());
+
+  // Convert arguments to METIS types
+  FOR_ALL(adjncy, idx)
+  {
+    t_adjncy[idx] = static_cast<idx_t>(adjncy[idx]);
+  }
+
+  FOR_ALL(xadj, idx)
+  {
+    t_xadj[idx] = static_cast<idx_t>(xadj[idx]);
+  }
+
+  FOR_ALL(cWeights, idx)
+  {
+    t_cWeights[idx] = static_cast<idx_t>(cWeights[idx]);
+  }
+
   // Method of decomposition
   // recursive: multi-level recursive bisection (default)
   // k-way: multi-level k-way
   word method("recursive");
   label numCells = xadj.size()-1;
   // decomposition options
-  List<label> options(METIS_NOPTIONS);
+  List<idx_t> options(METIS_NOPTIONS);
   METIS_SetDefaultOptions(options.begin());
   // processor weights initialised with no size, only used if specified in
   // a file
-#if REALTYPEWIDTH == 32
-  Field<floatScalar> processorWeights;
-#else
-  Field<doubleScalar> processorWeights;
-#endif
+  Field<real_t> processorWeights;
   // cell weights (so on the vertices of the dual)
-  List<label> cellWeights;
+  List<idx_t> cellWeights;
   // face weights (so on the edges of the dual)
-  List<label> faceWeights;
+  List<idx_t> faceWeights;
   // Check for externally provided cellweights and if so initialise weights
-  scalar minWeights = gMin(cWeights);
-  if (cWeights.size() > 0)
+  scalar minWeights = gMin(t_cWeights);
+  if (t_cWeights.size() > 0)
   {
     if (minWeights <= 0)
     {
@@ -53,7 +71,7 @@ mousse::label mousse::metisDecomp::decompose
         << "Illegal minimum weight " << minWeights
         << endl;
     }
-    if (cWeights.size() != numCells)
+    if (t_cWeights.size() != numCells)
     {
       FATAL_ERROR_IN_FUNCTION
         << "Number of cell weights " << cWeights.size()
@@ -61,17 +79,16 @@ mousse::label mousse::metisDecomp::decompose
         << exit(FatalError);
     }
     // Convert to integers.
-    cellWeights.setSize(cWeights.size());
+    cellWeights.setSize(t_cWeights.size());
     FOR_ALL(cellWeights, i)
     {
-      cellWeights[i] = int(cWeights[i]/minWeights);
+      cellWeights[i] = static_cast<idx_t>(t_cWeights[i]/minWeights);
     }
   }
   // Check for user supplied weights and decomp options
   if (decompositionDict_.found("metisCoeffs"))
   {
-    const dictionary& metisCoeffs =
-      decompositionDict_.subDict("metisCoeffs");
+    const dictionary& metisCoeffs = decompositionDict_.subDict("metisCoeffs");
     word weightsFile;
     if (metisCoeffs.readIfPresent("method", method))
     {
@@ -112,20 +129,22 @@ mousse::label mousse::metisDecomp::decompose
       }
     }
   }
-  label ncon = 1;
-  label nProcs = nProcessors_;
+  idx_t ncon = 1;
+  idx_t nProcs = nProcessors_;
   // output: cell -> processor addressing
   finalDecomp.setSize(numCells);
+  t_finalDecomp.setSize(numCells);
   // output: number of cut edges
-  label edgeCut = 0;
+  idx_t edgeCut = 0;
+  idx_t t_numCells = static_cast<idx_t>(numCells);
   if (method == "recursive")
   {
     METIS_PartGraphRecursive
     (
-      &numCells,          // num vertices in graph
+      &t_numCells,          // num vertices in graph
       &ncon,              // num balancing constraints
-      const_cast<List<label>&>(xadj).begin(),   // indexing into adjncy
-      const_cast<List<label>&>(adjncy).begin(), // neighbour info
+      const_cast<List<idx_t>&>(t_xadj).begin(),   // indexing into adjncy
+      const_cast<List<idx_t>&>(t_adjncy).begin(), // neighbour info
       cellWeights.begin(),// vertexweights
       NULL,               // vsize: total communication vol
       faceWeights.begin(),// edgeweights
@@ -134,17 +153,17 @@ mousse::label mousse::metisDecomp::decompose
       NULL,               // ubvec: processor imbalance (default)
       options.begin(),
       &edgeCut,
-      finalDecomp.begin()
+      t_finalDecomp.begin()
     );
   }
   else
   {
     METIS_PartGraphKway
     (
-      &numCells,         // num vertices in graph
+      &t_numCells,         // num vertices in graph
       &ncon,              // num balancing constraints
-      const_cast<List<label>&>(xadj).begin(),   // indexing into adjncy
-      const_cast<List<label>&>(adjncy).begin(), // neighbour info
+      const_cast<List<idx_t>&>(t_xadj).begin(),   // indexing into adjncy
+      const_cast<List<idx_t>&>(t_adjncy).begin(), // neighbour info
       cellWeights.begin(),// vertexweights
       NULL,               // vsize: total communication vol
       faceWeights.begin(),// edgeweights
@@ -153,17 +172,24 @@ mousse::label mousse::metisDecomp::decompose
       NULL,               // ubvec: processor imbalance (default)
       options.begin(),
       &edgeCut,
-      finalDecomp.begin()
+      t_finalDecomp.begin()
     );
   }
-  return edgeCut;
+
+  // Copying final decomposition to the target
+  FOR_ALL(t_finalDecomp, idx)
+  {
+    finalDecomp[idx] = static_cast<label>(t_finalDecomp[idx]);
+  }
+
+  return static_cast<label>(edgeCut);
 }
-// Constructors 
+// Constructors
 mousse::metisDecomp::metisDecomp(const dictionary& decompositionDict)
 :
   decompositionMethod(decompositionDict)
 {}
-// Member Functions 
+// Member Functions
 mousse::labelList mousse::metisDecomp::decompose
 (
   const polyMesh& mesh,

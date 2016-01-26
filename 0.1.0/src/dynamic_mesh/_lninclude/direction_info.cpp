@@ -1,1 +1,0 @@
-../mesh_cut/directions/direction_info/direction_info.cpp

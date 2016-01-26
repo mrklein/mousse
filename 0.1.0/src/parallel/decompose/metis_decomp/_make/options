@@ -2,5 +2,13 @@ EXE_INC = \
     -I$(METIS_ARCH_PATH)/include \
     -I../decomposition_methods/_lninclude
 
-LIB_LIBS = \
-    -L$(METIS_ARCH_PATH)/lib -lmetis
+LIB_LIBS = -lmetis
+
+ifneq ($(wildcard $(METIS_ARCH_PATH)/lib/libmetis.*),)
+LIB_LIBS += -L$(METIS_ARCH_PATH)/lib
+endif
+
+ifneq ($(wildcard $(METIS_ARCH_PATH)/lib64/libmetis.*),)
+LIB_LIBS += -L$(METIS_ARCH_PATH)/lib64
+endif
+

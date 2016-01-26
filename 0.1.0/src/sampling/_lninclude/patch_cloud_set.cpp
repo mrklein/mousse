@@ -1,1 +1,0 @@
-../sampled_set/patch_cloud_set.cpp

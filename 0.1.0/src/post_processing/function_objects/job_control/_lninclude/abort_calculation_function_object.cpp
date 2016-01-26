@@ -1,1 +1,0 @@
-../abort_calculation/abort_calculation_function_object.cpp

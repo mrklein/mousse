@@ -1,1 +1,0 @@
-../sampled_surface/sampled_surface.cpp

@@ -1,1 +1,0 @@
-../remove_registered_object/io_remove_registered_object.hpp

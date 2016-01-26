@@ -35,7 +35,10 @@ get_application()
 guess_application()
 {
 	local app_path="$1"
-	[ -x "$(which $app_path)" ] && { echo $app_path; return 0; }
+	if $(which $app_path > /dev/null 2>&1)
+	then
+		[ -x "$(which $app_path)" ] && { echo $app_path; return 0; }
+	fi
 
 	local app_base=$(basename $app_path)
 	local app_dir=$(dirname $app_path)
@@ -43,10 +46,13 @@ guess_application()
 
 	if [ "x$app_dir" == "x" ]
 	then
-		[ -x "$(which mousse-$app_base)" ] && {
-		echo "mousse-$app_base"
-		return 0
-		}
+		if $(which mousse-$app_base > /dev/null 2>&1)
+		then
+			[ -x "$(which mousse-$app_base)" ] && {
+			echo "mousse-$app_base"
+			return 0
+			}
+		fi
 	else
 		[ -x "$app_dir/mousse-$app_base" ] && {
 		echo "$app_dir/mousse-$app_base"
@@ -79,7 +85,7 @@ run_application()
 	shift
 	local app_name=${app_run##*/}
 
-	[ -x "$(which $app_run)" ] || {
+	which $app_run > /dev/null 2>&1 || {
 	# Try to test mousse-$app_run variant
 	app_run=$(guess_application $app_run)
 	[ -x "$(which $app_run)" ] || {

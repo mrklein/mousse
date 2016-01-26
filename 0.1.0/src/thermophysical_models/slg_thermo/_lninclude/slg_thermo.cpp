@@ -1,1 +1,0 @@
-../slg_thermo.cpp

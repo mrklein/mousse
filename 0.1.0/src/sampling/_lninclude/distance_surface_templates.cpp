@@ -1,1 +1,0 @@
-../sampled_surface/distance_surface_templates.cpp

@@ -1,1 +1,0 @@
-../reaction/reaction_rate/power_series_reaction_rate.hpp

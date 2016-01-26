@@ -1,1 +1,0 @@
-../radiation_models/fv_dom/black_body_emission.cpp

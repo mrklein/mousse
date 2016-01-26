@@ -1,1 +1,0 @@
-../mixtures/multi_component_mixture.cpp

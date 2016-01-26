@@ -1,1 +1,0 @@
-../clouds/templates/_colliding_cloud.cpp

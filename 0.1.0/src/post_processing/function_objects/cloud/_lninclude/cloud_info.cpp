@@ -1,1 +1,0 @@
-../cloud_info/cloud_info.cpp

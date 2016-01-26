@@ -1,1 +1,0 @@
-../solid_reaction_thermo.cpp

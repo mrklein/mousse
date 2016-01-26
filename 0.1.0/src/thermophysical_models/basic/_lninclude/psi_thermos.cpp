@@ -1,1 +1,0 @@
-../psi_thermos.cpp

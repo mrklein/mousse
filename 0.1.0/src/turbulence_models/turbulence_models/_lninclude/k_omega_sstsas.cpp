@@ -1,1 +1,0 @@
-../ras/k_omega_sstsas.cpp

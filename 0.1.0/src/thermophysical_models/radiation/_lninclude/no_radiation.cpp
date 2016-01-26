@@ -1,1 +1,0 @@
-../radiation_models/no_radiation.cpp

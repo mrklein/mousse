@@ -1,1 +1,0 @@
-../pair_potential/maitland_smith.hpp

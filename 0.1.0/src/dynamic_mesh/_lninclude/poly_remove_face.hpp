@@ -1,1 +1,0 @@
-../poly_topo_change/poly_topo_change/remove_object/poly_remove_face.hpp

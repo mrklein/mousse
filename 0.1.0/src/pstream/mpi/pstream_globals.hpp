@@ -4,6 +4,9 @@
 //   pstream_globals.cpp
 #ifndef pstream_globals_hpp_
 #define pstream_globals_hpp_
+
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+
 #include "dynamic_list.hpp"
 #include <mpi.h>
 namespace mousse

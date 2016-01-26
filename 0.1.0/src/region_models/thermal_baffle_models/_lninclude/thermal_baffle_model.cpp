@@ -1,1 +1,0 @@
-../thermal_baffle_model.cpp

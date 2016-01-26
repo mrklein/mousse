@@ -6,7 +6,10 @@
 %{
 
 #undef yyFlexLexer
+
+#if defined(__clang__)
 #pragma clang diagnostic ignored "-Wdeprecated-register"
+#endif
 
  /* ------------------------------------------------------------------------ *\
    ------ local definitions

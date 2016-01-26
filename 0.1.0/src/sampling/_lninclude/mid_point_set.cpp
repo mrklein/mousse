@@ -1,1 +1,0 @@
-../sampled_set/mid_point_set.cpp

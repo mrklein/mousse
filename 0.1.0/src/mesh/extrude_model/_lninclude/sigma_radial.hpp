@@ -1,1 +1,0 @@
-../sigma_radial/sigma_radial.hpp

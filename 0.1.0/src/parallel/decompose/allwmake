@@ -7,12 +7,12 @@ target_type=libso
 # get SCOTCH_VERSION, SCOTCH_ARCH_PATH
 if settings=$($WM_PROJECT_DIR/bin/mousse-etc-file config/scotch.sh)
 then
-    . $settings
-    echo "using SCOTCH_ARCH_PATH=$SCOTCH_ARCH_PATH"
+	. $settings
+	echo "using SCOTCH_ARCH_PATH=$SCOTCH_ARCH_PATH"
 else
-    echo
-    echo "Error: no config/scotch.sh settings"
-    echo
+	echo
+	echo "Error: no config/scotch.sh settings"
+	echo
 fi
 
 
@@ -23,20 +23,20 @@ fi
 #
 wmake_mpi_lib()
 {
-    set +x
-    for lib_name
-    do
-    (
-        WM_OPTIONS="$WM_OPTIONS$WM_MPLIB"
-        whichmpi="$WM_PROJECT_DIR/platforms/$WM_OPTIONS/src/parallel/decompose/$lib_name/using:$MOUSSE_MPI"
-        whichscotch="$WM_PROJECT_DIR/platforms/$WM_OPTIONS/src/parallel/decompose/$lib_name/using:$SCOTCH_VERSION"
-        [ -e "$whichmpi" -a -e "$whichscotch" ] || wclean $lib_name
-        echo "wmake $target_type $lib_name"
-        wmake $target_type $lib_name
-        touch "$whichmpi" "$whichscotch"
-    )
-    done
-    set -x
+	set +x
+	for lib_name
+	do
+		(
+		WM_OPTIONS="$WM_OPTIONS$WM_MPLIB"
+		whichmpi="$WM_PROJECT_DIR/platforms/$WM_OPTIONS/src/parallel/decompose/$lib_name/using:$MOUSSE_MPI"
+		whichscotch="$WM_PROJECT_DIR/platforms/$WM_OPTIONS/src/parallel/decompose/$lib_name/using:$SCOTCH_VERSION"
+		[ -e "$whichmpi" -a -e "$whichscotch" ] || wclean $lib_name
+		echo "wmake $target_type $lib_name"
+		wmake $target_type $lib_name
+		touch "$whichmpi" "$whichscotch"
+		)
+	done
+	set -x
 }
 
 set -x
@@ -45,18 +45,19 @@ wmake-lninclude decomposition_methods
 
 if [ -n "$SCOTCH_ARCH_PATH" ]
 then
-    wmake $target_type scotch_decomp
+	wmake $target_type scotch_decomp
 
-    if [ -d "$MOUSSE_LIBBIN/$MOUSSE_MPI" ]
-    then
-        wmake_mpi_lib ptscotch_decomp
-    fi
+	if [ -d "$MOUSSE_LIBBIN/$MOUSSE_MPI" ]
+	then
+		export PTSCOTCH_CFLAGS="-I/usr/include/openmpi-x86_64 -I/usr/include"
+		export PTSCOTCH_LDFLAGS="-L/usr/lib64/openmpi/lib -L/usr/lib64 -lscotch -lscotcherr -lptscotch -lptscotcherr"
+		wmake_mpi_lib ptscotch_decomp
+	fi
 else
-    echo
-    echo "Skipping scotchDecomp (ptscotchDecomp)"
-    echo
+	echo
+	echo "Skipping scotchDecomp (ptscotchDecomp)"
+	echo
 fi
-
 
 # Try and build metisDecomp (has own logic)
 (cd metis_decomp && ./allwmake $target_type)
@@ -65,3 +66,4 @@ wmake $target_type decomposition_methods
 
 wmake $targetType decompose
 
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

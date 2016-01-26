@@ -1,1 +1,0 @@
-../_integration_scheme/_analytical.cpp

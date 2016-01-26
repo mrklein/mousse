@@ -1,1 +1,0 @@
-../submodels/_binary_collision_model/_larsen_borgnakke_variable_hard_sphere.hpp

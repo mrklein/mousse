@@ -1,1 +1,0 @@
-../calc_mag/calc_mag_function_object.cpp
