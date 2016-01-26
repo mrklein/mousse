@@ -160,6 +160,22 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   List<label>& finalDecomp
 )
 {
+  // Temporal storage in term of Scotch types
+  List<SCOTCH_Num> t_adjncy(adjncy.size());
+  List<SCOTCH_Num> t_xadj(xadj.size());
+  List<SCOTCH_Num> t_finalDecomp(finalDecomp.size());
+
+  // Copying values to temporal storage
+  FOR_ALL(adjncy, idx)
+  {
+    t_adjncy[idx] = static_cast<SCOTCH_Num>(adjncy[idx]);
+  }
+
+  FOR_ALL(xadj, idx)
+  {
+    t_xadj[idx] = static_cast<SCOTCH_Num>(xadj[idx]);
+  }
+
   // Dump graph
   if (decompositionDict_.found("scotchCoeffs"))
   {
@@ -167,7 +183,7 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
       decompositionDict_.subDict("scotchCoeffs");
     if (scotchCoeffs.lookupOrDefault("writeGraph", false))
     {
-      OFstream str(meshPath + ".grf");
+      OFstream str{meshPath + ".grf"};
       Info<< "Dumping Scotch graph file to " << str.name() << endl
         << "Use this in combination with gpart." << endl;
       label version = 0;
@@ -218,7 +234,7 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   }
   // Graph
   // ~~~~~
-  List<label> velotab;
+  List<SCOTCH_Num> velotab;
   // Check for externally provided cellweights and if so initialise weights
   // Note: min, not gMin since routine runs on master only.
   scalar minWeights = min(cWeights);
@@ -251,15 +267,19 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
       WARNING_IN
       (
         "scotchDecomp::decompose(...)"
-      )   << "Sum of weights has overflowed integer: " << velotabSum
-        << ", compressing weight scale by a factor of " << rangeScale
-        << endl;
+      )
+      << "Sum of weights has overflowed integer: " << velotabSum
+      << ", compressing weight scale by a factor of " << rangeScale
+      << endl;
     }
     // Convert to integers.
     velotab.setSize(cWeights.size());
     FOR_ALL(velotab, i)
     {
-      velotab[i] = int((cWeights[i]/minWeights - 1)*rangeScale) + 1;
+      velotab[i] = static_cast<SCOTCH_Num>
+      (
+        ((cWeights[i]/minWeights - 1)*rangeScale) + 1
+      );
     }
   }
   SCOTCH_Graph grafdat;
@@ -270,13 +290,13 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
     (
       &grafdat,
       0,                      // baseval, c-style numbering
-      xadj.size()-1,          // vertnbr, nCells
-      xadj.begin(),           // verttab, start index per cell into adjncy
-      &xadj[1],               // vendtab, end index  ,,
+      t_xadj.size()-1,          // vertnbr, nCells
+      t_xadj.begin(),           // verttab, start index per cell into adjncy
+      &t_xadj[1],               // vendtab, end index  ,,
       velotab.begin(),        // velotab, vertex weights
       NULL,                   // vlbltab
-      adjncy.size(),          // edgenbr, number of arcs
-      adjncy.begin(),         // edgetab
+      t_adjncy.size(),          // edgenbr, number of arcs
+      t_adjncy.begin(),         // edgetab
       NULL                    // edlotab, edge weights
     ),
     "SCOTCH_graphBuild"
@@ -287,7 +307,7 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   // (fully connected network topology since using switch)
   SCOTCH_Arch archdat;
   check(SCOTCH_archInit(&archdat), "SCOTCH_archInit");
-  List<label> processorWeights;
+  List<SCOTCH_Num> processorWeights;
   if (decompositionDict_.found("scotchCoeffs"))
   {
     const dictionary& scotchCoeffs =
@@ -361,7 +381,8 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   );
 #   endif
   finalDecomp.setSize(xadj.size()-1);
-  finalDecomp = 0;
+  t_finalDecomp.setSize(xadj.size() - 1);
+  t_finalDecomp = 0;
   check
   (
     SCOTCH_graphMap
@@ -369,7 +390,7 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
       &grafdat,
       &archdat,
       &stradat,           // const SCOTCH_Strat *
-      finalDecomp.begin() // parttab
+      t_finalDecomp.begin() // parttab
     ),
     "SCOTCH_graphMap"
   );
@@ -394,6 +415,13 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   SCOTCH_stratExit(&stradat);
   // Release storage for network topology
   SCOTCH_archExit(&archdat);
+
+  // Copy decomposition back into mousse-typed storage
+  FOR_ALL(t_finalDecomp, idx)
+  {
+    finalDecomp[idx] = static_cast<label>(t_finalDecomp[idx]);
+  }
+
   return 0;
 }
 // Constructors 
@@ -465,9 +493,10 @@ mousse::labelList mousse::scotchDecomp::decompose
       "scotchDecomp::decompose"
       "(const polyMesh&, const labelList&, const pointField&"
       ", const scalarField&)"
-    )   << "Size of cell-to-coarse map " << agglom.size()
-      << " differs from number of cells in mesh " << mesh.nCells()
-      << exit(FatalError);
+    )
+    << "Size of cell-to-coarse map " << agglom.size()
+    << " differs from number of cells in mesh " << mesh.nCells()
+    << exit(FatalError);
   }
   // Calculate local or global (if Pstream::parRun()) connectivity
   CompactListList<label> cellCells;
@@ -510,9 +539,10 @@ mousse::labelList mousse::scotchDecomp::decompose
     (
       "scotchDecomp::decompose"
       "(const labelListList&, const pointField&, const scalarField&)"
-    )   << "Inconsistent number of cells (" << globalCellCells.size()
-      << ") and number of cell centres (" << cellCentres.size()
-      << ")." << exit(FatalError);
+    )
+    << "Inconsistent number of cells (" << globalCellCells.size()
+    << ") and number of cell centres (" << cellCentres.size()
+    << ")." << exit(FatalError);
   }
   // Make Metis CSR (Compressed Storage Format) storage
   //   adjncy      : contains neighbours (= edges in graph)

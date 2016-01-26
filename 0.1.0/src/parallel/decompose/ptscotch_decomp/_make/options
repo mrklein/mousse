@@ -3,11 +3,11 @@ sinclude $(RULES)/mplib$(WM_MPLIB)
 
 EXE_INC = \
     $(PFLAGS) $(PINC) \
-    -I$(SCOTCH_ARCH_PATH)/include \
+    ${PTSCOTCH_CFLAGS} \
     -I../decomposition_methods/_lninclude
 
 LIB_LIBS = \
-    -L$(SCOTCH_ARCH_PATH)/lib -lptscotch -lptscotcherrexit -lscotch
+    ${PTSCOTCH_LDFLAGS} -lptscotch -lptscotcherrexit -lscotch
 
 ifneq ($(shell uname -s),Darwin)
 LIB_LIBS += -lrt
