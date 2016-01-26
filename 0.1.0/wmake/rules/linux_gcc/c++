@@ -1,11 +1,11 @@
-SUFFIXES += .C
+SUFFIXES += .cpp
 
 c++WARN     = -Wall -Wextra -Wold-style-cast -Wnon-virtual-dtor -Wno-unused-parameter -Wno-invalid-offsetof
 
 # Suppress some warnings for flex++ and CGAL
 c++LESSWARN = -Wno-old-style-cast -Wno-unused-local-typedefs -Wno-array-bounds
 
-CC          = g++ -m32
+CC          = g++ -m32 -std=c++11
 
 include $(RULES)/c++$(WM_COMPILE_OPTION)
 
