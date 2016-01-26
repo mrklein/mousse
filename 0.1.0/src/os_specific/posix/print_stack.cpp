@@ -108,7 +108,11 @@ void printSourceFileAndLine
       regex_t re;
       regmatch_t mt[3];
       int st;
+#if defined(REG_ENHANCED)
       regcomp(&re, ".\\+at \\(.\\+\\):\\(\\d\\+\\)", REG_ENHANCED);
+#else
+      regcomp(&re, ".\\+at \\(.\\+\\):\\(\\d\\+\\)", REG_EXTENDED);
+#endif
       st = regexec(&re, buf, 3, mt, 0);
       if (st == REG_NOMATCH)
       {

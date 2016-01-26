@@ -1,1 +1,0 @@
-../sliding_interface/sliding_interface_attached_addressing.cpp

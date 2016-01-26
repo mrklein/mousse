@@ -1,1 +1,0 @@
-../tether_potential/restrained_harmonic_spring.cpp

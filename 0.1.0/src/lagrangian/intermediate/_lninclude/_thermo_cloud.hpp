@@ -1,1 +1,0 @@
-../clouds/templates/_thermo_cloud.hpp

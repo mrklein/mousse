@@ -1,1 +1,0 @@
-../sampled_surface/sampled_cutting_plane_templates.cpp

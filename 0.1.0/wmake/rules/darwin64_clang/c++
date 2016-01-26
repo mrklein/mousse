@@ -5,7 +5,7 @@ SUFFIXES += .cpp
 
 c++WARN     = -Wall -Wextra
 
-CC          = xcrun c++ -arch x86_64
+CC          = xcrun c++ -arch x86_64 -mmacosx-version-min=10.6
 
 include $(RULES)/c++$(WM_COMPILE_OPTION)
 

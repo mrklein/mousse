@@ -1,1 +1,0 @@
-../field/mag_sqr/write_mag_sqr_field.cpp

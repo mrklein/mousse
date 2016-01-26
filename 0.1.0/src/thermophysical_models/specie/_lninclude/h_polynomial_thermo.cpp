@@ -1,1 +1,0 @@
-../thermo/h_polynomial_thermo.cpp

@@ -1,1 +1,0 @@
-../parcels/templates/_colliding_parcel.hpp

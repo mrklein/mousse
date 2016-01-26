@@ -1,1 +1,0 @@
-../submodels/absorption_emission_model/wide_band_absorption_emission.hpp

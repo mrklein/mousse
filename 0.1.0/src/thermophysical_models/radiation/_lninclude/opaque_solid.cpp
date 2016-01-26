@@ -1,1 +1,0 @@
-../radiation_models/opaque_solid.cpp

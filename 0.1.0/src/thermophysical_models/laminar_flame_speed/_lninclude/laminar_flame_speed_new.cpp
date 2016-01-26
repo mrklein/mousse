@@ -1,1 +1,0 @@
-../laminar_flame_speed_new.cpp

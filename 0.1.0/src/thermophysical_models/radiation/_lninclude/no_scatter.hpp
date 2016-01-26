@@ -1,1 +1,0 @@
-../submodels/scatter_model/no_scatter.hpp

@@ -1,1 +1,0 @@
-../partial_write/partial_write_function_object.hpp

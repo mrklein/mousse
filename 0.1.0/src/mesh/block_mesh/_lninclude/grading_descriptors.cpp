@@ -1,1 +1,0 @@
-../grading_descriptor/grading_descriptors.cpp

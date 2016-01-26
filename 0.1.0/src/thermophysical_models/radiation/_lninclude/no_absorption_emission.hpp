@@ -1,1 +1,0 @@
-../submodels/absorption_emission_model/no_absorption_emission.hpp

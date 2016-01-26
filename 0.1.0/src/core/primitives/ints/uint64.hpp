@@ -6,6 +6,9 @@
 #ifndef uint64_hpp_
 #define uint64_hpp_
 #define __STDC_LIMIT_MACROS
+#if defined(__APPLE__)
+#include <sys/types.h>
+#endif
 #include <stdint.h>
 #include <climits>
 #include <cstdlib>

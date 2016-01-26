@@ -1,1 +1,0 @@
-../turbulent_fluid_thermo_models/derived_fv_patch_fields/external_coupled_temperature_mixed_fv_patch_scalar_field.hpp

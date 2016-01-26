@@ -1,1 +1,0 @@
-../pair_potential/lennard_jones.cpp

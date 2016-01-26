@@ -1,1 +1,0 @@
-../idea/ideai.hpp

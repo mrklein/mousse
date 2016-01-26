@@ -1,1 +1,0 @@
-../six_dof_solvers/newmark/newmark.cpp

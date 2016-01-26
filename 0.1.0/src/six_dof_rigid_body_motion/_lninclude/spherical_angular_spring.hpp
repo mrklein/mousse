@@ -1,1 +1,0 @@
-../six_dof_rigid_body_motion/restraints/spherical_angular_spring/spherical_angular_spring.hpp

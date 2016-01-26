@@ -1,1 +1,0 @@
-../submodels/scatter_model/constant_scatter.hpp

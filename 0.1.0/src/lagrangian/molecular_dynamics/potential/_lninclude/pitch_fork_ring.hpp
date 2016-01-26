@@ -1,1 +1,0 @@
-../tether_potential/pitch_fork_ring.hpp

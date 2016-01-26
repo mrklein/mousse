@@ -1,1 +1,0 @@
-../cutting_plane.cpp

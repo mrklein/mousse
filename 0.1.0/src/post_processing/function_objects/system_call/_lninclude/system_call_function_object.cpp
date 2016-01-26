@@ -1,1 +1,0 @@
-../system_call_function_object.cpp

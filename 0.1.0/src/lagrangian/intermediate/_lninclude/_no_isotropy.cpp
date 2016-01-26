@@ -1,1 +1,0 @@
-../submodels/_mppic/_isotropy_models/_no_isotropy.cpp

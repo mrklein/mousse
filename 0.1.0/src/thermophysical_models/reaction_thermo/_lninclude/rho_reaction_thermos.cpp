@@ -1,1 +1,0 @@
-../rho_reaction_thermos.cpp

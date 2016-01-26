@@ -1,1 +1,0 @@
-../coal_cloud.hpp

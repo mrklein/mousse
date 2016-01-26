@@ -1,1 +1,0 @@
-../cyclic_sector/cyclic_sector.cpp

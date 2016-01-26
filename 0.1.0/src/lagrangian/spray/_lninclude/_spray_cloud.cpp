@@ -1,1 +1,0 @@
-../clouds/templates/_spray_cloud.cpp

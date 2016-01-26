@@ -1,1 +1,0 @@
-../six_dof_rigid_body_motion_solver/point_patch_dist.hpp

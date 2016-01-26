@@ -1,1 +1,0 @@
-../clouds/templates/_mppic_cloud.cpp

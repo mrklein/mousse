@@ -1,1 +1,0 @@
-../sampled_surface/writers/starcd_surface_writer.hpp

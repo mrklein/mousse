@@ -1,1 +1,0 @@
-../rho_thermos.cpp
