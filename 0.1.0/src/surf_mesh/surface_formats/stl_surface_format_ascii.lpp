@@ -11,7 +11,9 @@
    ------ local definitions
  \* ------------------------------------------------------------------------ */
 
+#if defined(__clang__)
 #pragma clang diagnostic ignored "-Wdeprecated-register"
+#endif
 
 #include "stl_surface_format_core.hpp"
 

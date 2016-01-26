@@ -112,14 +112,16 @@ namespace fvc
     const tmp<GeometricField<Type, fvPatchField, volMesh> >& tvf
   );
   //- Interpolate field onto faces using 'interpolate(\<name\>)'
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundefined-internal"
+#pragma GCC diagnostic push
+#if defined(__clang__)
+#pragma GCC diagnostic ignored "-Wundefined-internal"
+#endif
   template<class Type>
   static tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate
   (
     const GeometricField<Type, fvPatchField, volMesh>& tvf
   );
-#pragma clang diagnostic pop
+#pragma GCC diagnostic pop
   //- Interpolate boundary field onto faces (simply a type conversion)
   template<class Type>
   static tmp<FieldField<fvsPatchField, Type> > interpolate
