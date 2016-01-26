@@ -41,9 +41,9 @@ alias mousse_utils='cd $MOUSSE_UTILITIES'
 
 if [ -n "$WM_PROJECT_SITE" ]
 then
-    alias mousse_site='cd $WM_PROJECT_SITE'
+	alias mousse_site='cd $WM_PROJECT_SITE'
 else
-    alias mousse_site='cd $WM_PROJECT_INST_DIR/site'
+	alias mousse_site='cd $WM_PROJECT_INST_DIR/site'
 fi
 
-# vim: set ft=sh noet sw=4 ts=4 sts=4:
+# vim: set ft=sh noet sw=2 ts=2 sts=2:
