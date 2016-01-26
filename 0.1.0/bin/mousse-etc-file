@@ -23,7 +23,7 @@
 #   or <mousse_install>/<VERSION>/bin/ (for the debian version)
 
 usage() {
-	[ "${optQuiet:-$optSilent}" = true ] && exit 1
+	[ "${OPT_QUIET:-$OPT_SILENT}" = true ] && exit 1
 
 	exec 1>&2
 	while [ "$#" -ge 1 ]; do echo "$1"; shift; done

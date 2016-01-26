@@ -18,7 +18,7 @@ DEFINE_RUN_TIME_SELECTION_TABLE(tokenCompound, Istream);
 // Private Member Functions
 void mousse::token::parseError(const char* expected) const
 {
-  FATAL_IO_ERROR
+  FatalIOError
     << "Parse error, expected a " << expected
     << ", found \n    " << info() << endl;
 }

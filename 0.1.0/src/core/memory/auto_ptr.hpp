@@ -12,6 +12,9 @@
 
 #include "error.hpp"
 #include <cstddef>
+#if defined(__GNUC__)
+#include <typeinfo>
+#endif
 
 namespace mousse
 {
