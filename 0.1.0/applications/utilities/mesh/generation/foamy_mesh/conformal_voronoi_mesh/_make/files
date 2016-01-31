@@ -1,7 +1,7 @@
-delaunay_mesh_tools/delaunay_mesh_tools.cpp
+delaunay_mesh_tools.cpp
 
-conformal_voronoi_mesh/indexed_vertex/indexed_vertex_enum.cpp
-conformal_voronoi_mesh/indexed_cell/indexed_cell_enum.cpp
+conformal_voronoi_mesh/indexed_vertex_enum.cpp
+conformal_voronoi_mesh/indexed_cell_enum.cpp
 
 conformal_voronoi_mesh/conformal_voronoi_mesh.cpp
 conformal_voronoi_mesh/conformal_voronoi_mesh_calc_dual_mesh.cpp
@@ -10,71 +10,68 @@ conformal_voronoi_mesh/conformal_voronoi_mesh_zones.cpp
 conformal_voronoi_mesh/conformal_voronoi_mesh_io.cpp
 conformal_voronoi_mesh/conformal_voronoi_mesh_feature_points.cpp
 
-conformal_voronoi_mesh/feature_point_conformer/point_feature_edges_types.cpp
-conformal_voronoi_mesh/feature_point_conformer/feature_point_conformer.cpp
-conformal_voronoi_mesh/feature_point_conformer/feature_point_conformer_specialisations.cpp
+conformal_voronoi_mesh/point_feature_edges_types.cpp
+conformal_voronoi_mesh/feature_point_conformer.cpp
+conformal_voronoi_mesh/feature_point_conformer_specialisations.cpp
 
-cv_controls/cv_controls.cpp
+cv_controls.cpp
 
-conformation_surfaces/conformation_surfaces.cpp
+conformation_surfaces.cpp
 
-background_mesh_decomposition/background_mesh_decomposition.cpp
+background_mesh_decomposition.cpp
 
-cell_shape_control/cell_shape_control/cell_shape_control.cpp
+cell_shape_control/cell_shape_control.cpp
 
-cell_shape_control/cell_shape_control_mesh/cell_shape_control_mesh.cpp
+cell_shape_control/cell_shape_control_mesh.cpp
 
 cell_size_and_alignment_control = cell_shape_control/cell_size_and_alignment_control
 $(cell_size_and_alignment_control)/cell_size_and_alignment_controls.cpp
-$(cell_size_and_alignment_control)/cell_size_and_alignment_control/cell_size_and_alignment_control.cpp
-$(cell_size_and_alignment_control)/file_control/file_control.cpp
-$(cell_size_and_alignment_control)/searchable_surface_control/searchable_surface_control.cpp
-/*cell_shape_control/p_quad_coor_control/p_quad_coor_control.c*/
+$(cell_size_and_alignment_control)/cell_size_and_alignment_control.cpp
+$(cell_size_and_alignment_control)/file_control.cpp
+$(cell_size_and_alignment_control)/searchable_surface_control.cpp
 
-cell_shape_control/cell_aspect_ratio_control/cell_aspect_ratio_control.cpp
+cell_shape_control/cell_aspect_ratio_control.cpp
 
-cell_shape_control/smooth_alignment_solver/smooth_alignment_solver.cpp
+cell_shape_control/smooth_alignment_solver.cpp
 
-cell_shape_control/control_mesh_refinement/control_mesh_refinement.cpp
-
-/*cell_size_control_surfaces/cell_size_control_surfaces.c*/
+cell_shape_control/control_mesh_refinement.cpp
 
 cell_size_functions = cell_size_control_surfaces/cell_size_function
-$(cell_size_functions)/cell_size_function/cell_size_function.cpp
-$(cell_size_functions)/uniform/uniform.cpp
-$(cell_size_functions)/uniform_distance/uniform_distance.cpp
-$(cell_size_functions)/linear_distance/linear_distance.cpp
-$(cell_size_functions)/surface_offset_linear_distance/surface_offset_linear_distance.cpp
-$(cell_size_functions)/linear_spatial/linear_spatial.cpp
+$(cell_size_functions)/cell_size_function.cpp
+$(cell_size_functions)/uniform.cpp
+$(cell_size_functions)/uniform_distance.cpp
+$(cell_size_functions)/linear_distance.cpp
+$(cell_size_functions)/surface_offset_linear_distance.cpp
+$(cell_size_functions)/linear_spatial.cpp
 
 surface_cell_size_functions = cell_size_control_surfaces/surface_cell_size_function
-$(surface_cell_size_functions)/surface_cell_size_function/surface_cell_size_function.cpp
-$(surface_cell_size_functions)/uniform_value/uniform_value.cpp
-$(surface_cell_size_functions)/non_uniform_field/non_uniform_field.cpp
+$(surface_cell_size_functions)/surface_cell_size_function.cpp
+$(surface_cell_size_functions)/uniform_value.cpp
+$(surface_cell_size_functions)/non_uniform_field.cpp
 
 cell_size_calculation_type = $(surface_cell_size_functions)/cell_size_calculation_type
-$(cell_size_calculation_type)/cell_size_calculation_type/cell_size_calculation_type.cpp
-$(cell_size_calculation_type)/field_from_file/field_from_file.cpp
-$(cell_size_calculation_type)/automatic/automatic.cpp
+$(cell_size_calculation_type)/cell_size_calculation_type.cpp
+$(cell_size_calculation_type)/field_from_file.cpp
+$(cell_size_calculation_type)/automatic.cpp
 
-initial_points_method/initial_points_method/initial_points_method.cpp
-initial_points_method/uniform_grid/uniform_grid.cpp
-initial_points_method/body_centred_cubic/body_centred_cubic.cpp
-initial_points_method/face_centred_cubic/face_centred_cubic.cpp
-initial_points_method/point_file/point_file.cpp
-initial_points_method/auto_density/auto_density.cpp
-initial_points_method/ray_shooting/ray_shooting.cpp
+initial_points_method/initial_points_method.cpp
+initial_points_method/uniform_grid.cpp
+initial_points_method/body_centred_cubic.cpp
+initial_points_method/face_centred_cubic.cpp
+initial_points_method/point_file.cpp
+initial_points_method/auto_density.cpp
+initial_points_method/ray_shooting.cpp
 
-relaxation_model/relaxation_model/relaxation_model.cpp
-relaxation_model/adaptive_linear/adaptive_linear.cpp
-relaxation_model/ramp_hold_fall/ramp_hold_fall.cpp
+relaxation_model/relaxation_model.cpp
+relaxation_model/adaptive_linear.cpp
+relaxation_model/ramp_hold_fall.cpp
 
-face_area_weight_model/face_area_weight_model/face_area_weight_model.cpp
-face_area_weight_model/piecewise_linear_ramp/piecewise_linear_ramp.cpp
+face_area_weight_model/face_area_weight_model.cpp
+face_area_weight_model/piecewise_linear_ramp.cpp
 
-searchable_surface_features/searchable_surface_features.cpp
-searchable_surface_features/searchable_box_features.cpp
-searchable_surface_features/searchable_plate_features.cpp
-searchable_surface_features/tri_surface_mesh_features.cpp
+searchable_surface_features.cpp
+searchable_box_features.cpp
+searchable_plate_features.cpp
+tri_surface_mesh_features.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_conformal_voronoi_mesh

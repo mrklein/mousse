@@ -321,7 +321,7 @@ void mousse::conformalVoronoiMesh::buildSurfaceConformation()
   autoPtr<labelPairHashSet> receivedVertices;
   if (Pstream::parRun())
   {
-    forAll(referralVertices, procI)
+    FOR_ALL(referralVertices, procI)
     {
       if (procI != Pstream::myProcNo())
       {
@@ -525,7 +525,7 @@ void mousse::conformalVoronoiMesh::buildSurfaceConformation()
     iterationNo++;
     if (iterationNo == maxIterations)
     {
-      WarningIn("conformalVoronoiMesh::conformToSurface()")
+      WARNING_IN("conformalVoronoiMesh::conformToSurface()")
         << "Maximum surface conformation iterations ("
         << maxIterations <<  ") reached." << endl;
     }
@@ -573,7 +573,7 @@ mousse::label mousse::conformalVoronoiMesh::synchroniseSurfaceTrees
     }
     const pointIndexHitAndFeatureList& otherSurfEdges =
       procSurfLocations[procI];
-    forAll(otherSurfEdges, peI)
+    FOR_ALL(otherSurfEdges, peI)
     {
       const mousse::point& pt = otherSurfEdges[peI].first().hitPoint();
       pointIndexHit nearest;
@@ -592,7 +592,7 @@ mousse::label mousse::conformalVoronoiMesh::synchroniseSurfaceTrees
   }
   Pstream::listCombineGather(hits, plusEqOp<labelHashSet>());
   Pstream::listCombineScatter(hits);
-  forAll(surfaceHits, eI)
+  FOR_ALL(surfaceHits, eI)
   {
     if (!hits[Pstream::myProcNo()].found(eI))
     {
@@ -603,7 +603,7 @@ mousse::label mousse::conformalVoronoiMesh::synchroniseSurfaceTrees
       surfacePtLocationTreePtr_().remove(surfaceToTreeShape[eI]);
     }
   }
-//    forAll(synchronisedSurfLocations, pI)
+//    FOR_ALL(synchronisedSurfLocations, pI)
 //    {
 //        appendToSurfacePtTree
 //        (
@@ -642,7 +642,7 @@ mousse::label mousse::conformalVoronoiMesh::synchroniseEdgeTrees
       continue;
     }
     pointIndexHitAndFeatureList& otherProcEdges = procEdgeLocations[procI];
-    forAll(otherProcEdges, peI)
+    FOR_ALL(otherProcEdges, peI)
     {
       const mousse::point& pt = otherProcEdges[peI].first().hitPoint();
       pointIndexHit nearest;
@@ -665,7 +665,7 @@ mousse::label mousse::conformalVoronoiMesh::synchroniseEdgeTrees
   }
   Pstream::listCombineGather(hits, plusEqOp<labelHashSet>());
   Pstream::listCombineScatter(hits);
-  forAll(featureEdgeHits, eI)
+  FOR_ALL(featureEdgeHits, eI)
   {
     if (!hits[Pstream::myProcNo()].found(eI))
     {
@@ -676,7 +676,7 @@ mousse::label mousse::conformalVoronoiMesh::synchroniseEdgeTrees
       edgeLocationTreePtr_().remove(edgeToTreeShape[eI]);
     }
   }
-//    forAll(synchronisedEdgeLocations, pI)
+//    FOR_ALL(synchronisedEdgeLocations, pI)
 //    {
 //        appendToEdgeLocationTree
 //        (
@@ -844,7 +844,7 @@ bool mousse::conformalVoronoiMesh::dualCellSurfaceAllIntersections
       {
         if (!infoList.empty())
         {
-          forAll(infoList, hitI)
+          FOR_ALL(infoList, hitI)
           {
             // Reject point if the point is already added
             if
@@ -1496,7 +1496,7 @@ mousse::conformalVoronoiMesh::nearestFeatureEdgeLocations
   labelList elems
     = edgeLocationTreePtr_().findSphere(pt, exclusionRangeSqr);
   DynamicList<pointIndexHit> dynPointHit;
-  forAll(elems, elemI)
+  FOR_ALL(elems, elemI)
   {
     label index = elems[elemI];
     const mousse::point& pointI
@@ -1558,7 +1558,7 @@ bool mousse::conformalVoronoiMesh::nearFeatureEdgeLocation
   if (closeToFeatureEdge)
   {
     List<pointIndexHit> nearHits = nearestFeatureEdgeLocations(pt);
-    forAll(nearHits, elemI)
+    FOR_ALL(nearHits, elemI)
     {
       pointIndexHit& info = nearHits[elemI];
       // Check if the edge location that the new edge location is near to
@@ -1665,7 +1665,7 @@ void mousse::conformalVoronoiMesh::addSurfaceAndEdgeHits
 {
   const scalar cellSize = targetCellSize(vit);
   const scalar cellSizeSqr = sqr(cellSize);
-  forAll(surfaceIntersections, sI)
+  FOR_ALL(surfaceIntersections, sI)
   {
     pointIndexHitAndFeature surfHitI = surfaceIntersections[sI];
     bool keepSurfacePoint = true;
@@ -1691,11 +1691,11 @@ void mousse::conformalVoronoiMesh::addSurfaceAndEdgeHits
       edHitsByFeature,
       featuresHit
     );
-    forAll(edHitsByFeature, i)
+    FOR_ALL(edHitsByFeature, i)
     {
       const label featureHit = featuresHit[i];
       List<pointIndexHit>& edHits = edHitsByFeature[i];
-      forAll(edHits, eHitI)
+      FOR_ALL(edHits, eHitI)
       {
         pointIndexHit& edHit = edHits[eHitI];
         if (edHit.hit())
@@ -1850,7 +1850,7 @@ void mousse::conformalVoronoiMesh::reinsertSurfaceConformation()
     insertPointPairs(surfaceConformationVertices_, true, true);
   ptPairs_.reIndex(oldToNewIndices);
   PackedBoolList selectedElems(surfaceConformationVertices_.size(), true);
-  forAll(surfaceConformationVertices_, vI)
+  FOR_ALL(surfaceConformationVertices_, vI)
   {
     Vb& v = surfaceConformationVertices_[vI];
     label& vIndex = v.index();

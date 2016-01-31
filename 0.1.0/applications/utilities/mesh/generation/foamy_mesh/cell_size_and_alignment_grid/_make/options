@@ -6,34 +6,45 @@ CGAL_INEXACT = -DCGAL_INEXACT
 
 include $(GENERAL_RULES)/CGAL
 
-
 EXE_INC =  \
     ${ROUNDING_MATH} \
     ${EXE_NDEBUG} \
     ${CGAL_INEXACT} \
     ${CGAL_INC} \
-    -I$(LIB_SRC)/finiteVolume/lnInclude \
-    -I$(LIB_SRC)/dynamicMesh/lnInclude \
-    -I$(LIB_SRC)/triSurface/lnInclude \
-    -I$(LIB_SRC)/fileFormats/lnInclude \
-    -I$(LIB_SRC)/sampling/lnInclude \
-    -I$(LIB_SRC)/meshTools/lnInclude \
-    -I$(LIB_SRC)/parallel/decompose/decompositionMethods/lnInclude \
-    -I$(LIB_SRC)/edgeMesh/lnInclude \
-    -I$(LIB_SRC)/mesh/autoMesh/lnInclude \
-    -I../conformalVoronoiMesh/lnInclude
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/dynamic_mesh/_lninclude \
+    -I$(LIB_SRC)/tri_surface/_lninclude \
+    -I$(LIB_SRC)/file_formats/_lninclude \
+    -I$(LIB_SRC)/sampling/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/parallel/decompose/decomposition_methods/_lninclude \
+    -I$(LIB_SRC)/edge_mesh/_lninclude \
+    -I$(LIB_SRC)/mesh/auto_mesh/_lninclude \
+    -I../conformal_voronoi_mesh/_lninclude
 
 EXE_LIBS =  \
     $(CGAL_LIBS) \
     -lmpfr \
-    -lboost_thread \
-    -lconformalVoronoiMesh \
-    -lfiniteVolume    \
-    -lmeshTools \
-    -ldecompositionMethods \
-    -L$(FOAM_LIBBIN)/dummy -lptscotchDecomp \
-    -ledgeMesh \
-    -ltriSurface \
-    -ldynamicMesh \
-    -lsampling \
-    -lfileFormats
+    -lmousse_conformal_voronoi_mesh \
+    -lmousse_finite_volume    \
+    -lmousse_mesh_tools \
+    -lmousse_decomposition_methods \
+    -L$(MOUSSE_LIBBIN)/dummy -lmousse_ptscotch_decomp \
+    -lmousse_edge_mesh \
+    -lmousse_tri_surface \
+    -lmousse_dynamic_mesh \
+    -lmousse_sampling \
+    -lmousse_file_formats
+
+ifeq ($(shell uname -s),Darwin)
+SO := dylib
+else
+SO := so
+endif
+
+ifneq ("$(wildcard $(BOOST_ARCH_PATH)/lib/libboost_thread-mt.$(SO))","")
+LIB_LIBS += -lboost_thread-mt
+else
+LIB_LIBS += -lboost_thread
+endif
+

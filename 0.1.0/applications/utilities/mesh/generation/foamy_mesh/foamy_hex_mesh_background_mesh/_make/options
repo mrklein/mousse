@@ -21,7 +21,6 @@ EXE_INC = \
 
 EXE_LIBS = \
     $(CGAL_LIBS) \
-    -lboost_thread \
     -lmpfr \
     -lgmp \
     -lmousse_conformal_voronoi_mesh \
@@ -33,3 +32,16 @@ EXE_LIBS = \
     -lmousse_sampling \
     -lmousse_dynamic_mesh \
     -lmousse_finite_volume
+
+ifeq ($(shell uname -s),Darwin)
+SO := dylib
+else
+SO := so
+endif
+
+ifneq ("$(wildcard $(BOOST_ARCH_PATH)/lib/libboost_thread-mt.$(SO))","")
+LIB_LIBS += -lboost_thread-mt
+else
+LIB_LIBS += -lboost_thread
+endif
+

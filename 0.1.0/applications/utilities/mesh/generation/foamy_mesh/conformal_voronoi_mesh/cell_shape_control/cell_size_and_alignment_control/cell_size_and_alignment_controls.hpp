@@ -26,13 +26,9 @@ class cellSizeAndAlignmentControls
       scalar& minSize,
       label& maxPriority
     ) const;
-    //- Disallow default bitwise copy construct
-    cellSizeAndAlignmentControls(const cellSizeAndAlignmentControls&);
-    //- Disallow default bitwise assignment
-    void operator=(const cellSizeAndAlignmentControls&);
 public:
     //- Runtime type information
-    ClassName("cellSizeAndAlignmentControls");
+    CLASS_NAME("cellSizeAndAlignmentControls");
   // Constructors
     //- Construct from dictionary
     cellSizeAndAlignmentControls
@@ -42,6 +38,10 @@ public:
       const conformationSurfaces& geometryToConformTo,
       const scalar& defaultCellSize
     );
+    //- Disallow default bitwise copy construct
+    cellSizeAndAlignmentControls(const cellSizeAndAlignmentControls&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const cellSizeAndAlignmentControls&) = delete;
   //- Destructor
   virtual ~cellSizeAndAlignmentControls();
   // Member Functions

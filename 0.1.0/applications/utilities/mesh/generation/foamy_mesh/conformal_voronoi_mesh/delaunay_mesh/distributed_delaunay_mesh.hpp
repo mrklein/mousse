@@ -71,10 +71,6 @@ private:
       PtrList<labelPairHashSet>& referralVertices,
       labelPairHashSet& receivedVertices
     );
-    //- Disallow default bitwise copy construct
-    DistributedDelaunayMesh(const DistributedDelaunayMesh<Triangulation>&);
-    //- Disallow default bitwise assignment
-    void operator=(const DistributedDelaunayMesh<Triangulation>&);
 public:
   // Constructors
     //- Construct from components
@@ -84,6 +80,10 @@ public:
       const Time& runTime,
       const word& meshName
     );
+    //- Disallow default bitwise copy construct
+    DistributedDelaunayMesh(const DistributedDelaunayMesh<Triangulation>&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const DistributedDelaunayMesh<Triangulation>&) = delete;
   //- Destructor
   ~DistributedDelaunayMesh();
   // Queries

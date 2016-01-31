@@ -30,12 +30,12 @@ void mousse::DelaunayMesh<Triangulation>::sortFaces
   // 1     | 23
   // 1     | 24
   // 1     | 91
-  List<labelPair> ownerNeighbourPair(owner.size());
-  forAll(ownerNeighbourPair, oNI)
+  List<labelPair> ownerNeighbourPair{owner.size()};
+  FOR_ALL(ownerNeighbourPair, oNI)
   {
     ownerNeighbourPair[oNI] = labelPair(owner[oNI], neighbour[oNI]);
   }
-  Info<< nl
+  Info << nl
     << "Sorting faces, owner and neighbour into upper triangular order"
     << endl;
   labelList oldToNew;
@@ -52,18 +52,18 @@ void mousse::DelaunayMesh<Triangulation>::addPatches
   faceList& faces,
   labelList& owner,
   PtrList<dictionary>& patchDicts,
-  const List<DynamicList<face> >& patchFaces,
-  const List<DynamicList<label> >& patchOwners
+  const List<DynamicList<face>>& patchFaces,
+  const List<DynamicList<label>>& patchOwners
 ) const
 {
   label nPatches = patchFaces.size();
   patchDicts.setSize(nPatches);
-  forAll(patchDicts, patchI)
+  FOR_ALL(patchDicts, patchI)
   {
     patchDicts.set(patchI, new dictionary());
   }
   label nBoundaryFaces = 0;
-  forAll(patchFaces, p)
+  FOR_ALL(patchFaces, p)
   {
     patchDicts[p].set("nFaces", patchFaces[p].size());
     patchDicts[p].set("startFace", nInternalFaces + nBoundaryFaces);
@@ -72,9 +72,9 @@ void mousse::DelaunayMesh<Triangulation>::addPatches
   faces.setSize(nInternalFaces + nBoundaryFaces);
   owner.setSize(nInternalFaces + nBoundaryFaces);
   label faceI = nInternalFaces;
-  forAll(patchFaces, p)
+  FOR_ALL(patchFaces, p)
   {
-    forAll(patchFaces[p], f)
+    FOR_ALL(patchFaces[p], f)
     {
       faces[faceI] = patchFaces[p][f];
       owner[faceI] = patchOwners[p][f];
@@ -84,7 +84,7 @@ void mousse::DelaunayMesh<Triangulation>::addPatches
 }
 // Member Operators 
 template<class Triangulation>
-void mousse::DelaunayMesh<Triangulation>::printInfo(Ostream& os) const
+void mousse::DelaunayMesh<Triangulation>::printInfo(Ostream&) const
 {
   PrintTable<word, label> triInfoTable("Mesh Statistics");
   triInfoTable.add("Points", Triangulation::number_of_vertices());
@@ -95,7 +95,7 @@ void mousse::DelaunayMesh<Triangulation>::printInfo(Ostream& os) const
   scalar maxSize = 0;
   for
   (
-    Finite_vertices_iterator vit = Triangulation::finite_vertices_begin();
+    auto vit = Triangulation::finite_vertices_begin();
     vit != Triangulation::finite_vertices_end();
     ++vit
   )
@@ -139,7 +139,7 @@ void mousse::DelaunayMesh<Triangulation>::printVertexInfo(Ostream& os) const
   label nReferred = 0;
   for
   (
-    Finite_vertices_iterator vit = Triangulation::finite_vertices_begin();
+    auto vit = Triangulation::finite_vertices_begin();
     vit != Triangulation::finite_vertices_end();
     ++vit
   )
@@ -243,7 +243,7 @@ void mousse::DelaunayMesh<Triangulation>::printVertexInfo(Ostream& os) const
     + nFar;
   if (nTotalVertices != label(Triangulation::number_of_vertices()))
   {
-    WarningIn("mousse::conformalVoronoiMesh::printVertexInfo()")
+    WARNING_IN("mousse::conformalVoronoiMesh::printVertexInfo()")
       << nTotalVertices << " does not equal "
       << Triangulation::number_of_vertices()
       << endl;
@@ -274,62 +274,50 @@ mousse::DelaunayMesh<Triangulation>::createMesh
   const bool writeDelaunayData
 ) const
 {
-  pointField points(Triangulation::number_of_vertices());
-  faceList faces(Triangulation::number_of_finite_facets());
-  labelList owner(Triangulation::number_of_finite_facets());
-  labelList neighbour(Triangulation::number_of_finite_facets());
-  wordList patchNames(1, "foamyHexMesh_defaultPatch");
-  wordList patchTypes(1, wallPolyPatch::typeName);
-  PtrList<dictionary> patchDicts(1);
+  pointField points{static_cast<label>(Triangulation::number_of_vertices())};
+  faceList faces{static_cast<label>(Triangulation::number_of_finite_facets())};
+  labelList owner{static_cast<label>(Triangulation::number_of_finite_facets())};
+  labelList neighbour
+  {
+    static_cast<label>(Triangulation::number_of_finite_facets())
+  };
+  wordList patchNames{1, "foamyHexMesh_defaultPatch"};
+  wordList patchTypes{1, wallPolyPatch::typeName};
+  PtrList<dictionary> patchDicts{1};
   patchDicts.set(0, new dictionary());
-  List<DynamicList<face> > patchFaces(1, DynamicList<face>());
-  List<DynamicList<label> > patchOwners(1, DynamicList<label>());
+  List<DynamicList<face>> patchFaces{1, DynamicList<face>()};
+  List<DynamicList<label>> patchOwners{1, DynamicList<label>()};
   vertexMap.resize(vertexCount());
   cellMap.setSize(Triangulation::number_of_finite_cells(), -1);
   // Calculate pts and a map of point index to location in pts.
   label vertI = 0;
-//    labelIOField indices
-//    (
-//        IOobject
-//        (
-//            "indices",
-//            time().timeName(),
-//            name,
-//            time(),
-//            IOobject::NO_READ,
-//            IOobject::AUTO_WRITE
-//        ),
-//        Triangulation::number_of_vertices()
-//    );
   labelIOField types
-  (
-    IOobject
-    (
+  {
+    {
       "types",
       time().timeName(),
       name,
       time(),
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
-    Triangulation::number_of_vertices()
-  );
+    },
+    static_cast<label>(Triangulation::number_of_vertices())
+  };
   labelIOField processorIndices
-  (
-    IOobject
-    (
+  {
+    {
       "processorIndices",
       time().timeName(),
       name,
       time(),
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
-    Triangulation::number_of_vertices()
-  );
+    },
+    static_cast<label>(Triangulation::number_of_vertices())
+  };
   for
   (
-    Finite_vertices_iterator vit = Triangulation::finite_vertices_begin();
+    auto vit = Triangulation::finite_vertices_begin();
     vit != Triangulation::finite_vertices_end();
     ++vit
   )
@@ -338,77 +326,52 @@ mousse::DelaunayMesh<Triangulation>::createMesh
     {
       vertexMap(labelPair(vit->index(), vit->procIndex())) = vertI;
       points[vertI] = topoint(vit->point());
-//            indices[vertI] = vit->index();
       types[vertI] = static_cast<label>(vit->type());
       processorIndices[vertI] = vit->procIndex();
       vertI++;
     }
   }
   points.setSize(vertI);
-//    indices.setSize(vertI);
   types.setSize(vertI);
   processorIndices.setSize(vertI);
   // Index the cells
   label cellI = 0;
-  for
-  (
-    Finite_cells_iterator cit = Triangulation::finite_cells_begin();
-    cit != Triangulation::finite_cells_end();
-    ++cit
-  )
+  for (auto cit = Triangulation::finite_cells_begin();
+       cit != Triangulation::finite_cells_end();
+       ++cit)
   {
-    if
-    (
-      !cit->hasFarPoint()
-    && !Triangulation::is_infinite(cit)
-    && cit->real()
-    )
+    if (!cit->hasFarPoint()
+        && !Triangulation::is_infinite(cit)
+        && cit->real())
     {
       cellMap[cit->cellIndex()] = cellI++;
     }
   }
   label faceI = 0;
   labelList verticesOnTriFace(3, label(-1));
-  face newFace(verticesOnTriFace);
-  for
-  (
-    Finite_facets_iterator fit = Triangulation::finite_facets_begin();
-    fit != Triangulation::finite_facets_end();
-    ++fit
-  )
+  face newFace{verticesOnTriFace};
+  for (auto fit = Triangulation::finite_facets_begin();
+       fit != Triangulation::finite_facets_end();
+       ++fit)
   {
-    const Cell_handle c1(fit->first);
+    const Cell_handle c1{fit->first};
     const label oppositeVertex = fit->second;
-    const Cell_handle c2(c1->neighbor(oppositeVertex));
-    // Do not output if face has neither opposite vertex as an internal
-//        if
-//        (
-//            !c1->vertex(oppositeVertex)->internalPoint()
-//         || !Triangulation::mirror_vertex(c1, oppositeVertex)->internalPoint()
-//        )
-//        {
-//            continue;
-//        }
+    const Cell_handle c2{c1->neighbor(oppositeVertex)};
+
     label c1I = Cb::ctFar;
     bool c1Real = false;
-    if
-    (
-      !Triangulation::is_infinite(c1)
-    && !c1->hasFarPoint()
-    && c1->real()
-    )
+    if (!Triangulation::is_infinite(c1)
+        && !c1->hasFarPoint()
+        && c1->real())
     {
       c1I = cellMap[c1->cellIndex()];
       c1Real = true;
     }
     label c2I = Cb::ctFar;
     bool c2Real = false;
-    if
-    (
-      !Triangulation::is_infinite(c2)
-    && !c2->hasFarPoint()
-    && c2->real()
-    )
+    if (!Triangulation::is_infinite(c2)
+        && !c2->hasFarPoint()
+        && c2->real())
     {
       c2I = cellMap[c2->cellIndex()];
       c2Real = true;
@@ -437,7 +400,7 @@ mousse::DelaunayMesh<Triangulation>::createMesh
         )
       ];
     }
-    newFace = face(verticesOnTriFace);
+    newFace = face{verticesOnTriFace};
     if (!c1Real || !c2Real)
     {
       // Boundary face...
@@ -493,27 +456,26 @@ mousse::DelaunayMesh<Triangulation>::createMesh
   );
   Info<< "Creating mesh" << endl;
   autoPtr<polyMesh> meshPtr
-  (
+  {
     new polyMesh
-    (
-      IOobject
-      (
+    {
+      {
         name,
         time().timeName(),
         time(),
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       xferMove(points),
       xferMove(faces),
       xferMove(owner),
       xferMove(neighbour)
-    )
-  );
+    }
+  };
   Info<< "Adding patches" << endl;
-  List<polyPatch*> patches(patchNames.size());
+  List<polyPatch*> patches{patchNames.size()};
   label nValidPatches = 0;
-  forAll(patches, p)
+  FOR_ALL(patches, p)
   {
     patches[nValidPatches] = polyPatch::New
     (
@@ -529,7 +491,6 @@ mousse::DelaunayMesh<Triangulation>::createMesh
   meshPtr().addPatches(patches);
   if (writeDelaunayData)
   {
-//        indices.write();
     types.write();
     processorIndices.write();
   }

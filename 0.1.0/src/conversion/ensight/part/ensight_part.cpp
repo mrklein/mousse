@@ -6,6 +6,7 @@
 #include "dictionary.hpp"
 #include "list_ops.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
 // Static Data Members
 namespace mousse
 {
@@ -35,14 +36,14 @@ bool mousse::ensightPart::isFieldDefined(const List<scalar>& field) const
 mousse::ensightPart::ensightPart
 ()
 :
-  number_(0),
-  name_(""),
-  elemLists_(0),
-  offset_(0),
-  size_(0),
-  isCellData_(true),
-  matId_(0),
-  points_(pointField::null())
+  number_{0},
+  name_{""},
+  elemLists_{0},
+  offset_{0},
+  size_{0},
+  isCellData_{true},
+  matId_{0},
+  points_{pointField::null()}
 {}
 mousse::ensightPart::ensightPart
 (
@@ -50,14 +51,14 @@ mousse::ensightPart::ensightPart
   const string& partDescription
 )
 :
-  number_(partNumber),
-  name_(partDescription),
-  elemLists_(0),
-  offset_(0),
-  size_(0),
-  isCellData_(true),
-  matId_(0),
-  points_(pointField::null())
+  number_{partNumber},
+  name_{partDescription},
+  elemLists_{0},
+  offset_{0},
+  size_{0},
+  isCellData_{true},
+  matId_{0},
+  points_{pointField::null()}
 {}
 mousse::ensightPart::ensightPart
 (
@@ -66,25 +67,25 @@ mousse::ensightPart::ensightPart
   const pointField& points
 )
 :
-  number_(partNumber),
-  name_(partDescription),
-  elemLists_(0),
-  offset_(0),
-  size_(0),
-  isCellData_(true),
-  matId_(0),
-  points_(points)
+  number_{partNumber},
+  name_{partDescription},
+  elemLists_{0},
+  offset_{0},
+  size_{0},
+  isCellData_{true},
+  matId_{0},
+  points_{points}
 {}
 mousse::ensightPart::ensightPart(const ensightPart& part)
 :
-  number_(part.number_),
-  name_(part.name_),
-  elemLists_(part.elemLists_),
-  offset_(part.offset_),
-  size_(part.size_),
-  isCellData_(part.isCellData_),
-  matId_(part.matId_),
-  points_(part.points_)
+  number_{part.number_},
+  name_{part.name_},
+  elemLists_{part.elemLists_},
+  offset_{part.offset_},
+  size_{part.size_},
+  isCellData_{part.isCellData_},
+  matId_{part.matId_},
+  points_{part.points_}
 {}
 // Selectors
 mousse::autoPtr<mousse::ensightPart> mousse::ensightPart::New(Istream& is)
@@ -98,13 +99,14 @@ mousse::autoPtr<mousse::ensightPart> mousse::ensightPart::New(Istream& is)
     (
       "ensightPart::New(Istream&)",
       is
-    )   << "unknown ensightPart type "
-      << partType << nl << nl
-      << "Valid ensightPart types are :" << endl
-      << istreamConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "unknown ensightPart type "
+    << partType << nl << nl
+    << "Valid ensightPart types are :" << endl
+    << istreamConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
-  return autoPtr<ensightPart>(cstrIter()(is));
+  return autoPtr<ensightPart>{cstrIter()(is)};
 }
 // Destructor 
 mousse::ensightPart::~ensightPart()

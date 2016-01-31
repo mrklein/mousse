@@ -65,7 +65,7 @@ void mousse::conformalVoronoiMesh::calcTetMesh
   labelList& owner,
   labelList& neighbour,
   wordList& patchNames,
-  PtrList<dictionary>& patchDicts
+  PtrList<dictionary>& /*patchDicts*/
 )
 {
   labelList vertexMap(number_of_vertices());
@@ -110,20 +110,17 @@ void mousse::conformalVoronoiMesh::calcTetMesh
   patchNames.setSize(patchNames.size() + 1);
   patchNames[patchNames.size() - 1] = "foamyHexMesh_defaultPatch";
   label nPatches = patchNames.size();
-  List<DynamicList<face> > patchFaces(nPatches, DynamicList<face>(0));
-  List<DynamicList<label> > patchOwners(nPatches, DynamicList<label>(0));
+  List<DynamicList<face>> patchFaces{nPatches, DynamicList<face>(0)};
+  List<DynamicList<label>> patchOwners{nPatches, DynamicList<label>(0)};
   faces.setSize(number_of_finite_facets());
   owner.setSize(number_of_finite_facets());
   neighbour.setSize(number_of_finite_facets());
   label faceI = 0;
   labelList verticesOnTriFace(3, label(-1));
-  face newFace(verticesOnTriFace);
-  for
-  (
-    Delaunay::Finite_facets_iterator fit = finite_facets_begin();
-    fit != finite_facets_end();
-    ++fit
-  )
+  face newFace{verticesOnTriFace};
+  for (auto fit = finite_facets_begin();
+       fit != finite_facets_end();
+       ++fit)
   {
     const Cell_handle c1(fit->first);
     const label oppositeVertex = fit->second;
@@ -166,7 +163,7 @@ void mousse::conformalVoronoiMesh::calcTetMesh
       if (patchIndex == -1)
       {
         patchIndex = patchNames.size() - 1;
-        WarningIn("mousse::conformalVoronoiMesh::calcTetMesh")
+        WARNING_IN("mousse::conformalVoronoiMesh::calcTetMesh")
           << "Tet face centre at  " << nl
           << newFace.centre(points) << nl
           << "did not find a surface patch. Adding to "
@@ -204,7 +201,7 @@ void mousse::conformalVoronoiMesh::calcTetMesh
   neighbour.setSize(nInternalFaces);
   sortFaces(faces, owner, neighbour);
 //    PackedBoolList boundaryFacesToRemove;
-//    List<DynamicList<bool> > indirectPatchFace;
+//    List<DynamicList<bool>> indirectPatchFace;
 //
 //    addPatches
 //    (
@@ -575,11 +572,11 @@ void mousse::conformalVoronoiMesh::deferredCollapseFaceSet
 (
   labelList& owner,
   labelList& neighbour,
-  const HashSet<labelPair, labelPair::Hash<> >& deferredCollapseFaces
+  const HashSet<labelPair, labelPair::Hash<>>& deferredCollapseFaces
 ) const
 {
   DynamicList<label> faceLabels;
-  forAll(neighbour, nI)
+  FOR_ALL(neighbour, nI)
   {
     if (deferredCollapseFaces.found(Pair<label>(owner[nI], neighbour[nI])))
     {
@@ -640,7 +637,7 @@ mousse::conformalVoronoiMesh::createPolyMeshFromPoints
   polyMesh& pMesh = meshPtr();
   List<polyPatch*> patches(patchNames.size());
   label nValidPatches = 0;
-  forAll(patches, p)
+  FOR_ALL(patches, p)
   {
     label totalPatchSize = readLabel(patchDicts[p].lookup("nFaces"));
     if
@@ -743,7 +740,7 @@ void mousse::conformalVoronoiMesh::checkCellSizing()
   {
     labelHashSet cellsToResizeMap(pMesh.nFaces()/100);
     // Find cells that are attached to the faces in wrongFaces.
-    forAllConstIter(labelHashSet, wrongFaces, iter)
+    FOR_ALL_CONST_ITER(labelHashSet, wrongFaces, iter)
     {
       const label faceOwner = pMesh.faceOwner()[iter.key()];
       const label faceNeighbour = pMesh.faceNeighbour()[iter.key()];
@@ -787,13 +784,13 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::findOffsetPatchFaces
     "foamyHexMesh_protrudingCells",
     mesh.nCells()/1000
   );
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& patch = patches[patchI];
     const faceList& localFaces = patch.localFaces();
     const pointField& localPoints = patch.localPoints();
     const labelList& fCell = patch.faceCells();
-    forAll(localFaces, pLFI)
+    FOR_ALL(localFaces, pLFI)
     {
       const face& f = localFaces[pLFI];
       const mousse::point& faceCentre = f.centre(localPoints);
@@ -835,7 +832,7 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::checkPolyMeshQuality
   DynamicList<label> checkFaces(pMesh.nFaces());
   const vectorField& fAreas = pMesh.faceAreas();
   scalar faceAreaLimit = SMALL;
-  forAll(fAreas, fI)
+  FOR_ALL(fAreas, fI)
   {
     if (mag(fAreas[fI]) > faceAreaLimit)
     {
@@ -861,7 +858,7 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::checkPolyMeshQuality
     // Check for cells with more than 1 but fewer than 4 faces
     label nInvalidPolyhedra = 0;
     const cellList& cells = pMesh.cells();
-    forAll(cells, cI)
+    FOR_ALL(cells, cI)
     {
       if (cells[cI].size() < 4 && cells[cI].size() > 0)
       {
@@ -869,7 +866,7 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::checkPolyMeshQuality
         //     << " has " << cells[cI].size() << " faces."
         //     << endl;
         nInvalidPolyhedra++;
-        forAll(cells[cI], cFI)
+        FOR_ALL(cells[cI], cFI)
         {
           wrongFaces.insert(cells[cI][cFI]);
         }
@@ -886,24 +883,24 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::checkPolyMeshQuality
       nInternalFaces[pMesh.faceNeighbour()[fI]]++;
     }
     const polyBoundaryMesh& patches = pMesh.boundaryMesh();
-    forAll(patches, patchI)
+    FOR_ALL(patches, patchI)
     {
       if (patches[patchI].coupled())
       {
         const labelUList& owners = patches[patchI].faceCells();
-        forAll(owners, i)
+        FOR_ALL(owners, i)
         {
           nInternalFaces[owners[i]]++;
         }
       }
     }
     label oneInternalFaceCells = 0;
-    forAll(nInternalFaces, cI)
+    FOR_ALL(nInternalFaces, cI)
     {
       if (nInternalFaces[cI] <= 1)
       {
         oneInternalFaceCells++;
-        forAll(cells[cI], cFI)
+        FOR_ALL(cells[cI], cFI)
         {
           wrongFaces.insert(cells[cI][cFI]);
         }
@@ -914,10 +911,10 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::checkPolyMeshQuality
       << endl;
   }
   PackedBoolList ptToBeLimited(pts.size(), false);
-  forAllConstIter(labelHashSet, wrongFaces, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, wrongFaces, iter)
   {
     const face f = pMesh.faces()[iter.key()];
-    forAll(f, fPtI)
+    FOR_ALL(f, fPtI)
     {
       ptToBeLimited[f[fPtI]] = true;
     }
@@ -925,25 +922,25 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::checkPolyMeshQuality
   // // Limit connected cells
   // labelHashSet limitCells(pMesh.nCells()/100);
   // const labelListList& ptCells = pMesh.pointCells();
-  // forAllConstIter(labelHashSet, wrongFaces, iter)
+  // FOR_ALL_CONST_ITER(labelHashSet, wrongFaces, iter)
   // {
   //     const face f = pMesh.faces()[iter.key()];
-  //     forAll(f, fPtI)
+  //     FOR_ALL(f, fPtI)
   //     {
   //         label ptI = f[fPtI];
   //         const labelList& pC = ptCells[ptI];
-  //         forAll(pC, pCI)
+  //         FOR_ALL(pC, pCI)
   //         {
   //             limitCells.insert(pC[pCI]);
   //         }
   //     }
   // }
   // const labelListList& cellPts = pMesh.cellPoints();
-  // forAllConstIter(labelHashSet, limitCells, iter)
+  // FOR_ALL_CONST_ITER(labelHashSet, limitCells, iter)
   // {
   //     label cellI = iter.key();
   //     const labelList& cP = cellPts[cellI];
-  //     forAll(cP, cPI)
+  //     FOR_ALL(cP, cPI)
   //     {
   //         ptToBeLimited[cP[cPI]] = true;
   //     }
@@ -1277,7 +1274,7 @@ mousse::label mousse::conformalVoronoiMesh::createPatchInfo
   patchNames = geometryToConformTo_.patchNames();
   patchDicts.setSize(patchNames.size() + 1);
   const PtrList<dictionary>& patchInfo = geometryToConformTo_.patchInfo();
-  forAll(patchNames, patchI)
+  FOR_ALL(patchNames, patchI)
   {
     if (patchInfo.set(patchI))
     {
@@ -1330,7 +1327,7 @@ mousse::label mousse::conformalVoronoiMesh::createPatchInfo
     // Because the previous test was insufficient, combine the lists.
     Pstream::gatherList(procUsedList);
     Pstream::scatterList(procUsedList);
-    forAll(procUsedList, procI)
+    FOR_ALL(procUsedList, procI)
     {
       if (procI != Pstream::myProcNo())
       {
@@ -1340,7 +1337,7 @@ mousse::label mousse::conformalVoronoiMesh::createPatchInfo
         }
       }
     }
-    forAll(procUsed, pUI)
+    FOR_ALL(procUsed, pUI)
     {
       if (procUsed[pUI])
       {
@@ -1356,7 +1353,7 @@ mousse::label mousse::conformalVoronoiMesh::createPatchInfo
       patchDicts.set(pI, new dictionary());
     }
     label procAddI = 0;
-    forAll(procUsed, pUI)
+    FOR_ALL(procUsed, pUI)
     {
       if (procUsed[pUI])
       {
@@ -1442,13 +1439,13 @@ void mousse::conformalVoronoiMesh::createFacesOwnerNeighbourAndPatches
   PtrList<dictionary>& patchDicts,
   labelListList& patchPointPairSlaves,
   PackedBoolList& boundaryFacesToRemove,
-  bool includeEmptyPatches
+  bool /*includeEmptyPatches*/
 ) const
 {
   const label defaultPatchIndex = createPatchInfo(patchNames, patchDicts);
   const label nPatches = patchNames.size();
   labelList procNeighbours(nPatches, label(-1));
-  forAll(procNeighbours, patchI)
+  FOR_ALL(procNeighbours, patchI)
   {
     if (patchDicts[patchI].found("neighbProcNo"))
     {
@@ -1460,11 +1457,11 @@ void mousse::conformalVoronoiMesh::createFacesOwnerNeighbourAndPatches
       );
     }
   }
-  List<DynamicList<face> > patchFaces(nPatches, DynamicList<face>(0));
-  List<DynamicList<label> > patchOwners(nPatches, DynamicList<label>(0));
+  List<DynamicList<face>> patchFaces(nPatches, DynamicList<face>(0));
+  List<DynamicList<label>> patchOwners(nPatches, DynamicList<label>(0));
   // Per patch face the index of the slave node of the point pair
-  List<DynamicList<label> > patchPPSlaves(nPatches, DynamicList<label>(0));
-  List<DynamicList<bool> > indirectPatchFace(nPatches, DynamicList<bool>(0));
+  List<DynamicList<label>> patchPPSlaves(nPatches, DynamicList<label>(0));
+  List<DynamicList<bool>> indirectPatchFace(nPatches, DynamicList<bool>(0));
   faces.setSize(number_of_finite_edges());
   owner.setSize(number_of_finite_edges());
   neighbour.setSize(number_of_finite_edges());
@@ -1547,7 +1544,7 @@ void mousse::conformalVoronoiMesh::createFacesOwnerNeighbourAndPatches
             f[1] = vc1->cellIndex();
             f[2] = vc2->cellIndex();
             Info<< "f " << f << endl;
-            forAll(f, pI)
+            FOR_ALL(f, pI)
             {
               Info<< "    " << pts[f[pI]] << endl;
             }
@@ -1773,7 +1770,7 @@ void mousse::conformalVoronoiMesh::createFacesOwnerNeighbourAndPatches
             {
               // Use this processor's vertex index as the master
               // for sorting
-              DynamicList<Pair<labelPair> >& sortingIndex =
+              DynamicList<Pair<labelPair>>& sortingIndex =
                 procPatchSortingIndex[patchIndex];
               if (vB->internalOrBoundaryPoint() && vB->referred())
               {
@@ -1802,7 +1799,7 @@ void mousse::conformalVoronoiMesh::createFacesOwnerNeighbourAndPatches
             {
               // Use the other processor's vertex index as the
               // master for sorting
-              DynamicList<Pair<labelPair> >& sortingIndex =
+              DynamicList<Pair<labelPair>>& sortingIndex =
                 procPatchSortingIndex[patchIndex];
               if (vA->internalOrBoundaryPoint() && vA->referred())
               {
@@ -1968,14 +1965,14 @@ void mousse::conformalVoronoiMesh::createFacesOwnerNeighbourAndPatches
   );
   // Return     patchPointPairSlaves.setSize(nPatches);
   patchPointPairSlaves.setSize(nPatches);
-  forAll(patchPPSlaves, patchI)
+  FOR_ALL(patchPPSlaves, patchI)
   {
     patchPointPairSlaves[patchI].transfer(patchPPSlaves[patchI]);
   }
   if (foamyHexMeshControls().objOutput())
   {
     Info<< "Writing processor interfaces" << endl;
-    forAll(patchDicts, nbI)
+    FOR_ALL(patchDicts, nbI)
     {
       if (patchFaces[nbI].size() > 0)
       {
@@ -1990,7 +1987,7 @@ void mousse::conformalVoronoiMesh::createFacesOwnerNeighbourAndPatches
         // using a diff
         if (neighbour < Pstream::myProcNo())
         {
-          forAll(procPatchFaces, fI)
+          FOR_ALL(procPatchFaces, fI)
           {
             procPatchFaces[fI] = procPatchFaces[fI].reverseFace();
           }
@@ -2035,7 +2032,7 @@ void mousse::conformalVoronoiMesh::sortFaces
   // 1     | 24
   // 1     | 91
   List<labelPair> ownerNeighbourPair(owner.size());
-  forAll(ownerNeighbourPair, oNI)
+  FOR_ALL(ownerNeighbourPair, oNI)
   {
     ownerNeighbourPair[oNI] = labelPair(owner[oNI], neighbour[oNI]);
   }
@@ -2051,9 +2048,9 @@ void mousse::conformalVoronoiMesh::sortFaces
 }
 void mousse::conformalVoronoiMesh::sortProcPatches
 (
-  List<DynamicList<face> >& patchFaces,
-  List<DynamicList<label> >& patchOwners,
-  List<DynamicList<label> >& patchPointPairSlaves,
+  List<DynamicList<face>>& patchFaces,
+  List<DynamicList<label>>& patchOwners,
+  List<DynamicList<label>>& patchPointPairSlaves,
   labelPairPairDynListList& patchSortingIndices
 ) const
 {
@@ -2061,12 +2058,12 @@ void mousse::conformalVoronoiMesh::sortProcPatches
   {
     return;
   }
-  forAll(patchSortingIndices, patchI)
+  FOR_ALL(patchSortingIndices, patchI)
   {
     faceList& faces = patchFaces[patchI];
     labelList& owner = patchOwners[patchI];
     DynamicList<label>& slaves = patchPointPairSlaves[patchI];
-    DynamicList<Pair<labelPair> >& sortingIndices
+    DynamicList<Pair<labelPair>>& sortingIndices
       = patchSortingIndices[patchI];
     if (!sortingIndices.empty())
     {
@@ -2077,13 +2074,13 @@ void mousse::conformalVoronoiMesh::sortProcPatches
       || slaves.size() != sortingIndices.size()
       )
       {
-        FatalErrorIn
+        FATAL_ERROR_IN
         (
           "void mousse::conformalVoronoiMesh::sortProcPatches"
           "("
-            "List<DynamicList<face> >& patchFaces, "
-            "List<DynamicList<label> >& patchOwners, "
-            "const List<DynamicList<label> >& patchSortingIndices"
+            "List<DynamicList<face>>& patchFaces, "
+            "List<DynamicList<label>>& patchOwners, "
+            "const List<DynamicList<label>>& patchSortingIndices"
           ") const"
         )
           << "patch size and size of sorting indices is inconsistent "
@@ -2112,13 +2109,13 @@ void mousse::conformalVoronoiMesh::addPatches
   labelList& owner,
   PtrList<dictionary>& patchDicts,
   PackedBoolList& boundaryFacesToRemove,
-  const List<DynamicList<face> >& patchFaces,
-  const List<DynamicList<label> >& patchOwners,
-  const List<DynamicList<bool> >& indirectPatchFace
+  const List<DynamicList<face>>& patchFaces,
+  const List<DynamicList<label>>& patchOwners,
+  const List<DynamicList<bool>>& indirectPatchFace
 ) const
 {
   label nBoundaryFaces = 0;
-  forAll(patchFaces, p)
+  FOR_ALL(patchFaces, p)
   {
     patchDicts[p].set("nFaces", patchFaces[p].size());
     patchDicts[p].set("startFace", nInternalFaces + nBoundaryFaces);
@@ -2128,9 +2125,9 @@ void mousse::conformalVoronoiMesh::addPatches
   owner.setSize(nInternalFaces + nBoundaryFaces);
   boundaryFacesToRemove.setSize(nInternalFaces + nBoundaryFaces);
   label faceI = nInternalFaces;
-  forAll(patchFaces, p)
+  FOR_ALL(patchFaces, p)
   {
-    forAll(patchFaces[p], f)
+    FOR_ALL(patchFaces[p], f)
     {
       faces[faceI] = patchFaces[p][f];
       owner[faceI] = patchOwners[p][f];
@@ -2149,10 +2146,10 @@ void mousse::conformalVoronoiMesh::removeUnusedPoints
   Info<< nl << "Removing unused points" << endl;
   PackedBoolList ptUsed(pts.size(), false);
   // Scan all faces to find all of the points that are used
-  forAll(faces, fI)
+  FOR_ALL(faces, fI)
   {
     const face& f = faces[fI];
-    forAll(f, fPtI)
+    FOR_ALL(f, fPtI)
     {
       ptUsed[f[fPtI]] = true;
     }
@@ -2161,7 +2158,7 @@ void mousse::conformalVoronoiMesh::removeUnusedPoints
   labelList oldToNew(pts.size(), label(-1));
   // Move all of the used points to the start of the pointField and
   // truncate it
-  forAll(ptUsed, ptUI)
+  FOR_ALL(ptUsed, ptUI)
   {
     if (ptUsed[ptUI] == true)
     {
@@ -2177,7 +2174,7 @@ void mousse::conformalVoronoiMesh::removeUnusedPoints
   pts.setSize(pointI);
   boundaryPts.setSize(pointI);
   // Renumber the faces to use the new point numbers
-  forAll(faces, fI)
+  FOR_ALL(faces, fI)
   {
     inplaceRenumber(oldToNew, faces[fI]);
   }
@@ -2191,11 +2188,11 @@ mousse::labelList mousse::conformalVoronoiMesh::removeUnusedCells
   Info<< nl << "Removing unused cells" << endl;
   PackedBoolList cellUsed(vertexCount(), false);
   // Scan all faces to find all of the cells that are used
-  forAll(owner, oI)
+  FOR_ALL(owner, oI)
   {
     cellUsed[owner[oI]] = true;
   }
-  forAll(neighbour, nI)
+  FOR_ALL(neighbour, nI)
   {
     cellUsed[neighbour[nI]] = true;
   }
@@ -2203,7 +2200,7 @@ mousse::labelList mousse::conformalVoronoiMesh::removeUnusedCells
   labelList oldToNew(cellUsed.size(), label(-1));
   // Move all of the used cellCentres to the start of the pointField and
   // truncate it
-  forAll(cellUsed, cellUI)
+  FOR_ALL(cellUsed, cellUI)
   {
     if (cellUsed[cellUI] == true)
     {
@@ -2215,7 +2212,7 @@ mousse::labelList mousse::conformalVoronoiMesh::removeUnusedCells
   // subtract one from each owner and neighbour entry for each of
   // the unused cell indices that it is above.
   DynamicList<label> unusedCells;
-  forAll(cellUsed, cUI)
+  FOR_ALL(cellUsed, cUI)
   {
     if (cellUsed[cUI] == false)
     {
@@ -2227,12 +2224,12 @@ mousse::labelList mousse::conformalVoronoiMesh::removeUnusedCells
     Info<< "    Removing "
       << returnReduce(unusedCells.size(), sumOp<label>())
       <<  " unused cell labels" << endl;
-    forAll(owner, oI)
+    FOR_ALL(owner, oI)
     {
       label& o = owner[oI];
       o -= findLower(unusedCells, o) + 1;
     }
-    forAll(neighbour, nI)
+    FOR_ALL(neighbour, nI)
     {
       label& n = neighbour[nI];
       n -= findLower(unusedCells, n) + 1;

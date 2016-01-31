@@ -36,7 +36,7 @@ scalar getMergeDistance
     << "Write tolerance : " << writeTol << endl;
   if (runTime.writeFormat() == IOstream::ASCII && mergeTol < writeTol)
   {
-    FatalErrorIn("getMergeDistance")
+    FATAL_ERROR_IN("getMergeDistance")
       << "Your current settings specify ASCII writing with "
       << IOstream::defaultPrecision() << " digits precision." << endl
       << "Your merging tolerance (" << mergeTol << ") is finer than this."
@@ -56,13 +56,13 @@ scalar getMergeDistance
 void printMeshData(const polyMesh& mesh)
 {
   // Collect all data on master
-  globalIndex globalCells(mesh.nCells());
-  labelListList patchNeiProcNo(Pstream::nProcs());
-  labelListList patchSize(Pstream::nProcs());
+  globalIndex globalCells{mesh.nCells()};
+  labelListList patchNeiProcNo{Pstream::nProcs()};
+  labelListList patchSize{Pstream::nProcs()};
   const labelList& pPatches = mesh.globalData().processorPatches();
   patchNeiProcNo[Pstream::myProcNo()].setSize(pPatches.size());
   patchSize[Pstream::myProcNo()].setSize(pPatches.size());
-  forAll(pPatches, i)
+  FOR_ALL(pPatches, i)
   {
     const processorPolyPatch& ppp = refCast<const processorPolyPatch>
     (
@@ -74,7 +74,7 @@ void printMeshData(const polyMesh& mesh)
   Pstream::gatherList(patchNeiProcNo);
   Pstream::gatherList(patchSize);
   // Print stats
-  globalIndex globalBoundaryFaces(mesh.nFaces()-mesh.nInternalFaces());
+  globalIndex globalBoundaryFaces{mesh.nFaces()-mesh.nInternalFaces()};
   label maxProcCells = 0;
   label totProcFaces = 0;
   label maxProcPatches = 0;
@@ -88,7 +88,7 @@ void printMeshData(const polyMesh& mesh)
       << endl;
     label nProcFaces = 0;
     const labelList& nei = patchNeiProcNo[procI];
-    forAll(patchNeiProcNo[procI], i)
+    FOR_ALL(patchNeiProcNo[procI], i)
     {
       Info<< "    Number of faces shared with processor "
         << patchNeiProcNo[procI][i] << " = " << patchSize[procI][i]
@@ -151,11 +151,11 @@ label vtxLabel
 )
 {
   Vector<label> nPoints
-  (
+  {
     nCells[0]+1,
     nCells[1]+1,
     nCells[2]+1
-  );
+  };
   return i*nPoints[1]*nPoints[2]+j*nPoints[2]+k;
 }
 autoPtr<polyMesh> generateHexMesh
@@ -215,9 +215,9 @@ autoPtr<polyMesh> generateHexMesh
   word defaultFacesType = polyPatch::typeName;
   wordList patchPhysicalTypes(0);
   return autoPtr<polyMesh>
-  (
+  {
     new polyMesh
-    (
+    {
       io,
       xferMoveTo<pointField>(points),
       cellShapes,
@@ -227,20 +227,20 @@ autoPtr<polyMesh> generateHexMesh
       defaultFacesName,
       defaultFacesType,
       patchPhysicalTypes
-    )
-  );
+    }
+  };
 }
 // Determine for every point a signed distance to the nearest surface
 // (outside is positive)
 tmp<scalarField> signedDistance
 (
-  const scalarField& distSqr,
+  const scalarField& /*distSqr*/,
   const pointField& points,
   const searchableSurfaces& geometry,
   const labelList& surfaces
 )
 {
-  tmp<scalarField> tfld(new scalarField(points.size(), mousse::sqr(GREAT)));
+  tmp<scalarField> tfld{new scalarField{points.size(), mousse::sqr(GREAT)}};
   scalarField& fld = tfld();
   // Find nearest
   List<pointIndexHit> nearest;
@@ -255,14 +255,14 @@ tmp<scalarField> signedDistance
     nearest
   );
   // Determine sign of nearest. Sort by surface to do this.
-  DynamicField<point> surfPoints(points.size());
-  DynamicList<label> surfIndices(points.size());
-  forAll(surfaces, surfI)
+  DynamicField<point> surfPoints{points.size()};
+  DynamicList<label> surfIndices{points.size()};
+  FOR_ALL(surfaces, surfI)
   {
     // Extract points on this surface
     surfPoints.clear();
     surfIndices.clear();
-    forAll(nearestSurfaces, i)
+    FOR_ALL(nearestSurfaces, i)
     {
       if (nearestSurfaces[i] == surfI)
       {
@@ -275,7 +275,7 @@ tmp<scalarField> signedDistance
     List<volumeType> volType;
     geometry[geomI].getVolumeType(surfPoints, volType);
     // Push back to original
-    forAll(volType, i)
+    FOR_ALL(volType, i)
     {
       label pointI = surfIndices[i];
       scalar dist = mag(points[pointI] - nearest[pointI].hitPoint());
@@ -290,7 +290,7 @@ tmp<scalarField> signedDistance
       }
       else
       {
-        FatalErrorIn("signedDistance()")
+        FATAL_ERROR_IN("signedDistance()")
           << "getVolumeType failure, neither INSIDE or OUTSIDE"
           << exit(FatalError);
       }
@@ -317,8 +317,8 @@ int main(int argc, char *argv[])
     "specify the merge distance relative to the bounding box size "
     "(default 1e-6)"
   );
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   runTime.functionObjects().off();
   const bool writeMesh = args.optionFound("writeMesh");
   if (writeMesh)
@@ -327,48 +327,48 @@ int main(int argc, char *argv[])
       << nl << endl;
   }
   IOdictionary foamyHexMeshDict
-  (
-    IOobject
-    (
+  {
+    {
       "foamyHexMeshDict",
       runTime.system(),
       runTime,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE
-    )
-  );
+    }
+  };
   // Define/load all geometry
   searchableSurfaces allGeometry
-  (
-    IOobject
-    (
+  {
+    {
       "cvSearchableSurfaces",
       runTime.constant(),
       "triSurface",
       runTime,
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    ),
+    },
     foamyHexMeshDict.subDict("geometry"),
     foamyHexMeshDict.lookupOrDefault("singleRegionName", true)
-  );
-  Random rndGen(64293*Pstream::myProcNo());
+  };
+  Random rndGen{64293*Pstream::myProcNo()};
   conformationSurfaces geometryToConformTo
   (
     runTime,
-    rndGen,
+    // rndGen,
     allGeometry,
     foamyHexMeshDict.subDict("surfaceConformation")
   );
   cellShapeControl cellShapeControls
-  (
+  {
     runTime,
     foamyHexMeshDict.subDict("motionControl"),
     allGeometry,
     geometryToConformTo
-  );
+  };
+
   // Generate starting block mesh
   vector cellSize;
+
   {
     const treeBoundBox& bb = geometryToConformTo.globalBounds();
     // Determine the number of cells in each direction.
@@ -394,24 +394,22 @@ int main(int argc, char *argv[])
       << "    cellSize     : " << cellSize << nl
       << endl;
     autoPtr<polyMesh> meshPtr
-    (
+    {
       generateHexMesh
       (
         IOobject
-        (
+        {
           polyMesh::defaultRegion,
           runTime.constant(),
           runTime
-        ),
+        },
         bb.min(),
         cellSize,
         (
-          Pstream::master()
-         ? nCells
-         : Vector<label>(0, 0, 0)
+          Pstream::master() ? nCells : Vector<label>(0, 0, 0)
         )
       )
-    );
+    };
     Info<< "Writing initial hex mesh to " << meshPtr().instance() << nl
       << endl;
     meshPtr().write();
@@ -419,28 +417,27 @@ int main(int argc, char *argv[])
   // Distribute the initial mesh
   if (Pstream::parRun())
   {
-    #include "create_mesh.hpp"
+    #include "create_mesh.inc"
     Info<< "Loaded mesh:" << endl;
     printMeshData(mesh);
     // Allocate a decomposer
     IOdictionary decompositionDict
-    (
-      IOobject
-      (
+    {
+      {
         "decomposeParDict",
         runTime.system(),
         mesh,
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE
-      )
-    );
+      }
+    };
     autoPtr<decompositionMethod> decomposer
-    (
+    {
       decompositionMethod::New
       (
         decompositionDict
       )
-    );
+    };
     labelList decomp = decomposer().decompose(mesh, mesh.cellCentres());
     // Global matching tolerance
     const scalar tolDim = getMergeDistance
@@ -450,9 +447,9 @@ int main(int argc, char *argv[])
       mesh.bounds()
     );
     // Mesh distribution engine
-    fvMeshDistribute distributor(mesh, tolDim);
-    Info<< "Wanted distribution:"
-      << distributor.countCells(decomp) << nl << endl;
+    fvMeshDistribute distributor{mesh, tolDim};
+    Info << "Wanted distribution:" << distributor.countCells(decomp) << nl
+      << endl;
     // Do actual sending/receiving of mesh
     autoPtr<mapDistributePolyMesh> map = distributor.distribute(decomp);
     // Print some statistics
@@ -465,18 +462,12 @@ int main(int argc, char *argv[])
   Info<< "Refining backgroud mesh according to cell size specification" << nl
     << endl;
   backgroundMeshDecomposition backgroundMesh
-  (
-    1.0,    //spanScale,ratio of poly cell size v.s. hex cell size
-    0.0,    //minCellSizeLimit
-    0,      //minLevels
-    4,      //volRes, check multiple points per cell
-    20.0,   //maxCellWeightCoeff
+  {
     runTime,
-    geometryToConformTo,
-    cellShapeControls,
     rndGen,
+    geometryToConformTo,
     foamyHexMeshDict
-  );
+  };
   if (writeMesh)
   {
     runTime++;
@@ -491,34 +482,35 @@ int main(int argc, char *argv[])
   );
   faceList isoFaces;
   pointField isoPoints;
+
   {
     // Apply a distanceSurface to it.
     const fvMesh& fvm = backgroundMesh.mesh();
     volScalarField cellDistance
-    (
-      IOobject
-      (
+    {
+      {
         "cellDistance",
         fvm.time().timeName(),
         fvm.time(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       fvm,
       dimensionedScalar("zero", dimLength, 0)
-    );
+    };
     const searchableSurfaces& geometry = geometryToConformTo.geometry();
     const labelList& surfaces = geometryToConformTo.surfaces();
     // Get maximum search size per cell
     scalarField distSqr(cellDistance.size());
     const labelList& cellLevel = backgroundMesh.cellLevel();
-    forAll(cellLevel, cellI)
+    FOR_ALL(cellLevel, cellI)
     {
       // The largest edge of the cell will always be less than the
       // span of the bounding box of the cell.
       distSqr[cellI] = magSqr(cellSize)/std::pow(2, cellLevel[cellI]);
     }
+
     {
       // Internal field
       cellDistance.internalField() = signedDistance
@@ -529,7 +521,7 @@ int main(int argc, char *argv[])
         surfaces
       );
       // Patch fields
-      forAll(fvm.C().boundaryField(), patchI)
+      FOR_ALL(fvm.C().boundaryField(), patchI)
       {
         const pointField& cc = fvm.C().boundaryField()[patchI];
         fvPatchScalarField& fld = cellDistance.boundaryField()[patchI];
@@ -546,29 +538,30 @@ int main(int argc, char *argv[])
         cellDistance.write();
       }
     }
+
     // Distance to points
     pointScalarField pointDistance
-    (
-      IOobject
-      (
+    {
+      {
         "pointDistance",
         fvm.time().timeName(),
         fvm.time(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       pointMesh::New(fvm),
       dimensionedScalar("zero", dimLength, 0)
-    );
+    };
+
     {
-      scalarField pointDistSqr(fvm.nPoints(), -sqr(GREAT));
+      scalarField pointDistSqr{fvm.nPoints(), -sqr(GREAT)};
       for (label faceI = 0; faceI < fvm.nInternalFaces(); faceI++)
       {
         label own = fvm.faceOwner()[faceI];
         label ownDistSqr = distSqr[own];
         const face& f = fvm.faces()[faceI];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           pointDistSqr[f[fp]] = max(pointDistSqr[f[fp]], ownDistSqr);
         }
@@ -593,15 +586,15 @@ int main(int argc, char *argv[])
       }
     }
     isoSurfaceCell iso
-    (
+    {
       fvm,
       cellDistance,
       pointDistance,
       0,      //distance,
       false   //regularise
-    );
+    };
     isoFaces.setSize(iso.size());
-    forAll(isoFaces, i)
+    FOR_ALL(isoFaces, i)
     {
       isoFaces[i] = iso[i].triFaceFace();
     }
@@ -614,10 +607,10 @@ int main(int argc, char *argv[])
   (
     tolDim,
     primitivePatch
-    (
+    {
       SubList<face>(isoFaces, isoFaces.size()),
       isoPoints
-    ),
+    },
     mergedPoints,
     mergedFaces,
     pointMergeMap

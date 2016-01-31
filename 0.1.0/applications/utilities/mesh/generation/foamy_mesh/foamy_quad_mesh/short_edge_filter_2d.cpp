@@ -5,7 +5,7 @@
 #include "short_edge_filter_2d.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(shortEdgeFilter2D, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(shortEdgeFilter2D, 0);
 }
 // Private Member Functions 
 void mousse::shortEdgeFilter2D::addRegion
@@ -28,7 +28,7 @@ void mousse::shortEdgeFilter2D::assignBoundaryPointRegions
   List<DynamicList<label> >& boundaryPointRegions
 ) const
 {
-  forAllConstIter(EdgeMap<label>, mapEdgesRegion_, iter)
+  FOR_ALL_CONST_ITER(EdgeMap<label>, mapEdgesRegion_, iter)
   {
     const edge& e = iter.key();
     const label& regionI = iter();
@@ -52,7 +52,7 @@ void mousse::shortEdgeFilter2D::updateEdgeRegionMap
   const labelList& meshPoints = surfMesh.meshPoints();
   patchSizes.setSize(patchNames_.size(), 0);
   patchSizes = 0;
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     if (surfMesh.isInternalEdge(edgeI))
     {
@@ -69,7 +69,7 @@ void mousse::shortEdgeFilter2D::updateEdgeRegionMap
     if (startPtRegions.size() > 1 && endPtRegions.size() > 1)
     {
       region = startPtRegions[0];
-      WarningIn("shortEdgeFilter2D()")
+      WARNING_IN("shortEdgeFilter2D()")
         << "Both points in edge are in different regions."
         << " Assigning edge to region " << region
         << endl;
@@ -129,7 +129,7 @@ mousse::shortEdgeFilter2D::shortEdgeFilter2D
     indirectPatchEdge_
   );
   pointField points(points2D.size());
-  forAll(points, ip)
+  FOR_ALL(points, ip)
   {
     points[ip] = cv2Dmesh.toPoint3D(points2D[ip]);
   }
@@ -138,7 +138,7 @@ mousse::shortEdgeFilter2D::shortEdgeFilter2D
     OFstream str("indirectPatchEdges.obj");
     label count = 0;
     Info<< "Writing indirectPatchEdges to " << str.name() << endl;
-    forAllConstIter(EdgeMap<label>, indirectPatchEdge_, iter)
+    FOR_ALL_CONST_ITER(EdgeMap<label>, indirectPatchEdge_, iter)
     {
       const edge& e = iter.key();
       meshTools::writeOBJ
@@ -178,7 +178,7 @@ mousse::shortEdgeFilter2D::filter()
   labelList pointsToRemove(ms_.points().size(), -1);
   // List of number of vertices in a face.
   labelList newFaceVertexCount(faces.size(), -1);
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     newFaceVertexCount[faceI] = faces[faceI].size();
   }
@@ -194,12 +194,12 @@ mousse::shortEdgeFilter2D::filter()
   // will be doubled when working out its length.
   Info<< "    Marking edges attached to boundaries." << endl;
   boolList edgeAttachedToBoundary(edges.size(), false);
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     const label startVertex = e.start();
     const label endVertex = e.end();
-    forAll(boundaryPoints, bPoint)
+    FOR_ALL(boundaryPoints, bPoint)
     {
       if
       (
@@ -211,7 +211,7 @@ mousse::shortEdgeFilter2D::filter()
       }
     }
   }
-  forAll(edges, edgeI)
+  FOR_ALL(edges, edgeI)
   {
     const edge& e = edges[edgeI];
     // get the vertices of that edge.
@@ -230,7 +230,7 @@ mousse::shortEdgeFilter2D::filter()
     scalar shortEdgeFilterValue = 0.0;
     const labelList& psEdges = ms_.pointEdges()[startVertex];
     const labelList& peEdges = ms_.pointEdges()[endVertex];
-    forAll(psEdges, psEdgeI)
+    FOR_ALL(psEdges, psEdgeI)
     {
       const edge& psE = edges[psEdges[psEdgeI]];
       if (edgeI != psEdges[psEdgeI])
@@ -243,7 +243,7 @@ mousse::shortEdgeFilter2D::filter()
           );
       }
     }
-    forAll(peEdges, peEdgeI)
+    FOR_ALL(peEdges, peEdgeI)
     {
       const edge& peE = edges[peEdges[peEdgeI]];
       if (edgeI != peEdges[peEdgeI])
@@ -272,10 +272,10 @@ mousse::shortEdgeFilter2D::filter()
     {
       bool flagDegenerateFace = false;
       const labelList& pFaces = ms_.pointFaces()[startVertex];
-      forAll(pFaces, pFaceI)
+      FOR_ALL(pFaces, pFaceI)
       {
         const face& f = ms_.localFaces()[pFaces[pFaceI]];
-        forAll(f, fp)
+        FOR_ALL(f, fp)
         {
           // If the edge is part of this face...
           if (f[fp] == endVertex)
@@ -346,7 +346,7 @@ mousse::shortEdgeFilter2D::filter()
   label numberRemoved = 0;
   // Maintain addressing from new to old point field
   labelList newPtToOldPt(totalNewPoints, -1);
-  forAll(points, pointI)
+  FOR_ALL(points, pointI)
   {
     // If the point is NOT going to be removed.
     if (pointsToRemove[pointI] == -1)
@@ -366,13 +366,13 @@ mousse::shortEdgeFilter2D::filter()
   labelList newFace;
   label newFaceSize = 0;
   // Now need to iterate over the faces and remove points. Global index.
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const face& f = faces[faceI];
     newFace.clear();
     newFace.setSize(f.size());
     newFaceSize = 0;
-    forAll(f, fp)
+    FOR_ALL(f, fp)
     {
       label pointI = f[fp];
       // If not removing the point, then add it to the new face.
@@ -403,7 +403,7 @@ mousse::shortEdgeFilter2D::filter()
             }
             else
             {
-              WarningIn("shortEdgeFilter")
+              WARNING_IN("shortEdgeFilter")
                 << "Point " << pChain
                 << " marked for deletion as well as point "
                 << pointI << nl
@@ -431,7 +431,7 @@ mousse::shortEdgeFilter2D::filter()
     }
     else
     {
-      FatalErrorIn("shortEdgeFilter")
+      FATAL_ERROR_IN("shortEdgeFilter")
         << "Only " << newFace.size() << " in face " << faceI
         << exit(FatalError);
     }
@@ -451,11 +451,11 @@ mousse::shortEdgeFilter2D::filter()
     mapEdgesRegion_,
     patchSizes_
   );
-  forAll(newPointNumbers, pointI)
+  FOR_ALL(newPointNumbers, pointI)
   {
     if (newPointNumbers[pointI] == -1)
     {
-      WarningIn("shortEdgeFilter")
+      WARNING_IN("shortEdgeFilter")
         << pointI << " will be deleted and " << newPointNumbers[pointI]
         << ", so it will not be replaced. "
         << "This will cause edges to be deleted." << endl;
@@ -474,7 +474,7 @@ void mousse::shortEdgeFilter2D::writeInfo(Ostream& os)
     << "           shortEdgeFilterFactor: " << shortEdgeFilterFactor_ << nl
     << "    edgeAttachedToBoundaryFactor: " << edgeAttachedToBoundaryFactor_
     << endl;
-  forAll(patchNames_, patchI)
+  FOR_ALL(patchNames_, patchI)
   {
     os  << "    Patch " << patchNames_[patchI]
       << ", size " << patchSizes_[patchI] << endl;
