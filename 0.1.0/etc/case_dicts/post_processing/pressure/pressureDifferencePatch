@@ -1,0 +1,18 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      pressureDifferencePatch;
+}
+
+pressureDifferencePatch
+{
+  patch1 <patch1>;
+  patch2 <patch2>;
+  #includeEtc "case_dicts/post_processing/pressure/pressureDifferencePatch.conf"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

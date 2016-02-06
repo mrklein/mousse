@@ -1,0 +1,20 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      volFlowRateSurface;
+}
+
+// This packaged function object interpolates velocity U onto triangles in
+// triSurface file and integrates over the surface area.  Triangles need to
+// be small (<= cell size) for an accurate integration.
+volFlowRateSurface
+{
+  triSurface <triSurfaceFile>;
+  #includeEtc "case_dicts/post_processing/flow_rate/volFlowRateSurface.conf"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

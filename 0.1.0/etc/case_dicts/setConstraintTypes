@@ -1,0 +1,57 @@
+// mousse: CFD toolbox
+
+cyclic
+{
+    type  cyclic;
+}
+
+cyclicAMI
+{
+    type  cyclicAMI;
+}
+
+cyclicACMI
+{
+    type  cyclicACMI;
+}
+
+cyclicSlip
+{
+    type  cyclicSlip;
+}
+
+empty
+{
+    type  empty;
+}
+
+nonuniformTransformCyclic
+{
+    type  nonuniformTransformCyclic;
+}
+
+processor
+{
+    type  processor;
+}
+
+processorCyclic
+{
+    type  processorCyclic;
+}
+
+symmetryPlane
+{
+    type  symmetryPlane;
+}
+
+symmetry
+{
+    type  symmetry;
+}
+
+wedge
+{
+    type  wedge;
+}
+

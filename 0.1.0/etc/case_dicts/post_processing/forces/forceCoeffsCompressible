@@ -1,0 +1,25 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      forceCoeffsCompressible;
+}
+
+forceCoeffs
+{
+  patches     ( patch1 patch2 );
+  magUInf     20;
+  rhoInf      1.225;
+  lRef        1;
+  Aref        1;
+  liftDir     (0 0 1);
+  dragDir     (1 0 0);
+  CofR        (0 0 0);
+  pitchAxis   (0 1 0);
+  #includeEtc "case_dicts/post_processing/forces/forceCoeffsCompressible.conf"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

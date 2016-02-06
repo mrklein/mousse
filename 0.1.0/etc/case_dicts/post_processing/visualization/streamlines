@@ -1,0 +1,21 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      streamlines;
+}
+
+streamlines
+{
+  nLines  20;
+  start   (0 -4 1e-06); // Ensure that points do not coincide with
+  end     (0  4 1e-06); // mesh faces, but instead lie inside cells
+  fields  ( U p );
+  // Must be last entry
+  #includeEtc "case_dicts/post_processing/visualization/streamlines.conf"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
