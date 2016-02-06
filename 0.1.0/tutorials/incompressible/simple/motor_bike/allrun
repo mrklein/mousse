@@ -1,0 +1,29 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+cp $MOUSSE_TUTORIALS/resources/geometry/motorBike.obj.gz constant/triSurface/
+
+readonly N_PROCS=$(get_number_of_processors)
+
+run_application surface-feature-extract
+run_application block-mesh
+run_application decompose-par
+run_parallel snappy-hex-mesh $N_PROCS -overwrite
+
+#- For non-parallel running
+#cp -r 0.org 0 > /dev/null 2>&1
+
+#- For parallel running
+ls -d processor* | xargs -I {} rm -rf ./{}/0
+ls -d processor* | xargs -I {} cp -r 0.org ./{}/0
+
+run_parallel patch-summary $N_PROCS
+run_parallel potential $N_PROCS
+run_parallel $(get_application) $N_PROCS
+
+run_application reconstruct-par-mesh -constant
+run_application reconstruct-par -latestTime
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

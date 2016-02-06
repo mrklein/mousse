@@ -1,0 +1,40 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volVectorField;
+  location    "0";
+  object      U;
+}
+
+#include        "include/initialConditions"
+dimensions      [0 1 -1 0 0 0 0];
+internalField   uniform $flowVelocity;
+
+boundaryField
+{
+  //- Set patchGroups for constraint patches
+  #includeEtc "case_dicts/setConstraintTypes"
+  #include "include/fixedInlet"
+  outlet
+  {
+    type            inletOutlet;
+    inletValue      uniform (0 0 0);
+    value           $internalField;
+  }
+  lowerWall
+  {
+    type            fixedValue;
+    value           $internalField;
+  }
+  motorBikeGroup
+  {
+    type            fixedValue;
+    value           uniform (0 0 0);
+  }
+  #include "include/frontBackUpperPatches"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

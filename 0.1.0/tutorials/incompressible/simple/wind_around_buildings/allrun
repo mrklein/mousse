@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+run_application surface-feature-extract
+
+run_application block-mesh
+run_application snappy-hex-mesh -overwrite
+
+run_application $(get_application)
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

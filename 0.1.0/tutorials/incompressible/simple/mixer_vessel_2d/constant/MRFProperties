@@ -1,0 +1,23 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "constant";
+  object      MRFProperties;
+}
+
+MRF1
+{
+  cellZone    rotor;
+  active      yes;
+  // Fixed patches (by default they 'move' with the MRF zone)
+  nonRotatingPatches ();
+  origin    (0 0 0);
+  axis      (0 0 1);
+  omega     104.72;
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

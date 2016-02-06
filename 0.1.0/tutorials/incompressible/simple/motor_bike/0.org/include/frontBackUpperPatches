@@ -1,0 +1,9 @@
+upperWall
+{
+    type slip;
+}
+
+frontAndBack
+{
+    type slip;
+}

@@ -1,0 +1,37 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volScalarField;
+  object      p;
+}
+
+#include        "include/initialConditions"
+dimensions      [0 2 -2 0 0 0 0];
+internalField   uniform $pressure;
+
+boundaryField
+{
+  inlet
+  {
+    type            zeroGradient;
+  }
+  outlet
+  {
+    type            uniformFixedValue;
+    uniformValue    constant $pressure;
+  }
+  terrain
+  {
+    type            zeroGradient;
+  }
+  ground
+  {
+    type            zeroGradient;
+  }
+  #include "include/sideAndTopPatches"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
