@@ -2,7 +2,7 @@ Overview
 ========
 - This directory contains files to help post-processing of OpenFOAM cases
 - It primariy "packages" functionObject functionality in a convenient form for
-  users to plug into their OpenFOAM cases
+  users to plug into their mousse cases
 - While some tools are quite generic, e.g. minMax, others are more application-
   oriented, e.g. flowRate.
 
