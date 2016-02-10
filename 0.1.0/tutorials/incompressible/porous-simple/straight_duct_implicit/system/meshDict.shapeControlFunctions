@@ -1,0 +1,42 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      meshDict.shapeControlFunctions;
+}
+
+angledDuct
+{
+  type                        searchableSurfaceControl;
+  forceInitialPointInsertion  on;
+  priority                    1;
+  mode                        inside;
+  surfaceCellSizeFunction     uniformValue;
+  uniformValueCoeffs
+  {
+    surfaceCellSizeCoeff    1;
+  }
+  cellSizeFunction            uniform;
+  uniformCoeffs
+  {}
+}
+porosity
+{
+  type                        searchableSurfaceControl;
+  forceInitialPointInsertion  on;
+  priority                    1;
+  mode                        inside;
+  surfaceCellSizeFunction     uniformValue;
+  uniformValueCoeffs
+  {
+    surfaceCellSizeCoeff    1;
+  }
+  cellSizeFunction            uniform;
+  uniformCoeffs
+  {}
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

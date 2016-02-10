@@ -1,0 +1,49 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      meshDict.geometry;
+}
+
+straightDuct.stl
+{
+  type triSurfaceMesh;
+  name angledDuct;
+  regions
+  {
+    wall
+    {
+      name walls;
+    }
+    porosityWall
+    {
+      name porosityWall;
+    }
+    front
+    {
+      name front;
+    }
+    inlet
+    {
+      name inlet;
+    }
+    outlet
+    {
+      name outlet;
+    }
+    back
+    {
+      name back;
+    }
+  }
+}
+porosity_inflated.stl
+{
+  type triSurfaceMesh;
+  name porosity;
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
