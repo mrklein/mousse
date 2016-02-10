@@ -1,0 +1,22 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+# Get application directory
+readonly APPLICATION=$(get_application)
+
+run_application block-mesh
+run_application transform-points -scale '(1.6666 1 1)'
+
+run_application change-dictionary -instance system -dict system/changeDictionaryDict.X
+run_application mirror-mesh -overwrite
+rm log.mirror-mesh
+rm log.change-dictionary
+
+run_application change-dictionary -instance system -dict system/changeDictionaryDict.Y
+run_application mirror-mesh -overwrite
+
+run_application topo-set
+run_application create-patch -overwrite
+run_application $APPLICATION

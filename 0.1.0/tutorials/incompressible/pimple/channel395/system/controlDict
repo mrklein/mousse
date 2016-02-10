@@ -1,0 +1,53 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      controlDict;
+}
+
+application     mousse-pimple;
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         1000;
+deltaT          0.2;
+writeControl    timeStep;
+writeInterval   200;
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  6;
+writeCompression off;
+timeFormat      general;
+timePrecision   6;
+runTimeModifiable true;
+functions
+{
+  fieldAverage1
+  {
+    type            fieldAverage;
+    functionObjectLibs ( "libmousse_field_function_objects.so" );
+    enabled         true;
+    outputControl   outputTime;
+    fields
+    (
+      U
+      {
+        mean        on;
+        prime2Mean  on;
+        base        time;
+      }
+      p
+      {
+        mean        on;
+        prime2Mean  on;
+        base        time;
+      }
+    );
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
