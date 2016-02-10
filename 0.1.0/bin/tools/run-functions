@@ -21,6 +21,7 @@ sip_enabled()
 get_number_of_processors()
 {
 	grep numberOfSubdomains system/decomposeParDict \
+		| head -1 \
 		| awk '{print $2}' \
 		| tr -d ";"
 }
@@ -28,6 +29,7 @@ get_number_of_processors()
 get_application()
 {
 	grep application system/controlDict \
+		| head -1 \
 		| awk '{print $2}' \
 		| tr -d ";"
 }
