@@ -1,0 +1,7 @@
+face_selection/face_selection.cpp
+face_selection/face_zone_selection.cpp
+face_selection/searchable_surface_selection.cpp
+
+create_baffles.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-create-baffles
