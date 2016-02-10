@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
   IOdictionary foamyHexMeshDict
   {
     {
-      args.executable() + "Dict",
+      "foamyHexMeshDict",
       runTime.system(),
       runTime,
       IOobject::MUST_READ_IF_MODIFIED,

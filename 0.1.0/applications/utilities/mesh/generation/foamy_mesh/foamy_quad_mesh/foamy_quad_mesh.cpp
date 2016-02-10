@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
   IOdictionary controlDict
   {
     {
-      args.executable() + "Dict",
+      "foamyQuadMeshDict",
       runTime.system(),
       runTime,
       IOobject::MUST_READ_IF_MODIFIED,
