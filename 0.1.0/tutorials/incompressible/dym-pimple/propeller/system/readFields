@@ -1,0 +1,10 @@
+// Make sure all fields for functionObjects are loaded. Prevents any
+// problems running with execFlowFunctionObjects.
+readFields
+{
+    // Where to load it from (if not already in solver)
+    functionObjectLibs ("libmousse_field_function_objects.so");
+
+    type            readFields;
+    fields          (p U k);
+}

@@ -1,0 +1,26 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "constant";
+  object      dynamicMeshDict;
+}
+
+dynamicFvMesh   solidBodyMotionFvMesh;
+motionSolverLibs ( "libfvMotionSolvers.so" );
+solidBodyMotionFvMeshCoeffs
+{
+  cellZone        innerCylinderSmall;
+  solidBodyMotionFunction  rotatingMotion;
+  rotatingMotionCoeffs
+  {
+    origin      (0 0 0);
+    axis        (0 1 0);
+    omega       158; // rad/s
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

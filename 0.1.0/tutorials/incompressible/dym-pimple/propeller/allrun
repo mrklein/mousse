@@ -1,0 +1,9 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+./allrun.pre
+run_application decompose-par
+run_parallel $(get_application) 4
+run_application reconstruct-par

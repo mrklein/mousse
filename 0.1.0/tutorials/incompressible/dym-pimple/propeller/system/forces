@@ -1,0 +1,21 @@
+forces
+{
+    type        forces;
+
+    functionObjectLibs ( "libmousse_forces.so" );
+
+    outputControl   timeStep;
+    timeInterval    1;
+
+    log         yes;
+
+    patches     ( "propeller.*" );
+    pName       p;
+    UName       U;
+    rhoName     rhoInf;     // Indicates incompressible
+    log         true;
+    rhoInf      1;          // Redundant for incompressible
+
+    CofR        (0 0 0);    // Rotation around centre line of propeller
+    pitchAxis   (0 1 0);
+}

@@ -1,0 +1,16 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/clean-functions
+
+cd wing_motion_snappy_hex_mesh
+clean_case
+
+cd ../wing_motion_2d_simple
+clean_case
+rm -rf 0
+
+cd ../wing_motion_2d_dym_pimple
+clean_case
+rm -rf 0
+

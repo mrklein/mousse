@@ -1,0 +1,27 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+# Make 3D mesh in slab of cells.
+cd wing_motion_snappy_hex_mesh
+run_application block-mesh
+run_application snappy-hex-mesh -overwrite
+
+# Make a 2D mesh by extruding a patch and solve to steady state.
+cd ../wing_motion_2d_simple
+run_application extrude-mesh
+run_application create-patch -overwrite
+cp -r 0.org 0
+run_application simple
+
+# Copy the mesh from the steady state case and map the results to a
+# mesh motion case, then solve transient.
+cd ../wing_motion_2d_dym_pimple
+cp -r ../wing_motion_2d_simple/constant/polyMesh/* constant/polyMesh/
+cp -r 0.org 0
+run_application map-fields ../wing_motion_2d_simple -sourceTime latestTime -consistent
+mv 0/pointDisplacement.unmapped 0/pointDisplacement
+run_application decompose-par
+run_parallel $(get_application) 4
+run_application reconstruct-par

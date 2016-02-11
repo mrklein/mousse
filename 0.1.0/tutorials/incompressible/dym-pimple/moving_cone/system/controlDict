@@ -1,0 +1,34 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      controlDict;
+}
+
+application     dym-pimple;
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         0.003;
+deltaT          5e-06;
+writeControl    timeStep;
+writeInterval   40;
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  6;
+writeCompression on;
+timeFormat      general;
+timePrecision   6;
+runTimeModifiable true;
+adjustTimeStep  no;
+maxCo           0.2;
+functions
+{
+  #include "cuttingPlane"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

@@ -1,0 +1,33 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volVectorField;
+  location    "0";
+  object      U;
+}
+
+#include        "include/initialConditions"
+dimensions      [0 1 -1 0 0 0 0];
+internalField   uniform $flowVelocity;
+
+boundaryField
+{
+  #include "include/fixedInlet"
+  outlet
+  {
+    type            inletOutlet;
+    inletValue      uniform (0 0 0);
+    value           $internalField;
+  }
+  wing
+  {
+    type            fixedValue;
+    value           uniform (0 0 0);
+  }
+  #include "include/frontBackTopBottomPatches"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
