@@ -1,0 +1,3 @@
+thermo.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-thermo

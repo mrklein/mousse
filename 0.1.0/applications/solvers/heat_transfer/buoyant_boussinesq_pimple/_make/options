@@ -1,0 +1,21 @@
+EXE_INC = \
+    -I../buoyant_boussinesq_simple \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/incompressible/_lninclude \
+    -I$(LIB_SRC)/transport_models \
+    -I$(LIB_SRC)/transport_models/incompressible \
+    -I$(LIB_SRC)/thermophysical_models/radiation/_lninclude \
+    -I$(LIB_SRC)/sampling/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/fv_options/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude
+
+EXE_LIBS = \
+    -lmousse_turbulence_models \
+    -lmousse_incompressible_turbulence_models \
+    -lmousse_incompressible_transport_models \
+    -lmousse_radiation_models \
+    -lmousse_finite_volume \
+    -lmousse_fv_options \
+    -lmousse_sampling \
+    -lmousse_mesh_tools

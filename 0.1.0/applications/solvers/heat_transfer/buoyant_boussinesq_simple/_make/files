@@ -1,0 +1,3 @@
+buoyant_boussinesq_simple.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-buoyant-boussinesq-simple
