@@ -1,0 +1,3 @@
+financial.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-financial
