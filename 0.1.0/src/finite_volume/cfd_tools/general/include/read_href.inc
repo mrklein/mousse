@@ -1,13 +1,11 @@
   Info<< "\nReading hRef" << endl;
   uniformDimensionedScalarField hRef
   {
-    IOobject
     {
       "hRef",
       runTime.constant(),
       mesh,
-      IOobject::READ_IF_PRESENT,
-      IOobject::NO_WRITE
+      IOobject::READ_IF_PRESENT
     },
-    dimensionedScalar{"hRef", dimLength, 0}
+    {"hRef", dimLength, 0}
   };
