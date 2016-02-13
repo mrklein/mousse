@@ -1,0 +1,3 @@
+mhd.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-mhd
