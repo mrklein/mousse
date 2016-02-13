@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+run_application block-mesh
+run_application topo-set -constant
+# split the mesh to generate the ACMI coupled patches
+run_application create-baffles -overwrite
+# remove zero-sized patches
+run_application create-patch -overwrite
+cp -rf 0.org 0

@@ -1,0 +1,25 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      topoSetDict;
+}
+
+actions
+(
+  {
+    name    c0;
+    type    cellSet;
+    action  new;
+    source  boxToCell;
+    sourceInfo
+    {
+      box (-1 -1 -1) (1 1 1); // Edit box bounds as required
+    }
+  }
+);
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

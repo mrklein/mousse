@@ -7,7 +7,7 @@
 // Static Data Members
 namespace mousse
 {
-defineTypeNameAndDebug(cellSizeAndAlignmentControls, 0);
+DEFINE_TYPE_NAME_AND_DEBUG(cellSizeAndAlignmentControls, 0);
 }
 // Private Member Functions 
 bool mousse::cellSizeAndAlignmentControls::evalCellSizeFunctions
@@ -24,7 +24,7 @@ bool mousse::cellSizeAndAlignmentControls::evalCellSizeFunctions
     // Maintain priority of current hit. Initialise so it always goes
     // through at least once.
     label previousPriority = labelMin;
-    forAll(controlFunctions_, i)
+    FOR_ALL(controlFunctions_, i)
     {
       const cellSizeAndAlignmentControl& cSF = controlFunctions_[i];
       if (isA<searchableSurfaceControl>(cSF))
@@ -56,7 +56,7 @@ mousse::cellSizeAndAlignmentControls::cellSizeAndAlignmentControls
   defaultCellSize_(defaultCellSize)
 {
   label functionI = 0;
-  forAllConstIter(dictionary, shapeControlDict_, iter)
+  FOR_ALL_CONST_ITER(dictionary, shapeControlDict_, iter)
   {
     word shapeControlEntryName = iter().keyword();
     const dictionary& controlFunctionDict
@@ -82,7 +82,7 @@ mousse::cellSizeAndAlignmentControls::cellSizeAndAlignmentControls
   }
   // Sort controlFunctions_ by maxPriority
   SortableList<label> functionPriorities(functionI);
-  forAll(controlFunctions_, funcI)
+  FOR_ALL(controlFunctions_, funcI)
   {
     functionPriorities[funcI] = controlFunctions_[funcI].maxPriority();
   }

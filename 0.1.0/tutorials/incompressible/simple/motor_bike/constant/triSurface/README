@@ -1,0 +1,4 @@
+Directory to house tri-surfaces
+
+The allrun script copies the surface from the $MOUSSE_TUTORIALS/resources/geometry
+directory

@@ -1,0 +1,52 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      surfaces;
+}
+
+surfaces
+{
+  #includeEtc "case_dicts/post_processing/visualization/surfaces.conf"
+  fields       ( p U );
+  surfaces
+  (
+    xNormal
+    {
+      $cuttingPlane;
+    }
+    yNormal
+    {
+      $cuttingPlane;
+      pointAndNormalDict
+      {
+        normalVector $y;      // Overrides default normalVector (1 0 0)
+      }                         // $y: macro for (0 1 0)
+    }
+    zNormal
+    {
+      $cuttingPlane;
+      pointAndNormalDict
+      {
+        basePoint    (0 0 2); // Overrides default basePoint (0 0 0)
+        normalVector $z;      // $y: macro for (0 0 1)
+      }
+    }
+    p100
+    {
+      $isosurface;
+      isoField    p;
+      isoValue    100;
+    }
+    CAD
+    {
+      $patchSurface;
+      patches     ( CAD );
+    }
+  );
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

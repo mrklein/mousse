@@ -9,14 +9,15 @@
 #include "scalar_io_field.hpp"
 #include "label_io_field.hpp"
 #include "point_conversion.hpp"
+#include "poly_mesh.hpp"
 // Constructors 
 template<class Triangulation>
 mousse::DelaunayMesh<Triangulation>::DelaunayMesh(const Time& runTime)
 :
-  Triangulation(),
-  vertexCount_(0),
-  cellCount_(0),
-  runTime_(runTime)
+  Triangulation{},
+  vertexCount_{0},
+  cellCount_{0},
+  runTime_{runTime}
 {}
 template<class Triangulation>
 mousse::DelaunayMesh<Triangulation>::DelaunayMesh
@@ -25,74 +26,58 @@ mousse::DelaunayMesh<Triangulation>::DelaunayMesh
   const word& meshName
 )
 :
-  Triangulation(),
-  vertexCount_(0),
-  cellCount_(0),
-  runTime_(runTime)
+  Triangulation{},
+  vertexCount_{0},
+  cellCount_{0},
+  runTime_{runTime}
 {
   Info<< "Reading " << meshName << " from " << runTime.timeName() << endl;
   pointIOField pts
-  (
-    IOobject
-    (
+  {
+    {
       "points",
       runTime.timeName(),
       meshName/polyMesh::meshSubDir,
       runTime,
       IOobject::READ_IF_PRESENT,
       IOobject::NO_WRITE
-    )
-  );
+    }
+  };
   if (pts.headerOk())
   {
     labelIOField types
-    (
-      IOobject
-      (
+    {
+      {
         "types",
         runTime.timeName(),
         meshName,
         runTime,
         IOobject::MUST_READ,
         IOobject::NO_WRITE
-      )
-    );
-// Do not read in indices
-//        labelIOField indices
-//        (
-//            IOobject
-//            (
-//                "indices",
-//                runTime.timeName(),
-//                meshName,
-//                runTime,
-//                IOobject::MUST_READ,
-//                IOobject::NO_WRITE
-//            )
-//        );
+      }
+    };
     labelIOField processorIndices
-    (
-      IOobject
-      (
+    {
+      {
         "processorIndices",
         runTime.timeName(),
         meshName,
         runTime,
         IOobject::MUST_READ,
         IOobject::NO_WRITE
-      )
-    );
-    List<Vb> pointsToInsert(pts.size());
-    forAll(pointsToInsert, pI)
+      }
+    };
+    List<Vb> pointsToInsert{pts.size()};
+    FOR_ALL(pointsToInsert, pI)
     {
       pointsToInsert[pI] =
         Vb
-        (
+        {
           toPoint(pts[pI]),
           pI,
           static_cast<indexedVertexEnum::vertexType>(types[pI]),
-          processorIndices[pI]
-        );
+          static_cast<int>(processorIndices[pI])
+        };
     }
     rangeInsertWithInfo
     (
@@ -128,12 +113,12 @@ void mousse::DelaunayMesh<Triangulation>::reset()
       vertices.append
       (
         Vb
-        (
+        {
           vit->point(),
           vit->index(),
           vit->type(),
           vit->procIndex()
-        )
+        }
       );
       vertices.last().fixed() = vit->fixed();
     }

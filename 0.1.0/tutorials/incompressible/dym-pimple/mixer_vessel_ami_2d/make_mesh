@@ -1,0 +1,8 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+m4 < system/blockMeshDict.m4 > system/blockMeshDict
+run_application block-mesh
+run_application topo-set

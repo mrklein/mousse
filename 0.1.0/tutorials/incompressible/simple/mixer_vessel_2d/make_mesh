@@ -1,0 +1,10 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+m4 < system/blockMeshDict.m4 > system/blockMeshDict
+
+run_application block-mesh
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

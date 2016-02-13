@@ -1,0 +1,37 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volVectorField;
+  object      Urel;
+}
+
+dimensions      [0 1 -1 0 0 0 0];
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+  rotor
+  {
+    type            fixedValue;
+    value           uniform (0 0 0);
+  }
+  freestream
+  {
+    type            SRFFreestreamVelocity;
+    UInf            (1 0 0);
+    value           uniform (0 0 0);
+  }
+  front
+  {
+    type            empty;
+  }
+  back
+  {
+    type            empty;
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

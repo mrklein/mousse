@@ -115,7 +115,7 @@ void mousse::CV2D::writeFaces(const fileName& fName, bool internalOnly) const
         {
           if (fc->faceIndex() < 0)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "mousse::CV2D::writeFaces"
               "(const fileName& fName, bool internalOnly)"
@@ -144,7 +144,7 @@ void mousse::CV2D::extractPatches
   patchSizes.setSize(nPatches, 0);
   mapEdgesRegion.clear();
   const wordList& existingPatches = qSurf_.patchNames();
-  forAll(existingPatches, sP)
+  FOR_ALL(existingPatches, sP)
   {
     patchNames[sP] = existingPatches[sP];
   }
@@ -172,7 +172,7 @@ void mousse::CV2D::extractPatches
       if (patchIndex == -1)
       {
         patchIndex = defaultPatchIndex;
-        WarningIn("mousse::CV2D::extractPatches")
+        WARNING_IN("mousse::CV2D::extractPatches")
           << "Dual face found that is not on a surface "
           << "patch. Adding to CV2D_default_patch."
           << endl;
@@ -224,7 +224,7 @@ void mousse::CV2D::calcDual
   }
   dualPoints.setSize(dualVerti);
   extractPatches(patchNames, patchSizes, mapEdgesRegion, indirectPatchEdge);
-  forAll(patchNames, patchI)
+  FOR_ALL(patchNames, patchI)
   {
     Info<< "Patch " << patchNames[patchI]
       << " has size " << patchSizes[patchI] << endl;
@@ -252,7 +252,7 @@ void mousse::CV2D::calcDual
         {
           if (fc->faceIndex() < 0)
           {
-            FatalErrorIn
+            FATAL_ERROR_IN
             (
               "mousse::CV2D::calcDual"
               "(point2DField& dualPoints, faceList& dualFaces)"
@@ -298,7 +298,7 @@ void mousse::CV2D::writePatch(const fileName& fName) const
     indirectPatchEdge
   );
   pointField dualPoints(dual2DPoints.size());
-  forAll(dualPoints, ip)
+  FOR_ALL(dualPoints, ip)
   {
     dualPoints[ip] = toPoint3D(dual2DPoints[ip]);
   }

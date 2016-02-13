@@ -24,6 +24,10 @@
 # Derived files
 lex.yy.c
 
+# Python compiled files
+*.pyc
+*.pyo
+
 # Dependency files - anywhere
 *.dep
 

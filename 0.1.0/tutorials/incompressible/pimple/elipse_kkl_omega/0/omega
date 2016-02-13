@@ -1,0 +1,42 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volScalarField;
+  location    "0";
+  object      omega;
+}
+
+dimensions      [0 0 -1 0 0 0 0];
+internalField   uniform 1e-5;
+
+boundaryField
+{
+  inlet
+  {
+    type            fixedValue;
+    value           $internalField;
+  }
+  outlet
+  {
+    type            inletOutlet;
+    inletValue      $internalField;
+    value           $internalField;
+  }
+  up
+  {
+    type            symmetry;
+  }
+  hole
+  {
+    type            zeroGradient;
+  }
+  frontAndBack
+  {
+    type            empty;
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

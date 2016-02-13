@@ -9,7 +9,7 @@
 #include "uint.hpp"
 namespace mousse
 {
-  defineTypeNameAndDebug(CV2D, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(CV2D, 0);
 }
 // Private Member Functions 
 void mousse::CV2D::insertBoundingBox()
@@ -39,11 +39,11 @@ void mousse::CV2D::fast_restore_Delaunay(Vertex_handle vh)
 void mousse::CV2D::external_flip(Face_handle& f, int i)
 {
   Face_handle n = f->neighbor(i);
-  if
-  (
-    CGAL::ON_POSITIVE_SIDE
-  != side_of_oriented_circle(n, f->vertex(i)->point())
-  ) return;
+  if (CGAL::ON_POSITIVE_SIDE
+      != side_of_oriented_circle(n, f->vertex(i)->point()))
+  {
+    return;
+  }
   flip(f, i);
   i = n->index(f->vertex(i));
   external_flip(n, i);
@@ -51,11 +51,8 @@ void mousse::CV2D::external_flip(Face_handle& f, int i)
 bool mousse::CV2D::internal_flip(Face_handle& f, int i)
 {
   Face_handle n = f->neighbor(i);
-  if
-  (
-    CGAL::ON_POSITIVE_SIDE
-  != side_of_oriented_circle(n, f->vertex(i)->point())
-  )
+  if (CGAL::ON_POSITIVE_SIDE
+      != side_of_oriented_circle(n, f->vertex(i)->point()))
   {
     return false;
   }
@@ -69,57 +66,56 @@ mousse::CV2D::CV2D
   const dictionary& cvMeshDict
 )
 :
-  Delaunay(),
-  runTime_(runTime),
-  rndGen_(64293*Pstream::myProcNo()),
+  Delaunay{},
+  runTime_{runTime},
+  rndGen_{64293*Pstream::myProcNo()},
   allGeometry_
-  (
-    IOobject
-    (
+  {
+    {
       "cvSearchableSurfaces",
       runTime_.constant(),
       "triSurface",
       runTime_,
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    ),
+    },
     cvMeshDict.subDict("geometry"),
     cvMeshDict.lookupOrDefault("singleRegionName", true)
-  ),
+  },
   qSurf_
-  (
+  {
     runTime_,
-    rndGen_,
+    // rndGen_,
     allGeometry_,
     cvMeshDict.subDict("surfaceConformation")
-  ),
-  controls_(cvMeshDict, qSurf_.globalBounds()),
+  },
+  controls_{cvMeshDict, qSurf_.globalBounds()},
   cellSizeControl_
-  (
+  {
     runTime,
     cvMeshDict.subDict("motionControl").subDict("shapeControlFunctions"),
     qSurf_,
     controls_.minCellSize()
-  ),
+  },
   relaxationModel_
-  (
+  {
     relaxationModel::New
     (
       cvMeshDict.subDict("motionControl"),
       runTime
     )
-  ),
+  },
   z_
-  (
+  {
     point
     (
       cvMeshDict.subDict("surfaceConformation").lookup("locationInMesh")
     ).z()
-  ),
-  startOfInternalPoints_(0),
-  startOfSurfacePointPairs_(0),
-  startOfBoundaryConformPointPairs_(0),
-  featurePoints_()
+  },
+  startOfInternalPoints_{0},
+  startOfSurfacePointPairs_{0},
+  startOfBoundaryConformPointPairs_{0},
+  featurePoints_{}
 {
   Info<< meshControls() << endl;
   insertBoundingBox();
@@ -139,7 +135,7 @@ void mousse::CV2D::insertPoints
   startOfInternalPoints_ = number_of_vertices();
   label nVert = startOfInternalPoints_;
   // Add the points and index them
-  forAll(points, i)
+  FOR_ALL(points, i)
   {
     const point2D& p = points[i];
     if (qSurf_.wellInside(toPoint3D(p), nearness))
@@ -163,7 +159,7 @@ void mousse::CV2D::insertPoints
 }
 void mousse::CV2D::insertPoints(const fileName& pointFileName)
 {
-  IFstream pointsFile(pointFileName);
+  IFstream pointsFile{pointFileName};
   if (pointsFile.good())
   {
     insertPoints
@@ -174,7 +170,7 @@ void mousse::CV2D::insertPoints(const fileName& pointFileName)
   }
   else
   {
-    FatalErrorIn("insertInitialPoints")
+    FATAL_ERROR_IN("insertInitialPoints")
       << "Could not open pointsFile " << pointFileName
       << exit(FatalError);
   }
@@ -269,12 +265,7 @@ void mousse::CV2D::boundaryConform()
     // Any faces changed by insertBoundaryConformPointPairs will now
     // be marked CHANGED, mark those as SAVE_CHANGED and those that
     // remained SAVE_CHANGED as UNCHANGED
-    for
-    (
-      Triangulation::Finite_faces_iterator fit = finite_faces_begin();
-      fit != finite_faces_end();
-      fit++
-    )
+    for (auto fit = finite_faces_begin(); fit != finite_faces_end(); fit++)
     {
       if (fit->faceIndex() == Fb::SAVE_CHANGED)
       {
@@ -291,12 +282,7 @@ void mousse::CV2D::boundaryConform()
 }
 void mousse::CV2D::removeSurfacePointPairs()
 {
-  for
-  (
-    Triangulation::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    ++vit
-  )
+  for (auto vit = finite_vertices_begin(); vit != finite_vertices_end(); ++vit)
   {
     if (vit->index() >= startOfSurfacePointPairs_)
     {
@@ -308,23 +294,15 @@ void mousse::CV2D::newPoints()
 {
   const scalar relaxation = relaxationModel_->relaxation();
   Info<< "Relaxation = " << relaxation << endl;
-  Field<point2D> dualVertices(number_of_faces());
+  Field<point2D> dualVertices{static_cast<label>(number_of_faces())};
   label dualVerti = 0;
   // Find the dual point of each tetrahedron and assign it an index.
-  for
-  (
-    Triangulation::Finite_faces_iterator fit = finite_faces_begin();
-    fit != finite_faces_end();
-    ++fit
-  )
+  for (auto fit = finite_faces_begin(); fit != finite_faces_end(); ++fit)
   {
     fit->faceIndex() = -1;
-    if
-    (
-      fit->vertex(0)->internalOrBoundaryPoint()
-    || fit->vertex(1)->internalOrBoundaryPoint()
-    || fit->vertex(2)->internalOrBoundaryPoint()
-    )
+    if (fit->vertex(0)->internalOrBoundaryPoint()
+        || fit->vertex(1)->internalOrBoundaryPoint()
+        || fit->vertex(2)->internalOrBoundaryPoint())
     {
       fit->faceIndex() = dualVerti;
       dualVertices[dualVerti] = toPoint2D(circumcenter(fit));
@@ -333,27 +311,22 @@ void mousse::CV2D::newPoints()
   }
   dualVertices.setSize(dualVerti);
   Field<vector2D> displacementAccumulator
-  (
+  {
     startOfSurfacePointPairs_,
     vector2D::zero
-  );
+  };
   // Calculate target size and alignment for vertices
   scalarField sizes
-  (
-    number_of_vertices(),
+  {
+    static_cast<label>(number_of_vertices()),
     meshControls().minCellSize()
-  );
+  };
   Field<vector2D> alignments
-  (
-    number_of_vertices(),
+  {
+    static_cast<label>(number_of_vertices()),
     vector2D(1, 0)
-  );
-  for
-  (
-    Triangulation::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    ++vit
-  )
+  };
+  for (auto vit = finite_vertices_begin(); vit != finite_vertices_end(); ++vit)
   {
     if (vit->internalOrBoundaryPoint())
     {
@@ -370,7 +343,7 @@ void mousse::CV2D::newPoints()
       );
       if (pHit.hit())
       {
-        vectorField norm(1);
+        vectorField norm{1};
         allGeometry_[hitSurface].getNormal
         (
           List<pointIndexHit>(1, pHit),
@@ -390,14 +363,9 @@ void mousse::CV2D::newPoints()
   // Upper and lower edge length ratios for weight
   scalar u = 1.0;
   scalar l = 0.7;
-  PackedBoolList pointToBeRetained(startOfSurfacePointPairs_, true);
+  PackedBoolList pointToBeRetained{startOfSurfacePointPairs_, true};
   std::list<Point> pointsToInsert;
-  for
-  (
-    Triangulation::Finite_edges_iterator eit = finite_edges_begin();
-    eit != finite_edges_end();
-    eit++
-  )
+  for (auto eit = finite_edges_begin(); eit != finite_edges_end(); eit++)
   {
     Vertex_handle vA = eit->first->vertex(cw(eit->second));
     Vertex_handle vB = eit->first->vertex(ccw(eit->second));
@@ -411,28 +379,28 @@ void mousse::CV2D::newPoints()
     scalar dualEdgeLength = mag(dualV1 - dualV2);
     point2D dVA = toPoint2D(vA->point());
     point2D dVB = toPoint2D(vB->point());
-    Field<vector2D> alignmentDirsA(2);
+    Field<vector2D> alignmentDirsA{2};
     alignmentDirsA[0] = alignments[vA->index()];
     alignmentDirsA[1] = vector2D
-    (
+    {
      -alignmentDirsA[0].y(),
       alignmentDirsA[0].x()
-    );
+    };
     Field<vector2D> alignmentDirsB(2);
     alignmentDirsB[0] = alignments[vB->index()];
     alignmentDirsB[1] = vector2D
-    (
+    {
      -alignmentDirsB[0].y(),
       alignmentDirsB[0].x()
-    );
-    Field<vector2D> alignmentDirs(alignmentDirsA);
-    forAll(alignmentDirsA, aA)
+    };
+    Field<vector2D> alignmentDirs{alignmentDirsA};
+    FOR_ALL(alignmentDirsA, aA)
     {
-      const vector2D& a(alignmentDirsA[aA]);
+      const vector2D& a = alignmentDirsA[aA];
       scalar maxDotProduct = 0.0;
-      forAll(alignmentDirsB, aB)
+      FOR_ALL(alignmentDirsB, aB)
       {
-        const vector2D& b(alignmentDirsB[aB]);
+        const vector2D& b = alignmentDirsB[aB];
         scalar dotProduct = a & b;
         if (mag(dotProduct) > maxDotProduct)
         {
@@ -444,7 +412,7 @@ void mousse::CV2D::newPoints()
     }
     vector2D rAB = dVA - dVB;
     scalar rABMag = mag(rAB);
-    forAll(alignmentDirs, aD)
+    FOR_ALL(alignmentDirs, aD)
     {
       vector2D& alignmentDir = alignmentDirs[aD];
       if ((rAB & alignmentDir) < 0)
@@ -472,21 +440,13 @@ void mousse::CV2D::newPoints()
         }
         else if (dualEdgeLength < targetFaceSize)
         {
-          delta *=
-            (
-              dualEdgeLength
-             /(targetFaceSize*(u - l))
-             - 1/((u/l) - 1)
-            );
+          delta *= (dualEdgeLength/(targetFaceSize*(u - l)) - 1/((u/l) - 1));
         }
-        if
-        (
-          vA->internalPoint()
-        && vB->internalPoint()
-        && rABMag > 1.75*targetFaceSize
-        && dualEdgeLength > 0.05*targetFaceSize
-        && alignmentDotProd > 0.93
-        )
+        if (vA->internalPoint()
+            && vB->internalPoint()
+            && rABMag > 1.75*targetFaceSize
+            && dualEdgeLength > 0.05*targetFaceSize
+            && alignmentDotProd > 0.93)
         {
           // Point insertion
           pointsToInsert.push_back(toPoint(0.5*(dVA + dVB)));
@@ -494,18 +454,15 @@ void mousse::CV2D::newPoints()
         else if
         (
           (vA->internalPoint() || vB->internalPoint())
-        && rABMag < 0.65*targetFaceSize
+          && rABMag < 0.65*targetFaceSize
         )
         {
           // Point removal
           // Only insert a point at the midpoint of the short edge
           // if neither attached point has already been identified
           // to be removed.
-          if
-          (
-            pointToBeRetained[vA->index()] == true
-          && pointToBeRetained[vB->index()] == true
-          )
+          if (pointToBeRetained[vA->index()] == true
+              && pointToBeRetained[vB->index()] == true)
           {
             pointsToInsert.push_back(toPoint(0.5*(dVA + dVB)));
           }
@@ -537,12 +494,7 @@ void mousse::CV2D::newPoints()
   // Relax the calculated displacement
   displacementAccumulator *= relaxation;
   label numberOfNewPoints = pointsToInsert.size();
-  for
-  (
-    Triangulation::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    ++vit
-  )
+  for (auto vit = finite_vertices_begin(); vit != finite_vertices_end(); ++vit)
   {
     if (vit->internalPoint())
     {
@@ -552,8 +504,7 @@ void mousse::CV2D::newPoints()
         (
           toPoint
           (
-            toPoint2D(vit->point())
-           + displacementAccumulator[vit->index()]
+            toPoint2D(vit->point()) + displacementAccumulator[vit->index()]
           )
         );
       }
@@ -569,18 +520,10 @@ void mousse::CV2D::newPoints()
   Info<< "Inserting " << numberOfNewPoints << " new points" << endl;
   // Use the range insert as it is faster than individually inserting points.
   insert(pointsToInsert.begin(), pointsToInsert.end());
-  for
-  (
-    Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    ++vit
-  )
+  for (auto vit = finite_vertices_begin(); vit != finite_vertices_end(); ++vit)
   {
-    if
-    (
-      vit->type() == Vb::INTERNAL_POINT
-    && vit->index() == Vb::INTERNAL_POINT
-    )
+    if (vit->type() == Vb::INTERNAL_POINT
+        && vit->index() == Vb::INTERNAL_POINT)
     {
       vit->index() = nVert++;
     }
@@ -592,170 +535,7 @@ void mousse::CV2D::newPoints()
   write("internal");
   insertSurfacePointPairs();
   boundaryConform();
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Old Method
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// for
-// (
-//     Triangulation::Finite_vertices_iterator vit = finite_vertices_begin();
-//     vit != finite_vertices_end();
-//     ++vit
-// )
-// {
-//     if (vit->internalPoint())
-//     {
-//         // Current dual-cell defining vertex ("centre")
-//         point2DFromPoint defVert0 = toPoint2D(vit->point());
-//         Triangulation::Edge_circulator ec = incident_edges(vit);
-//         Triangulation::Edge_circulator ecStart = ec;
-//         // Circulate around the edges to find the first which is not
-//         // infinite
-//         do
-//         {
-//             if (!is_infinite(ec)) break;
-//         } while (++ec != ecStart);
-//         // Store the start-end of the first non-infinte edge
-//         point2D de0 = toPoint2D(circumcenter(ec->first));
-//         // Keep track of the maximum edge length^2
-//         scalar maxEdgeLen2 = 0.0;
-//         // Keep track of the index of the longest edge
-//         label edgecd0i = -1;
-//         // Edge counter
-//         label edgei = 0;
-//         do
-//         {
-//             if (!is_infinite(ec))
-//             {
-//                 // Get the end of the current edge
-//                 point2D de1 = toPoint2D
-//                 (
-//                     circumcenter(ec->first->neighbor(ec->second))
-//                 );
-//                 // Store the current edge vector
-//                 edges[edgei] = de1 - de0;
-//                 // Store the edge mid-point in the vertices array
-//                 vertices[edgei] = 0.5*(de1 + de0);
-//                 // Move the current edge end into the edge start for the
-//                 // next iteration
-//                 de0 = de1;
-//                 // Keep track of the longest edge
-//                 scalar edgeLen2 = magSqr(edges[edgei]);
-//                 if (edgeLen2 > maxEdgeLen2)
-//                 {
-//                     maxEdgeLen2 = edgeLen2;
-//                     edgecd0i = edgei;
-//                 }
-//                 edgei++;
-//             }
-//         } while (++ec != ecStart);
-//         // Initialise cd0 such that the mesh will align
-//         // in in the x-y directions
-//         vector2D cd0(1, 0);
-//         if (meshControls().relaxOrientation())
-//         {
-//             // Get the longest edge from the array and use as the primary
-//             // direction of the coordinate system of the "square" cell
-//             cd0 = edges[edgecd0i];
-//         }
-//         if (meshControls().nearWallAlignedDist() > 0)
-//         {
-//             pointIndexHit pHit = qSurf_.tree().findNearest
-//             (
-//                 toPoint3D(defVert0),
-//                 meshControls().nearWallAlignedDist2()
-//             );
-//             if (pHit.hit())
-//             {
-//                 cd0 = toPoint2D(faceNormals[pHit.index()]);
-//             }
-//         }
-//         // Rotate by 45deg needed to create an averaging procedure which
-//         // encourages the cells to be square
-//         cd0 = vector2D(cd0.x() + cd0.y(), cd0.y() - cd0.x());
-//         // Normalise the primary coordinate direction
-//         cd0 /= mag(cd0);
-//         // Calculate the orthogonal coordinate direction
-//         vector2D cd1(-cd0.y(), cd0.x());
-//         // Restart the circulator
-//         ec = ecStart;
-//         // ... and the counter
-//         edgei = 0;
-//         // Initialise the displacement for the centre and sum-weights
-//         vector2D disp = vector2D::zero;
-//         scalar sumw = 0;
-//         do
-//         {
-//             if (!is_infinite(ec))
-//             {
-//                 // Pick up the current edge
-//                 const vector2D& ei = edges[edgei];
-//                 // Calculate the centre to edge-centre vector
-//                 vector2D deltai = vertices[edgei] - defVert0;
-//                 // Set the weight for this edge contribution
-//                 scalar w = 1;
-//                 if (meshControls().squares())
-//                 {
-//                     w = magSqr(deltai.x()*ei.y() - deltai.y()*ei.x());
-//                     // alternative weights
-//                     //w = mag(deltai.x()*ei.y() - deltai.y()*ei.x());
-//                     //w = magSqr(ei)*mag(deltai);
-//                     // Use the following for an ~square mesh
-//                     // Find the coordinate contributions for this edge delta
-//                     scalar cd0deltai = cd0 & deltai;
-//                     scalar cd1deltai = cd1 & deltai;
-//                     // Create a "square" displacement
-//                     if (mag(cd0deltai) > mag(cd1deltai))
-//                     {
-//                         disp += (w*cd0deltai)*cd0;
-//                     }
-//                     else
-//                     {
-//                         disp += (w*cd1deltai)*cd1;
-//                     }
-//                 }
-//                 else
-//                 {
-//                     // Use this for a hexagon/pentagon mesh
-//                     disp += w*deltai;
-//                 }
-//                 // Sum the weights
-//                 sumw += w;
-//             }
-//             else
-//             {
-//                 FatalErrorIn("CV2D::newPoints() const")
-//                     << "Infinite triangle found in internal mesh"
-//                     << exit(FatalError);
-//             }
-//             edgei++;
-//         } while (++ec != ecStart);
-//         // Calculate the average displacement
-//         disp /= sumw;
-//         totalDisp += disp;
-//         totalDist += mag(disp);
-//         // Move the point by a fraction of the average displacement
-//         movePoint(vit, defVert0 + relaxation*disp);
-//     }
-// }
-// Info << "\nTotal displacement = " << totalDisp
-//      << " total distance = " << totalDist << endl;
 }
-//void mousse::CV2D::moveInternalPoints(const point2DField& newPoints)
-//{
-//    label pointI = 0;
-//    for
-//    (
-//        Triangulation::Finite_vertices_iterator vit = finite_vertices_begin();
-//        vit != finite_vertices_end();
-//        ++vit
-//    )
-//    {
-//        if (vit->internalPoint())
-//        {
-//            movePoint(vit, newPoints[pointI++]);
-//        }
-//    }
-//}
 void mousse::CV2D::write() const
 {
   if (meshControls().objOutput())
@@ -775,18 +555,12 @@ void mousse::CV2D::write(const word& stage) const
     mousse::mkDir(stage + "Triangles");
     writeFaces
     (
-      stage
-     + "Faces/allFaces_"
-     + runTime_.timeName()
-     + ".obj",
+      stage + "Faces/allFaces_" + runTime_.timeName() + ".obj",
       false
     );
     writeTriangles
     (
-      stage
-     + "Triangles/allTriangles_"
-     + runTime_.timeName()
-     + ".obj",
+      stage + "Triangles/allTriangles_" + runTime_.timeName() + ".obj",
       false
     );
   }

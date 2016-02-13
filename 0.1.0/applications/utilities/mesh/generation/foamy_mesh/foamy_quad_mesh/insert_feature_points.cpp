@@ -32,13 +32,13 @@ void mousse::CV2D::insertFeaturePoints()
   );
   if (feMeshes.empty())
   {
-    WarningIn("CV2D::insertFeaturePoints")
+    WARNING_IN("CV2D::insertFeaturePoints")
       << "Extended Feature Edge Mesh is empty so no feature points will "
       << "be found." << nl
       << "    Use: featureMethod extendedFeatureEdgeMesh;" << nl
       << endl;
   }
-  forAll(feMeshes, i)
+  FOR_ALL(feMeshes, i)
   {
     const extendedFeatureEdgeMesh& feMesh(feMeshes[i]);
     const edgeList& edges = feMesh.edges();
@@ -70,7 +70,7 @@ void mousse::CV2D::insertFeaturePoints()
     {
       Info<< "    plane: " << zPlane << " " << z_ << endl;
     }
-    forAll(edges, edgeI)
+    FOR_ALL(edges, edgeI)
     {
       const edge& e = feMesh.edges()[edgeI];
       const point& ep0 = points[e.start()];
@@ -117,7 +117,7 @@ void mousse::CV2D::insertFeaturePoints()
             )
           );
           label masterPtIndex = nVert++;
-          forAll(fpn, nI)
+          FOR_ALL(fpn, nI)
           {
             const vector n3D(fpn[nI][0], fpn[nI][1], 0.0);
             plane planeN = plane(toPoint3D(featPoint), n3D);
@@ -185,7 +185,7 @@ void mousse::CV2D::insertFeaturePoints()
               << "       nQuads: " << nQuads << nl
               << "   nAddPoints: " << nAddPoints << endl;
           }
-          forAll(fpn, nI)
+          FOR_ALL(fpn, nI)
           {
             const vector n3D(fpn[nI][0], fpn[nI][1], 0.0);
             plane planeN = plane(toPoint3D(featPoint), n3D);
@@ -271,7 +271,7 @@ void mousse::CV2D::insertFeaturePoints()
         }
         else
         {
-          WarningIn("void mousse::CV2D::insertFeaturePoints()")
+          WARNING_IN("void mousse::CV2D::insertFeaturePoints()")
             << "Feature Edge " << edges[edgeI] << nl
             << "    points(" << points[edges[edgeI].start()]
             << ", " << points[edges[edgeI].end()] << ")" << nl
@@ -282,7 +282,7 @@ void mousse::CV2D::insertFeaturePoints()
       }
       else
       {
-        WarningIn("void mousse::CV2D::insertFeaturePoints()")
+        WARNING_IN("void mousse::CV2D::insertFeaturePoints()")
            << "Point " << featPoint << " is not on the line "
            << line << endl;
       }

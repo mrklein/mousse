@@ -19,20 +19,20 @@ void mousse::conformalVoronoiMesh::calcNeighbourCellCentres
   label nBoundaryFaces = mesh.nFaces() - mesh.nInternalFaces();
   if (neiCc.size() != nBoundaryFaces)
   {
-    FatalErrorIn("conformalVoronoiMesh::calcNeighbourCellCentres(..)")
+    FATAL_ERROR_IN("conformalVoronoiMesh::calcNeighbourCellCentres(..)")
       << "nBoundaries:" << nBoundaryFaces
       << " neiCc:" << neiCc.size()
       << abort(FatalError);
   }
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     const labelUList& faceCells = pp.faceCells();
     label bFaceI = pp.start() - mesh.nInternalFaces();
     if (pp.coupled())
     {
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         neiCc[bFaceI] = cellCentres[faceCells[i]];
         bFaceI++;
@@ -49,7 +49,7 @@ void mousse::conformalVoronoiMesh::selectSeparatedCoupledFaces
 ) const
 {
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     // Check all coupled. Avoid using .coupled() so we also pick up AMI.
     if (isA<coupledPolyPatch>(patches[patchI]))
@@ -60,7 +60,7 @@ void mousse::conformalVoronoiMesh::selectSeparatedCoupledFaces
       );
       if (cpp.separated() || !cpp.parallel())
       {
-        forAll(cpp, i)
+        FOR_ALL(cpp, i)
         {
           selected[cpp.start()+i] = true;
         }
@@ -79,7 +79,7 @@ void mousse::conformalVoronoiMesh::findCellZoneInsideWalk
   // Analyse regions. Reuse regionsplit
   boolList blockedFace(mesh.nFaces());
   selectSeparatedCoupledFaces(mesh, blockedFace);
-  forAll(faceToSurface, faceI)
+  FOR_ALL(faceToSurface, faceI)
   {
     if (faceToSurface[faceI] == -1)
     {
@@ -99,7 +99,7 @@ void mousse::conformalVoronoiMesh::findCellZoneInsideWalk
   const PtrList<surfaceZonesInfo>& surfZones =
     geometryToConformTo().surfZones();
   // For all locationSurface find the cell
-  forAll(locationSurfaces, i)
+  FOR_ALL(locationSurfaces, i)
   {
     label surfI = locationSurfaces[i];
     const mousse::point& insidePoint = surfZones[surfI].zoneInsidePoint();
@@ -121,7 +121,7 @@ void mousse::conformalVoronoiMesh::findCellZoneInsideWalk
       << " out of " << cellRegion.nRegions() << " regions." << endl;
     if (keepRegionI == -1)
     {
-      FatalErrorIn
+      FATAL_ERROR_IN
       (
         "conformalVoronoiMesh::findCellZoneInsideWalk"
         "(const polyMesh&, const labelList&"
@@ -132,7 +132,7 @@ void mousse::conformalVoronoiMesh::findCellZoneInsideWalk
         << exit(FatalError);
     }
     // Set all cells with this region
-    forAll(cellRegion, cellI)
+    FOR_ALL(cellRegion, cellI)
     {
       if (cellRegion[cellI] == keepRegionI)
       {
@@ -142,7 +142,7 @@ void mousse::conformalVoronoiMesh::findCellZoneInsideWalk
         }
         else if (cellToSurface[cellI] != surfI)
         {
-          WarningIn
+          WARNING_IN
           (
             "conformalVoronoiMesh::findCellZoneInsideWalk"
             "(const labelList&, const labelList&"
@@ -178,7 +178,7 @@ mousse::labelList mousse::conformalVoronoiMesh::calcCellZones
       geometryToConformTo().surfaces()
     )
   );
-  forAll(closedNamedSurfaces, i)
+  FOR_ALL(closedNamedSurfaces, i)
   {
     label surfI = closedNamedSurfaces[i];
     const searchableSurface& surface =
@@ -192,7 +192,7 @@ mousse::labelList mousse::conformalVoronoiMesh::calcCellZones
     && selectionMethod != surfaceZonesInfo::INSIDEPOINT
     )
     {
-      FatalErrorIn("conformalVoronoiMesh::calcCellZones(..)")
+      FATAL_ERROR_IN("conformalVoronoiMesh::calcCellZones(..)")
         << "Trying to use surface "
         << surface.name()
         << " which has non-geometric inside selection method "
@@ -221,7 +221,7 @@ mousse::labelList mousse::conformalVoronoiMesh::calcCellZones
       {
         selectInside = false;
       }
-      forAll(volType, pointI)
+      FOR_ALL(volType, pointI)
       {
         if (cellToSurface[pointI] == -1)
         {
@@ -261,14 +261,14 @@ void mousse::conformalVoronoiMesh::calcFaceZones
   const labelList& faceNeighbour = mesh.faceNeighbour();
   labelList neiFaceOwner(mesh.nFaces() - mesh.nInternalFaces(), label(-1));
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
     const labelUList& faceCells = pp.faceCells();
     label bFaceI = pp.start() - mesh.nInternalFaces();
     if (pp.coupled())
     {
-      forAll(faceCells, i)
+      FOR_ALL(faceCells, i)
       {
         neiFaceOwner[bFaceI] = cellToSurface[faceCells[i]];
         bFaceI++;
@@ -276,7 +276,7 @@ void mousse::conformalVoronoiMesh::calcFaceZones
     }
   }
   syncTools::swapBoundaryFaceList(mesh, neiFaceOwner);
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     const label ownerSurfaceI = cellToSurface[faceOwner[faceI]];
     if (faceToSurface[faceI] >= 0)
@@ -351,7 +351,7 @@ void mousse::conformalVoronoiMesh::calcFaceZones
     neiCc
   );
   // Use intersection of cellCentre connections
-  forAll(faces, faceI)
+  FOR_ALL(faces, faceI)
   {
     if (faceToSurface[faceI] >= 0)
     {
@@ -411,13 +411,13 @@ void mousse::conformalVoronoiMesh::calcFaceZones
   }
 //    labelList neiCellSurface(mesh.nFaces()-mesh.nInternalFaces());
 //
-//    forAll(patches, patchI)
+//    FOR_ALL(patches, patchI)
 //    {
 //        const polyPatch& pp = patches[patchI];
 //
 //        if (pp.coupled())
 //        {
-//            forAll(pp, i)
+//            FOR_ALL(pp, i)
 //            {
 //                label faceI = pp.start()+i;
 //                label ownSurface = cellToSurface[faceOwner[faceI]];
@@ -427,13 +427,13 @@ void mousse::conformalVoronoiMesh::calcFaceZones
 //    }
 //    syncTools::swapBoundaryFaceList(mesh, neiCellSurface);
 //
-//    forAll(patches, patchI)
+//    FOR_ALL(patches, patchI)
 //    {
 //        const polyPatch& pp = patches[patchI];
 //
 //        if (pp.coupled())
 //        {
-//            forAll(pp, i)
+//            FOR_ALL(pp, i)
 //            {
 //                label faceI = pp.start()+i;
 //                label ownSurface = cellToSurface[faceOwner[faceI]];
@@ -483,7 +483,7 @@ void mousse::conformalVoronoiMesh::addZones
     cellToSurface
   );
   labelList namedSurfaces(surfaceZonesInfo::getNamedSurfaces(surfZones));
-  forAll(namedSurfaces, i)
+  FOR_ALL(namedSurfaces, i)
   {
     label surfI = namedSurfaces[i];
     Info<< incrIndent << indent << "Surface : "
@@ -511,7 +511,7 @@ void mousse::conformalVoronoiMesh::addZones
     );
   // Topochange container
   polyTopoChange meshMod(mesh);
-  forAll(cellToSurface, cellI)
+  FOR_ALL(cellToSurface, cellI)
   {
     label surfaceI = cellToSurface[cellI];
     if (surfaceI >= 0)
@@ -533,7 +533,7 @@ void mousse::conformalVoronoiMesh::addZones
   }
   const labelList& faceOwner = mesh.faceOwner();
   const labelList& faceNeighbour = mesh.faceNeighbour();
-  forAll(faceToSurface, faceI)
+  FOR_ALL(faceToSurface, faceI)
   {
     label surfaceI = faceToSurface[faceI];
     if (surfaceI < 0)

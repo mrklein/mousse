@@ -1,0 +1,23 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      boundaryCloud;
+}
+
+boundaryCloud
+{
+  fields ( p U );
+  points
+  (
+    (0 0 0)
+  );
+  maxDistance 0.1;
+  patches     (".*");
+  #includeEtc "case_dicts/post_processing/probes/boundaryCloud.conf"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

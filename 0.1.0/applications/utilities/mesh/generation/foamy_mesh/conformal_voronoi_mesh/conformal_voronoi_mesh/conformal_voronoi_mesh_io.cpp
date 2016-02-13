@@ -111,7 +111,7 @@ void mousse::conformalVoronoiMesh::writeMesh(const fileName& instance)
       boundaryFacesToRemove
     );
     dualPatchStarts.setSize(patchDicts.size());
-    forAll(dualPatchStarts, patchI)
+    FOR_ALL(dualPatchStarts, patchI)
     {
       dualPatchStarts[patchI] =
         readLabel(patchDicts[patchI].lookup("startFace"));
@@ -163,13 +163,13 @@ void mousse::conformalVoronoiMesh::writeMesh(const fileName& instance)
 //        // or patch face (negative index)
 //        labelList vertexToDualAddressing(number_of_vertices(), 0);
 //
-//        forAll(cellToDelaunayVertex, cellI)
+//        FOR_ALL(cellToDelaunayVertex, cellI)
 //        {
 //            label vertI = cellToDelaunayVertex[cellI];
 //
 //            if (vertexToDualAddressing[vertI] != 0)
 //            {
-//                FatalErrorIn("conformalVoronoiMesh::writeMesh(..)")
+//                FATAL_ERROR_IN("conformalVoronoiMesh::writeMesh(..)")
 //                    << "Delaunay vertex " << vertI
 //                    << " from cell " << cellI
 //                    << " is already mapped to "
@@ -179,17 +179,17 @@ void mousse::conformalVoronoiMesh::writeMesh(const fileName& instance)
 //            vertexToDualAddressing[vertI] = cellI+1;
 //        }
 //
-//        forAll(patchToDelaunayVertex, patchI)
+//        FOR_ALL(patchToDelaunayVertex, patchI)
 //        {
 //            const labelList& patchVertices = patchToDelaunayVertex[patchI];
 //
-//            forAll(patchVertices, i)
+//            FOR_ALL(patchVertices, i)
 //            {
 //                label vertI = patchVertices[i];
 //
 //                if (vertexToDualAddressing[vertI] > 0)
 //                {
-//                    FatalErrorIn("conformalVoronoiMesh::writeMesh(..)")
+//                    FATAL_ERROR_IN("conformalVoronoiMesh::writeMesh(..)")
 //                        << "Delaunay vertex " << vertI
 //                        << " from patch " << patchI
 //                        << " local index " << i
@@ -260,7 +260,7 @@ void mousse::conformalVoronoiMesh::writeMesh(const fileName& instance)
 //        label pointI = findIndex(pointDualAddressing, -1);
 //        if (pointI != -1)
 //        {
-//            WarningIn
+//            WARNING_IN
 //            (
 //                "conformalVoronoiMesh::writeMesh\n"
 //                "(\n"
@@ -306,7 +306,7 @@ void mousse::conformalVoronoiMesh::writeMesh(const fileName& instance)
 //                points
 //            );
 //
-//            forAll(pointDualAddressing, pointI)
+//            FOR_ALL(pointDualAddressing, pointI)
 //            {
 //                label index = pointDualAddressing[pointI];
 //
@@ -371,7 +371,7 @@ mousse::autoPtr<mousse::fvMesh> mousse::conformalVoronoiMesh::createDummyMesh
   );
   fvMesh& mesh = meshPtr();
   List<polyPatch*> patches(patchDicts.size());
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if
     (
@@ -421,7 +421,7 @@ void mousse::conformalVoronoiMesh::checkProcessorPatchesMatch
     Pstream::nProcs(),
     labelList(Pstream::nProcs(), -1)
   );
-  forAll(patchDicts, patchI)
+  FOR_ALL(patchDicts, patchI)
   {
     if
     (
@@ -442,10 +442,10 @@ void mousse::conformalVoronoiMesh::checkProcessorPatchesMatch
   if (Pstream::master())
   {
     bool allMatch = true;
-    forAll(procPatchSizes, procI)
+    FOR_ALL(procPatchSizes, procI)
     {
       const labelList& patchSizes = procPatchSizes[procI];
-      forAll(patchSizes, patchI)
+      FOR_ALL(patchSizes, patchI)
       {
         if (patchSizes[patchI] != procPatchSizes[patchI][procI])
         {
@@ -478,7 +478,7 @@ void mousse::conformalVoronoiMesh::reorderPoints
   for (label fI = nInternalFaces; fI < faces.size(); ++fI)
   {
     const face& f = faces[fI];
-    forAll(f, fpI)
+    FOR_ALL(f, fpI)
     {
       oldToNew[f[fpI]] = 1;
     }
@@ -486,7 +486,7 @@ void mousse::conformalVoronoiMesh::reorderPoints
   const label nInternalPoints = points.size() - sum(oldToNew);
   label countInternal = 0;
   label countExternal = nInternalPoints;
-  forAll(points, pI)
+  FOR_ALL(points, pI)
   {
     if (oldToNew[pI] == 0)
     {
@@ -503,10 +503,10 @@ void mousse::conformalVoronoiMesh::reorderPoints
     << decrIndent << endl;
   inplaceReorder(oldToNew, points);
   inplaceReorder(oldToNew, boundaryPts);
-  forAll(faces, fI)
+  FOR_ALL(faces, fI)
   {
     face& f = faces[fI];
-    forAll(f, fpI)
+    FOR_ALL(f, fpI)
     {
       f[fpI] = oldToNew[f[fpI]];
     }
@@ -545,7 +545,7 @@ void mousse::conformalVoronoiMesh::reorderProcessorPatches
   );
   const fvMesh& sortMesh = sortMeshPtr();
   // Change the transform type on processors to coincident full match.
-//    forAll(sortMesh.boundaryMesh(), patchI)
+//    FOR_ALL(sortMesh.boundaryMesh(), patchI)
 //    {
 //        const polyPatch& patch = sortMesh.boundaryMesh()[patchI];
 //
@@ -565,7 +565,7 @@ void mousse::conformalVoronoiMesh::reorderProcessorPatches
   labelList faceMap(faces.size(), label(-1));
   PstreamBuffers pBufs(Pstream::nonBlocking);
   // Send ordering
-  forAll(sortMesh.boundaryMesh(), patchI)
+  FOR_ALL(sortMesh.boundaryMesh(), patchI)
   {
     const polyPatch& pp = sortMesh.boundaryMesh()[patchI];
     if (isA<processorPolyPatch>(pp))
@@ -590,7 +590,7 @@ void mousse::conformalVoronoiMesh::reorderProcessorPatches
   Info<< incrIndent << indent << "Face ordering initialised..." << endl;
   // Receive and calculate ordering
   bool anyChanged = false;
-  forAll(sortMesh.boundaryMesh(), patchI)
+  FOR_ALL(sortMesh.boundaryMesh(), patchI)
   {
     const polyPatch& pp = sortMesh.boundaryMesh()[patchI];
     if (isA<processorPolyPatch>(pp))
@@ -620,12 +620,12 @@ void mousse::conformalVoronoiMesh::reorderProcessorPatches
       if (changed)
       {
         // Merge patch face reordering into mesh face reordering table
-        forAll(patchFaceRotation, patchFaceI)
+        FOR_ALL(patchFaceRotation, patchFaceI)
         {
           rotation[patchFaceI + patchStartFace]
             = patchFaceRotation[patchFaceI];
         }
-        forAll(patchFaceMap, patchFaceI)
+        FOR_ALL(patchFaceMap, patchFaceI)
         {
           if (patchFaceMap[patchFaceI] != patchFaceI)
           {
@@ -642,7 +642,7 @@ void mousse::conformalVoronoiMesh::reorderProcessorPatches
   if (anyChanged)
   {
     label nReorderedFaces = 0;
-    forAll(faceMap, faceI)
+    FOR_ALL(faceMap, faceI)
     {
      if (faceMap[faceI] != -1)
      {
@@ -655,7 +655,7 @@ void mousse::conformalVoronoiMesh::reorderProcessorPatches
     }
     // Rotate faces (rotation is already in new face indices).
     label nRotated = 0;
-    forAll(rotation, faceI)
+    FOR_ALL(rotation, faceI)
     {
       if (rotation[faceI] != 0)
       {
@@ -730,7 +730,7 @@ void mousse::conformalVoronoiMesh::writeMesh
   Info<< indent << "Adding patches to mesh" << endl;
   List<polyPatch*> patches(patchNames.size());
   label nValidPatches = 0;
-  forAll(patches, p)
+  FOR_ALL(patches, p)
   {
     label totalPatchSize = readLabel(patchDicts[p].lookup("nFaces"));
     if
@@ -787,9 +787,9 @@ void mousse::conformalVoronoiMesh::writeMesh
   {
     label sz = mesh.pointZones().size();
     DynamicList<label> bPts(boundaryPts.size());
-    forAll(dualMeshPointTypeNames_, typeI)
+    FOR_ALL(dualMeshPointTypeNames_, typeI)
     {
-      forAll(boundaryPts, ptI)
+      FOR_ALL(boundaryPts, ptI)
       {
         const label& bPtType = boundaryPts[ptI];
         if (bPtType == typeI)
@@ -825,7 +825,7 @@ void mousse::conformalVoronoiMesh::writeMesh
   );
   labelList addr(boundaryFacesToRemove.count());
   label count = 0;
-  forAll(boundaryFacesToRemove, faceI)
+  FOR_ALL(boundaryFacesToRemove, faceI)
   {
     if (boundaryFacesToRemove[faceI])
     {
@@ -873,7 +873,7 @@ void mousse::conformalVoronoiMesh::writeMesh
       ),
       labelList(mesh.nPoints(), labelMin)
     );
-    forAll(mesh.points(), ptI)
+    FOR_ALL(mesh.points(), ptI)
     {
       boundaryPtsIO[ptI] = mesh.pointZones().whichZone(ptI);
     }
@@ -891,7 +891,7 @@ void mousse::conformalVoronoiMesh::writeMesh
   mesh.setInstance(instance);
   if (!mesh.write())
   {
-    FatalErrorIn("mousse::conformalVoronoiMesh::writeMesh(..)")
+    FATAL_ERROR_IN("mousse::conformalVoronoiMesh::writeMesh(..)")
       << "Failed writing polyMesh."
       << exit(FatalError);
   }
@@ -927,7 +927,7 @@ void mousse::conformalVoronoiMesh::writeMesh
       ),
       labelList(mesh.nPoints(), labelMin)
     );
-    forAll(mesh.points(), ptI)
+    FOR_ALL(mesh.points(), ptI)
     {
       boundaryPtsScalarField[ptI] = mesh.pointZones().whichZone(ptI);
       boundaryPtsIO[ptI] = mesh.pointZones().whichZone(ptI);
@@ -935,9 +935,6 @@ void mousse::conformalVoronoiMesh::writeMesh
     boundaryPtsScalarField.write();
     boundaryPtsIO.write();
   }
-//    writeCellSizes(mesh);
-//    writeCellAlignments(mesh);
-//    writeCellCentres(mesh);
   findRemainingProtrusionSet(mesh);
 }
 void mousse::conformalVoronoiMesh::writeCellSizes
@@ -949,173 +946,33 @@ void mousse::conformalVoronoiMesh::writeCellSizes
     timeCheck("Start writeCellSizes");
     Info<< nl << "Create targetCellSize volScalarField" << endl;
     volScalarField targetCellSize
-    (
-      IOobject
-      (
+    {
+      {
         "targetCellSize",
         mesh.polyMesh::instance(),
         mesh,
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
-      ),
+      },
       mesh,
-      dimensionedScalar("cellSize", dimLength, 0),
+      {"cellSize", dimLength, 0},
       zeroGradientFvPatchScalarField::typeName
-    );
+    };
     scalarField& cellSize = targetCellSize.internalField();
     const vectorField& C = mesh.cellCentres();
-    forAll(cellSize, i)
+    FOR_ALL(cellSize, i)
     {
       cellSize[i] = cellShapeControls().cellSize(C[i]);
     }
-    // Info<< nl << "Create targetCellVolume volScalarField" << endl;
-    // volScalarField targetCellVolume
-    // (
-    //     IOobject
-    //     (
-    //         "targetCellVolume",
-    //         mesh.polyMesh::instance(),
-    //         mesh,
-    //         IOobject::NO_READ,
-    //         IOobject::AUTO_WRITE
-    //     ),
-    //     mesh,
-    //     dimensionedScalar("cellVolume", dimLength, 0),
-    //     zeroGradientFvPatchScalarField::typeName
-    // );
-    // targetCellVolume.internalField() = pow3(cellSize);
-    // Info<< nl << "Create actualCellVolume volScalarField" << endl;
-    // volScalarField actualCellVolume
-    // (
-    //     IOobject
-    //     (
-    //         "actualCellVolume",
-    //         mesh.polyMesh::instance(),
-    //         mesh,
-    //         IOobject::NO_READ,
-    //         IOobject::AUTO_WRITE
-    //     ),
-    //     mesh,
-    //     dimensionedScalar("cellVolume", dimVolume, 0),
-    //     zeroGradientFvPatchScalarField::typeName
-    // );
-    // actualCellVolume.internalField() = mesh.cellVolumes();
-    // Info<< nl << "Create equivalentCellSize volScalarField" << endl;
-    // volScalarField equivalentCellSize
-    // (
-    //     IOobject
-    //     (
-    //         "equivalentCellSize",
-    //         mesh.polyMesh::instance(),
-    //         mesh,
-    //         IOobject::NO_READ,
-    //         IOobject::AUTO_WRITE
-    //     ),
-    //     mesh,
-    //     dimensionedScalar("cellSize", dimLength, 0),
-    //     zeroGradientFvPatchScalarField::typeName
-    // );
-    // equivalentCellSize.internalField() = pow
-    // (
-    //     actualCellVolume.internalField(),
-    //     1.0/3.0
-    // );
     targetCellSize.correctBoundaryConditions();
-    // targetCellVolume.correctBoundaryConditions();
-    // actualCellVolume.correctBoundaryConditions();
-    // equivalentCellSize.correctBoundaryConditions();
     targetCellSize.write();
-    // targetCellVolume.write();
-    // actualCellVolume.write();
-    // equivalentCellSize.write();
   }
-  // {
-  //     polyMesh tetMesh
-  //     (
-  //         IOobject
-  //         (
-  //             "tetDualMesh",
-  //             runTime_.constant(),
-  //             runTime_,
-  //             IOobject::MUST_READ
-  //         )
-  //     );
-  //     pointMesh ptMesh(tetMesh);
-  //     pointScalarField ptTargetCellSize
-  //     (
-  //         IOobject
-  //         (
-  //             "ptTargetCellSize",
-  //             runTime_.timeName(),
-  //             tetMesh,
-  //             IOobject::NO_READ,
-  //             IOobject::AUTO_WRITE
-  //         ),
-  //         ptMesh,
-  //         dimensionedScalar("ptTargetCellSize", dimLength, 0),
-  //         pointPatchVectorField::calculatedType()
-  //     );
-  //     scalarField& cellSize = ptTargetCellSize.internalField();
-  //     const vectorField& P = tetMesh.points();
-  //     forAll(cellSize, i)
-  //     {
-  //         cellSize[i] = cellShapeControls().cellSize(P[i]);
-  //     }
-  //     ptTargetCellSize.write();
-  // }
 }
 void mousse::conformalVoronoiMesh::writeCellAlignments
 (
-  const fvMesh& mesh
+  const fvMesh& /*mesh*/
 ) const
 {
-//    Info<< nl << "Create cellAlignments volTensorField" << endl;
-//
-//    volTensorField cellAlignments
-//    (
-//        IOobject
-//        (
-//            "cellAlignments",
-//            mesh.polyMesh::instance(),
-//            mesh,
-//            IOobject::NO_READ,
-//            IOobject::AUTO_WRITE
-//        ),
-//        mesh,
-//        tensor::I,
-//        zeroGradientFvPatchTensorField::typeName
-//    );
-//
-//    tensorField& cellAlignment = cellAlignments.internalField();
-//
-//    const vectorField& C = mesh.cellCentres();
-//
-//    vectorField xDir(cellAlignment.size());
-//    vectorField yDir(cellAlignment.size());
-//    vectorField zDir(cellAlignment.size());
-//
-//    forAll(cellAlignment, i)
-//    {
-//        cellAlignment[i] = cellShapeControls().cellAlignment(C[i]);
-//        xDir[i] = cellAlignment[i] & vector(1, 0, 0);
-//        yDir[i] = cellAlignment[i] & vector(0, 1, 0);
-//        zDir[i] = cellAlignment[i] & vector(0, 0, 1);
-//    }
-//
-//    OFstream xStr("xDir.obj");
-//    OFstream yStr("yDir.obj");
-//    OFstream zStr("zDir.obj");
-//
-//    forAll(xDir, i)
-//    {
-//        meshTools::writeOBJ(xStr, C[i], C[i] + xDir[i]);
-//        meshTools::writeOBJ(yStr, C[i], C[i] + yDir[i]);
-//        meshTools::writeOBJ(zStr, C[i], C[i] + zDir[i]);
-//    }
-//
-//    cellAlignments.correctBoundaryConditions();
-//
-//    cellAlignments.write();
 }
 void mousse::conformalVoronoiMesh::writeCellCentres
 (
@@ -1149,10 +1006,10 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::findRemainingProtrusionSet
   timeCheck("Start findRemainingProtrusionSet");
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   labelHashSet protrudingBoundaryPoints;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     const polyPatch& patch = patches[patchI];
-    forAll(patch.localPoints(), pLPI)
+    FOR_ALL(patch.localPoints(), pLPI)
     {
       label meshPtI = patch.meshPoints()[pLPI];
       const mousse::point& pt = patch.localPoints()[pLPI];
@@ -1175,11 +1032,11 @@ mousse::labelHashSet mousse::conformalVoronoiMesh::findRemainingProtrusionSet
     "foamyHexMesh_remainingProtrusions",
     mesh.nCells()/1000
   );
-  forAllConstIter(labelHashSet, protrudingBoundaryPoints, iter)
+  FOR_ALL_CONST_ITER(labelHashSet, protrudingBoundaryPoints, iter)
   {
     const label pointI = iter.key();
     const labelList& pCells = mesh.pointCells()[pointI];
-    forAll(pCells, pCI)
+    FOR_ALL(pCells, pCI)
     {
       protrudingCells.insert(pCells[pCI]);
     }

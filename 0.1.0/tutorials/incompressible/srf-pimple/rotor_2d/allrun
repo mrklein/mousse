@@ -1,0 +1,9 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+readonly APPLICATION=$(get_application)
+
+./make_mesh
+run_application $APPLICATION

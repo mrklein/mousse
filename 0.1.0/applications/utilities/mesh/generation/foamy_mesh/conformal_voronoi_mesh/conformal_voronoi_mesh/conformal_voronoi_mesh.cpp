@@ -18,7 +18,7 @@
 // Static Data Members
 namespace mousse
 {
-  defineTypeNameAndDebug(conformalVoronoiMesh, 0);
+  DEFINE_TYPE_NAME_AND_DEBUG(conformalVoronoiMesh, 0);
   template<>
   const char* NamedEnum
   <
@@ -85,7 +85,7 @@ void mousse::conformalVoronoiMesh::insertInternalPoints
   if (Pstream::parRun() && distribute)
   {
     List<mousse::point> transferPoints(points.size());
-    forAll(points, pI)
+    FOR_ALL(points, pI)
     {
       transferPoints[pI] = topoint(points[pI]);
     }
@@ -139,7 +139,7 @@ mousse::Map<mousse::label> mousse::conformalVoronoiMesh::insertPointPairs
     // If both, remove
     // If added a point, then need to know its point pair
     // If one moved, then update procIndex locally
-    forAll(vertices, vI)
+    FOR_ALL(vertices, vI)
     {
       vertices[vI].procIndex() = Pstream::myProcNo();
     }
@@ -164,7 +164,7 @@ void mousse::conformalVoronoiMesh::insertSurfacePointPairs
   DynamicList<Vb>& pts
 )
 {
-  forAll(surfaceHits, i)
+  FOR_ALL(surfaceHits, i)
   {
     vectorField norm(1);
     const pointIndexHit surfaceHit = surfaceHits[i].first();
@@ -213,7 +213,7 @@ void mousse::conformalVoronoiMesh::insertSurfacePointPairs
     }
     else
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::conformalVoronoiMesh::insertSurfacePointPairs"
         "(const pointIndexHitAndFeatureList&, const fileName)"
@@ -233,7 +233,7 @@ void mousse::conformalVoronoiMesh::insertEdgePointGroups
   DynamicList<Vb>& pts
 )
 {
-  forAll(edgeHits, i)
+  FOR_ALL(edgeHits, i)
   {
     if (edgeHits[i].first().hit())
     {
@@ -356,7 +356,7 @@ void mousse::conformalVoronoiMesh::distribute()
   Info<< nl << "    Inserting distributed tessellation" << endl;
   // Internal points have to be inserted first
   DynamicList<Vb> verticesToInsert(points.size());
-  forAll(points, pI)
+  FOR_ALL(points, pI)
   {
     verticesToInsert.append
     (
@@ -511,7 +511,7 @@ mousse::face mousse::conformalVoronoiMesh::buildDualFace
       Vertex_handle vB = c->vertex(eit->third);
 //            DelaunayMeshTools::drawDelaunayCell(Pout, cc1);
 //            DelaunayMeshTools::drawDelaunayCell(Pout, cc2);
-      WarningIn("mousse::conformalVoronoiMesh::buildDualFace")
+      WARNING_IN("mousse::conformalVoronoiMesh::buildDualFace")
         << "Dual face uses circumcenter defined by a "
         << "Delaunay tetrahedron with no internal "
         << "or boundary points.  Defining Delaunay edge ends: "
@@ -566,7 +566,7 @@ mousse::label mousse::conformalVoronoiMesh::maxFilterCount
       Cell_handle c = eit->first;
       Vertex_handle vA = c->vertex(eit->second);
       Vertex_handle vB = c->vertex(eit->third);
-      FatalErrorIn("mousse::conformalVoronoiMesh::buildDualFace")
+      FATAL_ERROR_IN("mousse::conformalVoronoiMesh::buildDualFace")
         << "Dual face uses circumcenter defined by a "
         << "Delaunay tetrahedron with no internal "
         << "or boundary points.  Defining Delaunay edge ends: "
@@ -611,7 +611,7 @@ bool mousse::conformalVoronoiMesh::ownerAndNeighbour
   }
   if (dualCellIndexA == -1 && dualCellIndexB == -1)
   {
-    FatalErrorIn
+    FATAL_ERROR_IN
     (
       "bool mousse::conformalVoronoiMesh::ownerAndNeighbour"
       "("
@@ -668,23 +668,22 @@ mousse::conformalVoronoiMesh::conformalVoronoiMesh
   rndGen_(64293*Pstream::myProcNo()),
   foamyHexMeshControls_(foamyHexMeshDict),
   allGeometry_
-  (
-    IOobject
-    (
+  {
+    {
       "cvSearchableSurfaces",
       runTime_.constant(),
       "triSurface",
       runTime_,
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    ),
+    },
     foamyHexMeshDict.subDict("geometry"),
     foamyHexMeshDict.lookupOrDefault("singleRegionName", true)
-  ),
+  },
   geometryToConformTo_
   (
     runTime_,
-    rndGen_,
+    // rndGen_,
     allGeometry_,
     foamyHexMeshDict.subDict("surfaceConformation")
   ),
@@ -909,11 +908,11 @@ void mousse::conformalVoronoiMesh::move()
         vB->alignment().T() & cartesianDirections
       );
       Field<vector> alignmentDirs(alignmentDirsA);
-      forAll(alignmentDirsA, aA)
+      FOR_ALL(alignmentDirsA, aA)
       {
         const vector& a = alignmentDirsA[aA];
         scalar maxDotProduct = 0.0;
-        forAll(alignmentDirsB, aB)
+        FOR_ALL(alignmentDirsB, aB)
         {
           const vector& b = alignmentDirsB[aB];
           const scalar dotProduct = a & b;
@@ -964,7 +963,7 @@ void mousse::conformalVoronoiMesh::move()
         // Do not consider this Delaunay edge any further
         continue;
       }
-      forAll(alignmentDirs, aD)
+      FOR_ALL(alignmentDirs, aD)
       {
         vector& alignmentDir = alignmentDirs[aD];
         scalar dotProd = rAB & alignmentDir;
@@ -1324,7 +1323,7 @@ void mousse::conformalVoronoiMesh::move()
     {
       if (!vit->referred() && !usedIndices.insert(vit->index()))
       {
-        FatalErrorIn("mousse::conformalVoronoiMesh::move()")
+        FATAL_ERROR_IN("mousse::conformalVoronoiMesh::move()")
           << "Index already used! Could not insert: " << nl
           << vit->info()
           << abort(FatalError);
@@ -1448,7 +1447,7 @@ void mousse::conformalVoronoiMesh::checkCoPlanarCells() const
         << "    dual    = " << topoint(cit->dual()) << endl;
       DelaunayMeshTools::drawDelaunayCell(str, cit, badCells++);
       FixedList<PointExact, 4> cellVerticesExact(PointExact(0,0,0));
-      forAll(cellVerticesExact, vI)
+      FOR_ALL(cellVerticesExact, vI)
       {
         cellVerticesExact[vI] = PointExact
         (

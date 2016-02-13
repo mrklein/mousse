@@ -2,7 +2,7 @@
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#include "cgal_triangulation3_d_kernel.hpp"
+#include "cgal_triangulation_3d_kernel.hpp"
 #include "indexed_vertex.hpp"
 #include "indexed_cell.hpp"
 #include "arg_list.hpp"
@@ -18,28 +18,24 @@
 #include "cell_shape_control_mesh.hpp"
 #include "triad_field.hpp"
 #include "scalar_io_field.hpp"
-#include "point_iofield.hpp"
-#include "triad_iofield.hpp"
+#include "point_io_field.hpp"
+#include "triad_io_field.hpp"
 using namespace mousse;
 // Main program:
 template<class Triangulation, class Type>
-mousse::tmp<mousse::Field<Type> > filterFarPoints
+mousse::tmp<mousse::Field<Type>> filterFarPoints
 (
   const Triangulation& mesh,
   const Field<Type>& field
 )
 {
-  tmp<Field<Type> > tNewField(new Field<Type>(field.size()));
+  tmp<Field<Type>> tNewField{new Field<Type>{field.size()}};
   Field<Type>& newField = tNewField();
   label added = 0;
   label count = 0;
-  for
-  (
-    typename Triangulation::Finite_vertices_iterator vit =
-      mesh.finite_vertices_begin();
-    vit != mesh.finite_vertices_end();
-    ++vit
-  )
+  for (auto vit = mesh.finite_vertices_begin();
+       vit != mesh.finite_vertices_end();
+       ++vit)
   {
     if (vit->real())
     {
@@ -50,6 +46,7 @@ mousse::tmp<mousse::Field<Type> > filterFarPoints
   newField.resize(added);
   return tNewField;
 }
+
 template<class T>
 autoPtr<mapDistribute> buildMap
 (
@@ -58,7 +55,7 @@ autoPtr<mapDistribute> buildMap
 )
 {
   pointPoints.setSize(mesh.vertexCount());
-  globalIndex globalIndexing(mesh.vertexCount());
+  globalIndex globalIndexing{mesh.vertexCount()};
   for
   (
     typename T::Finite_vertices_iterator vit = mesh.finite_vertices_begin();
@@ -72,7 +69,7 @@ autoPtr<mapDistribute> buildMap
     }
     std::list<typename T::Vertex_handle> adjVerts;
     mesh.finite_adjacent_vertices(vit, std::back_inserter(adjVerts));
-    DynamicList<label> indices(adjVerts.size());
+    DynamicList<label> indices{static_cast<label>(adjVerts.size())};
     for
     (
       typename std::list<typename T::Vertex_handle>::const_iterator
@@ -92,7 +89,7 @@ autoPtr<mapDistribute> buildMap
     }
     pointPoints[vit->index()].transfer(indices);
   }
-  List<Map<label> > compactMap;
+  List<Map<label>> compactMap;
   return autoPtr<mapDistribute>
   (
     new mapDistribute
@@ -160,13 +157,9 @@ void refine
   for (label iter = 0; iter < maxRefinementIterations; ++iter)
   {
     DynamicList<point> ptsToInsert;
-    for
-    (
-      CellSizeDelaunay::Finite_cells_iterator cit =
-        mesh.finite_cells_begin();
-      cit != mesh.finite_cells_end();
-      ++cit
-    )
+    for (auto cit = mesh.finite_cells_begin();
+         cit != mesh.finite_cells_end();
+         ++cit)
     {
       const point newPoint =
         topoint
@@ -186,7 +179,7 @@ void refine
     }
     Info<< "    Adding " << returnReduce(ptsToInsert.size(), sumOp<label>())
       << endl;
-    forAll(ptsToInsert, ptI)
+    FOR_ALL(ptsToInsert, ptI)
     {
       mesh.insert
       (
@@ -200,9 +193,9 @@ void refine
 }
 int main(int argc, char *argv[])
 {
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
-    label maxRefinementIterations = 2;
+  #include "set_root_case.inc"
+  #include "create_time.inc"
+  label maxRefinementIterations = 2;
   label maxSmoothingIterations = 200;
   scalar minResidual = 0;
   scalar defaultCellSize = 0.001;
@@ -212,52 +205,50 @@ int main(int argc, char *argv[])
   // + index
   // + procIndex
   // - type should be optional
-  cellShapeControlMesh mesh(runTime);
+  cellShapeControlMesh mesh{runTime};
   IOdictionary foamyHexMeshDict
-  (
-    IOobject
-    (
+  {
+    {
       "foamyHexMeshDict",
       runTime.system(),
       runTime,
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    )
-  );
-  Random rndGen(64293*Pstream::myProcNo());
+    }
+  };
+  Random rndGen{64293*Pstream::myProcNo()};
   searchableSurfaces allGeometry
-  (
-    IOobject
-    (
+  {
+    {
       "cvSearchableSurfaces",
       runTime.constant(),
       "triSurface",
       runTime,
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    ),
+    },
     foamyHexMeshDict.subDict("geometry"),
     foamyHexMeshDict.lookupOrDefault("singleRegionName", true)
-  );
+  };
   conformationSurfaces geometryToConformTo
-  (
+  {
     runTime,
-    rndGen,
+    // rndGen,
     allGeometry,
     foamyHexMeshDict.subDict("surfaceConformation")
-  );
+  };
   autoPtr<backgroundMeshDecomposition> bMesh;
   if (Pstream::parRun())
   {
     bMesh.set
     (
       new backgroundMeshDecomposition
-      (
+      {
         runTime,
         rndGen,
         geometryToConformTo,
         foamyHexMeshDict.subDict("backgroundMeshDecomposition")
-      )
+      }
     );
   }
   // Nice to have IO for the delaunay mesh
@@ -267,17 +258,16 @@ int main(int argc, char *argv[])
   // + list of points of the triangulation
   // + optionally a list of cells
   Info<< nl << "Loop over surfaces" << endl;
-  forAll(geometryToConformTo.surfaces(), sI)
+  FOR_ALL(geometryToConformTo.surfaces(), sI)
   {
     const label surfI = geometryToConformTo.surfaces()[sI];
-    const searchableSurface& surface =
-      geometryToConformTo.geometry()[surfI];
+    const searchableSurface& surface = geometryToConformTo.geometry()[surfI];
     Info<< nl << "Inserting points from surface " << surface.name()
       << " (" << surface.type() << ")" << endl;
-    const tmp<pointField> tpoints(surface.points());
+    const tmp<pointField> tpoints{surface.points()};
     const pointField& points = tpoints();
     Info<< "    Number of points = " << points.size() << endl;
-    forAll(points, pI)
+    FOR_ALL(points, pI)
     {
       // Is the point in the extendedFeatureEdgeMesh? If so get the
       // point normal, otherwise get the surface normal from
@@ -299,7 +289,7 @@ int main(int argc, char *argv[])
         vectorField norms = features.featurePointNormals(info.index());
         // Create a triad from these norms.
         pointAlignment.set(new triad());
-        forAll(norms, nI)
+        FOR_ALL(norms, nI)
         {
           pointAlignment() += norms[nI];
         }
@@ -322,7 +312,7 @@ int main(int argc, char *argv[])
           vectorField norms = features.edgeNormals(info.index());
           // Create a triad from these norms.
           pointAlignment.set(new triad());
-          forAll(norms, nI)
+          FOR_ALL(norms, nI)
           {
             pointAlignment() += norms[nI];
           }
@@ -331,20 +321,20 @@ int main(int argc, char *argv[])
         }
         else
         {
-          pointField ptField(1, points[pI]);
-          scalarField distField(1, nearFeatDistSqrCoeff);
-          List<pointIndexHit> infoList(1, pointIndexHit());
+          pointField ptField{1, points[pI]};
+          scalarField distField{1, nearFeatDistSqrCoeff};
+          List<pointIndexHit> infoList{1, pointIndexHit()};
           surface.findNearest(ptField, distField, infoList);
-          vectorField normals(1);
+          vectorField normals{1};
           surface.getNormal(infoList, normals);
-          pointAlignment.set(new triad(normals[0]));
+          pointAlignment.set(new triad{normals[0]});
         }
       }
       if (Pstream::parRun())
       {
         if (bMesh().positionOnThisProcessor(points[pI]))
         {
-          CellSizeDelaunay::Vertex_handle vh = mesh.insert
+          mesh.insert
           (
             points[pI],
             defaultCellSize,
@@ -355,7 +345,7 @@ int main(int argc, char *argv[])
       }
       else
       {
-        CellSizeDelaunay::Vertex_handle vh = mesh.insert
+        mesh.insert
         (
           points[pI],
           defaultCellSize,
@@ -379,18 +369,14 @@ int main(int argc, char *argv[])
   }
   labelListList pointPoints;
   autoPtr<mapDistribute> meshDistributor = buildMap(mesh, pointPoints);
-  triadField alignments(buildAlignmentField(mesh));
-  pointField points(buildPointField(mesh));
+  triadField alignments{buildAlignmentField(mesh)};
+  pointField points{buildPointField(mesh)};
   mesh.printInfo(Info);
   // Setup the sizes and alignments on each point
   triadField fixedAlignments(mesh.vertexCount(), triad::unset);
-  for
-  (
-    CellSizeDelaunay::Finite_vertices_iterator vit =
-      mesh.finite_vertices_begin();
-    vit != mesh.finite_vertices_end();
-    ++vit
-  )
+  for (auto vit = mesh.finite_vertices_begin();
+       vit != mesh.finite_vertices_end();
+       ++vit)
   {
     if (vit->nearBoundary())
     {
@@ -405,7 +391,7 @@ int main(int argc, char *argv[])
     meshDistributor().distribute(alignments);
     scalar residual = 0;
     triadField triadAv(alignments.size(), triad::unset);
-    forAll(pointPoints, pI)
+    FOR_ALL(pointPoints, pI)
     {
       const labelList& pPoints = pointPoints[pI];
       if (pPoints.empty())
@@ -416,11 +402,10 @@ int main(int argc, char *argv[])
       triad& newTriad = triadAv[pI];
       // Enforce the boundary conditions
       const triad& fixedAlignment = fixedAlignments[pI];
-      forAll(pPoints, adjPointI)
+      FOR_ALL(pPoints, adjPointI)
       {
         const label adjPointIndex = pPoints[adjPointI];
         scalar dist = mag(points[pI] - points[adjPointIndex]);
-//                dist = max(dist, SMALL);
         triad tmpTriad = alignments[adjPointIndex];
         for (direction dir = 0; dir < 3; dir++)
         {
@@ -433,9 +418,8 @@ int main(int argc, char *argv[])
       }
       newTriad.normalize();
       newTriad.orthogonalize();
-//            newTriad = newTriad.sortxyz();
       label nFixed = 0;
-      forAll(fixedAlignment, dirI)
+      FOR_ALL(fixedAlignment, dirI)
       {
         if (fixedAlignment.set(dirI))
         {
@@ -444,7 +428,7 @@ int main(int argc, char *argv[])
       }
       if (nFixed == 1)
       {
-        forAll(fixedAlignment, dirI)
+        FOR_ALL(fixedAlignment, dirI)
         {
           if (fixedAlignment.set(dirI))
           {
@@ -454,7 +438,7 @@ int main(int argc, char *argv[])
       }
       else if (nFixed == 2)
       {
-        forAll(fixedAlignment, dirI)
+        FOR_ALL(fixedAlignment, dirI)
         {
           if (fixedAlignment.set(dirI))
           {
@@ -469,7 +453,7 @@ int main(int argc, char *argv[])
       }
       else if (nFixed == 3)
       {
-        forAll(fixedAlignment, dirI)
+        FOR_ALL(fixedAlignment, dirI)
         {
           if (fixedAlignment.set(dirI))
           {
@@ -479,12 +463,7 @@ int main(int argc, char *argv[])
       }
       for (direction dir = 0; dir < 3; ++dir)
       {
-        if
-        (
-          newTriad.set(dir)
-        && oldTriad.set(dir)
-        //&& !fixedAlignment.set(dir)
-        )
+        if (newTriad.set(dir) && oldTriad.set(dir))
         {
           scalar dotProd = (oldTriad[dir] & newTriad[dir]);
           scalar diff = mag(dotProd) - 1.0;
@@ -492,7 +471,7 @@ int main(int argc, char *argv[])
         }
       }
     }
-    forAll(alignments, pI)
+    FOR_ALL(alignments, pI)
     {
       alignments[pI] = triadAv[pI].sortxyz();
     }
@@ -504,13 +483,13 @@ int main(int argc, char *argv[])
     }
   }
   // Write alignments to a .obj file
-  OFstream str(runTime.path()/"alignments.obj");
-  forAll(alignments, pI)
+  OFstream str{runTime.path()/"alignments.obj"};
+  FOR_ALL(alignments, pI)
   {
     const triad& tri = alignments[pI];
     if (tri.set())
     {
-      forAll(tri, dirI)
+      FOR_ALL(tri, dirI)
       {
         meshTools::writeOBJ(str, points[pI], tri[dirI] + points[pI]);
       }
@@ -518,42 +497,39 @@ int main(int argc, char *argv[])
   }
   // Remove the far points
   pointIOField pointsIO
-  (
-    IOobject
-    (
+  {
+    {
       "points",
       runTime.constant(),
       runTime,
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     filterFarPoints(mesh, points)
-  );
-  scalarField sizes(points.size(), defaultCellSize);
+  };
+  scalarField sizes{points.size(), defaultCellSize};
   scalarIOField sizesIO
-  (
-    IOobject
-    (
+  {
+    {
       "sizes",
       runTime.constant(),
       runTime,
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     filterFarPoints(mesh, sizes)
-  );
+  };
   triadIOField alignmentsIO
-  (
-    IOobject
-    (
+  {
+    {
       "alignments",
       runTime.constant(),
       runTime,
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     filterFarPoints(mesh, alignments)
-  );
+  };
   pointsIO.write();
   sizesIO.write();
   alignmentsIO.write();

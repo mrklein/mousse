@@ -49,8 +49,14 @@ then
 
 	if [ -d "$MOUSSE_LIBBIN/$MOUSSE_MPI" ]
 	then
-		export PTSCOTCH_CFLAGS="-I/usr/include/openmpi-x86_64 -I/usr/include"
-		export PTSCOTCH_LDFLAGS="-L/usr/lib64/openmpi/lib -L/usr/lib64 -lscotch -lscotcherr -lptscotch -lptscotcherr"
+		if [ "$(uname -s)" = "Darwin" ]
+		then
+			export PTSCOTCH_CFLAGS="-I$SCOTCH_ARCH_PATH/include"
+			export PTSCOTCH_LDFLAGS="-L$SCOTCH_ARCH_PATH/lib -lscotch -lptscotch -lptscotcherrexit"
+		else
+			export PTSCOTCH_CFLAGS="-I/usr/include/openmpi-x86_64 -I/usr/include"
+			export PTSCOTCH_LDFLAGS="-L/usr/lib64/openmpi/lib -L/usr/lib64 -lscotch -lptscotch -lptscotcherrexit"
+		fi
 		wmake_mpi_lib ptscotch_decomp
 	fi
 else

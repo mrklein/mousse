@@ -1,0 +1,28 @@
+
+cuttingPlane
+{
+    type            surfaces;
+    functionObjectLibs ("libmousse_sampling.so");
+    outputControl   outputTime;
+
+    surfaceFormat   vtk;
+    fields          ( p U );
+
+    interpolationScheme cellPoint;
+
+    surfaces
+    (
+        yNormal
+        {
+            type            cuttingPlane;
+            planeType       pointAndNormal;
+            pointAndNormalDict
+            {
+                basePoint       (0 0 0);
+                normalVector    (0 1 0);
+            }
+            interpolate     true;
+        }
+    );
+}
+

@@ -1,0 +1,3 @@
+collapse_edges.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-collapse-edges

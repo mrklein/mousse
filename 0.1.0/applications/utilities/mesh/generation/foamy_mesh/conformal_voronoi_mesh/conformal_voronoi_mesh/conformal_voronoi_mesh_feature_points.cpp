@@ -116,7 +116,7 @@ bool mousse::conformalVoronoiMesh::regionIsInside
   }
   else
   {
-    WarningIn
+    WARNING_IN
     (
       "mousse::conformalVoronoiMesh::regionIsInside"
       "(volTypeA, normalA, volTypeB, normalB, masterPtVec)"
@@ -198,7 +198,7 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
         }
         else
         {
-          WarningIn
+          WARNING_IN
           (
             "mousse::conformalVoronoiMesh::"
             "createEdgePointGroupByCirculating"
@@ -249,7 +249,7 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
       }
       else
       {
-        WarningIn
+        WARNING_IN
         (
           "mousse::conformalVoronoiMesh::"
           "createEdgePointGroupByCirculating"
@@ -346,7 +346,7 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
     circ.circulate(CirculatorBase::CLOCKWISE),
     circNormalDirs.circulate(CirculatorBase::CLOCKWISE)
   );
-  forAllConstIter(Map<mousse::point>, masterPoints, iter)
+  FOR_ALL_CONST_ITER(Map<mousse::point>, masterPoints, iter)
   {
     const mousse::point& pt = masterPoints[iter.key()];
     const vertexType ptType = masterPointsTypes[iter.key()];
@@ -751,7 +751,7 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
   const List<extendedFeatureEdgeMesh::sideVolumeType>& normalVolumeTypes =
     feMesh.normalVolumeTypes();
   labelList nNormalTypes(4, label(0));
-  forAll(edNormalIs, edgeNormalI)
+  FOR_ALL(edNormalIs, edgeNormalI)
   {
     const extendedFeatureEdgeMesh::sideVolumeType sType =
       normalVolumeTypes[edNormalIs[edgeNormalI]];
@@ -760,7 +760,7 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
   if (nNormalTypes[extendedFeatureEdgeMesh::BOTH] == 4)
   {
     label masterEdgeNormalIndex = -1;
-    forAll(edNormalIs, edgeNormalI)
+    FOR_ALL(edNormalIs, edgeNormalI)
     {
       const extendedFeatureEdgeMesh::sideVolumeType sType =
         normalVolumeTypes[edNormalIs[edgeNormalI]];
@@ -848,7 +848,7 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
   )
   {
     label masterEdgeNormalIndex = -1;
-    forAll(edNormalIs, edgeNormalI)
+    FOR_ALL(edNormalIs, edgeNormalI)
     {
       const extendedFeatureEdgeMesh::sideVolumeType sType =
         normalVolumeTypes[edNormalIs[edgeNormalI]];
@@ -1010,7 +1010,7 @@ void mousse::conformalVoronoiMesh::insertFeaturePoints(bool distribute)
 //{
 //    pointField basePoints(edgeDirections.size() + 1);
 //
-//    forAll(edgeDirections, eI)
+//    FOR_ALL(edgeDirections, eI)
 //    {
 //        basePoints[eI] = edgeDirections[eI] + apex;
 //    }
@@ -1031,7 +1031,7 @@ void mousse::conformalVoronoiMesh::insertFeaturePoints(bool distribute)
 //
 //    norms.setSize(edgeDirections.size());
 //
-//    forAll(norms, nI)
+//    FOR_ALL(norms, nI)
 //    {
 //        norms[nI] =
 //    }
@@ -1048,7 +1048,7 @@ void mousse::conformalVoronoiMesh::insertFeaturePoints(bool distribute)
 //        geometryToConformTo_.features()
 //    );
 //
-//    forAll(feMeshes, i)
+//    FOR_ALL(feMeshes, i)
 //    {
 //        const extendedFeatureEdgeMesh& feMesh(feMeshes[i]);
 //
@@ -1118,7 +1118,7 @@ void mousse::conformalVoronoiMesh::insertFeaturePoints(bool distribute)
 //
 //            label internalPtIndex = -1;
 //
-//            forAll(tetNorms, nI)
+//            FOR_ALL(tetNorms, nI)
 //            {
 //                const vector& n = tetNorms[nI];
 //

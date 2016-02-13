@@ -1,0 +1,17 @@
+
+top
+{
+    type slip;
+}
+
+sides
+{
+    type slip;
+}
+
+"proc.*"
+{
+    type            processor;
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

@@ -1,0 +1,19 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      cylindrical;
+}
+
+type      cartesian;
+coordinateRotation
+{
+  type  localAxesRotation;
+  e3    $axis;
+}
+//************************************************************************* //
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

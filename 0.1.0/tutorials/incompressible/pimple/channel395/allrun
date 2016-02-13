@@ -1,0 +1,20 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+# Get application directory
+readonly APPLICATION=$(get_application)
+readonly NPROCS=$(get_number_of_processors)
+
+run_application block-mesh
+
+#- Run serial
+# run_application $APPLICATION
+
+#- Run parallel
+run_application decompose-par -cellDist
+run_parallel $APPLICATION $NPROCS
+run_application reconstruct-par
+
+run_application post-channel

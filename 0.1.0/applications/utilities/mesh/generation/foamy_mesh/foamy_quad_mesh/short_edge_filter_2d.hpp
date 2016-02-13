@@ -50,7 +50,7 @@ class shortEdgeFilter2D
     void operator=(const shortEdgeFilter2D&);
 public:
   //- Runtime type information
-  ClassName("shortEdgeFilter2D");
+  CLASS_NAME("shortEdgeFilter2D");
   // Constructors
     shortEdgeFilter2D(const CV2D& cv2Dmesh, const dictionary& dict);
   //- Destructor

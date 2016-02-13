@@ -1,0 +1,11 @@
+// Calculate Q (from U)
+Q
+{
+    // Where to load it from
+    functionObjectLibs ("libmousse_utility_function_objects.so");
+
+    type Q;
+
+    // Output every
+    outputControl outputTime;
+}

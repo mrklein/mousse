@@ -12,22 +12,19 @@ void mousse::CV2D::insertPointPair
   const label hitSurface
 )
 {
-  if
-  (
-    !meshControls().mirrorPoints()
-  || !insertMirrorPoint(toPoint2D(vit->point()), p)
-  )
+  if (!meshControls().mirrorPoints()
+      || !insertMirrorPoint(toPoint2D(vit->point()), p))
   {
     pointIndexHit pHit
-    (
+    {
       true,
       toPoint3D(p),
       trii
-    );
-    vectorField norm(1);
+    };
+    vectorField norm{1};
     qSurf_.geometry()[hitSurface].getNormal
     (
-      List<pointIndexHit>(1, pHit),
+      List<pointIndexHit>{1, pHit},
       norm
     );
     insertPointPair
@@ -115,16 +112,11 @@ bool mousse::CV2D::insertPointPairAtIntersection
 }
 mousse::label mousse::CV2D::insertBoundaryConformPointPairs
 (
-  const fileName& fName
+  const fileName& /*fName*/
 )
 {
   label nIntersections = 0;
-  for
-  (
-    Triangulation::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    vit++
-  )
+  for (auto vit = finite_vertices_begin(); vit != finite_vertices_end(); vit++)
   {
     // Consider only those points part of point-pairs or near boundary
     if (!vit->nearOrOnBoundary())
@@ -220,16 +212,11 @@ mousse::label mousse::CV2D::insertBoundaryConformPointPairs
 void mousse::CV2D::markNearBoundaryPoints()
 {
   label count = 0;
-  for
-  (
-    Triangulation::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    vit++
-  )
+  for (auto vit = finite_vertices_begin(); vit != finite_vertices_end(); vit++)
   {
     if (vit->internalPoint())
     {
-      point vert(toPoint3D(vit->point()));
+      point vert{toPoint3D(vit->point())};
       pointIndexHit pHit;
       label hitSurface = -1;
       qSurf_.findSurfaceNearest

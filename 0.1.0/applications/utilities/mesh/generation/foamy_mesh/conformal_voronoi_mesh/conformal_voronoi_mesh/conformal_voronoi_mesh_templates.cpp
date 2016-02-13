@@ -64,19 +64,12 @@ bool mousse::conformalVoronoiMesh::distributeBackground(const Triangulation& mes
         label cellI = cellSearch.findCell(v);
         if (cellI == -1)
         {
-//                     Pout<< "findCell conformalVoronoiMesh::distribute "
-//                         << "findCell "
-//                         << vit->type() << " "
-//                         << vit->index() << " "
-//                         << v << " "
-//                         << cellI
-//                         << " find nearest cellI ";
           cellI = cellSearch.findNearestCell(v);
         }
         cellVertices[cellI]++;
       }
     }
-    forAll(cellVertices, cI)
+    FOR_ALL(cellVertices, cI)
     {
       // Give a small but finite weight for empty cells.  Some
       // decomposition methods have difficulty with integer overflows in

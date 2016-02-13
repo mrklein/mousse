@@ -23,35 +23,32 @@ int main(int argc, char *argv[])
     "pointsFile",
     "filename"
   );
-  #include "add_overwrite_option.hpp"
-  #include "set_root_case.hpp"
-  #include "create_time.hpp"
+  #include "add_overwrite_option.inc"
+  #include "set_root_case.inc"
+  #include "create_time.inc"
   // Read control dictionary
   // ~~~~~~~~~~~~~~~~~~~~~~~
   IOdictionary controlDict
-  (
-    IOobject
-    (
-      args.executable() + "Dict",
+  {
+    {
+      "foamyQuadMeshDict",
       runTime.system(),
       runTime,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE
-    )
-  );
-  const dictionary& shortEdgeFilterDict
-  (
-    controlDict.subDict("shortEdgeFilter")
-  );
-  const dictionary& extrusionDict(controlDict.subDict("extrusion"));
-  Switch extrude(extrusionDict.lookup("extrude"));
+    }
+  };
+  const dictionary& shortEdgeFilterDict =
+    controlDict.subDict("shortEdgeFilter");
+  const dictionary& extrusionDict = controlDict.subDict("extrusion");
+  Switch extrude{extrusionDict.lookup("extrude")};
   const bool overwrite = args.optionFound("overwrite");
   // Read and triangulation
   // ~~~~~~~~~~~~~~~~~~~~~~
-  CV2D mesh(runTime, controlDict);
+  CV2D mesh{runTime, controlDict};
   if (args.options().found("pointsFile"))
   {
-    fileName pointFileName(IStringStream(args.options()["pointsFile"])());
+    fileName pointFileName{IStringStream{args.options()["pointsFile"]}()};
     mesh.insertPoints(pointFileName);
   }
   else
@@ -90,25 +87,24 @@ int main(int argc, char *argv[])
   );
   poly2DMesh.createMesh();
   polyMesh pMesh
-  (
-    IOobject
-    (
+  {
+    {
       polyMesh::defaultRegion,
       runTime.constant(),
       runTime,
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     xferMove(poly2DMesh.points()),
     xferMove(poly2DMesh.faces()),
     xferMove(poly2DMesh.owner()),
     xferMove(poly2DMesh.neighbour())
-  );
+  };
   Info<< "Constructing patches." << endl;
-  List<polyPatch*> patches(poly2DMesh.patchNames().size());
+  List<polyPatch*> patches{poly2DMesh.patchNames().size()};
   label countPatches = 0;
-  forAll(patches, patchI)
+  FOR_ALL(patches, patchI)
   {
     if (poly2DMesh.patchSizes()[patchI] != 0)
     {
@@ -131,10 +127,10 @@ int main(int argc, char *argv[])
     Info<< "Begin extruding the polyMesh:" << endl;
     {
       // Point generator
-      autoPtr<extrudeModel> model(extrudeModel::New(extrusionDict));
-      extrude2DMesh extruder(pMesh, extrusionDict, model());
+      autoPtr<extrudeModel> model{extrudeModel::New(extrusionDict)};
+      extrude2DMesh extruder{pMesh, extrusionDict, model()};
       extruder.addFrontBackPatches();
-      polyTopoChange meshMod(pMesh.boundaryMesh().size());
+      polyTopoChange meshMod{pMesh.boundaryMesh().size()};
       extruder.setRefinement(meshMod);
       autoPtr<mapPolyMesh> morphMap = meshMod.changeMesh(pMesh, false);
       pMesh.updateMesh(morphMap);

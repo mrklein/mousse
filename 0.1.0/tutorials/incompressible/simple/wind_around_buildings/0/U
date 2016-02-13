@@ -1,0 +1,35 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volVectorField;
+  object      U;
+}
+
+Uinlet          (10 0 0);
+dimensions      [0 1 -1 0 0 0 0];
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+  inlet
+  {
+    type            fixedValue;
+    value           uniform $Uinlet;
+  }
+  outlet
+  {
+    type            pressureInletOutletVelocity;
+    value           uniform (0 0 0);
+  }
+  wall
+  {
+    type            fixedValue;
+    value           uniform (0 0 0);
+  }
+  #includeEtc "case_dicts/setConstraintTypes"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

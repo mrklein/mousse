@@ -1,0 +1,29 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      controlDict;
+}
+
+application     porous-simple;
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         200;
+deltaT          1;
+writeControl    timeStep;
+writeInterval   10;
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  12;
+writeCompression on;
+timeFormat      general;
+timePrecision   12;
+graphFormat     raw;
+runTimeModifiable true;
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

@@ -1,0 +1,5 @@
+fluid/compressible_courant_no.cpp
+solid/solid_region_diff_no.cpp
+cht_multi_region.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-cht-multi-region

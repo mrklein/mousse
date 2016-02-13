@@ -1,0 +1,23 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      sampleDict;
+}
+
+#includeEtc "case_dicts/post_processing/graphs/sampleDict.conf"
+sets
+(
+  graph
+  {
+    $:setConfig;
+    start   (0   1e-6 0);
+    end     (1   1e-6 0);
+  }
+);
+fields          ( U p );
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

@@ -6,7 +6,6 @@
 // Description
 //   The vertex and cell classes must have an index defined
 // SourceFiles
-//   delaunay_mesh_i.hpp
 //   delaunay_mesh.cpp
 //   delaunay_mesh_io.cpp
 #ifndef delaunay_mesh_hpp_
@@ -16,9 +15,10 @@
 #include "fixed_list.hpp"
 #include "bound_box.hpp"
 #include "indexed_vertex.hpp"
-#include "cgal_triangulation3_ddefs.hpp"
+#include "cgal_triangulation_3d_defs.hpp"
 #include "time.hpp"
 #include "auto_ptr.hpp"
+#include "map.hpp"
 namespace mousse
 {
 class fvMesh;
@@ -47,7 +47,7 @@ public:
     typedef HashTable
     <
       label,
-      labelPair,
+      Pair<label>,
       FixedList<label, 2>::Hash<>
     > labelTolabelPairHashTable;
 private:
@@ -102,10 +102,6 @@ private:
       const List<DynamicList<face> >& patchFaces,
       const List<DynamicList<label> >& patchOwners
     ) const;
-    //- Disallow default bitwise copy construct
-    DelaunayMesh(const DelaunayMesh<Triangulation>&);
-    //- Disallow default bitwise assignment
-    void operator=(const DelaunayMesh<Triangulation>&);
 public:
   // Constructors
     //- Construct from components
@@ -115,6 +111,10 @@ public:
       const Time& runTime,
       const word& meshName
     );
+    //- Disallow default bitwise copy construct
+    DelaunayMesh(const DelaunayMesh<Triangulation>&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const DelaunayMesh<Triangulation>&) = delete;
   //- Destructor
   ~DelaunayMesh();
   // Member Functions
@@ -180,7 +180,83 @@ public:
       ) const;
 };
 }  // namespace mousse
-#include "delaunay_mesh_i.hpp"
+
+template<class Triangulation>
+inline const mousse::Time& mousse::DelaunayMesh<Triangulation>::time() const
+{
+  return runTime_;
+}
+template<class Triangulation>
+void mousse::DelaunayMesh<Triangulation>::timeCheck
+(
+  const string& description,
+  const bool check
+) const
+{
+  if (check)
+  {
+    Info<< nl << "--- [ cpuTime "
+      << time().elapsedCpuTime() << " s, "
+      << "delta " << time().cpuTimeIncrement()<< " s";
+    if (description != word::null)
+    {
+      Info<< ", " << description << " ";
+    }
+    else
+    {
+      Info<< " ";
+    }
+    Info<< "] --- " << endl;
+  }
+}
+template<class Triangulation>
+inline mousse::label mousse::DelaunayMesh<Triangulation>::getNewCellIndex() const
+{
+  label id = cellCount_++;
+  if (id == labelMax)
+  {
+    WARNING_IN
+    (
+      "mousse::DelaunayMesh<Triangulation>::getNewCellIndex() const"
+    )
+    << "Cell counter has overflowed." << endl;
+  }
+  return id;
+}
+template<class Triangulation>
+inline mousse::label mousse::DelaunayMesh<Triangulation>::getNewVertexIndex() const
+{
+  label id = vertexCount_++;
+  if (id == labelMax)
+  {
+    WARNING_IN
+    (
+      "mousse::DelaunayMesh<Triangulation>::getNewVertexIndex() const"
+    )
+    << "Vertex counter has overflowed." << endl;
+  }
+  return id;
+}
+template<class Triangulation>
+mousse::label mousse::DelaunayMesh<Triangulation>::cellCount() const
+{
+  return cellCount_;
+}
+template<class Triangulation>
+mousse::label mousse::DelaunayMesh<Triangulation>::vertexCount() const
+{
+  return vertexCount_;
+}
+template<class Triangulation>
+void mousse::DelaunayMesh<Triangulation>::resetCellCount()
+{
+  cellCount_ = 0;
+}
+template<class Triangulation>
+void mousse::DelaunayMesh<Triangulation>::resetVertexCount()
+{
+  vertexCount_ = 0;
+}
 #ifdef NoRepository
   #include "delaunay_mesh.cpp"
 #endif

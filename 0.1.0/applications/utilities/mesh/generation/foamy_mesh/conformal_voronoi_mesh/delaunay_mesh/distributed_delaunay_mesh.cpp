@@ -21,40 +21,40 @@ mousse::DistributedDelaunayMesh<Triangulation>::buildMap
   // Determine send map
   // ~~~~~~~~~~~~~~~~~~
   // 1. Count
-  labelList nSend(Pstream::nProcs(), 0);
-  forAll(toProc, i)
+  labelList nSend{Pstream::nProcs(), 0};
+  FOR_ALL(toProc, i)
   {
     label procI = toProc[i];
     nSend[procI]++;
   }
   // Send over how many I need to receive
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  labelListList sendSizes(Pstream::nProcs());
+  labelListList sendSizes{Pstream::nProcs()};
   sendSizes[Pstream::myProcNo()] = nSend;
   combineReduce(sendSizes, UPstream::listEq());
   // 2. Size sendMap
   labelListList sendMap(Pstream::nProcs());
-  forAll(nSend, procI)
+  FOR_ALL(nSend, procI)
   {
     sendMap[procI].setSize(nSend[procI]);
     nSend[procI] = 0;
   }
   // 3. Fill sendMap
-  forAll(toProc, i)
+  FOR_ALL(toProc, i)
   {
     label procI = toProc[i];
     sendMap[procI][nSend[procI]++] = i;
   }
   // Determine receive map
   // ~~~~~~~~~~~~~~~~~~~~~
-  labelListList constructMap(Pstream::nProcs());
+  labelListList constructMap{Pstream::nProcs()};
   // Local transfers first
   constructMap[Pstream::myProcNo()] = identity
   (
     sendMap[Pstream::myProcNo()].size()
   );
   label constructSize = constructMap[Pstream::myProcNo()].size();
-  forAll(constructMap, procI)
+  FOR_ALL(constructMap, procI)
   {
     if (procI != Pstream::myProcNo())
     {
@@ -67,14 +67,14 @@ mousse::DistributedDelaunayMesh<Triangulation>::buildMap
     }
   }
   return autoPtr<mapDistribute>
-  (
+  {
     new mapDistribute
-    (
+    {
       constructSize,
       sendMap.xfer(),
       constructMap.xfer()
-    )
-  );
+    }
+  };
 }
 // Constructors 
 template<class Triangulation>
@@ -83,8 +83,8 @@ mousse::DistributedDelaunayMesh<Triangulation>::DistributedDelaunayMesh
   const Time& runTime
 )
 :
-  DelaunayMesh<Triangulation>(runTime),
-  allBackgroundMeshBounds_()
+  DelaunayMesh<Triangulation>{runTime},
+  allBackgroundMeshBounds_{}
 {}
 template<class Triangulation>
 mousse::DistributedDelaunayMesh<Triangulation>::DistributedDelaunayMesh
@@ -93,8 +93,8 @@ mousse::DistributedDelaunayMesh<Triangulation>::DistributedDelaunayMesh
   const word& meshName
 )
 :
-  DelaunayMesh<Triangulation>(runTime, meshName),
-  allBackgroundMeshBounds_()
+  DelaunayMesh<Triangulation>{runTime, meshName},
+  allBackgroundMeshBounds_{}
 {}
 // Destructor 
 template<class Triangulation>
@@ -137,15 +137,12 @@ mousse::labelList mousse::DistributedDelaunayMesh<Triangulation>::overlapProcess
   const scalar radiusSqr
 ) const
 {
-  DynamicList<label> toProc(Pstream::nProcs());
-  forAll(allBackgroundMeshBounds_(), procI)
+  DynamicList<label> toProc{Pstream::nProcs()};
+  FOR_ALL(allBackgroundMeshBounds_(), procI)
   {
     // Test against the bounding box of the processor
-    if
-    (
-      !isLocal(procI)
-    && allBackgroundMeshBounds_()[procI].overlaps(centre, radiusSqr)
-    )
+    if (!isLocal(procI)
+        && allBackgroundMeshBounds_()[procI].overlaps(centre, radiusSqr))
     {
       toProc.append(procI);
     }
@@ -160,10 +157,7 @@ bool mousse::DistributedDelaunayMesh<Triangulation>::checkProcBoundaryCell
 ) const
 {
   const mousse::point& cc = cit->dual();
-  const scalar crSqr = magSqr
-  (
-    cc - topoint(cit->vertex(0)->point())
-  );
+  const scalar crSqr = magSqr(cc - topoint(cit->vertex(0)->point()));
   labelList circumsphereOverlap = overlapProcessors
   (
     cc,
@@ -186,68 +180,15 @@ void mousse::DistributedDelaunayMesh<Triangulation>::findProcessorBoundaryCells
   // Start by assuming that all the cells have no index
   // If they do, they have already been visited so ignore them
   labelHashSet cellToCheck
-  (
-    Triangulation::number_of_finite_cells()
-   /Pstream::nProcs()
-  );
-//    std::list<Cell_handle> infinite_cells;
-//    Triangulation::incident_cells
-//    (
-//        Triangulation::infinite_vertex(),
-//        std::back_inserter(infinite_cells)
-//    );
-//
-//    for
-//    (
-//        typename std::list<Cell_handle>::iterator vcit
-//            = infinite_cells.begin();
-//        vcit != infinite_cells.end();
-//        ++vcit
-//    )
-//    {
-//        Cell_handle cit = *vcit;
-//
-//        // Index of infinite vertex in this cell.
-//        label i = cit->index(Triangulation::infinite_vertex());
-//
-//        Cell_handle c = cit->neighbor(i);
-//
-//        if (c->unassigned())
-//        {
-//            c->cellIndex() = this->getNewCellIndex();
-//
-//            if (checkProcBoundaryCell(c, circumsphereOverlaps))
-//            {
-//                cellToCheck.insert(c->cellIndex());
-//            }
-//        }
-//    }
-//
-//
-//    for
-//    (
-//        Finite_cells_iterator cit = Triangulation::finite_cells_begin();
-//        cit != Triangulation::finite_cells_end();
-//        ++cit
-//    )
-//    {
-//        if (cit->parallelDualVertex())
-//        {
-//            if (cit->unassigned())
-//            {
-//                if (checkProcBoundaryCell(cit, circumsphereOverlaps))
-//                {
-//                    cellToCheck.insert(cit->cellIndex());
-//                }
-//            }
-//        }
-//    }
-  for
-  (
-    All_cells_iterator cit = Triangulation::all_cells_begin();
-    cit != Triangulation::all_cells_end();
-    ++cit
-  )
+  {
+    static_cast<label>
+    (
+      Triangulation::number_of_finite_cells()/Pstream::nProcs()
+    )
+  };
+  for (auto cit = Triangulation::all_cells_begin();
+       cit != Triangulation::all_cells_end();
+       ++cit)
   {
     if (Triangulation::is_infinite(cit))
     {
@@ -274,12 +215,9 @@ void mousse::DistributedDelaunayMesh<Triangulation>::findProcessorBoundaryCells
       }
     }
   }
-  for
-  (
-    Finite_cells_iterator cit = Triangulation::finite_cells_begin();
-    cit != Triangulation::finite_cells_end();
-    ++cit
-  )
+  for (auto cit = Triangulation::finite_cells_begin();
+       cit != Triangulation::finite_cells_end();
+       ++cit)
   {
     if (cellToCheck.found(cit->cellIndex()))
     {
@@ -288,12 +226,9 @@ void mousse::DistributedDelaunayMesh<Triangulation>::findProcessorBoundaryCells
       {
         Cell_handle citNeighbor = cit->neighbor(adjCellI);
         // Ignore if has far point or previously visited
-        if
-        (
-          !citNeighbor->unassigned()
-        || !citNeighbor->internalOrBoundaryDualVertex()
-        || Triangulation::is_infinite(citNeighbor)
-        )
+        if (!citNeighbor->unassigned()
+            || !citNeighbor->internalOrBoundaryDualVertex()
+            || Triangulation::is_infinite(citNeighbor))
         {
           continue;
         }
@@ -323,12 +258,9 @@ void mousse::DistributedDelaunayMesh<Triangulation>::markVerticesToRefer
 )
 {
   // Relying on the order of iteration of cells being the same as before
-  for
-  (
-    Finite_cells_iterator cit = Triangulation::finite_cells_begin();
-    cit != Triangulation::finite_cells_end();
-    ++cit
-  )
+  for (auto cit = Triangulation::finite_cells_begin();
+       cit != Triangulation::finite_cells_end();
+       ++cit)
   {
     if (Triangulation::is_infinite(cit))
     {
@@ -340,7 +272,7 @@ void mousse::DistributedDelaunayMesh<Triangulation>::markVerticesToRefer
     if (iter != circumsphereOverlaps.cend())
     {
       const labelList& citOverlaps = iter();
-      forAll(citOverlaps, cOI)
+      FOR_ALL(citOverlaps, cOI)
       {
         label procI = citOverlaps[cOI];
         for (int i = 0; i < 4; i++)
@@ -352,7 +284,7 @@ void mousse::DistributedDelaunayMesh<Triangulation>::markVerticesToRefer
           }
           label vProcIndex = v->procIndex();
           label vIndex = v->index();
-          const labelPair procIndexPair(vProcIndex, vIndex);
+          const labelPair procIndexPair{vProcIndex, vIndex};
           // Using the hashSet to ensure that each vertex is only
           // referred once to each processor.
           // Do not refer a vertex to its own processor.
@@ -364,12 +296,12 @@ void mousse::DistributedDelaunayMesh<Triangulation>::markVerticesToRefer
               parallelInfluenceVertices.append
               (
                 Vb
-                (
+                {
                   v->point(),
                   v->index(),
                   v->type(),
                   v->procIndex()
-                )
+                }
               );
               parallelInfluenceVertices.last().targetCellSize() =
                 v->targetCellSize();
@@ -391,25 +323,22 @@ mousse::label mousse::DistributedDelaunayMesh<Triangulation>::referVertices
   labelPairHashSet& receivedVertices
 )
 {
-  DynamicList<Vb> referredVertices(targetProcessor.size());
+  DynamicList<Vb> referredVertices{targetProcessor.size()};
   const label preDistributionSize = parallelVertices.size();
   mapDistribute pointMap = buildMap(targetProcessor);
   // Make a copy of the original list.
-  DynamicList<Vb> originalParallelVertices(parallelVertices);
+  DynamicList<Vb> originalParallelVertices{parallelVertices};
   pointMap.distribute(parallelVertices);
   for (label procI = 0; procI < Pstream::nProcs(); procI++)
   {
     const labelList& constructMap = pointMap.constructMap()[procI];
     if (constructMap.size())
     {
-      forAll(constructMap, i)
+      FOR_ALL(constructMap, i)
       {
         const Vb& v = parallelVertices[constructMap[i]];
-        if
-        (
-          v.procIndex() != Pstream::myProcNo()
-        && !receivedVertices.found(labelPair(v.procIndex(), v.index()))
-        )
+        if (v.procIndex() != Pstream::myProcNo()
+            && !receivedVertices.found(labelPair(v.procIndex(), v.index())))
         {
           referredVertices.append(v);
           receivedVertices.insert
@@ -443,8 +372,8 @@ mousse::label mousse::DistributedDelaunayMesh<Triangulation>::referVertices
       }
     }
   }
-  boolList pointInserted(parallelVertices.size(), true);
-  forAll(parallelVertices, vI)
+  boolList pointInserted{parallelVertices.size(), true};
+  FOR_ALL(parallelVertices, vI)
   {
     const labelPair procIndexI
     (
@@ -457,7 +386,7 @@ mousse::label mousse::DistributedDelaunayMesh<Triangulation>::referVertices
     }
   }
   pointMap.reverseDistribute(preDistributionSize, pointInserted);
-  forAll(originalParallelVertices, vI)
+  FOR_ALL(originalParallelVertices, vI)
   {
     const label procIndex = targetProcessor[vI];
     if (!pointInserted[vI])
@@ -492,7 +421,7 @@ mousse::label mousse::DistributedDelaunayMesh<Triangulation>::referVertices
   {
     label nNotInserted =
       returnReduce(pointsNotInserted.size(), sumOp<label>());
-    Info<< " Inserted = "
+    Info << " Inserted = "
       << setw(name(label(Triangulation::number_of_finite_cells())).size())
       << nTotalToInsert - nNotInserted
       << " / " << nTotalToInsert << endl;
@@ -523,12 +452,12 @@ void mousse::DistributedDelaunayMesh<Triangulation>::sync
   }
   label nVerts = Triangulation::number_of_vertices();
   label nCells = Triangulation::number_of_finite_cells();
-  DynamicList<Vb> parallelInfluenceVertices(0.1*nVerts);
-  DynamicList<label> targetProcessor(0.1*nVerts);
+  DynamicList<Vb> parallelInfluenceVertices{static_cast<label>(0.1*nVerts)};
+  DynamicList<label> targetProcessor{static_cast<label>(0.1*nVerts)};
   // Some of these values will not be used, i.e. for non-real cells
-  DynamicList<mousse::point> circumcentre(0.1*nVerts);
-  DynamicList<scalar> circumradiusSqr(0.1*nVerts);
-  Map<labelList> circumsphereOverlaps(nCells);
+  DynamicList<mousse::point> circumcentre{static_cast<label>(0.1*nVerts)};
+  DynamicList<scalar> circumradiusSqr{static_cast<label>(0.1*nVerts)};
+  Map<labelList> circumsphereOverlaps{nCells};
   findProcessorBoundaryCells(circumsphereOverlaps);
   Info<< "    Influences = "
     << setw(name(nCells).size())
@@ -630,7 +559,7 @@ bool mousse::DistributedDelaunayMesh<Triangulation>::distribute
   const boundBox& bb
 )
 {
-  notImplemented
+  NOT_IMPLEMENTED
   (
     "mousse::DistributedDelaunayMesh<Triangulation>::distribute"
     "("
@@ -672,10 +601,9 @@ void mousse::DistributedDelaunayMesh<Triangulation>::sync(const boundBox& bb)
     distributeBoundBoxes(bb);
   }
   const label nApproxReferred =
-    Triangulation::number_of_vertices()
-   /Pstream::nProcs();
-  PtrList<labelPairHashSet> referralVertices(Pstream::nProcs());
-  forAll(referralVertices, procI)
+    Triangulation::number_of_vertices()/Pstream::nProcs();
+  PtrList<labelPairHashSet> referralVertices{Pstream::nProcs()};
+  FOR_ALL(referralVertices, procI)
   {
     if (!isLocal(procI))
     {
@@ -731,10 +659,9 @@ mousse::DistributedDelaunayMesh<Triangulation>::rangeInsertReferredWithInfo
   int li, lj;
   label nNotInserted = 0;
   labelPairHashSet uninserted
-  (
-    Triangulation::number_of_vertices()
-   /Pstream::nProcs()
-  );
+  {
+    static_cast<label>(Triangulation::number_of_vertices()/Pstream::nProcs())
+  };
   for
   (
     typename vectorPairPointIndex::const_iterator p =
@@ -755,19 +682,20 @@ mousse::DistributedDelaunayMesh<Triangulation>::rangeInsertReferredWithInfo
       {
         Vertex_handle nearV =
           Triangulation::nearest_vertex(pointToInsert);
-        Pout<< "Failed insertion, point already exists" << nl
+        Pout << "Failed insertion, point already exists" << nl
           << "Failed insertion : " << vert.info()
           << "         nearest : " << nearV->info();
       }
     }
     else if (lt == Triangulation::OUTSIDE_AFFINE_HULL)
     {
-      WarningIn
+      WARNING_IN
       (
         "mousse::DistributedDelaunayMesh<Triangulation>"
         "::rangeInsertReferredWithInfo"
-      )   << "Point is outside affine hull! pt = " << pointToInsert
-        << endl;
+      )
+      << "Point is outside affine hull! pt = " << pointToInsert
+      << endl;
     }
     else if (lt == Triangulation::OUTSIDE_CONVEX_HULL)
     {

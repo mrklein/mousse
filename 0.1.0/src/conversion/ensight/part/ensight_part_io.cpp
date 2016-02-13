@@ -5,6 +5,7 @@
 #include "ensight_part.hpp"
 #include "dictionary.hpp"
 #include "iostreams.hpp"
+
 // Private Member Functions 
 void mousse::ensightPart::writeHeader
 (

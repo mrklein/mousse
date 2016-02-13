@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/clean-functions
+
+clean_case
+
+rm -rf constant/extendedFeatureEdgeMesh > /dev/null 2>&1
+rm -f constant/triSurface/buildings.eMesh > /dev/null 2>&1
+rm -f constant/polyMesh/boundary > /dev/null 2>&1
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

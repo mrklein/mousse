@@ -1,0 +1,18 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+readonly APPLICATION=$(get_application)
+readonly N_PROCS=$(get_number_of_processors)
+
+run_application block-mesh
+run_application topo-set
+run_application refine-hex-mesh c0 -overwrite
+cp -r 0.org 0
+
+run_application decompose-par -cellDist
+run_parallel $APPLICATION $N_PROCS
+run_application reconstruct-par
+
+# vim: set ft=sh noet sw=2 ts=2 sts=2:

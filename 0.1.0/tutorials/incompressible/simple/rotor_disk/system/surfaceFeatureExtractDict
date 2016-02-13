@@ -1,0 +1,20 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      surfaceFeatureExtractDict;
+}
+
+fixed.obj
+{
+  #includeEtc "case_dicts/surface/surfaceFeatureExtractDict.conf"
+}
+rotatingZone.obj
+{
+  #includeEtc "case_dicts/surface/surfaceFeatureExtractDict.conf"
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

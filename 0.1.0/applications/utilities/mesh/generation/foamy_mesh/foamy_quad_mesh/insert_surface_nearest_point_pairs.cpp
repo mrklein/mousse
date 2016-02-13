@@ -49,7 +49,7 @@ void mousse::CV2D::insertPointPairs
 {
   if (meshControls().mirrorPoints())
   {
-    forAll(surfacePoints, ppi)
+    FOR_ALL(surfacePoints, ppi)
     {
       insertMirrorPoint
       (
@@ -60,7 +60,7 @@ void mousse::CV2D::insertPointPairs
   }
   else
   {
-    forAll(surfacePoints, ppi)
+    FOR_ALL(surfacePoints, ppi)
     {
       pointIndexHit pHit
       (
@@ -87,7 +87,7 @@ void mousse::CV2D::insertPointPairs
   {
     OFstream str(fName);
     label vertI = 0;
-    forAll(surfacePoints, ppi)
+    FOR_ALL(surfacePoints, ppi)
     {
       meshTools::writeOBJ(str, toPoint3D(surfacePoints[ppi]));
       vertI++;

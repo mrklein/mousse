@@ -1,0 +1,67 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      topoSetDict;
+}
+
+actions
+(
+  {
+    name    boundaryFaces;
+    type    faceSet;
+    action  new;
+    source  patchToFace;
+    sourceInfo
+    {
+      name outerCylinder;
+    }
+  }
+  {
+    name    outletFaces;
+    type    faceSet;
+    action  new;
+    source  faceToFace;
+    sourceInfo
+    {
+      set boundaryFaces;
+    }
+  }
+  {
+    name    inletFaces;
+    type    faceSet;
+    action  new;
+    source  faceToFace;
+    sourceInfo
+    {
+      set boundaryFaces;
+    }
+  }
+  {
+    name    outletFaces;
+    type    faceSet;
+    action  subset;
+    source  normalToFace;
+    sourceInfo
+    {
+      normal  (0 -1 0);   // Vector
+      cos     0.3;        // Tolerance (max cos of angle)
+    }
+  }
+  {
+    name    inletFaces;
+    type    faceSet;
+    action  subset;
+    source  normalToFace;
+    sourceInfo
+    {
+      normal  (0 1 0);    // Vector
+      cos     0.3;        // Tolerance (max cos of angle)
+    }
+  }
+);
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
