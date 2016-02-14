@@ -1,0 +1,4 @@
+traction_displacement_correction_fv_patch_vector_field.cpp
+solid_equilibrium_displacement.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-solid-equilibrium-displacement
