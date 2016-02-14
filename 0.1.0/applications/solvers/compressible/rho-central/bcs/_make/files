@@ -1,0 +1,6 @@
+mixed_fixed_value_slip_fv_patch_fields.cpp
+maxwell_slip_u_fv_patch_vector_field.cpp
+smoluchowski_jump_t_fv_patch_scalar_field.cpp
+fixed_rho_fv_patch_scalar_field.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_rho_central
