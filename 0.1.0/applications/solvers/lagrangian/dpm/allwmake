@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cd ${0%/*} || exit 1
+set -x
+
+wmake libso dpm_turbulence_models
+wmake
+wmake mppic

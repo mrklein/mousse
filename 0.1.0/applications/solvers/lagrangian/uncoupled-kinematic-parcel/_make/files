@@ -1,0 +1,3 @@
+uncoupled_kinematic_parcel.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-uncoupled-kinematic-parcel

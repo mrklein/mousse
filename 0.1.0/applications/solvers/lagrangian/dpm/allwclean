@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cd ${0%/*} || exit 1
+set -x
+
+wclean libso dpm_turbulence_models
+wclean
+wclean mppic

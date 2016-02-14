@@ -1,0 +1,3 @@
+ico_uncoupled_kinematic_parcel.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-ico-uncoupled-kinematic-parcel
