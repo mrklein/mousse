@@ -10,7 +10,7 @@
 //   phase_incompressible_turbulence_model.cpp
 #ifndef phase_incompressible_turbulence_model_hpp_
 #define phase_incompressible_turbulence_model_hpp_
-#include "turbulence_model.hpp"
+#include "_turbulence_model.hpp"
 #include "incompressible_turbulence_model.hpp"
 namespace mousse
 {
