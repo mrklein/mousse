@@ -12,9 +12,6 @@
 #include "linear_viscous_stress.hpp"
 namespace mousse
 {
-/*---------------------------------------------------------------------------* \
-             Class laminar Declaration
-\*---------------------------------------------------------------------------*/
 template<class BasicTurbulenceModel>
 class laminar
 :
