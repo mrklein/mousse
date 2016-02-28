@@ -1,0 +1,5 @@
+phase_model.cpp
+alpha_contact_angle_fv_patch_scalar_field.cpp
+multiphase_mixture_thermo.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_multiphase_mixture_thermo

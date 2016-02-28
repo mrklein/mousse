@@ -1,0 +1,7 @@
+mixture_viscosity_model.cpp
+mixture_viscosity_model_new.cpp
+plastic.cpp
+bingham_plastic.cpp
+slurry.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_drift_flux_transport_models

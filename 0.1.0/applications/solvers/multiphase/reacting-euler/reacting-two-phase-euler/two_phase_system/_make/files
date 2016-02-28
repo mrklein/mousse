@@ -1,0 +1,11 @@
+diameter_models/iate.cpp
+diameter_models/iate_sources/iate_source.cpp
+diameter_models/iate_sources/wake_entrainment_coalescence.cpp
+diameter_models/iate_sources/turbulent_break_up.cpp
+diameter_models/iate_sources/random_coalescence.cpp
+
+two_phase_system.cpp
+new_two_phase_system.cpp
+two_phase_systems.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_reacting_two_phase_system

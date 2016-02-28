@@ -1,0 +1,7 @@
+phase_change_two_phase_mixture.cpp
+new_phase_change_two_phase_mixture.cpp
+kunz.cpp
+merkle.cpp
+schnerr_sauer.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_phase_change_two_phase_mixtures

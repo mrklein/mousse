@@ -1,0 +1,6 @@
+alpha_contact_angle_fv_patch_scalar_field.cpp
+multiphase_system.cpp
+new_multiphase_system.cpp
+multiphase_systems.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_reacting_multiphase_system

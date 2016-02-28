@@ -1,0 +1,3 @@
+dym_potential_free_surface.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-dym-potential-free-surface

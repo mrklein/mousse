@@ -1,0 +1,10 @@
+phase_model.cpp
+diameter_models/diameter_model.cpp
+diameter_models/new_diameter_model.cpp
+diameter_models/constant_diameter.cpp
+diameter_models/isothermal_diameter.cpp
+
+alpha_contact_angle_fv_patch_scalar_field.cpp
+multiphase_system.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_multiphase_system
