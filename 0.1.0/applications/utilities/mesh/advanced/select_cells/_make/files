@@ -1,0 +1,4 @@
+edge_stats.cpp
+select_cells.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-select-cells

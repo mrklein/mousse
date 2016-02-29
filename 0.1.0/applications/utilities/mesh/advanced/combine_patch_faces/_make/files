@@ -1,0 +1,3 @@
+combine_patch_faces.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-combine-patch-faces
