@@ -1,0 +1,8 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wmake-lninclude interfacial_models
+wmake libso multiphase_system
+wmake libso interfacial_models
+wmake

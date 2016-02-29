@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_CELL_CUTS_CELL_CUTS_HPP_
+#define DYNAMIC_MESH_MESH_CUT_CELL_CUTS_CELL_CUTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -44,8 +47,6 @@
 //    labelLists.
 // SourceFiles
 //   cell_cuts.cpp
-#ifndef cell_cuts_hpp_
-#define cell_cuts_hpp_
 #include "edge_vertex.hpp"
 #include "label_list.hpp"
 #include "bool_list.hpp"

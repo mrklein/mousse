@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_RADIATIVE_INTENSITY_RAY_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_RADIATIVE_INTENSITY_RAY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Radiation intensity for a ray in a given direction
 // SourceFiles
 //   radiative_intensity_ray.cpp
-#ifndef radiative_intensity_ray_hpp_
-#define radiative_intensity_ray_hpp_
 #include "absorption_emission_model.hpp"
 #include "black_body_emission.hpp"
 namespace mousse

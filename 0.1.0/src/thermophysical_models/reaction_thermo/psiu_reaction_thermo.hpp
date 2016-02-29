@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_PSIU_REACTION_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_PSIU_REACTION_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   psiu_reaction_thermo.cpp
 //   psiu_reaction_thermo_new.cpp
-#ifndef psiu_reaction_thermo_hpp_
-#define psiu_reaction_thermo_hpp_
 #include "psi_reaction_thermo.hpp"
 namespace mousse
 {

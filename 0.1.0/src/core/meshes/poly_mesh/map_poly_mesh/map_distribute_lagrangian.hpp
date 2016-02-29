@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_DISTRIBUTE_LAGRANGIAN_HPP_
+#define CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_DISTRIBUTE_LAGRANGIAN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Class containing mesh-to-mesh mapping information for particles
 // SourceFiles
 //   map_distribute_lagrangian.cpp
-#ifndef map_distribute_lagrangian_hpp_
-#define map_distribute_lagrangian_hpp_
 #include "map_distribute.hpp"
 namespace mousse
 {

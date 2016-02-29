@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_THERMO_H_POWER_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_THERMO_H_POWER_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   which is particularly suitable for solids.
 // SourceFiles
 //   h_power_thermo.cpp
-#ifndef h_power_thermo_hpp_
-#define h_power_thermo_hpp_
 #include "scalar.hpp"
 #include "specie.hpp"
 namespace mousse

@@ -1,0 +1,9 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wclean libso phase_systems
+wclean libso interfacial_models
+wclean libso interfacial_composition_models
+reacting-two-phase-euler/allwclean
+reacting-multiphase-euler/allwclean

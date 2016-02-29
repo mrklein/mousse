@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_SYNC_TOOLS_HPP_
+#define CORE_MESHES_POLY_MESH_SYNC_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 // SourceFiles
 //   sync_tools.cpp
 //   sync_tools_templates.cpp
-#ifndef sync_tools_hpp_
-#define sync_tools_hpp_
 #include "pstream.hpp"
 #include "edge_map.hpp"
 #include "packed_bool_list.hpp"

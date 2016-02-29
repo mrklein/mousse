@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_ZERO_ZERO_HPP_
+#define CORE_PRIMITIVES_ZERO_ZERO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   A class representing the concept of 0 used to avoid unnecessary
 //   manipulations for objects that are known to be zero at compile-time.
-#ifndef zero_hpp_
-#define zero_hpp_
 namespace mousse
 {
 class zero

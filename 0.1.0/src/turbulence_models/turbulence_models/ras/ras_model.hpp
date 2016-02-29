@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_RAS_MODEL_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_RAS_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Templated abstract base class for RAS turbulence models
 // SourceFiles
 //   ras_model.cpp
-#ifndef ras_model_hpp_
-#define ras_model_hpp_
 #include "turbulence_model.hpp"
 namespace mousse
 {

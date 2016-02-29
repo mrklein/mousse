@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_FIT_DATA_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_FIT_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   fit_data.cpp
 
-#ifndef fit_data_hpp_
-#define fit_data_hpp_
 
 #include "_mesh_object.hpp"
 #include "fv_mesh.hpp"

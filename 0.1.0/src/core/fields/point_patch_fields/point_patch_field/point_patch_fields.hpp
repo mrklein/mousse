@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_POINT_PATCH_FIELD_POINT_PATCH_FIELDS_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_POINT_PATCH_FIELD_POINT_PATCH_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef point_patch_fields_hpp_
-#define point_patch_fields_hpp_
 #include "point_patch_field.hpp"
 #include "field_types.hpp"
 #include "point_patch_fields_fwd.hpp"

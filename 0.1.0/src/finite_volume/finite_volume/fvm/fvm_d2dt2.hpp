@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVM_FVM_D2DT2_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVM_FVM_D2DT2_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   fvm_d2dt2.cpp
-#ifndef fvm_d2dt2_hpp_
-#define fvm_d2dt2_hpp_
 #include "vol_fields_fwd.hpp"
 #include "fv_matrix.hpp"
 namespace mousse

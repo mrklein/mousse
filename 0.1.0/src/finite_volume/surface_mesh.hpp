@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_SURFACE_MESH_HPP_
+#define FINITE_VOLUME_SURFACE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::surfaceMesh
 // Description
 //   Mesh data needed to do the Finite Volume discretisation.
-#ifndef surface_mesh_hpp_
-#define surface_mesh_hpp_
 #include "geo_mesh.hpp"
 #include "fv_mesh.hpp"
 #include "primitive_mesh.hpp"

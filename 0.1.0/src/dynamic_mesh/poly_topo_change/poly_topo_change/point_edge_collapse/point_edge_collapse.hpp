@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_POINT_EDGE_COLLAPSE_POINT_EDGE_COLLAPSE_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_POINT_EDGE_COLLAPSE_POINT_EDGE_COLLAPSE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Determines length of string of edges walked to point.
 // SourceFiles
 //   point_edge_collapse.cpp
-#ifndef point_edge_collapse_hpp_
-#define point_edge_collapse_hpp_
 
 #include "point.hpp"
 #include "tensor.hpp"

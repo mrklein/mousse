@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_TETHER_POTENTIAL_PITCH_FORK_RING_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_TETHER_POTENTIAL_PITCH_FORK_RING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   pitch_fork_ring.cpp
-#ifndef pitch_fork_ring_hpp_
-#define pitch_fork_ring_hpp_
 #include "tether_potential.hpp"
 namespace mousse
 {

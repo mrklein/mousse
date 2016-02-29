@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_FILM_VISCOSITY_MODEL_ARRHENIUS_VISCOSITY_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_FILM_VISCOSITY_MODEL_ARRHENIUS_VISCOSITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //     Tref is the reference temperature
 // SourceFiles
 //   arrhenius_viscosity.cpp
-#ifndef arrhenius_viscosity_hpp_
-#define arrhenius_viscosity_hpp_
 #include "film_viscosity_model.hpp"
 namespace mousse
 {

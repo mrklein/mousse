@@ -1,3 +1,6 @@
+#ifndef CORE_ALGORITHMS_INDEXED_OCTREE_HPP_
+#define CORE_ALGORITHMS_INDEXED_OCTREE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Non-pointer based hierarchical recursive searching
 // SourceFiles
 //   indexed_octree.cpp
-#ifndef indexed_octree_hpp_
-#define indexed_octree_hpp_
 #include "tree_bound_box.hpp"
 #include "point_index_hit.hpp"
 #include "fixed_list.hpp"

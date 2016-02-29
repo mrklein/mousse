@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SURFACE_SETS_SURFACE_SETS_HPP_
+#define MESH_TOOLS_SURFACE_SETS_SURFACE_SETS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Note: work in progress. Used in meshing tools.
 // SourceFiles
 //   surface_sets.cpp
-#ifndef surface_sets_hpp_
-#define surface_sets_hpp_
 #include "label.hpp"
 #include "scalar.hpp"
 #include "file_name.hpp"

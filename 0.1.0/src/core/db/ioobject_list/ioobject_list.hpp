@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOOBJECT_LIST_IOOBJECT_LIST_HPP_
+#define CORE_DB_IOOBJECT_LIST_IOOBJECT_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   ioobject_list.cpp
 
-#ifndef ioobject_list_hpp_
-#define ioobject_list_hpp_
 
 #include "hash_ptr_table.hpp"
 #include "ioobject.hpp"

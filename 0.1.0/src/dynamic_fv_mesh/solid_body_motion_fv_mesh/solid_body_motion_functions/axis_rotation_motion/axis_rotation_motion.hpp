@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_AXIS_ROTATION_MOTION_AXIS_ROTATION_MOTION_HPP_
+#define DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_AXIS_ROTATION_MOTION_AXIS_ROTATION_MOTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   motion specified as rotation vector.
 // SourceFiles
 //   axis_rotation_motion.cpp
-#ifndef axis_rotation_motion_hpp_
-#define axis_rotation_motion_hpp_
 #include "solid_body_motion_function.hpp"
 #include "primitive_fields.hpp"
 #include "point.hpp"

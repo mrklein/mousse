@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MISCELLANEOUS_POST_CHANNEL_CHANNEL_INDEX_HPP_
+#define UTILITIES_MISCELLANEOUS_POST_CHANNEL_CHANNEL_INDEX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Does averaging of fields over layers of cells. Assumes layered mesh.
 // SourceFiles
 //   channel_index.cpp
-#ifndef channel_index_hpp_
-#define channel_index_hpp_
 #include "region_split.hpp"
 #include "direction.hpp"
 #include "scalar_field.hpp"

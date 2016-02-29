@@ -1,3 +1,6 @@
+#ifndef SAMPLING_MESH_TO_MESH_CALC_METHOD_MESH_TO_MESH_METHOD_HPP_
+#define SAMPLING_MESH_TO_MESH_CALC_METHOD_MESH_TO_MESH_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for mesh-to-mesh calculation methods
 // SourceFiles
 //   mesh_to_mesh_method.cpp
-#ifndef mesh_to_mesh_method_hpp_
-#define mesh_to_mesh_method_hpp_
 #include "poly_mesh.hpp"
 namespace mousse
 {

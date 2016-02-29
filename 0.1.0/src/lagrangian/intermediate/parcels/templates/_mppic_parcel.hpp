@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TMPPIC_PARCEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TMPPIC_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _mppic_parcel.cpp
 //   _mppic_parcel_io.cpp
-#ifndef _mppic_parcel_hpp_
-#define _mppic_parcel_hpp_
 #include "particle.hpp"
 #include "label_field_io_field.hpp"
 #include "vector_field_io_field.hpp"

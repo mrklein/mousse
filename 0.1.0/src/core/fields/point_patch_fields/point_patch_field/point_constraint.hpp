@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_POINT_PATCH_FIELD_POINT_CONSTRAINT_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_POINT_PATCH_FIELD_POINT_CONSTRAINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   After all the constraints have been entered the resulting
 //   transformation tensor is returned by the constraintTransformation
 //   function.
-#ifndef point_constraint_hpp_
-#define point_constraint_hpp_
 #include "label.hpp"
 #include "vector.hpp"
 #include "tuple2.hpp"

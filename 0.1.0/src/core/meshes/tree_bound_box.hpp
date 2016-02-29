@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_TREE_BOUND_BOX_HPP_
+#define CORE_MESHES_TREE_BOUND_BOX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -24,8 +27,6 @@
 //   tree_bound_box.cpp
 //   tree_bound_box_templates.cpp
 
-#ifndef tree_bound_box_hpp_
-#define tree_bound_box_hpp_
 
 #include "bound_box.hpp"
 #include "direction.hpp"

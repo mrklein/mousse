@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_CYLINDER_TO_CELL_CYLINDER_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_CYLINDER_TO_CELL_CYLINDER_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select cells based on cell centres inside a cylinder.
 // SourceFiles
 //   cylinder_to_cell.cpp
-#ifndef cylinder_to_cell_hpp_
-#define cylinder_to_cell_hpp_
 #include "topo_set_source.hpp"
 namespace mousse
 {

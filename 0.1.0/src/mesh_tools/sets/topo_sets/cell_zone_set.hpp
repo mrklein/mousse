@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_TOPO_SETS_CELL_ZONE_SET_HPP_
+#define MESH_TOOLS_SETS_TOPO_SETS_CELL_ZONE_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Like cellSet but updates cellZone when writing.
 // SourceFiles
 //   cell_zone.cpp
-#ifndef cell_zone_set_hpp_
-#define cell_zone_set_hpp_
 #include "cell_set.hpp"
 #include "bool_list.hpp"
 namespace mousse

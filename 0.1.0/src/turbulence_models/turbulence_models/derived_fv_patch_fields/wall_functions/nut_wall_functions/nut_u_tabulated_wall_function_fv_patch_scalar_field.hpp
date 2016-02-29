@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_NUT_WALL_FUNCTIONS_NUT_U_TABULATED_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_NUT_WALL_FUNCTIONS_NUT_U_TABULATED_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -30,8 +33,6 @@
 //   mousse::nutWallFunctionFvPatchScalarField
 // SourceFiles
 //   nut_u_tabulated_wall_function_fv_patch_scalar_field.cpp
-#ifndef nut_u_tabulated_wall_function_fv_patch_scalar_field_hpp_
-#define nut_u_tabulated_wall_function_fv_patch_scalar_field_hpp_
 #include "nut_wall_function_fv_patch_scalar_field.hpp"
 #include "uniform_interpolation_table.hpp"
 namespace mousse

@@ -1,10 +1,11 @@
+#ifndef CORE_PRIMITIVES_INTS_INT32_HPP_
+#define CORE_PRIMITIVES_INTS_INT32_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   int32.cpp
 //   int32_io.cpp
-#ifndef int32_hpp_
-#define int32_hpp_
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
 #include <climits>

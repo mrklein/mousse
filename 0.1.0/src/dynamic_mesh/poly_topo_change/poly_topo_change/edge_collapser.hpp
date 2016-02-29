@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_EDGE_COLLAPSER_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_EDGE_COLLAPSER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Also removes unused points.
 // SourceFiles
 //   edge_collapser.cpp
-#ifndef edge_collapser_hpp_
-#define edge_collapser_hpp_
 #include "point_edge_collapse.hpp"
 #include "dynamic_list.hpp"
 #include "field.hpp"

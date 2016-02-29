@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_DUPLICATE_POINTS_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_DUPLICATE_POINTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Duplicate points
 // SourceFiles
 //   duplicate_points.cpp
-#ifndef duplicate_points_hpp_
-#define duplicate_points_hpp_
 #include "label_list.hpp"
 #include "type_info.hpp"
 namespace mousse

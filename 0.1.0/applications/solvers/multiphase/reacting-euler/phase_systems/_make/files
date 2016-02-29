@@ -1,0 +1,24 @@
+phase_model/phase_model.cpp
+phase_model/new_phase_model.cpp
+phase_model/phase_models.cpp
+
+phase_pair/phase_pair_key.cpp
+phase_pair/phase_pair.cpp
+phase_pair/ordered_phase_pair.cpp
+
+phase_system.cpp
+
+diameter_models/diameter_model.cpp
+diameter_models/new_diameter_model.cpp
+diameter_models/constant_diameter.cpp
+diameter_models/isothermal_diameter.cpp
+
+blended_interfacial_model/blending_methods/blending_method.cpp
+blended_interfacial_model/blending_methods/new_blending_method.cpp
+blended_interfacial_model/blending_methods/no_blending.cpp
+blended_interfacial_model/blending_methods/linear.cpp
+blended_interfacial_model/blending_methods/hyperbolic.cpp
+
+h_ref_const_thermos.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_reacting_phase_system

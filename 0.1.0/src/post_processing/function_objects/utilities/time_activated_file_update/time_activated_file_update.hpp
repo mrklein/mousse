@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_TIME_ACTIVATED_FILE_UPDATE_TIME_ACTIVATED_FILE_UPDATE_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_TIME_ACTIVATED_FILE_UPDATE_TIME_ACTIVATED_FILE_UPDATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -29,8 +32,6 @@
 // SourceFiles
 //   time_activated_file_update.cpp
 //   i_otime_activated_file_update.hpp
-#ifndef time_activated_file_update_hpp_
-#define time_activated_file_update_hpp_
 #include "tuple2.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_SOLVER_EULER_IMPLICIT_HPP_
+#define THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_SOLVER_EULER_IMPLICIT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An Euler implicit solver for chemistry
 // SourceFiles
 //   euler_implicit.cpp
-#ifndef euler_implicit_hpp_
-#define euler_implicit_hpp_
 #include "chemistry_solver.hpp"
 namespace mousse
 {

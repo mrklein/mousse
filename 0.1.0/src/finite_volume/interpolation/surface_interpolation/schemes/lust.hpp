@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LUST_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LUST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   accuracy and stability on a range of LES cases with a range of mesh quality.
 // SourceFiles
 //   lust.cpp
-#ifndef lust_hpp_
-#define lust_hpp_
 #include "linear_upwind.hpp"
 namespace mousse
 {

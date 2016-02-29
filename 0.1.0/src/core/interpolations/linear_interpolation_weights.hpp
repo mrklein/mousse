@@ -1,3 +1,6 @@
+#ifndef CORE_INTERPOLATIONS_LINEAR_INTERPOLATION_WEIGHTS_HPP_
+#define CORE_INTERPOLATIONS_LINEAR_INTERPOLATION_WEIGHTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   linear_interpolation_weights.cpp
 
-#ifndef linear_interpolation_weights_hpp_
-#define linear_interpolation_weights_hpp_
 
 #include "interpolation_weights.hpp"
 

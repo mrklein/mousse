@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_BOUNDARY_MESH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_BOUNDARY_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::fvBoundaryMesh
 // SourceFiles
 //   fv_boundary_mesh.cpp
-#ifndef fv_boundary_mesh_hpp_
-#define fv_boundary_mesh_hpp_
 #include "fv_patch_list.hpp"
 #include "ldu_interface_ptrs_list.hpp"
 namespace mousse

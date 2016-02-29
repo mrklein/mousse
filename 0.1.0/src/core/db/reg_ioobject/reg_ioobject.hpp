@@ -1,3 +1,6 @@
+#ifndef CORE_DB_REG_IOOBJECT_REG_IOOBJECT_HPP_
+#define CORE_DB_REG_IOOBJECT_REG_IOOBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   reg_ioobject_read.cpp
 //   reg_ioobject_write.cpp
 
-#ifndef reg_ioobject_hpp_
-#define reg_ioobject_hpp_
 
 #include "ioobject.hpp"
 #include "type_info.hpp"

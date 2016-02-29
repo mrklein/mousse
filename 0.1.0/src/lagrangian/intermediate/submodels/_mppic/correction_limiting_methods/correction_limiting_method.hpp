@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_CORRECTION_LIMITING_METHODS_CORRECTION_LIMITING_METHOD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_CORRECTION_LIMITING_METHODS_CORRECTION_LIMITING_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for correction limiting methods.
 // SourceFiles
 //   correction_limiting_method.cpp
-#ifndef correction_limiting_method_hpp_
-#define correction_limiting_method_hpp_
 #include "vol_fields_fwd.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"

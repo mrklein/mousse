@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_FV_MOTION_SOLVERS_DISPLACEMENT_LAYERED_SOLVER_DISPLACEMENT_LAYERED_MOTION_MOTION_SOLVER_HPP_
+#define FV_MOTION_SOLVER_FV_MOTION_SOLVERS_DISPLACEMENT_LAYERED_SOLVER_DISPLACEMENT_LAYERED_MOTION_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //      specified by the first faceZone. (= removes the normal component).
 // SourceFiles
 //   displacement_layered_motion_motion_solver.cpp
-#ifndef displacement_layered_motion_motion_solver_hpp_
-#define displacement_layered_motion_motion_solver_hpp_
 #include "displacement_motion_solver.hpp"
 #include "packed_bool_list.hpp"
 namespace mousse

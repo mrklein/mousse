@@ -1,3 +1,6 @@
+#ifndef RENUMBER_RENUMBER_METHODS_RANDOM_RENUMBER_HPP_
+#define RENUMBER_RENUMBER_METHODS_RANDOM_RENUMBER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Random renumber. Just to see effect of renumbering.
 // SourceFiles
 //   random_renumber.cpp
-#ifndef random_renumber_hpp_
-#define random_renumber_hpp_
 #include "renumber_method.hpp"
 namespace mousse
 {

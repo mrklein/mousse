@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_ROTATING_PRESSURE_INLET_OUTLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_ROTATING_PRESSURE_INLET_OUTLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -38,8 +41,6 @@
 //   mousse::pressureInletOutletVelocityFvPatchVectorField
 // SourceFiles
 //   rotating_pressure_inlet_outlet_velocity_fv_patch_vector_field.cpp
-#ifndef rotating_pressure_inlet_outlet_velocity_fv_patch_vector_field_hpp_
-#define rotating_pressure_inlet_outlet_velocity_fv_patch_vector_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "pressure_inlet_outlet_velocity_fv_patch_vector_field.hpp"
 #include "data_entry.hpp"

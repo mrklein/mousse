@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_THERMO_MAKE_REACTING_SOLID_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_THERMO_MAKE_REACTING_SOLID_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_reacting_solid_thermo_hpp_
-#define make_reacting_solid_thermo_hpp_
 #include "add_to_run_time_selection_table.hpp"
 #include "specie_mixture.hpp"
 

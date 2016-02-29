@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MOTION_SOLVER_MOTION_SOLVER_MOTION_SOLVER_HPP_
+#define DYNAMIC_MESH_MOTION_SOLVER_MOTION_SOLVER_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Virtual base class for mesh motion solver.
 // SourceFiles
 //   motion_solver.cpp
-#ifndef motion_solver_hpp_
-#define motion_solver_hpp_
 #include "iodictionary.hpp"
 #include "point_field.hpp"
 namespace mousse

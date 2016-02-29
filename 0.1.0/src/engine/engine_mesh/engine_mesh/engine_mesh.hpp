@@ -1,3 +1,6 @@
+#ifndef ENGINE_ENGINE_MESH_ENGINE_MESH_ENGINE_MESH_HPP_
+#define ENGINE_ENGINE_MESH_ENGINE_MESH_ENGINE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::engineMesh
 // SourceFiles
 //   engine_mesh.cpp
-#ifndef engine_mesh_hpp_
-#define engine_mesh_hpp_
 #include "engine_time.hpp"
 #include "fv_mesh.hpp"
 #include "auto_ptr.hpp"

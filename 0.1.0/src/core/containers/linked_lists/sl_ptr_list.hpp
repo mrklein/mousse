@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LINKED_LISTS_SL_PTR_LIST_HPP_
+#define CORE_CONTAINERS_LINKED_LISTS_SL_PTR_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::SLPtrList
 // Description
 //   Non-intrusive singly-linked pointer list.
-#ifndef sl_ptr_list_hpp_
-#define sl_ptr_list_hpp_
 #include "l_ptr_list.hpp"
 #include "sl_list_base.hpp"
 namespace mousse

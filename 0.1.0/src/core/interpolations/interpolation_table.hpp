@@ -1,3 +1,6 @@
+#ifndef CORE_INTERPOLATIONS_INTERPOLATION_TABLE_HPP_
+#define CORE_INTERPOLATIONS_INTERPOLATION_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 // SourceFiles
 //   interpolation_table.cpp
 
-#ifndef interpolation_table_hpp_
-#define interpolation_table_hpp_
 
 #include "list.hpp"
 #include "tuple2.hpp"

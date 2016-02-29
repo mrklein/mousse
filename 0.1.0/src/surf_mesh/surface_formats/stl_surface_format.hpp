@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_FORMATS_STL_SURFACE_FORMAT_HPP_
+#define SURF_MESH_SURFACE_FORMATS_STL_SURFACE_FORMAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   stl_surface_format.cpp
 //   stl_surface_format_ascii.l
 
-#ifndef stl_surface_format_hpp_
-#define stl_surface_format_hpp_
 
 #include "stl_surface_format_core.hpp"
 #include "meshed_surface.hpp"

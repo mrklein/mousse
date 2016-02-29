@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_TMESH_OBJECT_HPP_
+#define CORE_MESHES_TMESH_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -30,8 +33,6 @@
 //   provided for MeshObjects of type UpdateableMeshObject.
 // SourceFiles
 //   _mesh_object.cpp
-#ifndef _mesh_object_hpp_
-#define _mesh_object_hpp_
 #include "reg_ioobject.hpp"
 #include "object_registry.hpp"
 namespace mousse

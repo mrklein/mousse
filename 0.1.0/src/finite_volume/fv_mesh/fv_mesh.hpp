@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_MESH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 // SourceFiles
 //   fv_mesh.cpp
 //   fv_mesh_geometry.cpp
-#ifndef fv_mesh_hpp_
-#define fv_mesh_hpp_
 #include "poly_mesh.hpp"
 #include "ldu_mesh.hpp"
 #include "primitive_mesh.hpp"

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_V2F_BASE_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_V2F_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   mousse::RASModels::v2f
 // SourceFiles
 //   v2f_base.cpp
-#ifndef v2f_base_hpp_
-#define v2f_base_hpp_
 #include "ras_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_ZERO_FIELD_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_ZERO_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   compile-time.
 //   Used for example as the density argument to a function written for
 //   compressible to be used for incompressible flow.
-#ifndef geometric_zero_field_hpp_
-#define geometric_zero_field_hpp_
 #include "zero_field_field.hpp"
 #include "dimension_set.hpp"
 #include "scalar.hpp"

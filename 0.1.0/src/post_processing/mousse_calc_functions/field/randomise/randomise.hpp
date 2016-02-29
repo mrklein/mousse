@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_FIELD_RANDOMISE_RANDOMISE_HPP_
+#define POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_FIELD_RANDOMISE_RANDOMISE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Adds a random component to a field, with a given perturbation magnitude.
 // SourceFiles
 //   randomise.cpp
-#ifndef randomise_hpp_
-#define randomise_hpp_
 #include "calc_type.hpp"
 #include "random.hpp"
 namespace mousse

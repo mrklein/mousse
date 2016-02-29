@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_ATOMIC_WEIGHTS_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_ATOMIC_WEIGHTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A table of atomic weights for all the elements
 // SourceFiles
 //   atomic_weights.cpp
-#ifndef atomic_weights_hpp_
-#define atomic_weights_hpp_
 #include "scalar.hpp"
 #include "hash_table.hpp"
 namespace mousse

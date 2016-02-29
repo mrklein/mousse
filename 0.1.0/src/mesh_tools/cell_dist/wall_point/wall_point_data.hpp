@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_CELL_DIST_WALL_POINT_WALL_POINT_DATA_HPP_
+#define MESH_TOOLS_CELL_DIST_WALL_POINT_WALL_POINT_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Used e.g. in wall distance calculation with wall reflection vectors.
 // SourceFiles
 //   wall_point_data.cpp
-#ifndef wall_point_data_hpp_
-#define wall_point_data_hpp_
 #include "wall_point.hpp"
 namespace mousse
 {

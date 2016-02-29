@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_FV_MESH_TOOLS_FV_MESH_TOOLS_HPP_
+#define DYNAMIC_MESH_FV_MESH_TOOLS_FV_MESH_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A collection of tools for operating on an fvMesh.
 // SourceFiles
 //   fv_mesh_tools.cpp
-#ifndef fv_mesh_tools_hpp_
-#define fv_mesh_tools_hpp_
 #include "fv_mesh.hpp"
 namespace mousse
 {

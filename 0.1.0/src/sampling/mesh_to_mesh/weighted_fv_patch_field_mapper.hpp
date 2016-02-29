@@ -1,3 +1,6 @@
+#ifndef SAMPLING_MESH_TO_MESH_WEIGHTED_FV_PATCH_FIELD_MAPPER_HPP_
+#define SAMPLING_MESH_TO_MESH_WEIGHTED_FV_PATCH_FIELD_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::weightedFvPatchFieldMapper
 // Description
 //   FieldMapper with weighted mapping.
-#ifndef weighted_fv_patch_field_mapper_hpp_
-#define weighted_fv_patch_field_mapper_hpp_
 #include "fv_patch_field_mapper.hpp"
 namespace mousse
 {

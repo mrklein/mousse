@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOOBJECTS_IOMAP_HPP_
+#define CORE_DB_IOOBJECTS_IOMAP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A Map of objects of type \<T\> with automated input and output.
 // SourceFiles
 //   iomap.cpp
-#ifndef iomap_hpp_
-#define iomap_hpp_
 #include "map.hpp"
 #include "reg_ioobject.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_TREBOUND_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_TREBOUND_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::Rebound
 // Description
 //   Simple rebound patch interaction model
-#ifndef _rebound_hpp_
-#define _rebound_hpp_
 #include "_patch_interaction_model.hpp"
 namespace mousse
 {

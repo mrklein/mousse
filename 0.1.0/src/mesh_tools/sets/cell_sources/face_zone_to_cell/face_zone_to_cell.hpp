@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_FACE_ZONE_TO_CELL_FACE_ZONE_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_FACE_ZONE_TO_CELL_FACE_ZONE_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select cells based on side of faceZone.
 // SourceFiles
 //   face_zone_to_cell.cpp
-#ifndef face_zone_to_cell_hpp_
-#define face_zone_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "word_re.hpp"
 namespace mousse

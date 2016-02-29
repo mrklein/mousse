@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SEARCHABLE_SURFACE_TRI_SURFACE_MESH_HPP_
+#define MESH_TOOLS_SEARCHABLE_SURFACE_TRI_SURFACE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //     - minQuality: discard triangles with low quality when getting normal
 // SourceFiles
 //   tri_surface_mesh.cpp
-#ifndef tri_surface_mesh_hpp_
-#define tri_surface_mesh_hpp_
 #include "tree_bound_box.hpp"
 #include "searchable_surface.hpp"
 #include "object_registry.hpp"

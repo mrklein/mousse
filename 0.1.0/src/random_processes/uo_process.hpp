@@ -1,3 +1,6 @@
+#ifndef RANDOM_PROCESSES_UO_PROCESS_HPP_
+#define RANDOM_PROCESSES_UO_PROCESS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Random UO process.
 // SourceFiles
 //   uo_process.cpp
-#ifndef uo_process_hpp_
-#define uo_process_hpp_
 #include "complex_fields.hpp"
 #include "scalar.hpp"
 #include "random.hpp"

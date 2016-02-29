@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_SOLUTION_CONTROL_PIMPLE_CONTROL_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_SOLUTION_CONTROL_PIMPLE_CONTROL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   the PIMPLE loop.
 //   May also be used to for PISO-based algorithms as PISO controls are a
 //   sub-set of PIMPLE controls.
-#ifndef pimple_control_hpp_
-#define pimple_control_hpp_
 #include "solution_control.hpp"
 namespace mousse
 {

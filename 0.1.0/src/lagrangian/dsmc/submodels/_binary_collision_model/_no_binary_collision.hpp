@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TBINARY_COLLISION_MODEL_TNO_BINARY_COLLISION_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TBINARY_COLLISION_MODEL_TNO_BINARY_COLLISION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::NoBinaryCollision
 // Description
 //   No collison BinaryCollision Model
-#ifndef _no_binary_collision_hpp_
-#define _no_binary_collision_hpp_
 #include "_binary_collision_model.hpp"
 namespace mousse
 {

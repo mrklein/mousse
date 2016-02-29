@@ -1,3 +1,6 @@
+#ifndef UTILITIES_PARALLEL_PROCESSING_DECOMPOSE_PAR_DOMAIN_DECOMPOSITION_HPP_
+#define UTILITIES_PARALLEL_PROCESSING_DECOMPOSE_PAR_DOMAIN_DECOMPOSITION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   domain_decomposition.cpp
 //   decompose_mesh.cpp
-#ifndef domain_decomposition_hpp_
-#define domain_decomposition_hpp_
 #include "fv_mesh.hpp"
 #include "label_list.hpp"
 #include "sl_list.hpp"

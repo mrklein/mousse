@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_FORMATS_TRI_SURFACE_FORMAT_HPP_
+#define SURF_MESH_SURFACE_FORMATS_TRI_SURFACE_FORMAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   The class is thus derived from MeshedSurface.
 // SourceFiles
 //   tri_surface_format.cpp
-#ifndef tri_surface_format_hpp_
-#define tri_surface_format_hpp_
 #include "tri_surface_format_core.hpp"
 #include "meshed_surface.hpp"
 #include "meshed_surface_proxy.hpp"

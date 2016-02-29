@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_REPATCH_POLY_TOPO_CHANGER_REPATCH_POLY_TOPO_CHANGER_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_REPATCH_POLY_TOPO_CHANGER_REPATCH_POLY_TOPO_CHANGER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   boundary face, a new patch ID is given.
 // SourceFiles
 //   repatch_poly_topo_changer.cpp
-#ifndef repatch_poly_topo_changer_hpp_
-#define repatch_poly_topo_changer_hpp_
 #include "poly_mesh.hpp"
 #include "poly_topo_change.hpp"
 namespace mousse

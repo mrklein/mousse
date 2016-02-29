@@ -1,0 +1,7 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wclean libso mixture_viscosity_models
+wclean libso relative_velocity_models
+wclean

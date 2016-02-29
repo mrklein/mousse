@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_STRUCTURED_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_STRUCTURED_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Decomposition by walking out decomposition of patch cells mesh.
 // SourceFiles
 //   structured_decomp.cpp
-#ifndef structured_decomp_hpp_
-#define structured_decomp_hpp_
 #include "decomposition_method.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SURFACE_FILM_MODEL_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SURFACE_FILM_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   surface_film_model.cpp
 //   surface_film_model_new.cpp
-#ifndef surface_film_model_hpp_
-#define surface_film_model_hpp_
 #include "single_layer_region.hpp"
 #include "dimensioned_vector.hpp"
 #include "run_time_selection_tables.hpp"

@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_TRACKED_PARTICLE_TRACKED_PARTICLE_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_TRACKED_PARTICLE_TRACKED_PARTICLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   visited by feature edges.
 // SourceFiles
 //   tracked_particle.cpp
-#ifndef tracked_particle_hpp_
-#define tracked_particle_hpp_
 #include "particle.hpp"
 #include "auto_ptr.hpp"
 namespace mousse

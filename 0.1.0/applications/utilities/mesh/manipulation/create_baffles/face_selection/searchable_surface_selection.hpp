@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_MANIPULATION_CREATE_BAFFLES_FACE_SELECTION_SEARCHABLE_SURFACE_SELECTION_HPP_
+#define UTILITIES_MESH_MANIPULATION_CREATE_BAFFLES_FACE_SELECTION_SEARCHABLE_SURFACE_SELECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Selects all (internal or coupled) faces intersecting the searchableSurface.
 // SourceFiles
 //   searchable_surface_selection.cpp
-#ifndef searchable_surface_selection_hpp_
-#define searchable_surface_selection_hpp_
 #include "face_selection.hpp"
 namespace mousse
 {

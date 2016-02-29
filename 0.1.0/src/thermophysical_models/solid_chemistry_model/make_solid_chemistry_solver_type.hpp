@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_CHEMISTRY_MODEL_MAKE_SOLID_CHEMISTRY_SOLVER_TYPE_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_CHEMISTRY_MODEL_MAKE_SOLID_CHEMISTRY_SOLVER_TYPE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_solid_chemistry_solver_type_hpp_
-#define make_solid_chemistry_solver_type_hpp_
 #include "add_to_run_time_selection_table.hpp"
 #include "no_chemistry_solver.hpp"
 #include "euler_implicit.hpp"

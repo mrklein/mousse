@@ -1,3 +1,6 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_INTERNAL_WRITER_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_INTERNAL_WRITER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   internal_writer.cpp
 //   internal_writer_templates.cpp
-#ifndef internal_writer_hpp_
-#define internal_writer_hpp_
 #include "ofstream.hpp"
 #include "vol_fields.hpp"
 #include "point_fields.hpp"

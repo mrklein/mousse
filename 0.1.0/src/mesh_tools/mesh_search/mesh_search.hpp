@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MESH_SEARCH_MESH_SEARCH_HPP_
+#define MESH_TOOLS_MESH_SEARCH_MESH_SEARCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   uses (demand driven) octree to search.
 // SourceFiles
 //   mesh_search.cpp
-#ifndef mesh_search_hpp_
-#define mesh_search_hpp_
 #include "point_index_hit.hpp"
 #include "point_field.hpp"
 #include "poly_mesh.hpp"

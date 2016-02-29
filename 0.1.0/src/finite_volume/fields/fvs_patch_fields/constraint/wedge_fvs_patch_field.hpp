@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_CONSTRAINT_WEDGE_FVS_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_CONSTRAINT_WEDGE_FVS_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   wedge_fvs_patch_field.cpp
 
-#ifndef wedge_fvs_patch_field_hpp_
-#define wedge_fvs_patch_field_hpp_
 
 #include "fvs_patch_field.hpp"
 #include "wedge_fv_patch.hpp"

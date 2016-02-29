@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_COMPRESSIBLE_COMPRESSIBLE_TRANSPORT_MODEL_HPP_
+#define TRANSPORT_MODELS_COMPRESSIBLE_COMPRESSIBLE_TRANSPORT_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   models.
 // SourceFiles
 //   compressible_transport_model.cpp
-#ifndef compressible_transport_model_hpp_
-#define compressible_transport_model_hpp_
 #include "primitive_fields_fwd.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_CONSTRAINT_SYMMETRY_POINT_PATCH_FIELD_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_CONSTRAINT_SYMMETRY_POINT_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   symmetry_point_patch_field.cpp
 
-#ifndef symmetry_point_patch_field_hpp_
-#define symmetry_point_patch_field_hpp_
 
 #include "basic_symmetry_point_patch_field.hpp"
 #include "symmetry_point_patch.hpp"

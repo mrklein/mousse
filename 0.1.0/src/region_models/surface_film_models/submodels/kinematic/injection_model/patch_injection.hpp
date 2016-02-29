@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_PATCH_INJECTION_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_PATCH_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   patches.
 // SourceFiles
 //   patch_injection.cpp
-#ifndef patch_injection_hpp_
-#define patch_injection_hpp_
 #include "injection_model.hpp"
 namespace mousse
 {

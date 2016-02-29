@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MOTION_SMOOTHER_POLY_MESH_GEOMETRY_POLY_MESH_GEOMETRY_HPP_
+#define DYNAMIC_MESH_MOTION_SMOOTHER_POLY_MESH_GEOMETRY_POLY_MESH_GEOMETRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   - faceWeight (delta factors) done across coupled faces.
 // SourceFiles
 //   poly_mesh_geometry.cpp
-#ifndef poly_mesh_geometry_hpp_
-#define poly_mesh_geometry_hpp_
 #include "point_fields.hpp"
 #include "hash_set.hpp"
 namespace mousse

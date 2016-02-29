@@ -1,3 +1,6 @@
+#ifndef MESH_EXTRUDE_MODEL_LINEAR_DIRECTION_LINEAR_DIRECTION_HPP_
+#define MESH_EXTRUDE_MODEL_LINEAR_DIRECTION_LINEAR_DIRECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::extrudeModels::linearDirection
 // Description
 //   Extrudes by transforming points in a specified direction by a given distance
-#ifndef linear_direction_hpp_
-#define linear_direction_hpp_
 #include "point.hpp"
 #include "extrude_model.hpp"
 namespace mousse

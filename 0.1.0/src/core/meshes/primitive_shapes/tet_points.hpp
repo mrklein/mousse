@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_TET_POINTS_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_TET_POINTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Tet storage. Null constructable (unfortunately tetrahedron<point, point>
 //   is not)
 // SourceFiles
-#ifndef tet_points_hpp_
-#define tet_points_hpp_
 #include "fixed_list.hpp"
 #include "tree_bound_box.hpp"
 #include "tetrahedron.hpp"

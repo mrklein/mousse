@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_FIELDS_SYMM_TRANSFORM_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_SYMM_TRANSFORM_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   symm_transform_field.cpp
-#ifndef symm_transform_field_hpp_
-#define symm_transform_field_hpp_
 #include "symm_transform.hpp"
 #include "symm_tensor_field.hpp"
 #include "spherical_tensor.hpp"

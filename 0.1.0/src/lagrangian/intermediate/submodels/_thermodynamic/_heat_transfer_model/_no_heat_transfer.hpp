@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_THEAT_TRANSFER_MODEL_TNO_HEAT_TRANSFER_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_THEAT_TRANSFER_MODEL_TNO_HEAT_TRANSFER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::NoHeatTransfer
 // Description
 //   Dummy heat transfer model for 'none'
-#ifndef _no_heat_transfer_hpp_
-#define _no_heat_transfer_hpp_
 #include "_heat_transfer_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TSTOCHASTIC_COLLISION_TSTOCHASTIC_COLLISION_MODEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TSTOCHASTIC_COLLISION_TSTOCHASTIC_COLLISION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _stochastic_collision_model.cpp
 //   _stochastic_collision_model_new.cpp
-#ifndef _stochastic_collision_model_hpp_
-#define _stochastic_collision_model_hpp_
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

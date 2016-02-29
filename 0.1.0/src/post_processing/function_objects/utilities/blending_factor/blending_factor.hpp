@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_BLENDING_FACTOR_BLENDING_FACTOR_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_BLENDING_FACTOR_BLENDING_FACTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   blending_factor.cpp
 //   io_blending_factor.hpp
-#ifndef blending_factor_hpp_
-#define blending_factor_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "ofstream.hpp"

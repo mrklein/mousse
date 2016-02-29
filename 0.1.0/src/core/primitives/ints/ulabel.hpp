@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_INTS_ULABEL_HPP_
+#define CORE_PRIMITIVES_INTS_ULABEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef ulabel_hpp_
-#define ulabel_hpp_
 #include "uint.hpp"
 #define UINT_ADD_SIZE(x,s,y) x ## s ## y
 #define UINT_ADD_DEF_SIZE(x,s,y) UINT_ADD_SIZE(x,s,y)

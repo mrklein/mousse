@@ -1,3 +1,6 @@
+#ifndef CORE_GRAPH_WRITERS_GNUPLOT_GRAPH_HPP_
+#define CORE_GRAPH_WRITERS_GNUPLOT_GRAPH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Output in gnuplot (http://www.gnuplot.info) format
 // SourceFiles
 //   gnuplot_graph.cpp
-#ifndef gnuplot_graph_hpp_
-#define gnuplot_graph_hpp_
 #include "graph.hpp"
 namespace mousse
 {

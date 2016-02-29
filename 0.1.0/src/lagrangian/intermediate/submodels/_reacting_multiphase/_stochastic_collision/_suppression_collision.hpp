@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TSTOCHASTIC_COLLISION_TSUPPRESSION_COLLISION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TSTOCHASTIC_COLLISION_TSUPPRESSION_COLLISION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Inter-cloud collision model, whereby the \c canReact flag can be used
 //   to inhibit devolatilisation and surface reactions
-#ifndef _suppression_collision_hpp_
-#define _suppression_collision_hpp_
 #include "_stochastic_collision_model.hpp"
 namespace mousse
 {

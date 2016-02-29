@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_BASIC_GENERIC_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_BASIC_GENERIC_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   FV variant of the genericPolyPatch.
 // SourceFiles
 //   generic_fv_patch.cpp
-#ifndef generic_fv_patch_hpp_
-#define generic_fv_patch_hpp_
 #include "fv_patch.hpp"
 #include "generic_poly_patch.hpp"
 namespace mousse

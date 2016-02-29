@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_TRANSFORM_SYMM_TRANSFORM_HPP_
+#define CORE_PRIMITIVES_TRANSFORM_SYMM_TRANSFORM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef symm_transform_hpp_
-#define symm_transform_hpp_
 #include "transform.hpp"
 namespace mousse
 {

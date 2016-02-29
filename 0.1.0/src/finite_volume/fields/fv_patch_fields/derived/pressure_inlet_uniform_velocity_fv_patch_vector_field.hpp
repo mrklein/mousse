@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_PRESSURE_INLET_UNIFORM_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_PRESSURE_INLET_UNIFORM_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //   \endverbatim
 // SourceFiles
 //   pressure_inlet_uniform_velocity_fv_patch_vector_field.cpp
-#ifndef pressure_inlet_uniform_velocity_fv_patch_vector_field_hpp_
-#define pressure_inlet_uniform_velocity_fv_patch_vector_field_hpp_
 #include "pressure_inlet_velocity_fv_patch_vector_field.hpp"
 namespace mousse
 {

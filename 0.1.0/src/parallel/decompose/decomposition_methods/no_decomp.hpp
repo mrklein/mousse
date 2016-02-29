@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_NO_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_NO_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Dummy decomposition method
 // SourceFiles
 //   no_decomp.cpp
-#ifndef no_decomp_hpp_
-#define no_decomp_hpp_
 #include "decomposition_method.hpp"
 namespace mousse
 {

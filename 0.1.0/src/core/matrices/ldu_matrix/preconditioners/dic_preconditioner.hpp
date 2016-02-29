@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_PRECONDITIONERS_DIC_PRECONDITIONER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_PRECONDITIONERS_DIC_PRECONDITIONER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   preconditioned diagonal is calculated and stored.
 // SourceFiles
 //   dic_preconditioner.cpp
-#ifndef dic_preconditioner_hpp_
-#define dic_preconditioner_hpp_
 #include "ldu_matrix.hpp"
 namespace mousse
 {

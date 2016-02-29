@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_VIEW_FACTOR_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_VIEW_FACTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,7 @@
 //       Fij  = view factor matrix
 // SourceFiles
 //   view_factor.cpp
-#ifndef radiationModelview_factor_hpp_
-#define radiationModelview_factor_hpp_
+
 #include "radiation_model.hpp"
 #include "single_cell_fv_mesh.hpp"
 #include "scalar_matrices.hpp"

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_POROUS_BAFFLE_PRESSURE_FV_PATCH_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_POROUS_BAFFLE_PRESSURE_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -48,8 +51,6 @@
 //   The underlying \c patchType should be set to \c cyclic
 // SourceFiles
 //   porous_baffle_pressure_fv_patch_field.cpp
-#ifndef porous_baffle_pressure_fv_patch_field_hpp_
-#define porous_baffle_pressure_fv_patch_field_hpp_
 #include "fixed_jump_fv_patch_field.hpp"
 namespace mousse
 {

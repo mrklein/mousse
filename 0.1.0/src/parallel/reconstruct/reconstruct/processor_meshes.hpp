@@ -1,3 +1,6 @@
+#ifndef PARALLEL_RECONSTRUCT_RECONSTRUCT_PROCESSOR_MESHES_HPP_
+#define PARALLEL_RECONSTRUCT_RECONSTRUCT_PROCESSOR_MESHES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Container for processor mesh addressing.
 // SourceFiles
 //   processor_meshes.cpp
-#ifndef processor_meshes_hpp_
-#define processor_meshes_hpp_
 #include "ptr_list.hpp"
 #include "fv_mesh.hpp"
 #include "ioobject_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_MODEL_REGION_MODEL_1D_HPP_
+#define REGION_MODELS_REGION_MODEL_REGION_MODEL_1D_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for 1-D region models
 // SourceFiles
 //   region_model_1d.cpp
-#ifndef region_model_1d_hpp_
-#define region_model_1d_hpp_
 #include "region_model.hpp"
 #include "surface_fields.hpp"
 #include "label_list.hpp"

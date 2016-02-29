@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_DERIVED_MAPPED_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_DERIVED_MAPPED_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   mapped_fv_patch.cpp
 
-#ifndef mapped_fv_patch_hpp_
-#define mapped_fv_patch_hpp_
 
 #include "fv_patch.hpp"
 #include "mapped_poly_patch.hpp"

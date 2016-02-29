@@ -1,10 +1,11 @@
+#ifndef CORE_GLOBAL_CONSTANTS_DIMENSIONED_CONSTANTS_HPP_
+#define CORE_GLOBAL_CONSTANTS_DIMENSIONED_CONSTANTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   dimensioned_constants.cpp
 
-#ifndef dimensioned_constants_hpp_
-#define dimensioned_constants_hpp_
 
 #include "dictionary.hpp"
 #include "dimensioned_scalar.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_FIELDS_DIRECT_FIELD_MAPPER_HPP_
+#define CORE_FIELDS_FIELDS_DIRECT_FIELD_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::directFieldMapper
 // Description
 //   FieldMapper with direct mapping.
-#ifndef direct_field_mapper_hpp_
-#define direct_field_mapper_hpp_
 namespace mousse
 {
 class directFieldMapper

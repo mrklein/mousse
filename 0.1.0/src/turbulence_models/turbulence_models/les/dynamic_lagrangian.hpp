@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_DYNAMIC_LAGRANGIAN_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_DYNAMIC_LAGRANGIAN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   \endverbatim
 // SourceFiles
 //   dynamic_lagrangian.cpp
-#ifndef dynamic_lagrangian_hpp_
-#define dynamic_lagrangian_hpp_
 #include "les_eddy_viscosity.hpp"
 #include "simple_filter.hpp"
 namespace mousse

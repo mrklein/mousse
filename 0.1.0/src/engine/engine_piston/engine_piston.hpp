@@ -1,3 +1,6 @@
+#ifndef ENGINE_ENGINE_PISTON_ENGINE_PISTON_HPP_
+#define ENGINE_ENGINE_PISTON_ENGINE_PISTON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::enginePiston
 // SourceFiles
 //   engine_piston.cpp
-#ifndef engine_piston_hpp_
-#define engine_piston_hpp_
 #include "poly_patch_id.hpp"
 #include "coordinate_system.hpp"
 namespace mousse

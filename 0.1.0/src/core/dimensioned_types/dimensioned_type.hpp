@@ -1,3 +1,6 @@
+#ifndef CORE_DIMENSIONED_TYPES_DIMENSIONED_TYPE_HPP_
+#define CORE_DIMENSIONED_TYPES_DIMENSIONED_TYPE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Generic dimensioned Type class
 // SourceFiles
 //   dimensioned_type.cpp
-#ifndef dimensioned_type_hpp_
-#define dimensioned_type_hpp_
 #include "word.hpp"
 #include "direction.hpp"
 #include "dimension_set.hpp"

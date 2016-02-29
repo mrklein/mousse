@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_CHARS_CHAR_HPP_
+#define CORE_PRIMITIVES_CHARS_CHAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   char_io.cpp
-#ifndef char_hpp_
-#define char_hpp_
 namespace mousse
 {
 class Istream;

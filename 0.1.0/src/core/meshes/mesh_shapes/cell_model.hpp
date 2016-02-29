@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_CELL_MODEL_HPP_
+#define CORE_MESHES_MESH_SHAPES_CELL_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   geometric level.  This means mapping a 3D geometry to a set of
 //   pyramids which are each described by a cell face and the cell centre
 //   point.
-#ifndef cell_model_hpp_
-#define cell_model_hpp_
 #include "point_field.hpp"
 #include "edge_list.hpp"
 #include "face_list.hpp"

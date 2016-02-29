@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_SIGNALS_SIG_STOP_AT_WRITE_NOW_HPP_
+#define OS_SPECIFIC_POSIX_SIGNALS_SIG_STOP_AT_WRITE_NOW_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Write and stop the job.
 // SourceFiles
 //   sig_stop_at_write_now.cpp
-#ifndef sig_stop_at_write_now_hpp_
-#define sig_stop_at_write_now_hpp_
 #include <signal.h>
 namespace mousse
 {

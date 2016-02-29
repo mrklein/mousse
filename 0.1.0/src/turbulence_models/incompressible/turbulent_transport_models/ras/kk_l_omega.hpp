@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_RAS_KK_L_OMEGA_HPP_
+#define TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_RAS_KK_L_OMEGA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -58,8 +61,6 @@
 //   \endverbatim
 // SourceFiles
 //   kk_l_omega.cpp
-#ifndef kk_l_omega_hpp_
-#define kk_l_omega_hpp_
 #include "turbulent_transport_model.hpp"
 #include "eddy_viscosity.hpp"
 namespace mousse

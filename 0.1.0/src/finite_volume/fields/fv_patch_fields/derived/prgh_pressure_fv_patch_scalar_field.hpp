@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_PRGH_PRESSURE_FV_PATCH_SCALAR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_PRGH_PRESSURE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -40,8 +43,6 @@
 //   mousse::fixedValueFvPatchScalarField
 // SourceFiles
 //   prgh_pressure_fv_patch_scalar_field.cpp
-#ifndef prgh_pressure_fv_patch_scalar_field_hpp_
-#define prgh_pressure_fv_patch_scalar_field_hpp_
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse
 {

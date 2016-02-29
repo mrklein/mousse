@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_THERMAL_BAFFLE_MODELS_NO_THERMO_HPP_
+#define REGION_MODELS_THERMAL_BAFFLE_MODELS_NO_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Dummy surface pyrolysis model for 'none'
 // SourceFiles
 //   no_thermo.cpp
-#ifndef no_thermo_hpp_
-#define no_thermo_hpp_
 #include "thermal_baffle_model.hpp"
 #include "vol_fields_fwd.hpp"
 namespace mousse

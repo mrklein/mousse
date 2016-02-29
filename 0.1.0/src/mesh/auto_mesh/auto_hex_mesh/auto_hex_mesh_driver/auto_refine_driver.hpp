@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_AUTO_REFINE_DRIVER_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_AUTO_REFINE_DRIVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   auto_refine_driver.cpp
-#ifndef auto_refine_driver_hpp_
-#define auto_refine_driver_hpp_
 #include "tree_bound_box.hpp"
 namespace mousse
 {

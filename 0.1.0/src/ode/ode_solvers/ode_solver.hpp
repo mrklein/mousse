@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_ODE_SOLVER_HPP_
+#define ODE_ODE_SOLVERS_ODE_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base-class for ODE system solvers
 // SourceFiles
 //   ode_solver.cpp
-#ifndef ode_solver_hpp_
-#define ode_solver_hpp_
 #include "ode_system.hpp"
 #include "type_info.hpp"
 #include "auto_ptr.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_CELL_MATCHER_HPP_
+#define CORE_MESHES_MESH_SHAPES_CELL_MATCHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -44,8 +47,6 @@
 // SourceFiles
 //   cell_matcher.cpp
 
-#ifndef cell_matcher_hpp_
-#define cell_matcher_hpp_
 
 #include "label_list.hpp"
 #include "face_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_Y_PLUS_Y_PLUS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_Y_PLUS_Y_PLUS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   y_plus.cpp
 //   i_oy_plus.hpp
-#ifndef y_plus_hpp_
-#define y_plus_hpp_
 #include "function_object_file.hpp"
 #include "vol_fields_fwd.hpp"
 #include "switch.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_PATCHES_PROCESSOR_POINT_PATCH_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_PATCHES_PROCESSOR_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   patch faces of the owner.
 // SourceFiles
 //   processor_point_patch.cpp
-#ifndef processor_point_patch_hpp_
-#define processor_point_patch_hpp_
 #include "coupled_face_point_patch.hpp"
 #include "processor_poly_patch.hpp"
 namespace mousse

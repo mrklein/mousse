@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_CONVECTION_SCHEMES_GAUSS_CONVECTION_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_CONVECTION_SCHEMES_GAUSS_CONVECTION_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   gauss_convection_scheme.cpp
 
-#ifndef gauss_convection_scheme_hpp_
-#define gauss_convection_scheme_hpp_
 
 #include "convection_scheme.hpp"
 #include "fv_mesh.hpp"

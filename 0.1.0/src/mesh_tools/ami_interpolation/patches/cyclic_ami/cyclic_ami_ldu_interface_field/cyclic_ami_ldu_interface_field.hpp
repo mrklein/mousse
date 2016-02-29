@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_PATCHES_CYCLIC_AMI_CYCLIC_AMI_LDU_INTERFACE_FIELD_CYCLIC_AMI_LDU_INTERFACE_FIELD_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_PATCHES_CYCLIC_AMI_CYCLIC_AMI_LDU_INTERFACE_FIELD_CYCLIC_AMI_LDU_INTERFACE_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   cyclic_ami_ldu_interface_field.cpp
 
-#ifndef cyclic_ami_ldu_interface_field_hpp_
-#define cyclic_ami_ldu_interface_field_hpp_
 
 #include "primitive_fields_fwd.hpp"
 #include "type_info.hpp"

@@ -1,5 +1,5 @@
-#ifndef ek_hpp_
-#define ek_hpp_
+#ifndef RANDOM_PROCESSES_EK_HPP_
+#define RANDOM_PROCESSES_EK_HPP_
 namespace mousse
 {
 inline tmp<scalarField> Ek

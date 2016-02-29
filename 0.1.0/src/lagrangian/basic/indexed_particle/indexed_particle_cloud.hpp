@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_INDEXED_PARTICLE_INDEXED_PARTICLE_CLOUD_HPP_
+#define LAGRANGIAN_BASIC_INDEXED_PARTICLE_INDEXED_PARTICLE_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A Cloud of particles carrying an additional index.
 // SourceFiles
 //   indexed_particle_cloud.cpp
-#ifndef indexed_particle_cloud_hpp_
-#define indexed_particle_cloud_hpp_
 #include "_cloud.hpp"
 #include "indexed_particle.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_MULTI_MOTION_MULTI_MOTION_HPP_
+#define DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_MULTI_MOTION_MULTI_MOTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Combination of SolidBodyMotionFvMesh 6DoF motion functions.
 // SourceFiles
 //   multi_motion.cpp
-#ifndef multi_motion_hpp_
-#define multi_motion_hpp_
 #include "solid_body_motion_function.hpp"
 #include "primitive_fields.hpp"
 #include "point.hpp"

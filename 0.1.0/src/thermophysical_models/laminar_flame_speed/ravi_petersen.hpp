@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_LAMINAR_FLAME_SPEED_RAVI_PETERSEN_HPP_
+#define THERMOPHYSICAL_MODELS_LAMINAR_FLAME_SPEED_RAVI_PETERSEN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   ratio points.
 // SourceFiles
 //   ravi_petersen.cpp
-#ifndef ravi_petersen_hpp_
-#define ravi_petersen_hpp_
 #include "laminar_flame_speed.hpp"
 namespace mousse
 {

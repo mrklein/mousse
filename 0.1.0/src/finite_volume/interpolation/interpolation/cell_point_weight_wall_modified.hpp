@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_INTERPOLATION_CELL_POINT_WEIGHT_WALL_MODIFIED_HPP_
+#define FINITE_VOLUME_INTERPOLATION_INTERPOLATION_CELL_POINT_WEIGHT_WALL_MODIFIED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::cellPointWeightWallModified
 // SourceFiles
 //   cell_point_weight_wall_modified.cpp
-#ifndef cell_point_weight_wall_modified_hpp_
-#define cell_point_weight_wall_modified_hpp_
 #include "cell_point_weight.hpp"
 #include "wall_poly_patch.hpp"
 #include "poly_mesh.hpp"

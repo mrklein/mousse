@@ -1,9 +1,10 @@
+#ifndef CORE_DB_TYPE_INFO_CLASS_NAME_HPP_
+#define CORE_DB_TYPE_INFO_CLASS_NAME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef class_name_hpp_
-#define class_name_hpp_
 
 #include "define_debug_switch.hpp"
 

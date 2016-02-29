@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_ALGORITHMS_POINT_EDGE_WAVE_POINT_EDGE_POINT_HPP_
+#define MESH_TOOLS_ALGORITHMS_POINT_EDGE_WAVE_POINT_EDGE_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   To be used in wall distance calculation.
 // SourceFiles
 //   point_edge_point.cpp
-#ifndef point_edge_point_hpp_
-#define point_edge_point_hpp_
 #include "point.hpp"
 #include "label.hpp"
 #include "scalar.hpp"

@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_ADD_OBJECT_POLY_ADD_FACE_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_ADD_OBJECT_POLY_ADD_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A face addition data class. A face can be inflated either from a
 //   point or from another face and can either be in internal or a
 //   boundary face.
-#ifndef poly_add_face_hpp_
-#define poly_add_face_hpp_
 #include "label.hpp"
 #include "face.hpp"
 #include "topo_action.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_HASH_TABLES_MAP_HPP_
+#define CORE_CONTAINERS_HASH_TABLES_MAP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // See Also
 //   PtrMap
 
-#ifndef map_hpp_
-#define map_hpp_
 
 #include "hash_table.hpp"
 #include "label.hpp"

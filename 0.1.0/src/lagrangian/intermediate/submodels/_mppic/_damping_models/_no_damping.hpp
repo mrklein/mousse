@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TDAMPING_MODELS_TNO_DAMPING_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TDAMPING_MODELS_TNO_DAMPING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   _no_damping.cpp
-#ifndef _no_damping_hpp_
-#define _no_damping_hpp_
 #include "_damping_model.hpp"
 namespace mousse
 {

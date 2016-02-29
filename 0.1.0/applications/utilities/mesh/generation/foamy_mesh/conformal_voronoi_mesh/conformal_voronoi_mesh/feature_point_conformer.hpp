@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_FEATURE_POINT_CONFORMER_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_FEATURE_POINT_CONFORMER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   feature_point_conformer.cpp
 //   feature_point_conformer_specialisations.cpp
-#ifndef feature_point_conformer_hpp_
-#define feature_point_conformer_hpp_
 // Include uint.H before CGAL headers to define __STDC_LIMIT_MACROS
 #include "uint.hpp"
 #include "cgal_triangulation_3d_defs.hpp"

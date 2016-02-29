@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_COMBUSTION_MODEL_HPP_
+#define COMBUSTION_MODELS_COMBUSTION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for combustion models
 // SourceFiles
 //   combustion_model.cpp
-#ifndef combustion_model_hpp_
-#define combustion_model_hpp_
 #include "iodictionary.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
 namespace mousse

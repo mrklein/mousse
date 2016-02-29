@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_FV_MOTION_SOLVERS_DISPLACEMENT_LAYERED_SOLVER_POINT_EDGE_STRUCTURED_WALK_HPP_
+#define FV_MOTION_SOLVER_FV_MOTION_SOLVERS_DISPLACEMENT_LAYERED_SOLVER_POINT_EDGE_STRUCTURED_WALK_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Determines length of string of edges walked to point.
 // SourceFiles
 //   point_edge_structured_walk.cpp
-#ifndef point_edge_structured_walk_hpp_
-#define point_edge_structured_walk_hpp_
 #include "point.hpp"
 #include "tensor.hpp"
 #include "poly_mesh.hpp"

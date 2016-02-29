@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_DYNAMIC_INK_JET_FV_MESH_DYNAMIC_INK_JET_FV_MESH_HPP_
+#define DYNAMIC_FV_MESH_DYNAMIC_INK_JET_FV_MESH_DYNAMIC_INK_JET_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   nozzle exit.
 // SourceFiles
 //   dynamic_ink_jet_fv_mesh.cpp
-#ifndef dynamic_ink_jet_fv_mesh_hpp_
-#define dynamic_ink_jet_fv_mesh_hpp_
 #include "dynamic_fv_mesh.hpp"
 #include "dictionary.hpp"
 #include "point_io_field.hpp"

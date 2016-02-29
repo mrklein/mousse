@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_CIRCLE_SET_HPP_
+#define SAMPLING_SAMPLED_SET_CIRCLE_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Samples along a circular path
 // SourceFiles
 //   circle_set.cpp
-#ifndef circle_set_hpp_
-#define circle_set_hpp_
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 namespace mousse

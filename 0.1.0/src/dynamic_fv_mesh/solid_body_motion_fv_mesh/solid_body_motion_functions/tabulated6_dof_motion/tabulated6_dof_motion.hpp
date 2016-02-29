@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_TABULATED6_DOF_MOTION_TABULATED6_DOF_MOTION_HPP_
+#define DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_TABULATED6_DOF_MOTION_TABULATED6_DOF_MOTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   pitch (rotation about y) and yaw (rotation about z).
 // SourceFiles
 //   tabulated6_dof_motion.cpp
-#ifndef tabulated6_dof_motion_hpp_
-#define tabulated6_dof_motion_hpp_
 #include "solid_body_motion_function.hpp"
 #include "primitive_fields.hpp"
 #include "vector_2d.hpp"

@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_DERIVED_FV_PATCH_FIELDS_INCLINED_FILM_NUSSELT_INLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_DERIVED_FV_PATCH_FIELDS_INCLINED_FILM_NUSSELT_INLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   calculated using the Nusselt solution.
 // SourceFiles
 //   inclined_film_nusselt_inlet_velocity_fv_patch_vector_field.cpp
-#ifndef inclined_film_nusselt_inlet_velocity_fv_patch_vector_field_hpp_
-#define inclined_film_nusselt_inlet_velocity_fv_patch_vector_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_NONLINEAR_EDDY_VISCOSITY_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_NONLINEAR_EDDY_VISCOSITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Eddy viscosity turbulence model with non-linear correction base class
 // SourceFiles
 //   nonlinear_eddy_viscosity.cpp
-#ifndef nonlinear_eddy_viscosity_hpp_
-#define nonlinear_eddy_viscosity_hpp_
 #include "eddy_viscosity.hpp"
 namespace mousse
 {

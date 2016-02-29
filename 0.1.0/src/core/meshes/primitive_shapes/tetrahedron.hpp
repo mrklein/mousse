@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_TETRAHEDRON_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_TETRAHEDRON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   class, a tetrahedron cell shape model and a tetCell.
 // SourceFiles
 //   tetrahedron.cpp
-#ifndef tetrahedron_hpp_
-#define tetrahedron_hpp_
 #include "point.hpp"
 #include "primitive_fields_fwd.hpp"
 #include "point_hit.hpp"

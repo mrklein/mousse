@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_IO_WRITE_DICTIONARY_WRITE_DICTIONARY_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_IO_WRITE_DICTIONARY_WRITE_DICTIONARY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   write_dictionary.cpp
 //   i_owrite_dictionary.hpp
-#ifndef write_dictionary_hpp_
-#define write_dictionary_hpp_
 #include "word_list.hpp"
 #include "run_time_selection_tables.hpp"
 #include "sha1_digest.hpp"

@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_GRADING_DESCRIPTOR_GRADING_DESCRIPTOR_HPP_
+#define MESH_BLOCK_MESH_GRADING_DESCRIPTOR_GRADING_DESCRIPTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //     of the section.
 // SourceFiles
 //   grading_descriptor.cpp
-#ifndef grading_descriptor_hpp_
-#define grading_descriptor_hpp_
 #include "scalar.hpp"
 namespace mousse
 {

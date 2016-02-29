@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_MESH_CUTTER_MESH_CUTTER_HPP_
+#define DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_MESH_CUTTER_MESH_CUTTER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -72,8 +75,6 @@
 //    or the added cell (if the faces contain the cell anchor points)
 // SourceFiles
 //   mesh_cutter.cpp
-#ifndef mesh_cutter_hpp_
-#define mesh_cutter_hpp_
 #include "edge_vertex.hpp"
 #include "label_list.hpp"
 #include "type_info.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_DICTIONARIES_UDICTIONARY_HPP_
+#define CORE_CONTAINERS_DICTIONARIES_UDICTIONARY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   form of intrusive doubly-linked list of \<T\>.
 // SourceFiles
 //   udictionary.cpp
-#ifndef udictionary_hpp_
-#define udictionary_hpp_
 #include "dictionary_base.hpp"
 #include "uidl_list.hpp"
 namespace mousse

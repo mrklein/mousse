@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_FUNCTIONS_TIME_DATA_ENTRY_HPP_
+#define CORE_PRIMITIVES_FUNCTIONS_TIME_DATA_ENTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   entries.
 // SourceFiles
 //   time_data_entry.cpp
-#ifndef time_data_entry_hpp_
-#define time_data_entry_hpp_
 #include "data_entry.hpp"
 #include "time.hpp"
 namespace mousse

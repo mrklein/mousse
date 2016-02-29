@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_OBJECT_HIT_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_OBJECT_HIT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::objectHit
 // Description
 //   This class describes a combination of target object index and success flag.
-#ifndef object_hit_hpp_
-#define object_hit_hpp_
 #include "bool.hpp"
 #include "label.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_OMEGA_WALL_FUNCTIONS_OMEGA_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_OMEGA_WALL_FUNCTIONS_OMEGA_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -40,8 +43,6 @@
 //   \endverbatim
 // SourceFiles
 //   omega_wall_function_fv_patch_scalar_field.cpp
-#ifndef omega_wall_function_fv_patch_scalar_field_hpp_
-#define omega_wall_function_fv_patch_scalar_field_hpp_
 #include "fixed_value_fv_patch_field.hpp"
 namespace mousse
 {

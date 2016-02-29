@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FAN_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FAN_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -47,8 +50,6 @@
 //   fan_fv_patch_fields.hpp
 //   fan_fv_patch_fields.cpp
 //   fan_fv_patch_fields_fwd.hpp
-#ifndef fan_fv_patch_field_hpp_
-#define fan_fv_patch_field_hpp_
 #include "uniform_jump_fv_patch_field.hpp"
 #include "data_entry.hpp"
 namespace mousse

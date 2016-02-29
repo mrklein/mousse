@@ -1,3 +1,6 @@
+#ifndef CORE_DB_TIME_SUB_CYCLE_TIME_HPP_
+#define CORE_DB_TIME_SUB_CYCLE_TIME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A class for managing sub-cycling times
 // SourceFiles
 //   sub_cycle_time.cpp
-#ifndef sub_cycle_time_hpp_
-#define sub_cycle_time_hpp_
 #include "time.hpp"
 namespace mousse
 {

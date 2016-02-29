@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_EDGE_VERTEX_EDGE_VERTEX_HPP_
+#define DYNAMIC_MESH_MESH_CUT_EDGE_VERTEX_EDGE_VERTEX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Combines edge or vertex in single label. Used to specify cuts across
 //   cell circumference.
 // SourceFiles
-#ifndef edge_vertex_hpp_
-#define edge_vertex_hpp_
 #include "label.hpp"
 #include "poly_mesh.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef CONVERSION_ENSIGHT_PART_ENSIGHT_PART_CELLS_HPP_
+#define CONVERSION_ENSIGHT_PART_ENSIGHT_PART_CELLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An implementation of ensightPart to hold volume mesh cells.
 // SourceFiles
 //   ensight_part_cells.cpp
-#ifndef ensight_part_cells_hpp_
-#define ensight_part_cells_hpp_
 #include "ensight_part.hpp"
 #include "type_info.hpp"
 namespace mousse

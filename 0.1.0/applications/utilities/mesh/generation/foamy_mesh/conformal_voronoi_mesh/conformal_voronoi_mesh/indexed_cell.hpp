@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_INDEXED_CELL_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_INDEXED_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   track of the Delaunay cells (tets) in the tessellation.
 // SourceFiles
 //   indexed_cell.cpp
-#ifndef indexed_cell_hpp_
-#define indexed_cell_hpp_
 #include "CGAL/Triangulation_3.h"
 #include "CGAL/Delaunay_triangulation_cell_base_with_circumcenter_3.h"
 #include "indexed_vertex.hpp"

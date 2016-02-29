@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_RHO_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_RHO_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Basic thermodynamic properties based on density
 // SourceFiles
 //   rho_thermo.cpp
-#ifndef rho_thermo_hpp_
-#define rho_thermo_hpp_
 #include "fluid_thermo.hpp"
 #include "run_time_selection_tables.hpp"
 namespace mousse

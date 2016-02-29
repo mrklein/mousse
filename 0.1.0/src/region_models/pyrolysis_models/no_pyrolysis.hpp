@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_PYROLYSIS_MODELS_NO_PYROLYSIS_HPP_
+#define REGION_MODELS_PYROLYSIS_MODELS_NO_PYROLYSIS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Dummy surface pyrolysis model for 'none'
 // SourceFiles
 //   no_pyrolysis.cpp
-#ifndef no_pyrolysis_hpp_
-#define no_pyrolysis_hpp_
 #include "pyrolysis_model.hpp"
 #include "vol_fields_fwd.hpp"
 #include "basic_solid_chemistry_model.hpp"

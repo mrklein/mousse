@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_FALL_OFF_FUNCTIONS_SRI_FALL_OFF_FUNCTION_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_FALL_OFF_FUNCTIONS_SRI_FALL_OFF_FUNCTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::SRIFallOffFunction
 // Description
 //   The SRI fall-off function
-#ifndef sri_fall_off_function_hpp_
-#define sri_fall_off_function_hpp_
 #include "scalar.hpp"
 namespace mousse
 {

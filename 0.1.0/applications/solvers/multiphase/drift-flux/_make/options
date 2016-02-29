@@ -1,0 +1,23 @@
+EXE_INC = \
+    -Imixture_viscosity_models/_lninclude \
+    -Irelative_velocity_models/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/sampling/_lninclude \
+    -I$(LIB_SRC)/fv_options/_lninclude \
+    -I$(LIB_SRC)/transport_models \
+    -I$(LIB_SRC)/transport_models/compressible/_lninclude \
+    -I$(LIB_SRC)/transport_models/two_phase_mixture/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/compressible/_lninclude
+
+EXE_LIBS = \
+    -lmousse_drift_flux_transport_models \
+    -lmousse_drift_flux_relative_velocity_models \
+    -lmousse_finite_volume \
+    -lmousse_mesh_tools \
+    -lmousse_sampling \
+    -lmousse_fv_options \
+    -lmousse_compressible_transport_models \
+    -lmousse_turbulence_models \
+    -lmousse_compressible_turbulence_models

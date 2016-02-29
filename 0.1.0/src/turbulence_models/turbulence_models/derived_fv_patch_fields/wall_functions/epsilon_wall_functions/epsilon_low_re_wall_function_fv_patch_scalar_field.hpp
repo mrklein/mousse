@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_EPSILON_WALL_FUNCTIONS_EPSILON_LOW_RE_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_EPSILON_WALL_FUNCTIONS_EPSILON_LOW_RE_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -31,8 +34,6 @@
 //   mousse::epsilonWallFunctionFvPatchScalarField
 // SourceFiles
 //   epsilon_low_re_wall_function_fv_patch_scalar_field.cpp
-#ifndef epsilon_low_re_wall_function_fv_patch_scalar_field_hpp_
-#define epsilon_low_re_wall_function_fv_patch_scalar_field_hpp_
 #include "epsilon_wall_function_fv_patch_scalar_field.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_DERIVED_FV_PATCH_FIELDS_ATM_BOUNDARY_LAYER_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_DERIVED_FV_PATCH_FIELDS_ATM_BOUNDARY_LAYER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -76,8 +79,6 @@
 //   reference.
 // SourceFiles
 //   atm_boundary_layer.cpp
-#ifndef atm_boundary_layer_hpp_
-#define atm_boundary_layer_hpp_
 #include "fv_patch_fields.hpp"
 namespace mousse
 {

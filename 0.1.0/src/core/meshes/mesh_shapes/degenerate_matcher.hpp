@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_DEGENERATE_MATCHER_HPP_
+#define CORE_MESHES_MESH_SHAPES_DEGENERATE_MATCHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   cellMatcher
 // SourceFiles
 //   degenerate_matcher.cpp
-#ifndef degenerate_matcher_hpp_
-#define degenerate_matcher_hpp_
 #include "hex_matcher.hpp"
 #include "wedge_matcher.hpp"
 #include "prism_matcher.hpp"

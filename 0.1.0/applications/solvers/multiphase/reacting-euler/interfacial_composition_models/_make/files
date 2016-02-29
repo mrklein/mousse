@@ -1,0 +1,21 @@
+mass_transfer_models/mass_transfer_model.cpp
+mass_transfer_models/new_mass_transfer_model.cpp
+mass_transfer_models/frossling.cpp
+mass_transfer_models/spherical_mass_transfer.cpp
+
+surface_tension_models/surface_tension_model.cpp
+surface_tension_models/new_surface_tension_model.cpp
+surface_tension_models/constant_surface_tension_coefficient.cpp
+
+interface_composition_models/interface_composition_model.cpp
+interface_composition_models/new_interface_composition_model.cpp
+interface_composition_models/_interface_composition_models.cpp
+
+saturation_models/saturation_model.cpp
+saturation_models/new_saturation_model.cpp
+saturation_models/antoine.cpp
+saturation_models/antoine_extended.cpp
+saturation_models/arden_buck.cpp
+saturation_models/constant_saturation_conditions.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_reacting_eulerian_interfacial_composition_models

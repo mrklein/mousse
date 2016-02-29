@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MOMENT_OF_INERTIA_MOMENT_OF_INERTIA_HPP_
+#define MESH_TOOLS_MOMENT_OF_INERTIA_MOMENT_OF_INERTIA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   of a thin shell.
 // SourceFiles
 //   moment_of_inertia.hpp
-#ifndef moment_of_inertia_hpp_
-#define moment_of_inertia_hpp_
 #include "tri_face_list.hpp"
 #include "tri_surface.hpp"
 #include "poly_mesh.hpp"

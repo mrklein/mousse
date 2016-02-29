@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_FIELD_FIELDS_ZERO_FIELD_FIELD_HPP_
+#define CORE_FIELDS_FIELD_FIELDS_ZERO_FIELD_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   compile-time.
 //   Used for example as the density argument to a function written for
 //   compressible to be used for incompressible flow.
-#ifndef zero_field_field_hpp_
-#define zero_field_field_hpp_
 #include "zero_field.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_TURBULENCE_SUBMODELS_TKINEMATIC_TDISPERSION_MODEL_TGRADIENT_DISPERSION_RAS_HPP_
+#define LAGRANGIAN_TURBULENCE_SUBMODELS_TKINEMATIC_TDISPERSION_MODEL_TGRADIENT_DISPERSION_RAS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Gaussian random number distribution with variance sigma.
 //   where sigma is defined below
 
-#ifndef _gradient_dispersion_ras_hpp_
-#define _gradient_dispersion_ras_hpp_
 
 #include "_dispersion_ras_model.hpp"
 

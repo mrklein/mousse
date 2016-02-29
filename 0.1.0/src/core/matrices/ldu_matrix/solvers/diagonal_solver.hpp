@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_DIAGONAL_SOLVER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_DIAGONAL_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   diagonal_solver.cpp
 
-#ifndef diagonal_solver_hpp_
-#define diagonal_solver_hpp_
 
 #include "ldu_matrix.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_DARCY_FORCHHEIMER_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_DARCY_FORCHHEIMER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 // SourceFiles
 //   darcy_forchheimer.cpp
 //   darcy_forchheimer_templates.cpp
-#ifndef darcy_forchheimer_hpp_
-#define darcy_forchheimer_hpp_
 #include "porosity_model.hpp"
 #include "dimensioned_tensor.hpp"
 namespace mousse

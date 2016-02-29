@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TINFLOW_BOUNDARY_MODEL_TFREE_STREAM_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TINFLOW_BOUNDARY_MODEL_TFREE_STREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   and velocity sourced face-by-face from the boundaryT and boundaryU fields
 //   of the cloud.
 
-#ifndef _free_stream_hpp_
-#define _free_stream_hpp_
 
 #include "_inflow_boundary_model.hpp"
 #include "poly_mesh.hpp"

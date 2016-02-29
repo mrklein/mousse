@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INTERFACE_PROPERTIES_INTERFACE_COMPRESSION_INTERFACE_COMPRESSION_HPP_
+#define TRANSPORT_MODELS_INTERFACE_PROPERTIES_INTERFACE_COMPRESSION_INTERFACE_COMPRESSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   scheme although it does not use the NVD/TVD functions.
 // SourceFiles
 //   interface_compression.cpp
-#ifndef interface_compression_hpp_
-#define interface_compression_hpp_
 #include "vector.hpp"
 namespace mousse
 {

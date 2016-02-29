@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_CHEMISTRY_MODEL_BASIC_SOLID_CHEMISTRY_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_CHEMISTRY_MODEL_BASIC_SOLID_CHEMISTRY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   basic_solid_chemistry_model.cpp
 //   new_chemistry_solid_model.cpp
-#ifndef basic_solid_chemistry_model_hpp_
-#define basic_solid_chemistry_model_hpp_
 #include "basic_chemistry_model.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

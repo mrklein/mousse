@@ -1,3 +1,6 @@
+#ifndef CORE_DB_CALLBACK_REGISTRY_CALLBACK_REGISTRY_HPP_
+#define CORE_DB_CALLBACK_REGISTRY_CALLBACK_REGISTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   callback_registry.cpp
 
-#ifndef callback_registry_hpp_
-#define callback_registry_hpp_
 
 #include "uidl_list.hpp"
 #include "class_name.hpp"

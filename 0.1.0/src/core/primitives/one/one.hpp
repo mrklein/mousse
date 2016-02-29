@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_ONE_ONE_HPP_
+#define CORE_PRIMITIVES_ONE_ONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A class representing the concept of 1 (scalar(1.0)) used to avoid
 //   unnecessary manipulations for objects which are known to be one at
 //   compile-time.
-#ifndef one_hpp_
-#define one_hpp_
 namespace mousse
 {
 class one

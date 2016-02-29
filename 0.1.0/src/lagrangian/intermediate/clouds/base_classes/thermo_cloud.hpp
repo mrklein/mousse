@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_BASE_CLASSES_THERMO_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_BASE_CLASSES_THERMO_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Virtual abstract base class for templated ThermoCloud
 // SourceFiles
 //   thermo_cloud.cpp
-#ifndef thermo_cloud_hpp_
-#define thermo_cloud_hpp_
 #include "vol_fields.hpp"
 namespace mousse
 {

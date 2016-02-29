@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_POINT_HPP_
+#define MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   Optionally works on subset of points.
 // SourceFiles
 //   tree_data_point.cpp
-#ifndef tree_data_point_hpp_
-#define tree_data_point_hpp_
 #include "point_field.hpp"
 #include "tree_bound_box.hpp"
 #include "line_point_ref.hpp"

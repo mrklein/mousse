@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_INITIAL_POINTS_METHOD_INITIAL_POINTS_METHOD_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_INITIAL_POINTS_METHOD_INITIAL_POINTS_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for generating initial points for a conformalVoronoiMesh
 // SourceFiles
 //   initial_points_method.cpp
-#ifndef initial_points_method_hpp_
-#define initial_points_method_hpp_
 #include "point.hpp"
 #include "conformal_voronoi_mesh.hpp"
 #include "background_mesh_decomposition.hpp"

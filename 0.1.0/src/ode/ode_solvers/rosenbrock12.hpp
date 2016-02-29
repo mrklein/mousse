@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_ROSENBROCK12_HPP_
+#define ODE_ODE_SOLVERS_ROSENBROCK12_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   \endverbatim
 // SourceFiles
 //   rosenbrock12.cpp
-#ifndef rosenbrock12_hpp_
-#define rosenbrock12_hpp_
 #include "ode_solver.hpp"
 #include "adaptive_solver.hpp"
 namespace mousse

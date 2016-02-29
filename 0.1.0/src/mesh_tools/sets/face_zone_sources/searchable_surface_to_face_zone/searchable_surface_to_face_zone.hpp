@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_FACE_ZONE_SOURCES_SEARCHABLE_SURFACE_TO_FACE_ZONE_SEARCHABLE_SURFACE_TO_FACE_ZONE_HPP_
+#define MESH_TOOLS_SETS_FACE_ZONE_SOURCES_SEARCHABLE_SURFACE_TO_FACE_ZONE_SEARCHABLE_SURFACE_TO_FACE_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   vector) with a surface.
 // SourceFiles
 //   searchable_surface_to_face_zone.cpp
-#ifndef searchable_surface_to_face_zone_hpp_
-#define searchable_surface_to_face_zone_hpp_
 #include "topo_set_source.hpp"
 namespace mousse
 {

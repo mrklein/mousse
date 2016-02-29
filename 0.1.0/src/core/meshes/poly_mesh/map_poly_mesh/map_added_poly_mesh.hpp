@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_ADDED_POLY_MESH_HPP_
+#define CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_ADDED_POLY_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   Note: Might need some more access functions or maybe some zone maps?
 // SourceFiles
 //   map_added_poly_mesh.cpp
-#ifndef map_added_poly_mesh_hpp_
-#define map_added_poly_mesh_hpp_
 #include "label_list.hpp"
 namespace mousse
 {

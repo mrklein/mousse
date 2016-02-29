@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LINKED_LISTS_IDL_LIST_HPP_
+#define CORE_CONTAINERS_LINKED_LISTS_IDL_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::IDLList
 // Description
 //   Intrusive doubly-linked list.
-#ifndef idl_list_hpp_
-#define idl_list_hpp_
 #include "il_list.hpp"
 #include "dl_list_base.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TPARAMAGNETIC_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TPARAMAGNETIC_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Calculates particle paramagnetic (magnetic field) force
 // SourceFiles
 //   _paramagnetic_force.cpp
-#ifndef _paramagnetic_force_hpp_
-#define _paramagnetic_force_hpp_
 #include "_particle_force.hpp"
 #include "interpolation.hpp"
 namespace mousse

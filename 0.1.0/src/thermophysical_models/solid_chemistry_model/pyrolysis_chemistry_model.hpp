@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_CHEMISTRY_MODEL_PYROLYSIS_CHEMISTRY_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_CHEMISTRY_MODEL_PYROLYSIS_CHEMISTRY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   reaction.
 // SourceFiles
 //   pyrolysis_chemistry_model.cpp
-#ifndef pyrolysis_chemistry_model_hpp_
-#define pyrolysis_chemistry_model_hpp_
 #include "vol_fields.hpp"
 #include "dimensioned_field.hpp"
 #include "solid_chemistry_model.hpp"

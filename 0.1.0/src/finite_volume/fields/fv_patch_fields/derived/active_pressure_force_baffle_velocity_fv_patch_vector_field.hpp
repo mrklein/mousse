@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_ACTIVE_PRESSURE_FORCE_BAFFLE_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_ACTIVE_PRESSURE_FORCE_BAFFLE_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -58,8 +61,6 @@
 //   \endverbatim
 // SourceFiles
 //   active_pressure_force_baffle_velocity_fv_patch_vector_field.cpp
-#ifndef active_pressure_force_baffle_velocity_fv_patch_vector_field_hpp_
-#define active_pressure_force_baffle_velocity_fv_patch_vector_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse

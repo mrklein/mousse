@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_SAMPLED_PATCH_INTERNAL_FIELD_HPP_
+#define SAMPLING_SAMPLED_SURFACE_SAMPLED_PATCH_INTERNAL_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   There is no option to get interpolated value inside the cell on the faces.
 // SourceFiles
 //   sampled_patch_internal_field.cpp
-#ifndef sampled_patch_internal_field_hpp_
-#define sampled_patch_internal_field_hpp_
 #include "sampled_patch.hpp"
 #include "mapped_patch_base.hpp"
 namespace mousse

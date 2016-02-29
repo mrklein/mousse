@@ -1,0 +1,6 @@
+incompressible_three_phase_mixture.cpp
+three_phase_interface_properties.cpp
+immiscible_incompressible_three_phase_mixture.cpp
+inter_mixing.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-inter-mixing

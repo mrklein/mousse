@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_SPHERICAL_TENSOR_FIELD_HPP_
+#define CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_SPHERICAL_TENSOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   dimensioned_spherical_tensor_field.cpp
-#ifndef dimensioned_spherical_tensor_field_hpp_
-#define dimensioned_spherical_tensor_field_hpp_
 #include "dimensioned_field.hpp"
 #include "spherical_tensor.hpp"
 #define TEMPLATE template<class GeoMesh>

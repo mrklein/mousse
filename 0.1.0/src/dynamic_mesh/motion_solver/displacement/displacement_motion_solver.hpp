@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MOTION_SOLVER_DISPLACEMENT_DISPLACEMENT_MOTION_SOLVER_HPP_
+#define DYNAMIC_MESH_MOTION_SOLVER_DISPLACEMENT_DISPLACEMENT_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   on the pointDisplacement pointVectorField.
 // SourceFiles
 //   displacement_motion_solver.cpp
-#ifndef displacement_motion_solver_hpp_
-#define displacement_motion_solver_hpp_
 #include "motion_solver.hpp"
 #include "point_fields.hpp"
 #include "point_io_field.hpp"

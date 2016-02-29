@@ -1,3 +1,6 @@
+#ifndef CONVERSION_ENSIGHT_FILE_ENSIGHT_GEO_FILE_HPP_
+#define CONVERSION_ENSIGHT_FILE_ENSIGHT_GEO_FILE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::ensightGeoFile
 // Description
 //   Specialized Ensight output with extra geometry file header
-#ifndef ensight_geo_file_hpp_
-#define ensight_geo_file_hpp_
 #include "ensight_file.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_SMOOTH_ALIGNMENT_SOLVER_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_SMOOTH_ALIGNMENT_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   smooth_alignment_solver.cpp
 //   smooth_alignment_solver_io.cpp
-#ifndef smooth_alignment_solver_hpp_
-#define smooth_alignment_solver_hpp_
 #include "cell_shape_control_mesh.hpp"
 #include "triad_field.hpp"
 namespace mousse

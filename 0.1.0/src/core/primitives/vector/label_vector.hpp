@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_VECTOR_LABEL_VECTOR_HPP_
+#define CORE_PRIMITIVES_VECTOR_LABEL_VECTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   label_vector.cpp
-#ifndef label_vector_hpp_
-#define label_vector_hpp_
 #include "label.hpp"
 #include "_vector.hpp"
 #include "contiguous.hpp"

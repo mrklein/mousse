@@ -1,3 +1,6 @@
+#ifndef MESH_EXTRUDE_MODEL_EXTRUDE_MODEL_EXTRUDE_MODEL_HPP_
+#define MESH_EXTRUDE_MODEL_EXTRUDE_MODEL_EXTRUDE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Top level extrusion model class
 // SourceFiles
 //   extrude_model.cpp
-#ifndef extrude_model_hpp_
-#define extrude_model_hpp_
 #include "dictionary.hpp"
 #include "point.hpp"
 #include "auto_ptr.hpp"

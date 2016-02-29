@@ -1,3 +1,6 @@
+#ifndef TRI_SURFACE_TRI_SURFACE_POINT_GEO_MESH_HPP_
+#define TRI_SURFACE_TRI_SURFACE_POINT_GEO_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   The triSurface  point GeoMesh (for holding vertex fields).
 //   Similar to the volMesh used for the Finite Volume discretization.
-#ifndef tri_surface_point_geo_mesh_hpp_
-#define tri_surface_point_geo_mesh_hpp_
 #include "geo_mesh.hpp"
 #include "tri_surface.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_FV_OPTION_FV_OPTION_LIST_HPP_
+#define FV_OPTIONS_FV_OPTION_FV_OPTION_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List of finite volume options
 // SourceFile
 //   optionList.C
-#ifndef fv_option_list_hpp_
-#define fv_option_list_hpp_
 #include "fv_option.hpp"
 #include "ptr_list.hpp"
 #include "geometric_field.hpp"

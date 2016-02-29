@@ -1,9 +1,10 @@
+#ifndef CORE_GLOBAL_DEBUG_HPP_
+#define CORE_GLOBAL_DEBUG_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   debug.cpp
-#ifndef debug_hpp_
-#define debug_hpp_
 namespace mousse
 {
 // Forward declaration of classes

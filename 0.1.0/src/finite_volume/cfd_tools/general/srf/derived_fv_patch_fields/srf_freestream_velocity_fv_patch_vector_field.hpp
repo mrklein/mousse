@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_SRF_DERIVED_FV_PATCH_FIELDS_SRF_FREESTREAM_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_SRF_DERIVED_FV_PATCH_FIELDS_SRF_FREESTREAM_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -41,8 +44,6 @@
 //   mousse::SRFVelocityFvPatchVectorField
 // SourceFiles
 //   srf_freestream_velocity_fv_patch_vector_field.cpp
-#ifndef srf_freestream_velocity_fv_patch_vector_field_hpp_
-#define srf_freestream_velocity_fv_patch_vector_field_hpp_
 #include "inlet_outlet_fv_patch_fields.hpp"
 #include "switch.hpp"
 namespace mousse

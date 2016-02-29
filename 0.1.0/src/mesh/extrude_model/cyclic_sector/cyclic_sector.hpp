@@ -1,3 +1,6 @@
+#ifndef MESH_EXTRUDE_MODEL_CYCLIC_SECTOR_CYCLIC_SECTOR_HPP_
+#define MESH_EXTRUDE_MODEL_CYCLIC_SECTOR_CYCLIC_SECTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Extrudes a sector.
 // SeeAlso
 //   mousse::extrudeModels::sector
-#ifndef cyclic_sector_hpp_
-#define cyclic_sector_hpp_
 #include "sector.hpp"
 namespace mousse
 {

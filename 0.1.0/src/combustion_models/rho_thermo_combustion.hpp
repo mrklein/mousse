@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_RHO_THERMO_COMBUSTION_HPP_
+#define COMBUSTION_MODELS_RHO_THERMO_COMBUSTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Density-based thermo model wrapper for combustion models
 // SourceFiles
 //   rho_thermo_combustion.cpp
-#ifndef rho_thermo_combustion_hpp_
-#define rho_thermo_combustion_hpp_
 #include "auto_ptr.hpp"
 #include "rho_combustion_model.hpp"
 #include "rho_chemistry_model.hpp"

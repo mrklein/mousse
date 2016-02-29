@@ -1,3 +1,6 @@
+#ifndef TOPO_CHANGER_FV_MESH_MIXER_FV_MESH_MIXER_FV_MESH_HPP_
+#define TOPO_CHANGER_FV_MESH_MIXER_FV_MESH_MIXER_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A rotating slider mesh
 // SourceFiles
 //   mixer_fv_mesh.cpp
-#ifndef mixer_fv_mesh_hpp_
-#define mixer_fv_mesh_hpp_
 #include "topo_changer_fv_mesh.hpp"
 #include "cylindrical_cs.hpp"
 namespace mousse

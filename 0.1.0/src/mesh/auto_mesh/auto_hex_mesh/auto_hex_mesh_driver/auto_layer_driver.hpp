@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_AUTO_LAYER_DRIVER_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_AUTO_LAYER_DRIVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   All to do with adding layers
 // SourceFiles
 //   auto_layer_driver.cpp
-#ifndef auto_layer_driver_hpp_
-#define auto_layer_driver_hpp_
 #include "mesh_refinement.hpp"
 namespace mousse
 {

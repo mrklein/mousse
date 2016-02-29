@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_OSCILLATING_ROTATING_MOTION_OSCILLATING_ROTATING_MOTION_HPP_
+#define DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_OSCILLATING_ROTATING_MOTION_OSCILLATING_ROTATING_MOTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   SolidBodyMotionFvMesh 6DoF motion function. Oscillating rotation.
 // SourceFiles
 //   oscillating_rotating_motion.cpp
-#ifndef oscillating_rotating_motion_hpp_
-#define oscillating_rotating_motion_hpp_
 #include "solid_body_motion_function.hpp"
 #include "primitive_fields.hpp"
 #include "point.hpp"

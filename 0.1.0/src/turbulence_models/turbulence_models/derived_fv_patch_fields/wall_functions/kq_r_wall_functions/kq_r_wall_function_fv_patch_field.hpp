@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_KQ_R_WALL_FUNCTIONS_KQ_R_WALL_FUNCTION_FV_PATCH_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_KQ_R_WALL_FUNCTIONS_KQ_R_WALL_FUNCTION_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   mousse::zeroGradientFvPatchField
 // SourceFiles
 //   kq_r_wall_function_fv_patch_field.cpp
-#ifndef kq_r_wall_function_fv_patch_field_hpp_
-#define kq_r_wall_function_fv_patch_field_hpp_
 #include "zero_gradient_fv_patch_field.hpp"
 namespace mousse
 {

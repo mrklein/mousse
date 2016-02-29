@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_CUBIC_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_CUBIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   cubic.cpp
 
-#ifndef cubic_hpp_
-#define cubic_hpp_
 
 #include "surface_fields.hpp"
 #include "linear.hpp"

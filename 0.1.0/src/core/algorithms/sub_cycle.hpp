@@ -1,3 +1,6 @@
+#ifndef CORE_ALGORITHMS_SUB_CYCLE_HPP_
+#define CORE_ALGORITHMS_SUB_CYCLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Perform a subCycleTime on a field
 
-#ifndef sub_cycle_hpp_
-#define sub_cycle_hpp_
 
 #include "sub_cycle_time.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_TABULATED_ACCELERATION_SOURCE_TABULATED_ACCELERATION_SOURCE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_TABULATED_ACCELERATION_SOURCE_TABULATED_ACCELERATION_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   \endverbatim
 // SourceFiles
 //   tabulated_acceleration_source.cpp
-#ifndef tabulated_acceleration_source_hpp_
-#define tabulated_acceleration_source_hpp_
 #include "fv_option.hpp"
 #include "tabulated_6dof_acceleration.hpp"
 #include "dimensioned_types.hpp"

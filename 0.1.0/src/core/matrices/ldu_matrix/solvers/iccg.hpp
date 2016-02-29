@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_ICCG_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_ICCG_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 // SourceFiles
 //   iccg.cpp
 
-#ifndef iccg_hpp_
-#define iccg_hpp_
 
 #include "pcg.hpp"
 

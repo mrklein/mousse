@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_PHASE_COMPRESSIBLE_RAS_MIXTURE_K_EPSILON_HPP_
+#define TURBULENCE_MODELS_PHASE_COMPRESSIBLE_RAS_MIXTURE_K_EPSILON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -34,8 +37,6 @@
 //   \endverbatim
 // SourceFiles
 //   mixture_k_epsilon.cpp
-#ifndef mixture_k_epsilon_hpp_
-#define mixture_k_epsilon_hpp_
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"
 namespace mousse

@@ -1,10 +1,11 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_BOUND_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_BOUND_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   bound.cpp
 
-#ifndef bound_hpp_
-#define bound_hpp_
 
 #include "dimensioned_scalar.hpp"
 #include "vol_fields_fwd.hpp"

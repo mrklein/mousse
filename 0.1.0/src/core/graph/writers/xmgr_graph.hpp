@@ -1,3 +1,6 @@
+#ifndef CORE_GRAPH_WRITERS_XMGR_GRAPH_HPP_
+#define CORE_GRAPH_WRITERS_XMGR_GRAPH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   (http://plasma-gate.weizmann.ac.il/Grace/)
 // SourceFiles
 //   xmgr_graph.cpp
-#ifndef xmgr_graph_hpp_
-#define xmgr_graph_hpp_
 #include "graph.hpp"
 namespace mousse
 {

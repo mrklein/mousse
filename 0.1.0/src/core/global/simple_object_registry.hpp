@@ -1,3 +1,6 @@
+#ifndef CORE_GLOBAL_SIMPLE_OBJECT_REGISTRY_HPP_
+#define CORE_GLOBAL_SIMPLE_OBJECT_REGISTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Object registry for simpleRegIOobject. Maintains ordering.
 // SourceFiles
-#ifndef simple_object_registry_hpp_
-#define simple_object_registry_hpp_
 #include "_dictionary.hpp"
 #include "simple_reg_ioobject.hpp"
 namespace mousse

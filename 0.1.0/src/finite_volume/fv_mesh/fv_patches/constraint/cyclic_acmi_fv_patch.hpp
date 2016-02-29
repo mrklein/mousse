@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_CYCLIC_ACMI_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_CYCLIC_ACMI_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cyclic patch for Arbitrarily Coupled Mesh Interface (ACMI)
 // SourceFiles
 //   cyclic_acmi_fv_patch.cpp
-#ifndef cyclic_acmi_fv_patch_hpp_
-#define cyclic_acmi_fv_patch_hpp_
 #include "coupled_fv_patch.hpp"
 #include "cyclic_acmi_ldu_interface.hpp"
 #include "cyclic_acmi_poly_patch.hpp"

@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_EXTRUDE_EXTRUDE_MESH_EXTRUDED_MESH_EXTRUDED_MESH_HPP_
+#define UTILITIES_MESH_GENERATION_EXTRUDE_EXTRUDE_MESH_EXTRUDED_MESH_EXTRUDED_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   extruded_mesh.cpp
 //   extruded_mesh_templates.cpp
-#ifndef extruded_mesh_hpp_
-#define extruded_mesh_hpp_
 #include "poly_mesh.hpp"
 #include "extrude_model.hpp"
 namespace mousse

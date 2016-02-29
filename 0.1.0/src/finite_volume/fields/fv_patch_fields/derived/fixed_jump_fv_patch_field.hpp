@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FIXED_JUMP_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FIXED_JUMP_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -32,8 +35,6 @@
 //   mousse::jumpCyclicFvPatchField
 // SourceFiles
 //   fixed_jump_fv_patch_field.cpp
-#ifndef fixed_jump_fv_patch_field_hpp_
-#define fixed_jump_fv_patch_field_hpp_
 #include "jump_cyclic_fv_patch_field.hpp"
 namespace mousse
 {

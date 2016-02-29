@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_VOL_POINT_INTERPOLATION_POINT_CONSTRAINTS_HPP_
+#define FINITE_VOLUME_INTERPOLATION_VOL_POINT_INTERPOLATION_POINT_CONSTRAINTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   point_constraints.cpp
 //   point_constraints_templates.cpp
 //
-#ifndef point_constraints_hpp_
-#define point_constraints_hpp_
 
 #include "_mesh_object.hpp"
 #include "tensor_field.hpp"

@@ -1,0 +1,3 @@
+sonic_liquid.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-sonic-liquid

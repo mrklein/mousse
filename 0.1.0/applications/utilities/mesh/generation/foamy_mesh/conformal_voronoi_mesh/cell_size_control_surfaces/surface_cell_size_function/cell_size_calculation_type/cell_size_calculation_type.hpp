@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SIZE_CONTROL_SURFACES_SURFACE_CELL_SIZE_FUNCTION_CELL_SIZE_CALCULATION_TYPE_CELL_SIZE_CALCULATION_TYPE_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SIZE_CONTROL_SURFACES_SURFACE_CELL_SIZE_FUNCTION_CELL_SIZE_CALCULATION_TYPE_CELL_SIZE_CALCULATION_TYPE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for specifying target cell sizes
 // SourceFiles
 //   cell_size_calculation_type.cpp
-#ifndef cell_size_calculation_type_hpp_
-#define cell_size_calculation_type_hpp_
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "tri_surface_fields.hpp"

@@ -1,3 +1,6 @@
+#ifndef EDGE_MESH_EDGE_MESH_FORMATS_NAS_EDGE_FORMAT_HPP_
+#define EDGE_MESH_EDGE_MESH_FORMATS_NAS_EDGE_FORMAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Nastran edge reader.
 // SourceFiles
 //   nas_edge_format.cpp
-#ifndef nas_edge_format_hpp_
-#define nas_edge_format_hpp_
 #include "edge_mesh.hpp"
 #include "nas_core.hpp"
 namespace mousse

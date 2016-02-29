@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_COAL_COMBUSTION_SUBMODELS_SURFACE_REACTION_MODEL_C_OXIDATION_MURPHY_SHADDIX_HPP_
+#define LAGRANGIAN_COAL_COMBUSTION_SUBMODELS_SURFACE_REACTION_MODEL_C_OXIDATION_MURPHY_SHADDIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //     Murphy, J. J., Shaddix, C. R., Combustion kinetics of coal chars
 //     in oxygen-enriched environments, Combustion and Flame 144,
 //     pp710-729, 2006
-#ifndef c_oxidation_murphy_shaddix_hpp_
-#define c_oxidation_murphy_shaddix_hpp_
 #include "_surface_reaction_model.hpp"
 namespace mousse
 {

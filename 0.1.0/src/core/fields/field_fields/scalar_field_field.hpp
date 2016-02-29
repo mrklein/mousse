@@ -1,10 +1,11 @@
+#ifndef CORE_FIELDS_FIELD_FIELDS_SCALAR_FIELD_FIELD_HPP_
+#define CORE_FIELDS_FIELD_FIELDS_SCALAR_FIELD_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   scalar_field_field.cpp
 
-#ifndef scalar_field_field_hpp_
-#define scalar_field_field_hpp_
 
 #include "field_field.hpp"
 #include "scalar.hpp"

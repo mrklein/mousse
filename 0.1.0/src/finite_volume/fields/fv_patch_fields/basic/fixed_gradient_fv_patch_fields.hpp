@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_FIXED_GRADIENT_FV_PATCH_FIELDS_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_FIXED_GRADIENT_FV_PATCH_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef fixed_gradient_fv_patch_fields_hpp_
-#define fixed_gradient_fv_patch_fields_hpp_
 
 #include "fixed_gradient_fv_patch_field.hpp"
 #include "field_types.hpp"

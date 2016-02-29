@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_WRITERS_PROXY_SURFACE_WRITER_HPP_
+#define SAMPLING_SAMPLED_SURFACE_WRITERS_PROXY_SURFACE_WRITER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   which does not support any fields.
 // SourceFiles
 //   proxy_surface_writer.cpp
-#ifndef proxy_surface_writer_hpp_
-#define proxy_surface_writer_hpp_
 #include "surface_writer.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_COMBINE_FACES_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_COMBINE_FACES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   of the first face ('the master')
 // SourceFiles
 //   combine_faces.cpp
-#ifndef combine_faces_hpp_
-#define combine_faces_hpp_
 #include "indirect_primitive_patch.hpp"
 namespace mousse
 {

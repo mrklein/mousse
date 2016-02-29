@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_POINT_PATCH_FIELDS_DERIVED_UNIFORM_INTERPOLATED_DISPLACEMENT_UNIFORM_INTERPOLATED_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+#define FV_MOTION_SOLVER_POINT_PATCH_FIELDS_DERIVED_UNIFORM_INTERPOLATED_DISPLACEMENT_UNIFORM_INTERPOLATED_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   automatically works through decomposePar.
 // SourceFiles
 //   uniform_interpolated_displacement_point_patch_vector_field.cpp
-#ifndef uniform_interpolated_displacement_point_patch_vector_field_hpp_
-#define uniform_interpolated_displacement_point_patch_vector_field_hpp_
 #include "fixed_value_point_patch_field.hpp"
 namespace mousse
 {

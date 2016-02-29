@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_CHEMICALLY_ACTIVATED_REACTION_RATE_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_CHEMICALLY_ACTIVATED_REACTION_RATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::ChemicallyActivatedReactionRate
 // Description
 //   General class for handling chemically-activated bimolecular reactions.
-#ifndef chemically_activated_reaction_rate_hpp_
-#define chemically_activated_reaction_rate_hpp_
 #include "third_body_efficiencies.hpp"
 namespace mousse
 {

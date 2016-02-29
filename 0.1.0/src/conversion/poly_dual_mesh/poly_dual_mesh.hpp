@@ -1,3 +1,6 @@
+#ifndef CONVERSION_POLY_DUAL_MESH_POLY_DUAL_MESH_HPP_
+#define CONVERSION_POLY_DUAL_MESH_POLY_DUAL_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Every polyMesh cell and patchFace becomes a point on the dual mesh.
 // SourceFiles
 //   poly_dual_mesh.cpp
-#ifndef poly_dual_mesh_hpp_
-#define poly_dual_mesh_hpp_
 #include "poly_mesh.hpp"
 #include "label_io_list.hpp"
 #include "type_info.hpp"

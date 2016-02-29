@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LINKED_LISTS_UIL_LIST_HPP_
+#define CORE_CONTAINERS_LINKED_LISTS_UIL_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   uil_list.cpp
 //   uil_list_io.cpp
-#ifndef uil_list_hpp_
-#define uil_list_hpp_
 #include "label.hpp"
 #include "ulabel.hpp"
 namespace mousse

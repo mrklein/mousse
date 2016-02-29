@@ -1,10 +1,11 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_TURBULENT_FLUID_THERMO_MODEL_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_TURBULENT_FLUID_THERMO_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   turbulent_fluid_thermo_model.cpp
 //   turbulent_fluid_thermo_models.cpp
-#ifndef turbulent_fluid_thermo_model_hpp_
-#define turbulent_fluid_thermo_model_hpp_
 #include "_compressible_turbulence_model.hpp"
 #include "thermal_diffusivity.hpp"
 #include "eddy_diffusivity.hpp"

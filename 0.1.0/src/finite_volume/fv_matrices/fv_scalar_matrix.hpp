@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FV_MATRICES_FV_SCALAR_MATRIX_HPP_
+#define FINITE_VOLUME_FV_MATRICES_FV_SCALAR_MATRIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   fv_scalar_matrix.cpp
-#ifndef fv_scalar_matrix_hpp_
-#define fv_scalar_matrix_hpp_
 #include "fv_matrix.hpp"
 #include "fv_matrices_fwd.hpp"
 namespace mousse

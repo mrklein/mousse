@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_WALL_LAYER_CELLS_WALL_LAYER_CELLS_HPP_
+#define DYNAMIC_MESH_MESH_CUT_WALL_LAYER_CELLS_WALL_LAYER_CELLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   distance to the wall and with the wall normal direction.
 // SourceFiles
 //   wall_layer_cells.cpp
-#ifndef wall_layer_cells_hpp_
-#define wall_layer_cells_hpp_
 #include "edge_vertex.hpp"
 #include "refine_cell.hpp"
 #include "type_info.hpp"

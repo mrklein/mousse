@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TNO_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TNO_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Place holder for 'none' option
 // SourceFiles
 //   _no_injection.cpp
-#ifndef _no_injection_hpp_
-#define _no_injection_hpp_
 #include "_injection_model.hpp"
 namespace mousse
 {

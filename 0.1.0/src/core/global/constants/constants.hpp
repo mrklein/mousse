@@ -1,9 +1,10 @@
+#ifndef CORE_GLOBAL_CONSTANTS_CONSTANTS_HPP_
+#define CORE_GLOBAL_CONSTANTS_CONSTANTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef constants_hpp_
-#define constants_hpp_
 // Mathematical constants
 #include "mathematical_constants.hpp"
 // Fundamental constants

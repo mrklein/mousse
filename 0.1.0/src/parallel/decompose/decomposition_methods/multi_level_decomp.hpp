@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_MULTI_LEVEL_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_MULTI_LEVEL_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Decomposition given using consecutive application of decomposers.
 // SourceFiles
 //   multi_level_decomp.cpp
-#ifndef multi_level_decomp_hpp_
-#define multi_level_decomp_hpp_
 #include "decomposition_method.hpp"
 namespace mousse
 {

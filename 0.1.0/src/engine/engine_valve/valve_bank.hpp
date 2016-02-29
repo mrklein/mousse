@@ -1,3 +1,6 @@
+#ifndef ENGINE_ENGINE_VALVE_VALVE_BANK_HPP_
+#define ENGINE_ENGINE_VALVE_VALVE_BANK_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::valveBank
 // Description
 //   A list of valves.
-#ifndef valve_bank_hpp_
-#define valve_bank_hpp_
 #include "ptr_list.hpp"
 #include "engine_valve.hpp"
 namespace mousse

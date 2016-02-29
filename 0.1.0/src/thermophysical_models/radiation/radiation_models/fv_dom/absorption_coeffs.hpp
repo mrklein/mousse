@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_ABSORPTION_COEFFS_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_ABSORPTION_COEFFS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   wideBandAbsorptionEmission
 // SourceFiles
 //   absorption_coeffs.cpp
-#ifndef absorption_coeffs_hpp_
-#define absorption_coeffs_hpp_
 #include "list.hpp"
 #include "iostreams.hpp"
 #include "iodictionary.hpp"

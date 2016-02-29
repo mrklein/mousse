@@ -1,3 +1,6 @@
+#ifndef SAMPLING_CUTTING_PLANE_HPP_
+#define SAMPLING_CUTTING_PLANE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   positive side of the plane is taken.
 // SourceFiles
 //   cutting_plane.cpp
-#ifndef cutting_plane_hpp_
-#define cutting_plane_hpp_
 #include "plane.hpp"
 #include "point_field.hpp"
 #include "face_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_GAUSS_GRAD_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_GAUSS_GRAD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   gauss_grad.cpp
 
-#ifndef gauss_grad_hpp_
-#define gauss_grad_hpp_
 
 #include "grad_scheme.hpp"
 #include "surface_interpolation_scheme.hpp"

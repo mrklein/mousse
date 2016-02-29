@@ -1,0 +1,5 @@
+phase.cpp
+alpha_contact_angle_fv_patch_scalar_field.cpp
+multiphase_mixture.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_multiphase_inter_foam

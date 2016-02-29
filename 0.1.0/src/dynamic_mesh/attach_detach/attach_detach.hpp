@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_ATTACH_DETACH_ATTACH_DETACH_HPP_
+#define DYNAMIC_MESH_ATTACH_DETACH_ATTACH_DETACH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   attach_interface.cpp
 //   detach_interface.cpp
 //   attach_detach_point_match_map.cpp
-#ifndef attach_detach_hpp_
-#define attach_detach_hpp_
 #include "poly_mesh_modifier.hpp"
 #include "poly_patch_id.hpp"
 #include "zone_i_ds.hpp"

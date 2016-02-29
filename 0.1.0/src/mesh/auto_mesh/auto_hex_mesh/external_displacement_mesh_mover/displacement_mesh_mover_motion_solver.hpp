@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_EXTERNAL_DISPLACEMENT_MESH_MOVER_DISPLACEMENT_MESH_MOVER_MOTION_SOLVER_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_EXTERNAL_DISPLACEMENT_MESH_MOVER_DISPLACEMENT_MESH_MOVER_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Laplacian for the motion displacement.
 // SourceFiles
 //   displacement_mesh_mover_motion_solver.cpp
-#ifndef displacement_mesh_mover_motion_solver_hpp_
-#define displacement_mesh_mover_motion_solver_hpp_
 #include "displacement_motion_solver.hpp"
 #include "external_displacement_mesh_mover.hpp"
 namespace mousse

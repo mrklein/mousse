@@ -1,9 +1,10 @@
+#ifndef CORE_DB_IOSTREAMS_PSTREAMS_PSTREAM_REDUCE_OPS_HPP_
+#define CORE_DB_IOSTREAMS_PSTREAMS_PSTREAM_REDUCE_OPS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef pstream_reduce_ops_hpp_
-#define pstream_reduce_ops_hpp_
 #include "pstream.hpp"
 #include "ops.hpp"
 #include "vector_2d.hpp"

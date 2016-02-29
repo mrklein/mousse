@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_MODEL_REGION_MODEL_HPP_
+#define REGION_MODELS_REGION_MODEL_REGION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for region models
 // SourceFiles
 //   region_model.cpp
-#ifndef region_model_hpp_
-#define region_model_hpp_
 #include "iodictionary.hpp"
 #include "switch.hpp"
 #include "label_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_SQUARE_MATRIX_SQUARE_MATRIX_HPP_
+#define CORE_MATRICES_SQUARE_MATRIX_SQUARE_MATRIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   dimension is known and used for subscript bounds checking, etc.
 // SourceFiles
 //   square_matrix.cpp
-#ifndef square_matrix_hpp_
-#define square_matrix_hpp_
 #include "matrix.hpp"
 namespace mousse
 {

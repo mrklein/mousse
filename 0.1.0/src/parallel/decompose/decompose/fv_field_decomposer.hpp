@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSE_FV_FIELD_DECOMPOSER_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSE_FV_FIELD_DECOMPOSER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   fv_field_decomposer.cpp
 //   fv_field_decomposer_decompose_fields.cpp
-#ifndef fv_field_decomposer_hpp_
-#define fv_field_decomposer_hpp_
 #include "fv_mesh.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"

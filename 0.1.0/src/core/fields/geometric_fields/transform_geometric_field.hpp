@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_TRANSFORM_GEOMETRIC_FIELD_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_TRANSFORM_GEOMETRIC_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   transform_geometric_field.cpp
-#ifndef transform_geometric_field_hpp_
-#define transform_geometric_field_hpp_
 #include "transform.hpp"
 #include "geometric_field.hpp"
 namespace mousse

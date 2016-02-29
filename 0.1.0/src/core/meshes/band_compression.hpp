@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_BAND_COMPRESSION_HPP_
+#define CORE_MESHES_BAND_COMPRESSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   band_compression.cpp
-#ifndef band_compression_hpp_
-#define band_compression_hpp_
 #include "label_list.hpp"
 namespace mousse
 {

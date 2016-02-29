@@ -1,10 +1,11 @@
+#ifndef CORE_FIELDS_FIELDS_LABEL_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_LABEL_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   label_field.cpp
 
-#ifndef label_field_hpp_
-#define label_field_hpp_
 
 #include "label.hpp"
 #include "field.hpp"

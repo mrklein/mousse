@@ -1,3 +1,6 @@
+#ifndef GENERIC_PATCH_FIELDS_GENERIC_FV_PATCH_FIELD_HPP_
+#define GENERIC_PATCH_FIELDS_GENERIC_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   mousse::calculatedFvPatchField
 // SourceFiles
 //   generic_fv_patch_field.cpp
-#ifndef generic_fv_patch_field_hpp_
-#define generic_fv_patch_field_hpp_
 #include "calculated_fv_patch_field.hpp"
 #include "hash_ptr_table.hpp"
 namespace mousse

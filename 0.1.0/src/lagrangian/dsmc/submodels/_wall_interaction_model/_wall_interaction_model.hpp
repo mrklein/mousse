@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TWALL_INTERACTION_MODEL_TWALL_INTERACTION_MODEL_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TWALL_INTERACTION_MODEL_TWALL_INTERACTION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   _wall_interaction_model.cpp
 //   _wall_interaction_model_new.cpp
 
-#ifndef _wall_interaction_model_hpp_
-#define _wall_interaction_model_hpp_
 
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"

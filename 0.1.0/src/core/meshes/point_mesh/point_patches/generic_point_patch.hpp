@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_PATCHES_GENERIC_POINT_PATCH_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_PATCHES_GENERIC_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   generic_point_patch.cpp
 
-#ifndef generic_point_patch_hpp_
-#define generic_point_patch_hpp_
 
 #include "face_point_patch.hpp"
 #include "generic_poly_patch.hpp"

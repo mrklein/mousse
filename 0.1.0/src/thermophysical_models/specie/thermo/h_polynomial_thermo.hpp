@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_THERMO_H_POLYNOMIAL_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_THERMO_H_POLYNOMIAL_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Polynomials for h and s derived from cp
 // SourceFiles
 //   h_polynomial_thermo.cpp
-#ifndef h_polynomial_thermo_hpp_
-#define h_polynomial_thermo_hpp_
 #include "scalar.hpp"
 #include "polynomial.hpp"
 namespace mousse

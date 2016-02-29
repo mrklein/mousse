@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_DERIVED_BASIC_REACTING_MULTIPHASE_PARCEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_DERIVED_BASIC_REACTING_MULTIPHASE_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   basic_reacting_multiphase_parcel.cpp
 //   basic_reacting_multiphase_parcel_io.cpp
-#ifndef basic_reacting_multiphase_parcel_hpp_
-#define basic_reacting_multiphase_parcel_hpp_
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"

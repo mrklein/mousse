@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_EXTERNAL_DISPLACEMENT_MESH_MOVER_MEDIAL_AXIS_MESH_MOVER_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_EXTERNAL_DISPLACEMENT_MESH_MOVER_MEDIAL_AXIS_MESH_MOVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   - slip on all slipping patches
 // SourceFiles
 //   medial_axis_mesh_mover.cpp
-#ifndef medial_axis_mesh_mover_hpp_
-#define medial_axis_mesh_mover_hpp_
 #include "external_displacement_mesh_mover.hpp"
 #include "motion_smoother_algo.hpp"
 #include "auto_layer_driver.hpp"

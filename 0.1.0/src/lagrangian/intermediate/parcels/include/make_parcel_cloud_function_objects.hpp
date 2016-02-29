@@ -1,9 +1,10 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_INCLUDE_MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_INCLUDE_MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_parcel_cloud_function_objects_hpp_
-#define make_parcel_cloud_function_objects_hpp_
 
 #include "_face_post_processing.hpp"
 #include "_particle_collector.hpp"

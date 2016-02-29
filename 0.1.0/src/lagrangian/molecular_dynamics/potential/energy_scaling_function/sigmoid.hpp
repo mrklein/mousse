@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_ENERGY_SCALING_FUNCTION_SIGMOID_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_ENERGY_SCALING_FUNCTION_SIGMOID_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   sigmoid.cpp
-#ifndef sigmoid_hpp_
-#define sigmoid_hpp_
 #include "energy_scaling_function.hpp"
 namespace mousse
 {

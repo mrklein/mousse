@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_STRINGS_HASHED_WORD_LIST_HPP_
+#define CORE_PRIMITIVES_STRINGS_HASHED_WORD_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A wordList with hashed indices for faster lookup by name.
 // SourceFiles
 //   hashed_word_list.cpp
-#ifndef hashed_word_list_hpp_
-#define hashed_word_list_hpp_
 #include "word_list.hpp"
 #include "hash_table.hpp"
 namespace mousse

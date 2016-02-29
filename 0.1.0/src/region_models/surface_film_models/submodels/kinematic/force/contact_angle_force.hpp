@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FORCE_CONTACT_ANGLE_FORCE_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FORCE_CONTACT_ANGLE_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   distance from patches.
 // SourceFiles
 //   contact_angle_force.cpp
-#ifndef contact_angle_force_hpp_
-#define contact_angle_force_hpp_
 #include "force.hpp"
 #include "distribution_model.hpp"
 #include "cached_random.hpp"

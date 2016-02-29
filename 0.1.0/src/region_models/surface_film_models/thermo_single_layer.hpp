@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_THERMO_SINGLE_LAYER_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_THERMO_SINGLE_LAYER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   Tstd = 298.15 K
 // SourceFiles
 //   thermo_single_layer.cpp
-#ifndef thermo_single_layer_hpp_
-#define thermo_single_layer_hpp_
 #include "kinematic_single_layer.hpp"
 #include "slg_thermo.hpp"
 #include "film_radiation_model.hpp"

@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_VECTOR_TOOLS_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_VECTOR_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::vectorTools
 // Description
 //   Functions for analysing the relationships between vectors
-#ifndef vector_tools_hpp_
-#define vector_tools_hpp_
 #include "vector.hpp"
 #include "unit_conversion.hpp"
 namespace mousse

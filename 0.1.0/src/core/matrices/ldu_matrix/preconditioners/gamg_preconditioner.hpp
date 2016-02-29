@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_PRECONDITIONERS_GAMG_PRECONDITIONER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_PRECONDITIONERS_GAMG_PRECONDITIONER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   gamg_preconditioner.cpp
 
-#ifndef gamg_preconditioner_hpp_
-#define gamg_preconditioner_hpp_
 
 #include "gamg_solver.hpp"
 

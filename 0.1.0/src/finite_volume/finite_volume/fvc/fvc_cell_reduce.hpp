@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_CELL_REDUCE_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_CELL_REDUCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   fvc_cell_reduce.cpp
-#ifndef fvc_cell_reduce_hpp_
-#define fvc_cell_reduce_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 namespace mousse

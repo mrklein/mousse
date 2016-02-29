@@ -1,3 +1,6 @@
+#ifndef CORE_GRAPH_GRAPH_HPP_
+#define CORE_GRAPH_GRAPH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   graph.cpp
 
-#ifndef graph_hpp_
-#define graph_hpp_
 
 #include "string.hpp"
 #include "point.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DISTRIBUTION_MODELS_NORMAL_HPP_
+#define LAGRANGIAN_DISTRIBUTION_MODELS_NORMAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   strength only has meaning if there's more than one distribution model
 // SourceFiles
 //   normal.cpp
-#ifndef normal_hpp_
-#define normal_hpp_
 #include "distribution_model.hpp"
 namespace mousse
 {

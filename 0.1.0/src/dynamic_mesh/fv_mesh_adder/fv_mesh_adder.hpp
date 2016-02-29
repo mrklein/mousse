@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_FV_MESH_ADDER_FV_MESH_ADDER_HPP_
+#define DYNAMIC_MESH_FV_MESH_ADDER_FV_MESH_ADDER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   fv_mesh_adder.cpp
 //   fv_mesh_adder_templates.cpp
-#ifndef fv_mesh_adder_hpp_
-#define fv_mesh_adder_hpp_
 #include "poly_mesh_adder.hpp"
 #include "vol_fields_fwd.hpp"
 #include "fv_patch_fields_fwd.hpp"

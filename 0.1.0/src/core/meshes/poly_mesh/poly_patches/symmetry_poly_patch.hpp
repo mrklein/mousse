@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_SYMMETRY_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_SYMMETRY_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   see_also
 //   symmetry_plane_poly_patch
 
-#ifndef symmetry_poly_patch_hpp_
-#define symmetry_poly_patch_hpp_
 
 #include "poly_patch.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_MULTIVARIATE_SCHEMES_MULTIVARIATE_SELECTION_SCHEME_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_MULTIVARIATE_SCHEMES_MULTIVARIATE_SELECTION_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   NVD, CNVD or NVDV schemes may be selected for each variable.
 // SourceFiles
 //   multivariate_selection_scheme.cpp
-#ifndef multivariate_selection_scheme_hpp_
-#define multivariate_selection_scheme_hpp_
 #include "multivariate_surface_interpolation_scheme.hpp"
 #include "surface_fields.hpp"
 namespace mousse

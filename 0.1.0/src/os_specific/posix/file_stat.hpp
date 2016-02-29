@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_FILE_STAT_HPP_
+#define OS_SPECIFIC_POSIX_FILE_STAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   So e.g. mousse::ping first and hope nfs is running.
 // SourceFiles
 //   file_stat.cpp
-#ifndef file_stat_hpp_
-#define file_stat_hpp_
 #include <sys/stat.h>
 #include <sys/types.h>
 #include "label.hpp"

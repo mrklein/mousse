@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TDRAG_TDISTORTED_SPHERE_DRAG_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TDRAG_TDISTORTED_SPHERE_DRAG_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //     SAE Transactions, Vol. 102, Section 3, Journal of Engines, 1993,
 //     pp. 63-95
 //   \endverbatim
-#ifndef _distorted_sphere_drag_force_hpp_
-#define _distorted_sphere_drag_force_hpp_
 #include "_particle_force.hpp"
 namespace mousse
 {

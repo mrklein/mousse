@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_CELL_HPP_
+#define CORE_MESHES_MESH_SHAPES_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::cell
 // Description
 //   A cell is defined as a list of faces with extra functionality
-#ifndef cell_hpp_
-#define cell_hpp_
 #include "face_list.hpp"
 #include "opposite_face.hpp"
 namespace mousse

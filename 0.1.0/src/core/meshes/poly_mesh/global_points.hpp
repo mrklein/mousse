@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_GLOBAL_POINTS_HPP_
+#define CORE_MESHES_POLY_MESH_GLOBAL_POINTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -43,8 +46,6 @@
 // SourceFiles
 //   global_points.cpp
 
-#ifndef global_points_hpp_
-#define global_points_hpp_
 
 #include "dynamic_list.hpp"
 #include "indirect_primitive_patch.hpp"

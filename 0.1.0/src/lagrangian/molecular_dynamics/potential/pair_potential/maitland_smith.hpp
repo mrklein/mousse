@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_PAIR_POTENTIAL_MAITLAND_SMITH_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_PAIR_POTENTIAL_MAITLAND_SMITH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -32,8 +35,6 @@
 //   \endverbatim
 // SourceFiles
 //   maitland_smith.cpp
-#ifndef maitland_smith_hpp_
-#define maitland_smith_hpp_
 #include "pair_potential.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef SAMPLING_MESH_TO_MESH_CALC_METHOD_DIRECT_METHOD_HPP_
+#define SAMPLING_MESH_TO_MESH_CALC_METHOD_DIRECT_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Volume conservative.
 // SourceFiles
 //   direct_method.cpp
-#ifndef direct_method_hpp_
-#define direct_method_hpp_
 #include "mesh_to_mesh_method.hpp"
 namespace mousse
 {

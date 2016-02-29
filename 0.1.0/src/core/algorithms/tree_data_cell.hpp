@@ -1,3 +1,6 @@
+#ifndef CORE_ALGORITHMS_TREE_DATA_CELL_HPP_
+#define CORE_ALGORITHMS_TREE_DATA_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   cell containing a point (e.g. cell-cell mapping).
 // SourceFiles
 //   tree_data_cell.cpp
-#ifndef tree_data_cell_hpp_
-#define tree_data_cell_hpp_
 #include "poly_mesh.hpp"
 #include "tree_bound_box_list.hpp"
 #include "volume_type.hpp"

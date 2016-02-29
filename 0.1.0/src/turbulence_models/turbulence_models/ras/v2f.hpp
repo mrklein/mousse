@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_V2F_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_V2F_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -61,8 +64,6 @@
 //   mousse::fWallFunctionFvPatchScalarField
 // SourceFiles
 //   v2f.cpp
-#ifndef v2f_hpp_
-#define v2f_hpp_
 #include "v2f_base.hpp"
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"

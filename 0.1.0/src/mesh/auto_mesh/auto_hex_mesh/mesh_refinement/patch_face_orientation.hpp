@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_MESH_REFINEMENT_PATCH_FACE_ORIENTATION_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_MESH_REFINEMENT_PATCH_FACE_ORIENTATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Transport of orientation for use in PatchEdgeFaceWave.
 // SourceFiles
 //   patch_face_orientation.cpp
-#ifndef patch_face_orientation_hpp_
-#define patch_face_orientation_hpp_
 #include "tensor.hpp"
 #include "indirect_primitive_patch.hpp"
 #include "poly_mesh.hpp"

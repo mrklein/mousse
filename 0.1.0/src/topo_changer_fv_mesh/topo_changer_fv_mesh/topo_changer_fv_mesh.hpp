@@ -1,3 +1,6 @@
+#ifndef TOPO_CHANGER_FV_MESH_TOPO_CHANGER_FV_MESH_TOPO_CHANGER_FV_MESH_HPP_
+#define TOPO_CHANGER_FV_MESH_TOPO_CHANGER_FV_MESH_TOPO_CHANGER_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   topo_changer_fv_mesh.cpp
 //   new_topo_fv_mesh.cpp
-#ifndef topo_changer_fv_mesh_hpp_
-#define topo_changer_fv_mesh_hpp_
 #include "dynamic_fv_mesh.hpp"
 #include "poly_topo_changer.hpp"
 namespace mousse

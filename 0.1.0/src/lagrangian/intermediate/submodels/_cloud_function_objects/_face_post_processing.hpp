@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TFACE_POST_PROCESSING_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TFACE_POST_PROCESSING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //     average mass flux
 // SourceFiles
 //   _face_post_processing.cpp
-#ifndef _face_post_processing_hpp_
-#define _face_post_processing_hpp_
 #include "_cloud_function_object.hpp"
 #include "face_zone.hpp"
 namespace mousse

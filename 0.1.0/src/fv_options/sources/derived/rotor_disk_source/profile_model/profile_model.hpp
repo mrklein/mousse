@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_PROFILE_MODEL_PROFILE_MODEL_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_PROFILE_MODEL_PROFILE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for profile models
 // SourceFiles
 //   profile_model.cpp
-#ifndef profile_model_hpp_
-#define profile_model_hpp_
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "dictionary.hpp"

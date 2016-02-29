@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_VALUES_FIELD_VALUE_DELTA_FIELD_VALUE_DELTA_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_VALUES_FIELD_VALUE_DELTA_FIELD_VALUE_DELTA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -43,8 +46,6 @@
 //   mousse::fieldValue
 // SourceFiles
 //   field_value_delta.cpp
-#ifndef field_value_delta_hpp_
-#define field_value_delta_hpp_
 #include "function_object_file.hpp"
 #include "field_value.hpp"
 #include "auto_ptr.hpp"

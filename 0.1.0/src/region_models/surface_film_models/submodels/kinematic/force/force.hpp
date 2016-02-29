@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FORCE_FORCE_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FORCE_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   force.cpp
 //   force_new.cpp
-#ifndef force_hpp_
-#define force_hpp_
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_matrices.hpp"

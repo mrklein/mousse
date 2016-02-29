@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_MAPPER_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   point_mapper.cpp
 
-#ifndef point_mapper_hpp_
-#define point_mapper_hpp_
 
 #include "morph_field_mapper.hpp"
 

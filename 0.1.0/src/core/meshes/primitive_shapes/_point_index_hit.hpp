@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_TPOINT_INDEX_HIT_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_TPOINT_INDEX_HIT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   like pointHit but carries face (or cell, edge etc.) index
 // SourceFiles
 
-#ifndef _point_index_hit_hpp_
-#define _point_index_hit_hpp_
 
 #include "bool.hpp"
 #include "point.hpp"

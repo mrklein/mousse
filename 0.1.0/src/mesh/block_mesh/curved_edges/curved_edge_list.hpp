@@ -1,9 +1,10 @@
+#ifndef MESH_BLOCK_MESH_CURVED_EDGES_CURVED_EDGE_LIST_HPP_
+#define MESH_BLOCK_MESH_CURVED_EDGES_CURVED_EDGE_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef curved_edge_list_hpp_
-#define curved_edge_list_hpp_
 #include "curved_edge.hpp"
 #include "ptr_list.hpp"
 namespace mousse

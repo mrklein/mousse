@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_PHASE_COMPRESSIBLE_RAS_K_OMEGA_SST_SATO_HPP_
+#define TURBULENCE_MODELS_PHASE_COMPRESSIBLE_RAS_K_OMEGA_SST_SATO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -66,8 +69,6 @@
 //   k_omega_sst.cpp
 //   source_files
 //   k_omega_sst_sato.cpp
-#ifndef k_omega_sst_sato_hpp_
-#define k_omega_sst_sato_hpp_
 #include "k_omega_sst.hpp"
 namespace mousse
 {

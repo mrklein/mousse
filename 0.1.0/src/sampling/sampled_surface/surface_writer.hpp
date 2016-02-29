@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_SURFACE_WRITER_HPP_
+#define SAMPLING_SAMPLED_SURFACE_SURFACE_WRITER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for surface writers
 // SourceFiles
 //   surface_writer.cpp
-#ifndef surface_writer_hpp_
-#define surface_writer_hpp_
 #include "type_info.hpp"
 #include "auto_ptr.hpp"
 #include "point_field.hpp"

@@ -1,0 +1,8 @@
+help_type/help_type.cpp
+help_type/help_type_new.cpp
+help_boundary/help_boundary.cpp
+help_function_object/help_function_object.cpp
+
+doxygen_xml_parser/doxygen_xml_parser.cpp
+
+LIB =  $(FOAM_LIBBIN)/libmousse_help_types

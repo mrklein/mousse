@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TPARTICLE_COLLECTOR_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TPARTICLE_COLLECTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -55,8 +58,6 @@
 //   \endverbatim
 // SourceFiles
 //   _particle_collector.cpp
-#ifndef _particle_collector_hpp_
-#define _particle_collector_hpp_
 #include "_cloud_function_object.hpp"
 #include "cylindrical_cs.hpp"
 #include "face.hpp"

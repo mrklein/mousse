@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_INTS_INT_HPP_
+#define CORE_PRIMITIVES_INTS_INT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   int_io.cpp
-#ifndef int_hpp_
-#define int_hpp_
 #include "int32.hpp"
 #include "int64.hpp"
 #if defined(darwin64) && defined(__clang__)

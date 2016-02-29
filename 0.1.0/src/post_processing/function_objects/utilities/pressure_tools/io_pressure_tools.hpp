@@ -1,9 +1,10 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_PRESSURE_TOOLS_IO_PRESSURE_TOOLS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_PRESSURE_TOOLS_IO_PRESSURE_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef io_pressure_tools_hpp_
-#define io_pressure_tools_hpp_
 #include "pressure_tools.hpp"
 #include "io_output_filter.hpp"
 namespace mousse

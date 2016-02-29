@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_CURVATURE_SEPARATION_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_CURVATURE_SEPARATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //     International Journal of Multiphase Flow, 11(1):51-62, 1985.
 // SourceFiles
 //   curvature_separation.cpp
-#ifndef curvature_separation_hpp_
-#define curvature_separation_hpp_
 #include "injection_model.hpp"
 #include "surface_fields.hpp"
 namespace mousse

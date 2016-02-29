@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_TRIAD_TRIAD_HPP_
+#define CORE_PRIMITIVES_TRIAD_TRIAD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   mousse::quaternion
 // SourceFiles
 //   triad.cpp
-#ifndef triad_hpp_
-#define triad_hpp_
 #include "vector.hpp"
 #include "tensor.hpp"
 #include "contiguous.hpp"

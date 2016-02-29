@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_K_OMEGA_SSTSAS_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_K_OMEGA_SSTSAS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -47,8 +50,6 @@
 //   \endverbatim
 // SourceFiles
 //   k_omega_sstsas.cpp
-#ifndef k_omega_sstsas_hpp_
-#define k_omega_sstsas_hpp_
 #include "k_omega_sst.hpp"
 #include "les_delta.hpp"
 namespace mousse

@@ -1,9 +1,10 @@
+#ifndef CORE_GLOBAL_DEFINE_DEBUG_SWITCH_HPP_
+#define CORE_GLOBAL_DEFINE_DEBUG_SWITCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef define_debug_switch_hpp_
-#define define_debug_switch_hpp_
 
 #include "simple_reg_ioobject.hpp"
 #include "debug.hpp"

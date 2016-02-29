@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_VALUES_CELL_SOURCE_CELL_SOURCE_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_VALUES_CELL_SOURCE_CELL_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -70,8 +73,6 @@
 //   mousse::OutputFilterFunctionObject
 // SourceFiles
 //   cell_source.cpp
-#ifndef cell_source_hpp_
-#define cell_source_hpp_
 #include "named_enum.hpp"
 #include "field_value.hpp"
 #include "label_list.hpp"

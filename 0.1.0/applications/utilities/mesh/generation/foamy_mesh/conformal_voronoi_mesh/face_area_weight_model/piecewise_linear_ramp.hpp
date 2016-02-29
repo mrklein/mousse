@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_FACE_AREA_WEIGHT_MODEL_PIECEWISE_LINEAR_RAMP_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_FACE_AREA_WEIGHT_MODEL_PIECEWISE_LINEAR_RAMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A linear ramp between 0 and 1 with definable start and end points.
 // SourceFiles
 //   piecewise_linear_ramp.cpp
-#ifndef piecewise_linear_ramp_hpp_
-#define piecewise_linear_ramp_hpp_
 #include "face_area_weight_model.hpp"
 namespace mousse
 {

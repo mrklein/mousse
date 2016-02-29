@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_CONSTRAINT_PROCESSOR_CYCLIC_FVS_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_CONSTRAINT_PROCESSOR_CYCLIC_FVS_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   processor_cyclic_fvs_patch_field.cpp
 
-#ifndef processor_cyclic_fvs_patch_field_hpp_
-#define processor_cyclic_fvs_patch_field_hpp_
 
 #include "coupled_fvs_patch_field.hpp"
 #include "processor_cyclic_fv_patch.hpp"

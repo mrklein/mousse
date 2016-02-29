@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_REGISTRY_SURFACE_REGISTRY_HPP_
+#define SURF_MESH_SURFACE_REGISTRY_SURFACE_REGISTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Wraps the normal objectRegistry with a local instance for %surfaces.
 // SourceFiles
 //   surface_registry.cpp
-#ifndef surface_registry_hpp_
-#define surface_registry_hpp_
 #include "object_registry.hpp"
 namespace mousse
 {

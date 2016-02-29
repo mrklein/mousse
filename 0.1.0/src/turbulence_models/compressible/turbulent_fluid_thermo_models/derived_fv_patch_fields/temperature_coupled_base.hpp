@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_TEMPERATURE_COUPLED_BASE_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_TEMPERATURE_COUPLED_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -36,8 +39,6 @@
 //   \endverbatim
 // SourceFiles
 //   temperature_coupled_base.cpp
-#ifndef temperature_coupled_base_hpp_
-#define temperature_coupled_base_hpp_
 #include "scalar_field.hpp"
 #include "named_enum.hpp"
 #include "fv_patch.hpp"

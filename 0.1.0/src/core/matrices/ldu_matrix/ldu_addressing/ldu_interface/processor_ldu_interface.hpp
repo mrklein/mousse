@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_INTERFACE_PROCESSOR_LDU_INTERFACE_HPP_
+#define CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_INTERFACE_PROCESSOR_LDU_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   processor_ldu_interface.cpp
 //   processor_ldu_interface_templates.cpp
 
-#ifndef processor_ldu_interface_hpp_
-#define processor_ldu_interface_hpp_
 
 #include "ldu_interface.hpp"
 #include "primitive_fields_fwd.hpp"

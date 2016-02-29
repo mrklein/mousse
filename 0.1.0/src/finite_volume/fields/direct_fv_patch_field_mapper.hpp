@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_DIRECT_FV_PATCH_FIELD_MAPPER_HPP_
+#define FINITE_VOLUME_FIELDS_DIRECT_FV_PATCH_FIELD_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::directFvPatchFieldMapper
 // Description
 //   direct fvPatchFieldMapper
-#ifndef direct_fv_patch_field_mapper_hpp_
-#define direct_fv_patch_field_mapper_hpp_
 #include "fv_patch_field_mapper.hpp"
 namespace mousse
 {

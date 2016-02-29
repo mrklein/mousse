@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LINKED_LISTS_DL_LIST_BASE_HPP_
+#define CORE_CONTAINERS_LINKED_LISTS_DL_LIST_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   dl_list_base.cpp
 
-#ifndef dl_list_base_hpp_
-#define dl_list_base_hpp_
 
 #include "bool.hpp"
 #include "label.hpp"

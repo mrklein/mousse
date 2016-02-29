@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_FIELD_DIV_DIV_HPP_
+#define POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_FIELD_DIV_DIV_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   field (name) for each time.
 // SourceFiles
 //   div.cpp
-#ifndef div_hpp_
-#define div_hpp_
 #include "calc_type.hpp"
 namespace mousse
 {

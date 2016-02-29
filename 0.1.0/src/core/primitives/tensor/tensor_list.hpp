@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_TENSOR_TENSOR_LIST_HPP_
+#define CORE_PRIMITIVES_TENSOR_TENSOR_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef tensor_list_hpp_
-#define tensor_list_hpp_
 #include "tensor.hpp"
 #include "list.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_FILTERS_ANISOTROPIC_FILTER_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_FILTERS_ANISOTROPIC_FILTER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   \endverbatim
 // SourceFiles
 //   anisotropic_filter.cpp
-#ifndef anisotropic_filter_hpp_
-#define anisotropic_filter_hpp_
 #include "les_filter.hpp"
 namespace mousse
 {

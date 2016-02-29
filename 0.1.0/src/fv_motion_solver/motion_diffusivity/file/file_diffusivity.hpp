@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_FILE_FILE_DIFFUSIVITY_HPP_
+#define FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_FILE_FILE_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Motion diffusivity read from given file name.
 // SourceFiles
 //   file_diffusivity.cpp
-#ifndef file_diffusivity_hpp_
-#define file_diffusivity_hpp_
 #include "motion_diffusivity.hpp"
 #include "surface_fields.hpp"
 namespace mousse

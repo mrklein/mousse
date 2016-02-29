@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_RNG_K_EPSILON_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_RNG_K_EPSILON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -36,8 +39,6 @@
 //   \endverbatim
 // SourceFiles
 //   rng_k_epsilon.cpp
-#ifndef rng_k_epsilon_hpp_
-#define rng_k_epsilon_hpp_
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"
 namespace mousse

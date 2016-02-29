@@ -1,10 +1,12 @@
+#include "token.hpp"
+
+#ifndef CORE_DB_RUN_TIME_SELECTION_RUN_TIME_SELECTION_TABLES_HPP_
+#define CORE_DB_RUN_TIME_SELECTION_RUN_TIME_SELECTION_TABLES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#include "token.hpp"
-#ifndef run_time_selection_tables_hpp_
-#define run_time_selection_tables_hpp_
 #include "auto_ptr.hpp"
 #include "hash_table.hpp"
 #include "error.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TCOLLISION_MODEL_TPAIR_COLLISION_TPAIR_MODEL_TPAIR_SPRING_SLIDER_DASHPOT_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TCOLLISION_MODEL_TPAIR_COLLISION_TPAIR_MODEL_TPAIR_SPRING_SLIDER_DASHPOT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::PairSpringSliderDashpot
 // Description
 //   Pair forces between particles colliding with a spring, slider, damper model
-#ifndef _pair_spring_slider_dashpot_hpp_
-#define _pair_spring_slider_dashpot_hpp_
 #include "_pair_model.hpp"
 #include "_collision_record_list.hpp"
 #include "mathematical_constants.hpp"

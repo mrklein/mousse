@@ -1,0 +1,3 @@
+magnetic.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-magnetic

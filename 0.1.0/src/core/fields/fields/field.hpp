@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_FIELDS_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   field.cpp
 //   field_functions.cpp
 //   field_functions_m.cpp
-#ifndef field_hpp_
-#define field_hpp_
 
 #include "tmp.hpp"
 #include "direction.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_TLDU_MATRIX_TLDU_MATRIX_TSOLVER_PERFORMANCE_HPP_
+#define CORE_MATRICES_TLDU_MATRIX_TLDU_MATRIX_TSOLVER_PERFORMANCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   _solver_performance.cpp
 
-#ifndef _solver_performance_hpp_
-#define _solver_performance_hpp_
 
 #include "word.hpp"
 #include "fixed_list.hpp"

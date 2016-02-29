@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_SIGNALS_SIG_SEGV_HPP_
+#define OS_SPECIFIC_POSIX_SIGNALS_SIG_SEGV_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   mousse::JobInfo
 // SourceFiles
 //   sig_segv.cpp
-#ifndef sig_segv_hpp_
-#define sig_segv_hpp_
 #include <signal.h>
 namespace mousse
 {

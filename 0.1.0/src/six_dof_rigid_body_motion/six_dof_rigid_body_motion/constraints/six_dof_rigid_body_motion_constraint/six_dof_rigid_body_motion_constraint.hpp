@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_CONSTRAINTS_SIX_DOF_RIGID_BODY_MOTION_CONSTRAINT_SIX_DOF_RIGID_BODY_MOTION_CONSTRAINT_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_CONSTRAINTS_SIX_DOF_RIGID_BODY_MOTION_CONSTRAINT_SIX_DOF_RIGID_BODY_MOTION_CONSTRAINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   six_dof_rigid_body_motion_constraint.cpp
 //   six_dof_rigid_body_motion_constraint_new.cpp
-#ifndef six_dof_rigid_body_motion_constraint_hpp_
-#define six_dof_rigid_body_motion_constraint_hpp_
 #include "time.hpp"
 #include "dictionary.hpp"
 #include "auto_ptr.hpp"

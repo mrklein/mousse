@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_CELL_POINT_HPP_
+#define FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_CELL_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Given cell centre values and point (vertex) values decompose into
 //   tetrahedra and linear interpolate within them.
-#ifndef interpolation_cell_point_hpp_
-#define interpolation_cell_point_hpp_
 #include "interpolation.hpp"
 #include "cell_point_weight.hpp"
 namespace mousse

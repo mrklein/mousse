@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_UNDOABLE_MESH_CUTTER_UNDOABLE_MESH_CUTTER_HPP_
+#define DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_UNDOABLE_MESH_CUTTER_UNDOABLE_MESH_CUTTER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -31,8 +34,6 @@
 //   - liveSplitCells contains pointers to splitCells with null children.
 // SourceFiles
 //   undoable_mesh_cutter.cpp
-#ifndef undoable_mesh_cutter_hpp_
-#define undoable_mesh_cutter_hpp_
 #include "edge_vertex.hpp"
 #include "refine_cell.hpp"
 #include "bool_list.hpp"

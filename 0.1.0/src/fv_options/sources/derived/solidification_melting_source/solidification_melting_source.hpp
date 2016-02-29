@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_SOLIDIFICATION_MELTING_SOURCE_SOLIDIFICATION_MELTING_SOURCE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_SOLIDIFICATION_MELTING_SOURCE_SOLIDIFICATION_MELTING_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -59,8 +62,6 @@
 // SourceFiles
 //   solidification_melting_source.cpp
 //   solidification_melting_source_io.cpp
-#ifndef solidification_melting_source_hpp_
-#define solidification_melting_source_hpp_
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"
 #include "cell_set_option.hpp"

@@ -1,9 +1,10 @@
+#ifndef CORE_DIMENSIONED_TYPES_DIMENSIONED_SCALAR_HPP_
+#define CORE_DIMENSIONED_TYPES_DIMENSIONED_SCALAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   dimensioned_scalar.cpp
-#ifndef dimensioned_scalar_hpp_
-#define dimensioned_scalar_hpp_
 #include "dimensioned_type.hpp"
 #include "scalar.hpp"
 #include "dimensioned_scalar_fwd.hpp"

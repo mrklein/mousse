@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_SLIP_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_SLIP_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   \endverbatim
 // SourceFiles
 //   slip_fv_patch_field.cpp
-#ifndef slip_fv_patch_field_hpp_
-#define slip_fv_patch_field_hpp_
 #include "basic_symmetry_fv_patch_field.hpp"
 namespace mousse
 {

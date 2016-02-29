@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_THERMO_SOLID_REACTION_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_THERMO_SOLID_REACTION_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::solidReactionThermo
 // SourceFiles
 //   solid_reaction_thermo.cpp
-#ifndef solid_reaction_thermo_hpp_
-#define solid_reaction_thermo_hpp_
 #include "basic_specie_mixture.hpp"
 #include "solid_thermo.hpp"
 #include "auto_ptr.hpp"

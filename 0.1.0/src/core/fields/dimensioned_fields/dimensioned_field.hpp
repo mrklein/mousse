@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_FIELD_HPP_
+#define CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   dimensioned_field.cpp
 //   dimensioned_field_io.cpp
 
-#ifndef dimensioned_field_hpp_
-#define dimensioned_field_hpp_
 
 #include "reg_ioobject.hpp"
 #include "field.hpp"

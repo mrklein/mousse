@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_PARTICLE_STRESS_MODELS_PARTICLE_STRESS_MODEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_PARTICLE_STRESS_MODELS_PARTICLE_STRESS_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for inter-particle stress models.
 // SourceFiles
 //   particle_stress_model.cpp
-#ifndef particle_stress_model_hpp_
-#define particle_stress_model_hpp_
 #include "field.hpp"
 #include "field_field.hpp"
 #include "dictionary.hpp"

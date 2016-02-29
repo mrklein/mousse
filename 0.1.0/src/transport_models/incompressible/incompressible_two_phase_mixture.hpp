@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INCOMPRESSIBLE_INCOMPRESSIBLE_TWO_PHASE_MIXTURE_HPP_
+#define TRANSPORT_MODELS_INCOMPRESSIBLE_INCOMPRESSIBLE_TWO_PHASE_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A two-phase incompressible transportModel
 // SourceFiles
 //   incompressible_two_phase_mixture.cpp
-#ifndef incompressible_two_phase_mixture_hpp_
-#define incompressible_two_phase_mixture_hpp_
 #include "incompressible/transport_model.hpp"
 #include "incompressible/viscosity_model.hpp"
 #include "two_phase_mixture.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TCOMPOSITION_MODEL_TSINGLE_PHASE_MIXTURE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TCOMPOSITION_MODEL_TSINGLE_PHASE_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Templated parcel single phase, multi-component class
 // SourceFiles
 //   _single_phase_mixture.cpp
-#ifndef _single_phase_mixture_hpp_
-#define _single_phase_mixture_hpp_
 #include "_composition_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -32,8 +35,6 @@
 // SourceFiles
 //   poly_topo_change.cpp
 //   poly_topo_change_templates.cpp
-#ifndef poly_topo_change_hpp_
-#define poly_topo_change_hpp_
 #include "dynamic_list.hpp"
 #include "label_list.hpp"
 #include "point_field.hpp"

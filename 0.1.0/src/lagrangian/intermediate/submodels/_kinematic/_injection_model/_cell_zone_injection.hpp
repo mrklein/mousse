@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TCELL_ZONE_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TCELL_ZONE_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   - All parcels introduced at SOI
 // SourceFiles
 //   _cell_zone_injection.cpp
-#ifndef _cell_zone_injection_hpp_
-#define _cell_zone_injection_hpp_
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
 namespace mousse

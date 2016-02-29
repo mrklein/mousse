@@ -1,3 +1,6 @@
+#ifndef CONVERSION_MESH_READER_STARCD_STARCD_MESH_READER_HPP_
+#define CONVERSION_MESH_READER_STARCD_STARCD_MESH_READER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   - the boundaries corresponds to cells and their faces.
 // SourceFiles
 //   starcd_mesh_reader.cpp
-#ifndef starcd_mesh_reader_hpp_
-#define starcd_mesh_reader_hpp_
 # include "mesh_reader.hpp"
 # include "boundary_region.hpp"
 # include "cell_shape.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_BASE_CLASSES_KINEMATIC_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_BASE_CLASSES_KINEMATIC_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Virtual abstract base class for templated KinematicCloud
 // SourceFiles
 //   kinematic_cloud.hpp
-#ifndef kinematic_cloud_hpp_
-#define kinematic_cloud_hpp_
 #include "type_info.hpp"
 #include "vol_fields_fwd.hpp"
 namespace mousse

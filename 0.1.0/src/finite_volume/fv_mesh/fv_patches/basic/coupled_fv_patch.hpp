@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_BASIC_COUPLED_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_BASIC_COUPLED_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   computational domain e.g. cyclic and processor-processor links.
 // SourceFiles
 //   coupled_fv_patch.cpp
-#ifndef coupled_fv_patch_hpp_
-#define coupled_fv_patch_hpp_
 #include "fv_patch.hpp"
 #include "ldu_interface.hpp"
 #include "coupled_poly_patch.hpp"

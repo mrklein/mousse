@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_SUBSET_MESH_HPP_
+#define CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_SUBSET_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Class containing mesh-to-mesh mapping information after a subset operation
 // SourceFiles
-#ifndef map_subset_mesh_hpp_
-#define map_subset_mesh_hpp_
 #include "ref_count.hpp"
 #include "label_list.hpp"
 namespace mousse

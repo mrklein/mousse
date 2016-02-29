@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_LINEAR_MOTION_LINEAR_MOTION_HPP_
+#define DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_LINEAR_MOTION_LINEAR_MOTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   SolidBodyMotionFvMesh 6DoF motion function. Constant velocity displacement.
 // SourceFiles
 //   linear_motion.cpp
-#ifndef linear_motion_hpp_
-#define linear_motion_hpp_
 #include "solid_body_motion_function.hpp"
 #include "primitive_fields.hpp"
 #include "point.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_FORCE_SU_SP_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_FORCE_SU_SP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //     F = Sp(U - Up) + Su
 //   Explicit contribution, Su specified as a force
 //   Implicit coefficient, Sp specified as force/velocity
-#ifndef force_su_sp_hpp_
-#define force_su_sp_hpp_
 #include "tuple2.hpp"
 namespace mousse
 {

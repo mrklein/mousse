@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_PROC_AGGLOMERATIONS_GAMG_PROC_AGGLOMERATION_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_PROC_AGGLOMERATIONS_GAMG_PROC_AGGLOMERATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   gamg_proc_agglomeration.cpp
 
-#ifndef gamg_proc_agglomeration_hpp_
-#define gamg_proc_agglomeration_hpp_
 
 #include "run_time_selection_tables.hpp"
 #include "label_list.hpp"

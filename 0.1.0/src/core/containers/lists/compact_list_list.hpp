@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_COMPACT_LIST_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_COMPACT_LIST_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //   compact_list_list.cpp
 //   compact_list_list_io.cpp
 
-#ifndef compact_list_list_hpp_
-#define compact_list_list_hpp_
 
 #include "label_list.hpp"
 #include "list_ops.hpp"

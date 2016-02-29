@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_CONSTRAINT_PROCESSOR_CYCLIC_POINT_PATCH_FIELD_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_CONSTRAINT_PROCESSOR_CYCLIC_POINT_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::processorCyclicPointPatchField
 // SourceFiles
 //   processor_cyclic_point_patch_field.cpp
-#ifndef processor_cyclic_point_patch_field_hpp_
-#define processor_cyclic_point_patch_field_hpp_
 #include "coupled_point_patch_field.hpp"
 #include "processor_cyclic_point_patch.hpp"
 namespace mousse

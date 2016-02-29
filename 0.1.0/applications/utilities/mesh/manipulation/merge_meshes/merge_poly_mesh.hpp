@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_MANIPULATION_MERGE_MESHES_MERGE_POLY_MESH_HPP_
+#define UTILITIES_MESH_MANIPULATION_MERGE_MESHES_MERGE_POLY_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Add a given mesh to the original mesh to create a single new mesh
 // SourceFiles
 //   merge_poly_mesh.cpp
-#ifndef merge_poly_mesh_hpp_
-#define merge_poly_mesh_hpp_
 #include "poly_mesh.hpp"
 #include "poly_topo_change.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_MESHED_SURFACE_ALLOCATOR_MESHED_SURFACE_IO_ALLOCATOR_HPP_
+#define SURF_MESH_MESHED_SURFACE_ALLOCATOR_MESHED_SURFACE_IO_ALLOCATOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A helper class for storing points, faces and zones with IO capabilities.
 // SourceFiles
 //   meshed_surface_io_allocator.cpp
-#ifndef meshed_surface_io_allocator_hpp_
-#define meshed_surface_io_allocator_hpp_
 #include "point_io_field.hpp"
 #include "face_io_list.hpp"
 #include "surf_zone_io_list.hpp"

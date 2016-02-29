@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_DIRECTION_MIXED_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_DIRECTION_MIXED_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Base class for direction-mixed boundary conditions.
 // SourceFiles
 //   direction_mixed_fv_patch_field.cpp
-#ifndef direction_mixed_fv_patch_field_hpp_
-#define direction_mixed_fv_patch_field_hpp_
 #include "transform_fv_patch_field.hpp"
 namespace mousse
 {

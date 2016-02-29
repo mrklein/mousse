@@ -1,3 +1,6 @@
+#ifndef PARALLEL_RECONSTRUCT_RECONSTRUCT_FV_FIELD_RECONSTRUCTOR_HPP_
+#define PARALLEL_RECONSTRUCT_RECONSTRUCT_FV_FIELD_RECONSTRUCTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   fv_field_reconstructor.cpp
 //   fv_field_reconstructor_reconstruct_fields.cpp
-#ifndef fv_field_reconstructor_hpp_
-#define fv_field_reconstructor_hpp_
 #include "ptr_list.hpp"
 #include "fv_mesh.hpp"
 #include "ioobject_list.hpp"

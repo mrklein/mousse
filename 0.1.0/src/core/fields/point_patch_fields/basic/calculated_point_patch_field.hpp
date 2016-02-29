@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_BASIC_CALCULATED_POINT_PATCH_FIELD_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_BASIC_CALCULATED_POINT_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A calculated boundary condition for pointField
 // SourceFiles
 //   calculated_point_patch_field.cpp
-#ifndef calculated_point_patch_field_hpp_
-#define calculated_point_patch_field_hpp_
 #include "point_patch_field.hpp"
 namespace mousse
 {

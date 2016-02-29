@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_RHO_COMBUSTION_MODEL_HPP_
+#define COMBUSTION_MODELS_RHO_COMBUSTION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   rho_combustion_model_i.hpp
 //   rho_combustion_model.cpp
 //   rho_combustion_model_new.cpp
-#ifndef rho_combustion_model_hpp_
-#define rho_combustion_model_hpp_
 #include "combustion_model.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

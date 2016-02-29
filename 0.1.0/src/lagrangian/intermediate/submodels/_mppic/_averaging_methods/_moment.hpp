@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TAVERAGING_METHODS_TMOMENT_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TAVERAGING_METHODS_TMOMENT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   assumed constant over the cell.
 // SourceFiles
 //   _moment.cpp
-#ifndef _moment_hpp_
-#define _moment_hpp_
 #include "_averaging_method.hpp"
 #include "point_mesh.hpp"
 #include "tet_indices.hpp"

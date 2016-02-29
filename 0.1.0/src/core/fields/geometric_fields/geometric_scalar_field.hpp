@@ -1,10 +1,11 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_SCALAR_FIELD_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   geometric_scalar_field.cpp
 
-#ifndef geometric_scalar_field_hpp_
-#define geometric_scalar_field_hpp_
 
 #include "geometric_field.hpp"
 #include "dimensioned_scalar_field.hpp"

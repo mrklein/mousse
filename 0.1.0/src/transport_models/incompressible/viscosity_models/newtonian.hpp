@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODELS_NEWTONIAN_HPP_
+#define TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODELS_NEWTONIAN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An incompressible Newtonian viscosity model.
 // SourceFiles
 //   newtonian.cpp
-#ifndef newtonian_hpp_
-#define newtonian_hpp_
 #include "viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"

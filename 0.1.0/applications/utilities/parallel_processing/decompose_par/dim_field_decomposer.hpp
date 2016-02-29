@@ -1,3 +1,6 @@
+#ifndef UTILITIES_PARALLEL_PROCESSING_DECOMPOSE_PAR_DIM_FIELD_DECOMPOSER_HPP_
+#define UTILITIES_PARALLEL_PROCESSING_DECOMPOSE_PAR_DIM_FIELD_DECOMPOSER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   dim_field_decomposer.cpp
 //   dim_field_decomposer_decompose_fields.cpp
-#ifndef dim_field_decomposer_hpp_
-#define dim_field_decomposer_hpp_
 #include "fv_mesh.hpp"
 #include "surface_fields.hpp"
 namespace mousse

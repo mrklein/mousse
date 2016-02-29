@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_PLANE_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_PLANE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   point between a line and the plane.
 // SourceFiles
 //   plane.cpp
-#ifndef plane_hpp_
-#define plane_hpp_
 #include "point.hpp"
 #include "scalar_list.hpp"
 #include "dictionary.hpp"

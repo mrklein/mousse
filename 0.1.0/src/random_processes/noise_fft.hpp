@@ -1,3 +1,6 @@
+#ifndef RANDOM_PROCESSES_NOISE_FFT_HPP_
+#define RANDOM_PROCESSES_NOISE_FFT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   FFT of the pressure field
 // SourceFiles
 //   noise_fft.cpp
-#ifndef noise_fft_hpp_
-#define noise_fft_hpp_
 #include "scalar_field.hpp"
 #include "graph.hpp"
 namespace mousse

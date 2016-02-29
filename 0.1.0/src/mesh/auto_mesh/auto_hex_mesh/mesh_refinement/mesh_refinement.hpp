@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_MESH_REFINEMENT_MESH_REFINEMENT_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_MESH_REFINEMENT_MESH_REFINEMENT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   mesh_refinement_merge.cpp
 //   mesh_refinement_problem_cells.cpp
 //   mesh_refinement_refine.cpp
-#ifndef mesh_refinement_hpp_
-#define mesh_refinement_hpp_
 #include "hex_ref8.hpp"
 #include "map_poly_mesh.hpp"
 #include "auto_ptr.hpp"

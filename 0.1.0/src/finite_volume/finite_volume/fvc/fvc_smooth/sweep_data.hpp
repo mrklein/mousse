@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_SMOOTH_SWEEP_DATA_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_SMOOTH_SWEEP_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Helper class used by fvc::sweep function.
 // SourceFiles
 //   sweep_data.hpp
-#ifndef sweep_data_hpp_
-#define sweep_data_hpp_
 #include "transform.hpp"
 namespace mousse
 {

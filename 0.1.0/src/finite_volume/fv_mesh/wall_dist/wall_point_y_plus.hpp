@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_WALL_DIST_WALL_POINT_Y_PLUS_HPP_
+#define FINITE_VOLUME_FV_MESH_WALL_DIST_WALL_POINT_Y_PLUS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   template argument into FaceCellWave
 // SourceFiles
 //   wall_point_y_plus.cpp
-#ifndef wall_point_y_plus_hpp_
-#define wall_point_y_plus_hpp_
 #include "wall_point_data.hpp"
 namespace mousse
 {

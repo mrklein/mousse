@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TSHF_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TSHF_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   Eight International Conference on Liquid Atomization and Spray Systems, 2000
 //   @endverbatim
 
-#ifndef _shf_hpp_
-#define _shf_hpp_
 
 #include "_breakup_model.hpp"
 

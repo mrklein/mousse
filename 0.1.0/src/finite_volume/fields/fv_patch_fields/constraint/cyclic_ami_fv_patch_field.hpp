@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_CYCLIC_AMI_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_CYCLIC_AMI_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 //   mousse::AMIInterpolation
 // SourceFiles
 //   cyclic_ami_fv_patch_field.cpp
-#ifndef cyclic_ami_fv_patch_field_hpp_
-#define cyclic_ami_fv_patch_field_hpp_
 #include "coupled_fv_patch_field.hpp"
 #include "cyclic_ami_ldu_interface_field.hpp"
 #include "cyclic_ami_fv_patch.hpp"

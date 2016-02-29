@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_ADAPTIVE_SOLVER_HPP_
+#define ODE_ODE_SOLVERS_ADAPTIVE_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   adaptive_solver.cpp
-#ifndef adaptive_solver_hpp_
-#define adaptive_solver_hpp_
 #include "ode_solver.hpp"
 namespace mousse
 {

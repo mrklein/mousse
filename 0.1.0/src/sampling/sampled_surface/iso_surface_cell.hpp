@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_ISO_SURFACE_CELL_HPP_
+#define SAMPLING_SAMPLED_SURFACE_ISO_SURFACE_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   but they are local to a cell.
 // SourceFiles
 //   iso_surface_cell.cpp
-#ifndef iso_surface_cell_hpp_
-#define iso_surface_cell_hpp_
 #include "tri_surface.hpp"
 #include "label_pair.hpp"
 #include "point_index_hit.hpp"

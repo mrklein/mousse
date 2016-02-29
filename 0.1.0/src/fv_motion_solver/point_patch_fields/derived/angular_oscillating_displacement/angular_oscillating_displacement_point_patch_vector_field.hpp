@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_POINT_PATCH_FIELDS_DERIVED_ANGULAR_OSCILLATING_DISPLACEMENT_ANGULAR_OSCILLATING_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+#define FV_MOTION_SOLVER_POINT_PATCH_FIELDS_DERIVED_ANGULAR_OSCILLATING_DISPLACEMENT_ANGULAR_OSCILLATING_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::angularOscillatingDisplacementPointPatchVectorField
 // SourceFiles
 //   angular_oscillating_displacement_point_patch_vector_field.cpp
-#ifndef angular_oscillating_displacement_point_patch_vector_field_hpp_
-#define angular_oscillating_displacement_point_patch_vector_field_hpp_
 #include "fixed_value_point_patch_field.hpp"
 namespace mousse
 {

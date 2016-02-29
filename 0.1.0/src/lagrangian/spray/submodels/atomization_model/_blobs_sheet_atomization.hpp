@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_ATOMIZATION_MODEL_TBLOBS_SHEET_ATOMIZATION_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_ATOMIZATION_MODEL_TBLOBS_SHEET_ATOMIZATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   SAE Technical Paper Series, 2002-01-1137
 //   @endverbatim
 
-#ifndef _blobs_sheet_atomization_hpp_
-#define _blobs_sheet_atomization_hpp_
 
 #include "_atomization_model.hpp"
 

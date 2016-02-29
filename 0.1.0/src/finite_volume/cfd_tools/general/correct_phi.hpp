@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_CORRECT_PHI_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_CORRECT_PHI_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   which non-conservative fluxes cause unboundedness of the phase-fraction.
 // SourceFiles
 //   correct_phi.cpp
-#ifndef correct_phi_hpp_
-#define correct_phi_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 namespace mousse

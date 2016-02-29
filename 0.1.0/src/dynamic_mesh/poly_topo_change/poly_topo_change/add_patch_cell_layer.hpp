@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_ADD_PATCH_CELL_LAYER_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_ADD_PATCH_CELL_LAYER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -57,8 +60,6 @@
 //   \endverbatim
 // SourceFiles
 //   add_patch_cell_layer.cpp
-#ifndef add_patch_cell_layer_hpp_
-#define add_patch_cell_layer_hpp_
 #include "label_list.hpp"
 #include "type_info.hpp"
 #include "label_pair.hpp"

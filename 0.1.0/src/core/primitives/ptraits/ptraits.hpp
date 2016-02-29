@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_PTRAITS_PTRAITS_HPP_
+#define CORE_PRIMITIVES_PTRAITS_PTRAITS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   All primitives need a specialised version of this class. The
 //   specialised version will normally also require a conversion
 //   method.
-#ifndef ptraits_hpp_
-#define ptraits_hpp_
 namespace mousse
 {
 class Istream;

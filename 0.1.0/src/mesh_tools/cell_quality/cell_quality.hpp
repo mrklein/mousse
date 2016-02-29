@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_CELL_QUALITY_CELL_QUALITY_HPP_
+#define MESH_TOOLS_CELL_QUALITY_CELL_QUALITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Class calculates cell quality measures.
 // SourceFiles
 //   cell_quality.cpp
-#ifndef cell_quality_hpp_
-#define cell_quality_hpp_
 #include "poly_mesh.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_FACE_ONLY_SET_HPP_
+#define SAMPLING_SAMPLED_SET_FACE_ONLY_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   face_only_set.cpp
-#ifndef face_only_set_hpp_
-#define face_only_set_hpp_
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "passive_particle_cloud.hpp"

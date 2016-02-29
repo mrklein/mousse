@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_TDIAGONAL_MATRIX_TDIAGONAL_MATRIX_HPP_
+#define CORE_MATRICES_TDIAGONAL_MATRIX_TDIAGONAL_MATRIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   of type Type, size nxn
 // SourceFiles
 //   _diagonal_matrix.cpp
-#ifndef _diagonal_matrix_hpp_
-#define _diagonal_matrix_hpp_
 #include "list.hpp"
 namespace mousse
 {

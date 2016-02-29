@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_MESHED_SURFACE_MESHED_SURFACE_HPP_
+#define SURF_MESH_MESHED_SURFACE_MESHED_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //    such as STL, etc.
 // SourceFiles
 //   meshed_surface.cpp
-#ifndef meshed_surface_hpp_
-#define meshed_surface_hpp_
 #include "primitive_patch.hpp"
 #include "patch_tools.hpp"
 #include "point_field.hpp"

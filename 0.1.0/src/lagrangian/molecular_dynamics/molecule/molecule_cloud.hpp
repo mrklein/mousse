@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULE_MOLECULE_CLOUD_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULE_MOLECULE_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   molecule_cloud.cpp
-#ifndef molecule_cloud_hpp_
-#define molecule_cloud_hpp_
 #include "_cloud.hpp"
 #include "molecule.hpp"
 #include "iodictionary.hpp"

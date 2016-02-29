@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MAPPED_PATCHES_MAPPED_POLY_PATCH_MAPPED_VARIABLE_THICKNESS_WALL_POLY_PATCH_HPP_
+#define MESH_TOOLS_MAPPED_PATCHES_MAPPED_POLY_PATCH_MAPPED_VARIABLE_THICKNESS_WALL_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::mappedVariableThicknessWallPolyPatch
 // SourceFiles
 //   mapped_variable_thickness_wall_poly_patch.cpp
-#ifndef mapped_variable_thickness_wall_poly_patch_hpp_
-#define mapped_variable_thickness_wall_poly_patch_hpp_
 #include "wall_poly_patch.hpp"
 #include "mapped_wall_poly_patch.hpp"
 namespace mousse

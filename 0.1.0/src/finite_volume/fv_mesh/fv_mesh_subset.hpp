@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_MESH_SUBSET_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_MESH_SUBSET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   they get the face of existing patch face 0.
 // SourceFiles
 //   fv_mesh_subset.cpp
-#ifndef fv_mesh_subset_hpp_
-#define fv_mesh_subset_hpp_
 #include "fv_mesh.hpp"
 #include "point_mesh.hpp"
 #include "geometric_field.hpp"

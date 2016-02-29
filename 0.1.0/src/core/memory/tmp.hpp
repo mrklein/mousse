@@ -1,3 +1,6 @@
+#ifndef CORE_MEMORY_TMP_HPP_
+#define CORE_MEMORY_TMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::tmp
 // Description
 //   A class for managing temporary objects
-#ifndef tmp_hpp_
-#define tmp_hpp_
 #include "ref_count.hpp"
 #include "error.hpp"
 #include <cstddef>

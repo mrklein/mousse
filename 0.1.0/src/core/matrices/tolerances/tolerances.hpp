@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_TOLERANCES_TOLERANCES_HPP_
+#define CORE_MATRICES_TOLERANCES_TOLERANCES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   tolerances.cpp
 
-#ifndef tolerances_hpp_
-#define tolerances_hpp_
 
 #include "iodictionary.hpp"
 

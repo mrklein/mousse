@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_DERIVED_REGION_COUPLED_WALL_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_DERIVED_REGION_COUPLED_WALL_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::regionCoupledWallFvPatch
 // SourceFiles
 //   region_coupled_wall_fv_patch.cpp
-#ifndef region_coupled_wall_fv_patch_hpp_
-#define region_coupled_wall_fv_patch_hpp_
 #include "wall_fv_patch.hpp"
 #include "fv_mesh.hpp"
 #include "time.hpp"

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_SINGLE_CELL_FV_MESH_HPP_
+#define FINITE_VOLUME_FV_MESH_SINGLE_CELL_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   single_cell_fv_mesh.cpp
 //   single_cell_fv_mesh_interpolate.cpp
 
-#ifndef single_cell_fv_mesh_hpp_
-#define single_cell_fv_mesh_hpp_
 
 #include "fv_patch_field_mapper.hpp"
 #include "fv_mesh.hpp"

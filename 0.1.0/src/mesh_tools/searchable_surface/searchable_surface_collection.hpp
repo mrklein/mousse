@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_SURFACE_COLLECTION_HPP_
+#define MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_SURFACE_COLLECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   So when meshing might find parts 'inside'.
 // SourceFiles
 //   searchable_surface_collection.cpp
-#ifndef searchable_surface_collection_hpp_
-#define searchable_surface_collection_hpp_
 #include "searchable_surface.hpp"
 #include "tree_bound_box.hpp"
 #include "coordinate_system.hpp"

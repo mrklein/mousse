@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_FILM_VISCOSITY_MODEL_CONSTANT_VISCOSITY_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_FILM_VISCOSITY_MODEL_CONSTANT_VISCOSITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Constant viscosity model
 // SourceFiles
 //   constant_viscosity.cpp
-#ifndef constant_viscosity_hpp_
-#define constant_viscosity_hpp_
 #include "film_viscosity_model.hpp"
 namespace mousse
 {

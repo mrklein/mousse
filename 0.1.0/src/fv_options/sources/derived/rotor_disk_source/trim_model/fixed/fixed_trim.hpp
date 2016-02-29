@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_TRIM_MODEL_FIXED_FIXED_TRIM_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_TRIM_MODEL_FIXED_FIXED_TRIM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Fixed trim coefficients
 // SourceFiles
 //   fixed_trim.cpp
-#ifndef fixed_trim_hpp_
-#define fixed_trim_hpp_
 #include "trim_model.hpp"
 namespace mousse
 {

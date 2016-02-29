@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_HE_PSI_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_HE_PSI_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Energy for a mixture based on compressibility
 // SourceFiles
 //   he_psi_thermo.cpp
-#ifndef he_psi_thermo_hpp_
-#define he_psi_thermo_hpp_
 #include "psi_thermo.hpp"
 #include "he_thermo.hpp"
 namespace mousse

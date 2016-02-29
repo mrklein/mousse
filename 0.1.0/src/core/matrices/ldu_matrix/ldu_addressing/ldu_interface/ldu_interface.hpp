@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_INTERFACE_LDU_INTERFACE_HPP_
+#define CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_INTERFACE_LDU_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   ldu_interface.cpp
 
-#ifndef ldu_interface_hpp_
-#define ldu_interface_hpp_
 
 #include "label_field.hpp"
 #include "type_info.hpp"

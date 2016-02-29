@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_V2_WALL_FUNCTIONS_V2_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_V2_WALL_FUNCTIONS_V2_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -29,8 +32,6 @@
 //   mousse::fixedValueFvPatchField
 // SourceFiles
 //   v2_wall_function_fv_patch_scalar_field.cpp
-#ifndef v2_wall_function_fv_patch_scalar_field_hpp_
-#define v2_wall_function_fv_patch_scalar_field_hpp_
 #include "fixed_value_fv_patch_field.hpp"
 namespace mousse
 {

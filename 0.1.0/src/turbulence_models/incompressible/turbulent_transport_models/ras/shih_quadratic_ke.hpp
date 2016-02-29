@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_RAS_SHIH_QUADRATIC_KE_HPP_
+#define TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_RAS_SHIH_QUADRATIC_KE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   >Apsley: Turbulence Models 2002</a>
 // SourceFiles
 //   shih_quadratic_ke.cpp
-#ifndef shih_quadratic_ke_hpp_
-#define shih_quadratic_ke_hpp_
 #include "turbulent_transport_model.hpp"
 #include "nonlinear_eddy_viscosity.hpp"
 namespace mousse

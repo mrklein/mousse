@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_HASH_TABLES_STATIC_HASH_TABLE_HPP_
+#define CORE_CONTAINERS_HASH_TABLES_STATIC_HASH_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   static_hash_table.cpp
 //   static_hash_table_io.cpp
 
-#ifndef static_hash_table_hpp_
-#define static_hash_table_hpp_
 
 #include "label.hpp"
 #include "ulabel.hpp"

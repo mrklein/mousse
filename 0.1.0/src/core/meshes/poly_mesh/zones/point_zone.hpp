@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_ZONES_POINT_ZONE_HPP_
+#define CORE_MESHES_POLY_MESH_ZONES_POINT_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   point_zone.cpp
 //   point_zone_new.cpp
 
-#ifndef point_zone_hpp_
-#define point_zone_hpp_
 
 #include "zone.hpp"
 #include "point_zone_mesh_fwd.hpp"

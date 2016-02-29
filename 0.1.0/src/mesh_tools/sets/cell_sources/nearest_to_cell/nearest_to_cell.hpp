@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_NEAREST_TO_CELL_NEAREST_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_NEAREST_TO_CELL_NEAREST_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select cells nearest to points.
 // SourceFiles
 //   nearest_to_cell.cpp
-#ifndef nearest_to_cell_hpp_
-#define nearest_to_cell_hpp_
 #include "topo_set_source.hpp"
 namespace mousse
 {

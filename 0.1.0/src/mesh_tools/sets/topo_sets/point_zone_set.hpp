@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_TOPO_SETS_POINT_ZONE_SET_HPP_
+#define MESH_TOOLS_SETS_TOPO_SETS_POINT_ZONE_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Like pointSet but updates pointZone when writing.
 // SourceFiles
 //   point_zone.cpp
-#ifndef point_zone_set_hpp_
-#define point_zone_set_hpp_
 #include "point_set.hpp"
 #include "bool_list.hpp"
 namespace mousse

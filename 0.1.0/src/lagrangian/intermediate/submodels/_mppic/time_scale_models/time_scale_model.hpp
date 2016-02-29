@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TIME_SCALE_MODELS_TIME_SCALE_MODEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TIME_SCALE_MODELS_TIME_SCALE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for time scale models.
 // SourceFiles
 //   time_scale_model.cpp
-#ifndef time_scale_model_hpp_
-#define time_scale_model_hpp_
 #include "constants.hpp"
 #include "field.hpp"
 #include "field_field.hpp"

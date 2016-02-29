@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_EDDY_VISCOSITY_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_EDDY_VISCOSITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Eddy viscosity LES SGS model base class
 // SourceFiles
 //   les_eddy_viscosity.cpp
-#ifndef les_eddy_viscosity_hpp_
-#define les_eddy_viscosity_hpp_
 #include "les_model.hpp"
 #include "eddy_viscosity.hpp"
 namespace mousse

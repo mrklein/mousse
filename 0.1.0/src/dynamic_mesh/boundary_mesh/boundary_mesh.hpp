@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_BOUNDARY_MESH_BOUNDARY_MESH_HPP_
+#define DYNAMIC_MESH_BOUNDARY_MESH_BOUNDARY_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   from polyMesh or from triSurface. Used for repatching existing meshes.
 // SourceFiles
 //   boundary_mesh.cpp
-#ifndef boundary_mesh_hpp_
-#define boundary_mesh_hpp_
 #include "b_mesh.hpp"
 #include "boundary_patch.hpp"
 #include "primitive_patch.hpp"

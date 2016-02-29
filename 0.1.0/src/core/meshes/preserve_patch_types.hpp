@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_PRESERVE_PATCH_TYPES_HPP_
+#define CORE_MESHES_PRESERVE_PATCH_TYPES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   preserve_patch_types.cpp
-#ifndef preserve_patch_types_hpp_
-#define preserve_patch_types_hpp_
 #include "file_name.hpp"
 #include "word_list.hpp"
 #include "dictionary.hpp"

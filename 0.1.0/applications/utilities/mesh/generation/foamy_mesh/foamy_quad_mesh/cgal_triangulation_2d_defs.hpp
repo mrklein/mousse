@@ -1,9 +1,10 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_FOAMY_QUAD_MESH_CGAL_TRIANGULATION_2D_DEFS_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_FOAMY_QUAD_MESH_CGAL_TRIANGULATION_2D_DEFS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef cgal_triangulation_2d_defs_hpp_
-#define cgal_triangulation_2d_defs_hpp_
 #include "cgal_triangulation_2d_kernel.hpp"
 #include "indexed_vertex.hpp"
 #include "indexed_face.hpp"

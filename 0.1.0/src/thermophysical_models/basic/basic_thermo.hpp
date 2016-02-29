@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_BASIC_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_BASIC_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base-class for fluid and solid thermodynamic properties
 // SourceFiles
 //   basic_thermo.cpp
-#ifndef basic_thermo_hpp_
-#define basic_thermo_hpp_
 #include "vol_fields.hpp"
 #include "type_info.hpp"
 #include "iodictionary.hpp"

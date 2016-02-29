@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_CONVECTION_SCHEMES_BOUNDED_CONVECTION_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_CONVECTION_SCHEMES_BOUNDED_CONVECTION_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   equation causes temporary divergence of the flux field.
 // SourceFiles
 //   bounded_convection_scheme.cpp
-#ifndef bounded_convection_scheme_hpp_
-#define bounded_convection_scheme_hpp_
 #include "convection_scheme.hpp"
 namespace mousse
 {

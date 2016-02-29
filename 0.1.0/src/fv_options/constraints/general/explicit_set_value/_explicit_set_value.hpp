@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_CONSTRAINTS_GENERAL_EXPLICIT_SET_VALUE_TEXPLICIT_SET_VALUE_HPP_
+#define FV_OPTIONS_CONSTRAINTS_GENERAL_EXPLICIT_SET_VALUE_TEXPLICIT_SET_VALUE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   mousse::fvOption
 // SourceFiles
 //   _explicit_set_value.cpp
-#ifndef _explicit_set_value_hpp_
-#define _explicit_set_value_hpp_
 #include "cell_set_option.hpp"
 #include "tuple2.hpp"
 namespace mousse

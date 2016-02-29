@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_C14_H30_C14_H30_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_C14_H30_C14_H30_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   nTetraDecane
 // SourceFiles
 //   c14_h30.cpp
-#ifndef c14_h30_hpp_
-#define c14_h30_hpp_
 #include "liquid_properties.hpp"
 #include "nsrds_func0.hpp"
 #include "nsrds_func1.hpp"

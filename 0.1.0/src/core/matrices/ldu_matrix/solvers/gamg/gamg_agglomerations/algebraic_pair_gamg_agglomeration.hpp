@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_AGGLOMERATIONS_ALGEBRAIC_PAIR_GAMG_AGGLOMERATION_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_AGGLOMERATIONS_ALGEBRAIC_PAIR_GAMG_AGGLOMERATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   algebraic_pair_gamg_agglomeration.cpp
 
-#ifndef algebraic_pair_gamg_agglomeration_hpp_
-#define algebraic_pair_gamg_agglomeration_hpp_
 
 #include "pair_gamg_agglomeration.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef CORE_DB_TIME_TIME_PATHS_HPP_
+#define CORE_DB_TIME_TIME_PATHS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A class for addressing time paths without using the Time class.
 // SourceFiles
 //   time_paths.cpp
-#ifndef time_paths_hpp_
-#define time_paths_hpp_
 #include "file_name.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_PATCHES_CYCLIC_AMI_CYCLIC_AMI_POINT_PATCH_CYCLIC_AMI_POINT_PATCH_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_PATCHES_CYCLIC_AMI_CYCLIC_AMI_POINT_PATCH_CYCLIC_AMI_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cyclic AMI point patch - place holder only
 // SourceFiles
 //   cyclic_ami_point_patch.cpp
-#ifndef cyclic_ami_point_patch_hpp_
-#define cyclic_ami_point_patch_hpp_
 #include "coupled_face_point_patch.hpp"
 #include "cyclic_ami_poly_patch.hpp"
 #include "point_boundary_mesh.hpp"

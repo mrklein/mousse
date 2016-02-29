@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_FIELD_MAG_SQR_MAG_SQR_HPP_
+#define POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_FIELD_MAG_SQR_MAG_SQR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Calculates and writes the magnitude-sqaured of a field for each time
 // SourceFiles
 //   mag_sqr.cpp
-#ifndef mag_sqr_hpp_
-#define mag_sqr_hpp_
 #include "calc_type.hpp"
 namespace mousse
 {

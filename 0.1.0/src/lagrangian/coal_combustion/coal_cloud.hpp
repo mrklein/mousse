@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_COAL_COMBUSTION_COAL_CLOUD_HPP_
+#define LAGRANGIAN_COAL_COMBUSTION_COAL_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::coalCloud
 // Description
 //   Cloud class to introduce coal parcels
-#ifndef coal_cloud_hpp_
-#define coal_cloud_hpp_
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "_thermo_cloud.hpp"

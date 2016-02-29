@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_A_C10_H7_CH3_A_C10_H7_CH3_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_A_C10_H7_CH3_A_C10_H7_CH3_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   alphaMethylNaphthalene
 // SourceFiles
 //   a_c10_h7_ch3.cpp
-#ifndef a_c10_h7_ch3_hpp_
-#define a_c10_h7_ch3_hpp_
 #include "liquid_properties.hpp"
 #include "nsrds_func0.hpp"
 #include "nsrds_func1.hpp"

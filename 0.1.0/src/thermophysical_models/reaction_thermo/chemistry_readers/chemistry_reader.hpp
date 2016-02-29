@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_CHEMISTRY_READERS_CHEMISTRY_READER_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_CHEMISTRY_READERS_CHEMISTRY_READER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract class for reading chemistry
 // SourceFiles
 //   chemistry_reader.cpp
-#ifndef chemistry_reader_hpp_
-#define chemistry_reader_hpp_
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 #include "reaction.hpp"

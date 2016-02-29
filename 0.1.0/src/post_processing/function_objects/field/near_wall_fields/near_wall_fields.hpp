@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_NEAR_WALL_FIELDS_NEAR_WALL_FIELDS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_NEAR_WALL_FIELDS_NEAR_WALL_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -39,8 +42,6 @@
 // SourceFiles
 //   near_wall_fields.cpp
 //   i_onear_wall_fields.hpp
-#ifndef near_wall_fields_hpp_
-#define near_wall_fields_hpp_
 #include "ofstream.hpp"
 #include "vol_fields.hpp"
 #include "tuple2.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_DATA_HPP_
+#define CORE_MESHES_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   data.cpp
 
-#ifndef data_hpp_
-#define data_hpp_
 
 #include "iodictionary.hpp"
 #include "solver_performance.hpp"

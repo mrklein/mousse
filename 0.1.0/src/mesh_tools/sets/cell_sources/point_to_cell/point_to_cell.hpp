@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_POINT_TO_CELL_POINT_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_POINT_TO_CELL_POINT_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select cells based on usage of points.
 // SourceFiles
 //   point_to_cell.cpp
-#ifndef point_to_cell_hpp_
-#define point_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "named_enum.hpp"
 namespace mousse

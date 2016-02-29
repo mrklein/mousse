@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_INCOMPRESSIBLE_INCOMPRESSIBLE_TURBULENCE_MODEL_HPP_
+#define TURBULENCE_MODELS_INCOMPRESSIBLE_INCOMPRESSIBLE_TURBULENCE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for turbulence models (RAS, LES and laminar).
 // SourceFiles
 //   incompressible_turbulence_model.cpp
-#ifndef incompressible_turbulence_model_hpp_
-#define incompressible_turbulence_model_hpp_
 #include "turbulence_model.hpp"
 #include "geometric_one_field.hpp"
 namespace mousse

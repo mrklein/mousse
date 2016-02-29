@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LINKED_LISTS_FIFO_STACK_HPP_
+#define CORE_CONTAINERS_LINKED_LISTS_FIFO_STACK_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Operations are push(), pop(), top(), bottom() and empty().
 // SourceFiles
 //   fifo_stack.cpp
-#ifndef fifo_stack_hpp_
-#define fifo_stack_hpp_
 #include "sl_list.hpp"
 namespace mousse
 {

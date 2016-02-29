@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_CONSTRAINTS_AXIS_SIX_DOF_RIGID_BODY_MOTION_AXIS_CONSTRAINT_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_CONSTRAINTS_AXIS_SIX_DOF_RIGID_BODY_MOTION_AXIS_CONSTRAINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //     may only rotate around a fixed axis.
 // SourceFiles
 //   six_dof_rigid_body_motion_axis_constraint.cpp
-#ifndef six_dof_rigid_body_motion_axis_constraint_hpp_
-#define six_dof_rigid_body_motion_axis_constraint_hpp_
 #include "six_dof_rigid_body_motion_constraint.hpp"
 namespace mousse
 {

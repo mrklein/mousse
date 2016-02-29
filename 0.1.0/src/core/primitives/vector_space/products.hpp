@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_VECTOR_SPACE_PRODUCTS_HPP_
+#define CORE_PRIMITIVES_VECTOR_SPACE_PRODUCTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef products_hpp_
-#define products_hpp_
 #include "ptraits.hpp"
 namespace mousse
 {

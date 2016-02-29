@@ -1,5 +1,5 @@
-#ifndef peng_robinson_gas_hpp_
-#define peng_robinson_gas_hpp_
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_PENG_ROBINSON_GAS_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_PENG_ROBINSON_GAS_HPP_
 #include "auto_ptr.hpp"
 #include "mathematical_constants.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef TRI_SURFACE_FACE_TRIANGULATION_HPP_
+#define TRI_SURFACE_FACE_TRIANGULATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   (Or empty list if no valid triangulation could be found).
 // SourceFiles
 //   face_triangulation.cpp
-#ifndef face_triangulation_hpp_
-#define face_triangulation_hpp_
 #include "tri_face_list.hpp"
 #include "point_field.hpp"
 namespace mousse

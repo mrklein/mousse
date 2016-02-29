@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_CURVED_EDGES_ARC_EDGE_HPP_
+#define MESH_BLOCK_MESH_CURVED_EDGES_ARC_EDGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Defines the arcEdge of a circle in terms of 3 points on its circumference
 // SourceFiles
 //   arc_edge.cpp
-#ifndef arc_edge_hpp_
-#define arc_edge_hpp_
 #include "curved_edge.hpp"
 #include "cylindrical_cs.hpp"
 namespace mousse

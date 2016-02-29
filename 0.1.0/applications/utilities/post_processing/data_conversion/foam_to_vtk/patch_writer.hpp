@@ -1,3 +1,6 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_PATCH_WRITER_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_PATCH_WRITER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   patch_writer.cpp
 //   patch_writer_templates.cpp
-#ifndef patch_writer_hpp_
-#define patch_writer_hpp_
 #include "point_mesh.hpp"
 #include "ofstream.hpp"
 #include "vol_fields.hpp"

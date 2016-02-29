@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_COUPLED_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_COUPLED_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   links.
 // SourceFiles
 //   coupled_poly_patch.cpp
-#ifndef coupled_poly_patch_hpp_
-#define coupled_poly_patch_hpp_
 #include "poly_patch.hpp"
 #include "diag_tensor_field.hpp"
 namespace mousse

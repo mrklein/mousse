@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_PATCH_INTERACTION_DATA_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_PATCH_INTERACTION_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::patchInteractionData
 // Description
 //   Helper class for the LocalInteraction patch interaction model
-#ifndef patch_interaction_data_hpp_
-#define patch_interaction_data_hpp_
 #include "istream.hpp"
 namespace mousse
 {

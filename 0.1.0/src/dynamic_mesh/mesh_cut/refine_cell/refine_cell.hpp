@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_REFINE_CELL_REFINE_CELL_HPP_
+#define DYNAMIC_MESH_MESH_CUT_REFINE_CELL_REFINE_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Container with cells to refine. Refinement given as single direction.
 // SourceFiles
 //   refine_cell.cpp
-#ifndef refine_cell_hpp_
-#define refine_cell_hpp_
 #include "label.hpp"
 #include "vector.hpp"
 namespace mousse

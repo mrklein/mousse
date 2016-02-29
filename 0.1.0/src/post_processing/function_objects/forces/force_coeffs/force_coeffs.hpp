@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FORCES_FORCE_COEFFS_FORCE_COEFFS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FORCES_FORCE_COEFFS_FORCE_COEFFS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -59,8 +62,6 @@
 // SourceFiles
 //   force_coeffs.cpp
 //   i_oforce_coeffs.hpp
-#ifndef force_coeffs_hpp_
-#define force_coeffs_hpp_
 #include "forces.hpp"
 namespace mousse
 {

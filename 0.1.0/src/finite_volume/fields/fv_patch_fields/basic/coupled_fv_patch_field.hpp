@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_COUPLED_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_COUPLED_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Abstract base class for coupled patches.
 // SourceFiles
 //   coupled_fv_patch_field.cpp
-#ifndef coupled_fv_patch_field_hpp_
-#define coupled_fv_patch_field_hpp_
 #include "_ldu_interface_field.hpp"
 #include "fv_patch_field.hpp"
 #include "coupled_fv_patch.hpp"

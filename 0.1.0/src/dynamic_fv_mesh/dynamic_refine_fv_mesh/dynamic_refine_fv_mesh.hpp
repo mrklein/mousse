@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_DYNAMIC_REFINE_FV_MESH_DYNAMIC_REFINE_FV_MESH_HPP_
+#define DYNAMIC_FV_MESH_DYNAMIC_REFINE_FV_MESH_DYNAMIC_REFINE_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -36,8 +39,6 @@
 //     dumpLevel       true;
 // SourceFiles
 //   dynamic_refine_fv_mesh.cpp
-#ifndef dynamic_refine_fv_mesh_hpp_
-#define dynamic_refine_fv_mesh_hpp_
 #include "dynamic_fv_mesh.hpp"
 #include "hex_ref8.hpp"
 #include "packed_bool_list.hpp"

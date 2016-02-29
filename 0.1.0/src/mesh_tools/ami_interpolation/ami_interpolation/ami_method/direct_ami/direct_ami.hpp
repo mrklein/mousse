@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_METHOD_DIRECT_AMI_DIRECT_AMI_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_METHOD_DIRECT_AMI_DIRECT_AMI_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   direct_ami.cpp
 
-#ifndef direct_ami_hpp_
-#define direct_ami_hpp_
 
 #include "ami_method.hpp"
 

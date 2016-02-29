@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_EXTENDED_STENCIL_FACE_TO_CELL_CENTRED_CFC_FACE_TO_CELL_STENCIL_OBJECT_HPP_
+#define FINITE_VOLUME_FV_MESH_EXTENDED_STENCIL_FACE_TO_CELL_CENTRED_CFC_FACE_TO_CELL_STENCIL_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::centredCFCFaceToCellStencilObject
 // Description
 // SourceFiles
-#ifndef centred_cfc_face_to_cell_stencil_object_hpp_
-#define centred_cfc_face_to_cell_stencil_object_hpp_
 #include "extended_centred_face_to_cell_stencil.hpp"
 #include "cfc_face_to_cell_stencil.hpp"
 #include "_mesh_object.hpp"

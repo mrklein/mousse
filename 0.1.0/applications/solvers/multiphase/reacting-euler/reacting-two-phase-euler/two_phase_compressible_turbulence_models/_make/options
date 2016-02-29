@@ -1,0 +1,15 @@
+EXE_INC = \
+    -Ikinetic_theory_models/viscosity_model \
+    -I../two_phase_system/_lninclude \
+    -I../../phase_systems/_lninclude \
+    -I../../interfacial_models/_lninclude\
+    -I../../interfacial_composition_models/_lninclude \
+    -I$(LIB_SRC)/transport_models/compressible/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/basic/_lninclude \
+    -I$(LIB_SRC)/transport_models/incompressible/transport_model \
+    -I$(LIB_SRC)/turbulence_models/compressible/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/phase_compressible/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/fv_options/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude

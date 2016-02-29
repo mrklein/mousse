@@ -1,3 +1,6 @@
+#ifndef CORE_DB_DICTIONARY_FUNCTION_ENTRIES_INCLUDE_IF_PRESENT_ENTRY_HPP_
+#define CORE_DB_DICTIONARY_FUNCTION_ENTRIES_INCLUDE_IF_PRESENT_ENTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   include_if_present_entry.cpp
 
-#ifndef include_if_present_entry_hpp_
-#define include_if_present_entry_hpp_
 
 #include "include_entry.hpp"
 

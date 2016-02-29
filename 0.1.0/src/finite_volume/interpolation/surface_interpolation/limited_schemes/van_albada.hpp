@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_VAN_ALBADA_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_VAN_ALBADA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   van_albada.cpp
 
-#ifndef van_albada_hpp_
-#define van_albada_hpp_
 
 #include "vector.hpp"
 

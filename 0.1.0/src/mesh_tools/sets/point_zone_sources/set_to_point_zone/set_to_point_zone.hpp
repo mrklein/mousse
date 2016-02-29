@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_POINT_ZONE_SOURCES_SET_TO_POINT_ZONE_SET_TO_POINT_ZONE_HPP_
+#define MESH_TOOLS_SETS_POINT_ZONE_SOURCES_SET_TO_POINT_ZONE_SET_TO_POINT_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select points based on usage in a pointSet.
 // SourceFiles
 //   set_to_point_zone.cpp
-#ifndef set_to_point_zone_hpp_
-#define set_to_point_zone_hpp_
 #include "topo_set_source.hpp"
 namespace mousse
 {

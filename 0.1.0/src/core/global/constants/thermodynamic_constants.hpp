@@ -1,9 +1,10 @@
+#ifndef CORE_GLOBAL_CONSTANTS_THERMODYNAMIC_CONSTANTS_HPP_
+#define CORE_GLOBAL_CONSTANTS_THERMODYNAMIC_CONSTANTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef thermodynamic_constants_hpp_
-#define thermodynamic_constants_hpp_
 namespace mousse
 {
 namespace constant

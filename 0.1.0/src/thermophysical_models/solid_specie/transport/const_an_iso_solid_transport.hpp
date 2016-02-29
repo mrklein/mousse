@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_SPECIE_TRANSPORT_CONST_AN_ISO_SOLID_TRANSPORT_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_SPECIE_TRANSPORT_CONST_AN_ISO_SOLID_TRANSPORT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   const_an_iso_solid_transport_i.hpp
 //   const_an_iso_solid_transport.cpp
-#ifndef const_an_iso_solid_transport_hpp_
-#define const_an_iso_solid_transport_hpp_
 #include "vector.hpp"
 namespace mousse
 {

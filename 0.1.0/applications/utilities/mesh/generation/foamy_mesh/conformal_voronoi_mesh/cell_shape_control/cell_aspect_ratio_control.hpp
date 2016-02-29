@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_CELL_ASPECT_RATIO_CONTROL_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_CELL_ASPECT_RATIO_CONTROL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   cell_aspect_ratio_control.cpp
-#ifndef cell_aspect_ratio_control_hpp_
-#define cell_aspect_ratio_control_hpp_
 #include "dictionary.hpp"
 #include "vector.hpp"
 #include "scalar.hpp"

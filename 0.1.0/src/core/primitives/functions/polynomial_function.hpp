@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_FUNCTIONS_POLYNOMIAL_FUNCTION_HPP_
+#define CORE_PRIMITIVES_FUNCTIONS_POLYNOMIAL_FUNCTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //   mousse::Polynomial for a templated implementation
 // SourceFiles
 //   polynomial_function.cpp
-#ifndef polynomial_function_hpp_
-#define polynomial_function_hpp_
 #include "scalar_list.hpp"
 #include "ostream.hpp"
 #include "run_time_selection_tables.hpp"

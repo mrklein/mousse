@@ -1,3 +1,6 @@
+#ifndef TRI_SURFACE_MESH_TRIANGULATION_HPP_
+#define TRI_SURFACE_MESH_TRIANGULATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Internal faces get the supplied region number.
 // SourceFiles
 //   mesh_triangulation.cpp
-#ifndef mesh_triangulation_hpp_
-#define mesh_triangulation_hpp_
 #include "tri_surface.hpp"
 #include "type_info.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_PTSCOTCH_DECOMP_PTSCOTCH_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_PTSCOTCH_DECOMP_PTSCOTCH_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   PTScotch domain decomposition
 // SourceFiles
 //   ptscotch_decomp.cpp
-#ifndef ptscotch_decomp_hpp_
-#define ptscotch_decomp_hpp_
 #include "decomposition_method.hpp"
 namespace mousse
 {

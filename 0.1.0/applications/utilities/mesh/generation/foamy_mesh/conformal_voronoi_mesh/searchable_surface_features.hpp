@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_SEARCHABLE_SURFACE_FEATURES_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_SEARCHABLE_SURFACE_FEATURES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Decorator that returns the features of a searchable surface.
 // SourceFiles
 //   searchable_surface_features.cpp
-#ifndef searchable_surface_features_hpp_
-#define searchable_surface_features_hpp_
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 #include "searchable_surface.hpp"

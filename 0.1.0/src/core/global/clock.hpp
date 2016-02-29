@@ -1,3 +1,6 @@
+#ifndef CORE_GLOBAL_CLOCK_HPP_
+#define CORE_GLOBAL_CLOCK_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Read access to the system clock with formatting.
 // SourceFiles
 //   clock.cpp
-#ifndef clock_hpp_
-#define clock_hpp_
 #include <ctime>
 namespace mousse
 {

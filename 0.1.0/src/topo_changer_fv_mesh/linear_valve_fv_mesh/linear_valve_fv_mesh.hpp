@@ -1,3 +1,6 @@
+#ifndef TOPO_CHANGER_FV_MESH_LINEAR_VALVE_FV_MESH_LINEAR_VALVE_FV_MESH_HPP_
+#define TOPO_CHANGER_FV_MESH_LINEAR_VALVE_FV_MESH_LINEAR_VALVE_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A sliding linear valve
 // SourceFiles
 //   linear_valve_fv_mesh.cpp
-#ifndef linear_valve_fv_mesh_hpp_
-#define linear_valve_fv_mesh_hpp_
 #include "topo_changer_fv_mesh.hpp"
 #include "motion_solver.hpp"
 namespace mousse

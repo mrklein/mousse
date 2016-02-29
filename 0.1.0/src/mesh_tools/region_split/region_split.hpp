@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_REGION_SPLIT_REGION_SPLIT_HPP_
+#define MESH_TOOLS_REGION_SPLIT_REGION_SPLIT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -46,8 +49,6 @@
 //   Can optionally keep all regions local to the processor.
 // SourceFiles
 //   region_split.cpp
-#ifndef region_split_hpp_
-#define region_split_hpp_
 #include "global_index.hpp"
 #include "label_pair.hpp"
 #include "bool_list.hpp"

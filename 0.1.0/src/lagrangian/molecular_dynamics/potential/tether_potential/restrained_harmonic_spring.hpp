@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_TETHER_POTENTIAL_RESTRAINED_HARMONIC_SPRING_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_TETHER_POTENTIAL_RESTRAINED_HARMONIC_SPRING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   restrained_harmonic_spring.cpp
-#ifndef restrained_harmonic_spring_hpp_
-#define restrained_harmonic_spring_hpp_
 #include "tether_potential.hpp"
 namespace mousse
 {

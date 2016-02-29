@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_PASSIVE_PARTICLE_PASSIVE_PARTICLE_CLOUD_HPP_
+#define LAGRANGIAN_BASIC_PASSIVE_PARTICLE_PASSIVE_PARTICLE_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A Cloud of passive particles
 // SourceFiles
 //   passive_particle_cloud.cpp
-#ifndef passive_particle_cloud_hpp_
-#define passive_particle_cloud_hpp_
 #include "_cloud.hpp"
 #include "passive_particle.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_SOLID_PROPERTIES_C_C_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_SOLID_PROPERTIES_C_C_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,9 +10,9 @@
 //   Graphite solid properties
 // SourceFiles
 //   c.cpp
-#ifndef solid_c_hpp_
-#define solid_c_hpp_
+
 #include "solid_properties.hpp"
+
 namespace mousse
 {
 class C;

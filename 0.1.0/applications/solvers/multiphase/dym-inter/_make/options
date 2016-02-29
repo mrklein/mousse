@@ -1,0 +1,27 @@
+EXE_INC = \
+    -I../inter \
+    -I$(LIB_SRC)/transport_models/two_phase_mixture/_lninclude \
+    -I$(LIB_SRC)/transport_models \
+    -I$(LIB_SRC)/transport_models/incompressible/_lninclude \
+    -I$(LIB_SRC)/transport_models/interface_properties/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/incompressible/_lninclude \
+    -I$(LIB_SRC)/transport_models/immiscible_incompressible_two_phase_mixture/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/dynamic_mesh/_lninclude \
+    -I$(LIB_SRC)/dynamic_fv_mesh/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/fv_options/_lninclude \
+    -I$(LIB_SRC)/sampling/_lninclude
+
+EXE_LIBS = \
+    -lmousse_immiscible_incompressible_two_phase_mixture \
+    -lmousse_turbulence_models \
+    -lmousse_incompressible_turbulence_models \
+    -lmousse_finite_volume \
+    -lmousse_dynamic_mesh \
+    -lmousse_dynamic_fv_mesh \
+    -lmousse_topo_changer_fv_mesh \
+    -lmousse_mesh_tools \
+    -lmousse_fv_options \
+    -lmousse_sampling

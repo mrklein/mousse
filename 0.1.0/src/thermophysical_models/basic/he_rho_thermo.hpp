@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_HE_RHO_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_HE_RHO_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Energy for a mixture based on density
 // SourceFiles
 //   he_rho_thermo.cpp
-#ifndef he_rho_thermo_hpp_
-#define he_rho_thermo_hpp_
 #include "rho_thermo.hpp"
 #include "he_thermo.hpp"
 namespace mousse

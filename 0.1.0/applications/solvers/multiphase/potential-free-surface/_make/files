@@ -1,0 +1,3 @@
+potential_free_surface.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-potential-free-surface

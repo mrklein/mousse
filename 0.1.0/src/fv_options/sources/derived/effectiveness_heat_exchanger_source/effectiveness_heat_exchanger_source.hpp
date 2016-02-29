@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_EFFECTIVENESS_HEAT_EXCHANGER_SOURCE_EFFECTIVENESS_HEAT_EXCHANGER_SOURCE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_EFFECTIVENESS_HEAT_EXCHANGER_SOURCE_EFFECTIVENESS_HEAT_EXCHANGER_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -89,8 +92,6 @@
 //  rate into the heat exchanger
 // SourceFiles
 //   effectiveness_heat_exchanger_source.cpp
-#ifndef effectiveness_heat_exchanger_source_hpp_
-#define effectiveness_heat_exchanger_source_hpp_
 #include "cell_set_option.hpp"
 #include "auto_ptr.hpp"
 #include "interpolation_2d_table.hpp"

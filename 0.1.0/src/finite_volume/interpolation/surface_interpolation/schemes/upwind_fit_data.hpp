@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_UPWIND_FIT_DATA_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_UPWIND_FIT_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   upwind_fit_data.cpp
 //
-#ifndef upwind_fit_data_hpp_
-#define upwind_fit_data_hpp_
 
 #include "fit_data.hpp"
 

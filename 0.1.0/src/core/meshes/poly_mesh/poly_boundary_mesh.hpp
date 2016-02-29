@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_BOUNDARY_MESH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_BOUNDARY_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::polyBoundaryMesh
 // SourceFiles
 //   poly_boundary_mesh.cpp
-#ifndef poly_boundary_mesh_hpp_
-#define poly_boundary_mesh_hpp_
 #include "poly_patch_list.hpp"
 #include "reg_ioobject.hpp"
 #include "label_pair.hpp"

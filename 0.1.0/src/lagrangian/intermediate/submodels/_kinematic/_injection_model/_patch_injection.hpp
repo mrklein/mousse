@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TPATCH_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TPATCH_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   - Parcels injected randomly across the patch
 // SourceFiles
 //   _patch_injection.cpp
-#ifndef _patch_injection_hpp_
-#define _patch_injection_hpp_
 #include "_injection_model.hpp"
 #include "patch_injection_base.hpp"
 namespace mousse

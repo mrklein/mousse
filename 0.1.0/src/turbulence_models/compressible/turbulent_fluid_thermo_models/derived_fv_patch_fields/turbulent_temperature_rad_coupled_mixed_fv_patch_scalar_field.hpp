@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_TURBULENT_TEMPERATURE_RAD_COUPLED_MIXED_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_TURBULENT_TEMPERATURE_RAD_COUPLED_MIXED_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -48,8 +51,6 @@
 //   - 'directionalSolidThermo' directionalKappa()
 // SourceFiles
 //   turbulent_temperature_rad_coupled_mixed_fv_patch_scalar_field.cpp
-#ifndef turbulent_temperature_rad_coupled_mixed_fv_patch_scalar_field_hpp_
-#define turbulent_temperature_rad_coupled_mixed_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 #include "temperature_coupled_base.hpp"
 #include "scalar_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_DIMENSION_SET_DIMENSION_SET_HPP_
+#define CORE_DIMENSION_SET_DIMENSION_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   dimension_set.cpp
 //   dimension_set_io.cpp
 //   dimension_sets.cpp
-#ifndef dimension_set_hpp_
-#define dimension_set_hpp_
 #include "bool.hpp"
 #include "dimensioned_scalar_fwd.hpp"
 #include "class_name.hpp"

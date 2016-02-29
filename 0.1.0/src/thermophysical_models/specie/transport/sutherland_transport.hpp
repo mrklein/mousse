@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_TRANSPORT_SUTHERLAND_TRANSPORT_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_TRANSPORT_SUTHERLAND_TRANSPORT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   \f]
 // SourceFiles
 //   sutherland_transport.cpp
-#ifndef sutherland_transport_hpp_
-#define sutherland_transport_hpp_
 #include "specie.hpp"
 namespace mousse
 {

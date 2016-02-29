@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_CONSTRAINT_CYCLIC_SLIP_FVS_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_CONSTRAINT_CYCLIC_SLIP_FVS_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::cyclicSlipFvsPatchField
 // SourceFiles
 //   cyclic_slip_fvs_patch_field.cpp
-#ifndef cyclic_slip_fvs_patch_field_hpp_
-#define cyclic_slip_fvs_patch_field_hpp_
 #include "cyclic_fvs_patch_field.hpp"
 #include "cyclic_slip_fv_patch.hpp"
 namespace mousse

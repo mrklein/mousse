@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TCLOUD_FUNCTION_OBJECT_LIST_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TCLOUD_FUNCTION_OBJECT_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List of cloud function objects
 // SourceFiles
 //   _cloud_function_object_list.cpp
-#ifndef _cloud_function_object_list_hpp_
-#define _cloud_function_object_list_hpp_
 #include "ptr_list.hpp"
 #include "_cloud_function_object.hpp"
 namespace mousse

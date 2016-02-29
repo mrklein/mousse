@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TIME_SCALE_MODELS_NON_EQUILIBRIUM_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TIME_SCALE_MODELS_NON_EQUILIBRIUM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   \endverbatim
 // SourceFiles
 //   non_equilibrium.cpp
-#ifndef non_equilibrium_hpp_
-#define non_equilibrium_hpp_
 #include "time_scale_model.hpp"
 namespace mousse
 {

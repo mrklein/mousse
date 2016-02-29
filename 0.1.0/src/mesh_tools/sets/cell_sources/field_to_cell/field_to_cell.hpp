@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_FIELD_TO_CELL_FIELD_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_FIELD_TO_CELL_FIELD_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select cells based on field values.
 // SourceFiles
 //   field_to_cell.cpp
-#ifndef field_to_cell_hpp_
-#define field_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "scalar_field.hpp"
 namespace mousse

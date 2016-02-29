@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_INCLUDE_REACTION_TYPES_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_INCLUDE_REACTION_TYPES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef reaction_types_hpp_
-#define reaction_types_hpp_
 #include "thermo_physics_types.hpp"
 #include "reaction.hpp"
 #include "ico_polynomial.hpp"

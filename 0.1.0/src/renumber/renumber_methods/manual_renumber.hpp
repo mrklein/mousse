@@ -1,3 +1,6 @@
+#ifndef RENUMBER_RENUMBER_METHODS_MANUAL_RENUMBER_HPP_
+#define RENUMBER_RENUMBER_METHODS_MANUAL_RENUMBER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Renumber given a ordered-to-original cell association in a file
 // SourceFiles
 //   manual_renumber.cpp
-#ifndef manual_renumber_hpp_
-#define manual_renumber_hpp_
 #include "renumber_method.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FORCES_FORCES_FORCES_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FORCES_FORCES_FORCES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -77,8 +80,6 @@
 // SourceFiles
 //   forces.cpp
 //   i_oforces.hpp
-#ifndef forces_hpp_
-#define forces_hpp_
 #include "function_object_file.hpp"
 #include "coordinate_system.hpp"
 #include "coordinate_systems.hpp"

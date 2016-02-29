@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_THIRD_BODY_EFFICIENCIES_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_THIRD_BODY_EFFICIENCIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::thirdBodyEfficiencies
 // Description
 //   Third body efficiencies
-#ifndef third_body_efficiencies_hpp_
-#define third_body_efficiencies_hpp_
 #include "scalar_list.hpp"
 #include "species_table.hpp"
 #include "tuple2.hpp"

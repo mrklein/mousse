@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_EMPTY_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_EMPTY_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   back plane of a 2-D geometry
 // SourceFiles
 //   empty_fv_patch.cpp
-#ifndef empty_fv_patch_hpp_
-#define empty_fv_patch_hpp_
 #include "fv_patch.hpp"
 #include "empty_poly_patch.hpp"
 namespace mousse

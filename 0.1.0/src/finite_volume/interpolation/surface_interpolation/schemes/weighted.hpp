@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_WEIGHTED_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_WEIGHTED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Interpolation scheme class using weights looked-up from the objectRegistry.
 // SourceFiles
 //   weighted.cpp
-#ifndef weighted_hpp_
-#define weighted_hpp_
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 namespace mousse

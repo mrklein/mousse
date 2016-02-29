@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_GEOM_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_GEOM_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Geometrical domain decomposition
 // SourceFiles
 //   geom_decomp.cpp
-#ifndef geom_decomp_hpp_
-#define geom_decomp_hpp_
 #include "decomposition_method.hpp"
 #include "vector.hpp"
 namespace mousse

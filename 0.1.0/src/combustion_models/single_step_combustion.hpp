@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_SINGLE_STEP_COMBUSTION_HPP_
+#define COMBUSTION_MODELS_SINGLE_STEP_COMBUSTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for combustion models using singleStepReactingMixture.
 // SourceFiles
 //   single_step_combustion.cpp
-#ifndef single_step_combustion_hpp_
-#define single_step_combustion_hpp_
 #include "single_step_reacting_mixture.hpp"
 namespace mousse
 {

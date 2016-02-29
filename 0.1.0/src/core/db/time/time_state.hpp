@@ -1,3 +1,6 @@
+#ifndef CORE_DB_TIME_TIME_STATE_HPP_
+#define CORE_DB_TIME_TIME_STATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   The time value with time-stepping information, user-defined remapping, etc.
 // SourceFiles
 //   time_state.cpp
-#ifndef time_state_hpp_
-#define time_state_hpp_
 #include "dimensioned_scalar.hpp"
 namespace mousse
 {

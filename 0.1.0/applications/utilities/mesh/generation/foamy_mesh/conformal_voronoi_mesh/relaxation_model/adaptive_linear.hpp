@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_RELAXATION_MODEL_ADAPTIVE_LINEAR_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_RELAXATION_MODEL_ADAPTIVE_LINEAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   the run
 // SourceFiles
 //   adaptive_linear.cpp
-#ifndef adaptive_linear_hpp_
-#define adaptive_linear_hpp_
 #include "relaxation_model.hpp"
 namespace mousse
 {

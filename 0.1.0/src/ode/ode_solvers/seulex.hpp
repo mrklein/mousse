@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_SEULEX_HPP_
+#define ODE_ODE_SOLVERS_SEULEX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   \endverbatim
 // SourceFiles
 //   seulex.cpp
-#ifndef seulex_hpp_
-#define seulex_hpp_
 #include "ode_solver.hpp"
 #include "scalar_matrices.hpp"
 #include "label_field.hpp"

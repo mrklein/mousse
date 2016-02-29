@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_HARMONIC_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_HARMONIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   and return the reciprocal of the interpolate.
 // SourceFiles
 //   harmonic.cpp
-#ifndef harmonic_hpp_
-#define harmonic_hpp_
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"

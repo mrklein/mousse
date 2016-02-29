@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_BOUNDARY_PATCH_BOUNDARY_PATCH_HPP_
+#define DYNAMIC_MESH_BOUNDARY_PATCH_BOUNDARY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   is not used. Used in boundaryMesh to hold data on patches.
 // SourceFiles
 //   boundary_patch.cpp
-#ifndef boundary_patch_hpp_
-#define boundary_patch_hpp_
 #include "patch_identifier.hpp"
 #include "auto_ptr.hpp"
 namespace mousse

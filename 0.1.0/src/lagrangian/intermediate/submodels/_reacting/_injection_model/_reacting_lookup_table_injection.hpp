@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TINJECTION_MODEL_TREACTING_LOOKUP_TABLE_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TINJECTION_MODEL_TREACTING_LOOKUP_TABLE_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //     Y       = list of mass fractions
 // SourceFiles
 //   _reacting_lookup_table_injection.cpp
-#ifndef _reacting_lookup_table_injection_hpp_
-#define _reacting_lookup_table_injection_hpp_
 #include "_injection_model.hpp"
 #include "reacting_parcel_injection_data_io_list.hpp"
 namespace mousse

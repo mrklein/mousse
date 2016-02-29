@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_REGION_COUPLED_PATCHES_REGION_COUPLED_POLY_PATCH_REGION_COUPLED_WALL_POLY_PATCH_HPP_
+#define MESH_TOOLS_REGION_COUPLED_PATCHES_REGION_COUPLED_POLY_PATCH_REGION_COUPLED_WALL_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   regionCoupledWall
 // SourceFiles
 //   region_coupled_wall_poly_patch.cpp
-#ifndef region_coupled_wall_poly_patch_hpp_
-#define region_coupled_wall_poly_patch_hpp_
 #include "wall_poly_patch.hpp"
 #include "region_coupled_base.hpp"
 namespace mousse

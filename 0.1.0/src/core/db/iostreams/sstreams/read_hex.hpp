@@ -1,9 +1,10 @@
+#ifndef CORE_DB_IOSTREAMS_SSTREAMS_READ_HEX_HPP_
+#define CORE_DB_IOSTREAMS_SSTREAMS_READ_HEX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   read_hex.cpp
-#ifndef read_hex_hpp_
-#define read_hex_hpp_
 #include "isstream.hpp"
 namespace mousse
 {

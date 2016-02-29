@@ -1,9 +1,10 @@
+#ifndef MESH_TOOLS_MESH_TOOLS_MESH_TOOLS_HPP_
+#define MESH_TOOLS_MESH_TOOLS_MESH_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   mesh_tools.cpp
-#ifndef mesh_tools_hpp_
-#define mesh_tools_hpp_
 #include "label.hpp"
 #include "vector.hpp"
 #include "triad.hpp"

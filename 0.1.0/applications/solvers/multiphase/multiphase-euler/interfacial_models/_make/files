@@ -1,0 +1,17 @@
+drag_models/drag_model.cpp
+drag_models/new_drag_model.cpp
+drag_models/ergun.cpp
+drag_models/gidaspow_ergun_wen_yu.cpp
+drag_models/gidaspow_schiller_naumann.cpp
+drag_models/schiller_naumann.cpp
+drag_models/gibilaro.cpp
+drag_models/wen_yu.cpp
+drag_models/syamlal_o_brien.cpp
+drag_models/blended.cpp
+drag_models/interface.cpp
+
+heat_transfer_models/heat_transfer_model.cpp
+heat_transfer_models/new_heat_transfer_model.cpp
+heat_transfer_models/ranz_marshall.cpp
+
+LIB =  $(MOUSSE_LIBBIN)/libmousse_compressible_multiphase_eulerian_interfacial_models

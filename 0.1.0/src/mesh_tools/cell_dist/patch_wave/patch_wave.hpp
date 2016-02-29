@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_CELL_DIST_PATCH_WAVE_PATCH_WAVE_HPP_
+#define MESH_TOOLS_CELL_DIST_PATCH_WAVE_PATCH_WAVE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   construct volScalarField with correct distance to wall.
 // SourceFiles
 //   patch_wave.cpp
-#ifndef patch_wave_hpp_
-#define patch_wave_hpp_
 #include "cell_dist_funcs.hpp"
 #include "field_field.hpp"
 #include "mesh_wave.hpp"

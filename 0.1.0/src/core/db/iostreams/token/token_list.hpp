@@ -1,9 +1,10 @@
+#ifndef CORE_DB_IOSTREAMS_TOKEN_TOKEN_LIST_HPP_
+#define CORE_DB_IOSTREAMS_TOKEN_TOKEN_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef token_list_hpp_
-#define token_list_hpp_
 #include "token.hpp"
 #include "list.hpp"
 namespace mousse

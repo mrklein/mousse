@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_BOX_TO_CELL_BOX_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_BOX_TO_CELL_BOX_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select cells based on cell centres inside box(es).
 // SourceFiles
 //   box_to_cell.cpp
-#ifndef box_to_cell_hpp_
-#define box_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "tree_bound_box_list.hpp"
 namespace mousse

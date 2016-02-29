@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_PHASE_COMPRESSIBLE_PHASE_COMPRESSIBLE_TURBULENCE_MODEL_HPP_
+#define TURBULENCE_MODELS_PHASE_COMPRESSIBLE_PHASE_COMPRESSIBLE_TURBULENCE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,9 +11,7 @@
 //   turbulence models.
 // SourceFiles
 //   phase_compressible_turbulence_model.cpp
-#ifndef phase_compressible_turbulence_model_hpp_
-#define phase_compressible_turbulence_model_hpp_
-#include "turbulence_model.hpp"
+#include "_turbulence_model.hpp"
 #include "compressible_turbulence_model.hpp"
 namespace mousse
 {

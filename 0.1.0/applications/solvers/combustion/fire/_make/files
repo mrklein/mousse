@@ -1,0 +1,3 @@
+fire.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-fire

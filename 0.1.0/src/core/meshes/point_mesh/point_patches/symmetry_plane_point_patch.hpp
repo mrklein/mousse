@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_PATCHES_SYMMETRY_PLANE_POINT_PATCH_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_PATCHES_SYMMETRY_PLANE_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Symmetry-plane patch.
 // SourceFiles
 //   symmetry_plane_point_patch.cpp
-#ifndef symmetry_plane_point_patch_hpp_
-#define symmetry_plane_point_patch_hpp_
 #include "face_point_patch.hpp"
 #include "symmetry_plane_poly_patch.hpp"
 namespace mousse

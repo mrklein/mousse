@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_POINT_LINEAR_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_POINT_LINEAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Uses volPointInterpolation to obtain the field values at the face-points.
 // SourceFiles
 //   point_linear.cpp
-#ifndef point_linear_hpp_
-#define point_linear_hpp_
 #include "linear.hpp"
 namespace mousse
 {

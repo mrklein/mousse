@@ -1,0 +1,7 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wmake libso mixture_viscosity_models
+wmake libso relative_velocity_models
+wmake

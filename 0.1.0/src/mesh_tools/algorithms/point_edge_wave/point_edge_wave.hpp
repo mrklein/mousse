@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_ALGORITHMS_POINT_EDGE_WAVE_POINT_EDGE_WAVE_HPP_
+#define MESH_TOOLS_ALGORITHMS_POINT_EDGE_WAVE_POINT_EDGE_WAVE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -26,8 +29,6 @@
 // SourceFiles
 //   point_edge_wave.cpp
 
-#ifndef point_edge_wave_hpp_
-#define point_edge_wave_hpp_
 
 #include "bool_list.hpp"
 #include "scalar_field.hpp"

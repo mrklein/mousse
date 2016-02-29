@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOOBJECTS_IOPTR_LIST_HPP_
+#define CORE_DB_IOOBJECTS_IOPTR_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   ioptr_list.cpp
 
-#ifndef ioptr_list_hpp_
-#define ioptr_list_hpp_
 
 #include "ptr_list.hpp"
 #include "reg_ioobject.hpp"

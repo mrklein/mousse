@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PHASE_PROPERTIES_PHASE_PROPERTIES_LIST_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PHASE_PROPERTIES_PHASE_PROPERTIES_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Simple container for a list of phase properties
 // SourceFiles
 //   phase_properties_list.cpp
-#ifndef phase_properties_list_hpp_
-#define phase_properties_list_hpp_
 #include "istream.hpp"
 #include "vol_fields.hpp"
 #include "word_list.hpp"

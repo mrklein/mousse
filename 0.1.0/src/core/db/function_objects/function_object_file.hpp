@@ -1,3 +1,6 @@
+#ifndef CORE_DB_FUNCTION_OBJECTS_FUNCTION_OBJECT_FILE_HPP_
+#define CORE_DB_FUNCTION_OBJECTS_FUNCTION_OBJECT_FILE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   function_object_file.cpp
 
-#ifndef function_object_file_hpp_
-#define function_object_file_hpp_
 
 #include "object_registry.hpp"
 #include "ofstream.hpp"

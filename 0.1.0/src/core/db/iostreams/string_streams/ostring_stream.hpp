@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOSTREAMS_STRING_STREAMS_OSTRING_STREAM_HPP_
+#define CORE_DB_IOSTREAMS_STRING_STREAMS_OSTRING_STREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Output to memory buffer stream.
 // SourceFiles
 //   string_streams_print.cpp
-#ifndef ostring_stream_hpp_
-#define ostring_stream_hpp_
 #include "osstream.hpp"
 #include <sstream>
 namespace mousse

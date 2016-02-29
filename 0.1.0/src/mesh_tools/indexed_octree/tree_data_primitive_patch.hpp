@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_PRIMITIVE_PATCH_HPP_
+#define MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_PRIMITIVE_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   tree_data_primitive_patch.cpp
 
-#ifndef tree_data_primitive_patch_hpp_
-#define tree_data_primitive_patch_hpp_
 
 #include "tree_bound_box_list.hpp"
 #include "volume_type.hpp"

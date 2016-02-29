@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_FUNCTIONS_TABLE_HPP_
+#define CORE_PRIMITIVES_FUNCTIONS_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 // SourceFiles
 //   table.cpp
 
-#ifndef table_hpp_
-#define table_hpp_
 
 #include "data_entry.hpp"
 #include "tuple2.hpp"

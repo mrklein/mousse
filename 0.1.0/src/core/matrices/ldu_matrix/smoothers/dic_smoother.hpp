@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SMOOTHERS_DIC_SMOOTHER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SMOOTHERS_DIC_SMOOTHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   sweeps.
 // SourceFiles
 //   dic_smoother.cpp
-#ifndef dic_smoother_hpp_
-#define dic_smoother_hpp_
 #include "ldu_matrix.hpp"
 namespace mousse
 {

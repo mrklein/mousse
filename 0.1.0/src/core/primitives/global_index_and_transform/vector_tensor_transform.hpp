@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_GLOBAL_INDEX_AND_TRANSFORM_VECTOR_TENSOR_TRANSFORM_HPP_
+#define CORE_PRIMITIVES_GLOBAL_INDEX_AND_TRANSFORM_VECTOR_TENSOR_TRANSFORM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   vector_tensor_transform.cpp
 //   vector_tensor_transform_templates.cpp
-#ifndef vector_tensor_transform_hpp_
-#define vector_tensor_transform_hpp_
 #include "tensor.hpp"
 #include "word.hpp"
 #include "contiguous.hpp"

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_N_C3_H8_O_N_C3_H8_O_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_N_C3_H8_O_N_C3_H8_O_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   propanol
 // SourceFiles
 //   n_c3_h8_o.cpp
-#ifndef n_c3_h8_o_hpp_
-#define n_c3_h8_o_hpp_
 #include "liquid_properties.hpp"
 #include "nsrds_func0.hpp"
 #include "nsrds_func1.hpp"

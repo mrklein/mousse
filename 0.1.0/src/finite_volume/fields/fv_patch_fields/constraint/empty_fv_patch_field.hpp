@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_EMPTY_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_EMPTY_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   \endverbatim
 // SourceFiles
 //   empty_fv_patch_field.cpp
-#ifndef empty_fv_patch_field_hpp_
-#define empty_fv_patch_field_hpp_
 #include "fv_patch_field.hpp"
 #include "empty_fv_patch.hpp"
 namespace mousse

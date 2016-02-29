@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TDRAG_TPLESSIS_MASLIYAH_DRAG_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TDRAG_TPLESSIS_MASLIYAH_DRAG_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::PlessisMasliyahDragForce
 // Description
 //   PlessisMasliyahDragForce drag model for solid spheres.
-#ifndef _plessis_masliyah_drag_force_hpp_
-#define _plessis_masliyah_drag_force_hpp_
 #include "_particle_force.hpp"
 #include "vol_fields_fwd.hpp"
 namespace mousse

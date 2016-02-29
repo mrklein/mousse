@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_MESH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   poly_mesh_update.cpp
 //   poly_mesh_check.cpp
 
-#ifndef poly_mesh_hpp_
-#define poly_mesh_hpp_
 
 #include "object_registry.hpp"
 #include "primitive_mesh.hpp"

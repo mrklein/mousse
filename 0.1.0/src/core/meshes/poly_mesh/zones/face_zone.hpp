@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_ZONES_FACE_ZONE_HPP_
+#define CORE_MESHES_POLY_MESH_ZONES_FACE_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   face_zone.cpp
 //   face_zone_new.cpp
 
-#ifndef face_zone_hpp_
-#define face_zone_hpp_
 
 #include "zone.hpp"
 #include "face_zone_mesh_fwd.hpp"

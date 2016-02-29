@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TNON_INERTIAL_FRAME_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TNON_INERTIAL_FRAME_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   from Landau and Lifshitz, Mechanics, 3rd Ed, p126-129.
 // SourceFiles
 //   _non_inertial_frame_force.cpp
-#ifndef _non_inertial_frame_force_hpp_
-#define _non_inertial_frame_force_hpp_
 #include "_particle_force.hpp"
 namespace mousse
 {

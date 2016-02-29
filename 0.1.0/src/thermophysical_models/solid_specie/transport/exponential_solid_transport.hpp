@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_SPECIE_TRANSPORT_EXPONENTIAL_SOLID_TRANSPORT_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_SPECIE_TRANSPORT_EXPONENTIAL_SOLID_TRANSPORT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Templated into a given thermodynamics package.
 // SourceFiles
 //   exponential_solid_transport.cpp
-#ifndef exponential_solid_transport_hpp_
-#define exponential_solid_transport_hpp_
 namespace mousse
 {
 template<class Thermo> class exponentialSolidTransport;

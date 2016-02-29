@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_SOLVER_EXTERNAL_POINT_EDGE_POINT_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_SOLVER_EXTERNAL_POINT_EDGE_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   To be used in wall distance calculation.
 // SourceFiles
 //   external_point_edge_point.cpp
-#ifndef external_point_edge_point_hpp_
-#define external_point_edge_point_hpp_
 #include "point_field.hpp"
 #include "poly_mesh.hpp"
 #include "transform.hpp"

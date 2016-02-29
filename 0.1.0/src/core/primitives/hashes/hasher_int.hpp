@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_HASHES_HASHER_INT_HPP_
+#define CORE_PRIMITIVES_HASHES_HASHER_INT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef hasher_int_hpp_
-#define hasher_int_hpp_
 #include "hasher.hpp"
 #include "int.hpp"
 namespace mousse

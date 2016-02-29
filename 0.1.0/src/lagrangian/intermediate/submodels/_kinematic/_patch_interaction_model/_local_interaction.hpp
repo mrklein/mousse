@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_TLOCAL_INTERACTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_TLOCAL_INTERACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::LocalInteraction
 // Description
 //   Patch interaction specified on a patch-by-patch basis
-#ifndef _local_interaction_hpp_
-#define _local_interaction_hpp_
 #include "_patch_interaction_model.hpp"
 #include "patch_interaction_data_list.hpp"
 #include "switch.hpp"

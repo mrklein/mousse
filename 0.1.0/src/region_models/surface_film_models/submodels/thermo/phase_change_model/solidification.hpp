@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_PHASE_CHANGE_MODEL_SOLIDIFICATION_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_PHASE_CHANGE_MODEL_SOLIDIFICATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   assumed to be removed by heat-transfer to the wall.
 // SourceFiles
 //   solidification.cpp
-#ifndef solidification_hpp_
-#define solidification_hpp_
 #include "phase_change_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_INLET_OUTLET_TOTAL_TEMPERATURE_FV_PATCH_SCALAR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_INLET_OUTLET_TOTAL_TEMPERATURE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -37,8 +40,6 @@
 //   mousse::inletOutletFvPatchField
 // SourceFiles
 //   inlet_outlet_total_temperature_fv_patch_scalar_field.cpp
-#ifndef inlet_outlet_total_temperature_fv_patch_scalar_field_hpp_
-#define inlet_outlet_total_temperature_fv_patch_scalar_field_hpp_
 #include "inlet_outlet_fv_patch_fields.hpp"
 namespace mousse
 {

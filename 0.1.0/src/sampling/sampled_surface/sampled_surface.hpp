@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_SAMPLED_SURFACE_HPP_
+#define SAMPLING_SAMPLED_SURFACE_SAMPLED_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 // SourceFiles
 //   sampled_surface.cpp
 //   sampled_surface_templates.cpp
-#ifndef sampled_surface_hpp_
-#define sampled_surface_hpp_
 #include "point_field.hpp"
 #include "word.hpp"
 #include "label_list.hpp"

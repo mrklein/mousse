@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_BOUND_BOX_HPP_
+#define CORE_MESHES_BOUND_BOX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::boundBox
 // Description
 //   A bounding box defined in terms of the points at its extremities.
-#ifndef bound_box_hpp_
-#define bound_box_hpp_
 #include "point_field.hpp"
 #include "face_list.hpp"
 namespace mousse

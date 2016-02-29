@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_MID_POINT_AND_FACE_SET_HPP_
+#define SAMPLING_SAMPLED_SET_MID_POINT_AND_FACE_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   mid_point_and_face_set.cpp
-#ifndef mid_point_and_face_set_hpp_
-#define mid_point_and_face_set_hpp_
 #include "face_only_set.hpp"
 namespace mousse
 {

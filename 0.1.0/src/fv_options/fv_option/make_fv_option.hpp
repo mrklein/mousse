@@ -1,9 +1,10 @@
+#ifndef FV_OPTIONS_FV_OPTION_MAKE_FV_OPTION_HPP_
+#define FV_OPTIONS_FV_OPTION_MAKE_FV_OPTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_fv_option_hpp_
-#define make_fv_option_hpp_
 #include "fv_option.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #define MAKE_FV_OPTION(Option, Type)                                          \

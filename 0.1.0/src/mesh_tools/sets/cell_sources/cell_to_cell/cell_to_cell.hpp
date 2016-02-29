@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_CELL_TO_CELL_CELL_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_CELL_TO_CELL_CELL_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select the cells from another cellSet.
 // SourceFiles
 //   cell_to_cell.cpp
-#ifndef cell_to_cell_hpp_
-#define cell_to_cell_hpp_
 #include "topo_set_source.hpp"
 namespace mousse
 {

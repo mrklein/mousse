@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_TRI_SURFACE_SEARCH_TRI_SURFACE_REGION_SEARCH_HPP_
+#define MESH_TOOLS_TRI_SURFACE_TRI_SURFACE_SEARCH_TRI_SURFACE_REGION_SEARCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   the surface and only searches on the specified regions.
 // SourceFiles
 //   tri_surface_region_search.cpp
-#ifndef tri_surface_region_search_hpp_
-#define tri_surface_region_search_hpp_
 #include "point_field.hpp"
 #include "point_index_hit.hpp"
 #include "tri_surface_search.hpp"

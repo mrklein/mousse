@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_REFINEMENT_FEATURES_REFINEMENT_FEATURES_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_REFINEMENT_FEATURES_REFINEMENT_FEATURES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Encapsulates queries for features.
 // SourceFiles
 //   refinement_features.cpp
-#ifndef refinement_features_hpp_
-#define refinement_features_hpp_
 #include "extended_feature_edge_mesh.hpp"
 #include "indexed_octree.hpp"
 #include "tree_data_edge.hpp"

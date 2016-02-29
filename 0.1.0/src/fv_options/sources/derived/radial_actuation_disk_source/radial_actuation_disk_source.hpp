@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_RADIAL_ACTUATION_DISK_SOURCE_RADIAL_ACTUATION_DISK_SOURCE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_RADIAL_ACTUATION_DISK_SOURCE_RADIAL_ACTUATION_DISK_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -41,8 +44,6 @@
 // SourceFiles
 //   radial_actuation_disk_source.cpp
 //   radial_actuation_disk_source_templates.cpp
-#ifndef radial_actuation_disk_source_hpp_
-#define radial_actuation_disk_source_hpp_
 #include "actuation_disk_source.hpp"
 #include "fixed_list.hpp"
 namespace mousse

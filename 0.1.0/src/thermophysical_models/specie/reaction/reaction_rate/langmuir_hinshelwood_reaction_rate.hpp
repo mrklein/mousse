@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_LANGMUIR_HINSHELWOOD_REACTION_RATE_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_LANGMUIR_HINSHELWOOD_REACTION_RATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::LangmuirHinshelwoodReactionRate
 // Description
 //   Power series reaction rate.
-#ifndef langmuir_hinshelwood_reaction_rate_hpp_
-#define langmuir_hinshelwood_reaction_rate_hpp_
 #include "scalar_field.hpp"
 #include "type_info.hpp"
 #include "fixed_list.hpp"

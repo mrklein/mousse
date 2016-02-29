@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_FACE_ZONE_SOURCES_SETS_TO_FACE_ZONE_SETS_TO_FACE_ZONE_HPP_
+#define MESH_TOOLS_SETS_FACE_ZONE_SOURCES_SETS_TO_FACE_ZONE_SETS_TO_FACE_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select faces based on usage in a faceSet and cellSet
 // SourceFiles
 //   sets_to_face_zone.cpp
-#ifndef sets_to_face_zone_hpp_
-#define sets_to_face_zone_hpp_
 #include "topo_set_source.hpp"
 #include "switch.hpp"
 namespace mousse

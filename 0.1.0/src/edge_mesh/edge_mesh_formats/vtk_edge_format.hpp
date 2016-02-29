@@ -1,3 +1,6 @@
+#ifndef EDGE_MESH_EDGE_MESH_FORMATS_VTK_EDGE_FORMAT_HPP_
+#define EDGE_MESH_EDGE_MESH_FORMATS_VTK_EDGE_FORMAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Provide a means of writing VTK legacy format.
 // SourceFiles
 //   vtk_edge_format.cpp
-#ifndef vtk_edge_format_hpp_
-#define vtk_edge_format_hpp_
 #include "edge_mesh.hpp"
 namespace mousse
 {

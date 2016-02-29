@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCH_MAPPER_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCH_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Mapping class for a fvPatchField.
 // SourceFiles
 //   fv_patch_mapper.cpp
-#ifndef fv_patch_mapper_hpp_
-#define fv_patch_mapper_hpp_
 #include "fv_patch_field_mapper.hpp"
 #include "face_mapper.hpp"
 #include "fv_patch.hpp"

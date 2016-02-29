@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_C2_H5_OH_C2_H5_OH_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_C2_H5_OH_C2_H5_OH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   ethanol
 // SourceFiles
 //   c2_h5_oh.cpp
-#ifndef c2_h5_oh_hpp_
-#define c2_h5_oh_hpp_
 #include "liquid_properties.hpp"
 #include "nsrds_func0.hpp"
 #include "nsrds_func1.hpp"

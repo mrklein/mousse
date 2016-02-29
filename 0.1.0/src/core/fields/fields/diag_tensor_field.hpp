@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_FIELDS_DIAG_TENSOR_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_DIAG_TENSOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   diag_tensor_field.cpp
-#ifndef diag_tensor_field_hpp_
-#define diag_tensor_field_hpp_
 #include "tensor_field.hpp"
 #include "diag_tensor.hpp"
 #define TEMPLATE

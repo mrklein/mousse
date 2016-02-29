@@ -1,3 +1,6 @@
+#ifndef CORE_INTERPOLATIONS_INTERPOLATION_LOOK_UP_TABLE_HPP_
+#define CORE_INTERPOLATIONS_INTERPOLATION_LOOK_UP_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   - Accessing a list with a single element always returns the same value.
 // SourceFiles
 //   interpolation_look_up_table.cpp
-#ifndef interpolation_look_up_table_hpp_
-#define interpolation_look_up_table_hpp_
 #include "list.hpp"
 #include "list_ops.hpp"
 #include "scalar_field.hpp"

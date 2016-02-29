@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_TRI_SURFACE_MESH_POINT_SET_HPP_
+#define SAMPLING_SAMPLED_SET_TRI_SURFACE_MESH_POINT_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   sampleSet from all points of a triSurfaceMesh.
 // SourceFiles
 //   tri_surface_mesh_point_set.cpp
-#ifndef tri_surface_mesh_point_set_hpp_
-#define tri_surface_mesh_point_set_hpp_
 #include "sampled_set.hpp"
 namespace mousse
 {

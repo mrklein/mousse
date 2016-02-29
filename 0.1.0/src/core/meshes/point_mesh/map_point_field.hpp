@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_MAP_POINT_FIELD_HPP_
+#define CORE_MESHES_POINT_MESH_MAP_POINT_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   specialisation for GeoMesh=pointMesh
 // See Also
 //   MapGeometricFields
-#ifndef map_point_field_hpp_
-#define map_point_field_hpp_
 #include "field.hpp"
 #include "point_mesh.hpp"
 namespace mousse

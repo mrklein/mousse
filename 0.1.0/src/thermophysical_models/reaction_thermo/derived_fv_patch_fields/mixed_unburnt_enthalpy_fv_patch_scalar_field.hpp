@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_DERIVED_FV_PATCH_FIELDS_MIXED_UNBURNT_ENTHALPY_FV_PATCH_SCALAR_FIELD_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_DERIVED_FV_PATCH_FIELDS_MIXED_UNBURNT_ENTHALPY_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Mixed boundary condition for unburnt
 // SourceFiles
 //   mixed_unburnt_enthalpy_fv_patch_scalar_field.cpp
-#ifndef mixed_unburnt_enthalpy_fv_patch_scalar_field_hpp_
-#define mixed_unburnt_enthalpy_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 namespace mousse
 {

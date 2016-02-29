@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_EXTENDED_STENCIL_CELL_TO_FACE_EXTENDED_UPWIND_CELL_TO_FACE_STENCIL_HPP_
+#define FINITE_VOLUME_FV_MESH_EXTENDED_STENCIL_CELL_TO_FACE_EXTENDED_UPWIND_CELL_TO_FACE_STENCIL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 // SourceFiles
 //   extended_upwind_cell_to_face_stencil.cpp
 //   extended_upwind_cell_to_face_stencil_templates.cpp
-#ifndef extended_upwind_cell_to_face_stencil_hpp_
-#define extended_upwind_cell_to_face_stencil_hpp_
 #include "extended_cell_to_face_stencil.hpp"
 namespace mousse
 {

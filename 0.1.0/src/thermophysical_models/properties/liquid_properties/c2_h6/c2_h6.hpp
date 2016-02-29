@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_C2_H6_C2_H6_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_C2_H6_C2_H6_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   ethane
 // SourceFiles
 //   c2_h6.cpp
-#ifndef c2_h6_hpp_
-#define c2_h6_hpp_
 #include "liquid_properties.hpp"
 #include "nsrds_func0.hpp"
 #include "nsrds_func1.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TAVERAGING_METHODS_TDUAL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TAVERAGING_METHODS_TDUAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   tethrahedron.
 // SourceFiles
 //   _dual.cpp
-#ifndef _dual_hpp_
-#define _dual_hpp_
 #include "_averaging_method.hpp"
 #include "point_mesh.hpp"
 #include "tet_indices.hpp"

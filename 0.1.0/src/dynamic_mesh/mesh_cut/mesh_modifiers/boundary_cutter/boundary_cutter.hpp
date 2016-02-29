@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_BOUNDARY_CUTTER_BOUNDARY_CUTTER_HPP_
+#define DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_BOUNDARY_CUTTER_BOUNDARY_CUTTER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   - diagonal split of boundary faces
 // SourceFiles
 //   boundary_cutter.cpp
-#ifndef boundary_cutter_hpp_
-#define boundary_cutter_hpp_
 #include "map.hpp"
 #include "label_list.hpp"
 #include "edge.hpp"

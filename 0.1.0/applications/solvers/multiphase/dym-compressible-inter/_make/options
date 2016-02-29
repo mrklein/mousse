@@ -1,0 +1,28 @@
+EXE_INC = \
+    -I../compressible-inter \
+    -I../compressible-inter/two_phase_mixture_thermo \
+    -I$(LIB_SRC)/transport_models/compressible/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/basic/_lninclude \
+    -I$(LIB_SRC)/transport_models/two_phase_mixture/_lninclude \
+    -I$(LIB_SRC)/transport_models/interface_properties/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/compressible/_lninclude \
+    -I$(LIB_SRC)/dynamic_mesh/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/dynamic_fv_mesh/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude
+
+EXE_LIBS = \
+    -lmousse_two_phase_mixture_thermo \
+    -lmousse_compressible_transport_models \
+    -lmousse_fluid_thermophysical_models \
+    -lmousse_specie \
+    -lmousse_two_phase_mixture \
+    -lmousse_two_phase_properties \
+    -lmousse_interface_properties \
+    -lmousse_turbulence_models \
+    -lmousse_compressible_turbulence_models \
+    -lmousse_dynamic_mesh \
+    -lmousse_mesh_tools \
+    -lmousse_dynamic_fv_mesh \
+    -lmousse_finite_volume

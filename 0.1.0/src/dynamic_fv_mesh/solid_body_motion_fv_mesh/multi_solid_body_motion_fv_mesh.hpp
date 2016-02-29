@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_MULTI_SOLID_BODY_MOTION_FV_MESH_HPP_
+#define DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_MULTI_SOLID_BODY_MOTION_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   motion function.
 // SourceFiles
 //   multi_solid_body_motion_fv_mesh.cpp
-#ifndef multi_solid_body_motion_fv_mesh_hpp_
-#define multi_solid_body_motion_fv_mesh_hpp_
 #include "dynamic_fv_mesh.hpp"
 #include "dictionary.hpp"
 #include "point_io_field.hpp"

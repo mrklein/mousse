@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_SOLUTION_SOLUTION_HPP_
+#define CORE_MATRICES_SOLUTION_SOLUTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   solution.cpp
 
-#ifndef solution_hpp_
-#define solution_hpp_
 
 #include "iodictionary.hpp"
 

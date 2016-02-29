@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LINKED_LISTS_L_PTR_LIST_HPP_
+#define CORE_CONTAINERS_LINKED_LISTS_L_PTR_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   l_ptr_list.cpp
 //   l_ptr_list_io.cpp
-#ifndef l_ptr_list_hpp_
-#define l_ptr_list_hpp_
 #include "l_list.hpp"
 namespace mousse
 {

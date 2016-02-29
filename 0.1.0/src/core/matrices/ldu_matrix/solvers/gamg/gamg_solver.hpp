@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_SOLVER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -24,8 +27,6 @@
 //   gamg_solver_interpolate.cpp
 //   gamg_solver_scale.cpp
 //   gamg_solver_solve.cpp
-#ifndef gamg_solver_hpp_
-#define gamg_solver_hpp_
 #include "gamg_agglomeration.hpp"
 #include "ldu_matrix.hpp"
 #include "label_field.hpp"

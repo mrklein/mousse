@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_CELL_LOOPER_HEX_CELL_LOOPER_HPP_
+#define DYNAMIC_MESH_MESH_CUT_CELL_LOOPER_HEX_CELL_LOOPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   (which does a purely geometric cut using a plane through cell centre)
 // SourceFiles
 //   hex_cell_looper.cpp
-#ifndef hex_cell_looper_hpp_
-#define hex_cell_looper_hpp_
 #include "geom_cell_looper.hpp"
 #include "type_info.hpp"
 namespace mousse

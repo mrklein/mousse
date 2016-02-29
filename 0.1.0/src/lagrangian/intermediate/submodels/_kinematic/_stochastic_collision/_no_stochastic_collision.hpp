@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TSTOCHASTIC_COLLISION_TNO_STOCHASTIC_COLLISION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TSTOCHASTIC_COLLISION_TNO_STOCHASTIC_COLLISION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::NoStochasticCollision
 // Description
 //   Dummy collision model for 'none'
-#ifndef _no_stochastic_collision_hpp_
-#define _no_stochastic_collision_hpp_
 #include "_stochastic_collision_model.hpp"
 namespace mousse
 {

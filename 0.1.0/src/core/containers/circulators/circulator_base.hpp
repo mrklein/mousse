@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_CIRCULATORS_CIRCULATOR_BASE_HPP_
+#define CORE_CONTAINERS_CIRCULATORS_CIRCULATOR_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::CirculatorBase
 // Description
 //   Base class for circulators
-#ifndef circulator_base_hpp_
-#define circulator_base_hpp_
 namespace mousse
 {
 class CirculatorBase

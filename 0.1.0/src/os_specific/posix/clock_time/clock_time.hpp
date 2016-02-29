@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_CLOCK_TIME_CLOCK_TIME_HPP_
+#define OS_SPECIFIC_POSIX_CLOCK_TIME_CLOCK_TIME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Better resolution (2uSec instead of ~20mSec) than cpuTime.
 // SourceFiles
 //   clock_time.cpp
-#ifndef clock_time_hpp_
-#define clock_time_hpp_
 #include <sys/types.h>
 #if defined(darwin64)
 #include <sys/time.h>

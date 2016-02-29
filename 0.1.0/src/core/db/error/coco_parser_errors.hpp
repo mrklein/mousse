@@ -1,3 +1,6 @@
+#ifndef CORE_DB_ERROR_COCO_PARSER_ERRORS_HPP_
+#define CORE_DB_ERROR_COCO_PARSER_ERRORS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Templated class to shadow the error handling for Coco/R parsers
 
-#ifndef coco_parser_errors_hpp_
-#define coco_parser_errors_hpp_
 
 #include "error.hpp"
 #include "wchar.hpp"

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_SPECIE_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_SPECIE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class of the thermophysical property types.
 // SourceFiles
 //   specie.cpp
-#ifndef specie_hpp_
-#define specie_hpp_
 #include "word.hpp"
 #include "scalar.hpp"
 #include "dictionary.hpp"

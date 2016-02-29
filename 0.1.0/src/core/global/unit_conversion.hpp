@@ -1,9 +1,10 @@
+#ifndef CORE_GLOBAL_UNIT_CONVERSION_HPP_
+#define CORE_GLOBAL_UNIT_CONVERSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef unit_conversion_hpp_
-#define unit_conversion_hpp_
 #include "mathematical_constants.hpp"
 namespace mousse
 {

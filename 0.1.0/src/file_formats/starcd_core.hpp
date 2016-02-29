@@ -1,3 +1,6 @@
+#ifndef FILE_FORMATS_STARCD_CORE_HPP_
+#define FILE_FORMATS_STARCD_CORE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Core routines used when reading/writing pro-STAR vrt/cel/bnd files.
 // SourceFiles
 //   starcd_core.cpp
-#ifndef starcd_core_hpp_
-#define starcd_core_hpp_
 #include "ifstream.hpp"
 #include "point_field.hpp"
 namespace mousse

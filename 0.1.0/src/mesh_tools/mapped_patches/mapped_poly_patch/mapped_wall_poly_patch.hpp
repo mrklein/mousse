@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MAPPED_PATCHES_MAPPED_POLY_PATCH_MAPPED_WALL_POLY_PATCH_HPP_
+#define MESH_TOOLS_MAPPED_PATCHES_MAPPED_POLY_PATCH_MAPPED_WALL_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   processors to keep the addressing calculation simple.
 // SourceFiles
 //   mapped_wall_poly_patch.cpp
-#ifndef mapped_wall_poly_patch_hpp_
-#define mapped_wall_poly_patch_hpp_
 #include "wall_poly_patch.hpp"
 #include "mapped_patch_base.hpp"
 namespace mousse

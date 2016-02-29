@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MOTION_SOLVER_VELOCITY_VELOCITY_MOTION_SOLVER_HPP_
+#define DYNAMIC_MESH_MOTION_SOLVER_VELOCITY_VELOCITY_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   on the pointMotionU pointVectorField.
 // SourceFiles
 //   velocity_motion_solver.cpp
-#ifndef velocity_motion_solver_hpp_
-#define velocity_motion_solver_hpp_
 #include "motion_solver.hpp"
 #include "point_fields.hpp"
 namespace mousse

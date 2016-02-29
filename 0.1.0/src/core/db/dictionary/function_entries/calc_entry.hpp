@@ -1,3 +1,6 @@
+#ifndef CORE_DB_DICTIONARY_FUNCTION_ENTRIES_CALC_ENTRY_HPP_
+#define CORE_DB_DICTIONARY_FUNCTION_ENTRIES_CALC_ENTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 // SourceFiles
 //   calc_entry.cpp
 
-#ifndef calc_entry_hpp_
-#define calc_entry_hpp_
 
 #include "function_entry.hpp"
 

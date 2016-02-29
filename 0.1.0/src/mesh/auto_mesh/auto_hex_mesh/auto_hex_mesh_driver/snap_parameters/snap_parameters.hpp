@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_SNAP_PARAMETERS_SNAP_PARAMETERS_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_SNAP_PARAMETERS_SNAP_PARAMETERS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Simple container to keep together snap specific information.
 // SourceFiles
 //   snap_parameters.cpp
-#ifndef snap_parameters_hpp_
-#define snap_parameters_hpp_
 #include "dictionary.hpp"
 #include "scalar.hpp"
 #include "switch.hpp"

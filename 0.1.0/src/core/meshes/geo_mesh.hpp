@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_GEO_MESH_HPP_
+#define CORE_MESHES_GEO_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::GeoMesh
 // Description
 //   Generic mesh wrapper used by volMesh, surfaceMesh, pointMesh etc.
-#ifndef geo_mesh_hpp_
-#define geo_mesh_hpp_
 #include "object_registry.hpp"
 namespace mousse
 {

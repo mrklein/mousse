@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_AVERAGE_FIELD_AVERAGE_FIELD_AVERAGE_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_AVERAGE_FIELD_AVERAGE_FIELD_AVERAGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -79,8 +82,6 @@
 //   field_average.cpp
 //   field_average_templates.cpp
 //   field_average_item.cpp
-#ifndef field_average_hpp_
-#define field_average_hpp_
 #include "vol_fields_fwd.hpp"
 #include "switch.hpp"
 namespace mousse

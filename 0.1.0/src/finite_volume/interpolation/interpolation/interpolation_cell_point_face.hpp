@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_CELL_POINT_FACE_HPP_
+#define FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_CELL_POINT_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   mousse::interpolationCellPointFace
 
-#ifndef interpolation_cell_point_face_hpp_
-#define interpolation_cell_point_face_hpp_
 
 #include "interpolation.hpp"
 #include "fvs_patch_field.hpp"

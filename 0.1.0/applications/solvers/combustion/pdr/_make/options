@@ -1,0 +1,32 @@
+EXE_INC = \
+    -Ixi_models \
+    -Ixi_models/xi_eq_models \
+    -Ixi_models/xi_g_models \
+    -Ipdr_models/drag_models \
+    -Ilaminar_flame_speed \
+    -I$(LIB_SRC)/engine/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/specie/_lninclude \
+    -I$(LIB_SRC)/transport_models/compressible/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/basic/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/reaction_thermo/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/compressible/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/laminar_flame_speed/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/dynamic_fv_mesh/_lninclude \
+    -I$(LIB_SRC)/dynamic_mesh/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/tri_surface/_lninclude
+
+EXE_LIBS = \
+    -lmousse_engine \
+    -lmousse_mesh_tools \
+    -lmousse_turbulence_models \
+    -lmousse_compressible_turbulence_models \
+    -lmousse_compressible_transport_models \
+    -lmousse_fluid_thermophysical_models \
+    -lmousse_reaction_thermophysical_models \
+    -lmousse_specie \
+    -lmousse_laminar_flame_speed_models \
+    -lmousse_finite_volume \
+    -lmousse_dynamic_fv_mesh

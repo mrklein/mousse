@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_FIELD_FIELDS_TRANSFORM_FIELD_FIELD_HPP_
+#define CORE_FIELDS_FIELD_FIELDS_TRANSFORM_FIELD_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   transform_field_field.cpp
-#ifndef transform_field_field_hpp_
-#define transform_field_field_hpp_
 #include "transform.hpp"
 #include "tensor_field_field.hpp"
 namespace mousse

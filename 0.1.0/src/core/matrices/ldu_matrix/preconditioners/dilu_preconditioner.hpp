@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_PRECONDITIONERS_DILU_PRECONDITIONER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_PRECONDITIONERS_DILU_PRECONDITIONER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   and stored.
 // SourceFiles
 //   dilu_preconditioner.cpp
-#ifndef dilu_preconditioner_hpp_
-#define dilu_preconditioner_hpp_
 #include "ldu_matrix.hpp"
 namespace mousse
 {

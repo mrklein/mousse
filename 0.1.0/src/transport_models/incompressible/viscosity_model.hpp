@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODEL_HPP_
+#define TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   viscosity_model.cpp
 //   viscosity_model_new.cpp
-#ifndef viscosity_model_hpp_
-#define viscosity_model_hpp_
 #include "dictionary.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"

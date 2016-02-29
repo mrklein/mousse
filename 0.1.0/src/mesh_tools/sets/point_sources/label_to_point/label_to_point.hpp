@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_POINT_SOURCES_LABEL_TO_POINT_LABEL_TO_POINT_HPP_
+#define MESH_TOOLS_SETS_POINT_SOURCES_LABEL_TO_POINT_LABEL_TO_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select points given explicitly provided labels.
 // SourceFiles
 //   label_to_point.cpp
-#ifndef label_to_point_hpp_
-#define label_to_point_hpp_
 
 #include "topo_set_source.hpp"
 

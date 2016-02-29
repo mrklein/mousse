@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_REYNOLDS_STRESS_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_REYNOLDS_STRESS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Reynolds-stress turbulence model base class
 // SourceFiles
 //   reynolds_stress.cpp
-#ifndef reynolds_stress_hpp_
-#define reynolds_stress_hpp_
 namespace mousse
 {
 template<class BasicTurbulenceModel>

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MAPPED_PATCHES_MAPPED_POLY_PATCH_MAPPED_PATCH_BASE_HPP_
+#define MESH_TOOLS_MAPPED_PATCHES_MAPPED_POLY_PATCH_MAPPED_PATCH_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -44,8 +47,6 @@
 // SourceFiles
 //   mapped_patch_base.cpp
 
-#ifndef mapped_patch_base_hpp_
-#define mapped_patch_base_hpp_
 
 #include "point_field.hpp"
 #include "tuple2.hpp"

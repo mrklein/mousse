@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MOTION_SMOOTHER_MOTION_SMOOTHER_DATA_HPP_
+#define DYNAMIC_MESH_MOTION_SMOOTHER_MOTION_SMOOTHER_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   motion_smoother_data.cpp
-#ifndef motion_smoother_data_hpp_
-#define motion_smoother_data_hpp_
 #include "point_fields.hpp"
 namespace mousse
 {

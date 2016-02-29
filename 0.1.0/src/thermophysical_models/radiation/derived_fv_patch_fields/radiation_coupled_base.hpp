@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_DERIVED_FV_PATCH_FIELDS_RADIATION_COUPLED_BASE_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_DERIVED_FV_PATCH_FIELDS_RADIATION_COUPLED_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   - 'solidRadiation' : Use the emissivity field mapped from the adjacent solid
 // SourceFiles
 //   radiation_coupled_base.cpp
-#ifndef radiation_coupled_base_hpp_
-#define radiation_coupled_base_hpp_
 #include "scalar_field.hpp"
 #include "named_enum.hpp"
 #include "fv_patch.hpp"

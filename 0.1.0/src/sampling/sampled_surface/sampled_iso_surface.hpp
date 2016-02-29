@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_SAMPLED_ISO_SURFACE_HPP_
+#define SAMPLING_SAMPLED_SURFACE_SAMPLED_ISO_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   only if time changes.
 // SourceFiles
 //   sampled_iso_surface.cpp
-#ifndef sampled_iso_surface_hpp_
-#define sampled_iso_surface_hpp_
 #include "iso_surface.hpp"
 #include "sampled_surface.hpp"
 #include "zone_i_ds.hpp"

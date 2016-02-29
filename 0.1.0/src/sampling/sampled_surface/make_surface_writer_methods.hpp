@@ -1,9 +1,10 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_MAKE_SURFACE_WRITER_METHODS_HPP_
+#define SAMPLING_SAMPLED_SURFACE_MAKE_SURFACE_WRITER_METHODS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_surface_writer_methods_hpp_
-#define make_surface_writer_methods_hpp_
 #include "surface_writer.hpp"
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse

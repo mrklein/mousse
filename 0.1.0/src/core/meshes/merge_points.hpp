@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_MERGE_POINTS_HPP_
+#define CORE_MESHES_MERGE_POINTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   merge_points.cpp
-#ifndef merge_points_hpp_
-#define merge_points_hpp_
 #include "scalar.hpp"
 #include "label_list.hpp"
 namespace mousse

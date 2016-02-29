@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURF_FIELDS_SURF_POINT_GEO_MESH_HPP_
+#define SURF_MESH_SURF_FIELDS_SURF_POINT_GEO_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   The surfMesh GeoMesh (for holding fields).
 //   Similar to surfGeoMesh, but refers to the surface points.
-#ifndef surf_point_geo_mesh_hpp_
-#define surf_point_geo_mesh_hpp_
 #include "geo_mesh.hpp"
 #include "surf_mesh.hpp"
 namespace mousse

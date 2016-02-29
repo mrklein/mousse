@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FAN_PRESSURE_FV_PATCH_SCALAR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FAN_PRESSURE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -43,8 +46,6 @@
 //   mousse::interpolationTable
 // SourceFiles
 //   fan_pressure_fv_patch_scalar_field.cpp
-#ifndef fan_pressure_fv_patch_scalar_field_hpp_
-#define fan_pressure_fv_patch_scalar_field_hpp_
 #include "total_pressure_fv_patch_scalar_field.hpp"
 #include "interpolation_table.hpp"
 namespace mousse

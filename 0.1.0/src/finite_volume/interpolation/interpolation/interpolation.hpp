@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_HPP_
+#define FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Abstract base class for interpolation
 
-#ifndef interpolation_hpp_
-#define interpolation_hpp_
 
 #include "face_list.hpp"
 #include "vol_fields_fwd.hpp"

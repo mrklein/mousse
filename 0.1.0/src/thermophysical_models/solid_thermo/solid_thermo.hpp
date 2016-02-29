@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_THERMO_SOLID_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_THERMO_SOLID_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Fundamental solid thermodynamic properties
 // SourceFiles
 //   solid_thermo.cpp
-#ifndef solid_thermo_hpp_
-#define solid_thermo_hpp_
 #include "vol_fields.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_mesh.hpp"

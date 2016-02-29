@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_PARCELS_TEMPLATES_TDSMC_PARCEL_HPP_
+#define LAGRANGIAN_DSMC_PARCELS_TEMPLATES_TDSMC_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _dsmc_parcel.cpp
 //   _dsmc_parcel_io.cpp
-#ifndef _dsmc_parcel_hpp_
-#define _dsmc_parcel_hpp_
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_RECTANGULAR_MATRIX_RECTANGULAR_MATRIX_HPP_
+#define CORE_MATRICES_RECTANGULAR_MATRIX_RECTANGULAR_MATRIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   The matrix dimensions are used for subscript bounds checking etc.
 // SourceFiles
 //   rectangular_matrix.cpp
-#ifndef rectangular_matrix_hpp_
-#define rectangular_matrix_hpp_
 #include "matrix.hpp"
 namespace mousse
 {

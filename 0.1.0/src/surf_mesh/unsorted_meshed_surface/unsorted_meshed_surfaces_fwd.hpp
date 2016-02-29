@@ -1,9 +1,10 @@
+#ifndef SURF_MESH_UNSORTED_MESHED_SURFACE_UNSORTED_MESHED_SURFACES_FWD_HPP_
+#define SURF_MESH_UNSORTED_MESHED_SURFACE_UNSORTED_MESHED_SURFACES_FWD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef unsorted_meshed_surfaces_fwd_hpp_
-#define unsorted_meshed_surfaces_fwd_hpp_
 namespace mousse
 {
 // Forward declaration of classes

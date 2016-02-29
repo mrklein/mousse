@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_EDDY_DIFFUSIVITY_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_EDDY_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   turbulence models.
 // SourceFiles
 //   eddy_diffusivity.cpp
-#ifndef eddy_diffusivity_hpp_
-#define eddy_diffusivity_hpp_
 namespace mousse
 {
 template<class BasicTurbulenceModel>

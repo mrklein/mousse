@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SOLID_PARTICLE_SOLID_PARTICLE_HPP_
+#define LAGRANGIAN_SOLID_PARTICLE_SOLID_PARTICLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   solid_particle_i.hpp
 //   solid_particle.cpp
 //   solid_particle_io.cpp
-#ifndef solid_particle_hpp_
-#define solid_particle_hpp_
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"

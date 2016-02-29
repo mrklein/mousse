@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TCOMPOSITION_MODEL_TNO_COMPOSITION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TCOMPOSITION_MODEL_TNO_COMPOSITION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   called that require return values.
 // SourceFiles
 //   _no_composition.cpp
-#ifndef _no_composition_hpp_
-#define _no_composition_hpp_
 #include "_composition_model.hpp"
 namespace mousse
 {

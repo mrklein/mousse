@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_INITIAL_POINTS_METHOD_POINT_FILE_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_INITIAL_POINTS_METHOD_POINT_FILE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   be conformed to of the conformalVoronoiMesh
 // SourceFiles
 //   point_file.cpp
-#ifndef point_file_hpp_
-#define point_file_hpp_
 #include "file_name.hpp"
 #include "point_io_field.hpp"
 #include "switch.hpp"

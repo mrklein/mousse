@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULAR_MEASUREMENTS_CORRELATION_FUNCTION_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULAR_MEASUREMENTS_CORRELATION_FUNCTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   correlation_function.cpp
 //   correlation_function_io.cpp
-#ifndef correlation_function_hpp_
-#define correlation_function_hpp_
 #include "buffered_accumulator.hpp"
 #include "dictionary.hpp"
 namespace mousse

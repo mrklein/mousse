@@ -1,3 +1,6 @@
+#ifndef SAMPLING_MESH_TO_MESH_CALC_METHOD_MAP_NEAREST_METHOD_HPP_
+#define SAMPLING_MESH_TO_MESH_CALC_METHOD_MAP_NEAREST_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   - so take care when mapping meshes with different bounding boxes!
 // SourceFiles
 //   map_nearest_method.cpp
-#ifndef map_nearest_method_hpp_
-#define map_nearest_method_hpp_
 #include "mesh_to_mesh_method.hpp"
 namespace mousse
 {

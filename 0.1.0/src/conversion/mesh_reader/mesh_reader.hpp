@@ -1,3 +1,6 @@
+#ifndef CONVERSION_MESH_READER_MESH_READER_HPP_
+#define CONVERSION_MESH_READER_MESH_READER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //   create_poly_cells.cpp
 //   mesh_reader.cpp
 //   mesh_reader_aux.cpp
-#ifndef mesh_reader_hpp_
-#define mesh_reader_hpp_
 #include "poly_mesh.hpp"
 #include "hash_table.hpp"
 #include "iostream.hpp"

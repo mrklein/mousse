@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODELS_CROSS_POWER_LAW_HPP_
+#define TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODELS_CROSS_POWER_LAW_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An incompressible Cross-Power law non-Newtonian viscosity model.
 // SourceFiles
 //   cross_power_law.cpp
-#ifndef cross_power_law_hpp_
-#define cross_power_law_hpp_
 #include "viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"

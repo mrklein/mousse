@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_MODEL_MAKE_CHEMISTRY_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_MODEL_MAKE_CHEMISTRY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_chemistry_model_hpp_
-#define make_chemistry_model_hpp_
 #include "add_to_run_time_selection_table.hpp"
 namespace mousse
 {

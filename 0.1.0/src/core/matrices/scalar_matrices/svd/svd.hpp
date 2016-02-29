@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_SCALAR_MATRICES_SVD_SVD_HPP_
+#define CORE_MATRICES_SCALAR_MATRICES_SVD_SVD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   svdi.hpp
 //   svd.cpp
 
-#ifndef svd_hpp_
-#define svd_hpp_
 
 #include "scalar_matrices.hpp"
 

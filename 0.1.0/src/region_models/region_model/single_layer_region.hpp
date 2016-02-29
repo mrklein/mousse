@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_MODEL_SINGLE_LAYER_REGION_HPP_
+#define REGION_MODELS_REGION_MODEL_SINGLE_LAYER_REGION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for single layer region models
 // SourceFiles
 //   single_layer_region.cpp
-#ifndef single_layer_region_hpp_
-#define single_layer_region_hpp_
 #include "region_model.hpp"
 namespace mousse
 {

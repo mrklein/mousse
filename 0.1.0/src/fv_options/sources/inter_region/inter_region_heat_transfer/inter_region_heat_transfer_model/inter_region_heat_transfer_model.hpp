@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_INTER_REGION_INTER_REGION_HEAT_TRANSFER_INTER_REGION_HEAT_TRANSFER_MODEL_INTER_REGION_HEAT_TRANSFER_MODEL_HPP_
+#define FV_OPTIONS_SOURCES_INTER_REGION_INTER_REGION_HEAT_TRANSFER_INTER_REGION_HEAT_TRANSFER_MODEL_INTER_REGION_HEAT_TRANSFER_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   \f[
 //     -htc*Tmapped + Sp(htc, T)
 //   \f]
-#ifndef inter_region_heat_transfer_model_hpp_
-#define inter_region_heat_transfer_model_hpp_
 #include "inter_region_option.hpp"
 #include "vol_fields.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_SYSTEMS_HPP_
+#define MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_SYSTEMS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,8 +30,6 @@
 //   supplied with both a dictionary and an objectRegistry.
 // SourceFiles
 //   coordinate_systems.cpp
-#ifndef coordinate_systems_hpp_
-#define coordinate_systems_hpp_
 #include "coordinate_system.hpp"
 #include "ioptr_list.hpp"
 namespace mousse

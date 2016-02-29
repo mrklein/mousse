@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LINEAR_UPWIND_V_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LINEAR_UPWIND_V_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   upwind weighting factors but also applies an explicit correction.
 // SourceFiles
 //   linear_upwind_v.cpp
-#ifndef linear_upwind_v_hpp_
-#define linear_upwind_v_hpp_
 #include "upwind.hpp"
 #include "gauss_grad.hpp"
 namespace mousse

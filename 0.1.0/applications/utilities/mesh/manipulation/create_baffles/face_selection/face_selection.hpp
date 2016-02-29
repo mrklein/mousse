@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_MANIPULATION_CREATE_BAFFLES_FACE_SELECTION_FACE_SELECTION_HPP_
+#define UTILITIES_MESH_MANIPULATION_CREATE_BAFFLES_FACE_SELECTION_FACE_SELECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Face selection method for createBaffles
 // SourceFiles
 //   face_selection.cpp
-#ifndef face_selection_hpp_
-#define face_selection_hpp_
 #include "dictionary.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"

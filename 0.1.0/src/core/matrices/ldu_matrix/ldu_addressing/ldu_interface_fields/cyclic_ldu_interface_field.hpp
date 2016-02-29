@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_INTERFACE_FIELDS_CYCLIC_LDU_INTERFACE_FIELD_HPP_
+#define CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_INTERFACE_FIELDS_CYCLIC_LDU_INTERFACE_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for cyclic coupled interfaces.
 // SourceFiles
 //   cyclic_ldu_interface_field.cpp
-#ifndef cyclic_ldu_interface_field_hpp_
-#define cyclic_ldu_interface_field_hpp_
 #include "primitive_fields_fwd.hpp"
 #include "type_info.hpp"
 namespace mousse

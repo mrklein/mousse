@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_TINTEGRATION_SCHEME_TINTEGRATION_SCHEME_HPP_
+#define LAGRANGIAN_INTERMEDIATE_TINTEGRATION_SCHEME_TINTEGRATION_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Top level model for Integration schemes
 // SourceFiles
 //   _integration_scheme.cpp
-#ifndef _integration_scheme_hpp_
-#define _integration_scheme_hpp_
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "dictionary.hpp"

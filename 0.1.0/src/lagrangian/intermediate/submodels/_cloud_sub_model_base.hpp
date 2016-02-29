@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_SUB_MODEL_BASE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_SUB_MODEL_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for cloud sub-models
 // SourceFiles
 //   _cloud_sub_model_base.cpp
-#ifndef _cloud_sub_model_base_hpp_
-#define _cloud_sub_model_base_hpp_
 #include "sub_model_base.hpp"
 namespace mousse
 {

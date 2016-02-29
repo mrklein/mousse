@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_DERIVED_BASIC_THERMO_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_DERIVED_BASIC_THERMO_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::basicThermoCloud
 // Description
 //   Cloud class to introduce thermodynamic parcels
-#ifndef basic_thermo_cloud_hpp_
-#define basic_thermo_cloud_hpp_
 #include "_thermo_cloud.hpp"
 #include "basic_thermo_parcel.hpp"
 namespace mousse

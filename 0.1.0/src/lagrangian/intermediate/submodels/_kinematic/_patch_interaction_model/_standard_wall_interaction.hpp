@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_TSTANDARD_WALL_INTERACTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_TSTANDARD_WALL_INTERACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //       e           1;       // optional - elasticity coeff
 //       mu          0;       // optional - restitution coeff
 //     }
-#ifndef _standard_wall_interaction_hpp_
-#define _standard_wall_interaction_hpp_
 #include "_patch_interaction_model.hpp"
 namespace mousse
 {

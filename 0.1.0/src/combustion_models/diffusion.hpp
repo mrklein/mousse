@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_DIFFUSION_HPP_
+#define COMBUSTION_MODELS_DIFFUSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   in time.
 // SourceFiles
 //   diffusion.cpp
-#ifndef diffusion_hpp_
-#define diffusion_hpp_
 #include "single_step_combustion.hpp"
 namespace mousse
 {

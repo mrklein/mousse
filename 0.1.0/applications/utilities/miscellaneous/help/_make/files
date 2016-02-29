@@ -1,0 +1,3 @@
+foam_help.cpp
+
+EXE =  $(FOAM_APPBIN)/mousse-foam-help

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_ALGORITHMS_PATCH_EDGE_FACE_WAVE_PATCH_EDGE_FACE_WAVE_HPP_
+#define MESH_TOOLS_ALGORITHMS_PATCH_EDGE_FACE_WAVE_PATCH_EDGE_FACE_WAVE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   that is transferred.
 // SourceFiles
 //   patch_edge_face_wave.cpp
-#ifndef patch_edge_face_wave_hpp_
-#define patch_edge_face_wave_hpp_
 #include "scalar_field.hpp"
 #include "packed_bool_list.hpp"
 #include "primitive_patch.hpp"

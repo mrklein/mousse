@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_SPECIE_MIXTURE_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_SPECIE_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::SpecieMixture
 // SourceFiles
 //   specie_mixture.cpp
-#ifndef specie_mixture_hpp_
-#define specie_mixture_hpp_
 #include "scalar.hpp"
 #include "vol_fields.hpp"
 namespace mousse

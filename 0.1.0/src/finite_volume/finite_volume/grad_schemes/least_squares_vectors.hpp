@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_LEAST_SQUARES_VECTORS_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_LEAST_SQUARES_VECTORS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Least-squares gradient scheme vectors
 // SourceFiles
 //   least_squares_vectors.cpp
-#ifndef least_squares_vectors_hpp_
-#define least_squares_vectors_hpp_
 #include "_mesh_object.hpp"
 #include "fv_mesh.hpp"
 #include "surface_fields.hpp"

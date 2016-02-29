@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_LAMINAR_FLAME_SPEED_GULDERS_HPP_
+#define THERMOPHYSICAL_MODELS_LAMINAR_FLAME_SPEED_GULDERS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Laminar flame speed obtained from Gulder's correlation.
 // SourceFiles
 //   gulders.cpp
-#ifndef gulders_hpp_
-#define gulders_hpp_
 #include "laminar_flame_speed.hpp"
 namespace mousse
 {

@@ -1,0 +1,3 @@
+inter.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-inter

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULAR_MEASUREMENTS_BUFFERED_ACCUMULATOR_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULAR_MEASUREMENTS_BUFFERED_ACCUMULATOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   buffered_accumulator.cpp
 //   buffered_accumulator_io.cpp
-#ifndef buffered_accumulator_hpp_
-#define buffered_accumulator_hpp_
 #include "field.hpp"
 namespace mousse
 {

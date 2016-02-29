@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_IDENTIFIERS_DYNAMIC_ID_HPP_
+#define CORE_MESHES_IDENTIFIERS_DYNAMIC_ID_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   in a dynamic mesh.
 //   The thing is identified by name.
 //   Its indices are updated if the mesh has changed.
-#ifndef dynamic_id_hpp_
-#define dynamic_id_hpp_
 #include "key_type.hpp"
 #include "label_list.hpp"
 namespace mousse

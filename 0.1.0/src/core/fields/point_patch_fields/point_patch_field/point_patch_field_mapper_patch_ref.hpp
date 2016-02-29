@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_POINT_PATCH_FIELD_POINT_PATCH_FIELD_MAPPER_PATCH_REF_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_POINT_PATCH_FIELD_POINT_PATCH_FIELD_MAPPER_PATCH_REF_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   mousse::pointPatchFieldMapperPatchRef
 
-#ifndef point_patch_field_mapper_patch_ref_hpp_
-#define point_patch_field_mapper_patch_ref_hpp_
 
 #include "point_patch_field_mapper.hpp"
 

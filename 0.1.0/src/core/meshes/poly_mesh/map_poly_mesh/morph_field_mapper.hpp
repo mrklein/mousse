@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MORPH_FIELD_MAPPER_HPP_
+#define CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MORPH_FIELD_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::morphFieldMapper
 // Description
 //   Abstract base class to hold the Field mapping for mesh morphs.
-#ifndef morph_field_mapper_hpp_
-#define morph_field_mapper_hpp_
 
 #include "field.hpp"
 #include "map.hpp"

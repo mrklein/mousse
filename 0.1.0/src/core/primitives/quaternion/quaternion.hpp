@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_QUATERNION_QUATERNION_HPP_
+#define CORE_PRIMITIVES_QUATERNION_QUATERNION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Quaternion class used to perform rotations in 3D space.
 // SourceFiles
 //   quaternion.cpp
-#ifndef quaternion_hpp_
-#define quaternion_hpp_
 #include "scalar.hpp"
 #include "vector.hpp"
 #include "tensor.hpp"

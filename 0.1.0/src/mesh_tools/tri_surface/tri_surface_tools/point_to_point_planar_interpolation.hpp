@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_TRI_SURFACE_TOOLS_POINT_TO_POINT_PLANAR_INTERPOLATION_HPP_
+#define MESH_TOOLS_TRI_SURFACE_TRI_SURFACE_TOOLS_POINT_TO_POINT_PLANAR_INTERPOLATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   point_to_point_planar_interpolation.cpp
 
-#ifndef point_to_point_planar_interpolation_hpp_
-#define point_to_point_planar_interpolation_hpp_
 
 #include "fixed_list.hpp"
 #include "coordinate_system.hpp"

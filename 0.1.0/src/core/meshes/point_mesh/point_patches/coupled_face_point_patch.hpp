@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_PATCHES_COUPLED_FACE_POINT_PATCH_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_PATCHES_COUPLED_FACE_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   and cyclic pointPatches
 // SourceFiles
 //   coupled_face_point_patch.cpp
-#ifndef coupled_face_point_patch_hpp_
-#define coupled_face_point_patch_hpp_
 #include "coupled_point_patch.hpp"
 #include "face_point_patch.hpp"
 #include "coupled_poly_patch.hpp"

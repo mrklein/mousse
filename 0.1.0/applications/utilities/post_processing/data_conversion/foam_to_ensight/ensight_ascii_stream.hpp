@@ -1,3 +1,6 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_ENSIGHT_ASCII_STREAM_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_ENSIGHT_ASCII_STREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   ensight_ascii_stream.cpp
-#ifndef ensight_ascii_stream_hpp_
-#define ensight_ascii_stream_hpp_
 #include "ensight_stream.hpp"
 #include "ofstream.hpp"
 namespace mousse

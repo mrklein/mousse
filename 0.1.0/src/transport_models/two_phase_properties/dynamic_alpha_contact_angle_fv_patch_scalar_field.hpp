@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_TWO_PHASE_PROPERTIES_DYNAMIC_ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+#define TRANSPORT_MODELS_TWO_PHASE_PROPERTIES_DYNAMIC_ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   (alphaContactAngleFvPatchScalarField)
 // SourceFiles
 //   dynamic_alpha_contact_angle_fv_patch_scalar_field.cpp
-#ifndef dynamic_alpha_contact_angle_fv_patch_scalar_field_hpp_
-#define dynamic_alpha_contact_angle_fv_patch_scalar_field_hpp_
 #include "alpha_contact_angle_fv_patch_scalar_field.hpp"
 namespace mousse
 {

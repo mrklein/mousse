@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_SN_GRAD_SCHEMES_CENTRED_FIT_SN_GRAD_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_SN_GRAD_SCHEMES_CENTRED_FIT_SN_GRAD_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Centred fit snGrad scheme which applies an explicit correction to snGrad
 
-#ifndef centred_fit_sn_grad_scheme_hpp_
-#define centred_fit_sn_grad_scheme_hpp_
 
 #include "centred_fit_sn_grad_data.hpp"
 #include "sn_grad_scheme.hpp"

@@ -1,3 +1,6 @@
+#ifndef ENGINE_IGNITION_IGNITION_HPP_
+#define ENGINE_IGNITION_IGNITION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   ignition.cpp
 //   ignition_io.cpp
-#ifndef ignition_hpp_
-#define ignition_hpp_
 #include "ignition_site.hpp"
 #include "switch.hpp"
 namespace mousse

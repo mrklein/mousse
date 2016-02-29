@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_RAS_BUOYANT_K_EPSILON_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_RAS_BUOYANT_K_EPSILON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -31,8 +34,6 @@
 //   mousse::RASModels::kEpsilon
 // SourceFiles
 //   buoyant_k_epsilon.cpp
-#ifndef buoyant_k_epsilon_hpp_
-#define buoyant_k_epsilon_hpp_
 #include "k_epsilon.hpp"
 namespace mousse
 {

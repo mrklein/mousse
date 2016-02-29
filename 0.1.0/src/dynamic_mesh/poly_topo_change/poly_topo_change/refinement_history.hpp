@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REFINEMENT_HISTORY_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REFINEMENT_HISTORY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -36,8 +39,6 @@
 //   The parent 0 refers back to the splitcell entries.
 // SourceFiles
 //   refinement_history.cpp
-#ifndef refinement_history_hpp_
-#define refinement_history_hpp_
 #include "dynamic_list.hpp"
 #include "label_list.hpp"
 #include "fixed_list.hpp"

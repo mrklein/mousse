@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_METHOD_PARTIAL_FACE_AREA_WEIGHT_AMI_PARTIAL_FACE_AREA_WEIGHT_AMI_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_METHOD_PARTIAL_FACE_AREA_WEIGHT_AMI_PARTIAL_FACE_AREA_WEIGHT_AMI_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   partial_face_area_weight_ami.cpp
 
-#ifndef partial_face_area_weight_ami_hpp_
-#define partial_face_area_weight_ami_hpp_
 
 #include "face_area_weight_ami.hpp"
 

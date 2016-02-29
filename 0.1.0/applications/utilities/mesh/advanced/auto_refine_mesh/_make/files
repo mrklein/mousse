@@ -1,0 +1,3 @@
+auto_refine_mesh.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-auto-refine-mesh

@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_DERIVED_CODED_FIXED_VALUE_POINT_PATCH_FIELD_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_DERIVED_CODED_FIXED_VALUE_POINT_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -47,8 +50,6 @@
 //   codedFixedValueFvPatchField
 // SourceFiles
 //   coded_fixed_value_point_patch_field.cpp
-#ifndef coded_fixed_value_point_patch_field_hpp_
-#define coded_fixed_value_point_patch_field_hpp_
 #include "fixed_value_point_patch_fields.hpp"
 #include "coded_base.hpp"
 namespace mousse

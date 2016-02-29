@@ -1,3 +1,6 @@
+#ifndef ENGINE_IGNITION_IGNITION_SITE_HPP_
+#define ENGINE_IGNITION_IGNITION_SITE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   ignition_site_i.hpp
 //   ignition_site.cpp
 //   ignition_site_io.cpp
-#ifndef ignition_site_hpp_
-#define ignition_site_hpp_
 #include "vector.hpp"
 #include "label_list.hpp"
 #include "scalar_list.hpp"

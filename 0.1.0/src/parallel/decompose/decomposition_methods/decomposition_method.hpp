@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_DECOMPOSITION_METHOD_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_DECOMPOSITION_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for decomposition
 // SourceFiles
 //   decomposition_method.cpp
-#ifndef decomposition_method_hpp_
-#define decomposition_method_hpp_
 #include "poly_mesh.hpp"
 #include "point_field.hpp"
 #include "compact_list_list.hpp"

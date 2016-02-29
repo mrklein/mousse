@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_CURVED_EDGES_B_SPLINE_EDGE_HPP_
+#define MESH_BLOCK_MESH_CURVED_EDGES_B_SPLINE_EDGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A curvedEdge interface for B-splines.
 // SourceFiles
 //   b_spline_edge.cpp
-#ifndef b_spline_edge_hpp_
-#define b_spline_edge_hpp_
 #include "curved_edge.hpp"
 #include "b_spline.hpp"
 namespace mousse

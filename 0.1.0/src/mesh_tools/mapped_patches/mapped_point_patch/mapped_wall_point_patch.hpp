@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MAPPED_PATCHES_MAPPED_POINT_PATCH_MAPPED_WALL_POINT_PATCH_HPP_
+#define MESH_TOOLS_MAPPED_PATCHES_MAPPED_POINT_PATCH_MAPPED_WALL_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   mapped_wall_point_patch.cpp
 
-#ifndef mapped_wall_point_patch_hpp_
-#define mapped_wall_point_patch_hpp_
 
 #include "wall_point_patch.hpp"
 #include "mapped_wall_poly_patch.hpp"

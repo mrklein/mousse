@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_HASH_TABLES_HASH_PTR_TABLE_HPP_
+#define CORE_CONTAINERS_HASH_TABLES_HASH_PTR_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   hash_ptr_table.cpp
 //   hash_ptr_table_io.cpp
 
-#ifndef hash_ptr_table_hpp_
-#define hash_ptr_table_hpp_
 
 #include "hash_table.hpp"
 

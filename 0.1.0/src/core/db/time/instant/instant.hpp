@@ -1,3 +1,6 @@
+#ifndef CORE_DB_TIME_INSTANT_INSTANT_HPP_
+#define CORE_DB_TIME_INSTANT_INSTANT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An instant of time. Contains the time value and name.
 // SourceFiles
 //   instant.cpp
-#ifndef instant_hpp_
-#define instant_hpp_
 #include "word.hpp"
 #include "scalar.hpp"
 namespace mousse

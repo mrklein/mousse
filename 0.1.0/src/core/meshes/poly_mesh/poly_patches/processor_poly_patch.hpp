@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_PROCESSOR_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_PROCESSOR_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   processor_poly_patch.cpp
 
-#ifndef processor_poly_patch_hpp_
-#define processor_poly_patch_hpp_
 
 #include "coupled_poly_patch.hpp"
 #include "poly_boundary_mesh.hpp"

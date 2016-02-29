@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TPACKING_MODELS_TNO_PACKING_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TPACKING_MODELS_TNO_PACKING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   _no_packing.cpp
-#ifndef _no_packing_hpp_
-#define _no_packing_hpp_
 #include "_packing_model.hpp"
 namespace mousse
 {

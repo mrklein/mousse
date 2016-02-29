@@ -8,7 +8,7 @@ template<class TransportModel>
 mousse::PhaseCompressibleTurbulenceModel<TransportModel>::
 PhaseCompressibleTurbulenceModel
 (
-  const word& type,
+  const word& /*type*/,
   const volScalarField& alpha,
   const volScalarField& rho,
   const volVectorField& U,

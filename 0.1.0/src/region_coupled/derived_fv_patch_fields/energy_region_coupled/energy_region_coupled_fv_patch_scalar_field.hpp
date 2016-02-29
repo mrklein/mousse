@@ -1,3 +1,6 @@
+#ifndef REGION_COUPLED_DERIVED_FV_PATCH_FIELDS_ENERGY_REGION_COUPLED_ENERGY_REGION_COUPLED_FV_PATCH_SCALAR_FIELD_HPP_
+#define REGION_COUPLED_DERIVED_FV_PATCH_FIELDS_ENERGY_REGION_COUPLED_ENERGY_REGION_COUPLED_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   into the matrix implicitly.
 // SourceFiles
 //   energy_region_coupled_fv_patch_scalar_field.cpp
-#ifndef energy_region_coupled_fv_patch_scalar_field_hpp_
-#define energy_region_coupled_fv_patch_scalar_field_hpp_
 #include "region_coupled_base_fv_patch.hpp"
 #include "ldu_interface_field.hpp"
 #include "fv_patch_field.hpp"

@@ -1,9 +1,10 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_ENSIGHT_FIELD_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_ENSIGHT_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   ensight_field.cpp
-#ifndef ensight_field_hpp_
-#define ensight_field_hpp_
 #include "ensight_mesh.hpp"
 #include "fv_mesh_subset.hpp"
 //- Wrapper to get hold of the field or the subsetted field

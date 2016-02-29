@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_CODED_FUNCTION_OBJECT_CODED_FUNCTION_OBJECT_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_CODED_FUNCTION_OBJECT_CODED_FUNCTION_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -42,8 +45,6 @@
 //   mousse::codedBase
 // SourceFiles
 //   coded_function_object.cpp
-#ifndef coded_function_object_hpp_
-#define coded_function_object_hpp_
 #include "function_object.hpp"
 #include "coded_base.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_POINT_SOURCES_FACE_TO_POINT_FACE_TO_POINT_HPP_
+#define MESH_TOOLS_SETS_POINT_SOURCES_FACE_TO_POINT_FACE_TO_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select points based on usage in faces.
 // SourceFiles
 //   face_to_point.cpp
-#ifndef face_to_point_hpp_
-#define face_to_point_hpp_
 #include "topo_set_source.hpp"
 #include "named_enum.hpp"
 namespace mousse

@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_VECTOR_2D_VECTOR_2D_HPP_
+#define CORE_PRIMITIVES_VECTOR_2D_VECTOR_2D_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   vector_2d.cpp
-#ifndef vector_2d_hpp_
-#define vector_2d_hpp_
 #include "scalar.hpp"
 #include "_vector_2d.hpp"
 #include "contiguous.hpp"

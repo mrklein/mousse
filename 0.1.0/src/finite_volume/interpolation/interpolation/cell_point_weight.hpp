@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_INTERPOLATION_CELL_POINT_WEIGHT_HPP_
+#define FINITE_VOLUME_INTERPOLATION_INTERPOLATION_CELL_POINT_WEIGHT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::cellPointWeight
 // SourceFiles
 //   cell_point_weight.cpp
-#ifndef cell_point_weight_hpp_
-#define cell_point_weight_hpp_
 
 #include "vector.hpp"
 #include "list.hpp"

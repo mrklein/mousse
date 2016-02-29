@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TWALL_INTERACTION_MODEL_TSPECULAR_REFLECTION_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TWALL_INTERACTION_MODEL_TSPECULAR_REFLECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Reversing the wall-normal component of the particle velocity
 
-#ifndef _specular_reflection_hpp_
-#define _specular_reflection_hpp_
 
 #include "_wall_interaction_model.hpp"
 

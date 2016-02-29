@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MAPPED_PATCHES_MAPPED_POINT_PATCH_MAPPED_POINT_PATCH_HPP_
+#define MESH_TOOLS_MAPPED_PATCHES_MAPPED_POINT_PATCH_MAPPED_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mappedPointPatch patch.
 // SourceFiles
 //   mapped_point_patch.cpp
-#ifndef mapped_point_patch_hpp_
-#define mapped_point_patch_hpp_
 #include "face_point_patch.hpp"
 #include "mapped_poly_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"

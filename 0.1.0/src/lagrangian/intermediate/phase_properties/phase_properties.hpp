@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PHASE_PROPERTIES_PHASE_PROPERTIES_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PHASE_PROPERTIES_PHASE_PROPERTIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   phase_properties.cpp
 //   phase_properties_io.cpp
-#ifndef phase_properties_hpp_
-#define phase_properties_hpp_
 #include "named_enum.hpp"
 #include "tuple2.hpp"
 #include "ptr_list.hpp"

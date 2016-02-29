@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_KINEMATIC_SINGLE_LAYER_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_KINEMATIC_SINGLE_LAYER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Kinematic form of single-cell layer surface film model
 // SourceFiles
 //   kinematic_single_layer.cpp
-#ifndef kinematic_single_layer_hpp_
-#define kinematic_single_layer_hpp_
 #include "surface_film_model.hpp"
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_NO_SOOT_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_NO_SOOT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   noSoot
 // SourceFiles
 //   no_soot.cpp
-#ifndef no_soot_hpp_
-#define no_soot_hpp_
 #include "soot_model.hpp"
 namespace mousse
 {

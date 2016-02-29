@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_MESH_MODIFIER_POLY_MESH_MODIFIER_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_MESH_MODIFIER_POLY_MESH_MODIFIER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Virtual base class for mesh modifiers.
 // SourceFiles
 //   poly_mesh_modifier.cpp
-#ifndef poly_mesh_modifier_hpp_
-#define poly_mesh_modifier_hpp_
 #include "label.hpp"
 #include "word.hpp"
 #include "switch.hpp"

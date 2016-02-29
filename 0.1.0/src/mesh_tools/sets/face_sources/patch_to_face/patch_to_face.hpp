@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_FACE_SOURCES_PATCH_TO_FACE_PATCH_TO_FACE_HPP_
+#define MESH_TOOLS_SETS_FACE_SOURCES_PATCH_TO_FACE_PATCH_TO_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select faces based on usage in patches.
 // SourceFiles
 //   patch_to_face.cpp
-#ifndef patch_to_face_hpp_
-#define patch_to_face_hpp_
 #include "topo_set_source.hpp"
 #include "word_re.hpp"
 namespace mousse

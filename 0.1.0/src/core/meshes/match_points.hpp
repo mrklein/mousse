@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_MATCH_POINTS_HPP_
+#define CORE_MESHES_MATCH_POINTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   match_points.cpp
-#ifndef match_points_hpp_
-#define match_points_hpp_
 #include "scalar_field.hpp"
 #include "point_field.hpp"
 namespace mousse

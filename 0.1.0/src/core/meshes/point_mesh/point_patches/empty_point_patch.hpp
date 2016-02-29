@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_PATCHES_EMPTY_POINT_PATCH_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_PATCHES_EMPTY_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Empty plane patch.
 // SourceFiles
 //   empty_point_patch.cpp
-#ifndef empty_point_patch_hpp_
-#define empty_point_patch_hpp_
 #include "face_point_patch.hpp"
 #include "empty_poly_patch.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef CONVERSION_MESH_WRITER_STARCD_STARCD_MESH_WRITER_HPP_
+#define CONVERSION_MESH_WRITER_STARCD_STARCD_MESH_WRITER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Otherwise the cellZones are used (if available).
 // SourceFiles
 //   starcd_mesh_writer.cpp
-#ifndef starcd_mesh_writer_hpp_
-#define starcd_mesh_writer_hpp_
 #include "mesh_writer.hpp"
 #include "iostream.hpp"
 namespace mousse

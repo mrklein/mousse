@@ -1,9 +1,10 @@
+#ifndef COMBUSTION_MODELS_MAKE_COMBUSTION_TYPES_HPP_
+#define COMBUSTION_MODELS_MAKE_COMBUSTION_TYPES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_combustion_types_hpp_
-#define make_combustion_types_hpp_
 #include "add_to_run_time_selection_table.hpp"
 
 #define MAKE_COMBUSTION_TYPES_THERMO(CombModel, CombType, Thermo, Table)      \

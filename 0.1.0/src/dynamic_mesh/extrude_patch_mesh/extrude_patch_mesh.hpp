@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_EXTRUDE_PATCH_MESH_EXTRUDE_PATCH_MESH_HPP_
+#define DYNAMIC_MESH_EXTRUDE_PATCH_MESH_EXTRUDE_PATCH_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -35,8 +38,6 @@
 //       name        "side";
 //       type        empty;
 //     }
-#ifndef extrude_patch_mesh_hpp_
-#define extrude_patch_mesh_hpp_
 #include "extrude_model.hpp"
 #include "auto_ptr.hpp"
 #include "fv_mesh.hpp"

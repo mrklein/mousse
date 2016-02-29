@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_MEAN_VELOCITY_FORCE_MEAN_VELOCITY_FORCE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_MEAN_VELOCITY_FORCE_MEAN_VELOCITY_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   \endverbatim
 // SourceFiles
 //   mean_velocity_force.cpp
-#ifndef mean_velocity_force_hpp_
-#define mean_velocity_force_hpp_
 #include "auto_ptr.hpp"
 #include "topo_set_source.hpp"
 #include "cell_set.hpp"

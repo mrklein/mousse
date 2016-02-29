@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_DISTANCE_SURFACE_HPP_
+#define SAMPLING_SAMPLED_SURFACE_DISTANCE_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Uses either isoSurfaceCell or isoSurface.
 // SourceFiles
 //   distance_surface.cpp
-#ifndef distance_surface_hpp_
-#define distance_surface_hpp_
 #include "sampled_surface.hpp"
 #include "searchable_surface.hpp"
 #include "iso_surface_cell.hpp"

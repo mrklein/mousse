@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_TINTERACTION_LISTS_TINTERACTION_LISTS_HPP_
+#define LAGRANGIAN_BASIC_TINTERACTION_LISTS_TINTERACTION_LISTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -26,8 +29,6 @@
 //   _interaction_lists_i.hpp
 //   _interaction_lists.cpp
 //   _interaction_lists_io.cpp
-#ifndef _interaction_lists_hpp_
-#define _interaction_lists_hpp_
 #include "poly_mesh.hpp"
 #include "referred_wall_face.hpp"
 //#include "map_distribute.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_COAL_COMBUSTION_COAL_PARCEL_HPP_
+#define LAGRANGIAN_COAL_COMBUSTION_COAL_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Definition of coal parcel
 // SourceFiles
 //   coal_parcel.cpp
-#ifndef coal_parcel_hpp_
-#define coal_parcel_hpp_
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"

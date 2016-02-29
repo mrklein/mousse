@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_MESH_TPRIMITIVE_PATCH_HPP_
+#define CORE_MESHES_PRIMITIVE_MESH_TPRIMITIVE_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //   _primitive_patch_point_addressing.cpp
 //   _primitive_patch_project_points.cpp
 
-#ifndef _primitive_patch_hpp_
-#define _primitive_patch_hpp_
 
 #include "bool_list.hpp"
 #include "label_list.hpp"

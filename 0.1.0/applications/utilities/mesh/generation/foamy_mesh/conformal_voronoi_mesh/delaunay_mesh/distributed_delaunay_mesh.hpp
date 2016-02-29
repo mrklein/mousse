@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_DELAUNAY_MESH_DISTRIBUTED_DELAUNAY_MESH_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_DELAUNAY_MESH_DISTRIBUTED_DELAUNAY_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   distributed_delaunay_mesh_i.hpp
 //   distributed_delaunay_mesh.cpp
 //   distributed_delaunay_mesh_io.cpp
-#ifndef distributed_delaunay_mesh_hpp_
-#define distributed_delaunay_mesh_hpp_
 #include "delaunay_mesh.hpp"
 #include "background_mesh_decomposition.hpp"
 #include "auto_ptr.hpp"

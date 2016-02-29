@@ -1,9 +1,10 @@
+#ifndef PSTREAM_MPI_ALL_REDUCE_HPP_
+#define PSTREAM_MPI_ALL_REDUCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   all_reduce_templates.cpp
-#ifndef all_reduce_hpp_
-#define all_reduce_hpp_
 #include "upstream.hpp"
 #include <mpi.h>
 namespace mousse

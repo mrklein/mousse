@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_CORRECTION_LIMITING_METHODS_NO_CORRECTION_LIMITING_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_CORRECTION_LIMITING_METHODS_NO_CORRECTION_LIMITING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   no_correction_limiting.cpp
-#ifndef no_correction_limiting_hpp_
-#define no_correction_limiting_hpp_
 #include "correction_limiting_method.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_SAMPLED_PATCH_HPP_
+#define SAMPLING_SAMPLED_SURFACE_SAMPLED_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A sampledSurface on patches. Non-triangulated by default.
 // SourceFiles
 //   sampled_patch.cpp
-#ifndef sampled_patch_hpp_
-#define sampled_patch_hpp_
 #include "sampled_surface.hpp"
 #include "meshed_surface.hpp"
 namespace mousse

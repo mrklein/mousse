@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_FOAMY_QUAD_MESH_SHORT_EDGE_FILTER_2D_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_FOAMY_QUAD_MESH_SHORT_EDGE_FILTER_2D_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   short_edge_filter_2d.cpp
 
-#ifndef short_edge_filter_2d_hpp_
-#define short_edge_filter_2d_hpp_
 #include "meshed_surfaces.hpp"
 #include "cv_2d.hpp"
 namespace mousse

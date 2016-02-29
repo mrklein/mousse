@@ -1,3 +1,6 @@
+#ifndef ENGINE_ENGINE_VALVE_ENGINE_VALVE_HPP_
+#define ENGINE_ENGINE_VALVE_ENGINE_VALVE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::engineValve
 // SourceFiles
 //   engine_valve.cpp
-#ifndef engine_valve_hpp_
-#define engine_valve_hpp_
 #include "word.hpp"
 #include "coordinate_system.hpp"
 #include "poly_patch_id.hpp"

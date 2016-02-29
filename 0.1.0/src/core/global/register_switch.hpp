@@ -1,3 +1,6 @@
+#ifndef CORE_GLOBAL_REGISTER_SWITCH_HPP_
+#define CORE_GLOBAL_REGISTER_SWITCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Class and registration macros for InfoSwitches and OptimisationSwitches
 //   to support reading from system/controlDict and dynamic update.
 
-#ifndef register_switch_hpp_
-#define register_switch_hpp_
 
 #include "simple_reg_ioobject.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_REG_EXP_HPP_
+#define OS_SPECIFIC_POSIX_REG_EXP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   These differ somewhat from \c Perl and \c sed regular expressions.
 // SourceFiles
 //   reg_exp.cpp
-#ifndef reg_exp_hpp_
-#define reg_exp_hpp_
 #include <regex.h>
 #include <string>
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_EXTERNAL_COUPLED_MIXED_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_EXTERNAL_COUPLED_MIXED_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -62,8 +65,6 @@
 // SourceFiles
 //   external_coupled_mixed_fv_patch_field.cpp
 
-#ifndef external_coupled_mixed_fv_patch_field_hpp_
-#define external_coupled_mixed_fv_patch_field_hpp_
 
 #include "mixed_fv_patch_fields.hpp"
 #include "ofstream.hpp"

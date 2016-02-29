@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_LDU_MESH_HPP_
+#define CORE_MESHES_LDU_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Abstract base class for meshes which provide LDU addressing for the
 //   construction of lduMatrix and LDU-solvers.
-#ifndef ldu_mesh_hpp_
-#define ldu_mesh_hpp_
 #include "ldu_addressing.hpp"
 #include "ldu_interface_ptrs_list.hpp"
 #include "type_info.hpp"

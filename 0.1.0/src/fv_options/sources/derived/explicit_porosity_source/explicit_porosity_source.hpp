@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_EXPLICIT_POROSITY_SOURCE_EXPLICIT_POROSITY_SOURCE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_EXPLICIT_POROSITY_SOURCE_EXPLICIT_POROSITY_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -33,8 +36,6 @@
 //   The porous region must be selected as a cellZone.
 // SourceFiles
 //   explicit_porosity_source.cpp
-#ifndef explicit_porosity_source_hpp_
-#define explicit_porosity_source_hpp_
 #include "cell_set_option.hpp"
 namespace mousse
 {

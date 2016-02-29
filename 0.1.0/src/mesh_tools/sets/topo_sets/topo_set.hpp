@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_TOPO_SETS_TOPO_SET_HPP_
+#define MESH_TOOLS_SETS_TOPO_SETS_TOPO_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   topo_set.cpp
 
-#ifndef topo_set_hpp_
-#define topo_set_hpp_
 
 #include "hash_set.hpp"
 #include "reg_ioobject.hpp"

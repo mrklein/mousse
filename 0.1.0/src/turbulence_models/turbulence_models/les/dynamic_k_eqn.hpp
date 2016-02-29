@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_DYNAMIC_K_EQN_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_DYNAMIC_K_EQN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,8 +30,6 @@
 //   \endverbatim
 // SourceFiles
 //   dynamic_k_eqn.cpp
-#ifndef dynamic_k_eqn_hpp_
-#define dynamic_k_eqn_hpp_
 #include "les_eddy_viscosity.hpp"
 #include "simple_filter.hpp"
 namespace mousse

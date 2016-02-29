@@ -1,10 +1,11 @@
+#ifndef TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_TURBULENT_TRANSPORT_MODEL_HPP_
+#define TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_TURBULENT_TRANSPORT_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   turbulent_transport_model.cpp
 //   turbulent_transport_models.cpp
-#ifndef turbulent_transport_model_hpp_
-#define turbulent_transport_model_hpp_
 #include "_incompressible_turbulence_model.hpp"
 #include "ras_model.hpp"
 #include "les_model.hpp"

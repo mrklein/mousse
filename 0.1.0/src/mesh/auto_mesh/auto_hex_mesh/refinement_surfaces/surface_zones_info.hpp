@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_REFINEMENT_SURFACES_SURFACE_ZONES_INFO_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_REFINEMENT_SURFACES_SURFACE_ZONES_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   surface_zones_info.cpp
-#ifndef surface_zones_info_hpp_
-#define surface_zones_info_hpp_
 #include "named_enum.hpp"
 #include "point.hpp"
 #include "word.hpp"

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_MAPPED_PATCH_FIELD_BASE_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_MAPPED_PATCH_FIELD_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   }
 // SourceFiles
 //   mapped_patch_field_base.cpp
-#ifndef mapped_patch_field_base_hpp_
-#define mapped_patch_field_base_hpp_
 #include "fixed_value_fv_patch_fields.hpp"
 #include "vol_fields_fwd.hpp"
 namespace mousse

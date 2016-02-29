@@ -1,3 +1,6 @@
+#ifndef ENGINE_ENGINE_MESH_FV_MOTION_SOLVER_ENGINE_MESH_FV_MOTION_SOLVER_ENGINE_MESH_HPP_
+#define ENGINE_ENGINE_MESH_FV_MOTION_SOLVER_ENGINE_MESH_FV_MOTION_SOLVER_ENGINE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::fvMotionSolverEngineMesh
 // SourceFiles
 //   fv_motion_solver_engine_mesh.cpp
-#ifndef fv_motion_solver_engine_mesh_hpp_
-#define fv_motion_solver_engine_mesh_hpp_
 #include "engine_mesh.hpp"
 #include "velocity_component_laplacian_fv_motion_solver.hpp"
 #include "dimensioned_scalar.hpp"

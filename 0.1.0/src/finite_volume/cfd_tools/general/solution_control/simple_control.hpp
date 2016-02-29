@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_SOLUTION_CONTROL_SIMPLE_CONTROL_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_SOLUTION_CONTROL_SIMPLE_CONTROL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   SIMPLE control class to supply convergence information/checks for
 //   the SIMPLE loop.
-#ifndef simple_control_hpp_
-#define simple_control_hpp_
 #include "solution_control.hpp"
 namespace mousse
 {

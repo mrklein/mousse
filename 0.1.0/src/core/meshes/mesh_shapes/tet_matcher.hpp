@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_TET_MATCHER_HPP_
+#define CORE_MESHES_MESH_SHAPES_TET_MATCHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   tet_matcher.cpp
 
-#ifndef tet_matcher_hpp_
-#define tet_matcher_hpp_
 
 #include "cell_matcher.hpp"
 

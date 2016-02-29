@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_SAMPLED_TRI_SURFACE_MESH_HPP_
+#define SAMPLING_SAMPLED_SURFACE_SAMPLED_TRI_SURFACE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -35,8 +38,6 @@
 //   the original surface should be complete.
 // SourceFiles
 //   sampled_tri_surface_mesh.cpp
-#ifndef sampled_tri_surface_mesh_hpp_
-#define sampled_tri_surface_mesh_hpp_
 #include "sampled_surface.hpp"
 #include "tri_surface_mesh.hpp"
 #include "meshed_surface.hpp"

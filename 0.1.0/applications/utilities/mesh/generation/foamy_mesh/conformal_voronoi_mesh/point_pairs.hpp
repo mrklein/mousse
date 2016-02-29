@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_POINT_PAIRS_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_POINT_PAIRS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   e.g.,
 //     ( (0 1) (3 1) )
 //     ( (0 2) (5 1) )
-#ifndef point_pairs_hpp_
-#define point_pairs_hpp_
 #include "label_pair.hpp"
 #include "hash_set.hpp"
 namespace mousse

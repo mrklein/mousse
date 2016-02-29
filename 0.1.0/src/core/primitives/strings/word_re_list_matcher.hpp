@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_STRINGS_WORD_RE_LIST_MATCHER_HPP_
+#define CORE_PRIMITIVES_STRINGS_WORD_RE_LIST_MATCHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   The constructor should remain non-explicit. This allows automatic
 //   conversion from UList\<wordRe\> to wordReListMatcher in search
 //   functions.
-#ifndef word_re_list_matcher_hpp_
-#define word_re_list_matcher_hpp_
 #include "word_re_list.hpp"
 namespace mousse
 {

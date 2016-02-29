@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_READ_FIELDS_READ_FIELDS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_READ_FIELDS_READ_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -34,8 +37,6 @@
 // SourceFiles
 //   read_fields.cpp
 //   io_read_fields.hpp
-#ifndef read_fields_hpp_
-#define read_fields_hpp_
 #include "ofstream.hpp"
 #include "point_field_fwd.hpp"
 #include "vol_fields.hpp"

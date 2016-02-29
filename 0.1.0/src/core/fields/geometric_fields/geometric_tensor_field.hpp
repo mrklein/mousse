@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_TENSOR_FIELD_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_TENSOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   geometric_tensor_field.cpp
-#ifndef geometric_tensor_field_hpp_
-#define geometric_tensor_field_hpp_
 #include "geometric_spherical_tensor_field.hpp"
 #include "geometric_symm_tensor_field.hpp"
 #include "dimensioned_tensor_field.hpp"

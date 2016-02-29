@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DISTRIBUTION_MODELS_DISTRIBUTION_MODEL_HPP_
+#define LAGRANGIAN_DISTRIBUTION_MODELS_DISTRIBUTION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 // SourceFiles
 //   distribution_model.cpp
 //   distribution_model_new.cpp
-#ifndef distribution_model_hpp_
-#define distribution_model_hpp_
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "cached_random.hpp"

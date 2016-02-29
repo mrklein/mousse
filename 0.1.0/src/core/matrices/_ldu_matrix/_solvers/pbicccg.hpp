@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_TLDU_MATRIX_TSOLVERS_PBICCCG_HPP_
+#define CORE_MATRICES_TLDU_MATRIX_TSOLVERS_PBICCCG_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   pbicccg.cpp
 
-#ifndef pbicccg_hpp_
-#define pbicccg_hpp_
 
 #include "_ldu_matrix.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_IO_POROSITY_MODEL_LIST_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_IO_POROSITY_MODEL_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List of porosity models with IO functionality
 // SourceFiles
 //   io_porosity_model_list.cpp
-#ifndef io_porosity_model_list_hpp_
-#define io_porosity_model_list_hpp_
 #include "iodictionary.hpp"
 #include "porosity_model_list.hpp"
 namespace mousse

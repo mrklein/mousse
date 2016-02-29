@@ -1,3 +1,6 @@
+#ifndef SOLVERS_INCOMPRESSIBLE_ADJOINT_SHAPE_OPTIMIZATION_ADJOINT_OUTLET_VELOCITY_ADJOINT_OUTLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+#define SOLVERS_INCOMPRESSIBLE_ADJOINT_SHAPE_OPTIMIZATION_ADJOINT_OUTLET_VELOCITY_ADJOINT_OUTLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   adjoint_outlet_velocity_fv_patch_vector_field.cpp
-#ifndef adjoint_outlet_velocity_fv_patch_vector_field_hpp_
-#define adjoint_outlet_velocity_fv_patch_vector_field_hpp_
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse
 {

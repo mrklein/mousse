@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_SOLVER_ODE_HPP_
+#define THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_SOLVER_ODE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An ODE solver for chemistry
 // SourceFiles
 //   ode.cpp
-#ifndef ode_hpp_
-#define ode_hpp_
 #include "chemistry_solver.hpp"
 #include "ode_solver.hpp"
 namespace mousse

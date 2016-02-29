@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_BOOLS_SWITCH_HPP_
+#define CORE_PRIMITIVES_BOOLS_SWITCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   switch.cpp
 //   switch_io.cpp
-#ifndef switch_hpp_
-#define switch_hpp_
 #include "bool.hpp"
 #include "word.hpp"
 namespace mousse

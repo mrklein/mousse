@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_GENERAL_CODED_SOURCE_TCODED_SOURCE_HPP_
+#define FV_OPTIONS_SOURCES_GENERAL_CODED_SOURCE_TCODED_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -70,8 +73,6 @@
 //   \endverbatim
 // SourceFiles
 //   _coded_source.cpp
-#ifndef _coded_source_hpp_
-#define _coded_source_hpp_
 #include "cell_set_option.hpp"
 #include "coded_base.hpp"
 namespace mousse

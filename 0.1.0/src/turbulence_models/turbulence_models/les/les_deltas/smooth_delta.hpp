@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_DELTAS_SMOOTH_DELTA_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_DELTAS_SMOOTH_DELTA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   larger than a specified amount, typically 1.15.
 // SourceFiles
 //   smooth_delta.cpp
-#ifndef smooth_delta_hpp_
-#define smooth_delta_hpp_
 #include "les_delta.hpp"
 namespace mousse
 {

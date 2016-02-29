@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_RHO_CONST_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_RHO_CONST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   RhoConst (rho = const) of state.
 // SourceFiles
 //   rho_const.cpp
-#ifndef rho_const_hpp_
-#define rho_const_hpp_
 #include "auto_ptr.hpp"
 namespace mousse
 {

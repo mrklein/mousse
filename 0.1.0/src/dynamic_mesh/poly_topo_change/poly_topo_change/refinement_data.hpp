@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REFINEMENT_DATA_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REFINEMENT_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   maintained. Used in FaceCellWave.
 // SourceFiles
 //   refinement_data.cpp
-#ifndef refinement_data_hpp_
-#define refinement_data_hpp_
 #include "point.hpp"
 #include "tensor.hpp"
 namespace mousse

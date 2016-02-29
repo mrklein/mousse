@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_SET_UPDATER_SET_UPDATER_HPP_
+#define DYNAMIC_MESH_SET_UPDATER_SET_UPDATER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   set_updater.cpp
 //   set_updater_templates.cpp
-#ifndef set_updater_hpp_
-#define set_updater_hpp_
 #include "poly_mesh_modifier.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_HASHES_HASH_HPP_
+#define CORE_PRIMITIVES_HASHES_HASH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Hash function class for primitives.  All non-primitives used to hash
 //   entries on hash tables likely need a specialized version of this class.
-#ifndef hash_hpp_
-#define hash_hpp_
 #include "label.hpp"
 #include "ulabel.hpp"
 #include "hasher.hpp"

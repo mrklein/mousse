@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_TRIM_MODEL_TRIM_MODEL_TRIM_MODEL_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_TRIM_MODEL_TRIM_MODEL_TRIM_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Trim model base class
 // SourceFiles
 //   trim_model.cpp
-#ifndef trim_model_hpp_
-#define trim_model_hpp_
 #include "rotor_disk_source.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"

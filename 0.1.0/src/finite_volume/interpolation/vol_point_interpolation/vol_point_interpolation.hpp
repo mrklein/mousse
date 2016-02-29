@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_VOL_POINT_INTERPOLATION_VOL_POINT_INTERPOLATION_HPP_
+#define FINITE_VOLUME_INTERPOLATION_VOL_POINT_INTERPOLATION_VOL_POINT_INTERPOLATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   vol_point_interpolation.cpp
 //   vol_point_interpolate.cpp
-#ifndef vol_point_interpolation_hpp_
-#define vol_point_interpolation_hpp_
 #include "_mesh_object.hpp"
 #include "scalar_list.hpp"
 #include "vol_fields.hpp"

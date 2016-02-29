@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_DERIVED_WALL_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_DERIVED_WALL_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::wallFvPatch
 // SourceFiles
 //   wall_fv_patch.cpp
-#ifndef wall_fv_patch_hpp_
-#define wall_fv_patch_hpp_
 #include "fv_patch.hpp"
 #include "wall_poly_patch.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_MESH_FILTER_POLY_MESH_FILTER_SETTINGS_HPP_
+#define DYNAMIC_MESH_POLY_MESH_FILTER_POLY_MESH_FILTER_SETTINGS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   poly_mesh_filter_settings.cpp
 //   poly_mesh_filter_settings_i.hpp
-#ifndef poly_mesh_filter_settings_hpp_
-#define poly_mesh_filter_settings_hpp_
 #include "dictionary.hpp"
 #include "switch.hpp"
 #include "scalar.hpp"

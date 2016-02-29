@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOOBJECTS_IOLIST_HPP_
+#define CORE_DB_IOOBJECTS_IOLIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A List of objects of type \<T\> with automated input and output.
 // SourceFiles
 //   iolist.cpp
-#ifndef iolist_hpp_
-#define iolist_hpp_
 #include "list.hpp"
 #include "reg_ioobject.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_ENERGY_SCALING_FUNCTION_SHIFTED_FORCE_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_ENERGY_SCALING_FUNCTION_SHIFTED_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   shifted_force.cpp
-#ifndef shifted_force_hpp_
-#define shifted_force_hpp_
 #include "energy_scaling_function.hpp"
 namespace mousse
 {

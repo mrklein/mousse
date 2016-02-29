@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_MODIFY_OBJECT_POLY_MODIFY_CELL_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_MODIFY_OBJECT_POLY_MODIFY_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::polyModifyCell
 // Description
 //   Class describing modification of a cell.
-#ifndef poly_modify_cell_hpp_
-#define poly_modify_cell_hpp_
 #include "label.hpp"
 #include "topo_action.hpp"
 namespace mousse

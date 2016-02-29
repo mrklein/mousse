@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BAROTROPIC_COMPRESSIBILITY_MODEL_CHUNG_HPP_
+#define THERMOPHYSICAL_MODELS_BAROTROPIC_COMPRESSIBILITY_MODEL_CHUNG_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Chung compressibility model.
 // SourceFiles
 //   chung.cpp
-#ifndef chung_hpp_
-#define chung_hpp_
 #include "barotropic_compressibility_model.hpp"
 #include "dimensioned_scalar.hpp"
 namespace mousse

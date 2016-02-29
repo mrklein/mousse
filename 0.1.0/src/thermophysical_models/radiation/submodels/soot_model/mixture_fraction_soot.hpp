@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_MIXTURE_FRACTION_SOOT_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_MIXTURE_FRACTION_SOOT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //   }
 // SourceFiles
 //   mixture_fraction_soot.cpp
-#ifndef mixture_fraction_soot_hpp_
-#define mixture_fraction_soot_hpp_
 #include "interpolation_look_up_table.hpp"
 #include "soot_model.hpp"
 #include "hash_table.hpp"

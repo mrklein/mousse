@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_MESH_PATCH_ZONES_HPP_
+#define CORE_MESHES_PRIMITIVE_MESH_PATCH_ZONES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   every patch face.
 // SourceFiles
 //   patch_zones.cpp
-#ifndef patch_zones_hpp_
-#define patch_zones_hpp_
 #include "label_list.hpp"
 #include "point_field.hpp"
 #include "poly_patch.hpp"

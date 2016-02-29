@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_CURVED_EDGES_POLY_LINE_EDGE_HPP_
+#define MESH_BLOCK_MESH_CURVED_EDGES_POLY_LINE_EDGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A curvedEdge defined in terms of a series of straight line segments.
 // SourceFiles
 //   poly_line_edge.cpp
-#ifndef poly_line_edge_hpp_
-#define poly_line_edge_hpp_
 #include "curved_edge.hpp"
 #include "poly_line.hpp"
 namespace mousse

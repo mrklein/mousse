@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_PRIMITIVE_MESH_PRIMITIVE_MESH_TOOLS_HPP_
+#define CORE_MESHES_PRIMITIVE_MESH_PRIMITIVE_MESH_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   primitive_mesh_tools.cpp
-#ifndef primitive_mesh_tools_hpp_
-#define primitive_mesh_tools_hpp_
 #include "primitive_mesh.hpp"
 #include "packed_bool_list.hpp"
 namespace mousse

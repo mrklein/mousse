@@ -140,6 +140,10 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Making dependency list for source file %s\n",
                 source_file);
     }
+    else
+    {
+        fprintf(stderr, " [DEP] %s\n", source_file);
+    }
 
 
     if ((base_pos = strrchr(source_file, '/')) == NULL)

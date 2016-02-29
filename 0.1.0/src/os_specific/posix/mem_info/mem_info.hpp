@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_MEM_INFO_MEM_INFO_HPP_
+#define OS_SPECIFIC_POSIX_MEM_INFO_MEM_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Uses the information from /proc/\<pid\>/status
 // SourceFiles
 //   mem_info.cpp
-#ifndef mem_info_hpp_
-#define mem_info_hpp_
 #include "os_specific.hpp"
 #include "posix.hpp"
 #include "ifstream.hpp"

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_INTERPOLATION_POINT_MVC_WEIGHT_HPP_
+#define FINITE_VOLUME_INTERPOLATION_INTERPOLATION_POINT_MVC_WEIGHT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   by Torsten Langer, Alexander Belyaev and Hans-Peter Seide
 // SourceFiles
 //   point_mvc_weight.cpp
-#ifndef point_mvc_weight_hpp_
-#define point_mvc_weight_hpp_
 #include "scalar_field.hpp"
 #include "vector_field.hpp"
 #include "map.hpp"

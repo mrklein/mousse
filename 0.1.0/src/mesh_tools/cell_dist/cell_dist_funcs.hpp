@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_CELL_DIST_CELL_DIST_FUNCS_HPP_
+#define MESH_TOOLS_CELL_DIST_CELL_DIST_FUNCS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   cell_dist_funcs.cpp
 //   cell_dist_funcs_templates.cpp
 
-#ifndef cell_dist_funcs_hpp_
-#define cell_dist_funcs_hpp_
 
 #include "scalar_field.hpp"
 #include "hash_set.hpp"

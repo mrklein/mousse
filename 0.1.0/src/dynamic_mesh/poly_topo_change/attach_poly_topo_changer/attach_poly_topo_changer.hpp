@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_ATTACH_POLY_TOPO_CHANGER_ATTACH_POLY_TOPO_CHANGER_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_ATTACH_POLY_TOPO_CHANGER_ATTACH_POLY_TOPO_CHANGER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   All point, face and cell zoning will be lost!  Do it after
 //   attaching the parts of the mesh, as the point, face and cell
 //   numbering changes.
-#ifndef attach_poly_topo_changer_hpp_
-#define attach_poly_topo_changer_hpp_
 #include "poly_topo_changer.hpp"
 namespace mousse
 {

@@ -1,9 +1,10 @@
+#ifndef CORE_CONTAINERS_HASH_TABLES_HASH_TABLE_CPP_
+#define CORE_CONTAINERS_HASH_TABLES_HASH_TABLE_CPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef hash_table_cpp_
-#define hash_table_cpp_
 
 #include "hash_table.hpp"
 #include "list.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_TRIANGLE_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_TRIANGLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::triangle
 // Description
 //   A triangle primitive used to calculate face normals and swept volumes.
-#ifndef triangle_hpp_
-#define triangle_hpp_
 #include "intersection.hpp"
 #include "vector.hpp"
 #include "tensor.hpp"

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_INCOMPRESSIBLE_PERFECT_GAS_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_INCOMPRESSIBLE_PERFECT_GAS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   density only varies with temperature and composition.
 // SourceFiles
 //   incompressible_perfect_gas.cpp
-#ifndef incompressible_perfect_gas_hpp_
-#define incompressible_perfect_gas_hpp_
 #include "auto_ptr.hpp"
 namespace mousse
 {

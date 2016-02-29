@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODELS_BIRD_CARREAU_HPP_
+#define TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODELS_BIRD_CARREAU_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   coefficient is specified.  "a" defaults to 2 for the Bird-Carreau model.
 // SourceFiles
 //   bird_carreau.cpp
-#ifndef bird_carreau_hpp_
-#define bird_carreau_hpp_
 #include "viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"

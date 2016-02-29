@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_PAR_SORTABLE_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_PAR_SORTABLE_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 // SourceFiles
 //   par_sortable_list.cpp
 
-#ifndef par_sortable_list_hpp_
-#define par_sortable_list_hpp_
 
 #include "label_list.hpp"
 #include "class_name.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_PARTICLE_PARTICLE_HPP_
+#define LAGRANGIAN_BASIC_PARTICLE_PARTICLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::particle
 // Description
 //   Base particle class
-#ifndef particle_hpp_
-#define particle_hpp_
 #include "vector.hpp"
 #include "_cloud.hpp"
 #include "idl_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TET_OVERLAP_VOLUME_TET_OVERLAP_VOLUME_HPP_
+#define MESH_TOOLS_TET_OVERLAP_VOLUME_TET_OVERLAP_VOLUME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Calculates the overlap volume of two cells using tetrahedral decomposition
 // SourceFiles
 //   tet_overlap_volume.cpp
-#ifndef tet_overlap_volume_hpp_
-#define tet_overlap_volume_hpp_
 #include "fixed_list.hpp"
 #include "label_list.hpp"
 #include "tree_bound_box.hpp"

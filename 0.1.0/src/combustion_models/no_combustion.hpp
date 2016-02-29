@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_NO_COMBUSTION_HPP_
+#define COMBUSTION_MODELS_NO_COMBUSTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Dummy combustion model for 'no combustion'
 // SourceFiles
 //   no_combustion.cpp
-#ifndef no_combustion_hpp_
-#define no_combustion_hpp_
 namespace mousse
 {
 namespace combustionModels

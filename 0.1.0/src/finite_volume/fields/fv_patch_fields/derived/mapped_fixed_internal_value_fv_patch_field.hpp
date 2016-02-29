@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_MAPPED_FIXED_INTERNAL_VALUE_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_MAPPED_FIXED_INTERNAL_VALUE_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -36,8 +39,6 @@
 // SourceFiles
 //   mapped_fixed_internal_value_fv_patch_field.cpp
 
-#ifndef mapped_fixed_internal_value_fv_patch_field_hpp_
-#define mapped_fixed_internal_value_fv_patch_field_hpp_
 
 #include "mapped_fixed_value_fv_patch_field.hpp"
 

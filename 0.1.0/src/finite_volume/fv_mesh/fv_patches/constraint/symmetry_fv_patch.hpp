@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_SYMMETRY_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_SYMMETRY_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Symmetry patch for non-planar or multi-plane patches.
 // SourceFiles
 //   symmetry_fv_patch.cpp
-#ifndef symmetry_fv_patch_hpp_
-#define symmetry_fv_patch_hpp_
 #include "fv_patch.hpp"
 #include "symmetry_poly_patch.hpp"
 namespace mousse

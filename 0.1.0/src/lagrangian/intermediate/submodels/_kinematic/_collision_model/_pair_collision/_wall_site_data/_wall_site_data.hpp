@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TCOLLISION_MODEL_TPAIR_COLLISION_TWALL_SITE_DATA_TWALL_SITE_DATA_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TCOLLISION_MODEL_TPAIR_COLLISION_TWALL_SITE_DATA_TWALL_SITE_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   _wall_site_data.cpp
 //   _wall_site_data_io.cpp
-#ifndef _wall_site_data_hpp_
-#define _wall_site_data_hpp_
 #include "label.hpp"
 namespace mousse
 {

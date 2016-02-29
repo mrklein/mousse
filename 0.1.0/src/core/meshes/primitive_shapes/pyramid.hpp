@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_PYRAMID_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_PYRAMID_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A geometric pyramid primitive with a base of 'n' sides:
 //   i.e. a parametric pyramid. A pyramid is constructed from
 //   a base polygon and an apex point.
-#ifndef pyramid_hpp_
-#define pyramid_hpp_
 #include "iostreams.hpp"
 namespace mousse
 {

@@ -1,9 +1,10 @@
+#ifndef LAGRANGIAN_SPRAY_PARCELS_INCLUDE_MAKE_SPRAY_PARCEL_BREAKUP_MODELS_HPP_
+#define LAGRANGIAN_SPRAY_PARCELS_INCLUDE_MAKE_SPRAY_PARCEL_BREAKUP_MODELS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_spray_parcel_breakup_models_hpp_
-#define make_spray_parcel_breakup_models_hpp_
 
 #include "_no_breakup.hpp"
 #include "_pilch_erdman.hpp"

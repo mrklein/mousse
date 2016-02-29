@@ -1,3 +1,6 @@
+#ifndef EDGE_MESH_EXTENDED_EDGE_MESH_HPP_
+#define EDGE_MESH_EXTENDED_EDGE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -24,8 +27,6 @@
 //   extended_edge_mesh.cpp
 //   extended_edge_mesh_new.cpp
 
-#ifndef extended_edge_mesh_hpp_
-#define extended_edge_mesh_hpp_
 
 #include "edge_mesh.hpp"
 #include "indexed_octree.hpp"

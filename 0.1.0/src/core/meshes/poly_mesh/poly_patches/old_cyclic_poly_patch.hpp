@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_OLD_CYCLIC_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_OLD_CYCLIC_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   patch (e.g. fluent3DMeshToFoam)
 // SourceFiles
 //   old_cyclic_poly_patch.cpp
-#ifndef old_cyclic_poly_patch_hpp_
-#define old_cyclic_poly_patch_hpp_
 #include "coupled_poly_patch.hpp"
 namespace mousse
 {

@@ -1,5 +1,5 @@
-#ifndef curve_tools_hpp_
-#define curve_tools_hpp_
+#ifndef CORE_GRAPH_CURVE_TOOLS_HPP_
+#define CORE_GRAPH_CURVE_TOOLS_HPP_
 #include "scalar.hpp"
 #include "vector.hpp"
 #include "curve.hpp"

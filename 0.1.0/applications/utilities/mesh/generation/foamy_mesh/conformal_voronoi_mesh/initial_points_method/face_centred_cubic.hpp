@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_INITIAL_POINTS_METHOD_FACE_CENTRED_CUBIC_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_INITIAL_POINTS_METHOD_FACE_CENTRED_CUBIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   conformed to of the conformalVoronoiMesh
 // SourceFiles
 //   face_centred_cubic.cpp
-#ifndef face_centred_cubic_hpp_
-#define face_centred_cubic_hpp_
 #include "initial_points_method.hpp"
 namespace mousse
 {

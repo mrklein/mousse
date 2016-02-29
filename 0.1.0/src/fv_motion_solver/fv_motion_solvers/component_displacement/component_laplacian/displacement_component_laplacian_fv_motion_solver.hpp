@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_FV_MOTION_SOLVERS_COMPONENT_DISPLACEMENT_COMPONENT_LAPLACIAN_DISPLACEMENT_COMPONENT_LAPLACIAN_FV_MOTION_SOLVER_HPP_
+#define FV_MOTION_SOLVER_FV_MOTION_SOLVERS_COMPONENT_DISPLACEMENT_COMPONENT_LAPLACIAN_DISPLACEMENT_COMPONENT_LAPLACIAN_FV_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Laplacian for the given component of the motion displacement.
 // SourceFiles
 //   displacement_component_laplacian_fv_motion_solver.cpp
-#ifndef displacement_component_laplacian_fv_motion_solver_hpp_
-#define displacement_component_laplacian_fv_motion_solver_hpp_
 #include "component_displacement_motion_solver.hpp"
 #include "fv_motion_solver_core.hpp"
 namespace mousse

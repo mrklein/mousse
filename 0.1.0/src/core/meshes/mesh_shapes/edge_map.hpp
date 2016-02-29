@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_EDGE_MAP_HPP_
+#define CORE_MESHES_MESH_SHAPES_EDGE_MAP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::EdgeMap
 // Description
 //   Map from edge (expressed as its endpoints) to value
-#ifndef edge_map_hpp_
-#define edge_map_hpp_
 #include "hash_table.hpp"
 #include "edge.hpp"
 namespace mousse

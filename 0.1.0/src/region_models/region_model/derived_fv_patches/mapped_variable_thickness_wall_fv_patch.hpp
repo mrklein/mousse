@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_MODEL_DERIVED_FV_PATCHES_MAPPED_VARIABLE_THICKNESS_WALL_FV_PATCH_HPP_
+#define REGION_MODELS_REGION_MODEL_DERIVED_FV_PATCHES_MAPPED_VARIABLE_THICKNESS_WALL_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   To be used with 1D thermo baffle.
 // SourceFiles
 //   mapped_variable_thickness_wall_fv_patch.cpp
-#ifndef mapped_variable_thickness_wall_fv_patch_hpp_
-#define mapped_variable_thickness_wall_fv_patch_hpp_
 #include "wall_fv_patch.hpp"
 #include "mapped_variable_thickness_wall_poly_patch.hpp"
 namespace mousse

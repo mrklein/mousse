@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SMOOTHERS_DILU_GAUSS_SEIDEL_SMOOTHER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SMOOTHERS_DILU_GAUSS_SEIDEL_SMOOTHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   created by the DILU sweeps are smoothed-out.
 // SourceFiles
 //   dilu_gauss_seidel_smoother.cpp
-#ifndef dilu_gauss_seidel_smoother_hpp_
-#define dilu_gauss_seidel_smoother_hpp_
 #include "dilu_smoother.hpp"
 #include "gauss_seidel_smoother.hpp"
 namespace mousse

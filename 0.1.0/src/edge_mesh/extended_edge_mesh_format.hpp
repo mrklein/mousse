@@ -1,3 +1,6 @@
+#ifndef EDGE_MESH_EXTENDED_EDGE_MESH_FORMAT_HPP_
+#define EDGE_MESH_EXTENDED_EDGE_MESH_FORMAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   extendedEdgeMesh format
 // SourceFiles
 //   extended_edge_mesh_format.cpp
-#ifndef extended_edge_mesh_format_hpp_
-#define extended_edge_mesh_format_hpp_
 #include "extended_edge_mesh.hpp"
 namespace mousse
 {

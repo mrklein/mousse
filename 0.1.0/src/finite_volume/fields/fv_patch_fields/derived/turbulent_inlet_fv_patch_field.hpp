@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_TURBULENT_INLET_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_TURBULENT_INLET_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -41,8 +44,6 @@
 //   mousse::fixedValueFvPatchField
 // SourceFiles
 //   turbulent_inlet_fv_patch_field.cpp
-#ifndef turbulent_inlet_fv_patch_field_hpp_
-#define turbulent_inlet_fv_patch_field_hpp_
 #include "random.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse

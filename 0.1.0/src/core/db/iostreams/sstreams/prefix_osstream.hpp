@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOSTREAMS_SSTREAMS_PREFIX_OSSTREAM_HPP_
+#define CORE_DB_IOSTREAMS_SSTREAMS_PREFIX_OSSTREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   to be automatically prepended to each message line.
 // SourceFiles
 //   prefix_osstream.cpp
-#ifndef prefix_osstream_hpp_
-#define prefix_osstream_hpp_
 #include "osstream.hpp"
 namespace mousse
 {

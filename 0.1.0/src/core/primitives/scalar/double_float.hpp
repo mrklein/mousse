@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_SCALAR_DOUBLE_FLOAT_HPP_
+#define CORE_PRIMITIVES_SCALAR_DOUBLE_FLOAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef double_float_hpp_
-#define double_float_hpp_
 
 #include "label.hpp"
 #include "products.hpp"

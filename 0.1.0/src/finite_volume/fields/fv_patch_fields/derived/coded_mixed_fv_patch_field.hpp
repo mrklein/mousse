@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_CODED_MIXED_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_CODED_MIXED_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -55,8 +58,6 @@
 //   mousse::functionEntries::codeStream
 // SourceFiles
 //   coded_mixed_fv_patch_field.cpp
-#ifndef coded_mixed_fv_patch_field_hpp_
-#define coded_mixed_fv_patch_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 #include "coded_base.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_SPECIE_TRANSPORT_POLYNOMIAL_SOLID_TRANSPORT_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_SPECIE_TRANSPORT_POLYNOMIAL_SOLID_TRANSPORT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Transport package using polynomial functions for solid kappa
 // SourceFiles
 //   polynomial_solid_transport.cpp
-#ifndef polynomial_solid_transport_hpp_
-#define polynomial_solid_transport_hpp_
 #include "polynomial.hpp"
 #include "specie.hpp"
 namespace mousse

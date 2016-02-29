@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_SDA_SDA_HPP_
+#define DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_SOLID_BODY_MOTION_FUNCTIONS_SDA_SDA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   mousse::solidBodyMotionFunctions::tabulated6DoFMotion
 // SourceFiles
 //   sda.cpp
-#ifndef sda_hpp_
-#define sda_hpp_
 #include "solid_body_motion_function.hpp"
 namespace mousse
 {

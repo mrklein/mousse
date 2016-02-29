@@ -1,0 +1,3 @@
+simple_reacting_parcel.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-simple-reacting-parcel

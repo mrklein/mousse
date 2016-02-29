@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_CELL_SHAPE_HPP_
+#define CORE_MESHES_MESH_SHAPES_CELL_SHAPE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   cell_shape.cpp
 //   cell_shape_io.cpp
 //   cell_shape_equal.cpp
-#ifndef cell_shape_hpp_
-#define cell_shape_hpp_
 #include "point_field.hpp"
 #include "label_list.hpp"
 #include "cell_model.hpp"

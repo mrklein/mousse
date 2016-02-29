@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_TRI_SURFACE_HPP_
+#define MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_TRI_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Encapsulates data for (indexedOc)tree searches on a triSurface.
 // SourceFiles
 //   tree_data_tri_surface.cpp
-#ifndef tree_data_tri_surface_hpp_
-#define tree_data_tri_surface_hpp_
 #include "tree_data_primitive_patch.hpp"
 #include "tri_surface.hpp"
 #include "point.hpp"

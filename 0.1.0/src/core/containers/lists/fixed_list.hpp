@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_FIXED_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_FIXED_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   fixed_list.cpp
 //   fixed_list_io.cpp
 
-#ifndef fixed_list_hpp_
-#define fixed_list_hpp_
 
 #include "bool.hpp"
 #include "label.hpp"

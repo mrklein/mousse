@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_PSI_COMBUSTION_MODEL_HPP_
+#define COMBUSTION_MODELS_PSI_COMBUSTION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   psi_combustion_model_i.hpp
 //   psi_combustion_model.cpp
 //   psi_combustion_model_new.cpp
-#ifndef psi_combustion_model_hpp_
-#define psi_combustion_model_hpp_
 #include "combustion_model.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

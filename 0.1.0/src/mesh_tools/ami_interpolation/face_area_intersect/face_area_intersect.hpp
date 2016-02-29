@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_FACE_AREA_INTERSECT_FACE_AREA_INTERSECT_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_FACE_AREA_INTERSECT_FACE_AREA_INTERSECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //    and cutting
 // SourceFiles
 //   face_area_intersect.cpp
-#ifndef face_area_intersect_hpp_
-#define face_area_intersect_hpp_
 #include "point_field.hpp"
 #include "fixed_list.hpp"
 #include "plane.hpp"

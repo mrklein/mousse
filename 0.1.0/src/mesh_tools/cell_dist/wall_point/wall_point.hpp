@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_CELL_DIST_WALL_POINT_WALL_POINT_HPP_
+#define MESH_TOOLS_CELL_DIST_WALL_POINT_WALL_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   calculation.
 // SourceFiles
 //   wall_point.cpp
-#ifndef wall_point_hpp_
-#define wall_point_hpp_
 #include "point.hpp"
 #include "label.hpp"
 #include "scalar.hpp"

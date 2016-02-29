@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_SCALAR_TRANSPORT_SCALAR_TRANSPORT_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_SCALAR_TRANSPORT_SCALAR_TRANSPORT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 // SourceFiles
 //   scalar_transport.cpp
 //   io_scalar_transport.hpp
-#ifndef scalar_transport_hpp_
-#define scalar_transport_hpp_
 #include "vol_fields.hpp"
 #include "surface_fields_fwd.hpp"
 #include "point_field_fwd.hpp"

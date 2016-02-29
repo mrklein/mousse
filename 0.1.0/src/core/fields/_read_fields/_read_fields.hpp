@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_TREAD_FIELDS_TREAD_FIELDS_HPP_
+#define CORE_FIELDS_TREAD_FIELDS_TREAD_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   _read_fields.cpp
-#ifndef _read_fields_hpp_
-#define _read_fields_hpp_
 #include "ptr_list.hpp"
 #include "word_list.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_TRANSPORT_CONST_TRANSPORT_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_TRANSPORT_CONST_TRANSPORT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   conductivity).
 // SourceFiles
 //   const_transport.cpp
-#ifndef const_transport_hpp_
-#define const_transport_hpp_
 namespace mousse
 {
 // Forward declaration of friend functions and operators

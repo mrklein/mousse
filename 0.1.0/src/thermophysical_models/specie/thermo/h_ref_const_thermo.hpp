@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_THERMO_H_REF_CONST_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_THERMO_H_REF_CONST_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   templated into the EquationOfState.
 // SourceFiles
 //   h_ref_const_thermo.cpp
-#ifndef h_ref_const_thermo_hpp_
-#define h_ref_const_thermo_hpp_
 namespace mousse
 {
 // Forward declaration of friend functions and operators
@@ -194,8 +195,8 @@ inline mousse::scalar mousse::hRefConstThermo<EquationOfState>::limit
 template<class EquationOfState>
 inline mousse::scalar mousse::hRefConstThermo<EquationOfState>::cp
 (
-  const scalar p,
-  const scalar T
+  const scalar /*p*/,
+  const scalar /*T*/
 ) const
 {
   return Cp_;
@@ -203,7 +204,7 @@ inline mousse::scalar mousse::hRefConstThermo<EquationOfState>::cp
 template<class EquationOfState>
 inline mousse::scalar mousse::hRefConstThermo<EquationOfState>::ha
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return Cp_*(T-Tref_) + Href_ + Hf_;
@@ -211,7 +212,7 @@ inline mousse::scalar mousse::hRefConstThermo<EquationOfState>::ha
 template<class EquationOfState>
 inline mousse::scalar mousse::hRefConstThermo<EquationOfState>::hs
 (
-  const scalar p, const scalar T
+  const scalar /*p*/, const scalar T
 ) const
 {
   return Cp_*(T-Tref_) + Href_ ;

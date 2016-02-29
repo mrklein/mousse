@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_POINT_HIT_SORT_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_POINT_HIT_SORT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Container for sorting intersections
 // SourceFiles
-#ifndef point_hit_sort_hpp_
-#define point_hit_sort_hpp_
 #include "point_hit.hpp"
 #include "label.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_IDENTIFIERS_KEYED_HPP_
+#define CORE_CONTAINERS_IDENTIFIERS_KEYED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   A container with an integer key attached to any item.
 //   The key can useful for sorting.
-#ifndef keyed_hpp_
-#define keyed_hpp_
 #include "list.hpp"
 #include "iostreams.hpp"
 namespace mousse

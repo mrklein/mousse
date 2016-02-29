@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_CELL_LOOPER_GEOM_CELL_LOOPER_HPP_
+#define DYNAMIC_MESH_MESH_CUT_CELL_LOOPER_GEOM_CELL_LOOPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   edge endpoints to the plane.
 // SourceFiles
 //   geom_cell_looper.cpp
-#ifndef geom_cell_looper_hpp_
-#define geom_cell_looper_hpp_
 #include "cell_looper.hpp"
 #include "type_info.hpp"
 namespace mousse

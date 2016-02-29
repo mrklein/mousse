@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_SOLVER_CHEMISTRY_SOLVER_HPP_
+#define THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_SOLVER_CHEMISTRY_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An abstract base class for solving chemistry
 // SourceFiles
 //   chemistry_solver.cpp
-#ifndef chemistry_solver_hpp_
-#define chemistry_solver_hpp_
 #include "chemistry_model.hpp"
 #include "iodictionary.hpp"
 #include "scalar_field.hpp"

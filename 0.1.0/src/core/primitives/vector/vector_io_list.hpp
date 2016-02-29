@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_VECTOR_VECTOR_IO_LIST_HPP_
+#define CORE_PRIMITIVES_VECTOR_VECTOR_IO_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef vector_io_list_hpp_
-#define vector_io_list_hpp_
 #include "vector.hpp"
 #include "iolist.hpp"
 namespace mousse

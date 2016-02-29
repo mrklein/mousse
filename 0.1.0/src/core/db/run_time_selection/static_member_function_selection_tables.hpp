@@ -1,9 +1,10 @@
+#ifndef CORE_DB_RUN_TIME_SELECTION_STATIC_MEMBER_FUNCTION_SELECTION_TABLES_HPP_
+#define CORE_DB_RUN_TIME_SELECTION_STATIC_MEMBER_FUNCTION_SELECTION_TABLES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef static_member_function_selection_tables_hpp_
-#define static_member_function_selection_tables_hpp_
 
 #include "member_function_selection_tables.hpp"
 

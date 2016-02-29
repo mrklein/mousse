@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TBINARY_COLLISION_MODEL_TVARIABLE_HARD_SPHERE_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TBINARY_COLLISION_MODEL_TVARIABLE_HARD_SPHERE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::VariableHardSphere
 // Description
 //   Variable Hard Sphere BinaryCollision Model
-#ifndef _variable_hard_sphere_hpp_
-#define _variable_hard_sphere_hpp_
 #include "_binary_collision_model.hpp"
 namespace mousse
 {

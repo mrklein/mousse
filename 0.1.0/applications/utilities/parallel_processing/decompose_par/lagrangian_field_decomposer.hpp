@@ -1,3 +1,6 @@
+#ifndef UTILITIES_PARALLEL_PROCESSING_DECOMPOSE_PAR_LAGRANGIAN_FIELD_DECOMPOSER_HPP_
+#define UTILITIES_PARALLEL_PROCESSING_DECOMPOSE_PAR_LAGRANGIAN_FIELD_DECOMPOSER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   lagrangian_field_decomposer.cpp
 //   lagrangian_field_decomposer_decompose_fields.cpp
-#ifndef lagrangian_field_decomposer_hpp_
-#define lagrangian_field_decomposer_hpp_
 #include "cloud.hpp"
 #include "compact_io_field.hpp"
 #include "indexed_particle.hpp"

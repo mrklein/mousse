@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_FOAMY_QUAD_MESH_INDEXED_FACE_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_FOAMY_QUAD_MESH_INDEXED_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   An indexed form of CGAL::Triangulation_face_base_2<K> used to keep
 //   track of the vertices in the triangulation.
-#ifndef indexed_face_hpp_
-#define indexed_face_hpp_
 #include "CGAL/Triangulation_2.h"
 #include "indexed_vertex.hpp"
 namespace CGAL

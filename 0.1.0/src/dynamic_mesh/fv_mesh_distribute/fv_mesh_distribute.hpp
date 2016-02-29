@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_FV_MESH_DISTRIBUTE_FV_MESH_DISTRIBUTE_HPP_
+#define DYNAMIC_MESH_FV_MESH_DISTRIBUTE_FV_MESH_DISTRIBUTE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 // SourceFiles
 //   fv_mesh_distribute.cpp
 //   fv_mesh_distribute_templates.cpp
-#ifndef fv_mesh_distribute_hpp_
-#define fv_mesh_distribute_hpp_
 #include "field.hpp"
 #include "fv_mesh_subset.hpp"
 namespace mousse

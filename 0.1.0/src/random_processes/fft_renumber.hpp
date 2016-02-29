@@ -1,3 +1,6 @@
+#ifndef RANDOM_PROCESSES_FFT_RENUMBER_HPP_
+#define RANDOM_PROCESSES_FFT_RENUMBER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   fft routine.
 // Source files
 //   fft_renumber.cpp
-#ifndef fft_renumber_hpp_
-#define fft_renumber_hpp_
 #include "complex.hpp"
 #include "list.hpp"
 #include "label_list.hpp"

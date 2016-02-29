@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOSTREAMS_TSTREAMS_ITSTREAM_HPP_
+#define CORE_DB_IOSTREAMS_TSTREAMS_ITSTREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   itstream.cpp
 
-#ifndef itstream_hpp_
-#define itstream_hpp_
 
 #include "istream.hpp"
 #include "token_list.hpp"

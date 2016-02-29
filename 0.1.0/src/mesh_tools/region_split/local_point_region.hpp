@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_REGION_SPLIT_LOCAL_POINT_REGION_HPP_
+#define MESH_TOOLS_REGION_SPLIT_LOCAL_POINT_REGION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   Note: coupled boundaries (cyclics, parallel) not fully tested.
 // SourceFiles
 //   local_point_region.cpp
-#ifndef local_point_region_hpp_
-#define local_point_region_hpp_
 #include "type_info.hpp"
 #include "map.hpp"
 #include "label_list.hpp"

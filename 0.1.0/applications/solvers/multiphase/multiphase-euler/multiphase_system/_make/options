@@ -1,0 +1,15 @@
+EXE_INC = \
+    -I../phase_model/_lninclude \
+    -I../interfacial_models/_lninclude \
+    -Ialpha_contact_angle \
+    -I$(LIB_SRC)/transport_models \
+    -I$(LIB_SRC)/transport_models/incompressible/_lninclude \
+    -I$(LIB_SRC)/transport_models/interfaceProperties/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude
+
+LIB_LIBS = \
+    -lmousse_interface_properties \
+    -lmousse_incompressible_transport_models \
+    -lmousse_finite_volume \
+    -lmousse_mesh_tools

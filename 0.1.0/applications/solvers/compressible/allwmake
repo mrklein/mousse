@@ -1,0 +1,15 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wmake rho-simple
+wmake rho-porous-simple
+wmake rho-pimple
+wmake dym-rho-pimple
+
+cd rho-central && wmake all && cd ..
+wmake dym-rho-central
+
+wmake sonic
+wmake sonic-liquid
+wmake dym-sonic

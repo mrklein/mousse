@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_SMOOTH_FVC_SMOOTH_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_SMOOTH_FVC_SMOOTH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   fvc_smooth.cpp
-#ifndef fvc_smooth_hpp_
-#define fvc_smooth_hpp_
 #include "vol_fields_fwd.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_QUICKV_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_QUICKV_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   quickv.cpp
-#ifndef quickv_hpp_
-#define quickv_hpp_
 #include "vector.hpp"
 namespace mousse
 {

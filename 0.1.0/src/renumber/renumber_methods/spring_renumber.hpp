@@ -1,3 +1,6 @@
+#ifndef RENUMBER_RENUMBER_METHODS_SPRING_RENUMBER_HPP_
+#define RENUMBER_RENUMBER_METHODS_SPRING_RENUMBER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   maxIter 1000;
 // SourceFiles
 //   spring_renumber.cpp
-#ifndef spring_renumber_hpp_
-#define spring_renumber_hpp_
 #include "renumber_method.hpp"
 namespace mousse
 {

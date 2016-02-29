@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_MESH_SHAPES_CELL_SHAPE_IO_LIST_HPP_
+#define CORE_MESHES_MESH_SHAPES_CELL_SHAPE_IO_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef cell_shape_io_list_hpp_
-#define cell_shape_io_list_hpp_
 #include "cell_shape.hpp"
 #include "iolist.hpp"
 namespace mousse

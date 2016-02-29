@@ -1,0 +1,3 @@
+electrostatic.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-electrostatic

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_LIMIT_FUNCS_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_LIMIT_FUNCS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   convenient implementation of new schemes to run on parallelised cases.
 // SourceFiles
 //   limit_funcs.cpp
-#ifndef limit_funcs_hpp_
-#define limit_funcs_hpp_
 namespace mousse
 {
 namespace limitFuncs

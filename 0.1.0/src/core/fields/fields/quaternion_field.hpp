@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_FIELDS_QUATERNION_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_QUATERNION_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   quaternion_field.cpp
-#ifndef quaternion_field_hpp_
-#define quaternion_field_hpp_
 #include "field.hpp"
 #include "quaternion.hpp"
 #define TEMPLATE

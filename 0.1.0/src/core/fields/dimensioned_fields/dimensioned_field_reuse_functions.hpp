@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_FIELD_REUSE_FUNCTIONS_HPP_
+#define CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_FIELD_REUSE_FUNCTIONS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef dimensioned_field_reuse_functions_hpp_
-#define dimensioned_field_reuse_functions_hpp_
 
 namespace mousse
 {

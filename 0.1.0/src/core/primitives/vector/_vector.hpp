@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_VECTOR_TVECTOR_HPP_
+#define CORE_PRIMITIVES_VECTOR_TVECTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   A centre() member function which returns the Vector for which it is called
 //   is defined so that point which is a typedef to Vector\<scalar\> behaves as
 //   other shapes in the shape hierachy.
-#ifndef _vector_hpp_
-#define _vector_hpp_
 #include "vector_space.hpp"
 namespace mousse
 {

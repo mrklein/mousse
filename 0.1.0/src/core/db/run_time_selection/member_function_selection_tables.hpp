@@ -1,3 +1,8 @@
+#include "token.hpp"
+
+#ifndef CORE_DB_RUN_TIME_SELECTION_MEMBER_FUNCTION_SELECTION_TABLES_HPP_
+#define CORE_DB_RUN_TIME_SELECTION_MEMBER_FUNCTION_SELECTION_TABLES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,11 +10,6 @@
 //   mousse::memberFunctionSelectionTables
 // Description
 //   Macros to enable the easy declaration of member function selection tables.
-
-#include "token.hpp"
-
-#ifndef member_function_selection_tables_hpp_
-#define member_function_selection_tables_hpp_
 
 #include "hash_table.hpp"
 

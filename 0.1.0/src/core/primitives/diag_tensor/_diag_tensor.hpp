@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_DIAG_TENSOR_TDIAG_TENSOR_HPP_
+#define CORE_PRIMITIVES_DIAG_TENSOR_TDIAG_TENSOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Adding construction from 3 components, element access using xx(), yy()
 //   and zz() member functions and the inner-product (dot-product) and
 //   outer-product operators.
-#ifndef _diag_tensor_hpp_
-#define _diag_tensor_hpp_
 #include "_tensor.hpp"
 #include "_spherical_tensor.hpp"
 #include "_symm_tensor.hpp"

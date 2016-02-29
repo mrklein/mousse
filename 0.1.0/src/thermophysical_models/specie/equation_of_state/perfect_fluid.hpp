@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_PERFECT_FLUID_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_PERFECT_FLUID_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Perfect gas equation of state.
 // SourceFiles
 //   perfect_fluid.cpp
-#ifndef perfect_fluid_hpp_
-#define perfect_fluid_hpp_
 #include "auto_ptr.hpp"
 #include "specie.hpp"
 namespace mousse

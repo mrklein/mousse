@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_SURFACES_HPP_
+#define MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_SURFACES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   searchable_surfaces.cpp
 
-#ifndef searchable_surfaces_hpp_
-#define searchable_surfaces_hpp_
 
 #include "searchable_surface.hpp"
 #include "label_pair.hpp"

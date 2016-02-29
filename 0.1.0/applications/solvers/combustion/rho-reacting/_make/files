@@ -1,0 +1,3 @@
+rho_reacting.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-rho-reacting

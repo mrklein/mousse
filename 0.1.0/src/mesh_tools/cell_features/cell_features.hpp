@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_CELL_FEATURES_CELL_FEATURES_HPP_
+#define MESH_TOOLS_CELL_FEATURES_CELL_FEATURES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   'splitHex'.
 // SourceFiles
 //   cell_features.cpp
-#ifndef cell_features_hpp_
-#define cell_features_hpp_
 #include "face_list.hpp"
 #include "label_list.hpp"
 #include "bool_list.hpp"

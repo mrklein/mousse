@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_CYCLIC_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_CYCLIC_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   the matching.
 // SourceFiles
 //   cyclic_poly_patch.cpp
-#ifndef cyclic_poly_patch_hpp_
-#define cyclic_poly_patch_hpp_
 #include "coupled_poly_patch.hpp"
 #include "edge_list.hpp"
 #include "poly_boundary_mesh.hpp"

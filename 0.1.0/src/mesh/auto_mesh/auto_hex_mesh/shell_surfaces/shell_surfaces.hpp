@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_SHELL_SURFACES_SHELL_SURFACES_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_SHELL_SURFACES_SHELL_SURFACES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   shell').
 // SourceFiles
 //   shell_surfaces.cpp
-#ifndef shell_surfaces_hpp_
-#define shell_surfaces_hpp_
 #include "searchable_surface.hpp"
 #include "tuple2.hpp"
 namespace mousse

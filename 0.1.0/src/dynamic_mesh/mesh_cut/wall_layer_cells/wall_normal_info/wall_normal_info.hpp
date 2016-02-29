@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_WALL_LAYER_CELLS_WALL_NORMAL_INFO_WALL_NORMAL_INFO_HPP_
+#define DYNAMIC_MESH_MESH_CUT_WALL_LAYER_CELLS_WALL_NORMAL_INFO_WALL_NORMAL_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   wall_normal_info_i.hpp
 //   wall_normal_info.cpp
-#ifndef wall_normal_info_hpp_
-#define wall_normal_info_hpp_
 #include "point.hpp"
 #include "label.hpp"
 #include "scalar.hpp"

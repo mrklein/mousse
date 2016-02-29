@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_CLOUDS_TEMPLATES_TSPRAY_CLOUD_HPP_
+#define LAGRANGIAN_SPRAY_CLOUDS_TEMPLATES_TSPRAY_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   - sub-models:
 //    - atomization model
 //    - break-up model
-#ifndef _spray_cloud_hpp_
-#define _spray_cloud_hpp_
 
 #include "spray_cloud.hpp"
 

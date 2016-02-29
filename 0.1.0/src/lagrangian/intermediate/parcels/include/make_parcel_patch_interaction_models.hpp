@@ -1,9 +1,10 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_INCLUDE_MAKE_PARCEL_PATCH_INTERACTION_MODELS_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_INCLUDE_MAKE_PARCEL_PATCH_INTERACTION_MODELS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_parcel_patch_interaction_models_hpp_
-#define make_parcel_patch_interaction_models_hpp_
 
 #include "_local_interaction.hpp"
 #include "_no_interaction.hpp"

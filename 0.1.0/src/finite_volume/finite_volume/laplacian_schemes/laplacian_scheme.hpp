@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_LAPLACIAN_SCHEMES_LAPLACIAN_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_LAPLACIAN_SCHEMES_LAPLACIAN_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   laplacian_scheme.cpp
 
-#ifndef laplacian_scheme_hpp_
-#define laplacian_scheme_hpp_
 
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"

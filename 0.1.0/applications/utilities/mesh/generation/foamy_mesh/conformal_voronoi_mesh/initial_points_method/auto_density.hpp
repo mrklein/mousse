@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_INITIAL_POINTS_METHOD_AUTO_DENSITY_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_INITIAL_POINTS_METHOD_AUTO_DENSITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   proportional to the target density of points.
 // SourceFiles
 //   auto_density.cpp
-#ifndef auto_density_hpp_
-#define auto_density_hpp_
 #include "initial_points_method.hpp"
 #include "tree_bound_box.hpp"
 namespace mousse

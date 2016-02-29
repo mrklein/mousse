@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_IO_REMOVE_REGISTERED_OBJECT_REMOVE_REGISTERED_OBJECT_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_IO_REMOVE_REGISTERED_OBJECT_REMOVE_REGISTERED_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -29,8 +32,6 @@
 // SourceFiles
 //   remove_registered_object.cpp
 //   i_oremove_registered_object.hpp
-#ifndef remove_registered_object_hpp_
-#define remove_registered_object_hpp_
 #include "word_list.hpp"
 #include "run_time_selection_tables.hpp"
 namespace mousse

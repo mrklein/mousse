@@ -1,3 +1,6 @@
+#ifndef CORE_DB_ERROR_ERROR_HPP_
+#define CORE_DB_ERROR_ERROR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -19,8 +22,6 @@
 // SourceFiles
 //   error.cpp
 
-#ifndef error_hpp_
-#define error_hpp_
 
 #include "message_stream.hpp"
 

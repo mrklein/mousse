@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_TIOPOSITION_TIOPOSITION_HPP_
+#define LAGRANGIAN_BASIC_TIOPOSITION_TIOPOSITION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Helper IO class to read and write particle positions
 // SourceFiles
 //   _ioposition.cpp
-#ifndef _ioposition_hpp_
-#define _ioposition_hpp_
 #include "reg_ioobject.hpp"
 namespace mousse
 {

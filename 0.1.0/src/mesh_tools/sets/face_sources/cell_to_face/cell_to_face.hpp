@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_FACE_SOURCES_CELL_TO_FACE_CELL_TO_FACE_HPP_
+#define MESH_TOOLS_SETS_FACE_SOURCES_CELL_TO_FACE_CELL_TO_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   Note: when picking up coupled faces uses cells on neighbouring processors.
 // SourceFiles
 //   cell_to_face.cpp
-#ifndef cell_to_face_hpp_
-#define cell_to_face_hpp_
 #include "topo_set_source.hpp"
 #include "named_enum.hpp"
 namespace mousse

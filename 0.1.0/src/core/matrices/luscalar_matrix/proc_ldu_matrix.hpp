@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LUSCALAR_MATRIX_PROC_LDU_MATRIX_HPP_
+#define CORE_MATRICES_LUSCALAR_MATRIX_PROC_LDU_MATRIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   I/O for lduMatrix and interface values.
 // SourceFiles
 //   proc_ldu_matrix.cpp
-#ifndef proc_ldu_matrix_hpp_
-#define proc_ldu_matrix_hpp_
 #include "label_list.hpp"
 #include "scalar_field.hpp"
 #include "field_field.hpp"

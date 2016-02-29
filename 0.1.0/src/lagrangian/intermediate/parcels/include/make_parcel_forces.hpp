@@ -1,9 +1,10 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_INCLUDE_MAKE_PARCEL_FORCES_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_INCLUDE_MAKE_PARCEL_FORCES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_parcel_forces_hpp_
-#define make_parcel_forces_hpp_
 
 #include "_sphere_drag_force.hpp"
 #include "_non_sphere_drag_force.hpp"

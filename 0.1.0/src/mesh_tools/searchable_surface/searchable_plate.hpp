@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_PLATE_HPP_
+#define MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_PLATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   now plane is from (Ox Oy Oz) to (Ox+Sx Oy+Sy Oz)
 // SourceFiles
 //   searchable_plate.cpp
-#ifndef searchable_plate_hpp_
-#define searchable_plate_hpp_
 #include "searchable_surface.hpp"
 #include "tree_bound_box.hpp"
 namespace mousse

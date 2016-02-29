@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_SPLIT_CELL_SPLIT_CELL_HPP_
+#define DYNAMIC_MESH_MESH_CUT_SPLIT_CELL_SPLIT_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   to cells it it split in. See directedRefinement.
 // SourceFiles
 //   split_cell.cpp
-#ifndef split_cell_hpp_
-#define split_cell_hpp_
 #include "label.hpp"
 namespace mousse
 {

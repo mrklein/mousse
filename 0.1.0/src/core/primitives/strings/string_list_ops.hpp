@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_STRINGS_STRING_LIST_OPS_HPP_
+#define CORE_PRIMITIVES_STRINGS_STRING_LIST_OPS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   string_list_ops_templates.cpp
-#ifndef string_list_ops_hpp_
-#define string_list_ops_hpp_
 #include "reg_exp.hpp"
 #include "label_list.hpp"
 #include "string_list.hpp"

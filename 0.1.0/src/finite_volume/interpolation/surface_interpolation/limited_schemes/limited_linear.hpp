@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_LIMITED_LINEAR_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_LIMITED_LINEAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   Used in conjunction with the template class LimitedScheme.
 // SourceFiles
 //   limited_linear.cpp
-#ifndef limited_linear_hpp_
-#define limited_linear_hpp_
 #include "vector.hpp"
 namespace mousse
 {

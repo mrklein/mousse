@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_POINT_PATCH_FIELDS_DERIVED_SURFACE_SLIP_DISPLACEMENT_SURFACE_SLIP_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+#define FV_MOTION_SOLVER_POINT_PATCH_FIELDS_DERIVED_SURFACE_SLIP_DISPLACEMENT_SURFACE_SLIP_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //             that do not move
 // SourceFiles
 //   surface_slip_displacement_point_patch_vector_field.cpp
-#ifndef surface_slip_displacement_point_patch_vector_field_hpp_
-#define surface_slip_displacement_point_patch_vector_field_hpp_
 #include "point_patch_fields.hpp"
 #include "searchable_surfaces.hpp"
 namespace mousse

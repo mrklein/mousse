@@ -1,0 +1,20 @@
+EXE_INC = \
+    -I../../interfacial_models/_lninclude \
+    -I../../interfacial_composition_models/_lninclude \
+    -I../../phase_systems/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/basic/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/specie/_lninclude \
+    -I$(LIB_SRC)/thermophysical_models/reaction_thermo/_lninclude \
+    -I$(LIB_SRC)/transport_models/compressible/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/compressible/_lninclude \
+    -I$(LIB_SRC)/turbulence_models/phase_compressible/_lninclude \
+    -I$(LIB_SRC)/combustion_models/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/fv_options/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/sampling/_lninclude
+
+LIB_LIBS = \
+    -lmousse_combustion_models \
+    -lmousse_reacting_phase_system

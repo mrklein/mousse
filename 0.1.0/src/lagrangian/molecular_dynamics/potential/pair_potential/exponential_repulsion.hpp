@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_PAIR_POTENTIAL_EXPONENTIAL_REPULSION_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_PAIR_POTENTIAL_EXPONENTIAL_REPULSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   exponential_repulsion.cpp
-#ifndef exponential_repulsion_hpp_
-#define exponential_repulsion_hpp_
 #include "pair_potential.hpp"
 namespace mousse
 {

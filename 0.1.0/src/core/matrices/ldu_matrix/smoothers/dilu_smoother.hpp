@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SMOOTHERS_DILU_SMOOTHER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SMOOTHERS_DILU_SMOOTHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Simplified diagonal-based incomplete LU smoother for asymmetric matrices.
 // SourceFiles
 //   dilu_smoother.cpp
-#ifndef dilu_smoother_hpp_
-#define dilu_smoother_hpp_
 #include "ldu_matrix.hpp"
 namespace mousse
 {

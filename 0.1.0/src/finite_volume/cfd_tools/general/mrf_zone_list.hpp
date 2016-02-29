@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_MRF_ZONE_LIST_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_MRF_ZONE_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List container for MRF zomes
 // SourceFiles
 //   mrf_zone_list.cpp
-#ifndef mrf_zone_list_hpp_
-#define mrf_zone_list_hpp_
 #include "fv_mesh.hpp"
 #include "dictionary.hpp"
 #include "fv_matrices_fwd.hpp"

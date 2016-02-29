@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_MULTIVARIATE_SCHEMES_MULTIVARIATE_INDEPENDENT_SCHEME_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_MULTIVARIATE_SCHEMES_MULTIVARIATE_INDEPENDENT_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   variable/equation.
 // SourceFiles
 //   multivariate_independent_scheme.cpp
-#ifndef multivariate_independent_scheme_hpp_
-#define multivariate_independent_scheme_hpp_
 #include "multivariate_surface_interpolation_scheme.hpp"
 #include "limited_surface_interpolation_scheme.hpp"
 #include "surface_fields.hpp"

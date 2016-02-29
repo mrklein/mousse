@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_TRIM_MODEL_TARGET_COEFF_TARGET_COEFF_TRIM_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_TRIM_MODEL_TARGET_COEFF_TARGET_COEFF_TRIM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -31,8 +34,6 @@
 //     pi    = mathematical pi
 // SourceFiles
 //   target_coeff_trim.cpp
-#ifndef target_coeff_trim_hpp_
-#define target_coeff_trim_hpp_
 #include "trim_model.hpp"
 #include "tensor.hpp"
 #include "vector.hpp"

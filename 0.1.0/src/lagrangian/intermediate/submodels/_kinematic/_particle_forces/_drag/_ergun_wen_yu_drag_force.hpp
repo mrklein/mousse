@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TDRAG_TERGUN_WEN_YU_DRAG_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TDRAG_TERGUN_WEN_YU_DRAG_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::ErgunWenYuDragForce
 // Description
 //   Ergun-Wen-Yu drag model for solid spheres.
-#ifndef _ergun_wen_yu_drag_force_hpp_
-#define _ergun_wen_yu_drag_force_hpp_
 #include "_particle_force.hpp"
 #include "vol_fields_fwd.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   poly_patch.cpp
 //   poly_patch_new.cpp
-#ifndef poly_patch_hpp_
-#define poly_patch_hpp_
 #include "patch_identifier.hpp"
 #include "primitive_patch.hpp"
 #include "type_info.hpp"

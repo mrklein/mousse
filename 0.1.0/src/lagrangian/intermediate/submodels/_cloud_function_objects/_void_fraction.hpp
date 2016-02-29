@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TVOID_FRACTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TVOID_FRACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Creates particle void fraction field on carrier phase
 // SourceFiles
 //   _void_fraction.cpp
-#ifndef _void_fraction_hpp_
-#define _void_fraction_hpp_
 #include "_cloud_function_object.hpp"
 #include "vol_fields.hpp"
 namespace mousse

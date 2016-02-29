@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_SAMPLED_SURFACES_HPP_
+#define SAMPLING_SAMPLED_SURFACE_SAMPLED_SURFACES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   The write() method is used to sample and write files.
 // SourceFiles
 //   sampled_surfaces.cpp
-#ifndef sampled_surfaces_hpp_
-#define sampled_surfaces_hpp_
 #include "sampled_surface.hpp"
 #include "surface_writer.hpp"
 #include "vol_fields_fwd.hpp"

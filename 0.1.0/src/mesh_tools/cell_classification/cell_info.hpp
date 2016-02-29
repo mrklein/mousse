@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_CELL_CLASSIFICATION_CELL_INFO_HPP_
+#define MESH_TOOLS_CELL_CLASSIFICATION_CELL_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   determination in cellClassification.
 // SourceFiles
 //   cell_info.cpp
-#ifndef cell_info_hpp_
-#define cell_info_hpp_
 #include "point.hpp"
 #include "label.hpp"
 #include "tensor.hpp"

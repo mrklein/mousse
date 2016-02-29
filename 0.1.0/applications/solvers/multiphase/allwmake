@@ -1,0 +1,24 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wmake potential-free-surface
+wmake dym-potential-free-surface
+wmake cavitating
+wmake dym-cavitating
+wmake -all drift-flux
+wmake inter
+wmake dym-inter
+wmake inter-mixing
+wmake -all multiphase-inter
+wmake dym-multiphase-inter
+wmake -all inter-phase-change
+wmake dym-inter-phase-change
+wmake -all compressible-inter
+wmake dym-compressible-inter
+wmake -all compressible-multiphase-inter
+wmake two-liquid-mixing
+wmake -all two-phase-euler
+wmake -all multiphase-euler
+wmake -all reacting-euler
+

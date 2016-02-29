@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_UNIFORM_DIMENSIONED_FIELDS_UNIFORM_DIMENSIONED_FIELD_HPP_
+#define CORE_FIELDS_UNIFORM_DIMENSIONED_FIELDS_UNIFORM_DIMENSIONED_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   uniform_dimensioned_field.cpp
 //
-#ifndef uniform_dimensioned_field_hpp_
-#define uniform_dimensioned_field_hpp_
 
 #include "reg_ioobject.hpp"
 #include "dimensioned_type.hpp"

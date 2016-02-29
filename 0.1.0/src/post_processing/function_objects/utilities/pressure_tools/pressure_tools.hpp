@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_PRESSURE_TOOLS_PRESSURE_TOOLS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_PRESSURE_TOOLS_PRESSURE_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -74,8 +77,6 @@
 // SourceFiles
 //   pressure_tools.cpp
 //   i_opressure_tools.hpp
-#ifndef pressure_tools_hpp_
-#define pressure_tools_hpp_
 #include "vol_fields_fwd.hpp"
 #include "dimensioned_scalar.hpp"
 namespace mousse

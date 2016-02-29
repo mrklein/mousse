@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_FIELD_FIELDS_FIELD_FIELD_HPP_
+#define CORE_FIELDS_FIELD_FIELDS_FIELD_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Generic field type.
 // SourceFiles
 //   field_field.cpp
-#ifndef field_field_hpp_
-#define field_field_hpp_
 #include "tmp.hpp"
 #include "ptr_list.hpp"
 #include "scalar.hpp"

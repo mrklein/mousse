@@ -1,9 +1,10 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_AVERAGE_FIELD_AVERAGE_FUNCTION_OBJECT_FIELD_AVERAGE_FUNCTION_OBJECT_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_AVERAGE_FIELD_AVERAGE_FUNCTION_OBJECT_FIELD_AVERAGE_FUNCTION_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   field_average_function_object.cpp
-#ifndef field_average_function_object_hpp_
-#define field_average_function_object_hpp_
 #include "field_average.hpp"
 #include "output_filter_function_object.hpp"
 namespace mousse
