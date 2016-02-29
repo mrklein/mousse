@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_INDEXED_VERTEX_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_INDEXED_VERTEX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   track of the Delaunay vertices in the tessellation.
 // SourceFiles
 //   indexed_vertex.cpp
-#ifndef indexed_vertex_hpp_
-#define indexed_vertex_hpp_
 #include "CGAL/Triangulation_3.h"
 #include "cgal_triangulation_3d_kernel.hpp"
 #include "tensor.hpp"

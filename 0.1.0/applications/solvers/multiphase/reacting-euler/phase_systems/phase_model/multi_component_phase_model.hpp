@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_MODEL_MULTI_COMPONENT_PHASE_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_MODEL_MULTI_COMPONENT_PHASE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   mass fractions, and their governing equations.
 // SourceFiles
 //   multi_component_phase_model.cpp
-#ifndef multi_component_phase_model_hpp_
-#define multi_component_phase_model_hpp_
 #include "phase_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SATURATION_MODELS_ARDEN_BUCK_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SATURATION_MODELS_ARDEN_BUCK_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   ArdenBuck equation for the vapour pressure of moist air.
 // SourceFiles
 //   arden_buck.cpp
-#ifndef arden_buck_hpp_
-#define arden_buck_hpp_
 #include "saturation_model.hpp"
 namespace mousse
 {

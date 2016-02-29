@@ -1,9 +1,10 @@
+#ifndef UTILITIES_PRE_PROCESSING_MAP_FIELDS_PAR_MAP_MESHES_HPP_
+#define UTILITIES_PRE_PROCESSING_MAP_FIELDS_PAR_MAP_MESHES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef map_meshes_hpp_
-#define map_meshes_hpp_
 #include "map_vol_fields.hpp"
 #include "map_lagrangian.hpp"
 #include "un_mapped.hpp"

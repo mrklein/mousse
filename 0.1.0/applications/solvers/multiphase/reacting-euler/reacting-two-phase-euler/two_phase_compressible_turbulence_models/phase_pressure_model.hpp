@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_COMPRESSIBLE_TURBULENCE_MODELS_PHASE_PRESSURE_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_COMPRESSIBLE_TURBULENCE_MODELS_PHASE_PRESSURE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   \endverbatim
 // SourceFiles
 //   phase_pressure_model.cpp
-#ifndef phase_pressure_model_hpp_
-#define phase_pressure_model_hpp_
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"
 #include "euler_phase_compressible_turbulence_model.hpp"

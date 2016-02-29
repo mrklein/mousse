@@ -1,3 +1,6 @@
+#ifndef SOLVERS_STRESS_ANALYSIS_SOLID_DISPLACEMENT_TRACTION_DISPLACEMENT_FV_PATCH_VECTOR_FIELD_HPP_
+#define SOLVERS_STRESS_ANALYSIS_SOLID_DISPLACEMENT_TRACTION_DISPLACEMENT_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   coefficient displacement equation.
 // SourceFiles
 //   traction_displacement_fv_patch_vector_field.cpp
-#ifndef traction_displacement_fv_patch_vector_field_hpp_
-#define traction_displacement_fv_patch_vector_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "fixed_gradient_fv_patch_fields.hpp"
 namespace mousse

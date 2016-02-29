@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_SEARCHABLE_PLATE_FEATURES_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_SEARCHABLE_PLATE_FEATURES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   searchable_plate_features.cpp
-#ifndef searchable_plate_features_hpp_
-#define searchable_plate_features_hpp_
 #include "searchable_surface_features.hpp"
 namespace mousse
 {

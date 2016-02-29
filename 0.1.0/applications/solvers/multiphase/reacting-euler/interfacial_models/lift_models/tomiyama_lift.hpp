@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_LIFT_MODELS_TOMIYAMA_LIFT_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_LIFT_MODELS_TOMIYAMA_LIFT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   lift coefficient proposed by Tomiyama (2002) when EoH >= 10.7.
 // SourceFiles
 //   tomiyama_lift.cpp
-#ifndef tomiyama_lift_hpp_
-#define tomiyama_lift_hpp_
 #include "lift_model.hpp"
 namespace mousse
 {

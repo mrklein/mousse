@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_TWO_PHASE_EULER_PHASE_COMPRESSIBLE_TURBULENCE_MODELS_KINETIC_THEORY_MODELS_CONDUCTIVITY_MODEL_CONDUCTIVITY_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_TWO_PHASE_EULER_PHASE_COMPRESSIBLE_TURBULENCE_MODELS_KINETIC_THEORY_MODELS_CONDUCTIVITY_MODEL_CONDUCTIVITY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::kineticTheoryModels::conductivityModel
 // SourceFiles
 //   conductivity_model.cpp
-#ifndef conductivity_model_hpp_
-#define conductivity_model_hpp_
 #include "dictionary.hpp"
 #include "vol_fields.hpp"
 #include "dimensioned_types.hpp"

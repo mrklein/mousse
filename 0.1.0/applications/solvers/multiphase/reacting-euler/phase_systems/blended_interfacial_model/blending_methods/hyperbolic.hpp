@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_BLENDED_INTERFACIAL_MODEL_BLENDING_METHODS_HYPERBOLIC_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_BLENDED_INTERFACIAL_MODEL_BLENDING_METHODS_HYPERBOLIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   hyperbolic.cpp
-#ifndef hyperbolic_hpp_
-#define hyperbolic_hpp_
 #include "blending_method.hpp"
 namespace mousse
 {

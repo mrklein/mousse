@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_INTERFACE_COMPOSITION_MODELS_NON_RANDOM_TWO_LIQUID_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_INTERFACE_COMPOSITION_MODELS_NON_RANDOM_TWO_LIQUID_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   as equal to 1.
 // SourceFiles
 //   non_random_two_liquid.cpp
-#ifndef non_random_two_liquid_hpp_
-#define non_random_two_liquid_hpp_
 #include "_interface_composition_model.hpp"
 #include "saturation_model.hpp"
 namespace mousse

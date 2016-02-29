@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_RELAXATION_MODEL_RAMP_HOLD_FALL_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_RELAXATION_MODEL_RAMP_HOLD_FALL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   value, holding at this, then a linear fall to an end value.
 // SourceFiles
 //   ramp_hold_fall.cpp
-#ifndef ramp_hold_fall_hpp_
-#define ramp_hold_fall_hpp_
 #include "relaxation_model.hpp"
 namespace mousse
 {

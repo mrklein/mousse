@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_DELAUNAY_MESH_TOOLS_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_DELAUNAY_MESH_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //    - Functions for extracting fields from the Delaunay triangulation
 // SourceFiles
 //   delaunay_mesh_tools.cpp
-#ifndef delaunay_mesh_tools_hpp_
-#define delaunay_mesh_tools_hpp_
 #include "file_name.hpp"
 #include "list.hpp"
 #include "point.hpp"

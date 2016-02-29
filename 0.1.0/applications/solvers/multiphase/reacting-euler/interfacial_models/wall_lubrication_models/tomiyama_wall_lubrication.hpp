@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_WALL_LUBRICATION_MODELS_TOMIYAMA_WALL_LUBRICATION_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_WALL_LUBRICATION_MODELS_TOMIYAMA_WALL_LUBRICATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   \endverbatim
 // SourceFiles
 //   tomiyama_wall_lubrication.cpp
-#ifndef tomiyama_wall_lubrication_hpp_
-#define tomiyama_wall_lubrication_hpp_
 #include "wall_lubrication_model.hpp"
 namespace mousse
 {

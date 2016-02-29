@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_MODEL_ANISOTHERMAL_PHASE_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_MODEL_ANISOTHERMAL_PHASE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   varies. Returns the energy equation and corrects the thermodynamic model.
 // SourceFiles
 //   anisothermal_phase_model.cpp
-#ifndef anisothermal_phase_model_hpp_
-#define anisothermal_phase_model_hpp_
 #include "phase_model.hpp"
 namespace mousse
 {

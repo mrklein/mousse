@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_FOAMY_QUAD_MESH_CV_2D_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_FOAMY_QUAD_MESH_CV_2D_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -67,8 +70,6 @@
 //   insert_surface_nearest_point_pairs.cpp
 //   insert_surface_near_point_pairs.cpp
 //   insert_boundary_conform_point_pairs.cpp
-#ifndef cv_2d_hpp_
-#define cv_2d_hpp_
 #define CGAL_INEXACT
 #define CGAL_HIERARCHY
 // Include uint.H before CGAL headers to define __STDC_LIMIT_MACROS

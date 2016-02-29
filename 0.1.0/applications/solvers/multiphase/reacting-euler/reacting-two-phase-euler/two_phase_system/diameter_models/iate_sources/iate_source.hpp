@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_DIAMETER_MODELS_IATE_SOURCES_IATE_SOURCE_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_DIAMETER_MODELS_IATE_SOURCES_IATE_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   run-time selectable sources.
 // SourceFiles
 //   iate_source.cpp
-#ifndef iate_source_hpp_
-#define iate_source_hpp_
 #include "iate.hpp"
 #include "two_phase_system.hpp"
 #include "mathematical_constants.hpp"

@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_TWO_PHASE_EULER_INTERFACIAL_MODELS_WALL_LUBRICATION_MODELS_WALL_LUBRICATION_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_TWO_PHASE_EULER_INTERFACIAL_MODELS_WALL_LUBRICATION_MODELS_WALL_LUBRICATION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   wall_lubrication_model.cpp
 //   new_wall_lubrication_model.cpp
-#ifndef wall_lubrication_model_hpp_
-#define wall_lubrication_model_hpp_
 #include "wall_dependent_model.hpp"
 #include "vol_fields.hpp"
 #include "dictionary.hpp"

@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_MANIPULATION_MIRROR_MESH_MIRROR_FV_MESH_HPP_
+#define UTILITIES_MESH_MANIPULATION_MIRROR_MESH_MIRROR_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   mirror_fv_mesh.cpp
-#ifndef mirror_fv_mesh_hpp_
-#define mirror_fv_mesh_hpp_
 #include "fv_mesh.hpp"
 namespace mousse
 {

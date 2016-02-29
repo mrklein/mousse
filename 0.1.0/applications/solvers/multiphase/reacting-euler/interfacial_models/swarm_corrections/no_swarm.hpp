@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_SWARM_CORRECTIONS_NO_SWARM_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_SWARM_CORRECTIONS_NO_SWARM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   no_swarm.cpp
-#ifndef no_swarm_hpp_
-#define no_swarm_hpp_
 #include "swarm_correction.hpp"
 namespace mousse
 {

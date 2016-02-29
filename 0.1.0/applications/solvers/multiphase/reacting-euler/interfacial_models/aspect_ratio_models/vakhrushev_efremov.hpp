@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_VAKHRUSHEV_EFREMOV_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_VAKHRUSHEV_EFREMOV_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   \endverbatim
 // SourceFiles
 //   vakhrushev_efremov.cpp
-#ifndef vakhrushev_efremov_hpp_
-#define vakhrushev_efremov_hpp_
 #include "aspect_ratio_model.hpp"
 namespace mousse
 {

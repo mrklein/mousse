@@ -1,9 +1,10 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_READ_FIELDS_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_READ_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   read_fields.cpp
-#ifndef read_fields_hpp_
-#define read_fields_hpp_
 #include "fv_mesh.hpp"
 #include "ptr_list.hpp"
 #include "ioobject_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_PAIR_PHASE_PAIR_KEY_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_PAIR_PHASE_PAIR_KEY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::phasePairKey
 // Description
 // SourceFiles
-#ifndef phase_pair_key_hpp_
-#define phase_pair_key_hpp_
 #include "pair.hpp"
 namespace mousse
 {

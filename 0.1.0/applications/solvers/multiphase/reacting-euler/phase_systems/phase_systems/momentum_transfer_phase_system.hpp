@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_SYSTEMS_MOMENTUM_TRANSFER_PHASE_SYSTEM_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_SYSTEMS_MOMENTUM_TRANSFER_PHASE_SYSTEM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   equation.
 // SourceFiles
 //   momentum_transfer_phase_system.cpp
-#ifndef momentum_transfer_phase_system_hpp_
-#define momentum_transfer_phase_system_hpp_
 #include "phase_system.hpp"
 #include "hash_ptr_table.hpp"
 namespace mousse

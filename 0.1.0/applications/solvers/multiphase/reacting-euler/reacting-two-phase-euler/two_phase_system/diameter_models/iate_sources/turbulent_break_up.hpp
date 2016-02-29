@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_DIAMETER_MODELS_IATE_SOURCES_TURBULENT_BREAK_UP_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_DIAMETER_MODELS_IATE_SOURCES_TURBULENT_BREAK_UP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   \endverbatim
 // SourceFiles
 //   turbulent_break_up.cpp
-#ifndef turbulent_break_up_hpp_
-#define turbulent_break_up_hpp_
 #include "iate_source.hpp"
 namespace mousse
 {

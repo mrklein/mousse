@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_MASS_TRANSFER_MODELS_MASS_TRANSFER_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_MASS_TRANSFER_MODELS_MASS_TRANSFER_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   mass_transfer_model.cpp
-#ifndef mass_transfer_model_hpp_
-#define mass_transfer_model_hpp_
 #include "vol_fields.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"

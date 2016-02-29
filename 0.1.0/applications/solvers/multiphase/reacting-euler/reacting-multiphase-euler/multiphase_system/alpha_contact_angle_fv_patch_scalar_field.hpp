@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_MULTIPHASE_EULER_MULTIPHASE_SYSTEM_ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_MULTIPHASE_EULER_MULTIPHASE_SYSTEM_ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   simulations.  Used in conjuction with multiphaseSystem.
 // SourceFiles
 //   alpha_contact_angle_fv_patch_scalar_field.cpp
-#ifndef alpha_contact_angle_fv_patch_scalar_field_hpp_
-#define alpha_contact_angle_fv_patch_scalar_field_hpp_
 #include "zero_gradient_fv_patch_fields.hpp"
 #include "multiphase_system.hpp"
 namespace mousse

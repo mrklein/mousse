@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_CONSTANT_ASPECT_RATIO_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_CONSTANT_ASPECT_RATIO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Constant value aspect ratio model.
 // SourceFiles
 //   constant_aspect_ratio.cpp
-#ifndef constant_aspect_ratio_hpp_
-#define constant_aspect_ratio_hpp_
 #include "aspect_ratio_model.hpp"
 namespace mousse
 {

@@ -1,9 +1,10 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_ENSIGHT_CLOUD_FIELD_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_ENSIGHT_CLOUD_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   ensight_cloud_field.cpp
-#ifndef ensight_cloud_field_hpp_
-#define ensight_cloud_field_hpp_
 #include "cloud.hpp"
 #include "ioobject.hpp"
 template<class Type>

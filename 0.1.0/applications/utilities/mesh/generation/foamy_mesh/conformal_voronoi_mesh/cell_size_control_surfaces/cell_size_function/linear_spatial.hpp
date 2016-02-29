@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SIZE_CONTROL_SURFACES_CELL_SIZE_FUNCTION_LINEAR_SPATIAL_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SIZE_CONTROL_SURFACES_CELL_SIZE_FUNCTION_LINEAR_SPATIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   linear_spatial.cpp
-#ifndef linear_spatial_hpp_
-#define linear_spatial_hpp_
 #include "cell_size_function.hpp"
 namespace mousse
 {

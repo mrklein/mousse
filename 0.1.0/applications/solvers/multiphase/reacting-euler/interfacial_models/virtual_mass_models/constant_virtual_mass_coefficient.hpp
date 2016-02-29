@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_VIRTUAL_MASS_MODELS_CONSTANT_VIRTUAL_MASS_COEFFICIENT_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_VIRTUAL_MASS_MODELS_CONSTANT_VIRTUAL_MASS_COEFFICIENT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Constant coefficient virtual mass model.
 // SourceFiles
 //   constant_virtual_mass_coefficient.cpp
-#ifndef constant_virtual_mass_coefficient_hpp_
-#define constant_virtual_mass_coefficient_hpp_
 #include "virtual_mass_model.hpp"
 namespace mousse
 {

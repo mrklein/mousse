@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_MULTIPHASE_EULER_MULTIPHASE_SYSTEM_MULTIPHASE_SYSTEM_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_MULTIPHASE_EULER_MULTIPHASE_SYSTEM_MULTIPHASE_SYSTEM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Class which solves the volume fraction equations for two phases.
 // SourceFiles
 //   multiphase_system.cpp
-#ifndef multiphase_system_hpp_
-#define multiphase_system_hpp_
 #include "phase_system.hpp"
 namespace mousse
 {

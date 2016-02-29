@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_LIFT_MODELS_CONSTANT_LIFT_COEFFICIENT_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_LIFT_MODELS_CONSTANT_LIFT_COEFFICIENT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Constant coefficient lift model.
 // SourceFiles
 //   constant_lift_coefficient.cpp
-#ifndef constant_lift_coefficient_hpp_
-#define constant_lift_coefficient_hpp_
 #include "lift_model.hpp"
 namespace mousse
 {

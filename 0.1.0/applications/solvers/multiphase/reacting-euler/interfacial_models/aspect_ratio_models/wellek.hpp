@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_WELLEK_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_WELLEK_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   \endverbatim
 // SourceFiles
 //   wellek.cpp
-#ifndef wellek_hpp_
-#define wellek_hpp_
 #include "aspect_ratio_model.hpp"
 namespace mousse
 {

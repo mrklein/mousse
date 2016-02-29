@@ -1,3 +1,6 @@
+#ifndef SOLVERS_COMPRESSIBLE_RHO_CENTRAL_BCS_FIXED_RHO_FV_PATCH_SCALAR_FIELD_HPP_
+#define SOLVERS_COMPRESSIBLE_RHO_CENTRAL_BCS_FIXED_RHO_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -32,8 +35,6 @@
 //   \endverbatim
 // SourceFiles
 //   fixed_rho_fv_patch_scalar_field.cpp
-#ifndef fixed_rho_fv_patch_scalar_field_hpp_
-#define fixed_rho_fv_patch_scalar_field_hpp_
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse
 {

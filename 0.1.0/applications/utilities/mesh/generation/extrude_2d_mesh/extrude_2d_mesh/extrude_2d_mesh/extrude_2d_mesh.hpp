@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_EXTRUDE_2D_MESH_EXTRUDE_2D_MESH_EXTRUDE_2D_MESH_EXTRUDE_2D_MESH_HPP_
+#define UTILITIES_MESH_GENERATION_EXTRUDE_2D_MESH_EXTRUDE_2D_MESH_EXTRUDE_2D_MESH_EXTRUDE_2D_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   in parallel.
 // SourceFiles
 //   extrude_2d_mesh.cpp
-#ifndef extrude_2d_mesh_hpp_
-#define extrude_2d_mesh_hpp_
 #include "type_info.hpp"
 #include "label.hpp"
 #include "scalar.hpp"

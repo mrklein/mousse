@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_LIFT_MODELS_NO_LIFT_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_LIFT_MODELS_NO_LIFT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   no_lift.cpp
-#ifndef no_lift_hpp_
-#define no_lift_hpp_
 #include "lift_model.hpp"
 namespace mousse
 {

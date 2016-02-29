@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_RELAXATION_MODEL_RELAXATION_MODEL_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_RELAXATION_MODEL_RELAXATION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   controller
 // SourceFiles
 //   relaxation_model.cpp
-#ifndef relaxation_model_hpp_
-#define relaxation_model_hpp_
 #include "point.hpp"
 #include "time.hpp"
 #include "dictionary.hpp"

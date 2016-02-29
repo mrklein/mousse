@@ -1,3 +1,6 @@
+#ifndef SOLVERS_COMPRESSIBLE_RHO_CENTRAL_BCS_MAXWELL_SLIP_U_FV_PATCH_VECTOR_FIELD_HPP_
+#define SOLVERS_COMPRESSIBLE_RHO_CENTRAL_BCS_MAXWELL_SLIP_U_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   curvature terms that can be optionally switched off.
 // SourceFiles
 //   fixed_rho_fv_patch_scalar_field.cpp
-#ifndef maxwell_slip_u_fv_patch_vector_field_hpp_
-#define maxwell_slip_u_fv_patch_vector_field_hpp_
 #include "mixed_fixed_value_slip_fv_patch_fields.hpp"
 #include "switch.hpp"
 namespace mousse

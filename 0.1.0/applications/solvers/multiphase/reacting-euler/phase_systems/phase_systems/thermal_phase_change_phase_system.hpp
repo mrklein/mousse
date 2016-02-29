@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_SYSTEMS_THERMAL_PHASE_CHANGE_PHASE_SYSTEM_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_SYSTEMS_THERMAL_PHASE_CHANGE_PHASE_SYSTEM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   affect the mass-transfer.
 // SourceFiles
 //   thermal_phase_change_phase_system.cpp
-#ifndef thermal_phase_change_phase_system_hpp_
-#define thermal_phase_change_phase_system_hpp_
 #include "heat_and_mass_transfer_phase_system.hpp"
 #include "saturation_model.hpp"
 #include "switch.hpp"

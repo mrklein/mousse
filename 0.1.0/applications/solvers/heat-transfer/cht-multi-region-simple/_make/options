@@ -1,7 +1,7 @@
 EXE_INC = \
     -Ifluid \
     -Isolid \
-    -I../cht_multi_region/solid \
+    -I../cht-multi-region/solid \
     -I$(LIB_SRC)/finite_volume/_lninclude \
     -I$(LIB_SRC)/mesh_tools/_lninclude \
     -I$(LIB_SRC)/finite_volume/cfd_tools \

@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_TWO_PHASE_SYSTEM_HPP_
+#define SOLVERS_MULTIPHASE_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_TWO_PHASE_SYSTEM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   two_phase_system.cpp
-#ifndef two_phase_system_hpp_
-#define two_phase_system_hpp_
 #include "iodictionary.hpp"
 #include "phase_model.hpp"
 #include "phase_pair.hpp"

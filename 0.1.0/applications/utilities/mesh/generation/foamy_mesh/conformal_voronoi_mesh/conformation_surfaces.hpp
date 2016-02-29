@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMATION_SURFACES_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMATION_SURFACES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   conformation_surfaces.cpp
-#ifndef conformation_surfaces_hpp_
-#define conformation_surfaces_hpp_
 #include "searchable_surfaces.hpp"
 #include "searchable_surfaces_queries.hpp"
 #include "extended_feature_edge_mesh.hpp"

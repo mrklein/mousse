@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_MASS_TRANSFER_MODELS_SPHERICAL_MASS_TRANSFER_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_MASS_TRANSFER_MODELS_SPHERICAL_MASS_TRANSFER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   surface of a sphere to the fluid within the sphere.
 // SourceFiles
 //   spherical_mass_transfer.cpp
-#ifndef spherical_mass_transfer_hpp_
-#define spherical_mass_transfer_hpp_
 #include "mass_transfer_model.hpp"
 namespace mousse
 {

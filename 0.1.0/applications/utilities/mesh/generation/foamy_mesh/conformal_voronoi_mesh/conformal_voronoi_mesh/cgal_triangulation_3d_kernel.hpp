@@ -1,9 +1,10 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_CGAL_TRIANGULATION_3D_KERNEL_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_CGAL_TRIANGULATION_3D_KERNEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef cgal_triangulation_3d_kernel_hpp_
-#define cgal_triangulation_3d_kernel_hpp_
 #include "cgal/Delaunay_triangulation_3.h"
 #ifdef CGAL_INEXACT
   // Fast kernel using a double as the storage type but the triangulation may

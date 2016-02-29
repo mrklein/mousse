@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SURFACE_TENSION_MODELS_CONSTANT_SURFACE_TENSION_COEFFICIENT_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SURFACE_TENSION_MODELS_CONSTANT_SURFACE_TENSION_COEFFICIENT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Constant value surface tension model.
 // SourceFiles
 //   constant_surface_tension_coefficient.cpp
-#ifndef constant_surface_tension_coefficient_hpp_
-#define constant_surface_tension_coefficient_hpp_
 #include "surface_tension_model.hpp"
 namespace mousse
 {

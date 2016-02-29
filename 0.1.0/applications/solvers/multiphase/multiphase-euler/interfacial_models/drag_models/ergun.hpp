@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_MULTIPHASE_EULER_INTERFACIAL_MODELS_DRAG_MODELS_ERGUN_HPP_
+#define SOLVERS_MULTIPHASE_MULTIPHASE_EULER_INTERFACIAL_MODELS_DRAG_MODELS_ERGUN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   Eq. 104, p. 42
 // SourceFiles
 //   ergun.cpp
-#ifndef ergun_hpp_
-#define ergun_hpp_
 #include "drag_model.hpp"
 namespace mousse
 {

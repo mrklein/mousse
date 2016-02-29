@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_TURBULENT_DISPERSION_MODELS_CONSTANT_TURBULENT_DISPERSION_COEFFICIENT_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_TURBULENT_DISPERSION_MODELS_CONSTANT_TURBULENT_DISPERSION_COEFFICIENT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Constant coefficient turbulent dispersion model.
 // SourceFiles
 //   constant_turbulent_dispersion_coefficient.cpp
-#ifndef constant_turbulent_dispersion_coefficient_hpp_
-#define constant_turbulent_dispersion_coefficient_hpp_
 #include "turbulent_dispersion_model.hpp"
 namespace mousse
 {

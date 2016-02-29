@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_PRINT_TABLE_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_PRINT_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //   \endverbatim
 // SourceFiles
 //   print_table.cpp
-#ifndef print_table_hpp_
-#define print_table_hpp_
 #include "hash_table.hpp"
 #include "ostream.hpp"
 namespace mousse

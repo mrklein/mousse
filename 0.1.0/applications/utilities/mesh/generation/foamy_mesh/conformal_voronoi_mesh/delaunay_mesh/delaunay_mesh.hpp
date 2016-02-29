@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_DELAUNAY_MESH_DELAUNAY_MESH_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_DELAUNAY_MESH_DELAUNAY_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   delaunay_mesh.cpp
 //   delaunay_mesh_io.cpp
-#ifndef delaunay_mesh_hpp_
-#define delaunay_mesh_hpp_
 #include "pair.hpp"
 #include "hash_set.hpp"
 #include "fixed_list.hpp"

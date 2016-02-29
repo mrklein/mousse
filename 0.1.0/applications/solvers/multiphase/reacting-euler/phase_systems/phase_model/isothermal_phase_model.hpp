@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_MODEL_ISOTHERMAL_PHASE_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_MODEL_ISOTHERMAL_PHASE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   correctThermo is called.
 // SourceFiles
 //   isothermal_phase_model.cpp
-#ifndef isothermal_phase_model_hpp_
-#define isothermal_phase_model_hpp_
 #include "phase_model.hpp"
 namespace mousse
 {

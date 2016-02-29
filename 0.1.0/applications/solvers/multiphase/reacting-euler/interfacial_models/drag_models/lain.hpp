@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_LAIN_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_LAIN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //   \endverbatim
 // SourceFiles
 //   lain.cpp
-#ifndef lain_hpp_
-#define lain_hpp_
 #include "drag_model.hpp"
 namespace mousse
 {

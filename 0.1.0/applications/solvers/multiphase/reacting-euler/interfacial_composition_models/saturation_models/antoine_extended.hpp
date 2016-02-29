@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SATURATION_MODELS_ANTOINE_EXTENDED_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SATURATION_MODELS_ANTOINE_EXTENDED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   temperatures in Kelvin.
 // SourceFiles
 //   antoine_extended.cpp
-#ifndef antoine_extended_hpp_
-#define antoine_extended_hpp_
 #include "antoine.hpp"
 namespace mousse
 {

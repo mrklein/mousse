@@ -1,3 +1,6 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_ENSIGHT_STREAM_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_ENSIGHT_STREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for writing Ensight data
 // SourceFiles
 //   ensight_stream.cpp
-#ifndef ensight_stream_hpp_
-#define ensight_stream_hpp_
 #include "file_name.hpp"
 #include "scalar_field.hpp"
 namespace mousse

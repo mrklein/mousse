@@ -1,9 +1,10 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_PARTS_ENSIGHT_OUTPUT_FUNCTIONS_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_ENSIGHT_PARTS_ENSIGHT_OUTPUT_FUNCTIONS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   ensight_output_functions.cpp
-#ifndef ensight_output_functions_hpp_
-#define ensight_output_functions_hpp_
 #include "ensight_file.hpp"
 #include "cloud.hpp"
 #include "poly_mesh.hpp"

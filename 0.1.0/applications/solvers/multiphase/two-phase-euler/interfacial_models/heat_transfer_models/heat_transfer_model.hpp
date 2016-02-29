@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_TWO_PHASE_EULER_INTERFACIAL_MODELS_HEAT_TRANSFER_MODELS_HEAT_TRANSFER_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_TWO_PHASE_EULER_INTERFACIAL_MODELS_HEAT_TRANSFER_MODELS_HEAT_TRANSFER_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   heat_transfer_model.cpp
-#ifndef heat_transfer_model_hpp_
-#define heat_transfer_model_hpp_
 #include "vol_fields.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"

@@ -1,3 +1,6 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_VTK_TOPO_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_VTK_TOPO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Polyhedral cell decomposition for VTK.
 // SourceFiles
 //   vtk_topo.cpp
-#ifndef vtk_topo_hpp_
-#define vtk_topo_hpp_
 #include "label_list.hpp"
 namespace mousse
 {

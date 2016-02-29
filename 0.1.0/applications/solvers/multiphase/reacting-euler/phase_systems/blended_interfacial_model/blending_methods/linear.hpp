@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_BLENDED_INTERFACIAL_MODEL_BLENDING_METHODS_LINEAR_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_BLENDED_INTERFACIAL_MODEL_BLENDING_METHODS_LINEAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   linear.cpp
-#ifndef linear_hpp_
-#define linear_hpp_
 #include "blending_method.hpp"
 namespace mousse
 {

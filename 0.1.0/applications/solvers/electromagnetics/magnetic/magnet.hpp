@@ -1,3 +1,6 @@
+#ifndef SOLVERS_ELECTROMAGNETICS_MAGNETIC_MAGNET_HPP_
+#define SOLVERS_ELECTROMAGNETICS_MAGNETIC_MAGNET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Class to hold the defining data for a permanent magnet, in particular
 //   the name, relative permeability and remanence.
-#ifndef magnet_hpp_
-#define magnet_hpp_
 
 #include "dimensioned_vector.hpp"
 

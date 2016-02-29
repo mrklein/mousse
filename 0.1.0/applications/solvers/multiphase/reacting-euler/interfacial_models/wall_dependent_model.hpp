@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_WALL_DEPENDENT_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_WALL_DEPENDENT_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   wall normal fields for use by multiple models.
 // SourceFiles
 //   wall_dependent_model.cpp
-#ifndef wall_dependent_model_hpp_
-#define wall_dependent_model_hpp_
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"
 namespace mousse

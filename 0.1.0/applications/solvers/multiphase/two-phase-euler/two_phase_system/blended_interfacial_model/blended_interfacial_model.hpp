@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_BLENDED_INTERFACIAL_MODEL_BLENDED_INTERFACIAL_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_BLENDED_INTERFACIAL_MODEL_BLENDED_INTERFACIAL_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   blended_interfacial_model.cpp
-#ifndef blended_interfacial_model_hpp_
-#define blended_interfacial_model_hpp_
 #include "blending_method.hpp"
 #include "phase_pair.hpp"
 #include "ordered_phase_pair.hpp"

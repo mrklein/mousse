@@ -1,5 +1,5 @@
 EXE_INC = \
-    -I../buoyant_boussinesq_simple \
+    -I../buoyant-boussinesq-simple \
     -I$(LIB_SRC)/turbulence_models/turbulence_models/_lninclude \
     -I$(LIB_SRC)/turbulence_models/incompressible/_lninclude \
     -I$(LIB_SRC)/transport_models \

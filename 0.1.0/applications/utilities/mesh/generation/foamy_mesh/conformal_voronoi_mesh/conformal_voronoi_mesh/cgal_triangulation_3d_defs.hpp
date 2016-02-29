@@ -1,9 +1,10 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_CGAL_TRIANGULATION_3D_DEFS_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_CGAL_TRIANGULATION_3D_DEFS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef cgal_triangulation_3d_defs_hpp_
-#define cgal_triangulation_3d_defs_hpp_
 #include "cgal_triangulation_3d_kernel.hpp"
 #include "indexed_vertex.hpp"
 #include "indexed_cell.hpp"

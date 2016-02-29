@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_HEAT_TRANSFER_MODELS_SPHERICAL_HEAT_TRANSFER_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_HEAT_TRANSFER_MODELS_SPHERICAL_HEAT_TRANSFER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   surface of a sphere to the fluid within the sphere.
 // SourceFiles
 //   spherical_heat_transfer.cpp
-#ifndef spherical_heat_transfer_hpp_
-#define spherical_heat_transfer_hpp_
 #include "heat_transfer_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_2D_MESH_CV_2D_CONTROLS_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_2D_MESH_CV_2D_CONTROLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   cv_2d_controls.cpp
 
-#ifndef cv_2d_controls_hpp_
-#define cv_2d_controls_hpp_
 
 #include "switch.hpp"
 #include "dictionary.hpp"

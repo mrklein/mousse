@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_CELL_SHAPE_CONTROL_MESH_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_CELL_SHAPE_CONTROL_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   cell_shape_control_mesh.cpp
-#ifndef cell_shape_control_mesh_hpp_
-#define cell_shape_control_mesh_hpp_
 #include "time.hpp"
 #include "scalar.hpp"
 #include "point.hpp"

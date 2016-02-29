@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_SYAMLAL_O_BRIEN_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_SYAMLAL_O_BRIEN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   USA.
 // SourceFiles
 //   syamlal_o_brien.cpp
-#ifndef syamlal_o_brien_hpp_
-#define syamlal_o_brien_hpp_
 #include "drag_model.hpp"
 namespace mousse
 {

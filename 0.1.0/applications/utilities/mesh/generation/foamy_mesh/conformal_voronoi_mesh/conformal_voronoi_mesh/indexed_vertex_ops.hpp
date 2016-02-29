@@ -1,9 +1,10 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_INDEXED_VERTEX_OPS_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_INDEXED_VERTEX_OPS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   indexed_vertex_ops_templates.cpp
-#ifndef indexed_vertex_ops_hpp_
-#define indexed_vertex_ops_hpp_
 #include "scalar.hpp"
 namespace CGAL
 {

@@ -1,9 +1,10 @@
+#ifndef UTILITIES_PRE_PROCESSING_MAP_FIELDS_PAR_MAP_LAGRANGIAN_FIELDS_HPP_
+#define UTILITIES_PRE_PROCESSING_MAP_FIELDS_PAR_MAP_LAGRANGIAN_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef map_lagrangian_fields_hpp_
-#define map_lagrangian_fields_hpp_
 #include "cloud.hpp"
 #include "geometric_field.hpp"
 #include "mesh_to_mesh.hpp"

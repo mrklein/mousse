@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SATURATION_MODELS_CONSTANT_SATURATION_CONDITIONS_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SATURATION_MODELS_CONSTANT_SATURATION_CONDITIONS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Constant saturation pressure and temperature.
 // SourceFiles
 //   constant_saturation_conditions.cpp
-#ifndef constant_saturation_conditions_hpp_
-#define constant_saturation_conditions_hpp_
 #include "saturation_model.hpp"
 namespace mousse
 {

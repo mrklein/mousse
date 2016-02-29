@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_SYSTEMS_HEAT_TRANSFER_PHASE_SYSTEM_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_SYSTEMS_HEAT_TRANSFER_PHASE_SYSTEM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Class which models interfacial heat transfer between a number of phases.
 // SourceFiles
 //   heat_transfer_phase_system.cpp
-#ifndef heat_transfer_phase_system_hpp_
-#define heat_transfer_phase_system_hpp_
 #include "phase_system.hpp"
 namespace mousse
 {

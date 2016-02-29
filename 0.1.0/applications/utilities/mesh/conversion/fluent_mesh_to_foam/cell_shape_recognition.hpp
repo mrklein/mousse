@@ -1,9 +1,10 @@
+#ifndef UTILITIES_MESH_CONVERSION_FLUENT_MESH_TO_FOAM_CELL_SHAPE_RECOGNITION_HPP_
+#define UTILITIES_MESH_CONVERSION_FLUENT_MESH_TO_FOAM_CELL_SHAPE_RECOGNITION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef cell_shape_recognition_hpp_
-#define cell_shape_recognition_hpp_
 #include "cell_shape.hpp"
 #include "cell_modeller.hpp"
 #include "face_list.hpp"

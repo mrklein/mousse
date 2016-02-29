@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_SCHILLER_NAUMANN_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_SCHILLER_NAUMANN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Schiller and Naumann drag model for dispersed bubbly flows.
 // SourceFiles
 //   schiller_naumann.cpp
-#ifndef schiller_naumann_hpp_
-#define schiller_naumann_hpp_
 #include "drag_model.hpp"
 namespace mousse
 {

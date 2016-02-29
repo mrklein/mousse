@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_DIAMETER_MODELS_IATE_SOURCES_WAKE_ENTRAINMENT_COALESCENCE_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_SYSTEM_DIAMETER_MODELS_IATE_SOURCES_WAKE_ENTRAINMENT_COALESCENCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   \endverbatim
 // SourceFiles
 //   wake_entrainment_coalescence.cpp
-#ifndef wake_entrainment_coalescence_hpp_
-#define wake_entrainment_coalescence_hpp_
 #include "iate_source.hpp"
 namespace mousse
 {

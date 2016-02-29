@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_CONTROL_MESH_REFINEMENT_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_CONTROL_MESH_REFINEMENT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   control_mesh_refinement_i.hpp
 //   control_mesh_refinement.cpp
 //   control_mesh_refinement_io.cpp
-#ifndef control_mesh_refinement_hpp_
-#define control_mesh_refinement_hpp_
 #include "cell_shape_control.hpp"
 #include "cell_shape_control_mesh.hpp"
 #include "cell_size_and_alignment_controls.hpp"

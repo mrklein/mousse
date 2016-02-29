@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_COMPRESSIBLE_TURBULENCE_MODELS_KINETIC_THEORY_MODELS_DERIVED_FV_PATCH_FIELDS_JOHNSON_JACKSON_PARTICLE_THETA_FV_PATCH_SCALAR_FIELD_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_COMPRESSIBLE_TURBULENCE_MODELS_KINETIC_THEORY_MODELS_DERIVED_FV_PATCH_FIELDS_JOHNSON_JACKSON_PARTICLE_THETA_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   \endverbatim
 // SourceFiles
 //   johnson_jackson_particle_theta_fv_patch_scalar_field.cpp
-#ifndef johnson_jackson_particle_theta_fv_patch_scalar_field_hpp_
-#define johnson_jackson_particle_theta_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 namespace mousse
 {

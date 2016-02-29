@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_HEAT_TRANSFER_MODELS_RANZ_MARSHALL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_HEAT_TRANSFER_MODELS_RANZ_MARSHALL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   sphere to the surrounding fluid.
 // SourceFiles
 //   ranz_marshall.cpp
-#ifndef ranz_marshall_hpp_
-#define ranz_marshall_hpp_
 #include "heat_transfer_model.hpp"
 namespace mousse
 {

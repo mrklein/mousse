@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_CELL_SIZE_AND_ALIGNMENT_CONTROL_CELL_SIZE_AND_ALIGNMENT_CONTROL_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CELL_SHAPE_CONTROL_CELL_SIZE_AND_ALIGNMENT_CONTROL_CELL_SIZE_AND_ALIGNMENT_CONTROL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   cell_size_and_alignment_control_i.hpp
 //   cell_size_and_alignment_control.cpp
-#ifndef cell_size_and_alignment_control_hpp_
-#define cell_size_and_alignment_control_hpp_
 #include "dictionary.hpp"
 #include "conformation_surfaces.hpp"
 #include "time.hpp"

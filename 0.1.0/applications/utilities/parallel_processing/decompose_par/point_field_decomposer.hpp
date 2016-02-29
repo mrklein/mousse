@@ -1,3 +1,6 @@
+#ifndef UTILITIES_PARALLEL_PROCESSING_DECOMPOSE_PAR_POINT_FIELD_DECOMPOSER_HPP_
+#define UTILITIES_PARALLEL_PROCESSING_DECOMPOSE_PAR_POINT_FIELD_DECOMPOSER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   point_field_decomposer.cpp
 //   point_field_decomposer_decompose_fields.cpp
-#ifndef point_field_decomposer_hpp_
-#define point_field_decomposer_hpp_
 #include "point_mesh.hpp"
 #include "point_patch_field_mapper_patch_ref.hpp"
 #include "point_fields.hpp"

@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_LIFT_MODELS_LEGENDRE_MAGNAUDET_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_LIFT_MODELS_LEGENDRE_MAGNAUDET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //   \endverbatim
 // SourceFiles
 //   legendre_magnaudet.cpp
-#ifndef legendre_magnaudet_hpp_
-#define legendre_magnaudet_hpp_
 #include "lift_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_GIBILARO_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_GIBILARO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   Eq. 106, p. 43
 // SourceFiles
 //   gibilaro.cpp
-#ifndef gibilaro_hpp_
-#define gibilaro_hpp_
 #include "drag_model.hpp"
 namespace mousse
 {

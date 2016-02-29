@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_POINT_CONVERSION_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_POINT_CONVERSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::pointConversion
 // Description
 //   Conversion functions between point (mousse::) and Point (CGAL::)
-#ifndef point_conversion_hpp_
-#define point_conversion_hpp_
 #include "point.hpp"
 #ifdef CGAL_INEXACT
   // Define Point to be contiguous for inexact (double storage) kernel

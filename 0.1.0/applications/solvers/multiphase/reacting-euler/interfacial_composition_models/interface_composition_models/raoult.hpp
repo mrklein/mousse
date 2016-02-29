@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_INTERFACE_COMPOSITION_MODELS_RAOULT_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_INTERFACE_COMPOSITION_MODELS_RAOULT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   the model scaled by the species fraction in the bulk of the other phase.
 // SourceFiles
 //   raoult.cpp
-#ifndef raoult_hpp_
-#define raoult_hpp_
 #include "_interface_composition_model.hpp"
 namespace mousse
 {

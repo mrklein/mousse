@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_INTERFACE_COMPOSITION_MODELS_SATURATED_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_INTERFACE_COMPOSITION_MODELS_SATURATED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   calculate the interface composition.
 // SourceFiles
 //   saturated.cpp
-#ifndef saturated_hpp_
-#define saturated_hpp_
 #include "_interface_composition_model.hpp"
 #include "saturation_model.hpp"
 namespace mousse

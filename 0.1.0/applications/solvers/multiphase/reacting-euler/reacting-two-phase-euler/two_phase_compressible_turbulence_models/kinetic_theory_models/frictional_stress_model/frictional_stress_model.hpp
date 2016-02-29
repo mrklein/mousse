@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_COMPRESSIBLE_TURBULENCE_MODELS_KINETIC_THEORY_MODELS_FRICTIONAL_STRESS_MODEL_FRICTIONAL_STRESS_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_REACTING_TWO_PHASE_EULER_TWO_PHASE_COMPRESSIBLE_TURBULENCE_MODELS_KINETIC_THEORY_MODELS_FRICTIONAL_STRESS_MODEL_FRICTIONAL_STRESS_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::kineticTheoryModels::frictionalStressModel
 // SourceFiles
 //   frictional_stress_model.cpp
-#ifndef frictional_stress_model_hpp_
-#define frictional_stress_model_hpp_
 #include "dictionary.hpp"
 #include "vol_fields.hpp"
 #include "dimensioned_types.hpp"

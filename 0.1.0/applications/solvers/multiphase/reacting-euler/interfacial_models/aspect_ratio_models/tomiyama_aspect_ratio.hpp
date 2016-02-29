@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_TOMIYAMA_ASPECT_RATIO_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_TOMIYAMA_ASPECT_RATIO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   \endverbatim
 // SourceFiles
 //   tomiyama_aspect_ratio.cpp
-#ifndef tomiyama_aspect_ratio_hpp_
-#define tomiyama_aspect_ratio_hpp_
 #include "vakhrushev_efremov.hpp"
 #include "wall_dependent_model.hpp"
 namespace mousse

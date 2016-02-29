@@ -1,9 +1,10 @@
+#ifndef UTILITIES_MISCELLANEOUS_PATCH_SUMMARY_PATCH_SUMMARY_TEMPLATES_HPP_
+#define UTILITIES_MISCELLANEOUS_PATCH_SUMMARY_PATCH_SUMMARY_TEMPLATES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef patch_summary_templates_hpp_
-#define patch_summary_templates_hpp_
 #include "fv_cfd.hpp"
 #include "vol_fields.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_MULTIPHASE_EULER_MULTIPHASE_SYSTEM_PHASE_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_MULTIPHASE_EULER_MULTIPHASE_SYSTEM_PHASE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::phaseModel
 // SourceFiles
 //   phase_model.cpp
-#ifndef phase_model_hpp_
-#define phase_model_hpp_
 #include "dictionary.hpp"
 #include "dictionary_entry.hpp"
 #include "dimensioned_scalar.hpp"

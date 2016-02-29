@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_TURBULENT_DISPERSION_MODELS_BURNS_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_TURBULENT_DISPERSION_MODELS_BURNS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   \endverbatim
 // SourceFiles
 //   burns.cpp
-#ifndef burns_hpp_
-#define burns_hpp_
 #include "turbulent_dispersion_model.hpp"
 namespace mousse
 {

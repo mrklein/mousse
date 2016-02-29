@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_INTERFACE_COMPOSITION_MODELS_HENRY_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_INTERFACE_COMPOSITION_MODELS_HENRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   Mixing in the gas is assumed to be ideal.
 // SourceFiles
 //   henry.cpp
-#ifndef henry_hpp_
-#define henry_hpp_
 #include "_interface_composition_model.hpp"
 namespace mousse
 {

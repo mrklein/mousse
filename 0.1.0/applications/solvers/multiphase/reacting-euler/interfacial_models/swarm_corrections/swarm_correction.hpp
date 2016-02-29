@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_SWARM_CORRECTIONS_SWARM_CORRECTION_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_SWARM_CORRECTIONS_SWARM_CORRECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   swarm_correction.cpp
 //   new_swarm_correction.cpp
-#ifndef swarm_correction_hpp_
-#define swarm_correction_hpp_
 #include "vol_fields.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"

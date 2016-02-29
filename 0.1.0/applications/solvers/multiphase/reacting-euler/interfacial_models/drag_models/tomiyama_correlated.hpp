@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_TOMIYAMA_CORRELATED_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_DRAG_MODELS_TOMIYAMA_CORRELATED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   \endverbatim
 // SourceFiles
 //   tomiyama_correlated.cpp
-#ifndef tomiyama_correlated_hpp_
-#define tomiyama_correlated_hpp_
 #include "drag_model.hpp"
 namespace mousse
 {

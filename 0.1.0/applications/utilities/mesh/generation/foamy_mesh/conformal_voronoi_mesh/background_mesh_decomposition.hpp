@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_BACKGROUND_MESH_DECOMPOSITION_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_BACKGROUND_MESH_DECOMPOSITION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //    structure, this is what determines if points get referred to a processor.
 // SourceFiles
 //   background_mesh_decomposition.cpp
-#ifndef background_mesh_decomposition_hpp_
-#define background_mesh_decomposition_hpp_
 #include "fv_mesh.hpp"
 #include "hex_ref8.hpp"
 #include "cell_set.hpp"

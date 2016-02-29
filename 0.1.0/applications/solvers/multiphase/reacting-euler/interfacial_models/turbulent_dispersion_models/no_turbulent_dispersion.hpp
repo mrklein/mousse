@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_TURBULENT_DISPERSION_MODELS_NO_TURBULENT_DISPERSION_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_TURBULENT_DISPERSION_MODELS_NO_TURBULENT_DISPERSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   no_turbulent_dispersion.cpp
-#ifndef no_turbulent_dispersion_hpp_
-#define no_turbulent_dispersion_hpp_
 #include "turbulent_dispersion_model.hpp"
 namespace mousse
 {

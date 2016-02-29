@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_MANIPULATION_CREATE_BAFFLES_FACE_SELECTION_FACE_ZONE_SELECTION_HPP_
+#define UTILITIES_MESH_MANIPULATION_CREATE_BAFFLES_FACE_SELECTION_FACE_ZONE_SELECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Select faces from faceZone
 // SourceFiles
 //   face_zone_selection.cpp
-#ifndef face_zone_selection_hpp_
-#define face_zone_selection_hpp_
 #include "face_selection.hpp"
 #include "point_field.hpp"
 #include "bool_list.hpp"

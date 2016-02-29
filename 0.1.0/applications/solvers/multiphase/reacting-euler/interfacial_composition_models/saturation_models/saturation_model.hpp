@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SATURATION_MODELS_SATURATION_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_SATURATION_MODELS_SATURATION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   saturation_model.cpp
 //   new_saturation_model.cpp
-#ifndef saturation_model_hpp_
-#define saturation_model_hpp_
 #include "vol_fields.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"

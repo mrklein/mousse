@@ -1,3 +1,6 @@
+#ifndef UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_WRITE_FUNS_HPP_
+#define UTILITIES_POST_PROCESSING_DATA_CONVERSION_FOAM_TO_VTK_WRITE_FUNS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Various functions for collecting and writing binary data.
 // SourceFiles
 //   write_funs.cpp
-#ifndef write_funs_hpp_
-#define write_funs_hpp_
 #include "float_scalar.hpp"
 #include "dynamic_list.hpp"
 #include "vol_fields_fwd.hpp"

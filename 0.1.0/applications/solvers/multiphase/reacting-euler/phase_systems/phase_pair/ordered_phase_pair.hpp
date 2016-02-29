@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_PAIR_ORDERED_PHASE_PAIR_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_PHASE_SYSTEMS_PHASE_PAIR_ORDERED_PHASE_PAIR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   ordered_phase_pair.cpp
-#ifndef ordered_phase_pair_hpp_
-#define ordered_phase_pair_hpp_
 #include "phase_pair.hpp"
 namespace mousse
 {

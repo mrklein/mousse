@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_ASPECT_RATIO_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_ASPECT_RATIO_MODELS_ASPECT_RATIO_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   aspect_ratio_model.cpp
 //   new_aspect_ratio_model.cpp
-#ifndef aspect_ratio_model_hpp_
-#define aspect_ratio_model_hpp_
 #include "vol_fields.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"

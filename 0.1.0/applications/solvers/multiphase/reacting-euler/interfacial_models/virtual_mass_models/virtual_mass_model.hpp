@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_VIRTUAL_MASS_MODELS_VIRTUAL_MASS_MODEL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_VIRTUAL_MASS_MODELS_VIRTUAL_MASS_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   virtual_mass_model.cpp
 //   new_virtual_mass_model.cpp
-#ifndef virtual_mass_model_hpp_
-#define virtual_mass_model_hpp_
 #include "vol_fields.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"

@@ -1,3 +1,6 @@
+#ifndef SOLVERS_COMBUSTION_PDR_PDR_MODELS_DRAG_MODELS_PDR_DRAG_MODEL_HPP_
+#define SOLVERS_COMBUSTION_PDR_PDR_MODELS_DRAG_MODELS_PDR_DRAG_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   \link basic.H \endlink.
 // SourceFiles
 //   pdr_drag_model.cpp
-#ifndef pdr_drag_model_hpp_
-#define pdr_drag_model_hpp_
 #include "iodictionary.hpp"
 #include "psiu_reaction_thermo.hpp"
 #include "turbulent_fluid_thermo_model.hpp"

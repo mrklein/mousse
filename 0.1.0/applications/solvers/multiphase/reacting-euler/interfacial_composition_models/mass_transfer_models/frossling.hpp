@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_MASS_TRANSFER_MODELS_FROSSLING_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_COMPOSITION_MODELS_MASS_TRANSFER_MODELS_FROSSLING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   sphere to the surrounding fluid.
 // SourceFiles
 //   frossling.cpp
-#ifndef frossling_hpp_
-#define frossling_hpp_
 #include "mass_transfer_model.hpp"
 namespace mousse
 {

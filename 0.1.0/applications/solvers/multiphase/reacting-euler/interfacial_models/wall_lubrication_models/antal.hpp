@@ -1,3 +1,6 @@
+#ifndef SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_WALL_LUBRICATION_MODELS_ANTAL_HPP_
+#define SOLVERS_MULTIPHASE_REACTING_EULER_INTERFACIAL_MODELS_WALL_LUBRICATION_MODELS_ANTAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   \endverbatim
 // SourceFiles
 //   antal.cpp
-#ifndef antal_hpp_
-#define antal_hpp_
 #include "wall_lubrication_model.hpp"
 namespace mousse
 {

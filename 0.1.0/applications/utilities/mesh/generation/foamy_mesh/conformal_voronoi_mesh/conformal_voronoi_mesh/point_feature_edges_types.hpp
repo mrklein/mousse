@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_POINT_FEATURE_EDGES_TYPES_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_CONFORMAL_VORONOI_MESH_POINT_FEATURE_EDGES_TYPES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Holds information on the types of feature edges attached to feature points.
 // SourceFiles
 //   point_feature_edges_types.cpp
-#ifndef point_feature_edges_types_hpp_
-#define point_feature_edges_types_hpp_
 #include "hash_table.hpp"
 #include "extended_feature_edge_mesh.hpp"
 #include "list.hpp"

@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_FACE_AREA_WEIGHT_MODEL_FACE_AREA_WEIGHT_MODEL_HPP_
+#define UTILITIES_MESH_GENERATION_FOAMY_MESH_CONFORMAL_VORONOI_MESH_FACE_AREA_WEIGHT_MODEL_FACE_AREA_WEIGHT_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   length of the local target cell size.
 // SourceFiles
 //   face_area_weight_model.cpp
-#ifndef face_area_weight_model_hpp_
-#define face_area_weight_model_hpp_
 #include "point.hpp"
 #include "dictionary.hpp"
 #include "auto_ptr.hpp"

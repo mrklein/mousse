@@ -1,3 +1,6 @@
+#ifndef UTILITIES_MESH_GENERATION_EXTRUDE_2D_MESH_EXTRUDE_2D_MESH_PATCH_TO_POLY_2D_MESH_PATCH_TO_POLY_2D_MESH_HPP_
+#define UTILITIES_MESH_GENERATION_EXTRUDE_2D_MESH_EXTRUDE_2D_MESH_PATCH_TO_POLY_2D_MESH_PATCH_TO_POLY_2D_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   patch_to_poly_2d_mesh.cpp
 
-#ifndef patch_to_poly_2d_mesh_hpp_
-#define patch_to_poly_2d_mesh_hpp_
 
 #include "edge_map.hpp"
 #include "meshed_surface.hpp"
