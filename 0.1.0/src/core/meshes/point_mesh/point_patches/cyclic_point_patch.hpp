@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_PATCHES_CYCLIC_POINT_PATCH_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_PATCHES_CYCLIC_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cyclic patch for post-processing.
 // SourceFiles
 //   cyclic_point_patch.cpp
-#ifndef cyclic_point_patch_hpp_
-#define cyclic_point_patch_hpp_
 #include "coupled_face_point_patch.hpp"
 #include "cyclic_poly_patch.hpp"
 #include "point_boundary_mesh.hpp"

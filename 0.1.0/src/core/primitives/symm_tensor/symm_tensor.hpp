@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_SYMM_TENSOR_SYMM_TENSOR_HPP_
+#define CORE_PRIMITIVES_SYMM_TENSOR_SYMM_TENSOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   symm_tensor.cpp
-#ifndef symm_tensor_hpp_
-#define symm_tensor_hpp_
 #include "_symm_tensor.hpp"
 #include "contiguous.hpp"
 namespace mousse

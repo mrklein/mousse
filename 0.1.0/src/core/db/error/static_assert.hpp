@@ -1,3 +1,6 @@
+#ifndef CORE_DB_ERROR_STATIC_ASSERT_HPP_
+#define CORE_DB_ERROR_STATIC_ASSERT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Ideas from various sources
 //   (http://www.ddj.com/cpp/184401547, http://www.boost.org)
 
-#ifndef static_assert_hpp_
-#define static_assert_hpp_
 
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef CORE_DB_DICTIONARY_DICTIONARY_ENTRY_HPP_
+#define CORE_DB_DICTIONARY_DICTIONARY_ENTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 // SourceFiles
 //   dictionary_entry.cpp
 //   dictionary_entry_io.cpp
-#ifndef dictionary_entry_hpp_
-#define dictionary_entry_hpp_
 #include "entry.hpp"
 #include "dictionary.hpp"
 #include "info_proxy.hpp"

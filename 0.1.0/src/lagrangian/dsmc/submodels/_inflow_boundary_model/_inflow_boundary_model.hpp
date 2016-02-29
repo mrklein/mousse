@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TINFLOW_BOUNDARY_MODEL_TINFLOW_BOUNDARY_MODEL_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TINFLOW_BOUNDARY_MODEL_TINFLOW_BOUNDARY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _inflow_boundary_model.cpp
 //   _inflow_boundary_model_new.cpp
-#ifndef _inflow_boundary_model_hpp_
-#define _inflow_boundary_model_hpp_
 
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"

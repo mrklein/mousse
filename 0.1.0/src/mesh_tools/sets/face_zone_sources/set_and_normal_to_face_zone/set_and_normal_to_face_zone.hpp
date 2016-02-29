@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_FACE_ZONE_SOURCES_SET_AND_NORMAL_TO_FACE_ZONE_SET_AND_NORMAL_TO_FACE_ZONE_HPP_
+#define MESH_TOOLS_SETS_FACE_ZONE_SOURCES_SET_AND_NORMAL_TO_FACE_ZONE_SET_AND_NORMAL_TO_FACE_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   normal vector is used to orient the faces.
 // SourceFiles
 //   set_and_normal_to_face_zone.cpp
-#ifndef set_and_normal_to_face_zone_hpp_
-#define set_and_normal_to_face_zone_hpp_
 #include "topo_set_source.hpp"
 namespace mousse
 {

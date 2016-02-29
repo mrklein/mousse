@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_SN_GRAD_SCHEMES_LIMITED_SN_GRAD_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_SN_GRAD_SCHEMES_LIMITED_SN_GRAD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 // SourceFiles
 //   limited_sn_grad.cpp
 
-#ifndef limited_sn_grad_hpp_
-#define limited_sn_grad_hpp_
 
 #include "corrected_sn_grad.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_DICTIONARIES_PTR_LIST_DICTIONARY_HPP_
+#define CORE_CONTAINERS_DICTIONARIES_PTR_LIST_DICTIONARY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   ptr_list_dictionary.cpp
 
-#ifndef ptr_list_dictionary_hpp_
-#define ptr_list_dictionary_hpp_
 
 #include "dictionary_base.hpp"
 #include "ptr_list.hpp"

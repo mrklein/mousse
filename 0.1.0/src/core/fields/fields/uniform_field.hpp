@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_FIELDS_UNIFORM_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_UNIFORM_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   A class representing the concept of a uniform field which stores only
 //   the single value and providing the operator[] to return it.
-#ifndef uniform_field_hpp_
-#define uniform_field_hpp_
 #include "label.hpp"
 namespace mousse
 {

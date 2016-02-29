@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DISTRIBUTION_MODELS_MULTI_NORMAL_HPP_
+#define LAGRANGIAN_DISTRIBUTION_MODELS_MULTI_NORMAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   \endverbatim
 // SourceFiles
 //   multi_normal.cpp
-#ifndef multi_normal_hpp_
-#define multi_normal_hpp_
 #include "distribution_model.hpp"
 namespace mousse
 {

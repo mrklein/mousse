@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_FV_PATCH_FIELDS_DERIVED_SURFACE_SLIP_DISPLACEMENT_SURFACE_SLIP_DISPLACEMENT_FV_PATCH_FIELD_HPP_
+#define FV_MOTION_SOLVER_FV_PATCH_FIELDS_DERIVED_SURFACE_SLIP_DISPLACEMENT_SURFACE_SLIP_DISPLACEMENT_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   pointPatch field.
 // SourceFiles
 //   surface_slip_displacement_fv_patch_field.cpp
-#ifndef surface_slip_displacement_fv_patch_field_hpp_
-#define surface_slip_displacement_fv_patch_field_hpp_
 #include "slip_fv_patch_field.hpp"
 namespace mousse
 {

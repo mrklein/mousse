@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_FUNCTIONS_DATA_ENTRY_HPP_
+#define CORE_PRIMITIVES_FUNCTIONS_DATA_ENTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   data_entry.cpp
 //   data_entry_new.cpp
 
-#ifndef data_entry_hpp_
-#define data_entry_hpp_
 
 #include "dictionary.hpp"
 #include "field.hpp"

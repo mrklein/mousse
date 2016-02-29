@@ -1,10 +1,11 @@
+#ifndef CORE_INTERPOLATIONS_INTERPOLATE_SPLINE_XY_HPP_
+#define CORE_INTERPOLATIONS_INTERPOLATE_SPLINE_XY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   interpolate_spline_xy.cpp
 
-#ifndef interpolate_spline_xy_hpp_
-#define interpolate_spline_xy_hpp_
 
 #include "scalar.hpp"
 #include "primitive_fields_fwd.hpp"

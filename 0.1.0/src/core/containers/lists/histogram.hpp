@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_HISTOGRAM_HPP_
+#define CORE_CONTAINERS_LISTS_HISTOGRAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   histogram.cpp
 
-#ifndef histogram_hpp_
-#define histogram_hpp_
 
 #include "label_list.hpp"
 

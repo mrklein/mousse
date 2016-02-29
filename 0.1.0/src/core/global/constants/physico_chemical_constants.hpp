@@ -1,9 +1,10 @@
+#ifndef CORE_GLOBAL_CONSTANTS_PHYSICO_CHEMICAL_CONSTANTS_HPP_
+#define CORE_GLOBAL_CONSTANTS_PHYSICO_CHEMICAL_CONSTANTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef physico_chemical_constants_hpp_
-#define physico_chemical_constants_hpp_
 #include "dimensioned_scalar.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_GAMG_INTERFACES_CYCLIC_AMIGAMG_INTERFACE_CYCLIC_AMIGAMG_INTERFACE_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_GAMG_INTERFACES_CYCLIC_AMIGAMG_INTERFACE_CYCLIC_AMIGAMG_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   GAMG agglomerated cyclic AMI interface.
 // SourceFiles
 //   cyclic_amigamg_interface.cpp
-#ifndef cyclic_amigamg_interface_hpp_
-#define cyclic_amigamg_interface_hpp_
 #include "gamg_interface.hpp"
 #include "cyclic_ami_ldu_interface.hpp"
 namespace mousse

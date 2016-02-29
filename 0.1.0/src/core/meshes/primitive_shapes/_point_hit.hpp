@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_TPOINT_HIT_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_TPOINT_HIT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   This class describes the interaction of a face and a point. It
 //   carries the info of a successful hit and (if successful), returns
 //   the interaction point.
-#ifndef _point_hit_hpp_
-#define _point_hit_hpp_
 
 #include "token.hpp"
 #include "bool.hpp"

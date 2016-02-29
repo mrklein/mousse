@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_STOCHASTIC_COLLISION_TTRAJECTORY_COLLISION_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_STOCHASTIC_COLLISION_TTRAJECTORY_COLLISION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Trajectory collision model by N. Nordin, based on O'Rourke's collision
 //   model
 
-#ifndef _trajectory_collision_hpp_
-#define _trajectory_collision_hpp_
 
 #include "_o_rourke_collision.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef TOPO_CHANGER_FV_MESH_RAW_TOPO_CHANGER_FV_MESH_RAW_TOPO_CHANGER_FV_MESH_HPP_
+#define TOPO_CHANGER_FV_MESH_RAW_TOPO_CHANGER_FV_MESH_RAW_TOPO_CHANGER_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   data when faces get created out of nothing.
 // SourceFiles
 //   raw_topo_changer_fv_mesh.cpp
-#ifndef raw_topo_changer_fv_mesh_hpp_
-#define raw_topo_changer_fv_mesh_hpp_
 #include "topo_changer_fv_mesh.hpp"
 #include "packed_bool_list.hpp"
 namespace mousse

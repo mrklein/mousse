@@ -1,3 +1,6 @@
+#ifndef TRI_SURFACE_TOOLS_LABELLED_TRI_HPP_
+#define TRI_SURFACE_TOOLS_LABELLED_TRI_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::labelledTri
 // Description
 //   Triangle with additional region number.
-#ifndef labelled_tri_hpp_
-#define labelled_tri_hpp_
 #include "tri_face.hpp"
 #include "list_list_ops.hpp"
 #include "iostreams.hpp"

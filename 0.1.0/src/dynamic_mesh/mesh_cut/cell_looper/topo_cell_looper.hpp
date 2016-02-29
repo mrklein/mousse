@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_CELL_LOOPER_TOPO_CELL_LOOPER_HPP_
+#define DYNAMIC_MESH_MESH_CUT_CELL_LOOPER_TOPO_CELL_LOOPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   All non-splitHexes are done by the parent classes.
 // SourceFiles
 //   topo_cell_looper.cpp
-#ifndef topo_cell_looper_hpp_
-#define topo_cell_looper_hpp_
 #include "hex_cell_looper.hpp"
 #include "type_info.hpp"
 namespace mousse

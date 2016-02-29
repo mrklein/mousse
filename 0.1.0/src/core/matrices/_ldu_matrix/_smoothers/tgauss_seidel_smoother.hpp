@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_TLDU_MATRIX_TSMOOTHERS_TGAUSS_SEIDEL_SMOOTHER_HPP_
+#define CORE_MATRICES_TLDU_MATRIX_TSMOOTHERS_TGAUSS_SEIDEL_SMOOTHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   tgauss_seidel_smoother.cpp
 
-#ifndef tgauss_seidel_smoother_hpp_
-#define tgauss_seidel_smoother_hpp_
 
 #include "_ldu_matrix.hpp"
 

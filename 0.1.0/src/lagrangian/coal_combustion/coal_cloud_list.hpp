@@ -1,9 +1,10 @@
+#ifndef LAGRANGIAN_COAL_COMBUSTION_COAL_CLOUD_LIST_HPP_
+#define LAGRANGIAN_COAL_COMBUSTION_COAL_CLOUD_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef coal_cloud_list_hpp_
-#define coal_cloud_list_hpp_
 #include "coal_cloud.hpp"
 #include "fv_matrices.hpp"
 #include "vol_fields.hpp"

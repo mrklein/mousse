@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TLIFT_TTOMIYAMA_LIFT_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TLIFT_TTOMIYAMA_LIFT_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Tomiyama particle lift force model applicable to deformable bubbles.
 // SourceFiles
 //   _tomiyama_lift_force.cpp
-#ifndef _tomiyama_lift_force_hpp_
-#define _tomiyama_lift_force_hpp_
 #include "_lift_force.hpp"
 namespace mousse
 {

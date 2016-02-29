@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOOBJECT_IOOBJECT_HPP_
+#define CORE_DB_IOOBJECT_IOOBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -40,8 +43,6 @@
 //   ioobject_write_header.cpp
 //   ioobject_print.cpp
 
-#ifndef ioobject_hpp_
-#define ioobject_hpp_
 
 #include "file_name.hpp"
 #include "type_info.hpp"

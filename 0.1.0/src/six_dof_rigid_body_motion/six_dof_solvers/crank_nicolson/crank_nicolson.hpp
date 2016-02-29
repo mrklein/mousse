@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_SOLVERS_CRANK_NICOLSON_CRANK_NICOLSON_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_SOLVERS_CRANK_NICOLSON_CRANK_NICOLSON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //   mousse::sixDoFSolvers::Newmark
 // SourceFiles
 //   crank_nicolson.cpp
-#ifndef crank_nicolson_hpp_
-#define crank_nicolson_hpp_
 #include "six_dof_solver.hpp"
 namespace mousse
 {

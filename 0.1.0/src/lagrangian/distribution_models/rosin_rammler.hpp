@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DISTRIBUTION_MODELS_ROSIN_RAMMLER_HPP_
+#define LAGRANGIAN_DISTRIBUTION_MODELS_ROSIN_RAMMLER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //  \f]
 // SourceFiles
 //   rosin_rammler.cpp
-#ifndef rosin_rammler_hpp_
-#define rosin_rammler_hpp_
 #include "distribution_model.hpp"
 namespace mousse
 {

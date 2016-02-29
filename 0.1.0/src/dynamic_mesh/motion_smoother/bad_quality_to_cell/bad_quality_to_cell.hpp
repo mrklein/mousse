@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MOTION_SMOOTHER_BAD_QUALITY_TO_CELL_BAD_QUALITY_TO_CELL_HPP_
+#define DYNAMIC_MESH_MOTION_SMOOTHER_BAD_QUALITY_TO_CELL_BAD_QUALITY_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Selects bad quality cells (using snappyHexMesh/cvMesh mesh quality selector)
 // SourceFiles
 //   bad_quality_to_cell.cpp
-#ifndef bad_quality_to_cell_hpp_
-#define bad_quality_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "packed_bool_list.hpp"
 namespace mousse

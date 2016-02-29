@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_FACE_SOURCES_ZONE_TO_FACE_ZONE_TO_FACE_HPP_
+#define MESH_TOOLS_SETS_FACE_SOURCES_ZONE_TO_FACE_ZONE_TO_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select faces based on faceZone.
 // SourceFiles
 //   zone_to_face.cpp
-#ifndef zone_to_face_hpp_
-#define zone_to_face_hpp_
 #include "topo_set_source.hpp"
 #include "word_re.hpp"
 namespace mousse

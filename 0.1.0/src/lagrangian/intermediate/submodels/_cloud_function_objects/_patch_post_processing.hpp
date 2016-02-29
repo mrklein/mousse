@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TPATCH_POST_PROCESSING_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TPATCH_POST_PROCESSING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Standard post-processing
 // SourceFiles
 //   _patch_post_processing.cpp
-#ifndef _patch_post_processing_hpp_
-#define _patch_post_processing_hpp_
 #include "_cloud_function_object.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_REACTION_RATE_FLAME_AREA_MODELS_CONSUMPTION_SPEED_HPP_
+#define COMBUSTION_MODELS_REACTION_RATE_FLAME_AREA_MODELS_CONSUMPTION_SPEED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   solution at increasing strain rates.
 // SourceFiles
 //   consumption_speed.cpp
-#ifndef consumption_speed_hpp_
-#define consumption_speed_hpp_
 #include "iodictionary.hpp"
 #include "vol_fields.hpp"
 namespace mousse

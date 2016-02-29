@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_DERIVED_FV_PATCH_FIELDS_MIXED_ENERGY_FV_PATCH_SCALAR_FIELD_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_DERIVED_FV_PATCH_FIELDS_MIXED_ENERGY_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   mousse::mixedFvPatchField
 // SourceFiles
 //   mixed_energy_fv_patch_scalar_field.cpp
-#ifndef mixed_energy_fv_patch_scalar_field_hpp_
-#define mixed_energy_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_MAP_POLY_MESH_OBJECT_MAP_HPP_
+#define CORE_MESHES_POLY_MESH_MAP_POLY_MESH_OBJECT_MAP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   An objectMap is a pair of labels defining the mapping of an object from
 //   another object, e.g. a cell mapped from a point.
-#ifndef object_map_hpp_
-#define object_map_hpp_
 #include "label_list.hpp"
 #include "iostreams.hpp"
 namespace mousse

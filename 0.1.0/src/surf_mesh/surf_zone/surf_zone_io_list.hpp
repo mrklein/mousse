@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURF_ZONE_SURF_ZONE_IO_LIST_HPP_
+#define SURF_MESH_SURF_ZONE_SURF_ZONE_IO_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   surf_zone_io_list.cpp
 
-#ifndef surf_zone_io_list_hpp_
-#define surf_zone_io_list_hpp_
 
 #include "surf_zone_list.hpp"
 #include "reg_ioobject.hpp"

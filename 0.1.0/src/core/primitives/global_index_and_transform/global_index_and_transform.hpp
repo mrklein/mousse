@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_GLOBAL_INDEX_AND_TRANSFORM_GLOBAL_INDEX_AND_TRANSFORM_HPP_
+#define CORE_PRIMITIVES_GLOBAL_INDEX_AND_TRANSFORM_GLOBAL_INDEX_AND_TRANSFORM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 // SourceFiles
 //   global_index_and_transform.cpp
 
-#ifndef global_index_and_transform_hpp_
-#define global_index_and_transform_hpp_
 
 #include "label_pair.hpp"
 #include "vector_tensor_transform.hpp"

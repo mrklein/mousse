@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TISOTROPY_MODELS_TNO_ISOTROPY_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TISOTROPY_MODELS_TNO_ISOTROPY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   _no_isotropy.cpp
-#ifndef _no_isotropy_hpp_
-#define _no_isotropy_hpp_
 #include "_isotropy_model.hpp"
 namespace mousse
 {

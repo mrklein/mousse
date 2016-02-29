@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_CORRECTION_LIMITING_METHODS_ABSOLUTE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_CORRECTION_LIMITING_METHODS_ABSOLUTE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   The direction is calculated using the relative velocity.
 // SourceFiles
 //   absolute.cpp
-#ifndef absolute_hpp_
-#define absolute_hpp_
 #include "correction_limiting_method.hpp"
 namespace mousse
 {

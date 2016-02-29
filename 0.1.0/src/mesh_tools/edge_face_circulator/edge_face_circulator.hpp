@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_EDGE_FACE_CIRCULATOR_EDGE_FACE_CIRCULATOR_HPP_
+#define MESH_TOOLS_EDGE_FACE_CIRCULATOR_EDGE_FACE_CIRCULATOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -36,8 +39,6 @@
 //     \endcode
 // SourceFiles
 //   edge_face_circulator.cpp
-#ifndef edge_face_circulator_hpp_
-#define edge_face_circulator_hpp_
 #include "face.hpp"
 #include "list_ops.hpp"
 #include "primitive_mesh.hpp"

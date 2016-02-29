@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_MRF_ZONE_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_MRF_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   mrf_zone.cpp
 
-#ifndef mrf_zone_hpp_
-#define mrf_zone_hpp_
 
 #include "dictionary.hpp"
 #include "word_list.hpp"

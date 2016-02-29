@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_CLOUD_CLOUD_INFO_CLOUD_INFO_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_CLOUD_CLOUD_INFO_CLOUD_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -37,8 +40,6 @@
 // SourceFiles
 //   cloud_info.cpp
 //   i_ocloud_info.hpp
-#ifndef cloud_info_hpp_
-#define cloud_info_hpp_
 #include "function_object_file.hpp"
 #include "ptr_list.hpp"
 #include "point_field_fwd.hpp"

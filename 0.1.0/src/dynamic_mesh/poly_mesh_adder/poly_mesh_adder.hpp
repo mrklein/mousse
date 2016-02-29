@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_MESH_ADDER_POLY_MESH_ADDER_HPP_
+#define DYNAMIC_MESH_POLY_MESH_ADDER_POLY_MESH_ADDER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   meshes. Returns map from last mesh addition.
 // SourceFiles
 //   poly_mesh_adder.cpp
-#ifndef poly_mesh_adder_hpp_
-#define poly_mesh_adder_hpp_
 #include "auto_ptr.hpp"
 #include "poly_mesh.hpp"
 #include "map_added_poly_mesh.hpp"

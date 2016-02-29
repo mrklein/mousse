@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_DELTAS_LES_DELTA_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_DELTAS_LES_DELTA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for LES deltas
 // SourceFiles
 //   les_delta.cpp
-#ifndef les_delta_hpp_
-#define les_delta_hpp_
 #include "turbulence_model.hpp"
 #include "vol_fields.hpp"
 #include "run_time_selection_tables.hpp"

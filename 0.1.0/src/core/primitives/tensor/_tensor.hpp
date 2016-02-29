@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_TENSOR_TTENSOR_HPP_
+#define CORE_PRIMITIVES_TENSOR_TTENSOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   the inner-product (dot-product) and outer-product of two Vectors
 //   (tensor-product) operators.
 
-#ifndef _tensor_hpp_
-#define _tensor_hpp_
 
 #include "_vector.hpp"
 #include "_spherical_tensor.hpp"

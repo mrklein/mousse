@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_CYLINDER_ANNULUS_TO_CELL_CYLINDER_ANNULUS_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_CYLINDER_ANNULUS_TO_CELL_CYLINDER_ANNULUS_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   cylinder annulus.
 // SourceFiles
 //   cylinder_annulus_to_cell.cpp
-#ifndef cylinder_annulus_to_cell_hpp_
-#define cylinder_annulus_to_cell_hpp_
 #include "topo_set_source.hpp"
 namespace mousse
 {

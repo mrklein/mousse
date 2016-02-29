@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_STREAM_LINE_STREAM_LINE_PARTICLE_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_STREAM_LINE_STREAM_LINE_PARTICLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   calculation.
 // SourceFiles
 //   stream_line_particle.cpp
-#ifndef stream_line_particle_hpp_
-#define stream_line_particle_hpp_
 #include "particle.hpp"
 #include "auto_ptr.hpp"
 #include "interpolation.hpp"

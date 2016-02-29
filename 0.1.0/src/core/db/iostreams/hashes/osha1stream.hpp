@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOSTREAMS_HASHES_OSHA1STREAM_HPP_
+#define CORE_DB_IOSTREAMS_HASHES_OSHA1STREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   osha1stream.cpp
 
-#ifndef osha1stream_hpp_
-#define osha1stream_hpp_
 #include "osstream.hpp"
 #include "sha1.hpp"
 

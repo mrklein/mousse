@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TFORCE_TYPES_TPARTICLE_FORCE_LIST_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TFORCE_TYPES_TPARTICLE_FORCE_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List of particle forces
 // SourceFiles
 //   _particle_force_list.cpp
-#ifndef _particle_force_list_hpp_
-#define _particle_force_list_hpp_
 #include "_particle_force.hpp"
 #include "force_su_sp.hpp"
 namespace mousse

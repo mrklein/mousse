@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FV_SOLUTION_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FV_SOLUTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Selector class for finite volume solution solution.
 //   fvMesh is derived from fvSolution so that all fields have access to the
 //   fvSolution from the mesh reference they hold.
-#ifndef fv_solution_hpp_
-#define fv_solution_hpp_
 #include "solution.hpp"
 namespace mousse
 {

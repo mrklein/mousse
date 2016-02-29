@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_DIMENSIONED_FIELDS_SUB_DIMENSIONED_FIELD_HPP_
+#define CORE_FIELDS_DIMENSIONED_FIELDS_SUB_DIMENSIONED_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Thus it is itself unallocated so that no storage is allocated or
 //   deallocated during its use.  To achieve this behaviour,
 //   SubDimensionedField is derived from SubField rather than Field.
-#ifndef sub_dimensioned_field_hpp_
-#define sub_dimensioned_field_hpp_
 #include "field.hpp"
 #include "sub_field.hpp"
 namespace mousse

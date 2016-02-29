@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_Q_Q_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_Q_Q_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 // SourceFiles
 //   q.cpp
 //   ioq.hpp
-#ifndef q_hpp_
-#define q_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "ofstream.hpp"

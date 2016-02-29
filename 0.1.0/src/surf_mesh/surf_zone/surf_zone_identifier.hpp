@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURF_ZONE_SURF_ZONE_IDENTIFIER_HPP_
+#define SURF_MESH_SURF_ZONE_SURF_ZONE_IDENTIFIER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   "geometricType" as well.
 // SourceFiles
 //   surf_zone_identifier.cpp
-#ifndef surf_zone_identifier_hpp_
-#define surf_zone_identifier_hpp_
 #include "word.hpp"
 #include "label.hpp"
 #include "type_info.hpp"

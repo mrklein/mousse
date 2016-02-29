@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LUSCALAR_MATRIX_PROC_LDU_INTERFACE_HPP_
+#define CORE_MATRICES_LUSCALAR_MATRIX_PROC_LDU_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   IO interface for processorLduInterface
 // SourceFiles
 //   proc_ldu_interface.cpp
-#ifndef proc_ldu_interface_hpp_
-#define proc_ldu_interface_hpp_
 #include "label_list.hpp"
 #include "scalar_field.hpp"
 namespace mousse

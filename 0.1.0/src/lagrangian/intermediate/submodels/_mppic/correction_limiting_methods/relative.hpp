@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_CORRECTION_LIMITING_METHODS_RELATIVE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_CORRECTION_LIMITING_METHODS_RELATIVE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   magnitude of the limited velocity.
 // SourceFiles
 //   relative.cpp
-#ifndef relative_hpp_
-#define relative_hpp_
 #include "correction_limiting_method.hpp"
 namespace mousse
 {

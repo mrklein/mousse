@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_MANUAL_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_MANUAL_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Decomposition given a cell-to-processor association in a file
 // SourceFiles
 //   manual_decomp.cpp
-#ifndef manual_decomp_hpp_
-#define manual_decomp_hpp_
 #include "decomposition_method.hpp"
 namespace mousse
 {

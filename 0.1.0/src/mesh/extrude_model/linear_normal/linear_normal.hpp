@@ -1,3 +1,6 @@
+#ifndef MESH_EXTRUDE_MODEL_LINEAR_NORMAL_LINEAR_NORMAL_HPP_
+#define MESH_EXTRUDE_MODEL_LINEAR_NORMAL_LINEAR_NORMAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::extrudeModels::linearNormal
 // Description
 //   Extrudes by transforming points normal to the surface by a given distance.
-#ifndef linear_normal_hpp_
-#define linear_normal_hpp_
 #include "point.hpp"
 #include "extrude_model.hpp"
 #include "scalar_list.hpp"

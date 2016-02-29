@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_INTER_REGION_OPTION_INTER_REGION_OPTION_HPP_
+#define FV_OPTIONS_INTER_REGION_OPTION_INTER_REGION_OPTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::fv::interRegionOption
 // Description
 //   Base class for inter-region exchange.
-#ifndef inter_region_option_hpp_
-#define inter_region_option_hpp_
 #include "fv_option.hpp"
 #include "vol_fields.hpp"
 #include "auto_ptr.hpp"

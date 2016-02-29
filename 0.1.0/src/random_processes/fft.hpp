@@ -1,3 +1,6 @@
+#ifndef RANDOM_PROCESSES_FFT_HPP_
+#define RANDOM_PROCESSES_FFT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   in space is supplied in the nn indexing array.
 // SourceFiles
 //   fft.cpp
-#ifndef fft_hpp_
-#define fft_hpp_
 #include "complex_fields.hpp"
 #include "label_list.hpp"
 namespace mousse

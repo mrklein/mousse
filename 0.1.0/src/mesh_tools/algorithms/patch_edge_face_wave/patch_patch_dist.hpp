@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_ALGORITHMS_PATCH_EDGE_FACE_WAVE_PATCH_PATCH_DIST_HPP_
+#define MESH_TOOLS_ALGORITHMS_PATCH_EDGE_FACE_WAVE_PATCH_PATCH_DIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   patches. Uses PatchEdgeFaceWave to do actual calculation.
 // SourceFiles
 //   patch_patch_dist.cpp
-#ifndef patch_patch_dist_hpp_
-#define patch_patch_dist_hpp_
 #include "scalar_field.hpp"
 #include "hash_set.hpp"
 namespace mousse

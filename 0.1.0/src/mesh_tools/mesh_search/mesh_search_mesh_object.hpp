@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MESH_SEARCH_MESH_SEARCH_MESH_OBJECT_HPP_
+#define MESH_TOOLS_MESH_SEARCH_MESH_SEARCH_MESH_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   MeshObject wrapper around meshSearch(mesh).
 // SourceFiles
-#ifndef mesh_search_mesh_object_hpp_
-#define mesh_search_mesh_object_hpp_
 #include "_mesh_object.hpp"
 #include "mesh_search.hpp"
 namespace mousse

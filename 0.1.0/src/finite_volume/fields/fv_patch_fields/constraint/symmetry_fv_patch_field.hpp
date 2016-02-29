@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_SYMMETRY_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_SYMMETRY_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   symmetry_fv_patch_fields.cpp
 //   symmetry_fv_patch_fields.hpp
 //   symmetry_fv_patch_fields_fwd.hpp
-#ifndef symmetry_fv_patch_field_hpp_
-#define symmetry_fv_patch_field_hpp_
 #include "basic_symmetry_fv_patch_field.hpp"
 #include "symmetry_fv_patch.hpp"
 namespace mousse

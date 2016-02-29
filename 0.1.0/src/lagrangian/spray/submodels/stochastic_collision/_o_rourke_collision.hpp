@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_STOCHASTIC_COLLISION_TO_ROURKE_COLLISION_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_STOCHASTIC_COLLISION_TO_ROURKE_COLLISION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::ORourkeCollision
 // Description
 //   Collision model by P.J. O'Rourke.
-#ifndef _o_rourke_collision_hpp_
-#define _o_rourke_collision_hpp_
 
 #include "_stochastic_collision_model.hpp"
 #include "liquid_mixture_properties.hpp"

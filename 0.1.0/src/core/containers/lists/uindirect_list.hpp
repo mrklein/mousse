@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_UINDIRECT_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_UINDIRECT_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   on const and non-const lists. Alternative would be to have a const_
 //   variant etc.
 
-#ifndef uindirect_list_hpp_
-#define uindirect_list_hpp_
 
 #include "list.hpp"
 

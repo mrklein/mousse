@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_VORTICITY_VORTICITY_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_VORTICITY_VORTICITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   vorticity.cpp
 //   io_vorticity.hpp
-#ifndef vorticity_hpp_
-#define vorticity_hpp_
 #include "vol_fields_fwd.hpp"
 namespace mousse
 {

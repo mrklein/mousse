@@ -1,3 +1,6 @@
+#ifndef RENUMBER_SLOAN_RENUMBER_SLOAN_RENUMBER_HPP_
+#define RENUMBER_SLOAN_RENUMBER_SLOAN_RENUMBER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   E.g. http://www.apav.it/sito_ratio/file_pdf/ratio_4/capitolo_1.pdf
 // SourceFiles
 //   sloan_renumber.cpp
-#ifndef sloan_renumber_hpp_
-#define sloan_renumber_hpp_
 #include "renumber_method.hpp"
 #include "switch.hpp"
 namespace mousse

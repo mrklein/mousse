@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_FV_OPTION_FV_OPTION_HPP_
+#define FV_OPTIONS_FV_OPTION_FV_OPTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 // SourceFiles
 //   fv_option.cpp
 //   fv_option_io.cpp
-#ifndef fv_option_hpp_
-#define fv_option_hpp_
 #include "fv_matrices_fwd.hpp"
 #include "vol_fields_fwd.hpp"
 #include "dictionary.hpp"

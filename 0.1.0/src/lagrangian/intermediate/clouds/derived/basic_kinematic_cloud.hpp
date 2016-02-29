@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_DERIVED_BASIC_KINEMATIC_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_DERIVED_BASIC_KINEMATIC_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::basicKinematicCloud
 // Description
 //   Cloud class to introduce kinematic parcels
-#ifndef basic_kinematic_cloud_hpp_
-#define basic_kinematic_cloud_hpp_
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "basic_kinematic_parcel.hpp"

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_PHASE_COMPRESSIBLE_LES_SMAGORINSKY_ZHANG_HPP_
+#define TURBULENCE_MODELS_PHASE_COMPRESSIBLE_LES_SMAGORINSKY_ZHANG_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 //   \endverbatim
 // SourceFiles
 //   smagorinsky_zhang.cpp
-#ifndef smagorinsky_zhang_hpp_
-#define smagorinsky_zhang_hpp_
 #include "les_model.hpp"
 #include "eddy_viscosity.hpp"
 namespace mousse

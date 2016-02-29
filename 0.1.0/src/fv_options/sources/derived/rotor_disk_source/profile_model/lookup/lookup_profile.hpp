@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_PROFILE_MODEL_LOOKUP_LOOKUP_PROFILE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_PROFILE_MODEL_LOOKUP_LOOKUP_PROFILE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //     Cl  = lift coefficient
 // SourceFiles
 //   lookup_profile.cpp
-#ifndef lookup_profile_hpp_
-#define lookup_profile_hpp_
 #include "profile_model.hpp"
 #include "list.hpp"
 namespace mousse

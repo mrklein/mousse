@@ -1,3 +1,6 @@
+#ifndef CORE_INTERPOLATIONS_INTERPOLATION_WEIGHTS_HPP_
+#define CORE_INTERPOLATIONS_INTERPOLATION_WEIGHTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   interpolation_weights.cpp
 //   interpolation_weights_templates.cpp
 
-#ifndef interpolation_weights_hpp_
-#define interpolation_weights_hpp_
 
 #include "scalar_field.hpp"
 #include "auto_ptr.hpp"

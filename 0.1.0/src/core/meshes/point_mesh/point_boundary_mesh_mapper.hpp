@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_BOUNDARY_MESH_MAPPER_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_BOUNDARY_MESH_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   mousse::pointBoundaryMeshMapper
 
-#ifndef point_boundary_mesh_mapper_hpp_
-#define point_boundary_mesh_mapper_hpp_
 
 #include "ptr_list.hpp"
 #include "point_patch_mapper.hpp"

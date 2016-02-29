@@ -1,3 +1,6 @@
+#ifndef CORE_DB_DYNAMIC_LIBRARY_DYNAMIC_CODE_CONTEXT_HPP_
+#define CORE_DB_DYNAMIC_LIBRARY_DYNAMIC_CODE_CONTEXT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Encapsulation of dynamic code dictionaries
 // SourceFiles
 //   dynamic_code_context.cpp
-#ifndef dynamic_code_context_hpp_
-#define dynamic_code_context_hpp_
 #include "dictionary.hpp"
 #include "sha1_digest.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_ARRAY_SET_HPP_
+#define SAMPLING_SAMPLED_SET_ARRAY_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   array_set.cpp
-#ifndef array_set_hpp_
-#define array_set_hpp_
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "coordinate_system.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_DB_FUNCTION_OBJECTS_FUNCTION_OBJECT_HPP_
+#define CORE_DB_FUNCTION_OBJECTS_FUNCTION_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   function_object.cpp
 
-#ifndef function_object_hpp_
-#define function_object_hpp_
 
 #include "type_info.hpp"
 #include "auto_ptr.hpp"

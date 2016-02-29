@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_TARGET_VOLUME_TO_CELL_TARGET_VOLUME_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_TARGET_VOLUME_TO_CELL_TARGET_VOLUME_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   cells. Adapts a plane until it has enough.
 // SourceFiles
 //   target_volume_to_cell.cpp
-#ifndef target_volume_to_cell_hpp_
-#define target_volume_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "packed_bool_list.hpp"
 namespace mousse

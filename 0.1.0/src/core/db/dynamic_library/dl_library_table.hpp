@@ -1,3 +1,6 @@
+#ifndef CORE_DB_DYNAMIC_LIBRARY_DL_LIBRARY_TABLE_HPP_
+#define CORE_DB_DYNAMIC_LIBRARY_DL_LIBRARY_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   dl_library_table.cpp
 
-#ifndef dl_library_table_hpp_
-#define dl_library_table_hpp_
 
 #include "label.hpp"
 #include "dynamic_list.hpp"

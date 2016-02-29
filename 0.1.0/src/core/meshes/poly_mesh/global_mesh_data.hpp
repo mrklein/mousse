@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_GLOBAL_MESH_DATA_HPP_
+#define CORE_MESHES_POLY_MESH_GLOBAL_MESH_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -48,8 +51,6 @@
 //   global_mesh_data.cpp
 //   global_mesh_data_templates.cpp
 
-#ifndef global_mesh_data_hpp_
-#define global_mesh_data_hpp_
 
 #include "processor_topology.hpp"
 #include "label_pair.hpp"

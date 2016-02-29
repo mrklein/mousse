@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_PLANE_HPP_
+#define MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_PLANE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Searching on (infinite) plane. See plane.H
 // SourceFiles
 //   searchable_plane.cpp
-#ifndef searchable_plane_hpp_
-#define searchable_plane_hpp_
 #include "searchable_surface.hpp"
 #include "plane.hpp"
 namespace mousse

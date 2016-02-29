@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_THERMO_ABSOLUTE_ENTHALPY_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_THERMO_ABSOLUTE_ENTHALPY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Thermodynamics mapping class to expose the absolute enthalpy function
 //   as the standard enthalpy function h(T).
-#ifndef absolute_enthalpy_hpp_
-#define absolute_enthalpy_hpp_
 namespace mousse
 {
 template<class Thermo>

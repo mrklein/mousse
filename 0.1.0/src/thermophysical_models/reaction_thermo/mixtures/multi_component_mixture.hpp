@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_MULTI_COMPONENT_MIXTURE_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_MULTI_COMPONENT_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::multiComponentMixture
 // SourceFiles
 //   multi_component_mixture.cpp
-#ifndef multi_component_mixture_hpp_
-#define multi_component_mixture_hpp_
 #include "basic_specie_mixture.hpp"
 #include "hash_ptr_table.hpp"
 namespace mousse

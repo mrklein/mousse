@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_INJECTION_MODEL_LIST_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_INJECTION_MODEL_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List container for film injection models
 // SourceFiles
 //   injection_model_list.cpp
-#ifndef injection_model_list_hpp_
-#define injection_model_list_hpp_
 #include "ptr_list.hpp"
 #include "injection_model.hpp"
 #include "film_sub_model_base.hpp"

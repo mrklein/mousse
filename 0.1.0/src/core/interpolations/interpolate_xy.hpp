@@ -1,10 +1,11 @@
+#ifndef CORE_INTERPOLATIONS_INTERPOLATE_XY_HPP_
+#define CORE_INTERPOLATIONS_INTERPOLATE_XY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   interpolate_xy.cpp
 
-#ifndef interpolate_xy_hpp_
-#define interpolate_xy_hpp_
 
 #include "scalar.hpp"
 #include "primitive_fields_fwd.hpp"

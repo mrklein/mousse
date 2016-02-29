@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FV_TOOLS_CALC_FVC_GRAD_CALC_FVC_GRAD_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FV_TOOLS_CALC_FVC_GRAD_CALC_FVC_GRAD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   calc_fvc_grad.cpp
 //   i_ocalc_fvc_grad.hpp
-#ifndef calc_fvc_grad_hpp_
-#define calc_fvc_grad_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "point_field_fwd.hpp"

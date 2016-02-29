@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FIXED_NORMAL_INLET_OUTLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FIXED_NORMAL_INLET_OUTLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -48,8 +51,6 @@
 //   \endverbatim
 // SourceFiles
 //   fixed_normal_inlet_outlet_velocity_fv_patch_vector_field.cpp
-#ifndef fixed_normal_inlet_outlet_velocity_fv_patch_vector_field_hpp_
-#define fixed_normal_inlet_outlet_velocity_fv_patch_vector_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "direction_mixed_fv_patch_fields.hpp"
 #include "switch.hpp"

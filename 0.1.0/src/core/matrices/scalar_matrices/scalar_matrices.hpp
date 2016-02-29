@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_SCALAR_MATRICES_SCALAR_MATRICES_HPP_
+#define CORE_MATRICES_SCALAR_MATRICES_SCALAR_MATRICES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   scalar_matrices.cpp
 //   scalar_matrices_templates.cpp
 
-#ifndef scalar_matrices_hpp_
-#define scalar_matrices_hpp_
 
 #include "rectangular_matrix.hpp"
 #include "square_matrix.hpp"

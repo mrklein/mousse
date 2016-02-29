@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_PAIR_PAIR_HPP_
+#define CORE_PRIMITIVES_PAIR_PAIR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   elements.
 // SeeAlso
 //   mousse::Tuple2 for storing two objects of dissimilar types.
-#ifndef pair_hpp_
-#define pair_hpp_
 #include "fixed_list.hpp"
 #include "istream.hpp"
 namespace mousse

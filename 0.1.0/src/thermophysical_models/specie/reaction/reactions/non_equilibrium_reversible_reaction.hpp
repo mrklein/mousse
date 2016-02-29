@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTIONS_NON_EQUILIBRIUM_REVERSIBLE_REACTION_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTIONS_NON_EQUILIBRIUM_REVERSIBLE_REACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   equilibrium thermodynamics.
 // SourceFiles
 //   non_equilibrium_reversible_reaction.cpp
-#ifndef non_equilibrium_reversible_reaction_hpp_
-#define non_equilibrium_reversible_reaction_hpp_
 #include "reaction.hpp"
 namespace mousse
 {

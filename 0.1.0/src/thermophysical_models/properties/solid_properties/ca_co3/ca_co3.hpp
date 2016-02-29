@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_SOLID_PROPERTIES_CA_CO3_CA_CO3_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_SOLID_PROPERTIES_CA_CO3_CA_CO3_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,9 +10,9 @@
 //   Calcium carbonate (limestone)
 // SourceFiles
 //   ca_co3.cpp
-#ifndef solid_ca_co3_hpp_
-#define solid_ca_co3_hpp_
+
 #include "solid_properties.hpp"
+
 namespace mousse
 {
 class CaCO3;

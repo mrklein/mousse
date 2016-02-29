@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TKINEMATIC_LOOKUP_TABLE_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TKINEMATIC_LOOKUP_TABLE_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //     mDot    = mass flow rate [kg/m3]
 // SourceFiles
 //   _kinematic_lookup_table_injection.cpp
-#ifndef _kinematic_lookup_table_injection_hpp_
-#define _kinematic_lookup_table_injection_hpp_
 #include "_injection_model.hpp"
 #include "kinematic_parcel_injection_data_io_list.hpp"
 namespace mousse

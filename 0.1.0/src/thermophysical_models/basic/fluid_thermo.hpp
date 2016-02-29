@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_FLUID_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_FLUID_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Fundamental fluid thermodynamic properties
 // SourceFiles
 //   fluid_thermo.cpp
-#ifndef fluid_thermo_hpp_
-#define fluid_thermo_hpp_
 #include "basic_thermo.hpp"
 #include "compressible_transport_model.hpp"
 namespace mousse

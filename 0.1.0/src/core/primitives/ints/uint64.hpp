@@ -1,10 +1,11 @@
+#ifndef CORE_PRIMITIVES_INTS_UINT64_HPP_
+#define CORE_PRIMITIVES_INTS_UINT64_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   uint64.cpp
 //   uint64_io.cpp
-#ifndef uint64_hpp_
-#define uint64_hpp_
 #define __STDC_LIMIT_MACROS
 #if defined(__APPLE__)
 #include <sys/types.h>

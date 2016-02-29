@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_CLOUD_MAP_CLOUDS_HPP_
+#define CORE_FIELDS_CLOUD_MAP_CLOUDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef map_clouds_hpp_
-#define map_clouds_hpp_
 #include "cloud.hpp"
 #include "object_registry.hpp"
 namespace mousse

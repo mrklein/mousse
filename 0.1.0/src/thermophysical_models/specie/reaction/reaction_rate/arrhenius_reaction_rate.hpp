@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_ARRHENIUS_REACTION_RATE_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_ARRHENIUS_REACTION_RATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Arrhenius reaction rate given by:
 //     k = A * T^beta * exp(-Ta/T)
-#ifndef arrhenius_reaction_rate_hpp_
-#define arrhenius_reaction_rate_hpp_
 #include "scalar_field.hpp"
 #include "type_info.hpp"
 namespace mousse

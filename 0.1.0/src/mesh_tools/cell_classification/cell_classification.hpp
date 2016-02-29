@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_CELL_CLASSIFICATION_CELL_CLASSIFICATION_HPP_
+#define MESH_TOOLS_CELL_CLASSIFICATION_CELL_CLASSIFICATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -52,8 +55,6 @@
 //    outside surface (connected across point, not edge)
 // SourceFiles
 //   cell_classification.cpp
-#ifndef cell_classification_hpp_
-#define cell_classification_hpp_
 #include "point_field.hpp"
 #include "map.hpp"
 #include "bool_list.hpp"

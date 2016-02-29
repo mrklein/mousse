@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_GENERIC_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_GENERIC_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   processors to keep the addressing calculation simple.
 // SourceFiles
 //   generic_poly_patch.cpp
-#ifndef generic_poly_patch_hpp_
-#define generic_poly_patch_hpp_
 #include "poly_patch.hpp"
 #include "dictionary.hpp"
 namespace mousse

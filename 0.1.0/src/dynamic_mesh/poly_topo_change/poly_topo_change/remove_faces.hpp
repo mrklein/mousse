@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REMOVE_FACES_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REMOVE_FACES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Not very well tested in parallel.
 // SourceFiles
 //   remove_faces.cpp
-#ifndef remove_faces_hpp_
-#define remove_faces_hpp_
 #include "pstream.hpp"
 #include "hash_set.hpp"
 #include "map.hpp"

@@ -1,3 +1,6 @@
+#ifndef TRI_SURFACE_TRI_SURFACE_TRI_SURFACE_HPP_
+#define TRI_SURFACE_TRI_SURFACE_TRI_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Triangulated surface description with patch information.
 // SourceFiles
 //   tri_surface.cpp
-#ifndef tri_surface_hpp_
-#define tri_surface_hpp_
 #include "primitive_patch.hpp"
 #include "point_field.hpp"
 #include "labelled_tri.hpp"

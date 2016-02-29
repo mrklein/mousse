@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_POINT_DATA_POINT_DATA_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_POINT_DATA_POINT_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   transformation needed)
 // SourceFiles
 //   point_data.cpp
-#ifndef point_data_hpp_
-#define point_data_hpp_
 #include "point_edge_point.hpp"
 #include "poly_mesh.hpp"
 #include "transform.hpp"

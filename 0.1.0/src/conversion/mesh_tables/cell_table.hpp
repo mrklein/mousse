@@ -1,3 +1,6 @@
+#ifndef CONVERSION_MESH_TABLES_CELL_TABLE_HPP_
+#define CONVERSION_MESH_TABLES_CELL_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -28,8 +31,6 @@
 //   be inferred.
 // SourceFiles
 //   cell_table.cpp
-#ifndef cell_table_hpp_
-#define cell_table_hpp_
 #include "poly_mesh.hpp"
 #include "map.hpp"
 #include "dictionary.hpp"

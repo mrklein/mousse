@@ -1,9 +1,10 @@
+#ifndef CORE_DB_IOSTREAMS_IOSTREAMS_IOMANIP_HPP_
+#define CORE_DB_IOSTREAMS_IOSTREAMS_IOMANIP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef iomanip_hpp_
-#define iomanip_hpp_
 #include "istream.hpp"
 #include "ostream.hpp"
 namespace mousse

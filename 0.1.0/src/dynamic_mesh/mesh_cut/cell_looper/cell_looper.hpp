@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_CELL_LOOPER_CELL_LOOPER_HPP_
+#define DYNAMIC_MESH_MESH_CUT_CELL_LOOPER_CELL_LOOPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   use.
 // SourceFiles
 //   cell_looper.cpp
-#ifndef cell_looper_hpp_
-#define cell_looper_hpp_
 #include "edge_vertex.hpp"
 #include "vector.hpp"
 #include "bool_list.hpp"

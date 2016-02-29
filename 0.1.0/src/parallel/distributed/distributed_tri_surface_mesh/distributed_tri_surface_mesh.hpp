@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DISTRIBUTED_DISTRIBUTED_TRI_SURFACE_MESH_DISTRIBUTED_TRI_SURFACE_MESH_HPP_
+#define PARALLEL_DISTRIBUTED_DISTRIBUTED_TRI_SURFACE_MESH_DISTRIBUTED_TRI_SURFACE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -19,8 +22,6 @@
 //   - frozen : no change
 // SourceFiles
 //   distributed_tri_surface_mesh.cpp
-#ifndef distributed_tri_surface_mesh_hpp_
-#define distributed_tri_surface_mesh_hpp_
 #include "tri_surface_mesh.hpp"
 #include "iodictionary.hpp"
 #include "pair.hpp"

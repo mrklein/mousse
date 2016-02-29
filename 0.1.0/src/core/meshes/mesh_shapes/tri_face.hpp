@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_TRI_FACE_HPP_
+#define CORE_MESHES_MESH_SHAPES_TRI_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   tri_face_templates.cpp
 
-#ifndef tri_face_hpp_
-#define tri_face_hpp_
 
 #include "fixed_list.hpp"
 #include "edge_list.hpp"

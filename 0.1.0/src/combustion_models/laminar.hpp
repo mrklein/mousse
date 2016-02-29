@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_LAMINAR_HPP_
+#define COMBUSTION_MODELS_LAMINAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Laminar combustion model.
 // SourceFiles
 //   laminar.cpp
-#ifndef laminar_hpp_
-#define laminar_hpp_
 namespace mousse
 {
 namespace combustionModels

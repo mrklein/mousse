@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_INTS_UINT_HPP_
+#define CORE_PRIMITIVES_INTS_UINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   uint_io.cpp
-#ifndef uint_hpp_
-#define uint_hpp_
 #include "uint32.hpp"
 #include "uint64.hpp"
 namespace mousse

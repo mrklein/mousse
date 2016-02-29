@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_CENTRED_FIT_SCHEME_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_CENTRED_FIT_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Centred fit surface interpolation scheme which applies an explicit
 //   correction to linear.
-#ifndef centred_fit_scheme_hpp_
-#define centred_fit_scheme_hpp_
 #include "centred_fit_data.hpp"
 #include "linear.hpp"
 namespace mousse

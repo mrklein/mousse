@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_PATCHES_CYCLIC_ACMI_CYCLIC_ACMI_LDU_INTERFACE_FIELD_CYCLIC_ACMI_LDU_INTERFACE_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_PATCHES_CYCLIC_ACMI_CYCLIC_ACMI_LDU_INTERFACE_FIELD_CYCLIC_ACMI_LDU_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An abstract base class for cyclic ACMI coupled interfaces
 // SourceFiles
 //   cyclic_acmi_ldu_interface.cpp
-#ifndef cyclic_acmi_ldu_interface_hpp_
-#define cyclic_acmi_ldu_interface_hpp_
 #include "cyclic_ami_ldu_interface.hpp"
 namespace mousse
 {

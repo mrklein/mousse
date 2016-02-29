@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_NEAR_WALL_FIELDS_FIND_CELL_PARTICLE_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_NEAR_WALL_FIELDS_FIND_CELL_PARTICLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Particle class that finds cells by tracking
 // SourceFiles
 //   find_cell_particle.cpp
-#ifndef find_cell_particle_hpp_
-#define find_cell_particle_hpp_
 #include "particle.hpp"
 #include "auto_ptr.hpp"
 namespace mousse

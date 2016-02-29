@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_FIELD_REUSE_FUNCTIONS_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_FIELD_REUSE_FUNCTIONS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef geometric_field_reuse_functions_hpp_
-#define geometric_field_reuse_functions_hpp_
 
 namespace mousse
 {

@@ -1,11 +1,12 @@
+#ifndef CORE_CONTAINERS_LISTS_LIST_OPS_HPP_
+#define CORE_CONTAINERS_LISTS_LIST_OPS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   list_ops.cpp
 //   list_ops_templates.cpp
 
-#ifndef list_ops_hpp_
-#define list_ops_hpp_
 
 #include "label_list.hpp"
 #include "ops.hpp"

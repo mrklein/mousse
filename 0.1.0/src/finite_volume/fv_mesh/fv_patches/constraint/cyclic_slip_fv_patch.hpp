@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_CYCLIC_SLIP_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_CYCLIC_SLIP_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cyclic-plane patch.
 // SourceFiles
 //   cyclic_slip_fv_patch.cpp
-#ifndef cyclic_slip_fv_patch_hpp_
-#define cyclic_slip_fv_patch_hpp_
 #include "cyclic_fv_patch.hpp"
 #include "cyclic_slip_poly_patch.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_GAMG_INTERFACE_FIELDS_CYCLIC_ACMIGAMG_INTERFACE_FIELD_CYCLIC_ACMIGAMG_INTERFACE_FIELD_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_GAMG_INTERFACE_FIELDS_CYCLIC_ACMIGAMG_INTERFACE_FIELD_CYCLIC_ACMIGAMG_INTERFACE_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   (ACMI) fields.
 // SourceFiles
 //   cyclic_acmigamg_interface_field.cpp
-#ifndef cyclic_acmigamg_interface_field_hpp_
-#define cyclic_acmigamg_interface_field_hpp_
 #include "gamg_interface_field.hpp"
 #include "cyclic_acmigamg_interface.hpp"
 #include "cyclic_acmi_ldu_interface_field.hpp"

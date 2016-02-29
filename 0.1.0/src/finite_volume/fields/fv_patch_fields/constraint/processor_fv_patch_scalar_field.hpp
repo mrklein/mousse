@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_PROCESSOR_FV_PATCH_SCALAR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_PROCESSOR_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef processor_fv_patch_scalar_field_hpp_
-#define processor_fv_patch_scalar_field_hpp_
 #include "processor_fv_patch_field.hpp"
 namespace mousse
 {

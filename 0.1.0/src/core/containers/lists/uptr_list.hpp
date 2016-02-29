@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_UPTR_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_UPTR_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   uptr_list.cpp
 //   uptr_list_io.cpp
 
-#ifndef uptr_list_hpp_
-#define uptr_list_hpp_
 
 #include "list.hpp"
 #include "error.hpp"

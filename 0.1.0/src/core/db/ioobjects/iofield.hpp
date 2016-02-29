@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOOBJECTS_IOFIELD_HPP_
+#define CORE_DB_IOOBJECTS_IOFIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   iofield.cpp
 
-#ifndef iofield_hpp_
-#define iofield_hpp_
 
 #include "reg_ioobject.hpp"
 #include "field.hpp"

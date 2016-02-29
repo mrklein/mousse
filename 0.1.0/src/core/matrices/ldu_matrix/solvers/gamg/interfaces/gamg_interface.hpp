@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_INTERFACES_GAMG_INTERFACE_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_INTERFACES_GAMG_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   gamg_interface.cpp
 //   new_amg_interface.cpp
 
-#ifndef gamg_interface_hpp_
-#define gamg_interface_hpp_
 
 #include "auto_ptr.hpp"
 #include "ldu_interface_ptrs_list.hpp"

@@ -1,3 +1,8 @@
+#include "pstream.hpp"
+
+#ifndef CORE_DB_IOSTREAMS_PSTREAMS_IPSTREAM_HPP_
+#define CORE_DB_IOSTREAMS_PSTREAMS_IPSTREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,10 +12,9 @@
 //   Input inter-processor communications stream.
 // SourceFiles
 //   ipstream.cpp
-#include "pstream.hpp"
-#ifndef ipstream_hpp_
-#define ipstream_hpp_
+
 #include "uipstream.hpp"
+
 namespace mousse
 {
 class IPstream

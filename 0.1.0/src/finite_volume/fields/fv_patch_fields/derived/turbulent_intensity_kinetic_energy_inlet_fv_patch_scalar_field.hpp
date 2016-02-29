@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_TURBULENT_INTENSITY_KINETIC_ENERGY_INLET_FV_PATCH_SCALAR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_TURBULENT_INTENSITY_KINETIC_ENERGY_INLET_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -39,8 +42,6 @@
 //   mousse::inletOutletFvPatchField
 // SourceFiles
 //   turbulent_intensity_kinetic_energy_inlet_fv_patch_scalar_field.cpp
-#ifndef turbulent_intensity_kinetic_energy_inlet_fv_patch_scalar_field_hpp_
-#define turbulent_intensity_kinetic_energy_inlet_fv_patch_scalar_field_hpp_
 #include "inlet_outlet_fv_patch_fields.hpp"
 namespace mousse
 {

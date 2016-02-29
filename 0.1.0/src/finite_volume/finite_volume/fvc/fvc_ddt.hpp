@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_DDT_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_DDT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   fvc_ddt.cpp
-#ifndef fvc_ddt_hpp_
-#define fvc_ddt_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "dimensioned_types.hpp"

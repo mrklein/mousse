@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_SPECIE_REACTION_REACTION_RATE_SOLID_ARRHENIUS_REACTION_RATE_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_SPECIE_REACTION_REACTION_RATE_SOLID_ARRHENIUS_REACTION_RATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::solidArrheniusReactionRate
 // Description
 //   Arrhenius reaction rate for solids
-#ifndef solid_arrhenius_reaction_rate_hpp_
-#define solid_arrhenius_reaction_rate_hpp_
 #include "scalar_field.hpp"
 #include "type_info.hpp"
 namespace mousse

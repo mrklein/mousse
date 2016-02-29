@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_TABULATED_ACCELERATION_SOURCE_TABULATED_6DOF_ACCELERATION_TABULATED_6DOF_ACCELERATION_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_TABULATED_ACCELERATION_SOURCE_TABULATED_6DOF_ACCELERATION_TABULATED_6DOF_ACCELERATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   angular velocity and angular acceleration.
 // SourceFiles
 //   tabulated_6dof_acceleration.cpp
-#ifndef tabulated_6dof_acceleration_hpp_
-#define tabulated_6dof_acceleration_hpp_
 #include "primitive_fields.hpp"
 #include "vector_2d.hpp"
 #include "time.hpp"

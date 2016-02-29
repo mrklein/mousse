@@ -1,3 +1,6 @@
+#ifndef CORE_GLOBAL_JOB_INFO_HPP_
+#define CORE_GLOBAL_JOB_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //    - $FOAM_JOB_DIR/finishedJobs
 // SourceFiles
 //   job_info.cpp
-#ifndef job_info_hpp_
-#define job_info_hpp_
 
 #include "dictionary.hpp"
 #include "file_name.hpp"

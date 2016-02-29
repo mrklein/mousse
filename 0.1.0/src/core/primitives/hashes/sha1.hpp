@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_HASHES_SHA1_HPP_
+#define CORE_PRIMITIVES_HASHES_SHA1_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   mousse::SHA1Digest
 // SourceFiles
 //   sha1.cpp
-#ifndef sha1_hpp_
-#define sha1_hpp_
 #include <string>
 #include <cstddef>
 #include <cstring>

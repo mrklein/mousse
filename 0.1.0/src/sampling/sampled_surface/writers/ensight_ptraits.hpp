@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_WRITERS_ENSIGHT_PTRAITS_HPP_
+#define SAMPLING_SAMPLED_SURFACE_WRITERS_ENSIGHT_PTRAITS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::ensightPTraits
 // Description
 //   Conversion of OpenFOAM pTraits into the Ensight equivalent
-#ifndef ensight_ptraits_hpp_
-#define ensight_ptraits_hpp_
 #include "ptraits.hpp"
 #include "field_types.hpp"
 namespace mousse

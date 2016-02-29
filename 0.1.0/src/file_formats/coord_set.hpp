@@ -1,3 +1,6 @@
+#ifndef FILE_FORMATS_COORD_SET_HPP_
+#define FILE_FORMATS_COORD_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Holds list of sampling positions
 // SourceFiles
 //   coord_set.cpp
-#ifndef coord_set_hpp_
-#define coord_set_hpp_
 #include "point_field.hpp"
 #include "word.hpp"
 namespace mousse

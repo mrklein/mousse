@@ -1,3 +1,6 @@
+#ifndef RANDOM_PROCESSES_KMESH_HPP_
+#define RANDOM_PROCESSES_KMESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   space vector field of a finite volume mesh;
 // SourceFiles
 //   kmesh.cpp
-#ifndef kmesh_hpp_
-#define kmesh_hpp_
 #include "fv_mesh.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TGRAVITY_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TGRAVITY_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Calculates particle gravity force
 // SourceFiles
 //   _gravity_force.cpp
-#ifndef _gravity_force_hpp_
-#define _gravity_force_hpp_
 #include "_particle_force.hpp"
 namespace mousse
 {

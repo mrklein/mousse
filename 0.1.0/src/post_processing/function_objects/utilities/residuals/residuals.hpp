@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_RESIDUALS_RESIDUALS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_RESIDUALS_RESIDUALS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -30,8 +33,6 @@
 // SourceFiles
 //   residuals.cpp
 //   io_residuals.hpp
-#ifndef residuals_hpp_
-#define residuals_hpp_
 #include "function_object_file.hpp"
 #include "primitive_fields_fwd.hpp"
 #include "vol_fields_fwd.hpp"

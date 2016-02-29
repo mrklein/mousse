@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_RANGES_SCALAR_RANGES_HPP_
+#define CORE_PRIMITIVES_RANGES_SCALAR_RANGES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A List of scalarRange.
 // SourceFiles
 //   scalar_ranges.cpp
-#ifndef scalar_ranges_hpp_
-#define scalar_ranges_hpp_
 #include "scalar_range.hpp"
 #include "list.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_POTENTIAL_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_POTENTIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   potential.cpp
-#ifndef potential_hpp_
-#define potential_hpp_
 #include "poly_mesh.hpp"
 #include "iodictionary.hpp"
 #include "time.hpp"

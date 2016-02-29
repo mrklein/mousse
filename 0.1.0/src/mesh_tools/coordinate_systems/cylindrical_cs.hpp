@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_COORDINATE_SYSTEMS_CYLINDRICAL_CS_HPP_
+#define MESH_TOOLS_COORDINATE_SYSTEMS_CYLINDRICAL_CS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cylindrical coordinate system
 // SourceFiles
 //   cylindrical_cs.cpp
-#ifndef cylindrical_cs_hpp_
-#define cylindrical_cs_hpp_
 #include "coordinate_system.hpp"
 namespace mousse
 {

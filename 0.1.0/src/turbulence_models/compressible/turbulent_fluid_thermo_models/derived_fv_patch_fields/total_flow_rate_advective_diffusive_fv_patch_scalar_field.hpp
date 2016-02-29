@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_TOTAL_FLOW_RATE_ADVECTIVE_DIFFUSIVE_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_TOTAL_FLOW_RATE_ADVECTIVE_DIFFUSIVE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   species.
 // SourceFiles
 //   total_flow_rate_advective_diffusive_fv_patch_scalar_field.cpp
-#ifndef total_flow_rate_advective_diffusive_fv_patch_scalar_field_hpp_
-#define total_flow_rate_advective_diffusive_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_field.hpp"
 namespace mousse
 {

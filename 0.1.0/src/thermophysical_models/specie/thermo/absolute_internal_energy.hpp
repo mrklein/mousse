@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_THERMO_ABSOLUTE_INTERNAL_ENERGY_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_THERMO_ABSOLUTE_INTERNAL_ENERGY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Thermodynamics mapping class to expose the absolute internal energy function
 //   as the standard internal energy function e(T).
-#ifndef absolute_internal_energy_hpp_
-#define absolute_internal_energy_hpp_
 namespace mousse
 {
 template<class Thermo>

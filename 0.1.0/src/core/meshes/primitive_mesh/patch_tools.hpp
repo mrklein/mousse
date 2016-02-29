@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_MESH_PATCH_TOOLS_HPP_
+#define CORE_MESHES_PRIMITIVE_MESH_PATCH_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   patch_tools_sort_edges.cpp
 //   patch_tools_sort_points.cpp
 
-#ifndef patch_tools_hpp_
-#define patch_tools_hpp_
 
 #include "primitive_patch.hpp"
 #include "hash_set.hpp"

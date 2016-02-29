@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_PATCH_CHANGE_HPP_
+#define CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_PATCH_CHANGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   operation.
 // SourceFiles
 
-#ifndef map_patch_change_hpp_
-#define map_patch_change_hpp_
 
 #include "label_list.hpp"
 

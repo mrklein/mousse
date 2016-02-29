@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_TET_CELL_HPP_
+#define CORE_MESHES_MESH_SHAPES_TET_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   class, a tetrahedron cell shape model and a tetCell
 // SourceFiles
 //   tet_cell.cpp
-#ifndef tet_cell_hpp_
-#define tet_cell_hpp_
 #include "fixed_list.hpp"
 #include "tri_face.hpp"
 #include "edge.hpp"

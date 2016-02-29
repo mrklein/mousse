@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_THERMOPHYSICAL_FUNCTIONS_API_FUNCTIONS_API_DIFF_COEF_FUNC_HPP_
+#define THERMOPHYSICAL_MODELS_THERMOPHYSICAL_FUNCTIONS_API_FUNCTIONS_API_DIFF_COEF_FUNC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //       API (American Petroleum Institute)
 //           Technical Data Book
 //   \endverbatim
-#ifndef api_diff_coef_func_hpp_
-#define api_diff_coef_func_hpp_
 #include "thermophysical_function.hpp"
 namespace mousse
 {

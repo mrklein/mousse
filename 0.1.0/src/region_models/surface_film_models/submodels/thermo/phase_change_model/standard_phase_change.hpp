@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_PHASE_CHANGE_MODEL_STANDARD_PHASE_CHANGE_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_PHASE_CHANGE_MODEL_STANDARD_PHASE_CHANGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Standard phase change model with modification for boiling
 // SourceFiles
 //   standard_phase_change.cpp
-#ifndef standard_phase_change_hpp_
-#define standard_phase_change_hpp_
 #include "phase_change_model.hpp"
 namespace mousse
 {

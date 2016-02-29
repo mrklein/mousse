@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_ROTATING_TOTAL_PRESSURE_FV_PATCH_SCALAR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_ROTATING_TOTAL_PRESSURE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -39,8 +42,6 @@
 //   mousse::totalPressureFvPatchScalarField
 // SourceFiles
 //   rotating_total_pressure_fv_patch_scalar_field.cpp
-#ifndef rotating_total_pressure_fv_patch_scalar_field_hpp_
-#define rotating_total_pressure_fv_patch_scalar_field_hpp_
 #include "total_pressure_fv_patch_scalar_field.hpp"
 #include "data_entry.hpp"
 namespace mousse

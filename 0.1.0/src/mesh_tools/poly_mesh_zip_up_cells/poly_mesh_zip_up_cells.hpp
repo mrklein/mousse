@@ -1,9 +1,10 @@
+#ifndef MESH_TOOLS_POLY_MESH_ZIP_UP_CELLS_POLY_MESH_ZIP_UP_CELLS_HPP_
+#define MESH_TOOLS_POLY_MESH_ZIP_UP_CELLS_POLY_MESH_ZIP_UP_CELLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   poly_mesh_zip_up_cells.cpp
-#ifndef poly_mesh_zip_up_cells_hpp_
-#define poly_mesh_zip_up_cells_hpp_
 namespace mousse
 {
 class polyMesh;

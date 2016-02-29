@@ -1,3 +1,6 @@
+#ifndef CORE_MEMORY_AUTO_PTR_HPP_
+#define CORE_MEMORY_AUTO_PTR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An auto-pointer similar to the STL auto_ptr but with automatic casting
 //   to a reference to the type and with pointer allocation checking on access.
 
-#ifndef auto_ptr_hpp_
-#define auto_ptr_hpp_
 
 #include "error.hpp"
 #include <cstddef>

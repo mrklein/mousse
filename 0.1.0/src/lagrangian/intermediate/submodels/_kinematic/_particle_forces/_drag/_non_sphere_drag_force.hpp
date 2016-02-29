@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TDRAG_TNON_SPHERE_DRAG_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TDRAG_TNON_SPHERE_DRAG_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 //     Powder Technology
 //     Volume 58, Issue 1, May 1989, Pages 63-70
 //   \endverbatim
-#ifndef _non_sphere_drag_force_hpp_
-#define _non_sphere_drag_force_hpp_
 #include "_particle_force.hpp"
 namespace mousse
 {

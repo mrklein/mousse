@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_BASIC_SLICED_FVS_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_BASIC_SLICED_FVS_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   Should only used as a template argument for SlicedGeometricField.
 // SourceFiles
 //   sliced_fvs_patch_field.cpp
-#ifndef sliced_fvs_patch_field_hpp_
-#define sliced_fvs_patch_field_hpp_
 #include "fvs_patch_field.hpp"
 namespace mousse
 {

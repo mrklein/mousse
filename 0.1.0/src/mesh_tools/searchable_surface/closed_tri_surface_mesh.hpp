@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SEARCHABLE_SURFACE_CLOSED_TRI_SURFACE_MESH_HPP_
+#define MESH_TOOLS_SEARCHABLE_SURFACE_CLOSED_TRI_SURFACE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   geometrically essentially closed
 // SourceFiles
 //   closed_tri_surface_mesh.cpp
-#ifndef closed_tri_surface_mesh_hpp_
-#define closed_tri_surface_mesh_hpp_
 #include "tri_surface_mesh.hpp"
 namespace mousse
 {

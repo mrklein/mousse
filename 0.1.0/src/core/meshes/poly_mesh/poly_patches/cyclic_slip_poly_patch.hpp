@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_CYCLIC_SLIP_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_CYCLIC_SLIP_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   which is cyclicSlip with slip constraints
 // SourceFiles
 //   cyclic_slip_poly_patch.cpp
-#ifndef cyclic_slip_poly_patch_hpp_
-#define cyclic_slip_poly_patch_hpp_
 #include "cyclic_poly_patch.hpp"
 namespace mousse
 {

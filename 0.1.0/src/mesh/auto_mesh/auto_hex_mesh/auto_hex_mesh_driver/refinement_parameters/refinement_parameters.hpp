@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_REFINEMENT_PARAMETERS_REFINEMENT_PARAMETERS_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_REFINEMENT_PARAMETERS_REFINEMENT_PARAMETERS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Simple container to keep together refinement specific information.
 // SourceFiles
 //   refinement_parameters.cpp
-#ifndef refinement_parameters_hpp_
-#define refinement_parameters_hpp_
 #include "dictionary.hpp"
 #include "point_field.hpp"
 #include "switch.hpp"

@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_NO_FILM_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_NO_FILM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Dummy surface film model for 'none'
 // SourceFiles
 //   no_film.cpp
-#ifndef no_film_hpp_
-#define no_film_hpp_
 #include "surface_film_model.hpp"
 namespace mousse
 {

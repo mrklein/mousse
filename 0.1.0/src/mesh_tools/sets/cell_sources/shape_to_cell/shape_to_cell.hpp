@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_SHAPE_TO_CELL_SHAPE_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_SHAPE_TO_CELL_SHAPE_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   feature angle.
 // SourceFiles
 //   shape_to_cell.cpp
-#ifndef shape_to_cell_hpp_
-#define shape_to_cell_hpp_
 #include "topo_set_source.hpp"
 namespace mousse
 {

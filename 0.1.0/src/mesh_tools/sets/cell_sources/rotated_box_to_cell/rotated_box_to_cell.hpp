@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_ROTATED_BOX_TO_CELL_ROTATED_BOX_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_ROTATED_BOX_TO_CELL_ROTATED_BOX_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   \endverbatim
 // SourceFiles
 //   rotated_box_to_cell.cpp
-#ifndef rotated_box_to_cell_hpp_
-#define rotated_box_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "tree_bound_box.hpp"
 namespace mousse

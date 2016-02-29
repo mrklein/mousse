@@ -1,10 +1,11 @@
+#ifndef FINITE_VOLUME_FV_MATRICES_SOLVERS_MULES_HPP_
+#define FINITE_VOLUME_FV_MATRICES_SOLVERS_MULES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   mules.cpp
 //   mules_templates.cpp
-#ifndef mules_hpp_
-#define mules_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "primitive_fields_fwd.hpp"

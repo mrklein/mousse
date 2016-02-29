@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_SURFACE_WITH_GAPS_HPP_
+#define MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_SURFACE_WITH_GAPS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //    inaccuracies.
 // SourceFiles
 //   searchable_surface_with_gaps.cpp
-#ifndef searchable_surface_with_gaps_hpp_
-#define searchable_surface_with_gaps_hpp_
 #include "searchable_surface.hpp"
 #include "uptr_list.hpp"
 #include "pair.hpp"

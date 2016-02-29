@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_TINTEGRATION_SCHEME_TANALYTICAL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_TINTEGRATION_SCHEME_TANALYTICAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::Analytical
 // Description
 //   Analytical integration
-#ifndef _analytical_hpp_
-#define _analytical_hpp_
 #include "_integration_scheme.hpp"
 namespace mousse
 {

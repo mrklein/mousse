@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_REACTION_RATE_FLAME_AREA_MODELS_REACTION_RATE_FLAME_AREA_HPP_
+#define COMBUSTION_MODELS_REACTION_RATE_FLAME_AREA_MODELS_REACTION_RATE_FLAME_AREA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   reaction_rate_flame_area.cpp
 //   reaction_rate_flame_area_new.cpp
-#ifndef reaction_rate_flame_area_hpp_
-#define reaction_rate_flame_area_hpp_
 #include "run_time_selection_tables.hpp"
 #include "dictionary.hpp"
 #include "auto_ptr.hpp"

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_MIXTURES_PURE_MIXTURE_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_MIXTURES_PURE_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::pureMixture
 // SourceFiles
 //   pure_mixture.cpp
-#ifndef pure_mixture_hpp_
-#define pure_mixture_hpp_
 #include "basic_mixture.hpp"
 namespace mousse
 {

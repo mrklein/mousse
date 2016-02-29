@@ -1,3 +1,6 @@
+#ifndef SAMPLING_PROBES_PATCH_PROBES_HPP_
+#define SAMPLING_PROBES_PATCH_PROBES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Call write() to sample and write files.
 // SourceFiles
 //   patch_probes.cpp
-#ifndef patch_probes_hpp_
-#define patch_probes_hpp_
 #include "probes.hpp"
 namespace mousse
 {

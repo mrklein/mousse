@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TPACKING_MODELS_TEXPLICIT_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TPACKING_MODELS_TEXPLICIT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -19,8 +22,6 @@
 //   \endverbatim
 // SourceFiles
 //   explicit.cpp
-#ifndef _explicit_hpp_
-#define _explicit_hpp_
 #include "_packing_model.hpp"
 namespace mousse
 {

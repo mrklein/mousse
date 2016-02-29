@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_SINGLE_STEP_REACTING_MIXTURE_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_SINGLE_STEP_REACTING_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Single step reacting mixture
 // SourceFiles
 //   single_step_reacting_mixture.cpp
-#ifndef single_step_reacting_mixture_hpp_
-#define single_step_reacting_mixture_hpp_
 #include "chemistry_reader.hpp"
 #include "reacting_mixture.hpp"
 namespace mousse

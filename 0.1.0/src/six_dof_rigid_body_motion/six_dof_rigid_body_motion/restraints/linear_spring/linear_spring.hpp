@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_RESTRAINTS_LINEAR_SPRING_LINEAR_SPRING_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_RESTRAINTS_LINEAR_SPRING_LINEAR_SPRING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   sixDoFRigidBodyMotionRestraints model.  Linear spring.
 // SourceFiles
 //   linear_spring.cpp
-#ifndef linear_spring_hpp_
-#define linear_spring_hpp_
 #include "six_dof_rigid_body_motion_restraint.hpp"
 #include "point.hpp"
 namespace mousse

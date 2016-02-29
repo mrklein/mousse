@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_LAUNDER_SHARMA_KE_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_LAUNDER_SHARMA_KE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -35,8 +38,6 @@
 //   \endverbatim
 // SourceFiles
 //   launder_sharma_ke.cpp
-#ifndef launder_sharma_ke_hpp_
-#define launder_sharma_ke_hpp_
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"
 namespace mousse

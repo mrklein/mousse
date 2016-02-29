@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_WALE_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_WALE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,8 +30,6 @@
 //   mousse::LESModels::Smagorinsky
 // SourceFiles
 //   wale.cpp
-#ifndef wale_hpp_
-#define wale_hpp_
 #include "les_model.hpp"
 #include "les_eddy_viscosity.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_FIXED_BLENDED_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_FIXED_BLENDED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 // SourceFiles
 //   fixed_blended.cpp
 
-#ifndef fixed_blended_hpp_
-#define fixed_blended_hpp_
 
 #include "surface_interpolation_scheme.hpp"
 

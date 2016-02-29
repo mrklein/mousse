@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INCOMPRESSIBLE_SINGLE_PHASE_TRANSPORT_MODEL_HPP_
+#define TRANSPORT_MODELS_INCOMPRESSIBLE_SINGLE_PHASE_TRANSPORT_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   mousse-turb etc.
 // SourceFiles
 //   single_phase_transport_model.cpp
-#ifndef single_phase_transport_model_hpp_
-#define single_phase_transport_model_hpp_
 #include "incompressible/transport_model.hpp"
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"

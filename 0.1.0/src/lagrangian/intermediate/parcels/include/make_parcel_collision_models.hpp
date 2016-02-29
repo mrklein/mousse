@@ -1,9 +1,10 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_INCLUDE_MAKE_PARCEL_COLLISION_MODELS_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_INCLUDE_MAKE_PARCEL_COLLISION_MODELS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_parcel_collision_models_hpp_
-#define make_parcel_collision_models_hpp_
 
 #include "_no_collision.hpp"
 #include "_pair_collision.hpp"

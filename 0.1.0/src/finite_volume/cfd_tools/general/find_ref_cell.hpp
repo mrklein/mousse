@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_FIND_REF_CELL_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_FIND_REF_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   find_ref_cell.cpp
-#ifndef find_ref_cell_hpp_
-#define find_ref_cell_hpp_
 #include "label.hpp"
 #include "vol_fields.hpp"
 namespace mousse

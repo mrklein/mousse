@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_FIELDS_FIELD_REUSE_FUNCTIONS_HPP_
+#define CORE_FIELDS_FIELDS_FIELD_REUSE_FUNCTIONS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef field_reuse_functions_hpp_
-#define field_reuse_functions_hpp_
 namespace mousse
 {
 template<class TypeR, class Type1>

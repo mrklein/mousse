@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_TLEAST_SQUARES_GRAD_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_TLEAST_SQUARES_GRAD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -31,8 +34,6 @@
 //   _least_squares_vectors.hpp
 //   _least_squares_vectors.cpp
 
-#ifndef _least_squares_grad_hpp_
-#define _least_squares_grad_hpp_
 
 #include "grad_scheme.hpp"
 

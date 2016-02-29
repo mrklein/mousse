@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_REGION_COUPLED_PATCHES_REGION_COUPLED_POLY_PATCH_REGION_COUPLED_BASE_HPP_
+#define MESH_TOOLS_REGION_COUPLED_PATCHES_REGION_COUPLED_POLY_PATCH_REGION_COUPLED_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   It includes AMI.
 // SourceFiles
 //   region_coupled_base.cpp
-#ifndef region_coupled_base_hpp_
-#define region_coupled_base_hpp_
 #include "ami_patch_to_patch_interpolation.hpp"
 #include "poly_boundary_mesh.hpp"
 namespace mousse

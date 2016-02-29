@@ -1,9 +1,10 @@
+#ifndef FILE_FORMATS_SAMPLED_SET_WRITERS_WRITERS_HPP_
+#define FILE_FORMATS_SAMPLED_SET_WRITERS_WRITERS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   writers.cpp
-#ifndef writers_hpp_
-#define writers_hpp_
 #include "writer.hpp"
 #include "field_types.hpp"
 

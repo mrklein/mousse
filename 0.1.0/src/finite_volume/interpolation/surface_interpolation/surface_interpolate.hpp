@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SURFACE_INTERPOLATE_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SURFACE_INTERPOLATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   surface_interpolate.cpp
-#ifndef surface_interpolate_hpp_
-#define surface_interpolate_hpp_
 
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"

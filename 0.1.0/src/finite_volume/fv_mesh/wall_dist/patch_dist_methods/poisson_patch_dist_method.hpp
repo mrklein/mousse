@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_WALL_DIST_PATCH_DIST_METHODS_POISSON_PATCH_DIST_METHOD_HPP_
+#define FINITE_VOLUME_FV_MESH_WALL_DIST_PATCH_DIST_METHODS_POISSON_PATCH_DIST_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -65,8 +68,6 @@
 //   mousse::wallDist
 // SourceFiles
 //   poisson_patch_dist_method.cpp
-#ifndef poisson_patch_dist_method_hpp_
-#define poisson_patch_dist_method_hpp_
 #include "patch_dist_method.hpp"
 namespace mousse
 {

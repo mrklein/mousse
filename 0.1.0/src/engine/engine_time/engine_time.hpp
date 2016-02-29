@@ -1,3 +1,6 @@
+#ifndef ENGINE_ENGINE_TIME_ENGINE_TIME_HPP_
+#define ENGINE_ENGINE_TIME_ENGINE_TIME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //  The engineTime can currently only be selected at compile-time.
 // SourceFiles
 //   engine_time.cpp
-#ifndef engine_time_hpp_
-#define engine_time_hpp_
 #include "time.hpp"
 #include "dictionary.hpp"
 #include "dimensioned_scalar.hpp"

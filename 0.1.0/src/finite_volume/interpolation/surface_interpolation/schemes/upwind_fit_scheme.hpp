@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_UPWIND_FIT_SCHEME_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_UPWIND_FIT_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Upwind biased fit surface interpolation scheme that applies an explicit
 //   correction to linear.
 
-#ifndef upwind_fit_scheme_hpp_
-#define upwind_fit_scheme_hpp_
 
 #include "upwind_fit_data.hpp"
 #include "linear.hpp"

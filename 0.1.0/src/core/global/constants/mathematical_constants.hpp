@@ -1,9 +1,10 @@
+#ifndef CORE_GLOBAL_CONSTANTS_MATHEMATICAL_CONSTANTS_HPP_
+#define CORE_GLOBAL_CONSTANTS_MATHEMATICAL_CONSTANTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef mathematical_constants_hpp_
-#define mathematical_constants_hpp_
 #include "scalar.hpp"
 namespace mousse
 {

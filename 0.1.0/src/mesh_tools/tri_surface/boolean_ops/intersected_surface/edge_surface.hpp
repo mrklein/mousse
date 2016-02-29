@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_INTERSECTED_SURFACE_EDGE_SURFACE_HPP_
+#define MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_INTERSECTED_SURFACE_EDGE_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   - edges with (split) surface edges first, intersection edges last.
 // SourceFiles
 //   edge_surface.cpp
-#ifndef edge_surface_hpp_
-#define edge_surface_hpp_
 #include "edge_list.hpp"
 #include "label_list.hpp"
 #include "point_field.hpp"

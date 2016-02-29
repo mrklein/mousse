@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOOBJECTS_COMPACT_IO_LIST_HPP_
+#define CORE_DB_IOOBJECTS_COMPACT_IO_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   Useful for lists of small sublists e.g. faceList, cellList.
 // SourceFiles
 //   compact_io_list.cpp
-#ifndef compact_io_list_hpp_
-#define compact_io_list_hpp_
 #include "iolist.hpp"
 #include "reg_ioobject.hpp"
 namespace mousse

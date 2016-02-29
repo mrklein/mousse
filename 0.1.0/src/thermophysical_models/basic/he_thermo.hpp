@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_HE_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_HE_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Enthalpy/Internal energy for a mixture
 // SourceFiles
 //   he_thermo.cpp
-#ifndef he_thermo_hpp_
-#define he_thermo_hpp_
 #include "basic_mixture.hpp"
 namespace mousse
 {

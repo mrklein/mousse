@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_FORMATS_OBJ_STREAM_HPP_
+#define SURF_MESH_SURFACE_FORMATS_OBJ_STREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   OFstream which keeps track of vertices
 // SourceFiles
 //   obj_stream.cpp
-#ifndef obj_stream_hpp_
-#define obj_stream_hpp_
 #include "ofstream.hpp"
 #include "point.hpp"
 #include "edge.hpp"

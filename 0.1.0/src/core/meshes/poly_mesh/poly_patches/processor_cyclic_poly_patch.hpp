@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_PROCESSOR_CYCLIC_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_PROCESSOR_CYCLIC_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Note: morph patch face ordering is geometric.
 // SourceFiles
 //   processor_cyclic_poly_patch.cpp
-#ifndef processor_cyclic_poly_patch_hpp_
-#define processor_cyclic_poly_patch_hpp_
 #include "processor_poly_patch.hpp"
 namespace mousse
 {

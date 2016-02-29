@@ -1,10 +1,11 @@
+#ifndef CORE_FIELDS_FIELDS_TRANSFORM_LIST_HPP_
+#define CORE_FIELDS_FIELDS_TRANSFORM_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   transform_list.cpp
 
-#ifndef transform_list_hpp_
-#define transform_list_hpp_
 
 #include "transform.hpp"
 #include "list.hpp"

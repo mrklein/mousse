@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_REACTION_RATE_FLAME_AREA_MODELS_RELAXATION_HPP_
+#define COMBUSTION_MODELS_REACTION_RATE_FLAME_AREA_MODELS_RELAXATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Consumption rate per unit of flame area obtained from a relaxation equation
 // SourceFiles
 //   relaxation.cpp
-#ifndef relaxation_hpp_
-#define relaxation_hpp_
 #include "reaction_rate_flame_area.hpp"
 #include "consumption_speed.hpp"
 namespace mousse

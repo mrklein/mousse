@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_PSI_THERMO_COMBUSTION_HPP_
+#define COMBUSTION_MODELS_PSI_THERMO_COMBUSTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Compressibility-based thermo model wrapper for combustion models
 // SourceFiles
 //   psi_thermo_combustion.cpp
-#ifndef psi_thermo_combustion_hpp_
-#define psi_thermo_combustion_hpp_
 #include "auto_ptr.hpp"
 #include "psi_combustion_model.hpp"
 #include "psi_reaction_thermo.hpp"

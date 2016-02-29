@@ -1,3 +1,6 @@
+#ifndef CORE_ALGORITHMS_LABEL_BITS_HPP_
+#define CORE_ALGORITHMS_LABEL_BITS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A 29bits label and 3bits direction packed into single label
 // SourceFiles
 
-#ifndef label_bits_hpp_
-#define label_bits_hpp_
 
 #include "label.hpp"
 //#include "ulabel.hpp"

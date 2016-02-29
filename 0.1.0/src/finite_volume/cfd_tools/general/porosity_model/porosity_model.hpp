@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_POROSITY_MODEL_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_POROSITY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   porosity_model.cpp
 //   porosity_model_new.cpp
 
-#ifndef porosity_model_hpp_
-#define porosity_model_hpp_
 
 #include "fv_mesh.hpp"
 #include "dictionary.hpp"

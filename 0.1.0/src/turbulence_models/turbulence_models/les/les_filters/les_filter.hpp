@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_FILTERS_LES_FILTER_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_FILTERS_LES_FILTER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   les_filter.cpp
 //   new_filter.cpp
-#ifndef les_filter_hpp_
-#define les_filter_hpp_
 #include "vol_fields.hpp"
 #include "type_info.hpp"
 #include "auto_ptr.hpp"

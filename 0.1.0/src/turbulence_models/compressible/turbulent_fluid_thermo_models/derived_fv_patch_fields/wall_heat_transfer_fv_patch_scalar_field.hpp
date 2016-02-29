@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_HEAT_TRANSFER_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_HEAT_TRANSFER_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 //   \endverbatim
 // SourceFiles
 //   wall_heat_transfer_fv_patch_scalar_field.cpp
-#ifndef wall_heat_transfer_fv_patch_scalar_field_hpp_
-#define wall_heat_transfer_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_FUNCTIONS_POLYNOMIAL_HPP_
+#define CORE_PRIMITIVES_FUNCTIONS_POLYNOMIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //    the base poly starts at order -1
 // SourceFiles
 //   polynomial.cpp
-#ifndef polynomial_hpp_
-#define polynomial_hpp_
 #include "word.hpp"
 #include "scalar.hpp"
 #include "ostream.hpp"

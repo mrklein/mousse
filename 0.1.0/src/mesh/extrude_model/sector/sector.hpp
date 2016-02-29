@@ -1,3 +1,6 @@
+#ifndef MESH_EXTRUDE_MODEL_SECTOR_SECTOR_HPP_
+#define MESH_EXTRUDE_MODEL_SECTOR_SECTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //    the patch normal direction. If you get it wrong you'll see all cells
 //    with extreme aspect ratio and internal faces wrong way around in
 //    checkMesh
-#ifndef sector_hpp_
-#define sector_hpp_
 #include "extrude_model.hpp"
 namespace mousse
 {

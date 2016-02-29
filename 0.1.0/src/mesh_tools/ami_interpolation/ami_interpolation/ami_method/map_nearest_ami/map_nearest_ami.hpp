@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_METHOD_MAP_NEAREST_AMI_MAP_NEAREST_AMI_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_METHOD_MAP_NEAREST_AMI_MAP_NEAREST_AMI_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   map_nearest_ami.cpp
 
-#ifndef map_nearest_ami_hpp_
-#define map_nearest_ami_hpp_
 
 #include "ami_method.hpp"
 

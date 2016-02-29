@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_BASIC_BASIC_SYMMETRY_POINT_PATCH_FIELD_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_BASIC_BASIC_SYMMETRY_POINT_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A Symmetry boundary condition for pointField
 // SourceFiles
 //   basicsymmetry_point_patch_field.cpp
-#ifndef basic_symmetry_point_patch_field_hpp_
-#define basic_symmetry_point_patch_field_hpp_
 #include "point_patch_field.hpp"
 #include "symmetry_point_patch.hpp"
 namespace mousse

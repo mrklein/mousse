@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_HASH_TABLES_HASH_SET_HPP_
+#define CORE_CONTAINERS_HASH_TABLES_HASH_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 // Description
 //   A HashSet with label keys.
 
-#ifndef hash_set_hpp_
-#define hash_set_hpp_
 
 #include "hash_table.hpp"
 #include "nil.hpp"

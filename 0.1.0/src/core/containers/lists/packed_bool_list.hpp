@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_PACKED_BOOL_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_PACKED_BOOL_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   packed_bool_list.cpp
 //   see_also
 //   foam::_packed_list
-#ifndef packed_bool_list_hpp_
-#define packed_bool_list_hpp_
 #include "packed_list.hpp"
 #include "uindirect_list.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_SOLVERS_SYMPLECTIC_SYMPLECTIC_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_SOLVERS_SYMPLECTIC_SYMPLECTIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,8 +30,6 @@
 //   mousse::sixDoFSolvers::Newmark
 // SourceFiles
 //   symplectic.cpp
-#ifndef symplectic_hpp_
-#define symplectic_hpp_
 #include "six_dof_solver.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TCONE_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TCONE_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   - Parcel diameters obtained by distribution model
 // SourceFiles
 //   _cone_injection.cpp
-#ifndef _cone_injection_hpp_
-#define _cone_injection_hpp_
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
 #include "vector_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_DDT_SCHEMES_EULER_DDT_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_DDT_SCHEMES_EULER_DDT_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   euler_ddt_scheme.cpp
 
-#ifndef euler_ddt_scheme_hpp_
-#define euler_ddt_scheme_hpp_
 
 #include "ddt_scheme.hpp"
 

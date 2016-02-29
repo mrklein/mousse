@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FILM_TURBULENCE_MODEL_LAMINAR_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FILM_TURBULENCE_MODEL_LAMINAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Film laminar turbulence model.
 // SourceFiles
 //   laminar.cpp
-#ifndef laminar_hpp_
-#define laminar_hpp_
 #include "film_turbulence_model.hpp"
 namespace mousse
 {

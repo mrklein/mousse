@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_TET_DECOMPOSER_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_TET_DECOMPOSER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Decomposes polyMesh into tets.
 // SourceFiles
 //   tet_decomposer.cpp
-#ifndef tet_decomposer_hpp_
-#define tet_decomposer_hpp_
 #include "dynamic_list.hpp"
 #include "packed_bool_list.hpp"
 #include "bool_list.hpp"

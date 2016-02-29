@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LAMINAR_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LAMINAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Turbulence model for laminar flow.
 // SourceFiles
 //   laminar.cpp
-#ifndef laminar_hpp_
-#define laminar_hpp_
 #include "linear_viscous_stress.hpp"
 namespace mousse
 {

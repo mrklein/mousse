@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_P1_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_P1_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,7 @@
 //    *** SOURCES NOT CURRENTLY INCLUDED ***
 // SourceFiles
 //   p1.cpp
-#ifndef radiationModelp1_hpp_
-#define radiationModelp1_hpp_
+
 #include "radiation_model.hpp"
 #include "vol_fields.hpp"
 namespace mousse

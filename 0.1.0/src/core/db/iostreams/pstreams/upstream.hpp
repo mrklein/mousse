@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOSTREAMS_PSTREAMS_UPSTREAM_HPP_
+#define CORE_DB_IOSTREAMS_PSTREAMS_UPSTREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   gather_scatter.cpp
 //   combine_gather_scatter.cpp
 //   gather_scatter_list.cpp
-#ifndef upstream_hpp_
-#define upstream_hpp_
 #include "label_list.hpp"
 #include "dynamic_list.hpp"
 #include "hash_table.hpp"

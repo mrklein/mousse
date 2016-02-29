@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_ALGORITHMS_PATCH_EDGE_FACE_WAVE_PATCH_EDGE_FACE_INFO_HPP_
+#define MESH_TOOLS_ALGORITHMS_PATCH_EDGE_FACE_WAVE_PATCH_EDGE_FACE_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   patch_edge_face_info_i.hpp
 //   patch_edge_face_info.cpp
-#ifndef patch_edge_face_info_hpp_
-#define patch_edge_face_info_hpp_
 #include "point.hpp"
 #include "label.hpp"
 #include "scalar.hpp"

@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_CORRECTIONS_LIMIT_TEMPERATURE_LIMIT_TEMPERATURE_HPP_
+#define FV_OPTIONS_CORRECTIONS_LIMIT_TEMPERATURE_LIMIT_TEMPERATURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //     }
 // SourceFiles
 //   limit_temperature.cpp
-#ifndef limit_temperature_hpp_
-#define limit_temperature_hpp_
 #include "cell_set_option.hpp"
 namespace mousse
 {

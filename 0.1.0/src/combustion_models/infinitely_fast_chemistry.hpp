@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_INFINITELY_FAST_CHEMISTRY_HPP_
+#define COMBUSTION_MODELS_INFINITELY_FAST_CHEMISTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   release rate.in time
 // SourceFiles
 //   infinitely_fast_chemistry.cpp
-#ifndef infinitely_fast_chemistry_hpp_
-#define infinitely_fast_chemistry_hpp_
 #include "single_step_combustion.hpp"
 namespace mousse
 {

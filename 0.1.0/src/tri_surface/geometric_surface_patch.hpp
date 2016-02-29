@@ -1,3 +1,6 @@
+#ifndef TRI_SURFACE_GEOMETRIC_SURFACE_PATCH_HPP_
+#define TRI_SURFACE_GEOMETRIC_SURFACE_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Holds type, name and index.
 // SourceFiles
 //   geometric_surface_patch.cpp
-#ifndef geometric_surface_patch_hpp_
-#define geometric_surface_patch_hpp_
 #include "word.hpp"
 #include "label.hpp"
 #include "type_info.hpp"

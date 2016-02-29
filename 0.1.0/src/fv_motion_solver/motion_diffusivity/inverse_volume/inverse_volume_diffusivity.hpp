@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_INVERSE_VOLUME_INVERSE_VOLUME_DIFFUSIVITY_HPP_
+#define FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_INVERSE_VOLUME_INVERSE_VOLUME_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Inverse cell-volume motion diffusivity.
 // SourceFiles
 //   inverse_volume_diffusivity.cpp
-#ifndef inverse_volume_diffusivity_hpp_
-#define inverse_volume_diffusivity_hpp_
 #include "uniform_diffusivity.hpp"
 namespace mousse
 {

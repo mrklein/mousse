@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_RADIATION_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_RADIATION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   radiation_model.cpp
 //   radiation_model_new.cpp
-#ifndef radiation_model_hpp_
-#define radiation_model_hpp_
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

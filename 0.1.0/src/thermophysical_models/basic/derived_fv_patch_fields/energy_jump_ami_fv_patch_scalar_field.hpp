@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_DERIVED_FV_PATCH_FIELDS_ENERGY_JUMP_AMI_FV_PATCH_SCALAR_FIELD_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_DERIVED_FV_PATCH_FIELDS_ENERGY_JUMP_AMI_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   mousse::fixedJumpAMIFvPatchField
 // SourceFiles
 //   energy_jump_ami_fv_patch_scalar_field.cpp
-#ifndef energy_jump_ami_fv_patch_scalar_field_hpp_
-#define energy_jump_ami_fv_patch_scalar_field_hpp_
 #include "fixed_jump_ami_fv_patch_field.hpp"
 namespace mousse
 {

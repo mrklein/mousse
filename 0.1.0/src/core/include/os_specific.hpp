@@ -1,10 +1,11 @@
+#ifndef CORE_INCLUDE_OS_SPECIFIC_HPP_
+#define CORE_INCLUDE_OS_SPECIFIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   included from posix.cpp
 
-#ifndef os_specific_hpp_
-#define os_specific_hpp_
 
 #include "file_name_list.hpp"
 #include <sys/types.h>

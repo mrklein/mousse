@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_CONTIGUOUS_CONTIGUOUS_HPP_
+#define CORE_PRIMITIVES_CONTIGUOUS_CONTIGUOUS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef contiguous_hpp_
-#define contiguous_hpp_
 
 #include "int.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LOCAL_MIN_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LOCAL_MIN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   local_min.cpp
 
-#ifndef local_min_hpp_
-#define local_min_hpp_
 
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"

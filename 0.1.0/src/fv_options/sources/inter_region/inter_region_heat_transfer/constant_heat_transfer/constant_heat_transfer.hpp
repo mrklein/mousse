@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_INTER_REGION_INTER_REGION_HEAT_TRANSFER_CONSTANT_HEAT_TRANSFER_CONSTANT_HEAT_TRANSFER_HPP_
+#define FV_OPTIONS_SOURCES_INTER_REGION_INTER_REGION_HEAT_TRANSFER_CONSTANT_HEAT_TRANSFER_CONSTANT_HEAT_TRANSFER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Constant heat transfer model. htcConst [W/m2/K] and area/volume [1/m]
 //   must be provided.
-#ifndef constant_heat_transfer_hpp_
-#define constant_heat_transfer_hpp_
 #include "inter_region_heat_transfer_model.hpp"
 #include "auto_ptr.hpp"
 namespace mousse

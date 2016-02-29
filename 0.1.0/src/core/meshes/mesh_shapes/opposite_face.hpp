@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_OPPOSITE_FACE_HPP_
+#define CORE_MESHES_MESH_SHAPES_OPPOSITE_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   and a possibility of failure.
 // SourceFiles
 //   opposite_face.cpp
-#ifndef opposite_face_hpp_
-#define opposite_face_hpp_
 #include "face.hpp"
 namespace mousse
 {

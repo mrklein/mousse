@@ -1,3 +1,6 @@
+#ifndef CORE_DB_DICTIONARY_FUNCTION_ENTRIES_CODE_STREAM_HPP_
+#define CORE_DB_DICTIONARY_FUNCTION_ENTRIES_CODE_STREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -55,8 +58,6 @@
 // SourceFiles
 //   code_stream.cpp
 
-#ifndef code_stream_hpp_
-#define code_stream_hpp_
 
 #include "function_entry.hpp"
 

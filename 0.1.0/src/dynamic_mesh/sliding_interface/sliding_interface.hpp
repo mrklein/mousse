@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_SLIDING_INTERFACE_SLIDING_INTERFACE_HPP_
+#define DYNAMIC_MESH_SLIDING_INTERFACE_SLIDING_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   sliding_interface_project_points.cpp
 //   sliding_interface_attached_addressing.cpp
 //   sliding_interface_clear_couple.cpp
-#ifndef sliding_interface_hpp_
-#define sliding_interface_hpp_
 #include "poly_mesh_modifier.hpp"
 #include "primitive_face_patch.hpp"
 #include "poly_patch_id.hpp"

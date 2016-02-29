@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_UNIFORM_SET_HPP_
+#define SAMPLING_SAMPLED_SET_UNIFORM_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   uniform_set.cpp
-#ifndef uniform_set_hpp_
-#define uniform_set_hpp_
 #include "passive_particle_cloud.hpp"
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"

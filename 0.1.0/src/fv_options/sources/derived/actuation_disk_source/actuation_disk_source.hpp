@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_ACTUATION_DISK_SOURCE_ACTUATION_DISK_SOURCE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_ACTUATION_DISK_SOURCE_ACTUATION_DISK_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -36,8 +39,6 @@
 // SourceFiles
 //   actuation_disk_source.cpp
 //   actuation_disk_source_templates.cpp
-#ifndef actuation_disk_source_hpp_
-#define actuation_disk_source_hpp_
 #include "cell_set_option.hpp"
 namespace mousse
 {

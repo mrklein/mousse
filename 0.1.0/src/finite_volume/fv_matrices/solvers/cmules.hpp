@@ -1,10 +1,11 @@
+#ifndef FINITE_VOLUME_FV_MATRICES_SOLVERS_CMULES_HPP_
+#define FINITE_VOLUME_FV_MATRICES_SOLVERS_CMULES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   cmules.cpp
 //   cmules_templates.cpp
-#ifndef cmules_hpp_
-#define cmules_hpp_
 #include "mules.hpp"
 #include "euler_ddt_scheme.hpp"
 #include "local_euler_ddt_scheme.hpp"

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_EDGE_HPP_
+#define MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_EDGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Holds data for octree to work on an edges subset.
 // SourceFiles
 //   tree_data_edge.cpp
-#ifndef tree_data_edge_hpp_
-#define tree_data_edge_hpp_
 #include "tree_bound_box_list.hpp"
 #include "line_point_ref.hpp"
 #include "volume_type.hpp"

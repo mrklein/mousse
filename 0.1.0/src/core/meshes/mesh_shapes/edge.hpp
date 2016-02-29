@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_EDGE_HPP_
+#define CORE_MESHES_MESH_SHAPES_EDGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An edge is a list of two point labels. The functionality it provides
 //   supports the discretisation on a 2-D flat mesh.
 
-#ifndef edge_hpp_
-#define edge_hpp_
 
 #include "fixed_list.hpp"
 #include "point_field.hpp"

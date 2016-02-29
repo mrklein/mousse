@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_CHEMISTRY_MODEL_MAKE_SOLID_CHEMISTRY_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_CHEMISTRY_MODEL_MAKE_SOLID_CHEMISTRY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_solid_chemistry_model_hpp_
-#define make_solid_chemistry_model_hpp_
 #include "solid_chemistry_model.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #define MAKE_SOLID_CHEMISTRY_MODEL(sChemistry, SS, Comp, SThermo)             \

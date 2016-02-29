@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_EXTERNAL_DISPLACEMENT_MESH_MOVER_EXTERNAL_DISPLACEMENT_MESH_MOVER_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_EXTERNAL_DISPLACEMENT_MESH_MOVER_EXTERNAL_DISPLACEMENT_MESH_MOVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   of move(), i.e. not cache any settings.
 // SourceFiles
 //   external_displacement_mesh_mover.cpp
-#ifndef external_displacement_mesh_mover_hpp_
-#define external_displacement_mesh_mover_hpp_
 #include "point_fields.hpp"
 namespace mousse
 {

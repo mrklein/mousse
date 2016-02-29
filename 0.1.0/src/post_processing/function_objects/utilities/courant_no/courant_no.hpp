@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_COURANT_NO_COURANT_NO_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_COURANT_NO_COURANT_NO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   courant_no.cpp
 //   io_courant_no.hpp
-#ifndef courant_no_hpp_
-#define courant_no_hpp_
 #include "vol_fields.hpp"
 namespace mousse
 {

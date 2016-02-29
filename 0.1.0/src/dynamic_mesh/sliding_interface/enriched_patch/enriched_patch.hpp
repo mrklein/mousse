@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_SLIDING_INTERFACE_ENRICHED_PATCH_ENRICHED_PATCH_HPP_
+#define DYNAMIC_MESH_SLIDING_INTERFACE_ENRICHED_PATCH_ENRICHED_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //   enriched_patch_point_map.cpp
 //   enriched_patch_point_merge_map.cpp
 //   enriched_patch_point_points.cpp
-#ifndef enriched_patch_hpp_
-#define enriched_patch_hpp_
 #include "primitive_face_patch.hpp"
 #include "map.hpp"
 #include "point.hpp"

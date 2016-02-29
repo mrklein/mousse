@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_THERMO_JANAF_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_THERMO_JANAF_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   into the equation of state.
 // SourceFiles
 //   janaf_thermo.cpp
-#ifndef janaf_thermo_hpp_
-#define janaf_thermo_hpp_
 #include "scalar.hpp"
 #include "fixed_list.hpp"
 #include "specie.hpp"

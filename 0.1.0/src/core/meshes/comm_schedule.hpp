@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_COMM_SCHEDULE_HPP_
+#define CORE_MESHES_COMM_SCHEDULE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //   class for use in scheduling processor boundary swaps.
 // SourceFiles
 //   comm_schedule.cpp
-#ifndef comm_schedule_hpp_
-#define comm_schedule_hpp_
 #include "dynamic_list.hpp"
 #include "label_pair.hpp"
 #include "label_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_MESH_PRIMITIVE_MESH_HPP_
+#define CORE_MESHES_PRIMITIVE_MESH_PRIMITIVE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   primitive_mesh_face_centres_and_areas.cpp
 //   primitive_mesh_find_cell.cpp
 
-#ifndef primitive_mesh_hpp_
-#define primitive_mesh_hpp_
 
 #include "dynamic_list.hpp"
 #include "edge_list.hpp"

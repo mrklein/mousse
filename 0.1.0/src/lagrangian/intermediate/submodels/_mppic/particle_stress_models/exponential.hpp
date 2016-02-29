@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_PARTICLE_STRESS_MODELS_EXPONENTIAL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_PARTICLE_STRESS_MODELS_EXPONENTIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   mousse-two-phase-euler
 // SourceFiles
 //   exponential.cpp
-#ifndef exponential_hpp_
-#define exponential_hpp_
 #include "particle_stress_model.hpp"
 namespace mousse
 {

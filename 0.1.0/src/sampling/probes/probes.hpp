@@ -1,3 +1,6 @@
+#ifndef SAMPLING_PROBES_PROBES_HPP_
+#define SAMPLING_PROBES_PROBES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   Call write() to sample and write files.
 // SourceFiles
 //   probes.cpp
-#ifndef probes_hpp_
-#define probes_hpp_
 #include "hash_ptr_table.hpp"
 #include "ofstream.hpp"
 #include "poly_mesh.hpp"

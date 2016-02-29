@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_TSURFACE_FILM_MODEL_TTHERMO_SURFACE_FILM_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_TSURFACE_FILM_MODEL_TTHERMO_SURFACE_FILM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 // SourceFiles
 //   _thermo_surface_film.cpp
 //   _thermo_surface_film_i.hpp
-#ifndef _thermo_surface_film_hpp_
-#define _thermo_surface_film_hpp_
 #include "_surface_film_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef TRI_SURFACE_TOOLS_SORT_LABELLED_TRI_HPP_
+#define TRI_SURFACE_TOOLS_SORT_LABELLED_TRI_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   mapping).
 // SourceFiles
 //   sort_labelled_tri.cpp
-#ifndef sort_labelled_tri_hpp_
-#define sort_labelled_tri_hpp_
 #include "label_list.hpp"
 namespace mousse
 {

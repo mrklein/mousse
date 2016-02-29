@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_CONSTRAINTS_DERIVED_FIXED_TEMPERATURE_CONSTRAINT_FIXED_TEMPERATURE_CONSTRAINT_HPP_
+#define FV_OPTIONS_CONSTRAINTS_DERIVED_FIXED_TEMPERATURE_CONSTRAINT_FIXED_TEMPERATURE_CONSTRAINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -19,8 +22,6 @@
 //   by means of the DataEntry type.
 // SourceFiles
 //   fv_option.cpp
-#ifndef fixed_temperature_constraint_hpp_
-#define fixed_temperature_constraint_hpp_
 #include "cell_set_option.hpp"
 #include "named_enum.hpp"
 #include "data_entry.hpp"

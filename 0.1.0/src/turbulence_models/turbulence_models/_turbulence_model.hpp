@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_TTURBULENCE_MODEL_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_TTURBULENCE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Templated abstract base class for turbulence models
 // SourceFiles
 //   _turbulence_model.cpp
-#ifndef _turbulence_model_hpp_
-#define _turbulence_model_hpp_
 #include "turbulence_model.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

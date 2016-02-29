@@ -25,4 +25,3 @@ inline label negPart(const label s)
   return (s < 0)? s: 0;
 }
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

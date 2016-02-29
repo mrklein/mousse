@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_SURFACE_TO_CELL_SURFACE_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_SURFACE_TO_CELL_SURFACE_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //    more than YYY (i.e., point of high curvature)
 // SourceFiles
 //   surface_to_cell.cpp
-#ifndef surface_to_cell_hpp_
-#define surface_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "map.hpp"
 namespace mousse

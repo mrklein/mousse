@@ -1,3 +1,6 @@
+#ifndef CORE_INTERPOLATIONS_TABLE_READERS_CSV_TABLE_READER_HPP_
+#define CORE_INTERPOLATIONS_TABLE_READERS_CSV_TABLE_READER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   table_reader.cpp
 
-#ifndef csv_table_reader_hpp_
-#define csv_table_reader_hpp_
 
 #include "table_reader.hpp"
 #include "label_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_DEARDORFF_DIFF_STRESS_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_DEARDORFF_DIFF_STRESS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -33,8 +36,6 @@
 //   \endverbatim
 // SourceFiles
 //   deardorff_diff_stress.cpp
-#ifndef deardorff_diff_stress_hpp_
-#define deardorff_diff_stress_hpp_
 #include "les_model.hpp"
 #include "reynolds_stress.hpp"
 namespace mousse

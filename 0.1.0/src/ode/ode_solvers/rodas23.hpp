@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_RODAS23_HPP_
+#define ODE_ODE_SOLVERS_RODAS23_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   \endverbatim
 // SourceFiles
 //   rodas23.cpp
-#ifndef rodas23_hpp_
-#define rodas23_hpp_
 #include "ode_solver.hpp"
 #include "adaptive_solver.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_FIELD_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   geometric_boundary_field.cpp
 //   geometric_field_functions.hpp
 //   geometric_field_functions.cpp
-#ifndef geometric_field_hpp_
-#define geometric_field_hpp_
 #include "reg_ioobject.hpp"
 #include "dimensioned_types.hpp"
 #include "dimensioned_field.hpp"

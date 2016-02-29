@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_COMPLEX_COMPLEX_HPP_
+#define CORE_PRIMITIVES_COMPLEX_COMPLEX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Extension to the c++ complex library type.
 // SourceFiles
 //   complex.cpp
-#ifndef complex_hpp_
-#define complex_hpp_
 #include "scalar.hpp"
 #include "bool.hpp"
 #include "word.hpp"

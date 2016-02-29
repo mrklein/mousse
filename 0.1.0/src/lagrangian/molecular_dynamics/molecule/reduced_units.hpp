@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULE_REDUCED_UNITS_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULE_REDUCED_UNITS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   reduced_units.cpp
 //   reduced_units_io.cpp
-#ifndef reduced_units_hpp_
-#define reduced_units_hpp_
 #include "scalar.hpp"
 #include "iodictionary.hpp"
 namespace mousse

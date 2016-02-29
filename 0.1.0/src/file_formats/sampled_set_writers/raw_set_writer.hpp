@@ -1,3 +1,6 @@
+#ifndef FILE_FORMATS_SAMPLED_SET_WRITERS_RAW_SET_WRITER_HPP_
+#define FILE_FORMATS_SAMPLED_SET_WRITERS_RAW_SET_WRITER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   raw_set_writer.cpp
 
-#ifndef raw_set_writer_hpp_
-#define raw_set_writer_hpp_
 
 #include "writer.hpp"
 

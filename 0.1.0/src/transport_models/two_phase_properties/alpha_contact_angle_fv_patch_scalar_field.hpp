@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_TWO_PHASE_PROPERTIES_ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+#define TRANSPORT_MODELS_TWO_PHASE_PROPERTIES_ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -29,8 +32,6 @@
 //   If "limit zeroGradient;" is used the pressure BCs can be left as before.
 // SourceFiles
 //   alpha_contact_angle_fv_patch_scalar_field.cpp
-#ifndef alpha_contact_angle_fv_patch_scalar_field_hpp_
-#define alpha_contact_angle_fv_patch_scalar_field_hpp_
 #include "fixed_gradient_fv_patch_fields.hpp"
 #include "fvs_patch_fields.hpp"
 namespace mousse

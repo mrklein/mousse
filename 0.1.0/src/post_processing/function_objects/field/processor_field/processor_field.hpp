@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_PROCESSOR_FIELD_PROCESSOR_FIELD_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_PROCESSOR_FIELD_PROCESSOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -28,8 +31,6 @@
 // SourceFiles
 //   processor_field.cpp
 //   i_oprocessor_field.hpp
-#ifndef processor_field_hpp_
-#define processor_field_hpp_
 #include "ofstream.hpp"
 #include "point_field_fwd.hpp"
 #include "vol_fields.hpp"

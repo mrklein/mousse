@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_SPHERICAL_TENSOR_2D_TSPHERICAL_TENSOR_2D_HPP_
+#define CORE_PRIMITIVES_SPHERICAL_TENSOR_2D_TSPHERICAL_TENSOR_2D_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Templated 2D sphericalTensor derived from VectorSpace adding construction
 //   from 1 component, element access using ii() member function and the
 //   inner-product (dot-product) and outer-product operators.
-#ifndef _spherical_tensor_2d_hpp_
-#define _spherical_tensor_2d_hpp_
 #include "vector_space.hpp"
 #include "vector_2d.hpp"
 namespace mousse

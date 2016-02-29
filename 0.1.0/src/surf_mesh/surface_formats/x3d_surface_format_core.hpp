@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_FORMATS_X3D_SURFACE_FORMAT_CORE_HPP_
+#define SURF_MESH_SURFACE_FORMATS_X3D_SURFACE_FORMAT_CORE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Internal class used by the X3DsurfaceFormat
 // SourceFiles
 //   x3d_surface_format_core.cpp
-#ifndef x3d_surface_format_core_hpp_
-#define x3d_surface_format_core_hpp_
 #include "ostream.hpp"
 #include "ofstream.hpp"
 #include "meshed_surface.hpp"

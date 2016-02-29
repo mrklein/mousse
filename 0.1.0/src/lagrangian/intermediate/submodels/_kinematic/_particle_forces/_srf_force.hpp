@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TSRF_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TSRF_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Calculates particle SRF reference frame force
 // SourceFiles
 //   _srf_force.cpp
-#ifndef _srf_force_hpp_
-#define _srf_force_hpp_
 #include "_particle_force.hpp"
 #include "srf_model.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_FV_MOTION_SOLVERS_DISPLACEMENT_SBR_STRESS_DISPLACEMENT_SBR_STRESS_FV_MOTION_SOLVER_HPP_
+#define FV_MOTION_SOLVER_FV_MOTION_SOLVERS_DISPLACEMENT_SBR_STRESS_DISPLACEMENT_SBR_STRESS_FV_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   solid-body rotation stress equations for the motion displacement.
 // SourceFiles
 //   displacement_sbr_stress_fv_motion_solver.cpp
-#ifndef displacement_sbr_stress_fv_motion_solver_hpp_
-#define displacement_sbr_stress_fv_motion_solver_hpp_
 #include "displacement_motion_solver.hpp"
 #include "fv_motion_solver_core.hpp"
 namespace mousse

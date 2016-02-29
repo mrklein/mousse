@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_VECTOR_SPACE_VECTOR_SPACE_HPP_
+#define CORE_PRIMITIVES_VECTOR_SPACE_VECTOR_SPACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   the type of the elements and the number of elements.
 // SourceFiles
 //   vector_space.cpp
-#ifndef vector_space_hpp_
-#define vector_space_hpp_
 #include "direction.hpp"
 #include "scalar.hpp"
 #include "word.hpp"

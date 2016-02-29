@@ -1,3 +1,6 @@
+#ifndef CORE_INTERPOLATIONS_PATCH_TO_PATCH_INTERPOLATION_HPP_
+#define CORE_INTERPOLATIONS_PATCH_TO_PATCH_INTERPOLATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   patch_to_patch_interpolate.cpp
 //   calc_patch_to_patch_weights.cpp
 
-#ifndef patch_to_patch_interpolation_hpp_
-#define patch_to_patch_interpolation_hpp_
 
 #include "class_name.hpp"
 #include "label_list.hpp"

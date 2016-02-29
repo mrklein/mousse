@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_CREATE_SHELL_MESH_CREATE_SHELL_MESH_HPP_
+#define DYNAMIC_MESH_CREATE_SHELL_MESH_CREATE_SHELL_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   extrudes into thickness direction.
 //   - bottom faces originate from reversed original faces (have turning index)
 //   - top faces originate from original faces (no turning index)
-#ifndef create_shell_mesh_hpp_
-#define create_shell_mesh_hpp_
 #include "primitive_face_patch.hpp"
 #include "packed_bool_list.hpp"
 #include "label_pair.hpp"

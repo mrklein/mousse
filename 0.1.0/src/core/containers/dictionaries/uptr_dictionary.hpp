@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_DICTIONARIES_UPTR_DICTIONARY_HPP_
+#define CORE_CONTAINERS_DICTIONARIES_UPTR_DICTIONARY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   form of intrusive doubly-linked list of \<T\>.
 // SourceFiles
 //   uptr_dictionary.cpp
-#ifndef uptr_dictionary_hpp_
-#define uptr_dictionary_hpp_
 #include "dictionary_base.hpp"
 #include "dl_list.hpp"
 namespace mousse

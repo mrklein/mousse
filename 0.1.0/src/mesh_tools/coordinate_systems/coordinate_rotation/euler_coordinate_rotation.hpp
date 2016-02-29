@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_ROTATION_EULER_COORDINATE_ROTATION_HPP_
+#define MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_ROTATION_EULER_COORDINATE_ROTATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //       rotation    (0 0 3.141592654);
 //     }
 //   \endverbatim
-#ifndef euler_coordinate_rotation_hpp_
-#define euler_coordinate_rotation_hpp_
 #include "coordinate_rotation.hpp"
 namespace mousse
 {

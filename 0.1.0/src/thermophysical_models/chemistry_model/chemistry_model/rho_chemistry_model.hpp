@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_MODEL_RHO_CHEMISTRY_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_MODEL_RHO_CHEMISTRY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   rho_chemistry_model.cpp
 //   new_chemistry_model.cpp
-#ifndef rho_chemistry_model_hpp_
-#define rho_chemistry_model_hpp_
 #include "basic_chemistry_model.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

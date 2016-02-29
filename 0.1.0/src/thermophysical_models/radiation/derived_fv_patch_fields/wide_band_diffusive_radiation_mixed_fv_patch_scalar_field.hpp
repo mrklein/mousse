@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_DERIVED_FV_PATCH_FIELDS_WIDE_BAND_DIFFUSIVE_RADIATION_MIXED_FV_PATCH_SCALAR_FIELD_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_DERIVED_FV_PATCH_FIELDS_WIDE_BAND_DIFFUSIVE_RADIATION_MIXED_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -26,8 +29,6 @@
 //   mousse::radiationCoupledBase
 // SourceFiles
 //   wide_band_diffusive_radiation_mixed_fv_patch_scalar_field.cpp
-#ifndef wide_band_diffusive_radiation_mixed_fv_patch_scalar_field_hpp_
-#define wide_band_diffusive_radiation_mixed_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 #include "radiation_coupled_base.hpp"
 namespace mousse

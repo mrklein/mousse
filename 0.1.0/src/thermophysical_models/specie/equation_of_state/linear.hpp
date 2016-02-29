@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_LINEAR_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_LINEAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   \endverbatim
 // SourceFiles
 //   linear.cpp
-#ifndef linear_hpp_
-#define linear_hpp_
 #include "auto_ptr.hpp"
 namespace mousse
 {

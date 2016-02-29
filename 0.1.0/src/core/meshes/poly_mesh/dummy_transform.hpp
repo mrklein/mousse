@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_POLY_MESH_DUMMY_TRANSFORM_HPP_
+#define CORE_MESHES_POLY_MESH_DUMMY_TRANSFORM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef dummy_transform_hpp_
-#define dummy_transform_hpp_
 namespace mousse
 {
 class dummyTransform

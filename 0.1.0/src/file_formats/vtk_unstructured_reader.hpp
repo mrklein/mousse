@@ -1,3 +1,6 @@
+#ifndef FILE_FORMATS_VTK_UNSTRUCTURED_READER_HPP_
+#define FILE_FORMATS_VTK_UNSTRUCTURED_READER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -19,8 +22,6 @@
 // SourceFiles
 //   vtk_unstructured_reader.cpp
 
-#ifndef vtk_unstructured_reader_hpp_
-#define vtk_unstructured_reader_hpp_
 
 #include "object_registry.hpp"
 #include "cell_shape_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SYSTEM_HPP_
+#define ODE_ODE_SYSTEM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::ODESystem
 // Description
 //   Abstract base class for the systems of ordinary differential equations.
-#ifndef ode_system_hpp_
-#define ode_system_hpp_
 #include "scalar_field.hpp"
 #include "scalar_matrices.hpp"
 namespace mousse

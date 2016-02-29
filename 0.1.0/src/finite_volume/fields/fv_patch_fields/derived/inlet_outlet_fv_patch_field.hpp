@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_INLET_OUTLET_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_INLET_OUTLET_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -36,8 +39,6 @@
 //   mousse::outletInletFvPatchField
 // SourceFiles
 //   inlet_outlet_fv_patch_field.cpp
-#ifndef inlet_outlet_fv_patch_field_hpp_
-#define inlet_outlet_fv_patch_field_hpp_
 #include "mixed_fv_patch_field.hpp"
 namespace mousse
 {

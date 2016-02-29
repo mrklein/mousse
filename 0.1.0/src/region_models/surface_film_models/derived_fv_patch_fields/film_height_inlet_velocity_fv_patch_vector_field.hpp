@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_DERIVED_FV_PATCH_FIELDS_FILM_HEIGHT_INLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_DERIVED_FV_PATCH_FIELDS_FILM_HEIGHT_INLET_VELOCITY_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -44,8 +47,6 @@
 //   mousse::fixedValueFvPatchField
 // SourceFiles
 //   film_height_inlet_velocity_fv_patch_vector_field.cpp
-#ifndef film_height_inlet_velocity_fv_patch_vector_field_hpp_
-#define film_height_inlet_velocity_fv_patch_vector_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse

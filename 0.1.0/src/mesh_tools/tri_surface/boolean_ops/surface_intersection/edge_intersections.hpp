@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_SURFACE_INTERSECTION_EDGE_INTERSECTIONS_HPP_
+#define MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_SURFACE_INTERSECTION_EDGE_INTERSECTIONS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   (edge hitting triangle edge, edge hitting point etc.).
 // SourceFiles
 //   edge_intersections.cpp
-#ifndef edge_intersections_hpp_
-#define edge_intersections_hpp_
 #include "point_index_hit.hpp"
 #include "scalar_field.hpp"
 #include "point_field.hpp"

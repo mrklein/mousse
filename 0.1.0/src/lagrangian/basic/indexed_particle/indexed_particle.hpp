@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_INDEXED_PARTICLE_INDEXED_PARTICLE_HPP_
+#define LAGRANGIAN_BASIC_INDEXED_PARTICLE_INDEXED_PARTICLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Adds label index to base particle
 // SourceFiles
 //   indexed_particle.hpp
-#ifndef indexed_particle_hpp_
-#define indexed_particle_hpp_
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_DERIVED_BASIC_KINEMATIC_COLLIDING_PARCEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_DERIVED_BASIC_KINEMATIC_COLLIDING_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Definition of basic kinematic colliding parcel
 // SourceFiles
 //   basic_kinematic_parcel.hpp
-#ifndef basic_kinematic_colliding_parcel_hpp_
-#define basic_kinematic_colliding_parcel_hpp_
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"

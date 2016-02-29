@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_MIXTURE_PROPERTIES_LIQUID_MIXTURE_PROPERTIES_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_MIXTURE_PROPERTIES_LIQUID_MIXTURE_PROPERTIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,8 +30,6 @@
 //   liquid_mixture_properties.cpp
 //   see_also
 //   foam::liquid_properties
-#ifndef liquid_mixture_properties_hpp_
-#define liquid_mixture_properties_hpp_
 #include "word.hpp"
 #include "scalar_field.hpp"
 #include "ptr_list.hpp"

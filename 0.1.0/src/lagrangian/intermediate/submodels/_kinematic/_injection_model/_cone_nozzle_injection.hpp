@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TCONE_NOZZLE_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TCONE_NOZZLE_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //       U = V_dot/(A*Cd)
 // SourceFiles
 //   _cone_nozzle_injection.cpp
-#ifndef _cone_nozzle_injection_hpp_
-#define _cone_nozzle_injection_hpp_
 #include "_injection_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_OUTLET_STABILISED_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_OUTLET_STABILISED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   outlet_stabilised.cpp
 
-#ifndef outlet_stabilised_hpp_
-#define outlet_stabilised_hpp_
 
 #include "surface_interpolation_scheme.hpp"
 #include "skew_correction_vectors.hpp"

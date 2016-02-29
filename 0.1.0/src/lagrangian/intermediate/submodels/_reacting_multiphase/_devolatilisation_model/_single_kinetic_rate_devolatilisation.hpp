@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TDEVOLATILISATION_MODEL_TSINGLE_KINETIC_RATE_DEVOLATILISATION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TDEVOLATILISATION_MODEL_TSINGLE_KINETIC_RATE_DEVOLATILISATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -24,8 +27,6 @@
 //       );
 //       volatileResidualCoeff 1e-6;
 //     }
-#ifndef _single_kinetic_rate_devolatilisation_hpp_
-#define _single_kinetic_rate_devolatilisation_hpp_
 #include "_devolatilisation_model.hpp"
 namespace mousse
 {

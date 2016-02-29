@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_INVERSE_POINT_DISTANCE_INVERSE_POINT_DISTANCE_DIFFUSIVITY_HPP_
+#define FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_INVERSE_POINT_DISTANCE_INVERSE_POINT_DISTANCE_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Inverse distance to the given patches motion diffusivity.
 // SourceFiles
 //   inverse_point_distance_diffusivity.cpp
-#ifndef inverse_point_distance_diffusivity_hpp_
-#define inverse_point_distance_diffusivity_hpp_
 #include "uniform_diffusivity.hpp"
 namespace mousse
 {

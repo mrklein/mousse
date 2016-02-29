@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_THERMO_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_THERMO_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   properties are derived from these primitive functions.
 // SourceFiles
 //   thermo.cpp
-#ifndef thermo_hpp_
-#define thermo_hpp_
 #include "thermodynamic_constants.hpp"
 using namespace mousse::constant::thermodynamic;
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_NAMED_ENUM_NAMED_ENUM_HPP_
+#define CORE_CONTAINERS_NAMED_ENUM_NAMED_ENUM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   named_enum.cpp
 
-#ifndef named_enum_hpp_
-#define named_enum_hpp_
 
 #include "hash_table.hpp"
 #include "static_assert.hpp"

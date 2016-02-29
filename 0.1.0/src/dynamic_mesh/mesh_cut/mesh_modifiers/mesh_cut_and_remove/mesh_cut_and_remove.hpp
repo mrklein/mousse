@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_MESH_CUT_AND_REMOVE_MESH_CUT_AND_REMOVE_HPP_
+#define DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_MESH_CUT_AND_REMOVE_MESH_CUT_AND_REMOVE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   like meshCutter but also removes non-anchor side of cell.
 // SourceFiles
 //   mesh_cut_and_remove.cpp
-#ifndef mesh_cut_and_remove_hpp_
-#define mesh_cut_and_remove_hpp_
 #include "edge_vertex.hpp"
 #include "bool_list.hpp"
 #include "label_list.hpp"

@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_MOTION_DIRECTIONAL_MOTION_DIRECTIONAL_DIFFUSIVITY_HPP_
+#define FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_MOTION_DIRECTIONAL_MOTION_DIRECTIONAL_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   MotionDirectional finite volume mesh motion diffusivity.
 // SourceFiles
 //   motion_directional_diffusivity.cpp
-#ifndef motion_directional_diffusivity_hpp_
-#define motion_directional_diffusivity_hpp_
 #include "uniform_diffusivity.hpp"
 namespace mousse
 {

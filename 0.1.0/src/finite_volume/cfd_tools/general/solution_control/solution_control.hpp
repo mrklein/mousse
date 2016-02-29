@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_SOLUTION_CONTROL_SOLUTION_CONTROL_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_SOLUTION_CONTROL_SOLUTION_CONTROL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::solutionControl
 // Description
 //   Base class for solution control classes
-#ifndef solution_control_hpp_
-#define solution_control_hpp_
 #include "fv_mesh.hpp"
 namespace mousse
 {

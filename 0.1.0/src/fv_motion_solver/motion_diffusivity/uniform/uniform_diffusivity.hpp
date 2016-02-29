@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_UNIFORM_UNIFORM_DIFFUSIVITY_HPP_
+#define FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_UNIFORM_UNIFORM_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Uniform uniform finite volume mesh motion diffusivity.
 // SourceFiles
 //   uniform_diffusivity.cpp
-#ifndef uniform_diffusivity_hpp_
-#define uniform_diffusivity_hpp_
 #include "motion_diffusivity.hpp"
 #include "surface_fields.hpp"
 namespace mousse

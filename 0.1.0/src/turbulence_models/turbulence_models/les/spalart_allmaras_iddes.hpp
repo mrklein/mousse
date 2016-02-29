@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_SPALART_ALLMARAS_IDDES_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_SPALART_ALLMARAS_IDDES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   \endverbatim
 // SourceFiles
 //   spalart_allmaras_iddes.cpp
-#ifndef spalart_allmaras_iddes_hpp_
-#define spalart_allmaras_iddes_hpp_
 #include "spalart_allmaras_des.hpp"
 #include "iddes_delta.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_ELECTROSTATIC_POTENTIAL_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_ELECTROSTATIC_POTENTIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   electrostatic_potential.cpp
-#ifndef electrostatic_potential_hpp_
-#define electrostatic_potential_hpp_
 #include "scalar.hpp"
 namespace mousse
 {

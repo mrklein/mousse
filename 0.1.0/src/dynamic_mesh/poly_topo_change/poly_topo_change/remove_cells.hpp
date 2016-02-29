@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REMOVE_CELLS_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REMOVE_CELLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //    changes.
 // SourceFiles
 //   remove_cells.cpp
-#ifndef remove_cells_hpp_
-#define remove_cells_hpp_
 #include "label_list.hpp"
 #include "type_info.hpp"
 namespace mousse

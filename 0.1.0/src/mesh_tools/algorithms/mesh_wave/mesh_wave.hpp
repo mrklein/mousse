@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_ALGORITHMS_MESH_WAVE_MESH_WAVE_HPP_
+#define MESH_TOOLS_ALGORITHMS_MESH_WAVE_MESH_WAVE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   FaceCellWave plus data
 // SourceFiles
 //   mesh_wave.cpp
-#ifndef mesh_wave_hpp_
-#define mesh_wave_hpp_
 #include "face_cell_wave.hpp"
 namespace mousse
 {

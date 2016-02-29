@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TTHERMO_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TTHERMO_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //    - Heat transfer
 // SourceFiles
 //   _thermo_cloud.cpp
-#ifndef _thermo_cloud_hpp_
-#define _thermo_cloud_hpp_
 #include "_kinematic_cloud.hpp"
 #include "thermo_cloud.hpp"
 #include "slg_thermo.hpp"

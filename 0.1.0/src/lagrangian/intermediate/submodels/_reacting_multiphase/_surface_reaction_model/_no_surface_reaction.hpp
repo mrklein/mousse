@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TSURFACE_REACTION_MODEL_TNO_SURFACE_REACTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TSURFACE_REACTION_MODEL_TNO_SURFACE_REACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::NoSurfaceReaction
 // Description
 //   Dummy surface reaction model for 'none'
-#ifndef _no_surface_reaction_hpp_
-#define _no_surface_reaction_hpp_
 #include "_surface_reaction_model.hpp"
 namespace mousse
 {

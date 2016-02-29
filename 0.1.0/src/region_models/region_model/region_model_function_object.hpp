@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_MODEL_REGION_MODEL_FUNCTION_OBJECT_HPP_
+#define REGION_MODELS_REGION_MODEL_REGION_MODEL_FUNCTION_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   region_model_function_object.cpp
 //   region_model_function_object_new.cpp
-#ifndef region_model_function_object_hpp_
-#define region_model_function_object_hpp_
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

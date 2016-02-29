@@ -1,9 +1,10 @@
+#ifndef CORE_DB_RUN_TIME_SELECTION_ADD_TO_STATIC_MEMBER_FUNCTION_SELECTION_TABLE_HPP_
+#define CORE_DB_RUN_TIME_SELECTION_ADD_TO_STATIC_MEMBER_FUNCTION_SELECTION_TABLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef add_to_static_member_function_selection_table_hpp_
-#define add_to_static_member_function_selection_table_hpp_
 
 // add to hash-table of functions with 'lookup' as the key
 #define ADD_NAMED_TO_STATIC_MEMBER_FUNCTION_SELECTION_TABLE\

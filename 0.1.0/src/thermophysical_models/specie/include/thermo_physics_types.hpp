@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_INCLUDE_THERMO_PHYSICS_TYPES_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_INCLUDE_THERMO_PHYSICS_TYPES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef thermo_physics_types_hpp_
-#define thermo_physics_types_hpp_
 #include "specie.hpp"
 #include "perfect_gas.hpp"
 #include "incompressible_perfect_gas.hpp"

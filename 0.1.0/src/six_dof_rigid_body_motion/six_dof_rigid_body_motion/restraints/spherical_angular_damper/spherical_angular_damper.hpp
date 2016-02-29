@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_RESTRAINTS_SPHERICAL_ANGULAR_DAMPER_SPHERICAL_ANGULAR_DAMPER_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_RESTRAINTS_SPHERICAL_ANGULAR_DAMPER_SPHERICAL_ANGULAR_DAMPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   sixDoFRigidBodyMotionRestraints model.  Spherical angular damper.
 // SourceFiles
 //   spherical_angular_damper.cpp
-#ifndef spherical_angular_damper_hpp_
-#define spherical_angular_damper_hpp_
 #include "six_dof_rigid_body_motion_restraint.hpp"
 namespace mousse
 {

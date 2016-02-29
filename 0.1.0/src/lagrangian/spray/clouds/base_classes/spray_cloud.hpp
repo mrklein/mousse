@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_CLOUDS_BASE_CLASSES_SPRAY_CLOUD_HPP_
+#define LAGRANGIAN_SPRAY_CLOUDS_BASE_CLASSES_SPRAY_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Virtual abstract base class for templated SprayCloud
 // SourceFiles
 //   spray_cloud.cpp
-#ifndef spray_cloud_hpp_
-#define spray_cloud_hpp_
 #include "type_info.hpp"
 namespace mousse
 {

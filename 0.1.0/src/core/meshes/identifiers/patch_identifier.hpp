@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_IDENTIFIERS_PATCH_IDENTIFIER_HPP_
+#define CORE_MESHES_IDENTIFIERS_PATCH_IDENTIFIER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Identifies patch by name, patch index and physical type
 // SourceFiles
 //   patch_identifier.cpp
-#ifndef patch_identifier_hpp_
-#define patch_identifier_hpp_
 #include "word_list.hpp"
 #include "label.hpp"
 namespace mousse

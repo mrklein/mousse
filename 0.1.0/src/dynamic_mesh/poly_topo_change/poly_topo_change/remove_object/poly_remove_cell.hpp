@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REMOVE_OBJECT_POLY_REMOVE_CELL_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REMOVE_OBJECT_POLY_REMOVE_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::polyRemoveCell
 // Description
 //   Class containing data for cell removal.
-#ifndef poly_remove_cell_hpp_
-#define poly_remove_cell_hpp_
 #include "label.hpp"
 #include "topo_action.hpp"
 namespace mousse

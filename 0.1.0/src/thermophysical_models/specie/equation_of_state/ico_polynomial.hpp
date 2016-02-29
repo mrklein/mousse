@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_ICO_POLYNOMIAL_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_ICO_POLYNOMIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   function for density.
 // SourceFiles
 //   ico_polynomial.cpp
-#ifndef ico_polynomial_hpp_
-#define ico_polynomial_hpp_
 #include "auto_ptr.hpp"
 #include "polynomial.hpp"
 namespace mousse

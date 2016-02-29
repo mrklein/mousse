@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_RANDOM_RANDOM_HPP_
+#define CORE_PRIMITIVES_RANDOM_RANDOM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Simple random number generator.
 // SourceFiles
 //   random.cpp
-#ifndef random_hpp_
-#define random_hpp_
 #include "vector.hpp"
 #include "tensor.hpp"
 namespace mousse

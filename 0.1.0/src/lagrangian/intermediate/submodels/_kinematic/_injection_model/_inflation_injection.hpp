@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TINFLATION_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TINFLATION_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   set of inflation cells.
 // SourceFiles
 //   _inflation_injection.cpp
-#ifndef _inflation_injection_hpp_
-#define _inflation_injection_hpp_
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
 #include "switch.hpp"

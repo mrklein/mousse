@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_FACE_COLLAPSER_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_FACE_COLLAPSER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //    face are not the vertices to be removed for another face.
 // SourceFiles
 //   face_collapser.cpp
-#ifndef face_collapser_hpp_
-#define face_collapser_hpp_
 #include "label_list.hpp"
 #include "point.hpp"
 #include "map.hpp"

@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_TURBULENCE_MODEL_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_TURBULENCE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Abstract base class for turbulence models (RAS, LES and laminar).
 // SourceFiles
 //   turbulence_model.cpp
-#ifndef turbulence_model_hpp_
-#define turbulence_model_hpp_
 #include "iodictionary.hpp"
 #include "primitive_fields_fwd.hpp"
 #include "vol_fields_fwd.hpp"

@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_TIMER_HPP_
+#define OS_SPECIFIC_POSIX_TIMER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -28,8 +31,6 @@
 //   based variable make sure it is declared 'volatile'.
 // SourceFiles
 //   timer.cpp
-#ifndef timer_hpp_
-#define timer_hpp_
 #include "class_name.hpp"
 #include <signal.h>
 #include <setjmp.h>

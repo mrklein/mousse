@@ -1,3 +1,6 @@
+#ifndef EDGE_MESH_EDGE_MESH_FORMATS_EDGE_MESH_FORMATS_CORE_HPP_
+#define EDGE_MESH_EDGE_MESH_FORMATS_EDGE_MESH_FORMATS_CORE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A collection of helper functions for reading/writing edge formats.
 // SourceFiles
 //   edge_mesh_formats_core.cpp
-#ifndef edge_mesh_formats_core_hpp_
-#define edge_mesh_formats_core_hpp_
 #include "map.hpp"
 #include "hash_set.hpp"
 #include "label_list.hpp"

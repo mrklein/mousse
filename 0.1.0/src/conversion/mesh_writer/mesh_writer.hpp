@@ -1,3 +1,6 @@
+#ifndef CONVERSION_MESH_WRITER_MESH_WRITER_HPP_
+#define CONVERSION_MESH_WRITER_MESH_WRITER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -33,8 +36,6 @@
 //   mesh_writer_i.hpp
 //   mesh_writer.cpp
 //   mesh_writer_io.cpp
-#ifndef mesh_writer_hpp_
-#define mesh_writer_hpp_
 #include "poly_mesh.hpp"
 #include "boundary_region.hpp"
 #include "cell_table.hpp"

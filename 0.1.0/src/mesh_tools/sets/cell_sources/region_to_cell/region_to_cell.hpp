@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_REGION_TO_CELL_REGION_TO_CELL_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_REGION_TO_CELL_REGION_TO_CELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //     insidePoints ((1 2 3));
 // SourceFiles
 //   region_to_cell.cpp
-#ifndef region_to_cell_hpp_
-#define region_to_cell_hpp_
 #include "topo_set_source.hpp"
 #include "bool_list.hpp"
 namespace mousse

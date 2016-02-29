@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_POINT_FIELDS_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_POINT_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   point_fields.cpp
-#ifndef point_fields_hpp_
-#define point_fields_hpp_
 #include "geometric_fields.hpp"
 #include "field_types.hpp"
 #include "point_patch_fields.hpp"

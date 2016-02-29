@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_SPECIE_REACTION_REACTIONS_SOLID_REACTION_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_SPECIE_REACTION_REACTIONS_SOLID_REACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Read solid reactions of the type S1 = S2 + G1
 // SourceFiles
 //   solid_reaction.cpp
-#ifndef solid_reaction_hpp_
-#define solid_reaction_hpp_
 #include "species_table.hpp"
 #include "reaction.hpp"
 namespace mousse

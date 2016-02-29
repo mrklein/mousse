@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TCOLLIDING_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TCOLLIDING_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Adds coolisions to kinematic clouds
 // SourceFiles
 //   _colliding_cloud.cpp
-#ifndef _colliding_cloud_hpp_
-#define _colliding_cloud_hpp_
 #include "particle.hpp"
 #include "_cloud.hpp"
 #include "iodictionary.hpp"

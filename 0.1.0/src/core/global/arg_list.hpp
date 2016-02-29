@@ -1,3 +1,6 @@
+#ifndef CORE_GLOBAL_ARG_LIST_HPP_
+#define CORE_GLOBAL_ARG_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -43,8 +46,6 @@
 //    manipulating the argList::validOptions static member.
 // SourceFiles
 //   arg_list.cpp
-#ifndef arg_list_hpp_
-#define arg_list_hpp_
 #include "string_list.hpp"
 #include "sub_list.hpp"
 #include "sl_list.hpp"

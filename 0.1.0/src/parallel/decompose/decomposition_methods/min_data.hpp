@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_MIN_DATA_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_MIN_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::minData
 // Description
 //   For use with FaceCellWave. Transports minimum passive data
-#ifndef min_data_hpp_
-#define min_data_hpp_
 #include "point.hpp"
 #include "tensor.hpp"
 #include "poly_mesh.hpp"

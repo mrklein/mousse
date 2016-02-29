@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_CLOUDS_BASE_CLASSES_DSMC_BASE_CLOUD_HPP_
+#define LAGRANGIAN_DSMC_CLOUDS_BASE_CLASSES_DSMC_BASE_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Virtual abstract base class for templated DSMCCloud
 // SourceFiles
 //   dsmc_base_cloud.cpp
-#ifndef dsmc_base_cloud_hpp_
-#define dsmc_base_cloud_hpp_
 #include "vol_fields.hpp"
 namespace mousse
 {

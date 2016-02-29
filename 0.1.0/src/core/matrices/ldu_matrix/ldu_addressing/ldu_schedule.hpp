@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_SCHEDULE_HPP_
+#define CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_SCHEDULE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Struct to hold the patch index and the initialisation flag for
 //   the patch schedule
 
-#ifndef ldu_schedule_hpp_
-#define ldu_schedule_hpp_
 
 #include "list.hpp"
 #include "token.hpp"

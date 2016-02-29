@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TNO_BREAKUP_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TNO_BREAKUP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Dummy breakup model for 'none'
 
-#ifndef _no_breakup_hpp_
-#define _no_breakup_hpp_
 
 #include "_breakup_model.hpp"
 

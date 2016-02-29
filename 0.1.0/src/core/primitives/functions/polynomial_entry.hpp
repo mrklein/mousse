@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_FUNCTIONS_POLYNOMIAL_ENTRY_HPP_
+#define CORE_PRIMITIVES_FUNCTIONS_POLYNOMIAL_ENTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 // SourceFiles
 //   polynomial_entry.cpp
 
-#ifndef polynomial_entry_hpp_
-#define polynomial_entry_hpp_
 
 #include "data_entry.hpp"
 #include "tuple2.hpp"

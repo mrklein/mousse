@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_EXTERNAL_COUPLED_TEMPERATURE_MIXED_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_EXTERNAL_COUPLED_TEMPERATURE_MIXED_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -60,8 +63,6 @@
 //   externalCoupledMixedFvPatchField
 // SourceFiles
 //   external_coupled_temperature_mixed_fv_patch_scalar_field.cpp
-#ifndef external_coupled_temperature_mixed_fv_patch_scalar_field_hpp_
-#define external_coupled_temperature_mixed_fv_patch_scalar_field_hpp_
 #include "external_coupled_mixed_fv_patch_fields.hpp"
 namespace mousse
 {

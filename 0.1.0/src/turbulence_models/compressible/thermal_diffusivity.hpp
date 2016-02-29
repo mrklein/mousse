@@ -8,8 +8,8 @@
 //   thermal diffusivity based thermal transport.
 // SourceFiles
 //   thermal_diffusivity.cpp
-#ifndef thermal_diffusivity_hpp_
-#define thermal_diffusivity_hpp_
+#ifndef THERMAL_DIFFUSIVITY_HPP_
+#define THERMAL_DIFFUSIVITY_HPP_
 namespace mousse
 {
 template<class BasicTurbulenceModel>

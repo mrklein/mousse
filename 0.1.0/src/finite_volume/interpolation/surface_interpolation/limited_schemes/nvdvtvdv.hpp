@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_NVDVTVDV_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_NVDVTVDV_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::NVDVTVDV
 // Description
 //   mousse::NVDVTVDV
-#ifndef nvdvtvdv_hpp_
-#define nvdvtvdv_hpp_
 namespace mousse
 {
 class NVDVTVDV

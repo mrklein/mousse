@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_SLICED_GEOMETRIC_FIELD_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_SLICED_GEOMETRIC_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 // SourceFiles
 //   sliced_geometric_field.cpp
 
-#ifndef sliced_geometric_field_hpp_
-#define sliced_geometric_field_hpp_
 
 #include "geometric_field.hpp"
 

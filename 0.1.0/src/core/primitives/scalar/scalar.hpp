@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_SCALAR_SCALAR_HPP_
+#define CORE_PRIMITIVES_SCALAR_SCALAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   scalar.cpp
-#ifndef scalar_hpp_
-#define scalar_hpp_
 #include "float_scalar.hpp"
 #include "double_scalar.hpp"
 #if defined(WM_SP)

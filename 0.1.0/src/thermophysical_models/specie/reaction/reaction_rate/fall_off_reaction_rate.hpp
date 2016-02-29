@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_FALL_OFF_REACTION_RATE_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_FALL_OFF_REACTION_RATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::FallOffReactionRate
 // Description
 //   General class for handling unimolecular/recombination fall-off reactions.
-#ifndef fall_off_reaction_rate_hpp_
-#define fall_off_reaction_rate_hpp_
 #include "third_body_efficiencies.hpp"
 namespace mousse
 {

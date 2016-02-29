@@ -1,3 +1,6 @@
+#ifndef MESH_EXTRUDE_MODEL_WEDGE_WEDGE_HPP_
+#define MESH_EXTRUDE_MODEL_WEDGE_WEDGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Extrudes by rotating a surface symmetrically around axis by 1 layer.
 // SeeAlso
 //   mousse::extrudeModels::sector
-#ifndef wedge_hpp_
-#define wedge_hpp_
 #include "sector.hpp"
 namespace mousse
 {

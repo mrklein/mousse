@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_CYCLIC_AMI_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_CYCLIC_AMI_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cyclic patch for Arbitrary Mesh Interface (AMI)
 // SourceFiles
 //   cyclic_ami_fv_patch.cpp
-#ifndef cyclic_ami_fv_patch_hpp_
-#define cyclic_ami_fv_patch_hpp_
 #include "coupled_fv_patch.hpp"
 #include "cyclic_ami_ldu_interface.hpp"
 #include "cyclic_ami_poly_patch.hpp"

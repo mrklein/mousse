@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_LAMBDA2_LAMBDA2_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_LAMBDA2_LAMBDA2_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   lambda2.cpp
 //   io_lambda2.hpp
-#ifndef lambda2_hpp_
-#define lambda2_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "ofstream.hpp"

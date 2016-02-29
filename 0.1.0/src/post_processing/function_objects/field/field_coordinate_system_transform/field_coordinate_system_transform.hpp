@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_COORDINATE_SYSTEM_TRANSFORM_FIELD_COORDINATE_SYSTEM_TRANSFORM_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_COORDINATE_SYSTEM_TRANSFORM_FIELD_COORDINATE_SYSTEM_TRANSFORM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -45,8 +48,6 @@
 //   field_coordinate_system_transform.cpp
 //   field_coordinate_system_transform_templates.cpp
 //   i_ofield_coordinate_system_transform.hpp
-#ifndef field_coordinate_system_transform_hpp_
-#define field_coordinate_system_transform_hpp_
 #include "ofstream.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"

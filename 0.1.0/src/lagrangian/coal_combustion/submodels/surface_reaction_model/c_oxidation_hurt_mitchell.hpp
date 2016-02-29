@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_COAL_COMBUSTION_SUBMODELS_SURFACE_REACTION_MODEL_C_OXIDATION_HURT_MITCHELL_HPP_
+#define LAGRANGIAN_COAL_COMBUSTION_SUBMODELS_SURFACE_REACTION_MODEL_C_OXIDATION_HURT_MITCHELL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //     Gas temperature: Tc > 1500 K
 //     Particle sizes:  75 um -> 200 um
 //     Pox > 0.3 atm
-#ifndef c_oxidation_hurt_mitchell_hpp_
-#define c_oxidation_hurt_mitchell_hpp_
 #include "_surface_reaction_model.hpp"
 namespace mousse
 {

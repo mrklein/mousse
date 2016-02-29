@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_METIS_DECOMP_METIS_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_METIS_DECOMP_METIS_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Metis domain decomposition
 // SourceFiles
 //   metis_decomp.cpp
-#ifndef metis_decomp_hpp_
-#define metis_decomp_hpp_
 #include "decomposition_method.hpp"
 namespace mousse
 {

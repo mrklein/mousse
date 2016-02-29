@@ -1,3 +1,6 @@
+#ifndef ENGINE_ENGINE_MESH_STATIC_ENGINE_MESH_STATIC_ENGINE_MESH_HPP_
+#define ENGINE_ENGINE_MESH_STATIC_ENGINE_MESH_STATIC_ENGINE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::staticEngineMesh
 // SourceFiles
 //   static_engine_mesh.cpp
-#ifndef static_engine_mesh_hpp_
-#define static_engine_mesh_hpp_
 #include "engine_mesh.hpp"
 namespace mousse
 {

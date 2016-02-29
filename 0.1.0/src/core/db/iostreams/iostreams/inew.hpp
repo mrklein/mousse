@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOSTREAMS_IOSTREAMS_INEW_HPP_
+#define CORE_DB_IOSTREAMS_IOSTREAMS_INEW_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::INew
 // Description
 //   A helper class when constructing from an Istream or dictionary
-#ifndef inew_hpp_
-#define inew_hpp_
 #include "auto_ptr.hpp"
 namespace mousse
 {

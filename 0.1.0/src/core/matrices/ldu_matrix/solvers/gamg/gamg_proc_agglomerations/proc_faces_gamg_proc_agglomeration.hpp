@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_PROC_AGGLOMERATIONS_PROC_FACES_GAMG_PROC_AGGLOMERATION_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_PROC_AGGLOMERATIONS_PROC_FACES_GAMG_PROC_AGGLOMERATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 // SourceFiles
 //   proc_faces_gamg_proc_agglomeration.cpp
 
-#ifndef proc_faces_gamg_proc_agglomeration_hpp_
-#define proc_faces_gamg_proc_agglomeration_hpp_
 
 #include "gamg_proc_agglomeration.hpp"
 #include "dynamic_list.hpp"

@@ -1,9 +1,10 @@
+#ifndef PSTREAM_MPI_PSTREAM_GLOBALS_HPP_
+#define PSTREAM_MPI_PSTREAM_GLOBALS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   pstream_globals.cpp
-#ifndef pstream_globals_hpp_
-#define pstream_globals_hpp_
 
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 

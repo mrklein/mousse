@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_REGION_SIZE_DISTRIBUTION_REGION_SIZE_DISTRIBUTION_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_REGION_SIZE_DISTRIBUTION_REGION_SIZE_DISTRIBUTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -70,8 +73,6 @@
 //   mousse::OutputFilterFunctionObject
 // SourceFiles
 //   region_size_distribution.cpp
-#ifndef region_size_distribution_hpp_
-#define region_size_distribution_hpp_
 #include "function_object_file.hpp"
 #include "point_field_fwd.hpp"
 #include "writer.hpp"

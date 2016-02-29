@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_CELL_SOURCES_FIELD_TO_CELL_FIELD_DICTIONARY_HPP_
+#define MESH_TOOLS_SETS_CELL_SOURCES_FIELD_TO_CELL_FIELD_DICTIONARY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::fieldDictionary
 // Description
 //   Read field as dictionary (without mesh).
-#ifndef field_dictionary_hpp_
-#define field_dictionary_hpp_
 #include "reg_ioobject.hpp"
 #include "dictionary.hpp"
 namespace mousse

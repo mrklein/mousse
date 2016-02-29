@@ -1,9 +1,10 @@
+#ifndef CORE_CONTAINERS_LISTS_LIST_LOOP_M_HPP_
+#define CORE_CONTAINERS_LISTS_LIST_LOOP_M_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef list_loop_m_hpp_
-#define list_loop_m_hpp_
 
 #ifdef vectorMachine
 // Element access looping using [] for vector machines
@@ -48,4 +49,4 @@
   const type* __restrict__ fp = (f).begin()
 
 #endif  // vectorMachine
-#endif  // list_loop_m_hpp_
+#endif  // CORE_CONTAINERS_LISTS_LIST_LOOP_M_HPP_

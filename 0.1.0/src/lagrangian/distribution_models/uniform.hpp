@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DISTRIBUTION_MODELS_UNIFORM_HPP_
+#define LAGRANGIAN_DISTRIBUTION_MODELS_UNIFORM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Uniform/equally-weighted distribution model
 // SourceFiles
 //   uniform.cpp
-#ifndef uniform_hpp_
-#define uniform_hpp_
 #include "distribution_model.hpp"
 namespace mousse
 {

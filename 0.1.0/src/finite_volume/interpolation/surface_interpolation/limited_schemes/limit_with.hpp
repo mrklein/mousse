@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_LIMIT_WITH_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_LIMITED_SCHEMES_LIMIT_WITH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   limit_with.cpp
 
-#ifndef limit_with_hpp_
-#define limit_with_hpp_
 
 #include "surface_interpolation_scheme.hpp"
 #include "limited_surface_interpolation_scheme.hpp"

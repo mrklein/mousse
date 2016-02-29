@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_HOMOGENEOUS_MIXTURE_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_HOMOGENEOUS_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::homogeneousMixture
 // SourceFiles
 //   homogeneous_mixture.cpp
-#ifndef homogeneous_mixture_hpp_
-#define homogeneous_mixture_hpp_
 #include "basic_combustion_mixture.hpp"
 namespace mousse
 {

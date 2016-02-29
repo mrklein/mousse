@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_PATCH_CLOUD_SET_HPP_
+#define SAMPLING_SAMPLED_SET_PATCH_CLOUD_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Like cloudSet but samples nearest patch face
 // SourceFiles
 //   patch_cloud_set.cpp
-#ifndef patch_cloud_set_hpp_
-#define patch_cloud_set_hpp_
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "hash_set.hpp"

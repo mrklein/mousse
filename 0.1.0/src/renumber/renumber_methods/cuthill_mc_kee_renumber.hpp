@@ -1,3 +1,6 @@
+#ifndef RENUMBER_RENUMBER_METHODS_CUTHILL_MC_KEE_RENUMBER_HPP_
+#define RENUMBER_RENUMBER_METHODS_CUTHILL_MC_KEE_RENUMBER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cuthill-McKee renumbering
 // SourceFiles
 //   cuthill_mc_kee_renumber.cpp
-#ifndef cuthill_mc_kee_renumber_hpp_
-#define cuthill_mc_kee_renumber_hpp_
 #include "renumber_method.hpp"
 #include "switch.hpp"
 namespace mousse

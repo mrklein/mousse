@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_THEAT_TRANSFER_MODEL_THEAT_TRANSFER_MODEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_THEAT_TRANSFER_MODEL_THEAT_TRANSFER_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _heat_transfer_model.cpp
 //   _heat_transfer_model_new.cpp
-#ifndef _heat_transfer_model_hpp_
-#define _heat_transfer_model_hpp_
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

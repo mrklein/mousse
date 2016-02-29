@@ -1,3 +1,6 @@
+#ifndef PARALLEL_RECONSTRUCT_RECONSTRUCT_POINT_FIELD_RECONSTRUCTOR_HPP_
+#define PARALLEL_RECONSTRUCT_RECONSTRUCT_POINT_FIELD_RECONSTRUCTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Point field reconstructor.
 // SourceFiles
 //   point_field_reconstructor.cpp
-#ifndef point_field_reconstructor_hpp_
-#define point_field_reconstructor_hpp_
 #include "point_mesh.hpp"
 #include "point_fields.hpp"
 #include "point_patch_field_mapper_patch_ref.hpp"

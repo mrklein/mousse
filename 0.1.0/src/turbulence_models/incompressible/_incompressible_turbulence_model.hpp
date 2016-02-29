@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_INCOMPRESSIBLE_TINCOMPRESSIBLE_TURBULENCE_MODEL_HPP_
+#define TURBULENCE_MODELS_INCOMPRESSIBLE_TINCOMPRESSIBLE_TURBULENCE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   turbulence models.
 // SourceFiles
 //   _incompressible_turbulence_model.cpp
-#ifndef _incompressible_turbulence_model_hpp_
-#define _incompressible_turbulence_model_hpp_
 #include "_turbulence_model.hpp"
 #include "incompressible_turbulence_model.hpp"
 #include "fv_matrix.hpp"

@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURF_MESH_SURF_MESH_HPP_
+#define SURF_MESH_SURF_MESH_SURF_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   surf_mesh.cpp
 //   surf_mesh_clear.cpp
 //   surf_mesh_io.cpp
-#ifndef surf_mesh_hpp_
-#define surf_mesh_hpp_
 #include "surface_registry.hpp"
 #include "meshed_surface_io_allocator.hpp"
 #include "primitive_patch.hpp"

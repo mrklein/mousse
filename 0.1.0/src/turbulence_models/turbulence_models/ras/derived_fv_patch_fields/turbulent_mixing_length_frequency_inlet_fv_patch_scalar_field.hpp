@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_DERIVED_FV_PATCH_FIELDS_TURBULENT_MIXING_LENGTH_FREQUENCY_INLET_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_DERIVED_FV_PATCH_FIELDS_TURBULENT_MIXING_LENGTH_FREQUENCY_INLET_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -41,8 +44,6 @@
 //   mousse::inletOutletFvPatchField
 // SourceFiles
 //   turbulent_mixing_length_frequency_inlet_fv_patch_scalar_field.cpp
-#ifndef turbulent_mixing_length_frequency_inlet_fv_patch_scalar_field_hpp_
-#define turbulent_mixing_length_frequency_inlet_fv_patch_scalar_field_hpp_
 #include "inlet_outlet_fv_patch_fields.hpp"
 namespace mousse
 {

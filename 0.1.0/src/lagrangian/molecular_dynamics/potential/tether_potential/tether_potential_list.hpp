@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_TETHER_POTENTIAL_TETHER_POTENTIAL_LIST_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_TETHER_POTENTIAL_TETHER_POTENTIAL_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   tether_potential_list.cpp
-#ifndef tether_potential_list_hpp_
-#define tether_potential_list_hpp_
 #include "list_ops.hpp"
 #include "ptr_list.hpp"
 #include "word.hpp"

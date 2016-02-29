@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_REVERSE_LINEAR_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_REVERSE_LINEAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   reverse_linear.cpp
 
-#ifndef reverse_linear_hpp_
-#define reverse_linear_hpp_
 
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"

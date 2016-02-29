@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TBINARY_COLLISION_MODEL_TLARSEN_BORGNAKKE_VARIABLE_HARD_SPHERE_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TBINARY_COLLISION_MODEL_TLARSEN_BORGNAKKE_VARIABLE_HARD_SPHERE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Variable Hard Sphere BinaryCollision Model with Larsen Borgnakke internal
 //   energy redistribution.  Based on the INELRS subroutine in Bird's DSMC0R.FOR
-#ifndef _larsen_borgnakke_variable_hard_sphere_hpp_
-#define _larsen_borgnakke_variable_hard_sphere_hpp_
 #include "_binary_collision_model.hpp"
 namespace mousse
 {

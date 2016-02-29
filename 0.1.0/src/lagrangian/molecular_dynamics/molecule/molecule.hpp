@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULE_MOLECULE_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULE_MOLECULE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   molecule.cpp
 //   molecule_io.cpp
-#ifndef molecule_hpp_
-#define molecule_hpp_
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_MESH_LDU_ADDRESSING_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_MESH_LDU_ADDRESSING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   fv_mesh_ldu_addressing.cpp
 
-#ifndef fv_mesh_ldu_addressing_hpp_
-#define fv_mesh_ldu_addressing_hpp_
 
 #include "ldu_addressing.hpp"
 #include "fv_mesh.hpp"

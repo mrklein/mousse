@@ -1,3 +1,6 @@
+#ifndef EDGE_MESH_EDGE_MESH_HPP_
+#define EDGE_MESH_EDGE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   edge_mesh.cpp
 //   edge_mesh_io.cpp
 //   edge_mesh_new.cpp
-#ifndef edge_mesh_hpp_
-#define edge_mesh_hpp_
 #include "point_field.hpp"
 #include "edge_list.hpp"
 #include "edge_mesh_formats_core.hpp"

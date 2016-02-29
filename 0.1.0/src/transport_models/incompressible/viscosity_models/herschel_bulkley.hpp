@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODELS_HERSCHEL_BULKLEY_HPP_
+#define TRANSPORT_MODELS_INCOMPRESSIBLE_VISCOSITY_MODELS_HERSCHEL_BULKLEY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Herschel-Bulkley non-Newtonian viscosity model.
 // SourceFiles
 //   herschel_bulkley.cpp
-#ifndef herschel_bulkley_hpp_
-#define herschel_bulkley_hpp_
 #include "viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"

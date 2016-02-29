@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_DDT_SCHEMES_BOUNDED_DDT_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_DDT_SCHEMES_BOUNDED_DDT_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   divergence of the flux field.
 // SourceFiles
 //   bounded_ddt_scheme.cpp
-#ifndef bounded_ddt_scheme_hpp_
-#define bounded_ddt_scheme_hpp_
 #include "ddt_scheme.hpp"
 namespace mousse
 {

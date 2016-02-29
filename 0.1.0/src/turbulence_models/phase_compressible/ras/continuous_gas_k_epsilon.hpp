@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_PHASE_COMPRESSIBLE_RAS_CONTINUOUS_GAS_K_EPSILON_HPP_
+#define TURBULENCE_MODELS_PHASE_COMPRESSIBLE_RAS_CONTINUOUS_GAS_K_EPSILON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -30,8 +33,6 @@
 //   \endverbatim
 // SourceFiles
 //   continuous_gas_k_epsilon.cpp
-#ifndef continuous_gas_k_epsilon_hpp_
-#define continuous_gas_k_epsilon_hpp_
 #include "k_epsilon.hpp"
 namespace mousse
 {

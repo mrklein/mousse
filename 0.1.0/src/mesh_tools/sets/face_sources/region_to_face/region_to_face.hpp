@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_FACE_SOURCES_REGION_TO_FACE_REGION_TO_FACE_HPP_
+#define MESH_TOOLS_SETS_FACE_SOURCES_REGION_TO_FACE_REGION_TO_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   (that contains given point)
 // SourceFiles
 //   region_to_face.cpp
-#ifndef region_to_face_hpp_
-#define region_to_face_hpp_
 #include "topo_set_source.hpp"
 #include "packed_bool_list.hpp"
 #include "indirect_primitive_patch.hpp"

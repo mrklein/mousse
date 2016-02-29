@@ -1,3 +1,6 @@
+#ifndef TRI_SURFACE_SURFACE_PATCH_HPP_
+#define TRI_SURFACE_SURFACE_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   'Patch' on surface as subset of triSurface.
 // SourceFiles
 //   surface_patch.cpp
-#ifndef surface_patch_hpp_
-#define surface_patch_hpp_
 #include "geometric_surface_patch.hpp"
 #include "word.hpp"
 #include "label.hpp"

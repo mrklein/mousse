@@ -1,3 +1,6 @@
+#ifndef CORE_INTERPOLATIONS_TABLE_READERS_OPEN_FOAM_TABLE_READER_HPP_
+#define CORE_INTERPOLATIONS_TABLE_READERS_OPEN_FOAM_TABLE_READER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Reads an interpolation table from a file - OpenFOAM-format
 // SourceFiles
 //   open_foam_table_reader.cpp
-#ifndef open_foam_table_reader_hpp_
-#define open_foam_table_reader_hpp_
 
 #include "table_reader.hpp"
 

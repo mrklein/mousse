@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_DICTIONARIES_DICTIONARY_BASE_HPP_
+#define CORE_CONTAINERS_DICTIONARIES_DICTIONARY_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //   dictionary_base.cpp
 //   dictionary_base_io.cpp
 
-#ifndef dictionary_base_hpp_
-#define dictionary_base_hpp_
 
 #include "hash_table.hpp"
 #include "word_list.hpp"

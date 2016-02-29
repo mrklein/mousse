@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_HEX_REF8_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_HEX_REF8_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Refinement of (split) hexes using polyTopoChange.
 // SourceFiles
 //   hex_ref8.cpp
-#ifndef hex_ref8_hpp_
-#define hex_ref8_hpp_
 #include "label_io_list.hpp"
 #include "face.hpp"
 #include "hash_set.hpp"

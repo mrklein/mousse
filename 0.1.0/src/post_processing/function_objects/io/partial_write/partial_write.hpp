@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_IO_PARTIAL_WRITE_PARTIAL_WRITE_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_IO_PARTIAL_WRITE_PARTIAL_WRITE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -33,8 +36,6 @@
 // SourceFiles
 //   partial_write.cpp
 //   i_opartial_write.hpp
-#ifndef partial_write_hpp_
-#define partial_write_hpp_
 #include "hash_set.hpp"
 #include "run_time_selection_tables.hpp"
 #include "vol_fields.hpp"

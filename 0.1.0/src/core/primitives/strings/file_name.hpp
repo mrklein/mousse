@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_STRINGS_FILE_NAME_HPP_
+#define CORE_PRIMITIVES_STRINGS_FILE_NAME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   file_name.cpp
 //   file_name_io.cpp
 
-#ifndef file_name_hpp_
-#define file_name_hpp_
 
 #include "word.hpp"
 

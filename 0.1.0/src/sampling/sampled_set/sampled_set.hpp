@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_SAMPLED_SET_HPP_
+#define SAMPLING_SAMPLED_SET_SAMPLED_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   write (x/y/z component or all 3 components)
 // SourceFiles
 //   sampled_set.cpp
-#ifndef sampled_set_hpp_
-#define sampled_set_hpp_
 #include "coord_set.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"

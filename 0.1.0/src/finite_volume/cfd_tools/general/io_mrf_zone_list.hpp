@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_IO_MRF_ZONE_LIST_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_IO_MRF_ZONE_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   \endverbatim
 // SourceFiles
 //   io_mrf_zone_list.cpp
-#ifndef io_mrf_zone_list_hpp_
-#define io_mrf_zone_list_hpp_
 #include "iodictionary.hpp"
 #include "mrf_zone_list.hpp"
 namespace mousse

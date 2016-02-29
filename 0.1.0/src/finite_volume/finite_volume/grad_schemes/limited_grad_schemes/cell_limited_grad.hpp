@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_LIMITED_GRAD_SCHEMES_CELL_LIMITED_GRAD_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_LIMITED_GRAD_SCHEMES_CELL_LIMITED_GRAD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   cell_limited_grad.cpp
 
-#ifndef cell_limited_grad_hpp_
-#define cell_limited_grad_hpp_
 
 #include "grad_scheme.hpp"
 

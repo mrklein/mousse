@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_BLADE_MODEL_BLADE_MODEL_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_BLADE_MODEL_BLADE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -19,8 +22,6 @@
 //     chord [m]
 // SourceFiles
 //   blade_model.cpp
-#ifndef blade_model_hpp_
-#define blade_model_hpp_
 #include "list.hpp"
 #include "dictionary.hpp"
 namespace mousse

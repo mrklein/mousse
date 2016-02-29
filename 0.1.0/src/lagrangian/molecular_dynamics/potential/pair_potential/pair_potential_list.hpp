@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_PAIR_POTENTIAL_PAIR_POTENTIAL_LIST_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_PAIR_POTENTIAL_PAIR_POTENTIAL_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   pair_potential_list_i.hpp
 //   pair_potential_list.cpp
-#ifndef pair_potential_list_hpp_
-#define pair_potential_list_hpp_
 #include "ptr_list.hpp"
 #include "word.hpp"
 #include "pair_potential.hpp"

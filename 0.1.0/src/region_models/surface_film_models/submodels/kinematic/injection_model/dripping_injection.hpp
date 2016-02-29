@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_DRIPPING_INJECTION_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_DRIPPING_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   New parcel diameters are sampled from a PDF.
 // SourceFiles
 //   dripping_injection.cpp
-#ifndef dripping_injection_hpp_
-#define dripping_injection_hpp_
 #include "injection_model.hpp"
 #include "distribution_model.hpp"
 #include "cached_random.hpp"

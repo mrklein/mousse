@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_FV_MOTION_SOLVERS_FV_MOTION_SOLVER_CORE_FV_MOTION_SOLVER_CORE_HPP_
+#define FV_MOTION_SOLVER_FV_MOTION_SOLVERS_FV_MOTION_SOLVER_CORE_FV_MOTION_SOLVER_CORE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for fvMesh based motionSolvers.
 // SourceFiles
 //   fv_motion_solver_core.cpp
-#ifndef fv_motion_solver_core_hpp_
-#define fv_motion_solver_core_hpp_
 #include "fv_mesh.hpp"
 namespace mousse
 {

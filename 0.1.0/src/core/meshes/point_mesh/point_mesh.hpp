@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_MESH_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Mesh representing a set of points created from polyMesh.
 
-#ifndef point_mesh_hpp_
-#define point_mesh_hpp_
 
 #include "geo_mesh.hpp"
 #include "_mesh_object.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_DB_DICTIONARY_FUNCTION_ENTRIES_INCLUDE_ETC_ENTRY_HPP_
+#define CORE_DB_DICTIONARY_FUNCTION_ENTRIES_INCLUDE_ETC_ENTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -31,8 +34,6 @@
 // SourceFiles
 //   include_etc_entry.cpp
 
-#ifndef include_etc_entry_hpp_
-#define include_etc_entry_hpp_
 
 #include "function_entry.hpp"
 

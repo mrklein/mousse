@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_MAP_GEOMETRIC_FIELDS_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_MAP_GEOMETRIC_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   specialisations for mapping of internal fields depending on mesh
 //   type.
 
-#ifndef map_geometric_fields_hpp_
-#define map_geometric_fields_hpp_
 
 #include "poly_mesh.hpp"
 #include "time.hpp"

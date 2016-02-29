@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TDISPERSION_MODEL_TNO_DISPERSION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TDISPERSION_MODEL_TNO_DISPERSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::NoDispersion
 // Description
 //   Place holder for 'none' option
-#ifndef _no_dispersion_hpp_
-#define _no_dispersion_hpp_
 #include "_dispersion_model.hpp"
 namespace mousse
 {

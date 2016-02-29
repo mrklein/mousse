@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LOCAL_MAX_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LOCAL_MAX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   and return the reciprocal of the interpolate.
 // SourceFiles
 //   local_max.cpp
-#ifndef local_max_hpp_
-#define local_max_hpp_
 
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"

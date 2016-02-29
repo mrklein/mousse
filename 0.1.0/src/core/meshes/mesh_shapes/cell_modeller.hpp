@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_CELL_MODELLER_HPP_
+#define CORE_MESHES_MESH_SHAPES_CELL_MODELLER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   cell_modeller.cpp
 //   cell_modeller_io.cpp
 //   global_cell_modeller.cpp
-#ifndef cell_modeller_hpp_
-#define cell_modeller_hpp_
 #include "cell_model.hpp"
 #include "ptr_list.hpp"
 #include "hash_table.hpp"

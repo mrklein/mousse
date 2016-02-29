@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_BLOCK_DESCRIPTOR_BLOCK_DESCRIPTOR_HPP_
+#define MESH_BLOCK_MESH_BLOCK_DESCRIPTOR_BLOCK_DESCRIPTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   block_descriptor.cpp
 //   block_descriptor_edges.cpp
-#ifndef block_descriptor_hpp_
-#define block_descriptor_hpp_
 #include "cell_shape.hpp"
 #include "point_field.hpp"
 #include "scalar_list.hpp"

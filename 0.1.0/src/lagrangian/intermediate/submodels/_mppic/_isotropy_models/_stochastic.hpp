@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TISOTROPY_MODELS_TSTOCHASTIC_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_TISOTROPY_MODELS_TSTOCHASTIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   \endverbatim
 // SourceFiles
 //   stochastic.cpp
-#ifndef _stochastic_hpp_
-#define _stochastic_hpp_
 #include "_isotropy_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TINFLOW_BOUNDARY_MODEL_TNO_INFLOW_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TINFLOW_BOUNDARY_MODEL_TNO_INFLOW_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Not inserting any particles
 //
-#ifndef _no_inflow_hpp_
-#define _no_inflow_hpp_
 
 #include "_inflow_boundary_model.hpp"
 

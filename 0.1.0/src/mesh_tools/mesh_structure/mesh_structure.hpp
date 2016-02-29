@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MESH_STRUCTURE_MESH_STRUCTURE_HPP_
+#define MESH_TOOLS_MESH_STRUCTURE_MESH_STRUCTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Detect extruded mesh structure given a set of patch faces.
 // SourceFiles
 //   mesh_structure.cpp
-#ifndef mesh_structure_hpp_
-#define mesh_structure_hpp_
 #include "label_list.hpp"
 #include "uindirect_primitive_patch.hpp"
 #include "class_name.hpp"

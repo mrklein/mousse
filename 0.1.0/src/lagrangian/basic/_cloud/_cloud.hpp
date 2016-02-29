@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_TCLOUD_TCLOUD_HPP_
+#define LAGRANGIAN_BASIC_TCLOUD_TCLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _cloud.cpp
 //   _cloud_io.cpp
-#ifndef _cloud_hpp_
-#define _cloud_hpp_
 #include "cloud.hpp"
 #include "idl_list.hpp"
 #include "iofield.hpp"

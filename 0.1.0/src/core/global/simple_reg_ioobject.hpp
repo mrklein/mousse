@@ -1,3 +1,6 @@
+#ifndef CORE_GLOBAL_SIMPLE_REG_IOOBJECT_HPP_
+#define CORE_GLOBAL_SIMPLE_REG_IOOBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for registered object with I/O. Used in debug symbol
 //   registration.
 // SourceFiles
-#ifndef simple_reg_ioobject_hpp_
-#define simple_reg_ioobject_hpp_
 namespace mousse
 {
 // Forward declaration of classes

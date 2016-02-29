@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_PASSIVE_PARTICLE_PASSIVE_PARTICLE_HPP_
+#define LAGRANGIAN_BASIC_PASSIVE_PARTICLE_PASSIVE_PARTICLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Copy of base particle
 // SourceFiles
 //   passive_particle.hpp
-#ifndef passive_particle_hpp_
-#define passive_particle_hpp_
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"

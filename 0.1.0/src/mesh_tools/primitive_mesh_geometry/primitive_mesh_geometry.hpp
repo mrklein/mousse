@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_PRIMITIVE_MESH_GEOMETRY_PRIMITIVE_MESH_GEOMETRY_HPP_
+#define MESH_TOOLS_PRIMITIVE_MESH_GEOMETRY_PRIMITIVE_MESH_GEOMETRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Updateable mesh geometry + checking routines.
 // SourceFiles
 //   primitive_mesh_geometry.cpp
-#ifndef primitive_mesh_geometry_hpp_
-#define primitive_mesh_geometry_hpp_
 #include "point_fields.hpp"
 #include "hash_set.hpp"
 namespace mousse

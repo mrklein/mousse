@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_INJECTION_MODEL_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_INJECTION_MODEL_INJECTION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   injection_model.cpp
 //   injection_model_new.cpp
-#ifndef injection_model_hpp_
-#define injection_model_hpp_
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 #include "scalar_field.hpp"

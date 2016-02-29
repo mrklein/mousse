@@ -1,11 +1,12 @@
+#ifndef MESH_EXTRUDE_MODEL_SIGMA_RADIAL_SIGMA_RADIAL_HPP_
+#define MESH_EXTRUDE_MODEL_SIGMA_RADIAL_SIGMA_RADIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::extrudeModels::sigmaRadial
 // Description
-#ifndef sigma_radial_hpp_
-#define sigma_radial_hpp_
 #include "extrude_model.hpp"
 namespace mousse
 {

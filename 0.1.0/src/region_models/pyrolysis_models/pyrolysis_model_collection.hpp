@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_PYROLYSIS_MODELS_PYROLYSIS_MODEL_COLLECTION_HPP_
+#define REGION_MODELS_PYROLYSIS_MODELS_PYROLYSIS_MODEL_COLLECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   to loop over the functions for each type.
 // SourceFiles
 //   pyrolysis_model_collection.cpp
-#ifndef pyrolysis_model_collection_hpp_
-#define pyrolysis_model_collection_hpp_
 #include "ptr_list.hpp"
 #include "pyrolysis_model.hpp"
 namespace mousse

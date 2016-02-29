@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_THERMO_E_CONST_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_THERMO_E_CONST_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   state
 // SourceFiles
 //   e_const_thermo.cpp
-#ifndef e_const_thermo_hpp_
-#define e_const_thermo_hpp_
 #include "thermo.hpp"
 namespace mousse
 {

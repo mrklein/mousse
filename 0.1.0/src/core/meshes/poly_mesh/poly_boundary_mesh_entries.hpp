@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_BOUNDARY_MESH_ENTRIES_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_BOUNDARY_MESH_ENTRIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::polyBoundaryMeshEntries
 // SourceFiles
 //   poly_boundary_mesh_entries.cpp
-#ifndef poly_boundary_mesh_entries_hpp_
-#define poly_boundary_mesh_entries_hpp_
 #include "reg_ioobject.hpp"
 #include "ptr_list.hpp"
 #include "entry.hpp"

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_POWER_LAW_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_POWER_LAW_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 // SourceFiles
 //   power_law.cpp
 //   power_law_templates.cpp
-#ifndef power_law_hpp_
-#define power_law_hpp_
 #include "porosity_model.hpp"
 namespace mousse
 {

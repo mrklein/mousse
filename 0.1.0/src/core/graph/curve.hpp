@@ -1,3 +1,6 @@
+#ifndef CORE_GRAPH_CURVE_HPP_
+#define CORE_GRAPH_CURVE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A single curve in a graph.
 // SourceFiles
 //   curve.cpp
-#ifndef curve_hpp_
-#define curve_hpp_
 #include "string.hpp"
 #include "primitive_fields.hpp"
 #include "auto_ptr.hpp"

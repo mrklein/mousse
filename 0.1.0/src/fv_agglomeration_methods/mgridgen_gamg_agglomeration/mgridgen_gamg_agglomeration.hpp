@@ -1,3 +1,6 @@
+#ifndef FV_AGGLOMERATION_METHODS_MGRIDGEN_GAMG_AGGLOMERATION_MGRIDGEN_GAMG_AGGLOMERATION_HPP_
+#define FV_AGGLOMERATION_METHODS_MGRIDGEN_GAMG_AGGLOMERATION_MGRIDGEN_GAMG_AGGLOMERATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   mgridgen_gamg_agglomeration.cpp
 //   mgridgen_gamg_agglomerate.cpp
-#ifndef mgridgen_gamg_agglomeration_hpp_
-#define mgridgen_gamg_agglomeration_hpp_
 #include "fv_mesh.hpp"
 #include "gamg_agglomeration.hpp"
 extern "C"

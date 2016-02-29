@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_IDENTIFIERS_COUPLE_GROUP_IDENTIFIER_HPP_
+#define CORE_MESHES_IDENTIFIERS_COUPLE_GROUP_IDENTIFIER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   couple_group_identifier_i.hpp
 //   couple_group_identifier.cpp
 //   couple_group_identifier_io.cpp
-#ifndef couple_group_identifier_hpp_
-#define couple_group_identifier_hpp_
 #include "word.hpp"
 #include "label.hpp"
 namespace mousse

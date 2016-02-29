@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_TIME_VARYING_MAPPED_FIXED_VALUE_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_TIME_VARYING_MAPPED_FIXED_VALUE_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -42,8 +45,6 @@
 // SourceFiles
 //   time_varying_mapped_fixed_value_fv_patch_field.cpp
 
-#ifndef time_varying_mapped_fixed_value_fv_patch_field_hpp_
-#define time_varying_mapped_fixed_value_fv_patch_field_hpp_
 
 #include "fixed_value_fv_patch_fields.hpp"
 #include "fixed_list.hpp"

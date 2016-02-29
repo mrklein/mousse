@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FILM_THERMO_MODEL_LIQUID_FILM_THERMO_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FILM_THERMO_MODEL_LIQUID_FILM_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Liquid thermo model
 // SourceFiles
 //   liquid_film_thermo.cpp
-#ifndef liquid_film_thermo_hpp_
-#define liquid_film_thermo_hpp_
 #include "film_thermo_model.hpp"
 #include "liquid_properties.hpp"
 namespace mousse

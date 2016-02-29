@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_CELL_POINT_WALL_MODIFIED_HPP_
+#define FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_CELL_POINT_WALL_MODIFIED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Same as interpolationCellPoint, but if interpolating a wall face, uses
 //   cell centre value instead
-#ifndef interpolation_cell_point_wall_modified_hpp_
-#define interpolation_cell_point_wall_modified_hpp_
 #include "interpolation_cell_point.hpp"
 #include "cell_point_weight_wall_modified.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_EXTENDED_STENCIL_CELL_TO_FACE_CELL_TO_FACE_STENCIL_HPP_
+#define FINITE_VOLUME_FV_MESH_EXTENDED_STENCIL_CELL_TO_FACE_CELL_TO_FACE_STENCIL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   neighbouring cells)
 // SourceFiles
 //   face_stencil.cpp
-#ifndef cell_to_face_stencil_hpp_
-#define cell_to_face_stencil_hpp_
 #include "global_index.hpp"
 #include "bool_list.hpp"
 #include "hash_set.hpp"

@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_SOLVER_SIX_DOF_RIGID_BODY_MOTION_SOLVER_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_SOLVER_SIX_DOF_RIGID_BODY_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   the object surface.
 // SourceFiles
 //   six_dof_rigid_body_motion_solver.cpp
-#ifndef six_dof_rigid_body_motion_solver_hpp_
-#define six_dof_rigid_body_motion_solver_hpp_
 #include "displacement_motion_solver.hpp"
 #include "six_dof_rigid_body_motion.hpp"
 namespace mousse

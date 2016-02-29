@@ -1,3 +1,6 @@
+#ifndef CONVERSION_ENSIGHT_PART_ENSIGHT_PART_HPP_
+#define CONVERSION_ENSIGHT_PART_ENSIGHT_PART_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   ensight_part.cpp
 //   ensight_part_io.cpp
 //   ensight_part_templates.cpp
-#ifndef ensight_part_hpp_
-#define ensight_part_hpp_
 #include "ensight_file.hpp"
 #include "ensight_geo_file.hpp"
 #include "type_info.hpp"

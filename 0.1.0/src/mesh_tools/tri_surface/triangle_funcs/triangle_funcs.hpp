@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_TRIANGLE_FUNCS_TRIANGLE_FUNCS_HPP_
+#define MESH_TOOLS_TRI_SURFACE_TRIANGLE_FUNCS_TRIANGLE_FUNCS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Various triangle functions.
 // SourceFiles
 //   triangle_funcs.cpp
-#ifndef triangle_funcs_hpp_
-#define triangle_funcs_hpp_
 #include "point.hpp"
 #include "label.hpp"
 #include "scalar.hpp"

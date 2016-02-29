@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_CELL_SET_OPTION_CELL_SET_OPTION_HPP_
+#define FV_OPTIONS_CELL_SET_OPTION_CELL_SET_OPTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 // SourceFiles
 //   cell_set_option.cpp
 //   cell_set_option_io.cpp
-#ifndef cell_set_option_hpp_
-#define cell_set_option_hpp_
 #include "fv_option.hpp"
 #include "cell_set.hpp"
 #include "fv_mesh.hpp"

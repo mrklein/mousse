@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_PASR_HPP_
+#define COMBUSTION_MODELS_PASR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   mixing time scale.
 // SourceFiles
 //   pasr.cpp
-#ifndef pasr_hpp_
-#define pasr_hpp_
 #include "laminar.hpp"
 namespace mousse
 {

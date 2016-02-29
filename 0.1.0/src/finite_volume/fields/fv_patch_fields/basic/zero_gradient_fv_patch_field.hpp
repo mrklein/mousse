@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_ZERO_GRADIENT_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_ZERO_GRADIENT_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //   \endverbatim
 // SourceFiles
 //   zero_gradient_fv_patch_field.cpp
-#ifndef zero_gradient_fv_patch_field_hpp_
-#define zero_gradient_fv_patch_field_hpp_
 #include "fv_patch_field.hpp"
 namespace mousse
 {

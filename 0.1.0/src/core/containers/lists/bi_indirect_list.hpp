@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_BI_INDIRECT_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_BI_INDIRECT_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Indexes into negList (negative index) or posList (zero or positive index).
 // SourceFiles
 //   bi_indirect_list_i.hpp
-#ifndef bi_indirect_list_hpp_
-#define bi_indirect_list_hpp_
 #include "list.hpp"
 namespace mousse
 {

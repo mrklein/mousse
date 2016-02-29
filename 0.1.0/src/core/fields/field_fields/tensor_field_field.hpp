@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_FIELD_FIELDS_TENSOR_FIELD_FIELD_HPP_
+#define CORE_FIELDS_FIELD_FIELDS_TENSOR_FIELD_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   tensor_field_field.cpp
-#ifndef tensor_field_field_hpp_
-#define tensor_field_field_hpp_
 #include "spherical_tensor_field_field.hpp"
 #include "symm_tensor_field_field.hpp"
 #include "tensor.hpp"

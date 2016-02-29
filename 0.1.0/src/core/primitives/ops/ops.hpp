@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_OPS_OPS_HPP_
+#define CORE_PRIMITIVES_OPS_OPS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef ops_hpp_
-#define ops_hpp_
 
 namespace mousse
 {

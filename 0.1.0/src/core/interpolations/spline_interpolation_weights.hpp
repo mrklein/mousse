@@ -1,3 +1,6 @@
+#ifndef CORE_INTERPOLATIONS_SPLINE_INTERPOLATION_WEIGHTS_HPP_
+#define CORE_INTERPOLATIONS_SPLINE_INTERPOLATION_WEIGHTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   spline_interpolation_weights.cpp
 
-#ifndef spline_interpolation_weights_hpp_
-#define spline_interpolation_weights_hpp_
 
 #include "interpolation_weights.hpp"
 

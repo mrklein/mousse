@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_TWO_PHASE_MIXTURE_TWO_PHASE_MIXTURE_TWO_PHASE_MIXTURE_HPP_
+#define TRANSPORT_MODELS_TWO_PHASE_MIXTURE_TWO_PHASE_MIXTURE_TWO_PHASE_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A two-phase mixture model
 // SourceFiles
 //   two_phase_mixture.cpp
-#ifndef two_phase_mixture_hpp_
-#define two_phase_mixture_hpp_
 #include "vol_fields.hpp"
 namespace mousse
 {

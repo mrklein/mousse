@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_BASIC_TINTERACTION_LISTS_REFERRED_WALL_FACE_HPP_
+#define LAGRANGIAN_BASIC_TINTERACTION_LISTS_REFERRED_WALL_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   associated points
 // SourceFiles
 //   referred_wall_face.cpp
-#ifndef referred_wall_face_hpp_
-#define referred_wall_face_hpp_
 #include "face.hpp"
 #include "point_field.hpp"
 namespace mousse

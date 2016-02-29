@@ -1,3 +1,6 @@
+#ifndef RANDOM_PROCESSES_TURB_GEN_HPP_
+#define RANDOM_PROCESSES_TURB_GEN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   turb_gen.cpp
 //   turb_gen_io.cpp
-#ifndef turb_gen_hpp_
-#define turb_gen_hpp_
 #include "random.hpp"
 #include "primitive_fields.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_FUNCTIONS_COMPATIBILITY_CONSTANT_HPP_
+#define CORE_PRIMITIVES_FUNCTIONS_COMPATIBILITY_CONSTANT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 // SourceFiles
 //   compatibility_constant.cpp
 
-#ifndef compatibility_constant_hpp_
-#define compatibility_constant_hpp_
 
 #include "data_entry.hpp"
 #include "dimension_set.hpp"

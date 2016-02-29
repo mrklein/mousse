@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_FIELDS_COMPLEX_FIELDS_HPP_
+#define CORE_FIELDS_FIELDS_COMPLEX_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   complex_fields.cpp
-#ifndef complex_fields_hpp_
-#define complex_fields_hpp_
 #include "complex.hpp"
 #include "complex_vector.hpp"
 #include "primitive_fields.hpp"

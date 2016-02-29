@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_SYMM_TENSOR_FIELD_HPP_
+#define CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_SYMM_TENSOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   dimensioned_symm_tensor_field.cpp
-#ifndef dimensioned_symm_tensor_field_hpp_
-#define dimensioned_symm_tensor_field_hpp_
 #include "dimensioned_field.hpp"
 #include "symm_tensor.hpp"
 #define TEMPLATE template<class GeoMesh>

@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_SIBS_HPP_
+#define ODE_ODE_SOLVERS_SIBS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   simpr.cpp
 //   poly_extrapolate.cpp
-#ifndef sibs_hpp_
-#define sibs_hpp_
 #include "ode_solver.hpp"
 namespace mousse
 {

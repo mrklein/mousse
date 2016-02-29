@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_FIELDS_ZERO_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_ZERO_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   manipulations for objects which are known to be zero at compile-time.
 //   Used for example as the argument to a function in which certain terms are
 //   optional, see source terms in the MULES solvers.
-#ifndef zero_field_hpp_
-#define zero_field_hpp_
 #include "zero.hpp"
 #include "scalar.hpp"
 namespace mousse

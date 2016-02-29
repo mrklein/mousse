@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_MESH_MAPPER_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_MESH_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   with fvMesh.
 // SourceFiles
 //   fv_mesh_mapper.cpp
-#ifndef fv_mesh_mapper_hpp_
-#define fv_mesh_mapper_hpp_
 #include "face_mapper.hpp"
 #include "cell_mapper.hpp"
 #include "fv_surface_mapper.hpp"

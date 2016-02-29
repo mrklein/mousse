@@ -1,9 +1,10 @@
+#ifndef TRI_SURFACE_TRI_SURFACE_FIELDS_FWD_HPP_
+#define TRI_SURFACE_TRI_SURFACE_FIELDS_FWD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef tri_surface_fields_fwd_hpp_
-#define tri_surface_fields_fwd_hpp_
 #include "field_types.hpp"
 #include "tri_surface.hpp"
 namespace mousse

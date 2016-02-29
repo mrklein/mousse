@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TCOLLISION_RECORD_LIST_TPAIR_COLLISION_RECORD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TCOLLISION_RECORD_LIST_TPAIR_COLLISION_RECORD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 // SourceFiles
 //   _pair_collision_record.cpp
 //   _pair_collision_record_io.cpp
-#ifndef _pair_collision_record_hpp_
-#define _pair_collision_record_hpp_
 #include "label.hpp"
 #include "vector.hpp"
 namespace mousse

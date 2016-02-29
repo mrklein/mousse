@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_CHEMISTRY_READERS_CHEMKIN_READER_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_CHEMISTRY_READERS_CHEMKIN_READER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   chemkin_reader.cpp
 //   chemkin_lexer.cpp
-#ifndef chemkin_reader_hpp_
-#define chemkin_reader_hpp_
 #include "chemistry_reader.hpp"
 #include "file_name.hpp"
 #include "type_info.hpp"

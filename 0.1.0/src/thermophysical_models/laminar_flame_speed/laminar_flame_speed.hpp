@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_LAMINAR_FLAME_SPEED_LAMINAR_FLAME_SPEED_HPP_
+#define THERMOPHYSICAL_MODELS_LAMINAR_FLAME_SPEED_LAMINAR_FLAME_SPEED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   laminar_flame_speed.cpp
 //   laminar_flame_speed_new.cpp
-#ifndef laminar_flame_speed_hpp_
-#define laminar_flame_speed_hpp_
 #include "psiu_reaction_thermo.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

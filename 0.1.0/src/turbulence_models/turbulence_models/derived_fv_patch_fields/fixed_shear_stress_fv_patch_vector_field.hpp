@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_FIXED_SHEAR_STRESS_FV_PATCH_VECTOR_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_DERIVED_FV_PATCH_FIELDS_FIXED_SHEAR_STRESS_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Set a constant shear stress as tau0 = -nuEff dU/dn.
 // SourceFiles
 //   fixed_shear_stress_fv_patch_vector_field.cpp
-#ifndef fixed_shear_stress_fv_patch_vector_field_hpp_
-#define fixed_shear_stress_fv_patch_vector_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse

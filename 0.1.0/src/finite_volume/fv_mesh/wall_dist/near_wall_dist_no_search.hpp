@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_WALL_DIST_NEAR_WALL_DIST_NO_SEARCH_HPP_
+#define FINITE_VOLUME_FV_MESH_WALL_DIST_NEAR_WALL_DIST_NO_SEARCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   anything, just takes normal component of distance.
 // SourceFiles
 //   near_wall_dist_no_search.cpp
-#ifndef near_wall_dist_no_search_hpp_
-#define near_wall_dist_no_search_hpp_
 #include "vol_fields.hpp"
 namespace mousse
 {

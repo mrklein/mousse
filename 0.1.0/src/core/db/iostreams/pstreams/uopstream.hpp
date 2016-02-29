@@ -1,3 +1,8 @@
+#include "pstream.hpp"
+
+#ifndef CORE_DB_IOSTREAMS_PSTREAMS_UOPSTREAM_HPP_
+#define CORE_DB_IOSTREAMS_PSTREAMS_UOPSTREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,9 +13,7 @@
 //   buffer.
 // SourceFiles
 //   uopstream.cpp
-#include "pstream.hpp"
-#ifndef uopstream_hpp_
-#define uopstream_hpp_
+
 #include "upstream.hpp"
 #include "ostream.hpp"
 #include "dynamic_list.hpp"

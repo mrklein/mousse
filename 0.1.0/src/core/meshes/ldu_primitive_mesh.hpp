@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_LDU_PRIMITIVE_MESH_HPP_
+#define CORE_MESHES_LDU_PRIMITIVE_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   ldu_primitive_mesh.cpp
 
-#ifndef ldu_primitive_mesh_hpp_
-#define ldu_primitive_mesh_hpp_
 
 #include "ldu_mesh.hpp"
 #include "label_list.hpp"

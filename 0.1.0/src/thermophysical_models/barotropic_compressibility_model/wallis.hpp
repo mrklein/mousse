@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BAROTROPIC_COMPRESSIBILITY_MODEL_WALLIS_HPP_
+#define THERMOPHYSICAL_MODELS_BAROTROPIC_COMPRESSIBILITY_MODEL_WALLIS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Wallis compressibility model.
 // SourceFiles
 //   wallis.cpp
-#ifndef wallis_hpp_
-#define wallis_hpp_
 #include "barotropic_compressibility_model.hpp"
 #include "dimensioned_scalar.hpp"
 namespace mousse

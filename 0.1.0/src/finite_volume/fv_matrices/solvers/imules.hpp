@@ -1,10 +1,11 @@
+#ifndef FINITE_VOLUME_FV_MATRICES_SOLVERS_IMULES_HPP_
+#define FINITE_VOLUME_FV_MATRICES_SOLVERS_IMULES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   imules.cpp
 //   imules_templates.cpp
-#ifndef imules_hpp_
-#define imules_hpp_
 #include "mules.hpp"
 namespace mousse
 {

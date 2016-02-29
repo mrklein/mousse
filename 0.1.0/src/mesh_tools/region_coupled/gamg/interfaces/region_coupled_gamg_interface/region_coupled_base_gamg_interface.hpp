@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_REGION_COUPLED_GAMG_INTERFACES_REGION_COUPLED_GAMG_INTERFACE_REGION_COUPLED_BASE_GAMG_INTERFACE_HPP_
+#define MESH_TOOLS_REGION_COUPLED_GAMG_INTERFACES_REGION_COUPLED_GAMG_INTERFACE_REGION_COUPLED_BASE_GAMG_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for GAMG agglomerated coupled region interface.
 // SourceFiles
 //   region_coupled_base_gamg_interface.cpp
-#ifndef region_coupled_base_gamg_interface_hpp_
-#define region_coupled_base_gamg_interface_hpp_
 #include "gamg_interface.hpp"
 #include "region_coupled_ldu_interface.hpp"
 #include "gamg_agglomeration.hpp"

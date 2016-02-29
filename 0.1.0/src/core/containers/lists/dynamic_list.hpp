@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_DYNAMIC_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_DYNAMIC_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   multiples).
 // SourceFiles
 //   dynamic_list.cpp
-#ifndef dynamic_list_hpp_
-#define dynamic_list_hpp_
 #include "list.hpp"
 #include "static_assert.hpp"
 namespace mousse

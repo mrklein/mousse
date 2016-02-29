@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_WALL_DIST_WALL_DIST_HPP_
+#define FINITE_VOLUME_FV_MESH_WALL_DIST_WALL_DIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   mousse::patchDistMethod::advectionDiffusion
 // SourceFiles
 //   wall_dist.cpp
-#ifndef wall_dist_hpp_
-#define wall_dist_hpp_
 #include "_mesh_object.hpp"
 #include "patch_dist_method.hpp"
 #include "vol_fields.hpp"

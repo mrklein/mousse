@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_FORMATS_STL_TRIANGLE_HPP_
+#define SURF_MESH_SURFACE_FORMATS_STL_TRIANGLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::STLtriangle
 // Description
 //   A triangle representation for STL files.
-#ifndef stl_triangle_hpp_
-#define stl_triangle_hpp_
 #include "stl_point.hpp"
 #include "istream.hpp"
 #include "ostream.hpp"

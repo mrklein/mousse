@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_FORMATS_STL_POINT_HPP_
+#define SURF_MESH_SURFACE_FORMATS_STL_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::STLpoint
 // Description
 //   A vertex point representation for STL files.
-#ifndef stl_point_hpp_
-#define stl_point_hpp_
 #include "point.hpp"
 #include "istream.hpp"
 namespace mousse

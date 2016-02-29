@@ -1,3 +1,6 @@
+#ifndef CORE_GRAPH_WRITERS_JPLOT_GRAPH_HPP_
+#define CORE_GRAPH_WRITERS_JPLOT_GRAPH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   jplot graph output
 // SourceFiles
 //   jplot_graph.cpp
-#ifndef jplot_graph_hpp_
-#define jplot_graph_hpp_
 
 #include "graph.hpp"
 

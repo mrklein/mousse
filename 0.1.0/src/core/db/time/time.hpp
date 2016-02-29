@@ -1,3 +1,6 @@
+#ifndef CORE_DB_TIME_TIME_HPP_
+#define CORE_DB_TIME_TIME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   time.cpp
 //   time_io.cpp
 //   find_instance.cpp
-#ifndef time_hpp_
-#define time_hpp_
 #include "time_paths.hpp"
 #include "object_registry.hpp"
 #include "iodictionary.hpp"

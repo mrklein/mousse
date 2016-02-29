@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVM_FVM_SUP_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVM_FVM_SUP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   fvm_sup.cpp
-#ifndef fvm_sup_hpp_
-#define fvm_sup_hpp_
 #include "vol_fields_fwd.hpp"
 #include "fv_matrix.hpp"
 #include "zero_field.hpp"

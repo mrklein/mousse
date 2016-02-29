@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_PARCELS_TEMPLATES_TSPRAY_PARCEL_HPP_
+#define LAGRANGIAN_SPRAY_PARCELS_TEMPLATES_TSPRAY_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::SprayParcel
 // Description
 //   Reacing spray parcel, with added functionality for atomization and breakup
-#ifndef _spray_parcel_hpp_
-#define _spray_parcel_hpp_
 #include "particle.hpp"
 #include "demand_driven_entry.hpp"
 namespace mousse

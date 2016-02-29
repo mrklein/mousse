@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_MODEL_REGION_MODEL_FUNCTION_OBJECT_LIST_HPP_
+#define REGION_MODELS_REGION_MODEL_REGION_MODEL_FUNCTION_OBJECT_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List of cloud function objects
 // SourceFiles
 //   region_model_function_object_list.cpp
-#ifndef region_model_function_object_list_hpp_
-#define region_model_function_object_list_hpp_
 #include "ptr_list.hpp"
 #include "region_model_function_object.hpp"
 namespace mousse

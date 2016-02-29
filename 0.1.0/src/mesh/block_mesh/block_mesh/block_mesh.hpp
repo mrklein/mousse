@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_BLOCK_MESH_BLOCK_MESH_HPP_
+#define MESH_BLOCK_MESH_BLOCK_MESH_BLOCK_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   block_mesh_create.cpp
 //   block_mesh_merge.cpp
 //   block_mesh_topology.cpp
-#ifndef block_mesh_hpp_
-#define block_mesh_hpp_
 #include "block_list.hpp"
 #include "poly_mesh.hpp"
 #include "iodictionary.hpp"

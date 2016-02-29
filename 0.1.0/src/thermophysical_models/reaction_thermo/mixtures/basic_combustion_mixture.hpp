@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_BASIC_COMBUSTION_MIXTURE_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_BASIC_COMBUSTION_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Specialization of the basicSpecieMixture for combustion.
 // SourceFiles
 //   basic_combustion_mixture.cpp
-#ifndef basic_combustion_mixture_hpp_
-#define basic_combustion_mixture_hpp_
 #include "basic_specie_mixture.hpp"
 namespace mousse
 {

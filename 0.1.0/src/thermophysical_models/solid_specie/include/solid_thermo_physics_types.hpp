@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_SPECIE_INCLUDE_SOLID_THERMO_PHYSICS_TYPES_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_SPECIE_INCLUDE_SOLID_THERMO_PHYSICS_TYPES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef solid_thermo_physics_types_hpp_
-#define solid_thermo_physics_types_hpp_
 #include "specie.hpp"
 #include "rho_const.hpp"
 #include "h_const_thermo.hpp"

@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_FILM_SUB_MODEL_BASE_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_FILM_SUB_MODEL_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for surface film sub-models
 // SourceFiles
 //   film_sub_model_base.cpp
-#ifndef film_sub_model_base_hpp_
-#define film_sub_model_base_hpp_
 #include "surface_film_model.hpp"
 #include "sub_model_base.hpp"
 namespace mousse

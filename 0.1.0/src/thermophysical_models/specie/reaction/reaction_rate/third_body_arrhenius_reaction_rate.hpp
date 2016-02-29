@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_THIRD_BODY_ARRHENIUS_REACTION_RATE_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_THIRD_BODY_ARRHENIUS_REACTION_RATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::thirdBodyArrheniusReactionRate
 // Description
 //   Arrhenius reaction rate enhanced by third-body interation.
-#ifndef third_body_arrhenius_reaction_rate_hpp_
-#define third_body_arrhenius_reaction_rate_hpp_
 #include "arrhenius_reaction_rate.hpp"
 #include "third_body_efficiencies.hpp"
 namespace mousse

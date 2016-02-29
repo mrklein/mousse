@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FILM_THERMO_MODEL_FILM_THERMO_MODEL_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FILM_THERMO_MODEL_FILM_THERMO_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   film_thermo_model.cpp
 //   film_thermo_model_new.cpp
-#ifndef film_thermo_model_hpp_
-#define film_thermo_model_hpp_
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 namespace mousse

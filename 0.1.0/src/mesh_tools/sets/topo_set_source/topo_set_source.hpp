@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_TOPO_SET_SOURCE_TOPO_SET_SOURCE_HPP_
+#define MESH_TOOLS_SETS_TOPO_SET_SOURCE_TOPO_SET_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   topo_set_source.cpp
 
-#ifndef topo_set_source_hpp_
-#define topo_set_source_hpp_
 
 #include "point_field.hpp"
 #include "word.hpp"

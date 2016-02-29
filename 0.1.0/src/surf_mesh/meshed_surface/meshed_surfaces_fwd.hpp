@@ -1,9 +1,10 @@
+#ifndef SURF_MESH_MESHED_SURFACE_MESHED_SURFACES_FWD_HPP_
+#define SURF_MESH_MESHED_SURFACE_MESHED_SURFACES_FWD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef meshed_surfaces_fwd_hpp_
-#define meshed_surfaces_fwd_hpp_
 namespace mousse
 {
 class face;

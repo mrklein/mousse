@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_RANGES_SCALAR_RANGE_HPP_
+#define CORE_PRIMITIVES_RANGES_SCALAR_RANGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   to delimit the next possible range selector.
 // SourceFiles
 //   scalar_range.cpp
-#ifndef scalar_range_hpp_
-#define scalar_range_hpp_
 #include "scalar.hpp"
 namespace mousse
 {

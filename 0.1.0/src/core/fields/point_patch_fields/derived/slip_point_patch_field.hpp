@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_DERIVED_SLIP_POINT_PATCH_FIELD_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_DERIVED_SLIP_POINT_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::slipPointPatchField
 // SourceFiles
 //   slip_point_patch_field.cpp
-#ifndef slip_point_patch_field_hpp_
-#define slip_point_patch_field_hpp_
 #include "basic_symmetry_point_patch_field.hpp"
 namespace mousse
 {

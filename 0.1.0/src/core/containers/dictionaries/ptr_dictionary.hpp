@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_DICTIONARIES_PTR_DICTIONARY_HPP_
+#define CORE_CONTAINERS_DICTIONARIES_PTR_DICTIONARY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   intrusive doubly-linked list of \<T\>.
 // SourceFiles
 //   ptr_dictionary.cpp
-#ifndef ptr_dictionary_hpp_
-#define ptr_dictionary_hpp_
 #include "dictionary_base.hpp"
 #include "dl_ptr_list.hpp"
 namespace mousse

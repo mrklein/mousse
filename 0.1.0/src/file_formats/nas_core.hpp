@@ -1,3 +1,6 @@
+#ifndef FILE_FORMATS_NAS_CORE_HPP_
+#define FILE_FORMATS_NAS_CORE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Core routines used when reading/writing NASTRAN files.
 // SourceFiles
 //   nas_core.cpp
-#ifndef nas_core_hpp_
-#define nas_core_hpp_
 #include "scalar.hpp"
 #include "string.hpp"
 namespace mousse

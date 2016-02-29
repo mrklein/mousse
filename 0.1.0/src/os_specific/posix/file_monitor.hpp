@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_FILE_MONITOR_HPP_
+#define OS_SPECIFIC_POSIX_FILE_MONITOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   not work on nfs3 mounted directories!!
 // SourceFiles
 //   file_monitor.cpp
-#ifndef file_monitor_hpp_
-#define file_monitor_hpp_
 #include <sys/types.h>
 #include "named_enum.hpp"
 #include "class_name.hpp"

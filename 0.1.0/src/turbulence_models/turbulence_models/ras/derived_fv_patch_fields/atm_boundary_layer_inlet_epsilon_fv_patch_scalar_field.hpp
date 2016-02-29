@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_DERIVED_FV_PATCH_FIELDS_ATM_BOUNDARY_LAYER_INLET_EPSILON_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_DERIVED_FV_PATCH_FIELDS_ATM_BOUNDARY_LAYER_INLET_EPSILON_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,8 +30,6 @@
 //   mousse::atmBoundaryLayerInletKFvPatchScalarField
 // SourceFiles
 //   atm_boundary_layer_inlet_epsilon_fv_patch_scalar_field.cpp
-#ifndef atm_boundary_layer_inlet_epsilon_fv_patch_scalar_field_hpp_
-#define atm_boundary_layer_inlet_epsilon_fv_patch_scalar_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 #include "atm_boundary_layer.hpp"

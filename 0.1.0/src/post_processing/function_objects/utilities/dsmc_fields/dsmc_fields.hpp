@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_DSMC_FIELDS_DSMC_FIELDS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_DSMC_FIELDS_DSMC_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 // SourceFiles
 //   dsmc_fields.cpp
 //   i_odsmc_fields.hpp
-#ifndef dsmc_fields_hpp_
-#define dsmc_fields_hpp_
 #include "type_info.hpp"
 namespace mousse
 {

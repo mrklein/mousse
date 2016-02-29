@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TVIRTUAL_MASS_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TVIRTUAL_MASS_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Calculates particle virtual mass force
 // SourceFiles
 //   _virtual_mass_force.cpp
-#ifndef _virtual_mass_force_hpp_
-#define _virtual_mass_force_hpp_
 #include "_pressure_gradient_force.hpp"
 namespace mousse
 {

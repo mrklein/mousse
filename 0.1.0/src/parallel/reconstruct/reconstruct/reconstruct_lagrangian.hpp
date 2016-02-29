@@ -1,10 +1,11 @@
+#ifndef PARALLEL_RECONSTRUCT_RECONSTRUCT_RECONSTRUCT_LAGRANGIAN_HPP_
+#define PARALLEL_RECONSTRUCT_RECONSTRUCT_RECONSTRUCT_LAGRANGIAN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   reconstruct_lagrangian_positions.cpp
 //   reconstruct_lagrangian_fields.cpp
-#ifndef reconstruct_lagrangian_hpp_
-#define reconstruct_lagrangian_hpp_
 #include "cloud.hpp"
 #include "poly_mesh.hpp"
 #include "ioobject_list.hpp"

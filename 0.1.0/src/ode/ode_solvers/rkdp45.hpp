@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_RKDP45_HPP_
+#define ODE_ODE_SOLVERS_RKDP45_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -24,8 +27,6 @@
 //   mousse::RKCK45
 // SourceFiles
 //   rkdp45.cpp
-#ifndef rkdp45_hpp_
-#define rkdp45_hpp_
 #include "ode_solver.hpp"
 #include "adaptive_solver.hpp"
 namespace mousse

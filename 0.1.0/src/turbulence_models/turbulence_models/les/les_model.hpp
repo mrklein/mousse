@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_MODEL_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Templated abstract base class for LES SGS models
 // SourceFiles
 //   les_model.cpp
-#ifndef les_model_hpp_
-#define les_model_hpp_
 #include "turbulence_model.hpp"
 #include "les_delta.hpp"
 namespace mousse

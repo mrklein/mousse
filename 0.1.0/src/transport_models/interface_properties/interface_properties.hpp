@@ -1,3 +1,6 @@
+#ifndef TRANSPORT_MODELS_INTERFACE_PROPERTIES_INTERFACE_PROPERTIES_HPP_
+#define TRANSPORT_MODELS_INTERFACE_PROPERTIES_INTERFACE_PROPERTIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   -# Calculate interface curvature.
 // SourceFiles
 //   interface_properties.cpp
-#ifndef interface_properties_hpp_
-#define interface_properties_hpp_
 #include "iodictionary.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"

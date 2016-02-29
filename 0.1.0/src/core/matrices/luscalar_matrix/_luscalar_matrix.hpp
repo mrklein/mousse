@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LUSCALAR_MATRIX_TLUSCALAR_MATRIX_HPP_
+#define CORE_MATRICES_LUSCALAR_MATRIX_TLUSCALAR_MATRIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::LUscalarMatrix
 // SourceFiles
 //   _luscalar_matrix.cpp
-#ifndef _luscalar_matrix_hpp_
-#define _luscalar_matrix_hpp_
 #include "scalar_matrices.hpp"
 #include "label_list.hpp"
 #include "field_field.hpp"

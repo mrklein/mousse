@@ -1,10 +1,11 @@
+#ifndef CORE_PRIMITIVES_INTS_ULONG_HPP_
+#define CORE_PRIMITIVES_INTS_ULONG_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   ulong.cpp
 //   ulong_io.cpp
-#ifndef ulong_hpp_
-#define ulong_hpp_
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
 #include <climits>

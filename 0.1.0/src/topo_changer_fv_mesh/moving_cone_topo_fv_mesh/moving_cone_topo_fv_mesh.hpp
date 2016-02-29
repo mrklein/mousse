@@ -1,3 +1,6 @@
+#ifndef TOPO_CHANGER_FV_MESH_MOVING_CONE_TOPO_FV_MESH_MOVING_CONE_TOPO_FV_MESH_HPP_
+#define TOPO_CHANGER_FV_MESH_MOVING_CONE_TOPO_FV_MESH_MOVING_CONE_TOPO_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   and introduces/removes layers.
 // SourceFiles
 //   moving_cone_topo_fv_mesh.cpp
-#ifndef moving_cone_topo_fv_mesh_hpp_
-#define moving_cone_topo_fv_mesh_hpp_
 #include "topo_changer_fv_mesh.hpp"
 #include "motion_solver.hpp"
 namespace mousse

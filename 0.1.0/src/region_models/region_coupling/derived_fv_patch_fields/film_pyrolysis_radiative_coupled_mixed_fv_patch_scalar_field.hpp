@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_COUPLING_DERIVED_FV_PATCH_FIELDS_FILM_PYROLYSIS_RADIATIVE_COUPLED_MIXED_FV_PATCH_SCALAR_FIELD_HPP_
+#define REGION_MODELS_REGION_COUPLING_DERIVED_FV_PATCH_FIELDS_FILM_PYROLYSIS_RADIATIVE_COUPLED_MIXED_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -38,8 +41,6 @@
 //   Qr is the radiative flux defined in the radiation model.
 // SourceFiles
 //   film_pyrolysis_radiative_coupled_mixed_fv_patch_scalar_field.cpp
-#ifndef film_pyrolysis_radiative_coupled_mixed_fv_patch_scalar_field_hpp_
-#define film_pyrolysis_radiative_coupled_mixed_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 #include "temperature_coupled_base.hpp"
 #include "thermo_single_layer.hpp"

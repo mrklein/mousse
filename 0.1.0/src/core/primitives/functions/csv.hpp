@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_FUNCTIONS_CSV_HPP_
+#define CORE_PRIMITIVES_FUNCTIONS_CSV_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 // SourceFiles
 //   csv.cpp
 
-#ifndef csv_hpp_
-#define csv_hpp_
 
 #include "data_entry.hpp"
 #include "table_base.hpp"

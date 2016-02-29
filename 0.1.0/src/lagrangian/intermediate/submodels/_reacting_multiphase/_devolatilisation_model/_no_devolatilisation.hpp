@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TDEVOLATILISATION_MODEL_TNO_DEVOLATILISATION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TDEVOLATILISATION_MODEL_TNO_DEVOLATILISATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::NoDevolatilisation
 // Description
 //   Dummy devolatilisation model for 'none'
-#ifndef _no_devolatilisation_hpp_
-#define _no_devolatilisation_hpp_
 #include "_devolatilisation_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_DISTRIBUTE_HPP_
+#define CORE_MESHES_POLY_MESH_MAP_POLY_MESH_MAP_DISTRIBUTE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -87,8 +90,6 @@
 // SourceFiles
 //   map_distribute.cpp
 //   map_distribute_templates.cpp
-#ifndef map_distribute_hpp_
-#define map_distribute_hpp_
 #include "transform_list.hpp"
 #include "label_list.hpp"
 #include "label_pair.hpp"

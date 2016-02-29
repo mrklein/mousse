@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_UNSORTED_MESHED_SURFACE_UNSORTED_MESHED_SURFACE_HPP_
+#define SURF_MESH_UNSORTED_MESHED_SURFACE_UNSORTED_MESHED_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   with independent zone information.
 // SourceFiles
 //   unsorted_meshed_surface.cpp
-#ifndef unsorted_meshed_surface_hpp_
-#define unsorted_meshed_surface_hpp_
 #include "meshed_surface.hpp"
 #include "surf_zone_identifier_list.hpp"
 #include "surf_zone_list.hpp"

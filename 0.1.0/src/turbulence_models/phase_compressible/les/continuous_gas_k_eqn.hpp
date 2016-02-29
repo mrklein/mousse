@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_PHASE_COMPRESSIBLE_LES_CONTINUOUS_GAS_K_EQN_HPP_
+#define TURBULENCE_MODELS_PHASE_COMPRESSIBLE_LES_CONTINUOUS_GAS_K_EQN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 //   \endverbatim
 // SourceFiles
 //   continuous_gas_k_eqn.cpp
-#ifndef continuous_gas_k_eqn_hpp_
-#define continuous_gas_k_eqn_hpp_
 #include "k_eqn.hpp"
 namespace mousse
 {

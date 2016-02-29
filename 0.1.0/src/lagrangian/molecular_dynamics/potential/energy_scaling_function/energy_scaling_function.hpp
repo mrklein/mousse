@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_ENERGY_SCALING_FUNCTION_ENERGY_SCALING_FUNCTION_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_ENERGY_SCALING_FUNCTION_ENERGY_SCALING_FUNCTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 // SourceFiles
 //   energy_scaling_function.cpp
 //   energy_scaling_function_new.cpp
-#ifndef energy_scaling_function_hpp_
-#define energy_scaling_function_hpp_
 #include "iodictionary.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"

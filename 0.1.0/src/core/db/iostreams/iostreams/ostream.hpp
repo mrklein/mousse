@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOSTREAMS_IOSTREAMS_OSTREAM_HPP_
+#define CORE_DB_IOSTREAMS_IOSTREAMS_OSTREAM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   ostream.cpp
 
-#ifndef ostream_hpp_
-#define ostream_hpp_
 
 #include "iostream.hpp"
 #include "key_type.hpp"

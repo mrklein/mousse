@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_STRINGS_STRING_OPS_HPP_
+#define CORE_PRIMITIVES_STRINGS_STRING_OPS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   string_ops.cpp
-#ifndef string_ops_hpp_
-#define string_ops_hpp_
 #include "string.hpp"
 #include "dictionary.hpp"
 #include "hash_table.hpp"

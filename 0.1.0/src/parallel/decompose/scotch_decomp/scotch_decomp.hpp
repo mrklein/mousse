@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_SCOTCH_DECOMP_SCOTCH_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_SCOTCH_DECOMP_SCOTCH_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   decomposition.
 // SourceFiles
 //   scotch_decomp.cpp
-#ifndef scotch_decomp_hpp_
-#define scotch_decomp_hpp_
 #include "decomposition_method.hpp"
 namespace mousse
 {

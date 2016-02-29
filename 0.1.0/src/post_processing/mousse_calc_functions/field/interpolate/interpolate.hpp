@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_FIELD_INTERPOLATE_INTERPOLATE_HPP_
+#define POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_FIELD_INTERPOLATE_INTERPOLATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Interpolates volume fields to surface fields for each time.
 // SourceFiles
 //   interpolate.cpp
-#ifndef interpolate_hpp_
-#define interpolate_hpp_
 #include "calc_type.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_MODEL_CHEMISTRY_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_MODEL_CHEMISTRY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   terms.
 // SourceFiles
 //   chemistry_model.cpp
-#ifndef chemistry_model_hpp_
-#define chemistry_model_hpp_
 #include "reaction.hpp"
 #include "ode_system.hpp"
 #include "simple_matrix.hpp"

@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_STATE_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_STATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   six_dof_rigid_body_motion_state.cpp
 //   six_dof_rigid_body_motion_state_io.cpp
-#ifndef six_dof_rigid_body_motion_state_hpp_
-#define six_dof_rigid_body_motion_state_hpp_
 #include "vector.hpp"
 #include "point.hpp"
 #include "diag_tensor.hpp"

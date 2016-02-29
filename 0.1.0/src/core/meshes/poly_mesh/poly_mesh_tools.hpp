@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_MESH_TOOLS_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_MESH_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   poly_mesh_tools.cpp
-#ifndef poly_mesh_tools_hpp_
-#define poly_mesh_tools_hpp_
 #include "poly_mesh.hpp"
 #include "primitive_mesh_tools.hpp"
 namespace mousse

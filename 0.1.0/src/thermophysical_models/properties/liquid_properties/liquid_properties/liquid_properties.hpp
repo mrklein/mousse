@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_LIQUID_PROPERTIES_LIQUID_PROPERTIES_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_LIQUID_PROPERTIES_LIQUID_PROPERTIES_LIQUID_PROPERTIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   The thermophysical properties of a liquidProperties
 // SourceFiles
 //   liquid_properties.cpp
-#ifndef liquid_properties_hpp_
-#define liquid_properties_hpp_
 #include "scalar.hpp"
 #include "iostreams.hpp"
 #include "type_info.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_VECTOR_SPACE_VECTOR_SPACE_OPS_HPP_
+#define CORE_PRIMITIVES_VECTOR_SPACE_VECTOR_SPACE_OPS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::VectorSpaceOps
 // Description
 //   Operator functions for VectorSpace.
-#ifndef vector_space_ops_hpp_
-#define vector_space_ops_hpp_
 namespace mousse
 {
 template<int N, int I>

@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_ADJUST_PHI_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_ADJUST_PHI_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   adjust_phi.cpp
-#ifndef adjust_phi_hpp_
-#define adjust_phi_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 namespace mousse

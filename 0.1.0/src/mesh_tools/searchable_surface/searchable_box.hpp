@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_BOX_HPP_
+#define MESH_TOOLS_SEARCHABLE_SURFACE_SEARCHABLE_BOX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Searching on bounding box
 // SourceFiles
 //   searchable_box.cpp
-#ifndef searchable_box_hpp_
-#define searchable_box_hpp_
 #include "searchable_surface.hpp"
 #include "tree_bound_box.hpp"
 namespace mousse

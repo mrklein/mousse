@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_SUB_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_SUB_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Since the SubList is itself unallocated, no storage is allocated or
 //   de-allocated during its use.  To achieve this behaviour, SubList is
 //   derived from UList rather than List.
-#ifndef sub_list_hpp_
-#define sub_list_hpp_
 #include "list.hpp"
 namespace mousse
 {

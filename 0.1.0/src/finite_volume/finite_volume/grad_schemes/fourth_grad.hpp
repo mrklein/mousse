@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_FOURTH_GRAD_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_GRAD_SCHEMES_FOURTH_GRAD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Second-order gradient scheme using least-squares.
 // SourceFiles
 //   fourth_grad.cpp
-#ifndef fourth_grad_hpp_
-#define fourth_grad_hpp_
 #include "grad_scheme.hpp"
 namespace mousse
 {

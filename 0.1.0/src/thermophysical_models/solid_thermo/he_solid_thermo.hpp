@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_THERMO_HE_SOLID_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_THERMO_HE_SOLID_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Energy for a solid mixture
 // SourceFiles
 //   he_solid_thermo.cpp
-#ifndef he_solid_thermo_hpp_
-#define he_solid_thermo_hpp_
 #include "he_thermo.hpp"
 namespace mousse
 {

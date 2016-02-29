@@ -5,8 +5,8 @@
 //   mousse::radiation::sootModel
 // Description
 //   Base class for soor models
-#ifndef radiationsoot_model_hpp_
-#define radiationsoot_model_hpp_
+#ifndef radiationTHERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_SOOT_MODEL_HPP_
+#define radiationTHERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_SOOT_MODEL_HPP_
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

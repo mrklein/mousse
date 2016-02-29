@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_SOLVER_MAKE_CHEMISTRY_SOLVER_TYPES_HPP_
+#define THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_SOLVER_MAKE_CHEMISTRY_SOLVER_TYPES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_chemistry_solver_types_hpp_
-#define make_chemistry_solver_types_hpp_
 #include "chemistry_solver.hpp"
 #include "chemistry_model.hpp"
 #include "no_chemistry_solver.hpp"

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MESH_STRUCTURE_TOPO_DISTANCE_DATA_HPP_
+#define MESH_TOOLS_MESH_STRUCTURE_TOPO_DISTANCE_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   For use with FaceCellWave. Determines topological distance to starting faces
 // SourceFiles
 //   topo_distance_data.cpp
-#ifndef topo_distance_data_hpp_
-#define topo_distance_data_hpp_
 #include "point.hpp"
 #include "tensor.hpp"
 #include "poly_mesh.hpp"

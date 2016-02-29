@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_SURFACE_LOCATION_SURFACE_LOCATION_HPP_
+#define MESH_TOOLS_TRI_SURFACE_SURFACE_LOCATION_SURFACE_LOCATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   - triangle():
 //     - last known triangle
 // SourceFiles
-#ifndef surface_location_hpp_
-#define surface_location_hpp_
 #include "point_index_hit.hpp"
 #include "tri_point_ref.hpp"
 #include "info_proxy.hpp"

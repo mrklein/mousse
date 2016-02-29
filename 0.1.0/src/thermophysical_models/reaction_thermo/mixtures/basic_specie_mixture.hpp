@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_BASIC_SPECIE_MIXTURE_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_BASIC_SPECIE_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   of a number for molecular species.
 // SourceFiles
 //   basic_specie_mixture.cpp
-#ifndef basic_specie_mixture_hpp_
-#define basic_specie_mixture_hpp_
 #include "basic_multi_component_mixture.hpp"
 namespace mousse
 {

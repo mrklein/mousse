@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TWOD_POINT_CORRECTOR_TWOD_POINT_CORRECTOR_HPP_
+#define MESH_TOOLS_TWOD_POINT_CORRECTOR_TWOD_POINT_CORRECTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   adjusting points on their ends.
 // SourceFiles
 //   twod_point_corrector.cpp
-#ifndef twod_point_corrector_hpp_
-#define twod_point_corrector_hpp_
 #include "_mesh_object.hpp"
 #include "point_field.hpp"
 #include "label_list.hpp"

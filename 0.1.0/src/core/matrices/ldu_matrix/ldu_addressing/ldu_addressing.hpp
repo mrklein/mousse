@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_ADDRESSING_HPP_
+#define CORE_MATRICES_LDU_MATRIX_LDU_ADDRESSING_LDU_ADDRESSING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -63,8 +66,6 @@
 // SourceFiles
 //   ldu_addressing.cpp
 
-#ifndef ldu_addressing_hpp_
-#define ldu_addressing_hpp_
 
 #include "label_list.hpp"
 #include "ldu_schedule.hpp"

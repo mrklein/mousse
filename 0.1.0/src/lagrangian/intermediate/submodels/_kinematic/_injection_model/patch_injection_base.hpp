@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_PATCH_INJECTION_BASE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_PATCH_INJECTION_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   then applied to determine across which face a parcel is to be injected.
 // SourceFiles
 //   patch_injection_base.cpp
-#ifndef patch_injection_base_hpp_
-#define patch_injection_base_hpp_
 #include "word.hpp"
 #include "label_list.hpp"
 #include "scalar_list.hpp"

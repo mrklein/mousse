@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TPHASE_CHANGE_MODEL_TLIQUID_EVAPORATION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TPHASE_CHANGE_MODEL_TLIQUID_EVAPORATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Liquid evaporation model
 //   - uses ideal gas assumption
-#ifndef _liquid_evaporation_hpp_
-#define _liquid_evaporation_hpp_
 #include "_phase_change_model.hpp"
 #include "liquid_mixture_properties.hpp"
 namespace mousse

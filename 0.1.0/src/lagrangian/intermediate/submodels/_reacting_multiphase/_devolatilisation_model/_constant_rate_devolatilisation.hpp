@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TDEVOLATILISATION_MODEL_TCONSTANT_RATE_DEVOLATILISATION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_MULTIPHASE_TDEVOLATILISATION_MODEL_TCONSTANT_RATE_DEVOLATILISATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Constant rate devolatisation model
 //   - need to set vapourisation temperature to 600 K
-#ifndef _constant_rate_devolatilisation_hpp_
-#define _constant_rate_devolatilisation_hpp_
 #include "_devolatilisation_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_MODIFY_OBJECT_POLY_MODIFY_POINT_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_MODIFY_OBJECT_POLY_MODIFY_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::polyModifyPoint
 // Description
 //   Class describing modification of a point.
-#ifndef poly_modify_point_hpp_
-#define poly_modify_point_hpp_
 #include "label.hpp"
 #include "point.hpp"
 #include "topo_action.hpp"

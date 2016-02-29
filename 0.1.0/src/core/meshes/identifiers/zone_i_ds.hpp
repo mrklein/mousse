@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_IDENTIFIERS_ZONE_I_DS_HPP_
+#define CORE_MESHES_IDENTIFIERS_ZONE_I_DS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef zone_i_ds_hpp_
-#define zone_i_ds_hpp_
 #include "dynamic_id.hpp"
 #include "cell_zone_mesh_fwd.hpp"
 #include "face_zone_mesh_fwd.hpp"

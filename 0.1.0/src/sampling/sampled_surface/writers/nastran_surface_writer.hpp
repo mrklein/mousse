@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_WRITERS_NASTRAN_SURFACE_WRITER_HPP_
+#define SAMPLING_SAMPLED_SURFACE_WRITERS_NASTRAN_SURFACE_WRITER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 // SourceFiles
 //   nastran_surface_writer.cpp
 //   nastran_surface_writer_templates.cpp
-#ifndef nastran_surface_writer_hpp_
-#define nastran_surface_writer_hpp_
 #include "surface_writer.hpp"
 #include "named_enum.hpp"
 #include "ofstream.hpp"

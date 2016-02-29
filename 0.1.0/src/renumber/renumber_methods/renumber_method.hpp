@@ -1,3 +1,6 @@
+#ifndef RENUMBER_RENUMBER_METHODS_RENUMBER_METHOD_HPP_
+#define RENUMBER_RENUMBER_METHODS_RENUMBER_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for renumbering
 // SourceFiles
 //   renumber_method.cpp
-#ifndef renumber_method_hpp_
-#define renumber_method_hpp_
 #include "poly_mesh.hpp"
 #include "point_field.hpp"
 #include "compact_list_list.hpp"

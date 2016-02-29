@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_WALL_BOUNDED_STREAM_LINE_WALL_BOUNDED_STREAM_LINE_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_WALL_BOUNDED_STREAM_LINE_WALL_BOUNDED_STREAM_LINE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -69,8 +72,6 @@
 //   mousse::streamLine
 // SourceFiles
 //   wall_bounded_stream_line.cpp
-#ifndef wall_bounded_stream_line_hpp_
-#define wall_bounded_stream_line_hpp_
 #include "vol_fields_fwd.hpp"
 #include "point_field_fwd.hpp"
 #include "switch.hpp"

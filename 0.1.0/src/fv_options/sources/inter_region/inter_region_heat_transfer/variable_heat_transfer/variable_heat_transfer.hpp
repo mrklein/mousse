@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_INTER_REGION_INTER_REGION_HEAT_TRANSFER_VARIABLE_HEAT_TRANSFER_VARIABLE_HEAT_TRANSFER_HPP_
+#define FV_OPTIONS_SOURCES_INTER_REGION_INTER_REGION_HEAT_TRANSFER_VARIABLE_HEAT_TRANSFER_VARIABLE_HEAT_TRANSFER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   where:
 //     K is the heat conduction
 //     ds is the strut diameter
-#ifndef variable_heat_transfer_hpp_
-#define variable_heat_transfer_hpp_
 #include "inter_region_heat_transfer_model.hpp"
 #include "auto_ptr.hpp"
 namespace mousse

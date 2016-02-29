@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_POINT_SOURCES_BOX_TO_POINT_BOX_TO_POINT_HPP_
+#define MESH_TOOLS_SETS_POINT_SOURCES_BOX_TO_POINT_BOX_TO_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select points based on whether they are inside box.
 // SourceFiles
 //   box_to_point.cpp
-#ifndef box_to_point_hpp_
-#define box_to_point_hpp_
 #include "topo_set_source.hpp"
 #include "tree_bound_box_list.hpp"
 namespace mousse

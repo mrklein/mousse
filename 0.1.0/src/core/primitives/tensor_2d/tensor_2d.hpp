@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_TENSOR_2D_TENSOR_2D_HPP_
+#define CORE_PRIMITIVES_TENSOR_2D_TENSOR_2D_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   tensor2_d.cpp
-#ifndef tensor_2d_hpp_
-#define tensor_2d_hpp_
 #include "_tensor_2d.hpp"
 #include "_vector_2d.hpp"
 #include "contiguous.hpp"

@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_REFINEMENT_SURFACES_REFINEMENT_SURFACES_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_REFINEMENT_SURFACES_REFINEMENT_SURFACES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   surface.
 // SourceFiles
 //   refinement_surfaces.cpp
-#ifndef refinement_surfaces_hpp_
-#define refinement_surfaces_hpp_
 #include "tri_surface_geo_mesh.hpp"
 #include "tri_surface_fields.hpp"
 #include "vector_list.hpp"

@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_FIELDS_TRIAD_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_TRIAD_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   triad_field.cpp
-#ifndef triad_field_hpp_
-#define triad_field_hpp_
 #include "field.hpp"
 #include "triad.hpp"
 #define TEMPLATE

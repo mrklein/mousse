@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_MULTI_DIR_REFINEMENT_MULTI_DIR_REFINEMENT_HPP_
+#define DYNAMIC_MESH_MESH_CUT_MESH_MODIFIERS_MULTI_DIR_REFINEMENT_MULTI_DIR_REFINEMENT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,8 +23,6 @@
 //   local decision.
 // SourceFiles
 //   multi_dir_refinement.cpp
-#ifndef multi_dir_refinement_hpp_
-#define multi_dir_refinement_hpp_
 #include "refinement_iterator.hpp"
 #include "vector_field.hpp"
 #include "map.hpp"

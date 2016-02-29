@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TFIELD_ACTIVATED_INJECTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TFIELD_ACTIVATED_INJECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   - limited to a user-supllied number of injections per injector location
 // SourceFiles
 //   _field_activated_injection.cpp
-#ifndef _field_activated_injection_hpp_
-#define _field_activated_injection_hpp_
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
 #include "vol_fields_fwd.hpp"

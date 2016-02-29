@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_INTER_REGION_INTER_REGION_HEAT_TRANSFER_TABULATED_HEAT_TRANSFER_TABULATED_HEAT_TRANSFER_HPP_
+#define FV_OPTIONS_SOURCES_INTER_REGION_INTER_REGION_HEAT_TRANSFER_TABULATED_HEAT_TRANSFER_TABULATED_HEAT_TRANSFER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Tabulated heat transfer model. The heat exchange area per unit volume
 //   must be provided.  The 2D table returns the heat transfer coefficient
 //   by querying the local and neighbour region velocities
-#ifndef tabulated_heat_transfer_hpp_
-#define tabulated_heat_transfer_hpp_
 #include "inter_region_heat_transfer_model.hpp"
 #include "auto_ptr.hpp"
 #include "interpolation_2d_table.hpp"

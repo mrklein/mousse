@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_MODEL_REGION_PROPERTIES_HPP_
+#define REGION_MODELS_REGION_MODEL_REGION_PROPERTIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   set of physics.
 // SourceFiles
 //   region_properties.cpp
-#ifndef region_properties_hpp_
-#define region_properties_hpp_
 #include "time.hpp"
 #include "hash_table.hpp"
 namespace mousse

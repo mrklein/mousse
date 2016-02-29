@@ -1,3 +1,6 @@
+#ifndef CONVERSION_MESH_TABLES_BOUNDARY_REGION_HPP_
+#define CONVERSION_MESH_TABLES_BOUNDARY_REGION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //   \endverbatim
 // SourceFiles
 //   boundary_region.cpp
-#ifndef boundary_region_hpp_
-#define boundary_region_hpp_
 #include "poly_mesh.hpp"
 #include "map.hpp"
 #include "dictionary.hpp"

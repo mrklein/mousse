@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_SRF_SRF_MODEL_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_SRF_SRF_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   - Steady state only - no time derivatives included
 // SourceFiles
 //   srf_model.cpp
-#ifndef srf_model_hpp_
-#define srf_model_hpp_
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

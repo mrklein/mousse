@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_FV_MOTION_SOLVERS_DISPLACEMENT_INTERPOLATION_DISPLACEMENT_INTERPOLATION_MOTION_SOLVER_HPP_
+#define FV_MOTION_SOLVER_FV_MOTION_SOLVERS_DISPLACEMENT_INTERPOLATION_DISPLACEMENT_INTERPOLATION_MOTION_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //   Tables are in the \a constant/tables directory.
 // SourceFiles
 //   displacement_interpolation_motion_solver.cpp
-#ifndef displacement_interpolation_motion_solver_hpp_
-#define displacement_interpolation_motion_solver_hpp_
 #include "displacement_motion_solver.hpp"
 namespace mousse
 {

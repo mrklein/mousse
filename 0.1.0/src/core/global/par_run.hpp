@@ -1,3 +1,6 @@
+#ifndef CORE_GLOBAL_PAR_RUN_HPP_
+#define CORE_GLOBAL_PAR_RUN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::ParRunControl
 // Description
 //   Helper class for initializing parallel jobs from the command arguments.
-#ifndef par_run_hpp_
-#define par_run_hpp_
 #include "pstream.hpp"
 #include "iostreams.hpp"
 namespace mousse

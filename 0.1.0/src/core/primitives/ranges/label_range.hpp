@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_RANGES_LABEL_RANGE_HPP_
+#define CORE_PRIMITIVES_RANGES_LABEL_RANGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A label range specifier.
 // SourceFiles
 //   label_range.cpp
-#ifndef label_range_hpp_
-#define label_range_hpp_
 #include "label.hpp"
 namespace mousse
 {

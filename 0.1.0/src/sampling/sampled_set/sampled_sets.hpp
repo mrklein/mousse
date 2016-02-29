@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_SAMPLED_SETS_HPP_
+#define SAMPLING_SAMPLED_SET_SAMPLED_SETS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Call sampledSets.write() to sample&write files.
 // SourceFiles
 //   sampled_sets.cpp
-#ifndef sampled_sets_hpp_
-#define sampled_sets_hpp_
 #include "sampled_set.hpp"
 #include "vol_fields_fwd.hpp"
 #include "mesh_search.hpp"

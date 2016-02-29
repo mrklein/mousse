@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_BLENDED_SCHEME_BASE_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_BLENDED_SCHEME_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for blended schemes to provide access to the blending factor
 //   surface field
 
-#ifndef blended_scheme_base_hpp_
-#define blended_scheme_base_hpp_
 
 #include "class_name.hpp"
 #include "tmp.hpp"

@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGER_POLY_TOPO_CHANGER_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGER_POLY_TOPO_CHANGER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List of mesh modifiers defining the mesh dynamics.
 // SourceFiles
 //   poly_topo_changer.cpp
-#ifndef poly_topo_changer_hpp_
-#define poly_topo_changer_hpp_
 #include "reg_ioobject.hpp"
 #include "ptr_list.hpp"
 #include "poly_mesh_modifier.hpp"

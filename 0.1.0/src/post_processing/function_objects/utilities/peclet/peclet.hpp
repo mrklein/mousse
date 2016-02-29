@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_PECLET_PECLET_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_PECLET_PECLET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   peclet.cpp
 //   io_peclet.hpp
-#ifndef peclet_hpp_
-#define peclet_hpp_
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "ofstream.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_STRINGS_STRING_HPP_
+#define CORE_PRIMITIVES_STRINGS_STRING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   string.cpp
 //   string_io.cpp
 
-#ifndef string_hpp_
-#define string_hpp_
 
 #include "char.hpp"
 #include "hasher.hpp"

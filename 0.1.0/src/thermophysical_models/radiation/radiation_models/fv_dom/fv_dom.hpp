@@ -32,8 +32,8 @@
 //   In 3D (nPhi and nTheta are considered)
 // SourceFiles
 //   fv_dom.cpp
-#ifndef radiationModelfv_dom_hpp_
-#define radiationModelfv_dom_hpp_
+#ifndef radiationModelTHERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_FV_DOM_HPP_
+#define radiationModelTHERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_FV_DOM_HPP_
 #include "radiative_intensity_ray.hpp"
 #include "radiation_model.hpp"
 #include "fv_matrices.hpp"

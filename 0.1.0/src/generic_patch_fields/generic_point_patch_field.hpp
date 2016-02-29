@@ -1,3 +1,6 @@
+#ifndef GENERIC_PATCH_FIELDS_GENERIC_POINT_PATCH_FIELD_HPP_
+#define GENERIC_PATCH_FIELDS_GENERIC_POINT_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   handling unknown patch types.
 // SourceFiles
 //   generic_point_patch_field.cpp
-#ifndef generic_point_patch_field_hpp_
-#define generic_point_patch_field_hpp_
 #include "calculated_point_patch_field.hpp"
 #include "hash_ptr_table.hpp"
 namespace mousse

@@ -1,9 +1,10 @@
+#ifndef TRI_SURFACE_GEOMETRIC_SURFACE_PATCH_LIST_HPP_
+#define TRI_SURFACE_GEOMETRIC_SURFACE_PATCH_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef geometric_surface_patch_list_hpp_
-#define geometric_surface_patch_list_hpp_
 #include "geometric_surface_patch.hpp"
 #include "list.hpp"
 namespace mousse

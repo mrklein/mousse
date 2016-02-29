@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_SIMPLE_MATRIX_SIMPLE_MATRIX_HPP_
+#define CORE_MATRICES_SIMPLE_MATRIX_SIMPLE_MATRIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A simple square matrix solver with scalar coefficients.
 // SourceFiles
 //   simple_matrix.cpp
-#ifndef simple_matrix_hpp_
-#define simple_matrix_hpp_
 #include "scalar_matrices.hpp"
 namespace mousse
 {

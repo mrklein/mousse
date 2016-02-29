@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_BASIC_COUPLED_FVS_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FVS_PATCH_FIELDS_BASIC_COUPLED_FVS_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::coupledFvsPatchField
 // SourceFiles
 //   coupled_fvs_patch_field.cpp
-#ifndef coupled_fvs_patch_field_hpp_
-#define coupled_fvs_patch_field_hpp_
 #include "fvs_patch_field.hpp"
 #include "coupled_fv_patch.hpp"
 namespace mousse

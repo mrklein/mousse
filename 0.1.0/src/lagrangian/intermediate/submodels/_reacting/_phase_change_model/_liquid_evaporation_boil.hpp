@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TPHASE_CHANGE_MODEL_TLIQUID_EVAPORATION_BOIL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TPHASE_CHANGE_MODEL_TLIQUID_EVAPORATION_BOIL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //     Zuo, B., Gomes, A. M. and Rutland C. J.
 //     International Journal of Engine Research, 2000, Vol. 1(4), pp. 321-336
 //   \endverbatim
-#ifndef _liquid_evaporation_boil_hpp_
-#define _liquid_evaporation_boil_hpp_
 #include "_phase_change_model.hpp"
 #include "liquid_mixture_properties.hpp"
 namespace mousse

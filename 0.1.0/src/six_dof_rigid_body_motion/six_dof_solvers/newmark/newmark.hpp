@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_SOLVERS_NEWMARK_NEWMARK_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_SOLVERS_NEWMARK_NEWMARK_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   \endverbatim
 // SourceFiles
 //   newmark.cpp
-#ifndef newmark_hpp_
-#define newmark_hpp_
 #include "six_dof_solver.hpp"
 namespace mousse
 {

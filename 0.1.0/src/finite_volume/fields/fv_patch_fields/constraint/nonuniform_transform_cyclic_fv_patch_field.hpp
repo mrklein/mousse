@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_NONUNIFORM_TRANSFORM_CYCLIC_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_CONSTRAINT_NONUNIFORM_TRANSFORM_CYCLIC_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   nonuniform_transform_cyclic_fv_patch_fields.hpp
 //   nonuniform_transform_cyclic_fv_patch_fields.cpp
 //   nonuniform_transform_cyclic_fv_patch_fields_fwd.hpp
-#ifndef nonuniform_transform_cyclic_fv_patch_field_hpp_
-#define nonuniform_transform_cyclic_fv_patch_field_hpp_
 #include "cyclic_fv_patch_field.hpp"
 #include "nonuniform_transform_cyclic_fv_patch.hpp"
 namespace mousse

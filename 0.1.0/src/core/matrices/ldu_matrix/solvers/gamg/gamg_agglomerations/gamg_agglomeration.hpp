@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_AGGLOMERATIONS_GAMG_AGGLOMERATION_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_GAMG_AGGLOMERATIONS_GAMG_AGGLOMERATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   gamg_agglomeration_templates.cpp
 //   gamg_agglomerate_ldu_addressing.cpp
 
-#ifndef gamg_agglomeration_hpp_
-#define gamg_agglomeration_hpp_
 
 #include "_mesh_object.hpp"
 #include "ldu_primitive_mesh.hpp"

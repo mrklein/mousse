@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_STRINGS_KEY_TYPE_HPP_
+#define CORE_PRIMITIVES_STRINGS_KEY_TYPE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   It differs from word in that it accepts patterns (regular expressions).
 // SourceFiles
 //   key_type.cpp
-#ifndef key_type_hpp_
-#define key_type_hpp_
 #include "word.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_PROFILE_MODEL_SERIES_SERIES_PROFILE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_ROTOR_DISK_SOURCE_PROFILE_MODEL_SERIES_SERIES_PROFILE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //     ClCoeffs (coeff1 coeff2 ... coeffN);
 // SourceFiles
 //   series_profile.cpp
-#ifndef series_profile_hpp_
-#define series_profile_hpp_
 #include "profile_model.hpp"
 #include "list.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SURFACE_ISO_SURFACE_HPP_
+#define SAMPLING_SAMPLED_SURFACE_ISO_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -31,8 +34,6 @@
 //   face gets handled just like any boundary face.
 // SourceFiles
 //   iso_surface.cpp
-#ifndef iso_surface_hpp_
-#define iso_surface_hpp_
 #include "tri_surface.hpp"
 #include "label_pair.hpp"
 #include "point_index_hit.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_TUPLE2_TUPLE2_HPP_
+#define CORE_PRIMITIVES_TUPLE2_TUPLE2_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A 2-tuple for storing two objects of different types.
 // SeeAlso
 //   mousse::Pair for storing two objects of identical types.
-#ifndef tuple2_hpp_
-#define tuple2_hpp_
 #include "istream.hpp"
 namespace mousse
 {

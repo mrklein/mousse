@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_CLOUDS_DERIVED_BASIC_SPRAY_CLOUD_HPP_
+#define LAGRANGIAN_SPRAY_CLOUDS_DERIVED_BASIC_SPRAY_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::basicSprayCloud
 // Description
 //   Cloud class to introduce reacting spray parcels
-#ifndef basic_spray_cloud_hpp_
-#define basic_spray_cloud_hpp_
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "_thermo_cloud.hpp"

@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_TPROCESSOR_TOPOLOGY_HPP_
+#define CORE_MESHES_TPROCESSOR_TOPOLOGY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   patches connecting two processors.
 // SourceFiles
 //   processor_topology.cpp
-#ifndef _processor_topology_hpp_
-#define _processor_topology_hpp_
 #include "label_list.hpp"
 #include "ldu_schedule.hpp"
 namespace mousse

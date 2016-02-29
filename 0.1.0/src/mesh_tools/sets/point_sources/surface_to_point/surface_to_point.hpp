@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_POINT_SOURCES_SURFACE_TO_POINT_SURFACE_TO_POINT_HPP_
+#define MESH_TOOLS_SETS_POINT_SOURCES_SURFACE_TO_POINT_SURFACE_TO_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //    topology!)
 // SourceFiles
 //   surface_to_point.cpp
-#ifndef surface_to_point_hpp_
-#define surface_to_point_hpp_
 #include "topo_set_source.hpp"
 #include "map.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_HIERARCH_GEOM_DECOMP_HPP_
+#define PARALLEL_DECOMPOSE_DECOMPOSITION_METHODS_HIERARCH_GEOM_DECOMP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -19,8 +22,6 @@
 //   n[0]*n[1] (or n[1]*n[2]?) (small anyway)
 // SourceFiles
 //   hierarch_geom_decomp.cpp
-#ifndef hierarch_geom_decomp_hpp_
-#define hierarch_geom_decomp_hpp_
 #include "geom_decomp.hpp"
 #include "fixed_list.hpp"
 #include "direction.hpp"

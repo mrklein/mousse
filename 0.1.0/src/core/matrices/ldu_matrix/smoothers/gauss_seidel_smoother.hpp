@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SMOOTHERS_GAUSS_SEIDEL_SMOOTHER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SMOOTHERS_GAUSS_SEIDEL_SMOOTHER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A lduMatrix::smoother for Gauss-Seidel
 // SourceFiles
 //   gauss_seidel_smoother.cpp
-#ifndef gauss_seidel_smoother_hpp_
-#define gauss_seidel_smoother_hpp_
 #include "ldu_matrix.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_LAYER_PARAMETERS_LAYER_PARAMETERS_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_LAYER_PARAMETERS_LAYER_PARAMETERS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Simple container to keep together layer specific information.
 // SourceFiles
 //   layer_parameters.cpp
-#ifndef layer_parameters_hpp_
-#define layer_parameters_hpp_
 #include "dictionary.hpp"
 #include "scalar_field.hpp"
 #include "label_list.hpp"

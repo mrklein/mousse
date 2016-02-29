@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_EULER_HPP_
+#define ODE_ODE_SOLVERS_EULER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -16,8 +19,6 @@
 //   \f]
 // SourceFiles
 //   euler.cpp
-#ifndef euler_hpp_
-#define euler_hpp_
 #include "ode_solver.hpp"
 #include "adaptive_solver.hpp"
 namespace mousse

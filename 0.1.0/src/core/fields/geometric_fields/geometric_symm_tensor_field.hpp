@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_SYMM_TENSOR_FIELD_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_GEOMETRIC_SYMM_TENSOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   geometric_symm_tensor_field.cpp
-#ifndef geometric_symm_tensor_field_hpp_
-#define geometric_symm_tensor_field_hpp_
 #include "geometric_field.hpp"
 #include "dimensioned_symm_tensor_field.hpp"
 #define TEMPLATE template<template<class> class PatchField, class GeoMesh>

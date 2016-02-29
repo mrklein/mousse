@@ -1,9 +1,10 @@
+#ifndef CORE_DIMENSIONED_TYPES_DIMENSIONED_SYMM_TENSOR_HPP_
+#define CORE_DIMENSIONED_TYPES_DIMENSIONED_SYMM_TENSOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   dimensioned_symm_tensor.cpp
-#ifndef dimensioned_symm_tensor_hpp_
-#define dimensioned_symm_tensor_hpp_
 #include "dimensioned_vector.hpp"
 #include "symm_tensor.hpp"
 namespace mousse

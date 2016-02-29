@@ -1,3 +1,6 @@
+#ifndef SAMPLING_MESH_TO_MESH_MESH_TO_MESH_HPP_
+#define SAMPLING_MESH_TO_MESH_MESH_TO_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   mesh_to_mesh.cpp
 //   mesh_to_mesh_parallel_ops.cpp
 //   mesh_to_mesh_templates.cpp
-#ifndef mesh_to_mesh_hpp_
-#define mesh_to_mesh_hpp_
 #include "poly_mesh.hpp"
 #include "bound_box.hpp"
 #include "map_distribute.hpp"

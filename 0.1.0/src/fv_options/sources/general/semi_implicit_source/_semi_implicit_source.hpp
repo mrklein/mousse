@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_GENERAL_SEMI_IMPLICIT_SOURCE_TSEMI_IMPLICIT_SOURCE_HPP_
+#define FV_OPTIONS_SOURCES_GENERAL_SEMI_IMPLICIT_SOURCE_TSEMI_IMPLICIT_SOURCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -34,8 +37,6 @@
 //   mousse::fvOption
 // SourceFiles
 //   _semi_implicit_source.cpp
-#ifndef _semi_implicit_source_hpp_
-#define _semi_implicit_source_hpp_
 #include "tuple2.hpp"
 #include "cell_set_option.hpp"
 namespace mousse

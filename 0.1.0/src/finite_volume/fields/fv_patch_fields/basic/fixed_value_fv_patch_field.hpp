@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_FIXED_VALUE_FV_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_BASIC_FIXED_VALUE_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 //   fixed_value_fv_patch_field.cpp
 //
 
-#ifndef fixed_value_fv_patch_field_hpp_
-#define fixed_value_fv_patch_field_hpp_
 
 #include "fv_patch_field.hpp"
 

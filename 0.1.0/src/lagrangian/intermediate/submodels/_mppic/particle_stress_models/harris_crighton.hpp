@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_PARTICLE_STRESS_MODELS_HARRIS_CRIGHTON_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TMPPIC_PARTICLE_STRESS_MODELS_HARRIS_CRIGHTON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //   \endverbatim
 // SourceFiles
 //   harris_crighton.cpp
-#ifndef harris_crighton_hpp_
-#define harris_crighton_hpp_
 #include "particle_stress_model.hpp"
 namespace mousse
 {

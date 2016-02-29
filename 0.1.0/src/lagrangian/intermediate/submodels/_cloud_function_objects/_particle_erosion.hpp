@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TPARTICLE_EROSION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TPARTICLE_EROSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Creates particle erosion field, Q
 // SourceFiles
 //   _particle_erosion.cpp
-#ifndef _particle_erosion_hpp_
-#define _particle_erosion_hpp_
 #include "_cloud_function_object.hpp"
 #include "vol_fields.hpp"
 namespace mousse

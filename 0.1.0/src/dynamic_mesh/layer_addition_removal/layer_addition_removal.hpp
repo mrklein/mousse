@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_LAYER_ADDITION_REMOVAL_LAYER_ADDITION_REMOVAL_HPP_
+#define DYNAMIC_MESH_LAYER_ADDITION_REMOVAL_LAYER_ADDITION_REMOVAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   layer_addition_removal.cpp
 //   add_cell_layer.cpp
 //   remove_cell_layer.cpp
-#ifndef layer_addition_removal_hpp_
-#define layer_addition_removal_hpp_
 #include "poly_mesh_modifier.hpp"
 #include "primitive_face_patch.hpp"
 #include "zone_i_ds.hpp"

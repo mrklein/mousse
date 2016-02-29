@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_MIN_MAX_FIELD_MIN_MAX_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_FIELD_MIN_MAX_FIELD_MIN_MAX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -45,8 +48,6 @@
 // SourceFiles
 //   field_min_max.cpp
 //   i_ofield_min_max.hpp
-#ifndef field_min_max_hpp_
-#define field_min_max_hpp_
 #include "function_object_file.hpp"
 #include "switch.hpp"
 #include "vector.hpp"

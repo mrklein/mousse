@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TPARTICLE_TRAP_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TCLOUD_FUNCTION_OBJECTS_TPARTICLE_TRAP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //     }
 // SourceFiles
 //   _particle_trap.cpp
-#ifndef _particle_trap_hpp_
-#define _particle_trap_hpp_
 #include "_cloud_function_object.hpp"
 #include "vol_fields.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TCOMPOSITION_MODEL_TCOMPOSITION_MODEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TCOMPOSITION_MODEL_TCOMPOSITION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   _composition_model.cpp
 //   _composition_model_new.cpp
-#ifndef _composition_model_hpp_
-#define _composition_model_hpp_
 #include "_cloud_sub_model_base.hpp"
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"

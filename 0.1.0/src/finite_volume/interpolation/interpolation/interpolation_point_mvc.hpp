@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_POINT_MVC_HPP_
+#define FINITE_VOLUME_INTERPOLATION_INTERPOLATION_INTERPOLATION_POINT_MVC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Given cell centre values interpolates to vertices and uses these to
 //   do a Mean Value Coordinates interpolation.
-#ifndef interpolation_point_mvc_hpp_
-#define interpolation_point_mvc_hpp_
 #include "interpolation.hpp"
 #include "point_mvc_weight.hpp"
 namespace mousse

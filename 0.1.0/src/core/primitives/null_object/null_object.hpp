@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_NULL_OBJECT_NULL_OBJECT_HPP_
+#define CORE_PRIMITIVES_NULL_OBJECT_NULL_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Singleton null-object class and instance
 // SourceFiles
 //   null_object.cpp
-#ifndef null_object_hpp_
-#define null_object_hpp_
 namespace mousse
 {
 class NullObject

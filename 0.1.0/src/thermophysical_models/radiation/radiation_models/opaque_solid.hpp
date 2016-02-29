@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_OPAQUE_SOLID_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_OPAQUE_SOLID_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   scatterModel.
 // SourceFiles
 //   opaque_solid.cpp
-#ifndef opaque_solid_hpp_
-#define opaque_solid_hpp_
 #include "radiation_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_REGION_COUPLING_DERIVED_FV_PATCH_FIELDS_FILM_PYROLYSIS_VELOCITY_COUPLED_FV_PATCH_VECTOR_FIELD_HPP_
+#define REGION_MODELS_REGION_COUPLING_DERIVED_FV_PATCH_FIELDS_FILM_PYROLYSIS_VELOCITY_COUPLED_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //   \endverbatim
 // SourceFiles
 //   film_pyrolysis_velocity_coupled_fv_patch_vector_field.cpp
-#ifndef film_pyrolysis_velocity_coupled_fv_patch_vector_field_hpp_
-#define film_pyrolysis_velocity_coupled_fv_patch_vector_field_hpp_
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse
 {

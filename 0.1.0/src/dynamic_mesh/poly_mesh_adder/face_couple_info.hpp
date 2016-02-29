@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_MESH_ADDER_FACE_COUPLE_INFO_HPP_
+#define DYNAMIC_MESH_POLY_MESH_ADDER_FACE_COUPLE_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -88,8 +91,6 @@
 //   point/edge matching might just work)
 // SourceFiles
 //   face_couple_info.cpp
-#ifndef face_couple_info_hpp_
-#define face_couple_info_hpp_
 #include "point_field.hpp"
 #include "indirect_primitive_patch.hpp"
 #include "primitive_face_patch.hpp"

@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_SCALAR_FIELD_HPP_
+#define CORE_FIELDS_DIMENSIONED_FIELDS_DIMENSIONED_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   dimensioned_scalar_field.cpp
-#ifndef dimensioned_scalar_field_hpp_
-#define dimensioned_scalar_field_hpp_
 #include "dimensioned_field.hpp"
 #include "scalar.hpp"
 #define TEMPLATE template<class GeoMesh>

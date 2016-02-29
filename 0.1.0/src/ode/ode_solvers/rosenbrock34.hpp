@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_ROSENBROCK34_HPP_
+#define ODE_ODE_SOLVERS_ROSENBROCK34_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -24,8 +27,6 @@
 //   The L-Stable scheme constants are provided commented-out in Rosenbrock34.C
 // SourceFiles
 //   rosenbrock34.cpp
-#ifndef rosenbrock34_hpp_
-#define rosenbrock34_hpp_
 #include "ode_solver.hpp"
 #include "adaptive_solver.hpp"
 namespace mousse

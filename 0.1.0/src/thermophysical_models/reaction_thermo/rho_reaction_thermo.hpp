@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_RHO_REACTION_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_RHO_REACTION_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::rhoReactionThermo
 // SourceFiles
 //   rho_reaction_thermo.cpp
-#ifndef rho_reaction_thermo_hpp_
-#define rho_reaction_thermo_hpp_
 #include "rho_thermo.hpp"
 #include "basic_specie_mixture.hpp"
 #include "auto_ptr.hpp"

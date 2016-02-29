@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_TET_INDICES_HPP_
+#define CORE_MESHES_POLY_MESH_TET_INDICES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 // SourceFiles
 //   tet_indices_i.hpp
 //   tet_indices.cpp
-#ifndef tet_indices_hpp_
-#define tet_indices_hpp_
 #include "label.hpp"
 #include "tetrahedron.hpp"
 #include "tri_point_ref.hpp"

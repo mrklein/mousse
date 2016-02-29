@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_FIXED_COEFF_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_POROSITY_MODEL_FIXED_COEFF_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //   required
 // SourceFiles
 //   fixed_coeff.cpp
-#ifndef fixed_coeff_hpp_
-#define fixed_coeff_hpp_
 #include "porosity_model.hpp"
 #include "dimensioned_tensor.hpp"
 namespace mousse

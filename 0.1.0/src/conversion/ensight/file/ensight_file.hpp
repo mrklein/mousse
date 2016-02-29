@@ -1,3 +1,6 @@
+#ifndef CONVERSION_ENSIGHT_FILE_ENSIGHT_FILE_HPP_
+#define CONVERSION_ENSIGHT_FILE_ENSIGHT_FILE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Ensight output with specialized write() for strings, integers and floats.
 //   Correctly handles binary write as well.
-#ifndef ensight_file_hpp_
-#define ensight_file_hpp_
 #include "ofstream.hpp"
 #include "iostream.hpp"
 namespace mousse

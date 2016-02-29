@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_SOLID_MIXTURE_PROPERTIES_SOLID_MIXTURE_PROPERTIES_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_SOLID_MIXTURE_PROPERTIES_SOLID_MIXTURE_PROPERTIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,8 +30,6 @@
 //   solid_mixture_properties.cpp
 //   see_also
 //   foam::solid_properties
-#ifndef solid_mixture_properties_hpp_
-#define solid_mixture_properties_hpp_
 #include "scalar_field.hpp"
 #include "ptr_list.hpp"
 #include "solid_properties.hpp"

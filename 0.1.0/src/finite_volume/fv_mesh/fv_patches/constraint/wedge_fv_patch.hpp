@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_WEDGE_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_WEDGE_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Wedge front and back plane patch.
 // SourceFiles
 //   wedge_fv_patch.cpp
-#ifndef wedge_fv_patch_hpp_
-#define wedge_fv_patch_hpp_
 #include "fv_patch.hpp"
 #include "wedge_poly_patch.hpp"
 namespace mousse

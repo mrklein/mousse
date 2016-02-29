@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_ALGORITHMS_PATCH_EDGE_FACE_WAVE_PATCH_EDGE_FACE_REGION_HPP_
+#define MESH_TOOLS_ALGORITHMS_PATCH_EDGE_FACE_WAVE_PATCH_EDGE_FACE_REGION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Set element to -2 to denote blocked.
 // SourceFiles
 //   patch_edge_face_region.cpp
-#ifndef patch_edge_face_region_hpp_
-#define patch_edge_face_region_hpp_
 
 #include "point.hpp"
 #include "label.hpp"

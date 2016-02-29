@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_MESH_TET_DECOMPOSITION_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_MESH_TET_DECOMPOSITION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   that have negative or zero volume.
 // SourceFiles
 //   poly_mesh_tet_decomposition.cpp
-#ifndef poly_mesh_tet_decomposition_hpp_
-#define poly_mesh_tet_decomposition_hpp_
 #include "poly_mesh.hpp"
 #include "coupled_poly_patch.hpp"
 #include "sync_tools.hpp"

@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_SPHERICAL_TENSOR_LABEL_SPHERICAL_TENSOR_HPP_
+#define CORE_PRIMITIVES_SPHERICAL_TENSOR_LABEL_SPHERICAL_TENSOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   label_spherical_tensor.cpp
-#ifndef label_spherical_tensor_hpp_
-#define label_spherical_tensor_hpp_
 #include "_spherical_tensor.hpp"
 #include "contiguous.hpp"
 namespace mousse

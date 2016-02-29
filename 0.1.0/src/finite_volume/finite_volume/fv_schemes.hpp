@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FV_SCHEMES_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FV_SCHEMES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   fvSchemes from the mesh reference they hold.
 // SourceFiles
 //   fv_schemes.cpp
-#ifndef fv_schemes_hpp_
-#define fv_schemes_hpp_
 #include "iodictionary.hpp"
 namespace mousse
 {

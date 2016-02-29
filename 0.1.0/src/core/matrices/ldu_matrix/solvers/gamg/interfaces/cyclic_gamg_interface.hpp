@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_INTERFACES_CYCLIC_GAMG_INTERFACE_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_GAMG_INTERFACES_CYCLIC_GAMG_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   cyclic_gamg_interface.cpp
 
-#ifndef cyclic_gamg_interface_hpp_
-#define cyclic_gamg_interface_hpp_
 
 #include "gamg_interface.hpp"
 #include "cyclic_ldu_interface.hpp"

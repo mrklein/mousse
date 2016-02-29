@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_FILM_RADIATION_MODEL_CONSTANT_RADIATION_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_THERMO_FILM_RADIATION_MODEL_CONSTANT_RADIATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //   radiation.
 // SourceFiles
 //   constant_radiation.cpp
-#ifndef constant_radiation_hpp_
-#define constant_radiation_hpp_
 #include "film_radiation_model.hpp"
 #include "vol_fields_fwd.hpp"
 namespace mousse

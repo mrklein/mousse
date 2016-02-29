@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_SN_GRAD_SCHEMES_CENTRED_FIT_SN_GRAD_DATA_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_SN_GRAD_SCHEMES_CENTRED_FIT_SN_GRAD_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   centred_fit_sn_grad_data.cpp
 
-#ifndef centred_fit_sn_grad_data_hpp_
-#define centred_fit_sn_grad_data_hpp_
 
 #include "fit_data.hpp"
 

@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_FIELDS_SUB_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_SUB_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Thus it is itself unallocated so that no storage is allocated or
 //   deallocated during its use.  To achieve this behaviour, SubField is
 //   derived from a SubList rather than a List.
-#ifndef sub_field_hpp_
-#define sub_field_hpp_
 #include "sub_list.hpp"
 #include "field.hpp"
 namespace mousse

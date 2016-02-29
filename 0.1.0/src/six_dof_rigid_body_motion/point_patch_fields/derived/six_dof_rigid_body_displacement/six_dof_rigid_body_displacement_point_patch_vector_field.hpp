@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_POINT_PATCH_FIELDS_DERIVED_SIX_DOF_RIGID_BODY_DISPLACEMENT_SIX_DOF_RIGID_BODY_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_POINT_PATCH_FIELDS_DERIVED_SIX_DOF_RIGID_BODY_DISPLACEMENT_SIX_DOF_RIGID_BODY_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::sixDoFRigidBodyDisplacementPointPatchVectorField
 // SourceFiles
 //   six_dof_rigid_body_displacement_point_patch_vector_field.cpp
-#ifndef six_dof_rigid_body_displacement_point_patch_vector_field_hpp_
-#define six_dof_rigid_body_displacement_point_patch_vector_field_hpp_
 #include "fixed_value_point_patch_field.hpp"
 #include "six_dof_rigid_body_motion.hpp"
 namespace mousse

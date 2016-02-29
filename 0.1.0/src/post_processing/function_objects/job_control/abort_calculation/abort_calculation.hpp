@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_JOB_CONTROL_ABORT_CALCULATION_ABORT_CALCULATION_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_JOB_CONTROL_ABORT_CALCULATION_ABORT_CALCULATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 // SourceFiles
 //   abort_calculation.cpp
 //   io_abort_calculation.hpp
-#ifndef abort_calculation_hpp_
-#define abort_calculation_hpp_
 #include "named_enum.hpp"
 namespace mousse
 {

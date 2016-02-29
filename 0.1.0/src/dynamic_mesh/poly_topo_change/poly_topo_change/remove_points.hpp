@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REMOVE_POINTS_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_REMOVE_POINTS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   points.
 // SourceFiles
 //   remove_points.cpp
-#ifndef remove_points_hpp_
-#define remove_points_hpp_
 #include "type_info.hpp"
 #include "bool_list.hpp"
 #include "point_field.hpp"

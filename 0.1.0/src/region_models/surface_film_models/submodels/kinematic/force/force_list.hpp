@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FORCE_FORCE_LIST_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FORCE_FORCE_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List container for film sources
 // SourceFiles
 //   force_list.cpp
-#ifndef force_list_hpp_
-#define force_list_hpp_
 #include "ptr_list.hpp"
 #include "force.hpp"
 namespace mousse

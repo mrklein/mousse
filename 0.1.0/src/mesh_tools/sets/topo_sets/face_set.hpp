@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_TOPO_SETS_FACE_SET_HPP_
+#define MESH_TOOLS_SETS_TOPO_SETS_FACE_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A list of face labels.
 // SourceFiles
 //   face_set.cpp
-#ifndef face_set_hpp_
-#define face_set_hpp_
 #include "topo_set.hpp"
 namespace mousse
 {

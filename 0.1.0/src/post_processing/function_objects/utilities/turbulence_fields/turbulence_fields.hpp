@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_TURBULENCE_FIELDS_TURBULENCE_FIELDS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_TURBULENCE_FIELDS_TURBULENCE_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -50,8 +53,6 @@
 //   mousse::OutputFilterFunctionObject
 // SourceFiles
 //   turbulence_fields.cpp
-#ifndef turbulence_fields_hpp_
-#define turbulence_fields_hpp_
 #include "hash_set.hpp"
 #include "ioobject.hpp"
 #include "named_enum.hpp"

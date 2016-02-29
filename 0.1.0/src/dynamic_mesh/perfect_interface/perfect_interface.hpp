@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_PERFECT_INTERFACE_PERFECT_INTERFACE_HPP_
+#define DYNAMIC_MESH_PERFECT_INTERFACE_PERFECT_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Does not decouple. Used by stitchMesh app. Does geometric matching.
 // SourceFiles
 //   perfect_interface.cpp
-#ifndef perfect_interface_hpp_
-#define perfect_interface_hpp_
 #include "poly_mesh_modifier.hpp"
 #include "poly_patch_id.hpp"
 #include "zone_i_ds.hpp"

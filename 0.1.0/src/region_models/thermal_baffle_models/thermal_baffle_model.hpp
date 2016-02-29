@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_THERMAL_BAFFLE_MODELS_THERMAL_BAFFLE_MODEL_HPP_
+#define REGION_MODELS_THERMAL_BAFFLE_MODELS_THERMAL_BAFFLE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   thermal_baffle_model.cpp
-#ifndef thermal_baffle_model_hpp_
-#define thermal_baffle_model_hpp_
 #include "run_time_selection_tables.hpp"
 #include "scalar_io_field.hpp"
 #include "auto_ptr.hpp"

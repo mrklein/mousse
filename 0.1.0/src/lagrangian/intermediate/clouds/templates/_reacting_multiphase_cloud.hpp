@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TREACTING_MULTIPHASE_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TREACTING_MULTIPHASE_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   _reacting_multiphase_cloud_i.hpp
 //   _reacting_multiphase_cloud.cpp
-#ifndef _reacting_multiphase_cloud_hpp_
-#define _reacting_multiphase_cloud_hpp_
 #include "reacting_multiphase_cloud.hpp"
 namespace mousse
 {

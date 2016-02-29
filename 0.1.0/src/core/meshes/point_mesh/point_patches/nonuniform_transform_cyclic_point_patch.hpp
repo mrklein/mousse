@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POINT_MESH_POINT_PATCHES_NONUNIFORM_TRANSFORM_CYCLIC_POINT_PATCH_HPP_
+#define CORE_MESHES_POINT_MESH_POINT_PATCHES_NONUNIFORM_TRANSFORM_CYCLIC_POINT_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cyclic patch with slip constraint
 // SourceFiles
 //   nonuniform_transform_cyclic_point_patch.cpp
-#ifndef nonuniform_transform_cyclic_point_patch_hpp_
-#define nonuniform_transform_cyclic_point_patch_hpp_
 #include "cyclic_point_patch.hpp"
 #include "nonuniform_transform_cyclic_poly_patch.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_HASH_TABLES_PTR_MAP_HPP_
+#define CORE_CONTAINERS_HASH_TABLES_PTR_MAP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A HashTable of pointers to objects of type \<T\> with a label key.
 // See Also
 //   Map, HashPtrTable
-#ifndef ptr_map_hpp_
-#define ptr_map_hpp_
 #include "hash_ptr_table.hpp"
 namespace mousse
 {

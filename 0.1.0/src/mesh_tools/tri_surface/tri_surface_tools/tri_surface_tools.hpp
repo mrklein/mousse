@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_TRI_SURFACE_TOOLS_TRI_SURFACE_TOOLS_HPP_
+#define MESH_TOOLS_TRI_SURFACE_TRI_SURFACE_TOOLS_TRI_SURFACE_TOOLS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A collection of tools for triSurface.
 // SourceFiles
 //   tri_surface_tools.cpp
-#ifndef tri_surface_tools_hpp_
-#define tri_surface_tools_hpp_
 #include "bool_list.hpp"
 #include "point_field.hpp"
 #include "dynamic_list.hpp"

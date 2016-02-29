@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTIONS_REACTION_LIST_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTIONS_REACTION_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   List of templated reactions
 // SourceFiles
 //   reaction_list.cpp
-#ifndef reaction_list_hpp_
-#define reaction_list_hpp_
 #include "ptr_list.hpp"
 #include "sl_ptr_list.hpp"
 #include "species_table.hpp"

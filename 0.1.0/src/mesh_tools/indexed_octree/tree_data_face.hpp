@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_FACE_HPP_
+#define MESH_TOOLS_INDEXED_OCTREE_TREE_DATA_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Encapsulation of data needed to search for faces.
 // SourceFiles
 //   tree_data_face.cpp
-#ifndef tree_data_face_hpp_
-#define tree_data_face_hpp_
 #include "face.hpp"
 #include "indexed_octree.hpp"
 #include "tree_bound_box_list.hpp"

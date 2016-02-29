@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOOBJECTS_IODICTIONARY_HPP_
+#define CORE_DB_IOOBJECTS_IODICTIONARY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   iodictionary.cpp
 //   iodictionary_io.cpp
-#ifndef iodictionary_hpp_
-#define iodictionary_hpp_
 #include "dictionary.hpp"
 #include "reg_ioobject.hpp"
 namespace mousse

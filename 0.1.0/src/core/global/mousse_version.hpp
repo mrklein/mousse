@@ -1,9 +1,10 @@
+#ifndef CORE_GLOBAL_MOUSSE_VERSION_HPP_
+#define CORE_GLOBAL_MOUSSE_VERSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef mousse_version_hpp_
-#define mousse_version_hpp_
 namespace mousse
 {
   extern const char* const mousse_version;

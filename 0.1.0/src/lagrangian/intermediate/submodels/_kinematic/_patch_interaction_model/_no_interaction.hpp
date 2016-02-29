@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_TNO_INTERACTION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPATCH_INTERACTION_MODEL_TNO_INTERACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Dummy class for 'none' option - will raise an error if any functions are
 //   called that require return values.
-#ifndef _no_interaction_hpp_
-#define _no_interaction_hpp_
 #include "_patch_interaction_model.hpp"
 namespace mousse
 {

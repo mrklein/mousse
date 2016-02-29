@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_MOTION_DIFFUSIVITY_MOTION_DIFFUSIVITY_HPP_
+#define FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_MOTION_DIFFUSIVITY_MOTION_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Abstract base class for cell-centre mesh motion diffusivity.
 // SourceFiles
 //   motion_diffusivity.cpp
-#ifndef motion_diffusivity_hpp_
-#define motion_diffusivity_hpp_
 #include "surface_fields_fwd.hpp"
 #include "fv_mesh.hpp"
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_TINJECTION_MODEL_THERMO_PARCEL_INJECTION_DATA_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_TINJECTION_MODEL_THERMO_PARCEL_INJECTION_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Container class to provide injection data for thermodynamic parcels
 // SourceFiles
 //   thermo_parcel_injection_data.cpp
-#ifndef thermo_parcel_injection_data_hpp_
-#define thermo_parcel_injection_data_hpp_
 #include "kinematic_parcel_injection_data.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_SYMMETRIC_SQUARE_MATRIX_SYMMETRIC_SQUARE_MATRIX_HPP_
+#define CORE_MATRICES_SYMMETRIC_SQUARE_MATRIX_SYMMETRIC_SQUARE_MATRIX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   n x n matrix dimension is known and used for subscript bounds checking, etc.
 // SourceFiles
 //   symmetric_square_matrix.cpp
-#ifndef symmetric_square_matrix_hpp_
-#define symmetric_square_matrix_hpp_
 #include "square_matrix.hpp"
 namespace mousse
 {

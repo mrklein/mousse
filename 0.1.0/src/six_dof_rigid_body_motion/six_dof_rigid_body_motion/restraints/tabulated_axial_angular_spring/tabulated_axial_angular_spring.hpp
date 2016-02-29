@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_RESTRAINTS_TABULATED_AXIAL_ANGULAR_SPRING_TABULATED_AXIAL_ANGULAR_SPRING_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_RESTRAINTS_TABULATED_AXIAL_ANGULAR_SPRING_TABULATED_AXIAL_ANGULAR_SPRING_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   values drawn from an interpolation table.  Linear damping.
 // SourceFiles
 //   tabulated_axial_angular_spring.cpp
-#ifndef tabulated_axial_angular_spring_hpp_
-#define tabulated_axial_angular_spring_hpp_
 #include "six_dof_rigid_body_motion_restraint.hpp"
 #include "point.hpp"
 #include "tensor.hpp"

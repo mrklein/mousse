@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MATRICES_SOLVERS_FACE_AREA_PAIR_GAMG_AGGLOMERATION_HPP_
+#define FINITE_VOLUME_FV_MATRICES_SOLVERS_FACE_AREA_PAIR_GAMG_AGGLOMERATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Agglomerate using the pair algorithm.
 // SourceFiles
 //   face_area_pair_gamg_agglomeration.cpp
-#ifndef face_area_pair_gamg_agglomeration_hpp_
-#define face_area_pair_gamg_agglomeration_hpp_
 #include "pair_gamg_agglomeration.hpp"
 namespace mousse
 {

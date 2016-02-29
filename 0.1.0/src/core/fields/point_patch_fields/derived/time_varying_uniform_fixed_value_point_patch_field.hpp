@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_DERIVED_TIME_VARYING_UNIFORM_FIXED_VALUE_POINT_PATCH_FIELD_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_DERIVED_TIME_VARYING_UNIFORM_FIXED_VALUE_POINT_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   mousse::timeVaryingUniformFixedValueFvField
 // SourceFiles
 //   time_varying_uniform_fixed_value_point_patch_field.cpp
-#ifndef time_varying_uniform_fixed_value_point_patch_field_hpp_
-#define time_varying_uniform_fixed_value_point_patch_field_hpp_
 #include "fixed_value_point_patch_field.hpp"
 #include "interpolation_table.hpp"
 namespace mousse

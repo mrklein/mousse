@@ -1,11 +1,12 @@
+#ifndef MESH_EXTRUDE_MODEL_LINEAR_RADIAL_LINEAR_RADIAL_HPP_
+#define MESH_EXTRUDE_MODEL_LINEAR_RADIAL_LINEAR_RADIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::extrudeModels::linearRadial
 // Description
-#ifndef linear_radial_hpp_
-#define linear_radial_hpp_
 #include "extrude_model.hpp"
 namespace mousse
 {

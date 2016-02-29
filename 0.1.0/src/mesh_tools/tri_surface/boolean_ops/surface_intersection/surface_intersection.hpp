@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_SURFACE_INTERSECTION_SURFACE_INTERSECTION_HPP_
+#define MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_SURFACE_INTERSECTION_SURFACE_INTERSECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -26,8 +29,6 @@
 //   surface_intersection_funcs.cpp
 //   surface_intersection_templates.cpp
 
-#ifndef surface_intersection_hpp_
-#define surface_intersection_hpp_
 
 #include "dynamic_list.hpp"
 #include "point.hpp"

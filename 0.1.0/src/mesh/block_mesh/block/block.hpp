@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_BLOCK_BLOCK_HPP_
+#define MESH_BLOCK_MESH_BLOCK_BLOCK_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   block.cpp
 //   block_create.cpp
-#ifndef block_hpp_
-#define block_hpp_
 #include "point_field.hpp"
 #include "label_list.hpp"
 #include "block_descriptor.hpp"

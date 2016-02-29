@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_CALC_TYPE_CALC_TYPE_HPP_
+#define POST_PROCESSING_MOUSSE_CALC_FUNCTIONS_CALC_TYPE_CALC_TYPE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for post-processing calculation functions
 // SourceFiles
 //   calc_type.cpp
-#ifndef calc_type_hpp_
-#define calc_type_hpp_
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_cfd.hpp"

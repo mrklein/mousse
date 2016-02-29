@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_RANDOM_CACHED_RANDOM_HPP_
+#define CORE_PRIMITIVES_RANDOM_CACHED_RANDOM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 // SourceFiles
 //   cached_random.cpp
 //   cached_random_templates.cpp
-#ifndef cached_random_hpp_
-#define cached_random_hpp_
 #include "scalar_list.hpp"
 namespace mousse
 {

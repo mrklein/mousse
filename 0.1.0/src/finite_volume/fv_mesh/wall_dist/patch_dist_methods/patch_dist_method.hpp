@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_WALL_DIST_PATCH_DIST_METHODS_PATCH_DIST_METHOD_HPP_
+#define FINITE_VOLUME_FV_MESH_WALL_DIST_PATCH_DIST_METHODS_PATCH_DIST_METHOD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   patch_dist_method.cpp
 
-#ifndef patch_dist_method_hpp_
-#define patch_dist_method_hpp_
 
 #include "dictionary.hpp"
 #include "hash_set.hpp"

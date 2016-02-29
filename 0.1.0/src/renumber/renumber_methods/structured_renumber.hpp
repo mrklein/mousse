@@ -1,3 +1,6 @@
+#ifndef RENUMBER_RENUMBER_METHODS_STRUCTURED_RENUMBER_HPP_
+#define RENUMBER_RENUMBER_METHODS_STRUCTURED_RENUMBER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 //     first layer gets ids 0,1,2 etc.
 // SourceFiles
 //   structured_renumber.cpp
-#ifndef structured_renumber_hpp_
-#define structured_renumber_hpp_
 #include "renumber_method.hpp"
 #include "switch.hpp"
 namespace mousse

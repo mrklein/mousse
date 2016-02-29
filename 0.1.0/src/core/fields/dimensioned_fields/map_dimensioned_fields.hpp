@@ -1,9 +1,10 @@
+#ifndef CORE_FIELDS_DIMENSIONED_FIELDS_MAP_DIMENSIONED_FIELDS_HPP_
+#define CORE_FIELDS_DIMENSIONED_FIELDS_MAP_DIMENSIONED_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef map_dimensioned_fields_hpp_
-#define map_dimensioned_fields_hpp_
 #include "poly_mesh.hpp"
 #include "map_fv_vol_field.hpp"
 namespace mousse

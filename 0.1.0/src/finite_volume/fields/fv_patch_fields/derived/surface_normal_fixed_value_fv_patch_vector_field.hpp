@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_SURFACE_NORMAL_FIXED_VALUE_FV_PATCH_VECTOR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_SURFACE_NORMAL_FIXED_VALUE_FV_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -28,8 +31,6 @@
 //   mousse::fixedValueFvPatchField
 // SourceFiles
 //   surface_normal_fixed_value_fv_patch_vector_field.cpp
-#ifndef surface_normal_fixed_value_fv_patch_vector_field_hpp_
-#define surface_normal_fixed_value_fv_patch_vector_field_hpp_
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 namespace mousse

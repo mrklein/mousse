@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_LDU_MATRIX_SOLVERS_SMOOTH_SOLVER_HPP_
+#define CORE_MATRICES_LDU_MATRIX_SOLVERS_SMOOTH_SOLVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   smoothing iterations.
 // SourceFiles
 //   smooth_solver.cpp
-#ifndef smooth_solver_hpp_
-#define smooth_solver_hpp_
 #include "ldu_matrix.hpp"
 namespace mousse
 {

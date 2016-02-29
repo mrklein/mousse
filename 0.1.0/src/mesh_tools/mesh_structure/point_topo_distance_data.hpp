@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_MESH_STRUCTURE_POINT_TOPO_DISTANCE_DATA_HPP_
+#define MESH_TOOLS_MESH_STRUCTURE_POINT_TOPO_DISTANCE_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   starting points
 // SourceFiles
 //   point_topo_distance_data.cpp
-#ifndef point_topo_distance_data_hpp_
-#define point_topo_distance_data_hpp_
 #include "point.hpp"
 #include "tensor.hpp"
 #include "poly_mesh.hpp"

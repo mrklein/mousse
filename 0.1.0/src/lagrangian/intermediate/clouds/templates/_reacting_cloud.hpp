@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TREACTING_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TREACTING_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 //    - Phase change
 // SourceFiles
 //   _reacting_cloud.cpp
-#ifndef _reacting_cloud_hpp_
-#define _reacting_cloud_hpp_
 #include "reacting_cloud.hpp"
 namespace mousse
 {

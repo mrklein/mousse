@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_SPALART_ALLMARAS_DES_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_SPALART_ALLMARAS_DES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,8 +20,6 @@
 //   \endverbatim
 // SourceFiles
 //   spalart_allmaras_des.cpp
-#ifndef spalart_allmaras_des_hpp_
-#define spalart_allmaras_des_hpp_
 #include "les_eddy_viscosity.hpp"
 namespace mousse
 {

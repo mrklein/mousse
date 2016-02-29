@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_PHASE_COMPRESSIBLE_LES_NICENO_K_EQN_HPP_
+#define TURBULENCE_MODELS_PHASE_COMPRESSIBLE_LES_NICENO_K_EQN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -28,8 +31,6 @@
 //   \endverbatim
 // SourceFiles
 //   niceno_k_eqn.cpp
-#ifndef niceno_k_eqn_hpp_
-#define niceno_k_eqn_hpp_
 #include "k_eqn.hpp"
 namespace mousse
 {

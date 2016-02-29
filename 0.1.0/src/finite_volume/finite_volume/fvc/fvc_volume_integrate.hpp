@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_VOLUME_INTEGRATE_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_VOLUME_INTEGRATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   fvc_volume_integrate.cpp
-#ifndef fvc_volume_integrate_hpp_
-#define fvc_volume_integrate_hpp_
 #include "vol_fields_fwd.hpp"
 #include "primitive_fields_fwd.hpp"
 #include "dimensioned_types.hpp"

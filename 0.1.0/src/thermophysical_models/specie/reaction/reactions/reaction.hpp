@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTIONS_REACTION_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTIONS_REACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   to the equilibrium thermodynamics already handled.
 // SourceFiles
 //   reaction.cpp
-#ifndef reaction_hpp_
-#define reaction_hpp_
 #include "species_table.hpp"
 #include "hash_ptr_table.hpp"
 #include "scalar_field.hpp"

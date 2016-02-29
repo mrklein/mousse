@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_SURFACE_INTERPOLATE_FIELDS_SURFACE_INTERPOLATE_FIELDS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_SURFACE_INTERPOLATE_FIELDS_SURFACE_INTERPOLATE_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -35,8 +38,6 @@
 // SourceFiles
 //   surface_interpolate_fields.cpp
 //   i_osurface_interpolate_fields.hpp
-#ifndef surface_interpolate_fields_hpp_
-#define surface_interpolate_fields_hpp_
 #include "ofstream.hpp"
 #include "surface_fields.hpp"
 #include "tuple2.hpp"

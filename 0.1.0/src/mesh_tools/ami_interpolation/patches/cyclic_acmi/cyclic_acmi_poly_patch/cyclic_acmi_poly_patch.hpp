@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_PATCHES_CYCLIC_ACMI_CYCLIC_ACMI_POLY_PATCH_CYCLIC_ACMI_POLY_PATCH_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_PATCHES_CYCLIC_ACMI_CYCLIC_ACMI_POLY_PATCH_CYCLIC_ACMI_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cyclic patch for Arbitrarily Coupled Mesh Interface (ACMI)
 // SourceFiles
 //   cyclic_acmi_poly_patch.cpp
-#ifndef cyclic_acmi_poly_patch_hpp_
-#define cyclic_acmi_poly_patch_hpp_
 #include "cyclic_ami_poly_patch.hpp"
 #include "ami_patch_to_patch_interpolation.hpp"
 #include "poly_boundary_mesh.hpp"

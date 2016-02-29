@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_TRI_SURFACE_SEARCH_TRI_SURFACE_SEARCH_HPP_
+#define MESH_TOOLS_TRI_SURFACE_TRI_SURFACE_SEARCH_TRI_SURFACE_SEARCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Helper class to search on triSurface.
 // SourceFiles
 //   tri_surface_search.cpp
-#ifndef tri_surface_search_hpp_
-#define tri_surface_search_hpp_
 #include "point_field.hpp"
 #include "bool_list.hpp"
 #include "point_index_hit.hpp"

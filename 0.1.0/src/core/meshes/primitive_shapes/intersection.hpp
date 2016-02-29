@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_INTERSECTION_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_INTERSECTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::intersection
 // SourceFiles
 //   intersection.cpp
-#ifndef intersection_hpp_
-#define intersection_hpp_
 #include "scalar.hpp"
 #include "named_enum.hpp"
 namespace mousse

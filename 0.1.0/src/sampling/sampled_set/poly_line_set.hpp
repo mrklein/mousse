@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_POLY_LINE_SET_HPP_
+#define SAMPLING_SAMPLED_SET_POLY_LINE_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Sample along poly line defined by a list of points (knots)
 // SourceFiles
 //   poly_line_set.cpp
-#ifndef poly_line_set_hpp_
-#define poly_line_set_hpp_
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "passive_particle_cloud.hpp"

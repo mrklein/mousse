@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_CUBIC_UPWIND_FIT_POLYNOMIAL_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_CUBIC_UPWIND_FIT_POLYNOMIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Cubic polynomial for upwind biased interpolation fitting.
 //   Can be used with the UpwindFit scheme to create a cubic surface
 //   interpolation scheme
-#ifndef cubic_upwind_fit_polynomial_hpp_
-#define cubic_upwind_fit_polynomial_hpp_
 #include "vector.hpp"
 namespace mousse
 {

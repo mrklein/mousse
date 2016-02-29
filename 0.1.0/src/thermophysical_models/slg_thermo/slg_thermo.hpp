@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SLG_THERMO_SLG_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_SLG_THERMO_SLG_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   Registered to the mesh so that it can be looked-up
 // SourceFiles
 //   slg_thermo.cpp
-#ifndef slg_thermo_hpp_
-#define slg_thermo_hpp_
 #include "reg_ioobject.hpp"
 #include "fluid_thermo.hpp"
 #include "basic_specie_mixture.hpp"

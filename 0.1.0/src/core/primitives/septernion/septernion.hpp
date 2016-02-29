@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_SEPTERNION_SEPTERNION_HPP_
+#define CORE_PRIMITIVES_SEPTERNION_SEPTERNION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   Greek.
 // SourceFiles
 //   septernion.cpp
-#ifndef septernion_hpp_
-#define septernion_hpp_
 #include "vector.hpp"
 #include "quaternion.hpp"
 #include "word.hpp"

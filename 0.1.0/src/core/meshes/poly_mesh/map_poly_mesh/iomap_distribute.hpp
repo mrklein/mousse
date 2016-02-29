@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_MAP_POLY_MESH_IOMAP_DISTRIBUTE_HPP_
+#define CORE_MESHES_POLY_MESH_MAP_POLY_MESH_IOMAP_DISTRIBUTE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   automatic IO functionality via the objectRegistry.
 // SourceFiles
 //   iomap_distribute.cpp
-#ifndef iomap_distribute_hpp_
-#define iomap_distribute_hpp_
 #include "map_distribute.hpp"
 #include "reg_ioobject.hpp"
 namespace mousse

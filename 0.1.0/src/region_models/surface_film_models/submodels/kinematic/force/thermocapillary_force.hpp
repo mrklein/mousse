@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FORCE_THERMOCAPILLARY_FORCE_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FORCE_THERMOCAPILLARY_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Thermocapillary force
 // SourceFiles
 //   thermocapillary_force.cpp
-#ifndef thermocapillary_force_hpp_
-#define thermocapillary_force_hpp_
 #include "force.hpp"
 namespace mousse
 {

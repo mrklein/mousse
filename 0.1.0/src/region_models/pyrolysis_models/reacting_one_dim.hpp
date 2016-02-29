@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_PYROLYSIS_MODELS_REACTING_ONE_DIM_HPP_
+#define REGION_MODELS_PYROLYSIS_MODELS_REACTING_ONE_DIM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Reacting, 1-D pyrolysis model
 // SourceFiles
 //   reacting_one_dim.cpp
-#ifndef reacting_one_dim_hpp_
-#define reacting_one_dim_hpp_
 #include "pyrolysis_model.hpp"
 #include "basic_solid_chemistry_model.hpp"
 #include "radiation_model.hpp"

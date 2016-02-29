@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_LAPLACIAN_SCHEMES_GAUSS_LAPLACIAN_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_LAPLACIAN_SCHEMES_GAUSS_LAPLACIAN_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Basic second-order laplacian using face-gradients and Gauss' theorem.
 // SourceFiles
 //   gauss_laplacian_scheme.cpp
-#ifndef gauss_laplacian_scheme_hpp_
-#define gauss_laplacian_scheme_hpp_
 #include "laplacian_scheme.hpp"
 namespace mousse
 {

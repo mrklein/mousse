@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_REGION_COUPLED_GAMG_INTERFACE_FIELDS_REGION_COUPLED_GAMG_INTERFACE_FIELD_REGION_COUPLED_GAMG_INTERFACE_FIELD_HPP_
+#define MESH_TOOLS_REGION_COUPLED_GAMG_INTERFACE_FIELDS_REGION_COUPLED_GAMG_INTERFACE_FIELD_REGION_COUPLED_GAMG_INTERFACE_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   GAMG agglomerated region coupled interface field.
 // SourceFiles
 //   region_coupled_gamg_interface_field.cpp
-#ifndef region_coupled_gamg_interface_field_hpp_
-#define region_coupled_gamg_interface_field_hpp_
 #include "gamg_interface_field.hpp"
 #include "region_coupled_gamg_interface.hpp"
 namespace mousse

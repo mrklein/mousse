@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_SMOOTH_SMOOTH_DATA_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_SMOOTH_SMOOTH_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Helper class used by the fvc::smooth and fvc::spread functions.
 // SourceFiles
 //   smooth_data.hpp
-#ifndef smooth_data_hpp_
-#define smooth_data_hpp_
 namespace mousse
 {
 class smoothData

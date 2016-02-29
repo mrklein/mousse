@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TPHASE_CHANGE_MODEL_TNO_PHASE_CHANGE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TREACTING_TPHASE_CHANGE_MODEL_TNO_PHASE_CHANGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::NoPhaseChange
 // Description
 //   Dummy phase change model for 'none'
-#ifndef _no_phase_change_hpp_
-#define _no_phase_change_hpp_
 #include "_phase_change_model.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_SYSTEM_HPP_
+#define MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_SYSTEM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -30,8 +33,6 @@
 // SourceFiles
 //   coordinate_system.cpp
 //   coordinate_system_new.cpp
-#ifndef coordinate_system_hpp_
-#define coordinate_system_hpp_
 #include "vector.hpp"
 #include "point.hpp"
 #include "tensor.hpp"

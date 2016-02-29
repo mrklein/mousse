@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_D2DT2_SCHEMES_EULER_D2DT2_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_D2DT2_SCHEMES_EULER_D2DT2_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   time-step values.
 // SourceFiles
 //   euler_d2dt2_scheme.cpp
-#ifndef euler_d2dt2_scheme_hpp_
-#define euler_d2dt2_scheme_hpp_
 #include "d2dt2_scheme.hpp"
 namespace mousse
 {

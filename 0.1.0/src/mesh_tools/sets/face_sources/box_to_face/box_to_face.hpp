@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_SETS_FACE_SOURCES_BOX_TO_FACE_BOX_TO_FACE_HPP_
+#define MESH_TOOLS_SETS_FACE_SOURCES_BOX_TO_FACE_BOX_TO_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A topoSetSource to select faces based on face centres inside box.
 // SourceFiles
 //   box_to_face.cpp
-#ifndef box_to_face_hpp_
-#define box_to_face_hpp_
 #include "topo_set_source.hpp"
 #include "tree_bound_box_list.hpp"
 namespace mousse

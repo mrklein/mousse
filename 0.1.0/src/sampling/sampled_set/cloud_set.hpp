@@ -1,3 +1,6 @@
+#ifndef SAMPLING_SAMPLED_SET_CLOUD_SET_HPP_
+#define SAMPLING_SAMPLED_SET_CLOUD_SET_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   cloud_set.cpp
-#ifndef cloud_set_hpp_
-#define cloud_set_hpp_
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 namespace mousse

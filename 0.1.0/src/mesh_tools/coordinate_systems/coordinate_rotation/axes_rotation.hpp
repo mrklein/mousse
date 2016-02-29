@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_ROTATION_AXES_ROTATION_HPP_
+#define MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_ROTATION_AXES_ROTATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //       e2          (0 1 0);
 //     }
 //   \endverbatim
-#ifndef axes_rotation_hpp_
-#define axes_rotation_hpp_
 #include "vector.hpp"
 #include "coordinate_rotation.hpp"
 #include "dictionary.hpp"

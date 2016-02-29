@@ -1,3 +1,6 @@
+#ifndef EDGE_MESH_EDGE_MESH_FORMATS_EDGE_MESH_FORMAT_HPP_
+#define EDGE_MESH_EDGE_MESH_FORMATS_EDGE_MESH_FORMAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //  This class provides more methods than the regular edge format interface.
 // SourceFiles
 //   edge_mesh_format.cpp
-#ifndef edge_mesh_format_hpp_
-#define edge_mesh_format_hpp_
 #include "edge_mesh.hpp"
 #include "ostream.hpp"
 #include "ofstream.hpp"

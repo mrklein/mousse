@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_DELTAS_CUBE_ROOT_VOL_DELTA_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_DELTAS_CUBE_ROOT_VOL_DELTA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Simple cube-root of cell volume delta used in LES models.
 // SourceFiles
 //   cube_root_vol_delta.cpp
-#ifndef cube_root_vol_delta_hpp_
-#define cube_root_vol_delta_hpp_
 #include "les_delta.hpp"
 namespace mousse
 {

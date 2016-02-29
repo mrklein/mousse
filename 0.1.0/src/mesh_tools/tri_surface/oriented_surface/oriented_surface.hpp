@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_ORIENTED_SURFACE_ORIENTED_SURFACE_HPP_
+#define MESH_TOOLS_TRI_SURFACE_ORIENTED_SURFACE_ORIENTED_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   oriented_surface.cpp
 
-#ifndef oriented_surface_hpp_
-#define oriented_surface_hpp_
 
 #include "tri_surface.hpp"
 #include "type_info.hpp"

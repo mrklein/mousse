@@ -1,3 +1,6 @@
+#ifndef CORE_DB_FUNCTION_OBJECTS_FUNCTION_OBJECT_LIST_HPP_
+#define CORE_DB_FUNCTION_OBJECTS_FUNCTION_OBJECT_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   function_object_list.cpp
 
-#ifndef function_object_list_hpp_
-#define function_object_list_hpp_
 
 #include "ptr_list.hpp"
 #include "function_object.hpp"

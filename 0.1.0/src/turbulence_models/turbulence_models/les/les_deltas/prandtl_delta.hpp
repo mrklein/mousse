@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_DELTAS_PRANDTL_DELTA_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LES_LES_DELTAS_PRANDTL_DELTA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -26,8 +29,6 @@
 //   \endverbatim
 // SourceFiles
 //   prandtl_delta.cpp
-#ifndef prandtl_delta_hpp_
-#define prandtl_delta_hpp_
 #include "les_delta.hpp"
 namespace mousse
 {

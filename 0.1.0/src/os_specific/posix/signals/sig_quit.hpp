@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_SIGNALS_SIG_QUIT_HPP_
+#define OS_SPECIFIC_POSIX_SIGNALS_SIG_QUIT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   mousse::JobInfo
 // SourceFiles
 //   sig_quit.cpp
-#ifndef sig_quit_hpp_
-#define sig_quit_hpp_
 #include <signal.h>
 namespace mousse
 {

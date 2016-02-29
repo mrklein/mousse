@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_DEMAND_DRIVEN_ENTRY_DEMAND_DRIVEN_ENTRY_HPP_
+#define CORE_PRIMITIVES_DEMAND_DRIVEN_ENTRY_DEMAND_DRIVEN_ENTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   is requested and has not already been cached
 // SourceFiles
 //   demand_driven_entry.cpp
-#ifndef demand_driven_entry_hpp_
-#define demand_driven_entry_hpp_
 #include "dictionary.hpp"
 namespace mousse
 {

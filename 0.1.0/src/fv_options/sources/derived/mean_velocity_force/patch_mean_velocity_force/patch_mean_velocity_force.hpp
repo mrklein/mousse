@@ -1,3 +1,6 @@
+#ifndef FV_OPTIONS_SOURCES_DERIVED_MEAN_VELOCITY_FORCE_PATCH_MEAN_VELOCITY_FORCE_PATCH_MEAN_VELOCITY_FORCE_HPP_
+#define FV_OPTIONS_SOURCES_DERIVED_MEAN_VELOCITY_FORCE_PATCH_MEAN_VELOCITY_FORCE_PATCH_MEAN_VELOCITY_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,8 +24,6 @@
 //   \endverbatim
 // SourceFiles
 //   patch_mean_velocity_force.cpp
-#ifndef patch_mean_velocity_force_hpp_
-#define patch_mean_velocity_force_hpp_
 #include "mean_velocity_force.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef COMBUSTION_MODELS_FSD_HPP_
+#define COMBUSTION_MODELS_FSD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,8 +30,6 @@
 //   transport equation.
 // SourceFiles
 //   fsd.cpp
-#ifndef fsd_hpp_
-#define fsd_hpp_
 #include "single_step_combustion.hpp"
 #include "reaction_rate_flame_area.hpp"
 namespace mousse

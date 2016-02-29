@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_CPU_TIME_CPU_TIME_HPP_
+#define OS_SPECIFIC_POSIX_CPU_TIME_CPU_TIME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   clockTime
 // SourceFiles
 //   cpu_time.cpp
-#ifndef cpu_time_hpp_
-#define cpu_time_hpp_
 #include <time.h>
 #include <sys/times.h>
 namespace mousse

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_PROPERTIES_SOLID_PROPERTIES_ASH_ASH_HPP_
+#define THERMOPHYSICAL_MODELS_PROPERTIES_SOLID_PROPERTIES_ASH_ASH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,9 +10,9 @@
 //   Coal ash solid properties
 // SourceFiles
 //   ash.cpp
-#ifndef solid_ash_hpp_
-#define solid_ash_hpp_
+
 #include "solid_properties.hpp"
+
 namespace mousse
 {
 class ash;

@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULAR_MEASUREMENTS_DISTRIBUTION_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_MOLECULAR_MEASUREMENTS_DISTRIBUTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   automatic generation of bins.
 // SourceFiles
 //   distribution.cpp
-#ifndef distribution_hpp_
-#define distribution_hpp_
 #include "map.hpp"
 #include "pair.hpp"
 namespace mousse

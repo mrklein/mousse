@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_MESHED_SURFACE_PROXY_MESHED_SURFACE_PROXY_HPP_
+#define SURF_MESH_MESHED_SURFACE_PROXY_MESHED_SURFACE_PROXY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   meshed_surface_proxy.cpp
 //   meshed_surface_proxy_core.cpp
-#ifndef meshed_surface_proxy_hpp_
-#define meshed_surface_proxy_hpp_
 #include "point_field.hpp"
 #include "face.hpp"
 #include "tri_face.hpp"

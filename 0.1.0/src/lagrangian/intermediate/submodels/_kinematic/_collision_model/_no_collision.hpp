@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TCOLLISION_MODEL_TNO_COLLISION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TCOLLISION_MODEL_TNO_COLLISION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Place holder for 'none' option
 // SourceFiles
 //   _no_collision.cpp
-#ifndef _no_collision_hpp_
-#define _no_collision_hpp_
 #include "_collision_model.hpp"
 namespace mousse
 {

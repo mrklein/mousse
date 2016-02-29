@@ -1,3 +1,6 @@
+#ifndef FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_MANIPULATORS_EXPONENTIAL_EXPONENTIAL_DIFFUSIVITY_HPP_
+#define FV_MOTION_SOLVER_MOTION_DIFFUSIVITY_MANIPULATORS_EXPONENTIAL_EXPONENTIAL_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   of the given diffusivity D.
 // SourceFiles
 //   exponential_diffusivity.cpp
-#ifndef exponential_diffusivity_hpp_
-#define exponential_diffusivity_hpp_
 #include "motion_diffusivity.hpp"
 namespace mousse
 {

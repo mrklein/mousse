@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TKINEMATIC_PARCEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TKINEMATIC_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 // SourceFiles
 //   _kinematic_parcel.cpp
 //   _kinematic_parcel_io.cpp
-#ifndef _kinematic_parcel_hpp_
-#define _kinematic_parcel_hpp_
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"

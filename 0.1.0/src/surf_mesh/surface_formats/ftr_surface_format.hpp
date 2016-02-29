@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_FORMATS_FTR_SURFACE_FORMAT_HPP_
+#define SURF_MESH_SURFACE_FORMATS_FTR_SURFACE_FORMAT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 // SourceFiles
 //   ftr_surface_format.cpp
 
-#ifndef ftr_surface_format_hpp_
-#define ftr_surface_format_hpp_
 
 #include "ifstream.hpp"
 #include "meshed_surface.hpp"

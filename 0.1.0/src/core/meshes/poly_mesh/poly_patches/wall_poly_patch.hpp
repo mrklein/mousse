@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_POLY_PATCHES_WALL_POLY_PATCH_HPP_
+#define CORE_MESHES_POLY_MESH_POLY_PATCHES_WALL_POLY_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::wallPolyPatch
 // SourceFiles
 //   wall_poly_patch.cpp
-#ifndef wall_poly_patch_hpp_
-#define wall_poly_patch_hpp_
 #include "poly_patch.hpp"
 namespace mousse
 {

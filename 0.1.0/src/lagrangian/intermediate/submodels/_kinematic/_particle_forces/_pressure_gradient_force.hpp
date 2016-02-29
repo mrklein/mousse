@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TPRESSURE_GRADIENT_FORCE_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TPARTICLE_FORCES_TPRESSURE_GRADIENT_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Calculates particle pressure gradient force
 // SourceFiles
 //   _pressure_gradient_force.cpp
-#ifndef _pressure_gradient_force_hpp_
-#define _pressure_gradient_force_hpp_
 #include "_particle_force.hpp"
 #include "vol_fields.hpp"
 #include "interpolation.hpp"

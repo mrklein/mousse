@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TTHERMO_PARCEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TTHERMO_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,8 +13,6 @@
 // SourceFiles
 //   _thermo_parcel.cpp
 //   _thermo_parcel_io.cpp
-#ifndef _thermo_parcel_hpp_
-#define _thermo_parcel_hpp_
 #include "particle.hpp"
 #include "slg_thermo.hpp"
 #include "demand_driven_entry.hpp"

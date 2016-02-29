@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_CELL_CO_BLENDED_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_CELL_CO_BLENDED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -39,8 +42,6 @@
 // SourceFiles
 //   cell_co_blended.cpp
 
-#ifndef cell_co_blended_hpp_
-#define cell_co_blended_hpp_
 
 #include "surface_interpolation_scheme.hpp"
 #include "blended_scheme_base.hpp"

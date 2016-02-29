@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_CURVED_EDGES_SPLINE_EDGE_HPP_
+#define MESH_BLOCK_MESH_CURVED_EDGES_SPLINE_EDGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A curvedEdge interface for Catmull-Rom splines.
 // SourceFiles
 //   spline_edge.cpp
-#ifndef spline_edge_hpp_
-#define spline_edge_hpp_
 #include "curved_edge.hpp"
 #include "catmull_rom_spline.hpp"
 namespace mousse

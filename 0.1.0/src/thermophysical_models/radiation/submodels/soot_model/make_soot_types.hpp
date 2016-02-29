@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_MAKE_SOOT_TYPES_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_MAKE_SOOT_TYPES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_soot_types_hpp_
-#define make_soot_types_hpp_
 #include "add_to_run_time_selection_table.hpp"
 #define MAKE_SOOT_TYPES_THERMO(sootModelType, Thermo)                         \
   typedef mousse::radiation::sootModelType<mousse::Thermo>                    \

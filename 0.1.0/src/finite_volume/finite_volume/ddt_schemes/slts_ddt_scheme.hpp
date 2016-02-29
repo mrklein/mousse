@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_DDT_SCHEMES_SLTS_DDT_SCHEME_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_DDT_SCHEMES_SLTS_DDT_SCHEME_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 // SourceFiles
 //   slts_ddt_scheme.cpp
 
-#ifndef slts_ddt_scheme_hpp_
-#define slts_ddt_scheme_hpp_
 
 #include "ddt_scheme.hpp"
 

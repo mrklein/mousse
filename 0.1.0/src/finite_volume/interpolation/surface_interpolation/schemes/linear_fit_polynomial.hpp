@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LINEAR_FIT_POLYNOMIAL_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_LINEAR_FIT_POLYNOMIAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Linear polynomial for interpolation fitting.
 //   Can be used with the CentredFit scheme to create a linear surface
 //   interpolation scheme
-#ifndef linear_fit_polynomial_hpp_
-#define linear_fit_polynomial_hpp_
 #include "vector.hpp"
 namespace mousse
 {

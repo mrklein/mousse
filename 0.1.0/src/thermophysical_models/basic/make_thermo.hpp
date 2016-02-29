@@ -1,9 +1,10 @@
+#ifndef THERMOPHYSICAL_MODELS_BASIC_MAKE_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_BASIC_MAKE_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef make_thermo_hpp_
-#define make_thermo_hpp_
 #include "fluid_thermo.hpp"
 #include "add_to_run_time_selection_table.hpp"
 

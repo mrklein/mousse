@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_BOOLEAN_SURFACE_BOOLEAN_SURFACE_HPP_
+#define MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_BOOLEAN_SURFACE_BOOLEAN_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -19,8 +22,6 @@
 //   -# merge surfaces. Only the points on the intersection are shared.
 // SourceFiles
 //   boolean_surface.cpp
-#ifndef boolean_surface_hpp_
-#define boolean_surface_hpp_
 #include "tri_surface.hpp"
 #include "surface_intersection.hpp"
 #include "type_info.hpp"

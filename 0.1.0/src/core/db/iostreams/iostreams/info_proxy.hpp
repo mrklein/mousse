@@ -1,3 +1,6 @@
+#ifndef CORE_DB_IOSTREAMS_IOSTREAMS_INFO_PROXY_HPP_
+#define CORE_DB_IOSTREAMS_IOSTREAMS_INFO_PROXY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::InfoProxy
 // Description
 //   A helper class for outputting values to Ostream
-#ifndef info_proxy_hpp_
-#define info_proxy_hpp_
 namespace mousse
 {
 class Ostream;

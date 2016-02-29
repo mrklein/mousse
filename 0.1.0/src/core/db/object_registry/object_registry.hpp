@@ -1,3 +1,6 @@
+#ifndef CORE_DB_OBJECT_REGISTRY_OBJECT_REGISTRY_HPP_
+#define CORE_DB_OBJECT_REGISTRY_OBJECT_REGISTRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   object_registry.cpp
 
-#ifndef object_registry_hpp_
-#define object_registry_hpp_
 
 #include "hash_table.hpp"
 #include "reg_ioobject.hpp"

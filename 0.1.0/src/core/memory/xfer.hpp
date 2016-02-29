@@ -1,3 +1,6 @@
+#ifndef CORE_MEMORY_XFER_HPP_
+#define CORE_MEMORY_XFER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -33,8 +36,6 @@
 //   \endcode
 // SeeAlso
 //   xferCopy, xferCopyTo, xferMove, xferMoveTo, xferTmp
-#ifndef xfer_hpp_
-#define xfer_hpp_
 #include "null_object.hpp"
 namespace mousse
 {

@@ -1,3 +1,6 @@
+#ifndef MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_AUTO_SNAP_DRIVER_HPP_
+#define MESH_AUTO_MESH_AUTO_HEX_MESH_AUTO_HEX_MESH_DRIVER_AUTO_SNAP_DRIVER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   auto_snap_driver.cpp
 //   auto_snap_driver_feature.cpp
-#ifndef auto_snap_driver_hpp_
-#define auto_snap_driver_hpp_
 #include "mesh_refinement.hpp"
 namespace mousse
 {

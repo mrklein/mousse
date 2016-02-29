@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FILM_TURBULENCE_MODEL_FILM_TURBULENCE_MODEL_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_SUBMODELS_KINEMATIC_FILM_TURBULENCE_MODEL_FILM_TURBULENCE_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   film_turbulence_model.cpp
 //   film_turbulence_model_new.cpp
-#ifndef film_turbulence_model_hpp_
-#define film_turbulence_model_hpp_
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_matrices_fwd.hpp"

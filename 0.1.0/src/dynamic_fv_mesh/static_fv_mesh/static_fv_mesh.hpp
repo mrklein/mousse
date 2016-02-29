@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_STATIC_FV_MESH_STATIC_FV_MESH_HPP_
+#define DYNAMIC_FV_MESH_STATIC_FV_MESH_STATIC_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::staticFvMesh
 // SourceFiles
 //   static_fv_mesh.cpp
-#ifndef static_fv_mesh_hpp_
-#define static_fv_mesh_hpp_
 #include "dynamic_fv_mesh.hpp"
 namespace mousse
 {

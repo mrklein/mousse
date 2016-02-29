@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_FIELDS_ONE_FIELD_HPP_
+#define CORE_FIELDS_FIELDS_ONE_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   manipulations for objects which are known to be one at compile-time.
 //   Used for example as the density argument to a function written for
 //   compressible to be used for incompressible flow.
-#ifndef one_field_hpp_
-#define one_field_hpp_
 #include "one.hpp"
 #include "scalar.hpp"
 namespace mousse

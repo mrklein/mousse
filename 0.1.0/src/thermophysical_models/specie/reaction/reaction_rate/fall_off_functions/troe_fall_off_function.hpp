@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_FALL_OFF_FUNCTIONS_TROE_FALL_OFF_FUNCTION_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_REACTION_REACTION_RATE_FALL_OFF_FUNCTIONS_TROE_FALL_OFF_FUNCTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::TroeFallOffFunction
 // Description
 //   The Troe fall-off function
-#ifndef troe_fall_off_function_hpp_
-#define troe_fall_off_function_hpp_
 #include "scalar.hpp"
 namespace mousse
 {

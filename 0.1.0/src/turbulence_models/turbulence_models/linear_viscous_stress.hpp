@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_LINEAR_VISCOUS_STRESS_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_LINEAR_VISCOUS_STRESS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   Linear viscous stress turbulence model base class
 // SourceFiles
 //   linear_viscous_stress.cpp
-#ifndef linear_viscous_stress_hpp_
-#define linear_viscous_stress_hpp_
 namespace mousse
 {
 template<class BasicTurbulenceModel>

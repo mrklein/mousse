@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_SSG_HPP_
+#define TURBULENCE_MODELS_TURBULENCE_MODELS_RAS_SSG_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -43,8 +46,6 @@
 //   \endverbatim
 // SourceFiles
 //   ssg.cpp
-#ifndef ssg_hpp_
-#define ssg_hpp_
 #include "ras_model.hpp"
 #include "reynolds_stress.hpp"
 namespace mousse

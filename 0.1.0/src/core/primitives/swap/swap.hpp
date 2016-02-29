@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_SWAP_SWAP_HPP_
+#define CORE_PRIMITIVES_SWAP_SWAP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef swap_hpp_
-#define swap_hpp_
 namespace mousse
 {
 template<class T>

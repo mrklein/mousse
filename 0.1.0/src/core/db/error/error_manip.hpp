@@ -1,3 +1,6 @@
+#ifndef CORE_DB_ERROR_ERROR_MANIP_HPP_
+#define CORE_DB_ERROR_ERROR_MANIP_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //     error << "message1" << "message2" << FoamDataType << abort(error);
 //   \endcode
 
-#ifndef error_manip_hpp_
-#define error_manip_hpp_
 
 #include "error.hpp"
 

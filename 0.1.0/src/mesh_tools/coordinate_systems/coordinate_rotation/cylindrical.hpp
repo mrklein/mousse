@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_ROTATION_CYLINDRICAL_HPP_
+#define MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_ROTATION_CYLINDRICAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //       }
 //     \endverbatim
 //   2) The rotational tensor field is provided at construction
-#ifndef cylindrical_hpp_
-#define cylindrical_hpp_
 #include "point.hpp"
 #include "vector.hpp"
 #include "coordinate_rotation.hpp"

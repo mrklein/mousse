@@ -1,3 +1,6 @@
+#ifndef FV_AGGLOMERATION_METHODS_PAIR_PATCH_AGGLOMERATION_PAIR_PATCH_AGGLOMERATION_HPP_
+#define FV_AGGLOMERATION_METHODS_PAIR_PATCH_AGGLOMERATION_PAIR_PATCH_AGGLOMERATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Primitive patch pair agglomerate method.
 // SourceFiles
 //   pair_patch_agglomeration.cpp
-#ifndef pair_patch_agglomeration_hpp_
-#define pair_patch_agglomeration_hpp_
 #include "mathematical_constants.hpp"
 #include "poly_patch.hpp"
 #include "indirect_primitive_patch.hpp"

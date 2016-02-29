@@ -1,3 +1,6 @@
+#ifndef CORE_DB_DYNAMIC_LIBRARY_CODED_BASE_HPP_
+#define CORE_DB_DYNAMIC_LIBRARY_CODED_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   coded_base.cpp
 
-#ifndef coded_base_hpp_
-#define coded_base_hpp_
 
 #include "dictionary.hpp"
 

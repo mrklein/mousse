@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_MESH_SHAPES_FACE_HPP_
+#define CORE_MESHES_MESH_SHAPES_FACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   face_contact_sphere.cpp
 //   face_area_in_contact.cpp
 //   face_templates.cpp
-#ifndef face_hpp_
-#define face_hpp_
 
 #include "point_field.hpp"
 #include "label_list.hpp"

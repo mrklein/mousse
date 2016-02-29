@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_PAIR_POTENTIAL_AZIZ_CHEN_HPP_
+#define LAGRANGIAN_MOLECULAR_DYNAMICS_POTENTIAL_PAIR_POTENTIAL_AZIZ_CHEN_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -23,8 +26,6 @@
 //   \endverbatim
 // SourceFiles
 //   aziz_chen.cpp
-#ifndef aziz_chen_hpp_
-#define aziz_chen_hpp_
 #include "pair_potential.hpp"
 namespace mousse
 {

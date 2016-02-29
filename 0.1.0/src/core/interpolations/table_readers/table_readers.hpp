@@ -1,9 +1,10 @@
+#ifndef CORE_INTERPOLATIONS_TABLE_READERS_TABLE_READERS_HPP_
+#define CORE_INTERPOLATIONS_TABLE_READERS_TABLE_READERS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   table_readers.cpp
-#ifndef table_readers_hpp_
-#define table_readers_hpp_
 #include "table_reader.hpp"
 #include "field_types.hpp"
 

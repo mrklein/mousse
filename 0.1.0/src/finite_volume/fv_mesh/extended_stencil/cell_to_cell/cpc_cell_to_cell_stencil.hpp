@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_EXTENDED_STENCIL_CELL_TO_CELL_CPC_CELL_TO_CELL_STENCIL_HPP_
+#define FINITE_VOLUME_FV_MESH_EXTENDED_STENCIL_CELL_TO_CELL_CPC_CELL_TO_CELL_STENCIL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   cpc_cell_to_cell_stencil.cpp
-#ifndef cpc_cell_to_cell_stencil_hpp_
-#define cpc_cell_to_cell_stencil_hpp_
 #include "cell_to_cell_stencil.hpp"
 #include "bool_list.hpp"
 #include "hash_set.hpp"

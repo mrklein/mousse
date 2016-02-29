@@ -1,3 +1,6 @@
+#ifndef OS_SPECIFIC_POSIX_SIGNALS_SIG_FPE_HPP_
+#define OS_SPECIFIC_POSIX_SIGNALS_SIG_FPE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 //     an abort.
 // SourceFiles
 //   sig_fpe.cpp
-#ifndef sig_fpe_hpp_
-#define sig_fpe_hpp_
 #include <signal.h>
 #if defined(linux) || defined(linux64) || defined(linuxIA64) || \
   defined(linuxARM7) || defined(linuxPPC64) || defined(linuxPPC64le)

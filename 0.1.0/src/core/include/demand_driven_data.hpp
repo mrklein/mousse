@@ -1,9 +1,10 @@
+#ifndef CORE_INCLUDE_DEMAND_DRIVEN_DATA_HPP_
+#define CORE_INCLUDE_DEMAND_DRIVEN_DATA_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef demand_driven_data_hpp_
-#define demand_driven_data_hpp_
 
 namespace mousse
 {

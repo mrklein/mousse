@@ -1,3 +1,6 @@
+#ifndef CORE_ALGORITHMS_DYNAMIC_TREE_DATA_POINT_HPP_
+#define CORE_ALGORITHMS_DYNAMIC_TREE_DATA_POINT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,8 +15,6 @@
 // SourceFiles
 //   dynamic_tree_data_point.cpp
 
-#ifndef dynamic_tree_data_point_hpp_
-#define dynamic_tree_data_point_hpp_
 
 #include "point_field.hpp"
 #include "tree_bound_box.hpp"

@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_PROCESSOR_CYCLIC_FV_PATCH_HPP_
+#define FINITE_VOLUME_FV_MESH_FV_PATCHES_CONSTRAINT_PROCESSOR_CYCLIC_FV_PATCH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Processor patch.
 // SourceFiles
 //   processor_cyclic_fv_patch.cpp
-#ifndef processor_cyclic_fv_patch_hpp_
-#define processor_cyclic_fv_patch_hpp_
 #include "processor_cyclic_poly_patch.hpp"
 #include "processor_fv_patch.hpp"
 namespace mousse

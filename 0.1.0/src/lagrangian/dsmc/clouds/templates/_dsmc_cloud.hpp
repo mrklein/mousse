@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_CLOUDS_TEMPLATES_TDSMC_CLOUD_HPP_
+#define LAGRANGIAN_DSMC_CLOUDS_TEMPLATES_TDSMC_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Templated base class for dsmc cloud
 // SourceFiles
 //   _dsmc_cloud.cpp
-#ifndef _dsmc_cloud_hpp_
-#define _dsmc_cloud_hpp_
 #include "_cloud.hpp"
 #include "dsmc_base_cloud.hpp"
 #include "iodictionary.hpp"

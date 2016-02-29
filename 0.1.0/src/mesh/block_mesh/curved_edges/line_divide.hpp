@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_CURVED_EDGES_LINE_DIVIDE_HPP_
+#define MESH_BLOCK_MESH_CURVED_EDGES_LINE_DIVIDE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Divides a line into segments
 // SourceFiles
 //   line_divide.cpp
-#ifndef line_divide_hpp_
-#define line_divide_hpp_
 #include "point_field.hpp"
 #include "scalar_list.hpp"
 #include "grading_descriptors.hpp"

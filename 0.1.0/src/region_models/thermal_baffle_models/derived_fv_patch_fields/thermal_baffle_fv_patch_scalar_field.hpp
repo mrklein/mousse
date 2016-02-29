@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_THERMAL_BAFFLE_MODELS_DERIVED_FV_PATCH_FIELDS_THERMAL_BAFFLE_FV_PATCH_SCALAR_FIELD_HPP_
+#define REGION_MODELS_THERMAL_BAFFLE_MODELS_DERIVED_FV_PATCH_FIELDS_THERMAL_BAFFLE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -112,8 +115,6 @@
 //   mousse::regionModels::thermalBaffleModels::thermalBaffleModel
 // SourceFiles
 //   thermal_baffle_fv_patch_scalar_field.cpp
-#ifndef thermal_baffle_fv_patch_scalar_field_hpp_
-#define thermal_baffle_fv_patch_scalar_field_hpp_
 #include "auto_ptr.hpp"
 #include "region_model.hpp"
 #include "thermal_baffle_model.hpp"

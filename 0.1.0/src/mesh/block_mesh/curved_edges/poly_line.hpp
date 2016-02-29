@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_CURVED_EDGES_POLY_LINE_HPP_
+#define MESH_BLOCK_MESH_CURVED_EDGES_POLY_LINE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   A future implementation could also handle a closed polyLine.
 // SourceFiles
 //   poly_line.cpp
-#ifndef poly_line_hpp_
-#define poly_line_hpp_
 #include "point_field.hpp"
 #include "scalar_list.hpp"
 namespace mousse

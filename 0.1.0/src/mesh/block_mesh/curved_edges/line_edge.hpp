@@ -1,3 +1,6 @@
+#ifndef MESH_BLOCK_MESH_CURVED_EDGES_LINE_EDGE_HPP_
+#define MESH_BLOCK_MESH_CURVED_EDGES_LINE_EDGE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   A straight edge between the start point and the end point.
 // SourceFiles
 //   line_edge.cpp
-#ifndef line_edge_hpp_
-#define line_edge_hpp_
 #include "curved_edge.hpp"
 namespace mousse
 {

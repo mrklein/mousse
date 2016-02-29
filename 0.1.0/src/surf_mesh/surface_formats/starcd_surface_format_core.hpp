@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURFACE_FORMATS_STARCD_SURFACE_FORMAT_CORE_HPP_
+#define SURF_MESH_SURFACE_FORMATS_STARCD_SURFACE_FORMAT_CORE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Internal class used by the STARCDsurfaceFormat
 // SourceFiles
 //   starcd_surface_format_core.cpp
-#ifndef starcd_surface_format_core_hpp_
-#define starcd_surface_format_core_hpp_
 #include "ifstream.hpp"
 #include "ostream.hpp"
 #include "ofstream.hpp"

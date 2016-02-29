@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_BOOLS_BOOL_HPP_
+#define CORE_PRIMITIVES_BOOLS_BOOL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   bool_io.cpp
-#ifndef bool_hpp_
-#define bool_hpp_
 namespace mousse
 {
 class Istream;

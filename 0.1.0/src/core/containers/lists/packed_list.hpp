@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_PACKED_LIST_HPP_
+#define CORE_CONTAINERS_LISTS_PACKED_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -62,8 +65,6 @@
 // SourceFiles
 //   packed_list.cpp
 
-#ifndef packed_list_hpp_
-#define packed_list_hpp_
 
 #include <climits>
 

@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_REGION_COUPLED_PATCHES_REGION_COUPLED_LDU_INTERFACE_REGION_COUPLED_LDU_INTERFACE_HPP_
+#define MESH_TOOLS_REGION_COUPLED_PATCHES_REGION_COUPLED_LDU_INTERFACE_REGION_COUPLED_LDU_INTERFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   An abstract base class for region coupled interfaces
 // SourceFiles
 //   region_coupled_ldu_interface.cpp
-#ifndef region_coupled_ldu_interface_hpp_
-#define region_coupled_ldu_interface_hpp_
 #include "primitive_fields_fwd.hpp"
 #include "ami_patch_to_patch_interpolation.hpp"
 #include "poly_mesh.hpp"

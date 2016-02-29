@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_THERMAL_BAFFLE_1D_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_THERMAL_BAFFLE_1D_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -55,8 +58,6 @@
 //   \endverbatim
 // SourceFiles
 //   thermal_baffle_1d_fv_patch_scalar_field.cpp
-#ifndef thermal_baffle_1d_fv_patch_scalar_field_hpp_
-#define thermal_baffle_1d_fv_patch_scalar_field_hpp_
 #include "mixed_fv_patch_fields.hpp"
 #include "auto_ptr.hpp"
 #include "mapped_patch_base.hpp"

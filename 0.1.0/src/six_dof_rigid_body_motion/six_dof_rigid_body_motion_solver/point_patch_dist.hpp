@@ -1,3 +1,6 @@
+#ifndef SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_SOLVER_POINT_PATCH_DIST_HPP_
+#define SIX_DOF_RIGID_BODY_MOTION_SIX_DOF_RIGID_BODY_MOTION_SOLVER_POINT_PATCH_DIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Calculation of distance to nearest patch for all points
 // SourceFiles
 //   point_patch_dist.cpp
-#ifndef point_patch_dist_hpp_
-#define point_patch_dist_hpp_
 #include "point_fields.hpp"
 namespace mousse
 {

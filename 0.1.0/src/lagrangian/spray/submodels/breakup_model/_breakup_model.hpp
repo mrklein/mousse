@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TBREAKUP_MODEL_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TBREAKUP_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _breakup_model.cpp
 //   _breakup_model_new.cpp
-#ifndef _breakup_model_hpp_
-#define _breakup_model_hpp_
 
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"

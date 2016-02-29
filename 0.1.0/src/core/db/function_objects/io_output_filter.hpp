@@ -1,3 +1,6 @@
+#ifndef CORE_DB_FUNCTION_OBJECTS_IO_OUTPUT_FILTER_HPP_
+#define CORE_DB_FUNCTION_OBJECTS_IO_OUTPUT_FILTER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -14,8 +17,6 @@
 // SourceFiles
 //   io_output_filter.cpp
 
-#ifndef io_output_filter_hpp_
-#define io_output_filter_hpp_
 
 #include "iodictionary.hpp"
 #include "point_field_fwd.hpp"

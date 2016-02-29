@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_BAROTROPIC_COMPRESSIBILITY_MODEL_BAROTROPIC_COMPRESSIBILITY_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_BAROTROPIC_COMPRESSIBILITY_MODEL_BAROTROPIC_COMPRESSIBILITY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   barotropic_compressibility_model.cpp
 //   newbarotropic_compressibility_model.cpp
-#ifndef barotropic_compressibility_model_hpp_
-#define barotropic_compressibility_model_hpp_
 #include "iodictionary.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"

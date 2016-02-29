@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_GLOBAL_INDEX_HPP_
+#define CORE_MESHES_POLY_MESH_GLOBAL_INDEX_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   global_index.cpp
 //   global_index_templates.cpp
 
-#ifndef global_index_hpp_
-#define global_index_hpp_
 
 #include "pstream.hpp"
 #include "list_ops.hpp"

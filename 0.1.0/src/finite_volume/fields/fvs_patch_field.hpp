@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FVS_PATCH_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FVS_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   fvs_patch_field.cpp
 //   fvs_patch_field_new.cpp
 
-#ifndef fvs_patch_field_hpp_
-#define fvs_patch_field_hpp_
 
 #include "fv_patch.hpp"
 #include "dimensioned_field.hpp"

@@ -1,9 +1,10 @@
+#ifndef FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_HPP_
+#define FINITE_VOLUME_FINITE_VOLUME_FVC_FVC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef fvc_hpp_
-#define fvc_hpp_
 #include "fv.hpp"
 #include "surface_interpolate.hpp"
 #include "fvc_volume_integrate.hpp"

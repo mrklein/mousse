@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_VECTOR_2D_TVECTOR_2D_HPP_
+#define CORE_PRIMITIVES_VECTOR_2D_TVECTOR_2D_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Templated 2D Vector derived from VectorSpace adding construction from
 //   2 components, element access using x() and y() member functions and
 //   the inner-product (dot-product).
-#ifndef _vector_2d_hpp_
-#define _vector_2d_hpp_
 #include "vector_space.hpp"
 namespace mousse
 {

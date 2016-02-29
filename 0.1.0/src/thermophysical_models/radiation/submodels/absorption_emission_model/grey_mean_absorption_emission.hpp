@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_ABSORPTION_EMISSION_MODEL_GREY_MEAN_ABSORPTION_EMISSION_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_ABSORPTION_EMISSION_MODEL_GREY_MEAN_ABSORPTION_EMISSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -48,8 +51,6 @@
 //   \endverbatim
 // SourceFiles
 //   grey_mean_absorption_emission.cpp
-#ifndef grey_mean_absorption_emission_hpp_
-#define grey_mean_absorption_emission_hpp_
 #include "interpolation_look_up_table.hpp"
 #include "absorption_emission_model.hpp"
 #include "hash_table.hpp"

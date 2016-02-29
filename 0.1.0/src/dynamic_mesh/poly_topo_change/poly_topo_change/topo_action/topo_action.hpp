@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_TOPO_ACTION_TOPO_ACTION_HPP_
+#define DYNAMIC_MESH_POLY_TOPO_CHANGE_POLY_TOPO_CHANGE_TOPO_ACTION_TOPO_ACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   A virtual base class for topological actions
 // SourceFiles
-#ifndef topo_action_hpp_
-#define topo_action_hpp_
 #include "type_info.hpp"
 #include "auto_ptr.hpp"
 namespace mousse

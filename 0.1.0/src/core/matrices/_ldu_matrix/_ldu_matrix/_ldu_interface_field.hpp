@@ -1,3 +1,6 @@
+#ifndef CORE_MATRICES_TLDU_MATRIX_TLDU_MATRIX_TLDU_INTERFACE_FIELD_HPP_
+#define CORE_MATRICES_TLDU_MATRIX_TLDU_MATRIX_TLDU_INTERFACE_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   ldu_interface_field.cpp
 
-#ifndef _ldu_interface_field_hpp_
-#define _ldu_interface_field_hpp_
 
 #include "ldu_interface_field.hpp"
 #include "primitive_fields_fwd.hpp"

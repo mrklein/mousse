@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_COAL_COMBUSTION_SUBMODELS_SURFACE_REACTION_MODEL_C_OXIDATION_KINETIC_DIFFUSION_LIMITED_RATE_HPP_
+#define LAGRANGIAN_COAL_COMBUSTION_SUBMODELS_SURFACE_REACTION_MODEL_C_OXIDATION_KINETIC_DIFFUSION_LIMITED_RATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Limited to:
 //     C(s) + Sb*O2 -> CO2
 //   where Sb is the stoichiometry of the reaction
-#ifndef c_oxidation_kinetic_diffusion_limited_rate_hpp_
-#define c_oxidation_kinetic_diffusion_limited_rate_hpp_
 #include "_surface_reaction_model.hpp"
 namespace mousse
 {

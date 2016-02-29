@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_TURBULENCE_SUBMODELS_TKINEMATIC_TDISPERSION_MODEL_TDISPERSION_RAS_MODEL_HPP_
+#define LAGRANGIAN_TURBULENCE_SUBMODELS_TKINEMATIC_TDISPERSION_MODEL_TDISPERSION_RAS_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 //   Base class for particle dispersion models based on RAS turbulence.
 
-#ifndef _dispersion_ras_model_hpp_
-#define _dispersion_ras_model_hpp_
 #include "_dispersion_model.hpp"
 
 namespace mousse

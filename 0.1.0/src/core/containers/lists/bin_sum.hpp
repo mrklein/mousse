@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_LISTS_BIN_SUM_HPP_
+#define CORE_CONTAINERS_LISTS_BIN_SUM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   bin_sum.cpp
 
-#ifndef bin_sum_hpp_
-#define bin_sum_hpp_
 
 #include "ops.hpp"
 

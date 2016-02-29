@@ -1,9 +1,10 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_PATCH_TO_PATCH_INTERPOLATION_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_PATCH_TO_PATCH_INTERPOLATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef ami_patch_to_patch_interpolation_hpp_
-#define ami_patch_to_patch_interpolation_hpp_
 #include "ami_interpolation.hpp"
 #include "primitive_patch.hpp"
 #include "face.hpp"

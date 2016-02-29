@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_THERMOPHYSICAL_FUNCTIONS_NSRDS_FUNCTIONS_NSRDS_FUNC0_HPP_
+#define THERMOPHYSICAL_MODELS_THERMOPHYSICAL_FUNCTIONS_NSRDS_FUNCTIONS_NSRDS_FUNC0_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //       The Pennsylvania State University
 //         University Park, PA 16802
 //   \endverbatim
-#ifndef nsrds_func0_hpp_
-#define nsrds_func0_hpp_
 #include "thermophysical_function.hpp"
 namespace mousse
 {

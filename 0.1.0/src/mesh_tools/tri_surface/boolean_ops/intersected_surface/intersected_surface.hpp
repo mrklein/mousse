@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_INTERSECTED_SURFACE_INTERSECTED_SURFACE_HPP_
+#define MESH_TOOLS_TRI_SURFACE_BOOLEAN_OPS_INTERSECTED_SURFACE_INTERSECTED_SURFACE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -30,8 +33,6 @@
 //   (though points() probably not localPoints())
 // SourceFiles
 //   intersected_surface.cpp
-#ifndef intersected_surface_hpp_
-#define intersected_surface_hpp_
 #include "tri_surface.hpp"
 #include "map.hpp"
 #include "type_info.hpp"

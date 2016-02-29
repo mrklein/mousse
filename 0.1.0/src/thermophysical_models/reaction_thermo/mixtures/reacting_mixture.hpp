@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_REACTING_MIXTURE_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_MIXTURES_REACTING_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   mousse::reactingMixture
 // SourceFiles
 //   reacting_mixture.cpp
-#ifndef reacting_mixture_hpp_
-#define reacting_mixture_hpp_
 #include "species_table.hpp"
 #include "chemistry_reader.hpp"
 #include "multi_component_mixture.hpp"

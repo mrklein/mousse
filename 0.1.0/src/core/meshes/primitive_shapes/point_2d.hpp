@@ -1,9 +1,10 @@
+#ifndef CORE_MESHES_PRIMITIVE_SHAPES_POINT_2D_HPP_
+#define CORE_MESHES_PRIMITIVE_SHAPES_POINT_2D_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef point_2d_hpp_
-#define point_2d_hpp_
 #include "vector_2d.hpp"
 namespace mousse
 {

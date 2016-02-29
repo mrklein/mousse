@@ -1,3 +1,6 @@
+#ifndef CORE_MEMORY_REF_COUNT_HPP_
+#define CORE_MEMORY_REF_COUNT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::refCount
 // Description
 //   Reference counter for various OpenFOAM components.
-#ifndef ref_count_hpp_
-#define ref_count_hpp_
 #include "bool.hpp"
 namespace mousse
 {

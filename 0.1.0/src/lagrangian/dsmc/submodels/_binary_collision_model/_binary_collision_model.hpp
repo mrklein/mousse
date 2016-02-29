@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TBINARY_COLLISION_MODEL_TBINARY_COLLISION_MODEL_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TBINARY_COLLISION_MODEL_TBINARY_COLLISION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _binary_collision_model.cpp
 //   _binary_collision_model_new.cpp
-#ifndef _binary_collision_model_hpp_
-#define _binary_collision_model_hpp_
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

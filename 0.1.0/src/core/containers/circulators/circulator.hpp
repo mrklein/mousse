@@ -1,3 +1,6 @@
+#ifndef CORE_CONTAINERS_CIRCULATORS_CIRCULATOR_HPP_
+#define CORE_CONTAINERS_CIRCULATORS_CIRCULATOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -24,8 +27,6 @@
 //       Info<< "Iterate forwards over face : " << circ() << endl;
 //     } while (circ.circulate(CirculatorBase::CLOCKWISE));
 //   \endcode
-#ifndef circulator_hpp_
-#define circulator_hpp_
 #include "circulator_base.hpp"
 namespace mousse
 {

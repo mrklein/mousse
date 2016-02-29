@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_INTERPOLATION_HPP_
+#define MESH_TOOLS_AMI_INTERPOLATION_AMI_INTERPOLATION_AMI_INTERPOLATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //   ami_interpolation_name.cpp
 //   ami_interpolation_parallel_ops.cpp
 
-#ifndef ami_interpolation_hpp_
-#define ami_interpolation_hpp_
 
 #include "class_name.hpp"
 #include "searchable_surface.hpp"

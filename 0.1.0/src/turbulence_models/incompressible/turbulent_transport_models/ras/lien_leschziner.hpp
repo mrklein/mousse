@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_RAS_LIEN_LESCHZINER_HPP_
+#define TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_RAS_LIEN_LESCHZINER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -25,8 +28,6 @@
 //   operation.
 // SourceFiles
 //   lien_leschziner.cpp
-#ifndef lien_leschziner_hpp_
-#define lien_leschziner_hpp_
 #include "turbulent_transport_model.hpp"
 #include "eddy_viscosity.hpp"
 namespace mousse

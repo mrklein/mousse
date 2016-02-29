@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_POINT_PATCH_FIELDS_POINT_PATCH_FIELD_DIRECT_POINT_PATCH_FIELD_MAPPER_HPP_
+#define CORE_FIELDS_POINT_PATCH_FIELDS_POINT_PATCH_FIELD_DIRECT_POINT_PATCH_FIELD_MAPPER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::directPointPatchFieldMapper
 // Description
 //   direct pointPatchFieldMapper
-#ifndef direct_point_patch_field_mapper_hpp_
-#define direct_point_patch_field_mapper_hpp_
 #include "point_patch_field_mapper.hpp"
 namespace mousse
 {

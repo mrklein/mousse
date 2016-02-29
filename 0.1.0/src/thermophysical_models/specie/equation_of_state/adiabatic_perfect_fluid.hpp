@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_ADIABATIC_PERFECT_FLUID_HPP_
+#define THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_ADIABATIC_PERFECT_FLUID_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   AdiabaticPerfect gas equation of state.
 // SourceFiles
 //   adiabatic_perfect_fluid.cpp
-#ifndef adiabatic_perfect_fluid_hpp_
-#define adiabatic_perfect_fluid_hpp_
 #include "auto_ptr.hpp"
 namespace mousse
 {

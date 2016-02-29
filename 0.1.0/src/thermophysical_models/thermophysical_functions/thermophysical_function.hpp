@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_THERMOPHYSICAL_FUNCTIONS_THERMOPHYSICAL_FUNCTION_HPP_
+#define THERMOPHYSICAL_MODELS_THERMOPHYSICAL_FUNCTIONS_THERMOPHYSICAL_FUNCTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::thermophysicalFunction
 // Description
 //   Abstract base class for thermo-physical functions
-#ifndef thermophysical_function_hpp_
-#define thermophysical_function_hpp_
 #include "scalar.hpp"
 #include "iostreams.hpp"
 #include "type_info.hpp"

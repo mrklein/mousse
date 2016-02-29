@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_POINT_PATCH_FIELDS_DERIVED_SOLID_BODY_MOTION_DISPLACEMENT_SOLID_BODY_MOTION_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+#define DYNAMIC_FV_MESH_SOLID_BODY_MOTION_FV_MESH_POINT_PATCH_FIELDS_DERIVED_SOLID_BODY_MOTION_DISPLACEMENT_SOLID_BODY_MOTION_DISPLACEMENT_POINT_PATCH_VECTOR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   solid body motion functions.
 // SourceFiles
 //   solid_body_motion_displacement_point_patch_vector_field.cpp
-#ifndef solid_body_motion_displacement_point_patch_vector_field_hpp_
-#define solid_body_motion_displacement_point_patch_vector_field_hpp_
 #include "solid_body_motion_function.hpp"
 #include "fixed_value_point_patch_fields.hpp"
 namespace mousse

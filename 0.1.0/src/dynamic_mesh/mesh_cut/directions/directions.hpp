@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_DIRECTIONS_DIRECTIONS_HPP_
+#define DYNAMIC_MESH_MESH_CUT_DIRECTIONS_DIRECTIONS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -11,8 +14,6 @@
 //   direction is dependent on local cell geometry. Controlled by dictionary.
 // SourceFiles
 //   directions.cpp
-#ifndef directions_hpp_
-#define directions_hpp_
 #include "list.hpp"
 #include "vector_field.hpp"
 #include "named_enum.hpp"

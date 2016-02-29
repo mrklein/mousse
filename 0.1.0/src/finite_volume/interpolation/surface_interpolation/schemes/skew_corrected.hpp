@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_SKEW_CORRECTED_HPP_
+#define FINITE_VOLUME_INTERPOLATION_SURFACE_INTERPOLATION_SCHEMES_SKEW_CORRECTED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 // SourceFiles
 //   skew_corrected.cpp
 
-#ifndef skew_corrected_hpp_
-#define skew_corrected_hpp_
 
 #include "surface_interpolation_scheme.hpp"
 #include "skew_correction_vectors.hpp"

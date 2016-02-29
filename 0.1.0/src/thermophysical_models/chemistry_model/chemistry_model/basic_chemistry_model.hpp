@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_MODEL_BASIC_CHEMISTRY_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_CHEMISTRY_MODEL_CHEMISTRY_MODEL_BASIC_CHEMISTRY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for chemistry models
 // SourceFiles
 //   basic_chemistry_model.cpp
-#ifndef basic_chemistry_model_hpp_
-#define basic_chemistry_model_hpp_
 #include "iodictionary.hpp"
 #include "switch.hpp"
 #include "scalar_field.hpp"

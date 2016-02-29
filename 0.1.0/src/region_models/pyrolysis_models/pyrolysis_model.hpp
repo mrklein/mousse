@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_PYROLYSIS_MODELS_PYROLYSIS_MODEL_HPP_
+#define REGION_MODELS_PYROLYSIS_MODELS_PYROLYSIS_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Base class for pyrolysis models
 // SourceFiles
 //   pyrolysis_model.cpp
-#ifndef pyrolysis_model_hpp_
-#define pyrolysis_model_hpp_
 #include "run_time_selection_tables.hpp"
 #include "vol_fields_fwd.hpp"
 #include "region_model_1d.hpp"

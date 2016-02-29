@@ -1,3 +1,6 @@
+#ifndef CORE_MESHES_POLY_MESH_ZONES_ZONE_HPP_
+#define CORE_MESHES_POLY_MESH_ZONES_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   zone.cpp
 
-#ifndef zone_hpp_
-#define zone_hpp_
 
 #include "label_list.hpp"
 #include "type_info.hpp"

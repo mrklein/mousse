@@ -1,3 +1,6 @@
+#ifndef ODE_ODE_SOLVERS_TRAPEZOID_HPP_
+#define ODE_ODE_SOLVERS_TRAPEZOID_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   Trapezoidal ODE solver of order (1)2.
 // SourceFiles
 //   trapezoid.cpp
-#ifndef trapezoid_hpp_
-#define trapezoid_hpp_
 #include "ode_solver.hpp"
 #include "adaptive_solver.hpp"
 namespace mousse

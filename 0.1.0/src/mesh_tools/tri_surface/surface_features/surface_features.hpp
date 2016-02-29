@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_TRI_SURFACE_SURFACE_FEATURES_SURFACE_FEATURES_HPP_
+#define MESH_TOOLS_TRI_SURFACE_SURFACE_FEATURES_SURFACE_FEATURES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -15,8 +18,6 @@
 //   only use included angle of 91 degrees
 // SourceFiles
 //   surface_features.cpp
-#ifndef surface_features_hpp_
-#define surface_features_hpp_
 #include "point_field.hpp"
 #include "map.hpp"
 #include "hash_set.hpp"

@@ -1,3 +1,6 @@
+#ifndef SURF_MESH_SURF_ZONE_SURF_ZONE_HPP_
+#define SURF_MESH_SURF_ZONE_SURF_ZONE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 //   Similar in concept to a faceZone, but the face list is contiguous.
 // SourceFiles
 //   surf_zone.cpp
-#ifndef surf_zone_hpp_
-#define surf_zone_hpp_
 #include "word.hpp"
 #include "label.hpp"
 #include "class_name.hpp"

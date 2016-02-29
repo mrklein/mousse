@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DISTRIBUTION_MODELS_GENERAL_HPP_
+#define LAGRANGIAN_DISTRIBUTION_MODELS_GENERAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,8 +10,6 @@
 //   general distribution model
 // SourceFiles
 //   general.cpp
-#ifndef general_hpp_
-#define general_hpp_
 #include "distribution_model.hpp"
 #include "vector.hpp"
 #include "vector_space.hpp"

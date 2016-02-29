@@ -1,3 +1,6 @@
+#ifndef CORE_PRIMITIVES_SUB_MODEL_BASE_SUB_MODEL_BASE_HPP_
+#define CORE_PRIMITIVES_SUB_MODEL_BASE_SUB_MODEL_BASE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -9,8 +12,6 @@
 //   enable clean re-starts.  Used by, e.g. clou dsub-models.
 // SourceFiles
 //   sub_model_base.cpp
-#ifndef sub_model_base_hpp_
-#define sub_model_base_hpp_
 #include "dictionary.hpp"
 namespace mousse
 {

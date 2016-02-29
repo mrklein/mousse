@@ -1,3 +1,6 @@
+#ifndef MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_ROTATION_COORDINATE_ROTATION_HPP_
+#define MESH_TOOLS_COORDINATE_SYSTEMS_COORDINATE_ROTATION_COORDINATE_ROTATION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,8 +21,6 @@
 //   2) STARCDRotation
 //   3) cylindrical
 //   4) EulerCoordinateRotation
-#ifndef coordinate_rotation_hpp_
-#define coordinate_rotation_hpp_
 #include "vector.hpp"
 #include "tensor.hpp"
 #include "tensor_field.hpp"

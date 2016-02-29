@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_SET_TIME_STEP_SET_TIME_STEP_FUNCTION_OBJECT_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_SET_TIME_STEP_SET_TIME_STEP_FUNCTION_OBJECT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,8 +16,6 @@
 //   'timeStart', 'timeEnd', 'outputControl' etc.
 // SourceFiles
 //   set_time_step_function_object.cpp
-#ifndef set_time_step_function_object_hpp_
-#define set_time_step_function_object_hpp_
 #include "function_object.hpp"
 #include "dictionary.hpp"
 #include "data_entry.hpp"

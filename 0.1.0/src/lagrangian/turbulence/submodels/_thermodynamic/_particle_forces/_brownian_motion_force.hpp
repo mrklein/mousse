@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_TURBULENCE_SUBMODELS_TTHERMODYNAMIC_TPARTICLE_FORCES_TBROWNIAN_MOTION_FORCE_HPP_
+#define LAGRANGIAN_TURBULENCE_SUBMODELS_TTHERMODYNAMIC_TPARTICLE_FORCES_TBROWNIAN_MOTION_FORCE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _brownian_motion_force.cpp
 
-#ifndef _brownian_motion_force_hpp_
-#define _brownian_motion_force_hpp_
 
 #include "_particle_force.hpp"
 #include "cached_random.hpp"

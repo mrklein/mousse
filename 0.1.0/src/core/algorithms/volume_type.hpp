@@ -1,3 +1,6 @@
+#ifndef CORE_ALGORITHMS_VOLUME_TYPE_HPP_
+#define CORE_ALGORITHMS_VOLUME_TYPE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,8 +9,6 @@
 // Description
 // SourceFiles
 //   volume_type.cpp
-#ifndef volume_type_hpp_
-#define volume_type_hpp_
 
 #include "named_enum.hpp"
 #include "contiguous.hpp"

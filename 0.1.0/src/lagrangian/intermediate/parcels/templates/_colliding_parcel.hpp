@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TCOLLIDING_PARCEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TCOLLIDING_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   _colliding_parcel.cpp
 //   _colliding_parcel_io.cpp
-#ifndef _colliding_parcel_hpp_
-#define _colliding_parcel_hpp_
 #include "particle.hpp"
 #include "_collision_record_list.hpp"
 #include "label_field_io_field.hpp"

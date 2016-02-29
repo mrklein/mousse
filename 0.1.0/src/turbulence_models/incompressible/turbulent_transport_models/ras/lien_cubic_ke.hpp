@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_RAS_LIEN_CUBIC_KE_HPP_
+#define TURBULENCE_MODELS_INCOMPRESSIBLE_TURBULENT_TRANSPORT_MODELS_RAS_LIEN_CUBIC_KE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -26,8 +29,6 @@
 //   mousse::incompressible::RASModels::ShihQuadraticKE
 // SourceFiles
 //   lien_cubic_ke.cpp
-#ifndef lien_cubic_ke_hpp_
-#define lien_cubic_ke_hpp_
 #include "turbulent_transport_model.hpp"
 #include "nonlinear_eddy_viscosity.hpp"
 namespace mousse

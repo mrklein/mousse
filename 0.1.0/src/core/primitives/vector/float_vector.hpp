@@ -1,9 +1,10 @@
+#ifndef CORE_PRIMITIVES_VECTOR_FLOAT_VECTOR_HPP_
+#define CORE_PRIMITIVES_VECTOR_FLOAT_VECTOR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   float_vector.cpp
-#ifndef float_vector_hpp_
-#define float_vector_hpp_
 #include "_vector.hpp"
 #include "contiguous.hpp"
 namespace mousse

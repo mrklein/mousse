@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_WALL_SHEAR_STRESS_WALL_SHEAR_STRESS_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_UTILITIES_WALL_SHEAR_STRESS_WALL_SHEAR_STRESS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -39,8 +42,6 @@
 // SourceFiles
 //   wall_shear_stress.cpp
 //   i_owall_shear_stress.hpp
-#ifndef wall_shear_stress_hpp_
-#define wall_shear_stress_hpp_
 #include "function_object_file.hpp"
 #include "vol_fields_fwd.hpp"
 #include "switch.hpp"

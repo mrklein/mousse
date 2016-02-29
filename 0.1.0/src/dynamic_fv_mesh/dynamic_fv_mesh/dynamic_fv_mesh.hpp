@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_FV_MESH_DYNAMIC_FV_MESH_DYNAMIC_FV_MESH_HPP_
+#define DYNAMIC_FV_MESH_DYNAMIC_FV_MESH_DYNAMIC_FV_MESH_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,8 +11,6 @@
 // SourceFiles
 //   dynamic_fv_mesh.cpp
 //   dynamic_fv_mesh_new.cpp
-#ifndef dynamic_fv_mesh_hpp_
-#define dynamic_fv_mesh_hpp_
 #include "fv_mesh.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"

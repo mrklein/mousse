@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_THEAT_TRANSFER_MODEL_TRANZ_MARSHALL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TTHERMODYNAMIC_THEAT_TRANSFER_MODEL_TRANZ_MARSHALL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,8 +8,6 @@
 //   mousse::RanzMarshall
 // Description
 //   The Ranz-Marshall correlation for heat transfer
-#ifndef _ranz_marshall_hpp_
-#define _ranz_marshall_hpp_
 #include "_heat_transfer_model.hpp"
 namespace mousse
 {

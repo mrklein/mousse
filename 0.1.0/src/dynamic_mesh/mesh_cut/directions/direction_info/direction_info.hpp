@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_MESH_MESH_CUT_DIRECTIONS_DIRECTION_INFO_DIRECTION_INFO_HPP_
+#define DYNAMIC_MESH_MESH_CUT_DIRECTIONS_DIRECTION_INFO_DIRECTION_INFO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,8 +25,6 @@
 //   geometrically.
 // SourceFiles
 //   direction_info.cpp
-#ifndef direction_info_hpp_
-#define direction_info_hpp_
 #include "point.hpp"
 #include "label_list.hpp"
 #include "tensor.hpp"
