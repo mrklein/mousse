@@ -12,3 +12,6 @@ ifneq ($(wildcard $(METIS_ARCH_PATH)/lib64/libmetis.*),)
 LIB_LIBS += -L$(METIS_ARCH_PATH)/lib64
 endif
 
+ifneq ($(wildcard $(METIS_ARCH_PATH)/lib/x86_64-linux-gnu/libmetis.*),)
+LIB_LIBS += -L$(METIS_ARCH_PATH)/lib/x86_64-linux-gnu
+endif
