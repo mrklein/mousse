@@ -3,6 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "merkle.hpp"
+#if defined(__GNUC__)
+#include "surface_fields.hpp"
+#endif
 #include "add_to_run_time_selection_table.hpp"
 // Static Data Members
 namespace mousse

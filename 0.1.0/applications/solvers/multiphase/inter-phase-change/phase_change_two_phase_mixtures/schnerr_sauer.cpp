@@ -3,6 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "schnerr_sauer.hpp"
+#if defined(__GNUC__)
+#include "surface_fields.hpp"
+#endif
 #include "mathematical_constants.hpp"
 #include "add_to_run_time_selection_table.hpp"
 // Static Data Members

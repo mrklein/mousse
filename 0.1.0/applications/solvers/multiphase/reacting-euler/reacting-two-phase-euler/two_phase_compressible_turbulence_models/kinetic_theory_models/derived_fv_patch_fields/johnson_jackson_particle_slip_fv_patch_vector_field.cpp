@@ -22,7 +22,7 @@ JohnsonJacksonParticleSlipFvPatchVectorField
 )
 :
   partialSlipFvPatchVectorField{p, iF},
-  specularityCoefficient_{p.size()}
+  specularityCoefficient_{"specularityCoefficient", dimless, 0}
 {}
 mousse::JohnsonJacksonParticleSlipFvPatchVectorField::
 JohnsonJacksonParticleSlipFvPatchVectorField

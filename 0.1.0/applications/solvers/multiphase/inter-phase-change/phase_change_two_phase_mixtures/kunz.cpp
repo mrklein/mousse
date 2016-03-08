@@ -3,6 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "kunz.hpp"
+#include "surface_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
 // Static Data Members
 namespace mousse
