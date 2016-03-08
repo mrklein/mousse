@@ -7,8 +7,16 @@ sinclude $(RULES)/mplib$(WM_MPLIB)
 
 EXE_INC = \
     $(PFLAGS) $(PINC) \
-    -I$(SCOTCH_ARCH_PATH)/include \
     -I../decomposition_methods/_lninclude
+
+ifneq ($(wildcard $(SCOTCH_ARCH_PATH)/include/scotch.h),)
+EXE_INC += -I$(SCOTCH_ARCH_PATH)/include
+endif
+
+/* Debian */
+ifneq ($(wildcard $(SCOTCH_ARCH_PATH)/include/scotch/scotch.h),)
+EXE_INC += -I$(SCOTCH_ARCH_PATH)/include/scotch
+endif
 
 LIB_LIBS = \
     -L$(SCOTCH_ARCH_PATH)/lib -lscotch -lscotcherrexit

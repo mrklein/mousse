@@ -12,7 +12,9 @@
 %{
 #undef yyFlexLexer
 
-#pragma GCC diagnostic ignored "-Wdeprecated-register"
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wdeprecated-register"
+#endif
 
 #include "cyclic_poly_patch.hpp"
 #include "arg_list.hpp"

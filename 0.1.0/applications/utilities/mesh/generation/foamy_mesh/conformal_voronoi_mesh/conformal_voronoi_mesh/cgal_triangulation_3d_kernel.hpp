@@ -5,7 +5,7 @@
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#include "cgal/Delaunay_triangulation_3.h"
+#include "CGAL/Delaunay_triangulation_3.h"
 #ifdef CGAL_INEXACT
   // Fast kernel using a double as the storage type but the triangulation may
   // fail. Adding robust circumcentre traits.

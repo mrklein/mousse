@@ -2,6 +2,9 @@
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
+#if defined(__GNUC__)
+#include "surface_fields.hpp"
+#endif
 #include "slurry.hpp"
 #include "add_to_run_time_selection_table.hpp"
 // Static Data Members

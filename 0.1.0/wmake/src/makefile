@@ -22,6 +22,12 @@ include $(RULES)/$(WM_LINK_LANGUAGE)
 
 cFLAGS += -Wno-unneeded-internal-declaration -Wno-unused-function
 
+ifeq ("$(WM_COMPILE_OPTION)","prof")
+cFLAGS := $(filter-out -pg,$(cFLAGS))
+cFLAGS := $(filter-out -O2,$(cFLAGS))
+cFLAGS += -O3
+endif
+
 # targets
 all:  $(WMAKE_BIN)/dir-to-string $(WMAKE_BIN)/wmkdep
 

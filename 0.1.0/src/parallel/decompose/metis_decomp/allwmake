@@ -15,7 +15,10 @@ then
     . $settings
     echo "using METIS_ARCH_PATH=$METIS_ARCH_PATH"
     _metis_lib=$METIS_ARCH_PATH/lib/libmetis.$_so_ext
+    # RHEL-like
     [ ! -r $_metis_lib ] && _metis_lib=$METIS_ARCH_PATH/lib64/libmetis.$_so_ext
+    # Debian
+    [ ! -r $_metis_lib ] && _metis_lib=$METIS_ARCH_PATH/lib/x86_64-linux-gnu/libmetis.$_so_ext
 
     if [ -r "$_metis_lib" ]
     then

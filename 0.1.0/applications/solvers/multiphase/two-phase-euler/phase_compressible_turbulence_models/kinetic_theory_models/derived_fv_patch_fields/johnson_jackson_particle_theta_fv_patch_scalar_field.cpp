@@ -22,8 +22,8 @@ JohnsonJacksonParticleThetaFvPatchScalarField
 )
 :
   mixedFvPatchScalarField{p, iF},
-  restitutionCoefficient_{p.size()},
-  specularityCoefficient_{p.size()}
+  restitutionCoefficient_{"restitutionCoefficient", dimless, 0},
+  specularityCoefficient_{"specularityCoefficient", dimless, 0}
 {}
 mousse::JohnsonJacksonParticleThetaFvPatchScalarField::
 JohnsonJacksonParticleThetaFvPatchScalarField

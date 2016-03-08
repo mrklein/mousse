@@ -53,7 +53,7 @@ usage() {
 	  e.g., platforms/linux64GccDPOpt/.../fvMesh.o
 
 	or a special target:
-	  all               wmake all subdirectories, running Allwmake files if present
+	  all               wmake all subdirectories, running allwmake files if present
 	  exe               Compile statically linked executable
 	  lib               Compile statically linked archive lib (.a)
 	  libo              Compile statically linked lib (.o)
@@ -177,9 +177,9 @@ fi
 # Recurse the source tree to compile "all" targets
 if [ "$all" = "all" ]
 then
-    if [ -e Allwmake ]
+    if [ -e allwmake ]
     then
-        ./Allwmake
+        ./allwmake
         exit $?
     else
         # Find all the sub-directories containing a '_make' directory

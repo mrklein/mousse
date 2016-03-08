@@ -7,7 +7,7 @@ wmake rho-porous-simple
 wmake rho-pimple
 wmake dym-rho-pimple
 
-cd rho-central && wmake all && cd ..
+wmake -all rho-central
 wmake dym-rho-central
 
 wmake sonic

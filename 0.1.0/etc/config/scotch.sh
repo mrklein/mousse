@@ -45,6 +45,7 @@ get_scotch_version () {
 
 get_scotch_arch_path () {
 	[ -f "/usr/include/scotch.h" ] && echo "/usr"
+	[ -f "/usr/include/scotch/scotch.h" ] && echo "/usr"
 	[ -f "/usr/local/include/scotch.h" ] && echo "/usr/local"
 }
 

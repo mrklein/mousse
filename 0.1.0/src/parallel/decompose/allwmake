@@ -54,7 +54,7 @@ then
 			export PTSCOTCH_CFLAGS="-I$SCOTCH_ARCH_PATH/include"
 			export PTSCOTCH_LDFLAGS="-L$SCOTCH_ARCH_PATH/lib -lscotch -lptscotch -lptscotcherrexit"
 		else
-			export PTSCOTCH_CFLAGS="-I/usr/include/openmpi-x86_64 -I/usr/include"
+			export PTSCOTCH_CFLAGS="-I/usr/include/openmpi-x86_64 -I/usr/include -I/usr/include/scotch"
 			export PTSCOTCH_LDFLAGS="-L/usr/lib64/openmpi/lib -L/usr/lib64 -lscotch -lptscotch -lptscotcherrexit"
 		fi
 		wmake_mpi_lib ptscotch_decomp
