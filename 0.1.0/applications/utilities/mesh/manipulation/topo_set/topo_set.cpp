@@ -15,16 +15,19 @@
 #include "cell_zone_set.hpp"
 #include "face_zone_set.hpp"
 #include "point_zone_set.hpp"
+
 using namespace mousse;
+
 void printMesh(const Time& runTime, const polyMesh& mesh)
 {
-  Info<< "Time:" << runTime.timeName()
+  Info << "Time:" << runTime.timeName()
     << "  cells:" << mesh.globalData().nTotalCells()
     << "  faces:" << mesh.globalData().nTotalFaces()
     << "  points:" << mesh.globalData().nTotalPoints()
     << "  patches:" << mesh.boundaryMesh().size()
     << "  bb:" << mesh.bounds() << nl;
 }
+
 template<class ZoneType>
 void removeZone
 (
@@ -35,7 +38,7 @@ void removeZone
   label zoneID = zones.findZoneID(setName);
   if (zoneID != -1)
   {
-    Info<< "Removing zone " << setName << " at index " << zoneID << endl;
+    Info << "Removing zone " << setName << " at index " << zoneID << endl;
     // Shuffle to last position
     labelList oldToNew{zones.size()};
     label newI = 0;
@@ -54,6 +57,7 @@ void removeZone
     zones.write();
   }
 }
+
 // Physically remove a set
 void removeSet
 (
@@ -79,7 +83,7 @@ void removeSet
   {
     // Remove file
     fileName object = objects[setName]->objectPath();
-    Info<< "Removing file " << object << endl;
+    Info << "Removing file " << object << endl;
     rm(object);
   }
   // See if zone
@@ -115,24 +119,24 @@ polyMesh::readUpdateState meshReadUpdate(polyMesh& mesh)
   {
     case polyMesh::UNCHANGED:
     {
-      Info<< "    mesh not changed." << endl;
+      Info << "    mesh not changed." << endl;
       break;
     }
     case polyMesh::POINTS_MOVED:
     {
-      Info<< "    points moved; topology unchanged." << endl;
+      Info << "    points moved; topology unchanged." << endl;
       break;
     }
     case polyMesh::TOPO_CHANGE:
     {
-      Info<< "    topology changed; patches unchanged." << nl
+      Info << "    topology changed; patches unchanged." << nl
         << "    ";
       printMesh(mesh.time(), mesh);
       break;
     }
     case polyMesh::TOPO_PATCH_CHANGE:
     {
-      Info<< "    topology changed and patches changed." << nl
+      Info << "    topology changed and patches changed." << nl
         << "    ";
       printMesh(mesh.time(), mesh);
       break;
@@ -164,14 +168,14 @@ int main(int argc, char *argv[])
   const bool noSync = args.optionFound("noSync");
   const word dictName("topoSetDict");
   #include "set_system_mesh_dictionary_io.inc"
-  Info<< "Reading " << dictName << "\n" << endl;
+  Info << "Reading " << dictName << "\n" << endl;
   IOdictionary topoSetDict{dictIO};
   // Read set construct info from dictionary
   PtrList<dictionary> actions{topoSetDict.lookup("actions")};
   FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
-    Info<< "Time = " << runTime.timeName() << endl;
+    Info << "Time = " << runTime.timeName() << endl;
     // Optionally re-read mesh
     meshReadUpdate(mesh);
     // Execute all actions
@@ -190,7 +194,7 @@ int main(int argc, char *argv[])
           || (action == topoSetSource::CLEAR))
       {
         currentSet = topoSet::New(setType, mesh, setName, 10000);
-        Info<< "Created " << currentSet().type() << " "
+        Info << "Created " << currentSet().type() << " "
           << setName << endl;
       }
       else if (action == topoSetSource::REMOVE)
@@ -206,7 +210,7 @@ int main(int argc, char *argv[])
           setName,
           IOobject::MUST_READ
         );
-        Info<< "Read set " << currentSet().type() << " "
+        Info << "Read set " << currentSet().type() << " "
           << setName << " with size "
           << returnReduce(currentSet().size(), sumOp<label>())
           << endl;
@@ -219,7 +223,7 @@ int main(int argc, char *argv[])
         case topoSetSource::ADD:
         case topoSetSource::DELETE:
         {
-          Info<< "    Applying source " << word(dict.lookup("source"))
+          Info << "    Applying source " << word(dict.lookup("source"))
             << endl;
           autoPtr<topoSetSource> source = topoSetSource::New
           (
@@ -235,7 +239,7 @@ int main(int argc, char *argv[])
         break;
         case topoSetSource::SUBSET:
         {
-          Info<< "    Applying source " << word(dict.lookup("source"))
+          Info << "    Applying source " << word(dict.lookup("source"))
             << endl;
           autoPtr<topoSetSource> source = topoSetSource::New
           (
@@ -264,17 +268,17 @@ int main(int argc, char *argv[])
         }
         break;
         case topoSetSource::CLEAR:
-          Info<< "    Clearing " << currentSet().type() << endl;
+          Info << "    Clearing " << currentSet().type() << endl;
           currentSet().clear();
           currentSet().write();
         break;
         case topoSetSource::INVERT:
-          Info<< "    Inverting " << currentSet().type() << endl;
+          Info << "    Inverting " << currentSet().type() << endl;
           currentSet().invert(currentSet().maxSize(mesh));
           currentSet().write();
         break;
         case topoSetSource::REMOVE:
-          Info<< "    Removing set" << endl;
+          Info << "    Removing set" << endl;
           removeSet(mesh, setType, setName);
         break;
         default:
@@ -284,7 +288,7 @@ int main(int argc, char *argv[])
       }
       if (currentSet.valid())
       {
-        Info<< "    " << currentSet().type() << " "
+        Info << "    " << currentSet().type() << " "
           << currentSet().name()
           << " now size "
           << returnReduce(currentSet().size(), sumOp<label>())
@@ -292,6 +296,6 @@ int main(int argc, char *argv[])
       }
     }
   }
-  Info<< "\nEnd\n" << endl;
+  Info << "\nEnd\n" << endl;
   return 0;
 }

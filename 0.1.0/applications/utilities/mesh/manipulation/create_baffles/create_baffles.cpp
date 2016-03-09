@@ -14,7 +14,9 @@
 #include "face_selection.hpp"
 #include "fv_mesh_tools.hpp"
 #include "_read_fields.hpp"
+
 using namespace mousse;
+
 label addPatch
 (
   fvMesh& mesh,
@@ -53,7 +55,7 @@ label addPatch
   }
   else
   {
-    Info<< "Patch '" << patchName
+    Info << "Patch '" << patchName
       << "' already exists.  Only "
       << "moving patch faces - type will remain the same"
       << endl;

@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+unset COMP_FLAGS LINK_FLAGS
+
+if [ -f /usr/include/readline/readline.h ]
+then
+    echo "Found <readline/readline.h>  --  enabling readline support."
+    export COMP_FLAGS="-DHAS_READLINE"
+    export LINK_FLAGS="-lreadline"
+fi
+
+wmake

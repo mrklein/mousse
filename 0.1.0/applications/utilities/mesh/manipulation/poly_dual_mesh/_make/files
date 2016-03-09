@@ -1,0 +1,4 @@
+mesh_dualiser.cpp
+poly_dual_mesh_app.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-poly-dual-mesh

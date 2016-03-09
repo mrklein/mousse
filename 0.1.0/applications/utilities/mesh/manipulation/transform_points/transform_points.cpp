@@ -16,6 +16,7 @@
 
 using namespace mousse;
 using namespace mousse::constant::mathematical;
+
 template<class GeoField>
 void readAndRotateFields
 (
@@ -28,7 +29,7 @@ void readAndRotateFields
   ReadFields(mesh, objects, flds);
   FOR_ALL(flds, i)
   {
-    Info<< "Transforming " << flds[i].name() << endl;
+    Info << "Transforming " << flds[i].name() << endl;
     dimensionedTensor dimT("t", flds[i].dimensions(), T);
     transform(flds[i], dimT, flds[i]);
   }
@@ -139,7 +140,7 @@ int main(int argc, char *argv[])
   vector v;
   if (args.optionReadIfPresent("translate", v))
   {
-    Info<< "Translating points by " << v << endl;
+    Info << "Translating points by " << v << endl;
     points += v;
   }
   if (args.optionFound("rotate"))
@@ -151,7 +152,7 @@ int main(int argc, char *argv[])
     n1n2[0] /= mag(n1n2[0]);
     n1n2[1] /= mag(n1n2[1]);
     tensor T = rotationTensor(n1n2[0], n1n2[1]);
-    Info<< "Rotating points by " << T << endl;
+    Info << "Rotating points by " << T << endl;
     points = transform(T, points);
     if (doRotateFields)
     {
@@ -160,14 +161,14 @@ int main(int argc, char *argv[])
   }
   else if (args.optionReadIfPresent("rollPitchYaw", v))
   {
-    Info<< "Rotating points by" << nl
+    Info << "Rotating points by" << nl
       << "    roll  " << v.x() << nl
       << "    pitch " << v.y() << nl
       << "    yaw   " << v.z() << nl;
     // Convert to radians
     v *= pi/180.0;
     quaternion R(v.x(), v.y(), v.z());
-    Info<< "Rotating points by quaternion " << R << endl;
+    Info << "Rotating points by quaternion " << R << endl;
     points = transform(R, points);
     if (doRotateFields)
     {
@@ -176,7 +177,7 @@ int main(int argc, char *argv[])
   }
   else if (args.optionReadIfPresent("yawPitchRoll", v))
   {
-    Info<< "Rotating points by" << nl
+    Info << "Rotating points by" << nl
       << "    yaw   " << v.x() << nl
       << "    pitch " << v.y() << nl
       << "    roll  " << v.z() << nl;
@@ -188,7 +189,7 @@ int main(int argc, char *argv[])
     quaternion R = quaternion(vector(0, 0, 1), yaw);
     R *= quaternion(vector(0, 1, 0), pitch);
     R *= quaternion(vector(1, 0, 0), roll);
-    Info<< "Rotating points by quaternion " << R << endl;
+    Info << "Rotating points by quaternion " << R << endl;
     points = transform(R, points);
     if (doRotateFields)
     {
@@ -197,14 +198,14 @@ int main(int argc, char *argv[])
   }
   if (args.optionReadIfPresent("scale", v))
   {
-    Info<< "Scaling points by " << v << endl;
+    Info << "Scaling points by " << v << endl;
     points.replace(vector::X, v.x()*points.component(vector::X));
     points.replace(vector::Y, v.y()*points.component(vector::Y));
     points.replace(vector::Z, v.z()*points.component(vector::Z));
   }
   // Set the precision of the points data to 10
   IOstream::defaultPrecision(max(10u, IOstream::defaultPrecision()));
-  Info<< "Writing points into directory " << points.path() << nl << endl;
+  Info << "Writing points into directory " << points.path() << nl << endl;
   points.write();
   return 0;
 }

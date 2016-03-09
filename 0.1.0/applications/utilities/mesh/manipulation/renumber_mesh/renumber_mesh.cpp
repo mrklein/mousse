@@ -459,14 +459,14 @@ labelList regionRenumber
   const labelList& cellToRegion
 )
 {
-  Info<< "Determining cell order:" << endl;
+  Info << "Determining cell order:" << endl;
   labelList cellOrder{cellToRegion.size()};
   label nRegions = max(cellToRegion)+1;
   labelListList regionToCells{invertOneToMany(nRegions, cellToRegion)};
   label cellI = 0;
   FOR_ALL(regionToCells, regionI)
   {
-    Info<< "    region " << regionI << " starts at " << cellI << endl;
+    Info << "    region " << regionI << " starts at " << cellI << endl;
     // Make sure no parallel comms
     bool oldParRun = UPstream::parRun();
     UPstream::parRun() = false;
@@ -487,7 +487,7 @@ labelList regionRenumber
       cellOrder[cellI++] = cellMap[subCellOrder[i]];
     }
   }
-  Info<< endl;
+  Info << endl;
   return cellOrder;
 }
 int main(int argc, char *argv[])
@@ -541,15 +541,15 @@ int main(int argc, char *argv[])
       sumOp<scalar>()
     )/mesh.globalData().nTotalCells()
   );
-  Info<< "Mesh size: " << mesh.globalData().nTotalCells() << nl
+  Info << "Mesh size: " << mesh.globalData().nTotalCells() << nl
     << "Before renumbering :" << nl
     << "    band           : " << band << nl
     << "    profile        : " << profile << nl;
   if (doFrontWidth)
   {
-    Info<< "    rms frontwidth : " << rmsFrontwidth << nl;
+    Info << "    rms frontwidth : " << rmsFrontwidth << nl;
   }
-  Info<< endl;
+  Info << endl;
   bool sortCoupledFaceCells = false;
   bool writeMaps = false;
   bool orderPoints = false;
@@ -562,7 +562,7 @@ int main(int argc, char *argv[])
   {
     const word dictName("renumberMeshDict");
     #include "set_system_mesh_dictionary_io.inc"
-    Info<< "Renumber according to " << dictName << nl << endl;
+    Info << "Renumber according to " << dictName << nl << endl;
     renumberDictPtr.reset(new IOdictionary(dictIO));
     const IOdictionary& renumberDict = renumberDictPtr();
     renumberPtr = renumberMethod::New(renumberDict);
@@ -573,13 +573,13 @@ int main(int argc, char *argv[])
     );
     if (sortCoupledFaceCells)
     {
-      Info<< "Sorting cells on coupled boundaries to be last." << nl
+      Info << "Sorting cells on coupled boundaries to be last." << nl
         << endl;
     }
     blockSize = renumberDict.lookupOrDefault("blockSize", 0);
     if (blockSize > 0)
     {
-      Info<< "Ordering cells into regions of size " << blockSize
+      Info << "Ordering cells into regions of size " << blockSize
         << " (using decomposition);"
         << " ordering faces into region-internal and region-external."
         << nl << endl;
@@ -595,24 +595,24 @@ int main(int argc, char *argv[])
     orderPoints = renumberDict.lookupOrDefault("orderPoints", false);
     if (orderPoints)
     {
-      Info<< "Ordering points into internal and boundary points." << nl
+      Info << "Ordering points into internal and boundary points." << nl
         << endl;
     }
     renumberDict.lookup("writeMaps") >> writeMaps;
     if (writeMaps)
     {
-      Info<< "Writing renumber maps (new to old) to polyMesh." << nl
+      Info << "Writing renumber maps (new to old) to polyMesh." << nl
         << endl;
     }
     renumberSets = renumberDict.lookupOrDefault("renumberSets", true);
   }
   else
   {
-    Info<< "Using default renumberMethod." << nl << endl;
+    Info << "Using default renumberMethod." << nl << endl;
     dictionary renumberDict;
     renumberPtr.reset(new CuthillMcKeeRenumber(renumberDict));
   }
-  Info<< "Selecting renumberMethod " << renumberPtr().type() << nl << endl;
+  Info << "Selecting renumberMethod " << renumberPtr().type() << nl << endl;
   // Read parallel reconstruct maps
   labelIOList cellProcAddressing
   {
@@ -636,7 +636,7 @@ int main(int argc, char *argv[])
       mesh,
       IOobject::READ_IF_PRESENT
     },
-    labelList(0)
+    labelList{0}
   };
   labelIOList pointProcAddressing
   {
@@ -697,7 +697,7 @@ int main(int argc, char *argv[])
   ReadFields(pointMesh::New(mesh), objects, psymtFlds);
   PtrList<pointTensorField> ptFlds;
   ReadFields(pointMesh::New(mesh), objects, ptFlds);
-  Info<< endl;
+  Info << endl;
   // From renumbering:
   // - from new cell/face back to original cell/face
   labelList cellOrder;
@@ -707,7 +707,7 @@ int main(int argc, char *argv[])
     // Renumbering in two phases. Should be done in one so mapping of
     // fields is done correctly!
     label nBlocks = mesh.nCells()/blockSize;
-    Info<< "nBlocks   = " << nBlocks << endl;
+    Info << "nBlocks   = " << nBlocks << endl;
     // Read decompositionMethod dictionary
     dictionary decomposeDict{renumberDictPtr().subDict("blockCoeffs")};
     decomposeDict.set("numberOfSubdomains", nBlocks);
@@ -734,7 +734,7 @@ int main(int argc, char *argv[])
       "cellDist",
       cellToRegion
     )().write();
-    Info<< nl << "Written decomposition as volScalarField to "
+    Info << nl << "Written decomposition as volScalarField to "
       << "cellDist for use in postprocessing."
       << nl << endl;
     cellOrder = regionRenumber(renumberPtr(), mesh, cellToRegion);
@@ -801,7 +801,7 @@ int main(int argc, char *argv[])
         label origCellI = bndCells[order[i]];
         newReverseCellOrder[origCellI] = --sortedI;
       }
-      Info<< "Ordered all " << nBndCells << " cells with a coupled face"
+      Info << "Ordered all " << nBndCells << " cells with a coupled face"
         << " to the end of the cell list, starting at " << sortedI
         << endl;
       // Compact
@@ -859,7 +859,7 @@ int main(int argc, char *argv[])
   if (cellProcAddressing.headerOk()
       && cellProcAddressing.size() == mesh.nCells())
   {
-    Info<< "Renumbering processor cell decomposition map "
+    Info << "Renumbering processor cell decomposition map "
       << cellProcAddressing.name() << endl;
     cellProcAddressing = labelList
     {
@@ -869,7 +869,7 @@ int main(int argc, char *argv[])
   if (faceProcAddressing.headerOk()
       && faceProcAddressing.size() == mesh.nFaces())
   {
-    Info<< "Renumbering processor face decomposition map "
+    Info << "Renumbering processor face decomposition map "
       << faceProcAddressing.name() << endl;
     faceProcAddressing = labelList
     {
@@ -892,7 +892,7 @@ int main(int argc, char *argv[])
   if (pointProcAddressing.headerOk()
       && pointProcAddressing.size() == mesh.nPoints())
   {
-    Info<< "Renumbering processor point decomposition map "
+    Info << "Renumbering processor point decomposition map "
       << pointProcAddressing.name() << endl;
     pointProcAddressing = labelList
     {
@@ -928,14 +928,14 @@ int main(int argc, char *argv[])
         sumOp<scalar>()
       )/mesh.globalData().nTotalCells()
     );
-    Info<< "After renumbering :" << nl
+    Info << "After renumbering :" << nl
       << "    band           : " << band << nl
       << "    profile        : " << profile << nl;
     if (doFrontWidth)
     {
-      Info<< "    rms frontwidth : " << rmsFrontwidth << nl;
+      Info << "    rms frontwidth : " << rmsFrontwidth << nl;
     }
-    Info<< endl;
+    Info << endl;
   }
   if (orderPoints)
   {
@@ -972,7 +972,7 @@ int main(int argc, char *argv[])
       mesh.nInternal1Edges(),
       sumOp<label>()
     );
-    Info<< "Points:" << nl
+    Info << "Points:" << nl
       << "    total   : " << nTotPoints << nl
       << "    internal: " << nTotIntPoints << nl
       << "    boundary: " << nTotPoints-nTotIntPoints << nl
@@ -992,7 +992,7 @@ int main(int argc, char *argv[])
   {
     mesh.setInstance(oldInstance);
   }
-  Info<< "Writing mesh to " << mesh.facesInstance() << endl;
+  Info << "Writing mesh to " << mesh.facesInstance() << endl;
   mesh.write();
   if (cellProcAddressing.headerOk())
   {
@@ -1007,7 +1007,7 @@ int main(int argc, char *argv[])
       const fileName fName(cellProcAddressing.filePath());
       if (fName.size())
       {
-        Info<< "Deleting inconsistent processor cell decomposition"
+        Info << "Deleting inconsistent processor cell decomposition"
           << " map " << fName << endl;
         rm(fName);
       }
@@ -1025,7 +1025,7 @@ int main(int argc, char *argv[])
       const fileName fName(faceProcAddressing.filePath());
       if (fName.size())
       {
-        Info<< "Deleting inconsistent processor face decomposition"
+        Info << "Deleting inconsistent processor face decomposition"
           << " map " << fName << endl;
         rm(fName);
       }
@@ -1043,7 +1043,7 @@ int main(int argc, char *argv[])
       const fileName fName(pointProcAddressing.filePath());
       if (fName.size())
       {
-        Info<< "Deleting inconsistent processor point decomposition"
+        Info << "Deleting inconsistent processor point decomposition"
           << " map " << fName << endl;
         rm(fName);
       }
@@ -1061,7 +1061,7 @@ int main(int argc, char *argv[])
       const fileName fName(boundaryProcAddressing.filePath());
       if (fName.size())
       {
-        Info<< "Deleting inconsistent processor patch decomposition"
+        Info << "Deleting inconsistent processor patch decomposition"
           << " map " << fName << endl;
         rm(fName);
       }
@@ -1082,11 +1082,11 @@ int main(int argc, char *argv[])
       "cellID",
       identity(mesh.nCells())
     )().write();
-    Info<< nl << "Written current cellID and origCellID as volScalarField"
+    Info << nl << "Written current cellID and origCellID as volScalarField"
       << " for use in postprocessing."
       << nl << endl;
     labelIOList
-    (
+    {
       // IOobject
       {
         "cellMap",
@@ -1098,9 +1098,9 @@ int main(int argc, char *argv[])
         false
       },
       map().cellMap()
-    ).write();
+    }.write();
     labelIOList
-    (
+    {
       // IOobject
       {
         "faceMap",
@@ -1112,9 +1112,9 @@ int main(int argc, char *argv[])
         false
       },
       map().faceMap()
-    ).write();
+    }.write();
     labelIOList
-    (
+    {
       // IOobject
       {
         "pointMap",
@@ -1126,12 +1126,12 @@ int main(int argc, char *argv[])
         false
       },
       map().pointMap()
-    ).write();
+    }.write();
   }
   // Renumber sets if required
   if (renumberSets)
   {
-    Info<< endl;
+    Info << endl;
     // Read sets
     IOobjectList objects{mesh, mesh.facesInstance(), "polyMesh/sets"};
 
@@ -1139,11 +1139,11 @@ int main(int argc, char *argv[])
       IOobjectList cSets{objects.lookupClass(cellSet::typeName)};
       if (cSets.size())
       {
-        Info<< "Renumbering cellSets:" << endl;
+        Info << "Renumbering cellSets:" << endl;
         FOR_ALL_CONST_ITER(IOobjectList, cSets, iter)
         {
           cellSet cs(*iter());
-          Info<< "    " << cs.name() << endl;
+          Info << "    " << cs.name() << endl;
           cs.updateMesh(map());
           cs.instance() = mesh.facesInstance();
           cs.write();
@@ -1154,11 +1154,11 @@ int main(int argc, char *argv[])
       IOobjectList fSets{objects.lookupClass(faceSet::typeName)};
       if (fSets.size())
       {
-        Info<< "Renumbering faceSets:" << endl;
+        Info << "Renumbering faceSets:" << endl;
         FOR_ALL_CONST_ITER(IOobjectList, fSets, iter)
         {
           faceSet fs(*iter());
-          Info<< "    " << fs.name() << endl;
+          Info << "    " << fs.name() << endl;
           fs.updateMesh(map());
           fs.instance() = mesh.facesInstance();
           fs.write();
@@ -1169,11 +1169,11 @@ int main(int argc, char *argv[])
       IOobjectList pSets{objects.lookupClass(pointSet::typeName)};
       if (pSets.size())
       {
-        Info<< "Renumbering pointSets:" << endl;
+        Info << "Renumbering pointSets:" << endl;
         FOR_ALL_CONST_ITER(IOobjectList, pSets, iter)
         {
           pointSet ps(*iter());
-          Info<< "    " << ps.name() << endl;
+          Info << "    " << ps.name() << endl;
           ps.updateMesh(map());
           ps.instance() = mesh.facesInstance();
           ps.write();
@@ -1181,6 +1181,6 @@ int main(int argc, char *argv[])
       }
     }
   }
-  Info<< "\nEnd\n" << endl;
+  Info << "\nEnd\n" << endl;
   return 0;
 }

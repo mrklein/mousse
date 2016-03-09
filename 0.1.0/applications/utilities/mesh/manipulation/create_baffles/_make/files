@@ -1,6 +1,6 @@
-face_selection/face_selection.cpp
-face_selection/face_zone_selection.cpp
-face_selection/searchable_surface_selection.cpp
+face_selection.cpp
+face_zone_selection.cpp
+searchable_surface_selection.cpp
 
 create_baffles.cpp
 

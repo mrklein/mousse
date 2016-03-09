@@ -16,7 +16,7 @@ label addPointZone(const polyMesh& mesh, const word& name)
   label zoneID = mesh.pointZones().findZoneID(name);
   if (zoneID != -1)
   {
-    Info<< "Reusing existing pointZone "
+    Info << "Reusing existing pointZone "
       << mesh.pointZones()[zoneID].name()
       << " at index " << zoneID << endl;
   }
@@ -24,7 +24,7 @@ label addPointZone(const polyMesh& mesh, const word& name)
   {
     pointZoneMesh& pointZones = const_cast<polyMesh&>(mesh).pointZones();
     zoneID = pointZones.size();
-    Info<< "Adding pointZone " << name << " at index " << zoneID << endl;
+    Info << "Adding pointZone " << name << " at index " << zoneID << endl;
     pointZones.setSize(zoneID+1);
     pointZones.set
     (
@@ -45,14 +45,14 @@ label addFaceZone(const polyMesh& mesh, const word& name)
   label zoneID = mesh.faceZones().findZoneID(name);
   if (zoneID != -1)
   {
-    Info<< "Reusing existing faceZone " << mesh.faceZones()[zoneID].name()
+    Info << "Reusing existing faceZone " << mesh.faceZones()[zoneID].name()
       << " at index " << zoneID << endl;
   }
   else
   {
     faceZoneMesh& faceZones = const_cast<polyMesh&>(mesh).faceZones();
     zoneID = faceZones.size();
-    Info<< "Adding faceZone " << name << " at index " << zoneID << endl;
+    Info << "Adding faceZone " << name << " at index " << zoneID << endl;
     faceZones.setSize(zoneID+1);
     faceZones.set(zoneID, new faceZone{name, labelList{0}, boolList(), zoneID,
                                        faceZones});
@@ -65,14 +65,14 @@ label addCellZone(const polyMesh& mesh, const word& name)
   label zoneID = mesh.cellZones().findZoneID(name);
   if (zoneID != -1)
   {
-    Info<< "Reusing existing cellZone " << mesh.cellZones()[zoneID].name()
+    Info << "Reusing existing cellZone " << mesh.cellZones()[zoneID].name()
       << " at index " << zoneID << endl;
   }
   else
   {
     cellZoneMesh& cellZones = const_cast<polyMesh&>(mesh).cellZones();
     zoneID = cellZones.size();
-    Info<< "Adding cellZone " << name << " at index " << zoneID << endl;
+    Info << "Adding cellZone " << name << " at index " << zoneID << endl;
     cellZones.setSize(zoneID+1);
     cellZones.set(zoneID, new cellZone{name, labelList(0), zoneID, cellZones});
   }
@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
   slidingInterface::typeOfMatch tom = slidingInterface::INTEGRAL;
   if (partialCover)
   {
-    Info<< "Coupling partially overlapping patches "
+    Info << "Coupling partially overlapping patches "
       << masterPatchName << " and " << slavePatchName << nl
       << "Resulting internal faces will be in faceZone " << cutZoneName
       << nl
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
   }
   else if (perfectCover)
   {
-    Info<< "Coupling perfectly aligned patches "
+    Info << "Coupling perfectly aligned patches "
       << masterPatchName << " and " << slavePatchName << nl
       << "Resulting (internal) faces will be in faceZone " << cutZoneName
       << nl << nl
@@ -166,7 +166,7 @@ int main(int argc, char *argv[])
   }
   else
   {
-    Info<< "Coupling patches " << masterPatchName << " and "
+    Info << "Coupling patches " << masterPatchName << " and "
       << slavePatchName << nl
       << "Resulting (internal) faces will be in faceZone " << cutZoneName
       << nl << nl
@@ -289,7 +289,7 @@ int main(int argc, char *argv[])
   // Search for list of objects for this time
   IOobjectList objects{mesh, runTime.timeName()};
   // Read all current fvFields so they will get mapped
-  Info<< "Reading all current volfields" << endl;
+  Info << "Reading all current volfields" << endl;
   PtrList<volScalarField> volScalarFields;
   ReadFields(mesh, objects, volScalarFields);
   PtrList<volVectorField> volVectorFields;
@@ -301,7 +301,7 @@ int main(int argc, char *argv[])
   PtrList<volTensorField> volTensorFields;
   ReadFields(mesh, objects, volTensorFields);
   //- Uncomment if you want to interpolate surface fields (usually bad idea)
-  //Info<< "Reading all current surfaceFields" << endl;
+  //Info << "Reading all current surfaceFields" << endl;
   //PtrList<surfaceScalarField> surfaceScalarFields;
   //ReadFields(mesh, objects, surfaceScalarFields);
   //
@@ -323,7 +323,7 @@ int main(int argc, char *argv[])
     mesh.setInstance(oldInstance);
     stitcher.instance() = oldInstance;
   }
-  Info<< nl << "Writing polyMesh to time " << runTime.timeName() << endl;
+  Info << nl << "Writing polyMesh to time " << runTime.timeName() << endl;
   IOstream::defaultPrecision(max(10u, IOstream::defaultPrecision()));
   // Bypass runTime write (since only writes at outputTime)
   if
@@ -345,6 +345,6 @@ int main(int argc, char *argv[])
   mesh.cellZones().write();
   // Write fields
   runTime.write();
-  Info<< nl << "end" << endl;
+  Info << nl << "end" << endl;
   return 0;
 }

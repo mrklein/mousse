@@ -1,0 +1,3 @@
+merge_or_split_baffles.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-merge-or-split-baffles

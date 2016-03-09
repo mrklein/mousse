@@ -16,9 +16,12 @@
 #include "wedge_poly_patch.hpp"
 #include "plane.hpp"
 #include "sub_field.hpp"
+
 using namespace mousse;
+
 // Max cos angle for edges to be considered aligned with axis.
 static const scalar edgeTol = 1e-3;
+
 // Print edge statistics on mesh.
 void printEdgeStats(const primitiveMesh& mesh)
 {
@@ -108,7 +111,7 @@ int main(int argc, char *argv[])
   labelList refCells;
   // Dictionary to control refinement
   dictionary refineDict;
-  const word dictName("refineMeshDict");
+  const word dictName{"refineMeshDict"};
   if (readDict)
   {
     fileName dictPath = args["dict"];
@@ -117,11 +120,11 @@ int main(int argc, char *argv[])
       dictPath = dictPath/dictName;
     }
     IOobject dictIO
-    (
+    {
       dictPath,
       mesh,
       IOobject::MUST_READ
-    );
+    };
     if (!dictIO.headerOk())
     {
       FATAL_ERROR_IN(args.executable())
@@ -129,7 +132,7 @@ int main(int argc, char *argv[])
         << dictPath
         << exit(FatalError);
     }
-    Info<< "Refining according to " << dictPath << nl << endl;
+    Info << "Refining according to " << dictPath << nl << endl;
     refineDict = IOdictionary(dictIO);
   }
   else if (!refineAllCells)
@@ -143,26 +146,26 @@ int main(int argc, char *argv[])
     };
     if (dictIO.headerOk())
     {
-      Info<< "Refining according to " << dictName << nl << endl;
+      Info << "Refining according to " << dictName << nl << endl;
       refineDict = IOdictionary{dictIO};
     }
     else
     {
-      Info<< "Refinement dictionary " << dictName << " not found" << endl;
+      Info << "Refinement dictionary " << dictName << " not found" << endl;
     }
   }
   if (refineDict.size())
   {
     const word setName{refineDict.lookup("set")};
-    cellSet cells(mesh, setName);
-    Pout<< "Read " << cells.size() << " cells from cellSet "
+    cellSet cells{mesh, setName};
+    Pout << "Read " << cells.size() << " cells from cellSet "
       << cells.instance()/cells.local()/cells.name()
       << endl << endl;
     refCells = cells.toc();
   }
   else
   {
-    Info<< "Refining all cells" << nl << endl;
+    Info << "Refining all cells" << nl << endl;
     // Select all cells
     refCells.setSize(mesh.nCells());
     FOR_ALL(mesh.cells(), cellI)
@@ -171,8 +174,8 @@ int main(int argc, char *argv[])
     }
     if (mesh.nGeometricD() == 3)
     {
-      Info<< "3D case; refining all directions" << nl << endl;
-      wordList directions(3);
+      Info << "3D case; refining all directions" << nl << endl;
+      wordList directions{3};
       directions[0] = "tan1";
       directions[1] = "tan2";
       directions[2] = "normal";
@@ -186,19 +189,19 @@ int main(int argc, char *argv[])
       wordList directions{2};
       if (dirs.x() == -1)
       {
-        Info<< "2D case; refining in directions y,z\n" << endl;
+        Info << "2D case; refining in directions y,z\n" << endl;
         directions[0] = "tan2";
         directions[1] = "normal";
       }
       else if (dirs.y() == -1)
       {
-        Info<< "2D case; refining in directions x,z\n" << endl;
+        Info << "2D case; refining in directions x,z\n" << endl;
         directions[0] = "tan1";
         directions[1] = "normal";
       }
       else
       {
-        Info<< "2D case; refining in directions x,y\n" << endl;
+        Info << "2D case; refining in directions x,y\n" << endl;
         directions[0] = "tan1";
         directions[1] = "tan2";
       }
@@ -220,7 +223,7 @@ int main(int argc, char *argv[])
     runTime++;
   }
   // Multi-directional refinement (does multiple iterations)
-  multiDirRefinement multiRef(mesh, refCells, refineDict);
+  multiDirRefinement multiRef{mesh, refCells, refineDict};
   // Write resulting mesh
   if (overwrite)
   {
@@ -240,7 +243,7 @@ int main(int argc, char *argv[])
       newCells.insert(added[i]);
     }
   }
-  Pout<< "Writing refined cells (" << newCells.size() << ") to cellSet "
+  Pout << "Writing refined cells (" << newCells.size() << ") to cellSet "
     << newCells.instance()/newCells.local()/newCells.name()
     << endl << endl;
   newCells.write();
@@ -260,11 +263,8 @@ int main(int argc, char *argv[])
     },
     mesh.nCells()
   };
-  newToOld.note() =
-    "From cells in mesh at "
-   + runTime.timeName()
-   + " to cells in mesh at "
-   + oldTimeName;
+  newToOld.note() = "From cells in mesh at " + runTime.timeName()
+    + " to cells in mesh at " + oldTimeName;
   FOR_ALL(oldToNew, oldCellI)
   {
     const labelList& added = oldToNew[oldCellI];
@@ -281,10 +281,10 @@ int main(int argc, char *argv[])
       newToOld[oldCellI] = oldCellI;
     }
   }
-  Info<< "Writing map from new to old cell to "
+  Info << "Writing map from new to old cell to "
     << newToOld.objectPath() << nl << endl;
   newToOld.write();
   printEdgeStats(mesh);
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
