@@ -6,7 +6,9 @@
 #include "time_selector.hpp"
 #include "io_sampled_sets.hpp"
 #include "io_sampled_surfaces.hpp"
+
 using namespace mousse;
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -86,15 +88,15 @@ int main(int argc, char *argv[])
   FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
-    Info<< "Time = " << runTime.timeName() << endl;
+    Info << "Time = " << runTime.timeName() << endl;
     // Handle geometry/topology changes
     polyMesh::readUpdateState state = mesh.readUpdate();
     sSets.readUpdate(state);
     sSurfs.readUpdate(state);
     sSets.write();
     sSurfs.write();
-    Info<< endl;
+    Info << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

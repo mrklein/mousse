@@ -1,0 +1,3 @@
+enstrophy.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-enstrophy

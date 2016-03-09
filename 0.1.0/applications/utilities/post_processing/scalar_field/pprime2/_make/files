@@ -1,0 +1,3 @@
+pprime2.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-pprime2

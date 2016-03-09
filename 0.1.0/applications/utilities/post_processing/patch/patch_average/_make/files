@@ -1,0 +1,3 @@
+patch_average.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-patch-average

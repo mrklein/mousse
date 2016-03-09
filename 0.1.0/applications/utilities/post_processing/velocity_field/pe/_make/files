@@ -1,0 +1,3 @@
+pe.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-pe

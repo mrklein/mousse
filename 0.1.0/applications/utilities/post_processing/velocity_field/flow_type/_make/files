@@ -1,0 +1,3 @@
+flow_type.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-flow-type

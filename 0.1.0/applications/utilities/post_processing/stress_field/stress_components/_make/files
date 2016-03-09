@@ -1,0 +1,3 @@
+stress_components.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-stress-components

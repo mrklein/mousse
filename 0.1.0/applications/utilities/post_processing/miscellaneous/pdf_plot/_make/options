@@ -1,0 +1,11 @@
+EXE_INC = \
+    -I$(LIB_SRC)/lagrangian/distribution_models/_lninclude \
+    -I$(LIB_SRC)/sampling/_lninclude \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/mesh_tools/_lninclude
+
+EXE_LIBS = \
+    -lmousse_distribution_models \
+    -lmousse_sampling \
+    -lmousse_finite_volume \
+    -lmousse_mesh_tools
