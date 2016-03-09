@@ -12,6 +12,8 @@ SHELL      = /bin/sh
 # Unset suffices list (suffix rules are not used)
 .SUFFIXES:
 
+WM_COMPILE_OPTION = opt
+
 # set compilation and dependency building rules
 GENERAL_RULES = $(WM_DIR)/rules/general
 RULES         = $(WM_DIR)/rules/$(WM_ARCH)_$(WM_COMPILER)
@@ -21,12 +23,6 @@ include $(RULES)/general
 include $(RULES)/$(WM_LINK_LANGUAGE)
 
 cFLAGS += -Wno-unneeded-internal-declaration -Wno-unused-function
-
-ifeq ("$(WM_COMPILE_OPTION)","prof")
-cFLAGS := $(filter-out -pg,$(cFLAGS))
-cFLAGS := $(filter-out -O2,$(cFLAGS))
-cFLAGS += -O3
-endif
 
 # targets
 all:  $(WMAKE_BIN)/dir-to-string $(WMAKE_BIN)/wmkdep
