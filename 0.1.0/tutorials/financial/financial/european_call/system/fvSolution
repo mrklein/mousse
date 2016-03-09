@@ -1,0 +1,23 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      fvSolution;
+}
+
+solvers
+{
+  V
+  {
+    solver          PBiCG;
+    preconditioner  DILU;
+    tolerance       1e-05;
+    relTol          0;
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
