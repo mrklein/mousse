@@ -1,0 +1,48 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volVectorField;
+  object      D;
+}
+
+dimensions          [0 1 0 0 0 0 0];
+internalField       uniform (0 0 0);
+
+boundaryField
+{
+  topSurface
+  {
+    type            tractionDisplacement;
+    traction        uniform (0 0 0);
+    pressure        uniform 0;
+    value           uniform (0 0 0);
+  }
+  bottomSurface
+  {
+    type            tractionDisplacement;
+    traction        uniform (0 0 0);
+    pressure        uniform 0;
+    value           uniform (0 0 0);
+  }
+  fixedEnd
+  {
+    type            fixedValue;
+    value           uniform (0 0 0);
+  }
+  tractionEnd
+  {
+    type            tractionDisplacement;
+    traction        uniform (0 10000 0);
+    pressure        uniform 0;
+    value           uniform (0 0 0);
+  }
+  defaultFaces
+  {
+    type                empty;
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
