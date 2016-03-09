@@ -7,6 +7,7 @@
 
 #include "ioobject_list.hpp"
 #include "os_specific.hpp"
+
 namespace mousse
 {
 template<class Type>

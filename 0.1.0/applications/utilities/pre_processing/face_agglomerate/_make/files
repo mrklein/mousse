@@ -1,0 +1,3 @@
+face_agglomerate.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-face-agglomerate

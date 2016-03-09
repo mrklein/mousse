@@ -189,19 +189,19 @@ int main(int argc, char *argv[])
   const fileName casePath = args[1];
   const fileName rootDirSource = casePath.path();
   const fileName caseDirSource = casePath.name();
-  Info<< "Source: " << rootDirSource << " " << caseDirSource << endl;
+  Info << "Source: " << rootDirSource << " " << caseDirSource << endl;
   word sourceRegion = fvMesh::defaultRegion;
   if (args.optionFound("sourceRegion"))
   {
     sourceRegion = args["sourceRegion"];
-    Info<< "Source region: " << sourceRegion << endl;
+    Info << "Source region: " << sourceRegion << endl;
   }
-  Info<< "Target: " << rootDirTarget << " " << caseDirTarget << endl;
+  Info << "Target: " << rootDirTarget << " " << caseDirTarget << endl;
   word targetRegion = fvMesh::defaultRegion;
   if (args.optionFound("targetRegion"))
   {
     targetRegion = args["targetRegion"];
-    Info<< "Target region: " << targetRegion << endl;
+    Info << "Target region: " << targetRegion << endl;
   }
   const bool parallelSource = args.optionFound("parallelSource");
   const bool parallelTarget = args.optionFound("parallelTarget");
@@ -229,12 +229,12 @@ int main(int argc, char *argv[])
         << "mapNearest, interpolate and cellPointInterpolate"
         << exit(FatalError);
     }
-    Info<< "Mapping method: " << mapMethod << endl;
+    Info << "Mapping method: " << mapMethod << endl;
   }
   const bool subtract = args.optionFound("subtract");
   if (subtract)
   {
-    Info<< "Subtracting mapped source field from target" << endl;
+    Info << "Subtracting mapped source field from target" << endl;
   }
   #include "create_times.inc"
   HashTable<word> patchMap;
@@ -270,7 +270,7 @@ int main(int argc, char *argv[])
       }
     };
     int nProcs{readInt(decompositionDict.lookup("numberOfSubdomains"))};
-    Info<< "Create target mesh\n" << endl;
+    Info << "Create target mesh\n" << endl;
     fvMesh meshTarget
     {
       // IOobject
@@ -280,10 +280,10 @@ int main(int argc, char *argv[])
         runTimeTarget
       }
     };
-    Info<< "Target mesh size: " << meshTarget.nCells() << endl;
+    Info << "Target mesh size: " << meshTarget.nCells() << endl;
     for (int procI=0; procI<nProcs; procI++)
     {
-      Info<< nl << "Source processor " << procI << endl;
+      Info << nl << "Source processor " << procI << endl;
       Time runTimeSource
       {
         Time::controlDictName,
@@ -300,7 +300,7 @@ int main(int argc, char *argv[])
           runTimeSource
         }
       };
-      Info<< "mesh size: " << meshSource.nCells() << endl;
+      Info << "mesh size: " << meshSource.nCells() << endl;
       if (consistent)
       {
         mapConsistentSubMesh
@@ -339,7 +339,7 @@ int main(int argc, char *argv[])
       }
     };
     int nProcs{readInt(decompositionDict.lookup("numberOfSubdomains"))};
-    Info<< "Create source mesh\n" << endl;
+    Info << "Create source mesh\n" << endl;
     #include "set_time_index.inc"
     fvMesh meshSource
     {
@@ -350,10 +350,10 @@ int main(int argc, char *argv[])
         runTimeSource
       }
     };
-    Info<< "Source mesh size: " << meshSource.nCells() << endl;
+    Info << "Source mesh size: " << meshSource.nCells() << endl;
     for (int procI=0; procI<nProcs; procI++)
     {
-      Info<< nl << "Target processor " << procI << endl;
+      Info << nl << "Target processor " << procI << endl;
       Time runTimeTarget
       {
         Time::controlDictName,
@@ -369,7 +369,7 @@ int main(int argc, char *argv[])
           runTimeTarget
         }
       };
-      Info<< "mesh size: " << meshTarget.nCells() << endl;
+      Info << "mesh size: " << meshTarget.nCells() << endl;
       if (consistent)
       {
         mapConsistentSubMesh
@@ -430,7 +430,7 @@ int main(int argc, char *argv[])
     List<bool> bbsTargetSet{nProcsTarget, false};
     for (int procISource=0; procISource<nProcsSource; procISource++)
     {
-      Info<< nl << "Source processor " << procISource << endl;
+      Info << nl << "Source processor " << procISource << endl;
       Time runTimeSource
       {
         Time::controlDictName,
@@ -447,20 +447,15 @@ int main(int argc, char *argv[])
           runTimeSource
         }
       };
-      Info<< "mesh size: " << meshSource.nCells() << endl;
+      Info << "mesh size: " << meshSource.nCells() << endl;
       boundBox bbSource{meshSource.bounds()};
       for (int procITarget=0; procITarget<nProcsTarget; procITarget++)
       {
-        if
-        (
-          !bbsTargetSet[procITarget]
-         || (
-           bbsTargetSet[procITarget]
-         && bbsTarget[procITarget].overlaps(bbSource)
-          )
-        )
+        if (!bbsTargetSet[procITarget] 
+            || (bbsTargetSet[procITarget]
+                && bbsTarget[procITarget].overlaps(bbSource)))
         {
-          Info<< nl << "Target processor " << procITarget << endl;
+          Info << nl << "Target processor " << procITarget << endl;
           Time runTimeTarget
           {
             Time::controlDictName,
@@ -477,7 +472,7 @@ int main(int argc, char *argv[])
               runTimeTarget
             }
           };
-          Info<< "mesh size: " << meshTarget.nCells() << endl;
+          Info << "mesh size: " << meshTarget.nCells() << endl;
           bbsTarget[procITarget] = meshTarget.bounds();
           bbsTargetSet[procITarget] = true;
           if (bbsTarget[procITarget].overlaps(bbSource))
@@ -512,7 +507,7 @@ int main(int argc, char *argv[])
   else
   {
     #include "set_time_index.inc"
-    Info<< "Create meshes\n" << endl;
+    Info << "Create meshes\n" << endl;
     fvMesh meshSource
     {
       // IOobject
@@ -531,7 +526,7 @@ int main(int argc, char *argv[])
         runTimeTarget
       }
     };
-    Info<< "Source mesh size: " << meshSource.nCells() << tab
+    Info << "Source mesh size: " << meshSource.nCells() << tab
       << "Target mesh size: " << meshTarget.nCells() << nl << endl;
     if (consistent)
     {
@@ -550,6 +545,6 @@ int main(int argc, char *argv[])
       );
     }
   }
-  Info<< "\nEnd\n" << endl;
+  Info << "\nEnd\n" << endl;
   return 0;
 }

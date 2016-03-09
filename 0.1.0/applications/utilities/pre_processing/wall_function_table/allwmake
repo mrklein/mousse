@@ -1,0 +1,6 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+set -x
+
+wmake libso tabulated_wall_function
+wmake

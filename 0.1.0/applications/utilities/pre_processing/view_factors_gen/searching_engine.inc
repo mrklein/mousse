@@ -1,12 +1,12 @@
-Random rndGen(653213);
+Random rndGen{653213};
 // Determine mesh bounding boxes:
 List<treeBoundBox> meshBb
 {
   1,
   treeBoundBox
-  (
+  {
     boundBox(coarseMesh.points(), false)
-  ).extend(rndGen, 1e-3)
+  }.extend(rndGen, 1e-3)
 };
 // Dummy bounds dictionary
 dictionary dict;
@@ -42,7 +42,6 @@ const triSurface localSurface = triangulate
 );
 distributedTriSurfaceMesh surfacesMesh
 {
-  // IOobject
   {
     "wallSurface.stl",
     runTime.constant(),     // directory

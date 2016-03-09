@@ -1,0 +1,4 @@
+load_or_create_mesh.cpp
+redistribute_par.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-redistribute-par

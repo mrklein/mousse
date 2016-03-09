@@ -6,6 +6,7 @@
 #include "mesh_to_mesh.hpp"
 #include "processor_poly_patch.hpp"
 #include "map_meshes.hpp"
+
 void mapConsistentMesh
 (
   const fvMesh& meshSource,
@@ -16,9 +17,9 @@ void mapConsistentMesh
   const bool noLagrangian
 )
 {
-  Info<< nl << "Consistently creating and mapping fields for time "
+  Info << nl << "Consistently creating and mapping fields for time "
     << meshSource.time().timeName() << nl << endl;
-  meshToMesh interp(meshSource, meshTarget, mapMethod);
+  meshToMesh interp{meshSource, meshTarget, mapMethod};
   if (subtract)
   {
     MapMesh<minusEqOp>
@@ -50,16 +51,16 @@ void mapSubMesh
   const bool noLagrangian
 )
 {
-  Info<< nl << "Creating and mapping fields for time "
+  Info << nl << "Creating and mapping fields for time "
     << meshSource.time().timeName() << nl << endl;
   meshToMesh interp
-  (
+  {
     meshSource,
     meshTarget,
     mapMethod,
     patchMap,
     cuttingPatches
-  );
+  };
   if (subtract)
   {
     MapMesh<minusEqOp>
@@ -79,6 +80,7 @@ void mapSubMesh
     );
   }
 }
+
 wordList addProcessorPatches
 (
   const fvMesh& meshTarget,
@@ -102,6 +104,7 @@ wordList addProcessorPatches
   }
   return cuttingPatchTable.toc();
 }
+
 int main(int argc, char *argv[])
 {
   argList::addNote
@@ -161,32 +164,32 @@ int main(int argc, char *argv[])
   const fileName casePath = args[1];
   const fileName rootDirSource = casePath.path();
   const fileName caseDirSource = casePath.name();
-  Info<< "Source: " << rootDirSource << " " << caseDirSource << endl;
+  Info << "Source: " << rootDirSource << " " << caseDirSource << endl;
   word sourceRegion = fvMesh::defaultRegion;
   if (args.optionFound("sourceRegion"))
   {
     sourceRegion = args["sourceRegion"];
-    Info<< "Source region: " << sourceRegion << endl;
+    Info << "Source region: " << sourceRegion << endl;
   }
-  Info<< "Target: " << rootDirTarget << " " << caseDirTarget << endl;
+  Info << "Target: " << rootDirTarget << " " << caseDirTarget << endl;
   word targetRegion = fvMesh::defaultRegion;
   if (args.optionFound("targetRegion"))
   {
     targetRegion = args["targetRegion"];
-    Info<< "Target region: " << targetRegion << endl;
+    Info << "Target region: " << targetRegion << endl;
   }
   const bool consistent = args.optionFound("consistent");
   meshToMesh::interpolationMethod mapMethod = meshToMesh::imCellVolumeWeight;
   if (args.optionFound("mapMethod"))
   {
     mapMethod = meshToMesh::interpolationMethodNames_[args["mapMethod"]];
-    Info<< "Mapping method: "
+    Info << "Mapping method: "
       << meshToMesh::interpolationMethodNames_[mapMethod] << endl;
   }
   const bool subtract = args.optionFound("subtract");
   if (subtract)
   {
-    Info<< "Subtracting mapped source field from target" << endl;
+    Info << "Subtracting mapped source field from target" << endl;
   }
   HashSet<word> selectedFields;
   if (args.optionFound("fields"))
@@ -215,7 +218,7 @@ int main(int argc, char *argv[])
     mapFieldsParDict.lookup("cuttingPatches") >>  cuttingPatches;
   }
   #include "set_time_index.inc"
-  Info<< "\nCreate meshes\n" << endl;
+  Info << "\nCreate meshes\n" << endl;
   fvMesh meshSource
   {
     // IOobject
@@ -234,7 +237,7 @@ int main(int argc, char *argv[])
       runTimeTarget
     }
   };
-  Info<< "Source mesh size: " << meshSource.nCells() << tab
+  Info << "Source mesh size: " << meshSource.nCells() << tab
     << "Target mesh size: " << meshTarget.nCells() << nl << endl;
   if (consistent)
   {
@@ -262,6 +265,6 @@ int main(int argc, char *argv[])
       noLagrangian
     );
   }
-  Info<< "\nEnd\n" << endl;
+  Info << "\nEnd\n" << endl;
   return 0;
 }

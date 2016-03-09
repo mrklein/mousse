@@ -10,6 +10,7 @@
 #include "mesh_to_mesh0.hpp"
 #include "ioobject_list.hpp"
 #include "compact_io_field.hpp"
+
 namespace mousse
 {
 //- Gets the indices of (source)particles that have been appended to the
@@ -28,7 +29,7 @@ void MapLagrangianFields
     IOobjectList fields = objects.lookupClass(IOField<Type>::typeName);
     FOR_ALL_ITER(IOobjectList, fields, fieldIter)
     {
-      Info<< "    mapping lagrangian field "
+      Info << "    mapping lagrangian field "
         << fieldIter()->name() << endl;
       // Read field (does not need mesh)
       IOField<Type> fieldSource{*fieldIter()};
@@ -60,7 +61,7 @@ void MapLagrangianFields
       objects.lookupClass(IOField<Field<Type>>::typeName);
     FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
     {
-      Info<< "    mapping lagrangian fieldField "
+      Info << "    mapping lagrangian fieldField "
         << fieldIter()->name() << endl;
       // Read field (does not need mesh)
       IOField<Field<Type>> fieldSource{*fieldIter()};
@@ -93,7 +94,7 @@ void MapLagrangianFields
       objects.lookupClass(CompactIOField<Field<Type>, Type>::typeName);
     FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
     {
-      Info<< "    mapping lagrangian fieldField "
+      Info << "    mapping lagrangian fieldField "
         << fieldIter()->name() << endl;
       // Read field (does not need mesh)
       CompactIOField<Field<Type>, Type> fieldSource{*fieldIter()};

@@ -25,7 +25,7 @@
     );
   }
   runTimeSource.setTime(sourceTimes[sourceTimeIndex], sourceTimeIndex);
-  Info<< "\nSource time: " << runTimeSource.value()
+  Info << "\nSource time: " << runTimeSource.value()
     << "\nTarget time: " << runTimeTarget.value()
     << endl;
 }
