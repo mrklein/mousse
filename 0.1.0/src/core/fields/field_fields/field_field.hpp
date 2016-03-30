@@ -8,15 +8,16 @@
 //   mousse::FieldField
 // Description
 //   Generic field type.
-// SourceFiles
-//   field_field.cpp
+
 #include "tmp.hpp"
 #include "ptr_list.hpp"
 #include "scalar.hpp"
 #include "direction.hpp"
 #include "vector_space.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<template<class> class Field, class Type>
 class FieldField;
@@ -32,11 +33,13 @@ Ostream& operator<<
   Ostream&,
   const tmp<FieldField<Field, Type> >&
 );
+
+
 template<template<class> class Field, class Type>
 class FieldField
 :
   public refCount,
-  public PtrList<Field<Type> >
+  public PtrList<Field<Type>>
 {
 public:
   //- Component type
@@ -113,8 +116,8 @@ public:
     );
 };
 }  // namespace mousse
+
 #include "field_field_functions.hpp"
-#ifdef NoRepository
-#   include "field_field.cpp"
-#endif
+#include "field_field.ipp"
+
 #endif

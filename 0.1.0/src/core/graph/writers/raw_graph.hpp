@@ -8,11 +8,12 @@
 //   mousse::rawGraph
 // Description
 //   A raw xy graph output
-// SourceFiles
-//   raw_graph.cpp
+
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rawGraph
 :
   public graph::writer

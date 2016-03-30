@@ -7,8 +7,12 @@
 
 #include "point_2d.hpp"
 #include "vector_2d_field_fwd.hpp"
-namespace mousse
-{
-  typedef vector2DField point2DField;
+
+
+namespace mousse {
+
+typedef vector2DField point2DField;
+
 }
+
 #endif

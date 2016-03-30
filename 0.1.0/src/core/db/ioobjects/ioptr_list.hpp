@@ -8,15 +8,13 @@
 //   mousse::IOPtrList
 // Description
 //   A PtrList of objects of type \<T\> with automated input and output.
-// SourceFiles
-//   ioptr_list.cpp
-
 
 #include "ptr_list.hpp"
 #include "reg_ioobject.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class T>
 class IOPtrList
 :
@@ -51,7 +49,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ioptr_list.cpp"
-#endif
+
+#include "ioptr_list.ipp"
+
 #endif

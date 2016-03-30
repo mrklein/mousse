@@ -8,8 +8,9 @@
 //   mousse::CirculatorBase
 // Description
 //   Base class for circulators
-namespace mousse
-{
+
+namespace mousse {
+
 class CirculatorBase
 {
 public:
@@ -25,5 +26,7 @@ public:
     //- Construct null
     CirculatorBase(){};
 };
+
 }  // namespace mousse
+
 #endif

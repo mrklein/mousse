@@ -1,12 +1,16 @@
 #include "scalar.hpp"
 #include "vector.hpp"
 #include "curve_tools.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 scalar distance(const vector& p1, const vector& p2)
 {
   return mag(p2 - p1);
 }
+
+
 bool stepForwardsToNextPoint
 (
   const vector& o,
@@ -18,17 +22,19 @@ bool stepForwardsToNextPoint
 )
 {
   label ip1n = ip1-1;
-  while (++ip1n < Curve.size() && distance(o, Curve[ip1n]) < l);
+  while (++ip1n < Curve.size() && distance(o, Curve[ip1n]) < l)
+  {}
   label in = ip1n - 1;
   bool eoc = true;
-  if (ip1n < Curve.size() && in >= 0)
-  {
+  if (ip1n < Curve.size() && in >= 0) {
     eoc = interpolate(Curve[in], Curve[ip1n], o, n, l);
     i = in;
     ip1 = ip1n;
   }
   return eoc;
 }
+
+
 bool stepBackwardsToNextPoint
 (
   const vector& o,
@@ -40,17 +46,19 @@ bool stepBackwardsToNextPoint
 )
 {
   label ip1n = ip1+1;
-  while (--ip1n >= 0 && distance(o, Curve[ip1n]) < l);
+  while (--ip1n >= 0 && distance(o, Curve[ip1n]) < l)
+  {}
   label in = ip1n + 1;
   bool eoc = true;
-  if (ip1n >= 0 && in < Curve.size())
-  {
+  if (ip1n >= 0 && in < Curve.size()) {
     eoc = interpolate(Curve[in], Curve[ip1n], o, n, l);
     i = in;
     ip1 = ip1n;
   }
   return eoc;
 }
+
+
 bool interpolate
 (
   const vector& p1,
@@ -65,29 +73,24 @@ bool interpolate
   scalar b = 2.0*(D&(p2 - o));
   scalar c = magSqr(p2) + (o&(o - 2.0*p2)) - l*l;
   scalar b2m4ac = b*b - 4.0*a*c;
-  if (b2m4ac >= 0.0)
-  {
+  if (b2m4ac >= 0.0) {
     scalar srb2m4ac = sqrt(b2m4ac);
     scalar lamda = (-b - srb2m4ac)/(2.0*a);
-    if (lamda > 1.0+curveSmall || lamda < -curveSmall)
-    {
+    if (lamda > 1.0+curveSmall || lamda < -curveSmall) {
       lamda = (-b + srb2m4ac)/(2.0*a);
     }
-    if (lamda < 1.0+curveSmall && lamda > -curveSmall)
-    {
+    if (lamda < 1.0+curveSmall && lamda > -curveSmall) {
       n = p2 + lamda*(p1 - p2);
       return false;
-    }
-    else
-    {
+    } else {
       return true;
     }
-  }
-  else
-  {
+  } else {
     return true;
   }
 }
+
+
 bool XstepForwardsToNextPoint
 (
   const vector& o,
@@ -99,17 +102,19 @@ bool XstepForwardsToNextPoint
 )
 {
   label ip1n = ip1-1;
-  while (++ip1n < Curve.size() && mag(o.x() - Curve[ip1n].x()) < l);
+  while (++ip1n < Curve.size() && mag(o.x() - Curve[ip1n].x()) < l)
+  {}
   label in = ip1n - 1;
   bool eoc = true;
-  if (ip1n < Curve.size() && in >= 0)
-  {
+  if (ip1n < Curve.size() && in >= 0) {
     eoc = Xinterpolate(Curve[in], Curve[ip1n], o, n, l);
     i = in;
     ip1 = ip1n;
   }
   return eoc;
 }
+
+
 bool Xinterpolate
 (
   const vector& p1,
@@ -120,12 +125,10 @@ bool Xinterpolate
 )
 {
   n.x() = o.x() + l;
-  if (p2.x() < o.x() + l - curveSmall && p2.x() > o.x() - l + curveSmall)
-  {
+  if (p2.x() < o.x() + l - curveSmall && p2.x() > o.x() - l + curveSmall) {
     return true;
   }
-  if (p2.x() < o.x() + l)
-  {
+  if (p2.x() < o.x() + l) {
     n.x() = o.x() - l;
   }
   vector D = p2 - p1;

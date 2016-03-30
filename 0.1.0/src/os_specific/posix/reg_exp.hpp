@@ -13,15 +13,18 @@
 // SeeAlso
 //   The manpage regex(7) for more information about POSIX regular expressions.
 //   These differ somewhat from \c Perl and \c sed regular expressions.
-// SourceFiles
-//   reg_exp.cpp
+
 #include <regex.h>
 #include <string>
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class string;
 template<class T> class List;
+
+
 class regExp
 {
   // Private data
@@ -50,9 +53,9 @@ public:
       return
       (
         (c == '.')                           // any character
-      || (c == '*' || c == '+' || c == '?')   // quantifiers
-      || (c == '(' || c == ')' || c == '|')   // grouping/branching
-      || (c == '[' || c == ']')               // range
+        || (c == '*' || c == '+' || c == '?')   // quantifiers
+        || (c == '(' || c == ')' || c == '|')   // grouping/branching
+        || (c == '[' || c == ']')               // range
       );
     }
   // Constructors
@@ -121,5 +124,7 @@ public:
     //  Always case sensitive
     void operator=(const std::string&);
 };
+
 }  // namespace mousse
+
 #endif

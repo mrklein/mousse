@@ -9,14 +9,13 @@
 // Description
 //   Mesh representing a set of points created from polyMesh.
 
-
 #include "geo_mesh.hpp"
 #include "_mesh_object.hpp"
 #include "poly_mesh.hpp"
 #include "point_boundary_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class pointMesh
 :

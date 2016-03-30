@@ -9,15 +9,13 @@
 // Description
 //   Substitute for unknown patches. Used for postprocessing when only
 //   basic polyPatch info is needed.
-// SourceFiles
-//   generic_point_patch.cpp
-
 
 #include "face_point_patch.hpp"
 #include "generic_poly_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class genericPointPatch
 :
   public facePointPatch
@@ -33,8 +31,11 @@ public:
       const pointBoundaryMesh& bm
     )
     :
-      facePointPatch(patch, bm)
+      facePointPatch{patch, bm}
     {}
 };
+
 }  // namespace mousse
+
 #endif
+

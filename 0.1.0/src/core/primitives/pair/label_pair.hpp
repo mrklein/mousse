@@ -7,9 +7,12 @@
 
 #include "pair.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef Pair<label> labelPair;
-  typedef List<labelPair> labelPairList;
+
+
+namespace mousse {
+
+typedef Pair<label> labelPair;
+typedef List<labelPair> labelPairList;
+
 }
 #endif

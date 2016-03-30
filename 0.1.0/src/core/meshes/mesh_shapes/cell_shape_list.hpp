@@ -8,9 +8,12 @@
 #include "cell_shape.hpp"
 #include "list.hpp"
 #include "ptr_list.hpp"
-namespace mousse
-{
-  typedef List<cellShape> cellShapeList;
-  typedef PtrList<cellShapeList> cellShapeListList;
+
+
+namespace mousse {
+
+typedef List<cellShape> cellShapeList;
+typedef PtrList<cellShapeList> cellShapeListList;
+
 }
 #endif

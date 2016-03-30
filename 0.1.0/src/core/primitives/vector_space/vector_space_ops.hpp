@@ -8,8 +8,9 @@
 //   mousse::VectorSpaceOps
 // Description
 //   Operator functions for VectorSpace.
-namespace mousse
-{
+
+namespace mousse {
+
 template<int N, int I>
 class VectorSpaceOps
 {
@@ -52,6 +53,8 @@ public:
     VectorSpaceOps<endLoop*N, endLoop*(I+1)>::op(vs, vs1, vs2, o);
   }
 };
+
+
 template<>
 class VectorSpaceOps<0, 0>
 {
@@ -75,5 +78,7 @@ public:
   static inline void op(V&, const V1&, const V1&, Op)
   {}
 };
+
 }  // namespace mousse
+
 #endif

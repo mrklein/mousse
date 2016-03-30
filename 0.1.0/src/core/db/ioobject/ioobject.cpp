@@ -5,11 +5,16 @@
 #include "ioobject.hpp"
 #include "time.hpp"
 #include "ifstream.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(IOobject, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(IOobject, 0);
+
 }
+
+
 // Static Member Functions
 bool mousse::IOobject::fileNameComponents
 (
@@ -23,52 +28,7 @@ bool mousse::IOobject::fileNameComponents
   local.clear();
   name.clear();
   // called with directory
-  if (isDir(path))
-  {
-    WARNING_IN
-    (
-      "IOobject::fileNameComponents"
-      "("
-        "const fileName&, "
-        "fileName&, "
-        "fileName&, "
-        "word&"
-      ")"
-    )   << " called with directory: " << path << endl;
-    return false;
-  }
-  if (path.isAbsolute())
-  {
-    string::size_type last = path.rfind('/');
-    instance = path.substr(0, last);
-    // Check afterwards
-    name.string::operator=(path.substr(last+1));
-  }
-  else
-  {
-    string::size_type first = path.find('/');
-    if (first == string::npos)
-    {
-      // no '/' found - no instance or local
-      // check afterwards
-      name.string::operator=(path);
-    }
-    else
-    {
-      instance = path.substr(0, first);
-      string::size_type last = path.rfind('/');
-      if (last > first)
-      {
-        // with local
-        local = path.substr(first+1, last-first-1);
-      }
-      // check afterwards
-      name.string::operator=(path.substr(last+1));
-    }
-  }
-  // Check for valid (and stripped) name, regardless of the debug level
-  if (name.empty() || string::stripInvalid<word>(name))
-  {
+  if (isDir(path)) {
     WARNING_IN
     (
       "IOobject::fileNameComponents"
@@ -79,12 +39,51 @@ bool mousse::IOobject::fileNameComponents
         "word&"
       ")"
     )
-      << "has invalid word for name: \"" << name
-      << "\"\nwhile processing path: " << path << endl;
+    << " called with directory: " << path << endl;
+    return false;
+  }
+  if (path.isAbsolute()) {
+    string::size_type last = path.rfind('/');
+    instance = path.substr(0, last);
+    // Check afterwards
+    name.string::operator=(path.substr(last+1));
+  } else {
+    string::size_type first = path.find('/');
+    if (first == string::npos) {
+      // no '/' found - no instance or local
+      // check afterwards
+      name.string::operator=(path);
+    } else {
+      instance = path.substr(0, first);
+      string::size_type last = path.rfind('/');
+      if (last > first) {
+        // with local
+        local = path.substr(first+1, last-first-1);
+      }
+      // check afterwards
+      name.string::operator=(path.substr(last+1));
+    }
+  }
+  // Check for valid (and stripped) name, regardless of the debug level
+  if (name.empty() || string::stripInvalid<word>(name)) {
+    WARNING_IN
+    (
+      "IOobject::fileNameComponents"
+      "("
+        "const fileName&, "
+        "fileName&, "
+        "fileName&, "
+        "word&"
+      ")"
+    )
+    << "has invalid word for name: \"" << name
+    << "\"\nwhile processing path: " << path << endl;
     return false;
   }
   return true;
 }
+
+
 // Constructors 
 mousse::IOobject::IOobject
 (
@@ -107,13 +106,14 @@ mousse::IOobject::IOobject
   registerObject_{registerObject},
   objState_{GOOD}
 {
-  if (objectRegistry::debug)
-  {
-    Info<< "Constructing IOobject called " << name_
+  if (objectRegistry::debug) {
+    Info << "Constructing IOobject called " << name_
       << " of type " << headerClassName_
       << endl;
   }
 }
+
+
 mousse::IOobject::IOobject
 (
   const word& name,
@@ -136,13 +136,14 @@ mousse::IOobject::IOobject
   registerObject_{registerObject},
   objState_{GOOD}
 {
-  if (objectRegistry::debug)
-  {
-    Info<< "Constructing IOobject called " << name_
+  if (objectRegistry::debug) {
+    Info << "Constructing IOobject called " << name_
       << " of type " << headerClassName_
       << endl;
   }
 }
+
+
 mousse::IOobject::IOobject
 (
   const fileName& path,
@@ -163,8 +164,7 @@ mousse::IOobject::IOobject
   registerObject_{registerObject},
   objState_{GOOD}
 {
-  if (!fileNameComponents(path, instance_, local_, name_))
-  {
+  if (!fileNameComponents(path, instance_, local_, name_)) {
     FATAL_ERROR_IN
     (
       "IOobject::IOobject"
@@ -179,68 +179,76 @@ mousse::IOobject::IOobject
     << " invalid path specification"
     << exit(FatalError);
   }
-  if (objectRegistry::debug)
-  {
+  if (objectRegistry::debug) {
     Info << "Constructing IOobject called " << name_
       << " of type " << headerClassName_
       << endl;
   }
 }
+
+
 // Destructor 
 mousse::IOobject::~IOobject()
 {}
+
+
 // Member Functions 
 const mousse::objectRegistry& mousse::IOobject::db() const
 {
   return db_;
 }
+
+
 const mousse::Time& mousse::IOobject::time() const
 {
   return db_.time();
 }
+
+
 const mousse::fileName& mousse::IOobject::caseName() const
 {
   return time().caseName();
 }
+
+
 mousse::word mousse::IOobject::group() const
 {
   word::size_type i = name_.find_last_of('.');
-  if (i == word::npos || i == 0)
-  {
+  if (i == word::npos || i == 0) {
     return word::null;
-  }
-  else
-  {
+  } else {
     return name_.substr(i+1, word::npos);
   }
 }
+
+
 mousse::word mousse::IOobject::member() const
 {
   word::size_type i = name_.find_last_of('.');
-  if (i == word::npos || i == 0)
-  {
+  if (i == word::npos || i == 0) {
     return name_;
-  }
-  else
-  {
+  } else {
     return name_.substr(0, i);
   }
 }
+
+
 const mousse::fileName& mousse::IOobject::rootPath() const
 {
   return time().rootPath();
 }
+
+
 mousse::fileName mousse::IOobject::path() const
 {
-  if (instance().isAbsolute())
-  {
+  if (instance().isAbsolute()) {
     return instance();
-  }
-  else
-  {
+  } else {
     return rootPath()/caseName()/instance()/db_.dbDir()/local();
   }
 }
+
+
 mousse::fileName mousse::IOobject::path
 (
   const word& instance,
@@ -250,56 +258,43 @@ mousse::fileName mousse::IOobject::path
   // Note: can only be called with relative instance since is word type
   return rootPath()/caseName()/instance/db_.dbDir()/local;
 }
+
+
 mousse::fileName mousse::IOobject::filePath() const
 {
-  if (instance().isAbsolute())
-  {
+  if (instance().isAbsolute()) {
     fileName objectPath = instance()/name();
-    if (isFile(objectPath))
-    {
+    if (isFile(objectPath)) {
       return objectPath;
-    }
-    else
-    {
+    } else {
       return fileName::null;
     }
-  }
-  else
-  {
+  } else {
     fileName path = this->path();
     fileName objectPath = path/name();
-    if (isFile(objectPath))
-    {
+    if (isFile(objectPath)) {
       return objectPath;
-    }
-    else
-    {
+    } else {
       if (time().processorCase() && (instance() == time().system()
-                                     || instance() == time().constant())
-      )
-      {
+                                     || instance() == time().constant())) {
         fileName parentObjectPath =
           rootPath()/time().globalCaseName()/instance()/db_.dbDir()/local()
           /name();
-        if (isFile(parentObjectPath))
-        {
+        if (isFile(parentObjectPath)) {
           return parentObjectPath;
         }
       }
-      if (!isDir(path))
-      {
+      if (!isDir(path)) {
         word newInstancePath = time().findInstancePath
         (
           instant(instance())
         );
-        if (newInstancePath.size())
-        {
+        if (newInstancePath.size()) {
           fileName fName
           {
             rootPath()/caseName()/newInstancePath/db_.dbDir()/local()/name()
           };
-          if (isFile(fName))
-          {
+          if (isFile(fName)) {
             return fName;
           }
         }
@@ -308,53 +303,47 @@ mousse::fileName mousse::IOobject::filePath() const
     return fileName::null;
   }
 }
+
+
 mousse::Istream* mousse::IOobject::objectStream()
 {
   return objectStream(filePath());
 }
+
+
 mousse::Istream* mousse::IOobject::objectStream(const fileName& fName)
 {
-  if (fName.size())
-  {
+  if (fName.size()) {
     IFstream* isPtr = new IFstream{fName};
-    if (isPtr->good())
-    {
+    if (isPtr->good()) {
       return isPtr;
-    }
-    else
-    {
+    } else {
       delete isPtr;
       return NULL;
     }
-  }
-  else
-  {
+  } else {
     return NULL;
   }
 }
+
+
 bool mousse::IOobject::headerOk()
 {
   bool ok = true;
   Istream* isPtr = objectStream();
   // If the stream has failed return
-  if (!isPtr)
-  {
-    if (objectRegistry::debug)
-    {
+  if (!isPtr) {
+    if (objectRegistry::debug) {
       Info
         << "IOobject::headerOk() : "
         << "file " << objectPath() << " could not be opened"
         << endl;
     }
     ok = false;
-  }
-  else
-  {
+  } else {
     // Try reading header
-    if (!readHeader(*isPtr))
-    {
-      if (objectRegistry::debug)
-      {
+    if (!readHeader(*isPtr)) {
+      if (objectRegistry::debug) {
         IO_WARNING_IN("IOobject::headerOk()", (*isPtr))
           << "failed to read header of file " << objectPath()
           << endl;
@@ -365,21 +354,23 @@ bool mousse::IOobject::headerOk()
   delete isPtr;
   return ok;
 }
+
+
 void mousse::IOobject::setBad(const string& s)
 {
-  if (objState_ != GOOD)
-  {
+  if (objState_ != GOOD) {
     FATAL_ERROR_IN("IOobject::setBad(const string&)")
       << "recurrent failure for object " << s
       << exit(FatalError);
   }
-  if (error::level)
-  {
-    Info<< "IOobject::setBad(const string&) : "
+  if (error::level) {
+    Info << "IOobject::setBad(const string&) : "
       << "broken object " << s << info() << endl;
   }
   objState_ = BAD;
 }
+
+
 void mousse::IOobject::operator=(const IOobject& io)
 {
   name_ = io.name_;

@@ -8,16 +8,13 @@
 //   mousse::OSstream
 // Description
 //   Generic output stream.
-// SourceFiles
-//   osstream.cpp
-
 
 #include "ostream.hpp"
 #include "file_name.hpp"
 #include <iostream>
 
-namespace mousse
-{
+
+namespace mousse {
 
 class OSstream
 :
@@ -159,6 +156,7 @@ public:
 
 }  // namespace mousse
 
+
 // Constructors 
 inline mousse::OSstream::OSstream
 (
@@ -173,14 +171,11 @@ inline mousse::OSstream::OSstream
   name_{name},
   os_{os}
 {
-  if (os_.good())
-  {
+  if (os_.good()) {
     setOpened();
     setGood();
     os_.precision(precision_);
-  }
-  else
-  {
+  } else {
     setState(os_.rdstate());
   }
 }

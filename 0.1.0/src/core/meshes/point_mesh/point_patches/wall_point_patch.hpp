@@ -8,15 +8,13 @@
 //   mousse::wallPointPatch
 // Description
 //   mousse::wallPointPatch
-// SourceFiles
-//   wall_point_patch.cpp
-
 
 #include "face_point_patch.hpp"
 #include "wall_poly_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class wallPointPatch
 :
   public facePointPatch
@@ -35,5 +33,8 @@ public:
       facePointPatch{patch, bm}
     {}
 };
+
 }  // namespace mousse
+
 #endif
+

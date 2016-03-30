@@ -6,15 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::jplotSetWriter
-// SourceFiles
-//   jplot_set_writer.cpp
-
 
 #include "writer.hpp"
 #include "vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class jplotSetWriter
@@ -79,8 +76,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "jplot_set_writer.cpp"
-#endif
+#include "jplot_set_writer.ipp"
 
 #endif

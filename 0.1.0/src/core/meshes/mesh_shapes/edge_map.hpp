@@ -8,10 +8,13 @@
 //   mousse::EdgeMap
 // Description
 //   Map from edge (expressed as its endpoints) to value
+
 #include "hash_table.hpp"
 #include "edge.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class EdgeMap
 :
@@ -22,18 +25,20 @@ public:
     //- Construct given initial map size
     EdgeMap(const label size = 128)
     :
-      HashTable<T, edge, Hash<edge> >(size)
+      HashTable<T, edge, Hash<edge>>{size}
     {}
     //- Construct from Istream
     EdgeMap(Istream& is)
     :
-      HashTable<T, edge, Hash<edge> >(is)
+      HashTable<T, edge, Hash<edge>>{is}
     {}
     //- Construct as copy
     EdgeMap(const EdgeMap<T>& map)
     :
-      HashTable<T, edge, Hash<edge> >(map)
+      HashTable<T, edge, Hash<edge>>{map}
     {}
 };
+
 }  // namespace mousse
+
 #endif

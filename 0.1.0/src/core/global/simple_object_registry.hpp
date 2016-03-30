@@ -8,11 +8,13 @@
 //   mousse::simpleObjectRegistry
 // Description
 //   Object registry for simpleRegIOobject. Maintains ordering.
-// SourceFiles
+
 #include "_dictionary.hpp"
 #include "simple_reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class simpleObjectRegistryEntry
 :
   public Dictionary<simpleObjectRegistryEntry>::link,
@@ -21,9 +23,11 @@ class simpleObjectRegistryEntry
 public:
   simpleObjectRegistryEntry(const List<simpleRegIOobject*>& data)
   :
-    List<simpleRegIOobject*>(data)
+    List<simpleRegIOobject*>{data}
   {}
 };
+
+
 class simpleObjectRegistry
 :
   public Dictionary<simpleObjectRegistryEntry>
@@ -33,8 +37,10 @@ public:
     //- Construct given initial table size
     simpleObjectRegistry(const label nIoObjects = 128)
     :
-      Dictionary<simpleObjectRegistryEntry>(nIoObjects)
+      Dictionary<simpleObjectRegistryEntry>{nIoObjects}
     {}
 };
+
 }  // namespace mousse
+
 #endif

@@ -6,19 +6,22 @@
 #include "error.hpp"
 #include "job_info.hpp"
 #include "iostreams.hpp"
+
+
 // Static Data Members
 struct sigaction mousse::sigQuit::oldAction_;
+
 // Private Member Functions 
 void mousse::sigQuit::sigHandler(int)
 {
   // Reset old handling
-  if (sigaction(SIGQUIT, &oldAction_, NULL) < 0)
-  {
+  if (sigaction(SIGQUIT, &oldAction_, NULL) < 0) {
     FATAL_ERROR_IN
     (
       "mousse::sigQuit::sigHandler()"
-    )   << "Cannot reset SIGQUIT trapping"
-      << abort(FatalError);
+    )
+    << "Cannot reset SIGQUIT trapping"
+    << abort(FatalError);
   }
   // Update jobInfo file
   jobInfo.signalEnd();
@@ -26,45 +29,52 @@ void mousse::sigQuit::sigHandler(int)
   // Throw signal (to old handler)
   raise(SIGQUIT);
 }
+
+
 // Constructors 
 mousse::sigQuit::sigQuit()
 {
   oldAction_.sa_handler = NULL;
 }
+
+
 // Destructor 
 mousse::sigQuit::~sigQuit()
 {
   // Reset old handling
-  if (oldAction_.sa_handler && sigaction(SIGQUIT, &oldAction_, NULL) < 0)
-  {
+  if (oldAction_.sa_handler && sigaction(SIGQUIT, &oldAction_, NULL) < 0) {
     FATAL_ERROR_IN
     (
       "mousse::sigQuit::~sigQuit()"
-    )   << "Cannot reset SIGQUIT trapping"
-      << abort(FatalError);
+    )
+    << "Cannot reset SIGQUIT trapping"
+    << abort(FatalError);
   }
 }
+
+
 // Member Functions 
 void mousse::sigQuit::set(const bool /*verbose*/)
 {
-  if (oldAction_.sa_handler)
-  {
+  if (oldAction_.sa_handler) {
     FATAL_ERROR_IN
     (
       "mousse::sigQuit::set()"
-    )   << "Cannot call sigQuit::set() more than once"
-      << abort(FatalError);
+    )
+    << "Cannot call sigQuit::set() more than once"
+    << abort(FatalError);
   }
   struct sigaction newAction;
   newAction.sa_handler = sigHandler;
   newAction.sa_flags = SA_NODEFER;
   sigemptyset(&newAction.sa_mask);
-  if (sigaction(SIGQUIT, &newAction, &oldAction_) < 0)
-  {
+  if (sigaction(SIGQUIT, &newAction, &oldAction_) < 0) {
     FATAL_ERROR_IN
     (
       "mousse::sigQuit::set()"
-    )   << "Cannot set SIGQUIT trapping"
-      << abort(FatalError);
+    )
+    << "Cannot set SIGQUIT trapping"
+    << abort(FatalError);
   }
 }
+

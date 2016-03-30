@@ -9,16 +9,13 @@
 
 mousse::Ostream& mousse::OSstream::write(const token& t)
 {
-  if (t.type() == token::VERBATIMSTRING)
-  {
+  if (t.type() == token::VERBATIMSTRING) {
     write(char(token::HASH));
     write(char(token::BEGIN_BLOCK));
     writeQuoted(t.stringToken(), false);
     write(char(token::HASH));
     write(char(token::END_BLOCK));
-  }
-  else if (t.type() == token::VARIABLE)
-  {
+  } else if (t.type() == token::VARIABLE) {
     writeQuoted( t.stringToken(), false);
   }
   return *this;
@@ -28,8 +25,7 @@ mousse::Ostream& mousse::OSstream::write(const token& t)
 mousse::Ostream& mousse::OSstream::write(const char c)
 {
   os_ << c;
-  if (c == token::NL)
-  {
+  if (c == token::NL) {
     lineNumber_++;
   }
   setState(os_.rdstate());
@@ -58,27 +54,20 @@ mousse::Ostream& mousse::OSstream::write(const string& str)
 {
   os_ << token::BEGIN_STRING;
   int backslash = 0;
-  for (string::const_iterator iter = str.begin(); iter != str.end(); ++iter)
-  {
+  for (string::const_iterator iter = str.begin(); iter != str.end(); ++iter) {
     char c = *iter;
-    if (c == '\\')
-    {
+    if (c == '\\') {
       backslash++;
       // suppress output until we know if other characters follow
       continue;
-    }
-    else if (c == token::NL)
-    {
+    } else if (c == token::NL) {
       lineNumber_++;
       backslash++;    // backslash escape for newline
-    }
-    else if (c == token::END_STRING)
-    {
+    } else if (c == token::END_STRING) {
       backslash++;    // backslash escape for quote
     }
     // output pending backslashes
-    while (backslash)
-    {
+    while (backslash) {
       os_ << '\\';
       backslash--;
     }
@@ -98,8 +87,7 @@ mousse::Ostream& mousse::OSstream::writeQuoted
   const bool quoted
 )
 {
-  if (quoted)
-  {
+  if (quoted) {
     os_ << token::BEGIN_STRING;
     int backslash = 0;
     for
@@ -107,27 +95,20 @@ mousse::Ostream& mousse::OSstream::writeQuoted
       string::const_iterator iter = str.begin();
       iter != str.end();
       ++iter
-    )
-    {
+    ) {
       char c = *iter;
-      if (c == '\\')
-      {
+      if (c == '\\') {
         backslash++;
         // suppress output until we know if other characters follow
         continue;
-      }
-      else if (c == token::NL)
-      {
+      } else if (c == token::NL) {
         lineNumber_++;
         backslash++;    // backslash escape for newline
-      }
-      else if (c == token::END_STRING)
-      {
+      } else if (c == token::END_STRING) {
         backslash++;    // backslash escape for quote
       }
       // output pending backslashes
-      while (backslash)
-      {
+      while (backslash) {
         os_ << '\\';
         backslash--;
       }
@@ -136,9 +117,7 @@ mousse::Ostream& mousse::OSstream::writeQuoted
     // silently drop any trailing backslashes
     // they would otherwise appear like an escaped end-quote
     os_ << token::END_STRING;
-  }
-  else
-  {
+  } else {
     // output unquoted string, only advance line number on newline
     lineNumber_ += string(str).count(token::NL);
     os_ << str;
@@ -180,8 +159,7 @@ mousse::Ostream& mousse::OSstream::write(const doubleScalar val)
 
 mousse::Ostream& mousse::OSstream::write(const char* buf, std::streamsize count)
 {
-  if (format() != BINARY)
-  {
+  if (format() != BINARY) {
     FATAL_IO_ERROR_IN("Ostream::write(const char*, std::streamsize)", *this)
       << "stream format not binary"
       << abort(FatalIOError);
@@ -196,8 +174,7 @@ mousse::Ostream& mousse::OSstream::write(const char* buf, std::streamsize count)
 
 void mousse::OSstream::indent()
 {
-  for (unsigned short i = 0; i < indentLevel_*indentSize_; i++)
-  {
+  for (unsigned short i = 0; i < indentLevel_*indentSize_; i++) {
     os_ << ' ';
   }
 }

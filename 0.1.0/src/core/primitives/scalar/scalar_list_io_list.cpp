@@ -5,19 +5,21 @@
 #include "scalar_list_io_list.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
-namespace mousse
-{
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
-  (
-    scalarListIOList,
-    "scalarListList",
-    0
-  );
 
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
-  (
-    scalarListCompactIOList,
-    "scalarListCompactList",
-    0
-  );
+namespace mousse {
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
+(
+  scalarListIOList,
+  "scalarListList",
+  0
+);
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
+(
+  scalarListCompactIOList,
+  "scalarListCompactList",
+  0
+);
+
 }

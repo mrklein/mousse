@@ -14,14 +14,11 @@
 //   SlicedGeometricField can only be instantiated with a valid form of
 //   SlicedPatchField to handle the slicing and storage deallocation of the
 //   boundary field.
-// SourceFiles
-//   sliced_geometric_field.cpp
-
 
 #include "geometric_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template
 <
@@ -55,7 +52,7 @@ private:
 
     //- Slice the given field and a create a PtrList of SlicedPatchField
     //  from which the boundary field is built
-    tmp<FieldField<PatchField, Type> >  slicedBoundaryField
+    tmp<FieldField<PatchField, Type>>  slicedBoundaryField
     (
       const Mesh& mesh,
       const FieldField<PatchField, Type>& bField,
@@ -129,6 +126,7 @@ public:
     void correctBoundaryConditions();
 };
 
+
 //- The internalField of a SlicedGeometricField
 template
 <
@@ -158,7 +156,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "sliced_geometric_field.cpp"
-#endif
+#include "sliced_geometric_field.ipp"
+
 #endif

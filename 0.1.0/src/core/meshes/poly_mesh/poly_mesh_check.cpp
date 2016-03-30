@@ -8,6 +8,7 @@
 #include "sync_tools.hpp"
 #include "pstream_reduce_ops.hpp"
 
+
 // Member Functions
 bool mousse::polyMesh::checkFaceOrthogonality
 (
@@ -18,9 +19,8 @@ bool mousse::polyMesh::checkFaceOrthogonality
   labelHashSet* setPtr
 ) const
 {
-  if (debug)
-  {
-    Info<< "bool polyMesh::checkFaceOrthogonality("
+  if (debug) {
+    Info << "bool polyMesh::checkFaceOrthogonality("
       << "const bool, labelHashSet*) const: "
       << "checking mesh non-orthogonality" << endl;
   }
@@ -44,28 +44,20 @@ bool mousse::polyMesh::checkFaceOrthogonality
   label severeNonOrth = 0;
   label errorNonOrth = 0;
   // Statistics only for internal and masters of coupled faces
-  PackedBoolList isMasterFace(syncTools::getInternalOrMasterFaces(*this));
-  FOR_ALL(ortho, faceI)
-  {
-    if (ortho[faceI] < severeNonorthogonalityThreshold)
-    {
-      if (ortho[faceI] > SMALL)
-      {
-        if (setPtr)
-        {
+  PackedBoolList isMasterFace{syncTools::getInternalOrMasterFaces(*this)};
+  FOR_ALL(ortho, faceI) {
+    if (ortho[faceI] < severeNonorthogonalityThreshold) {
+      if (ortho[faceI] > SMALL) {
+        if (setPtr) {
           setPtr->insert(faceI);
         }
         severeNonOrth++;
-      }
-      else
-      {
+      } else {
         // Error : non-ortho too large
-        if (setPtr)
-        {
+        if (setPtr) {
           setPtr->insert(faceI);
         }
-        if (detailedReport && errorNonOrth == 0)
-        {
+        if (detailedReport && errorNonOrth == 0) {
           // Non-orthogonality greater than 90 deg
           WARNING_IN
           (
@@ -83,8 +75,7 @@ bool mousse::polyMesh::checkFaceOrthogonality
         errorNonOrth++;
       }
     }
-    if (isMasterFace[faceI])
-    {
+    if (isMasterFace[faceI]) {
       minDDotS = min(minDDotS, ortho[faceI]);
       sumDDotS += ortho[faceI];
       nSummed++;
@@ -95,44 +86,37 @@ bool mousse::polyMesh::checkFaceOrthogonality
   reduce(nSummed, sumOp<label>());
   reduce(severeNonOrth, sumOp<label>());
   reduce(errorNonOrth, sumOp<label>());
-  if (debug || report)
-  {
-    if (nSummed > 0)
-    {
-      if (debug || report)
-      {
-        Info<< "    Mesh non-orthogonality Max: "
+  if (debug || report) {
+    if (nSummed > 0) {
+      if (debug || report) {
+        Info << "    Mesh non-orthogonality Max: "
           << radToDeg(::acos(min(1.0, max(-1.0, minDDotS))))
           << " average: "
           << radToDeg(::acos(min(1.0, max(-1.0, sumDDotS/nSummed))))
           << endl;
       }
     }
-    if (severeNonOrth > 0)
-    {
-      Info<< "   *Number of severely non-orthogonal (> "
+    if (severeNonOrth > 0) {
+      Info << "   *Number of severely non-orthogonal (> "
         << primitiveMesh::nonOrthThreshold_ << " degrees) faces: "
         << severeNonOrth << "." << endl;
     }
   }
-  if (errorNonOrth > 0)
-  {
-    if (debug || report)
-    {
-      Info<< " ***Number of non-orthogonality errors: "
+  if (errorNonOrth > 0) {
+    if (debug || report) {
+      Info << " ***Number of non-orthogonality errors: "
         << errorNonOrth << "." << endl;
     }
     return true;
-  }
-  else
-  {
-    if (debug || report)
-    {
-      Info<< "    Non-orthogonality check OK." << endl;
+  } else {
+    if (debug || report) {
+      Info << "    Non-orthogonality check OK." << endl;
     }
     return false;
   }
 }
+
+
 bool mousse::polyMesh::checkFaceSkewness
 (
   const pointField& points,
@@ -144,9 +128,8 @@ bool mousse::polyMesh::checkFaceSkewness
   labelHashSet* setPtr
 ) const
 {
-  if (debug)
-  {
-    Info<< "bool polyMesh::checkFaceSkewnesss("
+  if (debug) {
+    Info << "bool polyMesh::checkFaceSkewnesss("
       << "const bool, labelHashSet*) const: "
       << "checking face skewness" << endl;
   }
@@ -166,70 +149,61 @@ bool mousse::polyMesh::checkFaceSkewness
   scalar maxSkew = max(skew);
   label nWarnSkew = 0;
   // Statistics only for all faces except slave coupled faces
-  PackedBoolList isMasterFace(syncTools::getMasterFaces(*this));
-  FOR_ALL(skew, faceI)
-  {
+  PackedBoolList isMasterFace{syncTools::getMasterFaces(*this)};
+  FOR_ALL(skew, faceI) {
     // Check if the skewness vector is greater than the PN vector.
     // This does not cause trouble but is a good indication of a poor mesh.
-    if (skew[faceI] > skewThreshold_)
-    {
-      if (setPtr)
-      {
+    if (skew[faceI] > skewThreshold_) {
+      if (setPtr) {
         setPtr->insert(faceI);
       }
-      if (detailedReport && nWarnSkew == 0)
-      {
+      if (detailedReport && nWarnSkew == 0) {
         // Non-orthogonality greater than 90 deg
-        if (isInternalFace(faceI))
-        {
+        if (isInternalFace(faceI)) {
           WARNING_IN
           (
             "polyMesh::checkFaceSkewnesss"
             "(const pointField&, const bool) const"
-          )   << "Severe skewness " << skew[faceI]
-            << " for face " << faceI
-            << " between cells " << own[faceI]
-            << " and " << nei[faceI];
-        }
-        else
-        {
+          )
+          << "Severe skewness " << skew[faceI]
+          << " for face " << faceI
+          << " between cells " << own[faceI]
+          << " and " << nei[faceI];
+        } else {
           WARNING_IN
           (
             "polyMesh::checkFaceSkewnesss"
             "(const pointField&, const bool) const"
-          )   << "Severe skewness " << skew[faceI]
-            << " for boundary face " << faceI
-            << " on cell " << own[faceI];
+          )
+          << "Severe skewness " << skew[faceI]
+          << " for boundary face " << faceI
+          << " on cell " << own[faceI];
         }
       }
-      if (isMasterFace[faceI])
-      {
+      if (isMasterFace[faceI]) {
         nWarnSkew++;
       }
     }
   }
   reduce(maxSkew, maxOp<scalar>());
   reduce(nWarnSkew, sumOp<label>());
-  if (nWarnSkew > 0)
-  {
-    if (debug || report)
-    {
-      Info<< " ***Max skewness = " << maxSkew
+  if (nWarnSkew > 0) {
+    if (debug || report) {
+      Info << " ***Max skewness = " << maxSkew
         << ", " << nWarnSkew << " highly skew faces detected"
          " which may impair the quality of the results"
         << endl;
     }
     return true;
-  }
-  else
-  {
-    if (debug || report)
-    {
-      Info<< "    Max skewness = " << maxSkew << " OK." << endl;
+  } else {
+    if (debug || report) {
+      Info << "    Max skewness = " << maxSkew << " OK." << endl;
     }
     return false;
   }
 }
+
+
 // Check 1D/2Dness of edges. Gets passed the non-empty directions and
 // checks all edges in the mesh whether they:
 // - have no component in a non-empty direction or
@@ -244,80 +218,60 @@ bool mousse::polyMesh::checkEdgeAlignment
   labelHashSet* setPtr
 ) const
 {
-  if (debug)
-  {
-    Info<< "bool polyMesh::checkEdgeAlignment("
+  if (debug) {
+    Info << "bool polyMesh::checkEdgeAlignment("
       << "const bool, const Vector<label>&, labelHashSet*) const: "
       << "checking edge alignment" << endl;
   }
   label nDirs = 0;
-  for (direction cmpt=0; cmpt<vector::nComponents; cmpt++)
-  {
-    if (directions[cmpt] == 1)
-    {
+  for (direction cmpt=0; cmpt<vector::nComponents; cmpt++) {
+    if (directions[cmpt] == 1) {
       nDirs++;
-    }
-    else if (directions[cmpt] != 0)
-    {
+    } else if (directions[cmpt] != 0) {
       FATAL_ERROR_IN
       (
         "polyMesh::checkEdgeAlignment"
         "(const bool, const Vector<label>&, labelHashSet*)"
-      )   << "directions should contain 0 or 1 but is now " << directions
-        << exit(FatalError);
+      )
+      << "directions should contain 0 or 1 but is now " << directions
+      << exit(FatalError);
     }
   }
-  if (nDirs == vector::nComponents)
-  {
+  if (nDirs == vector::nComponents) {
     return false;
   }
   const faceList& fcs = faces();
   EdgeMap<label> edgesInError;
-  FOR_ALL(fcs, faceI)
-  {
+  FOR_ALL(fcs, faceI) {
     const face& f = fcs[faceI];
-    FOR_ALL(f, fp)
-    {
+    FOR_ALL(f, fp) {
       label p0 = f[fp];
       label p1 = f.nextLabel(fp);
-      if (p0 < p1)
-      {
+      if (p0 < p1) {
         vector d(p[p1]-p[p0]);
         scalar magD = mag(d);
-        if (magD > ROOTVSMALL)
-        {
+        if (magD > ROOTVSMALL) {
           d /= magD;
           // Check how many empty directions are used by the edge.
           label nEmptyDirs = 0;
           label nNonEmptyDirs = 0;
-          for (direction cmpt=0; cmpt<vector::nComponents; cmpt++)
-          {
-            if (mag(d[cmpt]) > 1e-6)
-            {
-              if (directions[cmpt] == 0)
-              {
+          for (direction cmpt=0; cmpt<vector::nComponents; cmpt++) {
+            if (mag(d[cmpt]) > 1e-6) {
+              if (directions[cmpt] == 0) {
                 nEmptyDirs++;
-              }
-              else
-              {
+              } else {
                 nNonEmptyDirs++;
               }
             }
           }
-          if (nEmptyDirs == 0)
-          {
+          if (nEmptyDirs == 0) {
             // Purely in ok directions.
-          }
-          else if (nEmptyDirs == 1)
-          {
+          } else if (nEmptyDirs == 1) {
             // Ok if purely in empty directions.
-            if (nNonEmptyDirs > 0)
-            {
+            if (nNonEmptyDirs > 0) {
               edgesInError.insert(edge(p0, p1), faceI);
             }
-          }
-          else if (nEmptyDirs > 1)
-          {
+          } else if (nEmptyDirs > 1) {
             // Always an error
             edgesInError.insert(edge(p0, p1), faceI);
           }
@@ -326,34 +280,29 @@ bool mousse::polyMesh::checkEdgeAlignment
     }
   }
   label nErrorEdges = returnReduce(edgesInError.size(), sumOp<label>());
-  if (nErrorEdges > 0)
-  {
-    if (debug || report)
-    {
-      Info<< " ***Number of edges not aligned with or perpendicular to "
+  if (nErrorEdges > 0) {
+    if (debug || report) {
+      Info << " ***Number of edges not aligned with or perpendicular to "
         << "non-empty directions: " << nErrorEdges << endl;
     }
-    if (setPtr)
-    {
+    if (setPtr) {
       setPtr->resize(2*edgesInError.size());
-      FOR_ALL_CONST_ITER(EdgeMap<label>, edgesInError, iter)
-      {
+      FOR_ALL_CONST_ITER(EdgeMap<label>, edgesInError, iter) {
         setPtr->insert(iter.key()[0]);
         setPtr->insert(iter.key()[1]);
       }
     }
     return true;
-  }
-  else
-  {
-    if (debug || report)
-    {
-      Info<< "    All edges aligned with or perpendicular to "
+  } else {
+    if (debug || report) {
+      Info << "    All edges aligned with or perpendicular to "
         << "non-empty directions." << endl;
     }
     return false;
   }
 }
+
+
 bool mousse::polyMesh::checkCellDeterminant
 (
   const vectorField& faceAreas,
@@ -363,9 +312,8 @@ bool mousse::polyMesh::checkCellDeterminant
 ) const
 {
   const scalar warnDet = 1e-3;
-  if (debug)
-  {
-    Info<< "bool polyMesh::checkCellDeterminant(const bool"
+  if (debug) {
+    Info << "bool polyMesh::checkCellDeterminant(const bool"
       << ", labelHashSet*) const: "
       << "checking for under-determined cells" << endl;
   }
@@ -380,12 +328,9 @@ bool mousse::polyMesh::checkCellDeterminant
   label nErrorCells = 0;
   scalar minDet = min(cellDeterminant);
   scalar sumDet = sum(cellDeterminant);
-  FOR_ALL(cellDeterminant, cellI)
-  {
-    if (cellDeterminant[cellI] < warnDet)
-    {
-      if (setPtr)
-      {
+  FOR_ALL(cellDeterminant, cellI) {
+    if (cellDeterminant[cellI] < warnDet) {
+      if (setPtr) {
         setPtr->insert(cellI);
       }
       nErrorCells++;
@@ -395,35 +340,30 @@ bool mousse::polyMesh::checkCellDeterminant
   reduce(minDet, minOp<scalar>());
   reduce(sumDet, sumOp<scalar>());
   label nSummed = returnReduce(cellDeterminant.size(), sumOp<label>());
-  if (debug || report)
-  {
-    if (nSummed > 0)
-    {
-      Info<< "    Cell determinant (wellposedness) : minimum: " << minDet
+  if (debug || report) {
+    if (nSummed > 0) {
+      Info << "    Cell determinant (wellposedness) : minimum: " << minDet
         << " average: " << sumDet/nSummed
         << endl;
     }
   }
-  if (nErrorCells > 0)
-  {
-    if (debug || report)
-    {
-      Info<< " ***Cells with small determinant (< "
+  if (nErrorCells > 0) {
+    if (debug || report) {
+      Info << " ***Cells with small determinant (< "
         << warnDet << ") found, number of cells: "
         << nErrorCells << endl;
     }
     return true;
-  }
-  else
-  {
-    if (debug || report)
-    {
-      Info<< "    Cell determinant check OK." << endl;
+  } else {
+    if (debug || report) {
+      Info << "    Cell determinant check OK." << endl;
     }
     return false;
   }
   return false;
 }
+
+
 bool mousse::polyMesh::checkFaceWeight
 (
   const vectorField& fCtrs,
@@ -434,9 +374,8 @@ bool mousse::polyMesh::checkFaceWeight
   labelHashSet* setPtr
 ) const
 {
-  if (debug)
-  {
-    Info<< "bool polyMesh::checkFaceWeight(const bool"
+  if (debug) {
+    Info << "bool polyMesh::checkFaceWeight(const bool"
       << ", labelHashSet*) const: "
       << "checking for low face interpolation weights" << endl;
   }
@@ -453,21 +392,17 @@ bool mousse::polyMesh::checkFaceWeight
   scalar sumDet = 0.0;
   label nSummed = 0;
   // Statistics only for internal and masters of coupled faces
-  PackedBoolList isMasterFace(syncTools::getInternalOrMasterFaces(*this));
-  FOR_ALL(faceWght, faceI)
-  {
-    if (faceWght[faceI] < minWeight)
-    {
+  PackedBoolList isMasterFace{syncTools::getInternalOrMasterFaces(*this)};
+  FOR_ALL(faceWght, faceI) {
+    if (faceWght[faceI] < minWeight) {
       // Note: insert both sides of coupled faces
-      if (setPtr)
-      {
+      if (setPtr) {
         setPtr->insert(faceI);
       }
       nErrorFaces++;
     }
     // Note: statistics only on master of coupled faces
-    if (isMasterFace[faceI])
-    {
+    if (isMasterFace[faceI]) {
       minDet = min(minDet, faceWght[faceI]);
       sumDet += faceWght[faceI];
       nSummed++;
@@ -477,35 +412,30 @@ bool mousse::polyMesh::checkFaceWeight
   reduce(minDet, minOp<scalar>());
   reduce(sumDet, sumOp<scalar>());
   reduce(nSummed, sumOp<label>());
-  if (debug || report)
-  {
-    if (nSummed > 0)
-    {
-      Info<< "    Face interpolation weight : minimum: " << minDet
+  if (debug || report) {
+    if (nSummed > 0) {
+      Info << "    Face interpolation weight : minimum: " << minDet
         << " average: " << sumDet/nSummed
         << endl;
     }
   }
-  if (nErrorFaces > 0)
-  {
-    if (debug || report)
-    {
-      Info<< " ***Faces with small interpolation weight (< " << minWeight
+  if (nErrorFaces > 0) {
+    if (debug || report) {
+      Info << " ***Faces with small interpolation weight (< " << minWeight
         << ") found, number of faces: "
         << nErrorFaces << endl;
     }
     return true;
-  }
-  else
-  {
-    if (debug || report)
-    {
-      Info<< "    Face interpolation weight check OK." << endl;
+  } else {
+    if (debug || report) {
+      Info << "    Face interpolation weight check OK." << endl;
     }
     return false;
   }
   return false;
 }
+
+
 bool mousse::polyMesh::checkVolRatio
 (
   const scalarField& cellVols,
@@ -514,9 +444,8 @@ bool mousse::polyMesh::checkVolRatio
   labelHashSet* setPtr
 ) const
 {
-  if (debug)
-  {
-    Info<< "bool polyMesh::checkVolRatio(const bool"
+  if (debug) {
+    Info << "bool polyMesh::checkVolRatio(const bool"
       << ", labelHashSet*) const: "
       << "checking for volume ratio < " << minRatio << endl;
   }
@@ -527,21 +456,17 @@ bool mousse::polyMesh::checkVolRatio
   scalar sumDet = 0.0;
   label nSummed = 0;
   // Statistics only for internal and masters of coupled faces
-  PackedBoolList isMasterFace(syncTools::getInternalOrMasterFaces(*this));
-  FOR_ALL(volRatio, faceI)
-  {
-    if (volRatio[faceI] < minRatio)
-    {
+  PackedBoolList isMasterFace{syncTools::getInternalOrMasterFaces(*this)};
+  FOR_ALL(volRatio, faceI) {
+    if (volRatio[faceI] < minRatio) {
       // Note: insert both sides of coupled faces
-      if (setPtr)
-      {
+      if (setPtr) {
         setPtr->insert(faceI);
       }
       nErrorFaces++;
     }
     // Note: statistics only on master of coupled faces
-    if (isMasterFace[faceI])
-    {
+    if (isMasterFace[faceI]) {
       minDet = min(minDet, volRatio[faceI]);
       sumDet += volRatio[faceI];
       nSummed++;
@@ -551,35 +476,30 @@ bool mousse::polyMesh::checkVolRatio
   reduce(minDet, minOp<scalar>());
   reduce(sumDet, sumOp<scalar>());
   reduce(nSummed, sumOp<label>());
-  if (debug || report)
-  {
-    if (nSummed > 0)
-    {
-      Info<< "    Face volume ratio : minimum: " << minDet
+  if (debug || report) {
+    if (nSummed > 0) {
+      Info << "    Face volume ratio : minimum: " << minDet
         << " average: " << sumDet/nSummed
         << endl;
     }
   }
-  if (nErrorFaces > 0)
-  {
-    if (debug || report)
-    {
-      Info<< " ***Faces with small volume ratio (< " << minRatio
+  if (nErrorFaces > 0) {
+    if (debug || report) {
+      Info << " ***Faces with small volume ratio (< " << minRatio
         << ") found, number of faces: "
         << nErrorFaces << endl;
     }
     return true;
-  }
-  else
-  {
-    if (debug || report)
-    {
-      Info<< "    Face volume ratio check OK." << endl;
+  } else {
+    if (debug || report) {
+      Info << "    Face volume ratio check OK." << endl;
     }
     return false;
   }
   return false;
 }
+
+
 //- Could override checkClosedBoundary to not look at (collocated!) coupled
 //  faces
 //bool mousse::polyMesh::checkClosedBoundary(const bool report) const
@@ -606,6 +526,8 @@ bool mousse::polyMesh::checkFaceOrthogonality
     setPtr
   );
 }
+
+
 bool mousse::polyMesh::checkFaceSkewness
 (
   const bool report,
@@ -623,6 +545,8 @@ bool mousse::polyMesh::checkFaceSkewness
     setPtr
   );
 }
+
+
 bool mousse::polyMesh::checkEdgeAlignment
 (
   const bool report,
@@ -638,6 +562,8 @@ bool mousse::polyMesh::checkEdgeAlignment
     setPtr
   );
 }
+
+
 bool mousse::polyMesh::checkCellDeterminant
 (
   const bool report,
@@ -652,6 +578,8 @@ bool mousse::polyMesh::checkCellDeterminant
     geometricD()
   );
 }
+
+
 bool mousse::polyMesh::checkFaceWeight
 (
   const bool report,
@@ -669,6 +597,8 @@ bool mousse::polyMesh::checkFaceWeight
     setPtr
   );
 }
+
+
 bool mousse::polyMesh::checkVolRatio
 (
   const bool report,
@@ -678,6 +608,8 @@ bool mousse::polyMesh::checkVolRatio
 {
   return checkVolRatio(cellVolumes(), report, minRatio, setPtr);
 }
+
+
 bool mousse::polyMesh::checkMeshMotion
 (
   const pointField& newPoints,
@@ -685,18 +617,17 @@ bool mousse::polyMesh::checkMeshMotion
   const bool detailedReport
 ) const
 {
-  if (debug || report)
-  {
-    Pout<< "bool polyMesh::checkMeshMotion("
+  if (debug || report) {
+    Pout << "bool polyMesh::checkMeshMotion("
       << "const pointField&, const bool, const bool) const: "
       << "checking mesh motion" << endl;
   }
-  vectorField fCtrs(nFaces());
-  vectorField fAreas(nFaces());
+  vectorField fCtrs{nFaces()};
+  vectorField fAreas{nFaces()};
   makeFaceCentresAndAreas(newPoints, fCtrs, fAreas);
   // Check cell volumes and calculate new cell centres
-  vectorField cellCtrs(nCells());
-  scalarField cellVols(nCells());
+  vectorField cellCtrs{nCells()};
+  scalarField cellVols{nCells()};
   makeCellCentresAndVols(fCtrs, fAreas, cellCtrs, cellVols);
   // Check cell volumes
   bool error = checkCellVolumes
@@ -736,9 +667,9 @@ bool mousse::polyMesh::checkMeshMotion
     NULL            // setPtr
   );
   error = error || nonOrthoError;
-  if (!error && (debug || report))
-  {
-    Pout<< "Mesh motion check OK." << endl;
+  if (!error && (debug || report)) {
+    Pout << "Mesh motion check OK." << endl;
   }
   return error;
 }
+

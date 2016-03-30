@@ -8,22 +8,20 @@
 //   mousse::dynamicCode
 // Description
 //   Tools for handling dynamic code compilation
-// SourceFiles
-//   dynamic_code.cpp
-
 
 #include "tuple2.hpp"
 #include "hash_table.hpp"
 #include "dynamic_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class dynamicCodeContext;
 class ISstream;
 class OSstream;
 class SHA1Digest;
+
 
 class dynamicCode
 {
@@ -200,10 +198,10 @@ public:
     fileName libRelPath() const;
 
     //- Path for SHA1Digest
-    //  Corresponds to codePath()/Make/SHA1Digest
+    //  Corresponds to codePath()/_make/sha1sum
     fileName digestFile() const
     {
-      return codeRoot_/codeDirName_/"Make/SHA1Digest";
+      return codeRoot_/codeDirName_/"_make/sha1sum";
     }
 
     //- Clear files and variables

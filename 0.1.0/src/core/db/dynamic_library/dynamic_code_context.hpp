@@ -8,12 +8,13 @@
 //   mousse::dynamicCodeContext
 // Description
 //   Encapsulation of dynamic code dictionaries
-// SourceFiles
-//   dynamic_code_context.cpp
+
 #include "dictionary.hpp"
 #include "sha1_digest.hpp"
-namespace mousse
-{
+
+
+namespace mousse{
+
 class dynamicCodeContext
 {
   // Private data

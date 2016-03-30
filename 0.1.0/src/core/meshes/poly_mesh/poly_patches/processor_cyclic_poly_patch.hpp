@@ -9,11 +9,12 @@
 // Description
 //   Neighbour processor patch.
 //   Note: morph patch face ordering is geometric.
-// SourceFiles
-//   processor_cyclic_poly_patch.cpp
+
 #include "processor_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class processorCyclicPolyPatch
 :
   public processorPolyPatch
@@ -133,16 +134,16 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new processorCyclicPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           newSize,
           newStart
-        )
-      );
+        }
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -156,17 +157,17 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new processorCyclicPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           newSize,
           newStart,
           referPatchName
-        )
-      );
+        }
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -179,16 +180,16 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new processorCyclicPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           mapAddressing,
           newStart
-        )
-      );
+        }
+      };
     }
   // Destructor
   virtual ~processorCyclicPolyPatch();
@@ -206,15 +207,15 @@ public:
         (
           referPatchName_
         );
-        if (referPatchID_ == -1)
-        {
+        if (referPatchID_ == -1) {
           FATAL_ERROR_IN
           (
             "processorCyclicPolyPatch::referPatchID() const"
-          )   << "Illegal referPatch name " << referPatchName_
-            << endl << "Valid patch names are "
-            << this->boundaryMesh().names()
-            << exit(FatalError);
+          )
+          << "Illegal referPatch name " << referPatchName_
+          << endl << "Valid patch names are "
+          << this->boundaryMesh().names()
+          << exit(FatalError);
         }
       }
       return referPatchID_;

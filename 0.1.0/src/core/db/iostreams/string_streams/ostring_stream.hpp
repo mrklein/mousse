@@ -8,12 +8,13 @@
 //   mousse::OStringStream
 // Description
 //   Output to memory buffer stream.
-// SourceFiles
-//   string_streams_print.cpp
+
 #include "osstream.hpp"
 #include <sstream>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class OStringStream
 :
   public OSstream
@@ -28,31 +29,31 @@ public:
     )
     :
       OSstream
-      (
+      {
        *(new std::ostringstream()),
         "OStringStream.sinkFile",
         format,
         version
-      )
+      }
     {}
     //- Construct as copy
     OStringStream(const OStringStream& oss)
     :
       OSstream
-      (
-       *(
+      {
+        *(
           new std::ostringstream
-          (
+          {
             dynamic_cast<const std::ostringstream&>
             (
               oss.stdStream()
             ).str()
-          )
+          }
         ),
         oss.name(),
         oss.format(),
         oss.version()
-      )
+      }
     {}
   //- Destructor
   ~OStringStream()

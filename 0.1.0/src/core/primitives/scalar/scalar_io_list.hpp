@@ -7,8 +7,12 @@
 
 #include "scalar.hpp"
 #include "iolist.hpp"
-namespace mousse
-{
-  typedef IOList<scalar> scalarIOList;
+
+
+namespace mousse {
+
+typedef IOList<scalar> scalarIOList;
+
 }
+
 #endif

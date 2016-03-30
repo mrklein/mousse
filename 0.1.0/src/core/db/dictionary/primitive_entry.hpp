@@ -13,16 +13,16 @@
 //   A primitiveEntry is a high-level building block for data description. It
 //   is a front-end for the token parser. A list of entries can be used as a
 //   set of keyword syntax elements, for example.
-// SourceFiles
-//   primitive_entry.cpp
-//   primitive_entry_io.cpp
+
 #include "istring_stream.hpp"
 #include "ostring_stream.hpp"
 #include "entry.hpp"
 #include "itstream.hpp"
 #include "info_proxy.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class dictionary;
 class primitiveEntry
 :
@@ -114,10 +114,13 @@ public:
       return *this;
     }
 };
+
 template<>
 Ostream& operator<<(Ostream&, const InfoProxy<primitiveEntry>&);
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "primitive_entry_templates.cpp"
-#endif
+
+
+#include "primitive_entry.ipp"
+
 #endif

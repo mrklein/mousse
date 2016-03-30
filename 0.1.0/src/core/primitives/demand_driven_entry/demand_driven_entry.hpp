@@ -11,10 +11,13 @@
 //   Holds a reference to a dictionary, which is then queried if the value
 //   is requested and has not already been cached
 // SourceFiles
-//   demand_driven_entry.cpp
+//   demand_driven_entry.ipp
+
 #include "dictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class demandDrivenEntry
 {
@@ -62,35 +65,44 @@ public:
     //- Reset the demand-driven entry
     inline void reset();
 };
+
 }  // namespace mousse
+
 
 template<class Type>
 inline void mousse::demandDrivenEntry<Type>::initialise() const
 {
-  if (!stored_)
-  {
+  if (!stored_) {
     dict_.lookup(keyword_) >> value_;
     stored_ = true;
   }
 }
+
+
 template<class Type>
 inline const Type& mousse::demandDrivenEntry<Type>::value() const
 {
   initialise();
   return value_;
 }
+
+
 template<class Type>
 inline void mousse::demandDrivenEntry<Type>::setValue(const Type& value)
 {
   value_ = value;
   stored_ = true;
 }
+
+
 template<class Type>
 inline void mousse::demandDrivenEntry<Type>::reset()
 {
   stored_ = false;
 }
-#ifdef NoRepository
-  #include "demand_driven_entry.cpp"
-#endif
+
+
+
+#include "demand_driven_entry.ipp"
+
 #endif

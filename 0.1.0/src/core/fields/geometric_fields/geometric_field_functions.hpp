@@ -6,11 +6,9 @@
 
 #define TEMPLATE                                                              \
   template<class Type, template<class> class PatchField, class GeoMesh>
+#include "geometric_field_functions_m.inc"
 
-#include "geometric_field_functions_m.hpp"
-
-namespace mousse
-{
+namespace mousse {
 
 // Global functions
 template<class Type, template<class> class PatchField, class GeoMesh>
@@ -447,4 +445,4 @@ PRODUCT_OPERATOR(scalarProduct, &&, dotdot)
 #undef PRODUCT_OPERATOR
 
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
+#include "undef_field_functions_m.inc"

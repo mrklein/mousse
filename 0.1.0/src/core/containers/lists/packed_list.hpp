@@ -62,9 +62,6 @@
 //   In both cases, the supplied indices can be randomly ordered.
 // SeeAlso
 //   mousse::DynamicList
-// SourceFiles
-//   packed_list.cpp
-
 
 #include <climits>
 
@@ -77,8 +74,7 @@
 #include "token.hpp"
 
 
-namespace mousse
-{
+namespace mousse {
 
 // Forward declaration of classes
 class Istream;
@@ -91,6 +87,7 @@ Istream& operator>>(Istream&, PackedList<nBits>&);
 template<unsigned nBits>
 Ostream& operator<<(Ostream&, const PackedList<nBits>&);
 
+
 //- Template-invariant bits for PackedList
 struct PackedListCore
 {
@@ -100,6 +97,7 @@ struct PackedListCore
   //- Define template name and debug
   CLASS_NAME("PackedList");
 };
+
 
 template<unsigned nBits=1>
 class PackedList
@@ -555,6 +553,7 @@ public:
 
 }  // namespace mousse
 
+
 template<unsigned nBits>
 inline unsigned int mousse::PackedList<nBits>::max_bits()
 {
@@ -615,7 +614,7 @@ inline bool mousse::PackedList<1>::iteratorBase::writeIfSet(Ostream& os) const
 {
   if (this->get())
   {
-    os  << index_;
+    os << index_;
     return true;
   }
   else
@@ -653,8 +652,7 @@ inline void mousse::PackedList<nBits>::setPair(Istream& is)
   const label ind = readLabel(is);
   const unsigned int val = readLabel(is);
   is.readEnd("Tuple2<label, unsigned int>");
-  if (val > max_value())
-  {
+  if (val > max_value()) {
     FATAL_IO_ERROR_IN
     (
       "PackedList<nBits>::setPair(Istream&)",
@@ -675,15 +673,10 @@ template<unsigned nBits>
 inline bool mousse::PackedList<nBits>::iteratorBase::writeIfSet(Ostream& os) const
 {
   const label val = this->get();
-  if (val)
-  {
-    os<< token::BEGIN_LIST
-      << index_ << token::SPACE << val
-      << token::END_LIST;
+  if (val) {
+    os << token::BEGIN_LIST << index_ << token::SPACE << val << token::END_LIST;
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
@@ -719,8 +712,7 @@ inline mousse::PackedList<nBits>::PackedList
   StorageList{packedLength(size), 0u},
   size_{size}
 {
-  if (val)
-  {
+  if (val) {
     operator=(val);
   }
 }
@@ -760,8 +752,7 @@ inline mousse::PackedList<nBits>::PackedList(const labelUList& lst)
   StorageList{packedLength(lst.size()), 0u},
   size_{lst.size()}
 {
-  FOR_ALL(lst, i)
-  {
+  FOR_ALL(lst, i) {
     set(i, lst[i]);
   }
 }
@@ -774,8 +765,7 @@ inline mousse::PackedList<nBits>::PackedList(const UIndirectList<label>& lst)
   StorageList{packedLength(lst.size()), 0u},
   size_{lst.size()}
 {
-  FOR_ALL(lst, i)
-  {
+  FOR_ALL(lst, i) {
     set(i, lst[i]);
   }
 }
@@ -832,13 +822,10 @@ mousse::PackedList<nBits>::iteratorBase::set(const unsigned int val)
   const unsigned int mask = max_value() << startBit;
   unsigned int& stored = list_->StorageList::operator[](seg);
   const unsigned int prev = stored;
-  if (val >= max_value())
-  {
+  if (val >= max_value()) {
     // overflow is max_value, fill everything
     stored |= mask;
-  }
-  else
-  {
+  } else {
     stored &= ~mask;
     stored |= mask & (val << startBit);
   }
@@ -888,8 +875,7 @@ inline unsigned int
 mousse::PackedList<nBits>::iteratorBase::operator=(const unsigned int val)
 {
   // lazy evaluation - increase size on assigment
-  if (index_ >= list_->size_)
-  {
+  if (index_ >= list_->size_) {
     list_->resize(index_ + 1);
   }
   this->set(val);
@@ -902,8 +888,7 @@ inline mousse::PackedList<nBits>::iteratorBase::operator
 unsigned int () const
 {
   // lazy evaluation - return 0 for out-of-range
-  if (index_ >= list_->size_)
-  {
+  if (index_ >= list_->size_) {
     return 0;
   }
   return this->get();
@@ -935,8 +920,7 @@ inline mousse::PackedList<nBits>::iterator::iterator
 {
   // avoid going past end()
   // eg, iter = iterator(list, Inf)
-  if (this->index_ > this->list_->size_)
-  {
+  if (this->index_ > this->list_->size_) {
     this->index_ = this->list_->size_;
   }
 }
@@ -952,8 +936,7 @@ inline mousse::PackedList<nBits>::const_iterator::const_iterator
 {
   // avoid going past end()
   // eg, iter = iterator(list, Inf)
-  if (this->index_ > this->list_->size_)
-  {
+  if (this->index_ > this->list_->size_) {
     this->index_ = this->list_->size_;
   }
 }
@@ -1039,8 +1022,7 @@ mousse::PackedList<nBits>::iterator::operator=(const iteratorBase& iter)
   this->index_ = iter.index_;
   // avoid going past end()
   // eg, iter = iterator(list, Inf)
-  if (this->index_ > this->list_->size_)
-  {
+  if (this->index_ > this->list_->size_) {
     this->index_ = this->list_->size_;
   }
   return *this;
@@ -1055,8 +1037,7 @@ mousse::PackedList<nBits>::const_iterator::operator=(const iteratorBase& iter)
   this->index_ = iter.index_;
   // avoid going past end()
   // eg, iter = iterator(list, Inf)
-  if (this->index_ > this->list_->size_)
-  {
+  if (this->index_ > this->list_->size_) {
     this->index_ = this->list_->size_;
   }
   return *this;
@@ -1244,37 +1225,29 @@ inline void mousse::PackedList<nBits>::resize
   reserve(newSize);
   const label oldSize = size_;
   size_ = newSize;
-  if (size_ > oldSize)
-  {
+  if (size_ > oldSize) {
     // fill new elements or newly exposed elements
-    if (val)
-    {
+    if (val) {
       // fill value for complete segments
       unsigned int fill = val;
-      if (val >= max_value())
-      {
+      if (val >= max_value()) {
         // fill everything
         fill = maskLower(packing());
-      }
-      else
-      {
-        for (unsigned int i = 1; i < packing(); ++i)
-        {
+      } else {
+        for (unsigned int i = 1; i < packing(); ++i) {
           fill |= (fill << nBits);
         }
       }
       // fill in complete segments
       const label oldLen = packedLength(oldSize);
       const label newLen = packedLength(size_);
-      for (label i=oldLen; i < newLen; ++i)
-      {
+      for (label i=oldLen; i < newLen; ++i) {
         StorageList::operator[](i) = fill;
       }
       // finish previous partial segment, preserve existing value
       {
         const unsigned int off = oldSize % packing();
-        if (off)
-        {
+        if (off) {
           const unsigned int seg = oldSize / packing();
           const unsigned int mask = maskLower(off);
           StorageList::operator[](seg) &= mask;
@@ -1284,30 +1257,25 @@ inline void mousse::PackedList<nBits>::resize
       // mask off the (new) final partial segment
       {
         const unsigned int off = size_ % packing();
-        if (off)
-        {
+        if (off) {
           const unsigned int seg = size_ / packing();
           StorageList::operator[](seg) &= maskLower(off);
         }
       }
     }
-  }
-  else if (size_ < oldSize)
-  {
+  } else if (size_ < oldSize) {
     // resize shrinking
     // - clear newly exposed elements
     // fill in complete segments
     const label oldLen = packedLength(oldSize);
     const label newLen = packedLength(size_);
-    for (label i=newLen; i < oldLen; ++i)
-    {
+    for (label i=newLen; i < oldLen; ++i) {
       StorageList::operator[](i) = 0u;
     }
     // mask off the final partial segment
     {
       const unsigned int off = size_ % packing();
-      if (off)
-      {
+      if (off) {
         const unsigned int seg = size_ / packing();
         StorageList::operator[](seg) &= maskLower(off);
       }
@@ -1339,13 +1307,11 @@ inline void mousse::PackedList<nBits>::setCapacity(const label nElem)
 {
   StorageList::setSize(packedLength(nElem), 0u);
   // truncate addressed size too
-  if (size_ > nElem)
-  {
+  if (size_ > nElem) {
     size_ = nElem;
     // mask off the final partial segment
     const unsigned int off = size_ % packing();
-    if (off)
-    {
+    if (off) {
       const unsigned int seg = size_ / packing();
       StorageList::operator[](seg) &= maskLower(off);
     }
@@ -1358,8 +1324,7 @@ inline void mousse::PackedList<nBits>::reserve(const label nElem)
 {
   const label len = packedLength(nElem);
   // need more capacity?
-  if (len > StorageList::size())
-  {
+  if (len > StorageList::size()) {
     // Like DynamicList with SizeInc=0, SizeMult=2, SizeDiv=1
     StorageList::setSize
     (
@@ -1393,16 +1358,19 @@ inline void mousse::PackedList<nBits>::clearStorage()
   StorageList::clear();
   size_ = 0;
 }
+
+
 template<unsigned nBits>
 inline void mousse::PackedList<nBits>::shrink()
 {
   // any uneed space allocated?
   const label len = packedLength();
-  if (len < StorageList::size())
-  {
+  if (len < StorageList::size()) {
     StorageList::setSize(len);
   }
 }
+
+
 template<unsigned nBits>
 inline mousse::List<unsigned int>& mousse::PackedList<nBits>::storage()
 {
@@ -1452,12 +1420,9 @@ template<unsigned nBits>
 inline unsigned int mousse::PackedList<nBits>::get(const label i) const
 {
   // lazy evaluation - return 0 for out-of-range
-  if (i < 0 || i >= size_)
-  {
+  if (i < 0 || i >= size_) {
     return 0;
-  }
-  else
-  {
+  } else {
     return iteratorBase(this, i).get();
   }
 }
@@ -1467,12 +1432,9 @@ template<unsigned nBits>
 inline unsigned int mousse::PackedList<nBits>::operator[](const label i) const
 {
   // lazy evaluation - return 0 for out-of-range
-  if (i < 0 || i >= size_)
-  {
+  if (i < 0 || i >= size_) {
     return 0;
-  }
-  else
-  {
+  } else {
     return iteratorBase(this, i).get();
   }
 }
@@ -1485,13 +1447,10 @@ inline bool mousse::PackedList<nBits>::set
   const unsigned int val
 )
 {
-  if (i < 0)
-  {
+  if (i < 0) {
     // lazy evaluation - ignore out-of-bounds
     return false;
-  }
-  else if (i >= size_)
-  {
+  } else if (i >= size_) {
     // lazy evaluation - increase size on assigment
     resize(i + 1);
   }
@@ -1503,12 +1462,9 @@ template<unsigned nBits>
 inline bool mousse::PackedList<nBits>::unset(const label i)
 {
   // lazy evaluation - ignore out-of-bounds
-  if (i < 0 || i >= size_)
-  {
+  if (i < 0 || i >= size_) {
     return false;
-  }
-  else
-  {
+  } else {
     return iteratorBase(this, i).set(0u);
   }
 }
@@ -1529,8 +1485,7 @@ mousse::PackedList<nBits>::append(const unsigned int val)
 template<unsigned nBits>
 inline unsigned int mousse::PackedList<nBits>::remove()
 {
-  if (!size_)
-  {
+  if (!size_) {
     FATAL_ERROR_IN
     (
       "mousse::PackedList<nBits>::remove()"
@@ -1556,46 +1511,35 @@ inline mousse::PackedList<nBits>&
 mousse::PackedList<nBits>::operator=(const unsigned int val)
 {
   const label packLen = packedLength();
-  if (val && size_)
-  {
+  if (val && size_) {
     unsigned int fill = val;
-    if (val >= max_value())
-    {
+    if (val >= max_value()) {
       // fill everything
       fill = maskLower(packing());
-    }
-    else
-    {
-      for (unsigned int i = 1; i < packing(); ++i)
-      {
+    } else {
+      for (unsigned int i = 1; i < packing(); ++i) {
         fill |= (fill << nBits);
       }
     }
-    for (label i=0; i < packLen; ++i)
-    {
+    for (label i=0; i < packLen; ++i) {
       StorageList::operator[](i) = fill;
     }
     // mask off the final partial segment
     {
       const unsigned int off = size_ % packing();
-      if (off)
-      {
+      if (off) {
         const unsigned int seg = size_ / packing();
         StorageList::operator[](seg) &= maskLower(off);
       }
     }
-  }
-  else
-  {
-    for (label i=0; i < packLen; ++i)
-    {
+  } else {
+    for (label i=0; i < packLen; ++i) {
       StorageList::operator[](i) = 0u;
     }
   }
   return *this;
 }
 
-#ifdef NoRepository
-#   include "packed_list.cpp"
-#endif
+#include "packed_list.ipp"
+
 #endif

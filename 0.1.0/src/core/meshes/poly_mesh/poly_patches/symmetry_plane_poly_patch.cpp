@@ -7,6 +7,7 @@
 #include "symmetry_poly_patch.hpp"
 #include "pstream_reduce_ops.hpp"
 
+
 namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(symmetryPlanePolyPatch, 0);
@@ -15,25 +16,21 @@ ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, symmetryPlanePolyPatch, dictionary);
 
 }
 
+
 // Protected Member Functions
 void mousse::symmetryPlanePolyPatch::calcGeometry(PstreamBuffers&)
 {
-  if (n_ == vector::rootMax)
-  {
-    if (returnReduce(size(), sumOp<label>()))
-    {
+  if (n_ == vector::rootMax) {
+    if (returnReduce(size(), sumOp<label>())) {
       const vectorField& nf(faceNormals());
       n_ = gAverage(nf);
-      if (debug)
-      {
-        Info<< "Patch " << name() << " calculated average normal "
+      if (debug) {
+        Info << "Patch " << name() << " calculated average normal "
           << n_ << endl;
       }
       // Check the symmetry plane is planar
-      FOR_ALL(nf, facei)
-      {
-        if (magSqr(n_ - nf[facei]) > SMALL)
-        {
+      FOR_ALL(nf, facei) {
+        if (magSqr(n_ - nf[facei]) > SMALL) {
           FATAL_ERROR_IN("symmetryPlanePolyPatch::n()")
             << "Symmetry plane '" << name() << "' is not planar."
             << endl
@@ -52,6 +49,7 @@ void mousse::symmetryPlanePolyPatch::calcGeometry(PstreamBuffers&)
   }
 }
 
+
 // Constructors
 mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
 (
@@ -63,9 +61,11 @@ mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
   const word& patchType
 )
 :
-  polyPatch(name, size, start, index, bm, patchType),
-  n_(vector::rootMax)
+  polyPatch{name, size, start, index, bm, patchType},
+  n_{vector::rootMax}
 {}
+
+
 mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
 (
   const word& name,
@@ -75,18 +75,22 @@ mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
   const word& patchType
 )
 :
-  polyPatch(name, dict, index, bm, patchType),
-  n_(vector::rootMax)
+  polyPatch{name, dict, index, bm, patchType},
+  n_{vector::rootMax}
 {}
+
+
 mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
 (
   const symmetryPlanePolyPatch& pp,
   const polyBoundaryMesh& bm
 )
 :
-  polyPatch(pp, bm),
-  n_(pp.n_)
+  polyPatch{pp, bm},
+  n_{pp.n_}
 {}
+
+
 mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
 (
   const symmetryPlanePolyPatch& pp,
@@ -96,9 +100,11 @@ mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
   const label newStart
 )
 :
-  polyPatch(pp, bm, index, newSize, newStart),
-  n_(pp.n_)
+  polyPatch{pp, bm, index, newSize, newStart},
+  n_{pp.n_}
 {}
+
+
 mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
 (
   const symmetryPlanePolyPatch& pp,
@@ -108,6 +114,6 @@ mousse::symmetryPlanePolyPatch::symmetryPlanePolyPatch
   const label newStart
 )
 :
-  polyPatch(pp, bm, index, mapAddressing, newStart),
-  n_(pp.n_)
+  polyPatch{pp, bm, index, mapAddressing, newStart},
+  n_{pp.n_}
 {}

@@ -8,11 +8,12 @@
 //   mousse::BiIndirectList
 // Description
 //   Indexes into negList (negative index) or posList (zero or positive index).
-// SourceFiles
-//   bi_indirect_list_i.hpp
+
 #include "list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class BiIndirectList
 {
@@ -66,6 +67,7 @@ public:
       inline void operator=(const T&);
 };
 }  // namespace mousse
+
 
 // Constructors 
 template<class T>
@@ -184,12 +186,9 @@ template<class T>
 inline T& mousse::BiIndirectList<T>::operator[](const label i)
 {
   label index = addressing_[i];
-  if (index >= 0)
-  {
+  if (index >= 0) {
     return posList_[index];
-  }
-  else
-  {
+  } else {
     return negList_[-index-1];
   }
 }
@@ -199,12 +198,9 @@ template<class T>
 inline const T& mousse::BiIndirectList<T>::operator[](const label i) const
 {
   label index = addressing_[i];
-  if (index >= 0)
-  {
+  if (index >= 0) {
     return posList_[index];
-  }
-  else
-  {
+  } else {
     return negList_[-index-1];
   }
 }
@@ -213,8 +209,7 @@ inline const T& mousse::BiIndirectList<T>::operator[](const label i) const
 template<class T>
 inline void mousse::BiIndirectList<T>::operator=(const UList<T>& ae)
 {
-  if (addressing_.size() != ae.size())
-  {
+  if (addressing_.size() != ae.size()) {
     FATAL_ERROR_IN("BiIndirectList<T>::operator=(const UList<T>&)")
       << "Addressing and list of addressed elements "
        "have different sizes: "
@@ -236,4 +231,5 @@ inline void mousse::BiIndirectList<T>::operator=(const T& t)
     operator[](i) = t;
   }
 }
+
 #endif

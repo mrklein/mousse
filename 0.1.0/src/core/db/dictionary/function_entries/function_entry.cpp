@@ -4,21 +4,26 @@
 
 #include "function_entry.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  DEFINE_MEMBER_FUNCTION_SELECTION_TABLE
-  (
-    functionEntry,
-    execute,
-    dictionaryIstream
-  );
-  DEFINE_MEMBER_FUNCTION_SELECTION_TABLE
-  (
-    functionEntry,
-    execute,
-    primitiveEntryIstream
-  );
+
+
+namespace mousse {
+
+DEFINE_MEMBER_FUNCTION_SELECTION_TABLE
+(
+  functionEntry,
+  execute,
+  dictionaryIstream
+);
+DEFINE_MEMBER_FUNCTION_SELECTION_TABLE
+(
+  functionEntry,
+  execute,
+  primitiveEntryIstream
+);
+
 }
+
+
 // Member Function Selectors
 bool mousse::functionEntry::execute
 (
@@ -32,9 +37,8 @@ bool mousse::functionEntry::execute
     "functionEntry::execute"
     "(const word& functionName, dictionary& parentDict, Istream&)"
   );
-  if (!executedictionaryIstreamMemberFunctionTablePtr_)
-  {
-    cerr<< "functionEntry::execute"
+  if (!executedictionaryIstreamMemberFunctionTablePtr_) {
+    cerr << "functionEntry::execute"
       << "(const word&, dictionary&, Istream&)"
       << " not yet initialized, function = "
       << functionName.c_str() << std::endl;
@@ -43,21 +47,23 @@ bool mousse::functionEntry::execute
   }
   executedictionaryIstreamMemberFunctionTable::iterator mfIter =
     executedictionaryIstreamMemberFunctionTablePtr_->find(functionName);
-  if (mfIter == executedictionaryIstreamMemberFunctionTablePtr_->end())
-  {
+  if (mfIter == executedictionaryIstreamMemberFunctionTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "functionEntry::execute"
       "(const word& functionName, dictionary& parentDict, Istream&)"
-    )   << "Unknown functionEntry '" << functionName
-      << "' in " << is.name() << " near line " << is.lineNumber()
-      << nl << nl
-      << "Valid functionEntries are :" << endl
-      << executedictionaryIstreamMemberFunctionTablePtr_->toc()
-      << exit(FatalError);
+    )
+    << "Unknown functionEntry '" << functionName
+    << "' in " << is.name() << " near line " << is.lineNumber()
+    << nl << nl
+    << "Valid functionEntries are :" << endl
+    << executedictionaryIstreamMemberFunctionTablePtr_->toc()
+    << exit(FatalError);
   }
   return mfIter()(parentDict, is);
 }
+
+
 bool mousse::functionEntry::execute
 (
   const word& functionName,
@@ -71,9 +77,8 @@ bool mousse::functionEntry::execute
     "functionEntry::execute"
     "(const word&, const dictionary&, primitiveEntry&, Istream&)"
   );
-  if (!executeprimitiveEntryIstreamMemberFunctionTablePtr_)
-  {
-    cerr<< "functionEntry::execute"
+  if (!executeprimitiveEntryIstreamMemberFunctionTablePtr_) {
+    cerr << "functionEntry::execute"
       << "(const word&, const dictionary&, primitiveEntry&, Istream&)"
       << " not yet initialized, function = "
       << functionName.c_str() << std::endl;
@@ -82,18 +87,18 @@ bool mousse::functionEntry::execute
   }
   executeprimitiveEntryIstreamMemberFunctionTable::iterator mfIter =
     executeprimitiveEntryIstreamMemberFunctionTablePtr_->find(functionName);
-  if (mfIter == executeprimitiveEntryIstreamMemberFunctionTablePtr_->end())
-  {
+  if (mfIter == executeprimitiveEntryIstreamMemberFunctionTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "functionEntry::execute"
       "(const word&, const dictionary&, primitiveEntry&, Istream&)"
-    )   << "Unknown functionEntry '" << functionName
-      << "' in " << is.name() << " near line " << is.lineNumber()
-      << nl << nl
-      << "Valid functionEntries are :" << endl
-      << executeprimitiveEntryIstreamMemberFunctionTablePtr_->toc()
-      << exit(FatalError);
+    )
+    << "Unknown functionEntry '" << functionName
+    << "' in " << is.name() << " near line " << is.lineNumber()
+    << nl << nl
+    << "Valid functionEntries are :" << endl
+    << executeprimitiveEntryIstreamMemberFunctionTablePtr_->toc()
+    << exit(FatalError);
   }
   return mfIter()(parentDict, entry, is);
 }

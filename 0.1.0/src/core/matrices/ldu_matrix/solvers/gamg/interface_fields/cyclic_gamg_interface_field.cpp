@@ -5,6 +5,8 @@
 #include "cyclic_gamg_interface_field.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "ldu_matrix.hpp"
+
+
 // Static Data Members
 namespace mousse {
 
@@ -43,6 +45,7 @@ ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 
 }
 
+
 // Constructors
 mousse::cyclicGAMGInterfaceField::cyclicGAMGInterfaceField
 (
@@ -50,16 +53,18 @@ mousse::cyclicGAMGInterfaceField::cyclicGAMGInterfaceField
   const lduInterfaceField& fineInterface
 )
 :
-  GAMGInterfaceField(GAMGCp, fineInterface),
-  cyclicInterface_(refCast<const cyclicGAMGInterface>(GAMGCp)),
-  doTransform_(false),
-  rank_(0)
+  GAMGInterfaceField{GAMGCp, fineInterface},
+  cyclicInterface_{refCast<const cyclicGAMGInterface>(GAMGCp)},
+  doTransform_{false},
+  rank_{0}
 {
   const cyclicLduInterfaceField& p =
     refCast<const cyclicLduInterfaceField>(fineInterface);
   doTransform_ = p.doTransform();
   rank_ = p.rank();
 }
+
+
 mousse::cyclicGAMGInterfaceField::cyclicGAMGInterfaceField
 (
   const GAMGInterface& GAMGCp,
@@ -67,15 +72,17 @@ mousse::cyclicGAMGInterfaceField::cyclicGAMGInterfaceField
   const int rank
 )
 :
-  GAMGInterfaceField(GAMGCp, doTransform, rank),
-  cyclicInterface_(refCast<const cyclicGAMGInterface>(GAMGCp)),
-  doTransform_(doTransform),
-  rank_(rank)
+  GAMGInterfaceField{GAMGCp, doTransform, rank},
+  cyclicInterface_{refCast<const cyclicGAMGInterface>(GAMGCp)},
+  doTransform_{doTransform},
+  rank_{rank}
 {}
 
-// Desstructor
+
+// Destructor
 mousse::cyclicGAMGInterfaceField::~cyclicGAMGInterfaceField()
 {}
+
 
 // Member Functions
 void mousse::cyclicGAMGInterfaceField::updateInterfaceMatrix
@@ -89,13 +96,12 @@ void mousse::cyclicGAMGInterfaceField::updateInterfaceMatrix
 {
   // Get neighbouring field
   scalarField pnf
-  (
+  {
     cyclicInterface_.neighbPatch().interfaceInternalField(psiInternal)
-  );
+  };
   transformCoupleField(pnf, cmpt);
   const labelUList& faceCells = cyclicInterface_.faceCells();
-  FOR_ALL(faceCells, elemI)
-  {
+  FOR_ALL(faceCells, elemI) {
     result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
   }
 }

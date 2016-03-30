@@ -66,7 +66,7 @@ public:
     PolynomialEntry
     (
       const word& entryName,
-      const List<Tuple2<Type, Type> >&
+      const List<Tuple2<Type, Type>>&
     );
 
     //- Copy constructor
@@ -76,9 +76,9 @@ public:
     PolynomialEntry<Type>& operator=(const PolynomialEntry<Type>&) = delete;
 
     //- Construct and return a clone
-    virtual tmp<DataEntry<Type> > clone() const
+    virtual tmp<DataEntry<Type>> clone() const
     {
-      return tmp<DataEntry<Type> >(new PolynomialEntry(*this));
+      return tmp<DataEntry<Type>>{new PolynomialEntry{*this}};
     }
 
   //- Destructor
@@ -123,7 +123,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "polynomial_entry.cpp"
-#endif
+
+#include "polynomial_entry.ipp"
+
 #endif

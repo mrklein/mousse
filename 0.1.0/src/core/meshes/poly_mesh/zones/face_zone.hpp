@@ -11,23 +11,21 @@
 //   For quick check whether a face belongs to the zone use the lookup
 //   mechanism in faceZoneMesh, where all the zoned faces are registered
 //   with their zone number.
-// SourceFiles
-//   face_zone.cpp
-//   face_zone_new.cpp
-
 
 #include "zone.hpp"
 #include "face_zone_mesh_fwd.hpp"
 #include "bool_list.hpp"
 #include "primitive_face_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class mapPolyMesh;
+
 // Forward declaration of friend functions and operators
 class faceZone;
 Ostream& operator<<(Ostream&, const faceZone&);
+
 
 class faceZone
 :

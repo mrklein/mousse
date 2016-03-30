@@ -8,27 +8,32 @@
 //   mousse::DynamicField
 // Description
 //   Dynamically sized Field.
-// SourceFiles
-//   dynamic_field.cpp
+
 #include "field.hpp"
 #include "static_assert.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 class DynamicField;
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 Ostream& operator<<
 (
   Ostream&,
   const DynamicField<T, SizeInc, SizeMult, SizeDiv>&
 );
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 Istream& operator>>
 (
   Istream&,
   DynamicField<T, SizeInc, SizeMult, SizeDiv>&
 );
+
+
 template<class T, unsigned SizeInc=0, unsigned SizeMult=2, unsigned SizeDiv=1>
 class DynamicField
 :
@@ -156,6 +161,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Constructors 
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField()
@@ -163,6 +169,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField()
   Field<T>{0},
   capacity_{Field<T>::size()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
 (
@@ -175,6 +183,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
   // we could also enforce SizeInc granularity when (!SizeMult || !SizeDiv)
   Field<T>::size(0);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
 (
@@ -184,6 +194,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
   Field<T>{lst},
   capacity_{Field<T>::size()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
 (
@@ -193,6 +205,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
   Field<T>{lst},
   capacity_{Field<T>::size()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
 (
@@ -203,6 +217,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
   Field<T>{mapF, mapAddressing},
   capacity_{Field<T>::size()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
 (
@@ -214,6 +230,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
   Field<T>{mapF, mapAddressing, weights},
   capacity_{Field<T>::size()}
 {}
+
+
 //- Construct by mapping from the given field
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
@@ -225,6 +243,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
   Field<T>{mapF, map},
   capacity_{Field<T>::size()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
 (
@@ -234,6 +254,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
   Field<T>{lst},
   capacity_{lst.capacity()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
 (
@@ -243,6 +265,8 @@ inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::DynamicField
   Field<T>{lst},
   capacity_{Field<T>::size()}
 {}
+
+
 // Member Functions 
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::label mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::capacity()
@@ -250,6 +274,8 @@ const
 {
   return capacity_;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::setCapacity
 (
@@ -258,8 +284,7 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::setCapacity
 {
   label nextFree = Field<T>::size();
   capacity_ = nElem;
-  if (nextFree > capacity_)
-  {
+  if (nextFree > capacity_) {
     // truncate addressed sizes too
     nextFree = capacity_;
   }
@@ -267,6 +292,8 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::setCapacity
   Field<T>::setSize(capacity_);
   Field<T>::size(nextFree);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::reserve
 (
@@ -274,8 +301,7 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::reserve
 )
 {
   // allocate more capacity?
-  if (nElem > capacity_)
-  {
+  if (nElem > capacity_) {
 // TODO: convince the compiler that division by zero does not occur
 //        if (SizeInc && (!SizeMult || !SizeDiv))
 //        {
@@ -301,6 +327,8 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::reserve
     Field<T>::size(nextFree);
   }
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::setSize
 (
@@ -308,8 +336,7 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::setSize
 )
 {
   // allocate more capacity?
-  if (nElem > capacity_)
-  {
+  if (nElem > capacity_) {
 // TODO: convince the compiler that division by zero does not occur
 //        if (SizeInc && (!SizeMult || !SizeDiv))
 //        {
@@ -334,6 +361,8 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::setSize
   // adjust addressed size
   Field<T>::size(nElem);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::setSize
 (
@@ -344,11 +373,12 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::setSize
   label nextFree = Field<T>::size();
   setSize(nElem);
   // set new elements to constant value
-  while (nextFree < nElem)
-  {
+  while (nextFree < nElem) {
     this->operator[](nextFree++) = t;
   }
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::resize
 (
@@ -357,6 +387,8 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::resize
 {
   this->setSize(nElem);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::resize
 (
@@ -366,24 +398,29 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::resize
 {
   this->setSize(nElem, t);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::clear()
 {
   Field<T>::size(0);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::clearStorage()
 {
   Field<T>::clear();
   capacity_ = 0;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>&
 mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::shrink()
 {
   label nextFree = Field<T>::size();
-  if (capacity_ > nextFree)
-  {
+  if (capacity_ > nextFree) {
     // use the full list when resizing
     Field<T>::size(capacity_);
     // the new size
@@ -393,12 +430,16 @@ mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::shrink()
   }
   return *this;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::Xfer<mousse::List<T> >
 mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::xfer()
 {
   return xferMoveTo< List<T> >(*this);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>&
 mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::append
@@ -411,6 +452,8 @@ mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::append
   this->operator[](elemI) = t;
   return *this;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>&
 mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::append
@@ -418,8 +461,7 @@ mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::append
   const UList<T>& lst
 )
 {
-  if (this == &lst)
-  {
+  if (this == &lst) {
     FATAL_ERROR_IN
     (
       "DynamicField<T, SizeInc, SizeMult, SizeDiv>::append"
@@ -429,27 +471,30 @@ mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::append
   }
   label nextFree = List<T>::size();
   setSize(nextFree + lst.size());
-  FOR_ALL(lst, elemI)
-  {
+  FOR_ALL(lst, elemI) {
     this->operator[](nextFree++) = lst[elemI];
   }
   return *this;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline T mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::remove()
 {
   const label elemI = List<T>::size() - 1;
-  if (elemI < 0)
-  {
+  if (elemI < 0) {
     FATAL_ERROR_IN
     (
       "mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::remove()"
-    )   << "List is empty" << abort(FatalError);
+    )
+    << "List is empty" << abort(FatalError);
   }
   const T& val = List<T>::operator[](elemI);
   List<T>::size(elemI);
   return val;
 }
+
+
 // Member Operators 
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline T& mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::operator()
@@ -457,12 +502,13 @@ inline T& mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::operator()
   const label elemI
 )
 {
-  if (elemI >= Field<T>::size())
-  {
+  if (elemI >= Field<T>::size()) {
     setSize(elemI + 1);
   }
   return this->operator[](elemI);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::operator=
 (
@@ -471,14 +517,15 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::operator=
 {
   UList<T>::operator=(t);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::operator=
 (
   const DynamicField<T, SizeInc, SizeMult, SizeDiv>& lst
 )
 {
-  if (this == &lst)
-  {
+  if (this == &lst) {
     FATAL_ERROR_IN
     (
       "DynamicField<T, SizeInc, SizeMult, SizeDiv>::operator="
@@ -486,41 +533,37 @@ inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::operator=
     )
     << "attempted assignment to self" << abort(FatalError);
   }
-  if (capacity_ >= lst.size())
-  {
+  if (capacity_ >= lst.size()) {
     // can copy w/o reallocating, match initial size to avoid reallocation
     Field<T>::size(lst.size());
     Field<T>::operator=(lst);
-  }
-  else
-  {
+  } else {
     // make everything available for the copy operation
     Field<T>::size(capacity_);
     Field<T>::operator=(lst);
     capacity_ = Field<T>::size();
   }
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicField<T, SizeInc, SizeMult, SizeDiv>::operator=
 (
   const UList<T>& lst
 )
 {
-  if (capacity_ >= lst.size())
-  {
+  if (capacity_ >= lst.size()) {
     // can copy w/o reallocating, match initial size to avoid reallocation
     Field<T>::size(lst.size());
     Field<T>::operator=(lst);
-  }
-  else
-  {
+  } else {
     // make everything available for the copy operation
     Field<T>::size(capacity_);
     Field<T>::operator=(lst);
     capacity_ = Field<T>::size();
   }
 }
-#ifdef NoRepository
-#   include "dynamic_field.cpp"
-#endif
+
+#include "dynamic_field.ipp"
+
 #endif

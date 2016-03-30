@@ -6,11 +6,14 @@
 #include "iostreams.hpp"
 #include <cstring>
 
+
 // Static Data Members
 const mousse::SHA1Digest mousse::SHA1Digest::null;
 
+
 //! \cond fileScope
 static const char hexChars[] = "0123456789abcdef";
+
 
 //! \endcond
 // Private Member Functions 
@@ -22,23 +25,17 @@ unsigned char mousse::SHA1Digest::readHexDigit(Istream& is)
   static const int zeroOffset = int('0');
   // silently ignore leading or intermediate '_'
   char c = 0;
-  do
-  {
+  do {
     is.read(c);
-  }
-  while (c == '_');
-  if (!isxdigit(c))
-  {
+  } while (c == '_');
+  if (!isxdigit(c)) {
     FATAL_IO_ERROR_IN("SHA1Digest::readHexDigit(Istream&)", is)
       << "Illegal hex digit: '" << c << "'"
       << exit(FatalIOError);
   }
-  if (isdigit(c))
-  {
+  if (isdigit(c)) {
     return int(c) - zeroOffset;
-  }
-  else
-  {
+  } else {
     return toupper(c) - alphaOffset;
   }
 }
@@ -53,7 +50,7 @@ mousse::SHA1Digest::SHA1Digest()
 
 mousse::SHA1Digest::SHA1Digest(Istream& is)
 {
-  is  >> *this;
+  is >> *this;
 }
 
 
@@ -66,10 +63,8 @@ void mousse::SHA1Digest::clear()
 
 bool mousse::SHA1Digest::empty() const
 {
-  for (unsigned i = 0; i < length; ++i)
-  {
-    if (v_[i])
-    {
+  for (unsigned i = 0; i < length; ++i) {
+    if (v_[i]) {
       return false;
     }
   }
@@ -81,17 +76,13 @@ std::string mousse::SHA1Digest::str(const bool prefixed) const
 {
   std::string buf;
   unsigned nChar = 0;
-  if (prefixed)
-  {
+  if (prefixed) {
     buf.resize(1 + length*2);
     buf[nChar++] = '_';
-  }
-  else
-  {
+  } else {
     buf.resize(length*2);
   }
-  for (unsigned i = 0; i < length; ++i)
-  {
+  for (unsigned i = 0; i < length; ++i) {
     buf[nChar++] = hexChars[((v_[i] >> 4) & 0xF)];
     buf[nChar++] = hexChars[(v_[i] & 0xF)];
   }
@@ -101,12 +92,10 @@ std::string mousse::SHA1Digest::str(const bool prefixed) const
 
 mousse::Ostream& mousse::SHA1Digest::write(Ostream& os, const bool prefixed) const
 {
-  if (prefixed)
-  {
+  if (prefixed) {
     os.write('_');
   }
-  for (unsigned i = 0; i < length; ++i)
-  {
+  for (unsigned i = 0; i < length; ++i) {
     os.write(hexChars[((v_[i] >> 4) & 0xF)]);
     os.write(hexChars[(v_[i] & 0xF)]);
   }
@@ -118,10 +107,8 @@ mousse::Ostream& mousse::SHA1Digest::write(Ostream& os, const bool prefixed) con
 // Member Operators 
 bool mousse::SHA1Digest::operator==(const SHA1Digest& rhs) const
 {
-  for (unsigned i = 0; i < length; ++i)
-  {
-    if (v_[i] != rhs.v_[i])
-    {
+  for (unsigned i = 0; i < length; ++i) {
+    if (v_[i] != rhs.v_[i]) {
       return false;
     }
   }
@@ -132,23 +119,19 @@ bool mousse::SHA1Digest::operator==(const SHA1Digest& rhs) const
 bool mousse::SHA1Digest::operator==(const std::string& hexdigits) const
 {
   // null or empty string is not an error - interpret as '0000..'
-  if (hexdigits.empty())
-  {
+  if (hexdigits.empty()) {
     return empty();
   }
   // skip possible '_' prefix
   unsigned charI = 0;
-  if (hexdigits[0] == '_')
-  {
+  if (hexdigits[0] == '_') {
     ++charI;
   }
   // incorrect length - can never match
-  if (hexdigits.size() != charI + length*2)
-  {
+  if (hexdigits.size() != charI + length*2) {
     return false;
   }
-  for (unsigned i = 0; i < length; ++i)
-  {
+  for (unsigned i = 0; i < length; ++i) {
     const char c1 = hexChars[((v_[i] >> 4) & 0xF)];
     const char c2 = hexChars[(v_[i] & 0xF)];
     if (c1 != hexdigits[charI++]) return false;
@@ -161,23 +144,19 @@ bool mousse::SHA1Digest::operator==(const std::string& hexdigits) const
 bool mousse::SHA1Digest::operator==(const char* hexdigits) const
 {
   // null or empty string is not an error - interpret as '0000..'
-  if (!hexdigits || !*hexdigits)
-  {
+  if (!hexdigits || !*hexdigits) {
     return empty();
   }
   // skip possible '_' prefix
   unsigned charI = 0;
-  if (hexdigits[0] == '_')
-  {
+  if (hexdigits[0] == '_') {
     ++charI;
   }
   // incorrect length - can never match
-  if (strlen(hexdigits) != charI + length*2)
-  {
+  if (strlen(hexdigits) != charI + length*2) {
     return false;
   }
-  for (unsigned i = 0; i < length; ++i)
-  {
+  for (unsigned i = 0; i < length; ++i) {
     const char c1 = hexChars[((v_[i] >> 4) & 0xF)];
     const char c2 = hexChars[(v_[i] & 0xF)];
     if (c1 != hexdigits[charI++]) return false;
@@ -209,8 +188,7 @@ bool mousse::SHA1Digest::operator!=(const char* rhs) const
 mousse::Istream& mousse::operator>>(Istream& is, SHA1Digest& dig)
 {
   unsigned char *v = dig.v_;
-  for (unsigned i = 0; i < dig.length; ++i)
-  {
+  for (unsigned i = 0; i < dig.length; ++i) {
     unsigned char c1 = SHA1Digest::readHexDigit(is);
     unsigned char c2 = SHA1Digest::readHexDigit(is);
     v[i] = (c1 << 4) + c2;

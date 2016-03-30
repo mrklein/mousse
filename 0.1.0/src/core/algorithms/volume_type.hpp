@@ -13,12 +13,14 @@
 #include "named_enum.hpp"
 #include "contiguous.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class volumeType;
 Istream& operator>>(Istream& is, volumeType&);
 Ostream& operator<<(Ostream& os, const volumeType& C);
+
 class volumeType
 {
 public:
@@ -41,12 +43,12 @@ public:
     //- Construct null
     volumeType()
     :
-      t_(UNKNOWN)
+      t_{UNKNOWN}
     {}
     //- Construct from components
     volumeType(type t)
     :
-      t_(t)
+      t_{t}
     {}
   // Member Functions
     operator type() const
@@ -57,8 +59,11 @@ public:
     friend Istream& operator>>(Istream& is, volumeType& vt);
     friend Ostream& operator<<(Ostream& os, const volumeType& vt);
 };
+
 //- Data associated with volumeType type are contiguous
 template<>
 inline bool contiguous<volumeType>() {return true;}
+
 }  // namespace mousse
+
 #endif

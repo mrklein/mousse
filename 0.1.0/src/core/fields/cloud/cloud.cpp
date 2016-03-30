@@ -4,20 +4,24 @@
 
 #include "cloud.hpp"
 #include "time.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(cloud, 0);
 const word cloud::prefix("lagrangian");
 word cloud::defaultName("defaultCloud");
 
 }
+
+
 // Constructors
 mousse::cloud::cloud(const objectRegistry& obr, const word& cloudName)
 :
-  objectRegistry{
-    IOobject{ 
+  objectRegistry
+  {
+    { 
       (cloudName.size() ? cloudName : defaultName),
       obr.time().timeName(),
       prefix,
@@ -28,9 +32,11 @@ mousse::cloud::cloud(const objectRegistry& obr, const word& cloudName)
   }
 {}
 
+
 // Destructor
 mousse::cloud::~cloud()
 {}
+
 
 // Member Functions
 void mousse::cloud::autoMap(const mapPolyMesh&)

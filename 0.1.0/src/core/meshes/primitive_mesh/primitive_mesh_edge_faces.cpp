@@ -4,16 +4,15 @@
 
 #include "primitive_mesh.hpp"
 #include "list_ops.hpp"
+
+
 // Member Functions 
 const mousse::labelListList& mousse::primitiveMesh::edgeFaces() const
 {
-  if (!efPtr_)
-  {
-    if (debug)
-    {
+  if (!efPtr_) {
+    if (debug) {
       Pout<< "primitiveMesh::edgeFaces() : calculating edgeFaces" << endl;
-      if (debug == -1)
-      {
+      if (debug == -1) {
         // For checking calls:abort so we can quickly hunt down
         // origin of call
         FATAL_ERROR_IN("primitiveMesh::edgeFaces()")
@@ -26,18 +25,17 @@ const mousse::labelListList& mousse::primitiveMesh::edgeFaces() const
   }
   return *efPtr_;
 }
+
+
 const mousse::labelList& mousse::primitiveMesh::edgeFaces
 (
   const label edgeI,
   DynamicList<label>& storage
 ) const
 {
-  if (hasEdgeFaces())
-  {
+  if (hasEdgeFaces()) {
     return edgeFaces()[edgeI];
-  }
-  else
-  {
+  } else {
     // Use the fact that pointEdges are sorted in incrementing edge order
     const edge& e = edges()[edgeI];
     const labelList& pFaces0 = pointFaces()[e[0]];
@@ -45,18 +43,12 @@ const mousse::labelList& mousse::primitiveMesh::edgeFaces
     label i0 = 0;
     label i1 = 0;
     storage.clear();
-    while (i0 < pFaces0.size() && i1 < pFaces1.size())
-    {
-      if (pFaces0[i0] < pFaces1[i1])
-      {
+    while (i0 < pFaces0.size() && i1 < pFaces1.size()) {
+      if (pFaces0[i0] < pFaces1[i1]) {
         ++i0;
-      }
-      else if (pFaces0[i0] > pFaces1[i1])
-      {
+      } else if (pFaces0[i0] > pFaces1[i1]) {
         ++i1;
-      }
-      else
-      {
+      } else {
         // Equal. Append.
         storage.append(pFaces0[i0]);
         ++i0;
@@ -66,7 +58,10 @@ const mousse::labelList& mousse::primitiveMesh::edgeFaces
     return storage;
   }
 }
+
+
 const mousse::labelList& mousse::primitiveMesh::edgeFaces(const label edgeI) const
 {
   return edgeFaces(edgeI, labels_);
 }
+

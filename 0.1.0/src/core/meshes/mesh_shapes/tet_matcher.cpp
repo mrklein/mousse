@@ -9,15 +9,18 @@
 #include "cell_modeller.hpp"
 #include "list_ops.hpp"
 
+
 // Static Data Members
 const mousse::label mousse::tetMatcher::vertPerCell = 4;
 const mousse::label mousse::tetMatcher::facePerCell = 4;
 const mousse::label mousse::tetMatcher::maxVertPerFace = 3;
 
+
 // Constructors
 mousse::tetMatcher::tetMatcher()
 :
-  cellMatcher{
+  cellMatcher
+  {
     vertPerCell,
     facePerCell,
     maxVertPerFace,
@@ -25,9 +28,11 @@ mousse::tetMatcher::tetMatcher()
   }
 {}
 
+
 // Destructor
 mousse::tetMatcher::~tetMatcher()
 {}
+
 
 // Member Functions
 bool mousse::tetMatcher::matchShape
@@ -39,19 +44,16 @@ bool mousse::tetMatcher::matchShape
   const labelList& myFaces
 )
 {
-  if (!faceSizeMatch(faces, myFaces))
-  {
+  if (!faceSizeMatch(faces, myFaces)) {
     return false;
   }
   // Tet for sure now
-  if (checkOnly)
-  {
+  if (checkOnly) {
     return true;
   }
   // Calculate localFaces_ and mapping pointMap_, faceMap_
   label numVert = calcLocalFaces(faces, myFaces);
-  if (numVert != vertPerCell)
-  {
+  if (numVert != vertPerCell) {
     return false;
   }
   // Set up 'edge' to face mapping.
@@ -135,30 +137,33 @@ bool mousse::tetMatcher::matchShape
   vertLabels_[3] = pointMap_[face1[face1vert3]];
   return true;
 }
+
+
 mousse::label mousse::tetMatcher::faceHashValue() const
 {
   return 4*3;
 }
+
+
 bool mousse::tetMatcher::faceSizeMatch
 (
   const faceList& faces,
   const labelList& myFaces
 ) const
 {
-  if (myFaces.size() != 4)
-  {
+  if (myFaces.size() != 4) {
     return false;
   }
-  FOR_ALL(myFaces, myFaceI)
-  {
+  FOR_ALL(myFaces, myFaceI) {
     label size = faces[myFaces[myFaceI]].size();
-    if (size != 3)
-    {
+    if (size != 3) {
       return false;
     }
   }
   return true;
 }
+
+
 bool mousse::tetMatcher::isA(const primitiveMesh& mesh, const label cellI)
 {
   return matchShape
@@ -170,6 +175,8 @@ bool mousse::tetMatcher::isA(const primitiveMesh& mesh, const label cellI)
     mesh.cells()[cellI]
   );
 }
+
+
 bool mousse::tetMatcher::isA(const faceList& faces)
 {
   // Do as if mesh with one cell only
@@ -182,6 +189,8 @@ bool mousse::tetMatcher::isA(const faceList& faces)
     identity(faces.size())      // faces of cell 0
   );
 }
+
+
 bool mousse::tetMatcher::matches
 (
   const primitiveMesh& mesh,
@@ -189,23 +198,18 @@ bool mousse::tetMatcher::matches
   cellShape& shape
 )
 {
-  if
-  (
-    matchShape
-    (
-      false,
-      mesh.faces(),
-      mesh.faceOwner(),
-      cellI,
-      mesh.cells()[cellI]
-    )
-  )
-  {
+  if (matchShape
+      (
+        false,
+        mesh.faces(),
+        mesh.faceOwner(),
+        cellI,
+        mesh.cells()[cellI]
+      )) {
     shape = cellShape(model(), vertLabels());
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+

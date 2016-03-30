@@ -5,6 +5,7 @@
 #include "primitive_mesh.hpp"
 #include "pstream_reduce_ops.hpp"
 
+
 bool mousse::primitiveMesh::checkEdgeLength
 (
   const bool report,
@@ -16,16 +17,13 @@ bool mousse::primitiveMesh::checkEdgeLength
   const faceList& faces = this->faces();
   scalar minLenSqr = sqr(GREAT);
   scalar maxLenSqr = -sqr(GREAT);
-  labelHashSet smallEdgeSet(nPoints()/100);
-  FOR_ALL(faces, faceI)
-  {
+  labelHashSet smallEdgeSet{nPoints()/100};
+  FOR_ALL(faces, faceI) {
     const face& f = faces[faceI];
-    FOR_ALL(f, fp)
-    {
+    FOR_ALL(f, fp) {
       label fp1 = f.fcIndex(fp);
       scalar magSqrE = magSqr(points[f[fp]] - points[f[fp1]]);
-      if (magSqrE < reportLenSqr)
-      {
+      if (magSqrE < reportLenSqr) {
         smallEdgeSet.insert(f[fp]);
         smallEdgeSet.insert(f[fp1]);
       }
@@ -37,28 +35,23 @@ bool mousse::primitiveMesh::checkEdgeLength
   reduce(maxLenSqr, maxOp<scalar>());
   label nSmall = smallEdgeSet.size();
   reduce(nSmall, sumOp<label>());
-  if (setPtr)
-  {
+  if (setPtr) {
     setPtr->transfer(smallEdgeSet);
   }
-  if (nSmall > 0)
-  {
-    if (report)
-    {
-      Info<< "   *Edges too small, min/max edge length = "
+  if (nSmall > 0) {
+    if (report) {
+      Info << "   *Edges too small, min/max edge length = "
         << sqrt(minLenSqr) << " " << sqrt(maxLenSqr)
         << ", number too small: " << nSmall << endl;
     }
     return true;
-  }
-  else
-  {
-    if (report)
-    {
-      Info<< "    Min/max edge length = "
+  } else {
+    if (report) {
+      Info << "    Min/max edge length = "
         << sqrt(minLenSqr) << " " << sqrt(maxLenSqr)
         << " OK." << endl;
     }
     return false;
   }
 }
+

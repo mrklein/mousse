@@ -3,17 +3,22 @@
 // Copyright (C) 2016 mousse project
 
 #include "non_blocking_gauss_seidel_smoother.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(nonBlockingGaussSeidelSmoother, 0);
-  lduMatrix::smoother::
-  addsymMatrixConstructorToTable<nonBlockingGaussSeidelSmoother>
-    addnonBlockingGaussSeidelSmootherSymMatrixConstructorToTable_;
-  lduMatrix::smoother::
-  addasymMatrixConstructorToTable<nonBlockingGaussSeidelSmoother>
-    addnonBlockingGaussSeidelSmootherAsymMatrixConstructorToTable_;
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(nonBlockingGaussSeidelSmoother, 0);
+lduMatrix::smoother::
+addsymMatrixConstructorToTable<nonBlockingGaussSeidelSmoother>
+  addnonBlockingGaussSeidelSmootherSymMatrixConstructorToTable_;
+lduMatrix::smoother::
+addasymMatrixConstructorToTable<nonBlockingGaussSeidelSmoother>
+  addnonBlockingGaussSeidelSmootherAsymMatrixConstructorToTable_;
+
 }
+
+
 // Constructors 
 mousse::nonBlockingGaussSeidelSmoother::nonBlockingGaussSeidelSmoother
 (
@@ -25,34 +30,33 @@ mousse::nonBlockingGaussSeidelSmoother::nonBlockingGaussSeidelSmoother
 )
 :
   lduMatrix::smoother
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces
-  )
+  }
 {
   // Check that all interface addressing is sorted to be after the
   // non-interface addressing.
   const label nCells = matrix.diag().size();
   blockStart_ = nCells;
   labelList startCellI(interfaceBouCoeffs.size(), -1);
-  FOR_ALL(interfaces, patchi)
-  {
-    if (interfaces.set(patchi))
-    {
+  FOR_ALL(interfaces, patchi) {
+    if (interfaces.set(patchi)) {
       const labelUList& faceCells = matrix_.lduAddr().patchAddr(patchi);
       blockStart_ = min(blockStart_, min(faceCells));
     }
   }
-  if (debug)
-  {
-    Pout<< "nonBlockingGaussSeidelSmoother :"
+  if (debug) {
+    Pout << "nonBlockingGaussSeidelSmoother :"
       << " Starting block on cell " << blockStart_
       << " out of " << nCells << endl;
   }
 }
+
+
 // Member Functions 
 void mousse::nonBlockingGaussSeidelSmoother::smooth
 (
@@ -69,7 +73,7 @@ void mousse::nonBlockingGaussSeidelSmoother::smooth
 {
   scalar* __restrict__ psiPtr = psi.begin();
   const label nCells = psi.size();
-  scalarField bPrime(nCells);
+  scalarField bPrime{nCells};
   scalar* __restrict__ bPrimePtr = bPrime.begin();
   const scalar* const __restrict__ diagPtr = matrix_.diag().begin();
   const scalar* const __restrict__ upperPtr =
@@ -96,15 +100,12 @@ void mousse::nonBlockingGaussSeidelSmoother::smooth
     (
       interfaceBouCoeffs_
     );
-  FOR_ALL(mBouCoeffs, patchi)
-  {
-    if (interfaces_.set(patchi))
-    {
+  FOR_ALL(mBouCoeffs, patchi) {
+    if (interfaces_.set(patchi)) {
       mBouCoeffs[patchi].negate();
     }
   }
-  for (label sweep=0; sweep<nSweeps; sweep++)
-  {
+  for (label sweep=0; sweep<nSweeps; sweep++) {
     bPrime = source;
     matrix_.initMatrixInterfaces
     (
@@ -117,23 +118,20 @@ void mousse::nonBlockingGaussSeidelSmoother::smooth
     scalar curPsi;
     label fStart;
     label fEnd = ownStartPtr[0];
-    for (label cellI=0; cellI<blockStart; cellI++)
-    {
+    for (label cellI=0; cellI<blockStart; cellI++) {
       // Start and end of this row
       fStart = fEnd;
       fEnd = ownStartPtr[cellI + 1];
       // Get the accumulated neighbour side
       curPsi = bPrimePtr[cellI];
       // Accumulate the owner product side
-      for (label curFace=fStart; curFace<fEnd; curFace++)
-      {
+      for (label curFace=fStart; curFace<fEnd; curFace++) {
         curPsi -= upperPtr[curFace]*psiPtr[uPtr[curFace]];
       }
       // Finish current psi
       curPsi /= diagPtr[cellI];
       // Distribute the neighbour side using current psi
-      for (label curFace=fStart; curFace<fEnd; curFace++)
-      {
+      for (label curFace=fStart; curFace<fEnd; curFace++) {
         bPrimePtr[uPtr[curFace]] -= lowerPtr[curFace]*curPsi;
       }
       psiPtr[cellI] = curPsi;
@@ -147,37 +145,34 @@ void mousse::nonBlockingGaussSeidelSmoother::smooth
       cmpt
     );
     // Update rest of the cells
-    for (label cellI=blockStart; cellI < nCells; cellI++)
-    {
+    for (label cellI=blockStart; cellI < nCells; cellI++) {
       // Start and end of this row
       fStart = fEnd;
       fEnd = ownStartPtr[cellI + 1];
       // Get the accumulated neighbour side
       curPsi = bPrimePtr[cellI];
       // Accumulate the owner product side
-      for (label curFace=fStart; curFace<fEnd; curFace++)
-      {
+      for (label curFace=fStart; curFace<fEnd; curFace++) {
         curPsi -= upperPtr[curFace]*psiPtr[uPtr[curFace]];
       }
       // Finish current psi
       curPsi /= diagPtr[cellI];
       // Distribute the neighbour side using current psi
-      for (label curFace=fStart; curFace<fEnd; curFace++)
-      {
+      for (label curFace=fStart; curFace<fEnd; curFace++) {
         bPrimePtr[uPtr[curFace]] -= lowerPtr[curFace]*curPsi;
       }
       psiPtr[cellI] = curPsi;
     }
   }
   // Restore interfaceBouCoeffs_
-  FOR_ALL(mBouCoeffs, patchi)
-  {
-    if (interfaces_.set(patchi))
-    {
+  FOR_ALL(mBouCoeffs, patchi) {
+    if (interfaces_.set(patchi)) {
       mBouCoeffs[patchi].negate();
     }
   }
 }
+
+
 void mousse::nonBlockingGaussSeidelSmoother::smooth
 (
   scalarField& psi,

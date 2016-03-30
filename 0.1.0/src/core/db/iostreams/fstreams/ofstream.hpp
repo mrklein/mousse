@@ -8,19 +8,19 @@
 //   mousse::OFstream
 // Description
 //   Output to file stream.
-// SourceFiles
-//   ofstream.cpp
-
 
 #include "osstream.hpp"
 #include "file_name.hpp"
 #include "class_name.hpp"
 #include <fstream>
 
+
 using std::ofstream;
-namespace mousse
-{
+
+namespace mousse {
+
 class OFstream;
+
 //- A std::ostream with ability to handle compressed files
 class OFstreamAllocator
 {
@@ -36,6 +36,8 @@ class OFstreamAllocator
   //- Destructor
   ~OFstreamAllocator();
 };
+
+
 class OFstream
 :
   private OFstreamAllocator,

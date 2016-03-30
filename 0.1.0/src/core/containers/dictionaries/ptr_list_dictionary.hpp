@@ -10,15 +10,12 @@
 //   Template dictionary class which manages the storage associated with it.
 //   It is derived from DictionaryBase instantiated on the memory managed PtrList
 //   of \<T\> to provide ordered indexing in addition to the dictionary lookup.
-// SourceFiles
-//   ptr_list_dictionary.cpp
-
 
 #include "dictionary_base.hpp"
 #include "ptr_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class T>
 class PtrListDictionary
@@ -65,8 +62,9 @@ public:
       return *DictionaryBase<PtrList<T>, T>::operator[](key);
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ptr_list_dictionary.cpp"
-#endif
+
+#include "ptr_list_dictionary.ipp"
+
 #endif

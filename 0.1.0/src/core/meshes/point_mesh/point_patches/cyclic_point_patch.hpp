@@ -8,13 +8,14 @@
 //   mousse::cyclicPointPatch
 // Description
 //   Cyclic patch for post-processing.
-// SourceFiles
-//   cyclic_point_patch.cpp
+
 #include "coupled_face_point_patch.hpp"
 #include "cyclic_poly_patch.hpp"
 #include "point_boundary_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cyclicPointPatch
 :
   public coupledFacePointPatch
@@ -22,11 +23,6 @@ class cyclicPointPatch
   // Private data
     //- Local reference cast into the cyclic patch
     const cyclicPolyPatch& cyclicPolyPatch_;
-  // Private Member Functions
-    //- Disallow default construct as copy
-    cyclicPointPatch(const cyclicPointPatch&);
-    //- Disallow default assignment
-    void operator=(const cyclicPointPatch&);
   // Demand driven private data
     //- Initialise the calculation of the patch geometry
     virtual void initGeometry(PstreamBuffers&);
@@ -50,6 +46,10 @@ public:
       const polyPatch& patch,
       const pointBoundaryMesh& bm
     );
+    //- Disallow default construct as copy
+    cyclicPointPatch(const cyclicPointPatch&) = delete;
+    //- Disallow default assignment
+    void operator=(const cyclicPointPatch&) = delete;
   //- Destructor
   virtual ~cyclicPointPatch();
   // Member Functions
@@ -92,5 +92,8 @@ public:
       //  neighbour patch.
       virtual const edgeList& transformPairs() const;
 };
+
 }  // namespace mousse
+
 #endif
+

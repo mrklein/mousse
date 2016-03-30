@@ -7,71 +7,54 @@
 #include "token.hpp"
 #include <cctype>
 
+
 // Member Functions 
 char mousse::ISstream::nextValid()
 {
   char c = 0;
-  while (true)
-  {
+  while (true) {
     // Get next non-whitespace character
     while (get(c) && isspace(c))
     {}
     // Return if stream is bad - ie, previous get() failed
-    if (bad() || isspace(c))
-    {
+    if (bad() || isspace(c)) {
       break;
     }
     // Is this the start of a C/C++ comment?
-    if (c == '/')
-    {
-      if (!get(c))
-      {
+    if (c == '/') {
+      if (!get(c)) {
         // cannot get another character - return this one
         return '/';
       }
-      if (c == '/')
-      {
+      if (c == '/') {
         // C++ style single-line comment - skip through past end-of-line
         while (get(c) && c != '\n')
         {}
-      }
-      else if (c == '*')
-      {
+      } else if (c == '*') {
         // within a C-style comment
-        while (true)
-        {
+        while (true) {
           // search for end of C-style comment - '*/'
-          if (get(c) && c == '*')
-          {
-            if (get(c))
-            {
-              if (c == '/')
-              {
+          if (get(c) && c == '*') {
+            if (get(c)) {
+              if (c == '/') {
                 // matched '*/'
                 break;
-              }
-              else if (c == '*')
-              {
+              } else if (c == '*') {
                 // check again
                 putback(c);
               }
             }
           }
-          if (!good())
-          {
+          if (!good()) {
             return 0;
           }
         }
-      }
-      else
-      {
+      } else {
         // The '/' did not start a C/C++ comment - return it
         putback(c);
         return '/';
       }
-    }
-    else
-    {
+    } else {
       // a valid character - return it
       return c;
     }
@@ -83,18 +66,13 @@ char mousse::ISstream::nextValid()
 void mousse::ISstream::readWordToken(token& t)
 {
   word* wPtr = new word;
-  if (read(*wPtr).bad())
-  {
+  if (read(*wPtr).bad()) {
     delete wPtr;
     t.setBad();
-  }
-  else if (token::compound::isCompound(*wPtr))
-  {
+  } else if (token::compound::isCompound(*wPtr)) {
     t = token::compound::New(*wPtr, *this).ptr();
     delete wPtr;
-  }
-  else
-  {
+  } else {
     t = wPtr;
   }
 }
@@ -105,8 +83,7 @@ mousse::Istream& mousse::ISstream::read(token& t)
   static const int maxLen = 128;
   static char buf[maxLen];
   // Return the put back token if it exists
-  if (Istream::getBack(t))
-  {
+  if (Istream::getBack(t)) {
     return *this;
   }
   // Assume that the streams supplied are in working order.
@@ -117,14 +94,12 @@ mousse::Istream& mousse::ISstream::read(token& t)
   // Set the line number of this token to the current stream line number
   t.lineNumber() = lineNumber();
   // return on error
-  if (!c)
-  {
+  if (!c) {
     t.setBad();
     return *this;
   }
   // Analyse input starting with this character.
-  switch (c)
-  {
+  switch (c) {
     // Check for punctuation first
     case token::END_STATEMENT :
     case token::BEGIN_LIST :
@@ -164,30 +139,22 @@ mousse::Istream& mousse::ISstream::read(token& t)
     case token::HASH :
     {
       char nextC;
-      if (read(nextC).bad())
-      {
+      if (read(nextC).bad()) {
         // Return hash as word
         t = token(word(c));
         return *this;
-      }
-      else if (nextC == token::BEGIN_BLOCK)
-      {
+      } else if (nextC == token::BEGIN_BLOCK) {
         // Verbatim string
         string* sPtr = new string;
-        if (readVerbatim(*sPtr).bad())
-        {
+        if (readVerbatim(*sPtr).bad()) {
           delete sPtr;
           t.setBad();
-        }
-        else
-        {
+        } else {
           t = sPtr;
           t.type() = token::VERBATIMSTRING;
         }
         return *this;
-      }
-      else
-      {
+      } else {
         // Word beginning with #
         putback(nextC);
         putback(c);
@@ -199,31 +166,23 @@ mousse::Istream& mousse::ISstream::read(token& t)
     {
       // Look ahead
       char nextC;
-      if (read(nextC).bad())
-      {
+      if (read(nextC).bad()) {
         // Return $ as word
         t = token(word(c));
         return *this;
-      }
-      else if (nextC == token::BEGIN_BLOCK)
-      {
+      } else if (nextC == token::BEGIN_BLOCK) {
         putback(nextC);
         putback(c);
         string* sPtr = new string;
-        if (readVariable(*sPtr).bad())
-        {
+        if (readVariable(*sPtr).bad()) {
           delete sPtr;
           t.setBad();
-        }
-        else
-        {
+        } else {
           t = sPtr;
           t.type() = token::VARIABLE;
         }
         return *this;
-      }
-      else
-      {
+      } else {
         putback(nextC);
         putback(c);
         readWordToken(t);
@@ -246,26 +205,17 @@ mousse::Istream& mousse::ISstream::read(token& t)
       buf[nChar++] = c;
       // get everything that could resemble a number and let
       // readScalar determine the validity
-      while
-      (
-        is_.get(c)
-      && (
-          isdigit(c)
-        || c == '+'
-        || c == '-'
-        || c == '.'
-        || c == 'E'
-        || c == 'e'
-        )
-      )
-      {
-        if (asLabel)
-        {
+      while (is_.get(c) && (isdigit(c)
+                            || c == '+'
+                            || c == '-'
+                            || c == '.'
+                            || c == 'E'
+                            || c == 'e')) {
+        if (asLabel) {
           asLabel = isdigit(c);
         }
         buf[nChar++] = c;
-        if (nChar == maxLen)
-        {
+        if (nChar == maxLen) {
           // runaway argument - avoid buffer overflow
           buf[maxLen-1] = '\0';
           FATAL_IO_ERROR_IN("ISstream::read(token&)", *this)
@@ -278,50 +228,32 @@ mousse::Istream& mousse::ISstream::read(token& t)
       }
       buf[nChar] = '\0';
       setState(is_.rdstate());
-      if (is_.bad())
-      {
+      if (is_.bad()) {
         t.setBad();
-      }
-      else
-      {
+      } else {
         is_.putback(c);
-        if (nChar == 1 && buf[0] == '-')
-        {
+        if (nChar == 1 && buf[0] == '-') {
           // a single '-' is punctuation
           t = token::punctuationToken(token::SUBTRACT);
-        }
-        else
-        {
-          if (asLabel)
-          {
+        } else {
+          if (asLabel) {
             label labelVal = 0;
-            if (mousse::read(buf, labelVal))
-            {
+            if (mousse::read(buf, labelVal)) {
               t = labelVal;
-            }
-            else
-            {
+            } else {
               // Maybe too big? Try as scalar
               scalar scalarVal;
-              if (readScalar(buf, scalarVal))
-              {
+              if (readScalar(buf, scalarVal)) {
                 t = scalarVal;
-              }
-              else
-              {
+              } else {
                 t.setBad();
               }
             }
-          }
-          else
-          {
+          } else {
             scalar scalarVal;
-            if (readScalar(buf, scalarVal))
-            {
+            if (readScalar(buf, scalarVal)) {
               t = scalarVal;
-            }
-            else
-            {
+            } else {
               t.setBad();
             }
           }
@@ -355,26 +287,18 @@ mousse::Istream& mousse::ISstream::read(word& str)
   int nChar = 0;
   int listDepth = 0;
   char c;
-  while (get(c) && word::valid(c))
-  {
-    if (c == token::BEGIN_LIST)
-    {
+  while (get(c) && word::valid(c)) {
+    if (c == token::BEGIN_LIST) {
       listDepth++;
-    }
-    else if (c == token::END_LIST)
-    {
-      if (listDepth)
-      {
+    } else if (c == token::END_LIST) {
+      if (listDepth) {
         listDepth--;
-      }
-      else
-      {
+      } else {
         break;
       }
     }
     buf[nChar++] = c;
-    if (nChar == maxLen)
-    {
+    if (nChar == maxLen) {
       buf[errLen] = '\0';
       FATAL_IO_ERROR_IN("ISstream::read(word&)", *this)
         << "word '" << buf << "...'\n"
@@ -384,8 +308,7 @@ mousse::Istream& mousse::ISstream::read(word& str)
     }
   }
   // we could probably skip this check
-  if (bad())
-  {
+  if (bad()) {
     buf[errLen] = buf[nChar] = '\0';
     FATAL_IO_ERROR_IN("ISstream::read(word&)", *this)
       << "problem while reading word '" << buf << "...' after "
@@ -393,8 +316,7 @@ mousse::Istream& mousse::ISstream::read(word& str)
       << exit(FatalIOError);
     return *this;
   }
-  if (nChar == 0)
-  {
+  if (nChar == 0) {
     FATAL_IO_ERROR_IN("ISstream::read(word&)", *this)
       << "invalid first character found : " << c
       << exit(FatalIOError);
@@ -413,16 +335,14 @@ mousse::Istream& mousse::ISstream::read(string& str)
   static const int errLen = 80; // truncate error message for readability
   static char buf[maxLen];
   char c;
-  if (!get(c))
-  {
+  if (!get(c)) {
     FATAL_IO_ERROR_IN("ISstream::read(string&)", *this)
       << "cannot read start of string"
       << exit(FatalIOError);
     return *this;
   }
   // Note, we could also handle single-quoted strings here (if desired)
-  if (c != token::BEGIN_STRING)
-  {
+  if (c != token::BEGIN_STRING) {
     FATAL_IO_ERROR_IN("ISstream::read(string&)", *this)
       << "Incorrect start of string character found : " << c
       << exit(FatalIOError);
@@ -430,32 +350,22 @@ mousse::Istream& mousse::ISstream::read(string& str)
   }
   int nChar = 0;
   bool escaped = false;
-  while (get(c))
-  {
-    if (c == token::END_STRING)
-    {
-      if (escaped)
-      {
+  while (get(c)) {
+    if (c == token::END_STRING) {
+      if (escaped) {
         escaped = false;
         nChar--;    // overwrite backslash
-      }
-      else
-      {
+      } else {
         // done reading
         buf[nChar] = '\0';
         str = buf;
         return *this;
       }
-    }
-    else if (c == token::NL)
-    {
-      if (escaped)
-      {
+    } else if (c == token::NL) {
+      if (escaped) {
         escaped = false;
         nChar--;    // overwrite backslash
-      }
-      else
-      {
+      } else {
         buf[errLen] = buf[nChar] = '\0';
         FATAL_IO_ERROR_IN("ISstream::read(string&)", *this)
           << "found '\\n' while reading string \""
@@ -463,18 +373,13 @@ mousse::Istream& mousse::ISstream::read(string& str)
           << exit(FatalIOError);
         return *this;
       }
-    }
-    else if (c == '\\')
-    {
+    } else if (c == '\\') {
       escaped = !escaped;    // toggle state (retains backslashes)
-    }
-    else
-    {
+    } else {
       escaped = false;
     }
     buf[nChar++] = c;
-    if (nChar == maxLen)
-    {
+    if (nChar == maxLen) {
       buf[errLen] = '\0';
       FATAL_IO_ERROR_IN("ISstream::read(string&)", *this)
         << "string \"" << buf << "...\"\n"
@@ -501,31 +406,21 @@ mousse::Istream& mousse::ISstream::readVariable(string& str)
   int nChar = 0;
   int blockCount = 0;
   char c;
-  if (!get(c) || c != '$')
-  {
+  if (!get(c) || c != '$') {
     FATAL_IO_ERROR_IN("ISstream::readVariable(string&)", *this)
       << "invalid first character found : " << c
       << exit(FatalIOError);
   }
   buf[nChar++] = c;
   // Read next character to see if '{'
-  if (get(c) && c == token::BEGIN_BLOCK)
-  {
+  if (get(c) && c == token::BEGIN_BLOCK) {
     // Read, counting brackets
     buf[nChar++] = c;
-    while
-    (
-      get(c)
-    && (
-        c == token::BEGIN_BLOCK
-      || c == token::END_BLOCK
-      || word::valid(c)
-      )
-    )
-    {
+    while (get(c) && (c == token::BEGIN_BLOCK
+                      || c == token::END_BLOCK
+                      || word::valid(c))) {
       buf[nChar++] = c;
-      if (nChar == maxLen)
-      {
+      if (nChar == maxLen) {
         buf[errLen] = '\0';
         FATAL_IO_ERROR_IN("ISstream::readVariable(string&)", *this)
           << "word '" << buf << "...'\n"
@@ -533,31 +428,21 @@ mousse::Istream& mousse::ISstream::readVariable(string& str)
           << exit(FatalIOError);
         return *this;
       }
-      if (c == token::BEGIN_BLOCK)
-      {
+      if (c == token::BEGIN_BLOCK) {
         blockCount++;
-      }
-      else if (c == token::END_BLOCK)
-      {
-        if (blockCount)
-        {
+      } else if (c == token::END_BLOCK) {
+        if (blockCount) {
           blockCount--;
-        }
-        else
-        {
+        } else {
           break;
         }
       }
     }
-  }
-  else
-  {
+  } else {
     buf[nChar++] = c;
-    while (get(c) && word::valid(c))
-    {
+    while (get(c) && word::valid(c)) {
       buf[nChar++] = c;
-      if (nChar == maxLen)
-      {
+      if (nChar == maxLen) {
         buf[errLen] = '\0';
         FATAL_IO_ERROR_IN("ISstream::readVariable(string&)", *this)
           << "word '" << buf << "...'\n"
@@ -568,8 +453,7 @@ mousse::Istream& mousse::ISstream::readVariable(string& str)
     }
   }
   // we could probably skip this check
-  if (bad())
-  {
+  if (bad()) {
     buf[errLen] = buf[nChar] = '\0';
     FATAL_IO_ERROR_IN("ISstream::readVariable(string&)", *this)
       << "problem while reading string '" << buf << "...' after "
@@ -577,8 +461,7 @@ mousse::Istream& mousse::ISstream::readVariable(string& str)
       << exit(FatalIOError);
     return *this;
   }
-  if (nChar == 0)
-  {
+  if (nChar == 0) {
     FATAL_IO_ERROR_IN("ISstream::readVariable(string&)", *this)
       << "invalid first character found : " << c
       << exit(FatalIOError);
@@ -587,8 +470,7 @@ mousse::Istream& mousse::ISstream::readVariable(string& str)
   buf[nChar] = '\0';
   str = buf;
   // Note: check if we exited due to '}' or just !word::valid.
-  if (c != token::END_BLOCK)
-  {
+  if (c != token::END_BLOCK) {
     putback(c);
   }
   return *this;
@@ -602,26 +484,20 @@ mousse::Istream& mousse::ISstream::readVerbatim(string& str)
   static char buf[maxLen];
   char c;
   int nChar = 0;
-  while (get(c))
-  {
-    if (c == token::HASH)
-    {
+  while (get(c)) {
+    if (c == token::HASH) {
       char nextC;
       get(nextC);
-      if (nextC == token::END_BLOCK)
-      {
+      if (nextC == token::END_BLOCK) {
         buf[nChar] = '\0';
         str = buf;
         return *this;
-      }
-      else
-      {
+      } else {
         putback(nextC);
       }
     }
     buf[nChar++] = c;
-    if (nChar == maxLen)
-    {
+    if (nChar == maxLen) {
       buf[errLen] = '\0';
       FATAL_IO_ERROR_IN("ISstream::readVerbatim(string&)", *this)
         << "string \"" << buf << "...\"\n"
@@ -666,8 +542,7 @@ mousse::Istream& mousse::ISstream::read(doubleScalar& val)
 // read binary block
 mousse::Istream& mousse::ISstream::read(char* buf, std::streamsize count)
 {
-  if (format() != BINARY)
-  {
+  if (format() != BINARY) {
     FATAL_IO_ERROR_IN("ISstream::read(char*, std::streamsize)", *this)
       << "stream format not binary"
       << exit(FatalIOError);

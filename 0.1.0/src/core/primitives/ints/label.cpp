@@ -5,6 +5,7 @@
 #include "error.hpp"
 #include "label.hpp"
 
+
 #if WM_LABEL_SIZE == 32
 const char* const mousse::pTraits<int64_t>::typeName = "int64";
 const char* const mousse::pTraits<int32_t>::typeName = "label";

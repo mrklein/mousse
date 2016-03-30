@@ -9,11 +9,12 @@
 // Description
 //   Output and \b agr file for \em xmgrace
 //   (http://plasma-gate.weizmann.ac.il/Grace/)
-// SourceFiles
-//   xmgr_graph.cpp
+
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class xmgrGraph
 :
   public graph::writer

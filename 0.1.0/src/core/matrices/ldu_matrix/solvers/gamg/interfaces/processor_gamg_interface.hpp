@@ -8,15 +8,13 @@
 //   mousse::processorGAMGInterface
 // Description
 //   GAMG agglomerated processor interface.
-// SourceFiles
-//   processor_gamg_interface.cpp
-
 
 #include "gamg_interface.hpp"
 #include "processor_ldu_interface.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class processorGAMGInterface
 :
   public GAMGInterface,

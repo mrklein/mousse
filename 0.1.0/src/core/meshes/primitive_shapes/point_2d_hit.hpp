@@ -7,8 +7,11 @@
 
 #include "point_2d.hpp"
 #include "point_hit.hpp"
-namespace mousse
-{
-  typedef PointHit<point2D> point2DHit;
+
+
+namespace mousse {
+
+typedef PointHit<point2D> point2DHit;
+
 }
 #endif

@@ -12,10 +12,6 @@
 //   Uses straight lists as underlying type.
 //   Is slower to insert than the standard HashTable, but should be more
 //   memory efficient and faster to access.
-// SourceFiles
-//   static_hash_table.cpp
-//   static_hash_table_io.cpp
-
 
 #include "label.hpp"
 #include "ulabel.hpp"
@@ -26,8 +22,8 @@
 #include "iostreams.hpp"
 #include "ulist.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 template<class T> class List;
@@ -42,6 +38,7 @@ template<class T, class Key, class Hash> Ostream& operator<<
   Ostream&,
   const StaticHashTable<T, Key, Hash>&
 );
+
 
 //- Template-invariant bits for StaticHashTable
 struct StaticHashTableCore
@@ -70,9 +67,9 @@ class StaticHashTable
 {
   // Private data type for table entries
     //- The lookup keys, ordered per hash value
-    List<List<Key> > keys_;
+    List<List<Key>> keys_;
     //- For each key the corresponding object.
-    List<List<T> > objects_;
+    List<List<T>> objects_;
     //- The current number of elements in table
     label nElmts_;
     //- Return a canonical (power-of-two) size
@@ -82,6 +79,7 @@ class StaticHashTable
     inline label hashKeyIndex(const Key&) const;
     //- Assign a new hashed entry to a possibly already existing key
     bool set(const Key&, const T& newElmt, bool protect);
+
 
 public:
   // Forward declaration of STL iterators
@@ -122,7 +120,7 @@ public:
     StaticHashTable(const StaticHashTable<T, Key, Hash>&);
 
     //- Construct by transferring the parameter contents
-    StaticHashTable(const Xfer<StaticHashTable<T, Key, Hash> >&);
+    StaticHashTable(const Xfer<StaticHashTable<T, Key, Hash>>&);
 
   //- Destructor
   ~StaticHashTable();
@@ -168,7 +166,7 @@ public:
       //  and annul the argument table.
       void transfer(StaticHashTable<T, Key, Hash>&);
       //- Transfer contents to the Xfer container
-      inline Xfer<StaticHashTable<T, Key, Hash> > xfer();
+      inline Xfer<StaticHashTable<T, Key, Hash>> xfer();
   // Member Operators
     //- Find and return an hashed entry
     inline T& operator[](const Key&);
@@ -265,6 +263,7 @@ private:
 
 }  // namespace mousse
 
+
 // Private Member Functions
 template<class T, class Key, class Hash>
 inline mousse::label
@@ -273,17 +272,23 @@ mousse::StaticHashTable<T, Key, Hash>::hashKeyIndex(const Key& key) const
   // size is power of two - this is the modulus
   return Hash()(key) & (keys_.size() - 1);
 }
+
+
 // Member Functions
 template<class T, class Key, class Hash>
 inline mousse::label mousse::StaticHashTable<T, Key, Hash>::size() const
 {
   return nElmts_;
 }
+
+
 template<class T, class Key, class Hash>
 inline bool mousse::StaticHashTable<T, Key, Hash>::empty() const
 {
   return !nElmts_;
 }
+
+
 template<class T, class Key, class Hash>
 inline bool mousse::StaticHashTable<T, Key, Hash>::insert
 (
@@ -293,6 +298,8 @@ inline bool mousse::StaticHashTable<T, Key, Hash>::insert
 {
   return set(key, newEntry, true);
 }
+
+
 template<class T, class Key, class Hash>
 inline bool mousse::StaticHashTable<T, Key, Hash>::set
 (
@@ -302,19 +309,22 @@ inline bool mousse::StaticHashTable<T, Key, Hash>::set
 {
   return set(key, newEntry, false);
 }
+
+
 template<class T, class Key, class Hash>
-inline mousse::Xfer<mousse::StaticHashTable<T, Key, Hash> >
+inline mousse::Xfer<mousse::StaticHashTable<T, Key, Hash>>
 mousse::StaticHashTable<T, Key, Hash>::xfer()
 {
   return xferMove(*this);
 }
+
+
 // Member Operators
 template<class T, class Key, class Hash>
 inline T& mousse::StaticHashTable<T, Key, Hash>::operator[](const Key& key)
 {
   iterator iter = find(key);
-  if (iter == end())
-  {
+  if (iter == end()) {
     FATAL_ERROR_IN("StaticHashTable<T, Key, Hash>::operator[](const Key&)")
       << key << " not found in table.  Valid entries: "
       << toc()
@@ -322,6 +332,8 @@ inline T& mousse::StaticHashTable<T, Key, Hash>::operator[](const Key& key)
   }
   return *iter;
 }
+
+
 template<class T, class Key, class Hash>
 inline const T& mousse::StaticHashTable<T, Key, Hash>::operator[]
 (
@@ -329,31 +341,31 @@ inline const T& mousse::StaticHashTable<T, Key, Hash>::operator[]
 ) const
 {
   const_iterator iter = find(key);
-  if (iter == cend())
-  {
+  if (iter == cend()) {
     FATAL_ERROR_IN
     (
       "StaticHashTable<T, Key, Hash>::operator[](const Key&) const"
-    )   << key << " not found in table.  Valid entries: "
-      << toc()
-      << exit(FatalError);
+    )
+    << key << " not found in table.  Valid entries: "
+    << toc()
+    << exit(FatalError);
   }
   return *iter;
 }
+
+
 template<class T, class Key, class Hash>
 inline T& mousse::StaticHashTable<T, Key, Hash>::operator()(const Key& key)
 {
   iterator iter = find(key);
-  if (iter == end())
-  {
+  if (iter == end()) {
     insert(key, T());
     return *find(key);
-  }
-  else
-  {
+  } else {
     return *iter;
   }
 }
+
 
 // STL iterator
 template<class T, class Key, class Hash>
@@ -369,6 +381,8 @@ inline mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::Iterator
   hashIndex_{hashIndex},
   elemIndex_{elemIndex}
 {}
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::Iterator
@@ -380,6 +394,8 @@ inline mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::Iterator
   hashIndex_{iter.hashIndex_},
   elemIndex_{iter.elemIndex_}
 {}
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline void
@@ -391,6 +407,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::operator=
   this->hashIndex_ = iter.hashIndex_;
   this->elemIndex_ = iter.elemIndex_;
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline bool
@@ -401,6 +419,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::operator==
 {
   return hashIndex_ == iter.hashIndex_ && elemIndex_ == iter.elemIndex_;
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline bool
@@ -411,6 +431,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::operator==
 {
   return hashIndex_ == iter.hashIndex_ && elemIndex_ == iter.elemIndex_;
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline bool
@@ -421,6 +443,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::operator!=
 {
   return !operator==(iter);
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline bool
@@ -431,6 +455,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::operator!=
 {
   return !operator==(iter);
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline TRef
@@ -438,6 +464,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::operator*()
 {
   return hashTable_.objects_[hashIndex_][elemIndex_];
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline TRef
@@ -445,6 +473,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::operator()()
 {
   return operator*();
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline
@@ -486,6 +516,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator
   }
   return *this;
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline
@@ -507,6 +539,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator
   ++*this;
   return tmp;
 }
+
+
 template<class T, class Key, class Hash>
 template<class TRef, class TableRef>
 inline const Key&
@@ -514,6 +548,8 @@ mousse::StaticHashTable<T, Key, Hash>::Iterator<TRef, TableRef>::key() const
 {
   return hashTable_.keys_[hashIndex_][elemIndex_];
 }
+
+
 template<class T, class Key, class Hash>
 inline typename mousse::StaticHashTable<T, Key, Hash>::iterator
 mousse::StaticHashTable<T, Key, Hash>::begin()
@@ -527,19 +563,22 @@ mousse::StaticHashTable<T, Key, Hash>::begin()
     }
   }
 #ifdef FULLDEBUG
-  if (debug)
-  {
-    Info<< "StaticHashTable is empty\n";
+  if (debug) {
+    Info << "StaticHashTable is empty\n";
   }
 #endif
   return StaticHashTable<T, Key, Hash>::endIter_;
 }
+
+
 template<class T, class Key, class Hash>
 inline const typename mousse::StaticHashTable<T, Key, Hash>::iterator&
 mousse::StaticHashTable<T, Key, Hash>::end()
 {
   return StaticHashTable<T, Key, Hash>::endIter_;
 }
+
+
 template<class T, class Key, class Hash>
 inline typename mousse::StaticHashTable<T, Key, Hash>::const_iterator
 mousse::StaticHashTable<T, Key, Hash>::cbegin() const
@@ -547,31 +586,35 @@ mousse::StaticHashTable<T, Key, Hash>::cbegin() const
   // Find first non-empty entry
   FOR_ALL(keys_, hashIdx)
   {
-    if (keys_[hashIdx].size())
-    {
+    if (keys_[hashIdx].size()) {
       return const_iterator(*this, hashIdx, 0);
     }
   }
 #   ifdef FULLDEBUG
-  if (debug)
-  {
-    Info<< "StaticHashTable is empty\n";
+  if (debug) {
+    Info << "StaticHashTable is empty\n";
   }
 #   endif
   return StaticHashTable<T, Key, Hash>::endConstIter_;
 }
+
+
 template<class T, class Key, class Hash>
 inline const typename mousse::StaticHashTable<T, Key, Hash>::const_iterator&
 mousse::StaticHashTable<T, Key, Hash>::cend() const
 {
   return StaticHashTable<T, Key, Hash>::endConstIter_;
 }
+
+
 template<class T, class Key, class Hash>
 inline typename mousse::StaticHashTable<T, Key, Hash>::const_iterator
 mousse::StaticHashTable<T, Key, Hash>::begin() const
 {
   return this->cbegin();
 }
+
+
 template<class T, class Key, class Hash>
 inline const typename mousse::StaticHashTable<T, Key, Hash>::const_iterator&
 mousse::StaticHashTable<T, Key, Hash>::end() const
@@ -580,8 +623,7 @@ mousse::StaticHashTable<T, Key, Hash>::end() const
 }
 
 #ifndef NoStaticHashTableC
-#ifdef NoRepository
-#   include "static_hash_table.cpp"
+#include "static_hash_table.ipp"
 #endif
-#endif
+
 #endif

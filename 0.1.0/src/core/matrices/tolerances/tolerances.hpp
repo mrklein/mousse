@@ -8,14 +8,11 @@
 //   mousse::tolerances
 // Description
 //   Selector class for solution tolerances.
-// SourceFiles
-//   tolerances.cpp
-
 
 #include "iodictionary.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class tolerances
 :

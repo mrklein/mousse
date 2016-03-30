@@ -8,10 +8,13 @@
 //   mousse::DLList
 // Description
 //   Non-intrusive doubly-linked list.
+
 #include "l_list.hpp"
 #include "dl_list_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class DLList
 :
@@ -25,13 +28,15 @@ public:
     //- Construct given initial T
     DLList(T a)
     :
-      LList<DLListBase, T>(a)
+      LList<DLListBase, T>{a}
     {}
     //- Construct from Istream
     DLList(Istream& is)
     :
-      LList<DLListBase, T>(is)
+      LList<DLListBase, T>{is}
     {}
 };
+
 }  // namespace mousse
+
 #endif

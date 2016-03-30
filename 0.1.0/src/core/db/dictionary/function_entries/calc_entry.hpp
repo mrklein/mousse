@@ -20,14 +20,11 @@
 // Note
 //   Internally this is just a wrapper around codeStream functionality - the
 //   #calc string gets used to construct a dictionary for codeStream.
-// SourceFiles
-//   calc_entry.cpp
-
 
 #include "function_entry.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class dlLibraryTable;
 

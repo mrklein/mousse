@@ -7,10 +7,13 @@
 
 #include "spherical_tensor_field.hpp"
 #include "compact_io_field.hpp"
-namespace mousse
-{
-  typedef IOField<sphericalTensorField> sphericalTensorFieldIOField;
-  typedef CompactIOField<sphericalTensorField, sphericalTensor>
+
+
+namespace mousse {
+
+typedef IOField<sphericalTensorField> sphericalTensorFieldIOField;
+typedef CompactIOField<sphericalTensorField, sphericalTensor>
   sphericalTensorFieldCompactIOField;
+
 }
 #endif

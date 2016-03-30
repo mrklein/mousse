@@ -4,8 +4,8 @@
 
 #include "_primitive_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(PrimitivePatchName, 0);
 

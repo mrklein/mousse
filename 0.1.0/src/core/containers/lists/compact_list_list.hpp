@@ -17,17 +17,13 @@
 //   Storage is allocated on free-store during construction.
 //   As a special case a null-constructed CompactListList has an empty
 //   offsets_ (instead of size 1).
-// SourceFiles
-//   compact_list_list.cpp
-//   compact_list_list_io.cpp
-
 
 #include "label_list.hpp"
 #include "list_ops.hpp"
 #include "sub_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 template<class T, class Container> class CompactListList;
@@ -42,7 +38,8 @@ template<class T, class Container> Ostream& operator<<
   const CompactListList<T, Container>&
 );
 
-template<class T, class Container = List<T> >
+
+template<class T, class Container = List<T>>
 class CompactListList
 {
   // Private data
@@ -164,6 +161,7 @@ inline mousse::CompactListList<T, Container>::CompactListList()
   size_{0}
 {}
 
+
 template<class T, class Container>
 inline mousse::CompactListList<T, Container>::CompactListList
 (
@@ -175,6 +173,7 @@ inline mousse::CompactListList<T, Container>::CompactListList
   offsets_{nRows+1, 0},
   m_{nData}
 {}
+
 
 template<class T, class Container>
 inline mousse::CompactListList<T, Container>::CompactListList
@@ -189,6 +188,7 @@ inline mousse::CompactListList<T, Container>::CompactListList
   m_{nData, t}
 {}
 
+
 template<class T, class Container>
 inline mousse::autoPtr<mousse::CompactListList<T, Container> >
 mousse::CompactListList<T, Container>::clone() const
@@ -199,6 +199,7 @@ mousse::CompactListList<T, Container>::clone() const
   };
 }
 
+
 // Member Functions 
 template<class T, class Container>
 inline const mousse::CompactListList<T, Container>&
@@ -207,17 +208,20 @@ mousse::CompactListList<T, Container>::null()
   return NullObjectRef<CompactListList<T, Container> >();
 }
 
+
 template<class T, class Container>
 inline mousse::label mousse::CompactListList<T, Container>::size() const
 {
   return size_;
 }
 
+
 template<class T, class Container>
 inline bool mousse::CompactListList<T, Container>::empty() const
 {
   return !size_;
 }
+
 
 template<class T, class Container>
 inline const mousse::List<mousse::label>&
@@ -226,11 +230,13 @@ mousse::CompactListList<T, Container>::offsets() const
   return offsets_;
 }
 
+
 template<class T, class Container>
 inline mousse::List<mousse::label>& mousse::CompactListList<T, Container>::offsets()
 {
   return offsets_;
 }
+
 
 template<class T, class Container>
 inline const mousse::List<T>& mousse::CompactListList<T, Container>::m()
@@ -239,11 +245,13 @@ const
   return m_;
 }
 
+
 template<class T, class Container>
 inline mousse::List<T>& mousse::CompactListList<T, Container>::m()
 {
   return m_;
 }
+
 
 template<class T, class Container>
 inline mousse::label mousse::CompactListList<T, Container>::index
@@ -255,17 +263,18 @@ inline mousse::label mousse::CompactListList<T, Container>::index
   return offsets_[i] + j;
 }
 
+
 template<class T, class Container>
 inline mousse::label mousse::CompactListList<T, Container>::whichRow(const label i)
 const
 {
-  if (i < 0 || i >= m_.size())
-  {
+  if (i < 0 || i >= m_.size()) {
     FATAL_ERROR_IN
     (
       "CompactListList<T, Container>::whichRow(const label) const"
-    )   << "Index " << i << " outside 0.." << m_.size()
-      << abort(FatalError);
+    )
+    << "Index " << i << " outside 0.." << m_.size()
+    << abort(FatalError);
   }
   return findLower(offsets_, i+1);
 }
@@ -280,6 +289,7 @@ inline mousse::label mousse::CompactListList<T, Container>::whichColumn
   return i - index(row, 0);
 }
 
+
 template<class T, class Container>
 inline mousse::Xfer<mousse::CompactListList<T, Container> >
 mousse::CompactListList<T, Container>::xfer()
@@ -287,11 +297,13 @@ mousse::CompactListList<T, Container>::xfer()
   return xferMove(*this);
 }
 
+
 template<class T, class Container>
 inline void mousse::CompactListList<T, Container>::resize(const label nRows)
 {
   this->setSize(nRows);
 }
+
 
 template<class T, class Container>
 inline void mousse::CompactListList<T, Container>::resize
@@ -302,6 +314,7 @@ inline void mousse::CompactListList<T, Container>::resize
 {
   this->setSize(nRows, nData);
 }
+
 
 template<class T, class Container>
 inline void mousse::CompactListList<T, Container>::resize
@@ -314,6 +327,7 @@ inline void mousse::CompactListList<T, Container>::resize
   this->setSize(nRows, nData, t);
 }
 
+
 template<class T, class Container>
 inline void mousse::CompactListList<T, Container>::resize
 (
@@ -323,6 +337,7 @@ inline void mousse::CompactListList<T, Container>::resize
   this->setSize(rowSizes);
 }
 
+
 // Member Operators 
 template<class T, class Container>
 inline mousse::UList<T> mousse::CompactListList<T, Container>::operator[]
@@ -331,8 +346,9 @@ inline mousse::UList<T> mousse::CompactListList<T, Container>::operator[]
 )
 {
   label start = offsets_[i];
-  return UList<T>(m_.begin() + start, offsets_[i+1] - start);
+  return {m_.begin() + start, offsets_[i+1] - start};
 }
+
 
 template<class T, class Container>
 inline const mousse::UList<T>
@@ -342,12 +358,9 @@ mousse::CompactListList<T, Container>::operator[]
 ) const
 {
   label start = offsets_[i];
-  return UList<T>
-  (
-    const_cast<T*>(m_.begin() + start),
-    offsets_[i+1] - start
-  );
+  return {const_cast<T*>(m_.begin() + start), offsets_[i+1] - start};
 }
+
 
 template<class T, class Container>
 inline T& mousse::CompactListList<T, Container>::operator()
@@ -359,6 +372,7 @@ inline T& mousse::CompactListList<T, Container>::operator()
   return m_[index(i, j)];
 }
 
+
 template<class T, class Container>
 inline const T& mousse::CompactListList<T, Container>::operator()
 (
@@ -369,13 +383,14 @@ inline const T& mousse::CompactListList<T, Container>::operator()
   return m_[index(i, j)];
 }
 
+
 template<class T, class Container>
 inline void mousse::CompactListList<T, Container>::operator=(const T& t)
 {
   m_ = t;
 }
 
-#ifdef NoRepository
-#   include "compact_list_list.cpp"
-#endif
+
+#include "compact_list_list.ipp"
+
 #endif

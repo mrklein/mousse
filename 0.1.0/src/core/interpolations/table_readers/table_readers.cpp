@@ -4,12 +4,13 @@
 
 #include "table_readers.hpp"
 
-namespace mousse
-{
+namespace mousse {
+
 // Static Data Members
 #define DEFINE_TABLE_READER_TYPE(dataType)                                    \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(tableReader<dataType >, 0);       \
   DEFINE_TEMPLATED_RUN_TIME_SELECTION_TABLE(tableReader, dictionary, dataType);
+
 
 DEFINE_TABLE_READER_TYPE(scalar);
 DEFINE_TABLE_READER_TYPE(vector);

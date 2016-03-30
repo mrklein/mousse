@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "static_hash_table.hpp"
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(StaticHashTableCore, 0);
+
 }

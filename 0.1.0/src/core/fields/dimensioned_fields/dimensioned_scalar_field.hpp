@@ -4,25 +4,29 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   dimensioned_scalar_field.cpp
+
 #include "dimensioned_field.hpp"
 #include "scalar.hpp"
 #define TEMPLATE template<class GeoMesh>
-#include "dimensioned_field_functions_m.hpp"
-namespace mousse
-{
+#include "dimensioned_field_functions_m.inc"
+
+
+namespace mousse {
+
 template<class GeoMesh>
 tmp<DimensionedField<scalar, GeoMesh> > stabilise
 (
   const DimensionedField<scalar, GeoMesh>&,
   const dimensioned<scalar>&
 );
+
 template<class GeoMesh>
 tmp<DimensionedField<scalar, GeoMesh> > stabilise
 (
   const tmp<DimensionedField<scalar, GeoMesh> >&,
   const dimensioned<scalar>&
 );
+
 BINARY_TYPE_OPERATOR(scalar, scalar, scalar, +, '+', add)
 BINARY_TYPE_OPERATOR(scalar, scalar, scalar, -, '-', subtract)
 BINARY_OPERATOR(scalar, scalar, scalar, *, '*', multiply)
@@ -66,27 +70,31 @@ UNARY_FUNCTION(scalar, scalar, j0, trans)
 UNARY_FUNCTION(scalar, scalar, j1, trans)
 UNARY_FUNCTION(scalar, scalar, y0, trans)
 UNARY_FUNCTION(scalar, scalar, y1, trans)
-#define BesselFunc(func)                                                       \
-                                       \
-template<class GeoMesh>                                                        \
-tmp<DimensionedField<scalar, GeoMesh> > func                                   \
-(                                                                              \
-  const int n,                                                               \
-  const DimensionedField<scalar, GeoMesh>&                                   \
-);                                                                             \
-                                       \
-template<class GeoMesh>                                                        \
-tmp<DimensionedField<scalar, GeoMesh> > func                                   \
-(                                                                              \
-  const int n,                                                               \
-  const tmp<DimensionedField<scalar, GeoMesh> >&                             \
+
+
+#define BesselFunc(func)                                                      \
+                                                                              \
+template<class GeoMesh>                                                       \
+tmp<DimensionedField<scalar, GeoMesh> > func                                  \
+(                                                                             \
+  const int n,                                                                \
+  const DimensionedField<scalar, GeoMesh>&                                    \
+);                                                                            \
+                                                                              \
+template<class GeoMesh>                                                       \
+tmp<DimensionedField<scalar, GeoMesh> > func                                  \
+(                                                                             \
+  const int n,                                                                \
+  const tmp<DimensionedField<scalar, GeoMesh> >&                              \
 );
+
 BesselFunc(jn)
 BesselFunc(yn)
 #undef BesselFunc
+
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
-#ifdef NoRepository
-#   include "dimensioned_scalar_field.cpp"
-#endif
+
+#include "undef_field_functions_m.inc"
+#include "dimensioned_scalar_field.ipp"
+
 #endif

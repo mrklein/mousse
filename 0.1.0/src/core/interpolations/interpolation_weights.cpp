@@ -21,6 +21,7 @@ interpolationWeights::interpolationWeights
   samples_{samples}
 {}
 
+
 // Selectors
 autoPtr<interpolationWeights> interpolationWeights::New
 (
@@ -28,16 +29,14 @@ autoPtr<interpolationWeights> interpolationWeights::New
   const scalarField& samples
 )
 {
-  if (debug)
-  {
+  if (debug) {
     INFO_IN("interpolationWeights::New")
       << "Selecting interpolationWeights "
       << type << endl;
   }
   wordConstructorTable::iterator cstrIter =
     wordConstructorTablePtr_->find(type);
-  if (cstrIter == wordConstructorTablePtr_->end())
-  {
+  if (cstrIter == wordConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "interpolationWeights::New(const word&, "

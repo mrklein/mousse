@@ -8,11 +8,12 @@
 //   mousse::DILUSmoother
 // Description
 //   Simplified diagonal-based incomplete LU smoother for asymmetric matrices.
-// SourceFiles
-//   dilu_smoother.cpp
+
 #include "ldu_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class DILUSmoother
 :
   public lduMatrix::smoother

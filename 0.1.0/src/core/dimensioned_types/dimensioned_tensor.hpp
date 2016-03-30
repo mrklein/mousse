@@ -4,13 +4,16 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   dimensioned_tensor.cpp
+
 #include "dimensioned_vector.hpp"
 #include "dimensioned_symm_tensor.hpp"
 #include "tensor.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef dimensioned<tensor> dimensionedTensor;
+
 // global functions
 dimensionedScalar tr(const dimensionedTensor&);
 dimensionedTensor dev(const dimensionedTensor&);
@@ -25,10 +28,14 @@ dimensionedVector eigenValues(const dimensionedTensor&);
 dimensionedTensor eigenVectors(const dimensionedTensor&);
 dimensionedVector eigenValues(const dimensionedSymmTensor&);
 dimensionedTensor eigenVectors(const dimensionedSymmTensor&);
+
 // global operators
 //- Hodge Dual operator (tensor -> vector)
 dimensionedVector operator*(const dimensionedTensor&);
+
 //- Hodge Dual operator (vector -> tensor)
 dimensionedTensor operator*(const dimensionedVector&);
+
 }  // namespace mousse
+
 #endif

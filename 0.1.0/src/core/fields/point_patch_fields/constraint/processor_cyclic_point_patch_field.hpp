@@ -8,12 +8,13 @@
 //   mousse::processorCyclicPointPatchField
 // Description
 //   mousse::processorCyclicPointPatchField
-// SourceFiles
-//   processor_cyclic_point_patch_field.cpp
+
 #include "coupled_point_patch_field.hpp"
 #include "processor_cyclic_point_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class processorCyclicPointPatchField
 :
@@ -50,15 +51,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new processorCyclicPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new processorCyclicPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     processorCyclicPointPatchField
@@ -67,19 +65,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new processorCyclicPointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new processorCyclicPointPatchField<Type>{*this, iF}
+      };
     }
   //- Destructor
   virtual ~processorCyclicPointPatchField();
@@ -88,12 +82,9 @@ public:
       //- Return true if running parallel
       virtual bool coupled() const
       {
-        if (Pstream::parRun())
-        {
+        if (Pstream::parRun()) {
           return true;
-        }
-        else
-        {
+        } else {
           return false;
         }
       }
@@ -101,10 +92,7 @@ public:
       virtual bool doTransform() const
       {
         return
-         !(
-            pTraits<Type>::rank == 0
-          || procPatch_.procPolyPatch().parallel()
-          );
+         !(pTraits<Type>::rank == 0 || procPatch_.procPolyPatch().parallel());
       }
     // Evaluation functions
       //- Evaluate the patch field
@@ -127,7 +115,7 @@ public:
       ) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#    include "processor_cyclic_point_patch_field.cpp"
-#endif
+
+#include "processor_cyclic_point_patch_field.ipp"
+
 #endif

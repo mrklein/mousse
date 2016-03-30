@@ -9,52 +9,58 @@
 #include <signal.h>
 #include <unistd.h>
 
+
 // Constructors
 mousse::fileStat::fileStat()
 :
-  isValid_(false)
+  isValid_{false}
 {}
+
+
 mousse::fileStat::fileStat(const fileName& fName, const unsigned int maxTime)
 {
   // Work on volatile
   volatile bool locIsValid = false;
-  timer myTimer(maxTime);
-  if (!timedOut(myTimer))
-  {
-    if (::stat(fName.c_str(), &status_) != 0)
-    {
+  timer myTimer{maxTime};
+  if (!timedOut(myTimer)) {
+    if (::stat(fName.c_str(), &status_) != 0) {
       locIsValid = false;
-    }
-    else
-    {
+    } else {
       locIsValid = true;
     }
   }
   // Copy into (non-volatile, possible register based) member var
   isValid_ = locIsValid;
 }
+
+
 mousse::fileStat::fileStat(Istream& is)
 {
   is >> *this;
 }
+
+
 // Member Functions
 bool mousse::fileStat::sameDevice(const fileStat& stat2) const
 {
   return
     isValid_
-  && (
-      major(status_.st_dev) == major(stat2.status().st_dev)
-    && minor(status_.st_dev) == minor(stat2.status().st_dev)
-    );
+    && (major(status_.st_dev) == major(stat2.status().st_dev)
+        && minor(status_.st_dev) == minor(stat2.status().st_dev));
 }
+
+
 bool mousse::fileStat::sameINode(const fileStat& stat2) const
 {
   return isValid_ && (status_.st_ino == stat2.status().st_ino);
 }
+
+
 bool mousse::fileStat::sameINode(const label iNode) const
 {
   return isValid_ && (status_.st_ino == ino_t(iNode));
 }
+
 
 // Friend Operators
 mousse::Istream& mousse::operator>>(Istream& is, fileStat& fStat)
@@ -77,6 +83,8 @@ mousse::Istream& mousse::operator>>(Istream& is, fileStat& fStat)
   is.check("Istream& operator>>(Istream&, fileStat&)");
   return is;
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const fileStat& fStat)
 {
   FixedList<label, 13> stat;
@@ -95,3 +103,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const fileStat& fStat)
   stat[12] = label(fStat.status_.st_ctime);
   return os << stat;
 }
+

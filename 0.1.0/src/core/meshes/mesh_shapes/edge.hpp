@@ -18,12 +18,14 @@
 #include "swap.hpp"
 #include "uindirect_list.hpp"
 
-namespace mousse
-{
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class edge;
 inline bool operator==(const edge& a, const edge& b);
 inline bool operator!=(const edge& a, const edge& b);
+
+
 class edge
 :
   public FixedList<label, 2>
@@ -75,24 +77,24 @@ public:
     friend bool operator==(const edge& a, const edge& b);
     friend bool operator!=(const edge& a, const edge& b);
 };
+
 //- Hash specialization for hashing edges - a commutative hash value.
 //  Hash incrementally.
 template<>
 inline unsigned Hash<edge>::operator()(const edge& e, unsigned seed) const
 {
   unsigned val = seed;
-  if (e[0] < e[1])
-  {
+  if (e[0] < e[1]) {
     val = Hash<label>()(e[0], val);
     val = Hash<label>()(e[1], val);
-  }
-  else
-  {
+  } else {
     val = Hash<label>()(e[1], val);
     val = Hash<label>()(e[0], val);
   }
   return val;
 }
+
+
 //- Hash specialization for hashing edges - a commutative hash value.
 //  Hash incrementally.
 template<>
@@ -100,9 +102,12 @@ inline unsigned Hash<edge>::operator()(const edge& e) const
 {
   return Hash<edge>()(e, 0);
 }
+
 template<>
-inline bool contiguous<edge>()  {return true;}
+inline bool contiguous<edge>() {return true;}
+
 }  // namespace mousse
+
 
 // Static Member Functions
 // return
@@ -111,16 +116,11 @@ inline bool contiguous<edge>()  {return true;}
 //  - -1: same edge, but different orientation
 inline int mousse::edge::compare(const edge& a, const edge& b)
 {
-  if (a[0] == b[0] && a[1] == b[1])
-  {
+  if (a[0] == b[0] && a[1] == b[1]) {
     return 1;
-  }
-  else if (a[0] == b[1] && a[1] == b[0])
-  {
+  } else if (a[0] == b[1] && a[1] == b[0]) {
     return -1;
-  }
-  else
-  {
+  } else {
     return 0;
   }
 }
@@ -128,100 +128,122 @@ inline int mousse::edge::compare(const edge& a, const edge& b)
 // Constructors
 inline mousse::edge::edge()
 {}
+
+
 inline mousse::edge::edge(const label a, const label b)
 {
   start() = a;
   end() = b;
 }
+
+
 inline mousse::edge::edge(const FixedList<label, 2>& a)
 {
   start() = a[0];
   end() = a[1];
 }
+
+
 inline mousse::edge::edge(Istream& is)
 :
-  FixedList<label, 2>(is)
+  FixedList<label, 2>{is}
 {}
+
 
 // Member Functions
 inline mousse::label mousse::edge::start() const
 {
   return operator[](0);
 }
+
+
 inline mousse::label& mousse::edge::start()
 {
   return operator[](0);
 }
+
+
 inline mousse::label mousse::edge::end() const
 {
   return operator[](1);
 }
+
+
 inline mousse::label& mousse::edge::end()
 {
   return operator[](1);
 }
+
+
 inline mousse::label mousse::edge::otherVertex(const label a) const
 {
-  if (a == start())
-  {
+  if (a == start()) {
     return end();
-  }
-  else if (a == end())
-  {
+  } else if (a == end()) {
     return start();
-  }
-  else
-  {
+  } else {
     // The given vertex is not on the edge in the first place.
     return -1;
   }
 }
+
+
 inline mousse::label mousse::edge::commonVertex(const edge& a) const
 {
-  if (start() == a.start() || start() == a.end())
-  {
+  if (start() == a.start() || start() == a.end()) {
     return start();
-  }
-  else if (end() == a.start() || end() == a.end())
-  {
+  } else if (end() == a.start() || end() == a.end()) {
     return end();
-  }
-  else
-  {
+  } else {
     // No shared vertex.
     return -1;
   }
 }
+
+
 inline void mousse::edge::flip()
 {
   Swap(operator[](0), operator[](1));
 }
+
+
 inline mousse::edge mousse::edge::reverseEdge() const
 {
   return edge(end(), start());
 }
+
+
 inline mousse::point mousse::edge::centre(const pointField& p) const
 {
   return 0.5*(p[start()] + p[end()]);
 }
+
+
 inline mousse::vector mousse::edge::vec(const pointField& p) const
 {
   return p[end()] - p[start()];
 }
+
+
 inline mousse::scalar mousse::edge::mag(const pointField& p) const
 {
   return ::mousse::mag(vec(p));
 }
+
+
 inline mousse::linePointRef mousse::edge::line(const pointField& p) const
 {
   return linePointRef(p[start()], p[end()]);
 }
+
 
 // Friend Operators
 inline bool mousse::operator==(const edge& a, const edge& b)
 {
   return edge::compare(a,b) != 0;
 }
+
+
 inline bool mousse::operator!=(const edge& a, const edge& b)
 {
   return edge::compare(a,b) == 0;

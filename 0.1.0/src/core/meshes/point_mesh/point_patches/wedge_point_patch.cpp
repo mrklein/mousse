@@ -6,8 +6,8 @@
 #include "point_constraint.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(wedgePointPatch, 0);
 // Add the patch constructor functions to the hash tables
@@ -19,6 +19,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 );
 
 }
+
+
 // Constructors 
 mousse::wedgePointPatch::wedgePointPatch
 (
@@ -29,6 +31,8 @@ mousse::wedgePointPatch::wedgePointPatch
   facePointPatch{patch, bm},
   wedgePolyPatch_{refCast<const wedgePolyPatch>(patch)}
 {}
+
+
 // Member Functions 
 void mousse::wedgePointPatch::applyConstraint
 (

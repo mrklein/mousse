@@ -4,11 +4,13 @@
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   all_reduce_templates.cpp
+
 #include "upstream.hpp"
 #include <mpi.h>
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type, class BinaryOp>
 void allReduce
 (
@@ -20,8 +22,9 @@ void allReduce
   const int tag,
   const label communicator
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "all_reduce_templates.cpp"
-#endif
+
+#include "all_reduce.ipp"
+
 #endif

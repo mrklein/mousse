@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "face.hpp"
+
+
 mousse::scalar mousse::face::contactSphereDiameter
 (
   const point& p,

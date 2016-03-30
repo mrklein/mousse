@@ -8,11 +8,12 @@
 //   mousse::symGaussSeidelSmoother
 // Description
 //   A lduMatrix::smoother for symmetric Gauss-Seidel
-// SourceFiles
-//   sym_gauss_seidel_smoother.cpp
+
 #include "ldu_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class symGaussSeidelSmoother
 :
   public lduMatrix::smoother

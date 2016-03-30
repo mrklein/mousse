@@ -10,14 +10,11 @@
 //   Diagonal preconditioner for both symmetric and asymmetric matrices.
 //   The reciprocal of the diagonal is calculated and stored for reuse
 //   because on most systems '*' is faster than '/'.
-// SourceFiles
-//   diagonal_preconditioner.cpp
-
 
 #include "ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class diagonalPreconditioner
 :

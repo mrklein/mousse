@@ -7,8 +7,12 @@
 
 #include "cell.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef List<cell> cellList;
+
+
+namespace mousse {
+
+typedef List<cell> cellList;
+
 }
+
 #endif

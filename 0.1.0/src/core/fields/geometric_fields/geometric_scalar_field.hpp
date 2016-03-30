@@ -4,16 +4,14 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   geometric_scalar_field.cpp
-
 
 #include "geometric_field.hpp"
 #include "dimensioned_scalar_field.hpp"
 #define TEMPLATE template<template<class> class PatchField, class GeoMesh>
-#include "geometric_field_functions_m.hpp"
+#include "geometric_field_functions_m.inc"
 
-namespace mousse
-{
+namespace mousse {
+
 template<template<class> class PatchField, class GeoMesh>
 void stabilise
 (
@@ -21,18 +19,21 @@ void stabilise
   const GeometricField<scalar, PatchField, GeoMesh>&,
   const dimensioned<scalar>&
 );
+
 template<template<class> class PatchField, class GeoMesh>
 tmp<GeometricField<scalar, PatchField, GeoMesh> > stabilise
 (
   const GeometricField<scalar, PatchField, GeoMesh>&,
   const dimensioned<scalar>&
 );
+
 template<template<class> class PatchField, class GeoMesh>
 tmp<GeometricField<scalar, PatchField, GeoMesh> > stabilise
 (
   const tmp<GeometricField<scalar, PatchField, GeoMesh> >&,
   const dimensioned<scalar>&
 );
+
 BINARY_TYPE_OPERATOR(scalar, scalar, scalar, +, '+', add)
 BINARY_TYPE_OPERATOR(scalar, scalar, scalar, -, '-', subtract)
 BINARY_OPERATOR(scalar, scalar, scalar, *, '*', multiply)
@@ -77,6 +78,7 @@ UNARY_FUNCTION(scalar, scalar, j1, trans)
 UNARY_FUNCTION(scalar, scalar, y0, trans)
 UNARY_FUNCTION(scalar, scalar, y1, trans)
 
+
 #define BESSEL_FUNC(func)                                                     \
                                                                               \
 template<template<class> class PatchField, class GeoMesh>                     \
@@ -105,10 +107,11 @@ BESSEL_FUNC(jn)
 BESSEL_FUNC(yn)
 
 #undef BESSEL_FUNC
-}  // namespace mousse
-#include "undef_field_functions_m.hpp"
 
-#ifdef NoRepository
-#   include "geometric_scalar_field.cpp"
-#endif
+}  // namespace mousse
+
+
+#include "undef_field_functions_m.inc"
+#include "geometric_scalar_field.ipp"
+
 #endif

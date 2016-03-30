@@ -6,8 +6,8 @@
 // Copyright (C) 2016 mousse project
 
 
-namespace mousse
-{
+namespace mousse {
+
 #define EQ_OP(opName, op)                                                     \
                                                                               \
 template<class T1, class T2>                                                  \
@@ -30,23 +30,24 @@ public:                                                                       \
   {                                                                           \
     op;                                                                       \
   }                                                                           \
-};
+}
 
-EQ_OP(eq, x = y)
-EQ_OP(plusEq, x += y)
-EQ_OP(minusEq, x -= y)
-EQ_OP(multiplyEq, x *= y)
-EQ_OP(divideEq, x /= y)
-EQ_OP(eqMag, x = mag(y))
-EQ_OP(plusEqMagSqr, x += magSqr(y))
-EQ_OP(maxEq, x = max(x, y))
-EQ_OP(minEq, x = min(x, y))
-EQ_OP(minMagSqrEq, x = (magSqr(x)<=magSqr(y) ? x : y))
-EQ_OP(maxMagSqrEq, x = (magSqr(x)>=magSqr(y) ? x : y))
-EQ_OP(andEq, x = (x && y))
-EQ_OP(orEq, x  = (x || y))
-EQ_OP(eqMinus, x = -y)
-EQ_OP(nopEq, (void)(x + y))
+
+EQ_OP(eq, x = y);
+EQ_OP(plusEq, x += y);
+EQ_OP(minusEq, x -= y);
+EQ_OP(multiplyEq, x *= y);
+EQ_OP(divideEq, x /= y);
+EQ_OP(eqMag, x = mag(y));
+EQ_OP(plusEqMagSqr, x += magSqr(y));
+EQ_OP(maxEq, x = max(x, y));
+EQ_OP(minEq, x = min(x, y));
+EQ_OP(minMagSqrEq, x = (magSqr(x)<=magSqr(y) ? x : y));
+EQ_OP(maxMagSqrEq, x = (magSqr(x)>=magSqr(y) ? x : y));
+EQ_OP(andEq, x = (x && y));
+EQ_OP(orEq, x  = (x || y));
+EQ_OP(eqMinus, x = -y);
+EQ_OP(nopEq, (void)(x + y));
 
 #undef EQ_OP
 
@@ -55,6 +56,7 @@ EQ_OP(nopEq, (void)(x + y))
 #else
 #define WARNRETURN
 #endif
+
 
 #define OP(opName, op)                                                        \
                                                                               \
@@ -118,6 +120,7 @@ EQ_OP(nopEq, (void)(x + y))
       }                                                                       \
   };                                                                          \
 
+
 OP(sum, x + y)
 OP(plus, x + y)
 OP(minus, x - y)
@@ -146,4 +149,5 @@ WEIGHTED_OP(multiply, (weight*y))
 #undef WARNRETURN
 
 }  // namespace mousse
+
 #endif

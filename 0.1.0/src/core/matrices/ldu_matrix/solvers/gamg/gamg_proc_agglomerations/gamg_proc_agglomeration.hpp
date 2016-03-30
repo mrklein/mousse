@@ -8,15 +8,12 @@
 //   mousse::GAMGProcAgglomeration
 // Description
 //   Processor agglomeration of GAMGAgglomerations.
-// SourceFiles
-//   gamg_proc_agglomeration.cpp
-
 
 #include "run_time_selection_tables.hpp"
 #include "label_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class GAMGAgglomeration;
 class lduMesh;

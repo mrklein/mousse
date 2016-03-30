@@ -10,14 +10,11 @@
 //   A cellMatcher for pyr cells
 // See Also
 //   cellMatcher
-// SourceFiles
-//   pyr_matcher.cpp
-
 
 #include "cell_matcher.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class pyrMatcher
 :

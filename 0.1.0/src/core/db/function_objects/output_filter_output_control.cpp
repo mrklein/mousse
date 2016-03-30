@@ -4,6 +4,8 @@
 
 #include "output_filter_output_control.hpp"
 #include "pstream_reduce_ops.hpp"
+
+
 // Static Member Data 
 namespace mousse
 {
@@ -20,8 +22,12 @@ namespace mousse
     "none"
   };
 }
+
+
 const mousse::NamedEnum<mousse::outputFilterOutputControl::outputControls, 7>
   mousse::outputFilterOutputControl::outputControlNames_;
+
+
 // Constructors 
 mousse::outputFilterOutputControl::outputFilterOutputControl
 (
@@ -30,33 +36,33 @@ mousse::outputFilterOutputControl::outputFilterOutputControl
   const word& prefix
 )
 :
-  time_(t),
-  prefix_(prefix),
-  outputControl_(ocTimeStep),
-  outputInterval_(0),
-  outputTimeLastDump_(0),
-  writeInterval_(-1)
+  time_{t},
+  prefix_{prefix},
+  outputControl_{ocTimeStep},
+  outputInterval_{0},
+  outputTimeLastDump_{0},
+  writeInterval_{-1}
 {
   read(dict);
 }
+
+
 // Destructor 
 mousse::outputFilterOutputControl::~outputFilterOutputControl()
 {}
+
+
 // Member Functions 
 void mousse::outputFilterOutputControl::read(const dictionary& dict)
 {
   const word controlName(prefix_ + "Control");
   const word intervalName(prefix_ + "Interval");
-  if (dict.found(controlName))
-  {
+  if (dict.found(controlName)) {
     outputControl_ = outputControlNames_.read(dict.lookup(controlName));
-  }
-  else
-  {
+  } else {
     outputControl_ = ocTimeStep;
   }
-  switch (outputControl_)
-  {
+  switch (outputControl_) {
     case ocTimeStep:
     {
       outputInterval_ = dict.lookupOrDefault<label>(intervalName, 0);
@@ -82,10 +88,11 @@ void mousse::outputFilterOutputControl::read(const dictionary& dict)
     }
   }
 }
+
+
 bool mousse::outputFilterOutputControl::output()
 {
-  switch (outputControl_)
-  {
+  switch (outputControl_) {
     case ocTimeStep:
     {
       return

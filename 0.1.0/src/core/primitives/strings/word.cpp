@@ -4,6 +4,8 @@
 
 #include "word.hpp"
 #include "debug.hpp"
+
+
 // Static Data Members
 const char* const mousse::word::typeName = "word";
 int mousse::word::debug(mousse::debug::debugSwitch(word::typeName, 0));

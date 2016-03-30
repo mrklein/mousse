@@ -7,8 +7,13 @@
 
 #include "point_patch.hpp"
 #include "ptr_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef PtrList<pointPatch> pointPatchList;
+
 }  // namespace mousse
+
 #endif
+

@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "opstream.hpp"
+
+
 // Constructor
 mousse::OPstream::OPstream
 (
@@ -15,6 +17,6 @@ mousse::OPstream::OPstream
   versionNumber version
 )
 :
-  Pstream(commsType, bufSize),
-  UOPstream(commsType, toProcNo, buf_, tag, comm, true, format, version)
+  Pstream{commsType, bufSize},
+  UOPstream{commsType, toProcNo, buf_, tag, comm, true, format, version}
 {}

@@ -10,15 +10,12 @@
 //   Base class with which callbacks are registered.
 //   Derive from this class and extend by adding the appropriate callback
 //   functions that loop and call the callback functions for each entry.
-// SourceFiles
-//   callback_registry.cpp
-
 
 #include "uidl_list.hpp"
 #include "class_name.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 template<class CallbackType>
@@ -48,7 +45,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#include "callback_registry.cpp"
-#endif
+#include "callback_registry.ipp"
+
 #endif

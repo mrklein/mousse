@@ -8,10 +8,13 @@
 //   mousse::objectHit
 // Description
 //   This class describes a combination of target object index and success flag.
+
 #include "bool.hpp"
 #include "label.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class objectHit
 {
   // Private data
@@ -24,20 +27,20 @@ public:
     //- Construct null
     objectHit()
     :
-      hit_(false),
-      hitObject_(-1)
+      hit_{false},
+      hitObject_{-1}
     {}
     //- Construct from components
     objectHit(const bool success, const label obj)
     :
-      hit_(success),
-      hitObject_(obj)
+      hit_{success},
+      hitObject_{obj}
     {}
     //- Construct from Istream
     objectHit(Istream& is)
     :
-      hit_(readBool(is)),
-      hitObject_(readLabel(is))
+      hit_{readBool(is)},
+      hitObject_{readLabel(is)}
     {}
   // Member Functions
     //- Is there a hit

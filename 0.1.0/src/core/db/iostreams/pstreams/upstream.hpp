@@ -8,12 +8,7 @@
 //   mousse::UPstream
 // Description
 //   Inter-processor communications stream
-// SourceFiles
-//   upstream.cpp
-//   upstream_comms_struct.cpp
-//   gather_scatter.cpp
-//   combine_gather_scatter.cpp
-//   gather_scatter_list.cpp
+
 #include "label_list.hpp"
 #include "dynamic_list.hpp"
 #include "hash_table.hpp"
@@ -21,8 +16,10 @@
 #include "named_enum.hpp"
 #include "list_ops.hpp"
 #include "lifo_stack.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class UPstream
 {
 public:
@@ -173,7 +170,7 @@ public:
     //- Construct given optional buffer size
     UPstream(const commsTypes commsType)
     :
-      commsType_(commsType)
+      commsType_{commsType}
     {}
   // Member functions
     //- Allocate a new communicator
@@ -206,7 +203,7 @@ public:
         const bool doPstream
       )
       :
-        comm_(allocateCommunicator(parent, subRanks, doPstream))
+        comm_{allocateCommunicator(parent, subRanks, doPstream)}
       {}
       ~communicator()
       {

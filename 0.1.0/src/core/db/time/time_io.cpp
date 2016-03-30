@@ -10,46 +10,38 @@
 #include "istring_stream.hpp"
 #include "iostreams.hpp"
 
+
 // Member Functions
 void mousse::Time::readDict()
 {
   word application;
-  if (controlDict_.readIfPresent("application", application))
-  {
+  if (controlDict_.readIfPresent("application", application)) {
     // Do not override if already set so external application can override
     setEnv("MOUSSE_APPLICATION", application, false);
   }
   // Check for local switches and settings
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Debug switches
-  if (controlDict_.found("DebugSwitches"))
-  {
-    Info<< "Overriding DebugSwitches according to " << controlDict_.name()
+  if (controlDict_.found("DebugSwitches")) {
+    Info << "Overriding DebugSwitches according to " << controlDict_.name()
       << endl;
     simpleObjectRegistry& objects = debug::debugObjects();
     const dictionary& localSettings = controlDict_.subDict("DebugSwitches");
-    FOR_ALL_CONST_ITER(dictionary, localSettings, iter)
-    {
+    FOR_ALL_CONST_ITER(dictionary, localSettings, iter) {
       const word& name = iter().keyword();
       simpleObjectRegistryEntry* objPtr = objects.lookupPtr(name);
-      if (objPtr)
-      {
-        Info<< "    " << iter() << endl;
+      if (objPtr) {
+        Info << "    " << iter() << endl;
         const List<simpleRegIOobject*>& objects = *objPtr;
-        if (iter().isDict())
-        {
-          FOR_ALL(objects, i)
-          {
-            OStringStream os(IOstream::ASCII);
-            os  << iter().dict();
-            IStringStream is(os.str());
+        if (iter().isDict()) {
+          FOR_ALL(objects, i) {
+            OStringStream os{IOstream::ASCII};
+            os << iter().dict();
+            IStringStream is{os.str()};
             objects[i]->readData(is);
           }
-        }
-        else
-        {
-          FOR_ALL(objects, i)
-          {
+        } else {
+          FOR_ALL(objects, i) {
             objects[i]->readData(iter().stream());
           }
         }
@@ -57,37 +49,29 @@ void mousse::Time::readDict()
     }
   }
   // Optimisation Switches
-  if (controlDict_.found("OptimisationSwitches"))
-  {
-    Info<< "Overriding OptimisationSwitches according to "
+  if (controlDict_.found("OptimisationSwitches")) {
+    Info << "Overriding OptimisationSwitches according to "
       << controlDict_.name() << endl;
     simpleObjectRegistry& objects = debug::optimisationObjects();
     const dictionary& localSettings = controlDict_.subDict
     (
       "OptimisationSwitches"
     );
-    FOR_ALL_CONST_ITER(dictionary, localSettings, iter)
-    {
+    FOR_ALL_CONST_ITER(dictionary, localSettings, iter) {
       const word& name = iter().keyword();
       simpleObjectRegistryEntry* objPtr = objects.lookupPtr(name);
-      if (objPtr)
-      {
-        Info<< "    " << iter() << endl;
+      if (objPtr) {
+        Info << "    " << iter() << endl;
         const List<simpleRegIOobject*>& objects = *objPtr;
-        if (iter().isDict())
-        {
-          FOR_ALL(objects, i)
-          {
-            OStringStream os(IOstream::ASCII);
-            os  << iter().dict();
-            IStringStream is(os.str());
+        if (iter().isDict()) {
+          FOR_ALL(objects, i) {
+            OStringStream os{IOstream::ASCII};
+            os << iter().dict();
+            IStringStream is{os.str()};
             objects[i]->readData(is);
           }
-        }
-        else
-        {
-          FOR_ALL(objects, i)
-          {
+        } else {
+          FOR_ALL(objects, i) {
             objects[i]->readData(iter().stream());
           }
         }
@@ -96,9 +80,8 @@ void mousse::Time::readDict()
   }
   // DimensionedConstants. Handled as a special case since both e.g.
   // the 'unitSet' might be changed and the individual values
-  if (controlDict_.found("DimensionedConstants"))
-  {
-    Info<< "Overriding DimensionedConstants according to "
+  if (controlDict_.found("DimensionedConstants")) {
+    Info << "Overriding DimensionedConstants according to "
       << controlDict_.name() << endl;
     // Change in-memory
     dimensionedConstants().merge
@@ -106,47 +89,40 @@ void mousse::Time::readDict()
       controlDict_.subDict("DimensionedConstants")
     );
     simpleObjectRegistry& objects = debug::dimensionedConstantObjects();
-    IStringStream dummyIs("");
-    FOR_ALL_CONST_ITER(simpleObjectRegistry, objects, iter)
-    {
+    IStringStream dummyIs{""};
+    FOR_ALL_CONST_ITER(simpleObjectRegistry, objects, iter) {
       const List<simpleRegIOobject*>& objects = *iter;
-      FOR_ALL(objects, i)
-      {
+      FOR_ALL(objects, i) {
         objects[i]->readData(dummyIs);
-        Info<< "    ";
+        Info << "    ";
         objects[i]->writeData(Info);
-        Info<< endl;
+        Info << endl;
       }
     }
   }
   // Dimension sets
-  if (controlDict_.found("DimensionSets"))
-  {
-    Info<< "Overriding DimensionSets according to "
+  if (controlDict_.found("DimensionSets")) {
+    Info << "Overriding DimensionSets according to "
       << controlDict_.name() << endl;
     dictionary dict(mousse::dimensionSystems());
     dict.merge(controlDict_.subDict("DimensionSets"));
     simpleObjectRegistry& objects = debug::dimensionSetObjects();
     simpleObjectRegistryEntry* objPtr = objects.lookupPtr("DimensionSets");
-    if (objPtr)
-    {
-      Info<< controlDict_.subDict("DimensionSets") << endl;
+    if (objPtr) {
+      Info << controlDict_.subDict("DimensionSets") << endl;
       const List<simpleRegIOobject*>& objects = *objPtr;
-      FOR_ALL(objects, i)
-      {
-        OStringStream os(IOstream::ASCII);
-        os  << dict;
-        IStringStream is(os.str());
+      FOR_ALL(objects, i) {
+        OStringStream os{IOstream::ASCII};
+        os << dict;
+        IStringStream is{os.str()};
         objects[i]->readData(is);
       }
     }
   }
-  if (!deltaTchanged_)
-  {
+  if (!deltaTchanged_) {
     deltaT_ = readScalar(controlDict_.lookup("deltaT"));
   }
-  if (controlDict_.found("writeControl"))
-  {
+  if (controlDict_.found("writeControl")) {
     writeControl_ = writeControlNames_.read
     (
       controlDict_.lookup("writeControl")
@@ -154,76 +130,51 @@ void mousse::Time::readDict()
   }
   scalar oldWriteInterval = writeInterval_;
   scalar oldSecondaryWriteInterval = secondaryWriteInterval_;
-  if (controlDict_.readIfPresent("writeInterval", writeInterval_))
-  {
-    if (writeControl_ == wcTimeStep && label(writeInterval_) < 1)
-    {
+  if (controlDict_.readIfPresent("writeInterval", writeInterval_)) {
+    if (writeControl_ == wcTimeStep && label(writeInterval_) < 1) {
       FATAL_IO_ERROR_IN("Time::readDict()", controlDict_)
         << "writeInterval < 1 for writeControl timeStep"
         << exit(FatalIOError);
     }
-  }
-  else
-  {
+  } else {
     controlDict_.lookup("writeFrequency") >> writeInterval_;
   }
   // Additional writing
-  if (controlDict_.found("secondaryWriteControl"))
-  {
+  if (controlDict_.found("secondaryWriteControl")) {
     secondaryWriteControl_ = writeControlNames_.read
     (
       controlDict_.lookup("secondaryWriteControl")
     );
-    if
-    (
-      controlDict_.readIfPresent
-      (
-        "secondaryWriteInterval",
-        secondaryWriteInterval_
-      )
-    )
-    {
-      if
-      (
-        secondaryWriteControl_ == wcTimeStep
-      && label(secondaryWriteInterval_) < 1
-      )
-      {
+    if (controlDict_.readIfPresent("secondaryWriteInterval",
+                                   secondaryWriteInterval_)) {
+      if (secondaryWriteControl_ == wcTimeStep
+          && label(secondaryWriteInterval_) < 1) {
         FATAL_IO_ERROR_IN("Time::readDict()", controlDict_)
           << "secondaryWriteInterval < 1"
           << " for secondaryWriteControl timeStep"
           << exit(FatalIOError);
       }
-    }
-    else
-    {
-      controlDict_.lookup("secondaryWriteFrequency")
-        >> secondaryWriteInterval_;
+    } else {
+      controlDict_.lookup("secondaryWriteFrequency") >> secondaryWriteInterval_;
     }
   }
-  if (oldWriteInterval != writeInterval_)
-  {
-    switch (writeControl_)
-    {
+  if (oldWriteInterval != writeInterval_) {
+    switch (writeControl_) {
       case wcRunTime:
       case wcAdjustableRunTime:
         // Recalculate outputTimeIndex_ to be in units of current
         // writeInterval.
         outputTimeIndex_ = label
         (
-          outputTimeIndex_
-         * oldWriteInterval
-         / writeInterval_
+          outputTimeIndex_*oldWriteInterval/writeInterval_
         );
       break;
       default:
       break;
     }
   }
-  if (oldSecondaryWriteInterval != secondaryWriteInterval_)
-  {
-    switch (secondaryWriteControl_)
-    {
+  if (oldSecondaryWriteInterval != secondaryWriteInterval_) {
+    switch (secondaryWriteControl_) {
       case wcRunTime:
       case wcAdjustableRunTime:
         // Recalculate secondaryOutputTimeIndex_ to be in units of
@@ -231,18 +182,16 @@ void mousse::Time::readDict()
         secondaryOutputTimeIndex_ = label
         (
           secondaryOutputTimeIndex_
-         * oldSecondaryWriteInterval
-         / secondaryWriteInterval_
+          *oldSecondaryWriteInterval
+          /secondaryWriteInterval_
         );
       break;
       default:
       break;
     }
   }
-  if (controlDict_.readIfPresent("purgeWrite", purgeWrite_))
-  {
-    if (purgeWrite_ < 0)
-    {
+  if (controlDict_.readIfPresent("purgeWrite", purgeWrite_)) {
+    if (purgeWrite_ < 0) {
       WARNING_IN("Time::readDict()")
         << "invalid value for purgeWrite " << purgeWrite_
         << ", should be >= 0, setting to 0"
@@ -250,10 +199,8 @@ void mousse::Time::readDict()
       purgeWrite_ = 0;
     }
   }
-  if (controlDict_.readIfPresent("secondaryPurgeWrite", secondaryPurgeWrite_))
-  {
-    if (secondaryPurgeWrite_ < 0)
-    {
+  if (controlDict_.readIfPresent("secondaryPurgeWrite", secondaryPurgeWrite_)) {
+    if (secondaryPurgeWrite_ < 0) {
       WARNING_IN("Time::readDict()")
         << "invalid value for secondaryPurgeWrite "
         << secondaryPurgeWrite_
@@ -262,23 +209,15 @@ void mousse::Time::readDict()
       secondaryPurgeWrite_ = 0;
     }
   }
-  if (controlDict_.found("timeFormat"))
-  {
+  if (controlDict_.found("timeFormat")) {
     const word formatName(controlDict_.lookup("timeFormat"));
-    if (formatName == "general")
-    {
+    if (formatName == "general") {
       format_ = general;
-    }
-    else if (formatName == "fixed")
-    {
+    } else if (formatName == "fixed") {
       format_ = fixed;
-    }
-    else if (formatName == "scientific")
-    {
+    } else if (formatName == "scientific") {
       format_ = scientific;
-    }
-    else
-    {
+    } else {
       WARNING_IN("Time::readDict()")
         << "unsupported time format " << formatName
         << endl;
@@ -287,39 +226,30 @@ void mousse::Time::readDict()
   controlDict_.readIfPresent("timePrecision", precision_);
   // stopAt at 'endTime' or a specified value
   // if nothing is specified, the endTime is zero
-  if (controlDict_.found("stopAt"))
-  {
+  if (controlDict_.found("stopAt")) {
     stopAt_ = stopAtControlNames_.read(controlDict_.lookup("stopAt"));
-    if (stopAt_ == saEndTime)
-    {
+    if (stopAt_ == saEndTime) {
       controlDict_.lookup("endTime") >> endTime_;
-    }
-    else
-    {
+    } else {
       endTime_ = GREAT;
     }
-  }
-  else if (!controlDict_.readIfPresent("endTime", endTime_))
-  {
+  } else if (!controlDict_.readIfPresent("endTime", endTime_)) {
     endTime_ = 0;
   }
   dimensionedScalar::name() = timeName(value());
-  if (controlDict_.found("writeVersion"))
-  {
+  if (controlDict_.found("writeVersion")) {
     writeVersion_ = IOstream::versionNumber
     (
       controlDict_.lookup("writeVersion")
     );
   }
-  if (controlDict_.found("writeFormat"))
-  {
+  if (controlDict_.found("writeFormat")) {
     writeFormat_ = IOstream::formatEnum
     (
       controlDict_.lookup("writeFormat")
     );
   }
-  if (controlDict_.found("writePrecision"))
-  {
+  if (controlDict_.found("writePrecision")) {
     IOstream::defaultPrecision
     (
       readUint(controlDict_.lookup("writePrecision"))
@@ -334,8 +264,7 @@ void mousse::Time::readDict()
       IOstream::defaultPrecision()
     );
   }
-  if (controlDict_.found("writeCompression"))
-  {
+  if (controlDict_.found("writeCompression")) {
     writeCompression_ = IOstream::compressionEnum
     (
       controlDict_.lookup("writeCompression")
@@ -343,28 +272,26 @@ void mousse::Time::readDict()
   }
   controlDict_.readIfPresent("graphFormat", graphFormat_);
   controlDict_.readIfPresent("runTimeModifiable", runTimeModifiable_);
-  if (!runTimeModifiable_ && controlDict_.watchIndex() != -1)
-  {
+  if (!runTimeModifiable_ && controlDict_.watchIndex() != -1) {
     removeWatch(controlDict_.watchIndex());
     controlDict_.watchIndex() = -1;
   }
 }
+
+
 bool mousse::Time::read()
 {
-  if (controlDict_.regIOobject::read())
-  {
+  if (controlDict_.regIOobject::read()) {
     readDict();
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+
+
 void mousse::Time::readModifiedObjects()
 {
-  if (runTimeModifiable_)
-  {
+  if (runTimeModifiable_) {
     // Get state of all monitored objects (=registered objects with a
     // valid filePath).
     // Note: requires same ordering in objectRegistries on different
@@ -373,24 +300,24 @@ void mousse::Time::readModifiedObjects()
     (
       (
         regIOobject::fileModificationChecking == inotifyMaster
-      || regIOobject::fileModificationChecking == timeStampMaster
+        || regIOobject::fileModificationChecking == timeStampMaster
       ),
       Pstream::parRun()
     );
     // Time handling is special since controlDict_ is the one dictionary
     // that is not registered to any database.
-    if (controlDict_.readIfModified())
-    {
+    if (controlDict_.readIfModified()) {
       readDict();
       functionObjects_.read();
     }
     bool registryModified = objectRegistry::modified();
-    if (registryModified)
-    {
+    if (registryModified) {
       objectRegistry::readModifiedObjects();
     }
   }
 }
+
+
 bool mousse::Time::writeObject
 (
   IOstream::streamFormat fmt,
@@ -398,13 +325,11 @@ bool mousse::Time::writeObject
   IOstream::compressionType cmp
 ) const
 {
-  if (outputTime())
-  {
+  if (outputTime()) {
     const word tmName(timeName());
     IOdictionary timeDict
-    (
-      IOobject
-      (
+    {
+      {
         "time",
         tmName,
         "uniform",
@@ -412,8 +337,8 @@ bool mousse::Time::writeObject
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     timeDict.add("value", timeName(timeToUserTime(value()), maxPrecision_));
     timeDict.add("name", string(tmName));
     timeDict.add("index", timeIndex_);
@@ -421,35 +346,21 @@ bool mousse::Time::writeObject
     timeDict.add("deltaT0", timeToUserTime(deltaT0_));
     timeDict.regIOobject::writeObject(fmt, ver, cmp);
     bool writeOK = objectRegistry::writeObject(fmt, ver, cmp);
-    if (writeOK)
-    {
+    if (writeOK) {
       // Does primary or secondary time trigger purging?
       // Note that primary times can only be purged by primary
       // purging. Secondary times can be purged by either primary
       // or secondary purging.
-      if (primaryOutputTime_ && purgeWrite_)
-      {
+      if (primaryOutputTime_ && purgeWrite_) {
         previousOutputTimes_.push(tmName);
-        while (previousOutputTimes_.size() > purgeWrite_)
-        {
+        while (previousOutputTimes_.size() > purgeWrite_) {
           rmDir(objectRegistry::path(previousOutputTimes_.pop()));
         }
       }
-      if
-      (
-       !primaryOutputTime_
-      && secondaryOutputTime_
-      && secondaryPurgeWrite_
-      )
-      {
+      if (!primaryOutputTime_ && secondaryOutputTime_ && secondaryPurgeWrite_) {
         // Writing due to secondary
         previousSecondaryOutputTimes_.push(tmName);
-        while
-        (
-          previousSecondaryOutputTimes_.size()
-         > secondaryPurgeWrite_
-        )
-        {
+        while (previousSecondaryOutputTimes_.size() > secondaryPurgeWrite_) {
           rmDir
           (
             objectRegistry::path
@@ -461,25 +372,30 @@ bool mousse::Time::writeObject
       }
     }
     return writeOK;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 bool mousse::Time::writeNow()
 {
   primaryOutputTime_ = true;
   outputTime_ = true;
   return write();
 }
+
+
 bool mousse::Time::writeAndEnd()
 {
   stopAt_  = saWriteNow;
   endTime_ = value();
   return writeNow();
 }
+
+
 void mousse::Time::writeOnce()
 {
   writeOnce_ = true;
 }
+

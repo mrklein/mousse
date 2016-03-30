@@ -10,20 +10,22 @@
 //   A patch is a list of labels that address the faces in the global face list.
 //   The patch can calculate its own edges based on the global faces.
 //   Patch also contains all addressing between the faces.
-// SourceFiles
-//   poly_patch.cpp
-//   poly_patch_new.cpp
+
 #include "patch_identifier.hpp"
 #include "primitive_patch.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class polyBoundaryMesh;
 class polyPatch;
 class PstreamBuffers;
 Ostream& operator<<(Ostream&, const polyPatch&);
+
+
 class polyPatch
 :
   public patchIdentifier,

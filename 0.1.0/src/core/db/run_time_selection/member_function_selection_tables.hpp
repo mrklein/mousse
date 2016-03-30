@@ -13,6 +13,7 @@
 
 #include "hash_table.hpp"
 
+
 // external use:
 // ~~~~~~~~~~~~~
 // declare a run-time selection:
@@ -62,6 +63,7 @@
   /* Table destructor called from the table add function destructor */        \
   static void destroy##memberFunction##argNames##MemberFunctionTables()
 
+
 // internal use:
 // constructor aid
 #define DEFINE_MEMBER_FUNCTION_SELECTION_TABLE_MEMBER_FUNCTION\
@@ -79,6 +81,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // destructor aid
 #define DEFINE_MEMBER_FUNCTION_SELECTION_TABLE_DESTRUCTOR\
@@ -94,6 +97,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // create pointer to hash-table of functions
 #define DEFINE_MEMBER_FUNCTION_SELECTION_TABLE_PTR\
@@ -103,6 +107,7 @@
   baseType::memberFunction##argNames##MemberFunctionTable*                    \
     baseType::memberFunction##argNames##MemberFunctionTablePtr_ = NULL
 
+
 // not much in use:
 #define DEFINE_TEMPLATE_MEMBER_FUNCTION_SELECTION_TABLE_PTR\
 (baseType,memberFunction,argNames)                                            \
@@ -110,6 +115,7 @@
   /* Define the memberFunction table */                                       \
   typename baseType::memberFunction##argNames##MemberFunctionTable*           \
     baseType::memberFunction##argNames##MemberFunctionTablePtr_ = NULL
+
 
 // external use:
 // ~~~~~~~~~~~~~
@@ -123,6 +129,7 @@
     (baseType,memberFunction,argNames)                                        \
   DEFINE_MEMBER_FUNCTION_SELECTION_TABLE_DESTRUCTOR                           \
     (baseType,memberFunction,argNames)
+
 
 // external use:
 // ~~~~~~~~~~~~~
@@ -140,6 +147,7 @@
   template<>                                                                  \
   DEFINE_MEMBER_FUNCTION_SELECTION_TABLE_DESTRUCTOR                           \
     (baseType,memberFunction,argNames)
+
 
 // internal use:
 // constructor aid
@@ -160,6 +168,7 @@
          MemberFunctionTable;                                                 \
     }                                                                         \
   }
+
 
 // internal use:
 // destructor aid
@@ -183,6 +192,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // create pointer to hash-table of functions
 // use when baseType requires the Targ template argument
@@ -192,6 +202,7 @@
   /* Define the memberFunction table */                                       \
   baseType<Targ>::memberFunction##argNames##MemberFunctionTable*              \
     baseType<Targ>::memberFunction##argNames##MemberFunctionTablePtr_ = NULL
+
 
 // external use:
 // ~~~~~~~~~~~~~

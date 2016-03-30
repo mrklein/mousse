@@ -10,9 +10,12 @@
 //   A 2-tuple for storing two objects of different types.
 // SeeAlso
 //   mousse::Pair for storing two objects of identical types.
+
 #include "istream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Type1, class Type2>
 class Tuple2;
@@ -20,6 +23,8 @@ template<class Type1, class Type2>
 inline Istream& operator>>(Istream&, Tuple2<Type1, Type2>&);
 template<class Type1, class Type2>
 inline Ostream& operator<<(Ostream&, const Tuple2<Type1, Type2>&);
+
+
 template<class Type1, class Type2>
 class Tuple2
 {
@@ -34,8 +39,8 @@ public:
     //- Construct from components
     inline Tuple2(const Type1& f, const Type2& s)
     :
-      f_(f),
-      s_(s)
+      f_{f},
+      s_{s}
     {}
     //- Construct from Istream
     inline Tuple2(Istream& is)
@@ -77,12 +82,16 @@ public:
       const Tuple2<Type1, Type2>& t2
     );
 };
+
+
 //- Return reverse of a tuple2
 template<class Type1, class Type2>
 inline Tuple2<Type2, Type1> reverse(const Tuple2<Type1, Type2>& t)
 {
   return Tuple2<Type2, Type1>(t.second(), t.first());
 }
+
+
 template<class Type1, class Type2>
 inline bool operator==
 (
@@ -92,6 +101,8 @@ inline bool operator==
 {
   return (a.first() == b.first() && a.second() == b.second());
 }
+
+
 template<class Type1, class Type2>
 inline bool operator!=
 (
@@ -101,6 +112,8 @@ inline bool operator!=
 {
   return !(a == b);
 }
+
+
 template<class Type1, class Type2>
 inline Istream& operator>>(Istream& is, Tuple2<Type1, Type2>& t2)
 {
@@ -111,13 +124,17 @@ inline Istream& operator>>(Istream& is, Tuple2<Type1, Type2>& t2)
   is.check("operator>>(Istream&, Tuple2<Type1, Type2>&)");
   return is;
 }
+
+
 template<class Type1, class Type2>
 inline Ostream& operator<<(Ostream& os, const Tuple2<Type1, Type2>& t2)
 {
-  os  << token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << t2.f_ << token::SPACE << t2.s_
     << token::END_LIST;
   return os;
 }
+
 }  // namespace mousse
+
 #endif

@@ -11,14 +11,19 @@
 //   in a dynamic mesh.
 //   The thing is identified by name.
 //   Its indices are updated if the mesh has changed.
+
 #include "key_type.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class> class DynamicID;
 template<class ObjectType>
 Ostream& operator<<(Ostream&, const DynamicID<ObjectType>&);
+
+
 template<class ObjectType>
 class DynamicID
 {
@@ -32,14 +37,14 @@ public:
     //- Construct from name
     DynamicID(const keyType& key, const ObjectType& obj)
     :
-      key_(key),
-      indices_(obj.findIndices(key_))
+      key_{key},
+      indices_{obj.findIndices(key_)}
     {}
     //- Construct from Istream
     DynamicID(Istream& is, const ObjectType& obj)
     :
-      key_(is),
-      indices_(obj.findIndices(key_))
+      key_{is},
+      indices_{obj.findIndices(key_)}
     {}
   // Destructor - default
   // Member Functions
@@ -74,15 +79,17 @@ public:
     friend Ostream& operator<< <ObjectType>
     (Ostream&, const DynamicID<ObjectType>&);
 };
+
 template<class ObjectType>
 Ostream& operator<<(Ostream& os, const DynamicID<ObjectType>& dynId)
 {
-  os  << token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << dynId.name() << token::SPACE << dynId.index()
     << token::END_LIST;
   // Check state of Ostream
   os.check("Ostream& operator<<(Ostream&, const DynamicID<ObjectType>&)");
   return os;
 }
+
 }  // namespace mousse
 #endif

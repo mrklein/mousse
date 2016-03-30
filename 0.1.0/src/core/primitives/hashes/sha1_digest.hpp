@@ -12,17 +12,23 @@
 //   mousse::SHA1
 // SourceFiles
 //   sha1_digest.cpp
+
 #include <string>
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class Istream;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 class SHA1;
 class SHA1Digest;
 Ostream& operator<<(Ostream&, const SHA1Digest&);
 Istream& operator>>(Istream&, SHA1Digest&);
+
+
 class SHA1Digest
 {
 public:
@@ -80,5 +86,7 @@ private:
     //- Read hexadecimal value, ignoring leading or intermediate '_'
     static unsigned char readHexDigit(Istream&);
 };
+
 }  // namespace mousse
+
 #endif

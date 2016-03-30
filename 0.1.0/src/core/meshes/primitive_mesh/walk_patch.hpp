@@ -8,15 +8,13 @@
 //   mousse::walkPatch
 // Description
 //   Collection of static functions to do various simple patch related things.
-// SourceFiles
-//   walk_patch.cpp
-
 
 #include "label_list.hpp"
 #include "primitive_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class walkPatch
 {
   // Private data
@@ -78,5 +76,7 @@ public:
       return indexInFace_;
     }
 };
+
 }  // namespace mousse
+
 #endif

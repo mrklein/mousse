@@ -5,6 +5,7 @@
 #include "poly_patch.hpp"
 #include "dictionary.hpp"
 
+
 // Member Functions 
 mousse::autoPtr<mousse::polyPatch> mousse::polyPatch::New
 (
@@ -16,17 +17,15 @@ mousse::autoPtr<mousse::polyPatch> mousse::polyPatch::New
   const polyBoundaryMesh& bm
 )
 {
-  if (debug)
-  {
-    Info<< "polyPatch::New(const word&, const word&, const label, "
+  if (debug) {
+    Info << "polyPatch::New(const word&, const word&, const label, "
        "const label, const label, const polyBoundaryMesh&) : "
        "constructing polyPatch"
       << endl;
   }
   wordConstructorTable::iterator cstrIter =
     wordConstructorTablePtr_->find(patchType);
-  if (cstrIter == wordConstructorTablePtr_->end())
-  {
+  if (cstrIter == wordConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "polyPatch::New(const word&, const word&, const label, "
@@ -61,9 +60,8 @@ mousse::autoPtr<mousse::polyPatch> mousse::polyPatch::New
   const polyBoundaryMesh& bm
 )
 {
-  if (debug)
-  {
-    Info<< "polyPatch::New(const word&, const dictionary&, const label, "
+  if (debug) {
+    Info << "polyPatch::New(const word&, const dictionary&, const label, "
        "const polyBoundaryMesh&) : constructing polyPatch"
       << endl;
   }
@@ -82,32 +80,29 @@ mousse::autoPtr<mousse::polyPatch> mousse::polyPatch::New
   const polyBoundaryMesh& bm
 )
 {
-  if (debug)
-  {
-    Info<< "polyPatch::New(const word&, const word&, const dictionary&, "
-       "const label, const polyBoundaryMesh&) : constructing polyPatch"
+  if (debug) {
+    Info << "polyPatch::New(const word&, const word&, const dictionary&, "
+            "const label, const polyBoundaryMesh&) : constructing polyPatch"
       << endl;
   }
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(patchType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
-    if (!disallowGenericPolyPatch)
-    {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
+    if (!disallowGenericPolyPatch) {
       cstrIter = dictionaryConstructorTablePtr_->find("genericPatch");
     }
-    if (cstrIter == dictionaryConstructorTablePtr_->end())
-    {
+    if (cstrIter == dictionaryConstructorTablePtr_->end()) {
       FATAL_IO_ERROR_IN
       (
         "polyPatch::New(const word&, const dictionary&, "
         "const label, const polyBoundaryMesh&)",
         dict
-      )   << "Unknown polyPatch type "
-        << patchType << " for patch " << name << nl << nl
-        << "Valid polyPatch types are :" << endl
-        << dictionaryConstructorTablePtr_->sortedToc()
-        << exit(FatalIOError);
+      )
+      << "Unknown polyPatch type "
+      << patchType << " for patch " << name << nl << nl
+      << "Valid polyPatch types are :" << endl
+      << dictionaryConstructorTablePtr_->sortedToc()
+      << exit(FatalIOError);
     }
   }
   return autoPtr<polyPatch>{cstrIter()(name, dict, index, bm, patchType)};

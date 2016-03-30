@@ -9,14 +9,17 @@
 // Description
 //   coupled patch for post-processing.  Used as the base class for processor
 //   and cyclic pointPatches
-// SourceFiles
-//   coupled_face_point_patch.cpp
+
 #include "coupled_point_patch.hpp"
 #include "face_point_patch.hpp"
 #include "coupled_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pointBoundaryMesh;
+
+
 class coupledFacePointPatch
 :
   public facePointPatch,
@@ -24,11 +27,6 @@ class coupledFacePointPatch
 {
   // Private data
     const coupledPolyPatch& coupledPolyPatch_;
-  // Private Member Functions
-    //- Disallow default construct as copy
-    coupledFacePointPatch(const coupledFacePointPatch&);
-    //- Disallow default assignment
-    void operator=(const coupledFacePointPatch&);
 protected:
     // Construction of demand-driven data
       //- Calculate mesh points
@@ -43,8 +41,15 @@ public:
       const polyPatch& patch,
       const pointBoundaryMesh& bm
     );
+    //- Disallow default construct as copy
+    coupledFacePointPatch(const coupledFacePointPatch&) = delete;
+    //- Disallow default assignment
+    void operator=(const coupledFacePointPatch&) = delete;
   //- Destructor
   virtual ~coupledFacePointPatch();
 };
+
 }  // namespace mousse
+
 #endif
+

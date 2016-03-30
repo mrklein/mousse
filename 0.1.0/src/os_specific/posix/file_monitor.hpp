@@ -13,16 +13,19 @@
 //   Compile with MOUSSE_USE_INOTIFY to use the inotify
 //   (Linux specific, since 2.6.13) framework. The problem is that inotify does
 //   not work on nfs3 mounted directories!!
-// SourceFiles
-//   file_monitor.cpp
+
 #include <sys/types.h>
 #include "named_enum.hpp"
 #include "class_name.hpp"
 #include "dynamic_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fileMonitor;
 class fileMonitorWatcher;
+
+
 class fileMonitor
 {
 public:

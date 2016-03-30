@@ -8,10 +8,13 @@
 //   mousse::UIDLList
 // Description
 //   Intrusive doubly-linked list.
+
 #include "uil_list.hpp"
 #include "dl_list_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class UIDLList
 :
@@ -25,13 +28,15 @@ public:
     //- Construct given initial T
     UIDLList(T a)
     :
-      UILList<DLListBase, T>(a)
+      UILList<DLListBase, T>{a}
     {}
     //- Construct from Istream
     UIDLList(Istream& is)
     :
-      UILList<DLListBase, T>(is)
+      UILList<DLListBase, T>{is}
     {}
 };
+
 }  // namespace mousse
+
 #endif

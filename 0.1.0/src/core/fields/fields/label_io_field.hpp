@@ -7,8 +7,12 @@
 
 #include "primitive_fields.hpp"
 #include "iofield.hpp"
-namespace mousse
-{
-  typedef IOField<label> labelIOField;
+
+
+namespace mousse {
+
+typedef IOField<label> labelIOField;
+
 }
+
 #endif

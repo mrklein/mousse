@@ -8,11 +8,12 @@
 //   mousse::subCycleTime
 // Description
 //   A class for managing sub-cycling times
-// SourceFiles
-//   sub_cycle_time.cpp
+
 #include "time.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class subCycleTime
 {
   // Private data

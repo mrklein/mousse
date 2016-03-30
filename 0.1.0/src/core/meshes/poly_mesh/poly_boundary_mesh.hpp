@@ -8,19 +8,23 @@
 //   mousse::polyBoundaryMesh
 // Description
 //   mousse::polyBoundaryMesh
-// SourceFiles
-//   poly_boundary_mesh.cpp
+
 #include "poly_patch_list.hpp"
 #include "reg_ioobject.hpp"
 #include "label_pair.hpp"
 #include "hash_set.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class polyMesh;
 class wordRe;
+
 // Forward declaration of friend functions and operators
 Ostream& operator<<(Ostream&, const polyBoundaryMesh&);
+
+
 class polyBoundaryMesh
 :
   public polyPatchList,
@@ -36,10 +40,6 @@ class polyBoundaryMesh
   // Private Member Functions
     //- Calculate the geometry for the patches (transformation tensors etc.)
     void calcGeometry();
-    //- Disallow construct as copy
-    polyBoundaryMesh(const polyBoundaryMesh&);
-    //- Disallow assignment
-    void operator=(const polyBoundaryMesh&);
 public:
   //- Declare friendship with polyMesh
   friend class polyMesh;
@@ -67,6 +67,10 @@ public:
       const polyMesh&,
       const polyPatchList&
     );
+    //- Disallow construct as copy
+    polyBoundaryMesh(const polyBoundaryMesh&) = delete;
+    //- Disallow assignment
+    void operator=(const polyBoundaryMesh&) = delete;
   //- Destructor
   ~polyBoundaryMesh();
     //- Clear geometry at this level and at patches
@@ -165,7 +169,7 @@ public:
     friend Ostream& operator<<(Ostream&, const polyBoundaryMesh&);
 };
 }  // namespace mousse
-#ifdef NoRepository
-  #include "poly_boundary_mesh_templates.cpp"
-#endif
+
+#include "poly_boundary_mesh.ipp"
+
 #endif

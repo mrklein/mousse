@@ -7,9 +7,10 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "point_mesh.hpp"
 #include "edge_list.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(cyclicPointPatch, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -20,25 +21,39 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 );
 
 }
+
+
 // Protected Member Functions 
 void mousse::cyclicPointPatch::initGeometry(PstreamBuffers&)
 {}
+
+
 void mousse::cyclicPointPatch::calcGeometry(PstreamBuffers&)
 {}
+
+
 void mousse::cyclicPointPatch::initMovePoints(PstreamBuffers&, const pointField&)
 {}
+
+
 void mousse::cyclicPointPatch::movePoints(PstreamBuffers&, const pointField&)
 {}
+
+
 void mousse::cyclicPointPatch::initUpdateMesh(PstreamBuffers& pBufs)
 {
   facePointPatch::initUpdateMesh(pBufs);
   cyclicPointPatch::initGeometry(pBufs);
 }
+
+
 void mousse::cyclicPointPatch::updateMesh(PstreamBuffers& pBufs)
 {
   facePointPatch::updateMesh(pBufs);
   cyclicPointPatch::calcGeometry(pBufs);
 }
+
+
 // Constructors 
 mousse::cyclicPointPatch::cyclicPointPatch
 (
@@ -46,14 +61,19 @@ mousse::cyclicPointPatch::cyclicPointPatch
   const pointBoundaryMesh& bm
 )
 :
-  coupledFacePointPatch(patch, bm),
-  cyclicPolyPatch_(refCast<const cyclicPolyPatch>(patch))
+  coupledFacePointPatch{patch, bm},
+  cyclicPolyPatch_{refCast<const cyclicPolyPatch>(patch)}
 {}
+
+
 // Destructor 
 mousse::cyclicPointPatch::~cyclicPointPatch()
 {}
+
+
 // Member Functions 
 const mousse::edgeList& mousse::cyclicPointPatch::transformPairs() const
 {
   return cyclicPolyPatch_.coupledPoints();
 }
+

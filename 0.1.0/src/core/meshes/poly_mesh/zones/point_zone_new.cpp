@@ -5,6 +5,7 @@
 #include "point_zone.hpp"
 #include "dictionary.hpp"
 
+
 // Member Functions 
 mousse::autoPtr<mousse::pointZone> mousse::pointZone::New
 (
@@ -14,17 +15,15 @@ mousse::autoPtr<mousse::pointZone> mousse::pointZone::New
   const pointZoneMesh& zm
 )
 {
-  if (debug)
-  {
-    Info<< "pointZone::New(const word&, const dictionary&, const label, "
-       "const pointZoneMesh&) : constructing pointZone " << name
+  if (debug) {
+    Info << "pointZone::New(const word&, const dictionary&, const label, "
+            "const pointZoneMesh&) : constructing pointZone " << name
       << endl;
   }
-  const word zoneType(dict.lookup("type"));
+  const word zoneType{dict.lookup("type")};
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(zoneType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_IO_ERROR_IN
     (
       "pointZone::New(const word&, const dictionary&, "
@@ -40,3 +39,4 @@ mousse::autoPtr<mousse::pointZone> mousse::pointZone::New
 
   return autoPtr<pointZone>{cstrIter()(name, dict, index, zm)};
 }
+

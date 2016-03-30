@@ -8,14 +8,14 @@
 //   mousse::fileFormats::STARCDCore
 // Description
 //   Core routines used when reading/writing pro-STAR vrt/cel/bnd files.
-// SourceFiles
-//   starcd_core.cpp
+
 #include "ifstream.hpp"
 #include "point_field.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class STARCDCore
 {
 protected:
@@ -66,6 +66,7 @@ public:
     //- Construct null
     STARCDCore();
 };
+
 }  // namespace fileFormats
 }  // namespace mousse
 #endif

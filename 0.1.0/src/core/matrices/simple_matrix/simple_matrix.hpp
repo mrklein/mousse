@@ -8,20 +8,24 @@
 //   mousse::simpleMatrix
 // Description
 //   A simple square matrix solver with scalar coefficients.
-// SourceFiles
-//   simple_matrix.cpp
+
 #include "scalar_matrices.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Type>
 class simpleMatrix;
+
 template<class Type>
 Ostream& operator<<
 (
   Ostream&,
   const simpleMatrix<Type>&
 );
+
+
 template<class Type>
 class simpleMatrix
 :
@@ -69,6 +73,7 @@ public:
       const simpleMatrix<Type>&
     );
 };
+
 // Global operators
 template<class Type>
 simpleMatrix<Type> operator+
@@ -76,20 +81,24 @@ simpleMatrix<Type> operator+
   const simpleMatrix<Type>&,
   const simpleMatrix<Type>&
 );
+
 template<class Type>
 simpleMatrix<Type> operator-
 (
   const simpleMatrix<Type>&,
   const simpleMatrix<Type>&
 );
+
 template<class Type>
 simpleMatrix<Type> operator*
 (
   const scalar,
   const simpleMatrix<Type>&
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "simple_matrix.cpp"
-#endif
+
+
+#include "simple_matrix.ipp"
+
 #endif

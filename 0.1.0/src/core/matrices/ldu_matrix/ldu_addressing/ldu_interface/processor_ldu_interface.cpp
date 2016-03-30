@@ -4,6 +4,7 @@
 
 #include "processor_ldu_interface.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -18,18 +19,19 @@ void mousse::processorLduInterface::resizeBuf
   const label size
 ) const
 {
-  if (buf.size() < size)
-  {
+  if (buf.size() < size) {
     buf.setSize(size);
   }
 }
 
+
 // Constructors
 mousse::processorLduInterface::processorLduInterface()
 :
-  sendBuf_(0),
-  receiveBuf_(0)
+  sendBuf_{0},
+  receiveBuf_{0}
 {}
+
 
 // Destructor
 mousse::processorLduInterface::~processorLduInterface()

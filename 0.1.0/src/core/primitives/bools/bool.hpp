@@ -4,18 +4,24 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   bool_io.cpp
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 Istream& operator>>(Istream&, bool&);
 Ostream& operator<<(Ostream&, const bool);
+
 bool readBool(Istream&);
+
 }  // namespace mousse
+
 #include "ptraits.hpp"
-namespace mousse
-{
+
+namespace mousse {
+
 // template specialisation for pTraits<bool>
 template<>
 class pTraits<bool>

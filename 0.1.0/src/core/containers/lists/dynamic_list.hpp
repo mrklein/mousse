@@ -14,12 +14,13 @@
 //   parameters, which allows the list storage to either increase by the given
 //   increment or by the given multiplier and divider (allowing non-integer
 //   multiples).
-// SourceFiles
-//   dynamic_list.cpp
+
 #include "list.hpp"
 #include "static_assert.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 class DynamicList;
@@ -35,6 +36,8 @@ Istream& operator>>
   Istream&,
   DynamicList<T, SizeInc, SizeMult, SizeDiv>&
 );
+
+
 template<class T, unsigned SizeInc=0, unsigned SizeMult=2, unsigned SizeDiv=1>
 class DynamicList
 :
@@ -62,7 +65,7 @@ public:
     //- Construct from UIndirectList. Size set to UIndirectList size.
     explicit inline DynamicList(const UIndirectList<T>&);
     //- Construct by transferring the parameter contents
-    explicit inline DynamicList(const Xfer<List<T> >&);
+    explicit inline DynamicList(const Xfer<List<T>>&);
     //- Construct from Istream. Size set to size of list read.
     explicit DynamicList(Istream&);
   // Member Functions
@@ -107,7 +110,7 @@ public:
       //- Transfer contents of the argument DynamicList into this.
       inline void transfer(DynamicList<T, SizeInc, SizeMult, SizeDiv>&);
       //- Transfer contents to the Xfer container as a plain List
-      inline Xfer<List<T> > xfer();
+      inline Xfer<List<T>> xfer();
     // Member Operators
       //- Append an element at the end of the list
       inline DynamicList<T, SizeInc, SizeMult, SizeDiv>& append
@@ -154,7 +157,9 @@ public:
         DynamicList<T, SizeInc, SizeMult, SizeDiv>&
       );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
@@ -165,6 +170,8 @@ inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList()
 {
   List<T>::size(0);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
 (
@@ -177,6 +184,8 @@ inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
   // we could also enforce SizeInc granularity when (!SizeMult || !SizeDiv)
   List<T>::size(0);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
 (
@@ -186,6 +195,8 @@ inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
   List<T>{lst},
   capacity_{lst.size()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
 (
@@ -195,6 +206,8 @@ inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
   List<T>{lst},
   capacity_{lst.size()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
 (
@@ -204,15 +217,19 @@ inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
   List<T>{lst},
   capacity_{lst.size()}
 {}
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::DynamicList
 (
-  const Xfer<List<T> >& lst
+  const Xfer<List<T>>& lst
 )
 :
   List<T>{lst},
   capacity_{List<T>::size()}
 {}
+
+
 // Member Functions 
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::label mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::capacity()
@@ -220,6 +237,8 @@ const
 {
   return capacity_;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::setCapacity
 (
@@ -228,8 +247,7 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::setCapacity
 {
   label nextFree = List<T>::size();
   capacity_ = nElem;
-  if (nextFree > capacity_)
-  {
+  if (nextFree > capacity_) {
     // truncate addressed sizes too
     nextFree = capacity_;
   }
@@ -237,6 +255,8 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::setCapacity
   List<T>::setSize(capacity_);
   List<T>::size(nextFree);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::reserve
 (
@@ -244,8 +264,7 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::reserve
 )
 {
   // allocate more capacity?
-  if (nElem > capacity_)
-  {
+  if (nElem > capacity_) {
 // TODO: convince the compiler that division by zero does not occur
 //        if (SizeInc && (!SizeMult || !SizeDiv))
 //        {
@@ -271,6 +290,8 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::reserve
     List<T>::size(nextFree);
   }
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::setSize
 (
@@ -278,8 +299,7 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::setSize
 )
 {
   // allocate more capacity?
-  if (nElem > capacity_)
-  {
+  if (nElem > capacity_) {
 // TODO: convince the compiler that division by zero does not occur
 //        if (SizeInc && (!SizeMult || !SizeDiv))
 //        {
@@ -304,6 +324,8 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::setSize
   // adjust addressed size
   List<T>::size(nElem);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::setSize
 (
@@ -314,11 +336,12 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::setSize
   label nextFree = List<T>::size();
   setSize(nElem);
   // set new elements to constant value
-  while (nextFree < nElem)
-  {
+  while (nextFree < nElem) {
     this->operator[](nextFree++) = t;
   }
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::resize
 (
@@ -327,6 +350,8 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::resize
 {
   this->setSize(nElem);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::resize
 (
@@ -336,24 +361,29 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::resize
 {
   this->setSize(nElem, t);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::clear()
 {
   List<T>::size(0);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::clearStorage()
 {
   List<T>::clear();
   capacity_ = 0;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>&
 mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::shrink()
 {
   label nextFree = List<T>::size();
-  if (capacity_ > nextFree)
-  {
+  if (capacity_ > nextFree) {
     // use the full list when resizing
     List<T>::size(capacity_);
     // the new size
@@ -363,6 +393,8 @@ mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::shrink()
   }
   return *this;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void
 mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::transfer(List<T>& lst)
@@ -370,6 +402,8 @@ mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::transfer(List<T>& lst)
   capacity_ = lst.size();
   List<T>::transfer(lst);   // take over storage, clear addressing for lst.
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void
 mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::transfer
@@ -382,12 +416,16 @@ mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::transfer
   lst.capacity_ = 0;
   List<T>::transfer(static_cast<List<T>&>(lst));
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
-inline mousse::Xfer<mousse::List<T> >
+inline mousse::Xfer<mousse::List<T>>
 mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::xfer()
 {
-  return xferMoveTo< List<T> >(*this);
+  return xferMoveTo<List<T>>(*this);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>&
 mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::append
@@ -400,6 +438,8 @@ mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::append
   this->operator[](elemI) = t;
   return *this;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>&
 mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::append
@@ -407,8 +447,7 @@ mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::append
   const UList<T>& lst
 )
 {
-  if (this == &lst)
-  {
+  if (this == &lst) {
     FATAL_ERROR_IN
     (
       "DynamicList<T, SizeInc, SizeMult, SizeDiv>::append"
@@ -418,12 +457,13 @@ mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::append
   }
   label nextFree = List<T>::size();
   setSize(nextFree + lst.size());
-  FOR_ALL(lst, elemI)
-  {
+  FOR_ALL(lst, elemI) {
     this->operator[](nextFree++) = lst[elemI];
   }
   return *this;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>&
 mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::append
@@ -433,18 +473,18 @@ mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::append
 {
   label nextFree = List<T>::size();
   setSize(nextFree + lst.size());
-  FOR_ALL(lst, elemI)
-  {
+  FOR_ALL(lst, elemI) {
     this->operator[](nextFree++) = lst[elemI];
   }
   return *this;
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline T mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::remove()
 {
   const label elemI = List<T>::size() - 1;
-  if (elemI < 0)
-  {
+  if (elemI < 0) {
     FATAL_ERROR_IN
     (
       "mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::remove()"
@@ -455,6 +495,8 @@ inline T mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::remove()
   List<T>::size(elemI);
   return val;
 }
+
+
 // Member Operators 
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline T& mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator()
@@ -462,12 +504,13 @@ inline T& mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator()
   const label elemI
 )
 {
-  if (elemI >= List<T>::size())
-  {
+  if (elemI >= List<T>::size()) {
     setSize(elemI + 1);
   }
   return this->operator[](elemI);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator=
 (
@@ -476,14 +519,15 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator=
 {
   UList<T>::operator=(t);
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator=
 (
   const DynamicList<T, SizeInc, SizeMult, SizeDiv>& lst
 )
 {
-  if (this == &lst)
-  {
+  if (this == &lst) {
     FATAL_ERROR_IN
     (
       "DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator="
@@ -491,61 +535,56 @@ inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator=
     )
     << "attempted assignment to self" << abort(FatalError);
   }
-  if (capacity_ >= lst.size())
-  {
+  if (capacity_ >= lst.size()) {
     // can copy w/o reallocating, match initial size to avoid reallocation
     List<T>::size(lst.size());
     List<T>::operator=(lst);
-  }
-  else
-  {
+  } else {
     // make everything available for the copy operation
     List<T>::size(capacity_);
     List<T>::operator=(lst);
     capacity_ = List<T>::size();
   }
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator=
 (
   const UList<T>& lst
 )
 {
-  if (capacity_ >= lst.size())
-  {
+  if (capacity_ >= lst.size()) {
     // can copy w/o reallocating, match initial size to avoid reallocation
     List<T>::size(lst.size());
     List<T>::operator=(lst);
-  }
-  else
-  {
+  } else {
     // make everything available for the copy operation
     List<T>::size(capacity_);
     List<T>::operator=(lst);
     capacity_ = List<T>::size();
   }
 }
+
+
 template<class T, unsigned SizeInc, unsigned SizeMult, unsigned SizeDiv>
 inline void mousse::DynamicList<T, SizeInc, SizeMult, SizeDiv>::operator=
 (
   const UIndirectList<T>& lst
 )
 {
-  if (capacity_ >= lst.size())
-  {
+  if (capacity_ >= lst.size()) {
     // can copy w/o reallocating, match initial size to avoid reallocation
     List<T>::size(lst.size());
     List<T>::operator=(lst);
-  }
-  else
-  {
+  } else {
     // make everything available for the copy operation
     List<T>::size(capacity_);
     List<T>::operator=(lst);
     capacity_ = List<T>::size();
   }
 }
-#ifdef NoRepository
-#include "dynamic_list.cpp"
-#endif
+
+#include "dynamic_list.ipp"
+
 #endif

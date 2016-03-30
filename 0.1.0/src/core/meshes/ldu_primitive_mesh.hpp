@@ -8,16 +8,14 @@
 //   mousse::lduPrimitiveMesh
 // Description
 //   Simplest contrete lduMesh which stores the addressing needed by lduMatrix.
-// SourceFiles
-//   ldu_primitive_mesh.cpp
-
 
 #include "ldu_mesh.hpp"
 #include "label_list.hpp"
 #include "ptr_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class lduPrimitiveMesh
 :
   public lduMesh,
@@ -227,7 +225,7 @@ public:
       static lduSchedule nonBlockingSchedule(const lduInterfacePtrsList&);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ldu_primitive_mesh_templates.cpp"
-#endif
+
+#include "ldu_primitive_mesh.ipp"
+
 #endif

@@ -5,8 +5,10 @@
 #include "triad_field.hpp"
 #include "transform_field.hpp"
 #define TEMPLATE
-#include "field_functions_m.cpp"
+#include "field_functions_m.ipp"
+
 namespace mousse
 {
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
+
+#include "undef_field_functions_m.inc"

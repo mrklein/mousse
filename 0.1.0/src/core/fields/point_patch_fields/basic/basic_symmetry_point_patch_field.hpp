@@ -8,12 +8,13 @@
 //   mousse::basicSymmetryPointPatchField
 // Description
 //   A Symmetry boundary condition for pointField
-// SourceFiles
-//   basicsymmetry_point_patch_field.cpp
+
 #include "point_patch_field.hpp"
 #include "symmetry_point_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class basicSymmetryPointPatchField
 :
@@ -43,15 +44,15 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
+      return autoPtr<pointPatchField<Type>>
+      {
         new basicSymmetryPointPatchField<Type>
-        (
+        {
           *this
-        )
-      );
+        }
+      };
     }
     //- Construct as copy setting internal field reference
     basicSymmetryPointPatchField
@@ -60,19 +61,19 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
+      return autoPtr<pointPatchField<Type>>
+      {
         new basicSymmetryPointPatchField<Type>
-        (
+        {
           *this,
           iF
-        )
-      );
+        }
+      };
     }
   // Member functions
     // Evaluation functions
@@ -83,7 +84,7 @@ public:
       );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#    include "basic_symmetry_point_patch_field.cpp"
-#endif
+
+#include "basic_symmetry_point_patch_field.ipp"
+
 #endif

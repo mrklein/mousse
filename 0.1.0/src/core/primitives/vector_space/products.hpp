@@ -6,20 +6,28 @@
 // Copyright (C) 2016 mousse project
 
 #include "ptraits.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Cmpt, int rank>
 class typeOfRank
 {};
+
+
 template<class Cmpt, int rank>
 class symmTypeOfRank
 {};
+
+
 template<class arg1, class arg2>
 class typeOfSum
 {
 public:
   typedef arg1 type;
 };
+
+
 template<class arg1, class arg2>
 class outerProduct
 {
@@ -30,6 +38,8 @@ public:
     int(pTraits<arg1>::rank) + int(pTraits<arg2>::rank)
   >::type type;
 };
+
+
 template<class arg1, class arg2>
 class crossProduct
 {
@@ -40,6 +50,8 @@ public:
     int(pTraits<arg1>::rank) + int(pTraits<arg2>::rank) - 1
   >::type type;
 };
+
+
 template<class arg1, class arg2>
 class innerProduct
 {
@@ -50,12 +62,16 @@ public:
     int(pTraits<arg1>::rank) + int(pTraits<arg2>::rank) - 2
   >::type type;
 };
+
+
 template<class arg1, class arg2>
 class scalarProduct
 {
 public:
   typedef typename pTraits<arg1>::cmptType type;
 };
+
+
 template<class arg1, int arg2>
 class powProduct
 {
@@ -66,5 +82,7 @@ public:
     arg2*int(pTraits<arg1>::rank)
   >::type type;
 };
+
+
 }  // namespace mousse
 #endif

@@ -8,12 +8,13 @@
 //   mousse::cyclicSlipPointPatch
 // Description
 //   Cyclic patch with slip constraint
-// SourceFiles
-//   cyclic_slip_point_patch.cpp
+
 #include "cyclic_point_patch.hpp"
 #include "cyclic_slip_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cyclicSlipPointPatch
 :
   public cyclicPointPatch
@@ -44,5 +45,8 @@ public:
       pointConstraint&
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

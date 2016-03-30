@@ -10,15 +10,13 @@
 //   'Eager' processor agglomeration of GAMGAgglomerations: at every
 //   level agglomerates 'mergeLevels' number of processors onto the
 //   minimum processor number.
-// SourceFiles
-//   eager_gamg_proc_agglomeration.cpp
-
 
 #include "gamg_proc_agglomeration.hpp"
 #include "dynamic_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class GAMGAgglomeration;
 class eagerGAMGProcAgglomeration
 :

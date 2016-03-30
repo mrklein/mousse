@@ -7,8 +7,12 @@
 
 #include "face.hpp"
 #include "indirect_list.hpp"
-namespace mousse
-{
-  typedef IndirectList<face> indirectFaceList;
+
+
+namespace mousse {
+
+typedef IndirectList<face> indirectFaceList;
+
 }
+
 #endif

@@ -7,8 +7,12 @@
 
 #include "point_field.hpp"
 #include "vector_io_field.hpp"
-namespace mousse
-{
-  typedef vectorIOField pointIOField;
+
+
+namespace mousse {
+
+typedef vectorIOField pointIOField;
+
 }
+
 #endif

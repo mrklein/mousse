@@ -4,12 +4,14 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   dimensioned_scalar.cpp
+
 #include "dimensioned_type.hpp"
 #include "scalar.hpp"
 #include "dimensioned_scalar_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 dimensionedScalar operator+(const dimensionedScalar&, const scalar);
 dimensionedScalar operator+(const scalar, const dimensionedScalar&);
 dimensionedScalar operator-(const dimensionedScalar&, const scalar);
@@ -55,5 +57,7 @@ dimensionedScalar jn(const int, const dimensionedScalar&);
 dimensionedScalar y0(const dimensionedScalar&);
 dimensionedScalar y1(const dimensionedScalar&);
 dimensionedScalar yn(const int, const dimensionedScalar&);
+
 }  // namespace mousse
+
 #endif

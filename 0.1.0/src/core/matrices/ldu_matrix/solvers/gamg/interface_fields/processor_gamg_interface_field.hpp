@@ -8,16 +8,13 @@
 //   mousse::processorGAMGInterfaceField
 // Description
 //   GAMG agglomerated processor interface field.
-// SourceFiles
-//   processor_gamg_interface_field.cpp
-
 
 #include "gamg_interface_field.hpp"
 #include "processor_gamg_interface.hpp"
 #include "processor_ldu_interface_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class processorGAMGInterfaceField
 :

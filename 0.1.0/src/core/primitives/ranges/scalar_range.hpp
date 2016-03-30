@@ -14,16 +14,22 @@
 //   to delimit the next possible range selector.
 // SourceFiles
 //   scalar_range.cpp
+
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class Istream;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 class scalarRange;
 Istream& operator>>(Istream&, scalarRange&);
 Ostream& operator<<(Ostream&, const scalarRange&);
+
+
 class scalarRange
 {
   //- Enumeration defining the types of token
@@ -73,5 +79,7 @@ public:
     friend Istream& operator>>(Istream&, scalarRange&);
     friend Ostream& operator<<(Ostream&, const scalarRange&);
 };
+
 }  // namespace mousse
+
 #endif

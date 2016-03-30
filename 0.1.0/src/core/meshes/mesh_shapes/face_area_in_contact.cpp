@@ -4,6 +4,8 @@
 
 #include "face.hpp"
 #include "scalar_field.hpp"
+
+
 // Member Functions 
 // Calculate area in contact given displacement of vertices relative to
 // the face plane. Positive displacement is above the face (no contact);
@@ -16,9 +18,8 @@ mousse::scalar mousse::face::areaInContact
 {
   // Assemble the vertex values
   const labelList& labels = *this;
-  scalarField vertexValue(labels.size());
-  FOR_ALL(labels, i)
-  {
+  scalarField vertexValue{labels.size()};
+  FOR_ALL(labels, i) {
     vertexValue[i] = v[labels[i]];
   }
   // Loop through vertexValue. If all greater that 0 return 0 (no contact);
@@ -26,23 +27,17 @@ mousse::scalar mousse::face::areaInContact
   // all zeros is assumed to be in contact.
   bool allPositive = true;
   bool allNegative = true;
-  FOR_ALL(vertexValue, vI)
-  {
-    if (vertexValue[vI] > 0)
-    {
+  FOR_ALL(vertexValue, vI) {
+    if (vertexValue[vI] > 0) {
       allNegative = false;
-    }
-    else
-    {
+    } else {
       allPositive = false;
     }
   }
-  if (allPositive)
-  {
+  if (allPositive) {
     return 0.0;
   }
-  if (allNegative)
-  {
+  if (allNegative) {
     return 1.0;
   }
   // There is a partial contact.
@@ -54,48 +49,37 @@ mousse::scalar mousse::face::areaInContact
   // calculate area of new face and return relative area (0<x<1)
   // Dimension new point list to max possible size
   const labelList& faceLabels = *this;
-  pointField newFacePoints(2*size());
+  pointField newFacePoints{2*size()};
   label nNewFacePoints = 0;
-  for (label vI = 0; vI < size() - 1; vI++)
-  {
-    if (vertexValue[vI] <= 0)
-    {
+  for (label vI = 0; vI < size() - 1; vI++) {
+    if (vertexValue[vI] <= 0) {
       // This is a point in contact
       newFacePoints[nNewFacePoints] = meshPoints[faceLabels[vI]];
       nNewFacePoints++;
     }
-    if
-    (
-      (vertexValue[vI] > 0 && vertexValue[vI + 1] < 0)
-    || (vertexValue[vI] < 0 && vertexValue[vI + 1] > 0)
-    )
-    {
+    if ((vertexValue[vI] > 0 && vertexValue[vI + 1] < 0)
+        || (vertexValue[vI] < 0 && vertexValue[vI + 1] > 0)) {
       // Edge intersection. Calculate intersection point and add to list
       point intersection =
         meshPoints[faceLabels[vI]]
-       + vertexValue[vI]/(vertexValue[vI + 1] - vertexValue[vI])
+        + vertexValue[vI]/(vertexValue[vI + 1] - vertexValue[vI])
         *(meshPoints[faceLabels[vI]] - meshPoints[faceLabels[vI + 1]]);
       newFacePoints[nNewFacePoints] = intersection;
       nNewFacePoints++;
     }
   }
   // Do last point by hand
-  if (vertexValue[size() - 1] <= 0)
-  {
+  if (vertexValue[size() - 1] <= 0) {
     // This is a point in contact
     newFacePoints[nNewFacePoints] = meshPoints[faceLabels[size() - 1]];
     nNewFacePoints++;
   }
-  if
-  (
-    (vertexValue[size() - 1] > 0 && vertexValue[0] < 0)
-  || (vertexValue[size() - 1] < 0 && vertexValue[0] > 0)
-  )
-  {
+  if ((vertexValue[size() - 1] > 0 && vertexValue[0] < 0)
+      || (vertexValue[size() - 1] < 0 && vertexValue[0] > 0)) {
     // Edge intersection. Calculate intersection point and add to list
     point intersection =
       meshPoints[faceLabels[size() - 1]]
-     + vertexValue[size() - 1]/(vertexValue[0] - vertexValue[size() - 1])
+      + vertexValue[size() - 1]/(vertexValue[0] - vertexValue[size() - 1])
       *(meshPoints[faceLabels[size() - 1]] - meshPoints[faceLabels[0]]);
     newFacePoints[nNewFacePoints] = intersection;
     nNewFacePoints++;
@@ -103,8 +87,7 @@ mousse::scalar mousse::face::areaInContact
   newFacePoints.setSize(nNewFacePoints);
   // Make a labelList for the sub-face (points are ordered!)
   labelList sfl(newFacePoints.size());
-  FOR_ALL(sfl, sflI)
-  {
+  FOR_ALL(sfl, sflI) {
     sfl[sflI] = sflI;
   }
   // Calculate relative area

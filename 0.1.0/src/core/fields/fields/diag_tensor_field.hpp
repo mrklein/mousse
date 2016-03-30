@@ -4,13 +4,15 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   diag_tensor_field.cpp
+
 #include "tensor_field.hpp"
 #include "diag_tensor.hpp"
 #define TEMPLATE
-#include "field_functions_m.hpp"
-namespace mousse
-{
+#include "field_functions_m.inc"
+
+
+namespace mousse {
+
 typedef Field<diagTensor> diagTensorField;
 UNARY_FUNCTION(diagTensor, tensor, diag)
 UNARY_FUNCTION(scalar, diagTensor, tr)
@@ -23,6 +25,9 @@ BINARY_TYPE_OPERATOR(tensor, diagTensor, tensor, +, add)
 BINARY_TYPE_OPERATOR(tensor, diagTensor, tensor, -, subtract)
 BINARY_OPERATOR(vector, vector, diagTensor, /, divide)
 BINARY_TYPE_OPERATOR(vector, vector, diagTensor, /, divide)
+
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
+
+#include "undef_field_functions_m.inc"
+
 #endif

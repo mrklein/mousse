@@ -4,6 +4,7 @@
 
 #include "no_preconditioner.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -17,6 +18,7 @@ lduMatrix::preconditioner::
 
 }
 
+
 // Constructors 
 mousse::noPreconditioner::noPreconditioner
 (
@@ -24,8 +26,10 @@ mousse::noPreconditioner::noPreconditioner
   const dictionary&
 )
 :
-  lduMatrix::preconditioner(sol)
+  lduMatrix::preconditioner{sol}
 {}
+
+
 // Member Functions 
 void mousse::noPreconditioner::precondition
 (
@@ -37,8 +41,7 @@ void mousse::noPreconditioner::precondition
   scalar* __restrict__ wAPtr = wA.begin();
   const scalar* __restrict__ rAPtr = rA.begin();
   label nCells = wA.size();
-  for (label cell=0; cell<nCells; cell++)
-  {
+  for (label cell=0; cell<nCells; cell++) {
     wAPtr[cell] = rAPtr[cell];
   }
 }

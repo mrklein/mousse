@@ -4,10 +4,10 @@
 
 #include "label_field.hpp"
 #define TEMPLATE
-#include "field_functions_m.cpp"
+#include "field_functions_m.ipp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 BINARY_TYPE_OPERATOR(label, label, label, +, add)
 BINARY_TYPE_OPERATOR(label, label, label, -, subtract)
@@ -17,6 +17,8 @@ tmp<labelField> labelField::component(const direction) const
 {
   return *this;
 }
+
+
 template<>
 void component
 (
@@ -27,11 +29,16 @@ void component
 {
   lf = f;
 }
+
+
 template<>
 void labelField::replace(const direction, const labelUList& lf)
 {
   *this = lf;
 }
+
+
 }  // namespace mousse
 
-#include "undef_field_functions_m.hpp"
+#include "undef_field_functions_m.inc"
+

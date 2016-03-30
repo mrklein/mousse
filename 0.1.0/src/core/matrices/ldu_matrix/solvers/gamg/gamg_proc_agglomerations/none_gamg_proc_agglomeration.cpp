@@ -5,6 +5,8 @@
 #include "none_gamg_proc_agglomeration.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "gamg_agglomeration.hpp"
+
+
 // Static Data Members
 namespace mousse {
 
@@ -20,6 +22,7 @@ ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 
 }
 
+
 // Private Member Functions
 // Constructors
 mousse::noneGAMGProcAgglomeration::noneGAMGProcAgglomeration
@@ -28,8 +31,9 @@ mousse::noneGAMGProcAgglomeration::noneGAMGProcAgglomeration
   const dictionary& controlDict
 )
 :
-  GAMGProcAgglomeration(agglom, controlDict)
+  GAMGProcAgglomeration{agglom, controlDict}
 {}
+
 
 // Destructor
 mousse::noneGAMGProcAgglomeration::~noneGAMGProcAgglomeration()

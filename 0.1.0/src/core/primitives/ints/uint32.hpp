@@ -4,8 +4,7 @@
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   uint32.cpp
-//   uint32_io.cpp
+
 #define __STDC_LIMIT_MACROS
 #if defined(__APPLE__)
 #include <sys/types.h>
@@ -19,17 +18,22 @@
 #ifndef UINT32_MIN
 #define UINT32_MIN 0
 #endif
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 //- Return a word representation of an uint32
 word name(const uint32_t);
+
 // IOstream Operators 
 uint32_t readUint32(Istream&);
 bool read(const char*, uint32_t&);
 Istream& operator>>(Istream&, uint32_t&);
 Ostream& operator<<(Ostream&, const uint32_t);
+
 //- Template specialization for pTraits<uint32_t>
 template<>
 class pTraits<uint32_t>

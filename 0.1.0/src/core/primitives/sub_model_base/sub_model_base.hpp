@@ -12,9 +12,12 @@
 //   enable clean re-starts.  Used by, e.g. clou dsub-models.
 // SourceFiles
 //   sub_model_base.cpp
+
 #include "dictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class subModelBase
 {
 protected:
@@ -117,8 +120,9 @@ public:
       //- Write
       virtual void write(Ostream& os) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sub_model_base_templates.cpp"
-#endif
+
+#include "sub_model_base.ipp"
+
 #endif

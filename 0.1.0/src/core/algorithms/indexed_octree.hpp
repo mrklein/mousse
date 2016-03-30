@@ -10,6 +10,7 @@
 //   Non-pointer based hierarchical recursive searching
 // SourceFiles
 //   indexed_octree.cpp
+
 #include "tree_bound_box.hpp"
 #include "point_index_hit.hpp"
 #include "fixed_list.hpp"
@@ -18,13 +19,17 @@
 #include "label_bits.hpp"
 #include "packed_list.hpp"
 #include "volume_type.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 template<class Type> class indexedOctree;
 template<class Type> Ostream& operator<<(Ostream&, const indexedOctree<Type>&);
 class Istream;
+
 TEMPLATE_NAME(indexedOctree);
+
 template<class Type>
 class indexedOctree
 :
@@ -533,8 +538,9 @@ public:
   // IOstream Operators
     friend Ostream& operator<< <Type>(Ostream&, const indexedOctree<Type>&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "indexed_octree.cpp"
-#endif
+
+#include "indexed_octree.ipp"
+
 #endif

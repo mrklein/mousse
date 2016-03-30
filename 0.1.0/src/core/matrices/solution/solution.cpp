@@ -9,58 +9,51 @@
 #include "iccg.hpp"
 #include "istring_stream.hpp"
 
+
 // Static Data Members
 namespace mousse {
+
 DEFINE_DEBUG_SWITCH_WITH_NAME(solution, "solution", 0);
+
 }
+
 
 // List of sub-dictionaries to rewrite
 //! \cond localScope
 static const mousse::List<mousse::word> subDictNames
-(
+{
   mousse::IStringStream("(preconditioner smoother)")()
-);
+};
+
 
 //! \endcond
 // Private Member Functions 
 void mousse::solution::read(const dictionary& dict)
 {
-  if (dict.found("cache"))
-  {
+  if (dict.found("cache")) {
     cache_ = dict.subDict("cache");
     caching_ = cache_.lookupOrDefault("active", true);
   }
-  if (dict.found("relaxationFactors"))
-  {
+  if (dict.found("relaxationFactors")) {
     const dictionary& relaxDict(dict.subDict("relaxationFactors"));
-    if (relaxDict.found("fields") || relaxDict.found("equations"))
-    {
-      if (relaxDict.found("fields"))
-      {
+    if (relaxDict.found("fields") || relaxDict.found("equations")) {
+      if (relaxDict.found("fields")) {
         fieldRelaxDict_ = relaxDict.subDict("fields");
       }
-      if (relaxDict.found("equations"))
-      {
+      if (relaxDict.found("equations")) {
         eqnRelaxDict_ = relaxDict.subDict("equations");
       }
-    }
-    else
-    {
+    } else {
       // backwards compatibility
       fieldRelaxDict_.clear();
-      const wordList entryNames(relaxDict.toc());
-      FOR_ALL(entryNames, i)
-      {
+      const wordList entryNames{relaxDict.toc()};
+      FOR_ALL(entryNames, i) {
         const word& e = entryNames[i];
         scalar value = readScalar(relaxDict.lookup(e));
-        if (e(0, 1) == "p")
-        {
+        if (e(0, 1) == "p") {
           fieldRelaxDict_.add(e, value);
-        }
-        else if (e.length() >= 3)
-        {
-          if (e(0, 3) == "rho")
-          {
+        } else if (e.length() >= 3) {
+          if (e(0, 3) == "rho") {
             fieldRelaxDict_.add(e, value);
           }
         }
@@ -71,15 +64,13 @@ void mousse::solution::read(const dictionary& dict)
       fieldRelaxDict_.lookupOrDefault<scalar>("default", 0.0);
     eqnRelaxDefault_ =
       eqnRelaxDict_.lookupOrDefault<scalar>("default", 0.0);
-    if (debug)
-    {
-      Info<< "relaxation factors:" << nl
+    if (debug) {
+      Info << "relaxation factors:" << nl
         << "fields: " << fieldRelaxDict_ << nl
         << "equations: " << eqnRelaxDict_ << endl;
     }
   }
-  if (dict.found("solvers"))
-  {
+  if (dict.found("solvers")) {
     solvers_ = dict.subDict("solvers");
     upgradeSolverDict(solvers_);
   }
@@ -95,14 +86,13 @@ mousse::solution::solution
 :
   IOdictionary
   {
-    IOobject
     {
       dictName,
       obr.time().system(),
       obr,
       (
         obr.readOpt() == IOobject::MUST_READ
-      || obr.readOpt() == IOobject::READ_IF_PRESENT
+        || obr.readOpt() == IOobject::READ_IF_PRESENT
        ? IOobject::MUST_READ_IF_MODIFIED
        : obr.readOpt()
       ),
@@ -120,8 +110,8 @@ mousse::solution::solution
   if
   (
     readOpt() == IOobject::MUST_READ
-  || readOpt() == IOobject::MUST_READ_IF_MODIFIED
-  || (readOpt() == IOobject::READ_IF_PRESENT && headerOk())
+    || readOpt() == IOobject::MUST_READ_IF_MODIFIED
+    || (readOpt() == IOobject::READ_IF_PRESENT && headerOk())
   )
   {
     read(solutionDict());
@@ -139,41 +129,31 @@ mousse::label mousse::solution::upgradeSolverDict
   label nChanged = 0;
   // backward compatibility:
   // recast primitive entries into dictionary entries
-  FOR_ALL_ITER(dictionary, dict, iter)
-  {
-    if (!iter().isDict())
-    {
+  FOR_ALL_ITER(dictionary, dict, iter) {
+    if (!iter().isDict()) {
       Istream& is = iter().stream();
       word name(is);
       dictionary subdict;
-      if (name == "BICCG")
-      {
+      if (name == "BICCG") {
         // special treatment for very old syntax
         subdict = BICCG::solverDict(is);
-      }
-      else if (name == "ICCG")
-      {
+      } else if (name == "ICCG") {
         // special treatment for very old syntax
         subdict = ICCG::solverDict(is);
-      }
-      else
-      {
+      } else {
         subdict.add("solver", name);
         subdict <<= dictionary(is);
         // preconditioner and smoother entries can be
         // 1) primitiveEntry w/o settings,
         // 2) or a dictionaryEntry.
         // transform primitiveEntry with settings -> dictionaryEntry
-        FOR_ALL(subDictNames, dictI)
-        {
+        FOR_ALL(subDictNames, dictI) {
           const word& dictName = subDictNames[dictI];
           entry* ePtr = subdict.lookupEntryPtr(dictName,false,false);
-          if (ePtr && !ePtr->isDict())
-          {
+          if (ePtr && !ePtr->isDict()) {
             Istream& is = ePtr->stream();
             is >> name;
-            if (!is.eof())
-            {
+            if (!is.eof()) {
               dictionary newDict;
               newDict.add(dictName, name);
               newDict <<= dictionary(is);
@@ -183,9 +163,8 @@ mousse::label mousse::solution::upgradeSolverDict
         }
       }
       // write out information to help people adjust to the new syntax
-      if (verbose && Pstream::master())
-      {
-        Info<< "// using new solver syntax:\n"
+      if (verbose && Pstream::master()) {
+        Info << "// using new solver syntax:\n"
           << iter().keyword() << subdict << endl;
       }
       // overwrite with dictionary entry
@@ -199,16 +178,12 @@ mousse::label mousse::solution::upgradeSolverDict
 
 bool mousse::solution::cache(const word& name) const
 {
-  if (caching_)
-  {
-    if (debug)
-    {
-      Info<< "Cache: find entry for " << name << endl;
+  if (caching_) {
+    if (debug) {
+      Info << "Cache: find entry for " << name << endl;
     }
     return cache_.found(name);
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
@@ -216,9 +191,8 @@ bool mousse::solution::cache(const word& name) const
 
 bool mousse::solution::relaxField(const word& name) const
 {
-  if (debug)
-  {
-    Info<< "Field relaxation factor for " << name
+  if (debug) {
+    Info << "Field relaxation factor for " << name
       << " is " << (fieldRelaxDict_.found(name) ? "set" : "unset")
       << endl;
   }
@@ -228,9 +202,8 @@ bool mousse::solution::relaxField(const word& name) const
 
 bool mousse::solution::relaxEquation(const word& name) const
 {
-  if (debug)
-  {
-    Info<< "Find equation relaxation factor for " << name << endl;
+  if (debug) {
+    Info << "Find equation relaxation factor for " << name << endl;
   }
   return eqnRelaxDict_.found(name) || eqnRelaxDict_.found("default");
 }
@@ -238,20 +211,14 @@ bool mousse::solution::relaxEquation(const word& name) const
 
 mousse::scalar mousse::solution::fieldRelaxationFactor(const word& name) const
 {
-  if (debug)
-  {
-    Info<< "Lookup variable relaxation factor for " << name << endl;
+  if (debug) {
+    Info << "Lookup variable relaxation factor for " << name << endl;
   }
-  if (fieldRelaxDict_.found(name))
-  {
+  if (fieldRelaxDict_.found(name)) {
     return readScalar(fieldRelaxDict_.lookup(name));
-  }
-  else if (fieldRelaxDefault_ > SMALL)
-  {
+  } else if (fieldRelaxDefault_ > SMALL) {
     return fieldRelaxDefault_;
-  }
-  else
-  {
+  } else {
     FATAL_IO_ERROR_IN
     (
       "mousse::solution::fieldRelaxationFactor(const word&)",
@@ -267,20 +234,14 @@ mousse::scalar mousse::solution::fieldRelaxationFactor(const word& name) const
 
 mousse::scalar mousse::solution::equationRelaxationFactor(const word& name) const
 {
-  if (debug)
-  {
-    Info<< "Lookup equation relaxation factor for " << name << endl;
+  if (debug) {
+    Info << "Lookup equation relaxation factor for " << name << endl;
   }
-  if (eqnRelaxDict_.found(name))
-  {
+  if (eqnRelaxDict_.found(name)) {
     return readScalar(eqnRelaxDict_.lookup(name));
-  }
-  else if (eqnRelaxDefault_ > SMALL)
-  {
+  } else if (eqnRelaxDefault_ > SMALL) {
     return eqnRelaxDefault_;
-  }
-  else
-  {
+  } else {
     FATAL_IO_ERROR_IN
     (
       "mousse::solution::eqnRelaxationFactor(const word&)",
@@ -296,12 +257,9 @@ mousse::scalar mousse::solution::equationRelaxationFactor(const word& name) cons
 
 const mousse::dictionary& mousse::solution::solutionDict() const
 {
-  if (found("select"))
-  {
+  if (found("select")) {
     return subDict(word(lookup("select")));
-  }
-  else
-  {
+  } else {
     return *this;
   }
 }
@@ -309,8 +267,7 @@ const mousse::dictionary& mousse::solution::solutionDict() const
 
 const mousse::dictionary& mousse::solution::solverDict(const word& name) const
 {
-  if (debug)
-  {
+  if (debug) {
     INFO_IN("solution::solverDict(const word&)")
       << "Lookup solver for " << name << endl;
   }
@@ -320,8 +277,7 @@ const mousse::dictionary& mousse::solution::solverDict(const word& name) const
 
 const mousse::dictionary& mousse::solution::solver(const word& name) const
 {
-  if (debug)
-  {
+  if (debug) {
     INFO_IN("solution::solver(const word&)")
       << "Lookup solver for " << name << endl;
   }
@@ -331,13 +287,10 @@ const mousse::dictionary& mousse::solution::solver(const word& name) const
 
 bool mousse::solution::read()
 {
-  if (regIOobject::read())
-  {
+  if (regIOobject::read()) {
     read(solutionDict());
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }

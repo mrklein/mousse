@@ -7,9 +7,12 @@
 
 #include "dynamic_id.hpp"
 #include "poly_boundary_mesh.hpp"
-namespace mousse
-{
-  //- mousse::polyPatchID
-  typedef DynamicID<polyBoundaryMesh> polyPatchID;
+
+
+namespace mousse {
+
+//- mousse::polyPatchID
+typedef DynamicID<polyBoundaryMesh> polyPatchID;
+
 }
 #endif

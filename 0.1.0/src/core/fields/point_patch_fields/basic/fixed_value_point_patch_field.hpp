@@ -8,11 +8,12 @@
 //   mousse::fixedValuePointPatchField
 // Description
 //   A FixedValue boundary condition for pointField.
-// SourceFiles
-//   fixed_value_point_patch_field.cpp
+
 #include "value_point_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class fixedValuePointPatchField
 :
@@ -45,15 +46,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new fixedValuePointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new fixedValuePointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fixedValuePointPatchField
@@ -62,19 +60,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new fixedValuePointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new fixedValuePointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -91,7 +85,7 @@ public:
       {}
 };
 }  // namespace mousse
-#ifdef NoRepository
-#    include "fixed_value_point_patch_field.cpp"
-#endif
+
+#include "fixed_value_point_patch_field.ipp"
+
 #endif

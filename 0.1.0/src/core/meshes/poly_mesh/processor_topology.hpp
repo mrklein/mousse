@@ -7,8 +7,12 @@
 
 #include "_processor_topology.hpp"
 #include "processor_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef ProcessorTopology<polyPatchList, processorPolyPatch> processorTopology;
+
 }  // namespace mousse
+
 #endif

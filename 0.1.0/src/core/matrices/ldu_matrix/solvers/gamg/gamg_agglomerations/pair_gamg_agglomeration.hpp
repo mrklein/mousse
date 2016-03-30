@@ -8,15 +8,12 @@
 //   mousse::pairGAMGAgglomeration
 // Description
 //   Agglomerate using the pair algorithm.
-// SourceFiles
-//   pair_gamg_agglomeration.cpp
-//   pair_gamg_agglomerate.cpp
-
 
 #include "gamg_agglomeration.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class pairGAMGAgglomeration
 :
   public GAMGAgglomeration

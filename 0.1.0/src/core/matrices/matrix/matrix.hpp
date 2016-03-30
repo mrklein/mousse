@@ -9,10 +9,6 @@
 // Description
 //   A templated 2D matrix of objects of \<T\>, where the n x m matrix
 //   dimensions are known and used for subscript bounds checking, etc.
-// SourceFiles
-//   matrix.cpp
-//   matrix_io.cpp
-
 
 #include "bool.hpp"
 #include "label.hpp"
@@ -20,8 +16,8 @@
 #include "list.hpp"
 #include "auto_ptr.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 template<class Form, class Type> class Matrix;
@@ -222,14 +218,11 @@ inline mousse::label mousse::Matrix<Form, Type>::size() const
 template<class Form, class Type>
 inline void mousse::Matrix<Form, Type>::checki(const label i) const
 {
-  if (!n_)
-  {
+  if (!n_) {
     FATAL_ERROR_IN("Matrix<Form, Type>::checki(const label)")
       << "attempt to access element from zero sized row"
       << abort(FatalError);
-  }
-  else if (i<0 || i>=n_)
-  {
+  } else if (i<0 || i>=n_) {
     FATAL_ERROR_IN("Matrix<Form, Type>::checki(const label)")
       << "index " << i << " out of range 0 ... " << n_-1
       << abort(FatalError);
@@ -240,14 +233,11 @@ inline void mousse::Matrix<Form, Type>::checki(const label i) const
 template<class Form, class Type>
 inline void mousse::Matrix<Form, Type>::checkj(const label j) const
 {
-  if (!m_)
-  {
+  if (!m_) {
     FATAL_ERROR_IN("Matrix<Form, Type>::checkj(const label)")
       << "attempt to access element from zero sized column"
       << abort(FatalError);
-  }
-  else if (j<0 || j>=m_)
-  {
+  } else if (j<0 || j>=m_) {
     FATAL_ERROR_IN("Matrix<Form, Type>::checkj(const label)")
       << "index " << j << " out of range 0 ... " << m_-1
       << abort(FatalError);
@@ -273,7 +263,6 @@ inline const Type* mousse::Matrix<Form, Type>::operator[](const label i) const
   return v_[i];
 }
 
-#ifdef NoRepository
-#   include "matrix.cpp"
-#endif
+#include "matrix.ipp"
+
 #endif

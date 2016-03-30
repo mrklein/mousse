@@ -8,12 +8,13 @@
 //   mousse::IOList
 // Description
 //   A List of objects of type \<T\> with automated input and output.
-// SourceFiles
-//   iolist.cpp
+
 #include "list.hpp"
 #include "reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class IOList
 :
@@ -40,8 +41,9 @@ public:
     void operator=(const IOList<T>&);
     void operator=(const List<T>&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "iolist.cpp"
-#endif
+
+#include "iolist.ipp"
+
 #endif

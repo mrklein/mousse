@@ -10,10 +10,13 @@
 //   A List of scalarRange.
 // SourceFiles
 //   scalar_ranges.cpp
+
 #include "scalar_range.hpp"
 #include "list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class scalarRanges
 :
   public List<scalarRange>
@@ -36,5 +39,7 @@ public:
     //- Select a list of values that are within the ranges
     void inplaceSelect(List<scalar>&) const;
 };
+
 }  // namespace mousse
+
 #endif

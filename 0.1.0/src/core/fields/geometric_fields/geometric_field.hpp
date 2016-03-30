@@ -8,35 +8,38 @@
 //   mousse::GeometricField
 // Description
 //   Generic GeometricField class.
-// SourceFiles
-//   geometric_field.cpp
-//   geometric_boundary_field.cpp
-//   geometric_field_functions.hpp
-//   geometric_field_functions.cpp
+
 #include "reg_ioobject.hpp"
 #include "dimensioned_types.hpp"
 #include "dimensioned_field.hpp"
 #include "field_field.hpp"
 #include "ldu_interface_field_ptrs_list.hpp"
 #include "_ldu_interface_field_ptrs_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class dictionary;
+
 // Forward declaration of friend functions and operators
 template<class Type, template<class> class PatchField, class GeoMesh>
 class GeometricField;
+
 template<class Type, template<class> class PatchField, class GeoMesh>
 Ostream& operator<<
 (
   Ostream&,
   const GeometricField<Type, PatchField, GeoMesh>&
 );
+
 template<class Type, template<class> class PatchField, class GeoMesh>
 Ostream& operator<<
 (
   Ostream&,
   const tmp<GeometricField<Type, PatchField, GeoMesh>>&
 );
+
+
 template<class Type, template<class> class PatchField, class GeoMesh>
 class GeometricField
 :
@@ -472,8 +475,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::timeIndex()
 {
   return timeIndex_;
 }
-#ifdef NoRepository
-#   include "geometric_field.cpp"
-#endif
+
+#include "geometric_field.ipp"
 #include "geometric_field_functions.hpp"
+
 #endif

@@ -5,7 +5,6 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "label_field.hpp"
 #include "scalar_field.hpp"
 #include "vector_field.hpp"

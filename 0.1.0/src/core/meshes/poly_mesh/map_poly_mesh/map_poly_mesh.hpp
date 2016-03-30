@@ -101,9 +101,6 @@
 //       - list of cells on old mesh that connected to the old point
 //   - appended:
 //     - cellMap[cellI] contains -1
-// SourceFiles
-//   map_poly_mesh.cpp
-
 
 #include "label_list.hpp"
 #include "object_map.hpp"
@@ -111,10 +108,11 @@
 #include "hash_set.hpp"
 #include "map.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class polyMesh;
+
 
 class mapPolyMesh
 :
@@ -428,16 +426,11 @@ public:
         label mergedPoint(const label oldPointI) const
         {
           label i = reversePointMap_[oldPointI];
-          if (i == -1)
-          {
+          if (i == -1) {
             return i;
-          }
-          else if (i < -1)
-          {
+          } else if (i < -1) {
             return -i-2;
-          }
-          else
-          {
+          } else {
             FATAL_ERROR_IN("mergedPoint(const label) const")
               << "old point label " << oldPointI
               << " has reverseMap " << i << endl
@@ -458,16 +451,11 @@ public:
         label mergedFace(const label oldFaceI) const
         {
           label i = reverseFaceMap_[oldFaceI];
-          if (i == -1)
-          {
+          if (i == -1) {
             return i;
-          }
-          else if (i < -1)
-          {
+          } else if (i < -1) {
             return -i-2;
-          }
-          else
-          {
+          } else {
             FATAL_ERROR_IN("mergedFace(const label) const")
               << "old face label " << oldFaceI
               << " has reverseMap " << i << endl
@@ -488,16 +476,11 @@ public:
         label mergedCell(const label oldCellI) const
         {
           label i = reverseCellMap_[oldCellI];
-          if (i == -1)
-          {
+          if (i == -1) {
             return i;
-          }
-          else if (i < -1)
-          {
+          } else if (i < -1) {
             return -i-2;
-          }
-          else
-          {
+          } else {
             FATAL_ERROR_IN("mergedCell(const label) const")
               << "old cell label " << oldCellI
               << " has reverseMap " << i << endl

@@ -6,19 +6,24 @@
 #include "dictionary.hpp"
 #include "dl_library_table.hpp"
 #include "time.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_DEBUG_SWITCH_WITH_NAME(functionObject, "functionObject", 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(functionObject, dictionary);
 
 }
+
+
 // Constructors 
 mousse::functionObject::functionObject(const word& name)
 :
-  name_(name)
+  name_{name}
 {}
+
+
 // Selectors
 mousse::autoPtr<mousse::functionObject> mousse::functionObject::New
 (
@@ -27,10 +32,9 @@ mousse::autoPtr<mousse::functionObject> mousse::functionObject::New
   const dictionary& functionDict
 )
 {
-  const word functionType(functionDict.lookup("type"));
-  if (debug)
-  {
-    Info<< "Selecting function " << functionType << endl;
+  const word functionType{functionDict.lookup("type")};
+  if (debug) {
+    Info << "Selecting function " << functionType << endl;
   }
   const_cast<Time&>(t).libs().open
   (
@@ -38,59 +42,72 @@ mousse::autoPtr<mousse::functionObject> mousse::functionObject::New
     "functionObjectLibs",
     dictionaryConstructorTablePtr_
   );
-  if (!dictionaryConstructorTablePtr_)
-  {
+  if (!dictionaryConstructorTablePtr_) {
     FATAL_ERROR_IN
     (
       "functionObject::New"
       "(const word& name, const Time&, const dictionary&)"
-    )   << "Unknown function type "
-      << functionType << nl << nl
-      << "Table of functionObjects is empty" << endl
-      << exit(FatalError);
+    )
+    << "Unknown function type "
+    << functionType << nl << nl
+    << "Table of functionObjects is empty" << endl
+    << exit(FatalError);
   }
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(functionType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "functionObject::New"
       "(const word& name, const Time&, const dictionary&)"
-    )   << "Unknown function type "
-      << functionType << nl << nl
-      << "Valid functions are : " << nl
-      << dictionaryConstructorTablePtr_->sortedToc() << endl
-      << exit(FatalError);
+    )
+    << "Unknown function type "
+    << functionType << nl << nl
+    << "Valid functions are : " << nl
+    << dictionaryConstructorTablePtr_->sortedToc() << endl
+    << exit(FatalError);
   }
   return autoPtr<functionObject>(cstrIter()(name, t, functionDict));
 }
+
+
 // Destructor 
 mousse::functionObject::~functionObject()
 {}
+
+
 // Member Functions 
 const mousse::word& mousse::functionObject::name() const
 {
   return name_;
 }
+
+
 bool mousse::functionObject::end()
 {
   return execute(false);
 }
+
+
 bool mousse::functionObject::timeSet()
 {
   return false;
 }
+
+
 bool mousse::functionObject::adjustTimeStep()
 {
   return false;
 }
+
+
 mousse::autoPtr<mousse::functionObject> mousse::functionObject::iNew::operator()
 (
   const word& name,
   Istream& is
 ) const
 {
-  dictionary dict(is);
+  dictionary dict{is};
   return functionObject::New(name, time_, dict);
 }
+

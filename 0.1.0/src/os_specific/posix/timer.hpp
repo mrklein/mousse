@@ -29,17 +29,19 @@
 //   The setjmp restores complete register state so including local vars
 //   held in regs. So if in blocking part something gets calced in a stack
 //   based variable make sure it is declared 'volatile'.
-// SourceFiles
-//   timer.cpp
+
 #include "class_name.hpp"
 #include <signal.h>
 #include <setjmp.h>
+
+
 //- Check it a timeout has occured
 //  keep setjmp in same stack frame so no function calls
 #define timedOut(x) \
   (((x).newTimeOut_ > 0) ? setjmp(mousse::timer::envAlarm) : false)
-namespace mousse
-{
+
+namespace mousse {
+
 class timer
 {
   // Private data
@@ -65,5 +67,6 @@ public:
   //- Destructor
   ~timer();
 };
+
 }  // namespace mousse
 #endif

@@ -4,12 +4,15 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   read_hex_label.cpp
+
 #include "label.hpp"
 #include "isstream.hpp"
-namespace mousse
-{
+
+namespace mousse {
+
 //- Read a hex label from an input stream
 label readHexLabel(ISstream&);
+
 }  // namespace mousse
+
 #endif

@@ -8,12 +8,13 @@
 //   mousse::cyclicLduInterfaceField
 // Description
 //   Abstract base class for cyclic coupled interfaces.
-// SourceFiles
-//   cyclic_ldu_interface_field.cpp
+
 #include "primitive_fields_fwd.hpp"
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cyclicLduInterfaceField
 {
 public:
@@ -45,24 +46,26 @@ public:
       const direction cmpt
     ) const;
 };
+
 }  // namespace mousse
+
+
 #include "tensor_field.hpp"
+
+
 template<class Type>
 void mousse::cyclicLduInterfaceField::transformCoupleField
 (
   Field<Type>& f
 ) const
 {
-  if (doTransform())
-  {
-    if (forwardT().size() == 1)
-    {
+  if (doTransform()) {
+    if (forwardT().size() == 1) {
       transform(f, forwardT()[0], f);
-    }
-    else
-    {
+    } else {
       transform(f, forwardT(), f);
     }
   }
 }
+
 #endif

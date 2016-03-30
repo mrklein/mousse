@@ -3,23 +3,18 @@
 // Copyright (C) 2016 mousse project
 
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
-template<>
-const char* const vector::typeName = "vector";
-template<>
-const char* vector::componentNames[] = {"x", "y", "z"};
-template<>
-const vector vector::zero(0, 0, 0);
-template<>
-const vector vector::one(1, 1, 1);
-template<>
-const vector vector::max(VGREAT, VGREAT, VGREAT);
-template<>
-const vector vector::min(-VGREAT, -VGREAT, -VGREAT);
-template<>
-const vector vector::rootMax(ROOTVGREAT, ROOTVGREAT, ROOTVGREAT);
-template<>
-const vector vector::rootMin(-ROOTVGREAT, -ROOTVGREAT, -ROOTVGREAT);
+template<> const char* const vector::typeName = "vector";
+template<> const char* vector::componentNames[] = {"x", "y", "z"};
+template<> const vector vector::zero{0, 0, 0};
+template<> const vector vector::one{1, 1, 1};
+template<> const vector vector::max{VGREAT, VGREAT, VGREAT};
+template<> const vector vector::min{-VGREAT, -VGREAT, -VGREAT};
+template<> const vector vector::rootMax{ROOTVGREAT, ROOTVGREAT, ROOTVGREAT};
+template<> const vector vector::rootMin{-ROOTVGREAT, -ROOTVGREAT, -ROOTVGREAT};
+
 }  // namespace mousse

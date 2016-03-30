@@ -4,6 +4,8 @@
 
 #include "read_hex_label.hpp"
 #include "read_hex.hpp"
+
+
 mousse::label mousse::readHexLabel(ISstream& is)
 {
   return ReadHex<label>(is);

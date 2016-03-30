@@ -4,8 +4,8 @@
 
 #include "spherical_tensor_field_io_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
 (

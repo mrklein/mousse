@@ -9,14 +9,12 @@
 // Description
 //   Preconditioned conjugate gradient solver for symmetric lduMatrices
 //   using a run-time selectable preconditiioner.
-// SourceFiles
-//   pcicg.cpp
-
 
 #include "_ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class DType, class LUType>
 class PCICG
 :
@@ -55,7 +53,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "pcicg.cpp"
-#endif
+#include "pcicg.ipp"
+
 #endif

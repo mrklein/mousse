@@ -8,17 +8,14 @@
 //   mousse::GAMGInterfaceField
 // Description
 //   Abstract base class for GAMG agglomerated interface fields.
-// SourceFiles
-//   gamg_interface_field.cpp
-//   gamg_interface_field_new.cpp
-
 
 #include "ldu_interface_field.hpp"
 #include "gamg_interface.hpp"
 #include "auto_ptr.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class GAMGInterfaceField
 :
   public lduInterfaceField

@@ -11,10 +11,13 @@
 //   manipulations for objects which are known to be zero at compile-time.
 //   Used for example as the argument to a function in which certain terms are
 //   optional, see source terms in the MULES solvers.
+
 #include "zero.hpp"
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class zeroField
 :
   public zero
@@ -25,17 +28,9 @@ public:
     zeroField()
     {}
   // Member Operators
-    inline scalar operator[](const label) const;
-    inline zeroField field() const;
+    inline scalar operator[](const label) const { return {0.0}; }
+    inline zeroField field() const { return zeroField(); }
 };
 }  // namespace mousse
 
-inline mousse::scalar mousse::zeroField::operator[](const label) const
-{
-  return scalar(0);
-}
-inline mousse::zeroField mousse::zeroField::field() const
-{
-  return zeroField();
-}
 #endif

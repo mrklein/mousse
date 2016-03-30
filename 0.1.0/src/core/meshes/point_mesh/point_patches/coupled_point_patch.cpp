@@ -6,8 +6,7 @@
 #include "point_boundary_mesh.hpp"
 
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(coupledPointPatch, 0);
 
@@ -16,6 +15,7 @@ DEFINE_TYPE_NAME_AND_DEBUG(coupledPointPatch, 0);
 // Constructors
 mousse::coupledPointPatch::coupledPointPatch(const pointBoundaryMesh&)
 {}
+
 
 // Destructor
 mousse::coupledPointPatch::~coupledPointPatch()

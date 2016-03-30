@@ -5,8 +5,9 @@
 #include "cyclic_slip_point_patch.hpp"
 #include "point_constraint.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(cyclicSlipPointPatch, 0);
 // Add the patch constructor functions to the hash tables
@@ -26,6 +27,8 @@ const vectorField& cyclicSlipPointPatch::pointNormals() const
     *this
   ).facePointPatch::pointNormals();
 }
+
+
 void cyclicSlipPointPatch::applyConstraint
 (
   const label pointi,
@@ -34,4 +37,5 @@ void cyclicSlipPointPatch::applyConstraint
 {
   pc.applyConstraint(pointNormals()[pointi]);
 }
+
 }  // namespace mousse

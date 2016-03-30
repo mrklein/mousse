@@ -13,15 +13,12 @@
 //   \verbatim
 //     <entryName>    <value>
 //   \endverbatim
-// SourceFiles
-//   compatibility_constant.cpp
-
 
 #include "data_entry.hpp"
 #include "dimension_set.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class CompatibilityConstant;
@@ -64,10 +61,7 @@ public:
     //- Construct and return a clone
     virtual tmp<DataEntry<Type>> clone() const
     {
-      return tmp<DataEntry<Type>>
-      {
-        new CompatibilityConstant<Type>(*this)
-      };
+      return tmp<DataEntry<Type>>{new CompatibilityConstant<Type>(*this)};
     }
 
   //- Destructor
@@ -106,7 +100,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "compatibility_constant.cpp"
-#endif
+#include "compatibility_constant.ipp"
+
 #endif

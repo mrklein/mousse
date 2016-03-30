@@ -8,21 +8,25 @@
 //   mousse::dimensioned
 // Description
 //   Generic dimensioned Type class
-// SourceFiles
-//   dimensioned_type.cpp
+
 #include "word.hpp"
 #include "direction.hpp"
 #include "dimension_set.hpp"
 #include "vector_space.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Type> class dimensioned;
 template<class Type>
 Istream& operator>>(Istream&, dimensioned<Type>&);
+
 template<class Type>
 Ostream& operator<<(Ostream&, const dimensioned<Type>&);
 class dictionary;
+
+
 template<class Type>
 class dimensioned
 {
@@ -48,9 +52,9 @@ public:
     //- Construct given a value (creates dimensionless value).
     dimensioned(const Type& t)
     :
-      name_(::mousse::name(t)),
-      dimensions_(dimless),
-      value_(t)
+      name_{::mousse::name(t)},
+      dimensions_{dimless},
+      value_{t}
     {}
     //- Construct from Istream.
     dimensioned(Istream&);
@@ -138,90 +142,110 @@ public:
     friend Ostream& operator<< <Type>
     (Ostream&, const dimensioned<Type>&);
 };
-// Global Operators 
+
+
+// Global Operators
 template<class Type, int r>
 dimensioned<typename powProduct<Type, r>::type>
 pow
 (
   const dimensioned<Type>&,
   typename powProduct<Type, r>::type
- = pTraits<typename powProduct<Type, r>::type>::zero
+    = pTraits<typename powProduct<Type, r>::type>::zero
 );
+
 template<class Type>
 dimensioned<typename outerProduct<Type, Type>::type>
 sqr(const dimensioned<Type>&);
+
 template<class Type>
 dimensioned<scalar> magSqr(const dimensioned<Type>&);
+
 template<class Type>
 dimensioned<scalar> mag(const dimensioned<Type>&);
+
 template<class Type>
 dimensioned<Type> cmptMultiply
 (
   const dimensioned<Type>&,
   const dimensioned<Type>&
 );
+
 template<class Type>
 dimensioned<Type> cmptDivide
 (
   const dimensioned<Type>&,
   const dimensioned<Type>&
 );
+
 template<class Type>
 dimensioned<Type> max(const dimensioned<Type>&, const dimensioned<Type>&);
+
 template<class Type>
 dimensioned<Type> min(const dimensioned<Type>&, const dimensioned<Type>&);
+
 template<class Type>
 bool operator>(const dimensioned<Type>&, const dimensioned<Type>&);
+
 template<class Type>
 bool operator<(const dimensioned<Type>&, const dimensioned<Type>&);
+
 template<class Type>
 dimensioned<Type> operator+(const dimensioned<Type>&, const dimensioned<Type>&);
+
 template<class Type>
 dimensioned<Type> operator-(const dimensioned<Type>&);
+
 template<class Type>
 dimensioned<Type> operator-(const dimensioned<Type>&, const dimensioned<Type>&);
+
 template<class Type>
 dimensioned<Type> operator*
 (
   const dimensioned<scalar>&,
   const dimensioned<Type>&
 );
+
 template<class Type>
 dimensioned<Type> operator/
 (
   const dimensioned<Type>&,
   const dimensioned<scalar>&
 );
+
 // Products
-// ~~~~~~~~
+
 #define PRODUCT_OPERATOR(product, op, opFunc)                                 \
-                                       \
+                                                                              \
 template<class Type1, class Type2>                                            \
 dimensioned<typename product<Type1, Type2>::type>                             \
 operator op(const dimensioned<Type1>&, const dimensioned<Type2>&);            \
-                                       \
+                                                                              \
 template<class Type, class Form, class Cmpt, int nCmpt>                       \
 dimensioned<typename product<Type, Form>::type>                               \
 operator op                                                                   \
 (                                                                             \
-  const dimensioned<Type>&,                                                 \
-  const VectorSpace<Form,Cmpt,nCmpt>&                                       \
+  const dimensioned<Type>&,                                                   \
+  const VectorSpace<Form,Cmpt,nCmpt>&                                         \
 );                                                                            \
-                                       \
+                                                                              \
 template<class Type, class Form, class Cmpt, int nCmpt>                       \
 dimensioned<typename product<Form, Type>::type>                               \
 operator op                                                                   \
 (                                                                             \
-  const VectorSpace<Form,Cmpt,nCmpt>&,                                      \
-  const dimensioned<Type>&                                                  \
+  const VectorSpace<Form,Cmpt,nCmpt>&,                                        \
+  const dimensioned<Type>&                                                    \
 );
+
 PRODUCT_OPERATOR(outerProduct, *, outer)
 PRODUCT_OPERATOR(crossProduct, ^, cross)
 PRODUCT_OPERATOR(innerProduct, &, dot)
 PRODUCT_OPERATOR(scalarProduct, &&, dotdot)
+
 #undef PRODUCT_OPERATOR
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "dimensioned_type.cpp"
-#endif
+
+#include "dimensioned_type.ipp"
+
 #endif

@@ -8,12 +8,12 @@
 //   mousse::LPtrList
 // Description
 //   Template class for non-intrusive linked PtrLists.
-// SourceFiles
-//   l_ptr_list.cpp
-//   l_ptr_list_io.cpp
+
 #include "l_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class LListBase, class T> class LPtrList;
 template<class LListBase, class T>
@@ -28,6 +28,8 @@ Ostream& operator<<
   Ostream&,
   const LPtrList<LListBase, T>&
 );
+
+
 template<class LListBase, class T>
 class LPtrList
 :
@@ -50,7 +52,7 @@ public:
     //- Construct given initial T
     LPtrList(T* a)
     :
-      LList<LListBase, T*>(a)
+      LList<LListBase, T*>{a}
     {}
     //- Construct from Istream using given Istream constructor class
     template<class INew>
@@ -112,7 +114,7 @@ public:
       //- Construct from base iterator
       iterator(LListBase_iterator baseIter)
       :
-        LList<LListBase, T*>::iterator(baseIter)
+        LList<LListBase, T*>::iterator{baseIter}
       {}
       // Member operators
         T& operator*()
@@ -135,12 +137,12 @@ public:
       //- Construct from base const_iterator
       const_iterator(LListBase_const_iterator baseIter)
       :
-        LList<LListBase, T*>::const_iterator(baseIter)
+        LList<LListBase, T*>::const_iterator{baseIter}
       {}
       //- Construct from base iterator
       const_iterator(LListBase_iterator baseIter)
       :
-        LList<LListBase, T*>::const_iterator(baseIter)
+        LList<LListBase, T*>::const_iterator{baseIter}
       {}
       // Member operators
         const T& operator*()
@@ -165,7 +167,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "l_ptr_list.cpp"
-#endif
+
+#include "l_ptr_list.ipp"
+
 #endif

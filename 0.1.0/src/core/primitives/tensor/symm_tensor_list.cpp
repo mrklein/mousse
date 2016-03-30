@@ -6,8 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "token.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 DEFINE_COMPOUND_TYPE_NAME(List<symmTensor>, symmTensorList);
 ADD_COMPOUND_TO_RUN_TIME_SELECTION_TABLE(List<symmTensor>, symmTensorList);

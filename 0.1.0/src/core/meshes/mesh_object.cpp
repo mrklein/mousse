@@ -4,6 +4,7 @@
 
 #include "_mesh_object.hpp"
 
+
 // Static Member Data
 namespace mousse {
 
@@ -15,12 +16,11 @@ DEFINE_TYPE_NAME_AND_DEBUG(meshObject, 0);
 mousse::meshObject::meshObject(const word& typeName, const objectRegistry& obr)
 :
   regIOobject
-  (
-    IOobject
-    (
+  {
+    {
       typeName,
       obr.instance(),
       obr
-    )
-  )
+    }
+  }
 {}

@@ -12,7 +12,6 @@
 // SourceFiles
 //   dynamic_indexed_octree.cpp
 
-
 #include "tree_bound_box.hpp"
 #include "point_index_hit.hpp"
 #include "fixed_list.hpp"
@@ -22,10 +21,10 @@
 #include "packed_list.hpp"
 #include "volume_type.hpp"
 
-namespace mousse
-{
 
-typedef DynamicList<autoPtr<DynamicList<label > > > contentListList;
+namespace mousse {
+
+typedef DynamicList<autoPtr<DynamicList<label>>> contentListList;
 
 // Forward declaration of classes
 template<class Type> class dynamicIndexedOctree;
@@ -122,7 +121,7 @@ private:
       //  according to where they are in relation to mid.
       void divide
       (
-        const autoPtr<DynamicList<label> >& indices,
+        const autoPtr<DynamicList<label>>& indices,
         const treeBoundBox& bb,
         contentListList& result
       ) const;
@@ -342,9 +341,9 @@ public:
     );
 
     //- Clone
-    autoPtr<dynamicIndexedOctree<Type> > clone() const
+    autoPtr<dynamicIndexedOctree<Type>> clone() const
     {
-      return autoPtr<dynamicIndexedOctree<Type> >
+      return autoPtr<dynamicIndexedOctree<Type>>
       (
         new dynamicIndexedOctree<Type>(*this)
       );
@@ -572,7 +571,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "dynamic_indexed_octree.cpp"
-#endif
+#include "dynamic_indexed_octree.ipp"
+
 #endif

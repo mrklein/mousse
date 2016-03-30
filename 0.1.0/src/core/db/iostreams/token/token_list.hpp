@@ -7,9 +7,13 @@
 
 #include "token.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef List<token> tokenList;
-  typedef List<token::tokenType> tokenTypeList;
+
+
+namespace mousse {
+
+typedef List<token> tokenList;
+typedef List<token::tokenType> tokenTypeList;
+
 }  // namespace mousse
+
 #endif

@@ -6,14 +6,16 @@
 #include "reg_exp.hpp"
 #include "iostreams.hpp"
 
+
 // Static Data Members
 const mousse::keyType mousse::keyType::null;
+
 
 // Constructors 
 mousse::keyType::keyType(Istream& is)
 :
-  word(),
-  isPattern_(false)
+  word{},
+  isPattern_{false}
 {
   is  >> *this;
 }
@@ -26,47 +28,39 @@ bool mousse::keyType::match
   bool literalMatch
 ) const
 {
-  if (literalMatch || !isPattern_)
-  {
+  if (literalMatch || !isPattern_) {
     // check as string
     return (str == *this);
-  }
-  else
-  {
+  } else {
     // check as regex
     return regExp(*this).match(str);
   }
 }
+
+
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, keyType& kw)
 {
-  token t(is);
-  if (!t.good())
-  {
+  token t{is};
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isWord())
-  {
+  if (t.isWord()) {
     kw = t.wordToken();
-  }
-  else if (t.isString())
-  {
+  } else if (t.isString()) {
     // Assign from string. Set as regular expression.
     kw = t.stringToken();
     kw.isPattern_ = true;
     // flag empty strings as an error
-    if (kw.empty())
-    {
+    if (kw.empty()) {
       is.setBad();
       FATAL_IO_ERROR_IN("operator>>(Istream&, keyType&)", is)
         << "empty word/expression "
         << exit(FatalIOError);
       return is;
     }
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, keyType&)", is)
       << "wrong token type - expected word or string, found "
@@ -78,6 +72,8 @@ mousse::Istream& mousse::operator>>(Istream& is, keyType& kw)
   is.check("Istream& operator>>(Istream&, keyType&)");
   return is;
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const keyType& kw)
 {
   os.write(kw);

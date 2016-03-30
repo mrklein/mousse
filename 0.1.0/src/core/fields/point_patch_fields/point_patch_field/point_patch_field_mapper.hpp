@@ -8,10 +8,13 @@
 //   mousse::pointPatchFieldMapper
 // Description
 //   mousse::pointPatchFieldMapper
+
 #include "primitive_fields.hpp"
 #include "field_mapper.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pointPatchFieldMapper
 :
   public FieldMapper
@@ -22,5 +25,7 @@ public:
     pointPatchFieldMapper()
     {}
 };
+
 }  // namespace mousse
+
 #endif

@@ -4,14 +4,14 @@
 
 #include "primitive_mesh.hpp"
 #include "list_ops.hpp"
+
+
 // Member Functions 
 const mousse::labelListList& mousse::primitiveMesh::pointFaces() const
 {
-  if (!pfPtr_)
-  {
-    if (debug)
-    {
-      Pout<< "primitiveMesh::pointFaces() : "
+  if (!pfPtr_) {
+    if (debug) {
+      Pout << "primitiveMesh::pointFaces() : "
         << "calculating pointFaces" << endl;
     }
     // Invert faces()
@@ -20,3 +20,4 @@ const mousse::labelListList& mousse::primitiveMesh::pointFaces() const
   }
   return *pfPtr_;
 }
+

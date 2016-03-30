@@ -27,8 +27,6 @@
 //       (1.0 (4 5 6))
 //     );
 //   \endverbatim
-// SourceFiles
-//   table_file.cpp
 
 
 #include "data_entry.hpp"
@@ -64,7 +62,7 @@ public:
     //- Construct and return a clone
     virtual tmp<DataEntry<Type>> clone() const
     {
-      return tmp<DataEntry<Type>>(new TableFile<Type>(*this));
+      return tmp<DataEntry<Type>>{new TableFile<Type>{*this}};
     }
     //- Disallow default bitwise assignment
     TableFile<Type>& operator=(const TableFile<Type>&) = delete;
@@ -75,7 +73,7 @@ public:
     virtual void writeData(Ostream& os) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "table_file.cpp"
-#endif
+
+#include "table_file.ipp"
+
 #endif

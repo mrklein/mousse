@@ -13,18 +13,20 @@
 //    type and combineReduce(UList\<T\>, combineOperator) should be defined.
 //   - null value which gets overridden by any valid value.
 //   - transform function
-// SourceFiles
-//   sync_tools.cpp
-//   sync_tools_templates.cpp
+
 #include "pstream.hpp"
 #include "edge_map.hpp"
 #include "packed_bool_list.hpp"
 #include "poly_mesh.hpp"
 #include "coupled_poly_patch.hpp"
 #include "map_distribute.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyBoundaryMesh;
+
+
 class syncTools
 {
   // Private Member Functions
@@ -319,11 +321,11 @@ public:
       )
       {
         SubList<T> bndValues
-        (
+        {
           l,
           mesh.nFaces()-mesh.nInternalFaces(),
           mesh.nInternalFaces()
-        );
+        };
         syncBoundaryFaceList
         (
           mesh,
@@ -342,11 +344,11 @@ public:
       )
       {
         SubList<point> bndValues
-        (
+        {
           l,
           mesh.nFaces()-mesh.nInternalFaces(),
           mesh.nInternalFaces()
-        );
+        };
         syncBoundaryFaceList
         (
           mesh,
@@ -395,11 +397,11 @@ public:
       )
       {
         SubList<T> bndValues
-        (
+        {
           l,
           mesh.nFaces()-mesh.nInternalFaces(),
           mesh.nInternalFaces()
-        );
+        };
         syncBoundaryFaceList
         (
           mesh,
@@ -517,7 +519,7 @@ public:
       static PackedBoolList getInternalOrCoupledFaces(const polyMesh&);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sync_tools_templates.cpp"
-#endif
+
+#include "sync_tools.ipp"
+
 #endif

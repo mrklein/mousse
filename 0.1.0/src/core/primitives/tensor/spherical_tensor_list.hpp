@@ -7,9 +7,12 @@
 
 #include "spherical_tensor.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef UList<sphericalTensor> sphericalTensorUList;
-  typedef List<sphericalTensor> sphericalTensorList;
+
+
+namespace mousse {
+
+typedef UList<sphericalTensor> sphericalTensorUList;
+typedef List<sphericalTensor> sphericalTensorList;
+
 }
 #endif

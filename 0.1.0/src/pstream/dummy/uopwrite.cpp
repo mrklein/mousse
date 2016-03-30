@@ -4,6 +4,8 @@
 
 #include "uopstream.hpp"
 #include "iostreams.hpp"
+
+
 // Member Functions 
 bool mousse::UOPstream::write
 (
@@ -29,3 +31,4 @@ bool mousse::UOPstream::write
   );
   return false;
 }
+

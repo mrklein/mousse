@@ -11,10 +11,13 @@
 //   elements.
 // SeeAlso
 //   mousse::Tuple2 for storing two objects of dissimilar types.
+
 #include "fixed_list.hpp"
 #include "istream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class Pair
 :
@@ -34,12 +37,12 @@ public:
     //- Construct from FixedList
     inline Pair(const FixedList<Type, 2>& fl)
     :
-      FixedList<Type, 2>(fl)
+      FixedList<Type, 2>{fl}
     {}
     //- Construct from Istream
     inline Pair(Istream& is)
     :
-      FixedList<Type, 2>(is)
+      FixedList<Type, 2>{is}
     {}
   // Member Functions
     //- Return first
@@ -107,48 +110,60 @@ public:
       }
     }
 };
+
+
 template<class Type>
 Pair<Type> reverse(const Pair<Type>& p)
 {
   return Pair<Type>(p.second(), p.first());
 }
+
+
 template<class Type>
 bool operator==(const Pair<Type>& a, const Pair<Type>& b)
 {
   return (a.first() == b.first() && a.second() == b.second());
 }
+
+
 template<class Type>
 bool operator!=(const Pair<Type>& a, const Pair<Type>& b)
 {
   return !(a == b);
 }
+
+
 template<class Type>
 bool operator<(const Pair<Type>& a, const Pair<Type>& b)
 {
   return
   (
-    a.first() < b.first()
-  ||
-    (
-      !(b.first() < a.first())
-    && a.second() < b.second()
-    )
+    a.first() < b.first() || (!(b.first() < a.first())
+                              && a.second() < b.second())
   );
 }
+
+
 template<class Type>
 bool operator<=(const Pair<Type>& a, const Pair<Type>& b)
 {
   return !(b < a);
 }
+
+
 template<class Type>
 bool operator>(const Pair<Type>& a, const Pair<Type>& b)
 {
   return (b < a);
 }
+
+
 template<class Type>
 bool operator>=(const Pair<Type>& a, const Pair<Type>& b)
 {
   return !(a < b);
 }
+
 }  // namespace mousse
+
 #endif

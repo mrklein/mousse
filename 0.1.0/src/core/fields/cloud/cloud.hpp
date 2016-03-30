@@ -8,14 +8,11 @@
 //   mousse::cloud
 // Description
 //   A cloud is a collection of lagrangian particles
-// SourceFiles
-//   cloud.cpp
-
 
 #include "object_registry.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class mapPolyMesh;

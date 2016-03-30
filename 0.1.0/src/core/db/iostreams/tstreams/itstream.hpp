@@ -8,15 +8,13 @@
 //   mousse::ITstream
 // Description
 //   Input token stream.
-// SourceFiles
-//   itstream.cpp
-
 
 #include "istream.hpp"
 #include "token_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class ITstream
 :
   public Istream,

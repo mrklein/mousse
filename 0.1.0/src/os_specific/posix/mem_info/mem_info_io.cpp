@@ -4,17 +4,21 @@
 
 #include "mem_info.hpp"
 #include "iostreams.hpp"
+
+
 // Constructors 
 mousse::memInfo::memInfo(Istream& is)
 :
-  base1(is),
-  base2(is),
-  member1(is),
-  member2(is)
+  base1{is},
+  base2{is},
+  member1{is},
+  member2{is}
 {
   // Check state of Istream
   is.check("mousse::memInfo::memInfo(mousse::Istream&)");
 }
+
+
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, memInfo&)
 {
@@ -25,6 +29,8 @@ mousse::Istream& mousse::operator>>(Istream& is, memInfo&)
   );
   return is;
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const memInfo&)
 {
   // Check state of Ostream
@@ -35,3 +41,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const memInfo&)
   );
   return os;
 }
+

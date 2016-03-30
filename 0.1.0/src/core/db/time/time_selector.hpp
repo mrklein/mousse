@@ -38,19 +38,17 @@
 //   argument adds an additional \b -withZero option and also prevents the
 //   \c 0/ directory from being included in the default time range and in the
 //   \b -latestTime selection.
-// SourceFiles
-//   time_selector.cpp
-
 
 #include "scalar_ranges.hpp"
 #include "instant_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class argList;
 class Time;
+
 
 class timeSelector
 :

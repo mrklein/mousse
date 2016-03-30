@@ -11,17 +11,21 @@
 //   3D space.
 // SourceFiles
 //   vector_tensor_transform.cpp
-//   vector_tensor_transform_templates.cpp
+
 #include "tensor.hpp"
 #include "word.hpp"
 #include "contiguous.hpp"
 #include "point_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class vectorTensorTransform;
 Istream& operator>>(Istream& is, vectorTensorTransform&);
 Ostream& operator<<(Ostream& os, const vectorTensorTransform& C);
+
+
 class vectorTensorTransform
 {
   // private data
@@ -89,21 +93,29 @@ public:
     friend Istream& operator>>(Istream& is, vectorTensorTransform&);
     friend Ostream& operator<<(Ostream& os, const vectorTensorTransform&);
 };
+
 // Global Functions 
+
 //- Return the inverse of the given vectorTensorTransform
 inline vectorTensorTransform inv(const vectorTensorTransform& tr);
+
 //- Return a string representation of a vectorTensorTransform
 word name(const vectorTensorTransform&);
+
 //- Data associated with vectorTensorTransform type are contiguous
 template<>
 inline bool contiguous<vectorTensorTransform>() {return true;}
+
 //- Template specialisations
 template<>
 tmp<Field<bool> > vectorTensorTransform::transform(const Field<bool>&) const;
+
 template<>
 tmp<Field<label> > vectorTensorTransform::transform(const Field<label>&) const;
+
 template<>
 tmp<Field<scalar> > vectorTensorTransform::transform(const Field<scalar>&)
+
 const;
 // Global Operators 
 inline bool operator==
@@ -111,32 +123,39 @@ inline bool operator==
   const vectorTensorTransform& tr1,
   const vectorTensorTransform& tr2
 );
+
 inline bool operator!=
 (
   const vectorTensorTransform& tr1,
   const vectorTensorTransform& tr2
 );
+
 inline vectorTensorTransform operator+
 (
   const vectorTensorTransform& tr,
   const vector& t
 );
+
 inline vectorTensorTransform operator+
 (
   const vector& t,
   const vectorTensorTransform& tr
 );
+
 inline vectorTensorTransform operator-
 (
   const vectorTensorTransform& tr,
   const vector& t
 );
+
 inline vectorTensorTransform operator&
 (
   const vectorTensorTransform& tr1,
   const vectorTensorTransform& tr2
 );
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::vectorTensorTransform::vectorTensorTransform()
@@ -145,6 +164,8 @@ inline mousse::vectorTensorTransform::vectorTensorTransform()
   R_{sphericalTensor::I},
   hasR_{false}
 {}
+
+
 inline mousse::vectorTensorTransform::vectorTensorTransform
 (
   const vector& t,
@@ -156,35 +177,49 @@ inline mousse::vectorTensorTransform::vectorTensorTransform
   R_{R},
   hasR_{hasR}
 {}
+
+
 inline mousse::vectorTensorTransform::vectorTensorTransform(const vector& t)
 :
   t_{t},
   R_{sphericalTensor::I},
   hasR_{false}
 {}
+
+
 inline mousse::vectorTensorTransform::vectorTensorTransform(const tensor& R)
 :
   t_{vector::zero},
   R_{R},
   hasR_{true}
 {}
+
+
 // Member Functions 
 inline const mousse::vector& mousse::vectorTensorTransform::t() const
 {
   return t_;
 }
+
+
 inline const mousse::tensor& mousse::vectorTensorTransform::R() const
 {
   return R_;
 }
+
+
 inline bool mousse::vectorTensorTransform::hasR() const
 {
   return hasR_;
 }
+
+
 inline mousse::vector& mousse::vectorTensorTransform::t()
 {
   return t_;
 }
+
+
 inline mousse::tensor& mousse::vectorTensorTransform::R()
 {
   // Assume that non-const access to R changes it from I, so set
@@ -192,6 +227,8 @@ inline mousse::tensor& mousse::vectorTensorTransform::R()
   hasR_ = true;
   return R_;
 }
+
+
 inline mousse::vector mousse::vectorTensorTransform::transformPosition
 (
   const vector& v
@@ -199,6 +236,8 @@ inline mousse::vector mousse::vectorTensorTransform::transformPosition
 {
   return (hasR_) ? t() + (R() & v) : t() + v;
 }
+
+
 inline mousse::pointField mousse::vectorTensorTransform::transformPosition
 (
   const pointField& pts
@@ -215,6 +254,8 @@ inline mousse::pointField mousse::vectorTensorTransform::transformPosition
   }
   return tfld();
 }
+
+
 inline mousse::vector mousse::vectorTensorTransform::invTransformPosition
 (
   const vector& v
@@ -229,6 +270,8 @@ inline mousse::vector mousse::vectorTensorTransform::invTransformPosition
     return v - t();
   }
 }
+
+
 inline mousse::pointField mousse::vectorTensorTransform::invTransformPosition
 (
   const pointField& pts
@@ -245,6 +288,8 @@ inline mousse::pointField mousse::vectorTensorTransform::invTransformPosition
   }
   return tfld();
 }
+
+
 // Member Operators 
 inline void mousse::vectorTensorTransform::operator=
 (
@@ -255,6 +300,8 @@ inline void mousse::vectorTensorTransform::operator=
   R_ = tr.R_;
   hasR_ = tr.hasR_;
 }
+
+
 inline void mousse::vectorTensorTransform::operator&=
 (
   const vectorTensorTransform& tr
@@ -266,33 +313,47 @@ inline void mousse::vectorTensorTransform::operator&=
   // it, otherwise, these should both be I tensors.
   hasR_ = tr.hasR_ || hasR_;
 }
+
+
 inline void mousse::vectorTensorTransform::operator=(const vector& t)
 {
   t_ = t;
 }
+
+
 inline void mousse::vectorTensorTransform::operator+=(const vector& t)
 {
   t_ += t;
 }
+
+
 inline void mousse::vectorTensorTransform::operator-=(const vector& t)
 {
   t_ -= t;
 }
+
+
 inline void mousse::vectorTensorTransform::operator=(const tensor& R)
 {
   hasR_ = true;
   R_ = R;
 }
+
+
 inline void mousse::vectorTensorTransform::operator&=(const tensor& R)
 {
   hasR_ = true;
   R_ = R & R_;
 }
+
+
 // Global Functions 
 inline mousse::vectorTensorTransform mousse::inv(const vectorTensorTransform& tr)
 {
   return {-tr.t(), tr.R().T(), tr.hasR()};
 }
+
+
 // Global Operators 
 inline bool mousse::operator==
 (
@@ -302,6 +363,8 @@ inline bool mousse::operator==
 {
   return (tr1.t() == tr2.t() && tr1.R() == tr2.R());
 }
+
+
 inline bool mousse::operator!=
 (
   const vectorTensorTransform& tr1,
@@ -310,6 +373,8 @@ inline bool mousse::operator!=
 {
   return !operator==(tr1, tr2);
 }
+
+
 inline mousse::vectorTensorTransform mousse::operator+
 (
   const vectorTensorTransform& tr,
@@ -318,6 +383,8 @@ inline mousse::vectorTensorTransform mousse::operator+
 {
   return {tr.t() + t, tr.R(), tr.hasR()};
 }
+
+
 inline mousse::vectorTensorTransform mousse::operator+
 (
   const vector& t,
@@ -326,6 +393,8 @@ inline mousse::vectorTensorTransform mousse::operator+
 {
   return {t + tr.t(), tr.R(), tr.hasR()};
 }
+
+
 inline mousse::vectorTensorTransform mousse::operator-
 (
   const vectorTensorTransform& tr,
@@ -334,6 +403,8 @@ inline mousse::vectorTensorTransform mousse::operator-
 {
   return {tr.t() - t, tr.R(), tr.hasR()};
 }
+
+
 inline mousse::vectorTensorTransform mousse::operator&
 (
   const vectorTensorTransform& tr1,
@@ -342,7 +413,9 @@ inline mousse::vectorTensorTransform mousse::operator&
 {
   return {tr1.t() + tr2.t(), tr1.R() & tr2.R(), (tr1.hasR() || tr2.hasR())};
 }
-#ifdef NoRepository
-#   include "vector_tensor_transform_templates.cpp"
-#endif
+
+
+
+#include "vector_tensor_transform.ipp"
+
 #endif

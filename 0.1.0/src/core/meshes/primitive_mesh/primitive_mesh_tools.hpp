@@ -4,11 +4,13 @@
 // mousse: CFD toolbox
 // Copyright (C) 2012-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   primitive_mesh_tools.cpp
+
 #include "primitive_mesh.hpp"
 #include "packed_bool_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class primitiveMeshTools
 {
 public:
@@ -112,5 +114,7 @@ public:
       const vector& s
     );
 };
+
 }  // namespace mousse
+
 #endif

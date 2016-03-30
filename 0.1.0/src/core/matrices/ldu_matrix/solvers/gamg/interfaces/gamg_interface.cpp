@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "gamg_interface.hpp"
+
+
 // Static Data Members
 namespace mousse {
 
@@ -11,6 +13,8 @@ DEFINE_RUN_TIME_SELECTION_TABLE(GAMGInterface, lduInterface);
 DEFINE_RUN_TIME_SELECTION_TABLE(GAMGInterface, Istream);
 
 }
+
+
 // Constructors 
 mousse::GAMGInterface::GAMGInterface
 (
@@ -19,21 +23,24 @@ mousse::GAMGInterface::GAMGInterface
   Istream& is
 )
 :
-  index_(index),
-  coarseInterfaces_(coarseInterfaces),
-  faceCells_(is),
-  faceRestrictAddressing_(is)
+  index_{index},
+  coarseInterfaces_{coarseInterfaces},
+  faceCells_{is},
+  faceRestrictAddressing_{is}
 {}
+
+
 // Member Functions 
 void mousse::GAMGInterface::combine(const GAMGInterface& coarseGi)
 {
   const labelList& coarseFra = coarseGi.faceRestrictAddressing_;
-  FOR_ALL(faceRestrictAddressing_, ffi)
-  {
+  FOR_ALL(faceRestrictAddressing_, ffi) {
     faceRestrictAddressing_[ffi] = coarseFra[faceRestrictAddressing_[ffi]];
   }
   faceCells_ = coarseGi.faceCells_;
 }
+
+
 mousse::tmp<mousse::labelField> mousse::GAMGInterface::interfaceInternalField
 (
   const labelUList& internalData
@@ -41,40 +48,43 @@ mousse::tmp<mousse::labelField> mousse::GAMGInterface::interfaceInternalField
 {
   return interfaceInternalField<label>(internalData);
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::GAMGInterface::agglomerateCoeffs
 (
   const scalarField& fineCoeffs
 ) const
 {
-  tmp<scalarField> tcoarseCoeffs(new scalarField(size(), 0.0));
+  tmp<scalarField> tcoarseCoeffs{new scalarField{size(), 0.0}};
   scalarField& coarseCoeffs = tcoarseCoeffs();
-  if (fineCoeffs.size() != faceRestrictAddressing_.size())
-  {
+  if (fineCoeffs.size() != faceRestrictAddressing_.size()) {
     FATAL_ERROR_IN
     (
       "GAMGInterface::agglomerateCoeffs(const scalarField&) const"
-    )   << "Size of coefficients " << fineCoeffs.size()
-      << " does not correspond to the size of the restriction "
-      << faceRestrictAddressing_.size()
-      << abort(FatalError);
+    )
+    << "Size of coefficients " << fineCoeffs.size()
+    << " does not correspond to the size of the restriction "
+    << faceRestrictAddressing_.size()
+    << abort(FatalError);
   }
-  if (debug && max(faceRestrictAddressing_) > size())
-  {
+  if (debug && max(faceRestrictAddressing_) > size()) {
     FATAL_ERROR_IN
     (
       "GAMGInterface::agglomerateCoeffs(const scalarField&) const"
-    )   << "Face restrict addressing addresses outside of coarse interface"
-      << " size. Max addressing:" << max(faceRestrictAddressing_)
-      << " coarse size:" << size()
-      << abort(FatalError);
+    )
+    << "Face restrict addressing addresses outside of coarse interface"
+    << " size. Max addressing:" << max(faceRestrictAddressing_)
+    << " coarse size:" << size()
+    << abort(FatalError);
   }
-  FOR_ALL(faceRestrictAddressing_, ffi)
-  {
+  FOR_ALL(faceRestrictAddressing_, ffi) {
     coarseCoeffs[faceRestrictAddressing_[ffi]] += fineCoeffs[ffi];
   }
   return tcoarseCoeffs;
 }
+
+
 void mousse::GAMGInterface::write(Ostream& os) const
 {
-  os  << faceCells_ << token::SPACE << faceRestrictAddressing_;
+  os << faceCells_ << token::SPACE << faceRestrictAddressing_;
 }

@@ -9,11 +9,12 @@
 // Description
 //   Copy of cyclicSlip - used to be able to instantiate cyclicSlip pointPatch
 //   which is cyclicSlip with slip constraints
-// SourceFiles
-//   cyclic_slip_poly_patch.cpp
+
 #include "cyclic_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cyclicSlipPolyPatch
 :
   public cyclicPolyPatch
@@ -34,7 +35,7 @@ public:
       const transformType transform = UNKNOWN
     )
     :
-      cyclicPolyPatch(name, size, start, index, bm, patchType, transform)
+      cyclicPolyPatch{name, size, start, index, bm, patchType, transform}
     {}
     //- Construct from dictionary
     cyclicSlipPolyPatch
@@ -46,7 +47,7 @@ public:
       const word& patchType
     )
     :
-      cyclicPolyPatch(name, dict, index, bm, patchType)
+      cyclicPolyPatch{name, dict, index, bm, patchType}
     {}
     //- Construct as copy, resetting the boundary mesh
     cyclicSlipPolyPatch
@@ -55,7 +56,7 @@ public:
       const polyBoundaryMesh& bm
     )
     :
-      cyclicPolyPatch(pp, bm)
+      cyclicPolyPatch{pp, bm}
     {}
     //- Construct given the original patch and resetting the
     //  face list and boundary mesh information
@@ -69,7 +70,7 @@ public:
       const word& neighbPatchName
     )
     :
-      cyclicPolyPatch(pp, bm, index, newSize, newStart, neighbPatchName)
+      cyclicPolyPatch{pp, bm, index, newSize, newStart, neighbPatchName}
     {}
     //- Construct given the original patch and a map
     cyclicSlipPolyPatch
@@ -81,12 +82,12 @@ public:
       const label newStart
     )
     :
-      cyclicPolyPatch(pp, bm, index, mapAddressing, newStart)
+      cyclicPolyPatch{pp, bm, index, mapAddressing, newStart}
     {}
     //- Construct and return a clone, resetting the boundary mesh
     virtual autoPtr<polyPatch> clone(const polyBoundaryMesh& bm) const
     {
-      return autoPtr<polyPatch>(new cyclicSlipPolyPatch(*this, bm));
+      return autoPtr<polyPatch>{new cyclicSlipPolyPatch{*this, bm}};
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -99,17 +100,17 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new cyclicSlipPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           newSize,
           newStart,
           neighbPatchName()
-        )
-      );
+        }
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh

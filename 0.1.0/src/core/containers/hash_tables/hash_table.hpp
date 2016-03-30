@@ -14,10 +14,6 @@
 //   list. Thus copying the hash table (or indeed even resizing it) will
 //   often result in a different hash order. Use a sorted table-of-contents
 //   when the hash order is important.
-// SourceFiles
-//   hash_table.cpp
-//   hash_table_io.cpp
-
 
 #include "label.hpp"
 #include "ulabel.hpp"
@@ -26,8 +22,8 @@
 #include "class_name.hpp"
 #include "error.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 template<class T> class List;
@@ -38,6 +34,7 @@ template<class T, class Key, class Hash>
 Istream& operator>>(Istream&, HashTable<T, Key, Hash>&);
 template<class T, class Key, class Hash>
 Ostream& operator<<(Ostream&, const HashTable<T, Key, Hash>&);
+
 
 //- Template-invariant bits for HashTable
 struct HashTableCore
@@ -76,6 +73,7 @@ struct HashTableCore
   }
 
 };
+
 
 template<class T, class Key=word, class Hash=string::hash>
 class HashTable
@@ -477,6 +475,7 @@ public:
 
 }  // namespace mousse
 
+
 // Private Member Classes
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::hashedEntry::hashedEntry
@@ -491,6 +490,7 @@ inline mousse::HashTable<T, Key, Hash>::hashedEntry::hashedEntry
   obj_{obj}
 {}
 
+
 // Private Member Functions 
 template<class T, class Key, class Hash>
 inline mousse::label
@@ -500,6 +500,7 @@ mousse::HashTable<T, Key, Hash>::hashKeyIndex(const Key& key) const
   return Hash()(key) & (tableSize_ - 1);
 }
 
+
 // Member Functions
 template<class T, class Key, class Hash>
 inline mousse::label mousse::HashTable<T, Key, Hash>::capacity() const
@@ -507,17 +508,20 @@ inline mousse::label mousse::HashTable<T, Key, Hash>::capacity() const
   return tableSize_;
 }
 
+
 template<class T, class Key, class Hash>
 inline mousse::label mousse::HashTable<T, Key, Hash>::size() const
 {
   return nElmts_;
 }
 
+
 template<class T, class Key, class Hash>
 inline bool mousse::HashTable<T, Key, Hash>::empty() const
 {
   return !nElmts_;
 }
+
 
 template<class T, class Key, class Hash>
 inline bool mousse::HashTable<T, Key, Hash>::insert
@@ -529,6 +533,7 @@ inline bool mousse::HashTable<T, Key, Hash>::insert
   return this->set(key, newEntry, true);
 }
 
+
 template<class T, class Key, class Hash>
 inline bool mousse::HashTable<T, Key, Hash>::set
 (
@@ -539,6 +544,7 @@ inline bool mousse::HashTable<T, Key, Hash>::set
   return this->set(key, newEntry, false);
 }
 
+
 template<class T, class Key, class Hash>
 inline mousse::Xfer<mousse::HashTable<T, Key, Hash> >
 mousse::HashTable<T, Key, Hash>::xfer()
@@ -546,13 +552,13 @@ mousse::HashTable<T, Key, Hash>::xfer()
   return xferMove(*this);
 }
 
+
 // Member Operators 
 template<class T, class Key, class Hash>
 inline T& mousse::HashTable<T, Key, Hash>::operator[](const Key& key)
 {
   iterator iter = this->find(key);
-  if (iter == this->end())
-  {
+  if (iter == this->end()) {
     FATAL_ERROR_IN("HashTable<T, Key, Hash>::operator[](const Key&)")
       << key << " not found in table.  Valid entries: "
       << toc()
@@ -561,12 +567,12 @@ inline T& mousse::HashTable<T, Key, Hash>::operator[](const Key& key)
   return *iter;
 }
 
+
 template<class T, class Key, class Hash>
 inline const T& mousse::HashTable<T, Key, Hash>::operator[](const Key& key) const
 {
   const_iterator iter = this->find(key);
-  if (iter == this->cend())
-  {
+  if (iter == this->cend()) {
     FATAL_ERROR_IN("HashTable<T, Key, Hash>::operator[](const Key&) const")
       << key << " not found in table.  Valid entries: "
       << toc()
@@ -575,20 +581,19 @@ inline const T& mousse::HashTable<T, Key, Hash>::operator[](const Key& key) cons
   return *iter;
 }
 
+
 template<class T, class Key, class Hash>
 inline T& mousse::HashTable<T, Key, Hash>::operator()(const Key& key)
 {
   iterator iter = this->find(key);
-  if (iter == this->end())
-  {
+  if (iter == this->end()) {
     this->insert(key, T());
     return *find(key);
-  }
-  else
-  {
+  } else {
     return *iter;
   }
 }
+
 
 // iterator base
 template<class T, class Key, class Hash>
@@ -598,6 +603,7 @@ inline mousse::HashTable<T, Key, Hash>::iteratorBase::iteratorBase()
   entryPtr_{0},
   hashIndex_{0}
 {}
+
 
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::iteratorBase::iteratorBase
@@ -609,23 +615,19 @@ inline mousse::HashTable<T, Key, Hash>::iteratorBase::iteratorBase
   entryPtr_{0},
   hashIndex_{0}
 {
-  if (hashTable_->nElmts_)
-  {
+  if (hashTable_->nElmts_) {
     // find first non-NULL table entry
-    while
-    (
-      !(entryPtr_ = hashTable_->table_[hashIndex_])
-    && ++hashIndex_ < hashTable_->tableSize_
-    )
-    {}
-    if (hashIndex_ >= hashTable_->tableSize_)
-    {
+    while (!(entryPtr_ = hashTable_->table_[hashIndex_])
+           && ++hashIndex_ < hashTable_->tableSize_) {
+    }
+    if (hashIndex_ >= hashTable_->tableSize_) {
       // make into an end iterator
       entryPtr_ = 0;
       hashIndex_ = 0;
     }
   }
 }
+
 
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::iteratorBase::iteratorBase
@@ -640,44 +642,36 @@ inline mousse::HashTable<T, Key, Hash>::iteratorBase::iteratorBase
   hashIndex_{hashIndex}
 {}
 
+
 template<class T, class Key, class Hash>
 inline void
 mousse::HashTable<T, Key, Hash>::iteratorBase::increment()
 {
   // A negative index is a special value from erase
-  if (hashIndex_ < 0)
-  {
+  if (hashIndex_ < 0) {
     // the markPos='-curPos-1', but we wish to continue at 'curPos-1'
     // thus use '-(markPos+1) -1'
     hashIndex_ = -(hashIndex_+1) - 1;
-  }
-  else if (entryPtr_)
-  {
-    if (entryPtr_->next_)
-    {
+  } else if (entryPtr_) {
+    if (entryPtr_->next_) {
       // Move to next element on the SLList
       entryPtr_ = entryPtr_->next_;
       return;
     }
   }
-  // else
-  // {
-  //     // if we reach here (entryPtr_ is NULL) it is already at the end()
-  //     // we should probably stop
-  // }
 
   // Step to the next table entry
   while (++hashIndex_ < hashTable_->tableSize_
          && !(entryPtr_ = hashTable_->table_[hashIndex_]))
   {}
 
-  if (hashIndex_ >= hashTable_->tableSize_)
-  {
+  if (hashIndex_ >= hashTable_->tableSize_) {
     // make into an end iterator
     entryPtr_ = 0;
     hashIndex_ = 0;
   }
 }
+
 
 template<class T, class Key, class Hash>
 inline
@@ -686,6 +680,7 @@ const Key& mousse::HashTable<T, Key, Hash>::iteratorBase::key() const
   return entryPtr_->key_;
 }
 
+
 template<class T, class Key, class Hash>
 inline T&
 mousse::HashTable<T, Key, Hash>::iteratorBase::object()
@@ -693,12 +688,14 @@ mousse::HashTable<T, Key, Hash>::iteratorBase::object()
   return entryPtr_->obj_;
 }
 
+
 template<class T, class Key, class Hash>
 inline const T&
 mousse::HashTable<T, Key, Hash>::iteratorBase::cobject() const
 {
   return entryPtr_->obj_;
 }
+
 
 template<class T, class Key, class Hash>
 inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator==
@@ -709,6 +706,7 @@ inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator==
   return entryPtr_ == iter.entryPtr_;
 }
 
+
 template<class T, class Key, class Hash>
 inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator!=
 (
@@ -717,6 +715,7 @@ inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator!=
 {
   return entryPtr_ != iter.entryPtr_;
 }
+
 
 template<class T, class Key, class Hash>
 inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator==
@@ -727,6 +726,7 @@ inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator==
   return !entryPtr_;
 }
 
+
 template<class T, class Key, class Hash>
 inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator!=
 (
@@ -736,12 +736,14 @@ inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator!=
   return entryPtr_;
 }
 
+
 // STL iterator 
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::iterator::iterator()
 :
   iteratorBase{}
 {}
+
 
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::iterator::iterator
@@ -752,6 +754,7 @@ inline mousse::HashTable<T, Key, Hash>::iterator::iterator
   iteratorBase{}
 {}
 
+
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::iterator::iterator
 (
@@ -760,6 +763,7 @@ inline mousse::HashTable<T, Key, Hash>::iterator::iterator
 :
   iteratorBase{hashTbl}
 {}
+
 
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::iterator::iterator
@@ -772,12 +776,14 @@ inline mousse::HashTable<T, Key, Hash>::iterator::iterator
   iteratorBase{hashTbl, elmt, hashIndex}
 {}
 
+
 template<class T, class Key, class Hash>
 inline T&
 mousse::HashTable<T, Key, Hash>::iterator::operator*()
 {
   return this->object();
 }
+
 
 template<class T, class Key, class Hash>
 inline T&
@@ -786,6 +792,7 @@ mousse::HashTable<T, Key, Hash>::iterator::operator()()
   return this->object();
 }
 
+
 template<class T, class Key, class Hash>
 inline const T&
 mousse::HashTable<T, Key, Hash>::iterator::operator*() const
@@ -793,12 +800,14 @@ mousse::HashTable<T, Key, Hash>::iterator::operator*() const
   return this->cobject();
 }
 
+
 template<class T, class Key, class Hash>
 inline const T&
 mousse::HashTable<T, Key, Hash>::iterator::operator()() const
 {
   return this->cobject();
 }
+
 
 template<class T, class Key, class Hash>
 inline
@@ -809,6 +818,7 @@ mousse::HashTable<T, Key, Hash>::iterator::operator++()
   return *this;
 }
 
+
 template<class T, class Key, class Hash>
 inline typename mousse::HashTable<T, Key, Hash>::iterator
 mousse::HashTable<T, Key, Hash>::iterator::operator++(int)
@@ -818,6 +828,7 @@ mousse::HashTable<T, Key, Hash>::iterator::operator++(int)
   return old;
 }
 
+
 template<class T, class Key, class Hash>
 inline typename mousse::HashTable<T, Key, Hash>::iterator
 mousse::HashTable<T, Key, Hash>::begin()
@@ -825,12 +836,14 @@ mousse::HashTable<T, Key, Hash>::begin()
   return iterator(this);
 }
 
+
 // STL const_iterator
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator()
 :
   iteratorBase{}
 {}
+
 
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator
@@ -841,6 +854,7 @@ inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator
   iteratorBase{iter}
 {}
 
+
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator
 (
@@ -850,6 +864,7 @@ inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator
   iteratorBase{}
 {}
 
+
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator
 (
@@ -858,6 +873,7 @@ inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator
 :
   iteratorBase{hashTbl}
 {}
+
 
 template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator
@@ -870,6 +886,7 @@ inline mousse::HashTable<T, Key, Hash>::const_iterator::const_iterator
   iteratorBase{hashTbl, elmt, hashIndex}
 {}
 
+
 template<class T, class Key, class Hash>
 inline const T&
 mousse::HashTable<T, Key, Hash>::const_iterator::operator*() const
@@ -877,12 +894,14 @@ mousse::HashTable<T, Key, Hash>::const_iterator::operator*() const
   return this->cobject();
 }
 
+
 template<class T, class Key, class Hash>
 inline const T&
 mousse::HashTable<T, Key, Hash>::const_iterator::operator()() const
 {
   return this->cobject();
 }
+
 
 template<class T, class Key, class Hash>
 inline
@@ -893,6 +912,7 @@ mousse::HashTable<T, Key, Hash>::const_iterator::operator++()
   return *this;
 }
 
+
 template<class T, class Key, class Hash>
 inline typename mousse::HashTable<T, Key, Hash>::const_iterator
 mousse::HashTable<T, Key, Hash>::const_iterator::operator++(int)
@@ -902,12 +922,14 @@ mousse::HashTable<T, Key, Hash>::const_iterator::operator++(int)
   return old;
 }
 
+
 template<class T, class Key, class Hash>
 inline typename mousse::HashTable<T, Key, Hash>::const_iterator
 mousse::HashTable<T, Key, Hash>::cbegin() const
 {
   return const_iterator(this);
 }
+
 
 template<class T, class Key, class Hash>
 inline typename mousse::HashTable<T, Key, Hash>::const_iterator
@@ -916,9 +938,9 @@ mousse::HashTable<T, Key, Hash>::begin() const
   return this->cbegin();
 }
 
+
 #ifndef NoHashTableC
-#ifdef NoRepository
-#   include "hash_table.cpp"
+#include "hash_table.ipp"
 #endif
-#endif
+
 #endif

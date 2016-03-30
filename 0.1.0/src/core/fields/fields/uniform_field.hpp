@@ -9,9 +9,12 @@
 // Description
 //   A class representing the concept of a uniform field which stores only
 //   the single value and providing the operator[] to return it.
+
 #include "label.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class UniformField
 {
@@ -20,26 +23,12 @@ class UniformField
 public:
   // Constructors
     //- Construct given value
-    inline UniformField(const Type& value);
+    inline UniformField(const Type& value) : value_{value} {};
   // Member Operators
-    inline Type operator[](const label) const;
-    inline UniformField field() const;
+    inline Type operator[](const label) const { return value_; }
+    inline UniformField field() const { return {value_}; }
 };
+
 }  // namespace mousse
 
-template<class Type>
-inline mousse::UniformField<Type>::UniformField(const Type& value)
-:
-  value_{value}
-{}
-template<class Type>
-inline Type mousse::UniformField<Type>::operator[](const label) const
-{
-  return value_;
-}
-template<class Type>
-inline mousse::UniformField<Type> mousse::UniformField<Type>::field() const
-{
-  return {value_};
-}
 #endif

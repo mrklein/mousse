@@ -8,16 +8,19 @@
 //   mousse::patchIdentifier
 // Description
 //   Identifies patch by name, patch index and physical type
-// SourceFiles
-//   patch_identifier.cpp
+
 #include "word_list.hpp"
 #include "label.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class dictionary;
 // Forward declaration of friend functions and operators
 class patchIdentifier;
 Ostream& operator<<(Ostream&, const patchIdentifier&);
+
+
 class patchIdentifier
 {
   // Private data

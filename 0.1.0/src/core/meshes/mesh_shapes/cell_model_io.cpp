@@ -4,6 +4,8 @@
 
 #include "cell_model.hpp"
 #include "dictionary_entry.hpp"
+
+
 mousse::cellModel::cellModel(Istream& is)
 {
   dictionaryEntry entry(dictionary::null, is);
@@ -13,20 +15,24 @@ mousse::cellModel::cellModel(Istream& is)
   entry.lookup("faces") >> faces_;
   entry.lookup("edges") >> edges_;
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const cellModel& c)
 {
-  os  << "name" << tab << c.name_ << tab
+  os << "name" << tab << c.name_ << tab
     << "index" << tab << c.index_ << tab
     << "numberOfPoints" << tab << c.nPoints_ << tab
     << "faces" << tab << c.faces_ << tab
     << "edges" << tab << c.edges_ << endl;
   return os;
 }
+
+
 template<>
 mousse::Ostream& mousse::operator<<(Ostream& os, const InfoProxy<cellModel>& ip)
 {
   const cellModel& cm = ip.t_;
-  os  << "name = " << cm.name() << ", "
+  os << "name = " << cm.name() << ", "
     << "index = " << cm.index() << ", "
     << "number of points = " << cm.nPoints() << ", "
     << "number of faces = " << cm.nFaces() << ", "

@@ -8,13 +8,12 @@
 //   mousse::jplotGraph
 // Description
 //   jplot graph output
-// SourceFiles
-//   jplot_graph.cpp
 
 #include "graph.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class jplotGraph
 :
   public graph::writer

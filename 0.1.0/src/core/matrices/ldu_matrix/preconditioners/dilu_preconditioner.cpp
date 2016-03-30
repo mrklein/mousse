@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "dilu_preconditioner.hpp"
+
+
 // Static Data Members
 namespace mousse {
 
@@ -13,6 +15,8 @@ lduMatrix::preconditioner::
   addDILUPreconditionerAsymMatrixConstructorToTable_;
 
 }
+
+
 // Constructors 
 mousse::DILUPreconditioner::DILUPreconditioner
 (
@@ -20,11 +24,13 @@ mousse::DILUPreconditioner::DILUPreconditioner
   const dictionary&
 )
 :
-  lduMatrix::preconditioner(sol),
-  rD_(sol.matrix().diag())
+  lduMatrix::preconditioner{sol},
+  rD_{sol.matrix().diag()}
 {
   calcReciprocalD(rD_, sol.matrix());
 }
+
+
 // Member Functions 
 void mousse::DILUPreconditioner::calcReciprocalD
 (
@@ -38,17 +44,17 @@ void mousse::DILUPreconditioner::calcReciprocalD
   const scalar* const __restrict__ upperPtr = matrix.upper().begin();
   const scalar* const __restrict__ lowerPtr = matrix.lower().begin();
   label nFaces = matrix.upper().size();
-  for (label face=0; face<nFaces; face++)
-  {
+  for (label face=0; face<nFaces; face++) {
     rDPtr[uPtr[face]] -= upperPtr[face]*lowerPtr[face]/rDPtr[lPtr[face]];
   }
   // Calculate the reciprocal of the preconditioned diagonal
   label nCells = rD.size();
-  for (label cell=0; cell<nCells; cell++)
-  {
+  for (label cell=0; cell<nCells; cell++) {
     rDPtr[cell] = 1.0/rDPtr[cell];
   }
 }
+
+
 void mousse::DILUPreconditioner::precondition
 (
   scalarField& wA,
@@ -72,23 +78,22 @@ void mousse::DILUPreconditioner::precondition
   label nCells = wA.size();
   label nFaces = solver_.matrix().upper().size();
   label nFacesM1 = nFaces - 1;
-  for (label cell=0; cell<nCells; cell++)
-  {
+  for (label cell=0; cell<nCells; cell++) {
     wAPtr[cell] = rDPtr[cell]*rAPtr[cell];
   }
   label sface;
-  for (label face=0; face<nFaces; face++)
-  {
+  for (label face=0; face<nFaces; face++) {
     sface = losortPtr[face];
     wAPtr[uPtr[sface]] -=
       rDPtr[uPtr[sface]]*lowerPtr[sface]*wAPtr[lPtr[sface]];
   }
-  for (label face=nFacesM1; face>=0; face--)
-  {
+  for (label face=nFacesM1; face>=0; face--) {
     wAPtr[lPtr[face]] -=
       rDPtr[lPtr[face]]*upperPtr[face]*wAPtr[uPtr[face]];
   }
 }
+
+
 void mousse::DILUPreconditioner::preconditionT
 (
   scalarField& wT,
@@ -112,18 +117,15 @@ void mousse::DILUPreconditioner::preconditionT
   label nCells = wT.size();
   label nFaces = solver_.matrix().upper().size();
   label nFacesM1 = nFaces - 1;
-  for (label cell=0; cell<nCells; cell++)
-  {
+  for (label cell=0; cell<nCells; cell++) {
     wTPtr[cell] = rDPtr[cell]*rTPtr[cell];
   }
-  for (label face=0; face<nFaces; face++)
-  {
+  for (label face=0; face<nFaces; face++) {
     wTPtr[uPtr[face]] -=
       rDPtr[uPtr[face]]*upperPtr[face]*wTPtr[lPtr[face]];
   }
   label sface;
-  for (label face=nFacesM1; face>=0; face--)
-  {
+  for (label face=nFacesM1; face>=0; face--) {
     sface = losortPtr[face];
     wTPtr[lPtr[sface]] -=
       rDPtr[lPtr[sface]]*lowerPtr[sface]*wTPtr[uPtr[sface]];

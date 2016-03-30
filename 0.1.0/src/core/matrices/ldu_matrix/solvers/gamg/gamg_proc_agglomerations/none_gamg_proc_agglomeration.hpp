@@ -8,15 +8,12 @@
 //   mousse::noneGAMGProcAgglomeration
 // Description
 //   Processor agglomeration of GAMGAgglomerations.
-// SourceFiles
-//   none_gamg_proc_agglomeration.cpp
-
 
 #include "gamg_proc_agglomeration.hpp"
 #include "dynamic_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class GAMGAgglomeration;
 

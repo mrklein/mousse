@@ -6,10 +6,14 @@
 // Copyright (C) 2016 mousse project
 
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class dimensioned;
 typedef dimensioned<scalar> dimensionedScalar;
+
 }  // namespace mousse
+
 #endif

@@ -7,8 +7,11 @@
 
 #include "quaternion_field.hpp"
 #include "iofield.hpp"
-namespace mousse
-{
-  typedef IOField<quaternion> quaternionIOField;
+
+
+namespace mousse {
+
+typedef IOField<quaternion> quaternionIOField;
+
 }
 #endif

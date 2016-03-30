@@ -12,11 +12,12 @@
 //   runningJob file is removed.
 // See Also
 //   mousse::JobInfo
-// SourceFiles
-//   sig_quit.cpp
+
 #include <signal.h>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sigQuit
 {
   // Private data
@@ -35,5 +36,7 @@ public:
     //- Activate SIGQUIT signal handler
     void set(const bool verbose);
 };
+
 }  // namespace mousse
+
 #endif

@@ -15,8 +15,9 @@
 
 #include "uipstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class IPstream
 :
   public Pstream,

@@ -9,9 +9,14 @@
 #include "face.hpp"
 #include "list.hpp"
 #include "point_field.hpp"
-namespace mousse
-{
-  typedef PrimitivePatch<face, List, const pointField&>
-    primitiveFacePatch;
+
+
+namespace mousse {
+
+typedef PrimitivePatch<face, List, const pointField&>
+  primitiveFacePatch;
+
 }
+
 #endif
+

@@ -9,11 +9,10 @@
 // Description
 //   Perform a subCycleTime on a field
 
-
 #include "sub_cycle_time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class GeometricField>
 class subCycleField

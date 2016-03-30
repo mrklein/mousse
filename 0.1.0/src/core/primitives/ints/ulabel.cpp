@@ -5,6 +5,7 @@
 #include "error.hpp"
 #include "ulabel.hpp"
 
+
 #if WM_LABEL_SIZE == 32
 const char* const mousse::pTraits<uint64_t>::typeName = "uint64";
 const char* const mousse::pTraits<uint32_t>::typeName = "uLabel";
@@ -16,8 +17,7 @@ const char* const mousse::pTraits<uint32_t>::typeName = "uint32";
 mousse::uLabel mousse::pow(uLabel a, uLabel b)
 {
   uLabel ans = 1;
-  for (uLabel i=0; i<b; i++)
-  {
+  for (uLabel i=0; i<b; i++) {
     ans *= a;
   }
 #ifdef FULLDEBUG
@@ -40,8 +40,7 @@ mousse::uLabel mousse::factorial(uLabel n)
     362880, 3628800, 39916800, 479001600
   };
 #ifdef FULLDEBUG
-  if (n > 12 && n < 0)
-  {
+  if (n > 12 && n < 0) {
     FATAL_ERROR_IN("factorial(uLabel n)")
       << "n value out of range"
       << abort(FatalError);

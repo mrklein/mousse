@@ -3,11 +3,16 @@
 // Copyright (C) 2016 mousse project
 
 #include "diagonal_solver.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(diagonalSolver, 0);
+
 }
+
+
 // Constructors 
 mousse::diagonalSolver::diagonalSolver
 (
@@ -20,15 +25,17 @@ mousse::diagonalSolver::diagonalSolver
 )
 :
   lduMatrix::solver
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces,
     solverControls
-  )
+  }
 {}
+
+
 mousse::solverPerformance mousse::diagonalSolver::solve
 (
   scalarField& psi,
@@ -37,14 +44,5 @@ mousse::solverPerformance mousse::diagonalSolver::solve
 ) const
 {
   psi = source/matrix_.diag();
-  return solverPerformance
-  (
-    typeName,
-    fieldName_,
-    0,
-    0,
-    0,
-    true,
-    false
-  );
+  return { typeName, fieldName_, 0, 0, 0, true, false };
 }

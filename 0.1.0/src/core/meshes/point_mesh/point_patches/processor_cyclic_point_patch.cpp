@@ -5,8 +5,9 @@
 #include "processor_cyclic_point_patch.hpp"
 #include "point_boundary_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(processorCyclicPointPatch, 0);
@@ -24,10 +25,13 @@ processorCyclicPointPatch::processorCyclicPointPatch
   const pointBoundaryMesh& bm
 )
 :
-  processorPointPatch(patch, bm),
-  procCycPolyPatch_(refCast<const processorCyclicPolyPatch>(patch))
+  processorPointPatch{patch, bm},
+  procCycPolyPatch_{refCast<const processorCyclicPolyPatch>(patch)}
 {}
+
+
 // Destructor 
 processorCyclicPointPatch::~processorCyclicPointPatch()
 {}
+
 }  // namespace mousse

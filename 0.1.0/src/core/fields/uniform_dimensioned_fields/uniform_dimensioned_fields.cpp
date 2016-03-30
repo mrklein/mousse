@@ -4,8 +4,7 @@
 
 #include "uniform_dimensioned_fields.hpp"
 
-namespace mousse
-{
+namespace mousse {
 
 // Static Data Members
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(uniformDimensionedScalarField, 0);

@@ -8,18 +8,14 @@
 //   mousse::interpolationWeights
 // Description
 //   Abstract base class for interpolating in 1D
-// SourceFiles
-//   interpolation_weights.cpp
-//   interpolation_weights_templates.cpp
-
 
 #include "scalar_field.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "point_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class fvMesh;
 class objectRegistry;
@@ -102,7 +98,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "interpolation_weights_templates.cpp"
-#endif
+#include "interpolation_weights.ipp"
+
 #endif

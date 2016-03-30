@@ -8,14 +8,11 @@
 //   mousse::solution
 // Description
 //   Selector class for relaxation factors, solver type and solution.
-// SourceFiles
-//   solution.cpp
-
 
 #include "iodictionary.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class solution
 :
@@ -116,7 +113,7 @@ public:
       bool read();
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "solution_templates.cpp"
-#endif
+
+#include "solution.ipp"
+
 #endif

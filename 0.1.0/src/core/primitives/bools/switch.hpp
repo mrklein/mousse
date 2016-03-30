@@ -12,15 +12,21 @@
 // SourceFiles
 //   switch.cpp
 //   switch_io.cpp
+
 #include "bool.hpp"
 #include "word.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class Switch;
 class dictionary;
+
 Istream& operator>>(Istream&, Switch&);
 Ostream& operator<<(Ostream&, const Switch&);
+
+
 class Switch
 {
   // Private data
@@ -135,5 +141,7 @@ public:
     friend Istream& operator>>(Istream&, Switch&);
     friend Ostream& operator<<(Ostream&, const Switch&);
 };
+
 }  // namespace mousse
+
 #endif

@@ -15,15 +15,6 @@
 //   It might be better if this class were organised as a hierachy starting
 //   from an empty matrix, then deriving diagonal, symmetric and asymmetric
 //   matrices.
-// SourceFiles
-//   _ldu_matrix_at_mul.cpp
-//   _ldu_matrix.cpp
-//   _ldu_matrix_operations.cpp
-//   _ldu_matrix_solver.cpp
-//   _ldu_matrix_preconditioner.cpp
-//   _ldu_matrix_tests.cpp
-//   _ldu_matrix_update_matrix_interfaces.cpp
-
 
 #include "ldu_mesh.hpp"
 #include "field.hpp"
@@ -34,8 +25,9 @@
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Type, class DType, class LUType>
 class LduMatrix;
@@ -46,6 +38,7 @@ Ostream& operator<<
   Ostream&,
   const LduMatrix<Type, DType, LUType>&
 );
+
 
 template<class Type, class DType, class LUType>
 class LduMatrix
@@ -736,14 +729,11 @@ inline void mousse::LduMatrix<Type, DType, LUType>::solver::readControl
   const word& controlName
 )
 {
-  if (controlDict.found(controlName))
-  {
+  if (controlDict.found(controlName)) {
     controlDict.lookup(controlName) >> control;
   }
 }
 
-#ifdef NoRepository
-// #   include "_ldu_matrix_i.hpp"
-#   include "_ldu_matrix.cpp"
-#endif
+#include "_ldu_matrix.ipp"
+
 #endif

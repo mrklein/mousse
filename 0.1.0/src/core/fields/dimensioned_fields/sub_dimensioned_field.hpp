@@ -12,10 +12,13 @@
 //   Thus it is itself unallocated so that no storage is allocated or
 //   deallocated during its use.  To achieve this behaviour,
 //   SubDimensionedField is derived from SubField rather than Field.
+
 #include "field.hpp"
 #include "sub_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type, class GeoMesh>
 class SubDimensionedField
 :
@@ -66,7 +69,9 @@ public:
     //- Allow cast to a const DimensionedField<Type, GeoMesh>&
     inline operator const DimensionedField<Type, GeoMesh>&() const;
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class Type, class GeoMesh>
@@ -77,6 +82,8 @@ inline mousse::SubDimensionedField<Type, GeoMesh>::SubDimensionedField
 :
   SubField<Type>{slist}
 {}
+
+
 template<class Type, class GeoMesh>
 inline mousse::SubDimensionedField<Type, GeoMesh>::SubDimensionedField
 (
@@ -86,6 +93,8 @@ inline mousse::SubDimensionedField<Type, GeoMesh>::SubDimensionedField
 :
   SubField<Type>{list, subSize}
 {}
+
+
 template<class Type, class GeoMesh>
 inline mousse::SubDimensionedField<Type, GeoMesh>::SubDimensionedField
 (
@@ -96,6 +105,8 @@ inline mousse::SubDimensionedField<Type, GeoMesh>::SubDimensionedField
 :
   SubField<Type>{list, subSize, startIndex}
 {}
+
+
 template<class Type, class GeoMesh>
 inline mousse::SubDimensionedField<Type, GeoMesh>::SubDimensionedField
 (
@@ -105,6 +116,8 @@ inline mousse::SubDimensionedField<Type, GeoMesh>::SubDimensionedField
   refCount{},
   SubField<Type>{sfield}
 {}
+
+
 // Member Functions 
 template<class Type, class GeoMesh>
 inline const mousse::SubDimensionedField<Type, GeoMesh>&
@@ -112,6 +125,8 @@ mousse::SubDimensionedField<Type, GeoMesh>::null()
 {
   return NullObjectRef<SubDimensionedField<Type, GeoMesh> >();
 }
+
+
 template<class Type, class GeoMesh>
 inline
 mousse::tmp
@@ -128,6 +143,8 @@ mousse::SubDimensionedField<Type, GeoMesh>::component
     reinterpret_cast<const DimensionedField<Type, GeoMesh>&>(*this)
   ).component(d);
 }
+
+
 template<class Type, class GeoMesh>
 inline mousse::tmp<mousse::DimensionedField<Type, GeoMesh> >
 mousse::SubDimensionedField<Type, GeoMesh>::T() const
@@ -137,6 +154,8 @@ mousse::SubDimensionedField<Type, GeoMesh>::T() const
     reinterpret_cast<const DimensionedField<Type, GeoMesh>&>(*this)
   ).T();
 }
+
+
 // Member Operators 
 template<class Type, class GeoMesh>
 inline void mousse::SubDimensionedField<Type, GeoMesh>::operator=
@@ -147,10 +166,14 @@ inline void mousse::SubDimensionedField<Type, GeoMesh>::operator=
   dimensions() = rhs.dimensions();
   SubField<Type>::operator=(rhs);
 }
+
+
 template<class Type, class GeoMesh>
 inline mousse::SubDimensionedField<Type, GeoMesh>::operator
 const mousse::DimensionedField<Type, GeoMesh>&() const
 {
   return *(reinterpret_cast<const DimensionedField<Type, GeoMesh>*>(this));
 }
+
+
 #endif

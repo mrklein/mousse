@@ -8,16 +8,12 @@
 //   mousse::processorLduInterface
 // Description
 //   An abstract base class for processor coupled interfaces.
-// SourceFiles
-//   processor_ldu_interface.cpp
-//   processor_ldu_interface_templates.cpp
-
 
 #include "ldu_interface.hpp"
 #include "primitive_fields_fwd.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class processorLduInterface
 {
@@ -118,7 +114,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "processor_ldu_interface_templates.cpp"
-#endif
+
+#include "processor_ldu_interface.ipp"
+
 #endif

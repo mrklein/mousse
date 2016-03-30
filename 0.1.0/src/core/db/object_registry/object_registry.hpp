@@ -8,16 +8,14 @@
 //   mousse::objectRegistry
 // Description
 //   Registry of regIOobjects
-// SourceFiles
-//   object_registry.cpp
-
 
 #include "hash_table.hpp"
 #include "reg_ioobject.hpp"
 #include "word_re_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class objectRegistry
 :
   public regIOobject,
@@ -195,7 +193,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "object_registry_templates.cpp"
-#endif
+
+#include "object_registry.ipp"
+
 #endif

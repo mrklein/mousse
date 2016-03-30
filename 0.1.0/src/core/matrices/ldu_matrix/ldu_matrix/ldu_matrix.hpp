@@ -14,16 +14,6 @@
 //   It might be better if this class were organised as a hierachy starting
 //   from an empty matrix, then deriving diagonal, symmetric and asymmetric
 //   matrices.
-// SourceFiles
-//   ldu_matrix_at_mul.cpp
-//   ldu_matrix.cpp
-//   ldu_matrix_templates.cpp
-//   ldu_matrix_operations.cpp
-//   ldu_matrix_solver.cpp
-//   ldu_matrix_preconditioner.cpp
-//   ldu_matrix_tests.cpp
-//   ldu_matrix_update_matrix_interfaces.cpp
-
 
 #include "ldu_mesh.hpp"
 #include "primitive_fields_fwd.hpp"
@@ -35,8 +25,8 @@
 #include "solver_performance.hpp"
 #include "info_proxy.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 class lduMatrix;
@@ -635,7 +625,7 @@ public:
     friend Ostream& operator<<(Ostream&, const InfoProxy<lduMatrix>&);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ldu_matrix_templates.cpp"
-#endif
+
+#include "ldu_matrix.ipp"
+
 #endif

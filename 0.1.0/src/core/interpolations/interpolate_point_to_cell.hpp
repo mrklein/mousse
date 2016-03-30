@@ -4,14 +4,12 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   interpolate_point_to_cell.cpp
-
 
 #include "geometric_field.hpp"
 #include "point_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Interpolate field to cell center.
 template<class Type>
@@ -22,7 +20,7 @@ Type interpolatePointToCell
 );
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "interpolate_point_to_cell.cpp"
-#endif
+
+#include "interpolate_point_to_cell.ipp"
+
 #endif

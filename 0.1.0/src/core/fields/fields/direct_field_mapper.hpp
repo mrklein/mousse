@@ -8,8 +8,10 @@
 //   mousse::directFieldMapper
 // Description
 //   FieldMapper with direct mapping.
-namespace mousse
-{
+
+
+namespace mousse {
+
 class directFieldMapper
 :
   public FieldMapper
@@ -21,11 +23,10 @@ public:
     //- Construct given addressing
     patchFieldSubset(const labelUList& directAddressing)
     :
-      directAddressing_(directAddressing),
-      hasUnmapped_(false)
+      directAddressing_{directAddressing},
+      hasUnmapped_{false}
     {
-      if (directAddressing_.size() && min(directAddressing_) < 0)
-      {
+      if (directAddressing_.size() && min(directAddressing_) < 0) {
         hasUnmapped_ = true;
       }
     }
@@ -50,5 +51,7 @@ public:
       return directAddressing_;
     }
 };
+
 }  // namespace mousse
+
 #endif

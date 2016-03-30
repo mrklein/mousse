@@ -8,4 +8,5 @@
 #include "point.hpp"
 #include "primitive_fields.hpp"
 #include "point_field_fwd.hpp"
+
 #endif

@@ -9,10 +9,7 @@
 // Description
 //   Class to control time during OpenFOAM simulations that is also the
 //   top-level objectRegistry.
-// SourceFiles
-//   time.cpp
-//   time_io.cpp
-//   find_instance.cpp
+
 #include "time_paths.hpp"
 #include "object_registry.hpp"
 #include "iodictionary.hpp"
@@ -29,10 +26,14 @@
 #include "file_monitor.hpp"
 #include "sig_write_now.hpp"
 #include "sig_stop_at_write_now.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class argList;
+
+
 class Time
 :
   public clock,

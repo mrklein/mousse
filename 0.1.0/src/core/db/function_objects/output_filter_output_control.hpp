@@ -13,13 +13,12 @@
 // SourceFiles
 //   output_filter_output_control.cpp
 
-
 #include "dictionary.hpp"
 #include "time.hpp"
 #include "named_enum.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class outputFilterOutputControl
 {

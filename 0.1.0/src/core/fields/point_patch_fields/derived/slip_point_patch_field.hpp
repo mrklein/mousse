@@ -8,11 +8,12 @@
 //   mousse::slipPointPatchField
 // Description
 //   mousse::slipPointPatchField
-// SourceFiles
-//   slip_point_patch_field.cpp
+
 #include "basic_symmetry_point_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class slipPointPatchField
 :
@@ -44,15 +45,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new slipPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new slipPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     slipPointPatchField
@@ -61,23 +59,20 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new slipPointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new slipPointPatchField<Type>{*this, iF}
+      };
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#    include "slip_point_patch_field.cpp"
-#endif
+
+#include "slip_point_patch_field.ipp"
+
 #endif

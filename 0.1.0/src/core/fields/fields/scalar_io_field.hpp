@@ -7,8 +7,11 @@
 
 #include "scalar_field.hpp"
 #include "iofield.hpp"
-namespace mousse
-{
-  typedef IOField<scalar> scalarIOField;
+
+
+namespace mousse {
+
+typedef IOField<scalar> scalarIOField;
+
 }
 #endif

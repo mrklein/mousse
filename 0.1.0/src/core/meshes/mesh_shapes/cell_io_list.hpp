@@ -7,9 +7,13 @@
 
 #include "cell.hpp"
 #include "compact_io_list.hpp"
-namespace mousse
-{
-  typedef IOList<cell> cellIOList;
-  typedef CompactIOList<cell, label> cellCompactIOList;
+
+
+namespace mousse {
+
+typedef IOList<cell> cellIOList;
+typedef CompactIOList<cell, label> cellCompactIOList;
+
 }
+
 #endif

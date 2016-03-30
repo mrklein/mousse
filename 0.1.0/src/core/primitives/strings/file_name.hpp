@@ -19,17 +19,20 @@
 //   file_name.cpp
 //   file_name_io.cpp
 
-
 #include "word.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class T> class List;
 typedef List<word> wordList;
+
 // Forward declaration of friend functions and operators
 class fileName;
 Istream& operator>>(Istream&, fileName&);
 Ostream& operator<<(Ostream&, const fileName&);
+
+
 class fileName
 :
   public string
@@ -112,20 +115,21 @@ public:
     friend Istream& operator>>(Istream&, fileName&);
     friend Ostream& operator<<(Ostream&, const fileName&);
 };
+
 //- Assemble words and fileNames as pathnames by adding a '/' separator
 fileName operator/(const string&, const string&);
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 inline void mousse::fileName::stripInvalid()
 {
-  if (debug && string::stripInvalid<fileName>(*this))
-  {
+  if (debug && string::stripInvalid<fileName>(*this)) {
     std::cerr
       << "fileName::stripInvalid() called for invalid fileName "
       << this->c_str() << std::endl;
-    if (debug > 1)
-    {
+    if (debug > 1) {
       std::cerr
         << "    For debug level (= " << debug
         << ") > 1 this is considered fatal" << std::endl;
@@ -135,37 +139,51 @@ inline void mousse::fileName::stripInvalid()
     removeTrailing('/');
   }
 }
+
+
 // Constructors 
 inline mousse::fileName::fileName()
 :
   string{}
 {}
+
+
 inline mousse::fileName::fileName(const fileName& fn)
 :
   string{fn}
 {}
+
+
 inline mousse::fileName::fileName(const word& w)
 :
   string{w}
 {}
+
+
 inline mousse::fileName::fileName(const string& str)
 :
   string{str}
 {
   stripInvalid();
 }
+
+
 inline mousse::fileName::fileName(const std::string& str)
 :
   string{str}
 {
   stripInvalid();
 }
+
+
 inline mousse::fileName::fileName(const char* str)
 :
   string{str}
 {
   stripInvalid();
 }
+
+
 // Member Functions 
 inline bool mousse::fileName::valid(char c)
 {

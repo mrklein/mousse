@@ -11,11 +11,12 @@
 //   matrices.
 //   To improve efficiency, the residual is evaluated after every nSweeps
 //   sweeps.
-// SourceFiles
-//   fdic_smoother.cpp
+
 #include "ldu_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class FDICSmoother
 :
   public lduMatrix::smoother

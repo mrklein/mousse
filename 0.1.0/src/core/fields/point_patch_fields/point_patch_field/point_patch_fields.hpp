@@ -8,4 +8,5 @@
 #include "point_patch_field.hpp"
 #include "field_types.hpp"
 #include "point_patch_fields_fwd.hpp"
+
 #endif

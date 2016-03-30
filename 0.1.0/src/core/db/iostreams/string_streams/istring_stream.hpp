@@ -8,12 +8,13 @@
 //   mousse::IStringStream
 // Description
 //   Input from memory buffer stream.
-// SourceFiles
-//   string_streams_print.cpp
+
 #include "isstream.hpp"
 #include <sstream>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IStringStream
 :
   public ISstream
@@ -29,12 +30,12 @@ public:
     )
     :
       ISstream
-      (
+      {
         *(new std::istringstream(buffer)),
         "IStringStream.sourceFile",
         format,
         version
-      )
+      }
     {}
     //- Construct from char*
     IStringStream
@@ -45,12 +46,12 @@ public:
     )
     :
       ISstream
-      (
+      {
         *(new std::istringstream(buffer)),
         "IStringStream.sourceFile",
         format,
         version
-      )
+      }
     {}
   //- Destructor
   ~IStringStream()

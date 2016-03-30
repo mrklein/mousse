@@ -11,13 +11,18 @@
 //   Thus it is itself unallocated so that no storage is allocated or
 //   deallocated during its use.  To achieve this behaviour, SubField is
 //   derived from a SubList rather than a List.
+
 #include "sub_list.hpp"
 #include "field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 //- Pre-declare SubField and related Field type
 template<class Type> class Field;
 template<class Type> class SubField;
+
+
 template<class Type>
 class SubField
 :
@@ -62,6 +67,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Constructors 
 template<class Type>
 inline mousse::SubField<Type>::SubField
@@ -71,6 +77,8 @@ inline mousse::SubField<Type>::SubField
 :
   SubList<Type>{list}
 {}
+
+
 template<class Type>
 inline mousse::SubField<Type>::SubField
 (
@@ -79,6 +87,8 @@ inline mousse::SubField<Type>::SubField
 :
   SubList<Type>{list, list.size()}
 {}
+
+
 template<class Type>
 inline mousse::SubField<Type>::SubField
 (
@@ -88,6 +98,8 @@ inline mousse::SubField<Type>::SubField
 :
   SubList<Type>{list, subSize}
 {}
+
+
 template<class Type>
 inline mousse::SubField<Type>::SubField
 (
@@ -98,6 +110,8 @@ inline mousse::SubField<Type>::SubField
 :
   SubList<Type>{list, subSize, startIndex}
 {}
+
+
 template<class Type>
 inline mousse::SubField<Type>::SubField
 (
@@ -107,12 +121,16 @@ inline mousse::SubField<Type>::SubField
   refCount{},
   SubList<Type>{sfield}
 {}
+
+
 // Member Functions 
 template<class Type>
 inline const mousse::SubField<Type>& mousse::SubField<Type>::null()
 {
   return NullObjectRef<SubField<Type>>();
 }
+
+
 template<class Type>
 inline mousse::tmp<mousse::Field<typename mousse::SubField<Type>::cmptType>>
 mousse::SubField<Type>::component
@@ -122,20 +140,27 @@ mousse::SubField<Type>::component
 {
   return (reinterpret_cast<const Field<Type>&>(*this)).component(d);
 }
+
+
 template<class Type>
 inline mousse::tmp<mousse::Field<Type>> mousse::SubField<Type>::T() const
 {
   return (reinterpret_cast<const Field<Type>&>(*this)).T();
 }
+
+
 // Member Operators 
 template<class Type>
 inline void mousse::SubField<Type>::operator=(const SubField<Type>& rhs)
 {
   UList<Type>::operator=(rhs);
 }
+
+
 template<class Type>
 inline mousse::SubField<Type>::operator const mousse::Field<Type>&() const
 {
   return *reinterpret_cast< const Field<Type>* >(this);
 }
+
 #endif

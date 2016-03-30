@@ -4,8 +4,7 @@
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   long.cpp
-//   long_io.cpp
+
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
 #include <climits>
@@ -16,17 +15,22 @@
 #ifndef LONG_MIN
 #define LONG_MIN 0
 #endif
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 //- Return a word representation of an long
 word name(const long);
+
 // IOstream Operators 
 long readLong(Istream&);
 bool read(const char*, long&);
 Istream& operator>>(Istream&, long&);
 Ostream& operator<<(Ostream&, const long);
+
 //- Template specialization for pTraits<long>
 template<>
 class pTraits<long>
@@ -68,5 +72,7 @@ public:
       return p_;
     }
 };
+
 }  // namespace mousse
+
 #endif

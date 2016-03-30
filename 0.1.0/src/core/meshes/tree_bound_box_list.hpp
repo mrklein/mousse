@@ -7,8 +7,12 @@
 
 #include "tree_bound_box.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef List<treeBoundBox> treeBoundBoxList;
+
+
+namespace mousse {
+
+typedef List<treeBoundBox> treeBoundBoxList;
+
 }
+
 #endif

@@ -7,11 +7,13 @@
 #include "electromagnetic_constants.hpp"
 #include "atomic_constants.hpp"
 #include "dimensioned_constants.hpp"
-namespace mousse
-{
-namespace constant
-{
+
+
+namespace mousse {
+namespace constant {
+
 const char* const atomic::group = "atomic";
+
 // Note: cannot use dimless etc. since not guaranteed to be constructed
 DEFINE_DIMENSIONED_CONSTANT_WITH_DEFAULT
 (
@@ -31,6 +33,8 @@ DEFINE_DIMENSIONED_CONSTANT_WITH_DEFAULT
   constantatomicalpha,
   "alpha"
 );
+
+
 DEFINE_DIMENSIONED_CONSTANT_WITH_DEFAULT
 (
   atomic::group,

@@ -6,6 +6,8 @@
 #include "point_hit.hpp"
 #include "tri_point_ref.hpp"
 #include "line.hpp"
+
+
 // Return potential intersection with face with a ray starting
 // at p, direction n (does not need to be normalized)
 // Does face-center decomposition and returns triangle intersection
@@ -23,8 +25,7 @@ mousse::pointHit mousse::face::ray
 ) const
 {
   // If the face is a triangle, do a direct calculation
-  if (size() == 3)
-  {
+  if (size() == 3) {
     return triPointRef
     (
       meshPoints[operator[](0)],
@@ -37,12 +38,11 @@ mousse::pointHit mousse::face::ray
   scalar nearestMissDist = GREAT;
   bool eligible = false;
   // Initialize to miss, distance = GREAT
-  pointHit nearest(p);
+  pointHit nearest{p};
   const labelList& f = *this;
   label nPoints = size();
   point nextPoint = ctr;
-  for (label pI = 0; pI < nPoints; pI++)
-  {
+  for (label pI = 0; pI < nPoints; pI++) {
     nextPoint = meshPoints[f[fcIndex(pI)]];
     // Note: for best accuracy, centre point always comes last
     //
@@ -52,31 +52,24 @@ mousse::pointHit mousse::face::ray
       nextPoint,
       ctr
     ).ray(p, n, alg, dir);
-    if (curHit.hit())
-    {
-      if (mousse::mag(curHit.distance()) < mousse::mag(nearestHitDist))
-      {
+    if (curHit.hit()) {
+      if (mousse::mag(curHit.distance()) < mousse::mag(nearestHitDist)) {
         nearestHitDist = curHit.distance();
         nearest.setHit();
         nearest.setPoint(curHit.hitPoint());
       }
-    }
-    else if (!nearest.hit())
-    {
+    } else if (!nearest.hit()) {
       // Miss and no hit yet. Update miss statistics.
-      if (curHit.eligibleMiss())
-      {
+      if (curHit.eligibleMiss()) {
         eligible = true;
         // Miss distance is the distance between the plane intersection
         // point and the nearest point of the triangle
         scalar missDist =
           mousse::mag
           (
-            p + curHit.distance()*n
-           - curHit.missPoint()
+            p + curHit.distance()*n - curHit.missPoint()
           );
-        if (missDist < nearestMissDist)
-        {
+        if (missDist < nearestMissDist) {
           nearestMissDist = missDist;
           nearest.setDistance(curHit.distance());
           nearest.setPoint(curHit.missPoint());
@@ -84,17 +77,16 @@ mousse::pointHit mousse::face::ray
       }
     }
   }
-  if (nearest.hit())
-  {
+  if (nearest.hit()) {
     nearest.setDistance(nearestHitDist);
-  }
-  else
-  {
+  } else {
     // Haven't hit a single face triangle
     nearest.setMiss(eligible);
   }
   return nearest;
 }
+
+
 mousse::pointHit mousse::face::intersection
 (
   const point& p,
@@ -106,8 +98,7 @@ mousse::pointHit mousse::face::intersection
 ) const
 {
   // If the face is a triangle, do a direct calculation
-  if (size() == 3)
-  {
+  if (size() == 3) {
     return triPointRef
     (
       meshPoints[operator[](0)],
@@ -117,10 +108,9 @@ mousse::pointHit mousse::face::intersection
   }
   scalar nearestHitDist = VGREAT;
   // Initialize to miss, distance = GREAT
-  pointHit nearest(p);
+  pointHit nearest{p};
   const labelList& f = *this;
-  FOR_ALL(f, pI)
-  {
+  FOR_ALL(f, pI) {
     // Note: for best accuracy, centre point always comes last
     pointHit curHit = triPointRef
     (
@@ -128,22 +118,21 @@ mousse::pointHit mousse::face::intersection
       meshPoints[f[fcIndex(pI)]],
       ctr
     ).intersection(p, q, alg, tol);
-    if (curHit.hit())
-    {
-      if (mousse::mag(curHit.distance()) < mousse::mag(nearestHitDist))
-      {
+    if (curHit.hit()) {
+      if (mousse::mag(curHit.distance()) < mousse::mag(nearestHitDist)) {
         nearestHitDist = curHit.distance();
         nearest.setHit();
         nearest.setPoint(curHit.hitPoint());
       }
     }
   }
-  if (nearest.hit())
-  {
+  if (nearest.hit()) {
     nearest.setDistance(nearestHitDist);
   }
   return nearest;
 }
+
+
 mousse::pointHit mousse::face::nearestPoint
 (
   const point& p,
@@ -155,6 +144,8 @@ mousse::pointHit mousse::face::nearestPoint
   label nearLabel = -1;
   return nearestPointClassify(p, meshPoints, nearType, nearLabel);
 }
+
+
 mousse::pointHit mousse::face::nearestPointClassify
 (
   const point& p,
@@ -164,8 +155,7 @@ mousse::pointHit mousse::face::nearestPointClassify
 ) const
 {
   // If the face is a triangle, do a direct calculation
-  if (size() == 3)
-  {
+  if (size() == 3) {
     return triPointRef
     (
       meshPoints[operator[](0)],
@@ -176,57 +166,49 @@ mousse::pointHit mousse::face::nearestPointClassify
   const face& f = *this;
   point ctr = centre(meshPoints);
   // Initialize to miss, distance=GREAT
-  pointHit nearest(p);
+  pointHit nearest{p};
   nearType = -1;
   nearLabel = -1;
   label nPoints = f.size();
   point nextPoint = ctr;
-  for (label pI = 0; pI < nPoints; pI++)
-  {
+  for (label pI = 0; pI < nPoints; pI++) {
     nextPoint = meshPoints[f[fcIndex(pI)]];
     label tmpNearType = -1;
     label tmpNearLabel = -1;
     // Note: for best accuracy, centre point always comes last
     triPointRef tri
-    (
+    {
       meshPoints[f[pI]],
       nextPoint,
       ctr
-    );
+    };
     pointHit curHit = tri.nearestPointClassify
     (
       p,
       tmpNearType,
       tmpNearLabel
     );
-    if (mousse::mag(curHit.distance()) < mousse::mag(nearest.distance()))
-    {
+    if (mousse::mag(curHit.distance()) < mousse::mag(nearest.distance())) {
       nearest.setDistance(curHit.distance());
       // Assume at first that the near type is NONE on the
       // triangle (i.e. on the face of the triangle) then it is
       // therefore also for the face.
       nearType = NONE;
-      if (tmpNearType == triPointRef::EDGE && tmpNearLabel == 0)
-      {
+      if (tmpNearType == triPointRef::EDGE && tmpNearLabel == 0) {
         // If the triangle edge label is 0, then this is also
         // an edge of the face, if not, it is on the face
         nearType = EDGE;
         nearLabel = pI;
-      }
-      else if (tmpNearType == triPointRef::POINT && tmpNearLabel < 2)
-      {
+      } else if (tmpNearType == triPointRef::POINT && tmpNearLabel < 2) {
         // If the triangle point label is 0 or 1, then this is
         // also a point of the face, if not, it is on the face
         nearType = POINT;
         nearLabel = pI + tmpNearLabel;
       }
-      if (curHit.hit())
-      {
+      if (curHit.hit()) {
         nearest.setHit();
         nearest.setPoint(curHit.hitPoint());
-      }
-      else
-      {
+      } else {
         // In nearest point, miss is always eligible
         nearest.setMiss(true);
         nearest.setPoint(curHit.missPoint());
@@ -235,3 +217,4 @@ mousse::pointHit mousse::face::nearestPointClassify
   }
   return nearest;
 }
+

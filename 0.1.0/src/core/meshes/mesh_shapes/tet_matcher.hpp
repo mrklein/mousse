@@ -10,14 +10,11 @@
 //   A cellMatcher for tet cells
 // See Also
 //   cellMatcher
-// SourceFiles
-//   tet_matcher.cpp
-
 
 #include "cell_matcher.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class tetMatcher
 :

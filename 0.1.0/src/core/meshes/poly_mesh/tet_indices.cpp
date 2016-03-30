@@ -3,16 +3,20 @@
 // Copyright (C) 2016 mousse project
 
 #include "tet_indices.hpp"
+
+
 // Constructors 
 mousse::tetIndices::tetIndices()
 :
-  cellI_(-1),
-  faceI_(-1),
-  faceBasePtI_(-1),
-  facePtAI_(-1),
-  facePtBI_(-1),
-  tetPtI_(-1)
+  cellI_{-1},
+  faceI_{-1},
+  faceBasePtI_{-1},
+  facePtAI_{-1},
+  facePtBI_{-1},
+  tetPtI_{-1}
 {}
+
+
 mousse::tetIndices::tetIndices
 (
   label cellI,
@@ -23,13 +27,15 @@ mousse::tetIndices::tetIndices
   label tetPtI
 )
 :
-  cellI_(cellI),
-  faceI_(faceI),
-  faceBasePtI_(faceBasePtI),
-  facePtAI_(facePtAI),
-  facePtBI_(facePtBI),
-  tetPtI_(tetPtI)
+  cellI_{cellI},
+  faceI_{faceI},
+  faceBasePtI_{faceBasePtI},
+  facePtAI_{facePtAI},
+  facePtBI_{facePtBI},
+  tetPtI_{tetPtI}
 {}
+
+
 mousse::tetIndices::tetIndices
 (
   label cellI,
@@ -38,12 +44,12 @@ mousse::tetIndices::tetIndices
   const polyMesh& mesh
 )
 :
-  cellI_(cellI),
-  faceI_(faceI),
-  faceBasePtI_(-1),
-  facePtAI_(-1),
-  facePtBI_(-1),
-  tetPtI_(tetPtI)
+  cellI_{cellI},
+  faceI_{faceI},
+  faceBasePtI_{-1},
+  facePtAI_{-1},
+  facePtBI_{-1},
+  tetPtI_{tetPtI}
 {
   const faceList& pFaces = mesh.faces();
   const labelList& pOwner = mesh.faceOwner();
@@ -52,24 +58,25 @@ mousse::tetIndices::tetIndices
   faceBasePtI_ = mesh.tetBasePtIs()[faceI_];
   label facePtI = (tetPtI_ + faceBasePtI_) % f.size();
   label otherFacePtI = f.fcIndex(facePtI);
-  if (own)
-  {
+  if (own) {
     facePtAI_ = facePtI;
     facePtBI_ = otherFacePtI;
-  }
-  else
-  {
+  } else {
     facePtAI_ = otherFacePtI;
     facePtBI_ = facePtI;
   }
 }
+
+
 // Destructor 
 mousse::tetIndices::~tetIndices()
 {}
+
+
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, tetIndices& tI)
 {
-  is  >> tI.cell()
+  is >> tI.cell()
     >> tI.face()
     >> tI.faceBasePt()
     >> tI.facePtA()
@@ -82,9 +89,11 @@ mousse::Istream& mousse::operator>>(Istream& is, tetIndices& tI)
   );
   return is;
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const tetIndices& tI)
 {
-  os  << tI.cell() << token::SPACE
+  os << tI.cell() << token::SPACE
     << tI.face() << token::SPACE
     << tI.faceBasePt() << token::SPACE
     << tI.facePtA() << token::SPACE

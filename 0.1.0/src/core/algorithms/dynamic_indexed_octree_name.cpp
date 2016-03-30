@@ -5,8 +5,7 @@
 #include "dynamic_indexed_octree.hpp"
 
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(dynamicIndexedOctreeName, 0);
 

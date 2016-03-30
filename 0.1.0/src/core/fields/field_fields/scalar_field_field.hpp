@@ -4,16 +4,15 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   scalar_field_field.cpp
-
 
 #include "field_field.hpp"
 #include "scalar.hpp"
 #define TEMPLATE template<template<class> class Field>
-#include "field_field_functions_m.hpp"
+#include "field_field_functions_m.inc"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<template<class> class Field>
 void stabilise
 (
@@ -21,18 +20,21 @@ void stabilise
   const FieldField<Field, scalar>& sf,
   const scalar s
 );
+
 template<template<class> class Field>
 tmp<FieldField<Field, scalar> > stabilise
 (
   const FieldField<Field, scalar>&,
   const scalar s
 );
+
 template<template<class> class Field>
 tmp<FieldField<Field, scalar> > stabilise
 (
   const tmp<FieldField<Field, scalar> >&,
   const scalar s
 );
+
 BINARY_TYPE_OPERATOR(scalar, scalar, scalar, +, add)
 BINARY_TYPE_OPERATOR(scalar, scalar, scalar, -, subtract)
 BINARY_OPERATOR(scalar, scalar, scalar, *, multiply)
@@ -93,8 +95,7 @@ BESSEL_FUNC(yn)
 #undef BESSEL_FUNC
 }  // namespace mousse
 
-#include "undef_field_functions_m.hpp"
-#ifdef NoRepository
-#   include "scalar_field_field.cpp"
-#endif
+#include "undef_field_functions_m.inc"
+#include "scalar_field_field.ipp"
+
 #endif

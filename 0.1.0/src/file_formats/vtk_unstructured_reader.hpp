@@ -19,17 +19,14 @@
 //   - CELL_DATA or POINT_DATA gets stored on the corresponding objectRegistry
 //    in original vtk numbering order so use e.g. faceMap() to go from entry
 //    in faces() back to vtk numbering.
-// SourceFiles
-//   vtk_unstructured_reader.cpp
-
 
 #include "object_registry.hpp"
 #include "cell_shape_list.hpp"
 #include "hash_set.hpp"
 #include "named_enum.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class vtkUnstructuredReader
 {
@@ -315,7 +312,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "vtk_unstructured_reader_templates.cpp"
-#endif
+#include "vtk_unstructured_reader.ipp"
+
 #endif

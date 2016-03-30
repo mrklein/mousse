@@ -9,13 +9,11 @@
 // Description
 //   Class containing mesh-to-mesh mapping information after a patch change
 //   operation.
-// SourceFiles
-
 
 #include "label_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class mapPatchChange
 {

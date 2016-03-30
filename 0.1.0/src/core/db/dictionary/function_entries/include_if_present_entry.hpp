@@ -12,17 +12,12 @@
 //   directive, but does not generate an error if the file does not exist.
 // See Also
 //   mousse::functionEntries::includeEntry
-// SourceFiles
-//   include_if_present_entry.cpp
-
 
 #include "include_entry.hpp"
 
-namespace mousse
-{
 
-namespace functionEntries
-{
+namespace mousse {
+namespace functionEntries {
 
 class includeIfPresentEntry
 :

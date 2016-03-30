@@ -6,8 +6,10 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "list_ops.hpp"
 #include "pair.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(linearInterpolationWeights, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -16,8 +18,9 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   linearInterpolationWeights,
   word
 );
+
 // Private Member Functions 
-mousse::Pair<mousse::scalar> linearInterpolationWeights::integrationWeights
+Pair<scalar> linearInterpolationWeights::integrationWeights
 (
   const label i,
   const scalar t
@@ -25,8 +28,7 @@ mousse::Pair<mousse::scalar> linearInterpolationWeights::integrationWeights
 {
   // t is in range samples_[i] .. samples_[i+1]
   scalar s = (t-samples_[i])/(samples_[i+1]-samples_[i]);
-  if (s < -SMALL || s > 1+SMALL)
-  {
+  if (s < -SMALL || s > 1+SMALL) {
     FATAL_ERROR_IN("linearInterpolationWeights::integrationWeights(..)")
       << "Value " << t << " outside range " << samples_[i]
       << " .. " << samples_[i+1]
@@ -35,15 +37,19 @@ mousse::Pair<mousse::scalar> linearInterpolationWeights::integrationWeights
   scalar d = samples_[i+1]-t;
   return Pair<scalar>(d*0.5*(1-s), d*0.5*(1+s));
 }
+
+
 // Constructors 
 linearInterpolationWeights::linearInterpolationWeights
 (
   const scalarField& samples
 )
 :
-  interpolationWeights(samples),
-  index_(-1)
+  interpolationWeights{samples},
+  index_{-1}
 {}
+
+
 // Member Functions 
 bool linearInterpolationWeights::valueWeights
 (
@@ -54,42 +60,29 @@ bool linearInterpolationWeights::valueWeights
 {
   bool indexChanged = false;
   // Check if current timeIndex is still valid
-  if
-  (
-    index_ >= 0
-  && index_ < samples_.size()
-  && (
-      samples_[index_] <= t
-    && (index_ == samples_.size()-1 || t <= samples_[index_+1])
-    )
-  )
-  {
+  if (index_ >= 0
+      && index_ < samples_.size()
+      && (samples_[index_] <= t
+          && (index_ == samples_.size()-1 || t <= samples_[index_+1]))) {
     // index_ still at correct slot
-  }
-  else
-  {
+  } else {
     // search for correct index
     index_ = findLower(samples_, t);
     indexChanged = true;
   }
-  if (index_ == -1)
-  {
+  if (index_ == -1) {
     // Use first element only
     indices.setSize(1);
     weights.setSize(1);
     indices[0] = 0;
     weights[0] = 1.0;
-  }
-  else if (index_ == samples_.size()-1)
-  {
+  } else if (index_ == samples_.size()-1) {
     // Use last element only
     indices.setSize(1);
     weights.setSize(1);
     indices[0] = samples_.size()-1;
     weights[0] = 1.0;
-  }
-  else
-  {
+  } else {
     // Interpolate
     indices.setSize(2);
     weights.setSize(2);
@@ -103,6 +96,8 @@ bool linearInterpolationWeights::valueWeights
   }
   return indexChanged;
 }
+
+
 bool linearInterpolationWeights::integrationWeights
 (
   const scalar t1,
@@ -111,8 +106,7 @@ bool linearInterpolationWeights::integrationWeights
   scalarField& weights
 ) const
 {
-  if (t2 < t1-VSMALL)
-  {
+  if (t2 < t1-VSMALL) {
     FATAL_ERROR_IN("linearInterpolationWeights::integrationWeights(..)")
       << "Integration should be in positive direction."
       <<  " t1:" << t1 << " t2:" << t2
@@ -124,8 +118,7 @@ bool linearInterpolationWeights::integrationWeights
   //- Find lower index
   label i2 = findLower(samples_, t2);
   // For now just fail if any outside table
-  if (i1 == -1 || i2 == samples_.size()-1)
-  {
+  if (i1 == -1 || i2 == samples_.size()-1) {
     FATAL_ERROR_IN("linearInterpolationWeights::integrationWeights(..)")
       << "Integrating outside table " << samples_[0] << ".."
       << samples_.last() << " not implemented."
@@ -134,18 +127,13 @@ bool linearInterpolationWeights::integrationWeights
   label nIndices = i2-i1+2;
   // Determine if indices already correct
   bool anyChanged = false;
-  if (nIndices != indices.size())
-  {
+  if (nIndices != indices.size()) {
     anyChanged = true;
-  }
-  else
-  {
+  } else {
     // Closer check
     label index = i1;
-    FOR_ALL(indices, i)
-    {
-      if (indices[i] != index)
-      {
+    FOR_ALL(indices, i) {
+      if (indices[i] != index) {
         anyChanged = true;
         break;
       }
@@ -156,8 +144,7 @@ bool linearInterpolationWeights::integrationWeights
   weights.setSize(nIndices);
   weights = 0.0;
   // Sum from i1+1 to i2+1
-  for (label i = i1+1; i <= i2; i++)
-  {
+  for (label i = i1+1; i <= i2; i++) {
     scalar d = samples_[i+1]-samples_[i];
     indices[i-i1] = i;
     weights[i-i1] += 0.5*d;
@@ -182,4 +169,5 @@ bool linearInterpolationWeights::integrationWeights
   }
   return anyChanged;
 }
+
 }  // namespace mousse

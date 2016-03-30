@@ -4,14 +4,17 @@
 
 #include "global_index_and_transform.hpp"
 #include "cyclic_poly_patch.hpp"
+
+
 // Private Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(globalIndexAndTransform, 0);
 const label globalIndexAndTransform::base_ = 32;
 
 }
+
+
 // Private Member Functions
 mousse::label mousse::globalIndexAndTransform::matchTransform
 (
@@ -33,9 +36,8 @@ mousse::label mousse::globalIndexAndTransform::matchTransform
     // Test the difference between vector parts to see if it is
     // less than tolerance times the larger vector part magnitude.
     scalar vectorDiff =
-      mag(refTransform.t() - testTransform.t())
-     /(maxVectorMag + VSMALL)
-     /tolerance;
+      mag(refTransform.t() - testTransform.t())/(maxVectorMag + VSMALL)
+      /tolerance;
     // Test the difference between tensor parts to see if it is
     // less than the tolerance.  sqrt(3.0) factor used to scale
     // differnces as this is magnitude of a rotation tensor.  If
@@ -61,15 +63,15 @@ mousse::label mousse::globalIndexAndTransform::matchTransform
       // Test the inverse transform differences too
       vectorDiff =
         mag(refTransform.t() + testTransform.t())
-       /(maxVectorMag + VSMALL)
-       /tolerance;
+        /(maxVectorMag + VSMALL)
+        /tolerance;
       tensorDiff = 0;
       if (refTransform.hasR() || testTransform.hasR())
       {
         tensorDiff =
           mag(refTransform.R() - testTransform.R().T())
-         /sqrt(3.0)
-         /tolerance;
+          /sqrt(3.0)
+          /tolerance;
       }
       if (vectorDiff < 1 && tensorDiff < 1)
       {
@@ -80,6 +82,8 @@ mousse::label mousse::globalIndexAndTransform::matchTransform
   }
   return 0;
 }
+
+
 void mousse::globalIndexAndTransform::determineTransforms()
 {
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
@@ -92,17 +96,10 @@ void mousse::globalIndexAndTransform::determineTransforms()
     const polyPatch& pp = patches[patchI];
     // Note: special check for unordered cyclics. These are in fact
     // transform bcs and should probably be split off.
-    if
-    (
-      isA<coupledPolyPatch>(pp)
-    && !(
-        isA<cyclicPolyPatch>(pp)
-      && (
-          refCast<const cyclicPolyPatch>(pp).transform()
-        == cyclicPolyPatch::NOORDERING
-        )
-      )
-    )
+    if (isA<coupledPolyPatch>(pp)
+        && !(isA<cyclicPolyPatch>(pp)
+             && (refCast<const cyclicPolyPatch>(pp).transform()
+                 == cyclicPolyPatch::NOORDERING)))
     {
       const coupledPolyPatch& cpp = refCast<const coupledPolyPatch>(pp);
       if (cpp.separated())
@@ -132,9 +129,10 @@ void mousse::globalIndexAndTransform::determineTransforms()
                 (
                   "void mousse::globalIndexAndTransform::"
                   "determineTransforms()"
-                )   << "More than six unsigned transforms"
-                  << " detected:" << nl << transforms_
-                  << exit(FatalError);
+                )
+                << "More than six unsigned transforms"
+                << " detected:" << nl << transforms_
+                << exit(FatalError);
               }
               transforms_[nextTrans] = transform;
               maxTol[nextTrans++] = cpp.matchTolerance();
@@ -169,9 +167,10 @@ void mousse::globalIndexAndTransform::determineTransforms()
                 (
                   "void mousse::globalIndexAndTransform::"
                   "determineTransforms()"
-                )   << "More than six unsigned transforms"
-                  << " detected:" << nl << transforms_
-                  << exit(FatalError);
+                )
+                << "More than six unsigned transforms"
+                << " detected:" << nl << transforms_
+                << exit(FatalError);
               }
               transforms_[nextTrans] = transform;
               maxTol[nextTrans++] = cpp.matchTolerance();
@@ -182,7 +181,7 @@ void mousse::globalIndexAndTransform::determineTransforms()
     }
   }
   // Collect transforms on master
-  List<List<vectorTensorTransform> > allTransforms(Pstream::nProcs());
+  List<List<vectorTensorTransform>> allTransforms(Pstream::nProcs());
   allTransforms[Pstream::myProcNo()] = transforms_;
   Pstream::gatherList(allTransforms);
   // Collect matching tolerance on master
@@ -223,11 +222,11 @@ void mousse::globalIndexAndTransform::determineTransforms()
               "void mousse::globalIndexAndTransform::"
               "determineTransforms()"
             )
-              << "More than three independent basic "
-              << "transforms detected:" << nl
-              << allTransforms
-              << transforms_
-              << exit(FatalError);
+            << "More than three independent basic "
+            << "transforms detected:" << nl
+            << allTransforms
+            << transforms_
+            << exit(FatalError);
           }
         }
       }
@@ -240,14 +239,17 @@ void mousse::globalIndexAndTransform::determineTransforms()
     WARNING_IN
     (
       "void globalIndexAndTransform::determineTransforms()"
-    )   << "More than three independent basic "
-      << "transforms detected:" << nl
-      << transforms_ << nl
-      << "This is not a space filling tiling and will probably"
-      << " give problems for e.g. lagrangian tracking or interpolation"
-      << endl;
+    )
+    << "More than three independent basic "
+    << "transforms detected:" << nl
+    << transforms_ << nl
+    << "This is not a space filling tiling and will probably"
+    << " give problems for e.g. lagrangian tracking or interpolation"
+    << endl;
   }
 }
+
+
 void mousse::globalIndexAndTransform::determineTransformPermutations()
 {
   label nTransformPermutations = pow(label(3), transforms_.size());
@@ -277,6 +279,8 @@ void mousse::globalIndexAndTransform::determineTransformPermutations()
   labelList permutationIndices(nIndependentTransforms(), 0);
   nullTransformIndex_ = encodeTransformIndex(permutationIndices);
 }
+
+
 void mousse::globalIndexAndTransform::determinePatchTransformSign()
 {
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
@@ -285,20 +289,12 @@ void mousse::globalIndexAndTransform::determinePatchTransformSign()
   FOR_ALL(patches, patchI)
   {
     const polyPatch& pp = patches[patchI];
-    // Pout<< nl << patchI << " " << pp.name() << endl;
     // Note: special check for unordered cyclics. These are in fact
     // transform bcs and should probably be split off.
-    if
-    (
-      isA<coupledPolyPatch>(pp)
-    && !(
-        isA<cyclicPolyPatch>(pp)
-      && (
-          refCast<const cyclicPolyPatch>(pp).transform()
-        == cyclicPolyPatch::NOORDERING
-        )
-      )
-    )
+    if (isA<coupledPolyPatch>(pp)
+        && !(isA<cyclicPolyPatch>(pp)
+             && (refCast<const cyclicPolyPatch>(pp).transform()
+                 == cyclicPolyPatch::NOORDERING)))
     {
       const coupledPolyPatch& cpp =
       refCast<const coupledPolyPatch>(pp);
@@ -322,15 +318,6 @@ void mousse::globalIndexAndTransform::determinePatchTransformSign()
               cpp.matchTolerance(),
               true
             );
-            // Pout<< sign << " " << matchTransI << endl;
-            // List<label> permutation(transforms_.size(), 0);
-            // permutation[matchTransI] = sign;
-            // Pout<< encodeTransformIndex(permutation) << nl
-            //     << transformPermutations_
-            //        [
-            //            encodeTransformIndex(permutation)
-            //        ]
-            //     << endl;
             patchTransformSign_[patchI] =
               Pair<label>(matchTransI, sign);
           }
@@ -356,15 +343,6 @@ void mousse::globalIndexAndTransform::determinePatchTransformSign()
               cpp.matchTolerance(),
               true
             );
-            // Pout<< sign << " " << matchTransI << endl;
-            // List<label> permutation(transforms_.size(), 0);
-            // permutation[matchTransI] = sign;
-            // Pout<< encodeTransformIndex(permutation) << nl
-            //     << transformPermutations_
-            //        [
-            //            encodeTransformIndex(permutation)
-            //        ]
-            //     << endl;
             patchTransformSign_[patchI] =
               Pair<label>(matchTransI, sign);
           }
@@ -372,47 +350,43 @@ void mousse::globalIndexAndTransform::determinePatchTransformSign()
       }
     }
   }
-  // Pout<< patchTransformSign_ << endl;
 }
+
+
 // Constructors
 mousse::globalIndexAndTransform::globalIndexAndTransform
 (
   const polyMesh& mesh
 )
 :
-  mesh_(mesh),
-  transforms_(),
-  transformPermutations_(),
-  patchTransformSign_()
+  mesh_{mesh},
+  transforms_{},
+  transformPermutations_{},
+  patchTransformSign_{}
 {
   determineTransforms();
   determineTransformPermutations();
   determinePatchTransformSign();
-  if (debug && transforms_.size() > 0)
-  {
+  if (debug && transforms_.size() > 0) {
     const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-    Info<< "Determined global transforms :" << endl;
-    Info<< "\t\ttranslation\trotation" << endl;
+    Info << "Determined global transforms :" << endl;
+    Info << "\t\ttranslation\trotation" << endl;
     FOR_ALL(transforms_, i)
     {
-      Info<< '\t' << i << '\t';
+      Info << '\t' << i << '\t';
       const vectorTensorTransform& trafo = transforms_[i];
-      if (trafo.hasR())
-      {
-        Info<< trafo.t() << '\t' << trafo.R();
-      }
-      else
-      {
-        Info<< trafo.t() << '\t' << "---";
+      if (trafo.hasR()) {
+        Info << trafo.t() << '\t' << trafo.R();
+      } else {
+        Info << trafo.t() << '\t' << "---";
       }
       Info<< endl;
     }
-    Info<< endl;
-    Info<< "\tpatch\ttransform\tsign" << endl;
+    Info << endl;
+    Info << "\tpatch\ttransform\tsign" << endl;
     FOR_ALL(patchTransformSign_, patchI)
     {
-      if (patchTransformSign_[patchI].first() != -1)
-      {
+      if (patchTransformSign_[patchI].first() != -1) {
         Info
           << '\t' << patches[patchI].name()
           << '\t' << patchTransformSign_[patchI].first()
@@ -420,24 +394,21 @@ mousse::globalIndexAndTransform::globalIndexAndTransform
           << endl;
       }
     }
-    Info<< endl;
-    Info<< "Permutations of transformations:" << endl
+    Info << endl;
+    Info << "Permutations of transformations:" << endl
       << "\t\ttranslation\trotation" << endl;
     FOR_ALL(transformPermutations_, i)
     {
-      Info<< '\t' << i << '\t';
+      Info << '\t' << i << '\t';
       const vectorTensorTransform& trafo = transformPermutations_[i];
-      if (trafo.hasR())
-      {
-        Info<< trafo.t() << '\t' << trafo.R();
+      if (trafo.hasR()) {
+        Info << trafo.t() << '\t' << trafo.R();
+      } else {
+        Info << trafo.t() << '\t' << "---";
       }
-      else
-      {
-        Info<< trafo.t() << '\t' << "---";
-      }
-      Info<< endl;
+      Info << endl;
     }
-    Info<< "nullTransformIndex:" << nullTransformIndex() << endl
+    Info << "nullTransformIndex:" << nullTransformIndex() << endl
       << endl;
   }
 }

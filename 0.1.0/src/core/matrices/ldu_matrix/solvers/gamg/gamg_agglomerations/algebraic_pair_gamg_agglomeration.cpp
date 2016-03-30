@@ -6,6 +6,7 @@
 #include "ldu_matrix.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -20,6 +21,7 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 
 }
 
+
 // Constructors 
 mousse::algebraicPairGAMGAgglomeration::algebraicPairGAMGAgglomeration
 (
@@ -27,7 +29,7 @@ mousse::algebraicPairGAMGAgglomeration::algebraicPairGAMGAgglomeration
   const dictionary& controlDict
 )
 :
-  pairGAMGAgglomeration(matrix.mesh(), controlDict)
+  pairGAMGAgglomeration{matrix.mesh(), controlDict}
 {
   agglomerate(matrix.mesh(), mag(matrix.upper()));
 }

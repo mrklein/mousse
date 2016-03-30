@@ -4,6 +4,7 @@
 
 #include "cell_shape_io_list.hpp"
 
+
 namespace mousse {
 
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME(cellShapeIOList, "shapeList", 0);

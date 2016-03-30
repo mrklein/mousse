@@ -8,14 +8,12 @@
 //   mousse::TGaussSeidelSmoother
 // Description
 //   mousse::TGaussSeidelSmoother
-// SourceFiles
-//   tgauss_seidel_smoother.cpp
-
 
 #include "_ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class DType, class LUType>
 class TGaussSeidelSmoother
 :
@@ -51,8 +49,10 @@ public:
       const label nSweeps
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "tgauss_seidel_smoother.cpp"
-#endif
+
+
+#include "tgauss_seidel_smoother.ipp"
+
 #endif

@@ -6,6 +6,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "gamg_agglomeration.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -20,6 +21,7 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 
 }
 
+
 // Private Member Functions 
 // Constructors 
 mousse::masterCoarsestGAMGProcAgglomeration::masterCoarsestGAMGProcAgglomeration
@@ -28,45 +30,40 @@ mousse::masterCoarsestGAMGProcAgglomeration::masterCoarsestGAMGProcAgglomeration
   const dictionary& controlDict
 )
 :
-  GAMGProcAgglomeration(agglom, controlDict)
+  GAMGProcAgglomeration{agglom, controlDict}
 {}
 
+
 // Destructor 
-mousse::masterCoarsestGAMGProcAgglomeration::
-~masterCoarsestGAMGProcAgglomeration()
+mousse::masterCoarsestGAMGProcAgglomeration::~masterCoarsestGAMGProcAgglomeration()
 {
-  FOR_ALL_REVERSE(comms_, i)
-  {
-    if (comms_[i] != -1)
-    {
+  FOR_ALL_REVERSE(comms_, i) {
+    if (comms_[i] != -1) {
       UPstream::freeCommunicator(comms_[i]);
     }
   }
 }
 
+
 // Member Functions 
 bool mousse::masterCoarsestGAMGProcAgglomeration::agglomerate()
 {
-  if (debug)
-  {
-    Pout<< nl << "Starting mesh overview" << endl;
+  if (debug) {
+    Pout << nl << "Starting mesh overview" << endl;
     printStats(Pout, agglom_);
   }
-  if (agglom_.size() >= 1)
-  {
+  if (agglom_.size() >= 1) {
     // Agglomerate one but last level (since also agglomerating
     // restrictAddressing)
     label fineLevelIndex = agglom_.size()-1;
-    if (agglom_.hasMeshLevel(fineLevelIndex))
-    {
+    if (agglom_.hasMeshLevel(fineLevelIndex)) {
       // Get the fine mesh
       const lduMesh& levelMesh = agglom_.meshLevel(fineLevelIndex);
       label levelComm = levelMesh.comm();
       label nProcs = UPstream::nProcs(levelComm);
-      if (nProcs > 1)
-      {
+      if (nProcs > 1) {
         // Processor restriction map: per processor the coarse processor
-        labelList procAgglomMap(nProcs, 0);
+        labelList procAgglomMap{nProcs, 0};
         // Master processor
         labelList masterProcs;
         // Local processors that agglomerate. agglomProcIDs[0] is in
@@ -89,8 +86,7 @@ bool mousse::masterCoarsestGAMGProcAgglomeration::agglomerate()
           )
         );
         // Use procesor agglomeration maps to do the actual collecting.
-        if (Pstream::myProcNo(levelComm) != -1)
-        {
+        if (Pstream::myProcNo(levelComm) != -1) {
           GAMGProcAgglomeration::agglomerate
           (
             fineLevelIndex,
@@ -104,9 +100,8 @@ bool mousse::masterCoarsestGAMGProcAgglomeration::agglomerate()
     }
   }
   // Print a bit
-  if (debug)
-  {
-    Pout<< nl << "Agglomerated mesh overview" << endl;
+  if (debug) {
+    Pout << nl << "Agglomerated mesh overview" << endl;
     printStats(Pout, agglom_);
   }
   return true;

@@ -8,16 +8,13 @@
 //   mousse::IOobjectList
 // Description
 //   List of IOobjects with searching and retrieving facilities.
-// SourceFiles
-//   ioobject_list.cpp
-
 
 #include "hash_ptr_table.hpp"
 #include "ioobject.hpp"
 #include "word_re_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class IOobjectList
 :

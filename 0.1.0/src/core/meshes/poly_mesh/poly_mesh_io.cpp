@@ -5,12 +5,13 @@
 #include "poly_mesh.hpp"
 #include "time.hpp"
 #include "cell_io_list.hpp"
+
+
 // Member Functions 
 void mousse::polyMesh::setInstance(const fileName& inst)
 {
-  if (debug)
-  {
-    Info<< "void polyMesh::setInstance(const fileName& inst) : "
+  if (debug) {
+    Info << "void polyMesh::setInstance(const fileName& inst) : "
       << "Resetting file instance to " << inst << endl;
   }
   points_.writeOpt() = IOobject::AUTO_WRITE;
@@ -30,32 +31,30 @@ void mousse::polyMesh::setInstance(const fileName& inst)
   cellZones_.writeOpt() = IOobject::AUTO_WRITE;
   cellZones_.instance() = inst;
 }
+
+
 mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
 {
-  if (debug)
-  {
-    Info<< "polyMesh::readUpdateState polyMesh::readUpdate() : "
+  if (debug) {
+    Info << "polyMesh::readUpdateState polyMesh::readUpdate() : "
       << "Updating mesh based on saved data." << endl;
   }
   // Find the point and cell instance
-  fileName pointsInst(time().findInstance(meshDir(), "points"));
-  fileName facesInst(time().findInstance(meshDir(), "faces"));
-  //fileName boundaryInst(time().findInstance(meshDir(), "boundary"));
-  if (debug)
-  {
-    Info<< "Faces instance: old = " << facesInstance()
+  fileName pointsInst{time().findInstance(meshDir(), "points")};
+  fileName facesInst{time().findInstance(meshDir(), "faces")};
+
+  if (debug) {
+    Info << "Faces instance: old = " << facesInstance()
       << " new = " << facesInst << nl
       //<< "Boundary instance: old = " << boundary_.instance()
       //<< " new = " << boundaryInst << nl
       << "Points instance: old = " << pointsInstance()
       << " new = " << pointsInst << endl;
   }
-  if (facesInst != facesInstance())
-  {
+  if (facesInst != facesInstance()) {
     // Topological change
-    if (debug)
-    {
-      Info<< "Topological change" << endl;
+    if (debug) {
+      Info << "Topological change" << endl;
     }
     clearOut();
     // Set instance to new instance. Note that points instance can differ
@@ -63,9 +62,8 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
     setInstance(facesInst);
     points_.instance() = pointsInst;
     points_ = pointIOField
-    (
-      IOobject
-      (
+    {
+      {
         "points",
         pointsInst,
         meshSubDir,
@@ -73,12 +71,11 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::MUST_READ,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     faces_ = faceCompactIOList
-    (
-      IOobject
-      (
+    {
+      {
         "faces",
         facesInst,
         meshSubDir,
@@ -86,12 +83,11 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::MUST_READ,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     owner_ = labelIOList
-    (
-      IOobject
-      (
+    {
+      {
         "owner",
         facesInst,
         meshSubDir,
@@ -99,12 +95,11 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::READ_IF_PRESENT,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     neighbour_ = labelIOList
-    (
-      IOobject
-      (
+    {
+      {
         "neighbour",
         facesInst,
         meshSubDir,
@@ -112,13 +107,12 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::READ_IF_PRESENT,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     // Reset the boundary patches
     polyBoundaryMesh newBoundary
-    (
-      IOobject
-      (
+    {
+      {
         "boundary",
         facesInst,
         meshSubDir,
@@ -126,73 +120,56 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::MUST_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       *this
-    );
+    };
     // Check that patch types and names are unchanged
     bool boundaryChanged = false;
-    if (newBoundary.size() != boundary_.size())
-    {
+    if (newBoundary.size() != boundary_.size()) {
       boundaryChanged = true;
-    }
-    else
-    {
+    } else {
       wordList newTypes = newBoundary.types();
       wordList newNames = newBoundary.names();
       wordList oldTypes = boundary_.types();
       wordList oldNames = boundary_.names();
-      FOR_ALL(oldTypes, patchI)
-      {
-        if
-        (
-          oldTypes[patchI] != newTypes[patchI]
-        || oldNames[patchI] != newNames[patchI]
-        )
-        {
+      FOR_ALL(oldTypes, patchI) {
+        if (oldTypes[patchI] != newTypes[patchI]
+            || oldNames[patchI] != newNames[patchI]) {
           boundaryChanged = true;
           break;
         }
       }
     }
-    if (boundaryChanged)
-    {
+    if (boundaryChanged) {
       WARNING_IN("polyMesh::readUpdateState polyMesh::readUpdate()")
         << "Number of patches has changed.  This may have "
         << "unexpected consequences.  Proceed with care." << endl;
       boundary_.clear();
       boundary_.setSize(newBoundary.size());
-      FOR_ALL(newBoundary, patchI)
-      {
+      FOR_ALL(newBoundary, patchI) {
         boundary_.set(patchI, newBoundary[patchI].clone(boundary_));
       }
-    }
-    else
-    {
-      FOR_ALL(boundary_, patchI)
-      {
+    } else {
+      FOR_ALL(boundary_, patchI) {
         boundary_[patchI] = polyPatch
-        (
+        {
           newBoundary[patchI].name(),
           newBoundary[patchI].size(),
           newBoundary[patchI].start(),
           patchI,
           boundary_,
           newBoundary[patchI].type()
-        );
+        };
       }
     }
     // Boundary is set so can use initMesh now (uses boundary_ to
     // determine internal and active faces)
-    if (exists(owner_.objectPath()))
-    {
+    if (exists(owner_.objectPath())) {
       initMesh();
-    }
-    else
-    {
+    } else {
       cellCompactIOList cells
-      (
-        IOobject
-        (
+      {
+        {
           "cells",
           facesInst,
           meshSubDir,
@@ -200,8 +177,8 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
           IOobject::MUST_READ,
           IOobject::NO_WRITE,
           false
-        )
-      );
+        }
+      };
       // Recalculate the owner/neighbour addressing and reset the
       // primitiveMesh
       initMesh(cells);
@@ -218,9 +195,8 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
     solutionD_ = Vector<label>::zero;
     // Zones
     pointZoneMesh newPointZones
-    (
-      IOobject
-      (
+    {
+      {
         "pointZones",
         facesInst,
         meshSubDir,
@@ -228,29 +204,25 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::READ_IF_PRESENT,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       *this
-    );
+    };
     label oldSize = pointZones_.size();
-    if (newPointZones.size() <= pointZones_.size())
-    {
+    if (newPointZones.size() <= pointZones_.size()) {
       pointZones_.setSize(newPointZones.size());
     }
     // Reset existing ones
-    FOR_ALL(pointZones_, czI)
-    {
+    FOR_ALL(pointZones_, czI) {
       pointZones_[czI] = newPointZones[czI];
     }
     // Extend with extra ones
     pointZones_.setSize(newPointZones.size());
-    for (label czI = oldSize; czI < newPointZones.size(); czI++)
-    {
+    for (label czI = oldSize; czI < newPointZones.size(); czI++) {
       pointZones_.set(czI, newPointZones[czI].clone(pointZones_));
     }
     faceZoneMesh newFaceZones
-    (
-      IOobject
-      (
+    {
+      {
         "faceZones",
         facesInst,
         meshSubDir,
@@ -258,17 +230,15 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::READ_IF_PRESENT,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       *this
-    );
+    };
     oldSize = faceZones_.size();
-    if (newFaceZones.size() <= faceZones_.size())
-    {
+    if (newFaceZones.size() <= faceZones_.size()) {
       faceZones_.setSize(newFaceZones.size());
     }
     // Reset existing ones
-    FOR_ALL(faceZones_, fzI)
-    {
+    FOR_ALL(faceZones_, fzI) {
       faceZones_[fzI].resetAddressing
       (
         newFaceZones[fzI],
@@ -277,14 +247,12 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
     }
     // Extend with extra ones
     faceZones_.setSize(newFaceZones.size());
-    for (label fzI = oldSize; fzI < newFaceZones.size(); fzI++)
-    {
+    for (label fzI = oldSize; fzI < newFaceZones.size(); fzI++) {
       faceZones_.set(fzI, newFaceZones[fzI].clone(faceZones_));
     }
     cellZoneMesh newCellZones
-    (
-      IOobject
-      (
+    {
+      {
         "cellZones",
         facesInst,
         meshSubDir,
@@ -292,48 +260,38 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::READ_IF_PRESENT,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       *this
-    );
+    };
     oldSize = cellZones_.size();
-    if (newCellZones.size() <= cellZones_.size())
-    {
+    if (newCellZones.size() <= cellZones_.size()) {
       cellZones_.setSize(newCellZones.size());
     }
     // Reset existing ones
-    FOR_ALL(cellZones_, czI)
-    {
+    FOR_ALL(cellZones_, czI) {
       cellZones_[czI] = newCellZones[czI];
     }
     // Extend with extra ones
     cellZones_.setSize(newCellZones.size());
-    for (label czI = oldSize; czI < newCellZones.size(); czI++)
-    {
+    for (label czI = oldSize; czI < newCellZones.size(); czI++) {
       cellZones_.set(czI, newCellZones[czI].clone(cellZones_));
     }
-    if (boundaryChanged)
-    {
+    if (boundaryChanged) {
       return polyMesh::TOPO_PATCH_CHANGE;
-    }
-    else
-    {
+    } else {
       return polyMesh::TOPO_CHANGE;
     }
-  }
-  else if (pointsInst != pointsInstance())
-  {
+  } else if (pointsInst != pointsInstance()) {
     // Points moved
-    if (debug)
-    {
-      Info<< "Point motion" << endl;
+    if (debug) {
+      Info << "Point motion" << endl;
     }
     clearGeom();
     label nOldPoints = points_.size();
     points_.clear();
     pointIOField newPoints
-    (
-      IOobject
-      (
+    {
+      {
         "points",
         pointsInst,
         meshSubDir,
@@ -341,10 +299,9 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
         IOobject::MUST_READ,
         IOobject::NO_WRITE,
         false
-      )
-    );
-    if (nOldPoints != 0 && nOldPoints != newPoints.size())
-    {
+      }
+    };
+    if (nOldPoints != 0 && nOldPoints != newPoints.size()) {
       FATAL_ERROR_IN("polyMesh::readUpdate()")
         << "Point motion detected but number of points "
         << newPoints.size() << " in "
@@ -359,56 +316,12 @@ mousse::polyMesh::readUpdateState mousse::polyMesh::readUpdate()
     // Rotation can cause direction vector to change
     geometricD_ = Vector<label>::zero;
     solutionD_ = Vector<label>::zero;
-    //if (boundaryInst != boundary_.instance())
-    //{
-    //    // Boundary file but no topology change
-    //    if (debug)
-    //    {
-    //        Info<< "Boundary state change" << endl;
-    //    }
-    //
-    //    // Reset the boundary patches
-    //    polyBoundaryMesh newBoundary
-    //    (
-    //        IOobject
-    //        (
-    //            "boundary",
-    //            facesInst,
-    //            meshSubDir,
-    //            *this,
-    //            IOobject::MUST_READ,
-    //            IOobject::NO_WRITE,
-    //            false
-    //        ),
-    //        *this
-    //    );
-    //
-    //
-    //
-    //
-    //    boundary_.clear();
-    //    boundary_.setSize(newBoundary.size());
-    //
-    //    FOR_ALL(newBoundary, patchI)
-    //    {
-    //        boundary_.set(patchI, newBoundary[patchI].clone(boundary_));
-    //    }
-    //    // Calculate topology for the patches (processor-processor comms
-    //    // etc.)
-    //    boundary_.updateMesh();
-    //
-    //    // Calculate the geometry for the patches (transformation tensors
-    //    // etc.)
-    //    boundary_.calcGeometry();
-    //}
     return polyMesh::POINTS_MOVED;
-  }
-  else
-  {
-    if (debug)
-    {
-      Info<< "No change" << endl;
+  } else {
+    if (debug) {
+      Info << "No change" << endl;
     }
     return polyMesh::UNCHANGED;
   }
 }
+

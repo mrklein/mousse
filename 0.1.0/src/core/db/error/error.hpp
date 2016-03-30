@@ -22,11 +22,11 @@
 // SourceFiles
 //   error.cpp
 
-
 #include "message_stream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class error;
 
@@ -260,4 +260,5 @@ extern IOerror FatalIOError;
 #define NOTIMPLEMENTED NOT_IMPLEMENTED(FUNCTION_NAME)
 
 #include "error_manip.hpp"
+
 #endif

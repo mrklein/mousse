@@ -8,7 +8,9 @@
 namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(lduInterfaceField, 0);
+
 }
+
 
 // Destructor 
 mousse::lduInterfaceField::~lduInterfaceField()

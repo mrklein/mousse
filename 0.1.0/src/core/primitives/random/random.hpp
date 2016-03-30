@@ -10,10 +10,13 @@
 //   Simple random number generator.
 // SourceFiles
 //   random.cpp
+
 #include "vector.hpp"
 #include "tensor.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Random
 {
   // Private data

@@ -13,17 +13,17 @@
 //     <entryName>    constant  <value>
 //   \endverbatim
 // SourceFiles
-//   constant.cpp
-
+//   constant.ipp
 
 #include "data_entry.hpp"
 #include "dimension_set.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class Constant;
+
 template<class Type>
 Ostream& operator<<(Ostream&, const Constant<Type>&);
 
@@ -78,7 +78,7 @@ public:
     virtual void writeData(Ostream& os) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "constant.cpp"
-#endif
+
+#include "constant.ipp"
+
 #endif

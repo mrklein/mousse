@@ -14,19 +14,24 @@
 //   Greek.
 // SourceFiles
 //   septernion.cpp
+
 #include "vector.hpp"
 #include "quaternion.hpp"
 #include "word.hpp"
 #include "contiguous.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class septernion;
 Istream& operator>>(Istream& is, septernion&);
 Ostream& operator<<(Ostream& os, const septernion& C);
+
+
 class septernion
 {
-  // private data
+  // Private data
     //- Translation vector
     vector t_;
     //- Rotation quaternion
@@ -74,11 +79,16 @@ public:
     friend Istream& operator>>(Istream& is, septernion&);
     friend Ostream& operator<<(Ostream& os, const septernion& C);
 };
+
+
 // Global Functions 
+
 //- Return the inverse of the given septernion
 inline septernion inv(const septernion& tr);
+
 //- Return a string representation of a septernion
 word name(const septernion&);
+
 //- Spherical linear interpolation of septernions. 0 for qa, 1 for qb
 septernion slerp
 (
@@ -86,9 +96,9 @@ septernion slerp
   const septernion& qb,
   const scalar t
 );
+
 //- Data associated with septernion type are contiguous
-template<>
-inline bool contiguous<septernion>() {return true;}
+template<> inline bool contiguous<septernion>() {return true;}
 // Global Operators 
 inline bool operator==(const septernion& tr1, const septernion& tr2);
 inline bool operator!=(const septernion& tr1, const septernion& tr2);
@@ -105,108 +115,155 @@ inline septernion operator*(const septernion& tr, const scalar s);
 inline septernion operator/(const septernion& tr, const scalar s);
 }  // namespace mousse
 
+
 // Constructors 
 inline mousse::septernion::septernion()
 {}
+
+
 inline mousse::septernion::septernion(const vector& t, const quaternion& r)
 :
   t_{t},
   r_{r}
 {}
+
+
 inline mousse::septernion::septernion(const vector& t)
 :
   t_{t},
   r_{quaternion::I}
 {}
+
+
 inline mousse::septernion::septernion(const quaternion& r)
 :
   t_{vector::zero},
   r_{r}
 {}
+
+
 // Member Functions 
 inline const mousse::vector& mousse::septernion::t() const
 {
   return t_;
 }
+
+
 inline const mousse::quaternion& mousse::septernion::r() const
 {
   return r_;
 }
+
+
 inline mousse::vector& mousse::septernion::t()
 {
   return t_;
 }
+
+
 inline mousse::quaternion& mousse::septernion::r()
 {
   return r_;
 }
+
+
 inline mousse::vector mousse::septernion::transform(const vector& v) const
 {
   return t() + r().transform(v);
 }
+
+
 inline mousse::vector mousse::septernion::invTransform(const vector& v) const
 {
   return r().invTransform(v - t());
 }
+
+
 // Member Operators 
 inline void mousse::septernion::operator=(const septernion& tr)
 {
   t_ = tr.t_;
   r_ = tr.r_;
 }
+
+
 inline void mousse::septernion::operator*=(const septernion& tr)
 {
   t_ += r().transform(tr.t());
   r_ *= tr.r();
 }
+
+
 inline void mousse::septernion::operator=(const vector& t)
 {
   t_ = t;
 }
+
+
 inline void mousse::septernion::operator+=(const vector& t)
 {
   t_ += t;
 }
+
+
 inline void mousse::septernion::operator-=(const vector& t)
 {
   t_ -= t;
 }
+
+
 inline void mousse::septernion::operator=(const quaternion& r)
 {
   r_ = r;
 }
+
+
 inline void mousse::septernion::operator*=(const quaternion& r)
 {
   r_ *= r;
 }
+
+
 inline void mousse::septernion::operator/=(const quaternion& r)
 {
   r_ /= r;
 }
+
+
 inline void mousse::septernion::operator*=(const scalar s)
 {
   t_ *= s;
   r_ *= s;
 }
+
+
 inline void mousse::septernion::operator/=(const scalar s)
 {
   t_ /= s;
   r_ /= s;
 }
+
+
 // Global Functions 
 inline mousse::septernion mousse::inv(const septernion& tr)
 {
   return {-tr.r().invTransform(tr.t()), conjugate(tr.r())};
 }
+
+
 // Global Operators 
 inline bool mousse::operator==(const septernion& tr1, const septernion& tr2)
 {
   return (tr1.t() == tr2.t() && tr1.r() == tr2.r());
 }
+
+
 inline bool mousse::operator!=(const septernion& tr1, const septernion& tr2)
 {
   return !operator==(tr1, tr2);
 }
+
+
 inline mousse::septernion mousse::operator+
 (
   const septernion& tr,
@@ -215,6 +272,8 @@ inline mousse::septernion mousse::operator+
 {
   return {tr.t() + t, tr.r()};
 }
+
+
 inline mousse::septernion mousse::operator+
 (
   const vector& t,
@@ -223,6 +282,8 @@ inline mousse::septernion mousse::operator+
 {
   return {t + tr.t(), tr.r()};
 }
+
+
 inline mousse::septernion mousse::operator-
 (
   const septernion& tr,
@@ -231,6 +292,8 @@ inline mousse::septernion mousse::operator-
 {
   return {tr.t() - t, tr.r()};
 }
+
+
 inline mousse::septernion mousse::operator*
 (
   const quaternion& r,
@@ -239,6 +302,8 @@ inline mousse::septernion mousse::operator*
 {
   return {tr.t(), r*tr.r()};
 }
+
+
 inline mousse::septernion mousse::operator*
 (
   const septernion& tr,
@@ -247,6 +312,8 @@ inline mousse::septernion mousse::operator*
 {
   return {tr.t(), tr.r()*r};
 }
+
+
 inline mousse::septernion mousse::operator/
 (
   const septernion& tr,
@@ -255,6 +322,8 @@ inline mousse::septernion mousse::operator/
 {
   return {tr.t(), tr.r()/r};
 }
+
+
 inline mousse::septernion mousse::operator*
 (
   const septernion& tr1,
@@ -264,6 +333,8 @@ inline mousse::septernion mousse::operator*
   return {tr1.t() + tr1.r().transform(tr2.t()),
           tr1.r().transform(tr2.r())};
 }
+
+
 inline mousse::septernion mousse::operator/
 (
   const septernion& tr1,
@@ -272,16 +343,24 @@ inline mousse::septernion mousse::operator/
 {
   return tr1*inv(tr2);
 }
+
+
 inline mousse::septernion mousse::operator*(const scalar s, const septernion& tr)
 {
   return {s*tr.t(), s*tr.r()};
 }
+
+
 inline mousse::septernion mousse::operator*(const septernion& tr, const scalar s)
 {
   return {s*tr.t(), s*tr.r()};
 }
+
+
 inline mousse::septernion mousse::operator/(const septernion& tr, const scalar s)
 {
   return {tr.t()/s, tr.r()/s};
 }
+
+
 #endif

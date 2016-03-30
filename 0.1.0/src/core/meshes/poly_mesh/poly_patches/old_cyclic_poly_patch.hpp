@@ -12,11 +12,12 @@
 //   can be run afterwards.
 //   Used to get cyclics from mesh converters that assume cyclics in single
 //   patch (e.g. fluent3DMeshToFoam)
-// SourceFiles
-//   old_cyclic_poly_patch.cpp
+
 #include "coupled_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class oldCyclicPolyPatch
 :
   public coupledPolyPatch
@@ -144,7 +145,7 @@ public:
     //- Construct and return a clone, resetting the boundary mesh
     virtual autoPtr<polyPatch> clone(const polyBoundaryMesh& bm) const
     {
-      return autoPtr<polyPatch>(new oldCyclicPolyPatch(*this, bm));
+      return autoPtr<polyPatch>{new oldCyclicPolyPatch{*this, bm}};
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -157,9 +158,9 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new oldCyclicPolyPatch(*this, bm, index, newSize, newStart)
-      );
+      {
+        new oldCyclicPolyPatch{*this, bm, index, newSize, newStart}
+      };
     }
   // Destructor
     virtual ~oldCyclicPolyPatch();

@@ -5,9 +5,10 @@
 #include "word.hpp"
 #include "iostreams.hpp"
 
+
 mousse::word::word(Istream& is)
 :
-  string()
+  string{}
 {
   is >> *this;
 }
@@ -15,24 +16,19 @@ mousse::word::word(Istream& is)
 
 mousse::Istream& mousse::operator>>(Istream& is, word& w)
 {
-  token t(is);
-  if (!t.good())
-  {
+  token t{is};
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isWord())
-  {
+  if (t.isWord()) {
     w = t.wordToken();
-  }
-  else if (t.isString())
-  {
+  } else if (t.isString()) {
     // try a bit harder and convert string to word
     w = t.stringToken();
     string::stripInvalid<word>(w);
     // flag empty strings and bad chars as an error
-    if (w.empty() || w.size() != t.stringToken().size())
-    {
+    if (w.empty() || w.size() != t.stringToken().size()) {
       is.setBad();
       FATAL_IO_ERROR_IN("operator>>(Istream&, word&)", is)
         << "wrong token type - expected word, found "
@@ -41,9 +37,7 @@ mousse::Istream& mousse::operator>>(Istream& is, word& w)
         << exit(FatalIOError);
       return is;
     }
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, word&)", is)
       << "wrong token type - expected word, found "

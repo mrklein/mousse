@@ -12,12 +12,13 @@
 // Note
 //   Storage is not optimal. It stores all face centres and cells on all
 //   processors to keep the addressing calculation simple.
-// SourceFiles
-//   generic_poly_patch.cpp
+
 #include "poly_patch.hpp"
 #include "dictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class genericPolyPatch
 :
   public polyPatch
@@ -114,5 +115,7 @@ public:
     //- Write the polyPatch data as a dictionary
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif

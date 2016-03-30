@@ -5,8 +5,8 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "member_function_selection_tables.hpp"
+
 
 // external use:
 // ~~~~~~~~~~~~~
@@ -58,6 +58,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // constructor/destructor aid
 #define DEFINE_STATIC_MEMBER_FUNCTION_SELECTION_TABLE_CONSTRUCT_DESTRUCT\
@@ -85,6 +86,7 @@
     }                                                                     \
   }
 
+
 // internal use:
 // create pointer to hash-table of functions
 #define DEFINE_STATIC_MEMBER_FUNCTION_SELECTION_TABLE_PTR\
@@ -93,6 +95,7 @@
   /* Define the memberFunction table */                                       \
   baseType::memberFunction##argNames##MemberFunctionTable*                    \
     baseType::memberFunction##argNames##MemberFunctionTablePtr_ = NULL
+
 
 // external use:
 // ~~~~~~~~~~~~~

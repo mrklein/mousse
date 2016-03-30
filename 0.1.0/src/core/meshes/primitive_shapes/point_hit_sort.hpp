@@ -8,11 +8,13 @@
 //   mousse::pointHitSort
 // Description
 //   Container for sorting intersections
-// SourceFiles
+
 #include "point_hit.hpp"
 #include "label.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class pointHitSort
 {
@@ -26,14 +28,14 @@ public:
     //- Construct null
     pointHitSort()
     :
-      inter_(false, vector::zero, GREAT, false),
-      index_(-1)
+      inter_{false, vector::zero, GREAT, false},
+      index_{-1}
     {}
     //- Construct from intersection, index
     pointHitSort(const pointHit& inter, const label index)
     :
-      inter_(inter),
-      index_(index)
+      inter_{inter},
+      index_{index}
     {}
   // Member Functions
     const pointHit& inter() const
@@ -54,5 +56,7 @@ public:
       return inter_.distance() < rhs.inter().distance();
     }
 };
+
 }  // namespace mousse
+
 #endif

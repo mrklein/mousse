@@ -6,6 +6,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "ldu_matrix.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -34,8 +35,10 @@ mousse::processorCyclicGAMGInterfaceField::processorCyclicGAMGInterfaceField
   const lduInterfaceField& fineInterface
 )
 :
-  processorGAMGInterfaceField(GAMGCp, fineInterface)
+  processorGAMGInterfaceField{GAMGCp, fineInterface}
 {}
+
+
 mousse::processorCyclicGAMGInterfaceField::processorCyclicGAMGInterfaceField
 (
   const GAMGInterface& GAMGCp,
@@ -43,8 +46,9 @@ mousse::processorCyclicGAMGInterfaceField::processorCyclicGAMGInterfaceField
   const int rank
 )
 :
-  processorGAMGInterfaceField(GAMGCp, doTransform, rank)
+  processorGAMGInterfaceField{GAMGCp, doTransform, rank}
 {}
+
 
 // Destructor
 mousse::processorCyclicGAMGInterfaceField::~processorCyclicGAMGInterfaceField()

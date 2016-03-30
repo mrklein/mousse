@@ -11,15 +11,15 @@
 // Description
 //   Output inter-processor communications stream operating on external
 //   buffer.
-// SourceFiles
-//   uopstream.cpp
 
 #include "upstream.hpp"
 #include "ostream.hpp"
 #include "dynamic_list.hpp"
 #include "pstream_buffers.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class UOPstream
 :
   public UPstream,

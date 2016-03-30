@@ -8,11 +8,12 @@
 //   mousse::wallPolyPatch
 // Description
 //   mousse::wallPolyPatch
-// SourceFiles
-//   wall_poly_patch.cpp
+
 #include "poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class wallPolyPatch
 :
   public polyPatch
@@ -77,9 +78,9 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new wallPolyPatch(*this, bm, index, newSize, newStart)
-      );
+      {
+        new wallPolyPatch{*this, bm, index, newSize, newStart}
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -92,10 +93,12 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new wallPolyPatch(*this, bm, index, mapAddressing, newStart)
-      );
+      {
+        new wallPolyPatch{*this, bm, index, mapAddressing, newStart}
+      };
     }
 };
+
 }  // namespace mousse
+
 #endif

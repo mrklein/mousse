@@ -13,20 +13,17 @@
 //   For quick check whether a point belongs to the zone use the lookup
 //   mechanism in pointZoneMesh, where all the zoned points are registered
 //   with their zone number.
-// SourceFiles
-//   point_zone.cpp
-//   point_zone_new.cpp
-
 
 #include "zone.hpp"
 #include "point_zone_mesh_fwd.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 class pointZone;
 Ostream& operator<<(Ostream&, const pointZone&);
+
 
 class pointZone
 :

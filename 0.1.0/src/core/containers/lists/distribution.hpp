@@ -9,23 +9,25 @@
 // Description
 //   Accumulating histogram of component values.
 //   Specified bin resolution, automatic generation of bins.
-// SourceFiles
-//   distribution.cpp
-//   distribution_io.cpp
+
 #include "list.hpp"
 #include "pair.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class Distribution;
 template<class Type>
 Istream& operator>>(Istream&, Distribution<Type>&);
 template<class Type>
 Ostream& operator<<(Ostream&, const Distribution<Type>&);
+
+
 template<class Type>
 class Distribution
 :
-  public List< List<scalar>>
+  public List<List<scalar>>
 {
   // Private data
     //- Width of the bin for each component
@@ -102,6 +104,7 @@ public:
       const Distribution<Type>&
     );
 };
+
 // Global Operators 
 template<class Type>
 Distribution<Type> operator+
@@ -109,7 +112,9 @@ Distribution<Type> operator+
   const Distribution<Type>&,
   const Distribution<Type>&
 );
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class Type>
@@ -117,13 +122,15 @@ inline const Type& mousse::Distribution<Type>::binWidth() const
 {
   return binWidth_;
 }
+
+
 template<class Type>
 inline const
 mousse::List<mousse::label>& mousse::Distribution<Type>::listStarts() const
 {
   return listStarts_;
 }
-#ifdef NoRepository
-#   include "distribution.cpp"
-#endif
+
+#include "distribution.ipp"
+
 #endif

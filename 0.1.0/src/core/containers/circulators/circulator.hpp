@@ -27,9 +27,12 @@
 //       Info<< "Iterate forwards over face : " << circ() << endl;
 //     } while (circ.circulate(CirculatorBase::CLOCKWISE));
 //   \endcode
+
 #include "circulator_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ContainerType>
 class Circulator
 :
@@ -125,7 +128,9 @@ public:
       const Circulator<ContainerType>& c
     ) const;
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ContainerType>
@@ -200,12 +205,9 @@ bool mousse::Circulator<ContainerType>::circulate
   const CirculatorBase::direction dir
 )
 {
-  if (dir == CirculatorBase::CLOCKWISE)
-  {
+  if (dir == CirculatorBase::CLOCKWISE) {
     operator++();
-  }
-  else if (dir == CirculatorBase::ANTICLOCKWISE)
-  {
+  } else if (dir == CirculatorBase::ANTICLOCKWISE) {
     operator--();
   }
   return !(iter_ == fulcrum_);
@@ -258,8 +260,7 @@ void mousse::Circulator<ContainerType>::operator=
 )
 {
   // Check for assignment to self
-  if (this == &rhs)
-  {
+  if (this == &rhs) {
     FATAL_ERROR_IN
     (
       "mousse::Circulator<ContainerType>::operator="
@@ -280,8 +281,7 @@ mousse::Circulator<ContainerType>&
 mousse::Circulator<ContainerType>::operator++()
 {
   ++iter_;
-  if (iter_ == end_)
-  {
+  if (iter_ == end_) {
     iter_ = begin_;
   }
   return *this;
@@ -302,8 +302,7 @@ template<class ContainerType>
 mousse::Circulator<ContainerType>&
 mousse::Circulator<ContainerType>::operator--()
 {
-  if (iter_ == begin_)
-  {
+  if (iter_ == begin_) {
     iter_ = end_;
   }
   --iter_;
@@ -367,4 +366,5 @@ mousse::Circulator<ContainerType>::operator-
 {
   return iter_ - c.iter_;
 }
+
 #endif

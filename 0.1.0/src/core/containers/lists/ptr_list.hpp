@@ -11,17 +11,13 @@
 //   size of the array is known and used for subscript bounds checking, etc.
 //   The element operator [] returns a reference to the object rather than a
 //   pointer.
-// SourceFiles
-//   ptr_list.cpp
-//   ptr_list_io.cpp
-
 
 #include "list.hpp"
 #include "auto_ptr.hpp"
 #include "tmp.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 template<class T> class PtrList;
@@ -479,8 +475,7 @@ inline mousse::Xfer<mousse::PtrList<T> > mousse::PtrList<T>::xfer()
 template<class T>
 inline const T& mousse::PtrList<T>::operator[](const label i) const
 {
-  if (!ptrs_[i])
-  {
+  if (!ptrs_[i]) {
     FATAL_ERROR_IN("PtrList::operator[] const")
       << "hanging pointer of type " << typeid(T).name()
       << " at index " << i
@@ -495,8 +490,7 @@ inline const T& mousse::PtrList<T>::operator[](const label i) const
 template<class T>
 inline T& mousse::PtrList<T>::operator[](const label i)
 {
-  if (!ptrs_[i])
-  {
+  if (!ptrs_[i]) {
     FATAL_ERROR_IN("PtrList::operator[]")
       << "hanging pointer of type " << typeid(T).name()
       << " at index " << i
@@ -890,6 +884,8 @@ mousse::PtrList<T>::begin() const
 {
   return ptrs_.begin();
 }
+
+
 template<class T>
 inline typename mousse::PtrList<T>::const_iterator
 mousse::PtrList<T>::end() const
@@ -913,7 +909,7 @@ mousse::PtrList<T>::cend() const
   return ptrs_.end();
 }
 
-#ifdef NoRepository
-#   include "ptr_list.cpp"
-#endif
+
+#include "ptr_list.ipp"
+
 #endif

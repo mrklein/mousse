@@ -6,15 +6,11 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::xmgraceSetWriter
-// Description
-// SourceFiles
-//   xmgrace_set_writer.cpp
-
 
 #include "writer.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class xmgraceSetWriter
@@ -60,7 +56,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "xmgrace_set_writer.cpp"
-#endif
+#include "xmgrace_set_writer.ipp"
+
 #endif

@@ -8,14 +8,12 @@
 //   mousse::algebraicPairGAMGAgglomeration
 // Description
 //   Agglomerate using the pair algorithm.
-// SourceFiles
-//   algebraic_pair_gamg_agglomeration.cpp
-
 
 #include "pair_gamg_agglomeration.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class algebraicPairGAMGAgglomeration
 :
   public pairGAMGAgglomeration
@@ -31,5 +29,7 @@ public:
       const dictionary& controlDict
     );
 };
+
 }  // namespace mousse
+
 #endif

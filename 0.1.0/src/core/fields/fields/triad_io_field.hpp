@@ -7,8 +7,11 @@
 
 #include "triad_field.hpp"
 #include "iofield.hpp"
-namespace mousse
-{
-  typedef IOField<triad> triadIOField;
+
+
+namespace mousse {
+
+typedef IOField<triad> triadIOField;
+
 }
 #endif

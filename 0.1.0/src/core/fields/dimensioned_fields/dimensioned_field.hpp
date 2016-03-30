@@ -9,17 +9,14 @@
 // Description
 //   Field with dimensions and associated with geometry type GeoMesh which is
 //   used to size the field and a reference to it is maintained.
-// SourceFiles
-//   dimensioned_field.cpp
-//   dimensioned_field_io.cpp
-
 
 #include "reg_ioobject.hpp"
 #include "field.hpp"
 #include "dimensioned_type.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Type, class GeoMesh> class DimensionedField;
 template<class Type, class GeoMesh> Ostream& operator<<
@@ -32,6 +29,8 @@ template<class Type, class GeoMesh> Ostream& operator<<
   Ostream&,
   const tmp<DimensionedField<Type, GeoMesh> >&
 );
+
+
 template<class Type, class GeoMesh>
 class DimensionedField
 :
@@ -234,6 +233,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Member Functions 
 template<class Type, class GeoMesh>
 inline const mousse::DimensionedField<Type, GeoMesh>&
@@ -241,30 +241,40 @@ mousse::DimensionedField<Type, GeoMesh>::null()
 {
   return NullObjectRef<DimensionedField<Type, GeoMesh> >();
 }
+
+
 template<class Type, class GeoMesh>
 inline const typename GeoMesh::Mesh&
 mousse::DimensionedField<Type, GeoMesh>::mesh() const
 {
   return mesh_;
 }
+
+
 template<class Type, class GeoMesh>
 inline const mousse::dimensionSet&
 mousse::DimensionedField<Type, GeoMesh>::dimensions() const
 {
   return dimensions_;
 }
+
+
 template<class Type, class GeoMesh>
 inline mousse::dimensionSet&
 mousse::DimensionedField<Type, GeoMesh>::dimensions()
 {
   return dimensions_;
 }
+
+
 template<class Type, class GeoMesh>
 inline const mousse::Field<Type>&
 mousse::DimensionedField<Type, GeoMesh>::field() const
 {
   return *this;
 }
+
+
 template<class Type, class GeoMesh>
 inline mousse::Field<Type>&
 mousse::DimensionedField<Type, GeoMesh>::field()
@@ -272,9 +282,8 @@ mousse::DimensionedField<Type, GeoMesh>::field()
   return *this;
 }
 
-#include "dimensioned_field_functions.hpp"
 
-#ifdef NoRepository
-#   include "dimensioned_field.cpp"
-#endif
+#include "dimensioned_field_functions.hpp"
+#include "dimensioned_field.ipp"
+
 #endif

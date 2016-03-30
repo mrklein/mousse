@@ -8,14 +8,19 @@
 //   mousse::cell
 // Description
 //   A cell is defined as a list of faces with extra functionality
+
 #include "face_list.hpp"
 #include "opposite_face.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class cell;
 bool operator==(const cell&, const cell&);
 inline bool operator!=(const cell&, const cell&);
+
+
 class cell
 :
   public labelList
@@ -70,39 +75,56 @@ public:
     friend bool operator==(const cell&, const cell&);
     friend bool operator!=(const cell&, const cell&);
 };
+
 }  // namespace mousse
 
+
 // Constructors 
+
 // Construct null
 inline mousse::cell::cell()
 {}
+
+
 // Construct given size
 inline mousse::cell::cell(label s)
 :
   labelList{s, -1}
 {}
+
+
 // Construct from components
 inline mousse::cell::cell(const labelUList& lst)
 :
   labelList{lst}
 {}
+
+
 inline mousse::cell::cell(const Xfer<labelList>& lst)
 :
   labelList{lst}
 {}
+
+
 // Construct from Istream
 inline mousse::cell::cell(Istream& is)
 :
   labelList{is}
 {}
+
+
 // Member Functions 
 // Number of faces
 inline mousse::label mousse::cell::nFaces() const
 {
   return size();
 }
+
+
 inline bool mousse::operator!=(const cell& a, const cell& b)
 {
   return (!(a == b));
 }
+
+
 #endif

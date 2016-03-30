@@ -8,13 +8,14 @@
 //   mousse::polyBoundaryMeshEntries
 // Description
 //   mousse::polyBoundaryMeshEntries
-// SourceFiles
-//   poly_boundary_mesh_entries.cpp
+
 #include "reg_ioobject.hpp"
 #include "ptr_list.hpp"
 #include "entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyBoundaryMeshEntries
 :
   public regIOobject,
@@ -26,8 +27,8 @@ public:
   // Constructors
     explicit polyBoundaryMeshEntries(const IOobject& io)
     :
-      regIOobject(io),
-      PtrList<entry>(readStream(typeName))
+      regIOobject{io},
+      PtrList<entry>{readStream(typeName)}
     {
       close();
     }
@@ -38,5 +39,8 @@ public:
       return false;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -5,6 +5,7 @@
 #include "face_zone.hpp"
 #include "dictionary.hpp"
 
+
 // Member Functions 
 mousse::autoPtr<mousse::faceZone> mousse::faceZone::New
 (
@@ -14,17 +15,15 @@ mousse::autoPtr<mousse::faceZone> mousse::faceZone::New
   const faceZoneMesh& zm
 )
 {
-  if (debug)
-  {
-    Info<< "faceZone::New(const word&, const dictionary&, const label, "
+  if (debug) {
+    Info << "faceZone::New(const word&, const dictionary&, const label, "
        "const faceZoneMesh&) : constructing faceZone " << name
       << endl;
   }
-  const word zoneType(dict.lookup("type"));
+  const word zoneType{dict.lookup("type")};
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(zoneType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_IO_ERROR_IN
     (
       "faceZone::New(const word&, const dictionary&, "

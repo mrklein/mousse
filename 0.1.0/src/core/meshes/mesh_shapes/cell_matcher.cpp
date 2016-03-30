@@ -9,6 +9,7 @@
 #include "label_list.hpp"
 #include "list_ops.hpp"
 
+
 // Constructors 
 mousse::cellMatcher::cellMatcher
 (
@@ -18,28 +19,27 @@ mousse::cellMatcher::cellMatcher
   const word& cellModelName
 )
 :
-  localPoint_(100),
-  localFaces_(facePerCell),
-  faceSize_(facePerCell, -1),
-  pointMap_(vertPerCell),
-  faceMap_(facePerCell),
-  edgeFaces_(2*vertPerCell*vertPerCell),
-  pointFaceIndex_(vertPerCell),
-  vertLabels_(vertPerCell),
-  faceLabels_(facePerCell),
-  cellModelName_(cellModelName),
-  cellModelPtr_(NULL)
+  localPoint_{100},
+  localFaces_{facePerCell},
+  faceSize_{facePerCell, -1},
+  pointMap_{vertPerCell},
+  faceMap_{facePerCell},
+  edgeFaces_{2*vertPerCell*vertPerCell},
+  pointFaceIndex_{vertPerCell},
+  vertLabels_{vertPerCell},
+  faceLabels_{facePerCell},
+  cellModelName_{cellModelName},
+  cellModelPtr_{NULL}
 {
-  FOR_ALL(localFaces_, faceI)
-  {
+  FOR_ALL(localFaces_, faceI) {
     face& f = localFaces_[faceI];
     f.setSize(maxVertPerFace);
   }
-  FOR_ALL(pointFaceIndex_, vertI)
-  {
+  FOR_ALL(pointFaceIndex_, vertI) {
     pointFaceIndex_[vertI].setSize(facePerCell);
   }
 }
+
 
 // Member Functions 
 // Create localFaces_ , pointMap_ , faceMap_
@@ -53,31 +53,25 @@ mousse::label mousse::cellMatcher::calcLocalFaces
   localPoint_.clear();
   // Renumber face vertices and insert directly into localFaces_
   label newVertI = 0;
-  FOR_ALL(myFaces, myFaceI)
-  {
+  FOR_ALL(myFaces, myFaceI) {
     label faceI = myFaces[myFaceI];
     const face& f = faces[faceI];
     face& localFace = localFaces_[myFaceI];
     // Size of localFace
     faceSize_[myFaceI] = f.size();
-    FOR_ALL(f, localVertI)
-    {
+    FOR_ALL(f, localVertI) {
       label vertI = f[localVertI];
       Map<label>::iterator iter = localPoint_.find(vertI);
-      if (iter == localPoint_.end())
-      {
+      if (iter == localPoint_.end()) {
         // Not found. Assign local vertex number.
-        if (newVertI >= pointMap_.size())
-        {
+        if (newVertI >= pointMap_.size()) {
           // Illegal face: more unique vertices than vertPerCell
           return -1;
         }
         localFace[localVertI] = newVertI;
         localPoint_.insert(vertI, newVertI);
         newVertI++;
-      }
-      else
-      {
+      } else {
         // Reuse local vertex number.
         localFace[localVertI] = *iter;
       }
@@ -86,8 +80,7 @@ mousse::label mousse::cellMatcher::calcLocalFaces
     faceMap_[myFaceI] = faceI;
   }
   // Create local to global vertex mapping
-  FOR_ALL_CONST_ITER(Map<label>, localPoint_, iter)
-  {
+  FOR_ALL_CONST_ITER(Map<label>, localPoint_, iter) {
     const label fp = iter();
     pointMap_[fp] = iter.key();
   }
@@ -95,12 +88,13 @@ mousse::label mousse::cellMatcher::calcLocalFaces
   //write(Info);
   return newVertI;
 }
+
+
 // Create edgeFaces_ : map from edge to two localFaces for single cell.
 void mousse::cellMatcher::calcEdgeAddressing(const label numVert)
 {
   edgeFaces_ = -1;
-  FOR_ALL(localFaces_, localFaceI)
-  {
+  FOR_ALL(localFaces_, localFaceI) {
     const face& f = localFaces_[localFaceI];
     label prevVertI = faceSize_[localFaceI] - 1;
     //FOR_ALL(f, fp)
@@ -109,26 +103,20 @@ void mousse::cellMatcher::calcEdgeAddressing(const label numVert)
       label fp = 0;
       fp < faceSize_[localFaceI];
       fp++
-    )
-    {
+    ) {
       label start = f[prevVertI];
       label end = f[fp];
       label key1 = edgeKey(numVert, start, end);
       label key2 = edgeKey(numVert, end, start);
-      if (edgeFaces_[key1] == -1)
-      {
+      if (edgeFaces_[key1] == -1) {
         // Entry key1 unoccupied. Store both permutations.
         edgeFaces_[key1] = localFaceI;
         edgeFaces_[key2] = localFaceI;
-      }
-      else if (edgeFaces_[key1+1] == -1)
-      {
+      } else if (edgeFaces_[key1+1] == -1) {
         // Entry key1+1 unoccupied
         edgeFaces_[key1+1] = localFaceI;
         edgeFaces_[key2+1] = localFaceI;
-      }
-      else
-      {
+      } else {
         FATAL_ERROR_IN
         (
           "calcEdgeAddressing"
@@ -142,30 +130,31 @@ void mousse::cellMatcher::calcEdgeAddressing(const label numVert)
     }
   }
 }
+
+
 // Create pointFaceIndex_ : map from vertI, faceI to index of vertI on faceI.
 void mousse::cellMatcher::calcPointFaceIndex()
 {
   // Fill pointFaceIndex_ with -1
-  FOR_ALL(pointFaceIndex_, i)
-  {
+  FOR_ALL(pointFaceIndex_, i) {
     labelList& faceIndices = pointFaceIndex_[i];
     faceIndices = -1;
   }
-  FOR_ALL(localFaces_, localFaceI)
-  {
+  FOR_ALL(localFaces_, localFaceI) {
     const face& f = localFaces_[localFaceI];
     for
     (
       label fp = 0;
       fp < faceSize_[localFaceI];
       fp++
-    )
-    {
+    ) {
       label vert = f[fp];
       pointFaceIndex_[vert][localFaceI] = fp;
     }
   }
 }
+
+
 // Given edge(v0,v1) and (local)faceI return the other face
 mousse::label mousse::cellMatcher::otherFace
 (
@@ -176,16 +165,11 @@ mousse::label mousse::cellMatcher::otherFace
 ) const
 {
   label key = edgeKey(numVert, v0, v1);
-  if (edgeFaces_[key] == localFaceI)
-  {
+  if (edgeFaces_[key] == localFaceI) {
     return edgeFaces_[key+1];
-  }
-  else if (edgeFaces_[key+1] == localFaceI)
-  {
+  } else if (edgeFaces_[key+1] == localFaceI) {
     return edgeFaces_[key];
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "otherFace"
@@ -200,17 +184,17 @@ mousse::label mousse::cellMatcher::otherFace
     return -1;
   }
 }
+
+
 void mousse::cellMatcher::write(mousse::Ostream& os) const
 {
   os << "Faces:" << endl;
-  FOR_ALL(localFaces_, faceI)
-  {
+  FOR_ALL(localFaces_, faceI) {
     os << "    ";
-    for (label fp = 0; fp < faceSize_[faceI]; fp++)
-    {
+    for (label fp = 0; fp < faceSize_[faceI]; fp++) {
       os << ' ' << localFaces_[faceI][fp];
     }
-    os  << endl;
+    os << endl;
   }
   os <<  "Face map  : " << faceMap_ << endl;
   os <<  "Point map : " << pointMap_ << endl;

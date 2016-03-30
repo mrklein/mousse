@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "dimensioned_spherical_tensor.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Member Functions 
 template<>
 dimensionedSphericalTensor dimensionedSphericalTensor::T() const
@@ -16,6 +18,8 @@ dimensionedSphericalTensor dimensionedSphericalTensor::T() const
     value().T()
   );
 }
+
+
 // Friend Functions 
 dimensionedScalar tr(const dimensionedSphericalTensor& dt)
 {
@@ -26,6 +30,8 @@ dimensionedScalar tr(const dimensionedSphericalTensor& dt)
     tr(dt.value())
   );
 }
+
+
 dimensionedScalar det(const dimensionedSphericalTensor& dt)
 {
   return dimensionedScalar
@@ -35,6 +41,8 @@ dimensionedScalar det(const dimensionedSphericalTensor& dt)
     det(dt.value())
   );
 }
+
+
 dimensionedSphericalTensor inv(const dimensionedSphericalTensor& dt)
 {
   return dimensionedSphericalTensor
@@ -44,4 +52,6 @@ dimensionedSphericalTensor inv(const dimensionedSphericalTensor& dt)
     inv(dt.value())
   );
 }
+
+
 }  // namespace mousse

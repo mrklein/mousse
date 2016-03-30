@@ -7,9 +7,12 @@
 
 #include "face.hpp"
 #include "compact_io_list.hpp"
-namespace mousse
-{
-  typedef IOList<face> faceIOList;
-  typedef CompactIOList<face, label> faceCompactIOList;
+
+
+namespace mousse {
+
+typedef IOList<face> faceIOList;
+typedef CompactIOList<face, label> faceCompactIOList;
+
 }
 #endif

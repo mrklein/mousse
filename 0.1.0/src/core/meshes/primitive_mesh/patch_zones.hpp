@@ -10,13 +10,14 @@
 //   Calculates zone number for every face of patch.
 //   Gets constructed from patch and is a labeList with zone number for
 //   every patch face.
-// SourceFiles
-//   patch_zones.cpp
+
 #include "label_list.hpp"
 #include "point_field.hpp"
 #include "poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class patchZones
 :
   public labelList

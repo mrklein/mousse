@@ -4,8 +4,11 @@
 
 #include "cell.hpp"
 #include "pyramid_point_face_ref.hpp"
+
+
 // Static Data Members
 const char* const mousse::cell::typeName = "cell";
+
 // Member Functions 
 mousse::labelList mousse::cell::labels(const faceUList& f) const
 {
@@ -13,16 +16,14 @@ mousse::labelList mousse::cell::labels(const faceUList& f) const
   // count the maximum size of all vertices
   label maxVert = 0;
   const labelList& faces = *this;
-  FOR_ALL(faces, faceI)
-  {
+  FOR_ALL(faces, faceI) {
     maxVert += f[faces[faceI]].size();
   }
   // set the fill-in list
   labelList p(maxVert);
   // in the first face there is no duplicates
   const labelList& first = f[faces[0]];
-  FOR_ALL(first, pointI)
-  {
+  FOR_ALL(first, pointI) {
     p[pointI] = first[pointI];
   }
   // re-use maxVert to count the real vertices
@@ -30,23 +31,18 @@ mousse::labelList mousse::cell::labels(const faceUList& f) const
   // go through the rest of the faces. For each vertex, check if the point is
   // already inserted (up to maxVert, which now carries the number of real
   // points. If not, add it at the end of the list.
-  for (label faceI = 1; faceI < faces.size(); faceI++)
-  {
+  for (label faceI = 1; faceI < faces.size(); faceI++) {
     const labelList& curFace = f[faces[faceI]];
-    FOR_ALL(curFace, pointI)
-    {
+    FOR_ALL(curFace, pointI) {
       const label curPoint = curFace[pointI];
       bool found = false;
-      for (label checkI = 0; checkI < maxVert; checkI++)
-      {
-        if (curPoint == p[checkI])
-        {
+      for (label checkI = 0; checkI < maxVert; checkI++) {
+        if (curPoint == p[checkI]) {
           found = true;
           break;
         }
       }
-      if (!found)
-      {
+      if (!found) {
         p[maxVert] = curPoint;
         maxVert++;
       }
@@ -56,6 +52,8 @@ mousse::labelList mousse::cell::labels(const faceUList& f) const
   p.setSize(maxVert);
   return p;
 }
+
+
 mousse::pointField mousse::cell::points
 (
   const faceUList& f,
@@ -63,42 +61,37 @@ mousse::pointField mousse::cell::points
 ) const
 {
   labelList pointLabels = labels(f);
-  pointField p(pointLabels.size());
-  FOR_ALL(p, i)
-  {
+  pointField p{pointLabels.size()};
+  FOR_ALL(p, i) {
     p[i] = meshPoints[pointLabels[i]];
   }
   return p;
 }
+
+
 mousse::edgeList mousse::cell::edges(const faceUList& f) const
 {
   // return the lisf of cell edges
   const labelList& curFaces = *this;
   // create a list of edges
   label maxNoEdges = 0;
-  FOR_ALL(curFaces, faceI)
-  {
+  FOR_ALL(curFaces, faceI) {
     maxNoEdges += f[curFaces[faceI]].nEdges();
   }
-  edgeList allEdges(maxNoEdges);
+  edgeList allEdges{maxNoEdges};
   label nEdges = 0;
-  FOR_ALL(curFaces, faceI)
-  {
+  FOR_ALL(curFaces, faceI) {
     const edgeList curFaceEdges = f[curFaces[faceI]].edges();
-    FOR_ALL(curFaceEdges, faceEdgeI)
-    {
+    FOR_ALL(curFaceEdges, faceEdgeI) {
       const edge& curEdge = curFaceEdges[faceEdgeI];
       bool edgeFound = false;
-      for (label addedEdgeI = 0; addedEdgeI < nEdges; addedEdgeI++)
-      {
-        if (allEdges[addedEdgeI] == curEdge)
-        {
+      for (label addedEdgeI = 0; addedEdgeI < nEdges; addedEdgeI++) {
+        if (allEdges[addedEdgeI] == curEdge) {
           edgeFound = true;
           break;
         }
       }
-      if (!edgeFound)
-      {
+      if (!edgeFound) {
         // Add the new edge onto the list
         allEdges[nEdges] = curEdge;
         nEdges++;
@@ -108,6 +101,8 @@ mousse::edgeList mousse::cell::edges(const faceUList& f) const
   allEdges.setSize(nEdges);
   return allEdges;
 }
+
+
 mousse::point mousse::cell::centre
 (
   const pointField& p,
@@ -132,8 +127,7 @@ mousse::point mousse::cell::centre
   vector cEst = vector::zero;
   scalar sumArea = 0;
   const labelList& faces = *this;
-  FOR_ALL(faces, faceI)
-  {
+  FOR_ALL(faces, faceI) {
     scalar a = f[faces[faceI]].mag(p);
     cEst += f[faces[faceI]].centre(p)*a;
     sumArea += a;
@@ -143,8 +137,7 @@ mousse::point mousse::cell::centre
   // volume-weighted averaging their centres
   vector sumVc = vector::zero;
   scalar sumV = 0;
-  FOR_ALL(faces, faceI)
-  {
+  FOR_ALL(faces, faceI) {
     // calculate pyramid volume. If it is greater than zero, OK.
     // If not, the pyramid is inside-out. Create a face with the opposite
     // order and recalculate pyramid centre!
@@ -152,8 +145,7 @@ mousse::point mousse::cell::centre
     vector pyrCentre = pyramidPointFaceRef(f[faces[faceI]], cEst).centre(p);
     // if pyramid inside-out because face points inwards invert
     // N.B. pyramid remains unchanged
-    if (pyrVol < 0)
-    {
+    if (pyrVol < 0) {
       pyrVol = -pyrVol;
     }
     sumVc += pyrVol*pyrCentre;
@@ -161,6 +153,8 @@ mousse::point mousse::cell::centre
   }
   return sumVc/(sumV + VSMALL);
 }
+
+
 mousse::scalar mousse::cell::mag
 (
   const pointField& p,
@@ -178,52 +172,47 @@ mousse::scalar mousse::cell::mag
   vector cEst = vector::zero;
   scalar nCellFaces = 0;
   const labelList& faces = *this;
-  FOR_ALL(faces, faceI)
-  {
+  FOR_ALL(faces, faceI) {
     cEst += f[faces[faceI]].centre(p);
     nCellFaces += 1;
   }
   cEst /= nCellFaces;
   // Calculate the magnitude by summing the mags of the pyramids
   scalar v = 0;
-  FOR_ALL(faces, faceI)
-  {
+  FOR_ALL(faces, faceI) {
     v += ::mousse::mag(pyramidPointFaceRef(f[faces[faceI]], cEst).mag(p));
   }
   return v;
 }
+
+
 // Friend Operators 
 bool mousse::operator==(const cell& a, const cell& b)
 {
   // Trivial reject: faces are different size
-  if (a.size() != b.size())
-  {
+  if (a.size() != b.size()) {
     return false;
   }
-  List<bool> fnd(a.size(), false);
-  FOR_ALL(b, bI)
-  {
+  List<bool> fnd{a.size(), false};
+  FOR_ALL(b, bI) {
     label curLabel = b[bI];
     bool found = false;
-    FOR_ALL(a, aI)
-    {
-      if (a[aI] == curLabel)
-      {
+    FOR_ALL(a, aI) {
+      if (a[aI] == curLabel) {
         found = true;
         fnd[aI] = true;
         break;
       }
     }
-    if (!found)
-    {
+    if (!found) {
       return false;
     }
   }
   // check if all faces on a were marked
   bool result = true;
-  FOR_ALL(fnd, aI)
-  {
+  FOR_ALL(fnd, aI) {
     result = (result && fnd[aI]);
   }
   return result;
 }
+

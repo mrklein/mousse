@@ -10,15 +10,15 @@
 //   An auto-pointer similar to the STL auto_ptr but with automatic casting
 //   to a reference to the type and with pointer allocation checking on access.
 
-
 #include "error.hpp"
 #include <cstddef>
 #if defined(__GNUC__)
 #include <typeinfo>
 #endif
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class T>
 class autoPtr
 {
@@ -70,12 +70,14 @@ public:
 };
 }  // namespace mousse
 
+
 // Constructors
 template<class T>
 inline mousse::autoPtr<T>::autoPtr(T* p)
 :
   ptr_{p}
 {}
+
 
 template<class T>
 inline mousse::autoPtr<T>::autoPtr(const autoPtr<T>& ap)
@@ -85,29 +87,27 @@ inline mousse::autoPtr<T>::autoPtr(const autoPtr<T>& ap)
   ap.ptr_ = 0;
 }
 
+
 template<class T>
 inline mousse::autoPtr<T>::autoPtr(const autoPtr<T>& ap, const bool reUse)
 {
-  if (reUse)
-  {
+  if (reUse) {
     ptr_ = ap.ptr_;
     ap.ptr_ = 0;
-  }
-  else if (ap.valid())
-  {
+  } else if (ap.valid()) {
     ptr_ = ap().clone().ptr();
-  }
-  else
-  {
+  } else {
     ptr_ = NULL;
   }
 }
+
 
 template<class T>
 inline mousse::autoPtr<T>::~autoPtr()
 {
   clear();
 }
+
 
 // Member Functions
 template<class T>
@@ -116,11 +116,13 @@ inline bool mousse::autoPtr<T>::empty() const
   return !ptr_;
 }
 
+
 template<class T>
 inline bool mousse::autoPtr<T>::valid() const
 {
   return ptr_;
 }
+
 
 template<class T>
 inline T* mousse::autoPtr<T>::ptr()
@@ -130,11 +132,11 @@ inline T* mousse::autoPtr<T>::ptr()
   return ptr;
 }
 
+
 template<class T>
 inline void mousse::autoPtr<T>::set(T* p)
 {
-  if (ptr_)
-  {
+  if (ptr_) {
     FATAL_ERROR_IN("void mousse::autoPtr<T>::set(T*)")
       << "object of type " << typeid(T).name()
       << " already allocated"
@@ -143,15 +145,16 @@ inline void mousse::autoPtr<T>::set(T* p)
   ptr_ = p;
 }
 
+
 template<class T>
 inline void mousse::autoPtr<T>::reset(T* p)
 {
-  if (ptr_)
-  {
+  if (ptr_) {
     delete ptr_;
   }
   ptr_ = p;
 }
+
 
 template<class T>
 inline void mousse::autoPtr<T>::clear()
@@ -163,8 +166,7 @@ inline void mousse::autoPtr<T>::clear()
 template<class T>
 inline T& mousse::autoPtr<T>::operator()()
 {
-  if (!ptr_)
-  {
+  if (!ptr_) {
     FATAL_ERROR_IN("T& mousse::autoPtr<T>::operator()()")
       << "object of type " << typeid(T).name()
       << " is not allocated"
@@ -173,11 +175,11 @@ inline T& mousse::autoPtr<T>::operator()()
   return *ptr_;
 }
 
+
 template<class T>
 inline const T& mousse::autoPtr<T>::operator()() const
 {
-  if (!ptr_)
-  {
+  if (!ptr_) {
     FATAL_ERROR_IN("const T& mousse::autoPtr<T>::operator()() const")
       << "object of type " << typeid(T).name()
       << " is not allocated"
@@ -186,17 +188,18 @@ inline const T& mousse::autoPtr<T>::operator()() const
   return *ptr_;
 }
 
+
 template<class T>
 inline mousse::autoPtr<T>::operator const T&() const
 {
   return operator()();
 }
 
+
 template<class T>
 inline T* mousse::autoPtr<T>::operator->()
 {
-  if (!ptr_)
-  {
+  if (!ptr_) {
     FATAL_ERROR_IN("mousse::autoPtr<T>::operator->()")
       << "object of type " << typeid(T).name()
       << " is not allocated"
@@ -205,17 +208,18 @@ inline T* mousse::autoPtr<T>::operator->()
   return ptr_;
 }
 
+
 template<class T>
 inline const T* mousse::autoPtr<T>::operator->() const
 {
   return const_cast<autoPtr<T>&>(*this).operator->();
 }
 
+
 template<class T>
 inline void mousse::autoPtr<T>::operator=(const autoPtr<T>& ap)
 {
-  if (this != &ap)
-  {
+  if (this != &ap) {
     reset(const_cast<autoPtr<T>&>(ap).ptr());
   }
 }

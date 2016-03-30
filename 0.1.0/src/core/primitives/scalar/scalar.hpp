@@ -5,8 +5,11 @@
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 //   scalar.cpp
+
 #include "float_scalar.hpp"
 #include "double_scalar.hpp"
+
+
 #if defined(WM_SP)
 // Define scalar as a float
 namespace mousse
@@ -35,5 +38,6 @@ namespace mousse
   static const scalar ROOTVSMALL = doubleScalarROOTVSMALL;
   scalar readScalar(Istream& is);
 }
-#endif
-#endif
+#endif  // WM_DP
+
+#endif  // CORE_PRIMITIVES_SCALAR_SCALAR_HPP_

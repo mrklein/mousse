@@ -6,8 +6,8 @@
 #include "writers.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_SET_WRITERS(jplotSetWriter);
 

@@ -8,16 +8,14 @@
 //   mousse::symmetryPolyPatch
 // Description
 //   Symmetry patch for non-planar or multi-plane patches.
-// SourceFiles
-//   symmetry_poly_patch.cpp
-//   see_also
-//   symmetry_plane_poly_patch
-
+// See Also
+//   symmetryPlanePolyPatch
 
 #include "poly_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class symmetryPolyPatch
 :
   public polyPatch
@@ -69,7 +67,7 @@ public:
     //- Construct and return a clone, resetting the boundary mesh
     virtual autoPtr<polyPatch> clone(const polyBoundaryMesh& bm) const
     {
-      return autoPtr<polyPatch>(new symmetryPolyPatch(*this, bm));
+      return autoPtr<polyPatch>{new symmetryPolyPatch{*this, bm}};
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -82,9 +80,9 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new symmetryPolyPatch(*this, bm, index, newSize, newStart)
-      );
+      {
+        new symmetryPolyPatch{*this, bm, index, newSize, newStart}
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -97,9 +95,9 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new symmetryPolyPatch(*this, bm, index, mapAddressing, newStart)
-      );
+      {
+        new symmetryPolyPatch{*this, bm, index, mapAddressing, newStart}
+      };
     }
 };
 }  // namespace mousse

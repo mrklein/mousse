@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "dimensioned_symm_tensor.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Member Functions 
 template<>
 dimensionedSymmTensor dimensionedSymmTensor::T() const
@@ -16,6 +18,8 @@ dimensionedSymmTensor dimensionedSymmTensor::T() const
     value().T()
   );
 }
+
+
 // Friend Functions 
 dimensionedSymmTensor sqr(const dimensionedVector& dv)
 {
@@ -26,6 +30,8 @@ dimensionedSymmTensor sqr(const dimensionedVector& dv)
     sqr(dv.value())
   );
 }
+
+
 dimensionedSymmTensor innerSqr(const dimensionedSymmTensor& dt)
 {
   return dimensionedSymmTensor
@@ -35,6 +41,8 @@ dimensionedSymmTensor innerSqr(const dimensionedSymmTensor& dt)
     innerSqr(dt.value())
   );
 }
+
+
 dimensionedScalar tr(const dimensionedSymmTensor& dt)
 {
   return dimensionedScalar
@@ -44,6 +52,8 @@ dimensionedScalar tr(const dimensionedSymmTensor& dt)
     tr(dt.value())
   );
 }
+
+
 dimensionedSymmTensor symm(const dimensionedSymmTensor& dt)
 {
   return dimensionedSymmTensor
@@ -53,6 +63,8 @@ dimensionedSymmTensor symm(const dimensionedSymmTensor& dt)
     symm(dt.value())
   );
 }
+
+
 dimensionedSymmTensor twoSymm(const dimensionedSymmTensor& dt)
 {
   return dimensionedSymmTensor
@@ -62,6 +74,8 @@ dimensionedSymmTensor twoSymm(const dimensionedSymmTensor& dt)
     twoSymm(dt.value())
   );
 }
+
+
 dimensionedSymmTensor dev(const dimensionedSymmTensor& dt)
 {
   return dimensionedSymmTensor
@@ -71,6 +85,8 @@ dimensionedSymmTensor dev(const dimensionedSymmTensor& dt)
     dev(dt.value())
   );
 }
+
+
 dimensionedSymmTensor dev2(const dimensionedSymmTensor& dt)
 {
   return dimensionedSymmTensor
@@ -80,6 +96,8 @@ dimensionedSymmTensor dev2(const dimensionedSymmTensor& dt)
     dev2(dt.value())
   );
 }
+
+
 dimensionedScalar det(const dimensionedSymmTensor& dt)
 {
   return dimensionedScalar
@@ -89,6 +107,8 @@ dimensionedScalar det(const dimensionedSymmTensor& dt)
     det(dt.value())
   );
 }
+
+
 dimensionedSymmTensor cof(const dimensionedSymmTensor& dt)
 {
   return dimensionedSymmTensor
@@ -98,6 +118,8 @@ dimensionedSymmTensor cof(const dimensionedSymmTensor& dt)
     cof(dt.value())
   );
 }
+
+
 dimensionedSymmTensor inv(const dimensionedSymmTensor& dt)
 {
   return dimensionedSymmTensor
@@ -107,6 +129,8 @@ dimensionedSymmTensor inv(const dimensionedSymmTensor& dt)
     inv(dt.value())
   );
 }
+
+
 // Friend Operators 
 dimensionedVector operator*(const dimensionedSymmTensor& dt)
 {
@@ -117,4 +141,5 @@ dimensionedVector operator*(const dimensionedSymmTensor& dt)
     *dt.value()
   );
 }
+
 }  // namespace mousse

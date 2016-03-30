@@ -4,11 +4,13 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   transform_field_field.cpp
+
 #include "transform.hpp"
 #include "tensor_field_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<template<class> class Field, class Type>
 void transform
 (
@@ -16,30 +18,35 @@ void transform
   const FieldField<Field, tensor>&,
   const FieldField<Field, Type>&
 );
+
 template<template<class> class Field, class Type>
 tmp<FieldField<Field, Type> > transform
 (
   const FieldField<Field, tensor>&,
   const FieldField<Field, Type>&
 );
+
 template<template<class> class Field, class Type>
 tmp<FieldField<Field, Type> > transform
 (
   const FieldField<Field, tensor>&,
   const tmp<FieldField<Field, Type> >&
 );
+
 template<template<class> class Field, class Type>
 tmp<FieldField<Field, Type> > transform
 (
   const tmp<FieldField<Field, tensor> >&,
   const FieldField<Field, Type>&
 );
+
 template<template<class> class Field, class Type>
 tmp<FieldField<Field, Type> > transform
 (
   const tmp<FieldField<Field, tensor> >&,
   const tmp<FieldField<Field, Type> >&
 );
+
 template<template<class> class Field, class Type>
 void transform
 (
@@ -47,20 +54,24 @@ void transform
   const tensor&,
   const FieldField<Field, Type>&
 );
+
 template<template<class> class Field, class Type>
 tmp<FieldField<Field, Type> > transform
 (
   const tensor&,
   const FieldField<Field, Type>&
 );
+
 template<template<class> class Field, class Type>
 tmp<FieldField<Field, Type> > transform
 (
   const tensor&,
   const tmp<FieldField<Field, Type> >&
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "transform_field_field.cpp"
-#endif
+
+
+#include "transform_field_field.ipp"
+
 #endif

@@ -19,13 +19,14 @@
 //   Does not care whether 'talking' is first send, second receive or maybe
 //   full swap. This is all responsability of caller. See ProcessorTopology
 //   class for use in scheduling processor boundary swaps.
-// SourceFiles
-//   comm_schedule.cpp
+
 #include "dynamic_list.hpp"
 #include "label_pair.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class commSchedule
 {
   // Private data
@@ -60,5 +61,7 @@ public:
       return procSchedule_;
     }
 };
+
 }  // namespace mousse
+
 #endif

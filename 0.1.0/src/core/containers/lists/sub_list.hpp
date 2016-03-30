@@ -11,9 +11,12 @@
 //   Since the SubList is itself unallocated, no storage is allocated or
 //   de-allocated during its use.  To achieve this behaviour, SubList is
 //   derived from UList rather than List.
+
 #include "list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class SubList
 :
@@ -43,7 +46,9 @@ public:
     //- Assignment of all entries to the given value
     inline void operator=(const T&);
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class T>
@@ -59,6 +64,8 @@ inline mousse::SubList<T>::SubList
   list.checkSize(subSize);
 #endif
 }
+
+
 template<class T>
 inline mousse::SubList<T>::SubList
 (
@@ -72,34 +79,38 @@ inline mousse::SubList<T>::SubList
 #ifdef FULLDEBUG
   // Artificially allow the start of a zero-sized subList to be
   // one past the end of the original list.
-  if (subSize)
-  {
+  if (subSize) {
     list.checkStart(startIndex);
     list.checkSize(startIndex + subSize);
-  }
-  else
-  {
+  } else {
     // Start index needs to fall between 0 and size.  One position
     // behind the last element is allowed
     list.checkSize(startIndex);
   }
 #endif
 }
+
+
 // Member Functions 
 template<class T>
 inline const mousse::SubList<T>& mousse::SubList<T>::null()
 {
   return NullObjectRef<SubList<T> >();
 }
+
+
 // Member Operators 
 template<class T>
 inline mousse::SubList<T>::operator const mousse::List<T>&() const
 {
   return *reinterpret_cast< const List<T>* >(this);
 }
+
+
 template<class T>
 inline void mousse::SubList<T>::operator=(const T& t)
 {
   UList<T>::operator=(t);
 }
+
 #endif

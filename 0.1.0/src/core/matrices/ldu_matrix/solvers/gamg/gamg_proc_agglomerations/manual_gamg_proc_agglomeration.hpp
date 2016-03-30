@@ -30,16 +30,13 @@
 //         )
 //       )
 //     );
-// SourceFiles
-//   manual_gamg_proc_agglomeration.cpp
-
 
 #include "gamg_proc_agglomeration.hpp"
 #include "dynamic_list.hpp"
 #include "tuple2.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class GAMGAgglomeration;
 
@@ -50,7 +47,7 @@ class manualGAMGProcAgglomeration
   // Private data
 
     //- Per level the agglomeration map
-    const List<Tuple2<label, List<labelList> > > procAgglomMaps_;
+    const List<Tuple2<label, List<labelList>>> procAgglomMaps_;
 
     //- Any allocated communicators
     DynamicList<label> comms_;

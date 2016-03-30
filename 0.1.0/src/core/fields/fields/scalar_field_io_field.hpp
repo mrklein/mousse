@@ -7,9 +7,12 @@
 
 #include "scalar_field.hpp"
 #include "compact_io_field.hpp"
-namespace mousse
-{
-  typedef IOField<scalarField> scalarFieldIOField;
-  typedef CompactIOField<scalarField, scalar> scalarFieldCompactIOField;
+
+
+namespace mousse {
+
+typedef IOField<scalarField> scalarFieldIOField;
+typedef CompactIOField<scalarField, scalar> scalarFieldCompactIOField;
+
 }
 #endif

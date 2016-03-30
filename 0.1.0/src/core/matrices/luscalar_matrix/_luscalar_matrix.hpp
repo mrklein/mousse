@@ -8,16 +8,19 @@
 //   mousse::LUscalarMatrix
 // Description
 //   mousse::LUscalarMatrix
-// SourceFiles
-//   _luscalar_matrix.cpp
+
 #include "scalar_matrices.hpp"
 #include "label_list.hpp"
 #include "field_field.hpp"
 #include "ldu_interface_field_ptrs_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class lduMatrix;
 class procLduMatrix;
+
+
 class LUscalarMatrix
 :
   public scalarSquareMatrix
@@ -62,7 +65,7 @@ public:
     void solve(Field<T>& source) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_luscalar_matrix_templates.cpp"
-#endif
+
+#include "_luscalar_matrix.ipp"
+
 #endif

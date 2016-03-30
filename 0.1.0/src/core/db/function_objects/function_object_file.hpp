@@ -11,9 +11,6 @@
 // See Also
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   function_object_file.cpp
-
 
 #include "object_registry.hpp"
 #include "ofstream.hpp"
@@ -21,8 +18,8 @@
 #include "hash_set.hpp"
 #include "iomanip.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class functionObjectFile
 {
@@ -160,7 +157,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-  #include "function_object_file_templates.cpp"
-#endif
+#include "function_object_file.ipp"
+
 #endif

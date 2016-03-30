@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "spherical_tensor_2d.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 template<>
 const char* const sphericalTensor2D::typeName = "sphericalTensor2D";
@@ -24,4 +26,5 @@ template<>
 const sphericalTensor2D sphericalTensor2D::oneThirdI(1.0/3.0);
 template<>
 const sphericalTensor2D sphericalTensor2D::twoThirdsI(2.0/3.0);
+
 }  // namespace mousse

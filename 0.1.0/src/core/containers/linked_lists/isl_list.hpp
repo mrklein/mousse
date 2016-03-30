@@ -8,10 +8,13 @@
 //   mousse::ISLList
 // Description
 //   Intrusive singly-linked list.
+
 #include "il_list.hpp"
 #include "sl_list_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class ISLList
 :
@@ -25,18 +28,18 @@ public:
     //- Construct given initial T
     ISLList(const T& a)
     :
-      ILList<SLListBase, T>(a)
+      ILList<SLListBase, T>{a}
     {}
     //- Construct from Istream using given Istream constructor class
     template<class INew>
     ISLList(Istream& is, const INew& inewt)
     :
-      ILList<SLListBase, T>(is, inewt)
+      ILList<SLListBase, T>{is, inewt}
     {}
     //- Construct from Istream
     ISLList(Istream& is)
     :
-      ILList<SLListBase, T>(is)
+      ILList<SLListBase, T>{is}
     {}
 };
 }  // namespace mousse

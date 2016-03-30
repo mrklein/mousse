@@ -11,16 +11,17 @@
 //   Has static member function to match a shape.
 // See Also
 //   cellMatcher
-// SourceFiles
-//   degenerate_matcher.cpp
+
 #include "hex_matcher.hpp"
 #include "wedge_matcher.hpp"
 #include "prism_matcher.hpp"
 #include "tet_wedge_matcher.hpp"
 #include "pyr_matcher.hpp"
 #include "tet_matcher.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class degenerateMatcher
 {
   // Static data members
@@ -50,5 +51,7 @@ public:
     //- Recognize shape given mesh and cellI
     static cellShape match(const primitiveMesh& mesh, const label cellI);
 };
+
 }  // namespace mousse
+
 #endif

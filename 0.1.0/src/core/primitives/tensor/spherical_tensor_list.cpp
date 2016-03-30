@@ -5,8 +5,9 @@
 #include "spherical_tensor_list.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "token.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 DEFINE_COMPOUND_TYPE_NAME(List<sphericalTensor>, sphericalTensorList);
 

@@ -11,14 +11,12 @@
 //   run-time selected smoother e.g. GaussSeidel to converge the solution to
 //   the required tolerance.  To improve efficiency, the residual is evaluated
 //   after every nSweeps smoothing iterations.
-// SourceFiles
-//   _smooth_solver.cpp
-
 
 #include "ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class DType, class LUType>
 class SmoothSolver
 :
@@ -46,7 +44,7 @@ public:
     virtual SolverPerformance<Type> solve(Field<Type>& psi) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_smooth_solver.cpp"
-#endif
+
+#include "_smooth_solver.ipp"
+
 #endif

@@ -4,6 +4,8 @@
 
 #include "map_poly_mesh.hpp"
 #include "poly_mesh.hpp"
+
+
 // Constructors 
 mousse::mapPolyMesh::mapPolyMesh
 (
@@ -37,55 +39,54 @@ mousse::mapPolyMesh::mapPolyMesh
   const autoPtr<scalarField>& oldCellVolumesPtr
 )
 :
-  mesh_(mesh),
-  nOldPoints_(nOldPoints),
-  nOldFaces_(nOldFaces),
-  nOldCells_(nOldCells),
-  pointMap_(pointMap),
-  pointsFromPointsMap_(pointsFromPoints),
-  faceMap_(faceMap),
-  facesFromPointsMap_(facesFromPoints),
-  facesFromEdgesMap_(facesFromEdges),
-  facesFromFacesMap_(facesFromFaces),
-  cellMap_(cellMap),
-  cellsFromPointsMap_(cellsFromPoints),
-  cellsFromEdgesMap_(cellsFromEdges),
-  cellsFromFacesMap_(cellsFromFaces),
-  cellsFromCellsMap_(cellsFromCells),
-  reversePointMap_(reversePointMap),
-  reverseFaceMap_(reverseFaceMap),
-  reverseCellMap_(reverseCellMap),
-  flipFaceFlux_(flipFaceFlux),
-  patchPointMap_(patchPointMap),
-  pointZoneMap_(pointZoneMap),
-  faceZonePointMap_(faceZonePointMap),
-  faceZoneFaceMap_(faceZoneFaceMap),
-  cellZoneMap_(cellZoneMap),
-  preMotionPoints_(preMotionPoints),
-  oldPatchSizes_(oldPatchStarts.size()),
-  oldPatchStarts_(oldPatchStarts),
-  oldPatchNMeshPoints_(oldPatchNMeshPoints),
-  oldCellVolumesPtr_(oldCellVolumesPtr)
+  mesh_{mesh},
+  nOldPoints_{nOldPoints},
+  nOldFaces_{nOldFaces},
+  nOldCells_{nOldCells},
+  pointMap_{pointMap},
+  pointsFromPointsMap_{pointsFromPoints},
+  faceMap_{faceMap},
+  facesFromPointsMap_{facesFromPoints},
+  facesFromEdgesMap_{facesFromEdges},
+  facesFromFacesMap_{facesFromFaces},
+  cellMap_{cellMap},
+  cellsFromPointsMap_{cellsFromPoints},
+  cellsFromEdgesMap_{cellsFromEdges},
+  cellsFromFacesMap_{cellsFromFaces},
+  cellsFromCellsMap_{cellsFromCells},
+  reversePointMap_{reversePointMap},
+  reverseFaceMap_{reverseFaceMap},
+  reverseCellMap_{reverseCellMap},
+  flipFaceFlux_{flipFaceFlux},
+  patchPointMap_{patchPointMap},
+  pointZoneMap_{pointZoneMap},
+  faceZonePointMap_{faceZonePointMap},
+  faceZoneFaceMap_{faceZoneFaceMap},
+  cellZoneMap_{cellZoneMap},
+  preMotionPoints_{preMotionPoints},
+  oldPatchSizes_{oldPatchStarts.size()},
+  oldPatchStarts_{oldPatchStarts},
+  oldPatchNMeshPoints_{oldPatchNMeshPoints},
+  oldCellVolumesPtr_{oldCellVolumesPtr}
 {
   // Calculate old patch sizes
-  for (label patchI = 0; patchI < oldPatchStarts_.size() - 1; patchI++)
-  {
+  for (label patchI = 0; patchI < oldPatchStarts_.size() - 1; patchI++) {
     oldPatchSizes_[patchI] =
       oldPatchStarts_[patchI + 1] - oldPatchStarts_[patchI];
   }
   // Set the last one by hand
   const label lastPatchID = oldPatchStarts_.size() - 1;
   oldPatchSizes_[lastPatchID] = nOldFaces_ - oldPatchStarts_[lastPatchID];
-  if (polyMesh::debug)
-  {
-    if (min(oldPatchSizes_) < 0)
-    {
+  if (polyMesh::debug) {
+    if (min(oldPatchSizes_) < 0) {
       FATAL_ERROR_IN("mapPolyMesh::mapPolyMesh(...)")
         << "Calculated negative old patch size.  Error in mapping data"
         << abort(FatalError);
     }
   }
 }
+
+
 mousse::mapPolyMesh::mapPolyMesh
 (
   const polyMesh& mesh,
@@ -119,51 +120,47 @@ mousse::mapPolyMesh::mapPolyMesh
   const bool reUse
 )
 :
-  mesh_(mesh),
-  nOldPoints_(nOldPoints),
-  nOldFaces_(nOldFaces),
-  nOldCells_(nOldCells),
-  pointMap_(pointMap, reUse),
-  pointsFromPointsMap_(pointsFromPoints, reUse),
-  faceMap_(faceMap, reUse),
-  facesFromPointsMap_(facesFromPoints, reUse),
-  facesFromEdgesMap_(facesFromEdges, reUse),
-  facesFromFacesMap_(facesFromFaces, reUse),
-  cellMap_(cellMap, reUse),
-  cellsFromPointsMap_(cellsFromPoints, reUse),
-  cellsFromEdgesMap_(cellsFromEdges, reUse),
-  cellsFromFacesMap_(cellsFromFaces, reUse),
-  cellsFromCellsMap_(cellsFromCells, reUse),
-  reversePointMap_(reversePointMap, reUse),
-  reverseFaceMap_(reverseFaceMap, reUse),
-  reverseCellMap_(reverseCellMap, reUse),
-  flipFaceFlux_(flipFaceFlux),
-  patchPointMap_(patchPointMap, reUse),
-  pointZoneMap_(pointZoneMap, reUse),
-  faceZonePointMap_(faceZonePointMap, reUse),
-  faceZoneFaceMap_(faceZoneFaceMap, reUse),
-  cellZoneMap_(cellZoneMap, reUse),
-  preMotionPoints_(preMotionPoints, reUse),
-  oldPatchSizes_(oldPatchStarts.size()),
-  oldPatchStarts_(oldPatchStarts, reUse),
-  oldPatchNMeshPoints_(oldPatchNMeshPoints, reUse),
-  oldCellVolumesPtr_(oldCellVolumesPtr, reUse)
+  mesh_{mesh},
+  nOldPoints_{nOldPoints},
+  nOldFaces_{nOldFaces},
+  nOldCells_{nOldCells},
+  pointMap_{pointMap, reUse},
+  pointsFromPointsMap_{pointsFromPoints, reUse},
+  faceMap_{faceMap, reUse},
+  facesFromPointsMap_{facesFromPoints, reUse},
+  facesFromEdgesMap_{facesFromEdges, reUse},
+  facesFromFacesMap_{facesFromFaces, reUse},
+  cellMap_{cellMap, reUse},
+  cellsFromPointsMap_{cellsFromPoints, reUse},
+  cellsFromEdgesMap_{cellsFromEdges, reUse},
+  cellsFromFacesMap_{cellsFromFaces, reUse},
+  cellsFromCellsMap_{cellsFromCells, reUse},
+  reversePointMap_{reversePointMap, reUse},
+  reverseFaceMap_{reverseFaceMap, reUse},
+  reverseCellMap_{reverseCellMap, reUse},
+  flipFaceFlux_{flipFaceFlux},
+  patchPointMap_{patchPointMap, reUse},
+  pointZoneMap_{pointZoneMap, reUse},
+  faceZonePointMap_{faceZonePointMap, reUse},
+  faceZoneFaceMap_{faceZoneFaceMap, reUse},
+  cellZoneMap_{cellZoneMap, reUse},
+  preMotionPoints_{preMotionPoints, reUse},
+  oldPatchSizes_{oldPatchStarts.size()},
+  oldPatchStarts_{oldPatchStarts, reUse},
+  oldPatchNMeshPoints_{oldPatchNMeshPoints, reUse},
+  oldCellVolumesPtr_{oldCellVolumesPtr, reUse}
 {
-  if (oldPatchStarts_.size() > 0)
-  {
+  if (oldPatchStarts_.size() > 0) {
     // Calculate old patch sizes
-    for (label patchI = 0; patchI < oldPatchStarts_.size() - 1; patchI++)
-    {
+    for (label patchI = 0; patchI < oldPatchStarts_.size() - 1; patchI++) {
       oldPatchSizes_[patchI] =
         oldPatchStarts_[patchI + 1] - oldPatchStarts_[patchI];
     }
     // Set the last one by hand
     const label lastPatchID = oldPatchStarts_.size() - 1;
     oldPatchSizes_[lastPatchID] = nOldFaces_ - oldPatchStarts_[lastPatchID];
-    if (polyMesh::debug)
-    {
-      if (min(oldPatchSizes_) < 0)
-      {
+    if (polyMesh::debug) {
+      if (min(oldPatchSizes_) < 0) {
         FATAL_ERROR_IN("mapPolyMesh::mapPolyMesh(...)")
           << "Calculated negative old patch size."
           << "  Error in mapping data"

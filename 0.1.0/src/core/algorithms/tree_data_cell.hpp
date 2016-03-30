@@ -11,11 +11,14 @@
 //   cell containing a point (e.g. cell-cell mapping).
 // SourceFiles
 //   tree_data_cell.cpp
+
 #include "poly_mesh.hpp"
 #include "tree_bound_box_list.hpp"
 #include "volume_type.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 template<class Type> class indexedOctree;
 class treeDataCell
@@ -148,5 +151,7 @@ public:
         const point& sample
       ) const;
 };
+
 }  // namespace mousse
+
 #endif

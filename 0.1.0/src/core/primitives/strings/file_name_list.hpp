@@ -7,9 +7,12 @@
 
 #include "file_name.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef UList<fileName> fileNameUList;
-  typedef List<fileName> fileNameList;
+
+
+namespace mousse {
+
+typedef UList<fileName> fileNameUList;
+typedef List<fileName> fileNameList;
+
 }
 #endif

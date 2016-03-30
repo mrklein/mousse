@@ -8,18 +8,16 @@
 //   mousse::pointBoundaryMesh
 // Description
 //   mousse::pointBoundaryMesh
-// SourceFiles
-//   point_boundary_mesh.cpp
-
 
 #include "point_patch_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class pointMesh;
 class polyBoundaryMesh;
+
 
 class pointBoundaryMesh
 :

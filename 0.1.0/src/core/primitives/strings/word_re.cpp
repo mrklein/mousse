@@ -6,14 +6,16 @@
 #include "iostreams.hpp"
 #include "info_proxy.hpp"
 
+
 // Static Data Members
 const mousse::wordRe mousse::wordRe::null;
+
 
 // Constructors 
 mousse::wordRe::wordRe(Istream& is)
 :
-  word(),
-  re_(NULL)
+  word{},
+  re_{NULL}
 {
   is >> *this;
 }
@@ -22,32 +24,25 @@ mousse::wordRe::wordRe(Istream& is)
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, wordRe& w)
 {
-  token t(is);
-  if (!t.good())
-  {
+  token t{is};
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isWord())
-  {
+  if (t.isWord()) {
     w = t.wordToken();
-  }
-  else if (t.isString())
-  {
+  } else if (t.isString()) {
     // Auto-tests for regular expression
     w = t.stringToken();
     // flag empty strings as an error
-    if (w.empty())
-    {
+    if (w.empty()) {
       is.setBad();
       FATAL_IO_ERROR_IN("operator>>(Istream&, wordRe&)", is)
         << "empty word/expression "
         << exit(FatalIOError);
       return is;
     }
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, wordRe&)", is)
       << "wrong token type - expected word or string, found "
@@ -71,12 +66,9 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const wordRe& w)
 
 mousse::Ostream& mousse::wordRe::info(Ostream& os) const
 {
-  if (isPattern())
-  {
+  if (isPattern()) {
     os  << "wordRe(regex) " << *this;
-  }
-  else
-  {
+  } else {
     os  << "wordRe(plain) \"" << *this << '"';
   }
   os.flush();

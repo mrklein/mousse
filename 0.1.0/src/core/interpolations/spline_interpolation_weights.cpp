@@ -6,8 +6,10 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "list_ops.hpp"
 #include "linear_interpolation_weights.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(splineInterpolationWeights, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -16,6 +18,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   splineInterpolationWeights,
   word
 );
+
+
 // Constructors 
 splineInterpolationWeights::splineInterpolationWeights
 (
@@ -26,27 +30,27 @@ splineInterpolationWeights::splineInterpolationWeights
   interpolationWeights{samples},
   index_{-1}
 {
-  if (checkEqualDistance && samples_.size() > 2)
-  {
+  if (checkEqualDistance && samples_.size() > 2) {
     const scalar interval = samples_[1]-samples[0];
-    for (label i = 2; i < samples_.size(); i++)
-    {
+    for (label i = 2; i < samples_.size(); i++) {
       scalar d = samples_[i]-samples[i-1];
-      if (mag(d-interval) > SMALL)
-      {
+      if (mag(d-interval) > SMALL) {
         WARNING_IN
         (
           "splineInterpolationWeights::splineInterpolationWeights"
           "(const scalarField&)"
-        )   << "Spline interpolation only valid for constant intervals."
-          << nl
-          << "Interval 0-1 : " << interval << nl
-          << "Interval " << i-1 << '-' << i << " : "
-          << d << endl;
+        )
+        << "Spline interpolation only valid for constant intervals."
+        << nl
+        << "Interval 0-1 : " << interval << nl
+        << "Interval " << i-1 << '-' << i << " : "
+        << d << endl;
       }
     }
   }
 }
+
+
 // Member Functions 
 bool splineInterpolationWeights::valueWeights
 (
@@ -57,8 +61,7 @@ bool splineInterpolationWeights::valueWeights
 {
   bool indexChanged = false;
   // linear interpolation
-  if (samples_.size() <= 2)
-  {
+  if (samples_.size() <= 2) {
     return linearInterpolationWeights(samples_).valueWeights
     (
       t,
@@ -67,35 +70,25 @@ bool splineInterpolationWeights::valueWeights
     );
   }
   // Check if current timeIndex is still valid
-  if
-  (
-    index_ >= 0
-  && index_ < samples_.size()
-  && (
-      samples_[index_] <= t
-    && (index_ == samples_.size()-1 || t <= samples_[index_+1])
-    )
-  )
+  if (index_ >= 0
+      && index_ < samples_.size()
+      && (samples_[index_] <= t
+          && (index_ == samples_.size()-1 || t <= samples_[index_+1])))
   {
     // index_ still at correct slot
-  }
-  else
-  {
+  } else {
     // search for correct index
     index_ = findLower(samples_, t);
     indexChanged = true;
   }
   // Clamp if outside table
-  if (index_ == -1)
-  {
+  if (index_ == -1) {
     indices.setSize(1);
     weights.setSize(1);
     indices[0] = 0;
     weights[0] = 1;
     return indexChanged;
-  }
-  else if (index_ == samples_.size()-1)
-  {
+  } else if (index_ == samples_.size()-1) {
     indices.setSize(1);
     weights.setSize(1);
     indices[0] = samples_.size()-1;
@@ -110,10 +103,8 @@ bool splineInterpolationWeights::valueWeights
   scalar w1 = 0.5*(2+mu*(mu*(-5 + mu*(3))));      // coeff of lo
   scalar w2 = 0.5*(mu*(1 + mu*(4 + mu*(-3))));    // coeff of hi
   scalar w3 = 0.5*(mu*mu*(-1 + mu));              // coeff of hi+1
-  if (lo > 0)
-  {
-    if (hi < samples_.size()-1)
-    {
+  if (lo > 0) {
+    if (hi < samples_.size()-1) {
       // Four points available
       indices.setSize(4);
       weights.setSize(4);
@@ -125,9 +116,7 @@ bool splineInterpolationWeights::valueWeights
       weights[1] = w1;
       weights[2] = w2;
       weights[3] = w3;
-    }
-    else
-    {
+    } else {
       // No y3 available. Extrapolate: y3=3*y2-y1
       indices.setSize(3);
       weights.setSize(3);
@@ -138,12 +127,9 @@ bool splineInterpolationWeights::valueWeights
       weights[1] = w1 - w3;
       weights[2] = w2 + 2*w3;
     }
-  }
-  else
-  {
+  } else {
     // No y0 available. Extrapolate: y0=2*y1-y2;
-    if (hi < samples_.size()-1)
-    {
+    if (hi < samples_.size()-1) {
       indices.setSize(3);
       weights.setSize(3);
       indices[0] = lo;
@@ -152,9 +138,7 @@ bool splineInterpolationWeights::valueWeights
       weights[0] = w1 + 2*w0;
       weights[1] = w2 - w0;
       weights[2] = w3;
-    }
-    else
-    {
+    } else {
       indices.setSize(2);
       weights.setSize(2);
       indices[0] = lo;
@@ -165,4 +149,5 @@ bool splineInterpolationWeights::valueWeights
   }
   return indexChanged;
 }
+
 }  // namespace mousse

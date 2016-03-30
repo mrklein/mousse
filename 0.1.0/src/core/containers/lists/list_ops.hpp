@@ -4,15 +4,12 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   list_ops.cpp
-//   list_ops_templates.cpp
-
 
 #include "label_list.hpp"
 #include "ops.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 extern const labelList emptyLabelList;
 
@@ -239,7 +236,6 @@ void inplaceRotateList(ListType<DataType>& list, label n);
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "list_ops_templates.cpp"
-#endif
+#include "list_ops.ipp"
+
 #endif

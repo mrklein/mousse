@@ -5,6 +5,7 @@
 #include "_ldu_matrix.hpp"
 #include "field_types.hpp"
 
+
 namespace mousse {
 
 MAKE_LDU_MATRIX(scalar, scalar, scalar);

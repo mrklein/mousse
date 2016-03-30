@@ -4,12 +4,15 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   _read_fields.cpp
+
 #include "ptr_list.hpp"
 #include "word_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IOobjectList;
+
 //- Helper routine to read fields
 template<class GeoField, class Mesh>
 wordList ReadFields
@@ -19,6 +22,7 @@ wordList ReadFields
   PtrList<GeoField>& fields,
   const bool syncPar = true
 );
+
 //- Helper routine to read GeometricFields. The fieldsCache is per time
 //  an objectRegistry of all stored fields
 template<class GeoField>
@@ -29,6 +33,7 @@ static void ReadFields
   const wordList& timeNames,
   objectRegistry& fieldsCache
 );
+
 //- Helper routine to read GeometricFields. The fieldsCache is per time
 //  an objectRegistry of all stored fields
 template<class GeoField>
@@ -39,8 +44,9 @@ static void ReadFields
   const wordList& timeNames,
   const word& registryName = "fieldsCache"
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_read_fields.cpp"
-#endif
+
+#include "_read_fields.ipp"
+
 #endif

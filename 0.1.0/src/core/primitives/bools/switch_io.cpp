@@ -5,6 +5,7 @@
 #include "switch.hpp"
 #include "iostreams.hpp"
 
+
 // Constructors 
 mousse::Switch::Switch(Istream& is)
 {
@@ -15,35 +16,27 @@ mousse::Switch::Switch(Istream& is)
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, Switch& s)
 {
-  token t(is);
-  if (!t.good())
-  {
+  token t{is};
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isLabel())
-  {
+  if (t.isLabel()) {
     s = bool(t.labelToken());
   }
-  else if (t.isWord())
-  {
+  else if (t.isWord()) {
     // allow invalid values, but catch after for correct error message
-    Switch sw(t.wordToken(), true);
-    if (sw.valid())
-    {
+    Switch sw{t.wordToken(), true};
+    if (sw.valid()) {
       s = sw;
-    }
-    else
-    {
+    } else {
       is.setBad();
       FATAL_IO_ERROR_IN("operator>>(Istream&, bool/Switch&)", is)
         << "expected 'true/false', 'on/off' ... found " << t.wordToken()
         << exit(FatalIOError);
       return is;
     }
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, bool/Switch&)", is)
       << "wrong token type - expected bool, found " << t

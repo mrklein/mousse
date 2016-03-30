@@ -3,9 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "point_patch.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(pointPatch, 0);
 

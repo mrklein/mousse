@@ -6,26 +6,30 @@
 #include "primitive_mesh.hpp"
 #include "list_ops.hpp"
 
+
 // Static Data Members
 const mousse::label mousse::prismMatcher::vertPerCell = 6;
 const mousse::label mousse::prismMatcher::facePerCell = 5;
 const mousse::label mousse::prismMatcher::maxVertPerFace = 4;
 
+
 // Constructors
 mousse::prismMatcher::prismMatcher()
 :
   cellMatcher
-  (
+  {
     vertPerCell,
     facePerCell,
     maxVertPerFace,
     "prism"
-  )
+  }
 {}
+
 
 // Destructor
 mousse::prismMatcher::~prismMatcher()
 {}
+
 
 // Member Functions
 bool mousse::prismMatcher::matchShape
@@ -37,14 +41,12 @@ bool mousse::prismMatcher::matchShape
   const labelList& myFaces
 )
 {
-  if (!faceSizeMatch(faces, myFaces))
-  {
+  if (!faceSizeMatch(faces, myFaces)) {
     return false;
   }
   // Calculate localFaces_ and mapping pointMap_, faceMap_
   label numVert = calcLocalFaces(faces, myFaces);
-  if (numVert != vertPerCell)
-  {
+  if (numVert != vertPerCell) {
     return false;
   }
   // Set up 'edge' to face mapping.
@@ -60,10 +62,8 @@ bool mousse::prismMatcher::matchShape
   // rotation symmetric
   //
   label face0I = -1;
-  FOR_ALL(faceSize_, faceI)
-  {
-    if (faceSize_[faceI] == 3)
-    {
+  FOR_ALL(faceSize_, faceI) {
+    if (faceSize_[faceI] == 3) {
       face0I = faceI;
       break;
     }
@@ -105,8 +105,7 @@ bool mousse::prismMatcher::matchShape
   //    << " across edge " << face0[face0vert0] << " "
   //    << face0[face0vert1]
   //    << endl;
-  if (faceSize_[face4I] != 4)
-  {
+  if (faceSize_[face4I] != 4) {
     //Info<< "Cannot be Prism Face 4 since size="
     //    << faceSize_[face4I] << endl;
     return false;
@@ -154,15 +153,13 @@ bool mousse::prismMatcher::matchShape
   //    << " across edge " << face4[face4vert3] << " "
   //    << face4[face4vert4]
   //    << endl;
-  if (faceSize_[face1I] != 3)
-  {
+  if (faceSize_[face1I] != 3) {
     //Info<< "Cannot be Prism Face 1 since size="
     //    << faceSize_[face1I] << endl;
     return false;
   }
   // Is prism for sure now
-  if (checkOnly)
-  {
+  if (checkOnly) {
     return true;
   }
   faceLabels_[1] = faceMap_[face1I];
@@ -232,47 +229,43 @@ bool mousse::prismMatcher::matchShape
   //    << endl;
   return true;
 }
+
+
 mousse::label mousse::prismMatcher::faceHashValue() const
 {
   return 2*3 + 4*4;
 }
+
+
 bool mousse::prismMatcher::faceSizeMatch
 (
   const faceList& faces,
   const labelList& myFaces
 ) const
 {
-  if (myFaces.size() != 5)
-  {
+  if (myFaces.size() != 5) {
     return false;
   }
   label nTris = 0;
   label nQuads = 0;
-  FOR_ALL(myFaces, myFaceI)
-  {
+  FOR_ALL(myFaces, myFaceI) {
     label size = faces[myFaces[myFaceI]].size();
-    if (size == 3)
-    {
+    if (size == 3) {
       nTris++;
-    }
-    else if (size == 4)
-    {
+    } else if (size == 4) {
       nQuads++;
-    }
-    else
-    {
+    } else {
       return false;
     }
   }
-  if ((nTris == 2) && (nQuads == 3))
-  {
+  if ((nTris == 2) && (nQuads == 3)) {
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 bool mousse::prismMatcher::isA(const primitiveMesh& mesh, const label cellI)
 {
   return matchShape
@@ -284,6 +277,8 @@ bool mousse::prismMatcher::isA(const primitiveMesh& mesh, const label cellI)
     mesh.cells()[cellI]
   );
 }
+
+
 bool mousse::prismMatcher::isA(const faceList& faces)
 {
   // Do as if mesh with one cell only
@@ -296,6 +291,8 @@ bool mousse::prismMatcher::isA(const faceList& faces)
     identity(faces.size())      // faces of cell 0
   );
 }
+
+
 bool mousse::prismMatcher::matches
 (
   const primitiveMesh& mesh,
@@ -303,23 +300,17 @@ bool mousse::prismMatcher::matches
   cellShape& shape
 )
 {
-  if
-  (
-    matchShape
-    (
-      false,
-      mesh.faces(),
-      mesh.faceOwner(),
-      cellI,
-      mesh.cells()[cellI]
-    )
-  )
-  {
+  if (matchShape
+      (
+        false,
+        mesh.faces(),
+        mesh.faceOwner(),
+        cellI,
+        mesh.cells()[cellI]
+      )) {
     shape = cellShape(model(), vertLabels());
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }

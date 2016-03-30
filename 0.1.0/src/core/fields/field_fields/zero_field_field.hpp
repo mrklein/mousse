@@ -12,9 +12,12 @@
 //   compile-time.
 //   Used for example as the density argument to a function written for
 //   compressible to be used for incompressible flow.
+
 #include "zero_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class zeroFieldField
 :
   public zero
@@ -25,12 +28,9 @@ public:
     zeroFieldField()
     {}
   // Member Operators
-    inline zeroField operator[](const label) const;
+    inline zeroField operator[](const label) const { return zeroField(); }
 };
+
 }  // namespace mousse
 
-inline mousse::zeroField mousse::zeroFieldField::operator[](const label) const
-{
-  return zeroField();
-}
 #endif

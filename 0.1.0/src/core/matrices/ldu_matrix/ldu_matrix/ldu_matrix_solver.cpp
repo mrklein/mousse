@@ -5,12 +5,16 @@
 #include "ldu_matrix.hpp"
 #include "diagonal_solver.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_RUN_TIME_SELECTION_TABLE(lduMatrix::solver, symMatrix);
-  DEFINE_RUN_TIME_SELECTION_TABLE(lduMatrix::solver, asymMatrix);
+namespace mousse {
+
+DEFINE_RUN_TIME_SELECTION_TABLE(lduMatrix::solver, symMatrix);
+DEFINE_RUN_TIME_SELECTION_TABLE(lduMatrix::solver, asymMatrix);
+
 }
+
+
 mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
 (
   const word& fieldName,
@@ -22,10 +26,9 @@ mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
 )
 {
   const word name(solverControls.lookup("solver"));
-  if (matrix.diagonal())
-  {
+  if (matrix.diagonal()) {
     return autoPtr<lduMatrix::solver>
-    (
+    {
       new diagonalSolver
       (
         fieldName,
@@ -35,14 +38,11 @@ mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
         interfaces,
         solverControls
       )
-    );
-  }
-  else if (matrix.symmetric())
-  {
+    };
+  } else if (matrix.symmetric()) {
     symMatrixConstructorTable::iterator constructorIter =
       symMatrixConstructorTablePtr_->find(name);
-    if (constructorIter == symMatrixConstructorTablePtr_->end())
-    {
+    if (constructorIter == symMatrixConstructorTablePtr_->end()) {
       FATAL_IO_ERROR_IN
       (
         "lduMatrix::solver::New", solverControls
@@ -64,13 +64,10 @@ mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
         solverControls
       )
     };
-  }
-  else if (matrix.asymmetric())
-  {
+  } else if (matrix.asymmetric()) {
     asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(name);
-    if (constructorIter == asymMatrixConstructorTablePtr_->end())
-    {
+    if (constructorIter == asymMatrixConstructorTablePtr_->end()) {
       FATAL_IO_ERROR_IN
       (
         "lduMatrix::solver::New", solverControls
@@ -92,15 +89,12 @@ mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
         solverControls
       )
     };
-  }
-  else
-  {
+  } else {
     FATAL_IO_ERROR_IN
     (
       "lduMatrix::solver::New", solverControls
     )
-    << "cannot solve incomplete matrix, "
-    "no diagonal or off-diagonal coefficient"
+    << "cannot solve incomplete matrix, no diagonal or off-diagonal coefficient"
     << exit(FatalIOError);
     return autoPtr<lduMatrix::solver>{NULL};
   }
@@ -132,10 +126,10 @@ mousse::lduMatrix::solver::solver
 // Member Functions 
 void mousse::lduMatrix::solver::readControls()
 {
-  maxIter_   = controlDict_.lookupOrDefault<label>("maxIter", 1000);
-  minIter_   = controlDict_.lookupOrDefault<label>("minIter", 0);
+  maxIter_ = controlDict_.lookupOrDefault<label>("maxIter", 1000);
+  minIter_ = controlDict_.lookupOrDefault<label>("minIter", 0);
   tolerance_ = controlDict_.lookupOrDefault<scalar>("tolerance", 1e-6);
-  relTol_    = controlDict_.lookupOrDefault<scalar>("relTol", 0);
+  relTol_ = controlDict_.lookupOrDefault<scalar>("relTol", 0);
 }
 
 
@@ -162,8 +156,7 @@ mousse::scalar mousse::lduMatrix::solver::normFactor
     (
       (mag(Apsi - tmpField) + mag(source - tmpField))(),
       matrix_.lduMesh_.comm()
-    )
-   + solverPerformance::small_;
+    ) + solverPerformance::small_;
   // At convergence this simpler method is equivalent to the above
   // return 2*gSumMag(source) + solverPerformance::small_;
 }

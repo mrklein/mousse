@@ -13,11 +13,10 @@
 //   on const and non-const lists. Alternative would be to have a const_
 //   variant etc.
 
-
 #include "list.hpp"
 
-namespace mousse
-{
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class T> class UIndirectList;
 template<class T> Ostream& operator<<(Ostream&, const UIndirectList<T>&);
@@ -115,7 +114,9 @@ public:
     );
 
 };
+
 }  // namespace mousse
+
 
 // Constructors
 template<class T>
@@ -192,8 +193,7 @@ template<class T>
 inline mousse::List<T> mousse::UIndirectList<T>::operator()() const
 {
   List<T> result(size());
-  FOR_ALL(*this, i)
-  {
+  FOR_ALL(*this, i) {
     result[i] = operator[](i);
   }
   return result;
@@ -217,16 +217,14 @@ inline const T& mousse::UIndirectList<T>::operator[](const label i) const
 template<class T>
 inline void mousse::UIndirectList<T>::operator=(const UList<T>& ae)
 {
-  if (addressing_.size() != ae.size())
-  {
+  if (addressing_.size() != ae.size()) {
     FATAL_ERROR_IN("UIndirectList<T>::operator=(const UList<T>&)")
       << "Addressing and list of addressed elements "
        "have different sizes: "
       << addressing_.size() << " " << ae.size()
       << abort(FatalError);
   }
-  FOR_ALL(addressing_, i)
-  {
+  FOR_ALL(addressing_, i) {
     completeList_[addressing_[i]] = ae[i];
   }
 }
@@ -235,16 +233,14 @@ inline void mousse::UIndirectList<T>::operator=(const UList<T>& ae)
 template<class T>
 inline void mousse::UIndirectList<T>::operator=(const UIndirectList<T>& ae)
 {
-  if (addressing_.size() != ae.size())
-  {
+  if (addressing_.size() != ae.size()) {
     FATAL_ERROR_IN("UIndirectList<T>::operator=(const UIndirectList<T>&)")
       << "Addressing and list of addressed elements "
          "have different sizes: "
       << addressing_.size() << " " << ae.size()
       << abort(FatalError);
   }
-  FOR_ALL(addressing_, i)
-  {
+  FOR_ALL(addressing_, i) {
     completeList_[addressing_[i]] = ae[i];
   }
 }
@@ -253,12 +249,11 @@ inline void mousse::UIndirectList<T>::operator=(const UIndirectList<T>& ae)
 template<class T>
 inline void mousse::UIndirectList<T>::operator=(const T& t)
 {
-  FOR_ALL(addressing_, i)
-  {
+  FOR_ALL(addressing_, i) {
     completeList_[addressing_[i]] = t;
   }
 }
-#ifdef NoRepository
-#   include "uindirect_list_io.cpp"
-#endif
+
+#include "uindirect_list_io.ipp"
+
 #endif

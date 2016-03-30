@@ -12,15 +12,16 @@
 // Note
 //   - Accessing an empty list results in an error.
 //   - Accessing a list with a single element always returns the same value.
-// SourceFiles
-//   interpolation_look_up_table.cpp
+
 #include "list.hpp"
 #include "list_ops.hpp"
 #include "scalar_field.hpp"
 #include "hash_table.hpp"
 #include "iodictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class fvMesh;
 template<class Type>
@@ -129,6 +130,7 @@ public:
 };
 }  // namespace mousse
 
+
 template<class Type>
 inline mousse::label
 mousse::interpolationLookUpTable<Type>::findFieldIndex
@@ -138,48 +140,63 @@ mousse::interpolationLookUpTable<Type>::findFieldIndex
 {
   return fieldIndices_[fieldName];
 }
+
+
 template<class Type>
 inline const mousse::List<mousse::dictionary>&
 mousse::interpolationLookUpTable<Type>::output() const
 {
   return output_;
 }
+
+
 template<class Type>
 inline const mousse::List<mousse::dictionary>&
 mousse::interpolationLookUpTable<Type>::entries() const
 {
   return entries_;
 }
+
+
 template<class Type>
 inline const mousse::List<mousse::scalar>&
 mousse::interpolationLookUpTable<Type>::min() const
 {
   return min_;
 }
+
+
 template<class Type>
 inline const mousse::List<mousse::label>&
 mousse::interpolationLookUpTable<Type>::dim() const
 {
   return dim_;
 }
+
+
 template<class Type>
 inline const mousse::List<mousse::scalar>&
 mousse::interpolationLookUpTable<Type>::delta() const
 {
   return delta_;
 }
+
+
 template<class Type>
 inline const mousse::List<mousse::scalar>&
 mousse::interpolationLookUpTable<Type>::max() const
 {
   return max_;
 }
+
+
 template<class Type>
 inline mousse::word mousse::interpolationLookUpTable<Type>::tableName() const
 {
   return fileName_.name();
 }
-#ifdef NoRepository
-#   include "interpolation_look_up_table.cpp"
-#endif
+
+
+#include "interpolation_look_up_table.ipp"
+
 #endif

@@ -7,9 +7,13 @@
 
 #include "vector.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef UList<vector> vectorUList;
-  typedef List<vector> vectorList;
+
+
+namespace mousse {
+
+typedef UList<vector> vectorUList;
+typedef List<vector> vectorList;
+
 }
+
 #endif

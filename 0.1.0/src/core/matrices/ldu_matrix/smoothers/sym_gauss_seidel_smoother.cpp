@@ -3,15 +3,20 @@
 // Copyright (C) 2016 mousse project
 
 #include "sym_gauss_seidel_smoother.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(symGaussSeidelSmoother, 0);
-  lduMatrix::smoother::addsymMatrixConstructorToTable<symGaussSeidelSmoother>
-    addsymGaussSeidelSmootherSymMatrixConstructorToTable_;
-  lduMatrix::smoother::addasymMatrixConstructorToTable<symGaussSeidelSmoother>
-    addsymGaussSeidelSmootherAsymMatrixConstructorToTable_;
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(symGaussSeidelSmoother, 0);
+lduMatrix::smoother::addsymMatrixConstructorToTable<symGaussSeidelSmoother>
+  addsymGaussSeidelSmootherSymMatrixConstructorToTable_;
+lduMatrix::smoother::addasymMatrixConstructorToTable<symGaussSeidelSmoother>
+  addsymGaussSeidelSmootherAsymMatrixConstructorToTable_;
+
 }
+
+
 // Constructors 
 mousse::symGaussSeidelSmoother::symGaussSeidelSmoother
 (
@@ -23,14 +28,16 @@ mousse::symGaussSeidelSmoother::symGaussSeidelSmoother
 )
 :
   lduMatrix::smoother
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces
-  )
+  }
 {}
+
+
 // Member Functions 
 void mousse::symGaussSeidelSmoother::smooth
 (
@@ -46,7 +53,7 @@ void mousse::symGaussSeidelSmoother::smooth
 {
   scalar* __restrict__ psiPtr = psi.begin();
   const label nCells = psi.size();
-  scalarField bPrime(nCells);
+  scalarField bPrime{nCells};
   scalar* __restrict__ bPrimePtr = bPrime.begin();
   const scalar* const __restrict__ diagPtr = matrix_.diag().begin();
   const scalar* const __restrict__ upperPtr =
@@ -73,15 +80,12 @@ void mousse::symGaussSeidelSmoother::smooth
     (
       interfaceBouCoeffs_
     );
-  FOR_ALL(mBouCoeffs, patchi)
-  {
-    if (interfaces_.set(patchi))
-    {
+  FOR_ALL(mBouCoeffs, patchi) {
+    if (interfaces_.set(patchi)) {
       mBouCoeffs[patchi].negate();
     }
   }
-  for (label sweep=0; sweep<nSweeps; sweep++)
-  {
+  for (label sweep=0; sweep<nSweeps; sweep++) {
     bPrime = source;
     matrix_.initMatrixInterfaces
     (
@@ -102,59 +106,53 @@ void mousse::symGaussSeidelSmoother::smooth
     scalar psii;
     label fStart;
     label fEnd = ownStartPtr[0];
-    for (label celli=0; celli<nCells; celli++)
-    {
+    for (label celli=0; celli<nCells; celli++) {
       // Start and end of this row
       fStart = fEnd;
       fEnd = ownStartPtr[celli + 1];
       // Get the accumulated neighbour side
       psii = bPrimePtr[celli];
       // Accumulate the owner product side
-      for (label facei=fStart; facei<fEnd; facei++)
-      {
+      for (label facei=fStart; facei<fEnd; facei++) {
         psii -= upperPtr[facei]*psiPtr[uPtr[facei]];
       }
       // Finish current psi
       psii /= diagPtr[celli];
       // Distribute the neighbour side using current psi
-      for (label facei=fStart; facei<fEnd; facei++)
-      {
+      for (label facei=fStart; facei<fEnd; facei++) {
         bPrimePtr[uPtr[facei]] -= lowerPtr[facei]*psii;
       }
       psiPtr[celli] = psii;
     }
     fStart = ownStartPtr[nCells];
-    for (label celli=nCells-1; celli>=0; celli--)
-    {
+    for (label celli=nCells-1; celli>=0; celli--) {
       // Start and end of this row
       fEnd = fStart;
       fStart = ownStartPtr[celli];
       // Get the accumulated neighbour side
       psii = bPrimePtr[celli];
       // Accumulate the owner product side
-      for (label facei=fStart; facei<fEnd; facei++)
-      {
+      for (label facei=fStart; facei<fEnd; facei++) {
         psii -= upperPtr[facei]*psiPtr[uPtr[facei]];
       }
       // Finish psi for this cell
       psii /= diagPtr[celli];
       // Distribute the neighbour side using psi for this cell
-      for (label facei=fStart; facei<fEnd; facei++)
-      {
+      for (label facei=fStart; facei<fEnd; facei++) {
         bPrimePtr[uPtr[facei]] -= lowerPtr[facei]*psii;
       }
       psiPtr[celli] = psii;
     }
   }
   // Restore interfaceBouCoeffs_
-  FOR_ALL(mBouCoeffs, patchi)
-  {
-    if (interfaces_.set(patchi))
-    {
+  FOR_ALL(mBouCoeffs, patchi) {
+    if (interfaces_.set(patchi)) {
       mBouCoeffs[patchi].negate();
     }
   }
 }
+
+
 void mousse::symGaussSeidelSmoother::smooth
 (
   scalarField& psi,

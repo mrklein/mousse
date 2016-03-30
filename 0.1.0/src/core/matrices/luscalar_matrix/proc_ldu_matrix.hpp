@@ -8,19 +8,23 @@
 //   mousse::procLduMatrix
 // Description
 //   I/O for lduMatrix and interface values.
-// SourceFiles
-//   proc_ldu_matrix.cpp
+
 #include "label_list.hpp"
 #include "scalar_field.hpp"
 #include "field_field.hpp"
 #include "ldu_interface_field_ptrs_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class procLduInterface;
 class lduMatrix;
+
 // Forward declaration of friend functions and operators
 class procLduMatrix;
 Ostream& operator<<(Ostream&, const procLduMatrix&);
+
+
 class procLduMatrix
 {
   // Private data
@@ -30,9 +34,6 @@ class procLduMatrix
     scalarField upper_;
     scalarField lower_;
     PtrList<procLduInterface> interfaces_;
-  // Private Member Functions
-    //- Dissallow construction as copy
-    procLduMatrix(const procLduMatrix&);
 public:
   friend class LUscalarMatrix;
   // Constructors
@@ -43,6 +44,8 @@ public:
       const lduInterfaceFieldPtrsList& interfaces
     );
     procLduMatrix(Istream& is);
+    //- Dissallow construction as copy
+    procLduMatrix(const procLduMatrix&) = delete;
   // Member functions
     label size() const
     {

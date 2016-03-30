@@ -12,11 +12,12 @@
 //   runningJob file is removed.
 // See Also
 //   mousse::JobInfo
-// SourceFiles
-//   sig_segv.cpp
+
 #include <signal.h>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sigSegv
 {
   // Private data
@@ -35,5 +36,7 @@ public:
     //- Activate SIGSEGV signal handler
     void set(const bool verbose);
 };
+
 }  // namespace mousse
+
 #endif

@@ -55,19 +55,15 @@
 //   The corresponding library code is located under the local
 //   \c codeStream/platforms/$WM_OPTIONS/lib directory in a library
 //   \c libcodeStream_SHA1.so
-// SourceFiles
-//   code_stream.cpp
-
 
 #include "function_entry.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class dlLibraryTable;
 
-namespace functionEntries
-{
+namespace functionEntries {
 
 // Forward declaration of friend classes
 class calcEntry;

@@ -11,11 +11,15 @@
 // SourceFiles
 //   il_list.cpp
 //   il_list_io.cpp
+
 #include "uil_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 template<class LListBase, class T> class ILList;
 template<class LListBase, class T> Istream& operator>>
@@ -23,6 +27,8 @@ template<class LListBase, class T> Istream& operator>>
   Istream&,
   ILList<LListBase, T>&
 );
+
+
 template<class LListBase, class T>
 class ILList
 :
@@ -40,7 +46,7 @@ public:
     //- Construct given initial T
     ILList(T* a)
     :
-      UILList<LListBase, T>(a)
+      UILList<LListBase, T>{a}
     {}
     //- Construct from Istream
     ILList(Istream&);
@@ -76,7 +82,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "il_list.cpp"
-#endif
+
+#include "il_list.ipp"
+
 #endif

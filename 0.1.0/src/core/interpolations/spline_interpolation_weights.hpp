@@ -8,14 +8,12 @@
 //   mousse::splineInterpolationWeights
 // Description
 //   Catmull-Rom spline interpolation.
-// SourceFiles
-//   spline_interpolation_weights.cpp
-
 
 #include "interpolation_weights.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class splineInterpolationWeights
 :
   public interpolationWeights

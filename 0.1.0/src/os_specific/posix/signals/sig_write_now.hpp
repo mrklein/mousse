@@ -9,12 +9,15 @@
 // Description
 //   Signal handler for interupt defined by OptimisationSwitches::writeNowSignal
 //   Write once and continue.
-// SourceFiles
-//   sig_write_now.cpp
+
 #include <signal.h>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Time;
+
+
 class sigWriteNow
 {
   // Private data
@@ -41,5 +44,7 @@ public:
     //- Is active?
     bool active() const;
 };
+
 }  // namespace mousse
+
 #endif

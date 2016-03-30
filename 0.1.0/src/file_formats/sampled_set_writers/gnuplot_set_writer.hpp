@@ -6,15 +6,11 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::gnuplotSetWriter
-// Description
-// SourceFiles
-//   gnuplot_set_writer.cpp
-
 
 #include "writer.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class gnuplotSetWriter
@@ -62,7 +58,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "gnuplot_set_writer.cpp"
-#endif
+#include "gnuplot_set_writer.ipp"
+
 #endif

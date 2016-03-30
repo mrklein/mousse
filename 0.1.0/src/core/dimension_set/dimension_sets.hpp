@@ -4,12 +4,14 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   dimension_sets.cpp
+
 #include "scalar_matrices.hpp"
 #include "dimensioned_scalar_fwd.hpp"
 #include "ptr_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 extern const dimensionSet dimless;
 extern const dimensionSet dimMass;
 extern const dimensionSet dimLength;
@@ -33,6 +35,8 @@ extern const dimensionSet dimGasConstant;
 extern const dimensionSet dimSpecificHeatCapacity;
 extern const dimensionSet dimViscosity;
 extern const dimensionSet dimDynamicViscosity;
+
+
 class dimensionSets
 {
   // Private data
@@ -67,11 +71,16 @@ public:
     //- (if valid) obtain set of coefficients of unitNames
     void coefficients(scalarField&) const;
 };
+
 //- Top level dictionary
 dictionary& dimensionSystems();
+
 //- Set of all dimensions
 const HashTable<dimensionedScalar>& unitSet();
+
 //- Set of units
 const dimensionSets& writeUnitSet();
+
 }  // namespace mousse
+
 #endif

@@ -7,8 +7,11 @@
 
 #include "tensor_field.hpp"
 #include "iofield.hpp"
-namespace mousse
-{
-  typedef IOField<tensor> tensorIOField;
+
+
+namespace mousse {
+
+typedef IOField<tensor> tensorIOField;
+
 }
 #endif

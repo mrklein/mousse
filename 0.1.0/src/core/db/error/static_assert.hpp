@@ -11,9 +11,8 @@
 //   Ideas from various sources
 //   (http://www.ddj.com/cpp/184401547, http://www.boost.org)
 
+namespace mousse {
 
-namespace mousse
-{
 //- Forward declaration of StaticAssertionFailed.
 //  Leave as an incomplete class so that sizeof(..) fails
 template<bool Truth> class StaticAssertionFailed;
@@ -40,8 +39,8 @@ class StaticAssertionTest {};
 * Assert that some test is true at compile-time
 */
 #define STATIC_ASSERT(Test)                                                   \
-  typedef ::mousse::StaticAssertionTest                                      \
-  <                                                                        \
-    sizeof( ::mousse::StaticAssertionFailed< ((Test) ? true : false) > )   \
+  typedef ::mousse::StaticAssertionTest                                       \
+  <                                                                           \
+    sizeof( ::mousse::StaticAssertionFailed< ((Test) ? true : false) > )      \
   > STATIC_ASSERT_MACRO(StaticAssertionTest, __LINE__)
 #endif

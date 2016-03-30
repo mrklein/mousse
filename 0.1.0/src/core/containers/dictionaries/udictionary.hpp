@@ -11,12 +11,13 @@
 //   associated with it.
 //   It is derived from DictionaryBase instantiated on a non-memory managed
 //   form of intrusive doubly-linked list of \<T\>.
-// SourceFiles
-//   udictionary.cpp
+
 #include "dictionary_base.hpp"
 #include "uidl_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class UDictionary
 :
@@ -29,8 +30,9 @@ public:
     //- Copy construct
     UDictionary(const UDictionary&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "u_dictionary.cpp"
-#endif
+
+#include "udictionary.ipp"
+
 #endif

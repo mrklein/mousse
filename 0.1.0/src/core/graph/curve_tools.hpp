@@ -1,16 +1,23 @@
 #ifndef CORE_GRAPH_CURVE_TOOLS_HPP_
 #define CORE_GRAPH_CURVE_TOOLS_HPP_
+
 #include "scalar.hpp"
 #include "vector.hpp"
 #include "curve.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 #define curveSmall 1.0e-8
 #define curveGreat 1.0e8
+
 #include "char.hpp"
 #include "list.hpp"
+
+
 typedef List<char> charList;
 typedef List<charList> charListList;
+
 scalar distance(const vector&, const vector&);
 bool stepForwardsToNextPoint
 (
@@ -21,6 +28,7 @@ bool stepForwardsToNextPoint
   scalar,
   const curve&
 );
+
 bool stepBackwardsToNextPoint
 (
   const vector&,
@@ -30,6 +38,7 @@ bool stepBackwardsToNextPoint
   scalar,
   const curve&
 );
+
 bool interpolate
 (
   const vector&,
@@ -38,6 +47,7 @@ bool interpolate
   vector&,
   scalar
 );
+
 bool XstepForwardsToNextPoint
 (
   const vector&,
@@ -47,6 +57,7 @@ bool XstepForwardsToNextPoint
   scalar,
   const curve&
 );
+
 bool Xinterpolate
 (
   const vector&,
@@ -55,5 +66,7 @@ bool Xinterpolate
   vector&,
   scalar
 );
+
 }  // namespace mousse
+
 #endif

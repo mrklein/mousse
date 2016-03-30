@@ -9,26 +9,17 @@
 // Description
 //   A collection of tools for searching, sorting PrimitivePatch information.
 //   The class could also be extended to include more that just static methods.
-// SourceFiles
-//   patch_tools.cpp
-//   patch_tools_check.cpp
-//   patch_tools_edge_owner.cpp
-//   patch_tools_gather_and_merge.cpp
-//   patch_tools_match.cpp
-//   patch_tools_normals.cpp
-//   patch_tools_search.cpp
-//   patch_tools_sort_edges.cpp
-//   patch_tools_sort_points.cpp
-
 
 #include "primitive_patch.hpp"
 #include "hash_set.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class polyMesh;
 class PackedBoolList;
 class boundBox;
+
 
 class PatchTools
 {
@@ -264,7 +255,7 @@ public:
   );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "patch_tools.cpp"
-#endif
+
+#include "patch_tools.ipp"
+
 #endif

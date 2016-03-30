@@ -3,12 +3,15 @@
 // Copyright (C) 2016 mousse project
 
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 scalar readScalar(Istream& is)
 {
   scalar rs;
   is >> rs;
   return rs;
 }
+
 }  // namespace mousse

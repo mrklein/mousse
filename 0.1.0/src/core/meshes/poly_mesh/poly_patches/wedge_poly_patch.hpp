@@ -8,11 +8,12 @@
 //   mousse::wedgePolyPatch
 // Description
 //   Wedge front and back plane patch.
-// SourceFiles
-//   wedge_poly_patch.cpp
+
 #include "poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class wedgePolyPatch
 :
   public polyPatch
@@ -94,9 +95,9 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new wedgePolyPatch(*this, bm, index, newSize, newStart)
-      );
+      {
+        new wedgePolyPatch{*this, bm, index, newSize, newStart}
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -109,9 +110,9 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new wedgePolyPatch(*this, bm, index, mapAddressing, newStart)
-      );
+      {
+        new wedgePolyPatch{*this, bm, index, mapAddressing, newStart}
+      };
     }
   // Member functions
     // Access

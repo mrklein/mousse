@@ -8,17 +8,14 @@
 //   mousse::GAMGInterface
 // Description
 //   Abstract base class for GAMG agglomerated interfaces.
-// SourceFiles
-//   gamg_interface.cpp
-//   new_amg_interface.cpp
-
 
 #include "auto_ptr.hpp"
 #include "ldu_interface_ptrs_list.hpp"
 #include "gamg_agglomeration.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class GAMGInterface
 :
   public lduInterface
@@ -233,7 +230,7 @@ public:
       virtual void write(Ostream&) const = 0;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "gamg_interface_templates.cpp"
-#endif
+
+#include "gamg_interface.ipp"
+
 #endif

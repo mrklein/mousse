@@ -6,15 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::linearInterpolationWeights
-// Description
-// SourceFiles
-//   linear_interpolation_weights.cpp
-
 
 #include "interpolation_weights.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class linearInterpolationWeights
 :
   public interpolationWeights

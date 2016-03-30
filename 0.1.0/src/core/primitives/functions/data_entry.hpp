@@ -12,16 +12,15 @@
 //   provide functions to return the (interpolated) value, and integral between
 //   limits.
 // SourceFiles
-//   data_entry.cpp
-//   data_entry_new.cpp
-
+//   data_entry.ipp
+//   data_entry_new.ipp
 
 #include "dictionary.hpp"
 #include "field.hpp"
 #include "dimensioned_type.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class Time;
 
@@ -176,9 +175,7 @@ public:
     add##SS##Type##ConstructorToTable_;
 
 
-#ifdef NoRepository
-#   include "data_entry.cpp"
-#   include "data_entry_new.cpp"
-#endif
+#include "data_entry.ipp"
+#include "data_entry_new.ipp"
 
 #endif

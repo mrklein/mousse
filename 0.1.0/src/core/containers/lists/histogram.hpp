@@ -8,14 +8,11 @@
 //   mousse::Histogram
 // Description
 //   Calculates the counts per bin of a list.
-// SourceFiles
-//   histogram.cpp
-
 
 #include "label_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class List>
 class Histogram
@@ -79,7 +76,7 @@ public:
       }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "histogram.cpp"
-#endif
+
+#include "histogram.ipp"
+
 #endif

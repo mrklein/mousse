@@ -37,12 +37,6 @@
 //     objectRegistry.
 //   \param NO_WRITE
 //     No automatic write on destruction but can be written explicitly
-// SourceFiles
-//   ioobject.cpp
-//   ioobject_read_header.cpp
-//   ioobject_write_header.cpp
-//   ioobject_print.cpp
-
 
 #include "file_name.hpp"
 #include "type_info.hpp"
@@ -50,10 +44,13 @@
 #include "info_proxy.hpp"
 #include "mousse_version.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class Time;
 class objectRegistry;
+
+
 class IOobject
 {
 public:
@@ -307,41 +304,42 @@ template<>
 Ostream& operator<<(Ostream& os, const InfoProxy<IOobject>& ip);
 }  // namespace mousse
 
+
 // Member Functions 
 template<class Name>
 inline mousse::word mousse::IOobject::groupName(Name name, const word& group)
 {
-  if (group != word::null)
-  {
+  if (group != word::null) {
     return name + ('.' + group);
-  }
-  else
-  {
+  } else {
     return name;
   }
 }
+
+
 template<class Stream>
 inline Stream& mousse::IOobject::writeBanner(Stream& os, bool noHint)
 {
-  if (! noHint)
-  {
+  if (! noHint) {
     os  << "// -*- c++ -*-\n";
   }
   os << "// mousse: CFD toolbox (v." << mousse_version << ")\n";
   return os;
 }
+
+
 template<class Stream>
 inline Stream& mousse::IOobject::writeDivider(Stream& os)
 {
-  os  <<
-    "// ---\n";
+  os << "// ---\n";
   return os;
 }
+
+
 template<class Stream>
 inline Stream& mousse::IOobject::writeEndDivider(Stream& os)
 {
-  os  << "\n"
-    "// vim: set ft=foam et sw=2 ts=2 sts=2:\n";
+  os << "\n// vim: set ft=foam et sw=2 ts=2 sts=2:\n";
   return os;
 }
 

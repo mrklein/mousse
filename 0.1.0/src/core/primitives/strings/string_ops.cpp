@@ -8,6 +8,7 @@
 #include "ostring_stream.hpp"
 #include "primitive_entry.hpp"
 
+
 //! \cond fileScope
 //  Find the type/position of the ":-" or ":+" alternative values
 static inline int findParameterAlternative
@@ -17,23 +18,17 @@ static inline int findParameterAlternative
   std::string::size_type endPos
 )
 {
-  while (pos != std::string::npos)
-  {
+  while (pos != std::string::npos) {
     pos = s.find(':', pos);
-    if (pos != std::string::npos)
-    {
-      if (pos < endPos)
-      {
+    if (pos != std::string::npos) {
+      if (pos < endPos) {
         // in-range: check for '+' or '-' following the ':'
         const int altType = s[pos+1];
-        if (altType == '+' || altType == '-')
-        {
+        if (altType == '+' || altType == '-') {
           return altType;
         }
         ++pos;    // unknown/unsupported - continue at next position
-      }
-      else
-      {
+      } else {
         // out-of-range: abort
         pos = std::string::npos;
       }
@@ -51,7 +46,7 @@ mousse::string mousse::stringOps::expand
   const char /*sigil*/
 )
 {
-  string s(original);
+  string s{original};
   return inplaceExpand(s, mapping);
 }
 
@@ -66,65 +61,44 @@ mousse::string& mousse::stringOps::inplaceExpand
   string::size_type begVar = 0;
   // Expand $VAR or ${VAR}
   // Repeat until nothing more is found
-  while
-  (
-    (begVar = s.find(sigil, begVar)) != string::npos
-  && begVar < s.size()-1
-  )
-  {
-    if (begVar == 0 || s[begVar-1] != '\\')
-    {
+  while ((begVar = s.find(sigil, begVar)) != string::npos
+         && begVar < s.size() - 1) {
+    if (begVar == 0 || s[begVar-1] != '\\') {
       // Find end of first occurrence
       string::size_type endVar = begVar;
       string::size_type delim = 0;
       // The type/position of the ":-" or ":+" alternative values
       int altType = 0;
       string::size_type altPos = string::npos;
-      if (s[begVar+1] == '{')
-      {
+      if (s[begVar+1] == '{') {
         endVar = s.find('}', begVar);
         delim = 1;
         // check for ${parameter:-word} or ${parameter:+word}
-        if (endVar != string::npos)
-        {
+        if (endVar != string::npos) {
           altPos = begVar;
           altType = findParameterAlternative(s, altPos, endVar);
         }
-      }
-      else
-      {
+      } else {
         string::iterator iter = s.begin() + begVar + 1;
         // more generous in accepting keywords than for env variables
-        while
-        (
-          iter != s.end()
-        &&
-          (
-            isalnum(*iter)
-          || *iter == '.'
-          || *iter == ':'
-          || *iter == '_'
-          )
-        )
-        {
+        while (iter != s.end()
+               && (isalnum(*iter)
+                   || *iter == '.'
+                   || *iter == ':'
+                   || *iter == '_')) {
           ++iter;
           ++endVar;
         }
       }
-      if (endVar == string::npos)
-      {
+      if (endVar == string::npos) {
         // likely parsed '${...' without closing '}' - abort
         break;
-      }
-      else if (endVar == begVar)
-      {
+      } else if (endVar == begVar) {
         // parsed '${}' or $badChar  - skip over
         begVar = endVar + 1;
-      }
-      else
-      {
+      } else {
         const word varName
-        (
+        {
           s.substr
           (
             begVar + 1 + delim,
@@ -134,10 +108,9 @@ mousse::string& mousse::stringOps::inplaceExpand
             )
           ),
           false
-        );
+        };
         std::string altValue;
-        if (altPos != string::npos)
-        {
+        if (altPos != string::npos) {
           // had ":-" or ":+" alternative value
           altValue = s.substr
           (
@@ -147,10 +120,8 @@ mousse::string& mousse::stringOps::inplaceExpand
         }
         HashTable<string, word, string::hash>::const_iterator fnd =
           mapping.find(varName);
-        if (fnd != HashTable<string, word, string::hash>::end())
-        {
-          if (altPos != string::npos && altType == '+')
-          {
+        if (fnd != HashTable<string, word, string::hash>::end()) {
+          if (altPos != string::npos && altType == '+') {
             // was found, use ":+" alternative
             s.std::string::replace
             (
@@ -159,9 +130,7 @@ mousse::string& mousse::stringOps::inplaceExpand
               altValue
             );
             begVar += altValue.size();
-          }
-          else
-          {
+          } else {
             // was found, use value
             s.std::string::replace
             (
@@ -171,9 +140,7 @@ mousse::string& mousse::stringOps::inplaceExpand
             );
             begVar += (*fnd).size();
           }
-        }
-        else if (altPos != string::npos && altType == '-')
-        {
+        } else if (altPos != string::npos && altType == '-') {
           // was not found, use ":-" alternative
           s.std::string::replace
           (
@@ -182,21 +149,19 @@ mousse::string& mousse::stringOps::inplaceExpand
             altValue
           );
           begVar += altValue.size();
-        }
-        else
-        {
+        } else {
           // substitute with nothing, also for ":+" alternative
           s.std::string::erase(begVar, endVar - begVar + 1);
         }
       }
-    }
-    else
-    {
+    } else {
       ++begVar;
     }
   }
   return s;
 }
+
+
 mousse::string mousse::stringOps::expand
 (
   const string& original,
@@ -207,6 +172,8 @@ mousse::string mousse::stringOps::expand
   string s(original);
   return inplaceExpand(s, dict, sigil);
 }
+
+
 mousse::string mousse::stringOps::getVariable
 (
   const word& name,
@@ -222,8 +189,7 @@ mousse::string mousse::stringOps::getVariable
     true,
     false
   );
-  if (ePtr)
-  {
+  if (ePtr) {
     OStringStream buf;
     // Force floating point numbers to be printed with at least
     // some decimal digits.
@@ -235,12 +201,9 @@ mousse::string mousse::stringOps::getVariable
       *ePtr
     ).write(buf, true);
     value = buf.str();
-  }
-  else if (allowEnvVars)
-  {
+  } else if (allowEnvVars) {
     value = getEnv(name);
-    if (value.empty())
-    {
+    if (value.empty()) {
       FATAL_IO_ERROR_IN
       (
         "stringOps::getVariable\n"
@@ -255,9 +218,7 @@ mousse::string mousse::stringOps::getVariable
       << "Cannot find dictionary or environment variable "
       << name << exit(FatalIOError);
     }
-  }
-  else
-  {
+  } else {
     FATAL_IO_ERROR_IN
     (
       "stringOps::getVariable\n"
@@ -286,21 +247,15 @@ mousse::string mousse::stringOps::expand
 )
 {
   string newString;
-  while (index < s.size())
-  {
-    if (s[index] == '$' && s[index+1] == '{')
-    {
+  while (index < s.size()) {
+    if (s[index] == '$' && s[index+1] == '{') {
       // Recurse to parse variable name
       index += 2;
       string val = expand(s, index, dict, allowEnvVars, allowEmpty);
       newString.append(val);
-    }
-    else if (s[index] == '}')
-    {
+    } else if (s[index] == '}') {
       return getVariable(newString, dict, allowEnvVars, allowEmpty);
-    }
-    else
-    {
+    } else {
       newString.append(string(s[index]));
     }
     index++;
@@ -321,16 +276,10 @@ mousse::string& mousse::stringOps::inplaceExpand
   string::size_type begVar = 0;
   // Expand $VAR or ${VAR}
   // Repeat until nothing more is found
-  while
-  (
-    (begVar = s.find(sigil, begVar)) != string::npos
-  && begVar < s.size()-1
-  )
-  {
-    if (begVar == 0 || s[begVar-1] != '\\')
-    {
-      if (s[begVar+1] == '{')
-      {
+  while ((begVar = s.find(sigil, begVar)) != string::npos
+         && begVar < s.size() - 1) {
+    if (begVar == 0 || s[begVar-1] != '\\') {
+      if (s[begVar+1] == '{') {
         // Recursive variable expansion mode
         label stringStart = begVar;
         begVar += 2;
@@ -352,24 +301,14 @@ mousse::string& mousse::stringOps::inplaceExpand
           varValue
         );
         begVar = stringStart+varValue.size();
-      }
-      else
-      {
+      } else {
         string::iterator iter = s.begin() + begVar + 1;
         // more generous in accepting keywords than for env variables
         string::size_type endVar = begVar;
-        while
-        (
-          iter != s.end()
-        &&
-          (
-            isalnum(*iter)
-          || *iter == '.'
-          || *iter == ':'
-          || *iter == '_'
-          )
-        )
-        {
+        while (iter != s.end() && (isalnum(*iter)
+                                   || *iter == '.'
+                                   || *iter == ':'
+                                   || *iter == '_')) {
           ++iter;
           ++endVar;
         }
@@ -400,52 +339,37 @@ mousse::string& mousse::stringOps::inplaceExpand
         );
         begVar += varValue.size();
       }
-    }
-    else
-    {
+    } else {
       ++begVar;
     }
   }
-  if (!s.empty())
-  {
-    if (s[0] == '~')
-    {
+  if (!s.empty()) {
+    if (s[0] == '~') {
       // Expand initial ~
       //   ~/        => home directory
       //   ~OpenFOAM => site/user OpenFOAM configuration directory
       //   ~user     => home directory for specified user
       string user;
       fileName file;
-      if ((begVar = s.find('/')) != string::npos)
-      {
+      if ((begVar = s.find('/')) != string::npos) {
         user = s.substr(1, begVar - 1);
         file = s.substr(begVar + 1);
-      }
-      else
-      {
+      } else {
         user = s.substr(1);
       }
       // NB: be a bit lazy and expand ~unknownUser as an
       // empty string rather than leaving it untouched.
       // otherwise add extra test
-      if (user == "OpenFOAM")
-      {
+      if (user == "mousse") {
         s = findEtcFile(file);
-      }
-      else
-      {
+      } else {
         s = home(user)/file;
       }
-    }
-    else if (s[0] == '.')
-    {
+    } else if (s[0] == '.') {
       // Expand a lone '.' and an initial './' into cwd
-      if (s.size() == 1)
-      {
+      if (s.size() == 1) {
         s = cwd();
-      }
-      else if (s[1] == '/')
-      {
+      } else if (s[1] == '/') {
         s.std::string::replace(0, 1, cwd());
       }
     }
@@ -464,54 +388,33 @@ mousse::string& mousse::stringOps::inplaceExpand
   string::size_type begVar = 0;
   // Expand $VAR or ${VAR}
   // Repeat until nothing more is found
-  while
-  (
-    (begVar = s.find(sigil, begVar)) != string::npos
-    && begVar < s.size()-1
-  )
-  {
-    if (begVar == 0 || s[begVar-1] != '\\')
-    {
+  while ((begVar = s.find(sigil, begVar)) != string::npos
+         && begVar < s.size() - 1) {
+    if (begVar == 0 || s[begVar-1] != '\\') {
       // Find end of first occurrence
       string::size_type endVar = begVar;
       string::size_type delim = 0;
-      if (s[begVar+1] == '{')
-      {
+      if (s[begVar+1] == '{') {
         endVar = s.find('}', begVar);
         delim = 1;
-      }
-      else
-      {
+      } else {
         string::iterator iter = s.begin() + begVar + 1;
         // more generous in accepting keywords than for env variables
-        while
-        (
-          iter != s.end()
-        &&
-          (
-            isalnum(*iter)
-          || *iter == '.'
-          || *iter == ':'
-          || *iter == '_'
-          )
-        )
-        {
+        while (iter != s.end() && (isalnum(*iter)
+                                   || *iter == '.'
+                                   || *iter == ':'
+                                   || *iter == '_')) {
           ++iter;
           ++endVar;
         }
       }
-      if (endVar == string::npos)
-      {
+      if (endVar == string::npos) {
         // likely parsed '${...' without closing '}' - abort
         break;
-      }
-      else if (endVar == begVar)
-      {
+      } else if (endVar == begVar) {
         // parsed '${}' or $badChar  - skip over
         begVar = endVar + 1;
-      }
-      else
-      {
+      } else {
         const word varName
         (
           s.substr
@@ -529,19 +432,15 @@ mousse::string& mousse::stringOps::inplaceExpand
           false   // wildcards disabled. See primitiveEntry
         );
         // if defined - copy its entries
-        if (ePtr)
-        {
+        if (ePtr) {
           OStringStream buf;
           // Force floating point numbers to be printed with at least
           // some decimal digits.
           buf << fixed;
           buf.precision(IOstream::defaultPrecision());
-          if (ePtr->isDict())
-          {
+          if (ePtr->isDict()) {
             ePtr->dict().write(buf, false);
-          }
-          else
-          {
+          } else {
             // fail for other types
             dynamicCast<const primitiveEntry>
             (
@@ -555,16 +454,12 @@ mousse::string& mousse::stringOps::inplaceExpand
             buf.str()
           );
           begVar += buf.str().size();
-        }
-        else
-        {
+        } else {
           // not defined - leave original string untouched
           begVar = endVar + 1;
         }
       }
-    }
-    else
-    {
+    } else {
       ++begVar;
     }
   }
@@ -592,56 +487,38 @@ mousse::string& mousse::stringOps::inplaceExpand
   string::size_type begVar = 0;
   // Expand $VARS
   // Repeat until nothing more is found
-  while
-  (
-    (begVar = s.find('$', begVar)) != string::npos
-  && begVar < s.size()-1
-  )
+  while ((begVar = s.find('$', begVar)) != string::npos
+         && begVar < s.size() - 1)
   {
-    if (begVar == 0 || s[begVar-1] != '\\')
-    {
+    if (begVar == 0 || s[begVar-1] != '\\') {
       // Find end of first occurrence
       string::size_type endVar = begVar;
       string::size_type delim = 0;
       // The type/position of the ":-" or ":+" alternative values
       int altType = 0;
       string::size_type altPos = string::npos;
-      if (s[begVar+1] == '{')
-      {
+      if (s[begVar + 1] == '{') {
         endVar = s.find('}', begVar);
         delim = 1;
         // check for ${parameter:-word} or ${parameter:+word}
-        if (endVar != string::npos)
-        {
+        if (endVar != string::npos) {
           altPos = begVar;
           altType = findParameterAlternative(s, altPos, endVar);
         }
-      }
-      else
-      {
+      } else {
         string::iterator iter = s.begin() + begVar + 1;
-        while
-        (
-          iter != s.end()
-        && (isalnum(*iter) || *iter == '_')
-        )
-        {
+        while (iter != s.end() && (isalnum(*iter) || *iter == '_')) {
           ++iter;
           ++endVar;
         }
       }
-      if (endVar == string::npos)
-      {
+      if (endVar == string::npos) {
         // likely parsed '${...' without closing '}' - abort
         break;
-      }
-      else if (endVar == begVar)
-      {
+      } else if (endVar == begVar) {
         // parsed '${}' or $badChar  - skip over
         begVar = endVar + 1;
-      }
-      else
-      {
+      } else {
         const word varName
         (
           s.substr
@@ -655,8 +532,7 @@ mousse::string& mousse::stringOps::inplaceExpand
           false
         );
         std::string altValue;
-        if (altPos != string::npos)
-        {
+        if (altPos != string::npos) {
           // had ":-" or ":+" alternative value
           altValue = s.substr
           (
@@ -665,10 +541,8 @@ mousse::string& mousse::stringOps::inplaceExpand
           );
         }
         const string varValue = getEnv(varName);
-        if (varValue.size())
-        {
-          if (altPos != string::npos && altType == '+')
-          {
+        if (varValue.size()) {
+          if (altPos != string::npos && altType == '+') {
             // was found, use ":+" alternative
             s.std::string::replace
             (
@@ -677,9 +551,7 @@ mousse::string& mousse::stringOps::inplaceExpand
               altValue
             );
             begVar += altValue.size();
-          }
-          else
-          {
+          } else {
             // was found, use value
             s.std::string::replace
             (
@@ -689,12 +561,9 @@ mousse::string& mousse::stringOps::inplaceExpand
             );
             begVar += varValue.size();
           }
-        }
-        else if (altPos != string::npos)
-        {
+        } else if (altPos != string::npos) {
           // use ":-" or ":+" alternative values
-          if (altType == '-')
-          {
+          if (altType == '-') {
             // was not found, use ":-" alternative
             s.std::string::replace
             (
@@ -703,73 +572,53 @@ mousse::string& mousse::stringOps::inplaceExpand
               altValue
             );
             begVar += altValue.size();
-          }
-          else
-          {
+          } else {
             // was not found, ":+" alternative implies
             // substitute with nothing
             s.std::string::erase(begVar, endVar - begVar + 1);
           }
-        }
-        else if (allowEmpty)
-        {
+        } else if (allowEmpty) {
           s.std::string::erase(begVar, endVar - begVar + 1);
-        }
-        else
-        {
+        } else {
           FATAL_ERROR_IN
           (
             "stringOps::inplaceExpand(string&, const bool)"
-          )   << "Unknown variable name '" << varName << "'"
-            << exit(FatalError);
+          )
+          << "Unknown variable name '" << varName << "'"
+          << exit(FatalError);
         }
       }
-    }
-    else
-    {
+    } else {
       ++begVar;
     }
   }
-  if (!s.empty())
-  {
-    if (s[0] == '~')
-    {
+  if (!s.empty()) {
+    if (s[0] == '~') {
       // Expand initial ~
       //   ~/        => home directory
       //   ~OpenFOAM => site/user OpenFOAM configuration directory
       //   ~user     => home directory for specified user
       string user;
       fileName file;
-      if ((begVar = s.find('/')) != string::npos)
-      {
+      if ((begVar = s.find('/')) != string::npos) {
         user = s.substr(1, begVar - 1);
         file = s.substr(begVar + 1);
-      }
-      else
-      {
+      } else {
         user = s.substr(1);
       }
       // NB: be a bit lazy and expand ~unknownUser as an
       // empty string rather than leaving it untouched.
       // otherwise add extra test
-      if (user == "mousse")
-      {
+      if (user == "mousse") {
         s = findEtcFile(file);
-      }
-      else
-      {
+      } else {
         s = home(user)/file;
       }
-    }
-    else if (s[0] == '.')
-    {
+    } else if (s[0] == '.') {
       // Expand a lone '.' and an initial './' into cwd
-      if (s.size() == 1)
-      {
+      if (s.size() == 1) {
         s = cwd();
-      }
-      else if (s[1] == '/')
-      {
+      } else if (s[1] == '/') {
         s.std::string::replace(0, 1, cwd());
       }
     }
@@ -780,15 +629,12 @@ mousse::string& mousse::stringOps::inplaceExpand
 
 mousse::string mousse::stringOps::trimLeft(const string& s)
 {
-  if (!s.empty())
-  {
+  if (!s.empty()) {
     string::size_type beg = 0;
-    while (beg < s.size() && isspace(s[beg]))
-    {
+    while (beg < s.size() && isspace(s[beg])) {
       ++beg;
     }
-    if (beg)
-    {
+    if (beg) {
       return s.substr(beg);
     }
   }
@@ -798,15 +644,12 @@ mousse::string mousse::stringOps::trimLeft(const string& s)
 
 mousse::string& mousse::stringOps::inplaceTrimLeft(string& s)
 {
-  if (!s.empty())
-  {
+  if (!s.empty()) {
     string::size_type beg = 0;
-    while (beg < s.size() && isspace(s[beg]))
-    {
+    while (beg < s.size() && isspace(s[beg])) {
       ++beg;
     }
-    if (beg)
-    {
+    if (beg) {
       s.erase(0, beg);
     }
   }
@@ -816,15 +659,12 @@ mousse::string& mousse::stringOps::inplaceTrimLeft(string& s)
 
 mousse::string mousse::stringOps::trimRight(const string& s)
 {
-  if (!s.empty())
-  {
+  if (!s.empty()) {
     string::size_type sz = s.size();
-    while (sz && isspace(s[sz-1]))
-    {
+    while (sz && isspace(s[sz-1])) {
       --sz;
     }
-    if (sz < s.size())
-    {
+    if (sz < s.size()) {
       return s.substr(0, sz);
     }
   }
@@ -834,11 +674,9 @@ mousse::string mousse::stringOps::trimRight(const string& s)
 
 mousse::string& mousse::stringOps::inplaceTrimRight(string& s)
 {
-  if (!s.empty())
-  {
+  if (!s.empty()) {
     string::size_type sz = s.size();
-    while (sz && isspace(s[sz-1]))
-    {
+    while (sz && isspace(s[sz-1])) {
       --sz;
     }
     s.resize(sz);

@@ -10,13 +10,14 @@
 //   Memory usage information for the process running this object.
 // Note
 //   Uses the information from /proc/\<pid\>/status
-// SourceFiles
-//   mem_info.cpp
+
 #include "os_specific.hpp"
 #include "posix.hpp"
 #include "ifstream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class memInfo
 {
   // Private data
@@ -62,5 +63,7 @@ public:
     //- Write peak/size/rss to stream
     friend Ostream& operator<<(Ostream&, const memInfo&);
 };
+
 }  // namespace mousse
+
 #endif

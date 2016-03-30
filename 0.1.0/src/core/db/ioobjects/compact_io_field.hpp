@@ -11,12 +11,13 @@
 //   a compact storage. Behaves like IOField except when binary output in
 //   case it writes a CompactListList.
 //   Useful for fields of small subfields e.g. in lagrangian
-// SourceFiles
-//   compact_io_field.cpp
+
 #include "iofield.hpp"
 #include "reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class T, class BaseType> class CompactIOField;
 template<class T, class BaseType> Istream& operator>>
@@ -29,6 +30,8 @@ template<class T, class BaseType> Ostream& operator<<
   Ostream&,
   const CompactIOField<T, BaseType>&
 );
+
+
 template<class T, class BaseType>
 class CompactIOField
 :
@@ -65,7 +68,7 @@ public:
     void operator=(const Field<T>&);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "compact_io_field.cpp"
-#endif
+
+#include "compact_io_field.ipp"
+
 #endif

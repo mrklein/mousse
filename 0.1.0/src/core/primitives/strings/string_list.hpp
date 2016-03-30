@@ -9,9 +9,11 @@
 #include "string.hpp"
 #include "list.hpp"
 
-namespace mousse
-{
-  typedef UList<string> stringUList;
-  typedef List<string> stringList;
+namespace mousse {
+
+typedef UList<string> stringUList;
+typedef List<string> stringList;
+
 }
+
 #endif

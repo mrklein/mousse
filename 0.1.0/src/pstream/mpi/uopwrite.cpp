@@ -6,6 +6,8 @@
 #include "pstream_globals.hpp"
 #include <mpi.h>
 #include "iostreams.hpp"
+
+
 // Member Functions 
 bool mousse::UOPstream::write
 (
@@ -17,17 +19,15 @@ bool mousse::UOPstream::write
   const label communicator
 )
 {
-  if (debug)
-  {
-    Pout<< "UOPstream::write : starting write to:" << toProcNo
+  if (debug) {
+    Pout << "UOPstream::write : starting write to:" << toProcNo
       << " tag:" << tag
       << " comm:" << communicator << " size:" << label(bufSize)
       << " commsType:" << UPstream::commsTypeNames[commsType]
       << mousse::endl;
   }
-  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm)
-  {
-    Pout<< "UOPstream::write : starting write to:" << toProcNo
+  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm) {
+    Pout << "UOPstream::write : starting write to:" << toProcNo
       << " tag:" << tag
       << " comm:" << communicator << " size:" << label(bufSize)
       << " commsType:" << UPstream::commsTypeNames[commsType]
@@ -37,8 +37,7 @@ bool mousse::UOPstream::write
   }
   PstreamGlobals::checkCommunicator(communicator, toProcNo);
   bool transferFailed = true;
-  if (commsType == blocking)
-  {
+  if (commsType == blocking) {
     transferFailed = MPI_Bsend
     (
       const_cast<char*>(buf),
@@ -48,16 +47,13 @@ bool mousse::UOPstream::write
       tag,
       PstreamGlobals::MPICommunicators_[communicator] //MPI_COMM_WORLD
     );
-    if (debug)
-    {
-      Pout<< "UOPstream::write : finished write to:" << toProcNo
+    if (debug) {
+      Pout << "UOPstream::write : finished write to:" << toProcNo
         << " tag:" << tag << " size:" << label(bufSize)
         << " commsType:" << UPstream::commsTypeNames[commsType]
         << mousse::endl;
     }
-  }
-  else if (commsType == scheduled)
-  {
+  } else if (commsType == scheduled) {
     transferFailed = MPI_Send
     (
       const_cast<char*>(buf),
@@ -67,16 +63,13 @@ bool mousse::UOPstream::write
       tag,
       PstreamGlobals::MPICommunicators_[communicator] //MPI_COMM_WORLD
     );
-    if (debug)
-    {
-      Pout<< "UOPstream::write : finished write to:" << toProcNo
+    if (debug) {
+      Pout << "UOPstream::write : finished write to:" << toProcNo
         << " tag:" << tag << " size:" << label(bufSize)
         << " commsType:" << UPstream::commsTypeNames[commsType]
         << mousse::endl;
     }
-  }
-  else if (commsType == nonBlocking)
-  {
+  } else if (commsType == nonBlocking) {
     MPI_Request request;
     transferFailed = MPI_Isend
     (
@@ -88,26 +81,25 @@ bool mousse::UOPstream::write
       PstreamGlobals::MPICommunicators_[communicator],//MPI_COMM_WORLD,
       &request
     );
-    if (debug)
-    {
-      Pout<< "UOPstream::write : started write to:" << toProcNo
+    if (debug) {
+      Pout << "UOPstream::write : started write to:" << toProcNo
         << " tag:" << tag << " size:" << label(bufSize)
         << " commsType:" << UPstream::commsTypeNames[commsType]
         << " request:" << PstreamGlobals::outstandingRequests_.size()
         << mousse::endl;
     }
     PstreamGlobals::outstandingRequests_.append(request);
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "UOPstream::write"
       "(const int fromProcNo, char* buf, std::streamsize bufSize"
       ", const int)"
-    )   << "Unsupported communications type "
-      << UPstream::commsTypeNames[commsType]
-      << mousse::abort(FatalError);
+    )
+    << "Unsupported communications type "
+    << UPstream::commsTypeNames[commsType]
+    << mousse::abort(FatalError);
   }
   return !transferFailed;
 }
+

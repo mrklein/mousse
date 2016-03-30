@@ -4,6 +4,8 @@
 
 #include "cell_model.hpp"
 #include "pyramid.hpp"
+
+
 // Member Functions 
 mousse::vector mousse::cellModel::centre
 (
@@ -14,8 +16,7 @@ mousse::vector mousse::cellModel::centre
   // Estimate centre of cell
   vector cEst = vector::zero;
   // Sum the points idicated by the label list
-  FOR_ALL(pointLabels, i)
-  {
+  FOR_ALL(pointLabels, i) {
     cEst += points[pointLabels[i]];
   }
   // Average by dividing by the number summed over.
@@ -25,8 +26,7 @@ mousse::vector mousse::cellModel::centre
   scalar sumV = 0.0;
   vector sumVc = vector::zero;
   const faceList cellFaces = faces(pointLabels);
-  FOR_ALL(cellFaces, i)
-  {
+  FOR_ALL(cellFaces, i) {
     const face& curFace = cellFaces[i];
     scalar pyrVol =
       pyramid<point, const point&, const face&>
@@ -34,8 +34,7 @@ mousse::vector mousse::cellModel::centre
         curFace,
         cEst
       ).mag(points);
-    if (pyrVol > SMALL)
-    {
+    if (pyrVol > SMALL) {
       WARNING_IN("cellModel::centre(const labelList&, const pointField&)")
         << "zero or negative pyramid volume: " << -pyrVol
         << " for face " << i
@@ -43,12 +42,13 @@ mousse::vector mousse::cellModel::centre
     }
     sumVc -=
       pyrVol
-     *pyramid<point, const point&, const face&>(curFace, cEst)
-     .centre(points);
+      *pyramid<point, const point&, const face&>(curFace, cEst).centre(points);
     sumV -= pyrVol;
   }
   return sumVc/(sumV + VSMALL);
 }
+
+
 mousse::scalar mousse::cellModel::mag
 (
   const labelList& pointLabels,
@@ -58,8 +58,7 @@ mousse::scalar mousse::cellModel::mag
   // Estimate centre of cell
   vector cEst = vector::zero;
   // Sum the points idicated by the label list
-  FOR_ALL(pointLabels, i)
-  {
+  FOR_ALL(pointLabels, i) {
     cEst += points[pointLabels[i]];
   }
   // Average by dividing by the number summed over.
@@ -70,8 +69,7 @@ mousse::scalar mousse::cellModel::mag
   // and the base centre-apex vector
   scalar v = 0;
   const faceList cellFaces = faces(pointLabels);
-  FOR_ALL(cellFaces, i)
-  {
+  FOR_ALL(cellFaces, i) {
     const face& curFace =cellFaces[i];
     scalar pyrVol =
       pyramid<point, const point&, const face&>
@@ -79,8 +77,7 @@ mousse::scalar mousse::cellModel::mag
         curFace,
         cEst
       ).mag(points);
-    if (pyrVol > SMALL)
-    {
+    if (pyrVol > SMALL) {
       WARNING_IN("cellModel::mag(const labelList&, const pointField&)")
         << "zero or negative pyramid volume: " << -pyrVol
         << " for face " << i

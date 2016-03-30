@@ -8,14 +8,15 @@
 //   mousse::symmetryPointPatch
 // Description
 //   Symmetry patch for non-planar or multi-plane patches.
-// SourceFiles
-//   symmetry_point_patch.cpp
-//   see_also
-//   symmetry_plane_point_patch
+// See Also
+//   symmetryPlanePointPatch
+
 #include "face_point_patch.hpp"
 #include "symmetry_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class symmetryPointPatch
 :
   public facePointPatch
@@ -31,7 +32,7 @@ public:
       const pointBoundaryMesh& bm
     )
     :
-      facePointPatch(patch, bm)
+      facePointPatch{patch, bm}
     {}
   // Member Functions
     //- Return the constraint type this pointPatch implements.
@@ -46,5 +47,8 @@ public:
       pointConstraint&
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

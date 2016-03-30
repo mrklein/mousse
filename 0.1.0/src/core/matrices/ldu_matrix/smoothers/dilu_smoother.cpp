@@ -4,6 +4,8 @@
 
 #include "dilu_smoother.hpp"
 #include "dilu_preconditioner.hpp"
+
+
 // Static Data Members
 namespace mousse {
 
@@ -12,6 +14,8 @@ lduMatrix::smoother::addasymMatrixConstructorToTable<DILUSmoother>
   addDILUSmootherAsymMatrixConstructorToTable_;
 
 }
+
+
 // Constructors 
 mousse::DILUSmoother::DILUSmoother
 (
@@ -23,17 +27,19 @@ mousse::DILUSmoother::DILUSmoother
 )
 :
   lduMatrix::smoother
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces
-  ),
-  rD_(matrix_.diag())
+  },
+  rD_{matrix_.diag()}
 {
   DILUPreconditioner::calcReciprocalD(rD_, matrix_);
 }
+
+
 // Member Functions 
 void mousse::DILUSmoother::smooth
 (
@@ -53,8 +59,7 @@ void mousse::DILUSmoother::smooth
   // Temporary storage for the residual
   scalarField rA(rD_.size());
   scalar* __restrict__ rAPtr = rA.begin();
-  for (label sweep=0; sweep<nSweeps; sweep++)
-  {
+  for (label sweep=0; sweep<nSweeps; sweep++) {
     matrix_.residual
     (
       rA,
@@ -66,14 +71,12 @@ void mousse::DILUSmoother::smooth
     );
     rA *= rD_;
     label nFaces = matrix_.upper().size();
-    for (label face=0; face<nFaces; face++)
-    {
+    for (label face=0; face<nFaces; face++) {
       label u = uPtr[face];
       rAPtr[u] -= rDPtr[u]*lowerPtr[face]*rAPtr[lPtr[face]];
     }
     label nFacesM1 = nFaces - 1;
-    for (label face=nFacesM1; face>=0; face--)
-    {
+    for (label face=nFacesM1; face>=0; face--) {
       label l = lPtr[face];
       rAPtr[l] -= rDPtr[l]*upperPtr[face]*rAPtr[uPtr[face]];
     }

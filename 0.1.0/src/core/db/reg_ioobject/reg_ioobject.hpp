@@ -9,23 +9,20 @@
 // Description
 //   regIOobject is an abstract class derived from IOobject to handle
 //   automatic object registration with the objectRegistry.
-// SourceFiles
-//   reg_ioobject.cpp
-//   reg_ioobject_read.cpp
-//   reg_ioobject_write.cpp
-
 
 #include "ioobject.hpp"
 #include "type_info.hpp"
 #include "os_specific.hpp"
 #include "named_enum.hpp"
 
-namespace mousse
-{
-namespace functionEntries
-{
-  class codeStream;
+
+namespace mousse {
+namespace functionEntries {
+
+class codeStream;
+
 }
+
 class regIOobject
 :
   public IOobject
@@ -180,20 +177,24 @@ public:
 };
 }  // namespace mousse
 
+
 // Member Functions 
 inline bool mousse::regIOobject::ownedByRegistry() const
 {
   return ownedByRegistry_;
 }
+
+
 inline void mousse::regIOobject::store()
 {
   ownedByRegistry_ = true;
 }
+
+
 template<class Type>
 inline Type& mousse::regIOobject::store(Type* tPtr)
 {
-  if (!tPtr)
-  {
+  if (!tPtr) {
     FATAL_ERROR_IN("Type& regIOobject::store(Type*)")
       << "object deallocated"
       << abort(FatalError);
@@ -201,12 +202,13 @@ inline Type& mousse::regIOobject::store(Type* tPtr)
   tPtr->regIOobject::ownedByRegistry_ = true;
   return *tPtr;
 }
+
+
 template<class Type>
 inline Type& mousse::regIOobject::store(autoPtr<Type>& atPtr)
 {
   Type* tPtr = atPtr.ptr();
-  if (!tPtr)
-  {
+  if (!tPtr) {
     FATAL_ERROR_IN("Type& regIOobject::store(autoPtr<Type>&)")
       << "object deallocated"
       << abort(FatalError);
@@ -214,27 +216,35 @@ inline Type& mousse::regIOobject::store(autoPtr<Type>& atPtr)
   tPtr->regIOobject::ownedByRegistry_ = true;
   return *tPtr;
 }
+
+
 inline void mousse::regIOobject::release()
 {
   ownedByRegistry_ = false;
 }
+
+
 inline mousse::label mousse::regIOobject::eventNo() const
 {
   return eventNo_;
 }
+
+
 inline mousse::label& mousse::regIOobject::eventNo()
 {
   return eventNo_;
 }
+
+
 inline mousse::label mousse::regIOobject::watchIndex() const
 {
   return watchIndex_;
 }
+
+
 inline mousse::label& mousse::regIOobject::watchIndex()
 {
   return watchIndex_;
 }
-
-// #include "reg_ioobject_i.hpp"
 
 #endif

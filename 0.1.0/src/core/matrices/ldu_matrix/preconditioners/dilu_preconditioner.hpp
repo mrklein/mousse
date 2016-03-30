@@ -10,11 +10,12 @@
 //   Simplified diagonal-based incomplete LU preconditioner for asymmetric
 //   matrices.  The reciprocal of the preconditioned diagonal is calculated
 //   and stored.
-// SourceFiles
-//   dilu_preconditioner.cpp
+
 #include "ldu_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class DILUPreconditioner
 :
   public lduMatrix::preconditioner

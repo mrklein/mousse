@@ -9,28 +9,32 @@
 #include "cell_modeller.hpp"
 #include "list_ops.hpp"
 
+
 // Static Data Members
 const mousse::label mousse::pyrMatcher::vertPerCell = 5;
 const mousse::label mousse::pyrMatcher::facePerCell = 5;
 const mousse::label mousse::pyrMatcher::maxVertPerFace = 4;
+
 
 // Constructors 
 // Construct null
 mousse::pyrMatcher::pyrMatcher()
 :
   cellMatcher
-  (
+  {
     vertPerCell,
     facePerCell,
     maxVertPerFace,
     "pyr"
-  )
+  }
 {
 }
+
 
 // Destructor 
 mousse::pyrMatcher::~pyrMatcher()
 {}
+
 
 // Member Functions 
 bool mousse::pyrMatcher::matchShape
@@ -42,19 +46,16 @@ bool mousse::pyrMatcher::matchShape
   const labelList& myFaces
 )
 {
-  if (!faceSizeMatch(faces, myFaces))
-  {
+  if (!faceSizeMatch(faces, myFaces)) {
     return false;
   }
   // Is pyr for sure since no other shape with 1 quad, 4 triangles
-  if (checkOnly)
-  {
+  if (checkOnly) {
     return true;
   }
   // Calculate localFaces_ and mapping pointMap_, faceMap_
   label numVert = calcLocalFaces(faces, myFaces);
-  if (numVert != vertPerCell)
-  {
+  if (numVert != vertPerCell) {
     return false;
   }
   // Set up 'edge' to face mapping.
@@ -68,10 +69,8 @@ bool mousse::pyrMatcher::matchShape
   // Start from quad face (face0)
   //
   label face0I = -1;
-  FOR_ALL(faceSize_, faceI)
-  {
-    if (faceSize_[faceI] == 4)
-    {
+  FOR_ALL(faceSize_, faceI) {
+    if (faceSize_[faceI] == 4) {
       face0I = faceI;
       break;
     }
@@ -165,47 +164,43 @@ bool mousse::pyrMatcher::matchShape
   vertLabels_[4] = pointMap_[face4[face4vert4]];
   return true;
 }
+
+
 mousse::label mousse::pyrMatcher::faceHashValue() const
 {
   return 4*3+4;
 }
+
+
 bool mousse::pyrMatcher::faceSizeMatch
 (
   const faceList& faces,
   const labelList& myFaces
 ) const
 {
-  if (myFaces.size() != 5)
-  {
+  if (myFaces.size() != 5) {
     return false;
   }
   label nTris = 0;
   label nQuads = 0;
-  FOR_ALL(myFaces, myFaceI)
-  {
+  FOR_ALL(myFaces, myFaceI) {
     label size = faces[myFaces[myFaceI]].size();
-    if (size == 3)
-    {
+    if (size == 3) {
       nTris++;
-    }
-    else if (size == 4)
-    {
+    } else if (size == 4) {
       nQuads++;
-    }
-    else
-    {
+    } else {
       return false;
     }
   }
-  if ((nTris == 4) && (nQuads == 1))
-  {
+  if ((nTris == 4) && (nQuads == 1)) {
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 bool mousse::pyrMatcher::isA(const primitiveMesh& mesh, const label cellI)
 {
   return matchShape
@@ -217,6 +212,8 @@ bool mousse::pyrMatcher::isA(const primitiveMesh& mesh, const label cellI)
     mesh.cells()[cellI]
   );
 }
+
+
 bool mousse::pyrMatcher::isA(const faceList& faces)
 {
   // Do as if mesh with one cell only
@@ -229,6 +226,8 @@ bool mousse::pyrMatcher::isA(const faceList& faces)
     identity(faces.size())      // faces of cell 0
   );
 }
+
+
 bool mousse::pyrMatcher::matches
 (
   const primitiveMesh& mesh,
@@ -236,23 +235,19 @@ bool mousse::pyrMatcher::matches
   cellShape& shape
 )
 {
-  if
-  (
-    matchShape
-    (
-      false,
-      mesh.faces(),
-      mesh.faceOwner(),
-      cellI,
-      mesh.cells()[cellI]
-    )
-  )
-  {
+  if (matchShape
+      (
+        false,
+        mesh.faces(),
+        mesh.faceOwner(),
+        cellI,
+        mesh.cells()[cellI]
+      )) {
     shape = cellShape(model(), vertLabels());
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+

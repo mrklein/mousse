@@ -25,22 +25,19 @@
 // Note
 //   - Accessing an empty list results in an error.
 //   - Accessing a list with a single element always returns the same value.
-// SourceFiles
-//   interpolation_table.cpp
-
 
 #include "list.hpp"
 #include "tuple2.hpp"
 #include "table_reader.hpp"
 #include "auto_ptr.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class interpolationTable
 :
-  public List<Tuple2<scalar, Type> >
+  public List<Tuple2<scalar, Type>>
 {
 public:
   // Public data types
@@ -63,7 +60,7 @@ private:
     fileName fileName_;
 
     //- The actual reader
-    autoPtr<tableReader<Type> > reader_;
+    autoPtr<tableReader<Type>> reader_;
 
   // Private Member Functions
 
@@ -80,7 +77,7 @@ public:
     //- Construct from components
     interpolationTable
     (
-      const List<Tuple2<scalar, Type> >& values,
+      const List<Tuple2<scalar, Type>>& values,
       const boundsHandling bounds,
       const fileName& fName
     );
@@ -129,7 +126,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "interpolation_table.cpp"
-#endif
+
+#include "interpolation_table.ipp"
+
 #endif

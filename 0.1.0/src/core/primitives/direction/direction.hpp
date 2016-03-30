@@ -6,8 +6,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "char.hpp"
-namespace mousse
-{
-  typedef unsigned char direction;
+
+
+namespace mousse {
+
+typedef unsigned char direction;
+
 }
+
 #endif

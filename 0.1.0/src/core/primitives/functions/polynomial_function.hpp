@@ -21,15 +21,20 @@
 //   mousse::Polynomial for a templated implementation
 // SourceFiles
 //   polynomial_function.cpp
+
 #include "scalar_list.hpp"
 #include "ostream.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class polynomialFunction;
 // Forward declaration of friend functions
 Ostream& operator<<(Ostream&, const polynomialFunction&);
+
+
 class polynomialFunction
 :
   private scalarList

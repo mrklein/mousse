@@ -8,14 +8,12 @@
 //   mousse::DiagonalSolver
 // Description
 //   mousse::DiagonalSolver
-// SourceFiles
-//   diagonal_solver.cpp
-
 
 #include "_ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class DType, class LUType>
 class DiagonalSolver
 :
@@ -53,7 +51,7 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_diagonal_solver.cpp"
-#endif
+
+#include "_diagonal_solver.ipp"
+
 #endif

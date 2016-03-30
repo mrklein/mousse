@@ -4,32 +4,45 @@
 
 #include "dimensioned_scalar.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 dimensionedScalar operator+(const dimensionedScalar& ds1, const scalar s2)
 {
   return ds1 + dimensionedScalar(s2);
 }
+
+
 dimensionedScalar operator+(const scalar s1, const dimensionedScalar& ds2)
 {
   return dimensionedScalar(s1) + ds2;
 }
+
+
 dimensionedScalar operator-(const dimensionedScalar& ds1, const scalar s2)
 {
   return ds1 - dimensionedScalar(s2);
 }
+
+
 dimensionedScalar operator-(const scalar s1, const dimensionedScalar& ds2)
 {
   return dimensionedScalar(s1) - ds2;
 }
+
+
 dimensionedScalar operator*(const dimensionedScalar& ds1, const scalar s2)
 {
   return ds1 * dimensionedScalar(s2);
 }
+
+
 dimensionedScalar operator/(const scalar s1, const dimensionedScalar& ds2)
 {
   return dimensionedScalar(s1)/ds2;
 }
+
+
 dimensionedScalar pow
 (
   const dimensionedScalar& ds,
@@ -43,6 +56,8 @@ dimensionedScalar pow
     ::pow(ds.value(), expt.value())
   );
 }
+
+
 dimensionedScalar pow3(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -52,6 +67,8 @@ dimensionedScalar pow3(const dimensionedScalar& ds)
     pow3(ds.value())
   );
 }
+
+
 dimensionedScalar pow4(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -61,6 +78,8 @@ dimensionedScalar pow4(const dimensionedScalar& ds)
     pow4(ds.value())
   );
 }
+
+
 dimensionedScalar pow5(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -70,6 +89,8 @@ dimensionedScalar pow5(const dimensionedScalar& ds)
     pow5(ds.value())
   );
 }
+
+
 dimensionedScalar pow6(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -79,6 +100,8 @@ dimensionedScalar pow6(const dimensionedScalar& ds)
     pow6(ds.value())
   );
 }
+
+
 dimensionedScalar pow025(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -88,6 +111,8 @@ dimensionedScalar pow025(const dimensionedScalar& ds)
     pow025(ds.value())
   );
 }
+
+
 dimensionedScalar sqrt(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -97,6 +122,8 @@ dimensionedScalar sqrt(const dimensionedScalar& ds)
     ::sqrt(ds.value())
   );
 }
+
+
 dimensionedScalar cbrt(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -106,6 +133,8 @@ dimensionedScalar cbrt(const dimensionedScalar& ds)
     ::cbrt(ds.value())
   );
 }
+
+
 dimensionedScalar hypot
 (
   const dimensionedScalar& x,
@@ -119,6 +148,8 @@ dimensionedScalar hypot
     ::hypot(x.value(), y.value())
   );
 }
+
+
 dimensionedScalar sign(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -128,6 +159,8 @@ dimensionedScalar sign(const dimensionedScalar& ds)
     ::mousse::sign(ds.value())
   );
 }
+
+
 dimensionedScalar pos(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -137,6 +170,8 @@ dimensionedScalar pos(const dimensionedScalar& ds)
     ::mousse::pos(ds.value())
   );
 }
+
+
 dimensionedScalar neg(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -146,6 +181,8 @@ dimensionedScalar neg(const dimensionedScalar& ds)
     ::mousse::neg(ds.value())
   );
 }
+
+
 dimensionedScalar posPart(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -155,6 +192,8 @@ dimensionedScalar posPart(const dimensionedScalar& ds)
     ::mousse::pos(ds.value())
   );
 }
+
+
 dimensionedScalar negPart(const dimensionedScalar& ds)
 {
   return dimensionedScalar
@@ -164,6 +203,7 @@ dimensionedScalar negPart(const dimensionedScalar& ds)
     ::mousse::neg(ds.value())
   );
 }
+
 
 #define TRANS_FUNC(func)                                                      \
 dimensionedScalar func(const dimensionedScalar& ds)                           \
@@ -182,6 +222,7 @@ dimensionedScalar func(const dimensionedScalar& ds)                           \
     ::func(ds.value())                                                        \
   );                                                                          \
 }
+
 
 TRANS_FUNC(exp)
 TRANS_FUNC(log)
@@ -211,8 +252,7 @@ TRANS_FUNC(y1)
 #define TRANS_FUNC(func)                                                      \
 dimensionedScalar func(const int n, const dimensionedScalar& ds)              \
 {                                                                             \
-  if (!ds.dimensions().dimensionless())                                       \
-  {                                                                           \
+  if (!ds.dimensions().dimensionless()) {                                     \
     FATAL_ERROR_IN(#func "(const int n, const dimensionedScalar& ds)")        \
       << "ds not dimensionless"                                               \
       << abort(FatalError);                                                   \
@@ -244,4 +284,5 @@ dimensionedScalar atan2
     ::atan2(x.value(), y.value())
   );
 }
+
 }  // namespace mousse

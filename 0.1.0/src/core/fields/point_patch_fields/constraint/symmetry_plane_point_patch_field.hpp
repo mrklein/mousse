@@ -8,15 +8,13 @@
 //   mousse::symmetryPlanePointPatchField
 // Description
 //   A symmetry-plane boundary condition for pointField
-// SourceFiles
-//   symmetry_plane_point_patch_field.cpp
-
 
 #include "basic_symmetry_point_patch_field.hpp"
 #include "symmetry_plane_point_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class symmetryPlanePointPatchField
 :
@@ -59,10 +57,7 @@ public:
     {
       return autoPtr<pointPatchField<Type> >
       {
-        new symmetryPlanePointPatchField<Type>
-        {
-          *this
-        }
+        new symmetryPlanePointPatchField<Type>{*this}
       };
     }
 
@@ -81,11 +76,7 @@ public:
     {
       return autoPtr<pointPatchField<Type> >
       {
-        new symmetryPlanePointPatchField<Type>
-        {
-          *this,
-          iF
-        }
+        new symmetryPlanePointPatchField<Type>{*this, iF}
       };
     }
 
@@ -103,8 +94,9 @@ public:
         const Pstream::commsTypes commsType=Pstream::blocking
       );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#    include "symmetry_plane_point_patch_field.cpp"
-#endif
+
+#include "symmetry_plane_point_patch_field.ipp"
+
 #endif

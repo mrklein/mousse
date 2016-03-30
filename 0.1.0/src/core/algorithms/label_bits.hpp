@@ -16,8 +16,7 @@
 #include "direction.hpp"
 #include "error.hpp"
 
-namespace mousse
-{
+namespace mousse {
 
 class labelBits
 {

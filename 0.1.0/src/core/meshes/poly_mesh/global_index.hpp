@@ -11,22 +11,18 @@
 //   for processor + local index. E.g.
 //   globalIndex globalFaces(mesh.nFaces());
 //   label globalFaceI = globalFaces.toGlobal(faceI);
-// SourceFiles
-//   global_index_i.hpp
-//   global_index.cpp
-//   global_index_templates.cpp
-
 
 #include "pstream.hpp"
 #include "list_ops.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 class globalIndex;
 Istream& operator>>(Istream& is, globalIndex& gi);
 Ostream& operator<<(Ostream& os, const globalIndex& gi);
+
 
 class globalIndex
 {
@@ -207,9 +203,9 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "global_index_templates.cpp"
-#endif
+
+#include "global_index.ipp"
+
 
 // Constructors 
 mousse::globalIndex::globalIndex()

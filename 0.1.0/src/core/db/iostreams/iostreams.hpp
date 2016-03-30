@@ -18,12 +18,13 @@
 #endif
 
 // Global predefined streams for standard input, output
-namespace mousse
-{
-  extern ISstream Sin;
-  extern OSstream Sout;
-  extern OSstream Serr;
-  extern prefixOSstream Pout;
-  extern prefixOSstream Perr;
+namespace mousse {
+
+extern ISstream Sin;
+extern OSstream Sout;
+extern OSstream Serr;
+extern prefixOSstream Pout;
+extern prefixOSstream Perr;
+
 }
 #endif

@@ -12,11 +12,12 @@
 //   the required tolerance.
 //   To improve efficiency, the residual is evaluated after every nSweeps
 //   smoothing iterations.
-// SourceFiles
-//   smooth_solver.cpp
+
 #include "ldu_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class smoothSolver
 :
   public lduMatrix::solver

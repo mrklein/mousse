@@ -10,17 +10,21 @@
 //   Quaternion class used to perform rotations in 3D space.
 // SourceFiles
 //   quaternion.cpp
+
 #include "scalar.hpp"
 #include "vector.hpp"
 #include "tensor.hpp"
 #include "word.hpp"
 #include "contiguous.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class quaternion;
 Istream& operator>>(Istream& is, quaternion&);
 Ostream& operator<<(Ostream& os, const quaternion& C);
+
 class quaternion
 {
   // private data

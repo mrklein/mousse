@@ -11,9 +11,6 @@
 //   Note: morph patch face ordering tries to do a geometric ordering.
 //   (assumes faces coincident) Hence will have problems when cyclics
 //   are present.
-// SourceFiles
-//   processor_poly_patch.cpp
-
 
 #include "coupled_poly_patch.hpp"
 #include "poly_boundary_mesh.hpp"
@@ -21,8 +18,9 @@
 #include "poly_mesh.hpp"
 #include "pstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class processorPolyPatch
 :
   public coupledPolyPatch
@@ -134,16 +132,16 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new processorPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           newSize,
           newStart
-        )
-      );
+        }
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -156,16 +154,16 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new processorPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           mapAddressing,
           newStart
-        )
-      );
+        }
+      };
     }
   //- Destructor
   virtual ~processorPolyPatch();
@@ -173,12 +171,9 @@ public:
     //- Return true only if this is a parallel run
     virtual bool coupled() const
     {
-      if (Pstream::parRun())
-      {
+      if (Pstream::parRun()) {
         return true;
-      }
-      else
-      {
+      } else {
         return false;
       }
     }
@@ -265,6 +260,7 @@ public:
     //- Write the polyPatch data as a dictionary
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
 
 #endif

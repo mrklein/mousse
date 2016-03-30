@@ -48,16 +48,19 @@
 //   \endverbatim
 // SeeAlso
 //   codedFixedValueFvPatchField
-// SourceFiles
-//   coded_fixed_value_point_patch_field.cpp
+
 #include "fixed_value_point_patch_fields.hpp"
 #include "coded_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class dynamicCode;
 class dynamicCodeContext;
 class IOdictionary;
+
+
 template<class Type>
 class codedFixedValuePointPatchField
 :
@@ -124,9 +127,9 @@ public:
     virtual autoPtr<pointPatchField<Type> > clone() const
     {
       return autoPtr<pointPatchField<Type> >
-      (
-        new codedFixedValuePointPatchField<Type>(*this)
-      );
+      {
+        new codedFixedValuePointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     codedFixedValuePointPatchField
@@ -141,13 +144,9 @@ public:
     ) const
     {
       return autoPtr<pointPatchField<Type> >
-      (
-        new codedFixedValuePointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new codedFixedValuePointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     //- Get reference to the underlying patch
@@ -163,7 +162,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "coded_fixed_value_point_patch_field.cpp"
-#endif
+
+#include "coded_fixed_value_point_patch_field.ipp"
+
 #endif

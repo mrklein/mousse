@@ -8,14 +8,11 @@
 //   mousse::BinSum
 // Description
 //   Sums into bins
-// SourceFiles
-//   bin_sum.cpp
-
 
 #include "ops.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template
 <
@@ -98,7 +95,7 @@ public:
 
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "bin_sum.cpp"
-#endif
+
+#include "bin_sum.ipp"
+
 #endif

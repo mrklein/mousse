@@ -7,6 +7,7 @@
 #include "iostreams.hpp"
 #include <sstream>
 
+
 mousse::word mousse::name(const uint32_t val)
 {
   std::ostringstream buf;

@@ -8,12 +8,13 @@
 //   mousse::coordSet
 // Description
 //   Holds list of sampling positions
-// SourceFiles
-//   coord_set.cpp
+
 #include "point_field.hpp"
 #include "word.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class coordSet
 :
   public pointField
@@ -78,5 +79,6 @@ public:
     vector vectorCoord(const label index) const;
     Ostream& write(Ostream& os) const;
 };
+
 }  // namespace mousse
 #endif

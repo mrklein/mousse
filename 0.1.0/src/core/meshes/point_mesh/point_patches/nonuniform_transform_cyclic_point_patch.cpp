@@ -5,8 +5,9 @@
 #include "nonuniform_transform_cyclic_point_patch.hpp"
 #include "point_constraint.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(nonuniformTransformCyclicPointPatch, 0);
 // Add the patch constructor functions to the hash tables
@@ -35,4 +36,6 @@ void nonuniformTransformCyclicPointPatch::applyConstraint
 {
   pc.applyConstraint(pointNormals()[pointi]);
 }
+
 }  // namespace mousse
+

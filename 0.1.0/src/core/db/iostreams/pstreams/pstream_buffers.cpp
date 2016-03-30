@@ -3,11 +3,15 @@
 // Copyright (C) 2016 mousse project
 
 #include "pstream_buffers.hpp"
-/* * * * * * * * * * * * * * * Static Member Data  * * * * * * * * * * * * * */
-namespace mousse
-{
-  DynamicList<char> PstreamBuffers::nullBuf(0);
+
+
+namespace mousse {
+
+DynamicList<char> PstreamBuffers::nullBuf(0);
+
 }
+
+
 // Constructor
 mousse::PstreamBuffers::PstreamBuffers
 (
@@ -18,24 +22,24 @@ mousse::PstreamBuffers::PstreamBuffers
   IOstream::versionNumber version
 )
 :
-  commsType_(commsType),
-  tag_(tag),
-  comm_(comm),
-  format_(format),
-  version_(version),
-  sendBuf_(UPstream::nProcs(comm)),
-  recvBuf_(UPstream::nProcs(comm)),
-  recvBufPos_(UPstream::nProcs(comm),  0),
-  finishedSendsCalled_(false)
+  commsType_{commsType},
+  tag_{tag},
+  comm_{comm},
+  format_{format},
+  version_{version},
+  sendBuf_{UPstream::nProcs(comm)},
+  recvBuf_{UPstream::nProcs(comm)},
+  recvBufPos_{UPstream::nProcs(comm),  0},
+  finishedSendsCalled_{false}
 {}
+
+
 // Destructor 
 mousse::PstreamBuffers::~PstreamBuffers()
 {
   // Check that all data has been consumed.
-  FOR_ALL(recvBufPos_, procI)
-  {
-    if (recvBufPos_[procI] < recvBuf_[procI].size())
-    {
+  FOR_ALL(recvBufPos_, procI) {
+    if (recvBufPos_[procI] < recvBuf_[procI].size()) {
       FATAL_ERROR_IN("PstreamBuffers::~PstreamBuffers()")
         << "Message from processor " << procI
         << " not fully consumed. messageSize:" << recvBuf_[procI].size()
@@ -45,12 +49,13 @@ mousse::PstreamBuffers::~PstreamBuffers()
     }
   }
 }
+
+
 // Member Functions 
 void mousse::PstreamBuffers::finishedSends(const bool block)
 {
   finishedSendsCalled_ = true;
-  if (commsType_ == UPstream::nonBlocking)
-  {
+  if (commsType_ == UPstream::nonBlocking) {
     labelListList sizes;
     Pstream::exchange<DynamicList<char>, char>
     (
@@ -63,11 +68,12 @@ void mousse::PstreamBuffers::finishedSends(const bool block)
     );
   }
 }
+
+
 void mousse::PstreamBuffers::finishedSends(labelListList& sizes, const bool block)
 {
   finishedSendsCalled_ = true;
-  if (commsType_ == UPstream::nonBlocking)
-  {
+  if (commsType_ == UPstream::nonBlocking) {
     Pstream::exchange<DynamicList<char>, char>
     (
       sendBuf_,
@@ -77,9 +83,7 @@ void mousse::PstreamBuffers::finishedSends(labelListList& sizes, const bool bloc
       comm_,
       block
     );
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "PstreamBuffers::finishedSends(labelListList&, const bool)"
@@ -106,14 +110,14 @@ void mousse::PstreamBuffers::finishedSends(labelListList& sizes, const bool bloc
     //UPstream::msgType() = oldTag;
   }
 }
+
+
 void mousse::PstreamBuffers::clear()
 {
-  FOR_ALL(sendBuf_, i)
-  {
+  FOR_ALL(sendBuf_, i) {
     sendBuf_[i].clear();
   }
-  FOR_ALL(recvBuf_, i)
-  {
+  FOR_ALL(recvBuf_, i) {
     recvBuf_[i].clear();
   }
   recvBufPos_ = 0;

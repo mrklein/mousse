@@ -12,14 +12,11 @@
 //   (symmetric equivalent of DILU) in which the the reciprocal of the
 //   preconditioned diagonal and the upper coefficients divided by the diagonal
 //   are calculated and stored.
-// SourceFiles
-//   fdic_preconditioner.cpp
-
 
 #include "ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class FDICPreconditioner
 :

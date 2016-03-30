@@ -14,10 +14,13 @@
 //   combine_gather_scatter.cpp
 //   gather_scatter_list.cpp
 //   exchange.cpp
+
 #include "upstream.hpp"
 #include "dynamic_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Pstream
 :
   public UPstream
@@ -37,11 +40,10 @@ public:
       const label bufSize = 0
     )
     :
-      UPstream(commsType),
-      buf_(0)
+      UPstream{commsType},
+      buf_{0}
     {
-      if (bufSize)
-      {
+      if (bufSize) {
         buf_.setCapacity(bufSize + 2*sizeof(scalar) + 1);
       }
     }
@@ -246,11 +248,12 @@ public:
         const bool block = true
       );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "gather_scatter.cpp"
-#   include "combine_gather_scatter.cpp"
-#   include "gather_scatter_list.cpp"
-#   include "exchange.cpp"
-#endif
+
+#include "gather_scatter.ipp"
+#include "combine_gather_scatter.ipp"
+#include "gather_scatter_list.ipp"
+#include "exchange.ipp"
+
 #endif

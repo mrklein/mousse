@@ -8,12 +8,13 @@
 //   mousse::intersection
 // Description
 //   mousse::intersection
-// SourceFiles
-//   intersection.cpp
+
 #include "scalar.hpp"
 #include "named_enum.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class intersection
 {
 private:
@@ -48,18 +49,20 @@ public:
     //- Set the planar tolerance, returning the previous value
     static scalar setPlanarTol(const scalar t)
     {
-      if (t < -VSMALL)
-      {
+      if (t < -VSMALL) {
         FATAL_ERROR_IN
         (
           "scalar intersection::setPlanarTol(const scalar t)"
-        )   << "Negative planar tolerance.  This is not allowed."
-          << abort(FatalError);
+        )
+        << "Negative planar tolerance.  This is not allowed."
+        << abort(FatalError);
       }
       scalar oldTol = planarTol_;
       planarTol_ = t;
       return oldTol;
     }
 };
+
 }  // namespace mousse
+
 #endif

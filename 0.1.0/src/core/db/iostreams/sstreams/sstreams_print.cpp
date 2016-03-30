@@ -4,15 +4,19 @@
 
 #include "isstream.hpp"
 #include "osstream.hpp"
+
+
 void mousse::ISstream::print(Ostream& os) const
 {
-  os  << "ISstream: " << name().c_str() << ' ';
+  os << "ISstream: " << name().c_str() << ' ';
   IOstream::print(os);
   IOstream::print(os, is_.rdstate());
 }
+
+
 void mousse::OSstream::print(Ostream& os) const
 {
-  os  << "OSstream: " << name().c_str() << ' ';
+  os << "OSstream: " << name().c_str() << ' ';
   IOstream::print(os);
   IOstream::print(os, os_.rdstate());
 }

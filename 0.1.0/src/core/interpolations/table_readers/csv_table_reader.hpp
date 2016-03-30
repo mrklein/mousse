@@ -8,15 +8,12 @@
 //   mousse::csvTableReader
 // Description
 //   Reads an interpolation table from a file - CSV-format
-// SourceFiles
-//   table_reader.cpp
-
 
 #include "table_reader.hpp"
 #include "label_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class csvTableReader
@@ -51,14 +48,11 @@ public:
     csvTableReader(const dictionary& dict);
 
     //- Construct and return a copy
-    virtual autoPtr<tableReader<Type> > clone() const
+    virtual autoPtr<tableReader<Type>> clone() const
     {
-      return autoPtr<tableReader<Type> >
+      return autoPtr<tableReader<Type>>
       {
-        new csvTableReader<Type>
-        {
-          *this
-        }
+        new csvTableReader<Type>{*this}
       };
     }
 
@@ -68,13 +62,13 @@ public:
   // Member Functions
 
     //- Read the table
-    virtual void operator()(const fileName&, List<Tuple2<scalar, Type> >&);
+    virtual void operator()(const fileName&, List<Tuple2<scalar, Type>>&);
 
     //- Read 2D table
     virtual void operator()
     (
       const fileName&,
-      List<Tuple2<scalar, List<Tuple2<scalar, Type> > > >&
+      List<Tuple2<scalar, List<Tuple2<scalar, Type>>>>&
     );
 
     //- Write the remaining parameters
@@ -82,7 +76,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "csv_table_reader.cpp"
-#endif
+
+#include "csv_table_reader.ipp"
+
 #endif

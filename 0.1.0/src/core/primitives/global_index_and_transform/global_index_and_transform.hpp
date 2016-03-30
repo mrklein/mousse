@@ -17,16 +17,18 @@
 // SourceFiles
 //   global_index_and_transform.cpp
 
-
 #include "label_pair.hpp"
 #include "vector_tensor_transform.hpp"
 #include "hash_set.hpp"
 #include "pstream.hpp"
 #include "poly_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse{
+
 class polyMesh;
+
+
 class globalIndexAndTransform
 {
 public:
@@ -63,7 +65,7 @@ private:
     //- Mapping from patch index to which transform it matches (or
     //  -1 for none) (.first()) and what sign to use for it,
     //  i.e. +/- 1 (.second()).
-    List<Pair<label> > patchTransformSign_;
+    List<Pair<label>> patchTransformSign_;
   // Private static data
     //- Number of spaces to reserve for transform encoding
     static const label base_;
@@ -184,7 +186,7 @@ public:
       //  of the identity transform
       inline label nullTransformIndex() const;
       //- Return access to the per-patch transform-sign pairs
-      inline const List<Pair<label> >& patchTransformSign() const;
+      inline const List<Pair<label>>& patchTransformSign() const;
       //- Access the overall (permuted) transform corresponding
       //  to the transformIndex
       inline const vectorTensorTransform& transform
@@ -208,7 +210,8 @@ public:
       ) const;
 };
 }  // namespace mousse
-// #include "global_index_and_transform_i.hpp"
+
+
 // Member Functions
 bool mousse::globalIndexAndTransform::less::operator()
 (
@@ -248,6 +251,8 @@ bool mousse::globalIndexAndTransform::less::operator()
     }
   }
 }
+
+
 mousse::label mousse::globalIndexAndTransform::encodeTransformIndex
 (
   const List<label>& permutationIndices
@@ -288,6 +293,8 @@ mousse::label mousse::globalIndexAndTransform::encodeTransformIndex
   }
   return transformIndex;
 }
+
+
 mousse::label mousse::globalIndexAndTransform::encodeTransformIndex
 (
   const FixedList<mousse::label, 3>& permutation
@@ -313,6 +320,8 @@ mousse::label mousse::globalIndexAndTransform::encodeTransformIndex
       + (permutation[0]+1);
   }
 }
+
+
 mousse::FixedList<mousse::label, 3>
 mousse::globalIndexAndTransform::decodeTransformIndex
 (
@@ -350,6 +359,8 @@ mousse::globalIndexAndTransform::decodeTransformIndex
 #endif
   return permutation;
 }
+
+
 mousse::label mousse::globalIndexAndTransform::addToTransformIndex
 (
   const label transformIndex,
@@ -445,6 +456,8 @@ mousse::label mousse::globalIndexAndTransform::addToTransformIndex
     return transformIndex;
   }
 }
+
+
 mousse::label mousse::globalIndexAndTransform::minimumTransformIndex
 (
   const label transformIndex0,
@@ -483,6 +496,8 @@ mousse::label mousse::globalIndexAndTransform::minimumTransformIndex
     return transformIndex1;
   }
 }
+
+
 mousse::label mousse::globalIndexAndTransform::subtractTransformIndex
 (
   const label transformIndex0,
@@ -497,6 +512,8 @@ mousse::label mousse::globalIndexAndTransform::subtractTransformIndex
   }
   return encodeTransformIndex(permutation0);
 }
+
+
 mousse::labelPair mousse::globalIndexAndTransform::encode
 (
   const label index,
@@ -505,6 +522,8 @@ mousse::labelPair mousse::globalIndexAndTransform::encode
 {
   return encode(Pstream::myProcNo(), index, transformIndex);
 }
+
+
 mousse::labelPair mousse::globalIndexAndTransform::encode
 (
   const label procI,
@@ -550,6 +569,8 @@ mousse::labelPair mousse::globalIndexAndTransform::encode
     transformIndex + procI*base_
   );
 }
+
+
 mousse::label mousse::globalIndexAndTransform::index
 (
   const labelPair& globalIAndTransform
@@ -557,6 +578,8 @@ mousse::label mousse::globalIndexAndTransform::index
 {
   return globalIAndTransform.first();
 }
+
+
 mousse::label mousse::globalIndexAndTransform::processor
 (
   const labelPair& globalIAndTransform
@@ -564,6 +587,8 @@ mousse::label mousse::globalIndexAndTransform::processor
 {
   return globalIAndTransform.second()/base_;
 }
+
+
 mousse::label mousse::globalIndexAndTransform::transformIndex
 (
   const labelPair& globalIAndTransform
@@ -571,29 +596,41 @@ mousse::label mousse::globalIndexAndTransform::transformIndex
 {
   return globalIAndTransform.second() % base_;
 }
+
+
 mousse::label mousse::globalIndexAndTransform::nIndependentTransforms() const
 {
   return transforms_.size();
 }
+
+
 const mousse::List<mousse::vectorTensorTransform>&
 mousse::globalIndexAndTransform::transforms() const
 {
   return transforms_;
 }
+
+
 const mousse::List<mousse::vectorTensorTransform>&
 mousse::globalIndexAndTransform::transformPermutations() const
 {
   return transformPermutations_;
 }
+
+
 mousse::label mousse::globalIndexAndTransform::nullTransformIndex() const
 {
   return nullTransformIndex_;
 }
-const mousse::List<mousse::Pair<mousse::label> >&
+
+
+const mousse::List<mousse::Pair<mousse::label>>&
 mousse::globalIndexAndTransform::patchTransformSign() const
 {
   return patchTransformSign_;
 }
+
+
 const mousse::vectorTensorTransform& mousse::globalIndexAndTransform::transform
 (
   label transformIndex
@@ -601,6 +638,8 @@ const mousse::vectorTensorTransform& mousse::globalIndexAndTransform::transform
 {
   return transformPermutations_[transformIndex];
 }
+
+
 mousse::labelList mousse::globalIndexAndTransform::transformIndicesForPatches
 (
   const labelHashSet& patchIs
@@ -637,9 +676,9 @@ mousse::labelList mousse::globalIndexAndTransform::transformIndicesForPatches
               "const labelList& patchIs"
             ") const"
           )
-            << "More than one patch accessing the same transform "
-            << "but not of the same sign."
-            << exit(FatalError);
+          << "More than one patch accessing the same transform "
+          << "but not of the same sign."
+          << exit(FatalError);
         }
       }
       else
@@ -743,12 +782,14 @@ mousse::labelList mousse::globalIndexAndTransform::transformIndicesForPatches
           "const labelList& patchIs"
         ") const"
       )
-        << "Only 1-3 transforms are possible."
-        << exit(FatalError);
+      << "Only 1-3 transforms are possible."
+      << exit(FatalError);
     }
   }
   return selectedTransformIs;
 }
+
+
 mousse::pointField mousse::globalIndexAndTransform::transformPatches
 (
   const labelHashSet& patchIs,
@@ -767,4 +808,5 @@ mousse::pointField mousse::globalIndexAndTransform::transformPatches
   }
   return transPts;
 }
+
 #endif

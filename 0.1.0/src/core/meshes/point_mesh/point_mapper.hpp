@@ -10,19 +10,17 @@
 //   This object provides mapping and fill-in information for point data
 //   between the two meshes after the topological change.  It is
 //   constructed from mapPolyMesh.
-// SourceFiles
-//   point_mapper.cpp
-
 
 #include "morph_field_mapper.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class pointMesh;
 class mapPolyMesh;
 class polyMesh;
+
 
 class pointMapper
 :

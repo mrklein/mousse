@@ -9,9 +9,10 @@
 #include "face_list.hpp"
 #include "primitive_face_patch.hpp"
 #include "empty_poly_patch.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(processorPointPatch, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -22,6 +23,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 );
 
 }
+
+
 // Protected Member Functions 
 void mousse::processorPointPatch::initGeometry(PstreamBuffers&)
 {
@@ -32,8 +35,7 @@ void mousse::processorPointPatch::initGeometry(PstreamBuffers&)
   // so that the order is correct
   const polyPatch& pp = patch();
   faceList masterFaces(pp.size());
-  FOR_ALL(pp, faceI)
-  {
+  FOR_ALL(pp, faceI) {
     masterFaces[faceI] = pp[faceI].reverseFace();
   }
   reverseMeshPoints_ = primitiveFacePatch
@@ -42,26 +44,38 @@ void mousse::processorPointPatch::initGeometry(PstreamBuffers&)
     pp.points()
   ).meshPoints();
 }
+
+
 void mousse::processorPointPatch::calcGeometry(PstreamBuffers&)
 {}
+
+
 void mousse::processorPointPatch::initMovePoints
 (
   PstreamBuffers&,
   const pointField&
 )
 {}
+
+
 void mousse::processorPointPatch::movePoints(PstreamBuffers&, const pointField&)
 {}
+
+
 void mousse::processorPointPatch::initUpdateMesh(PstreamBuffers& pBufs)
 {
   facePointPatch::initUpdateMesh(pBufs);
   processorPointPatch::initGeometry(pBufs);
 }
+
+
 void mousse::processorPointPatch::updateMesh(PstreamBuffers& pBufs)
 {
   facePointPatch::updateMesh(pBufs);
   processorPointPatch::calcGeometry(pBufs);
 }
+
+
 // Constructors 
 mousse::processorPointPatch::processorPointPatch
 (
@@ -69,14 +83,19 @@ mousse::processorPointPatch::processorPointPatch
   const pointBoundaryMesh& bm
 )
 :
-  coupledFacePointPatch(patch, bm),
-  procPolyPatch_(refCast<const processorPolyPatch>(patch))
+  coupledFacePointPatch{patch, bm},
+  procPolyPatch_{refCast<const processorPolyPatch>(patch)}
 {}
+
+
 // Destructor 
 mousse::processorPointPatch::~processorPointPatch()
 {}
+
+
 // Member Functions 
 const mousse::labelList& mousse::processorPointPatch::reverseMeshPoints() const
 {
   return reverseMeshPoints_;
 }
+

@@ -8,22 +8,24 @@
 //   mousse::coupleGroupIdentifier
 // Description
 //   Encapsulates using patchGroups to specify coupled patch
-// SourceFiles
-//   couple_group_identifier_i.hpp
-//   couple_group_identifier.cpp
-//   couple_group_identifier_io.cpp
+
 #include "word.hpp"
 #include "label.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class dictionary;
 class polyMesh;
 class polyPatch;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 class coupleGroupIdentifier;
 Ostream& operator<<(Ostream&, const coupleGroupIdentifier&);
+
+
 class coupleGroupIdentifier
 {
   // Private data
@@ -55,15 +57,20 @@ public:
   // IOstream Operators
     friend Ostream& operator<<(Ostream&, const coupleGroupIdentifier&);
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 const mousse::word& mousse::coupleGroupIdentifier::name() const
 {
   return name_;
 }
+
+
 bool mousse::coupleGroupIdentifier::valid() const
 {
   return !name_.empty();
 }
+
 #endif

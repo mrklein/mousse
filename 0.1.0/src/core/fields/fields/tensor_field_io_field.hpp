@@ -7,9 +7,12 @@
 
 #include "tensor_field.hpp"
 #include "compact_io_field.hpp"
-namespace mousse
-{
-  typedef IOField<tensorField> tensorFieldIOField;
-  typedef CompactIOField<tensorField, tensor> tensorFieldCompactIOField;
+
+
+namespace mousse {
+
+typedef IOField<tensorField> tensorFieldIOField;
+typedef CompactIOField<tensorField, tensor> tensorFieldCompactIOField;
+
 }
 #endif

@@ -7,8 +7,12 @@
 
 #include "poly_patch.hpp"
 #include "ptr_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef PtrList<polyPatch>  polyPatchList;
+
 }  // namespace mousse
+
 #endif

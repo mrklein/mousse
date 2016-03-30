@@ -10,12 +10,13 @@
 //   The coupledPolyPatch is an abstract base class for patches that couple
 //   regions of the computational domain e.g. cyclic and processor-processor
 //   links.
-// SourceFiles
-//   coupled_poly_patch.cpp
+
 #include "poly_patch.hpp"
 #include "diag_tensor_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class coupledPolyPatch
 :
   public polyPatch

@@ -4,6 +4,8 @@
 
 #include "solver_performance.hpp"
 #include "field_types.hpp"
+
+
 namespace mousse {
 
 MAKE_SOLVER_PERFORMANCE(scalar);

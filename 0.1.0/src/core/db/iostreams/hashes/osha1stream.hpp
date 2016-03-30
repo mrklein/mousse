@@ -8,14 +8,12 @@
 //   mousse::OSHA1stream
 // Description
 //   An output stream for calculating SHA1 digests.
-// SourceFiles
-//   osha1stream.cpp
 
 #include "osstream.hpp"
 #include "sha1.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class osha1stream;
 class OSHA1stream;
