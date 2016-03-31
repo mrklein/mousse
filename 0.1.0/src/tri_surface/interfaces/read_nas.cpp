@@ -7,33 +7,31 @@
 #include "istring_stream.hpp"
 #include "map.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Member Functions 
 // Do weird things to extract number
 static scalar parseNASCoord(const string& s)
 {
   size_t expSign = s.find_last_of("+-");
-  if (expSign != string::npos && expSign > 0 && !isspace(s[expSign-1]))
-  {
-    scalar mantissa = readScalar(IStringStream(s.substr(0, expSign))());
-    scalar exponent = readScalar(IStringStream(s.substr(expSign+1))());
-    if (s[expSign] == '-')
-    {
+  if (expSign != string::npos && expSign > 0 && !isspace(s[expSign-1])) {
+    scalar mantissa = readScalar(IStringStream{s.substr(0, expSign)}());
+    scalar exponent = readScalar(IStringStream{s.substr(expSign+1)}());
+    if (s[expSign] == '-') {
       exponent = -exponent;
     }
     return mantissa*pow(10, exponent);
-  }
-  else
-  {
+  } else {
     return readScalar(IStringStream(s)());
   }
 }
+
+
 bool triSurface::readNAS(const fileName& fName)
 {
-  IFstream is(fName);
-  if (!is.good())
-  {
+  IFstream is{fName};
+  if (!is.good()) {
     FATAL_ERROR_IN("triSurface::readNAS(const fileName&)")
       << "Cannot read file " << fName
       << exit(FatalError);
@@ -57,91 +55,67 @@ bool triSurface::readNAS(const fileName& fName)
   string ansaName;
   // A single warning per unrecognized command
   HashSet<word> unhandledCmd;
-  while (is.good())
-  {
+  while (is.good()) {
     string line;
     is.getLine(line);
     // Ansa extension
-    if (line.substr(0, 10) == "$ANSA_NAME")
-    {
+    if (line.substr(0, 10) == "$ANSA_NAME") {
       string::size_type sem0 = line.find (';', 0);
       string::size_type sem1 = line.find (';', sem0+1);
       string::size_type sem2 = line.find (';', sem1+1);
-      if
-      (
-        sem0 != string::npos
-      && sem1 != string::npos
-      && sem2 != string::npos
-      )
-      {
+      if (sem0 != string::npos && sem1 != string::npos
+          && sem2 != string::npos) {
         ansaId = readLabel
         (
-          IStringStream(line.substr(sem0+1, sem1-sem0-1))()
+          IStringStream{line.substr(sem0+1, sem1-sem0-1)}()
         );
         ansaType = line.substr(sem1+1, sem2-sem1-1);
         string nameString;
         is.getLine(ansaName);
-        if (ansaName[ansaName.size()-1] == '\r')
-        {
+        if (ansaName[ansaName.size()-1] == '\r') {
           ansaName = ansaName.substr(1, ansaName.size()-2);
-        }
-        else
-        {
+        } else {
           ansaName = ansaName.substr(1, ansaName.size()-1);
         }
-        // Info<< "ANSA tag for NastranID:" << ansaId
-        //     << " of type " << ansaType
-        //     << " name " << ansaName << endl;
       }
     }
     // Hypermesh extension
     // $HMNAME COMP                   1"partName"
-    if
-    (
-      line.substr(0, 12) == "$HMNAME COMP"
-    && line.find ('"') != string::npos
-    )
-    {
+    if (line.substr(0, 12) == "$HMNAME COMP"
+        && line.find ('"') != string::npos) {
       label groupId = readLabel
       (
         IStringStream(line.substr(16, 16))()
       );
-      IStringStream lineStream(line.substr(32));
+      IStringStream lineStream{line.substr(32)};
       string rawName;
       lineStream >> rawName;
       groupToName.insert(groupId, string::validate<word>(rawName));
-      Info<< "group " << groupId << " => " << rawName << endl;
+      Info << "group " << groupId << " => " << rawName << endl;
     }
-    if (line.empty() || line[0] == '$')
-    {
+    if (line.empty() || line[0] == '$') {
       // Skip empty or comment
       continue;
     }
     // Check if character 72 is continuation
-    if (line.size() > 72 && line[72] == '+')
-    {
+    if (line.size() > 72 && line[72] == '+') {
       line = line.substr(0, 72);
-      while (true)
-      {
+      while (true) {
         string buf;
         is.getLine(buf);
-        if (buf.size() > 72 && buf[72]=='+')
-        {
+        if (buf.size() > 72 && buf[72]=='+') {
           line += buf.substr(8, 64);
-        }
-        else
-        {
+        } else {
           line += buf.substr(8, buf.size()-8);
           break;
         }
       }
     }
     // Read first word
-    IStringStream lineStream(line);
+    IStringStream lineStream{line};
     word cmd;
     lineStream >> cmd;
-    if (cmd == "CTRIA3")
-    {
+    if (cmd == "CTRIA3") {
       label groupId = readLabel(IStringStream(line.substr(16,8))());
       label a = readLabel(IStringStream(line.substr(24,8))());
       label b = readLabel(IStringStream(line.substr(32,8))());
@@ -149,20 +123,15 @@ bool triSurface::readNAS(const fileName& fName)
       // Convert group into patch
       Map<label>::const_iterator iter = groupToPatch.find(groupId);
       label patchI;
-      if (iter == groupToPatch.end())
-      {
+      if (iter == groupToPatch.end()) {
         patchI = nPatches++;
         groupToPatch.insert(groupId, patchI);
-        Info<< "patch " << patchI << " => group " << groupId << endl;
-      }
-      else
-      {
+        Info << "patch " << patchI << " => group " << groupId << endl;
+      } else {
         patchI = iter();
       }
       faces.append(labelledTri(a, b, c, patchI));
-    }
-    else if (cmd == "CQUAD4")
-    {
+    } else if (cmd == "CQUAD4") {
       label groupId = readLabel(IStringStream(line.substr(16,8))());
       label a = readLabel(IStringStream(line.substr(24,8))());
       label b = readLabel(IStringStream(line.substr(32,8))());
@@ -171,40 +140,30 @@ bool triSurface::readNAS(const fileName& fName)
       // Convert group into patch
       Map<label>::const_iterator iter = groupToPatch.find(groupId);
       label patchI;
-      if (iter == groupToPatch.end())
-      {
+      if (iter == groupToPatch.end()) {
         patchI = nPatches++;
         groupToPatch.insert(groupId, patchI);
-        Info<< "patch " << patchI << " => group " << groupId << endl;
-      }
-      else
-      {
+        Info << "patch " << patchI << " => group " << groupId << endl;
+      } else {
         patchI = iter();
       }
       faces.append(labelledTri(a, b, c, patchI));
       faces.append(labelledTri(c, d, a, patchI));
-    }
-    else if (cmd == "PSHELL")
-    {
+    } else if (cmd == "PSHELL") {
       // Read shell type since group gives patchnames
       label groupId = readLabel(IStringStream(line.substr(8,8))());
-      if (groupId == ansaId && ansaType == "PSHELL")
-      {
+      if (groupId == ansaId && ansaType == "PSHELL") {
         groupToName.insert(groupId, string::validate<word>(ansaName));
         Info<< "group " << groupId << " => " << ansaName << endl;
       }
-    }
-    else if (cmd == "GRID")
-    {
+    } else if (cmd == "GRID") {
       label index = readLabel(IStringStream(line.substr(8,8))());
       scalar x = parseNASCoord(line.substr(24, 8));
       scalar y = parseNASCoord(line.substr(32, 8));
       scalar z = parseNASCoord(line.substr(40, 8));
       indices.append(index);
       points.append(point(x, y, z));
-    }
-    else if (cmd == "GRID*")
-    {
+    } else if (cmd == "GRID*") {
       // Long format is on two lines with '*' continuation symbol
       // on start of second line.
       // Typical line (spaces compacted)
@@ -214,8 +173,7 @@ bool triSurface::readNAS(const fileName& fName)
       scalar x = parseNASCoord(line.substr(40, 16));
       scalar y = parseNASCoord(line.substr(56, 16));
       is.getLine(line);
-      if (line[0] != '*')
-      {
+      if (line[0] != '*') {
         FATAL_ERROR_IN("triSurface::readNAS(const fileName&)")
           << "Expected continuation symbol '*' when reading GRID*"
           << " (double precision coordinate) output" << nl
@@ -227,28 +185,25 @@ bool triSurface::readNAS(const fileName& fName)
       scalar z = parseNASCoord(line.substr(8, 16));
       indices.append(index);
       points.append(point(x, y, z));
-    }
-    else if (unhandledCmd.insert(cmd))
-    {
-      Info<< "Unhandled Nastran command " << line << nl
+    } else if (unhandledCmd.insert(cmd)) {
+      Info << "Unhandled Nastran command " << line << nl
         << "File:" << is.name() << " line:" << is.lineNumber() << endl;
     }
   }
   points.shrink();
   indices.shrink();
   faces.shrink();
-  Info<< "Read triangles:" << faces.size() << " points:" << points.size()
+  Info << "Read triangles:" << faces.size() << " points:" << points.size()
     << endl;
+
   {
     // Build inverse mapping (index to point)
-    Map<label> indexToPoint(2*indices.size());
-    FOR_ALL(indices, i)
-    {
+    Map<label> indexToPoint{2*indices.size()};
+    FOR_ALL(indices, i) {
       indexToPoint.insert(indices[i], i);
     }
     // Relabel faces
-    FOR_ALL(faces, i)
-    {
+    FOR_ALL(faces, i) {
       labelledTri& f = faces[i];
       f[0] = indexToPoint[f[0]];
       f[1] = indexToPoint[f[1]];
@@ -256,9 +211,8 @@ bool triSurface::readNAS(const fileName& fName)
     }
   }
   // Convert groupToPatch to patchList.
-  geometricSurfacePatchList patches(nPatches);
-  FOR_ALL_CONST_ITER(Map<word>, groupToName, iter)
-  {
+  geometricSurfacePatchList patches{nPatches};
+  FOR_ALL_CONST_ITER(Map<word>, groupToName, iter) {
     label patchI = groupToPatch[iter.key()];
     patches[patchI] = geometricSurfacePatch
     (
@@ -267,11 +221,12 @@ bool triSurface::readNAS(const fileName& fName)
       patchI
     );
   }
-  Info<< "patches:" << patches << endl;
+  Info << "patches:" << patches << endl;
   // Transfer DynamicLists to straight ones.
-  pointField allPoints(points.xfer());
+  pointField allPoints{points.xfer()};
   // Create triSurface
   *this = triSurface(faces, patches, allPoints, true);
   return true;
 }
+
 }  // namespace mousse

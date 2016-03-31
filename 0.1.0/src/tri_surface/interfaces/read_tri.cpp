@@ -11,12 +11,12 @@
 #include "istring_stream.hpp"
 #include "ostring_stream.hpp"
 
+
 // Member Functions
 bool mousse::triSurface::readTRI(const fileName& TRIfileName)
 {
-  IFstream TRIfile(TRIfileName);
-  if (!TRIfile.good())
-  {
+  IFstream TRIfile{TRIfileName};
+  if (!TRIfile.good()) {
     FATAL_ERROR_IN("triSurface::readTRI(const fileName&)")
       << "Cannot read file " << TRIfileName
       << exit(FatalError);
@@ -26,74 +26,67 @@ bool mousse::triSurface::readTRI(const fileName& TRIfileName)
   HashTable<label, string> STLsolidNames;
   // Max region number so far
   label maxRegion = 0;
-  while (TRIfile)
-  {
+  while (TRIfile) {
     string line = getLineNoComment(TRIfile);
-    if (line.empty())
-    {
+    if (line.empty()) {
       break;
     }
-    IStringStream lineStream(line);
+    IStringStream lineStream{line};
     STLpoint p
-    (
-      readScalar(lineStream),
-      readScalar(lineStream),
-      readScalar(lineStream)
-    );
-    if (!lineStream) break;
+    {
+      static_cast<float>(readScalar(lineStream)),
+      static_cast<float>(readScalar(lineStream)), 
+      static_cast<float>(readScalar(lineStream))
+    };
+    if (!lineStream)
+      break;
     STLpoints.append(p);
     STLpoints.append
     (
       STLpoint
-      (
-        readScalar(lineStream),
-        readScalar(lineStream),
-        readScalar(lineStream)
-      )
+      {
+        static_cast<float>(readScalar(lineStream)),
+        static_cast<float>(readScalar(lineStream)),
+        static_cast<float>(readScalar(lineStream))
+      }
     );
     STLpoints.append
     (
       STLpoint
-      (
-        readScalar(lineStream),
-        readScalar(lineStream),
-        readScalar(lineStream)
-      )
+      {
+        static_cast<float>(readScalar(lineStream)),
+        static_cast<float>(readScalar(lineStream)),
+        static_cast<float>(readScalar(lineStream))
+      }
     );
     // Region/colour in .tri file starts with 0x. Skip.
     char zero;
     lineStream >> zero;
-    word rawSolidName(lineStream);
-    word solidName("patch" + rawSolidName(1, rawSolidName.size()-1));
+    word rawSolidName{lineStream};
+    word solidName{"patch" + rawSolidName(1, rawSolidName.size()-1)};
     label region  = -1;
     HashTable<label, string>::const_iterator fnd =
       STLsolidNames.find(solidName);
-    if (fnd != STLsolidNames.end())
-    {
+    if (fnd != STLsolidNames.end()) {
       region = fnd();
-    }
-    else
-    {
-      Pout<< "Mapping triangle colour 0" << rawSolidName
-        << " to region " << maxRegion << " name " << solidName
-        << endl;
+    } else {
+      Pout << "Mapping triangle colour 0" << rawSolidName
+        << " to region " << maxRegion << " name " << solidName << endl;
       region = maxRegion++;
       STLsolidNames.insert(solidName, region);
     }
     STLlabels.append(region);
   }
-  pointField rawPoints(STLpoints.size());
+  pointField rawPoints{STLpoints.size()};
   label pointI = 0;
-  FOR_ALL_CONST_ITER(SLList<STLpoint>, STLpoints, iter)
-  {
+  FOR_ALL_CONST_ITER(SLList<STLpoint>, STLpoints, iter) {
     rawPoints[pointI++] = *iter;
   }
   setSize(STLlabels.size());
   // Assign triangles
   pointI = 0;
   SLList<label>::const_iterator iter = STLlabels.begin();
-  FOR_ALL(*this, i)
-  {
+  FOR_ALL(*this, i) {
     operator[](i)[0] = pointI++;
     operator[](i)[1] = pointI++;
     operator[](i)[2] = pointI++;
@@ -105,12 +98,12 @@ bool mousse::triSurface::readTRI(const fileName& TRIfileName)
   // Merge duplicate points
   stitchTriangles();
   // Convert solidNames into regionNames
-  stringList names(STLsolidNames.toc());
+  stringList names{STLsolidNames.toc()};
   patches_.setSize(names.size());
-  FOR_ALL(names, nameI)
-  {
+  FOR_ALL(names, nameI) {
     patches_[nameI].name() = names[nameI];
     patches_[nameI].geometricType() = "empty";
   }
   return true;
 }
+

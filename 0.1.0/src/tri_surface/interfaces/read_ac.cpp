@@ -7,25 +7,27 @@
 #include "istring_stream.hpp"
 #include "transform.hpp"
 #include "tensor.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Private Member Functions 
 static label parseInt(const string& str)
 {
-  IStringStream intStream(str);
+  IStringStream intStream{str};
   label a;
   intStream >> a;
   return a;
 }
+
+
 static bool readCmd(IFstream& ACfile, string& cmd, string& args)
 {
-  if (ACfile.good())
-  {
+  if (ACfile.good()) {
     string line;
     ACfile.getLine(line);
     string::size_type space = line.find(' ');
-    if (space != string::npos)
-    {
+    if (space != string::npos) {
       cmd  = line.substr(0, space);
       args = line.substr(space+1);
       return true;
@@ -33,6 +35,8 @@ static bool readCmd(IFstream& ACfile, string& cmd, string& args)
   }
   return false;
 }
+
+
 // Read up to line starting with cmd. Sets args to rest of line.
 // Returns true if found, false if stream is not good anymore.
 static bool readUpto
@@ -42,19 +46,19 @@ static bool readUpto
   string& args
 )
 {
-  while (ACfile.good())
-  {
+  while (ACfile.good()) {
     string line;
     ACfile.getLine(line);
     string::size_type space = line.find(' ');
-    if (space != string::npos && line.substr(0, space) == cmd)
-    {
+    if (space != string::npos && line.substr(0, space) == cmd) {
       args = line.substr(space+1);
       return true;
     }
   }
   return false;
 }
+
+
 // Likewise but throws error if cmd not found
 static void readUpto
 (
@@ -64,19 +68,19 @@ static void readUpto
   const string errorMsg
 )
 {
-  if (!readUpto(cmd, ACfile, args))
-  {
+  if (!readUpto(cmd, ACfile, args)) {
     FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
       << "Cannot find command " << cmd
       << errorMsg << exit(FatalError);
   }
 }
+
+
 // Member Functions 
 bool triSurface::readAC(const fileName& ACfileName)
 {
-  IFstream ACfile(ACfileName);
-  if (!ACfile.good())
-  {
+  IFstream ACfile{ACfileName};
+  if (!ACfile.good()) {
     FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
       << "Cannot read file " << ACfileName
       << exit(FatalError);
@@ -84,8 +88,7 @@ bool triSurface::readAC(const fileName& ACfileName)
   string line;
   ACfile.getLine(line);
   string version = line.substr(4);
-  if (version != "b")
-  {
+  if (version != "b") {
     WARNING_IN("bool triSurface::readAC(const fileName& ACfileName)")
       << "When reading AC3D file " << ACfileName
       << " read header " << line << " with version " << version
@@ -94,8 +97,7 @@ bool triSurface::readAC(const fileName& ACfileName)
   }
   string cmd;
   string args;
-  if (!readUpto("OBJECT", ACfile, args) || (args != "world"))
-  {
+  if (!readUpto("OBJECT", ACfile, args) || (args != "world")) {
     FATAL_ERROR_IN("bool triSurface::readAC(const fileName& ACfileName)")
       << "Cannot find \"OBJECT world\" in file " << ACfileName
       << exit(FatalError);
@@ -109,8 +111,7 @@ bool triSurface::readAC(const fileName& ACfileName)
   geometricSurfacePatchList patches(nPatches);
   // Start of vertices for object/patch
   label patchStartVert = 0;
-  for (label patchI = 0; patchI < nPatches; patchI++)
-  {
+  for (label patchI = 0; patchI < nPatches; patchI++) {
     readUpto
     (
       "OBJECT",
@@ -124,26 +125,21 @@ bool triSurface::readAC(const fileName& ACfileName)
     tensor rot(I);
     vector loc(0, 0, 0);
     // Read all info for current patch
-    while (ACfile.good())
-    {
+    while (ACfile.good()) {
       // Read line and get first word. If end of file break since
       // patch should always end with 'kids' command ?not sure.
-      if (!readCmd(ACfile, cmd, args))
-      {
+      if (!readCmd(ACfile, cmd, args)) {
         FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
           << "Did not read up to \"kids 0\" while reading patch "
           << patchI << " from file " << ACfileName
           << exit(FatalError);
       }
-      if (cmd == "name")
-      {
-        IStringStream nameStream(args);
+      if (cmd == "name") {
+        IStringStream nameStream{args};
         nameStream >> patchName;
-      }
-      else if (cmd == "rot")
-      {
+      } else if (cmd == "rot") {
         // rot %f %f %f  %f %f %f  %f %f %f
-        IStringStream lineStream(args);
+        IStringStream lineStream{args};
         lineStream
           >> rot.xx() >> rot.xy() >> rot.xz()
           >> rot.yx() >> rot.yy() >> rot.yz()
@@ -152,40 +148,31 @@ bool triSurface::readAC(const fileName& ACfileName)
           << "rot (rotation tensor) command not implemented"
           << "Line:" << cmd << ' ' << args << endl
           << "while reading patch " << patchI << endl;
-      }
-      else if (cmd == "loc")
-      {
-        IStringStream lineStream(args);
+      } else if (cmd == "loc") {
+        IStringStream lineStream{args};
         lineStream >> loc.x() >> loc.y() >> loc.z();
-      }
-      else if (cmd == "numvert")
-      {
+      } else if (cmd == "numvert") {
         nVerts = parseInt(args);
-        for (label vertI = 0; vertI < nVerts; vertI++)
-        {
+        for (label vertI = 0; vertI < nVerts; vertI++) {
           ACfile.getLine(line);
-          IStringStream lineStream(line);
+          IStringStream lineStream{line};
           point pt;
           lineStream >> pt.x() >> pt.y() >> pt.z();
           // Offset with current translation vector
           points.append(pt+loc);
         }
-      }
-      else if (cmd == "numsurf")
-      {
+      } else if (cmd == "numsurf") {
         label nTris = parseInt(args);
-        for (label triI = 0; triI < nTris; triI++)
-        {
+        for (label triI = 0; triI < nTris; triI++) {
           static string errorMsg =
             string(" while reading face ")
-           + name(triI) + " on patch " + name(patchI)
-           + " from file " + ACfileName;
+            + name(triI) + " on patch " + name(patchI)
+            + " from file " + ACfileName;
           readUpto("SURF", ACfile, args, errorMsg);
           readUpto("mat", ACfile, args, errorMsg);
           readUpto("refs", ACfile, args, errorMsg);
           label size = parseInt(args);
-          if (size != 3)
-          {
+          if (size != 3) {
             FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
               << "Can only read surfaces with 3 vertices."
               << endl
@@ -202,24 +189,21 @@ bool triSurface::readAC(const fileName& ACfileName)
           faces.append
           (
             labelledTri
-            (
+            {
               v0 + patchStartVert,
               v1 + patchStartVert,
               v2 + patchStartVert,
               patchI
-            )
+            }
           );
         }
         // Done the current patch. Increment the offset vertices are
         // stored at
         patchStartVert += nVerts;
-      }
-      else if (cmd == "kids")
-      {
+      } else if (cmd == "kids") {
         // 'kids' denotes the end of the current patch.
         label nKids = parseInt(args);
-        if (nKids != 0)
-        {
+        if (nKids != 0) {
           FATAL_ERROR_IN("triSurface::readAC(const fileName&)")
             << "Can only read objects without kids."
             << " Encountered " << nKids << " kids when"
@@ -245,4 +229,5 @@ bool triSurface::readAC(const fileName& ACfileName)
   stitchTriangles();
   return true;
 }
+
 }  // namespace mousse

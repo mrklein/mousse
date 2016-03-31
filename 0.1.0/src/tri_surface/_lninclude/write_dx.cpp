@@ -1,1 +1,1 @@
-../tri_surface/interfaces/write_dx.cpp
+../interfaces/write_dx.cpp

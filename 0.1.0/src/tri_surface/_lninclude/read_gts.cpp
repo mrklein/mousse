@@ -1,1 +1,1 @@
-../tri_surface/interfaces/read_gts.cpp
+../interfaces/read_gts.cpp

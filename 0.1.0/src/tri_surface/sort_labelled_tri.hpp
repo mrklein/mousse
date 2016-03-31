@@ -10,13 +10,16 @@
 //   Helper class which when constructed with a triSurface
 //   sorts the faces according to region number (or rather constructs a
 //   mapping).
-// SourceFiles
-//   sort_labelled_tri.cpp
+
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sortLabelledTri;
 class triSurface;
+
+
 //- Hold surface and label
 class surfAndLabel
 {
@@ -39,16 +42,18 @@ public:
     //- Construct null
     surfAndLabel()
     :
-      surfPtr_(NULL),
-      index_(-1)
+      surfPtr_{NULL},
+      index_{-1}
     {}
     //- Construct from surface and index
     surfAndLabel(const triSurface& surf, const label index)
     :
-      surfPtr_(&surf),
-      index_(index)
+      surfPtr_{&surf},
+      index_{index}
     {}
 };
+
+
 class sortLabelledTri
 :
   public List<surfAndLabel>
@@ -64,5 +69,7 @@ public:
       //- Return the list of sorted point indices
       labelList indices() const;
 };
+
 }  // namespace mousse
+
 #endif

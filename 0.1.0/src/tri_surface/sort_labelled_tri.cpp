@@ -5,8 +5,10 @@
 #include "sort_labelled_tri.hpp"
 #include "labelled_tri.hpp"
 #include "tri_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Private Classes
 inline bool surfAndLabel::less::operator()
 (
@@ -17,33 +19,38 @@ inline bool surfAndLabel::less::operator()
   const triSurface& surf = *one.surfPtr_;
   return surf[one.index_].region() < surf[two.index_].region();
 }
+
+
 // Constructors 
 // Construct from components
 sortLabelledTri::sortLabelledTri(const triSurface& surf)
 :
-  List<surfAndLabel>(surf.size(), surfAndLabel(surf, -1))
+  List<surfAndLabel>{surf.size(), surfAndLabel(surf, -1)}
 {
   // Set the face label
-  FOR_ALL(surf, faceI)
-  {
+  FOR_ALL(surf, faceI) {
     operator[](faceI).index_ = faceI;
   }
   // Sort according to region number.
   sort(*this, surfAndLabel::less());
 }
+
+
 // Member Functions 
 void sortLabelledTri::indices(labelList& newIndices) const
 {
   newIndices.setSize(size());
-  FOR_ALL(newIndices, i)
-  {
+  FOR_ALL(newIndices, i) {
     newIndices[i] = operator[](i).index_;
   }
 }
+
+
 labelList sortLabelledTri::indices() const
 {
-  labelList newIndices(size());
+  labelList newIndices{size()};
   indices(newIndices);
   return newIndices;
 }
+
 }  // namespace mousse

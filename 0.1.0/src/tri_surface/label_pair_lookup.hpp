@@ -7,13 +7,16 @@
 
 #include "fixed_list.hpp"
 #include "hash_table.hpp"
-namespace mousse
-{
-  typedef HashTable
-  <
-   label,
-   FixedList<label, 2>,
-   FixedList<label, 2>::Hash<>
-  > labelPairLookup;
+
+
+namespace mousse {
+
+typedef HashTable
+<
+ label,
+ FixedList<label, 2>,
+ FixedList<label, 2>::Hash<>
+> labelPairLookup;
+
 }
 #endif

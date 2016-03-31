@@ -1,1 +1,1 @@
-../tri_surface/interfaces/read_tri.cpp
+../interfaces/read_tri.cpp

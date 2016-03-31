@@ -5,12 +5,13 @@
 #include "tri_surface.hpp"
 #include "ifstream.hpp"
 #include "istring_stream.hpp"
+
+
 // Member Functions
 bool mousse::triSurface::readOBJ(const fileName& OBJfileName)
 {
-  IFstream OBJfile(OBJfileName);
-  if (!OBJfile.good())
-  {
+  IFstream OBJfile{OBJfileName};
+  if (!OBJfile.good()) {
     FATAL_ERROR_IN("triSurface::readOBJ(const fileName&)")
       << "Cannot read file " << OBJfileName
       << exit(FatalError);
@@ -20,75 +21,56 @@ bool mousse::triSurface::readOBJ(const fileName& OBJfileName)
   HashTable<label> groupToPatch;
   label groupID = 0;
   label maxGroupID = 0;
-  while (OBJfile.good())
-  {
+  while (OBJfile.good()) {
     string line = getLineNoComment(OBJfile);
     label sz = line.size();
-    if (sz && line[sz-1] == '\\')
-    {
+    if (sz && line[sz-1] == '\\') {
       line.substr(0, sz-1);
       line += getLineNoComment(OBJfile);
     }
     // Read first word
-    IStringStream lineStream(line);
+    IStringStream lineStream{line};
     word cmd;
     lineStream >> cmd;
-    if (cmd == "v")
-    {
+    if (cmd == "v") {
       scalar x, y, z;
       lineStream >> x >> y >> z;
-      points.append(point(x, y, z));
-    }
-    else if (cmd == "g")
-    {
+      points.append(point{x, y, z});
+    } else if (cmd == "g") {
       word group;
       lineStream >> group;
-      HashTable<label>::const_iterator findGroup =
-        groupToPatch.find(group);
-      if (findGroup != groupToPatch.end())
-      {
+      HashTable<label>::const_iterator findGroup = groupToPatch.find(group);
+      if (findGroup != groupToPatch.end()) {
         groupID = findGroup();
-      }
-      else
-      {
+      } else {
         groupID = maxGroupID;
         groupToPatch.insert(group, groupID);
         maxGroupID++;
       }
-    }
-    else if (cmd == "f")
-    {
+    } else if (cmd == "f") {
       DynamicList<label> verts;
       // Assume 'f' is followed by space.
       string::size_type endNum = 1;
-      while (true)
-      {
+      while (true) {
         string::size_type startNum =
           line.find_first_not_of(" \r", endNum);
-        if (startNum == string::npos)
-        {
+        if (startNum == string::npos) {
           break;
         }
         endNum = line.find(' ', startNum);
         string vertexSpec;
-        if (endNum != string::npos)
-        {
+        if (endNum != string::npos) {
           vertexSpec = line.substr(startNum, endNum-startNum);
-        }
-        else
-        {
+        } else {
           vertexSpec = line.substr(startNum, line.size() - startNum);
         }
         string::size_type slashPos = vertexSpec.find('/');
         label vertI = 0;
-        if (slashPos != string::npos)
-        {
-          IStringStream intStream(vertexSpec.substr(0, slashPos));
+        if (slashPos != string::npos) {
+          IStringStream intStream{vertexSpec.substr(0, slashPos)};
           intStream >> vertI;
-        }
-        else
-        {
-          IStringStream intStream(vertexSpec);
+        } else {
+          IStringStream intStream{vertexSpec};
           intStream >> vertI;
         }
         verts.append(vertI - 1);
@@ -96,8 +78,7 @@ bool mousse::triSurface::readOBJ(const fileName& OBJfileName)
       verts.shrink();
       // Do simple face triangulation around f[0].
       // Cannot use face::triangulation since no complete points yet.
-      for (label fp = 1; fp < verts.size() - 1; fp++)
-      {
+      for (label fp = 1; fp < verts.size() - 1; fp++) {
         label fp1 = verts.fcIndex(fp);
         labelledTri tri(verts[0], verts[fp], verts[fp1], groupID);
         faces.append(tri);
@@ -108,26 +89,22 @@ bool mousse::triSurface::readOBJ(const fileName& OBJfileName)
   faces.shrink();
   // Convert groupToPatch to patchList.
   geometricSurfacePatchList patches(maxGroupID);
-  if (maxGroupID == 0)
-  {
+  if (maxGroupID == 0) {
     // Generate default patch
     patches.setSize(1);
     patches[0] = geometricSurfacePatch("empty", "patch0", 0);
-  }
-  else
-  {
-    FOR_ALL_CONST_ITER(HashTable<label>, groupToPatch, iter)
-    {
+  } else {
+    FOR_ALL_CONST_ITER(HashTable<label>, groupToPatch, iter) {
       patches[iter()] = geometricSurfacePatch
-      (
+      {
         "empty",
         iter.key(),
         iter()
-      );
+      };
     }
   }
   // Transfer DynamicLists to straight ones.
-  pointField allPoints(points.xfer());
+  pointField allPoints{points.xfer()};
   // Create triSurface
   *this = triSurface(faces, patches, allPoints, true);
   return true;

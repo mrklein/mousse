@@ -1,1 +1,1 @@
-../tri_surface/interfaces/write_gts.cpp
+../interfaces/write_gts.cpp

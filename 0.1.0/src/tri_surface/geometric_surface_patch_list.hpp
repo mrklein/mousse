@@ -7,8 +7,12 @@
 
 #include "geometric_surface_patch.hpp"
 #include "list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef List<geometricSurfacePatch>  geometricSurfacePatchList;
+
 }  // namespace mousse
+
 #endif

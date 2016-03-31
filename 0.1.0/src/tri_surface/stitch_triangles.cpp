@@ -5,6 +5,8 @@
 #include "tri_surface.hpp"
 #include "merge_points.hpp"
 #include "packed_bool_list.hpp"
+
+
 // Member Functions 
 bool mousse::triSurface::stitchTriangles
 (
@@ -17,19 +19,16 @@ bool mousse::triSurface::stitchTriangles
   labelList pointMap;
   pointField newPoints;
   bool hasMerged = mergePoints(ps, tol, verbose, pointMap, newPoints);
-  if (hasMerged)
-  {
-    if (verbose)
-    {
-      Pout<< "stitchTriangles : Merged from " << ps.size()
+  if (hasMerged) {
+    if (verbose) {
+      Pout << "stitchTriangles : Merged from " << ps.size()
         << " points down to " << newPoints.size() << endl;
     }
     // Set the coordinates to the merged ones
     ps.transfer(newPoints);
     // Reset the triangle point labels to the unique points array
     label newTriangleI = 0;
-    FOR_ALL(*this, i)
-    {
+    FOR_ALL(*this, i) {
       const labelledTri& tri = operator[](i);
       labelledTri newTri
       (
@@ -38,18 +37,11 @@ bool mousse::triSurface::stitchTriangles
         pointMap[tri[2]],
         tri.region()
       );
-      if
-      (
-        (newTri[0] != newTri[1])
-      && (newTri[0] != newTri[2])
-      && (newTri[1] != newTri[2])
-      )
-      {
+      if ((newTri[0] != newTri[1]) && (newTri[0] != newTri[2])
+          && (newTri[1] != newTri[2])) {
         operator[](newTriangleI++) = newTri;
-      }
-      else if (verbose)
-      {
-        Pout<< "stitchTriangles : "
+      } else if (verbose) {
+        Pout << "stitchTriangles : "
           << "Removing triangle " << i
           << " with non-unique vertices." << endl
           << "    vertices   :" << newTri << endl
@@ -57,11 +49,9 @@ bool mousse::triSurface::stitchTriangles
           << endl;
       }
     }
-    if (newTriangleI != size())
-    {
-      if (verbose)
-      {
-        Pout<< "stitchTriangles : "
+    if (newTriangleI != size()) {
+      if (verbose) {
+        Pout << "stitchTriangles : "
           << "Removed " << size() - newTriangleI
           << " triangles" << endl;
       }
@@ -70,37 +60,30 @@ bool mousse::triSurface::stitchTriangles
       // by triangles that have just been deleted)
       // Done in two passes to save memory (pointField)
       // 1. Detect only
-      PackedBoolList pointIsUsed(ps.size());
+      PackedBoolList pointIsUsed{ps.size()};
       label nPoints = 0;
-      FOR_ALL(*this, i)
-      {
+      FOR_ALL(*this, i) {
         const triSurface::FaceType& f = operator[](i);
-        FOR_ALL(f, fp)
-        {
+        FOR_ALL(f, fp) {
           label pointI = f[fp];
-          if (pointIsUsed.set(pointI, 1))
-          {
+          if (pointIsUsed.set(pointI, 1)) {
             nPoints++;
           }
         }
       }
-      if (nPoints != ps.size())
-      {
+      if (nPoints != ps.size()) {
         // 2. Compact.
         pointMap.setSize(ps.size());
         label newPointI = 0;
-        FOR_ALL(pointIsUsed, pointI)
-        {
-          if (pointIsUsed[pointI])
-          {
+        FOR_ALL(pointIsUsed, pointI) {
+          if (pointIsUsed[pointI]) {
             ps[newPointI] = ps[pointI];
             pointMap[pointI] = newPointI++;
           }
         }
         ps.setSize(newPointI);
         newTriangleI = 0;
-        FOR_ALL(*this, i)
-        {
+        FOR_ALL(*this, i) {
           const labelledTri& tri = operator[](i);
           operator[](newTriangleI++) = labelledTri
           (

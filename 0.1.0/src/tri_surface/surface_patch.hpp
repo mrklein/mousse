@@ -8,14 +8,15 @@
 //   mousse::surfacePatch
 // Description
 //   'Patch' on surface as subset of triSurface.
-// SourceFiles
-//   surface_patch.cpp
+
 #include "geometric_surface_patch.hpp"
 #include "word.hpp"
 #include "label.hpp"
 #include "class_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class surfacePatch
 :
   public geometricSurfacePatch

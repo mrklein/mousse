@@ -8,14 +8,15 @@
 //   mousse::surfacePatchIOList
 // Description
 //   IOobject for a surfacePatchList
-// SourceFiles
-//   surface_patch_io_list.cpp
+
 #include "surface_patch_list.hpp"
 #include "reg_ioobject.hpp"
 #include "face_list.hpp"
 #include "class_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class surfacePatchIOList
 :
@@ -47,5 +48,7 @@ public:
   // IOstream Operators
     friend Ostream& operator<<(Ostream&, const surfacePatchIOList&);
 };
+
 }  // namespace mousse
+
 #endif

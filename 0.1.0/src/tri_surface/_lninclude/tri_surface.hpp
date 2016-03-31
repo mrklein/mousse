@@ -1,1 +1,1 @@
-../tri_surface/tri_surface.hpp
+../tri_surface.hpp

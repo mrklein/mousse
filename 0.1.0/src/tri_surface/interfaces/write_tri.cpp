@@ -4,32 +4,31 @@
 
 #include "tri_surface.hpp"
 #include "iomanip.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Member Functions 
 void triSurface::writeTRI(const bool writeSorted, Ostream& os) const
 {
   const pointField& ps = points();
   // Write as cloud of triangles
   labelList faceMap;
-  surfacePatchList myPatches(calcPatches(faceMap));
-  if (writeSorted)
-  {
+  surfacePatchList myPatches{calcPatches(faceMap)};
+  if (writeSorted) {
     label faceIndex = 0;
-    FOR_ALL(myPatches, patchI)
-    {
+    FOR_ALL(myPatches, patchI) {
       for
       (
         label patchFaceI = 0;
         patchFaceI < myPatches[patchI].size();
         patchFaceI++
-      )
-      {
+      ) {
         const label faceI = faceMap[faceIndex++];
         const point& p1 = ps[operator[](faceI)[0]];
         const point& p2 = ps[operator[](faceI)[1]];
         const point& p3 = ps[operator[](faceI)[2]];
-        os  << p1.x() << token::SPACE
+        os << p1.x() << token::SPACE
           << p1.y() << token::SPACE
           << p1.z() << token::SPACE
           << p2.x() << token::SPACE
@@ -42,15 +41,12 @@ void triSurface::writeTRI(const bool writeSorted, Ostream& os) const
           << endl;
       }
     }
-  }
-  else
-  {
-    FOR_ALL(*this, faceI)
-    {
+  } else {
+    FOR_ALL(*this, faceI) {
       const point& p1 = ps[operator[](faceI)[0]];
       const point& p2 = ps[operator[](faceI)[1]];
       const point& p3 = ps[operator[](faceI)[2]];
-      os  << p1.x() << token::SPACE
+      os << p1.x() << token::SPACE
         << p1.y() << token::SPACE
         << p1.z() << token::SPACE
         << p2.x() << token::SPACE
@@ -64,4 +60,5 @@ void triSurface::writeTRI(const bool writeSorted, Ostream& os) const
     }
   }
 }
+
 }  // namespace mousse

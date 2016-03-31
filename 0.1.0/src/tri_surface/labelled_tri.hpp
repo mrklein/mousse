@@ -8,11 +8,14 @@
 //   mousse::labelledTri
 // Description
 //   Triangle with additional region number.
+
 #include "tri_face.hpp"
 #include "list_list_ops.hpp"
 #include "iostreams.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class labelledTri
 :
   public triFace
@@ -45,17 +48,15 @@ public:
       inline label region() const;
       //- Return region label
       inline label& region();
-    // Check
-    // Edit
-    // Write
-  // Friend Functions
-  // Friend Operators
   // IOstream Operators
     inline friend Istream& operator>>(Istream&, labelledTri&);
     inline friend Ostream& operator<<(Ostream&, const labelledTri&);
 };
-template<>
-inline bool contiguous<labelledTri>()  {return true;}
+
+
+template<> inline bool contiguous<labelledTri>() {return true;}
+
+
 //- Hash specialization to offset faces in ListListOps::combineOffset
 template<>
 class offsetOp<labelledTri>
@@ -68,20 +69,23 @@ public:
   ) const
   {
     labelledTri result(x);
-    FOR_ALL(x, xI)
-    {
+    FOR_ALL(x, xI) {
       result[xI] = x[xI] + offset;
     }
     return result;
   }
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::labelledTri::labelledTri()
 :
   region_{-1}
 {}
+
+
 inline mousse::labelledTri::labelledTri
 (
   const triFace& tri,
@@ -91,6 +95,8 @@ inline mousse::labelledTri::labelledTri
   triFace{tri},
   region_{region}
 {}
+
+
 inline mousse::labelledTri::labelledTri
 (
   const label a,
@@ -102,48 +108,52 @@ inline mousse::labelledTri::labelledTri
   triFace{a, b, c},
   region_{region}
 {}
+
+
 inline mousse::labelledTri::labelledTri(Istream& is)
 {
   operator>>(is, *this);
 }
+
+
 // Member Functions 
 inline mousse::label mousse::labelledTri::region() const
 {
   return region_;
 }
+
+
 inline mousse::label& mousse::labelledTri::region()
 {
   return region_;
 }
+
+
 // Ostream Operator 
 inline mousse::Istream& mousse::operator>>(Istream& is, labelledTri& t)
 {
-  if (is.format() == IOstream::ASCII)
-  {
+  if (is.format() == IOstream::ASCII) {
     // Read beginning of labelledTri point pair
     is.readBegin("labelledTri");
     is  >> static_cast<triFace&>(t) >> t.region_;
     // Read end of labelledTri point pair
     is.readEnd("labelledTri");
-  }
-  else
-  {
+  } else {
     is.read(reinterpret_cast<char*>(&t), sizeof(labelledTri));
   }
   // Check state of Ostream
   is.check("Istream& operator>>(Istream&, labelledTri&)");
   return is;
 }
+
+
 inline mousse::Ostream& mousse::operator<<(Ostream& os, const labelledTri& t)
 {
-  if (os.format() == IOstream::ASCII)
-  {
+  if (os.format() == IOstream::ASCII) {
     os << token::BEGIN_LIST
       << static_cast<const triFace&>(t) << token::SPACE << t.region_
       << token::END_LIST;
-  }
-  else
-  {
+  } else {
     os.write
     (
       reinterpret_cast<const char*>(&t),
@@ -154,4 +164,5 @@ inline mousse::Ostream& mousse::operator<<(Ostream& os, const labelledTri& t)
   os.check("Ostream& operator<<(Ostream&, const labelledTri&)");
   return os;
 }
+
 #endif

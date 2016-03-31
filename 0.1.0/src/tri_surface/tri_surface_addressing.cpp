@@ -9,60 +9,51 @@
 #include "patch_tools.hpp"
 #include "uindirect_list.hpp"
 
+
 // Private Member Functions
 void mousse::triSurface::calcSortedEdgeFaces() const
 {
-  if (sortedEdgeFacesPtr_)
-  {
+  if (sortedEdgeFacesPtr_) {
     FATAL_ERROR_IN("triSurface::calcSortedEdgeFaces()")
       << "sortedEdgeFacesPtr_ already set"
       << abort(FatalError);
   }
   const labelListList& eFaces = edgeFaces();
-  sortedEdgeFacesPtr_ = new labelListList(eFaces.size());
+  sortedEdgeFacesPtr_ = new labelListList{eFaces.size()};
   labelListList& sortedEdgeFaces = *sortedEdgeFacesPtr_;
   sortedEdgeFaces = PatchTools::sortedEdgeFaces(*this);
 }
+
+
 void mousse::triSurface::calcEdgeOwner() const
 {
-  if (edgeOwnerPtr_)
-  {
+  if (edgeOwnerPtr_) {
     FATAL_ERROR_IN("triSurface::calcEdgeOwner()")
       << "edgeOwnerPtr_ already set"
       << abort(FatalError);
   }
   // create the owner list
-  edgeOwnerPtr_ = new labelList(nEdges());
+  edgeOwnerPtr_ = new labelList{nEdges()};
   labelList& edgeOwner = *edgeOwnerPtr_;
-  FOR_ALL(edges(), edgeI)
-  {
+  FOR_ALL(edges(), edgeI) {
     const edge& e = edges()[edgeI];
     const labelList& myFaces = edgeFaces()[edgeI];
-    if (myFaces.size() == 1)
-    {
+    if (myFaces.size() == 1) {
       edgeOwner[edgeI] = myFaces[0];
-    }
-    else
-    {
+    } else {
       // Find the first face whose vertices are aligned with the edge.
       // (in case of multiply connected edge the best we can do)
       edgeOwner[edgeI] = -1;
-      FOR_ALL(myFaces, i)
-      {
+      FOR_ALL(myFaces, i) {
         const labelledTri& f = localFaces()[myFaces[i]];
-        if
-        (
-          ((f[0] == e.start()) && (f[1] == e.end()))
-        || ((f[1] == e.start()) && (f[2] == e.end()))
-        || ((f[2] == e.start()) && (f[0] == e.end()))
-        )
-        {
+        if (((f[0] == e.start()) && (f[1] == e.end()))
+            || ((f[1] == e.start()) && (f[2] == e.end()))
+            || ((f[2] == e.start()) && (f[0] == e.end()))) {
           edgeOwner[edgeI] = myFaces[i];
           break;
         }
       }
-      if (edgeOwner[edgeI] == -1)
-      {
+      if (edgeOwner[edgeI] == -1) {
         FATAL_ERROR_IN("triSurface::calcEdgeOwner()")
           << "Edge " << edgeI << " vertices:" << e
           << " is used by faces " << myFaces
@@ -74,3 +65,4 @@ void mousse::triSurface::calcEdgeOwner() const
     }
   }
 }
+

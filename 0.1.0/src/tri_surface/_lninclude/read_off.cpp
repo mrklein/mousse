@@ -1,1 +1,1 @@
-../tri_surface/interfaces/read_off.cpp
+../interfaces/read_off.cpp

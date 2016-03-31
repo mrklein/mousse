@@ -1,1 +1,1 @@
-../tools/sort_labelled_tri.cpp
+../sort_labelled_tri.cpp

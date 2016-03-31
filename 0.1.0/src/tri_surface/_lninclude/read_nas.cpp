@@ -1,1 +1,1 @@
-../tri_surface/interfaces/read_nas.cpp
+../interfaces/read_nas.cpp

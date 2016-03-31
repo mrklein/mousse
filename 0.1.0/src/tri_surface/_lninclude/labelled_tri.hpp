@@ -1,1 +1,1 @@
-../tools/labelled_tri.hpp
+../labelled_tri.hpp

@@ -8,19 +8,22 @@
 //   mousse::triSurface
 // Description
 //   Triangulated surface description with patch information.
-// SourceFiles
-//   tri_surface.cpp
-#include "primitive_patch.hpp"
+
+#include "_primitive_patch.hpp"
 #include "point_field.hpp"
 #include "labelled_tri.hpp"
 #include "bool_list.hpp"
 #include "geometric_surface_patch_list.hpp"
 #include "surface_patch_list.hpp"
 #include "tri_face_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Time;
 class IFstream;
+
+
 class triSurface
 :
   public PrimitivePatch<labelledTri, ::mousse::List, pointField, point>
