@@ -1,1 +1,1 @@
-../surface_formats/obj_stream.cpp
+../formats/obj_stream.cpp

@@ -1,1 +1,1 @@
-../surface_formats/tri_surface_format_core.cpp
+../formats/tri_surface_format_core.cpp

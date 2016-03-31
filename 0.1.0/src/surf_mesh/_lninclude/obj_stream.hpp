@@ -1,1 +1,1 @@
-../surface_formats/obj_stream.hpp
+../formats/obj_stream.hpp

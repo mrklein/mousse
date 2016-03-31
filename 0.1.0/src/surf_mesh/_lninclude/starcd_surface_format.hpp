@@ -1,1 +1,1 @@
-../surface_formats/starcd_surface_format.hpp
+../formats/starcd_surface_format.hpp

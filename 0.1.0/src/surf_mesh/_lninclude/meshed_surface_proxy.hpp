@@ -1,1 +1,1 @@
-../meshed_surface_proxy/meshed_surface_proxy.hpp
+../meshed_surface_proxy.hpp

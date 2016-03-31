@@ -1,1 +1,1 @@
-../surf_mesh/surf_mesh.hpp
+../surf_mesh.hpp
