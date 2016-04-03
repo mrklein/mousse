@@ -1,1 +1,1 @@
-../sets/face_sources/label_to_face/label_to_face.cpp
+../sets/face_sources/label_to_face.cpp

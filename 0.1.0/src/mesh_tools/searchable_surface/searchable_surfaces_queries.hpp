@@ -8,13 +8,16 @@
 //   mousse::searchableSurfacesQueries
 // Description
 //   A collection of tools for searchableSurfaces.
-// SourceFiles
-//   searchable_surfaces_queries.cpp
+
 #include "searchable_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class plane;
+
+
 class searchableSurfacesQueries
 {
   // Private data

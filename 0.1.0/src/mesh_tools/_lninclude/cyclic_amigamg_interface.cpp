@@ -1,1 +1,1 @@
-../ami_interpolation/gamg/interfaces/cyclic_amigamg_interface/cyclic_amigamg_interface.cpp
+../ami_interpolation/gamg/cyclic_amigamg_interface.cpp

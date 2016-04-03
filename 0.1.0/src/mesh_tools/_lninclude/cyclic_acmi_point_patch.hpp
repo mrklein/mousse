@@ -1,1 +1,1 @@
-../ami_interpolation/patches/cyclic_acmi/cyclic_acmi_point_patch/cyclic_acmi_point_patch.hpp
+../ami_interpolation/patches/cyclic_acmi/cyclic_acmi_point_patch.hpp

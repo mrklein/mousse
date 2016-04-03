@@ -1,1 +1,1 @@
-../mapped_patches/mapped_poly_patch/mapped_variable_thickness_wall_poly_patch.hpp
+../mapped_patches/mapped_variable_thickness_wall_poly_patch.hpp

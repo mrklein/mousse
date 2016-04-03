@@ -9,12 +9,13 @@
 // Description
 //   Searching on circular disk given as origin, normal (gets normalised)
 //   and radius
-// SourceFiles
-//   searchable_disk.cpp
+
 #include "tree_bound_box.hpp"
 #include "searchable_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class searchableDisk
 :
   public searchableSurface
@@ -85,7 +86,7 @@ public:
     //  Usually the element centres (should be of length size()).
     virtual tmp<pointField> coordinates() const
     {
-      tmp<pointField> tCtrs(new pointField(1, origin_));
+      tmp<pointField> tCtrs{new pointField{1, origin_}};
       return tCtrs;
     }
     //- Get bounding spheres (centre and radius squared), one per element.

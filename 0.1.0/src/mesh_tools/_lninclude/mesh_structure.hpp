@@ -1,1 +1,1 @@
-../mesh_structure/mesh_structure.hpp
+../mesh_structure.hpp

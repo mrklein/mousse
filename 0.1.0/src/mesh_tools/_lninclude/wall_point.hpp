@@ -1,1 +1,1 @@
-../cell_dist/wall_point/wall_point.hpp
+../cell_dist/wall_point.hpp

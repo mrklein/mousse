@@ -21,11 +21,14 @@
 //       }
 //     \endverbatim
 //   2) The rotational tensor field is provided at construction
+
 #include "point.hpp"
 #include "vector.hpp"
 #include "coordinate_rotation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cylindrical
 :
   public coordinateRotation

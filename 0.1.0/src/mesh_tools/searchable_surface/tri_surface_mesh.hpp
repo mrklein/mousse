@@ -13,8 +13,7 @@
 //     - tolerance : relative tolerance for doing intersections
 //            (see triangle::intersection)
 //     - minQuality: discard triangles with low quality when getting normal
-// SourceFiles
-//   tri_surface_mesh.cpp
+
 #include "tree_bound_box.hpp"
 #include "searchable_surface.hpp"
 #include "object_registry.hpp"
@@ -25,8 +24,10 @@
 #include "edge_map.hpp"
 #include "tri_surface.hpp"
 #include "tri_surface_region_search.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class triSurfaceMesh
 :
   public searchableSurface,

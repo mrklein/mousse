@@ -1,1 +1,1 @@
-../tri_surface/boolean_ops/surface_intersection/edge_intersections.hpp
+../tri_surface/boolean_ops/edge_intersections.hpp

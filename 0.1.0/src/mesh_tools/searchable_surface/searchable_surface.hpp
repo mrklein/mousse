@@ -13,9 +13,6 @@
 //   - bool  : was intersection/nearest found?
 //   - point : intersection point or nearest point
 //   - index : unique index on surface (e.g. triangle for triSurfaceMesh)
-// SourceFiles
-//   searchable_surface.cpp
-
 
 #include "point_field.hpp"
 #include "bound_box.hpp"
@@ -27,12 +24,15 @@
 #include "volume_type.hpp"
 #include "dictionary.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class mapDistribute;
 class treeBoundBox;
+
+
 class searchableSurface
 :
   public regIOobject
@@ -64,14 +64,14 @@ public:
     public:
       iNew(IOobject& io)
       :
-        io_(io)
+        io_{io}
       {}
       autoPtr<searchableSurface> operator()(Istream& is) const
       {
-        word surfaceType(is);
-        word readName(is);
-        dictionary dict(is);
-        autoPtr<IOobject> namedIO(io_.clone());
+        word surfaceType{is};
+        word readName{is};
+        dictionary dict{is};
+        autoPtr<IOobject> namedIO{io_.clone()};
         namedIO().rename(readName);
         return searchableSurface::New(surfaceType, namedIO(), dict);
       }
@@ -82,7 +82,7 @@ public:
     virtual autoPtr<searchableSurface> clone() const
     {
       NOT_IMPLEMENTED("autoPtr<searchableSurface> clone() const");
-      return autoPtr<searchableSurface>(NULL);
+      return autoPtr<searchableSurface>{NULL};
     }
     //- Disallow default bitwise copy construct
     searchableSurface(const searchableSurface&) = delete;
@@ -134,57 +134,6 @@ public:
     virtual tmp<pointField> points() const = 0;
     //- Does any part of the surface overlap the supplied bound box?
     virtual bool overlaps(const boundBox& bb) const = 0;
-    // Single point queries.
-      ////- Calculate nearest point on surface. Returns
-      ////  - bool : any point found nearer than nearestDistSqr
-      ////  - label: relevant index in surface
-      ////  - label: region in surface
-      ////  - point: actual nearest point found
-      //virtual pointIndexHit findNearest
-      //(
-      //    const point& sample,
-      //    const scalar nearestDistSqr
-      //) const = 0;
-      //
-      ////- Calculate nearest point on edge. Returns
-      ////  - bool : any point found nearer than nearestDistSqr
-      ////  - label: relevant index in surface
-      ////  - label: region in surface
-      ////  - point: actual nearest point found
-      //virtual pointIndexHit findNearestOnEdge
-      //(
-      //    const point& sample,
-      //    const scalar nearestDistSqr
-      //) const = 0;
-      //
-      ////- Find nearest to segment. Returns
-      ////  - bool : any point found?
-      ////  - label: relevant index in shapes
-      ////  - label: region in surface
-      ////  - point: actual nearest point found
-      ////  sets:
-      ////  - tightest  : bounding box
-      ////  - linePoint : corresponding nearest point on line
-      //virtual pointIndexHit findNearest
-      //(
-      //    const linePointRef& ln,
-      //    treeBoundBox& tightest,
-      //    point& linePoint
-      //) const = 0;
-      //
-      ////- Find nearest intersection of line between start and end.
-      //virtual pointIndexHit findLine
-      //(
-      //    const point& start,
-      //    const point& end
-      //) const = 0;
-      //
-      ////- Find any intersection of line between start and end.
-      //virtual pointIndexHit findLineAny
-      //(
-      //    const point& start,
-      //    const point& end
-      //) const = 0;
     // Multiple point queries. When surface is distributed the index
     // should be a global index. Not done yet.
       virtual void findNearest

@@ -1,1 +1,1 @@
-../indexed_octree/tree_data_face.cpp
+../tree_data_face.cpp

@@ -1,1 +1,1 @@
-../primitive_mesh_geometry/primitive_mesh_geometry.hpp
+../primitive_mesh_geometry.hpp

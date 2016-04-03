@@ -1,1 +1,1 @@
-../tri_surface/triangle_funcs/triangle_funcs.hpp
+../tri_surface/triangle_funcs.hpp

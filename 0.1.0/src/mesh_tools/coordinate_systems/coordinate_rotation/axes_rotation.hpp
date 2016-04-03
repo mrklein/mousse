@@ -18,12 +18,15 @@
 //       e2          (0 1 0);
 //     }
 //   \endverbatim
+
 #include "vector.hpp"
 #include "coordinate_rotation.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class axesRotation
 :
   public coordinateRotation

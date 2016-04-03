@@ -1,1 +1,1 @@
-../mapped_patches/mapped_point_patch/mapped_point_patch.cpp
+../mapped_patches/mapped_point_patch.cpp

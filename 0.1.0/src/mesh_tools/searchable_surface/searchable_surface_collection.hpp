@@ -9,15 +9,16 @@
 // Description
 //   Set of transformed searchableSurfaces. Does not do boolean operations.
 //   So when meshing might find parts 'inside'.
-// SourceFiles
-//   searchable_surface_collection.cpp
+
 #include "searchable_surface.hpp"
 #include "tree_bound_box.hpp"
 #include "coordinate_system.hpp"
 #include "uptr_list.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class searchableSurfaceCollection
 :

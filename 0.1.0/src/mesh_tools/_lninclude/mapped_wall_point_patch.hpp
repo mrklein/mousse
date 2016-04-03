@@ -1,1 +1,1 @@
-../mapped_patches/mapped_point_patch/mapped_wall_point_patch.hpp
+../mapped_patches/mapped_wall_point_patch.hpp

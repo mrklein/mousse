@@ -14,12 +14,13 @@
 //   span    = (Sx Sy 0)     // plate in x-y plane
 //   origin  = (Ox Oy Oz)
 //   now plane is from (Ox Oy Oz) to (Ox+Sx Oy+Sy Oz)
-// SourceFiles
-//   searchable_plate.cpp
+
 #include "searchable_surface.hpp"
 #include "tree_bound_box.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class searchablePlate
 :

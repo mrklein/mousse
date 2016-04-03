@@ -1,1 +1,1 @@
-../sets/point_sources/label_to_point/label_to_point.hpp
+../sets/point_sources/label_to_point.hpp

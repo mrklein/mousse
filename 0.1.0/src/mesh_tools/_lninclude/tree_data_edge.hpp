@@ -1,1 +1,1 @@
-../indexed_octree/tree_data_edge.hpp
+../tree_data_edge.hpp

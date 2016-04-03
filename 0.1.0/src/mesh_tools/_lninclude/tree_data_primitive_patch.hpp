@@ -1,1 +1,1 @@
-../indexed_octree/tree_data_primitive_patch.hpp
+../tree_data_primitive_patch.hpp

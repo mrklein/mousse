@@ -1,1 +1,1 @@
-../ami_interpolation/ami_interpolation/ami_interpolation.hpp
+../ami_interpolation/ami_interpolation.hpp

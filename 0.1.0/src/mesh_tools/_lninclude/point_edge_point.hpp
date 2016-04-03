@@ -1,1 +1,1 @@
-../algorithms/point_edge_wave/point_edge_point.hpp
+../algorithms/point_edge_point.hpp

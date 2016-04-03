@@ -21,6 +21,7 @@
 //   2) STARCDRotation
 //   3) cylindrical
 //   4) EulerCoordinateRotation
+
 #include "vector.hpp"
 #include "tensor.hpp"
 #include "tensor_field.hpp"
@@ -28,8 +29,10 @@
 #include "run_time_selection_tables.hpp"
 #include "object_registry.hpp"
 #include "poly_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class coordinateRotation
 {
 protected:

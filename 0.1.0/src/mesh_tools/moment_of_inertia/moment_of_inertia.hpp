@@ -10,13 +10,14 @@
 //   Calculates the inertia tensor and principal axes and moments of a
 //   polyhedra/cells/triSurfaces.  Inertia can either be of the solid body or
 //   of a thin shell.
-// SourceFiles
-//   moment_of_inertia.hpp
+
 #include "tri_face_list.hpp"
 #include "tri_surface.hpp"
 #include "poly_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class momentOfInertia
 {
 public:
@@ -73,5 +74,7 @@ public:
     label cellI
   );
 };
+
 }  // namespace mousse
 #endif
+

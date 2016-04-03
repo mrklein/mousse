@@ -1,1 +1,0 @@
-../ami_interpolation/patches/cyclic_acmi/cyclic_acmi_point_patch_field/cyclic_acmi_point_patch_field.cpp

@@ -1,1 +1,1 @@
-../indexed_octree/tree_data_tri_surface.hpp
+../tree_data_tri_surface.hpp

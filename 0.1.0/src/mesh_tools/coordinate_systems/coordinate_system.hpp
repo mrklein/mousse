@@ -30,9 +30,7 @@
 //   1) cartesian
 // See Also
 //   coordinateSystem and coordinateSystem::New
-// SourceFiles
-//   coordinate_system.cpp
-//   coordinate_system_new.cpp
+
 #include "vector.hpp"
 #include "point.hpp"
 #include "tensor.hpp"
@@ -42,8 +40,10 @@
 #include "coordinate_rotation.hpp"
 #include "object_registry.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class coordinateSystem
 {
   // Private data
@@ -121,7 +121,7 @@ public:
   //- Return clone
   autoPtr<coordinateSystem> clone() const
   {
-    return autoPtr<coordinateSystem>(new coordinateSystem(*this));
+    return autoPtr<coordinateSystem>{new coordinateSystem{*this}};
   }
   // Declare run-time constructor selection table
   DECLARE_RUN_TIME_SELECTION_TABLE

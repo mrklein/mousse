@@ -1,1 +1,1 @@
-../indexed_octree/tree_data_point.hpp
+../tree_data_point.hpp

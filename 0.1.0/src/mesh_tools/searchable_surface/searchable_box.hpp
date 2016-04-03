@@ -8,12 +8,13 @@
 //   mousse::searchableBox
 // Description
 //   Searching on bounding box
-// SourceFiles
-//   searchable_box.cpp
+
 #include "searchable_surface.hpp"
 #include "tree_bound_box.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class searchableBox
 :

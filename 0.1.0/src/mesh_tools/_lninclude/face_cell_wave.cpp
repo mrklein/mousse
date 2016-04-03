@@ -1,1 +1,1 @@
-../algorithms/mesh_wave/face_cell_wave.cpp
+../algorithms/face_cell_wave.cpp

@@ -1,1 +1,1 @@
-../tri_surface/tri_surface_tools/point_to_point_planar_interpolation.cpp
+../tri_surface/point_to_point_planar_interpolation.cpp

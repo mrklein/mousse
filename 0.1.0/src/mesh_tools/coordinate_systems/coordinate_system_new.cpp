@@ -4,6 +4,8 @@
 
 #include "coordinate_system.hpp"
 #include "dictionary.hpp"
+
+
 // Member Functions 
 mousse::autoPtr<mousse::coordinateSystem> mousse::coordinateSystem::New
 (
@@ -15,28 +17,32 @@ mousse::autoPtr<mousse::coordinateSystem> mousse::coordinateSystem::New
   word coordType = coordDict.lookup("type");
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(coordType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_IO_ERROR_IN
     (
       "coordinateSystem::New(const objectRegistry&, const dictionary&)",
       dict
-    )   << "Unknown coordinateSystem type "
-      << coordType << nl << nl
-      << "Valid coordinateSystem types are :" << nl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalIOError);
+    )
+    << "Unknown coordinateSystem type "
+    << coordType << nl << nl
+    << "Valid coordinateSystem types are :" << nl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalIOError);
   }
   return autoPtr<coordinateSystem>(cstrIter()(obr, coordDict));
 }
+
+
 mousse::autoPtr<mousse::coordinateSystem> mousse::coordinateSystem::New
 (
   const dictionary& dict
 )
 {
   const dictionary& coordDict = dict.subDict(typeName_());
-  return autoPtr<coordinateSystem>(new coordinateSystem(coordDict));
+  return autoPtr<coordinateSystem>{new coordinateSystem{coordDict}};
 }
+
+
 mousse::autoPtr<mousse::coordinateSystem> mousse::coordinateSystem::New
 (
   Istream& is
@@ -44,5 +50,6 @@ mousse::autoPtr<mousse::coordinateSystem> mousse::coordinateSystem::New
 {
   const word name(is);
   const dictionary dict(is);
-  return autoPtr<coordinateSystem>(new coordinateSystem(name, dict));
+  return autoPtr<coordinateSystem>{new coordinateSystem{name, dict}};
 }
+
