@@ -12,17 +12,17 @@
 //   Uses the extension \a .inp (input) to denote the format.
 // See Also
 //   mousse::meshReaders::STARCD
-// SourceFiles
-//   starcd_edge_format.cpp
+
 #include "edge_mesh.hpp"
 #include "starcd_core.hpp"
 #include "ifstream.hpp"
 #include "ostream.hpp"
 #include "ofstream.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class STARCDedgeFormat
 :
   public edgeMesh,

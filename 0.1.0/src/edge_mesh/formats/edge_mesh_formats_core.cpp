@@ -7,8 +7,11 @@
 #include "ifstream.hpp"
 #include "ofstream.hpp"
 #include "edge_mesh.hpp"
+
+
 // Static Data Members
 mousse::word mousse::fileFormats::edgeMeshFormatsCore::nativeExt("eMesh");
+
 // Static Member Functions
 mousse::string mousse::fileFormats::edgeMeshFormatsCore::getLineNoComment
 (
@@ -16,13 +19,13 @@ mousse::string mousse::fileFormats::edgeMeshFormatsCore::getLineNoComment
 )
 {
   string line;
-  do
-  {
+  do {
     is.getLine(line);
-  }
-  while ((line.empty() || line[0] == '#') && is.good());
+  } while ((line.empty() || line[0] == '#') && is.good());
   return line;
 }
+
+
 #if 0
 mousse::fileName mousse::fileFormats::edgeMeshFormatsCore::localMeshFileName
 (
@@ -103,6 +106,8 @@ mousse::fileName mousse::fileFormats::edgeMeshFormatsCore::findMeshFile
   return t.path()/t.constant()/localName;
 }
 #endif
+
+
 bool mousse::fileFormats::edgeMeshFormatsCore::checkSupport
 (
   const wordHashSet& available,
@@ -111,28 +116,29 @@ bool mousse::fileFormats::edgeMeshFormatsCore::checkSupport
   const word& functionName
 )
 {
-  if (available.found(ext))
-  {
+  if (available.found(ext)) {
     return true;
-  }
-  else if (verbose)
-  {
+  } else if (verbose) {
     wordList known = available.sortedToc();
-    Info<<"Unknown file extension for " << functionName
+    Info <<"Unknown file extension for " << functionName
       << " : " << ext << nl
-      <<"Valid types: (";
+      << "Valid types: (";
     // compact output:
-    FOR_ALL(known, i)
-    {
-      Info<<" " << known[i];
+    FOR_ALL(known, i) {
+      Info << " " << known[i];
     }
-    Info<<" )" << endl;
+    Info << " )" << endl;
   }
   return false;
 }
+
+
 // Constructors 
 mousse::fileFormats::edgeMeshFormatsCore::edgeMeshFormatsCore()
 {}
+
+
 // Destructor 
 mousse::fileFormats::edgeMeshFormatsCore::~edgeMeshFormatsCore()
 {}
+

@@ -8,18 +8,20 @@
 //   mousse::fileFormats::edgeMeshFormatsCore
 // Description
 //   A collection of helper functions for reading/writing edge formats.
-// SourceFiles
-//   edge_mesh_formats_core.cpp
+
 #include "map.hpp"
 #include "hash_set.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class IFstream;
 class Time;
-namespace fileFormats
-{
+
+namespace fileFormats {
+
 class edgeMeshFormatsCore
 {
 protected:

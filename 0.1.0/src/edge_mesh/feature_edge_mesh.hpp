@@ -10,12 +10,13 @@
 //   edgeMesh + IO.
 // See Also
 //   mousse::extendedFeatureEdgeMesh
-// SourceFiles
-//   feature_edge_mesh.cpp
+
 #include "edge_mesh.hpp"
 #include "reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class featureEdgeMesh
 :
   public regIOobject,

@@ -9,6 +9,8 @@
 #include "ostream.hpp"
 #include "ofstream.hpp"
 #include "list_ops.hpp"
+
+
 // Constructors 
 mousse::fileFormats::OBJedgeFormat::OBJedgeFormat
 (
@@ -17,6 +19,8 @@ mousse::fileFormats::OBJedgeFormat::OBJedgeFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 void mousse::fileFormats::OBJedgeFormat::readVertices
 (
@@ -26,78 +30,66 @@ void mousse::fileFormats::OBJedgeFormat::readVertices
 )
 {
   dynVertices.clear();
-  while (true)
-  {
+  while (true) {
     string::size_type startNum =
       line.find_first_not_of(' ', endNum);
-    if (startNum == string::npos)
-    {
+    if (startNum == string::npos) {
       break;
     }
     endNum = line.find(' ', startNum);
     string vertexSpec;
-    if (endNum != string::npos)
-    {
+    if (endNum != string::npos) {
       vertexSpec = line.substr(startNum, endNum-startNum);
-    }
-    else
-    {
+    } else {
       vertexSpec = line.substr(startNum, line.size() - startNum);
     }
     string::size_type slashPos = vertexSpec.find('/');
     label vertI = 0;
-    if (slashPos != string::npos)
-    {
-      IStringStream intStream(vertexSpec.substr(0, slashPos));
+    if (slashPos != string::npos) {
+      IStringStream intStream{vertexSpec.substr(0, slashPos)};
       intStream >> vertI;
-    }
-    else
-    {
-      IStringStream intStream(vertexSpec);
+    } else {
+      IStringStream intStream{vertexSpec};
       intStream >> vertI;
     }
     dynVertices.append(vertI - 1);
   }
 }
+
+
 bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
 {
   clear();
-  IFstream is(filename);
-  if (!is.good())
-  {
+  IFstream is{filename};
+  if (!is.good()) {
     FATAL_ERROR_IN
     (
       "fileFormats::OBJedgeFormat::read(const fileName&)"
     )
-      << "Cannot read file " << filename
-      << exit(FatalError);
+    << "Cannot read file " << filename
+    << exit(FatalError);
   }
   DynamicList<point> dynPoints;
   DynamicList<edge> dynEdges;
   DynamicList<label> dynUsedPoints;
   DynamicList<label> dynVertices;
-  while (is.good())
-  {
+  while (is.good()) {
     string line = this->getLineNoComment(is);
     // handle continuations
-    if (line[line.size()-1] == '\\')
-    {
+    if (line[line.size()-1] == '\\') {
       line.substr(0, line.size()-1);
       line += this->getLineNoComment(is);
     }
     // Read first word
-    IStringStream lineStream(line);
+    IStringStream lineStream{line};
     word cmd;
     lineStream >> cmd;
-    if (cmd == "v")
-    {
+    if (cmd == "v") {
       scalar x, y, z;
       lineStream >> x >> y >> z;
       dynPoints.append(point(x, y, z));
       dynUsedPoints.append(-1);
-    }
-    else if (cmd == "l")
-    {
+    } else if (cmd == "l") {
       // Assume 'l' is followed by space.
       string::size_type endNum = 1;
       readVertices
@@ -106,16 +98,13 @@ bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
         endNum,
         dynVertices
       );
-      for (label i = 1; i < dynVertices.size(); i++)
-      {
+      for (label i = 1; i < dynVertices.size(); i++) {
         edge edgeRead(dynVertices[i-1], dynVertices[i]);
         dynUsedPoints[edgeRead[0]] = edgeRead[0];
         dynUsedPoints[edgeRead[1]] = edgeRead[1];
         dynEdges.append(edgeRead);
       }
-    }
-    else if (cmd == "f")
-    {
+    } else if (cmd == "f") {
       // Support for faces with 2 vertices
       // Assume 'f' is followed by space.
       string::size_type endNum = 1;
@@ -125,11 +114,9 @@ bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
         endNum,
         dynVertices
       );
-      if (dynVertices.size() == 2)
-      {
-        for (label i = 1; i < dynVertices.size(); i++)
-        {
-          edge edgeRead(dynVertices[i-1], dynVertices[i]);
+      if (dynVertices.size() == 2) {
+        for (label i = 1; i < dynVertices.size(); i++) {
+          edge edgeRead{dynVertices[i-1], dynVertices[i]};
           dynUsedPoints[edgeRead[0]] = edgeRead[0];
           dynUsedPoints[edgeRead[1]] = edgeRead[1];
           dynEdges.append(edgeRead);
@@ -139,12 +126,9 @@ bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
   }
   // cull unused points
   label nUsed = 0;
-  FOR_ALL(dynPoints, pointI)
-  {
-    if (dynUsedPoints[pointI] >= 0)
-    {
-      if (nUsed != pointI)
-      {
+  FOR_ALL(dynPoints, pointI) {
+    if (dynUsedPoints[pointI] >= 0) {
+      if (nUsed != pointI) {
         dynPoints[nUsed] = dynPoints[pointI];
         dynUsedPoints[pointI] = nUsed;   // new position
       }
@@ -155,10 +139,8 @@ bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
   // transfer to normal lists
   storedPoints().transfer(dynPoints);
   // renumber edge vertices
-  if (nUsed != dynUsedPoints.size())
-  {
-    FOR_ALL(dynEdges, edgeI)
-    {
+  if (nUsed != dynUsedPoints.size()) {
+    FOR_ALL(dynEdges, edgeI) {
       edge& e = dynEdges[edgeI];
       e[0] = dynUsedPoints[e[0]];
       e[1] = dynUsedPoints[e[1]];
@@ -167,6 +149,8 @@ bool mousse::fileFormats::OBJedgeFormat::read(const fileName& filename)
   storedEdges().transfer(dynEdges);
   return true;
 }
+
+
 void mousse::fileFormats::OBJedgeFormat::write
 (
   const fileName& filename,
@@ -175,38 +159,36 @@ void mousse::fileFormats::OBJedgeFormat::write
 {
   const pointField& pointLst = mesh.points();
   const edgeList& edgeLst = mesh.edges();
-  OFstream os(filename);
-  if (!os.good())
-  {
+  OFstream os{filename};
+  if (!os.good()) {
     FATAL_ERROR_IN
     (
       "fileFormats::OBJedgeFormat::write"
       "(const fileName&, const edgeMesh&)"
     )
-      << "Cannot open file for writing " << filename
-      << exit(FatalError);
+    << "Cannot open file for writing " << filename
+    << exit(FatalError);
   }
-  os<< "# Wavefront OBJ file written " << clock::dateTime().c_str() << nl
+  os << "# Wavefront OBJ file written " << clock::dateTime().c_str() << nl
     << "o " << os.name().lessExt().name() << nl
     << nl
     << "# points : " << pointLst.size() << nl
     << "# lines  : " << edgeLst.size() << nl;
-  os<< nl
+  os << nl
     << "# <points count=\"" << pointLst.size() << "\">" << nl;
   // Write vertex coords
-  FOR_ALL(pointLst, ptI)
-  {
+  FOR_ALL(pointLst, ptI) {
     const point& p = pointLst[ptI];
-    os  << "v " << p.x() << ' ' << p.y() << ' ' << p.z() << nl;
+    os << "v " << p.x() << ' ' << p.y() << ' ' << p.z() << nl;
   }
-  os<< "# </points>" << nl
+  os << "# </points>" << nl
     << nl
     << "# <edges count=\"" << edgeLst.size() << "\">" << endl;
   // Write line connectivity
-  FOR_ALL(edgeLst, edgeI)
-  {
+  FOR_ALL(edgeLst, edgeI) {
     const edge& e = edgeLst[edgeI];
     os << "l " << (e[0] + 1) << " " << (e[1] + 1) << nl;
   }
   os << "# </edges>" << endl;
 }
+

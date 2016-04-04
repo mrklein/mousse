@@ -8,13 +8,13 @@
 //   mousse::fileFormats::extendedFeatureEdgeMeshFormat
 // Description
 //   Provide a means of reading extendedFeatureEdgeMesh as featureEdgeMesh
-// SourceFiles
-//   extended_feature_edge_mesh_format.cpp
+
 #include "edge_mesh.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class extendedFeatureEdgeMeshFormat
 :
   public edgeMesh

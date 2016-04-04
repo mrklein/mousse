@@ -1,1 +1,1 @@
-../edge_mesh_formats/vtk_edge_format.cpp
+../formats/vtk_edge_format.cpp

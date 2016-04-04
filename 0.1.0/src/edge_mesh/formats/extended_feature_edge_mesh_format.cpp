@@ -5,6 +5,8 @@
 #include "extended_feature_edge_mesh_format.hpp"
 #include "edge_mesh_format.hpp"
 #include "ifstream.hpp"
+
+
 // Constructors 
 mousse::fileFormats::extendedFeatureEdgeMeshFormat::extendedFeatureEdgeMeshFormat
 (
@@ -13,6 +15,8 @@ mousse::fileFormats::extendedFeatureEdgeMeshFormat::extendedFeatureEdgeMeshForma
 {
   read(filename);
 }
+
+
 // Member Functions 
 bool mousse::fileFormats::extendedFeatureEdgeMeshFormat::read
 (
@@ -20,15 +24,14 @@ bool mousse::fileFormats::extendedFeatureEdgeMeshFormat::read
 )
 {
   clear();
-  IFstream is(filename);
-  if (!is.good())
-  {
+  IFstream is{filename};
+  if (!is.good()) {
     FATAL_ERROR_IN
     (
       "fileFormats::extendedFeatureEdgeMeshFormat::read(const fileName&)"
     )
-      << "Cannot read file " << filename
-      << exit(FatalError);
+    << "Cannot read file " << filename
+    << exit(FatalError);
   }
   return fileFormats::edgeMeshFormat::read
   (
@@ -37,3 +40,4 @@ bool mousse::fileFormats::extendedFeatureEdgeMeshFormat::read
     this->storedEdges()
   );
 }
+

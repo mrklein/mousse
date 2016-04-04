@@ -1,1 +1,1 @@
-../edge_mesh_formats/edge_mesh_format.hpp
+../formats/edge_mesh_format.hpp

@@ -1,1 +1,1 @@
-../edge_mesh_formats/edge_mesh_formats_core.cpp
+../formats/edge_mesh_formats_core.cpp

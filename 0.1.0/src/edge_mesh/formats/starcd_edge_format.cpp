@@ -7,6 +7,8 @@
 #include "clock.hpp"
 #include "packed_bool_list.hpp"
 #include "istring_stream.hpp"
+
+
 // Private Member Functions 
 inline void mousse::fileFormats::STARCDedgeFormat::writeLines
 (
@@ -15,19 +17,20 @@ inline void mousse::fileFormats::STARCDedgeFormat::writeLines
 )
 {
   writeHeader(os, "CELL");
-  FOR_ALL(edges, edgeI)
-  {
+  FOR_ALL(edges, edgeI) {
     const edge& e = edges[edgeI];
     const label cellId = edgeI + 1;
-    os  << cellId                    // includes 1 offset
+    os << cellId                    // includes 1 offset
       << ' ' << starcdLineShape_   // 2(line) shape
       << ' ' << e.size()
       << ' ' << 401                // arbitrary value
       << ' ' << starcdLineType_;   // 5(line)
-    os  << nl << "  " << cellId << "  "
+    os << nl << "  " << cellId << "  "
       << (e[0]+1) << "  " << (e[1]+1) << nl;
   }
 }
+
+
 // Private Member Functions 
 void mousse::fileFormats::STARCDedgeFormat::writeCase
 (
@@ -37,7 +40,7 @@ void mousse::fileFormats::STARCDedgeFormat::writeCase
 )
 {
   word caseName = os.name().lessExt().name();
-  os  << "! STAR-CD file written " << clock::dateTime().c_str() << nl
+  os << "! STAR-CD file written " << clock::dateTime().c_str() << nl
     << "! " << pointLst.size() << " points, " << nEdges << " lines" << nl
     << "! case " << caseName << nl
     << "! ------------------------------" << nl;
@@ -47,7 +50,7 @@ void mousse::fileFormats::STARCDedgeFormat::writeCase
 //             << "ctname " << zoneI + 1 << " "
 //             << zoneLst[zoneI].name() << nl;
 //     }
-  os  << "! ------------------------------" << nl
+  os << "! ------------------------------" << nl
     << "*set icvo mxv - 1" << nl
     << "vread " << caseName << ".vrt icvo,,,coded" << nl
     << "cread " << caseName << ".cel icvo,,,add,coded" << nl
@@ -55,6 +58,8 @@ void mousse::fileFormats::STARCDedgeFormat::writeCase
     << "! end" << nl;
   os.flush();
 }
+
+
 // Constructors 
 mousse::fileFormats::STARCDedgeFormat::STARCDedgeFormat
 (
@@ -63,6 +68,8 @@ mousse::fileFormats::STARCDedgeFormat::STARCDedgeFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 bool mousse::fileFormats::STARCDedgeFormat::read
 (
@@ -81,52 +88,45 @@ bool mousse::fileFormats::STARCDedgeFormat::read
     pointId
   );
   // Build inverse mapping (STAR-CD pointId -> index)
-  Map<label> mapPointId(2*pointId.size());
-  FOR_ALL(pointId, i)
-  {
+  Map<label> mapPointId{2*pointId.size()};
+  FOR_ALL(pointId, i) {
     mapPointId.insert(pointId[i], i);
   }
   pointId.clear();
   // note which points were really used and which can be culled
-  PackedBoolList usedPoints(points().size());
+  PackedBoolList usedPoints{points().size()};
   //
   // read .cel file
   // ~~~~~~~~~~~~~~
-  IFstream is(baseName + ".cel");
-  if (!is.good())
-  {
+  IFstream is{baseName + ".cel"};
+  if (!is.good()) {
     FATAL_ERROR_IN
     (
       "fileFormats::STARCDedgeFormat::read(const fileName&)"
     )
-      << "Cannot read file " << is.name()
-      << exit(FatalError);
+    << "Cannot read file " << is.name()
+    << exit(FatalError);
   }
   readHeader(is, "PROSTAR_CELL");
-  DynamicList<edge>  dynEdges;
+  DynamicList<edge> dynEdges;
   label lineLabel, shapeId, nLabels, cellTableId, typeId;
-  DynamicList<label> vertexLabels(64);
-  while ((is >> lineLabel).good())
-  {
+  DynamicList<label> vertexLabels{64};
+  while ((is >> lineLabel).good()) {
     is >> shapeId >> nLabels >> cellTableId >> typeId;
     vertexLabels.clear();
     vertexLabels.reserve(nLabels);
     // read indices - max 8 per line
-    for (label i = 0; i < nLabels; ++i)
-    {
+    for (label i = 0; i < nLabels; ++i) {
       label vrtId;
-      if ((i % 8) == 0)
-      {
-       is >> lineLabel;
+      if ((i % 8) == 0) {
+        is >> lineLabel;
       }
       is >> vrtId;
       // convert original vertex id to point label
       vertexLabels.append(mapPointId[vrtId]);
     }
-    if (typeId == starcdLineType_)
-    {
-      if (vertexLabels.size() >= 2)
-      {
+    if (typeId == starcdLineType_) {
+      if (vertexLabels.size() >= 2) {
         dynEdges.append(edge(vertexLabels[0], vertexLabels[1]));
         usedPoints.set(vertexLabels[0]);
         usedPoints.set(vertexLabels[1]);
@@ -135,16 +135,12 @@ bool mousse::fileFormats::STARCDedgeFormat::read
   }
   mapPointId.clear();
   // not all the points were used, cull them accordingly
-  if (unsigned(points().size()) != usedPoints.count())
-  {
+  if (unsigned(points().size()) != usedPoints.count()) {
     label nUsed = 0;
     pointField& pts = storedPoints();
-    FOR_ALL(pts, pointI)
-    {
-      if (usedPoints.get(pointI))
-      {
-        if (nUsed != pointI)
-        {
+    FOR_ALL(pts, pointI) {
+      if (usedPoints.get(pointI)) {
+        if (nUsed != pointI) {
           pts[nUsed] = pts[pointI];
         }
         // map prev -> new id
@@ -154,8 +150,7 @@ bool mousse::fileFormats::STARCDedgeFormat::read
     }
     pts.setSize(nUsed);
     // renumber edge vertices
-    FOR_ALL(dynEdges, edgeI)
-    {
+    FOR_ALL(dynEdges, edgeI) {
       edge& e = dynEdges[edgeI];
       e[0] = mapPointId[e[0]];
       e[1] = mapPointId[e[1]];
@@ -164,6 +159,8 @@ bool mousse::fileFormats::STARCDedgeFormat::read
   storedEdges().transfer(dynEdges);
   return true;
 }
+
+
 void mousse::fileFormats::STARCDedgeFormat::write
 (
   const fileName& filename,
@@ -173,8 +170,8 @@ void mousse::fileFormats::STARCDedgeFormat::write
   const pointField& pointLst = mesh.points();
   const edgeList& edgeLst = mesh.edges();
   fileName baseName = filename.lessExt();
-  writePoints(OFstream(baseName + ".vrt")(), pointLst);
-  writeLines(OFstream(baseName + ".cel")(), edgeLst);
+  writePoints(OFstream{baseName + ".vrt"}(), pointLst);
+  writeLines(OFstream{baseName + ".cel"}(), edgeLst);
   // write a simple .inp file
   writeCase
   (
@@ -183,3 +180,4 @@ void mousse::fileFormats::STARCDedgeFormat::write
     edgeLst.size()
   );
 }
+

@@ -10,24 +10,19 @@
 //   Provide a means of reading/writing the single-file OpenFOAM edge format.
 // Note
 //  This class provides more methods than the regular edge format interface.
-// SourceFiles
-//   edge_mesh_format.cpp
+
 #include "edge_mesh.hpp"
 #include "ostream.hpp"
 #include "ofstream.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class edgeMeshFormat
 :
   public edgeMesh
 {
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    edgeMeshFormat(const edgeMeshFormat&);
-    //- Disallow default bitwise assignment
-    void operator=(const edgeMeshFormat&);
 protected:
   // Protected Member Functions
     //- Write header information
@@ -41,14 +36,15 @@ public:
   // Constructors
     //- Construct from file name
     edgeMeshFormat(const fileName&);
+    //- Disallow default bitwise copy construct
+    edgeMeshFormat(const edgeMeshFormat&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const edgeMeshFormat&) = delete;
   // Selectors
     //- Read file and return edgeMesh
     static autoPtr<edgeMesh> New(const fileName& name)
     {
-      return autoPtr<edgeMesh>
-      (
-        new edgeMeshFormat(name)
-      );
+      return autoPtr<edgeMesh>{new edgeMeshFormat{name}};
     }
   //- Destructor
   virtual ~edgeMeshFormat()

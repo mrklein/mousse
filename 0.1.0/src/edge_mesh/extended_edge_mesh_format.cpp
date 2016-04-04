@@ -6,6 +6,8 @@
 #include "edge_mesh_format.hpp"
 #include "ifstream.hpp"
 #include "time.hpp"
+
+
 // Constructors 
 mousse::fileFormats::extendedEdgeMeshFormat::extendedEdgeMeshFormat
 (
@@ -14,6 +16,8 @@ mousse::fileFormats::extendedEdgeMeshFormat::extendedEdgeMeshFormat
 {
   read(filename);
 }
+
+
 // Member Functions 
 bool mousse::fileFormats::extendedEdgeMeshFormat::read
 (
@@ -26,38 +30,35 @@ bool mousse::fileFormats::extendedEdgeMeshFormat::read
   fileName rootPath = dir.path();
   // Construct dummy time to use as an objectRegistry
   Time dummyTime
-  (
+  {
     ".",        //rootPath,
     ".",        //caseName,
     "system",   //systemName,
     "constant", //constantName,
     false       //enableFunctionObjects
-  );
+  };
   // Construct IOobject to re-use the headerOk & readHeader
   // (so we can read ascii and binary)
   IOobject io
-  (
+  {
     filename,
     dummyTime,
     IOobject::NO_READ,
     IOobject::NO_WRITE,
     false
-  );
-  if (!io.headerOk())
-  {
+  };
+  if (!io.headerOk()) {
     FATAL_ERROR_IN
     ("fileFormats::extendedEdgeMeshFormat::read(const fileName&)")
       << "Cannot read file " << filename
       << exit(FatalError);
   }
-  autoPtr<IFstream> isPtr(new IFstream(io.filePath()));
+  autoPtr<IFstream> isPtr{new IFstream{io.filePath()}};
   bool ok = false;
-  if (isPtr().good())
-  {
+  if (isPtr().good()) {
     Istream& is = isPtr();
     ok = io.readHeader(is);
-    if (ok)
-    {
+    if (ok) {
       // Use extendedEdgeMesh IO
       is >> *this;
       ok = is.good();
@@ -65,3 +66,4 @@ bool mousse::fileFormats::extendedEdgeMeshFormat::read
   }
   return ok;
 }
+

@@ -6,11 +6,12 @@
 #include "extended_edge_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "add_to_member_function_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace fileFormats
-{
+namespace mousse {
+namespace fileFormats {
+
 // read extendedEdgeMesh
 ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -19,5 +20,6 @@ ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
   fileExtension,
   extendedFeatureEdgeMesh         // extension
 );
+
 }
 }

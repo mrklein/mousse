@@ -8,13 +8,13 @@
 //   mousse::fileFormats::VTKedgeFormat
 // Description
 //   Provide a means of writing VTK legacy format.
-// SourceFiles
-//   vtk_edge_format.cpp
+
 #include "edge_mesh.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class VTKedgeFormat
 :
   public edgeMesh

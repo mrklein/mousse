@@ -9,16 +9,16 @@
 // Description
 //   Provide a means of reading/writing Alias/Wavefront OBJ format.
 //   Does not handle negative vertex indices.
-// SourceFiles
-//   obj_edge_format.cpp
+
 #include "edge_mesh.hpp"
 #include "ifstream.hpp"
 #include "ostream.hpp"
 #include "ofstream.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class OBJedgeFormat
 :
   public edgeMesh

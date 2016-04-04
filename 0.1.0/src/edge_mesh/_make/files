@@ -5,7 +5,7 @@ $(em)/edge_mesh_io.cpp
 $(em)/edge_mesh_new.cpp
 
 
-edge_mesh_formats = $(em)/edge_mesh_formats
+edge_mesh_formats = $(em)/formats
 $(edge_mesh_formats)/edge_mesh_formats_core.cpp
 $(edge_mesh_formats)/edge_mesh_format.cpp
 $(edge_mesh_formats)/edge_mesh_format_run_time.cpp

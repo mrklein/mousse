@@ -8,14 +8,14 @@
 //   mousse::fileFormats::NASedgeFormat
 // Description
 //   Nastran edge reader.
-// SourceFiles
-//   nas_edge_format.cpp
+
 #include "edge_mesh.hpp"
 #include "nas_core.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class NASedgeFormat
 :
   public edgeMesh,
@@ -30,9 +30,9 @@ public:
     static autoPtr<edgeMesh> New(const fileName& name)
     {
       return autoPtr<edgeMesh>
-      (
-        new NASedgeFormat(name)
-      );
+      {
+        new NASedgeFormat{name}
+      };
     }
     //- Disallow default bitwise copy construct
     NASedgeFormat(const NASedgeFormat&) = delete;
