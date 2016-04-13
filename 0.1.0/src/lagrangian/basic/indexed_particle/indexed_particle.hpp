@@ -8,13 +8,14 @@
 //   mousse::indexedParticle
 // Description
 //   Adds label index to base particle
-// SourceFiles
-//   indexed_particle.hpp
+
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class indexedParticle
 :
   public particle
@@ -34,8 +35,8 @@ public:
       const label index = 0
     )
     :
-      particle(mesh, position, cellI, tetFaceI, tetPtI),
-      index_(index)
+      particle{mesh, position, cellI, tetFaceI, tetPtI},
+      index_{index}
     {}
     //- Construct from components, with searching for tetFace and tetPt
     indexedParticle
@@ -46,8 +47,8 @@ public:
       const label index = 0
     )
     :
-      particle(mesh, position, cellI),
-      index_(index)
+      particle{mesh, position, cellI},
+      index_{index}
     {}
     //- Construct from Istream
     indexedParticle
@@ -57,12 +58,12 @@ public:
       bool readFields = true
     )
     :
-      particle(mesh, is, readFields)
+      particle{mesh, is, readFields}
     {}
     //- Construct as a copy
     indexedParticle(const indexedParticle& p)
     :
-      particle(p)
+      particle{p}
     {}
     //- Construct and return a clone
     virtual autoPtr<particle> clone() const
@@ -79,5 +80,8 @@ public:
       return index_;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

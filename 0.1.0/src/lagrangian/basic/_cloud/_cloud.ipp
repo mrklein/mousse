@@ -11,51 +11,50 @@
 #include "ofstream.hpp"
 #include "wall_poly_patch.hpp"
 #include "cyclic_ami_poly_patch.hpp"
+
+
 // Private Member Functions 
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::checkPatches() const
 {
   const polyBoundaryMesh& pbm = polyMesh_.boundaryMesh();
   bool ok = true;
-  FOR_ALL(pbm, patchI)
-  {
-    if (isA<cyclicAMIPolyPatch>(pbm[patchI]))
-    {
+  FOR_ALL(pbm, patchI) {
+    if (isA<cyclicAMIPolyPatch>(pbm[patchI])) {
       const cyclicAMIPolyPatch& cami =
         refCast<const cyclicAMIPolyPatch>(pbm[patchI]);
-      if (cami.owner())
-      {
+      if (cami.owner()) {
         ok = ok && (cami.AMI().singlePatchProc() != -1);
       }
     }
   }
-  if (!ok)
-  {
+  if (!ok) {
     FATAL_ERROR_IN("void mousse::Cloud<ParticleType>::initCloud(const bool)")
       << "Particle tracking across AMI patches is only currently "
       << "supported for cases where the AMI patches reside on a "
       << "single processor" << abort(FatalError);
   }
 }
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::calcCellWallFaces() const
 {
   cellWallFacesPtr_.reset(new PackedBoolList(pMesh().nCells(), false));
   PackedBoolList& cellWallFaces = cellWallFacesPtr_();
   const polyBoundaryMesh& patches = polyMesh_.boundaryMesh();
-  FOR_ALL(patches, patchI)
-  {
-    if (isA<wallPolyPatch>(patches[patchI]))
-    {
+  FOR_ALL(patches, patchI) {
+    if (isA<wallPolyPatch>(patches[patchI])) {
       const polyPatch& patch = patches[patchI];
       const labelList& pFaceCells = patch.faceCells();
-      FOR_ALL(pFaceCells, pFCI)
-      {
+      FOR_ALL(pFaceCells, pFCI) {
         cellWallFaces[pFaceCells[pFCI]] = true;
       }
     }
   }
 }
+
+
 // Constructors 
 template<class ParticleType>
 mousse::Cloud<ParticleType>::Cloud
@@ -64,12 +63,12 @@ mousse::Cloud<ParticleType>::Cloud
   const IDLList<ParticleType>& particles
 )
 :
-  cloud(pMesh),
-  IDLList<ParticleType>(),
-  polyMesh_(pMesh),
-  labels_(),
-  nTrackingRescues_(),
-  cellWallFacesPtr_()
+  cloud{pMesh},
+  IDLList<ParticleType>{},
+  polyMesh_{pMesh},
+  labels_{},
+  nTrackingRescues_{},
+  cellWallFacesPtr_{}
 {
   checkPatches();
   // Ask for the tetBasePtIs to trigger all processors to build
@@ -78,6 +77,8 @@ mousse::Cloud<ParticleType>::Cloud
   polyMesh_.tetBasePtIs();
   IDLList<ParticleType>::operator=(particles);
 }
+
+
 template<class ParticleType>
 mousse::Cloud<ParticleType>::Cloud
 (
@@ -86,12 +87,12 @@ mousse::Cloud<ParticleType>::Cloud
   const IDLList<ParticleType>& particles
 )
 :
-  cloud(pMesh, cloudName),
-  IDLList<ParticleType>(),
-  polyMesh_(pMesh),
-  labels_(),
-  nTrackingRescues_(),
-  cellWallFacesPtr_()
+  cloud{pMesh, cloudName},
+  IDLList<ParticleType>{},
+  polyMesh_{pMesh},
+  labels_{},
+  nTrackingRescues_{},
+  cellWallFacesPtr_{}
 {
   checkPatches();
   // Ask for the tetBasePtIs to trigger all processors to build
@@ -100,27 +101,34 @@ mousse::Cloud<ParticleType>::Cloud
   polyMesh_.tetBasePtIs();
   IDLList<ParticleType>::operator=(particles);
 }
+
+
 // Member Functions 
 template<class ParticleType>
 const mousse::PackedBoolList& mousse::Cloud<ParticleType>::cellHasWallFaces()
 const
 {
-  if (!cellWallFacesPtr_.valid())
-  {
+  if (!cellWallFacesPtr_.valid()) {
     calcCellWallFaces();
   }
   return cellWallFacesPtr_();
 }
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::addParticle(ParticleType* pPtr)
 {
   this->append(pPtr);
 }
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::deleteParticle(ParticleType& p)
 {
   delete(this->remove(&p));
 }
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::cloudReset(const Cloud<ParticleType>& c)
 {
@@ -129,6 +137,8 @@ void mousse::Cloud<ParticleType>::cloudReset(const Cloud<ParticleType>& c)
   ParticleType::particleCount_ = 0;
   IDLList<ParticleType>::operator=(c);
 }
+
+
 template<class ParticleType>
 template<class TrackData>
 void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
@@ -145,59 +155,45 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
   // Which processors this processor is connected to
   const labelList& neighbourProcs = pData[Pstream::myProcNo()];
   // Indexing from the processor number into the neighbourProcs list
-  labelList neighbourProcIndices(Pstream::nProcs(), -1);
-  FOR_ALL(neighbourProcs, i)
-  {
+  labelList neighbourProcIndices{Pstream::nProcs(), -1};
+  FOR_ALL(neighbourProcs, i) {
     neighbourProcIndices[neighbourProcs[i]] = i;
   }
   // Initialise the stepFraction moved for the particles
-  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter)
-  {
+  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter) {
     pIter().stepFraction() = 0;
   }
   // Reset nTrackingRescues
   nTrackingRescues_ = 0;
   // List of lists of particles to be transfered for all of the
   // neighbour processors
-  List<IDLList<ParticleType> > particleTransferLists
-  (
-    neighbourProcs.size()
-  );
+  List<IDLList<ParticleType>> particleTransferLists{neighbourProcs.size()};
   // List of destination processorPatches indices for all of the
   // neighbour processors
-  List<DynamicList<label> > patchIndexTransferLists
-  (
-    neighbourProcs.size()
-  );
+  List<DynamicList<label>> patchIndexTransferLists{neighbourProcs.size()};
   // Allocate transfer buffers
-  PstreamBuffers pBufs(Pstream::nonBlocking);
+  PstreamBuffers pBufs{Pstream::nonBlocking};
   // While there are particles to transfer
-  while (true)
-  {
+  while (true) {
     particleTransferLists = IDLList<ParticleType>();
-    FOR_ALL(patchIndexTransferLists, i)
-    {
+    FOR_ALL(patchIndexTransferLists, i) {
       patchIndexTransferLists[i].clear();
     }
     // Loop over all particles
-    FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter)
-    {
+    FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter) {
       ParticleType& p = pIter();
       // Move the particle
       bool keepParticle = p.move(td, trackTime);
       // If the particle is to be kept
       // (i.e. it hasn't passed through an inlet or outlet)
-      if (keepParticle)
-      {
+      if (keepParticle) {
         // If we are running in parallel and the particle is on a
         // boundary face
-        if (Pstream::parRun() && p.face() >= pMesh().nInternalFaces())
-        {
+        if (Pstream::parRun() && p.face() >= pMesh().nInternalFaces()) {
           label patchI = pbm.whichPatch(p.face());
           // ... and the face is on a processor patch
           // prepare it for transfer
-          if (procPatchIndices[patchI] != -1)
-          {
+          if (procPatchIndices[patchI] != -1) {
             label n = neighbourProcIndices
             [
               refCast<const processorPolyPatch>
@@ -213,69 +209,53 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
             );
           }
         }
-      }
-      else
-      {
+      } else {
         deleteParticle(p);
       }
     }
-    if (!Pstream::parRun())
-    {
+    if (!Pstream::parRun()) {
       break;
     }
     // Clear transfer buffers
     pBufs.clear();
     // Stream into send buffers
-    FOR_ALL(particleTransferLists, i)
-    {
-      if (particleTransferLists[i].size())
-      {
-        UOPstream particleStream
-        (
-          neighbourProcs[i],
-          pBufs
-        );
+    FOR_ALL(particleTransferLists, i) {
+      if (particleTransferLists[i].size()) {
+        UOPstream particleStream{neighbourProcs[i], pBufs};
         particleStream
           << patchIndexTransferLists[i]
           << particleTransferLists[i];
       }
     }
     // Start sending. Sets number of bytes transferred
-    labelListList allNTrans(Pstream::nProcs());
+    labelListList allNTrans{Pstream::nProcs()};
     pBufs.finishedSends(allNTrans);
     bool transfered = false;
-    FOR_ALL(allNTrans, i)
-    {
-      FOR_ALL(allNTrans[i], j)
-      {
-        if (allNTrans[i][j])
-        {
+    FOR_ALL(allNTrans, i) {
+      FOR_ALL(allNTrans[i], j) {
+        if (allNTrans[i][j]) {
           transfered = true;
           break;
         }
       }
     }
-    if (!transfered)
-    {
+    if (!transfered) {
       break;
     }
     // Retrieve from receive buffers
-    FOR_ALL(neighbourProcs, i)
-    {
+    FOR_ALL(neighbourProcs, i) {
       label neighbProci = neighbourProcs[i];
       label nRec = allNTrans[neighbProci][Pstream::myProcNo()];
-      if (nRec)
-      {
-        UIPstream particleStream(neighbProci, pBufs);
-        labelList receivePatchIndex(particleStream);
+      if (nRec) {
+        UIPstream particleStream{static_cast<int>(neighbProci), pBufs};
+        labelList receivePatchIndex{particleStream};
         IDLList<ParticleType> newParticles
-        (
+        {
           particleStream,
           typename ParticleType::iNew(polyMesh_)
-        );
+        };
         label pI = 0;
-        FOR_ALL_ITER(typename Cloud<ParticleType>, newParticles, newpIter)
-        {
+        FOR_ALL_ITER(typename Cloud<ParticleType>, newParticles, newpIter) {
           ParticleType& newp = newpIter();
           label patchI = procPatches[receivePatchIndex[pI++]];
           newp.correctAfterParallelTransfer(patchI, td);
@@ -284,15 +264,15 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
       }
     }
   }
-  if (cloud::debug)
-  {
+  if (cloud::debug) {
     reduce(nTrackingRescues_, sumOp<label>());
-    if (nTrackingRescues_ > 0)
-    {
-      Info<< nTrackingRescues_ << " tracking rescue corrections" << endl;
+    if (nTrackingRescues_ > 0) {
+      Info << nTrackingRescues_ << " tracking rescue corrections" << endl;
     }
   }
 }
+
+
 template<class ParticleType>
 template<class TrackData>
 void mousse::Cloud<ParticleType>::autoMap
@@ -301,46 +281,35 @@ void mousse::Cloud<ParticleType>::autoMap
   const mapPolyMesh& mapper
 )
 {
-  if (cloud::debug)
-  {
-    Info<< "Cloud<ParticleType>::autoMap(TrackData&, const mapPolyMesh&) "
+  if (cloud::debug) {
+    Info << "Cloud<ParticleType>::autoMap(TrackData&, const mapPolyMesh&) "
       << "for lagrangian cloud " << cloud::name() << endl;
   }
   const labelList& reverseCellMap = mapper.reverseCellMap();
   const labelList& reverseFaceMap = mapper.reverseFaceMap();
   // Reset stored data that relies on the mesh
-//    polyMesh_.clearCellTree();
+  //   polyMesh_.clearCellTree();
   cellWallFacesPtr_.clear();
   // Ask for the tetBasePtIs to trigger all processors to build
   // them, otherwise, if some processors have no particles then
   // there is a comms mismatch.
   polyMesh_.tetBasePtIs();
-  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter)
-  {
+  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter) {
     ParticleType& p = pIter();
-    if (reverseCellMap[p.cell()] >= 0)
-    {
+    if (reverseCellMap[p.cell()] >= 0) {
       p.cell() = reverseCellMap[p.cell()];
-      if (p.face() >= 0 && reverseFaceMap[p.face()] >= 0)
-      {
+      if (p.face() >= 0 && reverseFaceMap[p.face()] >= 0) {
         p.face() = reverseFaceMap[p.face()];
-      }
-      else
-      {
+      } else {
         p.face() = -1;
       }
       p.initCellFacePt();
-    }
-    else
-    {
+    } else {
       label trackStartCell = mapper.mergedCell(p.cell());
-      if (trackStartCell < 0)
-      {
+      if (trackStartCell < 0) {
         trackStartCell = 0;
         p.cell() = 0;
-      }
-      else
-      {
+      } else {
         p.cell() = trackStartCell;
       }
       vector pos = p.position();
@@ -352,20 +321,23 @@ void mousse::Cloud<ParticleType>::autoMap
     }
   }
 }
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::writePositions() const
 {
   OFstream pObj
-  (
-    this->db().time().path()/this->name() + "_positions.obj"
-  );
-  FOR_ALL_CONST_ITER(typename Cloud<ParticleType>, *this, pIter)
   {
+    this->db().time().path()/this->name() + "_positions.obj"
+  };
+  FOR_ALL_CONST_ITER(typename Cloud<ParticleType>, *this, pIter) {
     const ParticleType& p = pIter();
-    pObj<< "v " << p.position().x() << " " << p.position().y() << " "
+    pObj << "v " << p.position().x() << " " << p.position().y() << " "
       << p.position().z() << nl;
   }
   pObj.flush();
 }
+
 //  IOStream operators
-#include "_cloud_io.cpp"
+#include "_cloud_io.ipp"
+

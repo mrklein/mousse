@@ -8,13 +8,14 @@
 //   mousse::passiveParticle
 // Description
 //   Copy of base particle
-// SourceFiles
-//   passive_particle.hpp
+
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class passiveParticle
 :
   public particle
@@ -31,7 +32,7 @@ public:
       const label tetPtI
     )
     :
-      particle(mesh, position, cellI, tetFaceI, tetPtI)
+      particle{mesh, position, cellI, tetFaceI, tetPtI}
     {}
     //- Construct from components, with searching for tetFace and
     //  tetPt unless disabled by doCellFacePt = false.
@@ -43,7 +44,7 @@ public:
       bool doCellFacePt = true
     )
     :
-      particle(mesh, position, cellI, doCellFacePt)
+      particle{mesh, position, cellI, doCellFacePt}
     {}
     //- Construct from Istream
     passiveParticle
@@ -53,18 +54,21 @@ public:
       bool readFields = true
     )
     :
-      particle(mesh, is, readFields)
+      particle{mesh, is, readFields}
     {}
     //- Construct as copy
     passiveParticle(const passiveParticle& p)
     :
-      particle(p)
+      particle{p}
     {}
     //- Construct and return a clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new passiveParticle(*this));
+      return autoPtr<particle>{new passiveParticle{*this}};
     }
 };
+
 }  // namespace mousse
+
 #endif
+

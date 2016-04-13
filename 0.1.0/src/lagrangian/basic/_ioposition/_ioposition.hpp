@@ -8,11 +8,12 @@
 //   mousse::IOPosition
 // Description
 //   Helper IO class to read and write particle positions
-// SourceFiles
-//   _ioposition.cpp
+
 #include "reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class IOPosition
 :
@@ -38,8 +39,10 @@ public:
     virtual bool write() const;
     virtual bool writeData(Ostream& os) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "_ioposition.cpp"
+
+#include "_ioposition.ipp"
+
 #endif
-#endif
+

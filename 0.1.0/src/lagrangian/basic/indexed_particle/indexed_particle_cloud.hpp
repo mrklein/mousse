@@ -8,12 +8,13 @@
 //   mousse::indexedParticleCloud
 // Description
 //   A Cloud of particles carrying an additional index.
-// SourceFiles
-//   indexed_particle_cloud.cpp
+
 #include "_cloud.hpp"
 #include "indexed_particle.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class indexedParticleCloud
 :
   public Cloud<indexedParticle>

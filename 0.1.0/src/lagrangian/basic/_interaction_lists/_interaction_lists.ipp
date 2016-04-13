@@ -9,21 +9,23 @@
 #include "tree_data_cell.hpp"
 #include "vol_fields.hpp"
 #include "mesh_tools.hpp"
+
+
 // Private Member Functions 
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::buildInteractionLists()
 {
-  Info<< "Building InteractionLists with interaction distance "
+  Info << "Building InteractionLists with interaction distance "
     << maxDistance_ << endl;
-  Random rndGen(419715);
+  Random rndGen{419715};
   const vector interactionVec = maxDistance_*vector::one;
-  treeBoundBox procBb(treeBoundBox(mesh_.points()));
+  treeBoundBox procBb{treeBoundBox{mesh_.points()}};
   treeBoundBox extendedProcBb
-  (
+  {
     procBb.min() - interactionVec,
     procBb.max() + interactionVec
-  );
-  treeBoundBoxList allExtendedProcBbs(Pstream::nProcs());
+  };
+  treeBoundBoxList allExtendedProcBbs{Pstream::nProcs()};
   allExtendedProcBbs[Pstream::myProcNo()] = extendedProcBb;
   Pstream::gatherList(allExtendedProcBbs);
   Pstream::scatterList(allExtendedProcBbs);
@@ -39,40 +41,36 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
     extendedProcBbsTransformIndex,
     extendedProcBbsOrigProc
   );
-  treeBoundBoxList cellBbs(mesh_.nCells());
-  FOR_ALL(cellBbs, cellI)
-  {
+  treeBoundBoxList cellBbs{mesh_.nCells()};
+  FOR_ALL(cellBbs, cellI) {
     cellBbs[cellI] = treeBoundBox
-    (
+    {
       mesh_.cells()[cellI].points
       (
         mesh_.faces(),
         mesh_.points()
       )
-    );
+    };
   }
   const globalIndexAndTransform& globalTransforms =
     mesh_.globalData().globalTransforms();
   // Recording which cells are in range of an extended boundBox, as
   // only these cells will need to be tested to determine which
   // referred cells that they interact with.
-  PackedBoolList cellInRangeOfCoupledPatch(mesh_.nCells(), false);
+  PackedBoolList cellInRangeOfCoupledPatch{mesh_.nCells(), false};
   // IAndT: index (=local cell index) and transform (from
   // globalIndexAndTransform)
   DynamicList<labelPair> cellIAndTToExchange;
   DynamicList<treeBoundBox> cellBbsToExchange;
   DynamicList<label> procToDistributeCellTo;
-  FOR_ALL(extendedProcBbsInRange, ePBIRI)
-  {
+  FOR_ALL(extendedProcBbsInRange, ePBIRI) {
     const treeBoundBox& otherExtendedProcBb =
       extendedProcBbsInRange[ePBIRI];
     label transformIndex = extendedProcBbsTransformIndex[ePBIRI];
     label origProc = extendedProcBbsOrigProc[ePBIRI];
-    FOR_ALL(cellBbs, cellI)
-    {
+    FOR_ALL(cellBbs, cellI) {
       const treeBoundBox& cellBb = cellBbs[cellI];
-      if (cellBb.overlaps(otherExtendedProcBb))
-      {
+      if (cellBb.overlaps(otherExtendedProcBb)) {
         // This cell is in range of the Bb of the other
         // processor Bb, and so needs to be referred to it
         cellInRangeOfCoupledPatch[cellI] = true;
@@ -93,64 +91,58 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
   // Determine labelList specifying only cells that are in range of
   // a coupled boundary to build an octree limited to these cells.
   DynamicList<label> coupledPatchRangeCells;
-  FOR_ALL(cellInRangeOfCoupledPatch, cellI)
-  {
-    if (cellInRangeOfCoupledPatch[cellI])
-    {
+  FOR_ALL(cellInRangeOfCoupledPatch, cellI) {
+    if (cellInRangeOfCoupledPatch[cellI]) {
       coupledPatchRangeCells.append(cellI);
     }
   }
   treeBoundBox procBbRndExt
-  (
-    treeBoundBox(mesh_.points()).extend(rndGen, 1e-4)
-  );
+  {
+    treeBoundBox{mesh_.points()}.extend(rndGen, 1e-4)
+  };
   indexedOctree<treeDataCell> coupledPatchRangeTree
-  (
-    treeDataCell
-    (
+  {
+    {
       true,                   // Cache cell bb
       mesh_,
       coupledPatchRangeCells, // Subset of mesh
       polyMesh::CELL_TETS     // Consistent with tracking
-    ),
+    },
     procBbRndExt,
     8,              // maxLevel,
     10,             // leafSize,
     100.0           // duplicity
-  );
+  };
   ril_.setSize(cellBbsToExchange.size());
   // This needs to be a boolList, not PackedBoolList if
   // reverseDistribute is called.
-  boolList cellBbRequiredByAnyCell(cellBbsToExchange.size(), false);
-  Info<< "    Building referred interaction lists" << endl;
-  FOR_ALL(cellBbsToExchange, bbI)
-  {
+  boolList cellBbRequiredByAnyCell{cellBbsToExchange.size(), false};
+  Info << "    Building referred interaction lists" << endl;
+  FOR_ALL(cellBbsToExchange, bbI) {
     const labelPair& ciat = cellIAndTToExchange[bbI];
     const vectorTensorTransform& transform = globalTransforms.transform
     (
       globalTransforms.transformIndex(ciat)
     );
     treeBoundBox tempTransformedBb
-    (
+    {
       transform.invTransformPosition(cellBbsToExchange[bbI].points())
-    );
+    };
     treeBoundBox extendedBb
-    (
+    {
       tempTransformedBb.min() - interactionVec,
       tempTransformedBb.max() + interactionVec
-    );
+    };
     // Find all elements intersecting box.
     labelList interactingElems
-    (
-      coupledPatchRangeTree.findBox(extendedBb)
-    );
-    if (!interactingElems.empty())
     {
+      coupledPatchRangeTree.findBox(extendedBb)
+    };
+    if (!interactingElems.empty()) {
       cellBbRequiredByAnyCell[bbI] = true;
     }
     ril_[bbI].setSize(interactingElems.size(), -1);
-    FOR_ALL(interactingElems, i)
-    {
+    FOR_ALL(interactingElems, i) {
       label elemI = interactingElems[i];
       // Here, a more detailed geometric test could be applied,
       // i.e. a more accurate bounding volume like a OBB or
@@ -198,21 +190,18 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
   // Determine inverse addressing for referred cells
   rilInverse_.setSize(mesh_.nCells());
   // Temporary Dynamic lists for accumulation
-  List<DynamicList<label> > rilInverseTemp(rilInverse_.size());
+  List<DynamicList<label>> rilInverseTemp{rilInverse_.size()};
   // Loop over all referred cells
-  FOR_ALL(ril_, refCellI)
-  {
+  FOR_ALL(ril_, refCellI) {
     const labelList& realCells = ril_[refCellI];
     // Loop over all real cells in that the referred cell is to
     // supply interactions to and record the index of this
     // referred cell in the real cells entry in rilInverse
-    FOR_ALL(realCells, realCellI)
-    {
+    FOR_ALL(realCells, realCellI) {
       rilInverseTemp[realCells[realCellI]].append(refCellI);
     }
   }
-  FOR_ALL(rilInverse_, cellI)
-  {
+  FOR_ALL(rilInverse_, cellI) {
     rilInverse_[cellI].transfer(rilInverseTemp[cellI]);
   }
   // Determine which wall faces to refer
@@ -221,37 +210,29 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
   mesh_.boundaryMesh().checkParallelSync(true);
   // Determine the index of all of the wall faces on this processor
   DynamicList<label> localWallFaces;
-  FOR_ALL(mesh_.boundaryMesh(), patchI)
-  {
+  FOR_ALL(mesh_.boundaryMesh(), patchI) {
     const polyPatch& patch = mesh_.boundaryMesh()[patchI];
-    if (isA<wallPolyPatch>(patch))
-    {
+    if (isA<wallPolyPatch>(patch)) {
       localWallFaces.append(identity(patch.size()) + patch.start());
     }
   }
-  treeBoundBoxList wallFaceBbs(localWallFaces.size());
-  FOR_ALL(wallFaceBbs, i)
-  {
-    wallFaceBbs[i] = treeBoundBox
-    (
-      mesh_.faces()[localWallFaces[i]].points(mesh_.points())
-    );
+  treeBoundBoxList wallFaceBbs{localWallFaces.size()};
+  FOR_ALL(wallFaceBbs, i) {
+    wallFaceBbs[i] =
+      treeBoundBox{mesh_.faces()[localWallFaces[i]].points(mesh_.points())};
   }
   // IAndT: index and transform
   DynamicList<labelPair> wallFaceIAndTToExchange;
   DynamicList<treeBoundBox> wallFaceBbsToExchange;
   DynamicList<label> procToDistributeWallFaceTo;
-  FOR_ALL(extendedProcBbsInRange, ePBIRI)
-  {
+  FOR_ALL(extendedProcBbsInRange, ePBIRI) {
     const treeBoundBox& otherExtendedProcBb =
       extendedProcBbsInRange[ePBIRI];
     label transformIndex = extendedProcBbsTransformIndex[ePBIRI];
     label origProc = extendedProcBbsOrigProc[ePBIRI];
-    FOR_ALL(wallFaceBbs, i)
-    {
+    FOR_ALL(wallFaceBbs, i) {
       const treeBoundBox& wallFaceBb = wallFaceBbs[i];
-      if (wallFaceBb.overlaps(otherExtendedProcBb))
-      {
+      if (wallFaceBb.overlaps(otherExtendedProcBb)) {
         // This wall face is in range of the Bb of the other
         // processor Bb, and so needs to be referred to it
         label wallFaceI = localWallFaces[i];
@@ -270,45 +251,42 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
   wallFaceMap().distribute(wallFaceBbsToExchange);
   wallFaceMap().distribute(wallFaceIAndTToExchange);
   indexedOctree<treeDataCell> allCellsTree
-  (
-    treeDataCell(true, mesh_, polyMesh::CELL_TETS),
+  {
+    {true, mesh_, polyMesh::CELL_TETS},
     procBbRndExt,
     8,              // maxLevel,
     10,             // leafSize,
     100.0           // duplicity
-  );
+  };
   rwfil_.setSize(wallFaceBbsToExchange.size());
   // This needs to be a boolList, not PackedBoolList if
   // reverseDistribute is called.
-  boolList wallFaceBbRequiredByAnyCell(wallFaceBbsToExchange.size(), false);
-  FOR_ALL(wallFaceBbsToExchange, bbI)
-  {
+  boolList wallFaceBbRequiredByAnyCell{wallFaceBbsToExchange.size(), false};
+  FOR_ALL(wallFaceBbsToExchange, bbI) {
     const labelPair& wfiat = wallFaceIAndTToExchange[bbI];
     const vectorTensorTransform& transform = globalTransforms.transform
     (
       globalTransforms.transformIndex(wfiat)
     );
     treeBoundBox tempTransformedBb
-    (
+    {
       transform.invTransformPosition(wallFaceBbsToExchange[bbI].points())
-    );
+    };
     treeBoundBox extendedBb
-    (
+    {
       tempTransformedBb.min() - interactionVec,
       tempTransformedBb.max() + interactionVec
-    );
+    };
     // Find all elements intersecting box.
     labelList interactingElems
-    (
-      coupledPatchRangeTree.findBox(extendedBb)
-    );
-    if (!interactingElems.empty())
     {
+      coupledPatchRangeTree.findBox(extendedBb)
+    };
+    if (!interactingElems.empty()) {
       wallFaceBbRequiredByAnyCell[bbI] = true;
     }
     rwfil_[bbI].setSize(interactingElems.size(), -1);
-    FOR_ALL(interactingElems, i)
-    {
+    FOR_ALL(interactingElems, i) {
       label elemI = interactingElems[i];
       // Here, a more detailed geometric test could be applied,
       // i.e. a more accurate bounding volume like a OBB or
@@ -356,27 +334,23 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
   // Determine inverse addressing for referred wallFaces
   rwfilInverse_.setSize(mesh_.nCells());
   // Temporary Dynamic lists for accumulation
-  List<DynamicList<label> > rwfilInverseTemp(rwfilInverse_.size());
+  List<DynamicList<label>> rwfilInverseTemp(rwfilInverse_.size());
   // Loop over all referred wall faces
-  FOR_ALL(rwfil_, refWallFaceI)
-  {
+  FOR_ALL(rwfil_, refWallFaceI) {
     const labelList& realCells = rwfil_[refWallFaceI];
     // Loop over all real cells in that the referred wall face is
     // to supply interactions to and record the index of this
     // referred wall face in the real cells entry in rwfilInverse
-    FOR_ALL(realCells, realCellI)
-    {
+    FOR_ALL(realCells, realCellI) {
       rwfilInverseTemp[realCells[realCellI]].append(refWallFaceI);
     }
   }
-  FOR_ALL(rwfilInverse_, cellI)
-  {
+  FOR_ALL(rwfilInverse_, cellI) {
     rwfilInverse_[cellI].transfer(rwfilInverseTemp[cellI]);
   }
   // Refer wall faces to the appropriate processor
   referredWallFaces_.setSize(wallFaceIndexAndTransformToDistribute_.size());
-  FOR_ALL(referredWallFaces_, rWFI)
-  {
+  FOR_ALL(referredWallFaces_, rWFI) {
     const labelPair& wfiat = wallFaceIndexAndTransformToDistribute_[rWFI];
     label wallFaceIndex = globalTransforms.index(wfiat);
     const vectorTensorTransform& transform = globalTransforms.transform
@@ -396,36 +370,33 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
     );
   }
   wallFaceMap().distribute(referredWallFaces_);
-  if (writeCloud_)
-  {
+  if (writeCloud_) {
     writeReferredWallFaces();
   }
   // Direct interaction list and direct wall faces
-  Info<< "    Building direct interaction lists" << endl;
+  Info << "    Building direct interaction lists" << endl;
   indexedOctree<treeDataFace> wallFacesTree
-  (
-    treeDataFace(true, mesh_, localWallFaces),
+  {
+    {true, mesh_, localWallFaces},
     procBbRndExt,
     8,              // maxLevel,
     10,             // leafSize,
     100.0
-  );
+  };
   dil_.setSize(mesh_.nCells());
   dwfil_.setSize(mesh_.nCells());
-  FOR_ALL(cellBbs, cellI)
-  {
+  FOR_ALL(cellBbs, cellI) {
     const treeBoundBox& cellBb = cellBbs[cellI];
     treeBoundBox extendedBb
-    (
+    {
       cellBb.min() - interactionVec,
       cellBb.max() + interactionVec
-    );
+    };
     // Find all cells intersecting extendedBb
-    labelList interactingElems(allCellsTree.findBox(extendedBb));
+    labelList interactingElems{allCellsTree.findBox(extendedBb)};
     // Reserve space to avoid multiple resizing
-    DynamicList<label> cellDIL(interactingElems.size());
-    FOR_ALL(interactingElems, i)
-    {
+    DynamicList<label> cellDIL{interactingElems.size()};
+    FOR_ALL(interactingElems, i) {
       label elemI = interactingElems[i];
       label c = allCellsTree.shapes().cellLabels()[elemI];
       // Here, a more detailed geometric test could be applied,
@@ -433,8 +404,7 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
       // convex hull, or an exact geometrical test.
       // The higher index cell is added to the lower index
       // cell's DIL.  A cell is not added to its own DIL.
-      if (c > cellI)
-      {
+      if (c > cellI) {
         cellDIL.append(c);
       }
     }
@@ -442,14 +412,15 @@ void mousse::InteractionLists<ParticleType>::buildInteractionLists()
     // Find all wall faces intersecting extendedBb
     interactingElems = wallFacesTree.findBox(extendedBb);
     dwfil_[cellI].setSize(interactingElems.size(), -1);
-    FOR_ALL(interactingElems, i)
-    {
+    FOR_ALL(interactingElems, i) {
       label elemI = interactingElems[i];
       label f = wallFacesTree.shapes().faceLabels()[elemI];
       dwfil_[cellI][i] = f;
     }
   }
 }
+
+
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::findExtendedProcBbsInRange
 (
@@ -468,40 +439,25 @@ void mousse::InteractionLists<ParticleType>::findExtendedProcBbsInRange
   DynamicList<label> tmpExtendedProcBbsTransformIndex;
   DynamicList<label> tmpExtendedProcBbsOrigProc;
   label nTrans = globalTransforms.nIndependentTransforms();
-  FOR_ALL(allExtendedProcBbs, procI)
-  {
-    List<label> permutationIndices(nTrans, 0);
-    if (nTrans == 0 && procI != Pstream::myProcNo())
-    {
+  FOR_ALL(allExtendedProcBbs, procI) {
+    List<label> permutationIndices{nTrans, 0};
+    if (nTrans == 0 && procI != Pstream::myProcNo()) {
       treeBoundBox extendedReferredProcBb = allExtendedProcBbs[procI];
-      if (procBb.overlaps(extendedReferredProcBb))
-      {
+      if (procBb.overlaps(extendedReferredProcBb)) {
         tmpExtendedProcBbsInRange.append(extendedReferredProcBb);
         // Dummy index, there are no transforms, so there will
         // be no resultant transform when this is decoded.
         tmpExtendedProcBbsTransformIndex.append(0);
         tmpExtendedProcBbsOrigProc.append(procI);
       }
-    }
-    else if (nTrans == 3)
-    {
+    } else if (nTrans == 3) {
       label& i = permutationIndices[0];
       label& j = permutationIndices[1];
       label& k = permutationIndices[2];
-      for (i = -1; i <= 1; i++)
-      {
-        for (j = -1; j <= 1; j++)
-        {
-          for (k = -1; k <= 1; k++)
-          {
-            if
-            (
-              i == 0
-            && j == 0
-            && k == 0
-            && procI == Pstream::myProcNo()
-            )
-            {
+      for (i = -1; i <= 1; i++) {
+        for (j = -1; j <= 1; j++) {
+          for (k = -1; k <= 1; k++) {
+            if (i == 0 && j == 0 && k == 0 && procI == Pstream::myProcNo()) {
               // Skip this processor's extended boundBox
               // when it has no transformation
               continue;
@@ -513,14 +469,13 @@ void mousse::InteractionLists<ParticleType>::findExtendedProcBbsInRange
             const vectorTensorTransform& transform =
               globalTransforms.transform(transI);
             treeBoundBox extendedReferredProcBb
-            (
+            {
               transform.transformPosition
               (
                 allExtendedProcBbs[procI].points()
               )
-            );
-            if (procBb.overlaps(extendedReferredProcBb))
-            {
+            };
+            if (procBb.overlaps(extendedReferredProcBb)) {
               tmpExtendedProcBbsInRange.append
               (
                 extendedReferredProcBb
@@ -531,17 +486,12 @@ void mousse::InteractionLists<ParticleType>::findExtendedProcBbsInRange
           }
         }
       }
-    }
-    else if (nTrans == 2)
-    {
+    } else if (nTrans == 2) {
       label& i = permutationIndices[0];
       label& j = permutationIndices[1];
-      for (i = -1; i <= 1; i++)
-      {
-        for (j = -1; j <= 1; j++)
-        {
-          if (i == 0 && j == 0 && procI == Pstream::myProcNo())
-          {
+      for (i = -1; i <= 1; i++) {
+        for (j = -1; j <= 1; j++) {
+          if (i == 0 && j == 0 && procI == Pstream::myProcNo()) {
             // Skip this processor's extended boundBox
             // when it has no transformation
             continue;
@@ -553,14 +503,13 @@ void mousse::InteractionLists<ParticleType>::findExtendedProcBbsInRange
           const vectorTensorTransform& transform =
             globalTransforms.transform(transI);
           treeBoundBox extendedReferredProcBb
-          (
+          {
             transform.transformPosition
             (
               allExtendedProcBbs[procI].points()
             )
-          );
-          if (procBb.overlaps(extendedReferredProcBb))
-          {
+          };
+          if (procBb.overlaps(extendedReferredProcBb)) {
             tmpExtendedProcBbsInRange.append
             (
               extendedReferredProcBb
@@ -570,14 +519,10 @@ void mousse::InteractionLists<ParticleType>::findExtendedProcBbsInRange
           }
         }
       }
-    }
-    else if (nTrans == 1)
-    {
+    } else if (nTrans == 1) {
       label& i = permutationIndices[0];
-      for (i = -1; i <= 1; i++)
-      {
-        if (i == 0 && procI == Pstream::myProcNo())
-        {
+      for (i = -1; i <= 1; i++) {
+        if (i == 0 && procI == Pstream::myProcNo()) {
           // Skip this processor's extended boundBox when it
           // has no transformation
           continue;
@@ -589,14 +534,13 @@ void mousse::InteractionLists<ParticleType>::findExtendedProcBbsInRange
         const vectorTensorTransform& transform =
           globalTransforms.transform(transI);
         treeBoundBox extendedReferredProcBb
-        (
+        {
           transform.transformPosition
           (
             allExtendedProcBbs[procI].points()
           )
-        );
-        if (procBb.overlaps(extendedReferredProcBb))
-        {
+        };
+        if (procBb.overlaps(extendedReferredProcBb)) {
           tmpExtendedProcBbsInRange.append
           (
             extendedReferredProcBb
@@ -611,6 +555,8 @@ void mousse::InteractionLists<ParticleType>::findExtendedProcBbsInRange
   extendedProcBbsTransformIndex = tmpExtendedProcBbsTransformIndex.xfer();
   extendedProcBbsOrigProc = tmpExtendedProcBbsOrigProc.xfer();
 }
+
+
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::buildMap
 (
@@ -621,47 +567,41 @@ void mousse::InteractionLists<ParticleType>::buildMap
   // Determine send map
   // ~~~~~~~~~~~~~~~~~~
   // 1. Count
-  labelList nSend(Pstream::nProcs(), 0);
-  FOR_ALL(toProc, i)
-  {
+  labelList nSend{Pstream::nProcs(), 0};
+  FOR_ALL(toProc, i) {
     label procI = toProc[i];
     nSend[procI]++;
   }
   // Send over how many I need to receive
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  labelListList sendSizes(Pstream::nProcs());
+  labelListList sendSizes{Pstream::nProcs()};
   sendSizes[Pstream::myProcNo()] = nSend;
   combineReduce(sendSizes, UPstream::listEq());
   // 2. Size sendMap
-  labelListList sendMap(Pstream::nProcs());
-  FOR_ALL(nSend, procI)
-  {
+  labelListList sendMap{Pstream::nProcs()};
+  FOR_ALL(nSend, procI) {
     sendMap[procI].setSize(nSend[procI]);
     nSend[procI] = 0;
   }
   // 3. Fill sendMap
-  FOR_ALL(toProc, i)
-  {
+  FOR_ALL(toProc, i) {
     label procI = toProc[i];
     sendMap[procI][nSend[procI]++] = i;
   }
   // Determine receive map
   // ~~~~~~~~~~~~~~~~~~~~~
-  labelListList constructMap(Pstream::nProcs());
+  labelListList constructMap{Pstream::nProcs()};
   // Local transfers first
   constructMap[Pstream::myProcNo()] = identity
   (
     sendMap[Pstream::myProcNo()].size()
   );
   label constructSize = constructMap[Pstream::myProcNo()].size();
-  FOR_ALL(constructMap, procI)
-  {
-    if (procI != Pstream::myProcNo())
-    {
+  FOR_ALL(constructMap, procI) {
+    if (procI != Pstream::myProcNo()) {
       label nRecv = sendSizes[procI][Pstream::myProcNo()];
       constructMap[procI].setSize(nRecv);
-      for (label i = 0; i < nRecv; i++)
-      {
+      for (label i = 0; i < nRecv; i++) {
         constructMap[procI][i] = constructSize++;
       }
     }
@@ -669,43 +609,44 @@ void mousse::InteractionLists<ParticleType>::buildMap
   mapPtr.reset
   (
     new mapDistribute
-    (
+    {
       constructSize,
       sendMap.xfer(),
       constructMap.xfer()
-    )
+    }
   );
 }
+
+
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::prepareParticlesToRefer
 (
-  const List<DynamicList<ParticleType*> >& cellOccupancy
+  const List<DynamicList<ParticleType*>>& cellOccupancy
 )
 {
   const globalIndexAndTransform& globalTransforms =
     mesh_.globalData().globalTransforms();
   referredParticles_.setSize(cellIndexAndTransformToDistribute_.size());
   // Clear all existing referred particles
-  FOR_ALL(referredParticles_, i)
-  {
+  FOR_ALL(referredParticles_, i) {
     referredParticles_[i].clear();
   }
   // Clear all particles that may have been populated into the cloud
   cloud_.clear();
-  FOR_ALL(cellIndexAndTransformToDistribute_, i)
-  {
+  FOR_ALL(cellIndexAndTransformToDistribute_, i) {
     const labelPair ciat = cellIndexAndTransformToDistribute_[i];
     label cellIndex = globalTransforms.index(ciat);
     List<ParticleType*> realParticles = cellOccupancy[cellIndex];
     IDLList<ParticleType>& particlesToRefer = referredParticles_[i];
-    FOR_ALL(realParticles, rM)
-    {
+    FOR_ALL(realParticles, rM) {
       const ParticleType& particle = *realParticles[rM];
       particlesToRefer.append(particle.clone().ptr());
       prepareParticleToBeReferred(particlesToRefer.last(), ciat);
     }
   }
 }
+
+
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::prepareParticleToBeReferred
 (
@@ -721,22 +662,20 @@ void mousse::InteractionLists<ParticleType>::prepareParticleToBeReferred
   );
   particle->position() = transform.invTransformPosition(particle->position());
   particle->transformProperties(-transform.t());
-  if (transform.hasR())
-  {
+  if (transform.hasR()) {
     particle->transformProperties(transform.R().T());
   }
 }
+
+
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::fillReferredParticleCloud()
 {
-  if (writeCloud_)
-  {
-    FOR_ALL(referredParticles_, refCellI)
-    {
+  if (writeCloud_) {
+    FOR_ALL(referredParticles_, refCellI) {
       const IDLList<ParticleType>& refCell =
         referredParticles_[refCellI];
-      FOR_ALL_CONST_ITER(typename IDLList<ParticleType>, refCell, iter)
-      {
+      FOR_ALL_CONST_ITER(typename IDLList<ParticleType>, refCell, iter) {
         cloud_.addParticle
         (
           static_cast<ParticleType*>(iter().clone().ptr())
@@ -745,6 +684,8 @@ void mousse::InteractionLists<ParticleType>::fillReferredParticleCloud()
     }
   }
 }
+
+
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::prepareWallDataToRefer()
 {
@@ -755,8 +696,7 @@ void mousse::InteractionLists<ParticleType>::prepareWallDataToRefer()
     wallFaceIndexAndTransformToDistribute_.size()
   );
   const volVectorField& U = mesh_.lookupObject<volVectorField>(UName_);
-  FOR_ALL(referredWallData_, rWVI)
-  {
+  FOR_ALL(referredWallData_, rWVI) {
     const labelPair& wfiat = wallFaceIndexAndTransformToDistribute_[rWVI];
     label wallFaceIndex = globalTransforms.index(wfiat);
     const vectorTensorTransform& transform = globalTransforms.transform
@@ -768,70 +708,69 @@ void mousse::InteractionLists<ParticleType>::prepareWallDataToRefer()
       wallFaceIndex - mesh_.nInternalFaces()
     ];
     label patchFaceI =
-      wallFaceIndex
-     - mesh_.boundaryMesh()[patchI].start();
+      wallFaceIndex - mesh_.boundaryMesh()[patchI].start();
     // Need to transform velocity when tensor transforms are
     // supported
     referredWallData_[rWVI] = U.boundaryField()[patchI][patchFaceI];
-    if (transform.hasR())
-    {
-      referredWallData_[rWVI] =
-        transform.R().T() & referredWallData_[rWVI];
+    if (transform.hasR()) {
+      referredWallData_[rWVI] = transform.R().T() & referredWallData_[rWVI];
     }
   }
 }
+
+
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::writeReferredWallFaces() const
 {
-  if (referredWallFaces_.empty())
-  {
+  if (referredWallFaces_.empty()) {
     return;
   }
   fileName objDir = mesh_.time().timePath()/cloud::prefix;
   mkDir(objDir);
   fileName objFileName = "referredWallFaces.obj";
-  OFstream str(objDir/objFileName);
-  Info<< "    Writing "
+  OFstream str{objDir/objFileName};
+  Info << "    Writing "
     << mesh_.time().timeName()/cloud::prefix/objFileName
     << endl;
   label offset = 1;
-  FOR_ALL(referredWallFaces_, rWFI)
-  {
+  FOR_ALL(referredWallFaces_, rWFI) {
     const referredWallFace& rwf = referredWallFaces_[rWFI];
-    FOR_ALL(rwf, fPtI)
-    {
+    FOR_ALL(rwf, fPtI) {
       meshTools::writeOBJ(str, rwf.points()[rwf[fPtI]]);
     }
-    str<< 'f';
-    FOR_ALL(rwf, fPtI)
-    {
-      str<< ' ' << fPtI + offset;
+    str << 'f';
+    FOR_ALL(rwf, fPtI) {
+      str << ' ' << fPtI + offset;
     }
-    str<< nl;
+    str << nl;
     offset += rwf.size();
   }
 }
+
+
 // Constructors 
 template<class ParticleType>
 mousse::InteractionLists<ParticleType>::InteractionLists(const polyMesh& mesh)
 :
-  mesh_(mesh),
-  cloud_(mesh_, "NULL_Cloud", IDLList<ParticleType>()),
-  writeCloud_(false),
-  cellMapPtr_(),
-  wallFaceMapPtr_(),
-  maxDistance_(0.0),
-  dil_(),
-  dwfil_(),
-  ril_(),
-  rilInverse_(),
-  cellIndexAndTransformToDistribute_(),
-  wallFaceIndexAndTransformToDistribute_(),
-  referredWallFaces_(),
-  UName_("unknown_UName"),
-  referredWallData_(),
-  referredParticles_()
+  mesh_{mesh},
+  cloud_{mesh_, "NULL_Cloud", IDLList<ParticleType>()},
+  writeCloud_{false},
+  cellMapPtr_{},
+  wallFaceMapPtr_{},
+  maxDistance_{0.0},
+  dil_{},
+  dwfil_{},
+  ril_{},
+  rilInverse_{},
+  cellIndexAndTransformToDistribute_{},
+  wallFaceIndexAndTransformToDistribute_{},
+  referredWallFaces_{},
+  UName_{"unknown_UName"},
+  referredWallData_{},
+  referredParticles_{}
 {}
+
+
 template<class ParticleType>
 mousse::InteractionLists<ParticleType>::InteractionLists
 (
@@ -841,29 +780,33 @@ mousse::InteractionLists<ParticleType>::InteractionLists
   const word& UName
 )
 :
-  mesh_(mesh),
-  cloud_(mesh_, "referredParticleCloud", IDLList<ParticleType>()),
-  writeCloud_(writeCloud),
-  cellMapPtr_(),
-  wallFaceMapPtr_(),
-  maxDistance_(maxDistance),
-  dil_(),
-  dwfil_(),
-  ril_(),
-  rilInverse_(),
-  cellIndexAndTransformToDistribute_(),
-  wallFaceIndexAndTransformToDistribute_(),
-  referredWallFaces_(),
-  UName_(UName),
-  referredWallData_(),
-  referredParticles_()
+  mesh_{mesh},
+  cloud_{mesh_, "referredParticleCloud", IDLList<ParticleType>()},
+  writeCloud_{writeCloud},
+  cellMapPtr_{},
+  wallFaceMapPtr_{},
+  maxDistance_{maxDistance},
+  dil_{},
+  dwfil_{},
+  ril_{},
+  rilInverse_{},
+  cellIndexAndTransformToDistribute_{},
+  wallFaceIndexAndTransformToDistribute_{},
+  referredWallFaces_{},
+  UName_{UName},
+  referredWallData_{},
+  referredParticles_{}
 {
   buildInteractionLists();
 }
+
+
 // Destructor 
 template<class ParticleType>
 mousse::InteractionLists<ParticleType>::~InteractionLists()
 {}
+
+
 // Member Functions 
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::sendReferredData
@@ -872,8 +815,7 @@ void mousse::InteractionLists<ParticleType>::sendReferredData
   PstreamBuffers& pBufs
 )
 {
-  if (mesh_.changing())
-  {
+  if (mesh_.changing()) {
     WARNING_IN
     (
       "void mousse::InteractionLists<ParticleType>::sendReferredData"
@@ -882,25 +824,22 @@ void mousse::InteractionLists<ParticleType>::sendReferredData
         "PstreamBuffers& pBufs"
       ")"
     )
-      << "Mesh changing, rebuilding InteractionLists form scratch."
-      << endl;
+    << "Mesh changing, rebuilding InteractionLists form scratch."
+    << endl;
     buildInteractionLists();
   }
   prepareWallDataToRefer();
   prepareParticlesToRefer(cellOccupancy);
-  for (label domain = 0; domain < Pstream::nProcs(); domain++)
-  {
+  for (label domain = 0; domain < Pstream::nProcs(); domain++) {
     const labelList& subMap = cellMap().subMap()[domain];
-    if (subMap.size())
-    {
-      UOPstream toDomain(domain, pBufs);
-      UIndirectList<IDLList<ParticleType> > subMappedParticles
-      (
+    if (subMap.size()) {
+      UOPstream toDomain{domain, pBufs};
+      UIndirectList<IDLList<ParticleType>> subMappedParticles
+      {
         referredParticles_,
         subMap
-      );
-      FOR_ALL(subMappedParticles, i)
-      {
+      };
+      FOR_ALL(subMappedParticles, i) {
         toDomain << subMappedParticles[i];
       }
     }
@@ -910,6 +849,8 @@ void mousse::InteractionLists<ParticleType>::sendReferredData
   //     pBufs.finishedSends(false);
   wallFaceMap().send(pBufs, referredWallData_);
 }
+
+
 template<class ParticleType>
 void mousse::InteractionLists<ParticleType>::receiveReferredData
 (
@@ -919,22 +860,20 @@ void mousse::InteractionLists<ParticleType>::receiveReferredData
 {
   Pstream::waitRequests(startOfRequests);
   referredParticles_.setSize(cellMap().constructSize());
-  for (label domain = 0; domain < Pstream::nProcs(); domain++)
-  {
+  for (label domain = 0; domain < Pstream::nProcs(); domain++) {
     const labelList& constructMap = cellMap().constructMap()[domain];
-    if (constructMap.size())
-    {
-      UIPstream str(domain, pBufs);
-      FOR_ALL(constructMap, i)
-      {
+    if (constructMap.size()) {
+      UIPstream str{domain, pBufs};
+      FOR_ALL(constructMap, i) {
         referredParticles_[constructMap[i]] = IDLList<ParticleType>
-        (
+        {
           str,
           typename ParticleType::iNew(mesh_)
-        );
+        };
       }
     }
   }
   fillReferredParticleCloud();
   wallFaceMap().receive(pBufs, referredWallData_);
 }
+

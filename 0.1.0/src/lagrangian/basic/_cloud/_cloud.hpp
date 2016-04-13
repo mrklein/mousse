@@ -8,28 +8,28 @@
 //   mousse::Cloud
 // Description
 //   Base cloud calls templated on particle type
-// SourceFiles
-//   _cloud.cpp
-//   _cloud_io.cpp
+
 #include "cloud.hpp"
 #include "idl_list.hpp"
 #include "iofield.hpp"
 #include "compact_io_field.hpp"
 #include "poly_mesh.hpp"
 #include "packed_bool_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of functions
-template<class ParticleType>
-class Cloud;
-template<class ParticleType>
-class IOPosition;
+template<class ParticleType> class Cloud;
+template<class ParticleType> class IOPosition;
 template<class ParticleType>
 Ostream& operator<<
 (
   Ostream&,
   const Cloud<ParticleType>&
 );
+
+
 template<class ParticleType>
 class Cloud
 :
@@ -58,8 +58,7 @@ class Cloud
     void writeCloudUniformProperties() const;
 public:
   friend class particle;
-  template<class ParticleT>
-  friend class IOPosition;
+  template<class ParticleT> friend class IOPosition;
   typedef ParticleType particleType;
   typedef typename IDLList<ParticleType>::iterator iterator;
   typedef typename IDLList<ParticleType>::const_iterator const_iterator;
@@ -121,10 +120,8 @@ public:
       void trackingRescue() const
       {
         nTrackingRescues_++;
-        if (cloud::debug && size() && (nTrackingRescues_ % size() == 0))
-        {
-          Pout<< "    " << nTrackingRescues_
-            << " tracking rescues " << endl;
+        if (cloud::debug && size() && (nTrackingRescues_ % size() == 0)) {
+          Pout << "    " << nTrackingRescues_ << " tracking rescues " << endl;
         }
       }
       //- Whether each cell has any wall faces (demand driven data)
@@ -227,7 +224,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_cloud.cpp"
-#endif
+
+#include "_cloud.ipp"
+
 #endif

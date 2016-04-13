@@ -5,9 +5,13 @@
 #include "_cloud.hpp"
 #include "time.hpp"
 #include "_ioposition.hpp"
+
+
 // Static Data Members
 template<class ParticleType>
 mousse::word mousse::Cloud<ParticleType>::cloudPropertiesName("cloudProperties");
+
+
 // Private Member Functions 
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::readCloudUniformProperties()
@@ -22,27 +26,24 @@ void mousse::Cloud<ParticleType>::readCloudUniformProperties()
     IOobject::NO_WRITE,
     false
   };
-  if (dictObj.headerOk())
-  {
-    const IOdictionary uniformPropsDict(dictObj);
-    const word procName("processor" + mousse::name(Pstream::myProcNo()));
-    if (uniformPropsDict.found(procName))
-    {
+  if (dictObj.headerOk()) {
+    const IOdictionary uniformPropsDict{dictObj};
+    const word procName{"processor" + mousse::name(Pstream::myProcNo())};
+    if (uniformPropsDict.found(procName)) {
       uniformPropsDict.subDict(procName).lookup("particleCount")
         >> ParticleType::particleCount_;
     }
-  }
-  else
-  {
+  } else {
     ParticleType::particleCount_ = 0;
   }
 }
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::writeCloudUniformProperties() const
 {
   IOdictionary uniformPropsDict
   {
-    // IOobject
     {
       cloudPropertiesName,
       time().timeName(),
@@ -53,13 +54,12 @@ void mousse::Cloud<ParticleType>::writeCloudUniformProperties() const
       false
     }
   };
-  labelList np(Pstream::nProcs(), 0);
+  labelList np{Pstream::nProcs(), 0};
   np[Pstream::myProcNo()] = ParticleType::particleCount_;
   Pstream::listCombineGather(np, maxEqOp<label>());
   Pstream::listCombineScatter(np);
-  FOR_ALL(np, i)
-  {
-    word procName("processor" + mousse::name(i));
+  FOR_ALL(np, i) {
+    word procName{"processor" + mousse::name(i)};
     uniformPropsDict.add(procName, dictionary());
     uniformPropsDict.subDict(procName).add("particleCount", np[i]);
   }
@@ -70,25 +70,22 @@ void mousse::Cloud<ParticleType>::writeCloudUniformProperties() const
     time().writeCompression()
   );
 }
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::initCloud(const bool checkClass)
 {
   readCloudUniformProperties();
-  IOPosition<Cloud<ParticleType> > ioP(*this);
-  if (ioP.headerOk())
-  {
+  IOPosition<Cloud<ParticleType>> ioP{*this};
+  if (ioP.headerOk()) {
     ioP.readData(*this, checkClass);
     ioP.close();
-    if (this->size())
-    {
+    if (this->size()) {
       readFields();
     }
-  }
-  else
-  {
-    if (debug)
-    {
-      Pout<< "Cannot read particle positions file:" << nl
+  } else {
+    if (debug) {
+      Pout << "Cannot read particle positions file:" << nl
         << "    " << ioP.objectPath() << nl
         << "Assuming the initial cloud contains 0 particles." << endl;
     }
@@ -97,12 +94,13 @@ void mousse::Cloud<ParticleType>::initCloud(const bool checkClass)
   // them, otherwise, if some processors have no particles then
   // there is a comms mismatch.
   polyMesh_.tetBasePtIs();
-  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter)
-  {
+  FOR_ALL_ITER(typename Cloud<ParticleType>, *this, pIter) {
     ParticleType& p = pIter();
     p.initCellFacePt();
   }
 }
+
+
 // Constructors 
 template<class ParticleType>
 mousse::Cloud<ParticleType>::Cloud
@@ -111,15 +109,17 @@ mousse::Cloud<ParticleType>::Cloud
   const bool checkClass
 )
 :
-  cloud(pMesh),
-  polyMesh_(pMesh),
-  labels_(),
-  nTrackingRescues_(),
-  cellWallFacesPtr_()
+  cloud{pMesh},
+  polyMesh_{pMesh},
+  labels_{},
+  nTrackingRescues_{},
+  cellWallFacesPtr_{}
 {
   checkPatches();
   initCloud(checkClass);
 }
+
+
 template<class ParticleType>
 mousse::Cloud<ParticleType>::Cloud
 (
@@ -128,15 +128,17 @@ mousse::Cloud<ParticleType>::Cloud
   const bool checkClass
 )
 :
-  cloud(pMesh, cloudName),
-  polyMesh_(pMesh),
-  labels_(),
-  nTrackingRescues_(),
-  cellWallFacesPtr_()
+  cloud{pMesh, cloudName},
+  polyMesh_{pMesh},
+  labels_{},
+  nTrackingRescues_{},
+  cellWallFacesPtr_{}
 {
   checkPatches();
   initCloud(checkClass);
 }
+
+
 // Member Functions 
 template<class ParticleType>
 mousse::IOobject mousse::Cloud<ParticleType>::fieldIOobject
@@ -155,6 +157,8 @@ mousse::IOobject mousse::Cloud<ParticleType>::fieldIOobject
     false
   };
 }
+
+
 template<class ParticleType>
 template<class DataType>
 void mousse::Cloud<ParticleType>::checkFieldIOobject
@@ -163,8 +167,7 @@ void mousse::Cloud<ParticleType>::checkFieldIOobject
   const IOField<DataType>& data
 ) const
 {
-  if (data.size() != c.size())
-  {
+  if (data.size() != c.size()) {
     FATAL_ERROR_IN
     (
       "void Cloud<ParticleType>::checkFieldIOobject"
@@ -176,6 +179,8 @@ void mousse::Cloud<ParticleType>::checkFieldIOobject
     << abort(FatalError);
   }
 }
+
+
 template<class ParticleType>
 template<class DataType>
 void mousse::Cloud<ParticleType>::checkFieldFieldIOobject
@@ -184,8 +189,7 @@ void mousse::Cloud<ParticleType>::checkFieldFieldIOobject
   const CompactIOField<Field<DataType>, DataType>& data
 ) const
 {
-  if (data.size() != c.size())
-  {
+  if (data.size() != c.size()) {
     FATAL_ERROR_IN
     (
       "void Cloud<ParticleType>::checkFieldFieldIOobject"
@@ -200,17 +204,22 @@ void mousse::Cloud<ParticleType>::checkFieldFieldIOobject
     << abort(FatalError);
   }
 }
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::readFields()
 {}
+
+
 template<class ParticleType>
 void mousse::Cloud<ParticleType>::writeFields() const
 {
-  if (this->size())
-  {
+  if (this->size()) {
     ParticleType::writeFields(*this);
   }
 }
+
+
 template<class ParticleType>
 bool mousse::Cloud<ParticleType>::writeObject
 (
@@ -220,16 +229,15 @@ bool mousse::Cloud<ParticleType>::writeObject
 ) const
 {
   writeCloudUniformProperties();
-  if (this->size())
-  {
+  if (this->size()) {
     writeFields();
     return cloud::writeObject(fmt, ver, cmp);
-  }
-  else
-  {
+  } else {
     return true;
   }
 }
+
+
 // Ostream Operators
 template<class ParticleType>
 mousse::Ostream& mousse::operator<<(Ostream& os, const Cloud<ParticleType>& pc)
@@ -239,3 +247,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const Cloud<ParticleType>& pc)
   os.check("Ostream& operator<<(Ostream&, const Cloud<ParticleType>&)");
   return os;
 }
+

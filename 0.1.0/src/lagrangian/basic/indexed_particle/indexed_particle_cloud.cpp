@@ -3,11 +3,16 @@
 // Copyright (C) 2016 mousse project
 
 #include "indexed_particle_cloud.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<indexedParticle>, 0);
+
 }
+
+
 // Constructors 
 mousse::indexedParticleCloud::indexedParticleCloud
 (
@@ -16,10 +21,9 @@ mousse::indexedParticleCloud::indexedParticleCloud
   bool readFields
 )
 :
-  Cloud<indexedParticle>(mesh, cloudName, false)
+  Cloud<indexedParticle>{mesh, cloudName, false}
 {
-  if (readFields)
-  {
+  if (readFields) {
     indexedParticle::readFields(*this);
   }
 }

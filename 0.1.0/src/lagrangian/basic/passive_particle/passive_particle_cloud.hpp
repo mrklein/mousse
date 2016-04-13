@@ -8,12 +8,13 @@
 //   mousse::passiveParticleCloud
 // Description
 //   A Cloud of passive particles
-// SourceFiles
-//   passive_particle_cloud.cpp
+
 #include "_cloud.hpp"
 #include "passive_particle.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class passiveParticleCloud
 :
   public Cloud<passiveParticle>

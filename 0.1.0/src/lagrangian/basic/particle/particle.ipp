@@ -11,6 +11,8 @@
 #include "wall_poly_patch.hpp"
 #include "wedge_poly_patch.hpp"
 #include "mesh_tools.hpp"
+
+
 // Private Member Functions 
 template<class TrackData>
 void mousse::particle::prepareForParallelTransfer
@@ -22,6 +24,8 @@ void mousse::particle::prepareForParallelTransfer
   // Convert the face index to be local to the processor patch
   faceI_ = patchFace(patchI, faceI_);
 }
+
+
 template<class TrackData>
 void mousse::particle::correctAfterParallelTransfer
 (
@@ -35,23 +39,20 @@ void mousse::particle::correctAfterParallelTransfer
   // Have patch transform the position
   ppp.transformPosition(position_, faceI_);
   // Transform the properties
-  if (!ppp.parallel())
-  {
+  if (!ppp.parallel()) {
     const tensor& T =
     (
       ppp.forwardT().size() == 1
-     ? ppp.forwardT()[0]
-     : ppp.forwardT()[faceI_]
+      ? ppp.forwardT()[0]
+      : ppp.forwardT()[faceI_]
     );
     transformProperties(T);
-  }
-  else if (ppp.separated())
-  {
+  } else if (ppp.separated()) {
     const vector& s =
     (
       (ppp.separation().size() == 1)
-     ? ppp.separation()[0]
-     : ppp.separation()[faceI_]
+      ? ppp.separation()[0]
+      : ppp.separation()[faceI_]
     );
     transformProperties(-s);
   }
@@ -78,34 +79,30 @@ void mousse::particle::correctAfterParallelTransfer
   // face.
   tetPtI_ = mesh_.faces()[tetFaceI_].size() - 1 - tetPtI_;
   // Reset the face index for the next tracking operation
-  if (stepFraction_ > (1.0 - SMALL))
-  {
+  if (stepFraction_ > (1.0 - SMALL)) {
     stepFraction_ = 1.0;
     faceI_ = -1;
-  }
-  else
-  {
+  } else {
     faceI_ += ppp.start();
   }
 }
+
+
 // Member Functions 
 template<class CloudType>
 void mousse::particle::readFields(CloudType& c)
 {
-  if (!c.size())
-  {
+  if (!c.size()) {
     return;
   }
-  IOobject procIO(c.fieldIOobject("origProcId", IOobject::MUST_READ));
-  if (procIO.headerOk())
-  {
-    IOField<label> origProcId(procIO);
+  IOobject procIO{c.fieldIOobject("origProcId", IOobject::MUST_READ)};
+  if (procIO.headerOk()) {
+    IOField<label> origProcId{procIO};
     c.checkFieldIOobject(c, origProcId);
-    IOField<label> origId(c.fieldIOobject("origId", IOobject::MUST_READ));
+    IOField<label> origId{c.fieldIOobject("origId", IOobject::MUST_READ)};
     c.checkFieldIOobject(c, origId);
     label i = 0;
-    FOR_ALL_ITER(typename CloudType, c, iter)
-    {
+    FOR_ALL_ITER(typename CloudType, c, iter) {
       particle& p = iter();
       p.origProc_ = origProcId[i];
       p.origId_ = origId[i];
@@ -113,22 +110,23 @@ void mousse::particle::readFields(CloudType& c)
     }
   }
 }
+
+
 template<class CloudType>
 void mousse::particle::writeFields(const CloudType& c)
 {
   // Write the cloud position file
-  IOPosition<CloudType> ioP(c);
+  IOPosition<CloudType> ioP{c};
   ioP.write();
   label np =  c.size();
   IOField<label> origProc
-  (
+  {
     c.fieldIOobject("origProcId", IOobject::NO_READ),
     np
-  );
-  IOField<label> origId(c.fieldIOobject("origId", IOobject::NO_READ), np);
+  };
+  IOField<label> origId{c.fieldIOobject("origId", IOobject::NO_READ), np};
   label i = 0;
-  FOR_ALL_CONST_ITER(typename CloudType, c, iter)
-  {
+  FOR_ALL_CONST_ITER(typename CloudType, c, iter) {
     origProc[i] = iter().origProc_;
     origId[i] = iter().origId_;
     i++;
@@ -136,17 +134,20 @@ void mousse::particle::writeFields(const CloudType& c)
   origProc.write();
   origId.write();
 }
+
+
 template<class TrackData>
 mousse::label mousse::particle::track(const vector& endPosition, TrackData& td)
 {
   faceI_ = -1;
   // Tracks to endPosition or stop on boundary
-  while (!onBoundary() && stepFraction_ < 1.0 - SMALL)
-  {
+  while (!onBoundary() && stepFraction_ < 1.0 - SMALL) {
     stepFraction_ += trackToFace(endPosition, td)*(1.0 - stepFraction_);
   }
   return faceI_;
 }
+
+
 template<class TrackData>
 mousse::scalar mousse::particle::trackToFace
 (
@@ -224,10 +225,8 @@ mousse::scalar mousse::particle::trackToFace
   // denominator for tracking in this cell.
   scalar lambdaDistanceTolerance =
     lambdaDistanceToleranceCoeff*mesh_.cellVolumes()[cellI_];
-  do
-  {
-    if (triI != -1)
-    {
+  do {
+    if (triI != -1) {
       // Change tet ownership because a tri face has been crossed
       tetNeighbour(triI);
     }
@@ -239,41 +238,28 @@ mousse::scalar mousse::particle::trackToFace
     label otherFacePtI = f.fcIndex(facePtI);
     label fPtAI = -1;
     label fPtBI = -1;
-    if (own)
-    {
+    if (own) {
       fPtAI = facePtI;
       fPtBI = otherFacePtI;
-    }
-    else
-    {
+    } else {
       fPtAI = otherFacePtI;
       fPtBI = facePtI;
     }
-    tetPointRef tet
-    (
-      pC[cellI_],
-      pPts[basePtI],
-      pPts[f[fPtAI]],
-      pPts[f[fPtBI]]
-    );
-    if (lambdaMin < SMALL)
-    {
+    tetPointRef tet{pC[cellI_], pPts[basePtI], pPts[f[fPtAI]], pPts[f[fPtBI]]};
+    if (lambdaMin < SMALL) {
       // Apply tracking correction towards tet centre
-      if (debug)
-      {
-        Pout<< "tracking rescue using tetCentre from " << position();
+      if (debug) {
+        Pout << "tracking rescue using tetCentre from " << position();
       }
       position_ += trackingCorrectionTol*(tet.centre() - position_);
-      if (debug)
-      {
-        Pout<< " to " << position() << " due to "
+      if (debug) {
+        Pout << " to " << position() << " due to "
           << (tet.centre() - position_) << endl;
       }
       cloud.trackingRescue();
       return trackFraction;
     }
-    if (triI != -1 && mesh_.moving())
-    {
+    if (triI != -1 && mesh_.moving()) {
       // Mesh motion requires stepFraction to be correct for
       // each tracking portion, so trackToFace must return after
       // every lambda calculation.
@@ -314,17 +300,13 @@ mousse::scalar mousse::particle::trackToFace
     );
     // Did not hit any tet tri faces, and no wall face has been
     // found to hit.
-    if (tris.empty() && faceI_ < 0)
-    {
+    if (tris.empty() && faceI_ < 0) {
       position_ = endPosition;
       return 1.0;
-    }
-    else
-    {
+    } else {
       // Loop over all found tris and see if any of them find a
       // lambda value smaller than that found for a wall face.
-      FOR_ALL(tris, i)
-      {
+      FOR_ALL(tris, i) {
         label tI = tris[i];
         scalar lam = tetLambda
         (
@@ -338,15 +320,13 @@ mousse::scalar mousse::particle::trackToFace
           tetPtI_,
           lambdaDistanceTolerance
         );
-        if (lam < lambdaMin)
-        {
+        if (lam < lambdaMin) {
           lambdaMin = lam;
           triI = tI;
         }
       }
     }
-    if (triI == 0)
-    {
+    if (triI == 0) {
       // This must be a cell face crossing
       faceI_ = tetFaceI_;
       // Set the faceHitTetIs to those for the current tet in case a
@@ -360,58 +340,25 @@ mousse::scalar mousse::particle::trackToFace
         fPtBI,
         tetPtI_
       );
-    }
-    else if (triI > 0)
-    {
+    } else if (triI > 0) {
       // A tri was found to be crossed before a wall face was hit (if any)
       faceI_ = -1;
     }
-    // Pout<< "track loop " << position_ << " " << endPosition << nl
-    //     << "    " << cellI_
-    //     << "    " << faceI_
-    //     << " " << tetFaceI_
-    //     << " " << tetPtI_
-    //     << " " << triI
-    //     << " " << lambdaMin
-    //     << " " << trackFraction
-    //     << endl;
-    // Pout<< "# Tracking loop tet "
-    //     << origId_ << " " << origProc_<< nl
-    //     << "# face: " << tetFaceI_ << nl
-    //     << "# tetPtI: " << tetPtI_ << nl
-    //     << "# tetBasePtI: " << mesh_.tetBasePtIs()[tetFaceI_] << nl
-    //     << "# tet.mag(): " << tet.mag() << nl
-    //     << "# tet.quality(): " << tet.quality()
-    //     << endl;
-    // meshTools::writeOBJ(Pout, tet.a());
-    // meshTools::writeOBJ(Pout, tet.b());
-    // meshTools::writeOBJ(Pout, tet.c());
-    // meshTools::writeOBJ(Pout, tet.d());
-    // Pout<< "f 1 3 2" << nl
-    //     << "f 2 3 4" << nl
-    //     << "f 1 4 3" << nl
-    //     << "f 1 2 4" << endl;
     // The particle can be 'outside' the tet.  This will yield a
     // lambda larger than 1, or smaller than 0.  For values < 0,
     // the particle travels away from the tet and we don't move
     // the particle, only change tet/cell.  For values larger than
     // 1, we move the particle to endPosition before the tet/cell
     // change.
-    if (lambdaMin > SMALL)
-    {
-      if (lambdaMin <= 1.0)
-      {
+    if (lambdaMin > SMALL) {
+      if (lambdaMin <= 1.0) {
         trackFraction += lambdaMin*(1 - trackFraction);
         position_ += lambdaMin*(endPosition - position_);
-      }
-      else
-      {
+      } else {
         position_ = endPosition;
         return 1.0;
       }
-    }
-    else
-    {
+    } else {
       // Set lambdaMin to zero to force a towards-tet-centre
       // correction.
       lambdaMin = 0.0;
@@ -419,132 +366,88 @@ mousse::scalar mousse::particle::trackToFace
   } while (faceI_ < 0);
   particleType& p = static_cast<particleType&>(*this);
   p.hitFace(td);
-  if (internalFace(faceI_))
-  {
+  if (internalFace(faceI_)) {
     // Change tet ownership because a tri face has been crossed,
     // in general this is:
     //     tetNeighbour(triI);
     // but triI must be 0;
     // No modifications are required for triI = 0, no call required to
     //     tetNeighbour(0);
-    if (cellI_ == mesh_.faceOwner()[faceI_])
-    {
+    if (cellI_ == mesh_.faceOwner()[faceI_]) {
       cellI_ = mesh_.faceNeighbour()[faceI_];
-    }
-    else if (cellI_ == mesh_.faceNeighbour()[faceI_])
-    {
+    } else if (cellI_ == mesh_.faceNeighbour()[faceI_]) {
       cellI_ = mesh_.faceOwner()[faceI_];
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN("Particle::trackToFace(const vector&, TrackData&)")
         << "addressing failure" << abort(FatalError);
     }
-  }
-  else
-  {
+  } else {
     label origFaceI = faceI_;
     label patchI = patch(faceI_);
     // No action taken for tetPtI_ for tetFaceI_ here, handled by
     // patch interaction call or later during processor transfer.
-    if
-    (
-      !p.hitPatch
-      (
-        mesh_.boundaryMesh()[patchI],
-        td,
-        patchI,
-        trackFraction,
-        faceHitTetIs
-      )
-    )
-    {
+    if (!p.hitPatch(mesh_.boundaryMesh()[patchI], td, patchI, trackFraction,
+                    faceHitTetIs)) {
       // Did patch interaction model switch patches?
-      if (faceI_ != origFaceI)
-      {
+      if (faceI_ != origFaceI) {
         patchI = patch(faceI_);
       }
       const polyPatch& patch = mesh_.boundaryMesh()[patchI];
-      if (isA<wedgePolyPatch>(patch))
-      {
-        p.hitWedgePatch
-        (
-          static_cast<const wedgePolyPatch&>(patch), td
-        );
-      }
-      else if (isA<symmetryPlanePolyPatch>(patch))
-      {
+      if (isA<wedgePolyPatch>(patch)) {
+        p.hitWedgePatch(static_cast<const wedgePolyPatch&>(patch), td);
+      } else if (isA<symmetryPlanePolyPatch>(patch)) {
         p.hitSymmetryPlanePatch
         (
           static_cast<const symmetryPlanePolyPatch&>(patch), td
         );
-      }
-      else if (isA<symmetryPolyPatch>(patch))
-      {
+      } else if (isA<symmetryPolyPatch>(patch)) {
         p.hitSymmetryPatch
         (
           static_cast<const symmetryPolyPatch&>(patch), td
         );
-      }
-      else if (isA<cyclicPolyPatch>(patch))
-      {
+      } else if (isA<cyclicPolyPatch>(patch)) {
         p.hitCyclicPatch
         (
           static_cast<const cyclicPolyPatch&>(patch), td
         );
-      }
-      else if (isA<cyclicAMIPolyPatch>(patch))
-      {
+      } else if (isA<cyclicAMIPolyPatch>(patch)) {
         p.hitCyclicAMIPatch
         (
           static_cast<const cyclicAMIPolyPatch&>(patch),
           td,
           endPosition - position_
         );
-      }
-      else if (isA<processorPolyPatch>(patch))
-      {
+      } else if (isA<processorPolyPatch>(patch)) {
         p.hitProcessorPatch
         (
           static_cast<const processorPolyPatch&>(patch), td
         );
-      }
-      else if (isA<wallPolyPatch>(patch))
-      {
+      } else if (isA<wallPolyPatch>(patch)) {
         p.hitWallPatch
         (
           static_cast<const wallPolyPatch&>(patch), td, faceHitTetIs
         );
-      }
-      else
-      {
+      } else {
         p.hitPatch(patch, td);
       }
     }
   }
-  if (lambdaMin < SMALL)
-  {
+  if (lambdaMin < SMALL) {
     // Apply tracking correction towards tet centre.
     // Generate current tet to find centre to apply correction.
     tetPointRef tet = currentTet();
-    if (debug)
-    {
-      Pout<< "tracking rescue for lambdaMin:" << lambdaMin
+    if (debug) {
+      Pout << "tracking rescue for lambdaMin:" << lambdaMin
         << "from " << position();
     }
     position_ += trackingCorrectionTol*(tet.centre() - position_);
-    if
-    (
-      cloud.hasWallImpactDistance()
-    && !internalFace(faceHitTetIs.face())
-    && cloud.cellHasWallFaces()[faceHitTetIs.cell()]
-    )
-    {
+    if (cloud.hasWallImpactDistance()
+        && !internalFace(faceHitTetIs.face())
+        && cloud.cellHasWallFaces()[faceHitTetIs.cell()]) {
       const polyBoundaryMesh& patches = mesh_.boundaryMesh();
       label fI = faceHitTetIs.face();
       label patchI = patches.patchID()[fI - mesh_.nInternalFaces()];
-      if (isA<wallPolyPatch>(patches[patchI]))
-      {
+      if (isA<wallPolyPatch>(patches[patchI])) {
         // In the case of collision with a wall where there is
         // a non-zero wallImpactDistance, it is possible for
         // there to be a tracking correction required to bring
@@ -566,21 +469,19 @@ mousse::scalar mousse::particle::trackToFace
         // normal direction is larger towards the wall than
         // the new correction is away from it.
         position_ +=
-          trackingCorrectionTol
-         *(
-            (wallTet.centre() - (position_ + r*nHat))
-           - (nHat & (tet.centre() - position_))*nHat
-          );
+          trackingCorrectionTol*((wallTet.centre() - (position_ + r*nHat))
+                                 - (nHat & (tet.centre() - position_))*nHat);
       }
     }
-    if (debug)
-    {
-      Pout<< " to " << position() << endl;
+    if (debug) {
+      Pout << " to " << position() << endl;
     }
     cloud.trackingRescue();
   }
   return trackFraction;
 }
+
+
 template<class CloudType>
 void mousse::particle::hitWallFaces
 (
@@ -592,8 +493,7 @@ void mousse::particle::hitWallFaces
 )
 {
   typedef typename CloudType::particleType particleType;
-  if (!(cloud.hasWallImpactDistance() && cloud.cellHasWallFaces()[cellI_]))
-  {
+  if (!(cloud.hasWallImpactDistance() && cloud.cellHasWallFaces()[cellI_])) {
     return;
   }
   particleType& p = static_cast<particleType&>(*this);
@@ -602,22 +502,18 @@ void mousse::particle::hitWallFaces
   scalar lambdaDistanceTolerance =
     lambdaDistanceToleranceCoeff*mesh_.cellVolumes()[cellI_];
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  FOR_ALL(thisCell, cFI)
-  {
+  FOR_ALL(thisCell, cFI) {
     label fI = thisCell[cFI];
-    if (internalFace(fI))
-    {
+    if (internalFace(fI)) {
       continue;
     }
     label patchI = patches.patchID()[fI - mesh_.nInternalFaces()];
-    if (isA<wallPolyPatch>(patches[patchI]))
-    {
+    if (isA<wallPolyPatch>(patches[patchI])) {
       // Get the decomposition of this wall face
       const List<tetIndices> faceTetIs =
         polyMeshTetDecomposition::faceTetIndices(mesh_, fI, cellI_);
       const mousse::face& f = pFaces[fI];
-      FOR_ALL(faceTetIs, tI)
-      {
+      FOR_ALL(faceTetIs, tI) {
         const tetIndices& tetIs = faceTetIs[tI];
         triPointRef tri = tetIs.faceTri(mesh_);
         vector n = tri.normal();
@@ -642,8 +538,7 @@ void mousse::particle::hitWallFaces
           tetIs.tetPt(),
           lambdaDistanceTolerance
         );
-        if ((tetClambda <= 0.0) || (tetClambda >= 1.0))
-        {
+        if ((tetClambda <= 0.0) || (tetClambda >= 1.0)) {
           // toPlusRNHat is not on the outside of the plane of
           // the wall face tri, the tri cannot be hit.
           continue;
@@ -665,9 +560,8 @@ void mousse::particle::hitWallFaces
           tetIs.tetPt(),
           lambdaDistanceTolerance
         );
-        pointHit hitInfo(vector::zero);
-        if (mesh_.moving())
-        {
+        pointHit hitInfo{vector::zero};
+        if (mesh_.moving()) {
           // For a moving mesh, the position of wall
           // triangle needs to be moved in time to be
           // consistent with the moment defined by the
@@ -713,7 +607,7 @@ void mousse::particle::hitWallFaces
           point tPtA = tri00.a() + m*(tri.a() - tri00.a());
           point tPtB = tri00.b() + m*(tri.b() - tri00.b());
           point tPtC = tri00.c() + m*(tri.c() - tri00.c());
-          triPointRef t(tPtA, tPtB, tPtC);
+          triPointRef t{tPtA, tPtB, tPtC};
           // The point fromPlusRNHat + m*(to - from) is on the
           // plane of the triangle.  Determine the
           // intersection with this triangle by testing if
@@ -725,9 +619,7 @@ void mousse::particle::hitWallFaces
             intersection::FULL_RAY,
             SMALL
           );
-        }
-        else
-        {
+        } else {
           // Use SMALL positive tolerance to make the triangle
           // slightly "fat" to improve robustness.  Intersection
           // is calculated as the ray (from + r*nHat) -> (to +
@@ -740,10 +632,8 @@ void mousse::particle::hitWallFaces
             SMALL
           );
         }
-        if (hitInfo.hit())
-        {
-          if (lambda < lambdaMin)
-          {
+        if (hitInfo.hit()) {
+          if (lambda < lambdaMin) {
             lambdaMin = lambda;
             faceI_ = fI;
             closestTetIs = tetIs;
@@ -753,9 +643,13 @@ void mousse::particle::hitWallFaces
     }
   }
 }
+
+
 template<class TrackData>
 void mousse::particle::hitFace(TrackData&)
 {}
+
+
 template<class TrackData>
 bool mousse::particle::hitPatch
 (
@@ -768,6 +662,8 @@ bool mousse::particle::hitPatch
 {
   return false;
 }
+
+
 template<class TrackData>
 void mousse::particle::hitWedgePatch
 (
@@ -789,6 +685,8 @@ void mousse::particle::hitWedgePatch
   nf /= mag(nf);
   transformProperties(I - 2.0*nf*nf);
 }
+
+
 template<class TrackData>
 void mousse::particle::hitSymmetryPlanePatch
 (
@@ -800,6 +698,8 @@ void mousse::particle::hitSymmetryPlanePatch
   nf /= mag(nf);
   transformProperties(I - 2.0*nf*nf);
 }
+
+
 template<class TrackData>
 void mousse::particle::hitSymmetryPatch
 (
@@ -811,6 +711,8 @@ void mousse::particle::hitSymmetryPatch
   nf /= mag(nf);
   transformProperties(I - 2.0*nf*nf);
 }
+
+
 template<class TrackData>
 void mousse::particle::hitCyclicPatch
 (
@@ -829,27 +731,26 @@ void mousse::particle::hitCyclicPatch
   // Have patch transform the position
   receiveCpp.transformPosition(position_, patchFacei);
   // Transform the properties
-  if (!receiveCpp.parallel())
-  {
+  if (!receiveCpp.parallel()) {
     const tensor& T =
     (
       receiveCpp.forwardT().size() == 1
-     ? receiveCpp.forwardT()[0]
-     : receiveCpp.forwardT()[patchFacei]
+      ? receiveCpp.forwardT()[0]
+      : receiveCpp.forwardT()[patchFacei]
     );
     transformProperties(T);
-  }
-  else if (receiveCpp.separated())
-  {
+  } else if (receiveCpp.separated()) {
     const vector& s =
     (
       (receiveCpp.separation().size() == 1)
-     ? receiveCpp.separation()[0]
-     : receiveCpp.separation()[patchFacei]
+      ? receiveCpp.separation()[0]
+      : receiveCpp.separation()[patchFacei]
     );
     transformProperties(-s);
   }
 }
+
+
 template<class TrackData>
 void mousse::particle::hitCyclicAMIPatch
 (
@@ -863,8 +764,7 @@ void mousse::particle::hitCyclicAMIPatch
   label patchFaceI = faceI_ - cpp.start();
   // Patch face index on receiving side - also updates position
   patchFaceI = cpp.pointFace(patchFaceI, direction, position_);
-  if (patchFaceI < 0)
-  {
+  if (patchFaceI < 0) {
     FATAL_ERROR_IN
     (
       "template<class TrackData>"
@@ -887,30 +787,31 @@ void mousse::particle::hitCyclicAMIPatch
   tetPtI_ = mesh_.faces()[tetFaceI_].size() - 1 - tetPtI_;
   // Now the particle is on the receiving side
   // Transform the properties
-  if (!receiveCpp.parallel())
-  {
+  if (!receiveCpp.parallel()) {
     const tensor& T =
     (
       receiveCpp.forwardT().size() == 1
-     ? receiveCpp.forwardT()[0]
-     : receiveCpp.forwardT()[patchFaceI]
+      ? receiveCpp.forwardT()[0]
+      : receiveCpp.forwardT()[patchFaceI]
     );
     transformProperties(T);
-  }
-  else if (receiveCpp.separated())
-  {
+  } else if (receiveCpp.separated()) {
     const vector& s =
     (
       (receiveCpp.separation().size() == 1)
-     ? receiveCpp.separation()[0]
-     : receiveCpp.separation()[patchFaceI]
+      ? receiveCpp.separation()[0]
+      : receiveCpp.separation()[patchFaceI]
     );
     transformProperties(-s);
   }
 }
+
+
 template<class TrackData>
 void mousse::particle::hitProcessorPatch(const processorPolyPatch&, TrackData&)
 {}
+
+
 template<class TrackData>
 void mousse::particle::hitWallPatch
 (
@@ -919,6 +820,9 @@ void mousse::particle::hitWallPatch
   const tetIndices&
 )
 {}
+
+
 template<class TrackData>
 void mousse::particle::hitPatch(const polyPatch&, TrackData&)
 {}
+
