@@ -4,15 +4,19 @@
 
 #include "fixed_value.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  namespace distributionModels
-  {
-    DEFINE_TYPE_NAME_AND_DEBUG(fixedValue, 0);
-    ADD_TO_RUN_TIME_SELECTION_TABLE(distributionModel, fixedValue, dictionary);
-  }
+namespace mousse {
+namespace distributionModels {
+
+DEFINE_TYPE_NAME_AND_DEBUG(fixedValue, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(distributionModel, fixedValue, dictionary);
+
 }
+}
+
+
 // Constructors 
 mousse::distributionModels::fixedValue::fixedValue
 (
@@ -20,31 +24,44 @@ mousse::distributionModels::fixedValue::fixedValue
   cachedRandom& rndGen
 )
 :
-  distributionModel(typeName, dict, rndGen),
-  value_(readScalar(distributionModelDict_.lookup("value")))
+  distributionModel{typeName, dict, rndGen},
+  value_{readScalar(distributionModelDict_.lookup("value"))}
 {}
+
+
 mousse::distributionModels::fixedValue::fixedValue(const fixedValue& p)
 :
-  distributionModel(p),
-  value_(p.value_)
+  distributionModel{p},
+  value_{p.value_}
 {}
+
+
 // Destructor 
 mousse::distributionModels::fixedValue::~fixedValue()
 {}
+
+
 // Member Functions 
 mousse::scalar mousse::distributionModels::fixedValue::fixedValue::sample() const
 {
   return value_;
 }
+
+
 mousse::scalar mousse::distributionModels::fixedValue::fixedValue::minValue() const
 {
   return value_;
 }
+
+
 mousse::scalar mousse::distributionModels::fixedValue::fixedValue::maxValue() const
 {
   return value_;
 }
+
+
 mousse::scalar mousse::distributionModels::fixedValue::fixedValue::meanValue() const
 {
   return value_;
 }
+

@@ -21,16 +21,15 @@
 //   These values are integrated to obtain the cumulated distribution model,
 //   which is then used to change the distribution from unifrom to
 //   the actual distributionModel.
-// SourceFiles
-//   distribution_model.cpp
-//   distribution_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "cached_random.hpp"
-namespace mousse
-{
-namespace distributionModels
-{
+
+
+namespace mousse {
+namespace distributionModels {
+
 class distributionModel
 {
 protected:
@@ -87,6 +86,9 @@ public:
     //- Return the maximum value
     virtual scalar meanValue() const = 0;
 };
+
 }  // namespace distributionModels
 }  // namespace mousse
+
 #endif
+

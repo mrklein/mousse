@@ -11,13 +11,13 @@
 //   \verbatim
 //     model = sum_i strength_i * exp(-0.5*((x - expectation_i)/variance_i)^2 )
 //   \endverbatim
-// SourceFiles
-//   multi_normal.cpp
+
 #include "distribution_model.hpp"
-namespace mousse
-{
-namespace distributionModels
-{
+
+
+namespace mousse {
+namespace distributionModels {
+
 class multiNormal
 :
   public distributionModel
@@ -44,7 +44,7 @@ public:
     //- Construct and return a clone
     virtual autoPtr<distributionModel> clone() const
     {
-      return autoPtr<distributionModel>(new multiNormal(*this));
+      return autoPtr<distributionModel>{new multiNormal{*this}};
     }
   //- Destructor
   virtual ~multiNormal();
@@ -58,6 +58,9 @@ public:
     //- Return the mean value
     virtual scalar meanValue() const;
 };
+
 }  // namespace distributionModels
 }  // namespace mousse
+
 #endif
+

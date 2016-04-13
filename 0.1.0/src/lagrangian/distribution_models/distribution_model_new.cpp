@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "distribution_model.hpp"
+
+
 // Selectors
 mousse::autoPtr<mousse::distributionModels::distributionModel>
 mousse::distributionModels::distributionModel::New
@@ -11,12 +13,11 @@ mousse::distributionModels::distributionModel::New
   cachedRandom& rndGen
 )
 {
-  const word modelType(dict.lookup("type"));
-  Info<< "Selecting distribution model " << modelType << endl;
+  const word modelType{dict.lookup("type")};
+  Info << "Selecting distribution model " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "distributionModels::distributionModel::New"
@@ -25,10 +26,11 @@ mousse::distributionModels::distributionModel::New
         "cachedRandom&"
       ")"
     )
-      << "Unknown distribution model type " << modelType << nl << nl
-      << "Valid distribution model types are:" << nl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    << "Unknown distribution model type " << modelType << nl << nl
+    << "Valid distribution model types are:" << nl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<distributionModel>(cstrIter()(dict, rndGen));
+  return autoPtr<distributionModel>{cstrIter()(dict, rndGen)};
 }
+

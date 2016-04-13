@@ -4,15 +4,19 @@
 
 #include "exponential.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace distributionModels
-{
+namespace mousse {
+namespace distributionModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(exponential, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(distributionModel, exponential, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::distributionModels::exponential::exponential
 (
@@ -27,6 +31,8 @@ mousse::distributionModels::exponential::exponential
 {
   check();
 }
+
+
 mousse::distributionModels::exponential::exponential(const exponential& p)
 :
   distributionModel{p},
@@ -34,25 +40,36 @@ mousse::distributionModels::exponential::exponential(const exponential& p)
   maxValue_{p.maxValue_},
   lambda_{p.lambda_}
 {}
+
+
 // Destructor 
 mousse::distributionModels::exponential::~exponential()
 {}
+
+
 // Member Functions 
 mousse::scalar mousse::distributionModels::exponential::sample() const
 {
   scalar y = rndGen_.sample01<scalar>();
   scalar K = exp(-lambda_*maxValue_) - exp(-lambda_*minValue_);
-  return -(1.0/lambda_)*log(exp(-lambda_*minValue_) + y*K);
+  return -log(exp(-lambda_*minValue_) + y*K)/lambda_;
 }
+
+
 mousse::scalar mousse::distributionModels::exponential::minValue() const
 {
   return minValue_;
 }
+
+
 mousse::scalar mousse::distributionModels::exponential::maxValue() const
 {
   return maxValue_;
 }
+
+
 mousse::scalar mousse::distributionModels::exponential::meanValue() const
 {
   return 1.0/lambda_;
 }
+
