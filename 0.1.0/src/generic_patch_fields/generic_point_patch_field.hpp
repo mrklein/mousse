@@ -9,12 +9,14 @@
 // Description
 //   A generic version of calculatedPointPatchField, useful as a fallback for
 //   handling unknown patch types.
-// SourceFiles
-//   generic_point_patch_field.cpp
+
 #include "calculated_point_patch_field.hpp"
 #include "hash_ptr_table.hpp"
-namespace mousse
-{
+#include "dictionary.hpp"
+
+
+namespace mousse {
+
 template<class Type>
 class genericPointPatchField
 :
@@ -54,15 +56,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new genericPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new genericPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     genericPointPatchField
@@ -71,19 +70,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new genericPointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new genericPointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Mapping functions
@@ -102,7 +97,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#    include "generic_point_patch_field.cpp"
-#endif
+
+#include "generic_point_patch_field.ipp"
+
 #endif
