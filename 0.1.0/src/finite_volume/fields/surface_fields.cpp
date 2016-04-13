@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TEMPLATE2_TYPE_NAME_AND_DEBUG
 (

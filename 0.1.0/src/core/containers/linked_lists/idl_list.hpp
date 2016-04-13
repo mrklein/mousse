@@ -8,10 +8,13 @@
 //   mousse::IDLList
 // Description
 //   Intrusive doubly-linked list.
+
 #include "il_list.hpp"
 #include "dl_list_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class IDLList
 :
@@ -25,25 +28,27 @@ public:
     //- Construct given initial T
     IDLList(const T& a)
     :
-      ILList<DLListBase, T>(a)
+      ILList<DLListBase, T>{a}
     {}
     //- Construct from Istream using given Istream constructor class
     template<class INew>
     IDLList(Istream& is, const INew& inewt)
     :
-      ILList<DLListBase, T>(is, inewt)
+      ILList<DLListBase, T>{is, inewt}
     {}
     //- Construct from Istream
     IDLList(Istream& is)
     :
-      ILList<DLListBase, T>(is)
+      ILList<DLListBase, T>{is}
     {}
     //- Copy constructor with additional argument for clone
     template<class CloneArg>
     IDLList(const IDLList<T>& idll, const CloneArg& cloneArg)
     :
-      ILList<DLListBase, T>(idll, cloneArg)
+      ILList<DLListBase, T>{idll, cloneArg}
     {}
 };
+
 }  // namespace mousse
+
 #endif

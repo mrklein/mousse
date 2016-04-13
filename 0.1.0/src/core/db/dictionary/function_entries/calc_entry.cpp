@@ -11,26 +11,27 @@
 #include "istring_stream.hpp"
 #include "primitive_entry.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
-namespace functionEntries
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(calcEntry, 0);
-  ADD_TO_MEMBER_FUNCTION_SELECTION_TABLE
-  (
-    functionEntry,
-    calcEntry,
-    execute,
-    dictionaryIstream
-  );
-  ADD_TO_MEMBER_FUNCTION_SELECTION_TABLE
-  (
-    functionEntry,
-    calcEntry,
-    execute,
-    primitiveEntryIstream
-  );
+namespace mousse {
+namespace functionEntries {
+
+DEFINE_TYPE_NAME_AND_DEBUG(calcEntry, 0);
+ADD_TO_MEMBER_FUNCTION_SELECTION_TABLE
+(
+  functionEntry,
+  calcEntry,
+  execute,
+  dictionaryIstream
+);
+ADD_TO_MEMBER_FUNCTION_SELECTION_TABLE
+(
+  functionEntry,
+  calcEntry,
+  execute,
+  primitiveEntryIstream
+);
+
 }
 }
 
@@ -42,7 +43,7 @@ bool mousse::functionEntries::calcEntry::execute
   Istream& is
 )
 {
-  Info<< "Using #calcEntry at line " << is.lineNumber()
+  Info << "Using #calcEntry at line " << is.lineNumber()
     << " in file " <<  parentDict.name() << endl;
   dynamicCode::checkSecurity
   (
@@ -50,34 +51,36 @@ bool mousse::functionEntries::calcEntry::execute
     parentDict
   );
   // Read string
-  string s(is);
+  string s{is};
   // Make sure we stop this entry
   //is.putBack(token(token::END_STATEMENT, is.lineNumber()));
   // Construct codeDict for codeStream
   // must reference parent for stringOps::expand to work nicely.
   dictionary codeSubDict;
   codeSubDict.add("code", "os << (" + s + ");");
-  dictionary codeDict(parentDict, codeSubDict);
+  dictionary codeDict{parentDict, codeSubDict};
   codeStream::streamingFunctionType function = codeStream::getFunction
   (
     parentDict,
     codeDict
   );
   // use function to write stream
-  OStringStream os(is.format());
+  OStringStream os{is.format()};
   (*function)(os, parentDict);
   // get the entry from this stream
   IStringStream resultStream(os.str());
   thisEntry.read(parentDict, resultStream);
   return true;
 }
+
+
 bool mousse::functionEntries::calcEntry::execute
 (
   dictionary& parentDict,
   Istream& is
 )
 {
-  Info<< "Using #calcEntry at line " << is.lineNumber()
+  Info << "Using #calcEntry at line " << is.lineNumber()
     << " in file " <<  parentDict.name() << endl;
   dynamicCode::checkSecurity
   (
@@ -85,24 +88,24 @@ bool mousse::functionEntries::calcEntry::execute
     parentDict
   );
   // Read string
-  string s(is);
+  string s{is};
   // Make sure we stop this entry
   //is.putBack(token(token::END_STATEMENT, is.lineNumber()));
   // Construct codeDict for codeStream
   // must reference parent for stringOps::expand to work nicely.
   dictionary codeSubDict;
   codeSubDict.add("code", "os << (" + s + ");");
-  dictionary codeDict(parentDict, codeSubDict);
+  dictionary codeDict{parentDict, codeSubDict};
   codeStream::streamingFunctionType function = codeStream::getFunction
   (
     parentDict,
     codeDict
   );
   // use function to write stream
-  OStringStream os(is.format());
+  OStringStream os{is.format()};
   (*function)(os, parentDict);
   // get the entry from this stream
-  IStringStream resultStream(os.str());
+  IStringStream resultStream{os.str()};
   parentDict.read(resultStream);
   return true;
 }

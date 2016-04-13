@@ -17,17 +17,12 @@
 //   (eg, the \c ~OpenFOAM/ expansion) is retained.
 // See Also
 //   fileName, string::expand()
-// SourceFiles
-//   include_entry.cpp
-
 
 #include "function_entry.hpp"
 
-namespace mousse
-{
 
-namespace functionEntries
-{
+namespace mousse {
+namespace functionEntries {
 
 class includeEntry
 :

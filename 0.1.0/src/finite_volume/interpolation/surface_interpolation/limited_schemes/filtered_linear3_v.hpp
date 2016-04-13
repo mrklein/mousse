@@ -14,11 +14,12 @@
 //   the direction of maximum gradient with both neighbouring cell gradients
 //   and introduce small amounts of upwind in order to damp these modes.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   filtered_linear3_v.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class LimiterFunc>
 class filteredLinear3VLimiter
 :
@@ -32,10 +33,9 @@ class filteredLinear3VLimiter
 public:
   filteredLinear3VLimiter(Istream& is)
   :
-    k_(readScalar(is))
+    k_{readScalar(is)}
   {
-    if (k_ < 0 || k_ > 1)
-    {
+    if (k_ < 0 || k_ > 1) {
       FATAL_IO_ERROR_IN("filteredLinear3VLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"

@@ -14,14 +14,12 @@
 // Note
 //   Although a blending factor of 0 and 1 is permitted, it is more efficient
 //   just to use the underlying scheme directly.
-// SourceFiles
-//   fixed_blended.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class fixedBlended
 :
@@ -31,9 +29,9 @@ class fixedBlended
     const scalar blendingFactor_;
   // Private Member Functions
     //- Scheme 1
-    tmp<surfaceInterpolationScheme<Type> > tScheme1_;
+    tmp<surfaceInterpolationScheme<Type>> tScheme1_;
     //- Scheme 2
-    tmp<surfaceInterpolationScheme<Type> > tScheme2_;
+    tmp<surfaceInterpolationScheme<Type>> tScheme2_;
 public:
   //- Runtime type information
   TYPE_NAME("fixedBlended");
@@ -58,15 +56,13 @@ public:
         surfaceInterpolationScheme<Type>::New(mesh, is)
       }
     {
-      if (blendingFactor_ < 0 || blendingFactor_ > 1)
-      {
+      if (blendingFactor_ < 0 || blendingFactor_ > 1) {
         FATAL_IO_ERROR_IN("fixedBlended(const fvMesh&, Istream&)", is)
           << "coefficient = " << blendingFactor_
           << " should be >= 0 and <= 1"
           << exit(FatalIOError);
       }
-      if (surfaceInterpolationScheme<Type>::debug)
-      {
+      if (surfaceInterpolationScheme<Type>::debug) {
         Info
           << "fixedBlended: " << blendingFactor_
           << "*" << tScheme1_().type()
@@ -94,15 +90,13 @@ public:
         surfaceInterpolationScheme<Type>::New(mesh, faceFlux, is)
       }
     {
-      if (blendingFactor_ < 0 || blendingFactor_ > 1)
-      {
+      if (blendingFactor_ < 0 || blendingFactor_ > 1) {
         FATAL_IO_ERROR_IN("fixedBlended(const fvMesh&, Istream&)", is)
           << "coefficient = " << blendingFactor_
           << " should be >= 0 and <= 1"
           << exit(FatalIOError);
       }
-      if (surfaceInterpolationScheme<Type>::debug)
-      {
+      if (surfaceInterpolationScheme<Type>::debug) {
         Info
           << "fixedBlended: " << blendingFactor_
           << "*" << tScheme1_().type()
@@ -117,19 +111,18 @@ public:
     fixedBlended& operator=(const fixedBlended&) = delete;
   // Member Functions
     //- Return the interpolation weighting factors
-    tmp<surfaceScalarField>
-    weights
+    tmp<surfaceScalarField> weights
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const
     {
       return
         blendingFactor_*tScheme1_().weights(vf)
-       + (scalar(1.0) - blendingFactor_)*tScheme2_().weights(vf);
+        + (scalar(1.0) - blendingFactor_)*tScheme2_().weights(vf);
     }
     //- Return the face-interpolate of the given cell field
     //  with explicit correction
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     interpolate
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
@@ -137,7 +130,7 @@ public:
     {
       return
         blendingFactor_*tScheme1_().interpolate(vf)
-       + (scalar(1.0) - blendingFactor_)*tScheme2_().interpolate(vf);
+        + (scalar(1.0) - blendingFactor_)*tScheme2_().interpolate(vf);
     }
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
@@ -146,49 +139,33 @@ public:
     }
     //- Return the explicit correction to the face-interpolate
     //  for the given field
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     correction
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const
     {
-      if (tScheme1_().corrected())
-      {
-        if (tScheme2_().corrected())
-        {
+      if (tScheme1_().corrected()) {
+        if (tScheme2_().corrected()) {
           return
           (
-            blendingFactor_
-           * tScheme1_().correction(vf)
-           + (scalar(1.0) - blendingFactor_)
-           * tScheme2_().correction(vf)
+            blendingFactor_*tScheme1_().correction(vf)
+            + (scalar(1.0) - blendingFactor_)*tScheme2_().correction(vf)
           );
+        } else {
+          return blendingFactor_* tScheme1_().correction(vf);
         }
-        else
+      } else if (tScheme2_().corrected()) {
+        return (scalar(1.0) - blendingFactor_)*tScheme2_().correction(vf);
+      } else {
+        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
         {
-          return
-          (
-            blendingFactor_
-           * tScheme1_().correction(vf)
-          );
-        }
-      }
-      else if (tScheme2_().corrected())
-      {
-        return
-        (
-          (scalar(1.0) - blendingFactor_)
-         * tScheme2_().correction(vf)
-        );
-      }
-      else
-      {
-        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-        (
           NULL
-        );
+        };
       }
     }
 };
+
 }  // namespace mousse
+
 #endif

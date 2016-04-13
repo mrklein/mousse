@@ -8,12 +8,14 @@
 //   mousse::clock
 // Description
 //   Read access to the system clock with formatting.
-// SourceFiles
-//   clock.cpp
+
 #include <ctime>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class string;
+
 class clock
 {
   // Private data
@@ -46,5 +48,7 @@ public:
     //- Returns wall-clock time from last call of clockTimeIncrement()
     time_t clockTimeIncrement() const;
 };
+
 }  // namespace mousse
+
 #endif

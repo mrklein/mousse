@@ -1,1 +1,1 @@
-../sets/point_sources/cell_to_point/cell_to_point.hpp
+../sets/point_sources/cell_to_point.hpp

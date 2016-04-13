@@ -10,14 +10,15 @@
 //   Harmonic-mean differencing scheme class.
 //   This scheme interpolates 1/field using a scheme specified at run-time
 //   and return the reciprocal of the interpolate.
-// SourceFiles
-//   harmonic.cpp
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "reverse_linear.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class harmonic
 :
   public surfaceInterpolationScheme<scalar>
@@ -78,5 +79,8 @@ public:
       return 1.0/(reverseLinear<scalar>(vf.mesh()).interpolate(1.0/vf));
     }
 };
+
 }  // namespace mousse
+
 #endif
+

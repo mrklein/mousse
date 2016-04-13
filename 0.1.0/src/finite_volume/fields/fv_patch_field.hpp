@@ -14,17 +14,13 @@
 //   The next level of derivation covers all the specialised types with
 //   specific evaluation proceedures, particularly with respect to specific
 //   fields.
-// SourceFiles
-//   fv_patch_field.cpp
-//   fv_patch_field_new.cpp
-
 
 #include "fv_patch.hpp"
 #include "dimensioned_field.hpp"
 #include "pstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class objectRegistry;
@@ -39,6 +35,7 @@ template<class Type>
 class fvMatrix;
 template<class Type>
 Ostream& operator<<(Ostream&, const fvPatchField<Type>&);
+
 
 template<class Type>
 class fvPatchField
@@ -430,7 +427,7 @@ public:
         NOT_IMPLEMENTED
         (
           type()
-         + "::gradientInternalCoeffs(const scalarField& deltaCoeffs)"
+          + "::gradientInternalCoeffs(const scalarField& deltaCoeffs)"
         );
         return *this;
       }
@@ -454,7 +451,7 @@ public:
         NOT_IMPLEMENTED
         (
           type()
-         + "::gradientBoundaryCoeffs(const scalarField& deltaCoeffs)"
+          + "::gradientBoundaryCoeffs(const scalarField& deltaCoeffs)"
         );
         return *this;
       }
@@ -516,10 +513,12 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fv_patch_field.cpp"
-#   include "calculated_fv_patch_field.hpp"
-#endif
+
+#include "fv_patch_field.ipp"
+
+
+#include "calculated_fv_patch_field.hpp"
+
 
 #define MAKE_FV_PATCH_FIELD(fvPatchTypeField)                                 \
                                                                               \
@@ -532,6 +531,7 @@ int fvPatchTypeField::disallowGenericFvPatchField                             \
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(fvPatchTypeField, patch);            \
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(fvPatchTypeField, patchMapper);      \
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(fvPatchTypeField, dictionary);
+
 
 #define ADD_TO_PATCH_FIELD_RUN_TIME_SELECTION\
 (PatchTypeField, typePatchTypeField)                                          \
@@ -553,6 +553,7 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(fvPatchTypeField, dictionary);
     typePatchTypeField,                                                       \
     dictionary                                                                \
   );
+
 
 // use with caution
 #define ADD_REMOVABLE_TO_PATCH_FIELD_RUN_TIME_SELECTION                       \
@@ -577,10 +578,12 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(fvPatchTypeField, dictionary);
     dictionary                                                                \
   );
 
+
 // for non-templated patch fields
 #define MAKE_PATCH_TYPE_FIELD(PatchTypeField, typePatchTypeField)             \
   DEFINE_TYPE_NAME_AND_DEBUG(typePatchTypeField, 0);                          \
   ADD_TO_PATCH_FIELD_RUN_TIME_SELECTION(PatchTypeField, typePatchTypeField)
+
 
 // for non-templated patch fields - use with caution
 #define MAKE_REMOVABLE_PATCH_TYPE_FIELD(PatchTypeField, typePatchTypeField)   \
@@ -591,10 +594,12 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(fvPatchTypeField, dictionary);
     typePatchTypeField\
   )
 
+
 // for templated patch fields
 #define MAKE_TEMPLATE_PATCH_TYPE_FIELD(PatchTypeField, typePatchTypeField)    \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(typePatchTypeField, 0);           \
   ADD_TO_PATCH_FIELD_RUN_TIME_SELECTION(PatchTypeField, typePatchTypeField)
+
 
 #define MAKE_PATCH_FIELDS(type)                                               \
   MAKE_TEMPLATE_PATCH_TYPE_FIELD                                              \
@@ -623,6 +628,7 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(fvPatchTypeField, dictionary);
     type##FvPatchTensorField                                                  \
   );
 
+
 #define MAKE_PATCH_FIELDS_TYPE_NAME(type)                                     \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(type##FvPatchScalarField, 0);     \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(type##FvPatchVectorField, 0);     \
@@ -634,7 +640,8 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(fvPatchTypeField, dictionary);
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(type##FvPatchSymmTensorField, 0); \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(type##FvPatchTensorField, 0)
 
-#define MAKE_PATCH_TYPE_FIELD_TYPEDEFS(type)                                      \
+
+#define MAKE_PATCH_TYPE_FIELD_TYPEDEFS(type)                                  \
   typedef type##FvPatchField<scalar> type##FvPatchScalarField;                \
   typedef type##FvPatchField<vector> type##FvPatchVectorField;                \
   typedef type##FvPatchField<sphericalTensor>                                 \

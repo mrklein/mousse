@@ -28,12 +28,13 @@
 //   \endverbatim
 //   For this to work correctly, the coordinateSystem constructor must be
 //   supplied with both a dictionary and an objectRegistry.
-// SourceFiles
-//   coordinate_systems.cpp
+
 #include "coordinate_system.hpp"
 #include "ioptr_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class coordinateSystems
 :
   public IOPtrList<coordinateSystem>
@@ -78,5 +79,6 @@ public:
     //- Write data
     bool writeData(Ostream&) const;
 };
+
 }  // namespace mousse
 #endif

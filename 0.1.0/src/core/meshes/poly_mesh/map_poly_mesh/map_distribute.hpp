@@ -87,9 +87,7 @@
 //     |      |
 //     |      |
 //     +------+ 0
-// SourceFiles
-//   map_distribute.cpp
-//   map_distribute_templates.cpp
+
 #include "transform_list.hpp"
 #include "label_list.hpp"
 #include "label_pair.hpp"
@@ -98,12 +96,16 @@
 #include "map.hpp"
 #include "vector_tensor_transform.hpp"
 #include "coupled_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mapPolyMesh;
 class globalIndex;
 class PstreamBuffers;
 class globalIndexAndTransform;
+
+
 class mapDistribute
 {
   // Private data
@@ -220,8 +222,7 @@ public:
       void operator()(const coupledPolyPatch& cpp, Container<Type>& map)
       const
       {
-        if (!cpp.parallel())
-        {
+        if (!cpp.parallel()) {
           transformList(cpp.forwardT(), map);
         }
       }
@@ -238,12 +239,9 @@ public:
       ) const
       {
         pointField pfld(fld.xfer());
-        if (forward)
-        {
+        if (forward) {
           fld = vt.transformPosition(pfld);
-        }
-        else
-        {
+        } else {
           fld = vt.invTransformPosition(pfld);
         }
       }
@@ -254,8 +252,7 @@ public:
         List<List<point> >& flds
       ) const
       {
-        FOR_ALL(flds, i)
-        {
+        FOR_ALL(flds, i) {
           operator()(vt, forward, flds[i]);
         }
       }
@@ -268,16 +265,14 @@ public:
       void operator()(const coupledPolyPatch& cpp, Container<point>& map)
       const
       {
-        Field<point> fld(map.size());
+        Field<point> fld{map.size()};
         label i = 0;
-        FOR_ALL_CONST_ITER(typename Container<point>, map, iter)
-        {
+        FOR_ALL_CONST_ITER(typename Container<point>, map, iter) {
           fld[i++] = iter();
         }
         cpp.transformPosition(fld);
         i = 0;
-        FOR_ALL_ITER(typename Container<point>, map, iter)
-        {
+        FOR_ALL_ITER(typename Container<point>, map, iter) {
           iter() = fld[i++];
         }
       }
@@ -558,6 +553,7 @@ public:
     //- Write dictionary to Ostream
     friend Ostream& operator<<(Ostream&, const mapDistribute&);
 };
+
 template<>
 void mapDistribute::transform::operator()
 (
@@ -634,7 +630,7 @@ void mapDistribute::transform::operator()
   EdgeMap<bool>&
 ) const;
 }  // namespace mousse
-#ifdef NoRepository
-#   include "map_distribute_templates.cpp"
-#endif
+
+#include "map_distribute.ipp"
+
 #endif

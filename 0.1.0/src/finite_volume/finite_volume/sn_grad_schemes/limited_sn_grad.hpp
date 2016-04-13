@@ -17,17 +17,12 @@
 //     limited <corrected scheme> <coefficient>;
 //     or
 //     limited <coefficient>;  // Backward compatibility
-// SourceFiles
-//   limited_sn_grad.cpp
-
 
 #include "corrected_sn_grad.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Type>
 class limitedSnGrad
@@ -35,26 +30,23 @@ class limitedSnGrad
   public snGradScheme<Type>
 {
   // Private data
-    tmp<snGradScheme<Type> > correctedScheme_;
+    tmp<snGradScheme<Type>> correctedScheme_;
 
     scalar limitCoeff_;
 
   // Private Member Functions
     //- Lookup function for the corrected to support backward compatibility
     //  of dictionary specification
-    tmp<snGradScheme<Type> > lookupCorrectedScheme(Istream& schemeData)
+    tmp<snGradScheme<Type>> lookupCorrectedScheme(Istream& schemeData)
     {
       token nextToken{schemeData};
-      if (nextToken.isNumber())
-      {
+      if (nextToken.isNumber()) {
         limitCoeff_ = nextToken.number();
         return tmp<snGradScheme<Type>>
         {
           new correctedSnGrad<Type>{this->mesh()}
         };
-      }
-      else
-      {
+      } else {
         schemeData.putBack(nextToken);
         tmp<snGradScheme<Type>> tcorrectedScheme
         {
@@ -85,8 +77,7 @@ public:
       snGradScheme<Type>{mesh},
       correctedScheme_{lookupCorrectedScheme(schemeData)}
     {
-      if (limitCoeff_ < 0 || limitCoeff_ > 1)
-      {
+      if (limitCoeff_ < 0 || limitCoeff_ > 1) {
         FATAL_IO_ERROR_IN
         (
           "limitedSnGrad(const fvMesh& mesh, Istream& schemeData) : ",
@@ -123,15 +114,13 @@ public:
 
     //- Return the explicit correction to the limitedSnGrad
     //  for the given field
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     correction(const GeometricField<Type, fvPatchField, volMesh>&) const;
 };
 
 }  // namespace fv
-
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "limited_sn_grad.cpp"
-#endif
+#include "limited_sn_grad.ipp"
+
 #endif

@@ -8,14 +8,11 @@
 //   mousse::diagonalSolver
 // Description
 //   mousse::diagonalSolver
-// SourceFiles
-//   diagonal_solver.cpp
-
 
 #include "ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class diagonalSolver
 :

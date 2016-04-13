@@ -23,10 +23,6 @@
 //     +--------+->X
 //   \endverbatim
 //   For the front plane add 4 to the point labels.
-// SourceFiles
-//   tree_bound_box.cpp
-//   tree_bound_box_templates.cpp
-
 
 #include "bound_box.hpp"
 #include "direction.hpp"
@@ -34,8 +30,8 @@
 #include "face_list.hpp"
 #include "random.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class Random;
 
@@ -308,6 +304,7 @@ template<>
 inline bool contiguous<treeBoundBox>() {return contiguous<boundBox>();}
 }  // namespace mousse
 
+
 // Constructors 
 inline mousse::treeBoundBox::treeBoundBox()
 :
@@ -342,7 +339,7 @@ inline mousse::scalar mousse::treeBoundBox::typDim() const
 
 inline mousse::point mousse::treeBoundBox::corner(const direction octant) const
 {
-  return point
+  return // point
   {
     (octant & RIGHTHALF) ? max().x() : min().x(),
     (octant & TOPHALF)   ? max().y() : min().y(),
@@ -367,16 +364,13 @@ inline mousse::direction mousse::treeBoundBox::subOctant
 )
 {
   direction octant = 0;
-  if (pt.x() > mid.x())
-  {
+  if (pt.x() > mid.x()) {
     octant |= treeBoundBox::RIGHTHALF;
   }
-  if (pt.y() > mid.y())
-  {
+  if (pt.y() > mid.y()) {
     octant |= treeBoundBox::TOPHALF;
   }
-  if (pt.z() > mid.z())
-  {
+  if (pt.z() > mid.z()) {
     octant |= treeBoundBox::FRONTHALF;
   }
   return octant;
@@ -406,28 +400,19 @@ inline mousse::direction mousse::treeBoundBox::subOctant
 {
   direction octant = 0;
   onEdge = false;
-  if (pt.x() > mid.x())
-  {
+  if (pt.x() > mid.x()) {
     octant |= treeBoundBox::RIGHTHALF;
-  }
-  else if (pt.x() == mid.x())
-  {
+  } else if (pt.x() == mid.x()) {
     onEdge = true;
   }
-  if (pt.y() > mid.y())
-  {
+  if (pt.y() > mid.y()) {
     octant |= treeBoundBox::TOPHALF;
-  }
-  else if (pt.y() == mid.y())
-  {
+  } else if (pt.y() == mid.y()) {
     onEdge = true;
   }
-  if (pt.z() > mid.z())
-  {
+  if (pt.z() > mid.z()) {
     octant |= treeBoundBox::FRONTHALF;
-  }
-  else if (pt.z() == mid.z())
-  {
+  } else if (pt.z() == mid.z()) {
     onEdge = true;
   }
   return octant;
@@ -448,39 +433,27 @@ inline mousse::direction mousse::treeBoundBox::subOctant
 {
   direction octant = 0;
   onEdge = false;
-  if (pt.x() > mid.x())
-  {
+  if (pt.x() > mid.x()) {
     octant |= treeBoundBox::RIGHTHALF;
-  }
-  else if (pt.x() == mid.x())
-  {
+  } else if (pt.x() == mid.x()) {
     onEdge = true;
-    if (dir.x() > 0)
-    {
+    if (dir.x() > 0) {
       octant |= treeBoundBox::RIGHTHALF;
     }
   }
-  if (pt.y() > mid.y())
-  {
+  if (pt.y() > mid.y()) {
     octant |= treeBoundBox::TOPHALF;
-  }
-  else if (pt.y() == mid.y())
-  {
+  } else if (pt.y() == mid.y()) {
     onEdge = true;
-    if (dir.y() > 0)
-    {
+    if (dir.y() > 0) {
       octant |= treeBoundBox::TOPHALF;
     }
   }
-  if (pt.z() > mid.z())
-  {
+  if (pt.z() > mid.z()) {
     octant |= treeBoundBox::FRONTHALF;
-  }
-  else if (pt.z() == mid.z())
-  {
+  } else if (pt.z() == mid.z()) {
     onEdge = true;
-    if (dir.z() > 0)
-    {
+    if (dir.z() > 0) {
       octant |= treeBoundBox::FRONTHALF;
     }
   }
@@ -498,61 +471,45 @@ inline void mousse::treeBoundBox::searchOrder
 {
   vector dist = midpoint() - pt;
   direction octant = 0;
-  if (dist.x() < 0)
-  {
+  if (dist.x() < 0) {
     octant |= treeBoundBox::RIGHTHALF;
     dist.x() *= -1;
   }
-  if (dist.y() < 0)
-  {
+  if (dist.y() < 0) {
     octant |= treeBoundBox::TOPHALF;
     dist.y() *= -1;
   }
-  if (dist.z() < 0)
-  {
+  if (dist.z() < 0) {
     octant |= treeBoundBox::FRONTHALF;
     dist.z() *= -1;
   }
   direction min = 0;
   direction mid = 0;
   direction max = 0;
-  if (dist.x() < dist.y())
-  {
-    if (dist.y() < dist.z())
-    {
+  if (dist.x() < dist.y()) {
+    if (dist.y() < dist.z()) {
       min = treeBoundBox::RIGHTHALF;
       mid = treeBoundBox::TOPHALF;
       max = treeBoundBox::FRONTHALF;
-    }
-    else if (dist.z() < dist.x())
-    {
+    } else if (dist.z() < dist.x()) {
       min = treeBoundBox::FRONTHALF;
       mid = treeBoundBox::RIGHTHALF;
       max = treeBoundBox::TOPHALF;
-    }
-    else
-    {
+    } else {
       min = treeBoundBox::RIGHTHALF;
       mid = treeBoundBox::FRONTHALF;
       max = treeBoundBox::TOPHALF;
     }
-  }
-  else
-  {
-    if (dist.z() < dist.y())
-    {
+  } else {
+    if (dist.z() < dist.y()) {
       min = treeBoundBox::FRONTHALF;
       mid = treeBoundBox::TOPHALF;
       max = treeBoundBox::RIGHTHALF;
-    }
-    else if (dist.x() < dist.z())
-    {
+    } else if (dist.x() < dist.z()) {
       min = treeBoundBox::TOPHALF;
       mid = treeBoundBox::RIGHTHALF;
       max = treeBoundBox::FRONTHALF;
-    }
-    else
-    {
+    } else {
       min = treeBoundBox::TOPHALF;
       mid = treeBoundBox::FRONTHALF;
       max = treeBoundBox::RIGHTHALF;
@@ -580,12 +537,11 @@ inline mousse::treeBoundBox mousse::treeBoundBox::extend
   const scalar s
 ) const
 {
-  treeBoundBox bb(*this);
+  treeBoundBox bb{*this};
   vector newSpan = bb.span();
   // Make 3D
   scalar minSpan = s * mousse::mag(newSpan);
-  for (direction dir = 0; dir < vector::nComponents; dir++)
-  {
+  for (direction dir = 0; dir < vector::nComponents; dir++) {
     newSpan[dir] = mousse::max(newSpan[dir], minSpan);
   }
   bb.min() -= cmptMultiply(s * rndGen.vector01(), newSpan);
@@ -593,7 +549,6 @@ inline mousse::treeBoundBox mousse::treeBoundBox::extend
   return bb;
 }
 
-#ifdef NoRepository
-#   include "tree_bound_box_templates.cpp"
-#endif
+#include "tree_bound_box.ipp"
+
 #endif

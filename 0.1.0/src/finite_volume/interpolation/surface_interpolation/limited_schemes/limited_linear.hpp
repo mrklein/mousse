@@ -11,11 +11,12 @@
 //   TVD limited linear differencing scheme based on r obtained from the
 //   LimiterFunc class.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   limited_linear.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class LimiterFunc>
 class limitedLinearLimiter
 :
@@ -28,8 +29,7 @@ public:
   :
     k_{readScalar(is)}
   {
-    if (k_ < 0 || k_ > 1)
-    {
+    if (k_ < 0 || k_ > 1) {
       FATAL_IO_ERROR_IN("limitedLinearLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
@@ -57,5 +57,8 @@ public:
     return max(min(twoByk_*r, 1), 0);
   }
 };
+
 }  // namespace mousse
+
 #endif
+

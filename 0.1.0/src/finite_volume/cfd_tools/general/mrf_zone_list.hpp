@@ -8,17 +8,20 @@
 //   mousse::MRFZoneList
 // Description
 //   List container for MRF zomes
-// SourceFiles
-//   mrf_zone_list.cpp
+
 #include "fv_mesh.hpp"
 #include "dictionary.hpp"
 #include "fv_matrices_fwd.hpp"
 #include "mrf_zone.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class MRFZoneList;
 Ostream& operator<<(Ostream& os, const MRFZoneList& models);
+
+
 class MRFZoneList
 :
   PtrList<MRFZone>

@@ -13,10 +13,6 @@
 //   e.g. fixedValuePointPatchField derived from the generic
 //   valuePointPatchField which ensures the values in the "internal field"
 //   are reset to the fixed-values by applying the stored values.
-// SourceFiles
-//   point_patch_field.cpp
-//   new_point_patch_field.cpp
-
 
 #include "point_patch.hpp"
 #include "dimensioned_field.hpp"
@@ -24,8 +20,8 @@
 #include "run_time_selection_tables.hpp"
 #include "pstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class objectRegistry;
@@ -36,12 +32,14 @@ class pointMesh;
 // Forward declaration of friend functions and operators
 template<class Type>
 class pointPatchField;
+
 template<class Type>
 Ostream& operator<<
 (
   Ostream&,
   const pointPatchField<Type>&
 );
+
 
 template<class Type>
 class pointPatchField
@@ -458,12 +456,13 @@ const pointPatchField<Type>& operator+
   return ppf;
 }
 }  // namespace mousse
+
 #include "point_patch_field_functions.hpp"
 
-#ifdef NoRepository
-#   include "point_patch_field.cpp"
-#   include "calculated_point_patch_field.hpp"
-#endif
+
+#include "point_patch_field.ipp"
+#include "calculated_point_patch_field.hpp"
+
 
 #define ADD_TO_POINT_PATCH_FIELD_RUN_TIME_SELECTION\
 (PatchTypeField, typePatchTypeField)                                          \
@@ -494,6 +493,7 @@ const pointPatchField<Type>& operator+
     PatchTypeField,                                                           \
     typePatchTypeField                                                        \
   )
+
 
 // for templated patch fields
 #define MAKE_TEMPLATE_POINT_PATCH_TYPE_FIELD\
@@ -532,6 +532,7 @@ const pointPatchField<Type>& operator+
     type##PointPatchTensorField                                               \
 );
 
+
 #define MAKE_POINT_PATCH_FIELDS_TYPE_NAME(type)                               \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(type##PointPatchScalarField, 0);  \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(type##PointPatchVectorField, 0);  \
@@ -545,6 +546,7 @@ const pointPatchField<Type>& operator+
     0                                                                         \
   );                                                                          \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(type##PointPatchTensorField, 0)
+
 
 #define MAKE_POINT_PATCH_FIELD_TYPEDEFS(type)                                 \
   typedef type##PointPatchField<scalar> type##PointPatchScalarField;          \

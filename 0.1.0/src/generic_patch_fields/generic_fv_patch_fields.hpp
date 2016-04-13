@@ -7,8 +7,13 @@
 
 #include "generic_fv_patch_field.hpp"
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD_TYPEDEFS(generic);
+
 }  // namespace mousse
+
 #endif
+

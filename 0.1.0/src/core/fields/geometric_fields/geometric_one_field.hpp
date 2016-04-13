@@ -12,11 +12,14 @@
 //   compile-time.
 //   Used for example as the density argument to a function written for
 //   compressible to be used for incompressible flow.
+
 #include "one_field_field.hpp"
 #include "dimension_set.hpp"
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class geometricOneField
 :
   public one
@@ -33,38 +36,52 @@ public:
     inline oneField oldTime() const;
     inline oneFieldField boundaryField() const;
 };
+
 inline const geometricOneField& operator*
 (
   const geometricOneField&,
   const geometricOneField&
 );
+
 inline const geometricOneField& operator/
 (
   const geometricOneField&,
   const geometricOneField&
 );
+
 }  // namespace mousse
+
 
 inline const mousse::dimensionSet& mousse::geometricOneField::dimensions() const
 {
   return dimless;
 }
+
+
 inline mousse::scalar mousse::geometricOneField::operator[](const label) const
 {
   return scalar{1};
 }
+
+
 inline mousse::oneField mousse::geometricOneField::field() const
 {
   return oneField();
 }
+
+
 inline mousse::oneField mousse::geometricOneField::oldTime() const
 {
   return oneField();
 }
+
+
 inline mousse::oneFieldField mousse::geometricOneField::boundaryField() const
 {
   return oneFieldField();
 }
+
+
 inline const mousse::geometricOneField& mousse::operator*
 (
   const geometricOneField& gof,
@@ -73,6 +90,8 @@ inline const mousse::geometricOneField& mousse::operator*
 {
   return gof;
 }
+
+
 inline const mousse::geometricOneField& mousse::operator/
 (
   const geometricOneField& gof,
@@ -81,4 +100,5 @@ inline const mousse::geometricOneField& mousse::operator/
 {
   return gof;
 }
+
 #endif

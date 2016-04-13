@@ -8,8 +8,12 @@
 #include "point.hpp"
 #include "face.hpp"
 #include "pyramid.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef pyramid<point, const point&, const face&> pyramidPointFaceRef;
+
 }  // namespace mousse
+
 #endif

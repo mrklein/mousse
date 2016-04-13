@@ -4,14 +4,12 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   interpolate_xy.cpp
-
 
 #include "scalar.hpp"
 #include "primitive_fields_fwd.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 Field<Type> interpolateXY
@@ -31,7 +29,7 @@ Type interpolateXY
 );
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "interpolate_xy.cpp"
-#endif
+
+#include "interpolate_xy.ipp"
+
 #endif

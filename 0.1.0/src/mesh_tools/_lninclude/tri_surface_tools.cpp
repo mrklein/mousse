@@ -1,1 +1,1 @@
-../tri_surface/tri_surface_tools/tri_surface_tools.cpp
+../tri_surface/tri_surface_tools.cpp

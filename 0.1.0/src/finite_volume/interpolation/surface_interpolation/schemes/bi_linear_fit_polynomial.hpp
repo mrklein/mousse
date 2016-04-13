@@ -10,9 +10,12 @@
 //   BiLinear polynomial for interpolation fitting.
 //   Can be used with the CentredFit scheme to create a biLinear surface
 //   interpolation scheme
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class biLinearFitPolynomial
 {
 public:
@@ -37,17 +40,18 @@ public:
       label curIdx = 0;
       coeffs[curIdx++] = weight;
       coeffs[curIdx++] = weight*d.x();
-      if (dim >= 2)
-      {
+      if (dim >= 2) {
         coeffs[curIdx++] = weight*d.y();
         coeffs[curIdx++] = weight*d.x()*d.y();
       }
-      if (dim == 3)
-      {
+      if (dim == 3) {
         coeffs[curIdx++] = weight*d.z();
         coeffs[curIdx++] = weight*d.x()*d.z();
       }
     }
 };
+
 }  // namespace mousse
+
 #endif
+

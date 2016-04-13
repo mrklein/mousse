@@ -10,21 +10,19 @@
 //   Abstract base-class for Time/database function objects.
 // See Also
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   function_object.cpp
-
 
 #include "type_info.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class Time;
 class polyMesh;
 class mapPolyMesh;
+
 
 class functionObject
 {

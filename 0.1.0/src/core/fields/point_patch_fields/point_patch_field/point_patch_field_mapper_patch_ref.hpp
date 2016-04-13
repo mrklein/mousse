@@ -9,11 +9,10 @@
 // Description
 //   mousse::pointPatchFieldMapperPatchRef
 
-
 #include "point_patch_field_mapper.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class pointPatchFieldMapperPatchRef
 :

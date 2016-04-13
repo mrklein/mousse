@@ -7,6 +7,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
+
 // Constructors 
 mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::
 pressureDirectedInletOutletVelocityFvPatchVectorField
@@ -24,6 +26,8 @@ pressureDirectedInletOutletVelocityFvPatchVectorField
   refGrad() = vector::zero;
   valueFraction() = 0.0;
 }
+
+
 mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::
 pressureDirectedInletOutletVelocityFvPatchVectorField
 (
@@ -38,6 +42,8 @@ pressureDirectedInletOutletVelocityFvPatchVectorField
   rhoName_{ptf.rhoName_},
   inletDir_{ptf.inletDir_, mapper}
 {}
+
+
 mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::
 pressureDirectedInletOutletVelocityFvPatchVectorField
 (
@@ -56,6 +62,8 @@ pressureDirectedInletOutletVelocityFvPatchVectorField
   refGrad() = vector::zero;
   valueFraction() = 0.0;
 }
+
+
 mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::
 pressureDirectedInletOutletVelocityFvPatchVectorField
 (
@@ -67,6 +75,8 @@ pressureDirectedInletOutletVelocityFvPatchVectorField
   rhoName_{pivpvf.rhoName_},
   inletDir_{pivpvf.inletDir_}
 {}
+
+
 mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::
 pressureDirectedInletOutletVelocityFvPatchVectorField
 (
@@ -79,6 +89,8 @@ pressureDirectedInletOutletVelocityFvPatchVectorField
   rhoName_{pivpvf.rhoName_},
   inletDir_{pivpvf.inletDir_}
 {}
+
+
 // Member Functions 
 void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::autoMap
 (
@@ -88,6 +100,8 @@ void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::autoMap
   mixedFvPatchVectorField::autoMap(m);
   inletDir_.autoMap(m);
 }
+
+
 void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::rmap
 (
   const fvPatchVectorField& ptf,
@@ -100,10 +114,11 @@ void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::rmap
     (ptf);
   inletDir_.rmap(tiptf.inletDir_, addr);
 }
+
+
 void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const surfaceScalarField& phi =
@@ -112,31 +127,29 @@ void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::updateCoeffs
     patch().patchField<surfaceScalarField, scalar>(phi);
   tmp<vectorField> n = patch().nf();
   tmp<scalarField> ndmagS = (n & inletDir_)*patch().magSf();
-  if (phi.dimensions() == dimVelocity*dimArea)
-  {
+  if (phi.dimensions() == dimVelocity*dimArea) {
     refValue() = inletDir_*phip/ndmagS;
-  }
-  else if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  } else if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
     const fvPatchField<scalar>& rhop =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     refValue() = inletDir_*phip/(rhop*ndmagS);
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "pressureDirectedInletOutletVelocityFvPatchVectorField::"
       "updateCoeffs()"
-    )   << "dimensions of phi are not correct"
-      << "\n    on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "dimensions of phi are not correct"
+    << "\n    on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   valueFraction() = 1.0 - pos(phip);
   mixedFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::write
 (
   Ostream& os
@@ -148,6 +161,8 @@ void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::write
   inletDir_.writeEntry("inletDirection", os);
   writeEntry("value", os);
 }
+
+
 // Member Operators 
 void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::operator=
 (
@@ -156,15 +171,18 @@ void mousse::pressureDirectedInletOutletVelocityFvPatchVectorField::operator=
 {
   fvPatchField<vector>::operator=
   (
-    valueFraction()*(inletDir_*(inletDir_ & pvf))
-   + (1 - valueFraction())*pvf
+    valueFraction()*(inletDir_*(inletDir_ & pvf)) + (1 - valueFraction())*pvf
   );
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   pressureDirectedInletOutletVelocityFvPatchVectorField
 );
+
 }
+

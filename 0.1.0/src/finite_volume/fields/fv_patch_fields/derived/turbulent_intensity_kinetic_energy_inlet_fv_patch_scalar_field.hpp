@@ -40,11 +40,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::inletOutletFvPatchField
-// SourceFiles
-//   turbulent_intensity_kinetic_energy_inlet_fv_patch_scalar_field.cpp
+
 #include "inlet_outlet_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class turbulentIntensityKineticEnergyInletFvPatchScalarField
 :
   public inletOutletFvPatchScalarField
@@ -90,12 +91,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new turbulentIntensityKineticEnergyInletFvPatchScalarField
-        (
-          *this
-        )
-      );
+      {
+        new turbulentIntensityKineticEnergyInletFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     turbulentIntensityKineticEnergyInletFvPatchScalarField
@@ -110,13 +108,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new turbulentIntensityKineticEnergyInletFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new turbulentIntensityKineticEnergyInletFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field

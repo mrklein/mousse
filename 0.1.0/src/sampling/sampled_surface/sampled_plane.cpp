@@ -7,12 +7,17 @@
 #include "poly_mesh.hpp"
 #include "vol_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(sampledPlane, 0);
 ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE(sampledSurface, sampledPlane, word, plane);
+
 }
+
+
 // Constructors 
 mousse::sampledPlane::sampledPlane
 (
@@ -29,12 +34,13 @@ mousse::sampledPlane::sampledPlane
   triangulate_{triangulate},
   needsUpdate_{true}
 {
-  if (debug && zoneKey_.size() && mesh.cellZones().findIndex(zoneKey_) < 0)
-  {
-    Info<< "cellZone " << zoneKey_
+  if (debug && zoneKey_.size() && mesh.cellZones().findIndex(zoneKey_) < 0) {
+    Info << "cellZone " << zoneKey_
       << " not found - using entire mesh" << endl;
   }
 }
+
+
 mousse::sampledPlane::sampledPlane
 (
   const word& name,
@@ -50,8 +56,7 @@ mousse::sampledPlane::sampledPlane
 {
   // make plane relative to the coordinateSystem (Cartesian)
   // allow lookup from global coordinate systems
-  if (dict.found("coordinateSystem"))
-  {
+  if (dict.found("coordinateSystem")) {
     coordinateSystem cs(mesh, dict.subDict("coordinateSystem"));
     point  base = cs.globalPosition(planeDesc().refPoint());
     vector norm = cs.globalVector(planeDesc().normal());
@@ -59,55 +64,58 @@ mousse::sampledPlane::sampledPlane
     static_cast<plane&>(*this) = plane(base, norm);
   }
   dict.readIfPresent("zone", zoneKey_);
-  if (debug && zoneKey_.size() && mesh.cellZones().findIndex(zoneKey_) < 0)
-  {
-    Info<< "cellZone " << zoneKey_
+  if (debug && zoneKey_.size() && mesh.cellZones().findIndex(zoneKey_) < 0) {
+    Info << "cellZone " << zoneKey_
       << " not found - using entire mesh" << endl;
   }
 }
+
+
 // Destructor 
 mousse::sampledPlane::~sampledPlane()
 {}
+
+
 // Member Functions 
 bool mousse::sampledPlane::needsUpdate() const
 {
   return needsUpdate_;
 }
+
+
 bool mousse::sampledPlane::expire()
 {
   // already marked as expired
-  if (needsUpdate_)
-  {
+  if (needsUpdate_) {
     return false;
   }
   sampledSurface::clearGeom();
   needsUpdate_ = true;
   return true;
 }
+
+
 bool mousse::sampledPlane::update()
 {
-  if (!needsUpdate_)
-  {
+  if (!needsUpdate_) {
     return false;
   }
   sampledSurface::clearGeom();
   labelList selectedCells = mesh().cellZones().findMatching(zoneKey_).used();
-  if (selectedCells.empty())
-  {
+  if (selectedCells.empty()) {
     reCut(mesh(), triangulate_);
-  }
-  else
-  {
+  } else {
     reCut(mesh(), triangulate_, selectedCells);
   }
-  if (debug)
-  {
+  if (debug) {
     print(Pout);
-    Pout<< endl;
+    Pout << endl;
   }
   needsUpdate_ = false;
   return true;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::sampledPlane::sample
 (
   const volScalarField& vField
@@ -115,6 +123,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledPlane::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledPlane::sample
 (
   const volVectorField& vField
@@ -122,6 +132,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledPlane::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField> mousse::sampledPlane::sample
 (
   const volSphericalTensorField& vField
@@ -129,6 +141,8 @@ mousse::tmp<mousse::sphericalTensorField> mousse::sampledPlane::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledPlane::sample
 (
   const volSymmTensorField& vField
@@ -136,6 +150,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledPlane::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledPlane::sample
 (
   const volTensorField& vField
@@ -143,6 +159,8 @@ mousse::tmp<mousse::tensorField> mousse::sampledPlane::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::sampledPlane::interpolate
 (
   const interpolation<scalar>& interpolator
@@ -150,6 +168,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledPlane::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledPlane::interpolate
 (
   const interpolation<vector>& interpolator
@@ -157,6 +177,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledPlane::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField> mousse::sampledPlane::interpolate
 (
   const interpolation<sphericalTensor>& interpolator
@@ -164,6 +186,8 @@ mousse::tmp<mousse::sphericalTensorField> mousse::sampledPlane::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledPlane::interpolate
 (
   const interpolation<symmTensor>& interpolator
@@ -171,6 +195,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledPlane::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledPlane::interpolate
 (
   const interpolation<tensor>& interpolator
@@ -178,12 +204,15 @@ mousse::tmp<mousse::tensorField> mousse::sampledPlane::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 void mousse::sampledPlane::print(Ostream& os) const
 {
-  os  << "sampledPlane: " << name() << " :"
+  os << "sampledPlane: " << name() << " :"
     << "  base:" << refPoint()
     << "  normal:" << normal()
     << "  triangulate:" << triangulate_
     << "  faces:" << faces().size()
     << "  points:" << points().size();
 }
+

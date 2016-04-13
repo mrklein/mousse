@@ -10,11 +10,12 @@
 //   Selector class for finite volume differencing schemes.
 //   fvMesh is derived from fvShemes so that all fields have access to the
 //   fvSchemes from the mesh reference they hold.
-// SourceFiles
-//   fv_schemes.cpp
+
 #include "iodictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvSchemes
 :
   public IOdictionary
@@ -80,5 +81,7 @@ public:
       //- Read the fvSchemes
       bool read();
 };
+
 }  // namespace mousse
+
 #endif

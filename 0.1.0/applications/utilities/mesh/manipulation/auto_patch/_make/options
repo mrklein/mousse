@@ -1,0 +1,7 @@
+EXE_INC = \
+    -I$(LIB_SRC)/mesh_tools/_lninclude \
+    -I$(LIB_SRC)/dynamic_mesh/_lninclude
+
+EXE_LIBS = \
+    -lmousse_dynamic_mesh \
+    -lmousse_mesh_tools

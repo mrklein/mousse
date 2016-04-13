@@ -1,0 +1,8 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finite_volume/_lninclude \
+    -I$(LIB_SRC)/turbulence_models \
+    -I$(LIB_SRC)/turbulence_models/incompressible/ras/_lninclude \
+    -I$(LIB_SRC)/transport_models
+
+LIB_LIBS = \
+    -lmousse_finite_volume

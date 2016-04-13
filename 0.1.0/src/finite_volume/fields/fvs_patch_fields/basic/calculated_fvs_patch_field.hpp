@@ -8,11 +8,12 @@
 //   mousse::calculatedFvsPatchField
 // Description
 //   mousse::calculatedFvsPatchField
-// SourceFiles
-//   calculated_fvs_patch_field.cpp
+
 #include "fvs_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class calculatedFvsPatchField
 :
@@ -49,12 +50,12 @@ public:
       const calculatedFvsPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone() const
+    virtual tmp<fvsPatchField<Type>> clone() const
     {
-      return tmp<fvsPatchField<Type> >
-      (
-        new calculatedFvsPatchField<Type>(*this)
-      );
+      return tmp<fvsPatchField<Type>>
+      {
+        new calculatedFvsPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     calculatedFvsPatchField
@@ -63,15 +64,15 @@ public:
       const DimensionedField<Type, surfaceMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvsPatchField<Type> > clone
+    virtual tmp<fvsPatchField<Type>> clone
     (
       const DimensionedField<Type, surfaceMesh>& iF
     ) const
     {
-      return tmp<fvsPatchField<Type> >
-      (
-        new calculatedFvsPatchField<Type>(*this, iF)
-      );
+      return tmp<fvsPatchField<Type>>
+      {
+        new calculatedFvsPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -84,7 +85,7 @@ public:
       }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "calculated_fvs_patch_field.cpp"
-#endif
+
+#include "calculated_fvs_patch_field.ipp"
+
 #endif

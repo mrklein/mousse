@@ -4,6 +4,7 @@
 
 #include "time_selector.hpp"
 #include "calc_type.hpp"
+
 int main(int argc, char *argv[])
 {
   mousse::timeSelector::addOptions();
@@ -34,12 +35,12 @@ int main(int argc, char *argv[])
   FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
-    mousse::Info<< "Time = " << runTime.timeName() << mousse::endl;
+    mousse::Info << "Time = " << runTime.timeName() << mousse::endl;
     mesh.readUpdate();
     utility().tryCalc(args, runTime, mesh);
-    mousse::Info<< mousse::endl;
+    mousse::Info << mousse::endl;
   }
   utility().tryPostCalc(args, runTime, mesh);
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

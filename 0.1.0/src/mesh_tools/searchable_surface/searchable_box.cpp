@@ -5,12 +5,17 @@
 #include "searchable_box.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "sortable_list.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(searchableBox, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchableBox, dict);
+
 }
+
+
 // Private Member Functions 
 void mousse::searchableBox::projectOntoCoordPlane
 (
@@ -22,22 +27,19 @@ void mousse::searchableBox::projectOntoCoordPlane
   // Set point
   info.rawPoint()[dir] = planePt[dir];
   // Set face
-  if (planePt[dir] == min()[dir])
-  {
+  if (planePt[dir] == min()[dir]) {
     info.setIndex(dir*2);
-  }
-  else if (planePt[dir] == max()[dir])
-  {
+  } else if (planePt[dir] == max()[dir]) {
     info.setIndex(dir*2+1);
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("searchableBox::projectOntoCoordPlane(..)")
       << "Point on plane " << planePt
       << " is not on coordinate " << min()[dir]
       << " nor " << max()[dir] << abort(FatalError);
   }
 }
+
+
 // Returns miss or hit with face (0..5) and region(always 0)
 mousse::pointIndexHit mousse::searchableBox::findNearest
 (
@@ -55,69 +57,52 @@ mousse::pointIndexHit mousse::searchableBox::findNearest
   //   that.
   // The face is set to the last projected face.
   // Outside point projected onto cube. Assume faces 0..5.
-  pointIndexHit info(true, sample, -1);
+  pointIndexHit info{true, sample, -1};
   bool outside = false;
   // (for internal points) per direction what nearest cube side is
   point near;
-  for (direction dir = 0; dir < vector::nComponents; dir++)
-  {
-    if (info.rawPoint()[dir] < min()[dir])
-    {
+  for (direction dir = 0; dir < vector::nComponents; dir++) {
+    if (info.rawPoint()[dir] < min()[dir]) {
       projectOntoCoordPlane(dir, min(), info);
       outside = true;
-    }
-    else if (info.rawPoint()[dir] > max()[dir])
-    {
+    } else if (info.rawPoint()[dir] > max()[dir]) {
       projectOntoCoordPlane(dir, max(), info);
       outside = true;
-    }
-    else if (info.rawPoint()[dir] > bbMid[dir])
-    {
+    } else if (info.rawPoint()[dir] > bbMid[dir]) {
       near[dir] = max()[dir];
-    }
-    else
-    {
+    } else {
       near[dir] = min()[dir];
     }
   }
   // For outside points the info will be correct now. Handle inside points
   // using the three near distances. Project onto the nearest plane.
-  if (!outside)
-  {
-    vector dist(cmptMag(info.rawPoint() - near));
-    if (dist.x() < dist.y())
-    {
-      if (dist.x() < dist.z())
-      {
+  if (!outside) {
+    vector dist{cmptMag(info.rawPoint() - near)};
+    if (dist.x() < dist.y()) {
+      if (dist.x() < dist.z()) {
         // Project onto x plane
         projectOntoCoordPlane(vector::X, near, info);
-      }
-      else
-      {
+      } else {
         projectOntoCoordPlane(vector::Z, near, info);
       }
-    }
-    else
-    {
-      if (dist.y() < dist.z())
-      {
+    } else {
+      if (dist.y() < dist.z()) {
         projectOntoCoordPlane(vector::Y, near, info);
-      }
-      else
-      {
+      } else {
         projectOntoCoordPlane(vector::Z, near, info);
       }
     }
   }
   // Check if outside. Optimisation: could do some checks on distance already
   // on components above
-  if (magSqr(info.rawPoint() - sample) > nearestDistSqr)
-  {
+  if (magSqr(info.rawPoint() - sample) > nearestDistSqr) {
     info.setMiss();
     info.setIndex(-1);
   }
   return info;
 }
+
+
 // Constructors 
 mousse::searchableBox::searchableBox
 (
@@ -125,11 +110,10 @@ mousse::searchableBox::searchableBox
   const treeBoundBox& bb
 )
 :
-  searchableSurface(io),
-  treeBoundBox(bb)
+  searchableSurface{io},
+  treeBoundBox{bb}
 {
-  if (!contains(midpoint()))
-  {
+  if (!contains(midpoint())) {
     FATAL_ERROR_IN
     (
       "mousse::searchableBox::searchableBox\n"
@@ -137,22 +121,24 @@ mousse::searchableBox::searchableBox
       "    const IOobject& io,\n"
       "    const treeBoundBox& bb\n"
       ")\n"
-    )   << "Illegal bounding box specification : "
-      << static_cast<const treeBoundBox>(*this) << exit(FatalError);
+    )
+    << "Illegal bounding box specification : "
+    << static_cast<const treeBoundBox>(*this) << exit(FatalError);
   }
   bounds() = static_cast<boundBox>(*this);
 }
+
+
 mousse::searchableBox::searchableBox
 (
   const IOobject& io,
   const dictionary& dict
 )
 :
-  searchableSurface(io),
-  treeBoundBox(dict.lookup("min"), dict.lookup("max"))
+  searchableSurface{io},
+  treeBoundBox{dict.lookup("min"), dict.lookup("max")}
 {
-  if (!contains(midpoint()))
-  {
+  if (!contains(midpoint())) {
     FATAL_ERROR_IN
     (
       "mousse::searchableBox::searchableBox\n"
@@ -160,36 +146,43 @@ mousse::searchableBox::searchableBox
       "    const IOobject& io,\n"
       "    const treeBoundBox& bb\n"
       ")\n"
-    )   << "Illegal bounding box specification : "
-      << static_cast<const treeBoundBox>(*this) << exit(FatalError);
+    )
+    << "Illegal bounding box specification : "
+    << static_cast<const treeBoundBox>(*this) << exit(FatalError);
   }
   bounds() = static_cast<boundBox>(*this);
 }
+
+
 // Destructor 
 mousse::searchableBox::~searchableBox()
 {}
+
+
 // Member Functions 
 const mousse::wordList& mousse::searchableBox::regions() const
 {
-  if (regions_.empty())
-  {
+  if (regions_.empty()) {
     regions_.setSize(1);
     regions_[0] = "region0";
   }
   return regions_;
 }
+
+
 mousse::tmp<mousse::pointField> mousse::searchableBox::coordinates() const
 {
-  tmp<pointField> tCtrs = tmp<pointField>(new pointField(6));
+  tmp<pointField> tCtrs = tmp<pointField>{new pointField{6}};
   pointField& ctrs = tCtrs();
   const pointField pts(treeBoundBox::points());
   const faceList& fcs = treeBoundBox::faces;
-  FOR_ALL(fcs, i)
-  {
+  FOR_ALL(fcs, i) {
     ctrs[i] = fcs[i].centre(pts);
   }
   return tCtrs;
 }
+
+
 void mousse::searchableBox::boundingSpheres
 (
   pointField& centres,
@@ -199,14 +192,12 @@ void mousse::searchableBox::boundingSpheres
   centres.setSize(size());
   radiusSqr.setSize(size());
   radiusSqr = 0.0;
-  const pointField pts(treeBoundBox::points());
+  const pointField pts{treeBoundBox::points()};
   const faceList& fcs = treeBoundBox::faces;
-  FOR_ALL(fcs, i)
-  {
+  FOR_ALL(fcs, i) {
     const face& f = fcs[i];
     centres[i] = f.centre(pts);
-    FOR_ALL(f, fp)
-    {
+    FOR_ALL(f, fp) {
       const point& pt = pts[f[fp]];
       radiusSqr[i] = mousse::max
       (
@@ -218,10 +209,14 @@ void mousse::searchableBox::boundingSpheres
   // Add a bit to make sure all points are tested inside
   radiusSqr += mousse::sqr(SMALL);
 }
+
+
 mousse::tmp<mousse::pointField> mousse::searchableBox::points() const
 {
   return treeBoundBox::points();
 }
+
+
 mousse::pointIndexHit mousse::searchableBox::findNearest
 (
   const point& sample,
@@ -230,46 +225,39 @@ mousse::pointIndexHit mousse::searchableBox::findNearest
 {
   return findNearest(midpoint(), sample, nearestDistSqr);
 }
+
+
 mousse::pointIndexHit mousse::searchableBox::findNearestOnEdge
 (
   const point& sample,
   const scalar nearestDistSqr
 ) const
 {
-  const point bbMid(midpoint());
+  const point bbMid{midpoint()};
   // Outside point projected onto cube. Assume faces 0..5.
-  pointIndexHit info(true, sample, -1);
+  pointIndexHit info{true, sample, -1};
   bool outside = false;
   // (for internal points) per direction what nearest cube side is
   point near;
-  for (direction dir = 0; dir < vector::nComponents; dir++)
-  {
-    if (info.rawPoint()[dir] < min()[dir])
-    {
+  for (direction dir = 0; dir < vector::nComponents; dir++) {
+    if (info.rawPoint()[dir] < min()[dir]) {
       projectOntoCoordPlane(dir, min(), info);
       outside = true;
-    }
-    else if (info.rawPoint()[dir] > max()[dir])
-    {
+    } else if (info.rawPoint()[dir] > max()[dir]) {
       projectOntoCoordPlane(dir, max(), info);
       outside = true;
-    }
-    else if (info.rawPoint()[dir] > bbMid[dir])
-    {
+    } else if (info.rawPoint()[dir] > bbMid[dir]) {
       near[dir] = max()[dir];
-    }
-    else
-    {
+    } else {
       near[dir] = min()[dir];
     }
   }
   // For outside points the info will be correct now. Handle inside points
   // using the three near distances. Project onto the nearest two planes.
-  if (!outside)
-  {
+  if (!outside) {
     // Get the per-component distance to nearest wall
-    vector dist(cmptMag(info.rawPoint() - near));
-    SortableList<scalar> sortedDist(3);
+    vector dist{cmptMag(info.rawPoint() - near)};
+    SortableList<scalar> sortedDist{3};
     sortedDist[0] = dist[0];
     sortedDist[1] = dist[1];
     sortedDist[2] = dist[2];
@@ -281,13 +269,14 @@ mousse::pointIndexHit mousse::searchableBox::findNearestOnEdge
   }
   // Check if outside. Optimisation: could do some checks on distance already
   // on components above
-  if (magSqr(info.rawPoint() - sample) > nearestDistSqr)
-  {
+  if (magSqr(info.rawPoint() - sample) > nearestDistSqr) {
     info.setMiss();
     info.setIndex(-1);
   }
   return info;
 }
+
+
 mousse::pointIndexHit mousse::searchableBox::findNearest
 (
   const linePointRef&,
@@ -302,51 +291,41 @@ mousse::pointIndexHit mousse::searchableBox::findNearest
   );
   return pointIndexHit();
 }
+
+
 mousse::pointIndexHit mousse::searchableBox::findLine
 (
   const point& start,
   const point& end
 ) const
 {
-  pointIndexHit info(false, start, -1);
+  pointIndexHit info{false, start, -1};
   bool foundInter;
-  if (posBits(start) == 0)
-  {
-    if (posBits(end) == 0)
-    {
+  if (posBits(start) == 0) {
+    if (posBits(end) == 0) {
       // Both start and end inside.
       foundInter = false;
-    }
-    else
-    {
+    } else {
       // end is outside. Clip to bounding box.
       foundInter = intersects(end, start, info.rawPoint());
     }
-  }
-  else
-  {
+  } else {
     // start is outside. Clip to bounding box.
     foundInter = intersects(start, end, info.rawPoint());
   }
   // Classify point
-  if (foundInter)
-  {
+  if (foundInter) {
     info.setHit();
-    for (direction dir = 0; dir < vector::nComponents; dir++)
-    {
-      if (info.rawPoint()[dir] == min()[dir])
-      {
+    for (direction dir = 0; dir < vector::nComponents; dir++) {
+      if (info.rawPoint()[dir] == min()[dir]) {
         info.setIndex(2*dir);
         break;
-      }
-      else if (info.rawPoint()[dir] == max()[dir])
-      {
+      } else if (info.rawPoint()[dir] == max()[dir]) {
         info.setIndex(2*dir+1);
         break;
       }
     }
-    if (info.index() == -1)
-    {
+    if (info.index() == -1) {
       FATAL_ERROR_IN("searchableBox::findLine(const point&, const point&)")
         << "point " << info.rawPoint()
         << " on segment " << start << end
@@ -356,6 +335,8 @@ mousse::pointIndexHit mousse::searchableBox::findLine
   }
   return info;
 }
+
+
 mousse::pointIndexHit mousse::searchableBox::findLineAny
 (
   const point& start,
@@ -364,6 +345,8 @@ mousse::pointIndexHit mousse::searchableBox::findLineAny
 {
   return findLine(start, end);
 }
+
+
 void mousse::searchableBox::findNearest
 (
   const pointField& samples,
@@ -372,12 +355,13 @@ void mousse::searchableBox::findNearest
 ) const
 {
   info.setSize(samples.size());
-  const point bbMid(midpoint());
-  FOR_ALL(samples, i)
-  {
+  const point bbMid{midpoint()};
+  FOR_ALL(samples, i) {
     info[i] = findNearest(bbMid, samples[i], nearestDistSqr[i]);
   }
 }
+
+
 void mousse::searchableBox::findLine
 (
   const pointField& start,
@@ -386,11 +370,12 @@ void mousse::searchableBox::findLine
 ) const
 {
   info.setSize(start.size());
-  FOR_ALL(start, i)
-  {
+  FOR_ALL(start, i) {
     info[i] = findLine(start[i], end[i]);
   }
 }
+
+
 void mousse::searchableBox::findLineAny
 (
   const pointField& start,
@@ -399,11 +384,12 @@ void mousse::searchableBox::findLineAny
 ) const
 {
   info.setSize(start.size());
-  FOR_ALL(start, i)
-  {
+  FOR_ALL(start, i) {
     info[i] = findLineAny(start[i], end[i]);
   }
 }
+
+
 void mousse::searchableBox::findLineAll
 (
   const pointField& start,
@@ -420,47 +406,38 @@ void mousse::searchableBox::findLineAll
   // - it is significant (SMALL is smallest representative relative tolerance;
   //   we need something bigger since we're doing calculations)
   // - if the start-end vector is zero we still progress
-  const vectorField dirVec(end-start);
-  const scalarField magSqrDirVec(magSqr(dirVec));
+  const vectorField dirVec{end-start};
+  const scalarField magSqrDirVec{magSqr(dirVec)};
   const vectorField smallVec
-  (
-    ROOTSMALL*dirVec
-   + vector(ROOTVSMALL,ROOTVSMALL,ROOTVSMALL)
-  );
-  FOR_ALL(start, pointI)
   {
+    ROOTSMALL*dirVec + vector(ROOTVSMALL,ROOTVSMALL,ROOTVSMALL)
+  };
+  FOR_ALL(start, pointI) {
     // See if any intersection between pt and end
     pointIndexHit inter = findLine(start[pointI], end[pointI]);
-    if (inter.hit())
-    {
+    if (inter.hit()) {
       hits.clear();
       hits.append(inter);
       point pt = inter.hitPoint() + smallVec[pointI];
-      while (((pt-start[pointI])&dirVec[pointI]) <= magSqrDirVec[pointI])
-      {
+      while (((pt-start[pointI])&dirVec[pointI]) <= magSqrDirVec[pointI]) {
         // See if any intersection between pt and end
         pointIndexHit inter = findLine(pt, end[pointI]);
         // Check for not hit or hit same face as before (can happen
         // if vector along surface of face)
-        if
-        (
-          !inter.hit()
-        || (inter.index() == hits.last().index())
-        )
-        {
+        if (!inter.hit() || (inter.index() == hits.last().index())) {
           break;
         }
         hits.append(inter);
         pt = inter.hitPoint() + smallVec[pointI];
       }
       info[pointI].transfer(hits);
-    }
-    else
-    {
+    } else {
       info[pointI].clear();
     }
   }
 }
+
+
 void mousse::searchableBox::getRegion
 (
   const List<pointIndexHit>& info,
@@ -470,6 +447,8 @@ void mousse::searchableBox::getRegion
   region.setSize(info.size());
   region = 0;
 }
+
+
 void mousse::searchableBox::getNormal
 (
   const List<pointIndexHit>& info,
@@ -478,18 +457,16 @@ void mousse::searchableBox::getNormal
 {
   normal.setSize(info.size());
   normal = vector::zero;
-  FOR_ALL(info, i)
-  {
-    if (info[i].hit())
-    {
+  FOR_ALL(info, i) {
+    if (info[i].hit()) {
       normal[i] = treeBoundBox::faceNormals[info[i].index()];
-    }
-    else
-    {
+    } else {
       // Set to what?
     }
   }
 }
+
+
 void mousse::searchableBox::getVolumeType
 (
   const pointField& points,
@@ -498,16 +475,14 @@ void mousse::searchableBox::getVolumeType
 {
   volType.setSize(points.size());
   volType = volumeType::INSIDE;
-  FOR_ALL(points, pointI)
-  {
+  FOR_ALL(points, pointI) {
     const point& pt = points[pointI];
-    for (direction dir = 0; dir < vector::nComponents; dir++)
-    {
-      if (pt[dir] < min()[dir] || pt[dir] > max()[dir])
-      {
+    for (direction dir = 0; dir < vector::nComponents; dir++) {
+      if (pt[dir] < min()[dir] || pt[dir] > max()[dir]) {
         volType[pointI] = volumeType::OUTSIDE;
         break;
       }
     }
   }
 }
+

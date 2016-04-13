@@ -33,11 +33,12 @@
 //     value           uniform (0 0 0); // placeholder
 //   }
 //   \endverbatim
-// SourceFiles
-//   mapped_flow_rate_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mappedFlowRateFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -85,9 +86,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new mappedFlowRateFvPatchVectorField(*this)
-      );
+      {
+        new mappedFlowRateFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     mappedFlowRateFvPatchVectorField
@@ -102,9 +103,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new mappedFlowRateFvPatchVectorField(*this, iF)
-      );
+      {
+        new mappedFlowRateFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field

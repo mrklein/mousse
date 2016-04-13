@@ -8,14 +8,13 @@
 //   mousse::nonuniformTransformCyclicPointPatchField
 // Description
 //   Cyclic + slip constraints
-// SourceFiles
-//   nonuniform_transform_cyclic_point_patch_field.cpp
 
 #include "cyclic_point_patch_field.hpp"
 #include "nonuniform_transform_cyclic_point_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class nonuniformTransformCyclicPointPatchField
 :
@@ -47,15 +46,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new nonuniformTransformCyclicPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new nonuniformTransformCyclicPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     nonuniformTransformCyclicPointPatchField
@@ -64,18 +60,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new nonuniformTransformCyclicPointPatchField<Type>
-        (
-          *this, iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new nonuniformTransformCyclicPointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
@@ -85,8 +78,9 @@ public:
         const Pstream::commsTypes commsType=Pstream::blocking
       );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#    include "nonuniform_transform_cyclic_point_patch_field.cpp"
-#endif
+
+#include "nonuniform_transform_cyclic_point_patch_field.ipp"
+
 #endif

@@ -9,20 +9,24 @@
 // Description
 //   Light wrapper around DataEntry to provide a mechanism to update time-based
 //   entries.
-// SourceFiles
-//   time_data_entry.cpp
+
 #include "data_entry.hpp"
 #include "time.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class TimeDataEntry;
+
 template<class Type>
 Ostream& operator<<
 (
   Ostream&,
   const TimeDataEntry<Type>&
 );
+
+
 template<class Type>
 class TimeDataEntry
 {
@@ -33,7 +37,7 @@ protected:
     //- Name of the data entry
     const word name_;
     //- The underlying DataEntry
-    autoPtr<DataEntry<Type> > entry_;
+    autoPtr<DataEntry<Type>> entry_;
 public:
   // Constructor
     //- Construct from entry name
@@ -74,8 +78,9 @@ public:
     //- Write in dictionary format
     virtual void writeData(Ostream& os) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "time_data_entry.cpp"
-#endif
+
+#include "time_data_entry.ipp"
+
 #endif

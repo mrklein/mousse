@@ -12,11 +12,12 @@
 //   The destructor is wrapped to avoid deallocation of the storage of the
 //   complete fields when this is destroyed.
 //   Should only used as a template argument for SlicedGeometricField.
-// SourceFiles
-//   sliced_fvs_patch_field.cpp
+
 #include "fvs_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class slicedFvsPatchField
 :
@@ -58,7 +59,7 @@ public:
     //- Construct as copy
     slicedFvsPatchField(const slicedFvsPatchField<Type>&);
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone() const;
+    virtual tmp<fvsPatchField<Type>> clone() const;
     //- Construct as copy setting internal field reference
     slicedFvsPatchField
     (
@@ -66,7 +67,7 @@ public:
       const DimensionedField<Type, surfaceMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvsPatchField<Type> > clone
+    virtual tmp<fvsPatchField<Type>> clone
     (
       const DimensionedField<Type, surfaceMesh>& iF
     ) const;
@@ -99,7 +100,7 @@ public:
     virtual void operator/=(const scalar) {}
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sliced_fvs_patch_field.cpp"
-#endif
+
+#include "sliced_fvs_patch_field.ipp"
+
 #endif

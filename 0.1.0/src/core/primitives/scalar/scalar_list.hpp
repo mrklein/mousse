@@ -7,10 +7,14 @@
 
 #include "scalar.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef UList<scalar> scalarUList;
-  typedef List<scalar> scalarList;
-  typedef List<scalarList> scalarListList;
+
+
+namespace mousse {
+
+typedef UList<scalar> scalarUList;
+typedef List<scalar> scalarList;
+typedef List<scalarList> scalarListList;
+
 }
+
 #endif

@@ -3,14 +3,19 @@
 // Copyright (C) 2016 mousse project
 
 #include "dilu_gauss_seidel_smoother.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(DILUGaussSeidelSmoother, 0);
-  lduMatrix::smoother::
-    addasymMatrixConstructorToTable<DILUGaussSeidelSmoother>
-    addDILUGaussSeidelSmootherAsymMatrixConstructorToTable_;
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(DILUGaussSeidelSmoother, 0);
+lduMatrix::smoother::
+  addasymMatrixConstructorToTable<DILUGaussSeidelSmoother>
+  addDILUGaussSeidelSmootherAsymMatrixConstructorToTable_;
+
 }
+
+
 // Constructors 
 mousse::DILUGaussSeidelSmoother::DILUGaussSeidelSmoother
 (
@@ -22,30 +27,32 @@ mousse::DILUGaussSeidelSmoother::DILUGaussSeidelSmoother
 )
 :
   lduMatrix::smoother
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces
-  ),
+  },
   diluSmoother_
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces
-  ),
+  },
   gsSmoother_
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces
-  )
+  }
 {}
+
+
 // Member Functions 
 void mousse::DILUGaussSeidelSmoother::smooth
 (

@@ -5,11 +5,15 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-namespace mousse
-{
-  template<class Zone, class MeshType> class ZoneMesh;
-  class cellZone;
-  class polyMesh;
-  typedef ZoneMesh<cellZone, polyMesh> cellZoneMesh;
+
+namespace mousse{
+
+template<class Zone, class MeshType> class ZoneMesh;
+class cellZone;
+class polyMesh;
+typedef ZoneMesh<cellZone, polyMesh> cellZoneMesh;
+
 }
+
 #endif
+

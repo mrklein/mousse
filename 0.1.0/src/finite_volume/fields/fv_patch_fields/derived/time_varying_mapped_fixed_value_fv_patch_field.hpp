@@ -42,9 +42,6 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   time_varying_mapped_fixed_value_fv_patch_field.cpp
-
 
 #include "fixed_value_fv_patch_fields.hpp"
 #include "fixed_list.hpp"
@@ -52,8 +49,8 @@
 #include "point_to_point_planar_interpolation.hpp"
 #include "data_entry.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class timeVaryingMappedFixedValueFvPatchField
@@ -99,7 +96,7 @@ class timeVaryingMappedFixedValueFvPatchField
     Type endAverage_;
 
     //- Time varying offset values to interpolated data
-    autoPtr<DataEntry<Type> > offset_;
+    autoPtr<DataEntry<Type>> offset_;
 
 public:
 
@@ -140,9 +137,9 @@ public:
     );
 
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
+      return tmp<fvPatchField<Type>>
       {
         new timeVaryingMappedFixedValueFvPatchField<Type>{*this}
       };
@@ -156,12 +153,12 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
+      return tmp<fvPatchField<Type>>
       {
         new timeVaryingMappedFixedValueFvPatchField<Type>{*this, iF}
       };
@@ -209,7 +206,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "time_varying_mapped_fixed_value_fv_patch_field.cpp"
-#endif
+#include "time_varying_mapped_fixed_value_fv_patch_field.ipp"
+
 #endif

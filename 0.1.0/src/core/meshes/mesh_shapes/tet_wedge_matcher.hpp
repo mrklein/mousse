@@ -10,14 +10,11 @@
 //   A cellMatcher for tetWedge cells
 // See Also
 //   cellMatcher
-// SourceFiles
-//   tet_wedge_matcher.cpp
-
 
 #include "cell_matcher.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class tetWedgeMatcher
 :

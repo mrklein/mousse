@@ -35,15 +35,14 @@
 //         someObject vals(str);
 //       }
 //     }
-// SourceFiles
-//   pstream_buffers.cpp
 
 #include "dynamic_list.hpp"
 #include "upstream.hpp"
 #include "iostream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class PstreamBuffers
 {
   friend class UOPstream;

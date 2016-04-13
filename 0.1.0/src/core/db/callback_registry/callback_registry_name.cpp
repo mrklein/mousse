@@ -3,8 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "callback_registry.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(CallbackRegistryName, 0);
+
 }

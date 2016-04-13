@@ -15,8 +15,7 @@
 //     initialization of all malloced memory to NaN. If MOUSSE_SIGFPE
 //     also set, this will cause usage of uninitialized scalars to trigger
 //     an abort.
-// SourceFiles
-//   sig_fpe.cpp
+
 #include <signal.h>
 #if defined(linux) || defined(linux64) || defined(linuxIA64) || \
   defined(linuxARM7) || defined(linuxPPC64) || defined(linuxPPC64le)
@@ -29,8 +28,10 @@
 #include <malloc/malloc.h>
 #endif
 #include "ulist.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sigFpe
 {
   // Private data
@@ -41,10 +42,10 @@ class sigFpe
     static void *nanMalloc_(struct _malloc_zone_t *zone, size_t size);
 #endif
   // Static data members
-    #if defined(LINUX_GNUC) || defined(darwin64)
+#if defined(LINUX_GNUC) || defined(darwin64)
     //- Handler for caught signals
     static void sigHandler(int);
-    #endif
+#endif
 public:
   // Constructors
     //- Construct null
@@ -57,12 +58,14 @@ public:
     void set(const bool verbose);
     //- Flag to indicate mallocNan is enabled
     static bool mallocNanActive_;
-    #if defined(LINUX)
+#if defined(LINUX)
     //- Malloc function which initializes to NaN
     static void* mallocNan(size_t size);
-    #endif
+#endif
     //- Fill block of data with NaN
     static void fillNan(UList<scalar>&);
 };
+
 }  // namespace mousse
+
 #endif

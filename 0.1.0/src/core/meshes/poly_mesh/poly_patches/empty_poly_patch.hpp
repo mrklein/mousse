@@ -8,14 +8,12 @@
 //   mousse::emptyPolyPatch
 // Description
 //   Empty front and back plane patch.  Used for 2-D geometries.
-// SourceFiles
-//   empty_poly_patch.cpp
-
 
 #include "poly_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class emptyPolyPatch
 :
   public polyPatch
@@ -80,9 +78,9 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new emptyPolyPatch(*this, bm, index, newSize, newStart)
-      );
+      {
+        new emptyPolyPatch{*this, bm, index, newSize, newStart}
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -95,10 +93,13 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new emptyPolyPatch(*this, bm, index, mapAddressing, newStart)
-      );
+      {
+        new emptyPolyPatch{*this, bm, index, mapAddressing, newStart}
+      };
     }
 };
+
 }  // namespace mousse
+
 #endif
+

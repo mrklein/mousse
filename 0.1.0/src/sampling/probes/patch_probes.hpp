@@ -9,16 +9,19 @@
 // Description
 //   Set of locations to sample.at patches
 //   Call write() to sample and write files.
-// SourceFiles
-//   patch_probes.cpp
+
 #include "probes.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class fvMesh;
 class mapPolyMesh;
+
+
 class patchProbes
 :
   public probes
@@ -47,19 +50,19 @@ class patchProbes
     void sampleAndWriteSurfaceFields(const fieldGroup<Type>&);
     //- Sample a volume field at all locations
     template<class Type>
-    tmp<Field<Type> > sample
+    tmp<Field<Type>> sample
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
     //- Sample a surface field at all locations
     template<class Type>
-    tmp<Field<Type> > sample
+    tmp<Field<Type>> sample
     (
       const GeometricField<Type, fvsPatchField, surfaceMesh>&
     ) const;
     //- Sample a single field on all sample locations
     template<class Type>
-    tmp<Field<Type> > sample(const word& fieldName) const;
+    tmp<Field<Type>> sample(const word& fieldName) const;
 public:
   //- Runtime type information
   TYPE_NAME("patchProbes");
@@ -87,8 +90,10 @@ public:
     //- Find elements containing patchProbes
     virtual void findElements(const fvMesh&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "patch_probes_templates.cpp"
+
+#include "patch_probes.ipp"
+
 #endif
-#endif
+

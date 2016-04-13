@@ -8,20 +8,17 @@
 //   mousse::facePointPatch
 // Description
 //   A pointPatch based on a polyPatch
-// SourceFiles
-//   face_point_patch.cpp
-//   new_point_patch.cpp
-
 
 #include "point_patch.hpp"
 #include "poly_patch.hpp"
 #include "auto_ptr.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class processorPointPatch;
 class cyclicPointPatch;
+
 
 class facePointPatch
 :
@@ -156,3 +153,4 @@ public:
 
 }  // namespace mousse
 #endif
+

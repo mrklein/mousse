@@ -4,7 +4,8 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//
+
 #include "vector_2d_field_fwd.hpp"
 #include "field.hpp"
+
 #endif

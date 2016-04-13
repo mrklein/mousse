@@ -1,3 +1,6 @@
+#ifndef supersonicFreestreamFvPatchVectorFields_H
+#define supersonicFreestreamFvPatchVectorFields_H
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -37,14 +40,13 @@
 // Note
 //   This boundary condition is ill-posed if the free-stream flow is normal
 //   to the boundary.
-// SourceFiles
-//   supersonic_freestream_fv_patch_vector_field.cpp
-#ifndef supersonicFreestreamFvPatchVectorFields_H
-#define supersonicFreestreamFvPatchVectorFields_H
+
 #include "fv_patch_fields.hpp"
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class supersonicFreestreamFvPatchVectorField
 :
   public mixedFvPatchVectorField
@@ -99,9 +101,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new supersonicFreestreamFvPatchVectorField(*this)
-      );
+      {
+        new supersonicFreestreamFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     supersonicFreestreamFvPatchVectorField
@@ -116,9 +118,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new supersonicFreestreamFvPatchVectorField(*this, iF)
-      );
+      {
+        new supersonicFreestreamFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

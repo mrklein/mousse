@@ -16,15 +16,18 @@
 //   triangulation of face to cell centre instead of edge of face to two
 //   neighbouring cell centres. This gives much lower quality triangles
 //   but they are local to a cell.
-// SourceFiles
-//   iso_surface_cell.cpp
+
 #include "tri_surface.hpp"
 #include "label_pair.hpp"
 #include "point_index_hit.hpp"
 #include "packed_bool_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyMesh;
+
+
 class isoSurfaceCell
 :
   public triSurface
@@ -201,25 +204,6 @@ class isoSurfaceCell
       labelList& edgeFace1,
       Map<labelList>& edgeFacesRest
     ) const;
-    ////- Determine orientation
-    //static void walkOrientation
-    //(
-    //    const triSurface& surf,
-    //    const List<FixedList<label, 3> >& faceEdges,
-    //    const labelList& edgeFace0,
-    //    const labelList& edgeFace1,
-    //    const label seedTriI,
-    //    labelList& flipState
-    //);
-    ////- Orient surface
-    //static void orientSurface
-    //(
-    //    triSurface&,
-    //    const List<FixedList<label, 3> >& faceEdges,
-    //    const labelList& edgeFace0,
-    //    const labelList& edgeFace1,
-    //    const Map<labelList>& edgeFacesRest
-    //);
     //- Is triangle (given by 3 edges) not fully connected?
     static bool danglingTriangle
     (
@@ -288,7 +272,7 @@ public:
     ) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "iso_surface_cell_templates.cpp"
-#endif
+
+#include "iso_surface_cell.ipp"
+
 #endif

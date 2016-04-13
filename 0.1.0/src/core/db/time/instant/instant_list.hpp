@@ -7,8 +7,11 @@
 
 #include "instant.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef List<instant> instantList;
+
+
+namespace mousse {
+
+typedef List<instant> instantList;
+
 }  // namespace mousse
 #endif

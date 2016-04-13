@@ -10,12 +10,13 @@
 //   Template dictionary class which manages the storage associated with it.
 //   It is derived from DictionaryBase instantiated on a memory managed form of
 //   intrusive doubly-linked list of \<T\>.
-// SourceFiles
-//   ptr_dictionary.cpp
+
 #include "dictionary_base.hpp"
 #include "dl_ptr_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class PtrDictionary
 :
@@ -44,8 +45,9 @@ public:
       return *DictionaryBase<DLPtrList<T>, T>::operator[](key);
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ptr_dictionary.cpp"
-#endif
+
+#include "ptr_dictionary.ipp"
+
 #endif

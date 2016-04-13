@@ -9,14 +9,12 @@
 // Description
 //   Transform boundary used in extruded regions. Allows non-uniform transforms.
 //   Wip.
-// SourceFiles
-//   nonuniform_transform_cyclic_poly_patch.cpp
-
 
 #include "cyclic_poly_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class nonuniformTransformCyclicPolyPatch
 :
   public cyclicPolyPatch
@@ -37,7 +35,7 @@ public:
       const transformType transform = UNKNOWN
     )
     :
-      cyclicPolyPatch(name, size, start, index, bm, patchType, transform)
+      cyclicPolyPatch{name, size, start, index, bm, patchType, transform}
     {}
     //- Construct from dictionary
     nonuniformTransformCyclicPolyPatch
@@ -49,7 +47,7 @@ public:
       const word& patchType
     )
     :
-      cyclicPolyPatch(name, dict, index, bm, patchType)
+      cyclicPolyPatch{name, dict, index, bm, patchType}
     {}
     //- Construct as copy, resetting the boundary mesh
     nonuniformTransformCyclicPolyPatch
@@ -58,7 +56,7 @@ public:
       const polyBoundaryMesh& bm
     )
     :
-      cyclicPolyPatch(pp, bm)
+      cyclicPolyPatch{pp, bm}
     {}
     //- Construct given the original patch and resetting the
     //  face list and boundary mesh information
@@ -72,7 +70,7 @@ public:
       const word& neighbPatchName
     )
     :
-      cyclicPolyPatch(pp, bm, index, newSize, newStart, neighbPatchName)
+      cyclicPolyPatch{pp, bm, index, newSize, newStart, neighbPatchName}
     {}
     //- Construct given the original patch and a map
     nonuniformTransformCyclicPolyPatch
@@ -84,15 +82,15 @@ public:
       const label newStart
     )
     :
-      cyclicPolyPatch(pp, bm, index, mapAddressing, newStart)
+      cyclicPolyPatch{pp, bm, index, mapAddressing, newStart}
     {}
     //- Construct and return a clone, resetting the boundary mesh
     virtual autoPtr<polyPatch> clone(const polyBoundaryMesh& bm) const
     {
       return autoPtr<polyPatch>
-      (
-        new nonuniformTransformCyclicPolyPatch(*this, bm)
-      );
+      {
+        new nonuniformTransformCyclicPolyPatch{*this, bm}
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -105,17 +103,17 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new nonuniformTransformCyclicPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           newSize,
           newStart,
           neighbPatchName()
-        )
-      );
+        }
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -128,16 +126,16 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new nonuniformTransformCyclicPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           mapAddressing,
           newStart
-        )
-      );
+        }
+      };
     }
   // Destructor
     virtual ~nonuniformTransformCyclicPolyPatch()

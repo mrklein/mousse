@@ -4,12 +4,17 @@
 
 #include "searchable_sphere.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(searchableSphere, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchableSphere, dict);
+
 }
+
+
 // Private Member Functions 
 mousse::pointIndexHit mousse::searchableSphere::findNearest
 (
@@ -17,17 +22,13 @@ mousse::pointIndexHit mousse::searchableSphere::findNearest
   const scalar nearestDistSqr
 ) const
 {
-  pointIndexHit info(false, sample, -1);
+  pointIndexHit info{false, sample, -1};
   const vector n(sample - centre_);
   scalar magN = mag(n);
-  if (nearestDistSqr >= sqr(magN - radius_))
-  {
-    if (magN < ROOTVSMALL)
-    {
+  if (nearestDistSqr >= sqr(magN - radius_)) {
+    if (magN < ROOTVSMALL) {
       info.rawPoint() = centre_ + vector(1,0,0)*radius_;
-    }
-    else
-    {
+    } else {
       info.rawPoint() = centre_ + n/magN*radius_;
     }
     info.setHit();
@@ -35,6 +36,8 @@ mousse::pointIndexHit mousse::searchableSphere::findNearest
   }
   return info;
 }
+
+
 // From Graphics Gems - intersection of sphere with ray
 void mousse::searchableSphere::findLineAll
 (
@@ -46,28 +49,24 @@ void mousse::searchableSphere::findLineAll
 {
   near.setMiss();
   far.setMiss();
-  vector dir(end-start);
+  vector dir{end-start};
   scalar magSqrDir = magSqr(dir);
-  if (magSqrDir > ROOTVSMALL)
-  {
-    const vector toCentre(centre_-start);
+  if (magSqrDir > ROOTVSMALL) {
+    const vector toCentre{centre_ - start};
     scalar magSqrToCentre = magSqr(toCentre);
     dir /= mousse::sqrt(magSqrDir);
     scalar v = (toCentre & dir);
     scalar disc = sqr(radius_) - (magSqrToCentre - sqr(v));
-    if (disc >= 0)
-    {
+    if (disc >= 0) {
       scalar d = mousse::sqrt(disc);
       scalar nearParam = v-d;
-      if (nearParam >= 0 && sqr(nearParam) <= magSqrDir)
-      {
+      if (nearParam >= 0 && sqr(nearParam) <= magSqrDir) {
         near.setHit();
         near.setPoint(start + nearParam*dir);
         near.setIndex(0);
       }
       scalar farParam = v+d;
-      if (farParam >= 0 && sqr(farParam) <= magSqrDir)
-      {
+      if (farParam >= 0 && sqr(farParam) <= magSqrDir) {
         far.setHit();
         far.setPoint(start + farParam*dir);
         far.setIndex(0);
@@ -75,6 +74,8 @@ void mousse::searchableSphere::findLineAll
     }
   }
 }
+
+
 // Constructors 
 mousse::searchableSphere::searchableSphere
 (
@@ -83,9 +84,9 @@ mousse::searchableSphere::searchableSphere
   const scalar radius
 )
 :
-  searchableSurface(io),
-  centre_(centre),
-  radius_(radius)
+  searchableSurface{io},
+  centre_{centre},
+  radius_{radius}
 {
   bounds() = boundBox
   (
@@ -93,15 +94,17 @@ mousse::searchableSphere::searchableSphere
     centre_ + radius_*vector::one
   );
 }
+
+
 mousse::searchableSphere::searchableSphere
 (
   const IOobject& io,
   const dictionary& dict
 )
 :
-  searchableSurface(io),
-  centre_(dict.lookup("centre")),
-  radius_(readScalar(dict.lookup("radius")))
+  searchableSurface{io},
+  centre_{dict.lookup("centre")},
+  radius_{readScalar(dict.lookup("radius"))}
 {
   bounds() = boundBox
   (
@@ -109,23 +112,30 @@ mousse::searchableSphere::searchableSphere
     centre_ + radius_*vector::one
   );
 }
+
+
 // Destructor 
 mousse::searchableSphere::~searchableSphere()
 {}
+
+
 // Member Functions 
 bool mousse::searchableSphere::overlaps(const boundBox& bb) const
 {
   return bb.overlaps(centre_, sqr(radius_));
 }
+
+
 const mousse::wordList& mousse::searchableSphere::regions() const
 {
-  if (regions_.empty())
-  {
+  if (regions_.empty()) {
     regions_.setSize(1);
     regions_[0] = "region0";
   }
   return regions_;
 }
+
+
 void mousse::searchableSphere::boundingSpheres
 (
   pointField& centres,
@@ -139,6 +149,8 @@ void mousse::searchableSphere::boundingSpheres
   // Add a bit to make sure all points are tested inside
   radiusSqr += mousse::sqr(SMALL);
 }
+
+
 void mousse::searchableSphere::findNearest
 (
   const pointField& samples,
@@ -147,11 +159,12 @@ void mousse::searchableSphere::findNearest
 ) const
 {
   info.setSize(samples.size());
-  FOR_ALL(samples, i)
-  {
+  FOR_ALL(samples, i) {
     info[i] = findNearest(samples[i], nearestDistSqr[i]);
   }
 }
+
+
 void mousse::searchableSphere::findLine
 (
   const pointField& start,
@@ -161,16 +174,16 @@ void mousse::searchableSphere::findLine
 {
   info.setSize(start.size());
   pointIndexHit b;
-  FOR_ALL(start, i)
-  {
+  FOR_ALL(start, i) {
     // Pick nearest intersection. If none intersected take second one.
     findLineAll(start[i], end[i], info[i], b);
-    if (!info[i].hit() && b.hit())
-    {
+    if (!info[i].hit() && b.hit()) {
       info[i] = b;
     }
   }
 }
+
+
 void mousse::searchableSphere::findLineAny
 (
   const pointField& start,
@@ -180,16 +193,16 @@ void mousse::searchableSphere::findLineAny
 {
   info.setSize(start.size());
   pointIndexHit b;
-  FOR_ALL(start, i)
-  {
+  FOR_ALL(start, i) {
     // Discard far intersection
     findLineAll(start[i], end[i], info[i], b);
-    if (!info[i].hit() && b.hit())
-    {
+    if (!info[i].hit() && b.hit()) {
       info[i] = b;
     }
   }
 }
+
+
 void mousse::searchableSphere::findLineAll
 (
   const pointField& start,
@@ -198,38 +211,30 @@ void mousse::searchableSphere::findLineAll
 ) const
 {
   info.setSize(start.size());
-  FOR_ALL(start, i)
-  {
+  FOR_ALL(start, i) {
     pointIndexHit near, far;
     findLineAll(start[i], end[i], near, far);
-    if (near.hit())
-    {
-      if (far.hit())
-      {
+    if (near.hit()) {
+      if (far.hit()) {
         info[i].setSize(2);
         info[i][0] = near;
         info[i][1] = far;
-      }
-      else
-      {
+      } else {
         info[i].setSize(1);
         info[i][0] = near;
       }
-    }
-    else
-    {
-      if (far.hit())
-      {
+    } else {
+      if (far.hit()) {
         info[i].setSize(1);
         info[i][0] = far;
-      }
-      else
-      {
+      } else {
         info[i].clear();
       }
     }
   }
 }
+
+
 void mousse::searchableSphere::getRegion
 (
   const List<pointIndexHit>& info,
@@ -239,6 +244,8 @@ void mousse::searchableSphere::getRegion
   region.setSize(info.size());
   region = 0;
 }
+
+
 void mousse::searchableSphere::getNormal
 (
   const List<pointIndexHit>& info,
@@ -247,19 +254,17 @@ void mousse::searchableSphere::getNormal
 {
   normal.setSize(info.size());
   normal = vector::zero;
-  FOR_ALL(info, i)
-  {
-    if (info[i].hit())
-    {
+  FOR_ALL(info, i) {
+    if (info[i].hit()) {
       normal[i] = info[i].hitPoint() - centre_;
       normal[i] /= mag(normal[i])+VSMALL;
-    }
-    else
-    {
+    } else {
       // Set to what?
     }
   }
 }
+
+
 void mousse::searchableSphere::getVolumeType
 (
   const pointField& points,
@@ -268,16 +273,13 @@ void mousse::searchableSphere::getVolumeType
 {
   volType.setSize(points.size());
   volType = volumeType::INSIDE;
-  FOR_ALL(points, pointI)
-  {
+  FOR_ALL(points, pointI) {
     const point& pt = points[pointI];
-    if (magSqr(pt - centre_) <= sqr(radius_))
-    {
+    if (magSqr(pt - centre_) <= sqr(radius_)) {
       volType[pointI] = volumeType::INSIDE;
-    }
-    else
-    {
+    } else {
       volType[pointI] = volumeType::OUTSIDE;
     }
   }
 }
+

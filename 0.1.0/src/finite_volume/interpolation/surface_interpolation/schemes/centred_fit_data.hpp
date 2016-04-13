@@ -8,15 +8,13 @@
 //   mousse::CentredFitData
 // Description
 //   Data for the quadratic fit correction interpolation scheme
-// SourceFiles
-//   centred_fit_data.cpp
-
 
 #include "fit_data.hpp"
 #include "extended_centred_cell_to_face_stencil.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Polynomial>
 class CentredFitData
 :
@@ -56,8 +54,9 @@ public:
       return coeffs_;
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "centred_fit_data.cpp"
-#endif
+
+#include "centred_fit_data.ipp"
+
 #endif

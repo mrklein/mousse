@@ -42,12 +42,13 @@
 // SeeAlso
 //   mousse::freestreamFvPatchField
 //   mousse::SRFVelocityFvPatchVectorField
-// SourceFiles
-//   srf_freestream_velocity_fv_patch_vector_field.cpp
+
 #include "inlet_outlet_fv_patch_fields.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class SRFFreestreamVelocityFvPatchVectorField
 :
   public inletOutletFvPatchVectorField
@@ -92,9 +93,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new SRFFreestreamVelocityFvPatchVectorField(*this)
-      );
+      {
+        new SRFFreestreamVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     SRFFreestreamVelocityFvPatchVectorField
@@ -109,9 +110,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new SRFFreestreamVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new SRFFreestreamVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

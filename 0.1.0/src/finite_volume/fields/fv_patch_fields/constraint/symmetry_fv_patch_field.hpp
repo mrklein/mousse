@@ -18,15 +18,13 @@
 //     type            symmetry;
 //   }
 //   \endverbatim
-// SourceFiles
-//   symmetry_fv_patch_field.cpp
-//   symmetry_fv_patch_fields.cpp
-//   symmetry_fv_patch_fields.hpp
-//   symmetry_fv_patch_fields_fwd.hpp
+
 #include "basic_symmetry_fv_patch_field.hpp"
 #include "symmetry_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class symmetryFvPatchField
 :
@@ -63,12 +61,12 @@ public:
       const symmetryFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new symmetryFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new symmetryFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     symmetryFvPatchField
@@ -77,19 +75,19 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new symmetryFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new symmetryFvPatchField<Type>{*this, iF}
+      };
     }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "symmetry_fv_patch_field.cpp"
-#endif
+
+#include "symmetry_fv_patch_field.ipp"
+
 #endif

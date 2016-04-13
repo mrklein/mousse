@@ -8,15 +8,18 @@
 //   mousse::cellPointWeightWallModified
 // Description
 //   mousse::cellPointWeightWallModified
-// SourceFiles
-//   cell_point_weight_wall_modified.cpp
+
 #include "cell_point_weight.hpp"
 #include "wall_poly_patch.hpp"
 #include "poly_mesh.hpp"
 #include "poly_boundary_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyMesh;
+
+
 class cellPointWeightWallModified
 :
   public cellPointWeight

@@ -7,10 +7,14 @@
 
 #include "diag_tensor_field.hpp"
 #include "compact_io_field.hpp"
-namespace mousse
-{
-  typedef IOField<diagTensorField> diagTensorFieldIOField;
-  typedef CompactIOField<diagTensorField, diagTensor>
-  diagTensorFieldCompactIOField;
+
+
+namespace mousse {
+
+typedef IOField<diagTensorField> diagTensorFieldIOField;
+typedef CompactIOField<diagTensorField, diagTensor>
+diagTensorFieldCompactIOField;
+
 }
+
 #endif

@@ -8,27 +8,26 @@
 //   mousse::fv::gaussConvectionScheme
 // Description
 //   Basic second-order convection using face-gradients and Gauss' theorem.
-// SourceFiles
-//   gauss_convection_scheme.cpp
-
 
 #include "convection_scheme.hpp"
 #include "fv_mesh.hpp"
 
-namespace mousse
-{
-namespace fv
-{
+
+namespace mousse {
+namespace fv {
+
 //- Temporary debug switch to provide warning about backward-compatibility
 //  issue with setting div schemes for steady-state
 extern int warnUnboundedGauss;
+
+
 template<class Type>
 class gaussConvectionScheme
 :
   public fv::convectionScheme<Type>
 {
   // Private data
-    tmp<surfaceInterpolationScheme<Type> > tinterpScheme_;
+    tmp<surfaceInterpolationScheme<Type>> tinterpScheme_;
 public:
   //- Runtime type information
   TYPE_NAME("Gauss");
@@ -38,7 +37,7 @@ public:
     (
       const fvMesh& mesh,
       const surfaceScalarField& faceFlux,
-      const tmp<surfaceInterpolationScheme<Type> >& scheme
+      const tmp<surfaceInterpolationScheme<Type>>& scheme
     )
     :
       convectionScheme<Type>{mesh, faceFlux},
@@ -81,22 +80,22 @@ public:
     gaussConvectionScheme& operator=(const gaussConvectionScheme&) = delete;
   // Member Functions
     const surfaceInterpolationScheme<Type>& interpScheme() const;
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> interpolate
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > flux
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> flux
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
-    tmp<fvMatrix<Type> > fvmDiv
+    tmp<fvMatrix<Type>> fvmDiv
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDiv
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDiv
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
@@ -104,7 +103,7 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "gauss_convection_scheme.cpp"
-#endif
+
+#include "gauss_convection_scheme.ipp"
+
 #endif

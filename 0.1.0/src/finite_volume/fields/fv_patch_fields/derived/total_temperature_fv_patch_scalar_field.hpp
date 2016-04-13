@@ -27,13 +27,14 @@
 //     T0              uniform 300;
 //   }
 //   \endverbatim
-// SourceFiles
-//   total_temperature_fv_patch_scalar_field.cpp
-//   see_also
-//   foam::fixed_value_fv_patch_field
+//   See also
+//   mousse::fixedValueFvPatchField
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class totalTemperatureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -84,9 +85,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new totalTemperatureFvPatchScalarField(*this)
-      );
+      {
+        new totalTemperatureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     totalTemperatureFvPatchScalarField
@@ -101,9 +102,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new totalTemperatureFvPatchScalarField(*this, iF)
-      );
+      {
+        new totalTemperatureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access

@@ -9,22 +9,29 @@
 #include "list_ops.hpp"
 #include "edge_map.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(edgeMesh, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(edgeMesh, fileExtension);
 DEFINE_MEMBER_FUNCTION_SELECTION_TABLE(edgeMesh,write,fileExtension);
+
 }
+
 
 mousse::wordHashSet mousse::edgeMesh::readTypes()
 {
-  return wordHashSet(*fileExtensionConstructorTablePtr_);
+  return {*fileExtensionConstructorTablePtr_};
 }
+
+
 mousse::wordHashSet mousse::edgeMesh::writeTypes()
 {
-  return wordHashSet(*writefileExtensionMemberFunctionTablePtr_);
+  return {*writefileExtensionMemberFunctionTablePtr_};
 }
+
+
 // Static Member Functions
 bool mousse::edgeMesh::canReadType
 (
@@ -40,6 +47,8 @@ bool mousse::edgeMesh::canReadType
     "reading"
  );
 }
+
+
 bool mousse::edgeMesh::canWriteType
 (
   const word& ext,
@@ -54,6 +63,8 @@ bool mousse::edgeMesh::canWriteType
     "writing"
   );
 }
+
+
 bool mousse::edgeMesh::canRead
 (
   const fileName& name,
@@ -61,32 +72,36 @@ bool mousse::edgeMesh::canRead
 )
 {
   word ext = name.ext();
-  if (ext == "gz")
-  {
+  if (ext == "gz") {
     ext = name.lessExt().ext();
   }
   return canReadType(ext, verbose);
 }
+
+
 // Private Member Functions 
 void mousse::edgeMesh::calcPointEdges() const
 {
-  if (pointEdgesPtr_.valid())
-  {
+  if (pointEdgesPtr_.valid()) {
     FATAL_ERROR_IN("edgeMesh::calcPointEdges() const")
       << "pointEdges already calculated." << abort(FatalError);
   }
-  pointEdgesPtr_.reset(new labelListList(points_.size()));
+  pointEdgesPtr_.reset(new labelListList{points_.size()});
   labelListList& pointEdges = pointEdgesPtr_();
   invertManyToMany(pointEdges.size(), edges_, pointEdges);
 }
+
+
 // Constructors 
 mousse::edgeMesh::edgeMesh()
 :
   fileFormats::edgeMeshFormatsCore(),
-  points_(0),
-  edges_(0),
-  pointEdgesPtr_(NULL)
+  points_{0},
+  edges_{0},
+  pointEdgesPtr_{NULL}
 {}
+
+
 mousse::edgeMesh::edgeMesh
 (
   const pointField& points,
@@ -94,10 +109,12 @@ mousse::edgeMesh::edgeMesh
 )
 :
   fileFormats::edgeMeshFormatsCore(),
-  points_(points),
-  edges_(edges),
-  pointEdgesPtr_(NULL)
+  points_{points},
+  edges_{edges},
+  pointEdgesPtr_{NULL}
 {}
+
+
 mousse::edgeMesh::edgeMesh
 (
   const Xfer<pointField>& pointLst,
@@ -105,16 +122,20 @@ mousse::edgeMesh::edgeMesh
 )
 :
   fileFormats::edgeMeshFormatsCore(),
-  points_(0),
-  edges_(0),
-  pointEdgesPtr_(NULL)
+  points_{0},
+  edges_{0},
+  pointEdgesPtr_{NULL}
 {
   points_.transfer(pointLst());
   edges_.transfer(edgeLst());
 }
+
+
 // Destructor 
 mousse::edgeMesh::~edgeMesh()
 {}
+
+
 // Member Functions 
 void mousse::edgeMesh::clear()
 {
@@ -122,6 +143,8 @@ void mousse::edgeMesh::clear()
   edges_.clear();
   pointEdgesPtr_.clear();
 }
+
+
 void mousse::edgeMesh::reset
 (
   const Xfer<pointField>& pointLst,
@@ -130,65 +153,61 @@ void mousse::edgeMesh::reset
 {
   // Take over new primitive data.
   // Optimized to avoid overwriting data at all
-  if (notNull(pointLst))
-  {
+  if (notNull(pointLst)) {
     points_.transfer(pointLst());
   }
-  if (notNull(edgeLst))
-  {
+  if (notNull(edgeLst)) {
     edges_.transfer(edgeLst());
     // connectivity likely changed
     pointEdgesPtr_.clear();
   }
 }
+
+
 void mousse::edgeMesh::transfer(edgeMesh& mesh)
 {
   points_.transfer(mesh.points_);
   edges_.transfer(mesh.edges_);
   pointEdgesPtr_ = mesh.pointEdgesPtr_;
 }
+
+
 mousse::Xfer<mousse::edgeMesh> mousse::edgeMesh::xfer()
 {
   return xferMove(*this);
 }
+
+
 mousse::label mousse::edgeMesh::regions(labelList& edgeRegion) const
 {
   edgeRegion.setSize(edges_.size());
   edgeRegion = -1;
   label startEdgeI = 0;
   label currentRegion = 0;
-  while (true)
-  {
-    while (startEdgeI < edges_.size() && edgeRegion[startEdgeI] != -1)
-    {
+  while (true) {
+    while (startEdgeI < edges_.size() && edgeRegion[startEdgeI] != -1) {
       startEdgeI++;
     }
-    if (startEdgeI == edges_.size())
-    {
+    if (startEdgeI == edges_.size()) {
       break;
     }
     // Found edge that has not yet been assigned a region.
     // Mark connected region with currentRegion starting at startEdgeI.
     edgeRegion[startEdgeI] = currentRegion;
     labelList edgesToVisit(1, startEdgeI);
-    while (edgesToVisit.size())
-    {
+    while (edgesToVisit.size()) {
       // neighbours of current edgesToVisit
-      DynamicList<label> newEdgesToVisit(edgesToVisit.size());
+      DynamicList<label> newEdgesToVisit{edgesToVisit.size()};
       // Mark all point connected edges with current region.
-      FOR_ALL(edgesToVisit, i)
-      {
+      FOR_ALL(edgesToVisit, i) {
         label edgeI = edgesToVisit[i];
         // Mark connected edges
         const edge& e = edges_[edgeI];
-        FOR_ALL(e, fp)
-        {
+        FOR_ALL(e, fp) {
           const labelList& pEdges = pointEdges()[e[fp]];
-          FOR_ALL(pEdges, pEdgeI)
-          {
+          FOR_ALL(pEdges, pEdgeI) {
             label nbrEdgeI = pEdges[pEdgeI];
-            if (edgeRegion[nbrEdgeI] == -1)
-            {
+            if (edgeRegion[nbrEdgeI] == -1) {
               edgeRegion[nbrEdgeI] = currentRegion;
               newEdgesToVisit.append(nbrEdgeI);
             }
@@ -201,14 +220,17 @@ mousse::label mousse::edgeMesh::regions(labelList& edgeRegion) const
   }
   return currentRegion;
 }
+
+
 void mousse::edgeMesh::scalePoints(const scalar scaleFactor)
 {
   // avoid bad scaling
-  if (scaleFactor > 0 && scaleFactor != 1.0)
-  {
+  if (scaleFactor > 0 && scaleFactor != 1.0) {
     points_ *= scaleFactor;
   }
 }
+
+
 void mousse::edgeMesh::mergePoints(const scalar mergeDist)
 {
   pointField newPoints;
@@ -222,69 +244,59 @@ void mousse::edgeMesh::mergePoints(const scalar mergeDist)
     newPoints,
     vector::zero
   );
-  if (hasMerged)
-  {
+  if (hasMerged) {
     pointEdgesPtr_.clear();
     points_.transfer(newPoints);
     // Renumber and make sure e[0] < e[1] (not really necessary)
-    FOR_ALL(edges_, edgeI)
-    {
+    FOR_ALL(edges_, edgeI) {
       edge& e = edges_[edgeI];
       label p0 = pointMap[e[0]];
       label p1 = pointMap[e[1]];
-      if (p0 < p1)
-      {
+      if (p0 < p1) {
         e[0] = p0;
         e[1] = p1;
-      }
-      else
-      {
+      } else {
         e[0] = p1;
         e[1] = p0;
       }
     }
     // Compact using a hashtable and commutative hash of edge.
-    EdgeMap<label> edgeToLabel(2*edges_.size());
+    EdgeMap<label> edgeToLabel{2*edges_.size()};
     label newEdgeI = 0;
-    FOR_ALL(edges_, edgeI)
-    {
+    FOR_ALL(edges_, edgeI) {
       const edge& e = edges_[edgeI];
-      if (e[0] != e[1])
-      {
-        if (edgeToLabel.insert(e, newEdgeI))
-        {
+      if (e[0] != e[1]) {
+        if (edgeToLabel.insert(e, newEdgeI)) {
           newEdgeI++;
         }
       }
     }
     edges_.setSize(newEdgeI);
-    FOR_ALL_CONST_ITER(EdgeMap<label>, edgeToLabel, iter)
-    {
+    FOR_ALL_CONST_ITER(EdgeMap<label>, edgeToLabel, iter) {
       edges_[iter()] = iter.key();
     }
   }
 }
+
+
 void mousse::edgeMesh::mergeEdges()
 {
-  EdgeMap<label> existingEdges(2*edges_.size());
+  EdgeMap<label> existingEdges{2*edges_.size()};
   label curEdgeI = 0;
-  FOR_ALL(edges_, edgeI)
-  {
+  FOR_ALL(edges_, edgeI) {
     const edge& e = edges_[edgeI];
-    if (existingEdges.insert(e, curEdgeI))
-    {
+    if (existingEdges.insert(e, curEdgeI)) {
       curEdgeI++;
     }
   }
-  if (debug)
-  {
-    Info<< "Merging duplicate edges: "
+  if (debug) {
+    Info << "Merging duplicate edges: "
       << edges_.size() - existingEdges.size()
       << " edges will be deleted." << endl;
   }
   edges_.setSize(existingEdges.size());
-  FOR_ALL_CONST_ITER(EdgeMap<label>, existingEdges, iter)
-  {
+  FOR_ALL_CONST_ITER(EdgeMap<label>, existingEdges, iter) {
     edges_[iter()] = iter.key();
   }
 }
+

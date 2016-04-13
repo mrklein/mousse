@@ -23,9 +23,6 @@
 //       interpolationScheme linear;     // optional interpolation scheme
 //     }
 //   \endverbatim
-// SourceFiles
-//   csv.cpp
-
 
 #include "data_entry.hpp"
 #include "table_base.hpp"
@@ -33,8 +30,9 @@
 #include "label_list.hpp"
 #include "isstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class CSV;
 
@@ -131,7 +129,7 @@ public:
 
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "csv.cpp"
-#endif
+
+#include "csv.ipp"
+
 #endif

@@ -8,11 +8,12 @@
 //   mousse::meshToMeshMethod
 // Description
 //   Base class for mesh-to-mesh calculation methods
-// SourceFiles
-//   mesh_to_mesh_method.cpp
+
 #include "poly_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class meshToMeshMethod
 {
 protected:
@@ -112,18 +113,25 @@ public:
         const labelListList& mesh1ToMesh2Addr
       ) const;
 };
+
 }  // namespace mousse
+
 
 const mousse::polyMesh& mousse::meshToMeshMethod::src() const
 {
   return src_;
 }
+
+
 const mousse::polyMesh& mousse::meshToMeshMethod::tgt() const
 {
   return tgt_;
 }
+
+
 mousse::scalar mousse::meshToMeshMethod::V() const
 {
   return V_;
 }
+
 #endif

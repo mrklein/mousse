@@ -8,15 +8,11 @@
 //   mousse::HashPtrTable
 // Description
 //   A HashTable specialization for hashing pointers.
-// SourceFiles
-//   hash_ptr_table.cpp
-//   hash_ptr_table_io.cpp
-
 
 #include "hash_table.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class Istream;
 class Ostream;
@@ -82,8 +78,9 @@ public:
       const HashPtrTable<T, Key, Hash>&
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "hash_ptr_table.cpp"
-#endif
+
+#include "hash_ptr_table.ipp"
+
 #endif

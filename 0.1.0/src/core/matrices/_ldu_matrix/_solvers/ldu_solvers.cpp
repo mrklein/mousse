@@ -9,6 +9,7 @@
 #include "_diagonal_solver.hpp"
 #include "field_types.hpp"
 
+
 #define MAKE_LDU_SOLVERS(Type, DType, LUType)                                 \
                                                                               \
   MAKE_LDU_SOLVER(DiagonalSolver, Type, DType, LUType);                       \
@@ -28,11 +29,13 @@
   MAKE_LDU_SYM_SOLVER(SmoothSolver, Type, DType, LUType);                     \
   MAKE_LDU_ASYM_SOLVER(SmoothSolver, Type, DType, LUType);
 
-namespace mousse
-{
-  MAKE_LDU_SOLVERS(scalar, scalar, scalar);
-  MAKE_LDU_SOLVERS(vector, scalar, scalar);
-  MAKE_LDU_SOLVERS(sphericalTensor, scalar, scalar);
-  MAKE_LDU_SOLVERS(symmTensor, scalar, scalar);
-  MAKE_LDU_SOLVERS(tensor, scalar, scalar);
+
+namespace mousse {
+
+MAKE_LDU_SOLVERS(scalar, scalar, scalar);
+MAKE_LDU_SOLVERS(vector, scalar, scalar);
+MAKE_LDU_SOLVERS(sphericalTensor, scalar, scalar);
+MAKE_LDU_SOLVERS(symmTensor, scalar, scalar);
+MAKE_LDU_SOLVERS(tensor, scalar, scalar);
+
 };

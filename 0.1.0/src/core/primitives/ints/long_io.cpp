@@ -21,7 +21,7 @@ mousse::word mousse::name(const long val)
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, long& i)
 {
-  token t(is);
+  token t{is};
   if (!t.good())
   {
     is.setBad();

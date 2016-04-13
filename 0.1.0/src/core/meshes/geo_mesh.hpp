@@ -8,9 +8,12 @@
 //   mousse::GeoMesh
 // Description
 //   Generic mesh wrapper used by volMesh, surfaceMesh, pointMesh etc.
+
 #include "object_registry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class MESH>
 class GeoMesh
 {
@@ -26,7 +29,7 @@ public:
     //- Construct from MESH
     explicit GeoMesh(const MESH& mesh)
     :
-      mesh_(mesh)
+      mesh_{mesh}
     {}
   // Member Functions
     //- Return the object registry
@@ -41,5 +44,7 @@ public:
       return mesh_;
     }
 };
+
 }  // namespace mousse
+
 #endif

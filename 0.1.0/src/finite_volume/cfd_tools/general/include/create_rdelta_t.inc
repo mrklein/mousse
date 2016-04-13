@@ -1,8 +1,7 @@
 bool LTS = fv::localEulerDdt::enabled(mesh);
 tmp<volScalarField> trDeltaT;
-if (LTS)
-{
-  Info<< "Using LTS" << endl;
+if (LTS) {
+  Info << "Using LTS" << endl;
   trDeltaT = tmp<volScalarField>
   {
     new volScalarField

@@ -36,15 +36,18 @@
 //   - since it finds a nearest per triangle each triangle is guaranteed
 //   to be on one processor only. So after stitching (by sampledSurfaces)
 //   the original surface should be complete.
-// SourceFiles
-//   sampled_tri_surface_mesh.cpp
+
 #include "sampled_surface.hpp"
 #include "tri_surface_mesh.hpp"
 #include "meshed_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class treeDataFace;
 class meshSearch;
+
+
 class sampledTriSurfaceMesh
 :
   public sampledSurface,
@@ -70,7 +73,7 @@ private:
     //- Track if the surface needs an update
     mutable bool needsUpdate_;
     //- Search tree for all non-coupled boundary faces
-    mutable autoPtr<indexedOctree<treeDataFace> > boundaryTreePtr_;
+    mutable autoPtr<indexedOctree<treeDataFace>> boundaryTreePtr_;
     //- From local surface triangle to mesh cell/face.
     labelList sampleElements_;
     //- Local points to sample per point
@@ -80,12 +83,12 @@ private:
     const indexedOctree<treeDataFace>& nonCoupledboundaryTree() const;
     //- Sample field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vField
     ) const;
     template<class Type>
-    tmp<Field<Type> >
+    tmp<Field<Type>>
     interpolateField(const interpolation<Type>&) const;
     bool update(const meshSearch& meshSearcher);
 public:
@@ -195,7 +198,7 @@ public:
     virtual void print(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_tri_surface_mesh_templates.cpp"
-#endif
+
+#include "sampled_tri_surface_mesh.ipp"
+
 #endif

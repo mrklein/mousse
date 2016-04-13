@@ -8,14 +8,14 @@
 //   mousse::fileFormats::NASCore
 // Description
 //   Core routines used when reading/writing NASTRAN files.
-// SourceFiles
-//   nas_core.cpp
+
 #include "scalar.hpp"
 #include "string.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class NASCore
 {
 public:
@@ -26,6 +26,7 @@ public:
     //- Construct null
     NASCore();
 };
+
 }  // namespace fileFormats
 }  // namespace mousse
 #endif

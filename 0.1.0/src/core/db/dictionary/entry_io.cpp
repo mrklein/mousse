@@ -10,44 +10,30 @@
 #include "string_ops.hpp"
 #include "iostreams.hpp"
 
+
 bool mousse::entry::getKeyword(keyType& keyword, Istream& is)
 {
   token keywordToken;
   // Read the next valid token discarding spurious ';'s
-  do
-  {
-    if
-    (
-      is.read(keywordToken).bad()
-    || is.eof()
-    || !keywordToken.good()
-    )
-    {
+  do {
+    if (is.read(keywordToken).bad() || is.eof() || !keywordToken.good()) {
       return false;
     }
-  }
-  while (keywordToken == token::END_STATEMENT);
+  } while (keywordToken == token::END_STATEMENT);
   // If the token is a valid keyword set 'keyword' return true...
-  if (keywordToken.isWord())
-  {
+  if (keywordToken.isWord()) {
     keyword = keywordToken.wordToken();
     return true;
-  }
-  else if (keywordToken.isString())
-  {
+  } else if (keywordToken.isString()) {
     // Enable wildcards
     keyword = keywordToken.stringToken();
     return true;
-  }
-  // If it is the end of the dictionary or file return false...
-  else if (keywordToken == token::END_BLOCK || is.eof())
-  {
+  } else if (keywordToken == token::END_BLOCK || is.eof()) {
+    // If it is the end of the dictionary or file return false...
     return false;
-  }
-  // Otherwise the token is invalid
-  else
-  {
-    cerr<< "--> FOAM Warning : " << std::endl
+  } else {
+    // Otherwise the token is invalid
+    cerr << "--> FOAM Warning : " << std::endl
       << "    From function "
       << "entry::getKeyword(keyType&, Istream&)" << std::endl
       << "    in file " << __FILE__
@@ -59,36 +45,23 @@ bool mousse::entry::getKeyword(keyType& keyword, Istream& is)
     return false;
   }
 }
+
+
 bool mousse::entry::New(dictionary& parentDict, Istream& is)
 {
   is.fatalCheck("entry::New(const dictionary& parentDict, Istream&)");
   keyType keyword;
   // Get the next keyword and if invalid return false
-  if (!getKeyword(keyword, is))
-  {
+  if (!getKeyword(keyword, is)) {
     return false;
-  }
-  else  // Keyword starts entry ...
-  {
-    if
-    (
-     !disableFunctionEntries
-    && keyword[0] == '#'
-    )                           // ... Function entry
-    {
+  } else { // Keyword starts entry ... 
+    if (!disableFunctionEntries && keyword[0] == '#') { // ... Function entry
       word functionName = keyword(1, keyword.size()-1);
       return functionEntry::execute(functionName, parentDict, is);
-    }
-    else if
-    (
-     !disableFunctionEntries
-    && keyword[0] == '$'
-    )                           // ... Substitution entry
-    {
+    } else if (!disableFunctionEntries && keyword[0] == '$') { // ... Substitution entry
       token nextToken(is);
       is.putBack(nextToken);
-      if (keyword.size() > 2 && keyword[1] == token::BEGIN_BLOCK)
-      {
+      if (keyword.size() > 2 && keyword[1] == token::BEGIN_BLOCK) {
         // Recursive substitution mode. Replace between {} with
         // expansion and then let standard variable expansion deal
         // with rest.
@@ -98,8 +71,7 @@ bool mousse::entry::New(dictionary& parentDict, Istream& is)
         stringOps::inplaceExpand(s, parentDict, true, false);
         keyword.std::string::replace(1, keyword.size()-1, s);
       }
-      if (nextToken == token::BEGIN_BLOCK)
-      {
+      if (nextToken == token::BEGIN_BLOCK) {
         word varName = keyword(1, keyword.size()-1);
         // lookup the variable name in the given dictionary
         const entry* ePtr = parentDict.lookupScopedEntryPtr
@@ -108,8 +80,7 @@ bool mousse::entry::New(dictionary& parentDict, Istream& is)
           true,
           true
         );
-        if (ePtr)
-        {
+        if (ePtr) {
           // Read as primitiveEntry
           const keyType newKeyword(ePtr->stream());
           return parentDict.add
@@ -117,36 +88,24 @@ bool mousse::entry::New(dictionary& parentDict, Istream& is)
             new dictionaryEntry(newKeyword, parentDict, is),
             false
           );
-        }
-        else
-        {
+        } else {
           FATAL_IO_ERROR_IN
           (
             "entry::New(const dictionary& parentDict, Istream&)",
             is
           )
-            << "Attempt to use undefined variable " << varName
-            << " as keyword"
-            << exit(FatalIOError);
+          << "Attempt to use undefined variable " << varName
+          << " as keyword"
+          << exit(FatalIOError);
           return false;
         }
-      }
-      else
-      {
+      } else {
         parentDict.substituteScopedKeyword(keyword);
       }
       return true;
-    }
-    else if
-    (
-     !disableFunctionEntries
-    && keyword == "include"
-    )                           // ... For backward compatibility
-    {
+    } else if ( !disableFunctionEntries && keyword == "include") { // ... For backward compatibility
       return functionEntries::includeEntry::execute(parentDict, is);
-    }
-    else                        // ... Data entries
-    {
+    } else { // ... Data entries
       token nextToken(is);
       is.putBack(nextToken);
       // Deal with duplicate entries
@@ -158,94 +117,77 @@ bool mousse::entry::New(dictionary& parentDict, Istream& is)
         false,
         false
       );
-      if (existingPtr)
-      {
-        if (functionEntries::inputModeEntry::merge())
-        {
+      if (existingPtr) {
+        if (functionEntries::inputModeEntry::merge()) {
           mergeEntry = true;
-        }
-        else if (functionEntries::inputModeEntry::overwrite())
-        {
+        } else if (functionEntries::inputModeEntry::overwrite()) {
           // clear dictionary so merge acts like overwrite
-          if (existingPtr->isDict())
-          {
+          if (existingPtr->isDict()) {
             existingPtr->dict().clear();
           }
           mergeEntry = true;
-        }
-        else if (functionEntries::inputModeEntry::protect())
-        {
+        } else if (functionEntries::inputModeEntry::protect()) {
           // read and discard the entry
-          if (nextToken == token::BEGIN_BLOCK)
-          {
-            dictionaryEntry dummy(keyword, parentDict, is);
-          }
-          else
-          {
-            primitiveEntry  dummy(keyword, parentDict, is);
+          if (nextToken == token::BEGIN_BLOCK) {
+            dictionaryEntry dummy{keyword, parentDict, is};
+          } else {
+            primitiveEntry dummy{keyword, parentDict, is};
           }
           return true;
-        }
-        else if (functionEntries::inputModeEntry::error())
-        {
+        } else if (functionEntries::inputModeEntry::error()) {
           FATAL_IO_ERROR_IN
           (
             "entry::New(const dictionary& parentDict, Istream&)",
             is
           )
-            << "ERROR! duplicate entry: " << keyword
-            << exit(FatalIOError);
+          << "ERROR! duplicate entry: " << keyword
+          << exit(FatalIOError);
           return false;
         }
       }
-      if (nextToken == token::BEGIN_BLOCK)
-      {
+      if (nextToken == token::BEGIN_BLOCK) {
         return parentDict.add
         (
-          new dictionaryEntry(keyword, parentDict, is),
+          new dictionaryEntry{keyword, parentDict, is},
           mergeEntry
         );
-      }
-      else
-      {
+      } else {
         return parentDict.add
         (
-          new primitiveEntry(keyword, parentDict, is),
+          new primitiveEntry{keyword, parentDict, is},
           mergeEntry
         );
       }
     }
   }
 }
+
+
 mousse::autoPtr<mousse::entry> mousse::entry::New(Istream& is)
 {
   is.fatalCheck("entry::New(Istream&)");
   keyType keyword;
   // Get the next keyword and if invalid return false
-  if (!getKeyword(keyword, is))
-  {
+  if (!getKeyword(keyword, is)) {
     return autoPtr<entry>(NULL);
-  }
-  else // Keyword starts entry ...
-  {
-    token nextToken(is);
+  } else { // Keyword starts entry ...
+    token nextToken{is};
     is.putBack(nextToken);
-    if (nextToken == token::BEGIN_BLOCK)
-    {
+    if (nextToken == token::BEGIN_BLOCK) {
       return autoPtr<entry>
-      (
-        new dictionaryEntry(keyword, dictionary::null, is)
-      );
-    }
-    else
-    {
+      {
+        new dictionaryEntry{keyword, dictionary::null, is}
+      };
+    } else {
       return autoPtr<entry>
-      (
-        new primitiveEntry(keyword, is)
-      );
+      {
+        new primitiveEntry{keyword, is}
+      };
     }
   }
 }
+
+
 // Ostream operator 
 mousse::Ostream& mousse::operator<<(Ostream& os, const entry& e)
 {

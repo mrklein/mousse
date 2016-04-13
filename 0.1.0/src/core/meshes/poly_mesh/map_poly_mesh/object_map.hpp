@@ -9,16 +9,21 @@
 // Description
 //   An objectMap is a pair of labels defining the mapping of an object from
 //   another object, e.g. a cell mapped from a point.
+
 #include "label_list.hpp"
 #include "iostreams.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class objectMap;
 inline bool operator==(const objectMap& a, const objectMap& b);
 inline bool operator!=(const objectMap& a, const objectMap& b);
 inline Ostream& operator<<(Ostream&, const objectMap&);
 inline Istream& operator>>(Istream&, objectMap&);
+
+
 class objectMap
 {
   // Private data
@@ -50,19 +55,24 @@ public:
 };
 }  // namespace mousse
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Constructors 
 inline objectMap::objectMap()
 :
   index_{-1},
   masterObjects_{0}
 {}
+
+
 inline objectMap::objectMap(const label index, const labelList& master)
 :
   index_{index},
   masterObjects_{master}
 {}
+
+
 inline objectMap::objectMap(Istream& is)
 {
   // Read beginning of objectMap
@@ -73,23 +83,33 @@ inline objectMap::objectMap(Istream& is)
   // Check state of Istream
   is.check("objectMap::objectMap(Istream&)");
 }
+
+
 // Member Functions 
 label& objectMap::index()
 {
   return index_;
 }
+
+
 inline label objectMap::index() const
 {
   return index_;
 }
+
+
 inline labelList& objectMap::masterObjects()
 {
   return masterObjects_;
 }
+
+
 inline const labelList& objectMap::masterObjects() const
 {
   return masterObjects_;
 }
+
+
 // Friend Operators 
 inline bool operator==(const objectMap& a, const objectMap& b)
 {
@@ -98,10 +118,14 @@ inline bool operator==(const objectMap& a, const objectMap& b)
     (a.index_ == b.index_) && (a.masterObjects_ == b.masterObjects_)
   );
 }
+
+
 inline bool operator!=(const objectMap& a, const objectMap& b)
 {
   return (!(a == b));
 }
+
+
 // Ostream Operator
 inline Ostream& operator<<(Ostream& os, const objectMap& a)
 {
@@ -113,6 +137,8 @@ inline Ostream& operator<<(Ostream& os, const objectMap& a)
   os.check("Ostream& operator<<(Ostream&, const objectMap&)");
   return os;
 }
+
+
 inline Istream& operator>>(Istream& is, objectMap& a)
 {
   is.readBegin("objectMap");
@@ -122,5 +148,7 @@ inline Istream& operator>>(Istream& is, objectMap& a)
   is.check("Istream& operator>>(Istream&, objectMap&)");
   return is;
 }
+
 }  // namespace mousse
+
 #endif

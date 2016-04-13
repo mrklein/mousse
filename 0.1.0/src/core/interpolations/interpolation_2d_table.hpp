@@ -9,17 +9,18 @@
 // Description
 //   2D table interpolation. The data must be in ascending order in both
 //   dimensions x and y.
-// SourceFiles
-//   interpolation_2d_table.cpp
+
 #include "list.hpp"
 #include "tuple2.hpp"
 #include "table_reader.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class interpolation2DTable
 :
-  public List<Tuple2<scalar, List<Tuple2<scalar, Type> > > >
+  public List<Tuple2<scalar, List<Tuple2<scalar, Type>>>>
 {
 public:
   // Public data types
@@ -31,7 +32,7 @@ public:
       CLAMP           /*!< Clamp value to the start/end value */
     };
     //- Cconvenience typedef
-    typedef List<Tuple2<scalar, List<Tuple2<scalar, Type> > > > table;
+    typedef List<Tuple2<scalar, List<Tuple2<scalar, Type>>>> table;
 private:
   // Private data
     //- Enumeration for handling out-of-bound values
@@ -39,14 +40,14 @@ private:
     //- File name
     fileName fileName_;
     //- The actual reader
-    autoPtr<tableReader<Type> > reader_;
+    autoPtr<tableReader<Type>> reader_;
   // Private Member Functions
     //- Read the table of data from file
     void readTable();
     //- Return interpolated value in List
     Type interpolateValue
     (
-      const List<Tuple2<scalar, Type> >& data,
+      const List<Tuple2<scalar, Type>>& data,
       const scalar
     ) const;
     //- Return an X index from the matrix
@@ -64,7 +65,7 @@ public:
     //- Construct from components
     interpolation2DTable
     (
-      const List<Tuple2<scalar, List<Tuple2<scalar, Type> > > >& values,
+      const List<Tuple2<scalar, List<Tuple2<scalar, Type>>>>& values,
       const boundsHandling bounds,
       const fileName& fName
     );
@@ -88,12 +89,12 @@ public:
     void write(Ostream& os) const;
   // Member Operators
     //- Return an element of constant Tuple2<scalar, Type>
-    const List<Tuple2<scalar, Type> >& operator[](const label) const;
+    const List<Tuple2<scalar, Type>>& operator[](const label) const;
     //- Return an interpolated value
     Type operator()(const scalar, const scalar) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "interpolation_2d_table.cpp"
-#endif
+
+#include "interpolation_2d_table.ipp"
+
 #endif

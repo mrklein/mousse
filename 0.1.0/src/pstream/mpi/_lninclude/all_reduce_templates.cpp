@@ -1,1 +1,0 @@
-../all_reduce_templates.cpp

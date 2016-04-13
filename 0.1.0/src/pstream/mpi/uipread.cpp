@@ -6,6 +6,8 @@
 #include "pstream_globals.hpp"
 #include "iostreams.hpp"
 #include <mpi.h>
+
+
 // Constructor
 mousse::UIPstream::UIPstream
 (
@@ -20,37 +22,32 @@ mousse::UIPstream::UIPstream
   versionNumber version
 )
 :
-  UPstream(commsType),
-  Istream(format, version),
-  fromProcNo_(fromProcNo),
-  externalBuf_(externalBuf),
-  externalBufPosition_(externalBufPosition),
-  tag_(tag),
-  comm_(comm),
-  clearAtEnd_(clearAtEnd),
-  messageSize_(0)
+  UPstream{commsType},
+  Istream{format, version},
+  fromProcNo_{fromProcNo},
+  externalBuf_{externalBuf},
+  externalBufPosition_{externalBufPosition},
+  tag_{tag},
+  comm_{comm},
+  clearAtEnd_{clearAtEnd},
+  messageSize_{0}
 {
   setOpened();
   setGood();
-  if (commsType == UPstream::nonBlocking)
-  {
+  if (commsType == UPstream::nonBlocking) {
     // Message is already received into externalBuf
-  }
-  else
-  {
+  } else {
     MPI_Status status;
     label wantedSize = externalBuf_.capacity();
-    if (debug)
-    {
-      Pout<< "UIPstream::UIPstream : read from:" << fromProcNo
+    if (debug) {
+      Pout << "UIPstream::UIPstream : read from:" << fromProcNo
         << " tag:" << tag << " comm:" << comm_
         << " wanted size:" << wantedSize
         << mousse::endl;
     }
     // If the buffer size is not specified, probe the incomming message
     // and set it
-    if (!wantedSize)
-    {
+    if (!wantedSize) {
       MPI_Probe
       (
         fromProcNo_,
@@ -61,9 +58,8 @@ mousse::UIPstream::UIPstream
       MPI_Get_count(&status, MPI_BYTE, &messageSize_);
       externalBuf_.setCapacity(messageSize_);
       wantedSize = messageSize_;
-      if (debug)
-      {
-        Pout<< "UIPstream::UIPstream : probed size:" << wantedSize
+      if (debug) {
+        Pout << "UIPstream::UIPstream : probed size:" << wantedSize
           << mousse::endl;
       }
     }
@@ -78,26 +74,26 @@ mousse::UIPstream::UIPstream
     );
     // Set addressed size. Leave actual allocated memory intact.
     externalBuf_.setSize(messageSize_);
-    if (!messageSize_)
-    {
+    if (!messageSize_) {
       setEof();
     }
   }
 }
+
+
 mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
 :
-  UPstream(buffers.commsType_),
-  Istream(buffers.format_, buffers.version_),
-  fromProcNo_(fromProcNo),
-  externalBuf_(buffers.recvBuf_[fromProcNo]),
-  externalBufPosition_(buffers.recvBufPos_[fromProcNo]),
-  tag_(buffers.tag_),
-  comm_(buffers.comm_),
-  clearAtEnd_(true),
-  messageSize_(0)
+  UPstream{buffers.commsType_},
+  Istream{buffers.format_, buffers.version_},
+  fromProcNo_{fromProcNo},
+  externalBuf_{buffers.recvBuf_[fromProcNo]},
+  externalBufPosition_{buffers.recvBufPos_[fromProcNo]},
+  tag_{buffers.tag_},
+  comm_{buffers.comm_},
+  clearAtEnd_{true},
+  messageSize_{0}
 {
-  if (commsType() != UPstream::scheduled && !buffers.finishedSendsCalled_)
-  {
+  if (commsType() != UPstream::scheduled && !buffers.finishedSendsCalled_) {
     FATAL_ERROR_IN("UIPstream::UIPstream(const int, PstreamBuffers&)")
       << "PstreamBuffers::finishedSends() never called." << endl
       << "Please call PstreamBuffers::finishedSends() after doing"
@@ -106,26 +102,21 @@ mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
   }
   setOpened();
   setGood();
-  if (commsType() == UPstream::nonBlocking)
-  {
+  if (commsType() == UPstream::nonBlocking) {
     // Message is already received into externalBuf
     messageSize_ = buffers.recvBuf_[fromProcNo].size();
-    if (debug)
-    {
-      Pout<< "UIPstream::UIPstream PstreamBuffers :"
+    if (debug) {
+      Pout << "UIPstream::UIPstream PstreamBuffers :"
         << " fromProcNo:" << fromProcNo
         << " tag:" << tag_ << " comm:" << comm_
         << " receive buffer size:" << messageSize_
         << mousse::endl;
     }
-  }
-  else
-  {
+  } else {
     MPI_Status status;
     label wantedSize = externalBuf_.capacity();
-    if (debug)
-    {
-      Pout<< "UIPstream::UIPstream PstreamBuffers :"
+    if (debug) {
+      Pout << "UIPstream::UIPstream PstreamBuffers :"
         << " read from:" << fromProcNo
         << " tag:" << tag_ << " comm:" << comm_
         << " wanted size:" << wantedSize
@@ -133,8 +124,7 @@ mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
     }
     // If the buffer size is not specified, probe the incomming message
     // and set it
-    if (!wantedSize)
-    {
+    if (!wantedSize) {
       MPI_Probe
       (
         fromProcNo_,
@@ -145,9 +135,8 @@ mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
       MPI_Get_count(&status, MPI_BYTE, &messageSize_);
       externalBuf_.setCapacity(messageSize_);
       wantedSize = messageSize_;
-      if (debug)
-      {
-        Pout<< "UIPstream::UIPstream PstreamBuffers : probed size:"
+      if (debug) {
+        Pout << "UIPstream::UIPstream PstreamBuffers : probed size:"
           << wantedSize << mousse::endl;
       }
     }
@@ -162,12 +151,13 @@ mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
     );
     // Set addressed size. Leave actual allocated memory intact.
     externalBuf_.setSize(messageSize_);
-    if (!messageSize_)
-    {
+    if (!messageSize_) {
       setEof();
     }
   }
 }
+
+
 // Member Functions 
 mousse::label mousse::UIPstream::read
 (
@@ -179,17 +169,15 @@ mousse::label mousse::UIPstream::read
   const label communicator
 )
 {
-  if (debug)
-  {
-    Pout<< "UIPstream::read : starting read from:" << fromProcNo
+  if (debug) {
+    Pout << "UIPstream::read : starting read from:" << fromProcNo
       << " tag:" << tag << " comm:" << communicator
       << " wanted size:" << label(bufSize)
       << " commsType:" << UPstream::commsTypeNames[commsType]
       << mousse::endl;
   }
-  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm)
-  {
-    Pout<< "UIPstream::read : starting read from:" << fromProcNo
+  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm) {
+    Pout << "UIPstream::read : starting read from:" << fromProcNo
       << " tag:" << tag << " comm:" << communicator
       << " wanted size:" << label(bufSize)
       << " commsType:" << UPstream::commsTypeNames[commsType]
@@ -197,8 +185,7 @@ mousse::label mousse::UIPstream::read
       << mousse::endl;
     error::printStack(Pout);
   }
-  if (commsType == blocking || commsType == scheduled)
-  {
+  if (commsType == blocking || commsType == scheduled) {
     MPI_Status status;
     if
     (
@@ -212,41 +199,38 @@ mousse::label mousse::UIPstream::read
         PstreamGlobals::MPICommunicators_[communicator],
         &status
       )
-    )
-    {
+    ) {
       FATAL_ERROR_IN
       (
         "UIPstream::read"
         "(const int fromProcNo, char* buf, std::streamsize bufSize)"
-      )   << "MPI_Recv cannot receive incomming message"
-        << mousse::abort(FatalError);
+      )
+      << "MPI_Recv cannot receive incomming message"
+      << mousse::abort(FatalError);
       return 0;
     }
     // Check size of message read
     int messageSize;
     MPI_Get_count(&status, MPI_BYTE, &messageSize);
-    if (debug)
-    {
-      Pout<< "UIPstream::read : finished read from:" << fromProcNo
+    if (debug) {
+      Pout << "UIPstream::read : finished read from:" << fromProcNo
         << " tag:" << tag << " read size:" << label(bufSize)
         << " commsType:" << UPstream::commsTypeNames[commsType]
         << mousse::endl;
     }
-    if (messageSize > bufSize)
-    {
+    if (messageSize > bufSize) {
       FATAL_ERROR_IN
       (
         "UIPstream::read"
         "(const int fromProcNo, char* buf, std::streamsize bufSize)"
-      )   << "buffer (" << label(bufSize)
-        << ") not large enough for incomming message ("
-        << messageSize << ')'
-        << mousse::abort(FatalError);
+      )
+      << "buffer (" << label(bufSize)
+      << ") not large enough for incomming message ("
+      << messageSize << ')'
+      << mousse::abort(FatalError);
     }
     return messageSize;
-  }
-  else if (commsType == nonBlocking)
-  {
+  } else if (commsType == nonBlocking) {
     MPI_Request request;
     if
     (
@@ -260,19 +244,18 @@ mousse::label mousse::UIPstream::read
         PstreamGlobals::MPICommunicators_[communicator],
         &request
       )
-    )
-    {
+    ) {
       FATAL_ERROR_IN
       (
         "UIPstream::read"
         "(const int fromProcNo, char* buf, std::streamsize bufSize)"
-      )   << "MPI_Recv cannot start non-blocking receive"
-        << mousse::abort(FatalError);
+      )
+      << "MPI_Recv cannot start non-blocking receive"
+      << mousse::abort(FatalError);
       return 0;
     }
-    if (debug)
-    {
-      Pout<< "UIPstream::read : started read from:" << fromProcNo
+    if (debug) {
+      Pout << "UIPstream::read : started read from:" << fromProcNo
         << " tag:" << tag << " read size:" << label(bufSize)
         << " commsType:" << UPstream::commsTypeNames[commsType]
         << " request:" << PstreamGlobals::outstandingRequests_.size()
@@ -281,16 +264,15 @@ mousse::label mousse::UIPstream::read
     PstreamGlobals::outstandingRequests_.append(request);
     // Assume the message is completely received.
     return bufSize;
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "UIPstream::read"
       "(const int fromProcNo, char* buf, std::streamsize bufSize)"
-    )   << "Unsupported communications type "
-      << commsType
-      << mousse::abort(FatalError);
+    )
+    << "Unsupported communications type "
+    << commsType
+    << mousse::abort(FatalError);
     return 0;
   }
 }

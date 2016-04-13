@@ -15,15 +15,13 @@
 //   Usually one would use the read primitive member functions, but if one
 //   were reading a stream on unknown data sequence one can read token by
 //   token, and then analyse.
-// SourceFiles
-//   istream.cpp
-
 
 #include "iostream.hpp"
 #include "token.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class Istream
 :
   public IOstream
@@ -43,8 +41,8 @@ public:
       compressionType compression=UNCOMPRESSED
     )
     :
-      IOstream(format, version, compression),
-      putBack_(false)
+      IOstream{format, version, compression},
+      putBack_{false}
     {}
   //- Destructor
   virtual ~Istream()
@@ -91,24 +89,26 @@ public:
     //  e.g. thing thisThing(IFstream("thingFileName")());
     Istream& operator()() const;
 };
-// --------------------------------------------------------------------
-// ------ Manipulators (not taking arguments)
-// --------------------------------------------------------------------
+
+
+// Manipulators (not taking arguments)
 typedef Istream& (*IstreamManip)(Istream&);
+
 //- operator>> handling for manipulators without arguments
 inline Istream& operator>>(Istream& is, IstreamManip f)
 {
   return f(is);
 }
+
 //- operator>> handling for manipulators without arguments
 inline Istream& operator>>(Istream& is, IOstreamManip f)
 {
   f(is);
   return is;
 }
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "hash_table.cpp"
-#endif
+#include "hash_table.ipp"
+
 #endif

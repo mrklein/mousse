@@ -9,6 +9,7 @@
 #include "nut_wall_function_fv_patch_scalar_field.hpp"
 #include "near_wall_dist.hpp"
 #include "wall_fv_patch.hpp"
+
 template<class TurbulenceModel>
 void calcYPlus
 (
@@ -38,7 +39,7 @@ void calcYPlus
         );
       yPlus.boundaryField()[patchi] = nutPf.yPlus();
       const scalarField& Yp = yPlus.boundaryField()[patchi];
-      Info<< "Patch " << patchi
+      Info << "Patch " << patchi
         << " named " << nutPf.patch().name()
         << ", wall-function " << nutPf.type()
         << ", y+ : min: " << gMin(Yp) << " max: " << gMax(Yp)
@@ -47,20 +48,17 @@ void calcYPlus
     else if (isA<wallFvPatch>(patch))
     {
       yPlus.boundaryField()[patchi] =
-        d[patchi]
-       *sqrt
-        (
-          nuEffBf[patchi]
-         *mag(U.boundaryField()[patchi].snGrad())
-        )/nuBf[patchi];
+        d[patchi]*sqrt(nuEffBf[patchi]*mag(U.boundaryField()[patchi].snGrad()))
+        /nuBf[patchi];
       const scalarField& Yp = yPlus.boundaryField()[patchi];
-      Info<< "Patch " << patchi
+      Info << "Patch " << patchi
         << " named " << patch.name()
         << " y+ : min: " << gMin(Yp) << " max: " << gMax(Yp)
         << " average: " << gAverage(Yp) << nl << endl;
     }
   }
 }
+
 void calcIncompressibleYPlus
 (
   const fvMesh& mesh,
@@ -72,9 +70,9 @@ void calcIncompressibleYPlus
   #include "create_phi.inc"
   singlePhaseTransportModel laminarTransport(U, phi);
   autoPtr<incompressible::turbulenceModel> turbulenceModel
-  (
+  {
     incompressible::turbulenceModel::New(U, phi, laminarTransport)
-  );
+  };
   calcYPlus(turbulenceModel, mesh, U, yPlus);
 }
 void calcCompressibleYPlus
@@ -95,10 +93,10 @@ void calcCompressibleYPlus
   };
   if (!rhoHeader.headerOk())
   {
-    Info<< "    no rho field" << endl;
+    Info << "    no rho field" << endl;
     return;
   }
-  Info<< "Reading field rho\n" << endl;
+  Info << "Reading field rho\n" << endl;
   volScalarField rho{rhoHeader, mesh};
   #include "compressible_create_phi.inc"
   autoPtr<fluidThermo> pThermo{fluidThermo::New(mesh)};
@@ -115,6 +113,7 @@ void calcCompressibleYPlus
   };
   calcYPlus(turbulenceModel, mesh, U, yPlus);
 }
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -126,7 +125,7 @@ int main(int argc, char *argv[])
   FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
-    Info<< "Time = " << runTime.timeName() << endl;
+    Info << "Time = " << runTime.timeName() << endl;
     mesh.readUpdate();
     volScalarField yPlus
     {
@@ -151,7 +150,7 @@ int main(int argc, char *argv[])
     };
     if (UHeader.headerOk())
     {
-      Info<< "Reading field U\n" << endl;
+      Info << "Reading field U\n" << endl;
       volVectorField U{UHeader, mesh};
       if
       (
@@ -172,11 +171,11 @@ int main(int argc, char *argv[])
     }
     else
     {
-      Info<< "    no U field" << endl;
+      Info << "    no U field" << endl;
     }
-    Info<< "Writing yPlus to field " << yPlus.name() << nl << endl;
+    Info << "Writing yPlus to field " << yPlus.name() << nl << endl;
     yPlus.write();
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

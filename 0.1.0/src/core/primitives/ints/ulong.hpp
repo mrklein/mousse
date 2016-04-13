@@ -4,8 +4,7 @@
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   ulong.cpp
-//   ulong_io.cpp
+
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
 #include <climits>
@@ -16,17 +15,23 @@
 #ifndef ULONG_MIN
 #define ULONG_MIN 0
 #endif
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 //- Return a word representation of an unsigned long
 word name(const unsigned long);
+
 // IOstream Operators 
 unsigned long readUlong(Istream&);
 bool read(const char*, unsigned long&);
 Istream& operator>>(Istream&, unsigned long&);
 Ostream& operator<<(Ostream&, const unsigned long);
+
+
 //- Template specialization for pTraits<unsigned long>
 template<>
 class pTraits<unsigned long>

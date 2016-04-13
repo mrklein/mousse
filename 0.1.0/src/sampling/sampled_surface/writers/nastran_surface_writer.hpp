@@ -20,14 +20,14 @@
 //       format free;    //short, long, free
 //     }
 //   };
-// SourceFiles
-//   nastran_surface_writer.cpp
-//   nastran_surface_writer_templates.cpp
+
 #include "surface_writer.hpp"
 #include "named_enum.hpp"
 #include "ofstream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class nastranSurfaceWriter
 :
   public surfaceWriter
@@ -188,8 +188,10 @@ public:
       const bool verbose = false
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "nastran_surface_writer_templates.cpp"
+
+#include "nastran_surface_writer.ipp"
+
 #endif
-#endif
+

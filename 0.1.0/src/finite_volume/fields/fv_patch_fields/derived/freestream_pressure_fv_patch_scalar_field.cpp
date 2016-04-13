@@ -8,6 +8,8 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Constructors 
 mousse::freestreamPressureFvPatchScalarField::
 freestreamPressureFvPatchScalarField
@@ -16,11 +18,13 @@ freestreamPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  zeroGradientFvPatchScalarField(p, iF),
-  UName_("U"),
-  phiName_("phi"),
-  rhoName_("rho")
+  zeroGradientFvPatchScalarField{p, iF},
+  UName_{"U"},
+  phiName_{"phi"},
+  rhoName_{"rho"}
 {}
+
+
 mousse::freestreamPressureFvPatchScalarField::
 freestreamPressureFvPatchScalarField
 (
@@ -29,11 +33,13 @@ freestreamPressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  zeroGradientFvPatchScalarField(p, iF, dict),
-  UName_(dict.lookupOrDefault<word>("U", "U")),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho"))
+  zeroGradientFvPatchScalarField{p, iF, dict},
+  UName_{dict.lookupOrDefault<word>("U", "U")},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")}
 {}
+
+
 mousse::freestreamPressureFvPatchScalarField::
 freestreamPressureFvPatchScalarField
 (
@@ -43,22 +49,26 @@ freestreamPressureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  zeroGradientFvPatchScalarField(ptf, p, iF, mapper),
-  UName_(ptf.UName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_)
+  zeroGradientFvPatchScalarField{ptf, p, iF, mapper},
+  UName_{ptf.UName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_}
 {}
+
+
 mousse::freestreamPressureFvPatchScalarField::
 freestreamPressureFvPatchScalarField
 (
   const freestreamPressureFvPatchScalarField& wbppsf
 )
 :
-  zeroGradientFvPatchScalarField(wbppsf),
-  UName_(wbppsf.UName_),
-  phiName_(wbppsf.phiName_),
-  rhoName_(wbppsf.rhoName_)
+  zeroGradientFvPatchScalarField{wbppsf},
+  UName_{wbppsf.UName_},
+  phiName_{wbppsf.phiName_},
+  rhoName_{wbppsf.rhoName_}
 {}
+
+
 mousse::freestreamPressureFvPatchScalarField::
 freestreamPressureFvPatchScalarField
 (
@@ -66,16 +76,17 @@ freestreamPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  zeroGradientFvPatchScalarField(wbppsf, iF),
-  UName_(wbppsf.UName_),
-  phiName_(wbppsf.phiName_),
-  rhoName_(wbppsf.rhoName_)
+  zeroGradientFvPatchScalarField{wbppsf, iF},
+  UName_{wbppsf.UName_},
+  phiName_{wbppsf.phiName_},
+  rhoName_{wbppsf.rhoName_}
 {}
+
+
 // Member Functions 
 void mousse::freestreamPressureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const freestreamFvPatchVectorField& Up =
@@ -90,18 +101,13 @@ void mousse::freestreamPressureFvPatchScalarField::updateCoeffs()
     (
       patch().patchField<surfaceScalarField, scalar>(phi)
     );
-  if (phi.dimensions() == dimVelocity*dimArea)
-  {
+  if (phi.dimensions() == dimVelocity*dimArea) {
     phip = patch().Sf() & Up.freestreamValue();
-  }
-  else if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  } else if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
     const fvPatchField<scalar>& rhop =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     phip = rhop*(patch().Sf() & Up.freestreamValue());
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN_FUNCTION
       << "dimensions of phi are not correct"
       << "\n    on patch " << this->patch().name()
@@ -111,6 +117,8 @@ void mousse::freestreamPressureFvPatchScalarField::updateCoeffs()
   }
   zeroGradientFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::freestreamPressureFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
@@ -119,11 +127,15 @@ void mousse::freestreamPressureFvPatchScalarField::write(Ostream& os) const
   writeEntryIfDifferent<word>(os, "rho", "rho", rhoName_);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   freestreamPressureFvPatchScalarField
 );
+
 }
+

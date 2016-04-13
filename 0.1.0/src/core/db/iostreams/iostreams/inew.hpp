@@ -8,11 +8,15 @@
 //   mousse::INew
 // Description
 //   A helper class when constructing from an Istream or dictionary
+
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class Istream;
+
 template<class T>
 class INew
 {

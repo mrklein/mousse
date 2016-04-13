@@ -9,6 +9,7 @@
 #include "map_lagrangian.hpp"
 #include "un_mapped.hpp"
 #include "point_mesh.hpp"
+
 namespace mousse
 {
 template<template<class> class CombineOp>
@@ -22,7 +23,7 @@ void MapMesh
   {
     const polyMesh& meshSource = interp.srcRegion();
     // Search for list of objects for this time
-    IOobjectList objects(meshSource, meshSource.time().timeName());
+    IOobjectList objects{meshSource, meshSource.time().timeName()};
     // Map volFields
     // ~~~~~~~~~~~~~
     MapVolFields<scalar>
@@ -64,7 +65,7 @@ void MapMesh
   {
     const polyMesh& meshTarget = interp.tgtRegion();
     // Search for list of target objects for this time
-    IOobjectList objects(meshTarget, meshTarget.time().timeName());
+    IOobjectList objects{meshTarget, meshTarget.time().timeName()};
     // Mark surfaceFields as unmapped
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     UnMapped<surfaceScalarField>(objects);

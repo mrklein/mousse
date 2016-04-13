@@ -5,6 +5,7 @@
 #include "file_name.hpp"
 #include "iostreams.hpp"
 
+
 mousse::fileName::fileName(Istream& is)
 :
   string()
@@ -15,18 +16,14 @@ mousse::fileName::fileName(Istream& is)
 
 mousse::Istream& mousse::operator>>(Istream& is, fileName& fn)
 {
-  token t(is);
-  if (!t.good())
-  {
+  token t{is};
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isString())
-  {
+  if (t.isString()) {
     fn = t.stringToken();
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, fileName&)", is)
       << "wrong token type - expected string, found " << t.info()

@@ -29,19 +29,12 @@
 // See Also
 //   mousse::fv::LeastSquaresVectors
 //   mousse::fv::leastSquaresGrad
-// SourceFiles
-//   _least_squares_grad.cpp
-//   _least_squares_vectors.hpp
-//   _least_squares_vectors.cpp
-
 
 #include "grad_scheme.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Type, class Stencil>
 class LeastSquaresGrad
@@ -84,8 +77,8 @@ public:
 };
 
 }  // namespace fv
-
 }  // namespace mousse
+
 
 // Add the patch constructor functions to the hash tables
 #define MAKE_LEAST_SQUARES_GRAD_TYPE_SCHEME(SS, STENCIL, TYPE)                \
@@ -108,6 +101,7 @@ public:
     }                                                                         \
   }
 
+
 #define MAKE_LEAST_SQUARES_GRAD_SCHEME(SS, STENCIL)                           \
   typedef mousse::fv::LeastSquaresVectors<mousse::STENCIL>                    \
     LeastSquaresVectors##STENCIL##_;                                          \
@@ -118,7 +112,7 @@ public:
   MAKE_LEAST_SQUARES_GRAD_TYPE_SCHEME(SS,STENCIL,scalar)                      \
   MAKE_LEAST_SQUARES_GRAD_TYPE_SCHEME(SS,STENCIL,vector)
 
-#ifdef NoRepository
-#   include "_least_squares_grad.cpp"
-#endif
+
+#include "_least_squares_grad.ipp"
+
 #endif

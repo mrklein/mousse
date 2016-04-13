@@ -8,16 +8,14 @@
 //   mousse::ISstream
 // Description
 //   Generic input stream.
-// SourceFiles
-//   isstream.cpp
-
 
 #include "istream.hpp"
 #include "file_name.hpp"
 #include <iostream>
 
-namespace mousse
-{
+
+namespace mousse {
+
 class ISstream
 :
   public Istream
@@ -169,24 +167,21 @@ inline mousse::ISstream::ISstream
   name_{name},
   is_{is}
 {
-  if (is_.good())
-  {
+  if (is_.good()) {
     setOpened();
     setGood();
-  }
-  else
-  {
+  } else {
     setState(is_.rdstate());
   }
 }
+
 
 // Member Functions 
 inline mousse::ISstream& mousse::ISstream::get(char& c)
 {
   is_.get(c);
   setState(is_.rdstate());
-  if (c == '\n')
-  {
+  if (c == '\n') {
     lineNumber_++;
   }
   return *this;
@@ -207,12 +202,10 @@ inline mousse::ISstream& mousse::ISstream::getLine(string& s)
 
 inline mousse::ISstream& mousse::ISstream::putback(const char& c)
 {
-  if (c == '\n')
-  {
+  if (c == '\n') {
     lineNumber_--;
   }
-  if (!is_.putback(c))
-  {
+  if (!is_.putback(c)) {
     setBad();
   }
   setState(is_.rdstate());

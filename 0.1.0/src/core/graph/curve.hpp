@@ -8,16 +8,19 @@
 //   mousse::curve
 // Description
 //   A single curve in a graph.
-// SourceFiles
-//   curve.cpp
+
 #include "string.hpp"
 #include "primitive_fields.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class curve;
 Ostream& operator<<(Ostream&, const curve&);
+
+
 class curve
 :
   public scalarField
@@ -44,12 +47,12 @@ public:
       //- Construct given a curveStyleNo
       curveStyle(const curveStyleNo csn)
       :
-        CurveStyleNo(csn)
+        CurveStyleNo{csn}
       {}
       //- Construct from Istream
       curveStyle(Istream& is)
       :
-        CurveStyleNo(curveStyleNo(readInt(is)))
+        CurveStyleNo{curveStyleNo(readInt(is))}
       {}
     // Ostream operator
       friend Ostream& operator<<(Ostream& os, const curveStyle& cs)

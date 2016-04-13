@@ -16,16 +16,16 @@
 //     - indices() the original indices
 //     - procs() the original processor id.
 //   Can also be constructed from size, filled at ease and then sort()'ed.
-// SourceFiles
-//   par_sortable_list.cpp
-
 
 #include "label_list.hpp"
 #include "class_name.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 TEMPLATE_NAME(ParSortableList);
+
+
 template<class Type>
 class ParSortableList
 :
@@ -150,7 +150,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "par_sortable_list.cpp"
-#endif
+
+#include "par_sortable_list.ipp"
+
 #endif

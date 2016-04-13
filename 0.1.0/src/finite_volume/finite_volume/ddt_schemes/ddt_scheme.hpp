@@ -8,9 +8,6 @@
 //   mousse::fv::ddtScheme
 // Description
 //   Abstract base class for ddt schemes.
-// SourceFiles
-//   ddt_scheme.cpp
-
 
 #include "tmp.hpp"
 #include "dimensioned_type.hpp"
@@ -19,13 +16,16 @@
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class fvMatrix;
 class fvMesh;
-namespace fv
-{
+
+
+namespace fv {
+
 template<class Type>
 class ddtScheme
 :
@@ -68,7 +68,7 @@ public:
 
   // Selectors
     //- Return a pointer to a new ddtScheme created on freestore
-    static tmp<ddtScheme<Type> > New
+    static tmp<ddtScheme<Type>> New
     (
       const fvMesh& mesh,
       Istream& schemeData
@@ -84,53 +84,53 @@ public:
       return mesh_;
     }
 
-    virtual tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    virtual tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensioned<Type>&
     ) = 0;
 
-    virtual tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    virtual tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     ) = 0;
 
-    virtual tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    virtual tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) = 0;
 
-    virtual tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    virtual tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) = 0;
 
-    virtual tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    virtual tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) = 0;
 
-    virtual tmp<fvMatrix<Type> > fvmDdt
+    virtual tmp<fvMatrix<Type>> fvmDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     ) = 0;
 
-    virtual tmp<fvMatrix<Type> > fvmDdt
+    virtual tmp<fvMatrix<Type>> fvmDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) = 0;
 
-    virtual tmp<fvMatrix<Type> > fvmDdt
+    virtual tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) = 0;
 
-    virtual tmp<fvMatrix<Type> > fvmDdt
+    virtual tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
@@ -198,7 +198,7 @@ public:
   {                                                                           \
     namespace fv                                                              \
     {                                                                         \
-      ddtScheme<Type>::addIstreamConstructorToTable<SS<Type> >                \
+      ddtScheme<Type>::addIstreamConstructorToTable<SS<Type>>                 \
         add##SS##Type##IstreamConstructorToTable_;                            \
     }                                                                         \
   }
@@ -211,10 +211,8 @@ MAKE_FV_DDT_TYPE_SCHEME(SS, sphericalTensor)                                  \
 MAKE_FV_DDT_TYPE_SCHEME(SS, symmTensor)                                       \
 MAKE_FV_DDT_TYPE_SCHEME(SS, tensor)                                           \
                                                                               \
-namespace mousse                                                              \
-{                                                                             \
-namespace fv                                                                  \
-{                                                                             \
+namespace mousse {                                                            \
+namespace fv {                                                                \
                                                                               \
 template<>                                                                    \
 tmp<surfaceScalarField> SS<scalar>::fvcDdtUfCorr                              \
@@ -265,7 +263,6 @@ tmp<surfaceScalarField> SS<scalar>::fvcDdtPhiCorr                             \
 }                                                                             \
 }
 
-#ifdef NoRepository
-#   include "ddt_scheme.cpp"
-#endif
+#include "ddt_scheme.ipp"
+
 #endif

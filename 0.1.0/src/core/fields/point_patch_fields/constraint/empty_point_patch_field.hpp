@@ -8,15 +8,12 @@
 //   mousse::emptyPointPatchField
 // Description
 //   An empty boundary condition for pointField
-// SourceFiles
-//   empty_point_patch_field.cpp
-
 
 #include "point_patch_field.hpp"
 #include "empty_point_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class emptyPointPatchField
@@ -53,14 +50,11 @@ public:
     );
 
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
+      return autoPtr<pointPatchField<Type>>
       {
-        new emptyPointPatchField<Type>
-        {
-          *this
-        }
+        new emptyPointPatchField<Type>{*this}
       };
     }
 
@@ -72,18 +66,14 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
+      return autoPtr<pointPatchField<Type>>
       {
-        new emptyPointPatchField<Type>
-        {
-          *this,
-          iF
-        }
+        new emptyPointPatchField<Type>{*this, iF}
       };
     }
 
@@ -97,7 +87,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#    include "empty_point_patch_field.cpp"
-#endif
+
+#include "empty_point_patch_field.ipp"
+
 #endif

@@ -32,12 +32,13 @@
 // SeeAlso
 //   mousse::DataEntry
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   rotating_wall_velocity_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rotatingWallVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -84,9 +85,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new rotatingWallVelocityFvPatchVectorField(*this)
-      );
+      {
+        new rotatingWallVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     rotatingWallVelocityFvPatchVectorField
@@ -101,9 +102,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new rotatingWallVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new rotatingWallVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access functions

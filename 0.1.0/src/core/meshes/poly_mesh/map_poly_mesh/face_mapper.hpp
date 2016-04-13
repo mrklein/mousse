@@ -10,19 +10,17 @@
 //   This object provides mapping and fill-in information for face data
 //   between the two meshes after the topological change.  It is
 //   constructed from mapPolyMesh.
-// SourceFiles
-//   face_mapper.cpp
-
 
 #include "morph_field_mapper.hpp"
 #include "hash_set.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class polyMesh;
 class mapPolyMesh;
+
 
 class faceMapper
 :

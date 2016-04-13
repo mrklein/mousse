@@ -4,8 +4,10 @@
 
 #include "geometric_field.hpp"
 #include "hash_ptr_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Global functions 
 //- Interpolate selected fields (given by indices and corresponding weights)
 //  (boundary type becomes calculated). Fields stored per index. Field gets name
@@ -17,6 +19,7 @@ tmp<GeoField> uniformInterpolate
   const labelList& indices,
   const scalarField& weights
 );
+
 //- Interpolate fields. fieldsCache contains per timeName all loaded fields.
 //  Resulting field gets properties according to fieldIO
 template<class GeoField>
@@ -28,6 +31,7 @@ tmp<GeoField> uniformInterpolate
   const scalarField& weights,
   const objectRegistry& fieldsCache
 );
+
 //- Interpolate fields. fieldsCache contains per timeName all loaded fields.
 //  Resulting field gets properties according to fieldIO
 template<class GeoField>
@@ -39,7 +43,9 @@ tmp<GeoField> uniformInterpolate
   const scalarField& weights,
   const word& registryName = "fieldsCache"
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "uniform_interpolate.cpp"
+
+#include "uniform_interpolate.ipp"
+
 #endif

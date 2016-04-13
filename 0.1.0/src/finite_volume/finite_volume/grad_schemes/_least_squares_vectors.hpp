@@ -10,27 +10,22 @@
 //   Least-squares gradient scheme vectors
 // See Also
 //   mousse::fv::LeastSquaresGrad
-// SourceFiles
-//   _least_squares_vectors.cpp
-
 
 #include "extended_centred_cell_to_cell_stencil.hpp"
 #include "_mesh_object.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Stencil>
 class LeastSquaresVectors
 :
-  public MeshObject<fvMesh, MoveableMeshObject, LeastSquaresVectors<Stencil> >
+  public MeshObject<fvMesh, MoveableMeshObject, LeastSquaresVectors<Stencil>>
 {
   // Private data
     //- Least-squares gradient vectors
-    List<List<vector> > vectors_;
+    List<List<vector>> vectors_;
 
   // Private Member Functions
     //- Calculate Least-squares gradient vectors
@@ -57,7 +52,7 @@ public:
     }
 
     //- Return reference to the least square vectors
-    const List<List<vector> >& vectors() const
+    const List<List<vector>>& vectors() const
     {
       return vectors_;
     }
@@ -65,10 +60,10 @@ public:
     //- Update the least square vectors when the mesh moves
     virtual bool movePoints();
 };
+
 }  // namespace fv
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_least_squares_vectors.cpp"
-#endif
+#include "_least_squares_vectors.ipp"
+
 #endif

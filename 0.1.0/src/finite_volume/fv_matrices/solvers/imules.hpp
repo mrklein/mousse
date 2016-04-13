@@ -4,13 +4,13 @@
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   imules.cpp
-//   imules_templates.cpp
+
 #include "mules.hpp"
-namespace mousse
-{
-namespace MULES
-{
+
+
+namespace mousse {
+namespace MULES {
+
 template<class RhoType, class SpType, class SuType>
 void implicitSolve
 (
@@ -23,6 +23,7 @@ void implicitSolve
   const scalar psiMax,
   const scalar psiMin
 );
+
 void implicitSolve
 (
   volScalarField& gamma,
@@ -31,9 +32,10 @@ void implicitSolve
   const scalar psiMax,
   const scalar psiMin
 );
+
 }  // namespace MULES
 }  // namespace mousse
-#ifdef NoRepository
-#   include "imules_templates.cpp"
-#endif
+
+#include "imules.ipp"
+
 #endif

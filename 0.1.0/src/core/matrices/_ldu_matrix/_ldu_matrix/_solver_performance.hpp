@@ -9,37 +9,40 @@
 // Description
 //   SolverPerformance is the class returned by the LduMatrix solver
 //   containing performance statistics.
-// SourceFiles
-//   _solver_performance.cpp
-
 
 #include "word.hpp"
 #include "fixed_list.hpp"
 #include "class_name.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Type>
 class SolverPerformance;
+
 template<class Type>
 SolverPerformance<Type> max
 (
   const SolverPerformance<Type>&,
   const SolverPerformance<Type>&
 );
+
 template<class Type>
 Istream& operator>>
 (
   Istream&,
   SolverPerformance<Type>&
 );
+
 template<class Type>
 Ostream& operator<<
 (
   Ostream&,
   const SolverPerformance<Type>&
 );
+
+
 template<class Type>
 class SolverPerformance
 {
@@ -63,11 +66,11 @@ public:
   // Constructors
     SolverPerformance()
     :
-      initialResidual_(pTraits<Type>::zero),
-      finalResidual_(pTraits<Type>::zero),
-      noIterations_(0),
-      converged_(false),
-      singular_(false)
+      initialResidual_{pTraits<Type>::zero},
+      finalResidual_{pTraits<Type>::zero},
+      noIterations_{0},
+      converged_{false},
+      singular_{false}
     {}
     SolverPerformance
     (
@@ -80,13 +83,13 @@ public:
       const bool   singular = false
     )
     :
-      solverName_(solverName),
-      fieldName_(fieldName),
-      initialResidual_(iRes),
-      finalResidual_(fRes),
-      noIterations_(nIter),
-      converged_(converged),
-      singular_(singular)
+      solverName_{solverName},
+      fieldName_{fieldName},
+      initialResidual_{iRes},
+      finalResidual_{fRes},
+      noIterations_{nIter},
+      converged_{converged},
+      singular_{singular}
     {}
   // Member functions
     //- Return solver name
@@ -172,7 +175,10 @@ public:
       const SolverPerformance<Type>&
     );
 };
+
 }  // namespace mousse
+
+
 #define MAKE_SOLVER_PERFORMANCE(Type)                                         \
                                                                               \
 typedef mousse::SolverPerformance<Type>                                       \
@@ -189,7 +195,7 @@ const scalar solverPerformance##Type::small_(1e-20);                          \
 template<>                                                                    \
 const scalar solverPerformance##Type::vsmall_(VSMALL);                        \
 
-#ifdef NoRepository
-#   include "_solver_performance.cpp"
-#endif
+
+#include "_solver_performance.ipp"
+
 #endif

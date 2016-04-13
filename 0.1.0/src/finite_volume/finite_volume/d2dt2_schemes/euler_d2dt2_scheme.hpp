@@ -9,13 +9,13 @@
 // Description
 //   First-order Euler implicit d2dt2 using the current and two previous
 //   time-step values.
-// SourceFiles
-//   euler_d2dt2_scheme.cpp
+
 #include "d2dt2_scheme.hpp"
-namespace mousse
-{
-namespace fv
-{
+
+
+namespace mousse {
+namespace fv {
+
 template<class Type>
 class EulerD2dt2Scheme
 :
@@ -45,25 +45,25 @@ public:
     {
       return fv::d2dt2Scheme<Type>::mesh();
     }
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcD2dt2
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcD2dt2
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcD2dt2
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcD2dt2
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmD2dt2
+    tmp<fvMatrix<Type>> fvmD2dt2
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmD2dt2
+    tmp<fvMatrix<Type>> fvmD2dt2
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmD2dt2
+    tmp<fvMatrix<Type>> fvmD2dt2
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
@@ -71,7 +71,7 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "euler_d2dt2_scheme.cpp"
-#endif
+
+#include "euler_d2dt2_scheme.ipp"
+
 #endif

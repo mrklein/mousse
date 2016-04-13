@@ -7,8 +7,12 @@
 
 #include "point.hpp"
 #include "line.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef line<point, const point&> linePointRef;
+
 }  // namespace mousse
+
 #endif

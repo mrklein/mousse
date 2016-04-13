@@ -49,13 +49,14 @@
 //     value           uniform (0 0 0);
 //   }
 //   \endverbatim
-// SourceFiles
-//   fixed_normal_inlet_outlet_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "direction_mixed_fv_patch_fields.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fixedNormalInletOutletVelocityFvPatchVectorField
 :
   public directionMixedFvPatchVectorField
@@ -102,9 +103,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
+      {
         new fixedNormalInletOutletVelocityFvPatchVectorField(*this)
-      );
+      };
     }
     //- Construct as copy setting internal field reference
     fixedNormalInletOutletVelocityFvPatchVectorField
@@ -119,9 +120,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new fixedNormalInletOutletVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new fixedNormalInletOutletVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

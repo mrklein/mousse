@@ -4,8 +4,8 @@
 
 #include "limited_surface_interpolation_scheme.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 #define MAKE_BASE_LIMITED_SURFACE_INTERPOLATION_SCHEME(Type)                  \
                                                                               \

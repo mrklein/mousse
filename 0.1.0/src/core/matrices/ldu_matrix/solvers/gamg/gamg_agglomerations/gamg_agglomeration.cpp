@@ -12,6 +12,7 @@
 #include "iomanip.hpp"
 #include "pstream_reduce_ops.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -21,6 +22,7 @@ DEFINE_RUN_TIME_SELECTION_TABLE(GAMGAgglomeration, lduMatrix);
 DEFINE_RUN_TIME_SELECTION_TABLE(GAMGAgglomeration, geometry);
 
 }
+
 
 // Private Member Functions
 void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
@@ -35,8 +37,7 @@ void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
   meshLevels_.setSize(nCreatedLevels);
   // Have procCommunicator_ always, even if not procAgglomerating
   procCommunicator_.setSize(nCreatedLevels + 1);
-  if (processorAgglomerate())
-  {
+  if (processorAgglomerate()) {
     procAgglomMap_.setSize(nCreatedLevels);
     agglomProcIDs_.setSize(nCreatedLevels);
     procCellOffsets_.setSize(nCreatedLevels);
@@ -46,13 +47,11 @@ void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
     procAgglomeratorPtr_().agglomerate();
   }
   // Print a bit
-  if (processorAgglomerate() && debug)
-  {
+  if (processorAgglomerate() && debug) {
     Info
       << "GAMGAgglomeration:" << nl
       << "    local agglomerator     : " << type() << nl;
-    if (processorAgglomerate())
-    {
+    if (processorAgglomerate()) {
       Info
         << "    processor agglomerator : "
         << procAgglomeratorPtr_().type() << nl
@@ -100,8 +99,7 @@ void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
       << setw(12) << "---"
       //<< "    "
       << nl;
-    for (label levelI = 0; levelI <= size(); levelI++)
-    {
+    for (label levelI = 0; levelI <= size(); levelI++) {
       label nProcs = 0;
       label nCells = 0;
       scalar faceCellRatio = 0;
@@ -109,8 +107,7 @@ void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
       label nIntFaces = 0;
       scalar ratio = 0.0;
       scalar profile = 0.0;
-      if (hasMeshLevel(levelI))
-      {
+      if (hasMeshLevel(levelI)) {
         nProcs = 1;
         const lduMesh& fineMesh = meshLevel(levelI);
         nCells = fineMesh.lduAddr().size();
@@ -118,10 +115,8 @@ void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
           scalar(fineMesh.lduAddr().lowerAddr().size())/nCells;
         const lduInterfacePtrsList interfaces =
           fineMesh.interfaces();
-        FOR_ALL(interfaces, i)
-        {
-          if (interfaces.set(i))
-          {
+        FOR_ALL(interfaces, i) {
+          if (interfaces.set(i)) {
             nInterfaces++;
             nIntFaces += interfaces[i].faceCells().size();
           }
@@ -132,10 +127,8 @@ void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
       label totNprocs = returnReduce(nProcs, sumOp<label>());
       label maxNCells = returnReduce(nCells, maxOp<label>());
       label totNCells = returnReduce(nCells, sumOp<label>());
-      scalar maxFaceCellRatio =
-        returnReduce(faceCellRatio, maxOp<scalar>());
-      scalar totFaceCellRatio =
-        returnReduce(faceCellRatio, sumOp<scalar>());
+      scalar maxFaceCellRatio = returnReduce(faceCellRatio, maxOp<scalar>());
+      scalar totFaceCellRatio = returnReduce(faceCellRatio, sumOp<scalar>());
       label maxNInt = returnReduce(nInterfaces, maxOp<label>());
       label totNInt = returnReduce(nInterfaces, sumOp<label>());
       scalar maxRatio = returnReduce(ratio, maxOp<scalar>());
@@ -160,9 +153,11 @@ void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
         << nl;
       Info().precision(oldPrecision);
     }
-    Info<< endl;
+    Info << endl;
   }
 }
+
+
 bool mousse::GAMGAgglomeration::continueAgglomerating
 (
   const label nCoarseCells
@@ -173,6 +168,8 @@ bool mousse::GAMGAgglomeration::continueAgglomerating
   mesh().reduce(contAgg, andOp<bool>());
   return contAgg;
 }
+
+
 // Constructors
 mousse::GAMGAgglomeration::GAMGAgglomeration
 (
@@ -180,39 +177,38 @@ mousse::GAMGAgglomeration::GAMGAgglomeration
   const dictionary& controlDict
 )
 :
-  MeshObject<lduMesh, mousse::GeometricMeshObject, GAMGAgglomeration>(mesh),
-  maxLevels_(50),
+  MeshObject<lduMesh, mousse::GeometricMeshObject, GAMGAgglomeration>{mesh},
+  maxLevels_{50},
   nCellsInCoarsestLevel_
-  (
+  {
     controlDict.lookupOrDefault<label>("nCellsInCoarsestLevel", 10)
-  ),
-  meshInterfaces_(mesh.interfaces()),
+  },
+  meshInterfaces_{mesh.interfaces()},
   procAgglomeratorPtr_
-  (
+  {
     (
       (UPstream::nProcs(mesh.comm()) > 1)
-    && controlDict.found("processorAgglomerator")
+      && controlDict.found("processorAgglomerator")
     )
-   ? GAMGProcAgglomeration::New
+    ? GAMGProcAgglomeration::New
     (
       controlDict.lookup("processorAgglomerator"),
       *this,
       controlDict
     )
-   : autoPtr<GAMGProcAgglomeration>(NULL)
-  ),
-  nCells_(maxLevels_),
-  restrictAddressing_(maxLevels_),
-  nFaces_(maxLevels_),
-  faceRestrictAddressing_(maxLevels_),
-  faceFlipMap_(maxLevels_),
-  nPatchFaces_(maxLevels_),
-  patchFaceRestrictAddressing_(maxLevels_),
-  meshLevels_(maxLevels_)
+    : autoPtr<GAMGProcAgglomeration>{NULL}
+  },
+  nCells_{maxLevels_},
+  restrictAddressing_{maxLevels_},
+  nFaces_{maxLevels_},
+  faceRestrictAddressing_{maxLevels_},
+  faceFlipMap_{maxLevels_},
+  nPatchFaces_{maxLevels_},
+  patchFaceRestrictAddressing_{maxLevels_},
+  meshLevels_{maxLevels_}
 {
   procCommunicator_.setSize(maxLevels_ + 1, -1);
-  if (processorAgglomerate())
-  {
+  if (processorAgglomerate()) {
     procAgglomMap_.setSize(maxLevels_);
     agglomProcIDs_.setSize(maxLevels_);
     procCellOffsets_.setSize(maxLevels_);
@@ -221,24 +217,22 @@ mousse::GAMGAgglomeration::GAMGAgglomeration
     procBoundaryFaceMap_.setSize(maxLevels_);
   }
 }
+
+
 const mousse::GAMGAgglomeration& mousse::GAMGAgglomeration::New
 (
   const lduMesh& mesh,
   const dictionary& controlDict
 )
 {
-  if
-  (
-    !mesh.thisDb().foundObject<GAMGAgglomeration>
-    (
-      GAMGAgglomeration::typeName
-    )
-  )
-  {
+  if (!mesh.thisDb().foundObject<GAMGAgglomeration>
+      (
+        GAMGAgglomeration::typeName
+      )) {
     const word agglomeratorType
-    (
+    {
       controlDict.lookupOrDefault<word>("agglomerator", "faceAreaPair")
-    );
+    };
     const_cast<Time&>(mesh.thisDb().time()).libs().open
     (
       controlDict,
@@ -247,30 +241,30 @@ const mousse::GAMGAgglomeration& mousse::GAMGAgglomeration::New
     );
     lduMeshConstructorTable::iterator cstrIter =
       lduMeshConstructorTablePtr_->find(agglomeratorType);
-    if (cstrIter == lduMeshConstructorTablePtr_->end())
-    {
+    if (cstrIter == lduMeshConstructorTablePtr_->end()) {
       FATAL_ERROR_IN
       (
         "GAMGAgglomeration::New"
         "(const lduMesh& mesh, const dictionary& controlDict)"
-      )   << "Unknown GAMGAgglomeration type "
-        << agglomeratorType << ".\n"
-        << "Valid matrix GAMGAgglomeration types are :"
-        << lduMatrixConstructorTablePtr_->sortedToc() << endl
-        << "Valid geometric GAMGAgglomeration types are :"
-        << lduMeshConstructorTablePtr_->sortedToc()
-        << exit(FatalError);
+      )
+      << "Unknown GAMGAgglomeration type "
+      << agglomeratorType << ".\n"
+      << "Valid matrix GAMGAgglomeration types are :"
+      << lduMatrixConstructorTablePtr_->sortedToc() << endl
+      << "Valid geometric GAMGAgglomeration types are :"
+      << lduMeshConstructorTablePtr_->sortedToc()
+      << exit(FatalError);
     }
     return store(cstrIter()(mesh, controlDict).ptr());
-  }
-  else
-  {
+  } else {
     return mesh.thisDb().lookupObject<GAMGAgglomeration>
     (
       GAMGAgglomeration::typeName
     );
   }
 }
+
+
 const mousse::GAMGAgglomeration& mousse::GAMGAgglomeration::New
 (
   const lduMatrix& matrix,
@@ -278,47 +272,37 @@ const mousse::GAMGAgglomeration& mousse::GAMGAgglomeration::New
 )
 {
   const lduMesh& mesh = matrix.mesh();
-  if
-  (
-    !mesh.thisDb().foundObject<GAMGAgglomeration>
-    (
-      GAMGAgglomeration::typeName
-    )
-  )
-  {
+  if (!mesh.thisDb().foundObject<GAMGAgglomeration>
+      (
+        GAMGAgglomeration::typeName
+      )) {
     const word agglomeratorType
-    (
+    {
       controlDict.lookupOrDefault<word>("agglomerator", "faceAreaPair")
-    );
+    };
     const_cast<Time&>(mesh.thisDb().time()).libs().open
     (
       controlDict,
       "algebraicGAMGAgglomerationLibs",
       lduMatrixConstructorTablePtr_
     );
-    if
-    (
-      !lduMatrixConstructorTablePtr_
-    || !lduMatrixConstructorTablePtr_->found(agglomeratorType)
-    )
-    {
+    if ( !lduMatrixConstructorTablePtr_
+         || !lduMatrixConstructorTablePtr_->found(agglomeratorType)) {
       return New(mesh, controlDict);
-    }
-    else
-    {
+    } else {
       lduMatrixConstructorTable::iterator cstrIter =
         lduMatrixConstructorTablePtr_->find(agglomeratorType);
       return store(cstrIter()(matrix, controlDict).ptr());
     }
-  }
-  else
-  {
+  } else {
     return mesh.thisDb().lookupObject<GAMGAgglomeration>
     (
       GAMGAgglomeration::typeName
     );
   }
 }
+
+
 mousse::autoPtr<mousse::GAMGAgglomeration> mousse::GAMGAgglomeration::New
 (
   const lduMesh& mesh,
@@ -328,9 +312,9 @@ mousse::autoPtr<mousse::GAMGAgglomeration> mousse::GAMGAgglomeration::New
 )
 {
   const word agglomeratorType
-  (
+  {
     controlDict.lookupOrDefault<word>("agglomerator", "faceAreaPair")
-  );
+  };
   const_cast<Time&>(mesh.thisDb().time()).libs().open
   (
     controlDict,
@@ -339,21 +323,21 @@ mousse::autoPtr<mousse::GAMGAgglomeration> mousse::GAMGAgglomeration::New
   );
   geometryConstructorTable::iterator cstrIter =
     geometryConstructorTablePtr_->find(agglomeratorType);
-  if (cstrIter == geometryConstructorTablePtr_->end())
-  {
+  if (cstrIter == geometryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "GAMGAgglomeration::New"
       "(const lduMesh& mesh, const scalarField&"
       ", const vectorField&, const dictionary& controlDict)"
-    )   << "Unknown GAMGAgglomeration type "
-      << agglomeratorType << ".\n"
-      << "Valid geometric GAMGAgglomeration types are :"
-      << geometryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown GAMGAgglomeration type "
+    << agglomeratorType << ".\n"
+    << "Valid geometric GAMGAgglomeration types are :"
+    << geometryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
   return autoPtr<GAMGAgglomeration>
-  (
+  {
     cstrIter()
     (
       mesh,
@@ -361,12 +345,14 @@ mousse::autoPtr<mousse::GAMGAgglomeration> mousse::GAMGAgglomeration::New
       faceAreas,
       controlDict
     )
-  );
+  };
 }
+
 
 // Destructor
 mousse::GAMGAgglomeration::~GAMGAgglomeration()
 {}
+
 
 // Member Functions
 const mousse::lduMesh& mousse::GAMGAgglomeration::meshLevel
@@ -374,47 +360,42 @@ const mousse::lduMesh& mousse::GAMGAgglomeration::meshLevel
   const label i
 ) const
 {
-  if (i == 0)
-  {
+  if (i == 0) {
     return mesh_;
-  }
-  else
-  {
+  } else {
     return meshLevels_[i - 1];
   }
 }
+
+
 bool mousse::GAMGAgglomeration::hasMeshLevel(const label i) const
 {
-  if (i == 0)
-  {
+  if (i == 0) {
     return true;
-  }
-  else
-  {
+  } else {
     return meshLevels_.set(i - 1);
   }
 }
+
+
 const mousse::lduInterfacePtrsList& mousse::GAMGAgglomeration::interfaceLevel
 (
   const label i
 ) const
 {
-  if (i == 0)
-  {
+  if (i == 0) {
     return meshInterfaces_;
-  }
-  else
-  {
+  } else {
     return meshLevels_[i - 1].rawInterfaces();
   }
 }
+
+
 void mousse::GAMGAgglomeration::clearLevel(const label i)
 {
-  if (hasMeshLevel(i))
-  {
+  if (hasMeshLevel(i)) {
     meshLevels_.set(i - 1, NULL);
-    if (i < nCells_.size())
-    {
+    if (i < nCells_.size()) {
       nCells_[i] = -555;
       restrictAddressing_.set(i, NULL);
       nFaces_[i] = -666;
@@ -425,6 +406,8 @@ void mousse::GAMGAgglomeration::clearLevel(const label i)
     }
   }
 }
+
+
 const mousse::labelList& mousse::GAMGAgglomeration::procAgglomMap
 (
   const label leveli
@@ -432,6 +415,8 @@ const mousse::labelList& mousse::GAMGAgglomeration::procAgglomMap
 {
   return procAgglomMap_[leveli];
 }
+
+
 const mousse::labelList& mousse::GAMGAgglomeration::agglomProcIDs
 (
   const label leveli
@@ -439,14 +424,20 @@ const mousse::labelList& mousse::GAMGAgglomeration::agglomProcIDs
 {
   return agglomProcIDs_[leveli];
 }
+
+
 bool mousse::GAMGAgglomeration::hasProcMesh(const label leveli) const
 {
   return procCommunicator_[leveli] != -1;
 }
+
+
 mousse::label mousse::GAMGAgglomeration::procCommunicator(const label leveli) const
 {
   return procCommunicator_[leveli];
 }
+
+
 const mousse::labelList& mousse::GAMGAgglomeration::cellOffsets
 (
   const label leveli
@@ -454,6 +445,8 @@ const mousse::labelList& mousse::GAMGAgglomeration::cellOffsets
 {
   return procCellOffsets_[leveli];
 }
+
+
 const mousse::labelListList& mousse::GAMGAgglomeration::faceMap
 (
   const label leveli
@@ -461,6 +454,8 @@ const mousse::labelListList& mousse::GAMGAgglomeration::faceMap
 {
   return procFaceMap_[leveli];
 }
+
+
 const mousse::labelListList& mousse::GAMGAgglomeration::boundaryMap
 (
   const label leveli
@@ -468,6 +463,8 @@ const mousse::labelListList& mousse::GAMGAgglomeration::boundaryMap
 {
   return procBoundaryMap_[leveli];
 }
+
+
 const mousse::labelListListList& mousse::GAMGAgglomeration::boundaryFaceMap
 (
   const label leveli
@@ -475,6 +472,8 @@ const mousse::labelListListList& mousse::GAMGAgglomeration::boundaryFaceMap
 {
   return procBoundaryFaceMap_[leveli];
 }
+
+
 bool mousse::GAMGAgglomeration::checkRestriction
 (
   labelList& newRestrict,
@@ -484,88 +483,74 @@ bool mousse::GAMGAgglomeration::checkRestriction
   const label nCoarse
 )
 {
-  if (fineAddressing.size() != restrict.size())
-  {
+  if (fineAddressing.size() != restrict.size()) {
     FATAL_ERROR_IN
     (
       "checkRestriction(..)"
-    )   << "nCells:" << fineAddressing.size()
-      << " agglom:" << restrict.size()
-      << abort(FatalError);
+    )
+    << "nCells:" << fineAddressing.size()
+    << " agglom:" << restrict.size()
+    << abort(FatalError);
   }
   // Seed (master) for every region
-  labelList master(identity(fineAddressing.size()));
+  labelList master{identity(fineAddressing.size())};
   // Now loop and transport master through region
   const labelUList& lower = fineAddressing.lowerAddr();
   const labelUList& upper = fineAddressing.upperAddr();
-  while (true)
-  {
+  while (true) {
     label nChanged = 0;
-    FOR_ALL(lower, faceI)
-    {
+    FOR_ALL(lower, faceI) {
       label own = lower[faceI];
       label nei = upper[faceI];
-      if (restrict[own] == restrict[nei])
-      {
+      if (restrict[own] == restrict[nei]) {
         // coarse-mesh-internal face
-        if (master[own] < master[nei])
-        {
+        if (master[own] < master[nei]) {
           master[nei] = master[own];
           nChanged++;
-        }
-        else if (master[own] > master[nei])
-        {
+        } else if (master[own] > master[nei]) {
           master[own] = master[nei];
           nChanged++;
         }
       }
     }
     reduce(nChanged, sumOp<label>());
-    if (nChanged == 0)
-    {
+    if (nChanged == 0) {
       break;
     }
   }
   // Count number of regions/masters per coarse cell
   labelListList coarseToMasters(nCoarse);
   nNewCoarse = 0;
-  FOR_ALL(restrict, cellI)
-  {
+  FOR_ALL(restrict, cellI) {
     labelList& masters = coarseToMasters[restrict[cellI]];
-    if (findIndex(masters, master[cellI]) == -1)
-    {
+    if (findIndex(masters, master[cellI]) == -1) {
       masters.append(master[cellI]);
       nNewCoarse++;
     }
   }
-  if (nNewCoarse > nCoarse)
-  {
+  if (nNewCoarse > nCoarse) {
     // Keep coarseToMasters[0] the original coarse, allocate new ones
     // for the others
-    labelListList coarseToNewCoarse(coarseToMasters.size());
+    labelListList coarseToNewCoarse{coarseToMasters.size()};
     nNewCoarse = nCoarse;
-    FOR_ALL(coarseToMasters, coarseI)
-    {
+    FOR_ALL(coarseToMasters, coarseI) {
       const labelList& masters = coarseToMasters[coarseI];
       labelList& newCoarse = coarseToNewCoarse[coarseI];
       newCoarse.setSize(masters.size());
       newCoarse[0] = coarseI;
-      for (label i = 1; i < newCoarse.size(); i++)
-      {
+      for (label i = 1; i < newCoarse.size(); i++) {
         newCoarse[i] = nNewCoarse++;
       }
     }
     newRestrict.setSize(fineAddressing.size());
-    FOR_ALL(restrict, cellI)
-    {
+    FOR_ALL(restrict, cellI) {
       label coarseI = restrict[cellI];
       label index = findIndex(coarseToMasters[coarseI], master[cellI]);
       newRestrict[cellI] = coarseToNewCoarse[coarseI][index];
     }
     return false;
-  }
-  else
-  {
+  } else {
     return true;
   }
 }
+

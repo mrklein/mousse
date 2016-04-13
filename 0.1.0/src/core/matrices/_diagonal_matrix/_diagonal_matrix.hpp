@@ -9,13 +9,15 @@
 // Description
 //   DiagonalMatrix<Type> is a 2D diagonal matrix of objects
 //   of type Type, size nxn
-// SourceFiles
-//   _diagonal_matrix.cpp
+
 #include "list.hpp"
-namespace mousse
-{
-// * * * * * *  * * * * * * Class Forward declaration  * * * * * * * * * * * //
+
+
+namespace mousse {
+
 template<class Form, class Type> class Matrix;
+
+
 template<class Type>
 class DiagonalMatrix
 :
@@ -36,12 +38,16 @@ public:
     //- Invert the diagonal matrix and return itself
     DiagonalMatrix<Type>& invert();
 };
+
 // Global functions
+
 //- Return the diagonal Matrix inverse
 template<class Type>
 DiagonalMatrix<Type> inv(const DiagonalMatrix<Type>&);
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_diagonal_matrix.cpp"
-#endif
+
+
+#include "_diagonal_matrix.ipp"
+
 #endif

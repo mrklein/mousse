@@ -10,12 +10,13 @@
 //   grpConstraintBoundaryConditions
 // Description
 //   A symmetry patch
-// SourceFiles
-//   basic_symmetry_fv_patch_field.cpp
+
 #include "transform_fv_patch_field.hpp"
 #include "symmetry_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class basicSymmetryFvPatchField
 :
@@ -87,16 +88,20 @@ public:
       //- Return face-gradient transform diagonal
       virtual tmp<Field<Type> > snGradTransformDiag() const;
 };
+
 // Template Specialisations 
 template<>
-tmp<scalarField > basicSymmetryFvPatchField<scalar>::snGrad() const;
+tmp<scalarField> basicSymmetryFvPatchField<scalar>::snGrad() const;
+
 template<>
 void basicSymmetryFvPatchField<scalar>::evaluate
 (
   const Pstream::commsTypes commsType
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "basic_symmetry_fv_patch_field.cpp"
-#endif
+
+
+#include "basic_symmetry_fv_patch_field.ipp"
+
 #endif

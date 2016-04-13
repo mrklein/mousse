@@ -8,14 +8,17 @@
 //   mousse::skewCorrectionVectors
 // Description
 //   Skew-correction vectors for the skewness-corrected interpolation scheme
-// SourceFiles
-//   skew_correction_vectors.cpp
+
 #include "_mesh_object.hpp"
 #include "fv_mesh.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 class skewCorrectionVectors
 :
   public MeshObject<fvMesh, MoveableMeshObject, skewCorrectionVectors>

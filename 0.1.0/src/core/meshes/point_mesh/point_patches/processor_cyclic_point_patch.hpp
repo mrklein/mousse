@@ -15,22 +15,19 @@
 //   function in the decomposition.  It is therefore possible to re-create
 //   the ordering of patch points on the slave side by reversing all the
 //   patch faces of the owner.
-// SourceFiles
-//   processor_cyclic_point_patch.cpp
+
 #include "processor_point_patch.hpp"
 #include "processor_cyclic_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class processorCyclicPointPatch
 :
   public processorPointPatch
 {
   // Private data
     const processorCyclicPolyPatch& procCycPolyPatch_;
-    //- Disallow default construct as copy
-    processorCyclicPointPatch(const processorCyclicPointPatch&);
-    //- Disallow default assignment
-    void operator=(const processorCyclicPointPatch&);
 public:
   //- Runtime type information
   TYPE_NAME(processorCyclicPolyPatch::typeName_());
@@ -41,6 +38,10 @@ public:
       const polyPatch& patch,
       const pointBoundaryMesh& bm
     );
+    //- Disallow default construct as copy
+    processorCyclicPointPatch(const processorCyclicPointPatch&) = delete;
+    //- Disallow default assignment
+    void operator=(const processorCyclicPointPatch&) = delete;
   // Destructor
     virtual ~processorCyclicPointPatch();
   // Member functions
@@ -55,5 +56,8 @@ public:
       return procCycPolyPatch_;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

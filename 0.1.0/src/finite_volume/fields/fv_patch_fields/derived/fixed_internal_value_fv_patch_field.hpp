@@ -27,11 +27,12 @@
 //   number flows.
 // SeeAlso
 //   mousse::epsilonWallFunctionFvPatchScalarField
-// SourceFiles
-//   fixed_internal_value_fv_patch_field.cpp
+
 #include "zero_gradient_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class fixedInternalValueFvPatchField
 :
@@ -69,12 +70,12 @@ public:
       const fixedInternalValueFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new fixedInternalValueFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new fixedInternalValueFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fixedInternalValueFvPatchField
@@ -83,15 +84,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new fixedInternalValueFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new fixedInternalValueFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
@@ -99,7 +100,7 @@ public:
       virtual void manipulateMatrix(fvMatrix<Type>& matrix);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fixed_internal_value_fv_patch_field.cpp"
-#endif
+
+#include "fixed_internal_value_fv_patch_field.ipp"
+
 #endif

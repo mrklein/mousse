@@ -6,9 +6,9 @@
 #include "tree_bound_box.hpp"
 #include "dynamic_indexed_octree.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(dynamicTreeDataPoint, 0);
 
@@ -20,8 +20,9 @@ mousse::dynamicTreeDataPoint::dynamicTreeDataPoint
   const DynamicList<point>& points
 )
 :
-  points_(points)
+  points_{points}
 {}
+
 
 // Member Functions 
 const mousse::DynamicList<mousse::point>&
@@ -29,6 +30,7 @@ mousse::dynamicTreeDataPoint::shapePoints() const
 {
   return points_;
 }
+
 
 //- Get type (inside,outside,mixed,unknown) of point w.r.t. surface.
 //  Only makes sense for closed surfaces.
@@ -40,6 +42,8 @@ mousse::volumeType mousse::dynamicTreeDataPoint::getVolumeType
 {
   return volumeType::UNKNOWN;
 }
+
+
 // Check if any point on shape is inside cubeBb.
 bool mousse::dynamicTreeDataPoint::overlaps
 (
@@ -49,6 +53,8 @@ bool mousse::dynamicTreeDataPoint::overlaps
 {
   return cubeBb.contains(points_[index]);
 }
+
+
 // Check if any point on shape is inside sphere.
 bool mousse::dynamicTreeDataPoint::overlaps
 (
@@ -65,6 +71,8 @@ bool mousse::dynamicTreeDataPoint::overlaps
   }
   return false;
 }
+
+
 // Calculate nearest point to sample. Updates (if any) nearestDistSqr, minIndex,
 // nearestPoint.
 void mousse::dynamicTreeDataPoint::findNearest
@@ -89,6 +97,8 @@ void mousse::dynamicTreeDataPoint::findNearest
     }
   }
 }
+
+
 //- Calculates nearest (to line) point in shape.
 //  Returns point and distance (squared)
 void mousse::dynamicTreeDataPoint::findNearest
@@ -136,3 +146,4 @@ void mousse::dynamicTreeDataPoint::findNearest
     }
   }
 }
+

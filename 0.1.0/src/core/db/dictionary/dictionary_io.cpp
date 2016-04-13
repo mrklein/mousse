@@ -7,6 +7,7 @@
 #include "input_mode_entry.hpp"
 #include "reg_exp.hpp"
 
+
 // Constructors 
 mousse::dictionary::dictionary
 (
@@ -55,31 +56,26 @@ mousse::autoPtr<mousse::dictionary> mousse::dictionary::New(Istream& is)
 bool mousse::dictionary::read(Istream& is, const bool keepHeader)
 {
   // Check for empty dictionary
-  if (is.eof())
-  {
+  if (is.eof()) {
     return true;
   }
-  if (!is.good())
-  {
+  if (!is.good()) {
     FATAL_IO_ERROR_IN("dictionary::read(Istream&, bool)", is)
       << "Istream not OK for reading dictionary "
       << exit(FatalIOError);
     return false;
   }
-  token currToken(is);
-  if (currToken != token::BEGIN_BLOCK)
-  {
+  token currToken{is};
+  if (currToken != token::BEGIN_BLOCK) {
     is.putBack(currToken);
   }
   while (!is.eof() && entry::New(*this, is))
   {}
   // normally remove the FoamFile header entry if it exists
-  if (!keepHeader)
-  {
+  if (!keepHeader) {
     remove("FoamFile");
   }
-  if (is.bad())
-  {
+  if (is.bad()) {
     Info<< "dictionary::read(Istream&, bool) : "
       << "Istream not OK after reading dictionary " << name()
       << endl;
@@ -87,27 +83,31 @@ bool mousse::dictionary::read(Istream& is, const bool keepHeader)
   }
   return true;
 }
+
+
 bool mousse::dictionary::read(Istream& is)
 {
   return this->read(is, false);
 }
+
+
 bool mousse::dictionary::substituteKeyword(const word& keyword)
 {
   word varName = keyword(1, keyword.size()-1);
   // lookup the variable name in the given dictionary
   const entry* ePtr = lookupEntryPtr(varName, true, true);
   // if defined insert its entries into this dictionary
-  if (ePtr != NULL)
-  {
+  if (ePtr != NULL) {
     const dictionary& addDict = ePtr->dict();
-    FOR_ALL_CONST_ITER(IDLList<entry>, addDict, iter)
-    {
+    FOR_ALL_CONST_ITER(IDLList<entry>, addDict, iter) {
       add(iter());
     }
     return true;
   }
   return false;
 }
+
+
 // Istream Operator 
 mousse::Istream& mousse::operator>>(Istream& is, dictionary& dict)
 {
@@ -118,37 +118,36 @@ mousse::Istream& mousse::operator>>(Istream& is, dictionary& dict)
   dict.read(is);
   return is;
 }
+
+
 // Ostream Operator 
 void mousse::dictionary::write(Ostream& os, bool subDict) const
 {
-  if (subDict)
-  {
+  if (subDict) {
     os << nl << indent << token::BEGIN_BLOCK << incrIndent << nl;
   }
-  FOR_ALL_CONST_ITER(IDLList<entry>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(IDLList<entry>, *this, iter) {
     const entry& e = *iter;
     // Write entry
     os << e;
     // Add extra new line between entries for "top-level" dictionaries
-    if (!subDict && parent() == dictionary::null && e != *last())
-    {
+    if (!subDict && parent() == dictionary::null && e != *last()) {
       os << nl;
     }
     // Check stream before going to next entry.
-    if (!os.good())
-    {
+    if (!os.good()) {
       WARNING_IN("dictionary::write(Ostream&, bool subDict)")
         << "Can't write entry " << iter().keyword()
         << " for dictionary " << name()
         << endl;
     }
   }
-  if (subDict)
-  {
-    os  << decrIndent << indent << token::END_BLOCK << endl;
+  if (subDict) {
+    os << decrIndent << indent << token::END_BLOCK << endl;
   }
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const dictionary& dict)
 {
   dict.write(os, true);

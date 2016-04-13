@@ -12,11 +12,12 @@
 //   runningJob file is removed.
 // See Also
 //   mousse::JobInfo
-// SourceFiles
-//   sig_int.cpp
+
 #include <signal.h>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sigInt
 {
   // Private data
@@ -34,5 +35,7 @@ public:
     //- Activate SIGINT signal handler
     void set(const bool verbose);
 };
+
 }  // namespace mousse
+
 #endif

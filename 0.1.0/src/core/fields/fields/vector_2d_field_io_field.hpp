@@ -7,9 +7,12 @@
 
 #include "vector_2d_field.hpp"
 #include "compact_io_field.hpp"
-namespace mousse
-{
-  typedef IOField<vector2DField> vector2DFieldIOField;
-  typedef CompactIOField<vector2DField, vector2D> vector2DFieldCompactIOField;
+
+
+namespace mousse {
+
+typedef IOField<vector2DField> vector2DFieldIOField;
+typedef CompactIOField<vector2DField, vector2D> vector2DFieldCompactIOField;
+
 }
 #endif

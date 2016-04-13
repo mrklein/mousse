@@ -1,1 +1,1 @@
-../sets/point_sources/face_to_point/face_to_point.cpp
+../sets/point_sources/face_to_point.cpp

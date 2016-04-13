@@ -1,12 +1,14 @@
+#ifndef UTILITIES_PRE_PROCESSING_MAP_FIELDS_PAR_MAP_VOL_FIELDS_HPP_
+#define UTILITIES_PRE_PROCESSING_MAP_FIELDS_PAR_MAP_VOL_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef MapConsistentVolFields_H
-#define MapConsistentVolFields_H
 #include "geometric_field.hpp"
 #include "mesh_to_mesh.hpp"
 #include "ioobject_list.hpp"
+
 namespace mousse
 {
 template<class Type, class CombineOp>
@@ -27,26 +29,25 @@ void MapVolFields
     const word& fieldName = fieldIter()->name();
     if (selectedFields.empty() || selectedFields.found(fieldName))
     {
-      Info<< "    interpolating " << fieldName << endl;
+      Info << "    interpolating " << fieldName << endl;
       const fieldType fieldSource(*fieldIter(), meshSource);
       IOobject targetIO
-      (
+      {
         fieldName,
         meshTarget.time().timeName(),
         meshTarget,
         IOobject::MUST_READ
-      );
+      };
       if (targetIO.headerOk())
       {
-        fieldType fieldTarget(targetIO, meshTarget);
+        fieldType fieldTarget{targetIO, meshTarget};
         interp.mapSrcToTgt(fieldSource, cop, fieldTarget);
         fieldTarget.write();
       }
       else
       {
         targetIO.readOpt() = IOobject::NO_READ;
-        tmp<fieldType>
-          tfieldTarget(interp.mapSrcToTgt(fieldSource, cop));
+        tmp<fieldType> tfieldTarget(interp.mapSrcToTgt(fieldSource, cop));
         fieldType fieldTarget(targetIO, tfieldTarget);
         fieldTarget.write();
       }

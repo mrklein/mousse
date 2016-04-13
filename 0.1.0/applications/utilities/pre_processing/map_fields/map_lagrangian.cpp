@@ -77,7 +77,7 @@ void mapLagrangian(const meshToMesh0& meshToMesh0Interp)
     IOobject* positionsPtr = objects.lookup("positions");
     if (positionsPtr)
     {
-      Info<< nl << "    processing cloud " << cloudDirs[cloudI] << endl;
+      Info << nl << "    processing cloud " << cloudDirs[cloudI] << endl;
       // Read positions & cell
       passiveParticleCloud sourceParcels
       {
@@ -85,7 +85,7 @@ void mapLagrangian(const meshToMesh0& meshToMesh0Interp)
         cloudDirs[cloudI],
         false
       };
-      Info<< "    read " << sourceParcels.size()
+      Info << "    read " << sourceParcels.size()
         << " parcels from source mesh." << endl;
       // Construct empty target cloud
       passiveParticleCloud targetParcels
@@ -144,7 +144,7 @@ void mapLagrangian(const meshToMesh0& meshToMesh0Interp)
         }
         sourceParticleI++;
       }
-      Info<< "    after meshToMesh0 addressing found "
+      Info << "    after meshToMesh0 addressing found "
         << targetParcels.size()
         << " parcels in target mesh." << endl;
       // Do closer inspection for unmapped particles
@@ -173,7 +173,7 @@ void mapLagrangian(const meshToMesh0& meshToMesh0Interp)
         }
       }
       addParticles.shrink();
-      Info<< "    after additional mesh searching found "
+      Info << "    after additional mesh searching found "
         << targetParcels.size() << " parcels in target mesh." << endl;
       if (addParticles.size())
       {

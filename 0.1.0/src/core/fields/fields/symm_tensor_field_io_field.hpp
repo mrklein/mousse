@@ -7,10 +7,13 @@
 
 #include "symm_tensor_field.hpp"
 #include "compact_io_field.hpp"
-namespace mousse
-{
-  typedef IOField<symmTensorField> symmTensorFieldIOField;
-  typedef CompactIOField<symmTensorField, symmTensor>
+
+
+namespace mousse {
+
+typedef IOField<symmTensorField> symmTensorFieldIOField;
+typedef CompactIOField<symmTensorField, symmTensor>
   symmTensorFieldCompactIOField;
+
 }
 #endif

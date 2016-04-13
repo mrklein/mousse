@@ -8,9 +8,6 @@
 //   mousse::graph
 // Description
 //   Class to create, store and output qgraph files.
-// SourceFiles
-//   graph.cpp
-
 
 #include "string.hpp"
 #include "point.hpp"
@@ -19,11 +16,14 @@
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class graph;
 Ostream& operator<<(Ostream&, const graph&);
+
+
 class graph
 :
   public HashPtrTable<curve>

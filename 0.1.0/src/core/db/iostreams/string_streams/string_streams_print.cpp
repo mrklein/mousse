@@ -4,15 +4,19 @@
 
 #include "istring_stream.hpp"
 #include "ostring_stream.hpp"
+
+
 void mousse::IStringStream::print(Ostream& os) const
 {
-  os  << "IStringStream " << name() << " : "
+  os << "IStringStream " << name() << " : "
     << "buffer = \n" << str() << mousse::endl;
   ISstream::print(os);
 }
+
+
 void mousse::OStringStream::print(Ostream& os) const
 {
-  os  << "OStringStream " << name() << " : "
+  os << "OStringStream " << name() << " : "
     << "buffer = \n" << str() << mousse::endl;
   OSstream::print(os);
 }

@@ -8,6 +8,7 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 
+
 // Constructors 
 mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
 (
@@ -22,6 +23,7 @@ mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
   gamma_{0.0},
   T0_{p.size(), 0.0}
 {}
+
 
 mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
 (
@@ -39,6 +41,7 @@ mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
   T0_{ptf.T0_, mapper}
 {}
 
+
 mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
 (
   const fvPatch& p,
@@ -53,18 +56,16 @@ mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
   gamma_{readScalar(dict.lookup("gamma"))},
   T0_{"T0", dict, p.size()}
 {
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<scalar>::operator=
     (
-      scalarField("value", dict, p.size())
+      scalarField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     fvPatchField<scalar>::operator=(T0_);
   }
 }
+
 
 mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
 (
@@ -78,6 +79,7 @@ mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
   gamma_{tppsf.gamma_},
   T0_{tppsf.T0_}
 {}
+
 
 mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
 (
@@ -93,6 +95,7 @@ mousse::totalTemperatureFvPatchScalarField::totalTemperatureFvPatchScalarField
   T0_{tppsf.T0_}
 {}
 
+
 // Member Functions 
 void mousse::totalTemperatureFvPatchScalarField::autoMap
 (
@@ -102,6 +105,7 @@ void mousse::totalTemperatureFvPatchScalarField::autoMap
   fixedValueFvPatchScalarField::autoMap(m);
   T0_.autoMap(m);
 }
+
 
 void mousse::totalTemperatureFvPatchScalarField::rmap
 (
@@ -115,10 +119,10 @@ void mousse::totalTemperatureFvPatchScalarField::rmap
   T0_.rmap(tiptf.T0_, addr);
 }
 
+
 void mousse::totalTemperatureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvPatchVectorField& Up =
@@ -135,6 +139,7 @@ void mousse::totalTemperatureFvPatchScalarField::updateCoeffs()
   fixedValueFvPatchScalarField::updateCoeffs();
 }
 
+
 void mousse::totalTemperatureFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
@@ -146,11 +151,14 @@ void mousse::totalTemperatureFvPatchScalarField::write(Ostream& os) const
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   totalTemperatureFvPatchScalarField
 );
+
 }
+

@@ -9,11 +9,12 @@
 // Description
 //   Selects the mesh cell faces specified by a threshold value.
 //   Non-triangulated by default.
-// SourceFiles
-//   threshold_cell_faces.cpp
+
 #include "meshed_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyMesh;
 class thresholdCellFaces
 :
@@ -58,5 +59,8 @@ public:
       return meshCells_;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

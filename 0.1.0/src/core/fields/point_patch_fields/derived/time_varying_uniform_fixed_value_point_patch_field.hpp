@@ -10,12 +10,13 @@
 //   A time-varying form of a uniform fixed value boundary condition.
 // See Also
 //   mousse::timeVaryingUniformFixedValueFvField
-// SourceFiles
-//   time_varying_uniform_fixed_value_point_patch_field.cpp
+
 #include "fixed_value_point_patch_field.hpp"
 #include "interpolation_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class timeVaryingUniformFixedValuePointPatchField
 :
@@ -55,12 +56,12 @@ public:
       const timeVaryingUniformFixedValuePointPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new timeVaryingUniformFixedValuePointPatchField<Type>(*this)
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new timeVaryingUniformFixedValuePointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     timeVaryingUniformFixedValuePointPatchField
@@ -69,15 +70,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new timeVaryingUniformFixedValuePointPatchField<Type>(*this, iF)
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new timeVaryingUniformFixedValuePointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -92,8 +93,9 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "time_varying_uniform_fixed_value_point_patch_field.cpp"
-#endif
+
+#include "time_varying_uniform_fixed_value_point_patch_field.ipp"
+
 #endif

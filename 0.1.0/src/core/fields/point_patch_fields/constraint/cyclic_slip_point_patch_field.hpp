@@ -8,12 +8,13 @@
 //   mousse::cyclicSlipPointPatchField
 // Description
 //   Cyclic + slip constraints
-// SourceFiles
-//   cyclic_slip_point_patch_field.cpp
+
 #include "cyclic_point_patch_field.hpp"
 #include "cyclic_slip_point_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class cyclicSlipPointPatchField
 :
@@ -45,15 +46,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new cyclicSlipPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new cyclicSlipPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     cyclicSlipPointPatchField
@@ -62,18 +60,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new cyclicSlipPointPatchField<Type>
-        (
-          *this, iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new cyclicSlipPointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
@@ -83,8 +78,10 @@ public:
         const Pstream::commsTypes commsType=Pstream::blocking
       );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#    include "cyclic_slip_point_patch_field.cpp"
-#endif
+
+
+#include "cyclic_slip_point_patch_field.ipp"
+
 #endif

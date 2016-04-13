@@ -10,8 +10,7 @@
 //   A tetrahedron primitive.
 //   Ordering of edges needs to be the same for a tetrahedron
 //   class, a tetrahedron cell shape model and a tetCell.
-// SourceFiles
-//   tetrahedron.cpp
+
 #include "point.hpp"
 #include "primitive_fields_fwd.hpp"
 #include "point_hit.hpp"
@@ -23,8 +22,10 @@
 #include "triangle.hpp"
 #include "iostreams.hpp"
 #include "plane.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
 class tetPoints;
@@ -44,6 +45,8 @@ inline Ostream& operator<<
   const tetrahedron<Point, PointRef>&
 );
 typedef tetrahedron<point, const point&> tetPointRef;
+
+
 template<class Point, class PointRef>
 class tetrahedron
 {
@@ -217,7 +220,10 @@ public:
 };
 }  // namespace mousse
 
+
 #include "tet_points.hpp"
+
+
 // Constructors 
 template<class Point, class PointRef>
 inline mousse::tetrahedron<Point, PointRef>::tetrahedron
@@ -233,6 +239,8 @@ inline mousse::tetrahedron<Point, PointRef>::tetrahedron
   c_{c},
   d_{d}
 {}
+
+
 template<class Point, class PointRef>
 inline mousse::tetrahedron<Point, PointRef>::tetrahedron
 (
@@ -245,32 +253,44 @@ inline mousse::tetrahedron<Point, PointRef>::tetrahedron
   c_{points[indices[2]]},
   d_{points[indices[3]]}
 {}
+
+
 template<class Point, class PointRef>
 inline mousse::tetrahedron<Point, PointRef>::tetrahedron(Istream& is)
 {
-  is  >> *this;
+  is >> *this;
 }
+
+
 // Member Functions 
 template<class Point, class PointRef>
 inline const Point& mousse::tetrahedron<Point, PointRef>::a() const
 {
   return a_;
 }
+
+
 template<class Point, class PointRef>
 inline const Point& mousse::tetrahedron<Point, PointRef>::b() const
 {
   return b_;
 }
+
+
 template<class Point, class PointRef>
 inline const Point& mousse::tetrahedron<Point, PointRef>::c() const
 {
   return c_;
 }
+
+
 template<class Point, class PointRef>
 inline const Point& mousse::tetrahedron<Point, PointRef>::d() const
 {
   return d_;
 }
+
+
 template<class Point, class PointRef>
 inline mousse::triPointRef mousse::tetrahedron<Point, PointRef>::tri
 (
@@ -279,60 +299,65 @@ inline mousse::triPointRef mousse::tetrahedron<Point, PointRef>::tri
 {
   // Warning. Ordering of faces needs to be the same for a tetrahedron
   // class, a tetrahedron cell shape model and a tetCell
-  if (faceI == 0)
-  {
+  if (faceI == 0) {
     return triPointRef(b_, c_, d_);
-  }
-  else if (faceI == 1)
-  {
+  } else if (faceI == 1) {
     return triPointRef(a_, d_, c_);
-  }
-  else if (faceI == 2)
-  {
+  } else if (faceI == 2) {
     return triPointRef(a_, b_, d_);
-  }
-  else if (faceI == 3)
-  {
+  } else if (faceI == 3) {
     return triPointRef(a_, c_, b_);
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("tetrahedron::tri(const label faceI) const")
       << "index out of range 0 -> 3. faceI = " << faceI
       << abort(FatalError);
     return triPointRef(b_, c_, d_);
   }
 }
+
+
 template<class Point, class PointRef>
 inline mousse::vector mousse::tetrahedron<Point, PointRef>::Sa() const
 {
   return triangle<Point, PointRef>(b_, c_, d_).normal();
 }
+
+
 template<class Point, class PointRef>
 inline mousse::vector mousse::tetrahedron<Point, PointRef>::Sb() const
 {
   return triangle<Point, PointRef>(a_, d_, c_).normal();
 }
+
+
 template<class Point, class PointRef>
 inline mousse::vector mousse::tetrahedron<Point, PointRef>::Sc() const
 {
   return triangle<Point, PointRef>(a_, b_, d_).normal();
 }
+
+
 template<class Point, class PointRef>
 inline mousse::vector mousse::tetrahedron<Point, PointRef>::Sd() const
 {
   return triangle<Point, PointRef>(a_, c_, b_).normal();
 }
+
+
 template<class Point, class PointRef>
 inline Point mousse::tetrahedron<Point, PointRef>::centre() const
 {
   return 0.25*(a_ + b_ + c_ + d_);
 }
+
+
 template<class Point, class PointRef>
 inline mousse::scalar mousse::tetrahedron<Point, PointRef>::mag() const
 {
   return (1.0/6.0)*(((b_ - a_) ^ (c_ - a_)) & (d_ - a_));
 }
+
+
 template<class Point, class PointRef>
 inline Point mousse::tetrahedron<Point, PointRef>::circumCentre() const
 {
@@ -345,13 +370,14 @@ inline Point mousse::tetrahedron<Point, PointRef>::circumCentre() const
   vector ca = c ^ a;
   vector num = lambda*ba - mu*ca;
   scalar denom = (c & ba);
-  if (mousse::mag(denom) < ROOTVSMALL)
-  {
+  if (mousse::mag(denom) < ROOTVSMALL) {
     // Degenerate tetrahedron, returning centre instead of circumCentre.
     return centre();
   }
   return a_ + 0.5*(a + num/denom);
 }
+
+
 template<class Point, class PointRef>
 inline mousse::scalar mousse::tetrahedron<Point, PointRef>::circumRadius() const
 {
@@ -364,24 +390,23 @@ inline mousse::scalar mousse::tetrahedron<Point, PointRef>::circumRadius() const
   vector ca = c ^ a;
   vector num = lambda*ba - mu*ca;
   scalar denom = (c & ba);
-  if (mousse::mag(denom) < ROOTVSMALL)
-  {
+  if (mousse::mag(denom) < ROOTVSMALL) {
     // Degenerate tetrahedron, returning GREAT for circumRadius.
     return GREAT;
   }
   return mousse::mag(0.5*(a + num/denom));
 }
+
+
 template<class Point, class PointRef>
 inline mousse::scalar mousse::tetrahedron<Point, PointRef>::quality() const
 {
   return
-    mag()
-   /(
-      8.0/(9.0*sqrt(3.0))
-     *pow3(min(circumRadius(), GREAT))
-     + ROOTVSMALL
-    );
+    mag()/(8.0/(9.0*sqrt(3.0))*pow3(min(circumRadius(), GREAT))
+           + ROOTVSMALL);
 }
+
+
 template<class Point, class PointRef>
 inline Point mousse::tetrahedron<Point, PointRef>::randomPoint
 (
@@ -393,25 +418,23 @@ inline Point mousse::tetrahedron<Point, PointRef>::randomPoint
   scalar s = rndGen.scalar01();
   scalar t = rndGen.scalar01();
   scalar u = rndGen.scalar01();
-  if (s + t > 1.0)
-  {
+  if (s + t > 1.0) {
     s = 1.0 - s;
     t = 1.0 - t;
   }
-  if (t + u > 1.0)
-  {
+  if (t + u > 1.0) {
     scalar tmp = u;
     u = 1.0 - s - t;
     t = 1.0 - tmp;
-  }
-  else if (s + t + u > 1.0)
-  {
+  } else if (s + t + u > 1.0) {
     scalar tmp = u;
     u = s + t + u - 1.0;
     s = 1.0 - t - tmp;
   }
   return (1 - s - t - u)*a_ + s*b_ + t*c_ + u*d_;
 }
+
+
 template<class Point, class PointRef>
 inline Point mousse::tetrahedron<Point, PointRef>::randomPoint
 (
@@ -423,25 +446,23 @@ inline Point mousse::tetrahedron<Point, PointRef>::randomPoint
   scalar s = rndGen.sample01<scalar>();
   scalar t = rndGen.sample01<scalar>();
   scalar u = rndGen.sample01<scalar>();
-  if (s + t > 1.0)
-  {
+  if (s + t > 1.0) {
     s = 1.0 - s;
     t = 1.0 - t;
   }
-  if (t + u > 1.0)
-  {
+  if (t + u > 1.0) {
     scalar tmp = u;
     u = 1.0 - s - t;
     t = 1.0 - tmp;
-  }
-  else if (s + t + u > 1.0)
-  {
+  } else if (s + t + u > 1.0) {
     scalar tmp = u;
     u = s + t + u - 1.0;
     s = 1.0 - t - tmp;
   }
   return (1 - s - t - u)*a_ + s*b_ + t*c_ + u*d_;
 }
+
+
 template<class Point, class PointRef>
 mousse::scalar mousse::tetrahedron<Point, PointRef>::barycentric
 (
@@ -451,20 +472,19 @@ mousse::scalar mousse::tetrahedron<Point, PointRef>::barycentric
 {
   // From:
   // http://en.wikipedia.org/wiki/Barycentric_coordinate_system_(mathematics)
-  vector e0(a_ - d_);
-  vector e1(b_ - d_);
-  vector e2(c_ - d_);
+  vector e0{a_ - d_};
+  vector e1{b_ - d_};
+  vector e2{c_ - d_};
   tensor t
-  (
+  {
     e0.x(), e1.x(), e2.x(),
     e0.y(), e1.y(), e2.y(),
     e0.z(), e1.z(), e2.z()
-  );
+  };
   scalar detT = det(t);
-  if (mousse::mag(detT) < SMALL)
-  {
+  if (mousse::mag(detT) < SMALL) {
     // Degenerate tetrahedron, returning 1/4 barycentric coordinates.
-    bary = List<scalar>(4, 0.25);
+    bary = List<scalar>{4, 0.25};
     return detT;
   }
   vector res = inv(t, detT) & (pt - d_);
@@ -475,6 +495,8 @@ mousse::scalar mousse::tetrahedron<Point, PointRef>::barycentric
   bary[3] = (1.0 - res.x() - res.y() - res.z());
   return detT;
 }
+
+
 template<class Point, class PointRef>
 inline mousse::pointHit mousse::tetrahedron<Point, PointRef>::nearestPoint
 (
@@ -488,54 +510,45 @@ inline mousse::pointHit mousse::tetrahedron<Point, PointRef>::nearestPoint
   point closestPt = p;
   scalar minOutsideDistance = VGREAT;
   bool inside = true;
-  if (((p - b_) & Sa()) >= 0)
-  {
+  if (((p - b_) & Sa()) >= 0) {
     // p is outside halfspace plane of tri
     pointHit info = triangle<Point, PointRef>(b_, c_, d_).nearestPoint(p);
     inside = false;
-    if (info.distance() < minOutsideDistance)
-    {
+    if (info.distance() < minOutsideDistance) {
       closestPt = info.rawPoint();
       minOutsideDistance = info.distance();
     }
   }
-  if (((p - a_) & Sb()) >= 0)
-  {
+  if (((p - a_) & Sb()) >= 0) {
     // p is outside halfspace plane of tri
     pointHit info = triangle<Point, PointRef>(a_, d_, c_).nearestPoint(p);
     inside = false;
-    if (info.distance() < minOutsideDistance)
-    {
+    if (info.distance() < minOutsideDistance) {
       closestPt = info.rawPoint();
       minOutsideDistance = info.distance();
     }
   }
-  if (((p - a_) & Sc()) >= 0)
-  {
+  if (((p - a_) & Sc()) >= 0) {
     // p is outside halfspace plane of tri
     pointHit info = triangle<Point, PointRef>(a_, b_, d_).nearestPoint(p);
     inside = false;
-    if (info.distance() < minOutsideDistance)
-    {
+    if (info.distance() < minOutsideDistance) {
       closestPt = info.rawPoint();
       minOutsideDistance = info.distance();
     }
   }
-  if (((p - a_) & Sd()) >= 0)
-  {
+  if (((p - a_) & Sd()) >= 0) {
     // p is outside halfspace plane of tri
     pointHit info = triangle<Point, PointRef>(a_, c_, b_).nearestPoint(p);
     inside = false;
-    if (info.distance() < minOutsideDistance)
-    {
+    if (info.distance() < minOutsideDistance) {
       closestPt = info.rawPoint();
       minOutsideDistance = info.distance();
     }
   }
   // If the point is inside, then the distance to the closest point
   // is zero
-  if (inside)
-  {
+  if (inside) {
     minOutsideDistance = 0;
   }
   return pointHit
@@ -546,6 +559,8 @@ inline mousse::pointHit mousse::tetrahedron<Point, PointRef>::nearestPoint
     !inside
   );
 }
+
+
 template<class Point, class PointRef>
 bool mousse::tetrahedron<Point, PointRef>::inside(const point& pt) const
 {
@@ -563,59 +578,65 @@ bool mousse::tetrahedron<Point, PointRef>::inside(const point& pt) const
   // planeBase[2] = tetBasePt = b_
   // planeBase[3] = tetBasePt = b_
   vector n = vector::zero;
+
   {
     // 0, a
     const point& basePt = b_;
     n = Sa();
     n /= (mousse::mag(n) + VSMALL);
-    if (((pt - basePt) & n) > SMALL)
-    {
+    if (((pt - basePt) & n) > SMALL) {
       return false;
     }
   }
+
   {
     // 1, b
     const point& basePt = c_;
     n = Sb();
     n /= (mousse::mag(n) + VSMALL);
-    if (((pt - basePt) & n) > SMALL)
-    {
+    if (((pt - basePt) & n) > SMALL) {
       return false;
     }
   }
+
   {
     // 2, c
     const point& basePt = b_;
     n = Sc();
     n /= (mousse::mag(n) + VSMALL);
-    if (((pt - basePt) & n) > SMALL)
-    {
+    if (((pt - basePt) & n) > SMALL) {
       return false;
     }
   }
+
   {
     // 3, d
     const point& basePt = b_;
     n = Sd();
     n /= (mousse::mag(n) + VSMALL);
-    if (((pt - basePt) & n) > SMALL)
-    {
+    if (((pt - basePt) & n) > SMALL) {
       return false;
     }
   }
   return true;
 }
+
+
 template<class Point, class PointRef>
 inline void mousse::tetrahedron<Point, PointRef>::dummyOp::operator()
 (
   const tetPoints&
 )
 {}
+
+
 template<class Point, class PointRef>
 inline mousse::tetrahedron<Point, PointRef>::sumVolOp::sumVolOp()
 :
-  vol_(0.0)
+  vol_{0.0}
 {}
+
+
 template<class Point, class PointRef>
 inline void mousse::tetrahedron<Point, PointRef>::sumVolOp::operator()
 (
@@ -624,6 +645,8 @@ inline void mousse::tetrahedron<Point, PointRef>::sumVolOp::operator()
 {
   vol_ += tet.tet().mag();
 }
+
+
 template<class Point, class PointRef>
 inline mousse::tetrahedron<Point, PointRef>::storeOp::storeOp
 (
@@ -631,9 +654,11 @@ inline mousse::tetrahedron<Point, PointRef>::storeOp::storeOp
   label& nTets
 )
 :
-  tets_(tets),
-  nTets_(nTets)
+  tets_{tets},
+  nTets_{nTets}
 {}
+
+
 template<class Point, class PointRef>
 inline void mousse::tetrahedron<Point, PointRef>::storeOp::operator()
 (
@@ -642,6 +667,8 @@ inline void mousse::tetrahedron<Point, PointRef>::storeOp::operator()
 {
   tets_[nTets_++] = tet;
 }
+
+
 template<class Point, class PointRef>
 inline mousse::point mousse::tetrahedron<Point, PointRef>::planeIntersection
 (
@@ -652,9 +679,10 @@ inline mousse::point mousse::tetrahedron<Point, PointRef>::planeIntersection
 )
 {
   return
-    (d[posI]*t[negI] - d[negI]*t[posI])
-   / (-d[negI]+d[posI]);
+    (d[posI]*t[negI] - d[negI]*t[posI])/(-d[negI]+d[posI]);
 }
+
+
 template<class Point, class PointRef>
 template<class TetOp>
 inline void mousse::tetrahedron<Point, PointRef>::decomposePrism
@@ -667,6 +695,8 @@ inline void mousse::tetrahedron<Point, PointRef>::decomposePrism
   op(tetPoints(points[1], points[2], points[3], points[4]));
   op(tetPoints(points[4], points[2], points[3], points[5]));
 }
+
+
 template<class Point, class PointRef>
 template<class AboveTetOp, class BelowTetOp>
 inline void mousse::tetrahedron<Point, PointRef>::
@@ -681,28 +711,21 @@ tetSliceWithPlane
   // Distance to plane
   FixedList<scalar, 4> d;
   label nPos = 0;
-  FOR_ALL(tet, i)
-  {
+  FOR_ALL(tet, i) {
     d[i] = ((tet[i]-pl.refPoint()) & pl.normal());
-    if (d[i] > 0)
-    {
+    if (d[i] > 0) {
       nPos++;
     }
   }
-  if (nPos == 4)
-  {
+  if (nPos == 4) {
     aboveOp(tet);
-  }
-  else if (nPos == 3)
-  {
+  } else if (nPos == 3) {
     // Sliced into below tet and above prism. Prism gets split into
     // two tets.
     // Find the below tet
     label i0 = -1;
-    FOR_ALL(d, i)
-    {
-      if (d[i] <= 0)
-      {
+    FOR_ALL(d, i) {
+      if (d[i] <= 0) {
         i0 = i;
         break;
       }
@@ -718,9 +741,8 @@ tetSliceWithPlane
     //          ,,         2 :     ,,     outwards pointing triad
     //          ,,         3 :     ,,     inwards pointing triad
     //Pout<< "Split 3pos tet " << tet << " d:" << d << " into" << nl;
-    if (i0 == 0 || i0 == 2)
-    {
-      tetPoints t(tet[i0], p01, p02, p03);
+    if (i0 == 0 || i0 == 2) {
+      tetPoints t{tet[i0], p01, p02, p03};
       //Pout<< "    belowtet:" << t << " around i0:" << i0 << endl;
       //checkTet(t, "nPos 3, belowTet i0==0 or 2");
       belowOp(t);
@@ -734,10 +756,8 @@ tetSliceWithPlane
       p[5] = p02;
       //Pout<< "    aboveprism:" << p << endl;
       decomposePrism(p, aboveOp);
-    }
-    else
-    {
-      tetPoints t(p01, p02, p03, tet[i0]);
+    } else {
+      tetPoints t{p01, p02, p03, tet[i0]};
       //Pout<< "    belowtet:" << t << " around i0:" << i0 << endl;
       //checkTet(t, "nPos 3, belowTet i0==1 or 3");
       belowOp(t);
@@ -752,32 +772,21 @@ tetSliceWithPlane
       //Pout<< "    aboveprism:" << p << endl;
       decomposePrism(p, aboveOp);
     }
-  }
-  else if (nPos == 2)
-  {
+  } else if (nPos == 2) {
     // Tet cut into two prisms. Determine the positive one.
     label pos0 = -1;
     label pos1 = -1;
-    FOR_ALL(d, i)
-    {
-      if (d[i] > 0)
-      {
-        if (pos0 == -1)
-        {
+    FOR_ALL(d, i) {
+      if (d[i] > 0) {
+        if (pos0 == -1) {
           pos0 = i;
-        }
-        else
-        {
+        } else {
           pos1 = i;
         }
       }
     }
-    //Pout<< "Split 2pos tet " << tet << " d:" << d
-    //    << " around pos0:" << pos0 << " pos1:" << pos1
-    //    << " neg0:" << neg0 << " neg1:" << neg1 << " into" << nl;
     const edge posEdge(pos0, pos1);
-    if (posEdge == edge(0, 1))
-    {
+    if (posEdge == edge(0, 1)) {
       point p02 = planeIntersection(d, tet, 0, 2);
       point p03 = planeIntersection(d, tet, 0, 3);
       point p12 = planeIntersection(d, tet, 1, 2);
@@ -805,9 +814,7 @@ tetSliceWithPlane
         //Pout<< "    01 belowprism:" << p << endl;
         decomposePrism(p, belowOp);
       }
-    }
-    else if (posEdge == edge(1, 2))
-    {
+    } else if (posEdge == edge(1, 2)) {
       point p01 = planeIntersection(d, tet, 0, 1);
       point p13 = planeIntersection(d, tet, 1, 3);
       point p02 = planeIntersection(d, tet, 0, 2);
@@ -835,9 +842,7 @@ tetSliceWithPlane
         //Pout<< "    12 belowprism:" << p << endl;
         decomposePrism(p, belowOp);
       }
-    }
-    else if (posEdge == edge(2, 0))
-    {
+    } else if (posEdge == edge(2, 0)) {
       point p01 = planeIntersection(d, tet, 0, 1);
       point p03 = planeIntersection(d, tet, 0, 3);
       point p12 = planeIntersection(d, tet, 1, 2);
@@ -865,9 +870,7 @@ tetSliceWithPlane
         //Pout<< "    20 belowprism:" << p << endl;
         decomposePrism(p, belowOp);
       }
-    }
-    else if (posEdge == edge(0, 3))
-    {
+    } else if (posEdge == edge(0, 3)) {
       point p01 = planeIntersection(d, tet, 0, 1);
       point p02 = planeIntersection(d, tet, 0, 2);
       point p13 = planeIntersection(d, tet, 1, 3);
@@ -895,9 +898,7 @@ tetSliceWithPlane
         //Pout<< "    03 belowprism:" << p << endl;
         decomposePrism(p, belowOp);
       }
-    }
-    else if (posEdge == edge(1, 3))
-    {
+    } else if (posEdge == edge(1, 3)) {
       point p01 = planeIntersection(d, tet, 0, 1);
       point p12 = planeIntersection(d, tet, 1, 2);
       point p03 = planeIntersection(d, tet, 0, 3);
@@ -925,9 +926,7 @@ tetSliceWithPlane
         //Pout<< "    13 belowprism:" << p << endl;
         decomposePrism(p, belowOp);
       }
-    }
-    else if (posEdge == edge(2, 3))
-    {
+    } else if (posEdge == edge(2, 3)) {
       point p02 = planeIntersection(d, tet, 0, 2);
       point p12 = planeIntersection(d, tet, 1, 2);
       point p03 = planeIntersection(d, tet, 0, 3);
@@ -955,22 +954,16 @@ tetSliceWithPlane
         //Pout<< "    23 belowprism:" << p << endl;
         decomposePrism(p, belowOp);
       }
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN("tetSliceWithPlane(..)")
         << "Missed edge:" << posEdge
         << abort(FatalError);
     }
-  }
-  else if (nPos == 1)
-  {
+  } else if (nPos == 1) {
     // Find the positive tet
     label i0 = -1;
-    FOR_ALL(d, i)
-    {
-      if (d[i] > 0)
-      {
+    FOR_ALL(d, i) {
+      if (d[i] > 0) {
         i0 = i;
         break;
       }
@@ -982,11 +975,8 @@ tetSliceWithPlane
     point p02 = planeIntersection(d, tet, i0, i2);
     point p03 = planeIntersection(d, tet, i0, i3);
     //Pout<< "Split 1pos tet " << tet << " d:" << d << " into" << nl;
-    if (i0 == 0 || i0 == 2)
-    {
-      tetPoints t(tet[i0], p01, p02, p03);
-      //Pout<< "    abovetet:" << t << " around i0:" << i0 << endl;
-      //checkTet(t, "nPos 1, aboveTets i0==0 or 2");
+    if (i0 == 0 || i0 == 2) {
+      tetPoints t{tet[i0], p01, p02, p03};
       aboveOp(t);
       // Prism
       FixedList<point, 6> p;
@@ -996,14 +986,9 @@ tetSliceWithPlane
       p[3] = p01;
       p[4] = p03;
       p[5] = p02;
-      //Pout<< "    belowprism:" << p << endl;
       decomposePrism(p, belowOp);
-    }
-    else
-    {
+    } else {
       tetPoints t(p01, p02, p03, tet[i0]);
-      //Pout<< "    abovetet:" << t << " around i0:" << i0 << endl;
-      //checkTet(t, "nPos 1, aboveTets i0==1 or 3");
       aboveOp(t);
       // Prism
       FixedList<point, 6> p;
@@ -1016,12 +1001,12 @@ tetSliceWithPlane
       //Pout<< "    belowprism:" << p << endl;
       decomposePrism(p, belowOp);
     }
-  }
-  else    // nPos == 0
-  {
+  } else {   // nPos == 0
     belowOp(tet);
   }
 }
+
+
 template<class Point, class PointRef>
 template<class AboveTetOp, class BelowTetOp>
 inline void mousse::tetrahedron<Point, PointRef>::sliceWithPlane
@@ -1033,6 +1018,8 @@ inline void mousse::tetrahedron<Point, PointRef>::sliceWithPlane
 {
   tetSliceWithPlane(pl, tetPoints(a_, b_, c_, d_), aboveOp, belowOp);
 }
+
+
 // Ostream Operator 
 template<class Point, class PointRef>
 inline mousse::Istream& mousse::operator>>
@@ -1042,11 +1029,13 @@ inline mousse::Istream& mousse::operator>>
 )
 {
   is.readBegin("tetrahedron");
-  is  >> t.a_ >> t.b_ >> t.c_ >> t.d_;
+  is >> t.a_ >> t.b_ >> t.c_ >> t.d_;
   is.readEnd("tetrahedron");
   is.check("Istream& operator>>(Istream&, tetrahedron&)");
   return is;
 }
+
+
 template<class Point, class PointRef>
 inline mousse::Ostream& mousse::operator<<
 (
@@ -1054,16 +1043,14 @@ inline mousse::Ostream& mousse::operator<<
   const tetrahedron<Point, PointRef>& t
 )
 {
-  os  << nl
-    << token::BEGIN_LIST
+  os << nl << token::BEGIN_LIST
     << t.a_ << token::SPACE
     << t.b_ << token::SPACE
     << t.c_ << token::SPACE
-    << t.d_
-    << token::END_LIST;
+    << t.d_ << token::END_LIST;
   return os;
 }
-#ifdef NoRepository
-#include "tetrahedron.cpp"
-#endif
+
+#include "tetrahedron.ipp"
+
 #endif

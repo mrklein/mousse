@@ -9,6 +9,7 @@
 #include "tuple2.hpp"
 #include "polynomial_entry.hpp"
 
+
 // Static Data Members
 namespace mousse
 {
@@ -25,20 +26,20 @@ MAKE_TEMPLATE_PATCH_TYPE_FIELD
 template<>
 void mousse::fanFvPatchField<mousse::scalar>::calcFanJump()
 {
-  if (this->cyclicPatch().owner())
-  {
+  if (this->cyclicPatch().owner()) {
     const surfaceScalarField& phi =
       db().lookupObject<surfaceScalarField>(phiName_);
     const fvsPatchField<scalar>& phip =
       patch().patchField<surfaceScalarField, scalar>(phi);
     scalarField Un(max(phip/patch().magSf(), scalar(0)));
-    if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-    {
+    if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
       Un /= patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     }
     this->jump_ = max(this->jumpTable_->value(Un), scalar(0));
   }
 }
+
+
 // Constructors
 template<>
 mousse::fanFvPatchField<mousse::scalar>::fanFvPatchField
@@ -48,32 +49,26 @@ mousse::fanFvPatchField<mousse::scalar>::fanFvPatchField
   const dictionary& dict
 )
 :
-  uniformJumpFvPatchField<scalar>(p, iF),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho"))
+  uniformJumpFvPatchField<scalar>{p, iF},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")}
 {
-  if (this->cyclicPatch().owner())
-  {
-    if (dict.found("f"))
-    {
+  if (this->cyclicPatch().owner()) {
+    if (dict.found("f")) {
       // Backwards compatibility
       Istream& is = dict.lookup("f");
       is.format(IOstream::ASCII);
-      scalarList f(is);
+      scalarList f{is};
       label nPows = 0;
-      FOR_ALL(f, powI)
-      {
-        if (mag(f[powI]) > VSMALL)
-        {
+      FOR_ALL(f, powI) {
+        if (mag(f[powI]) > VSMALL) {
           nPows++;
         }
       }
-      List<Tuple2<scalar, scalar> > coeffs(nPows);
+      List<Tuple2<scalar, scalar>> coeffs{nPows};
       nPows = 0;
-      FOR_ALL(f, powI)
-      {
-        if (mag(f[powI]) > VSMALL)
-        {
+      FOR_ALL(f, powI) {
+        if (mag(f[powI]) > VSMALL) {
           coeffs[nPows++] = Tuple2<scalar, scalar>(f[powI], powI);
         }
       }
@@ -81,22 +76,18 @@ mousse::fanFvPatchField<mousse::scalar>::fanFvPatchField
       (
         new PolynomialEntry<scalar>("jumpTable", coeffs)
       );
-    }
-    else
-    {
+    } else {
       // Generic input constructed from dictionary
       this->jumpTable_ = DataEntry<scalar>::New("jumpTable", dict);
     }
   }
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchScalarField::operator=
     (
-      scalarField("value", dict, p.size())
+      scalarField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     this->evaluate(Pstream::blocking);
   }
 }
+

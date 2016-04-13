@@ -4,9 +4,11 @@
 
 #include "diag_tensor_field.hpp"
 #define TEMPLATE
-#include "field_functions_m.cpp"
-namespace mousse
-{
+#include "field_functions_m.ipp"
+
+
+namespace mousse {
+
 // global functions 
 UNARY_FUNCTION(diagTensor, tensor, diag)
 UNARY_FUNCTION(scalar, diagTensor, tr)
@@ -19,5 +21,7 @@ BINARY_TYPE_OPERATOR(tensor, diagTensor, tensor, +, add)
 BINARY_TYPE_OPERATOR(tensor, diagTensor, tensor, -, subtract)
 BINARY_OPERATOR(vector, vector, diagTensor, /, divide)
 BINARY_TYPE_OPERATOR(vector, vector, diagTensor, /, divide)
+
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
+
+#include "undef_field_functions_m.inc"

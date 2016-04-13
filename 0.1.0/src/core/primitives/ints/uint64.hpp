@@ -4,8 +4,7 @@
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   uint64.cpp
-//   uint64_io.cpp
+
 #define __STDC_LIMIT_MACROS
 #if defined(__APPLE__)
 #include <sys/types.h>
@@ -19,17 +18,23 @@
 #ifndef UINT64_MIN
 #define UINT64_MIN 0
 #endif
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 //- Return a word representation of an uint64
 word name(const uint64_t);
+
 // IOstream Operators 
 uint64_t readUint64(Istream&);
 bool read(const char*, uint64_t&);
 Istream& operator>>(Istream&, uint64_t&);
 Ostream& operator<<(Ostream&, const uint64_t);
+
+
 //- Template specialization for pTraits<uint64_t>
 template<>
 class pTraits<uint64_t>

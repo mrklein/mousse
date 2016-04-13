@@ -36,11 +36,16 @@
 //   \endcode
 // SeeAlso
 //   xferCopy, xferCopyTo, xferMove, xferMoveTo, xferTmp
+
 #include "null_object.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 template<class T> class tmp;
+
+
 template<class T>
 class Xfer
 {
@@ -73,6 +78,8 @@ public:
     //- Pointer to the underlying datatype
     inline T* operator->() const;
 };
+
+
 /**
 * Construct by copying the contents of the \a arg
 *
@@ -80,6 +87,8 @@ public:
 */
 template<class T>
 inline Xfer<T> xferCopy(const T&);
+
+
 /**
 * Construct by transferring the contents of the \a arg
 *
@@ -87,6 +96,8 @@ inline Xfer<T> xferCopy(const T&);
 */
 template<class T>
 inline Xfer<T> xferMove(T&);
+
+
 /**
 * Construct by transferring the contents of the \a arg
 *
@@ -94,6 +105,8 @@ inline Xfer<T> xferMove(T&);
 */
 template<class T>
 inline Xfer<T> xferTmp(mousse::tmp<T>&);
+
+
 /**
 * Construct by copying the contents of the \a arg
 * between dissimilar types
@@ -102,6 +115,8 @@ inline Xfer<T> xferTmp(mousse::tmp<T>&);
 */
 template<class To, class From>
 inline Xfer<To> xferCopyTo(const From&);
+
+
 /**
 * Construct by transferring the contents of the \a arg
 * between dissimilar types
@@ -117,34 +132,39 @@ inline Xfer<To> xferCopyTo(const From&);
 */
 template<class To, class From>
 inline Xfer<To> xferMoveTo(From&);
+
 }  // namespace mousse
+
 
 // Static Member Functions
 template<class T>
 inline const mousse::Xfer<T>& mousse::Xfer<T>::null()
 {
-  return NullObjectRef<Xfer<T> >();
+  return NullObjectRef<Xfer<T>>();
 }
+
+
 // Constructors 
 template<class T>
 inline mousse::Xfer<T>::Xfer(T* p)
 :
   ptr_{p ? p : new T}
 {}
+
+
 template<class T>
 inline mousse::Xfer<T>::Xfer(T& t, bool allowTransfer)
 :
   ptr_{new T}
 {
-  if (allowTransfer)
-  {
+  if (allowTransfer) {
     ptr_->transfer(t);
-  }
-  else
-  {
+  } else {
     ptr_->operator=(t);
   }
 }
+
+
 template<class T>
 inline mousse::Xfer<T>::Xfer(const T& t)
 :
@@ -152,6 +172,8 @@ inline mousse::Xfer<T>::Xfer(const T& t)
 {
   ptr_->operator=(t);
 }
+
+
 template<class T>
 inline mousse::Xfer<T>::Xfer(const Xfer<T>& t)
 :
@@ -159,6 +181,8 @@ inline mousse::Xfer<T>::Xfer(const Xfer<T>& t)
 {
   ptr_->transfer(*(t.ptr_));
 }
+
+
 // Destructor 
 template<class T>
 inline mousse::Xfer<T>::~Xfer()
@@ -166,6 +190,8 @@ inline mousse::Xfer<T>::~Xfer()
   delete ptr_;
   ptr_ = 0;
 }
+
+
 //  Member Functions
 // Member Operators 
 template<class T>
@@ -173,41 +199,54 @@ inline void mousse::Xfer<T>::operator=(T& t)
 {
   ptr_->transfer(t);
 }
+
+
 template<class T>
 inline void mousse::Xfer<T>::operator=(const Xfer<T>& t)
 {
   // silently ignore attempted copy to self
-  if (this != &t)
-  {
+  if (this != &t) {
     ptr_->transfer(*(t.ptr_));
   }
 }
+
+
 template<class T>
 inline T& mousse::Xfer<T>::operator()() const
 {
   return *ptr_;
 }
+
+
 template<class T>
 inline T* mousse::Xfer<T>::operator->() const
 {
   return ptr_;
 }
+
+
 //  Helper Functions
 template<class T>
 inline mousse::Xfer<T> mousse::xferCopy(const T& t)
 {
   return mousse::Xfer<T>(t);
 }
+
+
 template<class T>
 inline mousse::Xfer<T> mousse::xferMove(T& t)
 {
   return mousse::Xfer<T>(t, true);
 }
+
+
 template<class T>
 inline mousse::Xfer<T> mousse::xferTmp(mousse::tmp<T>& tt)
 {
   return mousse::Xfer<T>(tt(), tt.isTmp());
 }
+
+
 template<class To, class From>
 inline mousse::Xfer<To> mousse::xferCopyTo(const From& t)
 {
@@ -215,6 +254,8 @@ inline mousse::Xfer<To> mousse::xferCopyTo(const From& t)
   xf() = t;
   return xf;
 }
+
+
 template<class To, class From>
 inline mousse::Xfer<To> mousse::xferMoveTo(From& t)
 {
@@ -222,4 +263,5 @@ inline mousse::Xfer<To> mousse::xferMoveTo(From& t)
   xf().transfer(t);
   return xf;
 }
+
 #endif

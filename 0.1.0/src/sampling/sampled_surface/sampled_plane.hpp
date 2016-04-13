@@ -10,12 +10,13 @@
 //   A sampledSurface defined by a cuttingPlane. Triangulated by default.
 // Note
 //   Does not actually cut until update() called.
-// SourceFiles
-//   sampled_plane.cpp
+
 #include "sampled_surface.hpp"
 #include "cutting_plane.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sampledPlane
 :
   public sampledSurface,
@@ -31,12 +32,12 @@ class sampledPlane
   // Private Member Functions
     //- Sample field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vField
     ) const;
     template<class Type>
-    tmp<Field<Type> >
+    tmp<Field<Type>>
     interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
@@ -138,8 +139,9 @@ public:
     //- Write
     virtual void print(Ostream&) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_plane_templates.cpp"
-#endif
+
+#include "sampled_plane.ipp"
+
 #endif

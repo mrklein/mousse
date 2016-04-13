@@ -9,14 +9,11 @@
 // Description
 //   Preconditioned conjugate gradient solver for symmetric lduMatrices
 //   using a run-time selectable preconditioner.
-// SourceFiles
-//   pcg.cpp
-
 
 #include "ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class PCG
 :

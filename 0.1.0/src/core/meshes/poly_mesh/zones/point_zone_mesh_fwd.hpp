@@ -5,11 +5,14 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-namespace mousse
-{
-  template<class Zone, class MeshType> class ZoneMesh;
-  class pointZone;
-  class polyMesh;
-  typedef ZoneMesh<pointZone, polyMesh> pointZoneMesh;
+namespace mousse {
+
+template<class Zone, class MeshType> class ZoneMesh;
+class pointZone;
+class polyMesh;
+typedef ZoneMesh<pointZone, polyMesh> pointZoneMesh;
+
 }
+
 #endif
+

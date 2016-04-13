@@ -6,15 +6,11 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::ensightSetWriter
-// Description
-// SourceFiles
-//   ensight_set_writer.cpp
-
 
 #include "writer.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class ensightSetWriter
@@ -61,8 +57,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "ensight_set_writer.cpp"
-#endif
+#include "ensight_set_writer.ipp"
 
 #endif

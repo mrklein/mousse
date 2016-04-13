@@ -10,7 +10,6 @@
 //   Struct to hold the patch index and the initialisation flag for
 //   the patch schedule
 
-
 #include "list.hpp"
 #include "token.hpp"
 #include "iostreams.hpp"
@@ -18,11 +17,15 @@
 #include "ipstream.hpp"
 #include "opstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 struct lduScheduleEntry;
+
 Ostream& operator<<(Ostream& os, const lduScheduleEntry& lb);
+
+
 struct lduScheduleEntry
 {
   label patch;
@@ -37,10 +40,13 @@ struct lduScheduleEntry
   }
   friend Ostream& operator<<(Ostream& os, const lduScheduleEntry& lb)
   {
-    os  << lb.patch << token::SPACE << lb.init;
+    os << lb.patch << token::SPACE << lb.init;
     return os;
   }
 };
+
 typedef List<lduScheduleEntry> lduSchedule;
+
 }  // namespace mousse
+
 #endif

@@ -48,13 +48,14 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   srf_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class SRFVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField

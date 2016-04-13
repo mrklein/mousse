@@ -169,13 +169,11 @@ static unsigned jenkins_hashlittle
   // Set up the internal state
   a = b = c = 0xdeadbeef + static_cast<uint32_t>(length) + initval;
   u.ptr = key;
-  if ((u.i & 0x3) == 0)
-  {
+  if ((u.i & 0x3) == 0) {
     // 32-bit chunks
     const uint32_t *k = reinterpret_cast<const uint32_t*>(key);
     // all but last block: aligned reads and affect 32 bits of (a,b,c)
-    while (length > 12)
-    {
+    while (length > 12) {
       a += k[0];
       b += k[1];
       c += k[2];
@@ -185,8 +183,7 @@ static unsigned jenkins_hashlittle
     }
     // handle the last (probably partial) block byte-wise
     const uint8_t *k8 = reinterpret_cast<const uint8_t*>(k);
-    switch (length)
-    {
+    switch (length) {
       case 12: c += k[2]; b += k[1]; a += k[0]; break;
       case 11: c += static_cast<uint32_t>(k8[10]) << 16; // fall through
       case 10: c += static_cast<uint32_t>(k8[9])  << 8;  // fall through
@@ -201,14 +198,11 @@ static unsigned jenkins_hashlittle
       case 1 : a += k8[0]; break;
       case 0 : return c;  // zero-length requires no mixing
     }
-  }
-  else if ((u.i & 0x1) == 0)
-  {
+  } else if ((u.i & 0x1) == 0) {
     // 16-bit chunks
     const uint16_t *k = reinterpret_cast<const uint16_t*>(key);
     // all but last block: aligned reads and different mixing
-    while (length > 12)
-    {
+    while (length > 12) {
       a += k[0] + (static_cast<uint32_t>(k[1]) << 16);
       b += k[2] + (static_cast<uint32_t>(k[3]) << 16);
       c += k[4] + (static_cast<uint32_t>(k[5]) << 16);
@@ -218,8 +212,7 @@ static unsigned jenkins_hashlittle
     }
     // handle the last (probably partial) block
     const uint8_t *k8 = reinterpret_cast<const uint8_t*>(k);
-    switch (length)
-    {
+    switch (length) {
       case 12:
         c += k[4] + (static_cast<uint32_t>(k[5]) << 16);
         b += k[2] + (static_cast<uint32_t>(k[3]) << 16);
@@ -264,13 +257,10 @@ static unsigned jenkins_hashlittle
         break;
       case 0 : return c;     // zero-length requires no mixing
     }
-  }
-  else
-  {
+  } else {
     const uint8_t *k = reinterpret_cast<const uint8_t*>(key);
     // all but the last block: affect some 32 bits of (a,b,c)
-    while (length > 12)
-    {
+    while (length > 12) {
       a += k[0];
       a += static_cast<uint32_t>(k[1]) << 8;
       a += static_cast<uint32_t>(k[2]) << 16;
@@ -288,8 +278,8 @@ static unsigned jenkins_hashlittle
       k += 12;
     }
     // last block: affect all 32 bits of (c)
-    switch (length) // most case statements fall through
-    {
+    // most case statements fall through
+    switch (length) {
       case 12: c += static_cast<uint32_t>(k[11]) << 24;
       case 11: c += static_cast<uint32_t>(k[10]) << 16;
       case 10: c += static_cast<uint32_t>(k[9]) << 8;

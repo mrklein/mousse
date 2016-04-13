@@ -6,8 +6,7 @@
 // Copyright (C) 2016 mousse project
 
 
-namespace mousse
-{
+namespace mousse {
 
 template<class TypeR, class Type1, class GeoMesh>
 class reuseTmpDimensionedField
@@ -27,7 +26,6 @@ public:
     {
       new DimensionedField<TypeR, GeoMesh>
       {
-        IOobject
         {
           name,
           df1.instance(),
@@ -60,19 +58,15 @@ public:
   {
     DimensionedField<TypeR, GeoMesh>& df1 =
       const_cast<DimensionedField<TypeR, GeoMesh>& >(tdf1());
-    if (tdf1.isTmp())
-    {
+    if (tdf1.isTmp()) {
       df1.rename(name);
       df1.dimensions().reset(dimensions);
       return tdf1;
-    }
-    else
-    {
+    } else {
       return tmp<DimensionedField<TypeR, GeoMesh>>
       {
         new DimensionedField<TypeR, GeoMesh>
         {
-          IOobject
           {
             name,
             df1.instance(),
@@ -87,8 +81,7 @@ public:
 
   static void clear(const tmp<DimensionedField<TypeR, GeoMesh>>& tdf1)
   {
-    if (tdf1.isTmp())
-    {
+    if (tdf1.isTmp()) {
       tdf1.ptr();
     }
   }
@@ -109,11 +102,10 @@ public:
   )
   {
     const DimensionedField<Type1, GeoMesh>& df1 = tdf1();
-    return tmp<DimensionedField<TypeR, GeoMesh>>
+    return // tmp<DimensionedField<TypeR, GeoMesh>>
     {
       new DimensionedField<TypeR, GeoMesh>
       {
-        IOobject
         {
           name,
           df1.instance(),
@@ -153,19 +145,15 @@ public:
     const DimensionedField<Type1, GeoMesh>& df1 = tdf1();
     DimensionedField<TypeR, GeoMesh>& df2 =
       const_cast<DimensionedField<TypeR, GeoMesh>& >(tdf2());
-    if (tdf2.isTmp())
-    {
+    if (tdf2.isTmp()) {
       df2.rename(name);
       df2.dimensions().reset(dimensions);
       return tdf2;
-    }
-    else
-    {
+    } else {
       return tmp<DimensionedField<TypeR, GeoMesh>>
       {
         new DimensionedField<TypeR, GeoMesh>
         {
-          IOobject
           {
             name,
             df1.instance(),
@@ -185,8 +173,7 @@ public:
   )
   {
     tdf1.clear();
-    if (tdf2.isTmp())
-    {
+    if (tdf2.isTmp()) {
       tdf2.ptr();
     }
   }
@@ -208,19 +195,15 @@ public:
   {
     DimensionedField<TypeR, GeoMesh>& df1 =
       const_cast<DimensionedField<TypeR, GeoMesh>& >(tdf1());
-    if (tdf1.isTmp())
-    {
+    if (tdf1.isTmp()) {
       df1.rename(name);
       df1.dimensions().reset(dimensions);
       return tdf1;
-    }
-    else
-    {
+    } else {
       return tmp<DimensionedField<TypeR, GeoMesh>>
       {
         new DimensionedField<TypeR, GeoMesh>
         {
-          IOobject
           {
             name,
             df1.instance(),
@@ -239,8 +222,7 @@ public:
     const tmp<DimensionedField<Type2, GeoMesh>>& tdf2
   )
   {
-    if (tdf1.isTmp())
-    {
+    if (tdf1.isTmp()) {
       tdf1.ptr();
     }
     tdf2.clear();
@@ -265,25 +247,19 @@ public:
       const_cast<DimensionedField<TypeR, GeoMesh>& >(tdf1());
     DimensionedField<TypeR, GeoMesh>& df2 =
       const_cast<DimensionedField<TypeR, GeoMesh>& >(tdf2());
-    if (tdf1.isTmp())
-    {
+    if (tdf1.isTmp()) {
       df1.rename(name);
       df1.dimensions().reset(dimensions);
       return tdf1;
-    }
-    else if (tdf2.isTmp())
-    {
+    } else if (tdf2.isTmp()) {
       df2.rename(name);
       df2.dimensions().reset(dimensions);
       return tdf2;
-    }
-    else
-    {
+    } else {
       return tmp<DimensionedField<TypeR, GeoMesh>>
       {
         new DimensionedField<TypeR, GeoMesh>
         {
-          IOobject
           {
             name,
             df1.instance(),
@@ -302,13 +278,10 @@ public:
     const tmp<DimensionedField<TypeR, GeoMesh>>& tdf2
   )
   {
-    if (tdf1.isTmp())
-    {
+    if (tdf1.isTmp()) {
       tdf1.ptr();
       tdf2.clear();
-    }
-    else if (tdf2.isTmp())
-    {
+    } else if (tdf2.isTmp()) {
       tdf1.clear();
       tdf2.ptr();
     }

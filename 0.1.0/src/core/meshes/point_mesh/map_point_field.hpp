@@ -11,10 +11,13 @@
 //   specialisation for GeoMesh=pointMesh
 // See Also
 //   MapGeometricFields
+
 #include "field.hpp"
 #include "point_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type, class MeshMapper>
 class MapInternalField<Type, MeshMapper, pointMesh>
 {
@@ -27,6 +30,8 @@ public:
     const MeshMapper& mapper
   ) const;
 };
+
+
 template<class Type, class MeshMapper>
 void MapInternalField<Type, MeshMapper, pointMesh>::operator()
 (
@@ -34,8 +39,7 @@ void MapInternalField<Type, MeshMapper, pointMesh>::operator()
   const MeshMapper& mapper
 ) const
 {
-  if (field.size() != mapper.pointMap().sizeBeforeMapping())
-  {
+  if (field.size() != mapper.pointMap().sizeBeforeMapping()) {
     FATAL_ERROR_IN
     (
       "void MapInternalField<Type, MeshMapper, pointMesh>::operator()\n"
@@ -43,11 +47,14 @@ void MapInternalField<Type, MeshMapper, pointMesh>::operator()
       "    Field<Type>& field,\n"
       "    const MeshMapper& mapper\n"
       ") const"
-    )  << "Incompatible size before mapping.  Field size: " << field.size()
-     << " map size: " << mapper.pointMap().sizeBeforeMapping()
-     << abort(FatalError);
+    )
+    << "Incompatible size before mapping.  Field size: " << field.size()
+    << " map size: " << mapper.pointMap().sizeBeforeMapping()
+    << abort(FatalError);
   }
   field.autoMap(mapper.pointMap());
 }
+
 }  // namespace mousse
 #endif
+

@@ -1,1 +1,1 @@
-../surface_formats/x3d_surface_format.hpp
+../formats/x3d_surface_format.hpp

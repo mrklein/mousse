@@ -6,11 +6,14 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 MAKE_PATCH_FIELDS_TYPE_NAME(jumpCyclic);
+
 }
+
 
 // Member Functions 
 template<>
@@ -23,26 +26,20 @@ void mousse::jumpCyclicFvPatchField<mousse::scalar>::updateInterfaceMatrix
   const Pstream::commsTypes
 ) const
 {
-  scalarField pnf(this->size());
+  scalarField pnf{this->size()};
   const labelUList& nbrFaceCells =
     this->cyclicPatch().neighbFvPatch().faceCells();
   // only apply jump to original field
-  if (&psiInternal == &this->internalField())
-  {
-    Field<scalar> jf(this->jump());
-    if (!this->cyclicPatch().owner())
-    {
+  if (&psiInternal == &this->internalField()) {
+    Field<scalar> jf{this->jump()};
+    if (!this->cyclicPatch().owner()) {
       jf *= -1.0;
     }
-    FOR_ALL(*this, facei)
-    {
+    FOR_ALL(*this, facei) {
       pnf[facei] = psiInternal[nbrFaceCells[facei]] - jf[facei];
     }
-  }
-  else
-  {
-    FOR_ALL(*this, facei)
-    {
+  } else {
+    FOR_ALL(*this, facei) {
       pnf[facei] = psiInternal[nbrFaceCells[facei]];
     }
   }
@@ -50,8 +47,8 @@ void mousse::jumpCyclicFvPatchField<mousse::scalar>::updateInterfaceMatrix
   this->transformCoupleField(pnf, cmpt);
   // Multiply the field by coefficients and add into the result
   const labelUList& faceCells = this->cyclicPatch().faceCells();
-  FOR_ALL(faceCells, elemI)
-  {
+  FOR_ALL(faceCells, elemI) {
     result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
   }
 }
+

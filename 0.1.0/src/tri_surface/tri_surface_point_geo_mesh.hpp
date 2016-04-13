@@ -9,10 +9,13 @@
 // Description
 //   The triSurface  point GeoMesh (for holding vertex fields).
 //   Similar to the volMesh used for the Finite Volume discretization.
+
 #include "geo_mesh.hpp"
 #include "tri_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class triSurfacePointGeoMesh
 :
   public GeoMesh<triSurface>
@@ -22,7 +25,7 @@ public:
     //- Construct from triSurface reference
     explicit triSurfacePointGeoMesh(const triSurface& mesh)
     :
-      GeoMesh<triSurface>(mesh)
+      GeoMesh<triSurface>{mesh}
     {}
   // Member Functions
     //- Return size

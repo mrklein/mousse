@@ -9,16 +9,17 @@
 // Description
 //   Hash function class for primitives.  All non-primitives used to hash
 //   entries on hash tables likely need a specialized version of this class.
+
 #include "label.hpp"
 #include "ulabel.hpp"
 #include "hasher.hpp"
 #include "ptraits.hpp"
 #include "file_name.hpp"
 #include "word_re.hpp"
-namespace mousse
-{
-//template<class Type> class Hash;
-//template<> class Hash<label>;
+
+
+namespace mousse {
+
 template<class PrimitiveType>
 class Hash
 {
@@ -34,6 +35,8 @@ public:
     return Hasher(&p, sizeof(p));
   }
 };
+
+
 //- Hash specialization for hashing labels
 template<>
 class Hash<mousse::label>
@@ -56,6 +59,8 @@ public:
     return p;
   }
 };
+
+
 //- Hash specialization for hashing strings
 template<>
 class Hash<mousse::string>
@@ -72,6 +77,8 @@ public:
     return string::hash()(p);
   }
 };
+
+
 //- Hash specialization for hashing words
 template<>
 class Hash<mousse::word>
@@ -88,6 +95,8 @@ public:
     return word::hash()(p);
   }
 };
+
+
 //- Hash specialization for hashing fileNames
 template<>
 class Hash<mousse::fileName>
@@ -104,6 +113,8 @@ public:
     return fileName::hash()(p);
   }
 };
+
+
 //- Hash specialization for hashing wordRes
 template<>
 class Hash<mousse::wordRe>
@@ -120,6 +131,8 @@ public:
     return wordRe::hash()(p);
   }
 };
+
+
 //- Hash specialization for hashing keyTypes
 template<>
 class Hash<mousse::keyType>
@@ -136,6 +149,8 @@ public:
     return keyType::hash()(p);
   }
 };
+
+
 //- Hash specialization for hashing pointer addresses.
 //  Treat a pointer like a long.
 //  This should work for both 32-bit and 64-bit pointers.
@@ -154,5 +169,7 @@ public:
     return Hash<long>()(long(p));
   }
 };
+
 }  // namespace mousse
+
 #endif

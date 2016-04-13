@@ -8,8 +8,9 @@
 //   mousse::NVDTVD
 // Description
 //   mousse::NVDTVD
-namespace mousse
-{
+
+namespace mousse {
+
 class NVDTVD
 {
 public:
@@ -31,20 +32,14 @@ public:
     {
       scalar gradf = phiN - phiP;
       scalar gradcf;
-      if (faceFlux > 0)
-      {
+      if (faceFlux > 0) {
         gradcf = d & gradcP;
-      }
-      else
-      {
+      } else {
         gradcf = d & gradcN;
       }
-      if (mag(gradf) >= 1000*mag(gradcf))
-      {
+      if (mag(gradf) >= 1000*mag(gradcf)) {
         return 1 - 0.5*1000*sign(gradcf)*sign(gradf);
-      }
-      else
-      {
+      } else {
         return 1 - 0.5*gradf/gradcf;
       }
     }
@@ -60,23 +55,20 @@ public:
     {
       scalar gradf = phiN - phiP;
       scalar gradcf;
-      if (faceFlux > 0)
-      {
+      if (faceFlux > 0) {
         gradcf = d & gradcP;
-      }
-      else
-      {
+      } else {
         gradcf = d & gradcN;
       }
-      if (mag(gradcf) >= 1000*mag(gradf))
-      {
+      if (mag(gradcf) >= 1000*mag(gradf)) {
         return 2*1000*sign(gradcf)*sign(gradf) - 1;
-      }
-      else
-      {
+      } else {
         return 2*(gradcf/gradf) - 1;
       }
     }
 };
+
 }  // namespace mousse
+
 #endif
+

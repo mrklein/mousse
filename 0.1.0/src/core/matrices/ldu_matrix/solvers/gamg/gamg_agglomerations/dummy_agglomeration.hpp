@@ -8,14 +8,12 @@
 //   mousse::dummyAgglomeration
 // Description
 //   Agglomerate without combining cells. Used for testing.
-// SourceFiles
-//   dummy_agglomeration.cpp
-
 
 #include "gamg_agglomeration.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class dummyAgglomeration
 :
   public GAMGAgglomeration

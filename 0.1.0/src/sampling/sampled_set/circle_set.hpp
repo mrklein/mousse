@@ -8,14 +8,17 @@
 //   mousse::circleSet
 // Description
 //   Samples along a circular path
-// SourceFiles
-//   circle_set.cpp
+
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class meshSearch;
+
+
 class circleSet
 :
   public sampledSet
@@ -74,5 +77,8 @@ public:
     //- Get reference point
     virtual point getRefPoint(const List<point>&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

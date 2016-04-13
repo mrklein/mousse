@@ -44,12 +44,13 @@
 // SeeAlso
 //   mousse::zeroGradientFvPatchField
 //   mousse::pressureInletOutletVelocityFvPatchVectorField
-// SourceFiles
-//   flux_corrected_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fluxCorrectedVelocityFvPatchVectorField
 :
   public zeroGradientFvPatchVectorField
@@ -89,9 +90,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new fluxCorrectedVelocityFvPatchVectorField(*this)
-      );
+      {
+        new fluxCorrectedVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fluxCorrectedVelocityFvPatchVectorField
@@ -106,9 +107,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new fluxCorrectedVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new fluxCorrectedVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions

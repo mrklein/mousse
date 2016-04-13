@@ -9,10 +9,13 @@
 // Description
 //   Centred fit surface interpolation scheme which applies an explicit
 //   correction to linear.
+
 #include "centred_fit_data.hpp"
 #include "linear.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type, class Polynomial, class Stencil>
 class CentredFitScheme
 :
@@ -88,7 +91,9 @@ public:
       return stencil.weightedSum(vf, f);
     }
 };
+
 }  // namespace mousse
+
 
 // Add the patch constructor functions to the hash tables
 #define MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME\
@@ -111,6 +116,7 @@ surfaceInterpolationScheme<TYPE>::addMeshConstructorToTable                   \
 surfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable               \
 <CentredFitScheme<TYPE, POLYNOMIAL, STENCIL> >                                \
   add##SS##STENCIL##TYPE##MeshFluxConstructorToTable_;
+
 
 #define MAKE_CENTRED_FIT_SURFACE_INTERPOLATION_SCHEME(SS, POLYNOMIAL, STENCIL)\
                                                                               \

@@ -10,9 +10,12 @@
 //   A geometric pyramid primitive with a base of 'n' sides:
 //   i.e. a parametric pyramid. A pyramid is constructed from
 //   a base polygon and an apex point.
+
 #include "iostreams.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Point, class PointRef, class polygonRef>
 class pyramid;
@@ -28,6 +31,8 @@ inline Ostream& operator<<
   Ostream&,
   const pyramid<Point, PointRef, polygonRef>&
 );
+
+
 template<class Point, class PointRef, class polygonRef>
 class pyramid
 {
@@ -67,6 +72,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Constructors 
 template<class Point, class PointRef, class polygonRef>
 inline mousse::pyramid<Point, PointRef, polygonRef>::pyramid
@@ -75,34 +81,44 @@ inline mousse::pyramid<Point, PointRef, polygonRef>::pyramid
   const Point& apex
 )
 :
-  base_(base),
-  apex_(apex)
+  base_{base},
+  apex_{apex}
 {}
+
+
 template<class Point, class PointRef, class polygonRef>
 inline mousse::pyramid<Point, PointRef, polygonRef>::pyramid(Istream& is)
 {
   is >> base_ >> apex_;
   is.check("pyramid::pyramid(Istream&)");
 }
+
+
 // Member Functions 
 template<class Point, class PointRef, class polygonRef>
 inline const Point& mousse::pyramid<Point, PointRef, polygonRef>::apex() const
 {
   return apex_;
 }
+
+
 template<class Point, class PointRef, class polygonRef>
 inline polygonRef mousse::pyramid<Point, PointRef, polygonRef>::base() const
 {
   return base_;
 }
+
+
 template<class Point, class PointRef, class polygonRef>
 inline Point mousse::pyramid<Point, PointRef, polygonRef>::centre
 (
   const pointField& points
 ) const
 {
-  return (3.0/4.0)*base_.centre(points) + (1.0/4.0)*apex_;
+  return (3.0*base_.centre(points) + apex_)/4.0;
 }
+
+
 template<class Point, class PointRef, class polygonRef>
 inline mousse::vector mousse::pyramid<Point, PointRef, polygonRef>::height
 (
@@ -112,14 +128,18 @@ inline mousse::vector mousse::pyramid<Point, PointRef, polygonRef>::height
   // Height = apex - baseCentroid
   return (apex_ - base_.centre(points));
 }
+
+
 template<class Point, class PointRef, class polygonRef>
 inline mousse::scalar mousse::pyramid<Point, PointRef, polygonRef>::mag
 (
   const pointField& points
 ) const
 {
-  return (1.0/3.0)*(base_.normal(points)&(height(points)));
+  return (base_.normal(points) & (height(points)))/3.0;
 }
+
+
 // IOstream Operators 
 template<class Point, class PointRef, class polygonRef>
 inline mousse::Istream& mousse::operator>>
@@ -128,10 +148,12 @@ inline mousse::Istream& mousse::operator>>
   pyramid<Point, PointRef, polygonRef>& p
 )
 {
-  is  >> p.base_ >> p.apex_;
+  is >> p.base_ >> p.apex_;
   is.check("Istream& operator>>(Istream&, pyramid&)");
   return is;
 }
+
+
 template<class Point, class PointRef, class polygonRef>
 inline mousse::Ostream& mousse::operator<<
 (
@@ -139,7 +161,9 @@ inline mousse::Ostream& mousse::operator<<
   const pyramid<Point, PointRef, polygonRef>& p
 )
 {
-  os  << p.base_ << tab << p.apex_ << nl;
+  os << p.base_ << tab << p.apex_ << nl;
   return os;
 }
+
+
 #endif

@@ -8,6 +8,7 @@
 #include "geometric_field.hpp"
 #include "mesh_to_mesh0.hpp"
 #include "ioobject_list.hpp"
+
 namespace mousse
 {
 template<class Type, class CombineOp>
@@ -22,13 +23,13 @@ void MapConsistentVolFields
   const fvMesh& meshSource = meshToMesh0Interp.fromMesh();
   const fvMesh& meshTarget = meshToMesh0Interp.toMesh();
   word fieldClassName
-  (
+  {
     GeometricField<Type, fvPatchField, volMesh>::typeName
-  );
+  };
   IOobjectList fields = objects.lookupClass(fieldClassName);
   FOR_ALL_ITER(IOobjectList, fields, fieldIter)
   {
-    Info<< "    interpolating " << fieldIter()->name()
+    Info << "    interpolating " << fieldIter()->name()
       << endl;
     // Read field
     GeometricField<Type, fvPatchField, volMesh> fieldSource

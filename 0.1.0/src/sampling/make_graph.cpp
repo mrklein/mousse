@@ -6,8 +6,10 @@
 #include "vol_fields.hpp"
 #include "fv_mesh.hpp"
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 void makeGraph
 (
   const scalarField& x,
@@ -17,6 +19,8 @@ void makeGraph
 {
   makeGraph(x, vsf, vsf.name(), graphFormat);
 }
+
+
 void makeGraph
 (
   const scalarField& x,
@@ -25,7 +29,7 @@ void makeGraph
   const word& graphFormat
 )
 {
-  fileName path(vsf.rootPath()/vsf.caseName()/"graphs"/vsf.instance());
+  fileName path{vsf.rootPath()/vsf.caseName()/"graphs"/vsf.instance()};
   mkDir(path);
   makeGraph
   (
@@ -36,6 +40,8 @@ void makeGraph
     graphFormat
   );
 }
+
+
 void makeGraph
 (
   const scalarField& x,
@@ -54,4 +60,5 @@ void makeGraph
     sf
   ).write(path/name, graphFormat);
 }
+
 }  // namespace mousse

@@ -7,9 +7,13 @@
 
 #include "vector_list.hpp"
 #include "compact_io_list.hpp"
-namespace mousse
-{
-  typedef IOList<vectorList> vectorListIOList;
-  typedef CompactIOList<vectorList, vector> vectorListCompactIOList;
+
+
+namespace mousse {
+
+typedef IOList<vectorList> vectorListIOList;
+typedef CompactIOList<vectorList, vector> vectorListCompactIOList;
+
 }
+
 #endif

@@ -1,1 +1,1 @@
-../mesh_search/mesh_search.hpp
+../mesh_search.hpp

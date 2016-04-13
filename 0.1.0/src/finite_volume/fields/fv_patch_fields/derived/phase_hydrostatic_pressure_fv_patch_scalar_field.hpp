@@ -47,11 +47,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::mixedFvPatchScalarField
-// SourceFiles
-//   phase_hydrostatic_pressure_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class phaseHydrostaticPressureFvPatchScalarField
 :
   public mixedFvPatchScalarField
@@ -100,10 +101,10 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField >
-      (
-        new phaseHydrostaticPressureFvPatchScalarField(*this)
-      );
+      return tmp<fvPatchScalarField>
+      {
+        new phaseHydrostaticPressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     phaseHydrostaticPressureFvPatchScalarField
@@ -118,9 +119,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new phaseHydrostaticPressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new phaseHydrostaticPressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access

@@ -7,41 +7,52 @@
 #include "ofstream.hpp"
 #include "os_specific.hpp"
 #include "make_surface_writer_methods.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  makeSurfaceWriterType(starcdSurfaceWriter);
+namespace mousse {
+
+MAKE_SURFACE_WRITER_TYPE(starcdSurfaceWriter);
+
 }
+
+
 // Private Member Functions 
-namespace mousse
+namespace mousse {
+
+template<>
+inline void mousse::starcdSurfaceWriter::writeData
+(
+  Ostream& os,
+  const scalar& v
+)
 {
-  template<>
-  inline void mousse::starcdSurfaceWriter::writeData
-  (
-    Ostream& os,
-    const scalar& v
-  )
-  {
-    os  << v << nl;
-  }
-  template<>
-  inline void mousse::starcdSurfaceWriter::writeData
-  (
-    Ostream& os,
-    const vector& v
-  )
-  {
-    os  << v[0] << ' ' << v[1] << ' ' << v[2] << nl;
-  }
-  template<>
-  inline void mousse::starcdSurfaceWriter::writeData
-  (
-    Ostream& os,
-    const sphericalTensor& v
-  )
-  {
-    os  << v[0] << nl;
-  }
+  os << v << nl;
+}
+
+
+template<>
+inline void mousse::starcdSurfaceWriter::writeData
+(
+  Ostream& os,
+  const vector& v
+)
+{
+  os << v[0] << ' ' << v[1] << ' ' << v[2] << nl;
+}
+
+
+template<>
+inline void mousse::starcdSurfaceWriter::writeData
+(
+  Ostream& os,
+  const sphericalTensor& v
+)
+{
+  os << v[0] << nl;
+}
+
+
 }
 template<class Type>
 inline void mousse::starcdSurfaceWriter::writeData
@@ -50,6 +61,8 @@ inline void mousse::starcdSurfaceWriter::writeData
   const Type& /*v*/
 )
 {}
+
+
 template<class Type>
 void mousse::starcdSurfaceWriter::writeTemplate
 (
@@ -63,30 +76,34 @@ void mousse::starcdSurfaceWriter::writeTemplate
   const bool verbose
 ) const
 {
-  if (!isDir(outputDir))
-  {
+  if (!isDir(outputDir)) {
     mkDir(outputDir);
   }
-  OFstream os(outputDir/fieldName + '_' + surfaceName + ".usr");
-  if (verbose)
-  {
-    Info<< "Writing field " << fieldName << " to " << os.name() << endl;
+  OFstream os{outputDir/fieldName + '_' + surfaceName + ".usr"};
+  if (verbose) {
+    Info << "Writing field " << fieldName << " to " << os.name() << endl;
   }
   // no header, just write values
-  FOR_ALL(values, elemI)
-  {
-    os  << elemI+1 << ' ';
+  FOR_ALL(values, elemI) {
+    os << elemI+1 << ' ';
     writeData(os, values[elemI]);
   }
 }
+
+
 // Constructors 
 mousse::starcdSurfaceWriter::starcdSurfaceWriter()
 :
-  surfaceWriter()
+  surfaceWriter{}
 {}
+
+
 // Destructor 
+
 mousse::starcdSurfaceWriter::~starcdSurfaceWriter()
 {}
+
+
 // Member Functions 
 void mousse::starcdSurfaceWriter::write
 (
@@ -97,18 +114,17 @@ void mousse::starcdSurfaceWriter::write
   const bool verbose
 ) const
 {
-  if (!isDir(outputDir))
-  {
+  if (!isDir(outputDir)) {
     mkDir(outputDir);
   }
-  fileName outName(outputDir/surfaceName + ".inp");
-  if (verbose)
-  {
-    Info<< "Writing geometry to " << outName << endl;
+  fileName outName{outputDir/surfaceName + ".inp"};
+  if (verbose) {
+    Info << "Writing geometry to " << outName << endl;
   }
   MeshedSurfaceProxy<face>(points, faces).write(outName);
 }
-// create write methods
-defineSurfaceWriterWriteField(mousse::starcdSurfaceWriter, scalar);
-defineSurfaceWriterWriteField(mousse::starcdSurfaceWriter, vector);
-defineSurfaceWriterWriteField(mousse::starcdSurfaceWriter, sphericalTensor);
+
+// Create write methods
+DEFINE_SURFACE_WRITER_WRITE_FIELD(mousse::starcdSurfaceWriter, scalar);
+DEFINE_SURFACE_WRITER_WRITE_FIELD(mousse::starcdSurfaceWriter, vector);
+DEFINE_SURFACE_WRITER_WRITE_FIELD(mousse::starcdSurfaceWriter, sphericalTensor);

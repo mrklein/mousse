@@ -8,19 +8,19 @@
 //   mousse::searchableSurfaces
 // Description
 //   Container for searchableSurfaces.
-// SourceFiles
-//   searchable_surfaces.cpp
-
 
 #include "searchable_surface.hpp"
 #include "label_pair.hpp"
 #include "writer.hpp"
 #include "ptr_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class triSurface;
+
+
 class searchableSurfaces
 :
   public PtrList<searchableSurface>
@@ -80,16 +80,6 @@ public:
     {
       return regionNames_;
     }
-    ////- If adding surfaces 'by hand'
-    //HashTable<labelPair>& regionNames()
-    //{
-    //    return regionNames_;
-    //}
-    ////- Get surface and region for a name
-    //const labelPair& surfaceRegion(const word& globalRegion) const
-    //{
-    //    return regionNames_[globalRegion];
-    //}
     //- Find index of surface. Return -1 if not found.
     label findSurfaceID(const word& name) const;
     label findSurfaceRegionID

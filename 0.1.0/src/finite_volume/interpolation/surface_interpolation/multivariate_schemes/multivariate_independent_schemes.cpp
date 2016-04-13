@@ -5,8 +5,9 @@
 #include "multivariate_independent_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
@@ -15,7 +16,7 @@ DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 );
 
 multivariateSurfaceInterpolationScheme<scalar>::addIstreamConstructorToTable
-  <multivariateIndependentScheme<scalar> >
+  <multivariateIndependentScheme<scalar>>
   addMultivariateIndependentSchemeScalarConstructorToTable_;
 
 }  // namespace mousse

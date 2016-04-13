@@ -23,10 +23,6 @@
 //     multipleStart_ .. size-1        : multiply connected edges
 //   The edge direction and feature edge and feature point adjacent normals
 //   are stored.
-// SourceFiles
-//   extended_edge_mesh.cpp
-//   extended_edge_mesh_new.cpp
-
 
 #include "edge_mesh.hpp"
 #include "indexed_octree.hpp"
@@ -36,15 +32,17 @@
 #include "ptr_list.hpp"
 #include "unit_conversion.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class surfaceFeatures;
 class objectRegistry;
+
 // Forward declaration of friend functions and operators
 class extendedEdgeMesh;
 Istream& operator>>(Istream&, extendedEdgeMesh&);
 Ostream& operator<<(Ostream&, const extendedEdgeMesh&);
+
 
 class extendedEdgeMesh
 :
@@ -154,13 +152,13 @@ protected:
     labelList regionEdges_;
 
     //- Search tree for all feature points
-    mutable autoPtr<indexedOctree<treeDataPoint> > pointTree_;
+    mutable autoPtr<indexedOctree<treeDataPoint>> pointTree_;
 
     //- Search tree for all edges
-    mutable autoPtr<indexedOctree<treeDataEdge> > edgeTree_;
+    mutable autoPtr<indexedOctree<treeDataEdge>> edgeTree_;
 
     //- Individual search trees for each type of edge
-    mutable PtrList<indexedOctree<treeDataEdge> > edgeTreesByType_;
+    mutable PtrList<indexedOctree<treeDataEdge>> edgeTreesByType_;
 
   // Private Member Functions
 
@@ -435,7 +433,7 @@ public:
       const indexedOctree<treeDataEdge>& edgeTree() const;
 
       //- Demand driven construction of octree for boundary edges by type
-      const PtrList<indexedOctree<treeDataEdge> >&
+      const PtrList<indexedOctree<treeDataEdge>>&
       edgeTreesByType() const;
 
     // Edit
@@ -490,61 +488,73 @@ public:
 
 }  // namespace mousse
 
+
 // Member Functions 
 inline mousse::label mousse::extendedEdgeMesh::convexStart() const
 {
   return convexStart_;
 }
 
+
 inline mousse::label mousse::extendedEdgeMesh::concaveStart() const
 {
   return concaveStart_;
 }
+
 
 inline mousse::label mousse::extendedEdgeMesh::mixedStart() const
 {
   return mixedStart_;
 }
 
+
 inline mousse::label mousse::extendedEdgeMesh::nonFeatureStart() const
 {
   return nonFeatureStart_;
 }
+
 
 inline mousse::label mousse::extendedEdgeMesh::externalStart() const
 {
   return externalStart_;
 }
 
+
 inline mousse::label mousse::extendedEdgeMesh::internalStart() const
 {
   return internalStart_;
 }
+
 
 inline mousse::label mousse::extendedEdgeMesh::flatStart() const
 {
   return flatStart_;
 }
 
+
 inline mousse::label mousse::extendedEdgeMesh::openStart() const
 {
   return openStart_;
 }
+
 
 inline mousse::label mousse::extendedEdgeMesh::multipleStart() const
 {
   return multipleStart_;
 }
 
+
 inline bool mousse::extendedEdgeMesh::featurePoint(label ptI) const
 {
   return ptI < nonFeatureStart_;
 }
 
+
 inline const mousse::vectorField& mousse::extendedEdgeMesh::normals() const
 {
   return normals_;
 }
+
 
 inline const mousse::List<mousse::extendedEdgeMesh::sideVolumeType>&
 mousse::extendedEdgeMesh::normalVolumeTypes() const
@@ -552,17 +562,20 @@ mousse::extendedEdgeMesh::normalVolumeTypes() const
   return normalVolumeTypes_;
 }
 
+
 inline const mousse::vectorField& mousse::extendedEdgeMesh::edgeDirections()
 const
 {
   return edgeDirections_;
 }
 
+
 inline const mousse::labelListList&
 mousse::extendedEdgeMesh::normalDirections() const
 {
   return normalDirections_;
 }
+
 
 inline mousse::vector mousse::extendedEdgeMesh::edgeDirection
 (
@@ -571,16 +584,11 @@ inline mousse::vector mousse::extendedEdgeMesh::edgeDirection
 ) const
 {
   const edge& e = edges()[edgeI];
-  if (ptI == e.start())
-  {
+  if (ptI == e.start()) {
     return edgeDirections()[edgeI];
-  }
-  else if (ptI == e.end())
-  {
+  } else if (ptI == e.end()) {
     return -edgeDirections()[edgeI];
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("mousse::extendedEdgeMesh::edgeDirection")
       << "Requested ptI " << ptI << " is not a point on the requested "
       << "edgeI " << edgeI << ". edgeI start and end: "
@@ -590,24 +598,26 @@ inline mousse::vector mousse::extendedEdgeMesh::edgeDirection
   }
 }
 
+
 inline const mousse::labelListList& mousse::extendedEdgeMesh::edgeNormals()
 const
 {
   return edgeNormals_;
 }
 
+
 inline mousse::vectorField mousse::extendedEdgeMesh::edgeNormals
 (
   const labelList& edgeNormIs
 ) const
 {
-  vectorField norms(edgeNormIs.size());
-  FOR_ALL(edgeNormIs, i)
-  {
+  vectorField norms{edgeNormIs.size()};
+  FOR_ALL(edgeNormIs, i) {
     norms[i] = normals_[edgeNormIs[i]];
   }
   return norms;
 }
+
 
 inline mousse::vectorField mousse::extendedEdgeMesh::edgeNormals(label edgeI)
 const
@@ -615,33 +625,34 @@ const
   return edgeNormals(edgeNormals_[edgeI]);
 }
 
+
 inline const mousse::labelListList&
 mousse::extendedEdgeMesh::featurePointNormals() const
 {
   return featurePointNormals_;
 }
 
+
 inline mousse::vectorField mousse::extendedEdgeMesh::featurePointNormals
 (
   label ptI
 ) const
 {
-  if (!featurePoint(ptI))
-  {
+  if (!featurePoint(ptI)) {
     WARNING_IN("vectorField extendedEdgeMesh::featurePointNormals")
       << "Requesting the normals of a non-feature point. "
       << "Returned zero length vectorField."
       << endl;
     return vectorField(0);
   }
-  labelList featPtNormIs(featurePointNormals_[ptI]);
-  vectorField norms(featPtNormIs.size());
-  FOR_ALL(featPtNormIs, i)
-  {
+  labelList featPtNormIs{featurePointNormals_[ptI]};
+  vectorField norms{featPtNormIs.size()};
+  FOR_ALL(featPtNormIs, i) {
     norms[i] = normals_[featPtNormIs[i]];
   }
   return norms;
 }
+
 
 inline const mousse::labelListList&
 mousse::extendedEdgeMesh::featurePointEdges() const
@@ -649,56 +660,44 @@ mousse::extendedEdgeMesh::featurePointEdges() const
   return featurePointEdges_;
 }
 
+
 inline const mousse::labelList& mousse::extendedEdgeMesh::regionEdges() const
 {
   return regionEdges_;
 }
 
+
 inline mousse::extendedEdgeMesh::pointStatus
 mousse::extendedEdgeMesh::getPointStatus(label ptI) const
 {
-  if (ptI < concaveStart_)
-  {
+  if (ptI < concaveStart_) {
     return CONVEX;
-  }
-  else if (ptI < mixedStart_)
-  {
+  } else if (ptI < mixedStart_) {
     return CONCAVE;
-  }
-  else if (ptI < nonFeatureStart_)
-  {
+  } else if (ptI < nonFeatureStart_) {
     return MIXED;
-  }
-  else
-  {
+  } else {
     return NONFEATURE;
   }
 }
 
+
 inline mousse::extendedEdgeMesh::edgeStatus
 mousse::extendedEdgeMesh::getEdgeStatus(label edgeI) const
 {
-  if (edgeI < internalStart_)
-  {
+  if (edgeI < internalStart_) {
     return EXTERNAL;
-  }
-  else if (edgeI < flatStart_)
-  {
+  } else if (edgeI < flatStart_) {
     return INTERNAL;
-  }
-  else if (edgeI < openStart_)
-  {
+  } else if (edgeI < openStart_) {
     return FLAT;
-  }
-  else if (edgeI < multipleStart_)
-  {
+  } else if (edgeI < multipleStart_) {
     return OPEN;
-  }
-  else
-  {
+  } else {
     return MULTIPLE;
   }
 }
+
 
 inline mousse::PackedList<2> mousse::extendedEdgeMesh::edgeBaffles
 (
@@ -706,19 +705,16 @@ inline mousse::PackedList<2> mousse::extendedEdgeMesh::edgeBaffles
 ) const
 {
   const labelList& eNormals = edgeNormals_[edgeI];
-  DynamicList<label> edgeBaffles(eNormals.size());
-  FOR_ALL(eNormals, enI)
-  {
+  DynamicList<label> edgeBaffles{eNormals.size()};
+  FOR_ALL(eNormals, enI) {
     const label normI = eNormals[enI];
-    if (normalVolumeTypes_[normI])
-    {
+    if (normalVolumeTypes_[normI]) {
       edgeBaffles.append(normI);
     }
   }
-  return PackedList<2>(edgeBaffles);
+  return PackedList<2>{edgeBaffles};
 }
 
-#ifdef NoRepository
-#   include "extended_edge_mesh_templates.cpp"
-#endif
+#include "extended_edge_mesh.ipp"
+
 #endif

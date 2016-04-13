@@ -9,11 +9,12 @@
 // Description
 //   A templated 2D rectangular m x n matrix of objects of \<Type\>.
 //   The matrix dimensions are used for subscript bounds checking etc.
-// SourceFiles
-//   rectangular_matrix.cpp
+
 #include "matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class RectangularMatrix
 :
@@ -41,6 +42,8 @@ inline mousse::RectangularMatrix<Type>::RectangularMatrix()
 :
   Matrix<RectangularMatrix<Type>, Type>{}
 {}
+
+
 template<class Type>
 inline mousse::RectangularMatrix<Type>::RectangularMatrix
 (
@@ -50,6 +53,8 @@ inline mousse::RectangularMatrix<Type>::RectangularMatrix
 :
   Matrix<RectangularMatrix<Type>, Type>{m, n}
 {}
+
+
 template<class Type>
 inline mousse::RectangularMatrix<Type>::RectangularMatrix
 (
@@ -60,15 +65,20 @@ inline mousse::RectangularMatrix<Type>::RectangularMatrix
 :
   Matrix<RectangularMatrix<Type>, Type>{m, n, t}
 {}
+
+
 template<class Type>
 inline mousse::RectangularMatrix<Type>::RectangularMatrix(Istream& is)
 :
   Matrix<RectangularMatrix<Type>, Type>{is}
 {}
+
+
 template<class Type>
 inline mousse::autoPtr<mousse::RectangularMatrix<Type>>
 mousse::RectangularMatrix<Type>::clone() const
 {
   return {new RectangularMatrix<Type>(*this)};
 }
+
 #endif

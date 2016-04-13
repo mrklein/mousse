@@ -9,8 +9,8 @@
 #include "bool_list.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(facePointPatch, 0);
@@ -25,18 +25,30 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 // Protected Member Functions
 void facePointPatch::initGeometry(PstreamBuffers&)
 {}
+
+
 void facePointPatch::calcGeometry(PstreamBuffers&)
 {}
+
+
 void facePointPatch::initMovePoints(PstreamBuffers&, const pointField&)
 {}
+
+
 void facePointPatch::movePoints(PstreamBuffers&, const pointField&)
 {}
+
+
 void facePointPatch::initUpdateMesh(PstreamBuffers& pBufs)
 {
   facePointPatch::initGeometry(pBufs);
 }
+
+
 void facePointPatch::updateMesh(PstreamBuffers&)
 {}
+
+
 
 // Constructors
 facePointPatch::facePointPatch
@@ -48,4 +60,6 @@ facePointPatch::facePointPatch
   pointPatch{bm},
   polyPatch_{p}
 {}
+
 }  // namespace mousse
+

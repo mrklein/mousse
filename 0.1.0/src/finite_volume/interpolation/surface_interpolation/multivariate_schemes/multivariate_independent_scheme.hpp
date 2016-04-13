@@ -12,13 +12,14 @@
 //   independently.
 //   This is equivalent to using separate "div" terms and schemes for each
 //   variable/equation.
-// SourceFiles
-//   multivariate_independent_scheme.cpp
+
 #include "multivariate_surface_interpolation_scheme.hpp"
 #include "limited_surface_interpolation_scheme.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class multivariateIndependentScheme
 :
@@ -62,7 +63,7 @@ public:
     }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "multivariate_independent_scheme.cpp"
-#endif
+
+#include "multivariate_independent_scheme.ipp"
+
 #endif

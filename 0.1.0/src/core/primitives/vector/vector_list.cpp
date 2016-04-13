@@ -4,11 +4,11 @@
 
 #include "vector_list.hpp"
 #include "token.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 DEFINE_COMPOUND_TYPE_NAME(List<vector>, vectorList);
-
 ADD_COMPOUND_TO_RUN_TIME_SELECTION_TABLE(List<vector>, vectorList);
 
 }  // namespace mousse

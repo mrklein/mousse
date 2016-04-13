@@ -7,8 +7,11 @@
 
 #include "cell.hpp"
 #include "indirect_list.hpp"
-namespace mousse
-{
-  typedef IndirectList<cell> indirectCellList;
+
+
+namespace mousse {
+
+typedef IndirectList<cell> indirectCellList;
+
 }
 #endif

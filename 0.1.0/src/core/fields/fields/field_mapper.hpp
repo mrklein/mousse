@@ -8,8 +8,9 @@
 //   mousse::FieldMapper
 // Description
 //   Abstract base class to hold the Field mapping addressing and weights.
-namespace mousse
-{
+
+namespace mousse {
+
 class FieldMapper
 {
 public:
@@ -51,7 +52,7 @@ public:
     template<class Type>
     tmp<Field<Type> > operator()(const Field<Type>& f) const
     {
-      return tmp<Field<Type> >(new Field<Type>(f, *this));
+      return tmp<Field<Type>>{new Field<Type>{f, *this}};
     }
 };
 }  // namespace mousse

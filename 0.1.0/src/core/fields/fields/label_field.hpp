@@ -4,16 +4,15 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   label_field.cpp
-
 
 #include "label.hpp"
 #include "field.hpp"
 #define TEMPLATE
-#include "field_functions_m.hpp"
+#include "field_functions_m.inc"
 
-namespace mousse
-{
+
+namespace mousse {
+
 typedef Field<label> labelField;
 
 BINARY_TYPE_OPERATOR(label, label, label, +, add)
@@ -32,6 +31,9 @@ void component
 
 template<>
 void labelField::replace(const direction, const labelUList& lf);
+
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
+
+#include "undef_field_functions_m.inc"
+
 #endif

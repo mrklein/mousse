@@ -20,17 +20,12 @@
 //   \param warn       keep initial entry and warn about subsequent ones
 //   \param error      issue a FatalError for duplicate entries
 //   \param default    currently identical to merge
-// SourceFiles
-//   input_mode_entry.cpp
-
 
 #include "function_entry.hpp"
 
-namespace mousse
-{
 
-namespace functionEntries
-{
+namespace mousse {
+namespace functionEntries {
 
 class inputModeEntry
 :

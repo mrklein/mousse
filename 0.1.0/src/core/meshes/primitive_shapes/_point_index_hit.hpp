@@ -11,16 +11,15 @@
 //   It carries the info of a successful hit and (if successful),
 //   returns the interaction point.
 //   like pointHit but carries face (or cell, edge etc.) index
-// SourceFiles
-
 
 #include "bool.hpp"
 #include "point.hpp"
 #include "token.hpp"
 #include "istream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Point>
 class PointIndexHit
 {
@@ -36,23 +35,23 @@ public:
     //- Construct from components
     PointIndexHit(const bool success, const Point& p, const label index)
     :
-      hit_(success),
-      hitPoint_(p),
-      index_(index)
+      hit_{success},
+      hitPoint_{p},
+      index_{index}
     {}
     //- Construct from point. Hit and distance set later
     PointIndexHit(const Point& p)
     :
-      hit_(false),
-      hitPoint_(p),
-      index_(-1)
+      hit_{false},
+      hitPoint_{p},
+      index_{-1}
     {}
     //- Construct null
     PointIndexHit()
     :
-      hit_(false),
-      hitPoint_(vector::zero),
-      index_(-1)
+      hit_{false},
+      hitPoint_{vector::zero},
+      index_{-1}
     {}
     //- Construct from Istream
     PointIndexHit(Istream& is)
@@ -73,8 +72,7 @@ public:
     //- Return hit point
     const Point& hitPoint() const
     {
-      if (!hit_)
-      {
+      if (!hit_) {
         FATAL_ERROR_IN("PointIndexHit::hitPoint() const")
           << "requested a hit point for a miss"
           << abort(FatalError);
@@ -84,8 +82,7 @@ public:
     //- Return miss point
     const Point& missPoint() const
     {
-      if (hit_)
-      {
+      if (hit_) {
         FATAL_ERROR_IN("PointIndexHit::missPoint() const")
           << "requested a miss point for a hit"
           << abort(FatalError);
@@ -120,9 +117,8 @@ public:
     bool operator==(const PointIndexHit& rhs) const
     {
       return
-        hit_ == rhs.hit()
-      && hitPoint_ == rhs.rawPoint()
-      && index_ == rhs.index();
+        hit_ == rhs.hit() && hitPoint_ == rhs.rawPoint()
+        && index_ == rhs.index();
     }
     bool operator!=(const PointIndexHit& rhs) const
     {
@@ -130,24 +126,18 @@ public:
     }
     void write(Ostream& os)
     {
-      if (hit())
-      {
+      if (hit()) {
         os << "hit:" << hitPoint() << " index:" << index();
-      }
-      else
-      {
+      } else {
         os << "miss:" << missPoint() << " index:" << index();
       }
     }
     friend Ostream& operator<< (Ostream& os, const PointIndexHit& pHit)
     {
-      if (os.format() == IOstream::ASCII)
-      {
+      if (os.format() == IOstream::ASCII) {
         os  << pHit.hit_ << token::SPACE << pHit.hitPoint_
           << token::SPACE << pHit.index_;
-      }
-      else
-      {
+      } else {
         os.write
         (
           reinterpret_cast<const char*>(&pHit),
@@ -160,12 +150,9 @@ public:
     }
     friend Istream& operator>>(Istream& is, PointIndexHit& pHit)
     {
-      if (is.format() == IOstream::ASCII)
-      {
+      if (is.format() == IOstream::ASCII) {
         return is >> pHit.hit_ >> pHit.hitPoint_ >> pHit.index_;
-      }
-      else
-      {
+      } else {
         is.read
         (
           reinterpret_cast<char*>(&pHit),
@@ -177,6 +164,7 @@ public:
       return is;
     }
 };
+
 }  // namespace mousse
 
 #endif

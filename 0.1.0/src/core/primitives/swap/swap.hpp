@@ -5,8 +5,9 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class T>
 inline void Swap(T& a, T& b)
 {
@@ -14,5 +15,7 @@ inline void Swap(T& a, T& b)
   a = b;
   b = tmp;
 }
+
 }  // namespace mousse
+
 #endif

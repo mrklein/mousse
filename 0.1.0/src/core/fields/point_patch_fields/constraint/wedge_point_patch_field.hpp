@@ -8,15 +8,13 @@
 //   mousse::wedgePointPatchField
 // Description
 //   Wedge front and back plane patch field
-// SourceFiles
-//   wedge_point_patch_field.cpp
-
 
 #include "point_patch_field.hpp"
 #include "wedge_point_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class wedgePointPatchField
 :
@@ -52,14 +50,11 @@ public:
     );
 
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
+      return autoPtr<pointPatchField<Type>>
       {
-        new wedgePointPatchField<Type>
-        {
-          *this
-        }
+        new wedgePointPatchField<Type>{*this}
       };
     }
 
@@ -71,17 +66,14 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
+      return autoPtr<pointPatchField<Type>>
       {
-        new wedgePointPatchField<Type>
-        {
-          *this, iF
-        }
+        new wedgePointPatchField<Type>{*this, iF}
       };
     }
 
@@ -103,7 +95,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#    include "wedge_point_patch_field.cpp"
-#endif
+#include "wedge_point_patch_field.ipp"
+
 #endif

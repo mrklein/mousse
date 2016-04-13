@@ -20,20 +20,23 @@
 // SourceFiles
 //   table.cpp
 
-
 #include "data_entry.hpp"
 #include "tuple2.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class Table;
+
 template<class Type>
 Ostream& operator<<
 (
   Ostream&,
   const Table<Type>&
 );
+
+
 template<class Type>
 class Table
 :
@@ -50,15 +53,16 @@ public:
     //- Construct and return a clone
     virtual tmp<DataEntry<Type>> clone() const
     {
-      return tmp<DataEntry<Type>>(new Table<Type>(*this));
+      return tmp<DataEntry<Type>>{new Table<Type>{*this}};
     }
     //- Disallow default bitwise assignment
     Table<Type>& operator=(const Table<Type>&) = delete;
   //- Destructor
   virtual ~Table();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "table.cpp"
-#endif
+
+#include "table.ipp"
+
 #endif

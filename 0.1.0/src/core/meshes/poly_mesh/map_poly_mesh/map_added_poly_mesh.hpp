@@ -12,12 +12,15 @@
 //   We store mapping from the old to the new mesh and from the added mesh
 //   to the new mesh.
 //   Note: Might need some more access functions or maybe some zone maps?
-// SourceFiles
-//   map_added_poly_mesh.cpp
+
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mapPolyMesh;
+
+
 class mapAddedPolyMesh
 {
   // Private data

@@ -8,15 +8,13 @@
 //   mousse::IOField
 // Description
 //   A primitive field of type \<T\> with automated input and output.
-// SourceFiles
-//   iofield.cpp
-
 
 #include "reg_ioobject.hpp"
 #include "field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class IOField
 :
@@ -52,7 +50,7 @@ public:
     void operator=(const Field<Type>&);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "iofield.cpp"
-#endif
+
+#include "iofield.ipp"
+
 #endif

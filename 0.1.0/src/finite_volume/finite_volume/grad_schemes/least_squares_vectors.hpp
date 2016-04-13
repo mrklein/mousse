@@ -8,13 +8,14 @@
 //   mousse::leastSquaresVectors
 // Description
 //   Least-squares gradient scheme vectors
-// SourceFiles
-//   least_squares_vectors.cpp
+
 #include "_mesh_object.hpp"
 #include "fv_mesh.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class leastSquaresVectors
 :
   public MeshObject<fvMesh, MoveableMeshObject, leastSquaresVectors>

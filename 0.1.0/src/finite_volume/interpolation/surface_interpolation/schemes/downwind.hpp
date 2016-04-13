@@ -8,13 +8,14 @@
 //   mousse::downwind
 // Description
 //   Downwind differencing scheme class.
-// SourceFiles
-//   downwind.cpp
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class downwind
 :
@@ -50,7 +51,7 @@ public:
       {
         mesh.lookupObject<surfaceScalarField>
         (
-          word(is)
+          word{is}
         )
       }
     {}

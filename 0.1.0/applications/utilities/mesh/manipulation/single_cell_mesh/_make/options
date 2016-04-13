@@ -1,0 +1,7 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finite_volume/_lninclude
+
+EXE_LIBS = \
+    -lmousse_generic_patch_fields \
+    -lmousse_finite_volume
+

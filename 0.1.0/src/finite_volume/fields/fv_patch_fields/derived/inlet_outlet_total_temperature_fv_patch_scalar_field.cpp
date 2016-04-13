@@ -7,6 +7,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
+
 // Constructors 
 mousse::inletOutletTotalTemperatureFvPatchScalarField::
 inletOutletTotalTemperatureFvPatchScalarField
@@ -15,16 +17,18 @@ inletOutletTotalTemperatureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  inletOutletFvPatchScalarField(p, iF),
-  UName_("U"),
-  psiName_("psi"),
-  gamma_(0.0),
-  T0_(p.size(), 0.0)
+  inletOutletFvPatchScalarField{p, iF},
+  UName_{"U"},
+  psiName_{"psi"},
+  gamma_{0.0},
+  T0_{p.size(), 0.0}
 {
   this->refValue() = pTraits<scalar>::zero;
   this->refGrad() = pTraits<scalar>::zero;
   this->valueFraction() = 0.0;
 }
+
+
 mousse::inletOutletTotalTemperatureFvPatchScalarField::
 inletOutletTotalTemperatureFvPatchScalarField
 (
@@ -34,12 +38,14 @@ inletOutletTotalTemperatureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  inletOutletFvPatchScalarField(ptf, p, iF, mapper),
-  UName_(ptf.UName_),
-  psiName_(ptf.psiName_),
-  gamma_(ptf.gamma_),
-  T0_(ptf.T0_, mapper)
+  inletOutletFvPatchScalarField{ptf, p, iF, mapper},
+  UName_{ptf.UName_},
+  psiName_{ptf.psiName_},
+  gamma_{ptf.gamma_},
+  T0_{ptf.T0_, mapper}
 {}
+
+
 mousse::inletOutletTotalTemperatureFvPatchScalarField::
 inletOutletTotalTemperatureFvPatchScalarField
 (
@@ -48,40 +54,41 @@ inletOutletTotalTemperatureFvPatchScalarField
   const dictionary& dict
 )
 :
-  inletOutletFvPatchScalarField(p, iF),
-  UName_(dict.lookupOrDefault<word>("U", "U")),
-  psiName_(dict.lookupOrDefault<word>("psi", "thermo:psi")),
-  gamma_(readScalar(dict.lookup("gamma"))),
-  T0_("T0", dict, p.size())
+  inletOutletFvPatchScalarField{p, iF},
+  UName_{dict.lookupOrDefault<word>("U", "U")},
+  psiName_{dict.lookupOrDefault<word>("psi", "thermo:psi")},
+  gamma_{readScalar(dict.lookup("gamma"))},
+  T0_{"T0", dict, p.size()}
 {
   this->phiName_ = dict.lookupOrDefault<word>("phi", "phi");
   this->refValue() = pTraits<scalar>::zero;
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<scalar>::operator=
     (
       scalarField("value", dict, p.size())
     );
-  }
-  else
-  {
+  } else {
     fvPatchField<scalar>::operator=(T0_);
   }
   this->refGrad() = pTraits<scalar>::zero;
   this->valueFraction() = 0.0;
 }
+
+
 mousse::inletOutletTotalTemperatureFvPatchScalarField::
 inletOutletTotalTemperatureFvPatchScalarField
 (
   const inletOutletTotalTemperatureFvPatchScalarField& tppsf
 )
 :
-  inletOutletFvPatchScalarField(tppsf),
-  UName_(tppsf.UName_),
-  psiName_(tppsf.psiName_),
-  gamma_(tppsf.gamma_),
-  T0_(tppsf.T0_)
+  inletOutletFvPatchScalarField{tppsf},
+  UName_{tppsf.UName_},
+  psiName_{tppsf.psiName_},
+  gamma_{tppsf.gamma_},
+  T0_{tppsf.T0_}
 {}
+
+
 mousse::inletOutletTotalTemperatureFvPatchScalarField::
 inletOutletTotalTemperatureFvPatchScalarField
 (
@@ -89,12 +96,14 @@ inletOutletTotalTemperatureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  inletOutletFvPatchScalarField(tppsf, iF),
-  UName_(tppsf.UName_),
-  psiName_(tppsf.psiName_),
-  gamma_(tppsf.gamma_),
-  T0_(tppsf.T0_)
+  inletOutletFvPatchScalarField{tppsf, iF},
+  UName_{tppsf.UName_},
+  psiName_{tppsf.psiName_},
+  gamma_{tppsf.gamma_},
+  T0_{tppsf.T0_}
 {}
+
+
 // Member Functions 
 void mousse::inletOutletTotalTemperatureFvPatchScalarField::autoMap
 (
@@ -104,6 +113,8 @@ void mousse::inletOutletTotalTemperatureFvPatchScalarField::autoMap
   inletOutletFvPatchScalarField::autoMap(m);
   T0_.autoMap(m);
 }
+
+
 void mousse::inletOutletTotalTemperatureFvPatchScalarField::rmap
 (
   const fvPatchScalarField& ptf,
@@ -115,10 +126,11 @@ void mousse::inletOutletTotalTemperatureFvPatchScalarField::rmap
     refCast<const inletOutletTotalTemperatureFvPatchScalarField>(ptf);
   T0_.rmap(tiptf.T0_, addr);
 }
+
+
 void mousse::inletOutletTotalTemperatureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvPatchVectorField& Up =
@@ -133,6 +145,8 @@ void mousse::inletOutletTotalTemperatureFvPatchScalarField::updateCoeffs()
   this->valueFraction() = 1.0 - pos(phip);
   inletOutletFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::inletOutletTotalTemperatureFvPatchScalarField::write(Ostream& os)
 const
 {
@@ -145,8 +159,8 @@ const
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_PATCH_TYPE_FIELD
 (

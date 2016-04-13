@@ -1,1 +1,1 @@
-../cell_quality/cell_quality.hpp
+../cell_quality.hpp

@@ -8,15 +8,6 @@
 //   mousse::polyMesh
 // Description
 //   Mesh consisting of general polyhedral cells.
-// SourceFiles
-//   poly_mesh.cpp
-//   poly_mesh_init_mesh.cpp
-//   poly_mesh_clear.cpp
-//   poly_mesh_from_shape_mesh.cpp
-//   poly_mesh_io.cpp
-//   poly_mesh_update.cpp
-//   poly_mesh_check.cpp
-
 
 #include "object_registry.hpp"
 #include "primitive_mesh.hpp"
@@ -33,8 +24,8 @@
 #include "face_zone_mesh.hpp"
 #include "cell_zone_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class globalMeshData;
@@ -42,6 +33,7 @@ class mapPolyMesh;
 class polyMeshTetDecomposition;
 class treeDataCell;
 template<class Type> class indexedOctree;
+
 
 class polyMesh
 :
@@ -661,4 +653,5 @@ public:
 };
 
 }  // namespace mousse
+
 #endif

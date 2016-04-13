@@ -6,6 +6,7 @@
 #include "sortable_list.hpp"
 #include "pstream_reduce_ops.hpp"
 
+
 bool mousse::primitiveMesh::checkPointNearness
 (
   const bool report,
@@ -15,25 +16,18 @@ bool mousse::primitiveMesh::checkPointNearness
 {
   const pointField& points = this->points();
   // Sort points
-  SortableList<scalar> sortedMag(magSqr(points));
+  SortableList<scalar> sortedMag{magSqr(points)};
   label nClose = 0;
-  for (label i = 1; i < sortedMag.size(); i++)
-  {
+  for (label i = 1; i < sortedMag.size(); i++) {
     label pti = sortedMag.indices()[i];
     // Compare pti to any previous points with similar sortedMag
-    for
-    (
-      label j = i-1;
-      j >= 0 && (sortedMag[j] > sortedMag[i]-reportDistSqr);
-      --j
-    )
-    {
+    for (label j = i-1;
+         j >= 0 && (sortedMag[j] > sortedMag[i]-reportDistSqr);
+         --j) {
       label prevPtI = sortedMag.indices()[j];
-      if (magSqr(points[pti] - points[prevPtI]) < reportDistSqr)
-      {
+      if (magSqr(points[pti] - points[prevPtI]) < reportDistSqr) {
         nClose++;
-        if (setPtr)
-        {
+        if (setPtr) {
           setPtr->insert(pti);
           setPtr->insert(prevPtI);
         }
@@ -41,18 +35,13 @@ bool mousse::primitiveMesh::checkPointNearness
     }
   }
   reduce(nClose, sumOp<label>());
-  if (nClose > 0)
-  {
-    if (report)
-    {
-      Info<< "  <<Points closer than " << mousse::sqrt(reportDistSqr)
+  if (nClose > 0) {
+    if (report) {
+      Info << "  <<Points closer than " << mousse::sqrt(reportDistSqr)
         << " together found, number: " << nClose
         << endl;
     }
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }

@@ -8,11 +8,13 @@
 //   mousse::mapSubsetMesh
 // Description
 //   Class containing mesh-to-mesh mapping information after a subset operation
-// SourceFiles
+
 #include "ref_count.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mapSubsetMesh
 :
   public refCount

@@ -1,1 +1,1 @@
-../edge_mesh_formats/starcd_edge_format.cpp
+../formats/starcd_edge_format.cpp

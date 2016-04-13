@@ -1,1 +1,1 @@
-../tri_surface/stitch_triangles.cpp
+../stitch_triangles.cpp

@@ -9,17 +9,15 @@
 // Description
 //   Cubic interpolation scheme class derived from linear and returns
 //   linear weighting factors but also applies an explicit correction.
-// SourceFiles
-//   cubic.cpp
-
 
 #include "surface_fields.hpp"
 #include "linear.hpp"
 #include "gauss_grad.hpp"
 #include "time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class cubic
 :
@@ -75,36 +73,33 @@ public:
       // calculate the appropriate interpolation factors
       const surfaceScalarField& lambda = mesh.weights();
       const surfaceScalarField kSc
-      (
+      {
         lambda*(scalar(1) - lambda*(scalar(3) - scalar(2)*lambda))
-      );
-      const surfaceScalarField kVecP(sqr(scalar(1) - lambda)*lambda);
-      const surfaceScalarField kVecN(sqr(lambda)*(lambda - scalar(1)));
+      };
+      const surfaceScalarField kVecP{sqr(scalar(1) - lambda)*lambda};
+      const surfaceScalarField kVecN{sqr(lambda)*(lambda - scalar(1))};
       tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tsfCorr
-      (
+      {
         new GeometricField<Type, fvsPatchField, surfaceMesh>
-        (
-          IOobject
-          (
+        {
+          {
             "cubic::correction(" + vf.name() +')',
             mesh.time().timeName(),
             mesh,
             IOobject::NO_READ,
             IOobject::NO_WRITE,
             false
-          ),
+          },
           surfaceInterpolationScheme<Type>::interpolate(vf, kSc, -kSc)
-        )
-      );
-      GeometricField<Type, fvsPatchField, surfaceMesh>& sfCorr =
-        tsfCorr();
-      for (direction cmpt=0; cmpt<pTraits<Type>::nComponents; cmpt++)
-      {
+        }
+      };
+      GeometricField<Type, fvsPatchField, surfaceMesh>& sfCorr = tsfCorr();
+      for (direction cmpt=0; cmpt<pTraits<Type>::nComponents; cmpt++) {
         sfCorr.replace
         (
           cmpt,
           sfCorr.component(cmpt)
-         + (
+          + (
             surfaceInterpolationScheme
             <
               typename outerProduct
@@ -115,23 +110,23 @@ public:
             >::interpolate
             (
               fv::gaussGrad
-              <typename pTraits<Type>::cmptType>(mesh)
-             .grad(vf.component(cmpt)),
+              <typename pTraits<Type>::cmptType>(mesh).grad(vf.component(cmpt)),
               kVecP,
               kVecN
             ) & mesh.Sf()
           )/mesh.magSf()/mesh.surfaceInterpolation::deltaCoeffs()
         );
       }
-      FOR_ALL(sfCorr.boundaryField(), pi)
-      {
-        if (!sfCorr.boundaryField()[pi].coupled())
-        {
+      FOR_ALL(sfCorr.boundaryField(), pi) {
+        if (!sfCorr.boundaryField()[pi].coupled()) {
           sfCorr.boundaryField()[pi] = pTraits<Type>::zero;
         }
       }
       return tsfCorr;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

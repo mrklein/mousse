@@ -7,12 +7,15 @@
 
 #include "word_list.hpp"
 #include "iolist.hpp"
-namespace mousse
-{
-  typedef IOList<word> wordIOList;
-  typedef IOList<wordList> wordListIOList;
-  // Print word list list as a table
-  void printTable(const List<wordList>&, List<string::size_type>&, Ostream&);
-  void printTable(const List<wordList>&, Ostream&);
+
+
+namespace mousse {
+
+typedef IOList<word> wordIOList;
+typedef IOList<wordList> wordListIOList;
+// Print word list list as a table
+void printTable(const List<wordList>&, List<string::size_type>&, Ostream&);
+void printTable(const List<wordList>&, Ostream&);
+
 }
 #endif

@@ -5,9 +5,10 @@
 #include "local_max.hpp"
 #include "fv_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_SURFACE_INTERPOLATION_SCHEME(localMax)
 
 }
+

@@ -8,15 +8,16 @@
 //   mousse::fvSurfaceMapper
 // Description
 //   FV surface mapper.
-// SourceFiles
-//   fv_surface_mapper.cpp
+
 #include "morph_field_mapper.hpp"
 #include "fv_mesh.hpp"
 #include "face_mapper.hpp"
 #include "hash_set.hpp"
 #include "map_poly_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class fvSurfaceMapper
 :

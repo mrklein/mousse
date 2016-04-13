@@ -7,8 +7,9 @@
 
 #include "calculated_point_patch_field.hpp"
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 MAKE_POINT_PATCH_FIELD_TYPEDEFS(calculated);
 

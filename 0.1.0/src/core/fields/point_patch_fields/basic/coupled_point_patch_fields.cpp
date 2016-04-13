@@ -4,8 +4,8 @@
 
 #include "coupled_point_patch_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Static Data Members
 MAKE_POINT_PATCH_FIELDS_TYPE_NAME(coupled);

@@ -10,6 +10,7 @@
 #include "os_specific.hpp"
 #include "dictionary.hpp"
 
+
 // Static Data Members
 int mousse::dynamicCode::allowSystemOperations
 (
@@ -27,6 +28,7 @@ const char* const mousse::dynamicCode::libTargetRoot =
 
 const char* const mousse::dynamicCode::topDirName = "dynamic_code";
 
+
 // Static Member Functions
 void mousse::dynamicCode::checkSecurity
 (
@@ -34,8 +36,7 @@ void mousse::dynamicCode::checkSecurity
   const dictionary& dict
 )
 {
-  if (isAdministrator())
-  {
+  if (isAdministrator()) {
     FATAL_IO_ERROR_IN
     (
       title,
@@ -47,8 +48,7 @@ void mousse::dynamicCode::checkSecurity
     << "using dlopen)"
     << exit(FatalIOError);
   }
-  if (!allowSystemOperations)
-  {
+  if (!allowSystemOperations) {
     FATAL_IO_ERROR_IN
     (
       title,
@@ -87,36 +87,34 @@ void mousse::dynamicCode::copyAndFilter
   const HashTable<string>& mapping
 )
 {
-  if (!is.good())
-  {
+  if (!is.good()) {
     FATAL_ERROR_IN
     (
       "dynamicCode::copyAndFilter()"
       " const"
-    )   << "Failed opening for reading " << is.name()
-      << exit(FatalError);
+    )
+    << "Failed opening for reading " << is.name()
+    << exit(FatalError);
   }
-  if (!os.good())
-  {
+  if (!os.good()) {
     FATAL_ERROR_IN
     (
       "dynamicCode::copyAndFilter()"
       " const"
-    )   << "Failed writing " << os.name()
-      << exit(FatalError);
+    )
+    << "Failed writing " << os.name()
+    << exit(FatalError);
   }
   // Copy file while rewriting $VARS and ${VARS}
   string line;
-  do
-  {
+  do {
     is.getLine(line);
     // expand according to mapping
     // expanding according to env variables might cause too many
     // surprises
     stringOps::inplaceExpand(line, mapping);
     os.writeQuoted(line, false) << nl;
-  }
-  while (is.good());
+  } while (is.good());
 }
 
 
@@ -130,30 +128,23 @@ bool mousse::dynamicCode::resolveTemplates
   // try to get template from MOUSSE_CODESTREAM_TEMPLATES
   const fileName templateDir(mousse::getEnv(codeTemplateEnvName));
   bool allOkay = true;
-  FOR_ALL(templateNames, fileI)
-  {
+  FOR_ALL(templateNames, fileI) {
     const fileName& templateName = templateNames[fileI];
     fileName file;
-    if (!templateDir.empty() && isDir(templateDir))
-    {
+    if (!templateDir.empty() && isDir(templateDir)) {
       file = templateDir/templateName;
-      if (!isFile(file, false))
-      {
+      if (!isFile(file, false)) {
         file.clear();
       }
     }
     // not found - fallback to ~mousse expansion
-    if (file.empty())
-    {
+    if (file.empty()) {
       file = findEtcFile(codeTemplateDirName/templateName);
     }
-    if (file.empty())
-    {
+    if (file.empty()) {
       badFiles.append(templateName);
       allOkay = false;
-    }
-    else
-    {
+    } else {
       resolvedFiles.append(file);
     }
   }
@@ -164,8 +155,7 @@ bool mousse::dynamicCode::resolveTemplates
 bool mousse::dynamicCode::writeCommentSHA1(Ostream& os) const
 {
   const bool hasSHA1 = filterVars_.found("SHA1sum");
-  if (hasSHA1)
-  {
+  if (hasSHA1) {
     os  << "/* dynamicCode:\n * SHA1 = ";
     os.writeQuoted(filterVars_["SHA1sum"], false) << "\n */\n";
   }
@@ -176,32 +166,28 @@ bool mousse::dynamicCode::writeCommentSHA1(Ostream& os) const
 bool mousse::dynamicCode::createMakeFiles() const
 {
   // Create _make/files
-  if (compileFiles_.empty())
-  {
+  if (compileFiles_.empty()) {
     return false;
   }
   const fileName dstFile(this->codePath()/"_make/files");
   // Create dir
   mkDir(dstFile.path());
-  OFstream os(dstFile);
-  //Info<< "Writing to " << dstFile << endl;
-  if (!os.good())
-  {
+  OFstream os{dstFile};
+  if (!os.good()) {
     FATAL_ERROR_IN
       (
         "dynamicCode::createMakeFiles()"
         " const"
-      )   << "Failed writing " << dstFile
-        << exit(FatalError);
+      )
+      << "Failed writing " << dstFile
+      << exit(FatalError);
   }
   writeCommentSHA1(os);
   // Write compile files
-  FOR_ALL(compileFiles_, fileI)
-  {
+  FOR_ALL(compileFiles_, fileI) {
     os.writeQuoted(compileFiles_[fileI], false) << nl;
   }
-  os  << nl
-    << libTargetRoot << codeName_.c_str() << nl;
+  os << nl << libTargetRoot << codeName_.c_str() << nl;
   return true;
 }
 
@@ -209,17 +195,15 @@ bool mousse::dynamicCode::createMakeFiles() const
 bool mousse::dynamicCode::createMakeOptions() const
 {
   // Create _make/options
-  if (compileFiles_.empty() || makeOptions_.empty())
-  {
+  if (compileFiles_.empty() || makeOptions_.empty()) {
     return false;
   }
   const fileName dstFile(this->codePath()/"_make/options");
   // Create dir
   mkDir(dstFile.path());
-  OFstream os(dstFile);
+  OFstream os{dstFile};
   //Info<< "Writing to " << dstFile << endl;
-  if (!os.good())
-  {
+  if (!os.good()) {
     FATAL_ERROR_IN
     (
       "dynamicCode::createMakeOptions()"
@@ -238,7 +222,7 @@ bool mousse::dynamicCode::writeDigest(const SHA1Digest& sha1) const
 {
   const fileName file = digestFile();
   mkDir(file.path());
-  OFstream os(file);
+  OFstream os{file};
   sha1.write(os, true) << nl;
   return os.good();
 }
@@ -248,7 +232,7 @@ bool mousse::dynamicCode::writeDigest(const std::string& sha1) const
 {
   const fileName file = digestFile();
   mkDir(file.path());
-  OFstream os(file);
+  OFstream os{file};
   os  << '_';
   os.writeQuoted(sha1, false) << nl;
   return os.good();
@@ -258,13 +242,12 @@ bool mousse::dynamicCode::writeDigest(const std::string& sha1) const
 // Constructors 
 mousse::dynamicCode::dynamicCode(const word& codeName, const word& codeDirName)
 :
-  codeRoot_(stringOps::expand("$MOUSSE_CASE")/topDirName),
-  libSubDir_(stringOps::expand("platforms/$WM_OPTIONS/lib")),
-  codeName_(codeName),
-  codeDirName_(codeDirName)
+  codeRoot_{stringOps::expand("$MOUSSE_CASE")/topDirName},
+  libSubDir_{stringOps::expand("platforms/$WM_OPTIONS/lib")},
+  codeName_{codeName},
+  codeDirName_{codeDirName}
 {
-  if (codeDirName_.empty())
-  {
+  if (codeDirName_.empty()) {
     codeDirName_ = codeName_;
   }
   clear();
@@ -370,33 +353,32 @@ bool mousse::dynamicCode::copyOrCreateFiles(const bool verbose) const
     Info<< "Creating new library in " << this->libRelPath() << endl;
   }
   const label nFiles = compileFiles_.size() + copyFiles_.size();
-  DynamicList<fileName> resolvedFiles(nFiles);
-  DynamicList<fileName> badFiles(nFiles);
+  DynamicList<fileName> resolvedFiles{nFiles};
+  DynamicList<fileName> badFiles{nFiles};
   // resolve template, or add to bad-files
   resolveTemplates(compileFiles_, resolvedFiles, badFiles);
   resolveTemplates(copyFiles_, resolvedFiles, badFiles);
-  if (!badFiles.empty())
-  {
+  if (!badFiles.empty()) {
     FATAL_ERROR_IN
     (
       "dynamicCode::copyFilesContents(..)"
-    )   << "Could not find the code template(s): "
-      << badFiles << nl
-      << "Under the $" << codeTemplateEnvName
-      << " directory or via via the ~mousse/"
-      << codeTemplateDirName << " expansion"
-      << exit(FatalError);
+    )
+    << "Could not find the code template(s): "
+    << badFiles << nl
+    << "Under the $" << codeTemplateEnvName
+    << " directory or via via the ~mousse/"
+    << codeTemplateDirName << " expansion"
+    << exit(FatalError);
   }
   // Create dir
   const fileName outputDir = this->codePath();
   // Create dir
   mkDir(outputDir);
   // Copy/filter files
-  FOR_ALL(resolvedFiles, fileI)
-  {
+  FOR_ALL(resolvedFiles, fileI) {
     const fileName& srcFile = resolvedFiles[fileI];
-    const fileName  dstFile(outputDir/srcFile.name());
-    IFstream is(srcFile);
+    const fileName  dstFile{outputDir/srcFile.name()};
+    IFstream is{srcFile};
     //Info<< "Reading from " << is.name() << endl;
     if (!is.good())
     {
@@ -404,41 +386,41 @@ bool mousse::dynamicCode::copyOrCreateFiles(const bool verbose) const
       (
         "dynamicCode::copyFilesContents(const fileName&)"
         " const"
-      )   << "Failed opening " << srcFile
-        << exit(FatalError);
+      )
+      << "Failed opening " << srcFile
+      << exit(FatalError);
     }
-    OFstream os(dstFile);
+    OFstream os{dstFile};
     //Info<< "Writing to " << dstFile.name() << endl;
-    if (!os.good())
-    {
+    if (!os.good()) {
       FATAL_ERROR_IN
       (
         "dynamicCode::copyFilesContents(const fileName&)"
         " const"
-      )   << "Failed writing " << dstFile
-        << exit(FatalError);
+      )
+      << "Failed writing " << dstFile
+      << exit(FatalError);
     }
     // Copy lines while expanding variables
     copyAndFilter(is, os, filterVars_);
   }
   // Create files:
-  FOR_ALL(createFiles_, fileI)
-  {
+  FOR_ALL(createFiles_, fileI) {
     const fileName dstFile
-    (
-      outputDir/stringOps::expand(createFiles_[fileI].first())
-    );
-    mkDir(dstFile.path());
-    OFstream os(dstFile);
-    //Info<< "Writing to " << createFiles_[fileI].first() << endl;
-    if (!os.good())
     {
+      outputDir/stringOps::expand(createFiles_[fileI].first())
+    };
+    mkDir(dstFile.path());
+    OFstream os{dstFile};
+    //Info<< "Writing to " << createFiles_[fileI].first() << endl;
+    if (!os.good()) {
       FATAL_ERROR_IN
       (
         "dynamicCode::copyOrCreateFiles()"
         " const"
-      )   << "Failed writing " << dstFile
-        << exit(FatalError);
+      )
+      << "Failed writing " << dstFile
+      << exit(FatalError);
     }
     os.writeQuoted(createFiles_[fileI].second(), false) << nl;
   }
@@ -452,14 +434,11 @@ bool mousse::dynamicCode::copyOrCreateFiles(const bool verbose) const
 
 bool mousse::dynamicCode::wmakeLibso() const
 {
-  const mousse::string wmakeCmd("wmake -s libso " + this->codePath());
-  Info<< "Invoking " << wmakeCmd << endl;
-  if (mousse::system(wmakeCmd))
-  {
+  const mousse::string wmakeCmd{"wmake -s libso " + this->codePath()};
+  Info << "Invoking " << wmakeCmd << endl;
+  if (mousse::system(wmakeCmd)) {
     return false;
-  }
-  else
-  {
+  } else {
     return true;
   }
 }
@@ -468,8 +447,7 @@ bool mousse::dynamicCode::wmakeLibso() const
 bool mousse::dynamicCode::upToDate(const SHA1Digest& sha1) const
 {
   const fileName file = digestFile();
-  if (!exists(file, false) || SHA1Digest(IFstream(file)()) != sha1)
-  {
+  if (!exists(file, false) || SHA1Digest(IFstream(file)()) != sha1) {
     return false;
   }
   return true;

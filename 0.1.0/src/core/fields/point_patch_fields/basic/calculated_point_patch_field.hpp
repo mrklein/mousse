@@ -8,11 +8,12 @@
 //   mousse::calculatedPointPatchField
 // Description
 //   A calculated boundary condition for pointField
-// SourceFiles
-//   calculated_point_patch_field.cpp
+
 #include "point_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class calculatedPointPatchField
 :
@@ -44,15 +45,15 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
+      return autoPtr<pointPatchField<Type>>
+      {
         new calculatedPointPatchField<Type>
-        (
+        {
           *this
-        )
-      );
+        }
+      };
     }
     //- Construct as copy setting internal field reference
     calculatedPointPatchField
@@ -61,21 +62,21 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> >
+    virtual autoPtr<pointPatchField<Type>>
     clone(const DimensionedField<Type, pointMesh>& iF) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
+      return autoPtr<pointPatchField<Type>>
+      {
         new calculatedPointPatchField<Type>
-        (
+        {
           *this,
           iF
-        )
-      );
+        }
+      };
     }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#    include "calculated_point_patch_field.cpp"
-#endif
+
+#include "calculated_point_patch_field.ipp"
+
 #endif

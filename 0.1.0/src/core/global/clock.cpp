@@ -6,23 +6,30 @@
 #include "string.hpp"
 #include <sstream>
 #include <iomanip>
+
+
 // Static Data Members
 const char *mousse::clock::monthNames[] =
 {
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 };
+
 // Static Member Functions
 time_t mousse::clock::getTime()
 {
   return ::time(reinterpret_cast<time_t*>(0));
 }
+
+
 const struct tm mousse::clock::rawDate()
 {
   time_t t = getTime();
   struct tm *timeStruct = localtime(&t);
   return *timeStruct;
 }
+
+
 mousse::string mousse::clock::dateTime()
 {
   std::ostringstream osBuffer;
@@ -39,6 +46,8 @@ mousse::string mousse::clock::dateTime()
     << ':' << std::setw(2) << timeStruct->tm_sec;
   return osBuffer.str();
 }
+
+
 mousse::string mousse::clock::date()
 {
   std::ostringstream osBuffer;
@@ -50,6 +59,8 @@ mousse::string mousse::clock::date()
     << ' ' << std::setw(4) << timeStruct->tm_year + 1900;
   return osBuffer.str();
 }
+
+
 mousse::string mousse::clock::clockTime()
 {
   std::ostringstream osBuffer;
@@ -62,22 +73,29 @@ mousse::string mousse::clock::clockTime()
     << ':' << std::setw(2) << timeStruct->tm_sec;
   return osBuffer.str();
 }
+
+
 // Constructors 
 mousse::clock::clock()
 :
-  startTime_(getTime()),
-  lastTime_(startTime_),
-  newTime_(startTime_)
+  startTime_{getTime()},
+  lastTime_{startTime_},
+  newTime_{startTime_}
 {}
+
+
 // Member Functions 
 time_t mousse::clock::elapsedClockTime() const
 {
   newTime_ = getTime();
   return newTime_ - startTime_;
 }
+
+
 time_t mousse::clock::clockTimeIncrement() const
 {
   lastTime_ = newTime_;
   newTime_ = getTime();
   return newTime_ - lastTime_;
 }
+

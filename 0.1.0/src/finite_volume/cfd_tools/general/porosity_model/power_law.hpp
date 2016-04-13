@@ -16,12 +16,12 @@
 //     C_0      | model linear coefficient
 //     C_1      | model exponent coefficient
 //   \endvartable
-// SourceFiles
-//   power_law.cpp
-//   power_law_templates.cpp
+
 #include "porosity_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 namespace porosityModels
 {
 class powerLaw
@@ -103,7 +103,7 @@ public:
 };
 }  // namespace porosityModels
 }  // namespace mousse
-#ifdef NoRepository
-  #include "power_law_templates.cpp"
-#endif
+
+#include "power_law.ipp"
+
 #endif

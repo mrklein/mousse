@@ -8,9 +8,6 @@
 //   mousse::blended
 // Description
 //   linear/upwind blended differencing scheme.
-// SourceFiles
-//   blended.cpp
-
 
 #include "limited_surface_interpolation_scheme.hpp"
 #include "blended_scheme_base.hpp"
@@ -18,8 +15,9 @@
 #include "time.hpp"
 #include "vol_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class blended
 :
@@ -91,7 +89,6 @@ public:
       {
         new surfaceScalarField
         {
-          IOobject
           {
             vf.name() + "BlendingFactor",
             this->mesh().time().timeName(),
@@ -121,7 +118,6 @@ public:
       {
         new surfaceScalarField
         {
-          IOobject
           {
             "blendedLimiter",
             this->mesh().time().timeName(),
@@ -152,5 +148,6 @@ public:
         + (1 - blendingFactor_)*pos(this->faceFlux_);
     }
 };
+
 }  // namespace mousse
 #endif

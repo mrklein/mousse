@@ -9,14 +9,19 @@
 // Description
 //   A container with an integer key attached to any item.
 //   The key can useful for sorting.
+
 #include "list.hpp"
 #include "iostreams.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class T> class Keyed;
 template<class T> Istream& operator>>(Istream&, Keyed<T>&);
 template<class T> Ostream& operator<<(Ostream&, const Keyed<T>&);
+
+
 template<class T>
 class Keyed
 :
@@ -66,34 +71,46 @@ inline mousse::Keyed<T>::Keyed()
 :
   key_{-1}
 {}
+
+
 template<class T>
 inline mousse::Keyed<T>::Keyed(const T& item, const label key)
 :
   T{item},
   key_{key}
 {}
+
+
 template<class T>
 inline mousse::Keyed<T>::Keyed(const Xfer<T>& item, const label key)
 :
   T{item},
   key_{key}
 {}
+
+
 template<class T>
 inline mousse::Keyed<T>::Keyed(Istream& is)
 {
   is >> *this;
 }
+
+
 // Member Functions 
 template<class T>
 inline mousse::label mousse::Keyed<T>::key() const
 {
   return key_;
 }
+
+
 template<class T>
 inline mousse::label& mousse::Keyed<T>::key()
 {
   return key_;
 }
+
+
 template<class T>
 inline mousse::List<mousse::Keyed<T>>
 mousse::Keyed<T>::createList(const List<T>& lst, const label key)
@@ -105,12 +122,13 @@ mousse::Keyed<T>::createList(const List<T>& lst, const label key)
   }
   return newList;
 }
+
+
 template<class T>
 inline mousse::List<mousse::Keyed<T>>
 mousse::Keyed<T>::createList(const List<T>& lst, const labelUList& keys)
 {
-  if (lst.size() != keys.size())
-  {
+  if (lst.size() != keys.size()) {
     FATAL_ERROR_IN
     (
       "mousse::Keyed<T>::createList(const List<T>&, const labelUList&)"
@@ -127,6 +145,8 @@ mousse::Keyed<T>::createList(const List<T>& lst, const labelUList& keys)
   }
   return newList;
 }
+
+
 // Ostream Operator 
 template<class T>
 inline mousse::Istream& mousse::operator>>(Istream& is, Keyed<T>& item)
@@ -141,13 +161,16 @@ inline mousse::Istream& mousse::operator>>(Istream& is, Keyed<T>& item)
   is.check("Istream& operator>>(Istream&, Keyed&)");
   return is;
 }
+
+
 template<class T>
 inline mousse::Ostream& mousse::operator<<(Ostream& os, const Keyed<T>& item)
 {
-  os<< token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << static_cast<const T&>(item)
     << token::SPACE << item.key_
     << token::END_LIST;
   return os;
 }
+
 #endif

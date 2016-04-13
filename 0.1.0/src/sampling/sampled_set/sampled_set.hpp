@@ -15,17 +15,21 @@
 //   (cloudSet)
 //   Each 'sampledSet' has a name and a specifier of how the axis should be
 //   write (x/y/z component or all 3 components)
-// SourceFiles
-//   sampled_set.cpp
+
 #include "coord_set.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+#include "dictionary.hpp"
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class polyMesh;
 class meshSearch;
+
+
 class sampledSet
 :
   public coordSet
@@ -117,13 +121,13 @@ public:
     public:
       iNew(const polyMesh& mesh, const meshSearch& searchEngine)
       :
-        mesh_(mesh),
-        searchEngine_(searchEngine)
+        mesh_{mesh},
+        searchEngine_{searchEngine}
       {}
       autoPtr<sampledSet> operator()(Istream& is) const
       {
-        word name(is);
-        dictionary dict(is);
+        word name{is};
+        dictionary dict{is};
         return sampledSet::New(name, mesh_, searchEngine_, dict);
       }
     };
@@ -189,5 +193,8 @@ public:
     //- Output for debugging
     Ostream& write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

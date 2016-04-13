@@ -8,6 +8,7 @@
 #include "centred_cpc_cell_to_cell_stencil_object.hpp"
 #include "centred_cec_cell_to_cell_stencil_object.hpp"
 
+
 MAKE_LEAST_SQUARES_GRAD_SCHEME
 (
   pointCellsLeastSquares,
@@ -19,3 +20,4 @@ MAKE_LEAST_SQUARES_GRAD_SCHEME
   edgeCellsLeastSquares,
   centredCECCellToCellStencilObject
 )
+

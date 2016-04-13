@@ -3,11 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #define TEMPLATE template<class Type>
-#include "field_functions_m.hpp"
+#include "field_functions_m.inc"
 #include "upstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Global Functions
 template<class Type>
 void component
@@ -16,6 +17,7 @@ void component
   const UList<Type>& f,
   const direction d
 );
+
 template<class Type>
 void T(Field<Type>& res, const UList<Type>& f);
 template<class Type, int r>
@@ -24,6 +26,7 @@ void pow
   Field<typename powProduct<Type, r>::type>& res,
   const UList<Type>& vf
 );
+
 template<class Type, int r>
 tmp<Field<typename powProduct<Type, r>::type> >
 pow
@@ -32,6 +35,7 @@ pow
   typename powProduct<Type, r>::type
    = pTraits<typename powProduct<Type, r>::type>::zero
 );
+
 template<class Type, int r>
 tmp<Field<typename powProduct<Type, r>::type> >
 pow
@@ -40,96 +44,134 @@ pow
   typename powProduct<Type, r>::type
    = pTraits<typename powProduct<Type, r>::type>::zero
 );
+
 template<class Type>
 void sqr
 (
   Field<typename outerProduct<Type, Type>::type>& res,
   const UList<Type>& vf
 );
+
 template<class Type>
 tmp<Field<typename outerProduct<Type, Type>::type> >
 sqr(const UList<Type>& f);
+
 template<class Type>
 tmp<Field<typename outerProduct<Type, Type>::type> >
 sqr(const tmp<Field<Type> >& tf);
+
 template<class Type>
 void magSqr(Field<scalar>& res, const UList<Type>& f);
+
 template<class Type>
 tmp<Field<scalar> > magSqr(const UList<Type>& f);
+
 template<class Type>
 tmp<Field<scalar> > magSqr(const tmp<Field<Type> >& tf);
+
 template<class Type>
 void mag(Field<scalar>& res, const UList<Type>& f);
+
 template<class Type>
 tmp<Field<scalar> > mag(const UList<Type>& f);
+
 template<class Type>
 tmp<Field<scalar> > mag(const tmp<Field<Type> >& tf);
+
 template<class Type>
 void cmptMax(Field<typename Field<Type>::cmptType>& res, const UList<Type>& f);
+
 template<class Type>
 tmp<Field<typename Field<Type>::cmptType> > cmptMax(const UList<Type>& f);
+
 template<class Type>
 tmp<Field<typename Field<Type>::cmptType> >
 cmptMax(const tmp<Field<Type> >& tf);
+
 template<class Type>
 void cmptMin(Field<typename Field<Type>::cmptType>& res, const UList<Type>& f);
+
 template<class Type>
 tmp<Field<typename Field<Type>::cmptType> > cmptMin(const UList<Type>& f);
+
 template<class Type>
 tmp<Field<typename Field<Type>::cmptType> >
 cmptMin(const tmp<Field<Type> >& tf);
+
 template<class Type>
 void cmptAv(Field<typename Field<Type>::cmptType>& res, const UList<Type>& f);
+
 template<class Type>
 tmp<Field<typename Field<Type>::cmptType> > cmptAv(const UList<Type>& f);
+
 template<class Type>
 tmp<Field<typename Field<Type>::cmptType> > cmptAv(const tmp<Field<Type> >& tf);
+
 template<class Type>
 void cmptMag(Field<Type>& res, const UList<Type>& f);
+
 template<class Type>
 tmp<Field<Type> > cmptMag(const UList<Type>& f);
+
 template<class Type>
 tmp<Field<Type> > cmptMag(const tmp<Field<Type> >& tf);
+
+
 #define TMP_UNARY_FUNCTION(ReturnType, Func)                                  \
                                                                               \
 template<class Type>                                                          \
 ReturnType Func(const tmp<Field<Type> >& tf1);
+
+
 template<class Type>
 Type max(const UList<Type>& f);
 TMP_UNARY_FUNCTION(Type, max)
+
 template<class Type>
 Type min(const UList<Type>& f);
 TMP_UNARY_FUNCTION(Type, min)
+
 template<class Type>
 Type sum(const UList<Type>& f);
 TMP_UNARY_FUNCTION(Type, sum)
+
 template<class Type>
 Type maxMagSqr(const UList<Type>& f);
 TMP_UNARY_FUNCTION(Type, maxMagSqr)
+
 template<class Type>
 Type minMagSqr(const UList<Type>& f);
 TMP_UNARY_FUNCTION(Type, minMagSqr)
+
 template<class Type>
 scalar sumProd(const UList<Type>& f1, const UList<Type>& f2);
+
 template<class Type>
 Type sumCmptProd(const UList<Type>& f1, const UList<Type>& f2);
+
 template<class Type>
 scalar sumSqr(const UList<Type>& f);
 TMP_UNARY_FUNCTION(scalar, sumSqr)
+
 template<class Type>
 scalar sumMag(const UList<Type>& f);
 TMP_UNARY_FUNCTION(scalar, sumMag)
+
 template<class Type>
 Type sumCmptMag(const UList<Type>& f);
 TMP_UNARY_FUNCTION(Type, sumCmptMag)
+
 template<class Type>
 Type average(const UList<Type>& f);
 TMP_UNARY_FUNCTION(Type, average)
+
+
 #define G_UNARY_FUNCTION(ReturnType, gFunc, Func, rFunc)                      \
                                                                               \
 template<class Type>                                                          \
 ReturnType gFunc(const UList<Type>& f, const label comm = UPstream::worldComm);\
 TMP_UNARY_FUNCTION(ReturnType, gFunc)
+
 G_UNARY_FUNCTION(Type, gMax, max, max)
 G_UNARY_FUNCTION(Type, gMin, min, min)
 G_UNARY_FUNCTION(Type, gSum, sum, sum)
@@ -138,7 +180,10 @@ G_UNARY_FUNCTION(Type, gMinMagSqr, minMagSqr, minMagSqr)
 G_UNARY_FUNCTION(scalar, gSumSqr, sumSqr, sum)
 G_UNARY_FUNCTION(scalar, gSumMag, sumMag, sum)
 G_UNARY_FUNCTION(Type, gSumCmptMag, sumCmptMag, sum)
+
 #undef G_UNARY_FUNCTION
+
+
 template<class Type>
 scalar gSumProd
 (
@@ -146,6 +191,7 @@ scalar gSumProd
   const UList<Type>& f2,
   const label comm = UPstream::worldComm
 );
+
 template<class Type>
 Type gSumCmptProd
 (
@@ -153,6 +199,7 @@ Type gSumCmptProd
   const UList<Type>& f2,
   const label comm = UPstream::worldComm
 );
+
 template<class Type>
 Type gAverage
 (
@@ -160,7 +207,10 @@ Type gAverage
   const label comm = UPstream::worldComm
 );
 TMP_UNARY_FUNCTION(Type, gAverage)
+
 #undef TMP_UNARY_FUNCTION
+
+
 BINARY_FUNCTION(Type, Type, Type, max)
 BINARY_FUNCTION(Type, Type, Type, min)
 BINARY_FUNCTION(Type, Type, Type, cmptMultiply)
@@ -177,6 +227,8 @@ BINARY_OPERATOR(Type, Type, scalar, /, divide)
 BINARY_TYPE_OPERATOR_SF(Type, scalar, Type, *, multiply)
 BINARY_TYPE_OPERATOR_FS(Type, Type, scalar, *, multiply)
 BINARY_TYPE_OPERATOR_FS(Type, Type, scalar, /, divide)
+
+
 #define PRODUCT_OPERATOR(product, Op, OpFunc)                                 \
                                                                               \
 template<class Type1, class Type2>                                            \
@@ -234,13 +286,19 @@ operator Op(const VectorSpace<Form,Cmpt,nCmpt>& vs, const UList<Type>& f1);   \
 template<class Form, class Cmpt, int nCmpt, class Type>                       \
 tmp<Field<typename product<Form, Type>::type> >                               \
 operator Op(const VectorSpace<Form,Cmpt,nCmpt>&vs,const tmp<Field<Type> >&tf1);
+
+
 PRODUCT_OPERATOR(typeOfSum, +, add)
 PRODUCT_OPERATOR(typeOfSum, -, subtract)
 PRODUCT_OPERATOR(outerProduct, *, outer)
 PRODUCT_OPERATOR(crossProduct, ^, cross)
 PRODUCT_OPERATOR(innerProduct, &, dot)
 PRODUCT_OPERATOR(scalarProduct, &&, dotdot)
+
 #undef PRODUCT_OPERATOR
+
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
+
+#include "undef_field_functions_m.inc"
+
 #include "scalar_field.hpp"

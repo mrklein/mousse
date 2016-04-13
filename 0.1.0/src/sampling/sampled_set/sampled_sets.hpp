@@ -9,8 +9,7 @@
 // Description
 //   Set of sets to sample.
 //   Call sampledSets.write() to sample&write files.
-// SourceFiles
-//   sampled_sets.cpp
+
 #include "sampled_set.hpp"
 #include "vol_fields_fwd.hpp"
 #include "mesh_search.hpp"
@@ -18,11 +17,15 @@
 #include "coord_set.hpp"
 #include "writer.hpp"
 #include "word_re_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class objectRegistry;
 class dictionary;
 class fvMesh;
+
+
 class sampledSets
 :
   public PtrList<sampledSet>
@@ -36,18 +39,18 @@ class sampledSets
     {
     public:
       //- The set formatter
-      autoPtr< writer<Type> > formatter;
+      autoPtr< writer<Type>> formatter;
       //- Construct null
       fieldGroup()
       :
-        DynamicList<word>(0),
-        formatter(NULL)
+        DynamicList<word>{0},
+        formatter{NULL}
       {}
       //- Construct for a particular format
       fieldGroup(const word& writeFormat)
       :
-        DynamicList<word>(0),
-        formatter(writer<Type>::New(writeFormat))
+        DynamicList<word>{0},
+        formatter{writer<Type>::New(writeFormat)}
       {}
       //- Reset format and field list
       void clear()
@@ -65,7 +68,7 @@ class sampledSets
     template<class Type>
     class volFieldSampler
     :
-      public List<Field<Type> >
+      public List<Field<Type>>
     {
       //- Name of this collection of values
       const word name_;
@@ -86,7 +89,7 @@ class sampledSets
       //- Construct from components
       volFieldSampler
       (
-        const List<Field<Type> >& values,
+        const List<Field<Type>>& values,
         const word& name
       );
       //- Return the field name
@@ -147,15 +150,15 @@ class sampledSets
     template<class T>
     void combineSampledValues
     (
-      const PtrList<volFieldSampler<T> >& sampledFields,
+      const PtrList<volFieldSampler<T>>& sampledFields,
       const labelListList& indexSets,
-      PtrList<volFieldSampler<T> >& masterFields
+      PtrList<volFieldSampler<T>>& masterFields
     );
     template<class Type>
     void writeSampleFile
     (
       const coordSet& masterSampleSet,
-      const PtrList<volFieldSampler<Type> >& masterFields,
+      const PtrList<volFieldSampler<Type>>& masterFields,
       const label setI,
       const fileName& timeDir,
       const writer<Type>& formatter
@@ -207,8 +210,10 @@ public:
     //- Update for changes of mesh due to readUpdate
     virtual void readUpdate(const polyMesh::readUpdateState state);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_sets_templates.cpp"
+
+#include "sampled_sets.ipp"
+
 #endif
-#endif
+

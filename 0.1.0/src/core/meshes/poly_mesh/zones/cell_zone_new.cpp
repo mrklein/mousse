@@ -5,6 +5,7 @@
 #include "cell_zone.hpp"
 #include "dictionary.hpp"
 
+
 // Member Functions 
 mousse::autoPtr<mousse::cellZone> mousse::cellZone::New
 (
@@ -14,17 +15,15 @@ mousse::autoPtr<mousse::cellZone> mousse::cellZone::New
   const cellZoneMesh& zm
 )
 {
-  if (debug)
-  {
-    Info<< "cellZone::New(const word&, const dictionary&, const label, "
-       "const cellZoneMesh&) : constructing cellZone " << name
+  if (debug) {
+    Info << "cellZone::New(const word&, const dictionary&, const label, "
+            "const cellZoneMesh&) : constructing cellZone " << name
       << endl;
   }
-  const word zoneType(dict.lookup("type"));
+  const word zoneType{dict.lookup("type")};
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(zoneType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_IO_ERROR_IN
     (
       "cellZone::New(const word&, const dictionary&, "
@@ -40,3 +39,4 @@ mousse::autoPtr<mousse::cellZone> mousse::cellZone::New
 
   return autoPtr<cellZone>{cstrIter()(name, dict, index, zm)};
 }
+

@@ -8,15 +8,13 @@
 //   mousse::linear
 // Description
 //   Central-differencing interpolation scheme class
-// SourceFiles
-//   linear.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class linear
 :
@@ -58,6 +56,7 @@ public:
       return this->mesh().surfaceInterpolation::weights();
     }
 };
+
 template<class Type>
 tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
 linearInterpolate(const GeometricField<Type, fvPatchField, volMesh>& vf)
@@ -68,6 +67,8 @@ linearInterpolate(const GeometricField<Type, fvPatchField, volMesh>& vf)
     vf.mesh().surfaceInterpolation::weights()
   );
 }
+
+
 template<class Type>
 tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
 linearInterpolate(const tmp<GeometricField<Type, fvPatchField, volMesh> >& tvf)
@@ -77,5 +78,8 @@ linearInterpolate(const tmp<GeometricField<Type, fvPatchField, volMesh> >& tvf)
   tvf.clear();
   return tinterp;
 }
+
 }  // namespace mousse
+
 #endif
+

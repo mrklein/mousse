@@ -38,11 +38,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::inletOutletFvPatchField
-// SourceFiles
-//   inlet_outlet_total_temperature_fv_patch_scalar_field.cpp
+
 #include "inlet_outlet_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class inletOutletTotalTemperatureFvPatchScalarField
 :
   public inletOutletFvPatchScalarField
@@ -91,9 +92,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new inletOutletTotalTemperatureFvPatchScalarField(*this)
-      );
+      {
+        new inletOutletTotalTemperatureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     inletOutletTotalTemperatureFvPatchScalarField
@@ -108,9 +109,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new inletOutletTotalTemperatureFvPatchScalarField(*this, iF)
-      );
+      {
+        new inletOutletTotalTemperatureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access

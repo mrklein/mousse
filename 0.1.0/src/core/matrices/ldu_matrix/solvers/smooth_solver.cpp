@@ -3,15 +3,20 @@
 // Copyright (C) 2016 mousse project
 
 #include "smooth_solver.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(smoothSolver, 0);
-  lduMatrix::solver::addsymMatrixConstructorToTable<smoothSolver>
-    addsmoothSolverSymMatrixConstructorToTable_;
-  lduMatrix::solver::addasymMatrixConstructorToTable<smoothSolver>
-    addsmoothSolverAsymMatrixConstructorToTable_;
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(smoothSolver, 0);
+lduMatrix::solver::addsymMatrixConstructorToTable<smoothSolver>
+  addsmoothSolverSymMatrixConstructorToTable_;
+lduMatrix::solver::addasymMatrixConstructorToTable<smoothSolver>
+  addsmoothSolverAsymMatrixConstructorToTable_;
+
 }
+
+
 // Constructors 
 mousse::smoothSolver::smoothSolver
 (
@@ -24,23 +29,27 @@ mousse::smoothSolver::smoothSolver
 )
 :
   lduMatrix::solver
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces,
     solverControls
-  )
+  }
 {
   readControls();
 }
+
+
 // Member Functions 
 void mousse::smoothSolver::readControls()
 {
   lduMatrix::solver::readControls();
   nSweeps_ = controlDict_.lookupOrDefault<label>("nSweeps", 1);
 }
+
+
 mousse::solverPerformance mousse::smoothSolver::solve
 (
   scalarField& psi,
@@ -49,10 +58,9 @@ mousse::solverPerformance mousse::smoothSolver::solve
 ) const
 {
   // Setup class containing solver performance data
-  solverPerformance solverPerf(typeName, fieldName_);
+  solverPerformance solverPerf{typeName, fieldName_};
   // If the nSweeps_ is negative do a fixed number of sweeps
-  if (nSweeps_ < 0)
-  {
+  if (nSweeps_ < 0) {
     autoPtr<lduMatrix::smoother> smootherPtr = lduMatrix::smoother::New
     (
       fieldName_,
@@ -70,13 +78,12 @@ mousse::solverPerformance mousse::smoothSolver::solve
       -nSweeps_
     );
     solverPerf.nIterations() -= nSweeps_;
-  }
-  else
-  {
+  } else {
     scalar normFactor = 0;
+
     {
-      scalarField Apsi(psi.size());
-      scalarField temp(psi.size());
+      scalarField Apsi{psi.size()};
+      scalarField temp{psi.size()};
       // Calculate A.psi
       matrix_.Amul(Apsi, psi, interfaceBouCoeffs_, interfaces_, cmpt);
       // Calculate normalisation factor
@@ -89,18 +96,13 @@ mousse::solverPerformance mousse::smoothSolver::solve
       )/normFactor;
       solverPerf.finalResidual() = solverPerf.initialResidual();
     }
-    if (lduMatrix::debug >= 2)
-    {
+    if (lduMatrix::debug >= 2) {
       Info.masterStream(matrix().mesh().comm())
         << "   Normalisation factor = " << normFactor << endl;
     }
     // Check convergence, solve if not converged
-    if
-    (
-      minIter_ > 0
-    || !solverPerf.checkConvergence(tolerance_, relTol_)
-    )
-    {
+    if (minIter_ > 0
+        || !solverPerf.checkConvergence(tolerance_, relTol_)) {
       autoPtr<lduMatrix::smoother> smootherPtr = lduMatrix::smoother::New
       (
         fieldName_,
@@ -111,8 +113,7 @@ mousse::solverPerformance mousse::smoothSolver::solve
         controlDict_
       );
       // Smoothing loop
-      do
-      {
+      do {
         smootherPtr->smooth
         (
           psi,
@@ -134,13 +135,9 @@ mousse::solverPerformance mousse::smoothSolver::solve
           matrix().mesh().comm()
         )/normFactor;
       } while
-      (
-        (
-          (solverPerf.nIterations() += nSweeps_) < maxIter_
-        && !solverPerf.checkConvergence(tolerance_, relTol_)
-        )
-      || solverPerf.nIterations() < minIter_
-      );
+      (((solverPerf.nIterations() += nSweeps_) < maxIter_
+        && !solverPerf.checkConvergence(tolerance_, relTol_))
+       || solverPerf.nIterations() < minIter_);
     }
   }
   return solverPerf;

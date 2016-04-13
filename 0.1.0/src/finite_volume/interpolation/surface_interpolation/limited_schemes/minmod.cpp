@@ -6,8 +6,8 @@
 #include "limited_scheme.hpp"
 #include "minmod.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(Minmod, MinmodLimiter)
 MAKE_LIMITED_V_SURFACE_INTERPOLATION_SCHEME(MinmodV, MinmodLimiter)

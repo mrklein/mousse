@@ -10,14 +10,10 @@
 //   Abstract class to handle automatic call-back registration with the
 //   CallbackRegistry.  Derive from this class and extend by adding the
 //   appropriate callback functions.
-// SourceFiles
-//   callback.cpp
-
 
 #include "callback_registry.hpp"
 
-namespace mousse
-{
+namespace mousse {
 
 template<class CallbackType>
 class Callback
@@ -58,7 +54,7 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "callback.cpp"
-#endif
+
+#include "callback.ipp"
+
 #endif

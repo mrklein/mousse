@@ -12,10 +12,14 @@
 #include "upstream.hpp"
 #include "pstream_reduce_ops.hpp"
 
+
 // Static Data Members
 namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(globalPoints, 0);
+
 }
+
 
 // Private Member Functions 
 // Total number of points on coupled patches. Is upper limit for number
@@ -26,16 +30,16 @@ mousse::label mousse::globalPoints::countPatchPoints
 )
 {
   label nTotPoints = 0;
-  FOR_ALL(patches, patchI)
-  {
+  FOR_ALL(patches, patchI) {
     const polyPatch& pp = patches[patchI];
-    if (pp.coupled())
-    {
+    if (pp.coupled()) {
       nTotPoints += pp.nPoints();
     }
   }
   return nTotPoints;
 }
+
+
 mousse::label mousse::globalPoints::findSamePoint
 (
   const labelPairList& allInfo,
@@ -44,19 +48,16 @@ mousse::label mousse::globalPoints::findSamePoint
 {
   const label procI = globalIndexAndTransform::processor(info);
   const label index = globalIndexAndTransform::index(info);
-  FOR_ALL(allInfo, i)
-  {
-    if
-    (
-      globalIndexAndTransform::processor(allInfo[i]) == procI
-    && globalIndexAndTransform::index(allInfo[i]) == index
-    )
-    {
+  FOR_ALL(allInfo, i) {
+    if (globalIndexAndTransform::processor(allInfo[i]) == procI
+        && globalIndexAndTransform::index(allInfo[i]) == index) {
       return i;
     }
   }
   return -1;
 }
+
+
 mousse::labelPairList mousse::globalPoints::addSendTransform
 (
   const label patchI,
@@ -67,9 +68,8 @@ mousse::labelPairList mousse::globalPoints::addSendTransform
   (
     mesh_.boundaryMesh()[patchI]
   ).matchTolerance();
-  labelPairList sendInfo(info.size());
-  FOR_ALL(info, i)
-  {
+  labelPairList sendInfo{info.size()};
+  FOR_ALL(info, i) {
     //Pout<< "    adding send transform to" << nl
     //    << "    proc:" << globalIndexAndTransform::processor(info[i])
     //    << nl
@@ -93,6 +93,8 @@ mousse::labelPairList mousse::globalPoints::addSendTransform
   }
   return sendInfo;
 }
+
+
 // Collect all topological information about a point on a patch.
 // (this information is the patch faces using the point and the relative
 // position of the point in the face)
@@ -110,8 +112,7 @@ void mousse::globalPoints::addToSend
   // Add all faces using the point so we are sure we find it on the
   // other side.
   const labelList& pFaces = pp.pointFaces()[patchPointI];
-  FOR_ALL(pFaces, i)
-  {
+  FOR_ALL(pFaces, i) {
     label patchFaceI = pFaces[i];
     const face& f = pp[patchFaceI];
     patchFaces.append(patchFaceI);
@@ -120,6 +121,8 @@ void mousse::globalPoints::addToSend
     allInfo.append(addSendTransform(pp.index(), knownInfo));
   }
 }
+
+
 // Add nbrInfo to myInfo. Return true if anything changed.
 // nbrInfo is for a point a list of all the global points using it
 bool mousse::globalPoints::mergeInfo
@@ -131,35 +134,28 @@ bool mousse::globalPoints::mergeInfo
 {
   bool anyChanged = false;
   // Extend to make space for the nbrInfo (trimmed later)
-  labelPairList newInfo(myInfo);
+  labelPairList newInfo{myInfo};
   label newI = newInfo.size();
   newInfo.setSize(newI + nbrInfo.size());
-  FOR_ALL(nbrInfo, i)
-  {
+  FOR_ALL(nbrInfo, i) {
     // Check if already have information about nbr point. There are two
     // possibilities:
     // - information found about same point but different transform.
     //   Combine transforms
     // - information not found.
     label index = findSamePoint(myInfo, nbrInfo[i]);
-    if (index == -1)
-    {
+    if (index == -1) {
       // New point
       newInfo[newI++] = nbrInfo[i];
       anyChanged = true;
-    }
-    else
-    {
+    } else {
       // Same point. So we already have a connection between localPointI
       // and the nbrIndex. Two situations:
       // - same transform
       // - one transform takes two steps, the other just a single.
-      if (myInfo[index] == nbrInfo[i])
-      {
+      if (myInfo[index] == nbrInfo[i]) {
         // Everything same (so also transform). Nothing changed.
-      }
-      else
-      {
+      } else {
         label myTransform = globalIndexAndTransform::transformIndex
         (
           myInfo[index]
@@ -174,8 +170,7 @@ bool mousse::globalPoints::mergeInfo
           myTransform,
           nbrTransform
         );
-        if (minTransform != myTransform)
-        {
+        if (minTransform != myTransform) {
           // Use nbr info.
           newInfo[index] = nbrInfo[i];
           anyChanged = true;
@@ -187,6 +182,8 @@ bool mousse::globalPoints::mergeInfo
   myInfo.transfer(newInfo);
   return anyChanged;
 }
+
+
 mousse::label mousse::globalPoints::meshToLocalPoint
 (
   const Map<label>& meshToPatchPoint, // from mesh point to local numbering
@@ -196,10 +193,12 @@ mousse::label mousse::globalPoints::meshToLocalPoint
   return
   (
     meshToPatchPoint.size() == 0
-   ? meshPointI
-   : meshToPatchPoint[meshPointI]
+    ? meshPointI
+    : meshToPatchPoint[meshPointI]
   );
 }
+
+
 mousse::label mousse::globalPoints::localToMeshPoint
 (
   const labelList& patchToMeshPoint,
@@ -209,10 +208,12 @@ mousse::label mousse::globalPoints::localToMeshPoint
   return
   (
     patchToMeshPoint.size() == 0
-   ? localPointI
-   : patchToMeshPoint[localPointI]
+    ? localPointI
+    : patchToMeshPoint[localPointI]
   );
 }
+
+
 // Updates database of current information on meshpoints with nbrInfo.
 // Uses mergeInfo above. Returns true if data kept for meshPointI changed.
 bool mousse::globalPoints::mergeInfo
@@ -224,18 +225,14 @@ bool mousse::globalPoints::mergeInfo
   label infoChanged = false;
   // Get the index into the procPoints list.
   Map<label>::iterator iter = meshToProcPoint_.find(localPointI);
-  if (iter != meshToProcPoint_.end())
-  {
-    if (mergeInfo(nbrInfo, localPointI, procPoints_[iter()]))
-    {
+  if (iter != meshToProcPoint_.end()) {
+    if (mergeInfo(nbrInfo, localPointI, procPoints_[iter()])) {
       infoChanged = true;
     }
-  }
-  else
-  {
+  } else {
     // Construct local index for point
     labelPairList knownInfo
-    (
+    {
       1,
       globalIndexAndTransform::encode
       (
@@ -243,9 +240,8 @@ bool mousse::globalPoints::mergeInfo
         localPointI,
         globalTransforms_.nullTransformIndex()
       )
-    );
-    if (mergeInfo(nbrInfo, localPointI, knownInfo))
-    {
+    };
+    if (mergeInfo(nbrInfo, localPointI, knownInfo)) {
       // Update addressing from into procPoints
       meshToProcPoint_.insert(localPointI, procPoints_.size());
       // Insert into list of equivalences.
@@ -255,6 +251,8 @@ bool mousse::globalPoints::mergeInfo
   }
   return infoChanged;
 }
+
+
 // Updates database of current information on meshpoints with nbrInfo.
 // Uses mergeInfo above. Returns true if data kept for meshPointI changed.
 bool mousse::globalPoints::storeInitialInfo
@@ -266,15 +264,11 @@ bool mousse::globalPoints::storeInitialInfo
   label infoChanged = false;
   // Get the index into the procPoints list.
   Map<label>::iterator iter = meshToProcPoint_.find(localPointI);
-  if (iter != meshToProcPoint_.end())
-  {
-    if (mergeInfo(nbrInfo, localPointI, procPoints_[iter()]))
-    {
+  if (iter != meshToProcPoint_.end()) {
+    if (mergeInfo(nbrInfo, localPointI, procPoints_[iter()])) {
       infoChanged = true;
     }
-  }
-  else
-  {
+  } else {
     // Update addressing into procPoints
     meshToProcPoint_.insert(localPointI, procPoints_.size());
     // Insert into list of equivalences.
@@ -283,6 +277,8 @@ bool mousse::globalPoints::storeInitialInfo
   }
   return infoChanged;
 }
+
+
 void mousse::globalPoints::printProcPoint
 (
   const labelList& patchToMeshPoint,
@@ -292,30 +288,32 @@ void mousse::globalPoints::printProcPoint
   label procI = globalIndexAndTransform::processor(pointInfo);
   label index = globalIndexAndTransform::index(pointInfo);
   label trafoI = globalIndexAndTransform::transformIndex(pointInfo);
-  Pout<< "    proc:" << procI;
-  Pout<< " localpoint:";
-  Pout<< index;
-  Pout<< " through transform:"
+  Pout << "    proc:" << procI;
+  Pout << " localpoint:";
+  Pout << index;
+  Pout << " through transform:"
     << trafoI << " bits:"
     << globalTransforms_.decodeTransformIndex(trafoI);
-  if (procI == Pstream::myProcNo())
-  {
+  if (procI == Pstream::myProcNo()) {
     label meshPointI = localToMeshPoint(patchToMeshPoint, index);
-    Pout<< " at:" <<  mesh_.points()[meshPointI];
+    Pout << " at:" <<  mesh_.points()[meshPointI];
   }
 }
+
+
 void mousse::globalPoints::printProcPoints
 (
   const labelList& patchToMeshPoint,
   const labelPairList& pointInfo
 ) const
 {
-  FOR_ALL(pointInfo, i)
-  {
+  FOR_ALL(pointInfo, i) {
     printProcPoint(patchToMeshPoint, pointInfo[i]);
-    Pout<< endl;
+    Pout << endl;
   }
 }
+
+
 // Insert my own points into structure and mark as changed.
 void mousse::globalPoints::initOwnPoints
 (
@@ -325,17 +323,13 @@ void mousse::globalPoints::initOwnPoints
 )
 {
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  FOR_ALL(patches, patchI)
-  {
+  FOR_ALL(patches, patchI) {
     const polyPatch& pp = patches[patchI];
-    if (pp.coupled())
-    {
+    if (pp.coupled()) {
       const labelList& meshPoints = pp.meshPoints();
-      if (allPoints)
-      {
+      if (allPoints) {
         // All points on patch
-        FOR_ALL(meshPoints, patchPointI)
-        {
+        FOR_ALL(meshPoints, patchPointI) {
           label meshPointI = meshPoints[patchPointI];
           label localPointI = meshToLocalPoint
           (
@@ -343,7 +337,7 @@ void mousse::globalPoints::initOwnPoints
             meshPointI
           );
           labelPairList knownInfo
-          (
+          {
             1,
             globalIndexAndTransform::encode
             (
@@ -351,23 +345,16 @@ void mousse::globalPoints::initOwnPoints
               localPointI,
               globalTransforms_.nullTransformIndex()
             )
-          );
-          //Pout<< "For point "<< pp.points()[meshPointI]
-          //    << " inserting info " << knownInfo
-          //    << endl;
+          };
           // Update changedpoints info.
-          if (storeInitialInfo(knownInfo, localPointI))
-          {
+          if (storeInitialInfo(knownInfo, localPointI)) {
             changedPoints.insert(localPointI);
           }
         }
-      }
-      else
-      {
+      } else {
         // Boundary points only
         const labelList& boundaryPoints = pp.boundaryPoints();
-        FOR_ALL(boundaryPoints, i)
-        {
+        FOR_ALL(boundaryPoints, i) {
           label meshPointI = meshPoints[boundaryPoints[i]];
           label localPointI = meshToLocalPoint
           (
@@ -375,7 +362,7 @@ void mousse::globalPoints::initOwnPoints
             meshPointI
           );
           labelPairList knownInfo
-          (
+          {
             1,
             globalIndexAndTransform::encode
             (
@@ -383,9 +370,8 @@ void mousse::globalPoints::initOwnPoints
               localPointI,
               globalTransforms_.nullTransformIndex()
             )
-          );
-          if (storeInitialInfo(knownInfo, localPointI))
-          {
+          };
+          if (storeInitialInfo(knownInfo, localPointI)) {
             changedPoints.insert(localPointI);
           }
         }
@@ -393,6 +379,8 @@ void mousse::globalPoints::initOwnPoints
     }
   }
 }
+
+
 // Send all my info on changedPoints_ to my neighbours.
 void mousse::globalPoints::sendPatchPoints
 (
@@ -404,40 +392,33 @@ void mousse::globalPoints::sendPatchPoints
 {
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
   const labelPairList& patchInfo = globalTransforms_.patchTransformSign();
-  FOR_ALL(patches, patchI)
-  {
+  FOR_ALL(patches, patchI) {
     const polyPatch& pp = patches[patchI];
     // mergeSeparated=true : send from all processor patches
     //               =false: send from ones without transform
-    if
-    (
-      (Pstream::parRun() && isA<processorPolyPatch>(pp))
-    && (mergeSeparated || patchInfo[patchI].first() == -1)
-    )
-    {
+    if ((Pstream::parRun() && isA<processorPolyPatch>(pp))
+        && (mergeSeparated || patchInfo[patchI].first() == -1)) {
       const processorPolyPatch& procPatch =
         refCast<const processorPolyPatch>(pp);
       // Information to send:
       // patch face
-      DynamicList<label> patchFaces(pp.nPoints());
+      DynamicList<label> patchFaces{pp.nPoints()};
       // index in patch face
-      DynamicList<label> indexInFace(pp.nPoints());
+      DynamicList<label> indexInFace{pp.nPoints()};
       // all information I currently hold about this patchPoint
-      DynamicList<labelPairList> allInfo(pp.nPoints());
+      DynamicList<labelPairList> allInfo{pp.nPoints()};
       // Now collect information on all points mentioned in
       // changedPoints. Note that these points only should occur on
       // processorPatches (or rather this is a limitation!).
       const labelList& meshPoints = pp.meshPoints();
-      FOR_ALL(meshPoints, patchPointI)
-      {
+      FOR_ALL(meshPoints, patchPointI) {
         label meshPointI = meshPoints[patchPointI];
         label localPointI = meshToLocalPoint
         (
           meshToPatchPoint,
           meshPointI
         );
-        if (changedPoints.found(localPointI))
-        {
+        if (changedPoints.found(localPointI)) {
           label index = meshToProcPoint_[localPointI];
           const labelPairList& knownInfo = procPoints_[index];
           // Add my information about localPointI to the
@@ -454,17 +435,18 @@ void mousse::globalPoints::sendPatchPoints
         }
       }
       // Send to neighbour
-      if (debug)
-      {
-        Pout<< " Sending from " << pp.name() << " to "
+      if (debug) {
+        Pout << " Sending from " << pp.name() << " to "
           << procPatch.neighbProcNo() << "   point information:"
           << patchFaces.size() << endl;
       }
-      UOPstream toNeighbour(procPatch.neighbProcNo(), pBufs);
+      UOPstream toNeighbour{procPatch.neighbProcNo(), pBufs};
       toNeighbour << patchFaces << indexInFace << allInfo;
     }
   }
 }
+
+
 // Receive all my neighbours' information and merge with mine.
 // After finishing will have updated
 // - procPoints_ : all neighbour information merged in.
@@ -483,33 +465,29 @@ void mousse::globalPoints::receivePatchPoints
   const labelPairList& patchInfo = globalTransforms_.patchTransformSign();
   // Reset changed points
   changedPoints.clear();
-  FOR_ALL(patches, patchI)
-  {
+  FOR_ALL(patches, patchI) {
     const polyPatch& pp = patches[patchI];
-    if
-    (
-      (Pstream::parRun() && isA<processorPolyPatch>(pp))
-    && (mergeSeparated || patchInfo[patchI].first() == -1)
-    )
-    {
+    if ((Pstream::parRun() && isA<processorPolyPatch>(pp))
+        && (mergeSeparated || patchInfo[patchI].first() == -1)) {
       const processorPolyPatch& procPatch =
         refCast<const processorPolyPatch>(pp);
       labelList patchFaces;
       labelList indexInFace;
       List<labelPairList> nbrInfo;
+
       {
-        UIPstream fromNeighbour(procPatch.neighbProcNo(), pBufs);
+        UIPstream fromNeighbour{procPatch.neighbProcNo(), pBufs};
         fromNeighbour >> patchFaces >> indexInFace >> nbrInfo;
       }
-      if (debug)
-      {
-        Pout<< " On " << pp.name()
+
+      if (debug) {
+        Pout << " On " << pp.name()
           << " Received from "
           << procPatch.neighbProcNo() << "   point information:"
           << patchFaces.size() << endl;
       }
-      FOR_ALL(patchFaces, i)
-      {
+
+      FOR_ALL(patchFaces, i) {
         const face& f = pp[patchFaces[i]];
         // Get index in this face from index on face on other side.
         label index = (f.size() - indexInFace[i]) % f.size();
@@ -520,34 +498,24 @@ void mousse::globalPoints::receivePatchPoints
           meshToPatchPoint,
           meshPointI
         );
-        if (mergeInfo(nbrInfo[i], localPointI))
-        {
+        if (mergeInfo(nbrInfo[i], localPointI)) {
           changedPoints.insert(localPointI);
         }
       }
-    }
-    else if
-    (
-      (
-        isA<cyclicPolyPatch>(pp)
-      && refCast<const cyclicPolyPatch>(pp).owner()
-      )
-    && (mergeSeparated || patchInfo[patchI].first() == -1)
-    )
-    {
+    } else if ((isA<cyclicPolyPatch>(pp)
+                && refCast<const cyclicPolyPatch>(pp).owner())
+               && (mergeSeparated || patchInfo[patchI].first() == -1)) {
       // Handle cyclics: send lower half to upper half and vice versa.
       // Or since they both are in memory just do it point by point.
       const cyclicPolyPatch& cycPatch =
         refCast<const cyclicPolyPatch>(pp);
       //Pout<< "Patch:" << patchI << " name:" << pp.name() << endl;
       const labelList& meshPoints = pp.meshPoints();
-      const labelList coupledMeshPoints(reverseMeshPoints(cycPatch));
-      FOR_ALL(meshPoints, i)
-      {
+      const labelList coupledMeshPoints{reverseMeshPoints(cycPatch)};
+      FOR_ALL(meshPoints, i) {
         label meshPointA = meshPoints[i];
         label meshPointB = coupledMeshPoints[i];
-        if (meshPointA != meshPointB)
-        {
+        if (meshPointA != meshPointB) {
           //Pout<< "Connection between point " << meshPointA
           //    << " at " << mesh_.points()[meshPointA]
           //    << " and " << meshPointB
@@ -565,30 +533,26 @@ void mousse::globalPoints::receivePatchPoints
           // Do we have information on pointA?
           Map<label>::iterator procPointA =
             meshToProcPoint_.find(localA);
-          if (procPointA != meshToProcPoint_.end())
-          {
+          if (procPointA != meshToProcPoint_.end()) {
             const labelPairList infoA = addSendTransform
             (
               cycPatch.index(),
               procPoints_[procPointA()]
             );
-            if (mergeInfo(infoA, localB))
-            {
+            if (mergeInfo(infoA, localB)) {
               changedPoints.insert(localB);
             }
           }
           // Same for info on pointB
           Map<label>::iterator procPointB =
             meshToProcPoint_.find(localB);
-          if (procPointB != meshToProcPoint_.end())
-          {
+          if (procPointB != meshToProcPoint_.end()) {
             const labelPairList infoB = addSendTransform
             (
               cycPatch.neighbPatchID(),
               procPoints_[procPointB()]
             );
-            if (mergeInfo(infoB, localA))
-            {
+            if (mergeInfo(infoB, localA)) {
               changedPoints.insert(localA);
             }
           }
@@ -597,6 +561,8 @@ void mousse::globalPoints::receivePatchPoints
     }
   }
 }
+
+
 // Remove entries which are handled by normal face-face communication. I.e.
 // those points where the equivalence list is only me and my (face)neighbour
 void mousse::globalPoints::remove
@@ -606,59 +572,38 @@ void mousse::globalPoints::remove
 )
 {
   // Save old ones.
-  Map<label> oldMeshToProcPoint(meshToProcPoint_.xfer());
+  Map<label> oldMeshToProcPoint{meshToProcPoint_.xfer()};
   meshToProcPoint_.resize(oldMeshToProcPoint.size());
-  DynamicList<labelPairList> oldProcPoints(procPoints_.xfer());
+  DynamicList<labelPairList> oldProcPoints{procPoints_.xfer()};
   procPoints_.setCapacity(oldProcPoints.size());
   // Go through all equivalences
-  FOR_ALL_CONST_ITER(Map<label>, oldMeshToProcPoint, iter)
-  {
+  FOR_ALL_CONST_ITER(Map<label>, oldMeshToProcPoint, iter) {
     label localPointI = iter.key();
     const labelPairList& pointInfo = oldProcPoints[iter()];
-    if (pointInfo.size() == 2)
-    {
+    if (pointInfo.size() == 2) {
       // I will be in this equivalence list.
       // Check whether my direct (=face) neighbour
       // is in it. This would be an ordinary connection and can be
       // handled by normal face-face connectivity.
       label proc0 = globalIndexAndTransform::processor(pointInfo[0]);
       label proc1 = globalIndexAndTransform::processor(pointInfo[1]);
-      if
-      (
-        (
-          proc0 == Pstream::myProcNo()
-        && directNeighbours.found
-          (
-            globalIndexAndTransform::index(pointInfo[0])
-          )
-        )
-      || (
-          proc1 == Pstream::myProcNo()
-        && directNeighbours.found
-          (
-            globalIndexAndTransform::index(pointInfo[1])
-          )
-        )
-      )
-      {
+      if ((proc0 == Pstream::myProcNo()
+           && directNeighbours.found
+           (
+             globalIndexAndTransform::index(pointInfo[0])
+           ))
+          || (proc1 == Pstream::myProcNo()
+              && directNeighbours.found
+              (
+                globalIndexAndTransform::index(pointInfo[1])
+              ))) {
         // Normal faceNeighbours
-        if (proc0 == Pstream::myProcNo())
-        {
-          //Pout<< "Removing direct neighbour:"
-          //    << mesh_.points()
-          //       [globalIndexAndTransform::index(pointInfo[0])]
-          //    << endl;
+#if 0
+        if (proc0 == Pstream::myProcNo()) {
+        } else if (proc1 == Pstream::myProcNo()) {
         }
-        else if (proc1 == Pstream::myProcNo())
-        {
-          //Pout<< "Removing direct neighbour:"
-          //    << mesh_.points()
-          //       [globalIndexAndTransform::index(pointInfo[1])]
-          //    << endl;
-        }
-      }
-      else
-      {
+#endif
+      } else {
         // This condition will be very rare: points are used by
         // two processors which are not face-face connected.
         // e.g.
@@ -673,28 +618,20 @@ void mousse::globalPoints::remove
         meshToProcPoint_.insert(localPointI, procPoints_.size());
         procPoints_.append(pointInfo);
       }
-    }
-    else if (pointInfo.size() == 1)
-    {
+    } else if (pointInfo.size() == 1) {
       // This happens for 'wedge' like cyclics where the two halves
       // come together in the same point so share the same meshPoint.
       // So this meshPoint will have info of size one only.
-      if
-      (
-        globalIndexAndTransform::processor(pointInfo[0])
-      != Pstream::myProcNo()
-      || !directNeighbours.found
-        (
-          globalIndexAndTransform::index(pointInfo[0])
-        )
-      )
-      {
+      if (globalIndexAndTransform::processor(pointInfo[0])
+          != Pstream::myProcNo()
+          || !directNeighbours.found
+             (
+               globalIndexAndTransform::index(pointInfo[0])
+             )) {
         meshToProcPoint_.insert(localPointI, procPoints_.size());
         procPoints_.append(pointInfo);
       }
-    }
-    else
-    {
+    } else {
       meshToProcPoint_.insert(localPointI, procPoints_.size());
       procPoints_.append(pointInfo);
     }
@@ -702,15 +639,16 @@ void mousse::globalPoints::remove
   procPoints_.shrink();
   meshToProcPoint_.resize(2*procPoints_.size());
 }
+
+
 mousse::labelList mousse::globalPoints::reverseMeshPoints
 (
   const cyclicPolyPatch& pp
 )
 {
   const cyclicPolyPatch& nbrPatch = pp.neighbPatch();
-  faceList masterFaces(nbrPatch.size());
-  FOR_ALL(nbrPatch, faceI)
-  {
+  faceList masterFaces{nbrPatch.size()};
+  FOR_ALL(nbrPatch, faceI) {
     masterFaces[faceI] = nbrPatch[faceI].reverseFace();
   }
   return primitiveFacePatch
@@ -719,6 +657,8 @@ mousse::labelList mousse::globalPoints::reverseMeshPoints
     nbrPatch.points()
   ).meshPoints();
 }
+
+
 void mousse::globalPoints::calculateSharedPoints
 (
   const Map<label>& meshToPatchPoint, // from mesh point to local numbering
@@ -727,16 +667,15 @@ void mousse::globalPoints::calculateSharedPoints
   const bool mergeSeparated
 )
 {
-  if (debug)
-  {
-    Pout<< "globalPoints::calculateSharedPoints(..) : "
+  if (debug) {
+    Pout << "globalPoints::calculateSharedPoints(..) : "
       << "doing processor to processor communication to get sharedPoints"
       << endl
       << "    keepAllPoints :" << keepAllPoints << endl
       << "    mergeSeparated:" << mergeSeparated << endl
       << endl;
   }
-  labelHashSet changedPoints(2*nPatchPoints_);
+  labelHashSet changedPoints{2*nPatchPoints_};
   // Initialize procPoints with my patch points. Keep track of points
   // inserted (in changedPoints)
   // There are two possible forms of this:
@@ -750,19 +689,20 @@ void mousse::globalPoints::calculateSharedPoints
   //   This would happen if a domain was pinched such that two patches share
   //   a point or edge.
   initOwnPoints(meshToPatchPoint, true, changedPoints);
+
   // Do one exchange iteration to get neighbour points.
   {
     // Note: to use 'scheduled' would have to intersperse send and receive.
     // So for now just use nonBlocking. Also globalPoints itself gets
     // constructed by mesh.globalData().patchSchedule() so creates a loop.
     PstreamBuffers pBufs
-    (
+    {
       (
         Pstream::defaultCommsType == Pstream::scheduled
-       ? Pstream::nonBlocking
-       : Pstream::defaultCommsType
+        ? Pstream::nonBlocking
+        : Pstream::defaultCommsType
       )
-    );
+    };
     sendPatchPoints
     (
       mergeSeparated,
@@ -782,22 +722,20 @@ void mousse::globalPoints::calculateSharedPoints
   }
   // Save neighbours reachable through face-face communication.
   Map<label> neighbourList;
-  if (!keepAllPoints)
-  {
+  if (!keepAllPoints) {
     neighbourList = meshToProcPoint_;
   }
   // Exchange until nothing changes on all processors.
   bool changed = false;
-  do
-  {
+  do {
     PstreamBuffers pBufs
-    (
+    {
       (
         Pstream::defaultCommsType == Pstream::scheduled
        ? Pstream::nonBlocking
        : Pstream::defaultCommsType
       )
-    );
+    };
     sendPatchPoints
     (
       mergeSeparated,
@@ -817,29 +755,15 @@ void mousse::globalPoints::calculateSharedPoints
     changed = changedPoints.size() > 0;
     reduce(changed, orOp<bool>());
   } while (changed);
-  //Pout<< "**ALL** connected points:" << endl;
-  //FOR_ALL_CONST_ITER(Map<label>, meshToProcPoint_, iter)
-  //{
-  //    label localI = iter.key();
-  //    const labelPairList& pointInfo = procPoints_[iter()];
-  //    Pout<< "pointI:" << localI << " index:" << iter()
-  //        << " coord:"
-  //        << mesh_.points()[localToMeshPoint(patchToMeshPoint, localI)]
-  //        << endl;
-  //    printProcPoints(patchToMeshPoint, pointInfo);
-  //    Pout<< endl;
-  //}
   // Remove direct neighbours from point equivalences.
-  if (!keepAllPoints)
-  {
+  if (!keepAllPoints) {
     remove(patchToMeshPoint, neighbourList);
   }
   // Sort procPoints in incremental order. This will make
   // the master the first element on all processors.
   // Note: why not sort in decreasing order? Give more work to higher
   //       processors.
-  FOR_ALL_CONST_ITER(Map<label>, meshToProcPoint_, iter)
-  {
+  FOR_ALL_CONST_ITER(Map<label>, meshToProcPoint_, iter) {
     labelPairList& pointInfo = procPoints_[iter()];
     sort(pointInfo, globalIndexAndTransform::less());
   }
@@ -847,31 +771,22 @@ void mousse::globalPoints::calculateSharedPoints
   // multiple processors. Filter into non-transformed and transformed
   // connections.
   pointPoints_.setSize(globalIndices_.localSize());
-  List<labelPairList> transformedPoints(globalIndices_.localSize());
-  FOR_ALL_CONST_ITER(Map<label>, meshToProcPoint_, iter)
-  {
+  List<labelPairList> transformedPoints{globalIndices_.localSize()};
+  FOR_ALL_CONST_ITER(Map<label>, meshToProcPoint_, iter) {
     const labelPairList& pointInfo = procPoints_[iter()];
-    if (pointInfo.size() >= 2)
-    {
+    if (pointInfo.size() >= 2) {
       // Since sorted master point is the first element
       const labelPair& masterInfo = pointInfo[0];
-      if
-      (
-        (
-          globalIndexAndTransform::processor(masterInfo)
-        == Pstream::myProcNo()
-        )
-      && (globalIndexAndTransform::index(masterInfo) == iter.key())
-      )
-      {
+      if ((globalIndexAndTransform::processor(masterInfo)
+           == Pstream::myProcNo())
+          && (globalIndexAndTransform::index(masterInfo) == iter.key())) {
         labelList& pPoints = pointPoints_[iter.key()];
         pPoints.setSize(pointInfo.size()-1);
         labelPairList& trafoPPoints = transformedPoints[iter.key()];
         trafoPPoints.setSize(pointInfo.size()-1);
         label nonTransformI = 0;
         label transformI = 0;
-        for (label i = 1; i < pointInfo.size(); i++)
-        {
+        for (label i = 1; i < pointInfo.size(); i++) {
           const labelPair& info = pointInfo[i];
           label procI = globalIndexAndTransform::processor(info);
           label index = globalIndexAndTransform::index(info);
@@ -879,16 +794,13 @@ void mousse::globalPoints::calculateSharedPoints
           (
             info
           );
-          if (transform == globalTransforms_.nullTransformIndex())
-          {
+          if (transform == globalTransforms_.nullTransformIndex()) {
             pPoints[nonTransformI++] = globalIndices_.toGlobal
             (
               procI,
               index
             );
-          }
-          else
-          {
+          } else {
             trafoPPoints[transformI++] = info;
           }
         }
@@ -897,26 +809,28 @@ void mousse::globalPoints::calculateSharedPoints
       }
     }
   }
-  List<Map<label> > compactMap;
+  List<Map<label>> compactMap;
   map_.reset
   (
     new mapDistribute
-    (
+    {
       globalIndices_,
       pointPoints_,
       globalTransforms_,
       transformedPoints,
       transformedPointPoints_,
       compactMap
-    )
+    }
   );
-  if (debug)
-  {
-    Pout<< "globalPoints::calculateSharedPoints(..) : "
+  if (debug) {
+    Pout << "globalPoints::calculateSharedPoints(..) : "
       << "Finished global points" << endl;
   }
 }
+
+
 // Constructors 
+
 // Construct from mesh
 mousse::globalPoints::globalPoints
 (
@@ -925,16 +839,16 @@ mousse::globalPoints::globalPoints
   const bool mergeSeparated
 )
 :
-  mesh_(mesh),
-  globalIndices_(mesh_.nPoints()),
-  globalTransforms_(mesh),
-  nPatchPoints_(countPatchPoints(mesh.boundaryMesh())),
-  procPoints_(nPatchPoints_),
-  meshToProcPoint_(nPatchPoints_)
+  mesh_{mesh},
+  globalIndices_{mesh_.nPoints()},
+  globalTransforms_{mesh},
+  nPatchPoints_{countPatchPoints(mesh.boundaryMesh())},
+  procPoints_{nPatchPoints_},
+  meshToProcPoint_{nPatchPoints_}
 {
   // Empty patch maps to signal storing mesh point labels
-  Map<label> meshToPatchPoint(0);
-  labelList patchToMeshPoint(0);
+  Map<label> meshToPatchPoint{0};
+  labelList patchToMeshPoint{0};
   calculateSharedPoints
   (
     meshToPatchPoint,
@@ -943,6 +857,8 @@ mousse::globalPoints::globalPoints
     mergeSeparated
   );
 }
+
+
 // Construct from mesh and patch of coupled faces
 mousse::globalPoints::globalPoints
 (
@@ -952,12 +868,12 @@ mousse::globalPoints::globalPoints
   const bool mergeSeparated
 )
 :
-  mesh_(mesh),
-  globalIndices_(coupledPatch.nPoints()),
-  globalTransforms_(mesh),
-  nPatchPoints_(coupledPatch.nPoints()),
-  procPoints_(nPatchPoints_),
-  meshToProcPoint_(nPatchPoints_)
+  mesh_{mesh},
+  globalIndices_{coupledPatch.nPoints()},
+  globalTransforms_{mesh},
+  nPatchPoints_{coupledPatch.nPoints()},
+  procPoints_{nPatchPoints_},
+  meshToProcPoint_{nPatchPoints_}
 {
   calculateSharedPoints
   (
@@ -967,3 +883,4 @@ mousse::globalPoints::globalPoints
     mergeSeparated
   );
 }
+

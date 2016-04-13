@@ -8,16 +8,13 @@
 //   mousse::TableBase
 // Description
 //   Base class for table with bounds handling, interpolation and integration
-// SourceFiles
-//   table_base.cpp
-
 
 #include "data_entry.hpp"
 #include "tuple2.hpp"
 #include "dimension_set.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class TableBase;
@@ -28,6 +25,7 @@ Ostream& operator<<
   const TableBase<Type>&
 );
 class interpolationWeights;
+
 
 template<class Type>
 class TableBase
@@ -157,8 +155,9 @@ public:
     //  table types
     virtual void writeEntries(Ostream& os) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "table_base.cpp"
-#endif
+
+#include "table_base.ipp"
+
 #endif

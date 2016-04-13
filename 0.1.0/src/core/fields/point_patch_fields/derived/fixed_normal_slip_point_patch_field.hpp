@@ -8,20 +8,24 @@
 //   mousse::fixedNormalSlipPointPatchField
 // Description
 //   slip with user-specified normal
-// SourceFiles
-//   fixed_normal_slip_point_patch_field.cpp
+
 #include "slip_point_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Type>
 class fixedNormalSlipPointPatchField;
+
 template<class Type>
 Ostream& operator<<
 (
   Ostream&,
   const fixedNormalSlipPointPatchField<Type>&
 );
+
+
 template<class Type>
 class fixedNormalSlipPointPatchField
 :
@@ -56,15 +60,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new fixedNormalSlipPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new fixedNormalSlipPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fixedNormalSlipPointPatchField
@@ -73,19 +74,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new fixedNormalSlipPointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new fixedNormalSlipPointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
@@ -98,7 +95,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#    include "fixed_normal_slip_point_patch_field.cpp"
-#endif
+
+#include "fixed_normal_slip_point_patch_field.ipp"
+
 #endif

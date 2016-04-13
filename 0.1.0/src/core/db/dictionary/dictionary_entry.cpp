@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "dictionary_entry.hpp"
+
+
 // Constructors 
 mousse::dictionaryEntry::dictionaryEntry
 (
@@ -11,41 +13,43 @@ mousse::dictionaryEntry::dictionaryEntry
   const dictionary& dict
 )
 :
-  entry(key),
-  dictionary(parentDict, dict)
+  entry{key},
+  dictionary{parentDict, dict}
 {}
+
+
 mousse::dictionaryEntry::dictionaryEntry
 (
   const dictionary& parentDict,
   const dictionaryEntry& dictEnt
 )
 :
-  entry(dictEnt),
-  dictionary(parentDict, dictEnt)
+  entry{dictEnt},
+  dictionary{parentDict, dictEnt}
 {}
+
+
 // Member Functions 
 mousse::label mousse::dictionaryEntry::startLineNumber() const
 {
-  if (size())
-  {
+  if (size()) {
     return first()->startLineNumber();
-  }
-  else
-  {
+  } else {
     return -1;
   }
 }
+
+
 mousse::label mousse::dictionaryEntry::endLineNumber() const
 {
-  if (size())
-  {
+  if (size()) {
     return last()->endLineNumber();
-  }
-  else
-  {
+  } else {
     return -1;
   }
 }
+
+
 mousse::ITstream& mousse::dictionaryEntry::stream() const
 {
   FATAL_IO_ERROR_IN("ITstream& primitiveEntry::stream() const", *this)
@@ -53,11 +57,16 @@ mousse::ITstream& mousse::dictionaryEntry::stream() const
     << abort(FatalIOError);
   return lookup("");
 }
+
+
 const mousse::dictionary& mousse::dictionaryEntry::dict() const
 {
   return *this;
 }
+
+
 mousse::dictionary& mousse::dictionaryEntry::dict()
 {
   return *this;
 }
+

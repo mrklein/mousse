@@ -8,22 +8,20 @@
 //   mousse::pointPatch
 // Description
 //   Basic pointPatch represents a set of points from the mesh.
-// SourceFiles
-//   point_patch.cpp
-
 
 #include "label_list.hpp"
 #include "vector_field.hpp"
 #include "point_field.hpp"
 #include "type_info.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class pointBoundaryMesh;
 class pointConstraint;
 class PstreamBuffers;
+
 
 class pointPatch
 {

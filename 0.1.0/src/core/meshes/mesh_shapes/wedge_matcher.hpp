@@ -10,14 +10,11 @@
 //   A cellMatcher for wedge cells
 // See Also
 //   cellMatcher
-// SourceFiles
-//   wedge_matcher.cpp
-
 
 #include "cell_matcher.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class wedgeMatcher
 :

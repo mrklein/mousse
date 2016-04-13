@@ -7,8 +7,7 @@
 #include "surface_fields.hpp"
 #include "gamma.hpp"
 
-namespace mousse
-{
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(Gamma, GammaLimiter)
 MAKE_LIMITED_V_SURFACE_INTERPOLATION_SCHEME(GammaV, GammaLimiter)

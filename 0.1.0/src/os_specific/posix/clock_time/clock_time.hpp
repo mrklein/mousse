@@ -9,14 +9,15 @@
 // Description
 //   Starts timing (using rtc) and returns elapsed time from start.
 //   Better resolution (2uSec instead of ~20mSec) than cpuTime.
-// SourceFiles
-//   clock_time.cpp
+
 #include <sys/types.h>
 #if defined(darwin64)
 #include <sys/time.h>
 #endif
-namespace mousse
-{
+
+
+namespace mousse {
+
 class clockTime
 {
   // Private data
@@ -40,5 +41,7 @@ public:
     //- Return time (in seconds) since last call to timeIncrement()
     double timeIncrement() const;
 };
+
 }  // namespace mousse
+
 #endif

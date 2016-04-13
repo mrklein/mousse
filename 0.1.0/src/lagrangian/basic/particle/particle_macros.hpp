@@ -5,9 +5,10 @@
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-namespace mousse
-{
-#define DefinePropertyList(str)                                               \
+
+namespace mousse {
+
+#define DEFINE_PROPERTY_LIST(str)                                             \
                                                                               \
   static string propertyList_;                                                \
                                                                               \
@@ -16,7 +17,8 @@ namespace mousse
     return str;                                                               \
   }
 
-#define AddToPropertyList(ParcelType, str)                                    \
+
+#define ADD_TO_PROPERTY_LIST(ParcelType, str)                                 \
                                                                               \
   static string propertyList_;                                                \
                                                                               \
@@ -26,4 +28,6 @@ namespace mousse
   }
 
 }  // namespace mousse
+
 #endif
+

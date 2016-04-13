@@ -6,11 +6,12 @@
 #include <iostream>
 #include <cstdlib>
 
-namespace mousse
-{
+
+namespace mousse {
+
 void newError()
 {
-  std::cerr<<
+  std::cerr <<
     "new cannot satisfy memory request.\n"
     "This does not necessarily mean you have run out of virtual memory.\n"
     "It could be due to a stack violation caused "
@@ -20,4 +21,5 @@ void newError()
 }
 
 void (*old_new_handler)() = std::set_new_handler(newError);
+
 }  // namespace mousse

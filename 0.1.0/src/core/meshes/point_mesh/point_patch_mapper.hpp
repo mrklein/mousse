@@ -8,21 +8,19 @@
 //   mousse::pointPatchMapper
 // Description
 //   Mapping class for a pointPatchField.
-// SourceFiles
-//   point_patch_mapper.cpp
-
 
 #include "point_mapper.hpp"
 #include "point_patch_field_mapper.hpp"
 #include "point_patch.hpp"
 #include "primitive_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class pointPatch;
 class mapPolyMesh;
+
 
 class pointPatchMapper
 :

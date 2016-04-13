@@ -5,6 +5,8 @@
 #include "key_type.hpp"
 #include "dictionary_entry.hpp"
 #include "iostreams.hpp"
+
+
 // Constructors 
 mousse::dictionaryEntry::dictionaryEntry
 (
@@ -12,8 +14,8 @@ mousse::dictionaryEntry::dictionaryEntry
   Istream& is
 )
 :
-  entry(keyType(is)),
-  dictionary(parentDict, is)
+  entry{keyType(is)},
+  dictionary{parentDict, is}
 {
   is.fatalCheck
   (
@@ -21,6 +23,8 @@ mousse::dictionaryEntry::dictionaryEntry
     "(const dictionary& parentDict, Istream&)"
   );
 }
+
+
 mousse::dictionaryEntry::dictionaryEntry
 (
   const keyType& key,
@@ -28,8 +32,8 @@ mousse::dictionaryEntry::dictionaryEntry
   Istream& is
 )
 :
-  entry(key),
-  dictionary(key, parentDict, is)
+  entry{key},
+  dictionary{key, parentDict, is}
 {
   is.fatalCheck
   (
@@ -37,6 +41,8 @@ mousse::dictionaryEntry::dictionaryEntry
     "(const keyType&, const dictionary& parentDict, Istream&)"
   );
 }
+
+
 // Member Functions 
 void mousse::dictionaryEntry::write(Ostream& os) const
 {
@@ -45,12 +51,16 @@ void mousse::dictionaryEntry::write(Ostream& os) const
   os.write(keyword());
   dictionary::write(os);
 }
+
+
 // Ostream operator 
 mousse::Ostream& mousse::operator<<(Ostream& os, const dictionaryEntry& de)
 {
   de.write(os);
   return os;
 }
+
+
 template<>
 mousse::Ostream& mousse::operator<<
 (
@@ -59,6 +69,6 @@ mousse::Ostream& mousse::operator<<
 )
 {
   const dictionaryEntry& e = ip.t_;
-  os  << "    dictionaryEntry '" << e.keyword() << "'" << endl;
+  os << "    dictionaryEntry '" << e.keyword() << "'" << endl;
   return os;
 }

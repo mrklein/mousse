@@ -1,0 +1,39 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      fvSchemes;
+}
+
+ddtSchemes
+{
+  default         Euler;
+}
+gradSchemes
+{
+  default         leastSquares;
+}
+divSchemes
+{
+  default         none;
+  div(rhoFlux,rho) Gauss upwind;
+}
+laplacianSchemes
+{
+  default         none;
+  laplacian(phi)  Gauss linear corrected;
+}
+interpolationSchemes
+{
+  default         linear;
+}
+snGradSchemes
+{
+  default         corrected;
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

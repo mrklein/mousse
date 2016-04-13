@@ -6,6 +6,8 @@
 #include "bool.hpp"
 #include "switch.hpp"
 #include "iostreams.hpp"
+
+
 mousse::Istream& mousse::operator>>(Istream& is, bool& b)
 {
   if (is.good())
@@ -14,6 +16,8 @@ mousse::Istream& mousse::operator>>(Istream& is, bool& b)
   }
   return is;
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const bool b)
 {
   // we could also write as text string without any difficulty

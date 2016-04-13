@@ -4,12 +4,17 @@
 
 #include "searchable_disk.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(searchableDisk, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(searchableSurface, searchableDisk, dict);
+
 }
+
+
 // Private Member Functions 
 mousse::pointIndexHit mousse::searchableDisk::findNearest
 (
@@ -17,30 +22,28 @@ mousse::pointIndexHit mousse::searchableDisk::findNearest
   const scalar nearestDistSqr
 ) const
 {
-  pointIndexHit info(false, sample, -1);
-  vector v(sample - origin_);
+  pointIndexHit info{false, sample, -1};
+  vector v{sample - origin_};
   // Decompose sample-origin into normal and parallel component
   scalar parallel = (v & normal_);
   // Remove the parallel component and normalise
   v -= parallel*normal_;
   scalar magV = mag(v);
-  if (magV < ROOTVSMALL)
-  {
+  if (magV < ROOTVSMALL) {
     v = vector::zero;
-  }
-  else
-  {
+  } else {
     v /= magV;
   }
   // Clip to radius.
   info.setPoint(origin_ + min(magV, radius_)*v);
-  if (magSqr(sample - info.rawPoint()) < nearestDistSqr)
-  {
+  if (magSqr(sample - info.rawPoint()) < nearestDistSqr) {
     info.setHit();
     info.setIndex(0);
   }
   return info;
 }
+
+
 void mousse::searchableDisk::findLine
 (
   const point& start,
@@ -49,32 +52,29 @@ void mousse::searchableDisk::findLine
 ) const
 {
   info = pointIndexHit(false, vector::zero, -1);
-  vector v(start - origin_);
+  vector v{start - origin_};
   // Decompose sample-origin into normal and parallel component
   scalar parallel = (v & normal_);
-  if (sign(parallel) == sign((end - origin_) & normal_))
-  {
+  if (sign(parallel) == sign((end - origin_) & normal_)) {
     return;
   }
   // Remove the parallel component and normalise
   v -= parallel*normal_;
   scalar magV = mag(v);
-  if (magV < ROOTVSMALL)
-  {
+  if (magV < ROOTVSMALL) {
     v = vector::zero;
-  }
-  else
-  {
+  } else {
     v /= magV;
   }
   // Set (hit or miss) to intersection of ray and plane of disk
   info.setPoint(origin_ + magV*v);
-  if (magV <= radius_)
-  {
+  if (magV <= radius_) {
     info.setHit();
     info.setIndex(0);
   }
 }
+
+
 // Constructors 
 mousse::searchableDisk::searchableDisk
 (
@@ -84,62 +84,69 @@ mousse::searchableDisk::searchableDisk
   const scalar radius
 )
 :
-  searchableSurface(io),
-  origin_(origin),
-  normal_(normal/mag(normal)),
-  radius_(radius)
+  searchableSurface{io},
+  origin_{origin},
+  normal_{normal/mag(normal)},
+  radius_{radius}
 {
   // Rough approximation of bounding box
   //vector span(radius_, radius_, radius_);
   // See searchableCylinder
   vector span
-  (
+  {
     sqrt(sqr(normal_.y()) + sqr(normal_.z())),
     sqrt(sqr(normal_.x()) + sqr(normal_.z())),
     sqrt(sqr(normal_.x()) + sqr(normal_.y()))
-  );
+  };
   span *= radius_;
   bounds().min() = origin_ - span;
   bounds().max() = origin_ + span;
 }
+
+
 mousse::searchableDisk::searchableDisk
 (
   const IOobject& io,
   const dictionary& dict
 )
 :
-  searchableSurface(io),
-  origin_(dict.lookup("origin")),
-  normal_(dict.lookup("normal")),
-  radius_(readScalar(dict.lookup("radius")))
+  searchableSurface{io},
+  origin_{dict.lookup("origin")},
+  normal_{dict.lookup("normal")},
+  radius_{readScalar(dict.lookup("radius"))}
 {
   normal_ /= mag(normal_);
   // Rough approximation of bounding box
   //vector span(radius_, radius_, radius_);
   // See searchableCylinder
   vector span
-  (
+  {
     sqrt(sqr(normal_.y()) + sqr(normal_.z())),
     sqrt(sqr(normal_.x()) + sqr(normal_.z())),
     sqrt(sqr(normal_.x()) + sqr(normal_.y()))
-  );
+  };
   span *= radius_;
   bounds().min() = origin_ - span;
   bounds().max() = origin_ + span;
 }
+
+
 // Destructor 
 mousse::searchableDisk::~searchableDisk()
 {}
+
+
 // Member Functions 
 const mousse::wordList& mousse::searchableDisk::regions() const
 {
-  if (regions_.empty())
-  {
+  if (regions_.empty()) {
     regions_.setSize(1);
     regions_[0] = "region0";
   }
   return regions_;
 }
+
+
 void mousse::searchableDisk::boundingSpheres
 (
   pointField& centres,
@@ -153,6 +160,8 @@ void mousse::searchableDisk::boundingSpheres
   // Add a bit to make sure all points are tested inside
   radiusSqr += mousse::sqr(SMALL);
 }
+
+
 void mousse::searchableDisk::findNearest
 (
   const pointField& samples,
@@ -161,11 +170,12 @@ void mousse::searchableDisk::findNearest
 ) const
 {
   info.setSize(samples.size());
-  FOR_ALL(samples, i)
-  {
+  FOR_ALL(samples, i) {
     info[i] = findNearest(samples[i], nearestDistSqr[i]);
   }
 }
+
+
 void mousse::searchableDisk::findLine
 (
   const pointField& start,
@@ -174,11 +184,12 @@ void mousse::searchableDisk::findLine
 ) const
 {
   info.setSize(start.size());
-  FOR_ALL(start, i)
-  {
+  FOR_ALL(start, i) {
     findLine(start[i], end[i], info[i]);
   }
 }
+
+
 void mousse::searchableDisk::findLineAny
 (
   const pointField& start,
@@ -188,6 +199,8 @@ void mousse::searchableDisk::findLineAny
 {
   findLine(start, end, info);
 }
+
+
 void mousse::searchableDisk::findLineAll
 (
   const pointField& start,
@@ -196,21 +209,19 @@ void mousse::searchableDisk::findLineAll
 ) const
 {
   info.setSize(start.size());
-  FOR_ALL(start, i)
-  {
+  FOR_ALL(start, i) {
     pointIndexHit inter;
     findLine(start[i], end[i], inter);
-    if (inter.hit())
-    {
+    if (inter.hit()) {
       info[i].setSize(1);
       info[i][0] = inter;
-    }
-    else
-    {
+    } else {
       info[i].clear();
     }
   }
 }
+
+
 void mousse::searchableDisk::getRegion
 (
   const List<pointIndexHit>& info,
@@ -220,6 +231,8 @@ void mousse::searchableDisk::getRegion
   region.setSize(info.size());
   region = 0;
 }
+
+
 void mousse::searchableDisk::getNormal
 (
   const List<pointIndexHit>& info,
@@ -229,6 +242,8 @@ void mousse::searchableDisk::getNormal
   normal.setSize(info.size());
   normal = normal_;
 }
+
+
 void mousse::searchableDisk::getVolumeType
 (
   const pointField&,
@@ -239,6 +254,8 @@ void mousse::searchableDisk::getVolumeType
   (
     "searchableDisk::getVolumeType(const pointField&"
     ", List<volumeType>&) const"
-  )   << "Volume type not supported for disk."
-    << exit(FatalError);
+  )
+  << "Volume type not supported for disk."
+  << exit(FatalError);
 }
+

@@ -11,6 +11,7 @@
 #include "hash_table.hpp"
 #include "error.hpp"
 
+
 // external use:
 // ~~~~~~~~~~~~~
 // declare a run-time selection:
@@ -99,6 +100,7 @@
       }                                                                       \
     }                                                                         \
   };
+
 
 // external use:
 // ~~~~~~~~~~~~~
@@ -199,6 +201,7 @@
     }                                                                         \
   };
 
+
 // internal use:
 // constructor aid
 #define DEFINE_RUN_TIME_SELECTION_TABLE_CONSTRUCTOR(baseType,argNames)        \
@@ -215,6 +218,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // destructor aid
 #define DEFINE_RUN_TIME_SELECTION_TABLE_DESTRUCTOR(baseType,argNames)         \
@@ -229,6 +233,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // create pointer to hash-table of functions
 #define DEFINE_RUN_TIME_SELECTION_TABLE_PTR(baseType,argNames)                \
@@ -237,12 +242,14 @@
   baseType::argNames##ConstructorTable*                                       \
     baseType::argNames##ConstructorTablePtr_ = NULL
 
+
 // not much in use:
 #define DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE_PTR(baseType,argNames)       \
                                                                               \
   /* Define the constructor function table */                                 \
   typename baseType::argNames##ConstructorTable*                              \
     baseType::argNames##ConstructorTablePtr_ = NULL
+
 
 // external use:
 // ~~~~~~~~~~~~~
@@ -252,6 +259,7 @@
   DEFINE_RUN_TIME_SELECTION_TABLE_PTR(baseType,argNames);                     \
   DEFINE_RUN_TIME_SELECTION_TABLE_CONSTRUCTOR(baseType,argNames);             \
   DEFINE_RUN_TIME_SELECTION_TABLE_DESTRUCTOR(baseType,argNames)
+
 
 // external use:
 // ~~~~~~~~~~~~~
@@ -265,6 +273,7 @@
   DEFINE_RUN_TIME_SELECTION_TABLE_CONSTRUCTOR(baseType,argNames);             \
   template<>                                                                  \
   DEFINE_RUN_TIME_SELECTION_TABLE_DESTRUCTOR(baseType,argNames)
+
 
 // internal use:
 // constructor aid
@@ -284,6 +293,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // destructor aid
 // use when baseType requires the Targ template argument
@@ -300,6 +310,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // create pointer to hash-table of functions
 // use when baseType requires the Targ template argument
@@ -308,6 +319,7 @@
   /* Define the constructor function table */                                 \
   baseType< Targ >::argNames##ConstructorTable*                               \
     baseType< Targ >::argNames##ConstructorTablePtr_ = NULL
+
 
 // external use:
 // ~~~~~~~~~~~~~

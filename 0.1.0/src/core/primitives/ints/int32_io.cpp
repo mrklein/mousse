@@ -9,6 +9,7 @@
 #include <sstream>
 #include <cerrno>
 
+
 mousse::word mousse::name(const int32_t val)
 {
   std::ostringstream buf;
@@ -16,21 +17,18 @@ mousse::word mousse::name(const int32_t val)
   return buf.str();
 }
 
+
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, int32_t& i)
 {
-  token t(is);
-  if (!t.good())
-  {
+  token t{is};
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isLabel())
-  {
+  if (t.isLabel()) {
     i = int32_t(t.labelToken());
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, int32_t&)", is)
       << "wrong token type - expected int32_t, found " << t.info()
@@ -58,8 +56,7 @@ bool mousse::read(const char* buf, int32_t& s)
   intmax_t l = strtoimax(buf, &endptr, 10);
   s = int32_t(l);
   return
-    (*endptr == 0) && (errno == 0)
-  && (l >= INT32_MIN) && (l <= INT32_MAX);
+    (*endptr == 0) && (errno == 0) && (l >= INT32_MIN) && (l <= INT32_MAX);
 }
 
 

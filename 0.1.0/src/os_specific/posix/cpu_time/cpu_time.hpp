@@ -10,12 +10,13 @@
 //   Starts timing CPU usage and return elapsed time from start.
 // SeeAlso
 //   clockTime
-// SourceFiles
-//   cpu_time.cpp
+
 #include <time.h>
 #include <sys/times.h>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cpuTime
 {
   // Private data
@@ -42,5 +43,7 @@ public:
     //- Return CPU time (in seconds) since last call to cpuTimeIncrement()
     double cpuTimeIncrement() const;
 };
+
 }  // namespace mousse
+
 #endif

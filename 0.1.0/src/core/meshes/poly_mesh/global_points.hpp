@@ -43,17 +43,14 @@
 //   between two neighbouring procPatches.
 //   Note: the data held is either mesh point labels (construct from mesh only)
 //   or patch point labels (construct from mesh and patch).
-// SourceFiles
-//   global_points.cpp
-
 
 #include "dynamic_list.hpp"
 #include "indirect_primitive_patch.hpp"
 #include "global_index.hpp"
 #include "global_index_and_transform.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class polyMesh;
@@ -61,6 +58,7 @@ class polyBoundaryMesh;
 class cyclicPolyPatch;
 class polyPatch;
 class mapDistribute;
+
 
 class globalPoints
 {

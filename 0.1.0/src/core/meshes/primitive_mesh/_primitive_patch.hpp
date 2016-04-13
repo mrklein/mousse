@@ -12,20 +12,6 @@
 //   and on the list type of faces and points so that it can refer to
 //   existing lists using UList and const pointField& or hold the storage
 //   using List and pointField.
-// SourceFiles
-//   _primitive_patch_addressing.cpp
-//   _primitive_patch_bdry_points.cpp
-//   _primitive_patch.cpp
-//   _primitive_patch_check.cpp
-//   _primitive_patch_clear.cpp
-//   _primitive_patch_edge_loops.cpp
-//   _primitive_patch_local_point_order.cpp
-//   _primitive_patch_mesh_data.cpp
-//   _primitive_patch_mesh_edges.cpp
-//   _primitive_patch_name.cpp
-//   _primitive_patch_point_addressing.cpp
-//   _primitive_patch_project_points.cpp
-
 
 #include "bool_list.hpp"
 #include "label_list.hpp"
@@ -35,13 +21,14 @@
 #include "hash_set.hpp"
 #include "object_hit.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class face;
-
 template<class T> class Map;
 TEMPLATE_NAME(PrimitivePatch);
+
+
 template
 <
   class Face,
@@ -405,7 +392,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_primitive_patch.cpp"
-#endif
+
+#include "_primitive_patch.ipp"
+
 #endif

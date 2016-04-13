@@ -17,16 +17,12 @@
 //   DictionaryBase is requested
 // See Also
 //   Dictionary and UDictionary
-// SourceFiles
-//   dictionary_base.cpp
-//   dictionary_base_io.cpp
-
 
 #include "hash_table.hpp"
 #include "word_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 template<class IDLListType, class T>
@@ -125,7 +121,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "dictionary_base.cpp"
-#endif
+
+#include "dictionary_base.ipp"
+
 #endif

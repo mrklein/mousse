@@ -2,15 +2,17 @@
 #include "vol_fields.hpp"
 #include "fv_mesh.hpp"
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 void writeCellGraph
 (
   const volScalarField& vsf,
   const word& graphFormat
 )
 {
-  fileName path(vsf.time().path()/"graphs"/vsf.time().timeName());
+  fileName path{vsf.time().path()/"graphs"/vsf.time().timeName()};
   mkDir(path);
   graph
   (
@@ -21,4 +23,6 @@ void writeCellGraph
     vsf.internalField()
   ).write(path/vsf.name(), graphFormat);
 }
+
 }  // namespace mousse
+

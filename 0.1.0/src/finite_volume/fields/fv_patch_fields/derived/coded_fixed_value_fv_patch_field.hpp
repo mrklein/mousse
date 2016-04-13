@@ -48,16 +48,19 @@
 // SeeAlso
 //   mousse::dynamicCode
 //   mousse::functionEntries::codeStream
-// SourceFiles
-//   coded_fixed_value_fv_patch_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "coded_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class dynamicCode;
 class dynamicCodeContext;
 class IOdictionary;
+
+
 template<class Type>
 class codedFixedValueFvPatchField
 :
@@ -120,12 +123,12 @@ public:
       const codedFixedValueFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new codedFixedValueFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new codedFixedValueFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     codedFixedValueFvPatchField
@@ -134,15 +137,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new codedFixedValueFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new codedFixedValueFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     //- Get reference to the underlying patch
@@ -158,7 +161,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "coded_fixed_value_fv_patch_field.cpp"
-#endif
+
+#include "coded_fixed_value_fv_patch_field.ipp"
+
 #endif

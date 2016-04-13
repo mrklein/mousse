@@ -7,6 +7,7 @@
 #include "tdilu_preconditioner.hpp"
 #include "field_types.hpp"
 
+
 #define MAKE_LDU_PRECONDITIONERS(Type, DType, LUType)                         \
                                                                               \
   MAKE_LDU_PRECONDITIONER(NoPreconditioner, Type, DType, LUType);             \
@@ -20,11 +21,13 @@
   MAKE_LDU_PRECONDITIONER(TDILUPreconditioner, Type, DType, LUType);          \
   MAKE_LDU_ASYM_PRECONDITIONER(TDILUPreconditioner, Type, DType, LUType);
 
-namespace mousse
-{
-  MAKE_LDU_PRECONDITIONERS(scalar, scalar, scalar);
-  MAKE_LDU_PRECONDITIONERS(vector, scalar, scalar);
-  MAKE_LDU_PRECONDITIONERS(sphericalTensor, scalar, scalar);
-  MAKE_LDU_PRECONDITIONERS(symmTensor, scalar, scalar);
-  MAKE_LDU_PRECONDITIONERS(tensor, scalar, scalar);
+
+namespace mousse {
+
+MAKE_LDU_PRECONDITIONERS(scalar, scalar, scalar);
+MAKE_LDU_PRECONDITIONERS(vector, scalar, scalar);
+MAKE_LDU_PRECONDITIONERS(sphericalTensor, scalar, scalar);
+MAKE_LDU_PRECONDITIONERS(symmTensor, scalar, scalar);
+MAKE_LDU_PRECONDITIONERS(tensor, scalar, scalar);
+
 };

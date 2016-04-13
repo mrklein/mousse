@@ -1,1 +1,1 @@
-../mesh_search/mesh_search_mesh_object.cpp
+../mesh_search_mesh_object.cpp

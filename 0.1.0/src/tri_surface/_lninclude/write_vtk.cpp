@@ -1,1 +1,1 @@
-../tri_surface/interfaces/write_vtk.cpp
+../interfaces/write_vtk.cpp

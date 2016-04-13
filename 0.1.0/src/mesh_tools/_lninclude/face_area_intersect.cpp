@@ -1,1 +1,1 @@
-../ami_interpolation/face_area_intersect/face_area_intersect.cpp
+../ami_interpolation/face_area_intersect.cpp

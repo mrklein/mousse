@@ -9,14 +9,12 @@
 // Description
 //   Preconditioned bi-conjugate gradient solver for asymmetric lduMatrices
 //   using a run-time selectable preconditiioner.
-// SourceFiles
-//   pbicicg.cpp
-
 
 #include "_ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class DType, class LUType>
 class PBiCICG
 :
@@ -55,7 +53,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "pbicicg.cpp"
-#endif
+#include "pbicicg.ipp"
+
 #endif

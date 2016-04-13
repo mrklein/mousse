@@ -11,10 +11,13 @@
 //   manipulations for objects which are known to be one at compile-time.
 //   Used for example as the density argument to a function written for
 //   compressible to be used for incompressible flow.
+
 #include "one.hpp"
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class oneField
 :
   public one
@@ -25,17 +28,10 @@ public:
     oneField()
     {}
   // Member Operators
-    inline scalar operator[](const label) const;
-    inline oneField field() const;
+    inline scalar operator[](const label) const { return {1.0}; }
+    inline oneField field() const { return oneField(); }
 };
+
 }  // namespace mousse
 
-inline mousse::scalar mousse::oneField::operator[](const label) const
-{
-  return {1.0};
-}
-inline mousse::oneField mousse::oneField::field() const
-{
-  return oneField();
-}
 #endif

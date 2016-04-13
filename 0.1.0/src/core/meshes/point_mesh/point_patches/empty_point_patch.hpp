@@ -8,12 +8,13 @@
 //   mousse::emptyPointPatch
 // Description
 //   Empty plane patch.
-// SourceFiles
-//   empty_point_patch.cpp
+
 #include "face_point_patch.hpp"
 #include "empty_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class emptyPointPatch
 :
   public facePointPatch
@@ -29,7 +30,7 @@ public:
       const pointBoundaryMesh& bm
     )
     :
-      facePointPatch(patch, bm)
+      facePointPatch{patch, bm}
     {}
   // Member Functions
     //- Return the constraint type this pointPatch implements.

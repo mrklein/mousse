@@ -8,13 +8,16 @@
 //   mousse::procLduInterface
 // Description
 //   IO interface for processorLduInterface
-// SourceFiles
-//   proc_ldu_interface.cpp
+
 #include "label_list.hpp"
 #include "scalar_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class lduInterfaceField;
+
+
 class procLduInterface
 {
   // Private data
@@ -25,8 +28,6 @@ class procLduInterface
     label tag_;
     label comm_;
   // Private Member Functions
-    //- Dissallow construction as copy
-    procLduInterface(const procLduInterface&);
 public:
   friend class LUscalarMatrix;
   // Constructors
@@ -39,12 +40,14 @@ public:
     autoPtr<procLduInterface> clone()
     {
       NOT_IMPLEMENTED("procLduInterface::clone()");
-      return autoPtr<procLduInterface>(NULL);
+      return autoPtr<procLduInterface>{NULL};
     }
     static autoPtr<procLduInterface> New(Istream& is)
     {
-      return autoPtr<procLduInterface>(new procLduInterface(is));
+      return autoPtr<procLduInterface>{new procLduInterface{is}};
     }
+    //- Dissallow construction as copy
+    procLduInterface(const procLduInterface&) = delete;
   // Ostream operator
     friend Ostream& operator<<(Ostream&, const procLduInterface&);
 };

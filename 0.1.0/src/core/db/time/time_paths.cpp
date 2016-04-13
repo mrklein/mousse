@@ -4,6 +4,8 @@
 
 #include "time_paths.hpp"
 #include "iostreams.hpp"
+
+
 // Constructors 
 mousse::TimePaths::TimePaths
 (
@@ -13,31 +15,29 @@ mousse::TimePaths::TimePaths
   const word& constantName
 )
 :
-  processorCase_(false),
-  rootPath_(rootPath),
-  case_(caseName),
-  system_(systemName),
-  constant_(constantName)
+  processorCase_{false},
+  rootPath_{rootPath},
+  case_{caseName},
+  system_{systemName},
+  constant_{constantName}
 {
   // Find out from case name whether a processor directory
   std::string::size_type pos = caseName.find("processor");
-  if (pos != string::npos)
-  {
+  if (pos != string::npos) {
     processorCase_ = true;
-    if (pos == 0)
-    {
+    if (pos == 0) {
       globalCaseName_ = ".";
     }
     else
     {
       globalCaseName_ = caseName(pos-1);
     }
-  }
-  else
-  {
+  } else {
     globalCaseName_ = caseName;
   }
 }
+
+
 mousse::TimePaths::TimePaths
 (
   const bool processorCase,
@@ -48,53 +48,46 @@ mousse::TimePaths::TimePaths
   const word& constantName
 )
 :
-  processorCase_(processorCase),
-  rootPath_(rootPath),
-  globalCaseName_(globalCaseName),
-  case_(caseName),
-  system_(systemName),
-  constant_(constantName)
+  processorCase_{processorCase},
+  rootPath_{rootPath},
+  globalCaseName_{globalCaseName},
+  case_{caseName},
+  system_{systemName},
+  constant_{constantName}
 {
-  if (!processorCase)
-  {
+  if (!processorCase) {
     // For convenience: find out from case name whether it is a
     // processor directory and set processorCase flag so file searching
     // goes up one level.
     std::string::size_type pos = caseName.find("processor");
-    if (pos != string::npos)
-    {
+    if (pos != string::npos) {
       processorCase_ = true;
-      if (pos == 0)
-      {
+      if (pos == 0) {
         globalCaseName_ = ".";
-      }
-      else
-      {
+      } else {
         globalCaseName_ = caseName(pos-1);
       }
     }
   }
 }
+
+
 // Member Functions 
 mousse::fileName mousse::TimePaths::caseSystem() const
 {
-  if (processorCase_)
-  {
+  if (processorCase_) {
     return ".."/system();
-  }
-  else
-  {
+  } else {
     return system();
   }
 }
+
+
 mousse::fileName mousse::TimePaths::caseConstant() const
 {
-  if (processorCase_)
-  {
+  if (processorCase_) {
     return ".."/constant();
-  }
-  else
-  {
+  } else {
     return constant();
   }
 }

@@ -6,6 +6,8 @@
 #include "iccg.hpp"
 #include "biccg.hpp"
 #include "sub_field.hpp"
+
+
 // Member Functions 
 mousse::solverPerformance mousse::GAMGSolver::solve
 (
@@ -15,21 +17,20 @@ mousse::solverPerformance mousse::GAMGSolver::solve
 ) const
 {
   // Setup class containing solver performance data
-  solverPerformance solverPerf(typeName, fieldName_);
+  solverPerformance solverPerf{typeName, fieldName_};
   // Calculate A.psi used to calculate the initial residual
-  scalarField Apsi(psi.size());
+  scalarField Apsi{psi.size()};
   matrix_.Amul(Apsi, psi, interfaceBouCoeffs_, interfaces_, cmpt);
   // Create the storage for the finestCorrection which may be used as a
   // temporary in normFactor
-  scalarField finestCorrection(psi.size());
+  scalarField finestCorrection{psi.size()};
   // Calculate normalisation factor
   scalar normFactor = this->normFactor(psi, source, Apsi, finestCorrection);
-  if (debug >= 2)
-  {
-    Pout<< "   Normalisation factor = " << normFactor << endl;
+  if (debug >= 2) {
+    Pout << "   Normalisation factor = " << normFactor << endl;
   }
   // Calculate initial finest-grid residual field
-  scalarField finestResidual(source - Apsi);
+  scalarField finestResidual{source - Apsi};
   // Calculate normalised residual for convergence test
   solverPerf.initialResidual() = gSumMag
   (
@@ -38,12 +39,8 @@ mousse::solverPerformance mousse::GAMGSolver::solve
   )/normFactor;
   solverPerf.finalResidual() = solverPerf.initialResidual();
   // Check convergence, solve if not converged
-  if
-  (
-    minIter_ > 0
-  || !solverPerf.checkConvergence(tolerance_, relTol_)
-  )
-  {
+  if (minIter_ > 0
+      || !solverPerf.checkConvergence(tolerance_, relTol_)) {
     // Create coarse grid correction fields
     PtrList<scalarField> coarseCorrFields;
     // Create coarse grid sources
@@ -63,8 +60,7 @@ mousse::solverPerformance mousse::GAMGSolver::solve
       scratch1,
       scratch2
     );
-    do
-    {
+    do {
       Vcycle
       (
         smoothers,
@@ -88,21 +84,17 @@ mousse::solverPerformance mousse::GAMGSolver::solve
         finestResidual,
         matrix().mesh().comm()
       )/normFactor;
-      if (debug >= 2)
-      {
+      if (debug >= 2) {
         solverPerf.print(Info.masterStream(matrix().mesh().comm()));
       }
-    } while
-    (
-      (
-       ++solverPerf.nIterations() < maxIter_
-      && !solverPerf.checkConvergence(tolerance_, relTol_)
-      )
-    || solverPerf.nIterations() < minIter_
-    );
+    } while ((++solverPerf.nIterations() < maxIter_
+              && !solverPerf.checkConvergence(tolerance_, relTol_))
+             || solverPerf.nIterations() < minIter_);
   }
   return solverPerf;
 }
+
+
 void mousse::GAMGSolver::Vcycle
 (
   const PtrList<lduMatrix::smoother>& smoothers,
@@ -122,19 +114,15 @@ void mousse::GAMGSolver::Vcycle
   const label coarsestLevel = matrixLevels_.size() - 1;
   // Restrict finest grid residual for the next level up.
   agglomeration_.restrictField(coarseSources[0], finestResidual, 0, true);
-  if (debug >= 2 && nPreSweeps_)
-  {
-    Pout<< "Pre-smoothing scaling factors: ";
+  if (debug >= 2 && nPreSweeps_) {
+    Pout << "Pre-smoothing scaling factors: ";
   }
   // Residual restriction (going to coarser levels)
-  for (label leveli = 0; leveli < coarsestLevel; leveli++)
-  {
-    if (coarseSources.set(leveli + 1))
-    {
+  for (label leveli = 0; leveli < coarsestLevel; leveli++) {
+    if (coarseSources.set(leveli + 1)) {
       // If the optional pre-smoothing sweeps are selected
       // smooth the coarse-grid field for the restriced source
-      if (nPreSweeps_)
-      {
+      if (nPreSweeps_) {
         coarseCorrFields[leveli] = 0.0;
         smoothers[leveli + 1].smooth
         (
@@ -148,14 +136,13 @@ void mousse::GAMGSolver::Vcycle
           )
         );
         scalarField::subField ACf
-        (
+        {
           scratch1,
           coarseCorrFields[leveli].size()
-        );
+        };
         // Scale coarse-grid correction field
         // but not on the coarsest level because it evaluates to 1
-        if (scaleCorrection_ && leveli < coarsestLevel - 1)
-        {
+        if (scaleCorrection_ && leveli < coarsestLevel - 1) {
           scale
           (
             coarseCorrFields[leveli],
@@ -194,42 +181,36 @@ void mousse::GAMGSolver::Vcycle
       );
     }
   }
-  if (debug >= 2 && nPreSweeps_)
-  {
-    Pout<< endl;
+  if (debug >= 2 && nPreSweeps_) {
+    Pout << endl;
   }
   // Solve Coarsest level with either an iterative or direct solver
-  if (coarseCorrFields.set(coarsestLevel))
-  {
+  if (coarseCorrFields.set(coarsestLevel)) {
     solveCoarsestLevel
     (
       coarseCorrFields[coarsestLevel],
       coarseSources[coarsestLevel]
     );
   }
-  if (debug >= 2)
-  {
-    Pout<< "Post-smoothing scaling factors: ";
+  if (debug >= 2) {
+    Pout << "Post-smoothing scaling factors: ";
   }
   // Smoothing and prolongation of the coarse correction fields
   // (going to finer levels)
-  scalarField dummyField(0);
-  for (label leveli = coarsestLevel - 1; leveli >= 0; leveli--)
-  {
-    if (coarseCorrFields.set(leveli))
-    {
+  scalarField dummyField{0};
+  for (label leveli = coarsestLevel - 1; leveli >= 0; leveli--) {
+    if (coarseCorrFields.set(leveli)) {
       // Create a field for the pre-smoothed correction field
       // as a sub-field of the finestCorrection which is not
       // currently being used
       scalarField::subField preSmoothedCoarseCorrField
-      (
+      {
         scratch2,
         coarseCorrFields[leveli].size()
-      );
+      };
       // Only store the preSmoothedCoarseCorrField if pre-smoothing is
       // used
-      if (nPreSweeps_)
-      {
+      if (nPreSweeps_) {
         preSmoothedCoarseCorrField.assign(coarseCorrFields[leveli]);
       }
       agglomeration_.prolongField
@@ -237,24 +218,22 @@ void mousse::GAMGSolver::Vcycle
         coarseCorrFields[leveli],
         (
           coarseCorrFields.set(leveli + 1)
-         ? coarseCorrFields[leveli + 1]
-         : dummyField              // dummy value
+          ? coarseCorrFields[leveli + 1]
+          : dummyField              // dummy value
         ),
         leveli + 1,
         true
       );
       // Create A.psi for this coarse level as a sub-field of Apsi
       scalarField::subField ACf
-      (
-       scratch1,
+      {
+        scratch1,
         coarseCorrFields[leveli].size()
-      );
+      };
       scalarField& ACfRef =
         const_cast<scalarField&>(ACf.operator const scalarField&());
-      if (interpolateCorrection_) //&& leveli < coarsestLevel - 2)
-      {
-        if (coarseCorrFields.set(leveli+1))
-        {
+      if (interpolateCorrection_) { //&& leveli < coarsestLevel - 2)
+        if (coarseCorrFields.set(leveli+1)) {
           interpolate
           (
             coarseCorrFields[leveli],
@@ -266,9 +245,7 @@ void mousse::GAMGSolver::Vcycle
             coarseCorrFields[leveli + 1],
             cmpt
           );
-        }
-        else
-        {
+        } else {
           interpolate
           (
             coarseCorrFields[leveli],
@@ -282,12 +259,8 @@ void mousse::GAMGSolver::Vcycle
       }
       // Scale coarse-grid correction field
       // but not on the coarsest level because it evaluates to 1
-      if
-      (
-        scaleCorrection_
-      && (interpolateCorrection_ || leveli < coarsestLevel - 1)
-      )
-      {
+      if (scaleCorrection_
+          && (interpolateCorrection_ || leveli < coarsestLevel - 1)) {
         scale
         (
           coarseCorrFields[leveli],
@@ -301,8 +274,7 @@ void mousse::GAMGSolver::Vcycle
       }
       // Only add the preSmoothedCoarseCorrField if pre-smoothing is
       // used
-      if (nPreSweeps_)
-      {
+      if (nPreSweeps_) {
         coarseCorrFields[leveli] += preSmoothedCoarseCorrField;
       }
       smoothers[leveli + 1].smooth
@@ -326,8 +298,7 @@ void mousse::GAMGSolver::Vcycle
     0,
     true
   );
-  if (interpolateCorrection_)
-  {
+  if (interpolateCorrection_) {
     interpolate
     (
       finestCorrection,
@@ -340,8 +311,7 @@ void mousse::GAMGSolver::Vcycle
       cmpt
     );
   }
-  if (scaleCorrection_)
-  {
+  if (scaleCorrection_) {
     // Scale the finest level correction
     scale
     (
@@ -354,8 +324,7 @@ void mousse::GAMGSolver::Vcycle
       cmpt
     );
   }
-  FOR_ALL(psi, i)
-  {
+  FOR_ALL(psi, i) {
     psi[i] += finestCorrection[i];
   }
   smoothers[0].smooth
@@ -366,6 +335,8 @@ void mousse::GAMGSolver::Vcycle
     nFinestSweeps_
   );
 }
+
+
 void mousse::GAMGSolver::initVcycle
 (
   PtrList<scalarField>& coarseCorrFields,
@@ -393,19 +364,16 @@ void mousse::GAMGSolver::initVcycle
       controlDict_
     )
   );
-  FOR_ALL(matrixLevels_, leveli)
-  {
-    if (agglomeration_.nCells(leveli) >= 0)
-    {
+  FOR_ALL(matrixLevels_, leveli) {
+    if (agglomeration_.nCells(leveli) >= 0) {
       label nCoarseCells = agglomeration_.nCells(leveli);
-      coarseSources.set(leveli, new scalarField(nCoarseCells));
+      coarseSources.set(leveli, new scalarField{nCoarseCells});
     }
-    if (matrixLevels_.set(leveli))
-    {
+    if (matrixLevels_.set(leveli)) {
       const lduMatrix& mat = matrixLevels_[leveli];
       label nCoarseCells = mat.diag().size();
       maxSize = max(maxSize, nCoarseCells);
-      coarseCorrFields.set(leveli, new scalarField(nCoarseCells));
+      coarseCorrFields.set(leveli, new scalarField{nCoarseCells});
       smoothers.set
       (
         leveli + 1,
@@ -421,13 +389,14 @@ void mousse::GAMGSolver::initVcycle
       );
     }
   }
-  if (maxSize > matrix_.diag().size())
-  {
+  if (maxSize > matrix_.diag().size()) {
     // Allocate some scratch storage
     scratch1.setSize(maxSize);
     scratch2.setSize(maxSize);
   }
 }
+
+
 void mousse::GAMGSolver::solveCoarsestLevel
 (
   scalarField& coarsestCorrField,
@@ -438,122 +407,15 @@ void mousse::GAMGSolver::solveCoarsestLevel
   label coarseComm = matrixLevels_[coarsestLevel].mesh().comm();
   label oldWarn = UPstream::warnComm;
   UPstream::warnComm = coarseComm;
-  if (directSolveCoarsest_)
-  {
+  if (directSolveCoarsest_) {
     coarsestCorrField = coarsestSource;
     coarsestLUMatrixPtr_->solve(coarsestCorrField);
   }
-  //else if
-  //(
-  //    agglomeration_.processorAgglomerate()
-  // && procMatrixLevels_.set(coarsestLevel)
-  //)
-  //{
-  //    //const labelList& agglomProcIDs = agglomeration_.agglomProcIDs
-  //    //(
-  //    //    coarsestLevel
-  //    //);
-  //    //
-  //    //scalarField allSource;
-  //    //
-  //    //globalIndex cellOffsets;
-  //    //if (Pstream::myProcNo(coarseComm) == agglomProcIDs[0])
-  //    //{
-  //    //    cellOffsets.offsets() =
-  //    //        agglomeration_.cellOffsets(coarsestLevel);
-  //    //}
-  //    //
-  //    //cellOffsets.gather
-  //    //(
-  //    //    coarseComm,
-  //    //    agglomProcIDs,
-  //    //    coarsestSource,
-  //    //    allSource
-  //    //);
-  //    //
-  //    //scalarField allCorrField;
-  //    //solverPerformance coarseSolverPerf;
-  //
-  //    label solveComm = agglomeration_.procCommunicator(coarsestLevel);
-  //    label oldWarn = UPstream::warnComm;
-  //    UPstream::warnComm = solveComm;
-  //
-  //
-  //    coarsestCorrField = 0;
-  //    solverPerformance coarseSolverPerf;
-  //
-  //    if (Pstream::myProcNo(solveComm) != -1)
-  //    {
-  //        const lduMatrix& allMatrix = procMatrixLevels_[coarsestLevel];
-  //
-  //        {
-  //            Pout<< "** Master:Solving on comm:" << solveComm
-  //                << " with procs:" << UPstream::procID(solveComm) << endl;
-  //
-  //            if (allMatrix.asymmetric())
-  //            {
-  //                coarseSolverPerf = BICCG
-  //                (
-  //                    "coarsestLevelCorr",
-  //                    allMatrix,
-  //                    procInterfaceLevelsBouCoeffs_[coarsestLevel],
-  //                    procInterfaceLevelsIntCoeffs_[coarsestLevel],
-  //                    procInterfaceLevels_[coarsestLevel],
-  //                    tolerance_,
-  //                    relTol_
-  //                ).solve
-  //                (
-  //                    coarsestCorrField,
-  //                    coarsestSource
-  //                );
-  //            }
-  //            else
-  //            {
-  //                coarseSolverPerf = ICCG
-  //                (
-  //                    "coarsestLevelCorr",
-  //                    allMatrix,
-  //                    procInterfaceLevelsBouCoeffs_[coarsestLevel],
-  //                    procInterfaceLevelsIntCoeffs_[coarsestLevel],
-  //                    procInterfaceLevels_[coarsestLevel],
-  //                    tolerance_,
-  //                    relTol_
-  //                ).solve
-  //                (
-  //                    coarsestCorrField,
-  //                    coarsestSource
-  //                );
-  //            }
-  //        }
-  //    }
-  //
-  //    UPstream::warnComm = oldWarn;
-  //    Pout<< "done master solve." << endl;
-  //
-  //    //// Scatter to all processors
-  //    //coarsestCorrField.setSize(coarsestSource.size());
-  //    //cellOffsets.scatter
-  //    //(
-  //    //    coarseComm,
-  //    //    agglomProcIDs,
-  //    //    allCorrField,
-  //    //    coarsestCorrField
-  //    //);
-  //
-  //    if (debug >= 2)
-  //    {
-  //        coarseSolverPerf.print(Info.masterStream(coarseComm));
-  //    }
-  //
-  //    Pout<< "procAgglom: coarsestSource   :" << coarsestSource << endl;
-  //    Pout<< "procAgglom: coarsestCorrField:" << coarsestCorrField << endl;
-  //}
   else
   {
     coarsestCorrField = 0;
     solverPerformance coarseSolverPerf;
-    if (matrixLevels_[coarsestLevel].asymmetric())
-    {
+    if (matrixLevels_[coarsestLevel].asymmetric()) {
       coarseSolverPerf = BICCG
       (
         "coarsestLevelCorr",
@@ -568,9 +430,7 @@ void mousse::GAMGSolver::solveCoarsestLevel
         coarsestCorrField,
         coarsestSource
       );
-    }
-    else
-    {
+    } else {
       coarseSolverPerf = ICCG
       (
         "coarsestLevelCorr",
@@ -586,8 +446,7 @@ void mousse::GAMGSolver::solveCoarsestLevel
         coarsestSource
       );
     }
-    if (debug >= 2)
-    {
+    if (debug >= 2) {
       coarseSolverPerf.print(Info.masterStream(coarseComm));
     }
   }

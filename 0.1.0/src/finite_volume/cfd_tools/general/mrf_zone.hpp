@@ -11,9 +11,6 @@
 //   obtained from a control dictionary constructed from the given stream.
 //   The rotation of the MRF region is defined by an origin and axis of
 //   rotation and an angular speed.
-// SourceFiles
-//   mrf_zone.cpp
-
 
 #include "dictionary.hpp"
 #include "word_list.hpp"
@@ -27,11 +24,12 @@
 #include "data_entry.hpp"
 #include "auto_ptr.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class fvMesh;
+
 
 class MRFZone
 {
@@ -223,17 +221,18 @@ public:
 };
 }  // namespace mousse
 
+
 inline const mousse::word& mousse::MRFZone::name() const
 {
   return name_;
 }
+
+
 inline bool mousse::MRFZone::active() const
 {
   return active_;
 }
 
-#ifdef NoRepository
-#   include "mrf_zone_templates.cpp"
-#endif
+#include "mrf_zone.ipp"
 
 #endif

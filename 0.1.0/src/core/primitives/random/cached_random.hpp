@@ -17,12 +17,12 @@
 //   Note: the copy constructor cannot be used if count = -1.
 // SourceFiles
 //   cached_random.cpp
-//   cached_random_templates.cpp
+
 #include "scalar_list.hpp"
-namespace mousse
-{
-// Forward declaration of classes
-class cachedRandom;
+
+
+namespace mousse {
+
 class cachedRandom
 {
   // Private data
@@ -88,15 +88,13 @@ public:
         template<class Type>
         void globalRandomise01(Type& value);
 };
+
+
 // Template specialisations
-template<>
-scalar cachedRandom::sample01<scalar>();
-template<>
-label cachedRandom::sample01<label>();
-template<>
-scalar cachedRandom::GaussNormal<scalar>();
-template<>
-label cachedRandom::GaussNormal<label>();
+template<> scalar cachedRandom::sample01<scalar>();
+template<> label cachedRandom::sample01<label>();
+template<> scalar cachedRandom::GaussNormal<scalar>();
+template<> label cachedRandom::GaussNormal<label>();
 template<>
 scalar cachedRandom::position<scalar>
 (
@@ -121,26 +119,33 @@ scalar cachedRandom::globalPosition<scalar>
 );
 template<>
 label cachedRandom::globalPosition<label>(const label& start, const label& end);
+
 }  // namespace mousse
+
 
 inline mousse::label mousse::cachedRandom::seed() const
 {
   return seed_;
 }
+
+
 inline const mousse::scalarList& mousse::cachedRandom::samples() const
 {
   return samples_;
 }
+
+
 inline mousse::label mousse::cachedRandom::sampleI() const
 {
   return sampleI_;
 }
+
+
 inline mousse::label& mousse::cachedRandom::sampleI()
 {
   return sampleI_;
 }
 
-#ifdef NoRepository
-#   include "cached_random_templates.cpp"
-#endif
+#include "cached_random.ipp"
+
 #endif

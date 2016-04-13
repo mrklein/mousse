@@ -7,9 +7,12 @@
 
 #include "label_list.hpp"
 #include "compact_io_list.hpp"
-namespace mousse
-{
-  typedef IOList<labelList> labelListIOList;
-  typedef CompactIOList<labelList, label> labelListCompactIOList;
+
+
+namespace mousse {
+
+typedef IOList<labelList> labelListIOList;
+typedef CompactIOList<labelList, label> labelListCompactIOList;
+
 }
 #endif

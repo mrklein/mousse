@@ -9,12 +9,17 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "tri_surface_mesh.hpp"
 #include "time.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(triSurfaceMeshPointSet, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, triSurfaceMeshPointSet, word);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(triSurfaceMeshPointSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, triSurfaceMeshPointSet, word);
+
 }
+
+
 // Private Member Functions 
 void mousse::triSurfaceMeshPointSet::calcSamples
 (
@@ -25,19 +30,19 @@ void mousse::triSurfaceMeshPointSet::calcSamples
   DynamicList<scalar>& samplingCurveDist
 ) const
 {
-  FOR_ALL(sampleCoords_, sampleI)
-  {
+  FOR_ALL(sampleCoords_, sampleI) {
     label cellI = searchEngine().findCell(sampleCoords_[sampleI]);
-    if (cellI != -1)
-    {
-      samplingPts.append(sampleCoords_[sampleI]);
-      samplingCells.append(cellI);
-      samplingFaces.append(-1);
-      samplingSegments.append(0);
-      samplingCurveDist.append(1.0 * sampleI);
-    }
+    if (cellI == -1)
+      continue;
+    samplingPts.append(sampleCoords_[sampleI]);
+    samplingCells.append(cellI);
+    samplingFaces.append(-1);
+    samplingSegments.append(0);
+    samplingCurveDist.append(1.0 * sampleI);
   }
 }
+
+
 void mousse::triSurfaceMeshPointSet::genSamples()
 {
   // Storage for sample points
@@ -68,6 +73,8 @@ void mousse::triSurfaceMeshPointSet::genSamples()
     samplingCurveDist
   );
 }
+
+
 // Constructors 
 mousse::triSurfaceMeshPointSet::triSurfaceMeshPointSet
 (
@@ -77,55 +84,54 @@ mousse::triSurfaceMeshPointSet::triSurfaceMeshPointSet
   const dictionary& dict
 )
 :
-  sampledSet(name, mesh, searchEngine, dict),
-  surface_(dict.lookup("surface"))
+  sampledSet{name, mesh, searchEngine, dict},
+  surface_{dict.lookup("surface")}
 {
   // Load surface.
-  if (mesh.time().foundObject<triSurfaceMesh>(surface_))
-  {
+  if (mesh.time().foundObject<triSurfaceMesh>(surface_)) {
     // Note: should use localPoints() instead of points() but assume
     // trisurface is compact.
     sampleCoords_ = mesh.time().lookupObject<triSurfaceMesh>
     (
       surface_
     ).points();
-  }
-  else
-  {
-    sampleCoords_ = triSurfaceMesh
-    (
-      IOobject
-      (
-        surface_,
-        mesh.time().constant(),     // instance
-        "triSurface",               // local
-        mesh.time(),
-        IOobject::MUST_READ,
-        IOobject::NO_WRITE,
-        false
-      )
-    ).points();
+  } else {
+    sampleCoords_ =
+      triSurfaceMesh
+      {
+        IOobject
+        {
+          surface_,
+          mesh.time().constant(),     // instance
+          "triSurface",               // local
+          mesh.time(),
+          IOobject::MUST_READ,
+          IOobject::NO_WRITE,
+          false
+        }
+      }.points();
   }
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 // Destructor 
 mousse::triSurfaceMeshPointSet::~triSurfaceMeshPointSet()
 {}
+
+
 // Member Functions 
 mousse::point mousse::triSurfaceMeshPointSet::getRefPoint(const List<point>& pts)
 const
 {
-  if (pts.size())
-  {
+  if (pts.size()) {
     // Use first samplePt as starting point
     return pts[0];
-  }
-  else
-  {
+  } else {
     return vector::zero;
   }
 }
+

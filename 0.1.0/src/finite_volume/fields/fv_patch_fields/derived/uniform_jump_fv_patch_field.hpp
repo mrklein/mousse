@@ -35,12 +35,13 @@
 //   The underlying \c patchType should be set to \c cyclic
 // SeeAlso
 //   mousse::fixedJumpFvPatchField
-// SourceFiles
-//   uniform_jump_fv_patch_field.cpp
+
 #include "fixed_jump_fv_patch_field.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class uniformJumpFvPatchField
 :
@@ -49,7 +50,7 @@ class uniformJumpFvPatchField
 protected:
   // Protected data
     //- "jump" table
-    autoPtr<DataEntry<Type> > jumpTable_;
+    autoPtr<DataEntry<Type>> jumpTable_;
 public:
   //- Runtime type information
   TYPE_NAME("uniformJump");
@@ -82,12 +83,12 @@ public:
       const uniformJumpFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new uniformJumpFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new uniformJumpFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     uniformJumpFvPatchField
@@ -96,15 +97,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new uniformJumpFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new uniformJumpFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients
@@ -113,7 +114,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "uniform_jump_fv_patch_field.cpp"
-#endif
+
+#include "uniform_jump_fv_patch_field.ipp"
+
 #endif

@@ -14,14 +14,17 @@
 #include "token.hpp"
 #include "bool.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class Ostream;
 // Forward declaration of friend functions and operators
 template<class Point> class PointHit;
 template<class Point>
 inline Ostream& operator<<(Ostream&, const PointHit<Point>&);
+
+
 template<class Point>
 class PointHit
 {
@@ -39,10 +42,10 @@ public:
     //- Construct null
     PointHit()
     :
-      hit_(false),
-      hitPoint_(vector::zero),
-      distance_(GREAT),
-      eligibleMiss_(false)
+      hit_{false},
+      hitPoint_{vector::zero},
+      distance_{GREAT},
+      eligibleMiss_{false}
     {}
     //- Construct from components
     PointHit
@@ -53,18 +56,18 @@ public:
       const bool eligibleMiss
     )
     :
-      hit_(hit),
-      hitPoint_(p),
-      distance_(dist),
-      eligibleMiss_(eligibleMiss)
+      hit_{hit},
+      hitPoint_{p},
+      distance_{dist},
+      eligibleMiss_{eligibleMiss}
     {}
     //- Construct from point. Hit and distance set later
     PointHit(const Point& p)
     :
-      hit_(false),
-      hitPoint_(p),
-      distance_(GREAT),
-      eligibleMiss_(false)
+      hit_{false},
+      hitPoint_{p},
+      distance_{GREAT},
+      eligibleMiss_{false}
     {}
   // Member Functions
     //- Is there a hit
@@ -75,8 +78,7 @@ public:
     //- Return hit point
     const Point& hitPoint() const
     {
-      if (!hit_)
-      {
+      if (!hit_) {
         FATAL_ERROR_IN("const Point& PointHit::hitPoint() const")
           << "requested a hit point for a miss"
           << abort(FatalError);
@@ -91,8 +93,7 @@ public:
     //- Return miss point
     const Point& missPoint() const
     {
-      if (hit_)
-      {
+      if (hit_) {
         FATAL_ERROR_IN("const Point& PointHit::missPoint() const")
           << "requested a miss point for a hit"
           << abort(FatalError);
@@ -134,14 +135,15 @@ public:
       const PointHit<Point>& b
     );
 };
+
+
 template<class Point>
 inline Ostream& operator<<(Ostream& os, const PointHit<Point>& b)
 {
-  os<< b.hit() << token::SPACE
-    << b.rawPoint() << token::SPACE
-    << b.distance() << token::SPACE
-    << b.eligibleMiss();
+  os << b.hit() << token::SPACE << b.rawPoint() << token::SPACE
+    << b.distance() << token::SPACE << b.eligibleMiss();
   return os;
 }
+
 }  // namespace mousse
 #endif

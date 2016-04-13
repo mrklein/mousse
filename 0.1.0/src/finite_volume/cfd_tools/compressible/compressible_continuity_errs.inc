@@ -9,7 +9,7 @@
   scalar globalContErr =
     (fvc::domainIntegrate(rho - thermo.rho())/totalMass).value();
   cumulativeContErr += globalContErr;
-  Info<< "time step continuity errors : sum local = " << sumLocalContErr
+  Info << "time step continuity errors : sum local = " << sumLocalContErr
     << ", global = " << globalContErr
     << ", cumulative = " << cumulativeContErr
     << endl;

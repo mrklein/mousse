@@ -1,1 +1,1 @@
-../tri_surface/interfaces/write_off.cpp
+../interfaces/write_off.cpp

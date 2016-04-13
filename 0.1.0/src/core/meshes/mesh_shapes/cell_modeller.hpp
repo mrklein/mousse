@@ -8,15 +8,14 @@
 //   mousse::cellModeller
 // Description
 //   A static collection of cell models, and a means of looking them up.
-// SourceFiles
-//   cell_modeller.cpp
-//   cell_modeller_io.cpp
-//   global_cell_modeller.cpp
+
 #include "cell_model.hpp"
 #include "ptr_list.hpp"
 #include "hash_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cellModeller
 {
   // Private data

@@ -11,17 +11,14 @@
 //   that is called for each object.
 // See Also
 //   mousse::functionObject and mousse::OutputFilterFunctionObject
-// SourceFiles
-//   function_object_list.cpp
-
 
 #include "ptr_list.hpp"
 #include "function_object.hpp"
 #include "sha1_digest.hpp"
 #include "hash_table.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class mapPolyMesh;
 

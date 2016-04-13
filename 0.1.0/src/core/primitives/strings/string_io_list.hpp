@@ -7,9 +7,12 @@
 
 #include "string_list.hpp"
 #include "iolist.hpp"
-namespace mousse
-{
-  typedef IOList<string> stringIOList;
-  typedef IOList<stringList> stringListIOList;
+
+
+namespace mousse {
+
+typedef IOList<string> stringIOList;
+typedef IOList<stringList> stringListIOList;
+
 }
 #endif

@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "cell_point_weight_wall_modified.hpp"
+
+
 // Constructors 
 mousse::cellPointWeightWallModified::cellPointWeightWallModified
 (
@@ -12,18 +14,15 @@ mousse::cellPointWeightWallModified::cellPointWeightWallModified
   const label faceI
 )
 :
-  cellPointWeight(mesh, position, cellI, faceI)
+  cellPointWeight{mesh, position, cellI, faceI}
 {
   // findTetrahedron or findTriangle will already have been called
   // by the cellPointWeight constructor
-  if (faceI >= 0)
-  {
+  if (faceI >= 0) {
     const polyBoundaryMesh& bm = mesh.boundaryMesh();
     label patchI = bm.whichPatch(faceI);
-    if (patchI != -1)
-    {
-      if (isA<wallPolyPatch>(bm[patchI]))
-      {
+    if (patchI != -1) {
+      if (isA<wallPolyPatch>(bm[patchI])) {
         // Apply cell centre value wall faces
         weights_[0] = 1.0;
         weights_[1] = 0.0;

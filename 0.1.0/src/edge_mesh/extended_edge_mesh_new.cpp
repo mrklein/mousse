@@ -4,11 +4,14 @@
 
 #include "extended_edge_mesh.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_RUN_TIME_SELECTION_TABLE(extendedEdgeMesh, fileExtension);
+
 }
+
 
 // Member Functions 
 mousse::autoPtr<mousse::extendedEdgeMesh> mousse::extendedEdgeMesh::New
@@ -19,29 +22,31 @@ mousse::autoPtr<mousse::extendedEdgeMesh> mousse::extendedEdgeMesh::New
 {
   fileExtensionConstructorTable::iterator cstrIter =
     fileExtensionConstructorTablePtr_->find(ext);
-  if (cstrIter == fileExtensionConstructorTablePtr_->end())
-  {
+  if (cstrIter == fileExtensionConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "extendedEdgeMesh::New(const fileName&, const word&) : "
       "constructing extendedEdgeMesh"
-    )   << "Unknown file extension " << ext
-      << " for file " << name << nl << nl
-      << "Valid extensions are :" << nl
-      << fileExtensionConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown file extension " << ext
+    << " for file " << name << nl << nl
+    << "Valid extensions are :" << nl
+    << fileExtensionConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<extendedEdgeMesh>(cstrIter()(name));
+  return autoPtr<extendedEdgeMesh>{cstrIter()(name)};
 }
+
+
 mousse::autoPtr<mousse::extendedEdgeMesh> mousse::extendedEdgeMesh::New
 (
   const fileName& name
 )
 {
   word ext = name.ext();
-  if (ext == "gz")
-  {
+  if (ext == "gz") {
     ext = name.lessExt().ext();
   }
   return New(name, ext);
 }
+

@@ -9,17 +9,17 @@
 // Description
 //   An abstract base class for implicitly-coupled interface fields
 //   e.g. processor and cyclic patch fields.
-// SourceFiles
-//   ldu_interface_field.cpp
-
 
 #include "ldu_interface_field.hpp"
 #include "primitive_fields_fwd.hpp"
 #include "pstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class lduMatrix;
+
+
 template<class Type>
 class LduInterfaceField
 :
@@ -78,7 +78,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_ldu_interface_field.cpp"
-#endif
+#include "_ldu_interface_field.ipp"
+
 #endif

@@ -16,15 +16,16 @@
 //   tolerance per face which might need tweaking.
 //   Switch on 'cyclicPolyPatch' debug flag to write .obj files to show
 //   the matching.
-// SourceFiles
-//   cyclic_poly_patch.cpp
+
 #include "coupled_poly_patch.hpp"
 #include "edge_list.hpp"
 #include "poly_boundary_mesh.hpp"
 #include "diag_tensor_field.hpp"
 #include "couple_group_identifier.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cyclicPolyPatch
 :
   public coupledPolyPatch
@@ -192,17 +193,17 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new cyclicPolyPatch
-        (
+        {
           *this,
           bm,
           index,
           newSize,
           newStart,
           neighbPatchName_
-        )
-      );
+        }
+      };
     }
     //- Construct and return a clone, resetting the face list
     //  and boundary mesh
@@ -215,9 +216,9 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
-        new cyclicPolyPatch(*this, bm, index, mapAddressing, newStart)
-      );
+      {
+        new cyclicPolyPatch{*this, bm, index, mapAddressing, newStart}
+      };
     }
   //- Destructor
   virtual ~cyclicPolyPatch();
@@ -256,17 +257,15 @@ public:
     {
       label offset = facei-start();
       label neighbStart = neighbPatch().start();
-      if (offset >= 0 && offset < size())
-      {
+      if (offset >= 0 && offset < size()) {
         return neighbStart+offset;
-      }
-      else
-      {
+      } else {
         FATAL_ERROR_IN
         (
           "cyclicPolyPatch::transformGlobalFace(const label) const"
-        )   << "Face " << facei << " not in patch " << name()
-          << exit(FatalError);
+        )
+        << "Face " << facei << " not in patch " << name()
+        << exit(FatalError);
         return -1;
       }
     }

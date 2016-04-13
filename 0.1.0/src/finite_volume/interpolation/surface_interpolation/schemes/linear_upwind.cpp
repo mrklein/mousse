@@ -5,6 +5,7 @@
 #include "linear_upwind.hpp"
 #include "fv_mesh.hpp"
 
+
 template<class Type>
 mousse::tmp<
 mousse::GeometricField<Type, mousse::fvsPatchField, mousse::surfaceMesh>>
@@ -18,7 +19,6 @@ mousse::linearUpwind<Type>::correction
   {
     new GeometricField<Type, fvsPatchField, surfaceMesh>
     {
-      IOobject
       {
         "linearUpwind::correction(" + vf.name() + ')',
         mesh.time().timeName(),
@@ -52,37 +52,29 @@ mousse::linearUpwind<Type>::correction
     fvPatchField,
     volMesh
   >& gradVf = tgradVf();
-  FOR_ALL(faceFlux, facei)
-  {
+  FOR_ALL(faceFlux, facei) {
     label celli = (faceFlux[facei] > 0) ? owner[facei] : neighbour[facei];
     sfCorr[facei] = (Cf[facei] - C[celli]) & gradVf[celli];
   }
   typename GeometricField<Type, fvsPatchField, surfaceMesh>::
     GeometricBoundaryField& bSfCorr = sfCorr.boundaryField();
-  FOR_ALL(bSfCorr, patchi)
-  {
+  FOR_ALL(bSfCorr, patchi) {
     fvsPatchField<Type>& pSfCorr = bSfCorr[patchi];
-    if (pSfCorr.coupled())
-    {
-      const labelUList& pOwner =
-        mesh.boundary()[patchi].faceCells();
+    if (pSfCorr.coupled()) {
+      const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
       const vectorField& pCf = Cf.boundaryField()[patchi];
       const scalarField& pFaceFlux = faceFlux.boundaryField()[patchi];
       const Field<typename outerProduct<vector, Type>::type> pGradVfNei
-      (
-        gradVf.boundaryField()[patchi].patchNeighbourField()
-      );
-      // Build the d-vectors
-      vectorField pd(Cf.boundaryField()[patchi].patch().delta());
-      FOR_ALL(pOwner, facei)
       {
+        gradVf.boundaryField()[patchi].patchNeighbourField()
+      };
+      // Build the d-vectors
+      vectorField pd{Cf.boundaryField()[patchi].patch().delta()};
+      FOR_ALL(pOwner, facei) {
         label own = pOwner[facei];
-        if (pFaceFlux[facei] > 0)
-        {
+        if (pFaceFlux[facei] > 0) {
           pSfCorr[facei] = (pCf[facei] - C[own]) & gradVf[own];
-        }
-        else
-        {
+        } else {
           pSfCorr[facei] =
             (pCf[facei] - pd[facei] - C[own]) & pGradVfNei[facei];
         }
@@ -92,6 +84,7 @@ mousse::linearUpwind<Type>::correction
   return tsfCorr;
 }
 
+
 namespace mousse
 {
 
@@ -99,3 +92,4 @@ MAKELIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(linearUpwind, scalar)
 MAKELIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(linearUpwind, vector)
 
 }
+

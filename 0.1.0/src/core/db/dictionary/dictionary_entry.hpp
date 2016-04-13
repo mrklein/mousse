@@ -13,14 +13,14 @@
 //   block for data description.  It is a front-end for the token parser.
 //   A list of entries can be used as a set of keyword syntax elements,
 //   for example.
-// SourceFiles
-//   dictionary_entry.cpp
-//   dictionary_entry_io.cpp
+
 #include "entry.hpp"
 #include "dictionary.hpp"
 #include "info_proxy.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class dictionaryEntry
 :
   public entry,
@@ -101,7 +101,9 @@ public:
   // Ostream operator
     friend Ostream& operator<<(Ostream&, const dictionaryEntry&);
 };
+
 template<>
 Ostream& operator<<(Ostream&, const InfoProxy<dictionaryEntry>&);
+
 }  // namespace mousse
 #endif

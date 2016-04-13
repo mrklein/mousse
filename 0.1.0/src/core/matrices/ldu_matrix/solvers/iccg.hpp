@@ -13,14 +13,11 @@
 // Deprecated
 //   This solver is present for backward-compatibility and the PCG solver
 //   should be used for preference. (deprecated Apr 2008)
-// SourceFiles
-//   iccg.cpp
-
 
 #include "pcg.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class ICCG
 :

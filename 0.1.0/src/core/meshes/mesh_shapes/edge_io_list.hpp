@@ -7,9 +7,13 @@
 
 #include "edge.hpp"
 #include "compact_io_list.hpp"
-namespace mousse
-{
-  typedef IOList<edge> edgeIOList;
-  typedef CompactIOList<edge, label> edgeCompactIOList;
+
+
+namespace mousse {
+
+typedef IOList<edge> edgeIOList;
+typedef CompactIOList<edge, label> edgeCompactIOList;
+
 }
+
 #endif

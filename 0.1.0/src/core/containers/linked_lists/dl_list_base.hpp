@@ -11,14 +11,12 @@
 // SourceFiles
 //   dl_list_base.cpp
 
-
 #include "bool.hpp"
 #include "label.hpp"
 #include "ulabel.hpp"
 #include "error.hpp"
 
-namespace mousse
-{
+namespace mousse {
 
 class DLListBase
 {
@@ -262,18 +260,22 @@ private:
 
 }  // namespace mousse
 
+
 // Constructors 
 inline mousse::DLListBase::link::link()
 :
   prev_{0},
   next_{0}
 {}
+
+
 inline mousse::DLListBase::DLListBase()
 :
   first_{0},
   last_{0},
   nElmts_{0}
 {}
+
 
 inline mousse::DLListBase::DLListBase(link* a)
 :
@@ -285,9 +287,11 @@ inline mousse::DLListBase::DLListBase(link* a)
   a->next_ = a;
 }
 
+
 // Destructor 
 inline mousse::DLListBase::~DLListBase()
 {}
+
 
 // Member Functions 
 inline bool mousse::DLListBase::link::registered() const
@@ -295,27 +299,30 @@ inline bool mousse::DLListBase::link::registered() const
   return prev_ != 0 && next_ != 0;
 }
 
+
 inline void mousse::DLListBase::link::deregister()
 {
   prev_ = 0;
   next_ = 0;
 }
 
+
 inline mousse::label mousse::DLListBase::size() const
 {
   return nElmts_;
 }
+
 
 inline bool mousse::DLListBase::empty() const
 {
   return !nElmts_;
 }
 
+
 inline mousse::DLListBase::link*
 mousse::DLListBase::first()
 {
-  if (!nElmts_)
-  {
+  if (!nElmts_) {
     FATAL_ERROR_IN("DLListBase::first()")
       << "list is empty"
       << abort(FatalError);
@@ -323,11 +330,11 @@ mousse::DLListBase::first()
   return first_;
 }
 
+
 inline const mousse::DLListBase::link*
 mousse::DLListBase::first() const
 {
-  if (!nElmts_)
-  {
+  if (!nElmts_) {
     FATAL_ERROR_IN("DLListBase::first() const")
       << "list is empty"
       << abort(FatalError);
@@ -335,11 +342,11 @@ mousse::DLListBase::first() const
   return first_;
 }
 
+
 inline mousse::DLListBase::link*
 mousse::DLListBase::last()
 {
-  if (!nElmts_)
-  {
+  if (!nElmts_) {
     FATAL_ERROR_IN("DLListBase::last()")
       << "list is empty"
       << abort(FatalError);
@@ -347,11 +354,11 @@ mousse::DLListBase::last()
   return last_;
 }
 
+
 inline const mousse::DLListBase::link*
 mousse::DLListBase::last() const
 {
-  if (!nElmts_)
-  {
+  if (!nElmts_) {
     FATAL_ERROR_IN("DLListBase::last() const")
       << "list is empty"
       << abort(FatalError);
@@ -359,12 +366,14 @@ mousse::DLListBase::last() const
   return last_;
 }
 
+
 inline void mousse::DLListBase::clear()
 {
   first_ = 0;
   last_  = 0;
   nElmts_ = 0;
 }
+
 
 inline void mousse::DLListBase::transfer(DLListBase& lst)
 {
@@ -374,6 +383,7 @@ inline void mousse::DLListBase::transfer(DLListBase& lst)
   lst.clear();
 }
 
+
 inline mousse::DLListBase::link*
 mousse::DLListBase::remove
 (
@@ -382,6 +392,7 @@ mousse::DLListBase::remove
 {
   return remove(it.curElmt_);
 }
+
 
 inline mousse::DLListBase::link*
 mousse::DLListBase::replace
@@ -393,6 +404,7 @@ mousse::DLListBase::replace
   return replace(oldIter.curElmt_, newLink);
 }
 
+
 // STL iterator 
 inline mousse::DLListBase::iterator::iterator(DLListBase& s, link* elmt)
 :
@@ -401,6 +413,7 @@ inline mousse::DLListBase::iterator::iterator(DLListBase& s, link* elmt)
   curLink_{*curElmt_}
 {}
 
+
 inline mousse::DLListBase::iterator::iterator(DLListBase& s)
 :
   curList_{s},
@@ -408,21 +421,25 @@ inline mousse::DLListBase::iterator::iterator(DLListBase& s)
   curLink_{}
 {}
 
+
 inline void mousse::DLListBase::iterator::operator=(const iterator& iter)
 {
   curElmt_ = iter.curElmt_;
   curLink_ = iter.curLink_;
 }
 
+
 inline bool mousse::DLListBase::iterator::operator==(const iterator& iter) const
 {
   return curElmt_ == iter.curElmt_;
 }
 
+
 inline bool mousse::DLListBase::iterator::operator!=(const iterator& iter) const
 {
   return curElmt_ != iter.curElmt_;
 }
+
 
 inline mousse::DLListBase::link&
 mousse::DLListBase::iterator::operator*()
@@ -430,22 +447,21 @@ mousse::DLListBase::iterator::operator*()
   return *curElmt_;
 }
 
+
 inline mousse::DLListBase::iterator&
 mousse::DLListBase::iterator::operator++()
 {
   // Check if the curElmt_ is the last element (if it points to itself)
   // or if the list is empty because the last element may have been removed
-  if (curLink_.next_ == curElmt_ || curList_.last_ == 0)
-  {
+  if (curLink_.next_ == curElmt_ || curList_.last_ == 0) {
     curElmt_ = 0;
-  }
-  else
-  {
+  } else {
     curElmt_ = curLink_.next_;
     curLink_ = *curElmt_;
   }
   return *this;
 }
+
 
 inline mousse::DLListBase::iterator
 mousse::DLListBase::iterator::operator++(int)
@@ -455,23 +471,23 @@ mousse::DLListBase::iterator::operator++(int)
   return tmp;
 }
 
+
 inline mousse::DLListBase::iterator
 mousse::DLListBase::begin()
 {
-  if (size())
-  {
+  if (size()) {
     return iterator(*this, first());
-  }
-  else
-  {
+  } else {
     return endIter_;
   }
 }
+
 
 inline const mousse::DLListBase::iterator& mousse::DLListBase::end()
 {
   return endIter_;
 }
+
 
 // STL const_iterator 
 inline mousse::DLListBase::const_iterator::const_iterator
@@ -484,11 +500,13 @@ inline mousse::DLListBase::const_iterator::const_iterator
   curElmt_{elmt}
 {}
 
+
 inline mousse::DLListBase::const_iterator::const_iterator(const iterator& iter)
 :
   curList_{iter.curList_},
   curElmt_{iter.curElmt_}
 {}
+
 
 inline void mousse::DLListBase::const_iterator::operator=
 (
@@ -498,6 +516,7 @@ inline void mousse::DLListBase::const_iterator::operator=
   curElmt_ = iter.curElmt_;
 }
 
+
 inline bool mousse::DLListBase::const_iterator::operator==
 (
   const const_iterator& iter
@@ -505,6 +524,7 @@ inline bool mousse::DLListBase::const_iterator::operator==
 {
   return curElmt_ == iter.curElmt_;
 }
+
 
 inline bool mousse::DLListBase::const_iterator::operator!=
 (
@@ -514,25 +534,25 @@ inline bool mousse::DLListBase::const_iterator::operator!=
   return curElmt_ != iter.curElmt_;
 }
 
+
 inline const mousse::DLListBase::link&
 mousse::DLListBase::const_iterator::operator*()
 {
   return *curElmt_;
 }
 
+
 inline mousse::DLListBase::const_iterator&
 mousse::DLListBase::const_iterator::operator++()
 {
-  if (curElmt_ == curList_.last_)
-  {
+  if (curElmt_ == curList_.last_) {
     curElmt_ = 0;
-  }
-  else
-  {
+  } else {
     curElmt_ = curElmt_->next_;
   }
   return *this;
 }
+
 
 inline mousse::DLListBase::const_iterator
 mousse::DLListBase::const_iterator::operator++(int)
@@ -542,18 +562,17 @@ mousse::DLListBase::const_iterator::operator++(int)
   return tmp;
 }
 
+
 inline mousse::DLListBase::const_iterator
 mousse::DLListBase::cbegin() const
 {
-  if (size())
-  {
+  if (size()) {
     return const_iterator(*this, first());
-  }
-  else
-  {
+  } else {
     return endConstIter_;
   }
 }
+
 
 inline const mousse::DLListBase::const_iterator&
 mousse::DLListBase::cend() const
@@ -561,17 +580,20 @@ mousse::DLListBase::cend() const
   return endConstIter_;
 }
 
+
 inline mousse::DLListBase::const_iterator
 mousse::DLListBase::begin() const
 {
   return this->cbegin();
 }
 
+
 inline const mousse::DLListBase::const_iterator&
 mousse::DLListBase::end() const
 {
   return endConstIter_;
 }
+
 
 // STL const_reverse_iterator 
 
@@ -585,6 +607,7 @@ inline mousse::DLListBase::const_reverse_iterator::const_reverse_iterator
   curElmt_{elmt}
 {}
 
+
 inline void mousse::DLListBase::const_reverse_iterator::operator=
 (
   const const_reverse_iterator& iter
@@ -592,6 +615,7 @@ inline void mousse::DLListBase::const_reverse_iterator::operator=
 {
   curElmt_ = iter.curElmt_;
 }
+
 
 inline bool mousse::DLListBase::const_reverse_iterator::operator==
 (
@@ -601,6 +625,7 @@ inline bool mousse::DLListBase::const_reverse_iterator::operator==
   return curElmt_ == iter.curElmt_;
 }
 
+
 inline bool mousse::DLListBase::const_reverse_iterator::operator!=
 (
   const const_reverse_iterator& iter
@@ -609,25 +634,25 @@ inline bool mousse::DLListBase::const_reverse_iterator::operator!=
   return curElmt_ != iter.curElmt_;
 }
 
+
 inline const mousse::DLListBase::link&
 mousse::DLListBase::const_reverse_iterator::operator*()
 {
   return *curElmt_;
 }
 
+
 inline mousse::DLListBase::const_reverse_iterator&
 mousse::DLListBase::const_reverse_iterator::operator++()
 {
-  if (curElmt_ == curList_.first_)
-  {
+  if (curElmt_ == curList_.first_) {
     curElmt_ = 0;
-  }
-  else
-  {
+  } else {
     curElmt_ = curElmt_->prev_;
   }
   return *this;
 }
+
 
 inline mousse::DLListBase::const_reverse_iterator
 mousse::DLListBase::const_reverse_iterator::operator++(int)
@@ -637,18 +662,17 @@ mousse::DLListBase::const_reverse_iterator::operator++(int)
   return tmp;
 }
 
+
 inline mousse::DLListBase::const_reverse_iterator
 mousse::DLListBase::crbegin() const
 {
-  if (size())
-  {
+  if (size()) {
     return const_reverse_iterator(*this, last());
-  }
-  else
-  {
+  } else {
     return endConstRevIter_;
   }
 }
+
 
 inline const mousse::DLListBase::const_reverse_iterator&
 mousse::DLListBase::crend() const
@@ -661,6 +685,7 @@ mousse::DLListBase::rbegin() const
 {
   return this->crbegin();
 }
+
 
 inline const mousse::DLListBase::const_reverse_iterator&
 mousse::DLListBase::rend() const

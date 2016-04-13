@@ -12,6 +12,7 @@
 //   the type of the elements and the number of elements.
 // SourceFiles
 //   vector_space.cpp
+
 #include "direction.hpp"
 #include "scalar.hpp"
 #include "word.hpp"
@@ -19,8 +20,10 @@
 #include "products.hpp"
 #include "vector_space_ops.hpp"
 #include "ops.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Form, class Cmpt, int nCmpt> class VectorSpace;
 template<class Form, class Cmpt, int nCmpt>
@@ -35,6 +38,8 @@ Ostream& operator<<
   Ostream&,
   const VectorSpace<Form, Cmpt, nCmpt>&
 );
+
+
 template<class Form, class Cmpt, int nCmpt>
 class VectorSpace
 {
@@ -87,11 +92,13 @@ public:
       const VectorSpace<Form, Cmpt, nCmpt>&
     );
 };
+
 // Global functions 
 //- Return a string representation of a VectorSpace
 template<class Form, class Cmpt, int nCmpt>
 word name(const VectorSpace<Form, Cmpt, nCmpt>&);
 }  // namespace mousse
+
 
 namespace mousse
 {
@@ -667,8 +674,7 @@ inline Cmpt operator&&
 )
 {
   Cmpt ddProd = vs1.v_[0]*vs2.v_[0];
-  for (int i=1; i<nCmpt; ++i)
-  {
+  for (int i=1; i<nCmpt; ++i) {
     ddProd += vs1.v_[i]*vs2.v_[i];
   }
   return ddProd;
@@ -683,8 +689,7 @@ inline bool operator==
 )
 {
   bool eq = true;
-  for (int i=0; i<nCmpt; ++i)
-  {
+  for (int i=0; i<nCmpt; ++i) {
     if (!(eq &= (equal(vs1.v_[i], vs2.v_[i])))) break;
   }
   return eq;
@@ -710,8 +715,7 @@ inline bool operator>
 )
 {
   bool gt = true;
-  for (int i=0; i<nCmpt; ++i)
-  {
+  for (int i=0; i<nCmpt; ++i) {
     if (!(gt &= vs1.v_[i] > vs2.v_[i])) break;
   }
   return gt;
@@ -726,9 +730,9 @@ inline bool operator<
 )
 {
   bool lt = true;
-  for (int i=0; i<nCmpt; ++i)
-  {
-    if (!(lt &= vs1.v_[i] < vs2.v_[i])) break;
+  for (int i=0; i<nCmpt; ++i) {
+    if (!(lt &= vs1.v_[i] < vs2.v_[i]))
+      break;
   }
   return lt;
 }
@@ -754,8 +758,9 @@ inline bool operator<=
 {
   return !(vs1 > vs2);
 }
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "vector_space.cpp"
-#endif
+
+#include "vector_space.ipp"
+
 #endif

@@ -8,11 +8,12 @@
 //   mousse::TimePaths
 // Description
 //   A class for addressing time paths without using the Time class.
-// SourceFiles
-//   time_paths.cpp
+
 #include "file_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class TimePaths
 {
   // Private data

@@ -15,11 +15,12 @@
 //   mesh interface (AMI) interpolation.
 // SeeAlso
 //   mousse::cyclicAMIFvPatchField
-// SourceFiles
-//   jump_cyclic_ami_fv_patch_field.cpp
+
 #include "cyclic_ami_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class jumpCyclicAMIFvPatchField
 :
@@ -70,10 +71,10 @@ public:
         return cyclicAMIFvPatchField<Type>::type();
       }
       //- Return the "jump" across the patch as a "half" field
-      virtual tmp<Field<Type> > jump() const = 0;
+      virtual tmp<Field<Type>> jump() const = 0;
     // Evaluation functions
       //- Return neighbour coupled given internal cell data
-      tmp<Field<Type> > patchNeighbourField() const;
+      tmp<Field<Type>> patchNeighbourField() const;
       //- Update result field based on interface functionality
       virtual void updateInterfaceMatrix
       (
@@ -103,7 +104,7 @@ void jumpCyclicAMIFvPatchField<scalar>::updateInterfaceMatrix
   const Pstream::commsTypes commsType
 ) const;
 }  // namespace mousse
-#ifdef NoRepository
-#   include "jump_cyclic_ami_fv_patch_field.cpp"
-#endif
+
+#include "jump_cyclic_ami_fv_patch_field.ipp"
+
 #endif

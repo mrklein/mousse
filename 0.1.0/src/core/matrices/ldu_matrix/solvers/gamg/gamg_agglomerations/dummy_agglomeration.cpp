@@ -5,6 +5,7 @@
 #include "dummy_agglomeration.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -26,8 +27,8 @@ mousse::dummyAgglomeration::dummyAgglomeration
   const dictionary& controlDict
 )
 :
-  GAMGAgglomeration(mesh, controlDict),
-  nLevels_(readLabel(controlDict.lookup("nLevels")))
+  GAMGAgglomeration{mesh, controlDict},
+  nLevels_{readLabel(controlDict.lookup("nLevels"))}
 {
   const label nCoarseCells = mesh.lduAddr().size();
   for
@@ -35,8 +36,7 @@ mousse::dummyAgglomeration::dummyAgglomeration
     label nCreatedLevels = 0;
     nCreatedLevels < nLevels_;
     nCreatedLevels++
-  )
-  {
+  ) {
     nCells_[nCreatedLevels] = nCoarseCells;
     restrictAddressing_.set
     (

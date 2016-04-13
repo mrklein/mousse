@@ -8,16 +8,13 @@
 //   mousse::cyclicGAMGInterfaceField
 // Description
 //   GAMG agglomerated cyclic interface field.
-// SourceFiles
-//   cyclic_gamg_interface_field.cpp
-
 
 #include "gamg_interface_field.hpp"
 #include "cyclic_gamg_interface.hpp"
 #include "cyclic_ldu_interface_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class cyclicGAMGInterfaceField
 :

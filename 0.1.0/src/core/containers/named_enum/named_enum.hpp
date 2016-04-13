@@ -8,17 +8,15 @@
 //   mousse::NamedEnum
 // Description
 //   Initialise the NamedEnum HashTable from the static list of names.
-// SourceFiles
-//   named_enum.cpp
-
 
 #include "hash_table.hpp"
 #include "static_assert.hpp"
 #include "string_list.hpp"
 #include "word_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Enum, int nEnum>
 class NamedEnum
 :
@@ -79,8 +77,9 @@ public:
       return names[e];
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "named_enum.cpp"
-#endif
+
+#include "named_enum.ipp"
+
 #endif

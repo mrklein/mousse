@@ -8,15 +8,12 @@
 //   mousse::cyclicGAMGInterface
 // Description
 //   GAMG agglomerated cyclic interface.
-// SourceFiles
-//   cyclic_gamg_interface.cpp
-
 
 #include "gamg_interface.hpp"
 #include "cyclic_ldu_interface.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class cyclicGAMGInterface
 :

@@ -9,12 +9,13 @@
 // Description
 //   Generic multi-variate discretisation scheme class for which any of the
 //   NVD, CNVD or NVDV schemes may be selected for each variable.
-// SourceFiles
-//   multivariate_selection_scheme.cpp
+
 #include "multivariate_surface_interpolation_scheme.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class multivariateSelectionScheme
 :
@@ -61,8 +62,7 @@ public:
           const surfaceScalarField& weights
         )
         :
-          multivariateSurfaceInterpolationScheme<Type>::
-            fieldScheme(field),
+          multivariateSurfaceInterpolationScheme<Type>::fieldScheme{field},
           weights_(weights)
         {}
       // Member Functions
@@ -75,19 +75,20 @@ public:
           return weights_;
         }
     };
-    tmp<surfaceInterpolationScheme<Type> > operator()
+    tmp<surfaceInterpolationScheme<Type>> operator()
     (
       const GeometricField<Type, fvPatchField, volMesh>& field
     ) const
     {
-      return tmp<surfaceInterpolationScheme<Type> >
-      (
-        new fieldScheme(field, weights_)
-      );
+      return tmp<surfaceInterpolationScheme<Type>>
+      {
+        new fieldScheme{field, weights_}
+      };
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "multivariate_selection_scheme.cpp"
-#endif
+
+#include "multivariate_selection_scheme.ipp"
+
 #endif

@@ -8,11 +8,12 @@
 //   mousse::ensightSurfaceWriter
 // Description
 //   A surfaceWriter for Ensight format.
-// SourceFiles
-//   ensight_surface_writer.cpp
+
 #include "surface_writer.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class ensightSurfaceWriter
 :
   public surfaceWriter
@@ -126,5 +127,8 @@ public:
       const bool verbose = false
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

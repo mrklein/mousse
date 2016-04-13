@@ -8,12 +8,13 @@
 //   mousse::searchableSphere
 // Description
 //   Searching on sphere
-// SourceFiles
-//   searchable_sphere.cpp
+
 #include "tree_bound_box.hpp"
 #include "searchable_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class searchableSphere
 :

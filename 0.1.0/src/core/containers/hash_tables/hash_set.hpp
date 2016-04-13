@@ -17,14 +17,14 @@
 // Description
 //   A HashSet with label keys.
 
-
 #include "hash_table.hpp"
 #include "nil.hpp"
 #include "hash.hpp"
 #include "label.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Key=word, class Hash=string::hash>
 class HashSet
 :
@@ -37,29 +37,29 @@ public:
     //- Construct given initial size
     HashSet(const label size = 128)
     :
-      HashTable<nil, Key, Hash>(size)
+      HashTable<nil, Key, Hash>{size}
     {}
     //- Construct from Istream
     HashSet(Istream& is)
     :
-      HashTable<nil, Key, Hash>(is)
+      HashTable<nil, Key, Hash>{is}
     {}
     //- Construct from UList of Key
     HashSet(const UList<Key>&);
     //- Construct as copy
     HashSet(const HashSet<Key, Hash>& hs)
     :
-      HashTable<nil, Key, Hash>(hs)
+      HashTable<nil, Key, Hash>{hs}
     {}
     //- Construct by transferring the parameter contents
     HashSet(const Xfer<HashSet<Key, Hash> >& hs)
     :
-      HashTable<nil, Key, Hash>(hs)
+      HashTable<nil, Key, Hash>{hs}
     {}
     //- Construct by transferring the parameter contents
     HashSet(const Xfer<HashTable<nil, Key, Hash> >& hs)
     :
-      HashTable<nil, Key, Hash>(hs)
+      HashTable<nil, Key, Hash>{hs}
     {}
     //- Construct from the keys of another HashTable,
     //  the type of values held is arbitrary.
@@ -112,7 +112,9 @@ public:
     //- Remove entries listed in the given HashSet from this HashSet
     void operator-=(const HashSet<Key, Hash>&);
 };
+
 // Global Operators
+
 //- Combine entries from HashSets
 template<class Key, class Hash>
 HashSet<Key,Hash> operator|
@@ -120,6 +122,7 @@ HashSet<Key,Hash> operator|
   const HashSet<Key,Hash>& hash1,
   const HashSet<Key,Hash>& hash2
 );
+
 //- Create a HashSet that only contains entries found in both HashSets
 template<class Key, class Hash>
 HashSet<Key,Hash> operator&
@@ -139,7 +142,7 @@ typedef HashSet<> wordHashSet;
 //- A HashSet with label keys.
 typedef HashSet<label, Hash<label> > labelHashSet;
 }  // namespace mousse
-#ifdef NoRepository
-#   include "hash_set.cpp"
-#endif
+
+#include "hash_set.ipp"
+
 #endif

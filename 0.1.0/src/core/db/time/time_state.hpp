@@ -8,11 +8,12 @@
 //   mousse::TimeState
 // Description
 //   The time value with time-stepping information, user-defined remapping, etc.
-// SourceFiles
-//   time_state.cpp
+
 #include "dimensioned_scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class TimeState
 :
   public dimensionedScalar

@@ -8,11 +8,13 @@
 #include "vol_fields.hpp"
 #include "string_list_ops.hpp"
 #include "time_selector.hpp"
+
 using namespace mousse;
-namespace mousse
-{
+
+namespace mousse {
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(IOPtrList<entry>, 0);
 }
+
 // Extract groupPatch (= shortcut) info from boundary file info
 HashTable<wordList, word> extractPatchGroups(const dictionary& boundaryDict)
 {
@@ -210,7 +212,7 @@ bool merge
         word eraseKey = key(1, key.size()-1);
         // List of indices into thisKeys
         labelList matches
-        (
+        {
           findMatches
           (
             shortcuts,
@@ -218,7 +220,7 @@ bool merge
             thisKeys,
             eraseKey
           )
-        );
+        };
         // Remove all matches
         FOR_ALL(matches, i)
         {
@@ -256,7 +258,7 @@ bool merge
               thisEntry,
               mergeIter(),
               literalRE,
-              HashTable<wordList, word>(0)    // no shortcuts at deeper levels
+              HashTable<wordList, word>{0}    // no shortcuts at deeper levels
             )
           )
           {
@@ -310,7 +312,7 @@ int main(int argc, char *argv[])
   const bool literalRE = args.optionFound("literalRE");
   if (literalRE)
   {
-    Info<< "Not interpreting any regular expressions (RE)"
+    Info << "Not interpreting any regular expressions (RE)"
       << " in the changeDictionaryDict." << endl
       << "Instead they are handled as any other entry, i.e. added if"
       << " not present." << endl;
@@ -318,7 +320,7 @@ int main(int argc, char *argv[])
   const bool enableEntries = args.optionFound("enableFunctionEntries");
   if (enableEntries)
   {
-    Info<< "Allowing dictionary preprocessing ('#include', '#codeStream')."
+    Info << "Allowing dictionary preprocessing ('#include', '#codeStream')."
       << endl;
   }
   int oldFlag = entry::disableFunctionEntries;
@@ -330,7 +332,7 @@ int main(int argc, char *argv[])
   const bool disablePatchGroups = args.optionFound("disablePatchGroups");
   if (disablePatchGroups)
   {
-    Info<< "Not interpreting any keys in the changeDictionary"
+    Info << "Not interpreting any keys in the changeDictionary"
       << " as patchGroups"
       << endl;
   }
@@ -343,16 +345,15 @@ int main(int argc, char *argv[])
   // fields (different per processor) as dictionaries.
   regIOobject::fileModificationChecking = regIOobject::timeStamp;
   // Get the replacement rules from a dictionary
-  const word dictName("changeDictionaryDict");
+  const word dictName{"changeDictionaryDict"};
   #include "set_system_mesh_dictionary_io.inc"
   IOdictionary dict(dictIO);
   const dictionary& replaceDicts = dict.subDict("dictionaryReplacement");
-  Info<< "Read dictionary " << dict.name()
+  Info << "Read dictionary " << dict.name()
     << " with replacements for dictionaries "
     << replaceDicts.toc() << endl;
   // Always read boundary to get patch groups
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Info<< "Reading polyMesh/boundary file to extract patch names"
+  Info << "Reading polyMesh/boundary file to extract patch names"
     << endl;
   // Read PtrList of dictionary as dictionary.
   const word oldTypeName = IOPtrList<entry>::typeName;
@@ -386,7 +387,7 @@ int main(int argc, char *argv[])
   }
   if (dictList.size())
   {
-    Info<< "Loaded dictionary " << dictList.name()
+    Info << "Loaded dictionary " << dictList.name()
       << " with entries " << fieldDict.toc() << endl;
   }
   // Extract any patchGroups information (= shortcut for set of
@@ -397,11 +398,11 @@ int main(int argc, char *argv[])
     patchGroups = extractPatchGroups(fieldDict);
     if (patchGroups.size())
     {
-      Info<< "Extracted patch groups:" << endl;
+      Info << "Extracted patch groups:" << endl;
       wordList groups{patchGroups.sortedToc()};
       FOR_ALL(groups, i)
       {
-        Info<< "    group " << groups[i] << " with patches "
+        Info << "    group " << groups[i] << " with patches "
           << patchGroups[groups[i]] << endl;
       }
     }
@@ -410,22 +411,22 @@ int main(int argc, char *argv[])
   FOR_ALL_CONST_ITER(dictionary, replaceDicts, fieldIter)
   {
     const word& fieldName = fieldIter().keyword();
-    Info<< "Replacing entries in dictionary " << fieldName << endl;
+    Info << "Replacing entries in dictionary " << fieldName << endl;
     // Handle 'boundary' specially:
     // - is PtrList of dictionaries
     // - is in polyMesh/
     if (fieldName == "boundary")
     {
-      Info<< "Special handling of " << fieldName
+      Info << "Special handling of " << fieldName
         << " as polyMesh/boundary file." << endl;
       // Get the replacement dictionary for the field
       const dictionary& replaceDict = fieldIter().dict();
-      Info<< "Merging entries from " << replaceDict.toc() << endl;
+      Info << "Merging entries from " << replaceDict.toc() << endl;
       // Merge the replacements in
       merge(fieldDict, replaceDict, literalRE, patchGroups);
-      Info<< "fieldDict:" << fieldDict << endl;
+      Info << "fieldDict:" << fieldDict << endl;
       // Convert back into dictList
-      wordList doneKeys(dictList.size());
+      wordList doneKeys{dictList.size()};
       label nEntries = fieldDict.size();
       FOR_ALL(dictList, i)
       {
@@ -449,7 +450,7 @@ int main(int argc, char *argv[])
       {
         dictList.set(sz++, iter().clone());
       }
-      Info<< "Writing modified " << fieldName << endl;
+      Info << "Writing modified " << fieldName << endl;
       dictList.writeObject
       (
         runTime.writeFormat(),
@@ -461,7 +462,7 @@ int main(int argc, char *argv[])
     {
       // Read dictionary. (disable class type checking so we can load
       // field)
-      Info<< "Loading dictionary " << fieldName << endl;
+      Info << "Loading dictionary " << fieldName << endl;
       const word oldTypeName = IOdictionary::typeName;
       const_cast<word&>(IOdictionary::typeName) = word::null;
       IOdictionary fieldDict
@@ -479,19 +480,19 @@ int main(int argc, char *argv[])
       const_cast<word&>(IOdictionary::typeName) = oldTypeName;
       // Fake type back to what was in field
       const_cast<word&>(fieldDict.type()) = fieldDict.headerClassName();
-      Info<< "Loaded dictionary " << fieldName
+      Info << "Loaded dictionary " << fieldName
         << " with entries " << fieldDict.toc() << endl;
       // Get the replacement dictionary for the field
       const dictionary& replaceDict = fieldIter().dict();
-      Info<< "Merging entries from " << replaceDict.toc() << endl;
+      Info << "Merging entries from " << replaceDict.toc() << endl;
       // Merge the replacements in
       merge(fieldDict, replaceDict, literalRE, patchGroups);
-      Info<< "Writing modified fieldDict " << fieldName << endl;
+      Info << "Writing modified fieldDict " << fieldName << endl;
       fieldDict.regIOobject::write();
     }
   }
   entry::disableFunctionEntries = oldFlag;
-  Info<< endl;
-  Info<< "End\n" << endl;
+  Info << endl;
+  Info << "End\n" << endl;
   return 0;
 }

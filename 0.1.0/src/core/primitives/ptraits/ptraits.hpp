@@ -11,9 +11,12 @@
 //   All primitives need a specialised version of this class. The
 //   specialised version will normally also require a conversion
 //   method.
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
+
 template<class PrimitiveType>
 class pTraits
 :
@@ -32,5 +35,7 @@ public:
       PrimitiveType(is)
     {}
 };
+
 }  // namespace mousse
+
 #endif

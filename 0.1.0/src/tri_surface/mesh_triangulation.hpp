@@ -10,15 +10,18 @@
 //   Triangulation of mesh faces. Generates (multiply connected) trisurface.
 //   All patch faces keep their patchID as triangle region.
 //   Internal faces get the supplied region number.
-// SourceFiles
-//   mesh_triangulation.cpp
+
 #include "tri_surface.hpp"
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class polyMesh;
 class primitiveMesh;
+
+
 class meshTriangulation
 :
   public triSurface
@@ -85,5 +88,7 @@ public:
       return faceMap_;
     }
 };
+
 }  // namespace mousse
+
 #endif

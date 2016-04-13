@@ -7,8 +7,12 @@
 
 #include "point.hpp"
 #include "primitive_fields_fwd.hpp"
-namespace mousse
-{
-  typedef vectorField pointField;
+
+
+namespace mousse {
+
+typedef vectorField pointField;
+
 }
+
 #endif

@@ -12,12 +12,13 @@
 //   *this[procI] gives the list of neighbouring processors.
 //   TODO: This does not currently correctly support multiple processor
 //   patches connecting two processors.
-// SourceFiles
-//   processor_topology.cpp
+
 #include "label_list.hpp"
 #include "ldu_schedule.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Container, class ProcPatch>
 class ProcessorTopology
 :
@@ -56,7 +57,7 @@ public:
     static lduSchedule nonBlockingSchedule(const Container& patches);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_processor_topology.cpp"
-#endif
+
+#include "_processor_topology.ipp"
+
 #endif

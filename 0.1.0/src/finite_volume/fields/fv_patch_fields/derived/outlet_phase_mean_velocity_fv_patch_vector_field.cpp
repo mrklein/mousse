@@ -8,6 +8,7 @@
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
 
+
 // Constructors 
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
@@ -25,6 +26,7 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   valueFraction() = 0.0;
 }
 
+
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
 (
@@ -38,6 +40,7 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   Umean_{ptf.Umean_},
   alphaName_{ptf.alphaName_}
 {}
+
 
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
@@ -54,18 +57,16 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   refValue() = vector::zero;
   refGrad() = vector::zero;
   valueFraction() = 0.0;
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchVectorField::operator=
     (
       vectorField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     fvPatchVectorField::operator=(patchInternalField());
   }
 }
+
 
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
@@ -77,6 +78,7 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   Umean_{ptf.Umean_},
   alphaName_{ptf.alphaName_}
 {}
+
 
 mousse::outletPhaseMeanVelocityFvPatchVectorField
 ::outletPhaseMeanVelocityFvPatchVectorField
@@ -90,11 +92,11 @@ mousse::outletPhaseMeanVelocityFvPatchVectorField
   alphaName_{ptf.alphaName_}
 {}
 
+
 // Member Functions 
 void mousse::outletPhaseMeanVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   scalarField alphap =
@@ -105,22 +107,19 @@ void mousse::outletPhaseMeanVelocityFvPatchVectorField::updateCoeffs()
   vectorField Uzg(patchInternalField());
   // Calculate the phase mean zero-gradient velocity
   scalar Uzgmean =
-    gSum(alphap*(patch().Sf() & Uzg))
-   /gSum(alphap*patch().magSf());
+    gSum(alphap*(patch().Sf() & Uzg))/gSum(alphap*patch().magSf());
   // Set the refValue and valueFraction to adjust the boundary field
   // such that the phase mean is Umean_
-  if (Uzgmean >= Umean_)
-  {
+  if (Uzgmean >= Umean_) {
     refValue() = vector::zero;
     valueFraction() = 1.0 - Umean_/Uzgmean;
-  }
-  else
-  {
+  } else {
     refValue() = (Umean_ + Uzgmean)*patch().nf();
     valueFraction() = 1.0 - Uzgmean/Umean_;
   }
   mixedFvPatchField<vector>::updateCoeffs();
 }
+
 
 void mousse::outletPhaseMeanVelocityFvPatchVectorField::write
 (
@@ -135,11 +134,14 @@ void mousse::outletPhaseMeanVelocityFvPatchVectorField::write
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   outletPhaseMeanVelocityFvPatchVectorField
 );
+
 }
+

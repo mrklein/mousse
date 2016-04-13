@@ -9,12 +9,11 @@
 // Description
 //   mousse::pointBoundaryMeshMapper
 
-
 #include "ptr_list.hpp"
 #include "point_patch_mapper.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class pointBoundaryMeshMapper
 :
@@ -35,17 +34,16 @@ public:
       PtrList<pointPatchMapper>{mesh.boundary().size()}
     {
       const pointBoundaryMesh& patches = mesh.boundary();
-      FOR_ALL(patches, patchI)
-      {
+      FOR_ALL(patches, patchI) {
         set
         (
           patchI,
           new pointPatchMapper
-          (
+          {
             patches[patchI],
             pointMap,
             mpm
-          )
+          }
         );
       }
     }
@@ -60,5 +58,7 @@ public:
     ) = delete;
 
 };
+
 }  // namespace mousse
 #endif
+

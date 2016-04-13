@@ -9,6 +9,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "time.hpp"
 
+
 // Constructors
 mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
 (
@@ -16,9 +17,11 @@ mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedGradientFvPatchScalarField(p, iF),
-  curTimeIndex_(-1)
+  fixedGradientFvPatchScalarField{p, iF},
+  curTimeIndex_{-1}
 {}
+
+
 mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
 (
   const fixedFluxPressureFvPatchScalarField& ptf,
@@ -27,16 +30,15 @@ mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedGradientFvPatchScalarField(p, iF),
-  curTimeIndex_(-1)
+  fixedGradientFvPatchScalarField{p, iF},
+  curTimeIndex_{-1}
 {
   patchType() = ptf.patchType();
   // Map gradient. Set unmapped values and overwrite with mapped ptf
   gradient() = 0.0;
   gradient().map(ptf.gradient(), mapper);
   // Evaluate the value field from the gradient if the internal field is valid
-  if (notNull(iF) && iF.size())
-  {
+  if (notNull(iF) && iF.size()) {
     scalarField::operator=
     (
       //patchInternalField() + gradient()/patch().deltaCoeffs()
@@ -46,6 +48,8 @@ mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
     );
   }
 }
+
+
 mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
 (
   const fvPatch& p,
@@ -53,40 +57,42 @@ mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedGradientFvPatchScalarField(p, iF),
-  curTimeIndex_(-1)
+  fixedGradientFvPatchScalarField{p, iF},
+  curTimeIndex_{-1}
 {
-  if (dict.found("value") && dict.found("gradient"))
-  {
+  if (dict.found("value") && dict.found("gradient")) {
     fvPatchField<scalar>::operator=
     (
       scalarField("value", dict, p.size())
     );
     gradient() = scalarField("gradient", dict, p.size());
-  }
-  else
-  {
+  } else {
     fvPatchField<scalar>::operator=(patchInternalField());
     gradient() = 0.0;
   }
 }
+
+
 mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
 (
   const fixedFluxPressureFvPatchScalarField& wbppsf
 )
 :
-  fixedGradientFvPatchScalarField(wbppsf),
-  curTimeIndex_(-1)
+  fixedGradientFvPatchScalarField{wbppsf},
+  curTimeIndex_{-1}
 {}
+
+
 mousse::fixedFluxPressureFvPatchScalarField::fixedFluxPressureFvPatchScalarField
 (
   const fixedFluxPressureFvPatchScalarField& wbppsf,
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedGradientFvPatchScalarField(wbppsf, iF),
-  curTimeIndex_(-1)
+  fixedGradientFvPatchScalarField{wbppsf, iF},
+  curTimeIndex_{-1}
 {}
+
 
 // Member Functions
 void mousse::fixedFluxPressureFvPatchScalarField::updateCoeffs
@@ -94,38 +100,43 @@ void mousse::fixedFluxPressureFvPatchScalarField::updateCoeffs
   const scalarField& snGradp
 )
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   curTimeIndex_ = this->db().time().timeIndex();
   gradient() = snGradp;
   fixedGradientFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::fixedFluxPressureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
-  if (curTimeIndex_ != this->db().time().timeIndex())
-  {
+  if (curTimeIndex_ != this->db().time().timeIndex()) {
     FATAL_ERROR_IN("fixedFluxPressureFvPatchScalarField::updateCoeffs()")
       << "updateCoeffs(const scalarField& snGradp) MUST be called before"
        " updateCoeffs() or evaluate() to set the boundary gradient."
       << exit(FatalError);
   }
 }
+
+
 void mousse::fixedFluxPressureFvPatchScalarField::write(Ostream& os) const
 {
   fixedGradientFvPatchScalarField::write(os);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   fixedFluxPressureFvPatchScalarField
 );
+
 }
+

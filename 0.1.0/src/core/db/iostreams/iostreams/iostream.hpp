@@ -14,9 +14,6 @@
 //   counting is incorporated.  Usually one would use the read primitive
 //   member functions, but if one were reading a stream on unknown data
 //   sequence one can read token by token, and then analyse.
-// SourceFiles
-//   iostream.cpp
-
 
 #include "char.hpp"
 #include "bool.hpp"
@@ -27,14 +24,17 @@
 #include "info_proxy.hpp"
 #include <iostream>
 
+
 using std::ios_base;
 using std::istream;
 using std::ostream;
 using std::cin;
 using std::cout;
 using std::cerr;
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IOstream
 {
 public:
@@ -393,41 +393,55 @@ public:
         return *this;
       }
 };
+
 Ostream& operator<<(Ostream& os, const IOstream::streamFormat& sf);
 Ostream& operator<<(Ostream& os, const IOstream::versionNumber& vn);
 template<>
 Ostream& operator<<(Ostream& os, const InfoProxy<IOstream>& ip);
 
 typedef IOstream& (*IOstreamManip)(IOstream&);
+
 //- operator<< handling for manipulators without arguments
 inline IOstream& operator<<(IOstream& io, IOstreamManip f)
 {
   return f(io);
 }
+
+
 inline IOstream& dec(IOstream& io)
 {
   io.setf(ios_base::dec, ios_base::dec|ios_base::hex|ios_base::oct);
   return io;
 }
+
+
 inline IOstream& hex(IOstream& io)
 {
   io.setf(ios_base::hex, ios_base::dec|ios_base::hex|ios_base::oct);
   return io;
 }
+
+
 inline IOstream& oct(IOstream& io)
 {
   io.setf(ios_base::oct, ios_base::dec|ios_base::hex|ios_base::oct);
   return io;
 }
+
+
 inline IOstream& fixed(IOstream& io)
 {
   io.setf(ios_base::fixed, ios_base::floatfield);
   return io;
 }
+
+
 inline IOstream& scientific(IOstream& io)
 {
   io.setf(ios_base::scientific, ios_base::floatfield);
   return io;
 }
+
+
 }  // namespace mousse
 #endif

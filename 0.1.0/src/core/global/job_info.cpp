@@ -7,40 +7,43 @@
 #include "clock.hpp"
 #include "ofstream.hpp"
 #include "pstream.hpp"
+
+
 // Static Data Members
 bool mousse::JobInfo::writeJobInfo(mousse::debug::infoSwitch("writeJobInfo", 0));
+
 mousse::JobInfo mousse::jobInfo;
+
+
 // Constructors 
+
 // Null constructor
 mousse::JobInfo::JobInfo()
 :
-  runningJobPath_(),
-  finishedJobPath_(),
-  cpuTime_()
+  runningJobPath_{},
+  finishedJobPath_{},
+  cpuTime_{}
 {
   name() = "JobInfo";
   if (writeJobInfo && Pstream::master())
   {
     string baseDir = getEnv("MOUSSE_JOB_DIR");
     string jobFile = hostName() + '.' + mousse::name(pid());
-    fileName runningDir(baseDir/"running_jobs");
-    fileName finishedDir(baseDir/"finished_jobs");
+    fileName runningDir{baseDir/"running_jobs"};
+    fileName finishedDir{baseDir/"finished_jobs"};
     runningJobPath_  = runningDir/jobFile;
     finishedJobPath_ = finishedDir/jobFile;
-    if (baseDir.empty())
-    {
+    if (baseDir.empty()) {
       FATAL_ERROR_IN("JobInfo::JobInfo()")
         << "Cannot get JobInfo directory $MOUSSE_JOB_DIR"
         << mousse::exit(FatalError);
     }
-    if (!isDir(runningDir) && !mkDir(runningDir))
-    {
+    if (!isDir(runningDir) && !mkDir(runningDir)) {
       FATAL_ERROR_IN("JobInfo::JobInfo()")
         << "Cannot make JobInfo directory " << runningDir
         << mousse::exit(FatalError);
     }
-    if (!isDir(finishedDir) && !mkDir(finishedDir))
-    {
+    if (!isDir(finishedDir) && !mkDir(finishedDir)) {
       FATAL_ERROR_IN("JobInfo::JobInfo()")
         << "Cannot make JobInfo directory " << finishedDir
         << mousse::exit(FatalError);
@@ -48,41 +51,38 @@ mousse::JobInfo::JobInfo()
   }
   constructed = true;
 }
+
+
 // Destructor 
 mousse::JobInfo::~JobInfo()
 {
-  if (writeJobInfo && constructed && Pstream::master())
-  {
+  if (writeJobInfo && constructed && Pstream::master()) {
     mv(runningJobPath_, finishedJobPath_);
   }
   constructed = false;
 }
+
+
 // Member Functions 
 bool mousse::JobInfo::write(Ostream& os) const
 {
-  if (writeJobInfo && Pstream::master())
-  {
-    if (os.good())
-    {
+  if (writeJobInfo && Pstream::master()) {
+    if (os.good()) {
       dictionary::write(os, false);
       return true;
-    }
-    else
-    {
+    } else {
       return false;
     }
-  }
-  else
-  {
+  } else {
     return true;
   }
 }
+
+
 void mousse::JobInfo::write() const
 {
-  if (writeJobInfo && Pstream::master())
-  {
-    if (!write(OFstream(runningJobPath_)()))
-    {
+  if (writeJobInfo && Pstream::master()) {
+    if (!write(OFstream(runningJobPath_)())) {
       FATAL_ERROR_IN("JobInfo::write() const")
         << "Failed to write to JobInfo file "
         << runningJobPath_
@@ -90,15 +90,15 @@ void mousse::JobInfo::write() const
     }
   }
 }
+
+
 void mousse::JobInfo::end(const word& terminationType)
 {
-  if (writeJobInfo && constructed && Pstream::master())
-  {
+  if (writeJobInfo && constructed && Pstream::master()) {
     add("cpuTime", cpuTime_.elapsedCpuTime());
     add("endDate", clock::date());
     add("endTime", clock::clockTime());
-    if (!found("termination"))
-    {
+    if (!found("termination")) {
       add("termination", terminationType);
     }
     rm(runningJobPath_);
@@ -106,23 +106,31 @@ void mousse::JobInfo::end(const word& terminationType)
   }
   constructed = false;
 }
+
+
 void mousse::JobInfo::end()
 {
   end("normal");
 }
+
+
 void mousse::JobInfo::exit()
 {
   end("exit");
 }
+
+
 void mousse::JobInfo::abort()
 {
   end("abort");
 }
+
+
 void mousse::JobInfo::signalEnd() const
 {
-  if (writeJobInfo && constructed && Pstream::master())
-  {
+  if (writeJobInfo && constructed && Pstream::master()) {
     mv(runningJobPath_, finishedJobPath_);
   }
   constructed = false;
 }
+

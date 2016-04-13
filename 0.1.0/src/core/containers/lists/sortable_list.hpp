@@ -10,11 +10,12 @@
 //   A list that is sorted upon construction or when explicitly requested
 //   with the sort() method.
 //   Uses the mousse::stableSort() algorithm.
-// SourceFiles
-//   sortable_list.cpp
+
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class SortableList
 :
@@ -69,8 +70,10 @@ public:
     //- Assignment operator. Takes linear time.
     inline void operator=(const SortableList<T>&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sortable_list.cpp"
-#endif
+
+
+#include "sortable_list.ipp"
+
 #endif

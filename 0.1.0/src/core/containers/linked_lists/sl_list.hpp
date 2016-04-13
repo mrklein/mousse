@@ -8,10 +8,13 @@
 //   mousse::SLList
 // Description
 //   Non-intrusive singly-linked list.
+
 #include "l_list.hpp"
 #include "sl_list_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class SLList
 :
@@ -25,13 +28,15 @@ public:
     //- Construct given initial T
     explicit SLList(T a)
     :
-      LList<SLListBase, T>(a)
+      LList<SLListBase, T>{a}
     {}
     //- Construct from Istream
     explicit SLList(Istream& is)
     :
-      LList<SLListBase, T>(is)
+      LList<SLListBase, T>{is}
     {}
 };
+
 }  // namespace mousse
+
 #endif

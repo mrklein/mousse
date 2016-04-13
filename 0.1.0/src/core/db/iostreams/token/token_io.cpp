@@ -6,23 +6,28 @@
 #include "token.hpp"
 #include "iostreams.hpp"
 #include "scalar.hpp"
+
+
 // Constructors 
 mousse::token::token(Istream& is)
 :
-  type_(UNDEFINED)
+  type_{UNDEFINED}
 {
   is.read(*this);
 }
+
+
 // IOstream operators 
 mousse::Istream& mousse::operator>>(Istream& is, token& t)
 {
   t.clear();
   return is.read(t);
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const token& t)
 {
-  switch (t.type_)
-  {
+  switch (t.type_) {
     case token::UNDEFINED:
       os << "UNDEFINED";
       WARNING_IN("Ostream& operator<<(Ostream&, const token&)")
@@ -69,26 +74,33 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const token& t)
   os.check("Ostream& operator<<(Ostream&, const token&)");
   return os;
 }
+
+
 ostream& mousse::operator<<(ostream& os, const token::punctuationToken& pt)
 {
   return os << char(pt);
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const token::punctuationToken& pt)
 {
   return os << char(pt);
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const token::compound& ct)
 {
   os << ct.type() << token::SPACE;
   ct.write(os);
   return os;
 }
+
+
 ostream& mousse::operator<<(ostream& os, const InfoProxy<token>& ip)
 {
   const token& t = ip.t_;
   os  << "on line " << t.lineNumber();
-  switch (t.type())
-  {
+  switch (t.type()) {
     case token::UNDEFINED:
       os  << " an undefined token";
     break;
@@ -116,16 +128,12 @@ ostream& mousse::operator<<(ostream& os, const InfoProxy<token>& ip)
     case token::DOUBLE_SCALAR:
       os  << " the doubleScalar " << t.doubleScalarToken();
     break;
-    case token::COMPOUND:
-    {
-      if (t.compoundToken().empty())
-      {
-        os  << " the empty compound of type "
+    case token::COMPOUND: {
+      if (t.compoundToken().empty()) {
+        os << " the empty compound of type "
           << t.compoundToken().type();
-      }
-      else
-      {
-        os  << " the compound of type "
+      } else {
+        os << " the compound of type "
           << t.compoundToken().type();
       }
     }
@@ -138,13 +146,14 @@ ostream& mousse::operator<<(ostream& os, const InfoProxy<token>& ip)
   }
   return os;
 }
+
+
 template<>
 mousse::Ostream& mousse::operator<<(Ostream& os, const InfoProxy<token>& ip)
 {
   const token& t = ip.t_;
   os  << "on line " << t.lineNumber();
-  switch (t.type())
-  {
+  switch (t.type()) {
     case token::UNDEFINED:
       os  << " an undefined token";
     break;

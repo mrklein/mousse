@@ -7,9 +7,13 @@
 
 #include "word.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef UList<word> wordUList;
-  typedef List<word> wordList;
+
+
+namespace mousse {
+
+typedef UList<word> wordUList;
+typedef List<word> wordList;
+
 }
+
 #endif

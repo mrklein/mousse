@@ -10,11 +10,12 @@
 //   Simplified diagonal-based incomplete Cholesky preconditioner for symmetric
 //   matrices (symmetric equivalent of DILU).  The reciprocal of the
 //   preconditioned diagonal is calculated and stored.
-// SourceFiles
-//   dic_preconditioner.cpp
+
 #include "ldu_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class DICPreconditioner
 :
   public lduMatrix::preconditioner

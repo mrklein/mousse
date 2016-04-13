@@ -7,6 +7,7 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 
+
 // Constructors 
 mousse::translatingWallVelocityFvPatchVectorField::
 translatingWallVelocityFvPatchVectorField
@@ -18,6 +19,7 @@ translatingWallVelocityFvPatchVectorField
   fixedValueFvPatchField<vector>{p, iF},
   U_{vector::zero}
 {}
+
 
 mousse::translatingWallVelocityFvPatchVectorField::
 translatingWallVelocityFvPatchVectorField
@@ -31,6 +33,7 @@ translatingWallVelocityFvPatchVectorField
   fixedValueFvPatchField<vector>{ptf, p, iF, mapper},
   U_{ptf.U_}
 {}
+
 
 mousse::translatingWallVelocityFvPatchVectorField::
 translatingWallVelocityFvPatchVectorField
@@ -47,6 +50,7 @@ translatingWallVelocityFvPatchVectorField
   updateCoeffs();
 }
 
+
 mousse::translatingWallVelocityFvPatchVectorField::
 translatingWallVelocityFvPatchVectorField
 (
@@ -56,6 +60,7 @@ translatingWallVelocityFvPatchVectorField
   fixedValueFvPatchField<vector>{twvpvf},
   U_{twvpvf.U_}
 {}
+
 
 mousse::translatingWallVelocityFvPatchVectorField::
 translatingWallVelocityFvPatchVectorField
@@ -68,18 +73,19 @@ translatingWallVelocityFvPatchVectorField
   U_{twvpvf.U_}
 {}
 
+
 // Member Functions 
 void mousse::translatingWallVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   // Remove the component of U normal to the wall in case the wall is not flat
-  const vectorField n(patch().nf());
+  const vectorField n{patch().nf()};
   vectorField::operator=(U_ - n*(n & U_));
   fixedValueFvPatchVectorField::updateCoeffs();
 }
+
 
 void mousse::translatingWallVelocityFvPatchVectorField::write(Ostream& os) const
 {
@@ -88,11 +94,14 @@ void mousse::translatingWallVelocityFvPatchVectorField::write(Ostream& os) const
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   translatingWallVelocityFvPatchVectorField
 );
+
 }
+

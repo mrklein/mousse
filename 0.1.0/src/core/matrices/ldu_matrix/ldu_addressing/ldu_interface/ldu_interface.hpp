@@ -9,16 +9,13 @@
 // Description
 //   An abstract base class for implicitly-coupled interfaces
 //   e.g. processor and cyclic patches.
-// SourceFiles
-//   ldu_interface.cpp
-
 
 #include "label_field.hpp"
 #include "type_info.hpp"
 #include "pstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class lduInterface
 {

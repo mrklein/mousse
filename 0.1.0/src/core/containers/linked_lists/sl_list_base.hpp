@@ -8,17 +8,14 @@
 //   mousse::SLListBase
 // Description
 //   Base singly-linked list.
-// SourceFiles
-//   sl_list_base.cpp
-
 
 #include "bool.hpp"
 #include "label.hpp"
 #include "ulabel.hpp"
 #include "error.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class SLListBase
 {
@@ -376,12 +373,9 @@ mousse::SLListBase::iterator::operator++(int)
 inline mousse::SLListBase::iterator
 mousse::SLListBase::begin()
 {
-  if (size())
-  {
+  if (size()) {
     return iterator(*this, first());
-  }
-  else
-  {
+  } else {
     return endIter_;
   }
 }
@@ -442,12 +436,9 @@ mousse::SLListBase::const_iterator::operator*()
 inline mousse::SLListBase::const_iterator&
 mousse::SLListBase::const_iterator::operator++()
 {
-  if (curElmt_ == curList_.last_)
-  {
+  if (curElmt_ == curList_.last_) {
     curElmt_ = 0;
-  }
-  else
-  {
+  } else {
     curElmt_ = curElmt_->next_;
   }
   return *this;
@@ -464,12 +455,9 @@ mousse::SLListBase::const_iterator::operator++(int)
 inline mousse::SLListBase::const_iterator
 mousse::SLListBase::cbegin() const
 {
-  if (size())
-  {
+  if (size()) {
     return const_iterator(*this, first());
-  }
-  else
-  {
+  } else {
     return endConstIter_;
   }
 }

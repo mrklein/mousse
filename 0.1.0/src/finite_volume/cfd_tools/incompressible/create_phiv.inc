@@ -1,14 +1,13 @@
+#ifndef CREATE_PHIV_HPP_
+#define CREATE_PHIV_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef create_phiv_hpp_
-#define create_phiv_hpp_
-
-Info<< "Reading/calculating face flux field phiv\n" << endl;
+Info << "Reading/calculating face flux field phiv\n" << endl;
 surfaceScalarField phiv
 {
-  IOobject
   {
     "phiv",
     runTime.timeName(),

@@ -8,9 +8,10 @@
 #include "list_ops.hpp"
 #include "pstream_reduce_ops.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(searchableSurfaceWithGaps, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -18,7 +19,10 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   searchableSurfaceWithGaps,
   dict
 );
+
 }
+
+
 // Private Member Functions
 mousse::Pair<mousse::vector> mousse::searchableSurfaceWithGaps::offsetVecs
 (
@@ -26,20 +30,17 @@ mousse::Pair<mousse::vector> mousse::searchableSurfaceWithGaps::offsetVecs
   const point& end
 ) const
 {
-  Pair<vector> offsets(vector::zero, vector::zero);
-  vector n(end-start);
+  Pair<vector> offsets{vector::zero, vector::zero};
+  vector n{end-start};
   scalar magN = mag(n);
-  if (magN > SMALL)
-  {
+  if (magN > SMALL) {
     n /= magN;
     // Do first offset vector. Is the coordinate axes with the smallest
     // component along the vector n.
     scalar minMag = GREAT;
     direction minCmpt = 0;
-    for (direction cmpt = 0; cmpt < vector::nComponents; cmpt++)
-    {
-      if (mag(n[cmpt]) < minMag)
-      {
+    for (direction cmpt = 0; cmpt < vector::nComponents; cmpt++) {
+      if (mag(n[cmpt]) < minMag) {
         minMag = mag(n[cmpt]);
         minCmpt = cmpt;
       }
@@ -56,6 +57,8 @@ mousse::Pair<mousse::vector> mousse::searchableSurfaceWithGaps::offsetVecs
   }
   return offsets;
 }
+
+
 void mousse::searchableSurfaceWithGaps::offsetVecs
 (
   const pointField& start,
@@ -66,13 +69,14 @@ void mousse::searchableSurfaceWithGaps::offsetVecs
 {
   offset0.setSize(start.size());
   offset1.setSize(start.size());
-  FOR_ALL(start, i)
-  {
-    const Pair<vector> offsets(offsetVecs(start[i], end[i]));
+  FOR_ALL(start, i) {
+    const Pair<vector> offsets{offsetVecs(start[i], end[i])};
     offset0[i] = offsets[0];
     offset1[i] = offsets[1];
   }
 }
+
+
 mousse::label mousse::searchableSurfaceWithGaps::countMisses
 (
   const List<pointIndexHit>& info,
@@ -80,24 +84,22 @@ mousse::label mousse::searchableSurfaceWithGaps::countMisses
 )
 {
   label nMiss = 0;
-  FOR_ALL(info, i)
-  {
-    if (!info[i].hit())
-    {
+  FOR_ALL(info, i) {
+    if (!info[i].hit()) {
       nMiss++;
     }
   }
   missMap.setSize(nMiss);
   nMiss = 0;
-  FOR_ALL(info, i)
-  {
-    if (!info[i].hit())
-    {
+  FOR_ALL(info, i) {
+    if (!info[i].hit()) {
       missMap[nMiss++] = i;
     }
   }
   return nMiss;
 }
+
+
 // Anything not a hit in both counts as a hit
 mousse::label mousse::searchableSurfaceWithGaps::countMisses
 (
@@ -107,24 +109,22 @@ mousse::label mousse::searchableSurfaceWithGaps::countMisses
 )
 {
   label nMiss = 0;
-  FOR_ALL(plusInfo, i)
-  {
-    if (!plusInfo[i].hit() || !minInfo[i].hit())
-    {
+  FOR_ALL(plusInfo, i) {
+    if (!plusInfo[i].hit() || !minInfo[i].hit()) {
       nMiss++;
     }
   }
   missMap.setSize(nMiss);
   nMiss = 0;
-  FOR_ALL(plusInfo, i)
-  {
-    if (!plusInfo[i].hit() || !minInfo[i].hit())
-    {
+  FOR_ALL(plusInfo, i) {
+    if (!plusInfo[i].hit() || !minInfo[i].hit()) {
       missMap[nMiss++] = i;
     }
   }
   return nMiss;
 }
+
+
 // Constructors
 mousse::searchableSurfaceWithGaps::searchableSurfaceWithGaps
 (
@@ -132,20 +132,22 @@ mousse::searchableSurfaceWithGaps::searchableSurfaceWithGaps
   const dictionary& dict
 )
 :
-  searchableSurface(io),
-  gap_(readScalar(dict.lookup("gap"))),
-  subGeom_(1)
+  searchableSurface{io},
+  gap_{readScalar(dict.lookup("gap"))},
+  subGeom_{1}
 {
-  const word subGeomName(dict.lookup("surface"));
+  const word subGeomName{dict.lookup("surface")};
   const searchableSurface& s =
     io.db().lookupObject<searchableSurface>(subGeomName);
   subGeom_.set(0, &const_cast<searchableSurface&>(s));
   bounds() = subGeom_[0].bounds();
 }
 
+
 // Destructor
 mousse::searchableSurfaceWithGaps::~searchableSurfaceWithGaps()
 {}
+
 
 // Member Functions
 void mousse::searchableSurfaceWithGaps::findLine
@@ -156,18 +158,14 @@ void mousse::searchableSurfaceWithGaps::findLine
 ) const
 {
   // Test with unperturbed vectors
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   surface().findLine(start, end, info);
   // Count number of misses. Determine map
   labelList compactMap;
   label nMiss = countMisses(info, compactMap);
-  if (returnReduce(nMiss, sumOp<label>()) > 0)
-  {
-    //Pout<< "** retesting with offset0 " << nMiss << " misses out of "
-    //    << start.size() << endl;
+  if (returnReduce(nMiss, sumOp<label>()) > 0) {
     // extract segments according to map
-    pointField compactStart(start, compactMap);
-    pointField compactEnd(end, compactMap);
+    pointField compactStart{start, compactMap};
+    pointField compactEnd{end, compactMap};
     // Calculate offset vector
     pointField offset0, offset1;
     offsetVecs
@@ -181,7 +179,7 @@ void mousse::searchableSurfaceWithGaps::findLine
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // test in pairs: only if both perturbations hit something
     // do we accept the hit.
-    const vectorField smallVec(1e-6*(compactEnd-compactStart));
+    const vectorField smallVec{1e-6*(compactEnd-compactStart)};
     List<pointIndexHit> plusInfo;
     surface().findLine
     (
@@ -197,25 +195,19 @@ void mousse::searchableSurfaceWithGaps::findLine
       minInfo
     );
     // Extract any hits
-    FOR_ALL(plusInfo, i)
-    {
-      if (plusInfo[i].hit() && minInfo[i].hit())
-      {
+    FOR_ALL(plusInfo, i) {
+      if (plusInfo[i].hit() && minInfo[i].hit()) {
         info[compactMap[i]] = plusInfo[i];
         info[compactMap[i]].rawPoint() -= offset0[i];
       }
     }
     labelList plusMissMap;
     nMiss = countMisses(plusInfo, minInfo, plusMissMap);
-    if (returnReduce(nMiss, sumOp<label>()) > 0)
-    {
-      //Pout<< "** retesting with offset1 " << nMiss << " misses out of "
-      //    << start.size() << endl;
+    if (returnReduce(nMiss, sumOp<label>()) > 0) {
       // Test with offset1 perturbed vectors
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       // Extract (inplace possible because of order)
-      FOR_ALL(plusMissMap, i)
-      {
+      FOR_ALL(plusMissMap, i) {
         label mapI = plusMissMap[i];
         compactStart[i] = compactStart[mapI];
         compactEnd[i] = compactEnd[mapI];
@@ -228,7 +220,7 @@ void mousse::searchableSurfaceWithGaps::findLine
       compactMap.setSize(plusMissMap.size());
       offset0.setSize(plusMissMap.size());
       offset1.setSize(plusMissMap.size());
-      const vectorField smallVec(1e-6*(compactEnd-compactStart));
+      const vectorField smallVec{1e-6*(compactEnd-compactStart)};
       surface().findLine
       (
         compactStart+offset1-smallVec,
@@ -242,10 +234,8 @@ void mousse::searchableSurfaceWithGaps::findLine
         minInfo
       );
       // Extract any hits
-      FOR_ALL(plusInfo, i)
-      {
-        if (plusInfo[i].hit() && minInfo[i].hit())
-        {
+      FOR_ALL(plusInfo, i) {
+        if (plusInfo[i].hit() && minInfo[i].hit()) {
           info[compactMap[i]] = plusInfo[i];
           info[compactMap[i]].rawPoint() -= offset1[i];
         }
@@ -253,6 +243,8 @@ void mousse::searchableSurfaceWithGaps::findLine
     }
   }
 }
+
+
 void mousse::searchableSurfaceWithGaps::findLineAny
 (
   const pointField& start,
@@ -263,6 +255,8 @@ void mousse::searchableSurfaceWithGaps::findLineAny
   // To be done ...
   findLine(start, end, info);
 }
+
+
 void mousse::searchableSurfaceWithGaps::findLineAll
 (
   const pointField& start,
@@ -274,16 +268,13 @@ void mousse::searchableSurfaceWithGaps::findLineAll
   List<pointIndexHit> nearestInfo;
   findLine(start, end, nearestInfo);
   info.setSize(start.size());
-  FOR_ALL(info, pointI)
-  {
-    if (nearestInfo[pointI].hit())
-    {
+  FOR_ALL(info, pointI) {
+    if (nearestInfo[pointI].hit()) {
       info[pointI].setSize(1);
       info[pointI][0] = nearestInfo[pointI];
-    }
-    else
-    {
+    } else {
       info[pointI].clear();
     }
   }
 }
+

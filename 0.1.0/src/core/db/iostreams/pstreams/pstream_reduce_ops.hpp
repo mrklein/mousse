@@ -9,8 +9,10 @@
 #include "ops.hpp"
 #include "vector_2d.hpp"
 #include "iostreams.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Reduce operation with user specified communication schedule
 template<class T, class BinaryOp>
 void reduce
@@ -22,15 +24,16 @@ void reduce
   const label comm
 )
 {
-  if (UPstream::warnComm != -1 && comm != UPstream::warnComm)
-  {
-    Pout<< "** reducing:" << Value << " with comm:" << comm
+  if (UPstream::warnComm != -1 && comm != UPstream::warnComm) {
+    Pout << "** reducing:" << Value << " with comm:" << comm
       << endl;
     error::printStack(Pout);
   }
   Pstream::gather(comms, Value, bop, tag, comm);
   Pstream::scatter(comms, Value, tag, comm);
 }
+
+
 // Reduce using either linear or tree communication schedule
 template<class T, class BinaryOp>
 void reduce
@@ -41,15 +44,14 @@ void reduce
   const label comm = UPstream::worldComm
 )
 {
-  if (UPstream::nProcs(comm) < UPstream::nProcsSimpleSum)
-  {
+  if (UPstream::nProcs(comm) < UPstream::nProcsSimpleSum) {
     reduce(UPstream::linearCommunication(comm), Value, bop, tag, comm);
-  }
-  else
-  {
+  } else {
     reduce(UPstream::treeCommunication(comm), Value, bop, tag, comm);
   }
 }
+
+
 // Reduce using either linear or tree communication schedule
 template<class T, class BinaryOp>
 T returnReduce
@@ -61,8 +63,7 @@ T returnReduce
 )
 {
   T WorkValue(Value);
-  if (UPstream::nProcs(comm) < UPstream::nProcsSimpleSum)
-  {
+  if (UPstream::nProcs(comm) < UPstream::nProcsSimpleSum) {
     reduce
     (
       UPstream::linearCommunication(comm),
@@ -71,9 +72,7 @@ T returnReduce
       tag,
       comm
     );
-  }
-  else
-  {
+  } else {
     reduce
     (
       UPstream::treeCommunication(comm),
@@ -85,6 +84,8 @@ T returnReduce
   }
   return WorkValue;
 }
+
+
 // Reduce with sum of both value and count (for averaging)
 template<class T>
 void sumReduce
@@ -98,6 +99,8 @@ void sumReduce
   reduce(Value, sumOp<T>(), tag, comm);
   reduce(Count, sumOp<label>(), tag, comm);
 }
+
+
 // Non-blocking version of reduce. Sets request.
 template<class T, class BinaryOp>
 void reduce
@@ -114,6 +117,8 @@ void reduce
     "reduce(T&, const BinaryOp&, const int, const label, label&"
   );
 }
+
+
 // Insist there are specialisations for the common reductions of scalar(s)
 void reduce
 (
@@ -122,6 +127,8 @@ void reduce
   const int tag = Pstream::msgType(),
   const label comm = UPstream::worldComm
 );
+
+
 void reduce
 (
   scalar& Value,
@@ -129,6 +136,8 @@ void reduce
   const int tag = Pstream::msgType(),
   const label comm = UPstream::worldComm
 );
+
+
 void reduce
 (
   vector2D& Value,
@@ -136,6 +145,8 @@ void reduce
   const int tag = Pstream::msgType(),
   const label comm = UPstream::worldComm
 );
+
+
 void sumReduce
 (
   scalar& Value,
@@ -143,6 +154,8 @@ void sumReduce
   const int tag = Pstream::msgType(),
   const label comm = UPstream::worldComm
 );
+
+
 void reduce
 (
   scalar& Value,
@@ -151,5 +164,7 @@ void reduce
   const label comm,
   label& request
 );
+
 }  // namespace mousse
+
 #endif

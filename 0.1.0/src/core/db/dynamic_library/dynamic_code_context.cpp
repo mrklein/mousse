@@ -5,15 +5,17 @@
 #include "dynamic_code_context.hpp"
 #include "string_ops.hpp"
 #include "osha1stream.hpp"
+
+
 // Constructors 
 mousse::dynamicCodeContext::dynamicCodeContext(const dictionary& dict)
 :
-  dict_(dict),
-  code_(),
-  localCode_(),
-  include_(),
-  options_(),
-  libs_()
+  dict_{dict},
+  code_{},
+  localCode_{},
+  include_{},
+  options_{},
+  libs_{}
 {
   // expand dictionary entries
   {
@@ -31,8 +33,7 @@ mousse::dynamicCodeContext::dynamicCodeContext(const dictionary& dict)
     false,
     false
   );
-  if (includePtr)
-  {
+  if (includePtr) {
     include_ = stringOps::trim(includePtr->stream());
     stringOps::inplaceExpand(include_, dict);
   }
@@ -43,28 +44,25 @@ mousse::dynamicCodeContext::dynamicCodeContext(const dictionary& dict)
     false,
     false
   );
-  if (optionsPtr)
-  {
+  if (optionsPtr) {
     options_ = stringOps::trim(optionsPtr->stream());
     stringOps::inplaceExpand(options_, dict);
   }
   // optional
   const entry* libsPtr = dict.lookupEntryPtr("codeLibs", false, false);
-  if (libsPtr)
-  {
+  if (libsPtr) {
     libs_ = stringOps::trim(libsPtr->stream());
     stringOps::inplaceExpand(libs_, dict);
   }
   // optional
   const entry* localPtr = dict.lookupEntryPtr("localCode", false, false);
-  if (localPtr)
-  {
+  if (localPtr) {
     localCode_ = stringOps::trim(localPtr->stream());
     stringOps::inplaceExpand(localCode_, dict);
   }
   // calculate SHA1 digest from include, options, localCode, code
   OSHA1stream os;
-  os  << include_ << options_ << libs_ << localCode_ << code_;
+  os << include_ << options_ << libs_ << localCode_ << code_;
   sha1_ = os.digest();
   // Add line number after calculating sha1 since includes processorDDD
   // in path which differs between processors.
@@ -72,17 +70,17 @@ mousse::dynamicCodeContext::dynamicCodeContext(const dictionary& dict)
     const entry& codeEntry = dict.lookupEntry("code", false, false);
     addLineDirective(code_, codeEntry.startLineNumber(), dict.name());
   }
-  if (includePtr)
-  {
+  if (includePtr) {
     addLineDirective(include_, includePtr->startLineNumber(), dict.name());
   }
   // Do not add line directive to options_ (Make/options) and libs since
   // they are preprocessed as a single line at this point. Can be fixed.
-  if (localPtr)
-  {
+  if (localPtr) {
     addLineDirective(localCode_, localPtr->startLineNumber(), dict.name());
   }
 }
+
+
 // Member Functions 
 void mousse::dynamicCodeContext::addLineDirective
 (

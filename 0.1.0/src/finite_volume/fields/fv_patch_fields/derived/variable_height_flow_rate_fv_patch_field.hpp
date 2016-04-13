@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_VARIABLE_HEIGHT_FLOW_RATE_FV_PATCH_SCALAR_FIELD_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_VARIABLE_HEIGHT_FLOW_RATE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -32,13 +35,12 @@
 //     value           uniform 0;
 //   }
 //   \endverbatim
-// SourceFiles
-//   variable_height_flow_rate_fv_patch_scalar_field.cpp
-#ifndef variableHeightFlowRateFvPatchScalarField_H
-#define variableHeightFlowRateFvPatchScalarField_H
+
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class variableHeightFlowRateFvPatchScalarField
 :
   public mixedFvPatchScalarField
@@ -83,12 +85,12 @@ public:
       const variableHeightFlowRateFvPatchScalarField&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<scalar> > clone() const
+    virtual tmp<fvPatchField<scalar>> clone() const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new variableHeightFlowRateFvPatchScalarField(*this)
-      );
+      return tmp<fvPatchField<scalar>>
+      {
+        new variableHeightFlowRateFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     variableHeightFlowRateFvPatchScalarField
@@ -97,15 +99,15 @@ public:
       const DimensionedField<scalar, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<scalar> > clone
+    virtual tmp<fvPatchField<scalar>> clone
     (
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new variableHeightFlowRateFvPatchScalarField(*this, iF)
-      );
+      return tmp<fvPatchField<scalar>>
+      {
+        new variableHeightFlowRateFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field

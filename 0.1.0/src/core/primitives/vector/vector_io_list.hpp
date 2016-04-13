@@ -7,8 +7,12 @@
 
 #include "vector.hpp"
 #include "iolist.hpp"
-namespace mousse
-{
-  typedef IOList<vector> vectorIOList;
+
+
+namespace mousse {
+
+typedef IOList<vector> vectorIOList;
+
 }
+
 #endif

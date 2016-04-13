@@ -20,10 +20,6 @@
 //   objectRegistry itself to work.
 //   To add - a merge() member function with a non-const dictionary parameter?
 //   This would avoid unnecessary cloning in the add(entry*, bool) method.
-// SourceFiles
-//   dictionary.cpp
-//   dictionary_io.cpp
-
 
 #include "entry.hpp"
 #include "idl_list.hpp"
@@ -34,14 +30,17 @@
 #include "word_list.hpp"
 #include "class_name.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class regExp;
 class dictionary;
 class SHA1Digest;
 Istream& operator>>(Istream&, dictionary&);
 Ostream& operator<<(Ostream&, const dictionary&);
+
+
 class dictionaryName
 {
   // Private data
@@ -72,16 +71,15 @@ public:
     {
       const word scopedName = name_.name();
       string::size_type i = scopedName.rfind('.');
-      if (i == scopedName.npos)
-      {
+      if (i == scopedName.npos) {
         return scopedName;
-      }
-      else
-      {
+      } else {
         return scopedName.substr(i + 1, scopedName.npos);
       }
     }
 };
+
+
 class dictionary
 :
   public dictionaryName,
@@ -391,7 +389,7 @@ dictionary operator+(const dictionary& dict1, const dictionary& dict2);
 //  Do not overwrite the entries from dict1.
 dictionary operator|(const dictionary& dict1, const dictionary& dict2);
 }  // namespace mousse
-#ifdef NoRepository
-#   include "dictionary_templates.cpp"
-#endif
+
+#include "dictionary.ipp"
+
 #endif

@@ -8,31 +8,40 @@
 //   mousse::DLPtrList
 // Description
 //   Non-intrusive doubly-linked pointer list.
+
 #include "l_ptr_list.hpp"
 #include "dl_list_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class DLPtrList
 :
   public LPtrList<DLListBase, T>
 {
 public:
+
   // Constructors
+
     //- Null construct
     DLPtrList()
     {}
+
     //- Construct from Istream using given Istream constructor class
     template<class INew>
     DLPtrList(Istream& is, const INew& inewt)
     :
-      LPtrList<DLListBase, T>(is, inewt)
+      LPtrList<DLListBase, T>{is, inewt}
     {}
+
     //- Construct from Istream
     DLPtrList(Istream& is)
     :
-      LPtrList<DLListBase, T>(is)
+      LPtrList<DLListBase, T>{is}
     {}
 };
+
 }  // namespace mousse
+
 #endif

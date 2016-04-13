@@ -12,9 +12,12 @@
 //   compile-time.
 //   Used for example as the density argument to a function written for
 //   compressible to be used for incompressible flow.
+
 #include "one_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class oneFieldField
 :
   public one
@@ -25,12 +28,9 @@ public:
     oneFieldField()
     {}
   // Member Operators
-    inline oneField operator[](const label) const;
+    inline oneField operator[](const label) const { return oneField(); }
 };
+
 }  // namespace mousse
 
-inline mousse::oneField mousse::oneFieldField::operator[](const label) const
-{
-  return oneField();
-}
 #endif

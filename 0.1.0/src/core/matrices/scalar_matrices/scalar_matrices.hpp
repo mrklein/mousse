@@ -11,10 +11,6 @@
 //   LUDecompose for scalarSymmetricSquareMatrix implements the Cholesky
 //   decomposition method from JAMA, a public-domain library developed at NIST,
 //   available at http://math.nist.gov/tnt/index.html
-// SourceFiles
-//   scalar_matrices.cpp
-//   scalar_matrices_templates.cpp
-
 
 #include "rectangular_matrix.hpp"
 #include "square_matrix.hpp"
@@ -23,8 +19,8 @@
 #include "scalar_field.hpp"
 #include "label_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 typedef RectangularMatrix<scalar> scalarRectangularMatrix;
 typedef SquareMatrix<scalar> scalarSquareMatrix;
@@ -127,7 +123,7 @@ scalarRectangularMatrix SVDinv
 );
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "scalar_matrices_templates.cpp"
-#endif
+
+#include "scalar_matrices.ipp"
+
 #endif

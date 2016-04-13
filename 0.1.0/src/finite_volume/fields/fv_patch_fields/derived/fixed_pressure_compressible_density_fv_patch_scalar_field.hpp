@@ -40,11 +40,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   fixed_pressure_compressible_density_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fixedPressureCompressibleDensityFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -88,9 +89,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new fixedPressureCompressibleDensityFvPatchScalarField(*this)
-      );
+      {
+        new fixedPressureCompressibleDensityFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fixedPressureCompressibleDensityFvPatchScalarField
@@ -105,13 +106,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new fixedPressureCompressibleDensityFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new fixedPressureCompressibleDensityFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field

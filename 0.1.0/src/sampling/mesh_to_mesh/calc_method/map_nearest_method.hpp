@@ -13,11 +13,12 @@
 //    (initial filtering)
 //   - all remaining cells will be mapped (with weight 1!)
 //   - so take care when mapping meshes with different bounding boxes!
-// SourceFiles
-//   map_nearest_method.cpp
+
 #include "mesh_to_mesh_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mapNearestMethod
 :
   public meshToMeshMethod
@@ -93,5 +94,8 @@ public:
         scalarListList& tgtToTgtWght
       );
 };
+
 }  // namespace mousse
+
 #endif
+

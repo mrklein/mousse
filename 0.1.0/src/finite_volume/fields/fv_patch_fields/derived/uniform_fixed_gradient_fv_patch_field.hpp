@@ -30,12 +30,13 @@
 // SeeAlso
 //   mousse::DataEntry
 //   mousse::fixedGradientFvPatchField
-// SourceFiles
-//   uniform_fixed_gradient_fv_patch_field.cpp
+
 #include "fixed_gradient_fv_patch_fields.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class uniformFixedGradientFvPatchField
 :
@@ -43,7 +44,7 @@ class uniformFixedGradientFvPatchField
 {
   // Private data
     //- Gradient
-    autoPtr<DataEntry<Type> > uniformGradient_;
+    autoPtr<DataEntry<Type>> uniformGradient_;
 public:
   //- Runtime type information
   TYPE_NAME("uniformFixedGradient");
@@ -83,12 +84,12 @@ public:
       const uniformFixedGradientFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new uniformFixedGradientFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new uniformFixedGradientFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     uniformFixedGradientFvPatchField
@@ -97,15 +98,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new uniformFixedGradientFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new uniformFixedGradientFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
@@ -115,7 +116,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "uniform_fixed_gradient_fv_patch_field.cpp"
-#endif
+
+#include "uniform_fixed_gradient_fv_patch_field.ipp"
+
 #endif

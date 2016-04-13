@@ -8,12 +8,13 @@
 //   mousse::sampledPatch
 // Description
 //   A sampledSurface on patches. Non-triangulated by default.
-// SourceFiles
-//   sampled_patch.cpp
+
 #include "sampled_surface.hpp"
 #include "meshed_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sampledPatch
 :
   public MeshedSurface<face>,
@@ -39,18 +40,18 @@ class sampledPatch
   // Private Member Functions
     //- Sample field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vField
     ) const;
     //- Sample surface field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvsPatchField, surfaceMesh>& sField
     ) const;
     template<class Type>
-    tmp<Field<Type> > interpolateField(const interpolation<Type>&) const;
+    tmp<Field<Type>> interpolateField(const interpolation<Type>&) const;
     //- Re-map action on triangulation or cleanup
     virtual void remapFaces(const labelUList& faceMap);
 protected:
@@ -189,7 +190,7 @@ public:
     virtual void print(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_patch_templates.cpp"
-#endif
+
+#include "sampled_patch.ipp"
+
 #endif

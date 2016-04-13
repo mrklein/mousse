@@ -10,12 +10,10 @@
 //   Dimensioned<Type> registered with the database as a registered IOobject
 //   which has the functionality of a uniform field and allows values from the
 //   top-level code to be passed to boundary conditions etc.
-// SourceFiles
-//   uniform_dimensioned_field.cpp
-//
 
 #include "reg_ioobject.hpp"
 #include "dimensioned_type.hpp"
+
 
 namespace mousse
 {
@@ -54,7 +52,7 @@ public:
     }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "uniform_dimensioned_field.cpp"
-#endif
+
+#include "uniform_dimensioned_field.ipp"
+
 #endif

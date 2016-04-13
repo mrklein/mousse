@@ -4,8 +4,7 @@
 
 #include "tensor_io_field.hpp"
 
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME(tensorIOField, "tensorField", 0);
 

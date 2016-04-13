@@ -1,1 +1,1 @@
-../cell_quality/cell_quality.cpp
+../cell_quality.cpp

@@ -7,8 +7,13 @@
 
 #include "sampled_surfaces.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<sampledSurfaces> IOsampledSurfaces;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<sampledSurfaces> IOsampledSurfaces;
+
 }
+
 #endif
+

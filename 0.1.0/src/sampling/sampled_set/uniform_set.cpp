@@ -7,12 +7,17 @@
 #include "dynamic_list.hpp"
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(uniformSet, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, uniformSet, word);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(uniformSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, uniformSet, word);
+
 }
+
+
 // Private Member Functions 
 bool mousse::uniformSet::nextSample
 (
@@ -27,11 +32,9 @@ bool mousse::uniformSet::nextSample
   const vector normOffset = offset/mag(offset);
   samplePt += offset;
   sampleI++;
-  for (; sampleI < nPoints_; sampleI++)
-  {
+  for (; sampleI < nPoints_; sampleI++) {
     scalar s = (samplePt - currentPt) & normOffset;
-    if (s > -smallDist)
-    {
+    if (s > -smallDist) {
       // samplePt is close to or beyond currentPt -> use it
       pointFound = true;
       break;
@@ -40,6 +43,8 @@ bool mousse::uniformSet::nextSample
   }
   return pointFound;
 }
+
+
 bool mousse::uniformSet::trackToBoundary
 (
   passiveParticleCloud& particleCloud,
@@ -59,25 +64,20 @@ bool mousse::uniformSet::trackToBoundary
   // Alias
   const point& trackPt = singleParticle.position();
   particle::TrackingData<passiveParticleCloud> trackData(particleCloud);
-  while(true)
-  {
+  while(true) {
     // Find next samplePt on/after trackPt. Update samplePt, sampleI
-    if (!nextSample(trackPt, offset, smallDist, samplePt, sampleI))
-    {
+    if (!nextSample(trackPt, offset, smallDist, samplePt, sampleI)) {
       // no more samples.
-      if (debug)
-      {
-        Pout<< "trackToBoundary : Reached end : samplePt now:"
+      if (debug) {
+        Pout << "trackToBoundary : Reached end : samplePt now:"
           << samplePt << "  sampleI now:" << sampleI << endl;
       }
       return false;
     }
-    if (mag(samplePt - trackPt) < smallDist)
-    {
+    if (mag(samplePt - trackPt) < smallDist) {
       // trackPt corresponds with samplePt. Store and use next samplePt
-      if (debug)
-      {
-        Pout<< "trackToBoundary : samplePt corresponds to trackPt : "
+      if (debug) {
+        Pout << "trackToBoundary : samplePt corresponds to trackPt : "
           << "  trackPt:" << trackPt << "  samplePt:" << samplePt
           << endl;
       }
@@ -86,12 +86,10 @@ bool mousse::uniformSet::trackToBoundary
       samplingFaces.append(-1);
       samplingCurveDist.append(mag(trackPt - start_));
       // go to next samplePt
-      if (!nextSample(trackPt, offset, smallDist, samplePt, sampleI))
-      {
+      if (!nextSample(trackPt, offset, smallDist, samplePt, sampleI)) {
         // no more samples.
-        if (debug)
-        {
-          Pout<< "trackToBoundary : Reached end : "
+        if (debug) {
+          Pout << "trackToBoundary : Reached end : "
             << "  samplePt now:" << samplePt
             << "  sampleI now:" << sampleI
             << endl;
@@ -99,22 +97,20 @@ bool mousse::uniformSet::trackToBoundary
         return false;
       }
     }
-    if (debug)
-    {
-      Pout<< "Searching along trajectory from "
+    if (debug) {
+      Pout << "Searching along trajectory from "
         << "  trackPt:" << trackPt
         << "  trackCellI:" << singleParticle.cell()
         << "  to:" << samplePt << endl;
     }
     point oldPos = trackPt;
     label facei = -1;
-    do
-    {
+    do {
       singleParticle.stepFraction() = 0;
       singleParticle.track(samplePt, trackData);
-      if (debug)
-      {
-        Pout<< "Result of tracking "
+      if (debug) {
+        Pout
+          << "Result of tracking "
           << "  trackPt:" << trackPt
           << "  trackCellI:" << singleParticle.cell()
           << "  trackFaceI:" << singleParticle.face()
@@ -124,18 +120,11 @@ bool mousse::uniformSet::trackToBoundary
           << endl;
       }
     }
-    while
-    (
-      !singleParticle.onBoundary()
-    && (mag(trackPt - oldPos) < smallDist)
-    );
-    if (singleParticle.onBoundary())
-    {
+    while (!singleParticle.onBoundary()
+           && (mag(trackPt - oldPos) < smallDist));
+    if (singleParticle.onBoundary()) {
       //Pout<< "trackToBoundary : reached boundary" << endl;
-      if (mag(trackPt - samplePt) < smallDist)
-      {
-        //Pout<< "trackToBoundary : boundary is also sampling point"
-        //    << endl;
+      if (mag(trackPt - samplePt) < smallDist) {
         // Reached samplePt on boundary
         samplingPts.append(trackPt);
         samplingCells.append(singleParticle.cell());
@@ -144,7 +133,6 @@ bool mousse::uniformSet::trackToBoundary
       }
       return true;
     }
-    //Pout<< "trackToBoundary : reached internal sampling point" << endl;
     // Reached samplePt in cell or on internal face
     samplingPts.append(trackPt);
     samplingCells.append(singleParticle.cell());
@@ -153,6 +141,8 @@ bool mousse::uniformSet::trackToBoundary
     // go to next samplePt
   }
 }
+
+
 void mousse::uniformSet::calcSamples
 (
   DynamicList<point>& samplingPts,
@@ -163,8 +153,7 @@ void mousse::uniformSet::calcSamples
 ) const
 {
   // distance vector between sampling points
-  if ((nPoints_ < 2) || (mag(end_ - start_) < SMALL))
-  {
+  if ((nPoints_ < 2) || (mag(end_ - start_) < SMALL)) {
     FATAL_ERROR_IN("uniformSet::calcSamples()")
       << "Incorrect sample specification. Either too few points or"
       << " start equals end point." << endl
@@ -181,15 +170,11 @@ void mousse::uniformSet::calcSamples
   const bool oldMoving = const_cast<polyMesh&>(mesh()).moving(false);
   passiveParticleCloud particleCloud(mesh());
   // Get all boundary intersections
-  List<pointIndexHit> bHits = searchEngine().intersections
-  (
-    start_ - smallVec,
-    end_ + smallVec
-  );
-  point bPoint(GREAT, GREAT, GREAT);
+  List<pointIndexHit> bHits =
+    searchEngine().intersections(start_ - smallVec, end_ + smallVec);
+  point bPoint{GREAT, GREAT, GREAT};
   label bFaceI = -1;
-  if (bHits.size())
-  {
+  if (bHits.size()) {
     bPoint = bHits[0].hitPoint();
     bFaceI = bHits[0].index();
   }
@@ -197,26 +182,15 @@ void mousse::uniformSet::calcSamples
   point trackPt;
   label trackCellI = -1;
   label trackFaceI = -1;
-  bool isSample =
-    getTrackingPoint
-    (
-      offset,
-      start_,
-      bPoint,
-      bFaceI,
-      trackPt,
-      trackCellI,
-      trackFaceI
-    );
-  if (trackCellI == -1)
-  {
+  bool isSample = getTrackingPoint(offset, start_, bPoint, bFaceI, trackPt,
+                                   trackCellI, trackFaceI);
+  if (trackCellI == -1) {
     // Line start_ - end_ does not intersect domain at all.
     // (or is along edge)
     // Set points and cell/face labels to empty lists
     return;
   }
-  if (isSample)
-  {
+  if (isSample) {
     samplingPts.append(start_);
     samplingCells.append(trackCellI);
     samplingFaces.append(trackFaceI);
@@ -233,31 +207,20 @@ void mousse::uniformSet::calcSamples
   point samplePt = start_;
   // index in bHits; current boundary intersection
   label bHitI = 1;
-  while(true)
-  {
+  while(true) {
     // Initialize tracking starting from trackPt
     passiveParticle singleParticle(mesh(), trackPt, trackCellI);
-    bool reachedBoundary = trackToBoundary
-    (
-      particleCloud,
-      singleParticle,
-      samplePt,
-      sampleI,
-      samplingPts,
-      samplingCells,
-      samplingFaces,
-      samplingCurveDist
-    );
+    bool reachedBoundary = trackToBoundary(particleCloud, singleParticle,
+                                           samplePt, sampleI, samplingPts,
+                                           samplingCells, samplingFaces,
+                                           samplingCurveDist);
     // fill sampleSegments
-    for (label i = samplingPts.size() - 1; i >= startSegmentI; --i)
-    {
+    for (label i = samplingPts.size() - 1; i >= startSegmentI; --i) {
       samplingSegments.append(segmentI);
     }
-    if (!reachedBoundary)
-    {
-      if (debug)
-      {
-        Pout<< "calcSamples : Reached end of samples: "
+    if (!reachedBoundary) {
+      if (debug) {
+        Pout << "calcSamples : Reached end of samples: "
           << "  samplePt now:" << samplePt
           << "  sampleI now:" << sampleI
           << endl;
@@ -265,32 +228,25 @@ void mousse::uniformSet::calcSamples
       break;
     }
     bool foundValidB = false;
-    while (bHitI < bHits.size())
-    {
+    while (bHitI < bHits.size()) {
       scalar dist =
-        (bHits[bHitI].hitPoint() - singleParticle.position())
-       & normOffset;
-      if (debug)
-      {
-        Pout<< "Finding next boundary : "
+        (bHits[bHitI].hitPoint() - singleParticle.position()) & normOffset;
+      if (debug) {
+        Pout << "Finding next boundary : "
           << "bPoint:" << bHits[bHitI].hitPoint()
           << "  tracking:" << singleParticle.position()
           << "  dist:" << dist
           << endl;
       }
-      if (dist > smallDist)
-      {
+      if (dist > smallDist) {
         // hitpoint is past tracking position
         foundValidB = true;
         break;
-      }
-      else
-      {
+      } else {
         bHitI++;
       }
     }
-    if (!foundValidB)
-    {
+    if (!foundValidB) {
       // No valid boundary intersection found beyond tracking position
       break;
     }
@@ -303,6 +259,8 @@ void mousse::uniformSet::calcSamples
   }
   const_cast<polyMesh&>(mesh()).moving(oldMoving);
 }
+
+
 void mousse::uniformSet::genSamples()
 {
   // Storage for sample points
@@ -333,6 +291,8 @@ void mousse::uniformSet::genSamples()
     samplingCurveDist
   );
 }
+
+
 // Constructors 
 mousse::uniformSet::uniformSet
 (
@@ -345,17 +305,18 @@ mousse::uniformSet::uniformSet
   const label nPoints
 )
 :
-  sampledSet(name, mesh, searchEngine, axis),
-  start_(start),
-  end_(end),
-  nPoints_(nPoints)
+  sampledSet{name, mesh, searchEngine, axis},
+  start_{start},
+  end_{end},
+  nPoints_{nPoints}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Pout);
   }
 }
+
+
 mousse::uniformSet::uniformSet
 (
   const word& name,
@@ -364,17 +325,19 @@ mousse::uniformSet::uniformSet
   const dictionary& dict
 )
 :
-  sampledSet(name, mesh, searchEngine, dict),
-  start_(dict.lookup("start")),
-  end_(dict.lookup("end")),
-  nPoints_(readLabel(dict.lookup("nPoints")))
+  sampledSet{name, mesh, searchEngine, dict},
+  start_{dict.lookup("start")},
+  end_{dict.lookup("end")},
+  nPoints_{readLabel(dict.lookup("nPoints"))}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Pout);
   }
 }
+
+
 // Destructor 
 mousse::uniformSet::~uniformSet()
 {}
+

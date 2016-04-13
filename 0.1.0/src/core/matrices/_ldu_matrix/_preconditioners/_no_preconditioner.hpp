@@ -8,14 +8,12 @@
 //   mousse::NoPreconditioner
 // Description
 //   Null preconditioner for both symmetric and asymmetric matrices.
-// SourceFiles
-//   no_preconditioner.cpp
-
 
 #include "_ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class DType, class LUType>
 class NoPreconditioner
 :
@@ -73,7 +71,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_no_preconditioner.cpp"
-#endif
+#include "_no_preconditioner.ipp"
+
 #endif

@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "referred_wall_face.hpp"
+
+
 // Constructors 
 mousse::referredWallFace::referredWallFace()
 :
@@ -10,6 +12,8 @@ mousse::referredWallFace::referredWallFace()
   pts_{},
   patchI_{}
 {}
+
+
 mousse::referredWallFace::referredWallFace
 (
   const face& f,
@@ -21,8 +25,7 @@ mousse::referredWallFace::referredWallFace
   pts_{pts},
   patchI_{patchI}
 {
-  if (this->size() != pts_.size())
-  {
+  if (this->size() != pts_.size()) {
     FATAL_ERROR_IN
     (
       "mousse::referredWallFace::referredWallFace"
@@ -36,14 +39,15 @@ mousse::referredWallFace::referredWallFace
     << abort(FatalError);
   }
 }
+
+
 mousse::referredWallFace::referredWallFace(const referredWallFace& rWF)
 :
   face{rWF},
   pts_{rWF.pts_},
   patchI_{rWF.patchI_}
 {
-  if (this->size() != pts_.size())
-  {
+  if (this->size() != pts_.size()) {
     FATAL_ERROR_IN
     (
       "mousse::referredWallFace::referredWallFace"
@@ -55,9 +59,13 @@ mousse::referredWallFace::referredWallFace(const referredWallFace& rWF)
     << abort(FatalError);
   }
 }
+
+
 // Destructor 
 mousse::referredWallFace::~referredWallFace()
 {}
+
+
 // Member Operators 
 bool mousse::referredWallFace::operator==(const referredWallFace& rhs) const
 {
@@ -65,10 +73,14 @@ bool mousse::referredWallFace::operator==(const referredWallFace& rhs) const
           && rhs.pts_ == pts_
           && rhs.patchI_ == patchI_);
 }
+
+
 bool mousse::referredWallFace::operator!=(const referredWallFace& rhs) const
 {
   return !(*this == rhs);
 }
+
+
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, referredWallFace& rWF)
 {
@@ -81,6 +93,8 @@ mousse::Istream& mousse::operator>>(Istream& is, referredWallFace& rWF)
   );
   return is;
 }
+
+
 mousse::Ostream& mousse::operator<<(Ostream& os, const referredWallFace& rWF)
 {
   os << static_cast<const face&>(rWF) << token::SPACE
@@ -94,3 +108,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const referredWallFace& rWF)
   );
   return os;
 }
+

@@ -21,15 +21,13 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::processorFvPatchField
-// SourceFiles
-//   processor_cyclic_fv_patch_field.cpp
-//   processor_cyclic_fv_patch_fields.hpp
-//   processor_cyclic_fv_patch_fields.cpp
-//   processor_cyclic_fv_patch_fields_fwd.hpp
+
 #include "processor_cyclic_fv_patch.hpp"
 #include "processor_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class processorCyclicFvPatchField
 :
@@ -74,12 +72,12 @@ public:
     //- Construct as copy
     processorCyclicFvPatchField(const processorCyclicFvPatchField<Type>&);
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new processorCyclicFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new processorCyclicFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     processorCyclicFvPatchField
@@ -88,15 +86,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
+      return tmp<fvPatchField<Type>>
+      {
         new processorCyclicFvPatchField<Type>(*this, iF)
-      );
+      };
     }
   //- Destructor
   virtual ~processorCyclicFvPatchField();
@@ -114,7 +112,7 @@ public:
       }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "processor_cyclic_fv_patch_field.cpp"
-#endif
+
+#include "processor_cyclic_fv_patch_field.ipp"
+
 #endif

@@ -6,15 +6,11 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::vtkSetWriter
-// Description
-// SourceFiles
-//   vtk_set_writer.cpp
-
 
 #include "writer.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class vtkSetWriter
@@ -61,8 +57,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "vtk_set_writer.cpp"
-#endif
+#include "vtk_set_writer.ipp"
 
 #endif

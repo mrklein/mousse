@@ -10,12 +10,13 @@
 //   Combined DIC/GaussSeidel smoother for symmetric matrices in which DIC
 //   smoothing is followed by GaussSeidel to ensure that any "spikes" created
 //   by the DIC sweeps are smoothed-out.
-// SourceFiles
-//   dic_gauss_seidel_smoother.cpp
+
 #include "dic_smoother.hpp"
 #include "gauss_seidel_smoother.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class DICGaussSeidelSmoother
 :
   public lduMatrix::smoother

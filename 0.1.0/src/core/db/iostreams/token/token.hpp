@@ -8,9 +8,6 @@
 //   mousse::token
 // Description
 //   A token holds items read from Istream.
-// SourceFiles
-//   token.cpp
-//   token_io.cpp
 
 #include "label.hpp"
 #include "ulabel.hpp"
@@ -24,8 +21,8 @@
 #include "run_time_selection_tables.hpp"
 #include <iostream>
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 class token;
@@ -354,22 +351,14 @@ Ostream& operator<<(Ostream& os, const InfoProxy<token>& ip);
 // Clear any allocated storage (word or string)
 inline void token::clear()
 {
-  if (type_ == WORD)
-  {
+  if (type_ == WORD) {
     delete wordTokenPtr_;
-  }
-  else if (type_ == STRING || type_ == VARIABLE || type_ == VERBATIMSTRING)
-  {
+  } else if (type_ == STRING || type_ == VARIABLE || type_ == VERBATIMSTRING) {
     delete stringTokenPtr_;
-  }
-  else if (type_ == COMPOUND)
-  {
-    if (compoundTokenPtr_->okToDelete())
-    {
+  } else if (type_ == COMPOUND) {
+    if (compoundTokenPtr_->okToDelete()) {
       delete compoundTokenPtr_;
-    }
-    else
-    {
+    } else {
       compoundTokenPtr_->refCount::operator--();
     }
   }
@@ -385,14 +374,14 @@ inline token::token()
   lineNumber_{0}
 {}
 
+
 // Construct as copy
 inline token::token(const token& t)
 :
   type_{t.type_},
   lineNumber_{t.lineNumber_}
 {
-  switch (type_)
-  {
+  switch (type_) {
     case token::UNDEFINED:
     break;
     case PUNCTUATION:
@@ -424,6 +413,7 @@ inline token::token(const token& t)
   }
 }
 
+
 // Construct punctuation character token
 inline token::token(punctuationToken p, label lineNumber)
 :
@@ -431,6 +421,7 @@ inline token::token(punctuationToken p, label lineNumber)
   punctuationToken_{p},
   lineNumber_{lineNumber}
 {}
+
 
 // Construct word token
 inline token::token(const word& w, label lineNumber)
@@ -440,6 +431,7 @@ inline token::token(const word& w, label lineNumber)
   lineNumber_{lineNumber}
 {}
 
+
 // Construct string token
 inline token::token(const string& s, label lineNumber)
 :
@@ -448,6 +440,7 @@ inline token::token(const string& s, label lineNumber)
   lineNumber_{lineNumber}
 {}
 
+
 // Construct label token
 inline token::token(const label l, label lineNumber)
 :
@@ -455,6 +448,7 @@ inline token::token(const label l, label lineNumber)
   labelToken_{l},
   lineNumber_{lineNumber}
 {}
+
 
 // Construct floatScalar token
 inline token::token(const floatScalar s, label lineNumber)
@@ -470,6 +464,7 @@ inline token::token(const doubleScalar s, label lineNumber)
   doubleScalarToken_{s},
   lineNumber_{lineNumber}
 {}
+
 
 // Destructor 
 
@@ -513,12 +508,9 @@ inline bool token::isPunctuation() const
 
 inline token::punctuationToken token::pToken() const
 {
-  if (type_ == PUNCTUATION)
-  {
+  if (type_ == PUNCTUATION) {
     return punctuationToken_;
-  }
-  else
-  {
+  } else {
     parseError("punctuation character");
     return NULL_TOKEN;
   }
@@ -531,12 +523,9 @@ inline bool token::isWord() const
 
 inline const word& token::wordToken() const
 {
-  if (type_ == WORD)
-  {
+  if (type_ == WORD) {
     return *wordTokenPtr_;
-  }
-  else
-  {
+  } else {
     parseError("word");
     return word::null;
   }
@@ -554,12 +543,9 @@ inline bool token::isString() const
 
 inline const string& token::stringToken() const
 {
-  if (type_ == STRING || type_ == VARIABLE || type_ == VERBATIMSTRING)
-  {
+  if (type_ == STRING || type_ == VARIABLE || type_ == VERBATIMSTRING) {
     return *stringTokenPtr_;
-  }
-  else
-  {
+  } else {
     parseError("string");
     return string::null;
   }
@@ -572,12 +558,9 @@ inline bool token::isLabel() const
 
 inline label token::labelToken() const
 {
-  if (type_ == LABEL)
-  {
+  if (type_ == LABEL) {
     return labelToken_;
-  }
-  else
-  {
+  } else {
     parseError("label");
     return 0;
   }
@@ -590,12 +573,9 @@ inline bool token::isFloatScalar() const
 
 inline floatScalar token::floatScalarToken() const
 {
-  if (type_ == FLOAT_SCALAR)
-  {
+  if (type_ == FLOAT_SCALAR) {
     return floatScalarToken_;
-  }
-  else
-  {
+  } else {
     parseError("floatScalar");
     return 0.0;
   }
@@ -608,12 +588,9 @@ inline bool token::isDoubleScalar() const
 
 inline doubleScalar token::doubleScalarToken() const
 {
-  if (type_ == DOUBLE_SCALAR)
-  {
+  if (type_ == DOUBLE_SCALAR) {
     return doubleScalarToken_;
-  }
-  else
-  {
+  } else {
     parseError("doubleScalar");
     return 0.0;
   }
@@ -626,16 +603,11 @@ inline bool token::isScalar() const
 
 inline scalar token::scalarToken() const
 {
-  if (type_ == FLOAT_SCALAR)
-  {
+  if (type_ == FLOAT_SCALAR) {
     return floatScalarToken_;
-  }
-  else if (type_ == DOUBLE_SCALAR)
-  {
+  } else if (type_ == DOUBLE_SCALAR) {
     return doubleScalarToken_;
-  }
-  else
-  {
+  } else {
     parseError("scalar");
     return 0.0;
   }
@@ -648,16 +620,11 @@ inline bool token::isNumber() const
 
 inline scalar token::number() const
 {
-  if (type_ == LABEL)
-  {
+  if (type_ == LABEL) {
     return labelToken_;
-  }
-  else if (isScalar())
-  {
+  } else if (isScalar()) {
     return scalarToken();
-  }
-  else
-  {
+  } else {
     parseError("number (label or scalar)");
     return 0.0;
   }
@@ -670,12 +637,9 @@ inline bool token::isCompound() const
 
 inline const token::compound& token::compoundToken() const
 {
-  if (type_ == COMPOUND)
-  {
+  if (type_ == COMPOUND) {
     return *compoundTokenPtr_;
-  }
-  else
-  {
+  } else {
     parseError("compound");
     return *compoundTokenPtr_;
   }
@@ -702,8 +666,7 @@ inline void token::operator=(const token& t)
 {
   clear();
   type_ = t.type_;
-  switch (type_)
-  {
+  switch (type_) {
     case token::UNDEFINED:
     break;
     case PUNCTUATION:
@@ -797,12 +760,10 @@ inline void token::operator=(token::compound* cPtr)
 
 inline bool token::operator==(const token& t) const
 {
-  if (type_ != t.type_)
-  {
+  if (type_ != t.type_) {
     return false;
   }
-  switch (type_)
-  {
+  switch (type_) {
     case token::UNDEFINED:
       return true;
     case PUNCTUATION:
@@ -842,7 +803,7 @@ inline bool token::operator==(const string& s) const
   return
   (
     (type_ == STRING || type_ == VARIABLE || type_ == VERBATIMSTRING)
-  && stringToken() == s
+    && stringToken() == s
   );
 }
 

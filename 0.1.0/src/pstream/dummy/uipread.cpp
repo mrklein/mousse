@@ -3,7 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "uipstream.hpp"
+
+
 // Constructor
+
 mousse::UIPstream::UIPstream
 (
   const commsTypes commsType,
@@ -17,15 +20,15 @@ mousse::UIPstream::UIPstream
   versionNumber version
 )
 :
-  UPstream(commsType),
-  Istream(format, version),
-  fromProcNo_(fromProcNo),
-  externalBuf_(externalBuf),
-  externalBufPosition_(externalBufPosition),
-  tag_(tag),
-  comm_(comm),
-  clearAtEnd_(clearAtEnd),
-  messageSize_(0)
+  UPstream{commsType},
+  Istream{format, version},
+  fromProcNo_{fromProcNo},
+  externalBuf_{externalBuf},
+  externalBufPosition_{externalBufPosition},
+  tag_{tag},
+  comm_{comm},
+  clearAtEnd_{clearAtEnd},
+  messageSize_{0}
 {
   NOT_IMPLEMENTED
   (
@@ -43,17 +46,19 @@ mousse::UIPstream::UIPstream
     ")"
   );
 }
+
+
 mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
 :
-  UPstream(buffers.commsType_),
-  Istream(buffers.format_, buffers.version_),
-  fromProcNo_(fromProcNo),
-  externalBuf_(buffers.recvBuf_[fromProcNo]),
-  externalBufPosition_(buffers.recvBufPos_[fromProcNo]),
-  tag_(buffers.tag_),
-  comm_(buffers.comm_),
-  clearAtEnd_(true),
-  messageSize_(0)
+  UPstream{buffers.commsType_},
+  Istream{buffers.format_, buffers.version_},
+  fromProcNo_{fromProcNo},
+  externalBuf_{buffers.recvBuf_[fromProcNo]},
+  externalBufPosition_{buffers.recvBufPos_[fromProcNo]},
+  tag_{buffers.tag_},
+  comm_{buffers.comm_},
+  clearAtEnd_{true},
+  messageSize_{0}
 {
   NOT_IMPLEMENTED
   (
@@ -64,6 +69,8 @@ mousse::UIPstream::UIPstream(const int fromProcNo, PstreamBuffers& buffers)
     ")"
   );
 }
+
+
 // Member Functions 
 mousse::label mousse::UIPstream::read
 (
@@ -89,3 +96,4 @@ mousse::label mousse::UIPstream::read
   );
   return 0;
 }
+

@@ -1,1 +1,0 @@
-../finite_volume/fvc/fvc_mag_sqr_grad_grad.cpp

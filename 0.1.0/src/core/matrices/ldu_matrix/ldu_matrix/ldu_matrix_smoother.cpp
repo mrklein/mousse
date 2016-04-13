@@ -4,10 +4,13 @@
 
 #include "ldu_matrix.hpp"
 
+
 // Static Data Members
 namespace mousse {
+
 DEFINE_RUN_TIME_SELECTION_TABLE(lduMatrix::smoother, symMatrix);
 DEFINE_RUN_TIME_SELECTION_TABLE(lduMatrix::smoother, asymMatrix);
+
 }
 
 mousse::word
@@ -19,12 +22,9 @@ mousse::lduMatrix::smoother::getName
   word name;
   // handle primitive or dictionary entry
   const entry& e = solverControls.lookupEntry("smoother", false, false);
-  if (e.isDict())
-  {
+  if (e.isDict()) {
     e.dict().lookup("smoother") >> name;
-  }
-  else
-  {
+  } else {
     e.stream() >> name;
   }
   return name;
@@ -44,22 +44,17 @@ mousse::autoPtr<mousse::lduMatrix::smoother> mousse::lduMatrix::smoother::New
   word name;
   // handle primitive or dictionary entry
   const entry& e = solverControls.lookupEntry("smoother", false, false);
-  if (e.isDict())
-  {
+  if (e.isDict()) {
     e.dict().lookup("smoother") >> name;
-  }
-  else
-  {
+  } else {
     e.stream() >> name;
   }
   // not (yet?) needed:
   // const dictionary& controls = e.isDict() ? e.dict() : dictionary::null;
-  if (matrix.symmetric())
-  {
+  if (matrix.symmetric()) {
     symMatrixConstructorTable::iterator constructorIter =
       symMatrixConstructorTablePtr_->find(name);
-    if (constructorIter == symMatrixConstructorTablePtr_->end())
-    {
+    if (constructorIter == symMatrixConstructorTablePtr_->end()) {
       FATAL_IO_ERROR_IN
       (
         "lduMatrix::smoother::New", solverControls
@@ -71,7 +66,7 @@ mousse::autoPtr<mousse::lduMatrix::smoother> mousse::lduMatrix::smoother::New
       << exit(FatalIOError);
     }
     return autoPtr<lduMatrix::smoother>
-    (
+    {
       constructorIter()
       (
         fieldName,
@@ -80,14 +75,11 @@ mousse::autoPtr<mousse::lduMatrix::smoother> mousse::lduMatrix::smoother::New
         interfaceIntCoeffs,
         interfaces
       )
-    );
-  }
-  else if (matrix.asymmetric())
-  {
+    };
+  } else if (matrix.asymmetric()) {
     asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(name);
-    if (constructorIter == asymMatrixConstructorTablePtr_->end())
-    {
+    if (constructorIter == asymMatrixConstructorTablePtr_->end()) {
       FATAL_IO_ERROR_IN
       (
         "lduMatrix::smoother::New", solverControls
@@ -109,9 +101,7 @@ mousse::autoPtr<mousse::lduMatrix::smoother> mousse::lduMatrix::smoother::New
         interfaces
       )
     };
-  }
-  else
-  {
+  } else {
     FATAL_IO_ERROR_IN
     (
       "lduMatrix::smoother::New", solverControls

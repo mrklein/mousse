@@ -15,13 +15,14 @@
 //    as one.
 //   - extend the test vector slightly (with SMALL) to account for numerical
 //    inaccuracies.
-// SourceFiles
-//   searchable_surface_with_gaps.cpp
+
 #include "searchable_surface.hpp"
 #include "uptr_list.hpp"
 #include "pair.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class searchableSurfaceWithGaps
 :
@@ -184,20 +185,6 @@ public:
         surface().getVolumeType(samples, info);
       }
     // Other
-      //- Set bounds of surface. Bounds currently set as list of
-      //  bounding boxes. The bounds are hints to the surface as for
-      //  the range of queries it can expect. faceMap/pointMap can be
-      //  set if the surface has done any redistribution.
-      //virtual void distribute
-      //(
-      //    const List<treeBoundBox>& bbs,
-      //    const bool keepNonLocal,
-      //    autoPtr<mapDistribute>& faceMap,
-      //    autoPtr<mapDistribute>& pointMap
-      //)
-      //{
-      //    subGeom_[0].distribute(bbs, keepNonLocal, faceMap, pointMap);
-      //}
       //- WIP. Store element-wise field.
       virtual void setField(const labelList& values)
       {

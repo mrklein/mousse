@@ -21,19 +21,16 @@
 //     descent optimisation.
 //    - Type of cycle: V-cycle with optional pre-smoothing.
 //    - Coarsest-level matrix solved using ICCG or BICCG.
-// SourceFiles
-//   gamg_solver.cpp
-//   gamg_solver_agglomerate_matrix.cpp
-//   gamg_solver_interpolate.cpp
-//   gamg_solver_scale.cpp
-//   gamg_solver_solve.cpp
+
 #include "gamg_agglomeration.hpp"
 #include "ldu_matrix.hpp"
 #include "label_field.hpp"
 #include "primitive_fields.hpp"
 #include "_luscalar_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class GAMGSolver
 :
   public lduMatrix::solver
@@ -68,13 +65,13 @@ class GAMGSolver
     //- Hierarchy of matrix levels
     PtrList<lduMatrix> matrixLevels_;
     //- Hierarchy of interfaces.
-    PtrList<PtrList<lduInterfaceField> > primitiveInterfaceLevels_;
+    PtrList<PtrList<lduInterfaceField>> primitiveInterfaceLevels_;
     //- Hierarchy of interfaces in lduInterfaceFieldPtrs form
     PtrList<lduInterfaceFieldPtrsList> interfaceLevels_;
     //- Hierarchy of interface boundary coefficients
-    PtrList<FieldField<Field, scalar> > interfaceLevelsBouCoeffs_;
+    PtrList<FieldField<Field, scalar>> interfaceLevelsBouCoeffs_;
     //- Hierarchy of interface internal coefficients
-    PtrList<FieldField<Field, scalar> > interfaceLevelsIntCoeffs_;
+    PtrList<FieldField<Field, scalar>> interfaceLevelsIntCoeffs_;
     //- LU decompsed coarsest matrix
     autoPtr<LUscalarMatrix> coarsestLUMatrixPtr_;
   // Private Member Functions
@@ -127,10 +124,10 @@ class GAMGSolver
       const FieldField<Field, scalar>& interfaceIntCoeffs,
       const lduInterfaceFieldPtrsList& interfaces,
       PtrList<lduMatrix>& otherMats,
-      PtrList<FieldField<Field, scalar> >& otherBouCoeffs,
-      PtrList<FieldField<Field, scalar> >& otherIntCoeffs,
+      PtrList<FieldField<Field, scalar>>& otherBouCoeffs,
+      PtrList<FieldField<Field, scalar>>& otherIntCoeffs,
       List<boolList>& otherTransforms,
-      List<List<label> >& otherRanks
+      List<List<label>>& otherRanks
     ) const;
     //- Agglomerate processor matrices
     void procAgglomerateMatrix

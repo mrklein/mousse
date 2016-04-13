@@ -5,6 +5,8 @@
 #include "processor_cyclic_gamg_interface.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "map.hpp"
+
+
 // Static Data Members
 namespace mousse {
 
@@ -26,6 +28,7 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 
 }
 
+
 // Constructors
 mousse::processorCyclicGAMGInterface::processorCyclicGAMGInterface
 (
@@ -39,7 +42,7 @@ mousse::processorCyclicGAMGInterface::processorCyclicGAMGInterface
 )
 :
   processorGAMGInterface
-  (
+  {
     index,
     coarseInterfaces,
     fineInterface,
@@ -47,8 +50,10 @@ mousse::processorCyclicGAMGInterface::processorCyclicGAMGInterface
     neighbourRestrictAddressing,
     fineLevelIndex,
     coarseComm
-  )
+  }
 {}
+
+
 mousse::processorCyclicGAMGInterface::processorCyclicGAMGInterface
 (
   const label index,
@@ -56,8 +61,11 @@ mousse::processorCyclicGAMGInterface::processorCyclicGAMGInterface
   Istream& is
 )
 :
-  processorGAMGInterface(index, coarseInterfaces, is)
+  processorGAMGInterface{index, coarseInterfaces, is}
 {}
+
+
 // Desstructor
 mousse::processorCyclicGAMGInterface::~processorCyclicGAMGInterface()
 {}
+

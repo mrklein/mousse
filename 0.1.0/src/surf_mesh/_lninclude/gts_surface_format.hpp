@@ -1,1 +1,1 @@
-../surface_formats/gts_surface_format.hpp
+../formats/gts_surface_format.hpp

@@ -13,17 +13,15 @@
 //   We store mapping from the bits-to-send to the complete starting mesh
 //   (subXXXMap) and from the received bits to their location in the new
 //   mesh (constructXXXMap).
-// SourceFiles
-//   map_distribute_poly_mesh.cpp
-
 
 #include "map_distribute.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class mapPolyMesh;
 class polyMesh;
+
 
 class mapDistributePolyMesh
 {

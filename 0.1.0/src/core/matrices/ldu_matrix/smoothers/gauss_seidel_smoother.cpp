@@ -3,14 +3,20 @@
 // Copyright (C) 2016 mousse project
 
 #include "gauss_seidel_smoother.hpp"
+
+
 // Static Data Members
 namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(GaussSeidelSmoother, 0);
 lduMatrix::smoother::addsymMatrixConstructorToTable<GaussSeidelSmoother>
   addGaussSeidelSmootherSymMatrixConstructorToTable_;
 lduMatrix::smoother::addasymMatrixConstructorToTable<GaussSeidelSmoother>
   addGaussSeidelSmootherAsymMatrixConstructorToTable_;
+
 }
+
+
 // Constructors 
 mousse::GaussSeidelSmoother::GaussSeidelSmoother
 (
@@ -22,14 +28,16 @@ mousse::GaussSeidelSmoother::GaussSeidelSmoother
 )
 :
   lduMatrix::smoother
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces
-  )
+  }
 {}
+
+
 // Member Functions 
 void mousse::GaussSeidelSmoother::smooth
 (
@@ -69,15 +77,12 @@ void mousse::GaussSeidelSmoother::smooth
   // sign of the contribution.
   FieldField<Field, scalar>& mBouCoeffs =
     const_cast<FieldField<Field, scalar>&>(interfaceBouCoeffs_);
-  FOR_ALL(mBouCoeffs, patchi)
-  {
-    if (interfaces_.set(patchi))
-    {
+  FOR_ALL(mBouCoeffs, patchi) {
+    if (interfaces_.set(patchi)) {
       mBouCoeffs[patchi].negate();
     }
   }
-  for (label sweep=0; sweep<nSweeps; sweep++)
-  {
+  for (label sweep=0; sweep<nSweeps; sweep++) {
     bPrime = source;
     matrix_.initMatrixInterfaces
     (
@@ -98,37 +103,34 @@ void mousse::GaussSeidelSmoother::smooth
     scalar psii;
     label fStart;
     label fEnd = ownStartPtr[0];
-    for (label celli=0; celli<nCells; celli++)
-    {
+    for (label celli=0; celli<nCells; celli++) {
       // Start and end of this row
       fStart = fEnd;
       fEnd = ownStartPtr[celli + 1];
       // Get the accumulated neighbour side
       psii = bPrimePtr[celli];
       // Accumulate the owner product side
-      for (label facei=fStart; facei<fEnd; facei++)
-      {
+      for (label facei=fStart; facei<fEnd; facei++) {
         psii -= upperPtr[facei]*psiPtr[uPtr[facei]];
       }
       // Finish psi for this cell
       psii /= diagPtr[celli];
       // Distribute the neighbour side using psi for this cell
-      for (label facei=fStart; facei<fEnd; facei++)
-      {
+      for (label facei=fStart; facei<fEnd; facei++) {
         bPrimePtr[uPtr[facei]] -= lowerPtr[facei]*psii;
       }
       psiPtr[celli] = psii;
     }
   }
   // Restore interfaceBouCoeffs_
-  FOR_ALL(mBouCoeffs, patchi)
-  {
-    if (interfaces_.set(patchi))
-    {
+  FOR_ALL(mBouCoeffs, patchi) {
+    if (interfaces_.set(patchi)) {
       mBouCoeffs[patchi].negate();
     }
   }
 }
+
+
 void mousse::GaussSeidelSmoother::smooth
 (
   scalarField& psi,

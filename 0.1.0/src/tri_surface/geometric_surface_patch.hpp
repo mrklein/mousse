@@ -9,13 +9,14 @@
 // Description
 //   The geometricSurfacePatch is like patchIdentifier but for surfaces.
 //   Holds type, name and index.
-// SourceFiles
-//   geometric_surface_patch.cpp
+
 #include "word.hpp"
 #include "label.hpp"
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class dictionary;
 class geometricSurfacePatch
 {
@@ -91,5 +92,6 @@ public:
     friend Ostream& operator<<(Ostream&, const geometricSurfacePatch&);
     friend Istream& operator>>(Istream&, geometricSurfacePatch&);
 };
+
 }  // namespace mousse
 #endif

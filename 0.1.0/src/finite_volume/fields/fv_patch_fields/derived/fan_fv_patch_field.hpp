@@ -45,15 +45,13 @@
 //   The underlying \c patchType should be set to \c cyclic
 // SeeAlso
 //   mousse::DataEntry
-// SourceFiles
-//   fan_fv_patch_field.cpp
-//   fan_fv_patch_fields.hpp
-//   fan_fv_patch_fields.cpp
-//   fan_fv_patch_fields_fwd.hpp
+
 #include "uniform_jump_fv_patch_field.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class fanFvPatchField
 :
@@ -99,12 +97,12 @@ public:
       const fanFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new fanFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new fanFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fanFvPatchField
@@ -113,15 +111,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new fanFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new fanFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field
@@ -129,6 +127,7 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 //- Specialisation of the jump-condition for the pressure
 template<>
 void fanFvPatchField<scalar>::calcFanJump();
@@ -139,8 +138,9 @@ fanFvPatchField<scalar>::fanFvPatchField
   const DimensionedField<scalar, volMesh>&,
   const dictionary&
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fan_fv_patch_field.cpp"
-#endif
+
+#include "fan_fv_patch_field.ipp"
+
 #endif

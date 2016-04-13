@@ -5,14 +5,16 @@
 #include "token.hpp"
 #include "error.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 const char* const token::typeName = "token";
 token token::undefinedToken;
 typedef token::compound tokenCompound;
 DEFINE_TYPE_NAME_AND_DEBUG(tokenCompound, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(tokenCompound, Istream);
+
 }
 
 // Private Member Functions
@@ -37,8 +39,7 @@ mousse::autoPtr<mousse::token::compound> mousse::token::compound::New
 {
   IstreamConstructorTable::iterator cstrIter =
     IstreamConstructorTablePtr_->find(compoundType);
-  if (cstrIter == IstreamConstructorTablePtr_->end())
-  {
+  if (cstrIter == IstreamConstructorTablePtr_->end()) {
     FATAL_IO_ERROR_IN("token::compound::New(const word&, Istream&)", is)
       << "Unknown compound type " << compoundType << nl << nl
       << "Valid compound types:" << endl
@@ -59,10 +60,8 @@ bool mousse::token::compound::isCompound(const word& name)
 
 mousse::token::compound& mousse::token::transferCompoundToken(const Istream& is)
 {
-  if (type_ == COMPOUND)
-  {
-    if (compoundTokenPtr_->empty())
-    {
+  if (type_ == COMPOUND) {
+    if (compoundTokenPtr_->empty()) {
       FATAL_IO_ERROR_IN
       (
         "token::transferCompoundToken(const Istream& is)",
@@ -70,15 +69,11 @@ mousse::token::compound& mousse::token::transferCompoundToken(const Istream& is)
       )
       << "compound has already been transfered from token\n    "
       << info() << abort(FatalIOError);
-    }
-    else
-    {
+    } else {
       compoundTokenPtr_->empty() = true;
     }
     return *compoundTokenPtr_;
-  }
-  else
-  {
+  } else {
     parseError("compound");
     return *compoundTokenPtr_;
   }

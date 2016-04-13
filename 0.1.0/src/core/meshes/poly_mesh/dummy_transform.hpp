@@ -5,8 +5,8 @@
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-namespace mousse
-{
+namespace mousse {
+
 class dummyTransform
 {
 public:
@@ -25,8 +25,10 @@ public:
   void operator()(const coupledPolyPatch&, Container<T>& /*map*/) const
   {}
 };
+
+
 template<class T>
-class pTraits<List<T> >
+class pTraits<List<T>>
 :
   public List<T>
 {
@@ -34,11 +36,13 @@ public:
   typedef label cmptType;
   pTraits(Istream& is)
   :
-    List<T>(is)
+    List<T>{is}
   {}
 };
+
+
 template<class T>
-class pTraits<UList<T> >
+class pTraits<UList<T>>
 :
   public UList<T>
 {
@@ -46,11 +50,13 @@ public:
   typedef label cmptType;
   pTraits(Istream& is)
   :
-    UList<T>(is)
+    UList<T>{is}
   {}
 };
+
+
 template<class T>
-class pTraits<Field<T> >
+class pTraits<Field<T>>
 :
   public Field<T>
 {
@@ -58,9 +64,11 @@ public:
   typedef label cmptType;
   pTraits(Istream& is)
   :
-    Field<T>(is)
+    Field<T>{is}
   {}
 };
+
+
 template<>
 class pTraits<face>
 :
@@ -70,8 +78,11 @@ public:
   typedef label cmptType;
   pTraits(Istream& is)
   :
-    face(is)
+    face{is}
   {}
 };
+
 }  // namespace mousse
+
 #endif
+

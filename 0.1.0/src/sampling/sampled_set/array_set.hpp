@@ -6,16 +6,18 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::arraySet
-// Description
-// SourceFiles
-//   array_set.cpp
+
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "coordinate_system.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class passiveParticle;
+
+
 template<class Type> class particle;
 class arraySet
 :

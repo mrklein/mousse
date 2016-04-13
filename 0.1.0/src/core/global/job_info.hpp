@@ -9,17 +9,16 @@
 // Description
 //   Helper class for recording information about run/finished jobs.
 //   Writes the following files:
-//    - $FOAM_JOB_DIR/runningJobs
-//    - $FOAM_JOB_DIR/finishedJobs
-// SourceFiles
-//   job_info.cpp
+//    - $MOUSSE_JOB_DIR/runningJobs
+//    - $MOUSSE_JOB_DIR/finishedJobs
 
 #include "dictionary.hpp"
 #include "file_name.hpp"
 #include "cpu_time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class JobInfo
 :
   public dictionary
@@ -47,6 +46,9 @@ public:
       void abort();
       void signalEnd() const;
 };
+
 extern JobInfo jobInfo;
+
 }  // namespace mousse
+
 #endif

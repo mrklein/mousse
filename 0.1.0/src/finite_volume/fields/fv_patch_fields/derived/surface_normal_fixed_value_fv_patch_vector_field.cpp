@@ -6,7 +6,10 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
 #include "fv_patch_field_mapper.hpp"
+
+
 // Constructors 
+
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
 (
@@ -17,6 +20,7 @@ surfaceNormalFixedValueFvPatchVectorField
   fixedValueFvPatchVectorField{p, iF},
   refValue_{p.size()}
 {}
+
 
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
@@ -42,6 +46,7 @@ surfaceNormalFixedValueFvPatchVectorField
   );
 }
 
+
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
 (
@@ -56,6 +61,7 @@ surfaceNormalFixedValueFvPatchVectorField
   fvPatchVectorField::operator=(refValue_*patch().nf());
 }
 
+
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
 (
@@ -65,6 +71,7 @@ surfaceNormalFixedValueFvPatchVectorField
   fixedValueFvPatchVectorField{pivpvf},
   refValue_{pivpvf.refValue_}
 {}
+
 
 mousse::surfaceNormalFixedValueFvPatchVectorField::
 surfaceNormalFixedValueFvPatchVectorField
@@ -77,6 +84,7 @@ surfaceNormalFixedValueFvPatchVectorField
   refValue_{pivpvf.refValue_}
 {}
 
+
 // Member Functions 
 void mousse::surfaceNormalFixedValueFvPatchVectorField::autoMap
 (
@@ -86,6 +94,7 @@ void mousse::surfaceNormalFixedValueFvPatchVectorField::autoMap
   fixedValueFvPatchVectorField::autoMap(m);
   refValue_.autoMap(m);
 }
+
 
 void mousse::surfaceNormalFixedValueFvPatchVectorField::rmap
 (
@@ -99,15 +108,16 @@ void mousse::surfaceNormalFixedValueFvPatchVectorField::rmap
   refValue_.rmap(tiptf.refValue_, addr);
 }
 
+
 void mousse::surfaceNormalFixedValueFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   fvPatchVectorField::operator=(refValue_*patch().nf());
   fvPatchVectorField::updateCoeffs();
 }
+
 
 void mousse::surfaceNormalFixedValueFvPatchVectorField::write(Ostream& os) const
 {
@@ -115,11 +125,14 @@ void mousse::surfaceNormalFixedValueFvPatchVectorField::write(Ostream& os) const
   refValue_.writeEntry("refValue", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   surfaceNormalFixedValueFvPatchVectorField
 );
+
 }
+

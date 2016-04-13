@@ -8,12 +8,13 @@
 //   mousse::weighted
 // Description
 //   Interpolation scheme class using weights looked-up from the objectRegistry.
-// SourceFiles
-//   weighted.cpp
+
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class weighted
 :
@@ -40,7 +41,7 @@ public:
         this->mesh().objectRegistry::template
         lookupObject<const surfaceScalarField>
         (
-          word(is)
+          word{is}
         )
       }
     {}

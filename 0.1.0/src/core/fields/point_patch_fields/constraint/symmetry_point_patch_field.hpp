@@ -8,15 +8,12 @@
 //   mousse::symmetryPointPatchField
 // Description
 //   A Symmetry boundary condition for pointField
-// SourceFiles
-//   symmetry_point_patch_field.cpp
-
 
 #include "basic_symmetry_point_patch_field.hpp"
 #include "symmetry_point_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class symmetryPointPatchField
@@ -53,14 +50,11 @@ public:
     );
 
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
+      return autoPtr<pointPatchField<Type>>
       {
-        new symmetryPointPatchField<Type>
-        {
-          *this
-        }
+        new symmetryPointPatchField<Type>{*this}
       };
     }
 
@@ -72,18 +66,14 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
+      return autoPtr<pointPatchField<Type>>
       {
-        new symmetryPointPatchField<Type>
-        {
-          *this,
-          iF
-        }
+        new symmetryPointPatchField<Type>{*this, iF}
       };
     }
 
@@ -97,7 +87,7 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#    include "symmetry_point_patch_field.cpp"
-#endif
+
+#include "symmetry_point_patch_field.ipp"
+
 #endif

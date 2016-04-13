@@ -15,14 +15,14 @@
 // SourceFiles
 //   dynamic_tree_data_point.cpp
 
-
 #include "point_field.hpp"
 #include "tree_bound_box.hpp"
 #include "line_point_ref.hpp"
 #include "volume_type.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 template<class Type> class dynamicIndexedOctree;
 class dynamicTreeDataPoint

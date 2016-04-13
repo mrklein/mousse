@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "label_spherical_tensor.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 template<>
 const char* const labelSphericalTensor::typeName = "labelSphericalTensor";
@@ -16,4 +18,5 @@ template<>
 const labelSphericalTensor labelSphericalTensor::one(1);
 template<>
 const labelSphericalTensor labelSphericalTensor::I(1);
+
 }  // namespace mousse

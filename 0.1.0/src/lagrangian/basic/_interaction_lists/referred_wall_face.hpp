@@ -9,19 +9,23 @@
 // Description
 //   Storage for referred wall faces.  Stores patch index, face and
 //   associated points
-// SourceFiles
-//   referred_wall_face.cpp
+
 #include "face.hpp"
 #include "point_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class Istream;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 class referredWallFace;
 Istream& operator>>(Istream&, referredWallFace&);
 Ostream& operator<<(Ostream&, const referredWallFace&);
+
+
 class referredWallFace
 :
   public face
@@ -63,23 +67,32 @@ public:
     friend Istream& operator>>(Istream&, referredWallFace&);
     friend Ostream& operator<<(Ostream&, const referredWallFace&);
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 const mousse::pointField& mousse::referredWallFace::points() const
 {
   return pts_;
 }
+
+
 mousse::pointField& mousse::referredWallFace::points()
 {
   return pts_;
 }
+
+
 mousse::label mousse::referredWallFace::patchIndex() const
 {
   return patchI_;
 }
+
+
 mousse::label& mousse::referredWallFace::patchIndex()
 {
   return patchI_;
 }
+
 #endif

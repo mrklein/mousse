@@ -4,8 +4,7 @@
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   int32.cpp
-//   int32_io.cpp
+
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
 #include <climits>
@@ -16,17 +15,22 @@
 #ifndef UINT32_MIN
 #define UINT32_MIN 0
 #endif
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 //- Return a word representation of an int32
 word name(const int32_t);
+
 // IOstream Operators 
 int32_t readInt32(Istream&);
 bool read(const char*, int32_t&);
 Istream& operator>>(Istream&, int32_t&);
 Ostream& operator<<(Ostream&, const int32_t);
+
 // On 32bit OSs long is not unambiguously int32_t (or int64_t) causing problems
 // for IO operator resolution.
 // This problem is avoided by explicitly defining the following operators:
@@ -34,6 +38,7 @@ Ostream& operator<<(Ostream&, const int32_t);
   Istream& operator>>(Istream&, long&);
   Ostream& operator<<(Ostream&, const long);
 #endif
+
 //- Template specialization for pTraits<int32_t>
 template<>
 class pTraits<int32_t>
@@ -75,9 +80,12 @@ public:
       return p_;
     }
 };
+
 inline int32_t mag(const int32_t l)
 {
   return ::abs(l);
 }
+
 }  // namespace mousse
+
 #endif

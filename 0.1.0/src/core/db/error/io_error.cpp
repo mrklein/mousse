@@ -10,6 +10,7 @@
 #include "pstream.hpp"
 #include "job_info.hpp"
 
+
 mousse::IOerror::IOerror(const string& title)
 :
   error{title},
@@ -99,16 +100,13 @@ void mousse::IOerror::SafeFatalIOError
   const string& msg
 )
 {
-  if (JobInfo::constructed)
-  {
+  if (JobInfo::constructed) {
     FATAL_IO_ERROR_IN
     (
       "primitiveEntry::readEntry(const dictionary&, Istream&)",
       ioStream
     )   << msg << mousse::exit(FatalIOError);
-  }
-  else
-  {
+  } else {
     std::cerr
       << std::endl
       << "--> mousse FATAL IO ERROR:" << std::endl
@@ -139,34 +137,26 @@ mousse::IOerror::operator mousse::dictionary() const
 }
 void mousse::IOerror::exit(const int)
 {
-  if (!throwExceptions_ && JobInfo::constructed)
-  {
+  if (!throwExceptions_ && JobInfo::constructed) {
     jobInfo.add("FatalIOError", operator dictionary());
     jobInfo.exit();
   }
-  if (abort_)
-  {
+  if (abort_) {
     abort();
   }
-  if (Pstream::parRun())
-  {
-    Perr<< endl << *this << endl
+  if (Pstream::parRun()) {
+    Perr << endl << *this << endl
       << "\nmousse parallel run exiting\n" << endl;
     Pstream::exit(1);
-  }
-  else
-  {
-    if (throwExceptions_)
-    {
+  } else {
+    if (throwExceptions_) {
       // Make a copy of the error to throw
       IOerror errorException(*this);
       // Rewind the message buffer for the next error message
       messageStreamPtr_->rewind();
       throw errorException;
-    }
-    else
-    {
-      Perr<< endl << *this << endl
+    } else {
+      Perr << endl << *this << endl
         << "\nmousse exiting\n" << endl;
       ::exit(1);
     }
@@ -176,39 +166,30 @@ void mousse::IOerror::exit(const int)
 
 void mousse::IOerror::abort()
 {
-  if (!throwExceptions_ && JobInfo::constructed)
-  {
+  if (!throwExceptions_ && JobInfo::constructed) {
     jobInfo.add("FatalIOError", operator dictionary());
     jobInfo.abort();
   }
-  if (abort_)
-  {
-    Perr<< endl << *this << endl
+  if (abort_) {
+    Perr << endl << *this << endl
       << "\nmousse aborting (MOUSSE_ABORT set)\n" << endl;
     printStack(Perr);
     ::abort();
   }
-  if (Pstream::parRun())
-  {
-    Perr<< endl << *this << endl
+  if (Pstream::parRun()) {
+    Perr << endl << *this << endl
       << "\nmousse parallel run aborting\n" << endl;
     printStack(Perr);
     Pstream::abort();
-  }
-  else
-  {
-    if (throwExceptions_)
-    {
+  } else {
+    if (throwExceptions_) {
       // Make a copy of the error to throw
-      IOerror errorException(*this);
+      IOerror errorException{*this};
       // Rewind the message buffer for the next error message
       messageStreamPtr_->rewind();
       throw errorException;
-    }
-    else
-    {
-      Perr<< endl << *this << endl
-        << "\nmousse aborting\n" << endl;
+    } else {
+      Perr << endl << *this << endl << "\nmousse aborting\n" << endl;
       printStack(Perr);
       ::abort();
     }
@@ -218,24 +199,19 @@ void mousse::IOerror::abort()
 
 mousse::Ostream& mousse::operator<<(Ostream& os, const IOerror& ioErr)
 {
-  if (!os.bad())
-  {
-    os<< endl
+  if (!os.bad()) {
+    os << endl
       << ioErr.title().c_str() << endl
       << ioErr.message().c_str() << endl << endl;
-    os<< "file: " << ioErr.ioFileName().c_str();
-    if (ioErr.ioStartLineNumber() >= 0 && ioErr.ioEndLineNumber() >= 0)
-    {
-      os<< " from line " << ioErr.ioStartLineNumber()
+    os << "file: " << ioErr.ioFileName().c_str();
+    if (ioErr.ioStartLineNumber() >= 0 && ioErr.ioEndLineNumber() >= 0) {
+      os << " from line " << ioErr.ioStartLineNumber()
         << " to line " << ioErr.ioEndLineNumber() << '.';
+    } else if (ioErr.ioStartLineNumber() >= 0) {
+      os << " at line " << ioErr.ioStartLineNumber() << '.';
     }
-    else if (ioErr.ioStartLineNumber() >= 0)
-    {
-      os<< " at line " << ioErr.ioStartLineNumber() << '.';
-    }
-    if (IOerror::level >= 2 && ioErr.sourceFileLineNumber())
-    {
-      os<< endl << endl
+    if (IOerror::level >= 2 && ioErr.sourceFileLineNumber()) {
+      os << endl << endl
         << "    From function " << ioErr.functionName().c_str() << endl
         << "    in file " << ioErr.sourceFileName().c_str()
         << " at line " << ioErr.sourceFileLineNumber() << '.';
@@ -243,6 +219,7 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const IOerror& ioErr)
   }
   return os;
 }
+
 
 // Global error definitions
 mousse::IOerror mousse::FatalIOError(">>> mousse FATAL IO ERROR: ");

@@ -1,1 +1,1 @@
-../tri_surface/tri_surface_tools/geompack/geompack.cpp
+../tri_surface/geompack.cpp

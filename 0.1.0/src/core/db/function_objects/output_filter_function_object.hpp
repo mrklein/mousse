@@ -14,16 +14,13 @@
 //   by user-time conversions. For example, mousse::engineTime might cause \a
 //   writeInterval to be degrees crank angle, but the functionObject
 //   execution \a interval would still be in timestep.
-// SourceFiles
-//   output_filter_function_object.cpp
-
 
 #include "function_object.hpp"
 #include "dictionary.hpp"
 #include "output_filter_output_control.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class OutputFilter>
 class OutputFilterFunctionObject
@@ -193,7 +190,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "output_filter_function_object.cpp"
-#endif
+#include "output_filter_function_object.ipp"
+
 #endif

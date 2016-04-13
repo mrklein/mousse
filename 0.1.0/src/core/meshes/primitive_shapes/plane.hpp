@@ -9,19 +9,22 @@
 // Description
 //   Geometric class that creates a 2D plane and can return the intersection
 //   point between a line and the plane.
-// SourceFiles
-//   plane.cpp
+
 #include "point.hpp"
 #include "scalar_list.hpp"
 #include "dictionary.hpp"
 #include "line.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class plane;
 bool operator==(const plane&, const plane&);
 bool operator!=(const plane&, const plane&);
 Ostream& operator<<(Ostream&, const plane&);
+
+
 class plane
 {
 public:
@@ -39,8 +42,8 @@ public:
     public:
       ray(const point& refPoint, const vector& dir)
       :
-        refPoint_(refPoint),
-        dir_(dir)
+        refPoint_{refPoint},
+        dir_{dir}
       {}
       const point& refPoint() const
       {
@@ -129,5 +132,7 @@ public:
     //- Write plane properties
     friend Ostream& operator<<(Ostream&, const plane&);
 };
+
 }  // namespace mousse
+
 #endif

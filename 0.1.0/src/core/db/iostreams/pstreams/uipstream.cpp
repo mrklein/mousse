@@ -8,14 +8,17 @@
 #include "token.hpp"
 #include "iostreams.hpp"
 #include <cctype>
+
+
 // Private Member Functions 
 inline void mousse::UIPstream::checkEof()
 {
-  if (externalBufPosition_ == messageSize_)
-  {
+  if (externalBufPosition_ == messageSize_) {
     setEof();
   }
 }
+
+
 template<class T>
 inline void mousse::UIPstream::readFromBuffer(T& t)
 {
@@ -25,6 +28,8 @@ inline void mousse::UIPstream::readFromBuffer(T& t)
   externalBufPosition_ += sizeof(T);
   checkEof();
 }
+
+
 inline void mousse::UIPstream::readFromBuffer
 (
   void* data,
@@ -32,11 +37,8 @@ inline void mousse::UIPstream::readFromBuffer
   size_t align
 )
 {
-  if (align > 1)
-  {
-    externalBufPosition_ =
-      align
-     + ((externalBufPosition_ - 1) & ~(align - 1));
+  if (align > 1) {
+    externalBufPosition_ = align + ((externalBufPosition_ - 1) & ~(align - 1));
   }
   const char* bufPtr = &externalBuf_[externalBufPosition_];
   char* dataPtr = reinterpret_cast<char*>(data);
@@ -45,14 +47,14 @@ inline void mousse::UIPstream::readFromBuffer
   externalBufPosition_ += count;
   checkEof();
 }
+
+
 // Destructor 
 mousse::UIPstream::~UIPstream()
 {
-  if (clearAtEnd_ && eof())
-  {
-    if (debug)
-    {
-      Pout<< "UIPstream::~UIPstream() : tag:" << tag_
+  if (clearAtEnd_ && eof()) {
+    if (debug) {
+      Pout << "UIPstream::~UIPstream() : tag:" << tag_
         << " fromProcNo:" << fromProcNo_
         << " clearing externalBuf_ of size "
         << externalBuf_.size()
@@ -61,26 +63,25 @@ mousse::UIPstream::~UIPstream()
     externalBuf_.clearStorage();
   }
 }
+
+
 // Member Functions 
 mousse::Istream& mousse::UIPstream::read(token& t)
 {
   // Return the put back token if it exists
-  if (Istream::getBack(t))
-  {
+  if (Istream::getBack(t)) {
     return *this;
   }
   char c;
   // return on error
-  if (!read(c))
-  {
+  if (!read(c)) {
     t.setBad();
     return *this;
   }
   // Set the line number of this token to the current stream line number
   t.lineNumber() = lineNumber();
   // Analyse input starting with this character.
-  switch (c)
-  {
+  switch (c) {
     // Punctuation
     case token::END_STATEMENT :
     case token::BEGIN_LIST :
@@ -212,6 +213,8 @@ mousse::Istream& mousse::UIPstream::read(token& t)
     }
   }
 }
+
+
 mousse::Istream& mousse::UIPstream::read(char& c)
 {
   c = externalBuf_[externalBufPosition_];
@@ -219,6 +222,8 @@ mousse::Istream& mousse::UIPstream::read(char& c)
   checkEof();
   return *this;
 }
+
+
 mousse::Istream& mousse::UIPstream::read(word& str)
 {
   size_t len;
@@ -228,6 +233,8 @@ mousse::Istream& mousse::UIPstream::read(word& str)
   checkEof();
   return *this;
 }
+
+
 mousse::Istream& mousse::UIPstream::read(string& str)
 {
   size_t len;
@@ -237,25 +244,32 @@ mousse::Istream& mousse::UIPstream::read(string& str)
   checkEof();
   return *this;
 }
+
+
 mousse::Istream& mousse::UIPstream::read(label& val)
 {
   readFromBuffer(val);
   return *this;
 }
+
+
 mousse::Istream& mousse::UIPstream::read(floatScalar& val)
 {
   readFromBuffer(val);
   return *this;
 }
+
+
 mousse::Istream& mousse::UIPstream::read(doubleScalar& val)
 {
   readFromBuffer(val);
   return *this;
 }
+
+
 mousse::Istream& mousse::UIPstream::read(char* data, std::streamsize count)
 {
-  if (format() != BINARY)
-  {
+  if (format() != BINARY) {
     FATAL_ERROR_IN("UIPstream::read(char*, std::streamsize)")
       << "stream format not binary"
       << mousse::abort(FatalError);
@@ -263,14 +277,18 @@ mousse::Istream& mousse::UIPstream::read(char* data, std::streamsize count)
   readFromBuffer(data, count, 8);
   return *this;
 }
+
+
 mousse::Istream& mousse::UIPstream::rewind()
 {
   externalBufPosition_ = 0;
   return *this;
 }
+
+
 void mousse::UIPstream::print(Ostream& os) const
 {
-  os  << "Reading from processor " << fromProcNo_
+  os << "Reading from processor " << fromProcNo_
     << " using communicator " << comm_
     <<  " and tag " << tag_
     << mousse::endl;

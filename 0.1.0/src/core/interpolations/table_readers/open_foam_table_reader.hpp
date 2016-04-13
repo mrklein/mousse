@@ -8,13 +8,12 @@
 //   mousse::openFoamTableReader
 // Description
 //   Reads an interpolation table from a file - OpenFOAM-format
-// SourceFiles
-//   open_foam_table_reader.cpp
 
 #include "table_reader.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class openFoamTableReader
 :
@@ -50,7 +49,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "open_foam_table_reader.cpp"
-#endif
+
+#include "open_foam_table_reader.ipp"
+
 #endif

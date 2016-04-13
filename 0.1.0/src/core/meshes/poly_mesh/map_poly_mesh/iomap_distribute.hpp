@@ -10,12 +10,13 @@
 //   IOmapDistribute is derived from mapDistribute and
 //   IOobject to give the mapDistribute
 //   automatic IO functionality via the objectRegistry.
-// SourceFiles
-//   iomap_distribute.cpp
+
 #include "map_distribute.hpp"
 #include "reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IOmapDistribute
 :
   public regIOobject,

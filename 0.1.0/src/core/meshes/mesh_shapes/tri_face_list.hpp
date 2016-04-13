@@ -7,8 +7,11 @@
 
 #include "tri_face.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef List<triFace> triFaceList;
+
+
+namespace mousse {
+
+typedef List<triFace> triFaceList;
+
 }
 #endif

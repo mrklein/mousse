@@ -10,12 +10,17 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "word.hpp"
 #include "mathematical_constants.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(circleSet, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, circleSet, word);
+
 }
+
+
 // Private Member Functions 
 void mousse::circleSet::calcSamples
 (
@@ -26,6 +31,7 @@ void mousse::circleSet::calcSamples
   DynamicList<scalar>& samplingCurveDist
 ) const
 {
+  using constant::mathematical::pi;
   static const string funcName =
   (
     "void circleSet::calcSamples"
@@ -39,29 +45,25 @@ void mousse::circleSet::calcSamples
   );
   // set start point
   label cellI = searchEngine().findCell(startPoint_);
-  if (cellI != -1)
-  {
+  if (cellI != -1) {
     samplingPts.append(startPoint_);
     samplingCells.append(cellI);
     samplingFaces.append(-1);
     samplingSegments.append(0);
     samplingCurveDist.append(0.0);
-  }
-  else
-  {
+  } else {
     WARNING_IN_FUNCTION
       << "Unable to find cell at point id " << 0
       << " at location " << startPoint_ << endl;
   }
   // add remaining points
-  const scalar alpha = constant::mathematical::pi/180.0*dTheta_;
+  const scalar alpha = pi/180.0*dTheta_;
   const scalar sinAlpha = sin(alpha);
   const scalar cosAlpha = cos(alpha);
   // first axis
   vector axis1 = startPoint_ - origin_;
   const scalar radius = mag(axis1);
-  if (mag(axis1 & circleAxis_) > SMALL)
-  {
+  if (mag(axis1 & circleAxis_) > SMALL) {
     WARNING_IN_FUNCTION
       << "Vector defined by (startPoint - origin) not orthogonal to "
       << "circleAxis:" << nl
@@ -72,26 +74,19 @@ void mousse::circleSet::calcSamples
   axis1 /= mag(axis1);
   scalar theta = dTheta_;
   label nPoint = 1;
-  while (theta < 360)
-  {
-    axis1 = axis1*cosAlpha + (axis1^circleAxis_)*sinAlpha;
+  while (theta < 360) {
+    axis1 = axis1*cosAlpha + (axis1 ^ circleAxis_)*sinAlpha;
     axis1 /= mag(axis1);
     point pt = origin_ + radius*axis1;
     label cellI = searchEngine().findCell(pt);
-    if (cellI != -1)
-    {
+    if (cellI != -1) {
       samplingPts.append(pt);
       samplingCells.append(cellI);
       samplingFaces.append(-1);
       samplingSegments.append(nPoint);
-      samplingCurveDist.append
-      (
-        radius*constant::mathematical::pi/180.0*theta
-      );
+      samplingCurveDist.append(radius*pi/180.0*theta);
       nPoint++;
-    }
-    else
-    {
+    } else {
       WARNING_IN_FUNCTION
         << "Unable to find cell at point id " << nPoint
         << " at location " << pt << endl;
@@ -99,6 +94,8 @@ void mousse::circleSet::calcSamples
     theta += dTheta_;
   }
 }
+
+
 void mousse::circleSet::genSamples()
 {
   // Storage for sample points
@@ -129,6 +126,8 @@ void mousse::circleSet::genSamples()
     samplingCurveDist
   );
 }
+
+
 // Constructors 
 mousse::circleSet::circleSet
 (
@@ -149,11 +148,12 @@ mousse::circleSet::circleSet
   dTheta_{dTheta}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 mousse::circleSet::circleSet
 (
   const word& name,
@@ -171,16 +171,20 @@ mousse::circleSet::circleSet
   // normalise circleAxis
   circleAxis_ /= mag(circleAxis_);
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 // Destructor 
 mousse::circleSet::~circleSet()
 {}
+
+
 // Member Functions 
 mousse::point mousse::circleSet::getRefPoint(const List<point>& /*pts*/) const
 {
   return startPoint_;
 }
+

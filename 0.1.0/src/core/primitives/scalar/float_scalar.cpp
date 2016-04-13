@@ -5,13 +5,17 @@
 #include "float_scalar.hpp"
 #include "iostreams.hpp"
 #include <sstream>
+
+
 #define Scalar floatScalar
 #define ScalarVGREAT floatScalarVGREAT
 #define ScalarVSMALL floatScalarVSMALL
 #define ScalarROOTVGREAT floatScalarROOTVGREAT
 #define ScalarROOTVSMALL floatScalarROOTVSMALL
 #define readScalar readFloatScalar
-#include "_scalar.cpp"
+
+#include "scalar.ipp"
+
 #undef Scalar
 #undef ScalarVSMALL
 #undef ScalarVSMALL

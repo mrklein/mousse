@@ -7,8 +7,11 @@
 
 #include "vector_field.hpp"
 #include "iofield.hpp"
-namespace mousse
-{
-  typedef IOField<vector> vectorIOField;
+
+
+namespace mousse {
+
+typedef IOField<vector> vectorIOField;
+
 }
 #endif

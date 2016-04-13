@@ -6,6 +6,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "gamg_agglomeration.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -28,33 +29,30 @@ mousse::eagerGAMGProcAgglomeration::eagerGAMGProcAgglomeration
   const dictionary& controlDict
 )
 :
-  GAMGProcAgglomeration(agglom, controlDict),
-  mergeLevels_(controlDict.lookupOrDefault<label>("mergeLevels", 1))
+  GAMGProcAgglomeration{agglom, controlDict},
+  mergeLevels_{controlDict.lookupOrDefault<label>("mergeLevels", 1)}
 {}
 
+
 // Destructor
-mousse::eagerGAMGProcAgglomeration::
-~eagerGAMGProcAgglomeration()
+mousse::eagerGAMGProcAgglomeration::~eagerGAMGProcAgglomeration()
 {
-  FOR_ALL_REVERSE(comms_, i)
-  {
-    if (comms_[i] != -1)
-    {
+  FOR_ALL_REVERSE(comms_, i) {
+    if (comms_[i] != -1) {
       UPstream::freeCommunicator(comms_[i]);
     }
   }
 }
 
+
 // Member Functions
 bool mousse::eagerGAMGProcAgglomeration::agglomerate()
 {
-  if (debug)
-  {
-    Pout<< nl << "Starting mesh overview" << endl;
+  if (debug) {
+    Pout << nl << "Starting mesh overview" << endl;
     printStats(Pout, agglom_);
   }
-  if (agglom_.size() >= 1)
-  {
+  if (agglom_.size() >= 1) {
     // Agglomerate one but last level (since also agglomerating
     // restrictAddressing)
     for
@@ -62,21 +60,17 @@ bool mousse::eagerGAMGProcAgglomeration::agglomerate()
       label fineLevelIndex = 2;
       fineLevelIndex < agglom_.size();
       fineLevelIndex++
-    )
-    {
-      if (agglom_.hasMeshLevel(fineLevelIndex))
-      {
+    ) {
+      if (agglom_.hasMeshLevel(fineLevelIndex)) {
         // Get the fine mesh
         const lduMesh& levelMesh = agglom_.meshLevel(fineLevelIndex);
         label levelComm = levelMesh.comm();
         label nProcs = UPstream::nProcs(levelComm);
-        if (nProcs > 1)
-        {
+        if (nProcs > 1) {
           // Processor restriction map: per processor the coarse
           // processor
-          labelList procAgglomMap(nProcs);
-          FOR_ALL(procAgglomMap, procI)
-          {
+          labelList procAgglomMap{nProcs};
+          FOR_ALL(procAgglomMap, procI) {
             procAgglomMap[procI] = procI/(1<<mergeLevels_);
           }
           // Master processor
@@ -103,8 +97,7 @@ bool mousse::eagerGAMGProcAgglomeration::agglomerate()
           );
           // Use procesor agglomeration maps to do the actual
           // collecting.
-          if (Pstream::myProcNo(levelComm) != -1)
-          {
+          if (Pstream::myProcNo(levelComm) != -1) {
             GAMGProcAgglomeration::agglomerate
             (
               fineLevelIndex,
@@ -119,9 +112,8 @@ bool mousse::eagerGAMGProcAgglomeration::agglomerate()
     }
   }
   // Print a bit
-  if (debug)
-  {
-    Pout<< nl << "Agglomerated mesh overview" << endl;
+  if (debug) {
+    Pout << nl << "Agglomerated mesh overview" << endl;
     printStats(Pout, agglom_);
   }
   return true;

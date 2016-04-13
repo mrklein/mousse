@@ -5,6 +5,7 @@
 #include "symmetry_poly_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
+
 namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(symmetryPolyPatch, 0);
@@ -12,6 +13,7 @@ ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, symmetryPolyPatch, word);
 ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, symmetryPolyPatch, dictionary);
 
 }
+
 
 // Constructors
 mousse::symmetryPolyPatch::symmetryPolyPatch
@@ -24,8 +26,10 @@ mousse::symmetryPolyPatch::symmetryPolyPatch
   const word& patchType
 )
 :
-  polyPatch(name, size, start, index, bm, patchType)
+  polyPatch{name, size, start, index, bm, patchType}
 {}
+
+
 mousse::symmetryPolyPatch::symmetryPolyPatch
 (
   const word& name,
@@ -35,16 +39,20 @@ mousse::symmetryPolyPatch::symmetryPolyPatch
   const word& patchType
 )
 :
-  polyPatch(name, dict, index, bm, patchType)
+  polyPatch{name, dict, index, bm, patchType}
 {}
+
+
 mousse::symmetryPolyPatch::symmetryPolyPatch
 (
   const symmetryPolyPatch& pp,
   const polyBoundaryMesh& bm
 )
 :
-  polyPatch(pp, bm)
+  polyPatch{pp, bm}
 {}
+
+
 mousse::symmetryPolyPatch::symmetryPolyPatch
 (
   const symmetryPolyPatch& pp,
@@ -54,8 +62,10 @@ mousse::symmetryPolyPatch::symmetryPolyPatch
   const label newStart
 )
 :
-  polyPatch(pp, bm, index, newSize, newStart)
+  polyPatch{pp, bm, index, newSize, newStart}
 {}
+
+
 mousse::symmetryPolyPatch::symmetryPolyPatch
 (
   const symmetryPolyPatch& pp,
@@ -65,5 +75,6 @@ mousse::symmetryPolyPatch::symmetryPolyPatch
   const label newStart
 )
 :
-  polyPatch(pp, bm, index, mapAddressing, newStart)
+  polyPatch{pp, bm, index, mapAddressing, newStart}
 {}
+

@@ -9,12 +9,14 @@
 // Description
 //   Tet storage. Null constructable (unfortunately tetrahedron<point, point>
 //   is not)
-// SourceFiles
+
 #include "fixed_list.hpp"
 #include "tree_bound_box.hpp"
 #include "tetrahedron.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class tetPoints
 :
   public FixedList<point, 4>
@@ -42,20 +44,19 @@ public:
     //- Return the tetrahedron
     inline tetPointRef tet() const
     {
-      return tetPointRef
-      (
+      return // tetPointRef
+      {
         operator[](0),
         operator[](1),
         operator[](2),
         operator[](3)
-      );
+      };
     }
     //- Calculate the bounding box
     inline treeBoundBox bounds() const
     {
-      treeBoundBox bb(operator[](0), operator[](0));
-      for (label i = 1; i < size(); i++)
-      {
+      treeBoundBox bb{operator[](0), operator[](0)};
+      for (label i = 1; i < size(); i++) {
         bb.min() = min(bb.min(), operator[](i));
         bb.max() = max(bb.max(), operator[](i));
       }

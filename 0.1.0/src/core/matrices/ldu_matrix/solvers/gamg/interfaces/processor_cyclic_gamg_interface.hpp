@@ -8,15 +8,11 @@
 //   mousse::processorCyclicGAMGInterface
 // Description
 //   GAMG agglomerated processor interface.
-// SourceFiles
-//   processor_cyclic_gamg_interface.cpp
-//   processor_cyclic_gamg_interface_templates.cpp
-
 
 #include "processor_gamg_interface.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class processorCyclicGAMGInterface
 :

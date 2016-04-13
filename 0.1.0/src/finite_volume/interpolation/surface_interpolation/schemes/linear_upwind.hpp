@@ -10,12 +10,13 @@
 //   linearUpwind interpolation scheme class derived from upwind and returns
 //   upwind weighting factors and also applies a gradient-based explicit
 //   correction.
-// SourceFiles
-//   linear_upwind.cpp
+
 #include "upwind.hpp"
 #include "gauss_grad.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class linearUpwind
 :

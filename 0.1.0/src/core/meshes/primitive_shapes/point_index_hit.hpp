@@ -7,11 +7,15 @@
 
 #include "point.hpp"
 #include "_point_index_hit.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef PointIndexHit<point> pointIndexHit;
 //- Data associated with pointIndexHit type are contiguous
-template<>
-inline bool contiguous<pointIndexHit>() {return contiguous<point>();}
+template<> 
+  inline bool contiguous<pointIndexHit>() {return contiguous<point>();}
+
 }
+
 #endif

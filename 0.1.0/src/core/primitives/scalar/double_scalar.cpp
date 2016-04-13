@@ -5,13 +5,19 @@
 #include "double_scalar.hpp"
 #include "iostreams.hpp"
 #include <sstream>
+
+
 #define Scalar doubleScalar
 #define ScalarVGREAT doubleScalarVGREAT
 #define ScalarVSMALL doubleScalarVSMALL
 #define ScalarROOTVGREAT doubleScalarROOTVGREAT
 #define ScalarROOTVSMALL doubleScalarROOTVSMALL
 #define readScalar readDoubleScalar
-#include "_scalar.cpp"
+
+
+#include "scalar.ipp"
+
+
 #undef Scalar
 #undef ScalarVGREAT
 #undef ScalarVSMALL

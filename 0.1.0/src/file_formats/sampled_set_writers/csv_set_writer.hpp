@@ -8,14 +8,11 @@
 //   mousse::csvSetWriter
 // Description
 //   Write set in csv format
-// SourceFiles
-//   csv_set_writer.cpp
-
 
 #include "writer.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class csvSetWriter
@@ -69,8 +66,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "csv_set_writer.cpp"
-#endif
+#include "csv_set_writer.ipp"
 
 #endif

@@ -4,8 +4,9 @@
 
 #include "fvs_patch_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Static Data Members
 #define MAKE_FVS_PATCH_FIELD(fvsPatchTypeField)                               \
                                                                               \

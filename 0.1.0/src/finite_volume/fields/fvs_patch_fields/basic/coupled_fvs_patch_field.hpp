@@ -8,12 +8,13 @@
 //   mousse::coupledFvsPatchField
 // Description
 //   mousse::coupledFvsPatchField
-// SourceFiles
-//   coupled_fvs_patch_field.cpp
+
 #include "fvs_patch_field.hpp"
 #include "coupled_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class coupledFvsPatchField
 :
@@ -57,7 +58,7 @@ public:
       const coupledFvsPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone() const = 0;
+    virtual tmp<fvsPatchField<Type>> clone() const = 0;
     //- Construct as copy setting internal field reference
     coupledFvsPatchField
     (
@@ -65,7 +66,7 @@ public:
       const DimensionedField<Type, surfaceMesh>&
     );
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone
+    virtual tmp<fvsPatchField<Type>> clone
     (
       const DimensionedField<Type, surfaceMesh>&
     ) const = 0;
@@ -79,7 +80,7 @@ public:
       }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "coupled_fvs_patch_field.cpp"
-#endif
+
+#include "coupled_fvs_patch_field.ipp"
+
 #endif

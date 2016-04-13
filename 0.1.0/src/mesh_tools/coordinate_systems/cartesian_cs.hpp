@@ -8,12 +8,13 @@
 //   mousse::cartesianCS
 // Description
 //   Cylindrical coordinate system
-// SourceFiles
-//   cartesian_cs.cpp
+
 #include "coordinate_system.hpp"
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cartesianCS
 :
   public coordinateSystem

@@ -8,13 +8,13 @@
 //   mousse::UILList
 // Description
 //   Template class for intrusive linked lists.
-// SourceFiles
-//   uil_list.cpp
-//   uil_list_io.cpp
+
 #include "label.hpp"
 #include "ulabel.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Ostream;
 // Forward declaration of friend functions and operators
 template<class LListBase, class T>
@@ -25,6 +25,8 @@ Ostream& operator<<
   Ostream&,
   const UILList<LListBase, T>&
 );
+
+
 template<class LListBase, class T>
 class UILList
 :
@@ -45,7 +47,7 @@ public:
     //- Construct given initial T
     UILList(T* a)
     :
-      LListBase(a)
+      LListBase{a}
     {}
     //- Construct as copy
     UILList(const UILList<LListBase, T>&);
@@ -111,7 +113,7 @@ public:
       //- Construct from base iterator
       iterator(LListBase_iterator baseIter)
       :
-        LListBase_iterator(baseIter)
+        LListBase_iterator{baseIter}
       {}
       // Member operators
         T& operator*()
@@ -147,19 +149,18 @@ public:
       //- Construct from base const_iterator
       const_iterator(LListBase_const_iterator baseIter)
       :
-        LListBase_const_iterator(baseIter)
+        LListBase_const_iterator{baseIter}
       {}
       //- Construct from base iterator
       const_iterator(LListBase_iterator baseIter)
       :
-        LListBase_const_iterator(baseIter)
+        LListBase_const_iterator{baseIter}
       {}
       // Member operators
         const T& operator*()
         {
           return
-            static_cast<const T&>
-            (LListBase_const_iterator::operator*());
+            static_cast<const T&>(LListBase_const_iterator::operator*());
         }
         const T& operator()()
         {
@@ -200,14 +201,13 @@ public:
         typename LListBase::const_reverse_iterator baseIter
       )
       :
-        LListBase::const_reverse_iterator(baseIter)
+        LListBase::const_reverse_iterator{baseIter}
       {}
       // Member operators
         const T& operator*()
         {
           return
-            static_cast<const T&>
-            (LListBase::const_reverse_iterator::operator*());
+            static_cast<const T&>(LListBase::const_reverse_iterator::operator*());
         }
         const T& operator()()
         {
@@ -252,7 +252,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "uil_list.cpp"
-#endif
+
+#include "uil_list.ipp"
+
 #endif

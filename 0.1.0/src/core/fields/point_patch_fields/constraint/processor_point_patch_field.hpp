@@ -8,12 +8,13 @@
 //   mousse::processorPointPatchField
 // Description
 //   mousse::processorPointPatchField
-// SourceFiles
-//   processor_point_patch_field.cpp
+
 #include "coupled_point_patch_field.hpp"
 #include "processor_point_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class processorPointPatchField
 :
@@ -48,15 +49,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new processorPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new processorPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     processorPointPatchField
@@ -65,19 +63,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new processorPointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new processorPointPatchField<Type>{*this, iF}
+      };
     }
   //- Destructor
   virtual ~processorPointPatchField();
@@ -86,12 +80,9 @@ public:
       //- Return true if running parallel
       virtual bool coupled() const
       {
-        if (Pstream::parRun())
-        {
+        if (Pstream::parRun()) {
           return true;
-        }
-        else
-        {
+        } else {
           return false;
         }
       }
@@ -99,10 +90,7 @@ public:
       virtual bool doTransform() const
       {
         return
-         !(
-            procPatch_.procPolyPatch().parallel()
-          || pTraits<Type>::rank == 0
-          );
+         !(procPatch_.procPolyPatch().parallel() || pTraits<Type>::rank == 0);
       }
     //- Constraint handling
       //- Return the constraint type this pointPatchField implements
@@ -126,7 +114,7 @@ public:
       {}
 };
 }  // namespace mousse
-#ifdef NoRepository
-#    include "processor_point_patch_field.cpp"
-#endif
+
+#include "processor_point_patch_field.ipp"
+
 #endif

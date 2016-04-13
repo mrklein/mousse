@@ -9,6 +9,7 @@
 #include "surface_fields.hpp"
 #include "time.hpp"
 
+
 // Constructors 
 mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
 (
@@ -20,6 +21,7 @@ mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
   phiName_{"phi"},
   curTimeIndex_{-1}
 {}
+
 
 mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
 (
@@ -70,6 +72,7 @@ mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
   curTimeIndex_{-1}
 {}
 
+
 mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
 (
   const syringePressureFvPatchScalarField& sppsf,
@@ -92,6 +95,7 @@ mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
   curTimeIndex_{-1}
 {}
 
+
 mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
 (
   const syringePressureFvPatchScalarField& sppsf
@@ -113,53 +117,34 @@ mousse::syringePressureFvPatchScalarField::syringePressureFvPatchScalarField
   curTimeIndex_{-1}
 {}
 
+
 // Member Functions 
 mousse::scalar mousse::syringePressureFvPatchScalarField::Vs(const scalar t) const
 {
-  if (t < tas_)
-  {
+  if (t < tas_) {
     return VsI_;
-  }
-  else if (t < tae_)
-  {
-    return
-      VsI_
-     + 0.5*Ap_*Sp_*sqr(t - tas_)/(tae_ - tas_);
+  } else if (t < tae_) {
+    return VsI_ + 0.5*Ap_*Sp_*sqr(t - tas_)/(tae_ - tas_);
   }
   else if (t < tds_)
   {
-    return
-      VsI_
-     + 0.5*Ap_*Sp_*(tae_ - tas_)
-     + Ap_*Sp_*(t - tae_);
-  }
-  else if (t < tde_)
-  {
-    return
-      VsI_
-     + 0.5*Ap_*Sp_*(tae_ - tas_)
-     + Ap_*Sp_*(tds_ - tae_)
-     + Ap_*Sp_*(t - tds_)
-     - 0.5*Ap_*Sp_*sqr(t - tds_)/(tde_ - tds_);
-  }
-  else
-  {
-    return
-      VsI_
-     + 0.5*Ap_*Sp_*(tae_ - tas_)
-     + Ap_*Sp_*(tds_ - tae_)
-     + 0.5*Ap_*Sp_*(tde_ - tds_);
+    return VsI_ + 0.5*Ap_*Sp_*(tae_ - tas_) + Ap_*Sp_*(t - tae_);
+  } else if (t < tde_) {
+    return VsI_ + 0.5*Ap_*Sp_*(tae_ - tas_) + Ap_*Sp_*(tds_ - tae_)
+      + Ap_*Sp_*(t - tds_) - 0.5*Ap_*Sp_*sqr(t - tds_)/(tde_ - tds_);
+  } else {
+    return VsI_ + 0.5*Ap_*Sp_*(tae_ - tas_) + Ap_*Sp_*(tds_ - tae_)
+      + 0.5*Ap_*Sp_*(tde_ - tds_);
   }
 }
 
+
 void mousse::syringePressureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
-  if (curTimeIndex_ != db().time().timeIndex())
-  {
+  if (curTimeIndex_ != db().time().timeIndex()) {
     ams0_ = ams_;
     curTimeIndex_ = db().time().timeIndex();
   }
@@ -169,16 +154,11 @@ void mousse::syringePressureFvPatchScalarField::updateCoeffs()
     db().lookupObject<surfaceScalarField>(phiName_);
   const fvsPatchField<scalar>& phip =
     patch().patchField<surfaceScalarField, scalar>(phi);
-  if (phi.dimensions() == dimVelocity*dimArea)
-  {
+  if (phi.dimensions() == dimVelocity*dimArea) {
     ams_ = ams0_ + deltaT*sum((*this*psi_)*phip);
-  }
-  else if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  } else if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
     ams_ = ams0_ + deltaT*sum(phip);
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN_FUNCTION
       << "dimensions of phi are not correct"
       << "\n    on patch " << this->patch().name()
@@ -190,6 +170,7 @@ void mousse::syringePressureFvPatchScalarField::updateCoeffs()
   operator==(ps);
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
 
 void mousse::syringePressureFvPatchScalarField::write(Ostream& os) const
 {
@@ -208,11 +189,14 @@ void mousse::syringePressureFvPatchScalarField::write(Ostream& os) const
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   syringePressureFvPatchScalarField
 );
+
 }
+

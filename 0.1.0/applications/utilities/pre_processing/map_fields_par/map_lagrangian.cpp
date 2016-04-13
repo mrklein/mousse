@@ -26,10 +26,10 @@ static label findCell(const Cloud<passiveParticle>& cloud, const point& pt)
     // See if particle on face by finding nearest face and shifting
     // particle.
     meshSearch meshSearcher
-    (
+    {
       mesh,
       polyMesh::FACE_PLANES    // no decomposition needed
-    );
+    };
     label faceI = meshSearcher.findNearestBoundaryFace(pt);
     if (faceI >= 0)
     {
@@ -41,6 +41,7 @@ static label findCell(const Cloud<passiveParticle>& cloud, const point& pt)
   }
   return -1;
 }
+
 void mapLagrangian(const meshToMesh& interp)
 {
   // Determine which particles are in meshTarget
@@ -50,48 +51,48 @@ void mapLagrangian(const meshToMesh& interp)
   const labelListList& sourceToTarget = interp.srcToTgtCellAddr();
   const pointField& targetCc = meshTarget.cellCentres();
   fileNameList cloudDirs
-  (
+  {
     readDir
     (
       meshSource.time().timePath()/cloud::prefix,
       fileName::DIRECTORY
     )
-  );
+  };
   FOR_ALL(cloudDirs, cloudI)
   {
     // Search for list of lagrangian objects for this time
     IOobjectList objects
-    (
+    {
       meshSource,
       meshSource.time().timeName(),
       cloud::prefix/cloudDirs[cloudI]
-    );
+    };
     IOobject* positionsPtr = objects.lookup(word("positions"));
     if (positionsPtr)
     {
-      Info<< nl << "    processing cloud " << cloudDirs[cloudI] << endl;
+      Info << nl << "    processing cloud " << cloudDirs[cloudI] << endl;
       // Read positions & cell
       passiveParticleCloud sourceParcels
-      (
+      {
         meshSource,
         cloudDirs[cloudI],
         false
-      );
-      Info<< "    read " << sourceParcels.size()
+      };
+      Info << "    read " << sourceParcels.size()
         << " parcels from source mesh." << endl;
       // Construct empty target cloud
       passiveParticleCloud targetParcels
-      (
+      {
         meshTarget,
         cloudDirs[cloudI],
         IDLList<passiveParticle>()
-      );
-      particle::TrackingData<passiveParticleCloud> td(targetParcels);
+      };
+      particle::TrackingData<passiveParticleCloud> td{targetParcels};
       label sourceParticleI = 0;
       // Indices of source particles that get added to targetParcels
-      DynamicList<label> addParticles(sourceParcels.size());
+      DynamicList<label> addParticles{sourceParcels.size()};
       // Unmapped particles
-      labelHashSet unmappedSource(sourceParcels.size());
+      labelHashSet unmappedSource{sourceParcels.size()};
       // Initial: track from fine-mesh cell centre to particle position
       // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       // This requires there to be no boundary in the way.
@@ -101,8 +102,7 @@ void mapLagrangian(const meshToMesh& interp)
         // Assume that cell from read parcel is the correct one...
         if (iter().cell() >= 0)
         {
-          const labelList& targetCells =
-            sourceToTarget[iter().cell()];
+          const labelList& targetCells = sourceToTarget[iter().cell()];
           // Particle probably in one of the targetcells. Try
           // all by tracking from their cell centre to the parcel
           // position.
@@ -110,14 +110,14 @@ void mapLagrangian(const meshToMesh& interp)
           {
             // Track from its cellcentre to position to make sure.
             autoPtr<passiveParticle> newPtr
-            (
+            {
               new passiveParticle
-              (
+              {
                 meshTarget,
                 targetCc[targetCells[i]],
                 targetCells[i]
-              )
-            );
+              }
+            };
             passiveParticle& newP = newPtr();
             label faceI = newP.track(iter().position(), td);
             if (faceI < 0 && newP.cell() >= 0)
@@ -137,7 +137,7 @@ void mapLagrangian(const meshToMesh& interp)
         }
         sourceParticleI++;
       }
-      Info<< "    after meshToMesh addressing found "
+      Info << "    after meshToMesh addressing found "
         << targetParcels.size()
         << " parcels in target mesh." << endl;
       // Do closer inspection for unmapped particles
@@ -149,8 +149,7 @@ void mapLagrangian(const meshToMesh& interp)
         {
           if (unmappedSource.found(sourceParticleI))
           {
-            label targetCell =
-              findCell(targetParcels, iter().position());
+            label targetCell = findCell(targetParcels, iter().position());
             if (targetCell >= 0)
             {
               unmappedSource.erase(sourceParticleI);
@@ -166,7 +165,7 @@ void mapLagrangian(const meshToMesh& interp)
         }
       }
       addParticles.shrink();
-      Info<< "    after additional mesh searching found "
+      Info << "    after additional mesh searching found "
         << targetParcels.size() << " parcels in target mesh." << endl;
       if (addParticles.size())
       {

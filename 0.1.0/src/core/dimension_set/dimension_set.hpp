@@ -10,21 +10,21 @@
 //   Dimension set for the base types.
 //   This type may be used to implement rigorous dimension checking
 //   for algebraic manipulation.
-// SourceFiles
-//   dimension_set.cpp
-//   dimension_set_io.cpp
-//   dimension_sets.cpp
+
 #include "bool.hpp"
 #include "dimensioned_scalar_fwd.hpp"
 #include "class_name.hpp"
 #include "scalar_field.hpp"
 #include "ptr_list.hpp"
 #include "hash_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class dimensionSet;
 class dimensionSets;
+
 // Friend functions
 dimensionSet max(const dimensionSet&, const dimensionSet&);
 dimensionSet min(const dimensionSet&, const dimensionSet&);
@@ -49,11 +49,14 @@ dimensionSet neg(const dimensionSet&);
 dimensionSet posPart(const dimensionSet&);
 dimensionSet negPart(const dimensionSet&);
 dimensionSet inv(const dimensionSet&);
+
 // Function to check the argument is dimensionless
 //  for transcendental functions
 dimensionSet trans(const dimensionSet&);
+
 // Return the argument; transformations do not change the dimensions
 dimensionSet transform(const dimensionSet&);
+
 // Friend operators
 dimensionSet operator-(const dimensionSet&);
 dimensionSet operator+(const dimensionSet&, const dimensionSet&);
@@ -63,9 +66,12 @@ dimensionSet operator/(const dimensionSet&, const dimensionSet&);
 dimensionSet operator&(const dimensionSet&, const dimensionSet&);
 dimensionSet operator^(const dimensionSet&, const dimensionSet&);
 dimensionSet operator&&(const dimensionSet&, const dimensionSet&);
+
 // IOstream operators
 Istream& operator>>(Istream&, dimensionSet&);
 Ostream& operator<<(Ostream&, const dimensionSet&);
+
+
 class dimensionSet
 {
 public:
@@ -158,7 +164,7 @@ public:
     //- Construct and return a clone
     autoPtr<dimensionSet> clone() const
     {
-      return autoPtr<dimensionSet>(new dimensionSet(*this));
+      return autoPtr<dimensionSet>{new dimensionSet{*this}};
     }
     //- Construct from Istream
     dimensionSet(Istream&);
@@ -288,6 +294,9 @@ public:
     friend Istream& operator>>(Istream&, dimensionSet&);
     friend Ostream& operator<<(Ostream&, const dimensionSet&);
 };
+
 }  // namespace mousse
+
 #include "dimension_sets.hpp"
+
 #endif

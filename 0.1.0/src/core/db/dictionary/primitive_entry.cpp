@@ -7,11 +7,11 @@
 #include "os_specific.hpp"
 #include "string_ops.hpp"
 
+
 // Private Member Functions 
 void mousse::primitiveEntry::append(const UList<token>& varTokens)
 {
-  FOR_ALL(varTokens, i)
-  {
+  FOR_ALL(varTokens, i) {
     newElmt(tokenIndex()++) = varTokens[i];
   }
 }
@@ -23,19 +23,16 @@ bool mousse::primitiveEntry::expandVariable
   const dictionary& dict
 )
 {
-  if (w.size() > 2 && w[0] == '$' && w[1] == token::BEGIN_BLOCK)
-  {
+  if (w.size() > 2 && w[0] == '$' && w[1] == token::BEGIN_BLOCK) {
     // Recursive substitution mode. Replace between {} with expansion.
-    string s(w(2, w.size()-3));
+    string s{w(2, w.size()-3)};
     // Substitute dictionary and environment variables. Do not allow
     // empty substitutions.
     stringOps::inplaceExpand(s, dict, true, false);
     string newW{w};
     newW.std::string::replace(1, newW.size()-1, s);
     return expandVariable(newW, dict);
-  }
-  else
-  {
+  } else {
     string varName = w(1, w.size()-1);
     // lookup the variable name in the given dictionary....
     // Note: allow wildcards to match? For now disabled since following
@@ -45,19 +42,13 @@ bool mousse::primitiveEntry::expandVariable
     //      boundaryField { ".*" {YYY;} movingWall {value $internalField;}
     const entry* ePtr = dict.lookupScopedEntryPtr(varName, true, false);
     // ...if defined append its tokens into this
-    if (ePtr)
-    {
-      if (ePtr->isDict())
-      {
+    if (ePtr) {
+      if (ePtr->isDict()) {
         append(ePtr->dict().tokens());
-      }
-      else
-      {
+      } else {
         append(ePtr->stream());
       }
-    }
-    else
-    {
+    } else {
       // not in the dictionary - try an environment variable
       string envStr = getEnv(varName);
       if (envStr.empty())
@@ -67,9 +58,10 @@ bool mousse::primitiveEntry::expandVariable
           "primitiveEntry::expandVariable"
           "(const string&, const dictionary&",
           dict
-        )   << "Illegal dictionary entry or environment variable name "
-          << varName << endl << "Valid dictionary entries are "
-          << dict.toc() << exit(FatalIOError);
+        )
+        << "Illegal dictionary entry or environment variable name "
+        << varName << endl << "Valid dictionary entries are "
+        << dict.toc() << exit(FatalIOError);
         return false;
       }
       append(tokenList(IStringStream('(' + envStr + ')')()));
@@ -122,12 +114,9 @@ mousse::primitiveEntry::primitiveEntry
 mousse::label mousse::primitiveEntry::startLineNumber() const
 {
   const tokenList& tokens = *this;
-  if (tokens.empty())
-  {
+  if (tokens.empty()) {
     return -1;
-  }
-  else
-  {
+  } else {
     return tokens.first().lineNumber();
   }
 }
@@ -136,12 +125,9 @@ mousse::label mousse::primitiveEntry::startLineNumber() const
 mousse::label mousse::primitiveEntry::endLineNumber() const
 {
   const tokenList& tokens = *this;
-  if (tokens.empty())
-  {
+  if (tokens.empty()) {
     return -1;
-  }
-  else
-  {
+  } else {
     return tokens.last().lineNumber();
   }
 }

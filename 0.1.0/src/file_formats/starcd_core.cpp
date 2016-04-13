@@ -7,9 +7,13 @@
 #include "clock.hpp"
 #include "packed_bool_list.hpp"
 #include "istring_stream.hpp"
+
+
 // Constructors 
 mousse::fileFormats::STARCDCore::STARCDCore()
 {}
+
+
 //  Protected Member Functions
 bool mousse::fileFormats::STARCDCore::readHeader
 (
@@ -17,14 +21,13 @@ bool mousse::fileFormats::STARCDCore::readHeader
   const word& signature
 )
 {
-  if (!is.good())
-  {
+  if (!is.good()) {
     FATAL_ERROR_IN
     (
       "fileFormats::STARCDCore::readHeader(...)"
     )
-      << "cannot read " << signature  << "  " << is.name()
-      << abort(FatalError);
+    << "cannot read " << signature  << "  " << is.name()
+    << abort(FatalError);
   }
   word header;
   label majorVersion;
@@ -34,20 +37,20 @@ bool mousse::fileFormats::STARCDCore::readHeader
   is.getLine(line);
   IStringStream(line)() >> majorVersion;
   // add other checks ...
-  if (header != signature)
-  {
-    Info<< "header mismatch " << signature << "  " << is.name()
-      << endl;
+  if (header != signature) {
+    Info<< "header mismatch " << signature << "  " << is.name() << endl;
   }
   return true;
 }
+
+
 void mousse::fileFormats::STARCDCore::writeHeader
 (
   Ostream& os,
   const word& filetype
 )
 {
-  os  << "PROSTAR_" << filetype << nl
+  os << "PROSTAR_" << filetype << nl
     << 4000
     << " " << 0
     << " " << 0
@@ -58,6 +61,8 @@ void mousse::fileFormats::STARCDCore::writeHeader
     << " " << 0
     << endl;
 }
+
+
 // Member Functions 
 bool mousse::fileFormats::STARCDCore::readPoints
 (
@@ -66,24 +71,22 @@ bool mousse::fileFormats::STARCDCore::readPoints
   labelList& ids
 )
 {
-  if (!is.good())
-  {
+  if (!is.good()) {
     FATAL_ERROR_IN
     (
       "fileFormats::STARCDedgeFormat::readPoints(...)"
     )
-      << "Cannot read file " << is.name()
-      << exit(FatalError);
+    << "Cannot read file " << is.name()
+    << exit(FatalError);
   }
   readHeader(is, "PROSTAR_VERTEX");
   // reuse memory if possible
-  DynamicList<point> dynPoints(points.xfer());
-  DynamicList<label> dynPointId(ids.xfer());    // STAR-CD index of points
+  DynamicList<point> dynPoints{points.xfer()};
+  DynamicList<label> dynPointId{ids.xfer()};    // STAR-CD index of points
   dynPoints.clear();
   dynPointId.clear();
   label lineLabel;
-  while ((is >> lineLabel).good())
-  {
+  while ((is >> lineLabel).good()) {
     scalar x, y, z;
     is >> x >> y >> z;
     dynPoints.append(point(x, y, z));
@@ -93,6 +96,8 @@ bool mousse::fileFormats::STARCDCore::readPoints
   ids.transfer(dynPointId);
   return true;
 }
+
+
 void mousse::fileFormats::STARCDCore::writePoints
 (
   Ostream& os,
@@ -104,8 +109,7 @@ void mousse::fileFormats::STARCDCore::writePoints
   os.precision(10);
   // force decimal point for Fortran input
   os.setf(std::ios::showpoint);
-  FOR_ALL(pointLst, ptI)
-  {
+  FOR_ALL(pointLst, ptI) {
     os
       << ptI + 1 << " "
       << pointLst[ptI].x() << " "
@@ -114,3 +118,4 @@ void mousse::fileFormats::STARCDCore::writePoints
   }
   os.flush();
 }
+

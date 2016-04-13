@@ -9,12 +9,17 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(sampledPatch, 0);
 ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE(sampledSurface, sampledPatch, word, patch);
+
 }
+
+
 // Constructors 
 mousse::sampledPatch::sampledPatch
 (
@@ -29,6 +34,8 @@ mousse::sampledPatch::sampledPatch
   triangulate_{triangulate},
   needsUpdate_{true}
 {}
+
+
 mousse::sampledPatch::sampledPatch
 (
   const word& name,
@@ -41,31 +48,34 @@ mousse::sampledPatch::sampledPatch
   triangulate_{dict.lookupOrDefault("triangulate", false)},
   needsUpdate_{true}
 {}
+
+
 // Destructor 
 mousse::sampledPatch::~sampledPatch()
 {}
+
+
 // Member Functions 
 const mousse::labelList& mousse::sampledPatch::patchIDs() const
 {
-  if (patchIDs_.empty())
-  {
-    patchIDs_ = mesh().boundaryMesh().patchSet
-    (
-      patchNames_,
-      false
-    ).sortedToc();
+  if (patchIDs_.empty()) {
+    patchIDs_ =
+      mesh().boundaryMesh().patchSet(patchNames_,false).sortedToc();
   }
   return patchIDs_;
 }
+
+
 bool mousse::sampledPatch::needsUpdate() const
 {
   return needsUpdate_;
 }
+
+
 bool mousse::sampledPatch::expire()
 {
   // already marked as expired
-  if (needsUpdate_)
-  {
+  if (needsUpdate_) {
     return false;
   }
   sampledSurface::clearGeom();
@@ -77,19 +87,18 @@ bool mousse::sampledPatch::expire()
   needsUpdate_ = true;
   return true;
 }
+
+
 bool mousse::sampledPatch::update()
 {
-  if (!needsUpdate_)
-  {
+  if (!needsUpdate_) {
     return false;
   }
   label sz = 0;
-  FOR_ALL(patchIDs(), i)
-  {
+  FOR_ALL(patchIDs(), i) {
     label patchI = patchIDs()[i];
     const polyPatch& pp = mesh().boundaryMesh()[patchI];
-    if (isA<emptyPolyPatch>(pp))
-    {
+    if (isA<emptyPolyPatch>(pp)) {
       FATAL_ERROR_IN("sampledPatch::update()")
         << "Cannot sample an empty patch. Patch " << pp.name()
         << exit(FatalError);
@@ -103,13 +112,11 @@ bool mousse::sampledPatch::update()
   patchStart_.setSize(patchIDs().size());
   labelList meshFaceLabels(sz);
   sz = 0;
-  FOR_ALL(patchIDs(), i)
-  {
+  FOR_ALL(patchIDs(), i) {
     label patchI = patchIDs()[i];
     patchStart_[i] = sz;
     const polyPatch& pp = mesh().boundaryMesh()[patchI];
-    FOR_ALL(pp, j)
-    {
+    FOR_ALL(pp, j) {
       patchIndex_[sz] = i;
       patchFaceLabels_[sz] = j;
       meshFaceLabels[sz] = pp.start()+j;
@@ -117,57 +124,55 @@ bool mousse::sampledPatch::update()
     }
   }
   indirectPrimitivePatch allPatches
-  (
-    IndirectList<face>(mesh().faces(), meshFaceLabels),
+  {
+    IndirectList<face>{mesh().faces(), meshFaceLabels},
     mesh().points()
-  );
+  };
   this->storedPoints() = allPatches.localPoints();
   this->storedFaces()  = allPatches.localFaces();
   // triangulate uses remapFaces()
   // - this is somewhat less efficient since it recopies the faces
   // that we just created, but we probably don't want to do this
   // too often anyhow.
-  if (triangulate_)
-  {
+  if (triangulate_) {
     MeshStorage::triangulate();
   }
-  if (debug)
-  {
+  if (debug) {
     print(Pout);
-    Pout<< endl;
+    Pout << endl;
   }
   needsUpdate_ = false;
   return true;
 }
+
+
 // remap action on triangulation
 void mousse::sampledPatch::remapFaces(const labelUList& faceMap)
 {
   // recalculate the cells cut
-  if (notNull(faceMap) && faceMap.size())
+  if (isNull(faceMap) || !faceMap.size())
+    return;
+  MeshStorage::remapFaces(faceMap);
+  patchFaceLabels_ = labelList
   {
-    MeshStorage::remapFaces(faceMap);
-    patchFaceLabels_ = labelList
-    {
-      UIndirectList<label>{patchFaceLabels_, faceMap}
-    };
-    patchIndex_ = labelList
-    (
-      UIndirectList<label>{patchIndex_, faceMap}
-    );
-    // Redo patchStart.
-    if (patchIndex_.size() > 0)
-    {
-      patchStart_[patchIndex_[0]] = 0;
-      for (label i = 1; i < patchIndex_.size(); i++)
-      {
-        if (patchIndex_[i] != patchIndex_[i-1])
-        {
-          patchStart_[patchIndex_[i]] = i;
-        }
+    UIndirectList<label>{patchFaceLabels_, faceMap}
+  };
+  patchIndex_ = labelList
+  {
+    UIndirectList<label>{patchIndex_, faceMap}
+  };
+  // Redo patchStart.
+  if (patchIndex_.size() > 0) {
+    patchStart_[patchIndex_[0]] = 0;
+    for (label i = 1; i < patchIndex_.size(); i++) {
+      if (patchIndex_[i] != patchIndex_[i-1]) {
+        patchStart_[patchIndex_[i]] = i;
       }
     }
   }
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::sampledPatch::sample
 (
   const volScalarField& vField
@@ -175,6 +180,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledPatch::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledPatch::sample
 (
   const volVectorField& vField
@@ -182,6 +189,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledPatch::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField> mousse::sampledPatch::sample
 (
   const volSphericalTensorField& vField
@@ -189,6 +198,8 @@ mousse::tmp<mousse::sphericalTensorField> mousse::sampledPatch::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledPatch::sample
 (
   const volSymmTensorField& vField
@@ -196,6 +207,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledPatch::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledPatch::sample
 (
   const volTensorField& vField
@@ -203,6 +216,8 @@ mousse::tmp<mousse::tensorField> mousse::sampledPatch::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::sampledPatch::sample
 (
   const surfaceScalarField& sField
@@ -210,6 +225,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledPatch::sample
 {
   return sampleField(sField);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledPatch::sample
 (
   const surfaceVectorField& sField
@@ -217,6 +234,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledPatch::sample
 {
   return sampleField(sField);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField> mousse::sampledPatch::sample
 (
   const surfaceSphericalTensorField& sField
@@ -224,6 +243,8 @@ mousse::tmp<mousse::sphericalTensorField> mousse::sampledPatch::sample
 {
   return sampleField(sField);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledPatch::sample
 (
   const surfaceSymmTensorField& sField
@@ -231,6 +252,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledPatch::sample
 {
   return sampleField(sField);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledPatch::sample
 (
   const surfaceTensorField& sField
@@ -238,6 +261,8 @@ mousse::tmp<mousse::tensorField> mousse::sampledPatch::sample
 {
   return sampleField(sField);
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::sampledPatch::interpolate
 (
   const interpolation<scalar>& interpolator
@@ -245,6 +270,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledPatch::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledPatch::interpolate
 (
   const interpolation<vector>& interpolator
@@ -252,6 +279,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledPatch::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField> mousse::sampledPatch::interpolate
 (
   const interpolation<sphericalTensor>& interpolator
@@ -259,6 +288,8 @@ mousse::tmp<mousse::sphericalTensorField> mousse::sampledPatch::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledPatch::interpolate
 (
   const interpolation<symmTensor>& interpolator
@@ -266,6 +297,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledPatch::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledPatch::interpolate
 (
   const interpolation<tensor>& interpolator
@@ -273,10 +306,13 @@ mousse::tmp<mousse::tensorField> mousse::sampledPatch::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 void mousse::sampledPatch::print(Ostream& os) const
 {
-  os  << "sampledPatch: " << name() << " :"
+  os << "sampledPatch: " << name() << " :"
     << "  patches:" << patchNames()
     << "  faces:" << faces().size()
     << "  points:" << points().size();
 }
+

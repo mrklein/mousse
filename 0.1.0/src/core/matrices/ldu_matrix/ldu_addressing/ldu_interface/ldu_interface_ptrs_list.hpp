@@ -7,8 +7,11 @@
 
 #include "ldu_interface.hpp"
 #include "uptr_list.hpp"
-namespace mousse
-{
-  typedef UPtrList<const lduInterface> lduInterfacePtrsList;
+
+
+namespace mousse {
+
+typedef UPtrList<const lduInterface> lduInterfacePtrsList;
+
 }
 #endif

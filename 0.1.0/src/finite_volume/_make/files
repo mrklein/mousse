@@ -385,7 +385,7 @@ general = cfd_tools/general
 $(general)/find_ref_cell.cpp
 $(general)/adjust_phi.cpp
 $(general)/bound.cpp
-$(general)/correct_uphi_b_cs.cpp
+$(general)/correct_uphi_bcs.cpp
 
 solution_control = $(general)/solution_control
 $(solution_control)/solution_control.cpp

@@ -12,20 +12,22 @@
 //   its tokens analysed.  An entry is a high-level building block for data
 //   description.  It is a front-end for the token parser. A list of entries
 //   can be used as a set of keyword syntax elements, for example.
-// SourceFiles
-//   entry.cpp
-//   entry_io.cpp
+
 #include "key_type.hpp"
 #include "idl_list.hpp"
 #include "file_name.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class ITstream;
 class dictionary;
 // Forward declaration of friend functions and operators
 class entry;
 Ostream& operator<<(Ostream&, const entry&);
+
+
 class entry
 :
   public IDLList<entry>::link

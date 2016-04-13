@@ -5,7 +5,10 @@
 #include "interpolation_cell_patch_constrained.hpp"
 #include "vol_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_INTERPOLATION(interpolationCellPatchConstrained);
+
 }  // namespace mousse
+

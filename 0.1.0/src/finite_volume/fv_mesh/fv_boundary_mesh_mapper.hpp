@@ -8,10 +8,13 @@
 //   mousse::fvBoundaryMeshMapper
 // Description
 //   mousse::fvBoundaryMeshMapper
+
 #include "ptr_list.hpp"
 #include "fv_patch_mapper.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvBoundaryMeshMapper
 :
   public PtrList<fvPatchMapper>
@@ -25,11 +28,10 @@ public:
       const faceMapper& faceMap
     )
     :
-      PtrList<fvPatchMapper>(mesh.boundary().size())
+      PtrList<fvPatchMapper>{mesh.boundary().size()}
     {
       const fvBoundaryMesh& patches = mesh.boundary();
-      FOR_ALL(patches, patchI)
-      {
+      FOR_ALL(patches, patchI) {
         set
         (
           patchI,

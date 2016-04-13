@@ -1,0 +1,3 @@
+vorticity.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-vorticity

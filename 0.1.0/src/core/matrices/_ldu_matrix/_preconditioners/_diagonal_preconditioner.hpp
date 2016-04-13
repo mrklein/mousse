@@ -10,14 +10,12 @@
 //   Diagonal preconditioner for both symmetric and asymmetric matrices.
 //   The inverse (reciprocal for scalar) of the diagonal is calculated and
 //   stored.
-// SourceFiles
-//   diagonal_preconditioner.cpp
-
 
 #include "_ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class DType, class LUType>
 class DiagonalPreconditioner
 :
@@ -80,7 +78,7 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_diagonal_preconditioner.cpp"
-#endif
+
+#include "_diagonal_preconditioner.ipp"
+
 #endif

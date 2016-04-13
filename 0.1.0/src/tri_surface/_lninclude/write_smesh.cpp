@@ -1,1 +1,1 @@
-../tri_surface/interfaces/write_smesh.cpp
+../interfaces/write_smesh.cpp

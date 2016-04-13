@@ -8,12 +8,13 @@
 //   mousse::symmetryPlanePointPatch
 // Description
 //   Symmetry-plane patch.
-// SourceFiles
-//   symmetry_plane_point_patch.cpp
+
 #include "face_point_patch.hpp"
 #include "symmetry_plane_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class symmetryPlanePointPatch
 :
   public facePointPatch
@@ -49,5 +50,8 @@ public:
       return symmetryPlanePolyPatch_.n();
     }
 };
+
 }  // namespace mousse
+
 #endif
+

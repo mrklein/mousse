@@ -1,1 +1,1 @@
-../surface_formats/stl_point.hpp
+../formats/stl_point.hpp

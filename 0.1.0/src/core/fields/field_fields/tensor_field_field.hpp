@@ -4,14 +4,16 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   tensor_field_field.cpp
+
 #include "spherical_tensor_field_field.hpp"
 #include "symm_tensor_field_field.hpp"
 #include "tensor.hpp"
 #define TEMPLATE template<template<class> class Field>
-#include "field_field_functions_m.hpp"
-namespace mousse
-{
+#include "field_field_functions_m.inc"
+
+
+namespace mousse {
+
 UNARY_FUNCTION(scalar, tensor, tr)
 UNARY_FUNCTION(sphericalTensor, tensor, sph)
 UNARY_FUNCTION(symmTensor, tensor, symm)
@@ -31,9 +33,10 @@ UNARY_OPERATOR(vector, tensor, *, hdual)
 UNARY_OPERATOR(tensor, vector, *, hdual)
 BINARY_OPERATOR(vector, vector, tensor, /, divide)
 BINARY_TYPE_OPERATOR(vector, vector, tensor, /, divide)
+
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
-#ifdef NoRepository
-#   include "tensor_field_field.cpp"
-#endif
+
+#include "undef_field_functions_m.inc"
+#include "tensor_field_field.ipp"
+
 #endif

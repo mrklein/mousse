@@ -16,45 +16,46 @@
 #if defined(darwin64)
 #include <regex.h>
 #endif
-namespace mousse
-{
+
+
+namespace mousse {
+
 string pOpen(const string &cmd, label line=0)
 {
   string res = "\n";
   FILE *cmdPipe = popen(cmd.c_str(), "r");
-  if (cmdPipe)
-  {
+  if (cmdPipe) {
     char *buf = NULL;
     // Read line number of lines
-    for (label cnt = 0; cnt <= line; cnt++)
-    {
+    for (label cnt = 0; cnt <= line; cnt++) {
       size_t linecap = 0;
       ssize_t linelen;
       linelen = getline(&buf, &linecap, cmdPipe);
-      if (linelen < 0)
-      {
+      if (linelen < 0) {
         break;
       }
-      if (cnt == line)
-      {
+      if (cnt == line) {
         res = string(buf);
         break;
       }
     }
-    if (buf != NULL)
-    {
+    if (buf != NULL) {
       free(buf);
     }
     pclose(cmdPipe);
   }
   return res.substr(0, res.size() - 1);
 }
+
+
 inline word addressToWord(const uintptr_t addr)
 {
   OStringStream nStream;
   nStream << "0x" << hex << addr;
   return nStream.str();
 }
+
+
 void printSourceFileAndLine
 (
   Ostream& os,
@@ -66,16 +67,14 @@ void printSourceFileAndLine
   uintptr_t address = uintptr_t(addr);
   word myAddress = addressToWord(address);
 #if ! defined(darwin64)
-  if (filename.ext() == "so")
-  {
+  if (filename.ext() == "so") {
     // Convert address into offset into dynamic library
     uintptr_t offset = uintptr_t(info->dli_fbase);
     intptr_t relativeAddress = address - offset;
     myAddress = addressToWord(relativeAddress);
   }
 #endif
-  if (filename[0] == '/')
-  {
+  if (filename[0] == '/') {
     string line = pOpen
     (
 #if ! defined(darwin64)
@@ -114,12 +113,9 @@ void printSourceFileAndLine
       regcomp(&re, ".\\+at \\(.\\+\\):\\(\\d\\+\\)", REG_EXTENDED);
 #endif
       st = regexec(&re, buf, 3, mt, 0);
-      if (st == REG_NOMATCH)
-      {
+      if (st == REG_NOMATCH) {
         line = "??:0";
-      }
-      else
-      {
+      } else {
         size_t len = mt[1].rm_eo - mt[1].rm_so;
         string fname(buf + mt[1].rm_so, len);
         len = mt[2].rm_eo - mt[2].rm_so;
@@ -129,37 +125,35 @@ void printSourceFileAndLine
       regfree(&re);
     }
 #endif
-    if (line == "")
-    {
+    if (line == "") {
       os  << " addr2line failed";
-    }
-    else
-    {
+    } else {
       word location_preposition = " at ";
-      if (line == "??:0")
-      {
+      if (line == "??:0") {
         line = filename;
         location_preposition = " in ";
       }
-      string cwdLine(line.replaceAll(cwd() + '/', ""));
-      string homeLine(cwdLine.replaceAll(home(), '~'));
-      os  << location_preposition << homeLine.c_str();
+      string cwdLine{line.replaceAll(cwd() + '/', "")};
+      string homeLine{cwdLine.replaceAll(home(), '~')};
+      os << location_preposition << homeLine.c_str();
     }
   }
 }
+
+
 fileName absolutePath(const char* fn)
 {
   fileName fname(fn);
-  if (fname[0] != '/' && fname[0] != '~')
-  {
+  if (fname[0] != '/' && fname[0] != '~') {
     string tmp = pOpen("which " + fname);
-    if (tmp[0] == '/' || tmp[0] == '~')
-    {
+    if (tmp[0] == '/' || tmp[0] == '~') {
       fname = tmp;
     }
   }
   return fname;
 }
+
+
 string demangleSymbol(const char* sn)
 {
   string res;
@@ -171,18 +165,18 @@ string demangleSymbol(const char* sn)
     0,
     &st
   );
-  if (st == 0 && cxx_sname)
-  {
+  if (st == 0 && cxx_sname) {
     res = string(cxx_sname);
     free(cxx_sname);
-  }
-  else
-  {
+  } else {
     res = string(sn);
   }
   return res;
 }
+
 }  // namespace mousse
+
+
 void mousse::error::safePrintStack(std::ostream& os)
 {
   // Get raw stack symbols
@@ -191,14 +185,15 @@ void mousse::error::safePrintStack(std::ostream& os)
   char **strings = backtrace_symbols(array, size);
   // See if they contain function between () e.g. "(__libc_start_main+0xd0)"
   // and see if cplus_demangle can make sense of part before +
-  for (size_t i = 0; i < size; i++)
-  {
+  for (size_t i = 0; i < size; i++) {
     string msg(strings[i]);
     fileName programFile;
     word address;
-    os  << '#' << label(i) << '\t' << msg << std::endl;
+    os << '#' << label(i) << '\t' << msg << std::endl;
   }
 }
+
+
 void mousse::error::printStack(Ostream& os)
 {
   // Get raw stack symbols
@@ -208,22 +203,18 @@ void mousse::error::printStack(Ostream& os)
   Dl_info *info = new Dl_info;
   fileName fname = "???";
   word address;
-  for(size_t i=0; i<size; i++)
-  {
+  for(size_t i=0; i<size; i++) {
     int st = dladdr(callstack[i], info);
     os << '#' << label(i) << "  ";
-    if (st != 0 && info->dli_fname != NULL && info->dli_fname[0] != '\0')
-    {
+    if (st != 0 && info->dli_fname != NULL && info->dli_fname[0] != '\0') {
       fname = absolutePath(info->dli_fname);
       os <<
       (
         (info->dli_sname != NULL)
-       ? demangleSymbol(info->dli_sname)
-       : "?"
+        ? demangleSymbol(info->dli_sname)
+        : "?"
       );
-    }
-    else
-    {
+    } else {
       os << "?";
     }
     printSourceFileAndLine(os, fname, info, callstack[i]);
@@ -231,3 +222,4 @@ void mousse::error::printStack(Ostream& os)
   }
   delete info;
 }
+

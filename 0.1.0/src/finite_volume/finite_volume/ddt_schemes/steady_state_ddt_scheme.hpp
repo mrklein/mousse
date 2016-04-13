@@ -8,16 +8,13 @@
 //   mousse::fv::steadyStateDdtScheme
 // Description
 //   SteadyState implicit/explicit ddt which returns 0.
-// SourceFiles
-//   steady_state_ddt_scheme.cpp
-
 
 #include "ddt_scheme.hpp"
 
-namespace mousse
-{
-namespace fv
-{
+
+namespace mousse {
+namespace fv {
+
 template<class Type>
 class steadyStateDdtScheme
 :
@@ -53,53 +50,53 @@ public:
       return fv::ddtScheme<Type>::mesh();
     }
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensioned<Type>&
     );
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& psi
     );
 
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
@@ -171,7 +168,6 @@ tmp<surfaceScalarField> steadyStateDdtScheme<scalar>::fvcDdtPhiCorr
 }  // namespace fv
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "steady_state_ddt_scheme.cpp"
-#endif
+#include "steady_state_ddt_scheme.ipp"
+
 #endif

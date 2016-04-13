@@ -4,14 +4,15 @@
 
 #include "pair_gamg_agglomeration.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(pairGAMGAgglomeration, 0);
-
-bool pairGAMGAgglomeration::forward_(true);
+bool pairGAMGAgglomeration::forward_{true};
 
 }
+
 
 // Constructors 
 mousse::pairGAMGAgglomeration::pairGAMGAgglomeration
@@ -20,6 +21,6 @@ mousse::pairGAMGAgglomeration::pairGAMGAgglomeration
   const dictionary& controlDict
 )
 :
-  GAMGAgglomeration(mesh, controlDict),
-  mergeLevels_(controlDict.lookupOrDefault<label>("mergeLevels", 1))
+  GAMGAgglomeration{mesh, controlDict},
+  mergeLevels_{controlDict.lookupOrDefault<label>("mergeLevels", 1)}
 {}

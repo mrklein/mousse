@@ -16,14 +16,12 @@
 //   the face neighbour cell values and the face area.
 //   This code organisation is both neat and efficient, allowing for
 //   convenient implementation of new schemes to run on parallelised cases.
-// SourceFiles
-//   phi_scheme.cpp
-
 
 #include "limited_surface_interpolation_scheme.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class PhiLimiter>
 class PhiScheme
 :
@@ -85,7 +83,9 @@ public:
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
 };
+
 }  // namespace mousse
+
 
 // Add the patch constructor functions to the hash tables
 #define MAKE_PHI_SURFACE_INTERPOLATION_SCHEME(SS, WEIGHT, TYPE)               \
@@ -105,7 +105,7 @@ limitedSurfaceInterpolationScheme<TYPE>::addMeshConstructorToTable            \
 limitedSurfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable        \
 <PhiScheme<TYPE, WEIGHT> > add##SS##TYPE##MeshFluxConstructorToLimitedTable_;
 
-#ifdef NoRepository
-#   include "phi_scheme.cpp"
-#endif
+
+#include "phi_scheme.ipp"
+
 #endif

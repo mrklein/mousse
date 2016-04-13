@@ -19,11 +19,12 @@
 //     value             uniform (0 0 0);
 //   }
 //   \endverbatim
-// SourceFiles
-//   interstitial_inlet_velocity_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class interstitialInletVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -69,9 +70,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new interstitialInletVelocityFvPatchVectorField(*this)
-      );
+      {
+        new interstitialInletVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     interstitialInletVelocityFvPatchVectorField
@@ -86,9 +87,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new interstitialInletVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new interstitialInletVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Mapping functions

@@ -47,17 +47,13 @@
 // SeeAlso
 //   mapDistribute
 //   globalIndexAndTransform
-// SourceFiles
-//   global_mesh_data.cpp
-//   global_mesh_data_templates.cpp
-
 
 #include "processor_topology.hpp"
 #include "label_pair.hpp"
 #include "indirect_primitive_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 class polyMesh;
@@ -66,6 +62,7 @@ template<class T> class EdgeMap;
 class globalIndex;
 class globalIndexAndTransform;
 class PackedBoolList;
+
 
 class globalMeshData
 :
@@ -265,8 +262,7 @@ public:
       {
         label n = x.size();
         x.setSize(x.size() + y.size());
-        FOR_ALL(y, i)
-        {
+        FOR_ALL(y, i) {
           x[n++] = y[i];
         }
       }
@@ -546,8 +542,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "global_mesh_data_templates.cpp"
-#endif
+#include "global_mesh_data.ipp"
 
 #endif

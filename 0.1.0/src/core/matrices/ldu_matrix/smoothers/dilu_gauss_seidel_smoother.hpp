@@ -10,12 +10,13 @@
 //   Combined DILU/GaussSeidel smoother for asymmetric matrices in which
 //   DILU smoothing is followed by GaussSeidel to ensure that any "spikes"
 //   created by the DILU sweeps are smoothed-out.
-// SourceFiles
-//   dilu_gauss_seidel_smoother.cpp
+
 #include "dilu_smoother.hpp"
 #include "gauss_seidel_smoother.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class DILUGaussSeidelSmoother
 :
   public lduMatrix::smoother
@@ -46,5 +47,7 @@ public:
       const label nSweeps
     ) const;
 };
+
 }  // namespace mousse
+
 #endif

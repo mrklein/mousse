@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
+
 // Constructors 
 mousse::pressureInletUniformVelocityFvPatchVectorField::
 pressureInletUniformVelocityFvPatchVectorField
@@ -14,8 +16,10 @@ pressureInletUniformVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  pressureInletVelocityFvPatchVectorField(p, iF)
+  pressureInletVelocityFvPatchVectorField{p, iF}
 {}
+
+
 mousse::pressureInletUniformVelocityFvPatchVectorField::
 pressureInletUniformVelocityFvPatchVectorField
 (
@@ -25,8 +29,10 @@ pressureInletUniformVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  pressureInletVelocityFvPatchVectorField(ptf, p, iF, mapper)
+  pressureInletVelocityFvPatchVectorField{ptf, p, iF, mapper}
 {}
+
+
 mousse::pressureInletUniformVelocityFvPatchVectorField::
 pressureInletUniformVelocityFvPatchVectorField
 (
@@ -35,16 +41,20 @@ pressureInletUniformVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  pressureInletVelocityFvPatchVectorField(p, iF, dict)
+  pressureInletVelocityFvPatchVectorField{p, iF, dict}
 {}
+
+
 mousse::pressureInletUniformVelocityFvPatchVectorField::
 pressureInletUniformVelocityFvPatchVectorField
 (
   const pressureInletUniformVelocityFvPatchVectorField& pivpvf
 )
 :
-  pressureInletVelocityFvPatchVectorField(pivpvf)
+  pressureInletVelocityFvPatchVectorField{pivpvf}
 {}
+
+
 mousse::pressureInletUniformVelocityFvPatchVectorField::
 pressureInletUniformVelocityFvPatchVectorField
 (
@@ -52,18 +62,21 @@ pressureInletUniformVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  pressureInletVelocityFvPatchVectorField(pivpvf, iF)
+  pressureInletVelocityFvPatchVectorField{pivpvf, iF}
 {}
+
+
 // Member Functions 
 void mousse::pressureInletUniformVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   pressureInletVelocityFvPatchVectorField::updateCoeffs();
   operator==(patch().nf()*gSum(patch().Sf() & *this)/gSum(patch().magSf()));
 }
+
+
 // Member Operators 
 void mousse::pressureInletUniformVelocityFvPatchVectorField::operator=
 (
@@ -72,8 +85,9 @@ void mousse::pressureInletUniformVelocityFvPatchVectorField::operator=
 {
   operator==(patch().nf()*gSum(patch().Sf() & pvf)/gSum(patch().magSf()));
 }
-namespace mousse
-{
+
+
+namespace mousse {
 
 MAKE_PATCH_TYPE_FIELD
 (
@@ -82,3 +96,4 @@ MAKE_PATCH_TYPE_FIELD
 );
 
 }
+

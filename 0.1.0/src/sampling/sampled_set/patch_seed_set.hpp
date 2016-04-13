@@ -8,14 +8,15 @@
 //   mousse::patchSeedSet
 // Description
 //   Initialises points on or just off patch
-// SourceFiles
-//   patch_seed_set.cpp
+
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "hash_set.hpp"
 #include "random.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class patchSeedSet
 :
   public sampledSet
@@ -23,11 +24,6 @@ class patchSeedSet
   // Private data
     //- Patches to sample
     const labelHashSet patchSet_;
-//        //- Maximum distance to look for nearest
-//        const scalar searchDist_;
-//
-//        //- Offset distance
-//        const scalar offsetDist_;
     //- Maximum number of patch faces to seed
     const label maxPoints_;
     //- Random number generator (if maxPoints < num patch faces)
@@ -59,5 +55,8 @@ public:
   //- Destructor
   virtual ~patchSeedSet();
 };
+
 }  // namespace mousse
+
 #endif
+

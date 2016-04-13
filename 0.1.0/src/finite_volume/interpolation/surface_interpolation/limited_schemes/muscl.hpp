@@ -10,14 +10,12 @@
 //   Class with limiter function which returns the limiter for the
 //   van Leer's MUSCL differencing scheme.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   muscl.cpp
-
 
 #include "vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class LimiterFunc>
 class MUSCLLimiter
 :

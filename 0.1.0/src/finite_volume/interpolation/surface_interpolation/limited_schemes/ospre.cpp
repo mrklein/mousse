@@ -6,8 +6,8 @@
 #include "limited_scheme.hpp"
 #include "ospre.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(OSPRE, OSPRELimiter)
 MAKE_LIMITED_V_SURFACE_INTERPOLATION_SCHEME(OSPREV, OSPRELimiter)

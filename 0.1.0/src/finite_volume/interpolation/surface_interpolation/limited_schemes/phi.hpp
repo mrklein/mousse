@@ -10,14 +10,12 @@
 //   Class with limiter function which returns the limiter for the
 //   Phi differencing scheme.
 //   Used in conjunction with the template class PhiScheme.
-// SourceFiles
-//   phi.cpp
-
 
 #include "vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class PhiLimiter
 {
   scalar k_;
@@ -26,8 +24,7 @@ public:
   :
     k_{readScalar(is)}
   {
-    if (k_ < 0 || k_ > 1)
-    {
+    if (k_ < 0 || k_ > 1) {
       FATAL_IO_ERROR_IN("PhiLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
@@ -47,12 +44,9 @@ public:
     scalar phiP = Sf&PhiP;
     scalar phiN = Sf&PhiN;
     scalar phiU;
-    if (faceFlux > 0)
-    {
+    if (faceFlux > 0) {
       phiU = phiP;
-    }
-    else
-    {
+    } else {
       phiU = phiN;
     }
     scalar phiCD = cdWeight*phiP + (1 - cdWeight)*phiN;
@@ -65,5 +59,8 @@ public:
     return max(min(PLimiter, 1), 0);
   }
 };
+
 }  // namespace mousse
+
 #endif
+

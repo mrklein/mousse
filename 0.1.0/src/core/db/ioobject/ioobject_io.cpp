@@ -5,6 +5,7 @@
 #include "ioobject.hpp"
 #include "token.hpp"
 
+
 template<>
 mousse::Ostream& mousse::operator<<(Ostream& os, const InfoProxy<IOobject>& ip)
 {

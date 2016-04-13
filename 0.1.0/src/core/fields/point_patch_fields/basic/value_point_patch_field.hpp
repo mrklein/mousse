@@ -8,11 +8,12 @@
 //   mousse::valuePointPatchField
 // Description
 //   mousse::valuePointPatchField
-// SourceFiles
-//   value_point_patch_field.cpp
+
 #include "point_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class valuePointPatchField
 :
@@ -48,15 +49,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new valuePointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new valuePointPatchField<Type>{ *this }
+      };
     }
     //- Construct as copy setting internal field reference
     valuePointPatchField
@@ -65,19 +63,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new valuePointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new valuePointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -133,11 +127,12 @@ public:
       virtual void operator==(const Field<Type>&);
       virtual void operator==(const Type&);
 };
+
 // This function is added to overide the hack in pointPatchField.H
 // which enables simple backward compatability with verions using
 // referenceLevel in GeometicField
 template<class Type>
-tmp<Field<Type> > operator+
+tmp<Field<Type>> operator+
 (
   const valuePointPatchField<Type>& vsppf,
   const Type& t
@@ -145,8 +140,10 @@ tmp<Field<Type> > operator+
 {
   return static_cast<const Field<Type>&>(vsppf) + t;
 }
+
 }  // namespace mousse
-#ifdef NoRepository
-#    include "value_point_patch_field.cpp"
-#endif
+
+
+#include "value_point_patch_field.ipp"
+
 #endif

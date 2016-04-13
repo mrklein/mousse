@@ -30,15 +30,13 @@
 // SeeAlso
 //   mousse::DataEntry
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   uniform_fixed_value_fv_patch_field.cpp
-
 
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class uniformFixedValueFvPatchField
 :
@@ -85,12 +83,12 @@ public:
       const uniformFixedValueFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new uniformFixedValueFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new uniformFixedValueFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     uniformFixedValueFvPatchField
@@ -99,15 +97,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new uniformFixedValueFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new uniformFixedValueFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
@@ -117,7 +115,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "uniform_fixed_value_fv_patch_field.cpp"
-#endif
+
+#include "uniform_fixed_value_fv_patch_field.ipp"
+
 #endif

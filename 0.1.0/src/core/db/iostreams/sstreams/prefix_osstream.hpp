@@ -10,11 +10,12 @@
 //   Version of OSstream which prints a prefix on each line.
 //   This is useful for running in parallel as it allows the processor number
 //   to be automatically prepended to each message line.
-// SourceFiles
-//   prefix_osstream.cpp
+
 #include "osstream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class prefixOSstream
 :
   public OSstream

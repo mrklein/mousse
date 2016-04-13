@@ -5,7 +5,9 @@
 #include "arg_list.hpp"
 #include "time.hpp"
 #include "merge_poly_mesh.hpp"
+
 using namespace mousse;
+
 void getRootCase(fileName& casePath)
 {
   casePath.clean();
@@ -21,6 +23,7 @@ void getRootCase(fileName& casePath)
     casePath.clean();
   }
 }
+
 int main(int argc, char *argv[])
 {
   argList::addNote
@@ -57,11 +60,11 @@ int main(int argc, char *argv[])
   args.optionReadIfPresent("addRegion", addRegion);
   getRootCase(masterCase);
   getRootCase(addCase);
-  Info<< "Master:      " << masterCase << "  region " << masterRegion << nl
+  Info << "Master:      " << masterCase << "  region " << masterRegion << nl
     << "mesh to add: " << addCase    << "  region " << addRegion << endl;
   #include "create_times.inc"
-  Info<< "Reading master mesh for time = " << runTimeMaster.timeName() << nl;
-  Info<< "Create mesh\n" << endl;
+  Info << "Reading master mesh for time = " << runTimeMaster.timeName() << nl;
+  Info << "Create mesh\n" << endl;
   mergePolyMesh masterMesh
   {
     // IOobject
@@ -72,8 +75,8 @@ int main(int argc, char *argv[])
     }
   };
   const word oldInstance = masterMesh.pointsInstance();
-  Info<< "Reading mesh to add for time = " << runTimeToAdd.timeName() << nl;
-  Info<< "Create mesh\n" << endl;
+  Info << "Reading mesh to add for time = " << runTimeToAdd.timeName() << nl;
+  Info << "Create mesh\n" << endl;
   polyMesh meshToAdd
   {
     // IOobject
@@ -87,7 +90,7 @@ int main(int argc, char *argv[])
   {
     runTimeMaster++;
   }
-  Info<< "Writing combined mesh to " << runTimeMaster.timeName() << endl;
+  Info << "Writing combined mesh to " << runTimeMaster.timeName() << endl;
   masterMesh.addMesh(meshToAdd);
   masterMesh.merge();
   if (overwrite)
@@ -95,6 +98,6 @@ int main(int argc, char *argv[])
     masterMesh.setInstance(oldInstance);
   }
   masterMesh.write();
-  Info<< "\nEnd\n" << endl;
+  Info << "\nEnd\n" << endl;
   return 0;
 }

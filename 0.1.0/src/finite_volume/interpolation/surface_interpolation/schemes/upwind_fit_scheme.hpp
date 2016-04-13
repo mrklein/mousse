@@ -10,13 +10,13 @@
 //   Upwind biased fit surface interpolation scheme that applies an explicit
 //   correction to linear.
 
-
 #include "upwind_fit_data.hpp"
 #include "linear.hpp"
 #include "extended_upwind_cell_to_face_stencil.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class Polynomial, class Stencil>
 class UpwindFitScheme
 :
@@ -103,6 +103,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Add the patch constructor functions to the hash tables
 #define MAKE_UPWIND_FIT_SURFACE_INTERPOLATION_TYPE_SCHEME\
 (                                                                             \
@@ -124,6 +125,7 @@ surfaceInterpolationScheme<TYPE>::addMeshConstructorToTable                   \
 surfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable               \
 <UpwindFitScheme<TYPE, POLYNOMIAL, STENCIL> >                                 \
   add##SS##STENCIL##TYPE##MeshFluxConstructorToTable_;
+
 
 #define MAKE_UPWIND_FIT_SURFACE_INTERPOLATION_SCHEME(SS, POLYNOMIAL, STENCIL) \
                                                                               \

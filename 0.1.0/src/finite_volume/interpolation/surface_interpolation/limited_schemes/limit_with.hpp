@@ -9,15 +9,13 @@
 // Description
 //   limitWith differencing scheme limits the specified scheme with the
 //   specified limiter.
-// SourceFiles
-//   limit_with.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "limited_surface_interpolation_scheme.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class limitWith
 :
@@ -25,9 +23,9 @@ class limitWith
 {
   // Private Member Functions
     //- Interpolation scheme
-    tmp<surfaceInterpolationScheme<Type> > tInterp_;
+    tmp<surfaceInterpolationScheme<Type>> tInterp_;
     //- Limiter
-    tmp<limitedSurfaceInterpolationScheme<Type> > tLimiter_;
+    tmp<limitedSurfaceInterpolationScheme<Type>> tLimiter_;
 public:
   //- Runtime type information
   TYPE_NAME("limitWith");
@@ -92,11 +90,13 @@ public:
 
     //- Return the explicit correction to the face-interpolate
     //  for the given field
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     correction(const GeometricField<Type, fvPatchField, volMesh>& vf) const
     {
       return tLimiter_().limiter(vf)*tInterp_().correction(vf);
     }
 };
+
 }  // namespace mousse
+
 #endif

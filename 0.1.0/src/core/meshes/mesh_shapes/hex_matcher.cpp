@@ -6,26 +6,30 @@
 #include "primitive_mesh.hpp"
 #include "list_ops.hpp"
 
+
 // Static Data Members
 const mousse::label mousse::hexMatcher::vertPerCell = 8;
 const mousse::label mousse::hexMatcher::facePerCell = 6;
 const mousse::label mousse::hexMatcher::maxVertPerFace = 4;
 
+
 // Constructors
 mousse::hexMatcher::hexMatcher()
 :
   cellMatcher
-  (
+  {
     vertPerCell,
     facePerCell,
     maxVertPerFace,
     "hex"
-  )
+  }
 {}
+
 
 // Destructor
 mousse::hexMatcher::~hexMatcher()
 {}
+
 
 // Member Functions
 bool mousse::hexMatcher::matchShape
@@ -37,19 +41,16 @@ bool mousse::hexMatcher::matchShape
   const labelList& myFaces
 )
 {
-  if (!faceSizeMatch(faces, myFaces))
-  {
+  if (!faceSizeMatch(faces, myFaces)) {
     return false;
   }
   // Is hex for sure since all faces are quads
-  if (checkOnly)
-  {
+  if (checkOnly) {
     return true;
   }
   // Calculate localFaces_ and mapping pointMap_, faceMap_
   label numVert = calcLocalFaces(faces, myFaces);
-  if (numVert != vertPerCell)
-  {
+  if (numVert != vertPerCell) {
     return false;
   }
   // Set up 'edge' to face mapping.
@@ -188,30 +189,33 @@ bool mousse::hexMatcher::matchShape
   faceLabels_[3] = faceMap_[face3I];
   return true;
 }
+
+
 mousse::label mousse::hexMatcher::faceHashValue() const
 {
   return facePerCell*vertPerCell;
 }
+
+
 bool mousse::hexMatcher::faceSizeMatch
 (
   const faceList& faces,
   const labelList& myFaces
 ) const
 {
-  if (myFaces.size() != facePerCell)
-  {
+  if (myFaces.size() != facePerCell) {
     return false;
   }
-  FOR_ALL(myFaces, myFaceI)
-  {
+  FOR_ALL(myFaces, myFaceI) {
     label size = faces[myFaces[myFaceI]].size();
-    if (size != 4)
-    {
+    if (size != 4) {
       return false;
     }
   }
   return true;
 }
+
+
 bool mousse::hexMatcher::isA(const primitiveMesh& mesh, const label cellI)
 {
   return matchShape
@@ -223,6 +227,8 @@ bool mousse::hexMatcher::isA(const primitiveMesh& mesh, const label cellI)
     mesh.cells()[cellI]
   );
 }
+
+
 bool mousse::hexMatcher::isA(const faceList& faces)
 {
   // Do as if mesh with one cell only
@@ -235,6 +241,8 @@ bool mousse::hexMatcher::isA(const faceList& faces)
     identity(faces.size())      // faces of cell 0
   );
 }
+
+
 bool mousse::hexMatcher::matches
 (
   const primitiveMesh& mesh,
@@ -242,23 +250,18 @@ bool mousse::hexMatcher::matches
   cellShape& shape
 )
 {
-  if
-  (
-    matchShape
-    (
-      false,
-      mesh.faces(),
-      mesh.faceOwner(),
-      cellI,
-      mesh.cells()[cellI]
-    )
-  )
-  {
+  if (matchShape
+      (
+        false,
+        mesh.faces(),
+        mesh.faceOwner(),
+        cellI,
+        mesh.cells()[cellI]
+      )) {
     shape = cellShape(model(), vertLabels());
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+

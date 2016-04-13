@@ -17,7 +17,9 @@
 #include "dynamic_field.hpp"
 #include "scalar_matrices.hpp"
 #include "scalar_list_io_list.hpp"
+
 using namespace mousse;
+
 triSurface triangulate
 (
   const polyBoundaryMesh& bMesh,
@@ -31,9 +33,9 @@ triSurface triangulate
   const polyMesh& mesh = bMesh.mesh();
   // Storage for surfaceMesh. Size estimate.
   DynamicList<labelledTri> triangles
-  (
+  {
     mesh.nFaces() - mesh.nInternalFaces()
-  );
+  };
   label newPatchI = 0;
   label localTriFaceI = 0;
   FOR_ALL_CONST_ITER(labelHashSet, includePatches, iter)
@@ -45,7 +47,7 @@ triSurface triangulate
     FOR_ALL(patch, patchFaceI)
     {
       const face& f = patch[patchFaceI];
-      faceList triFaces(f.nTriangles(points));
+      faceList triFaces{f.nTriangles(points)};
       label nTri = 0;
       f.triangles(points, nTri, triFaces);
       FOR_ALL(triFaces, triFaceI)
@@ -66,13 +68,13 @@ triSurface triangulate
   triSurfaceToAgglom.resize(localTriFaceI);
   triangles.shrink();
   // Create globally numbered tri surface
-  triSurface rawSurface(triangles, mesh.points());
+  triSurface rawSurface{triangles, mesh.points()};
   // Create locally numbered tri surface
   triSurface surface
-  (
+  {
     rawSurface.localFaces(),
     rawSurface.localPoints()
-  );
+  };
   // Add patch names to surface
   surface.patches().setSize(newPatchI);
   newPatchI = 0;
@@ -87,6 +89,7 @@ triSurface triangulate
   }
   return surface;
 }
+
 void writeRays
 (
   const fileName& fName,
@@ -97,7 +100,7 @@ void writeRays
 {
   OFstream str{fName};
   label vertI = 0;
-  Pout<< "Dumping rays to " << str.name() << endl;
+  Pout << "Dumping rays to " << str.name() << endl;
   FOR_ALL(myFc, faceI)
   {
     const labelList visFaces = visibleFaceFaces[faceI];
@@ -113,9 +116,10 @@ void writeRays
     }
   }
   string cmd{"objToVTK " + fName + " " + fName.lessExt() + ".vtk"};
-  Pout<< "cmd:" << cmd << endl;
+  Pout << "cmd:" << cmd << endl;
   system(cmd);
 }
+
 scalar calculateViewFactorFij
 (
   const vector& i,
@@ -142,6 +146,7 @@ scalar calculateViewFactorFij
     return 0;
   }
 }
+
 void insertMatrixElements
 (
   const globalIndex& globalNumbering,
@@ -162,6 +167,7 @@ void insertMatrixElements
     }
   }
 }
+
 int main(int argc, char *argv[])
 {
   #include "add_region_option.inc"
@@ -171,7 +177,6 @@ int main(int argc, char *argv[])
   // Read view factor dictionary
   IOdictionary viewFactorDict
   {
-    // IOobject
     {
       "viewFactorsDict",
       runTime.constant(),
@@ -187,7 +192,6 @@ int main(int argc, char *argv[])
   const label debug = viewFactorDict.lookupOrDefault<label>("debug", 0);
   volScalarField Qr
   {
-    // IOobject
     {
       "Qr",
       runTime.timeName(),
@@ -200,7 +204,6 @@ int main(int argc, char *argv[])
   // Read agglomeration map
   labelListIOList finalAgglom
   {
-    // IOobject
     {
       "finalAgglom",
       mesh.facesInstance(),
@@ -217,7 +220,6 @@ int main(int argc, char *argv[])
   }
   singleCellFvMesh coarseMesh
   {
-    // IOobject
     {
       "coarse:" + mesh.name(),
       runTime.timeName(),
@@ -373,7 +375,6 @@ int main(int argc, char *argv[])
   mapDistribute map{globalNumbering, rayEndFace, compactMap};
   labelListIOList IOsubMap
   {
-    // IOobject
     {
       "subMap",
       mesh.facesInstance(),
@@ -387,7 +388,6 @@ int main(int argc, char *argv[])
   IOsubMap.write();
   labelListIOList IOconstructMap
   {
-    // IOobject
     {
       "constructMap",
       mesh.facesInstance(),
@@ -401,7 +401,6 @@ int main(int argc, char *argv[])
   IOconstructMap.write();
   IOList<label> consMapDim
   {
-    // IOobject
     {
       "constructMapDim",
       mesh.facesInstance(),
@@ -415,7 +414,6 @@ int main(int argc, char *argv[])
   consMapDim.write();
   // visibleFaceFaces has:
   //    (local face, local viewed face) = compact viewed face
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   nVisibleFaceFaces = 0;
   FOR_ALL(rayStartFace, i)
   {
@@ -425,7 +423,6 @@ int main(int argc, char *argv[])
   }
   // Construct data in compact addressing
   // I need coarse Sf (Ai), fine Sf (dAi) and fine Cf(r) to calculate Fij
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   pointField compactCoarseCf{map.constructSize(), pTraits<vector>::zero};
   pointField compactCoarseSf{map.constructSize(), pTraits<vector>::zero};
   List<List<point> > compactFineSf{map.constructSize()};
@@ -482,10 +479,8 @@ int main(int argc, char *argv[])
     );
   }
   // Fill local view factor matrix
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   scalarListIOList F
   {
-    // IOobject
     {
       "F",
       mesh.facesInstance(),
@@ -508,7 +503,7 @@ int main(int argc, char *argv[])
   scalarList patchArea{totalPatches, 0.0};
   if (Pstream::master())
   {
-    Info<< "\nCalculating view factors..." << endl;
+    Info << "\nCalculating view factors..." << endl;
   }
   if (mesh.nSolutionD() == 3)
   {
@@ -620,7 +615,6 @@ int main(int argc, char *argv[])
   {
     volScalarField viewFactorField
     {
-      // IOobject
       {
         "viewFactorField",
         mesh.time().timeName(),
@@ -691,7 +685,6 @@ int main(int argc, char *argv[])
     }
     labelListIOList IOglobalFaceFaces
     {
-      // IOobject
       {
         "globalFaceFaces",
         mesh.facesInstance(),
@@ -717,7 +710,6 @@ int main(int argc, char *argv[])
     }
     labelListIOList IOglobalFaceFaces
     {
-      // IOobject
       {
         "globalFaceFaces",
         mesh.facesInstance(),
@@ -730,6 +722,6 @@ int main(int argc, char *argv[])
     };
     IOglobalFaceFaces.write();
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

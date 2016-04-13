@@ -8,16 +8,16 @@
 //   mousse::sampledCuttingPlane
 // Description
 //   A sampledSurface defined by a plane
-// SourceFiles
-//   sampled_cutting_plane.cpp
+
 #include "sampled_surface.hpp"
 #include "iso_surface.hpp"
-//#include "iso_surface_cell.hpp"
 #include "plane.hpp"
-#include "zone_i_ds.hpp"
+#include "zone_ids.hpp"
 #include "fv_mesh_subset.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sampledCuttingPlane
 :
   public sampledSurface
@@ -53,12 +53,12 @@ class sampledCuttingPlane
     void createGeometry();
     //- Sample field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vField
     ) const;
     template<class Type>
-    tmp<Field<Type> >
+    tmp<Field<Type>>
     interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
@@ -91,12 +91,10 @@ public:
     //- Faces of surface
     virtual const faceList& faces() const
     {
-      if (facesPtr_.empty())
-      {
+      if (facesPtr_.empty()) {
         const triSurface& s = surface();
-        facesPtr_.reset(new faceList(s.size()));
-        FOR_ALL(s, i)
-        {
+        facesPtr_.reset(new faceList{s.size()});
+        FOR_ALL(s, i) {
           facesPtr_()[i] = s[i].triFaceFace();
         }
       }
@@ -161,7 +159,7 @@ public:
     virtual void print(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_cutting_plane_templates.cpp"
-#endif
+
+#include "sampled_cutting_plane.ipp"
+
 #endif

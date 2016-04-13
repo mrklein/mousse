@@ -20,15 +20,14 @@
 //   to specify a multiplier (of the max component).
 //   The orientation of the porous region is defined with the same notation as
 //   a co-ordinate system, but only a Cartesian co-ordinate system is valid.
-// SourceFiles
-//   darcy_forchheimer.cpp
-//   darcy_forchheimer_templates.cpp
+
 #include "porosity_model.hpp"
 #include "dimensioned_tensor.hpp"
-namespace mousse
-{
-namespace porosityModels
-{
+
+
+namespace mousse {
+namespace porosityModels {
+
 class DarcyForchheimer
 :
   public porosityModel
@@ -119,7 +118,7 @@ public:
 };
 }  // namespace porosityModels
 }  // namespace mousse
-#ifdef NoRepository
-  #include "darcy_forchheimer_templates.cpp"
-#endif
+
+#include "darcy_forchheimer.ipp"
+
 #endif

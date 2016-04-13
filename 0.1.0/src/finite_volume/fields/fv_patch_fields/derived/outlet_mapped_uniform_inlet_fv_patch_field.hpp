@@ -30,11 +30,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   outlet_mapped_uniform_inlet_fv_patch_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class outletMappedUniformInletFvPatchField
 :
@@ -77,12 +78,12 @@ public:
       const outletMappedUniformInletFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new outletMappedUniformInletFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new outletMappedUniformInletFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     outletMappedUniformInletFvPatchField
@@ -91,15 +92,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new outletMappedUniformInletFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new outletMappedUniformInletFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -114,8 +115,9 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "outlet_mapped_uniform_inlet_fv_patch_field.cpp"
-#endif
+
+#include "outlet_mapped_uniform_inlet_fv_patch_field.ipp"
+
 #endif

@@ -1,1 +1,1 @@
-../tools/label_pair_lookup.hpp
+../label_pair_lookup.hpp

@@ -8,20 +8,25 @@
 //   mousse::instant
 // Description
 //   An instant of time. Contains the time value and name.
-// SourceFiles
-//   instant.cpp
+
 #include "word.hpp"
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class instant;
+
 // Friend Operators
 bool operator==(const instant&, const instant&);
 bool operator!=(const instant&, const instant&);
+
 // IOstream Operators
 Istream& operator>>(Istream&, instant&);
 Ostream& operator<<(Ostream&, const instant&);
+
+
 class instant
 {
   // Private data

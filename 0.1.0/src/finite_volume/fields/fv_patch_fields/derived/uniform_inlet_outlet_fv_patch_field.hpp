@@ -34,12 +34,13 @@
 //   - negative flux (into of domain): apply the user-specified fixed value
 // SeeAlso
 //   mousse::inletOutletFvPatchField
-// SourceFiles
-//   uniform_inlet_outlet_fv_patch_field.cpp
+
 #include "mixed_fv_patch_field.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class uniformInletOutletFvPatchField
 :
@@ -50,7 +51,7 @@ protected:
     //- Name of flux field
     word phiName_;
     //- Value
-    autoPtr<DataEntry<Type> > uniformInletValue_;
+    autoPtr<DataEntry<Type>> uniformInletValue_;
 public:
   //- Runtime type information
   TYPE_NAME("uniformInletOutlet");
@@ -83,12 +84,12 @@ public:
       const uniformInletOutletFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new uniformInletOutletFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new uniformInletOutletFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     uniformInletOutletFvPatchField
@@ -97,15 +98,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new uniformInletOutletFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new uniformInletOutletFvPatchField<Type>{*this, iF}
+      };
     }
   // Mapping functions
     //- Map (and resize as needed) from self given a mapping object
@@ -128,7 +129,7 @@ public:
     virtual void operator=(const fvPatchField<Type>& pvf);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "uniform_inlet_outlet_fv_patch_field.cpp"
-#endif
+
+#include "uniform_inlet_outlet_fv_patch_field.ipp"
+
 #endif

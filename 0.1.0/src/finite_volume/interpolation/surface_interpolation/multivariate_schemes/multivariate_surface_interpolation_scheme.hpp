@@ -8,15 +8,13 @@
 //   mousse::multivariateSurfaceInterpolationScheme
 // Description
 //   Abstract base class for multi-variate surface interpolation schemes.
-// SourceFiles
-//   multivariate_surface_interpolation_scheme.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "hash_table.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class multivariateSurfaceInterpolationScheme
 :
@@ -130,6 +128,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Add the patch constructor functions to the hash tables
 #define MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, Type)         \
                                                                               \
@@ -139,6 +138,7 @@ multivariateSurfaceInterpolationScheme<Type>::                                \
 addIstreamConstructorToTable<SS<Type> >                                       \
   add##SS##Type##ConstructorToTable_;
 
+
 #define MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME(SS)                    \
                                                                               \
 MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, scalar)               \
@@ -147,7 +147,7 @@ MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, sphericalTensor)      \
 MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, symmTensor)           \
 MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, tensor)
 
-#ifdef NoRepository
-#   include "multivariate_surface_interpolation_scheme.cpp"
-#endif
+
+#include "multivariate_surface_interpolation_scheme.ipp"
+
 #endif

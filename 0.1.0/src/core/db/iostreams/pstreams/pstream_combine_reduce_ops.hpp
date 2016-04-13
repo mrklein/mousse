@@ -8,8 +8,10 @@
 #include "upstream.hpp"
 #include "pstream.hpp"
 #include "ops.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T, class CombineOp>
 void combineReduce
 (
@@ -23,6 +25,8 @@ void combineReduce
   Pstream::combineGather(comms, Value, cop, tag, comm);
   Pstream::combineScatter(comms, Value, tag, comm);
 }
+
+
 template<class T, class CombineOp>
 void combineReduce
 (
@@ -32,8 +36,7 @@ void combineReduce
   const label comm = Pstream::worldComm
 )
 {
-  if (UPstream::nProcs(comm) < UPstream::nProcsSimpleSum)
-  {
+  if (UPstream::nProcs(comm) < UPstream::nProcsSimpleSum) {
     Pstream::combineGather
     (
       UPstream::linearCommunication(comm),
@@ -49,9 +52,7 @@ void combineReduce
       tag,
       comm
     );
-  }
-  else
-  {
+  } else {
     Pstream::combineGather
     (
       UPstream::treeCommunication(comm),
@@ -69,5 +70,7 @@ void combineReduce
     );
   }
 }
+
+
 }  // namespace mousse
 #endif

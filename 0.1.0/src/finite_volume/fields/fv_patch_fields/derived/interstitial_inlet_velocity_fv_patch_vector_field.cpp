@@ -8,6 +8,7 @@
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
 
+
 // Constructors 
 mousse::interstitialInletVelocityFvPatchVectorField::
 interstitialInletVelocityFvPatchVectorField
@@ -20,6 +21,7 @@ interstitialInletVelocityFvPatchVectorField
   inletVelocity_{p.size(), vector::zero},
   alphaName_{"alpha"}
 {}
+
 
 mousse::interstitialInletVelocityFvPatchVectorField::
 interstitialInletVelocityFvPatchVectorField
@@ -35,6 +37,7 @@ interstitialInletVelocityFvPatchVectorField
   alphaName_{ptf.alphaName_}
 {}
 
+
 mousse::interstitialInletVelocityFvPatchVectorField::
 interstitialInletVelocityFvPatchVectorField
 (
@@ -48,6 +51,7 @@ interstitialInletVelocityFvPatchVectorField
   alphaName_{dict.lookupOrDefault<word>("alpha", "alpha")}
 {}
 
+
 mousse::interstitialInletVelocityFvPatchVectorField::
 interstitialInletVelocityFvPatchVectorField
 (
@@ -58,6 +62,7 @@ interstitialInletVelocityFvPatchVectorField
   inletVelocity_{ptf.inletVelocity_},
   alphaName_{ptf.alphaName_}
 {}
+
 
 mousse::interstitialInletVelocityFvPatchVectorField::
 interstitialInletVelocityFvPatchVectorField
@@ -71,6 +76,7 @@ interstitialInletVelocityFvPatchVectorField
   alphaName_{ptf.alphaName_}
 {}
 
+
 // Member Functions 
 void mousse::interstitialInletVelocityFvPatchVectorField::autoMap
 (
@@ -80,6 +86,7 @@ void mousse::interstitialInletVelocityFvPatchVectorField::autoMap
   fixedValueFvPatchVectorField::autoMap(m);
   inletVelocity_.autoMap(m);
 }
+
 
 void mousse::interstitialInletVelocityFvPatchVectorField::rmap
 (
@@ -93,10 +100,10 @@ void mousse::interstitialInletVelocityFvPatchVectorField::rmap
   inletVelocity_.rmap(tiptf.inletVelocity_, addr);
 }
 
+
 void mousse::interstitialInletVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvPatchField<scalar>& alphap =
@@ -104,6 +111,7 @@ void mousse::interstitialInletVelocityFvPatchVectorField::updateCoeffs()
   operator==(inletVelocity_/alphap);
   fixedValueFvPatchVectorField::updateCoeffs();
 }
+
 
 void mousse::interstitialInletVelocityFvPatchVectorField::write(Ostream& os)
   const
@@ -114,11 +122,14 @@ void mousse::interstitialInletVelocityFvPatchVectorField::write(Ostream& os)
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   interstitialInletVelocityFvPatchVectorField
 );
+
 }
+

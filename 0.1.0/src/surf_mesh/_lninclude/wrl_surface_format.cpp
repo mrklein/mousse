@@ -1,1 +1,0 @@
-../surface_formats/wrl_surface_format.cpp

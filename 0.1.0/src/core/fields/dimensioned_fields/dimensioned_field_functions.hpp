@@ -4,9 +4,11 @@
 
 #include "dimensioned_scalar_field.hpp"
 #define TEMPLATE template<class Type, class GeoMesh>
-#include "dimensioned_field_functions_m.hpp"
-namespace mousse
-{
+#include "dimensioned_field_functions_m.inc"
+
+
+namespace mousse {
+
 // Global functions 
 template<class Type, class GeoMesh, int r>
 tmp<DimensionedField<typename powProduct<Type, r>::type, GeoMesh> >
@@ -211,5 +213,7 @@ PRODUCT_OPERATOR(innerProduct, &, dot)
 PRODUCT_OPERATOR(scalarProduct, &&, dotdot)
 
 #undef PRODUCT_OPERATOR
+
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
+
+#include "undef_field_functions_m.inc"

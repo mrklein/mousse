@@ -12,10 +12,6 @@
 //   Storage is not allocated during construction or use but is supplied to
 //   the constructor as an argument.  This type of list is particularly useful
 //   for lists that refer to parts of existing lists such as SubList.
-// SourceFiles
-//   ulist.cpp
-//   ulist_io.cpp
-
 
 #include "bool.hpp"
 #include "label.hpp"
@@ -25,8 +21,8 @@
 #include "ptraits.hpp"
 #include "swap.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend classes
 template<class T> class List;
@@ -37,6 +33,7 @@ template<class T> class UList;
 template<class T> Ostream& operator<<(Ostream&, const UList<T>&);
 template<class T> Istream& operator>>(Istream&, UList<T>&);
 typedef UList<label> labelUList;
+
 
 template<class T>
 class UList
@@ -379,8 +376,7 @@ inline mousse::label mousse::UList<T>::rcIndex(const label i) const
 template<class T>
 inline void mousse::UList<T>::checkStart(const label start) const
 {
-  if (start<0 || (start && start>=size_))
-  {
+  if (start<0 || (start && start>=size_)) {
     FATAL_ERROR_IN("UList<T>::checkStart(const label)")
       << "start " << start << " out of range 0 ... " << max(size_-1, 0)
       << abort(FatalError);
@@ -392,8 +388,7 @@ inline void mousse::UList<T>::checkStart(const label start) const
 template<class T>
 inline void mousse::UList<T>::checkSize(const label size) const
 {
-  if (size<0 || size>size_)
-  {
+  if (size<0 || size>size_) {
     FATAL_ERROR_IN("UList<T>::checkSize(const label)")
       << "size " << size << " out of range 0 ... " << size_
       << abort(FatalError);
@@ -405,14 +400,11 @@ inline void mousse::UList<T>::checkSize(const label size) const
 template<class T>
 inline void mousse::UList<T>::checkIndex(const label i) const
 {
-  if (!size_)
-  {
+  if (!size_) {
     FATAL_ERROR_IN("UList<T>::checkIndex(const label)")
       << "attempt to access element from zero sized list"
       << abort(FatalError);
-  }
-  else if (i<0 || i>=size_)
-  {
+  } else if (i<0 || i>=size_) {
     FATAL_ERROR_IN("UList<T>::checkIndex(const label)")
       << "index " << i << " out of range 0 ... " << size_-1
       << abort(FatalError);
@@ -482,12 +474,9 @@ template<>
 inline const bool& mousse::UList<bool>::operator[](const label i) const
 {
   // lazy evaluation - return false for out-of-range
-  if (i < size_)
-  {
+  if (i < size_) {
     return v_[i];
-  }
-  else
-  {
+  } else {
     return mousse::pTraits<bool>::zero;
   }
 }
@@ -720,7 +709,7 @@ inline void mousse::reverse(UList<T>& ul)
     ++iter                                                                    \
   )
 
-#ifdef NoRepository
-#   include "ulist.cpp"
-#endif
+
+#include "ulist.ipp"
+
 #endif

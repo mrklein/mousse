@@ -8,9 +8,11 @@
 #include "poly_patch.hpp"
 #include "vol_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(sampledPatchInternalField, 0);
 ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -19,7 +21,10 @@ ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
   word,
   patchInternalField
 );
+
 }
+
+
 // Constructors 
 mousse::sampledPatchInternalField::sampledPatchInternalField
 (
@@ -32,80 +37,80 @@ mousse::sampledPatchInternalField::sampledPatchInternalField
   mappers_{patchIDs().size()}
 {
   mappedPatchBase::offsetMode mode = mappedPatchBase::NORMAL;
-  if (dict.found("offsetMode"))
-  {
+  if (dict.found("offsetMode")) {
     mode = mappedPatchBase::offsetModeNames_.read
     (
       dict.lookup("offsetMode")
     );
   }
-  switch (mode)
-  {
+  switch (mode) {
     case mappedPatchBase::NORMAL:
-    {
-      const scalar distance = readScalar(dict.lookup("distance"));
-      FOR_ALL(patchIDs(), i)
       {
-        mappers_.set
-        (
-          i,
-          new mappedPatchBase
-          {
-            mesh.boundaryMesh()[patchIDs()[i]],
-            mesh.name(),                        // sampleRegion
-            mappedPatchBase::NEARESTCELL,       // sampleMode
-            word::null,                         // samplePatch
-            -distance                  // sample inside my domain
-          }
-        );
+        const scalar distance = readScalar(dict.lookup("distance"));
+        FOR_ALL(patchIDs(), i)
+        {
+          mappers_.set
+          (
+            i,
+            new mappedPatchBase
+            {
+              mesh.boundaryMesh()[patchIDs()[i]],
+              mesh.name(),                        // sampleRegion
+              mappedPatchBase::NEARESTCELL,       // sampleMode
+              word::null,                         // samplePatch
+              -distance                  // sample inside my domain
+            }
+          );
+        }
       }
-    }
-    break;
+      break;
     case mappedPatchBase::UNIFORM:
-    {
-      const point offset(dict.lookup("offset"));
-      FOR_ALL(patchIDs(), i)
       {
-        mappers_.set
-        (
-          i,
-          new mappedPatchBase
-          {
-            mesh.boundaryMesh()[patchIDs()[i]],
-            mesh.name(),                        // sampleRegion
-            mappedPatchBase::NEARESTCELL,       // sampleMode
-            word::null,                         // samplePatch
-            offset                  // sample inside my domain
-          }
-        );
+        const point offset(dict.lookup("offset"));
+        FOR_ALL(patchIDs(), i) {
+          mappers_.set
+          (
+            i,
+            new mappedPatchBase
+            {
+              mesh.boundaryMesh()[patchIDs()[i]],
+              mesh.name(),                        // sampleRegion
+              mappedPatchBase::NEARESTCELL,       // sampleMode
+              word::null,                         // samplePatch
+              offset                  // sample inside my domain
+            }
+          );
+        }
       }
-    }
-    break;
+      break;
     case mappedPatchBase::NONUNIFORM:
-    {
-      const pointField offsets(dict.lookup("offsets"));
-      FOR_ALL(patchIDs(), i)
       {
-        mappers_.set
-        (
-          i,
-          new mappedPatchBase
-          {
-            mesh.boundaryMesh()[patchIDs()[i]],
-            mesh.name(),                        // sampleRegion
-            mappedPatchBase::NEARESTCELL,       // sampleMode
-            word::null,                         // samplePatch
-            offsets                  // sample inside my domain
-          }
-        );
+        const pointField offsets(dict.lookup("offsets"));
+        FOR_ALL(patchIDs(), i) {
+          mappers_.set
+          (
+            i,
+            new mappedPatchBase
+            {
+              mesh.boundaryMesh()[patchIDs()[i]],
+              mesh.name(),                        // sampleRegion
+              mappedPatchBase::NEARESTCELL,       // sampleMode
+              word::null,                         // samplePatch
+              offsets                  // sample inside my domain
+            }
+          );
+        }
       }
-    }
-    break;
+      break;
   }
 }
+
+
 // Destructor 
 mousse::sampledPatchInternalField::~sampledPatchInternalField()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::scalarField> mousse::sampledPatchInternalField::sample
 (
@@ -114,6 +119,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledPatchInternalField::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledPatchInternalField::sample
 (
   const volVectorField& vField
@@ -121,6 +128,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledPatchInternalField::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField> mousse::sampledPatchInternalField::sample
 (
   const volSphericalTensorField& vField
@@ -128,6 +137,8 @@ mousse::tmp<mousse::sphericalTensorField> mousse::sampledPatchInternalField::sam
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledPatchInternalField::sample
 (
   const volSymmTensorField& vField
@@ -135,6 +146,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledPatchInternalField::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledPatchInternalField::sample
 (
   const volTensorField& vField
@@ -142,6 +155,8 @@ mousse::tmp<mousse::tensorField> mousse::sampledPatchInternalField::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::sampledPatchInternalField::interpolate
 (
   const interpolation<scalar>& interpolator
@@ -149,6 +164,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledPatchInternalField::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledPatchInternalField::interpolate
 (
   const interpolation<vector>& interpolator
@@ -156,6 +173,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledPatchInternalField::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField>
 mousse::sampledPatchInternalField::interpolate
 (
@@ -164,6 +183,8 @@ mousse::sampledPatchInternalField::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledPatchInternalField::interpolate
 (
   const interpolation<symmTensor>& interpolator
@@ -171,6 +192,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledPatchInternalField::interpol
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledPatchInternalField::interpolate
 (
   const interpolation<tensor>& interpolator
@@ -178,10 +201,13 @@ mousse::tmp<mousse::tensorField> mousse::sampledPatchInternalField::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 void mousse::sampledPatchInternalField::print(Ostream& os) const
 {
-  os  << "sampledPatchInternalField: " << name() << " :"
+  os << "sampledPatchInternalField: " << name() << " :"
     << "  patches:" << patchNames()
     << "  faces:" << faces().size()
     << "  points:" << points().size();
 }
+

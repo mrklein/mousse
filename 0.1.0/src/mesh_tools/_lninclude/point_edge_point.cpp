@@ -1,1 +1,1 @@
-../algorithms/point_edge_wave/point_edge_point.cpp
+../algorithms/point_edge_point.cpp

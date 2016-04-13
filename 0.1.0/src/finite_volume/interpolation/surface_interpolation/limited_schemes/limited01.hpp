@@ -8,9 +8,12 @@
 //   mousse::Limited01Limiter
 // Description
 //   A LimitedLimiter with the range 0-1
+
 #include "limited.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class LimitedScheme>
 class Limited01Limiter
 :
@@ -19,8 +22,11 @@ class Limited01Limiter
 public:
   Limited01Limiter(Istream& is)
   :
-    LimitedLimiter<LimitedScheme>(0, 1, is)
+    LimitedLimiter<LimitedScheme>{0, 1, is}
   {}
 };
+
 }  // namespace mousse
+
 #endif
+

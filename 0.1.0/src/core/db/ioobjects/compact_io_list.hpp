@@ -13,12 +13,16 @@
 //   Useful for lists of small sublists e.g. faceList, cellList.
 // SourceFiles
 //   compact_io_list.cpp
+
 #include "iolist.hpp"
 #include "reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 template<class T, class BaseType> class CompactIOList;
 template<class T, class BaseType> Istream& operator>>
@@ -31,6 +35,8 @@ template<class T, class BaseType> Ostream& operator<<
   Ostream&,
   const CompactIOList<T, BaseType>&
 );
+
+
 template<class T, class BaseType>
 class CompactIOList
 :
@@ -80,7 +86,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "compact_io_list.cpp"
-#endif
+
+#include "compact_io_list.ipp"
+
 #endif

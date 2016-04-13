@@ -13,6 +13,7 @@ ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, wallPolyPatch, dictionary);
 
 }
 
+
 // Constructors
 mousse::wallPolyPatch::wallPolyPatch
 (
@@ -24,14 +25,15 @@ mousse::wallPolyPatch::wallPolyPatch
   const word& patchType
 )
 :
-  polyPatch(name, size, start, index, bm, patchType)
+  polyPatch{name, size, start, index, bm, patchType}
 {
   //  wall is not constraint type so add wall group explicitly
-  if (findIndex(inGroups(), typeName) == -1)
-  {
+  if (findIndex(inGroups(), typeName) == -1) {
     inGroups().append(typeName);
   }
 }
+
+
 mousse::wallPolyPatch::wallPolyPatch
 (
   const word& name,
@@ -41,22 +43,24 @@ mousse::wallPolyPatch::wallPolyPatch
   const word& patchType
 )
 :
-  polyPatch(name, dict, index, bm, patchType)
+  polyPatch{name, dict, index, bm, patchType}
 {
   //  wall is not constraint type so add wall group explicitly
-  if (findIndex(inGroups(), typeName) == -1)
-  {
+  if (findIndex(inGroups(), typeName) == -1) {
     inGroups().append(typeName);
   }
 }
+
+
 mousse::wallPolyPatch::wallPolyPatch
 (
   const wallPolyPatch& pp,
   const polyBoundaryMesh& bm
 )
 :
-  polyPatch(pp, bm)
+  polyPatch{pp, bm}
 {}
+
 mousse::wallPolyPatch::wallPolyPatch
 (
   const wallPolyPatch& pp,
@@ -66,8 +70,10 @@ mousse::wallPolyPatch::wallPolyPatch
   const label newStart
 )
 :
-  polyPatch(pp, bm, index, newSize, newStart)
+  polyPatch{pp, bm, index, newSize, newStart}
 {}
+
+
 mousse::wallPolyPatch::wallPolyPatch
 (
   const wallPolyPatch& pp,
@@ -77,5 +83,6 @@ mousse::wallPolyPatch::wallPolyPatch
   const label newStart
 )
 :
-  polyPatch(pp, bm, index, mapAddressing, newStart)
+  polyPatch{pp, bm, index, mapAddressing, newStart}
 {}
+

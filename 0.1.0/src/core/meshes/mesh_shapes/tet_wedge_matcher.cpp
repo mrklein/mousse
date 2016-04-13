@@ -9,26 +9,30 @@
 #include "cell_modeller.hpp"
 #include "list_ops.hpp"
 
+
 // Static Data Members
 const mousse::label mousse::tetWedgeMatcher::vertPerCell = 5;
 const mousse::label mousse::tetWedgeMatcher::facePerCell = 4;
 const mousse::label mousse::tetWedgeMatcher::maxVertPerFace = 4;
 
+
 // Constructors
 mousse::tetWedgeMatcher::tetWedgeMatcher()
 :
   cellMatcher
-  (
+  {
     vertPerCell,
     facePerCell,
     maxVertPerFace,
    "tetWedge"
-  )
+  }
 {}
+
 
 // Destructor
 mousse::tetWedgeMatcher::~tetWedgeMatcher()
 {}
+
 
 // Member Functions
 bool mousse::tetWedgeMatcher::matchShape
@@ -40,19 +44,16 @@ bool mousse::tetWedgeMatcher::matchShape
   const labelList& myFaces
 )
 {
-  if (!faceSizeMatch(faces, myFaces))
-  {
+  if (!faceSizeMatch(faces, myFaces)) {
     return false;
   }
   // Is tetWedge for sure now. No other shape has two tri, two quad
-  if (checkOnly)
-  {
+  if (checkOnly) {
     return true;
   }
   // Calculate localFaces_ and mapping pointMap_, faceMap_
   label numVert = calcLocalFaces(faces, myFaces);
-  if (numVert != vertPerCell)
-  {
+  if (numVert != vertPerCell) {
     return false;
   }
   // Set up 'edge' to face mapping.
@@ -67,18 +68,15 @@ bool mousse::tetWedgeMatcher::matchShape
   // Walk path to other triangular face.
   //
   label face0I = -1;
-  FOR_ALL(faceSize_, faceI)
-  {
-    if (faceSize_[faceI] == 3)
-    {
+  FOR_ALL(faceSize_, faceI) {
+    if (faceSize_[faceI] == 3) {
       face0I = faceI;
       break;
     }
   }
   const face& face0 = localFaces_[face0I];
   // Try all rotations of this face
-  for (label face0vert0 = 0; face0vert0 < faceSize_[face0I]; face0vert0++)
-  {
+  for (label face0vert0 = 0; face0vert0 < faceSize_[face0I]; face0vert0++) {
     //
     // Try to follow prespecified path on faces of cell,
     // starting at face0vert0
@@ -103,8 +101,7 @@ bool mousse::tetWedgeMatcher::matchShape
         face0[face0vert1],
         face0I
       );
-    if (faceSize_[face1I] != 3)
-    {
+    if (faceSize_[face1I] != 3) {
       continue;
     }
     faceLabels_[1] = faceMap_[face1I];
@@ -164,47 +161,43 @@ bool mousse::tetWedgeMatcher::matchShape
   // Tried all triangular faces, in all rotations but no match found
   return false;
 }
+
+
 mousse::label mousse::tetWedgeMatcher::faceHashValue() const
 {
   return 2*3 + 2*4;
 }
+
+
 bool mousse::tetWedgeMatcher::faceSizeMatch
 (
   const faceList& faces,
   const labelList& myFaces
 ) const
 {
-  if (myFaces.size() != 4)
-  {
+  if (myFaces.size() != 4) {
     return false;
   }
   label nTris = 0;
   label nQuads = 0;
-  FOR_ALL(myFaces, myFaceI)
-  {
+  FOR_ALL(myFaces, myFaceI) {
     label size = faces[myFaces[myFaceI]].size();
-    if (size == 3)
-    {
+    if (size == 3) {
       nTris++;
-    }
-    else if (size == 4)
-    {
+    } else if (size == 4) {
       nQuads++;
-    }
-    else
-    {
+    } else {
       return false;
     }
   }
-  if ((nTris == 2) && (nQuads == 2))
-  {
+  if ((nTris == 2) && (nQuads == 2)) {
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 bool mousse::tetWedgeMatcher::isA(const primitiveMesh& mesh, const label cellI)
 {
   return matchShape
@@ -216,6 +209,8 @@ bool mousse::tetWedgeMatcher::isA(const primitiveMesh& mesh, const label cellI)
     mesh.cells()[cellI]
   );
 }
+
+
 bool mousse::tetWedgeMatcher::isA(const faceList& faces)
 {
   // Do as if mesh with one cell only
@@ -228,6 +223,8 @@ bool mousse::tetWedgeMatcher::isA(const faceList& faces)
     identity(faces.size())      // faces of cell 0
   );
 }
+
+
 bool mousse::tetWedgeMatcher::matches
 (
   const primitiveMesh& mesh,
@@ -235,23 +232,18 @@ bool mousse::tetWedgeMatcher::matches
   cellShape& shape
 )
 {
-  if
-  (
-    matchShape
-    (
-      false,
-      mesh.faces(),
-      mesh.faceOwner(),
-      cellI,
-      mesh.cells()[cellI]
-    )
-  )
-  {
+  if (matchShape
+      (
+        false,
+        mesh.faces(),
+        mesh.faceOwner(),
+        cellI,
+        mesh.cells()[cellI]
+      )) {
     shape = cellShape(model(), vertLabels());
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+

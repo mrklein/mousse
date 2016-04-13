@@ -9,15 +9,13 @@
 // Description
 //   Generic multi-variate discretisation scheme class which may be instantiated
 //   for any of the NVD, CNVD or NVDV schemes.
-// SourceFiles
-//   multivariate_scheme.cpp
-
 
 #include "multivariate_surface_interpolation_scheme.hpp"
 #include "surface_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class Scheme>
 class multivariateScheme
 :
@@ -53,8 +51,7 @@ public:
     //  which is used as the interpolation scheme for the field
     class fieldScheme
     :
-      public multivariateSurfaceInterpolationScheme<Type>::
-        fieldScheme
+      public multivariateSurfaceInterpolationScheme<Type>::fieldScheme
     {
       // Private data
         const surfaceScalarField& weights_;
@@ -66,7 +63,7 @@ public:
           const surfaceScalarField& weights
         )
         :
-          multivariateSurfaceInterpolationScheme<Type>::fieldScheme(field),
+          multivariateSurfaceInterpolationScheme<Type>::fieldScheme{field},
           weights_{weights}
         {}
 
@@ -94,6 +91,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Add the patch constructor functions to the hash tables
 #define MAKE_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME(SS, LIMITER)   \
 typedef multivariateScheme                                                    \
@@ -118,6 +116,7 @@ multivariateSurfaceInterpolationScheme<scalar>::addIstreamConstructorToTable  \
   >                                                                           \
 >                                                                             \
   addMultivariate##SS##ConstructorToTable_;
+
 
 #define MAKE_L_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME\
 (                                                                             \
@@ -150,7 +149,7 @@ multivariateSurfaceInterpolationScheme<scalar>::addIstreamConstructorToTable  \
 >                                                                             \
   addMultivariate##SS##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "multivariate_scheme.cpp"
-#endif
+
+#include "multivariate_scheme.ipp"
+
 #endif

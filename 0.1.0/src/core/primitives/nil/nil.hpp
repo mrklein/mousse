@@ -10,15 +10,20 @@
 //   A zero-sized class without any storage. Used, for example, in HashSet.
 // Note
 //   A zero-sized class actually does still require at least 1 byte storage.
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class Istream;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 class nil;
 Istream& operator>>(Istream&, nil&);
 Ostream& operator<<(Ostream&, const nil&);
+
+
 class nil
 {
 public:
@@ -39,5 +44,7 @@ public:
       return os;
     }
 };
+
 }  // namespace mousse
+
 #endif

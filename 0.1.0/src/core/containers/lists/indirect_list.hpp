@@ -12,11 +12,10 @@
 //   mousse::UIndirectList for a version without any allocation for the
 //   addressing.
 
-
 #include "uindirect_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 //- A helper class for storing addresses.
 class IndirectListAddressing
@@ -105,6 +104,7 @@ public:
 
 }  // namespace mousse
 
+
 // Constructors 
 inline mousse::IndirectListAddressing::IndirectListAddressing
 (
@@ -114,6 +114,7 @@ inline mousse::IndirectListAddressing::IndirectListAddressing
   addressing_{addr}
 {}
 
+
 inline mousse::IndirectListAddressing::IndirectListAddressing
 (
   const Xfer<List<label> >& addr
@@ -121,6 +122,7 @@ inline mousse::IndirectListAddressing::IndirectListAddressing
 :
   addressing_(addr)
 {}
+
 
 template<class T>
 inline mousse::IndirectList<T>::IndirectList
@@ -137,6 +139,7 @@ inline mousse::IndirectList<T>::IndirectList
   }
 {}
 
+
 template<class T>
 inline mousse::IndirectList<T>::IndirectList
 (
@@ -151,6 +154,7 @@ inline mousse::IndirectList<T>::IndirectList
     IndirectListAddressing::addressing()
   }
 {}
+
 
 template<class T>
 inline mousse::IndirectList<T>::IndirectList
@@ -166,6 +170,7 @@ inline mousse::IndirectList<T>::IndirectList
   }
 {}
 
+
 template<class T>
 inline mousse::IndirectList<T>::IndirectList
 (
@@ -180,12 +185,14 @@ inline mousse::IndirectList<T>::IndirectList
   }
 {}
 
+
 // Member Functions 
 inline const mousse::List<mousse::label>&
 mousse::IndirectListAddressing::addressing() const
 {
   return addressing_;
 }
+
 
 inline void mousse::IndirectListAddressing::resetAddressing
 (
@@ -194,6 +201,7 @@ inline void mousse::IndirectListAddressing::resetAddressing
 {
   addressing_ = addr;
 }
+
 
 inline void mousse::IndirectListAddressing::resetAddressing
 (

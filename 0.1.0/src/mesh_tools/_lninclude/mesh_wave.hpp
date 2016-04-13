@@ -1,1 +1,1 @@
-../algorithms/mesh_wave/mesh_wave.hpp
+../algorithms/mesh_wave.hpp

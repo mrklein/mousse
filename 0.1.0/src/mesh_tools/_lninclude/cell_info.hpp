@@ -1,1 +1,1 @@
-../cell_classification/cell_info.hpp
+../cell_info.hpp

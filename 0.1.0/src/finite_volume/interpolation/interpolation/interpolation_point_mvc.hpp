@@ -9,10 +9,13 @@
 // Description
 //   Given cell centre values interpolates to vertices and uses these to
 //   do a Mean Value Coordinates interpolation.
+
 #include "interpolation.hpp"
 #include "point_mvc_weight.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class interpolationPointMVC
 :
@@ -45,8 +48,33 @@ public:
     ) const;
 };
 }  // namespace mousse
-#include "interpolation_point_mvci.hpp"
-#ifdef NoRepository
-#   include "interpolation_point_mvc.cpp"
-#endif
+
+// Member Functions 
+template<class Type>
+inline Type mousse::interpolationPointMVC<Type>::interpolate
+(
+  const pointMVCWeight& cpw
+) const
+{
+  return cpw.interpolate(psip_);
+}
+
+
+template<class Type>
+inline Type mousse::interpolationPointMVC<Type>::interpolate
+(
+  const vector& position,
+  const label cellI,
+  const label faceI
+) const
+{
+  return interpolate
+  (
+    pointMVCWeight(this->pMesh_, position, cellI, faceI)
+  );
+}
+
+
+#include "interpolation_point_mvc.ipp"
+
 #endif

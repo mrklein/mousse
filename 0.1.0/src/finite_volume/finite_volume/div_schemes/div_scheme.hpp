@@ -8,9 +8,6 @@
 //   mousse::fv::divScheme
 // Description
 //   Abstract base class for div schemes.
-// SourceFiles
-//   div_scheme.cpp
-
 
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"
@@ -19,16 +16,15 @@
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class fvMatrix;
-
 class fvMesh;
 
-namespace fv
-{
+
+namespace fv {
 
 template<class Type>
 class divScheme
@@ -38,7 +34,7 @@ class divScheme
 protected:
   // Protected data
     const fvMesh& mesh_;
-    tmp<surfaceInterpolationScheme<Type> > tinterpScheme_;
+    tmp<surfaceInterpolationScheme<Type>> tinterpScheme_;
 
 public:
   //- Runtime type information
@@ -110,14 +106,13 @@ public:
 #define MAKE_FV_DIV_TYPE_SCHEME(SS, Type)                                     \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::fv::SS<mousse::Type>, 0); \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    namespace fv                                                              \
-    {                                                                         \
-      divScheme<Type>::addIstreamConstructorToTable<SS<Type> >                \
+  namespace mousse {                                                          \
+  namespace fv {                                                              \
+      divScheme<Type>::addIstreamConstructorToTable<SS<Type>>                 \
         add##SS##Type##IstreamConstructorToTable_;                            \
-    }                                                                         \
+  }                                                                           \
   }
+
 
 #define MAKE_FV_DIV_SCHEME(SS)                                                \
                                                                               \
@@ -126,7 +121,7 @@ MAKE_FV_DIV_TYPE_SCHEME(SS, sphericalTensor)                                  \
 MAKE_FV_DIV_TYPE_SCHEME(SS, symmTensor)                                       \
 MAKE_FV_DIV_TYPE_SCHEME(SS, tensor)
 
-#ifdef NoRepository
-#   include "div_scheme.cpp"
-#endif
+
+#include "div_scheme.ipp"
+
 #endif

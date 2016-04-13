@@ -7,8 +7,12 @@
 
 #include "tet_cell.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef List<tetCell> tetCellList;
+
+
+namespace mousse {
+
+typedef List<tetCell> tetCellList;
+
 }
+
 #endif

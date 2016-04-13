@@ -9,12 +9,15 @@
 // Description
 //   Abstract base class for meshes which provide LDU addressing for the
 //   construction of lduMatrix and LDU-solvers.
+
 #include "ldu_addressing.hpp"
 #include "ldu_interface_ptrs_list.hpp"
 #include "type_info.hpp"
 #include "info_proxy.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class objectRegistry;
 class lduMesh
 {
@@ -53,8 +56,9 @@ public:
   // Ostream operator
     friend Ostream& operator<<(Ostream&, const InfoProxy<lduMesh>&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ldu_mesh_templates.cpp"
-#endif
+
+#include "ldu_mesh.ipp"
+
 #endif

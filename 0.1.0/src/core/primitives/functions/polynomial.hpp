@@ -18,18 +18,20 @@
 //    - increases the size (order)
 //   - integralMinus1() to return a new, integral coeff polynomial where
 //    the base poly starts at order -1
-// SourceFiles
-//   polynomial.cpp
+
 #include "word.hpp"
 #include "scalar.hpp"
 #include "ostream.hpp"
 #include "vector_space.hpp"
 #include "static_assert.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 template<int PolySize>
 class Polynomial;
+
 // Forward declaration of friend functions
 template<int PolySize>
 Ostream& operator<<
@@ -37,6 +39,8 @@ Ostream& operator<<
   Ostream&,
   const Polynomial<PolySize>&
 );
+
+
 template<int PolySize>
 class Polynomial
 :
@@ -51,7 +55,7 @@ class Polynomial
     scalar logCoeff_;
 public:
   typedef Polynomial<PolySize> polyType;
-  typedef Polynomial<PolySize+1> intPolyType;
+  typedef Polynomial<PolySize + 1> intPolyType;
   // Constructors
     //- Construct null, with all coefficients = 0.0
     Polynomial();
@@ -92,8 +96,8 @@ public:
   );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "polynomial.cpp"
-#   include "polynomial_io.cpp"
-#endif
+
+#include "polynomial.ipp"
+#include "polynomial_io.ipp"
+
 #endif

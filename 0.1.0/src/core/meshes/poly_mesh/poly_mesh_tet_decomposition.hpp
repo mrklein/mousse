@@ -12,15 +12,16 @@
 //   Includes functions for finding variable face starting (base)
 //   points on each face to avoid the decomposition of cells into tets
 //   that have negative or zero volume.
-// SourceFiles
-//   poly_mesh_tet_decomposition.cpp
+
 #include "poly_mesh.hpp"
 #include "coupled_poly_patch.hpp"
 #include "sync_tools.hpp"
 #include "tetrahedron.hpp"
 #include "tet_indices.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyMeshTetDecomposition
 {
 public:
@@ -108,5 +109,8 @@ public:
       const point& pt
     );
 };
+
 }  // namespace mousse
+
 #endif
+

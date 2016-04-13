@@ -7,8 +7,11 @@
 
 #include "point.hpp"
 #include "indirect_list.hpp"
-namespace mousse
-{
-  typedef IndirectList<point> indirectPointList;
+
+
+namespace mousse {
+
+typedef IndirectList<point> indirectPointList;
+
 }
 #endif

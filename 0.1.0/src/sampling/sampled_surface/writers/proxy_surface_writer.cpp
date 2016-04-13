@@ -7,20 +7,29 @@
 #include "ofstream.hpp"
 #include "os_specific.hpp"
 #include "make_surface_writer_methods.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(proxySurfaceWriter, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(proxySurfaceWriter, 0);
+
 }
+
+
 // Constructors 
 mousse::proxySurfaceWriter::proxySurfaceWriter(const word& ext)
 :
-  surfaceWriter(),
-  ext_(ext)
+  surfaceWriter{},
+  ext_{ext}
 {}
+
+
 // Destructor 
 mousse::proxySurfaceWriter::~proxySurfaceWriter()
 {}
+
+
 // Member Functions 
 void mousse::proxySurfaceWriter::write
 (
@@ -32,18 +41,16 @@ void mousse::proxySurfaceWriter::write
 ) const
 {
   // avoid bad values
-  if (ext_.empty())
-  {
+  if (ext_.empty()) {
     return;
   }
-  if (!isDir(outputDir))
-  {
+  if (!isDir(outputDir)) {
     mkDir(outputDir);
   }
-  fileName outName(outputDir/surfaceName + "." + ext_);
-  if (verbose)
-  {
-    Info<< "Writing geometry to " << outName << endl;
+  fileName outName{outputDir/surfaceName + "." + ext_};
+  if (verbose) {
+    Info << "Writing geometry to " << outName << endl;
   }
-  MeshedSurfaceProxy<face>(points, faces).write(outName);
+  MeshedSurfaceProxy<face>{points, faces}.write(outName);
 }
+

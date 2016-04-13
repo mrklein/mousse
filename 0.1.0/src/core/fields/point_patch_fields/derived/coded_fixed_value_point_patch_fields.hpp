@@ -8,10 +8,12 @@
 
 #include "coded_fixed_value_point_patch_field.hpp"
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 MAKE_POINT_PATCH_FIELD_TYPEDEFS(codedFixedValue);
 
 }  // namespace mousse
+
 #endif

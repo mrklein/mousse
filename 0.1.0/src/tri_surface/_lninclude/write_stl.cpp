@@ -1,1 +1,1 @@
-../tri_surface/interfaces/write_stl.cpp
+../interfaces/write_stl.cpp

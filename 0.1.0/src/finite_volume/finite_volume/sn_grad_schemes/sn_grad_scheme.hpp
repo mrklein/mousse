@@ -8,9 +8,6 @@
 //   mousse::fv::snGradScheme
 // Description
 //   Abstract base class for snGrad schemes.
-// SourceFiles
-//   sn_grad_scheme.cpp
-
 
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"
@@ -18,13 +15,12 @@
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class fvMesh;
 
-namespace fv
-{
+namespace fv {
 
 template<class Type>
 class snGradScheme
@@ -60,7 +56,7 @@ public:
 
   // Selectors
     //- Return new tmp interpolation scheme
-    static tmp<snGradScheme<Type> > New
+    static tmp<snGradScheme<Type>> New
     (
       const fvMesh& mesh,
       Istream& schemeData
@@ -77,7 +73,7 @@ public:
     }
 
     //- Return the snGrad of the given cell field with the given deltaCoeffs
-    static tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    static tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     snGrad
     (
       const GeometricField<Type, fvPatchField, volMesh>&,
@@ -86,7 +82,7 @@ public:
     );
 
     //- Return the sndGrad of the given cell field
-    static tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    static tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     sndGrad
     (
       const GeometricField<Type, fvPatchField, volMesh>&,
@@ -107,23 +103,23 @@ public:
 
     //- Return the explicit correction to the snGrad
     //  for the given field
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     correction(const GeometricField<Type, fvPatchField, volMesh>&) const
     {
-      return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >(NULL);
+      return tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>{NULL};
     }
 
     //- Return the snGrad of the given cell field
     //  with explicit correction
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     snGrad(const GeometricField<Type, fvPatchField, volMesh>&) const;
 
     //- Return the snGrad of the given tmp cell field
     //  with explicit correction
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     snGrad
     (
-      const tmp<GeometricField<Type, fvPatchField, volMesh> >&
+      const tmp<GeometricField<Type, fvPatchField, volMesh>>&
     ) const;
 };
 
@@ -135,14 +131,13 @@ public:
 #define MAKE_SN_GRAD_TYPE_SCHEME(SS, Type)                                    \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::fv::SS<mousse::Type>, 0); \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    namespace fv                                                              \
-    {                                                                         \
-      snGradScheme<Type>::addMeshConstructorToTable<SS<Type> >                \
+  namespace mousse {                                                          \
+  namespace fv {                                                              \
+      snGradScheme<Type>::addMeshConstructorToTable<SS<Type>>                 \
         add##SS##Type##MeshConstructorToTable_;                               \
-    }                                                                         \
+  }                                                                           \
   }
+
 
 #define MAKE_SN_GRAD_SCHEME(SS)                                               \
                                                                               \
@@ -152,7 +147,7 @@ MAKE_SN_GRAD_TYPE_SCHEME(SS, sphericalTensor)                                 \
 MAKE_SN_GRAD_TYPE_SCHEME(SS, symmTensor)                                      \
 MAKE_SN_GRAD_TYPE_SCHEME(SS, tensor)
 
-#ifdef NoRepository
-#   include "sn_grad_scheme.cpp"
-#endif
+
+#include "sn_grad_scheme.ipp"
+
 #endif

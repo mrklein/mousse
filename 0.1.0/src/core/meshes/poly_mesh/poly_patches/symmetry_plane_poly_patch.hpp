@@ -8,14 +8,12 @@
 //   mousse::symmetryPlanePolyPatch
 // Description
 //   Symmetry-plane patch.
-// SourceFiles
-//   symmetry_plane_poly_patch.cpp
-
 
 #include "poly_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class symmetryPlanePolyPatch
 :
   public polyPatch
@@ -106,16 +104,16 @@ public:
     ) const
     {
       return autoPtr<polyPatch>
-      (
+      {
         new symmetryPlanePolyPatch
-        (
+        {
           *this,
           bm,
           index,
           mapAddressing,
           newStart
-        )
-      );
+        }
+      };
     }
   // Member Functions
     //- Return symmetry plane normal
@@ -124,5 +122,7 @@ public:
       return n_;
     }
 };
+
 }  // namespace mousse
+
 #endif

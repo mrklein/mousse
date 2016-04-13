@@ -4,11 +4,13 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   vector2_d_field.cpp
+
 #include "vector_2d.hpp"
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type> class Field;
 typedef Field<vector2D> vector2DField;
+
 }  // namespace mousse
 #endif

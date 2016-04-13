@@ -8,12 +8,13 @@
 //   mousse::cyclicPointPatchField
 // Description
 //   Cyclic front and back plane patch field
-// SourceFiles
-//   cyclic_point_patch_field.cpp
+
 #include "coupled_point_patch_field.hpp"
 #include "cyclic_point_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class cyclicPointPatchField
 :
@@ -48,15 +49,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new cyclicPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new cyclicPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     cyclicPointPatchField
@@ -65,18 +63,15 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new cyclicPointPatchField<Type>
-        (
-          *this, iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new cyclicPointPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     //- Constraint handling
@@ -115,8 +110,9 @@ public:
         Field<Type>&
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#    include "cyclic_point_patch_field.cpp"
-#endif
+
+#include "cyclic_point_patch_field.ipp"
+
 #endif

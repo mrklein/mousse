@@ -12,13 +12,13 @@
 //     model = strength * exp(-0.5*((x - expectation)/variance)^2 )
 //   \endverbatim
 //   strength only has meaning if there's more than one distribution model
-// SourceFiles
-//   normal.cpp
+
 #include "distribution_model.hpp"
-namespace mousse
-{
-namespace distributionModels
-{
+
+
+namespace mousse {
+namespace distributionModels {
+
 class normal
 :
   public distributionModel
@@ -58,6 +58,9 @@ public:
     virtual scalar meanValue() const;
     virtual scalar erfInv(const scalar y) const;
 };
+
 }  // namespace distributionModels
 }  // namespace mousse
+
 #endif
+

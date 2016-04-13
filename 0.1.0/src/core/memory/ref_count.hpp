@@ -8,9 +8,12 @@
 //   mousse::refCount
 // Description
 //   Reference counter for various OpenFOAM components.
+
 #include "bool.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class refCount
 {
   // Private data
@@ -25,7 +28,7 @@ public:
     //- Construct null with zero count
     refCount()
     :
-      count_(0)
+      count_{0}
     {}
   // Member Functions
     //- Return the reference count

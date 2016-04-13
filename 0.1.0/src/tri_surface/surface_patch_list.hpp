@@ -7,8 +7,12 @@
 
 #include "surface_patch.hpp"
 #include "list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef List<surfacePatch>  surfacePatchList;
+
 }  // namespace mousse
+
 #endif

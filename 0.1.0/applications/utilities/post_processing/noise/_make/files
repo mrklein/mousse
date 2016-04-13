@@ -1,0 +1,3 @@
+noise.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-noise

@@ -8,9 +8,6 @@
 //   mousse::ZoneMesh
 // Description
 //   A list of mesh zones.
-// SourceFiles
-//   zone_mesh.cpp
-
 
 #include "list.hpp"
 #include "reg_ioobject.hpp"
@@ -18,13 +15,14 @@
 #include "map.hpp"
 #include "packed_bool_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 template<class ZoneType, class MeshType> class ZoneMesh;
 template<class ZoneType, class MeshType>
 Ostream& operator<<(Ostream&, const ZoneMesh<ZoneType, MeshType>&);
+
 
 template<class ZoneType, class MeshType>
 class ZoneMesh
@@ -156,7 +154,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "zone_mesh.cpp"
-#endif
+
+#include "zone_mesh.ipp"
+
 #endif

@@ -15,12 +15,13 @@
 //   function in the decomposition.  It is therefore possible to re-create
 //   the ordering of patch points on the slave side by reversing all the
 //   patch faces of the owner.
-// SourceFiles
-//   processor_point_patch.cpp
+
 #include "coupled_face_point_patch.hpp"
 #include "processor_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class processorPointPatch
 :
   public coupledFacePointPatch
@@ -41,10 +42,6 @@ class processorPointPatch
     virtual void initUpdateMesh(PstreamBuffers&);
     //- Update of the patch topology
     virtual void updateMesh(PstreamBuffers&);
-    //- Disallow default construct as copy
-    processorPointPatch(const processorPointPatch&);
-    //- Disallow default assignment
-    void operator=(const processorPointPatch&);
 public:
   //- Runtime type information
   TYPE_NAME(processorPolyPatch::typeName_());
@@ -55,6 +52,10 @@ public:
       const polyPatch& patch,
       const pointBoundaryMesh& bm
     );
+    //- Disallow default construct as copy
+    processorPointPatch(const processorPointPatch&) = delete;
+    //- Disallow default assignment
+    void operator=(const processorPointPatch&) = delete;
   //- Destructor
   virtual ~processorPointPatch();
   // Member functions
@@ -101,5 +102,8 @@ public:
     //- Return mesh points in the correct order for the receiving side
     const labelList& reverseMeshPoints() const;
 };
+
 }  // namespace mousse
+
 #endif
+

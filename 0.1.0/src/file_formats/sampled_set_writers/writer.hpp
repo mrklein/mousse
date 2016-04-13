@@ -25,9 +25,6 @@
 //       vals                // values
 //     );
 //   \endverbatim
-// SourceFiles
-//   writer.cpp
-
 
 #include "file_name.hpp"
 #include "word_list.hpp"
@@ -38,8 +35,8 @@
 #include "auto_ptr.hpp"
 #include "field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class coordSet;
@@ -162,8 +159,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "writer.cpp"
-#endif
+#include "writer.ipp"
 
 #endif

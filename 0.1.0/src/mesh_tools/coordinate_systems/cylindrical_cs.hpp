@@ -8,11 +8,12 @@
 //   mousse::cylindricalCS
 // Description
 //   Cylindrical coordinate system
-// SourceFiles
-//   cylindrical_cs.cpp
+
 #include "coordinate_system.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cylindricalCS
 :
   public coordinateSystem
@@ -88,5 +89,7 @@ public:
     //- Non-const access to inDegrees
     bool& inDegrees();
 };
+
 }  // namespace mousse
+
 #endif

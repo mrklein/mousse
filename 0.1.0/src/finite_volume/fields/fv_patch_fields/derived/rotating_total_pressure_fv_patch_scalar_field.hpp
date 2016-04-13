@@ -40,12 +40,13 @@
 //   functions.
 // SeeAlso
 //   mousse::totalPressureFvPatchScalarField
-// SourceFiles
-//   rotating_total_pressure_fv_patch_scalar_field.cpp
+
 #include "total_pressure_fv_patch_scalar_field.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rotatingTotalPressureFvPatchScalarField
 :
   public totalPressureFvPatchScalarField
@@ -88,9 +89,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new rotatingTotalPressureFvPatchScalarField(*this)
-      );
+      {
+        new rotatingTotalPressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     rotatingTotalPressureFvPatchScalarField
@@ -105,9 +106,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new rotatingTotalPressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new rotatingTotalPressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions

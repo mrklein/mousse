@@ -10,14 +10,11 @@
 //   A cellMatcher for hex cells
 // See Also
 //   cellMatcher
-// SourceFiles
-//   hex_matcher.cpp
-
 
 #include "cell_matcher.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class hexMatcher
 :

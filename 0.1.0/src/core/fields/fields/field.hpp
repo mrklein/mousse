@@ -8,14 +8,6 @@
 //   mousse::Field
 // Description
 //   Generic templated field type.
-// SourceFiles
-//   field_functions.hpp
-//   field_functions_m.hpp
-//   field_mapper.hpp
-//   field_m.hpp
-//   field.cpp
-//   field_functions.cpp
-//   field_functions_m.cpp
 
 #include "tmp.hpp"
 #include "direction.hpp"
@@ -23,20 +15,28 @@
 #include "scalar_list.hpp"
 #include "label_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Type>
 class Field;
+
 //- Pre-declare related SubField type
 template<class Type>
 class SubField;
+
 template<class Type>
 Ostream& operator<<(Ostream&, const Field<Type>&);
+
 template<class Type>
 Ostream& operator<<(Ostream&, const tmp<Field<Type> >&);
+
 class FieldMapper;
+
 class dictionary;
+
+
 template<class Type>
 class Field
 :
@@ -156,9 +156,9 @@ public:
     //- Return a pointer to a new calculatedFvPatchFieldField created on
     //  freestore without setting patchField values
     template<class Type2>
-    static tmp<Field<Type> > NewCalculatedType(const Field<Type2>& f)
+    static tmp<Field<Type>> NewCalculatedType(const Field<Type2>& f)
     {
-      return tmp<Field<Type> >(new Field<Type>(f.size()));
+      return tmp<Field<Type>>{new Field<Type>{f.size()}};
     }
   // Member Functions
     //- 1 to 1 map from the given field
@@ -270,9 +270,10 @@ public:
     friend Ostream& operator<< <Type>
     (Ostream&, const tmp<Field<Type> >&);
 };
+
 }  // namespace mousse
+
 #include "field_functions.hpp"
-#ifdef NoRepository
-#   include "field.cpp"
-#endif
+#include "field.ipp"
+
 #endif

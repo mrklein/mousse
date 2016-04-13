@@ -7,8 +7,12 @@
 
 #include "vector_2d_field.hpp"
 #include "iofield.hpp"
-namespace mousse
-{
-  typedef IOField<vector2D> vector2DIOField;
+
+
+namespace mousse {
+
+typedef IOField<vector2D> vector2DIOField;
+
 }
+
 #endif

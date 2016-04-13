@@ -5,18 +5,22 @@
 #include "word_io_list.hpp"
 #include "token.hpp"
 
-namespace mousse
-{
-  DEFINE_COMPOUND_TYPE_NAME(List<word>, wordList);
-  ADD_COMPOUND_TO_RUN_TIME_SELECTION_TABLE(List<word>, wordList);
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME(wordIOList, "wordList", 0);
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
-  (
-    wordListIOList,
-    "wordListList",
-    0
-  );
+
+namespace mousse {
+
+DEFINE_COMPOUND_TYPE_NAME(List<word>, wordList);
+ADD_COMPOUND_TO_RUN_TIME_SELECTION_TABLE(List<word>, wordList);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME(wordIOList, "wordList", 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
+(
+  wordListIOList,
+  "wordListList",
+  0
+);
+
 }
+
+
 void mousse::printTable
 (
   const List<wordList>& wll,
@@ -24,7 +28,8 @@ void mousse::printTable
   Ostream& os
 )
 {
-  if (!wll.size()) return;
+  if (!wll.size())
+    return;
   // Find the maximum word length for each column
   columnWidth.setSize(wll[0].size(), string::size_type(0));
   FOR_ALL(columnWidth, j)
@@ -39,7 +44,7 @@ void mousse::printTable
   {
     FOR_ALL(wll[i], j)
     {
-      os  << wll[i][j];
+      os << wll[i][j];
       for
       (
         string::size_type k=0;
@@ -47,13 +52,16 @@ void mousse::printTable
         k++
       )
       {
-        os  << ' ';
+        os << ' ';
       }
     }
-    os  << nl;
-    if (i == 0) os  << nl;
+    os << nl;
+    if (i == 0)
+      os  << nl;
   }
 }
+
+
 void mousse::printTable(const List<wordList>& wll, Ostream& os)
 {
   List<string::size_type> columnWidth;

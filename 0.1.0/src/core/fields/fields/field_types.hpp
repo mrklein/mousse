@@ -5,7 +5,6 @@
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "label.hpp"
 #include "scalar.hpp"
 #include "vector.hpp"

@@ -8,11 +8,12 @@
 //   mousse::faceAreaPairGAMGAgglomeration
 // Description
 //   Agglomerate using the pair algorithm.
-// SourceFiles
-//   face_area_pair_gamg_agglomeration.cpp
+
 #include "pair_gamg_agglomeration.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class faceAreaPairGAMGAgglomeration
 :
   public pairGAMGAgglomeration
@@ -36,5 +37,7 @@ public:
       const dictionary& controlDict
     );
 };
+
 }  // namespace mousse
+
 #endif

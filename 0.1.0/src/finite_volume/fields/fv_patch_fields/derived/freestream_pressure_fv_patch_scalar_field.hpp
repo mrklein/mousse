@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED__FREESTREAM_PRESSURE_FV_PATCH_SCALAR_FIELDS_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED__FREESTREAM_PRESSURE_FV_PATCH_SCALAR_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -30,12 +33,13 @@
 //   mousse::freestreamFvPatchField
 // SourceFiles
 //   freestream_pressure_fv_patch_scalar_field.cpp
-#ifndef freestreamPressureFvPatchScalarFields_H
-#define freestreamPressureFvPatchScalarFields_H
+
 #include "fv_patch_fields.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class freestreamPressureFvPatchScalarField
 :
   public zeroGradientFvPatchScalarField
@@ -83,9 +87,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new freestreamPressureFvPatchScalarField(*this)
-      );
+      {
+        new freestreamPressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     freestreamPressureFvPatchScalarField
@@ -100,9 +104,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new freestreamPressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new freestreamPressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions

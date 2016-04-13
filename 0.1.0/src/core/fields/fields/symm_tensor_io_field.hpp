@@ -7,8 +7,11 @@
 
 #include "symm_tensor_field.hpp"
 #include "iofield.hpp"
-namespace mousse
-{
-  typedef IOField<symmTensor> symmTensorIOField;
+
+
+namespace mousse {
+
+typedef IOField<symmTensor> symmTensorIOField;
+
 }
 #endif

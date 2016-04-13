@@ -9,11 +9,12 @@
 // Description
 //   Direct (one-to-one cell correspondence) mesh-to-mesh interpolation class
 //   Volume conservative.
-// SourceFiles
-//   direct_method.cpp
+
 #include "mesh_to_mesh_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class directMethod
 :
   public meshToMeshMethod

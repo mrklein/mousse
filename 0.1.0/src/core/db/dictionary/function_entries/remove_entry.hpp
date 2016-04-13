@@ -18,17 +18,12 @@
 //   \endverbatim
 //   The removal only occurs in the current context.
 //   Removing sub-entries or parent entries is not supported.
-// SourceFiles
-//   remove_entry.cpp
-
 
 #include "function_entry.hpp"
 
-namespace mousse
-{
 
-namespace functionEntries
-{
+namespace mousse {
+namespace functionEntries {
 
 class removeEntry
 :

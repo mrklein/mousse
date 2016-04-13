@@ -8,11 +8,12 @@
 //   mousse::rawSurfaceWriter
 // Description
 //   A surfaceWriter for raw output.
-// SourceFiles
-//   raw_surface_writer.cpp
+
 #include "surface_writer.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rawSurfaceWriter
 :
   public surfaceWriter
@@ -137,5 +138,8 @@ public:
       const bool verbose = false
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

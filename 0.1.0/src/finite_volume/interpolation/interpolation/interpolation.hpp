@@ -9,7 +9,6 @@
 // Description
 //   Abstract base class for interpolation
 
-
 #include "face_list.hpp"
 #include "vol_fields_fwd.hpp"
 #include "point_fields.hpp"
@@ -18,9 +17,12 @@
 #include "run_time_selection_tables.hpp"
 #include "tet_indices.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class polyMesh;
+
+
 template<class Type>
 class interpolation
 {
@@ -97,12 +99,14 @@ public:
 };
 }  // namespace mousse
 
+
 #define MAKE_INTERPOLATION_TYPE(SS, Type)                                     \
                                                                               \
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<Type>, 0);                       \
                                                                               \
 interpolation<Type>::adddictionaryConstructorToTable<SS<Type> >               \
   add##SS##Type##ConstructorToTable_;
+
 
 #define MAKE_INTERPOLATION(SS)                                                \
                                                                               \
@@ -112,7 +116,7 @@ MAKE_INTERPOLATION_TYPE(SS, sphericalTensor)                                  \
 MAKE_INTERPOLATION_TYPE(SS, symmTensor)                                       \
 MAKE_INTERPOLATION_TYPE(SS, tensor)
 
-#ifdef NoRepository
-#   include "interpolation.cpp"
-#endif
+
+#include "interpolation.ipp"
+
 #endif

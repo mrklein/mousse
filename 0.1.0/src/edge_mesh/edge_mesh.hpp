@@ -10,25 +10,27 @@
 //   Points connected by edges.
 //   Can be read from fileName based on extension. Uses ::New factory method
 //   to select the reader and transfer the result.
-// SourceFiles
-//   edge_mesh.cpp
-//   edge_mesh_io.cpp
-//   edge_mesh_new.cpp
+
 #include "point_field.hpp"
 #include "edge_list.hpp"
 #include "edge_mesh_formats_core.hpp"
 #include "run_time_selection_tables.hpp"
 #include "member_function_selection_tables.hpp"
 #include "hash_set.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class Istream;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 class edgeMesh;
 Istream& operator>>(Istream&, edgeMesh&);
 Ostream& operator<<(Ostream&, const edgeMesh&);
+
+
 class edgeMesh
 :
   public fileFormats::edgeMeshFormatsCore
@@ -168,6 +170,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Constructors 
 inline mousse::edgeMesh::edgeMesh(const edgeMesh& em)
 :
@@ -176,31 +179,42 @@ inline mousse::edgeMesh::edgeMesh(const edgeMesh& em)
   edges_{em.edges_},
   pointEdgesPtr_{NULL}
 {}
+
+
 // Member Functions 
 inline const mousse::pointField& mousse::edgeMesh::points() const
 {
   return points_;
 }
+
+
 inline const mousse::edgeList& mousse::edgeMesh::edges() const
 {
   return edges_;
 }
+
+
 inline const mousse::labelListList& mousse::edgeMesh::pointEdges() const
 {
-  if (pointEdgesPtr_.empty())
-  {
+  if (pointEdgesPtr_.empty()) {
     calcPointEdges();
   }
   return pointEdgesPtr_();
 }
+
+
 inline mousse::pointField& mousse::edgeMesh::storedPoints()
 {
   return points_;
 }
+
+
 inline mousse::edgeList& mousse::edgeMesh::storedEdges()
 {
   return edges_;
 }
+
+
 // Member Operators 
 void mousse::edgeMesh::operator=(const edgeMesh& rhs)
 {
@@ -208,4 +222,5 @@ void mousse::edgeMesh::operator=(const edgeMesh& rhs)
   edges_ = rhs.edges_;
   pointEdgesPtr_.clear();
 }
+
 #endif

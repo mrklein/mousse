@@ -5,7 +5,9 @@
 #include "arg_list.hpp"
 #include "time.hpp"
 #include "mirror_fv_mesh.hpp"
+
 using namespace mousse;
+
 int main(int argc, char *argv[])
 {
   #include "add_overwrite_option.inc"
@@ -26,8 +28,8 @@ int main(int argc, char *argv[])
   };
   // Set the precision of the points data to 10
   IOstream::defaultPrecision(max(10u, IOstream::defaultPrecision()));
-  Info<< "Writing mirrored mesh" << endl;
+  Info << "Writing mirrored mesh" << endl;
   mesh.mirrorMesh().write();
-  Info<< "End" << endl;
+  Info << "End" << endl;
   return 0;
 }

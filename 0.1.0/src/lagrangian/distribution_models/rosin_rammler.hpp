@@ -13,13 +13,13 @@
 //      (1.0 - exp( -(( x - d0)/d)^n )
 //     / (1.0 - exp( -((d1 - d0)/d)^n )
 //  \f]
-// SourceFiles
-//   rosin_rammler.cpp
+
 #include "distribution_model.hpp"
-namespace mousse
-{
-namespace distributionModels
-{
+
+
+namespace mousse {
+namespace distributionModels {
+
 class RosinRammler
 :
   public distributionModel
@@ -43,7 +43,7 @@ public:
     //- Construct and return a clone
     virtual autoPtr<distributionModel> clone() const
     {
-      return autoPtr<distributionModel>(new RosinRammler(*this));
+      return autoPtr<distributionModel>{new RosinRammler{*this}};
     }
   //- Destructor
   virtual ~RosinRammler();
@@ -57,6 +57,8 @@ public:
     //- Return the mean value
     virtual scalar meanValue() const;
 };
+
 }  // namespace distributionModels
 }  // namespace mousse
+
 #endif

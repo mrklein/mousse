@@ -9,19 +9,17 @@
 // Description
 //   Class holds all the necessary information for mapping fields associated
 //   with pointMesh.
-// SourceFiles
-//   point_mesh_mapper.cpp
-
 
 #include "point_mapper.hpp"
 #include "point_boundary_mesh_mapper.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class pointMesh;
 class mapPolyMesh;
+
 
 class pointMeshMapper
 {

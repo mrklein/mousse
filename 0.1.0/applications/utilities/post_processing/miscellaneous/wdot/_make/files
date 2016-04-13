@@ -1,0 +1,3 @@
+wdot.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-wdot

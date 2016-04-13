@@ -23,9 +23,12 @@
 //       rotation    (0 0 3.141592654);
 //     }
 //   \endverbatim
+
 #include "coordinate_rotation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class EulerCoordinateRotation
 :
   public coordinateRotation

@@ -3,14 +3,15 @@
 // Copyright (C) 2016 mousse project
 
 #include "face_point_patch.hpp"
+
+
 mousse::autoPtr<mousse::facePointPatch> mousse::facePointPatch::New
 (
   const polyPatch& patch,
   const pointBoundaryMesh& bm
 )
 {
-  if (debug)
-  {
+  if (debug) {
     Info
       << "facePointPatch::New(const polyPatch&, "
       << " const pointBoundaryMesh&) : "
@@ -19,8 +20,7 @@ mousse::autoPtr<mousse::facePointPatch> mousse::facePointPatch::New
   }
   polyPatchConstructorTable::iterator cstrIter =
     polyPatchConstructorTablePtr_->find(patch.type());
-  if (cstrIter == polyPatchConstructorTablePtr_->end())
-  {
+  if (cstrIter == polyPatchConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "facePointPatch::New(const polyPatch&, "
@@ -33,5 +33,5 @@ mousse::autoPtr<mousse::facePointPatch> mousse::facePointPatch::New
     << polyPatchConstructorTablePtr_->sortedToc()
     << exit(FatalError);
   }
-  return autoPtr<facePointPatch>(cstrIter()(patch, bm));
+  return autoPtr<facePointPatch>{cstrIter()(patch, bm)};
 }

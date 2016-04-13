@@ -9,13 +9,13 @@
 // Description
 //   Provide a means of reading/writing the single-file OpenFOAM
 //   extendedEdgeMesh format
-// SourceFiles
-//   extended_edge_mesh_format.cpp
+
 #include "extended_edge_mesh.hpp"
-namespace mousse
-{
-namespace fileFormats
-{
+
+
+namespace mousse {
+namespace fileFormats {
+
 class extendedEdgeMeshFormat
 :
   public extendedEdgeMesh

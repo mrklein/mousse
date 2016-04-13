@@ -4,10 +4,12 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   write_patch_graph.cpp
+
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 void writePatchGraph
 (
   const volScalarField& vsf,
@@ -15,5 +17,8 @@ void writePatchGraph
   const direction d,
   const word& graphFormat
 );
+
 }  // namespace mousse
+
 #endif
+

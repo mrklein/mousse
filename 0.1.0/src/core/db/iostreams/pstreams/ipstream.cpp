@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "ipstream.hpp"
+
+
 // Constructor
 mousse::IPstream::IPstream
 (
@@ -15,9 +17,9 @@ mousse::IPstream::IPstream
   versionNumber version
 )
 :
-  Pstream(commsType, bufSize),
+  Pstream{commsType, bufSize},
   UIPstream
-  (
+  {
     commsType,
     fromProcNo,
     buf_,
@@ -27,6 +29,6 @@ mousse::IPstream::IPstream
     false,                      // do not clear buf_ if at end
     format,
     version
-  ),
-  externalBufPosition_(0)
+  },
+  externalBufPosition_{0}
 {}

@@ -18,12 +18,13 @@
 //   \endverbatim
 //   After construction is the list of triangles the face is decomposed into.
 //   (Or empty list if no valid triangulation could be found).
-// SourceFiles
-//   face_triangulation.cpp
+
 #include "tri_face_list.hpp"
 #include "point_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class faceTriangulation
 :
@@ -131,5 +132,7 @@ public:
     //- Construct from Istream
     faceTriangulation(Istream&);
 };
+
 }  // namespace mousse
+
 #endif

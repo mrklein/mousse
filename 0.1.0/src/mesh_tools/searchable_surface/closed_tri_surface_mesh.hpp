@@ -10,11 +10,12 @@
 //   A triSurfaceMesh where it is forced to check volumeTypes, used for surfaces
 //   that are topologically non-manifold (small holes or multiple parts) but are
 //   geometrically essentially closed
-// SourceFiles
-//   closed_tri_surface_mesh.cpp
+
 #include "tri_surface_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class closedTriSurfaceMesh
 :
   public triSurfaceMesh

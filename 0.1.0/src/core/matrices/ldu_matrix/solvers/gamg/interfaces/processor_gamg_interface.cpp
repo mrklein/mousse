@@ -7,6 +7,7 @@
 #include "hash_table.hpp"
 #include "label_pair.hpp"
 
+
 // Static Data Members
 namespace mousse {
 
@@ -28,6 +29,7 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 
 }
 
+
 // Constructors
 mousse::processorGAMGInterface::processorGAMGInterface
 (
@@ -41,47 +43,43 @@ mousse::processorGAMGInterface::processorGAMGInterface
 )
 :
   GAMGInterface
-  (
+  {
     index,
     coarseInterfaces
-  ),
-  comm_(coarseComm),
-  myProcNo_(refCast<const processorLduInterface>(fineInterface).myProcNo()),
+  },
+  comm_{coarseComm},
+  myProcNo_{refCast<const processorLduInterface>(fineInterface).myProcNo()},
   neighbProcNo_
-  (
+  {
     refCast<const processorLduInterface>(fineInterface).neighbProcNo()
-  ),
-  forwardT_(refCast<const processorLduInterface>(fineInterface).forwardT()),
-  tag_(refCast<const processorLduInterface>(fineInterface).tag())
+  },
+  forwardT_{refCast<const processorLduInterface>(fineInterface).forwardT()},
+  tag_{refCast<const processorLduInterface>(fineInterface).tag()}
 {
   // From coarse face to coarse cell
-  DynamicList<label> dynFaceCells(localRestrictAddressing.size());
+  DynamicList<label> dynFaceCells{localRestrictAddressing.size()};
   // From fine face to coarse face
   DynamicList<label> dynFaceRestrictAddressing
-  (
+  {
     localRestrictAddressing.size()
-  );
+  };
   // From coarse cell pair to coarse face
   HashTable<label, labelPair, labelPair::Hash<> > cellsToCoarseFace
-  (
-    2*localRestrictAddressing.size()
-  );
-  FOR_ALL(localRestrictAddressing, ffi)
   {
+    2*localRestrictAddressing.size()
+  };
+  FOR_ALL(localRestrictAddressing, ffi) {
     labelPair cellPair;
     // Do switching on master/slave indexes based on the owner/neighbour of
     // the processor index such that both sides get the same answer.
-    if (myProcNo() < neighbProcNo())
-    {
+    if (myProcNo() < neighbProcNo()) {
       // Master side
       cellPair = labelPair
       (
         localRestrictAddressing[ffi],
         neighbourRestrictAddressing[ffi]
       );
-    }
-    else
-    {
+    } else {
       // Slave side
       cellPair = labelPair
       (
@@ -91,16 +89,13 @@ mousse::processorGAMGInterface::processorGAMGInterface
     }
     HashTable<label, labelPair, labelPair::Hash<> >::const_iterator fnd =
       cellsToCoarseFace.find(cellPair);
-    if (fnd == cellsToCoarseFace.end())
-    {
+    if (fnd == cellsToCoarseFace.end()) {
       // New coarse face
       label coarseI = dynFaceCells.size();
       dynFaceRestrictAddressing.append(coarseI);
       dynFaceCells.append(localRestrictAddressing[ffi]);
       cellsToCoarseFace.insert(cellPair, coarseI);
-    }
-    else
-    {
+    } else {
       // Already have coarse face
       dynFaceRestrictAddressing.append(fnd());
     }
@@ -108,6 +103,8 @@ mousse::processorGAMGInterface::processorGAMGInterface
   faceCells_.transfer(dynFaceCells);
   faceRestrictAddressing_.transfer(dynFaceRestrictAddressing);
 }
+
+
 mousse::processorGAMGInterface::processorGAMGInterface
 (
   const label index,
@@ -122,18 +119,20 @@ mousse::processorGAMGInterface::processorGAMGInterface
 )
 :
   GAMGInterface
-  (
+  {
     index,
     coarseInterfaces,
     faceCells,
     faceRestrictAddresssing
-  ),
-  comm_(coarseComm),
-  myProcNo_(myProcNo),
-  neighbProcNo_(neighbProcNo),
-  forwardT_(forwardT),
-  tag_(tag)
+  },
+  comm_{coarseComm},
+  myProcNo_{myProcNo},
+  neighbProcNo_{neighbProcNo},
+  forwardT_{forwardT},
+  tag_{tag}
 {}
+
+
 mousse::processorGAMGInterface::processorGAMGInterface
 (
   const label index,
@@ -141,17 +140,19 @@ mousse::processorGAMGInterface::processorGAMGInterface
   Istream& is
 )
 :
-  GAMGInterface(index, coarseInterfaces, is),
-  comm_(readLabel(is)),
-  myProcNo_(readLabel(is)),
-  neighbProcNo_(readLabel(is)),
-  forwardT_(is),
-  tag_(readLabel(is))
+  GAMGInterface{index, coarseInterfaces, is},
+  comm_{readLabel(is)},
+  myProcNo_{readLabel(is)},
+  neighbProcNo_{readLabel(is)},
+  forwardT_{is},
+  tag_{static_cast<int>(readLabel(is))}
 {}
+
 
 // Destructor
 mousse::processorGAMGInterface::~processorGAMGInterface()
 {}
+
 
 // Member Functions
 void mousse::processorGAMGInterface::initInternalFieldTransfer
@@ -165,6 +166,8 @@ void mousse::processorGAMGInterface::initInternalFieldTransfer
   send(commsType, interfaceInternalField(iF)());
   UPstream::warnComm = oldWarn;
 }
+
+
 mousse::tmp<mousse::labelField> mousse::processorGAMGInterface::internalFieldTransfer
 (
   const Pstream::commsTypes commsType,
@@ -173,14 +176,16 @@ mousse::tmp<mousse::labelField> mousse::processorGAMGInterface::internalFieldTra
 {
   label oldWarn = UPstream::warnComm;
   UPstream::warnComm = comm();
-  tmp<Field<label> > tfld(receive<label>(commsType, this->size()));
+  tmp<Field<label>> tfld{receive<label>(commsType, this->size())};
   UPstream::warnComm = oldWarn;
   return tfld;
 }
+
+
 void mousse::processorGAMGInterface::write(Ostream& os) const
 {
   GAMGInterface::write(os);
-  os  << token::SPACE << comm_
+  os << token::SPACE << comm_
     << token::SPACE << myProcNo_
     << token::SPACE << neighbProcNo_
     << token::SPACE << forwardT_

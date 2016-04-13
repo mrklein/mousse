@@ -10,14 +10,12 @@
 //   Geometric agglomerated algebraic multigrid preconditioner.
 // See Also
 //   GAMGSolver for more details.
-// SourceFiles
-//   gamg_preconditioner.cpp
-
 
 #include "gamg_solver.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class GAMGPreconditioner
 :
   public GAMGSolver,

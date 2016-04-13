@@ -8,6 +8,8 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Constructors 
 mousse::mappedVelocityFluxFixedValueFvPatchField::
 mappedVelocityFluxFixedValueFvPatchField
@@ -16,9 +18,11 @@ mappedVelocityFluxFixedValueFvPatchField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  phiName_("phi")
+  fixedValueFvPatchVectorField{p, iF},
+  phiName_{"phi"}
 {}
+
+
 mousse::mappedVelocityFluxFixedValueFvPatchField::
 mappedVelocityFluxFixedValueFvPatchField
 (
@@ -28,11 +32,10 @@ mappedVelocityFluxFixedValueFvPatchField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(ptf, p, iF, mapper),
-  phiName_(ptf.phiName_)
+  fixedValueFvPatchVectorField{ptf, p, iF, mapper},
+  phiName_{ptf.phiName_}
 {
-  if (!isA<mappedPatchBase>(this->patch().patch()))
-  {
+  if (!isA<mappedPatchBase>(this->patch().patch())) {
     FATAL_ERROR_IN
     (
       "mappedVelocityFluxFixedValueFvPatchField::"
@@ -52,6 +55,8 @@ mappedVelocityFluxFixedValueFvPatchField
     << exit(FatalError);
   }
 }
+
+
 mousse::mappedVelocityFluxFixedValueFvPatchField::
 mappedVelocityFluxFixedValueFvPatchField
 (
@@ -60,11 +65,10 @@ mappedVelocityFluxFixedValueFvPatchField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF, dict),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi"))
+  fixedValueFvPatchVectorField{p, iF, dict},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")}
 {
-  if (!isA<mappedPatchBase>(this->patch().patch()))
-  {
+  if (!isA<mappedPatchBase>(this->patch().patch())) {
     FATAL_ERROR_IN
     (
       "mappedVelocityFluxFixedValueFvPatchField::"
@@ -86,8 +90,7 @@ mappedVelocityFluxFixedValueFvPatchField
   (
     this->patch().patch()
   );
-  if (mpp.mode() == mappedPolyPatch::NEARESTCELL)
-  {
+  if (mpp.mode() == mappedPolyPatch::NEARESTCELL) {
     FATAL_ERROR_IN
     (
       "mappedVelocityFluxFixedValueFvPatchField::"
@@ -106,15 +109,19 @@ mappedVelocityFluxFixedValueFvPatchField
     << exit(FatalError);
   }
 }
+
+
 mousse::mappedVelocityFluxFixedValueFvPatchField::
 mappedVelocityFluxFixedValueFvPatchField
 (
   const mappedVelocityFluxFixedValueFvPatchField& ptf
 )
 :
-  fixedValueFvPatchVectorField(ptf),
-  phiName_(ptf.phiName_)
+  fixedValueFvPatchVectorField{ptf},
+  phiName_{ptf.phiName_}
 {}
+
+
 mousse::mappedVelocityFluxFixedValueFvPatchField::
 mappedVelocityFluxFixedValueFvPatchField
 (
@@ -122,14 +129,15 @@ mappedVelocityFluxFixedValueFvPatchField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(ptf, iF),
-  phiName_(ptf.phiName_)
+  fixedValueFvPatchVectorField{ptf, iF},
+  phiName_{ptf.phiName_}
 {}
+
+
 // Member Functions 
 void mousse::mappedVelocityFluxFixedValueFvPatchField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   // Since we're inside initEvaluate/evaluate there might be processor
@@ -151,19 +159,16 @@ void mousse::mappedVelocityFluxFixedValueFvPatchField::updateCoeffs()
   );
   vectorField newUValues;
   scalarField newPhiValues;
-  switch (mpp.mode())
-  {
+  switch (mpp.mode()) {
     case mappedPolyPatch::NEARESTFACE:
     {
-      vectorField allUValues(nbrMesh.nFaces(), vector::zero);
-      scalarField allPhiValues(nbrMesh.nFaces(), 0.0);
-      FOR_ALL(UField.boundaryField(), patchI)
-      {
+      vectorField allUValues{nbrMesh.nFaces(), vector::zero};
+      scalarField allPhiValues{nbrMesh.nFaces(), 0.0};
+      FOR_ALL(UField.boundaryField(), patchI) {
         const fvPatchVectorField& Upf = UField.boundaryField()[patchI];
         const scalarField& phipf = phiField.boundaryField()[patchI];
         label faceStart = Upf.patch().start();
-        FOR_ALL(Upf, faceI)
-        {
+        FOR_ALL(Upf, faceI) {
           allUValues[faceStart + faceI] = Upf[faceI];
           allPhiValues[faceStart + faceI] = phipf[faceI];
         }
@@ -203,6 +208,8 @@ void mousse::mappedVelocityFluxFixedValueFvPatchField::updateCoeffs()
   UPstream::msgType() = oldTag;
   fixedValueFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::mappedVelocityFluxFixedValueFvPatchField::write
 (
   Ostream& os
@@ -212,8 +219,9 @@ void mousse::mappedVelocityFluxFixedValueFvPatchField::write
   writeEntryIfDifferent<word>(os, "phi", "phi", phiName_);
   this->writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
 
 MAKE_PATCH_TYPE_FIELD
 (
@@ -222,3 +230,4 @@ MAKE_PATCH_TYPE_FIELD
 );
 
 }
+

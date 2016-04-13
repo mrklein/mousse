@@ -33,11 +33,12 @@
 // SeeAlso
 //   mousse::mixedFvPatchField
 //   mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
-// SourceFiles
-//   outlet_phase_mean_velocity_fv_patch_vector_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class outletPhaseMeanVelocityFvPatchVectorField
 :
   public mixedFvPatchVectorField
@@ -100,13 +101,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new outletPhaseMeanVelocityFvPatchVectorField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new outletPhaseMeanVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

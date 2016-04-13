@@ -8,13 +8,13 @@
 //   mousse::fv::leastSquaresGrad
 // Description
 //   Second-order gradient scheme using least-squares.
-// SourceFiles
-//   least_squares_grad.cpp
+
 #include "grad_scheme.hpp"
-namespace mousse
-{
-namespace fv
-{
+
+
+namespace mousse {
+namespace fv {
+
 template<class Type>
 class leastSquaresGrad
 :
@@ -51,9 +51,10 @@ public:
       const word& name
     ) const;
 };
+
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "least_squares_grad.cpp"
-#endif
+
+#include "least_squares_grad.ipp"
+
 #endif

@@ -4,11 +4,9 @@
 
 #include "d2dt2_scheme.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 // Define the constructor function hash tables
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(d2dt2Scheme<scalar>, Istream);
@@ -22,5 +20,4 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(d2dt2Scheme<symmTensor>, Istream);
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(d2dt2Scheme<tensor>, Istream);
 
 }  // namespace fv
-
 }  // namespace mousse

@@ -8,23 +8,6 @@
 //   mousse::primitiveMesh
 // Description
 //   Cell-face mesh analysis engine
-// SourceFiles
-//   primitive_mesh.cpp
-//   primitive_mesh_clear.cpp
-//   primitive_mesh_cell_cells.cpp
-//   primitive_mesh_edge_cells.cpp
-//   primitive_mesh_point_cells.cpp
-//   primitive_mesh_cells.cpp
-//   primitive_mesh_edge_faces.cpp
-//   primitive_mesh_point_faces.cpp
-//   primitive_mesh_cell_edges.cpp
-//   primitive_mesh_point_edges.cpp
-//   primitive_mesh_point_points.cpp
-//   primitive_mesh_edges.cpp
-//   primitive_mesh_cell_centres_and_vols.cpp
-//   primitive_mesh_face_centres_and_areas.cpp
-//   primitive_mesh_find_cell.cpp
-
 
 #include "dynamic_list.hpp"
 #include "edge_list.hpp"
@@ -37,8 +20,8 @@
 #include "hash_set.hpp"
 #include "map.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class PackedBoolList;
 
@@ -698,126 +681,179 @@ public:
 };
 }  // namespace mousse
 
-namespace mousse
-{
+namespace mousse {
+
 // Member Functions 
 inline label primitiveMesh::nInternalPoints() const
 {
   return nInternalPoints_;
 }
+
+
 inline label primitiveMesh::nPoints() const
 {
   return nPoints_;
 }
+
+
 inline label primitiveMesh::nInternal0Edges() const
 {
   // Force edge calculation
   (void)nEdges();
   return nInternal0Edges_;
 }
+
+
 inline label primitiveMesh::nInternal1Edges() const
 {
   // Force edge calculation
   (void)nEdges();
   return nInternal1Edges_;
 }
+
+
 inline label primitiveMesh::nInternalEdges() const
 {
   // Force edge calculation
   (void)nEdges();
   return nInternalEdges_;
 }
+
+
 inline label primitiveMesh::nEdges() const
 {
-  if (nEdges_ < 0)
-  {
+  if (nEdges_ < 0) {
     nEdges_ = edges().size();
   }
   return nEdges_;
 }
+
+
 inline label primitiveMesh::nInternalFaces() const
 {
   return nInternalFaces_;
 }
+
+
 inline label primitiveMesh::nFaces() const
 {
   return nFaces_;
 }
+
+
 inline label primitiveMesh::nCells() const
 {
   return nCells_;
 }
+
+
 inline bool primitiveMesh::isInternalFace(const label faceIndex) const
 {
   return faceIndex < nInternalFaces();
 }
+
+
 inline bool primitiveMesh::hasCellShapes() const
 {
   return cellShapesPtr_;
 }
+
+
 inline bool primitiveMesh::hasEdges() const
 {
   return edgesPtr_;
 }
+
+
 inline bool primitiveMesh::hasCellCells() const
 {
   return ccPtr_;
 }
+
+
 inline bool primitiveMesh::hasEdgeCells() const
 {
   return ecPtr_;
 }
+
+
 inline bool primitiveMesh::hasPointCells() const
 {
   return pcPtr_;
 }
+
+
 inline bool primitiveMesh::hasCells() const
 {
   return cfPtr_;
 }
+
+
 inline bool primitiveMesh::hasEdgeFaces() const
 {
   return efPtr_;
 }
+
+
 inline bool primitiveMesh::hasPointFaces() const
 {
   return pfPtr_;
 }
+
+
 inline bool primitiveMesh::hasCellEdges() const
 {
   return cePtr_;
 }
+
+
 inline bool primitiveMesh::hasFaceEdges() const
 {
   return fePtr_;
 }
+
+
 inline bool primitiveMesh::hasPointEdges() const
 {
   return pePtr_;
 }
+
+
 inline bool primitiveMesh::hasPointPoints() const
 {
   return ppPtr_;
 }
+
+
 inline bool primitiveMesh::hasCellPoints() const
 {
   return cpPtr_;
 }
+
+
 inline bool primitiveMesh::hasCellCentres() const
 {
   return cellCentresPtr_;
 }
+
+
 inline bool primitiveMesh::hasFaceCentres() const
 {
   return faceCentresPtr_;
 }
+
+
 inline bool primitiveMesh::hasCellVolumes() const
 {
   return cellVolumesPtr_;
 }
+
+
 inline bool primitiveMesh::hasFaceAreas() const
 {
   return faceAreasPtr_;
 }
+
 }  // namespace mousse
+
 #endif

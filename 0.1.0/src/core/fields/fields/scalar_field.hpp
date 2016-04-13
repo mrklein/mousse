@@ -10,10 +10,11 @@
 #include "scalar.hpp"
 
 #define TEMPLATE
-#include "field_functions_m.hpp"
+#include "field_functions_m.inc"
 
-namespace mousse
-{
+
+namespace mousse {
+
 typedef Field<scalar> scalarField;
 
 template<>
@@ -27,13 +28,19 @@ void component
 
 template<>
 void scalarField::replace(const direction, const UList<scalar>& sf);
+
 template<>
 void scalarField::replace(const direction, const scalar& s);
+
 void stabilise(scalarField& Res, const UList<scalar>& sf, const scalar s);
+
 tmp<scalarField> stabilise(const UList<scalar>&, const scalar s);
+
 tmp<scalarField> stabilise(const tmp<scalarField>&, const scalar s);
+
 template<>
 scalar sumProd(const UList<scalar>& f1, const UList<scalar>& f2);
+
 BINARY_TYPE_OPERATOR(scalar, scalar, scalar, +, add)
 BINARY_TYPE_OPERATOR(scalar, scalar, scalar, -, subtract)
 BINARY_OPERATOR(scalar, scalar, scalar, *, multiply)
@@ -94,6 +101,6 @@ BESSEL_FUNC(yn)
 
 }  // namespace mousse
 
-#include "undef_field_functions_m.hpp"
+#include "undef_field_functions_m.inc"
 
 #endif

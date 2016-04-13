@@ -11,11 +11,12 @@
 //   matrices.
 //   To improve efficiency, the residual is evaluated after every nSweeps
 //   sweeps.
-// SourceFiles
-//   dic_smoother.cpp
+
 #include "ldu_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class DICSmoother
 :
   public lduMatrix::smoother

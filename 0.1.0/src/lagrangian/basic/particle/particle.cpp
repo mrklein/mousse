@@ -4,15 +4,21 @@
 
 #include "particle.hpp"
 #include "transform.hpp"
+
+
 // Static Data Members
 mousse::label mousse::particle::particleCount_ = 0;
 const mousse::scalar mousse::particle::trackingCorrectionTol = 1e-5;
 const mousse::scalar mousse::particle::lambdaDistanceToleranceCoeff = 1e3*SMALL;
 const mousse::scalar mousse::particle::minStepFractionTol = 1e5*SMALL;
-namespace mousse
-{
+
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(particle, 0);
+
 }
+
+
 // Constructors 
 mousse::particle::particle
 (
@@ -33,6 +39,8 @@ mousse::particle::particle
   origProc_{Pstream::myProcNo()},
   origId_{getNewParticleID()}
 {}
+
+
 mousse::particle::particle
 (
   const polyMesh& mesh,
@@ -51,11 +59,13 @@ mousse::particle::particle
   origProc_{Pstream::myProcNo()},
   origId_{getNewParticleID()}
 {
-  if (doCellFacePt)
-  {
+  if (doCellFacePt) {
     initCellFacePt();
   }
 }
+
+
+
 mousse::particle::particle(const particle& p)
 :
   mesh_{p.mesh_},
@@ -68,6 +78,8 @@ mousse::particle::particle(const particle& p)
   origProc_{p.origProc_},
   origId_{p.origId_}
 {}
+
+
 mousse::particle::particle(const particle& p, const polyMesh& mesh)
 :
   mesh_{mesh},
@@ -80,22 +92,33 @@ mousse::particle::particle(const particle& p, const polyMesh& mesh)
   origProc_{p.origProc_},
   origId_{p.origId_}
 {}
+
+
 // Member Functions 
 void mousse::particle::transformProperties(const tensor&)
 {}
+
+
 void mousse::particle::transformProperties(const vector&)
 {}
+
+
 mousse::scalar mousse::particle::wallImpactDistance(const vector&) const
 {
-  Info<< "particle::wallImpactDistance" << endl;
+  Info << "particle::wallImpactDistance" << endl;
   return 0.0;
 }
+
+
 // Friend Operators
 bool mousse::operator==(const particle& pA, const particle& pB)
 {
   return (pA.origProc() == pB.origProc() && pA.origId() == pB.origId());
 }
+
+
 bool mousse::operator!=(const particle& pA, const particle& pB)
 {
   return !(pA == pB);
 }
+

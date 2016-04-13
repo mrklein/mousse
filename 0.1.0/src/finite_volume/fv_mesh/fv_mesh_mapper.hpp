@@ -9,17 +9,20 @@
 // Description
 //   Class holds all the necessary information for mapping fields associated
 //   with fvMesh.
-// SourceFiles
-//   fv_mesh_mapper.cpp
+
 #include "face_mapper.hpp"
 #include "cell_mapper.hpp"
 #include "fv_surface_mapper.hpp"
 #include "fv_boundary_mesh_mapper.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class fvMesh;
 class mapPolyMesh;
+
+
 class fvMeshMapper
 {
   // Private data

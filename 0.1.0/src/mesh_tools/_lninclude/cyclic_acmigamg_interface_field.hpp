@@ -1,1 +1,1 @@
-../ami_interpolation/gamg/interface_fields/cyclic_acmigamg_interface_field/cyclic_acmigamg_interface_field.hpp
+../ami_interpolation/gamg/cyclic_acmigamg_interface_field.hpp

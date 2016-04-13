@@ -8,9 +8,12 @@
 #include "label_field.hpp"
 #include "iofield.hpp"
 #include "compact_io_field.hpp"
-namespace mousse
-{
-  typedef IOField<labelField> labelFieldIOField;
-  typedef CompactIOField<labelField, label> labelFieldCompactIOField;
+
+
+namespace mousse {
+
+typedef IOField<labelField> labelFieldIOField;
+typedef CompactIOField<labelField, label> labelFieldCompactIOField;
+
 }
 #endif

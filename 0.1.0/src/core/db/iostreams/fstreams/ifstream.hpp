@@ -8,18 +8,17 @@
 //   mousse::IFstream
 // Description
 //   Input from file stream.
-// SourceFiles
-//   ifstream.cpp
-
 
 #include "isstream.hpp"
 #include "file_name.hpp"
 #include "class_name.hpp"
 #include <fstream>
 
+
 using std::ifstream;
-namespace mousse
-{
+
+namespace mousse{
+
 class IFstream;
 //- A std::istream with ability to handle compressed files
 class IFstreamAllocator
@@ -34,6 +33,8 @@ class IFstreamAllocator
   //- Destructor
   ~IFstreamAllocator();
 };
+
+
 class IFstream
 :
   public IFstreamAllocator,

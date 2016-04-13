@@ -14,15 +14,12 @@
 //   The IOobject or the objectRegistry will normally have to be
 //   derived from a fvMesh for a subsequent cast (within OutputFilter)
 //   to work correctly.
-// SourceFiles
-//   io_output_filter.cpp
-
 
 #include "iodictionary.hpp"
 #include "point_field_fwd.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class mapPolyMesh;
@@ -116,7 +113,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "io_output_filter.cpp"
-#endif
+#include "io_output_filter.ipp"
+
 #endif

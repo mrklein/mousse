@@ -11,14 +11,12 @@
 //   matrices.
 //   The inverse (reciprocal for scalar) of the preconditioned diagonal is
 //   calculated and stored.
-// SourceFiles
-//   tdilu_preconditioner.cpp
-
 
 #include "_ldu_matrix.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class DType, class LUType>
 class TDILUPreconditioner
 :
@@ -61,8 +59,9 @@ public:
       const Field<Type>& rT
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "tdilu_preconditioner.cpp"
-#endif
+
+#include "tdilu_preconditioner.ipp"
+
 #endif

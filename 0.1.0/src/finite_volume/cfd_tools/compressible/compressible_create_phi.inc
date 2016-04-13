@@ -1,14 +1,13 @@
+#ifndef COMPRESSIBLE_CREATE_PHI_HPP_
+#define COMPRESSIBLE_CREATE_PHI_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef compressible_create_phi_hpp_
-#define compressible_create_phi_hpp_
-
-Info<< "Reading/calculating face flux field phi\n" << endl;
+Info << "Reading/calculating face flux field phi\n" << endl;
 surfaceScalarField phi
 {
-  IOobject
   {
     "phi",
     runTime.timeName(),

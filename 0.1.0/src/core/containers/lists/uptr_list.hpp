@@ -12,16 +12,12 @@
 //   The element operator [] returns a reference to the object rather than a
 //   pointer.  Storage is not allocated during construction or use but is
 //   supplied to the constructor as an argument.
-// SourceFiles
-//   uptr_list.cpp
-//   uptr_list_io.cpp
-
 
 #include "list.hpp"
 #include "error.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 template<class T> class UPtrList;
@@ -53,6 +49,7 @@ template<class T>
 Istream& operator>>(Istream&, UPtrList<T>&);
 template<class T>
 Ostream& operator<<(Ostream&, const UPtrList<T>&);
+
 
 template<class T>
 class UPtrList
@@ -201,7 +198,9 @@ public:
     // Write List to Ostream.
     friend Ostream& operator<< <T>(Ostream&, const UPtrList<T>&);
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class T>
@@ -280,8 +279,7 @@ inline mousse::Xfer<mousse::UPtrList<T> > mousse::UPtrList<T>::xfer()
 template<class T>
 inline const T& mousse::UPtrList<T>::operator[](const label i) const
 {
-  if (!ptrs_[i])
-  {
+  if (!ptrs_[i]) {
     FATAL_ERROR_IN("UPtrList::operator[] const")
       << "hanging pointer at index " << i
       << " (size " << size()
@@ -295,8 +293,7 @@ inline const T& mousse::UPtrList<T>::operator[](const label i) const
 template<class T>
 inline T& mousse::UPtrList<T>::operator[](const label i)
 {
-  if (!ptrs_[i])
-  {
+  if (!ptrs_[i]) {
     FATAL_ERROR_IN("UPtrList::operator[]")
       << "hanging pointer at index " << i
       << " (size " << size()
@@ -492,7 +489,7 @@ mousse::UPtrList<T>::end()
   return ptrs_.end();
 }
 
-#ifdef NoRepository
-#   include "uptr_list.cpp"
-#endif
+
+#include "uptr_list.ipp"
+
 #endif

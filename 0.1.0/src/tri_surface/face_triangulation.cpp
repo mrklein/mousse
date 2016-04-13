@@ -6,18 +6,23 @@
 #include "plane.hpp"
 #include "uindirect_list.hpp"
 
+
 // Static Data Members
 const mousse::scalar mousse::faceTriangulation::edgeRelTol = 1e-6;
+
 // Edge to the right of face vertex i
 mousse::label mousse::faceTriangulation::right(const label, label i)
 {
   return i;
 }
+
 // Edge to the left of face vertex i
 mousse::label mousse::faceTriangulation::left(const label size, label i)
 {
   return i ? i-1 : size-1;
 }
+
+
 // Calculate (normalized) edge vectors.
 // edges[i] gives edge between point i+1 and i.
 mousse::tmp<mousse::vectorField> mousse::faceTriangulation::calcEdges
@@ -26,10 +31,9 @@ mousse::tmp<mousse::vectorField> mousse::faceTriangulation::calcEdges
   const pointField& points
 )
 {
-  tmp<vectorField> tedges(new vectorField(f.size()));
+  tmp<vectorField> tedges{new vectorField{f.size()}};
   vectorField& edges = tedges();
-  FOR_ALL(f, i)
-  {
+  FOR_ALL(f, i) {
     point thisPt = points[f[i]];
     point nextPt = points[f[f.fcIndex(i)]];
     vector vec(nextPt - thisPt);
@@ -38,6 +42,8 @@ mousse::tmp<mousse::vectorField> mousse::faceTriangulation::calcEdges
   }
   return tedges;
 }
+
+
 // Calculates half angle components of angle from e0 to e1
 void mousse::faceTriangulation::calcHalfAngle
 (
@@ -51,19 +57,18 @@ void mousse::faceTriangulation::calcHalfAngle
   // truncate cos to +-1 to prevent negative numbers
   scalar cos = max(-1, min(1, e0 & e1));
   scalar sin = (e0 ^ e1) & normal;
-  if (sin < -ROOTVSMALL)
-  {
+  if (sin < -ROOTVSMALL) {
     // 3rd or 4th quadrant
     cosHalfAngle = - mousse::sqrt(0.5*(1 + cos));
     sinHalfAngle = mousse::sqrt(0.5*(1 - cos));
-  }
-  else
-  {
+  } else {
     // 1st or 2nd quadrant
     cosHalfAngle = mousse::sqrt(0.5*(1 + cos));
     sinHalfAngle = mousse::sqrt(0.5*(1 - cos));
   }
 }
+
+
 // Calculate intersection point between edge p1-p2 and ray (in 2D).
 // Return true and intersection point if intersection between p1 and p2.
 mousse::pointHit mousse::faceTriangulation::rayEdgeIntersect
@@ -77,25 +82,19 @@ mousse::pointHit mousse::faceTriangulation::rayEdgeIntersect
 )
 {
   // Start off from miss
-  pointHit result(p1);
+  pointHit result{p1};
   // Construct plane normal to rayDir and intersect
   const vector y = normal ^ rayDir;
   posOnEdge = plane(rayOrigin, y).normalIntersect(p1, (p2-p1));
   // Check intersection to left of p1 or right of p2
-  if ((posOnEdge < 0) || (posOnEdge > 1))
-  {
+  if ((posOnEdge < 0) || (posOnEdge > 1)) {
     // Miss
-  }
-  else
-  {
+  } else {
     // Check intersection behind rayOrigin
     point intersectPt = p1 + posOnEdge * (p2 - p1);
-    if (((intersectPt - rayOrigin) & rayDir) < 0)
-    {
+    if (((intersectPt - rayOrigin) & rayDir) < 0) {
       // Miss
-    }
-    else
-    {
+    } else {
       // Hit
       result.setHit();
       result.setPoint(intersectPt);
@@ -104,6 +103,8 @@ mousse::pointHit mousse::faceTriangulation::rayEdgeIntersect
   }
   return result;
 }
+
+
 // Return true if triangle given its three points (anticlockwise ordered)
 // contains point
 bool mousse::faceTriangulation::triangleContainsPoint
@@ -118,20 +119,17 @@ bool mousse::faceTriangulation::triangleContainsPoint
   scalar area01Pt = triPointRef(p0, p1, pt).normal() & n;
   scalar area12Pt = triPointRef(p1, p2, pt).normal() & n;
   scalar area20Pt = triPointRef(p2, p0, pt).normal() & n;
-  if ((area01Pt > 0) && (area12Pt > 0) && (area20Pt > 0))
-  {
+  if ((area01Pt > 0) && (area12Pt > 0) && (area20Pt > 0)) {
     return true;
-  }
-  else if ((area01Pt < 0) && (area12Pt < 0) && (area20Pt < 0))
-  {
+  } else if ((area01Pt < 0) && (area12Pt < 0) && (area20Pt < 0)) {
     FATAL_ERROR_IN("triangleContainsPoint") << abort(FatalError);
     return false;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 // Starting from startIndex find diagonal. Return in index1, index2.
 // Index1 always startIndex except when convex polygon
 void mousse::faceTriangulation::findDiagonal
@@ -154,10 +152,9 @@ void mousse::faceTriangulation::findDiagonal
   scalar sinHalfAngle = GREAT;
   calcHalfAngle(normal, rightE, leftE, cosHalfAngle, sinHalfAngle);
   vector rayDir
-  (
-    cosHalfAngle*rightE
-   + sinHalfAngle*(normal ^ rightE)
-  );
+  {
+    cosHalfAngle*rightE + sinHalfAngle*(normal ^ rightE)
+  };
   // rayDir should be normalized already but is not due to rounding errors
   // so normalize.
   rayDir /= mag(rayDir) + VSMALL;
@@ -165,11 +162,10 @@ void mousse::faceTriangulation::findDiagonal
   // Check all edges (apart from rightE and leftE) for nearest intersection
   //
   label faceVertI = f.fcIndex(startIndex);
-  pointHit minInter(false, vector::zero, GREAT, true);
+  pointHit minInter{false, vector::zero, GREAT, true};
   label minIndex = -1;
   scalar minPosOnEdge = GREAT;
-  for (label i = 0; i < f.size() - 2; i++)
-  {
+  for (label i = 0; i < f.size() - 2; i++) {
     scalar posOnEdge;
     pointHit inter =
       rayEdgeIntersect
@@ -181,16 +177,14 @@ void mousse::faceTriangulation::findDiagonal
         points[f[f.fcIndex(faceVertI)]],
         posOnEdge
       );
-    if (inter.hit() && inter.distance() < minInter.distance())
-    {
+    if (inter.hit() && inter.distance() < minInter.distance()) {
       minInter = inter;
       minIndex = faceVertI;
       minPosOnEdge = posOnEdge;
     }
     faceVertI = f.fcIndex(faceVertI);
   }
-  if (minIndex == -1)
-  {
+  if (minIndex == -1) {
     //WarningIn("faceTriangulation::findDiagonal")
     //    << "Could not find intersection starting from " << f[startIndex]
     //    << " for face " << f << endl;
@@ -203,18 +197,12 @@ void mousse::faceTriangulation::findDiagonal
   // Now ray intersects edge from leftIndex to rightIndex.
   // Check for intersection being one of the edge points. Make sure never
   // to return two consecutive points.
-  if (mag(minPosOnEdge) < edgeRelTol && f.fcIndex(startIndex) != leftIndex)
-  {
+  if (mag(minPosOnEdge) < edgeRelTol && f.fcIndex(startIndex) != leftIndex) {
     index1 = startIndex;
     index2 = leftIndex;
     return;
   }
-  if
-  (
-    mag(minPosOnEdge - 1) < edgeRelTol
-  && f.fcIndex(rightIndex) != startIndex
-  )
-  {
+  if (mag(minPosOnEdge - 1) < edgeRelTol && f.fcIndex(rightIndex) != startIndex) {
     index1 = startIndex;
     index2 = rightIndex;
     return;
@@ -228,40 +216,30 @@ void mousse::faceTriangulation::findDiagonal
   scalar maxCos = -GREAT;
   // all vertices except for startIndex and ones to left and right of it.
   faceVertI = f.fcIndex(f.fcIndex(startIndex));
-  for (label i = 0; i < f.size() - 3; i++)
-  {
+  for (label i = 0; i < f.size() - 3; i++) {
     const point& pt = points[f[faceVertI]];
-    if
-    (
-      (faceVertI == leftIndex)
-    || (faceVertI == rightIndex)
-    || (triangleContainsPoint(normal, startPt, leftPt, rightPt, pt))
-    )
-    {
+    if ((faceVertI == leftIndex)
+        || (faceVertI == rightIndex)
+        || (triangleContainsPoint(normal, startPt, leftPt, rightPt, pt))) {
       // pt inside triangle (so perhaps visible)
       // Select based on minimal angle (so guaranteed visible).
       vector edgePt0 = pt - startPt;
       edgePt0 /= mag(edgePt0);
       scalar cos = rayDir & edgePt0;
-      if (cos > maxCos)
-      {
+      if (cos > maxCos) {
         maxCos = cos;
         minIndex = faceVertI;
       }
     }
     faceVertI = f.fcIndex(faceVertI);
   }
-  if (minIndex == -1)
-  {
+  if (minIndex == -1) {
     // no vertex found. Return startIndex and one of the intersected edge
     // endpoints.
     index1 = startIndex;
-    if (f.fcIndex(startIndex) != leftIndex)
-    {
+    if (f.fcIndex(startIndex) != leftIndex) {
       index2 = leftIndex;
-    }
-    else
-    {
+    } else {
       index2 = rightIndex;
     }
     return;
@@ -269,6 +247,8 @@ void mousse::faceTriangulation::findDiagonal
   index1 = startIndex;
   index2 = minIndex;
 }
+
+
 // Find label of vertex to start splitting from. Is:
 //     1] flattest concave angle
 //     2] flattest convex angle if no concave angles.
@@ -282,31 +262,25 @@ mousse::label mousse::faceTriangulation::findStart
   const label size = f.size();
   scalar minCos = GREAT;
   label minIndex = -1;
-  FOR_ALL(f, fp)
-  {
+  FOR_ALL(f, fp) {
     const vector& rightEdge = edges[right(size, fp)];
     const vector leftEdge = -edges[left(size, fp)];
-    if (((rightEdge ^ leftEdge) & normal) < ROOTVSMALL)
-    {
+    if (((rightEdge ^ leftEdge) & normal) < ROOTVSMALL) {
       scalar cos = rightEdge & leftEdge;
-      if (cos < minCos)
-      {
+      if (cos < minCos) {
         minCos = cos;
         minIndex = fp;
       }
     }
   }
-  if (minIndex == -1)
-  {
+  if (minIndex == -1) {
     // No concave angle found. Get flattest convex angle
     minCos = GREAT;
-    FOR_ALL(f, fp)
-    {
+    FOR_ALL(f, fp) {
       const vector& rightEdge = edges[right(size, fp)];
       const vector leftEdge = -edges[left(size, fp)];
       scalar cos = rightEdge & leftEdge;
-      if (cos < minCos)
-      {
+      if (cos < minCos) {
         minCos = cos;
         minIndex = fp;
       }
@@ -314,6 +288,8 @@ mousse::label mousse::faceTriangulation::findStart
   }
   return minIndex;
 }
+
+
 // Private Member Functions
 // Split face f into triangles. Handles all simple (convex & concave)
 // polygons.
@@ -327,38 +303,33 @@ bool mousse::faceTriangulation::split
 )
 {
   const label size = f.size();
-  if (size <= 2)
-  {
+  if (size <= 2) {
     WARNING_IN
     (
       "split(const bool, const pointField&, const face&"
       ", const vector&, label&)"
-    )   << "Illegal face:" << f
-      << " with points " << UIndirectList<point>(points, f)()
-      << endl;
+    )
+    << "Illegal face:" << f
+    << " with points " << UIndirectList<point>(points, f)()
+    << endl;
     return false;
-  }
-  else if (size == 3)
-  {
+  } else if (size == 3) {
     // Triangle. Just copy.
     triFace& tri = operator[](triI++);
     tri[0] = f[0];
     tri[1] = f[1];
     tri[2] = f[2];
     return true;
-  }
-  else
-  {
+  } else {
     // General case. Start splitting for -flattest concave angle
     // -or flattest convex angle if no concave angles.
-    tmp<vectorField> tedges(calcEdges(f, points));
+    tmp<vectorField> tedges{calcEdges(f, points)};
     const vectorField& edges = tedges();
     label startIndex = findStart(f, edges, normal);
     // Find diagonal to split face across
     label index1 = -1;
     label index2 = -1;
-    FOR_ALL(f, iter)
-    {
+    FOR_ALL(f, iter) {
       findDiagonal
       (
         points,
@@ -369,29 +340,24 @@ bool mousse::faceTriangulation::split
         index1,
         index2
       );
-      if (index1 != -1 && index2 != -1)
-      {
+      if (index1 != -1 && index2 != -1) {
         // Found correct diagonal
         break;
       }
       // Try splitting from next startingIndex.
       startIndex = f.fcIndex(startIndex);
     }
-    if (index1 == -1 || index2 == -1)
-    {
-      if (fallBack)
-      {
+    if (index1 == -1 || index2 == -1) {
+      if (fallBack) {
         // Do naive triangulation. Find smallest angle to start
         // triangulating from.
         label maxIndex = -1;
         scalar maxCos = -GREAT;
-        FOR_ALL(f, fp)
-        {
+        FOR_ALL(f, fp) {
           const vector& rightEdge = edges[right(size, fp)];
           const vector leftEdge = -edges[left(size, fp)];
           scalar cos = rightEdge & leftEdge;
-          if (cos > maxCos)
-          {
+          if (cos > maxCos) {
             maxCos = cos;
             maxIndex = fp;
           }
@@ -400,15 +366,15 @@ bool mousse::faceTriangulation::split
         (
           "split(const bool, const pointField&, const face&"
           ", const vector&, label&)"
-        )   << "Cannot find valid diagonal on face " << f
-          << " with points " << UIndirectList<point>(points, f)()
-          << nl
-          << "Returning naive triangulation starting from "
-          << f[maxIndex] << " which might not be correct for a"
-          << " concave or warped face" << endl;
+        )
+        << "Cannot find valid diagonal on face " << f
+        << " with points " << UIndirectList<point>(points, f)()
+        << nl
+        << "Returning naive triangulation starting from "
+        << f[maxIndex] << " which might not be correct for a"
+        << " concave or warped face" << endl;
         label fp = f.fcIndex(maxIndex);
-        for (label i = 0; i < size-2; i++)
-        {
+        for (label i = 0; i < size-2; i++) {
           label nextFp = f.fcIndex(fp);
           triFace& tri = operator[](triI++);
           tri[0] = f[maxIndex];
@@ -417,17 +383,16 @@ bool mousse::faceTriangulation::split
           fp = nextFp;
         }
         return true;
-      }
-      else
-      {
+      } else {
         WARNING_IN
         (
           "split(const bool, const pointField&, const face&"
           ", const vector&, label&)"
-        )   << "Cannot find valid diagonal on face " << f
-          << " with points " << UIndirectList<point>(points, f)()
-          << nl
-          << "Returning empty triFaceList" << endl;
+        )
+        << "Cannot find valid diagonal on face " << f
+        << " with points " << UIndirectList<point>(points, f)()
+        << nl
+        << "Returning empty triFaceList" << endl;
         return false;
       }
     }
@@ -436,63 +401,55 @@ bool mousse::faceTriangulation::split
     //     face2: index2 to index1
     // Get sizes of the two subshapes
     label diff = 0;
-    if (index2 > index1)
-    {
+    if (index2 > index1) {
       diff = index2 - index1;
-    }
-    else
-    {
+    } else {
       // folded round
       diff = index2 + size - index1;
     }
     label nPoints1 = diff + 1;
     label nPoints2 = size - diff + 1;
-    if (nPoints1 == size || nPoints2 == size)
-    {
+    if (nPoints1 == size || nPoints2 == size) {
       FATAL_ERROR_IN
       (
         "split(const bool, const pointField&, const face&"
         ", const vector&, label&)"
-      )   << "Illegal split of face:" << f
-        << " with points " << UIndirectList<point>(points, f)()
-        << " at indices " << index1 << " and " << index2
-        << abort(FatalError);
+      )
+      << "Illegal split of face:" << f
+      << " with points " << UIndirectList<point>(points, f)()
+      << " at indices " << index1 << " and " << index2
+      << abort(FatalError);
     }
     // Collect face1 points
     face face1(nPoints1);
     label faceVertI = index1;
-    for (int i = 0; i < nPoints1; i++)
-    {
+    for (int i = 0; i < nPoints1; i++) {
       face1[i] = f[faceVertI];
       faceVertI = f.fcIndex(faceVertI);
     }
     // Collect face2 points
     face face2(nPoints2);
     faceVertI = index2;
-    for (int i = 0; i < nPoints2; i++)
-    {
+    for (int i = 0; i < nPoints2; i++) {
       face2[i] = f[faceVertI];
       faceVertI = f.fcIndex(faceVertI);
     }
     // Decompose the split faces
-    //Pout<< "Split face:" << f << " into " << face1 << " and " << face2
-    //    << endl;
-    //string oldPrefix(Pout.prefix());
-    //Pout.prefix() = "  " + oldPrefix;
-    bool splitOk =
-      split(fallBack, points, face1, normal, triI)
-    && split(fallBack, points, face2, normal, triI);
-    //Pout.prefix() = oldPrefix;
+    bool splitOk = split(fallBack, points, face1, normal, triI)
+      && split(fallBack, points, face2, normal, triI);
     return splitOk;
   }
 }
+
 
 // Constructors
 // Null constructor
 mousse::faceTriangulation::faceTriangulation()
 :
-  triFaceList()
+  triFaceList{}
 {}
+
+
 // Construct from components
 mousse::faceTriangulation::faceTriangulation
 (
@@ -501,17 +458,18 @@ mousse::faceTriangulation::faceTriangulation
   const bool fallBack
 )
 :
-  triFaceList(f.size()-2)
+  triFaceList{f.size()-2}
 {
   vector avgNormal = f.normal(points);
   avgNormal /= mag(avgNormal) + VSMALL;
   label triI = 0;
   bool valid = split(fallBack, points, f, avgNormal, triI);
-  if (!valid)
-  {
+  if (!valid) {
     setSize(0);
   }
 }
+
+
 // Construct from components
 mousse::faceTriangulation::faceTriangulation
 (
@@ -521,17 +479,19 @@ mousse::faceTriangulation::faceTriangulation
   const bool fallBack
 )
 :
-  triFaceList(f.size()-2)
+  triFaceList{f.size()-2}
 {
   label triI = 0;
   bool valid = split(fallBack, points, f, n, triI);
-  if (!valid)
-  {
+  if (!valid) {
     setSize(0);
   }
 }
+
+
 // Construct from Istream
 mousse::faceTriangulation::faceTriangulation(Istream& is)
 :
-  triFaceList(is)
+  triFaceList{is}
 {}
+

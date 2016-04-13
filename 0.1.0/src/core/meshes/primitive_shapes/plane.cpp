@@ -5,38 +5,29 @@
 #include "plane.hpp"
 #include "tensor.hpp"
 
+
 // Private Member Functions
 // Calculate base point and unit normal vector from plane equation
 void mousse::plane::calcPntAndVec(const scalarList& C)
 {
-  if (mag(C[0]) > VSMALL)
-  {
-    basePoint_ = vector((-C[3]/C[0]), 0, 0);
-  }
-  else
-  {
-    if (mag(C[1]) > VSMALL)
-    {
+  if (mag(C[0]) > VSMALL) {
+    basePoint_ = vector{(-C[3]/C[0]), 0, 0};
+  } else {
+    if (mag(C[1]) > VSMALL) {
       basePoint_ = vector(0, (-C[3]/C[1]), 0);
-    }
-    else
-    {
-      if (mag(C[2]) > VSMALL)
-      {
+    } else {
+      if (mag(C[2]) > VSMALL) {
         basePoint_ = vector(0, 0, (-C[3]/C[2]));
-      }
-      else
-      {
+      } else {
         FATAL_ERROR_IN("void plane::calcPntAndVec(const scalarList&)")
           << "At least one plane coefficient must have a value"
           << abort(FatalError);
       }
     }
   }
-  unitVector_ = vector(C[0], C[1], C[2]);
-  scalar magUnitVector(mag(unitVector_));
-  if (magUnitVector < VSMALL)
-  {
+  unitVector_ = vector{C[0], C[1], C[2]};
+  scalar magUnitVector{mag(unitVector_)};
+  if (magUnitVector < VSMALL) {
     FATAL_ERROR_IN("void plane::calcPntAndVec(const scalarList&)")
       << "Plane normal defined with zero length"
       << abort(FatalError);
@@ -55,13 +46,8 @@ void mousse::plane::calcPntAndVec
   basePoint_ = (point1 + point2 + point3)/3;
   vector line12 = point1 - point2;
   vector line23 = point2 - point3;
-  if
-  (
-    mag(line12) < VSMALL
-  || mag(line23) < VSMALL
-  || mag(point3-point1) < VSMALL
-  )
-  {
+  if (mag(line12) < VSMALL || mag(line23) < VSMALL
+      || mag(point3-point1) < VSMALL) {
     FATAL_ERROR_IN
     (
       "void plane::calcPntAndVec\n"
@@ -75,9 +61,8 @@ void mousse::plane::calcPntAndVec
     << abort(FatalError);
   }
   unitVector_ = line12 ^ line23;
-  scalar magUnitVector(mag(unitVector_));
-  if (magUnitVector < VSMALL)
-  {
+  scalar magUnitVector{mag(unitVector_)};
+  if (magUnitVector < VSMALL) {
     FATAL_ERROR_IN
     (
       "void plane::calcPntAndVec\n"
@@ -102,13 +87,10 @@ mousse::plane::plane(const vector& normalVector)
   unitVector_{normalVector},
   basePoint_{vector::zero}
 {
-  scalar magUnitVector(mag(unitVector_));
-  if (magUnitVector > VSMALL)
-  {
+  scalar magUnitVector{mag(unitVector_)};
+  if (magUnitVector > VSMALL) {
     unitVector_ /= magUnitVector;
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("plane::plane(const vector&)")
       << "plane normal has zero length. basePoint:" << basePoint_
       << abort(FatalError);
@@ -122,13 +104,10 @@ mousse::plane::plane(const point& basePoint, const vector& normalVector)
   unitVector_{normalVector},
   basePoint_{basePoint}
 {
-  scalar magUnitVector(mag(unitVector_));
-  if (magUnitVector > VSMALL)
-  {
+  scalar magUnitVector{mag(unitVector_)};
+  if (magUnitVector > VSMALL) {
     unitVector_ /= magUnitVector;
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("plane::plane(const point&, const vector&)")
       << "plane normal has zero length. basePoint:" << basePoint_
       << abort(FatalError);
@@ -161,9 +140,8 @@ mousse::plane::plane(const dictionary& dict)
   unitVector_{vector::zero},
   basePoint_{point::zero}
 {
-  const word planeType(dict.lookup("planeType"));
-  if (planeType == "planeEquation")
-  {
+  const word planeType{dict.lookup("planeType")};
+  if (planeType == "planeEquation") {
     const dictionary& subDict = dict.subDict("planeEquationDict");
     scalarList C(4);
     C[0] = readScalar(subDict.lookup("a"));
@@ -171,24 +149,18 @@ mousse::plane::plane(const dictionary& dict)
     C[2] = readScalar(subDict.lookup("c"));
     C[3] = readScalar(subDict.lookup("d"));
     calcPntAndVec(C);
-  }
-  else if (planeType == "embeddedPoints")
-  {
+  } else if (planeType == "embeddedPoints") {
     const dictionary& subDict = dict.subDict("embeddedPointsDict");
-    point point1(subDict.lookup("point1"));
-    point point2(subDict.lookup("point2"));
-    point point3(subDict.lookup("point3"));
+    point point1{subDict.lookup("point1")};
+    point point2{subDict.lookup("point2")};
+    point point3{subDict.lookup("point3")};
     calcPntAndVec(point1, point2, point3);
-  }
-  else if (planeType == "pointAndNormal")
-  {
+  } else if (planeType == "pointAndNormal") {
     const dictionary& subDict = dict.subDict("pointAndNormalDict");
     basePoint_ = subDict.lookup("basePoint");
     unitVector_ = subDict.lookup("normalVector");
     unitVector_ /= mag(unitVector_);
-  }
-  else
-  {
+  } else {
     FATAL_IO_ERROR_IN("plane::plane(const dictionary&)", dict)
       << "Invalid plane type: " << planeType << nl
       << "Valid options include: planeEquation, embeddedPoints and "
@@ -204,13 +176,10 @@ mousse::plane::plane(Istream& is)
   unitVector_{is},
   basePoint_{is}
 {
-  scalar magUnitVector(mag(unitVector_));
-  if (magUnitVector > VSMALL)
-  {
+  scalar magUnitVector{mag(unitVector_)};
+  if (magUnitVector > VSMALL) {
     unitVector_ /= magUnitVector;
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("plane::plane(Istream& is)")
       << "plane normal has zero length. basePoint:" << basePoint_
       << abort(FatalError);
@@ -236,43 +205,32 @@ const mousse::point& mousse::plane::refPoint() const
 // Return coefficients for plane equation: ax + by + cz + d = 0
 mousse::FixedList<mousse::scalar, 4> mousse::plane::planeCoeffs() const
 {
-  FixedList<scalar, 4> C(4);
+  FixedList<scalar, 4> C{4};
   scalar magX = mag(unitVector_.x());
   scalar magY = mag(unitVector_.y());
   scalar magZ = mag(unitVector_.z());
-  if (magX > magY)
-  {
-    if (magX > magZ)
-    {
+  if (magX > magY) {
+    if (magX > magZ) {
       C[0] = 1;
       C[1] = unitVector_.y()/unitVector_.x();
       C[2] = unitVector_.z()/unitVector_.x();
-    }
-    else
-    {
+    } else {
       C[0] = unitVector_.x()/unitVector_.z();
       C[1] = unitVector_.y()/unitVector_.z();
       C[2] = 1;
     }
-  }
-  else
-  {
-    if (magY > magZ)
-    {
+  } else {
+    if (magY > magZ) {
       C[0] = unitVector_.x()/unitVector_.y();
       C[1] = 1;
       C[2] = unitVector_.z()/unitVector_.y();
-    }
-    else
-    {
+    } else {
       C[0] = unitVector_.x()/unitVector_.z();
       C[1] = unitVector_.y()/unitVector_.z();
       C[2] = 1;
     }
   }
-  C[3] = - C[0] * basePoint_.x()
-     - C[1] * basePoint_.y()
-     - C[2] * basePoint_.z();
+  C[3] = - C[0]*basePoint_.x() - C[1]*basePoint_.y() - C[2]*basePoint_.z();
   return C;
 }
 
@@ -323,31 +281,22 @@ mousse::plane::ray mousse::plane::planeIntersect(const plane& plane2) const
   scalar magY = mag(dir.y());
   scalar magZ = mag(dir.z());
   direction iZero, i1, i2;
-  if (magX > magY)
-  {
-    if (magX > magZ)
-    {
+  if (magX > magY) {
+    if (magX > magZ) {
       iZero = 0;
       i1 = 1;
       i2 = 2;
-    }
-    else
-    {
+    } else {
       iZero = 2;
       i1 = 0;
       i2 = 1;
     }
-  }
-  else
-  {
-    if (magY > magZ)
-    {
+  } else {
+    if (magY > magZ) {
       iZero = 1;
       i1 = 2;
       i2 = 0;
-    }
-    else
-    {
+    } else {
       iZero = 2;
       i1 = 0;
       i2 = 1;
@@ -384,7 +333,7 @@ mousse::point mousse::plane::planePlaneIntersect
 
 mousse::plane::side mousse::plane::sideOfPlane(const point& p) const
 {
-  const scalar angle((p - basePoint_) & unitVector_);
+  const scalar angle{(p - basePoint_) & unitVector_};
   return (angle < 0 ? FLIP : NORMAL);
 }
 
@@ -392,12 +341,9 @@ mousse::plane::side mousse::plane::sideOfPlane(const point& p) const
 mousse::point mousse::plane::mirror(const point& p) const
 {
   const vector mirroredPtDir = p - nearestPoint(p);
-  if ((normal() & mirroredPtDir) > 0)
-  {
+  if ((normal() & mirroredPtDir) > 0) {
     return p - 2.0*distance(p)*normal();
-  }
-  else
-  {
+  } else {
     return p + 2.0*distance(p)*normal();
   }
 }
@@ -407,24 +353,21 @@ void mousse::plane::writeDict(Ostream& os) const
 {
   os.writeKeyword("planeType") << "pointAndNormal"
     << token::END_STATEMENT << nl;
-  os<< indent << "pointAndNormalDict" << nl
+  os << indent << "pointAndNormalDict" << nl
     << indent << token::BEGIN_BLOCK << incrIndent << nl;
   os.writeKeyword("basePoint") << basePoint_ << token::END_STATEMENT << nl;
   os.writeKeyword("normalVector") << unitVector_ << token::END_STATEMENT
     << nl;
-  os<< decrIndent << indent << token::END_BLOCK << endl;
+  os << decrIndent << indent << token::END_BLOCK << endl;
 }
 
 
 // Friend Operators
 bool mousse::operator==(const plane& a, const plane& b)
 {
-  if (a.basePoint_ == b.basePoint_ && a.unitVector_ == b.unitVector_)
-  {
+  if (a.basePoint_ == b.basePoint_ && a.unitVector_ == b.unitVector_) {
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
@@ -439,6 +382,7 @@ bool mousse::operator!=(const plane& a, const plane& b)
 // Friend Functions
 mousse::Ostream& mousse::operator<<(Ostream& os, const plane& a)
 {
-  os  << a.unitVector_ << token::SPACE << a.basePoint_;
+  os << a.unitVector_ << token::SPACE << a.basePoint_;
   return os;
 }
+

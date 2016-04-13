@@ -8,10 +8,6 @@
 //   mousse::cellDistFuncs
 // Description
 //   Collection of functions used in wall distance calculation.
-// SourceFiles
-//   cell_dist_funcs.cpp
-//   cell_dist_funcs_templates.cpp
-
 
 #include "scalar_field.hpp"
 #include "hash_set.hpp"
@@ -22,13 +18,14 @@
 #include "primitive_patch.hpp"
 #include "class_name.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class polyMesh;
 class polyPatch;
 class polyBoundaryMesh;
+
 
 class cellDistFuncs
 {
@@ -123,7 +120,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "cell_dist_funcs_templates.cpp"
-#endif
+
+#include "cell_dist_funcs.ipp"
+
 #endif

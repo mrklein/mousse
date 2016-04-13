@@ -8,12 +8,13 @@
 //   mousse::wedgePointPatch
 // Description
 //   Wedge front and back plane patch.
-// SourceFiles
-//   wedge_point_patch.cpp
+
 #include "face_point_patch.hpp"
 #include "wedge_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class wedgePointPatch
 :
   public facePointPatch

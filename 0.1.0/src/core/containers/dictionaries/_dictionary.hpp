@@ -13,10 +13,13 @@
 //   of intrusive doubly-linked list of \<T\>.
 // SourceFiles
 //   _dictionary.cpp
+
 #include "dictionary_base.hpp"
 #include "idl_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class Dictionary
 :
@@ -33,8 +36,9 @@ public:
     //  Returns true if the keyword was found
     bool erase(const word& keyword);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_dictionary.cpp"
-#endif
+
+#include "_dictionary.ipp"
+
 #endif

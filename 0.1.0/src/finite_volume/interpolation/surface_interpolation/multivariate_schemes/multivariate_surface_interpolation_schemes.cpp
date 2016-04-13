@@ -4,8 +4,8 @@
 
 #include "multivariate_surface_interpolation_scheme.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Define the constructor function hash tables
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
@@ -39,3 +39,4 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 );
 
 }  // namespace mousse
+

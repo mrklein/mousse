@@ -10,16 +10,15 @@
 //   LocalMax-mean differencing scheme class.
 //   This scheme interpolates 1/field using a scheme specified at run-time
 //   and return the reciprocal of the interpolate.
-// SourceFiles
-//   local_max.cpp
 
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class localMax
 :
@@ -89,7 +88,6 @@ public:
       {
         new GeometricField<Type, fvsPatchField, surfaceMesh>
         {
-          IOobject
           {
             "localMax::interpolate(" + vf.name() + ')',
             mesh.time().timeName(),
@@ -100,18 +98,19 @@ public:
         }
       };
       GeometricField<Type, fvsPatchField, surfaceMesh>& vff = tvff();
-      FOR_ALL(vff.boundaryField(), patchi)
-      {
+      FOR_ALL(vff.boundaryField(), patchi) {
         vff.boundaryField()[patchi] = vf.boundaryField()[patchi];
       }
       const labelUList& own = mesh.owner();
       const labelUList& nei = mesh.neighbour();
-      FOR_ALL(vff, facei)
-      {
+      FOR_ALL(vff, facei) {
         vff[facei] = max(vf[own[facei]], vf[nei[facei]]);
       }
       return tvff;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

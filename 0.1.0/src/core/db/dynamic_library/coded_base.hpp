@@ -8,19 +8,17 @@
 //   mousse::codedBase
 // Description
 //   Base class for function objects and boundary conditions using dynamic code
-// SourceFiles
-//   coded_base.cpp
-
 
 #include "dictionary.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of classes
 class dynamicCode;
 class dynamicCodeContext;
 class dlLibraryTable;
+
 
 class codedBase
 {

@@ -10,11 +10,9 @@
 //   A cellMatcher for prism cells
 // See Also
 //   cellMatcher
-// SourceFiles
-//   prism_matcher.cpp
-
 
 #include "cell_matcher.hpp"
+
 
 namespace mousse
 {

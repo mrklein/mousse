@@ -9,11 +9,12 @@
 // Description
 //   Class containing opposite face for a prismatic cell with addressing
 //   and a possibility of failure.
-// SourceFiles
-//   opposite_face.cpp
+
 #include "face.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class oppositeFace
 :
   public face
@@ -33,9 +34,9 @@ public:
       const label oppositeIndex
     )
     :
-      face(f),
-      masterIndex_(masterIndex),
-      oppositeIndex_(oppositeIndex)
+      face{f},
+      masterIndex_{masterIndex},
+      oppositeIndex_{oppositeIndex}
     {}
   // Member Functions
     //- Master face index

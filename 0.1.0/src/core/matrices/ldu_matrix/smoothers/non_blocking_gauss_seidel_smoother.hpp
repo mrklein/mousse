@@ -16,11 +16,12 @@
 //   is finished might be quite high (call into mpi). Also this would
 //   require a dynamic memory allocation to store the state of the outstanding
 //   requests.
-// SourceFiles
-//   non_blocking_gauss_seidel_smoother.cpp
+
 #include "ldu_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class nonBlockingGaussSeidelSmoother
 :
   public lduMatrix::smoother

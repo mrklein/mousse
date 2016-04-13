@@ -6,14 +6,14 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::faceOnlySet
-// Description
-// SourceFiles
-//   face_only_set.cpp
+
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "passive_particle_cloud.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class faceOnlySet
 :
   public sampledSet
@@ -83,5 +83,8 @@ public:
       return end_;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

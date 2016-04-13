@@ -3,8 +3,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "point_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 #define MAKE_POINT_PATCH_FIELD(pointPatchTypeField)                           \
                                                                               \
@@ -23,4 +25,5 @@ MAKE_POINT_PATCH_FIELD(pointPatchVectorField)
 MAKE_POINT_PATCH_FIELD(pointPatchSphericalTensorField)
 MAKE_POINT_PATCH_FIELD(pointPatchSymmTensorField)
 MAKE_POINT_PATCH_FIELD(pointPatchTensorField)
+
 }  // namespace mousse

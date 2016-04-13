@@ -1,23 +1,23 @@
-surf_zone/surf_zone.cpp
-surf_zone/surf_zone_io_list.cpp
-surf_zone/surf_zone_identifier.cpp
+surf_zone.cpp
+surf_zone_io_list.cpp
+surf_zone_identifier.cpp
 
-meshed_surface_allocator/meshed_surface_io_allocator.cpp
+meshed_surface_io_allocator.cpp
 
-meshed_surface/meshed_surface_core.cpp
-meshed_surface/meshed_surfaces.cpp
-unsorted_meshed_surface/unsorted_meshed_surfaces.cpp
+meshed_surface_core.cpp
+meshed_surfaces.cpp
+unsorted_meshed_surfaces.cpp
 
-meshed_surface_proxy/meshed_surface_proxy_core.cpp
+meshed_surface_proxy_core.cpp
 
-surface_registry/surface_registry.cpp
-surf_mesh/surf_mesh.cpp
-surf_mesh/surf_mesh_clear.cpp
-surf_mesh/surf_mesh_io.cpp
-surf_fields/surf_fields.cpp
-surf_fields/surf_point_fields.cpp
+surface_registry.cpp
+surf_mesh.cpp
+surf_mesh_clear.cpp
+surf_mesh_io.cpp
+surf_fields.cpp
+surf_point_fields.cpp
 
-surface_formats = surface_formats
+surface_formats = formats
 $(surface_formats)/surface_formats_core.cpp
 
 $(surface_formats)/ac3d_surface_format_core.cpp

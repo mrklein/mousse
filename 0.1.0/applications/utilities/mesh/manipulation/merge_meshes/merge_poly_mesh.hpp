@@ -12,6 +12,7 @@
 //   merge_poly_mesh.cpp
 #include "poly_mesh.hpp"
 #include "poly_topo_change.hpp"
+
 namespace mousse
 {
 // Forward declaration of classes

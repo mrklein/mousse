@@ -8,12 +8,13 @@
 //   mousse::IOMap
 // Description
 //   A Map of objects of type \<T\> with automated input and output.
-// SourceFiles
-//   iomap.cpp
+
 #include "map.hpp"
 #include "reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class IOMap
 :
@@ -42,8 +43,10 @@ public:
     //- Assignment of other Map's entries to this IOMap
     void operator=(const Map<T>&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "iomap.cpp"
-#endif
+
+
+#include "iomap.ipp"
+
 #endif

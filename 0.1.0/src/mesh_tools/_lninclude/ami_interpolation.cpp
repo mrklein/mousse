@@ -1,1 +1,1 @@
-../ami_interpolation/ami_interpolation/ami_interpolation.cpp
+../ami_interpolation/ami_interpolation.cpp

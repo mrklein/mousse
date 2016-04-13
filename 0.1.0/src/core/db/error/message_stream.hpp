@@ -18,21 +18,21 @@
 //     messageStream
 //       << "message1" << "message2" << FoamDataType << endl;
 //   \endcode
-// SourceFiles
-//   message_stream.cpp
-
 
 #include "label.hpp"
 #include "string.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class IOstream;
 class Ostream;
 class OSstream;
 class OStringStream;
 class dictionary;
+
+
 class messageStream
 {
 public:
@@ -136,10 +136,12 @@ public:
       return operator OSstream&();
     }
 };
+
 // Global error declarations: defined in messageStream.C
 extern messageStream SeriousError;
 extern messageStream Warning;
 extern messageStream Info;
+
 }  // namespace mousse
 #include "osstream.hpp"
 

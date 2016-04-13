@@ -8,10 +8,6 @@
 //   mousse::fvPatch
 // Description
 //   A finiteVolume patch using a polyPatch and a fvBoundaryMesh
-// SourceFiles
-//   fv_patch.cpp
-//   fv_patch_new.cpp
-
 
 #include "poly_patch.hpp"
 #include "label_list.hpp"
@@ -24,10 +20,13 @@
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class fvBoundaryMesh;
 class surfaceInterpolation;
+
+
 class fvPatch
 {
   // Private data
@@ -148,7 +147,7 @@ public:
     // Evaluation functions
       //- Return given internal field next to patch as patch field
       template<class Type>
-      tmp<Field<Type> > patchInternalField(const UList<Type>&) const;
+      tmp<Field<Type>> patchInternalField(const UList<Type>&) const;
       //- Return given internal field next to patch as patch field
       template<class Type>
       void patchInternalField(const UList<Type>&, Field<Type>&) const;
@@ -172,7 +171,7 @@ public:
       ) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fv_patch_templates.cpp"
-#endif
+
+#include "fv_patch.ipp"
+
 #endif

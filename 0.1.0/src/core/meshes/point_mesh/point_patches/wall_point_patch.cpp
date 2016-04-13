@@ -5,8 +5,8 @@
 #include "wall_point_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(wallPointPatch, 0);
 // Add the patch constructor functions to the hash tables

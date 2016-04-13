@@ -1,1 +1,0 @@
-../ami_interpolation/ami_interpolation/ami_method/face_area_weight_ami/face_area_weight_ami.cpp

@@ -17,14 +17,17 @@
 //     average             1.0;        // only if setAverage=true
 //     interpolationScheme cellPoint;  // default is cell
 //   }
-// SourceFiles
-//   mapped_patch_field_base.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mappedPatchBase;
 template<class> class interpolation;
+
+
 template<class Type>
 class mappedPatchFieldBase
 {
@@ -87,12 +90,12 @@ public:
     //- Field to sample. Either on my or nbr mesh
     const GeometricField<Type, fvPatchField, volMesh>& sampleField() const;
     //- Map sampleField onto *this patch
-    virtual tmp<Field<Type> > mappedField() const;
+    virtual tmp<Field<Type>> mappedField() const;
     //- Write
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "mapped_patch_field_base.cpp"
-#endif
+
+#include "mapped_patch_field_base.ipp"
+
 #endif

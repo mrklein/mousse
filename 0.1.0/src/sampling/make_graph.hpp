@@ -4,18 +4,23 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   make_graph.cpp
+
 #include "primitive_fields_fwd.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fileName;
+
+
 void makeGraph
 (
   const scalarField& x,
   const volScalarField& vsf,
   const word& graphFormat
 );
+
 void makeGraph
 (
   const scalarField& x,
@@ -23,6 +28,7 @@ void makeGraph
   const word& name,
   const word& graphFormat
 );
+
 void makeGraph
 (
   const scalarField& x,
@@ -31,5 +37,8 @@ void makeGraph
   const fileName& path,
   const word& graphFormat
 );
+
 }  // namespace mousse
+
 #endif
+

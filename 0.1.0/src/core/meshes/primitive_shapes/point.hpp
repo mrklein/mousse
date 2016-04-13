@@ -6,8 +6,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "vector.hpp"
-namespace mousse
-{
-  typedef vector point;
+
+
+namespace mousse {
+
+typedef vector point;
+
 }
+
 #endif

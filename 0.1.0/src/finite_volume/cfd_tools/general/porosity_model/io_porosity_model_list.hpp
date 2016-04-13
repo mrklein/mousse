@@ -8,12 +8,13 @@
 //   mousse::IOporosityModelList
 // Description
 //   List of porosity models with IO functionality
-// SourceFiles
-//   io_porosity_model_list.cpp
+
 #include "iodictionary.hpp"
 #include "porosity_model_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IOporosityModelList
 :
   public IOdictionary,

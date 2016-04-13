@@ -58,19 +58,20 @@
 // SeeAlso
 //   mousse::DataEntry
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   flow_rate_inlet_velocity_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class flowRateInletVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
 {
   // Private data
     //- Inlet integral flow rate
-    autoPtr<DataEntry<scalar> > flowRate_;
+    autoPtr<DataEntry<scalar>> flowRate_;
     //- Is volumetric?
     bool volumetric_;
     //- Name of the density field used to normalize the mass flux
@@ -113,9 +114,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new flowRateInletVelocityFvPatchVectorField(*this)
-      );
+      {
+        new flowRateInletVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     flowRateInletVelocityFvPatchVectorField
@@ -130,9 +131,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new flowRateInletVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new flowRateInletVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field

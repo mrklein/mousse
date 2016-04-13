@@ -7,10 +7,14 @@
 
 #include "bool.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef UList<bool> boolUList;
-  typedef List<bool> boolList;
-  typedef List<List<bool> > boolListList;
+
+
+namespace mousse {
+
+typedef UList<bool> boolUList;
+typedef List<bool> boolList;
+typedef List<List<bool> > boolListList;
+
 }
+
 #endif

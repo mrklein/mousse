@@ -10,17 +10,20 @@
 //   A tetrahedral cell primitive.
 //   It is important that the ordering of edges is the same for a tetrahedron
 //   class, a tetrahedron cell shape model and a tetCell
-// SourceFiles
-//   tet_cell.cpp
+
 #include "fixed_list.hpp"
 #include "tri_face.hpp"
 #include "edge.hpp"
 #include "point_field.hpp"
 #include "tetrahedron.hpp"
 #include "iostreams.hpp"
-namespace mousse
-{
+
+ 
+namespace mousse {
+
 class cellShape;
+
+
 class tetCell
 :
   public FixedList<label, 4>
@@ -64,13 +67,15 @@ public:
 
 // Global Functions 
 //- Data associated with the type are contiguous
-template<>
-inline bool contiguous<tetCell>() {return true;}
+template<> inline bool contiguous<tetCell>() {return true;}
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::tetCell::tetCell()
 {}
+
 
 inline mousse::tetCell::tetCell
 (
@@ -86,15 +91,18 @@ inline mousse::tetCell::tetCell
   operator[](3) = d;
 }
 
+
 inline mousse::tetCell::tetCell(const FixedList<label, 4>& lst)
 :
   FixedList<label, 4>{lst}
 {}
 
+
 inline mousse::tetCell::tetCell(Istream& is)
 :
   FixedList<label, 4>{is}
 {}
+
 
 // Member Functions 
 inline mousse::triFace mousse::tetCell::face(const label faceI) const
@@ -112,7 +120,7 @@ inline mousse::triFace mousse::tetCell::face(const label faceI) const
       << abort(FatalError);
   }
 #endif
-  return triFace
+  return // triFace
   {
     operator[](a[faceI]),
     operator[](b[faceI]),
@@ -134,8 +142,9 @@ inline mousse::label mousse::tetCell::edgeFace(const label edgeI) const
     (
       "tetCell::edgeFace(const label edgeI)"
       "const"
-    )   << "edge index out of range 0 -> 5. edgeI = " << edgeI
-      << abort(FatalError);
+    )
+    << "edge index out of range 0 -> 5. edgeI = " << edgeI
+    << abort(FatalError);
   }
 #endif
   return edgeFaces[edgeI];
@@ -206,7 +215,7 @@ inline mousse::edge mousse::tetCell::tetEdge(const label edgeI) const
 
 inline mousse::tetPointRef mousse::tetCell::tet(const pointField& points) const
 {
-  return tetPointRef
+  return // tetPointRef
   {
     points[operator[](0)],
     points[operator[](1)],

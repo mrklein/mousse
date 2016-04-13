@@ -7,13 +7,14 @@
 // Class
 //   mousse::searchablePlane
 // Description
-//   Searching on (infinite) plane. See plane.H
-// SourceFiles
-//   searchable_plane.cpp
+//   Searching on (infinite) plane. See plane.hpp.
+
 #include "searchable_surface.hpp"
 #include "plane.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class searchablePlane
 :

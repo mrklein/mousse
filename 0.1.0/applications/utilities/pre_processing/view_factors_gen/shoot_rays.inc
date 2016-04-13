@@ -52,10 +52,11 @@ for (label procI = 0; procI < Pstream::nProcs(); procI++)
               FATAL_ERROR_IN
               (
                 "shootRays"
-              )   << "Dynamic list need from capacity."
-                << "Actual size maxDynListLength : "
-                <<  maxDynListLength
-                << abort(FatalError);
+              )
+              << "Dynamic list need from capacity."
+              << "Actual size maxDynListLength : "
+              <<  maxDynListLength
+              << abort(FatalError);
             }
           }
         }
@@ -66,7 +67,7 @@ for (label procI = 0; procI < Pstream::nProcs(); procI++)
       }
     }
   } while (returnReduce(i < myFc.size(), orOp<bool>()));
-  List<pointIndexHit> hitInfo(startIndex.size());
+  List<pointIndexHit> hitInfo{startIndex.size()};
   surfacesMesh.findLine(start, end, hitInfo);
   // Return hit global agglo index
   labelList aggHitIndex;

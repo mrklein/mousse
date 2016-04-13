@@ -7,9 +7,12 @@
 
 #include "tensor.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef UList<tensor> tensorUList;
-  typedef List<tensor> tensorList;
+
+
+namespace mousse {
+
+typedef UList<tensor> tensorUList;
+typedef List<tensor> tensorList;
+
 }
 #endif

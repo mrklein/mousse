@@ -9,9 +9,9 @@
 #include "poly_add_point.hpp"
 #include "poly_add_cell.hpp"
 #include "poly_add_face.hpp"
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 DEFINE_TYPE_NAME_AND_DEBUG(mergePolyMesh, 1);
 }
 // Private Member Functions 
@@ -50,7 +50,7 @@ mousse::label mousse::mergePolyMesh::patchIndex(const polyPatch& p)
     // patch name and case name
     const word& caseName = p.boundaryMesh().mesh().time().caseName();
     patchNames_.append(pName + "_" + caseName);
-    Info<< "label patchIndex(const polyPatch& p) : "
+    Info << "label patchIndex(const polyPatch& p) : "
       << "Patch " << p.index() << " named "
       << pName << " in mesh " << caseName
       << " already exists, but patch types "
@@ -289,7 +289,7 @@ void mousse::mergePolyMesh::addMesh(const polyMesh& m)
 }
 void mousse::mergePolyMesh::merge()
 {
-  Info<< "patch names: " << patchNames_ << nl
+  Info << "patch names: " << patchNames_ << nl
     << "patch dicts: " << patchDicts_ << nl
     << "point zone names: " << pointZoneNames_ << nl
     << "face zone names: " << faceZoneNames_ << nl
@@ -297,7 +297,7 @@ void mousse::mergePolyMesh::merge()
   // Add the patches if necessary
   if (patchNames_.size() != boundaryMesh().size())
   {
-    Info<< "Copying old patches" << endl;
+    Info << "Copying old patches" << endl;
     List<polyPatch*> newPatches{patchNames_.size()};
     const polyBoundaryMesh& oldPatches = boundaryMesh();
     // Note.  Re-using counter in two for loops
@@ -306,7 +306,7 @@ void mousse::mergePolyMesh::merge()
     {
       newPatches[patchI] = oldPatches[patchI].clone(oldPatches).ptr();
     }
-    Info<< "Adding new patches. " << endl;
+    Info << "Adding new patches. " << endl;
     label endOfLastPatch =
       oldPatches[patchI - 1].start() + oldPatches[patchI - 1].size();
     for (; patchI < patchNames_.size(); patchI++)
@@ -315,16 +315,11 @@ void mousse::mergePolyMesh::merge()
       dictionary dict{patchDicts_[patchI]};
       dict.set("nFaces", 0);
       dict.set("startFace", endOfLastPatch);
-      newPatches[patchI] =
-      (
-        polyPatch::New
-        (
-          patchNames_[patchI],
-          dict,
-          patchI,
-          oldPatches
-        ).ptr()
-      );
+      newPatches[patchI] = polyPatch::New(patchNames_[patchI],
+                                          dict,
+                                          patchI,
+                                          oldPatches
+                                         ).ptr();
     }
     removeBoundary();
     addPatches(newPatches);
@@ -332,7 +327,7 @@ void mousse::mergePolyMesh::merge()
   // Add the zones if necessary
   if (pointZoneNames_.size() > pointZones().size())
   {
-    Info<< "Adding new pointZones. " << endl;
+    Info << "Adding new pointZones. " << endl;
     label nZones = pointZones().size();
     pointZones().setSize(pointZoneNames_.size());
     for (label zoneI = nZones; zoneI < pointZoneNames_.size(); zoneI++)
@@ -352,7 +347,7 @@ void mousse::mergePolyMesh::merge()
   }
   if (cellZoneNames_.size() > cellZones().size())
   {
-    Info<< "Adding new cellZones. " << endl;
+    Info << "Adding new cellZones. " << endl;
     label nZones = cellZones().size();
     cellZones().setSize(cellZoneNames_.size());
     for (label zoneI = nZones; zoneI < cellZoneNames_.size(); zoneI++)
@@ -372,7 +367,7 @@ void mousse::mergePolyMesh::merge()
   }
   if (faceZoneNames_.size() > faceZones().size())
   {
-    Info<< "Adding new faceZones. " << endl;
+    Info << "Adding new faceZones. " << endl;
     label nZones = faceZones().size();
     faceZones().setSize(faceZoneNames_.size());
     for (label zoneI = nZones; zoneI < faceZoneNames_.size(); zoneI++)

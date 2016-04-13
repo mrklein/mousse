@@ -17,6 +17,8 @@
 #elif defined(WM_DP)
 #   define MPI_SCALAR MPI_DOUBLE
 #endif
+
+
 // NOTE:
 // valid parallel options vary between implementations, but flag common ones.
 // if they are not removed by MPI_Init(), the subsequent argument processing
@@ -30,6 +32,8 @@ void mousse::UPstream::addValidParOptions(HashTable<string>& validParOptions)
   validParOptions.insert("p4yourname", "hostname");
   validParOptions.insert("machinefile", "machine file");
 }
+
+
 bool mousse::UPstream::init(int& argc, char**& argv)
 {
   MPI_Init(&argc, &argv);
@@ -37,13 +41,11 @@ bool mousse::UPstream::init(int& argc, char**& argv)
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
   int myRank;
   MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
-  if (debug)
-  {
-    Pout<< "UPstream::init : initialised with numProcs:" << numprocs
+  if (debug) {
+    Pout << "UPstream::init : initialised with numProcs:" << numprocs
       << " myRank:" << myRank << endl;
   }
-  if (numprocs <= 1)
-  {
+  if (numprocs <= 1) {
     FATAL_ERROR_IN("UPstream::init(int& argc, char**& argv)")
       << "bool IPstream::init(int& argc, char**& argv) : "
        "attempt to run parallel on 1 processor"
@@ -51,37 +53,28 @@ bool mousse::UPstream::init(int& argc, char**& argv)
   }
   // Initialise parallel structure
   setParRun(numprocs);
-#   ifndef SGIMPI
+#ifndef SGIMPI
   string bufferSizeName = getEnv("MPI_BUFFER_SIZE");
-  if (bufferSizeName.size())
-  {
+  if (bufferSizeName.size()) {
     int bufferSize = atoi(bufferSizeName.c_str());
-    if (bufferSize)
-    {
+    if (bufferSize) {
       MPI_Buffer_attach(new char[bufferSize], bufferSize);
     }
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("UPstream::init(int& argc, char**& argv)")
       << "UPstream::init(int& argc, char**& argv) : "
       << "environment variable MPI_BUFFER_SIZE not defined"
       << mousse::abort(FatalError);
   }
-#   endif
-  //int processorNameLen;
-  //char processorName[MPI_MAX_PROCESSOR_NAME];
-  //
-  //MPI_Get_processor_name(processorName, &processorNameLen);
-  //processorName[processorNameLen] = '\0';
-  //Pout<< "Processor name:" << processorName << endl;
+#endif
   return true;
 }
+
+
 void mousse::UPstream::exit(int errnum)
 {
-  if (debug)
-  {
-    Pout<< "UPstream::exit." << endl;
+  if (debug) {
+    Pout << "UPstream::exit." << endl;
   }
 #ifndef SGIMPI
   int size;
@@ -89,8 +82,7 @@ void mousse::UPstream::exit(int errnum)
   MPI_Buffer_detach(&buff, &size);
   delete[] buff;
 #endif
-  if (PstreamGlobals::outstandingRequests_.size())
-  {
+  if (PstreamGlobals::outstandingRequests_.size()) {
     label n = PstreamGlobals::outstandingRequests_.size();
     PstreamGlobals::outstandingRequests_.clear();
     WARNING_IN("UPstream::exit(int)")
@@ -101,27 +93,26 @@ void mousse::UPstream::exit(int errnum)
       << endl;
   }
   // Clean mpi communicators
-  FOR_ALL(myProcNo_, communicator)
-  {
-    if (myProcNo_[communicator] != -1)
-    {
+  FOR_ALL(myProcNo_, communicator) {
+    if (myProcNo_[communicator] != -1) {
       freePstreamCommunicator(communicator);
     }
   }
-  if (errnum == 0)
-  {
+  if (errnum == 0) {
     MPI_Finalize();
     ::exit(errnum);
-  }
-  else
-  {
+  } else {
     MPI_Abort(MPI_COMM_WORLD, errnum);
   }
 }
+
+
 void mousse::UPstream::abort()
 {
   MPI_Abort(MPI_COMM_WORLD, 1);
 }
+
+
 void mousse::reduce
 (
   scalar& Value,
@@ -130,15 +121,16 @@ void mousse::reduce
   const label communicator
 )
 {
-  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm)
-  {
-    Pout<< "** reducing:" << Value << " with comm:" << communicator
+  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm) {
+    Pout << "** reducing:" << Value << " with comm:" << communicator
       << " warnComm:" << UPstream::warnComm
       << endl;
     error::printStack(Pout);
   }
   allReduce(Value, 1, MPI_SCALAR, MPI_SUM, bop, tag, communicator);
 }
+
+
 void mousse::reduce
 (
   scalar& Value,
@@ -147,15 +139,16 @@ void mousse::reduce
   const label communicator
 )
 {
-  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm)
-  {
-    Pout<< "** reducing:" << Value << " with comm:" << communicator
+  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm) {
+    Pout << "** reducing:" << Value << " with comm:" << communicator
       << " warnComm:" << UPstream::warnComm
       << endl;
     error::printStack(Pout);
   }
   allReduce(Value, 1, MPI_SCALAR, MPI_MIN, bop, tag, communicator);
 }
+
+
 void mousse::reduce
 (
   vector2D& Value,
@@ -164,15 +157,16 @@ void mousse::reduce
   const label communicator
 )
 {
-  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm)
-  {
-    Pout<< "** reducing:" << Value << " with comm:" << communicator
+  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm) {
+    Pout << "** reducing:" << Value << " with comm:" << communicator
       << " warnComm:" << UPstream::warnComm
       << endl;
     error::printStack(Pout);
   }
   allReduce(Value, 2, MPI_SCALAR, MPI_SUM, bop, tag, communicator);
 }
+
+
 void mousse::sumReduce
 (
   scalar& Value,
@@ -181,9 +175,8 @@ void mousse::sumReduce
   const label communicator
 )
 {
-  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm)
-  {
-    Pout<< "** reducing:" << Value << " with comm:" << communicator
+  if (UPstream::warnComm != -1 && communicator != UPstream::warnComm) {
+    Pout << "** reducing:" << Value << " with comm:" << communicator
       << " warnComm:" << UPstream::warnComm
       << endl;
     error::printStack(Pout);
@@ -193,6 +186,8 @@ void mousse::sumReduce
   Value = twoScalars.x();
   Count = twoScalars.y();
 }
+
+
 void mousse::reduce
 (
   scalar& Value,
@@ -220,9 +215,8 @@ void mousse::reduce
   );
   requestID = PstreamGlobals::outstandingRequests_.size();
   PstreamGlobals::outstandingRequests_.append(request);
-  if (UPstream::debug)
-  {
-    Pout<< "UPstream::allocateRequest for non-blocking reduce"
+  if (UPstream::debug) {
+    Pout << "UPstream::allocateRequest for non-blocking reduce"
       << " : request:" << requestID
       << endl;
   }
@@ -232,22 +226,21 @@ void mousse::reduce
   requestID = -1;
 #endif
 }
+
+
 void mousse::UPstream::allocatePstreamCommunicator
 (
   const label parentIndex,
   const label index
 )
 {
-  if (index == PstreamGlobals::MPIGroups_.size())
-  {
+  if (index == PstreamGlobals::MPIGroups_.size()) {
     // Extend storage with dummy values
     MPI_Group newGroup = MPI_GROUP_NULL;
     PstreamGlobals::MPIGroups_.append(newGroup);
     MPI_Comm newComm = MPI_COMM_NULL;
     PstreamGlobals::MPICommunicators_.append(newComm);
-  }
-  else if (index > PstreamGlobals::MPIGroups_.size())
-  {
+  } else if (index > PstreamGlobals::MPIGroups_.size()) {
     FATAL_ERROR_IN
     (
       "UPstream::allocatePstreamCommunicator\n"
@@ -255,14 +248,13 @@ void mousse::UPstream::allocatePstreamCommunicator
       "    const label parentIndex,\n"
       "    const labelList& subRanks\n"
       ")\n"
-    )   << "PstreamGlobals out of sync with UPstream data. Problem."
-      << mousse::exit(FatalError);
+    )
+    << "PstreamGlobals out of sync with UPstream data. Problem."
+    << mousse::exit(FatalError);
   }
-  if (parentIndex == -1)
-  {
+  if (parentIndex == -1) {
     // Allocate world communicator
-    if (index != UPstream::worldComm)
-    {
+    if (index != UPstream::worldComm) {
       FATAL_ERROR_IN
       (
         "UPstream::allocateCommunicator\n"
@@ -270,58 +262,52 @@ void mousse::UPstream::allocatePstreamCommunicator
         "    const label parentIndex,\n"
         "    const labelList& subRanks\n"
         ")\n"
-      )   << "world communicator should always be index "
-        << UPstream::worldComm << mousse::exit(FatalError);
+      )
+      << "world communicator should always be index "
+      << UPstream::worldComm << mousse::exit(FatalError);
     }
     PstreamGlobals::MPICommunicators_[index] = MPI_COMM_WORLD;
     MPI_Comm_group(MPI_COMM_WORLD, &PstreamGlobals::MPIGroups_[index]);
     MPI_Comm_rank
     (
       PstreamGlobals::MPICommunicators_[index],
-     &myProcNo_[index]
+      &myProcNo_[index]
     );
     // Set the number of processes to the actual number
     int numProcs;
     MPI_Comm_size(PstreamGlobals::MPICommunicators_[index], &numProcs);
     //procIDs_[index] = identity(numProcs);
     procIDs_[index].setSize(numProcs);
-    FOR_ALL(procIDs_[index], i)
-    {
+    FOR_ALL(procIDs_[index], i) {
       procIDs_[index][i] = i;
     }
-  }
-  else
-  {
+  } else {
     // Create new group
     MPI_Group_incl
     (
       PstreamGlobals::MPIGroups_[parentIndex],
       procIDs_[index].size(),
       procIDs_[index].begin(),
-     &PstreamGlobals::MPIGroups_[index]
+      &PstreamGlobals::MPIGroups_[index]
     );
     // Create new communicator
     MPI_Comm_create
     (
       PstreamGlobals::MPICommunicators_[parentIndex],
       PstreamGlobals::MPIGroups_[index],
-     &PstreamGlobals::MPICommunicators_[index]
+      &PstreamGlobals::MPICommunicators_[index]
     );
-    if (PstreamGlobals::MPICommunicators_[index] == MPI_COMM_NULL)
-    {
+    if (PstreamGlobals::MPICommunicators_[index] == MPI_COMM_NULL) {
       myProcNo_[index] = -1;
-    }
-    else
-    {
+    } else {
       if
       (
         MPI_Comm_rank
         (
           PstreamGlobals::MPICommunicators_[index],
-         &myProcNo_[index]
+          &myProcNo_[index]
         )
-      )
-      {
+      ) {
         FATAL_ERROR_IN
         (
           "UPstream::allocatePstreamCommunicator\n"
@@ -329,53 +315,56 @@ void mousse::UPstream::allocatePstreamCommunicator
           "    const label,\n"
           "    const labelList&\n"
           ")\n"
-        )   << "Problem :"
-          << " when allocating communicator at " << index
-          << " from ranks " << procIDs_[index]
-          << " of parent " << parentIndex
-          << " cannot find my own rank"
-          << mousse::exit(FatalError);
+        )
+        << "Problem :"
+        << " when allocating communicator at " << index
+        << " from ranks " << procIDs_[index]
+        << " of parent " << parentIndex
+        << " cannot find my own rank"
+        << mousse::exit(FatalError);
       }
     }
   }
 }
+
+
 void mousse::UPstream::freePstreamCommunicator(const label communicator)
 {
-  if (communicator != UPstream::worldComm)
-  {
-    if (PstreamGlobals::MPICommunicators_[communicator] != MPI_COMM_NULL)
-    {
+  if (communicator != UPstream::worldComm) {
+    if (PstreamGlobals::MPICommunicators_[communicator] != MPI_COMM_NULL) {
       // Free communicator. Sets communicator to MPI_COMM_NULL
       MPI_Comm_free(&PstreamGlobals::MPICommunicators_[communicator]);
     }
-    if (PstreamGlobals::MPIGroups_[communicator] != MPI_GROUP_NULL)
-    {
+    if (PstreamGlobals::MPIGroups_[communicator] != MPI_GROUP_NULL) {
       // Free greoup. Sets group to MPI_GROUP_NULL
       MPI_Group_free(&PstreamGlobals::MPIGroups_[communicator]);
     }
   }
 }
+
+
 mousse::label mousse::UPstream::nRequests()
 {
   return PstreamGlobals::outstandingRequests_.size();
 }
+
+
 void mousse::UPstream::resetRequests(const label i)
 {
-  if (i < PstreamGlobals::outstandingRequests_.size())
-  {
+  if (i < PstreamGlobals::outstandingRequests_.size()) {
     PstreamGlobals::outstandingRequests_.setSize(i);
   }
 }
+
+
 void mousse::UPstream::waitRequests(const label start)
 {
-  if (debug)
-  {
-    Pout<< "UPstream::waitRequests : starting wait for "
+  if (debug) {
+    Pout << "UPstream::waitRequests : starting wait for "
       << PstreamGlobals::outstandingRequests_.size()-start
       << " outstanding requests starting at " << start << endl;
   }
-  if (PstreamGlobals::outstandingRequests_.size())
-  {
+  if (PstreamGlobals::outstandingRequests_.size()) {
     SubList<MPI_Request> waitRequests
     (
       PstreamGlobals::outstandingRequests_,
@@ -390,37 +379,37 @@ void mousse::UPstream::waitRequests(const label start)
         waitRequests.begin(),
         MPI_STATUSES_IGNORE
       )
-    )
-    {
+    ) {
       FATAL_ERROR_IN
       (
         "UPstream::waitRequests()"
-      )   << "MPI_Waitall returned with error" << mousse::endl;
+      )
+      << "MPI_Waitall returned with error" << mousse::endl;
     }
     resetRequests(start);
   }
-  if (debug)
-  {
-    Pout<< "UPstream::waitRequests : finished wait." << endl;
+  if (debug) {
+    Pout << "UPstream::waitRequests : finished wait." << endl;
   }
 }
+
+
 void mousse::UPstream::waitRequest(const label i)
 {
-  if (debug)
-  {
-    Pout<< "UPstream::waitRequest : starting wait for request:" << i
+  if (debug) {
+    Pout << "UPstream::waitRequest : starting wait for request:" << i
       << endl;
   }
-  if (i >= PstreamGlobals::outstandingRequests_.size())
-  {
+  if (i >= PstreamGlobals::outstandingRequests_.size()) {
     FATAL_ERROR_IN
     (
       "UPstream::waitRequest(const label)"
-    )   << "There are " << PstreamGlobals::outstandingRequests_.size()
-      << " outstanding send requests and you are asking for i=" << i
-      << nl
-      << "Maybe you are mixing blocking/non-blocking comms?"
-      << mousse::abort(FatalError);
+    )
+    << "There are " << PstreamGlobals::outstandingRequests_.size()
+    << " outstanding send requests and you are asking for i=" << i
+    << nl
+    << "Maybe you are mixing blocking/non-blocking comms?"
+    << mousse::abort(FatalError);
   }
   if
   (
@@ -429,126 +418,100 @@ void mousse::UPstream::waitRequest(const label i)
      &PstreamGlobals::outstandingRequests_[i],
       MPI_STATUS_IGNORE
     )
-  )
-  {
+  ) {
     FATAL_ERROR_IN
     (
       "UPstream::waitRequest()"
-    )   << "MPI_Wait returned with error" << mousse::endl;
+    )
+    << "MPI_Wait returned with error" << mousse::endl;
   }
-  if (debug)
-  {
-    Pout<< "UPstream::waitRequest : finished wait for request:" << i
+  if (debug) {
+    Pout << "UPstream::waitRequest : finished wait for request:" << i
       << endl;
   }
 }
+
+
 bool mousse::UPstream::finishedRequest(const label i)
 {
-  if (debug)
-  {
-    Pout<< "UPstream::finishedRequest : checking request:" << i
+  if (debug) {
+    Pout << "UPstream::finishedRequest : checking request:" << i
       << endl;
   }
-  if (i >= PstreamGlobals::outstandingRequests_.size())
-  {
+  if (i >= PstreamGlobals::outstandingRequests_.size()) {
     FATAL_ERROR_IN
     (
       "UPstream::finishedRequest(const label)"
-    )   << "There are " << PstreamGlobals::outstandingRequests_.size()
-      << " outstanding send requests and you are asking for i=" << i
-      << nl
-      << "Maybe you are mixing blocking/non-blocking comms?"
-      << mousse::abort(FatalError);
+    )
+    << "There are " << PstreamGlobals::outstandingRequests_.size()
+    << " outstanding send requests and you are asking for i=" << i
+    << nl
+    << "Maybe you are mixing blocking/non-blocking comms?"
+    << mousse::abort(FatalError);
   }
   int flag;
   MPI_Test
   (
-   &PstreamGlobals::outstandingRequests_[i],
-   &flag,
+    &PstreamGlobals::outstandingRequests_[i],
+    &flag,
     MPI_STATUS_IGNORE
   );
-  if (debug)
-  {
-    Pout<< "UPstream::finishedRequest : finished request:" << i
+  if (debug) {
+    Pout << "UPstream::finishedRequest : finished request:" << i
       << endl;
   }
   return flag != 0;
 }
+
+
 int mousse::UPstream::allocateTag(const char* s)
 {
   int tag;
-  if (PstreamGlobals::freedTags_.size())
-  {
+  if (PstreamGlobals::freedTags_.size()) {
     tag = PstreamGlobals::freedTags_.remove();
-  }
-  else
-  {
+  } else {
     tag = PstreamGlobals::nTags_++;
   }
-  if (debug)
-  {
-    //if (UPstream::lateBlocking > 0)
-    //{
-    //    string& poutp = Pout.prefix();
-    //    poutp[poutp.size()-2*(UPstream::lateBlocking+2)+tag] = 'X';
-    //    Perr.prefix() = Pout.prefix();
-    //}
-    Pout<< "UPstream::allocateTag " << s
+  if (debug) {
+    Pout << "UPstream::allocateTag " << s
       << " : tag:" << tag
       << endl;
   }
   return tag;
 }
+
+
 int mousse::UPstream::allocateTag(const word& s)
 {
   int tag;
-  if (PstreamGlobals::freedTags_.size())
-  {
+  if (PstreamGlobals::freedTags_.size()) {
     tag = PstreamGlobals::freedTags_.remove();
-  }
-  else
-  {
+  } else {
     tag = PstreamGlobals::nTags_++;
   }
-  if (debug)
-  {
-    //if (UPstream::lateBlocking > 0)
-    //{
-    //    string& poutp = Pout.prefix();
-    //    poutp[poutp.size()-2*(UPstream::lateBlocking+2)+tag] = 'X';
-    //    Perr.prefix() = Pout.prefix();
-    //}
-    Pout<< "UPstream::allocateTag " << s
+  if (debug) {
+    Pout << "UPstream::allocateTag " << s
       << " : tag:" << tag
       << endl;
   }
   return tag;
 }
+
+
 void mousse::UPstream::freeTag(const char* s, const int tag)
 {
-  if (debug)
-  {
-    //if (UPstream::lateBlocking > 0)
-    //{
-    //    string& poutp = Pout.prefix();
-    //    poutp[poutp.size()-2*(UPstream::lateBlocking+2)+tag] = ' ';
-    //    Perr.prefix() = Pout.prefix();
-    //}
-    Pout<< "UPstream::freeTag " << s << " tag:" << tag << endl;
+  if (debug) {
+    Pout << "UPstream::freeTag " << s << " tag:" << tag << endl;
   }
   PstreamGlobals::freedTags_.append(tag);
 }
+
+
 void mousse::UPstream::freeTag(const word& s, const int tag)
 {
-  if (debug)
-  {
-    //if (UPstream::lateBlocking > 0)
-    //{
-    //    string& poutp = Pout.prefix();
-    //    poutp[poutp.size()-2*(UPstream::lateBlocking+2)+tag] = ' ';
-    //    Perr.prefix() = Pout.prefix();
-    //}
-    Pout<< "UPstream::freeTag " << s << " tag:" << tag << endl;
+  if (debug) {
+    Pout << "UPstream::freeTag " << s << " tag:" << tag << endl;
   }
   PstreamGlobals::freedTags_.append(tag);
 }
+

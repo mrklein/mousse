@@ -13,8 +13,9 @@
 #include "map.hpp"
 #include "field_mapper.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class morphFieldMapper
 :
   public FieldMapper

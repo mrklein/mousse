@@ -7,6 +7,7 @@
 #include "iostreams.hpp"
 #include <sstream>
 
+
 mousse::word mousse::name(const uint64_t val)
 {
   std::ostringstream buf;
@@ -14,21 +15,18 @@ mousse::word mousse::name(const uint64_t val)
   return buf.str();
 }
 
+
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, uint64_t& i)
 {
-  token t(is);
-  if (!t.good())
-  {
+  token t{is};
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isLabel())
-  {
+  if (t.isLabel()) {
     i = uint64_t(t.labelToken());
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, uint64_t&)", is)
       << "wrong token type - expected uint64_t, found " << t.info()

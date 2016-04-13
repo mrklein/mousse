@@ -10,11 +10,11 @@
 //   Class and registration macros for InfoSwitches and OptimisationSwitches
 //   to support reading from system/controlDict and dynamic update.
 
-
 #include "simple_reg_ioobject.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class RegisterSwitch
 :
@@ -29,8 +29,8 @@ public:
     Type& optSwitch
   )
   :
-    simpleRegIOobject(registryFn, name),
-    optSwitch_(optSwitch)
+    simpleRegIOobject{registryFn, name},
+    optSwitch_{optSwitch}
   {}
   virtual ~RegisterSwitch()
   {}
@@ -43,10 +43,14 @@ public:
     os << optSwitch_;
   }
 };
+
 }  // namespace mousse
 
+
 #define CONCAT(x, y) x ## y
+
 #define CONCAT2(x, y) CONCAT(x, y)
+
 #define FILE_UNIQUE(x) CONCAT2(x, __LINE__)
 
 #define REGISTER_OPT_SWITCH(Name, Type, Switch)                               \
@@ -56,4 +60,5 @@ public:
 #define REGISTER_INFO_SWITCH(Name, Type, Switch)                              \
   static mousse::RegisterSwitch<Type> FILE_UNIQUE(_addToOpt_)                 \
     (mousse::debug::addInfoObject, Name, Switch)
+
 #endif

@@ -10,9 +10,12 @@
 //   Quadratic polynomial for centred interpolation fitting.
 //   Can be used with the CentredFit scheme to create a quadratic surface
 //   interpolation scheme
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class quadraticFitPolynomial
 {
 public:
@@ -38,19 +41,19 @@ public:
       coeffs[curIdx++] = weight;
       coeffs[curIdx++] = weight*d.x();
       coeffs[curIdx++] = weight*sqr(d.x());
-      if (dim >= 2)
-      {
+      if (dim >= 2) {
         coeffs[curIdx++] = weight*d.y();
         coeffs[curIdx++] = weight*d.x()*d.y();
         coeffs[curIdx++] = weight*sqr(d.y());
       }
-      if (dim == 3)
-      {
+      if (dim == 3) {
         coeffs[curIdx++] = weight*d.z();
         coeffs[curIdx++] = weight*d.x()*d.z();
         coeffs[curIdx++] = weight*sqr(d.z());
       }
     }
 };
+
 }  // namespace mousse
+
 #endif

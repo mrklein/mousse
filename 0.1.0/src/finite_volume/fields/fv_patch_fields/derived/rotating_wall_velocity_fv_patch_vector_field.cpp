@@ -8,6 +8,7 @@
 #include "surface_fields.hpp"
 #include "time.hpp"
 
+
 // Constructors 
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
@@ -21,6 +22,7 @@ rotatingWallVelocityFvPatchVectorField
   axis_{vector::zero},
   omega_{0}
 {}
+
 
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
@@ -37,6 +39,7 @@ rotatingWallVelocityFvPatchVectorField
   omega_{ptf.omega_().clone().ptr()}
 {}
 
+
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
 (
@@ -50,19 +53,17 @@ rotatingWallVelocityFvPatchVectorField
   axis_{dict.lookup("axis")},
   omega_{DataEntry<scalar>::New("omega", dict)}
 {
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<vector>::operator=
     (
-      vectorField("value", dict, p.size())
+      vectorField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     // Evaluate the wall velocity
     updateCoeffs();
   }
 }
+
 
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
@@ -75,6 +76,7 @@ rotatingWallVelocityFvPatchVectorField
   axis_{rwvpvf.axis_},
   omega_{rwvpvf.omega_().clone().ptr()}
 {}
+
 
 mousse::rotatingWallVelocityFvPatchVectorField::
 rotatingWallVelocityFvPatchVectorField
@@ -89,26 +91,28 @@ rotatingWallVelocityFvPatchVectorField
   omega_{rwvpvf.omega_().clone().ptr()}
 {}
 
+
 // Member Functions 
 void mousse::rotatingWallVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const scalar t = this->db().time().timeOutputValue();
   scalar om = omega_->value(t);
   // Calculate the rotating wall velocity from the specification of the motion
   const vectorField Up
-  (
+  {
     (-om)*((patch().Cf() - origin_) ^ (axis_/mag(axis_)))
-  );
+  };
   // Remove the component of Up normal to the wall
   // just in case it is not exactly circular
-  const vectorField n(patch().nf());
+  const vectorField n{patch().nf()};
   vectorField::operator=(Up - n*(n & Up));
   fixedValueFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::rotatingWallVelocityFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
@@ -118,8 +122,8 @@ void mousse::rotatingWallVelocityFvPatchVectorField::write(Ostream& os) const
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_PATCH_TYPE_FIELD
 (
@@ -128,3 +132,4 @@ MAKE_PATCH_TYPE_FIELD
 );
 
 }
+

@@ -32,17 +32,20 @@
 //   Now the triangle generation on non-separated processor patch faces
 //   can use the neighbouring value. Any separated processor face or cyclic
 //   face gets handled just like any boundary face.
-// SourceFiles
-//   iso_surface.cpp
+
 #include "tri_surface.hpp"
 #include "label_pair.hpp"
 #include "point_index_hit.hpp"
 #include "packed_bool_list.hpp"
 #include "vol_fields.hpp"
 #include "sliced_vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 class isoSurface
 :
   public triSurface
@@ -328,8 +331,9 @@ public:
       const Field<Type>& pCoords
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "iso_surface_templates.cpp"
-#endif
+
+#include "iso_surface.ipp"
+
 #endif

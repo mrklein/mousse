@@ -10,11 +10,12 @@
 //   Face-point interpolation scheme class derived from linear and
 //   returns linear weighting factors but also applies an explicit correction.
 //   Uses volPointInterpolation to obtain the field values at the face-points.
-// SourceFiles
-//   point_linear.cpp
+
 #include "linear.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class pointLinear
 :
@@ -59,11 +60,13 @@ public:
       return true;
     }
     //- Return the explicit correction to the face-interpolate
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-    correction
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> correction
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

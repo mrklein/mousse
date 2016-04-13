@@ -87,7 +87,7 @@ void filterPatches(polyMesh& mesh, const HashSet<word>& addedPatchNames)
       }
       else
       {
-        Info<< "Removing zero-sized patch " << pp.name()
+        Info << "Removing zero-sized patch " << pp.name()
           << " type " << pp.type()
           << " at position " << patchI << endl;
       }
@@ -114,7 +114,7 @@ void filterPatches(polyMesh& mesh, const HashSet<word>& addedPatchNames)
       }
       else
       {
-        Info<< "Removing empty processor patch " << pp.name()
+        Info << "Removing empty processor patch " << pp.name()
           << " at position " << patchI << endl;
       }
     }
@@ -122,14 +122,14 @@ void filterPatches(polyMesh& mesh, const HashSet<word>& addedPatchNames)
   label nAllPatches = returnReduce(allPatches.size(), sumOp<label>());
   if (nAllPatches != nOldPatches)
   {
-    Info<< "Removing patches." << endl;
+    Info << "Removing patches." << endl;
     allPatches.shrink();
     mesh.removeBoundary();
     mesh.addPatches(allPatches);
   }
   else
   {
-    Info<< "No patches removed." << endl;
+    Info << "No patches removed." << endl;
     FOR_ALL(allPatches, i)
     {
       delete allPatches[i];
@@ -406,7 +406,7 @@ int main(int argc, char *argv[])
   const word oldInstance = mesh.pointsInstance();
   const word dictName("createPatchDict");
   #include "set_system_mesh_dictionary_io.inc"
-  Info<< "Reading " << dictName << nl << endl;
+  Info << "Reading " << dictName << nl << endl;
   IOdictionary dict{dictIO};
   // Whether to synchronise points
   const Switch pointSync{dict.lookup("pointSync")};
@@ -457,7 +457,7 @@ int main(int argc, char *argv[])
       {
         dictionary patchDict{dict.subDict("patchInfo")};
         destPatchI = allPatches.size();
-        Info<< "Adding new patch " << patchName
+        Info << "Adding new patch " << patchName
           << " as patch " << destPatchI
           << " from " << patchDict << endl;
         patchDict.set("nFaces", 0);
@@ -476,7 +476,7 @@ int main(int argc, char *argv[])
       }
       else
       {
-        Info<< "Patch '" << patchName << "' already exists.  Only "
+        Info << "Patch '" << patchName << "' already exists.  Only "
           << "moving patch faces - type will remain the same" << endl;
       }
     }
@@ -502,7 +502,7 @@ int main(int argc, char *argv[])
     allPatches.shrink();
     mesh.removeBoundary();
     mesh.addPatches(allPatches);
-    Info<< endl;
+    Info << endl;
   }
   // 2. Repatch faces
   // ~~~~~~~~~~~~~~~~
@@ -532,7 +532,7 @@ int main(int argc, char *argv[])
       FOR_ALL_CONST_ITER(labelHashSet, patchSources, iter)
       {
         const polyPatch& pp = patches[iter.key()];
-        Info<< "Moving faces from patch " << pp.name()
+        Info << "Moving faces from patch " << pp.name()
           << " to patch " << destPatchI << endl;
         FOR_ALL(pp, i)
         {
@@ -550,7 +550,7 @@ int main(int argc, char *argv[])
     {
       const word setName(dict.lookup("set"));
       faceSet faces{mesh, setName};
-      Info<< "Read " << returnReduce(faces.size(), sumOp<label>())
+      Info << "Read " << returnReduce(faces.size(), sumOp<label>())
         << " faces from faceSet " << faces.name() << endl;
       // Sort (since faceSet contains faces in arbitrary order)
       labelList faceLabels{faces.toc()};
@@ -583,21 +583,21 @@ int main(int argc, char *argv[])
         << "Valid source types are 'patches' 'set'" << exit(FatalError);
     }
   }
-  Info<< endl;
+  Info << endl;
   // Change mesh, use inflation to reforce calculation of transformation
   // tensors.
-  Info<< "Doing topology modification to order faces." << nl << endl;
+  Info << "Doing topology modification to order faces." << nl << endl;
   autoPtr<mapPolyMesh> map = meshMod.changeMesh(mesh, true);
   mesh.movePoints(map().preMotionPoints());
   dumpCyclicMatch("coupled_", mesh);
   // Synchronise points.
   if (!pointSync)
   {
-    Info<< "Not synchronising points." << nl << endl;
+    Info << "Not synchronising points." << nl << endl;
   }
   else
   {
-    Info<< "Synchronising points." << nl << endl;
+    Info << "Synchronising points." << nl << endl;
     // This is a bit tricky. Both normal and position might be out and
     // current separation also includes the normal
     // ( separation_ = (nf&(Cr - Cf))*nf ).
@@ -608,11 +608,10 @@ int main(int argc, char *argv[])
       const polyPatch& pp = mesh.boundaryMesh()[patchI];
       if (pp.size() && isA<coupledPolyPatch>(pp))
       {
-        const coupledPolyPatch& cpp =
-          refCast<const coupledPolyPatch>(pp);
+        const coupledPolyPatch& cpp = refCast<const coupledPolyPatch>(pp);
         if (cpp.separated())
         {
-          Info<< "On coupled patch " << pp.name()
+          Info << "On coupled patch " << pp.name()
             << " separation[0] was "
             << cpp.separation()[0] << endl;
           if (isA<cyclicPolyPatch>(pp) && pp.size())
@@ -622,7 +621,7 @@ int main(int argc, char *argv[])
             if (cycpp.transform() == cyclicPolyPatch::TRANSLATIONAL)
             {
               // Force to wanted separation
-              Info<< "On cyclic translation patch " << pp.name()
+              Info << "On cyclic translation patch " << pp.name()
                 << " forcing uniform separation of "
                 << cycpp.separationVector() << endl;
               const_cast<vectorField&>(cpp.separation()) =
@@ -640,13 +639,13 @@ int main(int argc, char *argv[])
                 );
             }
           }
-          Info<< "On coupled patch " << pp.name()
+          Info << "On coupled patch " << pp.name()
             << " forcing uniform separation of "
             << cpp.separation() << endl;
         }
         else if (!cpp.parallel())
         {
-          Info<< "On coupled patch " << pp.name()
+          Info << "On coupled patch " << pp.name()
             << " forcing uniform rotation of "
             << cpp.forwardT()[0] << endl;
           const_cast<tensorField&>
@@ -657,14 +656,14 @@ int main(int argc, char *argv[])
           (
             cpp.reverseT()
           ).setSize(1);
-          Info<< "On coupled patch " << pp.name()
+          Info << "On coupled patch " << pp.name()
             << " forcing uniform rotation of "
             << cpp.forwardT() << endl;
         }
       }
     }
-    Info<< "Synchronising points." << endl;
-    pointField newPoints(mesh.points());
+    Info << "Synchronising points." << endl;
+    pointField newPoints{mesh.points()};
     syncPoints
     (
       mesh,
@@ -672,14 +671,14 @@ int main(int argc, char *argv[])
       minMagSqrEqOp<vector>(),
       point(GREAT, GREAT, GREAT)
     );
-    scalarField diff(mag(newPoints-mesh.points()));
-    Info<< "Points changed by average:" << gAverage(diff)
+    scalarField diff{mag(newPoints-mesh.points())};
+    Info << "Points changed by average:" << gAverage(diff)
       << " max:" << gMax(diff) << nl << endl;
     mesh.movePoints(newPoints);
   }
   // 3. Remove zeros-sized patches
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Info<< "Removing patches with no faces in them." << nl<< endl;
+  Info << "Removing patches with no faces in them." << nl<< endl;
   filterPatches(mesh, addedPatchNames);
   dumpCyclicMatch("final_", mesh);
   // Set the precision of the points data to 10
@@ -693,8 +692,8 @@ int main(int argc, char *argv[])
     mesh.setInstance(oldInstance);
   }
   // Write resulting mesh
-  Info<< "Writing repatched mesh to " << runTime.timeName() << nl << endl;
+  Info << "Writing repatched mesh to " << runTime.timeName() << nl << endl;
   mesh.write();
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

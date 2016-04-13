@@ -8,17 +8,20 @@
 //   mousse::fvPatchMapper
 // Description
 //   Mapping class for a fvPatchField.
-// SourceFiles
-//   fv_patch_mapper.cpp
+
 #include "fv_patch_field_mapper.hpp"
 #include "face_mapper.hpp"
 #include "fv_patch.hpp"
 #include "primitive_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class fvPatch;
 class mapPolyMesh;
+
+
 class fvPatchMapper
 :
   public fvPatchFieldMapper

@@ -10,10 +10,7 @@
 //   An analytical geometric cellShape.
 //   The optional collapse functionality changes the cellModel to the
 //   correct type after removing any duplicate points.
-// SourceFiles
-//   cell_shape.cpp
-//   cell_shape_io.cpp
-//   cell_shape_equal.cpp
+
 #include "point_field.hpp"
 #include "label_list.hpp"
 #include "cell_model.hpp"
@@ -21,13 +18,17 @@
 #include "info_proxy.hpp"
 #include "istream.hpp"
 #include "cell.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class cellShape;
 bool operator==(const cellShape&, const cellShape&);
 Istream& operator>>(Istream&, cellShape&);
 Ostream& operator<<(Ostream&, const cellShape&);
+
+
 class cellShape
 :
   public labelList
@@ -93,15 +94,20 @@ public:
     friend Istream& operator>>(Istream&, cellShape&);
     friend Ostream& operator<<(Ostream&, const cellShape&);
 };
+
 template<>
 Ostream& operator<<(Ostream& os, const InfoProxy<cellShape>& ip);
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::cellShape::cellShape()
 :
   m{NULL}
 {}
+
+
 inline mousse::cellShape::cellShape
 (
   const cellModel& M,
@@ -112,19 +118,24 @@ inline mousse::cellShape::cellShape
   labelList{l},
   m{&M}
 {
-  if (doCollapse)
-  {
+  if (doCollapse) {
     collapse();
   }
 }
+
+
 inline mousse::cellShape::cellShape(Istream& is)
 {
   is >> *this;
 }
+
+
 inline mousse::autoPtr<mousse::cellShape> mousse::cellShape::clone() const
 {
   return autoPtr<cellShape>{new cellShape{*this}};
 }
+
+
 // Member Functions 
 inline mousse::pointField mousse::cellShape::points
 (
@@ -135,17 +146,20 @@ inline mousse::pointField mousse::cellShape::points
   pointField p{size()};
   // For each point in list, set it to the point in 'pnts' addressed
   // by 'labs'
-  FOR_ALL(p, i)
-  {
+  FOR_ALL(p, i) {
     p[i] = meshPoints[operator[](i)];
   }
   // Return list
   return p;
 }
+
+
 inline const mousse::cellModel& mousse::cellShape::model() const
 {
   return *m;
 }
+
+
 inline mousse::labelList mousse::cellShape::meshFaces
 (
   const faceList& allFaces,
@@ -156,14 +170,11 @@ inline mousse::labelList mousse::cellShape::meshFaces
   faceList localFaces{faces()};
   // Do linear match (usually cell shape is low complexity)
   labelList modelToMesh{localFaces.size(), -1};
-  FOR_ALL(localFaces, i)
-  {
+  FOR_ALL(localFaces, i) {
     const face& localF = localFaces[i];
-    FOR_ALL(cFaces, j)
-    {
+    FOR_ALL(cFaces, j) {
       label meshFaceI = cFaces[j];
-      if (allFaces[meshFaceI] == localF)
-      {
+      if (allFaces[meshFaceI] == localF) {
         modelToMesh[i] = meshFaceI;
         break;
       }
@@ -171,6 +182,8 @@ inline mousse::labelList mousse::cellShape::meshFaces
   }
   return modelToMesh;
 }
+
+
 inline mousse::labelList mousse::cellShape::meshEdges
 (
   const edgeList& allEdges,
@@ -181,14 +194,11 @@ inline mousse::labelList mousse::cellShape::meshEdges
   edgeList localEdges{edges()};
   // Do linear match (usually cell shape is low complexity)
   labelList modelToMesh{localEdges.size(), -1};
-  FOR_ALL(localEdges, i)
-  {
+  FOR_ALL(localEdges, i) {
     const edge& e = localEdges[i];
-    FOR_ALL(cEdges, j)
-    {
+    FOR_ALL(cEdges, j) {
       label edgeI = cEdges[j];
-      if (allEdges[edgeI] == e)
-      {
+      if (allEdges[edgeI] == e) {
         modelToMesh[i] = edgeI;
         break;
       }
@@ -196,37 +206,36 @@ inline mousse::labelList mousse::cellShape::meshEdges
   }
   return modelToMesh;
 }
+
+
 inline mousse::faceList mousse::cellShape::faces() const
 {
   return m->faces(*this);
 }
+
+
 inline mousse::faceList mousse::cellShape::collapsedFaces() const
 {
   faceList oldFaces{faces()};
   faceList newFaces{oldFaces.size()};
   label newFaceI = 0;
-  FOR_ALL(oldFaces, oldFaceI)
-  {
+  FOR_ALL(oldFaces, oldFaceI) {
     const face& f = oldFaces[oldFaceI];
     face& newF = newFaces[newFaceI];
     newF.setSize(f.size());
     label newFp = 0;
     label prevVertI = -1;
-    FOR_ALL(f, fp)
-    {
+    FOR_ALL(f, fp) {
       label vertI = f[fp];
-      if (vertI != prevVertI)
-      {
+      if (vertI != prevVertI) {
         newF[newFp++] = vertI;
         prevVertI = vertI;
       }
     }
-    if ((newFp > 1) && (newF[newFp-1] == newF[0]))
-    {
+    if ((newFp > 1) && (newF[newFp-1] == newF[0])) {
       --newFp;
     }
-    if (newFp > 2)
-    {
+    if (newFp > 2) {
       // Size face and go to next one
       newF.setSize(newFp);
       newFaceI++;
@@ -235,28 +244,41 @@ inline mousse::faceList mousse::cellShape::collapsedFaces() const
   newFaces.setSize(newFaceI);
   return newFaces;
 }
+
+
 inline mousse::label mousse::cellShape::nFaces() const
 {
   return m->nFaces();
 }
+
+
 inline mousse::edgeList mousse::cellShape::edges() const
 {
   return m->edges(*this);
 }
+
+
 inline mousse::label mousse::cellShape::nEdges() const
 {
   return m->nEdges();
 }
+
+
 inline mousse::label mousse::cellShape::nPoints() const
 {
   return size();
 }
+
+
 inline mousse::point mousse::cellShape::centre(const pointField& points) const
 {
   return m->centre(*this, points);
 }
+
+
 inline mousse::scalar mousse::cellShape::mag(const pointField& points) const
 {
   return m->mag(*this, points);
 }
+
 #endif

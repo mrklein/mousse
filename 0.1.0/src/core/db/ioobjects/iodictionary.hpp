@@ -11,13 +11,13 @@
 //   automatic IO functionality via the objectRegistry.  To facilitate IO,
 //   IOdictioanry is provided with a constructor from IOobject and writeData and
 //   write functions.
-// SourceFiles
-//   iodictionary.cpp
-//   iodictionary_io.cpp
+
 #include "dictionary.hpp"
 #include "reg_ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IOdictionary
 :
   public regIOobject,

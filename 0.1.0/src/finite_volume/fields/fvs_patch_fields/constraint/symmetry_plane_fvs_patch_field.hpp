@@ -8,15 +8,12 @@
 //   mousse::symmetryPlaneFvsPatchField
 // Description
 //   mousse::symmetryPlaneFvsPatchField
-// SourceFiles
-//   symmetry_plane_fvs_patch_field.cpp
-
 
 #include "fvs_patch_field.hpp"
 #include "symmetry_plane_fv_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class symmetryPlaneFvsPatchField
@@ -63,9 +60,9 @@ public:
     );
 
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone() const
+    virtual tmp<fvsPatchField<Type>> clone() const
     {
-      return tmp<fvsPatchField<Type> >
+      return tmp<fvsPatchField<Type>>
       {
         new symmetryPlaneFvsPatchField<Type>{*this}
       };
@@ -79,12 +76,12 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvsPatchField<Type> > clone
+    virtual tmp<fvsPatchField<Type>> clone
     (
       const DimensionedField<Type, surfaceMesh>& iF
     ) const
     {
-      return tmp<fvsPatchField<Type> >
+      return tmp<fvsPatchField<Type>>
       {
         new symmetryPlaneFvsPatchField<Type>{*this, iF}
       };
@@ -92,7 +89,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "symmetry_plane_fvs_patch_field.cpp"
-#endif
+
+#include "symmetry_plane_fvs_patch_field.ipp"
+
 #endif

@@ -9,12 +9,13 @@
 #include "indexed_octree.hpp"
 #include "tree_data_cell.hpp"
 #include "point_mesh.hpp"
+
+
 // Private Member Functions 
 void mousse::polyMesh::removeBoundary()
 {
-  if (debug)
-  {
-    Info<< "void polyMesh::removeBoundary(): "
+  if (debug) {
+    Info << "void polyMesh::removeBoundary(): "
       << "Removing boundary patches."
       << endl;
   }
@@ -23,12 +24,13 @@ void mousse::polyMesh::removeBoundary()
   boundary_.setSize(0);
   clearOut();
 }
+
+
 // Member Functions 
 void mousse::polyMesh::clearGeom()
 {
-  if (debug)
-  {
-    Info<< "void polyMesh::clearGeom() : "
+  if (debug) {
+    Info << "void polyMesh::clearGeom() : "
       << "clearing geometric data"
       << endl;
   }
@@ -45,11 +47,12 @@ void mousse::polyMesh::clearGeom()
   // Remove the cell tree
   cellTreePtr_.clear();
 }
+
+
 void mousse::polyMesh::clearAdditionalGeom()
 {
-  if (debug)
-  {
-    Info<< "void polyMesh::clearAdditionalGeom() : "
+  if (debug) {
+    Info << "void polyMesh::clearAdditionalGeom() : "
       << "clearing additional geometric data"
       << endl;
   }
@@ -58,16 +61,16 @@ void mousse::polyMesh::clearAdditionalGeom()
   // Remove the cell tree
   cellTreePtr_.clear();
 }
+
+
 void mousse::polyMesh::clearAddressing(const bool isMeshUpdate)
 {
-  if (debug)
-  {
-    Info<< "void polyMesh::clearAddressing() : "
+  if (debug) {
+    Info << "void polyMesh::clearAddressing() : "
       << "clearing topology  isMeshUpdate:" << isMeshUpdate
       << endl;
   }
-  if (isMeshUpdate)
-  {
+  if (isMeshUpdate) {
     // Part of a mesh update. Keep meshObjects that have an updateMesh
     // callback
     meshObject::clearUpto
@@ -88,9 +91,7 @@ void mousse::polyMesh::clearAddressing(const bool isMeshUpdate)
     (
       *this
     );
-  }
-  else
-  {
+  } else {
     meshObject::clear<pointMesh, TopologicalMeshObject>(*this);
     meshObject::clear<polyMesh, TopologicalMeshObject>(*this);
   }
@@ -110,6 +111,8 @@ void mousse::polyMesh::clearAddressing(const bool isMeshUpdate)
   // Remove the cell tree
   cellTreePtr_.clear();
 }
+
+
 void mousse::polyMesh::clearPrimitives()
 {
   resetMotion();
@@ -119,18 +122,22 @@ void mousse::polyMesh::clearPrimitives()
   neighbour_.setSize(0);
   clearedPrimitives_ = true;
 }
+
+
 void mousse::polyMesh::clearOut()
 {
   clearGeom();
   clearAddressing();
 }
+
+
 void mousse::polyMesh::clearCellTree()
 {
-  if (debug)
-  {
-    Info<< "void polyMesh::clearCellTree() : "
+  if (debug) {
+    Info << "void polyMesh::clearCellTree() : "
       << "clearing cell tree"
       << endl;
   }
   cellTreePtr_.clear();
 }
+

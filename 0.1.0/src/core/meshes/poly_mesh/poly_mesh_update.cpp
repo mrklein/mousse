@@ -9,12 +9,13 @@
 #include "point_mesh.hpp"
 #include "indexed_octree.hpp"
 #include "tree_data_cell.hpp"
+
+
 // Member Functions 
 void mousse::polyMesh::updateMesh(const mapPolyMesh& mpm)
 {
-  if (debug)
-  {
-    Info<< "void polyMesh::updateMesh(const mapPolyMesh&) : "
+  if (debug) {
+    Info << "void polyMesh::updateMesh(const mapPolyMesh&) : "
       << "updating addressing and (optional) pointMesh/pointFields"
       << endl;
   }
@@ -29,14 +30,12 @@ void mousse::polyMesh::updateMesh(const mapPolyMesh& mpm)
   // Remove the cell tree
   cellTreePtr_.clear();
   // Update parallel data
-  if (globalMeshDataPtr_.valid())
-  {
+  if (globalMeshDataPtr_.valid()) {
     globalMeshDataPtr_->updateMesh();
   }
   setInstance(time().timeName());
   // Map the old motion points if present
-  if (oldPointsPtr_.valid())
-  {
+  if (oldPointsPtr_.valid()) {
     // Make a copy of the original points
     pointField oldMotionPoints = oldPointsPtr_();
     pointField& newMotionPoints = oldPointsPtr_();
@@ -46,10 +45,8 @@ void mousse::polyMesh::updateMesh(const mapPolyMesh& mpm)
     newMotionPoints.map(oldMotionPoints, mpm.pointMap());
     // Any points created out-of-nothing get set to the current coordinate
     // for lack of anything better.
-    FOR_ALL(mpm.pointMap(), newPointI)
-    {
-      if (mpm.pointMap()[newPointI] == -1)
-      {
+    FOR_ALL(mpm.pointMap(), newPointI) {
+      if (mpm.pointMap()[newPointI] == -1) {
         newMotionPoints[newPointI] = points_[newPointI];
       }
     }
@@ -61,3 +58,4 @@ void mousse::polyMesh::updateMesh(const mapPolyMesh& mpm)
   solutionD_ = Vector<label>::zero;
   const_cast<Time&>(time()).functionObjects().updateMesh(mpm);
 }
+

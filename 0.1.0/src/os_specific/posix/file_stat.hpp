@@ -12,18 +12,21 @@
 //   on Linux (an maybe on others) a stat() of an nfs mounted (remote)
 //   file does never timeout and cannot be interrupted!
 //   So e.g. mousse::ping first and hope nfs is running.
-// SourceFiles
-//   file_stat.cpp
+
 #include <sys/stat.h>
 #include <sys/types.h>
 #include "label.hpp"
 #include "file_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class fileStat;
 Istream& operator>>(Istream&, fileStat&);
 Ostream& operator<<(Ostream&, const fileStat&);
+
+
 class fileStat
 {
   // Private data
@@ -60,5 +63,7 @@ public:
     friend Istream& operator>>(Istream&, fileStat&);
     friend Ostream& operator<<(Ostream&, const fileStat&);
 };
+
 }  // namespace mousse
+
 #endif

@@ -6,13 +6,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type> class fvPatchField;
 typedef fvPatchField<scalar> fvPatchScalarField;
 typedef fvPatchField<vector> fvPatchVectorField;
 typedef fvPatchField<sphericalTensor> fvPatchSphericalTensorField;
 typedef fvPatchField<symmTensor> fvPatchSymmTensorField;
 typedef fvPatchField<tensor> fvPatchTensorField;
+
 }  // namespace mousse
+
 #endif

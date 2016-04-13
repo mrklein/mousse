@@ -6,8 +6,9 @@
 #include "uipstream.hpp"
 #include "uopstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Member Functions 
 template<>
 void processorFvPatchField<scalar>::initInterfaceMatrixUpdate
@@ -20,17 +21,16 @@ void processorFvPatchField<scalar>::initInterfaceMatrixUpdate
 ) const
 {
   this->patch().patchInternalField(psiInternal, scalarSendBuf_);
-  if (commsType == Pstream::nonBlocking && !Pstream::floatTransfer)
-  {
+  if (commsType == Pstream::nonBlocking && !Pstream::floatTransfer) {
     // Fast path.
-    if (debug && !this->ready())
-    {
+    if (debug && !this->ready()) {
       FATAL_ERROR_IN
       (
         "processorFvPatchField<scalar>::initInterfaceMatrixUpdate(..)"
-      )   << "On patch " << procPatch_.name()
-        << " outstanding request."
-        << abort(FatalError);
+      )
+      << "On patch " << procPatch_.name()
+      << " outstanding request."
+      << abort(FatalError);
     }
     scalarReceiveBuf_.setSize(scalarSendBuf_.size());
     outstandingRecvRequest_ = UPstream::nRequests();
@@ -53,13 +53,13 @@ void processorFvPatchField<scalar>::initInterfaceMatrixUpdate
       procPatch_.tag(),
       procPatch_.comm()
     );
-  }
-  else
-  {
+  } else {
     procPatch_.compressedSend(commsType, scalarSendBuf_);
   }
   const_cast<processorFvPatchField<scalar>&>(*this).updatedMatrix() = false;
 }
+
+
 template<>
 void processorFvPatchField<scalar>::updateInterfaceMatrix
 (
@@ -70,42 +70,34 @@ void processorFvPatchField<scalar>::updateInterfaceMatrix
   const Pstream::commsTypes commsType
 ) const
 {
-  if (this->updatedMatrix())
-  {
+  if (this->updatedMatrix()) {
     return;
   }
   const labelUList& faceCells = this->patch().faceCells();
-  if (commsType == Pstream::nonBlocking && !Pstream::floatTransfer)
-  {
+  if (commsType == Pstream::nonBlocking && !Pstream::floatTransfer) {
     // Fast path.
-    if
-    (
-      outstandingRecvRequest_ >= 0
-    && outstandingRecvRequest_ < Pstream::nRequests()
-    )
-    {
+    if (outstandingRecvRequest_ >= 0
+        && outstandingRecvRequest_ < Pstream::nRequests()) {
       UPstream::waitRequest(outstandingRecvRequest_);
     }
     // Recv finished so assume sending finished as well.
     outstandingSendRequest_ = -1;
     outstandingRecvRequest_ = -1;
     // Consume straight from scalarReceiveBuf_
-    FOR_ALL(faceCells, elemI)
-    {
+    FOR_ALL(faceCells, elemI) {
       result[faceCells[elemI]] -= coeffs[elemI]*scalarReceiveBuf_[elemI];
     }
-  }
-  else
-  {
+  } else {
     scalarField pnf
-    (
-      procPatch_.compressedReceive<scalar>(commsType, this->size())()
-    );
-    FOR_ALL(faceCells, elemI)
     {
+      procPatch_.compressedReceive<scalar>(commsType, this->size())()
+    };
+    FOR_ALL(faceCells, elemI) {
       result[faceCells[elemI]] -= coeffs[elemI]*pnf[elemI];
     }
   }
   const_cast<processorFvPatchField<scalar>&>(*this).updatedMatrix() = true;
 }
+
 }  // namespace mousse
+

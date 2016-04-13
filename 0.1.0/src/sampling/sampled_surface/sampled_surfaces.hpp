@@ -9,18 +9,21 @@
 // Description
 //   Set of surfaces to sample.
 //   The write() method is used to sample and write files.
-// SourceFiles
-//   sampled_surfaces.cpp
+
 #include "sampled_surface.hpp"
 #include "surface_writer.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "word_re_list.hpp"
 #include "ioobject_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
 class dictionary;
+
+
 class sampledSurfaces
 :
   public PtrList<sampledSurface>
@@ -110,7 +113,7 @@ public:
     );
     //- Disallow default bitwise copy construct and assignment
     sampledSurfaces(const sampledSurfaces&) = delete;
-    sampledSurfaces& operator=(const sampledSurfaces&) = delete;
+    void operator=(const sampledSurfaces&) = delete;
   //- Destructor
   virtual ~sampledSurfaces();
   // Member Functions
@@ -148,7 +151,7 @@ public:
     virtual void readUpdate(const polyMesh::readUpdateState state);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_surfaces_templates.cpp"
-#endif
+
+#include "sampled_surfaces.ipp"
+
 #endif

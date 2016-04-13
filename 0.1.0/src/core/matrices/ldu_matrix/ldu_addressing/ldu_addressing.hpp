@@ -63,16 +63,13 @@
 //   point and we shall use the same trick as above to address into this
 //   list. Thus, for every point the losort start gives the address of the
 //   first face to neighbour this point.
-// SourceFiles
-//   ldu_addressing.cpp
-
 
 #include "label_list.hpp"
 #include "ldu_schedule.hpp"
 #include "tuple2.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class lduAddressing
 {
@@ -108,10 +105,10 @@ public:
   // Constructors
     lduAddressing(const label nEqns)
     :
-      size_(nEqns),
-      losortPtr_(NULL),
-      ownerStartPtr_(NULL),
-      losortStartPtr_(NULL)
+      size_{nEqns},
+      losortPtr_{NULL},
+      ownerStartPtr_{NULL},
+      losortStartPtr_{NULL}
     {}
 
     //- Disallow default bitwise copy construct

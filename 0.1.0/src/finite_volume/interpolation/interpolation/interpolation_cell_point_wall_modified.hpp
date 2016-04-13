@@ -9,10 +9,13 @@
 // Description
 //   Same as interpolationCellPoint, but if interpolating a wall face, uses
 //   cell centre value instead
+
 #include "interpolation_cell_point.hpp"
 #include "cell_point_weight_wall_modified.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class interpolationCellPointWallModified
 :
@@ -48,6 +51,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Member Functions 
 template<class Type>
 inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
@@ -63,6 +67,8 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
   t += this->psip_[faceVertices[2]]*weights[3];
   return t;
 }
+
+
 
 template<class Type>
 inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
@@ -84,6 +90,8 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
   );
 }
 
+
+
 template<class Type>
 inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
 (
@@ -92,10 +100,8 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
   const label faceI
 ) const
 {
-  if (faceI >= 0)
-  {
-    if (faceI != tetIs.face())
-    {
+  if (faceI >= 0) {
+    if (faceI != tetIs.face()) {
       FATAL_ERROR_IN
       (
         "inline Type "
@@ -112,10 +118,8 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
     }
     const polyBoundaryMesh& bm = this->pMesh_.boundaryMesh();
     label patchI = bm.whichPatch(faceI);
-    if (patchI != -1)
-    {
-      if (isA<wallPolyPatch>(bm[patchI]))
-      {
+    if (patchI != -1) {
+      if (isA<wallPolyPatch>(bm[patchI])) {
         Type t = this->psi_[tetIs.cell()];
         return t;
       }
@@ -130,7 +134,7 @@ inline Type mousse::interpolationCellPointWallModified<Type>::interpolate
     faceI
   );
 }
-#ifdef NoRepository
-#   include "interpolation_cell_point_wall_modified.cpp"
-#endif
+
+#include "interpolation_cell_point_wall_modified.ipp"
+
 #endif

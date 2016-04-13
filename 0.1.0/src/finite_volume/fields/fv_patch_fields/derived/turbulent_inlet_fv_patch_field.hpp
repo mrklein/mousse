@@ -42,12 +42,13 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   turbulent_inlet_fv_patch_field.cpp
+
 #include "random.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class turbulentInletFvPatchField
 :
@@ -96,12 +97,12 @@ public:
       const turbulentInletFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new turbulentInletFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new turbulentInletFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     turbulentInletFvPatchField
@@ -110,15 +111,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new turbulentInletFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new turbulentInletFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -161,7 +162,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "turbulent_inlet_fv_patch_field.cpp"
-#endif
+
+#include "turbulent_inlet_fv_patch_field.ipp"
+
 #endif

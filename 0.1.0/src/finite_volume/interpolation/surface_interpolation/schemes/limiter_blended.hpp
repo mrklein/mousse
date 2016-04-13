@@ -12,15 +12,13 @@
 //   The limited scheme is specified first followed by the scheme to be scaled
 //   by the limiter and then the scheme scaled by 1 - limiter e.g.
 //   div(phi,U)      Gauss limiterBlended vanLeer linear linearUpwind grad(U);
-// SourceFiles
-//   limiter_blended.cpp
-
 
 #include "limited_surface_interpolation_scheme.hpp"
 #include "surface_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class limiterBlended
 :
@@ -28,11 +26,11 @@ class limiterBlended
 {
   // Private Member Functions
     //- Limited scheme providing the limiter
-    tmp<limitedSurfaceInterpolationScheme<Type> > tLimitedScheme_;
+    tmp<limitedSurfaceInterpolationScheme<Type>> tLimitedScheme_;
     //- Scheme 1
-    tmp<surfaceInterpolationScheme<Type> > tScheme1_;
+    tmp<surfaceInterpolationScheme<Type>> tScheme1_;
     //- Scheme 2
-    tmp<surfaceInterpolationScheme<Type> > tScheme2_;
+    tmp<surfaceInterpolationScheme<Type>> tScheme2_;
 public:
   //- Runtime type information
   TYPE_NAME("limiterBlended");
@@ -99,11 +97,11 @@ public:
       };
       return
         blendingFactor*tScheme1_().weights(vf)
-       + (scalar(1) - blendingFactor)*tScheme2_().weights(vf);
+        + (scalar(1) - blendingFactor)*tScheme2_().weights(vf);
     }
     //- Return the face-interpolate of the given cell field
     //  with explicit correction
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     interpolate(const GeometricField<Type, fvPatchField, volMesh>& vf) const
     {
       surfaceScalarField blendingFactor
@@ -112,7 +110,7 @@ public:
       };
       return
         blendingFactor*tScheme1_().interpolate(vf)
-       + (scalar(1) - blendingFactor)*tScheme2_().interpolate(vf);
+        + (scalar(1) - blendingFactor)*tScheme2_().interpolate(vf);
     }
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
@@ -121,7 +119,7 @@ public:
     }
     //- Return the explicit correction to the face-interpolate
     //  for the given field
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     correction
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
@@ -131,36 +129,25 @@ public:
       {
         tLimitedScheme_().limiter(vf)
       };
-      if (tScheme1_().corrected())
-      {
-        if (tScheme2_().corrected())
-        {
+      if (tScheme1_().corrected()) {
+        if (tScheme2_().corrected()) {
           return
           (
-            blendingFactor
-           * tScheme1_().correction(vf)
-           + (scalar(1.0) - blendingFactor)
-           * tScheme2_().correction(vf)
+            blendingFactor*tScheme1_().correction(vf)
+            + (scalar(1.0) - blendingFactor)*tScheme2_().correction(vf)
           );
+        } else {
+          return blendingFactor*tScheme1_().correction(vf);
         }
-        else
-        {
-          return
-          (
-            blendingFactor
-           * tScheme1_().correction(vf)
-          );
-        }
-      }
-      else if (tScheme2_().corrected())
-      {
+      } else if (tScheme2_().corrected()) {
         return (scalar(1.0) - blendingFactor)*tScheme2_().correction(vf);
-      }
-      else
-      {
-        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >{NULL};
+      } else {
+        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>{NULL};
       }
     }
 };
+
 }  // namespace mousse
+
 #endif
+

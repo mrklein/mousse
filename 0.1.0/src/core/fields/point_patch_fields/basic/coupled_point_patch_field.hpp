@@ -8,12 +8,13 @@
 //   mousse::coupledPointPatchField
 // Description
 //   A Coupled boundary condition for pointField
-// SourceFiles
-//   coupled_point_patch_field.cpp
+
 #include "point_patch_field.hpp"
 #include "coupled_point_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class coupledPointPatchField
 :
@@ -45,7 +46,7 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const = 0;
+    virtual autoPtr<pointPatchField<Type>> clone() const = 0;
     //- Construct as copy setting internal field reference
     coupledPointPatchField
     (
@@ -53,7 +54,7 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const = 0;
@@ -85,7 +86,7 @@ public:
       ) const = 0;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#    include "coupled_point_patch_field.cpp"
-#endif
+
+#include "coupled_point_patch_field.ipp"
+
 #endif

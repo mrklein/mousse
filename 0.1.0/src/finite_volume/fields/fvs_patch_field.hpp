@@ -14,26 +14,26 @@
 //   The next level of derivation covers all the specialised typed with
 //   specific evaluation proceedures, particularly with respect to specific
 //   fields.
-// SourceFiles
-//   fvs_patch_field.cpp
-//   fvs_patch_field_new.cpp
-
 
 #include "fv_patch.hpp"
 #include "dimensioned_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class fvPatchFieldMapper;
 class surfaceMesh;
+
 // Forward declaration of friend functions and operators
 template<class Type>
 class fvsPatchField;
 template<class Type>
 Ostream& operator<<(Ostream&, const fvsPatchField<Type>&);
+
+
 template<class Type>
 class fvsPatchField
 :
@@ -119,9 +119,9 @@ public:
     //- Construct as copy
     fvsPatchField(const fvsPatchField<Type>&);
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone() const
+    virtual tmp<fvsPatchField<Type>> clone() const
     {
-      return tmp<fvsPatchField<Type> >(new fvsPatchField<Type>(*this));
+      return tmp<fvsPatchField<Type>>{new fvsPatchField<Type>{*this}};
     }
     //- Construct as copy setting internal field reference
     fvsPatchField
@@ -130,21 +130,18 @@ public:
       const DimensionedField<Type, surfaceMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvsPatchField<Type> > clone
+    virtual tmp<fvsPatchField<Type>> clone
     (
       const DimensionedField<Type, surfaceMesh>& iF
     ) const
     {
-      return tmp<fvsPatchField<Type> >
-      (
-        new fvsPatchField<Type>(*this, iF)
-      );
+      return tmp<fvsPatchField<Type>>{new fvsPatchField<Type>{*this, iF}};
     }
   // Selectors
     //- Return a pointer to a new patchField created on freestore given
     //  patch and internal field
     //  (does not set the patch field values)
-    static tmp<fvsPatchField<Type> > New
+    static tmp<fvsPatchField<Type>> New
     (
       const word&,
       const fvPatch&,
@@ -154,7 +151,7 @@ public:
     //  patch and internal field
     //  (does not set the patch field values)
     //  Allows override of constraint type
-    static tmp<fvsPatchField<Type> > New
+    static tmp<fvsPatchField<Type>> New
     (
       const word&,
       const word& actualPatchType,
@@ -163,7 +160,7 @@ public:
     );
     //- Return a pointer to a new patchField created on freestore from
     //  a given fvsPatchField mapped onto a new patch
-    static tmp<fvsPatchField<Type> > New
+    static tmp<fvsPatchField<Type>> New
     (
       const fvsPatchField<Type>&,
       const fvPatch&,
@@ -172,7 +169,7 @@ public:
     );
     //- Return a pointer to a new patchField created on freestore
     //  from dictionary
-    static tmp<fvsPatchField<Type> > New
+    static tmp<fvsPatchField<Type>> New
     (
       const fvPatch&,
       const DimensionedField<Type, surfaceMesh>&,
@@ -180,14 +177,14 @@ public:
     );
     //- Return a pointer to a new calculatedFvsPatchField created on
     //  freestore without setting patchField values
-    static tmp<fvsPatchField<Type> > NewCalculatedType
+    static tmp<fvsPatchField<Type>> NewCalculatedType
     (
       const fvPatch&
     );
     //- Return a pointer to a new calculatedFvsPatchField created on
     //  freestore without setting patchField values
     template<class Type2>
-    static tmp<fvsPatchField<Type> > NewCalculatedType
+    static tmp<fvsPatchField<Type>> NewCalculatedType
     (
       const fvsPatchField<Type2>&
     );
@@ -269,14 +266,16 @@ public:
     friend Ostream& operator<< <Type>(Ostream&, const fvsPatchField<Type>&);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fvs_patch_field.cpp"
-#   include "calculated_fvs_patch_field.hpp"
-#endif
+
+#include "fvs_patch_field.ipp"
+
+
+#include "calculated_fvs_patch_field.hpp"
 
 #define MAKE_FVS_PATCH_TYPE_FIELD_TYPE_NAME(type)                             \
                                                                               \
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(type, 0);
+
 
 #define MAKE_FVS_PATCH_FIELDS_TYPE_NAME(type)                                 \
                                                                               \
@@ -285,6 +284,7 @@ MAKE_FVS_PATCH_TYPE_FIELD_TYPE_NAME(type##FvsPatchVectorField);               \
 MAKE_FVS_PATCH_TYPE_FIELD_TYPE_NAME(type##FvsPatchSphericalTensorField);      \
 MAKE_FVS_PATCH_TYPE_FIELD_TYPE_NAME(type##FvsPatchSymmTensorField);           \
 MAKE_FVS_PATCH_TYPE_FIELD_TYPE_NAME(type##FvsPatchTensorField);
+
 
 #define MAKE_FVS_PATCH_TYPE_FIELD(PatchTypeField, typePatchTypeField)         \
                                                                               \
@@ -307,6 +307,7 @@ ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
   PatchTypeField, typePatchTypeField, dictionary                              \
 );
 
+
 #define MAKE_FVS_PATCH_FIELDS(type)                                           \
                                                                               \
 MAKE_FVS_PATCH_TYPE_FIELD(fvsPatchScalarField, type##FvsPatchScalarField);    \
@@ -322,6 +323,7 @@ MAKE_FVS_PATCH_TYPE_FIELD                                                     \
   type##FvsPatchSymmTensorField                                               \
 );                                                                            \
 MAKE_FVS_PATCH_TYPE_FIELD(fvsPatchTensorField, type##FvsPatchTensorField);
+
 
 #define MAKE_FVS_PATCH_TYPE_FIELD_TYPEDEFS(type)                              \
                                                                               \

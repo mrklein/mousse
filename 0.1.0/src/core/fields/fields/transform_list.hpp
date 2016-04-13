@@ -4,8 +4,6 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   transform_list.cpp
-
 
 #include "transform.hpp"
 #include "list.hpp"
@@ -13,8 +11,8 @@
 #include "edge_map.hpp"
 #include "tensor_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 //- Extend transform to work on list.
 template<class T>
@@ -120,7 +118,7 @@ inline void transformList(const tensorField&, EdgeMap<scalar>&)
 {}
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "transform_list.cpp"
-#endif
+
+#include "transform_list.ipp"
+
 #endif

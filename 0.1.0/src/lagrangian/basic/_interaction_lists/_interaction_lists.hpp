@@ -23,19 +23,19 @@
 //   \endverbatim
 //   Requiring data:
 //   \verbatim
-//   List<DynamicList<typename CloudType::parcelType*> > cellOccupancy_;
+//   List<DynamicList<typename CloudType::parcelType*>> cellOccupancy_;
 //   \endverbatim
-// SourceFiles
-//   _interaction_lists_i.hpp
-//   _interaction_lists.cpp
-//   _interaction_lists_io.cpp
+
 #include "poly_mesh.hpp"
 #include "referred_wall_face.hpp"
-//#include "map_distribute.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class globalIndexAndTransform;
 class mapDistribute;
+
+
 template<class ParticleType>
 class InteractionLists
 {
@@ -88,7 +88,7 @@ class InteractionLists
     //- Referred wall face velocity field values;
     List<vector> referredWallData_;
     //- Referred particle container
-    List<IDLList<ParticleType> > referredParticles_;
+    List<IDLList<ParticleType>> referredParticles_;
   // Private Member Functions
     //- Construct all interaction lists
     void buildInteractionLists();
@@ -114,7 +114,7 @@ class InteractionLists
     //  will be referred
     void prepareParticlesToRefer
     (
-      const List<DynamicList<ParticleType*> >& cellOccupancy
+      const List<DynamicList<ParticleType*>>& cellOccupancy
     );
     //- Prepare particle to be referred
     void prepareParticleToBeReferred
@@ -153,7 +153,7 @@ public:
     //  nonBlocking communication
     void sendReferredData
     (
-      const List<DynamicList<ParticleType*> >& cellOccupancy,
+      const List<DynamicList<ParticleType*>>& cellOccupancy,
       PstreamBuffers& pBufs
     );
     //- Receive referred data
@@ -195,12 +195,14 @@ public:
       //- Return access to the referred wall data
       inline const List<vector>& referredWallData() const;
       //- Return access to the referred particle container
-      inline const List<IDLList<ParticleType> >&
+      inline const List<IDLList<ParticleType>>&
       referredParticles() const;
       //- Return non-const access to the referred particle container
-      inline List<IDLList<ParticleType> >& referredParticles();
+      inline List<IDLList<ParticleType>>& referredParticles();
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class ParticleType>
@@ -208,57 +210,77 @@ const mousse::polyMesh& mousse::InteractionLists<ParticleType>::mesh() const
 {
   return mesh_;
 }
+
+
 template<class ParticleType>
 const mousse::mapDistribute&
 mousse::InteractionLists<ParticleType>::cellMap() const
 {
   return cellMapPtr_();
 }
+
+
 template<class ParticleType>
 const mousse::mapDistribute&
 mousse::InteractionLists<ParticleType>::wallFaceMap() const
 {
   return wallFaceMapPtr_();
 }
+
+
 template<class ParticleType>
 const mousse::labelListList& mousse::InteractionLists<ParticleType>::dil() const
 {
   return dil_;
 }
+
+
 template<class ParticleType>
 const mousse::labelListList&
 mousse::InteractionLists<ParticleType>::dwfil() const
 {
   return dwfil_;
 }
+
+
 template<class ParticleType>
 const mousse::labelListList& mousse::InteractionLists<ParticleType>::ril() const
 {
   return ril_;
 }
+
+
 template<class ParticleType>
 const mousse::labelListList&
 mousse::InteractionLists<ParticleType>::rilInverse() const
 {
   return rilInverse_;
 }
+
+
 template<class ParticleType>
 const mousse::labelListList& mousse::InteractionLists<ParticleType>::rwfil() const
 {
   return rwfil_;
 }
+
+
 template<class ParticleType>
 const mousse::labelListList&
 mousse::InteractionLists<ParticleType>::rwfilInverse() const
 {
   return rwfilInverse_;
 }
+
+
 template<class ParticleType>
 const mousse::List<mousse::labelPair>&
 mousse::InteractionLists<ParticleType>::cellIndexAndTransformToDistribute() const
 {
   return cellIndexAndTransformToDistribute_;
 }
+
+
 template<class ParticleType>
 const mousse::List<mousse::labelPair>&
 mousse::InteractionLists<ParticleType>::
@@ -266,37 +288,46 @@ wallFaceIndexAndTransformToDistribute() const
 {
   return wallFaceIndexAndTransformToDistribute_;
 }
+
+
 template<class ParticleType>
 const mousse::List<mousse::referredWallFace>&
 mousse::InteractionLists<ParticleType>::referredWallFaces() const
 {
   return referredWallFaces_;
 }
+
+
 template<class ParticleType>
 const mousse::word& mousse::InteractionLists<ParticleType>::UName() const
 {
   return UName_;
 }
+
+
 template<class ParticleType>
 const mousse::List<mousse::vector>&
 mousse::InteractionLists<ParticleType>::referredWallData() const
 {
   return referredWallData_;
 }
+
+
 template<class ParticleType>
-const mousse::List<mousse::IDLList<ParticleType> >&
+const mousse::List<mousse::IDLList<ParticleType>>&
 mousse::InteractionLists<ParticleType>::referredParticles() const
 {
   return referredParticles_;
 }
+
+
 template<class ParticleType>
-mousse::List<mousse::IDLList<ParticleType> >&
+mousse::List<mousse::IDLList<ParticleType>>&
 mousse::InteractionLists<ParticleType>::referredParticles()
 {
   return referredParticles_;
 }
 
-#ifdef NoRepository
-#   include "_interaction_lists.cpp"
-#endif
+#include "_interaction_lists.ipp"
+
 #endif

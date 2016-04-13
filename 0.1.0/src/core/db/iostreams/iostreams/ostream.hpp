@@ -9,17 +9,16 @@
 // Description
 //   An Ostream is an abstract base class for all output systems
 //   (streams, files, token lists, etc).
-// SourceFiles
-//   ostream.cpp
-
 
 #include "iostream.hpp"
 #include "key_type.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class token;
+
 class Ostream
 :
   public IOstream
@@ -124,49 +123,66 @@ public:
 };
 
 typedef Ostream& (*OstreamManip)(Ostream&);
+
 //- operator<< handling for manipulators without arguments
 inline Ostream& operator<<(Ostream& os, OstreamManip f)
 {
   return f(os);
 }
+
+
 //- operator<< handling for manipulators without arguments
 inline Ostream& operator<<(Ostream& os, IOstreamManip f)
 {
   f(os);
   return os;
 }
+
+
 //- Indent stream
 inline Ostream& indent(Ostream& os)
 {
   os.indent();
   return os;
 }
+
+
 //- Increment the indent level
 inline Ostream& incrIndent(Ostream& os)
 {
   os.incrIndent();
   return os;
 }
+
+
 //- Decrement the indent level
 inline Ostream& decrIndent(Ostream& os)
 {
   os.decrIndent();
   return os;
 }
+
+
 //- Flush stream
 inline Ostream& flush(Ostream& os)
 {
   os.flush();
   return os;
 }
+
+
 //- Add newline and flush stream
 inline Ostream& endl(Ostream& os)
 {
   os.endl();
   return os;
 }
+
+
 // Useful aliases for tab and newline characters
 static const char tab = '\t';
 static const char nl = '\n';
+
 }  // namespace mousse
+
 #endif

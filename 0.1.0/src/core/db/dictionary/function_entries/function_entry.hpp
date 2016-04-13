@@ -10,16 +10,12 @@
 //   A functionEntry causes entries to be added/manipulated on the specified
 //   dictionary given an input stream.
 //   In dictionaries, a \c '\#' sigil is typically used for a functionEntry.
-// SourceFiles
-//   function_entry.cpp
-//   function_entry_io.cpp
-
 
 #include "word.hpp"
 #include "member_function_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class primitiveEntry;
 class dictionary;

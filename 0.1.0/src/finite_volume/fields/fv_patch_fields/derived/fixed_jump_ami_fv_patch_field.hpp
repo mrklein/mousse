@@ -33,11 +33,12 @@
 //   The underlying \c patchType should be set to \c cyclicAMI
 // SeeAlso
 //   mousse::jumpCyclicAMIFvPatchField
-// SourceFiles
-//   fixed_jump_ami_fv_patch_field.cpp
+
 #include "jump_cyclic_ami_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class fixedJumpAMIFvPatchField
 :
@@ -79,12 +80,12 @@ public:
       const fixedJumpAMIFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new fixedJumpAMIFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new fixedJumpAMIFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fixedJumpAMIFvPatchField
@@ -93,20 +94,20 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new fixedJumpAMIFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new fixedJumpAMIFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
       //- Return the "jump" across the patch
-      virtual tmp<Field<Type> > jump() const;
+      virtual tmp<Field<Type>> jump() const;
     // Mapping functions
       //- Map (and resize as needed) from self given a mapping object
       virtual void autoMap(const fvPatchFieldMapper&);
@@ -116,7 +117,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fixed_jump_ami_fv_patch_field.cpp"
-#endif
+
+#include "fixed_jump_ami_fv_patch_field.ipp"
+
 #endif

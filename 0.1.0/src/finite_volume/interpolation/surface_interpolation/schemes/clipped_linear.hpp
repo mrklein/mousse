@@ -9,16 +9,14 @@
 // Description
 //   Central-differencing interpolation scheme using clipped-weights to
 //   improve stability on meshes with very rapid variations in cell size.
-// SourceFiles
-//   clipped_linear.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class clippedLinear
 :
@@ -30,8 +28,7 @@ class clippedLinear
   // Private Member Functions
     void calcWfLimit()
     {
-      if (cellSizeRatio_ <= 0 || cellSizeRatio_ > 1)
-      {
+      if (cellSizeRatio_ <= 0 || cellSizeRatio_ > 1) {
         FATAL_ERROR_IN("clippedLinear::calcWfLimit()")
           << "Given cellSizeRatio of " << cellSizeRatio_
           << " is not between 0 and 1"
@@ -83,31 +80,28 @@ public:
     {
       const fvMesh& mesh = this->mesh();
       tmp<surfaceScalarField> tcdWeights
-      (
+      {
         mesh.surfaceInterpolation::weights()
-      );
+      };
       const surfaceScalarField& cdWeights = tcdWeights();
       tmp<surfaceScalarField> tclippedLinearWeights
-      (
+      {
         new surfaceScalarField
-        (
-          IOobject
-          (
+        {
+          {
             "clippedLinearWeights",
             mesh.time().timeName(),
             mesh
-          ),
+          },
           mesh,
           dimless
-        )
-      );
+        }
+      };
       surfaceScalarField& clippedLinearWeights = tclippedLinearWeights();
       clippedLinearWeights.internalField() =
         max(min(cdWeights.internalField(), 1 - wfLimit_), wfLimit_);
-      FOR_ALL(mesh.boundary(), patchi)
-      {
-        if (clippedLinearWeights.boundaryField()[patchi].coupled())
-        {
+      FOR_ALL(mesh.boundary(), patchi) {
+        if (clippedLinearWeights.boundaryField()[patchi].coupled()) {
           clippedLinearWeights.boundaryField()[patchi] =
             max
             (
@@ -118,9 +112,7 @@ public:
               ),
               wfLimit_
             );
-        }
-        else
-        {
+        } else {
           clippedLinearWeights.boundaryField()[patchi] =
             cdWeights.boundaryField()[patchi];
         }
@@ -128,5 +120,8 @@ public:
       return tclippedLinearWeights;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

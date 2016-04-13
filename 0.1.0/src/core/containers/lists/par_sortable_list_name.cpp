@@ -3,8 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "par_sortable_list.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(ParSortableListName, 0);
+
 }

@@ -10,6 +10,7 @@
 #include "mesh_to_mesh.hpp"
 #include "ioobject_list.hpp"
 #include "compact_io_field.hpp"
+
 namespace mousse
 {
 //- Gets the indices of (source)particles that have been appended to the
@@ -28,14 +29,13 @@ void MapLagrangianFields
     FOR_ALL_ITER(IOobjectList, fields, fieldIter)
     {
       const word& fieldName = fieldIter()->name();
-      Info<< "    mapping lagrangian field " << fieldName << endl;
+      Info << "    mapping lagrangian field " << fieldName << endl;
       // Read field (does not need mesh)
-      IOField<Type> fieldSource(*fieldIter());
+      IOField<Type> fieldSource{*fieldIter()};
       // Map
       IOField<Type> fieldTarget
-      (
-        IOobject
-        (
+      {
+        {
           fieldName,
           meshTarget.time().timeName(),
           cloud::prefix/cloudName,
@@ -43,9 +43,9 @@ void MapLagrangianFields
           IOobject::NO_READ,
           IOobject::NO_WRITE,
           false
-        ),
+        },
         addParticles.size()
-      );
+      };
       FOR_ALL(addParticles, i)
       {
         fieldTarget[i] = fieldSource[addParticles[i]];
@@ -60,15 +60,14 @@ void MapLagrangianFields
     FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
     {
       const word& fieldName = fieldIter()->name();
-      Info<< "    mapping lagrangian fieldField " << fieldName << endl;
+      Info << "    mapping lagrangian fieldField " << fieldName << endl;
       // Read field (does not need mesh)
-      IOField<Field<Type> > fieldSource(*fieldIter());
+      IOField<Field<Type>> fieldSource{*fieldIter()};
       // Map - use CompactIOField to automatically write in
       // compact form for binary format.
       CompactIOField<Field<Type>, Type> fieldTarget
-      (
-        IOobject
-        (
+      {
+        {
           fieldName,
           meshTarget.time().timeName(),
           cloud::prefix/cloudName,
@@ -76,9 +75,9 @@ void MapLagrangianFields
           IOobject::NO_READ,
           IOobject::NO_WRITE,
           false
-        ),
+        },
         addParticles.size()
-      );
+      };
       FOR_ALL(addParticles, i)
       {
         fieldTarget[i] = fieldSource[addParticles[i]];
@@ -92,15 +91,14 @@ void MapLagrangianFields
       objects.lookupClass(CompactIOField<Field<Type>, Type>::typeName);
     FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
     {
-      Info<< "    mapping lagrangian fieldField "
+      Info << "    mapping lagrangian fieldField "
         << fieldIter()->name() << endl;
       // Read field (does not need mesh)
-      CompactIOField<Field<Type>, Type> fieldSource(*fieldIter());
+      CompactIOField<Field<Type>, Type> fieldSource{*fieldIter()};
       // Map
       CompactIOField<Field<Type>, Type> fieldTarget
-      (
-        IOobject
-        (
+      {
+        {
           fieldIter()->name(),
           meshTarget.time().timeName(),
           cloud::prefix/cloudName,
@@ -108,9 +106,9 @@ void MapLagrangianFields
           IOobject::NO_READ,
           IOobject::NO_WRITE,
           false
-        ),
+        },
         addParticles.size()
-      );
+      };
       FOR_ALL(addParticles, i)
       {
         fieldTarget[i] = fieldSource[addParticles[i]];

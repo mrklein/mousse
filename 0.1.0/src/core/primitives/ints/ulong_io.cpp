@@ -7,6 +7,7 @@
 #include "iostreams.hpp"
 #include <sstream>
 
+
 mousse::word mousse::name(const unsigned long val)
 {
   std::ostringstream buf;
@@ -18,18 +19,14 @@ mousse::word mousse::name(const unsigned long val)
 // IOstream Operators 
 mousse::Istream& mousse::operator>>(Istream& is, unsigned long& i)
 {
-  token t(is);
-  if (!t.good())
-  {
+  token t{is};
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isLabel())
-  {
+  if (t.isLabel()) {
     i = static_cast<unsigned long>(t.labelToken());
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, unsigned long&)", is)
       << "wrong token type - expected unsigned long, found " << t.info()

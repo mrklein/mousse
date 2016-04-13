@@ -13,10 +13,12 @@
 
 
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(codedBase, 0);
+
 }
+
 
 // Static Member Functions
 void* mousse::codedBase::loadLibrary
@@ -28,54 +30,47 @@ void* mousse::codedBase::loadLibrary
 {
   void* lib = 0;
   // avoid compilation by loading an existing library
-  if (!libPath.empty())
-  {
-    if (libs().open(libPath, false))
-    {
+  if (!libPath.empty()) {
+    if (libs().open(libPath, false)) {
       lib = libs().findLibrary(libPath);
       // verify the loaded version and unload if needed
-      if (lib)
-      {
+      if (lib) {
         // provision for manual execution of code after loading
-        if (dlSymFound(lib, globalFuncName))
-        {
+        if (dlSymFound(lib, globalFuncName)) {
           loaderFunctionType function =
             reinterpret_cast<loaderFunctionType>
             (
               dlSym(lib, globalFuncName)
             );
-          if (function)
-          {
+          if (function) {
             (*function)(true);    // force load
-          }
-          else
-          {
+          } else {
             FATAL_IO_ERROR_IN
             (
               "codedBase::updateLibrary()",
               contextDict
-            )   << "Failed looking up symbol " << globalFuncName
-              << nl << "from " << libPath << exit(FatalIOError);
+            )
+            << "Failed looking up symbol " << globalFuncName
+            << nl << "from " << libPath << exit(FatalIOError);
           }
-        }
-        else
-        {
+        } else {
           FATAL_IO_ERROR_IN
           (
             "codedBase::loadLibrary()",
             contextDict
-          )   << "Failed looking up symbol " << globalFuncName << nl
-            << "from " << libPath << exit(FatalIOError);
+          )
+          << "Failed looking up symbol " << globalFuncName << nl
+          << "from " << libPath << exit(FatalIOError);
           lib = 0;
-          if (!libs().close(libPath, false))
-          {
+          if (!libs().close(libPath, false)) {
             FATAL_IO_ERROR_IN
             (
               "codedBase::loadLibrary()",
               contextDict
-            )   << "Failed unloading library "
-              << libPath
-              << exit(FatalIOError);
+            )
+            << "Failed unloading library "
+            << libPath
+            << exit(FatalIOError);
           }
         }
       }
@@ -93,45 +88,40 @@ void mousse::codedBase::unloadLibrary
 ) const
 {
   void* lib = 0;
-  if (libPath.empty())
-  {
+  if (libPath.empty()) {
     return;
   }
   lib = libs().findLibrary(libPath);
-  if (!lib)
-  {
+  if (!lib) {
     return;
   }
   // provision for manual execution of code before unloading
-  if (dlSymFound(lib, globalFuncName))
-  {
+  if (dlSymFound(lib, globalFuncName)) {
     loaderFunctionType function =
       reinterpret_cast<loaderFunctionType>
       (
         dlSym(lib, globalFuncName)
       );
-    if (function)
-    {
+    if (function) {
       (*function)(false);    // force unload
-    }
-    else
-    {
+    } else {
       FATAL_IO_ERROR_IN
       (
         "codedBase::unloadLibrary()",
         contextDict
-      )   << "Failed looking up symbol " << globalFuncName << nl
-        << "from " << libPath << exit(FatalIOError);
+      )
+      << "Failed looking up symbol " << globalFuncName << nl
+      << "from " << libPath << exit(FatalIOError);
     }
   }
-  if (!libs().close(libPath, false))
-  {
+  if (!libs().close(libPath, false)) {
     FATAL_IO_ERROR_IN
     (
       "codedBase::updateLibrary()",
       contextDict
-    )   << "Failed unloading library " << libPath
-      << exit(FatalIOError);
+    )
+    << "Failed unloading library " << libPath
+    << exit(FatalIOError);
   }
 }
 
@@ -144,40 +134,36 @@ void mousse::codedBase::createLibrary
 ) const
 {
   bool create =
-    Pstream::master()
-  || (regIOobject::fileModificationSkew <= 0);   // not NFS
-  if (create)
-  {
+    Pstream::master() || (regIOobject::fileModificationSkew <= 0);  // not NFS
+  if (create) {
     // Write files for new library
-    if (!dynCode.upToDate(context))
-    {
+    if (!dynCode.upToDate(context)) {
       // filter with this context
       dynCode.reset(context);
       this->prepare(dynCode, context);
-      if (!dynCode.copyOrCreateFiles(true))
-      {
+      if (!dynCode.copyOrCreateFiles(true)) {
         FATAL_IO_ERROR_IN
         (
           "codedBase::createLibrary(..)",
           context.dict()
-        )   << "Failed writing files for" << nl
-          << dynCode.libRelPath() << nl
-          << exit(FatalIOError);
+        )
+        << "Failed writing files for" << nl
+        << dynCode.libRelPath() << nl
+        << exit(FatalIOError);
       }
     }
-    if (!dynCode.wmakeLibso())
-    {
+    if (!dynCode.wmakeLibso()) {
       FATAL_IO_ERROR_IN
       (
         "codedBase::createLibrary(..)",
         context.dict()
-      )   << "Failed wmake " << dynCode.libRelPath() << nl
-        << exit(FatalIOError);
+      )
+      << "Failed wmake " << dynCode.libRelPath() << nl
+      << exit(FatalIOError);
     }
   }
   // all processes must wait for compile to finish
-  if (regIOobject::fileModificationSkew > 0)
-  {
+  if (regIOobject::fileModificationSkew > 0) {
     //- Since the library has only been compiled on the master the
     //  other nodes need to pick this library up through NFS
     //  We do this by just polling a few times using the
@@ -186,18 +172,15 @@ void mousse::codedBase::createLibrary
     off_t mySize = mousse::fileSize(libPath);
     off_t masterSize = mySize;
     Pstream::scatter(masterSize);
-    if (debug)
-    {
-      Pout<< endl<< "on processor " << Pstream::myProcNo()
+    if (debug) {
+      Pout << endl<< "on processor " << Pstream::myProcNo()
         << " have masterSize:" << masterSize
         << " and localSize:" << mySize
         << endl;
     }
-    if (mySize < masterSize)
-    {
-      if (debug)
-      {
-        Pout<< "Local file " << libPath
+    if (mySize < masterSize) {
+      if (debug) {
+        Pout << "Local file " << libPath
           << " not of same size (" << mySize
           << ") as master ("
           << masterSize << "). Waiting for "
@@ -207,27 +190,26 @@ void mousse::codedBase::createLibrary
       mousse::sleep(regIOobject::fileModificationSkew);
       // Recheck local size
       mySize = mousse::fileSize(libPath);
-      if (mySize < masterSize)
-      {
+      if (mySize < masterSize) {
         FATAL_IO_ERROR_IN
         (
           "functionEntries::codeStream::execute(..)",
           context.dict()
-        )   << "Cannot read (NFS mounted) library " << nl
-          << libPath << nl
-          << "on processor " << Pstream::myProcNo()
-          << " detected size " << mySize
-          << " whereas master size is " << masterSize
-          << " bytes." << nl
-          << "If your case is not NFS mounted"
-          << " (so distributed) set fileModificationSkew"
-          << " to 0"
-          << exit(FatalIOError);
+        )
+        << "Cannot read (NFS mounted) library " << nl
+        << libPath << nl
+        << "on processor " << Pstream::myProcNo()
+        << " detected size " << mySize
+        << " whereas master size is " << masterSize
+        << " bytes." << nl
+        << "If your case is not NFS mounted"
+        << " (so distributed) set fileModificationSkew"
+        << " to 0"
+        << exit(FatalIOError);
       }
     }
-    if (debug)
-    {
-      Pout<< endl<< "on processor " << Pstream::myProcNo()
+    if (debug) {
+      Pout << endl<< "on processor " << Pstream::myProcNo()
         << " after waiting: have masterSize:" << masterSize
         << " and localSize:" << mySize
         << endl;
@@ -248,21 +230,20 @@ void mousse::codedBase::updateLibrary
     "codedBase::updateLibrary()",
     dict
   );
-  dynamicCodeContext context(dict);
+  dynamicCodeContext context{dict};
   // codeName: redirectType + _<sha1>
   // codeDir : redirectType
   dynamicCode dynCode
-  (
+  {
     redirectType + context.sha1().str(true),
     redirectType
-  );
+  };
   const fileName libPath = dynCode.libPath();
   // the correct library was already loaded => we are done
-  if (libs().findLibrary(libPath))
-  {
+  if (libs().findLibrary(libPath)) {
     return;
   }
-  Info<< "Using dynamicCode for " << this->description().c_str()
+  Info << "Using dynamicCode for " << this->description().c_str()
     << " at line " << dict.startLineNumber()
     << " in " << dict.name() << endl;
   // remove instantiation of fvPatchField provided by library

@@ -13,14 +13,11 @@
 // Deprecated
 //   This solver is present for backward-compatibility and the PBiCG solver
 //   should be used instead. (deprecated Apr 2008)
-// SourceFiles
-//   biccg.cpp
-
 
 #include "pbicg.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class BICCG
 :

@@ -39,13 +39,14 @@
 //    direction
 // SeeAlso
 //   mousse::pressureInletOutletVelocityFvPatchVectorField
-// SourceFiles
-//   rotating_pressure_inlet_outlet_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "pressure_inlet_outlet_velocity_fv_patch_vector_field.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rotatingPressureInletOutletVelocityFvPatchVectorField
 :
   public pressureInletOutletVelocityFvPatchVectorField
@@ -92,9 +93,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new rotatingPressureInletOutletVelocityFvPatchVectorField(*this)
-      );
+      {
+        new rotatingPressureInletOutletVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     rotatingPressureInletOutletVelocityFvPatchVectorField
@@ -109,13 +110,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new rotatingPressureInletOutletVelocityFvPatchVectorField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new rotatingPressureInletOutletVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     //- Write

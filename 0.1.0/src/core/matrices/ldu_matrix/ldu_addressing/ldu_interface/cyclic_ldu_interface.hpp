@@ -8,12 +8,13 @@
 //   mousse::cyclicLduInterface
 // Description
 //   An abstract base class for cyclic coupled interfaces.
-// SourceFiles
-//   cyclic_ldu_interface.cpp
+
 #include "ldu_interface.hpp"
 #include "primitive_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cyclicLduInterface
 {
 public:

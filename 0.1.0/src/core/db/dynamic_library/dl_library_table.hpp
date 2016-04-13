@@ -8,16 +8,14 @@
 //   mousse::dlLibraryTable
 // Description
 //   A table of dynamically loaded libraries
-// SourceFiles
-//   dl_library_table.cpp
-
 
 #include "label.hpp"
 #include "dynamic_list.hpp"
 #include "class_name.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class dlLibraryTable
 {
   // Private Member Functions
@@ -77,7 +75,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "dl_library_table_templates.cpp"
-#endif
+#include "dl_library_table.ipp"
+
 #endif

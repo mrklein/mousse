@@ -8,9 +8,6 @@
 //   mousse::zone
 // Description
 //   Base class for zones
-// SourceFiles
-//   zone.cpp
-
 
 #include "label_list.hpp"
 #include "type_info.hpp"
@@ -18,12 +15,13 @@
 #include "map.hpp"
 #include "point_field_fwd.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 class zone;
 Ostream& operator<<(Ostream&, const zone&);
+
 
 class zone
 :

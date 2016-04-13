@@ -3,12 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "fvc_mesh_phi.hpp"
-
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "fv_mesh.hpp"
 #include "ddt_scheme.hpp"
 #include "surface_interpolate.hpp"
+
 
 mousse::tmp<mousse::surfaceScalarField> mousse::fvc::meshPhi
 (
@@ -57,8 +57,7 @@ void mousse::fvc::makeRelative
   const volVectorField& U
 )
 {
-  if (phi.mesh().moving())
-  {
+  if (phi.mesh().moving()) {
     phi -= fvc::meshPhi(U);
   }
 }
@@ -71,8 +70,7 @@ void mousse::fvc::makeRelative
   const volVectorField& U
 )
 {
-  if (phi.mesh().moving())
-  {
+  if (phi.mesh().moving()) {
     phi -= rho*fvc::meshPhi(rho, U);
   }
 }
@@ -85,8 +83,7 @@ void mousse::fvc::makeRelative
   const volVectorField& U
 )
 {
-  if (phi.mesh().moving())
-  {
+  if (phi.mesh().moving()) {
     phi -= fvc::interpolate(rho)*fvc::meshPhi(rho, U);
   }
 }
@@ -98,8 +95,7 @@ void mousse::fvc::makeAbsolute
   const volVectorField& U
 )
 {
-  if (phi.mesh().moving())
-  {
+  if (phi.mesh().moving()) {
     phi += fvc::meshPhi(U);
   }
 }
@@ -112,8 +108,7 @@ void mousse::fvc::makeAbsolute
   const volVectorField& U
 )
 {
-  if (phi.mesh().moving())
-  {
+  if (phi.mesh().moving()) {
     phi += rho*fvc::meshPhi(rho, U);
   }
 }
@@ -126,8 +121,7 @@ void mousse::fvc::makeAbsolute
   const volVectorField& U
 )
 {
-  if (phi.mesh().moving())
-  {
+  if (phi.mesh().moving()) {
     phi += fvc::interpolate(rho)*fvc::meshPhi(rho, U);
   }
 }
@@ -139,13 +133,10 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::relative
   const volVectorField& U
 )
 {
-  if (tphi().mesh().moving())
-  {
+  if (tphi().mesh().moving()) {
     return tphi - fvc::meshPhi(U);
-  }
-  else
-  {
-    return tmp<surfaceScalarField>(tphi, true);
+  } else {
+    return tmp<surfaceScalarField>{tphi, true};
   }
 }
 
@@ -157,13 +148,10 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::relative
   const volVectorField& U
 )
 {
-  if (tphi().mesh().moving())
-  {
+  if (tphi().mesh().moving()) {
     return tphi - fvc::interpolate(rho)*fvc::meshPhi(rho, U);
-  }
-  else
-  {
-    return tmp<surfaceScalarField>(tphi, true);
+  } else {
+    return tmp<surfaceScalarField>{tphi, true};
   }
 }
 
@@ -174,13 +162,10 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::absolute
   const volVectorField& U
 )
 {
-  if (tphi().mesh().moving())
-  {
+  if (tphi().mesh().moving()) {
     return tphi + fvc::meshPhi(U);
-  }
-  else
-  {
-    return tmp<surfaceScalarField>(tphi, true);
+  } else {
+    return tmp<surfaceScalarField>{tphi, true};
   }
 }
 
@@ -192,12 +177,10 @@ mousse::tmp<mousse::surfaceScalarField> mousse::fvc::absolute
   const volVectorField& U
 )
 {
-  if (tphi().mesh().moving())
-  {
+  if (tphi().mesh().moving()) {
     return tphi + fvc::interpolate(rho)*fvc::meshPhi(rho, U);
-  }
-  else
-  {
-    return tmp<surfaceScalarField>(tphi, true);
+  } else {
+    return tmp<surfaceScalarField>{tphi, true};
   }
 }
+

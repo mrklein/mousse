@@ -3,9 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "face_corrected_sn_grad.hpp"
-
 #include "surface_fields.hpp"
 #include "fv_mesh.hpp"
+
 
 MAKE_SN_GRAD_SCHEME(faceCorrectedSnGrad)
 
@@ -18,6 +18,7 @@ mousse::fv::faceCorrectedSnGrad<mousse::scalar>::correction
 {
   return fullGradCorrection(vsf);
 }
+
 
 template<>
 mousse::tmp<mousse::surfaceVectorField>

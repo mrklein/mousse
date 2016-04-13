@@ -41,9 +41,12 @@
 //       circAnticlockwise.circulate(CirculatorBase::ANTICLOCKWISE)
 //     );
 //   \endcode
+
 #include "circulator_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ContainerType>
 class ConstCirculator
 :
@@ -143,7 +146,9 @@ public:
       const ConstCirculator<ContainerType>& c
     ) const;
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ContainerType>
@@ -155,6 +160,8 @@ mousse::ConstCirculator<ContainerType>::ConstCirculator()
   iter_{0},
   fulcrum_{0}
 {}
+
+
 template<class ContainerType>
 mousse::ConstCirculator<ContainerType>::ConstCirculator
 (
@@ -167,6 +174,8 @@ mousse::ConstCirculator<ContainerType>::ConstCirculator
   iter_{begin_},
   fulcrum_{begin_}
 {}
+
+
 template<class ContainerType>
 mousse::ConstCirculator<ContainerType>::ConstCirculator
 (
@@ -180,6 +189,8 @@ mousse::ConstCirculator<ContainerType>::ConstCirculator
   iter_{begin},
   fulcrum_{begin}
 {}
+
+
 template<class ContainerType>
 mousse::ConstCirculator<ContainerType>::ConstCirculator
 (
@@ -192,10 +203,14 @@ mousse::ConstCirculator<ContainerType>::ConstCirculator
   iter_{rhs.iter_},
   fulcrum_{rhs.fulcrum_}
 {}
+
+
 // Destructor 
 template<class ContainerType>
 mousse::ConstCirculator<ContainerType>::~ConstCirculator()
 {}
+
+
 // Member Functions 
 template<class ContainerType>
 typename mousse::ConstCirculator<ContainerType>::size_type
@@ -203,58 +218,67 @@ mousse::ConstCirculator<ContainerType>::size() const
 {
   return end_ - begin_;
 }
+
+
 template<class ContainerType>
 bool mousse::ConstCirculator<ContainerType>::circulate
 (
   const CirculatorBase::direction dir
 )
 {
-  if (dir == CirculatorBase::CLOCKWISE)
-  {
+  if (dir == CirculatorBase::CLOCKWISE) {
     operator++();
-  }
-  else if (dir == CirculatorBase::ANTICLOCKWISE)
-  {
+  } else if (dir == CirculatorBase::ANTICLOCKWISE) {
     operator--();
   }
   return !(iter_ == fulcrum_);
 }
+
+
 template<class ContainerType>
 void mousse::ConstCirculator<ContainerType>::setFulcrumToIterator()
 {
   fulcrum_ = iter_;
 }
+
+
 template<class ContainerType>
 void mousse::ConstCirculator<ContainerType>::setIteratorToFulcrum()
 {
   iter_ = fulcrum_;
 }
+
+
 template<class ContainerType>
 typename mousse::ConstCirculator<ContainerType>::difference_type
 mousse::ConstCirculator<ContainerType>::nRotations() const
 {
   return (iter_ - fulcrum_);
 }
+
+
 template<class ContainerType>
 typename mousse::ConstCirculator<ContainerType>::const_reference
 mousse::ConstCirculator<ContainerType>::next() const
 {
-  if (iter_ == end_ - 1)
-  {
+  if (iter_ == end_ - 1) {
     return *begin_;
   }
   return *(iter_ + 1);
 }
+
+
 template<class ContainerType>
 typename mousse::ConstCirculator<ContainerType>::const_reference
 mousse::ConstCirculator<ContainerType>::prev() const
 {
-  if (iter_ == begin_)
-  {
+  if (iter_ == begin_) {
     return *(end_ - 1);
   }
   return *(iter_ - 1);
 }
+
+
 // Member Operators 
 template<class ContainerType>
 void mousse::ConstCirculator<ContainerType>::operator=
@@ -263,8 +287,7 @@ void mousse::ConstCirculator<ContainerType>::operator=
 )
 {
   // Check for assignment to self
-  if (this == &rhs)
-  {
+  if (this == &rhs) {
     FATAL_ERROR_IN
     (
       "mousse::ConstCirculator<ContainerType>::operator="
@@ -278,17 +301,20 @@ void mousse::ConstCirculator<ContainerType>::operator=
   iter_ = rhs.iter_;
   fulcrum_ = rhs.fulcrum_;
 }
+
+
 template<class ContainerType>
 mousse::ConstCirculator<ContainerType>&
 mousse::ConstCirculator<ContainerType>::operator++()
 {
   ++iter_;
-  if (iter_ == end_)
-  {
+  if (iter_ == end_) {
     iter_ = begin_;
   }
   return *this;
 }
+
+
 template<class ContainerType>
 mousse::ConstCirculator<ContainerType>
 mousse::ConstCirculator<ContainerType>::operator++(int)
@@ -297,17 +323,20 @@ mousse::ConstCirculator<ContainerType>::operator++(int)
   ++(*this);
   return tmp;
 }
+
+
 template<class ContainerType>
 mousse::ConstCirculator<ContainerType>&
 mousse::ConstCirculator<ContainerType>::operator--()
 {
-  if (iter_ == begin_)
-  {
+  if (iter_ == begin_) {
     iter_ = end_;
   }
   --iter_;
   return *this;
 }
+
+
 template<class ContainerType>
 mousse::ConstCirculator<ContainerType>
 mousse::ConstCirculator<ContainerType>::operator--(int)
@@ -316,6 +345,8 @@ mousse::ConstCirculator<ContainerType>::operator--(int)
   --(*this);
   return tmp;
 }
+
+
 template<class ContainerType>
 bool mousse::ConstCirculator<ContainerType>::operator==
 (
@@ -325,6 +356,8 @@ bool mousse::ConstCirculator<ContainerType>::operator==
   return begin_ == c.begin_ && end_ == c.end_ && iter_ == c.iter_
     && fulcrum_ == c.fulcrum_;
 }
+
+
 template<class ContainerType>
 bool mousse::ConstCirculator<ContainerType>::operator!=
 (
@@ -333,18 +366,24 @@ bool mousse::ConstCirculator<ContainerType>::operator!=
 {
   return !(*this == c);
 }
+
+
 template<class ContainerType>
 typename mousse::ConstCirculator<ContainerType>::const_reference
 mousse::ConstCirculator<ContainerType>::operator*() const
 {
   return *iter_;
 }
+
+
 template<class ContainerType>
 typename mousse::ConstCirculator<ContainerType>::const_reference
 mousse::ConstCirculator<ContainerType>::operator()() const
 {
   return operator*();
 }
+
+
 template<class ContainerType>
 typename mousse::ConstCirculator<ContainerType>::difference_type
 mousse::ConstCirculator<ContainerType>::operator-
@@ -354,4 +393,5 @@ mousse::ConstCirculator<ContainerType>::operator-
 {
   return iter_ - c.iter_;
 }
+
 #endif

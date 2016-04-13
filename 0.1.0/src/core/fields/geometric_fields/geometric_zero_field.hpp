@@ -12,11 +12,14 @@
 //   compile-time.
 //   Used for example as the density argument to a function written for
 //   compressible to be used for incompressible flow.
+
 #include "zero_field_field.hpp"
 #include "dimension_set.hpp"
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class geometricZeroField
 :
   public zero
@@ -39,20 +42,29 @@ inline const mousse::dimensionSet& mousse::geometricZeroField::dimensions() cons
 {
   return dimless;
 }
+
+
 inline mousse::scalar mousse::geometricZeroField::operator[](const label) const
 {
   return scalar{0};
 }
+
+
 inline mousse::zeroField mousse::geometricZeroField::field() const
 {
   return zeroField();
 }
+
+
 inline mousse::zeroField mousse::geometricZeroField::oldTime() const
 {
   return zeroField();
 }
+
+
 inline mousse::zeroFieldField mousse::geometricZeroField::boundaryField() const
 {
   return zeroFieldField();
 }
+
 #endif

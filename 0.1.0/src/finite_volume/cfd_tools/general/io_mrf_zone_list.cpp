@@ -5,6 +5,8 @@
 #include "io_mrf_zone_list.hpp"
 #include "fv_mesh.hpp"
 #include "time.hpp"
+
+
 // Private Member Functions 
 mousse::IOobject mousse::IOMRFZoneList::createIOobject
 (
@@ -12,44 +14,42 @@ mousse::IOobject mousse::IOMRFZoneList::createIOobject
 ) const
 {
   IOobject io
-  (
+  {
     "MRFProperties",
     mesh.time().constant(),
     mesh,
     IOobject::MUST_READ,
     IOobject::NO_WRITE
-  );
-  if (io.headerOk())
-  {
-    Info<< "Creating MRF zone list from " << io.name() << endl;
+  };
+  if (io.headerOk()) {
+    Info << "Creating MRF zone list from " << io.name() << endl;
     io.readOpt() = IOobject::MUST_READ_IF_MODIFIED;
     return io;
-  }
-  else
-  {
-    Info<< "No MRF models present" << nl << endl;
+  } else {
+    Info << "No MRF models present" << nl << endl;
     io.readOpt() = IOobject::NO_READ;
     return io;
   }
 }
+
+
 // Constructors 
 mousse::IOMRFZoneList::IOMRFZoneList
 (
   const fvMesh& mesh
 )
 :
-  IOdictionary(createIOobject(mesh)),
-  MRFZoneList(mesh, *this)
+  IOdictionary{createIOobject(mesh)},
+  MRFZoneList{mesh, *this}
 {}
+
+
 bool mousse::IOMRFZoneList::read()
 {
-  if (regIOobject::read())
-  {
+  if (regIOobject::read()) {
     MRFZoneList::read(*this);
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }

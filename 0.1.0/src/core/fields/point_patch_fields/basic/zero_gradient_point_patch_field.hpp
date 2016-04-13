@@ -8,13 +8,12 @@
 //   mousse::zeroGradientPointPatchField
 // Description
 //   mousse::zeroGradientPointPatchField
-// SourceFiles
-//   zero_gradient_point_patch_field.cpp
 
 #include "point_patch_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class zeroGradientPointPatchField
 :
@@ -46,15 +45,12 @@ public:
       const pointPatchFieldMapper&
     );
     //- Construct and return a clone
-    virtual autoPtr<pointPatchField<Type> > clone() const
+    virtual autoPtr<pointPatchField<Type>> clone() const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new zeroGradientPointPatchField<Type>
-        (
-          *this
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new zeroGradientPointPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     zeroGradientPointPatchField
@@ -63,23 +59,20 @@ public:
       const DimensionedField<Type, pointMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual autoPtr<pointPatchField<Type> > clone
+    virtual autoPtr<pointPatchField<Type>> clone
     (
       const DimensionedField<Type, pointMesh>& iF
     ) const
     {
-      return autoPtr<pointPatchField<Type> >
-      (
-        new zeroGradientPointPatchField<Type>
-        (
-          *this,
-          iF
-        )
-      );
+      return autoPtr<pointPatchField<Type>>
+      {
+        new zeroGradientPointPatchField<Type>{*this, iF}
+      };
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#    include "zero_gradient_point_patch_field.cpp"
-#endif
+
+#include "zero_gradient_point_patch_field.ipp"
+
 #endif

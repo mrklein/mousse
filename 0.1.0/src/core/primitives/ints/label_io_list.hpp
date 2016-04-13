@@ -7,8 +7,12 @@
 
 #include "label.hpp"
 #include "iolist.hpp"
-namespace mousse
-{
-  typedef IOList<label> labelIOList;
+
+
+namespace mousse {
+
+typedef IOList<label> labelIOList;
+
 }
+
 #endif

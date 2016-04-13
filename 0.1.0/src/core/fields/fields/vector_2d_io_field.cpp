@@ -3,8 +3,9 @@
 // Copyright (C) 2016 mousse project
 
 #include "vector_2d_io_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME
 (

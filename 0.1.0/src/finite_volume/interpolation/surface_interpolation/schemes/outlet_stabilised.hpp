@@ -12,9 +12,6 @@
 //   This is particularly useful to stabilise the velocity at entrainment
 //   boundaries for LES cases using linear or other centred differencing
 //   schemes.
-// SourceFiles
-//   outlet_stabilised.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "skew_correction_vectors.hpp"
@@ -24,8 +21,9 @@
 #include "direction_mixed_fv_patch_field.hpp"
 #include "zero_gradient_fv_patch_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class outletStabilised
 :
@@ -33,7 +31,7 @@ class outletStabilised
 {
   // Private member data
     const surfaceScalarField& faceFlux_;
-    tmp<surfaceInterpolationScheme<Type> > tScheme_;
+    tmp<surfaceInterpolationScheme<Type>> tScheme_;
 public:
   //- Runtime type information
   TYPE_NAME("outletStabilised");
@@ -88,27 +86,16 @@ public:
       surfaceScalarField& w = tw();
       const fvMesh& mesh_ = this->mesh();
       const cellList& cells = mesh_.cells();
-      FOR_ALL(vf.boundaryField(), patchi)
-      {
-        if
-        (
-          isA<zeroGradientFvPatchField<Type> >
-            (vf.boundaryField()[patchi])
-        || isA<mixedFvPatchField<Type> >(vf.boundaryField()[patchi])
-        || isA<directionMixedFvPatchField<Type> >
-          (vf.boundaryField()[patchi])
-        )
-        {
-          const labelList& pFaceCells =
-            mesh_.boundary()[patchi].faceCells();
-          FOR_ALL(pFaceCells, pFacei)
-          {
+      FOR_ALL(vf.boundaryField(), patchi) {
+        if (isA<zeroGradientFvPatchField<Type>>(vf.boundaryField()[patchi])
+            || isA<mixedFvPatchField<Type>>(vf.boundaryField()[patchi])
+            || isA<directionMixedFvPatchField<Type>>(vf.boundaryField()[patchi])) {
+          const labelList& pFaceCells = mesh_.boundary()[patchi].faceCells();
+          FOR_ALL(pFaceCells, pFacei) {
             const cell& pFaceCell = cells[pFaceCells[pFacei]];
-            FOR_ALL(pFaceCell, fi)
-            {
+            FOR_ALL(pFaceCell, fi) {
               label facei = pFaceCell[fi];
-              if (mesh_.isInternalFace(facei))
-              {
+              if (mesh_.isInternalFace(facei)) {
                 // Apply upwind differencing
                 w[facei] = pos(faceFlux_[facei]);
               }
@@ -125,40 +112,27 @@ public:
     }
     //- Return the explicit correction to the face-interpolate
     //  set to zero on the near-boundary faces where upwinf is applied
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-    correction
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> correction
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const
     {
-      if (tScheme_().corrected())
-      {
-        tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tcorr =
+      if (tScheme_().corrected()) {
+        tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> tcorr =
           tScheme_().correction(vf);
         GeometricField<Type, fvsPatchField, surfaceMesh>& corr =
           tcorr();
         const fvMesh& mesh_ = this->mesh();
         const cellList& cells = mesh_.cells();
-        FOR_ALL(vf.boundaryField(), patchi)
-        {
-          if
-          (
-            isA<zeroGradientFvPatchField<Type> >
-              (vf.boundaryField()[patchi])
-          || isA<mixedFvPatchField<Type> >
-              (vf.boundaryField()[patchi])
-          )
-          {
-            const labelList& pFaceCells =
-              mesh_.boundary()[patchi].faceCells();
-            FOR_ALL(pFaceCells, pFacei)
-            {
+        FOR_ALL(vf.boundaryField(), patchi) {
+          if (isA<zeroGradientFvPatchField<Type>>(vf.boundaryField()[patchi])
+              || isA<mixedFvPatchField<Type>>(vf.boundaryField()[patchi])) {
+            const labelList& pFaceCells = mesh_.boundary()[patchi].faceCells();
+            FOR_ALL(pFaceCells, pFacei) {
               const cell& pFaceCell = cells[pFaceCells[pFacei]];
-              FOR_ALL(pFaceCell, fi)
-              {
+              FOR_ALL(pFaceCell, fi) {
                 label facei = pFaceCell[fi];
-                if (mesh_.isInternalFace(facei))
-                {
+                if (mesh_.isInternalFace(facei)) {
                   // Remove correction
                   corr[facei] = pTraits<Type>::zero;
                 }
@@ -167,15 +141,13 @@ public:
           }
         }
         return tcorr;
-      }
-      else
-      {
-        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-        (
-          NULL
-        );
+      } else {
+        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>{NULL};
       }
     }
 };
+
 }  // namespace mousse
+
 #endif
+

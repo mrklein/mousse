@@ -11,14 +11,12 @@
 //   OSPRE differencing scheme based on r obtained from the LimiterFunc
 //   class.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   ospre.cpp
-
 
 #include "vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class LimiterFunc>
 class OSPRELimiter
 :

@@ -5,6 +5,8 @@
 #include "gamg_interface.hpp"
 #include "gamg_agglomeration.hpp"
 #include "ldu_matrix.hpp"
+
+
 // Selectors
 mousse::autoPtr<mousse::GAMGInterface> mousse::GAMGInterface::New
 (
@@ -20,21 +22,21 @@ mousse::autoPtr<mousse::GAMGInterface> mousse::GAMGInterface::New
   const word coupleType(fineInterface.type());
   lduInterfaceConstructorTable::iterator cstrIter =
     lduInterfaceConstructorTablePtr_->find(coupleType);
-  if (cstrIter == lduInterfaceConstructorTablePtr_->end())
-  {
+  if (cstrIter == lduInterfaceConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "GAMGInterface::New"
       "(const lduInterface& fineInterface, "
       "const labelField& localRestrictAddressing, "
       "const labelField& neighbourRestrictAddressing)"
-    )   << "Unknown GAMGInterface type " << coupleType << ".\n"
-      << "Valid GAMGInterface types are :"
-      << lduInterfaceConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown GAMGInterface type " << coupleType << ".\n"
+    << "Valid GAMGInterface types are :"
+    << lduInterfaceConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
   return autoPtr<GAMGInterface>
-  (
+  {
     cstrIter()
     (
       index,
@@ -45,8 +47,10 @@ mousse::autoPtr<mousse::GAMGInterface> mousse::GAMGInterface::New
       fineLevelIndex,
       coarseComm
     )
-  );
+  };
 }
+
+
 mousse::autoPtr<mousse::GAMGInterface> mousse::GAMGInterface::New
 (
   const word& coupleType,
@@ -57,16 +61,16 @@ mousse::autoPtr<mousse::GAMGInterface> mousse::GAMGInterface::New
 {
   IstreamConstructorTable::iterator cstrIter =
     IstreamConstructorTablePtr_->find(coupleType);
-  if (cstrIter == IstreamConstructorTablePtr_->end())
-  {
+  if (cstrIter == IstreamConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "GAMGInterface::New"
       "(const word&, const label, const lduInterfacePtrsList&, Istream&)"
-    )   << "Unknown GAMGInterface type " << coupleType << ".\n"
-      << "Valid GAMGInterface types are :"
-      << IstreamConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown GAMGInterface type " << coupleType << ".\n"
+    << "Valid GAMGInterface types are :"
+    << IstreamConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<GAMGInterface>(cstrIter()(index, coarseInterfaces, is));
+  return autoPtr<GAMGInterface>{cstrIter()(index, coarseInterfaces, is)};
 }

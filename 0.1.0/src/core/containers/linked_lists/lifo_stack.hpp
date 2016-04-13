@@ -9,11 +9,12 @@
 // Description
 //   A LIFO stack based on a singly-linked list.
 //   Operations are push(), pop(), top(), bottom() and empty().
-// SourceFiles
-//   lifo_stack.cpp
+
 #include "sl_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class T>
 class LIFOStack
 :
@@ -27,12 +28,12 @@ public:
     //- Construct given initial T
     LIFOStack(T a)
     :
-      SLList<T>(a)
+      SLList<T>{a}
     {}
     //- Construct from Istream
     LIFOStack(Istream& is)
     :
-      SLList<T>(is)
+      SLList<T>{is}
     {}
   // Member Functions
     // Access

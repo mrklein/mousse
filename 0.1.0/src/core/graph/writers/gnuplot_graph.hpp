@@ -8,11 +8,12 @@
 //   mousse::gnuplotGraph
 // Description
 //   Output in gnuplot (http://www.gnuplot.info) format
-// SourceFiles
-//   gnuplot_graph.cpp
+
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class gnuplotGraph
 :
   public graph::writer

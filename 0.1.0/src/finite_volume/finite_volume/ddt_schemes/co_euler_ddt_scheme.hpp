@@ -13,17 +13,12 @@
 //   This scheme should only be used for steady-state computations
 //   using transient codes where local time-stepping is preferable to
 //   under-relaxation for transport consistency reasons.
-// SourceFiles
-//   co_euler_ddt_scheme.cpp
-
 
 #include "ddt_scheme.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Type>
 class CoEulerDdtScheme
@@ -70,53 +65,53 @@ public:
       return fv::ddtScheme<Type>::mesh();
     }
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensioned<Type>&
     );
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& psi
     );
 
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
@@ -189,7 +184,7 @@ tmp<surfaceScalarField> CoEulerDdtScheme<scalar>::fvcDdtPhiCorr
 
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "co_euler_ddt_scheme.cpp"
-#endif
+
+#include "co_euler_ddt_scheme.ipp"
+
 #endif

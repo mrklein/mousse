@@ -1,0 +1,6 @@
+write_point_set.cpp
+write_funs.cpp
+write_patch.cpp
+set_set.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-set-set

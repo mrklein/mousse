@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "cell_shape.hpp"
+
+
 bool mousse::operator==(const cellShape& a, const cellShape& b)
 {
   // Basic rule: we assume that the sequence of labels in each list
@@ -16,24 +18,20 @@ bool mousse::operator==(const cellShape& a, const cellShape& b)
   // Trivial reject: faces are different size
   label sizeA = labsA.size();
   label sizeB = labsB.size();
-  if (sizeA != sizeB)
-  {
+  if (sizeA != sizeB) {
     return false;
   }
   // First we look for the occurrence of the first label in A, in B
   label Bptr = -1;
   label firstA = labsA[0];
-  FOR_ALL(labsB, i)
-  {
-    if (labsB[i] == firstA)
-    {
+  FOR_ALL(labsB, i) {
+    if (labsB[i] == firstA) {
       Bptr = i;                // Denotes 'found match' at element 'i'
       break;
     }
   }
   // If no match was found, exit false
-  if (Bptr < 0)
-  {
+  if (Bptr < 0) {
     return false;
   }
   // Now we must look for the direction, if any
@@ -41,43 +39,31 @@ bool mousse::operator==(const cellShape& a, const cellShape& b)
   label dir = 0;
   // Check whether at top of list
   Bptr++;
-  if (Bptr == labsB.size())
-  {
+  if (Bptr == labsB.size()) {
     Bptr = 0;
   }
   // Test whether upward label matches second A label
-  if (labsB[Bptr] == secondA)
-  {
+  if (labsB[Bptr] == secondA) {
     // Yes - direction is 'up'
     dir = 1;
-  }
-  else
-  {
+  } else {
     // No - so look downwards, checking whether at bottom of list
     Bptr -= 2;
-    if (Bptr < 0)
-    {
-      // Case (1) Bptr=-1
-      if (Bptr == -1)
-      {
+    if (Bptr < 0) {
+      if (Bptr == -1) {  // Case (1) Bptr=-1
         Bptr = labsB.size() - 1;
-      }
-      // Case (2) Bptr = -2
-      else
-      {
+      } else {  // Case (2) Bptr = -2
         Bptr = labsB.size() - 2;
       }
     }
     // Test whether downward label matches second A label
-    if (labsB[Bptr] == secondA)
-    {
+    if (labsB[Bptr] == secondA) {
       // Yes - direction is 'down'
       dir = -1;
     }
   }
   // Check whether a match was made at all, and exit false if not
-  if (dir == 0)
-  {
+  if (dir == 0) {
     return false;
   }
   // Decrement size by 2 to account for first searches
@@ -85,42 +71,31 @@ bool mousse::operator==(const cellShape& a, const cellShape& b)
   // We now have both direction of search and next element
   // to search, so we can continue search until no more points.
   label Aptr = 1;
-  if (dir > 0)
-  {
-    while (sizeA--)
-    {
+  if (dir > 0) {
+    while (sizeA--) {
       Aptr++;
-      if (Aptr >= labsA.size())
-      {
+      if (Aptr >= labsA.size()) {
         Aptr = 0;
       }
       Bptr++;
-      if (Bptr >= labsB.size())
-      {
+      if (Bptr >= labsB.size()) {
         Bptr = 0;
       }
-      if (labsA[Aptr] != labsB[Bptr])
-      {
+      if (labsA[Aptr] != labsB[Bptr]) {
         return false;
       }
     }
-  }
-  else
-  {
-    while (sizeA--)
-    {
+  } else {
+    while (sizeA--) {
       Aptr++;
-      if (Aptr >= labsA.size())
-      {
+      if (Aptr >= labsA.size()) {
         Aptr = 0;
       }
       Bptr--;
-      if (Bptr < 0)
-      {
+      if (Bptr < 0) {
         Bptr = labsB.size() - 1;
       }
-      if (labsA[Aptr] != labsB[Bptr])
-      {
+      if (labsA[Aptr] != labsB[Bptr]) {
         return false;
       }
     }

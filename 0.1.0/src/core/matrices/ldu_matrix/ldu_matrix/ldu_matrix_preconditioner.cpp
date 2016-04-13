@@ -4,10 +4,13 @@
 
 #include "ldu_matrix.hpp"
 
+
 // Static Data Members
 namespace mousse {
+
 DEFINE_RUN_TIME_SELECTION_TABLE(lduMatrix::preconditioner, symMatrix);
 DEFINE_RUN_TIME_SELECTION_TABLE(lduMatrix::preconditioner, asymMatrix);
+
 }
 
 
@@ -19,12 +22,9 @@ mousse::word mousse::lduMatrix::preconditioner::getName
   word name;
   // handle primitive or dictionary entry
   const entry& e = solverControls.lookupEntry("preconditioner", false, false);
-  if (e.isDict())
-  {
+  if (e.isDict()) {
     e.dict().lookup("preconditioner") >> name;
-  }
-  else
-  {
+  } else {
     e.stream() >> name;
   }
   return name;
@@ -41,21 +41,16 @@ mousse::lduMatrix::preconditioner::New
   word name;
   // handle primitive or dictionary entry
   const entry& e = solverControls.lookupEntry("preconditioner", false, false);
-  if (e.isDict())
-  {
+  if (e.isDict()) {
     e.dict().lookup("preconditioner") >> name;
-  }
-  else
-  {
+  } else {
     e.stream() >> name;
   }
   const dictionary& controls = e.isDict() ? e.dict() : dictionary::null;
-  if (sol.matrix().symmetric())
-  {
+  if (sol.matrix().symmetric()) {
     symMatrixConstructorTable::iterator constructorIter =
       symMatrixConstructorTablePtr_->find(name);
-    if (constructorIter == symMatrixConstructorTablePtr_->end())
-    {
+    if (constructorIter == symMatrixConstructorTablePtr_->end()) {
       FATAL_IO_ERROR_IN
       (
         "lduMatrix::preconditioner::New"
@@ -76,13 +71,10 @@ mousse::lduMatrix::preconditioner::New
         controls
       )
     };
-  }
-  else if (sol.matrix().asymmetric())
-  {
+  } else if (sol.matrix().asymmetric()) {
     asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(name);
-    if (constructorIter == asymMatrixConstructorTablePtr_->end())
-    {
+    if (constructorIter == asymMatrixConstructorTablePtr_->end()) {
       FATAL_IO_ERROR_IN
       (
         "lduMatrix::preconditioner::New"
@@ -103,9 +95,7 @@ mousse::lduMatrix::preconditioner::New
         controls
       )
     };
-  }
-  else
-  {
+  } else {
     FATAL_IO_ERROR_IN
     (
       "lduMatrix::preconditioner::New"
@@ -113,7 +103,7 @@ mousse::lduMatrix::preconditioner::New
       controls
     )
     << "cannot solve incomplete matrix, "
-    "no diagonal or off-diagonal coefficient"
+       "no diagonal or off-diagonal coefficient"
     << exit(FatalIOError);
     return autoPtr<lduMatrix::preconditioner>{NULL};
   }

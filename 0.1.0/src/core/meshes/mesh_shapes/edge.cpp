@@ -3,5 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 #include "edge.hpp"
+
+
 // Static Data Members
 const char* const mousse::edge::typeName = "edge";

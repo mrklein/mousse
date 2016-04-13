@@ -1,1 +1,0 @@
-../ami_interpolation/ami_interpolation/ami_interpolation_parallel_ops.cpp

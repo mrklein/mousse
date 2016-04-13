@@ -8,9 +8,6 @@
 //   mousse::tableReader
 // Description
 //   Base class to read table data for the interpolationTable
-// SourceFiles
-//   table_reader.cpp
-
 
 #include "file_name.hpp"
 #include "word_list.hpp"
@@ -22,8 +19,8 @@
 #include "dictionary.hpp"
 #include "tuple2.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class tableReader
@@ -79,7 +76,8 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "table_reader.cpp"
-#endif
+
+
+#include "table_reader.ipp"
+
 #endif

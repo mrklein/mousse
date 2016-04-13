@@ -4,8 +4,7 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   mules.cpp
-//   mules_templates.cpp
+
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "primitive_fields_fwd.hpp"
@@ -13,10 +12,11 @@
 #include "zero.hpp"
 #include "zero_field.hpp"
 #include "uptr_list.hpp"
-namespace mousse
-{
-namespace MULES
-{
+
+
+namespace mousse {
+namespace MULES {
+
 template<class RdeltaTType, class RhoType, class SpType, class SuType>
 void explicitSolve
 (
@@ -27,6 +27,7 @@ void explicitSolve
   const SpType& Sp,
   const SuType& Su
 );
+
 template<class RhoType, class SpType, class SuType>
 void explicitSolve
 (
@@ -36,6 +37,7 @@ void explicitSolve
   const SpType& Sp,
   const SuType& Su
 );
+
 template<class RhoType, class SpType, class SuType>
 void explicitSolve
 (
@@ -48,6 +50,7 @@ void explicitSolve
   const scalar psiMax,
   const scalar psiMin
 );
+
 void explicitSolve
 (
   volScalarField& psi,
@@ -56,6 +59,7 @@ void explicitSolve
   const scalar psiMax,
   const scalar psiMin
 );
+
 template<class RdeltaTType, class RhoType, class SpType, class SuType>
 void limiter
 (
@@ -70,6 +74,7 @@ void limiter
   const scalar psiMax,
   const scalar psiMin
 );
+
 template<class RdeltaTType, class RhoType, class SpType, class SuType>
 void limit
 (
@@ -84,12 +89,15 @@ void limit
   const scalar psiMin,
   const bool returnCorr
 );
+
 void limitSum(UPtrList<scalarField>& phiPsiCorrs);
+
 template<class SurfaceScalarFieldList>
 void limitSum(SurfaceScalarFieldList& phiPsiCorrs);
+
 }  // namespace MULES
 }  // namespace mousse
-#ifdef NoRepository
-#   include "mules_templates.cpp"
-#endif
+
+#include "mules.ipp"
+
 #endif

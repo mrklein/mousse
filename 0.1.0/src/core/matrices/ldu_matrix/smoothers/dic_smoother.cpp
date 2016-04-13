@@ -4,13 +4,18 @@
 
 #include "dic_smoother.hpp"
 #include "dic_preconditioner.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(DICSmoother, 0);
-  lduMatrix::smoother::addsymMatrixConstructorToTable<DICSmoother>
-    addDICSmootherSymMatrixConstructorToTable_;
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(DICSmoother, 0);
+lduMatrix::smoother::addsymMatrixConstructorToTable<DICSmoother>
+  addDICSmootherSymMatrixConstructorToTable_;
+
 }
+
+
 // Constructors 
 mousse::DICSmoother::DICSmoother
 (
@@ -22,17 +27,19 @@ mousse::DICSmoother::DICSmoother
 )
 :
   lduMatrix::smoother
-  (
+  {
     fieldName,
     matrix,
     interfaceBouCoeffs,
     interfaceIntCoeffs,
     interfaces
-  ),
-  rD_(matrix_.diag())
+  },
+  rD_{matrix_.diag()}
 {
   DICPreconditioner::calcReciprocalD(rD_, matrix_);
 }
+
+
 // Member Functions 
 void mousse::DICSmoother::smooth
 (
@@ -49,10 +56,9 @@ void mousse::DICSmoother::smooth
   const label* const __restrict__ lPtr =
     matrix_.lduAddr().lowerAddr().begin();
   // Temporary storage for the residual
-  scalarField rA(rD_.size());
+  scalarField rA{rD_.size()};
   scalar* __restrict__ rAPtr = rA.begin();
-  for (label sweep=0; sweep<nSweeps; sweep++)
-  {
+  for (label sweep=0; sweep<nSweeps; sweep++) {
     matrix_.residual
     (
       rA,
@@ -64,14 +70,12 @@ void mousse::DICSmoother::smooth
     );
     rA *= rD_;
     label nFaces = matrix_.upper().size();
-    for (label facei=0; facei<nFaces; facei++)
-    {
+    for (label facei=0; facei<nFaces; facei++) {
       label u = uPtr[facei];
       rAPtr[u] -= rDPtr[u]*upperPtr[facei]*rAPtr[lPtr[facei]];
     }
     label nFacesM1 = nFaces - 1;
-    for (label facei=nFacesM1; facei>=0; facei--)
-    {
+    for (label facei=nFacesM1; facei>=0; facei--) {
       label l = lPtr[facei];
       rAPtr[l] -= rDPtr[l]*upperPtr[facei]*rAPtr[uPtr[facei]];
     }

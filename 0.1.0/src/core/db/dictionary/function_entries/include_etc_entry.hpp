@@ -34,14 +34,11 @@
 // SourceFiles
 //   include_etc_entry.cpp
 
-
 #include "function_entry.hpp"
 
-namespace mousse
-{
 
-namespace functionEntries
-{
+namespace mousse {
+namespace functionEntries {
 
 class includeEtcEntry
 :

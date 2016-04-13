@@ -29,12 +29,13 @@
 //   - the value is positive for outward-pointing vectors
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   surface_normal_fixed_value_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class surfaceNormalFixedValueFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -77,9 +78,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new surfaceNormalFixedValueFvPatchVectorField(*this)
-      );
+      {
+        new surfaceNormalFixedValueFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     surfaceNormalFixedValueFvPatchVectorField
@@ -94,13 +95,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new surfaceNormalFixedValueFvPatchVectorField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new surfaceNormalFixedValueFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Mapping functions

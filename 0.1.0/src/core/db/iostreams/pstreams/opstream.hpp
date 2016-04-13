@@ -10,13 +10,12 @@
 //   mousse::OPstream
 // Description
 //   Output inter-processor communications stream.
-// SourceFiles
-//   opstream.cpp
 
 #include "uopstream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class OPstream
 :
   public Pstream,

@@ -4,11 +4,12 @@
 
 #include "ioobject.hpp"
 #include "object_registry.hpp"
+
+
 bool mousse::IOobject::writeHeader(Ostream& os, const word& type) const
 {
-  if (!os.good())
-  {
-    Info<< "IOobject::writeHeader(Ostream&) : "
+  if (!os.good()) {
+    Info << "IOobject::writeHeader(Ostream&) : "
       << "no stream open for write" << nl
       << os.info() << endl;
     return false;
@@ -18,16 +19,17 @@ bool mousse::IOobject::writeHeader(Ostream& os, const word& type) const
     << "    version     " << os.version() << ";\n"
     << "    format      " << os.format() << ";\n"
     << "    class       " << type << ";\n";
-  if (note().size())
-  {
-    os  << "    note        " << note() << ";\n";
+  if (note().size()) {
+    os << "    note        " << note() << ";\n";
   }
-  os  << "    location    " << instance()/db().dbDir()/local() << ";\n"
+  os << "    location    " << instance()/db().dbDir()/local() << ";\n"
     << "    object      " << name() << ";\n"
     << "}" << nl;
   writeDivider(os) << endl;
   return true;
 }
+
+
 bool mousse::IOobject::writeHeader(Ostream& os) const
 {
   return writeHeader(os, type());

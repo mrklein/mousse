@@ -8,13 +8,14 @@
 //   mousse::polyLineSet
 // Description
 //   Sample along poly line defined by a list of points (knots)
-// SourceFiles
-//   poly_line_set.cpp
+
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "passive_particle_cloud.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyLineSet
 :
   public sampledSet

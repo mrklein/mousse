@@ -7,7 +7,10 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
+
 // Constructors 
+
 mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::
 pressureInletOutletParSlipVelocityFvPatchVectorField
 (
@@ -23,6 +26,8 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   refGrad() = vector::zero;
   valueFraction() = 0.0;
 }
+
+
 mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::
 pressureInletOutletParSlipVelocityFvPatchVectorField
 (
@@ -36,6 +41,8 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   phiName_{ptf.phiName_},
   rhoName_{ptf.rhoName_}
 {}
+
+
 mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::
 pressureInletOutletParSlipVelocityFvPatchVectorField
 (
@@ -53,6 +60,8 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   refGrad() = vector::zero;
   valueFraction() = 0.0;
 }
+
+
 mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::
 pressureInletOutletParSlipVelocityFvPatchVectorField
 (
@@ -63,6 +72,8 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   phiName_{pivpvf.phiName_},
   rhoName_{pivpvf.rhoName_}
 {}
+
+
 mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::
 pressureInletOutletParSlipVelocityFvPatchVectorField
 (
@@ -74,11 +85,12 @@ pressureInletOutletParSlipVelocityFvPatchVectorField
   phiName_{pivpvf.phiName_},
   rhoName_{pivpvf.rhoName_}
 {}
+
+
 // Member Functions 
 void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const surfaceScalarField& phi =
@@ -88,33 +100,31 @@ void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::updateCoeffs(
   tmp<vectorField> n = patch().nf();
   const Field<scalar>& magSf = patch().magSf();
   // Get the tangential component from the internalField (zero-gradient)
-  vectorField Ut(patchInternalField());
+  vectorField Ut{patchInternalField()};
   Ut -= n()*(Ut & n());
-  if (phi.dimensions() == dimVelocity*dimArea)
-  {
+  if (phi.dimensions() == dimVelocity*dimArea) {
     refValue() = Ut + n*phip/magSf;
-  }
-  else if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  } else if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
     const fvPatchField<scalar>& rhop =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     refValue() = Ut + n*phip/(rhop*magSf);
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "pressureInletOutletParSlipVelocityFvPatchVectorField::"
       "updateCoeffs()"
-    )   << "dimensions of phi are not correct" << nl
-      << "    on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "dimensions of phi are not correct" << nl
+    << "    on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   valueFraction() = 1.0 - pos(phip);
   mixedFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::write
 (
   Ostream& os
@@ -125,6 +135,8 @@ void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::write
   writeEntryIfDifferent<word>(os, "rho", "rho", rhoName_);
   writeEntry("value", os);
 }
+
+
 // Member Operators 
 void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::operator=
 (
@@ -133,11 +145,15 @@ void mousse::pressureInletOutletParSlipVelocityFvPatchVectorField::operator=
 {
   fvPatchField<vector>::operator=(pvf);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   pressureInletOutletParSlipVelocityFvPatchVectorField
 );
+
 }
+

@@ -8,15 +8,12 @@
 //   mousse::cyclicACMIFvsPatchField
 // Description
 //   mousse::cyclicACMIFvsPatchField
-// SourceFiles
-//   cyclic_acmi_fvs_patch_field.cpp
-
 
 #include "coupled_fvs_patch_field.hpp"
 #include "cyclic_acmi_fv_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class cyclicACMIFvsPatchField
@@ -66,9 +63,9 @@ public:
     );
 
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone() const
+    virtual tmp<fvsPatchField<Type>> clone() const
     {
-      return tmp<fvsPatchField<Type> >
+      return tmp<fvsPatchField<Type>>
       {
         new cyclicACMIFvsPatchField<Type>{*this}
       };
@@ -82,12 +79,12 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvsPatchField<Type> > clone
+    virtual tmp<fvsPatchField<Type>> clone
     (
       const DimensionedField<Type, surfaceMesh>& iF
     ) const
     {
-      return tmp<fvsPatchField<Type> >
+      return tmp<fvsPatchField<Type>>
       {
         new cyclicACMIFvsPatchField<Type>{*this, iF}
       };
@@ -103,7 +100,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "cyclic_acmi_fvs_patch_field.cpp"
-#endif
+#include "cyclic_acmi_fvs_patch_field.ipp"
+
 #endif

@@ -43,12 +43,13 @@
 //   volumetric-based.
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   wave_surface_pressure_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "named_enum.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class waveSurfacePressureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -107,9 +108,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new waveSurfacePressureFvPatchScalarField(*this)
-      );
+      {
+        new waveSurfacePressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     waveSurfacePressureFvPatchScalarField
@@ -124,9 +125,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new waveSurfacePressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new waveSurfacePressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions

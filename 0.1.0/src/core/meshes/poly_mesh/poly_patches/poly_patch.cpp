@@ -13,15 +13,17 @@
 #include "entry.hpp"
 #include "dictionary.hpp"
 #include "point_patch_field.hpp"
+
+
 // Static Data Members
 namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(polyPatch, 0);
 
 int polyPatch::disallowGenericPolyPatch
-(
+{
   debug::debugSwitch("disallowGenericPolyPatch", 0)
-);
+};
 
 DEFINE_RUN_TIME_SELECTION_TABLE(polyPatch, word);
 DEFINE_RUN_TIME_SELECTION_TABLE(polyPatch, dictionary);
@@ -35,15 +37,20 @@ void mousse::polyPatch::movePoints(PstreamBuffers&, const pointField& p)
 {
   primitivePatch::movePoints(p);
 }
+
+
 void mousse::polyPatch::updateMesh(PstreamBuffers&)
 {
   primitivePatch::clearGeom();
   clearAddressing();
 }
+
+
 void mousse::polyPatch::clearGeom()
 {
   primitivePatch::clearGeom();
 }
+
 
 // Constructors
 mousse::polyPatch::polyPatch
@@ -56,27 +63,25 @@ mousse::polyPatch::polyPatch
   const word& patchType
 )
 :
-  patchIdentifier(name, index),
+  patchIdentifier{name, index},
   primitivePatch
-  (
+  {
     faceSubList(bm.mesh().faces(), size, start),
     bm.mesh().points()
-  ),
-  start_(start),
-  boundaryMesh_(bm),
-  faceCellsPtr_(NULL),
-  mePtr_(NULL)
+  },
+  start_{start},
+  boundaryMesh_{bm},
+  faceCellsPtr_{NULL},
+  mePtr_{NULL}
 {
-  if
-  (
-    patchType != word::null
-  && constraintType(patchType)
-  && findIndex(inGroups(), patchType) == -1
-  )
-  {
+  if (patchType != word::null
+      && constraintType(patchType)
+      && findIndex(inGroups(), patchType) == -1) {
     inGroups().append(patchType);
   }
 }
+
+
 mousse::polyPatch::polyPatch
 (
   const word& name,
@@ -86,9 +91,9 @@ mousse::polyPatch::polyPatch
   const word& patchType
 )
 :
-  patchIdentifier(name, dict, index),
+  patchIdentifier{name, dict, index},
   primitivePatch
-  (
+  {
     faceSubList
     (
       bm.mesh().faces(),
@@ -96,31 +101,29 @@ mousse::polyPatch::polyPatch
       readLabel(dict.lookup("startFace"))
     ),
     bm.mesh().points()
-  ),
-  start_(readLabel(dict.lookup("startFace"))),
-  boundaryMesh_(bm),
-  faceCellsPtr_(NULL),
-  mePtr_(NULL)
+  },
+  start_{readLabel(dict.lookup("startFace"))},
+  boundaryMesh_{bm},
+  faceCellsPtr_{NULL},
+  mePtr_{NULL}
 {
-  if
-  (
-    patchType != word::null
-  && constraintType(patchType)
-  && findIndex(inGroups(), patchType) == -1
-  )
-  {
+  if (patchType != word::null
+      && constraintType(patchType)
+      && findIndex(inGroups(), patchType) == -1) {
     inGroups().append(patchType);
   }
 }
+
+
 mousse::polyPatch::polyPatch
 (
   const polyPatch& pp,
   const polyBoundaryMesh& bm
 )
 :
-  patchIdentifier(pp),
+  patchIdentifier{pp},
   primitivePatch
-  (
+  {
     faceSubList
     (
       bm.mesh().faces(),
@@ -128,12 +131,14 @@ mousse::polyPatch::polyPatch
       pp.start()
     ),
     bm.mesh().points()
-  ),
-  start_(pp.start()),
-  boundaryMesh_(bm),
-  faceCellsPtr_(NULL),
-  mePtr_(NULL)
+  },
+  start_{pp.start()},
+  boundaryMesh_{bm},
+  faceCellsPtr_{NULL},
+  mePtr_{NULL}
 {}
+
+
 mousse::polyPatch::polyPatch
 (
   const polyPatch& pp,
@@ -143,9 +148,9 @@ mousse::polyPatch::polyPatch
   const label newStart
 )
 :
-  patchIdentifier(pp, index),
+  patchIdentifier{pp, index},
   primitivePatch
-  (
+  {
     faceSubList
     (
       bm.mesh().faces(),
@@ -153,12 +158,14 @@ mousse::polyPatch::polyPatch
       newStart
     ),
     bm.mesh().points()
-  ),
-  start_(newStart),
-  boundaryMesh_(bm),
-  faceCellsPtr_(NULL),
-  mePtr_(NULL)
+  },
+  start_{newStart},
+  boundaryMesh_{bm},
+  faceCellsPtr_{NULL},
+  mePtr_{NULL}
 {}
+
+
 mousse::polyPatch::polyPatch
 (
   const polyPatch& pp,
@@ -168,9 +175,9 @@ mousse::polyPatch::polyPatch
   const label newStart
 )
 :
-  patchIdentifier(pp, index),
+  patchIdentifier{pp, index},
   primitivePatch
-  (
+  {
     faceSubList
     (
       bm.mesh().faces(),
@@ -178,34 +185,42 @@ mousse::polyPatch::polyPatch
       newStart
     ),
     bm.mesh().points()
-  ),
-  start_(newStart),
-  boundaryMesh_(bm),
-  faceCellsPtr_(NULL),
-  mePtr_(NULL)
+  },
+  start_{newStart},
+  boundaryMesh_{bm},
+  faceCellsPtr_{NULL},
+  mePtr_{NULL}
 {}
+
+
 mousse::polyPatch::polyPatch(const polyPatch& p)
 :
-  patchIdentifier(p),
-  primitivePatch(p),
-  start_(p.start_),
-  boundaryMesh_(p.boundaryMesh_),
-  faceCellsPtr_(NULL),
-  mePtr_(NULL)
+  patchIdentifier{p},
+  primitivePatch{p},
+  start_{p.start_},
+  boundaryMesh_{p.boundaryMesh_},
+  faceCellsPtr_{NULL},
+  mePtr_{NULL}
 {}
+
+
 // Destructor
 mousse::polyPatch::~polyPatch()
 {
   clearAddressing();
 }
+
+
 // Member Functions
 bool mousse::polyPatch::constraintType(const word& pt)
 {
   return pointPatchField<scalar>::pointPatchConstructorTablePtr_->found(pt);
 }
+
+
 mousse::wordList mousse::polyPatch::constraintTypes()
 {
-  wordList cTypes(dictionaryConstructorTablePtr_->size());
+  wordList cTypes{dictionaryConstructorTablePtr_->size()};
   label i = 0;
   for
   (
@@ -213,69 +228,78 @@ mousse::wordList mousse::polyPatch::constraintTypes()
       dictionaryConstructorTablePtr_->begin();
     cstrIter != dictionaryConstructorTablePtr_->end();
     ++cstrIter
-  )
-  {
-    if (constraintType(cstrIter.key()))
-    {
+  ) {
+    if (constraintType(cstrIter.key())) {
       cTypes[i++] = cstrIter.key();
     }
   }
   cTypes.setSize(i);
   return cTypes;
 }
+
+
 const mousse::polyBoundaryMesh& mousse::polyPatch::boundaryMesh() const
 {
   return boundaryMesh_;
 }
+
+
 const mousse::vectorField::subField mousse::polyPatch::faceCentres() const
 {
   return patchSlice(boundaryMesh().mesh().faceCentres());
 }
+
+
 const mousse::vectorField::subField mousse::polyPatch::faceAreas() const
 {
   return patchSlice(boundaryMesh().mesh().faceAreas());
 }
+
+
 // Return the patch face neighbour cell centres
 mousse::tmp<mousse::vectorField> mousse::polyPatch::faceCellCentres() const
 {
-  tmp<vectorField> tcc(new vectorField(size()));
+  tmp<vectorField> tcc{new vectorField{size()}};
   vectorField& cc = tcc();
   // get reference to global cell centres
   const vectorField& gcc = boundaryMesh_.mesh().cellCentres();
   const labelUList& faceCells = this->faceCells();
-  FOR_ALL(faceCells, facei)
-  {
+  FOR_ALL(faceCells, facei) {
     cc[facei] = gcc[faceCells[facei]];
   }
   return tcc;
 }
+
+
 const mousse::labelUList& mousse::polyPatch::faceCells() const
 {
-  if (!faceCellsPtr_)
-  {
+  if (!faceCellsPtr_) {
     faceCellsPtr_ = new labelList::subList
-    (
+    {
       patchSlice(boundaryMesh().mesh().faceOwner())
-    );
+    };
   }
   return *faceCellsPtr_;
 }
+
+
 const mousse::labelList& mousse::polyPatch::meshEdges() const
 {
-  if (!mePtr_)
-  {
+  if (!mePtr_) {
     mePtr_ =
       new labelList
-      (
+      {
         primitivePatch::meshEdges
         (
           boundaryMesh().mesh().edges(),
           boundaryMesh().mesh().pointEdges()
         )
-      );
+      };
   }
   return *mePtr_;
 }
+
+
 void mousse::polyPatch::clearAddressing()
 {
   primitivePatch::clearTopology();
@@ -283,6 +307,8 @@ void mousse::polyPatch::clearAddressing()
   deleteDemandDrivenData(faceCellsPtr_);
   deleteDemandDrivenData(mePtr_);
 }
+
+
 void mousse::polyPatch::write(Ostream& os) const
 {
   os.writeKeyword("type") << type() << token::END_STATEMENT << nl;
@@ -290,8 +316,12 @@ void mousse::polyPatch::write(Ostream& os) const
   os.writeKeyword("nFaces") << size() << token::END_STATEMENT << nl;
   os.writeKeyword("startFace") << start() << token::END_STATEMENT << nl;
 }
+
+
 void mousse::polyPatch::initOrder(PstreamBuffers&, const primitivePatch&) const
 {}
+
+
 bool mousse::polyPatch::order
 (
   PstreamBuffers&,
@@ -304,6 +334,7 @@ bool mousse::polyPatch::order
   return false;
 }
 
+
 // Member Operators
 void mousse::polyPatch::operator=(const polyPatch& p)
 {
@@ -312,6 +343,7 @@ void mousse::polyPatch::operator=(const polyPatch& p)
   primitivePatch::operator=(p);
   start_ = p.start_;
 }
+
 
 // Friend Operators
 mousse::Ostream& mousse::operator<<(Ostream& os, const polyPatch& p)

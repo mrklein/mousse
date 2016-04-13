@@ -10,12 +10,15 @@
 //   Signal handler for interupt defined by
 //     OptimisationSwitches::stopAtWriteNowSignal
 //   Write and stop the job.
-// SourceFiles
-//   sig_stop_at_write_now.cpp
+
 #include <signal.h>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Time;
+
+
 class sigStopAtWriteNow
 {
   // Private data
@@ -41,5 +44,7 @@ public:
     //- Is active?
     bool active() const;
 };
+
 }  // namespace mousse
+
 #endif

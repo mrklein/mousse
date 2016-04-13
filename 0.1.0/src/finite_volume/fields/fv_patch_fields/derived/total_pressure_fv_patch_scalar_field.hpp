@@ -95,8 +95,9 @@
 
 #include "fixed_value_fv_patch_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class totalPressureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -150,9 +151,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new totalPressureFvPatchScalarField(*this)
-      );
+      {
+        new totalPressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     totalPressureFvPatchScalarField
@@ -167,9 +168,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new totalPressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new totalPressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access

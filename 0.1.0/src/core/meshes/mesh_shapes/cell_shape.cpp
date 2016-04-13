@@ -4,7 +4,10 @@
 
 #include "cell_shape.hpp"
 #include "degenerate_matcher.hpp"
+
+
 // Member Functions 
+
 // Remove duplicate vertices and reset correct cell model
 void mousse::cellShape::collapse()
 {

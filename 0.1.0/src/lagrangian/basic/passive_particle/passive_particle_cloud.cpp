@@ -3,11 +3,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "passive_particle_cloud.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+
+namespace mousse {
+
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<passiveParticle>, 0);
+
 }
+
+
 // Constructors 
 mousse::passiveParticleCloud::passiveParticleCloud
 (
@@ -16,13 +22,14 @@ mousse::passiveParticleCloud::passiveParticleCloud
   bool readFields
 )
 :
-  Cloud<passiveParticle>(mesh, cloudName, false)
+  Cloud<passiveParticle>{mesh, cloudName, false}
 {
-  if (readFields)
-  {
+  if (readFields) {
     passiveParticle::readFields(*this);
   }
 }
+
+
 mousse::passiveParticleCloud::passiveParticleCloud
 (
   const polyMesh& mesh,
@@ -30,5 +37,6 @@ mousse::passiveParticleCloud::passiveParticleCloud
   const IDLList<passiveParticle>& particles
 )
 :
-  Cloud<passiveParticle>(mesh, cloudName, particles)
+  Cloud<passiveParticle>{mesh, cloudName, particles}
 {}
+

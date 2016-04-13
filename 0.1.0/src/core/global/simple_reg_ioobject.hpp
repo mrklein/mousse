@@ -9,12 +9,13 @@
 // Description
 //   Abstract base class for registered object with I/O. Used in debug symbol
 //   registration.
-// SourceFiles
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class Istream;
 class Ostream;
+
 class simpleRegIOobject
 {
 public:

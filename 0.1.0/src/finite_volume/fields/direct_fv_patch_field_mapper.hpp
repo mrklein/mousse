@@ -8,9 +8,12 @@
 //   mousse::directFvPatchFieldMapper
 // Description
 //   direct fvPatchFieldMapper
+
 #include "fv_patch_field_mapper.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class directFvPatchFieldMapper
 :
   public fvPatchFieldMapper
@@ -24,11 +27,10 @@ public:
     //- Construct given addressing
     directFvPatchFieldMapper(const labelUList& directAddressing)
     :
-      directAddressing_(directAddressing),
-      hasUnmapped_(false)
+      directAddressing_{directAddressing},
+      hasUnmapped_{false}
     {
-      if (directAddressing_.size() && min(directAddressing_) < 0)
-      {
+      if (directAddressing_.size() && min(directAddressing_) < 0) {
         hasUnmapped_ = true;
       }
     }

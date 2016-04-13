@@ -8,12 +8,13 @@
 //   mousse::nonuniformTransformCyclicPointPatch
 // Description
 //   Cyclic patch with slip constraint
-// SourceFiles
-//   nonuniform_transform_cyclic_point_patch.cpp
+
 #include "cyclic_point_patch.hpp"
 #include "nonuniform_transform_cyclic_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class nonuniformTransformCyclicPointPatch
 :
   public cyclicPointPatch
@@ -29,7 +30,7 @@ public:
       const pointBoundaryMesh& bm
     )
     :
-      cyclicPointPatch(patch, bm)
+      cyclicPointPatch{patch, bm}
     {}
   // Destructor
     virtual ~nonuniformTransformCyclicPointPatch()
@@ -44,5 +45,7 @@ public:
       pointConstraint&
     ) const;
 };
+
 }  // namespace mousse
+
 #endif

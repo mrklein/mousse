@@ -10,6 +10,7 @@
 #include "mathematical_constants.hpp"
 #include "time.hpp"
 
+
 // Constructors 
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
@@ -24,6 +25,7 @@ swirlFlowRateInletVelocityFvPatchVectorField
   flowRate_{},
   rpm_{}
 {}
+
 
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
@@ -41,6 +43,7 @@ swirlFlowRateInletVelocityFvPatchVectorField
   rpm_{ptf.rpm_().clone().ptr()}
 {}
 
+
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
 (
@@ -56,6 +59,7 @@ swirlFlowRateInletVelocityFvPatchVectorField
   rpm_{DataEntry<scalar>::New("rpm", dict)}
 {}
 
+
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
 (
@@ -68,6 +72,7 @@ swirlFlowRateInletVelocityFvPatchVectorField
   flowRate_{ptf.flowRate_().clone().ptr()},
   rpm_{ptf.rpm_().clone().ptr()}
 {}
+
 
 mousse::swirlFlowRateInletVelocityFvPatchVectorField::
 swirlFlowRateInletVelocityFvPatchVectorField
@@ -83,11 +88,11 @@ swirlFlowRateInletVelocityFvPatchVectorField
   rpm_{ptf.rpm_().clone().ptr()}
 {}
 
+
 // Member Functions 
 void mousse::swirlFlowRateInletVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const scalar t = this->db().time().timeOutputValue();
@@ -99,38 +104,35 @@ void mousse::swirlFlowRateInletVelocityFvPatchVectorField::updateCoeffs()
   const vector avgNormal = gSum(patch().Sf())/totArea;
   // Update angular velocity - convert [rpm] to [rad/s]
   tmp<vectorField> tangentialVelocity
-    (
+    {
       (rpm*constant::mathematical::pi/30.0)
-     * (patch().Cf() - avgCenter) ^ avgNormal
-    );
+      *(patch().Cf() - avgCenter) ^ avgNormal
+    };
   tmp<vectorField> n = patch().nf();
   const surfaceScalarField& phi =
     db().lookupObject<surfaceScalarField>(phiName_);
-  if (phi.dimensions() == dimVelocity*dimArea)
-  {
+  if (phi.dimensions() == dimVelocity*dimArea) {
     // volumetric flow-rate
     operator==(tangentialVelocity + n*avgU);
-  }
-  else if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  } else if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
     const fvPatchField<scalar>& rhop =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     // mass flow-rate
     operator==(tangentialVelocity + n*avgU/rhop);
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "swirlFlowRateInletVelocityFvPatchVectorField::updateCoeffs()"
-    )   << "dimensions of " << phiName_ << " are incorrect" << nl
-      << "    on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << nl << exit(FatalError);
+    )
+    << "dimensions of " << phiName_ << " are incorrect" << nl
+    << "    on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << nl << exit(FatalError);
   }
   fixedValueFvPatchField<vector>::updateCoeffs();
 }
+
 
 void mousse::swirlFlowRateInletVelocityFvPatchVectorField::write
 (
@@ -145,8 +147,8 @@ void mousse::swirlFlowRateInletVelocityFvPatchVectorField::write
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_PATCH_TYPE_FIELD
 (
@@ -155,3 +157,4 @@ MAKE_PATCH_TYPE_FIELD
 );
 
 }
+

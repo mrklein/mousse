@@ -9,7 +9,9 @@
 #include "cell_set.hpp"
 #include "face_set.hpp"
 #include "vol_fields.hpp"
+
 using namespace mousse;
+
 template<class Type>
 bool setCellFieldType
 (
@@ -47,10 +49,10 @@ bool setCellFieldType
   // Check field exists
   if (fieldHeader.headerOk())
   {
-    Info<< "    Setting internal values of "
+    Info << "    Setting internal values of "
       << fieldHeader.headerClassName()
       << " " << fieldName << endl;
-    fieldType field(fieldHeader, mesh);
+    fieldType field{fieldHeader, mesh};
     const Type& value = pTraits<Type>(fieldValueStream);
     if (selectedCells.size() == field.size())
     {
@@ -75,7 +77,8 @@ bool setCellFieldType
         "void setCellFieldType"
         "(const fvMesh& mesh, const labelList& selectedCells,"
         "Istream& fieldValueStream)"
-      ) << "Failed writing field " << fieldName << endl;
+      )
+      << "Failed writing field " << fieldName << endl;
     }
   }
   else
@@ -85,12 +88,14 @@ bool setCellFieldType
       "void setCellFieldType"
       "(const fvMesh& mesh, const labelList& selectedCells,"
       "Istream& fieldValueStream)"
-    ) << "Field " << fieldName << " not found" << endl;
+    )
+    << "Field " << fieldName << " not found" << endl;
     // Consume value
     (void)pTraits<Type>(fieldValueStream);
   }
   return true;
 }
+
 class setCellField
 {
 public:
@@ -98,7 +103,7 @@ public:
   {}
   autoPtr<setCellField> clone() const
   {
-    return autoPtr<setCellField>(new setCellField());
+    return autoPtr<setCellField>{new setCellField{}};
   }
   class iNew
   {
@@ -112,7 +117,7 @@ public:
     {}
     autoPtr<setCellField> operator()(Istream& fieldValues) const
     {
-      word fieldType(fieldValues);
+      word fieldType{fieldValues};
       if
       (
        !(
@@ -133,10 +138,11 @@ public:
           << "field type " << fieldType << " not currently supported"
           << endl;
       }
-      return autoPtr<setCellField>{new setCellField()};
+      return autoPtr<setCellField>{new setCellField{}};
     }
   };
 };
+
 template<class Type>
 bool setFaceFieldType
 (
@@ -151,7 +157,7 @@ bool setFaceFieldType
   {
     return false;
   }
-  word fieldName(fieldValueStream);
+  word fieldName{fieldValueStream};
   // Check the current time directory
   IOobject fieldHeader
   {
@@ -174,7 +180,7 @@ bool setFaceFieldType
   // Check field exists
   if (fieldHeader.headerOk())
   {
-    Info<< "    Setting patchField values of "
+    Info << "    Setting patchField values of "
       << fieldHeader.headerClassName()
       << " " << fieldName << endl;
     fieldType field{fieldHeader, mesh};
@@ -188,7 +194,7 @@ bool setFaceFieldType
         allBoundaryValues,
         field.boundaryField()[patchi].size(),
         field.boundaryField()[patchi].patch().start()
-       - mesh.nInternalFaces()
+        - mesh.nInternalFaces()
       ).assign(field.boundaryField()[patchi]);
     }
     // Override
@@ -225,7 +231,7 @@ bool setFaceFieldType
     {
       if (nChanged[patchi] > 0)
       {
-        Info<< "    On patch "
+        Info << "    On patch "
           << field.boundaryField()[patchi].patch().name()
           << " set " << nChanged[patchi] << " values" << endl;
         field.boundaryField()[patchi] == SubField<Type>
@@ -233,7 +239,7 @@ bool setFaceFieldType
           allBoundaryValues,
           field.boundaryField()[patchi].size(),
           field.boundaryField()[patchi].patch().start()
-         - mesh.nInternalFaces()
+          - mesh.nInternalFaces()
         );
       }
     }
@@ -244,7 +250,8 @@ bool setFaceFieldType
         "void setFaceFieldType"
         "(const fvMesh& mesh, const labelList& selectedFaces,"
         "Istream& fieldValueStream)"
-      )   << "Failed writing field " << field.name() << exit(FatalError);
+      )
+      << "Failed writing field " << field.name() << exit(FatalError);
     }
   }
   else
@@ -254,12 +261,14 @@ bool setFaceFieldType
       "void setFaceFieldType"
       "(const fvMesh& mesh, const labelList& selectedFaces,"
       "Istream& fieldValueStream)"
-    ) << "Field " << fieldName << " not found" << endl;
+    )
+    << "Field " << fieldName << " not found" << endl;
     // Consume value
     (void)pTraits<Type>(fieldValueStream);
   }
   return true;
 }
+
 class setFaceField
 {
 public:
@@ -281,7 +290,7 @@ public:
     {}
     autoPtr<setFaceField> operator()(Istream& fieldValues) const
     {
-      word fieldType(fieldValues);
+      word fieldType{fieldValues};
       if
       (
        !(
@@ -306,13 +315,14 @@ public:
     }
   };
 };
+
 int main(int argc, char *argv[])
 {
   #include "add_region_option.inc"
   #include "set_root_case.inc"
   #include "create_time.inc"
   #include "create_named_mesh.inc"
-  Info<< "Reading setFieldsDict\n" << endl;
+  Info << "Reading setFieldsDict\n" << endl;
   IOdictionary setFieldsDict
   {
     // IOobject
@@ -326,16 +336,16 @@ int main(int argc, char *argv[])
   };
   if (setFieldsDict.found("defaultFieldValues"))
   {
-    Info<< "Setting field default values" << endl;
+    Info << "Setting field default values" << endl;
     PtrList<setCellField> defaultFieldValues
     (
       setFieldsDict.lookup("defaultFieldValues"),
       setCellField::iNew(mesh, labelList(mesh.nCells()))
     );
-    Info<< endl;
+    Info << endl;
   }
-  Info<< "Setting field region values" << endl;
-  PtrList<entry> regions(setFieldsDict.lookup("regions"));
+  Info << "Setting field region values" << endl;
+  PtrList<entry> regions{setFieldsDict.lookup("regions")};
   FOR_ALL(regions, regionI)
   {
     const entry& region = regions[regionI];
@@ -380,6 +390,6 @@ int main(int argc, char *argv[])
       };
     }
   }
-  Info<< "\nEnd\n" << endl;
+  Info << "\nEnd\n" << endl;
   return 0;
 }

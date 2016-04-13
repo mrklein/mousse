@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "poly_boundary_mesh_entries.hpp"
+
+
 namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(polyBoundaryMeshEntries, 0);

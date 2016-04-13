@@ -10,12 +10,17 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "word.hpp"
 #include "transform.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(arraySet, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, arraySet, word);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(arraySet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, arraySet, word);
+
 }
+
+
 // Private Member Functions 
 void mousse::arraySet::calcSamples
 (
@@ -27,38 +32,27 @@ void mousse::arraySet::calcSamples
 ) const
 {
   const meshSearch& queryMesh = searchEngine();
-  label nTotalSamples
-  (
-    pointsDensity_.x()
-   *pointsDensity_.y()
-   *pointsDensity_.z()
-  );
-  List<point> sampleCoords(nTotalSamples);
+  label nTotalSamples(pointsDensity_.x()*pointsDensity_.y()*pointsDensity_.z());
+  List<point> sampleCoords{nTotalSamples};
   const scalar deltax = spanBox_.x()/(pointsDensity_.x() + 1);
   const scalar deltay = spanBox_.y()/(pointsDensity_.y() + 1);
   const scalar deltaz = spanBox_.z()/(pointsDensity_.z() + 1);
-  label p(0);
-  for (label k=1; k<=pointsDensity_.z(); k++)
-  {
-    for (label j=1; j<=pointsDensity_.y(); j++)
-    {
-      for (label i=1; i<=pointsDensity_.x(); i++)
-      {
-        vector t(deltax*i , deltay*j, deltaz*k);
+  label p{0};
+  for (label k=1; k<=pointsDensity_.z(); k++) {
+    for (label j=1; j<=pointsDensity_.y(); j++) {
+      for (label i=1; i<=pointsDensity_.x(); i++) {
+        vector t{deltax*i , deltay*j, deltaz*k};
         sampleCoords[p] = coordSys_.origin() + t;
         p++;
       }
     }
   }
-  FOR_ALL(sampleCoords, i)
-  {
+  FOR_ALL(sampleCoords, i) {
     sampleCoords[i] = transform(coordSys_.R().R(), sampleCoords[i]);
   }
-  FOR_ALL(sampleCoords, sampleI)
-  {
+  FOR_ALL(sampleCoords, sampleI) {
     label cellI = queryMesh.findCell(sampleCoords[sampleI]);
-    if (cellI != -1)
-    {
+    if (cellI != -1) {
       samplingPts.append(sampleCoords[sampleI]);
       samplingCells.append(cellI);
       samplingFaces.append(-1);
@@ -67,6 +61,8 @@ void mousse::arraySet::calcSamples
     }
   }
 }
+
+
 void mousse::arraySet::genSamples()
 {
   // Storage for sample points
@@ -97,6 +93,8 @@ void mousse::arraySet::genSamples()
     samplingCurveDist
   );
 }
+
+
 // Constructors 
 mousse::arraySet::arraySet
 (
@@ -109,17 +107,18 @@ mousse::arraySet::arraySet
   const Vector<scalar>& spanBox
 )
 :
-  sampledSet(name, mesh, searchEngine, axis),
-  coordSys_(origin),
-  pointsDensity_(pointsDensity),
-  spanBox_(spanBox)
+  sampledSet{name, mesh, searchEngine, axis},
+  coordSys_{origin},
+  pointsDensity_{pointsDensity},
+  spanBox_{spanBox}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 mousse::arraySet::arraySet
 (
   const word& name,
@@ -128,17 +127,19 @@ mousse::arraySet::arraySet
   const dictionary& dict
 )
 :
-  sampledSet(name, mesh, searchEngine, dict),
-  coordSys_(dict),
-  pointsDensity_(dict.lookup("pointsDensity")),
-  spanBox_(dict.lookup("spanBox"))
+  sampledSet{name, mesh, searchEngine, dict},
+  coordSys_{dict},
+  pointsDensity_{dict.lookup("pointsDensity")},
+  spanBox_{dict.lookup("spanBox")}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 // Destructor 
 mousse::arraySet::~arraySet()
 {}
+

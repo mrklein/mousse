@@ -5,8 +5,9 @@
 #include "empty_point_patch.hpp"
 #include "point_constraint.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(emptyPointPatch, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -17,6 +18,7 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
 );
 
 }
+
 
 // Member Functions
 void mousse::emptyPointPatch::applyConstraint

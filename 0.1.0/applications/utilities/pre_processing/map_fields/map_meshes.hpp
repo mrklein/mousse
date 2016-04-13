@@ -21,7 +21,7 @@ void MapConsistentMesh
 {
   // Create the interpolation scheme
   meshToMesh0 meshToMesh0Interp(meshSource, meshTarget);
-  Info<< nl
+  Info << nl
     << "Consistently creating and mapping fields for time "
     << meshSource.time().timeName() << nl << endl;
   {
@@ -103,7 +103,7 @@ void MapSubMesh
     patchMap,
     cuttingPatches
   };
-  Info<< nl
+  Info << nl
     << "Mapping fields for time " << meshSource.time().timeName()
     << nl << endl;
   {

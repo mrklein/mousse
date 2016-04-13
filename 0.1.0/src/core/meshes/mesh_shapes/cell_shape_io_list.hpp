@@ -7,8 +7,12 @@
 
 #include "cell_shape.hpp"
 #include "iolist.hpp"
-namespace mousse
-{
-  typedef IOList<cellShape> cellShapeIOList;
+
+
+namespace mousse {
+
+typedef IOList<cellShape> cellShapeIOList;
+
 }
+
 #endif

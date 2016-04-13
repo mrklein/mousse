@@ -6,12 +6,17 @@
 #include "indexed_octree.hpp"
 #include "tree_data_cell.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(directMethod, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(meshToMeshMethod, directMethod, components);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(directMethod, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(meshToMeshMethod, directMethod, components);
+
 }
+
+
 // Protected Member Functions 
 bool mousse::directMethod::intersect
 (
@@ -38,19 +43,14 @@ bool mousse::directMethod::findInitialSeeds
   const cellList& srcCells = src_.cells();
   const faceList& srcFaces = src_.faces();
   const pointField& srcPts = src_.points();
-  for (label i = startSeedI; i < srcCellIDs.size(); i++)
-  {
+  for (label i = startSeedI; i < srcCellIDs.size(); i++) {
     label srcI = srcCellIDs[i];
-    if (mapFlag[srcI])
-    {
-      const pointField
-        pts(srcCells[srcI].points(srcFaces, srcPts).xfer());
-      FOR_ALL(pts, ptI)
-      {
+    if (mapFlag[srcI]) {
+      const pointField pts{srcCells[srcI].points(srcFaces, srcPts).xfer()};
+      FOR_ALL(pts, ptI) {
         const point& pt = pts[ptI];
         label tgtI = tgt_.cellTree().findInside(pt);
-        if (tgtI != -1 && intersect(srcI, tgtI))
-        {
+        if (tgtI != -1 && intersect(srcI, tgtI)) {
           srcSeedI = srcI;
           tgtSeedI = tgtI;
           return true;
@@ -58,12 +58,13 @@ bool mousse::directMethod::findInitialSeeds
       }
     }
   }
-  if (debug)
-  {
-    Pout<< "could not find starting seed" << endl;
+  if (debug) {
+    Pout << "could not find starting seed" << endl;
   }
   return false;
 }
+
+
 void mousse::directMethod::calculateAddressing
 (
   labelListList& srcToTgtCellAddr,
@@ -78,16 +79,15 @@ void mousse::directMethod::calculateAddressing
 )
 {
   // store a list of src cells already mapped
-  labelList srcTgtSeed(src_.nCells(), -1);
-  List<DynamicList<label> > srcToTgt(src_.nCells());
-  List<DynamicList<label> > tgtToSrc(tgt_.nCells());
-  DynamicList<label> srcSeeds(10);
+  labelList srcTgtSeed{src_.nCells(), -1};
+  List<DynamicList<label>> srcToTgt{src_.nCells()};
+  List<DynamicList<label>> tgtToSrc{tgt_.nCells()};
+  DynamicList<label> srcSeeds{10};
   const scalarField& srcVc = src_.cellVolumes();
   const scalarField& tgtVc = tgt_.cellVolumes();
   label srcCellI = srcSeedI;
   label tgtCellI = tgtSeedI;
-  do
-  {
+  do {
     // store src/tgt cell pair
     srcToTgt[srcCellI].append(tgtCellI);
     tgtToSrc[tgtCellI].append(srcCellI);
@@ -104,20 +104,19 @@ void mousse::directMethod::calculateAddressing
       srcCellI,
       tgtCellI
     );
-  }
-  while (srcCellI >= 0);
+  } while (srcCellI >= 0);
   // transfer addressing into persistent storage
-  FOR_ALL(srcToTgtCellAddr, i)
-  {
+  FOR_ALL(srcToTgtCellAddr, i) {
     srcToTgtCellWght[i] = scalarList(srcToTgt[i].size(), srcVc[i]);
     srcToTgtCellAddr[i].transfer(srcToTgt[i]);
   }
-  FOR_ALL(tgtToSrcCellAddr, i)
-  {
+  FOR_ALL(tgtToSrcCellAddr, i) {
     tgtToSrcCellWght[i] = scalarList(tgtToSrc[i].size(), tgtVc[i]);
     tgtToSrcCellAddr[i].transfer(tgtToSrc[i]);
   }
 }
+
+
 void mousse::directMethod::appendToDirectSeeds
 (
   boolList& mapFlag,
@@ -130,52 +129,38 @@ void mousse::directMethod::appendToDirectSeeds
   const labelList& srcNbr = src_.cellCells()[srcSeedI];
   const labelList& tgtNbr = tgt_.cellCells()[tgtSeedI];
   const vectorField& srcCentre = src_.cellCentres();
-  FOR_ALL(srcNbr, i)
-  {
+  FOR_ALL(srcNbr, i) {
     label srcI = srcNbr[i];
-    if (mapFlag[srcI] && (srcTgtSeed[srcI] == -1))
-    {
-      // source cell srcI not yet mapped
-      // identfy if target cell exists for source cell srcI
-      bool found = false;
-      FOR_ALL(tgtNbr, j)
-      {
-        label tgtI = tgtNbr[j];
-        if
-        (
-          tgt_.pointInCell
-          (
-            srcCentre[srcI],
-            tgtI,
-            polyMesh::FACE_PLANES
-          )
-        )
-        {
-          // new match - append to lists
-          found = true;
-          srcTgtSeed[srcI] = tgtI;
-          srcSeeds.append(srcI);
-          break;
-        }
-      }
-      if (!found)
-      {
-        // no match available for source cell srcI
-        mapFlag[srcI] = false;
-      }
+    if (mapFlag[srcI] || (srcTgtSeed[srcI] != -1))
+      continue;
+    // source cell srcI not yet mapped
+    // identfy if target cell exists for source cell srcI
+    bool found = false;
+    FOR_ALL(tgtNbr, j) {
+      label tgtI = tgtNbr[j];
+      if (!tgt_.pointInCell(srcCentre[srcI], tgtI, polyMesh::FACE_PLANES))
+        continue;
+      // new match - append to lists
+      found = true;
+      srcTgtSeed[srcI] = tgtI;
+      srcSeeds.append(srcI);
+      break;
+    }
+    if (!found) {
+      // no match available for source cell srcI
+      mapFlag[srcI] = false;
     }
   }
-  if (srcSeeds.size())
-  {
+  if (srcSeeds.size()) {
     srcSeedI = srcSeeds.remove();
     tgtSeedI = srcTgtSeed[srcSeedI];
-  }
-  else
-  {
+  } else {
     srcSeedI = -1;
     tgtSeedI = -1;
   }
 }
+
+
 // Constructors 
 mousse::directMethod::directMethod
 (
@@ -183,11 +168,15 @@ mousse::directMethod::directMethod
   const polyMesh& tgt
 )
 :
-  meshToMeshMethod(src, tgt)
+  meshToMeshMethod{src, tgt}
 {}
+
+
 // Destructor 
 mousse::directMethod::~directMethod()
 {}
+
+
 // Member Functions 
 void mousse::directMethod::calculate
 (
@@ -197,37 +186,22 @@ void mousse::directMethod::calculate
   scalarListList& tgtToSrcWght
 )
 {
-  bool ok = initialise
-  (
-    srcToTgtAddr,
-    srcToTgtWght,
-    tgtToSrcAddr,
-    tgtToSrcWght
-  );
-  if (!ok)
-  {
+  bool ok = initialise(srcToTgtAddr, srcToTgtWght, tgtToSrcAddr, tgtToSrcWght);
+  if (!ok) {
     return;
   }
   // (potentially) participating source mesh cells
-  const labelList srcCellIDs(maskCells());
+  const labelList srcCellIDs{maskCells()};
   // list to keep track of whether src cell can be mapped
-  boolList mapFlag(src_.nCells(), false);
-  UIndirectList<bool>(mapFlag, srcCellIDs) = true;
+  boolList mapFlag{src_.nCells(), false};
+  UIndirectList<bool>{mapFlag, srcCellIDs} = true;
   // find initial point in tgt mesh
   label srcSeedI = -1;
   label tgtSeedI = -1;
   label startSeedI = 0;
-  bool startWalk =
-    findInitialSeeds
-    (
-      srcCellIDs,
-      mapFlag,
-      startSeedI,
-      srcSeedI,
-      tgtSeedI
-    );
-  if (startWalk)
-  {
+  bool startWalk = findInitialSeeds(srcCellIDs, mapFlag, startSeedI, srcSeedI,
+                                    tgtSeedI);
+  if (startWalk) {
     calculateAddressing
     (
       srcToTgtAddr,
@@ -240,12 +214,11 @@ void mousse::directMethod::calculate
       mapFlag,
       startSeedI
     );
-  }
-  else
-  {
+  } else {
     // if meshes are collocated, after inflating the source mesh bounding
     // box tgt mesh cells may be transferred, but may still not overlap
     // with the source mesh
     return;
   }
 }
+

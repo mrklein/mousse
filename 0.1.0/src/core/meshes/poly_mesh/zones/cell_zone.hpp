@@ -12,20 +12,17 @@
 //   primitive mesh.  For quick check whether a cell belongs to the zone use
 //   the lookup mechanism in cellZoneMesh, where all the zoned cells are
 //   registered with their zone number.
-// SourceFiles
-//   cell_zone.cpp
-//   cell_zone_new.cpp
-
 
 #include "zone.hpp"
 #include "cell_zone_mesh_fwd.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Forward declaration of friend functions and operators
 class cellZone;
 Ostream& operator<<(Ostream&, const cellZone&);
+
 
 class cellZone
 :

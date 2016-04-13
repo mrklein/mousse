@@ -44,18 +44,13 @@
 // See Also
 //   mousse::Euler
 //   mousse::backward
-// SourceFiles
-//   crank_nicolson_ddt_scheme.cpp
-
 
 #include "ddt_scheme.hpp"
 #include "ioobject.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Type>
 class CrankNicolsonDdtScheme
@@ -163,8 +158,7 @@ public:
       ddtScheme<Type>{mesh, is},
       ocCoeff_{readScalar(is)}
     {
-      if (ocCoeff_ < 0 || ocCoeff_ > 1)
-      {
+      if (ocCoeff_ < 0 || ocCoeff_ > 1) {
         FATAL_IO_ERROR_IN
         (
           "CrankNicolsonDdtScheme(const fvMesh& mesh, Istream& is)",
@@ -314,7 +308,7 @@ tmp<surfaceScalarField> CrankNicolsonDdtScheme<scalar>::fvcDdtPhiCorr
 
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "crank_nicolson_ddt_scheme.cpp"
-#endif
+
+#include "crank_nicolson_ddt_scheme.ipp"
+
 #endif

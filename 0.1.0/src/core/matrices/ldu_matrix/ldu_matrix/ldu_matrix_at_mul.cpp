@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "ldu_matrix.hpp"
+
+
 void mousse::lduMatrix::Amul
 (
   scalarField& Apsi,
@@ -30,13 +32,11 @@ void mousse::lduMatrix::Amul
     cmpt
   );
   const label nCells = diag().size();
-  for (label cell=0; cell<nCells; cell++)
-  {
+  for (label cell=0; cell<nCells; cell++) {
     ApsiPtr[cell] = diagPtr[cell]*psiPtr[cell];
   }
   const label nFaces = upper().size();
-  for (label face=0; face<nFaces; face++)
-  {
+  for (label face=0; face<nFaces; face++) {
     ApsiPtr[uPtr[face]] += lowerPtr[face]*psiPtr[lPtr[face]];
     ApsiPtr[lPtr[face]] += upperPtr[face]*psiPtr[uPtr[face]];
   }
@@ -51,6 +51,8 @@ void mousse::lduMatrix::Amul
   );
   tpsi.clear();
 }
+
+
 void mousse::lduMatrix::Tmul
 (
   scalarField& Tpsi,
@@ -78,13 +80,11 @@ void mousse::lduMatrix::Tmul
     cmpt
   );
   const label nCells = diag().size();
-  for (label cell=0; cell<nCells; cell++)
-  {
+  for (label cell=0; cell<nCells; cell++) {
     TpsiPtr[cell] = diagPtr[cell]*psiPtr[cell];
   }
   const label nFaces = upper().size();
-  for (label face=0; face<nFaces; face++)
-  {
+  for (label face=0; face<nFaces; face++) {
     TpsiPtr[uPtr[face]] += upperPtr[face]*psiPtr[lPtr[face]];
     TpsiPtr[lPtr[face]] += lowerPtr[face]*psiPtr[uPtr[face]];
   }
@@ -99,6 +99,8 @@ void mousse::lduMatrix::Tmul
   );
   tpsi.clear();
 }
+
+
 void mousse::lduMatrix::sumA
 (
   scalarField& sumA,
@@ -114,30 +116,27 @@ void mousse::lduMatrix::sumA
   const scalar* __restrict__ upperPtr = upper().begin();
   const label nCells = diag().size();
   const label nFaces = upper().size();
-  for (label cell=0; cell<nCells; cell++)
-  {
+  for (label cell=0; cell<nCells; cell++) {
     sumAPtr[cell] = diagPtr[cell];
   }
-  for (label face=0; face<nFaces; face++)
-  {
+  for (label face=0; face<nFaces; face++) {
     sumAPtr[uPtr[face]] += lowerPtr[face];
     sumAPtr[lPtr[face]] += upperPtr[face];
   }
   // Add the interface internal coefficients to diagonal
   // and the interface boundary coefficients to the sum-off-diagonal
-  FOR_ALL(interfaces, patchI)
-  {
-    if (interfaces.set(patchI))
-    {
+  FOR_ALL(interfaces, patchI) {
+    if (interfaces.set(patchI)) {
       const labelUList& pa = lduAddr().patchAddr(patchI);
       const scalarField& pCoeffs = interfaceBouCoeffs[patchI];
-      FOR_ALL(pa, face)
-      {
+      FOR_ALL(pa, face) {
         sumAPtr[pa[face]] -= pCoeffs[face];
       }
     }
   }
 }
+
+
 void mousse::lduMatrix::residual
 (
   scalarField& rA,
@@ -166,11 +165,9 @@ void mousse::lduMatrix::residual
   // have a sign as if they are on the r.h.s. of the matrix.
   // To compensate for this, it is necessary to turn the
   // sign of the contribution.
-  FieldField<Field, scalar> mBouCoeffs(interfaceBouCoeffs.size());
-  FOR_ALL(mBouCoeffs, patchi)
-  {
-    if (interfaces.set(patchi))
-    {
+  FieldField<Field, scalar> mBouCoeffs{interfaceBouCoeffs.size()};
+  FOR_ALL(mBouCoeffs, patchi) {
+    if (interfaces.set(patchi)) {
       mBouCoeffs.set(patchi, -interfaceBouCoeffs[patchi]);
     }
   }
@@ -184,13 +181,11 @@ void mousse::lduMatrix::residual
     cmpt
   );
   const label nCells = diag().size();
-  for (label cell=0; cell<nCells; cell++)
-  {
+  for (label cell=0; cell<nCells; cell++) {
     rAPtr[cell] = sourcePtr[cell] - diagPtr[cell]*psiPtr[cell];
   }
   const label nFaces = upper().size();
-  for (label face=0; face<nFaces; face++)
-  {
+  for (label face=0; face<nFaces; face++) {
     rAPtr[uPtr[face]] -= lowerPtr[face]*psiPtr[lPtr[face]];
     rAPtr[lPtr[face]] -= upperPtr[face]*psiPtr[uPtr[face]];
   }
@@ -204,6 +199,8 @@ void mousse::lduMatrix::residual
     cmpt
   );
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::lduMatrix::residual
 (
   const scalarField& psi,
@@ -213,18 +210,16 @@ mousse::tmp<mousse::scalarField> mousse::lduMatrix::residual
   const direction cmpt
 ) const
 {
-  tmp<scalarField> trA(new scalarField(psi.size()));
+  tmp<scalarField> trA{new scalarField(psi.size())};
   residual(trA(), psi, source, interfaceBouCoeffs, interfaces, cmpt);
   return trA;
 }
+
+
 mousse::tmp<mousse::scalarField > mousse::lduMatrix::H1() const
 {
-  tmp<scalarField > tH1
-  (
-    new scalarField(lduAddr().size(), 0.0)
-  );
-  if (lowerPtr_ || upperPtr_)
-  {
+  tmp<scalarField> tH1{new scalarField{lduAddr().size(), 0.0}};
+  if (lowerPtr_ || upperPtr_) {
     scalarField& H1_ = tH1();
     scalar* __restrict__ H1Ptr = H1_.begin();
     const label* __restrict__ uPtr = lduAddr().upperAddr().begin();
@@ -232,11 +227,11 @@ mousse::tmp<mousse::scalarField > mousse::lduMatrix::H1() const
     const scalar* __restrict__ lowerPtr = lower().begin();
     const scalar* __restrict__ upperPtr = upper().begin();
     const label nFaces = upper().size();
-    for (label face=0; face<nFaces; face++)
-    {
+    for (label face=0; face<nFaces; face++) {
       H1Ptr[uPtr[face]] -= lowerPtr[face];
       H1Ptr[lPtr[face]] -= upperPtr[face];
     }
   }
   return tH1;
 }
+

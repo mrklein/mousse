@@ -8,12 +8,13 @@
 //   mousse::searchableCylinder
 // Description
 //   Searching on cylinder
-// SourceFiles
-//   searchable_cylinder.cpp
+
 #include "tree_bound_box.hpp"
 #include "searchable_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class searchableCylinder
 :

@@ -7,8 +7,12 @@
 
 #include "point_index_hit.hpp"
 #include "iolist.hpp"
-namespace mousse
-{
-  typedef IOList<pointIndexHit> pointIndexHitIOList;
+
+
+namespace mousse {
+
+typedef IOList<pointIndexHit> pointIndexHitIOList;
+
 }
+
 #endif

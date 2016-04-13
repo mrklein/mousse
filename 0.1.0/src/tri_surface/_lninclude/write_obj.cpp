@@ -1,1 +1,1 @@
-../tri_surface/interfaces/write_obj.cpp
+../interfaces/write_obj.cpp

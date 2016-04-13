@@ -8,11 +8,6 @@
 //   mousse::GAMGAgglomeration
 // Description
 //   Geometric agglomerated algebraic multigrid agglomeration class.
-// SourceFiles
-//   gamg_agglomeration.cpp
-//   gamg_agglomeration_templates.cpp
-//   gamg_agglomerate_ldu_addressing.cpp
-
 
 #include "_mesh_object.hpp"
 #include "ldu_primitive_mesh.hpp"
@@ -21,13 +16,14 @@
 #include "run_time_selection_tables.hpp"
 #include "bool_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class lduMesh;
 class lduMatrix;
 class mapDistribute;
 class GAMGProcAgglomeration;
+
 
 class GAMGAgglomeration
 :
@@ -434,7 +430,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "gamg_agglomeration_templates.cpp"
-#endif
+#include "gamg_agglomeration.ipp"
+
 #endif

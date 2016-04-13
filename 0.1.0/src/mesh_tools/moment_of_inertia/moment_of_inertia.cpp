@@ -4,6 +4,8 @@
 
 #include "moment_of_inertia.hpp"
 #include "poly_mesh_tet_decomposition.hpp"
+
+
 // Static Member Functions
 void mousse::momentOfInertia::massPropertiesSolid
 (
@@ -51,8 +53,7 @@ void mousse::momentOfInertia::massPropertiesSolid
   const scalar r120 = 1.0/120.0;
   // order:  1, x, y, z, x^2, y^2, z^2, xy, yz, zx
   scalarField integrals(10, 0.0);
-  FOR_ALL(triFaces, i)
-  {
+  FOR_ALL(triFaces, i) {
     const triFace& tri(triFaces[i]);
     // vertices of triangle i
     vector v0 = pts[tri[0]];
@@ -136,6 +137,8 @@ void mousse::momentOfInertia::massPropertiesSolid
   mass *= density;
   J *= density;
 }
+
+
 void mousse::momentOfInertia::massPropertiesShell
 (
   const pointField& pts,
@@ -151,15 +154,14 @@ void mousse::momentOfInertia::massPropertiesShell
   cM = vector::zero;
   J = tensor::zero;
   // Find centre of mass
-  FOR_ALL(triFaces, i)
-  {
-    const triFace& tri(triFaces[i]);
+  FOR_ALL(triFaces, i) {
+    const triFace& tri = triFaces[i];
     triPointRef t
-    (
+    {
       pts[tri[0]],
       pts[tri[1]],
       pts[tri[2]]
-    );
+    };
     scalar triMag = t.mag();
     cM +=  triMag*t.centre();
     mass += triMag;
@@ -167,9 +169,8 @@ void mousse::momentOfInertia::massPropertiesShell
   cM /= mass;
   mass *= density;
   // Find inertia around centre of mass
-  FOR_ALL(triFaces, i)
-  {
-    const triFace& tri(triFaces[i]);
+  FOR_ALL(triFaces, i) {
+    const triFace& tri = triFaces[i];
     J += triPointRef
     (
       pts[tri[0]],
@@ -178,6 +179,8 @@ void mousse::momentOfInertia::massPropertiesShell
     ).inertia(cM, density);
   }
 }
+
+
 void mousse::momentOfInertia::massPropertiesSolid
 (
   const triSurface& surf,
@@ -187,13 +190,14 @@ void mousse::momentOfInertia::massPropertiesSolid
   tensor& J
 )
 {
-  triFaceList faces(surf.size());
-  FOR_ALL(surf, i)
-  {
+  triFaceList faces{surf.size()};
+  FOR_ALL(surf, i) {
     faces[i] = triFace(surf[i]);
   }
   massPropertiesSolid(surf.points(), faces, density, mass, cM, J);
 }
+
+
 void mousse::momentOfInertia::massPropertiesShell
 (
   const triSurface& surf,
@@ -203,13 +207,14 @@ void mousse::momentOfInertia::massPropertiesShell
   tensor& J
 )
 {
-  triFaceList faces(surf.size());
-  FOR_ALL(surf, i)
-  {
+  triFaceList faces{surf.size()};
+  FOR_ALL(surf, i) {
     faces[i] = triFace(surf[i]);
   }
   massPropertiesShell(surf.points(), faces, density, mass, cM, J);
 }
+
+
 mousse::tensor mousse::momentOfInertia::applyParallelAxisTheorem
 (
   scalar mass,
@@ -221,22 +226,25 @@ mousse::tensor mousse::momentOfInertia::applyParallelAxisTheorem
   // The displacement vector (refPt = cM) is the displacement of the
   // new reference point from the centre of mass of the body that
   // the inertia tensor applies to.
-  vector d = (refPt - cM);
+  vector d = {refPt - cM};
   return J + mass*((d & d)*I - d*d);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::momentOfInertia::meshInertia
 (
   const polyMesh& mesh
 )
 {
-  tmp<tensorField> tTf = tmp<tensorField>(new tensorField(mesh.nCells()));
+  tmp<tensorField> tTf = tmp<tensorField>{new tensorField{mesh.nCells()}};
   tensorField& tf = tTf();
-  FOR_ALL(tf, cI)
-  {
+  FOR_ALL(tf, cI) {
     tf[cI] = meshInertia(mesh, cI);
   }
   return tTf;
 }
+
+
 mousse::tensor mousse::momentOfInertia::meshInertia
 (
   const polyMesh& mesh,
@@ -248,9 +256,8 @@ mousse::tensor mousse::momentOfInertia::meshInertia
     mesh,
     cellI
   );
-  triFaceList faces(cellTets.size());
-  FOR_ALL(cellTets, cTI)
-  {
+  triFaceList faces{cellTets.size()};
+  FOR_ALL(cellTets, cTI) {
     faces[cTI] = cellTets[cTI].faceTriIs(mesh);
   }
   scalar m = 0.0;
@@ -259,3 +266,4 @@ mousse::tensor mousse::momentOfInertia::meshInertia
   massPropertiesSolid(mesh.points(), faces, 1.0, m, cM, J);
   return J;
 }
+

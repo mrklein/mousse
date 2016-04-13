@@ -8,9 +8,6 @@
 //   mousse::fv::gradScheme
 // Description
 //   Abstract base class for gradient schemes.
-// SourceFiles
-//   grad_scheme.cpp
-
 
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"
@@ -18,13 +15,12 @@
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class fvMesh;
 
-namespace fv
-{
+namespace fv {
 
 template<class Type>
 class gradScheme
@@ -130,28 +126,26 @@ public:
 };
 
 }  // namespace fv
-
 }  // namespace mousse
 
 // Add the patch constructor functions to the hash tables
 #define MAKE_FV_GRAD_TYPE_SCHEME(SS, Type)                                    \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::fv::SS<mousse::Type>, 0); \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    namespace fv                                                              \
-    {                                                                         \
+  namespace mousse {                                                          \
+  namespace fv {                                                              \
       gradScheme<Type>::addIstreamConstructorToTable<SS<Type> >               \
         add##SS##Type##IstreamConstructorToTable_;                            \
-    }                                                                         \
+  }                                                                           \
   }
+
 
 #define MAKE_FV_GRAD_SCHEME(SS)                                               \
                                                                               \
 MAKE_FV_GRAD_TYPE_SCHEME(SS, scalar)                                          \
 MAKE_FV_GRAD_TYPE_SCHEME(SS, vector)
 
-#ifdef NoRepository
-#   include "grad_scheme.cpp"
-#endif
+
+#include "grad_scheme.ipp"
+
 #endif

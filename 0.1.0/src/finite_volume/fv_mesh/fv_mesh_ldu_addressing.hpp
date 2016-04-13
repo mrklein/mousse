@@ -8,16 +8,14 @@
 //   mousse::fvMeshLduAddressing
 // Description
 //   mousse::fvMeshLduAddressing
-// SourceFiles
-//   fv_mesh_ldu_addressing.cpp
-
 
 #include "ldu_addressing.hpp"
 #include "fv_mesh.hpp"
 #include "global_mesh_data.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class fvMeshLduAddressing
 :
   public lduAddressing
@@ -40,17 +38,16 @@ public:
       lowerAddr_
       {
         labelList::subList
-        (
+        {
           mesh.faceOwner(),
           mesh.nInternalFaces()
-        )
+        }
       },
-      upperAddr_(mesh.faceNeighbour()),
-      patchAddr_(mesh.boundary().size()),
-      patchSchedule_(mesh.globalData().patchSchedule())
+      upperAddr_{mesh.faceNeighbour()},
+      patchAddr_{mesh.boundary().size()},
+      patchSchedule_{mesh.globalData().patchSchedule()}
     {
-      FOR_ALL(mesh.boundary(), patchI)
-      {
+      FOR_ALL(mesh.boundary(), patchI) {
         patchAddr_[patchI] = &mesh.boundary()[patchI].faceCells();
       }
     }

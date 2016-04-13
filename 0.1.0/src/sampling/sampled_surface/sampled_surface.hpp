@@ -21,9 +21,7 @@
 //   update() is called before the surface is used.  The update() method
 //   implementation should do nothing when the surface is already
 //   up-to-date.
-// SourceFiles
-//   sampled_surface.cpp
-//   sampled_surface_templates.cpp
+
 #include "point_field.hpp"
 #include "word.hpp"
 #include "label_list.hpp"
@@ -37,8 +35,10 @@
 #include "poly_mesh.hpp"
 #include "coordinate_systems.hpp"
 #include "interpolation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sampledSurface
 {
   // Private data
@@ -80,11 +80,11 @@ class sampledSurface
     void project
     (
       Field<ReturnType>&,
-      const tmp<Field<Type> >&
+      const tmp<Field<Type>>&
     ) const;
     //- Project field onto surface
     template<class ReturnType, class Type>
-    tmp<Field<ReturnType> > project(const tmp<Field<Type> >&) const;
+    tmp<Field<ReturnType>> project(const tmp<Field<Type>>&) const;
 protected:
   // Protected Member functions
     virtual void clearGeom() const;
@@ -196,26 +196,26 @@ public:
     Type integrate(const Field<Type>&) const;
     //- Integration of a field across the surface
     template<class Type>
-    Type integrate(const tmp<Field<Type> >&) const;
+    Type integrate(const tmp<Field<Type>>&) const;
     //- Area-averaged value of a field across the surface
     template<class Type>
     Type average(const Field<Type>&) const;
     //- Area-averaged value of a field across the surface
     template<class Type>
-    Type average(const tmp<Field<Type> >&) const;
+    Type average(const tmp<Field<Type>>&) const;
     //- Project field onto surface
-    tmp<Field<scalar> > project(const Field<scalar>&) const;
+    tmp<Field<scalar>> project(const Field<scalar>&) const;
     //- Project field onto surface
-    tmp<Field<scalar> > project(const Field<vector>&) const;
+    tmp<Field<scalar>> project(const Field<vector>&) const;
     //- Project field onto surface
-    tmp<Field<vector> > project(const Field<sphericalTensor>&) const;
+    tmp<Field<vector>> project(const Field<sphericalTensor>&) const;
     //- Project field onto surface
-    tmp<Field<vector> > project(const Field<symmTensor>&) const;
+    tmp<Field<vector>> project(const Field<symmTensor>&) const;
     //- Project field onto surface
-    tmp<Field<vector> > project(const Field<tensor>&) const;
+    tmp<Field<vector>> project(const Field<tensor>&) const;
     //- Interpolate from points to cell centre
     template<class Type>
-    tmp<GeometricField<Type, fvPatchField, volMesh> > pointAverage
+    tmp<GeometricField<Type, fvPatchField, volMesh>> pointAverage
     (
       const GeometricField<Type, pointPatchField, pointMesh>& pfld
     ) const;
@@ -306,8 +306,9 @@ public:
     //- Ostream operator
     friend Ostream& operator<<(Ostream&, const sampledSurface&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_surface_templates.cpp"
-#endif
+
+#include "sampled_surface.ipp"
+
 #endif

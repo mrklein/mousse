@@ -8,14 +8,17 @@
 //   mousse::fvBoundaryMesh
 // Description
 //   mousse::fvBoundaryMesh
-// SourceFiles
-//   fv_boundary_mesh.cpp
+
 #include "fv_patch_list.hpp"
 #include "ldu_interface_ptrs_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
 class polyBoundaryMesh;
+
+
 class fvBoundaryMesh
 :
   public fvPatchList
@@ -24,10 +27,6 @@ class fvBoundaryMesh
     //- Reference to mesh
     const fvMesh& mesh_;
   // Private Member Functions
-    //- Disable default copy construct
-    fvBoundaryMesh(const fvBoundaryMesh&);
-    //- Disallow assignment
-    void operator=(const fvBoundaryMesh&);
     //- Add fvPatches corresponding to the given polyBoundaryMesh
     void addPatches(const polyBoundaryMesh&);
 protected:
@@ -40,6 +39,10 @@ public:
     fvBoundaryMesh(const fvMesh&);
     //- Construct from polyBoundaryMesh
     fvBoundaryMesh(const fvMesh&, const polyBoundaryMesh&);
+    //- Disable default copy construct
+    fvBoundaryMesh(const fvBoundaryMesh&) = delete;
+    //- Disallow assignment
+    void operator=(const fvBoundaryMesh&) = delete;
   // Member Functions
     // Access
       //- Return the mesh reference

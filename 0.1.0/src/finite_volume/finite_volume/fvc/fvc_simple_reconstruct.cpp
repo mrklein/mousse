@@ -5,10 +5,11 @@
 #include "fvc_reconstruct.hpp"
 #include "fv_mesh.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
-namespace fvc
-{
+
+
+namespace mousse {
+namespace fvc {
+
 template<class Type>
 tmp
 <
@@ -29,30 +30,24 @@ reconstruct
   const volVectorField& C = mesh.C();
   const surfaceVectorField& Cf = mesh.Cf();
   tmp<GeometricField<GradType, fvPatchField, volMesh> > treconField
-  (
+  {
     new GeometricField<GradType, fvPatchField, volMesh>
-    (
-      IOobject
-      (
+    {
+      {
         "reconstruct("+ssf.name()+')',
         ssf.instance(),
         mesh,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       mesh,
-      dimensioned<GradType>
-      (
-        "0",
-        ssf.dimensions()/dimArea,
-        pTraits<GradType>::zero
-      ),
+      // dimensioned<GradType>
+      {"0", ssf.dimensions()/dimArea, pTraits<GradType>::zero},
       zeroGradientFvPatchField<GradType>::typeName
-    )
-  );
+    }
+  };
   Field<GradType>& rf = treconField();
-  FOR_ALL(owner, facei)
-  {
+  FOR_ALL(owner, facei) {
     label own = owner[facei];
     label nei = neighbour[facei];
     rf[own] += (Cf[facei] - C[own])*ssf[facei];
@@ -60,13 +55,11 @@ reconstruct
   }
   const typename GeometricField<Type, fvsPatchField, surfaceMesh>::
   GeometricBoundaryField& bsf = ssf.boundaryField();
-  FOR_ALL(bsf, patchi)
-  {
+  FOR_ALL(bsf, patchi) {
     const fvsPatchField<Type>& psf = bsf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     const vectorField& pCf = Cf.boundaryField()[patchi];
-    FOR_ALL(pOwner, pFacei)
-    {
+    FOR_ALL(pOwner, pFacei) {
       label own = pOwner[pFacei];
       rf[own] += (pCf[pFacei] - C[own])*psf[pFacei];
     }
@@ -75,6 +68,8 @@ reconstruct
   treconField().correctBoundaryConditions();
   return treconField;
 }
+
+
 template<class Type>
 tmp
 <
@@ -90,11 +85,12 @@ reconstruct
 {
   typedef typename outerProduct<vector, Type>::type GradType;
   tmp<GeometricField<GradType, fvPatchField, volMesh> > tvf
-  (
+  {
     fvc::reconstruct(tssf())
-  );
+  };
   tssf.clear();
   return tvf;
 }
+
 }  // namespace fvc
 }  // namespace mousse

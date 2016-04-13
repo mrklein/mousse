@@ -1,1 +1,1 @@
-../region_coupled/gamg/interfaces/region_coupled_gamg_interface/region_coupled_gamg_interface.cpp
+../region_coupled/gamg/region_coupled_gamg_interface.cpp

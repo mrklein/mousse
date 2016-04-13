@@ -22,11 +22,12 @@
 //     value           uniform 0;
 //   }
 //   \endverbatim
-// SourceFiles
-//   pressure_inlet_uniform_velocity_fv_patch_vector_field.cpp
+
 #include "pressure_inlet_velocity_fv_patch_vector_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pressureInletUniformVelocityFvPatchVectorField
 :
   public pressureInletVelocityFvPatchVectorField
@@ -66,9 +67,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new pressureInletUniformVelocityFvPatchVectorField(*this)
-      );
+      {
+        new pressureInletUniformVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     pressureInletUniformVelocityFvPatchVectorField
@@ -83,9 +84,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new pressureInletUniformVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new pressureInletUniformVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field

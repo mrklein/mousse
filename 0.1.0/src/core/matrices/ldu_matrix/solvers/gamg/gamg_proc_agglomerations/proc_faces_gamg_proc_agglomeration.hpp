@@ -13,19 +13,19 @@
 //   processor interface a face. This then gets agglomerated using
 //   the pairGAMGAgglomeration algorithm with the number of faces
 //   on the original processor interface as face weight.
-// SourceFiles
-//   proc_faces_gamg_proc_agglomeration.cpp
-
 
 #include "gamg_proc_agglomeration.hpp"
 #include "dynamic_list.hpp"
 #include "label_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class GAMGAgglomeration;
 class lduMesh;
 class lduPrimitiveMesh;
+
+
 class procFacesGAMGProcAgglomeration
 :
   public GAMGProcAgglomeration

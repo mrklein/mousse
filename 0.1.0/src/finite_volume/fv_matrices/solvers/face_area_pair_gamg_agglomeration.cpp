@@ -6,23 +6,29 @@
 #include "fv_mesh.hpp"
 #include "surface_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(faceAreaPairGAMGAgglomeration, 0);
+
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   GAMGAgglomeration,
   faceAreaPairGAMGAgglomeration,
   lduMesh
 );
+
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
   GAMGAgglomeration,
   faceAreaPairGAMGAgglomeration,
   geometry
 );
+
 }
+
 
 // Constructors 
 mousse::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration
@@ -47,6 +53,7 @@ mousse::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration
     )
   );
 }
+
 
 mousse::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration
 (

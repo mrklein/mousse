@@ -8,15 +8,15 @@
 //   mousse::general
 // Description
 //   general distribution model
-// SourceFiles
-//   general.cpp
+
 #include "distribution_model.hpp"
 #include "vector.hpp"
 #include "vector_space.hpp"
-namespace mousse
-{
-namespace distributionModels
-{
+
+
+namespace mousse {
+namespace distributionModels {
+
 class general
 :
   public distributionModel
@@ -41,7 +41,7 @@ public:
     //- Construct and return a clone
     virtual autoPtr<distributionModel> clone() const
     {
-      return autoPtr<distributionModel>(new general(*this));
+      return autoPtr<distributionModel>{new general{*this}};
     }
   //- Destructor
   virtual ~general();

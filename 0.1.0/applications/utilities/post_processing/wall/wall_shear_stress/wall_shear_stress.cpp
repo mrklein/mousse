@@ -6,6 +6,7 @@
 #include "turbulent_transport_model.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
 #include "incompressible/single_phase_transport_model.hpp"
+
 void calcIncompressible
 (
   const fvMesh& mesh,
@@ -28,6 +29,7 @@ void calcIncompressible
       & Reff.boundaryField()[patchI];
   }
 }
+
 void calcCompressible
 (
   const fvMesh& mesh,
@@ -49,7 +51,7 @@ void calcCompressible
     Info<< "    no rho field" << endl;
     return;
   }
-  Info<< "Reading field rho\n" << endl;
+  Info << "Reading field rho\n" << endl;
   volScalarField rho{rhoHeader, mesh};
   #include "compressible_create_phi.inc"
   autoPtr<fluidThermo> pThermo{fluidThermo::New(mesh)};
@@ -67,6 +69,7 @@ void calcCompressible
     ) & Reff.boundaryField()[patchI];
   }
 }
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -78,11 +81,10 @@ int main(int argc, char *argv[])
   FOR_ALL(timeDirs, timeI)
   {
     runTime.setTime(timeDirs[timeI], timeI);
-    Info<< "Time = " << runTime.timeName() << endl;
+    Info << "Time = " << runTime.timeName() << endl;
     mesh.readUpdate();
     volVectorField wallShearStress
     (
-      // IOobject
       {
         "wallShearStress",
         runTime.timeName(),
@@ -91,11 +93,7 @@ int main(int argc, char *argv[])
         IOobject::AUTO_WRITE
       },
       mesh,
-      {
-        "wallShearStress",
-        sqr(dimLength)/sqr(dimTime),
-        vector::zero
-      }
+      {"wallShearStress", sqr(dimLength)/sqr(dimTime), vector::zero}
     );
     IOobject UHeader
     {
@@ -107,7 +105,7 @@ int main(int argc, char *argv[])
     };
     if (UHeader.headerOk())
     {
-      Info<< "Reading field U\n" << endl;
+      Info << "Reading field U\n" << endl;
       volVectorField U{UHeader, mesh};
       if
       (
@@ -128,12 +126,12 @@ int main(int argc, char *argv[])
     }
     else
     {
-      Info<< "    no U field" << endl;
+      Info << "    no U field" << endl;
     }
-    Info<< "Writing wall shear stress to field " << wallShearStress.name()
+    Info << "Writing wall shear stress to field " << wallShearStress.name()
       << nl << endl;
     wallShearStress.write();
   }
-  Info<< "End" << endl;
+  Info << "End" << endl;
   return 0;
 }

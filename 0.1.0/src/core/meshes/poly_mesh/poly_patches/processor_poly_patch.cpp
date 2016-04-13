@@ -17,6 +17,7 @@
 #include "uopstream.hpp"
 #include "uipstream.hpp"
 
+
 namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(processorPolyPatch, 0);
@@ -38,13 +39,15 @@ mousse::processorPolyPatch::processorPolyPatch
   const word& patchType
 )
 :
-  coupledPolyPatch(name, size, start, index, bm, patchType, transform),
-  myProcNo_(myProcNo),
-  neighbProcNo_(neighbProcNo),
-  neighbFaceCentres_(),
-  neighbFaceAreas_(),
-  neighbFaceCellCentres_()
+  coupledPolyPatch{name, size, start, index, bm, patchType, transform},
+  myProcNo_{myProcNo},
+  neighbProcNo_{neighbProcNo},
+  neighbFaceCentres_{},
+  neighbFaceAreas_{},
+  neighbFaceCellCentres_{}
 {}
+
+
 mousse::processorPolyPatch::processorPolyPatch
 (
   const word& name,
@@ -54,26 +57,30 @@ mousse::processorPolyPatch::processorPolyPatch
   const word& patchType
 )
 :
-  coupledPolyPatch(name, dict, index, bm, patchType),
-  myProcNo_(readLabel(dict.lookup("myProcNo"))),
-  neighbProcNo_(readLabel(dict.lookup("neighbProcNo"))),
-  neighbFaceCentres_(),
-  neighbFaceAreas_(),
-  neighbFaceCellCentres_()
+  coupledPolyPatch{name, dict, index, bm, patchType},
+  myProcNo_{static_cast<int>(readLabel(dict.lookup("myProcNo")))},
+  neighbProcNo_{static_cast<int>(readLabel(dict.lookup("neighbProcNo")))},
+  neighbFaceCentres_{},
+  neighbFaceAreas_{},
+  neighbFaceCellCentres_{}
 {}
+
+
 mousse::processorPolyPatch::processorPolyPatch
 (
   const processorPolyPatch& pp,
   const polyBoundaryMesh& bm
 )
 :
-  coupledPolyPatch(pp, bm),
-  myProcNo_(pp.myProcNo_),
-  neighbProcNo_(pp.neighbProcNo_),
-  neighbFaceCentres_(),
-  neighbFaceAreas_(),
-  neighbFaceCellCentres_()
+  coupledPolyPatch{pp, bm},
+  myProcNo_{pp.myProcNo_},
+  neighbProcNo_{pp.neighbProcNo_},
+  neighbFaceCentres_{},
+  neighbFaceAreas_{},
+  neighbFaceCellCentres_{}
 {}
+
+
 mousse::processorPolyPatch::processorPolyPatch
 (
   const processorPolyPatch& pp,
@@ -83,13 +90,15 @@ mousse::processorPolyPatch::processorPolyPatch
   const label newStart
 )
 :
-  coupledPolyPatch(pp, bm, index, newSize, newStart),
-  myProcNo_(pp.myProcNo_),
-  neighbProcNo_(pp.neighbProcNo_),
-  neighbFaceCentres_(),
-  neighbFaceAreas_(),
-  neighbFaceCellCentres_()
+  coupledPolyPatch{pp, bm, index, newSize, newStart},
+  myProcNo_{pp.myProcNo_},
+  neighbProcNo_{pp.neighbProcNo_},
+  neighbFaceCentres_{},
+  neighbFaceAreas_{},
+  neighbFaceCellCentres_{}
 {}
+
+
 mousse::processorPolyPatch::processorPolyPatch
 (
   const processorPolyPatch& pp,
@@ -99,13 +108,14 @@ mousse::processorPolyPatch::processorPolyPatch
   const label newStart
 )
 :
-  coupledPolyPatch(pp, bm, index, mapAddressing, newStart),
-  myProcNo_(pp.myProcNo_),
-  neighbProcNo_(pp.neighbProcNo_),
-  neighbFaceCentres_(),
-  neighbFaceAreas_(),
-  neighbFaceCellCentres_()
+  coupledPolyPatch{pp, bm, index, mapAddressing, newStart},
+  myProcNo_{pp.myProcNo_},
+  neighbProcNo_{pp.neighbProcNo_},
+  neighbFaceCentres_{},
+  neighbFaceAreas_{},
+  neighbFaceCellCentres_{}
 {}
+
 
 // Destructor
 mousse::processorPolyPatch::~processorPolyPatch()
@@ -114,74 +124,71 @@ mousse::processorPolyPatch::~processorPolyPatch()
   neighbEdgesPtr_.clear();
 }
 
+
 // Member Functions
 void mousse::processorPolyPatch::initGeometry(PstreamBuffers& pBufs)
 {
-  if (Pstream::parRun())
-  {
-    UOPstream toNeighbProc(neighbProcNo(), pBufs);
+  if (Pstream::parRun()) {
+    UOPstream toNeighbProc{neighbProcNo(), pBufs};
     toNeighbProc
       << faceCentres()
       << faceAreas()
       << faceCellCentres();
   }
 }
+
+
 void mousse::processorPolyPatch::calcGeometry(PstreamBuffers& pBufs)
 {
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
+
     {
-      UIPstream fromNeighbProc(neighbProcNo(), pBufs);
+      UIPstream fromNeighbProc{neighbProcNo(), pBufs};
       fromNeighbProc
         >> neighbFaceCentres_
         >> neighbFaceAreas_
         >> neighbFaceCellCentres_;
     }
+
     // My normals
-    vectorField faceNormals(size());
+    vectorField faceNormals{size()};
     // Neighbour normals
-    vectorField nbrFaceNormals(neighbFaceAreas_.size());
+    vectorField nbrFaceNormals{neighbFaceAreas_.size()};
     // Face match tolerances
     scalarField tols = calcFaceTol(*this, points(), faceCentres());
     // Calculate normals from areas and check
-    FOR_ALL(faceNormals, facei)
-    {
+    FOR_ALL(faceNormals, facei) {
       scalar magSf = mag(faceAreas()[facei]);
       scalar nbrMagSf = mag(neighbFaceAreas_[facei]);
       scalar avSf = (magSf + nbrMagSf)/2.0;
       // For small face area calculation the results of the area
       // calculation have been found to only be accurate to ~1e-20
-      if (magSf < SMALL || nbrMagSf < SMALL)
-      {
+      if (magSf < SMALL || nbrMagSf < SMALL) {
         // Undetermined normal. Use dummy normal to force separation
         // check.
         faceNormals[facei] = point(1, 0, 0);
         nbrFaceNormals[facei] = -faceNormals[facei];
         tols[facei] = GREAT;
-      }
-      else if (mag(magSf - nbrMagSf) > matchTolerance()*sqr(tols[facei]))
-      {
+      } else if (mag(magSf - nbrMagSf) > matchTolerance()*sqr(tols[facei])) {
         fileName nm
-        (
-          boundaryMesh().mesh().time().path()
-         /name()+"_faces.obj"
-        );
-        Pout<< "processorPolyPatch::calcGeometry : Writing my "
+        {
+          boundaryMesh().mesh().time().path()/name()+"_faces.obj"
+        };
+        Pout << "processorPolyPatch::calcGeometry : Writing my "
           << size()
           << " faces to OBJ file " << nm << endl;
         writeOBJ(nm, *this, points());
         OFstream ccStr
-        (
+        {
           boundaryMesh().mesh().time().path()
           /name() + "_faceCentresConnections.obj"
-        );
-        Pout<< "processorPolyPatch::calcGeometry :"
+        };
+        Pout << "processorPolyPatch::calcGeometry :"
           << " Dumping cell centre lines between"
           << " corresponding face centres to OBJ file" << ccStr.name()
           << endl;
         label vertI = 0;
-        FOR_ALL(faceCentres(), faceI)
-        {
+        FOR_ALL(faceCentres(), faceI) {
           const point& c0 = neighbFaceCentres_[faceI];
           const point& c1 = faceCentres()[faceI];
           writeOBJ(ccStr, c0, c1, vertI);
@@ -209,9 +216,7 @@ void mousse::processorPolyPatch::calcGeometry(PstreamBuffers& pBufs)
         << endl
         << "Rerun with processor debug flag set for"
         << " more information." << exit(FatalError);
-      }
-      else
-      {
+      } else {
         faceNormals[facei] = faceAreas()[facei]/magSf;
         nbrFaceNormals[facei] = neighbFaceAreas_[facei]/nbrMagSf;
       }
@@ -228,6 +233,8 @@ void mousse::processorPolyPatch::calcGeometry(PstreamBuffers& pBufs)
     );
   }
 }
+
+
 void mousse::processorPolyPatch::initMovePoints
 (
   PstreamBuffers& pBufs,
@@ -237,6 +244,8 @@ void mousse::processorPolyPatch::initMovePoints
   polyPatch::movePoints(pBufs, p);
   processorPolyPatch::initGeometry(pBufs);
 }
+
+
 void mousse::processorPolyPatch::movePoints
 (
   PstreamBuffers& pBufs,
@@ -245,32 +254,31 @@ void mousse::processorPolyPatch::movePoints
 {
   processorPolyPatch::calcGeometry(pBufs);
 }
+
+
 void mousse::processorPolyPatch::initUpdateMesh(PstreamBuffers& pBufs)
 {
   polyPatch::initUpdateMesh(pBufs);
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     // Express all points as patch face and index in face.
-    labelList pointFace(nPoints());
-    labelList pointIndex(nPoints());
-    for (label patchPointI = 0; patchPointI < nPoints(); patchPointI++)
-    {
+    labelList pointFace{nPoints()};
+    labelList pointIndex{nPoints()};
+    for (label patchPointI = 0; patchPointI < nPoints(); patchPointI++) {
       label faceI = pointFaces()[patchPointI][0];
       pointFace[patchPointI] = faceI;
       const face& f = localFaces()[faceI];
       pointIndex[patchPointI] = findIndex(f, patchPointI);
     }
     // Express all edges as patch face and index in face.
-    labelList edgeFace(nEdges());
-    labelList edgeIndex(nEdges());
-    for (label patchEdgeI = 0; patchEdgeI < nEdges(); patchEdgeI++)
-    {
+    labelList edgeFace{nEdges()};
+    labelList edgeIndex{nEdges()};
+    for (label patchEdgeI = 0; patchEdgeI < nEdges(); patchEdgeI++) {
       label faceI = edgeFaces()[patchEdgeI][0];
       edgeFace[patchEdgeI] = faceI;
       const labelList& fEdges = faceEdges()[faceI];
       edgeIndex[patchEdgeI] = findIndex(fEdges, patchEdgeI);
     }
-    UOPstream toNeighbProc(neighbProcNo(), pBufs);
+    UOPstream toNeighbProc{neighbProcNo(), pBufs};
     toNeighbProc
       << pointFace
       << pointIndex
@@ -278,18 +286,20 @@ void mousse::processorPolyPatch::initUpdateMesh(PstreamBuffers& pBufs)
       << edgeIndex;
   }
 }
+
+
 void mousse::processorPolyPatch::updateMesh(PstreamBuffers& pBufs)
 {
   // For completeness
   polyPatch::updateMesh(pBufs);
   neighbPointsPtr_.clear();
   neighbEdgesPtr_.clear();
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     labelList nbrPointFace;
     labelList nbrPointIndex;
     labelList nbrEdgeFace;
     labelList nbrEdgeIndex;
+
     {
       // !Note: there is one situation where the opposite points and
       // do not exactly match and that is while we are distributing
@@ -298,70 +308,58 @@ void mousse::processorPolyPatch::updateMesh(PstreamBuffers& pBufs)
       // we have points which will be merged out later but we still
       // need the face connectivity to be correct.
       // So: cannot check here on same points and edges.
-      UIPstream fromNeighbProc(neighbProcNo(), pBufs);
+      UIPstream fromNeighbProc{neighbProcNo(), pBufs};
       fromNeighbProc
         >> nbrPointFace
         >> nbrPointIndex
         >> nbrEdgeFace
         >> nbrEdgeIndex;
     }
+
     // Convert neighbour faces and indices into face back into
     // my edges and points.
     // Convert points.
     // ~~~~~~~~~~~~~~~
-    neighbPointsPtr_.reset(new labelList(nPoints(), -1));
+    neighbPointsPtr_.reset(new labelList{nPoints(), -1});
     labelList& neighbPoints = neighbPointsPtr_();
-    FOR_ALL(nbrPointFace, nbrPointI)
-    {
+    FOR_ALL(nbrPointFace, nbrPointI) {
       // Find face and index in face on this side.
       const face& f = localFaces()[nbrPointFace[nbrPointI]];
       label index = (f.size() - nbrPointIndex[nbrPointI]) % f.size();
       label patchPointI = f[index];
-      if (neighbPoints[patchPointI] == -1)
-      {
+      if (neighbPoints[patchPointI] == -1) {
         // First reference of point
         neighbPoints[patchPointI] = nbrPointI;
-      }
-      else if (neighbPoints[patchPointI] >= 0)
-      {
+      } else if (neighbPoints[patchPointI] >= 0) {
         // Point already visited. Mark as duplicate.
         neighbPoints[patchPointI] = -2;
       }
     }
     // Reset all duplicate entries to -1.
-    FOR_ALL(neighbPoints, patchPointI)
-    {
-      if (neighbPoints[patchPointI] == -2)
-      {
+    FOR_ALL(neighbPoints, patchPointI) {
+      if (neighbPoints[patchPointI] == -2) {
         neighbPoints[patchPointI] = -1;
       }
     }
     // Convert edges.
-    // ~~~~~~~~~~~~~~
-    neighbEdgesPtr_.reset(new labelList(nEdges(), -1));
+    neighbEdgesPtr_.reset(new labelList{nEdges(), -1});
     labelList& neighbEdges = neighbEdgesPtr_();
-    FOR_ALL(nbrEdgeFace, nbrEdgeI)
-    {
+    FOR_ALL(nbrEdgeFace, nbrEdgeI) {
       // Find face and index in face on this side.
       const labelList& f = faceEdges()[nbrEdgeFace[nbrEdgeI]];
       label index = (f.size() - nbrEdgeIndex[nbrEdgeI] - 1) % f.size();
       label patchEdgeI = f[index];
-      if (neighbEdges[patchEdgeI] == -1)
-      {
+      if (neighbEdges[patchEdgeI] == -1) {
         // First reference of edge
         neighbEdges[patchEdgeI] = nbrEdgeI;
-      }
-      else if (neighbEdges[patchEdgeI] >= 0)
-      {
+      } else if (neighbEdges[patchEdgeI] >= 0) {
         // Edge already visited. Mark as duplicate.
         neighbEdges[patchEdgeI] = -2;
       }
     }
     // Reset all duplicate entries to -1.
-    FOR_ALL(neighbEdges, patchEdgeI)
-    {
-      if (neighbEdges[patchEdgeI] == -2)
-      {
+    FOR_ALL(neighbEdges, patchEdgeI) {
+      if (neighbEdges[patchEdgeI] == -2) {
         neighbEdges[patchEdgeI] = -1;
       }
     }
@@ -370,98 +368,89 @@ void mousse::processorPolyPatch::updateMesh(PstreamBuffers& pBufs)
     primitivePatch::clearOut();
   }
 }
+
+
 const mousse::labelList& mousse::processorPolyPatch::neighbPoints() const
 {
-  if (!neighbPointsPtr_.valid())
-  {
+  if (!neighbPointsPtr_.valid()) {
     FATAL_ERROR_IN("processorPolyPatch::neighbPoints() const")
       << "No extended addressing calculated for patch " << name()
       << abort(FatalError);
   }
   return neighbPointsPtr_();
 }
+
+
 const mousse::labelList& mousse::processorPolyPatch::neighbEdges() const
 {
-  if (!neighbEdgesPtr_.valid())
-  {
+  if (!neighbEdgesPtr_.valid()) {
     FATAL_ERROR_IN("processorPolyPatch::neighbEdges() const")
       << "No extended addressing calculated for patch " << name()
       << abort(FatalError);
   }
   return neighbEdgesPtr_();
 }
+
+
 void mousse::processorPolyPatch::initOrder
 (
   PstreamBuffers& pBufs,
   const primitivePatch& pp
 ) const
 {
-  if
-  (
-    !Pstream::parRun()
-  || transform() == NOORDERING
-  )
-  {
+  if (!Pstream::parRun() || transform() == NOORDERING) {
     return;
   }
-  if (debug)
-  {
+  if (debug) {
     fileName nm
-    (
-      boundaryMesh().mesh().time().path()
-     /name()+"_faces.obj"
-    );
-    Pout<< "processorPolyPatch::order : Writing my " << pp.size()
+    {
+      boundaryMesh().mesh().time().path()/name()+"_faces.obj"
+    };
+    Pout << "processorPolyPatch::order : Writing my " << pp.size()
       << " faces to OBJ file " << nm << endl;
     writeOBJ(nm, pp, pp.points());
     // Calculate my face centres
     const pointField& fc = pp.faceCentres();
     OFstream localStr
-    (
-      boundaryMesh().mesh().time().path()
-     /name() + "_localFaceCentres.obj"
-    );
-    Pout<< "processorPolyPatch::order : "
+    {
+      boundaryMesh().mesh().time().path()/name() + "_localFaceCentres.obj"
+    };
+    Pout << "processorPolyPatch::order : "
       << "Dumping " << fc.size()
       << " local faceCentres to " << localStr.name() << endl;
-    FOR_ALL(fc, faceI)
-    {
+    FOR_ALL(fc, faceI) {
       writeOBJ(localStr, fc[faceI]);
     }
   }
-  if (owner())
-  {
-    if (transform() == COINCIDENTFULLMATCH)
-    {
+  if (owner()) {
+    if (transform() == COINCIDENTFULLMATCH) {
       // Pass the patch points and faces across
-      UOPstream toNeighbour(neighbProcNo(), pBufs);
+      UOPstream toNeighbour{neighbProcNo(), pBufs};
       toNeighbour << pp.localPoints()
             << pp.localFaces();
-    }
-    else
-    {
+    } else {
       const pointField& ppPoints = pp.points();
-      pointField anchors(getAnchorPoints(pp, ppPoints, transform()));
+      pointField anchors{getAnchorPoints(pp, ppPoints, transform())};
       // Get the average of the points of each face. This is needed in
       // case the face centroid calculation is incorrect due to the face
       // having a very high aspect ratio.
-      pointField facePointAverages(pp.size(), point::zero);
-      FOR_ALL(pp, fI)
-      {
+      pointField facePointAverages{pp.size(), point::zero};
+      FOR_ALL(pp, fI) {
         const labelList& facePoints = pp[fI];
-        FOR_ALL(facePoints, pI)
-        {
+        FOR_ALL(facePoints, pI) {
           facePointAverages[fI] += ppPoints[facePoints[pI]];
         }
         facePointAverages[fI] /= facePoints.size();
       }
       // Now send all info over to the neighbour
-      UOPstream toNeighbour(neighbProcNo(), pBufs);
+      UOPstream toNeighbour{neighbProcNo(), pBufs};
       toNeighbour << pp.faceCentres() << pp.faceNormals()
             << anchors << facePointAverages;
     }
   }
 }
+
+
 // Returns rotation.
 // + -1 : no match
 // +  0 : match
@@ -477,68 +466,50 @@ mousse::label mousse::processorPolyPatch::matchFace
   scalar& matchDistSqr
 )
 {
-  if (a.size() != b.size())
-  {
+  if (a.size() != b.size()) {
     return -1;
   }
   enum CirculatorBase::direction circulateDirection
     = CirculatorBase::CLOCKWISE;
-  if (!sameOrientation)
-  {
+  if (!sameOrientation) {
     circulateDirection = CirculatorBase::ANTICLOCKWISE;
   }
   label matchFp = -1;
   scalar closestMatchDistSqr = sqr(GREAT);
-  ConstCirculator<face> aCirc(a);
-  ConstCirculator<face> bCirc(b);
-  do
-  {
+  ConstCirculator<face> aCirc{a};
+  ConstCirculator<face> bCirc{b};
+  do {
     const scalar diffSqr = magSqr(aPts[aCirc()] - bPts[bCirc()]);
-    if (diffSqr < absTolSqr)
-    {
+    if (diffSqr < absTolSqr) {
       // Found a matching point. Set the fulcrum of b to the iterator
       ConstCirculator<face> bCirc2 = bCirc;
       ++aCirc;
       bCirc2.setFulcrumToIterator();
-      if (!sameOrientation)
-      {
+      if (!sameOrientation) {
         --bCirc2;
-      }
-      else
-      {
+      } else {
         ++bCirc2;
       }
       matchDistSqr = diffSqr;
-      do
-      {
+      do {
         const scalar diffSqr2 = magSqr(aPts[aCirc()] - bPts[bCirc2()]);
-        if (diffSqr2 > absTolSqr)
-        {
+        if (diffSqr2 > absTolSqr) {
           // No match.
           break;
         }
         matchDistSqr += diffSqr2;
       }
-      while
-      (
-        aCirc.circulate(CirculatorBase::CLOCKWISE),
-        bCirc2.circulate(circulateDirection)
-      );
-      if (!aCirc.circulate())
-      {
-        if (matchDistSqr < closestMatchDistSqr)
-        {
+      while (aCirc.circulate(CirculatorBase::CLOCKWISE),
+             bCirc2.circulate(circulateDirection));
+      if (!aCirc.circulate()) {
+        if (matchDistSqr < closestMatchDistSqr) {
           closestMatchDistSqr = matchDistSqr;
-          if (!sameOrientation)
-          {
+          if (!sameOrientation) {
             matchFp = a.size() - bCirc.nRotations();
-          }
-          else
-          {
+          } else {
             matchFp = bCirc.nRotations();
           }
-          if (closestMatchDistSqr == 0)
-          {
+          if (closestMatchDistSqr == 0) {
             break;
           }
         }
@@ -550,6 +521,8 @@ mousse::label mousse::processorPolyPatch::matchFace
   matchDistSqr = closestMatchDistSqr;
   return matchFp;
 }
+
+
 // Return new ordering. Ordering is -faceMap: for every face index
 // the new face -rotation:for every new face the clockwise shift
 // of the original face. Return false if nothing changes (faceMap
@@ -563,12 +536,7 @@ bool mousse::processorPolyPatch::order
 ) const
 {
   // Note: we only get the faces that originate from internal faces.
-  if
-  (
-    !Pstream::parRun()
-  || transform() == NOORDERING
-  )
-  {
+  if (!Pstream::parRun() || transform() == NOORDERING) {
     return false;
   }
   faceMap.setSize(pp.size());
@@ -576,25 +544,21 @@ bool mousse::processorPolyPatch::order
   rotation.setSize(pp.size());
   rotation = 0;
   bool change = false;
-  if (owner())
-  {
+  if (owner()) {
     // Do nothing (i.e. identical mapping, zero rotation).
     // See comment at top.
-    FOR_ALL(faceMap, patchFaceI)
-    {
+    FOR_ALL(faceMap, patchFaceI) {
       faceMap[patchFaceI] = patchFaceI;
     }
-    if (transform() != COINCIDENTFULLMATCH)
-    {
+    if (transform() != COINCIDENTFULLMATCH) {
       const pointField& ppPoints = pp.points();
-      pointField anchors(getAnchorPoints(pp, ppPoints, transform()));
+      pointField anchors{getAnchorPoints(pp, ppPoints, transform())};
       // Calculate typical distance from face centre
       scalarField tols
-      (
-        matchTolerance()*calcFaceTol(pp, pp.points(), pp.faceCentres())
-      );
-      FOR_ALL(faceMap, patchFaceI)
       {
+        matchTolerance()*calcFaceTol(pp, pp.points(), pp.faceCentres())
+      };
+      FOR_ALL(faceMap, patchFaceI) {
         const point& wantedAnchor = anchors[patchFaceI];
         rotation[patchFaceI] = getRotation
         (
@@ -603,29 +567,27 @@ bool mousse::processorPolyPatch::order
           wantedAnchor,
           tols[patchFaceI]
         );
-        if (rotation[patchFaceI] > 0)
-        {
+        if (rotation[patchFaceI] > 0) {
           change = true;
         }
       }
     }
     return change;
-  }
-  else
-  {
-    if (transform() == COINCIDENTFULLMATCH)
-    {
+  } else {
+    if (transform() == COINCIDENTFULLMATCH) {
       vectorField masterPts;
       faceList masterFaces;
+
       {
-        UIPstream fromNeighbour(neighbProcNo(), pBufs);
+        UIPstream fromNeighbour{neighbProcNo(), pBufs};
         fromNeighbour >> masterPts >> masterFaces;
       }
+
       const pointField& localPts = pp.localPoints();
       const faceList& localFaces = pp.localFaces();
       label nMatches = 0;
-      FOR_ALL(pp, lFaceI)
-      {
+
+      FOR_ALL(pp, lFaceI) {
         const face& localFace = localFaces[lFaceI];
         label faceRotation = -1;
         const scalar absTolSqr = sqr(SMALL);
@@ -633,8 +595,7 @@ bool mousse::processorPolyPatch::order
         scalar matchDistSqr = sqr(GREAT);
         label closestFaceMatch = -1;
         label closestFaceRotation = -1;
-        FOR_ALL(masterFaces, mFaceI)
-        {
+        FOR_ALL(masterFaces, mFaceI) {
           const face& masterFace = masterFaces[mFaceI];
           faceRotation = matchFace
           (
@@ -646,38 +607,27 @@ bool mousse::processorPolyPatch::order
             absTolSqr,
             matchDistSqr
           );
-          if
-          (
-            faceRotation != -1
-          && matchDistSqr < closestMatchDistSqr
-          )
-          {
+          if (faceRotation != -1 && matchDistSqr < closestMatchDistSqr) {
             closestMatchDistSqr = matchDistSqr;
             closestFaceMatch = mFaceI;
             closestFaceRotation = faceRotation;
           }
-          if (closestMatchDistSqr == 0)
-          {
+          if (closestMatchDistSqr == 0) {
             break;
           }
         }
-        if (closestFaceRotation != -1 && closestMatchDistSqr == 0)
-        {
+        if (closestFaceRotation != -1 && closestMatchDistSqr == 0) {
           faceMap[lFaceI] = closestFaceMatch;
           rotation[lFaceI] = closestFaceRotation;
-          if (lFaceI != closestFaceMatch || closestFaceRotation > 0)
-          {
+          if (lFaceI != closestFaceMatch || closestFaceRotation > 0) {
             change = true;
           }
           nMatches++;
-        }
-        else
-        {
-          Pout<< "Number of matches = " << nMatches << " / "
+        } else {
+          Pout << "Number of matches = " << nMatches << " / "
             << pp.size() << endl;
-          pointField pts(localFace.size());
-          FOR_ALL(localFace, pI)
-          {
+          pointField pts{localFace.size()};
+          FOR_ALL(localFace, pI) {
             const label localPtI = localFace[pI];
             pts[pI] = localPts[localPtI];
           }
@@ -687,42 +637,39 @@ bool mousse::processorPolyPatch::order
         }
       }
       return change;
-    }
-    else
-    {
+    } else {
       vectorField masterCtrs;
       vectorField masterNormals;
       vectorField masterAnchors;
       vectorField masterFacePointAverages;
+
       // Receive data from neighbour
       {
-        UIPstream fromNeighbour(neighbProcNo(), pBufs);
+        UIPstream fromNeighbour{neighbProcNo(), pBufs};
         fromNeighbour >> masterCtrs >> masterNormals
                >> masterAnchors >> masterFacePointAverages;
       }
+
       // Calculate typical distance from face centre
       scalarField tols
-      (
-        matchTolerance()*calcFaceTol(pp, pp.points(), pp.faceCentres())
-      );
-      if (debug || masterCtrs.size() != pp.size())
       {
+        matchTolerance()*calcFaceTol(pp, pp.points(), pp.faceCentres())
+      };
+      if (debug || masterCtrs.size() != pp.size()) {
+
         {
           OFstream nbrStr
-          (
-            boundaryMesh().mesh().time().path()
-           /name() + "_nbrFaceCentres.obj"
-          );
-          Pout<< "processorPolyPatch::order : "
+          {
+            boundaryMesh().mesh().time().path()/name() + "_nbrFaceCentres.obj"
+          };
+          Pout << "processorPolyPatch::order : "
             << "Dumping neighbour faceCentres to " << nbrStr.name()
             << endl;
-          FOR_ALL(masterCtrs, faceI)
-          {
+          FOR_ALL(masterCtrs, faceI) {
             writeOBJ(nbrStr, masterCtrs[faceI]);
           }
         }
-        if (masterCtrs.size() != pp.size())
-        {
+        if (masterCtrs.size() != pp.size()) {
           FATAL_ERROR_IN
           (
             "processorPolyPatch::order(const primitivePatch&"
@@ -750,24 +697,21 @@ bool mousse::processorPolyPatch::order
         faceMap
       );
       // Try using face point average for matching
-      if (!matchedAll)
-      {
+      if (!matchedAll) {
         const pointField& ppPoints = pp.points();
         pointField facePointAverages(pp.size(), point::zero);
-        FOR_ALL(pp, fI)
-        {
+        FOR_ALL(pp, fI) {
           const labelList& facePoints = pp[fI];
-          FOR_ALL(facePoints, pI)
-          {
+          FOR_ALL(facePoints, pI) {
             facePointAverages[fI] += ppPoints[facePoints[pI]];
           }
           facePointAverages[fI] /= facePoints.size();
         }
         scalarField tols2
-        (
+        {
           calcFaceTol(pp, pp.points(), facePointAverages)
-        );
-        labelList faceMap2(faceMap.size(), -1);
+        };
+        labelList faceMap2{faceMap.size(), -1};
         matchedAll = matchPoints
         (
           facePointAverages,
@@ -778,57 +722,48 @@ bool mousse::processorPolyPatch::order
           true,
           faceMap2
         );
-        FOR_ALL(faceMap, oldFaceI)
-        {
-          if (faceMap[oldFaceI] == -1)
-          {
+        FOR_ALL(faceMap, oldFaceI) {
+          if (faceMap[oldFaceI] == -1) {
             faceMap[oldFaceI] = faceMap2[oldFaceI];
           }
         }
         matchedAll = true;
-        FOR_ALL(faceMap, oldFaceI)
-        {
-          if (faceMap[oldFaceI] == -1)
-          {
+        FOR_ALL(faceMap, oldFaceI) {
+          if (faceMap[oldFaceI] == -1) {
             matchedAll = false;
           }
         }
       }
-      if (!matchedAll || debug)
-      {
+      if (!matchedAll || debug) {
         // Dump faces
         fileName str
-        (
-          boundaryMesh().mesh().time().path()
-         /name() + "_faces.obj"
-        );
-        Pout<< "processorPolyPatch::order :"
+        {
+          boundaryMesh().mesh().time().path()/name() + "_faces.obj"
+        };
+        Pout << "processorPolyPatch::order :"
           << " Writing faces to OBJ file " << str.name() << endl;
         writeOBJ(str, pp, pp.points());
         OFstream ccStr
-        (
+        {
           boundaryMesh().mesh().time().path()
-         /name() + "_faceCentresConnections.obj"
-        );
-        Pout<< "processorPolyPatch::order :"
+          /name() + "_faceCentresConnections.obj"
+        };
+        Pout << "processorPolyPatch::order :"
           << " Dumping newly found match as lines between"
           << " corresponding face centres to OBJ file "
           << ccStr.name()
           << endl;
         label vertI = 0;
-        FOR_ALL(pp.faceCentres(), faceI)
-        {
+        FOR_ALL(pp.faceCentres(), faceI) {
           label masterFaceI = faceMap[faceI];
-          if (masterFaceI != -1)
-          {
+          if (masterFaceI != -1) {
             const point& c0 = masterCtrs[masterFaceI];
             const point& c1 = pp.faceCentres()[faceI];
             writeOBJ(ccStr, c0, c1, vertI);
           }
         }
       }
-      if (!matchedAll)
-      {
+      if (!matchedAll) {
         SERIOUS_ERROR_IN
         (
           "processorPolyPatch::order(const primitivePatch&"
@@ -847,8 +782,7 @@ bool mousse::processorPolyPatch::order
         return false;
       }
       // Set rotation.
-      FOR_ALL(faceMap, oldFaceI)
-      {
+      FOR_ALL(faceMap, oldFaceI) {
         // The face f will be at newFaceI (after morphing) and we want
         // its anchorPoint (= f[0]) to align with the anchorpoint for
         // the corresponding face on the other side.
@@ -861,8 +795,7 @@ bool mousse::processorPolyPatch::order
           wantedAnchor,
           tols[oldFaceI]
         );
-        if (rotation[newFaceI] == -1)
-        {
+        if (rotation[newFaceI] == -1) {
           SERIOUS_ERROR_IN
           (
             "processorPolyPatch::order(const primitivePatch&"
@@ -881,10 +814,8 @@ bool mousse::processorPolyPatch::order
           return false;
         }
       }
-      FOR_ALL(faceMap, faceI)
-      {
-        if (faceMap[faceI] != faceI || rotation[faceI] != 0)
-        {
+      FOR_ALL(faceMap, faceI) {
+        if (faceMap[faceI] != faceI || rotation[faceI] != 0) {
           return true;
         }
       }
@@ -892,6 +823,8 @@ bool mousse::processorPolyPatch::order
     }
   }
 }
+
+
 void mousse::processorPolyPatch::write(Ostream& os) const
 {
   coupledPolyPatch::write(os);

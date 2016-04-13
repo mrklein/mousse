@@ -7,8 +7,8 @@
 #include "limited01.hpp"
 #include "muscl.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(MUSCL, MUSCLLimiter)
 MAKE_LIMITED_V_SURFACE_INTERPOLATION_SCHEME(MUSCLV, MUSCLLimiter)

@@ -5,13 +5,15 @@
 #include "coupled_face_point_patch.hpp"
 #include "point_boundary_mesh.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(coupledFacePointPatch, 0);
 
 }
+
+
 // Constructors
 mousse::coupledFacePointPatch::coupledFacePointPatch
 (
@@ -24,6 +26,8 @@ mousse::coupledFacePointPatch::coupledFacePointPatch
   coupledPolyPatch_{refCast<const coupledPolyPatch>(patch)}
 {}
 
+
 // Destructor
 mousse::coupledFacePointPatch::~coupledFacePointPatch()
 {}
+

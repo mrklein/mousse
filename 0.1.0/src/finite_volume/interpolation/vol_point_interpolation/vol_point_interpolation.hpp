@@ -9,17 +9,19 @@
 // Description
 //   Interpolate from cell centres to points (vertices) using inverse distance
 //   weighting
-// SourceFiles
-//   vol_point_interpolation.cpp
-//   vol_point_interpolate.cpp
+
 #include "_mesh_object.hpp"
 #include "scalar_list.hpp"
 #include "vol_fields.hpp"
 #include "point_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
 class pointMesh;
+
+
 class volPointInterpolation
 :
   public MeshObject<fvMesh, UpdateableMeshObject, volPointInterpolation>
@@ -52,7 +54,7 @@ class volPointInterpolation
     //- Get boundary field in same order as boundary faces. Field is
     //  zero on all coupled and empty patches
     template<class Type>
-    tmp<Field<Type> > flatBoundaryField
+    tmp<Field<Type>> flatBoundaryField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const;
@@ -84,23 +86,23 @@ public:
     //- Interpolate volField using inverse distance weighting
     //  returning pointField
     template<class Type>
-    tmp<GeometricField<Type, pointPatchField, pointMesh> > interpolate
+    tmp<GeometricField<Type, pointPatchField, pointMesh>> interpolate
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
     //- Interpolate tmp<volField> using inverse distance weighting
     //  returning pointField
     template<class Type>
-    tmp<GeometricField<Type, pointPatchField, pointMesh> > interpolate
+    tmp<GeometricField<Type, pointPatchField, pointMesh>> interpolate
     (
-      const tmp<GeometricField<Type, fvPatchField, volMesh> >&
+      const tmp<GeometricField<Type, fvPatchField, volMesh>>&
     ) const;
     //- Interpolate volField using inverse distance weighting
     //  returning pointField with the same patchField types. Assigns
     //  to any fixedValue boundary conditions to make them consistent
     //  with internal field
     template<class Type>
-    tmp<GeometricField<Type, pointPatchField, pointMesh> > interpolate
+    tmp<GeometricField<Type, pointPatchField, pointMesh>> interpolate
     (
       const GeometricField<Type, fvPatchField, volMesh>&,
       const wordList& patchFieldTypes
@@ -110,9 +112,9 @@ public:
     //  to any fixedValue boundary conditions to make them consistent
     //  with internal field
     template<class Type>
-    tmp<GeometricField<Type, pointPatchField, pointMesh> > interpolate
+    tmp<GeometricField<Type, pointPatchField, pointMesh>> interpolate
     (
-      const tmp<GeometricField<Type, fvPatchField, volMesh> >&,
+      const tmp<GeometricField<Type, fvPatchField, volMesh>>&,
       const wordList& patchFieldTypes
     ) const;
     // Low level
@@ -151,7 +153,7 @@ public:
       //- Interpolate volField using inverse distance weighting
       //  returning pointField with name. Optionally caches
       template<class Type>
-      tmp<GeometricField<Type, pointPatchField, pointMesh> > interpolate
+      tmp<GeometricField<Type, pointPatchField, pointMesh>> interpolate
       (
         const GeometricField<Type, fvPatchField, volMesh>&,
         const word& name,
@@ -166,8 +168,9 @@ public:
         pointVectorField&
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "vol_point_interpolate.cpp"
-#endif
+
+#include "vol_point_interpolate.ipp"
+
 #endif

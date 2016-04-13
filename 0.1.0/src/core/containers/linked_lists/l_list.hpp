@@ -8,15 +8,16 @@
 //   mousse::LList
 // Description
 //   Template class for non-intrusive linked lists.
-// SourceFiles
-//   l_list.cpp
-//   l_list_io.cpp
+
 #include "label.hpp"
 #include "ulabel.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
 // Forward declaration of friend functions and operators
 template<class LListBase, class T> class LList;
 template<class LListBase, class T>
@@ -31,6 +32,8 @@ Ostream& operator<<
   Ostream&,
   const LList<LListBase, T>&
 );
+
+
 template<class LListBase, class T>
 class LList
 :
@@ -52,7 +55,7 @@ public:
     //- Construct given object
     link(T a)
     :
-      obj_(a)
+      obj_{a}
     {}
   };
   // Constructors
@@ -62,7 +65,7 @@ public:
     //- Construct given initial T
     LList(T a)
     :
-      LListBase(new link(a))
+      LListBase{new link{a}}
     {}
     //- Construct from Istream
     LList(Istream&);
@@ -156,7 +159,7 @@ public:
       //- Construct from base iterator
       iterator(LListBase_iterator baseIter)
       :
-        LListBase_iterator(baseIter)
+        LListBase_iterator{baseIter}
       {}
       // Member operators
         T& operator*()
@@ -194,12 +197,12 @@ public:
       //- Construct from base const_iterator
       const_iterator(LListBase_const_iterator baseIter)
       :
-        LListBase_const_iterator(baseIter)
+        LListBase_const_iterator{baseIter}
       {}
       //- Construct from base iterator
       const_iterator(LListBase_iterator baseIter)
       :
-        LListBase_const_iterator(baseIter)
+        LListBase_const_iterator{baseIter}
       {}
       // Member operators
         const T& operator*()
@@ -247,7 +250,7 @@ public:
     );
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "l_list.cpp"
-#endif
+
+#include "l_list.ipp"
+
 #endif

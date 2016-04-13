@@ -8,12 +8,15 @@
 //   mousse::mapDistributeLagrangian
 // Description
 //   Class containing mesh-to-mesh mapping information for particles
-// SourceFiles
-//   map_distribute_lagrangian.cpp
+
 #include "map_distribute.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mapPolyMesh;
+
+
 class mapDistributeLagrangian
 {
   // Private data
@@ -32,8 +35,8 @@ public:
       const Xfer<labelListList>& constructCellLabels
     )
     :
-      particleMap_(nNewParticles, subParticleMap, constructParticleMap),
-      constructCellLabels_(constructCellLabels)
+      particleMap_{nNewParticles, subParticleMap, constructParticleMap},
+      constructCellLabels_{constructCellLabels}
     {}
   // Member Functions
     // Access
@@ -57,11 +60,14 @@ public:
       //- Correct for topo change.
       void updateMesh(const mapPolyMesh&)
       {
-        notImplemented
+        NOT_IMPLEMENTED
         (
           "mapDistributeLagrangian::updateMesh(const mapPolyMesh&)"
         );
       }
 };
+
 }  // namespace mousse
+
 #endif
+

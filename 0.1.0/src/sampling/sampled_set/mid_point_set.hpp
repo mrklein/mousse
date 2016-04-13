@@ -6,14 +6,16 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::midPointSet
-// Description
-// SourceFiles
-//   mid_point_set.cpp
+
 #include "face_only_set.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class meshSearch;
+
+
 class midPointSet
 :
   public faceOnlySet
@@ -45,5 +47,8 @@ public:
   //- Destructor
   virtual ~midPointSet();
 };
+
 }  // namespace mousse
+
 #endif
+

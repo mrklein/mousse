@@ -31,14 +31,17 @@
 //   Note that movePoints must be provided for MeshObjects of type
 //   MoveableMeshObject and both movePoints and updateMesh functions must exist
 //   provided for MeshObjects of type UpdateableMeshObject.
-// SourceFiles
-//   _mesh_object.cpp
+
 #include "reg_ioobject.hpp"
 #include "object_registry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declarations
 class mapPolyMesh;
+
+
 template<class Mesh, template<class> class MeshObjectType, class Type>
 class MeshObject
 :
@@ -94,6 +97,8 @@ public:
       return true;
     }
 };
+
+
 class meshObject
 :
   public regIOobject
@@ -120,6 +125,8 @@ public:
     >
     static void clearUpto(objectRegistry&);
 };
+
+
 template<class Mesh>
 class TopologicalMeshObject
 :
@@ -128,9 +135,11 @@ class TopologicalMeshObject
 public:
   TopologicalMeshObject(const word& typeName, const objectRegistry& obr)
   :
-    meshObject(typeName, obr)
+    meshObject{typeName, obr}
   {}
 };
+
+
 template<class Mesh>
 class GeometricMeshObject
 :
@@ -139,9 +148,11 @@ class GeometricMeshObject
 public:
   GeometricMeshObject(const word& typeName, const objectRegistry& obr)
   :
-    TopologicalMeshObject<Mesh>(typeName, obr)
+    TopologicalMeshObject<Mesh>{typeName, obr}
   {}
 };
+
+
 template<class Mesh>
 class MoveableMeshObject
 :
@@ -150,10 +161,12 @@ class MoveableMeshObject
 public:
   MoveableMeshObject(const word& typeName, const objectRegistry& obr)
   :
-    GeometricMeshObject<Mesh>(typeName, obr)
+    GeometricMeshObject<Mesh>{typeName, obr}
   {}
   virtual bool movePoints() = 0;
 };
+
+
 template<class Mesh>
 class UpdateableMeshObject
 :
@@ -162,12 +175,13 @@ class UpdateableMeshObject
 public:
   UpdateableMeshObject(const word& typeName, const objectRegistry& obr)
   :
-    MoveableMeshObject<Mesh>(typeName, obr)
+    MoveableMeshObject<Mesh>{typeName, obr}
   {}
   virtual void updateMesh(const mapPolyMesh& mpm) = 0;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_mesh_object.cpp"
-#endif
+
+#include "_mesh_object.ipp"
+
 #endif

@@ -4,11 +4,16 @@
 
 #include "polynomial_function.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(polynomialFunction, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(polynomialFunction, 0);
+
 }
+
+
 // Static Member Functions
 mousse::polynomialFunction mousse::polynomialFunction::cloneIntegral
 (
@@ -16,7 +21,7 @@ mousse::polynomialFunction mousse::polynomialFunction::cloneIntegral
   const scalar intConstant
 )
 {
-  polynomialFunction newPoly(poly.size()+1);
+  polynomialFunction newPoly{poly.size()+1};
   newPoly[0] = intConstant;
   FOR_ALL(poly, i)
   {
@@ -24,13 +29,15 @@ mousse::polynomialFunction mousse::polynomialFunction::cloneIntegral
   }
   return newPoly;
 }
+
+
 mousse::polynomialFunction mousse::polynomialFunction::cloneIntegralMinus1
 (
   const polynomialFunction& poly,
   const scalar intConstant
 )
 {
-  polynomialFunction newPoly(poly.size()+1);
+  polynomialFunction newPoly{poly.size()+1};
   if (poly[0] > VSMALL)
   {
     newPoly.logActive_ = true;
@@ -43,70 +50,89 @@ mousse::polynomialFunction mousse::polynomialFunction::cloneIntegralMinus1
   }
   return newPoly;
 }
+
+
 // Constructors 
 mousse::polynomialFunction::polynomialFunction(const label order)
 :
-  scalarList(order, 0.0),
-  logActive_(false),
-  logCoeff_(0.0)
+  scalarList{order, 0.0},
+  logActive_{false},
+  logCoeff_{0.0}
 {
   if (this->empty())
   {
     FATAL_ERROR_IN
     (
       "polynomialFunction::polynomialFunction(const label order)"
-    )   << "polynomialFunction coefficients are invalid (empty)"
-      << nl << exit(FatalError);
+    )
+    << "polynomialFunction coefficients are invalid (empty)"
+    << nl << exit(FatalError);
   }
 }
+
+
 mousse::polynomialFunction::polynomialFunction(const polynomialFunction& poly)
 :
-  scalarList(poly),
-  logActive_(poly.logActive_),
-  logCoeff_(poly.logCoeff_)
+  scalarList{poly},
+  logActive_{poly.logActive_},
+  logCoeff_{poly.logCoeff_}
 {}
+
+
 mousse::polynomialFunction::polynomialFunction(const UList<scalar>& coeffs)
 :
-  scalarList(coeffs),
-  logActive_(false),
-  logCoeff_(0.0)
+  scalarList{coeffs},
+  logActive_{false},
+  logCoeff_{0.0}
 {
   if (this->empty())
   {
     FATAL_ERROR_IN
     (
       "polynomialFunction::polynomialFunction(const UList<scalar>&)"
-    )   << "polynomialFunction coefficients are invalid (empty)"
-      << nl << exit(FatalError);
+    )
+    << "polynomialFunction coefficients are invalid (empty)"
+    << nl << exit(FatalError);
   }
 }
+
+
 mousse::polynomialFunction::polynomialFunction(Istream& is)
 :
-  scalarList(is),
-  logActive_(false),
-  logCoeff_(0.0)
+  scalarList{is},
+  logActive_{false},
+  logCoeff_{0.0}
 {
   if (this->empty())
   {
     FATAL_ERROR_IN
     (
       "polynomialFunction::polynomialFunction(Istream&)"
-    )   << "polynomialFunction coefficients are invalid (empty)"
-      << nl << exit(FatalError);
+    )
+    << "polynomialFunction coefficients are invalid (empty)"
+    << nl << exit(FatalError);
   }
 }
+
+
 // Destructor 
 mousse::polynomialFunction::~polynomialFunction()
 {}
+
+
 // Member Functions 
 bool mousse::polynomialFunction::logActive() const
 {
   return logActive_;
 }
+
+
 mousse::scalar mousse::polynomialFunction::logCoeff() const
 {
   return logCoeff_;
 }
+
+
 mousse::scalar mousse::polynomialFunction::value(const scalar x) const
 {
   const scalarList& coeffs = *this;
@@ -124,6 +150,8 @@ mousse::scalar mousse::polynomialFunction::value(const scalar x) const
   }
   return val;
 }
+
+
 mousse::scalar mousse::polynomialFunction::integrate
 (
   const scalar x1,
@@ -140,8 +168,9 @@ mousse::scalar mousse::polynomialFunction::integrate
         "const scalar, "
         "const scalar"
       ") const"
-    )   << "Cannot integrate polynomial with logarithmic coefficients"
-      << nl << abort(FatalError);
+    )
+    << "Cannot integrate polynomial with logarithmic coefficients"
+    << nl << abort(FatalError);
   }
   // avoid costly pow() in calculation
   scalar powX1 = x1;
@@ -155,16 +184,22 @@ mousse::scalar mousse::polynomialFunction::integrate
   }
   return val;
 }
+
+
 mousse::polynomialFunction
 mousse::polynomialFunction::integral(const scalar intConstant) const
 {
   return cloneIntegral(*this, intConstant);
 }
+
+
 mousse::polynomialFunction
 mousse::polynomialFunction::integralMinus1(const scalar intConstant) const
 {
   return cloneIntegralMinus1(*this, intConstant);
 }
+
+
 // Member Operators 
 mousse::polynomialFunction&
 mousse::polynomialFunction::operator+=(const polynomialFunction& poly)
@@ -187,6 +222,8 @@ mousse::polynomialFunction::operator+=(const polynomialFunction& poly)
   }
   return *this;
 }
+
+
 mousse::polynomialFunction&
 mousse::polynomialFunction::operator-=(const polynomialFunction& poly)
 {
@@ -208,6 +245,8 @@ mousse::polynomialFunction::operator-=(const polynomialFunction& poly)
   }
   return *this;
 }
+
+
 mousse::polynomialFunction&
 mousse::polynomialFunction::operator*=(const scalar s)
 {
@@ -218,6 +257,8 @@ mousse::polynomialFunction::operator*=(const scalar s)
   }
   return *this;
 }
+
+
 mousse::polynomialFunction&
 mousse::polynomialFunction::operator/=(const scalar s)
 {
@@ -228,6 +269,8 @@ mousse::polynomialFunction::operator/=(const scalar s)
   }
   return *this;
 }
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<(Ostream& os, const polynomialFunction& poly)
 {
@@ -237,15 +280,17 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const polynomialFunction& poly)
   {
     for (int i=0; i<poly.size()-1; i++)
     {
-      os  << poly[i] << token::SPACE;
+      os << poly[i] << token::SPACE;
     }
-    os  << poly.last();
+    os << poly.last();
   }
   os << token::END_LIST;
   // Check state of Ostream
   os.check("operator<<(Ostream&, const polynomialFunction&)");
   return os;
 }
+
+
 // Global Operators 
 mousse::polynomialFunction
 mousse::operator+
@@ -254,9 +299,11 @@ mousse::operator+
   const polynomialFunction& p2
 )
 {
-  polynomialFunction poly(p1);
+  polynomialFunction poly{p1};
   return poly += p2;
 }
+
+
 mousse::polynomialFunction
 mousse::operator-
 (
@@ -264,9 +311,11 @@ mousse::operator-
   const polynomialFunction& p2
 )
 {
-  polynomialFunction poly(p1);
+  polynomialFunction poly{p1};
   return poly -= p2;
 }
+
+
 mousse::polynomialFunction
 mousse::operator*
 (
@@ -274,9 +323,11 @@ mousse::operator*
   const polynomialFunction& p
 )
 {
-  polynomialFunction poly(p);
+  polynomialFunction poly{p};
   return poly *= s;
 }
+
+
 mousse::polynomialFunction
 mousse::operator/
 (
@@ -284,9 +335,11 @@ mousse::operator/
   const polynomialFunction& p
 )
 {
-  polynomialFunction poly(p);
+  polynomialFunction poly{p};
   return poly /= s;
 }
+
+
 mousse::polynomialFunction
 mousse::operator*
 (
@@ -294,9 +347,11 @@ mousse::operator*
   const scalar s
 )
 {
-  polynomialFunction poly(p);
+  polynomialFunction poly{p};
   return poly *= s;
 }
+
+
 mousse::polynomialFunction
 mousse::operator/
 (
@@ -304,6 +359,7 @@ mousse::operator/
   const scalar s
 )
 {
-  polynomialFunction poly(p);
+  polynomialFunction poly{p};
   return poly /= s;
 }
+

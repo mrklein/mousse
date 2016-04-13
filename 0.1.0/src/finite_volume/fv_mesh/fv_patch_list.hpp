@@ -7,8 +7,12 @@
 
 #include "fv_patch.hpp"
 #include "ptr_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef PtrList<fvPatch> fvPatchList;
+
 }  // namespace mousse
+
 #endif

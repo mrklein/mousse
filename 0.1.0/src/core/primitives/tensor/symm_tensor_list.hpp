@@ -7,9 +7,12 @@
 
 #include "symm_tensor.hpp"
 #include "list.hpp"
-namespace mousse
-{
-  typedef UList<symmTensor> symmTensorUList;
-  typedef List<symmTensor> symmTensorList;
+
+
+namespace mousse {
+
+typedef UList<symmTensor> symmTensorUList;
+typedef List<symmTensor> symmTensorList;
+
 }
 #endif

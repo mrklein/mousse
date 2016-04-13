@@ -4,8 +4,8 @@
 
 #include "surface_interpolation_scheme.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 #define MAKE_BASE_SURFACE_INTERPOLATION_SCHEME(Type)                          \
                                                                               \
@@ -30,3 +30,4 @@ MAKE_BASE_SURFACE_INTERPOLATION_SCHEME(symmTensor)
 MAKE_BASE_SURFACE_INTERPOLATION_SCHEME(tensor)
 
 }  // namespace mousse
+

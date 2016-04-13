@@ -2,9 +2,8 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-namespace mousse
-{
-/* * * * * * * * * * * * * * * * Global functions  * * * * * * * * * * * * * */
+namespace mousse {
+
 template<class Type>
 inline void component
 (
@@ -13,6 +12,8 @@ inline void component
   const direction
 )
 {}
+
+
 template<class Type>
 inline void T
 (
@@ -20,6 +21,8 @@ inline void T
   const pointPatchField<Type>&
 )
 {}
+
+
 template<class Type, int r>
 inline void pow
 (
@@ -27,6 +30,8 @@ inline void pow
   const pointPatchField<Type>&
 )
 {}
+
+
 template<class Type>
 inline void sqr
 (
@@ -34,6 +39,8 @@ inline void sqr
   const pointPatchField<Type>&
 )
 {}
+
+
 template<class Type>
 inline void magSqr
 (
@@ -41,6 +48,8 @@ inline void magSqr
   const pointPatchField<Type>&
 )
 {}
+
+
 template<class Type>
 inline void mag
 (
@@ -48,6 +57,8 @@ inline void mag
   const pointPatchField<Type>&
 )
 {}
+
+
 template<class Type>
 inline void cmptAv
 (
@@ -55,6 +66,8 @@ inline void cmptAv
   const pointPatchField<Type>&
 )
 {}
+
+
 template<class Type>
 inline void cmptMag
 (
@@ -62,6 +75,8 @@ inline void cmptMag
   const pointPatchField<Type>&
 )
 {}
+
+
 #define BINARY_FUNCTION(func)                                                 \
                                                                               \
 template<class Type>                                                          \
@@ -82,10 +97,12 @@ inline void func                                                              \
 )                                                                             \
 {}
 
+
 BINARY_FUNCTION(max)
 BINARY_FUNCTION(min)
 BINARY_FUNCTION(cmptMultiply)
 BINARY_FUNCTION(cmptDivide)
+
 
 // Global operators
 #define UNARY_OPERATOR(op, opFunc)                                            \
@@ -99,6 +116,7 @@ inline void opFunc                                                            \
 {}
 
 UNARY_OPERATOR(-, negate)
+
 
 #define BINARY_OPERATOR(Type1, Type2, op, opFunc)                             \
                                                                               \
@@ -115,6 +133,7 @@ BINARY_OPERATOR(scalar, Type, *, multiply)
 BINARY_OPERATOR(Type, scalar, *, multiply)
 BINARY_OPERATOR(Type, scalar, /, divide)
 
+
 #define BINARY_TYPE_OPERATOR_SF(TYPE, op, opFunc)                             \
                                                                               \
 template<class Type>                                                          \
@@ -125,6 +144,7 @@ inline void opFunc                                                            \
   const pointPatchField<Type>&                                                \
 )                                                                             \
 {}
+
 
 #define BINARY_TYPE_OPERATOR_FS(TYPE, op, opFunc)                             \
                                                                               \
@@ -137,9 +157,11 @@ inline void opFunc                                                            \
 )                                                                             \
 {}
 
+
 BINARY_TYPE_OPERATOR_SF(scalar, *, multiply)
 BINARY_TYPE_OPERATOR_FS(scalar, *, multiply)
 BINARY_TYPE_OPERATOR_FS(scalar, /, divide)
+
 
 #define PRODUCT_OPERATOR(product, op, opFunc)                                 \
                                                                               \
@@ -189,6 +211,7 @@ inline void opFunc                                                            \
 )                                                                             \
 {}
 
+
 PRODUCT_OPERATOR(typeOfSum, +, add)
 PRODUCT_OPERATOR(typeOfSum, -, subtract)
 PRODUCT_OPERATOR(outerProduct, *, outer)
@@ -198,83 +221,111 @@ PRODUCT_OPERATOR(scalarProduct, &&, dotdot)
 
 #undef PRODUCT_OPERATOR
 
+
 inline void hdual
 (
   pointPatchField<vector>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void hdual
 (
   pointPatchField<tensor>&,
   const pointPatchField<vector>&
 )
 {}
+
+
 inline void diag
 (
   pointPatchField<vector>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void tr
 (
   pointPatchField<scalar>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void dev
 (
   pointPatchField<tensor>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void dev2
 (
   pointPatchField<tensor>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void det
 (
   pointPatchField<scalar>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void inv
 (
   pointPatchField<tensor>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void symm
 (
   pointPatchField<tensor>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void twoSymm
 (
   pointPatchField<tensor>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void skew
 (
   pointPatchField<tensor>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void eigenValues
 (
   pointPatchField<vector>&,
   const pointPatchField<tensor>&
 )
 {}
+
+
 inline void eigenVectors
 (
   pointPatchField<tensor>&,
   const pointPatchField<tensor>&
 )
 {}
+
 }  // namespace mousse
-#include "undef_field_functions_m.hpp"
+
+#include "undef_field_functions_m.inc"
+

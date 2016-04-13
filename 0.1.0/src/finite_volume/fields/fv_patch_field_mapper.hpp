@@ -9,12 +9,12 @@
 // Description
 //   mousse::fvPatchFieldMapper
 
-
 #include "primitive_fields.hpp"
 #include "field_mapper.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class fvPatchFieldMapper
 :
   public FieldMapper
@@ -25,6 +25,7 @@ public:
     fvPatchFieldMapper()
     {}
 };
+
 }  // namespace mousse
 
 #endif
