@@ -4,13 +4,18 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   probes_function_object.cpp
+
 #include "probes.hpp"
 #include "patch_probes.hpp"
 #include "output_filter_function_object.hpp"
-namespace mousse
-{
-  typedef OutputFilterFunctionObject<probes> probesFunctionObject;
-  typedef OutputFilterFunctionObject<patchProbes> patchProbesFunctionObject;
+
+
+namespace mousse {
+
+typedef OutputFilterFunctionObject<probes> probesFunctionObject;
+typedef OutputFilterFunctionObject<patchProbes> patchProbesFunctionObject;
+
 }
+
 #endif
+

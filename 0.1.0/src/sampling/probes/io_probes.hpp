@@ -8,9 +8,14 @@
 #include "probes.hpp"
 #include "patch_probes.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<probes> IOprobes;
-  typedef IOOutputFilter<patchProbes> IOpatchProbes;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<probes> IOprobes;
+typedef IOOutputFilter<patchProbes> IOpatchProbes;
+
 }
+
 #endif
+

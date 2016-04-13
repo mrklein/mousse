@@ -5,27 +5,31 @@
 #include "mid_point_and_face_set.hpp"
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(midPointAndFaceSet, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, midPointAndFaceSet, word);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(midPointAndFaceSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, midPointAndFaceSet, word);
+
 }
+
+
 // Private Member Functions 
 // Rework faceOnlySet samples.
 // Take two consecutive samples
 void mousse::midPointAndFaceSet::genSamples()
 {
   // Generate midpoints and add to face points
-  List<point> newSamplePoints(3*size());
-  labelList newSampleCells(3*size());
-  labelList newSampleFaces(3*size());
-  labelList newSampleSegments(3*size());
-  scalarList newSampleCurveDist(3*size());
+  List<point> newSamplePoints{3*size()};
+  labelList newSampleCells{3*size()};
+  labelList newSampleFaces{3*size()};
+  labelList newSampleSegments{3*size()};
+  scalarList newSampleCurveDist{3*size()};
   label newSampleI = 0;
   label sampleI = 0;
-  while(true && size()>0)
-  {
+  while(true && size()>0) {
     // sampleI is start of segment
     // Add sampleI
     newSamplePoints[newSampleI] = operator[](sampleI);
@@ -34,18 +38,13 @@ void mousse::midPointAndFaceSet::genSamples()
     newSampleSegments[newSampleI] = segments_[sampleI];
     newSampleCurveDist[newSampleI] = curveDist_[sampleI];
     newSampleI++;
-    while
-    (
-      (sampleI < size() - 1)
-    && (segments_[sampleI] == segments_[sampleI+1])
-    )
-    {
+    while ((sampleI < size() - 1)
+           && (segments_[sampleI] == segments_[sampleI+1])) {
       // Add mid point
       const point mid = 0.5*(operator[](sampleI) + operator[](sampleI+1));
       label cell1 = getCell(faces_[sampleI], mid);
       label cell2 = getCell(faces_[sampleI+1], mid);
-      if (cell1 != cell2)
-      {
+      if (cell1 != cell2) {
         FATAL_ERROR_IN("midPointAndFaceSet::genSamples()")
           << "  sampleI:" << sampleI
           << "  newSampleI:" << newSampleI
@@ -74,8 +73,7 @@ void mousse::midPointAndFaceSet::genSamples()
       newSampleI++;
       sampleI++;
     }
-    if (sampleI == size() - 1)
-    {
+    if (sampleI == size() - 1) {
       break;
     }
     sampleI++;
@@ -94,6 +92,8 @@ void mousse::midPointAndFaceSet::genSamples()
     newSampleCurveDist
   );
 }
+
+
 // Constructors 
 mousse::midPointAndFaceSet::midPointAndFaceSet
 (
@@ -105,14 +105,15 @@ mousse::midPointAndFaceSet::midPointAndFaceSet
   const point& end
 )
 :
-  faceOnlySet(name, mesh, searchEngine, axis, start, end)
+  faceOnlySet{name, mesh, searchEngine, axis, start, end}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 mousse::midPointAndFaceSet::midPointAndFaceSet
 (
   const word& name,
@@ -121,14 +122,16 @@ mousse::midPointAndFaceSet::midPointAndFaceSet
   const dictionary& dict
 )
 :
-  faceOnlySet(name, mesh, searchEngine, dict)
+  faceOnlySet{name, mesh, searchEngine, dict}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 // Destructor 
 mousse::midPointAndFaceSet::~midPointAndFaceSet()
 {}
+

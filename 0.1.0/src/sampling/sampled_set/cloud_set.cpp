@@ -9,12 +9,17 @@
 #include "poly_mesh.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "word.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(cloudSet, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, cloudSet, word);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(cloudSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, cloudSet, word);
+
 }
+
+
 // Private Member Functions 
 void mousse::cloudSet::calcSamples
 (
@@ -26,19 +31,19 @@ void mousse::cloudSet::calcSamples
 ) const
 {
   const meshSearch& queryMesh = searchEngine();
-  FOR_ALL(sampleCoords_, sampleI)
-  {
+  FOR_ALL(sampleCoords_, sampleI) {
     label cellI = queryMesh.findCell(sampleCoords_[sampleI]);
-    if (cellI != -1)
-    {
-      samplingPts.append(sampleCoords_[sampleI]);
-      samplingCells.append(cellI);
-      samplingFaces.append(-1);
-      samplingSegments.append(0);
-      samplingCurveDist.append(1.0 * sampleI);
-    }
+    if (cellI == -1)
+      continue;
+    samplingPts.append(sampleCoords_[sampleI]);
+    samplingCells.append(cellI);
+    samplingFaces.append(-1);
+    samplingSegments.append(0);
+    samplingCurveDist.append(1.0 * sampleI);
   }
 }
+
+
 void mousse::cloudSet::genSamples()
 {
   // Storage for sample points
@@ -69,6 +74,8 @@ void mousse::cloudSet::genSamples()
     samplingCurveDist
   );
 }
+
+
 // Constructors 
 mousse::cloudSet::cloudSet
 (
@@ -79,15 +86,16 @@ mousse::cloudSet::cloudSet
   const List<point>& sampleCoords
 )
 :
-  sampledSet(name, mesh, searchEngine, axis),
-  sampleCoords_(sampleCoords)
+  sampledSet{name, mesh, searchEngine, axis},
+  sampleCoords_{sampleCoords}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 mousse::cloudSet::cloudSet
 (
   const word& name,
@@ -96,15 +104,17 @@ mousse::cloudSet::cloudSet
   const dictionary& dict
 )
 :
-  sampledSet(name, mesh, searchEngine, dict),
-  sampleCoords_(dict.lookup("points"))
+  sampledSet{name, mesh, searchEngine, dict},
+  sampleCoords_{dict.lookup("points")}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 // Destructor 
 mousse::cloudSet::~cloudSet()
 {}
+

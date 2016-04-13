@@ -11,18 +11,17 @@
 //   Mapping is performed using a run-time selectable interpolation mothod
 // SeeAlso
 //   meshToMeshMethod
-// SourceFiles
-//   mesh_to_mesh.cpp
-//   mesh_to_mesh_parallel_ops.cpp
-//   mesh_to_mesh_templates.cpp
+
 #include "poly_mesh.hpp"
 #include "bound_box.hpp"
 #include "map_distribute.hpp"
 #include "vol_fields_fwd.hpp"
 #include "named_enum.hpp"
 #include "ami_patch_to_patch_interpolation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class meshToMesh
 {
 public:
@@ -240,7 +239,7 @@ public:
         //- Return the src field mapped to the tgt mesh with a defined
         //  operation.  Initial values of the result are set to zero
         template<class Type, class CombineOp>
-        tmp<Field<Type> > mapSrcToTgt
+        tmp<Field<Type>> mapSrcToTgt
         (
           const Field<Type>& srcFld,
           const CombineOp& cop
@@ -248,24 +247,24 @@ public:
         //- Convenience function to map a tmp field to the tgt mesh
         //  with a defined operation
         template<class Type, class CombineOp>
-        tmp<Field<Type> > mapSrcToTgt
+        tmp<Field<Type>> mapSrcToTgt
         (
-          const tmp<Field<Type> >& tsrcFld,
+          const tmp<Field<Type>>& tsrcFld,
           const CombineOp& cop
         ) const;
         //- Convenience function to map a field to the tgt mesh with a
         //  default operation (plusEqOp)
         template<class Type>
-        tmp<Field<Type> > mapSrcToTgt
+        tmp<Field<Type>> mapSrcToTgt
         (
           const Field<Type>& srcFld
         ) const;
         //- Convenience function to map a tmp field to the tgt mesh
         //  with a default operation (plusEqOp)
         template<class Type>
-        tmp<Field<Type> > mapSrcToTgt
+        tmp<Field<Type>> mapSrcToTgt
         (
-          const tmp<Field<Type> >& tsrcFld
+          const tmp<Field<Type>>& tsrcFld
         ) const;
       // Target-to-source field mapping
         //- Map field from tgt to src mesh with defined operation
@@ -281,7 +280,7 @@ public:
         //- Return the tgt field mapped to the src mesh with a defined
         //  operation.  Initial values of the result are set to zero
         template<class Type, class CombineOp>
-        tmp<Field<Type> > mapTgtToSrc
+        tmp<Field<Type>> mapTgtToSrc
         (
           const Field<Type>& tgtFld,
           const CombineOp& cop
@@ -289,24 +288,24 @@ public:
         //- Convenience function to map a tmp field to the src mesh
         //  with a defined operation
         template<class Type, class CombineOp>
-        tmp<Field<Type> > mapTgtToSrc
+        tmp<Field<Type>> mapTgtToSrc
         (
-          const tmp<Field<Type> >& ttgtFld,
+          const tmp<Field<Type>>& ttgtFld,
           const CombineOp& cop
         ) const;
         //- Convenience function to map a field to the src mesh with a
         //  default operation (plusEqOp)
         template<class Type>
-        tmp<Field<Type> > mapTgtToSrc
+        tmp<Field<Type>> mapTgtToSrc
         (
           const Field<Type>& tgtFld
         ) const;
         //- Convenience function to map a tmp field to the src mesh
         //  with a default operation (plusEqOp)
         template<class Type>
-        tmp<Field<Type> > mapTgtToSrc
+        tmp<Field<Type>> mapTgtToSrc
         (
-          const tmp<Field<Type> >& ttgtFld
+          const tmp<Field<Type>>& ttgtFld
         ) const;
       // Source-to-target volume field mapping
         //- Interpolate a field with a defined operation.  Values
@@ -322,7 +321,7 @@ public:
         //- Interpolate a field with a defined operation.  The initial
         //  values of the result are set to zero
         template<class Type, class CombineOp>
-        tmp<GeometricField<Type, fvPatchField, volMesh> > mapSrcToTgt
+        tmp<GeometricField<Type, fvPatchField, volMesh>> mapSrcToTgt
         (
           const GeometricField<Type, fvPatchField, volMesh>& field,
           const CombineOp& cop
@@ -330,25 +329,25 @@ public:
         //- Interpolate a tmp field with a defined operation.  The
         //  initial values of the result are set to zero
         template<class Type, class CombineOp>
-        tmp<GeometricField<Type, fvPatchField, volMesh> > mapSrcToTgt
+        tmp<GeometricField<Type, fvPatchField, volMesh>> mapSrcToTgt
         (
-          const tmp<GeometricField<Type, fvPatchField, volMesh> >&
+          const tmp<GeometricField<Type, fvPatchField, volMesh>>&
             tfield,
           const CombineOp& cop
         ) const;
         //- Convenience function to map a field with a default
         //  operation (plusEqOp)
         template<class Type>
-        tmp<GeometricField<Type, fvPatchField, volMesh> > mapSrcToTgt
+        tmp<GeometricField<Type, fvPatchField, volMesh>> mapSrcToTgt
         (
           const GeometricField<Type, fvPatchField, volMesh>& field
         ) const;
         //- Convenience function to map a tmp field with a default
         //  operation (plusEqOp)
         template<class Type>
-        tmp<GeometricField<Type, fvPatchField, volMesh> > mapSrcToTgt
+        tmp<GeometricField<Type, fvPatchField, volMesh>> mapSrcToTgt
         (
-          const tmp<GeometricField<Type, fvPatchField, volMesh> >&
+          const tmp<GeometricField<Type, fvPatchField, volMesh>>&
             tfield
         ) const;
       // Target-to-source volume field mapping
@@ -365,7 +364,7 @@ public:
         //- Interpolate a field with a defined operation.  The initial
         //  values of the result are set to zero
         template<class Type, class CombineOp>
-        tmp<GeometricField<Type, fvPatchField, volMesh> > mapTgtToSrc
+        tmp<GeometricField<Type, fvPatchField, volMesh>> mapTgtToSrc
         (
           const GeometricField<Type, fvPatchField, volMesh>& field,
           const CombineOp& cop
@@ -373,69 +372,85 @@ public:
         //- Interpolate a tmp field with a defined operation.  The
         //  initial values of the result are set to zero
         template<class Type, class CombineOp>
-        tmp<GeometricField<Type, fvPatchField, volMesh> > mapTgtToSrc
+        tmp<GeometricField<Type, fvPatchField, volMesh>> mapTgtToSrc
         (
-          const tmp<GeometricField<Type, fvPatchField, volMesh> >&
+          const tmp<GeometricField<Type, fvPatchField, volMesh>>&
             tfield,
           const CombineOp& cop
         ) const;
         //- Convenience function to map a field with a default
         //  operation (plusEqOp)
         template<class Type>
-        tmp<GeometricField<Type, fvPatchField, volMesh> > mapTgtToSrc
+        tmp<GeometricField<Type, fvPatchField, volMesh>> mapTgtToSrc
         (
           const GeometricField<Type, fvPatchField, volMesh>& field
         ) const;
         //- Convenience function to map a tmp field with a default
         //  operation (plusEqOp)
         template<class Type>
-        tmp<GeometricField<Type, fvPatchField, volMesh> > mapTgtToSrc
+        tmp<GeometricField<Type, fvPatchField, volMesh>> mapTgtToSrc
         (
-          const tmp<GeometricField<Type, fvPatchField, volMesh> >&
+          const tmp<GeometricField<Type, fvPatchField, volMesh>>&
             tfield
         ) const;
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 inline const mousse::polyMesh& mousse::meshToMesh::srcRegion() const
 {
   return srcRegion_;
 }
+
+
 inline const mousse::polyMesh& mousse::meshToMesh::tgtRegion() const
 {
   return tgtRegion_;
 }
+
+
 inline const mousse::labelListList&
 mousse::meshToMesh::srcToTgtCellAddr() const
 {
   return srcToTgtCellAddr_;
 }
+
+
 inline const mousse::labelListList&
 mousse::meshToMesh::tgtToSrcCellAddr() const
 {
   return tgtToSrcCellAddr_;
 }
+
+
 inline const mousse::scalarListList&
 mousse::meshToMesh::srcToTgtCellWght() const
 {
   return srcToTgtCellWght_;
 }
+
+
 inline const mousse::scalarListList&
 mousse::meshToMesh::tgtToSrcCellWght() const
 {
   return tgtToSrcCellWght_;
 }
+
+
 inline mousse::scalar mousse::meshToMesh::V() const
 {
   return V_;
 }
+
+
 inline const mousse::PtrList<mousse::AMIPatchToPatchInterpolation>&
 mousse::meshToMesh::patchAMIs() const
 {
   return patchAMIs_;
 }
-#ifdef NoRepository
-  #include "mesh_to_mesh_templates.cpp"
-#endif
+
+#include "mesh_to_mesh.ipp"
+
 #endif

@@ -1,3 +1,6 @@
+#ifndef SAMPLING_MESH_TO_MESH0_MESH_TO_MESH0_HPP_
+#define SAMPLING_MESH_TO_MESH0_MESH_TO_MESH0_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,23 +10,21 @@
 //   mesh to mesh interpolation class.
 // Note
 //   This class is due to be deprecated in favour of meshToMesh0New
-// SourceFiles
-//   mesh_to_mesh0.cpp
-//   calculate_mesh_to_mesh0_addressing.cpp
-//   calculate_mesh_to_mesh0_weights.cpp
-//   mesh_to_mesh0_templates.cpp
-#ifndef meshtoMesh_H
-#define meshtoMesh_H
+
 #include "fv_mesh.hpp"
 #include "hash_table.hpp"
 #include "fv_patch_mapper.hpp"
 #include "scalar_list.hpp"
 #include "class_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class indexedOctree;
 class treeDataCell;
+
+
 class meshToMesh0
 {
   // Private data
@@ -111,7 +112,7 @@ public:
       //- Construct given addressing
       patchFieldInterpolator(const labelList& addr)
       :
-        directAddressing_(addr)
+        directAddressing_{addr}
       {}
     //- Destructor
     virtual ~patchFieldInterpolator()
@@ -245,7 +246,7 @@ public:
       ) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "mesh_to_mesh0_templates.cpp"
-#endif
+
+#include "mesh_to_mesh0.ipp"
+
 #endif

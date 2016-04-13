@@ -6,44 +6,35 @@
 #include "vol_fields.hpp"
 #include "ioobject_list.hpp"
 #include "string_list_ops.hpp"
+
+
 // Private Member Functions 
 mousse::label mousse::sampledSurfaces::classifyFields()
 {
   label nFields = 0;
-  if (loadFromFiles_)
-  {
+  if (loadFromFiles_) {
     // Check files for a particular time
-    IOobjectList objects(mesh_, mesh_.time().timeName());
+    IOobjectList objects{mesh_, mesh_.time().timeName()};
     wordList allFields = objects.sortedNames();
-    FOR_ALL(fieldSelection_, i)
-    {
+    FOR_ALL(fieldSelection_, i) {
       labelList indices = findStrings(fieldSelection_[i], allFields);
-      if (indices.size())
-      {
+      if (indices.size()) {
         nFields += indices.size();
-      }
-      else
-      {
+      } else {
         WARNING_IN("sampledSurfaces::classifyFields()")
           << "Cannot find field file matching "
           << fieldSelection_[i] << endl;
       }
     }
-  }
-  else
-  {
+  } else {
     // Check currently available fields
     wordList allFields = mesh_.sortedNames();
     labelList indices = findStrings(fieldSelection_, allFields);
-    FOR_ALL(fieldSelection_, i)
-    {
+    FOR_ALL(fieldSelection_, i) {
       labelList indices = findStrings(fieldSelection_[i], allFields);
-      if (indices.size())
-      {
+      if (indices.size()) {
         nFields += indices.size();
-      }
-      else
-      {
+      } else {
         WARNING_IN("sampledSurfaces::classifyFields()")
           << "Cannot find registered field matching "
           << fieldSelection_[i] << endl;
@@ -52,3 +43,4 @@ mousse::label mousse::sampledSurfaces::classifyFields()
   }
   return nFields;
 }
+

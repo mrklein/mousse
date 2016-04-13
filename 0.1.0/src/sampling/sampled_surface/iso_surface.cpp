@@ -11,31 +11,40 @@
 #include "surface_fields.hpp"
 #include "ofstream.hpp"
 #include "mesh_tools.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(isoSurface, 0);
+
 }
+
+
 // Private Member Functions 
 bool mousse::isoSurface::noTransform(const tensor& tt) const
 {
   return
     (mag(tt.xx()-1) < mergeDistance_)
-  && (mag(tt.yy()-1) < mergeDistance_)
-  && (mag(tt.zz()-1) < mergeDistance_)
-  && (mag(tt.xy()) < mergeDistance_)
-  && (mag(tt.xz()) < mergeDistance_)
-  && (mag(tt.yx()) < mergeDistance_)
-  && (mag(tt.yz()) < mergeDistance_)
-  && (mag(tt.zx()) < mergeDistance_)
-  && (mag(tt.zy()) < mergeDistance_);
+    && (mag(tt.yy()-1) < mergeDistance_)
+    && (mag(tt.zz()-1) < mergeDistance_)
+    && (mag(tt.xy()) < mergeDistance_)
+    && (mag(tt.xz()) < mergeDistance_)
+    && (mag(tt.yx()) < mergeDistance_)
+    && (mag(tt.yz()) < mergeDistance_)
+    && (mag(tt.zx()) < mergeDistance_)
+    && (mag(tt.zy()) < mergeDistance_);
 }
+
+
 // Calculates per face whether couple is collocated.
 bool mousse::isoSurface::collocatedPatch(const polyPatch& pp)
 {
   const coupledPolyPatch& cpp = refCast<const coupledPolyPatch>(pp);
   return cpp.parallel() && !cpp.separated();
 }
+
+
 // Calculates per face whether couple is collocated.
 mousse::PackedBoolList mousse::isoSurface::collocatedFaces
 (
@@ -43,37 +52,31 @@ mousse::PackedBoolList mousse::isoSurface::collocatedFaces
 ) const
 {
   // Initialise to false
-  PackedBoolList collocated(pp.size());
-  if (isA<processorPolyPatch>(pp))
-  {
-    if (collocatedPatch(pp))
-    {
-      FOR_ALL(pp, i)
-      {
+  PackedBoolList collocated{pp.size()};
+  if (isA<processorPolyPatch>(pp)) {
+    if (collocatedPatch(pp)) {
+      FOR_ALL(pp, i) {
         collocated[i] = 1u;
       }
     }
-  }
-  else if (isA<cyclicPolyPatch>(pp))
-  {
-    if (collocatedPatch(pp))
-    {
-      FOR_ALL(pp, i)
-      {
+  } else if (isA<cyclicPolyPatch>(pp)) {
+    if (collocatedPatch(pp)) {
+      FOR_ALL(pp, i) {
         collocated[i] = 1u;
       }
     }
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "isoSurface::collocatedFaces(const coupledPolyPatch&) const"
-    )   << "Unhandled coupledPolyPatch type " << pp.type()
-      << abort(FatalError);
+    )
+    << "Unhandled coupledPolyPatch type " << pp.type()
+    << abort(FatalError);
   }
   return collocated;
 }
+
+
 void mousse::isoSurface::syncUnseparatedPoints
 (
   pointField& pointValues,
@@ -83,54 +86,43 @@ void mousse::isoSurface::syncUnseparatedPoints
   // Until syncPointList handles separated coupled patches with multiple
   // transforms do our own synchronisation of non-separated patches only
   const polyBoundaryMesh& patches = mesh_.boundaryMesh();
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     // Send
-    FOR_ALL(patches, patchI)
-    {
-      if
-      (
-        isA<processorPolyPatch>(patches[patchI])
-      && patches[patchI].nPoints() > 0
-      && collocatedPatch(patches[patchI])
-      )
-      {
+    FOR_ALL(patches, patchI) {
+      if (isA<processorPolyPatch>(patches[patchI])
+          && patches[patchI].nPoints() > 0
+          && collocatedPatch(patches[patchI])) {
         const processorPolyPatch& pp =
           refCast<const processorPolyPatch>(patches[patchI]);
         const labelList& meshPts = pp.meshPoints();
         const labelList& nbrPts = pp.neighbPoints();
-        pointField patchInfo(meshPts.size());
-        FOR_ALL(nbrPts, pointI)
-        {
+        pointField patchInfo{meshPts.size()};
+        FOR_ALL(nbrPts, pointI) {
           label nbrPointI = nbrPts[pointI];
           patchInfo[nbrPointI] = pointValues[meshPts[pointI]];
         }
-        OPstream toNbr(Pstream::blocking, pp.neighbProcNo());
+        OPstream toNbr{Pstream::blocking, pp.neighbProcNo()};
         toNbr << patchInfo;
       }
     }
     // Receive and combine.
-    FOR_ALL(patches, patchI)
-    {
-      if
-      (
-        isA<processorPolyPatch>(patches[patchI])
-      && patches[patchI].nPoints() > 0
-      && collocatedPatch(patches[patchI])
-      )
-      {
+    FOR_ALL(patches, patchI) {
+      if (isA<processorPolyPatch>(patches[patchI])
+          && patches[patchI].nPoints() > 0
+          && collocatedPatch(patches[patchI])) {
         const processorPolyPatch& pp =
           refCast<const processorPolyPatch>(patches[patchI]);
         pointField nbrPatchInfo(pp.nPoints());
+
         {
           // We do not know the number of points on the other side
           // so cannot use Pstream::read.
-          IPstream fromNbr(Pstream::blocking, pp.neighbProcNo());
+          IPstream fromNbr{Pstream::blocking, pp.neighbProcNo()};
           fromNbr >> nbrPatchInfo;
         }
+
         const labelList& meshPts = pp.meshPoints();
-        FOR_ALL(meshPts, pointI)
-        {
+        FOR_ALL(meshPts, pointI) {
           label meshPointI = meshPts[pointI];
           minEqOp<point>()
           (
@@ -142,29 +134,24 @@ void mousse::isoSurface::syncUnseparatedPoints
     }
   }
   // Do the cyclics.
-  FOR_ALL(patches, patchI)
-  {
-    if (isA<cyclicPolyPatch>(patches[patchI]))
-    {
+  FOR_ALL(patches, patchI) {
+    if (isA<cyclicPolyPatch>(patches[patchI])) {
       const cyclicPolyPatch& cycPatch =
         refCast<const cyclicPolyPatch>(patches[patchI]);
-      if (cycPatch.owner() && collocatedPatch(cycPatch))
-      {
+      if (cycPatch.owner() && collocatedPatch(cycPatch)) {
         // Owner does all.
         const edgeList& coupledPoints = cycPatch.coupledPoints();
         const labelList& meshPts = cycPatch.meshPoints();
         const cyclicPolyPatch& nbrPatch = cycPatch.neighbPatch();
         const labelList& nbrMeshPoints = nbrPatch.meshPoints();
-        pointField half0Values(coupledPoints.size());
-        pointField half1Values(coupledPoints.size());
-        FOR_ALL(coupledPoints, i)
-        {
+        pointField half0Values{coupledPoints.size()};
+        pointField half1Values{coupledPoints.size()};
+        FOR_ALL(coupledPoints, i) {
           const edge& e = coupledPoints[i];
           half0Values[i] = pointValues[meshPts[e[0]]];
           half1Values[i] = pointValues[nbrMeshPoints[e[1]]];
         }
-        FOR_ALL(coupledPoints, i)
-        {
+        FOR_ALL(coupledPoints, i) {
           const edge& e = coupledPoints[i];
           label p0 = meshPts[e[0]];
           label p1 = nbrMeshPoints[e[1]];
@@ -176,12 +163,10 @@ void mousse::isoSurface::syncUnseparatedPoints
   }
   // Synchronize multiple shared points.
   const globalMeshData& pd = mesh_.globalData();
-  if (pd.nGlobalPoints() > 0)
-  {
+  if (pd.nGlobalPoints() > 0) {
     // Values on shared points.
-    pointField sharedPts(pd.nGlobalPoints(), nullValue);
-    FOR_ALL(pd.sharedPointLabels(), i)
-    {
+    pointField sharedPts{pd.nGlobalPoints(), nullValue};
+    FOR_ALL(pd.sharedPointLabels(), i) {
       label meshPointI = pd.sharedPointLabels()[i];
       // Fill my entries in the shared points
       sharedPts[pd.sharedPointAddr()[i]] = pointValues[meshPointI];
@@ -191,13 +176,14 @@ void mousse::isoSurface::syncUnseparatedPoints
     Pstream::listCombineScatter(sharedPts);
     // Now we will all have the same information. Merge it back with
     // my local information.
-    FOR_ALL(pd.sharedPointLabels(), i)
-    {
+    FOR_ALL(pd.sharedPointLabels(), i) {
       label meshPointI = pd.sharedPointLabels()[i];
       pointValues[meshPointI] = sharedPts[pd.sharedPointAddr()[i]];
     }
   }
 }
+
+
 mousse::scalar mousse::isoSurface::isoFraction
 (
   const scalar s0,
@@ -205,15 +191,14 @@ mousse::scalar mousse::isoSurface::isoFraction
 ) const
 {
   scalar d = s1-s0;
-  if (mag(d) > VSMALL)
-  {
+  if (mag(d) > VSMALL) {
     return (iso_-s0)/d;
-  }
-  else
-  {
+  } else {
     return -1.0;
   }
 }
+
+
 bool mousse::isoSurface::isEdgeOfFaceCut
 (
   const scalarField& pVals,
@@ -222,21 +207,17 @@ bool mousse::isoSurface::isEdgeOfFaceCut
   const bool neiLower
 ) const
 {
-  FOR_ALL(f, fp)
-  {
+  FOR_ALL(f, fp) {
     bool fpLower = (pVals[f[fp]] < iso_);
-    if
-    (
-      (fpLower != ownLower)
-    || (fpLower != neiLower)
-    || (fpLower != (pVals[f[f.fcIndex(fp)]] < iso_))
-    )
-    {
+    if ((fpLower != ownLower) || (fpLower != neiLower)
+        || (fpLower != (pVals[f[f.fcIndex(fp)]] < iso_))) {
       return true;
     }
   }
   return false;
 }
+
+
 // Get neighbour value and position.
 void mousse::isoSurface::getNeighbour
 (
@@ -251,14 +232,11 @@ void mousse::isoSurface::getNeighbour
 {
   const labelList& own = mesh_.faceOwner();
   const labelList& nei = mesh_.faceNeighbour();
-  if (mesh_.isInternalFace(faceI))
-  {
+  if (mesh_.isInternalFace(faceI)) {
     label nbr = (own[faceI] == cellI ? nei[faceI] : own[faceI]);
     nbrValue = cVals[nbr];
     nbrPoint = meshC[nbr];
-  }
-  else
-  {
+  } else {
     label bFaceI = faceI-mesh_.nInternalFaces();
     label patchI = boundaryRegion[bFaceI];
     const polyPatch& pp = mesh_.boundaryMesh()[patchI];
@@ -267,6 +245,8 @@ void mousse::isoSurface::getNeighbour
     nbrPoint = meshC.boundaryField()[patchI][patchFaceI];
   }
 }
+
+
 // Determine for every face/cell whether it (possibly) generates triangles.
 void mousse::isoSurface::calcCutTypes
 (
@@ -281,8 +261,7 @@ void mousse::isoSurface::calcCutTypes
   const labelList& nei = mesh_.faceNeighbour();
   faceCutType_.setSize(mesh_.nFaces());
   faceCutType_ = NOTCUT;
-  for (label faceI = 0; faceI < mesh_.nInternalFaces(); faceI++)
-  {
+  for (label faceI = 0; faceI < mesh_.nInternalFaces(); faceI++) {
     // CC edge.
     bool ownLower = (cVals[own[faceI]] < iso_);
     scalar nbrValue;
@@ -298,27 +277,21 @@ void mousse::isoSurface::calcCutTypes
       nbrPoint
     );
     bool neiLower = (nbrValue < iso_);
-    if (ownLower != neiLower)
-    {
+    if (ownLower != neiLower) {
       faceCutType_[faceI] = CUT;
-    }
-    else
-    {
+    } else {
       // See if any mesh edge is cut by looping over all the edges of the
       // face.
       const face f = mesh_.faces()[faceI];
-      if (isEdgeOfFaceCut(pVals, f, ownLower, neiLower))
-      {
+      if (isEdgeOfFaceCut(pVals, f, ownLower, neiLower)) {
         faceCutType_[faceI] = CUT;
       }
     }
   }
-  FOR_ALL(patches, patchI)
-  {
+  FOR_ALL(patches, patchI) {
     const polyPatch& pp = patches[patchI];
     label faceI = pp.start();
-    FOR_ALL(pp, i)
-    {
+    FOR_ALL(pp, i) {
       bool ownLower = (cVals[own[faceI]] < iso_);
       scalar nbrValue;
       point nbrPoint;
@@ -333,16 +306,12 @@ void mousse::isoSurface::calcCutTypes
         nbrPoint
       );
       bool neiLower = (nbrValue < iso_);
-      if (ownLower != neiLower)
-      {
+      if (ownLower != neiLower) {
         faceCutType_[faceI] = CUT;
-      }
-      else
-      {
+      } else {
         // Mesh edge.
         const face f = mesh_.faces()[faceI];
-        if (isEdgeOfFaceCut(pVals, f, ownLower, neiLower))
-        {
+        if (isEdgeOfFaceCut(pVals, f, ownLower, neiLower)) {
           faceCutType_[faceI] = CUT;
         }
       }
@@ -352,40 +321,34 @@ void mousse::isoSurface::calcCutTypes
   nCutCells_ = 0;
   cellCutType_.setSize(mesh_.nCells());
   cellCutType_ = NOTCUT;
-  for (label faceI = 0; faceI < mesh_.nInternalFaces(); faceI++)
-  {
-    if (faceCutType_[faceI] != NOTCUT)
-    {
-      if (cellCutType_[own[faceI]] == NOTCUT)
-      {
+  for (label faceI = 0; faceI < mesh_.nInternalFaces(); faceI++) {
+    if (faceCutType_[faceI] != NOTCUT) {
+      if (cellCutType_[own[faceI]] == NOTCUT) {
         cellCutType_[own[faceI]] = CUT;
         nCutCells_++;
       }
-      if (cellCutType_[nei[faceI]] == NOTCUT)
-      {
+      if (cellCutType_[nei[faceI]] == NOTCUT) {
         cellCutType_[nei[faceI]] = CUT;
         nCutCells_++;
       }
     }
   }
-  for (label faceI = mesh_.nInternalFaces(); faceI < mesh_.nFaces(); faceI++)
-  {
-    if (faceCutType_[faceI] != NOTCUT)
-    {
-      if (cellCutType_[own[faceI]] == NOTCUT)
-      {
+  for (label faceI = mesh_.nInternalFaces(); faceI < mesh_.nFaces(); faceI++) {
+    if (faceCutType_[faceI] != NOTCUT) {
+      if (cellCutType_[own[faceI]] == NOTCUT) {
         cellCutType_[own[faceI]] = CUT;
         nCutCells_++;
       }
     }
   }
-  if (debug)
-  {
-    Pout<< "isoSurface : detected " << nCutCells_
+  if (debug) {
+    Pout << "isoSurface : detected " << nCutCells_
       << " candidate cut cells (out of " << mesh_.nCells()
       << ")." << endl;
   }
 }
+
+
 // Return the two common points between two triangles
 mousse::labelPair mousse::isoSurface::findCommonPoints
 (
@@ -396,36 +359,36 @@ mousse::labelPair mousse::isoSurface::findCommonPoints
   labelPair common(-1, -1);
   label fp0 = 0;
   label fp1 = findIndex(tri1, tri0[fp0]);
-  if (fp1 == -1)
-  {
+  if (fp1 == -1) {
     fp0 = 1;
     fp1 = findIndex(tri1, tri0[fp0]);
   }
-  if (fp1 != -1)
-  {
+  if (fp1 != -1) {
     // So tri0[fp0] is tri1[fp1]
     // Find next common point
     label fp0p1 = tri0.fcIndex(fp0);
     label fp1p1 = tri1.fcIndex(fp1);
     label fp1m1 = tri1.rcIndex(fp1);
-    if (tri0[fp0p1] == tri1[fp1p1] || tri0[fp0p1] == tri1[fp1m1])
-    {
+    if (tri0[fp0p1] == tri1[fp1p1] || tri0[fp0p1] == tri1[fp1m1]) {
       common[0] = tri0[fp0];
       common[1] = tri0[fp0p1];
     }
   }
   return common;
 }
+
+
 // Caculate centre of surface.
 mousse::point mousse::isoSurface::calcCentre(const triSurface& s)
 {
   vector sum = vector::zero;
-  FOR_ALL(s, i)
-  {
+  FOR_ALL(s, i) {
     sum += s[i].centre(s.points());
   }
   return sum/s.size();
 }
+
+
 // Replace surface (localPoints, localTris) with single point. Returns
 // point. Destructs arguments.
 mousse::pointIndexHit mousse::isoSurface::collapseSurface
@@ -434,57 +397,38 @@ mousse::pointIndexHit mousse::isoSurface::collapseSurface
   DynamicList<labelledTri, 64>& localTris
 )
 {
-  pointIndexHit info(false, vector::zero, localTris.size());
-  if (localTris.size() == 1)
-  {
+  pointIndexHit info{false, vector::zero, localTris.size()};
+  if (localTris.size() == 1) {
     const labelledTri& tri = localTris[0];
     info.setPoint(tri.centre(localPoints));
     info.setHit();
-  }
-  else if (localTris.size() == 2)
-  {
+  } else if (localTris.size() == 2) {
     // Check if the two triangles share an edge.
     const labelledTri& tri0 = localTris[0];
     const labelledTri& tri1 = localTris[0];
     labelPair shared = findCommonPoints(tri0, tri1);
-    if (shared[0] != -1)
-    {
+    if (shared[0] != -1) {
       info.setPoint
       (
-        0.5
-       * (
-          tri0.centre(localPoints)
-         + tri1.centre(localPoints)
-        )
+        0.5*(tri0.centre(localPoints) + tri1.centre(localPoints))
       );
       info.setHit();
     }
-  }
-  else if (localTris.size())
-  {
+  } else if (localTris.size()) {
     // Check if single region. Rare situation.
-    triSurface surf
-    (
-      localTris,
-      geometricSurfacePatchList(0),
-      localPoints,
-      true
-    );
+    triSurface surf{localTris, geometricSurfacePatchList(0), localPoints, true};
     localTris.clearStorage();
     labelList faceZone;
-    label nZones = surf.markZones
-    (
-      boolList(surf.nEdges(), false),
-      faceZone
-    );
-    if (nZones == 1)
-    {
+    label nZones = surf.markZones(boolList{surf.nEdges(), false}, faceZone);
+    if (nZones == 1) {
       info.setPoint(calcCentre(surf));
       info.setHit();
     }
   }
   return info;
 }
+
+
 // Determine per cell centre whether all the intersections get collapsed
 // to a single point
 void mousse::isoSurface::calcSnappedCc
@@ -502,11 +446,9 @@ void mousse::isoSurface::calcSnappedCc
   snappedCc.setSize(mesh_.nCells());
   snappedCc = -1;
   // Work arrays
-  DynamicList<point, 64> localTriPoints(64);
-  FOR_ALL(mesh_.cells(), cellI)
-  {
-    if (cellCutType_[cellI] == CUT)
-    {
+  DynamicList<point, 64> localTriPoints{64};
+  FOR_ALL(mesh_.cells(), cellI) {
+    if (cellCutType_[cellI] == CUT) {
       scalar cVal = cVals[cellI];
       const cell& cFaces = mesh_.cells()[cellI];
       localTriPoints.clear();
@@ -514,8 +456,7 @@ void mousse::isoSurface::calcSnappedCc
       point otherPointSum = vector::zero;
       // Create points for all intersections close to cell centre
       // (i.e. from pyramid edges)
-      FOR_ALL(cFaces, cFaceI)
-      {
+      FOR_ALL(cFaces, cFaceI) {
         label faceI = cFaces[cFaceI];
         scalar nbrValue;
         point nbrPoint;
@@ -536,8 +477,7 @@ void mousse::isoSurface::calcSnappedCc
         s[2] = isoFraction(cVal, nbrValue);
         pt[2] = (1.0-s[2])*cc[cellI] + s[2]*nbrPoint;
         const face& f = mesh_.faces()[cFaces[cFaceI]];
-        FOR_ALL(f, fp)
-        {
+        FOR_ALL(f, fp) {
           // From cc to fp
           label p0 = f[fp];
           s[0] = isoFraction(cVal, pVals[p0]);
@@ -546,24 +486,16 @@ void mousse::isoSurface::calcSnappedCc
           label p1 = f[f.fcIndex(fp)];
           s[1] = isoFraction(cVal, pVals[p1]);
           pt[1] = (1.0-s[1])*cc[cellI] + s[1]*pts[p1];
-          if
-          (
-            (s[0] >= 0.0 && s[0] <= 0.5)
-          && (s[1] >= 0.0 && s[1] <= 0.5)
-          && (s[2] >= 0.0 && s[2] <= 0.5)
-          )
-          {
+          if ((s[0] >= 0.0 && s[0] <= 0.5)
+              && (s[1] >= 0.0 && s[1] <= 0.5)
+              && (s[2] >= 0.0 && s[2] <= 0.5)) {
             localTriPoints.append(pt[0]);
             localTriPoints.append(pt[1]);
             localTriPoints.append(pt[2]);
-          }
-          else
-          {
+          } else {
             // Get average of all other points
-            FOR_ALL(s, i)
-            {
-              if (s[i] >= 0.0 && s[i] <= 0.5)
-              {
+            FOR_ALL(s, i) {
+              if (s[i] >= 0.0 && s[i] <= 0.5) {
                 otherPointSum += pt[i];
                 nOther++;
               }
@@ -571,38 +503,26 @@ void mousse::isoSurface::calcSnappedCc
           }
         }
       }
-      if (localTriPoints.size() == 0)
-      {
+      if (localTriPoints.size() == 0) {
         // No complete triangles. Get average of all intersection
         // points.
-        if (nOther > 0)
-        {
+        if (nOther > 0) {
           snappedCc[cellI] = snappedPoints.size();
           snappedPoints.append(otherPointSum/nOther);
-          //Pout<< "    point:" << pointI
-          //    << " replacing coord:" << mesh_.points()[pointI]
-          //    << " by average:" << collapsedPoint[pointI] << endl;
         }
-      }
-      else if (localTriPoints.size() == 3)
-      {
+      } else if (localTriPoints.size() == 3) {
         // Single triangle. No need for any analysis. Average points.
         pointField points;
         points.transfer(localTriPoints);
         snappedCc[cellI] = snappedPoints.size();
         snappedPoints.append(sum(points)/points.size());
-        //Pout<< "    point:" << pointI
-        //    << " replacing coord:" << mesh_.points()[pointI]
-        //    << " by average:" << collapsedPoint[pointI] << endl;
-      }
-      else
-      {
+      } else {
         // Convert points into triSurface.
         // Merge points and compact out non-valid triangles
         labelList triMap;               // merged to unmerged triangle
         labelList triPointReverseMap;   // unmerged to merged point
         triSurface surf
-        (
+        {
           stitchTriPoints
           (
             false,              // do not check for duplicate tris
@@ -610,25 +530,20 @@ void mousse::isoSurface::calcSnappedCc
             triPointReverseMap,
             triMap
           )
-        );
+        };
         labelList faceZone;
-        label nZones = surf.markZones
-        (
-          boolList(surf.nEdges(), false),
-          faceZone
-        );
-        if (nZones == 1)
-        {
+        label nZones =
+          surf.markZones(boolList(surf.nEdges(), false), faceZone);
+        if (nZones == 1) {
           snappedCc[cellI] = snappedPoints.size();
           snappedPoints.append(calcCentre(surf));
-          //Pout<< "    point:" << pointI << " nZones:" << nZones
-          //    << " replacing coord:" << mesh_.points()[pointI]
-          //    << " by average:" << collapsedPoint[pointI] << endl;
         }
       }
     }
   }
 }
+
+
 // Determine per meshpoint whether all the intersections get collapsed
 // to a single point
 void mousse::isoSurface::calcSnappedPoint
@@ -646,33 +561,27 @@ void mousse::isoSurface::calcSnappedPoint
   const pointField& cc = mesh_.cellCentres();
   pointField collapsedPoint(mesh_.nPoints(), point::max);
   // Work arrays
-  DynamicList<point, 64> localTriPoints(100);
-  FOR_ALL(mesh_.pointFaces(), pointI)
-  {
-    if (isBoundaryPoint.get(pointI) == 1)
-    {
+  DynamicList<point, 64> localTriPoints{100};
+  FOR_ALL(mesh_.pointFaces(), pointI) {
+    if (isBoundaryPoint.get(pointI) == 1) {
       continue;
     }
     const labelList& pFaces = mesh_.pointFaces()[pointI];
     bool anyCut = false;
-    FOR_ALL(pFaces, i)
-    {
+    FOR_ALL(pFaces, i) {
       label faceI = pFaces[i];
-      if (faceCutType_[faceI] == CUT)
-      {
+      if (faceCutType_[faceI] == CUT) {
         anyCut = true;
         break;
       }
     }
-    if (!anyCut)
-    {
+    if (!anyCut) {
       continue;
     }
     localTriPoints.clear();
     label nOther = 0;
     point otherPointSum = vector::zero;
-    FOR_ALL(pFaces, pFaceI)
-    {
+    FOR_ALL(pFaces, pFaceI) {
       // Create points for all intersections close to point
       // (i.e. from pyramid edges)
       label faceI = pFaces[pFaceI];
@@ -705,62 +614,46 @@ void mousse::isoSurface::calcSnappedPoint
       label prevPointI = f[f.rcIndex(fp)];
       s[3] = isoFraction(pVals[pointI], pVals[prevPointI]);
       pt[3] = (1.0-s[3])*pts[pointI] + s[3]*pts[prevPointI];
-      if
-      (
-        (s[0] >= 0.0 && s[0] <= 0.5)
-      && (s[1] >= 0.0 && s[1] <= 0.5)
-      && (s[2] >= 0.0 && s[2] <= 0.5)
-      )
-      {
+      if ((s[0] >= 0.0 && s[0] <= 0.5)
+          && (s[1] >= 0.0 && s[1] <= 0.5)
+          && (s[2] >= 0.0 && s[2] <= 0.5)) {
         localTriPoints.append(pt[0]);
         localTriPoints.append(pt[1]);
         localTriPoints.append(pt[2]);
       }
-      if
-      (
-        (s[0] >= 0.0 && s[0] <= 0.5)
-      && (s[1] >= 0.0 && s[1] <= 0.5)
-      && (s[3] >= 0.0 && s[3] <= 0.5)
-      )
-      {
+      if ((s[0] >= 0.0 && s[0] <= 0.5)
+          && (s[1] >= 0.0 && s[1] <= 0.5)
+          && (s[3] >= 0.0 && s[3] <= 0.5)) {
         localTriPoints.append(pt[3]);
         localTriPoints.append(pt[0]);
         localTriPoints.append(pt[1]);
       }
       // Get average of points as fallback
-      FOR_ALL(s, i)
-      {
-        if (s[i] >= 0.0 && s[i] <= 0.5)
-        {
+      FOR_ALL(s, i) {
+        if (s[i] >= 0.0 && s[i] <= 0.5) {
           otherPointSum += pt[i];
           nOther++;
         }
       }
     }
-    if (localTriPoints.size() == 0)
-    {
+    if (localTriPoints.size() == 0) {
       // No complete triangles. Get average of all intersection
       // points.
-      if (nOther > 0)
-      {
+      if (nOther > 0) {
         collapsedPoint[pointI] = otherPointSum/nOther;
       }
-    }
-    else if (localTriPoints.size() == 3)
-    {
+    } else if (localTriPoints.size() == 3) {
       // Single triangle. No need for any analysis. Average points.
       pointField points;
       points.transfer(localTriPoints);
       collapsedPoint[pointI] = sum(points)/points.size();
-    }
-    else
-    {
+    } else {
       // Convert points into triSurface.
       // Merge points and compact out non-valid triangles
       labelList triMap;               // merged to unmerged triangle
       labelList triPointReverseMap;   // unmerged to merged point
       triSurface surf
-      (
+      {
         stitchTriPoints
         (
           false,                  // do not check for duplicate tris
@@ -768,15 +661,10 @@ void mousse::isoSurface::calcSnappedPoint
           triPointReverseMap,
           triMap
         )
-      );
+      };
       labelList faceZone;
-      label nZones = surf.markZones
-      (
-        boolList(surf.nEdges(), false),
-        faceZone
-      );
-      if (nZones == 1)
-      {
+      label nZones = surf.markZones(boolList(surf.nEdges(), false), faceZone);
+      if (nZones == 1) {
         collapsedPoint[pointI] = calcCentre(surf);
       }
     }
@@ -785,15 +673,15 @@ void mousse::isoSurface::calcSnappedPoint
   syncUnseparatedPoints(collapsedPoint, point::max);
   snappedPoint.setSize(mesh_.nPoints());
   snappedPoint = -1;
-  FOR_ALL(collapsedPoint, pointI)
-  {
-    if (collapsedPoint[pointI] != point::max)
-    {
+  FOR_ALL(collapsedPoint, pointI) {
+    if (collapsedPoint[pointI] != point::max) {
       snappedPoint[pointI] = snappedPoints.size();
       snappedPoints.append(collapsedPoint[pointI]);
     }
   }
 }
+
+
 mousse::triSurface mousse::isoSurface::stitchTriPoints
 (
   const bool checkDuplicates,
@@ -803,36 +691,20 @@ mousse::triSurface mousse::isoSurface::stitchTriPoints
 ) const
 {
   label nTris = triPoints.size()/3;
-  if ((triPoints.size() % 3) != 0)
-  {
+  if ((triPoints.size() % 3) != 0) {
     FATAL_ERROR_IN("isoSurface::stitchTriPoints(..)")
       << "Problem: number of points " << triPoints.size()
       << " not a multiple of 3." << abort(FatalError);
   }
   pointField newPoints;
-  mergePoints
-  (
-    triPoints,
-    mergeDistance_,
-    false,
-    triPointReverseMap,
-    newPoints
-  );
+  mergePoints(triPoints, mergeDistance_, false, triPointReverseMap, newPoints);
   // Check that enough merged.
-  if (debug)
-  {
+  if (debug) {
     pointField newNewPoints;
     labelList oldToNew;
-    bool hasMerged = mergePoints
-    (
-      newPoints,
-      mergeDistance_,
-      true,
-      oldToNew,
-      newNewPoints
-    );
-    if (hasMerged)
-    {
+    bool hasMerged = mergePoints(newPoints, mergeDistance_, true, oldToNew,
+                                 newNewPoints);
+    if (hasMerged) {
       FATAL_ERROR_IN("isoSurface::stitchTriPoints(..)")
         << "Merged points contain duplicates"
         << " when merging with distance " << mergeDistance_ << endl
@@ -841,23 +713,23 @@ mousse::triSurface mousse::isoSurface::stitchTriPoints
         << abort(FatalError);
     }
   }
+
   List<labelledTri> tris;
+
   {
-    DynamicList<labelledTri> dynTris(nTris);
+    DynamicList<labelledTri> dynTris{nTris};
     label rawPointI = 0;
-    DynamicList<label> newToOldTri(nTris);
-    for (label oldTriI = 0; oldTriI < nTris; oldTriI++)
-    {
+    DynamicList<label> newToOldTri{nTris};
+    for (label oldTriI = 0; oldTriI < nTris; oldTriI++) {
       labelledTri tri
-      (
+      {
         triPointReverseMap[rawPointI],
         triPointReverseMap[rawPointI+1],
         triPointReverseMap[rawPointI+2],
         0
-      );
+      };
       rawPointI += 3;
-      if ((tri[0] != tri[1]) && (tri[0] != tri[2]) && (tri[1] != tri[2]))
-      {
+      if ((tri[0] != tri[1]) && (tri[0] != tri[2]) && (tri[1] != tri[2])) {
         newToOldTri.append(oldTriI);
         dynTris.append(tri);
       }
@@ -869,34 +741,26 @@ mousse::triSurface mousse::isoSurface::stitchTriPoints
   // Two unconnected triangles get connected because (some of) the edges
   // separating them get collapsed. Below only checks for duplicate triangles,
   // not non-manifold edge connectivity.
-  if (checkDuplicates)
-  {
+  if (checkDuplicates) {
     labelListList pointFaces;
     invertManyToMany(newPoints.size(), tris, pointFaces);
     // Filter out duplicates.
-    DynamicList<label> newToOldTri(tris.size());
-    FOR_ALL(tris, triI)
-    {
+    DynamicList<label> newToOldTri{tris.size()};
+    FOR_ALL(tris, triI) {
       const labelledTri& tri = tris[triI];
       const labelList& pFaces = pointFaces[tri[0]];
       // Find the maximum of any duplicates. Maximum since the tris
       // below triI
       // get overwritten so we cannot use them in a comparison.
       label dupTriI = -1;
-      FOR_ALL(pFaces, i)
-      {
+      FOR_ALL(pFaces, i) {
         label nbrTriI = pFaces[i];
-        if (nbrTriI > triI && (tris[nbrTriI] == tri))
-        {
-          //Pout<< "Duplicate : " << triI << " verts:" << tri
-          //    << " to " << nbrTriI << " verts:" << tris[nbrTriI]
-          //    << endl;
+        if (nbrTriI > triI && (tris[nbrTriI] == tri)) {
           dupTriI = nbrTriI;
           break;
         }
       }
-      if (dupTriI == -1)
-      {
+      if (dupTriI == -1) {
         // There is no (higher numbered) duplicate triangle
         label newTriI = newToOldTri.size();
         newToOldTri.append(triMap[triI]);
@@ -905,29 +769,23 @@ mousse::triSurface mousse::isoSurface::stitchTriPoints
     }
     triMap.transfer(newToOldTri);
     tris.setSize(triMap.size());
-    if (debug)
-    {
-      Pout<< "isoSurface : merged from " << nTris
+    if (debug) {
+      Pout << "isoSurface : merged from " << nTris
         << " down to " << tris.size() << " unique triangles." << endl;
     }
-    if (debug)
-    {
-      triSurface surf(tris, geometricSurfacePatchList(0), newPoints);
-      FOR_ALL(surf, faceI)
-      {
+    if (debug) {
+      triSurface surf{tris, geometricSurfacePatchList(0), newPoints};
+      FOR_ALL(surf, faceI) {
         const labelledTri& f = surf[faceI];
         const labelList& fFaces = surf.faceFaces()[faceI];
-        FOR_ALL(fFaces, i)
-        {
+        FOR_ALL(fFaces, i) {
           label nbrFaceI = fFaces[i];
-          if (nbrFaceI <= faceI)
-          {
+          if (nbrFaceI <= faceI) {
             // lower numbered faces already checked
             continue;
           }
           const labelledTri& nbrF = surf[nbrFaceI];
-          if (f == nbrF)
-          {
+          if (f == nbrF) {
             FATAL_ERROR_IN("validTri(const triSurface&, const label)")
               << "Check : "
               << " triangle " << faceI << " vertices " << f
@@ -943,26 +801,23 @@ mousse::triSurface mousse::isoSurface::stitchTriPoints
   }
   return triSurface(tris, geometricSurfacePatchList(0), newPoints, true);
 }
+
+
 // Does face use valid vertices?
 bool mousse::isoSurface::validTri(const triSurface& surf, const label faceI)
 {
   // Simple check on indices ok.
   const labelledTri& f = surf[faceI];
-  if
-  (
-    (f[0] < 0) || (f[0] >= surf.points().size())
-  || (f[1] < 0) || (f[1] >= surf.points().size())
-  || (f[2] < 0) || (f[2] >= surf.points().size())
-  )
-  {
+  if ((f[0] < 0) || (f[0] >= surf.points().size())
+      || (f[1] < 0) || (f[1] >= surf.points().size())
+      || (f[2] < 0) || (f[2] >= surf.points().size())) {
     WARNING_IN("validTri(const triSurface&, const label)")
       << "triangle " << faceI << " vertices " << f
       << " uses point indices outside point range 0.."
       << surf.points().size()-1 << endl;
     return false;
   }
-  if ((f[0] == f[1]) || (f[0] == f[2]) || (f[1] == f[2]))
-  {
+  if ((f[0] == f[1]) || (f[0] == f[2]) || (f[1] == f[2])) {
     WARNING_IN("validTri(const triSurface&, const label)")
       << "triangle " << faceI
       << " uses non-unique vertices " << f
@@ -973,22 +828,16 @@ bool mousse::isoSurface::validTri(const triSurface& surf, const label faceI)
   const labelList& fFaces = surf.faceFaces()[faceI];
   // Check if faceNeighbours use same points as this face.
   // Note: discards normal information - sides of baffle are merged.
-  FOR_ALL(fFaces, i)
-  {
+  FOR_ALL(fFaces, i) {
     label nbrFaceI = fFaces[i];
-    if (nbrFaceI <= faceI)
-    {
+    if (nbrFaceI <= faceI) {
       // lower numbered faces already checked
       continue;
     }
     const labelledTri& nbrF = surf[nbrFaceI];
-    if
-    (
-      ((f[0] == nbrF[0]) || (f[0] == nbrF[1]) || (f[0] == nbrF[2]))
-    && ((f[1] == nbrF[0]) || (f[1] == nbrF[1]) || (f[1] == nbrF[2]))
-    && ((f[2] == nbrF[0]) || (f[2] == nbrF[1]) || (f[2] == nbrF[2]))
-    )
-    {
+    if (((f[0] == nbrF[0]) || (f[0] == nbrF[1]) || (f[0] == nbrF[2]))
+        && ((f[1] == nbrF[0]) || (f[1] == nbrF[1]) || (f[1] == nbrF[2]))
+        && ((f[2] == nbrF[0]) || (f[2] == nbrF[1]) || (f[2] == nbrF[2]))) {
       WARNING_IN("validTri(const triSurface&, const label)")
         << "triangle " << faceI << " vertices " << f
         << " fc:" << f.centre(surf.points())
@@ -1001,20 +850,21 @@ bool mousse::isoSurface::validTri(const triSurface& surf, const label faceI)
   }
   return true;
 }
+
+
 void mousse::isoSurface::calcAddressing
 (
   const triSurface& surf,
-  List<FixedList<label, 3> >& faceEdges,
+  List<FixedList<label, 3>>& faceEdges,
   labelList& edgeFace0,
   labelList& edgeFace1,
   Map<labelList>& edgeFacesRest
 ) const
 {
   const pointField& points = surf.points();
-  pointField edgeCentres(3*surf.size());
+  pointField edgeCentres{3*surf.size()};
   label edgeI = 0;
-  FOR_ALL(surf, triI)
-  {
+  FOR_ALL(surf, triI) {
     const labelledTri& tri = surf[triI];
     edgeCentres[edgeI++] = 0.5*(points[tri[0]]+points[tri[1]]);
     edgeCentres[edgeI++] = 0.5*(points[tri[1]]+points[tri[2]]);
@@ -1022,29 +872,20 @@ void mousse::isoSurface::calcAddressing
   }
   pointField mergedCentres;
   labelList oldToMerged;
-  bool hasMerged = mergePoints
-  (
-    edgeCentres,
-    mergeDistance_,
-    false,
-    oldToMerged,
-    mergedCentres
-  );
-  if (debug)
-  {
-    Pout<< "isoSurface : detected "
+  bool hasMerged = mergePoints(edgeCentres, mergeDistance_, false, oldToMerged,
+                               mergedCentres);
+  if (debug) {
+    Pout << "isoSurface : detected "
       << mergedCentres.size()
       << " geometric edges on " << surf.size() << " triangles." << endl;
   }
-  if (!hasMerged)
-  {
+  if (!hasMerged) {
     return;
   }
   // Determine faceEdges
   faceEdges.setSize(surf.size());
   edgeI = 0;
-  FOR_ALL(surf, triI)
-  {
+  FOR_ALL(surf, triI) {
     faceEdges[triI][0] = oldToMerged[edgeI++];
     faceEdges[triI][1] = oldToMerged[edgeI++];
     faceEdges[triI][2] = oldToMerged[edgeI++];
@@ -1057,18 +898,14 @@ void mousse::isoSurface::calcAddressing
   edgeFacesRest.clear();
   // Overflow edge faces for geometric shared edges that turned
   // out to be different anyway.
-  EdgeMap<labelList> extraEdgeFaces(mergedCentres.size()/100);
-  FOR_ALL(oldToMerged, oldEdgeI)
-  {
+  EdgeMap<labelList> extraEdgeFaces{mergedCentres.size()/100};
+  FOR_ALL(oldToMerged, oldEdgeI) {
     label triI = oldEdgeI / 3;
     label edgeI = oldToMerged[oldEdgeI];
-    if (edgeFace0[edgeI] == -1)
-    {
+    if (edgeFace0[edgeI] == -1) {
       // First triangle for edge
       edgeFace0[edgeI] = triI;
-    }
-    else
-    {
+    } else {
       //- Check that the two triangles actually topologically
       //  share an edge
       const labelledTri& prevTri = surf[edgeFace0[edgeI]];
@@ -1076,52 +913,33 @@ void mousse::isoSurface::calcAddressing
       label fp = oldEdgeI % 3;
       edge e(tri[fp], tri[tri.fcIndex(fp)]);
       label prevTriIndex = -1;
-      FOR_ALL(prevTri, i)
-      {
-        if (edge(prevTri[i], prevTri[prevTri.fcIndex(i)]) == e)
-        {
+      FOR_ALL(prevTri, i) {
+        if (edge(prevTri[i], prevTri[prevTri.fcIndex(i)]) == e) {
           prevTriIndex = i;
           break;
         }
       }
-      if (prevTriIndex == -1)
-      {
+      if (prevTriIndex == -1) {
         // Different edge. Store for later.
         EdgeMap<labelList>::iterator iter = extraEdgeFaces.find(e);
-        if (iter != extraEdgeFaces.end())
-        {
+        if (iter != extraEdgeFaces.end()) {
           labelList& eFaces = iter();
           label sz = eFaces.size();
           eFaces.setSize(sz+1);
           eFaces[sz] = triI;
-        }
-        else
-        {
+        } else {
           extraEdgeFaces.insert(e, labelList(1, triI));
         }
-      }
-      else if (edgeFace1[edgeI] == -1)
-      {
+      } else if (edgeFace1[edgeI] == -1) {
         edgeFace1[edgeI] = triI;
-      }
-      else
-      {
-        //WARNING_IN("orientSurface(triSurface&)")
-        //    << "Edge " << edgeI << " with centre "
-        //    << mergedCentres[edgeI]
-        //    << " used by more than two triangles: "
-        //    << edgeFace0[edgeI] << ", "
-        //    << edgeFace1[edgeI] << " and " << triI << endl;
+      } else {
         Map<labelList>::iterator iter = edgeFacesRest.find(edgeI);
-        if (iter != edgeFacesRest.end())
-        {
+        if (iter != edgeFacesRest.end()) {
           labelList& eFaces = iter();
           label sz = eFaces.size();
           eFaces.setSize(sz+1);
           eFaces[sz] = triI;
-        }
-        else
-        {
+        } else {
           edgeFacesRest.insert(edgeI, labelList(1, triI));
         }
       }
@@ -1131,21 +949,17 @@ void mousse::isoSurface::calcAddressing
   edgeI = edgeFace0.size();
   edgeFace0.setSize(edgeI + extraEdgeFaces.size());
   edgeFace1.setSize(edgeI + extraEdgeFaces.size(), -1);
-  FOR_ALL_CONST_ITER(EdgeMap<labelList>, extraEdgeFaces, iter)
-  {
+  FOR_ALL_CONST_ITER(EdgeMap<labelList>, extraEdgeFaces, iter) {
     const labelList& eFaces = iter();
     // The current edge will become edgeI. Replace all occurrences in
     // faceEdges
-    FOR_ALL(eFaces, i)
-    {
+    FOR_ALL(eFaces, i) {
       label triI = eFaces[i];
       const labelledTri& tri = surf[triI];
       FixedList<label, 3>& fEdges = faceEdges[triI];
-      FOR_ALL(tri, fp)
-      {
-        edge e(tri[fp], tri[tri.fcIndex(fp)]);
-        if (e == iter.key())
-        {
+      FOR_ALL(tri, fp) {
+        edge e{tri[fp], tri[tri.fcIndex(fp)]};
+        if (e == iter.key()) {
           fEdges[fp] = edgeI;
           break;
         }
@@ -1153,25 +967,25 @@ void mousse::isoSurface::calcAddressing
     }
     // Add face to edgeFaces
     edgeFace0[edgeI] = eFaces[0];
-    if (eFaces.size() >= 2)
-    {
+    if (eFaces.size() >= 2) {
       edgeFace1[edgeI] = eFaces[1];
-      if (eFaces.size() > 2)
-      {
+      if (eFaces.size() > 2) {
         edgeFacesRest.insert
         (
           edgeI,
-          SubList<label>(eFaces, eFaces.size()-2, 2)
+          SubList<label>{eFaces, eFaces.size() - 2, 2}
         );
       }
     }
     edgeI++;
   }
 }
+
+
 void mousse::isoSurface::walkOrientation
 (
   const triSurface& surf,
-  const List<FixedList<label, 3> >& faceEdges,
+  const List<FixedList<label, 3>>& faceEdges,
   const labelList& edgeFace0,
   const labelList& edgeFace1,
   const label seedTriI,
@@ -1179,35 +993,26 @@ void mousse::isoSurface::walkOrientation
 )
 {
   // Do walk for consistent orientation.
-  DynamicList<label> changedFaces(surf.size());
+  DynamicList<label> changedFaces{surf.size()};
   changedFaces.append(seedTriI);
-  while (changedFaces.size())
-  {
-    DynamicList<label> newChangedFaces(changedFaces.size());
-    FOR_ALL(changedFaces, i)
-    {
+  while (changedFaces.size()) {
+    DynamicList<label> newChangedFaces{changedFaces.size()};
+    FOR_ALL(changedFaces, i) {
       label triI = changedFaces[i];
       const labelledTri& tri = surf[triI];
       const FixedList<label, 3>& fEdges = faceEdges[triI];
-      FOR_ALL(fEdges, fp)
-      {
+      FOR_ALL(fEdges, fp) {
         label edgeI = fEdges[fp];
         // my points:
         label p0 = tri[fp];
         label p1 = tri[tri.fcIndex(fp)];
         label nbrI =
-        (
-          edgeFace0[edgeI] != triI
-         ? edgeFace0[edgeI]
-         : edgeFace1[edgeI]
-        );
-        if (nbrI != -1 && flipState[nbrI] == -1)
-        {
+          edgeFace0[edgeI] != triI ? edgeFace0[edgeI] : edgeFace1[edgeI];
+        if (nbrI != -1 && flipState[nbrI] == -1) {
           const labelledTri& nbrTri = surf[nbrI];
           // nbr points
           label nbrFp = findIndex(nbrTri, p0);
-          if (nbrFp == -1)
-          {
+          if (nbrFp == -1) {
             FATAL_ERROR_IN("isoSurface::walkOrientation(..)")
               << "triI:" << triI
               << " tri:" << tri
@@ -1223,12 +1028,9 @@ void mousse::isoSurface::walkOrientation
           }
           label nbrP1 = nbrTri[nbrTri.rcIndex(nbrFp)];
           bool sameOrientation = (p1 == nbrP1);
-          if (flipState[triI] == 0)
-          {
+          if (flipState[triI] == 0) {
             flipState[nbrI] = (sameOrientation ? 0 : 1);
-          }
-          else
-          {
+          } else {
             flipState[nbrI] = (sameOrientation ? 1 : 0);
           }
           newChangedFaces.append(nbrI);
@@ -1238,10 +1040,12 @@ void mousse::isoSurface::walkOrientation
     changedFaces.transfer(newChangedFaces);
   }
 }
+
+
 void mousse::isoSurface::orientSurface
 (
   triSurface& surf,
-  const List<FixedList<label, 3> >& faceEdges,
+  const List<FixedList<label, 3>>& faceEdges,
   const labelList& edgeFace0,
   const labelList& edgeFace1,
   const Map<labelList>& /*edgeFacesRest*/
@@ -1250,20 +1054,13 @@ void mousse::isoSurface::orientSurface
   // -1 : unvisited
   //  0 : leave as is
   //  1 : flip
-  labelList flipState(surf.size(), -1);
+  labelList flipState{surf.size(), -1};
   label seedTriI = 0;
-  while (true)
-  {
+  while (true) {
     // Find first unvisited triangle
-    for
-    (
-      ;
-      seedTriI < surf.size() && flipState[seedTriI] != -1;
-      seedTriI++
-    )
+    for( ; seedTriI < surf.size() && flipState[seedTriI] != -1; seedTriI++)
     {}
-    if (seedTriI == surf.size())
-    {
+    if (seedTriI == surf.size()) {
       break;
     }
     // Note: Determine orientation of seedTriI?
@@ -1281,24 +1078,23 @@ void mousse::isoSurface::orientSurface
   }
   // Do actual flipping
   surf.clearOut();
-  FOR_ALL(surf, triI)
-  {
-    if (flipState[triI] == 1)
-    {
+  FOR_ALL(surf, triI) {
+    if (flipState[triI] == 1) {
       labelledTri tri(surf[triI]);
       surf[triI][0] = tri[0];
       surf[triI][1] = tri[2];
       surf[triI][2] = tri[1];
-    }
-    else if (flipState[triI] == -1)
-    {
+    } else if (flipState[triI] == -1) {
       FATAL_ERROR_IN
       (
         "isoSurface::orientSurface(triSurface&, const label)"
-      )   << "problem" << abort(FatalError);
+      )
+      << "problem" << abort(FatalError);
     }
   }
 }
+
+
 // Checks if triangle is connected through edgeI only.
 bool mousse::isoSurface::danglingTriangle
 (
@@ -1307,26 +1103,23 @@ bool mousse::isoSurface::danglingTriangle
 )
 {
   label nOpen = 0;
-  FOR_ALL(fEdges, i)
-  {
-    if (edgeFace1[fEdges[i]] == -1)
-    {
+  FOR_ALL(fEdges, i) {
+    if (edgeFace1[fEdges[i]] == -1) {
       nOpen++;
     }
   }
-  if (nOpen == 1 || nOpen == 2 || nOpen == 3)
-  {
+  if (nOpen == 1 || nOpen == 2 || nOpen == 3) {
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 // Mark triangles to keep. Returns number of dangling triangles.
 mousse::label mousse::isoSurface::markDanglingTriangles
 (
-  const List<FixedList<label, 3> >& faceEdges,
+  const List<FixedList<label, 3>>& faceEdges,
   const labelList& edgeFace0,
   const labelList& edgeFace1,
   const Map<labelList>& edgeFacesRest,
@@ -1337,28 +1130,23 @@ mousse::label mousse::isoSurface::markDanglingTriangles
   keepTriangles = true;
   label nDangling = 0;
   // Remove any dangling triangles
-  FOR_ALL_CONST_ITER(Map<labelList>,  edgeFacesRest, iter)
-  {
+  FOR_ALL_CONST_ITER(Map<labelList>,  edgeFacesRest, iter) {
     // These are all the non-manifold edges. Filter out all triangles
     // with only one connected edge (= this edge)
     label edgeI = iter.key();
     const labelList& otherEdgeFaces = iter();
     // Remove all dangling triangles
-    if (danglingTriangle(faceEdges[edgeFace0[edgeI]], edgeFace1))
-    {
+    if (danglingTriangle(faceEdges[edgeFace0[edgeI]], edgeFace1)) {
       keepTriangles[edgeFace0[edgeI]] = false;
       nDangling++;
     }
-    if (danglingTriangle(faceEdges[edgeFace1[edgeI]], edgeFace1))
-    {
+    if (danglingTriangle(faceEdges[edgeFace1[edgeI]], edgeFace1)) {
       keepTriangles[edgeFace1[edgeI]] = false;
       nDangling++;
     }
-    FOR_ALL(otherEdgeFaces, i)
-    {
+    FOR_ALL(otherEdgeFaces, i) {
       label triI = otherEdgeFaces[i];
-      if (danglingTriangle(faceEdges[triI], edgeFace1))
-      {
+      if (danglingTriangle(faceEdges[triI], edgeFace1)) {
         keepTriangles[triI] = false;
         nDangling++;
       }
@@ -1366,6 +1154,8 @@ mousse::label mousse::isoSurface::markDanglingTriangles
   }
   return nDangling;
 }
+
+
 mousse::triSurface mousse::isoSurface::subsetMesh
 (
   const triSurface& s,
@@ -1375,31 +1165,22 @@ mousse::triSurface mousse::isoSurface::subsetMesh
 )
 {
   const boolList include
-  (
-    createWithValues<boolList>
-    (
-      s.size(),
-      false,
-      newToOldFaces,
-      true
-    )
-  );
+  {
+    createWithValues<boolList>(s.size(), false, newToOldFaces, true)
+  };
   newToOldPoints.setSize(s.points().size());
   oldToNewPoints.setSize(s.points().size());
   oldToNewPoints = -1;
+
   {
     label pointI = 0;
-    FOR_ALL(include, oldFacei)
-    {
-      if (include[oldFacei])
-      {
+    FOR_ALL(include, oldFacei) {
+      if (include[oldFacei]) {
         // Renumber labels for triangle
         const labelledTri& tri = s[oldFacei];
-        FOR_ALL(tri, fp)
-        {
+        FOR_ALL(tri, fp) {
           label oldPointI = tri[fp];
-          if (oldToNewPoints[oldPointI] == -1)
-          {
+          if (oldToNewPoints[oldPointI] == -1) {
             oldToNewPoints[oldPointI] = pointI;
             newToOldPoints[pointI++] = oldPointI;
           }
@@ -1409,15 +1190,13 @@ mousse::triSurface mousse::isoSurface::subsetMesh
     newToOldPoints.setSize(pointI);
   }
   // Extract points
-  pointField newPoints(newToOldPoints.size());
-  FOR_ALL(newToOldPoints, i)
-  {
+  pointField newPoints{newToOldPoints.size()};
+  FOR_ALL(newToOldPoints, i) {
     newPoints[i] = s.points()[newToOldPoints[i]];
   }
   // Extract faces
-  List<labelledTri> newTriangles(newToOldFaces.size());
-  FOR_ALL(newToOldFaces, i)
-  {
+  List<labelledTri> newTriangles{newToOldFaces.size()};
+  FOR_ALL(newToOldFaces, i) {
     // Get old vertex labels
     const labelledTri& tri = s[newToOldFaces[i]];
     newTriangles[i][0] = oldToNewPoints[tri[0]];
@@ -1428,6 +1207,8 @@ mousse::triSurface mousse::isoSurface::subsetMesh
   // Reuse storage.
   return triSurface(newTriangles, s.patches(), newPoints, true);
 }
+
+
 // Constructors 
 mousse::isoSurface::isoSurface
 (
@@ -1438,15 +1219,14 @@ mousse::isoSurface::isoSurface
   const scalar mergeTol
 )
 :
-  mesh_(cVals.mesh()),
-  pVals_(pVals),
-  iso_(iso),
-  regularise_(regularise),
-  mergeDistance_(mergeTol*mesh_.bounds().mag())
+  mesh_{cVals.mesh()},
+  pVals_{pVals},
+  iso_{iso},
+  regularise_{regularise},
+  mergeDistance_{mergeTol*mesh_.bounds().mag()}
 {
-  if (debug)
-  {
-    Pout<< "isoSurface:" << nl
+  if (debug) {
+    Pout << "isoSurface:" << nl
       << "    isoField      : " << cVals.name() << nl
       << "    cell min/max  : "
       << min(cVals.internalField()) << " / "
@@ -1470,9 +1250,8 @@ mousse::isoSurface::isoSurface
   // Generate field to interpolate. This is identical to the mesh.C()
   // except on separated coupled patches and on empty patches.
   slicedVolVectorField meshC
-  (
-    IOobject
-    (
+  {
+    {
       "C",
       mesh_.pointsInstance(),
       mesh_.meshSubDir,
@@ -1480,36 +1259,30 @@ mousse::isoSurface::isoSurface
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       false
-    ),
+    },
     mesh_,
     dimLength,
     mesh_.cellCentres(),
     mesh_.faceCentres()
-  );
-  FOR_ALL(patches, patchI)
-  {
+  };
+  FOR_ALL(patches, patchI) {
     const polyPatch& pp = patches[patchI];
     // Adapt separated coupled (proc and cyclic) patches
-    if (pp.coupled())
-    {
+    if (pp.coupled()) {
       fvPatchVectorField& pfld = const_cast<fvPatchVectorField&>
       (
         meshC.boundaryField()[patchI]
       );
       PackedBoolList isCollocated
-      (
-        collocatedFaces(refCast<const coupledPolyPatch>(pp))
-      );
-      FOR_ALL(isCollocated, i)
       {
-        if (!isCollocated[i])
-        {
+        collocatedFaces(refCast<const coupledPolyPatch>(pp))
+      };
+      FOR_ALL(isCollocated, i) {
+        if (!isCollocated[i]) {
           pfld[i] = mesh_.faceCentres()[pp.start()+i];
         }
       }
-    }
-    else if (isA<emptyPolyPatch>(pp))
-    {
+    } else if (isA<emptyPolyPatch>(pp)) {
       typedef slicedVolVectorField::GeometricBoundaryField bType;
       bType& bfld = const_cast<bType&>(meshC.boundaryField());
       // Clear old value. Cannot resize it since is a slice.
@@ -1519,34 +1292,31 @@ mousse::isoSurface::isoSurface
       (
         patchI,
         new calculatedFvPatchField<vector>
-        (
+        {
           mesh_.boundary()[patchI],
           meshC
-        )
+        }
       );
       // Change to face centres
       bfld[patchI] = pp.patchSlice(mesh_.faceCentres());
     }
   }
   // Pre-calculate patch-per-face to avoid whichPatch call.
-  labelList boundaryRegion(mesh_.nFaces()-mesh_.nInternalFaces());
-  FOR_ALL(patches, patchI)
-  {
+  labelList boundaryRegion{mesh_.nFaces() - mesh_.nInternalFaces()};
+  FOR_ALL(patches, patchI) {
     const polyPatch& pp = patches[patchI];
     label faceI = pp.start();
-    FOR_ALL(pp, i)
-    {
+    FOR_ALL(pp, i) {
       boundaryRegion[faceI-mesh_.nInternalFaces()] = patchI;
       faceI++;
     }
   }
   // Determine if any cut through face/cell
   calcCutTypes(boundaryRegion, meshC, cValsPtr_(), pVals_);
-  DynamicList<point> snappedPoints(nCutCells_);
+  DynamicList<point> snappedPoints{nCutCells_};
   // Per cc -1 or a point inside snappedPoints.
   labelList snappedCc;
-  if (regularise_)
-  {
+  if (regularise_) {
     calcSnappedCc
     (
       boundaryRegion,
@@ -1556,56 +1326,40 @@ mousse::isoSurface::isoSurface
       snappedPoints,
       snappedCc
     );
-  }
-  else
-  {
+  } else {
     snappedCc.setSize(mesh_.nCells());
     snappedCc = -1;
   }
-  if (debug)
-  {
-    Pout<< "isoSurface : shifted " << snappedPoints.size()
+  if (debug) {
+    Pout << "isoSurface : shifted " << snappedPoints.size()
       << " cell centres to intersection." << endl;
   }
   label nCellSnaps = snappedPoints.size();
   // Per point -1 or a point inside snappedPoints.
   labelList snappedPoint;
-  if (regularise_)
-  {
+  if (regularise_) {
     // Determine if point is on boundary.
-    PackedBoolList isBoundaryPoint(mesh_.nPoints());
-    FOR_ALL(patches, patchI)
-    {
+    PackedBoolList isBoundaryPoint{mesh_.nPoints()};
+    FOR_ALL(patches, patchI) {
       // Mark all boundary points that are not physically coupled
       // (so anything but collocated coupled patches)
-      if (patches[patchI].coupled())
-      {
+      if (patches[patchI].coupled()) {
         const coupledPolyPatch& cpp =
-          refCast<const coupledPolyPatch>
-          (
-            patches[patchI]
-          );
-        PackedBoolList isCollocated(collocatedFaces(cpp));
-        FOR_ALL(isCollocated, i)
-        {
-          if (!isCollocated[i])
-          {
-            const face& f = mesh_.faces()[cpp.start()+i];
-            FOR_ALL(f, fp)
-            {
-              isBoundaryPoint.set(f[fp], 1);
-            }
+          refCast<const coupledPolyPatch>(patches[patchI]);
+        PackedBoolList isCollocated{collocatedFaces(cpp)};
+        FOR_ALL(isCollocated, i) {
+          if (isCollocated[i])
+            continue;
+          const face& f = mesh_.faces()[cpp.start()+i];
+          FOR_ALL(f, fp) {
+            isBoundaryPoint.set(f[fp], 1);
           }
         }
-      }
-      else
-      {
+      } else {
         const polyPatch& pp = patches[patchI];
-        FOR_ALL(pp, i)
-        {
+        FOR_ALL(pp, i) {
           const face& f = mesh_.faces()[pp.start()+i];
-          FOR_ALL(f, fp)
-          {
+          FOR_ALL(f, fp) {
             isBoundaryPoint.set(f[fp], 1);
           }
         }
@@ -1621,19 +1375,16 @@ mousse::isoSurface::isoSurface
       snappedPoints,
       snappedPoint
     );
-  }
-  else
-  {
+  } else {
     snappedPoint.setSize(mesh_.nPoints());
     snappedPoint = -1;
   }
-  if (debug)
-  {
-    Pout<< "isoSurface : shifted " << snappedPoints.size()-nCellSnaps
+  if (debug) {
+    Pout << "isoSurface : shifted " << snappedPoints.size() - nCellSnaps
       << " vertices to intersection." << endl;
   }
-  DynamicList<point> triPoints(nCutCells_);
-  DynamicList<label> triMeshCells(nCutCells_);
+  DynamicList<point> triPoints{nCutCells_};
+  DynamicList<label> triMeshCells{nCutCells_};
   generateTriPoints
   (
     cValsPtr_(),
@@ -1646,9 +1397,8 @@ mousse::isoSurface::isoSurface
     triPoints,
     triMeshCells
   );
-  if (debug)
-  {
-    Pout<< "isoSurface : generated " << triMeshCells.size()
+  if (debug) {
+    Pout << "isoSurface : generated " << triMeshCells.size()
       << " unmerged triangles from " << triPoints.size()
       << " unmerged points." << endl;
   }
@@ -1664,33 +1414,27 @@ mousse::isoSurface::isoSurface
       triMap
     )
   );
-  if (debug)
-  {
-    Pout<< "isoSurface : generated " << triMap.size()
+  if (debug) {
+    Pout << "isoSurface : generated " << triMap.size()
       << " merged triangles." << endl;
   }
   meshCells_.setSize(triMap.size());
-  FOR_ALL(triMap, i)
-  {
+  FOR_ALL(triMap, i) {
     meshCells_[i] = triMeshCells[triMap[i]];
   }
-  if (debug)
-  {
-    Pout<< "isoSurface : checking " << size()
+  if (debug) {
+    Pout << "isoSurface : checking " << size()
       << " triangles for validity." << endl;
-    FOR_ALL(*this, triI)
-    {
+    FOR_ALL(*this, triI) {
       // Copied from surfaceCheck
       validTri(*this, triI);
     }
   }
-  if (false)
-  {
-    List<FixedList<label, 3> > faceEdges;
+  if (false) {
+    List<FixedList<label, 3>> faceEdges;
     labelList edgeFace0, edgeFace1;
     Map<labelList> edgeFacesRest;
-    while (true)
-    {
+    while (true) {
       // Calculate addressing
       calcAddressing
       (
@@ -1702,21 +1446,13 @@ mousse::isoSurface::isoSurface
       );
       // See if any dangling triangles
       boolList keepTriangles;
-      label nDangling = markDanglingTriangles
-      (
-        faceEdges,
-        edgeFace0,
-        edgeFace1,
-        edgeFacesRest,
-        keepTriangles
-      );
-      if (debug)
-      {
-        Pout<< "isoSurface : detected " << nDangling
+      label nDangling = markDanglingTriangles(faceEdges, edgeFace0, edgeFace1,
+                                              edgeFacesRest, keepTriangles);
+      if (debug) {
+        Pout << "isoSurface : detected " << nDangling
           << " dangling triangles." << endl;
       }
-      if (nDangling == 0)
-      {
+      if (nDangling == 0) {
         break;
       }
       // Create face map (new to old)
@@ -1738,10 +1474,10 @@ mousse::isoSurface::isoSurface
     }
     orientSurface(*this, faceEdges, edgeFace0, edgeFace1, edgeFacesRest);
   }
-  if (debug)
-  {
+  if (debug) {
     fileName stlFile = mesh_.time().path() + ".stl";
-    Pout<< "Dumping surface to " << stlFile << endl;
+    Pout << "Dumping surface to " << stlFile << endl;
     triSurface::write(stlFile);
   }
 }
+

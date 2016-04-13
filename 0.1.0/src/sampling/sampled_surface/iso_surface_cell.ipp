@@ -5,6 +5,8 @@
 #include "iso_surface_cell.hpp"
 #include "poly_mesh.hpp"
 #include "tet_matcher.hpp"
+
+
 // Private Member Functions 
 template<class Type>
 Type mousse::isoSurfaceCell::generatePoint
@@ -19,28 +21,22 @@ Type mousse::isoSurfaceCell::generatePoint
 ) const
 {
   scalar d = s1-s0;
-  if (mag(d) > VSMALL)
-  {
+  if (mag(d) > VSMALL) {
     scalar s = (iso_-s0)/d;
-    if (s >= 0.5 && s <= 1 && p1Index != -1)
-    {
+    if (s >= 0.5 && s <= 1 && p1Index != -1) {
       return snappedPoints[p1Index];
-    }
-    else if (s >= 0.0 && s <= 0.5 && p0Index != -1)
-    {
+    } else if (s >= 0.0 && s <= 0.5 && p0Index != -1) {
       return snappedPoints[p0Index];
-    }
-    else
-    {
+    } else {
       return s*p1 + (1.0-s)*p0;
     }
-  }
-  else
-  {
+  } else {
     scalar s = 0.4999;
     return s*p1 + (1.0-s)*p0;
   }
 }
+
+
 template<class Type>
 void mousse::isoSurfaceCell::generateTriPoints
 (
@@ -65,178 +61,154 @@ void mousse::isoSurfaceCell::generateTriPoints
 ) const
 {
   int triIndex = 0;
-  if (s0 < iso_)
-  {
+  if (s0 < iso_) {
     triIndex |= 1;
   }
-  if (s1 < iso_)
-  {
+  if (s1 < iso_) {
     triIndex |= 2;
   }
-  if (s2 < iso_)
-  {
+  if (s2 < iso_) {
     triIndex |= 4;
   }
-  if (s3 < iso_)
-  {
+  if (s3 < iso_) {
     triIndex |= 8;
   }
   // Form the vertices of the triangles for each case
-  switch (triIndex)
-  {
+  switch (triIndex) {
     case 0x00:
     case 0x0F:
-    break;
+      break;
     case 0x0E:
     case 0x01:
-    {
-      // 0 is common point. Orient such that normal points in positive
-      // gradient direction
-      if (isoVal0 >= isoVal1)
       {
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s1,p1,p1Index));
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index));
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
+        // 0 is common point. Orient such that normal points in positive
+        // gradient direction
+        if (isoVal0 >= isoVal1) {
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s1,p1,p1Index));
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index));
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
+        } else {
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index));
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s1,p1,p1Index));
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
+        }
       }
-      else
-      {
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index));
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s1,p1,p1Index));
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
-      }
-    }
-    break;
+      break;
     case 0x0D:
     case 0x02:
-    {
-      // 1 is common point
-      if (isoVal1 >= isoVal0)
       {
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s0,p0,p0Index));
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index));
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
+        // 1 is common point
+        if (isoVal1 >= isoVal0) {
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s0,p0,p0Index));
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index));
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
+        } else {
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index));
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s0,p0,p0Index));
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
+        }
       }
-      else
-      {
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index));
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s0,p0,p0Index));
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
-      }
-    }
-    break;
+      break;
     case 0x0C:
     case 0x03:
-    {
-      Type s02 = generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index);
-      Type s13 = generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index);
-      if (isoVal0 >= isoVal3)
       {
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
-        pts.append(s02);
-        pts.append(s13);
-        pts.append(s13);
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
-        pts.append(s02);
+        Type s02 = generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index);
+        Type s13 = generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index);
+        if (isoVal0 >= isoVal3) {
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
+          pts.append(s02);
+          pts.append(s13);
+          pts.append(s13);
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
+          pts.append(s02);
+        } else {
+          pts.append(s02);
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
+          pts.append(s13);
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
+          pts.append(s13);
+          pts.append(s02);
+        }
       }
-      else
-      {
-        pts.append(s02);
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
-        pts.append(s13);
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
-        pts.append(s13);
-        pts.append(s02);
-      }
-    }
-    break;
+      break;
     case 0x0B:
     case 0x04:
-    {
-      // 2 is common point
-      if (isoVal2 >= isoVal0)
       {
-        pts.append(generatePoint(snapped,s2,p2,p2Index,s0,p0,p0Index));
-        pts.append(generatePoint(snapped,s2,p2,p2Index,s1,p1,p1Index));
-        pts.append(generatePoint(snapped,s2,p2,p2Index,s3,p3,p3Index));
+        // 2 is common point
+        if (isoVal2 >= isoVal0) {
+          pts.append(generatePoint(snapped,s2,p2,p2Index,s0,p0,p0Index));
+          pts.append(generatePoint(snapped,s2,p2,p2Index,s1,p1,p1Index));
+          pts.append(generatePoint(snapped,s2,p2,p2Index,s3,p3,p3Index));
+        } else {
+          pts.append(generatePoint(snapped,s2,p2,p2Index,s1,p1,p1Index));
+          pts.append(generatePoint(snapped,s2,p2,p2Index,s0,p0,p0Index));
+          pts.append(generatePoint(snapped,s2,p2,p2Index,s3,p3,p3Index));
+        }
       }
-      else
-      {
-        pts.append(generatePoint(snapped,s2,p2,p2Index,s1,p1,p1Index));
-        pts.append(generatePoint(snapped,s2,p2,p2Index,s0,p0,p0Index));
-        pts.append(generatePoint(snapped,s2,p2,p2Index,s3,p3,p3Index));
-      }
-    }
-    break;
+      break;
     case 0x0A:
     case 0x05:
-    {
-      Type s01 = generatePoint(snapped,s0,p0,p0Index,s1,p1,p1Index);
-      Type s23 = generatePoint(snapped,s2,p2,p2Index,s3,p3,p3Index);
-      if (isoVal3 >= isoVal0)
       {
-        pts.append(s01);
-        pts.append(s23);
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
-        pts.append(s01);
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
-        pts.append(s23);
+        Type s01 = generatePoint(snapped,s0,p0,p0Index,s1,p1,p1Index);
+        Type s23 = generatePoint(snapped,s2,p2,p2Index,s3,p3,p3Index);
+        if (isoVal3 >= isoVal0) {
+          pts.append(s01);
+          pts.append(s23);
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
+          pts.append(s01);
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
+          pts.append(s23);
+        } else {
+          pts.append(s23);
+          pts.append(s01);
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
+          pts.append(s01);
+          pts.append(s23);
+        }
       }
-      else
-      {
-        pts.append(s23);
-        pts.append(s01);
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s3,p3,p3Index));
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s2,p2,p2Index));
-        pts.append(s01);
-        pts.append(s23);
-      }
-    }
-    break;
+      break;
     case 0x09:
     case 0x06:
-    {
-      Type s01 = generatePoint(snapped,s0,p0,p0Index,s1,p1,p1Index);
-      Type s23 = generatePoint(snapped,s2,p2,p2Index,s3,p3,p3Index);
-      if (isoVal3 >= isoVal1)
       {
-        pts.append(s01);
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index));
-        pts.append(s23);
-        pts.append(s01);
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index));
-        pts.append(s23);
+        Type s01 = generatePoint(snapped,s0,p0,p0Index,s1,p1,p1Index);
+        Type s23 = generatePoint(snapped,s2,p2,p2Index,s3,p3,p3Index);
+        if (isoVal3 >= isoVal1) {
+          pts.append(s01);
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index));
+          pts.append(s23);
+          pts.append(s01);
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index));
+          pts.append(s23);
+        } else {
+          pts.append(generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index));
+          pts.append(s01);
+          pts.append(s23);
+          pts.append(generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index));
+          pts.append(s01);
+          pts.append(s23);
+        }
       }
-      else
-      {
-        pts.append(generatePoint(snapped,s1,p1,p1Index,s3,p3,p3Index));
-        pts.append(s01);
-        pts.append(s23);
-        pts.append(generatePoint(snapped,s0,p0,p0Index,s2,p2,p2Index));
-        pts.append(s01);
-        pts.append(s23);
-      }
-    }
-    break;
+      break;
     case 0x07:
     case 0x08:
-    {
-      // 3 is common point
-      if (isoVal3 >= isoVal0)
       {
-        pts.append(generatePoint(snapped,s3,p3,p3Index,s0,p0,p0Index));
-        pts.append(generatePoint(snapped,s3,p3,p3Index,s2,p2,p2Index));
-        pts.append(generatePoint(snapped,s3,p3,p3Index,s1,p1,p1Index));
+        // 3 is common point
+        if (isoVal3 >= isoVal0) {
+          pts.append(generatePoint(snapped,s3,p3,p3Index,s0,p0,p0Index));
+          pts.append(generatePoint(snapped,s3,p3,p3Index,s2,p2,p2Index));
+          pts.append(generatePoint(snapped,s3,p3,p3Index,s1,p1,p1Index));
+        } else {
+          pts.append(generatePoint(snapped,s3,p3,p3Index,s2,p2,p2Index));
+          pts.append(generatePoint(snapped,s3,p3,p3Index,s0,p0,p0Index));
+          pts.append(generatePoint(snapped,s3,p3,p3Index,s1,p1,p1Index));
+        }
       }
-      else
-      {
-        pts.append(generatePoint(snapped,s3,p3,p3Index,s2,p2,p2Index));
-        pts.append(generatePoint(snapped,s3,p3,p3Index,s0,p0,p0Index));
-        pts.append(generatePoint(snapped,s3,p3,p3Index,s1,p1,p1Index));
-      }
-    }
-    break;
+      break;
   }
 }
+
+
 template<class Type>
 void mousse::isoSurfaceCell::generateTriPoints
 (
@@ -253,32 +225,26 @@ void mousse::isoSurfaceCell::generateTriPoints
 {
   tetMatcher tet;
   label countNotFoundTets = 0;
-  FOR_ALL(mesh_.cells(), cellI)
-  {
-    if (cellCutType_[cellI] != NOTCUT)
-    {
+  FOR_ALL(mesh_.cells(), cellI) {
+    if (cellCutType_[cellI] != NOTCUT) {
       label oldNPoints = triPoints.size();
       const cell& cFaces = mesh_.cells()[cellI];
-      if (tet.isA(mesh_, cellI))
-      {
+      if (tet.isA(mesh_, cellI)) {
         // For tets don't do cell-centre decomposition, just use the
         // tet points and values
         const face& f0 = mesh_.faces()[cFaces[0]];
         // Get the other point
         const face& f1 = mesh_.faces()[cFaces[1]];
         label oppositeI = -1;
-        FOR_ALL(f1, fp)
-        {
+        FOR_ALL(f1, fp) {
           oppositeI = f1[fp];
-          if (findIndex(f0, oppositeI) == -1)
-          {
+          if (findIndex(f0, oppositeI) == -1) {
             break;
           }
         }
         // Start off from positive volume tet to make sure we
         // generate outwards pointing tets
-        if (mesh_.faceOwner()[cFaces[0]] == cellI)
-        {
+        if (mesh_.faceOwner()[cFaces[0]] == cellI) {
           generateTriPoints
           (
             snappedPoints,
@@ -300,9 +266,7 @@ void mousse::isoSurfaceCell::generateTriPoints
             snappedPoint[oppositeI],
             triPoints
           );
-        }
-        else
-        {
+        } else {
           generateTriPoints
           (
             snappedPoints,
@@ -325,29 +289,23 @@ void mousse::isoSurfaceCell::generateTriPoints
             triPoints
           );
         }
-      }
-      else
-      {
-        FOR_ALL(cFaces, cFaceI)
-        {
+      } else {
+        FOR_ALL(cFaces, cFaceI) {
           label faceI = cFaces[cFaceI];
           const face& f = mesh_.faces()[faceI];
           label fp0 = mesh_.tetBasePtIs()[faceI];
           // Skip undefined tets
-          if (fp0 < 0)
-          {
+          if (fp0 < 0) {
             fp0 = 0;
             countNotFoundTets++;
           }
           label fp = f.fcIndex(fp0);
-          for (label i = 2; i < f.size(); i++)
-          {
+          for (label i = 2; i < f.size(); i++) {
             label nextFp = f.fcIndex(fp);
-            triFace tri(f[fp0], f[fp], f[nextFp]);
+            triFace tri{f[fp0], f[fp], f[nextFp]};
             // Start off from positive volume tet to make sure we
             // generate outwards pointing tets
-            if (mesh_.faceOwner()[faceI] == cellI)
-            {
+            if (mesh_.faceOwner()[faceI] == cellI) {
               generateTriPoints
               (
                 snappedPoints,
@@ -369,9 +327,7 @@ void mousse::isoSurfaceCell::generateTriPoints
                 snappedCc[cellI],
                 triPoints
               );
-            }
-            else
-            {
+            } else {
               generateTriPoints
               (
                 snappedPoints,
@@ -399,15 +355,13 @@ void mousse::isoSurfaceCell::generateTriPoints
         }
       }
       // Every three triPoints is a cell
-      label nCells = (triPoints.size()-oldNPoints)/3;
-      for (label i = 0; i < nCells; i++)
-      {
+      label nCells = (triPoints.size() - oldNPoints)/3;
+      for (label i = 0; i < nCells; i++) {
         triMeshCells.append(cellI);
       }
     }
   }
-  if (countNotFoundTets > 0)
-  {
+  if (countNotFoundTets > 0) {
     WARNING_IN("mousse::isoSurfaceCell::generateTriPoints")
       << "Could not find " << countNotFoundTets
       << " tet base points, which may lead to inverted triangles."
@@ -416,6 +370,8 @@ void mousse::isoSurfaceCell::generateTriPoints
   triPoints.shrink();
   triMeshCells.shrink();
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::isoSurfaceCell::interpolate
@@ -426,12 +382,12 @@ mousse::isoSurfaceCell::interpolate
   const Field<Type>& pCoords
 ) const
 {
-  DynamicList<Type> triPoints(nCutCells_);
-  DynamicList<label> triMeshCells(nCutCells_);
+  DynamicList<Type> triPoints{nCutCells_};
+  DynamicList<label> triMeshCells{nCutCells_};
   // Dummy snap data
   DynamicList<Type> snappedPoints;
-  labelList snappedCc(mesh_.nCells(), -1);
-  labelList snappedPoint(mesh_.nPoints(), -1);
+  labelList snappedCc{mesh_.nCells(), -1};
+  labelList snappedPoint{mesh_.nPoints(), -1};
   generateTriPoints
   (
     cVals,
@@ -445,18 +401,18 @@ mousse::isoSurfaceCell::interpolate
     triMeshCells
   );
   // One value per point
-  tmp<Field<Type> > tvalues(new Field<Type>(points().size()));
+  tmp<Field<Type>> tvalues{new Field<Type>{points().size()}};
   Field<Type>& values = tvalues();
-  FOR_ALL(triPoints, i)
-  {
+  FOR_ALL(triPoints, i) {
     label mergedPointI = triPointMergeMap_[i];
-    if (mergedPointI >= 0)
-    {
+    if (mergedPointI >= 0) {
       values[mergedPointI] = triPoints[i];
     }
   }
   return tvalues;
 }
+
+
 template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::isoSurfaceCell::interpolate
@@ -465,12 +421,12 @@ mousse::isoSurfaceCell::interpolate
   const Field<Type>& pCoords
 ) const
 {
-  DynamicList<Type> triPoints(nCutCells_);
-  DynamicList<label> triMeshCells(nCutCells_);
+  DynamicList<Type> triPoints{nCutCells_};
+  DynamicList<label> triMeshCells{nCutCells_};
   // Dummy snap data
   DynamicList<Type> snappedPoints;
-  labelList snappedCc(mesh_.nCells(), -1);
-  labelList snappedPoint(mesh_.nPoints(), -1);
+  labelList snappedCc{mesh_.nCells(), -1};
+  labelList snappedPoint{mesh_.nPoints(), -1};
   generateTriPoints
   (
     cVals_,
@@ -484,15 +440,14 @@ mousse::isoSurfaceCell::interpolate
     triMeshCells
   );
   // One value per point
-  tmp<Field<Type> > tvalues(new Field<Type>(points().size()));
+  tmp<Field<Type>> tvalues{new Field<Type>(points().size())};
   Field<Type>& values = tvalues();
-  FOR_ALL(triPoints, i)
-  {
+  FOR_ALL(triPoints, i) {
     label mergedPointI = triPointMergeMap_[i];
-    if (mergedPointI >= 0)
-    {
+    if (mergedPointI >= 0) {
       values[mergedPointI] = triPoints[i];
     }
   }
   return tvalues;
 }
+

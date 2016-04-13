@@ -8,9 +8,12 @@
 //   mousse::weightedFvPatchFieldMapper
 // Description
 //   FieldMapper with weighted mapping.
+
 #include "fv_patch_field_mapper.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class weightedFvPatchFieldMapper
 :
   public fvPatchFieldMapper
@@ -27,14 +30,12 @@ public:
       const scalarListList& weights
     )
     :
-      addressing_(addressing),
-      weights_(weights),
-      hasUnmapped_(false)
+      addressing_{addressing},
+      weights_{weights},
+      hasUnmapped_{false}
     {
-      FOR_ALL(addressing_, i)
-      {
-        if (addressing_[i].size() == 0)
-        {
+      FOR_ALL(addressing_, i) {
+        if (addressing_[i].size() == 0) {
           hasUnmapped_ = true;
         }
       }

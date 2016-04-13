@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "ensight_ptraits.hpp"
+
+
 // Static Data Members
 const char* const mousse::ensightPTraits<mousse::scalar>::typeName =
   mousse::pTraits<mousse::scalar>::typeName;

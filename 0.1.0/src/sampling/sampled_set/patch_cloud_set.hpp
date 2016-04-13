@@ -8,13 +8,14 @@
 //   mousse::patchCloudSet
 // Description
 //   Like cloudSet but samples nearest patch face
-// SourceFiles
-//   patch_cloud_set.cpp
+
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
 #include "hash_set.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class patchCloudSet
 :
   public sampledSet
@@ -64,5 +65,8 @@ public:
   //- Destructor
   virtual ~patchCloudSet();
 };
+
 }  // namespace mousse
+
 #endif
+

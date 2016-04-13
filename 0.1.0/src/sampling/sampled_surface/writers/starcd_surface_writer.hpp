@@ -25,11 +25,12 @@
 //   Only scalar and vector fields are supported directly.
 //   A sphericalTensor is written as a scalar.
 //   Other field types are not written.
-// SourceFiles
-//   starcd_surface_writer.cpp
+
 #include "surface_writer.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class starcdSurfaceWriter
 :
   public surfaceWriter
@@ -114,5 +115,8 @@ public:
       const bool verbose = false
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

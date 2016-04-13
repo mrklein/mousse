@@ -13,12 +13,13 @@
 //   - interpolate=false : get cell value on faces
 //   - interpolate=true  : interpolate inside cell and interpolate to points
 //   There is no option to get interpolated value inside the cell on the faces.
-// SourceFiles
-//   sampled_patch_internal_field.cpp
+
 #include "sampled_patch.hpp"
 #include "mapped_patch_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sampledPatchInternalField
 :
   public sampledPatch
@@ -29,12 +30,12 @@ class sampledPatchInternalField
   // Private Member Functions
     //- Sample field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vField
     ) const;
     template<class Type>
-    tmp<Field<Type> > interpolateField(const interpolation<Type>&) const;
+    tmp<Field<Type>> interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
   TYPE_NAME("sampledPatchInternalField");
@@ -104,8 +105,10 @@ public:
     //- Write
     virtual void print(Ostream&) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_patch_internal_field_templates.cpp"
+
+#include "sampled_patch_internal_field.ipp"
+
 #endif
-#endif
+

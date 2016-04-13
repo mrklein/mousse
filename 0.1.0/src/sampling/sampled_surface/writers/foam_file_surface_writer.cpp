@@ -6,11 +6,16 @@
 #include "ofstream.hpp"
 #include "os_specific.hpp"
 #include "make_surface_writer_methods.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  makeSurfaceWriterType(foamFileSurfaceWriter);
+namespace mousse {
+
+MAKE_SURFACE_WRITER_TYPE(foamFileSurfaceWriter);
+
 }
+
+
 // Private Member Functions 
 template<class Type>
 void mousse::foamFileSurfaceWriter::writeTemplate
@@ -25,34 +30,37 @@ void mousse::foamFileSurfaceWriter::writeTemplate
   const bool verbose
 ) const
 {
-  fileName surfaceDir(outputDir/surfaceName);
-  if (!isDir(surfaceDir))
-  {
+  fileName surfaceDir{outputDir/surfaceName};
+  if (!isDir(surfaceDir)) {
     mkDir(surfaceDir);
   }
-  if (verbose)
-  {
-    Info<< "Writing field " << fieldName << " to " << surfaceDir << endl;
+  if (verbose) {
+    Info << "Writing field " << fieldName << " to " << surfaceDir << endl;
   }
   // geometry should already have been written
   // Values to separate directory (e.g. "scalarField/p")
-  fileName foamName(pTraits<Type>::typeName);
-  fileName valuesDir(surfaceDir  / (foamName + Field<Type>::typeName));
-  if (!isDir(valuesDir))
-  {
+  fileName foamName{pTraits<Type>::typeName};
+  fileName valuesDir{surfaceDir/(foamName + Field<Type>::typeName)};
+  if (!isDir(valuesDir)) {
     mkDir(valuesDir);
   }
   // values
-  OFstream(valuesDir/fieldName)()  << values;
+  OFstream{valuesDir/fieldName}() << values;
 }
+
+
 // Constructors 
 mousse::foamFileSurfaceWriter::foamFileSurfaceWriter()
 :
-  surfaceWriter()
+  surfaceWriter{}
 {}
+
+
 // Destructor 
 mousse::foamFileSurfaceWriter::~foamFileSurfaceWriter()
 {}
+
+
 // Member Functions 
 void mousse::foamFileSurfaceWriter::write
 (
@@ -63,27 +71,26 @@ void mousse::foamFileSurfaceWriter::write
   const bool verbose
 ) const
 {
-  fileName surfaceDir(outputDir/surfaceName);
-  if (!isDir(surfaceDir))
-  {
+  fileName surfaceDir{outputDir/surfaceName};
+  if (!isDir(surfaceDir)) {
     mkDir(surfaceDir);
   }
-  if (verbose)
-  {
-    Info<< "Writing geometry to " << surfaceDir << endl;
+  if (verbose) {
+    Info << "Writing geometry to " << surfaceDir << endl;
   }
   // Points
-  OFstream(surfaceDir/"points")() << points;
+  OFstream{surfaceDir/"points"}() << points;
   // Faces
-  OFstream(surfaceDir/"faces")() << faces;
+  OFstream{surfaceDir/"faces"}() << faces;
   // Face centers. Not really necessary but very handy when reusing as inputs
   // for e.g. timeVaryingMapped bc.
-  pointField faceCentres(faces.size(),point::zero);
-  FOR_ALL(faces, faceI)
-  {
+  pointField faceCentres{faces.size(),point::zero};
+  FOR_ALL(faces, faceI) {
     faceCentres[faceI] = faces[faceI].centre(points);
   }
-  OFstream(surfaceDir/"faceCentres")() << faceCentres;
+  OFstream{surfaceDir/"faceCentres"}() << faceCentres;
 }
+
+
 // create write methods
-defineSurfaceWriterWriteFields(mousse::foamFileSurfaceWriter);
+DEFINE_SURFACE_WRITER_WRITE_FIELDS(mousse::foamFileSurfaceWriter);

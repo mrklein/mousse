@@ -7,12 +7,13 @@
 #include "indexed_octree.hpp"
 #include "tree_data_cell.hpp"
 #include "tree_data_face.hpp"
+
+
 // Private Member Functions 
 void mousse::meshToMesh0::calcAddressing()
 {
-  if (debug)
-  {
-    Info<< "meshToMesh0::calculateAddressing() : "
+  if (debug) {
+    Info << "meshToMesh0::calculateAddressing() : "
       << "calculating mesh-to-mesh cell addressing" << endl;
   }
   // set reference to cells
@@ -26,47 +27,42 @@ void mousse::meshToMesh0::calcAddressing()
   // triggered.
   // SETTING UP RESCUE
   // visit all boundaries and mark the cell next to the boundary.
-  if (debug)
-  {
-    Info<< "meshToMesh0::calculateAddressing() : "
+  if (debug) {
+    Info << "meshToMesh0::calculateAddressing() : "
       << "Setting up rescue" << endl;
   }
-  List<bool> boundaryCell(fromCells.size(), false);
+  List<bool> boundaryCell{fromCells.size(), false};
   // set reference to boundary
   const polyPatchList& patchesFrom = fromMesh_.boundaryMesh();
-  FOR_ALL(patchesFrom, patchI)
-  {
+  FOR_ALL(patchesFrom, patchI) {
     // get reference to cells next to the boundary
     const labelUList& bCells = patchesFrom[patchI].faceCells();
-    FOR_ALL(bCells, faceI)
-    {
+    FOR_ALL(bCells, faceI) {
       boundaryCell[bCells[faceI]] = true;
     }
   }
-  treeBoundBox meshBb(fromPoints);
+  treeBoundBox meshBb{fromPoints};
   scalar typDim = meshBb.avgDim()/(2.0*cbrt(scalar(fromCells.size())));
   treeBoundBox shiftedBb
-  (
+  {
     meshBb.min(),
     meshBb.max() + vector(typDim, typDim, typDim)
-  );
-  if (debug)
-  {
-    Info<< "\nMesh" << endl;
-    Info<< "   bounding box           : " << meshBb << endl;
-    Info<< "   bounding box (shifted) : " << shiftedBb << endl;
-    Info<< "   typical dimension      :" << shiftedBb.typDim() << endl;
+  };
+  if (debug) {
+    Info << "\nMesh" << endl;
+    Info << "   bounding box           : " << meshBb << endl;
+    Info << "   bounding box (shifted) : " << shiftedBb << endl;
+    Info << "   typical dimension      :" << shiftedBb.typDim() << endl;
   }
   indexedOctree<treeDataCell> oc
-  (
-    treeDataCell(false, fromMesh_, polyMesh::CELL_TETS),
+  {
+    {false, fromMesh_, polyMesh::CELL_TETS},
     shiftedBb,      // overall bounding box
     8,              // maxLevel
     10,             // leafsize
     6.0             // duplicity
-  );
-  if (debug)
-  {
+  };
+  if (debug) {
     oc.print(Pout, false, 0);
   }
   cellAddresses
@@ -77,11 +73,9 @@ void mousse::meshToMesh0::calcAddressing()
     boundaryCell,
     oc
   );
-  FOR_ALL(toMesh_.boundaryMesh(), patchi)
-  {
+  FOR_ALL(toMesh_.boundaryMesh(), patchi) {
     const polyPatch& toPatch = toMesh_.boundaryMesh()[patchi];
-    if (cuttingPatches_.found(toPatch.name()))
-    {
+    if (cuttingPatches_.found(toPatch.name())) {
       boundaryAddressing_[patchi].setSize(toPatch.size());
       cellAddresses
       (
@@ -91,51 +85,41 @@ void mousse::meshToMesh0::calcAddressing()
         boundaryCell,
         oc
       );
-    }
-    else if
-    (
-      patchMap_.found(toPatch.name())
-    && fromMeshPatches_.found(patchMap_.find(toPatch.name())())
-    )
-    {
+    } else if (patchMap_.found(toPatch.name())
+               && fromMeshPatches_.found(patchMap_.find(toPatch.name())())) {
       const polyPatch& fromPatch = fromMesh_.boundaryMesh()
       [
         fromMeshPatches_.find(patchMap_.find(toPatch.name())())()
       ];
-      if (fromPatch.empty())
-      {
+      if (fromPatch.empty()) {
         WARNING_IN("meshToMesh0::calcAddressing()")
           << "Source patch " << fromPatch.name()
           << " has no faces. Not performing mapping for it."
           << endl;
         boundaryAddressing_[patchi] = -1;
-      }
-      else
-      {
-        treeBoundBox wallBb(fromPatch.localPoints());
-        scalar typDim =
-          wallBb.avgDim()/(2.0*sqrt(scalar(fromPatch.size())));
+      } else {
+        treeBoundBox wallBb{fromPatch.localPoints()};
+        scalar typDim = wallBb.avgDim()/(2.0*sqrt(scalar(fromPatch.size())));
         treeBoundBox shiftedBb
-        (
+        {
           wallBb.min(),
           wallBb.max() + vector(typDim, typDim, typDim)
-        );
+        };
         // Note: allow more levels than in meshSearch. Assume patch
         // is not as big as all boundary faces
         indexedOctree<treeDataFace> oc
-        (
+        {
           treeDataFace(false, fromPatch),
           shiftedBb,  // overall search domain
           12,         // maxLevel
           10,         // leafsize
           6.0         // duplicity
-        );
+        };
         const vectorField::subField centresToBoundary =
           toPatch.faceCentres();
         boundaryAddressing_[patchi].setSize(toPatch.size());
         scalar distSqr = sqr(wallBb.mag());
-        FOR_ALL(toPatch, toi)
-        {
+        FOR_ALL(toPatch, toi) {
           boundaryAddressing_[patchi][toi] = oc.findNearest
           (
             centresToBoundary[toi],
@@ -145,12 +129,13 @@ void mousse::meshToMesh0::calcAddressing()
       }
     }
   }
-  if (debug)
-  {
-    Info<< "meshToMesh0::calculateAddressing() : "
+  if (debug) {
+    Info << "meshToMesh0::calculateAddressing() : "
       << "finished calculating mesh-to-mesh cell addressing" << endl;
   }
 }
+
+
 void mousse::meshToMesh0::cellAddresses
 (
   labelList& cellAddressing_,
@@ -172,26 +157,21 @@ void mousse::meshToMesh0::cellAddresses
   // set reference to cell to cell addressing
   const vectorField& centresFrom = fromMesh.cellCentres();
   const labelListList& cc = fromMesh.cellCells();
-  FOR_ALL(points, toI)
-  {
+  FOR_ALL(points, toI) {
     // pick up target position
     const vector& p = points[toI];
     // set the sqr-distance
     scalar distSqr = magSqr(p - centresFrom[curCell]);
     bool closer;
-    do
-    {
+    do {
       closer = false;
       // set the current list of neighbouring cells
       const labelList& neighbours = cc[curCell];
-      FOR_ALL(neighbours, nI)
-      {
-        scalar curDistSqr =
-          magSqr(p - centresFrom[neighbours[nI]]);
+      FOR_ALL(neighbours, nI) {
+        scalar curDistSqr = magSqr(p - centresFrom[neighbours[nI]]);
         // search through all the neighbours.
         // If the cell is closer, reset current cell and distance
-        if (curDistSqr < (1 - SMALL)*distSqr)
-        {
+        if (curDistSqr < (1 - SMALL)*distSqr) {
           curCell = neighbours[nI];
           distSqr = curDistSqr;
           closer = true;    // a closer neighbour has been found
@@ -200,65 +180,54 @@ void mousse::meshToMesh0::cellAddresses
     } while (closer);
     cellAddressing_[toI] = -1;
     // Check point is actually in the nearest cell
-    if (fromMesh.pointInCell(p, curCell))
-    {
+    if (fromMesh.pointInCell(p, curCell)) {
       cellAddressing_[toI] = curCell;
-    }
-    else
-    {
+    } else {
       // If curCell is a boundary cell then the point maybe either outside
       // the domain or in an other region of the doamin, either way use
       // the octree search to find it.
-      if (boundaryCell[curCell])
-      {
+      if (boundaryCell[curCell]) {
         cellAddressing_[toI] = oc.findInside(p);
-      }
-      else
-      {
+      } else {
         // If not on the boundary search the neighbours
         bool found = false;
         // set the current list of neighbouring cells
         const labelList& neighbours = cc[curCell];
-        FOR_ALL(neighbours, nI)
-        {
+        FOR_ALL(neighbours, nI) {
           // search through all the neighbours.
           // If point is in neighbour reset current cell
-          if (fromMesh.pointInCell(p, neighbours[nI]))
-          {
+          if (fromMesh.pointInCell(p, neighbours[nI])) {
             cellAddressing_[toI] = neighbours[nI];
             found = true;
             break;
           }
         }
-        if (!found)
-        {
+        if (!found) {
           // If still not found search the neighbour-neighbours
           // set the current list of neighbouring cells
           const labelList& neighbours = cc[curCell];
-          FOR_ALL(neighbours, nI)
-          {
+          FOR_ALL(neighbours, nI) {
             // set the current list of neighbour-neighbouring cells
             const labelList& nn = cc[neighbours[nI]];
-            FOR_ALL(nn, nI)
-            {
+            FOR_ALL(nn, nI) {
               // search through all the neighbours.
               // If point is in neighbour reset current cell
-              if (fromMesh.pointInCell(p, nn[nI]))
-              {
+              if (fromMesh.pointInCell(p, nn[nI])) {
                 cellAddressing_[toI] = nn[nI];
                 found = true;
                 break;
               }
             }
-            if (found) break;
+            if (found)
+              break;
           }
         }
-        if (!found)
-        {
-          // Still not found so us the octree
+        if (!found) {
+          // Still not found so use the octree
           cellAddressing_[toI] = oc.findInside(p);
         }
       }
     }
   }
 }
+

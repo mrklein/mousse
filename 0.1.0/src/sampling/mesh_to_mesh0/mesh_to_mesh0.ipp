@@ -7,6 +7,8 @@
 #include "interpolation_cell_point.hpp"
 #include "sub_field.hpp"
 #include "mixed_fv_patch_field.hpp"
+
+
 // Member Functions 
 template<class Type, class CombineOp>
 void mousse::meshToMesh0::mapField
@@ -18,15 +20,15 @@ void mousse::meshToMesh0::mapField
 ) const
 {
   // Direct mapping of nearest-cell values
-  FOR_ALL(toF, celli)
-  {
-    if (adr[celli] != -1)
-    {
+  FOR_ALL(toF, celli) {
+    if (adr[celli] != -1) {
       cop(toF[celli], fromVf[adr[celli]]);
     }
   }
   //toF.map(fromVf, adr);
 }
+
+
 template<class Type, class CombineOp>
 void mousse::meshToMesh0::interpolateField
 (
@@ -38,19 +40,19 @@ void mousse::meshToMesh0::interpolateField
 ) const
 {
   // Inverse volume weighted interpolation
-  FOR_ALL(toF, celli)
-  {
+  FOR_ALL(toF, celli) {
     const labelList& overlapCells = adr[celli];
     const scalarList& w = weights[celli];
     Type f = pTraits<Type>::zero;
-    FOR_ALL(overlapCells, i)
-    {
+    FOR_ALL(overlapCells, i) {
       label fromCelli = overlapCells[i];
       f += fromVf[fromCelli]*w[i];
       cop(toF[celli], f);
     }
   }
 }
+
+
 template<class Type, class CombineOp>
 void mousse::meshToMesh0::interpolateField
 (
@@ -64,21 +66,20 @@ void mousse::meshToMesh0::interpolateField
   // Inverse distance weighted interpolation
   // get reference to cellCells
   const labelListList& cc = fromMesh_.cellCells();
-  FOR_ALL(toF, celli)
-  {
-    if (adr[celli] != -1)
-    {
+  FOR_ALL(toF, celli) {
+    if (adr[celli] != -1) {
       const labelList& neighbours = cc[adr[celli]];
       const scalarList& w = weights[celli];
       Type f = fromVf[adr[celli]]*w[0];
-      for (label ni = 1; ni < w.size(); ni++)
-      {
+      for (label ni = 1; ni < w.size(); ni++) {
         f += fromVf[neighbours[ni - 1]]*w[ni];
       }
       cop(toF[celli], f);
     }
   }
 }
+
+
 template<class Type, class CombineOp>
 void mousse::meshToMesh0::interpolateField
 (
@@ -91,22 +92,14 @@ void mousse::meshToMesh0::interpolateField
 {
   // Cell-Point interpolation
   interpolationCellPoint<Type> interpolator(fromVf);
-  FOR_ALL(toF, celli)
-  {
-    if (adr[celli] != -1)
-    {
-      cop
-      (
-        toF[celli],
-        interpolator.interpolate
-        (
-          centres[celli],
-          adr[celli]
-        )
-      );
+  FOR_ALL(toF, celli) {
+    if (adr[celli] != -1) {
+      cop(toF[celli], interpolator.interpolate(centres[celli], adr[celli]));
     }
   }
 }
+
+
 template<class Type, class CombineOp>
 void mousse::meshToMesh0::interpolateInternalField
 (
@@ -116,32 +109,31 @@ void mousse::meshToMesh0::interpolateInternalField
   const CombineOp& cop
 ) const
 {
-  if (fromVf.mesh() != fromMesh_)
-  {
+  if (fromVf.mesh() != fromMesh_) {
     FATAL_ERROR_IN
     (
       "meshToMesh0::interpolateInternalField(Field<Type>&, "
       "const GeometricField<Type, fvPatchField, volMesh>&, "
       "meshToMesh0::order, const CombineOp&) const"
-    )   << "the argument field does not correspond to the right mesh. "
-      << "Field size: " << fromVf.size()
-      << " mesh size: " << fromMesh_.nCells()
-      << exit(FatalError);
+    )
+    << "the argument field does not correspond to the right mesh. "
+    << "Field size: " << fromVf.size()
+    << " mesh size: " << fromMesh_.nCells()
+    << exit(FatalError);
   }
-  if (toF.size() != toMesh_.nCells())
-  {
+  if (toF.size() != toMesh_.nCells()) {
     FATAL_ERROR_IN
     (
       "meshToMesh0::interpolateInternalField(Field<Type>&, "
       "const GeometricField<Type, fvPatchField, volMesh>&, "
       "meshToMesh0::order, const CombineOp&) const"
-    )   << "the argument field does not correspond to the right mesh. "
-      << "Field size: " << toF.size()
-      << " mesh size: " << toMesh_.nCells()
-      << exit(FatalError);
+    )
+    << "the argument field does not correspond to the right mesh. "
+    << "Field size: " << toF.size()
+    << " mesh size: " << toMesh_.nCells()
+    << exit(FatalError);
   }
-  switch(ord)
-  {
+  switch(ord) {
     case MAP:
       mapField(toF, fromVf, cellAddressing_, cop);
     break;
@@ -189,15 +181,18 @@ void mousse::meshToMesh0::interpolateInternalField
         "meshToMesh0::interpolateInternalField(Field<Type>&, "
         "const GeometricField<Type, fvPatchField, volMesh>&, "
         "meshToMesh0::order, const CombineOp&) const"
-      )   << "unknown interpolation scheme " << ord
-        << exit(FatalError);
+      )
+      << "unknown interpolation scheme " << ord
+      << exit(FatalError);
   }
 }
+
+
 template<class Type, class CombineOp>
 void mousse::meshToMesh0::interpolateInternalField
 (
   Field<Type>& toF,
-  const tmp<GeometricField<Type, fvPatchField, volMesh> >& tfromVf,
+  const tmp<GeometricField<Type, fvPatchField, volMesh>>& tfromVf,
   meshToMesh0::order ord,
   const CombineOp& cop
 ) const
@@ -205,6 +200,8 @@ void mousse::meshToMesh0::interpolateInternalField
   interpolateInternalField(toF, tfromVf(), ord, cop);
   tfromVf.clear();
 }
+
+
 template<class Type, class CombineOp>
 void mousse::meshToMesh0::interpolate
 (
@@ -215,13 +212,10 @@ void mousse::meshToMesh0::interpolate
 ) const
 {
   interpolateInternalField(toVf, fromVf, ord, cop);
-  FOR_ALL(toMesh_.boundaryMesh(), patchi)
-  {
+  FOR_ALL(toMesh_.boundaryMesh(), patchi) {
     const fvPatch& toPatch = toMesh_.boundary()[patchi];
-    if (cuttingPatches_.found(toPatch.name()))
-    {
-      switch(ord)
-      {
+    if (cuttingPatches_.found(toPatch.name())) {
+      switch(ord) {
         case MAP:
         {
           mapField
@@ -269,33 +263,18 @@ void mousse::meshToMesh0::interpolate
             "GeometricField<Type, fvPatchField, volMesh>&, "
             "const GeometricField<Type, fvPatchField, volMesh>&, "
             "meshToMesh0::order, const CombineOp&) const"
-          )   << "unknown interpolation scheme " << ord
-            << exit(FatalError);
+          )
+          << "unknown interpolation scheme " << ord
+          << exit(FatalError);
       }
-      if (isA<mixedFvPatchField<Type> >(toVf.boundaryField()[patchi]))
-      {
-        refCast<mixedFvPatchField<Type> >
+      if (isA<mixedFvPatchField<Type>>(toVf.boundaryField()[patchi])) {
+        refCast<mixedFvPatchField<Type>>
         (
           toVf.boundaryField()[patchi]
         ).refValue() = toVf.boundaryField()[patchi];
       }
-    }
-    else if
-    (
-      patchMap_.found(toPatch.name())
-    && fromMeshPatches_.found(patchMap_.find(toPatch.name())())
-    )
-    {
-      /*
-      toVf.boundaryField()[patchi].map
-      (
-        fromVf.boundaryField()
-        [
-          fromMeshPatches_.find(patchMap_.find(toPatch.name())())()
-        ],
-        boundaryAddressing_[patchi]
-      );
-      */
+    } else if (patchMap_.found(toPatch.name())
+               && fromMeshPatches_.found(patchMap_.find(toPatch.name())())) {
       mapField
       (
         toVf.boundaryField()[patchi],
@@ -309,11 +288,13 @@ void mousse::meshToMesh0::interpolate
     }
   }
 }
+
+
 template<class Type, class CombineOp>
 void mousse::meshToMesh0::interpolate
 (
   GeometricField<Type, fvPatchField, volMesh>& toVf,
-  const tmp<GeometricField<Type, fvPatchField, volMesh> >& tfromVf,
+  const tmp<GeometricField<Type, fvPatchField, volMesh>>& tfromVf,
   meshToMesh0::order ord,
   const CombineOp& cop
 ) const
@@ -321,8 +302,10 @@ void mousse::meshToMesh0::interpolate
   interpolate(toVf, tfromVf(), ord, cop);
   tfromVf.clear();
 }
+
+
 template<class Type, class CombineOp>
-mousse::tmp< mousse::GeometricField<Type, mousse::fvPatchField, mousse::volMesh> >
+mousse::tmp< mousse::GeometricField<Type, mousse::fvPatchField, mousse::volMesh>>
 mousse::meshToMesh0::interpolate
 (
   const GeometricField<Type, fvPatchField, volMesh>& fromVf,
@@ -331,28 +314,24 @@ mousse::meshToMesh0::interpolate
 ) const
 {
   // Create and map the internal-field values
-  Field<Type> internalField(toMesh_.nCells());
+  Field<Type> internalField{toMesh_.nCells()};
   interpolateInternalField(internalField, fromVf, ord, cop);
   // check whether both meshes have got the same number
   // of boundary patches
-  if (fromMesh_.boundary().size() != toMesh_.boundary().size())
-  {
+  if (fromMesh_.boundary().size() != toMesh_.boundary().size()) {
     FATAL_ERROR_IN
     (
       "meshToMesh0::interpolate"
       "(const GeometricField<Type, fvPatchField, volMesh>&,"
       "meshToMesh0::order, const CombineOp&) const"
-    )   << "Incompatible meshes: different number of boundaries, "
+    )
+    << "Incompatible meshes: different number of boundaries, "
        "only internal field may be interpolated"
-      << exit(FatalError);
+    << exit(FatalError);
   }
   // Create and map the patch field values
-  PtrList<fvPatchField<Type> > patchFields
-  (
-    boundaryAddressing_.size()
-  );
-  FOR_ALL(boundaryAddressing_, patchI)
-  {
+  PtrList<fvPatchField<Type>> patchFields{boundaryAddressing_.size()};
+  FOR_ALL(boundaryAddressing_, patchI) {
     patchFields.set
     (
       patchI,
@@ -369,37 +348,39 @@ mousse::meshToMesh0::interpolate
     );
   }
   // Create the complete field from the pieces
-  tmp<GeometricField<Type, fvPatchField, volMesh> > ttoF
-  (
+  tmp<GeometricField<Type, fvPatchField, volMesh>> ttoF
+  {
     new GeometricField<Type, fvPatchField, volMesh>
-    (
-      IOobject
-      (
+    {
+      {
         "interpolated(" + fromVf.name() + ')',
         toMesh_.time().timeName(),
         toMesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       toMesh_,
       fromVf.dimensions(),
       internalField,
       patchFields
-    )
-  );
+    }
+  };
   return ttoF;
 }
+
+
 template<class Type, class CombineOp>
-mousse::tmp< mousse::GeometricField<Type, mousse::fvPatchField, mousse::volMesh> >
+mousse::tmp< mousse::GeometricField<Type, mousse::fvPatchField, mousse::volMesh>>
 mousse::meshToMesh0::interpolate
 (
-  const tmp<GeometricField<Type, fvPatchField, volMesh> >& tfromVf,
+  const tmp<GeometricField<Type, fvPatchField, volMesh>>& tfromVf,
   meshToMesh0::order ord,
   const CombineOp& cop
 ) const
 {
-  tmp<GeometricField<Type, fvPatchField, volMesh> > tint =
+  tmp<GeometricField<Type, fvPatchField, volMesh>> tint =
     interpolate(tfromVf(), ord, cop);
   tfromVf.clear();
   return tint;
 }
+

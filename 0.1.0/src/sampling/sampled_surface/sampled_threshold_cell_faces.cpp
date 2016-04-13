@@ -9,9 +9,11 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_mesh.hpp"
 #include "threshold_cell_faces.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(sampledThresholdCellFaces, 0);
 ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -20,14 +22,16 @@ ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
   word,
   thresholdCellFaces
 );
+
 }
+
+
 // Private Member Functions 
 bool mousse::sampledThresholdCellFaces::updateGeometry() const
 {
   const fvMesh& fvm = static_cast<const fvMesh&>(mesh());
   // no update needed
-  if (fvm.time().timeIndex() == prevTimeIndex_)
-  {
+  if (fvm.time().timeIndex() == prevTimeIndex_) {
     return false;
   }
   prevTimeIndex_ = fvm.time().timeIndex();
@@ -36,61 +40,52 @@ bool mousse::sampledThresholdCellFaces::updateGeometry() const
   // 1. see if field in database
   // 2. see if field can be read
   const volScalarField* cellFldPtr = NULL;
-  if (fvm.foundObject<volScalarField>(fieldName_))
-  {
-    if (debug)
-    {
-      Info<< "sampledThresholdCellFaces::updateGeometry() : lookup "
+  if (fvm.foundObject<volScalarField>(fieldName_)) {
+    if (debug) {
+      Info << "sampledThresholdCellFaces::updateGeometry() : lookup "
         << fieldName_ << endl;
     }
     cellFldPtr = &fvm.lookupObject<volScalarField>(fieldName_);
-  }
-  else
-  {
+  } else {
     // Bit of a hack. Read field and store.
-    if (debug)
-    {
-      Info<< "sampledThresholdCellFaces::updateGeometry() : reading "
+    if (debug) {
+      Info << "sampledThresholdCellFaces::updateGeometry() : reading "
         << fieldName_ << " from time " << fvm.time().timeName()
         << endl;
     }
     readFieldPtr_.reset
     (
       new volScalarField
-      (
-        IOobject
-        (
+      {
+        {
           fieldName_,
           fvm.time().timeName(),
           fvm,
           IOobject::MUST_READ,
           IOobject::NO_WRITE,
           false
-        ),
+        },
         fvm
-      )
+      }
     );
     cellFldPtr = readFieldPtr_.operator->();
   }
   const volScalarField& cellFld = *cellFldPtr;
   thresholdCellFaces surf
-  (
+  {
     fvm,
     cellFld.internalField(),
     lowerThreshold_,
     upperThreshold_,
     triangulate_
-  );
-  const_cast<sampledThresholdCellFaces&>
-  (
-    *this
-  ).MeshedSurface<face>::transfer(surf);
+  };
+  const_cast<sampledThresholdCellFaces&>(*this)
+    .MeshedSurface<face>::transfer(surf);
   meshCells_.transfer(surf.meshCells());
   // clear derived data
   sampledSurface::clearGeom();
-  if (debug)
-  {
-    Pout<< "sampledThresholdCellFaces::updateGeometry() : constructed"
+  if (debug) {
+    Pout << "sampledThresholdCellFaces::updateGeometry() : constructed"
       << nl
       << "    field         : " << fieldName_ << nl
       << "    lowerLimit    : " << lowerThreshold_ << nl
@@ -101,6 +96,8 @@ bool mousse::sampledThresholdCellFaces::updateGeometry() const
   }
   return true;
 }
+
+
 // Constructors 
 mousse::sampledThresholdCellFaces::sampledThresholdCellFaces
 (
@@ -109,17 +106,16 @@ mousse::sampledThresholdCellFaces::sampledThresholdCellFaces
   const dictionary& dict
 )
 :
-  sampledSurface(name, mesh, dict),
-  fieldName_(dict.lookup("field")),
-  lowerThreshold_(dict.lookupOrDefault<scalar>("lowerLimit", -VGREAT)),
-  upperThreshold_(dict.lookupOrDefault<scalar>("upperLimit", VGREAT)),
-  zoneKey_(keyType::null),
-  triangulate_(dict.lookupOrDefault("triangulate", false)),
-  prevTimeIndex_(-1),
-  meshCells_(0)
+  sampledSurface{name, mesh, dict},
+  fieldName_{dict.lookup("field")},
+  lowerThreshold_{dict.lookupOrDefault<scalar>("lowerLimit", -VGREAT)},
+  upperThreshold_{dict.lookupOrDefault<scalar>("upperLimit", VGREAT)},
+  zoneKey_{keyType::null},
+  triangulate_{dict.lookupOrDefault("triangulate", false)},
+  prevTimeIndex_{-1},
+  meshCells_{0}
 {
-  if (!dict.found("lowerLimit") && !dict.found("upperLimit"))
-  {
+  if (!dict.found("lowerLimit") && !dict.found("upperLimit")) {
     FATAL_ERROR_IN
       (
         "sampledThresholdCellFaces::sampledThresholdCellFaces(..)"
@@ -127,38 +123,40 @@ mousse::sampledThresholdCellFaces::sampledThresholdCellFaces
       << "require at least one of 'lowerLimit' or 'upperLimit'" << endl
       << abort(FatalError);
   }
-//    dict.readIfPresent("zone", zoneKey_);
-//
-//    if (debug && zoneKey_.size() && mesh.cellZones().findZoneID(zoneKey_) < 0)
-//    {
-//        Info<< "cellZone " << zoneKey_
-//            << " not found - using entire mesh" << endl;
-//    }
 }
+
+
 // Destructor 
 mousse::sampledThresholdCellFaces::~sampledThresholdCellFaces()
 {}
+
+
 // Member Functions 
 bool mousse::sampledThresholdCellFaces::needsUpdate() const
 {
   const fvMesh& fvm = static_cast<const fvMesh&>(mesh());
   return fvm.time().timeIndex() != prevTimeIndex_;
 }
+
+
 bool mousse::sampledThresholdCellFaces::expire()
 {
   // already marked as expired
-  if (prevTimeIndex_ == -1)
-  {
+  if (prevTimeIndex_ == -1) {
     return false;
   }
   // force update
   prevTimeIndex_ = -1;
   return true;
 }
+
+
 bool mousse::sampledThresholdCellFaces::update()
 {
   return updateGeometry();
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::sampledThresholdCellFaces::sample
 (
   const volScalarField& vField
@@ -166,6 +164,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledThresholdCellFaces::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledThresholdCellFaces::sample
 (
   const volVectorField& vField
@@ -173,6 +173,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledThresholdCellFaces::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField> mousse::sampledThresholdCellFaces::sample
 (
   const volSphericalTensorField& vField
@@ -180,6 +182,8 @@ mousse::tmp<mousse::sphericalTensorField> mousse::sampledThresholdCellFaces::sam
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledThresholdCellFaces::sample
 (
   const volSymmTensorField& vField
@@ -187,6 +191,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledThresholdCellFaces::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledThresholdCellFaces::sample
 (
   const volTensorField& vField
@@ -194,6 +200,8 @@ mousse::tmp<mousse::tensorField> mousse::sampledThresholdCellFaces::sample
 {
   return sampleField(vField);
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::sampledThresholdCellFaces::interpolate
 (
   const interpolation<scalar>& interpolator
@@ -201,6 +209,8 @@ mousse::tmp<mousse::scalarField> mousse::sampledThresholdCellFaces::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::vectorField> mousse::sampledThresholdCellFaces::interpolate
 (
   const interpolation<vector>& interpolator
@@ -208,6 +218,8 @@ mousse::tmp<mousse::vectorField> mousse::sampledThresholdCellFaces::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::sphericalTensorField>
 mousse::sampledThresholdCellFaces::interpolate
 (
@@ -216,6 +228,8 @@ mousse::sampledThresholdCellFaces::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::symmTensorField> mousse::sampledThresholdCellFaces::interpolate
 (
   const interpolation<symmTensor>& interpolator
@@ -223,6 +237,8 @@ mousse::tmp<mousse::symmTensorField> mousse::sampledThresholdCellFaces::interpol
 {
   return interpolateField(interpolator);
 }
+
+
 mousse::tmp<mousse::tensorField> mousse::sampledThresholdCellFaces::interpolate
 (
   const interpolation<tensor>& interpolator
@@ -230,12 +246,13 @@ mousse::tmp<mousse::tensorField> mousse::sampledThresholdCellFaces::interpolate
 {
   return interpolateField(interpolator);
 }
+
+
 void mousse::sampledThresholdCellFaces::print(Ostream& os) const
 {
-  os  << "sampledThresholdCellFaces: " << name() << " :"
+  os << "sampledThresholdCellFaces: " << name() << " :"
     << "  field:" << fieldName_
     << "  lowerLimit:" << lowerThreshold_
     << "  upperLimit:" << upperThreshold_;
-    //<< "  faces:" << faces().size()   // possibly no geom yet
-    //<< "  points:" << points().size();
 }
+

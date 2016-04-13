@@ -7,8 +7,13 @@
 
 #include "sampled_sets.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<sampledSets> IOsampledSets;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<sampledSets> IOsampledSets;
+
 }
+
 #endif
+

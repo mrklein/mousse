@@ -7,6 +7,9 @@
 #include "surface_fields.hpp"
 #include "ioobject_list.hpp"
 #include "string_list_ops.hpp"
+#include "time.hpp"
+
+
 // Private Member Functions 
 void mousse::probes::clearFieldGroups()
 {
@@ -21,76 +24,59 @@ void mousse::probes::clearFieldGroups()
   surfaceSymmTensorFields_.clear();
   surfaceTensorFields_.clear();
 }
+
+
 mousse::label mousse::probes::appendFieldGroup
 (
   const word& fieldName,
   const word& fieldType
 )
 {
-  if (fieldType == volScalarField::typeName)
-  {
+  if (fieldType == volScalarField::typeName) {
     scalarFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == volVectorField::typeName)
-  {
+  } else if (fieldType == volVectorField::typeName) {
     vectorFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == volSphericalTensorField::typeName)
-  {
+  } else if (fieldType == volSphericalTensorField::typeName) {
     sphericalTensorFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == volSymmTensorField::typeName)
-  {
+  } else if (fieldType == volSymmTensorField::typeName) {
     symmTensorFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == volTensorField::typeName)
-  {
+  } else if (fieldType == volTensorField::typeName) {
     tensorFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == surfaceScalarField::typeName)
-  {
+  } else if (fieldType == surfaceScalarField::typeName) {
     surfaceScalarFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == surfaceVectorField::typeName)
-  {
+  } else if (fieldType == surfaceVectorField::typeName) {
     surfaceVectorFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == surfaceSphericalTensorField::typeName)
-  {
+  } else if (fieldType == surfaceSphericalTensorField::typeName) {
     surfaceSphericalTensorFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == surfaceSymmTensorField::typeName)
-  {
+  } else if (fieldType == surfaceSymmTensorField::typeName) {
     surfaceSymmTensorFields_.append(fieldName);
     return 1;
-  }
-  else if (fieldType == surfaceTensorField::typeName)
-  {
+  } else if (fieldType == surfaceTensorField::typeName) {
     surfaceTensorFields_.append(fieldName);
     return 1;
   }
   return 0;
 }
+
+
 mousse::label mousse::probes::classifyFields()
 {
   label nFields = 0;
   clearFieldGroups();
-  if (loadFromFiles_)
-  {
+  if (loadFromFiles_) {
     // check files for a particular time
-    IOobjectList objects(mesh_, mesh_.time().timeName());
+    IOobjectList objects{mesh_, mesh_.time().timeName()};
     wordList allFields = objects.sortedNames();
     labelList indices = findStrings(fieldSelection_, allFields);
-    FOR_ALL(indices, fieldI)
-    {
+    FOR_ALL(indices, fieldI) {
       const word& fieldName = allFields[indices[fieldI]];
       nFields += appendFieldGroup
       (
@@ -98,21 +84,15 @@ mousse::label mousse::probes::classifyFields()
         objects.find(fieldName)()->headerClassName()
       );
     }
-  }
-  else
-  {
+  } else {
     // check currently available fields
     wordList allFields = mesh_.sortedNames();
     labelList indices = findStrings(fieldSelection_, allFields);
-    FOR_ALL(indices, fieldI)
-    {
+    FOR_ALL(indices, fieldI) {
       const word& fieldName = allFields[indices[fieldI]];
-      nFields += appendFieldGroup
-      (
-        fieldName,
-        mesh_.find(fieldName)()->type()
-      );
+      nFields += appendFieldGroup(fieldName, mesh_.find(fieldName)()->type());
     }
   }
   return nFields;
 }
+

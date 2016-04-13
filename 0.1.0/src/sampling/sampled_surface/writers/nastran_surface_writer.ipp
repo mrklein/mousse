@@ -5,6 +5,8 @@
 #include "ofstream.hpp"
 #include "iomanip.hpp"
 #include "os_specific.hpp"
+
+
 // Private Member Functions 
 template<class Type>
 void mousse::nastranSurfaceWriter::writeFaceValue
@@ -22,19 +24,16 @@ void mousse::nastranSurfaceWriter::writeFaceValue
   // 4 onwards: load values
   label SID = 1;
   Type scaledValue = scale_*value;
-  switch (writeFormat_)
-  {
+  switch (writeFormat_) {
     case wfShort:
     {
       os.setf(ios_base::left);
-      os  << setw(8) << nasFieldName;
+      os << setw(8) << nasFieldName;
       os.unsetf(ios_base::left);
       os.setf(ios_base::right);
-      os  << setw(8) << SID
-        << setw(8) << EID;
-      for (direction dirI = 0; dirI < pTraits<Type>::nComponents; dirI++)
-      {
-        os  << setw(8) << component(scaledValue, dirI);
+      os << setw(8) << SID << setw(8) << EID;
+      for (direction dirI = 0; dirI < pTraits<Type>::nComponents; dirI++) {
+        os << setw(8) << component(scaledValue, dirI);
       }
       os.unsetf(ios_base::right);
       break;
@@ -42,30 +41,25 @@ void mousse::nastranSurfaceWriter::writeFaceValue
     case wfLong:
     {
       os.setf(ios_base::left);
-      os  << setw(8) << word(nasFieldName + "*");
+      os << setw(8) << word(nasFieldName + "*");
       os.unsetf(ios_base::left);
       os.setf(ios_base::right);
-      os  << setw(16) << SID
-        << setw(16) << EID;
-      for (direction dirI = 0; dirI < pTraits<Type>::nComponents; dirI++)
-      {
-        os  << setw(16) << component(scaledValue, dirI);
+      os << setw(16) << SID << setw(16) << EID;
+      for (direction dirI = 0; dirI < pTraits<Type>::nComponents; dirI++) {
+        os << setw(16) << component(scaledValue, dirI);
       }
       os.unsetf(ios_base::right);
-      os  << nl;
+      os << nl;
       os.setf(ios_base::left);
-      os  << '*';
+      os << '*';
       os.unsetf(ios_base::left);
       break;
     }
     case wfFree:
     {
-      os  << nasFieldName << ','
-        << SID << ','
-        << EID;
-      for (direction dirI = 0; dirI < pTraits<Type>::nComponents; dirI++)
-      {
-        os  << ',' << component(scaledValue, dirI);
+      os << nasFieldName << ',' << SID << ',' << EID;
+      for (direction dirI = 0; dirI < pTraits<Type>::nComponents; dirI++) {
+        os << ',' << component(scaledValue, dirI);
       }
       break;
     }
@@ -75,6 +69,8 @@ void mousse::nastranSurfaceWriter::writeFaceValue
   }
   os << nl;
 }
+
+
 template<class Type>
 void mousse::nastranSurfaceWriter::writeTemplate
 (
@@ -88,8 +84,7 @@ void mousse::nastranSurfaceWriter::writeTemplate
   const bool verbose
 ) const
 {
-  if (!fieldMap_.found(fieldName))
-  {
+  if (!fieldMap_.found(fieldName)) {
     WARNING_IN
     (
       "void mousse::nastranSurfaceWriter::writeTemplate"
@@ -104,66 +99,59 @@ void mousse::nastranSurfaceWriter::writeTemplate
         "const bool"
       ") const"
     )
-      << "No mapping found between field " << fieldName
-      << " and corresponding Nastran field.  Available types are:"
-      << fieldMap_
-      << exit(FatalError);
+    << "No mapping found between field " << fieldName
+    << " and corresponding Nastran field.  Available types are:"
+    << fieldMap_
+    << exit(FatalError);
     return;
   }
-  const word& nasFieldName(fieldMap_[fieldName]);
-  if (!isDir(outputDir/fieldName))
-  {
+  const word& nasFieldName{fieldMap_[fieldName]};
+  if (!isDir(outputDir/fieldName)) {
     mkDir(outputDir/fieldName);
   }
   // const scalar timeValue = mousse::name(this->mesh().time().timeValue());
   const scalar timeValue = 0.0;
-  OFstream os(outputDir/fieldName/surfaceName + ".dat");
+  OFstream os{outputDir/fieldName/surfaceName + ".dat"};
   formatOS(os);
-  if (verbose)
-  {
-    Info<< "Writing nastran file to " << os.name() << endl;
+  if (verbose) {
+    Info << "Writing nastran file to " << os.name() << endl;
   }
-  os  << "TITLE=OpenFOAM " << surfaceName.c_str() << " " << fieldName
+  os
+    << "TITLE=OpenFOAM " << surfaceName.c_str() << " " << fieldName
     << " data" << nl
     << "$" << nl
     << "TIME " << timeValue << nl
     << "$" << nl
     << "BEGIN BULK" << nl;
-  List<DynamicList<face> > decomposedFaces(faces.size());
+  List<DynamicList<face>> decomposedFaces{faces.size()};
   writeGeometry(points, faces, decomposedFaces, os);
-  os  << "$" << nl
+  os
+    << "$" << nl
     << "$ Field data" << nl
     << "$" << nl;
-  if (isNodeValues)
-  {
+  if (isNodeValues) {
     label n = 0;
-    FOR_ALL(decomposedFaces, i)
-    {
+    FOR_ALL(decomposedFaces, i) {
       const DynamicList<face>& dFaces = decomposedFaces[i];
-      FOR_ALL(dFaces, faceI)
-      {
+      FOR_ALL(dFaces, faceI) {
         Type v = pTraits<Type>::zero;
         const face& f = dFaces[faceI];
-        FOR_ALL(f, fptI)
-        {
+        FOR_ALL(f, fptI) {
           v += values[f[fptI]];
         }
         v /= f.size();
         writeFaceValue(nasFieldName, v, ++n, os);
       }
     }
-  }
-  else
-  {
+  } else {
     label n = 0;
-    FOR_ALL(decomposedFaces, i)
-    {
+    FOR_ALL(decomposedFaces, i) {
       const DynamicList<face>& dFaces = decomposedFaces[i];
-      FOR_ALL(dFaces, faceI)
-      {
+      FOR_ALL(dFaces, faceI) {
         writeFaceValue(nasFieldName, values[faceI], ++n, os);
       }
     }
   }
-  os  << "ENDDATA" << endl;
+  os << "ENDDATA" << endl;
 }
+

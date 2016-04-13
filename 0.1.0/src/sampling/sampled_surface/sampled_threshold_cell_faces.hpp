@@ -9,12 +9,13 @@
 // Description
 //   A sampledSurface defined by the cell faces corresponding to a threshold
 //   value.
-// SourceFiles
-//   sampled_threshold_cell_faces.cpp
+
 #include "sampled_surface.hpp"
 #include "meshed_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sampledThresholdCellFaces
 :
   public sampledSurface,
@@ -44,12 +45,12 @@ class sampledThresholdCellFaces
     bool updateGeometry() const;
     //- Sample field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vField
     ) const;
     template<class Type>
-    tmp<Field<Type> >
+    tmp<Field<Type>>
     interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
@@ -128,8 +129,9 @@ public:
     //- Write
     virtual void print(Ostream&) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_threshold_cell_faces_templates.cpp"
-#endif
+
+#include "sampled_threshold_cell_faces.ipp"
+
 #endif

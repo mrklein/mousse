@@ -7,6 +7,8 @@
 #include "surface_fields.hpp"
 #include "list_list_ops.hpp"
 #include "string_list_ops.hpp"
+
+
 // Private Member Functions 
 template<class Type>
 void mousse::sampledSurfaces::writeSurface
@@ -18,33 +20,29 @@ void mousse::sampledSurfaces::writeSurface
 )
 {
   const sampledSurface& s = operator[](surfI);
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     // Collect values from all processors
-    List<Field<Type> > gatheredValues(Pstream::nProcs());
+    List<Field<Type>> gatheredValues{Pstream::nProcs()};
     gatheredValues[Pstream::myProcNo()] = values;
     Pstream::gatherList(gatheredValues);
-    if (Pstream::master())
-    {
+    if (Pstream::master()) {
       // Combine values into single field
       Field<Type> allValues
-      (
-        ListListOps::combine<Field<Type> >
+      {
+        ListListOps::combine<Field<Type>>
         (
           gatheredValues,
-          accessOp<Field<Type> >()
+          accessOp<Field<Type>>()
         )
-      );
+      };
       // Renumber (point data) to correspond to merged points
-      if (mergeList_[surfI].pointsMap.size() == allValues.size())
-      {
+      if (mergeList_[surfI].pointsMap.size() == allValues.size()) {
         inplaceReorder(mergeList_[surfI].pointsMap, allValues);
         allValues.setSize(mergeList_[surfI].points.size());
       }
       // Write to time directory under outputPath_
       // skip surface without faces (eg, a failed cut-plane)
-      if (mergeList_[surfI].faces.size())
-      {
+      if (mergeList_[surfI].faces.size()) {
         formatter_->write
         (
           outputDir,
@@ -57,13 +55,10 @@ void mousse::sampledSurfaces::writeSurface
         );
       }
     }
-  }
-  else
-  {
+  } else {
     // Write to time directory under outputPath_
     // skip surface without faces (eg, a failed cut-plane)
-    if (s.faces().size())
-    {
+    if (s.faces().size()) {
       formatter_->write
       (
         outputDir,
@@ -77,6 +72,8 @@ void mousse::sampledSurfaces::writeSurface
     }
   }
 }
+
+
 template<class Type>
 void mousse::sampledSurfaces::sampleAndWrite
 (
@@ -84,32 +81,26 @@ void mousse::sampledSurfaces::sampleAndWrite
 )
 {
   // interpolator for this field
-  autoPtr<interpolation<Type> > interpolatorPtr;
+  autoPtr<interpolation<Type>> interpolatorPtr;
   const word& fieldName = vField.name();
   const fileName outputDir = outputPath_/vField.time().timeName();
-  FOR_ALL(*this, surfI)
-  {
+  FOR_ALL(*this, surfI) {
     const sampledSurface& s = operator[](surfI);
     Field<Type> values;
-    if (s.interpolate())
-    {
-      if (interpolatorPtr.empty())
-      {
-        interpolatorPtr = interpolation<Type>::New
-        (
-          interpolationScheme_,
-          vField
-        );
+    if (s.interpolate()) {
+      if (interpolatorPtr.empty()) {
+        interpolatorPtr =
+          interpolation<Type>::New(interpolationScheme_, vField);
       }
       values = s.interpolate(interpolatorPtr());
-    }
-    else
-    {
+    } else {
       values = s.sample(vField);
     }
     writeSurface<Type>(values, surfI, fieldName, outputDir);
   }
 }
+
+
 template<class Type>
 void mousse::sampledSurfaces::sampleAndWrite
 (
@@ -118,52 +109,44 @@ void mousse::sampledSurfaces::sampleAndWrite
 {
   const word& fieldName   = sField.name();
   const fileName outputDir = outputPath_/sField.time().timeName();
-  FOR_ALL(*this, surfI)
-  {
+  FOR_ALL(*this, surfI) {
     const sampledSurface& s = operator[](surfI);
-    Field<Type> values(s.sample(sField));
+    Field<Type> values{s.sample(sField)};
     writeSurface<Type>(values, surfI, fieldName, outputDir);
   }
 }
+
+
 template<class GeoField>
 void mousse::sampledSurfaces::sampleAndWrite(const IOobjectList& objects)
 {
   wordList names;
-  if (loadFromFiles_)
-  {
-    IOobjectList fieldObjects(objects.lookupClass(GeoField::typeName));
+  if (loadFromFiles_) {
+    IOobjectList fieldObjects{objects.lookupClass(GeoField::typeName)};
     names = fieldObjects.names();
-  }
-  else
-  {
+  } else {
     names = mesh_.thisDb().names<GeoField>();
   }
-  labelList nameIDs(findStrings(fieldSelection_, names));
-  wordHashSet fieldNames(wordList(names, nameIDs));
-  FOR_ALL_CONST_ITER(wordHashSet, fieldNames, iter)
-  {
+  labelList nameIDs{findStrings(fieldSelection_, names)};
+  wordHashSet fieldNames{wordList(names, nameIDs)};
+  FOR_ALL_CONST_ITER(wordHashSet, fieldNames, iter) {
     const word& fieldName = iter.key();
-    if ((Pstream::master()) && verbose_)
-    {
-      Pout<< "sampleAndWrite: " << fieldName << endl;
+    if ((Pstream::master()) && verbose_) {
+      Pout << "sampleAndWrite: " << fieldName << endl;
     }
-    if (loadFromFiles_)
-    {
+    if (loadFromFiles_) {
       const GeoField fld
-      (
-        IOobject
-        (
+      {
+        {
           fieldName,
           mesh_.time().timeName(),
           mesh_,
           IOobject::MUST_READ
-        ),
+        },
         mesh_
-      );
+      };
       sampleAndWrite(fld);
-    }
-    else
-    {
+    } else {
       sampleAndWrite
       (
         mesh_.thisDb().lookupObject<GeoField>(fieldName)
@@ -171,3 +154,4 @@ void mousse::sampledSurfaces::sampleAndWrite(const IOobjectList& objects)
     }
   }
 }
+

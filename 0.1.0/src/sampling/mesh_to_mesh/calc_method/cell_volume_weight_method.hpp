@@ -9,11 +9,12 @@
 // Description
 //   Cell-volume-weighted mesh-to-mesh interpolation class
 //   Volume conservative.
-// SourceFiles
-//   cell_volume_weight_method.cpp
+
 #include "mesh_to_mesh_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cellVolumeWeightMethod
 :
   public meshToMeshMethod
@@ -77,5 +78,8 @@ public:
         scalarListList& tgtToTgtWght
       );
 };
+
 }  // namespace mousse
+
 #endif
+

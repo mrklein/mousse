@@ -6,13 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::cloudSet
-// Description
-// SourceFiles
-//   cloud_set.cpp
+
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class passiveParticle;
 template<class Type> class particle;

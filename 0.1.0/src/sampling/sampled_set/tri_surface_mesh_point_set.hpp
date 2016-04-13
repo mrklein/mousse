@@ -8,11 +8,12 @@
 //   mousse::triSurfaceMeshPointSet
 // Description
 //   sampleSet from all points of a triSurfaceMesh.
-// SourceFiles
-//   tri_surface_mesh_point_set.cpp
+
 #include "sampled_set.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class triSurfaceMeshPointSet
 :
@@ -53,5 +54,8 @@ public:
     //- Get reference point
     virtual point getRefPoint(const List<point>&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

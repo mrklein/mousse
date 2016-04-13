@@ -10,14 +10,15 @@
 //   A sampledSurface defined by a surface of iso value. Always triangulated.
 //   To be used in sampleSurfaces / functionObjects. Recalculates iso surface
 //   only if time changes.
-// SourceFiles
-//   sampled_iso_surface.cpp
+
 #include "iso_surface.hpp"
 #include "sampled_surface.hpp"
-#include "zone_i_ds.hpp"
+#include "zone_ids.hpp"
 #include "fv_mesh_subset.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sampledIsoSurface
 :
   public sampledSurface
@@ -66,13 +67,12 @@ class sampledIsoSurface
     bool updateGeometry() const;
     //- Sample field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vField
     ) const;
     template<class Type>
-    tmp<Field<Type> >
-    interpolateField(const interpolation<Type>&) const;
+    tmp<Field<Type>> interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
   TYPE_NAME("sampledIsoSurface");
@@ -104,12 +104,10 @@ public:
     //- Faces of surface
     virtual const faceList& faces() const
     {
-      if (facesPtr_.empty())
-      {
+      if (facesPtr_.empty()) {
         const triSurface& s = surface();
-        facesPtr_.reset(new faceList(s.size()));
-        FOR_ALL(s, i)
-        {
+        facesPtr_.reset(new faceList{s.size()});
+        FOR_ALL(s, i) {
           facesPtr_()[i] = s[i].triFaceFace();
         }
       }
@@ -175,7 +173,7 @@ public:
     virtual void print(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "sampled_iso_surface_templates.cpp"
-#endif
+
+#include "sampled_iso_surface.ipp"
+
 #endif

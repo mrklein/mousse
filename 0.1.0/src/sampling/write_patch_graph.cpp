@@ -2,8 +2,10 @@
 #include "vol_fields.hpp"
 #include "fv_mesh.hpp"
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 void writePatchGraph
 (
   const volScalarField& vsf,
@@ -21,4 +23,6 @@ void writePatchGraph
     vsf.boundaryField()[patchLabel]
   ).write(vsf.time().timePath()/vsf.name(), graphFormat);
 }
+
 }  // namespace mousse
+

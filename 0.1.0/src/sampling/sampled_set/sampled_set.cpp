@@ -8,74 +8,75 @@
 #include "mesh_search.hpp"
 #include "writer.hpp"
 #include "particle.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  const scalar sampledSet::tol = 1e-6;
-  DEFINE_TYPE_NAME_AND_DEBUG(sampledSet, 0);
-  DEFINE_RUN_TIME_SELECTION_TABLE(sampledSet, word);
+namespace mousse {
+
+const scalar sampledSet::tol = 1e-6;
+DEFINE_TYPE_NAME_AND_DEBUG(sampledSet, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(sampledSet, word);
+
 }
+
+
 // Private Member Functions 
 mousse::label mousse::sampledSet::getBoundaryCell(const label faceI) const
 {
   return mesh().faceOwner()[faceI];
 }
+
+
 mousse::label mousse::sampledSet::getCell
 (
   const label faceI,
   const point& sample
 ) const
 {
-  if (faceI == -1)
-  {
+  if (faceI == -1) {
     FATAL_ERROR_IN
     (
       "sampledSet::getCell(const label, const point&)"
-    )   << "Illegal face label " << faceI
-      << abort(FatalError);
+    )
+    << "Illegal face label " << faceI
+    << abort(FatalError);
   }
-  if (faceI >= mesh().nInternalFaces())
-  {
+  if (faceI >= mesh().nInternalFaces()) {
     label cellI = getBoundaryCell(faceI);
-    if (!mesh().pointInCell(sample, cellI, searchEngine_.decompMode()))
-    {
+    if (!mesh().pointInCell(sample, cellI, searchEngine_.decompMode())) {
       FATAL_ERROR_IN
       (
         "sampledSet::getCell(const label, const point&)"
-      )   << "Found cell " << cellI << " using face " << faceI
-        << ". But cell does not contain point " << sample
-        << abort(FatalError);
+      )
+      << "Found cell " << cellI << " using face " << faceI
+      << ". But cell does not contain point " << sample
+      << abort(FatalError);
     }
     return cellI;
-  }
-  else
-  {
+  } else {
     // Try owner and neighbour to see which one contains sample
     label cellI = mesh().faceOwner()[faceI];
-    if (mesh().pointInCell(sample, cellI, searchEngine_.decompMode()))
-    {
+    if (mesh().pointInCell(sample, cellI, searchEngine_.decompMode())) {
       return cellI;
-    }
-    else
-    {
+    } else {
       cellI = mesh().faceNeighbour()[faceI];
-      if (mesh().pointInCell(sample, cellI, searchEngine_.decompMode()))
-      {
+      if (mesh().pointInCell(sample, cellI, searchEngine_.decompMode())) {
         return cellI;
-      }
-      else
-      {
+      } else {
         FATAL_ERROR_IN
         (
           "sampledSet::getCell(const label, const point&)"
-        )   << "None of the neighbours of face "
-          << faceI << " contains point " << sample
-          << abort(FatalError);
+        )
+        << "None of the neighbours of face "
+        << faceI << " contains point " << sample
+        << abort(FatalError);
         return -1;
       }
     }
   }
 }
+
+
 mousse::scalar mousse::sampledSet::calcSign
 (
   const label faceI,
@@ -84,8 +85,7 @@ mousse::scalar mousse::sampledSet::calcSign
 {
   vector vec = sample - mesh().faceCentres()[faceI];
   scalar magVec = mag(vec);
-  if (magVec < VSMALL)
-  {
+  if (magVec < VSMALL) {
     // sample on face centre. Regard as inside
     return -1;
   }
@@ -94,6 +94,8 @@ mousse::scalar mousse::sampledSet::calcSign
   n /= mag(n) + VSMALL;
   return n & vec;
 }
+
+
 // Return face (or -1) of face which is within smallDist of sample
 mousse::label mousse::sampledSet::findNearFace
 (
@@ -103,26 +105,23 @@ mousse::label mousse::sampledSet::findNearFace
 ) const
 {
   const cell& myFaces = mesh().cells()[cellI];
-  FOR_ALL(myFaces, myFaceI)
-  {
+  FOR_ALL(myFaces, myFaceI) {
     const face& f = mesh().faces()[myFaces[myFaceI]];
     pointHit inter = f.nearestPoint(sample, mesh().points());
     scalar dist;
-    if (inter.hit())
-    {
+    if (inter.hit()) {
       dist = mag(inter.hitPoint() - sample);
-    }
-    else
-    {
+    } else {
       dist = mag(inter.missPoint() - sample);
     }
-    if (dist < smallDist)
-    {
+    if (dist < smallDist) {
       return myFaces[myFaceI];
     }
   }
   return -1;
 }
+
+
 // 'Pushes' point facePt (which is almost on face) in direction of cell centre
 // so it is clearly inside.
 mousse::point mousse::sampledSet::pushIn
@@ -138,41 +137,33 @@ mousse::point mousse::sampledSet::pushIn
   label tetFaceI;
   label tetPtI;
   mesh().findTetFacePt(cellI, facePt, tetFaceI, tetPtI);
-  if (tetFaceI == -1 || tetPtI == -1)
-  {
+  if (tetFaceI == -1 || tetPtI == -1) {
     newPosition = facePt;
     label trap(1.0/particle::trackingCorrectionTol + 1);
     label iterNo = 0;
-    do
-    {
+    do {
       newPosition += particle::trackingCorrectionTol*(cC - facePt);
-      mesh().findTetFacePt
-      (
-        cellI,
-        newPosition,
-        tetFaceI,
-        tetPtI
-      );
+      mesh().findTetFacePt(cellI, newPosition, tetFaceI, tetPtI);
       iterNo++;
     } while (tetFaceI < 0  && iterNo <= trap);
   }
-  if (tetFaceI == -1)
-  {
+  if (tetFaceI == -1) {
     FATAL_ERROR_IN
     (
       "sampledSet::pushIn(const point&, const label)"
-    )   << "After pushing " << facePt << " to " << newPosition
-      << " it is still outside face " << faceI
-      << " at " << mesh().faceCentres()[faceI]
-      << " of cell " << cellI
-      << " at " << cC << endl
-      << "Please change your starting point"
-      << abort(FatalError);
+    )
+    << "After pushing " << facePt << " to " << newPosition
+    << " it is still outside face " << faceI
+    << " at " << mesh().faceCentres()[faceI]
+    << " of cell " << cellI
+    << " at " << cC << endl
+    << "Please change your starting point"
+    << abort(FatalError);
   }
-  //Info<< "pushIn : moved " << facePt << " to " << newPosition
-  //    << endl;
   return newPosition;
 }
+
+
 // Calculates start of tracking given samplePt and first boundary intersection
 // (bPoint, bFaceI). bFaceI == -1 if no boundary intersection.
 // Returns true if trackPt is sampling point
@@ -189,66 +180,37 @@ bool mousse::sampledSet::getTrackingPoint
 {
   const scalar smallDist = mag(tol*offset);
   bool isGoodSample = false;
-  if (bFaceI == -1)
-  {
+  if (bFaceI == -1) {
     // No boundary intersection. Try and find cell samplePt is in
     trackCellI = mesh().findCell(samplePt, searchEngine_.decompMode());
-    if
-    (
-      (trackCellI == -1)
-    || !mesh().pointInCell
-      (
-        samplePt,
-        trackCellI,
-        searchEngine_.decompMode()
-      )
-    )
-    {
+    if ((trackCellI == -1) || !mesh().pointInCell(samplePt, trackCellI,
+                                                  searchEngine_.decompMode())) {
       // Line samplePt - end_ does not intersect domain at all.
       // (or is along edge)
-      //Info<< "getTrackingPoint : samplePt outside domain : "
-      //    << "  samplePt:" << samplePt
-      //    << endl;
       trackCellI = -1;
       trackFaceI = -1;
       isGoodSample = false;
-    }
-    else
-    {
+    } else {
       // start is inside. Use it as tracking point
-      //Info<< "getTrackingPoint : samplePt inside :"
-      //    << "  samplePt:" << samplePt
-      //    << "  trackCellI:" << trackCellI
-      //    << endl;
       trackPt = samplePt;
       trackFaceI = -1;
       isGoodSample = true;
     }
-  }
-  else if (mag(samplePt - bPoint) < smallDist)
-  {
-    //Info<< "getTrackingPoint : samplePt:" << samplePt
-    //    << " close to bPoint:"
-    //    << bPoint << endl;
+  } else if (mag(samplePt - bPoint) < smallDist) {
     // samplePt close to bPoint. Snap to it
     trackPt = pushIn(bPoint, bFaceI);
     trackFaceI = bFaceI;
     trackCellI = getBoundaryCell(trackFaceI);
     isGoodSample = true;
-  }
-  else
-  {
+  } else {
     scalar sign = calcSign(bFaceI, samplePt);
-    if (sign < 0)
-    {
+    if (sign < 0) {
       // samplePt inside or marginally outside.
       trackPt = samplePt;
       trackFaceI = -1;
       trackCellI = mesh().findCell(trackPt, searchEngine_.decompMode());
       isGoodSample = true;
-    }
-    else
-    {
+    } else {
       // samplePt outside. use bPoint
       trackPt = pushIn(bPoint, bFaceI);
       trackFaceI = bFaceI;
@@ -256,9 +218,8 @@ bool mousse::sampledSet::getTrackingPoint
       isGoodSample = false;
     }
   }
-  if (debug)
-  {
-    Info<< "sampledSet::getTrackingPoint :"
+  if (debug) {
+    Info << "sampledSet::getTrackingPoint :"
       << " offset:" << offset
       << " samplePt:" << samplePt
       << " bPoint:" << bPoint
@@ -272,6 +233,8 @@ bool mousse::sampledSet::getTrackingPoint
   }
   return isGoodSample;
 }
+
+
 void mousse::sampledSet::setSamples
 (
   const List<point>& samplingPts,
@@ -286,14 +249,8 @@ void mousse::sampledSet::setSamples
   faces_.setSize(samplingFaces.size());
   segments_.setSize(samplingSegments.size());
   curveDist_.setSize(samplingCurveDist.size());
-  if
-  (
-    (cells_.size() != size())
-  || (faces_.size() != size())
-  || (segments_.size() != size())
-  || (curveDist_.size() != size())
-  )
-  {
+  if ((cells_.size() != size()) || (faces_.size() != size())
+      || (segments_.size() != size()) || (curveDist_.size() != size())) {
     FATAL_ERROR_IN("sampledSet::setSamples()")
       << "sizes not equal : "
       << "  points:" << size()
@@ -303,8 +260,7 @@ void mousse::sampledSet::setSamples
       << "  curveDist:" << curveDist_.size()
       << abort(FatalError);
   }
-  FOR_ALL(samplingPts, sampleI)
-  {
+  FOR_ALL(samplingPts, sampleI) {
     operator[](sampleI) = samplingPts[sampleI];
   }
   curveDist_ = samplingCurveDist;
@@ -312,6 +268,8 @@ void mousse::sampledSet::setSamples
   faces_ = samplingFaces;
   segments_ = samplingSegments;
 }
+
+
 // Constructors 
 mousse::sampledSet::sampledSet
 (
@@ -321,13 +279,15 @@ mousse::sampledSet::sampledSet
   const word& axis
 )
 :
-  coordSet(name, axis),
-  mesh_(mesh),
-  searchEngine_(searchEngine),
-  segments_(0),
-  cells_(0),
-  faces_(0)
+  coordSet{name, axis},
+  mesh_{mesh},
+  searchEngine_{searchEngine},
+  segments_{0},
+  cells_{0},
+  faces_{0}
 {}
+
+
 mousse::sampledSet::sampledSet
 (
   const word& name,
@@ -336,16 +296,20 @@ mousse::sampledSet::sampledSet
   const dictionary& dict
 )
 :
-  coordSet(name, dict.lookup("axis")),
-  mesh_(mesh),
-  searchEngine_(searchEngine),
-  segments_(0),
-  cells_(0),
-  faces_(0)
+  coordSet{name, dict.lookup("axis")},
+  mesh_{mesh},
+  searchEngine_{searchEngine},
+  segments_{0},
+  cells_{0},
+  faces_{0}
 {}
+
+
 // Destructor 
 mousse::sampledSet::~sampledSet()
 {}
+
+
 // Member Functions 
 mousse::autoPtr<mousse::sampledSet> mousse::sampledSet::New
 (
@@ -355,42 +319,33 @@ mousse::autoPtr<mousse::sampledSet> mousse::sampledSet::New
   const dictionary& dict
 )
 {
-  const word sampleType(dict.lookup("type"));
+  const word sampleType{dict.lookup("type")};
   wordConstructorTable::iterator cstrIter =
     wordConstructorTablePtr_->find(sampleType);
-  if (cstrIter == wordConstructorTablePtr_->end())
-  {
+  if (cstrIter == wordConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "sampledSet::New"
       "(const word&, const polyMesh&, const meshSearch&"
       ", const dictionary&)"
-    )   << "Unknown sample type "
-      << sampleType << nl << nl
-      << "Valid sample types : " << endl
-      << wordConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
-  }
-  return autoPtr<sampledSet>
-  (
-    cstrIter()
-    (
-      name,
-      mesh,
-      searchEngine,
-      dict
     )
-  );
+    << "Unknown sample type "
+    << sampleType << nl << nl
+    << "Valid sample types : " << endl
+    << wordConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
+  }
+  return autoPtr<sampledSet>{cstrIter()(name, mesh, searchEngine, dict)};
 }
+
+
 mousse::Ostream& mousse::sampledSet::write(Ostream& os) const
 {
   coordSet::write(os);
-  os  << endl << "\t(cellI)\t(faceI)" << endl;
-  FOR_ALL(*this, sampleI)
-  {
-    os  << '\t' << cells_[sampleI]
-      << '\t' << faces_[sampleI]
-      << endl;
+  os << endl << "\t(cellI)\t(faceI)" << endl;
+  FOR_ALL(*this, sampleI) {
+    os << '\t' << cells_[sampleI] << '\t' << faces_[sampleI] << endl;
   }
   return os;
 }
+

@@ -8,16 +8,17 @@
 //   mousse::surfaceWriter
 // Description
 //   Base class for surface writers
-// SourceFiles
-//   surface_writer.cpp
+
 #include "type_info.hpp"
 #include "auto_ptr.hpp"
 #include "point_field.hpp"
 #include "face_list.hpp"
 #include "file_name.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class surfaceWriter
 {
 public:
@@ -145,5 +146,7 @@ public:
     ) const
     {}
 };
+
 }  // namespace mousse
+
 #endif

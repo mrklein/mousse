@@ -11,8 +11,7 @@
 // Description
 //   Set of locations to sample.
 //   Call write() to sample and write files.
-// SourceFiles
-//   probes.cpp
+
 #include "hash_ptr_table.hpp"
 #include "ofstream.hpp"
 #include "poly_mesh.hpp"
@@ -21,13 +20,17 @@
 #include "surface_fields_fwd.hpp"
 #include "surface_mesh.hpp"
 #include "word_re_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class fvMesh;
 class mapPolyMesh;
+
+
 class probes
 :
   public pointField
@@ -44,7 +47,7 @@ protected:
       //- Construct null
       fieldGroup()
       :
-        DynamicList<word>(0)
+        DynamicList<word>{0}
       {}
     };
   // Private data
@@ -179,25 +182,27 @@ public:
     {}
     //- Sample a volume field at all locations
     template<class Type>
-    tmp<Field<Type> > sample
+    tmp<Field<Type>> sample
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
     //- Sample a single vol field on all sample locations
     template<class Type>
-    tmp<Field<Type> > sample(const word& fieldName) const;
+    tmp<Field<Type>> sample(const word& fieldName) const;
     //- Sample a single scalar field on all sample locations
     template<class Type>
-    tmp<Field<Type> > sampleSurfaceFields(const word& fieldName) const;
+    tmp<Field<Type>> sampleSurfaceFields(const word& fieldName) const;
     //- Sample a surface field at all locations
     template<class Type>
-    tmp<Field<Type> > sample
+    tmp<Field<Type>> sample
     (
       const GeometricField<Type, fvsPatchField, surfaceMesh>&
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "probes_templates.cpp"
-#endif
+
+
+#include "probes.ipp"
+
 #endif

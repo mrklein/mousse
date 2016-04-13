@@ -8,11 +8,12 @@
 //   mousse::foamFileSurfaceWriter
 // Description
 //   A surfaceWriter for foamFiles
-// SourceFiles
-//   foam_file_surface_writer.cpp
+
 #include "surface_writer.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class foamFileSurfaceWriter
 :
   public surfaceWriter
@@ -121,5 +122,8 @@ public:
       const bool verbose = false
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

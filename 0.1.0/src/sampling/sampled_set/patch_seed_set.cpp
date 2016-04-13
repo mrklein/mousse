@@ -12,12 +12,18 @@
 //#include "random.hpp"
 // For 'facePoint' helper function only
 #include "mapped_patch_base.hpp"
+#include "pstream_reduce_ops.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(patchSeedSet, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, patchSeedSet, word);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(patchSeedSet, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(sampledSet, patchSeedSet, word);
+
 }
+
+
 // Private Member Functions 
 void mousse::patchSeedSet::calcSamples
 (
@@ -28,44 +34,36 @@ void mousse::patchSeedSet::calcSamples
   DynamicList<scalar>& samplingCurveDist
 )
 {
-  if (debug)
-  {
-    Info<< "patchSeedSet : sampling on patches :" << endl;
+  if (debug) {
+    Info << "patchSeedSet : sampling on patches :" << endl;
   }
   // Construct search tree for all patch faces.
   label sz = 0;
-  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter) {
     const polyPatch& pp = mesh().boundaryMesh()[iter.key()];
     sz += pp.size();
-    if (debug)
-    {
-      Info<< "    " << pp.name() << " size " << pp.size() << endl;
+    if (debug) {
+      Info << "    " << pp.name() << " size " << pp.size() << endl;
     }
   }
-  labelList patchFaces(sz);
+  labelList patchFaces{sz};
   sz = 0;
-  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, patchSet_, iter) {
     const polyPatch& pp = mesh().boundaryMesh()[iter.key()];
-    FOR_ALL(pp, i)
-    {
+    FOR_ALL(pp, i) {
       patchFaces[sz++] = pp.start()+i;
     }
   }
   label totalSize = returnReduce(sz, sumOp<label>());
   // Shuffle and truncate if in random mode
-  if (maxPoints_ < totalSize)
-  {
+  if (maxPoints_ < totalSize) {
     // Check what fraction of maxPoints_ I need to generate locally.
-    label myMaxPoints = label(scalar(sz)/totalSize*maxPoints_);
-    rndGenPtr_.reset(new Random(123456));
+    label myMaxPoints = static_cast<label>(scalar(sz)/totalSize*maxPoints_);
+    rndGenPtr_.reset(new Random{123456});
     Random& rndGen = rndGenPtr_();
     labelList subset = identity(sz);
-    for (label iter = 0; iter < 4; iter++)
-    {
-      FOR_ALL(subset, i)
-      {
+    for (label iter = 0; iter < 4; iter++) {
+      FOR_ALL(subset, i) {
         label j = rndGen.integer(0, subset.size()-1);
         Swap(subset[i], subset[j]);
       }
@@ -73,15 +71,14 @@ void mousse::patchSeedSet::calcSamples
     // Truncate
     subset.setSize(myMaxPoints);
     // Subset patchFaces
-    patchFaces = UIndirectList<label>(patchFaces, subset)();
-    if (debug)
-    {
-      Pout<< "In random mode : selected " << patchFaces.size()
+    patchFaces = UIndirectList<label>{patchFaces, subset}();
+    if (debug) {
+      Pout << "In random mode : selected " << patchFaces.size()
         << " faces out of " << sz << endl;
     }
   }
   // Get points on patchFaces.
-  globalIndex globalSampleNumbers(patchFaces.size());
+  globalIndex globalSampleNumbers{patchFaces.size()};
   samplingPts.setCapacity(patchFaces.size());
   samplingCells.setCapacity(patchFaces.size());
   samplingFaces.setCapacity(patchFaces.size());
@@ -89,27 +86,16 @@ void mousse::patchSeedSet::calcSamples
   samplingCurveDist.setCapacity(patchFaces.size());
   // For calculation of min-decomp tet base points
   (void)mesh().tetBasePtIs();
-  FOR_ALL(patchFaces, i)
-  {
+  FOR_ALL(patchFaces, i) {
     label faceI = patchFaces[i];
-    pointIndexHit info = mappedPatchBase::facePoint
-    (
-      mesh(),
-      faceI,
-      polyMesh::FACE_DIAG_TRIS
-    );
+    pointIndexHit info = mappedPatchBase::facePoint(mesh(), faceI,
+                                                    polyMesh::FACE_DIAG_TRIS);
     label cellI = mesh().faceOwner()[faceI];
-    if (info.hit())
-    {
+    if (info.hit()) {
       // Move the point into the cell
       const point& cc = mesh().cellCentres()[cellI];
-      samplingPts.append
-      (
-        info.hitPoint() + 1e-1*(cc-info.hitPoint())
-      );
-    }
-    else
-    {
+      samplingPts.append(info.hitPoint() + 1e-1*(cc-info.hitPoint()));
+    } else {
       samplingPts.append(info.rawPoint());
     }
     samplingCells.append(cellI);
@@ -118,6 +104,8 @@ void mousse::patchSeedSet::calcSamples
     samplingCurveDist.append(globalSampleNumbers.toGlobal(i));
   }
 }
+
+
 void mousse::patchSeedSet::genSamples()
 {
   // Storage for sample points
@@ -148,6 +136,8 @@ void mousse::patchSeedSet::genSamples()
     samplingCurveDist
   );
 }
+
+
 // Constructors 
 mousse::patchSeedSet::patchSeedSet
 (
@@ -157,24 +147,21 @@ mousse::patchSeedSet::patchSeedSet
   const dictionary& dict
 )
 :
-  sampledSet(name, mesh, searchEngine, dict),
+  sampledSet{name, mesh, searchEngine, dict},
   patchSet_
-  (
-    mesh.boundaryMesh().patchSet
-    (
-      wordReList(dict.lookup("patches"))
-    )
-  ),
-  //searchDist_(readScalar(dict.lookup("maxDistance"))),
-  //offsetDist_(readScalar(dict.lookup("offsetDist"))),
-  maxPoints_(readLabel(dict.lookup("maxPoints")))
+  {
+    mesh.boundaryMesh().patchSet(wordReList{dict.lookup("patches")})
+  },
+  maxPoints_{readLabel(dict.lookup("maxPoints"))}
 {
   genSamples();
-  if (debug)
-  {
+  if (debug) {
     write(Info);
   }
 }
+
+
 // Destructor 
 mousse::patchSeedSet::~patchSeedSet()
 {}
+

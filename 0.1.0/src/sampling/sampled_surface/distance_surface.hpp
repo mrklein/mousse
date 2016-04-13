@@ -9,14 +9,15 @@
 // Description
 //   A sampledSurface defined by a distance to a surface.
 //   Uses either isoSurfaceCell or isoSurface.
-// SourceFiles
-//   distance_surface.cpp
+
 #include "sampled_surface.hpp"
 #include "searchable_surface.hpp"
 #include "iso_surface_cell.hpp"
 #include "iso_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class distanceSurface
 :
   public sampledSurface
@@ -53,13 +54,12 @@ class distanceSurface
     void createGeometry();
     //- Sample field on faces
     template<class Type>
-    tmp<Field<Type> > sampleField
+    tmp<Field<Type>> sampleField
     (
       const GeometricField<Type, fvPatchField, volMesh>& vField
     ) const;
     template<class Type>
-    tmp<Field<Type> >
-    interpolateField(const interpolation<Type>&) const;
+    tmp<Field<Type>> interpolateField(const interpolation<Type>&) const;
 public:
   //- Runtime type information
   TYPE_NAME("distanceSurface");
@@ -105,12 +105,10 @@ public:
     //- Faces of surface
     virtual const faceList& faces() const
     {
-      if (facesPtr_.empty())
-      {
+      if (facesPtr_.empty()) {
         const triSurface& s = surface();
-        facesPtr_.reset(new faceList(s.size()));
-        FOR_ALL(s, i)
-        {
+        facesPtr_.reset(new faceList{s.size()});
+        FOR_ALL(s, i) {
           facesPtr_()[i] = s[i].triFaceFace();
         }
       }
@@ -118,12 +116,9 @@ public:
     }
     const triSurface& surface() const
     {
-      if (cell_)
-      {
+      if (cell_) {
         return isoSurfCellPtr_();
-      }
-      else
-      {
+      } else {
         return isoSurfPtr_();
       }
     }
@@ -181,7 +176,7 @@ public:
     virtual void print(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "distance_surface_templates.cpp"
-#endif
+
+#include "distance_surface.ipp"
+
 #endif

@@ -6,14 +6,14 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::uniformSet
-// Description
-// SourceFiles
-//   uniform_set.cpp
+
 #include "passive_particle_cloud.hpp"
 #include "sampled_set.hpp"
 #include "dynamic_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class uniformSet
 :
   public sampledSet
@@ -90,5 +90,8 @@ public:
   //- Destructor
   virtual ~uniformSet();
 };
+
 }  // namespace mousse
+
 #endif
+

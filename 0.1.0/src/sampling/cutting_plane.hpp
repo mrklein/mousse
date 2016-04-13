@@ -13,15 +13,18 @@
 // Note
 //   When the cutting plane coincides with a mesh face, the cell edge on the
 //   positive side of the plane is taken.
-// SourceFiles
-//   cutting_plane.cpp
+
 #include "plane.hpp"
 #include "point_field.hpp"
 #include "face_list.hpp"
 #include "meshed_surface.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class primitiveMesh;
+
+
 class cuttingPlane
 :
   public plane,
@@ -114,7 +117,7 @@ public:
     void operator=(const cuttingPlane&);
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "cutting_plane_templates.cpp"
-#endif
+
+#include "cutting_plane.ipp"
+
 #endif
