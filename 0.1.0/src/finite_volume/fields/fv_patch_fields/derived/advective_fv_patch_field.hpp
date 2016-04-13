@@ -44,11 +44,12 @@
 // Note
 //   If \c lInf is specified, \c fieldInf will be required; \c rho is only
 //   required in the case of a mass-based flux.
-// SourceFiles
-//   advective_fv_patch_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class advectiveFvPatchField
 :
@@ -97,12 +98,12 @@ public:
       const advectiveFvPatchField&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new advectiveFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new advectiveFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     advectiveFvPatchField
@@ -111,15 +112,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new advectiveFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new advectiveFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -153,7 +154,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "advective_fv_patch_field.cpp"
-#endif
+
+#include "advective_fv_patch_field.ipp"
+
 #endif

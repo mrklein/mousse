@@ -9,16 +9,14 @@
 // Description
 //   Inversed weight central-differencing interpolation scheme class.
 //   Useful for inverse weighted and harmonic interpolations.
-// SourceFiles
-//   reverse_linear.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class reverseLinear
 :
@@ -59,15 +57,14 @@ public:
     {
       const fvMesh& mesh = this->mesh();
       tmp<surfaceScalarField> tcdWeights
-      (
+      {
         mesh.surfaceInterpolation::weights()
-      );
+      };
       const surfaceScalarField& cdWeights = tcdWeights();
       tmp<surfaceScalarField> treverseLinearWeights
       {
         new surfaceScalarField
         {
-          IOobject
           {
             "reverseLinearWeights",
             mesh.time().timeName(),
@@ -78,17 +75,12 @@ public:
         }
       };
       surfaceScalarField& reverseLinearWeights = treverseLinearWeights();
-      reverseLinearWeights.internalField() =
-        1.0 - cdWeights.internalField();
-      FOR_ALL(mesh.boundary(), patchI)
-      {
-        if (reverseLinearWeights.boundaryField()[patchI].coupled())
-        {
+      reverseLinearWeights.internalField() = 1.0 - cdWeights.internalField();
+      FOR_ALL(mesh.boundary(), patchI) {
+        if (reverseLinearWeights.boundaryField()[patchI].coupled()) {
           reverseLinearWeights.boundaryField()[patchI] =
             1.0 - cdWeights.boundaryField()[patchI];
-        }
-        else
-        {
+        } else {
           reverseLinearWeights.boundaryField()[patchI] =
             cdWeights.boundaryField()[patchI];
         }
@@ -96,5 +88,8 @@ public:
       return treverseLinearWeights;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -10,9 +10,12 @@
 //   Linear polynomial for interpolation fitting.
 //   Can be used with the CentredFit scheme to create a linear surface
 //   interpolation scheme
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class linearFitPolynomial
 {
 public:
@@ -37,15 +40,15 @@ public:
       label curIdx = 0;
       coeffs[curIdx++] = weight;
       coeffs[curIdx++] = weight*d.x();
-      if (dim >= 2)
-      {
+      if (dim >= 2) {
         coeffs[curIdx++] = weight*d.y();
       }
-      if (dim == 3)
-      {
+      if (dim == 3) {
         coeffs[curIdx++] = weight*d.z();
       }
     }
 };
+
 }  // namespace mousse
+
 #endif

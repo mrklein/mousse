@@ -4,11 +4,15 @@
 
 #include "fv_mesh.hpp"
 #include "harmonic.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(harmonic, 0);
+
 surfaceInterpolationScheme<scalar>::addMeshFluxConstructorToTable<harmonic>
   addharmonicScalarMeshFluxConstructorToTable_;
 surfaceInterpolationScheme<scalar>::addMeshConstructorToTable<harmonic>
   addharmonicScalarMeshConstructorToTable_;
+
 }

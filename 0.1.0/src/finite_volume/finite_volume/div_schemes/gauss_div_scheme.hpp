@@ -8,13 +8,13 @@
 //   mousse::fv::gaussDivScheme
 // Description
 //   Basic second-order div using face-gradients and Gauss' theorem.
-// SourceFiles
-//   gauss_div_scheme.cpp
+
 #include "div_scheme.hpp"
-namespace mousse
-{
-namespace fv
-{
+
+
+namespace mousse {
+namespace fv {
+
 template<class Type>
 class gaussDivScheme
 :
@@ -50,7 +50,7 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "gauss_div_scheme.cpp"
-#endif
+
+#include "gauss_div_scheme.ipp"
+
 #endif

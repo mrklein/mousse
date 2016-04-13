@@ -15,11 +15,16 @@
 #include "fv_mesh_mapper.hpp"
 #include "map_clouds.hpp"
 #include "_mesh_object.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(fvMesh, 0);
+
 }
+
+
 // Private Member Functions 
 void mousse::fvMesh::clearGeomNotOldVol()
 {
@@ -44,6 +49,8 @@ void mousse::fvMesh::clearGeomNotOldVol()
   deleteDemandDrivenData(CPtr_);
   deleteDemandDrivenData(CfPtr_);
 }
+
+
 void mousse::fvMesh::updateGeomNotOldVol()
 {
   bool haveV = (VPtr_ != NULL);
@@ -53,27 +60,24 @@ void mousse::fvMesh::updateGeomNotOldVol()
   bool haveCf = (CfPtr_ != NULL);
   clearGeomNotOldVol();
   // Now recreate the fields
-  if (haveV)
-  {
+  if (haveV) {
     (void)V();
   }
-  if (haveSf)
-  {
+  if (haveSf) {
     (void)Sf();
   }
-  if (haveMagSf)
-  {
+  if (haveMagSf) {
     (void)magSf();
   }
-  if (haveCP)
-  {
+  if (haveCP) {
     (void)C();
   }
-  if (haveCf)
-  {
+  if (haveCf) {
     (void)Cf();
   }
 }
+
+
 void mousse::fvMesh::clearGeom()
 {
   clearGeomNotOldVol();
@@ -82,15 +86,15 @@ void mousse::fvMesh::clearGeom()
   // Mesh motion flux cannot be deleted here because the old-time flux
   // needs to be saved.
 }
+
+
 void mousse::fvMesh::clearAddressing(const bool isMeshUpdate)
 {
-  if (debug)
-  {
-    Info<< "fvMesh::clearAddressing(const bool) :"
+  if (debug) {
+    Info << "fvMesh::clearAddressing(const bool) :"
       << " isMeshUpdate:" << isMeshUpdate << endl;
   }
-  if (isMeshUpdate)
-  {
+  if (isMeshUpdate) {
     // Part of a mesh update. Keep meshObjects that have an updateMesh
     // callback
     meshObject::clearUpto
@@ -111,53 +115,46 @@ void mousse::fvMesh::clearAddressing(const bool isMeshUpdate)
     (
       *this
     );
-  }
-  else
-  {
+  } else {
     meshObject::clear<fvMesh, TopologicalMeshObject>(*this);
     meshObject::clear<lduMesh, TopologicalMeshObject>(*this);
   }
   deleteDemandDrivenData(lduPtr_);
 }
+
+
 void mousse::fvMesh::storeOldVol(const scalarField& V)
 {
-  if (curTimeIndex_ < time().timeIndex())
-  {
-    if (debug)
-    {
-      Info<< "fvMesh::storeOldVol(const scalarField&) :"
+  if (curTimeIndex_ < time().timeIndex()) {
+    if (debug) {
+      Info << "fvMesh::storeOldVol(const scalarField&) :"
         << " Storing old time volumes since from time " << curTimeIndex_
         << " and time now " << time().timeIndex()
         << " V:" << V.size()
         << endl;
     }
-    if (V00Ptr_ && V0Ptr_)
-    {
+    if (V00Ptr_ && V0Ptr_) {
       // Copy V0 into V00 storage
       *V00Ptr_ = *V0Ptr_;
     }
-    if (V0Ptr_)
-    {
+    if (V0Ptr_) {
       // Copy V into V0 storage
       V0Ptr_->scalarField::operator=(V);
-    }
-    else
-    {
+    } else {
       // Allocate V0 storage, fill with V
       V0Ptr_ = new DimensionedField<scalar, volMesh>
-      (
-        IOobject
-        (
+      {
+        {
           "V0",
           time().timeName(),
           *this,
           IOobject::NO_READ,
           IOobject::NO_WRITE,
           false
-        ),
+        },
         *this,
         dimVolume
-      );
+      };
       scalarField& V0 = *V0Ptr_;
       // Note: V0 now sized with current mesh, not with (potentially
       //       different size) V.
@@ -165,20 +162,20 @@ void mousse::fvMesh::storeOldVol(const scalarField& V)
       V0 = V;
     }
     curTimeIndex_ = time().timeIndex();
-    if (debug)
-    {
-      Info<< "fvMesh::storeOldVol() :"
+    if (debug) {
+      Info << "fvMesh::storeOldVol() :"
         << " Stored old time volumes V0:" << V0Ptr_->size()
         << endl;
-      if (V00Ptr_)
-      {
-        Info<< "fvMesh::storeOldVol() :"
+      if (V00Ptr_) {
+        Info << "fvMesh::storeOldVol() :"
           << " Stored oldold time volumes V00:" << V00Ptr_->size()
           << endl;
       }
     }
   }
 }
+
+
 void mousse::fvMesh::clearOut()
 {
   clearGeom();
@@ -188,89 +185,86 @@ void mousse::fvMesh::clearOut()
   deleteDemandDrivenData(phiPtr_);
   polyMesh::clearOut();
 }
+
+
 // Constructors 
 mousse::fvMesh::fvMesh(const IOobject& io)
 :
-  polyMesh(io),
-  surfaceInterpolation(*this),
-  fvSchemes(static_cast<const objectRegistry&>(*this)),
-  fvSolution(static_cast<const objectRegistry&>(*this)),
-  data(static_cast<const objectRegistry&>(*this)),
-  boundary_(*this, boundaryMesh()),
-  lduPtr_(NULL),
-  curTimeIndex_(time().timeIndex()),
-  VPtr_(NULL),
-  V0Ptr_(NULL),
-  V00Ptr_(NULL),
-  SfPtr_(NULL),
-  magSfPtr_(NULL),
-  CPtr_(NULL),
-  CfPtr_(NULL),
-  phiPtr_(NULL)
+  polyMesh{io},
+  surfaceInterpolation{*this},
+  fvSchemes{static_cast<const objectRegistry&>(*this)},
+  fvSolution{static_cast<const objectRegistry&>(*this)},
+  data{static_cast<const objectRegistry&>(*this)},
+  boundary_{*this, boundaryMesh()},
+  lduPtr_{NULL},
+  curTimeIndex_{time().timeIndex()},
+  VPtr_{NULL},
+  V0Ptr_{NULL},
+  V00Ptr_{NULL},
+  SfPtr_{NULL},
+  magSfPtr_{NULL},
+  CPtr_{NULL},
+  CfPtr_{NULL},
+  phiPtr_{NULL}
 {
-  if (debug)
-  {
-    Info<< "Constructing fvMesh from IOobject"
+  if (debug) {
+    Info << "Constructing fvMesh from IOobject"
       << endl;
   }
   // Check the existance of the cell volumes and read if present
   // and set the storage of V00
-  if (isFile(time().timePath()/"V0"))
-  {
+  if (isFile(time().timePath()/"V0")) {
     V0Ptr_ = new DimensionedField<scalar, volMesh>
-    (
-      IOobject
-      (
+    {
+      {
         "V0",
         time().timeName(),
         *this,
         IOobject::MUST_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       *this
-    );
+    };
     V00();
   }
   // Check the existance of the mesh fluxes, read if present and set the
   // mesh to be moving
-  if (isFile(time().timePath()/"meshPhi"))
-  {
+  if (isFile(time().timePath()/"meshPhi")) {
     phiPtr_ = new surfaceScalarField
-    (
-      IOobject
-      (
+    {
+      {
         "meshPhi",
         time().timeName(),
         *this,
         IOobject::MUST_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       *this
-    );
+    };
     // The mesh is now considered moving so the old-time cell volumes
     // will be required for the time derivatives so if they haven't been
     // read initialise to the current cell volumes
-    if (!V0Ptr_)
-    {
+    if (!V0Ptr_) {
       V0Ptr_ = new DimensionedField<scalar, volMesh>
-      (
-        IOobject
-        (
+      {
+        {
           "V0",
           time().timeName(),
           *this,
           IOobject::NO_READ,
           IOobject::NO_WRITE,
           false
-        ),
+        },
         V()
-      );
+      };
     }
     moving(true);
   }
 }
+
+
 mousse::fvMesh::fvMesh
 (
   const IOobject& io,
@@ -285,7 +279,7 @@ mousse::fvMesh::fvMesh
 )
 :
   polyMesh
-  (
+  {
     io,
     points,
     shapes,
@@ -295,28 +289,29 @@ mousse::fvMesh::fvMesh
     defaultBoundaryPatchName,
     defaultBoundaryPatchType,
     syncPar
-  ),
-  surfaceInterpolation(*this),
-  fvSchemes(static_cast<const objectRegistry&>(*this)),
-  fvSolution(static_cast<const objectRegistry&>(*this)),
-  data(static_cast<const objectRegistry&>(*this)),
-  boundary_(*this, boundaryMesh()),
-  lduPtr_(NULL),
-  curTimeIndex_(time().timeIndex()),
-  VPtr_(NULL),
-  V0Ptr_(NULL),
-  V00Ptr_(NULL),
-  SfPtr_(NULL),
-  magSfPtr_(NULL),
-  CPtr_(NULL),
-  CfPtr_(NULL),
-  phiPtr_(NULL)
+  },
+  surfaceInterpolation{*this},
+  fvSchemes{static_cast<const objectRegistry&>(*this)},
+  fvSolution{static_cast<const objectRegistry&>(*this)},
+  data{static_cast<const objectRegistry&>(*this)},
+  boundary_{*this, boundaryMesh()},
+  lduPtr_{NULL},
+  curTimeIndex_{time().timeIndex()},
+  VPtr_{NULL},
+  V0Ptr_{NULL},
+  V00Ptr_{NULL},
+  SfPtr_{NULL},
+  magSfPtr_{NULL},
+  CPtr_{NULL},
+  CfPtr_{NULL},
+  phiPtr_{NULL}
 {
-  if (debug)
-  {
-    Info<< "Constructing fvMesh from cellShapes" << endl;
+  if (debug) {
+    Info << "Constructing fvMesh from cellShapes" << endl;
   }
 }
+
+
 mousse::fvMesh::fvMesh
 (
   const IOobject& io,
@@ -327,28 +322,29 @@ mousse::fvMesh::fvMesh
   const bool syncPar
 )
 :
-  polyMesh(io, points, faces, allOwner, allNeighbour, syncPar),
-  surfaceInterpolation(*this),
-  fvSchemes(static_cast<const objectRegistry&>(*this)),
-  fvSolution(static_cast<const objectRegistry&>(*this)),
-  data(static_cast<const objectRegistry&>(*this)),
-  boundary_(*this, boundaryMesh()),
-  lduPtr_(NULL),
-  curTimeIndex_(time().timeIndex()),
-  VPtr_(NULL),
-  V0Ptr_(NULL),
-  V00Ptr_(NULL),
-  SfPtr_(NULL),
-  magSfPtr_(NULL),
-  CPtr_(NULL),
-  CfPtr_(NULL),
-  phiPtr_(NULL)
+  polyMesh{io, points, faces, allOwner, allNeighbour, syncPar},
+  surfaceInterpolation{*this},
+  fvSchemes{static_cast<const objectRegistry&>(*this)},
+  fvSolution{static_cast<const objectRegistry&>(*this)},
+  data{static_cast<const objectRegistry&>(*this)},
+  boundary_{*this, boundaryMesh()},
+  lduPtr_{NULL},
+  curTimeIndex_{time().timeIndex()},
+  VPtr_{NULL},
+  V0Ptr_{NULL},
+  V00Ptr_{NULL},
+  SfPtr_{NULL},
+  magSfPtr_{NULL},
+  CPtr_{NULL},
+  CfPtr_{NULL},
+  phiPtr_{NULL}
 {
-  if (debug)
-  {
-    Info<< "Constructing fvMesh from components" << endl;
+  if (debug) {
+    Info << "Constructing fvMesh from components" << endl;
   }
 }
+
+
 mousse::fvMesh::fvMesh
 (
   const IOobject& io,
@@ -358,33 +354,36 @@ mousse::fvMesh::fvMesh
   const bool syncPar
 )
 :
-  polyMesh(io, points, faces, cells, syncPar),
-  surfaceInterpolation(*this),
-  fvSchemes(static_cast<const objectRegistry&>(*this)),
-  fvSolution(static_cast<const objectRegistry&>(*this)),
-  data(static_cast<const objectRegistry&>(*this)),
-  boundary_(*this),
-  lduPtr_(NULL),
-  curTimeIndex_(time().timeIndex()),
-  VPtr_(NULL),
-  V0Ptr_(NULL),
-  V00Ptr_(NULL),
-  SfPtr_(NULL),
-  magSfPtr_(NULL),
-  CPtr_(NULL),
-  CfPtr_(NULL),
-  phiPtr_(NULL)
+  polyMesh{io, points, faces, cells, syncPar},
+  surfaceInterpolation{*this},
+  fvSchemes{static_cast<const objectRegistry&>(*this)},
+  fvSolution{static_cast<const objectRegistry&>(*this)},
+  data{static_cast<const objectRegistry&>(*this)},
+  boundary_{*this},
+  lduPtr_{NULL},
+  curTimeIndex_{time().timeIndex()},
+  VPtr_{NULL},
+  V0Ptr_{NULL},
+  V00Ptr_{NULL},
+  SfPtr_{NULL},
+  magSfPtr_{NULL},
+  CPtr_{NULL},
+  CfPtr_{NULL},
+  phiPtr_{NULL}
 {
-  if (debug)
-  {
-    Info<< "Constructing fvMesh from components" << endl;
+  if (debug) {
+    Info << "Constructing fvMesh from components" << endl;
   }
 }
+
+
 // Destructor 
 mousse::fvMesh::~fvMesh()
 {
   clearOut();
 }
+
+
 // Member Functions 
 void mousse::fvMesh::addFvPatches
 (
@@ -392,23 +391,24 @@ void mousse::fvMesh::addFvPatches
   const bool validBoundary
 )
 {
-  if (boundary().size())
-  {
+  if (boundary().size()) {
     FATAL_ERROR_IN
     (
       "fvMesh::addFvPatches(const List<polyPatch*>&, const bool)"
-    )   << " boundary already exists"
-      << abort(FatalError);
+    )
+    << " boundary already exists"
+    << abort(FatalError);
   }
   // first add polyPatches
   addPatches(p, validBoundary);
   boundary_.addPatches(boundaryMesh());
 }
+
+
 void mousse::fvMesh::removeFvBoundary()
 {
-  if (debug)
-  {
-    Info<< "void fvMesh::removeFvBoundary(): "
+  if (debug) {
+    Info << "void fvMesh::removeFvBoundary(): "
       << "Removing boundary patches."
       << endl;
   }
@@ -418,65 +418,59 @@ void mousse::fvMesh::removeFvBoundary()
   polyMesh::removeBoundary();
   clearOut();
 }
+
+
 mousse::polyMesh::readUpdateState mousse::fvMesh::readUpdate()
 {
-  if (debug)
-  {
-    Info<< "polyMesh::readUpdateState fvMesh::readUpdate() : "
+  if (debug) {
+    Info << "polyMesh::readUpdateState fvMesh::readUpdate() : "
       << "Updating fvMesh.  ";
   }
   polyMesh::readUpdateState state = polyMesh::readUpdate();
-  if (state == polyMesh::TOPO_PATCH_CHANGE)
-  {
-    if (debug)
-    {
-      Info<< "Boundary and topological update" << endl;
+  if (state == polyMesh::TOPO_PATCH_CHANGE) {
+    if (debug) {
+      Info << "Boundary and topological update" << endl;
     }
     boundary_.readUpdate(boundaryMesh());
     clearOut();
-  }
-  else if (state == polyMesh::TOPO_CHANGE)
-  {
-    if (debug)
-    {
-      Info<< "Topological update" << endl;
+  } else if (state == polyMesh::TOPO_CHANGE) {
+    if (debug) {
+      Info << "Topological update" << endl;
     }
     clearOut();
-  }
-  else if (state == polyMesh::POINTS_MOVED)
-  {
-    if (debug)
-    {
-      Info<< "Point motion update" << endl;
+  } else if (state == polyMesh::POINTS_MOVED) {
+    if (debug) {
+      Info << "Point motion update" << endl;
     }
     clearGeom();
-  }
-  else
-  {
-    if (debug)
-    {
-      Info<< "No update" << endl;
+  } else {
+    if (debug) {
+      Info << "No update" << endl;
     }
   }
   return state;
 }
+
+
 const mousse::fvBoundaryMesh& mousse::fvMesh::boundary() const
 {
   return boundary_;
 }
+
+
 const mousse::lduAddressing& mousse::fvMesh::lduAddr() const
 {
-  if (!lduPtr_)
-  {
-    lduPtr_ = new fvMeshLduAddressing(*this);
+  if (!lduPtr_) {
+    lduPtr_ = new fvMeshLduAddressing{*this};
   }
   return *lduPtr_;
 }
+
+
 void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
 {
-  if (debug)
-  {
-    Info<< "fvMesh::mapFields :"
+  if (debug) {
+    Info << "fvMesh::mapFields :"
       << " nOldCells:" << meshMap.nOldCells()
       << " nCells:" << nCells()
       << " nOldFaces:" << meshMap.nOldFaces()
@@ -484,12 +478,8 @@ void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
       << endl;
   }
   // We require geometric properties valid for the old mesh
-  if
-  (
-    meshMap.cellMap().size() != nCells()
-  || meshMap.faceMap().size() != nFaces()
-  )
-  {
+  if (meshMap.cellMap().size() != nCells()
+      || meshMap.faceMap().size() != nFaces()) {
     FATAL_ERROR_IN("fvMesh::mapFields(const mapPolyMesh&)")
       << "mapPolyMesh does not correspond to the old mesh."
       << " nCells:" << nCells()
@@ -501,29 +491,19 @@ void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
       << exit(FatalError);
   }
   // Create a mapper
-  const fvMeshMapper mapper(*this, meshMap);
+  const fvMeshMapper mapper{*this, meshMap};
   // Map all the volFields in the objectRegistry
-  MapGeometricFields<scalar, fvPatchField, fvMeshMapper, volMesh>
-  (mapper);
-  MapGeometricFields<vector, fvPatchField, fvMeshMapper, volMesh>
-  (mapper);
-  MapGeometricFields<sphericalTensor, fvPatchField, fvMeshMapper, volMesh>
-  (mapper);
-  MapGeometricFields<symmTensor, fvPatchField, fvMeshMapper, volMesh>
-  (mapper);
-  MapGeometricFields<tensor, fvPatchField, fvMeshMapper, volMesh>
-  (mapper);
+  MapGeometricFields<scalar, fvPatchField, fvMeshMapper, volMesh>(mapper);
+  MapGeometricFields<vector, fvPatchField, fvMeshMapper, volMesh>(mapper);
+  MapGeometricFields<sphericalTensor, fvPatchField, fvMeshMapper, volMesh>(mapper);
+  MapGeometricFields<symmTensor, fvPatchField, fvMeshMapper, volMesh>(mapper);
+  MapGeometricFields<tensor, fvPatchField, fvMeshMapper, volMesh>(mapper);
   // Map all the surfaceFields in the objectRegistry
-  MapGeometricFields<scalar, fvsPatchField, fvMeshMapper, surfaceMesh>
-  (mapper);
-  MapGeometricFields<vector, fvsPatchField, fvMeshMapper, surfaceMesh>
-  (mapper);
-  MapGeometricFields<symmTensor, fvsPatchField, fvMeshMapper, surfaceMesh>
-  (mapper);
-  MapGeometricFields<symmTensor, fvsPatchField, fvMeshMapper, surfaceMesh>
-  (mapper);
-  MapGeometricFields<tensor, fvsPatchField, fvMeshMapper, surfaceMesh>
-  (mapper);
+  MapGeometricFields<scalar, fvsPatchField, fvMeshMapper, surfaceMesh>(mapper);
+  MapGeometricFields<vector, fvsPatchField, fvMeshMapper, surfaceMesh>(mapper);
+  MapGeometricFields<symmTensor, fvsPatchField, fvMeshMapper, surfaceMesh>(mapper);
+  MapGeometricFields<symmTensor, fvsPatchField, fvMeshMapper, surfaceMesh>(mapper);
+  MapGeometricFields<tensor, fvsPatchField, fvMeshMapper, surfaceMesh>(mapper);
   // Map all the dimensionedFields in the objectRegistry
   MapDimensionedFields<scalar, fvMeshMapper, volMesh>(mapper);
   MapDimensionedFields<vector, fvMeshMapper, volMesh>(mapper);
@@ -534,107 +514,87 @@ void mousse::fvMesh::mapFields(const mapPolyMesh& meshMap)
   mapClouds(*this, meshMap);
   const labelList& cellMap = meshMap.cellMap();
   // Map the old volume. Just map to new cell labels.
-  if (V0Ptr_)
-  {
+  if (V0Ptr_) {
     scalarField& V0 = *V0Ptr_;
-    scalarField savedV0(V0);
+    scalarField savedV0{V0};
     V0.setSize(nCells());
-    FOR_ALL(V0, i)
-    {
-      if (cellMap[i] > -1)
-      {
+    FOR_ALL(V0, i) {
+      if (cellMap[i] > -1) {
         V0[i] = savedV0[cellMap[i]];
-      }
-      else
-      {
+      } else {
         V0[i] = 0.0;
       }
     }
     // Inject volume of merged cells
     label nMerged = 0;
-    FOR_ALL(meshMap.reverseCellMap(), oldCellI)
-    {
+    FOR_ALL(meshMap.reverseCellMap(), oldCellI) {
       label index = meshMap.reverseCellMap()[oldCellI];
-      if (index < -1)
-      {
+      if (index < -1) {
         label cellI = -index-2;
         V0[cellI] += savedV0[oldCellI];
         nMerged++;
       }
     }
-    if (debug)
-    {
-      Info<< "Mapping old time volume V0. Merged "
+    if (debug) {
+      Info << "Mapping old time volume V0. Merged "
         << nMerged << " out of " << nCells() << " cells" << endl;
     }
   }
   // Map the old-old volume. Just map to new cell labels.
-  if (V00Ptr_)
-  {
+  if (V00Ptr_) {
     scalarField& V00 = *V00Ptr_;
-    scalarField savedV00(V00);
+    scalarField savedV00{V00};
     V00.setSize(nCells());
-    FOR_ALL(V00, i)
-    {
-      if (cellMap[i] > -1)
-      {
+    FOR_ALL(V00, i) {
+      if (cellMap[i] > -1) {
         V00[i] = savedV00[cellMap[i]];
-      }
-      else
-      {
+      } else {
         V00[i] = 0.0;
       }
     }
     // Inject volume of merged cells
     label nMerged = 0;
-    FOR_ALL(meshMap.reverseCellMap(), oldCellI)
-    {
+    FOR_ALL(meshMap.reverseCellMap(), oldCellI) {
       label index = meshMap.reverseCellMap()[oldCellI];
-      if (index < -1)
-      {
+      if (index < -1) {
         label cellI = -index-2;
         V00[cellI] += savedV00[oldCellI];
         nMerged++;
       }
     }
-    if (debug)
-    {
-      Info<< "Mapping old time volume V00. Merged "
+    if (debug) {
+      Info << "Mapping old time volume V00. Merged "
         << nMerged << " out of " << nCells() << " cells" << endl;
     }
   }
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::fvMesh::movePoints(const pointField& p)
 {
   // Grab old time volumes if the time has been incremented
   // This will update V0, V00
-  if (curTimeIndex_ < time().timeIndex())
-  {
+  if (curTimeIndex_ < time().timeIndex()) {
     storeOldVol(V());
   }
-  if (!phiPtr_)
-  {
+  if (!phiPtr_) {
     // Create mesh motion flux
     phiPtr_ = new surfaceScalarField
-    (
-      IOobject
-      (
+    {
+      {
         "meshPhi",
         this->time().timeName(),
         *this,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       *this,
       dimVolume/dimTime
-    );
-  }
-  else
-  {
+    };
+  } else {
     // Grab old time mesh motion fluxes if the time has been incremented
-    if (phiPtr_->timeIndex() != time().timeIndex())
-    {
+    if (phiPtr_->timeIndex() != time().timeIndex()) {
       phiPtr_->oldTime();
     }
   }
@@ -646,8 +606,7 @@ mousse::tmp<mousse::scalarField> mousse::fvMesh::movePoints(const pointField& p)
   phi.internalField() = scalarField::subField(sweptVols, nInternalFaces());
   phi.internalField() *= rDeltaT;
   const fvPatchList& patches = boundary();
-  FOR_ALL(patches, patchI)
-  {
+  FOR_ALL(patches, patchI) {
     phi.boundaryField()[patchI] = patches[patchI].patchSlice(sweptVols);
     phi.boundaryField()[patchI] *= rDeltaT;
   }
@@ -665,34 +624,32 @@ mousse::tmp<mousse::scalarField> mousse::fvMesh::movePoints(const pointField& p)
   meshObject::movePoints<lduMesh>(*this);
   return tsweptVols;
 }
+
+
 void mousse::fvMesh::updateMesh(const mapPolyMesh& mpm)
 {
   // Update polyMesh. This needs to keep volume existent!
   polyMesh::updateMesh(mpm);
-  if (VPtr_)
-  {
+  if (VPtr_) {
     // Grab old time volumes if the time has been incremented
     // This will update V0, V00
     storeOldVol(mpm.oldCellVolumes());
     // Few checks
-    if (VPtr_ && (V().size() != mpm.nOldCells()))
-    {
+    if (VPtr_ && (V().size() != mpm.nOldCells())) {
       FATAL_ERROR_IN("fvMesh::updateMesh(const mapPolyMesh&)")
         << "V:" << V().size()
         << " not equal to the number of old cells "
         << mpm.nOldCells()
         << exit(FatalError);
     }
-    if (V0Ptr_ && (V0Ptr_->size() != mpm.nOldCells()))
-    {
+    if (V0Ptr_ && (V0Ptr_->size() != mpm.nOldCells())) {
       FATAL_ERROR_IN("fvMesh::updateMesh(const mapPolyMesh&)")
         << "V0:" << V0Ptr_->size()
         << " not equal to the number of old cells "
         << mpm.nOldCells()
         << exit(FatalError);
     }
-    if (V00Ptr_ && (V00Ptr_->size() != mpm.nOldCells()))
-    {
+    if (V00Ptr_ && (V00Ptr_->size() != mpm.nOldCells())) {
       FATAL_ERROR_IN("fvMesh::updateMesh(const mapPolyMesh&)")
         << "V0:" << V00Ptr_->size()
         << " not equal to the number of old cells "
@@ -713,6 +670,8 @@ void mousse::fvMesh::updateMesh(const mapPolyMesh& mpm)
   meshObject::updateMesh<fvMesh>(*this, mpm);
   meshObject::updateMesh<lduMesh>(*this, mpm);
 }
+
+
 bool mousse::fvMesh::writeObjects
 (
   IOstream::streamFormat fmt,
@@ -722,22 +681,28 @@ bool mousse::fvMesh::writeObjects
 {
   return polyMesh::writeObject(fmt, ver, cmp);
 }
+
+
 //- Write mesh using IO settings from the time
 bool mousse::fvMesh::write() const
 {
   bool ok = true;
-  if (phiPtr_)
-  {
+  if (phiPtr_) {
     ok = phiPtr_->write();
   }
   return ok && polyMesh::write();
 }
+
+
 // Member Operators 
 bool mousse::fvMesh::operator!=(const fvMesh& bm) const
 {
   return &bm != this;
 }
+
+
 bool mousse::fvMesh::operator==(const fvMesh& bm) const
 {
   return &bm == this;
 }
+

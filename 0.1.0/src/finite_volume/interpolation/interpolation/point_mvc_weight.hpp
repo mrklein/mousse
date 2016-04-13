@@ -13,22 +13,25 @@
 //   of "Spherical Barycentric Coordinates"
 //   2006 paper Eurographics Symposium on Geometry Processing
 //   by Torsten Langer, Alexander Belyaev and Hans-Peter Seide
-// SourceFiles
-//   point_mvc_weight.cpp
+
 #include "scalar_field.hpp"
 #include "vector_field.hpp"
 #include "map.hpp"
 #include "dynamic_list.hpp"
 #include "point.hpp"
 #include "point_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyMesh;
 class pointMesh;
 template<class T> class pointPatchField;
 template<class Type, template<class> class PatchField, class GeoMesh>
 class GeometricField;
 class face;
+
+
 class pointMVCWeight
 {
 protected:
@@ -102,10 +105,10 @@ inline Type mousse::pointMVCWeight::interpolate
 {
   const labelList& vertices = psip.mesh()().cellPoints()[cellIndex_];
   Type t = pTraits<Type>::zero;
-  FOR_ALL(vertices, i)
-  {
+  FOR_ALL(vertices, i) {
     t += psip[vertices[i]]*weights_[i];
   }
   return t;
 }
+
 #endif

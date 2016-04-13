@@ -5,11 +5,12 @@
 #include "rpm.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "mathematical_constants.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace SRF
-{
+namespace mousse {
+namespace SRF {
+
 DEFINE_TYPE_NAME_AND_DEBUG(rpm, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -17,8 +18,11 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   rpm,
   dictionary
 );
+
 }
 }
+
+
 // Constructors 
 mousse::SRF::rpm::rpm
 (
@@ -31,22 +35,25 @@ mousse::SRF::rpm::rpm
   // Initialise the angular velocity
   omega_.value() = axis_*rpm_*constant::mathematical::twoPi/60.0;
 }
+
+
 // Destructor 
 mousse::SRF::rpm::~rpm()
 {}
+
+
 // Member Functions 
 bool mousse::SRF::rpm::read()
 {
-  if (SRFModel::read())
-  {
-    // Re-read rpm
-    SRFModelCoeffs_.lookup("rpm") >> rpm_;
-    // Update angular velocity
-    omega_.value() = axis_*rpm_*(constant::mathematical::twoPi/60.0);
-    return true;
-  }
-  else
-  {
+  using constant::mathematical::twoPi;
+
+  if (!SRFModel::read())
     return false;
-  }
+
+  // Re-read rpm
+  SRFModelCoeffs_.lookup("rpm") >> rpm_;
+  // Update angular velocity
+  omega_.value() = axis_*rpm_*(twoPi/60.0);
+  return true;
 }
+

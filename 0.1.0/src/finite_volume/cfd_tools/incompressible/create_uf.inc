@@ -1,14 +1,13 @@
+#ifndef CREATE_UF_HPP_
+#define CREATE_UF_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef create_uf_hpp_
-#define create_uf_hpp_
-
-Info<< "Reading/calculating face velocity Uf\n" << endl;
+Info << "Reading/calculating face velocity Uf\n" << endl;
 surfaceVectorField Uf
 {
-  IOobject
   {
     "Uf",
     runTime.timeName(),

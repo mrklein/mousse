@@ -4,7 +4,10 @@
 
 #include "skew_corrected.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_SURFACE_INTERPOLATION_SCHEME(skewCorrected);
+
 }
+

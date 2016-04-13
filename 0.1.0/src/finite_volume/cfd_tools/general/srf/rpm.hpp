@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_CFD_TOOLS_GENERAL_SRF_RPM_HPP_
+#define FINITE_VOLUME_CFD_TOOLS_GENERAL_SRF_RPM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,15 +9,13 @@
 // Description
 //   Basic SRF model whereby angular velocity is specified in terms of
 //   a (global) axis and revolutions-per-minute [rpm]
-// SourceFiles
-//   rpm.cpp
-#ifndef SRFModelRpm_H
-#define SRFModelRpm_H
+
 #include "srf_model.hpp"
-namespace mousse
-{
-namespace SRF
-{
+
+
+namespace mousse {
+namespace SRF {
+
 class rpm
 :
   public SRFModel

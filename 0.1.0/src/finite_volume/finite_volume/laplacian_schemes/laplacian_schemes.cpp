@@ -4,11 +4,9 @@
 
 #include "laplacian_scheme.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 // Define the constructor function hash tables
 #define MAKE_LAPLACIAN_G_TYPE_SCHEME(Type, GType)                             \
@@ -31,5 +29,5 @@ MAKE_LAPLACIAN_SCHEME(symmTensor);
 MAKE_LAPLACIAN_SCHEME(tensor);
 
 }  // namespace fv
-
 }  // namespace mousse
+

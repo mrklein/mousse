@@ -7,8 +7,8 @@
 #include "limited01.hpp"
 #include "van_leer.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(vanLeer, vanLeerLimiter)
 
@@ -35,3 +35,4 @@ MAKE_L_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME
 )
 
 }
+

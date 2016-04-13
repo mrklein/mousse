@@ -23,15 +23,16 @@
 //   Do the new faces get the value of the internal face they came from?
 //   What if e.g. the user supplied patch is a fixedValue 0? So for now
 //   they get the face of existing patch face 0.
-// SourceFiles
-//   fv_mesh_subset.cpp
+
 #include "fv_mesh.hpp"
 #include "point_mesh.hpp"
 #include "geometric_field.hpp"
 #include "hash_set.hpp"
 #include "surface_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMeshSubset
 {
 private:
@@ -179,7 +180,7 @@ public:
       ) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fv_mesh_subset_interpolate.cpp"
-#endif
+
+#include "fv_mesh_subset_interpolate.ipp"
+
 #endif

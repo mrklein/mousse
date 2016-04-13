@@ -8,9 +8,6 @@
 //   mousse::surfaceInterpolationScheme
 // Description
 //   Abstract base class for surface interpolation schemes.
-// SourceFiles
-//   surface_interpolation_scheme.cpp
-
 
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"
@@ -18,8 +15,8 @@
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class fvMesh;
 
@@ -181,7 +178,6 @@ MAKE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, sphericalTensor)                   \
 MAKE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, symmTensor)                        \
 MAKE_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, tensor)
 
-#ifdef NoRepository
-#   include "surface_interpolation_scheme.cpp"
-#endif
+#include "surface_interpolation_scheme.ipp"
+
 #endif

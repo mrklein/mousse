@@ -8,9 +8,6 @@
 //   mousse::fv::d2dt2Scheme
 // Description
 //   Abstract base class for d2dt2 schemes.
-// SourceFiles
-//   d2dt2_scheme.cpp
-
 
 #include "tmp.hpp"
 #include "dimensioned_type.hpp"
@@ -19,16 +16,15 @@
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class fvMatrix;
-
 class fvMesh;
 
-namespace fv
-{
+
+namespace fv {
 
 template<class Type>
 class d2dt2Scheme
@@ -120,6 +116,7 @@ public:
 }  // namespace fv
 }  // namespace mousse
 
+
 // Add the patch constructor functions to the hash tables
 #define MAKE_FV_D2DT2_TYPE_SCHEME(SS, Type)                                   \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::fv::SS<mousse::Type>, 0); \
@@ -133,6 +130,7 @@ public:
     }                                                                         \
   }
 
+
 #define MAKE_FV_D2DT2_SCHEME(SS)                                              \
                                                                               \
 MAKE_FV_D2DT2_TYPE_SCHEME(SS, scalar)                                         \
@@ -141,7 +139,7 @@ MAKE_FV_D2DT2_TYPE_SCHEME(SS, sphericalTensor)                                \
 MAKE_FV_D2DT2_TYPE_SCHEME(SS, symmTensor)                                     \
 MAKE_FV_D2DT2_TYPE_SCHEME(SS, tensor)
 
-#ifdef NoRepository
-#   include "d2dt2_scheme.cpp"
-#endif
+
+#include "d2dt2_scheme.ipp"
+
 #endif

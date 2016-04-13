@@ -10,7 +10,9 @@
 #include "transform_field.hpp"
 #include "symm_transform_field.hpp"
 
+
 // Constructors 
+
 mousse::pressureInletOutletVelocityFvPatchVectorField::
 pressureInletOutletVelocityFvPatchVectorField
 (
@@ -18,13 +20,15 @@ pressureInletOutletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  directionMixedFvPatchVectorField(p, iF),
-  phiName_("phi")
+  directionMixedFvPatchVectorField{p, iF},
+  phiName_{"phi"}
 {
   refValue() = vector::zero;
   refGrad() = vector::zero;
   valueFraction() = symmTensor::zero;
 }
+
+
 mousse::pressureInletOutletVelocityFvPatchVectorField::
 pressureInletOutletVelocityFvPatchVectorField
 (
@@ -34,14 +38,15 @@ pressureInletOutletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  directionMixedFvPatchVectorField(ptf, p, iF, mapper),
-  phiName_(ptf.phiName_)
+  directionMixedFvPatchVectorField{ptf, p, iF, mapper},
+  phiName_{ptf.phiName_}
 {
-  if (ptf.tangentialVelocity_.size())
-  {
+  if (ptf.tangentialVelocity_.size()) {
     tangentialVelocity_ = mapper(ptf.tangentialVelocity_);
   }
 }
+
+
 mousse::pressureInletOutletVelocityFvPatchVectorField::
 pressureInletOutletVelocityFvPatchVectorField
 (
@@ -50,34 +55,35 @@ pressureInletOutletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  directionMixedFvPatchVectorField(p, iF),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi"))
+  directionMixedFvPatchVectorField{p, iF},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")}
 {
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
-  if (dict.found("tangentialVelocity"))
-  {
+  if (dict.found("tangentialVelocity")) {
     setTangentialVelocity
     (
-      vectorField("tangentialVelocity", dict, p.size())
+      vectorField{"tangentialVelocity", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     refValue() = vector::zero;
   }
   refGrad() = vector::zero;
   valueFraction() = symmTensor::zero;
 }
+
+
 mousse::pressureInletOutletVelocityFvPatchVectorField::
 pressureInletOutletVelocityFvPatchVectorField
 (
   const pressureInletOutletVelocityFvPatchVectorField& pivpvf
 )
 :
-  directionMixedFvPatchVectorField(pivpvf),
-  phiName_(pivpvf.phiName_),
-  tangentialVelocity_(pivpvf.tangentialVelocity_)
+  directionMixedFvPatchVectorField{pivpvf},
+  phiName_{pivpvf.phiName_},
+  tangentialVelocity_{pivpvf.tangentialVelocity_}
 {}
+
+
 mousse::pressureInletOutletVelocityFvPatchVectorField::
 pressureInletOutletVelocityFvPatchVectorField
 (
@@ -85,29 +91,34 @@ pressureInletOutletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  directionMixedFvPatchVectorField(pivpvf, iF),
-  phiName_(pivpvf.phiName_),
-  tangentialVelocity_(pivpvf.tangentialVelocity_)
+  directionMixedFvPatchVectorField{pivpvf, iF},
+  phiName_{pivpvf.phiName_},
+  tangentialVelocity_{pivpvf.tangentialVelocity_}
 {}
+
+
 // Member Functions 
 void mousse::pressureInletOutletVelocityFvPatchVectorField::
 setTangentialVelocity(const vectorField& tangentialVelocity)
 {
   tangentialVelocity_ = tangentialVelocity;
-  const vectorField n(patch().nf());
+  const vectorField n{patch().nf()};
   refValue() = tangentialVelocity_ - n*(n & tangentialVelocity_);
 }
+
+
 void mousse::pressureInletOutletVelocityFvPatchVectorField::autoMap
 (
   const fvPatchFieldMapper& m
 )
 {
   directionMixedFvPatchVectorField::autoMap(m);
-  if (tangentialVelocity_.size())
-  {
+  if (tangentialVelocity_.size()) {
     tangentialVelocity_.autoMap(m);
   }
 }
+
+
 void mousse::pressureInletOutletVelocityFvPatchVectorField::rmap
 (
   const fvPatchVectorField& ptf,
@@ -115,17 +126,17 @@ void mousse::pressureInletOutletVelocityFvPatchVectorField::rmap
 )
 {
   directionMixedFvPatchVectorField::rmap(ptf, addr);
-  if (tangentialVelocity_.size())
-  {
+  if (tangentialVelocity_.size()) {
     const pressureInletOutletVelocityFvPatchVectorField& tiptf =
       refCast<const pressureInletOutletVelocityFvPatchVectorField>(ptf);
     tangentialVelocity_.rmap(tiptf.tangentialVelocity_, addr);
   }
 }
+
+
 void mousse::pressureInletOutletVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvsPatchField<scalar>& phip =
@@ -134,6 +145,8 @@ void mousse::pressureInletOutletVelocityFvPatchVectorField::updateCoeffs()
   directionMixedFvPatchVectorField::updateCoeffs();
   directionMixedFvPatchVectorField::evaluate();
 }
+
+
 void mousse::pressureInletOutletVelocityFvPatchVectorField::write
 (
   Ostream& os
@@ -142,12 +155,13 @@ const
 {
   fvPatchVectorField::write(os);
   writeEntryIfDifferent<word>(os, "phi", "phi", phiName_);
-  if (tangentialVelocity_.size())
-  {
+  if (tangentialVelocity_.size()) {
     tangentialVelocity_.writeEntry("tangentialVelocity", os);
   }
   writeEntry("value", os);
 }
+
+
 // Member Operators 
 void mousse::pressureInletOutletVelocityFvPatchVectorField::operator=
 (
@@ -158,11 +172,15 @@ void mousse::pressureInletOutletVelocityFvPatchVectorField::operator=
   tmp<vectorField> transformGradValue = transform(I - valueFraction(), pvf);
   fvPatchField<vector>::operator=(normalValue + transformGradValue);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   pressureInletOutletVelocityFvPatchVectorField
 );
+
 }
+

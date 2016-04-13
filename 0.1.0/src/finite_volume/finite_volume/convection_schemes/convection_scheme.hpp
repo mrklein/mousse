@@ -8,9 +8,6 @@
 //   mousse::fv::convectionScheme
 // Description
 //   Abstract base class for convection schemes.
-// SourceFiles
-//   convection_scheme.cpp
-
 
 #include "tmp.hpp"
 #include "vol_fields_fwd.hpp"
@@ -19,13 +16,16 @@
 #include "run_time_selection_tables.hpp"
 #include "multivariate_surface_interpolation_scheme.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class fvMatrix;
 class fvMesh;
-namespace fv
-{
+
+
+namespace fv {
+
 template<class Type>
 class convectionScheme
 :
@@ -77,7 +77,7 @@ public:
     {}
   // Selectors
     //- Return a pointer to a new convectionScheme created on freestore
-    static tmp<convectionScheme<Type> > New
+    static tmp<convectionScheme<Type>> New
     (
       const fvMesh& mesh,
       const surfaceScalarField& faceFlux,
@@ -85,7 +85,7 @@ public:
     );
     //- Return a pointer to a new multivariate convectionScheme
     //  created on freestore
-    static tmp<convectionScheme<Type> > New
+    static tmp<convectionScheme<Type>> New
     (
       const fvMesh& mesh,
       const typename multivariateSurfaceInterpolationScheme<Type>::
@@ -101,23 +101,23 @@ public:
     {
       return mesh_;
     }
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     interpolate
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const = 0;
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > flux
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> flux
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const = 0;
-    virtual tmp<fvMatrix<Type> > fvmDiv
+    virtual tmp<fvMatrix<Type>> fvmDiv
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const = 0;
-    virtual tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDiv
+    virtual tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDiv
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
@@ -128,6 +128,7 @@ public:
 }  // namespace fv
 }  // namespace mousse
 
+
 // Add the patch constructor functions to the hash tables
 #define MAKE_FV_CONVECTION_TYPE_SCHEME(SS, Type)                              \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::fv::SS<mousse::Type>, 0); \
@@ -136,10 +137,11 @@ public:
   {                                                                           \
     namespace fv                                                              \
     {                                                                         \
-      convectionScheme<Type>::addIstreamConstructorToTable<SS<Type> >         \
+      convectionScheme<Type>::addIstreamConstructorToTable<SS<Type>>          \
         add##SS##Type##IstreamConstructorToTable_;                            \
     }                                                                         \
   }
+
 
 #define MAKE_FV_CONVECTION_SCHEME(SS)                                         \
                                                                               \
@@ -149,6 +151,7 @@ MAKE_FV_CONVECTION_TYPE_SCHEME(SS, sphericalTensor)                           \
 MAKE_FV_CONVECTION_TYPE_SCHEME(SS, symmTensor)                                \
 MAKE_FV_CONVECTION_TYPE_SCHEME(SS, tensor)
 
+
 #define MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, Type)                 \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::fv::SS<mousse::Type>, 0); \
                                                                               \
@@ -157,10 +160,11 @@ MAKE_FV_CONVECTION_TYPE_SCHEME(SS, tensor)
     namespace fv                                                              \
     {                                                                         \
       convectionScheme<Type>::                                                \
-        addMultivariateConstructorToTable<SS<Type> >                          \
+        addMultivariateConstructorToTable<SS<Type>>                           \
         add##SS##Type##MultivariateConstructorToTable_;                       \
     }                                                                         \
   }
+
 
 #define MAKE_MULTIVARIATE_FV_CONVECTION_SCHEME(SS)                            \
                                                                               \
@@ -170,7 +174,7 @@ MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, sphericalTensor)              \
 MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, symmTensor)                   \
 MAKE_MULTIVARIATE_FV_CONVECTION_TYPE_SCHEME(SS, tensor)
 
-#ifdef NoRepository
-#   include "convection_scheme.cpp"
-#endif
+
+#include "convection_scheme.ipp"
+
 #endif

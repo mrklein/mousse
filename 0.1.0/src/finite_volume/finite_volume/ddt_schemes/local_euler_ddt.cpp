@@ -7,15 +7,17 @@
 #include "time.hpp"
 #include "vol_fields.hpp"
 
+
 // Static Data Members
 mousse::word mousse::fv::localEulerDdt::rDeltaTName("rDeltaT");
 mousse::word mousse::fv::localEulerDdt::rSubDeltaTName("rSubDeltaTName");
 bool mousse::fv::localEulerDdt::enabled(const fvMesh& mesh)
 {
   return
-    word(mesh.ddtScheme("default"))
-  == fv::localEulerDdtScheme<scalar>::typeName;
+    word(mesh.ddtScheme("default")) == fv::localEulerDdtScheme<scalar>::typeName;
 }
+
+
 const mousse::volScalarField& mousse::fv::localEulerDdt::localRDeltaT
 (
   const fvMesh& mesh
@@ -26,6 +28,8 @@ const mousse::volScalarField& mousse::fv::localEulerDdt::localRDeltaT
     mesh.time().subCycling() ? rSubDeltaTName : rDeltaTName
   );
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::fv::localEulerDdt::localRSubDeltaT
 (
   const fvMesh& mesh,
@@ -33,15 +37,15 @@ mousse::tmp<mousse::volScalarField> mousse::fv::localEulerDdt::localRSubDeltaT
 )
 {
   return tmp<volScalarField>
-  (
+  {
     new volScalarField
-    (
+    {
       rSubDeltaTName,
-      nAlphaSubCycles
-     *mesh.objectRegistry::lookupObject<volScalarField>
-      (
-        rDeltaTName
-      )
-    )
-  );
+      nAlphaSubCycles*mesh.objectRegistry::lookupObject<volScalarField>
+        (
+          rDeltaTName
+        )
+    }
+  };
 }
+

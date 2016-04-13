@@ -15,11 +15,12 @@
 //   with those gradients and introduce small amounts of upwind in order to
 //   damp these modes.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   filtered_linear.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class LimiterFunc>
 class filteredLinearLimiter
 :
@@ -43,9 +44,8 @@ public:
     scalar dcP = d & gradcP;
     scalar dcN = d & gradcN;
     scalar limiter =
-      2
-     - 0.5*min(mag(df - dcP), mag(df - dcN))
-     /(max(mag(dcP), mag(dcN)) + SMALL);
+      2 - 0.5*min(mag(df - dcP), mag(df - dcN))/(max(mag(dcP), mag(dcN))
+                                                 + SMALL);
     // Limit the limiter between linear and 20% upwind
     return max(min(limiter, 1), 0.8);
   }

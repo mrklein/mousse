@@ -40,12 +40,13 @@
 // SeeAlso
 //   mousse::fixedValueFvPatchField
 //   mousse::DataEntry
-// SourceFiles
-//   cylindrical_inlet_velocity_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cylindricalInletVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -56,11 +57,11 @@ class cylindricalInletVelocityFvPatchVectorField
     //- Axis
     const vector axis_;
     //- Axial velocity
-    autoPtr<DataEntry<scalar> > axialVelocity_;
+    autoPtr<DataEntry<scalar>> axialVelocity_;
     //- Radial velocity
-    autoPtr<DataEntry<scalar> > radialVelocity_;
+    autoPtr<DataEntry<scalar>> radialVelocity_;
     //- RPM
-    autoPtr<DataEntry<scalar> > rpm_;
+    autoPtr<DataEntry<scalar>> rpm_;
 public:
  //- Runtime type information
  TYPE_NAME("cylindricalInletVelocity");

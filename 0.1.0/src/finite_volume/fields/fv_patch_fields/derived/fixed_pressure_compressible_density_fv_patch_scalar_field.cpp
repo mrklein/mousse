@@ -7,7 +7,10 @@
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
 #include "vol_fields.hpp"
+
+
 // Constructors 
+
 mousse::fixedPressureCompressibleDensityFvPatchScalarField::
 fixedPressureCompressibleDensityFvPatchScalarField
 (
@@ -15,9 +18,11 @@ fixedPressureCompressibleDensityFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<scalar>(p, iF),
-  pName_("p")
+  fixedValueFvPatchField<scalar>{p, iF},
+  pName_{"p"}
 {}
+
+
 mousse::fixedPressureCompressibleDensityFvPatchScalarField::
 fixedPressureCompressibleDensityFvPatchScalarField
 (
@@ -27,9 +32,11 @@ fixedPressureCompressibleDensityFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<scalar>(ptf, p, iF, mapper),
-  pName_(ptf.pName_)
+  fixedValueFvPatchField<scalar>{ptf, p, iF, mapper},
+  pName_{ptf.pName_}
 {}
+
+
 mousse::fixedPressureCompressibleDensityFvPatchScalarField::
 fixedPressureCompressibleDensityFvPatchScalarField
 (
@@ -38,18 +45,22 @@ fixedPressureCompressibleDensityFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<scalar>(p, iF, dict),
-  pName_(dict.lookupOrDefault<word>("p", "p"))
+  fixedValueFvPatchField<scalar>{p, iF, dict},
+  pName_{dict.lookupOrDefault<word>("p", "p")}
 {}
+
+
 mousse::fixedPressureCompressibleDensityFvPatchScalarField::
 fixedPressureCompressibleDensityFvPatchScalarField
 (
   const fixedPressureCompressibleDensityFvPatchScalarField& ptf
 )
 :
-  fixedValueFvPatchField<scalar>(ptf),
-  pName_(ptf.pName_)
+  fixedValueFvPatchField<scalar>{ptf},
+  pName_{ptf.pName_}
 {}
+
+
 mousse::fixedPressureCompressibleDensityFvPatchScalarField::
 fixedPressureCompressibleDensityFvPatchScalarField
 (
@@ -57,14 +68,15 @@ fixedPressureCompressibleDensityFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<scalar>(ptf, iF),
-  pName_(ptf.pName_)
+  fixedValueFvPatchField<scalar>{ptf, iF},
+  pName_{ptf.pName_}
 {}
+
+
 // Member Functions 
 void mousse::fixedPressureCompressibleDensityFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvPatchField<scalar>& pp =
@@ -79,6 +91,8 @@ void mousse::fixedPressureCompressibleDensityFvPatchScalarField::updateCoeffs()
   operator==(rholSat + psil*(pp - pSat));
   fixedValueFvPatchField<scalar>::updateCoeffs();
 }
+
+
 void mousse::fixedPressureCompressibleDensityFvPatchScalarField::write
 (
   Ostream& os
@@ -89,11 +103,14 @@ void mousse::fixedPressureCompressibleDensityFvPatchScalarField::write
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   fixedPressureCompressibleDensityFvPatchScalarField
 );
+
 }
+

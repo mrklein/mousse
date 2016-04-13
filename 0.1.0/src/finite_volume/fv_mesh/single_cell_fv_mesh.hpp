@@ -10,17 +10,14 @@
 //   fvMesh as subset of other mesh. Consists of one cell and all original
 //   bounday faces. Useful when manipulating boundary data. Single internal
 //   cell only needed to be able to manipulate in a standard way.
-// SourceFiles
-//   single_cell_fv_mesh.cpp
-//   single_cell_fv_mesh_interpolate.cpp
-
 
 #include "fv_patch_field_mapper.hpp"
 #include "fv_mesh.hpp"
 #include "label_list_io_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class singleCellFvMesh
 :
   public fvMesh
@@ -60,10 +57,8 @@ public:
           weights_{weights},
           hasUnmapped_{false}
         {
-          FOR_ALL(addressing_, i)
-          {
-            if (addressing_[i].empty())
-            {
+          FOR_ALL(addressing_, i) {
+            if (addressing_[i].empty()) {
               hasUnmapped_ = true;
               break;
             }
@@ -145,8 +140,6 @@ public:
 };
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "single_cell_fv_mesh_interpolate.cpp"
-#endif
+#include "single_cell_fv_mesh_interpolate.ipp"
 
 #endif

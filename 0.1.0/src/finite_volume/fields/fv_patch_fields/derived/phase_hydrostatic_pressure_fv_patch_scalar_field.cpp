@@ -8,6 +8,8 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "uniform_dimensioned_fields.hpp"
+
+
 // Constructors 
 mousse::phaseHydrostaticPressureFvPatchScalarField::
 phaseHydrostaticPressureFvPatchScalarField
@@ -26,6 +28,8 @@ phaseHydrostaticPressureFvPatchScalarField
   this->refGrad() = 0.0;
   this->valueFraction() = 0.0;
 }
+
+
 mousse::phaseHydrostaticPressureFvPatchScalarField::
 phaseHydrostaticPressureFvPatchScalarField
 (
@@ -41,20 +45,19 @@ phaseHydrostaticPressureFvPatchScalarField
   pRefPoint_{dict.lookup("pRefPoint")}
 {
   this->refValue() = pRefValue_;
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchScalarField::operator=
     (
-      scalarField("value", dict, p.size())
+      scalarField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     fvPatchScalarField::operator=(this->refValue());
   }
   this->refGrad() = 0.0;
   this->valueFraction() = 0.0;
 }
+
+
 mousse::phaseHydrostaticPressureFvPatchScalarField::
 phaseHydrostaticPressureFvPatchScalarField
 (
@@ -70,6 +73,8 @@ phaseHydrostaticPressureFvPatchScalarField
   pRefValue_{ptf.pRefValue_},
   pRefPoint_{ptf.pRefPoint_}
 {}
+
+
 mousse::phaseHydrostaticPressureFvPatchScalarField::
 phaseHydrostaticPressureFvPatchScalarField
 (
@@ -79,6 +84,8 @@ phaseHydrostaticPressureFvPatchScalarField
   mixedFvPatchScalarField{ptf},
   phaseName_{ptf.phaseName_}
 {}
+
+
 mousse::phaseHydrostaticPressureFvPatchScalarField::
 phaseHydrostaticPressureFvPatchScalarField
 (
@@ -92,11 +99,12 @@ phaseHydrostaticPressureFvPatchScalarField
   pRefValue_{ptf.pRefValue_},
   pRefPoint_{ptf.pRefPoint_}
 {}
+
+
 // Member Functions 
 void mousse::phaseHydrostaticPressureFvPatchScalarField::updateCoeffs()
 {
-  if (this->updated())
-  {
+  if (this->updated()) {
     return;
   }
   const scalarField& alphap =
@@ -112,14 +120,15 @@ void mousse::phaseHydrostaticPressureFvPatchScalarField::updateCoeffs()
   valueFraction() = max(min(alphap, scalar(1.0)), scalar(0.0));
   refValue() =
     pRefValue_
-   + rho_*((g.value() & patch().Cf()) - (g.value() & pRefPoint_));
+    + rho_*((g.value() & patch().Cf()) - (g.value() & pRefPoint_));
   mixedFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::phaseHydrostaticPressureFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
-  if (phaseName_ != "alpha")
-  {
+  if (phaseName_ != "alpha") {
     os.writeKeyword("phaseName")
       << phaseName_ << token::END_STATEMENT << nl;
   }
@@ -128,6 +137,8 @@ void mousse::phaseHydrostaticPressureFvPatchScalarField::write(Ostream& os) cons
   os.writeKeyword("pRefPoint") << pRefPoint_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
+
 // Member Operators 
 void mousse::phaseHydrostaticPressureFvPatchScalarField::operator=
 (
@@ -136,13 +147,11 @@ void mousse::phaseHydrostaticPressureFvPatchScalarField::operator=
 {
   fvPatchScalarField::operator=
   (
-    valueFraction()*refValue()
-    + (1 - valueFraction())*ptf
+    valueFraction()*refValue() + (1 - valueFraction())*ptf
   );
 }
 
-namespace mousse
-{
+namespace mousse {
 
 MAKE_PATCH_TYPE_FIELD
 (
@@ -151,3 +160,4 @@ MAKE_PATCH_TYPE_FIELD
 );
 
 }
+

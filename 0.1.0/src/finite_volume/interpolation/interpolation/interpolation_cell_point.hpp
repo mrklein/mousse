@@ -9,10 +9,13 @@
 // Description
 //   Given cell centre values and point (vertex) values decompose into
 //   tetrahedra and linear interpolate within them.
+
 #include "interpolation.hpp"
 #include "cell_point_weight.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class interpolationCellPoint
 :
@@ -52,6 +55,7 @@ public:
 };
 }  // namespace mousse
 
+
 // Member Functions 
 template<class Type>
 inline Type mousse::interpolationCellPoint<Type>::interpolate
@@ -67,6 +71,8 @@ inline Type mousse::interpolationCellPoint<Type>::interpolate
   t += psip_[faceVertices[2]]*weights[3];
   return t;
 }
+
+
 template<class Type>
 inline Type mousse::interpolationCellPoint<Type>::interpolate
 (
@@ -77,6 +83,8 @@ inline Type mousse::interpolationCellPoint<Type>::interpolate
 {
   return interpolate(cellPointWeight(this->pMesh_, position, cellI, faceI));
 }
+
+
 template<class Type>
 inline Type mousse::interpolationCellPoint<Type>::interpolate
 (
@@ -89,10 +97,8 @@ inline Type mousse::interpolationCellPoint<Type>::interpolate
   // tetIndices.  Does not pay attention to whether or not faceI is
   // supplied or not - the result will be essentially the same.
   // Performs a consistency check, however.
-  if (faceI >= 0)
-  {
-    if (faceI != tetIs.face())
-    {
+  if (faceI >= 0) {
+    if (faceI != tetIs.face()) {
       FATAL_ERROR_IN
       (
         "inline Type mousse::interpolationCellPoint<Type>::interpolate"
@@ -119,7 +125,8 @@ inline Type mousse::interpolationCellPoint<Type>::interpolate
   t += psip_[f[tetIs.facePtB()]]*weights[3];
   return t;
 }
-#ifdef NoRepository
-#   include "interpolation_cell_point.cpp"
-#endif
+
+
+#include "interpolation_cell_point.ipp"
+
 #endif

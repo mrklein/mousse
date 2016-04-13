@@ -11,15 +11,13 @@
 // Description
 //   This boundary condition enforces a cyclic condition between a pair of
 //   boundaries, incorporating a non-uniform transformation.
-// SourceFiles
-//   nonuniform_transform_cyclic_fv_patch_field.cpp
-//   nonuniform_transform_cyclic_fv_patch_fields.hpp
-//   nonuniform_transform_cyclic_fv_patch_fields.cpp
-//   nonuniform_transform_cyclic_fv_patch_fields_fwd.hpp
+
 #include "cyclic_fv_patch_field.hpp"
 #include "nonuniform_transform_cyclic_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class nonuniformTransformCyclicFvPatchField
 :
@@ -58,12 +56,12 @@ public:
       const nonuniformTransformCyclicFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new nonuniformTransformCyclicFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new nonuniformTransformCyclicFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     nonuniformTransformCyclicFvPatchField
@@ -72,19 +70,19 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new nonuniformTransformCyclicFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new nonuniformTransformCyclicFvPatchField<Type>{*this, iF}
+      };
     }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "nonuniform_transform_cyclic_fv_patch_field.cpp"
-#endif
+
+#include "nonuniform_transform_cyclic_fv_patch_field.ipp"
+
 #endif

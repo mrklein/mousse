@@ -8,13 +8,13 @@
 //   mousse::fv::fourthGrad
 // Description
 //   Second-order gradient scheme using least-squares.
-// SourceFiles
-//   fourth_grad.cpp
+
 #include "grad_scheme.hpp"
-namespace mousse
-{
-namespace fv
-{
+
+
+namespace mousse {
+namespace fv {
+
 template<class Type>
 class fourthGrad
 :
@@ -48,7 +48,7 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#include "fourth_grad.cpp"
-#endif
+
+#include "fourth_grad.ipp"
+
 #endif

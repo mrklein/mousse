@@ -62,18 +62,16 @@
 //   \endverbatim
 // SeeAlso
 //   mixedFvPatchField
-// SourceFiles
-//   external_coupled_mixed_fv_patch_field.cpp
-
 
 #include "mixed_fv_patch_fields.hpp"
 #include "ofstream.hpp"
 #include "geometric_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class IFstream;
+
 
 template<class Type>
 class externalCoupledMixedFvPatchField
@@ -114,7 +112,7 @@ private:
     bool master_;
 
     //- Offsets in data file to start reading at correct position
-    List<List<label> > offsets_;
+    List<List<label>> offsets_;
 
     //- Initialised flag
     bool initialised_;
@@ -212,12 +210,12 @@ public:
     );
 
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new externalCoupledMixedFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new externalCoupledMixedFvPatchField<Type>{*this}
+      };
     }
 
     //- Construct as copy setting internal field reference
@@ -228,12 +226,12 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
+      return tmp<fvPatchField<Type>>
       {
         new externalCoupledMixedFvPatchField<Type>{*this, iF}
       };
@@ -284,7 +282,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "external_coupled_mixed_fv_patch_field.cpp"
-#endif
+
+#include "external_coupled_mixed_fv_patch_field.ipp"
+
 #endif

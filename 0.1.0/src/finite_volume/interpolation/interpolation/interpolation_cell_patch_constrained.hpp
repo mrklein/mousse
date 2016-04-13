@@ -10,10 +10,15 @@
 //   Uses the cell value for any point in the cell apart from a boundary face
 //   where it uses the boundary value directly.
 //   Note: will not work on an empty patch.
+
 #include "interpolation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 template<class Type>
 class interpolationCellPatchConstrained
 :
@@ -38,7 +43,7 @@ public:
     ) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "interpolation_cell_patch_constrained.cpp"
-#endif
+
+#include "interpolation_cell_patch_constrained.ipp"
+
 #endif

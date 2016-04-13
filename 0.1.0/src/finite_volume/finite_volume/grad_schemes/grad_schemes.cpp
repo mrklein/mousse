@@ -5,16 +5,13 @@
 #include "grad_scheme.hpp"
 #include "hash_table.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 // Define the constructor function hash tables
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(gradScheme<scalar>, Istream);
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(gradScheme<vector>, Istream);
 
 }  // namespace fv
-
 }  // namespace mousse

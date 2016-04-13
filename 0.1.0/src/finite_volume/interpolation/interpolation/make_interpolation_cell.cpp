@@ -5,7 +5,10 @@
 #include "interpolation_cell.hpp"
 #include "vol_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_INTERPOLATION(interpolationCell);
+
 }  // namespace mousse
+

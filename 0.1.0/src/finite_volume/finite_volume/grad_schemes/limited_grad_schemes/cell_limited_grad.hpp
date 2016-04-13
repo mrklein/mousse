@@ -12,17 +12,12 @@
 //   The scalar limiter based on limiting the extrapolated face values
 //   between the maximum and minumum cell and cell neighbour values and is
 //   applied to all components of the gradient.
-// SourceFiles
-//   cell_limited_grad.cpp
-
 
 #include "grad_scheme.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Type>
 class cellLimitedGrad
@@ -46,8 +41,7 @@ public:
       basicGradScheme_{fv::gradScheme<Type>::New(mesh, schemeData)},
       k_{readScalar(schemeData)}
     {
-      if (k_ < 0 || k_ > 1)
-      {
+      if (k_ < 0 || k_ > 1) {
         FATAL_IO_ERROR_IN
         (
           "cellLimitedGrad(const fvMesh&, Istream& schemeData)",
@@ -98,12 +92,9 @@ inline void cellLimitedGrad<scalar>::limitFace
   const scalar& extrapolate
 )
 {
-  if (extrapolate > maxDelta + VSMALL)
-  {
+  if (extrapolate > maxDelta + VSMALL) {
     limiter = min(limiter, maxDelta/extrapolate);
-  }
-  else if (extrapolate < minDelta - VSMALL)
-  {
+  } else if (extrapolate < minDelta - VSMALL) {
     limiter = min(limiter, minDelta/extrapolate);
   }
 }
@@ -118,8 +109,7 @@ inline void cellLimitedGrad<Type>::limitFace
   const Type& extrapolate
 )
 {
-  for (direction cmpt=0; cmpt<Type::nComponents; cmpt++)
-  {
+  for (direction cmpt=0; cmpt<Type::nComponents; cmpt++) {
     cellLimitedGrad<scalar>::limitFace
     (
       limiter.component(cmpt),
@@ -138,6 +128,8 @@ tmp<volVectorField> cellLimitedGrad<scalar>::calcGrad
   const volScalarField& vsf,
   const word& name
 ) const;
+
+
 template<>
 tmp<volTensorField> cellLimitedGrad<vector>::calcGrad
 (
@@ -146,6 +138,6 @@ tmp<volTensorField> cellLimitedGrad<vector>::calcGrad
 ) const;
 
 }  // namespace fv
-
 }  // namespace mousse
+
 #endif

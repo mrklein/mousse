@@ -56,16 +56,19 @@
 // SeeAlso
 //   mousse::dynamicCode
 //   mousse::functionEntries::codeStream
-// SourceFiles
-//   coded_mixed_fv_patch_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
 #include "coded_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class dynamicCode;
 class dynamicCodeContext;
 class IOdictionary;
+
+
 template<class Type>
 class codedMixedFvPatchField
 :
@@ -76,7 +79,7 @@ class codedMixedFvPatchField
     //- Dictionary contents for the boundary condition
     mutable dictionary dict_;
     const word redirectType_;
-    mutable autoPtr<mixedFvPatchField<Type> > redirectPatchFieldPtr_;
+    mutable autoPtr<mixedFvPatchField<Type>> redirectPatchFieldPtr_;
   // Private Member Functions
     const IOdictionary& dict() const;
     //- Set the rewrite vars controlling the Type
@@ -128,12 +131,12 @@ public:
       const codedMixedFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new codedMixedFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new codedMixedFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     codedMixedFvPatchField
@@ -142,15 +145,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new codedMixedFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new codedMixedFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     //- Get reference to the underlying patchField
@@ -168,7 +171,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "coded_mixed_fv_patch_field.cpp"
-#endif
+
+#include "coded_mixed_fv_patch_field.ipp"
+
 #endif

@@ -12,15 +12,12 @@
 //   linear scheme (first two coefficients are corrections for owner and
 //   neighbour) or a pure upwind scheme (first coefficient is correction for
 //   owner; weight on face taken as 1).
-// SourceFiles
-//   fit_data.cpp
-
 
 #include "_mesh_object.hpp"
 #include "fv_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class FitDataType, class ExtendedStencil, class Polynomial>
 class FitData
@@ -132,7 +129,7 @@ public:
 };
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "fit_data.cpp"
-#endif
+
+#include "fit_data.ipp"
+
 #endif

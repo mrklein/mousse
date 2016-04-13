@@ -29,12 +29,13 @@
 // SeeAlso
 //   mousse::fixedValueFvPatchField
 //   mousse::pressureInletOutletVelocityFvPatchVectorField
-// SourceFiles
-//   pressure_inlet_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pressureInletVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -79,9 +80,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new pressureInletVelocityFvPatchVectorField(*this)
-      );
+      {
+        new pressureInletVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     pressureInletVelocityFvPatchVectorField
@@ -96,9 +97,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new pressureInletVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new pressureInletVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

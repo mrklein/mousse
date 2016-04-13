@@ -9,18 +9,18 @@
 // Description
 //   Top level model for single rotating frame
 //   - Steady state only - no time derivatives included
-// SourceFiles
-//   srf_model.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"
 #include "vector_field.hpp"
-namespace mousse
-{
-namespace SRF
-{
+
+
+namespace mousse {
+namespace SRF {
+
 class SRFModel
 :
   public IOdictionary

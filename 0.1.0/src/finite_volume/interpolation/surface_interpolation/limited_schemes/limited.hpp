@@ -9,11 +9,11 @@
 // Description
 //   mousse::LimitedLimiter
 
-
 #include "vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class LimitedScheme>
 class LimitedLimiter
 :
@@ -23,8 +23,7 @@ class LimitedLimiter
   scalar lowerBound_, upperBound_;
   void checkParameters(Istream& is)
   {
-    if (lowerBound_ > upperBound_)
-    {
+    if (lowerBound_ > upperBound_) {
       FATAL_IO_ERROR_IN("checkParameters()", is)
         << "Invalid bounds.  Lower = " << lowerBound_
         << "  Upper = " << upperBound_
@@ -69,22 +68,10 @@ public:
   ) const
   {
     // If not between the lower and upper bounds use upwind
-    if
-    (
-      (faceFlux > 0 && (phiP < lowerBound_ || phiN > upperBound_))
-      || (faceFlux < 0 && (phiN < lowerBound_ || phiP > upperBound_))
-    /*
-      phiP < lowerBound_
-    || phiP > upperBound_
-    || phiN < lowerBound_
-    || phiN > upperBound_
-    */
-    )
-    {
+    if ((faceFlux > 0 && (phiP < lowerBound_ || phiN > upperBound_))
+        || (faceFlux < 0 && (phiN < lowerBound_ || phiP > upperBound_))) {
       return 0;
-    }
-    else
-    {
+    } else {
       return LimitedScheme::limiter
       (
         cdWeight,
@@ -98,5 +85,8 @@ public:
     }
   }
 };
+
 }  // namespace mousse
+
 #endif
+

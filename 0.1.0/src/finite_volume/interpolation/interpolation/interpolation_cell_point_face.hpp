@@ -9,12 +9,12 @@
 // Description
 //   mousse::interpolationCellPointFace
 
-
 #include "interpolation.hpp"
 #include "fvs_patch_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class interpolationCellPointFace
 :
@@ -63,7 +63,7 @@ public:
     ) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "interpolation_cell_point_face.cpp"
-#endif
+
+#include "interpolation_cell_point_face.ipp"
+
 #endif

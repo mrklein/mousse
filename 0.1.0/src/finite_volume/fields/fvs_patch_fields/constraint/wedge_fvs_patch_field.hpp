@@ -8,15 +8,12 @@
 //   mousse::wedgeFvsPatchField
 // Description
 //   mousse::wedgeFvsPatchField
-// SourceFiles
-//   wedge_fvs_patch_field.cpp
-
 
 #include "fvs_patch_field.hpp"
 #include "wedge_fv_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class wedgeFvsPatchField
@@ -91,7 +88,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "wedge_fvs_patch_field.cpp"
-#endif
+
+#include "wedge_fvs_patch_field.ipp"
+
 #endif

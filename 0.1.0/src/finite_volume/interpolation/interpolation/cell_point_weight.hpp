@@ -8,15 +8,16 @@
 //   mousse::cellPointWeight
 // Description
 //   mousse::cellPointWeight
-// SourceFiles
-//   cell_point_weight.cpp
 
 #include "vector.hpp"
 #include "list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class polyMesh;
+
+
 class cellPointWeight
 {
 protected:

@@ -4,15 +4,20 @@
 
 #include "srf_model.hpp"
 #include "srf_velocity_fv_patch_vector_field.hpp"
+#include "time.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace SRF
-{
+namespace mousse {
+namespace SRF {
+
 DEFINE_TYPE_NAME_AND_DEBUG(SRFModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(SRFModel, dictionary);
+
 }
 }
+
+
 // Constructors
 mousse::SRF::SRFModel::SRFModel
 (
@@ -22,13 +27,11 @@ mousse::SRF::SRFModel::SRFModel
 :
   IOdictionary
   {
-    IOobject
     {
       "SRFProperties",
       Urel.time().constant(),
       Urel.db(),
-      IOobject::MUST_READ_IF_MODIFIED,
-      IOobject::NO_WRITE
+      IOobject::MUST_READ_IF_MODIFIED
     }
   },
   Urel_{Urel},
@@ -41,48 +44,54 @@ mousse::SRF::SRFModel::SRFModel
   // Normalise the axis
   axis_ /= mag(axis_);
 }
+
+
 // Destructor
 mousse::SRF::SRFModel::~SRFModel()
 {}
+
+
 // Member Functions
 bool mousse::SRF::SRFModel::read()
 {
-  if (regIOobject::read())
-  {
-    // Re-read origin
-    lookup("origin") >> origin_;
-    // Re-read axis
-    lookup("axis") >> axis_;
-    axis_ /= mag(axis_);
-    // Re-read sub-model coeffs
-    SRFModelCoeffs_ = subDict(type() + "Coeffs");
-    return true;
-  }
-  else
-  {
+  if (! regIOobject::read())
     return false;
-  }
+  // Re-read origin
+  lookup("origin") >> origin_;
+  // Re-read axis
+  lookup("axis") >> axis_;
+  axis_ /= mag(axis_);
+  // Re-read sub-model coeffs
+  SRFModelCoeffs_ = subDict(type() + "Coeffs");
+  return true;
 }
+
+
 const mousse::dimensionedVector& mousse::SRF::SRFModel::origin() const
 {
   return origin_;
 }
+
+
 const mousse::vector& mousse::SRF::SRFModel::axis() const
 {
   return axis_;
 }
+
+
 const mousse::dimensionedVector& mousse::SRF::SRFModel::omega() const
 {
   return omega_;
 }
-mousse::tmp<mousse::DimensionedField<mousse::vector, mousse::volMesh> >
+
+
+mousse::tmp<mousse::DimensionedField<mousse::vector, mousse::volMesh>>
 mousse::SRF::SRFModel::Fcoriolis() const
 {
-  return tmp<DimensionedField<vector, volMesh> >
+  return tmp<DimensionedField<vector, volMesh>>
   {
     new DimensionedField<vector, volMesh>
     {
-      IOobject
       {
         "Fcoriolis",
         mesh_.time().timeName(),
@@ -94,30 +103,33 @@ mousse::SRF::SRFModel::Fcoriolis() const
     }
   };
 }
-mousse::tmp<mousse::DimensionedField<mousse::vector, mousse::volMesh> >
+
+
+mousse::tmp<mousse::DimensionedField<mousse::vector, mousse::volMesh>>
 mousse::SRF::SRFModel::Fcentrifugal() const
 {
-  return tmp<DimensionedField<vector, volMesh> >
+  return tmp<DimensionedField<vector, volMesh>>
   {
     new DimensionedField<vector, volMesh>
     {
-      IOobject
       {
         "Fcentrifugal",
         mesh_.time().timeName(),
-        mesh_,
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
+        mesh_
       },
       omega_ ^ (omega_ ^ (mesh_.C() - origin_))
     }
   };
 }
-mousse::tmp<mousse::DimensionedField<mousse::vector, mousse::volMesh> >
+
+
+mousse::tmp<mousse::DimensionedField<mousse::vector, mousse::volMesh>>
 mousse::SRF::SRFModel::Su() const
 {
   return Fcoriolis() + Fcentrifugal();
 }
+
+
 mousse::vectorField mousse::SRF::SRFModel::velocity
 (
   const vectorField& positions
@@ -128,24 +140,25 @@ mousse::vectorField mousse::SRF::SRFModel::velocity
                       - axis_*(axis_ & (positions - origin_.value())));
   return tfld();
 }
+
+
 mousse::tmp<mousse::volVectorField> mousse::SRF::SRFModel::U() const
 {
   return tmp<volVectorField>
   {
     new volVectorField
     {
-      IOobject
       {
         "Usrf",
         mesh_.time().timeName(),
-        mesh_,
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
+        mesh_
       },
       omega_ ^ ((mesh_.C() - origin_) - axis_*(axis_ & (mesh_.C() - origin_)))
     }
   };
 }
+
+
 mousse::tmp<mousse::volVectorField> mousse::SRF::SRFModel::Uabs() const
 {
   tmp<volVectorField> Usrf = U();
@@ -153,7 +166,6 @@ mousse::tmp<mousse::volVectorField> mousse::SRF::SRFModel::Uabs() const
   {
     new volVectorField
     {
-      IOobject
       {
         "Uabs",
         mesh_.time().timeName(),
@@ -169,23 +181,19 @@ mousse::tmp<mousse::volVectorField> mousse::SRF::SRFModel::Uabs() const
   tUabs().internalField() += Urel_.internalField();
   // Add Urel boundary contributions
   const volVectorField::GeometricBoundaryField& bvf = Urel_.boundaryField();
-  FOR_ALL(bvf, i)
-  {
-    if (isA<SRFVelocityFvPatchVectorField>(bvf[i]))
-    {
+  FOR_ALL(bvf, i) {
+    if (isA<SRFVelocityFvPatchVectorField>(bvf[i])) {
       // Only include relative contributions from
       // SRFVelocityFvPatchVectorField's
       const SRFVelocityFvPatchVectorField& UrelPatch =
         refCast<const SRFVelocityFvPatchVectorField>(bvf[i]);
-      if (UrelPatch.relative())
-      {
+      if (UrelPatch.relative()) {
         tUabs().boundaryField()[i] += Urel_.boundaryField()[i];
       }
-    }
-    else
-    {
+    } else {
       tUabs().boundaryField()[i] += Urel_.boundaryField()[i];
     }
   }
   return tUabs;
 }
+

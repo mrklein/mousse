@@ -43,11 +43,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::advectiveFvPatchField
-// SourceFiles
-//   wave_transmissive_fv_patch_field.cpp
+
 #include "advective_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class waveTransmissiveFvPatchField
 :
@@ -90,12 +91,12 @@ public:
       const waveTransmissiveFvPatchField&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new waveTransmissiveFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new waveTransmissiveFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     waveTransmissiveFvPatchField
@@ -104,15 +105,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new waveTransmissiveFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new waveTransmissiveFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -132,8 +133,9 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "wave_transmissive_fv_patch_field.cpp"
-#endif
+
+#include "wave_transmissive_fv_patch_field.ipp"
+
 #endif

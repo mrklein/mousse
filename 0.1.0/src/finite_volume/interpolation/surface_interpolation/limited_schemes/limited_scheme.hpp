@@ -17,17 +17,15 @@
 //   distribution may be created) and the cell centre distance.
 //   This code organisation is both neat and efficient, allowing for
 //   convenient implementation of new schemes to run on parallelised cases.
-// SourceFiles
-//   limited_scheme.cpp
-//
 
 #include "limited_surface_interpolation_scheme.hpp"
 #include "limit_funcs.hpp"
 #include "nvdtvd.hpp"
 #include "nvdvtvdv.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class Limiter, template<class> class LimitFunc>
 class LimitedScheme
 :
@@ -97,7 +95,9 @@ public:
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
 };
+
 }  // namespace mousse
+
 
 // Add the patch constructor functions to the hash tables
 #define MAKE_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME\
@@ -200,7 +200,7 @@ limitedSurfaceInterpolationScheme<TYPE>::addMeshFluxConstructorToTable        \
 <LimitedScheme<TYPE, LLIMITER<LIMITER<NVDTVD> >, limitFuncs::LIMFUNC> >       \
   add##SS##LIMFUNC##TYPE##MeshFluxConstructorToLimitedTable_;
 
-#ifdef NoRepository
-#   include "limited_scheme.cpp"
-#endif
+
+#include "limited_scheme.ipp"
+
 #endif

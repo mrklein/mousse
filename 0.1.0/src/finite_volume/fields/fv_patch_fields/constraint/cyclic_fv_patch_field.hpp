@@ -23,13 +23,14 @@
 //   The patches must be topologically similar, i.e. if the owner patch is
 //   transformed to the neighbour patch, the patches should be identical (or
 //   very similar).
-// SourceFiles
-//   cyclic_fv_patch_field.cpp
+
 #include "coupled_fv_patch_field.hpp"
 #include "cyclic_ldu_interface_field.hpp"
 #include "cyclic_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class cyclicFvPatchField
 :
@@ -42,7 +43,7 @@ class cyclicFvPatchField
   // Private Member Functions
     //- Return neighbour side field given internal fields
     template<class Type2>
-    tmp<Field<Type2> > neighbourSideField
+    tmp<Field<Type2>> neighbourSideField
     (
       const Field<Type2>&
     ) const;
@@ -77,12 +78,12 @@ public:
       const cyclicFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new cyclicFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new cyclicFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     cyclicFvPatchField
@@ -91,15 +92,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new cyclicFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new cyclicFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -110,7 +111,7 @@ public:
       }
     // Evaluation functions
       //- Return neighbour coupled internal cell data
-      tmp<Field<Type> > patchNeighbourField() const;
+      tmp<Field<Type>> patchNeighbourField() const;
       //- Return reference to neighbour patchField
       const cyclicFvPatchField<Type>& neighbourPatchField() const;
       //- Update result field based on interface functionality
@@ -156,7 +157,7 @@ public:
       virtual void write(Ostream& os) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "cyclic_fv_patch_field.cpp"
-#endif
+
+#include "cyclic_fv_patch_field.ipp"
+
 #endif

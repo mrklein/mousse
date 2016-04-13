@@ -36,14 +36,11 @@
 //   mixed condition such as \c inletOutlet
 // SeeAlso
 //   mousse::inletOutletFvPatchField
-// SourceFiles
-//   mixed_fv_patch_field.cpp
-
 
 #include "fv_patch_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class mixedFvPatchField
@@ -241,7 +238,6 @@ public:
 
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "mixed_fv_patch_field.cpp"
-#endif
+#include "mixed_fv_patch_field.ipp"
+
 #endif

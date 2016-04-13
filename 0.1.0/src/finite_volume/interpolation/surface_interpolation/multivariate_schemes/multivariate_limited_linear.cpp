@@ -7,8 +7,8 @@
 #include "limited01.hpp"
 #include "limited_linear.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME
 (
@@ -35,3 +35,4 @@ MAKE_L_LIMITED_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME
 )
 
 }
+

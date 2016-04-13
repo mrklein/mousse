@@ -6,8 +6,10 @@
 // Copyright (C) 2016 mousse project
 
 #include "processor_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Member Functions 
 template<>
 void processorFvPatchField<scalar>::initInterfaceMatrixUpdate
@@ -18,6 +20,7 @@ void processorFvPatchField<scalar>::initInterfaceMatrixUpdate
   const direction,
   const Pstream::commsTypes commsType
 ) const;
+
 template<>
 void processorFvPatchField<scalar>::updateInterfaceMatrix
 (
@@ -27,5 +30,8 @@ void processorFvPatchField<scalar>::updateInterfaceMatrix
   const direction,
   const Pstream::commsTypes commsType
 ) const;
+
 }  // namespace mousse
+
 #endif
+

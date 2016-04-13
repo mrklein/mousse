@@ -8,12 +8,13 @@
 //   mousse::multivariateUpwind
 // Description
 //   Upwind-difference form of the multivariate surfaceInterpolationScheme.
-// SourceFiles
-//   multivariate_upwindmake.cpp
+
 #include "multivariate_surface_interpolation_scheme.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class multivariateUpwind
 :

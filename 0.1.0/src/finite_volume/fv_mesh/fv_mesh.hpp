@@ -18,9 +18,7 @@
 //   topological (mesh refinement/morphing) or geometric change (mesh
 //   motion).  It is therefore unsafe to keep local references to the
 //   derived data outside of the time loop.
-// SourceFiles
-//   fv_mesh.cpp
-//   fv_mesh_geometry.cpp
+
 #include "poly_mesh.hpp"
 #include "ldu_mesh.hpp"
 #include "primitive_mesh.hpp"
@@ -36,10 +34,14 @@
 #include "sliced_vol_fields_fwd.hpp"
 #include "sliced_surface_fields_fwd.hpp"
 #include "class_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMeshLduAddressing;
 class volMesh;
+
+
 class fvMesh
 :
   public polyMesh,
@@ -93,10 +95,6 @@ class fvMesh
       void makeMagSf() const;
       void makeC() const;
       void makeCf() const;
-    //- Disallow construct as copy
-    fvMesh(const fvMesh&);
-    //- Disallow assignment
-    void operator=(const fvMesh&);
 public:
   // Public typedefs
     typedef fvMesh Mesh;
@@ -140,6 +138,10 @@ public:
       const Xfer<cellList>& cells,
       const bool syncPar = true
     );
+    //- Disallow construct as copy
+    fvMesh(const fvMesh&) = delete;
+    //- Disallow assignment
+    void operator=(const fvMesh&) = delete;
   //- Destructor
   virtual ~fvMesh();
   // Member Functions
@@ -249,7 +251,7 @@ public:
     bool operator==(const fvMesh&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fv_patch_fv_mesh_templates.cpp"
-#endif
+
+#include "fv_patch_fv_mesh.ipp"
+
 #endif

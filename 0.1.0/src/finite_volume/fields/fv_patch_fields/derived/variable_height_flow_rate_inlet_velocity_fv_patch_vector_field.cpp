@@ -8,6 +8,7 @@
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
 
+
 // Constructors 
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
@@ -20,6 +21,7 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   flowRate_{0},
   alphaName_{"none"}
 {}
+
 
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
@@ -35,6 +37,7 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   alphaName_{ptf.alphaName_}
 {}
 
+
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
 (
@@ -48,6 +51,7 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   alphaName_{dict.lookup("alpha")}
 {}
 
+
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
 (
@@ -58,6 +62,7 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   flowRate_{ptf.flowRate_},
   alphaName_{ptf.alphaName_}
 {}
+
 
 mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::variableHeightFlowRateInletVelocityFvPatchVectorField
@@ -71,12 +76,12 @@ mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   alphaName_{ptf.alphaName_}
 {}
 
+
 // Member Functions 
 void mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
 ::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   scalarField alphap =
@@ -85,10 +90,11 @@ void mousse::variableHeightFlowRateInletVelocityFvPatchVectorField
   alphap = min(alphap, scalar(1));
   // a simpler way of doing this would be nice
   scalar avgU = -flowRate_/gSum(patch().magSf()*alphap);
-  vectorField n(patch().nf());
+  vectorField n{patch().nf()};
   operator==(n*avgU*alphap);
   fixedValueFvPatchField<vector>::updateCoeffs();
 }
+
 
 void mousse::variableHeightFlowRateInletVelocityFvPatchVectorField::write
 (
@@ -96,18 +102,19 @@ void mousse::variableHeightFlowRateInletVelocityFvPatchVectorField::write
 ) const
 {
   fvPatchField<vector>::write(os);
-  os.writeKeyword("flowRate") << flowRate_
-    << token::END_STATEMENT << nl;
-  os.writeKeyword("alpha") << alphaName_
-    << token::END_STATEMENT << nl;
+  os.writeKeyword("flowRate") << flowRate_ << token::END_STATEMENT << nl;
+  os.writeKeyword("alpha") << alphaName_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   variableHeightFlowRateInletVelocityFvPatchVectorField
 );
+
 }
+

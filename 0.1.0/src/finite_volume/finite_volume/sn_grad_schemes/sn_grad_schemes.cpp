@@ -6,11 +6,9 @@
 #include "hash_table.hpp"
 #include "surface_fields.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 // Define the constructor function hash tables
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(snGradScheme<scalar>, Mesh);
@@ -20,5 +18,5 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(snGradScheme<symmTensor>, Mesh);
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(snGradScheme<tensor>, Mesh);
 
 }  // namespace fv
-
 }  // namespace mousse
+

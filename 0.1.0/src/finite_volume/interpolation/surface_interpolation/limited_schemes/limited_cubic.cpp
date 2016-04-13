@@ -8,8 +8,8 @@
 #include "limited_cubic.hpp"
 #include "limited_cubic_v.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(limitedCubic, limitedCubicLimiter)
 
@@ -40,3 +40,4 @@ MAKE_L_LIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME
 )
 
 }
+

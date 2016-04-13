@@ -59,12 +59,13 @@
 //     forceBased      false;
 //   }
 //   \endverbatim
-// SourceFiles
-//   active_pressure_force_baffle_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class activePressureForceBaffleVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -134,9 +135,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new activePressureForceBaffleVelocityFvPatchVectorField(*this)
-      );
+      {
+        new activePressureForceBaffleVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     activePressureForceBaffleVelocityFvPatchVectorField
@@ -151,13 +152,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new activePressureForceBaffleVelocityFvPatchVectorField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new activePressureForceBaffleVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Mapping functions
@@ -177,5 +174,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

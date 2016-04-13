@@ -4,8 +4,9 @@
 
 #include "vol_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TEMPLATE2_TYPE_NAME_AND_DEBUG
 (

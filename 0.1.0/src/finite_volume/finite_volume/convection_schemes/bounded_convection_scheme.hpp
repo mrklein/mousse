@@ -13,20 +13,20 @@
 //   Can be used for convection of bounded scalar properties in steady-state
 //   solvers to improve stability if insufficient convergence of the pressure
 //   equation causes temporary divergence of the flux field.
-// SourceFiles
-//   bounded_convection_scheme.cpp
+
 #include "convection_scheme.hpp"
-namespace mousse
-{
-namespace fv
-{
+
+
+namespace mousse {
+namespace fv {
+
 template<class Type>
 class boundedConvectionScheme
 :
   public fv::convectionScheme<Type>
 {
   // Private data
-    tmp<fv::convectionScheme<Type> > scheme_;
+    tmp<fv::convectionScheme<Type>> scheme_;
 public:
   //- Runtime type information
   TYPE_NAME("bounded");
@@ -50,22 +50,22 @@ public:
     //- Disallow default bitwise assignment
     boundedConvectionScheme& operator=(const boundedConvectionScheme&) = delete;
   // Member Functions
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> interpolate
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > flux
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> flux
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
-    tmp<fvMatrix<Type> > fvmDiv
+    tmp<fvMatrix<Type>> fvmDiv
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDiv
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDiv
     (
       const surfaceScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
@@ -73,7 +73,7 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "bounded_convection_scheme.cpp"
-#endif
+
+#include "bounded_convection_scheme.ipp"
+
 #endif

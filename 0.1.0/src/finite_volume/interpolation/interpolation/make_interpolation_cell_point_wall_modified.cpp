@@ -5,7 +5,10 @@
 #include "interpolation_cell_point_wall_modified.hpp"
 #include "vol_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_INTERPOLATION(interpolationCellPointWallModified);
+
 }
+

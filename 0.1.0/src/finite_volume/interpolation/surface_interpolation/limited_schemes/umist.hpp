@@ -10,14 +10,12 @@
 //   Class with limiter function which returns the limiter for the
 //   UMIST differencing scheme.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   umist.cpp
-
 
 #include "vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class LimiterFunc>
 class UMISTLimiter
 :
@@ -45,5 +43,8 @@ public:
     return max(min(min(min(2*r, 0.75*r + 0.25), 0.25*r + 0.75), 2), 0);
   }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -9,9 +9,12 @@
 // Description
 //   SIMPLE control class to supply convergence information/checks for
 //   the SIMPLE loop.
+
 #include "solution_control.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class simpleControl
 :
   public solutionControl

@@ -4,8 +4,8 @@
 
 #include "fv_patch_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Static Data Members
 MAKE_FV_PATCH_FIELD(fvPatchScalarField)

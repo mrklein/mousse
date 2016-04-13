@@ -6,10 +6,11 @@
 #include "limited_scheme.hpp"
 #include "umist.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(UMIST, UMISTLimiter)
 MAKE_LIMITED_V_SURFACE_INTERPOLATION_SCHEME(UMISTV, UMISTLimiter)
 
 }
+

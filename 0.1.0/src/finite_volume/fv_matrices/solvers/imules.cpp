@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "imules.hpp"
+
+
 void mousse::MULES::implicitSolve
 (
   volScalarField& psi,
@@ -22,3 +24,4 @@ void mousse::MULES::implicitSolve
     psiMax, psiMin
   );
 }
+

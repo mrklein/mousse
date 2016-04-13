@@ -5,7 +5,10 @@
 #include "interpolation_point_mvc.hpp"
 #include "vol_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_INTERPOLATION(interpolationPointMVC);
+
 }
+

@@ -6,14 +6,19 @@
 // Copyright (C) 2016 mousse project
 
 #include "field_types.hpp"
-namespace mousse
-{
-template<class Type>
-class fvMatrix;
+
+
+namespace mousse {
+
+template<class Type> class fvMatrix;
+
 typedef fvMatrix<scalar> fvScalarMatrix;
 typedef fvMatrix<vector> fvVectorMatrix;
 typedef fvMatrix<sphericalTensor> fvSphericalTensorMatrix;
 typedef fvMatrix<symmTensor> fvSymmTensorMatrix;
 typedef fvMatrix<tensor> fvTensorMatrix;
+
 }  // namespace mousse
+
 #endif
+

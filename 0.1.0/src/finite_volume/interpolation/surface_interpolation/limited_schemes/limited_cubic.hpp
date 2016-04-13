@@ -11,11 +11,12 @@
 //   TVD limited centred-cubic differencing scheme based on r obtained from
 //   the LimiterFunc class.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   limited_cubic.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class LimiterFunc>
 class limitedCubicLimiter
 :
@@ -26,10 +27,9 @@ class limitedCubicLimiter
 public:
   limitedCubicLimiter(Istream& is)
   :
-    k_(readScalar(is))
+    k_{readScalar(is)}
   {
-    if (k_ < 0 || k_ > 1)
-    {
+    if (k_ < 0 || k_ > 1) {
       FATAL_IO_ERROR_IN("limitedCubicLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
@@ -49,36 +49,26 @@ public:
     const vector& d
   ) const
   {
-    scalar twor = twoByk_*LimiterFunc::r
-    (
-      faceFlux, phiP, phiN, gradcP, gradcN, d
-    );
+    scalar twor = twoByk_*LimiterFunc::r(faceFlux, phiP, phiN, gradcP, gradcN,
+                                         d);
     scalar phiU;
-    if (faceFlux > 0)
-    {
+    if (faceFlux > 0) {
       phiU = phiP;
-    }
-    else
-    {
+    } else {
       phiU = phiN;
     }
     // Calculate the face value using cubic interpolation
-    scalar phif =
-      cdWeight*(phiP - 0.25*(d & gradcN))
-     + (1 - cdWeight)*(phiN + 0.25*(d & gradcP));
+    scalar phif = cdWeight*(phiP - 0.25*(d & gradcN))
+      + (1 - cdWeight)*(phiN + 0.25*(d & gradcP));
     scalar phiCD = cdWeight*phiP + (1 - cdWeight)*phiN;
     // Calculate the effective limiter for the cubic interpolation
     scalar cubicLimiter = (phif - phiU)/stabilise(phiCD - phiU, SMALL);
-    /*
-    if (twor < 0.05)
-    {
-      cubicLimiter = twor;
-    }
-    return max(min(cubicLimiter, 2), 0);
-    */
     // Limit the limiter to obey the TVD constraint
     return max(min(min(twor, cubicLimiter), 2), 0);
   }
 };
+
 }  // namespace mousse
+
 #endif
+

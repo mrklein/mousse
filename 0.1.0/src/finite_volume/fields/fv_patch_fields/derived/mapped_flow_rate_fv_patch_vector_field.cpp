@@ -8,6 +8,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "mapped_patch_base.hpp"
 #include "surface_fields.hpp"
+
+
 // Constructors 
 mousse::mappedFlowRateFvPatchVectorField::mappedFlowRateFvPatchVectorField
 (
@@ -15,11 +17,13 @@ mousse::mappedFlowRateFvPatchVectorField::mappedFlowRateFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(p, iF),
-  nbrPhiName_("none"),
-  phiName_("phi"),
-  rhoName_("rho")
+  fixedValueFvPatchField<vector>{p, iF},
+  nbrPhiName_{"none"},
+  phiName_{"phi"},
+  rhoName_{"rho"}
 {}
+
+
 mousse::mappedFlowRateFvPatchVectorField::mappedFlowRateFvPatchVectorField
 (
   const mappedFlowRateFvPatchVectorField& ptf,
@@ -28,11 +32,13 @@ mousse::mappedFlowRateFvPatchVectorField::mappedFlowRateFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchField<vector>(ptf, p, iF, mapper),
-  nbrPhiName_(ptf.nbrPhiName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_)
+  fixedValueFvPatchField<vector>{ptf, p, iF, mapper},
+  nbrPhiName_{ptf.nbrPhiName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_}
 {}
+
+
 mousse::mappedFlowRateFvPatchVectorField::mappedFlowRateFvPatchVectorField
 (
   const fvPatch& p,
@@ -40,37 +46,42 @@ mousse::mappedFlowRateFvPatchVectorField::mappedFlowRateFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchField<vector>(p, iF, dict),
-  nbrPhiName_(dict.lookupOrDefault<word>("nbrPhi", "phi")),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho"))
+  fixedValueFvPatchField<vector>{p, iF, dict},
+  nbrPhiName_{dict.lookupOrDefault<word>("nbrPhi", "phi")},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")}
 {}
+
+
 mousse::mappedFlowRateFvPatchVectorField::mappedFlowRateFvPatchVectorField
 (
   const mappedFlowRateFvPatchVectorField& ptf
 )
 :
-  fixedValueFvPatchField<vector>(ptf),
-  nbrPhiName_(ptf.nbrPhiName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_)
+  fixedValueFvPatchField<vector>{ptf},
+  nbrPhiName_{ptf.nbrPhiName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_}
 {}
+
+
 mousse::mappedFlowRateFvPatchVectorField::mappedFlowRateFvPatchVectorField
 (
   const mappedFlowRateFvPatchVectorField& ptf,
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchField<vector>(ptf, iF),
-  nbrPhiName_(ptf.nbrPhiName_),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_)
+  fixedValueFvPatchField<vector>{ptf, iF},
+  nbrPhiName_{ptf.nbrPhiName_},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_}
 {}
+
+
 // Member Functions 
 void mousse::mappedFlowRateFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   // Since we're inside initEvaluate/evaluate there might be processor
@@ -92,23 +103,19 @@ void mousse::mappedFlowRateFvPatchVectorField::updateCoeffs()
   mpp.distribute(phi);
   const surfaceScalarField& phiName =
     db().lookupObject<surfaceScalarField>(phiName_);
-  scalarField U(-phi/patch().magSf());
-  vectorField n(patch().nf());
-  if (phiName.dimensions() == dimVelocity*dimArea)
-  {
+  scalarField U{-phi/patch().magSf()};
+  vectorField n{patch().nf()};
+  if (phiName.dimensions() == dimVelocity*dimArea) {
     // volumetric flow-rate
     operator==(n*U);
-  }
-  else if (phiName.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  } else if (phiName.dimensions() == dimDensity*dimVelocity*dimArea) {
     const fvPatchField<scalar>& rhop =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     // mass flow-rate
     operator==(n*U/rhop);
-    if (debug)
-    {
+    if (debug) {
       scalar phi = gSum(rhop*(*this) & patch().Sf());
-      Info<< patch().boundaryMesh().mesh().name() << ':'
+      Info << patch().boundaryMesh().mesh().name() << ':'
         << patch().name() << ':'
         << this->dimensionedInternalField().name() << " <- "
         << nbrMesh.name() << ':'
@@ -117,22 +124,23 @@ void mousse::mappedFlowRateFvPatchVectorField::updateCoeffs()
         << " mass flux[Kg/s]:" << -phi
         << endl;
     }
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "mappedFlowRateFvPatchVectorField::updateCoeffs()"
-    )   << "dimensions of " << phiName_ << " are incorrect" << nl
-      << "    on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << nl << exit(FatalError);
+    )
+    << "dimensions of " << phiName_ << " are incorrect" << nl
+    << "    on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << nl << exit(FatalError);
   }
   // Restore tag
   UPstream::msgType() = oldTag;
   fixedValueFvPatchField<vector>::updateCoeffs();
 }
+
+
 void mousse::mappedFlowRateFvPatchVectorField::write
 (
   Ostream& os
@@ -144,11 +152,15 @@ void mousse::mappedFlowRateFvPatchVectorField::write
   os.writeKeyword("nbrPhi") << nbrPhiName_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
  fvPatchVectorField,
  mappedFlowRateFvPatchVectorField
 );
+
 }
+

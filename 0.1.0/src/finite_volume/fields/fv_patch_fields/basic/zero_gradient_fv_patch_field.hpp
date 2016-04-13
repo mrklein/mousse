@@ -19,11 +19,12 @@
 //     type            zeroGradient;
 //   }
 //   \endverbatim
-// SourceFiles
-//   zero_gradient_fv_patch_field.cpp
+
 #include "fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class zeroGradientFvPatchField
 :
@@ -61,12 +62,12 @@ public:
       const zeroGradientFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new zeroGradientFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new zeroGradientFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     zeroGradientFvPatchField
@@ -75,22 +76,22 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new zeroGradientFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new zeroGradientFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
       //- Return gradient at boundary
-      virtual tmp<Field<Type> > snGrad() const
+      virtual tmp<Field<Type>> snGrad() const
       {
-        return tmp<Field<Type> >
+        return tmp<Field<Type>>
         (
           new Field<Type>(this->size(), pTraits<Type>::zero)
         );
@@ -102,25 +103,25 @@ public:
       );
       //- Return the matrix diagonal coefficients corresponding to the
       //  evaluation of the value of this patchField with given weights
-      virtual tmp<Field<Type> > valueInternalCoeffs
+      virtual tmp<Field<Type>> valueInternalCoeffs
       (
         const tmp<scalarField>&
       ) const;
       //- Return the matrix source coefficients corresponding to the
       //  evaluation of the value of this patchField with given weights
-      virtual tmp<Field<Type> > valueBoundaryCoeffs
+      virtual tmp<Field<Type>> valueBoundaryCoeffs
       (
         const tmp<scalarField>&
       ) const;
       //- Return the matrix diagonal coefficients corresponding to the
       //  evaluation of the gradient of this patchField
-      virtual tmp<Field<Type> > gradientInternalCoeffs() const;
+      virtual tmp<Field<Type>> gradientInternalCoeffs() const;
       //- Return the matrix source coefficients corresponding to the
       //  evaluation of the gradient of this patchField
-      virtual tmp<Field<Type> > gradientBoundaryCoeffs() const;
+      virtual tmp<Field<Type>> gradientBoundaryCoeffs() const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "zero_gradient_fv_patch_field.cpp"
-#endif
+
+#include "zero_gradient_fv_patch_field.ipp"
+
 #endif

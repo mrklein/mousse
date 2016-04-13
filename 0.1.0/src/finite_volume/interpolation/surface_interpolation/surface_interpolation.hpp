@@ -8,15 +8,16 @@
 //   mousse::surfaceInterpolation
 // Description
 //   Cell to surface interpolation scheme. Included in fvMesh.
-// SourceFiles
-//   surface_interpolation.cpp
+
 #include "tmp.hpp"
 #include "scalar.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "class_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class surfaceInterpolation
 {
   // Private data

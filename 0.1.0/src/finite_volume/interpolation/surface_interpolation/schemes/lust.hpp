@@ -13,11 +13,12 @@
 //   gradient-based correction obtained from the linearUpwind scheme.  The
 //   blending-factor is set to 0.75 linear which optimises the balance between
 //   accuracy and stability on a range of LES cases with a range of mesh quality.
-// SourceFiles
-//   lust.cpp
+
 #include "linear_upwind.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class LUST
 :

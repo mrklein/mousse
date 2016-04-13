@@ -55,12 +55,13 @@
 // SeeAlso
 //   mousse::fixedValueFvPatchField
 //   mousse::cyclicFvPatchField
-// SourceFiles
-//   active_baffle_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class activeBaffleVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -126,9 +127,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new activeBaffleVelocityFvPatchVectorField(*this)
-      );
+      {
+        new activeBaffleVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     activeBaffleVelocityFvPatchVectorField
@@ -143,9 +144,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new activeBaffleVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new activeBaffleVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Mapping functions
@@ -158,5 +159,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -23,12 +23,13 @@
 //     ...
 //   }
 //   \endverbatim
-// SourceFiles
-//   io_mrf_zone_list.cpp
+
 #include "iodictionary.hpp"
 #include "mrf_zone_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IOMRFZoneList
 :
   public IOdictionary,

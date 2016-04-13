@@ -8,6 +8,6 @@
     mag(conserve)().weightedAverage(mesh.V()).value();
   scalar globalContErr = runTime.deltaTValue()*
     conserve.weightedAverage(mesh.V()).value();
-  Info<< "volume continuity errors : sum local = " << sumLocalContErr
+  Info << "volume continuity errors : sum local = " << sumLocalContErr
     << ", global = " << globalContErr << endl;
 }

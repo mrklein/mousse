@@ -8,6 +8,9 @@
 #include "surface_fields.hpp"
 #include "srf_model.hpp"
 #include "steady_state_ddt_scheme.hpp"
+#include "time.hpp"
+
+
 // Constructors
 mousse::SRFFreestreamVelocityFvPatchVectorField::
 SRFFreestreamVelocityFvPatchVectorField
@@ -20,6 +23,8 @@ SRFFreestreamVelocityFvPatchVectorField
   relative_{false},
   UInf_{vector::zero}
 {}
+
+
 mousse::SRFFreestreamVelocityFvPatchVectorField::
 SRFFreestreamVelocityFvPatchVectorField
 (
@@ -33,6 +38,8 @@ SRFFreestreamVelocityFvPatchVectorField
   relative_{ptf.relative_},
   UInf_{ptf.UInf_}
 {}
+
+
 mousse::SRFFreestreamVelocityFvPatchVectorField::
 SRFFreestreamVelocityFvPatchVectorField
 (
@@ -48,6 +55,8 @@ SRFFreestreamVelocityFvPatchVectorField
   this->phiName_ = dict.lookupOrDefault<word>("phi","phi");
   fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
 }
+
+
 mousse::SRFFreestreamVelocityFvPatchVectorField::
 SRFFreestreamVelocityFvPatchVectorField
 (
@@ -58,6 +67,8 @@ SRFFreestreamVelocityFvPatchVectorField
   relative_{srfvpvf.relative_},
   UInf_{srfvpvf.UInf_}
 {}
+
+
 mousse::SRFFreestreamVelocityFvPatchVectorField::
 SRFFreestreamVelocityFvPatchVectorField
 (
@@ -69,11 +80,12 @@ SRFFreestreamVelocityFvPatchVectorField
   relative_{srfvpvf.relative_},
   UInf_{srfvpvf.UInf_}
 {}
+
+
 // Member Functions
 void mousse::SRFFreestreamVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   // Get reference to the SRF model
@@ -84,32 +96,28 @@ void mousse::SRFFreestreamVelocityFvPatchVectorField::updateCoeffs()
     this->dimensionedInternalField().mesh()
    .ddtScheme(this->dimensionedInternalField().name())
   );
-  if (ddtScheme == fv::steadyStateDdtScheme<scalar>::typeName)
-  {
+  if (ddtScheme == fv::steadyStateDdtScheme<scalar>::typeName) {
     // If not relative to the SRF include the effect of the SRF
-    if (!relative_)
-    {
+    if (!relative_) {
       refValue() = UInf_ - srf.velocity(patch().Cf());
-    }
-    // If already relative to the SRF simply supply the inlet value
-    // as a fixed value
-    else
-    {
+    } else {
+      // If already relative to the SRF simply supply the inlet value
+      // as a fixed value
       refValue() = UInf_;
     }
-  }
-  else
-  {
+  } else {
     scalar time = this->db().time().value();
     scalar theta = time*mag(srf.omega().value());
     refValue() =
       cos(theta)*UInf_ + sin(theta)*(srf.axis() ^ UInf_)
-     - srf.velocity(patch().Cf());
+      - srf.velocity(patch().Cf());
   }
   // Set the inlet-outlet choice based on the direction of the freestream
   valueFraction() = 1.0 - pos(refValue() & patch().Sf());
   mixedFvPatchField<vector>::updateCoeffs();
 }
+
+
 void mousse::SRFFreestreamVelocityFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
@@ -118,11 +126,15 @@ void mousse::SRFFreestreamVelocityFvPatchVectorField::write(Ostream& os) const
   os.writeKeyword("phi") << this->phiName_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   SRFFreestreamVelocityFvPatchVectorField
 );
+
 }
+

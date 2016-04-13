@@ -8,8 +8,9 @@
 //   mousse::NVDVTVDV
 // Description
 //   mousse::NVDVTVDV
-namespace mousse
-{
+
+namespace mousse {
+
 class NVDVTVDV
 {
 public:
@@ -32,20 +33,15 @@ public:
       vector gradfV = phiN - phiP;
       scalar gradf = gradfV & gradfV;
       scalar gradcf;
-      if (faceFlux > 0)
-      {
+      if (faceFlux > 0) {
         gradcf = gradfV & (d & gradcP);
-      }
-      else
+      } else
       {
         gradcf = gradfV & (d & gradcN);
       }
-      if (mag(gradf) >= 1000*mag(gradcf))
-      {
+      if (mag(gradf) >= 1000*mag(gradcf)) {
         return 1 - 0.5*1000*sign(gradcf)*sign(gradf);
-      }
-      else
-      {
+      } else {
         return 1 - 0.5*gradf/gradcf;
       }
     }
@@ -62,23 +58,19 @@ public:
       vector gradfV = phiN - phiP;
       scalar gradf = gradfV & gradfV;
       scalar gradcf;
-      if (faceFlux > 0)
-      {
+      if (faceFlux > 0) {
         gradcf = gradfV & (d & gradcP);
-      }
-      else
-      {
+      } else {
         gradcf = gradfV & (d & gradcN);
       }
-      if (mag(gradcf) >= 1000*mag(gradf))
-      {
+      if (mag(gradcf) >= 1000*mag(gradf)) {
         return 2*1000*sign(gradcf)*sign(gradf) - 1;
-      }
-      else
-      {
+      } else {
         return 2*(gradcf/gradf) - 1;
       }
     }
 };
+
 }  // namespace mousse
+
 #endif

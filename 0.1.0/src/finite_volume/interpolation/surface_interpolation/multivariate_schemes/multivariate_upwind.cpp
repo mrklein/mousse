@@ -6,9 +6,10 @@
 #include "vol_fields.hpp"
 #include "fv_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_MULTIVARIATE_SURFACE_INTERPOLATION_SCHEME(multivariateUpwind)
 
 }
+

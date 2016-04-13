@@ -6,6 +6,7 @@
 #include "fv_mesh.hpp"
 #include "corrected_sn_grad.hpp"
 
+
 MAKE_SN_GRAD_SCHEME(correctedSnGrad)
 
 template<>
@@ -18,6 +19,7 @@ mousse::fv::correctedSnGrad<mousse::scalar>::correction
   return fullGradCorrection(vsf);
 }
 
+
 template<>
 mousse::tmp<mousse::surfaceVectorField>
 mousse::fv::correctedSnGrad<mousse::vector>::correction
@@ -27,3 +29,4 @@ mousse::fv::correctedSnGrad<mousse::vector>::correction
 {
   return fullGradCorrection(vvf);
 }
+

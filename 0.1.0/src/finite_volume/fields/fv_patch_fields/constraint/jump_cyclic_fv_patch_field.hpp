@@ -13,11 +13,12 @@
 //   conditions with a specified 'jump' (or offset) between the values
 // SeeAlso
 //   mousse::cyclicFvPatchField
-// SourceFiles
-//   jump_cyclic_fv_patch_field.cpp
+
 #include "cyclic_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class jumpCyclicFvPatchField
 :
@@ -89,6 +90,7 @@ public:
         const Pstream::commsTypes commsType
       ) const;
 };
+
 //- Update result field based on interface functionality
 template<>
 void jumpCyclicFvPatchField<scalar>::updateInterfaceMatrix
@@ -99,8 +101,10 @@ void jumpCyclicFvPatchField<scalar>::updateInterfaceMatrix
   const direction cmpt,
   const Pstream::commsTypes commsType
 ) const;
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "jump_cyclic_fv_patch_field.cpp"
-#endif
+
+
+#include "jump_cyclic_fv_patch_field.ipp"
+
 #endif

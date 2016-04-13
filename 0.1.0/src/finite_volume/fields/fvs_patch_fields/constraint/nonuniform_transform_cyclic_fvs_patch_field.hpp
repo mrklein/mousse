@@ -8,12 +8,13 @@
 //   mousse::nonuniformTransformCyclicFvsPatchField
 // Description
 //   mousse::nonuniformTransformCyclicFvsPatchField
-// SourceFiles
-//   nonuniform_transform_cyclic_fvs_patch_field.cpp
+
 #include "cyclic_fvs_patch_field.hpp"
 #include "nonuniform_transform_cyclic_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class nonuniformTransformCyclicFvsPatchField
 :
@@ -51,12 +52,12 @@ public:
       const nonuniformTransformCyclicFvsPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone() const
+    virtual tmp<fvsPatchField<Type>> clone() const
     {
-      return tmp<fvsPatchField<Type> >
-      (
-        new nonuniformTransformCyclicFvsPatchField<Type>(*this)
-      );
+      return tmp<fvsPatchField<Type>>
+      {
+        new nonuniformTransformCyclicFvsPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     nonuniformTransformCyclicFvsPatchField
@@ -65,19 +66,19 @@ public:
       const DimensionedField<Type, surfaceMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvsPatchField<Type> > clone
+    virtual tmp<fvsPatchField<Type>> clone
     (
       const DimensionedField<Type, surfaceMesh>& iF
     ) const
     {
-      return tmp<fvsPatchField<Type> >
-      (
-        new nonuniformTransformCyclicFvsPatchField<Type>(*this, iF)
-      );
+      return tmp<fvsPatchField<Type>>
+      {
+        new nonuniformTransformCyclicFvsPatchField<Type>{*this, iF}
+      };
     }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "nonuniform_transform_cyclic_fvs_patch_field.cpp"
-#endif
+
+#include "nonuniform_transform_cyclic_fvs_patch_field.ipp"
+
 #endif

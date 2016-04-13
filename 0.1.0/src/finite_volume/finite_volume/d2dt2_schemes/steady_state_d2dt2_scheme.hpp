@@ -8,13 +8,13 @@
 //   mousse::fv::steadyStateD2dt2Scheme
 // Description
 //   SteadyState d2dt2 which returns 0.
-// SourceFiles
-//   steady_state_d2dt2_scheme.cpp
+
 #include "d2dt2_scheme.hpp"
-namespace mousse
-{
-namespace fv
-{
+
+
+namespace mousse {
+namespace fv {
+
 template<class Type>
 class steadyStateD2dt2Scheme
 :
@@ -44,25 +44,25 @@ public:
     {
       return fv::d2dt2Scheme<Type>::mesh();
     }
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcD2dt2
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcD2dt2
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcD2dt2
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcD2dt2
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmD2dt2
+    tmp<fvMatrix<Type>> fvmD2dt2
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmD2dt2
+    tmp<fvMatrix<Type>> fvmD2dt2
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmD2dt2
+    tmp<fvMatrix<Type>> fvmD2dt2
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
@@ -70,7 +70,7 @@ public:
 };
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "steady_state_d2dt2_scheme.cpp"
-#endif
+
+#include "steady_state_d2dt2_scheme.ipp"
+
 #endif

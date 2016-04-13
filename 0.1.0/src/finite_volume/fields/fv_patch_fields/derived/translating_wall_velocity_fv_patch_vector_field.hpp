@@ -26,11 +26,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   translating_wall_velocity_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class translatingWallVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -73,9 +74,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new translatingWallVelocityFvPatchVectorField(*this)
-      );
+      {
+        new translatingWallVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     translatingWallVelocityFvPatchVectorField
@@ -90,9 +91,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new translatingWallVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new translatingWallVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access functions

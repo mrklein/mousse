@@ -8,15 +8,13 @@
 //   mousse::limitedSurfaceInterpolationScheme
 // Description
 //   Abstract base class for limited surface interpolation schemes.
-// SourceFiles
-//   limited_surface_interpolation_scheme.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "fv_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class limitedSurfaceInterpolationScheme
 :
@@ -183,7 +181,6 @@ MAKELIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, sphericalTensor)            \
 MAKELIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, symmTensor)                 \
 MAKELIMITED_SURFACE_INTERPOLATION_TYPE_SCHEME(SS, tensor)
 
-#ifdef NoRepository
-#   include "limited_surface_interpolation_scheme.cpp"
-#endif
+#include "limited_surface_interpolation_scheme.ipp"
+
 #endif

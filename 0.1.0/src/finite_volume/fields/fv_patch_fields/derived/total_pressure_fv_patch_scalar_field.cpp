@@ -8,6 +8,7 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 
+
 // Constructors 
 mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
 (
@@ -24,6 +25,7 @@ mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
   p0_{p.size(), 0.0}
 {}
 
+
 mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
 (
   const fvPatch& p,
@@ -39,18 +41,16 @@ mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
   gamma_{readScalar(dict.lookup("gamma"))},
   p0_{"p0", dict, p.size()}
 {
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<scalar>::operator=
     (
-      scalarField("value", dict, p.size())
+      scalarField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     fvPatchField<scalar>::operator=(p0_);
   }
 }
+
 
 mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
 (
@@ -69,6 +69,7 @@ mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
   p0_{ptf.p0_, mapper}
 {}
 
+
 mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
 (
   const totalPressureFvPatchScalarField& tppsf
@@ -82,6 +83,7 @@ mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
   gamma_{tppsf.gamma_},
   p0_{tppsf.p0_}
 {}
+
 
 mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
 (
@@ -98,6 +100,7 @@ mousse::totalPressureFvPatchScalarField::totalPressureFvPatchScalarField
   p0_{tppsf.p0_}
 {}
 
+
 // Member Functions 
 void mousse::totalPressureFvPatchScalarField::autoMap
 (
@@ -107,6 +110,7 @@ void mousse::totalPressureFvPatchScalarField::autoMap
   fixedValueFvPatchScalarField::autoMap(m);
   p0_.autoMap(m);
 }
+
 
 void mousse::totalPressureFvPatchScalarField::rmap
 (
@@ -120,67 +124,54 @@ void mousse::totalPressureFvPatchScalarField::rmap
   p0_.rmap(tiptf.p0_, addr);
 }
 
+
 void mousse::totalPressureFvPatchScalarField::updateCoeffs
 (
   const scalarField& p0p,
   const vectorField& Up
 )
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvsPatchField<scalar>& phip =
     patch().lookupPatchField<surfaceScalarField, scalar>(phiName_);
-  if (psiName_ == "none" && rhoName_ == "none")
-  {
+  if (psiName_ == "none" && rhoName_ == "none") {
     operator==(p0p - 0.5*(1.0 - pos(phip))*magSqr(Up));
-  }
-  else if (rhoName_ == "none")
-  {
+  } else if (rhoName_ == "none") {
     const fvPatchField<scalar>& psip =
       patch().lookupPatchField<volScalarField, scalar>(psiName_);
-    if (gamma_ > 1.0)
-    {
+    if (gamma_ > 1.0) {
       scalar gM1ByG = (gamma_ - 1.0)/gamma_;
       operator==
       (
-        p0p
-       /pow
-        (
-          (1.0 + 0.5*psip*gM1ByG*(1.0 - pos(phip))*magSqr(Up)),
-          1.0/gM1ByG
-        )
-      );
-    }
-    else
-    {
+        p0p/pow((1.0 + 0.5*psip*gM1ByG*(1.0 - pos(phip))*magSqr(Up)),
+                1.0/gM1ByG));
+    } else {
       operator==(p0p/(1.0 + 0.5*psip*(1.0 - pos(phip))*magSqr(Up)));
     }
-  }
-  else if (psiName_ == "none")
-  {
+  } else if (psiName_ == "none") {
     const fvPatchField<scalar>& rho =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     operator==(p0p - 0.5*rho*(1.0 - pos(phip))*magSqr(Up));
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "totalPressureFvPatchScalarField::updateCoeffs()"
-    )   << " rho or psi set inconsistently, rho = " << rhoName_
-      << ", psi = " << psiName_ << ".\n"
-      << "    Set either rho or psi or neither depending on the "
+    )
+    << " rho or psi set inconsistently, rho = " << rhoName_
+    << ", psi = " << psiName_ << ".\n"
+    << "    Set either rho or psi or neither depending on the "
        "definition of total pressure." << nl
-      << "    Set the unused variable(s) to 'none'.\n"
-      << "    on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    << "    Set the unused variable(s) to 'none'.\n"
+    << "    on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
 
 void mousse::totalPressureFvPatchScalarField::updateCoeffs()
 {
@@ -190,6 +181,8 @@ void mousse::totalPressureFvPatchScalarField::updateCoeffs()
     patch().lookupPatchField<volVectorField, vector>(UName())
   );
 }
+
+
 void mousse::totalPressureFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
@@ -202,11 +195,13 @@ void mousse::totalPressureFvPatchScalarField::write(Ostream& os) const
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   totalPressureFvPatchScalarField
 );
+
 }

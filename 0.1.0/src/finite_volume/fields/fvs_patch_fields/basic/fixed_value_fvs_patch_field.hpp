@@ -8,11 +8,12 @@
 //   mousse::fixedValueFvsPatchField
 // Description
 //   mousse::fixedValueFvsPatchField
-// SourceFiles
-//   fixed_value_fvs_patch_field.cpp
+
 #include "fvs_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class fixedValueFvsPatchField
 :
@@ -50,12 +51,12 @@ public:
       const fixedValueFvsPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvsPatchField<Type> > clone() const
+    virtual tmp<fvsPatchField<Type>> clone() const
     {
-      return tmp<fvsPatchField<Type> >
-      (
-        new fixedValueFvsPatchField<Type>(*this)
-      );
+      return tmp<fvsPatchField<Type>>
+      {
+        new fixedValueFvsPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fixedValueFvsPatchField
@@ -64,15 +65,15 @@ public:
       const DimensionedField<Type, surfaceMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvsPatchField<Type> > clone
+    virtual tmp<fvsPatchField<Type>> clone
     (
       const DimensionedField<Type, surfaceMesh>& iF
     ) const
     {
-      return tmp<fvsPatchField<Type> >
-      (
-        new fixedValueFvsPatchField<Type>(*this, iF)
-      );
+      return tmp<fvsPatchField<Type>>
+      {
+        new fixedValueFvsPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -86,22 +87,22 @@ public:
     // Evaluation functions
       //- Return the matrix diagonal coefficients corresponding to the
       //  evaluation of the value of this patchField with given weights
-      virtual tmp<Field<Type> > valueInternalCoeffs
+      virtual tmp<Field<Type>> valueInternalCoeffs
       (
         const tmp<scalarField>&
       ) const;
       //- Return the matrix source coefficients corresponding to the
       //  evaluation of the value of this patchField with given weights
-      virtual tmp<Field<Type> > valueBoundaryCoeffs
+      virtual tmp<Field<Type>> valueBoundaryCoeffs
       (
         const tmp<scalarField>&
       ) const;
       //- Return the matrix diagonal coefficients corresponding to the
       //  evaluation of the gradient of this patchField
-      virtual tmp<Field<Type> > gradientInternalCoeffs() const;
+      virtual tmp<Field<Type>> gradientInternalCoeffs() const;
       //- Return the matrix source coefficients corresponding to the
       //  evaluation of the gradient of this patchField
-      virtual tmp<Field<Type> > gradientBoundaryCoeffs() const;
+      virtual tmp<Field<Type>> gradientBoundaryCoeffs() const;
   // Member operators
     virtual void operator=(const UList<Type>&) {}
     virtual void operator=(const fvsPatchField<Type>&) {}
@@ -120,7 +121,7 @@ public:
     virtual void operator/=(const scalar) {}
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fixed_value_fvs_patch_field.cpp"
-#endif
+
+#include "fixed_value_fvs_patch_field.ipp"
+
 #endif

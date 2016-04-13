@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
+
+
 // Constructors 
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
@@ -28,6 +30,7 @@ supersonicFreestreamFvPatchVectorField
   valueFraction() = 1;
 }
 
+
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
 (
@@ -46,6 +49,7 @@ supersonicFreestreamFvPatchVectorField
   TInf_{ptf.TInf_},
   gamma_{ptf.gamma_}
 {}
+
 
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
@@ -95,6 +99,7 @@ supersonicFreestreamFvPatchVectorField
   }
 }
 
+
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
 (
@@ -110,6 +115,7 @@ supersonicFreestreamFvPatchVectorField
   TInf_{sfspvf.TInf_},
   gamma_{sfspvf.gamma_}
 {}
+
 
 mousse::supersonicFreestreamFvPatchVectorField::
 supersonicFreestreamFvPatchVectorField
@@ -128,11 +134,11 @@ supersonicFreestreamFvPatchVectorField
   gamma_{sfspvf.gamma_}
 {}
 
+
 // Member Functions 
 void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
 {
-  if (!size() || updated())
-  {
+  if (!size() || updated()) {
     return;
   }
   const fvPatchField<scalar>& pT =
@@ -145,21 +151,21 @@ void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
   // along patch so use face 0
   scalar R = 1.0/(ppsi[0]*pT[0]);
   scalar MachInf = mag(UInf_)/sqrt(gamma_*R*TInf_);
-  if (MachInf < 1.0)
-  {
+  if (MachInf < 1.0) {
     FATAL_ERROR_IN
     (
       "supersonicFreestreamFvPatchVectorField::updateCoeffs()"
-    )   << "    MachInf < 1.0, free stream must be supersonic"
-      << "\n    on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "    MachInf < 1.0, free stream must be supersonic"
+    << "\n    on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
   vectorField& Up = refValue();
   valueFraction() = 1;
   // get the near patch internal cell values
-  const vectorField U(patchInternalField());
+  const vectorField U{patchInternalField()};
   // Find the component of U normal to the free-stream flow and in the
   // plane of the free-stream flow and the patch normal
   // Direction of the free-stream flow
@@ -168,40 +174,32 @@ void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
   tmp<vectorField> nnInfHat = UInfHat ^ patch().nf();
   // Normal to the free-stream in the plane defined by the free-stream
   // and the patch normal
-  const vectorField nHatInf(nnInfHat ^ UInfHat);
+  const vectorField nHatInf{nnInfHat ^ UInfHat};
   // Component of U normal to the free-stream in the plane defined by the
   // free-stream and the patch normal
-  const vectorField Un(nHatInf*(nHatInf & U));
+  const vectorField Un{nHatInf*(nHatInf & U)};
   // The tangential component is
-  const vectorField Ut(U - Un);
+  const vectorField Ut{U - Un};
   // Calculate the Prandtl-Meyer function of the free-stream
-  scalar nuMachInf =
-    sqrt((gamma_ + 1)/(gamma_ - 1))
-   *atan(sqrt((gamma_ - 1)/(gamma_ + 1)*(sqr(MachInf) - 1)))
-   - atan(sqr(MachInf) - 1);
+  scalar nuMachInf = sqrt((gamma_ + 1)/(gamma_ - 1))
+    *atan(sqrt((gamma_ - 1)/(gamma_ + 1)*(sqr(MachInf) - 1))) - atan(sqr(MachInf) - 1);
   // Set the patch boundary condition based on the Mach number and direction
   // of the flow dictated by the boundary/free-stream pressure difference
-  FOR_ALL(Up, facei)
-  {
-    if (pp[facei] >= pInf_) // If outflow
-    {
+  FOR_ALL(Up, facei) {
+    if (pp[facei] >= pInf_) {  // If outflow
       // Assume supersonic outflow and calculate the boundary velocity
       // according to ???
       scalar fpp =
-        sqrt(sqr(MachInf) - 1)
-       /(gamma_*sqr(MachInf))*mag(Ut[facei])*log(pp[facei]/pInf_);
+        sqrt(sqr(MachInf) - 1)/(gamma_*sqr(MachInf))*mag(Ut[facei])*log(pp[facei]/pInf_);
       Up[facei] = Ut[facei] + fpp*nHatInf[facei];
       // Calculate the Mach number of the boundary velocity
       scalar Mach = mag(Up[facei])/sqrt(gamma_/ppsi[facei]);
-      if (Mach <= 1) // If subsonic
-      {
+      if (Mach <= 1) {  // If subsonic {
         // Zero-gradient subsonic outflow
         Up[facei] = U[facei];
         valueFraction()[facei] = 0;
       }
-    }
-    else // if inflow
-    {
+    } else {  // if inflow
       // Calculate the Mach number of the boundary velocity
       // from the boundary pressure assuming constant total pressure
       // expansion from the free-stream
@@ -209,36 +207,33 @@ void mousse::supersonicFreestreamFvPatchVectorField::updateCoeffs()
         sqrt
         (
           (2/(gamma_ - 1))*(1 + ((gamma_ - 1)/2)*sqr(MachInf))
-         *pow(pp[facei]/pInf_, (1 - gamma_)/gamma_)
-         - 2/(gamma_ - 1)
+          *pow(pp[facei]/pInf_, (1 - gamma_)/gamma_) - 2/(gamma_ - 1)
         );
-      if (Mach > 1) // If supersonic
-      {
+      if (Mach > 1) {  // If supersonic
         // Supersonic inflow is assumed to occur according to the
         // Prandtl-Meyer expansion process
         scalar nuMachf =
           sqrt((gamma_ + 1)/(gamma_ - 1))
-         *atan(sqrt((gamma_ - 1)/(gamma_ + 1)*(sqr(Mach) - 1)))
-         - atan(sqr(Mach) - 1);
+          *atan(sqrt((gamma_ - 1)/(gamma_ + 1)*(sqr(Mach) - 1)))
+          - atan(sqr(Mach) - 1);
         scalar fpp = (nuMachInf - nuMachf)*mag(Ut[facei]);
         Up[facei] = Ut[facei] + fpp*nHatInf[facei];
-      }
-      else // If subsonic
-      {
+      } else { // If subsonic
         FATAL_ERROR_IN
         (
           "supersonicFreestreamFvPatchVectorField::updateCoeffs()"
         )   << "unphysical subsonic inflow has been generated"
-          << "\n    on patch " << this->patch().name()
-          << " of field " << this->dimensionedInternalField().name()
-          << " in file "
-          << this->dimensionedInternalField().objectPath()
-          << exit(FatalError);
+        << "\n    on patch " << this->patch().name()
+        << " of field " << this->dimensionedInternalField().name()
+        << " in file "
+        << this->dimensionedInternalField().objectPath()
+        << exit(FatalError);
       }
     }
   }
   mixedFvPatchVectorField::updateCoeffs();
 }
+
 
 void mousse::supersonicFreestreamFvPatchVectorField::write(Ostream& os) const
 {
@@ -253,11 +248,14 @@ void mousse::supersonicFreestreamFvPatchVectorField::write(Ostream& os) const
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   supersonicFreestreamFvPatchVectorField
 );
+
 }
+

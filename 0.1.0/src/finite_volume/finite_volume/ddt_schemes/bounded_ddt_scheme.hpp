@@ -13,20 +13,20 @@
 //   Can be used for the ddt of bounded scalar properties to improve stability
 //   if insufficient convergence of the pressure equation causes temporary
 //   divergence of the flux field.
-// SourceFiles
-//   bounded_ddt_scheme.cpp
+
 #include "ddt_scheme.hpp"
-namespace mousse
-{
-namespace fv
-{
+
+
+namespace mousse {
+namespace fv {
+
 template<class Type>
 class boundedDdtScheme
 :
   public fv::ddtScheme<Type>
 {
   // Private data
-    tmp<fv::ddtScheme<Type> > scheme_;
+    tmp<fv::ddtScheme<Type>> scheme_;
 public:
   //- Runtime type information
   TYPE_NAME("bounded");
@@ -50,45 +50,45 @@ public:
     {
       return fv::ddtScheme<Type>::mesh();
     }
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensioned<Type>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<GeometricField<Type, fvPatchField, volMesh> > fvcDdt
+    tmp<GeometricField<Type, fvPatchField, volMesh>> fvcDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
       const GeometricField<Type, fvPatchField, volMesh>& psi
     );
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const dimensionedScalar&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField&,
       const GeometricField<Type, fvPatchField, volMesh>&
     );
-    tmp<fvMatrix<Type> > fvmDdt
+    tmp<fvMatrix<Type>> fvmDdt
     (
       const volScalarField& alpha,
       const volScalarField& rho,
@@ -122,18 +122,21 @@ public:
       const GeometricField<Type, fvPatchField, volMesh>&
     );
 };
+
 template<>
 tmp<surfaceScalarField> boundedDdtScheme<scalar>::fvcDdtUfCorr
 (
   const GeometricField<scalar, fvPatchField, volMesh>& U,
   const GeometricField<scalar, fvsPatchField, surfaceMesh>& Uf
 );
+
 template<>
 tmp<surfaceScalarField> boundedDdtScheme<scalar>::fvcDdtPhiCorr
 (
   const volScalarField& U,
   const surfaceScalarField& phi
 );
+
 template<>
 tmp<surfaceScalarField> boundedDdtScheme<scalar>::fvcDdtUfCorr
 (
@@ -141,6 +144,7 @@ tmp<surfaceScalarField> boundedDdtScheme<scalar>::fvcDdtUfCorr
   const volScalarField& U,
   const surfaceScalarField& Uf
 );
+
 template<>
 tmp<surfaceScalarField> boundedDdtScheme<scalar>::fvcDdtPhiCorr
 (
@@ -148,9 +152,11 @@ tmp<surfaceScalarField> boundedDdtScheme<scalar>::fvcDdtPhiCorr
   const volScalarField& U,
   const surfaceScalarField& phi
 );
+
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "bounded_ddt_scheme.cpp"
+
+#include "bounded_ddt_scheme.ipp"
+
 #endif
-#endif
+

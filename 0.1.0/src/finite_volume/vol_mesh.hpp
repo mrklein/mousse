@@ -8,11 +8,14 @@
 //   mousse::volMesh
 // Description
 //   Mesh data needed to do the Finite Volume discretisation.
+
 #include "geo_mesh.hpp"
 #include "fv_mesh.hpp"
 #include "primitive_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class volMesh
 :
   public GeoMesh<fvMesh>
@@ -22,7 +25,7 @@ public:
     //- Construct from fvMesh
     explicit volMesh(const fvMesh& mesh)
     :
-      GeoMesh<fvMesh>(mesh)
+      GeoMesh<fvMesh>{mesh}
     {}
   // Member Functions
     //- Return size

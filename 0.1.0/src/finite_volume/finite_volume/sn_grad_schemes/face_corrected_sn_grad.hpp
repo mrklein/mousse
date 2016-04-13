@@ -8,17 +8,12 @@
 //   mousse::fv::faceCorrectedSnGrad
 // Description
 //   Simple central-difference snGrad scheme with non-orthogonal correction.
-// SourceFiles
-//   face_corrected_sn_grad.cpp
-
 
 #include "sn_grad_scheme.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Type>
 class faceCorrectedSnGrad
@@ -92,9 +87,8 @@ tmp<surfaceVectorField> faceCorrectedSnGrad<vector>::correction
 ) const;
 
 }  // namespace fv
-
 }  // namespace mousse
-#ifdef NoRepository
-#   include "face_corrected_sn_grad.cpp"
-#endif
+
+#include "face_corrected_sn_grad.ipp"
+
 #endif

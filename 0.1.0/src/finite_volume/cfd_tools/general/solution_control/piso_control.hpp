@@ -8,9 +8,12 @@
 //   mousse::pisoControl
 // Description
 //   Specialization of the pimpleControl class for PISO control.
+
 #include "pimple_control.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pisoControl
 :
   public pimpleControl

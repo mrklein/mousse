@@ -8,10 +8,6 @@
 //   mousse::porosityModel
 // Description
 //   Top level model for porosity models
-// SourceFiles
-//   porosity_model.cpp
-//   porosity_model_new.cpp
-
 
 #include "fv_mesh.hpp"
 #include "dictionary.hpp"
@@ -21,8 +17,9 @@
 #include "dimensioned_vector.hpp"
 #include "key_type.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class porosityModel
 :
   public regIOobject
@@ -184,17 +181,25 @@ public:
     //- Read porosity dictionary
     virtual bool read(const dictionary& dict);
 };
+
 }  // namespace mousse
+
+
 inline const mousse::word& mousse::porosityModel::name() const
 {
   return name_;
 }
+
+
 inline bool mousse::porosityModel::active() const
 {
   return active_;
 }
+
+
 inline const mousse::labelList& mousse::porosityModel::cellZoneIDs() const
 {
   return cellZoneIDs_;
 }
+
 #endif

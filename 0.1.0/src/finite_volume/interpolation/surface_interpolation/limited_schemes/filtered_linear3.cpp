@@ -7,8 +7,7 @@
 #include "filtered_linear3.hpp"
 #include "filtered_linear3_v.hpp"
 
-namespace mousse
-{
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME
 (

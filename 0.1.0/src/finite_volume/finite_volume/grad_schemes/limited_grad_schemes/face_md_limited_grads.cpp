@@ -13,6 +13,7 @@
 #include "fvs_patch_field.hpp"
 #include "fv.hpp"
 
+
 MAKE_FV_GRAD_SCHEME(faceMDLimitedGrad)
 
 template<>
@@ -25,8 +26,7 @@ mousse::fv::faceMDLimitedGrad<mousse::scalar>::calcGrad
 {
   const fvMesh& mesh = vsf.mesh();
   tmp<volVectorField> tGrad = basicGradScheme_().calcGrad(vsf, name);
-  if (k_ < SMALL)
-  {
+  if (k_ < SMALL) {
     return tGrad;
   }
   volVectorField& g = tGrad();
@@ -35,16 +35,14 @@ mousse::fv::faceMDLimitedGrad<mousse::scalar>::calcGrad
   const volVectorField& C = mesh.C();
   const surfaceVectorField& Cf = mesh.Cf();
   scalar rk = (1.0/k_ - 1.0);
-  FOR_ALL(owner, facei)
-  {
+  FOR_ALL(owner, facei) {
     label own = owner[facei];
     label nei = neighbour[facei];
     scalar vsfOwn = vsf[own];
     scalar vsfNei = vsf[nei];
     scalar maxFace = max(vsfOwn, vsfNei);
     scalar minFace = min(vsfOwn, vsfNei);
-    if (k_ < 1.0)
-    {
+    if (k_ < 1.0) {
       scalar maxMinFace = rk*(maxFace - minFace);
       maxFace += maxMinFace;
       minFace -= maxMinFace;
@@ -67,23 +65,19 @@ mousse::fv::faceMDLimitedGrad<mousse::scalar>::calcGrad
     );
   }
   const volScalarField::GeometricBoundaryField& bsf = vsf.boundaryField();
-  FOR_ALL(bsf, patchi)
-  {
+  FOR_ALL(bsf, patchi) {
     const fvPatchScalarField& psf = bsf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     const vectorField& pCf = Cf.boundaryField()[patchi];
-    if (psf.coupled())
-    {
-      const scalarField psfNei(psf.patchNeighbourField());
-      FOR_ALL(pOwner, pFacei)
-      {
+    if (psf.coupled()) {
+      const scalarField psfNei{psf.patchNeighbourField()};
+      FOR_ALL(pOwner, pFacei) {
         label own = pOwner[pFacei];
         scalar vsfOwn = vsf[own];
         scalar vsfNei = psfNei[pFacei];
         scalar maxFace = max(vsfOwn, vsfNei);
         scalar minFace = min(vsfOwn, vsfNei);
-        if (k_ < 1.0)
-        {
+        if (k_ < 1.0) {
           scalar maxMinFace = rk*(maxFace - minFace);
           maxFace += maxMinFace;
           minFace -= maxMinFace;
@@ -96,18 +90,14 @@ mousse::fv::faceMDLimitedGrad<mousse::scalar>::calcGrad
           pCf[pFacei] - C[own]
         );
       }
-    }
-    else if (psf.fixesValue())
-    {
-      FOR_ALL(pOwner, pFacei)
-      {
+    } else if (psf.fixesValue()) {
+      FOR_ALL(pOwner, pFacei) {
         label own = pOwner[pFacei];
         scalar vsfOwn = vsf[own];
         scalar vsfNei = psf[pFacei];
         scalar maxFace = max(vsfOwn, vsfNei);
         scalar minFace = min(vsfOwn, vsfNei);
-        if (k_ < 1.0)
-        {
+        if (k_ < 1.0) {
           scalar maxMinFace = rk*(maxFace - minFace);
           maxFace += maxMinFace;
           minFace -= maxMinFace;
@@ -138,8 +128,7 @@ mousse::fv::faceMDLimitedGrad<mousse::vector>::calcGrad
 {
   const fvMesh& mesh = vvf.mesh();
   tmp<volTensorField> tGrad = basicGradScheme_().calcGrad(vvf, name);
-  if (k_ < SMALL)
-  {
+  if (k_ < SMALL) {
     return tGrad;
   }
   volTensorField& g = tGrad();
@@ -148,16 +137,14 @@ mousse::fv::faceMDLimitedGrad<mousse::vector>::calcGrad
   const volVectorField& C = mesh.C();
   const surfaceVectorField& Cf = mesh.Cf();
   scalar rk = (1.0/k_ - 1.0);
-  FOR_ALL(owner, facei)
-  {
+  FOR_ALL(owner, facei) {
     label own = owner[facei];
     label nei = neighbour[facei];
     vector vvfOwn = vvf[own];
     vector vvfNei = vvf[nei];
     vector maxFace = max(vvfOwn, vvfNei);
     vector minFace = min(vvfOwn, vvfNei);
-    if (k_ < 1.0)
-    {
+    if (k_ < 1.0) {
       vector maxMinFace = rk*(maxFace - minFace);
       maxFace += maxMinFace;
       minFace -= maxMinFace;
@@ -180,23 +167,19 @@ mousse::fv::faceMDLimitedGrad<mousse::vector>::calcGrad
     );
   }
   const volVectorField::GeometricBoundaryField& bvf = vvf.boundaryField();
-  FOR_ALL(bvf, patchi)
-  {
+  FOR_ALL(bvf, patchi) {
     const fvPatchVectorField& psf = bvf[patchi];
     const labelUList& pOwner = mesh.boundary()[patchi].faceCells();
     const vectorField& pCf = Cf.boundaryField()[patchi];
-    if (psf.coupled())
-    {
-      const vectorField psfNei(psf.patchNeighbourField());
-      FOR_ALL(pOwner, pFacei)
-      {
+    if (psf.coupled()) {
+      const vectorField psfNei{psf.patchNeighbourField()};
+      FOR_ALL(pOwner, pFacei) {
         label own = pOwner[pFacei];
         vector vvfOwn = vvf[own];
         vector vvfNei = psfNei[pFacei];
         vector maxFace = max(vvfOwn, vvfNei);
         vector minFace = min(vvfOwn, vvfNei);
-        if (k_ < 1.0)
-        {
+        if (k_ < 1.0) {
           vector maxMinFace = rk*(maxFace - minFace);
           maxFace += maxMinFace;
           minFace -= maxMinFace;
@@ -208,18 +191,14 @@ mousse::fv::faceMDLimitedGrad<mousse::vector>::calcGrad
           pCf[pFacei] - C[own]
         );
       }
-    }
-    else if (psf.fixesValue())
-    {
-      FOR_ALL(pOwner, pFacei)
-      {
+    } else if (psf.fixesValue()) {
+      FOR_ALL(pOwner, pFacei) {
         label own = pOwner[pFacei];
         vector vvfOwn = vvf[own];
         vector vvfNei = psf[pFacei];
         vector maxFace = max(vvfOwn, vvfNei);
         vector minFace = min(vvfOwn, vvfNei);
-        if (k_ < 1.0)
-        {
+        if (k_ < 1.0) {
           vector maxMinFace = rk*(maxFace - minFace);
           maxFace += maxMinFace;
           minFace -= maxMinFace;
@@ -238,3 +217,4 @@ mousse::fv::faceMDLimitedGrad<mousse::vector>::calcGrad
   gaussGrad<vector>::correctBoundaryConditions(vvf, g);
   return tGrad;
 }
+

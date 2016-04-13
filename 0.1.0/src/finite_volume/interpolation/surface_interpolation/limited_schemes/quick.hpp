@@ -14,11 +14,12 @@
 //   the interpolate is limited to be between the upwind and downwind cell
 //   values.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   quick.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class LimiterFunc>
 class QUICKLimiter
 :
@@ -40,13 +41,10 @@ public:
   {
     scalar phiCD = cdWeight*phiP + (1 - cdWeight)*phiN;
     scalar phiU, phif;
-    if (faceFlux > 0)
-    {
+    if (faceFlux > 0) {
       phiU = phiP;
       phif = 0.5*(phiCD + phiP + (1 - cdWeight)*(d & gradcP));
-    }
-    else
-    {
+    } else {
       phiU = phiN;
       phif = 0.5*(phiCD + phiN - cdWeight*(d & gradcN));
     }
@@ -56,5 +54,8 @@ public:
     return max(min(QLimiter, 2), 0);
   }
 };
+
 }  // namespace mousse
+
 #endif
+

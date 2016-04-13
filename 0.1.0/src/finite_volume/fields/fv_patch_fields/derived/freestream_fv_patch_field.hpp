@@ -30,11 +30,12 @@
 // SeeAlso
 //   mousse::mixedFvPatchField
 //   mousse::inletOutletFvPatchField
-// SourceFiles
-//   freestream_fv_patch_field.cpp
+
 #include "inlet_outlet_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class freestreamFvPatchField
 :
@@ -71,12 +72,12 @@ public:
       const freestreamFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new freestreamFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new freestreamFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     freestreamFvPatchField
@@ -85,15 +86,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new freestreamFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new freestreamFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Return defining fields
@@ -109,7 +110,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "freestream_fv_patch_field.cpp"
-#endif
+
+#include "freestream_fv_patch_field.ipp"
+
 #endif

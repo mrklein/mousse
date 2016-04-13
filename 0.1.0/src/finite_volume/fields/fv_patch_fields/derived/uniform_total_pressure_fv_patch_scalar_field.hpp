@@ -42,12 +42,13 @@
 //   mousse::DataEntry
 //   mousse::uniformFixedValueFvPatchField
 //   mousse::totalPressureFvPatchField
-// SourceFiles
-//   uniform_total_pressure_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class uniformTotalPressureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -65,7 +66,7 @@ class uniformTotalPressureFvPatchScalarField
     //- Heat capacity ratio
     scalar gamma_;
     //- Table of time vs total pressure, including the bounding treatment
-    autoPtr<DataEntry<scalar> > pressure_;
+    autoPtr<DataEntry<scalar>> pressure_;
 public:
   //- Runtime type information
   TYPE_NAME("uniformTotalPressure");
@@ -100,9 +101,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new uniformTotalPressureFvPatchScalarField(*this)
-      );
+      {
+        new uniformTotalPressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     uniformTotalPressureFvPatchScalarField
@@ -117,9 +118,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new uniformTotalPressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new uniformTotalPressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access

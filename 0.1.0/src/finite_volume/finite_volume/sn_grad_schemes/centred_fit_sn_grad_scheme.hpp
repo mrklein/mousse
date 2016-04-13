@@ -9,19 +9,16 @@
 // Description
 //   Centred fit snGrad scheme which applies an explicit correction to snGrad
 
-
 #include "centred_fit_sn_grad_data.hpp"
 #include "sn_grad_scheme.hpp"
-
 #include "extended_centred_cell_to_face_stencil.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class fvMesh;
 
-namespace fv
-{
+namespace fv {
 
 template<class Type, class Polynomial, class Stencil>
 class CentredFitSnGradScheme
@@ -72,7 +69,7 @@ public:
     }
 
     //- Return the explicit correction to the face-interpolate
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     correction
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
@@ -91,10 +88,10 @@ public:
           linearLimitFactor_,
           centralWeight_
         );
-      tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > sft
-      (
+      tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> sft
+      {
         stencil.weightedSum(vf, cfd.coeffs())
-      );
+      };
       sft().dimensions() /= dimLength;
       return sft;
     }
@@ -102,8 +99,8 @@ public:
 };
 
 }  // namespace fv
-
 }  // namespace mousse
+
 
 // Add the patch constructor functions to the hash tables
 #define MAKE_CENTRED_FIT_SN_GRAD_TYPE_SCHEME(SS, POLYNOMIAL, STENCIL, TYPE)   \
@@ -114,15 +111,14 @@ public:
   DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                               \
     (CentredFitSnGradScheme##TYPE##POLYNOMIAL##STENCIL##_, #SS, 0);           \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    namespace fv                                                              \
-    {                                                                         \
+  namespace mousse {                                                          \
+  namespace fv {                                                              \
       snGradScheme<TYPE>::addMeshConstructorToTable                           \
-        <CentredFitSnGradScheme<TYPE, POLYNOMIAL, STENCIL> >                  \
+        <CentredFitSnGradScheme<TYPE, POLYNOMIAL, STENCIL>>                   \
         add##SS##STENCIL##TYPE##MeshConstructorToTable_;                      \
-    }                                                                         \
+  }                                                                           \
   }
+
 
 #define MAKE_CENTRED_FIT_SN_GRAD_SCHEME(SS, POLYNOMIAL, STENCIL)              \
                                                                               \

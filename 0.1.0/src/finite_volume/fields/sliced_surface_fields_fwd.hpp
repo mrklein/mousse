@@ -6,11 +6,14 @@
 // Copyright (C) 2016 mousse project
 
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class surfaceMesh;
 template<class Type>
 class fvsPatchField;
+
 template<class Type>
 class slicedFvsPatchField;
 template
@@ -21,12 +24,15 @@ template
   class GeoMesh
 >
 class SlicedGeometricField;
+
 typedef
 SlicedGeometricField<scalar, fvsPatchField, slicedFvsPatchField, surfaceMesh>
   slicedSurfaceScalarField;
+
 typedef
 SlicedGeometricField<vector, fvsPatchField, slicedFvsPatchField, surfaceMesh>
   slicedSurfaceVectorField;
+
 typedef
 SlicedGeometricField
 <
@@ -35,7 +41,8 @@ SlicedGeometricField
   slicedFvsPatchField,
   surfaceMesh
 >
-  slicedSurfaceSphericalTensorField;
+slicedSurfaceSphericalTensorField;
+
 typedef
 SlicedGeometricField
 <
@@ -44,9 +51,11 @@ SlicedGeometricField
   slicedFvsPatchField,
   surfaceMesh
 >
-  slicedSurfaceSymmTensorField;
+slicedSurfaceSymmTensorField;
+
 typedef
 SlicedGeometricField<tensor, fvsPatchField, slicedFvsPatchField, surfaceMesh>
-  slicedSurfaceTensorField;
+slicedSurfaceTensorField;
+
 }  // namespace mousse
 #endif

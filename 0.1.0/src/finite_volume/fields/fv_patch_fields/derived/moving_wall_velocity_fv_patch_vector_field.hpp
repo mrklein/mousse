@@ -29,12 +29,13 @@
 // SeeAlso
 //   mousse::fixedValueFvPatchVectorField
 //   mousse::MRFZone
-// SourceFiles
-//   moving_wall_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class movingWallVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -77,9 +78,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new movingWallVelocityFvPatchVectorField(*this)
-      );
+      {
+        new movingWallVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     movingWallVelocityFvPatchVectorField
@@ -94,9 +95,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new movingWallVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new movingWallVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field

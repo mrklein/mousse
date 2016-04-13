@@ -8,9 +8,12 @@
 //   mousse::solutionControl
 // Description
 //   Base class for solution control classes
+
 #include "fv_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class solutionControl
 :
   public IOobject
@@ -103,61 +106,74 @@ public:
       //- Non-orthogonal corrector loop
       inline bool correctNonOrthogonal();
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 inline const mousse::dictionary& mousse::solutionControl::dict() const
 {
   return mesh_.solutionDict().subDict(algorithmName_);
 }
+
+
 inline mousse::label mousse::solutionControl::corr() const
 {
   return corr_;
 }
+
+
 inline mousse::label mousse::solutionControl::corrNonOrtho() const
 {
   return corrNonOrtho_;
 }
+
+
 inline mousse::label mousse::solutionControl::nNonOrthCorr() const
 {
   return nNonOrthCorr_;
 }
+
+
 inline bool mousse::solutionControl::finalNonOrthogonalIter() const
 {
   return corrNonOrtho_ == nNonOrthCorr_ + 1;
 }
+
+
 inline bool mousse::solutionControl::momentumPredictor() const
 {
   return momentumPredictor_;
 }
+
+
 inline bool mousse::solutionControl::transonic() const
 {
   return transonic_;
 }
+
+
 inline bool mousse::solutionControl::consistent() const
 {
   return consistent_;
 }
+
+
 inline bool mousse::solutionControl::correctNonOrthogonal()
 {
   corrNonOrtho_++;
-  if (debug)
-  {
-    Info<< algorithmName_ << " correctNonOrthogonal: corrNonOrtho = "
+  if (debug) {
+    Info << algorithmName_ << " correctNonOrthogonal: corrNonOrtho = "
       << corrNonOrtho_ << endl;
   }
-  if (corrNonOrtho_ <= nNonOrthCorr_ + 1)
-  {
+  if (corrNonOrtho_ <= nNonOrthCorr_ + 1) {
     return true;
-  }
-  else
-  {
+  } else {
     corrNonOrtho_ = 0;
     return false;
   }
 }
 
-#ifdef NoRepository
-  #include "solution_control_templates.cpp"
-#endif
+#include "solution_control.ipp"
+
 #endif

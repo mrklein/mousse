@@ -48,13 +48,14 @@
 //   constant values.
 // SeeAlso
 //   mousse::DataEntry
-// SourceFiles
-//   oscillating_fixed_value_fv_patch_field.cpp
+
 #include "random.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class oscillatingFixedValueFvPatchField
 :
@@ -106,12 +107,12 @@ public:
       const oscillatingFixedValueFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new oscillatingFixedValueFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new oscillatingFixedValueFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     oscillatingFixedValueFvPatchField
@@ -120,15 +121,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new oscillatingFixedValueFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new oscillatingFixedValueFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -179,7 +180,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "oscillating_fixed_value_fv_patch_field.cpp"
-#endif
+
+#include "oscillating_fixed_value_fv_patch_field.ipp"
+
 #endif

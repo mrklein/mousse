@@ -21,12 +21,13 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::cyclicFvPatchField
-// SourceFiles
-//   cyclic_slip_fv_patch_field.cpp
+
 #include "cyclic_fv_patch_field.hpp"
 #include "cyclic_slip_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class cyclicSlipFvPatchField
 :
@@ -63,12 +64,12 @@ public:
       const cyclicSlipFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new cyclicSlipFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new cyclicSlipFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     cyclicSlipFvPatchField
@@ -77,19 +78,19 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new cyclicSlipFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new cyclicSlipFvPatchField<Type>{*this, iF}
+      };
     }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "cyclic_slip_fv_patch_field.cpp"
-#endif
+
+#include "cyclic_slip_fv_patch_field.ipp"
+
 #endif

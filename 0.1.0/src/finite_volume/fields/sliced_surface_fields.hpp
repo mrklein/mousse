@@ -9,18 +9,24 @@
 #include "sliced_fvs_patch_field.hpp"
 #include "surface_mesh.hpp"
 #include "sliced_surface_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<>
 inline void
 SlicedGeometricField<scalar, fvsPatchField, slicedFvsPatchField, surfaceMesh>::
 correctBoundaryConditions()
 {}
+
+
 template<>
 inline void
 SlicedGeometricField<vector, fvsPatchField, slicedFvsPatchField, surfaceMesh>::
 correctBoundaryConditions()
 {}
+
+
 template<>
 inline void
 SlicedGeometricField
@@ -32,6 +38,8 @@ SlicedGeometricField
 >::
 correctBoundaryConditions()
 {}
+
+
 template<>
 inline void
 SlicedGeometricField
@@ -43,10 +51,13 @@ SlicedGeometricField
 >::
 correctBoundaryConditions()
 {}
+
+
 template<>
 inline void
 SlicedGeometricField<tensor, fvsPatchField, slicedFvsPatchField, surfaceMesh>::
 correctBoundaryConditions()
 {}
+
 }  // namespace mousse
 #endif

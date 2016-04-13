@@ -36,12 +36,13 @@
 // SeeAlso
 //   mousse::mixedFvPatchVectorField
 //   mousse::pressureDirectedInletOutletVelocityFvPatchVectorField
-// SourceFiles
-//   pressure_inlet_outlet_par_slip_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pressureInletOutletParSlipVelocityFvPatchVectorField
 :
   public mixedFvPatchVectorField
@@ -87,12 +88,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new pressureInletOutletParSlipVelocityFvPatchVectorField
-        (
-          *this
-        )
-      );
+      {
+        new pressureInletOutletParSlipVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     pressureInletOutletParSlipVelocityFvPatchVectorField
@@ -107,13 +105,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new pressureInletOutletParSlipVelocityFvPatchVectorField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new pressureInletOutletParSlipVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

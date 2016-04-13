@@ -17,19 +17,17 @@
 //   distribution may be created) and the cell centre distance.
 //   This code organisation is both neat and efficient, allowing for
 //   convenient implementation of new schemes to run on parallelised cases.
-// SourceFiles
-//   limit_funcs.cpp
-namespace mousse
-{
-namespace limitFuncs
-{
+
+namespace mousse {
+namespace limitFuncs {
+
 template<class Type>
 class null
 {
 public:
   null()
   {}
-  inline tmp<GeometricField<Type, fvPatchField, volMesh> > operator()
+  inline tmp<GeometricField<Type, fvPatchField, volMesh>> operator()
   (
     const GeometricField<Type, fvPatchField, volMesh>& phi
   ) const
@@ -37,6 +35,8 @@ public:
     return phi;
   }
 };
+
+
 template<class Type>
 class magSqr
 {
@@ -48,6 +48,8 @@ public:
     const GeometricField<Type, fvPatchField, volMesh>&
   ) const;
 };
+
+
 template<class Type>
 class rhoMagSqr
 {
@@ -59,9 +61,10 @@ public:
     const GeometricField<Type, fvPatchField, volMesh>&
   ) const;
 };
+
 }  // namespace limitFuncs
 }  // namespace mousse
-#ifdef NoRepository
-#   include "limit_funcs.cpp"
-#endif
+
+#include "limit_funcs.ipp"
+
 #endif

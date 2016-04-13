@@ -6,7 +6,10 @@
 #include "fv_mesh.hpp"
 #include "reverse_linear.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_SURFACE_INTERPOLATION_SCHEME(reverseLinear)
+
 }
+

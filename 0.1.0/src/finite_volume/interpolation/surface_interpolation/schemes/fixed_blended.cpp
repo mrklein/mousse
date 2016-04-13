@@ -7,7 +7,10 @@
 #include "fv_mesh.hpp"
 #include "fixed_blended.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_SURFACE_INTERPOLATION_SCHEME(fixedBlended);
+
 }
+

@@ -35,12 +35,13 @@
 //   - positive flux (out of domain): apply zero-gradient condition
 //   - negative flux (into of domain): derive from the flux in the patch-normal
 //    direction
-// SourceFiles
-//   pressure_inlet_outlet_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "direction_mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pressureInletOutletVelocityFvPatchVectorField
 :
   public directionMixedFvPatchVectorField
@@ -85,9 +86,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new pressureInletOutletVelocityFvPatchVectorField(*this)
-      );
+      {
+        new pressureInletOutletVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     pressureInletOutletVelocityFvPatchVectorField
@@ -102,9 +103,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new pressureInletOutletVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new pressureInletOutletVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

@@ -8,17 +8,20 @@
 //   mousse::porosityModelList
 // Description
 //   List container for porosity models
-// SourceFiles
-//   porosity_model_list.cpp
+
 #include "fv_mesh.hpp"
 #include "dictionary.hpp"
 #include "fv_matrices_fwd.hpp"
 #include "porosity_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class porosityModelList;
 Ostream& operator<<(Ostream& os, const porosityModelList& models);
+
+
 class porosityModelList
 :
   public PtrList<porosityModel>

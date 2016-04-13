@@ -6,8 +6,8 @@
 #include "linear_fit_polynomial.hpp"
 #include "centred_fec_cell_to_face_stencil_object.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG
 (

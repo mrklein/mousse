@@ -14,11 +14,12 @@
 //   the direction of maximum gradient with both neighbouring cell gradients
 //   and introduce small amounts of upwind in order to damp these modes.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   filtered_linear2_v.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class LimiterFunc>
 class filteredLinear2VLimiter
 :
@@ -39,18 +40,16 @@ class filteredLinear2VLimiter
 public:
   filteredLinear2VLimiter(Istream& is)
   :
-    k_(readScalar(is)),
-    l_(readScalar(is))
+    k_{readScalar(is)},
+    l_{readScalar(is)}
   {
-    if (k_ < 0 || k_ > 1)
-    {
+    if (k_ < 0 || k_ > 1) {
       FATAL_IO_ERROR_IN("filteredLinear2VLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
         << exit(FatalIOError);
     }
-    if (l_ < 0 || l_ > 1)
-    {
+    if (l_ < 0 || l_ > 1) {
       FATAL_IO_ERROR_IN("filteredLinear2VLimiter(Istream& is)", is)
         << "coefficient = " << l_
         << " should be >= 0 and <= 1"
@@ -80,16 +79,11 @@ public:
     scalar tdcN = 2*(dfV & (d & gradcN));
     // Calculate the limiter according to the sign of the face difference
     scalar limiter;
-    if (df > 0)
-    {
-      limiter = l_
-        - k_*min(max(df - tdcP, 0), max(df - tdcN, 0))
+    if (df > 0) {
+      limiter = l_ - k_*min(max(df - tdcP, 0), max(df - tdcN, 0))
         /(max(mag(df), max(mag(tdcP), mag(tdcN))) + VSMALL);
-    }
-    else
-    {
-      limiter = l_
-        - k_*min(max(tdcP - df, 0), max(tdcN - df, 0))
+    } else {
+      limiter = l_ - k_*min(max(tdcP - df, 0), max(tdcN - df, 0))
         /(max(mag(df), max(mag(tdcP), mag(tdcN))) + VSMALL);
     }
     // Limit the limiter between linear and upwind

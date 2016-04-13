@@ -4,16 +4,16 @@
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   cmules.cpp
-//   cmules_templates.cpp
+
 #include "mules.hpp"
 #include "euler_ddt_scheme.hpp"
 #include "local_euler_ddt_scheme.hpp"
 #include "gauss_convection_scheme.hpp"
-namespace mousse
-{
-namespace MULES
-{
+
+
+namespace mousse {
+namespace MULES {
+
 template<class RdeltaTType, class RhoType, class SpType, class SuType>
 void correct
 (
@@ -25,6 +25,7 @@ void correct
   const SpType& Sp,
   const SuType& Su
 );
+
 template<class RhoType, class SpType, class SuType>
 void correct
 (
@@ -37,6 +38,7 @@ void correct
   const scalar psiMax,
   const scalar psiMin
 );
+
 void correct
 (
   volScalarField& psi,
@@ -45,6 +47,7 @@ void correct
   const scalar psiMax,
   const scalar psiMin
 );
+
 template<class RdeltaTType, class RhoType, class SpType, class SuType>
 void limiterCorr
 (
@@ -59,6 +62,7 @@ void limiterCorr
   const scalar psiMax,
   const scalar psiMin
 );
+
 template<class RdeltaTType, class RhoType, class SpType, class SuType>
 void limitCorr
 (
@@ -72,9 +76,10 @@ void limitCorr
   const scalar psiMax,
   const scalar psiMin
 );
+
 }  // namespace MULES
 }  // namespace mousse
-#ifdef NoRepository
-#   include "cmules_templates.cpp"
-#endif
+
+#include "cmules.ipp"
+
 #endif

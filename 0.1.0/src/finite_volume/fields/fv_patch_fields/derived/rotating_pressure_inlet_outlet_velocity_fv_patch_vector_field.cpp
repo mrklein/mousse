@@ -8,6 +8,7 @@
 #include "surface_fields.hpp"
 #include "time.hpp"
 
+
 // Private Member Functions 
 void mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::
 calcTangentialVelocity()
@@ -16,13 +17,16 @@ calcTangentialVelocity()
   vector om = omega_->value(t);
   vector axisHat = om/mag(om);
   const vectorField tangentialVelocity
-  (
+  {
     (-om) ^ (patch().Cf() - axisHat*(axisHat & patch().Cf()))
-  );
-  const vectorField n(patch().nf());
+  };
+  const vectorField n{patch().nf()};
   refValue() = tangentialVelocity - n*(n & tangentialVelocity);
 }
+
+
 // Constructors 
+
 mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::
 rotatingPressureInletOutletVelocityFvPatchVectorField
 (
@@ -30,9 +34,11 @@ rotatingPressureInletOutletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  pressureInletOutletVelocityFvPatchVectorField(p, iF),
-  omega_()
+  pressureInletOutletVelocityFvPatchVectorField{p, iF},
+  omega_{}
 {}
+
+
 mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::
 rotatingPressureInletOutletVelocityFvPatchVectorField
 (
@@ -42,11 +48,13 @@ rotatingPressureInletOutletVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  pressureInletOutletVelocityFvPatchVectorField(ptf, p, iF, mapper),
-  omega_(ptf.omega_().clone().ptr())
+  pressureInletOutletVelocityFvPatchVectorField{ptf, p, iF, mapper},
+  omega_{ptf.omega_().clone().ptr()}
 {
   calcTangentialVelocity();
 }
+
+
 mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::
 rotatingPressureInletOutletVelocityFvPatchVectorField
 (
@@ -55,22 +63,26 @@ rotatingPressureInletOutletVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  pressureInletOutletVelocityFvPatchVectorField(p, iF, dict),
-  omega_(DataEntry<vector>::New("omega", dict))
+  pressureInletOutletVelocityFvPatchVectorField{p, iF, dict},
+  omega_{DataEntry<vector>::New("omega", dict)}
 {
   calcTangentialVelocity();
 }
+
+
 mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::
 rotatingPressureInletOutletVelocityFvPatchVectorField
 (
   const rotatingPressureInletOutletVelocityFvPatchVectorField& rppvf
 )
 :
-  pressureInletOutletVelocityFvPatchVectorField(rppvf),
-  omega_(rppvf.omega_().clone().ptr())
+  pressureInletOutletVelocityFvPatchVectorField{rppvf},
+  omega_{rppvf.omega_().clone().ptr()}
 {
   calcTangentialVelocity();
 }
+
+
 mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::
 rotatingPressureInletOutletVelocityFvPatchVectorField
 (
@@ -78,11 +90,13 @@ rotatingPressureInletOutletVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  pressureInletOutletVelocityFvPatchVectorField(rppvf, iF),
-  omega_(rppvf.omega_().clone().ptr())
+  pressureInletOutletVelocityFvPatchVectorField{rppvf, iF},
+  omega_{rppvf.omega_().clone().ptr()}
 {
   calcTangentialVelocity();
 }
+
+
 // Member Functions 
 void mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::write
 (
@@ -94,8 +108,9 @@ void mousse::rotatingPressureInletOutletVelocityFvPatchVectorField::write
   omega_->writeData(os);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
 
 MAKE_PATCH_TYPE_FIELD
 (

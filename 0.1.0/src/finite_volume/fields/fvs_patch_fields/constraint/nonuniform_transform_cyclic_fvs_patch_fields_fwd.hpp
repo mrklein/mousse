@@ -6,9 +6,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type> class nonuniformTransformCyclicFvsPatchField;
-makeFvsPatchTypeFieldTypedefs(nonuniformTransformCyclic);
+MAKE_FVS_PATCH_TYPE_FIELD_TYPEDEFS(nonuniformTransformCyclic);
+
 }  // namespace mousse
+
 #endif

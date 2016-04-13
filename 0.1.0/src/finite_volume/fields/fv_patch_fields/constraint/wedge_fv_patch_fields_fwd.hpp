@@ -6,9 +6,14 @@
 // Copyright (C) 2016 mousse project
 
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type> class wedgeFvPatchField;
-makePatchTypeFieldTypedefs(wedge);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(wedge);
+
 }  // namespace mousse
+
 #endif
+

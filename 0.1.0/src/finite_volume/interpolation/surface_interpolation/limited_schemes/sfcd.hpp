@@ -11,14 +11,12 @@
 //   SFCD differencing scheme based on phict obtained from the LimiterFunc
 //   class.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   sfcd.cpp
-
 
 #include "vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class LimiterFunc>
 class SFCDLimiter
 :
@@ -46,5 +44,8 @@ public:
     return limitPhict/(1 - limitPhict);
   }
 };
+
 }  // namespace mousse
+
 #endif
+

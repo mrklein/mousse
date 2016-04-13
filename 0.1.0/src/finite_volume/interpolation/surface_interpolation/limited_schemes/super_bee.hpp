@@ -11,14 +11,12 @@
 //   SuperBee differencing scheme based on r obtained from the LimiterFunc
 //   class.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   super_bee.cpp
-
 
 #include "vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class LimiterFunc>
 class SuperBeeLimiter
 :
@@ -46,6 +44,8 @@ public:
     return max(max(min(2*r, 1), min(r, 2)), 0);
   }
 };
+
 }  // namespace mousse
 
 #endif
+

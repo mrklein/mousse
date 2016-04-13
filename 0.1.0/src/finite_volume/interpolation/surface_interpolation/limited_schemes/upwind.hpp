@@ -8,17 +8,15 @@
 //   mousse::upwind
 // Description
 //   Upwind differencing scheme class.
-// SourceFiles
-//   upwind.cpp
-
 
 #include "limited_surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class upwind
 :
@@ -76,7 +74,6 @@ public:
       {
         new surfaceScalarField
         {
-          IOobject
           {
             "upwindLimiter",
             this->mesh().time().timeName(),
@@ -86,7 +83,7 @@ public:
             false
           },
           this->mesh(),
-          dimensionedScalar{"upwindLimiter", dimless, 0.0}
+          {"upwindLimiter", dimless, 0.0}
         }
       };
     }
@@ -106,5 +103,8 @@ public:
       return weights();
     }
 };
+
 }  // namespace mousse
+
 #endif
+

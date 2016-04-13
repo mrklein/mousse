@@ -7,6 +7,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
+
 // Constructors 
 mousse::fluxCorrectedVelocityFvPatchVectorField::
 fluxCorrectedVelocityFvPatchVectorField
@@ -15,10 +17,12 @@ fluxCorrectedVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  zeroGradientFvPatchVectorField(p, iF),
-  phiName_("phi"),
-  rhoName_("rho")
+  zeroGradientFvPatchVectorField{p, iF},
+  phiName_{"phi"},
+  rhoName_{"rho"}
 {}
+
+
 mousse::fluxCorrectedVelocityFvPatchVectorField::
 fluxCorrectedVelocityFvPatchVectorField
 (
@@ -28,10 +32,12 @@ fluxCorrectedVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  zeroGradientFvPatchVectorField(ptf, p, iF, mapper),
-  phiName_(ptf.phiName_),
-  rhoName_(ptf.rhoName_)
+  zeroGradientFvPatchVectorField{ptf, p, iF, mapper},
+  phiName_{ptf.phiName_},
+  rhoName_{ptf.rhoName_}
 {}
+
+
 mousse::fluxCorrectedVelocityFvPatchVectorField::
 fluxCorrectedVelocityFvPatchVectorField
 (
@@ -40,12 +46,14 @@ fluxCorrectedVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  zeroGradientFvPatchVectorField(p, iF),
-  phiName_(dict.lookupOrDefault<word>("phi", "phi")),
-  rhoName_(dict.lookupOrDefault<word>("rho", "rho"))
+  zeroGradientFvPatchVectorField{p, iF},
+  phiName_{dict.lookupOrDefault<word>("phi", "phi")},
+  rhoName_{dict.lookupOrDefault<word>("rho", "rho")}
 {
   fvPatchVectorField::operator=(patchInternalField());
 }
+
+
 mousse::fluxCorrectedVelocityFvPatchVectorField::
 fluxCorrectedVelocityFvPatchVectorField
 (
@@ -53,18 +61,19 @@ fluxCorrectedVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  zeroGradientFvPatchVectorField(fcvpvf, iF),
-  phiName_(fcvpvf.phiName_),
-  rhoName_(fcvpvf.rhoName_)
+  zeroGradientFvPatchVectorField{fcvpvf, iF},
+  phiName_{fcvpvf.phiName_},
+  rhoName_{fcvpvf.rhoName_}
 {}
+
+
 // Member Functions 
 void mousse::fluxCorrectedVelocityFvPatchVectorField::evaluate
 (
   const Pstream::commsTypes
 )
 {
-  if (!updated())
-  {
+  if (!updated()) {
     updateCoeffs();
   }
   zeroGradientFvPatchVectorField::evaluate();
@@ -72,31 +81,28 @@ void mousse::fluxCorrectedVelocityFvPatchVectorField::evaluate
     db().lookupObject<surfaceScalarField>(phiName_);
   const fvsPatchField<scalar>& phip =
     patch().patchField<surfaceScalarField, scalar>(phi);
-  const vectorField n(patch().nf());
+  const vectorField n{patch().nf()};
   const Field<scalar>& magS = patch().magSf();
-  if (phi.dimensions() == dimVelocity*dimArea)
-  {
+  if (phi.dimensions() == dimVelocity*dimArea) {
     operator==(*this - n*(n & *this) + n*phip/magS);
-  }
-  else if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  } else if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
     const fvPatchField<scalar>& rhop =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     operator==(*this - n*(n & *this) + n*phip/(rhop*magS));
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "fluxCorrectedVelocityFvPatchVectorField::evaluate()"
     )
-      << "dimensions of phi are incorrect\n"
-      << "    on patch " << this->patch().name()
-      << " of field " << this->dimensionedInternalField().name()
-      << " in file " << this->dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    << "dimensions of phi are incorrect\n"
+    << "    on patch " << this->patch().name()
+    << " of field " << this->dimensionedInternalField().name()
+    << " in file " << this->dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
 }
+
+
 void mousse::fluxCorrectedVelocityFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
@@ -104,11 +110,15 @@ void mousse::fluxCorrectedVelocityFvPatchVectorField::write(Ostream& os) const
   writeEntryIfDifferent<word>(os, "rho", "rho", rhoName_);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   fluxCorrectedVelocityFvPatchVectorField
 );
+
 }
+

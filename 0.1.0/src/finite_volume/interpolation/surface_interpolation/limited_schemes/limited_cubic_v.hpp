@@ -11,11 +11,12 @@
 //   limitedCubicV differencing scheme based on r obtained from the LimiterFunc
 //   class.
 //   Used in conjunction with the template class LimitedScheme.
-// SourceFiles
-//   limited_cubic_v.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class LimiterFunc>
 class limitedCubicVLimiter
 :
@@ -26,10 +27,9 @@ class limitedCubicVLimiter
 public:
   limitedCubicVLimiter(Istream& is)
   :
-    k_(readScalar(is))
+    k_{readScalar(is)}
   {
-    if (k_ < 0 || k_ > 1)
-    {
+    if (k_ < 0 || k_ > 1) {
       FATAL_IO_ERROR_IN("limitedCubicVLimiter(Istream& is)", is)
         << "coefficient = " << k_
         << " should be >= 0 and <= 1"
@@ -57,25 +57,23 @@ public:
     scalar fVphiP = fV & phiP;
     scalar fVphiN = fV & phiN;
     scalar fVphiU;
-    if (faceFlux > 0)
-    {
+    if (faceFlux > 0) {
       fVphiU = fVphiP;
-    }
-    else
-    {
+    } else {
       fVphiU = fVphiN;
     }
     // Calculate the face value using cubic interpolation
-    scalar fVphif =
-      cdWeight*(fVphiP - 0.25*(fV & (d & gradcN)))
-     + (1 - cdWeight)*(fVphiN + 0.25*(fV & (d & gradcP)));
+    scalar fVphif = cdWeight*(fVphiP - 0.25*(fV & (d & gradcN)))
+      + (1 - cdWeight)*(fVphiN + 0.25*(fV & (d & gradcP)));
     scalar fVphiCD = cdWeight*fVphiP + (1 - cdWeight)*fVphiN;
     // Calculate the effective limiter for the cubic interpolation
-    scalar cubicLimiter =
-      (fVphif - fVphiU)/stabilise(fVphiCD - fVphiU, SMALL);
+    scalar cubicLimiter = (fVphif - fVphiU)/stabilise(fVphiCD - fVphiU, SMALL);
     // Limit the limiter to obey the TVD constraint
     return max(min(min(twor, cubicLimiter), 2), 0);
   }
 };
+
 }  // namespace mousse
+
 #endif
+

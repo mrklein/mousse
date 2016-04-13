@@ -6,7 +6,10 @@
 #include "surface_fields.hpp"
 #include "vol_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_INTERPOLATION(interpolationCellPointFace);
+
 }  // namespace mousse
+

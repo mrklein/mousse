@@ -9,19 +9,14 @@
 // Description
 //   Basic second-order gradient scheme using face-interpolation
 //   and Gauss' theorem.
-// SourceFiles
-//   gauss_grad.cpp
-
 
 #include "grad_scheme.hpp"
 #include "surface_interpolation_scheme.hpp"
 #include "linear.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Type>
 class gaussGrad
@@ -29,7 +24,7 @@ class gaussGrad
   public fv::gradScheme<Type>
 {
   // Private data
-    tmp<surfaceInterpolationScheme<Type> > tinterpScheme_;
+    tmp<surfaceInterpolationScheme<Type>> tinterpScheme_;
 
 public:
   //- Runtime type information
@@ -49,13 +44,10 @@ public:
       gradScheme<Type>{mesh},
       tinterpScheme_{NULL}
     {
-      if (is.eof())
-      {
+      if (is.eof()) {
         tinterpScheme_ =
           tmp<surfaceInterpolationScheme<Type>>{new linear<Type>{mesh}};
-      }
-      else
-      {
+      } else {
         tinterpScheme_ =
           tmp<surfaceInterpolationScheme<Type>>
           {
@@ -107,9 +99,8 @@ public:
 };
 
 }  // namespace fv
-
 }  // namespace mousse
-#ifdef NoRepository
-#   include "gauss_grad.cpp"
-#endif
+
+#include "gauss_grad.ipp"
+
 #endif

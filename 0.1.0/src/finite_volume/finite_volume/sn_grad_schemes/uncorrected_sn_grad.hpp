@@ -8,17 +8,12 @@
 //   mousse::fv::uncorrectedSnGrad
 // Description
 //   Simple central-difference snGrad scheme without non-orthogonal correction.
-// SourceFiles
-//   uncorrected_sn_grad.cpp
-
 
 #include "sn_grad_scheme.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 template<class Type>
 class uncorrectedSnGrad
@@ -74,10 +69,8 @@ public:
 };
 
 }  // namespace fv
-
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "uncorrected_sn_grad.cpp"
-#endif
+#include "uncorrected_sn_grad.ipp"
+
 #endif

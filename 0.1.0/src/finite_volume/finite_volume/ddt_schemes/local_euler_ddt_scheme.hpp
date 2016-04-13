@@ -14,19 +14,12 @@
 //   for transport consistency reasons.
 // See Also
 //   mousse::fv::CoEulerDdtScheme
-// SourceFiles
-//   local_euler_ddt.cpp
-//   local_euler_ddt_scheme.cpp
-//   local_euler_ddt_schemes.cpp
-
 
 #include "ddt_scheme.hpp"
 
-namespace mousse
-{
 
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 class localEulerDdt
 {
@@ -220,7 +213,7 @@ tmp<surfaceScalarField> localEulerDdtScheme<scalar>::fvcDdtPhiCorr
 
 }  // namespace fv
 }  // namespace mousse
-#ifdef NoRepository
-#   include "local_euler_ddt_scheme.cpp"
-#endif
+
+#include "local_euler_ddt_scheme.ipp"
+
 #endif

@@ -13,14 +13,14 @@
 //     \f]
 //   In the case of compressible flow, a value for the reference density is
 //   required
-// SourceFiles
-//   fixed_coeff.cpp
+
 #include "porosity_model.hpp"
 #include "dimensioned_tensor.hpp"
-namespace mousse
-{
-namespace porosityModels
-{
+
+
+namespace mousse {
+namespace porosityModels {
+
 class fixedCoeff
 :
   public porosityModel

@@ -14,20 +14,19 @@
 //      since these points might be
 //      coupled to points which are not on any constraint patch and we
 //      don't want to get inconsistency between the two points.
-// SourceFiles
-//   point_constraints.cpp
-//   point_constraints_templates.cpp
-//
 
 #include "_mesh_object.hpp"
 #include "tensor_field.hpp"
 #include "point_fields_fwd.hpp"
 #include "point_constraint.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class pointMesh;
 class polyMesh;
+
+
 class pointConstraints
 :
   public MeshObject<pointMesh, UpdateableMeshObject, pointConstraints>
@@ -125,14 +124,16 @@ void pointConstraints::constrainCorners<scalar>
 (
   GeometricField<scalar, pointPatchField, pointMesh>& pf
 ) const;
+
 template<>
 void pointConstraints::constrainCorners<label>
 (
   GeometricField<label, pointPatchField, pointMesh>& pf
 ) const;
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "point_constraints_templates.cpp"
-#endif
+
+#include "point_constraints.ipp"
+
 #endif

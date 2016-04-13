@@ -6,9 +6,10 @@
 #include "phi_scheme.hpp"
 #include "phi.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_PHI_SURFACE_INTERPOLATION_SCHEME(Phi, PhiLimiter, vector)
 
 }
+

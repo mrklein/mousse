@@ -11,15 +11,15 @@
 //   upwind biased stencil.
 //   - linearCorrection = true : fit calculated for corrected linear scheme
 //   - linearCorrection = false : fit calculated for corrected upwind scheme
-// SourceFiles
-//   upwind_fit_data.cpp
-//
 
 #include "fit_data.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class extendedUpwindCellToFaceStencil;
+
+
 template<class Polynomial>
 class UpwindFitData
 :
@@ -68,8 +68,9 @@ public:
       return neicoeffs_;
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "upwind_fit_data.cpp"
-#endif
+
+#include "upwind_fit_data.ipp"
+
 #endif

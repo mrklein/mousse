@@ -6,9 +6,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type> class slicedFvPatchField;
-makePatchTypeFieldTypedefs(sliced);
+MAKE_PATCH_TYPE_FIELD_TYPEDEFS(sliced);
+
 }  // namespace mousse
+
 #endif

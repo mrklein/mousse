@@ -40,11 +40,12 @@
 //     value           uniform 0; // optional initial value
 //   }
 //   \endverbatim
-// SourceFiles
-//   uniform_density_hydrostatic_pressure_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class uniformDensityHydrostaticPressureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -91,9 +92,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new uniformDensityHydrostaticPressureFvPatchScalarField(*this)
-      );
+      {
+        new uniformDensityHydrostaticPressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     uniformDensityHydrostaticPressureFvPatchScalarField
@@ -108,13 +109,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new uniformDensityHydrostaticPressureFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new uniformDensityHydrostaticPressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access

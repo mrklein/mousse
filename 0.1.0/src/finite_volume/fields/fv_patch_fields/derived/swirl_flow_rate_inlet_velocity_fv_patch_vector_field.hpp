@@ -40,12 +40,13 @@
 //   - the value is positive into the domain
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   swirl_flow_rate_inlet_velocity_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class swirlFlowRateInletVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -95,9 +96,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new swirlFlowRateInletVelocityFvPatchVectorField(*this)
-      );
+      {
+        new swirlFlowRateInletVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     swirlFlowRateInletVelocityFvPatchVectorField
@@ -112,9 +113,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new swirlFlowRateInletVelocityFvPatchVectorField(*this, iF)
-      );
+      {
+        new swirlFlowRateInletVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

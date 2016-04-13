@@ -36,11 +36,12 @@
 //     not solved
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   variable_height_flow_rate_inlet_velocity_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class variableHeightFlowRateInletVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -86,9 +87,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new variableHeightFlowRateInletVelocityFvPatchVectorField(*this)
-      );
+      {
+        new variableHeightFlowRateInletVelocityFvPatchVectorField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     variableHeightFlowRateInletVelocityFvPatchVectorField
@@ -103,13 +104,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new variableHeightFlowRateInletVelocityFvPatchVectorField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new variableHeightFlowRateInletVelocityFvPatchVectorField{*this, iF}
+      };
     }
   // Member functions
     // Access

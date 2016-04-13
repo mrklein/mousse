@@ -13,9 +13,10 @@
 #include "backward_ddt_scheme.hpp"
 #include "time.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 template<>
 const char* NamedEnum
 <
@@ -27,6 +28,7 @@ const char* NamedEnum
   fv::CrankNicolsonDdtScheme<scalar>::typeName_(),
   fv::backwardDdtScheme<scalar>::typeName_()
 };
+
 }
 
 const mousse::NamedEnum
@@ -34,6 +36,7 @@ const mousse::NamedEnum
   mousse::waveSurfacePressureFvPatchScalarField::ddtSchemeType,
   3
 >   mousse::waveSurfacePressureFvPatchScalarField::ddtSchemeTypeNames_;
+
 
 // Constructors 
 mousse::waveSurfacePressureFvPatchScalarField::
@@ -48,6 +51,7 @@ waveSurfacePressureFvPatchScalarField
   zetaName_{"zeta"},
   rhoName_{"rho"}
 {}
+
 
 mousse::waveSurfacePressureFvPatchScalarField::
 waveSurfacePressureFvPatchScalarField
@@ -68,6 +72,7 @@ waveSurfacePressureFvPatchScalarField
   );
 }
 
+
 mousse::waveSurfacePressureFvPatchScalarField::
 waveSurfacePressureFvPatchScalarField
 (
@@ -83,6 +88,7 @@ waveSurfacePressureFvPatchScalarField
   rhoName_{ptf.rhoName_}
 {}
 
+
 mousse::waveSurfacePressureFvPatchScalarField::
 waveSurfacePressureFvPatchScalarField
 (
@@ -94,6 +100,7 @@ waveSurfacePressureFvPatchScalarField
   zetaName_{wspsf.zetaName_},
   rhoName_{wspsf.rhoName_}
 {}
+
 
 mousse::waveSurfacePressureFvPatchScalarField::
 waveSurfacePressureFvPatchScalarField
@@ -108,11 +115,11 @@ waveSurfacePressureFvPatchScalarField
   rhoName_{wspsf.rhoName_}
 {}
 
+
 // Member Functions 
 void mousse::waveSurfacePressureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const label patchI = patch().index();
@@ -134,14 +141,12 @@ void mousse::waveSurfacePressureFvPatchScalarField::updateCoeffs()
   tmp<vectorField> nf{patch().nf()};
   // change in zeta due to flux
   vectorField dZetap{dt*nf()*phi.boundaryField()[patchI]/patch().magSf()};
-  if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
     const scalarField& rhop =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     dZetap /= rhop;
   }
-  switch (ddtScheme)
-  {
+  switch (ddtScheme) {
     case tsEuler:
     case tsCrankNicolson:
     {
@@ -155,11 +160,9 @@ void mousse::waveSurfacePressureFvPatchScalarField::updateCoeffs()
       scalar c00 = dt*dt/(dt0*(dt + dt0));
       scalar c0 = c + c00;
       zetap =
-        (
-          c0*zeta.oldTime().boundaryField()[patchI]
+        (c0*zeta.oldTime().boundaryField()[patchI]
          - c00*zeta.oldTime().oldTime().boundaryField()[patchI]
-         + dZetap
-        )/c;
+         + dZetap)/c;
       break;
     }
     default:
@@ -176,7 +179,7 @@ void mousse::waveSurfacePressureFvPatchScalarField::updateCoeffs()
       << abort(FatalError);
     }
   }
-  Info<< "min/max zetap = " << gMin(zetap & nf()) << ", "
+  Info << "min/max zetap = " << gMin(zetap & nf()) << ", "
     << gMax(zetap & nf()) << endl;
   // update the surface pressure
   const uniformDimensionedVectorField& g =
@@ -184,6 +187,7 @@ void mousse::waveSurfacePressureFvPatchScalarField::updateCoeffs()
   operator==(-g.value() & zetap);
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
 
 void mousse::waveSurfacePressureFvPatchScalarField::write(Ostream& os) const
 {
@@ -194,11 +198,14 @@ void mousse::waveSurfacePressureFvPatchScalarField::write(Ostream& os) const
   writeEntry("value", os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   waveSurfacePressureFvPatchScalarField
 );
+
 }
+

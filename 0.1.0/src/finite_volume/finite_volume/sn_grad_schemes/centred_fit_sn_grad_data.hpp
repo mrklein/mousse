@@ -8,14 +8,11 @@
 //   mousse::CentredFitSnGradData
 // Description
 //   Data for centred fit snGrad schemes
-// SourceFiles
-//   centred_fit_sn_grad_data.cpp
-
 
 #include "fit_data.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 class extendedCentredCellToFaceStencil;
 
@@ -71,7 +68,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "centred_fit_sn_grad_data.cpp"
-#endif
+
+#include "centred_fit_sn_grad_data.ipp"
+
 #endif

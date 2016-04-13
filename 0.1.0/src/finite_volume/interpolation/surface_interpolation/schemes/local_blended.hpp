@@ -8,16 +8,14 @@
 //   mousse::localBlended
 // Description
 //   Two-scheme localBlended differencing scheme.
-// SourceFiles
-//   local_blended.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "blended_scheme_base.hpp"
 #include "surface_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class localBlended
 :
@@ -26,9 +24,9 @@ class localBlended
 {
   // Private Member Functions
     //- Scheme 1
-    tmp<surfaceInterpolationScheme<Type> > tScheme1_;
+    tmp<surfaceInterpolationScheme<Type>> tScheme1_;
     //- Scheme 2
-    tmp<surfaceInterpolationScheme<Type> > tScheme2_;
+    tmp<surfaceInterpolationScheme<Type>> tScheme2_;
 public:
   //- Runtime type information
   TYPE_NAME("localBlended");
@@ -105,11 +103,11 @@ public:
           );
       return
         blendingFactor*tScheme1_().weights(vf)
-       + (scalar(1) - blendingFactor)*tScheme2_().weights(vf);
+        + (scalar(1) - blendingFactor)*tScheme2_().weights(vf);
     }
     //- Return the face-interpolate of the given cell field
     //  with explicit correction
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     interpolate(const GeometricField<Type, fvPatchField, volMesh>& vf) const
     {
       const surfaceScalarField& blendingFactor =
@@ -117,12 +115,12 @@ public:
         this->mesh().objectRegistry::template
         lookupObject<const surfaceScalarField>
         (
-          word(vf.name() + "BlendingFactor")
+          word{vf.name() + "BlendingFactor"}
         )
       );
       return
         blendingFactor*tScheme1_().interpolate(vf)
-       + (scalar(1) - blendingFactor)*tScheme2_().interpolate(vf);
+        + (scalar(1) - blendingFactor)*tScheme2_().interpolate(vf);
     }
     //- Return true if this scheme uses an explicit correction
     virtual bool corrected() const
@@ -131,7 +129,7 @@ public:
     }
     //- Return the explicit correction to the face-interpolate
     //  for the given field
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     correction
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
@@ -143,43 +141,28 @@ public:
         (
           word(vf.name() + "BlendingFactor")
         );
-      if (tScheme1_().corrected())
-      {
-        if (tScheme2_().corrected())
-        {
+      if (tScheme1_().corrected()) {
+        if (tScheme2_().corrected()) {
           return
           (
-            blendingFactor
-           * tScheme1_().correction(vf)
-           + (scalar(1.0) - blendingFactor)
-           * tScheme2_().correction(vf)
+            blendingFactor*tScheme1_().correction(vf)
+            + (scalar(1.0) - blendingFactor)*tScheme2_().correction(vf)
           );
+        } else {
+          return blendingFactor*tScheme1_().correction(vf);
         }
-        else
+      } else if (tScheme2_().corrected()) {
+        return (scalar(1.0) - blendingFactor)*tScheme2_().correction(vf);
+      } else {
+        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
         {
-          return
-          (
-            blendingFactor
-           * tScheme1_().correction(vf)
-          );
-        }
-      }
-      else if (tScheme2_().corrected())
-      {
-        return
-        (
-          (scalar(1.0) - blendingFactor)
-         * tScheme2_().correction(vf)
-        );
-      }
-      else
-      {
-        return tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-        (
           NULL
-        );
+        };
       }
     }
 };
+
 }  // namespace mousse
+
 #endif
+

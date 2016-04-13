@@ -5,6 +5,8 @@
 #include "io_porosity_model_list.hpp"
 #include "fv_mesh.hpp"
 #include "time.hpp"
+
+
 // Private Member Functions 
 mousse::IOobject mousse::IOporosityModelList::createIOobject
 (
@@ -12,44 +14,43 @@ mousse::IOobject mousse::IOporosityModelList::createIOobject
 ) const
 {
   IOobject io
-  (
+  {
     "porosityProperties",
     mesh.time().constant(),
     mesh,
     IOobject::MUST_READ,
     IOobject::NO_WRITE
-  );
-  if (io.headerOk())
-  {
-    Info<< "Creating porosity model list from " << io.name() << nl << endl;
+  };
+  if (io.headerOk()) {
+    Info << "Creating porosity model list from " << io.name() << nl << endl;
     io.readOpt() = IOobject::MUST_READ_IF_MODIFIED;
     return io;
-  }
-  else
-  {
-    Info<< "No porosity models present" << nl << endl;
+  } else {
+    Info << "No porosity models present" << nl << endl;
     io.readOpt() = IOobject::NO_READ;
     return io;
   }
 }
+
+
 // Constructors 
 mousse::IOporosityModelList::IOporosityModelList
 (
   const fvMesh& mesh
 )
 :
-  IOdictionary(createIOobject(mesh)),
-  porosityModelList(mesh, *this)
+  IOdictionary{createIOobject(mesh)},
+  porosityModelList{mesh, *this}
 {}
+
+
 bool mousse::IOporosityModelList::read()
 {
-  if (regIOobject::read())
-  {
+  if (regIOobject::read()) {
     porosityModelList::read(*this);
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+

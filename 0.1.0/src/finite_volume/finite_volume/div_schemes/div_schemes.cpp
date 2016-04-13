@@ -4,10 +4,8 @@
 
 #include "div_scheme.hpp"
 
-namespace mousse
-{
-namespace fv
-{
+namespace mousse {
+namespace fv {
 
 // Define the constructor function hash tables
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE

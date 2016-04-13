@@ -18,13 +18,14 @@
 //     type            processor;
 //   }
 //   \endverbatim
-// SourceFiles
-//   processor_fv_patch_field.cpp
+
 #include "coupled_fv_patch_field.hpp"
 #include "processor_ldu_interface_field.hpp"
 #include "processor_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class processorFvPatchField
 :
@@ -82,12 +83,12 @@ public:
     //- Construct as copy
     processorFvPatchField(const processorFvPatchField<Type>&);
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new processorFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new processorFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     processorFvPatchField
@@ -96,15 +97,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new processorFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new processorFvPatchField<Type>{*this, iF}
+      };
     }
   //- Destructor
   ~processorFvPatchField();
@@ -113,24 +114,21 @@ public:
       //- Return true if running parallel
       virtual bool coupled() const
       {
-        if (Pstream::parRun())
-        {
+        if (Pstream::parRun()) {
           return true;
-        }
-        else
-        {
+        } else {
           return false;
         }
       }
       //- Return neighbour field given internal field
-      virtual tmp<Field<Type> > patchNeighbourField() const;
+      virtual tmp<Field<Type>> patchNeighbourField() const;
     // Evaluation functions
       //- Initialise the evaluation of the patch field
       virtual void initEvaluate(const Pstream::commsTypes commsType);
       //- Evaluate the patch field
       virtual void evaluate(const Pstream::commsTypes commsType);
       //- Return patch-normal gradient
-      virtual tmp<Field<Type> > snGrad
+      virtual tmp<Field<Type>> snGrad
       (
         const scalarField& deltaCoeffs
       ) const;
@@ -203,7 +201,7 @@ public:
       }
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "processor_fv_patch_field.cpp"
-#endif
+
+#include "processor_fv_patch_field.ipp"
+
 #endif

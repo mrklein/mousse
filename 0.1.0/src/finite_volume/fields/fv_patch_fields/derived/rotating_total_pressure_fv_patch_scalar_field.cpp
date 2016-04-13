@@ -9,6 +9,7 @@
 #include "surface_fields.hpp"
 #include "time.hpp"
 
+
 // Constructors
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
@@ -20,6 +21,7 @@ rotatingTotalPressureFvPatchScalarField
   totalPressureFvPatchScalarField{p, iF},
   omega_{}
 {}
+
 
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
@@ -34,6 +36,7 @@ rotatingTotalPressureFvPatchScalarField
   omega_{ptf.omega_().clone().ptr()}
 {}
 
+
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
 (
@@ -46,6 +49,7 @@ rotatingTotalPressureFvPatchScalarField
   omega_{DataEntry<vector>::New("omega", dict)}
 {}
 
+
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
 (
@@ -55,6 +59,7 @@ rotatingTotalPressureFvPatchScalarField
   totalPressureFvPatchScalarField{rtppsf},
   omega_{rtppsf.omega_().clone().ptr()}
 {}
+
 
 mousse::rotatingTotalPressureFvPatchScalarField::
 rotatingTotalPressureFvPatchScalarField
@@ -67,11 +72,11 @@ rotatingTotalPressureFvPatchScalarField
   omega_{rtppsf.omega_().clone().ptr()}
 {}
 
+
 // Member Functions
 void mousse::rotatingTotalPressureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const scalar t = this->db().time().timeOutputValue();
@@ -80,23 +85,27 @@ void mousse::rotatingTotalPressureFvPatchScalarField::updateCoeffs()
   tmp<vectorField> rotationVelocity =
     om ^ (patch().Cf() - axisHat*(axisHat & patch().Cf()));
   const vectorField Up
-  (
-    patch().lookupPatchField<volVectorField, vector>(UName())
-   + rotationVelocity
-  );
+  {
+    patch().lookupPatchField<volVectorField, vector>(UName()) + rotationVelocity
+  };
   totalPressureFvPatchScalarField::updateCoeffs(p0(), Up);
 }
+
+
 void mousse::rotatingTotalPressureFvPatchScalarField::write(Ostream& os) const
 {
   totalPressureFvPatchScalarField::write(os);
   omega_->writeData(os);
 }
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   rotatingTotalPressureFvPatchScalarField
 );
+
 }
+

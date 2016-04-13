@@ -10,9 +10,12 @@
 //   Selector class for finite volume solution solution.
 //   fvMesh is derived from fvSolution so that all fields have access to the
 //   fvSolution from the mesh reference they hold.
+
 #include "solution.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvSolution
 :
   public solution
@@ -28,5 +31,7 @@ public:
     fvSolution(const fvSolution&) = delete;
     fvSolution& operator=(const fvSolution&) = delete;
 };
+
 }  // namespace mousse
+
 #endif

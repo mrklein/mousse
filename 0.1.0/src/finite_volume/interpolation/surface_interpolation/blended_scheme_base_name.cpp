@@ -3,7 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "blended_scheme_base.hpp"
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(blendedSchemeBaseName, 0);
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(blendedSchemeBaseName, 0);
+
 }
+

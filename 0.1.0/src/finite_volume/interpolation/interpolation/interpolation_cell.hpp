@@ -9,12 +9,14 @@
 // Description
 //   Uses the cell value for any point in the cell
 
-
 #include "interpolation.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class fvMesh;
+
+
 template<class Type>
 class interpolationCell
 :
@@ -39,7 +41,7 @@ public:
     ) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "interpolation_cell.cpp"
-#endif
+
+#include "interpolation_cell.ipp"
+
 #endif

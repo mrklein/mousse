@@ -9,12 +9,13 @@
 // Description
 //   linearUpwindV interpolation scheme class derived from upwind and returns
 //   upwind weighting factors but also applies an explicit correction.
-// SourceFiles
-//   linear_upwind_v.cpp
+
 #include "upwind.hpp"
 #include "gauss_grad.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class linearUpwindV
 :
@@ -22,7 +23,7 @@ class linearUpwindV
 {
   // Private Data
     word gradSchemeName_;
-    tmp<fv::gradScheme<Type> > gradScheme_;
+    tmp<fv::gradScheme<Type>> gradScheme_;
 public:
   //- Runtime type information
   TYPE_NAME("linearUpwindV");
@@ -91,11 +92,13 @@ public:
       return true;
     }
     //- Return the explicit correction to the face-interpolate
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-    correction
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> correction
     (
       const GeometricField<Type, fvPatchField, volMesh>&
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

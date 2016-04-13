@@ -1,3 +1,6 @@
+#ifndef FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FIXED_FLUX_PRESSURE_FV_PATCH_SCALAR_FIELDS_HPP_
+#define FINITE_VOLUME_FIELDS_FV_PATCH_FIELDS_DERIVED_FIXED_FLUX_PRESSURE_FV_PATCH_SCALAR_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,14 +21,13 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedGradientFvPatchField
-// SourceFiles
-//   fixed_flux_pressure_fv_patch_scalar_field.cpp
-#ifndef fixedFluxPressureFvPatchScalarFields_H
-#define fixedFluxPressureFvPatchScalarFields_H
+
 #include "fv_patch_fields.hpp"
 #include "fixed_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fixedFluxPressureFvPatchScalarField
 :
   public fixedGradientFvPatchScalarField
@@ -68,9 +70,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new fixedFluxPressureFvPatchScalarField(*this)
-      );
+      {
+        new fixedFluxPressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     fixedFluxPressureFvPatchScalarField
@@ -85,9 +87,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new fixedFluxPressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new fixedFluxPressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     //- Update the patch pressure gradient field from the given snGradp
@@ -97,33 +99,40 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
+
 #include "vol_fields.hpp"
-namespace mousse
+
+
+namespace mousse {
+
+template<class GradBC>
+inline void setSnGrad
+(
+  volScalarField::GeometricBoundaryField& bf,
+  const FieldField<fvsPatchField, scalar>& snGrad
+)
 {
-  template<class GradBC>
-  inline void setSnGrad
-  (
-    volScalarField::GeometricBoundaryField& bf,
-    const FieldField<fvsPatchField, scalar>& snGrad
-  )
-  {
-    FOR_ALL(bf, patchi)
-    {
-      if (isA<GradBC>(bf[patchi]))
-      {
-        refCast<GradBC>(bf[patchi]).updateCoeffs(snGrad[patchi]);
-      }
+  FOR_ALL(bf, patchi) {
+    if (isA<GradBC>(bf[patchi])) {
+      refCast<GradBC>(bf[patchi]).updateCoeffs(snGrad[patchi]);
     }
   }
-  template<class GradBC>
-  inline void setSnGrad
-  (
-    volScalarField::GeometricBoundaryField& bf,
-    const tmp<FieldField<fvsPatchField, scalar> >& tsnGrad
-  )
-  {
-    setSnGrad<GradBC>(bf, tsnGrad());
-  }
 }
+
+
+template<class GradBC>
+inline void setSnGrad
+(
+  volScalarField::GeometricBoundaryField& bf,
+  const tmp<FieldField<fvsPatchField, scalar> >& tsnGrad
+)
+{
+  setSnGrad<GradBC>(bf, tsnGrad());
+}
+
+}
+
 #endif

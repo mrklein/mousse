@@ -8,12 +8,13 @@
 //   mousse::AverageIOField
 // Description
 //   A primitive field + average with IO.
-// SourceFiles
-//   average_io_field.cpp
+
 #include "reg_ioobject.hpp"
 #include "field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class AverageIOField
 :
@@ -56,7 +57,7 @@ public:
     bool writeData(Ostream& os) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "average_io_field.cpp"
-#endif
+
+#include "average_io_field.ipp"
+
 #endif

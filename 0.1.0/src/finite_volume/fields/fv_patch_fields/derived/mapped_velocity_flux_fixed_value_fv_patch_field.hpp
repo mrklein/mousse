@@ -35,12 +35,13 @@
 //   mousse::mappedPolyPatch
 //   mousse::mappedFvPatch
 //   mousse::fixedValueFvPatchVectorField
-// SourceFiles
-//   mapped_velocity_flux_fixed_value_fv_patch_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
 #include "mapped_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mappedVelocityFluxFixedValueFvPatchField
 :
   public fixedValueFvPatchVectorField
@@ -84,9 +85,9 @@ public:
     virtual tmp<fvPatchVectorField> clone() const
     {
       return tmp<fvPatchVectorField>
-      (
-        new mappedVelocityFluxFixedValueFvPatchField(*this)
-      );
+      {
+        new mappedVelocityFluxFixedValueFvPatchField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     mappedVelocityFluxFixedValueFvPatchField
@@ -101,9 +102,9 @@ public:
     ) const
     {
       return tmp<fvPatchVectorField>
-      (
-        new mappedVelocityFluxFixedValueFvPatchField(*this, iF)
-      );
+      {
+        new mappedVelocityFluxFixedValueFvPatchField{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions

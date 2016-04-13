@@ -6,10 +6,11 @@
 #include "limited_scheme.hpp"
 #include "van_albada.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_LIMITED_SURFACE_INTERPOLATION_SCHEME(vanAlbada, vanAlbadaLimiter)
 MAKE_LIMITED_V_SURFACE_INTERPOLATION_SCHEME(vanAlbadaV, vanAlbadaLimiter)
 
 }
+

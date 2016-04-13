@@ -10,9 +10,12 @@
 //   Cubic polynomial for upwind biased interpolation fitting.
 //   Can be used with the UpwindFit scheme to create a cubic surface
 //   interpolation scheme
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cubicUpwindFitPolynomial
 {
 public:
@@ -57,5 +60,8 @@ public:
       }
     }
 };
+
 }  // namespace mousse
+
 #endif
+

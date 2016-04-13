@@ -21,12 +21,13 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::cyclicFvPatchField
-// SourceFiles
-//   wedge_fv_patch_field.cpp
+
 #include "transform_fv_patch_field.hpp"
 #include "wedge_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class wedgeFvPatchField
 :
@@ -63,12 +64,12 @@ public:
       const wedgeFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new wedgeFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new wedgeFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     wedgeFvPatchField
@@ -77,28 +78,29 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new wedgeFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new wedgeFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
       //- Return gradient at boundary
-      virtual tmp<Field<Type> > snGrad() const;
+      virtual tmp<Field<Type>> snGrad() const;
       //- Evaluate the patch field
       virtual void evaluate
       (
         const Pstream::commsTypes commsType=Pstream::blocking
       );
       //- Return face-gradient transform diagonal
-      virtual tmp<Field<Type> > snGradTransformDiag() const;
+      virtual tmp<Field<Type>> snGradTransformDiag() const;
 };
+
 // Template Specialisations 
 template<>
 tmp<scalarField > wedgeFvPatchField<scalar>::snGrad() const;
@@ -107,8 +109,10 @@ void wedgeFvPatchField<scalar>::evaluate
 (
   const Pstream::commsTypes commsType
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "wedge_fv_patch_field.cpp"
-#endif
+
+
+#include "wedge_fv_patch_field.ipp"
+
 #endif

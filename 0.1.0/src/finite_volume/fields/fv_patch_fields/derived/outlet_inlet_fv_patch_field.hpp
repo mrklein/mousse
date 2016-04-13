@@ -37,11 +37,12 @@
 //   mousse::mixedFvPatchField
 //   mousse::zeroGradientFvPatchField
 //   mousse::inletOutletFvPatchField
-// SourceFiles
-//   outlet_inlet_fv_patch_field.cpp
+
 #include "mixed_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class outletInletFvPatchField
 :
@@ -82,12 +83,12 @@ public:
       const outletInletFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new outletInletFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new outletInletFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     outletInletFvPatchField
@@ -96,15 +97,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new outletInletFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new outletInletFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     //- Update the coefficients associated with the patch field
@@ -113,7 +114,7 @@ public:
     virtual void write(Ostream&) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "outlet_inlet_fv_patch_field.cpp"
-#endif
+
+#include "outlet_inlet_fv_patch_field.ipp"
+
 #endif

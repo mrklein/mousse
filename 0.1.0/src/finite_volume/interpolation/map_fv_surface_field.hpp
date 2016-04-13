@@ -7,8 +7,10 @@
 
 #include "field.hpp"
 #include "surface_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type, class MeshMapper>
 class MapInternalField<Type, MeshMapper, surfaceMesh>
 {
@@ -21,6 +23,8 @@ public:
     const MeshMapper& mapper
   ) const;
 };
+
+
 template<class Type, class MeshMapper>
 void MapInternalField<Type, MeshMapper, surfaceMesh>::operator()
 (
@@ -28,8 +32,7 @@ void MapInternalField<Type, MeshMapper, surfaceMesh>::operator()
   const MeshMapper& mapper
 ) const
 {
-  if (field.size() != mapper.surfaceMap().sizeBeforeMapping())
-  {
+  if (field.size() != mapper.surfaceMap().sizeBeforeMapping()) {
     FATAL_ERROR_IN
     (
       "void MapInternalField<Type, MeshMapper, surfaceMesh>::operator()\n"
@@ -37,20 +40,21 @@ void MapInternalField<Type, MeshMapper, surfaceMesh>::operator()
       "    Field<Type>& field,\n"
       "    const MeshMapper& mapper\n"
       ") const"
-    )  << "Incompatible size before mapping.  Field size: " << field.size()
-     << " map size: " << mapper.surfaceMap().sizeBeforeMapping()
-     << abort(FatalError);
+    )
+    << "Incompatible size before mapping.  Field size: " << field.size()
+    << " map size: " << mapper.surfaceMap().sizeBeforeMapping()
+    << abort(FatalError);
   }
   field.autoMap(mapper.surfaceMap());
   // Flip the flux
   const labelList flipFaces = mapper.surfaceMap().flipFaceFlux().toc();
-  FOR_ALL(flipFaces, i)
-  {
-    if (flipFaces[i] < field.size())
-    {
+  FOR_ALL(flipFaces, i) {
+    if (flipFaces[i] < field.size()) {
       field[flipFaces[i]] *= -1.0;
     }
   }
 }
+
 }  // namespace mousse
+
 #endif

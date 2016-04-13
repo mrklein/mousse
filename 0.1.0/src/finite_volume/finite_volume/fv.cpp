@@ -3,8 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "fv.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(fv, 0);
+
 }
+

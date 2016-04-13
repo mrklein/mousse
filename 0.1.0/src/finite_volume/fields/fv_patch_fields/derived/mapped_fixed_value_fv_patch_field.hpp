@@ -46,15 +46,12 @@
 //   mousse::mappedPatchBase
 //   mousse::interpolation
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   mapped_fixed_value_fv_patch_field.cpp
-
 
 #include "fixed_value_fv_patch_fields.hpp"
 #include "mapped_patch_field_base.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 template<class Type>
 class mappedFixedValueFvPatchField
@@ -111,11 +108,11 @@ public:
     );
 
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
+      return tmp<fvPatchField<Type>>
       {
-        new mappedFixedValueFvPatchField<Type>(*this)
+        new mappedFixedValueFvPatchField<Type>{*this}
       };
     }
 
@@ -127,12 +124,12 @@ public:
     );
 
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
+      return tmp<fvPatchField<Type>>
       {
         new mappedFixedValueFvPatchField<Type>{*this, iF}
       };
@@ -151,7 +148,7 @@ public:
 };
 
 }  // namespace mousse
-#ifdef NoRepository
-#   include "mapped_fixed_value_fv_patch_field.cpp"
-#endif
+
+#include "mapped_fixed_value_fv_patch_field.ipp"
+
 #endif

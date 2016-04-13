@@ -9,9 +9,6 @@
 // Description
 //   Skewness-corrected interpolation scheme that applies an explicit
 //   correction to given scheme.
-// SourceFiles
-//   skew_corrected.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "skew_correction_vectors.hpp"
@@ -19,15 +16,16 @@
 #include "gauss_grad.hpp"
 #include "time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class skewCorrected
 :
   public surfaceInterpolationScheme<Type>
 {
   // Private member data
-    tmp<surfaceInterpolationScheme<Type> > tScheme_;
+    tmp<surfaceInterpolationScheme<Type>> tScheme_;
 public:
   //- Runtime type information
   TYPE_NAME("skewCorrected");
@@ -39,11 +37,11 @@ public:
       Istream& is
     )
     :
-      surfaceInterpolationScheme<Type>(mesh),
+      surfaceInterpolationScheme<Type>{mesh},
       tScheme_
-      (
+      {
         surfaceInterpolationScheme<Type>::New(mesh, is)
-      )
+      }
     {}
     //- Construct from mesh, faceFlux and Istream
     skewCorrected
@@ -76,10 +74,9 @@ public:
     virtual bool corrected() const
     {
       return
-        tScheme_().corrected()
-      || skewCorrectionVectors::New(this->mesh()).skew();
+        tScheme_().corrected() || skewCorrectionVectors::New(this->mesh()).skew();
     }
-    tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     skewCorrection
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
@@ -87,27 +84,21 @@ public:
     {
       const fvMesh& mesh = this->mesh();
       const skewCorrectionVectors& scv = skewCorrectionVectors::New(mesh);
-      tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > tsfCorr
-      (
+      tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> tsfCorr
+      {
         new GeometricField<Type, fvsPatchField, surfaceMesh>
-        (
-          IOobject
-          (
+        {
+          {
             "skewCorrected::skewCorrection(" + vf.name() + ')',
             mesh.time().timeName(),
             mesh
-          ),
+          },
           mesh,
-          dimensioned<Type>
-          (
-            vf.name(),
-            vf.dimensions(),
-            pTraits<Type>::zero
-          )
-        )
-      );
-      for (direction cmpt=0; cmpt<pTraits<Type>::nComponents; cmpt++)
-      {
+          // dimensioned<Type>
+          {vf.name(), vf.dimensions(), pTraits<Type>::zero}
+        }
+      };
+      for (direction cmpt=0; cmpt<pTraits<Type>::nComponents; cmpt++) {
         tsfCorr().replace
         (
           cmpt,
@@ -128,37 +119,27 @@ public:
       return tsfCorr;
     }
     //- Return the explicit correction to the face-interpolate
-    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
+    virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>
     correction
     (
       const GeometricField<Type, fvPatchField, volMesh>& vf
     ) const
     {
-      if
-      (
-        tScheme_().corrected()
-      && skewCorrectionVectors::New(this->mesh()).skew()
-      )
-      {
+      if (tScheme_().corrected()
+          && skewCorrectionVectors::New(this->mesh()).skew()) {
         return tScheme_().correction(vf) + skewCorrection(vf);
-      }
-      else if (tScheme_().corrected())
-      {
+      } else if (tScheme_().corrected()) {
         return tScheme_().correction(vf);
-      }
-      else if (skewCorrectionVectors::New(this->mesh()).skew())
-      {
+      } else if (skewCorrectionVectors::New(this->mesh()).skew()) {
         return skewCorrection(vf);
-      }
-      else
-      {
+      } else {
         return
-          tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
-          (
-            NULL
-          );
+          tmp<GeometricField<Type, fvsPatchField, surfaceMesh>>{NULL};
       }
     }
 };
+
 }  // namespace mousse
+
 #endif
+

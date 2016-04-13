@@ -5,8 +5,9 @@
 #include "average_io_field.hpp"
 #include "field_types.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Static Data Members
 typedef AverageIOField<scalar> scalarAverageIOField;
 typedef AverageIOField<vector> vectorAverageIOField;

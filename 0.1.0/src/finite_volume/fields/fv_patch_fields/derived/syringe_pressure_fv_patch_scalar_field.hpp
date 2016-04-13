@@ -50,11 +50,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   syringe_pressure_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class syringePressureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -119,9 +120,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new syringePressureFvPatchScalarField(*this)
-      );
+      {
+        new syringePressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy
     syringePressureFvPatchScalarField
@@ -141,9 +142,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new syringePressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new syringePressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions

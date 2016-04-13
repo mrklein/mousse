@@ -27,11 +27,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::transformFvPatchField
-// SourceFiles
-//   partial_slip_fv_patch_field.cpp
+
 #include "transform_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class partialSlipFvPatchField
 :
@@ -71,12 +72,12 @@ public:
       const partialSlipFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new partialSlipFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new partialSlipFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     partialSlipFvPatchField
@@ -85,15 +86,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new partialSlipFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new partialSlipFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Mapping functions
@@ -119,14 +120,14 @@ public:
       }
     // Evaluation functions
       //- Return gradient at boundary
-      virtual tmp<Field<Type> > snGrad() const;
+      virtual tmp<Field<Type>> snGrad() const;
       //- Evaluate the patch field
       virtual void evaluate
       (
         const Pstream::commsTypes commsType=Pstream::blocking
       );
       //- Return face-gradient transform diagonal
-      virtual tmp<Field<Type> > snGradTransformDiag() const;
+      virtual tmp<Field<Type>> snGradTransformDiag() const;
     //- Write
     virtual void write(Ostream&) const;
   // Member operators
@@ -147,7 +148,7 @@ public:
     virtual void operator/=(const scalar) {}
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "partial_slip_fv_patch_field.cpp"
-#endif
+
+#include "partial_slip_fv_patch_field.ipp"
+
 #endif

@@ -5,9 +5,10 @@
 #include "fv_mesh.hpp"
 #include "blended.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKELIMITED_SURFACE_INTERPOLATION_SCHEME(blended)
 
 }
+

@@ -4,8 +4,8 @@
 
 #include "fv_matrices.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Static Data Members
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(fvScalarMatrix, 0);

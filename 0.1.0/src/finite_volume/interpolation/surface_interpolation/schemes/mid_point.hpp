@@ -8,16 +8,14 @@
 //   mousse::midPoint
 // Description
 //   Mid-point interpolation (weighting factors = 0.5) scheme class.
-// SourceFiles
-//   mid_point.cpp
-
 
 #include "surface_interpolation_scheme.hpp"
 #include "vol_fields.hpp"
 #include "time.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 class midPoint
 :
@@ -57,33 +55,32 @@ public:
     ) const
     {
       tmp<surfaceScalarField> taw
-      (
+      {
         new surfaceScalarField
-        (
-          IOobject
-          (
+        {
+          {
             "midPointWeights",
             this->mesh().time().timeName(),
             this->mesh(),
             IOobject::NO_READ,
             IOobject::NO_WRITE,
             false
-          ),
+          },
           this->mesh(),
-          dimensionedScalar("0.5", dimless, 0.5)
-        )
-      );
-      surfaceScalarField::GeometricBoundaryField& awbf =
-        taw().boundaryField();
-      FOR_ALL(awbf, patchi)
-      {
-        if (!awbf[patchi].coupled())
-        {
+          {"0.5", dimless, 0.5}
+        }
+      };
+      surfaceScalarField::GeometricBoundaryField& awbf = taw().boundaryField();
+      FOR_ALL(awbf, patchi) {
+        if (!awbf[patchi].coupled()) {
           awbf[patchi] = 1.0;
         }
       }
       return taw;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

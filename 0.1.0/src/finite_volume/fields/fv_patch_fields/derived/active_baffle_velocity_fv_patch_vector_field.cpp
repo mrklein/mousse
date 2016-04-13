@@ -9,6 +9,7 @@
 #include "cyclic_fv_patch.hpp"
 #include "time.hpp"
 
+
 // Constructors
 mousse::activeBaffleVelocityFvPatchVectorField::
 activeBaffleVelocityFvPatchVectorField
@@ -17,19 +18,21 @@ activeBaffleVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  pName_("p"),
-  cyclicPatchName_(),
-  cyclicPatchLabel_(-1),
-  orientation_(1),
-  initWallSf_(0),
-  initCyclicSf_(0),
-  nbrCyclicSf_(0),
-  openFraction_(0),
-  openingTime_(0),
-  maxOpenFractionDelta_(0),
-  curTimeIndex_(-1)
+  fixedValueFvPatchVectorField{p, iF},
+  pName_{"p"},
+  cyclicPatchName_{},
+  cyclicPatchLabel_{-1},
+  orientation_{1},
+  initWallSf_{0},
+  initCyclicSf_{0},
+  nbrCyclicSf_{0},
+  openFraction_{0},
+  openingTime_{0},
+  maxOpenFractionDelta_{0},
+  curTimeIndex_{-1}
 {}
+
+
 mousse::activeBaffleVelocityFvPatchVectorField::
 activeBaffleVelocityFvPatchVectorField
 (
@@ -39,19 +42,21 @@ activeBaffleVelocityFvPatchVectorField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchVectorField(ptf, p, iF, mapper),
-  pName_(ptf.pName_),
-  cyclicPatchName_(ptf.cyclicPatchName_),
-  cyclicPatchLabel_(ptf.cyclicPatchLabel_),
-  orientation_(ptf.orientation_),
-  initWallSf_(ptf.initWallSf_),
-  initCyclicSf_(ptf.initCyclicSf_),
-  nbrCyclicSf_(ptf.nbrCyclicSf_),
-  openFraction_(ptf.openFraction_),
-  openingTime_(ptf.openingTime_),
-  maxOpenFractionDelta_(ptf.maxOpenFractionDelta_),
-  curTimeIndex_(-1)
+  fixedValueFvPatchVectorField{ptf, p, iF, mapper},
+  pName_{ptf.pName_},
+  cyclicPatchName_{ptf.cyclicPatchName_},
+  cyclicPatchLabel_{ptf.cyclicPatchLabel_},
+  orientation_{ptf.orientation_},
+  initWallSf_{ptf.initWallSf_},
+  initCyclicSf_{ptf.initCyclicSf_},
+  nbrCyclicSf_{ptf.nbrCyclicSf_},
+  openFraction_{ptf.openFraction_},
+  openingTime_{ptf.openingTime_},
+  maxOpenFractionDelta_{ptf.maxOpenFractionDelta_},
+  curTimeIndex_{-1}
 {}
+
+
 mousse::activeBaffleVelocityFvPatchVectorField::
 activeBaffleVelocityFvPatchVectorField
 (
@@ -60,46 +65,50 @@ activeBaffleVelocityFvPatchVectorField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchVectorField(p, iF),
-  pName_(dict.lookupOrDefault<word>("p", "p")),
-  cyclicPatchName_(dict.lookup("cyclicPatch")),
-  cyclicPatchLabel_(p.patch().boundaryMesh().findPatchID(cyclicPatchName_)),
-  orientation_(readLabel(dict.lookup("orientation"))),
-  initWallSf_(p.Sf()),
-  initCyclicSf_(p.boundaryMesh()[cyclicPatchLabel_].Sf()),
+  fixedValueFvPatchVectorField{p, iF},
+  pName_{dict.lookupOrDefault<word>("p", "p")},
+  cyclicPatchName_{dict.lookup("cyclicPatch")},
+  cyclicPatchLabel_{p.patch().boundaryMesh().findPatchID(cyclicPatchName_)},
+  orientation_{readLabel(dict.lookup("orientation"))},
+  initWallSf_{p.Sf()},
+  initCyclicSf_{p.boundaryMesh()[cyclicPatchLabel_].Sf()},
   nbrCyclicSf_
-  (
+  {
     refCast<const cyclicFvPatch>
     (
       p.boundaryMesh()[cyclicPatchLabel_]
     ).neighbFvPatch().Sf()
-  ),
-  openFraction_(readScalar(dict.lookup("openFraction"))),
-  openingTime_(readScalar(dict.lookup("openingTime"))),
-  maxOpenFractionDelta_(readScalar(dict.lookup("maxOpenFractionDelta"))),
-  curTimeIndex_(-1)
+  },
+  openFraction_{readScalar(dict.lookup("openFraction"))},
+  openingTime_{readScalar(dict.lookup("openingTime"))},
+  maxOpenFractionDelta_{readScalar(dict.lookup("maxOpenFractionDelta"))},
+  curTimeIndex_{-1}
 {
   fvPatchVectorField::operator=(vector::zero);
 }
+
+
 mousse::activeBaffleVelocityFvPatchVectorField::
 activeBaffleVelocityFvPatchVectorField
 (
   const activeBaffleVelocityFvPatchVectorField& ptf
 )
 :
-  fixedValueFvPatchVectorField(ptf),
-  pName_(ptf.pName_),
-  cyclicPatchName_(ptf.cyclicPatchName_),
-  cyclicPatchLabel_(ptf.cyclicPatchLabel_),
-  orientation_(ptf.orientation_),
-  initWallSf_(ptf.initWallSf_),
-  initCyclicSf_(ptf.initCyclicSf_),
-  nbrCyclicSf_(ptf.nbrCyclicSf_),
-  openFraction_(ptf.openFraction_),
-  openingTime_(ptf.openingTime_),
-  maxOpenFractionDelta_(ptf.maxOpenFractionDelta_),
-  curTimeIndex_(-1)
+  fixedValueFvPatchVectorField{ptf},
+  pName_{ptf.pName_},
+  cyclicPatchName_{ptf.cyclicPatchName_},
+  cyclicPatchLabel_{ptf.cyclicPatchLabel_},
+  orientation_{ptf.orientation_},
+  initWallSf_{ptf.initWallSf_},
+  initCyclicSf_{ptf.initCyclicSf_},
+  nbrCyclicSf_{ptf.nbrCyclicSf_},
+  openFraction_{ptf.openFraction_},
+  openingTime_{ptf.openingTime_},
+  maxOpenFractionDelta_{ptf.maxOpenFractionDelta_},
+  curTimeIndex_{-1}
 {}
+
+
 mousse::activeBaffleVelocityFvPatchVectorField::
 activeBaffleVelocityFvPatchVectorField
 (
@@ -107,19 +116,20 @@ activeBaffleVelocityFvPatchVectorField
   const DimensionedField<vector, volMesh>& iF
 )
 :
-  fixedValueFvPatchVectorField(ptf, iF),
-  pName_(ptf.pName_),
-  cyclicPatchName_(ptf.cyclicPatchName_),
-  cyclicPatchLabel_(ptf.cyclicPatchLabel_),
-  orientation_(ptf.orientation_),
-  initWallSf_(ptf.initWallSf_),
-  initCyclicSf_(ptf.initCyclicSf_),
-  nbrCyclicSf_(ptf.nbrCyclicSf_),
-  openFraction_(ptf.openFraction_),
-  openingTime_(ptf.openingTime_),
-  maxOpenFractionDelta_(ptf.maxOpenFractionDelta_),
-  curTimeIndex_(-1)
+  fixedValueFvPatchVectorField{ptf, iF},
+  pName_{ptf.pName_},
+  cyclicPatchName_{ptf.cyclicPatchName_},
+  cyclicPatchLabel_{ptf.cyclicPatchLabel_},
+  orientation_{ptf.orientation_},
+  initWallSf_{ptf.initWallSf_},
+  initCyclicSf_{ptf.initCyclicSf_},
+  nbrCyclicSf_{ptf.nbrCyclicSf_},
+  openFraction_{ptf.openFraction_},
+  openingTime_{ptf.openingTime_},
+  maxOpenFractionDelta_{ptf.maxOpenFractionDelta_},
+  curTimeIndex_{-1}
 {}
+
 
 // Member Functions
 void mousse::activeBaffleVelocityFvPatchVectorField::autoMap
@@ -148,6 +158,8 @@ void mousse::activeBaffleVelocityFvPatchVectorField::autoMap
     ]
   ).neighbFvPatch().patch().patchSlice(areas);
 }
+
+
 void mousse::activeBaffleVelocityFvPatchVectorField::rmap
 (
   const fvPatchVectorField& ptf,
@@ -170,19 +182,16 @@ void mousse::activeBaffleVelocityFvPatchVectorField::rmap
     ]
   ).neighbFvPatch().patch().patchSlice(areas);
 }
+
+
 void mousse::activeBaffleVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   // Execute the change to the openFraction only once per time-step
-  if (curTimeIndex_ != this->db().time().timeIndex())
-  {
-    const volScalarField& p = db().lookupObject<volScalarField>
-    (
-      pName_
-    );
+  if (curTimeIndex_ != this->db().time().timeIndex()) {
+    const volScalarField& p = db().lookupObject<volScalarField>(pName_);
     const fvPatch& cyclicPatch = patch().boundaryMesh()[cyclicPatchLabel_];
     const labelList& cyclicFaceCells = cyclicPatch.patch().faceCells();
     const fvPatch& nbrPatch = refCast<const cyclicFvPatch>
@@ -192,13 +201,11 @@ void mousse::activeBaffleVelocityFvPatchVectorField::updateCoeffs()
     const labelList& nbrFaceCells = nbrPatch.patch().faceCells();
     scalar forceDiff = 0;
     // Add this side
-    FOR_ALL(cyclicFaceCells, facei)
-    {
+    FOR_ALL(cyclicFaceCells, facei) {
       forceDiff += p[cyclicFaceCells[facei]]*mag(initCyclicSf_[facei]);
     }
     // Remove other side
-    FOR_ALL(nbrFaceCells, facei)
-    {
+    FOR_ALL(nbrFaceCells, facei) {
       forceDiff -= p[nbrFaceCells[facei]]*mag(nbrCyclicSf_[facei]);
     }
     openFraction_ =
@@ -207,21 +214,20 @@ void mousse::activeBaffleVelocityFvPatchVectorField::updateCoeffs()
         min
         (
           openFraction_
-         + min
+          + min
           (
             this->db().time().deltaTValue()/openingTime_,
             maxOpenFractionDelta_
           )
-         *(orientation_*sign(forceDiff)),
+          *(orientation_*sign(forceDiff)),
           1 - 1e-6
         ),
         1e-6
       );
-    Info<< "openFraction = " << openFraction_ << endl;
+    Info << "openFraction = " << openFraction_ << endl;
     vectorField::subField Sfw = this->patch().patch().faceAreas();
-    const vectorField newSfw((1 - openFraction_)*initWallSf_);
-    FOR_ALL(Sfw, facei)
-    {
+    const vectorField newSfw{(1 - openFraction_)*initWallSf_};
+    FOR_ALL(Sfw, facei) {
       Sfw[facei] = newSfw[facei];
     }
     const_cast<scalarField&>(patch().magSf()) = mag(patch().Sf());
@@ -239,6 +245,8 @@ void mousse::activeBaffleVelocityFvPatchVectorField::updateCoeffs()
   }
   fixedValueFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::activeBaffleVelocityFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
@@ -256,11 +264,15 @@ void mousse::activeBaffleVelocityFvPatchVectorField::write(Ostream& os) const
   writeEntryIfDifferent<word>(os, "p", "p", pName_);
   writeEntry("value", os);
 }
-namespace mousse
-{
-  MAKE_PATCH_TYPE_FIELD
-  (
-    fvPatchVectorField,
-    activeBaffleVelocityFvPatchVectorField
-  );
+
+
+namespace mousse {
+
+MAKE_PATCH_TYPE_FIELD
+(
+  fvPatchVectorField,
+  activeBaffleVelocityFvPatchVectorField
+);
+
 }
+

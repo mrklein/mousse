@@ -4,10 +4,11 @@
 
 #include "lust.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 MAKE_SURFACE_INTERPOLATION_TYPE_SCHEME(LUST, scalar);
 MAKE_SURFACE_INTERPOLATION_TYPE_SCHEME(LUST, vector);
 
 }
+

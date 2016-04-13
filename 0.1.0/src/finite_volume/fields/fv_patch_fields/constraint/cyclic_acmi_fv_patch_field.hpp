@@ -22,13 +22,14 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::AMIInterpolation
-// SourceFiles
-//   cyclic_acmi_fv_patch_field.cpp
+
 #include "coupled_fv_patch_field.hpp"
 #include "cyclic_acmi_ldu_interface_field.hpp"
 #include "cyclic_acmi_fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class cyclicACMIFvPatchField
 :
@@ -41,7 +42,7 @@ class cyclicACMIFvPatchField
   // Private Member Functions
     //- Return neighbour side field given internal fields
     template<class Type2>
-    tmp<Field<Type2> > neighbourSideField
+    tmp<Field<Type2>> neighbourSideField
     (
       const Field<Type2>&
     ) const;
@@ -73,12 +74,12 @@ public:
     //- Construct as copy
     cyclicACMIFvPatchField(const cyclicACMIFvPatchField<Type>&);
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new cyclicACMIFvPatchField<Type>(*this)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new cyclicACMIFvPatchField<Type>{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     cyclicACMIFvPatchField
@@ -87,15 +88,15 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new cyclicACMIFvPatchField<Type>(*this, iF)
-      );
+      return tmp<fvPatchField<Type>>
+      {
+        new cyclicACMIFvPatchField<Type>{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -115,19 +116,16 @@ public:
       {
         const scalarField& mask =
           cyclicACMIPatch_.cyclicACMIPatch().mask();
-        if (gMax(mask) > 1e-5)
-        {
+        if (gMax(mask) > 1e-5) {
           // regions connected
           return false;
-        }
-        else
-        {
+        } else {
           // fully separated
           return nonOverlapPatchField().fixesValue();
         }
       }
       //- Return neighbour coupled internal cell data
-      virtual tmp<Field<Type> > patchNeighbourField() const;
+      virtual tmp<Field<Type>> patchNeighbourField() const;
       //- Return reference to neighbour patchField
       const cyclicACMIFvPatchField<Type>& neighbourPatchField() const;
       //- Return reference to non-overlapping patchField
@@ -150,7 +148,7 @@ public:
         const Pstream::commsTypes commsType
       ) const;
       //- Return patch-normal gradient
-      virtual tmp<Field<Type> > snGrad
+      virtual tmp<Field<Type>> snGrad
       (
         const scalarField& deltaCoeffs
       ) const;
@@ -168,34 +166,34 @@ public:
       );
       //- Return the matrix diagonal coefficients corresponding to the
       //  evaluation of the value of this patchField with given weights
-      virtual tmp<Field<Type> > valueInternalCoeffs
+      virtual tmp<Field<Type>> valueInternalCoeffs
       (
         const tmp<scalarField>&
       ) const;
       //- Return the matrix source coefficients corresponding to the
       //  evaluation of the value of this patchField with given weights
-      virtual tmp<Field<Type> > valueBoundaryCoeffs
+      virtual tmp<Field<Type>> valueBoundaryCoeffs
       (
         const tmp<scalarField>&
       ) const;
       //- Return the matrix diagonal coefficients corresponding to the
       //  evaluation of the gradient of this patchField
-      virtual tmp<Field<Type> > gradientInternalCoeffs
+      virtual tmp<Field<Type>> gradientInternalCoeffs
       (
         const scalarField& deltaCoeffs
       ) const;
       //- Return the matrix diagonal coefficients corresponding to the
       //  evaluation of the gradient of this patchField
-      virtual tmp<Field<Type> > gradientInternalCoeffs() const;
+      virtual tmp<Field<Type>> gradientInternalCoeffs() const;
       //- Return the matrix source coefficients corresponding to the
       //  evaluation of the gradient of this patchField
-      virtual tmp<Field<Type> > gradientBoundaryCoeffs
+      virtual tmp<Field<Type>> gradientBoundaryCoeffs
       (
         const scalarField& deltaCoeffs
       ) const;
       //- Return the matrix source coefficients corresponding to the
       //  evaluation of the gradient of this patchField
-      virtual tmp<Field<Type> > gradientBoundaryCoeffs() const;
+      virtual tmp<Field<Type>> gradientBoundaryCoeffs() const;
       //- Manipulate matrix
       virtual void manipulateMatrix(fvMatrix<Type>& matrix);
     // Cyclic AMI coupled interface functions
@@ -225,7 +223,7 @@ public:
       virtual void write(Ostream& os) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "cyclic_acmi_fv_patch_field.cpp"
-#endif
+
+#include "cyclic_acmi_fv_patch_field.ipp"
+
 #endif

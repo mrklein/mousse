@@ -41,11 +41,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchScalarField
-// SourceFiles
-//   prgh_pressure_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class prghPressureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -90,10 +91,10 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField >
-      (
-        new prghPressureFvPatchScalarField(*this)
-      );
+      return tmp<fvPatchScalarField>
+      {
+        new prghPressureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     prghPressureFvPatchScalarField
@@ -108,9 +109,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new prghPressureFvPatchScalarField(*this, iF)
-      );
+      {
+        new prghPressureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access

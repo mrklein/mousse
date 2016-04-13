@@ -4,8 +4,8 @@
 
 #include "interpolation.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
 
 // Define the constructor function hash tables
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(interpolation<scalar>, dictionary);
@@ -15,3 +15,4 @@ DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(interpolation<symmTensor>, dictionary);
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE(interpolation<tensor>, dictionary);
 
 }  // namespace mousse
+
