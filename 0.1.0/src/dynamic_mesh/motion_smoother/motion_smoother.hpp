@@ -41,12 +41,13 @@
 //   movement to internal faces.
 //   - Mesh constraints are looked up from the supplied dictionary. (uses
 //   recursive lookup)
-// SourceFiles
-//   motion_smoother.cpp
+
 #include "motion_smoother_data.hpp"
 #include "motion_smoother_algo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class motionSmoother
 :
   public motionSmootherData,
@@ -77,5 +78,8 @@ public:
       const dictionary& paramDict
     );
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -41,18 +41,20 @@
 //   movement to internal faces.
 //   - Mesh constraints are looked up from the supplied dictionary. (uses
 //   recursive lookup)
-// SourceFiles
-//   motion_smoother_algo.cpp
-//   motion_smoother_algo_templates.cpp
+
 #include "point_fields.hpp"
 #include "hash_set.hpp"
 #include "packed_bool_list.hpp"
 #include "indirect_primitive_patch.hpp"
 #include "class_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyMeshGeometry;
 class faceSet;
+
+
 class motionSmootherAlgo
 {
   // Private class
@@ -64,18 +66,13 @@ class motionSmootherAlgo
     public:
       void operator()(vector& x, const vector& y) const
       {
-        for (direction i = 0; i < vector::nComponents; i++)
-        {
+        for (direction i = 0; i < vector::nComponents; i++) {
           scalar magX = mag(x[i]);
           scalar magY = mag(y[i]);
-          if (magX < magY)
-          {
+          if (magX < magY) {
             x[i] = y[i];
-          }
-          else if (magX == magY)
-          {
-            if (y[i] > x[i])
-            {
+          } else if (magX == magY) {
+            if (y[i] > x[i]) {
               x[i] = y[i];
             }
           }
@@ -109,14 +106,14 @@ class motionSmootherAlgo
   // Private Member Functions
     //- Average of connected points.
     template<class Type>
-    tmp<GeometricField<Type, pointPatchField, pointMesh> > avg
+    tmp<GeometricField<Type, pointPatchField, pointMesh>> avg
     (
       const GeometricField<Type, pointPatchField, pointMesh>& fld,
       const scalarField& edgeWeight
     ) const;
     //- Average postion of connected points.
     template<class Type>
-    tmp<GeometricField<Type, pointPatchField, pointMesh> > avgPositions
+    tmp<GeometricField<Type, pointPatchField, pointMesh>> avgPositions
     (
       const GeometricField<Type, pointPatchField, pointMesh>& fld,
       const scalarField& edgeWeight
@@ -378,8 +375,9 @@ public:
           GeometricField<Type, pointPatchField, pointMesh>& newFld
         ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "motion_smoother_algo_templates.cpp"
-#endif
+
+#include "motion_smoother_algo.ipp"
+
 #endif
