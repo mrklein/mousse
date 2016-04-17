@@ -6,28 +6,34 @@
 // q(k) values by k^2 to give the full power spectrum E(k). Integrating
 // this over the whole range gives the energy in turbulence.
 /*======================================================================*/
+
 #include "calc_ek.hpp"
 #include "fft.hpp"
 #include "kmesh.hpp"
 #include "k_shell_integration.hpp"
 #include "vol_fields.hpp"
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 graph calcEk
 (
   const volVectorField& U,
   const Kmesh& K
 )
 {
-  return kShellIntegration
-  (
-    fft::forwardTransform
+  return
+    kShellIntegration
     (
-      ReComplexField(U.internalField()),
-      K.nn()
-    ),
-    K
-  );
+      fft::forwardTransform
+      (
+        ReComplexField(U.internalField()),
+        K.nn()
+      ),
+      K
+    );
 }
+
 }  // namespace mousse
+

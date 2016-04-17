@@ -4,10 +4,15 @@
 
 #include "fft.hpp"
 #include "fft_renumber.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 #define SWAP(a,b) tempr=(a); (a)=(b); (b)=tempr
+
 #define TWOPI 6.28318530717959
+
+
 void fft::transform
 (
   complexField& field,
@@ -15,20 +20,19 @@ void fft::transform
   transformDirection isign
 )
 {
-  FOR_ALL(nn, idim)
-  {
+  FOR_ALL(nn, idim) {
     // Check for power of two
     unsigned int dimCount = nn[idim];
-    if (!dimCount || (dimCount & (dimCount - 1)))
-    {
+    if (!dimCount || (dimCount & (dimCount - 1))) {
       FATAL_ERROR_IN
       (
         "fft::transform(complexField&, const labelList&, "
         "transformDirection)"
-      )   << "number of elements in direction " << idim
-        << " is not a power of 2" << endl
-        << "    Number of elements in each direction = " << nn
-        << abort(FatalError);
+      )
+      << "number of elements in direction " << idim
+      << " is not a power of 2" << endl
+      << "    Number of elements in each direction = " << nn
+      << abort(FatalError);
     }
   }
   const label ndim = nn.size();
@@ -38,32 +42,25 @@ void fft::transform
   scalar theta, wi, wpi, wpr, wr, wtemp;
   scalar* data = reinterpret_cast<scalar*>(field.begin()) - 1;
   // if inverse transform : renumber before transform
-  if (isign == REVERSE_TRANSFORM)
-  {
+  if (isign == REVERSE_TRANSFORM) {
     fftRenumber(field, nn);
   }
   label ntot = 1;
-  FOR_ALL(nn, idim)
-  {
+  FOR_ALL(nn, idim) {
     ntot *= nn[idim];
   }
   nprev = 1;
-  for (idim=ndim; idim>=1; idim--)
-  {
+  for (idim=ndim; idim>=1; idim--) {
     n = nn[idim-1];
     nrem = ntot/(n*nprev);
     ip1 = nprev << 1;
     ip2 = ip1*n;
     ip3 = ip2*nrem;
     i2rev = 1;
-    for (i2=1; i2<=ip2; i2+=ip1)
-    {
-      if (i2 < i2rev)
-      {
-        for (i1=i2; i1<=i2 + ip1 - 2; i1+=2)
-        {
-          for (i3=i1; i3<=ip3; i3+=ip2)
-          {
+    for (i2=1; i2<=ip2; i2+=ip1) {
+      if (i2 < i2rev) {
+        for (i1=i2; i1<=i2 + ip1 - 2; i1+=2) {
+          for (i3=i1; i3<=ip3; i3+=ip2) {
             i3rev = i2rev + i3 - i2;
             SWAP(data[i3], data[i3rev]);
             SWAP(data[i3 + 1], data[i3rev + 1]);
@@ -71,16 +68,14 @@ void fft::transform
         }
       }
       ibit = ip2 >> 1;
-      while (ibit >= ip1 && i2rev > ibit)
-      {
+      while (ibit >= ip1 && i2rev > ibit) {
         i2rev -= ibit;
         ibit >>= 1;
       }
       i2rev += ibit;
     }
     ifp1 = ip1;
-    while (ifp1 < ip2)
-    {
+    while (ifp1 < ip2) {
       ifp2 = ifp1 << 1;
       theta = isign*TWOPI/(ifp2/ip1);
       wtemp = sin(0.5*theta);
@@ -88,12 +83,9 @@ void fft::transform
       wpi = sin(theta);
       wr = 1.0;
       wi = 0.0;
-      for (i3 = 1; i3 <= ifp1; i3 += ip1)
-      {
-        for (i1 = i3; i1 <= i3 + ip1 - 2; i1 += 2)
-        {
-          for (i2 = i1; i2 <= ip3; i2 += ifp2)
-          {
+      for (i3 = 1; i3 <= ifp1; i3 += ip1) {
+        for (i1 = i3; i1 <= i3 + ip1 - 2; i1 += 2) {
+          for (i2 = i1; i2 <= ip3; i2 += ifp2) {
             k1 = i2;
             k2 = k1 + ifp1;
             tempr = scalar(wr*data[k2]) - scalar(wi*data[k2 + 1]);
@@ -112,41 +104,45 @@ void fft::transform
     nprev *= n;
   }
   // if forward transform : renumber after transform
-  if (isign == FORWARD_TRANSFORM)
-  {
+  if (isign == FORWARD_TRANSFORM) {
     fftRenumber(field, nn);
   }
   // scale result (symmetric scale both forward and inverse transform)
   scalar recRootN = 1.0/sqrt(scalar(ntot));
-  FOR_ALL(field, i)
-  {
+  FOR_ALL(field, i) {
     field[i] *= recRootN;
   }
 }
+
 #undef SWAP
 #undef TWOPI
+
 tmp<complexField> fft::forwardTransform
 (
   const tmp<complexField>& tfield,
   const labelList& nn
 )
 {
-  tmp<complexField> tfftField(new complexField(tfield));
+  tmp<complexField> tfftField{new complexField{tfield}};
   transform(tfftField(), nn, FORWARD_TRANSFORM);
   tfield.clear();
   return tfftField;
 }
+
+
 tmp<complexField> fft::reverseTransform
 (
   const tmp<complexField>& tfield,
   const labelList& nn
 )
 {
-  tmp<complexField> tifftField(new complexField(tfield));
+  tmp<complexField> tifftField{new complexField{tfield}};
   transform(tifftField(), nn, REVERSE_TRANSFORM);
   tfield.clear();
   return tifftField;
 }
+
+
 tmp<complexVectorField> fft::forwardTransform
 (
   const tmp<complexVectorField>& tfield,
@@ -154,14 +150,10 @@ tmp<complexVectorField> fft::forwardTransform
 )
 {
   tmp<complexVectorField> tfftVectorField
-  (
-    new complexVectorField
-    (
-      tfield().size()
-    )
-  );
-  for (direction cmpt=0; cmpt<vector::nComponents; cmpt++)
   {
+    new complexVectorField{tfield().size()}
+  };
+  for (direction cmpt=0; cmpt<vector::nComponents; cmpt++) {
     tfftVectorField().replace
     (
       cmpt,
@@ -171,6 +163,8 @@ tmp<complexVectorField> fft::forwardTransform
   tfield.clear();
   return tfftVectorField;
 }
+
+
 tmp<complexVectorField> fft::reverseTransform
 (
   const tmp<complexVectorField>& tfield,
@@ -178,14 +172,10 @@ tmp<complexVectorField> fft::reverseTransform
 )
 {
   tmp<complexVectorField> tifftVectorField
-  (
-    new complexVectorField
-    (
-      tfield().size()
-    )
-  );
-  for (direction cmpt=0; cmpt<vector::nComponents; cmpt++)
   {
+    new complexVectorField{tfield().size()}
+  };
+  for (direction cmpt=0; cmpt<vector::nComponents; cmpt++) {
     tifftVectorField().replace
     (
       cmpt,
@@ -195,4 +185,6 @@ tmp<complexVectorField> fft::reverseTransform
   tfield.clear();
   return tifftVectorField;
 }
+
 }  // namespace mousse
+

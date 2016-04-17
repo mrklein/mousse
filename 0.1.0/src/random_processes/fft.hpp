@@ -13,12 +13,13 @@
 //   direction of transform is supplied as an argument (1 = forward, -1 =
 //   reverse).  The dimensionality and organisation of the array of values
 //   in space is supplied in the nn indexing array.
-// SourceFiles
-//   fft.cpp
+
 #include "complex_fields.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fft
 {
 public:
@@ -54,5 +55,8 @@ public:
     const labelList& nn
   );
 };
+
 }  // namespace mousse
+
 #endif
+

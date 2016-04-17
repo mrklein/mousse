@@ -9,11 +9,12 @@
 // Description
 //   Calculate the wavenumber vector field corresponding to the
 //   space vector field of a finite volume mesh;
-// SourceFiles
-//   kmesh.cpp
+
 #include "fv_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Kmesh
 :
   public vectorField
@@ -53,5 +54,8 @@ public:
       return kmax_;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

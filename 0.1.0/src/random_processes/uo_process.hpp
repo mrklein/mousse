@@ -8,15 +8,18 @@
 //   mousse::UOprocess
 // Description
 //   Random UO process.
-// SourceFiles
-//   uo_process.cpp
+
 #include "complex_fields.hpp"
 #include "scalar.hpp"
 #include "random.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Kmesh;
 class dictionary;
+
+
 class UOprocess
 {
   // Private data
@@ -43,5 +46,8 @@ public:
   // Member Functions
     const complexVectorField& newField();
 };
+
 }  // namespace mousse
+
 #endif
+
