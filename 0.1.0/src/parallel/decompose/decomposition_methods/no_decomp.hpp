@@ -8,11 +8,12 @@
 //   mousse::noDecomp
 // Description
 //   Dummy decomposition method
-// SourceFiles
-//   no_decomp.cpp
+
 #include "decomposition_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class noDecomp
 :
   public decompositionMethod
@@ -64,5 +65,8 @@ public:
       return labelList(globalCellCells.size(), Pstream::myProcNo());
     }
 };
+
 }  // namespace mousse
+
 #endif
+

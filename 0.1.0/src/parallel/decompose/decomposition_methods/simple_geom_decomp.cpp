@@ -7,16 +7,21 @@
 #include "sortable_list.hpp"
 #include "global_index.hpp"
 #include "sub_field.hpp"
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(simpleGeomDecomp, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    decompositionMethod,
-    simpleGeomDecomp,
-    dictionary
-  );
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(simpleGeomDecomp, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  decompositionMethod,
+  simpleGeomDecomp,
+  dictionary
+);
+
 }
+
+
 // assignToProcessorGroup : given nCells cells and nProcGroup processor
 // groups to share them, how do we share them out? Answer : each group
 // gets nCells/nProcGroup cells, and the first few get one
@@ -35,22 +40,20 @@ void mousse::simpleGeomDecomp::assignToProcessorGroup
   label j = 0;
   // assign cells to the first few processor groups (those with
   // one extra cell each
-  for (j=0; j<fstProcessorGroup; j++)
-  {
-    for (label k=0; k<jumpb; k++)
-    {
+  for (j=0; j<fstProcessorGroup; j++) {
+    for (label k=0; k<jumpb; k++) {
       processorGroup[ind++] = j;
     }
   }
   // and now to the `normal' processor groups
-  for (; j<nProcGroup; j++)
-  {
-    for (label k=0; k<jump; k++)
-    {
+  for (; j<nProcGroup; j++) {
+    for (label k=0; k<jump; k++) {
       processorGroup[ind++] = j;
     }
   }
 }
+
+
 void mousse::simpleGeomDecomp::assignToProcessorGroup
 (
   labelList& processorGroup,
@@ -75,76 +78,73 @@ void mousse::simpleGeomDecomp::assignToProcessorGroup
   label ind = 0;
   label j = 0;
   // assign cells to all except last group.
-  for (j=0; j<nProcGroupM1; j++)
-  {
+  for (j=0; j<nProcGroupM1; j++) {
     const scalar limit = jump*scalar(j + 1);
-    while (sumWeights < limit)
-    {
+    while (sumWeights < limit) {
       sumWeights += weights[indices[ind]];
       processorGroup[ind++] = j;
     }
   }
   // Ensure last included.
-  while (ind < processorGroup.size())
-  {
-   processorGroup[ind++] = nProcGroupM1;
+  while (ind < processorGroup.size()) {
+    processorGroup[ind++] = nProcGroupM1;
   }
 }
+
+
 mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
 (
   const pointField& points
 ) const
 {
   // construct a list for the final result
-  labelList finalDecomp(points.size());
-  labelList processorGroups(points.size());
-  labelList pointIndices(points.size());
-  FOR_ALL(pointIndices, i)
-  {
+  labelList finalDecomp{points.size()};
+  labelList processorGroups{points.size()};
+  labelList pointIndices{points.size()};
+  FOR_ALL(pointIndices, i) {
     pointIndices[i] = i;
   }
-  const pointField rotatedPoints(rotDelta_ & points);
+  const pointField rotatedPoints{rotDelta_ & points};
   // and one to take the processor group id's. For each direction.
   // we assign the processors to groups of processors labelled
   // 0..nX to give a banded structure on the mesh. Then we
   // construct the actual processor number by treating this as
   // the units part of the processor number.
   sort
-  (
-    pointIndices,
-    UList<scalar>::less(rotatedPoints.component(vector::X))
-  );
+    (
+      pointIndices,
+      UList<scalar>::less(rotatedPoints.component(vector::X))
+    );
   assignToProcessorGroup(processorGroups, n_.x());
-  FOR_ALL(points, i)
-  {
+  FOR_ALL(points, i) {
     finalDecomp[pointIndices[i]] = processorGroups[i];
   }
   // now do the same thing in the Y direction. These processor group
   // numbers add multiples of nX to the proc. number (columns)
   sort
-  (
-    pointIndices,
-    UList<scalar>::less(rotatedPoints.component(vector::Y))
-  );
+    (
+      pointIndices,
+      UList<scalar>::less(rotatedPoints.component(vector::Y))
+    );
   assignToProcessorGroup(processorGroups, n_.y());
-  FOR_ALL(points, i)
-  {
+  FOR_ALL(points, i) {
     finalDecomp[pointIndices[i]] += n_.x()*processorGroups[i];
   }
   // finally in the Z direction. Now we add multiples of nX*nY to give
   // layers
   sort
-  (
-    pointIndices,
-    UList<scalar>::less(rotatedPoints.component(vector::Z))
-  );
+    (
+      pointIndices,
+      UList<scalar>::less(rotatedPoints.component(vector::Z))
+    );
   assignToProcessorGroup(processorGroups, n_.z());
-  FOR_ALL(points, i)
-  {
+  FOR_ALL(points, i) {
     finalDecomp[pointIndices[i]] += n_.x()*n_.y()*processorGroups[i];
   }
   return finalDecomp;
 }
+
+
 mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
 (
   const pointField& points,
@@ -152,218 +152,184 @@ mousse::labelList mousse::simpleGeomDecomp::decomposeOneProc
 ) const
 {
   // construct a list for the final result
-  labelList finalDecomp(points.size());
-  labelList processorGroups(points.size());
-  labelList pointIndices(points.size());
-  FOR_ALL(pointIndices, i)
-  {
+  labelList finalDecomp{points.size()};
+  labelList processorGroups{points.size()};
+  labelList pointIndices{points.size()};
+  FOR_ALL(pointIndices, i) {
     pointIndices[i] = i;
   }
+  typedef UList<scalar>::less less;
   const pointField rotatedPoints(rotDelta_ & points);
   // and one to take the processor group id's. For each direction.
   // we assign the processors to groups of processors labelled
   // 0..nX to give a banded structure on the mesh. Then we
   // construct the actual processor number by treating this as
   // the units part of the processor number.
-  sort
-  (
-    pointIndices,
-    UList<scalar>::less(rotatedPoints.component(vector::X))
-  );
+  sort(pointIndices, less(rotatedPoints.component(vector::X)));
   const scalar summedWeights = sum(weights);
   assignToProcessorGroup
-  (
-    processorGroups,
-    n_.x(),
-    pointIndices,
-    weights,
-    summedWeights
-  );
-  FOR_ALL(points, i)
-  {
+    (
+      processorGroups,
+      n_.x(),
+      pointIndices,
+      weights,
+      summedWeights
+    );
+  FOR_ALL(points, i) {
     finalDecomp[pointIndices[i]] = processorGroups[i];
   }
   // now do the same thing in the Y direction. These processor group
   // numbers add multiples of nX to the proc. number (columns)
-  sort
-  (
-    pointIndices,
-    UList<scalar>::less(rotatedPoints.component(vector::Y))
-  );
+  sort(pointIndices, less(rotatedPoints.component(vector::Y)));
   assignToProcessorGroup
-  (
-    processorGroups,
-    n_.y(),
-    pointIndices,
-    weights,
-    summedWeights
-  );
-  FOR_ALL(points, i)
-  {
+    (
+      processorGroups,
+      n_.y(),
+      pointIndices,
+      weights,
+      summedWeights
+    );
+  FOR_ALL(points, i) {
     finalDecomp[pointIndices[i]] += n_.x()*processorGroups[i];
   }
   // finally in the Z direction. Now we add multiples of nX*nY to give
   // layers
-  sort
-  (
-    pointIndices,
-    UList<scalar>::less(rotatedPoints.component(vector::Z))
-  );
+  sort(pointIndices, less(rotatedPoints.component(vector::Z)));
   assignToProcessorGroup
-  (
-    processorGroups,
-    n_.z(),
-    pointIndices,
-    weights,
-    summedWeights
-  );
-  FOR_ALL(points, i)
-  {
+    (
+      processorGroups,
+      n_.z(),
+      pointIndices,
+      weights,
+      summedWeights
+    );
+  FOR_ALL(points, i) {
     finalDecomp[pointIndices[i]] += n_.x()*n_.y()*processorGroups[i];
   }
   return finalDecomp;
 }
+
+
 // Constructors 
 mousse::simpleGeomDecomp::simpleGeomDecomp(const dictionary& decompositionDict)
 :
   geomDecomp(decompositionDict, typeName)
 {}
+
+
 // Member Functions 
 mousse::labelList mousse::simpleGeomDecomp::decompose
 (
   const pointField& points
 )
 {
-  if (!Pstream::parRun())
-  {
+  if (!Pstream::parRun()) {
     return decomposeOneProc(points);
-  }
-  else
-  {
-    globalIndex globalNumbers(points.size());
+  } else {
+    globalIndex globalNumbers{points.size()};
     // Collect all points on master
-    if (Pstream::master())
-    {
-      pointField allPoints(globalNumbers.size());
+    if (Pstream::master()) {
+      pointField allPoints{globalNumbers.size()};
       label nTotalPoints = 0;
       // Master first
-      SubField<point>(allPoints, points.size()).assign(points);
+      SubField<point>{allPoints, points.size()}.assign(points);
       nTotalPoints += points.size();
       // Add slaves
-      for (int slave=1; slave<Pstream::nProcs(); slave++)
-      {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        pointField nbrPoints(fromSlave);
-        SubField<point>
-        (
-          allPoints,
-          nbrPoints.size(),
-          nTotalPoints
-        ).assign(nbrPoints);
+      for (int slave=1; slave<Pstream::nProcs(); slave++) {
+        IPstream fromSlave{Pstream::scheduled, slave};
+        pointField nbrPoints{fromSlave};
+        SubField<point>{allPoints, nbrPoints.size(), nTotalPoints}
+          .assign(nbrPoints);
         nTotalPoints += nbrPoints.size();
       }
       // Decompose
-      labelList finalDecomp(decomposeOneProc(allPoints));
+      labelList finalDecomp{decomposeOneProc(allPoints)};
       // Send back
-      for (int slave=1; slave<Pstream::nProcs(); slave++)
-      {
-        OPstream toSlave(Pstream::scheduled, slave);
-        toSlave << SubField<label>
-        (
-          finalDecomp,
-          globalNumbers.localSize(slave),
-          globalNumbers.offset(slave)
-        );
+      for (int slave=1; slave<Pstream::nProcs(); slave++) {
+        OPstream toSlave{Pstream::scheduled, slave};
+        toSlave <<
+          SubField<label>
+          {
+            finalDecomp,
+            globalNumbers.localSize(slave),
+            globalNumbers.offset(slave)
+          };
       }
       // Get my own part
       finalDecomp.setSize(points.size());
       return finalDecomp;
-    }
-    else
-    {
+    } else {
       // Send my points
       {
-        OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+        OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
         toMaster<< points;
       }
       // Receive back decomposition
-      IPstream fromMaster(Pstream::scheduled, Pstream::masterNo());
-      labelList finalDecomp(fromMaster);
+      IPstream fromMaster{Pstream::scheduled, Pstream::masterNo()};
+      labelList finalDecomp{fromMaster};
       return finalDecomp;
     }
   }
 }
+
+
 mousse::labelList mousse::simpleGeomDecomp::decompose
 (
   const pointField& points,
   const scalarField& weights
 )
 {
-  if (!Pstream::parRun())
-  {
+  if (!Pstream::parRun()) {
     return decomposeOneProc(points, weights);
-  }
-  else
-  {
-    globalIndex globalNumbers(points.size());
+  } else {
+    globalIndex globalNumbers{points.size()};
     // Collect all points on master
-    if (Pstream::master())
-    {
-      pointField allPoints(globalNumbers.size());
-      scalarField allWeights(allPoints.size());
+    if (Pstream::master()) {
+      pointField allPoints{globalNumbers.size()};
+      scalarField allWeights{allPoints.size()};
       label nTotalPoints = 0;
       // Master first
-      SubField<point>(allPoints, points.size()).assign(points);
-      SubField<scalar>(allWeights, points.size()).assign(weights);
+      SubField<point>{allPoints, points.size()}.assign(points);
+      SubField<scalar>{allWeights, points.size()}.assign(weights);
       nTotalPoints += points.size();
       // Add slaves
-      for (int slave=1; slave<Pstream::nProcs(); slave++)
-      {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        pointField nbrPoints(fromSlave);
-        scalarField nbrWeights(fromSlave);
-        SubField<point>
-        (
-          allPoints,
-          nbrPoints.size(),
-          nTotalPoints
-        ).assign(nbrPoints);
-        SubField<scalar>
-        (
-          allWeights,
-          nbrWeights.size(),
-          nTotalPoints
-        ).assign(nbrWeights);
+      for (int slave=1; slave<Pstream::nProcs(); slave++) {
+        IPstream fromSlave{Pstream::scheduled, slave};
+        pointField nbrPoints{fromSlave};
+        scalarField nbrWeights{fromSlave};
+        SubField<point>(allPoints, nbrPoints.size(), nTotalPoints)
+          .assign(nbrPoints);
+        SubField<scalar>(allWeights, nbrWeights.size(), nTotalPoints)
+          .assign(nbrWeights);
         nTotalPoints += nbrPoints.size();
       }
       // Decompose
-      labelList finalDecomp(decomposeOneProc(allPoints, allWeights));
+      labelList finalDecomp{decomposeOneProc(allPoints, allWeights)};
       // Send back
-      for (int slave=1; slave<Pstream::nProcs(); slave++)
-      {
-        OPstream toSlave(Pstream::scheduled, slave);
-        toSlave << SubField<label>
-        (
-          finalDecomp,
-          globalNumbers.localSize(slave),
-          globalNumbers.offset(slave)
-        );
+      for (int slave=1; slave<Pstream::nProcs(); slave++) {
+        OPstream toSlave{Pstream::scheduled, slave};
+        toSlave <<
+          SubField<label>
+          {
+            finalDecomp,
+            globalNumbers.localSize(slave),
+            globalNumbers.offset(slave)
+          };
       }
       // Get my own part
       finalDecomp.setSize(points.size());
       return finalDecomp;
-    }
-    else
-    {
+    } else {
       // Send my points
       {
-        OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+        OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
         toMaster<< points << weights;
       }
       // Receive back decomposition
-      IPstream fromMaster(Pstream::scheduled, Pstream::masterNo());
-      labelList finalDecomp(fromMaster);
+      IPstream fromMaster{Pstream::scheduled, Pstream::masterNo()};
+      labelList finalDecomp{fromMaster};
       return finalDecomp;
     }
   }
 }
+

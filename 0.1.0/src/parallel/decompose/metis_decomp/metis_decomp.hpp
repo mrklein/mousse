@@ -8,11 +8,12 @@
 //   mousse::metisDecomp
 // Description
 //   Metis domain decomposition
-// SourceFiles
-//   metis_decomp.cpp
+
 #include "decomposition_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class metisDecomp
 :
   public decompositionMethod
@@ -84,5 +85,8 @@ public:
       const scalarField& cWeights
     );
 };
+
 }  // namespace mousse
+
 #endif
+

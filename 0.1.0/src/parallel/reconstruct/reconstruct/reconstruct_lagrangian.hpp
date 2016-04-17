@@ -4,15 +4,16 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   reconstruct_lagrangian_positions.cpp
-//   reconstruct_lagrangian_fields.cpp
+
 #include "cloud.hpp"
 #include "poly_mesh.hpp"
 #include "ioobject_list.hpp"
 #include "compact_io_field.hpp"
 #include "fv_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 void reconstructLagrangianPositions
 (
   const polyMesh& mesh,
@@ -21,22 +22,25 @@ void reconstructLagrangianPositions
   const PtrList<labelIOList>& faceProcAddressing,
   const PtrList<labelIOList>& cellProcAddressing
 );
+
 template<class Type>
-tmp<IOField<Type> > reconstructLagrangianField
+tmp<IOField<Type>> reconstructLagrangianField
 (
   const word& cloudName,
   const polyMesh& mesh,
   const PtrList<fvMesh>& meshes,
   const word& fieldName
 );
+
 template<class Type>
-tmp<CompactIOField<Field<Type>, Type> > reconstructLagrangianFieldField
+tmp<CompactIOField<Field<Type>, Type>> reconstructLagrangianFieldField
 (
   const word& cloudName,
   const polyMesh& mesh,
   const PtrList<fvMesh>& meshes,
   const word& fieldName
 );
+
 template<class Type>
 void reconstructLagrangianFields
 (
@@ -46,6 +50,7 @@ void reconstructLagrangianFields
   const IOobjectList& objects,
   const HashSet<word>& selectedFields
 );
+
 template<class Type>
 void reconstructLagrangianFieldFields
 (
@@ -55,8 +60,9 @@ void reconstructLagrangianFieldFields
   const IOobjectList& objects,
   const HashSet<word>& selectedFields
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "reconstruct_lagrangian_fields.cpp"
-#endif
+
+#include "reconstruct_lagrangian_fields.ipp"
+
 #endif

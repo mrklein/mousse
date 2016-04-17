@@ -9,10 +9,13 @@
 #include "ofstream.hpp"
 #include "global_index.hpp"
 #include "sub_field.hpp"
+
+
 extern "C"
 {
 #include "scotch.h"
 }
+
 // Hack: scotch generates floating point errors so need to switch of error
 //       trapping!
 #ifdef __GLIBC__
@@ -21,26 +24,32 @@ extern "C"
 #   endif
 #   include <fenv.h>
 #endif
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(scotchDecomp, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    decompositionMethod,
-    scotchDecomp,
-    dictionary
-  );
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(scotchDecomp, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  decompositionMethod,
+  scotchDecomp,
+  dictionary
+);
+
 }
+
+
 // Private Member Functions 
 void mousse::scotchDecomp::check(const int retVal, const char* str)
 {
-  if (retVal)
-  {
+  if (retVal) {
     FATAL_ERROR_IN("scotchDecomp::decompose(..)")
       << "Call to scotch routine " << str << " failed."
       << exit(FatalError);
   }
 }
+
+
 mousse::label mousse::scotchDecomp::decompose
 (
   const fileName& meshPath,
@@ -50,106 +59,77 @@ mousse::label mousse::scotchDecomp::decompose
   List<label>& finalDecomp
 )
 {
-  if (!Pstream::parRun())
-  {
-    decomposeOneProc
-    (
-      meshPath,
-      adjncy,
-      xadj,
-      cWeights,
-      finalDecomp
-    );
-  }
-  else
-  {
-    if (debug)
-    {
-      Info<< "scotchDecomp : running in parallel."
+  if (!Pstream::parRun()) {
+    decomposeOneProc(meshPath, adjncy, xadj, cWeights, finalDecomp);
+  } else {
+    if (debug) {
+      Info << "scotchDecomp : running in parallel."
         << " Decomposing all of graph on master processor." << endl;
     }
-    globalIndex globalCells(xadj.size()-1);
+    globalIndex globalCells{xadj.size() - 1};
     label nTotalConnections = returnReduce(adjncy.size(), sumOp<label>());
     // Send all to master. Use scheduled to save some storage.
-    if (Pstream::master())
-    {
-      Field<label> allAdjncy(nTotalConnections);
-      Field<label> allXadj(globalCells.size()+1);
-      scalarField allWeights(globalCells.size());
+    if (Pstream::master()) {
+      Field<label> allAdjncy{nTotalConnections};
+      Field<label> allXadj{globalCells.size()+1};
+      scalarField allWeights{globalCells.size()};
       // Insert my own
       label nTotalCells = 0;
-      FOR_ALL(cWeights, cellI)
-      {
+      FOR_ALL(cWeights, cellI) {
         allXadj[nTotalCells] = xadj[cellI];
         allWeights[nTotalCells++] = cWeights[cellI];
       }
       nTotalConnections = 0;
-      FOR_ALL(adjncy, i)
-      {
+      FOR_ALL(adjncy, i) {
         allAdjncy[nTotalConnections++] = adjncy[i];
       }
-      for (int slave=1; slave<Pstream::nProcs(); slave++)
-      {
-        IPstream fromSlave(Pstream::scheduled, slave);
-        Field<label> nbrAdjncy(fromSlave);
-        Field<label> nbrXadj(fromSlave);
-        scalarField nbrWeights(fromSlave);
+      for (int slave=1; slave<Pstream::nProcs(); slave++) {
+        IPstream fromSlave{Pstream::scheduled, slave};
+        Field<label> nbrAdjncy{fromSlave};
+        Field<label> nbrXadj{fromSlave};
+        scalarField nbrWeights{fromSlave};
         // Append.
-        //label procStart = nTotalCells;
-        FOR_ALL(nbrXadj, cellI)
-        {
+        FOR_ALL(nbrXadj, cellI) {
           allXadj[nTotalCells] = nTotalConnections+nbrXadj[cellI];
           allWeights[nTotalCells++] = nbrWeights[cellI];
         }
         // No need to renumber xadj since already global.
-        FOR_ALL(nbrAdjncy, i)
-        {
+        FOR_ALL(nbrAdjncy, i) {
           allAdjncy[nTotalConnections++] = nbrAdjncy[i];
         }
       }
       allXadj[nTotalCells] = nTotalConnections;
       Field<label> allFinalDecomp;
-      decomposeOneProc
-      (
-        meshPath,
-        allAdjncy,
-        allXadj,
-        allWeights,
-        allFinalDecomp
-      );
+      decomposeOneProc(meshPath, allAdjncy, allXadj, allWeights, allFinalDecomp);
       // Send allFinalDecomp back
-      for (int slave=1; slave<Pstream::nProcs(); slave++)
-      {
-        OPstream toSlave(Pstream::scheduled, slave);
-        toSlave << SubField<label>
-        (
-          allFinalDecomp,
-          globalCells.localSize(slave),
-          globalCells.offset(slave)
-        );
+      for (int slave=1; slave<Pstream::nProcs(); slave++) {
+        OPstream toSlave{Pstream::scheduled, slave};
+        toSlave <<
+          SubField<label>
+          {
+            allFinalDecomp,
+            globalCells.localSize(slave),
+            globalCells.offset(slave)
+          };
       }
       // Get my own part (always first)
-      finalDecomp = SubField<label>
-      (
-        allFinalDecomp,
-        globalCells.localSize()
-      );
-    }
-    else
-    {
+      finalDecomp = SubField<label>{allFinalDecomp, globalCells.localSize()};
+    } else {
       // Send my part of the graph (already in global numbering)
       {
-        OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
-        toMaster<< adjncy << SubField<label>(xadj, xadj.size()-1)
+        OPstream toMaster{Pstream::scheduled, Pstream::masterNo()};
+        toMaster<< adjncy << SubField<label>{xadj, xadj.size() - 1}
           << cWeights;
       }
       // Receive back decomposition
-      IPstream fromMaster(Pstream::scheduled, Pstream::masterNo());
+      IPstream fromMaster{Pstream::scheduled, Pstream::masterNo()};
       fromMaster >> finalDecomp;
     }
   }
   return 0;
 }
+
+
 // Call scotch with options from dictionary.
 mousse::label mousse::scotchDecomp::decomposeOneProc
 (
@@ -161,30 +141,26 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
 )
 {
   // Temporal storage in term of Scotch types
-  List<SCOTCH_Num> t_adjncy(adjncy.size());
-  List<SCOTCH_Num> t_xadj(xadj.size());
-  List<SCOTCH_Num> t_finalDecomp(finalDecomp.size());
+  List<SCOTCH_Num> t_adjncy{adjncy.size()};
+  List<SCOTCH_Num> t_xadj{xadj.size()};
+  List<SCOTCH_Num> t_finalDecomp{finalDecomp.size()};
 
   // Copying values to temporal storage
-  FOR_ALL(adjncy, idx)
-  {
+  FOR_ALL(adjncy, idx) {
     t_adjncy[idx] = static_cast<SCOTCH_Num>(adjncy[idx]);
   }
 
-  FOR_ALL(xadj, idx)
-  {
+  FOR_ALL(xadj, idx) {
     t_xadj[idx] = static_cast<SCOTCH_Num>(xadj[idx]);
   }
 
   // Dump graph
-  if (decompositionDict_.found("scotchCoeffs"))
-  {
+  if (decompositionDict_.found("scotchCoeffs")) {
     const dictionary& scotchCoeffs =
       decompositionDict_.subDict("scotchCoeffs");
-    if (scotchCoeffs.lookupOrDefault("writeGraph", false))
-    {
+    if (scotchCoeffs.lookupOrDefault("writeGraph", false)) {
       OFstream str{meshPath + ".grf"};
-      Info<< "Dumping Scotch graph file to " << str.name() << endl
+      Info << "Dumping Scotch graph file to " << str.name() << endl
         << "Use this in combination with gpart." << endl;
       label version = 0;
       str << version << nl;
@@ -197,13 +173,11 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
       label hasVertexWeights = 0;
       label numericflag = 10*hasEdgeWeights+hasVertexWeights;
       str << baseval << ' ' << numericflag << nl;
-      for (label cellI = 0; cellI < xadj.size()-1; cellI++)
-      {
+      for (label cellI = 0; cellI < xadj.size()-1; cellI++) {
         label start = xadj[cellI];
         label end = xadj[cellI+1];
         str << end-start;
-        for (label i = start; i < end; i++)
-        {
+        for (label i = start; i < end; i++) {
           str << ' ' << adjncy[i];
         }
         str << nl;
@@ -215,52 +189,43 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   // Default.
   SCOTCH_Strat stradat;
   check(SCOTCH_stratInit(&stradat), "SCOTCH_stratInit");
-  if (decompositionDict_.found("scotchCoeffs"))
-  {
+  if (decompositionDict_.found("scotchCoeffs")) {
     const dictionary& scotchCoeffs =
       decompositionDict_.subDict("scotchCoeffs");
     string strategy;
-    if (scotchCoeffs.readIfPresent("strategy", strategy))
-    {
-      if (debug)
-      {
-        Info<< "scotchDecomp : Using strategy " << strategy << endl;
+    if (scotchCoeffs.readIfPresent("strategy", strategy)) {
+      if (debug) {
+        Info << "scotchDecomp : Using strategy " << strategy << endl;
       }
       SCOTCH_stratGraphMap(&stradat, strategy.c_str());
-      //fprintf(stdout, "S\tStrat=");
-      //SCOTCH_stratSave(&stradat, stdout);
-      //fprintf(stdout, "\n");
     }
   }
   // Graph
-  // ~~~~~
   List<SCOTCH_Num> velotab;
   // Check for externally provided cellweights and if so initialise weights
   // Note: min, not gMin since routine runs on master only.
   scalar minWeights = min(cWeights);
-  if (!cWeights.empty())
-  {
-    if (minWeights <= 0)
-    {
+  if (!cWeights.empty()) {
+    if (minWeights <= 0) {
       WARNING_IN
       (
         "scotchDecomp::decompose(...)"
-      )   << "Illegal minimum weight " << minWeights
-        << endl;
+      )
+      << "Illegal minimum weight " << minWeights
+      << endl;
     }
-    if (cWeights.size() != xadj.size()-1)
-    {
+    if (cWeights.size() != xadj.size()-1) {
       FATAL_ERROR_IN
       (
         "scotchDecomp::decompose(...)"
-      )   << "Number of cell weights " << cWeights.size()
-        << " does not equal number of cells " << xadj.size()-1
-        << exit(FatalError);
+      )
+      << "Number of cell weights " << cWeights.size()
+      << " does not equal number of cells " << xadj.size()-1
+      << exit(FatalError);
     }
     scalar velotabSum = sum(cWeights)/minWeights;
     scalar rangeScale(1.0);
-    if (velotabSum > scalar(labelMax - 1))
-    {
+    if (velotabSum > scalar(labelMax - 1)) {
       // 0.9 factor of safety to avoid floating point round-off in
       // rangeScale tipping the subsequent sum over the integer limit.
       rangeScale = 0.9*scalar(labelMax - 1)/velotabSum;
@@ -274,33 +239,33 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
     }
     // Convert to integers.
     velotab.setSize(cWeights.size());
-    FOR_ALL(velotab, i)
-    {
-      velotab[i] = static_cast<SCOTCH_Num>
-      (
-        ((cWeights[i]/minWeights - 1)*rangeScale) + 1
-      );
+    FOR_ALL(velotab, i) {
+      velotab[i] =
+        static_cast<SCOTCH_Num>
+        (
+          ((cWeights[i]/minWeights - 1)*rangeScale) + 1
+        );
     }
   }
   SCOTCH_Graph grafdat;
   check(SCOTCH_graphInit(&grafdat), "SCOTCH_graphInit");
   check
-  (
-    SCOTCH_graphBuild
     (
-      &grafdat,
-      0,                      // baseval, c-style numbering
-      t_xadj.size()-1,          // vertnbr, nCells
-      t_xadj.begin(),           // verttab, start index per cell into adjncy
-      &t_xadj[1],               // vendtab, end index  ,,
-      velotab.begin(),        // velotab, vertex weights
-      NULL,                   // vlbltab
-      t_adjncy.size(),          // edgenbr, number of arcs
-      t_adjncy.begin(),         // edgetab
-      NULL                    // edlotab, edge weights
-    ),
-    "SCOTCH_graphBuild"
-  );
+      SCOTCH_graphBuild
+      (
+        &grafdat,
+        0,                      // baseval, c-style numbering
+        t_xadj.size()-1,          // vertnbr, nCells
+        t_xadj.begin(),           // verttab, start index per cell into adjncy
+        &t_xadj[1],               // vendtab, end index  ,,
+        velotab.begin(),        // velotab, vertex weights
+        NULL,                   // vlbltab
+        t_adjncy.size(),          // edgenbr, number of arcs
+        t_adjncy.begin(),         // edgetab
+        NULL                    // edlotab, edge weights
+      ),
+      "SCOTCH_graphBuild"
+    );
   check(SCOTCH_graphCheck(&grafdat), "SCOTCH_graphCheck");
   // Architecture
   // ~~~~~~~~~~~~
@@ -308,107 +273,46 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   SCOTCH_Arch archdat;
   check(SCOTCH_archInit(&archdat), "SCOTCH_archInit");
   List<SCOTCH_Num> processorWeights;
-  if (decompositionDict_.found("scotchCoeffs"))
-  {
+  if (decompositionDict_.found("scotchCoeffs")) {
     const dictionary& scotchCoeffs =
       decompositionDict_.subDict("scotchCoeffs");
     scotchCoeffs.readIfPresent("processorWeights", processorWeights);
   }
-  if (processorWeights.size())
-  {
-    if (debug)
-    {
-      Info<< "scotchDecomp : Using procesor weights " << processorWeights
+  if (processorWeights.size()) {
+    if (debug) {
+      Info << "scotchDecomp : Using procesor weights " << processorWeights
         << endl;
     }
     check
-    (
-      SCOTCH_archCmpltw(&archdat, nProcessors_, processorWeights.begin()),
-      "SCOTCH_archCmpltw"
-    );
+      (
+        SCOTCH_archCmpltw(&archdat, nProcessors_, processorWeights.begin()),
+        "SCOTCH_archCmpltw"
+      );
+  } else {
+    check(SCOTCH_archCmplt(&archdat, nProcessors_), "SCOTCH_archCmplt");
   }
-  else
-  {
-    check
-    (
-      SCOTCH_archCmplt(&archdat, nProcessors_),
-      "SCOTCH_archCmplt"
-    );
-    //- Hack to test clustering. Note that finalDecomp is non-compact
-    //  numbers!
-    //
-    ////- Set up variable sizes architecture
-    //check
-    //(
-    //    SCOTCH_archVcmplt(&archdat),
-    //    "SCOTCH_archVcmplt"
-    //);
-    //
-    ////- Stategy flags: go for quality or load balance (or leave default)
-    //SCOTCH_Num straval = 0;
-    ////straval |= SCOTCH_STRATQUALITY;
-    ////straval |= SCOTCH_STRATQUALITY;
-    //
-    ////- Number of cells per agglomeration
-    ////SCOTCH_Num agglomSize = SCOTCH_archSize(&archdat);
-    //SCOTCH_Num agglomSize = 3;
-    //
-    ////- Build strategy for agglomeration
-    //check
-    //(
-    //    SCOTCH_stratGraphClusterBuild
-    //    (
-    //        &stradat,   // strategy to build
-    //        straval,    // strategy flags
-    //        agglomSize, // cells per cluster
-    //        1.0,        // weight?
-    //        0.01        // max load imbalance
-    //    ),
-    //    "SCOTCH_stratGraphClusterBuild"
-    //);
-  }
-  //SCOTCH_Mapping mapdat;
-  //SCOTCH_graphMapInit(&grafdat, &mapdat, &archdat, NULL);
-  //SCOTCH_graphMapCompute(&grafdat, &mapdat, &stradat); /* Perform mapping */
-  //SCOTCH_graphMapExit(&grafdat, &mapdat);
   // Hack:switch off fpu error trapping
-#   ifdef FE_NOMASK_ENV
-  int oldExcepts = fedisableexcept
-  (
-    FE_DIVBYZERO
-   | FE_INVALID
-   | FE_OVERFLOW
-  );
-#   endif
+#ifdef FE_NOMASK_ENV
+  int oldExcepts =
+    fedisableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
+#endif
   finalDecomp.setSize(xadj.size()-1);
   t_finalDecomp.setSize(xadj.size() - 1);
   t_finalDecomp = 0;
   check
-  (
-    SCOTCH_graphMap
     (
-      &grafdat,
-      &archdat,
-      &stradat,           // const SCOTCH_Strat *
-      t_finalDecomp.begin() // parttab
-    ),
-    "SCOTCH_graphMap"
-  );
-#   ifdef FE_NOMASK_ENV
+      SCOTCH_graphMap
+      (
+        &grafdat,
+        &archdat,
+        &stradat,           // const SCOTCH_Strat *
+        t_finalDecomp.begin() // parttab
+      ),
+      "SCOTCH_graphMap"
+    );
+#ifdef FE_NOMASK_ENV
   feenableexcept(oldExcepts);
-#   endif
-  //finalDecomp.setSize(xadj.size()-1);
-  //check
-  //(
-  //    SCOTCH_graphPart
-  //    (
-  //        &grafdat,
-  //        nProcessors_,       // partnbr
-  //        &stradat,           // const SCOTCH_Strat *
-  //        finalDecomp.begin() // parttab
-  //    ),
-  //    "SCOTCH_graphPart"
-  //);
+#endif
   // Release storage for graph
   SCOTCH_graphExit(&grafdat);
   // Release storage for strategy
@@ -417,18 +321,21 @@ mousse::label mousse::scotchDecomp::decomposeOneProc
   SCOTCH_archExit(&archdat);
 
   // Copy decomposition back into mousse-typed storage
-  FOR_ALL(t_finalDecomp, idx)
-  {
+  FOR_ALL(t_finalDecomp, idx) {
     finalDecomp[idx] = static_cast<label>(t_finalDecomp[idx]);
   }
 
   return 0;
 }
+
+
 // Constructors 
 mousse::scotchDecomp::scotchDecomp(const dictionary& decompositionDict)
 :
-  decompositionMethod(decompositionDict)
+  decompositionMethod{decompositionDict}
 {}
+
+
 // Member Functions 
 mousse::labelList mousse::scotchDecomp::decompose
 (
@@ -437,47 +344,48 @@ mousse::labelList mousse::scotchDecomp::decompose
   const scalarField& pointWeights
 )
 {
-  if (points.size() != mesh.nCells())
-  {
+  if (points.size() != mesh.nCells()) {
     FATAL_ERROR_IN
     (
       "scotchDecomp::decompose(const polyMesh&, const pointField&"
       ", const scalarField&)"
-    )   << "Can use this decomposition method only for the whole mesh"
-      << endl
-      << "and supply one coordinate (cellCentre) for every cell." << endl
-      << "The number of coordinates " << points.size() << endl
-      << "The number of cells in the mesh " << mesh.nCells()
-      << exit(FatalError);
+    )
+    << "Can use this decomposition method only for the whole mesh"
+    << endl
+    << "and supply one coordinate (cellCentre) for every cell." << endl
+    << "The number of coordinates " << points.size() << endl
+    << "The number of cells in the mesh " << mesh.nCells()
+    << exit(FatalError);
   }
   // Calculate local or global (if Pstream::parRun()) connectivity
   CompactListList<label> cellCells;
   calcCellCells
-  (
-    mesh,
-    identity(mesh.nCells()),
-    mesh.nCells(),
-    true,
-    cellCells
-  );
+    (
+      mesh,
+      identity(mesh.nCells()),
+      mesh.nCells(),
+      true,
+      cellCells
+    );
   // Decompose using default weights
   List<label> finalDecomp;
   decompose
-  (
-    mesh.time().path()/mesh.name(),
-    cellCells.m(),
-    cellCells.offsets(),
-    pointWeights,
-    finalDecomp
-  );
+    (
+      mesh.time().path()/mesh.name(),
+      cellCells.m(),
+      cellCells.offsets(),
+      pointWeights,
+      finalDecomp
+    );
   // Copy back to labelList
-  labelList decomp(finalDecomp.size());
-  FOR_ALL(decomp, i)
-  {
+  labelList decomp{finalDecomp.size()};
+  FOR_ALL(decomp, i) {
     decomp[i] = finalDecomp[i];
   }
   return decomp;
 }
+
+
 mousse::labelList mousse::scotchDecomp::decompose
 (
   const polyMesh& mesh,
@@ -486,8 +394,7 @@ mousse::labelList mousse::scotchDecomp::decompose
   const scalarField& pointWeights
 )
 {
-  if (agglom.size() != mesh.nCells())
-  {
+  if (agglom.size() != mesh.nCells()) {
     FATAL_ERROR_IN
     (
       "scotchDecomp::decompose"
@@ -501,31 +408,32 @@ mousse::labelList mousse::scotchDecomp::decompose
   // Calculate local or global (if Pstream::parRun()) connectivity
   CompactListList<label> cellCells;
   calcCellCells
-  (
-    mesh,
-    agglom,
-    agglomPoints.size(),
-    true,
-    cellCells
-  );
+    (
+      mesh,
+      agglom,
+      agglomPoints.size(),
+      true,
+      cellCells
+    );
   // Decompose using weights
   List<label> finalDecomp;
   decompose
-  (
-    mesh.time().path()/mesh.name(),
-    cellCells.m(),
-    cellCells.offsets(),
-    pointWeights,
-    finalDecomp
-  );
+    (
+      mesh.time().path()/mesh.name(),
+      cellCells.m(),
+      cellCells.offsets(),
+      pointWeights,
+      finalDecomp
+    );
   // Rework back into decomposition for original mesh_
-  labelList fineDistribution(agglom.size());
-  FOR_ALL(fineDistribution, i)
-  {
+  labelList fineDistribution{agglom.size()};
+  FOR_ALL(fineDistribution, i) {
     fineDistribution[i] = finalDecomp[agglom[i]];
   }
   return fineDistribution;
 }
+
+
 mousse::labelList mousse::scotchDecomp::decompose
 (
   const labelListList& globalCellCells,
@@ -533,8 +441,7 @@ mousse::labelList mousse::scotchDecomp::decompose
   const scalarField& cWeights
 )
 {
-  if (cellCentres.size() != globalCellCells.size())
-  {
+  if (cellCentres.size() != globalCellCells.size()) {
     FATAL_ERROR_IN
     (
       "scotchDecomp::decompose"
@@ -547,22 +454,22 @@ mousse::labelList mousse::scotchDecomp::decompose
   // Make Metis CSR (Compressed Storage Format) storage
   //   adjncy      : contains neighbours (= edges in graph)
   //   xadj(celli) : start of information in adjncy for celli
-  CompactListList<label> cellCells(globalCellCells);
+  CompactListList<label> cellCells{globalCellCells};
   // Decompose using weights
   List<label> finalDecomp;
   decompose
-  (
-    "scotch",
-    cellCells.m(),
-    cellCells.offsets(),
-    cWeights,
-    finalDecomp
-  );
+    (
+      "scotch",
+      cellCells.m(),
+      cellCells.offsets(),
+      cWeights,
+      finalDecomp
+    );
   // Copy back to labelList
-  labelList decomp(finalDecomp.size());
-  FOR_ALL(decomp, i)
-  {
+  labelList decomp{finalDecomp.size()};
+  FOR_ALL(decomp, i) {
     decomp[i] = finalDecomp[i];
   }
   return decomp;
 }
+

@@ -8,11 +8,12 @@
 //   mousse::ptscotchDecomp
 // Description
 //   PTScotch domain decomposition
-// SourceFiles
-//   ptscotch_decomp.cpp
+
 #include "decomposition_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class ptscotchDecomp
 :
   public decompositionMethod
@@ -100,8 +101,9 @@ public:
       const scalarField& cWeights
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ptscotch_decomp_templates.cpp"
-#endif
+
+#include "ptscotch_decomp.ipp"
+
 #endif

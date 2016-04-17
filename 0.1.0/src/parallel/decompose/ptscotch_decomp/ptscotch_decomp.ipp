@@ -4,7 +4,9 @@
 
 #include "ptscotch_decomp.hpp"
 
+
 // Member Functions 
+
 // Insert at front of list
 template<class Type>
 void mousse::ptscotchDecomp::prepend
@@ -16,16 +18,16 @@ void mousse::ptscotchDecomp::prepend
   label nExtra = extraLst.size();
   // Make space for initial elements
   lst.setSize(lst.size() + nExtra);
-  for (label i = lst.size()-1; i >= nExtra; i--)
-  {
+  for (label i = lst.size()-1; i >= nExtra; i--) {
     lst[i] = lst[i-nExtra];
   }
   // Insert at front
-  FOR_ALL(extraLst, i)
-  {
+  FOR_ALL(extraLst, i) {
     lst[i] = extraLst[i];
   }
 }
+
+
 // Insert at back of list
 template<class Type>
 void mousse::ptscotchDecomp::append
@@ -38,8 +40,8 @@ void mousse::ptscotchDecomp::append
   // Make space for initial elements
   lst.setSize(sz + extraLst.size());
   // Insert at back
-  FOR_ALL(extraLst, i)
-  {
+  FOR_ALL(extraLst, i) {
     lst[sz++] = extraLst[i];
   }
 }
+

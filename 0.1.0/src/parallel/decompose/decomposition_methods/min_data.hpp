@@ -8,13 +8,18 @@
 //   mousse::minData
 // Description
 //   For use with FaceCellWave. Transports minimum passive data
+
 #include "point.hpp"
 #include "tensor.hpp"
 #include "poly_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyPatch;
 class polyMesh;
+
+
 class minData
 {
   // Private data
@@ -28,10 +33,7 @@ public:
     inline minData(const label data);
   // Member Functions
     // Access
-      inline label data() const
-      {
-        return data_;
-      }
+      inline label data() const { return data_; }
     // Needed by FaceCellWave
       //- Check whether origin has been changed at all or
       //  still contains original (invalid) value.
@@ -118,12 +120,10 @@ public:
     friend Ostream& operator<<(Ostream&, const minData&);
     friend Istream& operator>>(Istream&, minData&);
 };
+
 //- Data associated with minData type are contiguous
-template<>
-inline bool contiguous<minData>()
-{
-  return true;
-}
+template<> inline bool contiguous<minData>() { return true; }
+
 }  // namespace mousse
 
 // Constructors 
@@ -131,16 +131,22 @@ inline mousse::minData::minData()
 :
   data_{labelMax}
 {}
+
+
 inline mousse::minData::minData(const label data)
 :
   data_{data}
 {}
+
+
 // Member Functions 
 template<class TrackingData>
 inline bool mousse::minData::valid(TrackingData&) const
 {
   return data_ != labelMax;
 }
+
+
 template<class TrackingData>
 inline bool mousse::minData::sameGeometry
 (
@@ -152,6 +158,8 @@ inline bool mousse::minData::sameGeometry
 {
   return true;
 }
+
+
 template<class TrackingData>
 inline void mousse::minData::leaveDomain
 (
@@ -162,6 +170,8 @@ inline void mousse::minData::leaveDomain
   TrackingData&
 )
 {}
+
+
 template<class TrackingData>
 inline void mousse::minData::transform
 (
@@ -170,6 +180,8 @@ inline void mousse::minData::transform
   TrackingData&
 )
 {}
+
+
 template<class TrackingData>
 inline void mousse::minData::enterDomain
 (
@@ -180,6 +192,8 @@ inline void mousse::minData::enterDomain
   TrackingData&
 )
 {}
+
+
 template<class TrackingData>
 inline bool mousse::minData::updateCell
 (
@@ -191,16 +205,15 @@ inline bool mousse::minData::updateCell
   TrackingData&
 )
 {
-  if (neighbourInfo.data_ < data_)
-  {
+  if (neighbourInfo.data_ < data_) {
     operator=(neighbourInfo);
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 template<class TrackingData>
 inline bool mousse::minData::updateFace
 (
@@ -213,16 +226,15 @@ inline bool mousse::minData::updateFace
 )
 {
   // From cell to its faces.
-  if (neighbourInfo.data_ < data_)
-  {
+  if (neighbourInfo.data_ < data_) {
     operator=(neighbourInfo);
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 template<class TrackingData>
 inline bool mousse::minData::updateFace
 (
@@ -234,16 +246,15 @@ inline bool mousse::minData::updateFace
 )
 {
   // From face to face (e.g. coupled faces)
-  if (neighbourInfo.data_ < data_)
-  {
+  if (neighbourInfo.data_ < data_) {
     operator=(neighbourInfo);
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 template<class TrackingData>
 inline bool mousse::minData::equal
 (
@@ -253,6 +264,8 @@ inline bool mousse::minData::equal
 {
   return operator==(rhs);
 }
+
+
 // Member Operators 
 inline bool mousse::minData::operator==
 (
@@ -261,6 +274,8 @@ inline bool mousse::minData::operator==
 {
   return data() == rhs.data();
 }
+
+
 inline bool mousse::minData::operator!=
 (
   const mousse::minData& rhs
@@ -268,6 +283,8 @@ inline bool mousse::minData::operator!=
 {
   return !(*this == rhs);
 }
+
+
 // Friend Operators 
 mousse::Ostream& mousse::operator<<
 (
@@ -277,6 +294,8 @@ mousse::Ostream& mousse::operator<<
 {
   return os << wDist.data_;
 }
+
+
 mousse::Istream& mousse::operator>>
 (
   mousse::Istream& is,
@@ -285,4 +304,5 @@ mousse::Istream& mousse::operator>>
 {
   return is >> wDist.data_;
 }
+
 #endif

@@ -5,16 +5,22 @@
 #include "metis_decomp.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "time.hpp"
+
+
 extern "C"
 {
   #define OMPI_SKIP_MPICXX
   #include "metis.h"
 }
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(metisDecomp, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(decompositionMethod, metisDecomp, dictionary);
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(metisDecomp, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(decompositionMethod, metisDecomp, dictionary);
+
 }
+
+
 // Private Member Functions
 mousse::label mousse::metisDecomp::decompose
 (
@@ -25,34 +31,31 @@ mousse::label mousse::metisDecomp::decompose
 )
 {
   // Temporal storage in terms of METIS types
-  List<idx_t> t_adjncy(adjncy.size());
-  List<idx_t> t_xadj(xadj.size());
-  Field<real_t> t_cWeights(cWeights.size());
-  List<idx_t> t_finalDecomp(finalDecomp.size());
+  List<idx_t> t_adjncy{adjncy.size()};
+  List<idx_t> t_xadj{xadj.size()};
+  Field<real_t> t_cWeights{cWeights.size()};
+  List<idx_t> t_finalDecomp{finalDecomp.size()};
 
   // Convert arguments to METIS types
-  FOR_ALL(adjncy, idx)
-  {
+  FOR_ALL(adjncy, idx) {
     t_adjncy[idx] = static_cast<idx_t>(adjncy[idx]);
   }
 
-  FOR_ALL(xadj, idx)
-  {
+  FOR_ALL(xadj, idx) {
     t_xadj[idx] = static_cast<idx_t>(xadj[idx]);
   }
 
-  FOR_ALL(cWeights, idx)
-  {
+  FOR_ALL(cWeights, idx) {
     t_cWeights[idx] = static_cast<idx_t>(cWeights[idx]);
   }
 
   // Method of decomposition
   // recursive: multi-level recursive bisection (default)
   // k-way: multi-level k-way
-  word method("recursive");
-  label numCells = xadj.size()-1;
+  word method{"recursive"};
+  label numCells = xadj.size() - 1;
   // decomposition options
-  List<idx_t> options(METIS_NOPTIONS);
+  List<idx_t> options{METIS_NOPTIONS};
   METIS_SetDefaultOptions(options.begin());
   // processor weights initialised with no size, only used if specified in
   // a file
@@ -63,16 +66,13 @@ mousse::label mousse::metisDecomp::decompose
   List<idx_t> faceWeights;
   // Check for externally provided cellweights and if so initialise weights
   scalar minWeights = gMin(t_cWeights);
-  if (t_cWeights.size() > 0)
-  {
-    if (minWeights <= 0)
-    {
+  if (t_cWeights.size() > 0) {
+    if (minWeights <= 0) {
       WARNING_IN_FUNCTION
         << "Illegal minimum weight " << minWeights
         << endl;
     }
-    if (t_cWeights.size() != numCells)
-    {
+    if (t_cWeights.size() != numCells) {
       FATAL_ERROR_IN_FUNCTION
         << "Number of cell weights " << cWeights.size()
         << " does not equal number of cells " << numCells
@@ -80,47 +80,38 @@ mousse::label mousse::metisDecomp::decompose
     }
     // Convert to integers.
     cellWeights.setSize(t_cWeights.size());
-    FOR_ALL(cellWeights, i)
-    {
+    FOR_ALL(cellWeights, i) {
       cellWeights[i] = static_cast<idx_t>(t_cWeights[i]/minWeights);
     }
   }
   // Check for user supplied weights and decomp options
-  if (decompositionDict_.found("metisCoeffs"))
-  {
+  if (decompositionDict_.found("metisCoeffs")) {
     const dictionary& metisCoeffs = decompositionDict_.subDict("metisCoeffs");
     word weightsFile;
-    if (metisCoeffs.readIfPresent("method", method))
-    {
-      if (method != "recursive" && method != "k-way")
-      {
+    if (metisCoeffs.readIfPresent("method", method)) {
+      if (method != "recursive" && method != "k-way") {
         FATAL_ERROR_IN_FUNCTION
           << "Method " << method << " in metisCoeffs in dictionary : "
           << decompositionDict_.name()
           << " should be 'recursive' or 'k-way'"
           << exit(FatalError);
       }
-      Info<< "metisDecomp : Using Metis method     " << method
-        << nl << endl;
+      Info << "metisDecomp : Using Metis method     " << method << nl << endl;
     }
-    if (metisCoeffs.readIfPresent("options", options))
-    {
-      if (options.size() != METIS_NOPTIONS)
-      {
+    if (metisCoeffs.readIfPresent("options", options)) {
+      if (options.size() != METIS_NOPTIONS) {
         FATAL_ERROR_IN_FUNCTION
           << "Number of options in metisCoeffs in dictionary : "
           << decompositionDict_.name()
           << " should be " << METIS_NOPTIONS
           << exit(FatalError);
       }
-      Info<< "metisDecomp : Using Metis options     " << options
+      Info << "metisDecomp : Using Metis options     " << options
         << nl << endl;
     }
-    if (metisCoeffs.readIfPresent("processorWeights", processorWeights))
-    {
+    if (metisCoeffs.readIfPresent("processorWeights", processorWeights)) {
       processorWeights /= sum(processorWeights);
-      if (processorWeights.size() != nProcessors_)
-      {
+      if (processorWeights.size() != nProcessors_) {
         FATAL_ERROR_IN_FUNCTION
           << "Number of processor weights "
           << processorWeights.size()
@@ -137,8 +128,7 @@ mousse::label mousse::metisDecomp::decompose
   // output: number of cut edges
   idx_t edgeCut = 0;
   idx_t t_numCells = static_cast<idx_t>(numCells);
-  if (method == "recursive")
-  {
+  if (method == "recursive") {
     METIS_PartGraphRecursive
     (
       &t_numCells,          // num vertices in graph
@@ -155,9 +145,7 @@ mousse::label mousse::metisDecomp::decompose
       &edgeCut,
       t_finalDecomp.begin()
     );
-  }
-  else
-  {
+  } else {
     METIS_PartGraphKway
     (
       &t_numCells,         // num vertices in graph
@@ -177,18 +165,21 @@ mousse::label mousse::metisDecomp::decompose
   }
 
   // Copying final decomposition to the target
-  FOR_ALL(t_finalDecomp, idx)
-  {
+  FOR_ALL(t_finalDecomp, idx) {
     finalDecomp[idx] = static_cast<label>(t_finalDecomp[idx]);
   }
 
   return static_cast<label>(edgeCut);
 }
+
+
 // Constructors
 mousse::metisDecomp::metisDecomp(const dictionary& decompositionDict)
 :
-  decompositionMethod(decompositionDict)
+  decompositionMethod{decompositionDict}
 {}
+
+
 // Member Functions
 mousse::labelList mousse::metisDecomp::decompose
 (
@@ -197,8 +188,7 @@ mousse::labelList mousse::metisDecomp::decompose
   const scalarField& pointWeights
 )
 {
-  if (points.size() != mesh.nCells())
-  {
+  if (points.size() != mesh.nCells()) {
     FATAL_ERROR_IN_FUNCTION
       << "Can use this decomposition method only for the whole mesh"
       << endl
@@ -208,14 +198,7 @@ mousse::labelList mousse::metisDecomp::decompose
       << exit(FatalError);
   }
   CompactListList<label> cellCells;
-  calcCellCells
-  (
-    mesh,
-    identity(mesh.nCells()),
-    mesh.nCells(),
-    false,
-    cellCells
-  );
+  calcCellCells(mesh, identity(mesh.nCells()), mesh.nCells(), false, cellCells);
   // Decompose using default weights
   labelList decomp;
   decompose(cellCells.m(), cellCells.offsets(), pointWeights, decomp);
@@ -229,8 +212,7 @@ mousse::labelList mousse::metisDecomp::decompose
   const scalarField& agglomWeights
 )
 {
-  if (agglom.size() != mesh.nCells())
-  {
+  if (agglom.size() != mesh.nCells()) {
     FATAL_ERROR_IN_FUNCTION
       << "Size of cell-to-coarse map " << agglom.size()
       << " differs from number of cells in mesh " << mesh.nCells()
@@ -245,13 +227,14 @@ mousse::labelList mousse::metisDecomp::decompose
   labelList finalDecomp;
   decompose(cellCells.m(), cellCells.offsets(), agglomWeights, finalDecomp);
   // Rework back into decomposition for original mesh
-  labelList fineDistribution(agglom.size());
-  FOR_ALL(fineDistribution, i)
-  {
+  labelList fineDistribution{agglom.size()};
+  FOR_ALL(fineDistribution, i) {
     fineDistribution[i] = finalDecomp[agglom[i]];
   }
   return finalDecomp;
 }
+
+
 mousse::labelList mousse::metisDecomp::decompose
 (
   const labelListList& globalCellCells,
@@ -259,8 +242,7 @@ mousse::labelList mousse::metisDecomp::decompose
   const scalarField& cellWeights
 )
 {
-  if (cellCentres.size() != globalCellCells.size())
-  {
+  if (cellCentres.size() != globalCellCells.size()) {
     FATAL_ERROR_IN_FUNCTION
       << "Inconsistent number of cells (" << globalCellCells.size()
       << ") and number of cell centres (" << cellCentres.size()
@@ -269,9 +251,10 @@ mousse::labelList mousse::metisDecomp::decompose
   // Make Metis CSR (Compressed Storage Format) storage
   //   adjncy      : contains neighbours (= edges in graph)
   //   xadj(celli) : start of information in adjncy for celli
-  CompactListList<label> cellCells(globalCellCells);
+  CompactListList<label> cellCells{globalCellCells};
   // Decompose using default weights
   labelList decomp;
   decompose(cellCells.m(), cellCells.offsets(), cellWeights, decomp);
   return decomp;
 }
+

@@ -8,11 +8,12 @@
 //   mousse::multiLevelDecomp
 // Description
 //   Decomposition given using consecutive application of decomposers.
-// SourceFiles
-//   multi_level_decomp.cpp
+
 #include "decomposition_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class multiLevelDecomp
 :
   public decompositionMethod
@@ -78,5 +79,8 @@ public:
       const scalarField& cWeights
     );
 };
+
 }  // namespace mousse
+
 #endif
+

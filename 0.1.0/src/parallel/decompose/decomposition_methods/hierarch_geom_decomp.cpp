@@ -6,55 +6,55 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "pstream_reduce_ops.hpp"
 #include "sortable_list.hpp"
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(hierarchGeomDecomp, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    decompositionMethod,
-    hierarchGeomDecomp,
-    dictionary
-  );
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(hierarchGeomDecomp, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  decompositionMethod,
+  hierarchGeomDecomp,
+  dictionary
+);
+
 }
+
+
 void mousse::hierarchGeomDecomp::setDecompOrder()
 {
   const word order(geomDecomDict_.lookup("order"));
-  if (order.size() != 3)
-  {
+  if (order.size() != 3) {
     FATAL_IO_ERROR_IN
     (
       "hierarchGeomDecomp::hierarchGeomDecomp"
       "(const dictionary& decompositionDict)",
       decompositionDict_
-    )   << "number of characters in order (" << order << ") != 3"
-      << exit(FatalIOError);
+    )
+    << "number of characters in order (" << order << ") != 3"
+    << exit(FatalIOError);
   }
-  for (label i = 0; i < 3; ++i)
-  {
-    if (order[i] == 'x')
-    {
+  for (label i = 0; i < 3; ++i) {
+    if (order[i] == 'x') {
       decompOrder_[i] = 0;
-    }
-    else if (order[i] == 'y')
-    {
+    } else if (order[i] == 'y') {
       decompOrder_[i] = 1;
-    }
-    else if (order[i] == 'z')
-    {
+    } else if (order[i] == 'z') {
       decompOrder_[i] = 2;
-    }
-    else
-    {
+    } else {
       FATAL_IO_ERROR_IN
       (
         "hierarchGeomDecomp::hierarchGeomDecomp"
         "(const dictionary& decompositionDict)",
         decompositionDict_
-      )   << "Illegal decomposition order " << order << endl
-        << "It should only contain x, y or z" << exit(FatalError);
+      )
+      << "Illegal decomposition order " << order << endl
+      << "It should only contain x, y or z" << exit(FatalError);
     }
   }
 }
+
+
 mousse::label mousse::hierarchGeomDecomp::findLower
 (
   const List<scalar>& l,
@@ -63,36 +63,30 @@ mousse::label mousse::hierarchGeomDecomp::findLower
   const label initHigh
 )
 {
-  if (initHigh <= initLow)
-  {
+  if (initHigh <= initLow) {
     return initLow;
   }
   label low = initLow;
   label high = initHigh;
-  while ((high - low) > 1)
-  {
+  while ((high - low) > 1) {
     label mid = (low + high)/2;
-    if (l[mid] < t)
-    {
+    if (l[mid] < t) {
       low = mid;
-    }
-    else
-    {
+    } else {
       high = mid;
     }
   }
   // high and low can still differ by one. Choose best.
   label tIndex = -1;
-  if (l[high-1] < t)
-  {
+  if (l[high-1] < t) {
     tIndex = high;
-  }
-  else
-  {
+  } else {
     tIndex = low;
   }
   return tIndex;
 }
+
+
 // Create a mapping between the index and the weighted size.
 // For convenience, sortedWeightedSize is one size bigger than current. This
 // avoids extra tests.
@@ -107,21 +101,19 @@ void mousse::hierarchGeomDecomp::calculateSortedWeightedSizes
 {
   // Evaluate cumulative weights.
   sortedWeightedSizes[0] = 0;
-  FOR_ALL(current, i)
-  {
+  FOR_ALL(current, i) {
     label pointI = current[indices[i]];
     sortedWeightedSizes[i + 1] = sortedWeightedSizes[i] + weights[pointI];
   }
   // Non-dimensionalise and multiply by size.
-  scalar globalCurrentLength = returnReduce
-  (
-    sortedWeightedSizes[current.size()],
-    sumOp<scalar>()
-  );
+  scalar globalCurrentLength =
+    returnReduce(sortedWeightedSizes[current.size()], sumOp<scalar>());
   // Normalise weights by global sum of weights and multiply through
   // by global size.
   sortedWeightedSizes *= (globalCurrentSize/globalCurrentLength);
 }
+
+
 // Find position in values so between minIndex and this position there
 // are wantedSize elements.
 void mousse::hierarchGeomDecomp::findBinary
@@ -144,29 +136,22 @@ void mousse::hierarchGeomDecomp::findBinary
   label high = values.size();
   // Safeguards to avoid infinite loop.
   scalar midValuePrev = VGREAT;
-  while (true)
-  {
+  while (true) {
     label size = returnReduce(mid-minIndex, sumOp<label>());
-    if (debug)
-    {
-      Pout<< "    low:" << low << " lowValue:" << lowValue
+    if (debug) {
+      Pout << "    low:" << low << " lowValue:" << lowValue
         << " high:" << high << " highValue:" << highValue
         << " mid:" << mid << " midValue:" << midValue << endl
         << "    globalSize:" << size << " wantedSize:" << wantedSize
         << " sizeTol:" << sizeTol << endl;
     }
-    if (wantedSize < size - sizeTol)
-    {
+    if (wantedSize < size - sizeTol) {
       high = mid;
       highValue = midValue;
-    }
-    else if (wantedSize > size + sizeTol)
-    {
+    } else if (wantedSize > size + sizeTol) {
       low = mid;
       lowValue = midValue;
-    }
-    else
-    {
+    } else {
       break;
     }
     // Update mid, midValue
@@ -174,8 +159,7 @@ void mousse::hierarchGeomDecomp::findBinary
     mid = findLower(values, midValue, low, high);
     // Safeguard if same as previous.
     bool hasNotChanged = (mag(midValue-midValuePrev) < SMALL);
-    if (returnReduce(hasNotChanged, andOp<bool>()))
-    {
+    if (returnReduce(hasNotChanged, andOp<bool>())) {
       WARNING_IN("hierarchGeomDecomp::findBinary(..)")
         << "unable to find desired decomposition split, making do!"
         << endl;
@@ -184,6 +168,8 @@ void mousse::hierarchGeomDecomp::findBinary
     midValuePrev = midValue;
   }
 }
+
+
 // Find position in values so between minIndex and this position there
 // are wantedSize elements.
 void mousse::hierarchGeomDecomp::findBinary
@@ -207,34 +193,25 @@ void mousse::hierarchGeomDecomp::findBinary
   label high = values.size();
   // Safeguards to avoid infinite loop.
   scalar midValuePrev = VGREAT;
-  while (true)
-  {
-    scalar weightedSize = returnReduce
-    (
-      sortedWeightedSizes[mid] - sortedWeightedSizes[minIndex],
-      sumOp<scalar>()
-    );
-    if (debug)
-    {
-      Pout<< "    low:" << low << " lowValue:" << lowValue
+  while (true) {
+    scalar weightedSize =
+      returnReduce(sortedWeightedSizes[mid] - sortedWeightedSizes[minIndex],
+                   sumOp<scalar>());
+    if (debug) {
+      Pout << "    low:" << low << " lowValue:" << lowValue
         << " high:" << high << " highValue:" << highValue
         << " mid:" << mid << " midValue:" << midValue << endl
         << "    globalSize:" << weightedSize
         << " wantedSize:" << wantedSize
         << " sizeTol:" << sizeTol << endl;
     }
-    if (wantedSize < weightedSize - sizeTol)
-    {
+    if (wantedSize < weightedSize - sizeTol) {
       high = mid;
       highValue = midValue;
-    }
-    else if (wantedSize > weightedSize + sizeTol)
-    {
+    } else if (wantedSize > weightedSize + sizeTol) {
       low = mid;
       lowValue = midValue;
-    }
-    else
-    {
+    } else {
       break;
     }
     // Update mid, midValue
@@ -242,8 +219,7 @@ void mousse::hierarchGeomDecomp::findBinary
     mid = findLower(values, midValue, low, high);
     // Safeguard if same as previous.
     bool hasNotChanged = (mag(midValue-midValuePrev) < SMALL);
-    if (returnReduce(hasNotChanged, andOp<bool>()))
-    {
+    if (returnReduce(hasNotChanged, andOp<bool>())) {
       WARNING_IN("hierarchGeomDecomp::findBinary(..)")
         << "unable to find desired deomposition split, making do!"
         << endl;
@@ -252,6 +228,8 @@ void mousse::hierarchGeomDecomp::findBinary
     midValuePrev = midValue;
   }
 }
+
+
 // Sort points into bins according to one component. Recurses to next component.
 void mousse::hierarchGeomDecomp::sortComponent
 (
@@ -265,41 +243,28 @@ void mousse::hierarchGeomDecomp::sortComponent
 {
   // Current component
   label compI = decompOrder_[componentIndex];
-  if (debug)
-  {
-    Pout<< "sortComponent : Sorting slice of size " << current.size()
+  if (debug) {
+    Pout << "sortComponent : Sorting slice of size " << current.size()
       << " in component " << compI << endl;
   }
   // Storage for sorted component compI
-  SortableList<scalar> sortedCoord(current.size());
-  FOR_ALL(current, i)
-  {
+  SortableList<scalar> sortedCoord{current.size()};
+  FOR_ALL(current, i) {
     label pointI = current[i];
     sortedCoord[i] = points[pointI][compI];
   }
   sortedCoord.sort();
   label globalCurrentSize = returnReduce(current.size(), sumOp<label>());
-  scalar minCoord = returnReduce
-  (
+  scalar minCoord =
+    returnReduce(sortedCoord.size() ? sortedCoord[0] : GREAT, minOp<scalar>());
+  scalar maxCoord =
+    returnReduce
     (
-      sortedCoord.size()
-     ? sortedCoord[0]
-     : GREAT
-    ),
-    minOp<scalar>()
-  );
-  scalar maxCoord = returnReduce
-  (
-    (
-      sortedCoord.size()
-     ? sortedCoord.last()
-     : -GREAT
-    ),
-    maxOp<scalar>()
-  );
-  if (debug)
-  {
-    Pout<< "sortComponent : minCoord:" << minCoord
+      sortedCoord.size() ? sortedCoord.last() : -GREAT,
+      maxOp<scalar>()
+    );
+  if (debug) {
+    Pout << "sortComponent : minCoord:" << minCoord
       << " maxCoord:" << maxCoord << endl;
   }
   // starting index (in sortedCoord) of bin (= local)
@@ -307,8 +272,7 @@ void mousse::hierarchGeomDecomp::sortComponent
   // starting value of bin (= global since coordinate)
   scalar leftCoord = minCoord;
   // Sort bins of size n
-  for (label bin = 0; bin < n_[compI]; bin++)
-  {
+  for (label bin = 0; bin < n_[compI]; bin++) {
     // Now we need to determine the size of the bin (dx). This is
     // determined by the 'pivot' values - everything to the left of this
     // value goes in the current bin, everything to the right into the next
@@ -317,20 +281,15 @@ void mousse::hierarchGeomDecomp::sortComponent
     label localSize = -1;     // offset from leftOffset
     // Value at right of bin (leftIndex+localSize-1)
     scalar rightCoord = -GREAT;
-    if (bin == n_[compI]-1)
-    {
+    if (bin == n_[compI]-1) {
       // Last bin. Copy all.
       localSize = current.size()-leftIndex;
       rightCoord = maxCoord;                  // note: not used anymore
-    }
-    else if (Pstream::nProcs() == 1)
-    {
+    } else if (Pstream::nProcs() == 1) {
       // No need for binary searching of bin size
       localSize = label(current.size()/n_[compI]);
       rightCoord = sortedCoord[leftIndex+localSize];
-    }
-    else
-    {
+    } else {
       // For the current bin (starting at leftCoord) we want a rightCoord
       // such that the sum of all sizes are globalCurrentSize/n_[compI].
       // We have to iterate to obtain this.
@@ -338,21 +297,20 @@ void mousse::hierarchGeomDecomp::sortComponent
       rightCoord = maxCoord;
       // Calculate rightIndex/rightCoord to have wanted size
       findBinary
-      (
-        sizeTol,
-        sortedCoord,
-        leftIndex,
-        leftCoord,
-        maxCoord,
-        globalCurrentSize/n_[compI],  // wanted size
-        rightIndex,
-        rightCoord
-      );
+        (
+          sizeTol,
+          sortedCoord,
+          leftIndex,
+          leftCoord,
+          maxCoord,
+          globalCurrentSize/n_[compI],  // wanted size
+          rightIndex,
+          rightCoord
+        );
       localSize = rightIndex - leftIndex;
     }
-    if (debug)
-    {
-      Pout<< "For component " << compI << ", bin " << bin
+    if (debug) {
+      Pout << "For component " << compI << ", bin " << bin
         << " copying" << endl
         << "from " << leftCoord << " at local index "
         << leftIndex << endl
@@ -362,8 +320,7 @@ void mousse::hierarchGeomDecomp::sortComponent
     }
     // Copy localSize elements starting from leftIndex.
     labelList slice(localSize);
-    FOR_ALL(slice, i)
-    {
+    FOR_ALL(slice, i) {
       label pointI = current[sortedCoord.indices()[leftIndex+i]];
       // Mark point into correct bin
       finalDecomp[pointI] += bin*mult;
@@ -371,25 +328,22 @@ void mousse::hierarchGeomDecomp::sortComponent
       slice[i] = pointI;
     }
     // Sort slice in next component
-    if (componentIndex < 2)
-    {
+    if (componentIndex < 2) {
       string oldPrefix;
-      if (debug)
-      {
+      if (debug) {
         oldPrefix = Pout.prefix();
         Pout.prefix() = "  " + oldPrefix;
       }
       sortComponent
-      (
-        sizeTol,
-        points,
-        slice,
-        componentIndex+1,
-        mult*n_[compI],     // Multiplier to apply to decomposition.
-        finalDecomp
-      );
-      if (debug)
-      {
+        (
+          sizeTol,
+          points,
+          slice,
+          componentIndex+1,
+          mult*n_[compI],     // Multiplier to apply to decomposition.
+          finalDecomp
+        );
+      if (debug) {
         Pout.prefix() = oldPrefix;
       }
     }
@@ -398,6 +352,8 @@ void mousse::hierarchGeomDecomp::sortComponent
     leftCoord = rightCoord;
   }
 }
+
+
 // Sort points into bins according to one component. Recurses to next component.
 void mousse::hierarchGeomDecomp::sortComponent
 (
@@ -412,15 +368,13 @@ void mousse::hierarchGeomDecomp::sortComponent
 {
   // Current component
   label compI = decompOrder_[componentIndex];
-  if (debug)
-  {
-    Pout<< "sortComponent : Sorting slice of size " << current.size()
+  if (debug) {
+    Pout << "sortComponent : Sorting slice of size " << current.size()
       << " in component " << compI << endl;
   }
   // Storage for sorted component compI
-  SortableList<scalar> sortedCoord(current.size());
-  FOR_ALL(current, i)
-  {
+  SortableList<scalar> sortedCoord{current.size()};
+  FOR_ALL(current, i) {
     label pointI = current[i];
     sortedCoord[i] = points[pointI][compI];
   }
@@ -428,36 +382,22 @@ void mousse::hierarchGeomDecomp::sortComponent
   label globalCurrentSize = returnReduce(current.size(), sumOp<label>());
   // Now evaluate local cumulative weights, based on the sorting.
   // Make one bigger than the nodes.
-  scalarField sortedWeightedSizes(current.size()+1, 0);
+  scalarField sortedWeightedSizes{current.size()+1, 0};
   calculateSortedWeightedSizes
-  (
-    current,
-    sortedCoord.indices(),
-    weights,
-    globalCurrentSize,
-    sortedWeightedSizes
-  );
-  scalar minCoord = returnReduce
-  (
     (
-      sortedCoord.size()
-     ? sortedCoord[0]
-     : GREAT
-    ),
-    minOp<scalar>()
-  );
-  scalar maxCoord = returnReduce
-  (
-    (
-      sortedCoord.size()
-     ? sortedCoord.last()
-     : -GREAT
-    ),
-    maxOp<scalar>()
-  );
-  if (debug)
-  {
-    Pout<< "sortComponent : minCoord:" << minCoord
+      current,
+      sortedCoord.indices(),
+      weights,
+      globalCurrentSize,
+      sortedWeightedSizes
+    );
+  scalar minCoord =
+    returnReduce(sortedCoord.size() ? sortedCoord[0] : GREAT, minOp<scalar>());
+  scalar maxCoord =
+    returnReduce(sortedCoord.size() ? sortedCoord.last() : -GREAT,
+                 maxOp<scalar>());
+  if (debug) {
+    Pout << "sortComponent : minCoord:" << minCoord
       << " maxCoord:" << maxCoord << endl;
   }
   // starting index (in sortedCoord) of bin (= local)
@@ -465,8 +405,7 @@ void mousse::hierarchGeomDecomp::sortComponent
   // starting value of bin (= global since coordinate)
   scalar leftCoord = minCoord;
   // Sort bins of size n
-  for (label bin = 0; bin < n_[compI]; bin++)
-  {
+  for (label bin = 0; bin < n_[compI]; bin++) {
     // Now we need to determine the size of the bin (dx). This is
     // determined by the 'pivot' values - everything to the left of this
     // value goes in the current bin, everything to the right into the next
@@ -475,14 +414,11 @@ void mousse::hierarchGeomDecomp::sortComponent
     label localSize = -1;     // offset from leftOffset
     // Value at right of bin (leftIndex+localSize-1)
     scalar rightCoord = -GREAT;
-    if (bin == n_[compI]-1)
-    {
+    if (bin == n_[compI]-1) {
       // Last bin. Copy all.
       localSize = current.size()-leftIndex;
       rightCoord = maxCoord;                  // note: not used anymore
-    }
-    else
-    {
+    } else {
       // For the current bin (starting at leftCoord) we want a rightCoord
       // such that the sum of all weighted sizes are
       // globalCurrentLength/n_[compI].
@@ -491,22 +427,21 @@ void mousse::hierarchGeomDecomp::sortComponent
       rightCoord = maxCoord;
       // Calculate rightIndex/rightCoord to have wanted size
       findBinary
-      (
-        sizeTol,
-        sortedWeightedSizes,
-        sortedCoord,
-        leftIndex,
-        leftCoord,
-        maxCoord,
-        globalCurrentSize/n_[compI],  // wanted size
-        rightIndex,
-        rightCoord
-      );
+        (
+          sizeTol,
+          sortedWeightedSizes,
+          sortedCoord,
+          leftIndex,
+          leftCoord,
+          maxCoord,
+          globalCurrentSize/n_[compI],  // wanted size
+          rightIndex,
+          rightCoord
+        );
       localSize = rightIndex - leftIndex;
     }
-    if (debug)
-    {
-      Pout<< "For component " << compI << ", bin " << bin
+    if (debug) {
+      Pout << "For component " << compI << ", bin " << bin
         << " copying" << endl
         << "from " << leftCoord << " at local index "
         << leftIndex << endl
@@ -515,9 +450,8 @@ void mousse::hierarchGeomDecomp::sortComponent
         << endl;
     }
     // Copy localSize elements starting from leftIndex.
-    labelList slice(localSize);
-    FOR_ALL(slice, i)
-    {
+    labelList slice{localSize};
+    FOR_ALL(slice, i) {
       label pointI = current[sortedCoord.indices()[leftIndex+i]];
       // Mark point into correct bin
       finalDecomp[pointI] += bin*mult;
@@ -525,26 +459,23 @@ void mousse::hierarchGeomDecomp::sortComponent
       slice[i] = pointI;
     }
     // Sort slice in next component
-    if (componentIndex < 2)
-    {
+    if (componentIndex < 2) {
       string oldPrefix;
-      if (debug)
-      {
+      if (debug) {
         oldPrefix = Pout.prefix();
         Pout.prefix() = "  " + oldPrefix;
       }
       sortComponent
-      (
-        sizeTol,
-        weights,
-        points,
-        slice,
-        componentIndex+1,
-        mult*n_[compI],     // Multiplier to apply to decomposition.
-        finalDecomp
-      );
-      if (debug)
-      {
+        (
+          sizeTol,
+          weights,
+          points,
+          slice,
+          componentIndex+1,
+          mult*n_[compI],     // Multiplier to apply to decomposition.
+          finalDecomp
+        );
+      if (debug) {
         Pout.prefix() = oldPrefix;
       }
     }
@@ -553,20 +484,21 @@ void mousse::hierarchGeomDecomp::sortComponent
     leftCoord = rightCoord;
   }
 }
+
+
 mousse::labelList mousse::hierarchGeomDecomp::decompose
 (
   const pointField& points
 )
 {
   // construct a list for the final result
-  labelList finalDecomp(points.size(), 0);
+  labelList finalDecomp{points.size(), 0};
   // Start off with every point sorted onto itself.
-  labelList slice(points.size());
-  FOR_ALL(slice, i)
-  {
+  labelList slice{points.size()};
+  FOR_ALL(slice, i) {
     slice[i] = i;
   }
-  pointField rotatedPoints(rotDelta_ & points);
+  pointField rotatedPoints{rotDelta_ & points};
   // Calculate tolerance of cell distribution. For large cases finding
   // distibution to the cell exact would cause too many iterations so allow
   // some slack.
@@ -575,16 +507,18 @@ mousse::labelList mousse::hierarchGeomDecomp::decompose
   const label sizeTol = max(1, label(1e-3*allSize/nProcessors_));
   // Sort recursive
   sortComponent
-  (
-    sizeTol,
-    rotatedPoints,
-    slice,
-    0,              // Sort first component in decompOrder.
-    1,              // Offset for different x bins.
-    finalDecomp
-  );
+    (
+      sizeTol,
+      rotatedPoints,
+      slice,
+      0,              // Sort first component in decompOrder.
+      1,              // Offset for different x bins.
+      finalDecomp
+    );
   return finalDecomp;
 }
+
+
 mousse::labelList mousse::hierarchGeomDecomp::decompose
 (
   const pointField& points,
@@ -592,14 +526,13 @@ mousse::labelList mousse::hierarchGeomDecomp::decompose
 )
 {
   // construct a list for the final result
-  labelList finalDecomp(points.size(), 0);
+  labelList finalDecomp{points.size(), 0};
   // Start off with every point sorted onto itself.
-  labelList slice(points.size());
-  FOR_ALL(slice, i)
-  {
+  labelList slice{points.size()};
+  FOR_ALL(slice, i) {
     slice[i] = i;
   }
-  pointField rotatedPoints(rotDelta_ & points);
+  pointField rotatedPoints{rotDelta_ & points};
   // Calculate tolerance of cell distribution. For large cases finding
   // distibution to the cell exact would cause too many iterations so allow
   // some slack.
@@ -608,25 +541,28 @@ mousse::labelList mousse::hierarchGeomDecomp::decompose
   const label sizeTol = max(1, label(1e-3*allSize/nProcessors_));
   // Sort recursive
   sortComponent
-  (
-    sizeTol,
-    weights,
-    rotatedPoints,
-    slice,
-    0,              // Sort first component in decompOrder.
-    1,              // Offset for different x bins.
-    finalDecomp
-  );
+    (
+      sizeTol,
+      weights,
+      rotatedPoints,
+      slice,
+      0,              // Sort first component in decompOrder.
+      1,              // Offset for different x bins.
+      finalDecomp
+    );
   return finalDecomp;
 }
+
+
 // Constructors 
 mousse::hierarchGeomDecomp::hierarchGeomDecomp
 (
   const dictionary& decompositionDict
 )
 :
-  geomDecomp(decompositionDict, typeName),
-  decompOrder_()
+  geomDecomp{decompositionDict, typeName},
+  decompOrder_{}
 {
   setDecompOrder();
 }
+
