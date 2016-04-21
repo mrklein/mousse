@@ -8,11 +8,12 @@
 //   mousse::twoPhaseMixture
 // Description
 //   A two-phase mixture model
-// SourceFiles
-//   two_phase_mixture.cpp
+
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class twoPhaseMixture
 {
 protected:
@@ -33,34 +34,19 @@ public:
   ~twoPhaseMixture()
   {}
   // Member Functions
-    const word& phase1Name() const
-    {
-      return phase1Name_;
-    }
-    const word& phase2Name() const
-    {
-      return phase2Name_;
-    }
+    const word& phase1Name() const { return phase1Name_; }
+    const word& phase2Name() const { return phase2Name_; }
     //- Return the phase-fraction of phase 1
-    const volScalarField& alpha1() const
-    {
-      return alpha1_;
-    }
+    const volScalarField& alpha1() const { return alpha1_; }
     //- Return the phase-fraction of phase 1
-    volScalarField& alpha1()
-    {
-      return alpha1_;
-    }
+    volScalarField& alpha1() { return alpha1_; }
     //- Return the phase-fraction of phase 2
-    const volScalarField& alpha2() const
-    {
-      return alpha2_;
-    }
+    const volScalarField& alpha2() const { return alpha2_; }
     //- Return the phase-fraction of phase 2
-    volScalarField& alpha2()
-    {
-      return alpha2_;
-    }
+    volScalarField& alpha2() { return alpha2_; }
 };
+
 }  // namespace mousse
+
 #endif
+

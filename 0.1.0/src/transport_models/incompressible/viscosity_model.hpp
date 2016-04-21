@@ -10,16 +10,16 @@
 //   An abstract base class for incompressible viscosityModels.
 //   The strain rate is defined by:
 //     mag(symm(grad(U)))
-// SourceFiles
-//   viscosity_model.cpp
-//   viscosity_model_new.cpp
+
 #include "dictionary.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "dimensioned_scalar.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class viscosityModel
 {
 protected:
@@ -87,5 +87,8 @@ public:
     //- Read transportProperties dictionary
     virtual bool read(const dictionary& viscosityProperties) = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

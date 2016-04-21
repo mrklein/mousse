@@ -9,11 +9,12 @@
 // Description
 //   Interface compression scheme currently based on the generic limited
 //   scheme although it does not use the NVD/TVD functions.
-// SourceFiles
-//   interface_compression.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class interfaceCompressionLimiter
 {
 public:
@@ -33,10 +34,19 @@ public:
     //return min(max(4*min(phiP*(1 - phiP), phiN*(1 - phiN)), 0), 1);
     // Quartic compression scheme
     return
-      min(max(
-      1 - max(sqr(1 - 4*phiP*(1 - phiP)), sqr(1 - 4*phiN*(1 - phiN))),
-      0), 1);
+      min
+      (
+        max
+        (
+          1 - max(sqr(1 - 4*phiP*(1 - phiP)), sqr(1 - 4*phiN*(1 - phiN))),
+          0
+        ),
+        1
+      );
   }
 };
+
 }  // namespace mousse
+
 #endif
+

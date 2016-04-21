@@ -5,15 +5,19 @@
 #include "newtonian.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "surface_fields.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace viscosityModels
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(Newtonian, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(viscosityModel, Newtonian, dictionary);
+namespace mousse {
+namespace viscosityModels {
+
+DEFINE_TYPE_NAME_AND_DEBUG(Newtonian, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(viscosityModel, Newtonian, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::viscosityModels::Newtonian::Newtonian
 (
@@ -23,22 +27,23 @@ mousse::viscosityModels::Newtonian::Newtonian
   const surfaceScalarField& phi
 )
 :
-  viscosityModel(name, viscosityProperties, U, phi),
-  nu0_("nu", dimViscosity, viscosityProperties_),
+  viscosityModel{name, viscosityProperties, U, phi},
+  nu0_{"nu", dimViscosity, viscosityProperties_},
   nu_
-  (
-    IOobject
-    (
+  {
+    {
       name,
       U_.time().timeName(),
       U_.db(),
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     U_.mesh(),
     nu0_
-  )
+  }
 {}
+
+
 // Member Functions 
 bool mousse::viscosityModels::Newtonian::read
 (
@@ -50,3 +55,4 @@ bool mousse::viscosityModels::Newtonian::read
   nu_ = nu0_;
   return true;
 }
+

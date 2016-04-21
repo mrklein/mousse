@@ -10,21 +10,21 @@
 //   An incompressible Bird-Carreau non-Newtonian viscosity model.
 //   The Bird-Carreau-Yasuda form is also supported if the optional "a"
 //   coefficient is specified.  "a" defaults to 2 for the Bird-Carreau model.
-// SourceFiles
-//   bird_carreau.cpp
+
 #include "viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-namespace viscosityModels
-{
+
+
+namespace mousse {
+namespace viscosityModels {
+
 class BirdCarreau
 :
   public viscosityModel
 {
   // Private data
-    dictionary BirdCarreauCoeffs_;
+    dictionary coeffs_;
     dimensionedScalar nu0_;
     dimensionedScalar nuInf_;
     dimensionedScalar k_;
@@ -68,6 +68,9 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& viscosityProperties);
 };
+
 }  // namespace viscosityModels
 }  // namespace mousse
+
 #endif
+

@@ -9,11 +9,12 @@
 // Description
 //   A time-varying alphaContactAngle scalar boundary condition
 //   (alphaContactAngleFvPatchScalarField)
-// SourceFiles
-//   time_varying_alpha_contact_angle_fv_patch_scalar_field.cpp
+
 #include "alpha_contact_angle_fv_patch_scalar_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class timeVaryingAlphaContactAngleFvPatchScalarField
 :
   public alphaContactAngleFvPatchScalarField
@@ -53,10 +54,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new timeVaryingAlphaContactAngleFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new timeVaryingAlphaContactAngleFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     timeVaryingAlphaContactAngleFvPatchScalarField
@@ -70,10 +72,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new timeVaryingAlphaContactAngleFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new timeVaryingAlphaContactAngleFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     //- Evaluate and return the time-varying equilibrium contact-angle
@@ -85,5 +88,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

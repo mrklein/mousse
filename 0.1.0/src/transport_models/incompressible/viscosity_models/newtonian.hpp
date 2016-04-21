@@ -8,15 +8,15 @@
 //   mousse::viscosityModels::Newtonian
 // Description
 //   An incompressible Newtonian viscosity model.
-// SourceFiles
-//   newtonian.cpp
+
 #include "viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-namespace viscosityModels
-{
+
+
+namespace mousse {
+namespace viscosityModels {
+
 class Newtonian
 :
   public viscosityModel
@@ -41,10 +41,7 @@ public:
   {}
   // Member Functions
     //- Return the laminar viscosity
-    tmp<volScalarField> nu() const
-    {
-      return nu_;
-    }
+    tmp<volScalarField> nu() const { return nu_; }
     //- Return the laminar viscosity for patch
     tmp<scalarField> nu(const label patchi) const
     {
@@ -56,6 +53,9 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& viscosityProperties);
 };
+
 }  // namespace viscosityModels
 }  // namespace mousse
+
 #endif
+

@@ -10,14 +10,17 @@
 //   A simple single-phase transport model based on viscosityModel.
 //   Used by the incompressible single-phase solvers like mousse-simple,
 //   mousse-turb etc.
-// SourceFiles
-//   single_phase_transport_model.cpp
+
 #include "incompressible/transport_model.hpp"
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class viscosityModel;
+
+
 class singlePhaseTransportModel
 :
   public IOdictionary,
@@ -52,5 +55,8 @@ public:
     //- Read transportProperties dictionary
     virtual bool read();
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -11,13 +11,14 @@
 //   Properties to aid interFoam:
 //   -# Correct the alpha boundary condition for dynamic contact angle.
 //   -# Calculate interface curvature.
-// SourceFiles
-//   interface_properties.cpp
+
 #include "iodictionary.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class interfaceProperties
 {
   // Private data
@@ -59,30 +60,12 @@ public:
     interfaceProperties(const interfaceProperties&) = delete;
     interfaceProperties& operator=(const interfaceProperties&) = delete;
   // Member Functions
-    scalar cAlpha() const
-    {
-      return cAlpha_;
-    }
-    const dimensionedScalar& deltaN() const
-    {
-      return deltaN_;
-    }
-    const surfaceScalarField& nHatf() const
-    {
-      return nHatf_;
-    }
-    const volScalarField& K() const
-    {
-      return K_;
-    }
-    const dimensionedScalar& sigma() const
-    {
-      return sigma_;
-    }
-    tmp<volScalarField> sigmaK() const
-    {
-      return sigma_*K_;
-    }
+    scalar cAlpha() const { return cAlpha_; }
+    const dimensionedScalar& deltaN() const { return deltaN_; }
+    const surfaceScalarField& nHatf() const { return nHatf_; }
+    const volScalarField& K() const { return K_; }
+    const dimensionedScalar& sigma() const { return sigma_; }
+    tmp<volScalarField> sigmaK() const { return sigma_*K_; }
     tmp<surfaceScalarField> surfaceTensionForce() const;
     //- Indicator of the proximity of the interface
     //  Field values are 1 near and 0 away for the interface.
@@ -94,5 +77,8 @@ public:
     //- Read transportProperties dictionary
     bool read();
 };
-}  // namespace mousse
+
+}  // namespace mousse endif
+
 #endif
+

@@ -8,11 +8,12 @@
 //   mousse::alphaFixedPressureFvPatchScalarField
 // Description
 //   A fixed-pressure alphaContactAngle boundary
-// SourceFiles
-//   alpha_fixed_pressure_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class alphaFixedPressureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -54,10 +55,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new alphaFixedPressureFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new alphaFixedPressureFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     alphaFixedPressureFvPatchScalarField
@@ -71,10 +73,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new alphaFixedPressureFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new alphaFixedPressureFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Access
@@ -106,5 +109,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

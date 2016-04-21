@@ -9,11 +9,12 @@
 // Description
 //   A constant alphaContactAngle scalar boundary condition
 //   (alphaContactAngleFvPatchScalarField)
-// SourceFiles
-//   constant_alpha_contact_angle_fv_patch_scalar_field.cpp
+
 #include "alpha_contact_angle_fv_patch_scalar_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class constantAlphaContactAngleFvPatchScalarField
 :
   public alphaContactAngleFvPatchScalarField
@@ -56,10 +57,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new constantAlphaContactAngleFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new constantAlphaContactAngleFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     constantAlphaContactAngleFvPatchScalarField
@@ -73,10 +75,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new constantAlphaContactAngleFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new constantAlphaContactAngleFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     //- Return the equilibrium contact-angle
@@ -88,5 +91,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

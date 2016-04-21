@@ -8,12 +8,13 @@
 //   mousse::immiscibleIncompressibleTwoPhaseMixture
 // Description
 //   An immiscible incompressible two-phase mixture transport model
-// SourceFiles
-//   immiscible_incompressible_two_phase_mixture.cpp
+
 #include "incompressible_two_phase_mixture.hpp"
 #include "interface_properties.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class immiscibleIncompressibleTwoPhaseMixture
 :
   public incompressibleTwoPhaseMixture,
@@ -45,5 +46,8 @@ public:
       && interfaceProperties::read();
     }
 };
+
 }  // namespace mousse
+
 #endif
+

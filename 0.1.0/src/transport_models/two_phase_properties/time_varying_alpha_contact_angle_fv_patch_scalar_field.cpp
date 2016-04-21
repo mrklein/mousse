@@ -7,7 +7,10 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_mesh.hpp"
 #include "time.hpp"
+
+
 // Constructors 
+
 mousse::timeVaryingAlphaContactAngleFvPatchScalarField::
 timeVaryingAlphaContactAngleFvPatchScalarField
 (
@@ -15,12 +18,14 @@ timeVaryingAlphaContactAngleFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  alphaContactAngleFvPatchScalarField(p, iF),
-  t0_(0.0),
-  thetaT0_(0.0),
-  te_(0.0),
-  thetaTe_(0.0)
+  alphaContactAngleFvPatchScalarField{p, iF},
+  t0_{0.0},
+  thetaT0_{0.0},
+  te_{0.0},
+  thetaTe_{0.0}
 {}
+
+
 mousse::timeVaryingAlphaContactAngleFvPatchScalarField::
 timeVaryingAlphaContactAngleFvPatchScalarField
 (
@@ -30,12 +35,14 @@ timeVaryingAlphaContactAngleFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  alphaContactAngleFvPatchScalarField(gcpsf, p, iF, mapper),
-  t0_(gcpsf.t0_),
-  thetaT0_(gcpsf.thetaT0_),
-  te_(gcpsf.te_),
-  thetaTe_(gcpsf.te_)
+  alphaContactAngleFvPatchScalarField{gcpsf, p, iF, mapper},
+  t0_{gcpsf.t0_},
+  thetaT0_{gcpsf.thetaT0_},
+  te_{gcpsf.te_},
+  thetaTe_{gcpsf.te_}
 {}
+
+
 mousse::timeVaryingAlphaContactAngleFvPatchScalarField::
 timeVaryingAlphaContactAngleFvPatchScalarField
 (
@@ -44,14 +51,16 @@ timeVaryingAlphaContactAngleFvPatchScalarField
   const dictionary& dict
 )
 :
-  alphaContactAngleFvPatchScalarField(p, iF, dict),
-  t0_(readScalar(dict.lookup("t0"))),
-  thetaT0_(readScalar(dict.lookup("thetaT0"))),
-  te_(readScalar(dict.lookup("te"))),
-  thetaTe_(readScalar(dict.lookup("thetaTe")))
+  alphaContactAngleFvPatchScalarField{p, iF, dict},
+  t0_{readScalar(dict.lookup("t0"))},
+  thetaT0_{readScalar(dict.lookup("thetaT0"))},
+  te_{readScalar(dict.lookup("te"))},
+  thetaTe_{readScalar(dict.lookup("thetaTe"))}
 {
   evaluate();
 }
+
+
 mousse::timeVaryingAlphaContactAngleFvPatchScalarField::
 timeVaryingAlphaContactAngleFvPatchScalarField
 (
@@ -59,12 +68,14 @@ timeVaryingAlphaContactAngleFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  alphaContactAngleFvPatchScalarField(gcpsf, iF),
-  t0_(gcpsf.t0_),
-  thetaT0_(gcpsf.thetaT0_),
-  te_(gcpsf.te_),
-  thetaTe_(gcpsf.thetaTe_)
+  alphaContactAngleFvPatchScalarField{gcpsf, iF},
+  t0_{gcpsf.t0_},
+  thetaT0_{gcpsf.thetaT0_},
+  te_{gcpsf.te_},
+  thetaTe_{gcpsf.thetaTe_}
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::scalarField>
 mousse::timeVaryingAlphaContactAngleFvPatchScalarField::theta
@@ -75,20 +86,17 @@ mousse::timeVaryingAlphaContactAngleFvPatchScalarField::theta
 {
   scalar t = patch().boundaryMesh().mesh().time().value();
   scalar theta0 = thetaT0_;
-  if (t < t0_)
-  {
+  if (t < t0_) {
     theta0 = thetaT0_;
-  }
-  else if (t > te_)
-  {
+  } else if (t > te_) {
     theta0 = thetaTe_;
-  }
-  else
-  {
+  } else {
     theta0 = thetaT0_ + (t - t0_)*(thetaTe_ - thetaT0_)/(te_ - t0_);
   }
-  return tmp<scalarField>(new scalarField(size(), theta0));
+  return tmp<scalarField>{new scalarField{size(), theta0}};
 }
+
+
 void mousse::timeVaryingAlphaContactAngleFvPatchScalarField::write
 (
   Ostream& os
@@ -101,11 +109,15 @@ void mousse::timeVaryingAlphaContactAngleFvPatchScalarField::write
   os.writeKeyword("thetaTe") << thetaTe_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   timeVaryingAlphaContactAngleFvPatchScalarField
 );
+
 }
+

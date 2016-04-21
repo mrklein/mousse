@@ -4,12 +4,16 @@
 
 #include "phi_scheme.hpp"
 #include "interface_compression.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PHI_SURFACE_INTERPOLATION_SCHEME
 (
   interfaceCompression,
   interfaceCompressionLimiter,
   scalar
 )
+
 }
+
