@@ -8,6 +8,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "specie_mixture.hpp"
 
+
 #define MAKE_SOLID_REACTION_MIXTURE_THERMO\
 (                                                                             \
   BaseThermo,                                                                 \
@@ -107,4 +108,5 @@ MAKE_SOLID_REACTION_MIXTURE_THERMO                                            \
   Mixture,                                                                    \
   Transport##Type##Thermo##EqnOfState##Specie                                 \
 );
+
 #endif

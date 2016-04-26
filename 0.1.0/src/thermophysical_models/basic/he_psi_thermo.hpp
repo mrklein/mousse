@@ -8,12 +8,13 @@
 //   mousse::hePsiThermo
 // Description
 //   Energy for a mixture based on compressibility
-// SourceFiles
-//   he_psi_thermo.cpp
+
 #include "psi_thermo.hpp"
 #include "he_thermo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicPsiThermo, class MixtureType>
 class hePsiThermo
 :
@@ -22,8 +23,6 @@ class hePsiThermo
   // Private Member Functions
     //- Calculate the thermo variables
     void calculate();
-    //- Construct as copy (not implemented)
-    hePsiThermo(const hePsiThermo<BasicPsiThermo, MixtureType>&);
 public:
   //- Runtime type information
   TYPE_NAME("hePsiThermo");
@@ -34,14 +33,17 @@ public:
       const fvMesh&,
       const word& phaseName
     );
+    //- Disable construct as copy
+    hePsiThermo(const hePsiThermo<BasicPsiThermo, MixtureType>&) = delete;
   //- Destructor
   virtual ~hePsiThermo();
   // Member functions
     //- Update properties
     virtual void correct();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "he_psi_thermo.cpp"
-#endif
+
+#include "he_psi_thermo.ipp"
+
 #endif

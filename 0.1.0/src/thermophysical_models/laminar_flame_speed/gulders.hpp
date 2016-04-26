@@ -8,13 +8,13 @@
 //   mousse::laminarFlameSpeedModels::Gulders
 // Description
 //   Laminar flame speed obtained from Gulder's correlation.
-// SourceFiles
-//   gulders.cpp
+
 #include "laminar_flame_speed.hpp"
-namespace mousse
-{
-namespace laminarFlameSpeedModels
-{
+
+
+namespace mousse {
+namespace laminarFlameSpeedModels {
+
 class Gulders
 :
   public laminarFlameSpeed
@@ -28,10 +28,7 @@ class Gulders
     scalar alpha_;
     scalar beta_;
   // Private Member Functions
-    inline scalar SuRef
-    (
-      scalar phi
-    ) const;
+    inline scalar SuRef(scalar phi) const;
     inline scalar Su0pTphi
     (
       scalar p,
@@ -51,25 +48,23 @@ class Gulders
       const volScalarField& Tu,
       const volScalarField& phi
     ) const;
-    //- Construct as copy (not implemented)
-    Gulders(const Gulders&);
-    void operator=(const Gulders&);
 public:
   //- Runtime type information
   TYPE_NAME("Gulders");
   // Constructors
     //- Construct from dictionary and psiuReactionThermo
-    Gulders
-    (
-      const dictionary&,
-      const psiuReactionThermo&
-    );
+    Gulders(const dictionary&, const psiuReactionThermo&);
+
+    Gulders(const Gulders&) = delete;
+    void operator=(const Gulders&) = delete;
   //- Destructor
   virtual ~Gulders();
   // Member functions
     //- Return the laminar flame speed [m/s]
     tmp<volScalarField> operator()() const;
 };
-} // End laminarFlameSpeedModels
+
+}  // namespace laminarFlameSpeedModels
 }  // namespace mousse
+
 #endif

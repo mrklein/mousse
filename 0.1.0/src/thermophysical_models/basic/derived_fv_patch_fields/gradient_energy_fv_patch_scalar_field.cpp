@@ -7,6 +7,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "basic_thermo.hpp"
+
+
 // Constructors 
 mousse::gradientEnergyFvPatchScalarField::
 gradientEnergyFvPatchScalarField
@@ -15,8 +17,10 @@ gradientEnergyFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedGradientFvPatchScalarField(p, iF)
+  fixedGradientFvPatchScalarField{p, iF}
 {}
+
+
 mousse::gradientEnergyFvPatchScalarField::
 gradientEnergyFvPatchScalarField
 (
@@ -26,8 +30,10 @@ gradientEnergyFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedGradientFvPatchScalarField(ptf, p, iF, mapper)
+  fixedGradientFvPatchScalarField{ptf, p, iF, mapper}
 {}
+
+
 mousse::gradientEnergyFvPatchScalarField::
 gradientEnergyFvPatchScalarField
 (
@@ -36,16 +42,20 @@ gradientEnergyFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedGradientFvPatchScalarField(p, iF, dict)
+  fixedGradientFvPatchScalarField{p, iF, dict}
 {}
+
+
 mousse::gradientEnergyFvPatchScalarField::
 gradientEnergyFvPatchScalarField
 (
   const gradientEnergyFvPatchScalarField& tppsf
 )
 :
-  fixedGradientFvPatchScalarField(tppsf)
+  fixedGradientFvPatchScalarField{tppsf}
 {}
+
+
 mousse::gradientEnergyFvPatchScalarField::
 gradientEnergyFvPatchScalarField
 (
@@ -53,13 +63,14 @@ gradientEnergyFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedGradientFvPatchScalarField(tppsf, iF)
+  fixedGradientFvPatchScalarField{tppsf, iF}
 {}
+
+
 // Member Functions 
 void mousse::gradientEnergyFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const basicThermo& thermo = basicThermo::lookupThermo(*this);
@@ -69,18 +80,19 @@ void mousse::gradientEnergyFvPatchScalarField::updateCoeffs()
     const_cast<fvPatchScalarField&>(thermo.T().boundaryField()[patchi]);
   Tw.evaluate();
   gradient() = thermo.Cpv(pw, Tw, patchi)*Tw.snGrad()
-   + patch().deltaCoeffs()*
-    (
-      thermo.he(pw, Tw, patchi)
-     - thermo.he(pw, Tw, patch().faceCells())
-    );
+    + patch().deltaCoeffs()*(thermo.he(pw, Tw, patchi)
+                             - thermo.he(pw, Tw, patch().faceCells()));
   fixedGradientFvPatchScalarField::updateCoeffs();
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   gradientEnergyFvPatchScalarField
 );
+
 }
+

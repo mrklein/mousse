@@ -8,8 +8,7 @@
 //   mousse::foamChemistryReader
 // Description
 //   Chemistry reader for OpenFOAM format
-// SourceFiles
-//   foam_chemistry_reader.cpp
+
 #include "chemistry_reader.hpp"
 #include "file_name.hpp"
 #include "type_info.hpp"
@@ -17,8 +16,10 @@
 #include "label_list.hpp"
 #include "species_table.hpp"
 #include "atomic_weights.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class foamChemistryReader
 :
@@ -64,23 +65,19 @@ public:
   {}
   // Member functions
     //- Table of species
-    const speciesTable& species() const
-    {
-      return speciesTable_;
-    }
+    const speciesTable& species() const { return speciesTable_; }
     //- Table of the thermodynamic data given in the foamChemistry file
     const HashPtrTable<ThermoType>& speciesThermo() const
     {
       return speciesThermo_;
     }
     //- List of the reactions
-    const ReactionList<ThermoType>& reactions() const
-    {
-      return reactions_;
-    }
+    const ReactionList<ThermoType>& reactions() const { return reactions_; }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "foam_chemistry_reader.cpp"
+
+#include "foam_chemistry_reader.ipp"
+
 #endif
-#endif
+

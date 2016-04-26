@@ -3,11 +3,16 @@
 // Copyright (C) 2016 mousse project
 
 #include "basic_combustion_mixture.hpp"
+
+
 // Static Member Functions
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(basicCombustionMixture, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(basicCombustionMixture, 0);
+
 }
+
+
 // Constructors 
 mousse::basicCombustionMixture::basicCombustionMixture
 (
@@ -17,5 +22,6 @@ mousse::basicCombustionMixture::basicCombustionMixture
   const word& phaseName
 )
 :
-  basicSpecieMixture(thermoDict, specieNames, mesh, phaseName)
+  basicSpecieMixture{thermoDict, specieNames, mesh, phaseName}
 {}
+

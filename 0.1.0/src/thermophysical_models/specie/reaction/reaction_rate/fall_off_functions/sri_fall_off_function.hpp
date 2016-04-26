@@ -8,12 +8,17 @@
 //   mousse::SRIFallOffFunction
 // Description
 //   The SRI fall-off function
+
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class SRIFallOffFunction;
 Ostream& operator<<(Ostream&, const SRIFallOffFunction&);
+
+
 class SRIFallOffFunction
 {
   // Private data
@@ -49,7 +54,9 @@ public:
   // Ostream Operator
     friend Ostream& operator<<(Ostream&, const SRIFallOffFunction&);
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::SRIFallOffFunction::SRIFallOffFunction
@@ -67,6 +74,8 @@ inline mousse::SRIFallOffFunction::SRIFallOffFunction
   d_{d},
   e_{e}
 {}
+
+
 inline mousse::SRIFallOffFunction::SRIFallOffFunction(Istream& is)
 :
   a_{readScalar(is.readBegin("SRIFallOffFunction(Istream&)"))},
@@ -77,6 +86,8 @@ inline mousse::SRIFallOffFunction::SRIFallOffFunction(Istream& is)
 {
   is.readEnd("SRIFallOffFunction(Istream&)");
 }
+
+
 inline mousse::SRIFallOffFunction::SRIFallOffFunction(const dictionary& dict)
 :
   a_{readScalar(dict.lookup("a"))},
@@ -85,6 +96,8 @@ inline mousse::SRIFallOffFunction::SRIFallOffFunction(const dictionary& dict)
   d_{readScalar(dict.lookup("d"))},
   e_{readScalar(dict.lookup("e"))}
 {}
+
+
 // Member Functions 
 inline mousse::scalar mousse::SRIFallOffFunction::operator()
 (
@@ -95,6 +108,8 @@ inline mousse::scalar mousse::SRIFallOffFunction::operator()
   scalar X = 1.0/(1.0 + sqr(log10(max(Pr, SMALL))));
   return d_*pow(a_*exp(-b_/T) + exp(-T/c_), X)*pow(T, e_);
 }
+
+
 inline void mousse::SRIFallOffFunction::write(Ostream& os) const
 {
   os.writeKeyword("a") << a_ << token::END_STATEMENT << nl;
@@ -103,6 +118,8 @@ inline void mousse::SRIFallOffFunction::write(Ostream& os) const
   os.writeKeyword("d") << d_ << token::END_STATEMENT << nl;
   os.writeKeyword("e") << e_ << token::END_STATEMENT << nl;
 }
+
+
 // Ostream Operator 
 inline mousse::Ostream& mousse::operator<<
 (
@@ -110,7 +127,7 @@ inline mousse::Ostream& mousse::operator<<
   const mousse::SRIFallOffFunction& srifof
 )
 {
-  os<< token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << srifof.a_
     << token::SPACE << srifof.b_
     << token::SPACE << srifof.c_
@@ -119,4 +136,5 @@ inline mousse::Ostream& mousse::operator<<
     << token::END_LIST;
   return os;
 }
+
 #endif

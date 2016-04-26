@@ -8,14 +8,14 @@
 //   mousse::laminarFlameSpeed
 // Description
 //   Abstract class for laminar flame speed
-// SourceFiles
-//   laminar_flame_speed.cpp
-//   laminar_flame_speed_new.cpp
+
 #include "psiu_reaction_thermo.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class laminarFlameSpeed
 {
 protected:
@@ -25,11 +25,6 @@ protected:
     word fuel_;
     //- Equivalence ratio of a homogeneous mixture
     scalar equivalenceRatio_;
-private:
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    laminarFlameSpeed(const laminarFlameSpeed&);
-    void operator=(const laminarFlameSpeed&);
 public:
   //- Runtime type information
   TYPE_NAME("laminarFlameSpeed");
@@ -52,6 +47,10 @@ public:
       const dictionary&,
       const psiuReactionThermo&
     );
+
+    laminarFlameSpeed(const laminarFlameSpeed&) = delete;
+    void operator=(const laminarFlameSpeed&) = delete;
+
   // Selector
     static autoPtr<laminarFlameSpeed> New
     (
@@ -63,5 +62,8 @@ public:
     //- Return the laminar flame speed [m/s]
     virtual tmp<volScalarField> operator()() const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -8,12 +8,13 @@
 //   mousse::multiComponentMixture
 // Description
 //   mousse::multiComponentMixture
-// SourceFiles
-//   multi_component_mixture.cpp
+
 #include "basic_specie_mixture.hpp"
 #include "hash_ptr_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class multiComponentMixture
 :
@@ -33,8 +34,6 @@ class multiComponentMixture
     const ThermoType& constructSpeciesData(const dictionary& thermoDict);
     //- Correct the mass fractions to sum to 1
     void correctMassFractions();
-    //- Construct as copy (not implemented)
-    multiComponentMixture(const multiComponentMixture<ThermoType>&);
 public:
   //- The type of thermodynamics this mixture is instantiated for
   typedef ThermoType thermoType;
@@ -51,6 +50,8 @@ public:
     );
     //- Construct from dictionary, mesh and phase name
     multiComponentMixture(const dictionary&, const fvMesh&, const word&);
+    //- Disable construct as copy
+    multiComponentMixture(const multiComponentMixture<ThermoType>&) = delete;
   //- Destructor
   virtual ~multiComponentMixture()
   {}
@@ -87,8 +88,9 @@ public:
       return speciesData_[speciei];
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "multi_component_mixture.cpp"
-#endif
+
+#include "multi_component_mixture.ipp"
+
 #endif

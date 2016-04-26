@@ -7,6 +7,8 @@
 
 #include "solid_chemistry_model.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 #define MAKE_SOLID_CHEMISTRY_MODEL(sChemistry, SS, Comp, SThermo)             \
                                                                               \
   typedef mousse::sChemistry<mousse::Comp, mousse::SThermo>                   \
@@ -33,4 +35,6 @@
     + SThermo::typeName() + "," + GThermo::typeName() + ">").c_str(),         \
     0                                                                         \
   );
+
 #endif
+

@@ -9,16 +9,14 @@
 // Description
 //   View factor radiation model. The system solved is: C q = b
 //   where:
-//       Cij  = deltaij/Ej - (1/Ej - 1)Fij
-//       q    = heat flux
-//       b    = A eb - Ho
+//     Cij  = deltaij/Ej - (1/Ej - 1)Fij
+//     q    = heat flux
+//     b    = A eb - Ho
 //   and:
-//       eb   = sigma*T^4
-//       Ej   = emissivity
-//       Aij  = deltaij - Fij
-//       Fij  = view factor matrix
-// SourceFiles
-//   view_factor.cpp
+//     eb   = sigma*T^4
+//     Ej   = emissivity
+//     Aij  = deltaij - Fij
+//     Fij  = view factor matrix
 
 #include "radiation_model.hpp"
 #include "single_cell_fv_mesh.hpp"
@@ -27,10 +25,11 @@
 #include "scalar_list_io_list.hpp"
 #include "map_distribute.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class viewFactor
 :
   public radiationModel
@@ -95,16 +94,20 @@ public:
       //- Source term component (for power of T^4)
       virtual tmp<volScalarField> Rp() const;
       //- Source term component (constant)
-      virtual tmp<DimensionedField<scalar, volMesh> > Ru() const;
+      virtual tmp<DimensionedField<scalar, volMesh>> Ru() const;
   // Access
     //- Const access to total radiative heat flux field
     inline const volScalarField& Qr() const;
 };
 
+
 inline const mousse::volScalarField& mousse::radiation::viewFactor::Qr() const
 {
   return Qr_;
 }
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

@@ -1,41 +1,59 @@
 #ifndef THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_PENG_ROBINSON_GAS_HPP_
 #define THERMOPHYSICAL_MODELS_SPECIE_EQUATION_OF_STATE_PENG_ROBINSON_GAS_HPP_
+
+// mousse: CFD toolbox
+// Copyright (C) 2014 OpenFOAM Foundation
+// Copyright (C) 2016 mousse project
+// Class
+//   mousse::PengRobinsonGas
+// Description
+//   PengRobinsonGas gas equation of state.
+
 #include "auto_ptr.hpp"
 #include "mathematical_constants.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Specie> class PengRobinsonGas;
+
 template<class Specie>
 inline PengRobinsonGas<Specie> operator+
 (
   const PengRobinsonGas<Specie>&,
   const PengRobinsonGas<Specie>&
 );
+
 template<class Specie>
 inline PengRobinsonGas<Specie> operator-
 (
   const PengRobinsonGas<Specie>&,
   const PengRobinsonGas<Specie>&
 );
+
 template<class Specie>
 inline PengRobinsonGas<Specie> operator*
 (
   const scalar,
   const PengRobinsonGas<Specie>&
 );
+
 template<class Specie>
 inline PengRobinsonGas<Specie> operator==
 (
   const PengRobinsonGas<Specie>&,
   const PengRobinsonGas<Specie>&
 );
+
 template<class Specie>
 Ostream& operator<<
 (
   Ostream&,
   const PengRobinsonGas<Specie>&
 );
+
+
 template<class Specie>
 class PengRobinsonGas
 :
@@ -135,7 +153,9 @@ public:
       const PengRobinsonGas&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class Specie>
@@ -156,6 +176,8 @@ inline mousse::PengRobinsonGas<Specie>::PengRobinsonGas
   Pc_{Pc},
   omega_{omega}
 {}
+
+
 // Constructors 
 template<class Specie>
 inline mousse::PengRobinsonGas<Specie>::PengRobinsonGas
@@ -171,14 +193,18 @@ inline mousse::PengRobinsonGas<Specie>::PengRobinsonGas
   Zc_{pg.Zc_},
   omega_{pg.omega_}
 {}
+
+
 template<class Specie>
-inline mousse::autoPtr<mousse::PengRobinsonGas <Specie> >
+inline mousse::autoPtr<mousse::PengRobinsonGas<Specie>>
 mousse::PengRobinsonGas<Specie>::clone() const
 {
   return {new PengRobinsonGas<Specie>{*this}};
 }
+
+
 template<class Specie>
-inline mousse::autoPtr<mousse::PengRobinsonGas<Specie> >
+inline mousse::autoPtr<mousse::PengRobinsonGas<Specie>>
 mousse::PengRobinsonGas<Specie>::New
 (
   Istream& is
@@ -186,15 +212,19 @@ mousse::PengRobinsonGas<Specie>::New
 {
   return {new PengRobinsonGas<Specie>{is}};
 }
+
+
 template<class Specie>
-inline mousse::autoPtr<mousse::PengRobinsonGas<Specie> >
+inline mousse::autoPtr<mousse::PengRobinsonGas<Specie>>
 mousse::PengRobinsonGas<Specie>::New
 (
   const dictionary& dict
 )
 {
-  return {new PengRobinsonGas<Specie>(dict)};
+  return {new PengRobinsonGas<Specie>{dict}};
 }
+
+
 // Member Functions 
 template<class Specie>
 inline mousse::scalar mousse::PengRobinsonGas<Specie>::rho
@@ -206,6 +236,8 @@ inline mousse::scalar mousse::PengRobinsonGas<Specie>::rho
   scalar z = Z(p, T);
   return p/(z*this->R()*T);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::PengRobinsonGas<Specie>::s
 (
@@ -217,6 +249,8 @@ inline mousse::scalar mousse::PengRobinsonGas<Specie>::s
   // Need to add the entropy defect for Peng-Robinson
   return -RR*log(p/Pstd);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::PengRobinsonGas<Specie>::psi
 (
@@ -227,6 +261,8 @@ inline mousse::scalar mousse::PengRobinsonGas<Specie>::psi
   scalar z = Z(p, T);
   return 1.0/(z*this->R()*T);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::PengRobinsonGas<Specie>::Z
 (
@@ -234,53 +270,48 @@ inline mousse::scalar mousse::PengRobinsonGas<Specie>::Z
   scalar T
 ) const
 {
-  scalar a = 0.45724*sqr(this->R())*sqr(Tc_)/Pc_;
-  scalar b = 0.07780*this->R()*Tc_/Pc_;
-  scalar Tr = T/Tc_;
-  scalar alpha =
+  using constant::mathematical::pi;
+  const scalar a = 0.45724*sqr(this->R())*sqr(Tc_)/Pc_;
+  const scalar b = 0.07780*this->R()*Tc_/Pc_;
+  const scalar Tr = T/Tc_;
+  const scalar alpha =
     sqr
     (
-      1.0
-     + (0.37464 + 1.54226*omega_- 0.26992*sqr(omega_))
-     * (1.0 - sqrt(Tr))
+      1.0 + (0.37464 + 1.54226*omega_- 0.26992*sqr(omega_)) * (1.0 - sqrt(Tr))
     );
-  scalar B = b*p/(this->R()*T);
-  scalar A = a*alpha*p/sqr(this->R()*T);
-  scalar a2 = B - 1.0;
-  scalar a1 = A - 2.0*B - 3.0*sqr(B);
-  scalar a0 = -A*B + sqr(B) + pow3(B);
-  scalar Q = (3.0*a1 - a2*a2)/9.0;
-  scalar Rl = (9.0*a2*a1 - 27.0*a0 - 2.0*a2*a2*a2)/54;
-  scalar Q3 = Q*Q*Q;
-  scalar D = Q3 + Rl*Rl;
+  const scalar B = b*p/(this->R()*T);
+  const scalar A = a*alpha*p/sqr(this->R()*T);
+  const scalar a2 = B - 1.0;
+  const scalar a1 = A - 2.0*B - 3.0*sqr(B);
+  const scalar a0 = -A*B + sqr(B) + pow3(B);
+  const scalar Q = (3.0*a1 - a2*a2)/9.0;
+  const scalar Rl = (9.0*a2*a1 - 27.0*a0 - 2.0*a2*a2*a2)/54;
+  const scalar Q3 = Q*Q*Q;
+  const scalar D = Q3 + Rl*Rl;
   scalar root = -1.0;
-  if (D <= 0.0)
-  {
-    scalar th = ::acos(Rl/sqrt(-Q3));
-    scalar qm = 2.0*sqrt(-Q);
-    scalar r1 = qm*cos(th/3.0) - a2/3.0;
-    scalar r2 = qm*cos((th + 2.0*constant::mathematical::pi)/3.0) - a2/3.0;
-    scalar r3 = qm*cos((th + 4.0*constant::mathematical::pi)/3.0) - a2/3.0;
+  if (D <= 0.0) {
+    const scalar th = ::acos(Rl/sqrt(-Q3));
+    const scalar qm = 2.0*sqrt(-Q);
+    const scalar r1 = qm*cos(th/3.0) - a2/3.0;
+    const scalar r2 = qm*cos((th + 2.0*pi)/3.0) - a2/3.0;
+    const scalar r3 = qm*cos((th + 4.0*pi)/3.0) - a2/3.0;
     root = max(r1, max(r2, r3));
-  }
-  else
-  {
+  } else {
     // one root is real
-    scalar D05 = sqrt(D);
-    scalar S = pow(Rl + D05, 1.0/3.0);
+    const scalar D05 = sqrt(D);
+    const scalar S = pow(Rl + D05, 1.0/3.0);
     scalar Tl = 0;
-    if (D05 > Rl)
-    {
+    if (D05 > Rl) {
       Tl = -pow(mag(Rl - D05), 1.0/3.0);
-    }
-    else
-    {
+    } else {
       Tl = pow(Rl - D05, 1.0/3.0);
     }
     root = S + Tl - a2/3.0;
   }
   return root;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::PengRobinsonGas<Specie>::cpMcv
 (
@@ -290,6 +321,8 @@ inline mousse::scalar mousse::PengRobinsonGas<Specie>::cpMcv
 {
   return RR*Z(p, T);
 }
+
+
 // Member Operators 
 template<class Specie>
 inline void mousse::PengRobinsonGas<Specie>::operator+=
@@ -307,6 +340,8 @@ inline void mousse::PengRobinsonGas<Specie>::operator+=
   Pc_ = RR*Zc_*Tc_/Vc_;
   omega_ = molr1*omega_ + molr2*pg.omega_;
 }
+
+
 template<class Specie>
 inline void mousse::PengRobinsonGas<Specie>::operator-=
 (
@@ -323,11 +358,15 @@ inline void mousse::PengRobinsonGas<Specie>::operator-=
   Pc_ = RR*Zc_*Tc_/Vc_;
   omega_ = molr1*omega_ - molr2*pg.omega_;
 }
+
+
 template<class Specie>
 inline void mousse::PengRobinsonGas<Specie>::operator*=(const scalar s)
 {
   Specie::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Specie>
 mousse::PengRobinsonGas<Specie> mousse::operator+
@@ -349,6 +388,8 @@ mousse::PengRobinsonGas<Specie> mousse::operator+
           RR*Zc*Tc/Vc,
           molr1*pg1.omega_ + molr2*pg2.omega_};
 }
+
+
 template<class Specie>
 mousse::PengRobinsonGas<Specie> mousse::operator-
 (
@@ -369,6 +410,8 @@ mousse::PengRobinsonGas<Specie> mousse::operator-
           RR*Zc*Tc/Vc,
           molr1*pg1.omega_ - molr2*pg2.omega_};
 }
+
+
 template<class Specie>
 mousse::PengRobinsonGas<Specie> mousse::operator*
 (
@@ -383,6 +426,8 @@ mousse::PengRobinsonGas<Specie> mousse::operator*
           pg.Pc_,
           pg.omega_};
 }
+
+
 template<class Specie>
 mousse::PengRobinsonGas<Specie> mousse::operator==
 (
@@ -392,7 +437,7 @@ mousse::PengRobinsonGas<Specie> mousse::operator==
 {
   return pg2 - pg1;
 }
-#ifdef NoRepository
-#   include "peng_robinson_gas.cpp"
-#endif
+
+#include "peng_robinson_gas.ipp"
+
 #endif

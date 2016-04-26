@@ -24,17 +24,17 @@
 //     Wsoot               12;
 //     mappingFieldName    P;
 //   }
-// SourceFiles
-//   mixture_fraction_soot.cpp
+
 #include "interpolation_look_up_table.hpp"
 #include "soot_model.hpp"
 #include "hash_table.hpp"
 #include "fluid_thermo.hpp"
 #include "single_step_reacting_mixture.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 template<class ThermoType>
 class mixtureFractionSoot
 :
@@ -89,9 +89,11 @@ public:
         return soot_;
       }
 };
+
 }  // namespace mousse
 }  // namespace radiation
-#ifdef NoRepository
-#   include "mixture_fraction_soot.cpp"
+
+#include "mixture_fraction_soot.ipp"
+
 #endif
-#endif
+

@@ -9,43 +9,51 @@
 // Description
 //   Constant properties thermodynamics package templated on an equation of
 //   state
-// SourceFiles
-//   e_const_thermo.cpp
+
 #include "thermo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class EquationOfState> class eConstThermo;
+
 template<class EquationOfState>
 inline eConstThermo<EquationOfState> operator+
 (
   const eConstThermo<EquationOfState>&,
   const eConstThermo<EquationOfState>&
 );
+
 template<class EquationOfState>
 inline eConstThermo<EquationOfState> operator-
 (
   const eConstThermo<EquationOfState>&,
   const eConstThermo<EquationOfState>&
 );
+
 template<class EquationOfState>
 inline eConstThermo<EquationOfState> operator*
 (
   const scalar,
   const eConstThermo<EquationOfState>&
 );
+
 template<class EquationOfState>
 inline eConstThermo<EquationOfState> operator==
 (
   const eConstThermo<EquationOfState>&,
   const eConstThermo<EquationOfState>&
 );
+
 template<class EquationOfState>
 Ostream& operator<<
 (
   Ostream&,
   const eConstThermo<EquationOfState>&
 );
+
+
 template<class EquationOfState>
 class eConstThermo
 :
@@ -133,7 +141,9 @@ public:
       const eConstThermo&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class EquationOfState>
@@ -148,6 +158,8 @@ inline mousse::eConstThermo<EquationOfState>::eConstThermo
   Cv_{cv},
   Hf_{hf}
 {}
+
+
 // Constructors 
 template<class EquationOfState>
 inline mousse::eConstThermo<EquationOfState>::eConstThermo
@@ -160,24 +172,32 @@ inline mousse::eConstThermo<EquationOfState>::eConstThermo
   Cv_{ct.Cv_},
   Hf_{ct.Hf_}
 {}
+
+
 template<class EquationOfState>
 inline mousse::autoPtr<mousse::eConstThermo<EquationOfState> >
 mousse::eConstThermo<EquationOfState>::clone() const
 {
   return {new eConstThermo<EquationOfState>{*this}};
 }
+
+
 template<class EquationOfState>
 inline mousse::autoPtr<mousse::eConstThermo<EquationOfState> >
 mousse::eConstThermo<EquationOfState>::New(Istream& is)
 {
-  return {new eConstThermo<EquationOfState>(is)};
+  return {new eConstThermo<EquationOfState>{is}};
 }
+
+
 template<class EquationOfState>
 inline mousse::autoPtr<mousse::eConstThermo<EquationOfState> >
 mousse::eConstThermo<EquationOfState>::New(const dictionary& dict)
 {
-  return {new eConstThermo<EquationOfState>(dict)};
+  return {new eConstThermo<EquationOfState>{dict}};
 }
+
+
 // Member Functions 
 template<class EquationOfState>
 inline mousse::scalar mousse::eConstThermo<EquationOfState>::limit
@@ -187,6 +207,8 @@ inline mousse::scalar mousse::eConstThermo<EquationOfState>::limit
 {
   return T;
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::eConstThermo<EquationOfState>::cp
 (
@@ -196,6 +218,8 @@ inline mousse::scalar mousse::eConstThermo<EquationOfState>::cp
 {
   return Cv_ + this->cpMcv(p, T);
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::eConstThermo<EquationOfState>::ha
 (
@@ -205,6 +229,8 @@ inline mousse::scalar mousse::eConstThermo<EquationOfState>::ha
 {
   return cp(p, T)*T + Hf_;
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::eConstThermo<EquationOfState>::hs
 (
@@ -214,11 +240,15 @@ inline mousse::scalar mousse::eConstThermo<EquationOfState>::hs
 {
   return cp(p, T)*T;
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::eConstThermo<EquationOfState>::hc() const
 {
   return Hf_;
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::eConstThermo<EquationOfState>::s
 (
@@ -228,6 +258,8 @@ inline mousse::scalar mousse::eConstThermo<EquationOfState>::s
 {
   return cp()*log(T/Tstd) + EquationOfState::s(p, T);
 }
+
+
 // Member Operators 
 template<class EquationOfState>
 inline void mousse::eConstThermo<EquationOfState>::operator+=
@@ -242,6 +274,8 @@ inline void mousse::eConstThermo<EquationOfState>::operator+=
   Cv_ = molr1*Cv_ + molr2*ct.Cv_;
   Hf_ = molr1*Hf_ + molr2*ct.Hf_;
 }
+
+
 template<class EquationOfState>
 inline void mousse::eConstThermo<EquationOfState>::operator-=
 (
@@ -255,6 +289,8 @@ inline void mousse::eConstThermo<EquationOfState>::operator-=
   Cv_ = molr1*Cv_ - molr2*ct.Cv_;
   Hf_ = molr1*Hf_ - molr2*ct.Hf_;
 }
+
+
 // Friend Operators 
 template<class EquationOfState>
 inline mousse::eConstThermo<EquationOfState> mousse::operator+
@@ -274,6 +310,8 @@ inline mousse::eConstThermo<EquationOfState> mousse::operator+
           ct1.nMoles()/eofs.nMoles()*ct1.Hf_
             + ct2.nMoles()/eofs.nMoles()*ct2.Hf_};
 }
+
+
 template<class EquationOfState>
 inline mousse::eConstThermo<EquationOfState> mousse::operator-
 (
@@ -292,6 +330,8 @@ inline mousse::eConstThermo<EquationOfState> mousse::operator-
           ct1.nMoles()/eofs.nMoles()*ct1.Hf_
             - ct2.nMoles()/eofs.nMoles()*ct2.Hf_};
 }
+
+
 template<class EquationOfState>
 inline mousse::eConstThermo<EquationOfState> mousse::operator*
 (
@@ -303,6 +343,8 @@ inline mousse::eConstThermo<EquationOfState> mousse::operator*
           ct.Cv_,
           ct.Hf_};
 }
+
+
 template<class EquationOfState>
 inline mousse::eConstThermo<EquationOfState> mousse::operator==
 (
@@ -312,7 +354,7 @@ inline mousse::eConstThermo<EquationOfState> mousse::operator==
 {
   return ct2 - ct1;
 }
-#ifdef NoRepository
-#   include "e_const_thermo.cpp"
-#endif
+
+#include "e_const_thermo.ipp"
+
 #endif

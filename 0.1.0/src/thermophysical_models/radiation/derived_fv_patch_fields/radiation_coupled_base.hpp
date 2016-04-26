@@ -11,14 +11,15 @@
 //   dictionary or calculated by the solidThermo:
 //   - 'lookup' : Read the patch emissivity field from the dictionary
 //   - 'solidRadiation' : Use the emissivity field mapped from the adjacent solid
-// SourceFiles
-//   radiation_coupled_base.cpp
+
 #include "scalar_field.hpp"
 #include "named_enum.hpp"
 #include "fv_patch.hpp"
 #include "fv_patch_field_mapper.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class radiationCoupledBase
 {
 public:
@@ -30,8 +31,7 @@ public:
   };
 private:
   // Private data
-    static const NamedEnum<emissivityMethodType, 2>
-      emissivityMethodTypeNames_;
+    static const NamedEnum<emissivityMethodType, 2> emissivityMethodTypeNames_;
     //- Underlying patch
     const fvPatch& patch_;
 protected:
@@ -92,5 +92,8 @@ public:
     //- Write
     void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -8,11 +8,12 @@
 //   mousse::veryInhomogeneousMixture
 // Description
 //   mousse::veryInhomogeneousMixture
-// SourceFiles
-//   very_inhomogeneous_mixture.cpp
+
 #include "basic_combustion_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class veryInhomogeneousMixture
 :
@@ -32,8 +33,6 @@ class veryInhomogeneousMixture
     volScalarField& fu_;
     //- Regress variable
     volScalarField& b_;
-    //- Construct as copy (not implemented)
-    veryInhomogeneousMixture(const veryInhomogeneousMixture<ThermoType>&);
 public:
   //- The type of thermodynamics this mixture is instantiated for
   typedef ThermoType thermoType;
@@ -45,14 +44,16 @@ public:
       const fvMesh&,
       const word&
     );
+    //- Disable construct as copy
+    veryInhomogeneousMixture
+    (
+      const veryInhomogeneousMixture<ThermoType>&
+    ) = delete;
   //- Destructor
   virtual ~veryInhomogeneousMixture()
   {}
   // Member functions
-    const dimensionedScalar& stoicRatio() const
-    {
-      return stoicRatio_;
-    }
+    const dimensionedScalar& stoicRatio() const { return stoicRatio_; }
     const ThermoType& mixture(const scalar, const scalar) const;
     const ThermoType& cellMixture(const label celli) const
     {
@@ -64,11 +65,9 @@ public:
       const label facei
     ) const
     {
-      return mixture
-      (
-        ft_.boundaryField()[patchi][facei],
-        fu_.boundaryField()[patchi][facei]
-      );
+      return
+        mixture(ft_.boundaryField()[patchi][facei],
+                fu_.boundaryField()[patchi][facei]);
     }
     const ThermoType& cellReactants(const label celli) const
     {
@@ -80,11 +79,9 @@ public:
       const label facei
     ) const
     {
-      return mixture
-      (
-        ft_.boundaryField()[patchi][facei],
-        ft_.boundaryField()[patchi][facei]
-      );
+      return
+        mixture(ft_.boundaryField()[patchi][facei],
+                ft_.boundaryField()[patchi][facei]);
     }
     const ThermoType& cellProducts(const label celli) const
     {
@@ -105,9 +102,9 @@ public:
     //- Return thermo based on index
     const ThermoType& getLocalThermo(const label speciei) const;
 };
+
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#ifdef NoRepository
-#   include "very_inhomogeneous_mixture.cpp"
-#endif
+
+#include "very_inhomogeneous_mixture.ipp"
+
 #endif

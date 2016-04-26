@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_ABSORPTION_EMISSION_MODEL_CONSTANT_ABSORPTION_EMISSION_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_ABSORPTION_EMISSION_MODEL_CONSTANT_ABSORPTION_EMISSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,15 +9,13 @@
 // Description
 //   Constant radiation absorption and emission coefficients for continuous
 //   phase
-// SourceFiles
-//   constant_absorption_emission.cpp
-#ifndef radiationConstantAbsorptionEmission_H
-#define radiationConstantAbsorptionEmission_H
+
 #include "absorption_emission_model.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class constantAbsorptionEmission
 :
   public absorptionEmissionModel
@@ -53,6 +54,9 @@ public:
       return true;
     }
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

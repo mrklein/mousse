@@ -4,12 +4,17 @@
 
 #include "solid_reaction_thermo.hpp"
 #include "fv_mesh.hpp"
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(solidReactionThermo, 0);
-  DEFINE_RUN_TIME_SELECTION_TABLE(solidReactionThermo, fvMesh);
-  DEFINE_RUN_TIME_SELECTION_TABLE(solidReactionThermo, dictionary);
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(solidReactionThermo, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(solidReactionThermo, fvMesh);
+DEFINE_RUN_TIME_SELECTION_TABLE(solidReactionThermo, dictionary);
+
 }
+
+
 // Constructors 
 mousse::solidReactionThermo::solidReactionThermo
 (
@@ -17,8 +22,10 @@ mousse::solidReactionThermo::solidReactionThermo
   const word& phaseName
 )
 :
-  solidThermo(mesh, phaseName)
+  solidThermo{mesh, phaseName}
 {}
+
+
 mousse::solidReactionThermo::solidReactionThermo
 (
   const fvMesh& mesh,
@@ -26,8 +33,10 @@ mousse::solidReactionThermo::solidReactionThermo
   const word& phaseName
 )
 :
-  solidThermo(mesh, dict, phaseName)
+  solidThermo{mesh, dict, phaseName}
 {}
+
+
 // Selectors
 mousse::autoPtr<mousse::solidReactionThermo> mousse::solidReactionThermo::New
 (
@@ -37,6 +46,8 @@ mousse::autoPtr<mousse::solidReactionThermo> mousse::solidReactionThermo::New
 {
   return basicThermo::New<solidReactionThermo>(mesh, phaseName);
 }
+
+
 mousse::autoPtr<mousse::solidReactionThermo> mousse::solidReactionThermo::New
 (
   const fvMesh& mesh,
@@ -46,6 +57,9 @@ mousse::autoPtr<mousse::solidReactionThermo> mousse::solidReactionThermo::New
 {
   return basicThermo::New<solidReactionThermo>(mesh, dict, phaseName);
 }
+
+
 // Destructor 
 mousse::solidReactionThermo::~solidReactionThermo()
 {}
+

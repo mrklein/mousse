@@ -9,8 +9,9 @@
 // Description
 //   Thermodynamics mapping class to expose the absolute enthalpy function
 //   as the standard enthalpy function h(T).
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Thermo>
 class absoluteEnthalpy
 {
@@ -21,10 +22,7 @@ public:
     {}
   // Member Functions
     //- Return the instantiated type name
-    static word typeName()
-    {
-      return "absoluteEnthalpy";
-    }
+    static word typeName() { return "absoluteEnthalpy"; }
     // Fundamental properties
       static word name()
       {
@@ -83,5 +81,8 @@ public:
         return thermo.THa(h, p, T0);
       }
 };
+
 }  // namespace mousse
+
 #endif
+

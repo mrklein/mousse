@@ -32,14 +32,14 @@
 //   mousse::radiation::radiationModel
 //   mousse::radiation::viewFactor
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   grey_diffusive_view_factor_fixed_value_fv_patch_scalar_field.cpp
+
 #include "radiation_coupled_base.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class greyDiffusiveViewFactorFixedValueFvPatchScalarField
 :
   public fixedValueFvPatchScalarField,
@@ -83,9 +83,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new greyDiffusiveViewFactorFixedValueFvPatchScalarField(*this)
-      );
+      {
+        new greyDiffusiveViewFactorFixedValueFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     greyDiffusiveViewFactorFixedValueFvPatchScalarField
@@ -100,13 +100,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new greyDiffusiveViewFactorFixedValueFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new greyDiffusiveViewFactorFixedValueFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access
@@ -122,6 +118,9 @@ public:
       //- Write
       virtual void write(Ostream&) const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

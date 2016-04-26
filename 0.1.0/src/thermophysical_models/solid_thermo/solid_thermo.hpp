@@ -8,8 +8,7 @@
 //   mousse::solidThermo
 // Description
 //   Fundamental solid thermodynamic properties
-// SourceFiles
-//   solid_thermo.cpp
+
 #include "vol_fields.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_mesh.hpp"
@@ -17,8 +16,10 @@
 #include "auto_ptr.hpp"
 #include "basic_thermo.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class solidThermo
 :
   public basicThermo
@@ -102,5 +103,8 @@ public:
     //- Read thermophysicalProperties dictionary
     virtual bool read();
 };
+
 }  // namespace mousse
+
 #endif
+

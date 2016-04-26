@@ -7,6 +7,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "psiu_reaction_thermo.hpp"
+
+
 // Constructors 
 mousse::gradientUnburntEnthalpyFvPatchScalarField::
 gradientUnburntEnthalpyFvPatchScalarField
@@ -17,6 +19,8 @@ gradientUnburntEnthalpyFvPatchScalarField
 :
   fixedGradientFvPatchScalarField{p, iF}
 {}
+
+
 mousse::gradientUnburntEnthalpyFvPatchScalarField::
 gradientUnburntEnthalpyFvPatchScalarField
 (
@@ -28,6 +32,8 @@ gradientUnburntEnthalpyFvPatchScalarField
 :
   fixedGradientFvPatchScalarField{ptf, p, iF, mapper}
 {}
+
+
 mousse::gradientUnburntEnthalpyFvPatchScalarField::
 gradientUnburntEnthalpyFvPatchScalarField
 (
@@ -38,6 +44,8 @@ gradientUnburntEnthalpyFvPatchScalarField
 :
   fixedGradientFvPatchScalarField{p, iF, dict}
 {}
+
+
 mousse::gradientUnburntEnthalpyFvPatchScalarField::
 gradientUnburntEnthalpyFvPatchScalarField
 (
@@ -46,6 +54,8 @@ gradientUnburntEnthalpyFvPatchScalarField
 :
   fixedGradientFvPatchScalarField{tppsf}
 {}
+
+
 mousse::gradientUnburntEnthalpyFvPatchScalarField::
 gradientUnburntEnthalpyFvPatchScalarField
 (
@@ -55,35 +65,35 @@ gradientUnburntEnthalpyFvPatchScalarField
 :
   fixedGradientFvPatchScalarField{tppsf, iF}
 {}
+
+
 // Member Functions 
 void mousse::gradientUnburntEnthalpyFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
-  const psiuReactionThermo& thermo = db().lookupObject<psiuReactionThermo>
-  (
-    basicThermo::dictName
-  );
+  const psiuReactionThermo& thermo =
+    db().lookupObject<psiuReactionThermo>(basicThermo::dictName);
   const label patchi = patch().index();
   const scalarField& pw = thermo.p().boundaryField()[patchi];
   fvPatchScalarField& Tw =
     const_cast<fvPatchScalarField&>(thermo.Tu().boundaryField()[patchi]);
   Tw.evaluate();
   gradient() = thermo.Cp(pw, Tw, patchi)*Tw.snGrad()
-   + patch().deltaCoeffs()*
-    (
-      thermo.heu(pw, Tw, patchi)
-     - thermo.heu(pw, Tw, patch().faceCells())
-    );
+   + patch().deltaCoeffs()*(thermo.heu(pw, Tw, patchi)
+                            - thermo.heu(pw, Tw, patch().faceCells()));
   fixedGradientFvPatchScalarField::updateCoeffs();
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   gradientUnburntEnthalpyFvPatchScalarField
 );
+
 }
+

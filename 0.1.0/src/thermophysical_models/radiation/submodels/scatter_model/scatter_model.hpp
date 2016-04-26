@@ -8,14 +8,16 @@
 //   mousse::radiation::scatterModel
 // Description
 //   Base class for radiation scattering
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class scatterModel
 {
 protected:
@@ -52,6 +54,9 @@ public:
     //- Return scatter coefficient
     virtual tmp<volScalarField> sigmaEff() const = 0;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

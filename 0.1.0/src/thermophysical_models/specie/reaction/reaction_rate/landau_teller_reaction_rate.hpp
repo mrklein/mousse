@@ -8,10 +8,13 @@
 //   mousse::LandauTellerReactionRate
 // Description
 //   Landau-Teller reaction rate.
+
 #include "scalar_field.hpp"
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class LandauTellerReactionRate
 {
   // Private data
@@ -64,7 +67,9 @@ public:
       const LandauTellerReactionRate&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::LandauTellerReactionRate::LandauTellerReactionRate
@@ -82,6 +87,8 @@ inline mousse::LandauTellerReactionRate::LandauTellerReactionRate
   B_{B},
   C_{C}
 {}
+
+
 inline mousse::LandauTellerReactionRate::LandauTellerReactionRate
 (
   const speciesTable&,
@@ -96,6 +103,8 @@ inline mousse::LandauTellerReactionRate::LandauTellerReactionRate
 {
   is.readEnd("LandauTellerReactionRate(Istream&)");
 }
+
+
 inline mousse::LandauTellerReactionRate::LandauTellerReactionRate
 (
   const speciesTable&,
@@ -108,6 +117,8 @@ inline mousse::LandauTellerReactionRate::LandauTellerReactionRate
   B_{readScalar(dict.lookup("B"))},
   C_{readScalar(dict.lookup("C"))}
 {}
+
+
 // Member Functions 
 inline mousse::scalar mousse::LandauTellerReactionRate::operator()
 (
@@ -117,29 +128,26 @@ inline mousse::scalar mousse::LandauTellerReactionRate::operator()
 ) const
 {
   scalar lta = A_;
-  if (mag(beta_) > VSMALL)
-  {
+  if (mag(beta_) > VSMALL) {
     lta *= pow(T, beta_);
   }
   scalar expArg = 0.0;
-  if (mag(Ta_) > VSMALL)
-  {
+  if (mag(Ta_) > VSMALL) {
     expArg -= Ta_/T;
   }
-  if (mag(B_) > VSMALL)
-  {
+  if (mag(B_) > VSMALL) {
     expArg += B_/cbrt(T);
   }
-  if (mag(C_) > VSMALL)
-  {
+  if (mag(C_) > VSMALL) {
     expArg += C_/pow(T, 2.0/3.0);
   }
-  if (mag(expArg) > VSMALL)
-  {
+  if (mag(expArg) > VSMALL) {
     lta *= exp(expArg);
   }
   return lta;
 }
+
+
 inline void mousse::LandauTellerReactionRate::write(Ostream& os) const
 {
   os.writeKeyword("A") << A_ << token::END_STATEMENT << nl;
@@ -148,16 +156,20 @@ inline void mousse::LandauTellerReactionRate::write(Ostream& os) const
   os.writeKeyword("B") << B_ << token::END_STATEMENT << nl;
   os.writeKeyword("C") << C_ << token::END_STATEMENT << nl;
 }
+
+
 inline mousse::Ostream& mousse::operator<<
 (
   Ostream& os,
   const LandauTellerReactionRate& arr
 )
 {
-  os<< token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << arr.A_ << token::SPACE << arr.beta_ << token::SPACE << arr.Ta_
     << token::SPACE << arr.B_ << token::SPACE << arr.C_
     << token::END_LIST;
   return os;
 }
+
 #endif
+

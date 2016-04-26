@@ -7,8 +7,10 @@
 #include "thermo_physics_types.hpp"
 #include "pyrolysis_chemistry_model.hpp"
 #include "basic_solid_chemistry_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
 (
   pyrolysisChemistryModel,
@@ -16,6 +18,7 @@ MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
   hConstSolidThermoPhysics,
   gasHThermoPhysics
 )
+
 MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
 (
   pyrolysisChemistryModel,
@@ -23,6 +26,7 @@ MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
   hPowerSolidThermoPhysics,
   gasHThermoPhysics
 )
+
 MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
 (
   pyrolysisChemistryModel,
@@ -30,4 +34,6 @@ MAKE_SOLID_CHEMISTRY_SOLVER_TYPES
   hExpKappaConstSolidThermoPhysics,
   gasHThermoPhysics
 )
+
 }
+

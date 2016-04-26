@@ -8,11 +8,12 @@
 //   mousse::basicCombustionMixture
 // Description
 //   Specialization of the basicSpecieMixture for combustion.
-// SourceFiles
-//   basic_combustion_mixture.cpp
+
 #include "basic_specie_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class basicCombustionMixture
 :
   public basicSpecieMixture
@@ -42,7 +43,9 @@ public:
       const dimensionedScalar& stoicRatio
     ) const;
 };
+
 }  // namespace mousse
+
 
 inline mousse::scalar mousse::basicCombustionMixture::fres
 (
@@ -52,6 +55,8 @@ inline mousse::scalar mousse::basicCombustionMixture::fres
 {
   return max(ft - (scalar(1) - ft)/stoicRatio, scalar(0));
 }
+
+
 inline mousse::tmp<mousse::volScalarField> mousse::basicCombustionMixture::fres
 (
   const volScalarField& ft,
@@ -60,4 +65,6 @@ inline mousse::tmp<mousse::volScalarField> mousse::basicCombustionMixture::fres
 {
   return max(ft - (scalar(1) - ft)/stoicRatio.value(), scalar(0));
 }
+
 #endif
+

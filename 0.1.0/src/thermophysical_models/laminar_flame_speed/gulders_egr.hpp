@@ -8,13 +8,13 @@
 //   mousse::laminarFlameSpeedModels::GuldersEGR
 // Description
 //   Laminar flame speed obtained from Gulder's correlation with EGR modelling.
-// SourceFiles
-//   gulders_egr.cpp
+
 #include "laminar_flame_speed.hpp"
-namespace mousse
-{
-namespace laminarFlameSpeedModels
-{
+
+
+namespace mousse {
+namespace laminarFlameSpeedModels {
+
 class GuldersEGR
 :
   public laminarFlameSpeed
@@ -52,9 +52,6 @@ class GuldersEGR
       const volScalarField& phi,
       const volScalarField& egr
     ) const;
-    //- Construct as copy (not implemented)
-    GuldersEGR(const GuldersEGR&);
-    void operator=(const GuldersEGR&);
 public:
   //- Runtime type information
   TYPE_NAME("GuldersEGR");
@@ -65,12 +62,18 @@ public:
       const dictionary&,
       const psiuReactionThermo&
     );
+
+    GuldersEGR(const GuldersEGR&) = delete;
+    void operator=(const GuldersEGR&) = delete;
+
   //- Destructor
   virtual ~GuldersEGR();
   // Member functions
     //- Return the laminar flame speed [m/s]
     tmp<volScalarField> operator()() const;
 };
-} // End laminarFlameSpeedModels
+
+}  // namespace laminarFlameSpeedModels
 }  // namespace mousse
+
 #endif

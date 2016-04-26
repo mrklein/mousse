@@ -9,45 +9,53 @@
 // Description
 //   Incompressible, polynomial form of equation of state, using a polynomial
 //   function for density.
-// SourceFiles
-//   ico_polynomial.cpp
+
 #include "auto_ptr.hpp"
 #include "polynomial.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Specie, int PolySize>
 class icoPolynomial;
+
 template<class Specie, int PolySize>
 icoPolynomial<Specie, PolySize> operator+
 (
   const icoPolynomial<Specie, PolySize>&,
   const icoPolynomial<Specie, PolySize>&
 );
+
 template<class Specie, int PolySize>
 icoPolynomial<Specie, PolySize> operator-
 (
   const icoPolynomial<Specie, PolySize>&,
   const icoPolynomial<Specie, PolySize>&
 );
+
 template<class Specie, int PolySize>
 icoPolynomial<Specie, PolySize> operator*
 (
   const scalar,
   const icoPolynomial<Specie, PolySize>&
 );
+
 template<class Specie, int PolySize>
 icoPolynomial<Specie, PolySize> operator==
 (
   const icoPolynomial<Specie, PolySize>&,
   const icoPolynomial<Specie, PolySize>&
 );
+
 template<class Specie, int PolySize>
 Ostream& operator<<
 (
   Ostream&,
   const icoPolynomial<Specie, PolySize>&
 );
+
+
 template<class Specie, int PolySize=8>
 class icoPolynomial
 :
@@ -136,15 +144,19 @@ public:
       const icoPolynomial&
     );
 };
+
 }  // namespace mousse
-#define makeIcoPolynomial(PolySize)                                          \
-                                      \
-DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUGWithName                                       \
-(                                                                            \
-  icoPolynomial<Specie, PolySize>,                                         \
-  "icoPolynomial<"#PolySize">",                                            \
-  0                                                                        \
+
+
+#define MAKE_ICO_POLYNOMIAL(PolySize)                                         \
+                                                                              \
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                                 \
+(                                                                             \
+  icoPolynomial<Specie, PolySize>,                                            \
+  "icoPolynomial<"#PolySize">",                                               \
+  0                                                                           \
 );
+
 
 // Private Member Functions 
 template<class Specie, int PolySize>
@@ -157,6 +169,8 @@ inline mousse::icoPolynomial<Specie, PolySize>::icoPolynomial
   Specie{sp},
   rhoCoeffs_{rhoCoeffs}
 {}
+
+
 // Constructors 
 template<class Specie, int PolySize>
 inline mousse::icoPolynomial<Specie, PolySize>::icoPolynomial
@@ -167,6 +181,8 @@ inline mousse::icoPolynomial<Specie, PolySize>::icoPolynomial
   Specie{ip},
   rhoCoeffs_{ip.rhoCoeffs_}
 {}
+
+
 template<class Specie, int PolySize>
 inline mousse::icoPolynomial<Specie, PolySize>::icoPolynomial
 (
@@ -177,24 +193,32 @@ inline mousse::icoPolynomial<Specie, PolySize>::icoPolynomial
   Specie{name, ip},
   rhoCoeffs_{ip.rhoCoeffs_}
 {}
+
+
 template<class Specie, int PolySize>
 inline mousse::autoPtr<mousse::icoPolynomial<Specie, PolySize> >
 mousse::icoPolynomial<Specie, PolySize>::clone() const
 {
-  return {new icoPolynomial<Specie, PolySize>(*this)};
+  return {new icoPolynomial<Specie, PolySize>{*this}};
 }
+
+
 template<class Specie, int PolySize>
 inline mousse::autoPtr<mousse::icoPolynomial<Specie, PolySize> >
 mousse::icoPolynomial<Specie, PolySize>::New(Istream& is)
 {
-  return {new icoPolynomial<Specie, PolySize>(is)};
+  return {new icoPolynomial<Specie, PolySize>{is}};
 }
+
+
 template<class Specie, int PolySize>
 inline mousse::autoPtr<mousse::icoPolynomial<Specie, PolySize> >
 mousse::icoPolynomial<Specie, PolySize>::New(const dictionary& dict)
 {
-  return {new icoPolynomial<Specie, PolySize>(dict)};
+  return {new icoPolynomial<Specie, PolySize>{dict}};
 }
+
+
 // Member Functions 
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::rho
@@ -205,6 +229,8 @@ inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::rho
 {
   return rhoCoeffs_.value(T)/this->W();
 }
+
+
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::s
 (
@@ -214,6 +240,8 @@ inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::s
 {
   return 0;
 }
+
+
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::psi
 (
@@ -223,6 +251,8 @@ inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::psi
 {
   return 0;
 }
+
+
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::Z
 (
@@ -232,6 +262,8 @@ inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::Z
 {
   return 0;
 }
+
+
 template<class Specie, int PolySize>
 inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::cpMcv
 (
@@ -241,6 +273,8 @@ inline mousse::scalar mousse::icoPolynomial<Specie, PolySize>::cpMcv
 {
   return -(p/sqr(rhoCoeffs_.value(T)))*rhoCoeffs_.derivative(T);
 }
+
+
 // Member Operators 
 template<class Specie, int PolySize>
 inline mousse::icoPolynomial<Specie, PolySize>&
@@ -253,6 +287,8 @@ mousse::icoPolynomial<Specie, PolySize>::operator=
   rhoCoeffs_ = ip.rhoCoeffs_;
   return *this;
 }
+
+
 template<class Specie, int PolySize>
 inline void mousse::icoPolynomial<Specie, PolySize>::operator+=
 (
@@ -265,6 +301,8 @@ inline void mousse::icoPolynomial<Specie, PolySize>::operator+=
   scalar molr2 = ip.nMoles()/this->nMoles();
   rhoCoeffs_ = molr1*rhoCoeffs_ + molr2*ip.rhoCoeffs_;
 }
+
+
 template<class Specie, int PolySize>
 inline void mousse::icoPolynomial<Specie, PolySize>::operator-=
 (
@@ -277,11 +315,15 @@ inline void mousse::icoPolynomial<Specie, PolySize>::operator-=
   scalar molr2 = ip.nMoles()/this->nMoles();
   rhoCoeffs_ = molr1*rhoCoeffs_ - molr2*ip.rhoCoeffs_;
 }
+
+
 template<class Specie, int PolySize>
 inline void mousse::icoPolynomial<Specie, PolySize>::operator*=(const scalar s)
 {
   Specie::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Specie, int PolySize>
 mousse::icoPolynomial<Specie, PolySize> mousse::operator+
@@ -296,6 +338,8 @@ mousse::icoPolynomial<Specie, PolySize> mousse::operator+
   return {static_cast<const Specie&>(ip1) + static_cast<const Specie&>(ip2),
           molr1*ip1.rhoCoeffs_ + molr2*ip2.rhoCoeffs_};
 }
+
+
 template<class Specie, int PolySize>
 mousse::icoPolynomial<Specie, PolySize> mousse::operator-
 (
@@ -309,6 +353,8 @@ mousse::icoPolynomial<Specie, PolySize> mousse::operator-
   return {static_cast<const Specie&>(ip1) - static_cast<const Specie&>(ip2),
           molr1*ip1.rhoCoeffs_ - molr2*ip2.rhoCoeffs_};
 }
+
+
 template<class Specie, int PolySize>
 mousse::icoPolynomial<Specie, PolySize> mousse::operator*
 (
@@ -318,6 +364,8 @@ mousse::icoPolynomial<Specie, PolySize> mousse::operator*
 {
   return {s*static_cast<const Specie&>(ip), ip.rhoCoeffs_};
 }
+
+
 template<class Specie, int PolySize>
 mousse::icoPolynomial<Specie, PolySize> mousse::operator==
 (
@@ -327,7 +375,7 @@ mousse::icoPolynomial<Specie, PolySize> mousse::operator==
 {
   return ip2 - ip1;
 }
-#ifdef NoRepository
-#   include "ico_polynomial.cpp"
-#endif
+
+#include "ico_polynomial.ipp"
+
 #endif

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SCATTER_MODEL_CONSTANT_SCATTER_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SCATTER_MODEL_CONSTANT_SCATTER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,15 +8,13 @@
 //   mousse::radiation::constantScatter
 // Description
 //   Constant radiation scatter coefficient
-// SourceFiles
-//   scatter_model.cpp
-#ifndef radiationConstantScatter_H
-#define radiationConstantScatter_H
+
 #include "scatter_model.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class constantScatter
 :
   public scatterModel
@@ -41,6 +42,9 @@ public:
     //- Return scatter coefficient
     tmp<volScalarField> sigmaEff() const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

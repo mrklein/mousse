@@ -20,8 +20,10 @@
 #include "reacting_mixture.hpp"
 #include "single_step_reacting_mixture.hpp"
 #include "thermo_physics_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // constTransport, hConstThermo
 MAKE_REACTION_THERMO
 (
@@ -35,6 +37,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 MAKE_REACTION_THERMO
 (
   psiThermo,
@@ -47,6 +50,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 MAKE_REACTION_THERMO
 (
   psiThermo,
@@ -59,6 +63,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 // sutherlandTransport, hConstThermo
 MAKE_REACTION_THERMO
 (
@@ -72,6 +77,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 MAKE_REACTION_THERMO
 (
   psiThermo,
@@ -84,6 +90,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 MAKE_REACTION_THERMO
 (
   psiThermo,
@@ -96,6 +103,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 // sutherlandTransport, janafThermo
 MAKE_REACTION_THERMO
 (
@@ -109,6 +117,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 MAKE_REACTION_THERMO
 (
   psiThermo,
@@ -121,6 +130,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 MAKE_REACTION_THERMO
 (
   psiThermo,
@@ -133,6 +143,7 @@ MAKE_REACTION_THERMO
   perfectGas,
   specie
 );
+
 // Multi-component thermo for sensible enthalpy
 MAKE_REACTION_MIXTURE_THERMO
 (
@@ -142,6 +153,7 @@ MAKE_REACTION_MIXTURE_THERMO
   multiComponentMixture,
   constGasHThermoPhysics
 );
+
 MAKE_REACTION_MIXTURE_THERMO
 (
   psiThermo,
@@ -150,6 +162,7 @@ MAKE_REACTION_MIXTURE_THERMO
   multiComponentMixture,
   gasHThermoPhysics
 );
+
 // Multi-component thermo for internal energy
 MAKE_REACTION_MIXTURE_THERMO
 (
@@ -159,6 +172,7 @@ MAKE_REACTION_MIXTURE_THERMO
   multiComponentMixture,
   constGasEThermoPhysics
 );
+
 MAKE_REACTION_MIXTURE_THERMO
 (
   psiThermo,
@@ -167,6 +181,7 @@ MAKE_REACTION_MIXTURE_THERMO
   multiComponentMixture,
   gasEThermoPhysics
 );
+
 // Multi-component reaction thermo for sensible enthalpy
 MAKE_REACTION_MIXTURE_THERMO
 (
@@ -176,6 +191,7 @@ MAKE_REACTION_MIXTURE_THERMO
   reactingMixture,
   constGasHThermoPhysics
 );
+
 MAKE_REACTION_MIXTURE_THERMO
 (
   psiThermo,
@@ -184,6 +200,7 @@ MAKE_REACTION_MIXTURE_THERMO
   reactingMixture,
   gasHThermoPhysics
 );
+
 MAKE_REACTION_MIXTURE_THERMO
 (
   psiThermo,
@@ -192,6 +209,7 @@ MAKE_REACTION_MIXTURE_THERMO
   singleStepReactingMixture,
   gasHThermoPhysics
 );
+
 // Multi-component reaction thermo for internal energy
 MAKE_REACTION_MIXTURE_THERMO
 (
@@ -201,6 +219,7 @@ MAKE_REACTION_MIXTURE_THERMO
   reactingMixture,
   constGasEThermoPhysics
 );
+
 MAKE_REACTION_MIXTURE_THERMO
 (
   psiThermo,
@@ -209,6 +228,7 @@ MAKE_REACTION_MIXTURE_THERMO
   reactingMixture,
   gasEThermoPhysics
 );
+
 MAKE_REACTION_MIXTURE_THERMO
 (
   psiThermo,
@@ -217,4 +237,6 @@ MAKE_REACTION_MIXTURE_THERMO
   singleStepReactingMixture,
   gasEThermoPhysics
 );
+
 }  // namespace mousse
+

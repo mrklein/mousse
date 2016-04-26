@@ -9,23 +9,26 @@
 // Description
 //   Exponential properties for solid heat transport
 //   Templated into a given thermodynamics package.
-// SourceFiles
-//   exponential_solid_transport.cpp
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Thermo> class exponentialSolidTransport;
+
 template<class Thermo>
 inline exponentialSolidTransport<Thermo> operator*
 (
   const scalar,
   const exponentialSolidTransport<Thermo>&
 );
+
 template<class Thermo>
 Ostream& operator<<
 (
   Ostream&,
   const exponentialSolidTransport<Thermo>&
 );
+
+
 template<class Thermo>
 class exponentialSolidTransport
 :
@@ -100,7 +103,9 @@ public:
       const exponentialSolidTransport&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class Thermo>
@@ -117,6 +122,8 @@ inline mousse::exponentialSolidTransport<Thermo>::exponentialSolidTransport
   n0_{n0},
   Tref_{Tref}
 {}
+
+
 template<class Thermo>
 inline mousse::exponentialSolidTransport<Thermo>::exponentialSolidTransport
 (
@@ -129,6 +136,8 @@ inline mousse::exponentialSolidTransport<Thermo>::exponentialSolidTransport
   n0_{ct.n0_},
   Tref_{ct.Tref_}
 {}
+
+
 template<class Thermo>
 inline mousse::autoPtr<mousse::exponentialSolidTransport<Thermo>>
 mousse::exponentialSolidTransport<Thermo>::New
@@ -136,10 +145,14 @@ mousse::exponentialSolidTransport<Thermo>::New
   const dictionary& dict
 )
 {
-  return autoPtr<exponentialSolidTransport<Thermo>>{
-    new exponentialSolidTransport<Thermo>(dict)
-  };
+  return
+    autoPtr<exponentialSolidTransport<Thermo>>
+    {
+      new exponentialSolidTransport<Thermo>(dict)
+    };
 }
+
+
 // Member Functions 
 template<class Thermo>
 inline mousse::scalar mousse::exponentialSolidTransport<Thermo>::kappa
@@ -149,6 +162,10 @@ inline mousse::scalar mousse::exponentialSolidTransport<Thermo>::kappa
 {
   return (kappa0_*pow(T/Tref_, n0_));
 }
+
+
+
+
 template<class Thermo>
 inline mousse::vector mousse::exponentialSolidTransport<Thermo>::Kappa
 (
@@ -158,6 +175,8 @@ inline mousse::vector mousse::exponentialSolidTransport<Thermo>::Kappa
   const scalar kappa(kappa0_*pow(T/Tref_, n0_));
   return vector(kappa, kappa, kappa);
 }
+
+
 template<class Thermo>
 inline mousse::scalar mousse::exponentialSolidTransport<Thermo>::
 mu(const scalar /*p*/, const scalar /*T*/) const
@@ -166,17 +185,21 @@ mu(const scalar /*p*/, const scalar /*T*/) const
   (
     "mousse::scalar mousse::exponentialSolidTransport<Thermo>mu::"
     "("
-    "    const scalar p, const scalar T"
+    "  const scalar p, const scalar T"
     ") const"
   );
   return scalar(0);
 }
+
+
 template<class Thermo>
 inline mousse::scalar mousse::exponentialSolidTransport<Thermo>::
 alphah(const scalar p, const scalar T) const
 {
   return kappa(p, T)/this->Cpv(p, T);
 }
+
+
 // Member Operators 
 template<class Thermo>
 inline mousse::exponentialSolidTransport<Thermo>&
@@ -190,6 +213,8 @@ mousse::exponentialSolidTransport<Thermo>::operator=
   Tref_ = ct.Tref_;
   return *this;
 }
+
+
 template<class Thermo>
 inline void mousse::exponentialSolidTransport<Thermo>::operator+=
 (
@@ -203,6 +228,8 @@ inline void mousse::exponentialSolidTransport<Thermo>::operator+=
   n0_ = (molr1*n0_ + molr2*ct.n0_);
   Tref_ = (molr1*Tref_ + molr2*ct.Tref_);
 }
+
+
 template<class Thermo>
 inline void mousse::exponentialSolidTransport<Thermo>::operator-=
 (
@@ -216,6 +243,8 @@ inline void mousse::exponentialSolidTransport<Thermo>::operator-=
   n0_ = (molr1*n0_ - molr2*ct.n0_);
   Tref_ = (molr1*Tref_ - molr2*ct.Tref_);
 }
+
+
 // Friend Operators 
 template<class Thermo>
 inline mousse::exponentialSolidTransport<Thermo> mousse::operator*
@@ -224,15 +253,16 @@ inline mousse::exponentialSolidTransport<Thermo> mousse::operator*
   const exponentialSolidTransport<Thermo>& ct
 )
 {
-  return exponentialSolidTransport<Thermo>
-  (
-    s*static_cast<const Thermo&>(ct),
-    ct.kappa0_,
-    ct.n0_,
-    ct.Tref_
-  );
+  return
+    exponentialSolidTransport<Thermo>
+    {
+      s*static_cast<const Thermo&>(ct),
+      ct.kappa0_,
+      ct.n0_,
+      ct.Tref_
+    };
 }
-#ifdef NoRepository
-#   include "exponential_solid_transport.cpp"
-#endif
+
+#include "exponential_solid_transport.ipp"
+
 #endif

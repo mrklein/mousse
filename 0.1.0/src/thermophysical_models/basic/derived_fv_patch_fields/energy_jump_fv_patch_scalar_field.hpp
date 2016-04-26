@@ -14,12 +14,13 @@
 //   when converting temperature boundary conditions into energy.
 // SeeAlso
 //   mousse::fixedJumpFvPatchField
-// SourceFiles
-//   energy_jump_fv_patch_scalar_field.cpp
+
 #include "fixed_jump_fv_patch_field.hpp"
 #include "data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class energyJumpFvPatchScalarField
 :
   public fixedJumpFvPatchField<scalar>
@@ -56,12 +57,13 @@ public:
       const energyJumpFvPatchScalarField&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<scalar> > clone() const
+    virtual tmp<fvPatchField<scalar>> clone() const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new energyJumpFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchField<scalar>>
+        {
+          new energyJumpFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     energyJumpFvPatchScalarField
@@ -70,15 +72,16 @@ public:
       const DimensionedField<scalar, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<scalar> > clone
+    virtual tmp<fvPatchField<scalar>> clone
     (
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new energyJumpFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchField<scalar>>
+        {
+          new energyJumpFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
@@ -87,5 +90,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

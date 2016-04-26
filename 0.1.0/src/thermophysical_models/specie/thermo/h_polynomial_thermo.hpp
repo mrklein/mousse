@@ -10,45 +10,53 @@
 //   Thermodynamics package templated on the equation of state, using polynomial
 //   functions for cp, h and s
 //   Polynomials for h and s derived from cp
-// SourceFiles
-//   h_polynomial_thermo.cpp
+
 #include "scalar.hpp"
 #include "polynomial.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class EquationOfState, int PolySize>
 class hPolynomialThermo;
+
 template<class EquationOfState, int PolySize>
 inline hPolynomialThermo<EquationOfState, PolySize> operator+
 (
   const hPolynomialThermo<EquationOfState, PolySize>&,
   const hPolynomialThermo<EquationOfState, PolySize>&
 );
+
 template<class EquationOfState, int PolySize>
 inline hPolynomialThermo<EquationOfState, PolySize> operator-
 (
   const hPolynomialThermo<EquationOfState, PolySize>&,
   const hPolynomialThermo<EquationOfState, PolySize>&
 );
+
 template<class EquationOfState, int PolySize>
 inline hPolynomialThermo<EquationOfState, PolySize> operator*
 (
   const scalar,
   const hPolynomialThermo<EquationOfState, PolySize>&
 );
+
 template<class EquationOfState, int PolySize>
 inline hPolynomialThermo<EquationOfState, PolySize> operator==
 (
   const hPolynomialThermo<EquationOfState, PolySize>&,
   const hPolynomialThermo<EquationOfState, PolySize>&
 );
+
 template<class EquationOfState, int PolySize>
 Ostream& operator<<
 (
   Ostream&,
   const hPolynomialThermo<EquationOfState, PolySize>&
 );
+
+
 template<class EquationOfState, int PolySize=8>
 class hPolynomialThermo
 :
@@ -144,7 +152,9 @@ public:
       const hPolynomialThermo&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class EquationOfState, int PolySize>
@@ -165,6 +175,8 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize>::hPolynomialThermo
   hCoeffs_{hCoeffs},
   sCoeffs_{sCoeffs}
 {}
+
+
 // Constructors 
 template<class EquationOfState, int PolySize>
 inline mousse::hPolynomialThermo<EquationOfState, PolySize>::hPolynomialThermo
@@ -179,6 +191,8 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize>::hPolynomialThermo
   hCoeffs_{pt.hCoeffs_},
   sCoeffs_{pt.sCoeffs_}
 {}
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::hPolynomialThermo<EquationOfState, PolySize>::hPolynomialThermo
 (
@@ -193,6 +207,8 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize>::hPolynomialThermo
   hCoeffs_{pt.hCoeffs_},
   sCoeffs_{pt.sCoeffs_}
 {}
+
+
 // Member Functions 
 template<class EquationOfState, int PolySize>
 inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::limit
@@ -202,6 +218,8 @@ inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::limi
 {
   return T;
 }
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::cp
 (
@@ -210,6 +228,8 @@ inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::cp
 {
   return CpCoeffs_.value(T);
 }
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::ha
 (
@@ -218,6 +238,8 @@ inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::ha
 {
   return hCoeffs_.value(T);
 }
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::hs
 (
@@ -226,12 +248,16 @@ inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::hs
 {
   return ha(p, T) - hc();
 }
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::hc()
 const
 {
   return Hf_;
 }
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::s
 (
@@ -241,6 +267,8 @@ inline mousse::scalar mousse::hPolynomialThermo<EquationOfState, PolySize>::s
 {
   return sCoeffs_.value(T) + EquationOfState::s(p, T);
 }
+
+
 // Member Operators 
 template<class EquationOfState, int PolySize>
 inline mousse::hPolynomialThermo<EquationOfState, PolySize>&
@@ -257,6 +285,8 @@ mousse::hPolynomialThermo<EquationOfState, PolySize>::operator=
   sCoeffs_ = pt.sCoeffs_;
   return *this;
 }
+
+
 template<class EquationOfState, int PolySize>
 inline void mousse::hPolynomialThermo<EquationOfState, PolySize>::operator+=
 (
@@ -273,6 +303,8 @@ inline void mousse::hPolynomialThermo<EquationOfState, PolySize>::operator+=
   hCoeffs_ = molr1*hCoeffs_ + molr2*pt.hCoeffs_;
   sCoeffs_ = molr1*sCoeffs_ + molr2*pt.sCoeffs_;
 }
+
+
 template<class EquationOfState, int PolySize>
 inline void mousse::hPolynomialThermo<EquationOfState, PolySize>::operator-=
 (
@@ -289,6 +321,8 @@ inline void mousse::hPolynomialThermo<EquationOfState, PolySize>::operator-=
   hCoeffs_ = molr1*hCoeffs_ - molr2*pt.hCoeffs_;
   sCoeffs_ = molr1*sCoeffs_ - molr2*pt.sCoeffs_;
 }
+
+
 template<class EquationOfState, int PolySize>
 inline void mousse::hPolynomialThermo<EquationOfState, PolySize>::operator*=
 (
@@ -297,6 +331,8 @@ inline void mousse::hPolynomialThermo<EquationOfState, PolySize>::operator*=
 {
   EquationOfState::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class EquationOfState, int PolySize>
 inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator+
@@ -307,8 +343,8 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator+
 {
   EquationOfState eofs = pt1;
   eofs += pt2;
-  scalar molr1 = pt1.nMoles()/eofs.nMoles();
-  scalar molr2 = pt2.nMoles()/eofs.nMoles();
+  const scalar molr1 = pt1.nMoles()/eofs.nMoles();
+  const scalar molr2 = pt2.nMoles()/eofs.nMoles();
   return {eofs,
           molr1*pt1.Hf_ + molr2*pt2.Hf_,
           molr1*pt1.Sf_ + molr2*pt2.Sf_,
@@ -316,6 +352,8 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator+
           molr1*pt1.hCoeffs_ + molr2*pt2.hCoeffs_,
           molr1*pt1.sCoeffs_ + molr2*pt2.sCoeffs_};
 }
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator-
 (
@@ -325,8 +363,8 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator-
 {
   EquationOfState eofs = pt1;
   eofs -= pt2;
-  scalar molr1 = pt1.nMoles()/eofs.nMoles();
-  scalar molr2 = pt2.nMoles()/eofs.nMoles();
+  const scalar molr1 = pt1.nMoles()/eofs.nMoles();
+  const scalar molr2 = pt2.nMoles()/eofs.nMoles();
   return {eofs,
           molr1*pt1.Hf_ - molr2*pt2.Hf_,
           molr1*pt1.Sf_ - molr2*pt2.Sf_,
@@ -334,6 +372,8 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator-
           molr1*pt1.hCoeffs_ - molr2*pt2.hCoeffs_,
           molr1*pt1.sCoeffs_ - molr2*pt2.sCoeffs_};
 }
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator*
 (
@@ -348,6 +388,8 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator*
           pt.hCoeffs_,
           pt.sCoeffs_};
 }
+
+
 template<class EquationOfState, int PolySize>
 inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator==
 (
@@ -357,7 +399,7 @@ inline mousse::hPolynomialThermo<EquationOfState, PolySize> mousse::operator==
 {
   return pt2 - pt1;
 }
-#ifdef NoRepository
-#   include "h_polynomial_thermo.cpp"
-#endif
+
+#include "h_polynomial_thermo.ipp"
+
 #endif

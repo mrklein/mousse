@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_REACTION_THERMO_HEHEU_REACTION_THERMO_HPP_
+#define THERMOPHYSICAL_MODELS_REACTION_THERMO_HEHEU_REACTION_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,13 +8,12 @@
 //   mousse::heheuReactionThermo
 // Description
 //   mousse::heheuReactionThermo
-// SourceFiles
-//   heheu_reaction_thermo.cpp
-#ifndef heheuReactionThermo_H
-#define heheuReactionThermo_H
+
 #include "he_thermo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicPsiThermo, class MixtureType>
 class heheuPsiThermo
 :
@@ -22,11 +24,6 @@ class heheuPsiThermo
     volScalarField heu_;
   // Private Member Functions
     void calculate();
-    //- Construct as copy (not implemented)
-    heheuPsiThermo
-    (
-      const heheuPsiThermo<BasicPsiThermo, MixtureType>&
-    );
 public:
   //- Runtime type information
   TYPE_NAME("heheuPsiThermo");
@@ -37,6 +34,11 @@ public:
       const fvMesh&,
       const word& phaseName
     );
+    //- Disable construct as copy
+    heheuPsiThermo
+    (
+      const heheuPsiThermo<BasicPsiThermo, MixtureType>&
+    ) = delete;
   //- Destructor
   virtual ~heheuPsiThermo();
   // Member functions
@@ -86,9 +88,9 @@ public:
       //- Dynamic viscosity of burnt gas [kg/ms]
       virtual tmp<volScalarField> mub() const;
 };
+
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#ifdef NoRepository
-#   include "heheu_psi_thermo.cpp"
-#endif
+
+#include "heheu_psi_thermo.ipp"
+
 #endif

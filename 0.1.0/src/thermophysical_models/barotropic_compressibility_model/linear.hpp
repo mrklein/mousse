@@ -8,14 +8,14 @@
 //   mousse::compressibilityModels::linear
 // Description
 //   linear compressibility model.
-// SourceFiles
-//   linear.cpp
+
 #include "barotropic_compressibility_model.hpp"
 #include "dimensioned_scalar.hpp"
-namespace mousse
-{
-namespace compressibilityModels
-{
+
+
+namespace mousse {
+namespace compressibilityModels {
+
 class linear
 :
   public barotropicCompressibilityModel
@@ -43,6 +43,9 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& compressibilityProperties);
 };
+
 }  // namespace compressibilityModels
 }  // namespace mousse
+
 #endif
+

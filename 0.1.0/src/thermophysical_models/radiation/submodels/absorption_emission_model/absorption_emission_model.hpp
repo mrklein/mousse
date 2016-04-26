@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_ABSORPTION_EMISSION_MODEL_ABSORPTION_EMISSION_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_ABSORPTION_EMISSION_MODEL_ABSORPTION_EMISSION_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,17 +9,17 @@
 // Description
 //   Model to supply absorption and emission coefficients for radiation
 //   modelling
-#ifndef radiationAbsorptionEmissionModel_H
-#define radiationAbsorptionEmissionModel_H
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "vol_fields.hpp"
 #include "vector_2d.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class absorptionEmissionModel
 {
 protected:
@@ -58,15 +61,9 @@ public:
   // Member Functions
     // Access
       //- Reference to the mesh
-      inline const fvMesh& mesh() const
-      {
-        return mesh_;
-      }
+      inline const fvMesh& mesh() const { return mesh_; }
       //- Reference to the dictionary
-      inline const dictionary& dict() const
-      {
-        return dict_;
-      }
+      inline const dictionary& dict() const { return dict_; }
       // Absorption coefficient
         //- Absorption coefficient (net)
         virtual tmp<volScalarField> a(const label bandI = 0) const;
@@ -103,6 +100,9 @@ public:
         PtrList<volScalarField>& aj
       ) const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

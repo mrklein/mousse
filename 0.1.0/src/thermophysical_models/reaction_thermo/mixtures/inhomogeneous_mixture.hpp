@@ -8,11 +8,12 @@
 //   mousse::inhomogeneousMixture
 // Description
 //   mousse::inhomogeneousMixture
-// SourceFiles
-//   inhomogeneous_mixture.cpp
+
 #include "basic_combustion_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class inhomogeneousMixture
 :
@@ -30,22 +31,19 @@ class inhomogeneousMixture
     volScalarField& ft_;
     //- Regress variable
     volScalarField& b_;
-    //- Construct as copy (not implemented)
-    inhomogeneousMixture(const inhomogeneousMixture<ThermoType>&);
 public:
   //- The type of thermodynamics this mixture is instantiated for
   typedef ThermoType thermoType;
   // Constructors
     //- Construct from dictionary, mesh and phase name
     inhomogeneousMixture(const dictionary&, const fvMesh&, const word&);
+    //- Disable construct as copy
+    inhomogeneousMixture(const inhomogeneousMixture<ThermoType>&) = delete;
   //- Destructor
   virtual ~inhomogeneousMixture()
   {}
   // Member functions
-    const dimensionedScalar& stoicRatio() const
-    {
-      return stoicRatio_;
-    }
+    const dimensionedScalar& stoicRatio() const { return stoicRatio_; }
     const ThermoType& mixture(const scalar, const scalar) const;
     const ThermoType& cellMixture(const label celli) const
     {
@@ -57,11 +55,8 @@ public:
       const label facei
     ) const
     {
-      return mixture
-      (
-        ft_.boundaryField()[patchi][facei],
-        b_.boundaryField()[patchi][facei]
-      );
+      return mixture(ft_.boundaryField()[patchi][facei],
+                     b_.boundaryField()[patchi][facei]);
     }
     const ThermoType& cellReactants(const label celli) const
     {
@@ -73,11 +68,7 @@ public:
       const label facei
     ) const
     {
-      return mixture
-      (
-        ft_.boundaryField()[patchi][facei],
-        1
-      );
+      return mixture(ft_.boundaryField()[patchi][facei], 1);
     }
     const ThermoType& cellProducts(const label celli) const
     {
@@ -89,20 +80,16 @@ public:
       const label facei
     ) const
     {
-      return mixture
-      (
-        ft_.boundaryField()[patchi][facei],
-        0
-      );
+      return mixture(ft_.boundaryField()[patchi][facei], 0);
     }
     //- Read dictionary
     void read(const dictionary&);
     //- Return thermo based on index
     const ThermoType& getLocalThermo(const label speciei) const;
 };
+
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#ifdef NoRepository
-#   include "inhomogeneous_mixture.cpp"
-#endif
+
+#include "inhomogeneous_mixture.ipp"
+
 #endif

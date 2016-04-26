@@ -8,12 +8,13 @@
 //   mousse::psiThermo
 // Description
 //   Basic thermodynamic properties based on compressibility
-// SourceFiles
-//   psi_thermo.cpp
+
 #include "fluid_thermo.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class psiThermo
 :
   public fluidThermo
@@ -68,5 +69,8 @@ public:
       //- Dynamic viscosity of mixture for patch [kg/m/s]
       virtual tmp<scalarField> mu(const label patchi) const;
 };
+
 }  // namespace mousse
+
 #endif
+

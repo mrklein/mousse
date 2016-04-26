@@ -8,12 +8,13 @@
 //   mousse::fluidThermo
 // Description
 //   Fundamental fluid thermodynamic properties
-// SourceFiles
-//   fluid_thermo.cpp
+
 #include "basic_thermo.hpp"
 #include "compressible_transport_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fluidThermo
 :
   public basicThermo,
@@ -67,5 +68,8 @@ public:
       //- Kinematic viscosity of mixture for patch [m^2/s]
       virtual tmp<scalarField> nu(const label patchi) const;
 };
+
 }  // namespace mousse
+
 #endif
+

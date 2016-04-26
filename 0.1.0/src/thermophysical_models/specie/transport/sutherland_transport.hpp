@@ -14,43 +14,51 @@
 //   \f[
 //     \mu = A_s \frac{\sqrt{T}}{1 + T_s / T}
 //   \f]
-// SourceFiles
-//   sutherland_transport.cpp
+
 #include "specie.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Thermo> class sutherlandTransport;
+
 template<class Thermo>
 inline sutherlandTransport<Thermo> operator+
 (
   const sutherlandTransport<Thermo>&,
   const sutherlandTransport<Thermo>&
 );
+
 template<class Thermo>
 inline sutherlandTransport<Thermo> operator-
 (
   const sutherlandTransport<Thermo>&,
   const sutherlandTransport<Thermo>&
 );
+
 template<class Thermo>
 inline sutherlandTransport<Thermo> operator*
 (
   const scalar,
   const sutherlandTransport<Thermo>&
 );
+
 template<class Thermo>
 inline sutherlandTransport<Thermo> operator==
 (
   const sutherlandTransport<Thermo>&,
   const sutherlandTransport<Thermo>&
 );
+
 template<class Thermo>
 Ostream& operator<<
 (
   Ostream&,
   const sutherlandTransport<Thermo>&
 );
+
+
 template<class Thermo>
 class sutherlandTransport
 :
@@ -144,7 +152,9 @@ public:
       const sutherlandTransport&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class Thermo>
@@ -160,6 +170,8 @@ inline void mousse::sutherlandTransport<Thermo>::calcCoeffs
   Ts_ = (mu2rootT1 - mu1rootT2)/(mu1rootT2/T1 - mu2rootT1/T2);
   As_ = mu1*(1.0 + Ts_/T1)/rootT1;
 }
+
+
 // Constructors 
 template<class Thermo>
 inline mousse::sutherlandTransport<Thermo>::sutherlandTransport
@@ -173,6 +185,8 @@ inline mousse::sutherlandTransport<Thermo>::sutherlandTransport
   As_{As},
   Ts_{Ts}
 {}
+
+
 template<class Thermo>
 inline mousse::sutherlandTransport<Thermo>::sutherlandTransport
 (
@@ -185,6 +199,8 @@ inline mousse::sutherlandTransport<Thermo>::sutherlandTransport
 {
   calcCoeffs(mu1, T1, mu2, T2);
 }
+
+
 template<class Thermo>
 inline mousse::sutherlandTransport<Thermo>::sutherlandTransport
 (
@@ -196,12 +212,16 @@ inline mousse::sutherlandTransport<Thermo>::sutherlandTransport
   As_{st.As_},
   Ts_{st.Ts_}
 {}
+
+
 template<class Thermo>
 inline mousse::autoPtr<mousse::sutherlandTransport<Thermo>>
 mousse::sutherlandTransport<Thermo>::clone() const
 {
   return {new sutherlandTransport<Thermo>{*this}};
 }
+
+
 template<class Thermo>
 inline mousse::autoPtr<mousse::sutherlandTransport<Thermo>>
 mousse::sutherlandTransport<Thermo>::New
@@ -211,6 +231,8 @@ mousse::sutherlandTransport<Thermo>::New
 {
   return {new sutherlandTransport<Thermo>{is}};
 }
+
+
 template<class Thermo>
 inline mousse::autoPtr<mousse::sutherlandTransport<Thermo>>
 mousse::sutherlandTransport<Thermo>::New
@@ -218,11 +240,14 @@ mousse::sutherlandTransport<Thermo>::New
   const dictionary& dict
 )
 {
-  return autoPtr<sutherlandTransport<Thermo>>
-         {
-           new sutherlandTransport<Thermo>{dict}
-         };
+  return
+    autoPtr<sutherlandTransport<Thermo>>
+    {
+      new sutherlandTransport<Thermo>{dict}
+    };
 }
+
+
 // Member Functions 
 template<class Thermo>
 inline mousse::scalar mousse::sutherlandTransport<Thermo>::mu
@@ -233,6 +258,8 @@ inline mousse::scalar mousse::sutherlandTransport<Thermo>::mu
 {
   return As_*::sqrt(T)/(1.0 + Ts_/T);
 }
+
+
 template<class Thermo>
 inline mousse::scalar mousse::sutherlandTransport<Thermo>::kappa
 (
@@ -242,6 +269,8 @@ inline mousse::scalar mousse::sutherlandTransport<Thermo>::kappa
   scalar Cv_ = this->Cv(p, T);
   return mu(p, T)*Cv_*(1.32 + 1.77*this->R()/Cv_);
 }
+
+
 template<class Thermo>
 inline mousse::scalar mousse::sutherlandTransport<Thermo>::alphah
 (
@@ -251,6 +280,8 @@ inline mousse::scalar mousse::sutherlandTransport<Thermo>::alphah
 {
   return kappa(p, T)/this->Cpv(p, T);
 }
+
+
 // Member Operators 
 template<class Thermo>
 inline mousse::sutherlandTransport<Thermo>&
@@ -264,6 +295,8 @@ mousse::sutherlandTransport<Thermo>::operator=
   Ts_ = st.Ts_;
   return *this;
 }
+
+
 template<class Thermo>
 inline void mousse::sutherlandTransport<Thermo>::operator+=
 (
@@ -277,6 +310,8 @@ inline void mousse::sutherlandTransport<Thermo>::operator+=
   As_ = molr1*As_ + molr2*st.As_;
   Ts_ = molr1*Ts_ + molr2*st.Ts_;
 }
+
+
 template<class Thermo>
 inline void mousse::sutherlandTransport<Thermo>::operator-=
 (
@@ -290,6 +325,8 @@ inline void mousse::sutherlandTransport<Thermo>::operator-=
   As_ = molr1*As_ - molr2*st.As_;
   Ts_ = molr1*Ts_ - molr2*st.Ts_;
 }
+
+
 template<class Thermo>
 inline void mousse::sutherlandTransport<Thermo>::operator*=
 (
@@ -298,6 +335,8 @@ inline void mousse::sutherlandTransport<Thermo>::operator*=
 {
   Thermo::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Thermo>
 inline mousse::sutherlandTransport<Thermo> mousse::operator+
@@ -316,6 +355,8 @@ inline mousse::sutherlandTransport<Thermo> mousse::operator+
           molr1*st1.As_ + molr2*st2.As_,
           molr1*st1.Ts_ + molr2*st2.Ts_};
 }
+
+
 template<class Thermo>
 inline mousse::sutherlandTransport<Thermo> mousse::operator-
 (
@@ -333,6 +374,8 @@ inline mousse::sutherlandTransport<Thermo> mousse::operator-
           molr1*st1.As_ - molr2*st2.As_,
           molr1*st1.Ts_ - molr2*st2.Ts_};
 }
+
+
 template<class Thermo>
 inline mousse::sutherlandTransport<Thermo> mousse::operator*
 (
@@ -344,6 +387,8 @@ inline mousse::sutherlandTransport<Thermo> mousse::operator*
           st.As_,
           st.Ts_};
 }
+
+
 template<class Thermo>
 inline mousse::sutherlandTransport<Thermo> mousse::operator==
 (
@@ -353,7 +398,7 @@ inline mousse::sutherlandTransport<Thermo> mousse::operator==
 {
   return st2 - st1;
 }
-#ifdef NoRepository
-#include "sutherland_transport.cpp"
-#endif
+
+#include "sutherland_transport.ipp"
+
 #endif

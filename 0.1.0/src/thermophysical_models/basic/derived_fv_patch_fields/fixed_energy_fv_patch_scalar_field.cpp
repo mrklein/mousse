@@ -7,18 +7,20 @@
 #include "basic_thermo.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "fixed_energy_fv_patch_scalar_field.hpp"
+
+
 // Constructors 
-mousse::fixedEnergyFvPatchScalarField::
-fixedEnergyFvPatchScalarField
+mousse::fixedEnergyFvPatchScalarField::fixedEnergyFvPatchScalarField
 (
   const fvPatch& p,
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF)
+  fixedValueFvPatchScalarField{p, iF}
 {}
-mousse::fixedEnergyFvPatchScalarField::
-fixedEnergyFvPatchScalarField
+
+
+mousse::fixedEnergyFvPatchScalarField::fixedEnergyFvPatchScalarField
 (
   const fixedEnergyFvPatchScalarField& ptf,
   const fvPatch& p,
@@ -26,40 +28,44 @@ fixedEnergyFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper}
 {}
-mousse::fixedEnergyFvPatchScalarField::
-fixedEnergyFvPatchScalarField
+
+
+mousse::fixedEnergyFvPatchScalarField::fixedEnergyFvPatchScalarField
 (
   const fvPatch& p,
   const DimensionedField<scalar, volMesh>& iF,
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF, dict)
+  fixedValueFvPatchScalarField{p, iF, dict}
 {}
-mousse::fixedEnergyFvPatchScalarField::
-fixedEnergyFvPatchScalarField
+
+
+mousse::fixedEnergyFvPatchScalarField::fixedEnergyFvPatchScalarField
 (
   const fixedEnergyFvPatchScalarField& tppsf
 )
 :
-  fixedValueFvPatchScalarField(tppsf)
+  fixedValueFvPatchScalarField{tppsf}
 {}
-mousse::fixedEnergyFvPatchScalarField::
-fixedEnergyFvPatchScalarField
+
+
+mousse::fixedEnergyFvPatchScalarField::fixedEnergyFvPatchScalarField
 (
   const fixedEnergyFvPatchScalarField& tppsf,
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(tppsf, iF)
+  fixedValueFvPatchScalarField{tppsf, iF}
 {}
+
+
 // Member Functions 
 void mousse::fixedEnergyFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const basicThermo& thermo = basicThermo::lookupThermo(*this);
@@ -71,11 +77,15 @@ void mousse::fixedEnergyFvPatchScalarField::updateCoeffs()
   operator==(thermo.he(pw, Tw, patchi));
   fixedValueFvPatchScalarField::updateCoeffs();
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   fixedEnergyFvPatchScalarField
 );
+
 }
+

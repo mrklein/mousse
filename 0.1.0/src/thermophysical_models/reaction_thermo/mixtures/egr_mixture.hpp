@@ -8,11 +8,12 @@
 //   mousse::egrMixture
 // Description
 //   mousse::egrMixture
-// SourceFiles
-//   egr_mixture.cpp
+
 #include "basic_combustion_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class egrMixture
 :
@@ -32,22 +33,19 @@ class egrMixture
     volScalarField& b_;
     //- Residual gases
     volScalarField& egr_;
-    //- Construct as copy (not implemented)
-    egrMixture(const egrMixture<ThermoType>&);
 public:
   //- The type of thermodynamics this mixture is instantiated for
   typedef ThermoType thermoType;
   // Constructors
     //- Construct from dictionary, mesh and phaseName
     egrMixture(const dictionary&, const fvMesh&, const word&);
+    //- Disable construct as copy
+    egrMixture(const egrMixture<ThermoType>&) = delete;
   //- Destructor
   virtual ~egrMixture()
   {}
   // Member functions
-    const dimensionedScalar& stoicRatio() const
-    {
-      return stoicRatio_;
-    }
+    const dimensionedScalar& stoicRatio() const { return stoicRatio_; }
     const ThermoType& mixture
     (
       const scalar,
@@ -64,12 +62,13 @@ public:
       const label facei
     ) const
     {
-      return mixture
-      (
-        ft_.boundaryField()[patchi][facei],
-        b_.boundaryField()[patchi][facei],
-        egr_.boundaryField()[patchi][facei]
-      );
+      return
+        mixture
+        (
+          ft_.boundaryField()[patchi][facei],
+          b_.boundaryField()[patchi][facei],
+          egr_.boundaryField()[patchi][facei]
+        );
     }
     const ThermoType& cellReactants(const label celli) const
     {
@@ -81,12 +80,13 @@ public:
       const label facei
     ) const
     {
-      return mixture
-      (
-        ft_.boundaryField()[patchi][facei],
-        1,
-        egr_.boundaryField()[patchi][facei]
-      );
+      return
+        mixture
+        (
+          ft_.boundaryField()[patchi][facei],
+          1,
+          egr_.boundaryField()[patchi][facei]
+        );
     }
     const ThermoType& cellProducts(const label celli) const
     {
@@ -98,21 +98,17 @@ public:
       const label facei
     ) const
     {
-      return mixture
-      (
-        ft_.boundaryField()[patchi][facei],
-        0,
-        0
-      );
+      return mixture(ft_.boundaryField()[patchi][facei], 0, 0);
     }
     //- Read dictionary
     void read(const dictionary&);
     //- Return thermo based on index
     const ThermoType& getLocalThermo(const label speciei) const;
 };
+
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#ifdef NoRepository
-#   include "egr_mixture.cpp"
-#endif
+
+
+#include "egr_mixture.ipp"
+
 #endif

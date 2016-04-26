@@ -9,13 +9,13 @@
 // Description
 //   No radiation - does nothing to energy equation source terms
 //   (returns zeros)
-// SourceFiles
-//   no_radiation.cpp
+
 #include "radiation_model.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class noRadiation
 :
   public radiationModel
@@ -45,6 +45,9 @@ public:
       //- Source term component (constant)
       tmp<DimensionedField<scalar, volMesh> > Ru() const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

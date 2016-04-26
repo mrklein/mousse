@@ -9,8 +9,10 @@
 #include "no_chemistry_solver.hpp"
 #include "euler_implicit.hpp"
 #include "ode.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 #define MAKE_SOLID_CHEMISTRY_SOLVER_TYPE(SS, Schem, Comp, SThermo, GThermo)   \
                                                                               \
   typedef SS<Schem<Comp, SThermo, GThermo> >                                  \
@@ -52,5 +54,8 @@ namespace mousse
     SThermo,                                                                  \
     GThermo                                                                   \
   );
+
 }  // namespace mousse
+
 #endif
+

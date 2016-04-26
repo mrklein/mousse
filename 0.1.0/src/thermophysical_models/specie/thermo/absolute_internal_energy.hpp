@@ -9,8 +9,9 @@
 // Description
 //   Thermodynamics mapping class to expose the absolute internal energy function
 //   as the standard internal energy function e(T).
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Thermo>
 class absoluteInternalEnergy
 {
@@ -21,15 +22,9 @@ public:
     {}
   // Member Functions
     //- Return the instantiated type name
-    static word typeName()
-    {
-      return "absoluteInternalEnergy";
-    }
+    static word typeName() { return "absoluteInternalEnergy"; }
     // Fundamental properties
-      static word name()
-      {
-        return "ea";
-      }
+      static word name() { return "ea"; }
       // Absolute internal energy [J/kmol]
       scalar he
       (
@@ -83,5 +78,8 @@ public:
         return thermo.TEa(e, p, T0);
       }
 };
+
 }  // namespace mousse
+
 #endif
+

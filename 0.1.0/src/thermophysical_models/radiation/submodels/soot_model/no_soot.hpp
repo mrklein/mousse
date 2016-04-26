@@ -8,13 +8,13 @@
 //   mousse::radiation::noSoot
 // Description
 //   noSoot
-// SourceFiles
-//   no_soot.cpp
+
 #include "soot_model.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class noSoot
 :
   public sootModel
@@ -35,6 +35,9 @@ public:
       //- Return Ysoot
       const volScalarField& soot() const;
 };
+
 }  // namespace mousse
 }  // namespace radiation
+
 #endif
+

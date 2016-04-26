@@ -8,10 +8,13 @@
 //   mousse::thirdBodyArrheniusReactionRate
 // Description
 //   Arrhenius reaction rate enhanced by third-body interation.
+
 #include "arrhenius_reaction_rate.hpp"
 #include "third_body_efficiencies.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class thirdBodyArrheniusReactionRate
 :
   ArrheniusReactionRate
@@ -42,10 +45,7 @@ public:
     );
   // Member Functions
     //- Return the type name
-    static word type()
-    {
-      return "thirdBodyArrhenius";
-    }
+    static word type() { return "thirdBodyArrhenius"; }
     inline scalar operator()
     (
       const scalar p,
@@ -61,7 +61,9 @@ public:
       const thirdBodyArrheniusReactionRate&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::thirdBodyArrheniusReactionRate::thirdBodyArrheniusReactionRate
@@ -75,6 +77,8 @@ inline mousse::thirdBodyArrheniusReactionRate::thirdBodyArrheniusReactionRate
   ArrheniusReactionRate{A, beta, Ta},
   thirdBodyEfficiencies_{tbes}
 {}
+
+
 inline mousse::thirdBodyArrheniusReactionRate::thirdBodyArrheniusReactionRate
 (
   const speciesTable& species,
@@ -90,6 +94,8 @@ inline mousse::thirdBodyArrheniusReactionRate::thirdBodyArrheniusReactionRate
 {
   is.readEnd("thirdBodyArrheniusReactionRate(Istream&)");
 }
+
+
 inline mousse::thirdBodyArrheniusReactionRate::thirdBodyArrheniusReactionRate
 (
   const speciesTable& species,
@@ -103,6 +109,8 @@ inline mousse::thirdBodyArrheniusReactionRate::thirdBodyArrheniusReactionRate
   },
   thirdBodyEfficiencies_{species, dict}
 {}
+
+
 // Member Functions 
 inline mousse::scalar mousse::thirdBodyArrheniusReactionRate::operator()
 (
@@ -111,14 +119,18 @@ inline mousse::scalar mousse::thirdBodyArrheniusReactionRate::operator()
   const scalarField& c
 ) const
 {
-  return thirdBodyEfficiencies_.M(c)
-    *ArrheniusReactionRate::operator()(p, T, c);
+  return
+    thirdBodyEfficiencies_.M(c)*ArrheniusReactionRate::operator()(p, T, c);
 }
+
+
 inline void mousse::thirdBodyArrheniusReactionRate::write(Ostream& os) const
 {
   ArrheniusReactionRate::write(os);
   thirdBodyEfficiencies_.write(os);
 }
+
+
 inline mousse::Ostream& mousse::operator<<
 (
   Ostream& os,
@@ -131,4 +143,6 @@ inline mousse::Ostream& mousse::operator<<
     << token::END_LIST;
   return os;
 }
+
 #endif
+

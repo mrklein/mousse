@@ -19,8 +19,10 @@
 #include "polynomial_transport.hpp"
 #include "he_psi_thermo.hpp"
 #include "pure_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Enthalpy-based
 MAKE_THERMO
 (
@@ -33,6 +35,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -44,6 +48,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -55,6 +61,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -66,6 +74,8 @@ MAKE_THERMO
   PengRobinsonGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -77,6 +87,8 @@ MAKE_THERMO
   PengRobinsonGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -88,6 +100,8 @@ MAKE_THERMO
   PengRobinsonGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -99,6 +113,8 @@ MAKE_THERMO
   PengRobinsonGas,
   specie
 );
+
+
 // Internal-energy-based
 MAKE_THERMO
 (
@@ -111,6 +127,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -122,6 +140,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -133,6 +153,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -144,6 +166,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -155,6 +179,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   psiThermo,
@@ -166,4 +192,6 @@ MAKE_THERMO
   PengRobinsonGas,
   specie
 );
+
 }  // namespace mousse
+

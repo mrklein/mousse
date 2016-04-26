@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_SOOT_MODEL_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_SOOT_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,16 +8,16 @@
 //   mousse::radiation::sootModel
 // Description
 //   Base class for soor models
-#ifndef radiationTHERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_SOOT_MODEL_HPP_
-#define radiationTHERMOPHYSICAL_MODELS_RADIATION_SUBMODELS_SOOT_MODEL_SOOT_MODEL_HPP_
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class sootModel
 {
 protected:
@@ -58,15 +61,9 @@ public:
   // Member Functions
     // Access
       //- Reference to the mesh
-      inline const fvMesh& mesh() const
-      {
-        return mesh_;
-      }
+      inline const fvMesh& mesh() const { return mesh_; }
       //- Reference to the dictionary
-      inline const dictionary& dict() const
-      {
-        return dict_;
-      }
+      inline const dictionary& dict() const { return dict_; }
       // Member Functions
         // Edit
           //- Main update/correction routine
@@ -75,6 +72,9 @@ public:
           //- Return const reference to soot
           virtual const volScalarField& soot() const = 0;
 };
+
 }  // namespace mousse
 }  // namespace radiation
+
 #endif
+

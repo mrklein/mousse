@@ -10,42 +10,48 @@
 //   Constant properties Transport package.
 //   Templated into a given thermodynamics package (needed for thermal
 //   conductivity).
-// SourceFiles
-//   const_transport.cpp
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Thermo> class constTransport;
+
 template<class Thermo>
 inline constTransport<Thermo> operator+
 (
   const constTransport<Thermo>&,
   const constTransport<Thermo>&
 );
+
 template<class Thermo>
 inline constTransport<Thermo> operator-
 (
   const constTransport<Thermo>&,
   const constTransport<Thermo>&
 );
+
 template<class Thermo>
 inline constTransport<Thermo> operator*
 (
   const scalar,
   const constTransport<Thermo>&
 );
+
 template<class Thermo>
 inline constTransport<Thermo> operator==
 (
   const constTransport<Thermo>&,
   const constTransport<Thermo>&
 );
+
 template<class Thermo>
 Ostream& operator<<
 (
   Ostream&,
   const constTransport<Thermo>&
 );
+
+
 template<class Thermo>
 class constTransport
 :
@@ -127,7 +133,9 @@ public:
       const constTransport&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class Thermo>
@@ -142,6 +150,8 @@ inline mousse::constTransport<Thermo>::constTransport
   mu_{mu},
   rPr_{1.0/Pr}
 {}
+
+
 template<class Thermo>
 inline mousse::constTransport<Thermo>::constTransport
 (
@@ -153,12 +163,16 @@ inline mousse::constTransport<Thermo>::constTransport
   mu_{ct.mu_},
   rPr_{ct.rPr_}
 {}
+
+
 template<class Thermo>
 inline mousse::autoPtr<mousse::constTransport<Thermo>>
 mousse::constTransport<Thermo>::clone() const
 {
   return {new constTransport<Thermo>{*this}};
 }
+
+
 template<class Thermo>
 inline mousse::autoPtr<mousse::constTransport<Thermo>>
 mousse::constTransport<Thermo>::New
@@ -168,6 +182,8 @@ mousse::constTransport<Thermo>::New
 {
   return {new constTransport<Thermo>{is}};
 }
+
+
 template<class Thermo>
 inline mousse::autoPtr<mousse::constTransport<Thermo>>
 mousse::constTransport<Thermo>::New
@@ -177,6 +193,8 @@ mousse::constTransport<Thermo>::New
 {
   return autoPtr<mousse::constTransport<Thermo>>{new constTransport<Thermo>{dict}};
 }
+
+
 // Member Functions 
 template<class Thermo>
 inline mousse::scalar mousse::constTransport<Thermo>::mu
@@ -187,6 +205,8 @@ inline mousse::scalar mousse::constTransport<Thermo>::mu
 {
   return mu_;
 }
+
+
 template<class Thermo>
 inline mousse::scalar mousse::constTransport<Thermo>::kappa
 (
@@ -196,6 +216,8 @@ inline mousse::scalar mousse::constTransport<Thermo>::kappa
 {
   return this->Cp(p, T)*mu(p, T)*rPr_;
 }
+
+
 template<class Thermo>
 inline mousse::scalar mousse::constTransport<Thermo>::alphah
 (
@@ -205,6 +227,8 @@ inline mousse::scalar mousse::constTransport<Thermo>::alphah
 {
   return mu(p, T)*rPr_;
 }
+
+
 // Member Operators 
 template<class Thermo>
 inline mousse::constTransport<Thermo>& mousse::constTransport<Thermo>::operator=
@@ -217,6 +241,8 @@ inline mousse::constTransport<Thermo>& mousse::constTransport<Thermo>::operator=
   rPr_ = ct.rPr_;
   return *this;
 }
+
+
 template<class Thermo>
 inline void mousse::constTransport<Thermo>::operator+=
 (
@@ -225,14 +251,15 @@ inline void mousse::constTransport<Thermo>::operator+=
 {
   scalar molr1 = this->nMoles();
   Thermo::operator+=(st);
-  if (mag(molr1) + mag(st.nMoles()) > SMALL)
-  {
+  if (mag(molr1) + mag(st.nMoles()) > SMALL) {
     molr1 /= this->nMoles();
     scalar molr2 = st.nMoles()/this->nMoles();
     mu_ = molr1*mu_ + molr2*st.mu_;
     rPr_ = 1.0/(molr1/rPr_ + molr2/st.rPr_);
   }
 }
+
+
 template<class Thermo>
 inline void mousse::constTransport<Thermo>::operator-=
 (
@@ -241,14 +268,15 @@ inline void mousse::constTransport<Thermo>::operator-=
 {
   scalar molr1 = this->nMoles();
   Thermo::operator-=(st);
-  if (mag(molr1) + mag(st.nMoles()) > SMALL)
-  {
+  if (mag(molr1) + mag(st.nMoles()) > SMALL) {
     molr1 /= this->nMoles();
     scalar molr2 = st.nMoles()/this->nMoles();
     mu_ = molr1*mu_ - molr2*st.mu_;
     rPr_ = 1.0/(molr1/rPr_ - molr2/st.rPr_);
   }
 }
+
+
 template<class Thermo>
 inline void mousse::constTransport<Thermo>::operator*=
 (
@@ -257,6 +285,8 @@ inline void mousse::constTransport<Thermo>::operator*=
 {
   Thermo::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Thermo>
 inline mousse::constTransport<Thermo> mousse::operator+
@@ -265,31 +295,29 @@ inline mousse::constTransport<Thermo> mousse::operator+
   const constTransport<Thermo>& ct2
 )
 {
-  Thermo t
-  (
-    static_cast<const Thermo&>(ct1) + static_cast<const Thermo&>(ct2)
-  );
-  if (mag(ct1.nMoles()) + mag(ct2.nMoles()) < SMALL)
-  {
-    return constTransport<Thermo>
-    (
-      t,
-      0,
-      ct1.rPr_
-    );
-  }
-  else
-  {
+  Thermo t{static_cast<const Thermo&>(ct1) + static_cast<const Thermo&>(ct2)};
+  if (mag(ct1.nMoles()) + mag(ct2.nMoles()) < SMALL) {
+    return
+      constTransport<Thermo>
+      {
+        t,
+        0,
+        ct1.rPr_
+      };
+  } else {
     scalar molr1 = ct1.nMoles()/t.nMoles();
     scalar molr2 = ct2.nMoles()/t.nMoles();
-    return constTransport<Thermo>
-    (
-      t,
-      molr1*ct1.mu_ + molr2*ct2.mu_,
-      1.0/(molr1/ct1.rPr_ + molr2/ct2.rPr_)
-    );
+    return
+      constTransport<Thermo>
+      {
+        t,
+        molr1*ct1.mu_ + molr2*ct2.mu_,
+        1.0/(molr1/ct1.rPr_ + molr2/ct2.rPr_)
+      };
   }
 }
+
+
 template<class Thermo>
 inline mousse::constTransport<Thermo> mousse::operator-
 (
@@ -297,31 +325,29 @@ inline mousse::constTransport<Thermo> mousse::operator-
   const constTransport<Thermo>& ct2
 )
 {
-  Thermo t
-  (
-    static_cast<const Thermo&>(ct1) - static_cast<const Thermo&>(ct2)
-  );
-  if (mag(ct1.nMoles()) + mag(ct2.nMoles()) < SMALL)
-  {
-    return constTransport<Thermo>
-    (
-      t,
-      0,
-      ct1.rPr_
-    );
-  }
-  else
-  {
+  Thermo t{static_cast<const Thermo&>(ct1) - static_cast<const Thermo&>(ct2)};
+  if (mag(ct1.nMoles()) + mag(ct2.nMoles()) < SMALL) {
+    return
+      constTransport<Thermo>
+      {
+        t,
+        0,
+        ct1.rPr_
+      };
+  } else {
     scalar molr1 = ct1.nMoles()/t.nMoles();
     scalar molr2 = ct2.nMoles()/t.nMoles();
-    return constTransport<Thermo>
-    (
-      t,
-      molr1*ct1.mu_ - molr2*ct2.mu_,
-      1.0/(molr1/ct1.rPr_ - molr2/ct2.rPr_)
-    );
+    return
+      constTransport<Thermo>
+      {
+        t,
+        molr1*ct1.mu_ - molr2*ct2.mu_,
+        1.0/(molr1/ct1.rPr_ - molr2/ct2.rPr_)
+      };
   }
 }
+
+
 template<class Thermo>
 inline mousse::constTransport<Thermo> mousse::operator*
 (
@@ -329,13 +355,16 @@ inline mousse::constTransport<Thermo> mousse::operator*
   const constTransport<Thermo>& ct
 )
 {
-  return constTransport<Thermo>
-  (
-    s*static_cast<const Thermo&>(ct),
-    ct.mu_,
-    1.0/ct.rPr_
-  );
+  return
+    constTransport<Thermo>
+    {
+      s*static_cast<const Thermo&>(ct),
+      ct.mu_,
+      1.0/ct.rPr_
+    };
 }
+
+
 template<class Thermo>
 inline mousse::constTransport<Thermo> mousse::operator==
 (
@@ -345,7 +374,7 @@ inline mousse::constTransport<Thermo> mousse::operator==
 {
   return ct2 - ct1;
 }
-#ifdef NoRepository
-#include "const_transport.cpp"
-#endif
+
+#include "const_transport.ipp"
+
 #endif

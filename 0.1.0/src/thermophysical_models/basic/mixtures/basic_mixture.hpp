@@ -8,12 +8,13 @@
 //   mousse::basicMixture
 // Description
 //   mousse::basicMixture
-// SourceFiles
-//   basic_mixture.cpp
-namespace mousse
-{
+
+namespace mousse {
+
 class fvMesh;
 class dictionary;
+
+
 class basicMixture
 {
 public:
@@ -24,5 +25,8 @@ public:
     basicMixture(const dictionary&, const fvMesh&, const word&)
     {}
 };
+
 }  // namespace mousse
+
 #endif
+

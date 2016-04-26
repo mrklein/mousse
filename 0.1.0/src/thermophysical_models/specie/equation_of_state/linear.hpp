@@ -11,43 +11,51 @@
 //   \verbatim
 //     rho = rho0 + psi*p
 //   \endverbatim
-// SourceFiles
-//   linear.cpp
+
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Specie> class linear;
+
 template<class Specie>
 inline linear<Specie> operator+
 (
   const linear<Specie>&,
   const linear<Specie>&
 );
+
 template<class Specie>
 inline linear<Specie> operator-
 (
   const linear<Specie>&,
   const linear<Specie>&
 );
+
 template<class Specie>
 inline linear<Specie> operator*
 (
   const scalar,
   const linear<Specie>&
 );
+
 template<class Specie>
 inline linear<Specie> operator==
 (
   const linear<Specie>&,
   const linear<Specie>&
 );
+
 template<class Specie>
 Ostream& operator<<
 (
   Ostream&,
   const linear<Specie>&
 );
+
+
 template<class Specie>
 class linear
 :
@@ -135,7 +143,9 @@ public:
       const linear&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class Specie>
@@ -150,6 +160,8 @@ inline mousse::linear<Specie>::linear
   psi_{psi},
   rho0_{rho0}
 {}
+
+
 // Constructors 
 template<class Specie>
 inline mousse::linear<Specie>::linear
@@ -162,18 +174,24 @@ inline mousse::linear<Specie>::linear
   psi_{pf.psi_},
   rho0_{pf.rho0_}
 {}
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::linear<Specie> >
 mousse::linear<Specie>::clone() const
 {
   return {new linear<Specie>{*this}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::linear<Specie> >
 mousse::linear<Specie>::New(Istream& is)
 {
   return {new linear<Specie>{is}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::linear<Specie> >
 mousse::linear<Specie>::New
@@ -183,32 +201,44 @@ mousse::linear<Specie>::New
 {
   return {new linear<Specie>{dict}};
 }
+
+
 // Member Functions 
 template<class Specie>
 inline mousse::scalar mousse::linear<Specie>::rho(scalar p, scalar T) const
 {
   return rho0_ + psi_*p;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::linear<Specie>::s(scalar p, scalar T) const
 {
   return -log((rho0_ + psi_*p)/(rho0_ + psi_*Pstd))/(T*psi_);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::linear<Specie>::psi(scalar p, scalar T) const
 {
   return psi_;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::linear<Specie>::Z(scalar p, scalar T) const
 {
   return 1;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::linear<Specie>::cpMcv(scalar p, scalar T) const
 {
   return 0;
 }
+
+
 // Member Operators 
 template<class Specie>
 inline void mousse::linear<Specie>::operator+=
@@ -223,6 +253,8 @@ inline void mousse::linear<Specie>::operator+=
   psi_ = molr1*psi_ + molr2*pf.psi_;
   rho0_ = molr1*rho0_ + molr2*pf.rho0_;
 }
+
+
 template<class Specie>
 inline void mousse::linear<Specie>::operator-=
 (
@@ -236,11 +268,15 @@ inline void mousse::linear<Specie>::operator-=
   psi_ = molr1*psi_ - molr2*pf.psi_;
   rho0_ = molr1*rho0_ - molr2*pf.rho0_;
 }
+
+
 template<class Specie>
 inline void mousse::linear<Specie>::operator*=(const scalar s)
 {
   Specie::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Specie>
 inline mousse::linear<Specie> mousse::operator+
@@ -252,14 +288,16 @@ inline mousse::linear<Specie> mousse::operator+
   scalar nMoles = pf1.nMoles() + pf2.nMoles();
   scalar molr1 = pf1.nMoles()/nMoles;
   scalar molr2 = pf2.nMoles()/nMoles;
-  return rhoConst<Specie>
-  (
-    static_cast<const Specie&>(pf1)
-   + static_cast<const Specie&>(pf2),
-    molr1*pf1.psi_ + molr2*pf2.psi_,
-    molr1*pf1.rho0_ + molr2*pf2.rho0_
-  );
+  return
+    rhoConst<Specie>
+    {
+      static_cast<const Specie&>(pf1) + static_cast<const Specie&>(pf2),
+      molr1*pf1.psi_ + molr2*pf2.psi_,
+      molr1*pf1.rho0_ + molr2*pf2.rho0_
+    };
 }
+
+
 template<class Specie>
 inline mousse::linear<Specie> mousse::operator-
 (
@@ -270,14 +308,16 @@ inline mousse::linear<Specie> mousse::operator-
   scalar nMoles = pf1.nMoles() + pf2.nMoles();
   scalar molr1 = pf1.nMoles()/nMoles;
   scalar molr2 = pf2.nMoles()/nMoles;
-  return rhoConst<Specie>
-  (
-    static_cast<const Specie&>(pf1)
-   - static_cast<const Specie&>(pf2),
-    molr1*pf1.psi_ - molr2*pf2.psi_,
-    molr1*pf1.rho0_ - molr2*pf2.rho0_
-  );
+  return
+    rhoConst<Specie>
+    {
+      static_cast<const Specie&>(pf1) - static_cast<const Specie&>(pf2),
+      molr1*pf1.psi_ - molr2*pf2.psi_,
+      molr1*pf1.rho0_ - molr2*pf2.rho0_
+    };
 }
+
+
 template<class Specie>
 inline mousse::linear<Specie> mousse::operator*
 (
@@ -285,10 +325,10 @@ inline mousse::linear<Specie> mousse::operator*
   const linear<Specie>& pf
 )
 {
-  return {s*static_cast<const Specie&>(pf),
-          pf.psi_,
-          pf.rho0_};
+  return {s*static_cast<const Specie&>(pf), pf.psi_, pf.rho0_};
 }
+
+
 template<class Specie>
 inline mousse::linear<Specie> mousse::operator==
 (
@@ -298,7 +338,7 @@ inline mousse::linear<Specie> mousse::operator==
 {
   return pf2 - pf1;
 }
-#ifdef NoRepository
-#   include "linear.cpp"
-#endif
+
+#include "linear.ipp"
+
 #endif

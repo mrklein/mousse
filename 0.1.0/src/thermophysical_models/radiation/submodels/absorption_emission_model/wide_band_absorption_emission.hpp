@@ -66,17 +66,17 @@
 //       }
 //     }
 //   \endverbatim
-// SourceFiles
-//   wide_band_absorption_emission.cpp
+
 #include "interpolation_look_up_table.hpp"
 #include "absorption_emission_model.hpp"
 #include "hash_table.hpp"
 #include "absorption_coeffs.hpp"
 #include "fluid_thermo.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class wideBandAbsorptionEmission
 :
   public absorptionEmissionModel
@@ -130,15 +130,9 @@ public:
       // Emission contribution
         //- Emission contribution for continuous phase
         tmp<volScalarField> ECont(const label bandI = 0) const;
-    inline bool isGrey() const
-    {
-      return false;
-    }
+    inline bool isGrey() const { return false; }
     //- Number of bands
-    inline label nBands() const
-    {
-      return nBands_;
-    }
+    inline label nBands() const { return nBands_; }
     //- Lower and upper limit of band i
     inline const Vector2D<scalar>& bands(const label i) const
     {
@@ -151,6 +145,9 @@ public:
       PtrList<volScalarField>& aLambda
     ) const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

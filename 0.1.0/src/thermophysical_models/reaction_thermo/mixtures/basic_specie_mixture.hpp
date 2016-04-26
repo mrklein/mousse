@@ -9,11 +9,12 @@
 // Description
 //   Specialization of basicMultiComponentMixture for a mixture consisting
 //   of a number for molecular species.
-// SourceFiles
-//   basic_specie_mixture.cpp
+
 #include "basic_multi_component_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class basicSpecieMixture
 :
   public basicMultiComponentMixture
@@ -132,5 +133,8 @@ public:
         const scalar T
       ) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

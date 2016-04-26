@@ -4,9 +4,12 @@
 
 #include "black_body_emission.hpp"
 #include "physico_chemical_constants.hpp"
+
+
 using namespace mousse::constant;
+
 // Static Data Members
-const mousse::List<mousse::Tuple2<mousse::scalar, mousse::scalar> >
+const mousse::List<mousse::Tuple2<mousse::scalar, mousse::scalar>>
 mousse::radiation::blackBodyEmission::emissivePowerTable
 (
   IStringStream
@@ -112,6 +115,8 @@ mousse::radiation::blackBodyEmission::emissivePowerTable
     ")"
   )()
 );
+
+
 // Constructors 
 mousse::radiation::blackBodyEmission::blackBodyEmission
 (
@@ -120,47 +125,51 @@ mousse::radiation::blackBodyEmission::blackBodyEmission
 )
 :
   table_
-  (
+  {
     emissivePowerTable,
     interpolationTable<scalar>::CLAMP,
     "blackBodyEmissivePower"
-  ),
-  C1_("C1", dimensionSet(1, 4, 3, 0, 0, 0, 0), 3.7419e-16),
-  C2_("C2", dimensionSet(0, 1, 0, 1, 0, 0, 0), 14.388e-6),
-  bLambda_(nLambda),
-  T_(T)
+  },
+  C1_{"C1", dimensionSet(1, 4, 3, 0, 0, 0, 0), 3.7419e-16},
+  C2_{"C2", dimensionSet(0, 1, 0, 1, 0, 0, 0), 14.388e-6},
+  bLambda_{nLambda},
+  T_{T}
 {
-  FOR_ALL(bLambda_, lambdaI)
-  {
+  FOR_ALL(bLambda_, lambdaI) {
     bLambda_.set
     (
       lambdaI,
       new volScalarField
-      (
-        IOobject
-        (
+      {
+        {
           "bLambda_" + mousse::name(lambdaI) ,
           T.mesh().time().timeName(),
           T.mesh(),
           IOobject::NO_READ,
           IOobject::NO_WRITE
-        ),
+        },
         physicoChemical::sigma*pow4(T)
-      )
+      }
     );
   }
 }
+
+
 // Destructor 
 mousse::radiation::blackBodyEmission::~blackBodyEmission()
 {}
+
+
 // Member Functions 
 mousse::scalar mousse::radiation::blackBodyEmission::fLambdaT
 (
   const scalar lambdaT
 ) const
 {
-  return  table_(lambdaT*1.0e6);
+  return table_(lambdaT*1.0e6);
 }
+
+
 mousse::tmp<mousse::volScalarField>
 mousse::radiation::blackBodyEmission::EbDeltaLambdaT
 (
@@ -169,41 +178,33 @@ mousse::radiation::blackBodyEmission::EbDeltaLambdaT
 ) const
 {
   tmp<volScalarField> Eb
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         "Eb",
         T.mesh().time().timeName(),
         T.mesh(),
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       physicoChemical::sigma*pow4(T)
-    )
-  );
-  if (band == Vector2D<scalar>::one)
-  {
+    }
+  };
+  if (band == Vector2D<scalar>::one) {
     return Eb;
-  }
-  else
-  {
-    FOR_ALL(T, i)
-    {
+  } else {
+    FOR_ALL(T, i) {
       scalar T1 = fLambdaT(band[1]*T[i]);
       scalar T2 = fLambdaT(band[0]*T[i]);
-      dimensionedScalar fLambdaDelta
-      (
-        "fLambdaDelta",
-        dimless,
-        T1 - T2
-      );
+      dimensionedScalar fLambdaDelta{"fLambdaDelta", dimless, T1 - T2};
       Eb()[i] = Eb()[i]*fLambdaDelta.value();
     }
     return Eb;
   }
 }
+
+
 void mousse::radiation::blackBodyEmission::correct
 (
   const label lambdaI,
@@ -212,3 +213,4 @@ void mousse::radiation::blackBodyEmission::correct
 {
   bLambda_[lambdaI] = EbDeltaLambdaT(T_, band);
 }
+

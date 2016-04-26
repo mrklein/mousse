@@ -16,15 +16,16 @@
 //   Similarly, if no liquids or solids are specified, their respective
 //   pointers will also be NULL.
 //   Registered to the mesh so that it can be looked-up
-// SourceFiles
-//   slg_thermo.cpp
+
 #include "reg_ioobject.hpp"
 #include "fluid_thermo.hpp"
 #include "basic_specie_mixture.hpp"
 #include "liquid_mixture_properties.hpp"
 #include "solid_mixture_properties.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class SLGThermo
 :
   public regIOobject
@@ -88,5 +89,8 @@ public:
         return true;
       }
 };
+
 }  // namespace mousse
+
 #endif
+

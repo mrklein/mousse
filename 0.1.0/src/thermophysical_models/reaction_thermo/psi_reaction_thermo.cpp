@@ -4,11 +4,16 @@
 
 #include "psi_reaction_thermo.hpp"
 #include "fv_mesh.hpp"
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(psiReactionThermo, 0);
-  DEFINE_RUN_TIME_SELECTION_TABLE(psiReactionThermo, fvMesh);
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(psiReactionThermo, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(psiReactionThermo, fvMesh);
+
 }
+
+
 // Constructors 
 mousse::psiReactionThermo::psiReactionThermo
 (
@@ -16,8 +21,10 @@ mousse::psiReactionThermo::psiReactionThermo
   const word& phaseName
 )
 :
-  psiThermo(mesh, phaseName)
+  psiThermo{mesh, phaseName}
 {}
+
+
 // Selectors
 mousse::autoPtr<mousse::psiReactionThermo> mousse::psiReactionThermo::New
 (
@@ -27,6 +34,9 @@ mousse::autoPtr<mousse::psiReactionThermo> mousse::psiReactionThermo::New
 {
   return basicThermo::New<psiReactionThermo>(mesh, phaseName);
 }
+
+
 // Destructor 
 mousse::psiReactionThermo::~psiReactionThermo()
 {}
+

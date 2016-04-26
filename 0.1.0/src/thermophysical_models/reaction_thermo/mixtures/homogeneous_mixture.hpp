@@ -8,11 +8,12 @@
 //   mousse::homogeneousMixture
 // Description
 //   mousse::homogeneousMixture
-// SourceFiles
-//   homogeneous_mixture.cpp
+
 #include "basic_combustion_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class homogeneousMixture
 :
@@ -24,8 +25,6 @@ class homogeneousMixture
     ThermoType reactants_;
     ThermoType products_;
     mutable ThermoType mixture_;
-    //- Construct as copy (not implemented)
-    homogeneousMixture(const homogeneousMixture<ThermoType>&);
     //- Regress variable
     volScalarField& b_;
 public:
@@ -34,6 +33,8 @@ public:
   // Constructors
     //- Construct from dictionary, mesh and phase name
     homogeneousMixture(const dictionary&, const fvMesh&, const word&);
+    //- Disable construct as copy
+    homogeneousMixture(const homogeneousMixture<ThermoType>&) = delete;
   //- Destructor
   virtual ~homogeneousMixture()
   {}
@@ -73,8 +74,7 @@ public:
     const ThermoType& getLocalThermo(const label speciei) const;
 };
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#ifdef NoRepository
-#   include "homogeneous_mixture.cpp"
-#endif
+
+#include "homogeneous_mixture.ipp"
+
 #endif

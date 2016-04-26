@@ -8,15 +8,18 @@
 //   mousse::SpecieMixture
 // Description
 //   mousse::SpecieMixture
-// SourceFiles
-//   specie_mixture.cpp
+
 #include "scalar.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class dictionary;
 class fvMesh;
+
+
 template<class MixtureType>
 class SpecieMixture
 :
@@ -153,9 +156,9 @@ public:
       //- Thermal diffusivity for temperature of mixture [J/m/s/K]
       virtual tmp<volScalarField> kappa() const = 0;
 };
+
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#ifdef NoRepository
-#   include "specie_mixture.cpp"
-#endif
+
+#include "specie_mixture.ipp"
+
 #endif

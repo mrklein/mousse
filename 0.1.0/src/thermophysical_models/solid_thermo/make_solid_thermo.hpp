@@ -7,6 +7,7 @@
 
 #include "add_to_run_time_selection_table.hpp"
 
+
 #define MAKE_SOLID_THERMO\
 (                                                                             \
   BaseThermo,                                                                 \
@@ -122,7 +123,7 @@ DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG_WITH_NAME                                 \
 );                                                                            \
                                                                               \
                                                                               \
-ADD_TO_RUN_TIME_SELECTION_TABLE                                                    \
+ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
 (                                                                             \
   basicThermo,                                                                \
   Cthermo##Mixture##SolidPhysicsType,                                         \
@@ -142,4 +143,6 @@ ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
   Cthermo##Mixture##SolidPhysicsType,                                         \
   dictionary                                                                  \
 );
+
 #endif
+

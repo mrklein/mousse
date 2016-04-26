@@ -8,11 +8,12 @@
 //   mousse::heThermo
 // Description
 //   Enthalpy/Internal energy for a mixture
-// SourceFiles
-//   he_thermo.cpp
+
 #include "basic_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicThermo, class MixtureType>
 class heThermo
 :
@@ -29,8 +30,6 @@ protected:
       void heBoundaryCorrection(volScalarField& he);
 private:
   // Private Member Functions
-    //- Construct as copy (not implemented)
-    heThermo(const heThermo<BasicThermo, MixtureType>&);
     //- Initialize heThermo
     void init();
 public:
@@ -48,6 +47,8 @@ public:
       const dictionary&,
       const word& phaseName
     );
+    //- Disable construct as copy
+    heThermo(const heThermo<BasicThermo, MixtureType>&) = delete;
   //- Destructor
   virtual ~heThermo();
   // Member functions
@@ -205,9 +206,9 @@ public:
     //- Read thermophysical properties dictionary
     virtual bool read();
 };
+
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#ifdef NoRepository
-#   include "he_thermo.cpp"
-#endif
+
+#include "he_thermo.ipp"
+
 #endif

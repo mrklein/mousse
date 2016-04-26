@@ -8,9 +8,12 @@
 //   mousse::ChemicallyActivatedReactionRate
 // Description
 //   General class for handling chemically-activated bimolecular reactions.
+
 #include "third_body_efficiencies.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class ReactionRate, class ChemicallyActivationFunction>
 class ChemicallyActivatedReactionRate;
@@ -21,6 +24,8 @@ inline Ostream& operator<<
   const ChemicallyActivatedReactionRate
     <ReactionRate, ChemicallyActivationFunction>&
 );
+
+
 template<class ReactionRate, class ChemicallyActivationFunction>
 class ChemicallyActivatedReactionRate
 {
@@ -75,7 +80,9 @@ public:
         <ReactionRate, ChemicallyActivationFunction>&
     );
 };
+
 }  // namespace mousse
+
 
 template<class ReactionRate, class ChemicallyActivationFunction>
 inline mousse::ChemicallyActivatedReactionRate
@@ -95,6 +102,8 @@ inline mousse::ChemicallyActivatedReactionRate
   F_{F},
   thirdBodyEfficiencies_{tbes}
 {}
+
+
 template<class ReactionRate, class ChemicallyActivationFunction>
 inline mousse::ChemicallyActivatedReactionRate
 <
@@ -113,6 +122,8 @@ inline mousse::ChemicallyActivatedReactionRate
 {
   is.readEnd("ChemicallyActivatedReactionRate(Istream&)");
 }
+
+
 template<class ReactionRate, class ChemicallyActivationFunction>
 inline mousse::ChemicallyActivatedReactionRate
 <
@@ -129,6 +140,8 @@ inline mousse::ChemicallyActivatedReactionRate
   F_{dict},
   thirdBodyEfficiencies_{species, dict}
 {}
+
+
 // Member Functions 
 template<class ReactionRate, class ChemicallyActivationFunction>
 inline mousse::scalar mousse::ChemicallyActivatedReactionRate
@@ -147,6 +160,8 @@ inline mousse::scalar mousse::ChemicallyActivatedReactionRate
   scalar Pr = k0*thirdBodyEfficiencies_.M(c)/kInf;
   return k0*(1/(1 + Pr))*F_(T, Pr);
 }
+
+
 template<class ReactionRate, class ChemicallyActivationFunction>
 inline void mousse::ChemicallyActivatedReactionRate
 <
@@ -159,6 +174,8 @@ inline void mousse::ChemicallyActivatedReactionRate
   F_.write(os);
   thirdBodyEfficiencies_.write(os);
 }
+
+
 template<class ReactionRate, class ChemicallyActivationFunction>
 inline mousse::Ostream& mousse::operator<<
 (
@@ -167,9 +184,10 @@ inline mousse::Ostream& mousse::operator<<
     <ReactionRate, ChemicallyActivationFunction>& carr
 )
 {
-  os<< token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << carr.k0_ << token::SPACE << carr.kInf_ << token::SPACE << carr.F_
     << token::END_LIST;
   return os;
 }
+
 #endif

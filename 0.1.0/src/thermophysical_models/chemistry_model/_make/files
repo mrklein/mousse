@@ -1,11 +1,8 @@
-chemistry_model/basic_chemistry_model.cpp
-
-chemistry_model/psi_chemistry_model.cpp
-chemistry_model/psi_chemistry_models.cpp
-
-chemistry_model/rho_chemistry_model.cpp
-chemistry_model/rho_chemistry_models.cpp
-
-chemistry_solver/make_chemistry_solvers.cpp
+basic_chemistry_model.cpp
+psi_chemistry_model.cpp
+psi_chemistry_models.cpp
+rho_chemistry_model.cpp
+rho_chemistry_models.cpp
+make_chemistry_solvers.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_chemistry_model

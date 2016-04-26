@@ -10,13 +10,13 @@
 //   Radiation for solid opaque solids - does nothing to energy equation source
 //   terms (returns zeros) but creates absorptionEmissionModel and
 //   scatterModel.
-// SourceFiles
-//   opaque_solid.cpp
+
 #include "radiation_model.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class opaqueSolid
 :
   public radiationModel
@@ -44,8 +44,11 @@ public:
       //- Source term component (for power of T^4)
       tmp<volScalarField> Rp() const;
       //- Source term component (constant)
-      tmp<DimensionedField<scalar, volMesh> > Ru() const;
+      tmp<DimensionedField<scalar, volMesh>> Ru() const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

@@ -11,17 +11,20 @@
 //   functions.
 //   Introduces chemistry equation system and evaluation of chemical source
 //   terms.
-// SourceFiles
-//   solid_chemistry_model.cpp
+
 #include "reaction.hpp"
 #include "ode_system.hpp"
 #include "vol_fields.hpp"
 #include "dimensioned_field.hpp"
 #include "simple_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class fvMesh;
+
+
 template<class CompType, class SolidThermo>
 class solidChemistryModel
 :
@@ -32,7 +35,7 @@ protected:
     //- Reference to solid mass fractions
     PtrList<volScalarField>& Ys_;
     //- Reactions
-    const PtrList<Reaction<SolidThermo> >& reactions_;
+    const PtrList<Reaction<SolidThermo>>& reactions_;
     //- Thermodynamic data of solids
     const PtrList<SolidThermo>& solidThermo_;
     //- Number of solid components
@@ -40,12 +43,12 @@ protected:
     //- Number of solid reactions
     label nReaction_;
     //- List of reaction rate per solid [kg/m3/s]
-    PtrList<DimensionedField<scalar, volMesh> > RRs_;
+    PtrList<DimensionedField<scalar, volMesh>> RRs_;
     //- List of active reacting cells
     List<bool> reactingCells_;
   // Protected Member Functions
     //- Write access to source terms for solids
-    inline PtrList<DimensionedField<scalar, volMesh> >& RRs();
+    inline PtrList<DimensionedField<scalar, volMesh>>& RRs();
     //- Set reacting status of cell, cellI
     void setCellReacting(const label cellI, const bool active);
 public:
@@ -62,7 +65,7 @@ public:
   virtual ~solidChemistryModel();
   // Member Functions
     //- The reactions
-    inline const PtrList<Reaction<SolidThermo> >& reactions() const;
+    inline const PtrList<Reaction<SolidThermo>>& reactions() const;
     //- The number of reactions
     inline label nReaction() const;
     //- dc/dt = omega, rate of change in concentration, for each species
@@ -112,7 +115,7 @@ public:
         const label i
       ) const;
       //- Return total solid source term
-      inline tmp<DimensionedField<scalar, volMesh> > RRs() const;
+      inline tmp<DimensionedField<scalar, volMesh>> RRs() const;
       //- Solve the reaction system for the given time step
       //  and return the characteristic time
       virtual scalar solve(const scalar deltaT) = 0;
@@ -150,21 +153,27 @@ public:
         scalar& subDeltaT
       ) const = 0;
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class CompType, class SolidThermo>
-inline mousse::PtrList<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >&
+inline mousse::PtrList<mousse::DimensionedField<mousse::scalar, mousse::volMesh>>&
 mousse::solidChemistryModel<CompType, SolidThermo>::RRs()
 {
   return RRs_;
 }
+
+
 template<class CompType, class SolidThermo>
-inline const mousse::PtrList<mousse::Reaction<SolidThermo> >&
+inline const mousse::PtrList<mousse::Reaction<SolidThermo>>&
 mousse::solidChemistryModel<CompType, SolidThermo>::reactions() const
 {
   return reactions_;
 }
+
+
 template<class CompType, class SolidThermo>
 inline mousse::label
 mousse::solidChemistryModel<CompType, SolidThermo>::
@@ -172,6 +181,8 @@ nReaction() const
 {
   return nReaction_;
 }
+
+
 template<class CompType, class SolidThermo>
 inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::solidChemistryModel<CompType, SolidThermo>::RRs
@@ -181,15 +192,16 @@ mousse::solidChemistryModel<CompType, SolidThermo>::RRs
 {
   return RRs_[i];
 }
+
+
 template<class CompType, class SolidThermo>
-inline mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >
+inline mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh>>
 mousse::solidChemistryModel<CompType, SolidThermo>::RRs() const
 {
-  tmp<DimensionedField<scalar, volMesh> > tRRs
+  tmp<DimensionedField<scalar, volMesh>> tRRs
   {
     new DimensionedField<scalar, volMesh>
     {
-      // IOobject
       {
         "RRs",
         this->time().timeName(),
@@ -198,22 +210,18 @@ mousse::solidChemistryModel<CompType, SolidThermo>::RRs() const
         IOobject::NO_WRITE
       },
       this->mesh(),
-      // dimensionedScalar("zero", dimMass/dimVolume/dimTime, 0.0)
       {"zero", dimMass/dimVolume/dimTime, 0.0}
     }
   };
-  if (this->chemistry_)
-  {
+  if (this->chemistry_) {
     DimensionedField<scalar, volMesh>& RRs = tRRs();
-    for (label i=0; i < nSolids_; i++)
-    {
+    for (label i=0; i < nSolids_; i++) {
       RRs += RRs_[i];
     }
   }
   return tRRs;
 }
 
-#ifdef NoRepository
-#   include "solid_chemistry_model.cpp"
-#endif
+#include "solid_chemistry_model.ipp"
+
 #endif

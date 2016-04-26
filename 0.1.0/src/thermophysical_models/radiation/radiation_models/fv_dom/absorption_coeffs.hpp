@@ -9,15 +9,15 @@
 // Description
 //   Absorption coefficients class used in greyMeanAbsorptionEmission and
 //   wideBandAbsorptionEmission
-// SourceFiles
-//   absorption_coeffs.cpp
+
 #include "list.hpp"
 #include "iostreams.hpp"
 #include "iodictionary.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class absorptionCoeffs
 {
 public:
@@ -61,33 +61,46 @@ public:
     inline const coeffArray& highACoeffs() const;
     inline const coeffArray& lowACoeffs() const;
 };
+
 }  // namespace mousse
 }  // namespace radiation
+
 
 inline bool mousse::radiation::absorptionCoeffs::invTemp() const
 {
   return  invTemp_;
 }
+
+
 inline mousse::scalar mousse::radiation::absorptionCoeffs::Tcommon() const
 {
   return  Tcommon_;
 }
+
+
 inline mousse::scalar mousse::radiation::absorptionCoeffs::Tlow() const
 {
   return  Tlow_;
 }
+
+
 inline mousse::scalar mousse::radiation::absorptionCoeffs::Thigh() const
 {
   return  Thigh_;
 }
+
+
 inline const mousse::radiation::absorptionCoeffs::coeffArray&
 mousse::radiation::absorptionCoeffs::highACoeffs() const
 {
   return  highACoeffs_;
 }
+
+
 inline const mousse::radiation::absorptionCoeffs::coeffArray&
 mousse::radiation::absorptionCoeffs::lowACoeffs() const
 {
   return  lowACoeffs_;
 }
+
 #endif

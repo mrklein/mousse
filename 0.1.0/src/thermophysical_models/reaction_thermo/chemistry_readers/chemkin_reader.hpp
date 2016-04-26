@@ -8,9 +8,7 @@
 //   mousse::chemkinReader
 // Description
 //   mousse::chemkinReader
-// SourceFiles
-//   chemkin_reader.cpp
-//   chemkin_lexer.cpp
+
 #include "chemistry_reader.hpp"
 #include "file_name.hpp"
 #include "type_info.hpp"
@@ -23,8 +21,10 @@
 #include "atomic_weights.hpp"
 #include "reaction_types.hpp"
 #include <FlexLexer.h>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class chemkinReader
 :
   public chemistryReader<gasHThermoPhysics>,
@@ -45,11 +45,7 @@ public:
       label nAtoms;
       bool operator==(const specieElement& se) const
       {
-        return
-        (
-          nAtoms == se.nAtoms
-        && elementName == se.elementName
-        );
+        return nAtoms == se.nAtoms && elementName == se.elementName;
       }
       bool operator!=(const specieElement& se) const
       {
@@ -57,7 +53,7 @@ public:
       }
       friend Ostream& operator<<(Ostream& os, const specieElement& se)
       {
-        os  << se.nAtoms << token::SPACE << se.elementName;
+        os << se.nAtoms << token::SPACE << se.elementName;
         return os;
       }
     };
@@ -161,12 +157,9 @@ private:
     }
     inline void correctElementName(word& elementName)
     {
-      if (elementName.size() == 2)
-      {
+      if (elementName.size() == 2) {
         elementName[1] = tolower(elementName[1]);
-      }
-      else if (elementName[0] == 'E')
-      {
+      } else if (elementName[0] == 'E') {
         elementName = 'e';
       }
     }
@@ -245,30 +238,18 @@ public:
   {}
   // Member functions
     //- List of elements
-    const wordList& elementNames() const
-    {
-      return elementNames_;
-    }
+    const wordList& elementNames() const { return elementNames_; }
     //- Element indices
-    const HashTable<label>& elementIndices() const
-    {
-      return elementIndices_;
-    }
+    const HashTable<label>& elementIndices() const { return elementIndices_; }
     //- Isotope molecular weights
     const HashTable<scalar>& isotopeAtomicWts() const
     {
       return isotopeAtomicWts_;
     }
     //- Table of species
-    const speciesTable& species() const
-    {
-      return speciesTable_;
-    }
+    const speciesTable& species() const { return speciesTable_; }
     //- Specie phase
-    const HashTable<phase>& speciePhase() const
-    {
-      return speciePhase_;
-    }
+    const HashTable<phase>& speciePhase() const { return speciePhase_; }
     //- Table of the thermodynamic data given in the CHEMKIN file
     const HashPtrTable<gasHThermoPhysics>& speciesThermo() const
     {
@@ -285,5 +266,8 @@ public:
       return reactions_;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -8,17 +8,21 @@
 //   mousse::specie
 // Description
 //   Base class of the thermophysical property types.
-// SourceFiles
-//   specie.cpp
+
 #include "word.hpp"
 #include "scalar.hpp"
 #include "dictionary.hpp"
 #include "thermodynamic_constants.hpp"
+
+
 using namespace mousse::constant::thermodynamic;
-namespace mousse
-{
+
+namespace mousse {
+
 class Istream;
 class Ostream;
+
+
 class specie
 {
   // Private data
@@ -75,10 +79,12 @@ public:
   // Ostream Operator
     friend Ostream& operator<<(Ostream&, const specie&);
 };
+
 }  // namespace mousse
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Private Member Functions 
 inline specie::specie
 (
@@ -91,6 +97,8 @@ inline specie::specie
   nMoles_{nMoles},
   molWeight_{molWeight}
 {}
+
+
 inline specie::specie
 (
   const scalar nMoles,
@@ -100,6 +108,8 @@ inline specie::specie
   nMoles_{nMoles},
   molWeight_{molWeight}
 {}
+
+
 // Constructors 
 inline specie::specie(const specie& st)
 :
@@ -107,29 +117,41 @@ inline specie::specie(const specie& st)
   nMoles_{st.nMoles_},
   molWeight_{st.molWeight_}
 {}
+
+
 inline specie::specie(const word& name, const specie& st)
 :
   name_{name},
   nMoles_{st.nMoles_},
   molWeight_{st.molWeight_}
 {}
+
+
 // Member Functions 
 inline const word& specie::name() const
 {
   return name_;
 }
+
+
 inline scalar specie::W() const
 {
   return molWeight_;
 }
+
+
 inline scalar specie::nMoles() const
 {
   return nMoles_;
 }
+
+
 inline scalar specie::R() const
 {
   return RR/molWeight_;
 }
+
+
 // Member Operators 
 inline void specie::operator=(const specie& st)
 {
@@ -137,6 +159,8 @@ inline void specie::operator=(const specie& st)
   nMoles_ = st.nMoles_;
   molWeight_ = st.molWeight_;
 }
+
+
 inline void specie::operator+=(const specie& st)
 {
   scalar sumNmoles = max(nMoles_ + st.nMoles_, SMALL);
@@ -144,21 +168,26 @@ inline void specie::operator+=(const specie& st)
     + st.nMoles_/sumNmoles*st.molWeight_;
   nMoles_ = sumNmoles;
 }
+
+
 inline void specie::operator-=(const specie& st)
 {
   scalar diffnMoles = nMoles_ - st.nMoles_;
-  if (mag(diffnMoles) < SMALL)
-  {
+  if (mag(diffnMoles) < SMALL) {
     diffnMoles = SMALL;
   }
   molWeight_ = nMoles_/diffnMoles*molWeight_
     - st.nMoles_/diffnMoles*st.molWeight_;
   nMoles_ = diffnMoles;
 }
+
+
 inline void specie::operator*=(const scalar s)
 {
   nMoles_ *= s;
 }
+
+
 // Friend Operators 
 inline specie operator+(const specie& st1, const specie& st2)
 {
@@ -167,25 +196,33 @@ inline specie operator+(const specie& st1, const specie& st2)
           st1.nMoles_/sumNmoles*st1.molWeight_
             + st2.nMoles_/sumNmoles*st2.molWeight_};
 }
+
+
 inline specie operator-(const specie& st1, const specie& st2)
 {
   scalar diffNmoles = st1.nMoles_ - st2.nMoles_;
-  if (mag(diffNmoles) < SMALL)
-  {
+  if (mag(diffNmoles) < SMALL) {
     diffNmoles = SMALL;
   }
   return {diffNmoles,
           st1.nMoles_/diffNmoles*st1.molWeight_
             - st2.nMoles_/diffNmoles*st2.molWeight_};
 }
+
+
 inline specie operator*(const scalar s, const specie& st)
 {
   return {s*st.nMoles_,
           st.molWeight_};
 }
+
+
 inline specie operator==(const specie& st1, const specie& st2)
 {
   return st2 - st1;
 }
+
 }  // namespace mousse
+
 #endif
+

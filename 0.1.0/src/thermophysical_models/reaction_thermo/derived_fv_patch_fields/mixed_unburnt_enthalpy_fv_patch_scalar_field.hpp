@@ -8,11 +8,12 @@
 //   mousse::mixedUnburntEnthalpyFvPatchScalarField
 // Description
 //   Mixed boundary condition for unburnt
-// SourceFiles
-//   mixed_unburnt_enthalpy_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mixedUnburntEnthalpyFvPatchScalarField
 :
   public mixedFvPatchScalarField
@@ -51,10 +52,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new mixedUnburntEnthalpyFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new mixedUnburntEnthalpyFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     mixedUnburntEnthalpyFvPatchScalarField
@@ -68,15 +70,19 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new mixedUnburntEnthalpyFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new mixedUnburntEnthalpyFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
       //- Update the coefficients associated with the patch field
       virtual void updateCoeffs();
 };
+
 }  // namespace mousse
+
 #endif
+

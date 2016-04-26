@@ -7,7 +7,10 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "basic_thermo.hpp"
+
+
 // Constructors 
+
 mousse::mixedEnergyFvPatchScalarField::
 mixedEnergyFvPatchScalarField
 (
@@ -15,12 +18,14 @@ mixedEnergyFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF)
+  mixedFvPatchScalarField{p, iF}
 {
   valueFraction() = 0.0;
   refValue() = 0.0;
   refGrad() = 0.0;
 }
+
+
 mousse::mixedEnergyFvPatchScalarField::
 mixedEnergyFvPatchScalarField
 (
@@ -30,8 +35,10 @@ mixedEnergyFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(ptf, p, iF, mapper)
+  mixedFvPatchScalarField{ptf, p, iF, mapper}
 {}
+
+
 mousse::mixedEnergyFvPatchScalarField::
 mixedEnergyFvPatchScalarField
 (
@@ -40,16 +47,20 @@ mixedEnergyFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF, dict)
+  mixedFvPatchScalarField{p, iF, dict}
 {}
+
+
 mousse::mixedEnergyFvPatchScalarField::
 mixedEnergyFvPatchScalarField
 (
   const mixedEnergyFvPatchScalarField& tppsf
 )
 :
-  mixedFvPatchScalarField(tppsf)
+  mixedFvPatchScalarField{tppsf}
 {}
+
+
 mousse::mixedEnergyFvPatchScalarField::
 mixedEnergyFvPatchScalarField
 (
@@ -57,39 +68,41 @@ mixedEnergyFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(tppsf, iF)
+  mixedFvPatchScalarField{tppsf, iF}
 {}
+
+
 // Member Functions 
 void mousse::mixedEnergyFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const basicThermo& thermo = basicThermo::lookupThermo(*this);
   const label patchi = patch().index();
   const scalarField& pw = thermo.p().boundaryField()[patchi];
-  mixedFvPatchScalarField& Tw = refCast<mixedFvPatchScalarField>
-  (
-    const_cast<fvPatchScalarField&>(thermo.T().boundaryField()[patchi])
-  );
+  mixedFvPatchScalarField& Tw =
+    refCast<mixedFvPatchScalarField>
+    (
+      const_cast<fvPatchScalarField&>(thermo.T().boundaryField()[patchi])
+    );
   Tw.evaluate();
   valueFraction() = Tw.valueFraction();
   refValue() = thermo.he(pw, Tw.refValue(), patchi);
-  refGrad() =
-    thermo.Cpv(pw, Tw, patchi)*Tw.refGrad()
-   + patch().deltaCoeffs()*
-    (
-      thermo.he(pw, Tw, patchi)
-     - thermo.he(pw, Tw, patch().faceCells())
-    );
+  refGrad() = thermo.Cpv(pw, Tw, patchi)*Tw.refGrad()
+    + patch().deltaCoeffs()*(thermo.he(pw, Tw, patchi)
+                            - thermo.he(pw, Tw, patch().faceCells()));
   mixedFvPatchScalarField::updateCoeffs();
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   mixedEnergyFvPatchScalarField
 );
+
 }
+

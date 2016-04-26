@@ -8,10 +8,13 @@
 //   mousse::infiniteReactionRate
 // Description
 //   infinite reaction rate.
+
 #include "scalar_field.hpp"
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class infiniteReactionRate
 {
 public:
@@ -46,19 +49,26 @@ public:
       const infiniteReactionRate&
     );
 };
+
 }  // namespace mousse
 
 // Constructors 
 inline mousse::infiniteReactionRate::infiniteReactionRate()
 {}
+
+
 inline mousse::infiniteReactionRate::infiniteReactionRate
 (
   const speciesTable&,
   const dictionary&
 )
 {}
+
+
 inline void mousse::infiniteReactionRate::write(Ostream&) const
 {}
+
+
 // Member Functions 
 inline mousse::scalar mousse::infiniteReactionRate::operator()
 (
@@ -69,14 +79,18 @@ inline mousse::scalar mousse::infiniteReactionRate::operator()
 {
   return 1.0;
 }
+
+
 inline mousse::Ostream& mousse::operator<<
 (
   Ostream& os,
   const infiniteReactionRate& /*rr*/
 )
 {
-  os<< token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << token::END_LIST;
   return os;
 }
+
 #endif
+

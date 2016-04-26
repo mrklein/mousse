@@ -8,11 +8,14 @@
 //   mousse::JanevReactionRate
 // Description
 //   Janev, Langer, Evans and Post reaction rate.
+
 #include "scalar_field.hpp"
 #include "type_info.hpp"
 #include "fixed_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class JanevReactionRate
 {
   // Private data
@@ -64,7 +67,9 @@ public:
       const JanevReactionRate&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::JanevReactionRate::JanevReactionRate
@@ -80,6 +85,8 @@ inline mousse::JanevReactionRate::JanevReactionRate
   Ta_{Ta},
   b_{b}
 {}
+
+
 inline mousse::JanevReactionRate::JanevReactionRate
 (
   const speciesTable&,
@@ -93,6 +100,8 @@ inline mousse::JanevReactionRate::JanevReactionRate
 {
   is.readEnd("JanevReactionRate(Istream&)");
 }
+
+
 inline mousse::JanevReactionRate::JanevReactionRate
 (
   const speciesTable&,
@@ -104,6 +113,8 @@ inline mousse::JanevReactionRate::JanevReactionRate
   Ta_{readScalar(dict.lookup("Ta"))},
   b_{dict.lookup("b")}
 {}
+
+
 // Member Functions 
 inline mousse::scalar mousse::JanevReactionRate::operator()
 (
@@ -113,23 +124,22 @@ inline mousse::scalar mousse::JanevReactionRate::operator()
 ) const
 {
   scalar lta = A_;
-  if (mag(beta_) > VSMALL)
-  {
+  if (mag(beta_) > VSMALL) {
     lta *= pow(T, beta_);
   }
   scalar expArg = 0.0;
-  if (mag(Ta_) > VSMALL)
-  {
+  if (mag(Ta_) > VSMALL) {
     expArg -= Ta_/T;
   }
   scalar lnT = log(T);
-  for (int n=0; n<nb_; n++)
-  {
+  for (int n=0; n<nb_; n++) {
     expArg += b_[n]*pow(lnT, n);
   }
   lta *= exp(expArg);
   return lta;
 }
+
+
 inline void mousse::JanevReactionRate::write(Ostream& os) const
 {
   os.writeKeyword("A") << A_ << nl;
@@ -137,19 +147,21 @@ inline void mousse::JanevReactionRate::write(Ostream& os) const
   os.writeKeyword("Ta") << Ta_ << nl;
   os.writeKeyword("b") << b_ << nl;
 }
+
+
 inline mousse::Ostream& mousse::operator<<
 (
   Ostream& os,
   const JanevReactionRate& jrr
 )
 {
-  os<< token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << jrr.A_ << token::SPACE << jrr.beta_ << token::SPACE << jrr.Ta_;
-  for (int n=0; n<JanevReactionRate::nb_; n++)
-  {
-    os  << token::SPACE << jrr.b_[n];
+  for (int n=0; n<JanevReactionRate::nb_; n++) {
+    os << token::SPACE << jrr.b_[n];
   }
   os << token::END_LIST;
   return os;
 }
+
 #endif

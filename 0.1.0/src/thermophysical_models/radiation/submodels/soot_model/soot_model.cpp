@@ -3,15 +3,19 @@
 // Copyright (C) 2016 mousse project
 
 #include "soot_model.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace radiation
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(sootModel, 0);
-  DEFINE_RUN_TIME_SELECTION_TABLE(sootModel, dictionary);
+namespace mousse {
+namespace radiation {
+
+DEFINE_TYPE_NAME_AND_DEBUG(sootModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(sootModel, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::radiation::sootModel::sootModel
 (
@@ -23,7 +27,9 @@ mousse::radiation::sootModel::sootModel
   dict_{dict},
   mesh_{mesh}
 {}
+
+
 // Destructor   
 mousse::radiation::sootModel::~sootModel()
 {}
-// Member Functions
+

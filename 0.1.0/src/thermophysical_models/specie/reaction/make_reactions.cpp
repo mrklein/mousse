@@ -16,6 +16,7 @@
 #include "sri_fall_off_function.hpp"
 #include "troe_fall_off_function.hpp"
 
+
 #define MAKE_REACTIONS(Thermo, Reaction)                                      \
                                                                               \
   DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Reaction, 0);                           \
@@ -52,25 +53,27 @@
   )
 
 
-namespace mousse
-{
-  // sensible enthalpy based reactions
-  MAKE_REACTIONS(constGasHThermoPhysics, constGasHReaction)
-  MAKE_REACTIONS(gasHThermoPhysics, gasHReaction)
-  MAKE_REACTIONS
-  (
-    constIncompressibleGasHThermoPhysics,
-    constIncompressibleGasHReaction
-  )
-  MAKE_REACTIONS(incompressibleGasHThermoPhysics, incompressibleGasHReaction)
-  MAKE_REACTIONS(icoPoly8HThermoPhysics, icoPoly8HReaction)
-  MAKE_REACTIONS(constGasEThermoPhysics, constGasEReaction)
-  MAKE_REACTIONS(gasEThermoPhysics, gasEReaction)
-  MAKE_REACTIONS
-  (
-    constIncompressibleGasEThermoPhysics,
-    constIncompressibleGasEReaction
-  )
-  MAKE_REACTIONS(incompressibleGasEThermoPhysics, incompressibleGasEReaction)
-  MAKE_REACTIONS(icoPoly8EThermoPhysics, icoPoly8EReaction)
+namespace mousse {
+
+// sensible enthalpy based reactions
+MAKE_REACTIONS(constGasHThermoPhysics, constGasHReaction)
+MAKE_REACTIONS(gasHThermoPhysics, gasHReaction)
+MAKE_REACTIONS
+(
+  constIncompressibleGasHThermoPhysics,
+  constIncompressibleGasHReaction
+)
+MAKE_REACTIONS(incompressibleGasHThermoPhysics, incompressibleGasHReaction)
+MAKE_REACTIONS(icoPoly8HThermoPhysics, icoPoly8HReaction)
+MAKE_REACTIONS(constGasEThermoPhysics, constGasEReaction)
+MAKE_REACTIONS(gasEThermoPhysics, gasEReaction)
+MAKE_REACTIONS
+(
+  constIncompressibleGasEThermoPhysics,
+  constIncompressibleGasEReaction
+)
+MAKE_REACTIONS(incompressibleGasEThermoPhysics, incompressibleGasEReaction)
+MAKE_REACTIONS(icoPoly8EThermoPhysics, icoPoly8EReaction)
+
 }
+

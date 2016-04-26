@@ -8,14 +8,17 @@
 //   mousse::thermophysicalFunction
 // Description
 //   Abstract base class for thermo-physical functions
+
 #include "scalar.hpp"
 #include "iostreams.hpp"
 #include "type_info.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "dictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class thermophysicalFunction
 {
 public:
@@ -61,5 +64,8 @@ public:
       return os;
     }
 };
+
 }  // namespace mousse
+
 #endif
+
