@@ -10,12 +10,13 @@
 //   grpTurbulenceBoundaryConditions
 // Description
 //   Set a constant shear stress as tau0 = -nuEff dU/dn.
-// SourceFiles
-//   fixed_shear_stress_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fixedShearStressFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -56,10 +57,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchVectorField> clone() const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new fixedShearStressFvPatchVectorField(*this)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new fixedShearStressFvPatchVectorField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     fixedShearStressFvPatchVectorField
@@ -73,10 +75,11 @@ public:
       const DimensionedField<vector, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new fixedShearStressFvPatchVectorField(*this, iF)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new fixedShearStressFvPatchVectorField{*this, iF}
+        };
     }
   // Member functions
     //- Update the coefficients associated with the patch field
@@ -84,5 +87,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

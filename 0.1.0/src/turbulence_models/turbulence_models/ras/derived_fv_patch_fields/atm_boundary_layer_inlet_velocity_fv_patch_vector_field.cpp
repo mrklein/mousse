@@ -7,8 +7,10 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Constructors 
 atmBoundaryLayerInletVelocityFvPatchVectorField::
 atmBoundaryLayerInletVelocityFvPatchVectorField
@@ -20,6 +22,8 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
   fixedValueFvPatchVectorField{p, iF},
   atmBoundaryLayer{}
 {}
+
+
 atmBoundaryLayerInletVelocityFvPatchVectorField::
 atmBoundaryLayerInletVelocityFvPatchVectorField
 (
@@ -33,6 +37,8 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
 {
   vectorField::operator=(U(patch().Cf()));
 }
+
+
 atmBoundaryLayerInletVelocityFvPatchVectorField::
 atmBoundaryLayerInletVelocityFvPatchVectorField
 (
@@ -45,6 +51,8 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
   fixedValueFvPatchVectorField{pvf, p, iF, mapper},
   atmBoundaryLayer{pvf, mapper}
 {}
+
+
 atmBoundaryLayerInletVelocityFvPatchVectorField::
 atmBoundaryLayerInletVelocityFvPatchVectorField
 (
@@ -55,6 +63,8 @@ atmBoundaryLayerInletVelocityFvPatchVectorField
   fixedValueFvPatchVectorField{pvf, iF},
   atmBoundaryLayer{pvf}
 {}
+
+
 // Member Functions 
 void atmBoundaryLayerInletVelocityFvPatchVectorField::autoMap
 (
@@ -64,6 +74,8 @@ void atmBoundaryLayerInletVelocityFvPatchVectorField::autoMap
   fixedValueFvPatchVectorField::autoMap(m);
   atmBoundaryLayer::autoMap(m);
 }
+
+
 void atmBoundaryLayerInletVelocityFvPatchVectorField::rmap
 (
   const fvPatchVectorField& pvf,
@@ -75,15 +87,19 @@ void atmBoundaryLayerInletVelocityFvPatchVectorField::rmap
     refCast<const atmBoundaryLayerInletVelocityFvPatchVectorField>(pvf);
   atmBoundaryLayer::rmap(blpvf, addr);
 }
+
+
 void atmBoundaryLayerInletVelocityFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
   atmBoundaryLayer::write(os);
   writeEntry("value", os);
 }
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   atmBoundaryLayerInletVelocityFvPatchVectorField
 );
+
 }  // namespace mousse

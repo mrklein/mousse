@@ -51,15 +51,15 @@
 //     kappa
 //   - 'solidThermo' : use solidThermo kappa()
 //   - 'directionalSolidThermo' directionalKappa()
-// SourceFiles
-//   turbulent_temperature_coupled_baffle_mixed_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
 #include "temperature_coupled_base.hpp"
 #include "scalar_field.hpp"
-namespace mousse
-{
-namespace compressible
-{
+
+
+namespace mousse {
+namespace compressible {
+
 class turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 :
   public mixedFvPatchScalarField,
@@ -104,13 +104,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
-        (
-          *this
-        )
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new turbulentTemperatureCoupledBaffleMixedFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
@@ -124,14 +122,15 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
+          {
+            *this,
+            iF
+          }
+        };
     }
   // Member functions
     //- Update the coefficients associated with the patch field
@@ -139,6 +138,9 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace compressible
 }  // namespace mousse
+
 #endif
+

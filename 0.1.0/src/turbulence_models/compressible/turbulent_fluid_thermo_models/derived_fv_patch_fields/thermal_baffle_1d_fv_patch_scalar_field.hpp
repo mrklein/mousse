@@ -56,15 +56,15 @@
 //     relaxation      1;
 //   }
 //   \endverbatim
-// SourceFiles
-//   thermal_baffle_1d_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
 #include "auto_ptr.hpp"
 #include "mapped_patch_base.hpp"
-namespace mousse
-{
-namespace compressible
-{
+
+
+namespace mousse {
+namespace compressible {
+
 template<class solidType>
 class thermalBaffle1DFvPatchScalarField
 :
@@ -134,9 +134,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new thermalBaffle1DFvPatchScalarField(*this)
-      );
+      {
+        new thermalBaffle1DFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     thermalBaffle1DFvPatchScalarField
@@ -151,9 +151,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new thermalBaffle1DFvPatchScalarField(*this, iF)
-      );
+      {
+        new thermalBaffle1DFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Mapping functions
@@ -173,9 +173,10 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace compressible
 }  // namespace mousse
-#ifdef NoRepository
-#   include "thermal_baffle_1d_fv_patch_scalar_field.cpp"
-#endif
+
+#include "thermal_baffle_1d_fv_patch_scalar_field.ipp"
+
 #endif

@@ -8,13 +8,14 @@
 //   mousse::TurbulenceModel
 // Description
 //   Templated abstract base class for turbulence models
-// SourceFiles
-//   _turbulence_model.cpp
+
 #include "turbulence_model.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template
 <
   class Alpha,
@@ -85,28 +86,21 @@ public:
   {}
   // Member Functions
     //- Access function to phase fraction
-    const alphaField& alpha() const
-    {
-      return alpha_;
-    }
+    const alphaField& alpha() const { return alpha_; }
     //- Access function to incompressible transport model
-    const transportModel& transport() const
-    {
-      return transport_;
-    }
+    const transportModel& transport() const { return transport_; }
     //- Return the laminar viscosity
-    tmp<volScalarField> nu() const
-    {
-      return transport_.nu();
-    }
+    tmp<volScalarField> nu() const { return transport_.nu(); }
     //- Return the laminar viscosity on patchi
     tmp<scalarField> nu(const label patchi) const
     {
       return transport_.nu(patchi);
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#include "_turbulence_model.cpp"
+
+#include "_turbulence_model.ipp"
+
 #endif
-#endif
+

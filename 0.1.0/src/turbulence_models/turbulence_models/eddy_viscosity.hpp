@@ -10,11 +10,12 @@
 //   grpTurbulence
 // Description
 //   Eddy viscosity turbulence model base class
-// SourceFiles
-//   eddy_viscosity.cpp
+
 #include "linear_viscous_stress.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class eddyViscosity
 :
@@ -51,15 +52,9 @@ public:
     virtual bool read() = 0;
     //- Return non-const access to the turbulence viscosity
     //  to allow modification by means other than derivation
-    volScalarField& evNut()
-    {
-      return nut_;
-    }
+    volScalarField& evNut() { return nut_; }
     //- Return the turbulence viscosity
-    virtual tmp<volScalarField> nut() const
-    {
-      return nut_;
-    }
+    virtual tmp<volScalarField> nut() const { return nut_; }
     //- Return the turbulence viscosity on patch
     virtual tmp<scalarField> nut(const label patchi) const
     {
@@ -72,8 +67,9 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct() = 0;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "eddy_viscosity.cpp"
-#endif
+
+#include "eddy_viscosity.ipp"
+
 #endif

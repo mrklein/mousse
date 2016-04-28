@@ -10,11 +10,12 @@
 //   grpTurbulence
 // Description
 //   Eddy viscosity turbulence model with non-linear correction base class
-// SourceFiles
-//   nonlinear_eddy_viscosity.cpp
+
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class nonlinearEddyViscosity
 :
@@ -60,8 +61,9 @@ public:
       volVectorField& U
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "nonlinear_eddy_viscosity.cpp"
-#endif
+
+#include "nonlinear_eddy_viscosity.ipp"
+
 #endif

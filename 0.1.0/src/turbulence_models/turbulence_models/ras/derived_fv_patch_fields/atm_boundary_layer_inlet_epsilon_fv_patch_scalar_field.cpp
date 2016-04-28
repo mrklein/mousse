@@ -7,8 +7,10 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Constructors 
 atmBoundaryLayerInletEpsilonFvPatchScalarField::
 atmBoundaryLayerInletEpsilonFvPatchScalarField
@@ -20,6 +22,8 @@ atmBoundaryLayerInletEpsilonFvPatchScalarField
   fixedValueFvPatchScalarField{p, iF},
   atmBoundaryLayer{}
 {}
+
+
 atmBoundaryLayerInletEpsilonFvPatchScalarField::
 atmBoundaryLayerInletEpsilonFvPatchScalarField
 (
@@ -33,6 +37,8 @@ atmBoundaryLayerInletEpsilonFvPatchScalarField
 {
   scalarField::operator=(epsilon(patch().Cf()));
 }
+
+
 atmBoundaryLayerInletEpsilonFvPatchScalarField::
 atmBoundaryLayerInletEpsilonFvPatchScalarField
 (
@@ -45,6 +51,8 @@ atmBoundaryLayerInletEpsilonFvPatchScalarField
   fixedValueFvPatchScalarField{psf, p, iF, mapper},
   atmBoundaryLayer{psf, mapper}
 {}
+
+
 atmBoundaryLayerInletEpsilonFvPatchScalarField::
 atmBoundaryLayerInletEpsilonFvPatchScalarField
 (
@@ -55,6 +63,8 @@ atmBoundaryLayerInletEpsilonFvPatchScalarField
   fixedValueFvPatchScalarField{psf, iF},
   atmBoundaryLayer{psf}
 {}
+
+
 // Member Functions 
 void atmBoundaryLayerInletEpsilonFvPatchScalarField::autoMap
 (
@@ -64,6 +74,8 @@ void atmBoundaryLayerInletEpsilonFvPatchScalarField::autoMap
   fixedValueFvPatchScalarField::autoMap(m);
   atmBoundaryLayer::autoMap(m);
 }
+
+
 void atmBoundaryLayerInletEpsilonFvPatchScalarField::rmap
 (
   const fvPatchScalarField& psf,
@@ -75,15 +87,20 @@ void atmBoundaryLayerInletEpsilonFvPatchScalarField::rmap
     refCast<const atmBoundaryLayerInletEpsilonFvPatchScalarField>(psf);
   atmBoundaryLayer::rmap(blpsf, addr);
 }
+
+
 void atmBoundaryLayerInletEpsilonFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
   atmBoundaryLayer::write(os);
   writeEntry("value", os);
 }
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   atmBoundaryLayerInletEpsilonFvPatchScalarField
 );
+
 }  // namespace mousse
+

@@ -13,6 +13,7 @@
 #include "ras_model.hpp"
 #include "les_model.hpp"
 
+
 MAKE_BASE_TURBULENCE_MODEL
 (
   geometricOneField,
@@ -22,6 +23,7 @@ MAKE_BASE_TURBULENCE_MODEL
   ThermalDiffusivity,
   fluidThermo
 );
+
 
 #define MAKE_RAS_MODEL(Type)                                                  \
   MAKE_TEMPLATED_TURBULENCE_MODEL                                             \

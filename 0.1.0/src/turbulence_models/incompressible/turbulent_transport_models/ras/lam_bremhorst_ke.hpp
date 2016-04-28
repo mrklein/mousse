@@ -17,16 +17,15 @@
 //     A modified form of the k-ε model for predicting wall turbulence.
 //     Journal of Fluids Engineering, 103(3), 456-460.
 //   \endverbatim
-// SourceFiles
-//   lam_bremhorst_ke.cpp
+
 #include "turbulent_transport_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace incompressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace incompressible {
+namespace RASModels {
+
 class LamBremhorstKE
 :
   public eddyViscosity<incompressible::RASModel>
@@ -79,18 +78,20 @@ public:
     //- Return the effective diffusivity for k
     tmp<volScalarField> DkEff() const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField("DkEff", nut_ + nu())
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField{"DkEff", nut_ + nu()}
+        };
     }
     //- Return the effective diffusivity for epsilon
     tmp<volScalarField> DepsilonEff() const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField("DepsilonEff", nut_/sigmaEps_ + nu())
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField{"DepsilonEff", nut_/sigmaEps_ + nu()}
+        };
     }
     //- Return the turbulence kinetic energy
     virtual tmp<volScalarField> k() const
@@ -105,7 +106,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace incompressible
 }  // namespace mousse
+
 #endif
+

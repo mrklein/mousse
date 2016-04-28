@@ -6,32 +6,38 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
+
+
 // Static Data Members
-namespace mousse
+namespace mousse {
+
+// declare specialization within 'Foam' namespace
+template<>
+const char* NamedEnum
+<
+  mousse::compressible::
+  turbulentHeatFluxTemperatureFvPatchScalarField::heatSourceType,
+  2
+>::names[] =
 {
-  // declare specialization within 'Foam' namespace
-  template<>
-  const char* NamedEnum
-  <
-    mousse::compressible::
-    turbulentHeatFluxTemperatureFvPatchScalarField::heatSourceType,
-    2
-  >::names[] =
-  {
-    "power",
-    "flux"
-  };
+  "power",
+  "flux"
+};
+
 }
-namespace mousse
-{
-namespace compressible
-{
+
+
+namespace mousse {
+namespace compressible {
+
 // Static Data Members
 const NamedEnum
 <
   turbulentHeatFluxTemperatureFvPatchScalarField::heatSourceType,
   2
 > turbulentHeatFluxTemperatureFvPatchScalarField::heatSourceTypeNames_;
+
+
 // Constructors 
 turbulentHeatFluxTemperatureFvPatchScalarField::
 turbulentHeatFluxTemperatureFvPatchScalarField
@@ -46,6 +52,8 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   q_{p.size(), 0.0},
   QrName_{"undefinedQr"}
 {}
+
+
 turbulentHeatFluxTemperatureFvPatchScalarField::
 turbulentHeatFluxTemperatureFvPatchScalarField
 (
@@ -61,6 +69,8 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   q_{ptf.q_, mapper},
   QrName_{ptf.QrName_}
 {}
+
+
 turbulentHeatFluxTemperatureFvPatchScalarField::
 turbulentHeatFluxTemperatureFvPatchScalarField
 (
@@ -75,18 +85,17 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   q_{"q", dict, p.size()},
   QrName_{dict.lookupOrDefault<word>("Qr", "none")}
 {
-  if (dict.found("value") && dict.found("gradient"))
-  {
-    fvPatchField<scalar>::operator=(Field<scalar>("value", dict, p.size()));
-    gradient() = Field<scalar>("gradient", dict, p.size());
-  }
-  else
-  {
+  if (dict.found("value") && dict.found("gradient")) {
+    fvPatchField<scalar>::operator=(Field<scalar>{"value", dict, p.size()});
+    gradient() = Field<scalar>{"gradient", dict, p.size()};
+  } else {
     // Still reading so cannot yet evaluate. Make up a value.
     fvPatchField<scalar>::operator=(patchInternalField());
     gradient() = 0.0;
   }
 }
+
+
 turbulentHeatFluxTemperatureFvPatchScalarField::
 turbulentHeatFluxTemperatureFvPatchScalarField
 (
@@ -99,6 +108,8 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   q_{thftpsf.q_},
   QrName_{thftpsf.QrName_}
 {}
+
+
 turbulentHeatFluxTemperatureFvPatchScalarField::
 turbulentHeatFluxTemperatureFvPatchScalarField
 (
@@ -112,6 +123,8 @@ turbulentHeatFluxTemperatureFvPatchScalarField
   q_{thftpsf.q_},
   QrName_{thftpsf.QrName_}
 {}
+
+
 // Member Functions 
 void turbulentHeatFluxTemperatureFvPatchScalarField::autoMap
 (
@@ -121,6 +134,8 @@ void turbulentHeatFluxTemperatureFvPatchScalarField::autoMap
   fixedGradientFvPatchScalarField::autoMap(m);
   q_.autoMap(m);
 }
+
+
 void turbulentHeatFluxTemperatureFvPatchScalarField::rmap
 (
   const fvPatchScalarField& ptf,
@@ -135,43 +150,45 @@ void turbulentHeatFluxTemperatureFvPatchScalarField::rmap
     );
   q_.rmap(thftptf.q_, addr);
 }
+
+
 void turbulentHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const scalarField& Tp = *this;
   scalarField qr(this->size(), 0.0);
   //- Qr is negative going into the domain
-  if (QrName_ != "none")
-  {
+  if (QrName_ != "none") {
     qr = patch().lookupPatchField<volScalarField, scalar>(QrName_);
   }
-  switch (heatSource_)
-  {
+  switch (heatSource_) {
     case hsPower:
-    {
-      const scalar Ap = gSum(patch().magSf());
-      gradient() = (q_/Ap + qr)/kappa(Tp);
-      break;
-    }
+      {
+        const scalar Ap = gSum(patch().magSf());
+        gradient() = (q_/Ap + qr)/kappa(Tp);
+        break;
+      }
     case hsFlux:
-    {
-      gradient() = (q_ + qr)/kappa(Tp);
-      break;
-    }
+      {
+        gradient() = (q_ + qr)/kappa(Tp);
+        break;
+      }
     default:
-    {
-      FATAL_ERROR_IN
-      (
-        "turbulentHeatFluxTemperatureFvPatchScalarField::updateCoeffs()"
-      )   << "Unknown heat source type. Valid types are: "
+      {
+        FATAL_ERROR_IN
+        (
+          "turbulentHeatFluxTemperatureFvPatchScalarField::updateCoeffs()"
+        )
+        << "Unknown heat source type. Valid types are: "
         << heatSourceTypeNames_ << nl << exit(FatalError);
-    }
+      }
   }
   fixedGradientFvPatchScalarField::updateCoeffs();
 }
+
+
 void turbulentHeatFluxTemperatureFvPatchScalarField::write
 (
   Ostream& os
@@ -185,10 +202,14 @@ void turbulentHeatFluxTemperatureFvPatchScalarField::write
   os.writeKeyword("Qr")<< QrName_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   turbulentHeatFluxTemperatureFvPatchScalarField
 );
+
 }  // namespace compressible
 }  // namespace mousse
+

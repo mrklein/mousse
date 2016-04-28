@@ -8,13 +8,16 @@
 //   mousse::compressibleTurbulenceModel
 // Description
 //   Abstract base class for turbulence models (RAS, LES and laminar).
-// SourceFiles
-//   compressible_turbulence_model.cpp
+
 #include "_turbulence_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declarations
 class fvMesh;
+
+
 class compressibleTurbulenceModel
 :
   public turbulenceModel
@@ -65,5 +68,8 @@ public:
     //- Correct the turbulence thermal diffusivity for energy transport
     virtual void correctEnergyTransport();
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -28,14 +28,14 @@
 //       filter simple;
 //     }
 //   \endverbatim
-// SourceFiles
-//   dynamic_k_eqn.cpp
+
 #include "les_eddy_viscosity.hpp"
 #include "simple_filter.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class dynamicKEqn
 :
@@ -117,9 +117,10 @@ public:
     //- Correct Eddy-Viscosity and related properties
     virtual void correct();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "dynamic_k_eqn.cpp"
-#endif
+
+#include "dynamic_k_eqn.ipp"
+
 #endif

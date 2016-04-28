@@ -32,13 +32,13 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::RASModels::kEpsilon
-// SourceFiles
-//   buoyant_k_epsilon.cpp
+
 #include "k_epsilon.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class buoyantKEpsilon
 :
@@ -81,9 +81,10 @@ public:
     //- Re-read model coefficients if they have changed
     virtual bool read();
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "buoyant_k_epsilon.cpp"
-#endif
+
+#include "buoyant_k_epsilon.ipp"
+
 #endif

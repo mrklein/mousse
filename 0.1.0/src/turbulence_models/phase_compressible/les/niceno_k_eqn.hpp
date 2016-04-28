@@ -29,13 +29,13 @@
 //       Cmub            0.6;
 //     }
 //   \endverbatim
-// SourceFiles
-//   niceno_k_eqn.cpp
+
 #include "k_eqn.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class NicenoKEqn
 :
@@ -93,9 +93,10 @@ public:
     //- Read model coefficients if they have changed
     virtual bool read();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "niceno_k_eqn.cpp"
-#endif
+
+#include "niceno_k_eqn.ipp"
+
 #endif

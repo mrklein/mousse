@@ -13,13 +13,13 @@
 //   fields.
 // SeeAlso
 //   mousse::RASModels::v2f
-// SourceFiles
-//   v2f_base.cpp
+
 #include "ras_model.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 class v2fBase
 {
 public:
@@ -37,6 +37,9 @@ public:
     //- Return the damping function
     virtual tmp<volScalarField> f() const = 0;
 };
+
 }  // namespace RASModels
 }  // namespace mousse
+
 #endif
+

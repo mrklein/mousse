@@ -31,13 +31,13 @@
 //       alphaInversion  0.7;
 //     }
 //   \endverbatim
-// SourceFiles
-//   continuous_gas_k_epsilon.cpp
+
 #include "k_epsilon.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class continuousGasKEpsilon
 :
@@ -92,9 +92,10 @@ public:
     //- Return the Reynolds stress tensor
     virtual tmp<volSymmTensorField> R() const;
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "continuous_gas_k_epsilon.cpp"
-#endif
+
+#include "continuous_gas_k_epsilon.ipp"
+
 #endif

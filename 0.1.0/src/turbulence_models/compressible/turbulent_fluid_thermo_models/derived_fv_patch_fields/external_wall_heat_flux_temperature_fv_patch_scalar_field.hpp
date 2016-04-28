@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_EXTERNAL_WALL_HEAT_FLUX_TEMPERATURE_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_EXTERNAL_WALL_HEAT_FLUX_TEMPERATURE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -55,14 +58,13 @@
 // Note
 //  - Only supply \c h and \c Ta, or \c q in the dictionary (see above)
 //  - kappa entries can be: fluidThermo, solidThermo or lookup
-// SourceFiles
-//   external_wall_heat_flux_temperature_fv_patch_scalar_field.cpp
-#ifndef solidWallHeatFluxTemperatureFvPatchScalarField_H
-#define solidWallHeatFluxTemperatureFvPatchScalarField_H
+
 #include "mixed_fv_patch_fields.hpp"
 #include "temperature_coupled_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class externalWallHeatFluxTemperatureFvPatchScalarField
 :
   public mixedFvPatchScalarField,
@@ -133,10 +135,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new externalWallHeatFluxTemperatureFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new externalWallHeatFluxTemperatureFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     externalWallHeatFluxTemperatureFvPatchScalarField
@@ -150,11 +153,12 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new externalWallHeatFluxTemperatureFvPatchScalarField(*this, iF)
-      );
-    }
+      return
+        tmp<fvPatchScalarField>
+        {
+          new externalWallHeatFluxTemperatureFvPatchScalarField{*this, iF}
+        };
+      }
   // Member functions
     // Mapping functions
       //- Map (and resize as needed) from self given a mapping object
@@ -175,5 +179,8 @@ public:
       //- Write
       void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

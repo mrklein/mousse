@@ -9,13 +9,14 @@
 // Description
 //   Templated abstract base class for single-phase incompressible
 //   turbulence models.
-// SourceFiles
-//   _incompressible_turbulence_model.cpp
+
 #include "_turbulence_model.hpp"
 #include "incompressible_turbulence_model.hpp"
 #include "fv_matrix.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class TransportModel>
 class IncompressibleTurbulenceModel
 :
@@ -72,8 +73,9 @@ public:
       volVectorField& U
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_incompressible_turbulence_model.cpp"
-#endif
+
+#include "_incompressible_turbulence_model.ipp"
+
 #endif

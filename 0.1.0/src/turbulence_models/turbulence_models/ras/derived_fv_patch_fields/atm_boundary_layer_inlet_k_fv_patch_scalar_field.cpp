@@ -7,8 +7,10 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Constructors 
 atmBoundaryLayerInletKFvPatchScalarField::
 atmBoundaryLayerInletKFvPatchScalarField
@@ -20,6 +22,8 @@ atmBoundaryLayerInletKFvPatchScalarField
   fixedValueFvPatchScalarField{p, iF},
   atmBoundaryLayer{}
 {}
+
+
 atmBoundaryLayerInletKFvPatchScalarField::
 atmBoundaryLayerInletKFvPatchScalarField
 (
@@ -33,6 +37,8 @@ atmBoundaryLayerInletKFvPatchScalarField
 {
   scalarField::operator=(k(patch().Cf()));
 }
+
+
 atmBoundaryLayerInletKFvPatchScalarField::
 atmBoundaryLayerInletKFvPatchScalarField
 (
@@ -45,6 +51,8 @@ atmBoundaryLayerInletKFvPatchScalarField
   fixedValueFvPatchScalarField{psf, p, iF, mapper},
   atmBoundaryLayer{psf, mapper}
 {}
+
+
 atmBoundaryLayerInletKFvPatchScalarField::
 atmBoundaryLayerInletKFvPatchScalarField
 (
@@ -55,6 +63,8 @@ atmBoundaryLayerInletKFvPatchScalarField
   fixedValueFvPatchScalarField{psf, iF},
   atmBoundaryLayer{psf}
 {}
+
+
 // Member Functions 
 void atmBoundaryLayerInletKFvPatchScalarField::autoMap
 (
@@ -64,6 +74,8 @@ void atmBoundaryLayerInletKFvPatchScalarField::autoMap
   fixedValueFvPatchScalarField::autoMap(m);
   atmBoundaryLayer::autoMap(m);
 }
+
+
 void atmBoundaryLayerInletKFvPatchScalarField::rmap
 (
   const fvPatchScalarField& psf,
@@ -75,15 +87,19 @@ void atmBoundaryLayerInletKFvPatchScalarField::rmap
     refCast<const atmBoundaryLayerInletKFvPatchScalarField>(psf);
   atmBoundaryLayer::rmap(blpsf, addr);
 }
+
+
 void atmBoundaryLayerInletKFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
   atmBoundaryLayer::write(os);
   writeEntry("value", os);
 }
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   atmBoundaryLayerInletKFvPatchScalarField
 );
+
 }  // namespace mousse

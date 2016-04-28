@@ -26,16 +26,15 @@
 //     Two-equation model for turbulent wall flow.
 //     AIAA journal, 33(8), 1514-1518.
 //   \endverbatim
-// SourceFiles
-//   q_zeta.cpp
+
 #include "turbulent_transport_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace incompressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace incompressible {
+namespace RASModels {
+
 class qZeta
 :
   public eddyViscosity<incompressible::RASModel>
@@ -84,40 +83,28 @@ public:
     //- Read RASProperties dictionary
     virtual bool read();
     //- Return the lower allowable limit for q (default: SMALL)
-    const dimensionedScalar& qMin() const
-    {
-      return qMin_;
-    }
+    const dimensionedScalar& qMin() const { return qMin_; }
     //- Return the lower allowable limit for zeta (default: SMALL)
-    const dimensionedScalar& zetaMin() const
-    {
-      return zetaMin_;
-    }
+    const dimensionedScalar& zetaMin() const { return zetaMin_; }
     //- Allow qMin to be changed
-    dimensionedScalar& qMin()
-    {
-      return qMin_;
-    }
+    dimensionedScalar& qMin() { return qMin_; }
     //- Allow zetaMin to be changed
-    dimensionedScalar& zetaMin()
-    {
-      return zetaMin_;
-    }
+    dimensionedScalar& zetaMin() { return zetaMin_; }
     //- Return the effective diffusivity for q
     tmp<volScalarField> DqEff() const
     {
       return tmp<volScalarField>
-      (
-        new volScalarField("DqEff", nut_ + nu())
-      );
+      {
+        new volScalarField{"DqEff", nut_ + nu()}
+      };
     }
     //- Return the effective diffusivity for epsilon
     tmp<volScalarField> DzetaEff() const
     {
       return tmp<volScalarField>
-      (
-        new volScalarField("DzetaEff", nut_/sigmaZeta_ + nu())
-      );
+      {
+        new volScalarField{"DzetaEff", nut_/sigmaZeta_ + nu()}
+      };
     }
     //- Return the turbulence kinetic energy
     virtual tmp<volScalarField> k() const
@@ -140,7 +127,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace incompressible
 }  // namespace mousse
+
 #endif
+

@@ -6,44 +6,50 @@
 #include "wall_dist.hpp"
 #include "bound.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
-namespace incompressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace incompressible {
+namespace RASModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(LienLeschziner, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(RASModel, LienLeschziner, dictionary);
+
+
 // Protected Member Functions 
 tmp<volScalarField> LienLeschziner::fMu() const
 {
-  const volScalarField yStar(sqrt(k_)*y_/nu());
+  const volScalarField yStar{sqrt(k_)*y_/nu()};
   return
-    (scalar(1) - exp(-Anu_*yStar))
-   /((scalar(1) + SMALL) - exp(-Aeps_*yStar));
+    (scalar(1) - exp(-Anu_*yStar))/((scalar(1) + SMALL) - exp(-Aeps_*yStar));
 }
+
+
 tmp<volScalarField> LienLeschziner::f2() const
 {
   tmp<volScalarField> Rt = sqr(k_)/(nu()*epsilon_);
   return scalar(1) - 0.3*exp(-sqr(Rt));
 }
+
+
 tmp<volScalarField> LienLeschziner::E(const volScalarField& f2) const
 {
-  const volScalarField yStar(sqrt(k_)*y_/nu());
-  const volScalarField le
-  (
-    kappa_*y_*((scalar(1) + SMALL) - exp(-Aeps_*yStar))
-  );
+  const volScalarField yStar{sqrt(k_)*y_/nu()};
+  const volScalarField
+    le{kappa_*y_*((scalar(1) + SMALL) - exp(-Aeps_*yStar))};
   return
-    (Ceps2_*pow(Cmu_, 0.75))
-   *(f2*sqrt(k_)*epsilon_/le)*exp(-AE_*sqr(yStar));
+    (Ceps2_*pow(Cmu_, 0.75))*(f2*sqrt(k_)*epsilon_/le)*exp(-AE_*sqr(yStar));
 }
+
+
 void LienLeschziner::correctNut()
 {
   nut_ = Cmu_*fMu()*sqr(k_)/epsilon_;
   nut_.correctBoundaryConditions();
 }
+
+
 // Constructors 
 LienLeschziner::LienLeschziner
 (
@@ -58,7 +64,7 @@ LienLeschziner::LienLeschziner
 )
 :
   eddyViscosity<incompressible::RASModel>
-  (
+  {
     type,
     alpha,
     rho,
@@ -67,127 +73,127 @@ LienLeschziner::LienLeschziner
     phi,
     transport,
     propertiesName
-  ),
+  },
   Ceps1_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Ceps1",
       coeffDict_,
       1.44
     )
-  ),
+  },
   Ceps2_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Ceps2",
       coeffDict_,
       1.92
     )
-  ),
+  },
   sigmak_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "sigmak",
       coeffDict_,
       1.0
     )
-  ),
+  },
   sigmaEps_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "sigmaEps",
       coeffDict_,
       1.3
     )
-  ),
+  },
   Cmu_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Cmu",
       coeffDict_,
       0.09
     )
-  ),
+  },
   kappa_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "kappa",
       coeffDict_,
       0.41
     )
-  ),
+  },
   Anu_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Anu",
       coeffDict_,
       0.016
     )
-  ),
+  },
   Aeps_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Aeps",
       coeffDict_,
       0.263
     )
-  ),
+  },
   AE_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "AE",
       coeffDict_,
       0.00222
     )
-  ),
+  },
   k_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("k", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh_
-  ),
+  },
   epsilon_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("epsilon", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh_
-  ),
-  y_(wallDist::New(mesh_).y())
+  },
+  y_{wallDist::New(mesh_).y()}
 {
   bound(k_, kMin_);
   bound(epsilon_, epsilonMin_);
-  if (type == typeName)
-  {
+  if (type == typeName) {
     correctNut();
     printCoeffs(type);
   }
 }
+
+
 // Member Functions 
 bool LienLeschziner::read()
 {
-  if (eddyViscosity<incompressible::RASModel>::read())
-  {
+  if (eddyViscosity<incompressible::RASModel>::read()) {
     Ceps1_.readIfPresent(coeffDict());
     Ceps2_.readIfPresent(coeffDict());
     sigmak_.readIfPresent(coeffDict());
@@ -198,59 +204,58 @@ bool LienLeschziner::read()
     Aeps_.readIfPresent(coeffDict());
     AE_.readIfPresent(coeffDict());
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 void LienLeschziner::correct()
 {
-  if (!turbulence_)
-  {
+  if (!turbulence_) {
     return;
   }
   eddyViscosity<incompressible::RASModel>::correct();
   tmp<volTensorField> tgradU = fvc::grad(U_);
   volScalarField G
-  (
+  {
     GName(),
     nut_*(tgradU() && twoSymm(tgradU()))
-  );
+  };
   tgradU.clear();
   // Update epsilon and G at the wall
   epsilon_.boundaryField().updateCoeffs();
-  const volScalarField f2(this->f2());
+  const volScalarField f2{this->f2()};
   // Dissipation equation
-  tmp<fvScalarMatrix> epsEqn
-  (
+  tmp<fvScalarMatrix> epsEqn {
     fvm::ddt(epsilon_)
-   + fvm::div(phi_, epsilon_)
-   - fvm::laplacian(DepsilonEff(), epsilon_)
+  + fvm::div(phi_, epsilon_)
+  - fvm::laplacian(DepsilonEff(), epsilon_)
   ==
     Ceps1_*G*epsilon_/k_
-   - fvm::Sp(Ceps2_*f2*epsilon_/k_, epsilon_)
-   + E(f2)
-  );
+  - fvm::Sp(Ceps2_*f2*epsilon_/k_, epsilon_)
+  + E(f2)
+  };
   epsEqn().relax();
   epsEqn().boundaryManipulate(epsilon_.boundaryField());
   solve(epsEqn);
   bound(epsilon_, epsilonMin_);
   // Turbulent kinetic energy equation
-  tmp<fvScalarMatrix> kEqn
-  (
+  tmp<fvScalarMatrix> kEqn {
     fvm::ddt(k_)
    + fvm::div(phi_, k_)
    - fvm::laplacian(DkEff(), k_)
   ==
     G
    - fvm::Sp(epsilon_/k_, k_)
-  );
+  };
   kEqn().relax();
   solve(kEqn);
   bound(k_, kMin_);
   correctNut();
 }
+
 }  // namespace RASModels
 }  // namespace incompressible
 }  // namespace mousse
+

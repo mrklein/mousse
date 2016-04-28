@@ -5,40 +5,43 @@
 #include "q_zeta.hpp"
 #include "bound.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
-namespace incompressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace incompressible {
+namespace RASModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(qZeta, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(RASModel, qZeta, dictionary);
+
+
 // Private Member Functions 
 tmp<volScalarField> qZeta::fMu() const
 {
   const volScalarField Rt(q_*k_/(2.0*nu()*zeta_));
-  if (anisotropic_)
-  {
+  if (anisotropic_) {
     return exp((-scalar(2.5) + Rt/20.0)/pow3(scalar(1) + Rt/130.0));
-  }
-  else
-  {
-    return
-      exp(-6.0/sqr(scalar(1) + Rt/50.0))
-     *(scalar(1) + 3.0*exp(-Rt/10.0));
+  } else {
+    return exp(-6.0/sqr(scalar(1) + Rt/50.0))*(scalar(1) + 3.0*exp(-Rt/10.0));
   }
 }
+
+
 tmp<volScalarField> qZeta::f2() const
 {
   tmp<volScalarField> Rt = q_*k_/(2.0*nu()*zeta_);
   return scalar(1) - 0.3*exp(-sqr(Rt));
 }
+
+
 void qZeta::correctNut()
 {
   nut_ = Cmu_*fMu()*sqr(k_)/epsilon_;
   nut_.correctBoundaryConditions();
 }
+
+
 // Constructors 
 qZeta::qZeta
 (
@@ -53,7 +56,7 @@ qZeta::qZeta
 )
 :
   eddyViscosity<incompressible::RASModel>
-  (
+  {
     type,
     alpha,
     rho,
@@ -62,117 +65,117 @@ qZeta::qZeta
     phi,
     transport,
     propertiesName
-  ),
+  },
   Cmu_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Cmu",
       coeffDict_,
       0.09
     )
-  ),
+  },
   C1_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "C1",
       coeffDict_,
       1.44
     )
-  ),
+  },
   C2_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "C2",
       coeffDict_,
       1.92
     )
-  ),
+  },
   sigmaZeta_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "sigmaZeta",
       coeffDict_,
       1.3
     )
-  ),
+  },
   anisotropic_
-  (
+  {
     Switch::lookupOrAddToDict
     (
       "anisotropic",
       coeffDict_,
       false
     )
-  ),
-  qMin_("qMin", sqrt(kMin_)),
-  zetaMin_("zetaMin", epsilonMin_/(2*qMin_)),
+  },
+  qMin_{"qMin", sqrt(kMin_)},
+  zetaMin_{"zetaMin", epsilonMin_/(2*qMin_)},
   k_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("k", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh_
-  ),
+  },
   epsilon_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("epsilon", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh_
-  ),
+  },
   q_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("q", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     sqrt(bound(k_, kMin_)),
     k_.boundaryField().types()
-  ),
+  },
   zeta_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("zeta", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     bound(epsilon_, epsilonMin_)/(2.0*q_),
     epsilon_.boundaryField().types()
-  )
+  }
 {
   bound(zeta_, zetaMin_);
-  if (type == typeName)
-  {
+  if (type == typeName) {
     correctNut();
     printCoeffs(type);
   }
 }
+
+
 // Member Functions 
 bool qZeta::read()
 {
-  if (eddyViscosity<incompressible::RASModel>::read())
-  {
+  if (eddyViscosity<incompressible::RASModel>::read()) {
     Cmu_.readIfPresent(coeffDict());
     C1_.readIfPresent(coeffDict());
     C2_.readIfPresent(coeffDict());
@@ -182,43 +185,40 @@ bool qZeta::read()
     zetaMin_.readIfPresent(*this);
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+
+
 void qZeta::correct()
 {
-  if (!turbulence_)
-  {
+  if (!turbulence_) {
     return;
   }
   eddyViscosity<incompressible::RASModel>::correct();
-  volScalarField G(GName(), nut_/(2.0*q_)*2*magSqr(symm(fvc::grad(U_))));
-  const volScalarField E(nu()*nut_/q_*fvc::magSqrGradGrad(U_));
+  volScalarField G{GName(), nut_/(2.0*q_)*2*magSqr(symm(fvc::grad(U_)))};
+  const volScalarField E{nu()*nut_/q_*fvc::magSqrGradGrad(U_)};
   // Zeta equation
-  tmp<fvScalarMatrix> zetaEqn
-  (
+  tmp<fvScalarMatrix> zetaEqn {
     fvm::ddt(zeta_)
-   + fvm::div(phi_, zeta_)
-   - fvm::laplacian(DzetaEff(), zeta_)
+  + fvm::div(phi_, zeta_)
+  - fvm::laplacian(DzetaEff(), zeta_)
   ==
     (2.0*C1_ - 1)*G*zeta_/q_
-   - fvm::SuSp((2.0*C2_*f2() - dimensionedScalar(1.0))*zeta_/q_, zeta_)
-   + E
-  );
+  - fvm::SuSp((2.0*C2_*f2() - dimensionedScalar(1.0))*zeta_/q_, zeta_)
+  + E
+  };
   zetaEqn().relax();
   solve(zetaEqn);
   bound(zeta_, zetaMin_);
   // q equation
-  tmp<fvScalarMatrix> qEqn
-  (
+  tmp<fvScalarMatrix> qEqn {
     fvm::ddt(q_)
-   + fvm::div(phi_, q_)
-   - fvm::laplacian(DqEff(), q_)
+  + fvm::div(phi_, q_)
+  - fvm::laplacian(DqEff(), q_)
   ==
-    G - fvm::Sp(zeta_/q_, q_)
-  );
+    G
+  - fvm::Sp(zeta_/q_, q_)
+  };
   qEqn().relax();
   solve(qEqn);
   bound(q_, qMin_);
@@ -229,6 +229,8 @@ void qZeta::correct()
   epsilon_.correctBoundaryConditions();
   correctNut();
 }
+
 }  // namespace RASModels
 }  // namespace incompressible
 }  // namespace mousse
+

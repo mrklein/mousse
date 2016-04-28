@@ -18,13 +18,13 @@
 //     RANS/LES approach.
 //     Advances in DNS/LES, 1, 4-8.
 //   \endverbatim
-// SourceFiles
-//   spalart_allmaras_des.cpp
+
 #include "les_eddy_viscosity.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class SpalartAllmarasDES
 :
@@ -119,18 +119,16 @@ public:
     tmp<volScalarField> DnuTildaEff() const;
     //- Return SGS kinetic energy
     virtual tmp<volScalarField> k() const;
-    tmp<volScalarField> nuTilda() const
-    {
-      return nuTilda_;
-    }
+    tmp<volScalarField> nuTilda() const { return nuTilda_; }
     //- Return the LES field indicator
     virtual tmp<volScalarField> LESRegion() const;
     //- Correct nuTilda and related properties
     virtual void correct();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "spalart_allmaras_des.cpp"
-#endif
+
+#include "spalart_allmaras_des.ipp"
+
 #endif

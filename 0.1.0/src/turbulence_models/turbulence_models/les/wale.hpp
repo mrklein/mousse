@@ -28,14 +28,14 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::LESModels::Smagorinsky
-// SourceFiles
-//   wale.cpp
+
 #include "les_model.hpp"
 #include "les_eddy_viscosity.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class WALE
 :
@@ -92,9 +92,10 @@ public:
     //- Correct Eddy-Viscosity and related properties
     virtual void correct();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "wale.cpp"
-#endif
+
+#include "wale.ipp"
+
 #endif

@@ -8,14 +8,17 @@
 //   mousse::incompressibleTurbulenceModel
 // Description
 //   Abstract base class for turbulence models (RAS, LES and laminar).
-// SourceFiles
-//   incompressible_turbulence_model.cpp
+
 #include "turbulence_model.hpp"
 #include "geometric_one_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declarations
 class fvMesh;
+
+
 class incompressibleTurbulenceModel
 :
   public turbulenceModel
@@ -72,5 +75,8 @@ public:
     //- Return the source term for the momentum equation
     virtual tmp<fvVectorMatrix> divDevReff(volVectorField& U) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

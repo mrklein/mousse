@@ -27,13 +27,13 @@
 //       Ce                  1.048;
 //     }
 //   \endverbatim
-// SourceFiles
-//   k_eqn.cpp
+
 #include "les_eddy_viscosity.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels{
+
 template<class BasicTurbulenceModel>
 class kEqn
 :
@@ -94,9 +94,10 @@ public:
     //- Correct eddy-Viscosity and related properties
     virtual void correct();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "k_eqn.cpp"
-#endif
+
+#include "k_eqn.ipp"
+
 #endif

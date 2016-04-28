@@ -8,12 +8,13 @@
 //   mousse::LESModel
 // Description
 //   Templated abstract base class for LES SGS models
-// SourceFiles
-//   les_model.cpp
+
 #include "turbulence_model.hpp"
 #include "les_delta.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class LESModel
 :
@@ -96,36 +97,25 @@ public:
     virtual bool read();
     // Access
       //- Const access to the coefficients dictionary
-      virtual const dictionary& coeffDict() const
-      {
-        return coeffDict_;
-      }
+      virtual const dictionary& coeffDict() const { return coeffDict_; }
       //- Return the lower allowable limit for k (default: SMALL)
-      const dimensionedScalar& kMin() const
-      {
-        return kMin_;
-      }
+      const dimensionedScalar& kMin() const { return kMin_; }
       //- Allow kMin to be changed
-      dimensionedScalar& kMin()
-      {
-        return kMin_;
-      }
+      dimensionedScalar& kMin() { return kMin_; }
       //- Access function to filter width
-      inline const volScalarField& delta() const
-      {
-        return delta_();
-      }
+      inline const volScalarField& delta() const { return delta_(); }
     //- Return the effective viscosity
     virtual tmp<volScalarField> nuEff() const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField
-        (
-          IOobject::groupName("nuEff", this->U_.group()),
-          this->nut() + this->nu()
-        )
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField
+          {
+            IOobject::groupName("nuEff", this->U_.group()),
+            this->nut() + this->nu()
+          }
+        };
     }
     //- Return the effective viscosity on patch
     virtual tmp<scalarField> nuEff(const label patchi) const
@@ -135,8 +125,9 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "les_model.cpp"
-#endif
+
+#include "les_model.ipp"
+
 #endif

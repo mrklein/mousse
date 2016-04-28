@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_CONVECTIVE_HEAT_TRANSFER_FV_PATCH_SCALAR_FIELD_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_CONVECTIVE_HEAT_TRANSFER_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -39,15 +42,13 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   convective_heat_transfer_fv_patch_scalar_field.cpp
-#ifndef compressibleMutRoughWallFunctionFvPatchScalarField_H
-#define compressibleMutRoughWallFunctionFvPatchScalarField_H
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
-namespace compressible
-{
+
+
+namespace mousse {
+namespace compressible {
+
 class convectiveHeatTransferFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -92,9 +93,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new convectiveHeatTransferFvPatchScalarField(*this)
-      );
+      {
+        new convectiveHeatTransferFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     convectiveHeatTransferFvPatchScalarField
@@ -109,9 +110,9 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new convectiveHeatTransferFvPatchScalarField(*this, iF)
-      );
+      {
+        new convectiveHeatTransferFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Evaluation functions
@@ -121,6 +122,9 @@ public:
       //- Write
       virtual void write(Ostream&) const;
 };
+
 }  // namespace compressible
 }  // namespace mousse
+
 #endif
+

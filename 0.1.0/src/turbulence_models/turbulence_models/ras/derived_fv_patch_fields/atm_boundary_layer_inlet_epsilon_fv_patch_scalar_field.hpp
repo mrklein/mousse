@@ -28,13 +28,14 @@
 //   mousse::atmBoundaryLayer,
 //   mousse::atmBoundaryLayerInletVelocityFvPatchVectorField,
 //   mousse::atmBoundaryLayerInletKFvPatchScalarField
-// SourceFiles
-//   atm_boundary_layer_inlet_epsilon_fv_patch_scalar_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
 #include "atm_boundary_layer.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class atmBoundaryLayerInletEpsilonFvPatchScalarField
 :
   public fixedValueFvPatchScalarField,
@@ -69,10 +70,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new atmBoundaryLayerInletEpsilonFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new atmBoundaryLayerInletEpsilonFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     atmBoundaryLayerInletEpsilonFvPatchScalarField
@@ -86,10 +88,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new atmBoundaryLayerInletEpsilonFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new atmBoundaryLayerInletEpsilonFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Mapping functions
@@ -107,5 +110,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

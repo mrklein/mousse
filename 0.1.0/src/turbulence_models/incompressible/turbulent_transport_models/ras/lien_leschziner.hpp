@@ -26,16 +26,15 @@
 //   In addition to the low-Reynolds number damping functions support for
 //   wall-functions is also included to allow for low- and high-Reynolds number
 //   operation.
-// SourceFiles
-//   lien_leschziner.cpp
+
 #include "turbulent_transport_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace incompressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace incompressible {
+namespace RASModels {
+
 class LienLeschziner
 :
   public eddyViscosity<incompressible::RASModel>
@@ -89,17 +88,17 @@ public:
     tmp<volScalarField> DkEff() const
     {
       return tmp<volScalarField>
-      (
-        new volScalarField("DkEff", nut_/sigmak_ + nu())
-      );
+      {
+        new volScalarField{"DkEff", nut_/sigmak_ + nu()}
+      };
     }
     //- Return the effective diffusivity for epsilon
     tmp<volScalarField> DepsilonEff() const
     {
       return tmp<volScalarField>
-      (
-        new volScalarField("DepsilonEff", nut_/sigmaEps_ + nu())
-      );
+      {
+        new volScalarField{"DepsilonEff", nut_/sigmaEps_ + nu()}
+      };
     }
     //- Return the turbulence kinetic energy
     virtual tmp<volScalarField> k() const
@@ -114,7 +113,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace incompressible
 }  // namespace mousse
+
 #endif
+

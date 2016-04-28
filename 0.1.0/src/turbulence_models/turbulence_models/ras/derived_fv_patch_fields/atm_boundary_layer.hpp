@@ -77,11 +77,12 @@
 //   k-epsilon model should be changed from 1.3 to 1.11 for consistency.
 //   The roughness height (Er) is given by Er = 20 z0 following the same
 //   reference.
-// SourceFiles
-//   atm_boundary_layer.cpp
+
 #include "fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class atmBoundaryLayer
 {
   // Private data
@@ -121,20 +122,11 @@ public:
   // Member functions
     // Access
       //- Return flow direction
-      const vector& flowDir() const
-      {
-        return flowDir_;
-      }
+      const vector& flowDir() const { return flowDir_; }
       //- Return z-direction
-      const vector& zDir() const
-      {
-        return zDir_;
-      }
+      const vector& zDir() const { return zDir_; }
       //- Return friction velocity
-      const scalarField& Ustar() const
-      {
-        return Ustar_;
-      }
+      const scalarField& Ustar() const { return Ustar_; }
     // Mapping functions
       //- Map (and resize as needed) from self given a mapping object
       void autoMap(const fvPatchFieldMapper&);
@@ -150,5 +142,8 @@ public:
     //- Write
     void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

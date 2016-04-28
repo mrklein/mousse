@@ -61,12 +61,15 @@
 // SeeAlso
 //   mixedFvPatchField
 //   externalCoupledMixedFvPatchField
-// SourceFiles
-//   external_coupled_temperature_mixed_fv_patch_scalar_field.cpp
+
 #include "external_coupled_mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IFstream;
+
+
 class externalCoupledTemperatureMixedFvPatchScalarField
 :
   public externalCoupledMixedFvPatchField<scalar>
@@ -107,12 +110,12 @@ public:
       const externalCoupledTemperatureMixedFvPatchScalarField&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<scalar> > clone() const
+    virtual tmp<fvPatchField<scalar>> clone() const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new externalCoupledTemperatureMixedFvPatchScalarField(*this)
-      );
+      return tmp<fvPatchField<scalar>>
+      {
+        new externalCoupledTemperatureMixedFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     externalCoupledTemperatureMixedFvPatchScalarField
@@ -121,19 +124,15 @@ public:
       const DimensionedField<scalar, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<scalar> > clone
+    virtual tmp<fvPatchField<scalar>> clone
     (
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new externalCoupledTemperatureMixedFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      return tmp<fvPatchField<scalar>>
+      {
+        new externalCoupledTemperatureMixedFvPatchScalarField{*this, iF}
+      };
     }
   //- Destructor
   virtual ~externalCoupledTemperatureMixedFvPatchScalarField();
@@ -149,5 +148,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

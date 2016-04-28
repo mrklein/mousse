@@ -26,11 +26,12 @@
 //     alphaWall       uniform 1;
 //   }
 //   \endverbatim
-// SourceFiles
-//   wall_heat_transfer_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class wallHeatTransferFvPatchScalarField
 :
   public mixedFvPatchScalarField
@@ -74,10 +75,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new wallHeatTransferFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new wallHeatTransferFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     wallHeatTransferFvPatchScalarField
@@ -91,33 +93,22 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new wallHeatTransferFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new wallHeatTransferFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Access
       //- Return Tinf
-      const scalarField& Tinf() const
-      {
-        return Tinf_;
-      }
+      const scalarField& Tinf() const { return Tinf_; }
       //- Return reference to Tinf to allow adjustment
-      scalarField& Tinf()
-      {
-        return Tinf_;
-      }
+      scalarField& Tinf() { return Tinf_; }
       //- Return alphaWall
-      const scalarField& alphaWall() const
-      {
-        return alphaWall_;
-      }
+      const scalarField& alphaWall() const { return alphaWall_; }
       //- Return reference to alphaWall to allow adjustment
-      scalarField& alphaWall()
-      {
-        return alphaWall_;
-      }
+      scalarField& alphaWall() { return alphaWall_; }
     // Mapping functions
       //- Map (and resize as needed) from self given a mapping object
       virtual void autoMap
@@ -136,5 +127,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

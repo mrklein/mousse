@@ -33,14 +33,14 @@
 //       sigmaEps    1.2;
 //     }
 //   \endverbatim
-// SourceFiles
-//   realizable_ke.cpp
+
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class realizableKE
 :
@@ -101,26 +101,28 @@ public:
     //- Return the effective diffusivity for k
     tmp<volScalarField> DkEff() const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField
-        (
-          "DkEff",
-          (this->nut_/sigmak_ + this->nu())
-        )
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField
+          {
+            "DkEff",
+            (this->nut_/sigmak_ + this->nu())
+          }
+        };
     }
     //- Return the effective diffusivity for epsilon
     tmp<volScalarField> DepsilonEff() const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField
-        (
-          "DepsilonEff",
-          (this->nut_/sigmaEps_ + this->nu())
-        )
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField
+          {
+            "DepsilonEff",
+            (this->nut_/sigmaEps_ + this->nu())
+          }
+        };
     }
     //- Return the turbulence kinetic energy
     virtual tmp<volScalarField> k() const
@@ -135,9 +137,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "realizable_ke.cpp"
-#endif
+
+#include "realizable_ke.ipp"
+
 #endif

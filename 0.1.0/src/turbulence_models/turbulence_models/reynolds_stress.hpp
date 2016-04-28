@@ -10,10 +10,9 @@
 //   grpTurbulence
 // Description
 //   Reynolds-stress turbulence model base class
-// SourceFiles
-//   reynolds_stress.cpp
-namespace mousse
-{
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class ReynoldsStress
 :
@@ -81,8 +80,9 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct() = 0;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "reynolds_stress.cpp"
-#endif
+
+#include "reynolds_stress.ipp"
+
 #endif

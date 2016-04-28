@@ -8,11 +8,12 @@
 //   mousse::RASModel
 // Description
 //   Templated abstract base class for RAS turbulence models
-// SourceFiles
-//   ras_model.cpp
+
 #include "turbulence_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class RASModel
 :
@@ -97,51 +98,31 @@ public:
     virtual bool read();
     // Access
       //- Return the lower allowable limit for k (default: SMALL)
-      const dimensionedScalar& kMin() const
-      {
-        return kMin_;
-      }
+      const dimensionedScalar& kMin() const { return kMin_; }
       //- Return the lower allowable limit for epsilon (default: SMALL)
-      const dimensionedScalar& epsilonMin() const
-      {
-        return epsilonMin_;
-      }
+      const dimensionedScalar& epsilonMin() const { return epsilonMin_; }
       //- Return the lower allowable limit for omega (default: SMALL)
-      const dimensionedScalar& omegaMin() const
-      {
-        return omegaMin_;
-      }
+      const dimensionedScalar& omegaMin() const { return omegaMin_; }
       //- Allow kMin to be changed
-      dimensionedScalar& kMin()
-      {
-        return kMin_;
-      }
+      dimensionedScalar& kMin() { return kMin_; }
       //- Allow epsilonMin to be changed
-      dimensionedScalar& epsilonMin()
-      {
-        return epsilonMin_;
-      }
+      dimensionedScalar& epsilonMin() { return epsilonMin_; }
       //- Allow omegaMin to be changed
-      dimensionedScalar& omegaMin()
-      {
-        return omegaMin_;
-      }
+      dimensionedScalar& omegaMin() { return omegaMin_; }
       //- Const access to the coefficients dictionary
-      virtual const dictionary& coeffDict() const
-      {
-        return coeffDict_;
-      }
+      virtual const dictionary& coeffDict() const { return coeffDict_; }
     //- Return the effective viscosity
     virtual tmp<volScalarField> nuEff() const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField
-        (
-          IOobject::groupName("nuEff", this->U_.group()),
-          this->nut() + this->nu()
-        )
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField
+          {
+            IOobject::groupName("nuEff", this->U_.group()),
+            this->nut() + this->nu()
+          }
+        };
     }
     //- Return the effective viscosity on patch
     virtual tmp<scalarField> nuEff(const label patchi) const
@@ -151,8 +132,9 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ras_model.cpp"
-#endif
+
+#include "ras_model.ipp"
+
 #endif

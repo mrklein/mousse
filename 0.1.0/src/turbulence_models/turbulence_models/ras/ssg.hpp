@@ -44,18 +44,18 @@
 //       couplingFactor  0.0;
 //     }
 //   \endverbatim
-// SourceFiles
-//   ssg.cpp
+
 #include "ras_model.hpp"
 #include "reynolds_stress.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class SSG
 :
-  public ReynoldsStress<RASModel<BasicTurbulenceModel> >
+  public ReynoldsStress<RASModel<BasicTurbulenceModel>>
 {
 protected:
   // Protected data
@@ -124,9 +124,10 @@ public:
     //  related properties
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "ssg.cpp"
-#endif
+
+#include "ssg.ipp"
+
 #endif

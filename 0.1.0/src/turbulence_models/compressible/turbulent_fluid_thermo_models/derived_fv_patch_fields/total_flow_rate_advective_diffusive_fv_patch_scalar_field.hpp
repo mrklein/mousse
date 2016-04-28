@@ -11,11 +11,12 @@
 //   considered to calculate the inlet value for the species
 //   The massFluxFraction sets the fraction of the flux of each particular
 //   species.
-// SourceFiles
-//   total_flow_rate_advective_diffusive_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class totalFlowRateAdvectiveDiffusiveFvPatchScalarField
 :
   public mixedFvPatchField<scalar>
@@ -61,13 +62,12 @@ public:
       const totalFlowRateAdvectiveDiffusiveFvPatchScalarField&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<scalar> > clone() const
+    virtual tmp<fvPatchField<scalar>> clone() const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new
-        totalFlowRateAdvectiveDiffusiveFvPatchScalarField(*this)
-      );
+      return tmp<fvPatchField<scalar>>
+      {
+        new totalFlowRateAdvectiveDiffusiveFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     totalFlowRateAdvectiveDiffusiveFvPatchScalarField
@@ -76,20 +76,16 @@ public:
       const DimensionedField<scalar, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<scalar> > clone
+    virtual tmp<fvPatchField<scalar>> clone
     (
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<scalar> >
-      (
+      return tmp<fvPatchField<scalar>>
+      {
         new
-        totalFlowRateAdvectiveDiffusiveFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+        totalFlowRateAdvectiveDiffusiveFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Mapping functions
@@ -110,5 +106,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

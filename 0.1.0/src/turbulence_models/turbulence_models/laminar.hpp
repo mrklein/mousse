@@ -8,11 +8,12 @@
 //   mousse::laminar
 // Description
 //   Turbulence model for laminar flow.
-// SourceFiles
-//   laminar.cpp
+
 #include "linear_viscous_stress.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class laminar
 :
@@ -74,8 +75,9 @@ public:
     //- Correct the laminar viscosity
     virtual void correct();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "laminar.cpp"
-#endif
+
+#include "laminar.ipp"
+
 #endif

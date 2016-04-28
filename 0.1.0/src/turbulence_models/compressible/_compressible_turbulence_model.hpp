@@ -9,12 +9,13 @@
 // Description
 //   Templated abstract base class for single-phase compressible
 //   turbulence models.
-// SourceFiles
-//   _compressible_turbulence_model.cpp
+
 #include "_turbulence_model.hpp"
 #include "compressible_turbulence_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class TransportModel>
 class CompressibleTurbulenceModel
 :
@@ -88,8 +89,9 @@ public:
       return mut(patchi) + mu(patchi);
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_compressible_turbulence_model.cpp"
-#endif
+
+#include "_compressible_turbulence_model.ipp"
+
 #endif
