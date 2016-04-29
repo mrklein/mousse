@@ -8,16 +8,15 @@
 //   mousse::constantHeatTransfer
 // Description
 //   Constant heat transfer model
-// SourceFiles
-//   constant_heat_transfer.cpp
+
 #include "heat_transfer_model.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class constantHeatTransfer
 :
   public heatTransferModel
@@ -49,7 +48,10 @@ public:
       //- Return the heat transfer coefficient [W/m2/K]
       virtual tmp<volScalarField> h() const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

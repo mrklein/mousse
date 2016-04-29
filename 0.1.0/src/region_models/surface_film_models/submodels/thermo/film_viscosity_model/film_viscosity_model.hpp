@@ -8,18 +8,16 @@
 //   mousse::filmViscosityModel
 // Description
 //   Base class for surface film viscosity models
-// SourceFiles
-//   film_viscosity_model.cpp
-//   film_viscosity_model_new.cpp
+
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 #include "scalar_field.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class filmViscosityModel
 :
   public filmSubModelBase
@@ -79,7 +77,10 @@ public:
       //- Provide some feedback
       virtual void info(Ostream& os) const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

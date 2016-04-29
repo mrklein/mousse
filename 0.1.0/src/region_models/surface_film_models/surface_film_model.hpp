@@ -8,9 +8,7 @@
 //   mousse::regionModels::surfaceFilmModels::surfaceFilmModel
 // Description
 //   Base class for surface film models
-// SourceFiles
-//   surface_film_model.cpp
-//   surface_film_model_new.cpp
+
 #include "single_layer_region.hpp"
 #include "dimensioned_vector.hpp"
 #include "run_time_selection_tables.hpp"
@@ -18,12 +16,12 @@
 #include "dimensioned_field.hpp"
 #include "label_list.hpp"
 #include "named_enum.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class surfaceFilmModel
 :
   public singleLayerRegion
@@ -78,7 +76,7 @@ public:
   // Member Functions
     // Access
       //- Return the accleration due to gravity
-      inline const dimensionedVector& g() const;
+      inline const dimensionedVector& g() const { return g_; }
       //- External hook to add sources to the film
       virtual void addSources
       (
@@ -127,30 +125,16 @@ public:
     // Source fields
       // Mapped into primary region
         //- Return total mass source - Eulerian phase only
-        virtual tmp<DimensionedField<scalar, volMesh> > Srho() const;
+        virtual tmp<DimensionedField<scalar, volMesh>> Srho() const;
         //- Return mass source for specie i - Eulerian phase only
-        virtual tmp<DimensionedField<scalar, volMesh> > Srho
-        (
-          const label i
-        ) const;
+        virtual tmp<DimensionedField<scalar, volMesh>> Srho(const label) const;
         //- Return enthalpy source - Eulerian phase only
-        virtual tmp<DimensionedField<scalar, volMesh> > Sh() const;
+        virtual tmp<DimensionedField<scalar, volMesh>> Sh() const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
 
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
-inline const mousse::dimensionedVector& surfaceFilmModel::g() const
-{
-  return g_;
-}
-}  // namespace surfaceFilmModels
-}  // namespace regionModels
-}  // namespace mousse
 #endif
+

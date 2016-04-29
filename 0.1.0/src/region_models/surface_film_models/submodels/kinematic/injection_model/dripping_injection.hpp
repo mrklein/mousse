@@ -11,17 +11,16 @@
 //   If the film mass exceeds that needed to generate a valid parcel, the
 //   equivalent mass is removed from the film.
 //   New parcel diameters are sampled from a PDF.
-// SourceFiles
-//   dripping_injection.cpp
+
 #include "injection_model.hpp"
 #include "distribution_model.hpp"
 #include "cached_random.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class drippingInjection
 :
   public injectionModel
@@ -66,7 +65,10 @@ public:
         scalarField& diameterToInject
       );
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

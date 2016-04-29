@@ -8,8 +8,7 @@
 //   mousse::kinematicSingleLayer
 // Description
 //   Kinematic form of single-cell layer surface film model
-// SourceFiles
-//   kinematic_single_layer.cpp
+
 #include "surface_film_model.hpp"
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"
@@ -18,14 +17,19 @@
 #include "injection_model_list.hpp"
 #include "force_list.hpp"
 #include "film_turbulence_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+#include "film_thermo_model.hpp"
+#include "surface_interpolate.hpp"
+#include "fvc_surface_integrate.hpp"
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Forward class declarations
 class filmThermoModel;
+
+
 class kinematicSingleLayer
 :
   public surfaceFilmModel
@@ -320,123 +324,172 @@ public:
       //- Provide some feedback
       virtual void info();
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
 
-#include "film_thermo_model.hpp"
-#include "surface_interpolate.hpp"
-#include "fvc_surface_integrate.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 inline const Switch& kinematicSingleLayer::momentumPredictor() const
 {
   return momentumPredictor_;
 }
+
+
 inline label kinematicSingleLayer::nOuterCorr() const
 {
   return nOuterCorr_;
 }
+
+
 inline label kinematicSingleLayer::nCorr() const
 {
   return nCorr_;
 }
+
+
 inline label kinematicSingleLayer::nNonOrthCorr() const
 {
   return nNonOrthCorr_;
 }
+
+
 inline const dimensionedScalar& kinematicSingleLayer::deltaSmall() const
 {
   return deltaSmall_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::mu() const
 {
   return mu_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::sigma() const
 {
   return sigma_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::delta() const
 {
   return delta_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::alpha() const
 {
   return alpha_;
 }
+
+
 inline volVectorField& kinematicSingleLayer::USpPrimary()
 {
   return USpPrimary_;
 }
+
+
 inline volScalarField& kinematicSingleLayer::pSpPrimary()
 {
   return pSpPrimary_;
 }
+
+
 inline volScalarField& kinematicSingleLayer::rhoSpPrimary()
 {
   return rhoSpPrimary_;
 }
+
+
 inline volVectorField& kinematicSingleLayer::USp()
 {
   return USp_;
 }
+
+
 inline volScalarField& kinematicSingleLayer::pSp()
 {
   return pSp_;
 }
+
+
 inline volScalarField& kinematicSingleLayer::rhoSp()
 {
   return rhoSp_;
 }
+
+
 inline const volVectorField& kinematicSingleLayer::USp() const
 {
   return USp_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::pSp() const
 {
   return pSp_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::rhoSp() const
 {
   return rhoSp_;
 }
+
+
 inline const volVectorField& kinematicSingleLayer::UPrimary() const
 {
   return UPrimary_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::pPrimary() const
 {
   return pPrimary_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::rhoPrimary() const
 {
   return rhoPrimary_;
 }
+
+
 inline const volScalarField& kinematicSingleLayer::muPrimary() const
 {
   return muPrimary_;
 }
+
+
 inline const filmThermoModel& kinematicSingleLayer::filmThermo() const
 {
   return filmThermo_();
 }
+
+
 inline injectionModelList& kinematicSingleLayer::injection()
 {
   return injection_;
 }
+
+
 inline const filmTurbulenceModel& kinematicSingleLayer::turbulence() const
 {
   return turbulence_();
 }
+
+
 inline tmp<volScalarField> kinematicSingleLayer::mass() const
 {
   return rho_*delta_*magSf();
 }
+
+
 inline tmp<volScalarField> kinematicSingleLayer::netMass() const
 {
   return
@@ -444,35 +497,42 @@ inline tmp<volScalarField> kinematicSingleLayer::netMass() const
    *time().deltaT()
    + rho_*delta_*magSf();
 }
+
+
 inline tmp<volScalarField> kinematicSingleLayer::deltaMass() const
 {
   return rhoSp_*magSf()*time().deltaT();
 }
+
+
 inline tmp<volScalarField> kinematicSingleLayer::gNorm() const
 {
-  return tmp<volScalarField>{
-    new volScalarField
+  return
+    tmp<volScalarField>
     {
-      // IOobject
+      new volScalarField
       {
-        "gNorm",
-        time().timeName(),
-        regionMesh(),
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
-      },
-      g_ & nHat(),
-      zeroGradientFvPatchScalarField::typeName
-    }
-  };
+        // IOobject
+        {
+          "gNorm",
+            time().timeName(),
+            regionMesh(),
+            IOobject::NO_READ,
+            IOobject::NO_WRITE
+        },
+        g_ & nHat(),
+        zeroGradientFvPatchScalarField::typeName
+      }
+    };
 }
+
+
 inline tmp<volScalarField> kinematicSingleLayer::gNormClipped() const
 {
   tmp<volScalarField> tgNormClipped
   {
     new volScalarField
     {
-      // IOobject
       {
         "gNormClipped",
         time().timeName(),
@@ -488,6 +548,8 @@ inline tmp<volScalarField> kinematicSingleLayer::gNormClipped() const
   gNormClipped.min(0.0);
   return tgNormClipped;
 }
+
+
 inline tmp<volVectorField> kinematicSingleLayer::gTan() const
 {
   tmp<volVectorField> tgtan
@@ -509,10 +571,11 @@ inline tmp<volVectorField> kinematicSingleLayer::gTan() const
 
   return tgtan;
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "kinematic_single_layer_templates.cpp"
-#endif
+
+#include "kinematic_single_layer.ipp"
+
 #endif

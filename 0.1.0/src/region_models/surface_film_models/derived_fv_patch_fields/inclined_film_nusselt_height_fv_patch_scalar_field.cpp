@@ -6,6 +6,8 @@
 #include "vol_fields.hpp"
 #include "kinematic_single_layer.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Constructors 
 mousse::inclinedFilmNusseltHeightFvPatchScalarField::
 inclinedFilmNusseltHeightFvPatchScalarField
@@ -19,6 +21,8 @@ inclinedFilmNusseltHeightFvPatchScalarField
   a_{},
   omega_{}
 {}
+
+
 mousse::inclinedFilmNusseltHeightFvPatchScalarField::
 inclinedFilmNusseltHeightFvPatchScalarField
 (
@@ -33,6 +37,8 @@ inclinedFilmNusseltHeightFvPatchScalarField
   a_{ptf.a_().clone().ptr()},
   omega_{ptf.omega_().clone().ptr()}
 {}
+
+
 mousse::inclinedFilmNusseltHeightFvPatchScalarField::
 inclinedFilmNusseltHeightFvPatchScalarField
 (
@@ -46,8 +52,10 @@ inclinedFilmNusseltHeightFvPatchScalarField
   a_{DataEntry<scalar>::New("a", dict)},
   omega_{DataEntry<scalar>::New("omega", dict)}
 {
-  fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
+  fvPatchScalarField::operator=(scalarField{"value", dict, p.size()});
 }
+
+
 mousse::inclinedFilmNusseltHeightFvPatchScalarField::
 inclinedFilmNusseltHeightFvPatchScalarField
 (
@@ -59,6 +67,8 @@ inclinedFilmNusseltHeightFvPatchScalarField
   a_{wmfrhpsf.a_().clone().ptr()},
   omega_{wmfrhpsf.omega_().clone().ptr()}
 {}
+
+
 mousse::inclinedFilmNusseltHeightFvPatchScalarField::
 inclinedFilmNusseltHeightFvPatchScalarField
 (
@@ -71,11 +81,12 @@ inclinedFilmNusseltHeightFvPatchScalarField
   a_{wmfrhpsf.a_().clone().ptr()},
   omega_{wmfrhpsf.omega_().clone().ptr()}
 {}
+
+
 // Member Functions 
 void mousse::inclinedFilmNusseltHeightFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const label patchI = patch().index();
@@ -92,45 +103,46 @@ void mousse::inclinedFilmNusseltHeightFvPatchScalarField::updateCoeffs()
     >(region);
   // calculate the vector tangential to the patch
   // note: normal pointing into the domain
-  const vectorField n(-patch().nf());
+  const vectorField n{-patch().nf()};
   // TODO: currently re-evaluating the entire gTan field to return this patch
-  const scalarField gTan(film.gTan()().boundaryField()[patchI] & n);
-  if (patch().size() && (max(mag(gTan)) < SMALL))
-  {
+  const scalarField gTan{film.gTan()().boundaryField()[patchI] & n};
+  if (patch().size() && (max(mag(gTan)) < SMALL)) {
     WARNING_IN
     (
       "void mousse::inclinedFilmNusseltHeightFvPatchScalarField::"
       "updateCoeffs()"
     )
-      << "Tangential gravity component is zero.  This boundary condition "
-      << "is designed to operate on patches inclined with respect to "
-      << "gravity"
-      << endl;
+    << "Tangential gravity component is zero.  This boundary condition "
+    << "is designed to operate on patches inclined with respect to "
+    << "gravity"
+    << endl;
   }
   const volVectorField& nHat = film.nHat();
-  const vectorField nHatp(nHat.boundaryField()[patchI].patchInternalField());
-  vectorField nTan(nHatp ^ n);
+  const vectorField nHatp{nHat.boundaryField()[patchI].patchInternalField()};
+  vectorField nTan{nHatp ^ n};
   nTan /= mag(nTan) + ROOTVSMALL;
   // calculate distance in patch tangential direction
   const vectorField& Cf = patch().Cf();
-  scalarField d(nTan & Cf);
+  scalarField d{nTan & Cf};
   // calculate the wavy film height
   const scalar t = db().time().timeOutputValue();
   const scalar GMean = GammaMean_->value(t);
   const scalar a = a_->value(t);
   const scalar omega = omega_->value(t);
-  const scalarField G(GMean + a*sin(omega*constant::mathematical::twoPi*d));
+  const scalarField G{GMean + a*sin(omega*constant::mathematical::twoPi*d)};
   const volScalarField& mu = film.mu();
-  const scalarField mup(mu.boundaryField()[patchI].patchInternalField());
+  const scalarField mup{mu.boundaryField()[patchI].patchInternalField()};
   const volScalarField& rho = film.rho();
-  const scalarField rhop(rho.boundaryField()[patchI].patchInternalField());
-  const scalarField Re(max(G, scalar(0.0))/mup);
+  const scalarField rhop{rho.boundaryField()[patchI].patchInternalField()};
+  const scalarField Re{max(G, scalar(0.0))/mup};
   operator==
   (
     pow(3.0*sqr(mup/rhop)/(gTan + ROOTVSMALL), 0.333)*pow(Re, 0.333)
   );
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::inclinedFilmNusseltHeightFvPatchScalarField::write
 (
   Ostream& os
@@ -142,11 +154,15 @@ void mousse::inclinedFilmNusseltHeightFvPatchScalarField::write
   omega_->writeData(os);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   inclinedFilmNusseltHeightFvPatchScalarField
 );
+
 }
+

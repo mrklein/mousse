@@ -8,19 +8,17 @@
 //   mousse::regionModels::surfaceFilmModels::filmTurbulenceModel
 // Description
 //   Base class for film turbulence models
-// SourceFiles
-//   film_turbulence_model.cpp
-//   film_turbulence_model_new.cpp
+
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_matrices_fwd.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class filmTurbulenceModel
 :
   public filmSubModelBase
@@ -74,7 +72,10 @@ public:
       //- Return the source for the film momentum equation
       virtual tmp<fvVectorMatrix> Su(volVectorField& U) const = 0;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

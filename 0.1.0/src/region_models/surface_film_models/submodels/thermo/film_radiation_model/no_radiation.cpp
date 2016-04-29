@@ -6,12 +6,12 @@
 #include "vol_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(noRadiation, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -20,6 +20,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   noRadiation,
   dictionary
 );
+
+
 // Constructors 
 noRadiation::noRadiation
 (
@@ -27,36 +29,43 @@ noRadiation::noRadiation
   const dictionary& /*dict*/
 )
 :
-  filmRadiationModel(owner)
+  filmRadiationModel{owner}
 {}
+
+
 // Destructor 
 noRadiation::~noRadiation()
 {}
+
+
 // Member Functions 
 void noRadiation::correct()
 {
   // do nothing
 }
+
+
 tmp<volScalarField> noRadiation::Shs()
 {
   return tmp<volScalarField>
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         typeName + ":Shs",
         owner().time().timeName(),
         owner().regionMesh(),
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       owner().regionMesh(),
-      dimensionedScalar("zero", dimMass/pow3(dimTime), 0.0),
+      {"zero", dimMass/pow3(dimTime), 0.0},
       zeroGradientFvPatchScalarField::typeName
-    )
-  );
+    }
+  };
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

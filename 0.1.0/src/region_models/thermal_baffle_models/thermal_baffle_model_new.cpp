@@ -3,29 +3,29 @@
 // Copyright (C) 2016 mousse project
 
 #include "thermal_baffle_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace thermalBaffleModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace thermalBaffleModels {
+
 // Selectors
 autoPtr<thermalBaffleModel> thermalBaffleModel::New(const fvMesh& mesh)
 {
   word modelType;
+
   {
     IOdictionary thermalBafflePropertiesDict
-    (
-      IOobject
-      (
+    {
+      {
         "thermalBaffleProperties",
         mesh.time().constant(),
         mesh,
         IOobject::MUST_READ_IF_MODIFIED,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     word modelType =
       thermalBafflePropertiesDict.lookupOrDefault<word>
       (
@@ -35,8 +35,7 @@ autoPtr<thermalBaffleModel> thermalBaffleModel::New(const fvMesh& mesh)
   }
   meshConstructorTable::iterator cstrIter =
     meshConstructorTablePtr_->find(modelType);
-  if (cstrIter == meshConstructorTablePtr_->end())
-  {
+  if (cstrIter == meshConstructorTablePtr_->end()) {
     FATAL_ERROR_IN("thermalBaffleModel::New(const fvMesh&)")
       << "Unknown thermalBaffleModel type " << modelType
       << nl << nl
@@ -44,8 +43,10 @@ autoPtr<thermalBaffleModel> thermalBaffleModel::New(const fvMesh& mesh)
       << meshConstructorTablePtr_->sortedToc()
       << exit(FatalError);
   }
-  return autoPtr<thermalBaffleModel>(cstrIter()(modelType, mesh));
+  return autoPtr<thermalBaffleModel>{cstrIter()(modelType, mesh)};
 }
+
+
 autoPtr<thermalBaffleModel> thermalBaffleModel::New
 (
   const fvMesh& mesh,
@@ -56,19 +57,21 @@ autoPtr<thermalBaffleModel> thermalBaffleModel::New
     dict.lookupOrDefault<word>("thermalBaffleModel", "thermalBaffle");
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "thermalBaffleModel::New(const fvMesh&, const dictionary&)"
-    )   << "Unknown thermalBaffleModel type " << modelType
-      << nl << nl
-      <<  "Valid thermalBaffleModel types are:" << nl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown thermalBaffleModel type " << modelType
+    << nl << nl
+    <<  "Valid thermalBaffleModel types are:" << nl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<thermalBaffleModel>(cstrIter()(modelType, mesh, dict));
+  return autoPtr<thermalBaffleModel>{cstrIter()(modelType, mesh, dict)};
 }
+
 }  // namespace thermalBaffleModels
 }  // namespace regionModels
 }  // namespace mousse
+

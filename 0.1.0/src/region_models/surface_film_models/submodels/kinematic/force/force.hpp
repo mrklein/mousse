@@ -8,18 +8,16 @@
 //   mousse::regionModels::surfaceFilmModels::force
 // Description
 //   Base class for film (stress-based) force models
-// SourceFiles
-//   force.cpp
-//   force_new.cpp
+
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_matrices.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class force
 :
   public filmSubModelBase
@@ -68,7 +66,10 @@ public:
       //- Correct
       virtual tmp<fvVectorMatrix> correct(volVectorField& U) = 0;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

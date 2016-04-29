@@ -3,12 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "phase_change_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Selectors
 autoPtr<phaseChangeModel> phaseChangeModel::New
 (
@@ -16,22 +16,24 @@ autoPtr<phaseChangeModel> phaseChangeModel::New
   const dictionary& dict
 )
 {
-  word modelType(dict.lookup("phaseChangeModel"));
-  Info<< "    Selecting phaseChangeModel " << modelType << endl;
+  word modelType{dict.lookup("phaseChangeModel")};
+  Info << "    Selecting phaseChangeModel " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "phaseChangeModel::New(surfaceFilmModel&, const dictionary&)"
-    )   << "Unknown phaseChangeModel type " << modelType
-      << nl << nl << "Valid phaseChangeModel types are:" << nl
-      << dictionaryConstructorTablePtr_->toc()
-      << exit(FatalError);
+    )
+    << "Unknown phaseChangeModel type " << modelType
+    << nl << nl << "Valid phaseChangeModel types are:" << nl
+    << dictionaryConstructorTablePtr_->toc()
+    << exit(FatalError);
   }
-  return autoPtr<phaseChangeModel>(cstrIter()(model, dict));
+  return autoPtr<phaseChangeModel>{cstrIter()(model, dict)};
 }
+
 } // end namespace surfaceFilmModels
 } // end namespace regionModels
 } // end namespace mousse
+

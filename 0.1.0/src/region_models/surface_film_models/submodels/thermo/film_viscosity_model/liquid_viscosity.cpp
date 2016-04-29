@@ -5,12 +5,12 @@
 #include "liquid_viscosity.hpp"
 #include "thermo_single_layer.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(liquidViscosity, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -19,6 +19,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   liquidViscosity,
   dictionary
 );
+
+
 // Constructors 
 liquidViscosity::liquidViscosity
 (
@@ -27,11 +29,15 @@ liquidViscosity::liquidViscosity
   volScalarField& mu
 )
 :
-  filmViscosityModel(typeName, owner, dict, mu)
+  filmViscosityModel{typeName, owner, dict, mu}
 {}
+
+
 // Destructor 
 liquidViscosity::~liquidViscosity()
 {}
+
+
 // Member Functions 
 void liquidViscosity::correct
 (
@@ -42,6 +48,8 @@ void liquidViscosity::correct
   const thermoSingleLayer& film = filmType<thermoSingleLayer>();
   mu_ = film.filmThermo().mu();
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

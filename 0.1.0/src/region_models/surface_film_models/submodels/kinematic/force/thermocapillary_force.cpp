@@ -5,15 +5,17 @@
 #include "thermocapillary_force.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "fvc_grad.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(thermocapillaryForce, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(force, thermocapillaryForce, dictionary);
+
+
 // Constructors 
 thermocapillaryForce::thermocapillaryForce
 (
@@ -23,18 +25,24 @@ thermocapillaryForce::thermocapillaryForce
 :
   force{owner}
 {}
+
+
 // Destructor 
 thermocapillaryForce::~thermocapillaryForce()
 {}
+
+
 // Member Functions 
 tmp<fvVectorMatrix> thermocapillaryForce::correct(volVectorField& U)
 {
   const volScalarField& sigma = owner_.sigma();
   tmp<fvVectorMatrix>
-    tfvm(new fvVectorMatrix(U, dimForce/dimArea*dimVolume));
+    tfvm{new fvVectorMatrix{U, dimForce/dimArea*dimVolume}};
   tfvm() += fvc::grad(sigma);
   return tfvm;
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

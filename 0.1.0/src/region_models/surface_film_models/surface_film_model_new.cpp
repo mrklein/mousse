@@ -5,12 +5,12 @@
 #include "surface_film_model.hpp"
 #include "fv_mesh.hpp"
 #include "time.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Selectors
 autoPtr<surfaceFilmModel> surfaceFilmModel::New
 (
@@ -20,45 +20,50 @@ autoPtr<surfaceFilmModel> surfaceFilmModel::New
 )
 {
   word modelType;
+
   {
     IOdictionary surfaceFilmPropertiesDict
-    (
+    {
       IOobject
-      (
+      {
         regionType + "Properties",
         mesh.time().constant(),
         mesh,
         IOobject::MUST_READ,
         IOobject::NO_WRITE,
         false
-      )
-    );
+      }
+    };
     surfaceFilmPropertiesDict.lookup("surfaceFilmModel") >> modelType;
   }
-  Info<< "Selecting surfaceFilmModel " << modelType << endl;
+
+  Info << "Selecting surfaceFilmModel " << modelType << endl;
   meshConstructorTable::iterator cstrIter =
     meshConstructorTablePtr_->find(modelType);
-  if (cstrIter == meshConstructorTablePtr_->end())
-  {
+  if (cstrIter == meshConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "surfaceFilmModel::New(const fvMesh&, const dimensionedVector&)"
-    )   << "Unknown surfaceFilmModel type " << modelType
-      << nl << nl << "Valid surfaceFilmModel types are:" << nl
-      << meshConstructorTablePtr_->toc()
-      << exit(FatalError);
-  }
-  return autoPtr<surfaceFilmModel>
-  (
-    cstrIter()
-    (
-      modelType,
-      mesh,
-      g,
-      regionType
     )
-  );
+    << "Unknown surfaceFilmModel type " << modelType
+    << nl << nl << "Valid surfaceFilmModel types are:" << nl
+    << meshConstructorTablePtr_->toc()
+    << exit(FatalError);
+  }
+  return
+    autoPtr<surfaceFilmModel>
+    {
+      cstrIter()
+      (
+        modelType,
+        mesh,
+        g,
+        regionType
+      )
+    };
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

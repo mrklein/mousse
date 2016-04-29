@@ -6,12 +6,12 @@
 #include "vol_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(standardRadiation, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -20,6 +20,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   standardRadiation,
   dictionary
 );
+
+
 // Constructors 
 standardRadiation::standardRadiation
 (
@@ -27,66 +29,69 @@ standardRadiation::standardRadiation
   const dictionary& dict
 )
 :
-  filmRadiationModel(typeName, owner, dict),
+  filmRadiationModel{typeName, owner, dict},
   QinPrimary_
-  (
-    IOobject
-    (
+  {
+    {
       "Qin", // same name as Qin on primary region to enable mapping
       owner.time().timeName(),
       owner.regionMesh(),
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     owner.regionMesh(),
-    dimensionedScalar("zero", dimMass/pow3(dimTime), 0.0),
+    {"zero", dimMass/pow3(dimTime), 0.0},
     owner.mappedPushedFieldPatchTypes<scalar>()
-  ),
+  },
   QrNet_
-  (
-    IOobject
-    (
+  {
+    {
       "QrNet",
       owner.time().timeName(),
       owner.regionMesh(),
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     owner.regionMesh(),
-    dimensionedScalar("zero", dimMass/pow3(dimTime), 0.0),
+    {"zero", dimMass/pow3(dimTime), 0.0},
     zeroGradientFvPatchScalarField::typeName
-  ),
+  },
   beta_(readScalar(coeffDict_.lookup("beta"))),
   kappaBar_(readScalar(coeffDict_.lookup("kappaBar")))
 {}
+
+
 // Destructor 
 standardRadiation::~standardRadiation()
 {}
+
+
 // Member Functions 
 void standardRadiation::correct()
 {
   // Transfer Qr from primary region
   QinPrimary_.correctBoundaryConditions();
 }
+
+
 tmp<volScalarField> standardRadiation::Shs()
 {
   tmp<volScalarField> tShs
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         typeName + ":Shs",
         owner().time().timeName(),
         owner().regionMesh(),
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       owner().regionMesh(),
-      dimensionedScalar("zero", dimMass/pow3(dimTime), 0.0),
+      {"zero", dimMass/pow3(dimTime), 0.0},
       zeroGradientFvPatchScalarField::typeName
-    )
-  );
+    }
+  };
   scalarField& Shs = tShs();
   const scalarField& QinP = QinPrimary_.internalField();
   const scalarField& delta = owner_.delta().internalField();
@@ -97,6 +102,8 @@ tmp<volScalarField> standardRadiation::Shs()
   QrNet_.correctBoundaryConditions();
   return tShs;
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

@@ -6,31 +6,34 @@
 #include "zero_gradient_fv_patch_fields.hpp"
 #include "mapped_fixed_internal_value_fv_patch_fields.hpp"
 #include "mapped_fixed_pushed_internal_value_fv_patch_fields.hpp"
+
+
 // Protected Member Functions 
 template<class Type>
 mousse::wordList
 mousse::regionModels::singleLayerRegion::mappedFieldAndInternalPatchTypes() const
 {
-  wordList bTypes(regionMesh().boundaryMesh().size());
+  wordList bTypes{regionMesh().boundaryMesh().size()};
   bTypes = zeroGradientFvPatchField<Type>::typeName;
-  FOR_ALL(intCoupledPatchIDs_, i)
-  {
+  FOR_ALL(intCoupledPatchIDs_, i) {
     const label patchI = intCoupledPatchIDs_[i];
     bTypes[patchI] = mappedFixedInternalValueFvPatchField<Type>::typeName;
   }
   return bTypes;
 }
+
+
 template<class Type>
 mousse::wordList
 mousse::regionModels::singleLayerRegion::mappedPushedFieldPatchTypes() const
 {
-  wordList bTypes(regionMesh().boundaryMesh().size());
+  wordList bTypes{regionMesh().boundaryMesh().size()};
   bTypes = zeroGradientFvPatchField<Type>::typeName;
-  FOR_ALL(intCoupledPatchIDs_, i)
-  {
+  FOR_ALL(intCoupledPatchIDs_, i) {
     const label patchI = intCoupledPatchIDs_[i];
     bTypes[patchI] =
       mappedFixedPushedInternalValueFvPatchField<Type>::typeName;
   }
   return bTypes;
 }
+

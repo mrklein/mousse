@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_ALPHAT_FILM_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_ALPHAT_FILM_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -34,17 +37,14 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   alphat_film_wall_function_fv_patch_scalar_field.cpp
-#ifndef compressibleMutRoughWallFunctionFvPatchScalarField_H
-#define compressibleMutRoughWallFunctionFvPatchScalarField_H
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
-namespace compressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace compressible {
+namespace RASModels {
+
 class alphatFilmWallFunctionFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -96,10 +96,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new alphatFilmWallFunctionFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new alphatFilmWallFunctionFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     alphatFilmWallFunctionFvPatchScalarField
@@ -113,10 +114,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new alphatFilmWallFunctionFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new alphatFilmWallFunctionFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
@@ -126,7 +128,10 @@ public:
       //- Write
       virtual void write(Ostream&) const;
 };
+
 }  // namespace RASModels
 }  // namespace compressible
 }  // namespace mousse
+
 #endif
+

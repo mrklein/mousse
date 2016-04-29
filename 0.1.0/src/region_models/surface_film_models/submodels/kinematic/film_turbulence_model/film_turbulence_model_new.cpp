@@ -3,12 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "film_turbulence_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Selectors
 autoPtr<filmTurbulenceModel> filmTurbulenceModel::New
 (
@@ -16,26 +16,27 @@ autoPtr<filmTurbulenceModel> filmTurbulenceModel::New
   const dictionary& dict
 )
 {
-  const word modelType(dict.lookup("turbulence"));
-  Info<< "    Selecting filmTurbulenceModel " << modelType << endl;
+  const word modelType{dict.lookup("turbulence")};
+  Info << "    Selecting filmTurbulenceModel " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "filmTurbulenceModel::New"
       "("
-        "surfaceFilmModel&, "
-        "const dictionary&"
+      "  surfaceFilmModel&,"
+      "  const dictionary&"
       ")"
-    )   << "Unknown filmTurbulenceModel type " << modelType
-      << nl << nl << "Valid filmTurbulenceModel types are:" << nl
-      << dictionaryConstructorTablePtr_->toc()
-      << exit(FatalError);
+    )
+    << "Unknown filmTurbulenceModel type " << modelType
+    << nl << nl << "Valid filmTurbulenceModel types are:" << nl
+    << dictionaryConstructorTablePtr_->toc()
+    << exit(FatalError);
   }
-  return autoPtr<filmTurbulenceModel>(cstrIter()(model, dict));
+  return autoPtr<filmTurbulenceModel>{cstrIter()(model, dict)};
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse

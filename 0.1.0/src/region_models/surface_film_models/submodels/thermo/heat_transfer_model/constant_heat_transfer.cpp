@@ -6,12 +6,12 @@
 #include "vol_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(constantHeatTransfer, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -20,6 +20,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   constantHeatTransfer,
   dictionary
 );
+
+
 // Constructors 
 constantHeatTransfer::constantHeatTransfer
 (
@@ -27,43 +29,45 @@ constantHeatTransfer::constantHeatTransfer
   const dictionary& dict
 )
 :
-  heatTransferModel(typeName, owner, dict),
-  c0_(readScalar(coeffDict_.lookup("c0")))
+  heatTransferModel{typeName, owner, dict},
+  c0_{readScalar(coeffDict_.lookup("c0"))}
 {}
+
+
 // Destructor 
 constantHeatTransfer::~constantHeatTransfer()
 {}
+
+
 // Member Functions 
 void constantHeatTransfer::correct()
 {
   // do nothing
 }
+
+
 tmp<volScalarField> constantHeatTransfer::h() const
 {
   return tmp<volScalarField>
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         "htc",
         owner_.time().timeName(),
         owner_.regionMesh(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       owner_.regionMesh(),
-      dimensionedScalar
-      (
-        "c0",
-        dimEnergy/dimTime/sqr(dimLength)/dimTemperature,
-        c0_
-      ),
+      {"c0", dimEnergy/dimTime/sqr(dimLength)/dimTemperature, c0_},
       zeroGradientFvPatchScalarField::typeName
-    )
-  );
+    }
+  };
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

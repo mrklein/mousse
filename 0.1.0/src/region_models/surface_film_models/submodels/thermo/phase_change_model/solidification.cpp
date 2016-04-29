@@ -5,12 +5,12 @@
 #include "solidification.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "thermo_single_layer.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(solidification, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -19,6 +19,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   solidification,
   dictionary
 );
+
+
 // Constructors 
 solidification::solidification
 (
@@ -26,14 +28,14 @@ solidification::solidification
   const dictionary& dict
 )
 :
-  phaseChangeModel(typeName, owner, dict),
-  T0_(readScalar(coeffDict_.lookup("T0"))),
+  phaseChangeModel{typeName, owner, dict},
+  T0_{readScalar(coeffDict_.lookup("T0"))},
   maxSolidificationFrac_
-  (
+  {
     coeffDict_.lookupOrDefault("maxSolidificationFrac", 0.2)
-  ),
+  },
   maxSolidificationRate_
-  (
+  {
     dimensioned<scalar>::lookupOrDefault
     (
       "maxSolidificationRate",
@@ -41,39 +43,41 @@ solidification::solidification
       dimless/dimTime,
       GREAT
     )
-  ),
+  },
   mass_
-  (
-    IOobject
-    (
+  {
+    {
       typeName + ":mass",
       owner.regionMesh().time().timeName(),
       owner.regionMesh(),
       IOobject::READ_IF_PRESENT,
       IOobject::AUTO_WRITE
-    ),
+    },
     owner.regionMesh(),
-    dimensionedScalar("zero", dimMass, 0.0),
+    {"zero", dimMass, 0.0},
     zeroGradientFvPatchScalarField::typeName
-  ),
+  },
   thickness_
-  (
-    IOobject
-    (
+  {
+    {
       typeName + ":thickness",
       owner.regionMesh().time().timeName(),
       owner.regionMesh(),
       IOobject::NO_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     owner.regionMesh(),
-    dimensionedScalar("zero", dimLength, 0.0),
+    {"zero", dimLength, 0.0},
     zeroGradientFvPatchScalarField::typeName
-  )
+  }
 {}
+
+
 // Destructor 
 solidification::~solidification()
 {}
+
+
 // Member Functions 
 void solidification::correctModel
 (
@@ -86,20 +90,17 @@ void solidification::correctModel
   const thermoSingleLayer& film = filmType<thermoSingleLayer>();
   const scalarField& T = film.T();
   const scalarField& alpha = film.alpha();
-  const scalar rateLimiter = min
-  (
-    maxSolidificationFrac_,
+  const scalar rateLimiter =
+    min
     (
-      maxSolidificationRate_
-     *owner_.regionMesh().time().deltaTValue()
-    ).value()
-  );
-  FOR_ALL(alpha, celli)
-  {
-    if (alpha[celli] > 0.5)
-    {
-      if (T[celli] < T0_)
-      {
+      maxSolidificationFrac_,
+      (
+        maxSolidificationRate_*owner_.regionMesh().time().deltaTValue()
+      ).value()
+    );
+  FOR_ALL(alpha, celli) {
+    if (alpha[celli] > 0.5) {
+      if (T[celli] < T0_) {
         const scalar dm = rateLimiter*availableMass[celli];
         mass_[celli] += dm;
         dMass[celli] += dm;
@@ -110,6 +111,8 @@ void solidification::correctModel
   }
   thickness_ = mass_/film.magSf()/film.rho();
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

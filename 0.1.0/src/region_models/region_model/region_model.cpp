@@ -7,90 +7,88 @@
 #include "time.hpp"
 #include "mapped_wall_poly_patch.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace regionModels
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(regionModel, 0);
+namespace mousse {
+namespace regionModels {
+
+DEFINE_TYPE_NAME_AND_DEBUG(regionModel, 0);
+
 }
 }
+
+
 // Private Member Functions 
 void mousse::regionModels::regionModel::constructMeshObjects()
 {
   // construct region mesh
-  if (!time_.foundObject<fvMesh>(regionName_))
-  {
+  if (!time_.foundObject<fvMesh>(regionName_)) {
     regionMeshPtr_.reset
     (
       new fvMesh
-      (
+      {
         IOobject
-        (
+        {
           regionName_,
           time_.timeName(),
           time_,
           IOobject::MUST_READ
-        )
-      )
+        }
+      }
     );
   }
 }
+
+
 void mousse::regionModels::regionModel::constructMeshObjects
 (
   const dictionary& /*dict*/
 )
 {
   // construct region mesh
-  if (!time_.foundObject<fvMesh>(regionName_))
-  {
+  if (!time_.foundObject<fvMesh>(regionName_)) {
     regionMeshPtr_.reset
     (
       new fvMesh
-      (
+      {
         IOobject
-        (
+        {
           regionName_,
           time_.timeName(),
           time_,
           IOobject::MUST_READ
-        )
-      )
+        }
+      }
     );
   }
 }
+
+
 void mousse::regionModels::regionModel::initialise()
 {
-  if (debug)
-  {
-    Pout<< "regionModel::initialise()" << endl;
+  if (debug) {
+    Pout << "regionModel::initialise()" << endl;
   }
   label nBoundaryFaces = 0;
   DynamicList<label> primaryPatchIDs;
   DynamicList<label> intCoupledPatchIDs;
   const polyBoundaryMesh& rbm = regionMesh().boundaryMesh();
-  FOR_ALL(rbm, patchI)
-  {
+  FOR_ALL(rbm, patchI) {
     const polyPatch& regionPatch = rbm[patchI];
-    if (isA<mappedPatchBase>(regionPatch))
-    {
-      if (debug)
-      {
-        Pout<< "found " << mappedWallPolyPatch::typeName
+    if (isA<mappedPatchBase>(regionPatch)) {
+      if (debug) {
+        Pout << "found " << mappedWallPolyPatch::typeName
           <<  " " << regionPatch.name() << endl;
       }
       intCoupledPatchIDs.append(patchI);
       nBoundaryFaces += regionPatch.faceCells().size();
       const mappedPatchBase& mapPatch =
         refCast<const mappedPatchBase>(regionPatch);
-      if
-      (
-        primaryMesh_.time().foundObject<polyMesh>
-        (
-          mapPatch.sampleRegion()
-        )
-      )
-      {
+      if (primaryMesh_.time().foundObject<polyMesh>
+          (
+            mapPatch.sampleRegion()
+          )) {
         const label primaryPatchI = mapPatch.samplePolyPatch().index();
         primaryPatchIDs.append(primaryPatchI);
       }
@@ -98,68 +96,61 @@ void mousse::regionModels::regionModel::initialise()
   }
   primaryPatchIDs_.transfer(primaryPatchIDs);
   intCoupledPatchIDs_.transfer(intCoupledPatchIDs);
-  if (returnReduce(nBoundaryFaces, sumOp<label>()) == 0)
-  {
+  if (returnReduce(nBoundaryFaces, sumOp<label>()) == 0) {
     WARNING_IN("regionModel::initialise()")
       << "Region model has no mapped boundary conditions - transfer "
       << "between regions will not be possible" << endl;
   }
-  if (!outputPropertiesPtr_.valid())
-  {
+  if (!outputPropertiesPtr_.valid()) {
     const fileName uniformPath(word("uniform")/"regionModels");
     outputPropertiesPtr_.reset
     (
       new IOdictionary
-      (
+      {
         IOobject
-        (
+        {
           regionName_ + "OutputProperties",
           time_.timeName(),
           uniformPath/regionName_,
           primaryMesh_,
           IOobject::READ_IF_PRESENT,
           IOobject::NO_WRITE
-        )
-      )
+        }
+      }
     );
   }
 }
+
+
 // Protected Member Functions 
 bool mousse::regionModels::regionModel::read()
 {
-  if (regIOobject::read())
-  {
-    if (active_)
-    {
-      if (const dictionary* dictPtr = subDictPtr(modelName_ + "Coeffs"))
-      {
+  if (regIOobject::read()) {
+    if (active_) {
+      if (const dictionary* dictPtr = subDictPtr(modelName_ + "Coeffs")) {
         coeffs_ <<= *dictPtr;
       }
       infoOutput_.readIfPresent("infoOutput", *this);
     }
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+
+
 bool mousse::regionModels::regionModel::read(const dictionary& dict)
 {
-  if (active_)
-  {
-    if (const dictionary* dictPtr = dict.subDictPtr(modelName_ + "Coeffs"))
-    {
+  if (active_) {
+    if (const dictionary* dictPtr = dict.subDictPtr(modelName_ + "Coeffs")) {
       coeffs_ <<= *dictPtr;
     }
     infoOutput_.readIfPresent("infoOutput", dict);
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+
+
 const mousse::AMIPatchToPatchInterpolation&
 mousse::regionModels::regionModel::interRegionAMI
 (
@@ -171,10 +162,8 @@ mousse::regionModels::regionModel::interRegionAMI
 {
   label nbrRegionID = findIndex(interRegionAMINames_, nbrRegion.name());
   const fvMesh& nbrRegionMesh = nbrRegion.regionMesh();
-  if (nbrRegionID != -1)
-  {
-    if (!interRegionAMI_[nbrRegionID].set(regionPatchI))
-    {
+  if (nbrRegionID != -1) {
+    if (!interRegionAMI_[nbrRegionID].set(regionPatchI)) {
       const polyPatch& p = regionMesh().boundaryMesh()[regionPatchI];
       const polyPatch& nbrP = nbrRegionMesh.boundaryMesh()[nbrPatchI];
       int oldTag = UPstream::msgType();
@@ -183,7 +172,7 @@ mousse::regionModels::regionModel::interRegionAMI
       (
         regionPatchI,
         new AMIPatchToPatchInterpolation
-        (
+        {
           p,
           nbrP,
           faceAreaIntersect::tmMesh,
@@ -191,14 +180,12 @@ mousse::regionModels::regionModel::interRegionAMI
           AMIPatchToPatchInterpolation::imFaceAreaWeight,
           -1,
           flip
-        )
+        }
       );
       UPstream::msgType() = oldTag;
     }
     return interRegionAMI_[nbrRegionID][regionPatchI];
-  }
-  else
-  {
+  } else {
     label nbrRegionID = interRegionAMINames_.size();
     interRegionAMINames_.append(nbrRegion.name());
     const polyPatch& p = regionMesh().boundaryMesh()[regionPatchI];
@@ -208,7 +195,7 @@ mousse::regionModels::regionModel::interRegionAMI
     interRegionAMI_.set
     (
       nbrRegionID,
-      new PtrList<AMIPatchToPatchInterpolation>(nPatch)
+      new PtrList<AMIPatchToPatchInterpolation>{nPatch}
     );
     int oldTag = UPstream::msgType();
     UPstream::msgType() = oldTag + 1;
@@ -216,7 +203,7 @@ mousse::regionModels::regionModel::interRegionAMI
     (
       regionPatchI,
       new AMIPatchToPatchInterpolation
-      (
+      {
         p,
         nbrP,
         faceAreaIntersect::tmMesh,
@@ -224,12 +211,14 @@ mousse::regionModels::regionModel::interRegionAMI
         AMIPatchToPatchInterpolation::imFaceAreaWeight,
         -1,
         flip
-      )
+      }
     );
     UPstream::msgType() = oldTag;
     return interRegionAMI_[nbrRegionID][regionPatchI];
   }
 }
+
+
 mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
 (
   const regionModel& nbrRegion,
@@ -242,8 +231,7 @@ mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
   // boundary mesh
   const polyBoundaryMesh& nbrPbm = nbrRegionMesh.boundaryMesh();
   const polyBoundaryMesh& pbm = regionMesh().boundaryMesh();
-  if (regionPatchI > pbm.size() - 1)
-  {
+  if (regionPatchI > pbm.size() - 1) {
     FATAL_ERROR_IN
     (
       "mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID"
@@ -252,14 +240,13 @@ mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
         "const label"
       ") const"
     )
-      << "region patch index out of bounds: "
-      << "region patch index = " << regionPatchI
-      << ", maximum index = " << pbm.size() - 1
-      << abort(FatalError);
+    << "region patch index out of bounds: "
+    << "region patch index = " << regionPatchI
+    << ", maximum index = " << pbm.size() - 1
+    << abort(FatalError);
   }
   const polyPatch& pp = regionMesh().boundaryMesh()[regionPatchI];
-  if (!isA<mappedPatchBase>(pp))
-  {
+  if (!isA<mappedPatchBase>(pp)) {
     FATAL_ERROR_IN
     (
       "mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID"
@@ -268,26 +255,23 @@ mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
         "const label"
       ") const"
     )
-      << "Expected a " << mappedPatchBase::typeName
-      << " patch, but found a " << pp.type() << abort(FatalError);
+    << "Expected a " << mappedPatchBase::typeName
+    << " patch, but found a " << pp.type() << abort(FatalError);
   }
   const mappedPatchBase& mpb = refCast<const mappedPatchBase>(pp);
   // sample patch name on the primary region
   const word& primaryPatchName = mpb.samplePatch();
   // find patch on nbr region that has the same sample patch name
-  FOR_ALL(nbrRegion.intCoupledPatchIDs(), j)
-  {
+  FOR_ALL(nbrRegion.intCoupledPatchIDs(), j) {
     const label nbrRegionPatchI = nbrRegion.intCoupledPatchIDs()[j];
     const mappedPatchBase& mpb =
       refCast<const mappedPatchBase>(nbrPbm[nbrRegionPatchI]);
-    if (mpb.samplePatch() == primaryPatchName)
-    {
+    if (mpb.samplePatch() == primaryPatchName) {
       nbrPatchI = nbrRegionPatchI;
       break;
     }
   }
-  if (nbrPatchI == -1)
-  {
+  if (nbrPatchI == -1) {
     const polyPatch& p = regionMesh().boundaryMesh()[regionPatchI];
     FATAL_ERROR_IN
     (
@@ -297,12 +281,14 @@ mousse::label mousse::regionModels::regionModel::nbrCoupledPatchID
         "const label"
       ") const"
     )
-      << "Unable to find patch pair for local patch "
-      << p.name() << " and region " << nbrRegion.name()
-      << abort(FatalError);
+    << "Unable to find patch pair for local patch "
+    << p.name() << " and region " << nbrRegion.name()
+    << abort(FatalError);
   }
   return nbrPatchI;
 }
+
+
 // Constructors 
 mousse::regionModels::regionModel::regionModel
 (
@@ -311,31 +297,33 @@ mousse::regionModels::regionModel::regionModel
 )
 :
   IOdictionary
-  (
+  {
     IOobject
-    (
+    {
       regionType + "Properties",
       mesh.time().constant(),
       mesh.time(),
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    )
-  ),
-  primaryMesh_(mesh),
-  time_(mesh.time()),
-  active_(false),
-  infoOutput_(false),
-  modelName_("none"),
-  regionMeshPtr_(NULL),
-  coeffs_(dictionary::null),
-  outputPropertiesPtr_(NULL),
-  primaryPatchIDs_(),
-  intCoupledPatchIDs_(),
-  regionName_("none"),
-  functions_(*this),
-  interRegionAMINames_(),
-  interRegionAMI_()
+    }
+  },
+  primaryMesh_{mesh},
+  time_{mesh.time()},
+  active_{false},
+  infoOutput_{false},
+  modelName_{"none"},
+  regionMeshPtr_{NULL},
+  coeffs_{dictionary::null},
+  outputPropertiesPtr_{NULL},
+  primaryPatchIDs_{},
+  intCoupledPatchIDs_{},
+  regionName_{"none"},
+  functions_{*this},
+  interRegionAMINames_{},
+  interRegionAMI_{}
 {}
+
+
 mousse::regionModels::regionModel::regionModel
 (
   const fvMesh& mesh,
@@ -345,39 +333,39 @@ mousse::regionModels::regionModel::regionModel
 )
 :
   IOdictionary
-  (
+  {
     IOobject
-    (
+    {
       regionType + "Properties",
       mesh.time().constant(),
       mesh.time(),
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    )
-  ),
-  primaryMesh_(mesh),
-  time_(mesh.time()),
-  active_(lookup("active")),
-  infoOutput_(true),
-  modelName_(modelName),
-  regionMeshPtr_(NULL),
-  coeffs_(subOrEmptyDict(modelName + "Coeffs")),
-  outputPropertiesPtr_(NULL),
-  primaryPatchIDs_(),
-  intCoupledPatchIDs_(),
-  regionName_(lookup("regionName")),
-  functions_(*this, subOrEmptyDict("functions"))
+    }
+  },
+  primaryMesh_{mesh},
+  time_{mesh.time()},
+  active_{lookup("active")},
+  infoOutput_{true},
+  modelName_{modelName},
+  regionMeshPtr_{NULL},
+  coeffs_{subOrEmptyDict(modelName + "Coeffs")},
+  outputPropertiesPtr_{NULL},
+  primaryPatchIDs_{},
+  intCoupledPatchIDs_{},
+  regionName_{lookup("regionName")},
+  functions_{*this, subOrEmptyDict("functions")}
 {
-  if (active_)
-  {
+  if (active_) {
     constructMeshObjects();
     initialise();
-    if (readFields)
-    {
+    if (readFields) {
       read();
     }
   }
 }
+
+
 mousse::regionModels::regionModel::regionModel
 (
   const fvMesh& mesh,
@@ -388,64 +376,63 @@ mousse::regionModels::regionModel::regionModel
 )
 :
   IOdictionary
-  (
+  {
     IOobject
-    (
+    {
       regionType + "Properties",
       mesh.time().constant(),
       mesh.time(),
       IOobject::NO_READ,
       IOobject::NO_WRITE,
       true
-    ),
+    },
     dict
-  ),
-  primaryMesh_(mesh),
-  time_(mesh.time()),
-  active_(dict.lookup("active")),
-  infoOutput_(false),
-  modelName_(modelName),
-  regionMeshPtr_(NULL),
-  coeffs_(dict.subOrEmptyDict(modelName + "Coeffs")),
-  outputPropertiesPtr_(NULL),
-  primaryPatchIDs_(),
-  intCoupledPatchIDs_(),
-  regionName_(dict.lookup("regionName")),
-  functions_(*this, subOrEmptyDict("functions"))
+  },
+  primaryMesh_{mesh},
+  time_{mesh.time()},
+  active_{dict.lookup("active")},
+  infoOutput_{false},
+  modelName_{modelName},
+  regionMeshPtr_{NULL},
+  coeffs_{dict.subOrEmptyDict(modelName + "Coeffs")},
+  outputPropertiesPtr_{NULL},
+  primaryPatchIDs_{},
+  intCoupledPatchIDs_{},
+  regionName_{dict.lookup("regionName")},
+  functions_{*this, subOrEmptyDict("functions")}
 {
-  if (active_)
-  {
+  if (active_) {
     constructMeshObjects(dict);
     initialise();
-    if (readFields)
-    {
+    if (readFields) {
       read(dict);
     }
   }
 }
+
+
 // Destructor 
 mousse::regionModels::regionModel::~regionModel()
 {}
+
+
 // Member Functions 
 void mousse::regionModels::regionModel::evolve()
 {
-  if (active_)
-  {
-    Info<< "\nEvolving " << modelName_ << " for region "
+  if (active_) {
+    Info << "\nEvolving " << modelName_ << " for region "
       << regionMesh().name() << endl;
     //read();
     preEvolveRegion();
     evolveRegion();
     postEvolveRegion();
     // Provide some feedback
-    if (infoOutput_)
-    {
-      Info<< incrIndent;
+    if (infoOutput_) {
+      Info << incrIndent;
       info();
-      Info<< endl << decrIndent;
+      Info << endl << decrIndent;
     }
-    if (time_.outputTime())
-    {
+    if (time_.outputTime()) {
       outputProperties().writeObject
       (
         IOstream::ASCII,
@@ -455,19 +442,28 @@ void mousse::regionModels::regionModel::evolve()
     }
   }
 }
+
+
 void mousse::regionModels::regionModel::preEvolveRegion()
 {
   functions_.preEvolveRegion();
 }
+
+
 void mousse::regionModels::regionModel::evolveRegion()
 {
   // do nothing
 }
+
+
 void mousse::regionModels::regionModel::postEvolveRegion()
 {
   functions_.postEvolveRegion();
 }
+
+
 void mousse::regionModels::regionModel::info()
 {
   // do nothing
 }
+

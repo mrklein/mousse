@@ -8,15 +8,14 @@
 //   mousse::constantViscosity
 // Description
 //   Constant viscosity model
-// SourceFiles
-//   constant_viscosity.cpp
+
 #include "film_viscosity_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class constantViscosity
 :
   public filmViscosityModel
@@ -51,7 +50,10 @@ public:
         const volScalarField& T
       );
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

@@ -3,12 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "force.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Selectors
 autoPtr<force> force::New
 (
@@ -17,26 +17,28 @@ autoPtr<force> force::New
   const word& modelType
 )
 {
-  Info<< "        " << modelType << endl;
+  Info << "        " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "force::New"
       "("
-        "const surfaceFilmModel&, "
-        "const dictionary&, "
-        "const word&"
+      "  const surfaceFilmModel&, "
+      "  const dictionary&, "
+      "  const word&"
       ")"
-    )   << "Unknown force type " << modelType
-      << nl << nl << "Valid force types are:" << nl
-      << dictionaryConstructorTablePtr_->toc()
-      << exit(FatalError);
+    )
+    << "Unknown force type " << modelType
+    << nl << nl << "Valid force types are:" << nl
+    << dictionaryConstructorTablePtr_->toc()
+    << exit(FatalError);
   }
-  return autoPtr<force>(cstrIter()(model, dict));
+  return autoPtr<force>{cstrIter()(model, dict)};
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

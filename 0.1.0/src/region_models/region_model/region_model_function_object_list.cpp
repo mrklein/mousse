@@ -3,16 +3,20 @@
 // Copyright (C) 2016 mousse project
 
 #include "region_model_function_object_list.hpp"
+
+
 // Constructors 
 mousse::regionModels::regionModelFunctionObjectList::regionModelFunctionObjectList
 (
   regionModel& owner
 )
 :
-  PtrList<regionModelFunctionObject>(),
-  owner_(owner),
-  dict_(dictionary::null)
+  PtrList<regionModelFunctionObject>{},
+  owner_{owner},
+  dict_{dictionary::null}
 {}
+
+
 mousse::regionModels::regionModelFunctionObjectList::regionModelFunctionObjectList
 (
   regionModel& owner,
@@ -20,19 +24,16 @@ mousse::regionModels::regionModelFunctionObjectList::regionModelFunctionObjectLi
   const bool readFields
 )
 :
-  PtrList<regionModelFunctionObject>(),
-  owner_(owner),
-  dict_(dict)
+  PtrList<regionModelFunctionObject>{},
+  owner_{owner},
+  dict_{dict}
 {
-  if (readFields)
-  {
-    wordList modelNames(dict.toc());
-    Info<< "    Selecting region model functions" << endl;
-    if (modelNames.size() > 0)
-    {
+  if (readFields) {
+    wordList modelNames{dict.toc()};
+    Info << "    Selecting region model functions" << endl;
+    if (modelNames.size() > 0) {
       this->setSize(modelNames.size());
-      FOR_ALL(modelNames, i)
-      {
+      FOR_ALL(modelNames, i) {
         const word& modelName = modelNames[i];
         this->set
         (
@@ -45,38 +46,43 @@ mousse::regionModels::regionModelFunctionObjectList::regionModelFunctionObjectLi
           )
         );
       }
-    }
-    else
-    {
-      Info<< "    none" << endl;
+    } else {
+      Info << "    none" << endl;
     }
   }
 }
+
+
 mousse::regionModels::regionModelFunctionObjectList::regionModelFunctionObjectList
 (
   const regionModelFunctionObjectList& cfol
 )
 :
-  PtrList<regionModelFunctionObject>(cfol),
-  owner_(cfol.owner_),
-  dict_(cfol.dict_)
+  PtrList<regionModelFunctionObject>{cfol},
+  owner_{cfol.owner_},
+  dict_{cfol.dict_}
 {}
+
+
 // Destructor 
 mousse::regionModels::regionModelFunctionObjectList::
 ~regionModelFunctionObjectList()
 {}
+
+
 // Member Functions 
 void mousse::regionModels::regionModelFunctionObjectList::preEvolveRegion()
 {
-  FOR_ALL(*this, i)
-  {
+  FOR_ALL(*this, i) {
     this->operator[](i).preEvolveRegion();
   }
 }
+
+
 void mousse::regionModels::regionModelFunctionObjectList::postEvolveRegion()
 {
-  FOR_ALL(*this, i)
-  {
+  FOR_ALL(*this, i) {
     this->operator[](i).postEvolveRegion();
   }
 }
+

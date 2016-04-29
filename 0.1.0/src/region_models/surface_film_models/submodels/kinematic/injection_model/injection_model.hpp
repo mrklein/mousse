@@ -9,18 +9,16 @@
 // Description
 //   Base class for film injection models, handling mass transfer from the
 //   film.
-// SourceFiles
-//   injection_model.cpp
-//   injection_model_new.cpp
+
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 #include "scalar_field.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class injectionModel
 :
   public filmSubModelBase
@@ -88,7 +86,10 @@ public:
     virtual void patchInjectedMassTotals(scalarField& /*patchMasses*/) const
     {}
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

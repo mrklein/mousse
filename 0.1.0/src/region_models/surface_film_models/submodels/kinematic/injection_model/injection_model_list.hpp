@@ -8,17 +8,16 @@
 //   mousse::injectionModelList
 // Description
 //   List container for film injection models
-// SourceFiles
-//   injection_model_list.cpp
+
 #include "ptr_list.hpp"
 #include "injection_model.hpp"
 #include "film_sub_model_base.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class injectionModelList
 :
   public PtrList<injectionModel>,
@@ -57,7 +56,10 @@ public:
       //- Provide some info
       virtual void info(Ostream& os);
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

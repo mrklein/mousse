@@ -10,15 +10,14 @@
 //   Solidification phase change model where all film mass is converted when the
 //   local temperature > activation temperature.  The latent heat is
 //   assumed to be removed by heat-transfer to the wall.
-// SourceFiles
-//   solidification.cpp
+
 #include "phase_change_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class solidification
 :
   public phaseChangeModel
@@ -60,7 +59,10 @@ public:
         scalarField& dEnergy
       );
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

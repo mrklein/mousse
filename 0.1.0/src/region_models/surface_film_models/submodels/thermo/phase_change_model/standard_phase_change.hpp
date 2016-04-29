@@ -8,15 +8,14 @@
 //   mousse::standardPhaseChange
 // Description
 //   Standard phase change model with modification for boiling
-// SourceFiles
-//   standard_phase_change.cpp
+
 #include "phase_change_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class standardPhaseChange
 :
   public phaseChangeModel
@@ -60,7 +59,10 @@ public:
         scalarField& dEnergy
       );
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

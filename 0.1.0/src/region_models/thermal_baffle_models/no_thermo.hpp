@@ -8,16 +8,15 @@
 //   mousse::noThermo
 // Description
 //   Dummy surface pyrolysis model for 'none'
-// SourceFiles
-//   no_thermo.cpp
+
 #include "thermal_baffle_model.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace thermalBaffleModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace thermalBaffleModels {
+
 class noThermo
 :
   public thermalBaffleModel
@@ -66,7 +65,10 @@ public:
       //- Evolve the film equations
       virtual void evolveRegion();
 };
+
 }  // namespace thermalBaffleModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

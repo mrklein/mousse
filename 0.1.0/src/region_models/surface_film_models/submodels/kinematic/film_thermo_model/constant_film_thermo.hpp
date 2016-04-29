@@ -8,16 +8,15 @@
 //   mousse::constantFilmThermo
 // Description
 //   Constant thermo model
-// SourceFiles
-//   constant_film_thermo.cpp
+
 #include "film_thermo_model.hpp"
 #include "dimension_set.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class constantFilmThermo
 :
   public filmThermoModel
@@ -25,25 +24,21 @@ class constantFilmThermo
 public:
   struct thermoData
   {
-//    private:
-    word name_;
-    scalar value_;
-    bool set_;
-//    public:
+    word name;
+    scalar value;
+    bool set;
     thermoData()
     :
-      name_("unknown"),
-      value_(0.0),
-      set_(false)
+      name{"unknown"},
+      value{0.0},
+      set{false}
     {}
     thermoData(const word& n)
     :
-      name_(n),
-      value_(0.0),
-      set_(false)
+      name{n},
+      value{0.0},
+      set{false}
     {}
-//        virtual ~thermoData()
-//        {}
   };
 private:
   // Private data
@@ -124,7 +119,10 @@ public:
       //- Return thermal conductivity [W/m/K]
       virtual tmp<volScalarField> kappa() const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

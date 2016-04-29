@@ -10,18 +10,20 @@
 //   A centralized pyrolysis collection.
 //   Container class for a set of pyrolysis with functions implemented
 //   to loop over the functions for each type.
-// SourceFiles
-//   pyrolysis_model_collection.cpp
+
 #include "ptr_list.hpp"
 #include "pyrolysis_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward class declarations
 class fvMesh;
-namespace regionModels
-{
-namespace pyrolysisModels
-{
+
+
+namespace regionModels {
+namespace pyrolysisModels {
+
 class pyrolysisModelCollection
 :
   public PtrList<pyrolysisModel>
@@ -55,7 +57,10 @@ public:
     //- Mean diffusion number of the solid regions
     virtual scalar solidRegionDiffNo() const;
 };
+
 }  // namespace pyrolysisModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

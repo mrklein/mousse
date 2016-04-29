@@ -8,20 +8,22 @@
 //   mousse::regionModels::pyrolysisModels::pyrolysisModel
 // Description
 //   Base class for pyrolysis models
-// SourceFiles
-//   pyrolysis_model.cpp
+
 #include "run_time_selection_tables.hpp"
 #include "vol_fields_fwd.hpp"
 #include "region_model_1d.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class fvMesh;
 class Time;
-namespace regionModels
-{
-namespace pyrolysisModels
-{
+
+
+namespace regionModels {
+namespace pyrolysisModels {
+
 class pyrolysisModel
 :
   public regionModel1D
@@ -93,7 +95,7 @@ public:
     autoPtr<pyrolysisModel> clone() const
     {
       NOT_IMPLEMENTED("autoPtr<pyrolysisModel> clone() const");
-      return autoPtr<pyrolysisModel>(NULL);
+      return autoPtr<pyrolysisModel>{NULL};
     }
     //- Disallow default bitwise copy construct
     pyrolysisModel(const pyrolysisModel&) = delete;
@@ -143,7 +145,10 @@ public:
       //- Return max diffusivity allowed in the solid
       virtual scalar maxDiff() const;
 };
+
 }  // namespace pyrolysisModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

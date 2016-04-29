@@ -8,18 +8,17 @@
 //   mousse::noPyrolysis
 // Description
 //   Dummy surface pyrolysis model for 'none'
-// SourceFiles
-//   no_pyrolysis.cpp
+
 #include "pyrolysis_model.hpp"
 #include "vol_fields_fwd.hpp"
 #include "basic_solid_chemistry_model.hpp"
 #include "radiation_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace pyrolysisModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace pyrolysisModels {
+
 class noPyrolysis
 :
   public pyrolysisModel
@@ -83,7 +82,10 @@ public:
       //- Evolve the pyrolysis equations
       virtual void evolveRegion();
 };
+
 }  // namespace pyrolysisModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

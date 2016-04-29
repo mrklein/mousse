@@ -7,6 +7,8 @@
 #include "surface_fields.hpp"
 #include "pyrolysis_model.hpp"
 #include "surface_film_model.hpp"
+
+
 // Constructors 
 mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::
 filmPyrolysisTemperatureCoupledFvPatchScalarField
@@ -21,6 +23,8 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   phiName_{"phi"},
   rhoName_{"rho"}
 {}
+
+
 mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::
 filmPyrolysisTemperatureCoupledFvPatchScalarField
 (
@@ -36,6 +40,8 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   phiName_{ptf.phiName_},
   rhoName_{ptf.rhoName_}
 {}
+
+
 mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::
 filmPyrolysisTemperatureCoupledFvPatchScalarField
 (
@@ -58,6 +64,8 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
 {
   fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
 }
+
+
 mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::
 filmPyrolysisTemperatureCoupledFvPatchScalarField
 (
@@ -70,6 +78,8 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   phiName_{fptpsf.phiName_},
   rhoName_{fptpsf.rhoName_}
 {}
+
+
 mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::
 filmPyrolysisTemperatureCoupledFvPatchScalarField
 (
@@ -83,11 +93,12 @@ filmPyrolysisTemperatureCoupledFvPatchScalarField
   phiName_{fptpsf.phiName_},
   rhoName_{fptpsf.rhoName_}
 {}
+
+
 // Member Functions 
 void mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   typedef regionModels::surfaceFilmModels::surfaceFilmModel filmModelType;
@@ -98,8 +109,7 @@ void mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::updateCoeffs()
   UPstream::msgType() = oldTag+1;
   bool filmOk = db().time().foundObject<filmModelType>(filmRegionName_);
   bool pyrOk = db().time().foundObject<pyrModelType>(pyrolysisRegionName_);
-  if (!filmOk || !pyrOk)
-  {
+  if (!filmOk || !pyrOk) {
     // do nothing on construction - film model doesn't exist yet
     return;
   }
@@ -125,6 +135,8 @@ void mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::updateCoeffs()
   UPstream::msgType() = oldTag;
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::write
 (
   Ostream& os
@@ -149,11 +161,15 @@ void mousse::filmPyrolysisTemperatureCoupledFvPatchScalarField::write
   writeEntryIfDifferent<word>(os, "rho", "rho", rhoName_);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   filmPyrolysisTemperatureCoupledFvPatchScalarField
 );
+
 }
+

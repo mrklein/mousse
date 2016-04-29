@@ -7,8 +7,7 @@
 // Class
 //   mousse::thermalBaffleModel
 // Description
-// SourceFiles
-//   thermal_baffle_model.cpp
+
 #include "run_time_selection_tables.hpp"
 #include "scalar_io_field.hpp"
 #include "auto_ptr.hpp"
@@ -16,12 +15,12 @@
 #include "solid_thermo.hpp"
 #include "region_model_1d.hpp"
 #include "radiation_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace thermalBaffleModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace thermalBaffleModels {
+
 class thermalBaffleModel
 :
   public regionModel1D
@@ -138,7 +137,10 @@ public:
       //- Pre-evolve region
       virtual void preEvolveRegion();
 };
+
 }  // namespace thermalBaffleModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

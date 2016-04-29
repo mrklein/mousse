@@ -8,17 +8,15 @@
 //   mousse::heatTransferModel
 // Description
 //   Base class for film heat transfer models
-// SourceFiles
-//   heat_transfer_model.cpp
-//   heat_transfer_model_new.cpp
+
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class heatTransferModel
 :
   public filmSubModelBase
@@ -68,7 +66,10 @@ public:
       //- Return the heat transfer coefficient [W/m2/K]
       virtual tmp<volScalarField> h() const = 0;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

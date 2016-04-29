@@ -3,7 +3,7 @@
 // Copyright (C) 2016 mousse project
 
 template<class Type>
-mousse::tmp<mousse::Field<Type> >
+mousse::tmp<mousse::Field<Type>>
 mousse::regionModels::regionModel::mapRegionPatchField
 (
   const regionModel& nbrRegion,
@@ -17,12 +17,14 @@ mousse::regionModels::regionModel::mapRegionPatchField
   UPstream::msgType() = oldTag + 1;
   const AMIPatchToPatchInterpolation& ami =
     interRegionAMI(nbrRegion, regionPatchI, nbrPatchI, flip);
-  tmp<Field<Type> > tresult(ami.interpolateToSource(nbrField));
+  tmp<Field<Type>> tresult{ami.interpolateToSource(nbrField)};
   UPstream::msgType() = oldTag;
   return tresult;
 }
+
+
 template<class Type>
-mousse::tmp<mousse::Field<Type> >
+mousse::tmp<mousse::Field<Type>>
 mousse::regionModels::regionModel::mapRegionPatchField
 (
   const regionModel& nbrRegion,
@@ -33,8 +35,7 @@ mousse::regionModels::regionModel::mapRegionPatchField
 {
   typedef GeometricField<Type, fvPatchField, volMesh> fieldType;
   const fvMesh& nbrRegionMesh = nbrRegion.regionMesh();
-  if (nbrRegionMesh.foundObject<fieldType>(fieldName))
-  {
+  if (nbrRegionMesh.foundObject<fieldType>(fieldName)) {
     const label nbrPatchI = nbrCoupledPatchID(nbrRegion, regionPatchI);
     int oldTag = UPstream::msgType();
     UPstream::msgType() = oldTag + 1;
@@ -43,26 +44,26 @@ mousse::regionModels::regionModel::mapRegionPatchField
     const fieldType& nbrField =
       nbrRegionMesh.lookupObject<fieldType>(fieldName);
     const Field<Type>& nbrFieldp = nbrField.boundaryField()[nbrPatchI];
-    tmp<Field<Type> > tresult(ami.interpolateToSource(nbrFieldp));
+    tmp<Field<Type>> tresult{ami.interpolateToSource(nbrFieldp)};
     UPstream::msgType() = oldTag;
     return tresult;
-  }
-  else
-  {
+  } else {
     const polyPatch& p = regionMesh().boundaryMesh()[regionPatchI];
     return
-      tmp<Field<Type> >
-      (
+      tmp<Field<Type>>
+      {
         new Field<Type>
-        (
+        {
           p.size(),
           pTraits<Type>::zero
-        )
-      );
+        }
+      };
   }
 }
+
+
 template<class Type>
-mousse::tmp<mousse::Field<Type> >
+mousse::tmp<mousse::Field<Type>>
 mousse::regionModels::regionModel::mapRegionPatchInternalField
 (
   const regionModel& nbrRegion,
@@ -73,8 +74,7 @@ mousse::regionModels::regionModel::mapRegionPatchInternalField
 {
   typedef GeometricField<Type, fvPatchField, volMesh> fieldType;
   const fvMesh& nbrRegionMesh = nbrRegion.regionMesh();
-  if (nbrRegionMesh.foundObject<fieldType>(fieldName))
-  {
+  if (nbrRegionMesh.foundObject<fieldType>(fieldName)) {
     const label nbrPatchI = nbrCoupledPatchID(nbrRegion, regionPatchI);
     int oldTag = UPstream::msgType();
     UPstream::msgType() = oldTag + 1;
@@ -84,27 +84,27 @@ mousse::regionModels::regionModel::mapRegionPatchInternalField
       nbrRegionMesh.lookupObject<fieldType>(fieldName);
     const fvPatchField<Type>& nbrFieldp =
       nbrField.boundaryField()[nbrPatchI];
-    tmp<Field<Type> > tresult
-    (
+    tmp<Field<Type>> tresult
+    {
       ami.interpolateToSource(nbrFieldp.patchInternalField())
-    );
+    };
     UPstream::msgType() = oldTag;
     return tresult;
-  }
-  else
-  {
+  } else {
     const polyPatch& p = regionMesh().boundaryMesh()[regionPatchI];
     return
-      tmp<Field<Type> >
-      (
+      tmp<Field<Type>>
+      {
         new Field<Type>
-        (
+        {
           p.size(),
           pTraits<Type>::zero
-        )
-      );
+        }
+      };
   }
 }
+
+
 template<class Type>
 void mousse::regionModels::regionModel::toPrimary
 (
@@ -112,10 +112,8 @@ void mousse::regionModels::regionModel::toPrimary
   List<Type>& regionField
 ) const
 {
-  FOR_ALL(intCoupledPatchIDs_, i)
-  {
-    if (intCoupledPatchIDs_[i] == regionPatchI)
-    {
+  FOR_ALL(intCoupledPatchIDs_, i) {
+    if (intCoupledPatchIDs_[i] == regionPatchI) {
       const mappedPatchBase& mpb =
         refCast<const mappedPatchBase>
         (
@@ -129,6 +127,8 @@ void mousse::regionModels::regionModel::toPrimary
     << "Region patch ID " << regionPatchI << " not found in region mesh"
     << abort(FatalError);
 }
+
+
 template<class Type>
 void mousse::regionModels::regionModel::toRegion
 (
@@ -136,10 +136,8 @@ void mousse::regionModels::regionModel::toRegion
   List<Type>& primaryField
 ) const
 {
-  FOR_ALL(intCoupledPatchIDs_, i)
-  {
-    if (intCoupledPatchIDs_[i] == regionPatchI)
-    {
+  FOR_ALL(intCoupledPatchIDs_, i) {
+    if (intCoupledPatchIDs_[i] == regionPatchI) {
       const mappedPatchBase& mpb =
         refCast<const mappedPatchBase>
         (
@@ -153,6 +151,8 @@ void mousse::regionModels::regionModel::toRegion
     << "Region patch ID " << regionPatchI << " not found in region mesh"
     << abort(FatalError);
 }
+
+
 template<class Type, class CombineOp>
 void mousse::regionModels::regionModel::toPrimary
 (
@@ -161,10 +161,8 @@ void mousse::regionModels::regionModel::toPrimary
   const CombineOp& cop
 ) const
 {
-  FOR_ALL(intCoupledPatchIDs_, i)
-  {
-    if (intCoupledPatchIDs_[i] == regionPatchI)
-    {
+  FOR_ALL(intCoupledPatchIDs_, i) {
+    if (intCoupledPatchIDs_[i] == regionPatchI) {
       const mappedPatchBase& mpb =
         refCast<const mappedPatchBase>
         (
@@ -178,13 +176,16 @@ void mousse::regionModels::regionModel::toPrimary
   (
     "const void toPrimary"
     "("
-      "const label, "
-      "List<Type>&, "
-      "const CombineOp&"
+    "  const label, "
+    "  List<Type>&, "
+    "  const CombineOp&"
     ") const"
-  )   << "Region patch ID " << regionPatchI << " not found in region mesh"
-    << abort(FatalError);
+  )
+  << "Region patch ID " << regionPatchI << " not found in region mesh"
+  << abort(FatalError);
 }
+
+
 template<class Type, class CombineOp>
 void mousse::regionModels::regionModel::toRegion
 (
@@ -193,10 +194,8 @@ void mousse::regionModels::regionModel::toRegion
   const CombineOp& cop
 ) const
 {
-  FOR_ALL(intCoupledPatchIDs_, i)
-  {
-    if (intCoupledPatchIDs_[i] == regionPatchI)
-    {
+  FOR_ALL(intCoupledPatchIDs_, i) {
+    if (intCoupledPatchIDs_[i] == regionPatchI) {
       const mappedPatchBase& mpb =
         refCast<const mappedPatchBase>
         (
@@ -209,6 +208,8 @@ void mousse::regionModels::regionModel::toRegion
   FATAL_ERROR_IN
   (
     "const void toRegion(const label, List<Type>&, const CombineOp&) const"
-  )   << "Region patch ID " << regionPatchI << " not found in region mesh"
-    << abort(FatalError);
+  )
+  << "Region patch ID " << regionPatchI << " not found in region mesh"
+  << abort(FatalError);
 }
+
