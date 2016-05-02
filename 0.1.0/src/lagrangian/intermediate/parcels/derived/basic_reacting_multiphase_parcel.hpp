@@ -8,34 +8,38 @@
 //   mousse::basicReactingMultiphaseParcel
 // Description
 //   Definition of basic reacting parcel
-// SourceFiles
-//   basic_reacting_multiphase_parcel.cpp
-//   basic_reacting_multiphase_parcel_io.cpp
+
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"
 #include "_thermo_parcel.hpp"
 #include "_reacting_parcel.hpp"
 #include "_reacting_multiphase_parcel.hpp"
-namespace mousse
-{
-  typedef ReactingMultiphaseParcel
+
+
+namespace mousse {
+
+typedef ReactingMultiphaseParcel
+<
+  ReactingParcel
   <
-    ReactingParcel
+    ThermoParcel
     <
-      ThermoParcel
+      KinematicParcel
       <
-        KinematicParcel
-        <
-          particle
-        >
+        particle
       >
     >
-  > basicReactingMultiphaseParcel;
-  template<>
-  inline bool contiguous<basicReactingMultiphaseParcel>()
-  {
-    return false;
-  }
+  >
+> basicReactingMultiphaseParcel;
+
+template<>
+inline bool contiguous<basicReactingMultiphaseParcel>()
+{
+  return false;
 }
+
+}
+
 #endif
+

@@ -8,16 +8,16 @@
 //   mousse::SurfaceReactionModel
 // Description
 //   Templated surface reaction model class
-// SourceFiles
-//   _surface_reaction_model.cpp
-//   _surface_reaction_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
 #include "scalar_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class SurfaceReactionModel
 :
@@ -55,11 +55,11 @@ public:
     //- Construct copy
     SurfaceReactionModel(const SurfaceReactionModel<CloudType>& srm);
     //- Construct and return a clone
-    virtual autoPtr<SurfaceReactionModel<CloudType> > clone() const = 0;
+    virtual autoPtr<SurfaceReactionModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~SurfaceReactionModel();
   //- Selector
-  static autoPtr<SurfaceReactionModel<CloudType> > New
+  static autoPtr<SurfaceReactionModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& cloud
@@ -93,7 +93,9 @@ public:
       //- Write injection info to stream
       virtual void info(Ostream& os);
 };
+
 }  // namespace mousse
+
 
 #define MAKE_SURFACE_REACTION_MODEL(CloudType)                                \
                                                                               \
@@ -104,14 +106,14 @@ public:
     mousse::SurfaceReactionModel<reactingMultiphaseCloudType>,                \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      SurfaceReactionModel<reactingMultiphaseCloudType>,                      \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    SurfaceReactionModel<reactingMultiphaseCloudType>,                        \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_SURFACE_REACTION_MODEL_TYPE(SS, CloudType)                       \
                                                                               \
@@ -122,10 +124,10 @@ public:
                                                                               \
   mousse::SurfaceReactionModel<reactingMultiphaseCloudType>::                 \
     adddictionaryConstructorToTable                                           \
-    <mousse::SS<reactingMultiphaseCloudType> >                                \
+    <mousse::SS<reactingMultiphaseCloudType>>                                 \
     add##SS##CloudType##reactingMultiphaseCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#include "_surface_reaction_model.cpp"
-#endif
+
+#include "_surface_reaction_model.ipp"
+
 #endif

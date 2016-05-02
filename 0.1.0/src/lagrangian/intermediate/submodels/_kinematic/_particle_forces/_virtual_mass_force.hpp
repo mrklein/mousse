@@ -8,11 +8,12 @@
 //   mousse::VirtualMassForce
 // Description
 //   Calculates particle virtual mass force
-// SourceFiles
-//   _virtual_mass_force.cpp
+
 #include "_pressure_gradient_force.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class VirtualMassForce
 :
@@ -36,12 +37,13 @@ public:
     //- Construct copy
     VirtualMassForce(const VirtualMassForce& pgf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new VirtualMassForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new VirtualMassForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~VirtualMassForce();
@@ -65,8 +67,9 @@ public:
         const scalar mass
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "_virtual_mass_force.cpp"
-#endif
+
+#include "_virtual_mass_force.ipp"
+
 #endif

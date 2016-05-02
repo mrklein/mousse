@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "kinematic_parcel_injection_data.hpp"
+
+
 mousse::kinematicParcelInjectionData::kinematicParcelInjectionData(Istream& is)
 {
   is.check("reading (Px Py Pz)");
@@ -17,6 +19,8 @@ mousse::kinematicParcelInjectionData::kinematicParcelInjectionData(Istream& is)
   is >> mDot_;
   is.check("kinematicParcelInjectionData(Istream& is)");
 }
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<
 (
@@ -27,6 +31,8 @@ mousse::Ostream& mousse::operator<<
   os << data.x_ << data.U_ << data.d_ << data.rho_ << data.mDot_;
   return os;
 }
+
+
 mousse::Istream& mousse::operator>>(Istream& is, kinematicParcelInjectionData& data)
 {
   is.check("reading (Px Py Pz)");
@@ -42,3 +48,4 @@ mousse::Istream& mousse::operator>>(Istream& is, kinematicParcelInjectionData& d
   is.check("operator(Istream&, kinematicParcelInjectionData&)");
   return is;
 }
+

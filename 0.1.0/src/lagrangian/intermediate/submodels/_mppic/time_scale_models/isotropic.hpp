@@ -16,13 +16,13 @@
 //     Chemical Engineering Science
 //     Volume 80, Issue 0, Pages 39-54, December 2012
 //   \endverbatim
-// SourceFiles
-//   isotropic.cpp
+
 #include "time_scale_model.hpp"
-namespace mousse
-{
-namespace TimeScaleModels
-{
+
+
+namespace mousse {
+namespace TimeScaleModels {
+
 class isotropic
 :
   public TimeScaleModel
@@ -38,10 +38,11 @@ public:
     //- Construct and return a clone
     virtual autoPtr<TimeScaleModel> clone() const
     {
-      return autoPtr<TimeScaleModel>
-      (
-        new isotropic(*this)
-      );
+      return
+        autoPtr<TimeScaleModel>
+        {
+          new isotropic{*this}
+        };
     }
   //- Destructor
   virtual ~isotropic();
@@ -55,6 +56,9 @@ public:
       const FieldField<Field, scalar>& f
     ) const;
 };
+
 }  // namespace TimeScaleModels
 }  // namespace mousse
+
 #endif
+

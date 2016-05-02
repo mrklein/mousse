@@ -8,19 +8,25 @@
 //   mousse::basicThermoCloud
 // Description
 //   Cloud class to introduce thermodynamic parcels
+
 #include "_thermo_cloud.hpp"
 #include "basic_thermo_parcel.hpp"
-namespace mousse
-{
-  typedef ThermoCloud
+
+
+namespace mousse {
+
+typedef ThermoCloud
+<
+  KinematicCloud
   <
-    KinematicCloud
+    Cloud
     <
-      Cloud
-      <
-        basicThermoParcel
-      >
+      basicThermoParcel
     >
-  > basicThermoCloud;
+  >
+> basicThermoCloud;
+
 }
+
 #endif
+

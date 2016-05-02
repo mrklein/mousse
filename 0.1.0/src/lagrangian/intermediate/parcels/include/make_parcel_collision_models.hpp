@@ -5,12 +5,12 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "_no_collision.hpp"
 #include "_pair_collision.hpp"
 #include "_pair_spring_slider_dashpot.hpp"
 #include "_wall_spring_slider_dashpot.hpp"
 #include "_wall_local_spring_slider_dashpot.hpp"
+
 
 #define MAKE_PARCEL_COLLISION_MODELS(CloudType)                               \
                                                                               \
@@ -26,3 +26,4 @@
   MAKE_WALL_MODEL_TYPE(WallLocalSpringSliderDashpot, CloudType);
 
 #endif
+

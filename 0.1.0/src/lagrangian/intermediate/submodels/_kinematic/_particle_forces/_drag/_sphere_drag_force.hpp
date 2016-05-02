@@ -8,9 +8,12 @@
 //   mousse::SphereDragForce
 // Description
 //   Drag model based on assumption of solid spheres
+
 #include "_particle_force.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class SphereDragForce
 :
@@ -33,12 +36,13 @@ public:
     //- Construct copy
     SphereDragForce(const SphereDragForce<CloudType>& df);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new SphereDragForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new SphereDragForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~SphereDragForce();
@@ -54,8 +58,9 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_sphere_drag_force.cpp"
-#endif
+
+#include "_sphere_drag_force.ipp"
+
 #endif

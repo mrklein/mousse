@@ -8,13 +8,14 @@
 //   mousse::CorrectionLimitingMethod
 // Description
 //   Base class for correction limiting methods.
-// SourceFiles
-//   correction_limiting_method.cpp
+
 #include "vol_fields_fwd.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class CorrectionLimitingMethod
 {
 public:
@@ -57,5 +58,8 @@ public:
       const vector uMean
     ) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

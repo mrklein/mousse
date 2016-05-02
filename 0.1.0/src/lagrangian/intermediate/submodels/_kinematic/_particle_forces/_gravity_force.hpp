@@ -8,12 +8,15 @@
 //   mousse::GravityForce
 // Description
 //   Calculates particle gravity force
-// SourceFiles
-//   _gravity_force.cpp
+
 #include "_particle_force.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 template<class CloudType>
 class GravityForce
 :
@@ -36,12 +39,13 @@ public:
     //- Construct copy
     GravityForce(const GravityForce& gf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new GravityForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new GravityForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~GravityForce();
@@ -60,14 +64,17 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline const mousse::vector& mousse::GravityForce<CloudType>::g() const
 {
   return g_;
 }
-#ifdef NoRepository
-  #include "_gravity_force.cpp"
+
+#include "_gravity_force.ipp"
+
 #endif
-#endif
+

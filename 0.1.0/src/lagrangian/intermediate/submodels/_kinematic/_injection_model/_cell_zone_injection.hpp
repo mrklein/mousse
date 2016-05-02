@@ -14,12 +14,13 @@
 //    - Initial parcel velocity
 //   - Parcel diameters obtained by PDF model
 //   - All parcels introduced at SOI
-// SourceFiles
-//   _cell_zone_injection.cpp
+
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class CellZoneInjection
 :
@@ -61,12 +62,13 @@ public:
     //- Construct copy
     CellZoneInjection(const CellZoneInjection<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new CellZoneInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new CellZoneInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~CellZoneInjection();
@@ -105,8 +107,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_cell_zone_injection.cpp"
-#endif
+
+#include "_cell_zone_injection.ipp"
+
 #endif

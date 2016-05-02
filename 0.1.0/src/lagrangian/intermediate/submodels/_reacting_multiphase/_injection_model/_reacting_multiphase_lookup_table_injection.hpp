@@ -27,12 +27,13 @@
 //     Yg(Ngas) = mass fractions of gaseous components
 //     Yl(Nliq) = mass fractions of liquid components
 //     Ys(Nsld) = mass fractions of solid components
-// SourceFiles
-//   reacting_multiphase_lookup_table_injection.cpp
+
 #include "_injection_model.hpp"
 #include "reacting_multiphase_parcel_injection_data_io_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ReactingMultiphaseLookupTableInjection
 :
@@ -72,12 +73,13 @@ public:
       const ReactingMultiphaseLookupTableInjection<CloudType>& im
     );
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new ReactingMultiphaseLookupTableInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new ReactingMultiphaseLookupTableInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ReactingMultiphaseLookupTableInjection();
@@ -116,8 +118,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_reacting_multiphase_lookup_table_injection.cpp"
-#endif
+
+#include "_reacting_multiphase_lookup_table_injection.ipp"
+
 #endif

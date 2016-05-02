@@ -8,12 +8,13 @@
 //   mousse::VoidFraction
 // Description
 //   Creates particle void fraction field on carrier phase
-// SourceFiles
-//   _void_fraction.cpp
+
 #include "_cloud_function_object.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class VoidFraction
 :
@@ -43,12 +44,13 @@ public:
     //- Construct copy
     VoidFraction(const VoidFraction<CloudType>& vf);
     //- Construct and return a clone
-    virtual autoPtr<CloudFunctionObject<CloudType> > clone() const
+    virtual autoPtr<CloudFunctionObject<CloudType>> clone() const
     {
-      return autoPtr<CloudFunctionObject<CloudType> >
-      (
-        new VoidFraction<CloudType>(*this)
-      );
+      return
+        autoPtr<CloudFunctionObject<CloudType>>
+        {
+          new VoidFraction<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~VoidFraction();
@@ -68,8 +70,9 @@ public:
         bool& keepParticle
       );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "_void_fraction.cpp"
-#endif
+
+#include "_void_fraction.ipp"
+
 #endif

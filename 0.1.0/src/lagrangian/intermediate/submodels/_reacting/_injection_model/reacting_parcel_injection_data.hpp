@@ -8,25 +8,30 @@
 //   mousse::reactingParcelInjectionData
 // Description
 //   Container class to provide injection data for reacting parcels
-// SourceFiles
-//   reacting_parcel_injection_data.cpp
+
 #include "thermo_parcel_injection_data.hpp"
 #include "scalar_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class reactingParcelInjectionData;
+
 // Forward declaration of friend functions
 Ostream& operator<<
 (
   Ostream&,
   const reactingParcelInjectionData&
 );
+
 Istream& operator>>
 (
   Istream&,
   reactingParcelInjectionData&
 );
+
+
 class reactingParcelInjectionData
 :
   public thermoParcelInjectionData
@@ -67,12 +72,16 @@ public:
       reactingParcelInjectionData& data
     );
 };
+
 }  // namespace mousse
+
 
 inline const mousse::scalarList& mousse::reactingParcelInjectionData::Y() const
 {
   return Y_;
 }
+
+
 inline mousse::scalarList& mousse::reactingParcelInjectionData::Y()
 {
   return Y_;

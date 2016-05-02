@@ -8,15 +8,15 @@
 //   mousse::WallModel
 // Description
 //   Templated wall interaction class
-// SourceFiles
-//   _wall_model.cpp
-//   _wall_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_wall_site_data.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class WallModel
 {
@@ -87,7 +87,9 @@ public:
       const List<WallSiteData<vector>>& sharpSiteData
     ) const = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_WALL_MODEL(CloudType)                                            \
                                                                               \
@@ -96,14 +98,14 @@ public:
     mousse::WallModel<mousse::CloudType>, 0                                   \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      WallModel<mousse::CloudType>,                                           \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    WallModel<mousse::CloudType>,                                             \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_WALL_MODEL_TYPE(SS, CloudType)                                   \
                                                                               \
@@ -113,7 +115,7 @@ public:
     adddictionaryConstructorToTable<mousse::SS<mousse::CloudType>>            \
       add##SS##CloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#include "_wall_model.cpp"
-#endif
+
+#include "_wall_model.ipp"
+
 #endif

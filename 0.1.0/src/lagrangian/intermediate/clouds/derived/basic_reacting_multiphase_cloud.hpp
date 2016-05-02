@@ -8,29 +8,35 @@
 //   mousse::basicReactingMultiphaseCloud
 // Description
 //   Cloud class to introduce multi-phase reacting parcels
+
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "_thermo_cloud.hpp"
 #include "_reacting_cloud.hpp"
 #include "_reacting_multiphase_cloud.hpp"
 #include "basic_reacting_multiphase_parcel.hpp"
-namespace mousse
-{
-  typedef ReactingMultiphaseCloud
+
+
+namespace mousse {
+
+typedef ReactingMultiphaseCloud
+<
+  ReactingCloud
   <
-    ReactingCloud
+    ThermoCloud
     <
-      ThermoCloud
+      KinematicCloud
       <
-        KinematicCloud
+        Cloud
         <
-          Cloud
-          <
-            basicReactingMultiphaseParcel
-          >
+          basicReactingMultiphaseParcel
         >
       >
     >
-  > basicReactingMultiphaseCloud;
+  >
+> basicReactingMultiphaseCloud;
+
 }
+
 #endif
+

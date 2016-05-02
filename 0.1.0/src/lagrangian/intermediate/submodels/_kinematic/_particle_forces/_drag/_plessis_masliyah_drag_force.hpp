@@ -8,10 +8,13 @@
 //   mousse::PlessisMasliyahDragForce
 // Description
 //   PlessisMasliyahDragForce drag model for solid spheres.
+
 #include "_particle_force.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class PlessisMasliyahDragForce
 :
@@ -58,8 +61,9 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_plessis_masliyah_drag_force.cpp"
-#endif
+
+#include "_plessis_masliyah_drag_force.ipp"
+
 #endif

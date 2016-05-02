@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TINJECTION_MODEL_LIST_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_TKINEMATIC_TINJECTION_MODEL_TINJECTION_MODEL_LIST_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,18 +8,17 @@
 //   mousse::InjectionModelList
 // Description
 //   List of injection models
-// SourceFiles
-//   injection_model_list_list.cpp
-#ifndef injection_model_list_hpp_
-#define injection_model_list_hpp_
+
 #include "ptr_list.hpp"
 #include "_injection_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class InjectionModelList
 :
-  public PtrList<InjectionModel<CloudType> >
+  public PtrList<InjectionModel<CloudType>>
 {
 public:
   // Constructors
@@ -27,12 +29,12 @@ public:
     //- Construct copy
     InjectionModelList(const InjectionModelList<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModelList<CloudType> > clone() const
+    virtual autoPtr<InjectionModelList<CloudType>> clone() const
     {
-      return autoPtr<InjectionModelList<CloudType> >
-      (
-        new InjectionModelList<CloudType>(*this)
-      );
+      return autoPtr<InjectionModelList<CloudType>>
+      {
+        new InjectionModelList<CloudType>{*this}
+      };
     }
   //- Destructor
   virtual ~InjectionModelList();
@@ -60,8 +62,9 @@ public:
       //- Write injection info to stream
       virtual void info(Ostream& os);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_injection_model_list.cpp"
-#endif
+
+#include "_injection_model_list.ipp"
+
 #endif

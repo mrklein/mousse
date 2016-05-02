@@ -6,14 +6,17 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::reactingParcelInjectionDataIOList
-// Description
-// SourceFiles
-//   reacting_parcel_injection_data_io_list.cpp
+
 #include "iolist.hpp"
 #include "reacting_parcel_injection_data.hpp"
-namespace mousse
-{
-  typedef IOList<reactingParcelInjectionData>
-    reactingParcelInjectionDataIOList;
+
+
+namespace mousse {
+
+typedef IOList<reactingParcelInjectionData>
+  reactingParcelInjectionDataIOList;
+
 }
+
 #endif
+

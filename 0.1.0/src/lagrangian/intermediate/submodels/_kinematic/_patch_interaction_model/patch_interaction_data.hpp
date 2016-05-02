@@ -8,17 +8,23 @@
 //   mousse::patchInteractionData
 // Description
 //   Helper class for the LocalInteraction patch interaction model
+
 #include "istream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class patchInteractionData;
+
 // Forward declaration of friend functions
 Istream& operator>>
 (
   Istream& is,
   patchInteractionData& pid
 );
+
+
 class patchInteractionData
 {
   // Private data
@@ -52,5 +58,8 @@ public:
         patchInteractionData& pid
       );
 };
+
 }  // namespace mousse
+
 #endif
+

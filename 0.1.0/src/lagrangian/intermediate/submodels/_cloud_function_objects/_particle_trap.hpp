@@ -15,12 +15,13 @@
 //       alphaName   alpha;      // name volume fraction field
 //       threshold   0.95;       // alpha value below which model is active
 //     }
-// SourceFiles
-//   _particle_trap.cpp
+
 #include "_cloud_function_object.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ParticleTrap
 :
@@ -52,12 +53,13 @@ public:
     //- Construct copy
     ParticleTrap(const ParticleTrap<CloudType>& pe);
     //- Construct and return a clone
-    virtual autoPtr<CloudFunctionObject<CloudType> > clone() const
+    virtual autoPtr<CloudFunctionObject<CloudType>> clone() const
     {
-      return autoPtr<CloudFunctionObject<CloudType> >
-      (
-        new ParticleTrap<CloudType>(*this)
-      );
+      return
+        autoPtr<CloudFunctionObject<CloudType>>
+        {
+          new ParticleTrap<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ParticleTrap();
@@ -77,8 +79,9 @@ public:
         bool& keepParticle
       );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "_particle_trap.cpp"
-#endif
+
+#include "_particle_trap.ipp"
+
 #endif

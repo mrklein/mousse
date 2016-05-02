@@ -20,8 +20,7 @@
 //    - patch interaction model
 //    - stochastic collision model
 //    - surface film model
-// SourceFiles
-//   _kinematic_cloud.cpp
+
 #include "particle.hpp"
 #include "_cloud.hpp"
 #include "kinematic_cloud.hpp"
@@ -37,19 +36,18 @@
 #include "_cloud_function_object_list.hpp"
 #include "fvm_sup.hpp"
 #include "sortable_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class CloudType>
-class InjectionModelList;
-template<class CloudType>
-class DispersionModel;
-template<class CloudType>
-class PatchInteractionModel;
-template<class CloudType>
-class SurfaceFilmModel;
-template<class CloudType>
-class StochasticCollisionModel;
+template<class CloudType> class InjectionModelList;
+template<class CloudType> class DispersionModel;
+template<class CloudType> class PatchInteractionModel;
+template<class CloudType> class SurfaceFilmModel;
+template<class CloudType> class StochasticCollisionModel;
+
+
 template<class CloudType>
 class KinematicCloud
 :
@@ -179,18 +177,20 @@ public:
     //- Construct and return clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType>>
-      (
-        new KinematicCloud(*this, name)
-      );
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new KinematicCloud{*this, name}
+        };
     }
     //- Construct and return bare clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType>>
-      (
-        new KinematicCloud(this->mesh(), name, *this)
-      );
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new KinematicCloud{this->mesh(), name, *this}
+        };
     }
     //- Disallow default bitwise copy construct
     KinematicCloud(const KinematicCloud&) = delete;
@@ -401,7 +401,9 @@ public:
       //- Print cloud information
       void info();
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class CloudType>
@@ -410,87 +412,119 @@ mousse::KinematicCloud<CloudType>::cloudCopy() const
 {
   return cloudCopyPtr_();
 }
+
+
 template<class CloudType>
 inline const mousse::fvMesh& mousse::KinematicCloud<CloudType>::mesh() const
 {
   return mesh_;
 }
+
+
 template<class CloudType>
 inline const mousse::IOdictionary&
 mousse::KinematicCloud<CloudType>::particleProperties() const
 {
   return particleProperties_;
 }
+
+
 template<class CloudType>
 inline const mousse::IOdictionary&
 mousse::KinematicCloud<CloudType>::outputProperties() const
 {
   return outputProperties_;
 }
+
+
 template<class CloudType>
 inline mousse::IOdictionary& mousse::KinematicCloud<CloudType>::outputProperties()
 {
   return outputProperties_;
 }
+
+
 template<class CloudType>
 inline const mousse::cloudSolution&
 mousse::KinematicCloud<CloudType>::solution() const
 {
   return solution_;
 }
+
+
 template<class CloudType>
 inline mousse::cloudSolution& mousse::KinematicCloud<CloudType>::solution()
 {
   return solution_;
 }
+
+
 template<class CloudType>
 inline const typename CloudType::particleType::constantProperties&
 mousse::KinematicCloud<CloudType>::constProps() const
 {
   return constProps_;
 }
+
+
 template<class CloudType>
 inline typename CloudType::particleType::constantProperties&
 mousse::KinematicCloud<CloudType>::constProps()
 {
   return constProps_;
 }
+
+
 template<class CloudType>
 inline const mousse::dictionary&
 mousse::KinematicCloud<CloudType>::subModelProperties() const
 {
   return subModelProperties_;
 }
+
+
 template<class CloudType>
 inline const mousse::volScalarField& mousse::KinematicCloud<CloudType>::rho() const
 {
   return rho_;
 }
+
+
 template<class CloudType>
 inline const mousse::volVectorField& mousse::KinematicCloud<CloudType>::U() const
 {
   return U_;
 }
+
+
 template<class CloudType>
 inline const mousse::volScalarField& mousse::KinematicCloud<CloudType>::mu() const
 {
   return mu_;
 }
+
+
 template<class CloudType>
 inline const mousse::dimensionedVector& mousse::KinematicCloud<CloudType>::g() const
 {
   return g_;
 }
+
+
 template<class CloudType>
 inline mousse::scalar mousse::KinematicCloud<CloudType>::pAmbient() const
 {
   return pAmbient_;
 }
+
+
 template<class CloudType>
 inline mousse::scalar& mousse::KinematicCloud<CloudType>::pAmbient()
 {
   return pAmbient_;
 }
+
+
 template<class CloudType>
 //inline const typename CloudType::parcelType::forceType&
 inline const typename mousse::KinematicCloud<CloudType>::forceType&
@@ -498,124 +532,157 @@ mousse::KinematicCloud<CloudType>::forces() const
 {
   return forces_;
 }
+
+
 template<class CloudType>
 inline typename mousse::KinematicCloud<CloudType>::forceType&
 mousse::KinematicCloud<CloudType>::forces()
 {
   return forces_;
 }
+
+
 template<class CloudType>
 inline typename mousse::KinematicCloud<CloudType>::functionType&
 mousse::KinematicCloud<CloudType>::functions()
 {
   return functions_;
 }
+
+
 template<class CloudType>
 inline const mousse::InjectionModelList<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::injectors() const
 {
   return injectors_;
 }
+
+
 template<class CloudType>
 inline mousse::InjectionModelList<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::injectors()
 {
   return injectors_;
 }
+
+
 template<class CloudType>
 inline const mousse::DispersionModel<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::dispersion() const
 {
   return dispersionModel_;
 }
+
+
 template<class CloudType>
 inline mousse::DispersionModel<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::dispersion()
 {
   return dispersionModel_();
 }
+
+
 template<class CloudType>
 inline const mousse::PatchInteractionModel<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::patchInteraction() const
 {
   return patchInteractionModel_;
 }
+
+
 template<class CloudType>
 inline mousse::PatchInteractionModel<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::patchInteraction()
 {
   return patchInteractionModel_();
 }
+
+
 template<class CloudType>
 inline const mousse::StochasticCollisionModel<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::stochasticCollision() const
 {
   return stochasticCollisionModel_();
 }
+
+
 template<class CloudType>
 inline mousse::StochasticCollisionModel<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::stochasticCollision()
 {
   return stochasticCollisionModel_();
 }
+
+
 template<class CloudType>
 inline const mousse::SurfaceFilmModel<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::surfaceFilm() const
 {
   return surfaceFilmModel_();
 }
+
+
 template<class CloudType>
 inline mousse::SurfaceFilmModel<mousse::KinematicCloud<CloudType>>&
 mousse::KinematicCloud<CloudType>::surfaceFilm()
 {
   return surfaceFilmModel_();
 }
+
+
 template<class CloudType>
 inline const mousse::vectorIntegrationScheme&
 mousse::KinematicCloud<CloudType>::UIntegrator() const
 {
   return UIntegrator_;
 }
+
+
 template<class CloudType>
 inline mousse::label mousse::KinematicCloud<CloudType>::nParcels() const
 {
   return this->size();
 }
+
+
 template<class CloudType>
 inline mousse::scalar mousse::KinematicCloud<CloudType>::massInSystem() const
 {
   scalar sysMass = 0.0;
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     sysMass += p.nParticle()*p.mass();
   }
   return sysMass;
 }
+
+
 template<class CloudType>
 inline mousse::vector
 mousse::KinematicCloud<CloudType>::linearMomentumOfSystem() const
 {
-  vector linearMomentum(vector::zero);
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  vector linearMomentum{vector::zero};
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     linearMomentum += p.nParticle()*p.mass()*p.U();
   }
   return linearMomentum;
 }
+
+
 template<class CloudType>
 inline mousse::scalar
 mousse::KinematicCloud<CloudType>::linearKineticEnergyOfSystem() const
 {
   scalar linearKineticEnergy = 0.0;
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     linearKineticEnergy += p.nParticle()*0.5*p.mass()*(p.U() & p.U());
   }
   return linearKineticEnergy;
 }
+
+
 template<class CloudType>
 inline mousse::scalar mousse::KinematicCloud<CloudType>::Dij
 (
@@ -625,8 +692,7 @@ inline mousse::scalar mousse::KinematicCloud<CloudType>::Dij
 {
   scalar si = 0.0;
   scalar sj = 0.0;
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     si += p.nParticle()*pow(p.d(), i);
     sj += p.nParticle()*pow(p.d(), j);
@@ -636,26 +702,28 @@ inline mousse::scalar mousse::KinematicCloud<CloudType>::Dij
   sj = max(sj, VSMALL);
   return si/sj;
 }
+
+
 template<class CloudType>
 inline mousse::scalar mousse::KinematicCloud<CloudType>::Dmax() const
 {
   scalar d = -GREAT;
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     d = max(d, p.d());
   }
   reduce(d, maxOp<scalar>());
   return max(0.0, d);
 }
+
+
 template<class CloudType>
 inline mousse::scalar mousse::KinematicCloud<CloudType>::penetration
 (
   const scalar fraction
 ) const
 {
-  if ((fraction < 0) || (fraction > 1))
-  {
+  if ((fraction < 0) || (fraction > 1)) {
     FATAL_ERROR_IN
     (
       "inline mousse::scalar mousse::KinematicCloud<CloudType>::penetration"
@@ -663,28 +731,26 @@ inline mousse::scalar mousse::KinematicCloud<CloudType>::penetration
         "const scalar"
       ") const"
     )
-      << "fraction should be in the range 0 < fraction < 1"
-      << exit(FatalError);
+    << "fraction should be in the range 0 < fraction < 1"
+    << exit(FatalError);
   }
   scalar distance = 0.0;
   const label nParcel = this->size();
-  globalIndex globalParcels(nParcel);
+  globalIndex globalParcels{nParcel};
   const label nParcelSum = globalParcels.size();
-  if (nParcelSum == 0)
-  {
+  if (nParcelSum == 0) {
     return distance;
   }
   // lists of parcels mass and distance from initial injection point
-  List<List<scalar>> procMass(Pstream::nProcs());
-  List<List<scalar>> procDist(Pstream::nProcs());
+  List<List<scalar>> procMass{Pstream::nProcs()};
+  List<List<scalar>> procDist{Pstream::nProcs()};
   List<scalar>& mass = procMass[Pstream::myProcNo()];
   List<scalar>& dist = procDist[Pstream::myProcNo()];
   mass.setSize(nParcel);
   dist.setSize(nParcel);
   label i = 0;
   scalar mSum = 0.0;
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     scalar m = p.nParticle()*p.mass();
     scalar d = mag(p.position() - p.position0());
@@ -697,175 +763,171 @@ inline mousse::scalar mousse::KinematicCloud<CloudType>::penetration
   reduce(mSum, sumOp<scalar>());
   Pstream::gatherList(procMass);
   Pstream::gatherList(procDist);
-  if (Pstream::master())
-  {
+  if (Pstream::master()) {
     // flatten the mass lists
-    List<scalar> allMass(nParcelSum, 0.0);
-    SortableList<scalar> allDist(nParcelSum, 0.0);
-    for (label procI = 0; procI < Pstream::nProcs(); procI++)
-    {
+    List<scalar> allMass{nParcelSum, 0.0};
+    SortableList<scalar> allDist{nParcelSum, 0.0};
+    for (label procI = 0; procI < Pstream::nProcs(); procI++) {
       SubList<scalar>
-      (
+      {
         allMass,
         globalParcels.localSize(procI),
         globalParcels.offset(procI)
-      ).assign(procMass[procI]);
+      }.assign(procMass[procI]);
       // flatten the distance list
       SubList<scalar>
-      (
+      {
         allDist,
         globalParcels.localSize(procI),
         globalParcels.offset(procI)
-      ).assign(procDist[procI]);
+      }.assign(procDist[procI]);
     }
     // sort allDist distances into ascending order
     // note: allMass masses are left unsorted
     allDist.sort();
-    if (nParcelSum > 1)
-    {
+    if (nParcelSum > 1) {
       const scalar mLimit = fraction*mSum;
       const labelList& indices = allDist.indices();
-      if (mLimit > (mSum - allMass[indices.last()]))
-      {
+      if (mLimit > (mSum - allMass[indices.last()])) {
         distance = allDist.last();
-      }
-      else
-      {
+      } else {
         // assuming that 'fraction' is generally closer to 1 than 0,
         // loop through in reverse distance order
         const scalar mThreshold = (1.0 - fraction)*mSum;
         scalar mCurrent = 0.0;
         label i0 = 0;
-        FOR_ALL_REVERSE(indices, i)
-        {
+        FOR_ALL_REVERSE(indices, i) {
           label indI = indices[i];
           mCurrent += allMass[indI];
-          if (mCurrent > mThreshold)
-          {
+          if (mCurrent > mThreshold) {
             i0 = i;
             break;
           }
         }
-        if (i0 == indices.size() - 1)
-        {
+        if (i0 == indices.size() - 1) {
           distance = allDist.last();
-        }
-        else
-        {
+        } else {
           // linearly interpolate to determine distance
           scalar alpha = (mCurrent - mThreshold)/allMass[indices[i0]];
-          distance =
-            allDist[i0] + alpha*(allDist[i0+1] - allDist[i0]);
+          distance = allDist[i0] + alpha*(allDist[i0+1] - allDist[i0]);
         }
       }
-    }
-    else
-    {
+    } else {
       distance = allDist.first();
     }
   }
   Pstream::scatter(distance);
   return distance;
 }
+
+
 template<class CloudType>
 inline mousse::cachedRandom& mousse::KinematicCloud<CloudType>::rndGen()
 {
   return rndGen_;
 }
+
+
 template<class CloudType>
 inline mousse::List<mousse::DynamicList<typename CloudType::particleType*>>&
 mousse::KinematicCloud<CloudType>::cellOccupancy()
 {
-  if (cellOccupancyPtr_.empty())
-  {
+  if (cellOccupancyPtr_.empty()) {
     buildCellOccupancy();
   }
   return cellOccupancyPtr_();
 }
+
+
 template<class CloudType>
 inline const mousse::scalarField&
 mousse::KinematicCloud<CloudType>::cellLengthScale() const
 {
   return cellLengthScale_;
 }
+
+
 template<class CloudType>
 inline mousse::DimensionedField<mousse::vector, mousse::volMesh>&
 mousse::KinematicCloud<CloudType>::UTrans()
 {
   return UTrans_();
 }
+
+
 template<class CloudType>
 inline const mousse::DimensionedField<mousse::vector, mousse::volMesh>&
 mousse::KinematicCloud<CloudType>::UTrans() const
 {
   return UTrans_();
 }
+
+
 template<class CloudType>
 inline mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::KinematicCloud<CloudType>::UCoeff()
 {
   return UCoeff_();
 }
+
+
 template<class CloudType>
 inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::KinematicCloud<CloudType>::UCoeff() const
 {
   return UCoeff_();
 }
+
+
 template<class CloudType>
 inline mousse::tmp<mousse::fvVectorMatrix>
 mousse::KinematicCloud<CloudType>::SU(volVectorField& U) const
 {
-  if (debug)
-  {
-    Info<< "UTrans min/max = " << min(UTrans()).value() << ", "
+  if (debug) {
+    Info << "UTrans min/max = " << min(UTrans()).value() << ", "
       << max(UTrans()).value() << nl
       << "UCoeff min/max = " << min(UCoeff()).value() << ", "
       << max(UCoeff()).value() << endl;
   }
-  if (solution_.coupled())
-  {
-    if (solution_.semiImplicit("U"))
-    {
+  if (solution_.coupled()) {
+    if (solution_.semiImplicit("U")) {
       const DimensionedField<scalar, volMesh>
-        Vdt(mesh_.V()*this->db().time().deltaT());
+        Vdt{mesh_.V()*this->db().time().deltaT()};
       return UTrans()/Vdt - fvm::Sp(UCoeff()/Vdt, U) + UCoeff()/Vdt*U;
-    }
-    else
-    {
-      tmp<fvVectorMatrix> tfvm(new fvVectorMatrix(U, dimForce));
+    } else {
+      tmp<fvVectorMatrix> tfvm{new fvVectorMatrix{U, dimForce}};
       fvVectorMatrix& fvm = tfvm();
       fvm.source() = -UTrans()/(this->db().time().deltaT());
       return tfvm;
     }
   }
-  return tmp<fvVectorMatrix>(new fvVectorMatrix(U, dimForce));
+  return tmp<fvVectorMatrix>{new fvVectorMatrix{U, dimForce}};
 }
+
+
 template<class CloudType>
 inline const mousse::tmp<mousse::volScalarField>
 mousse::KinematicCloud<CloudType>::vDotSweep() const
 {
   tmp<volScalarField> tvDotSweep
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         this->name() + ":vDotSweep",
         this->db().time().timeName(),
         this->db(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("zero", dimless/dimTime, 0.0),
+      {"zero", dimless/dimTime, 0.0},
       zeroGradientFvPatchScalarField::typeName
-    )
-  );
+    }
+  };
   volScalarField& vDotSweep = tvDotSweep();
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     const label cellI = p.cell();
     vDotSweep[cellI] += p.nParticle()*p.areaP()*mag(p.U() - U_[cellI]);
@@ -874,31 +936,31 @@ mousse::KinematicCloud<CloudType>::vDotSweep() const
   vDotSweep.correctBoundaryConditions();
   return tvDotSweep;
 }
+
+
 template<class CloudType>
 inline const mousse::tmp<mousse::volScalarField>
 mousse::KinematicCloud<CloudType>::theta() const
 {
   tmp<volScalarField> ttheta
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         this->name() + ":theta",
         this->db().time().timeName(),
         this->db(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("zero", dimless, 0.0),
+      {"zero", dimless, 0.0},
       zeroGradientFvPatchScalarField::typeName
-    )
-  );
+    }
+  };
   volScalarField& theta = ttheta();
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     const label cellI = p.cell();
     theta[cellI] += p.nParticle()*p.volume();
@@ -907,30 +969,30 @@ mousse::KinematicCloud<CloudType>::theta() const
   theta.correctBoundaryConditions();
   return ttheta;
 }
+
+
 template<class CloudType>
 inline const mousse::tmp<mousse::volScalarField>
 mousse::KinematicCloud<CloudType>::alpha() const
 {
   tmp<volScalarField> talpha
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         this->name() + ":alpha",
         this->db().time().timeName(),
         this->db(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("zero", dimless, 0.0)
-    )
-  );
+      {"zero", dimless, 0.0}
+    }
+  };
   scalarField& alpha = talpha().internalField();
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     const label cellI = p.cell();
     alpha[cellI] += p.nParticle()*p.mass();
@@ -938,30 +1000,30 @@ mousse::KinematicCloud<CloudType>::alpha() const
   alpha /= (mesh_.V()*rho_);
   return talpha;
 }
+
+
 template<class CloudType>
 inline const mousse::tmp<mousse::volScalarField>
 mousse::KinematicCloud<CloudType>::rhoEff() const
 {
   tmp<volScalarField> trhoEff
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         this->name() + ":rhoEff",
         this->db().time().timeName(),
         this->db(),
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("zero", dimDensity, 0.0)
-    )
-  );
+      {"zero", dimDensity, 0.0}
+    }
+  };
   scalarField& rhoEff = trhoEff().internalField();
-  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename KinematicCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     const label cellI = p.cell();
     rhoEff[cellI] += p.nParticle()*p.mass();
@@ -970,7 +1032,6 @@ mousse::KinematicCloud<CloudType>::rhoEff() const
   return trhoEff;
 }
 
-#ifdef NoRepository
-#   include "_kinematic_cloud.cpp"
-#endif
+#include "_kinematic_cloud.ipp"
+
 #endif

@@ -14,9 +14,7 @@
 //   - drag
 //   - turbulent dispersion
 //   - wall interactions
-// SourceFiles
-//   _kinematic_parcel.cpp
-//   _kinematic_parcel_io.cpp
+
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"
@@ -24,10 +22,14 @@
 #include "demand_driven_entry.hpp"
 #include "mathematical_constants.hpp"
 // #include "_particle_force_list.hpp" // TODO
-namespace mousse
-{
-template<class ParcelType>
-class KinematicParcel;
+
+
+using namespace mousse::constant::mathematical;
+
+namespace mousse {
+
+template<class ParcelType> class KinematicParcel;
+
 // Forward declaration of friend functions
 template<class ParcelType>
 Ostream& operator<<
@@ -35,6 +37,8 @@ Ostream& operator<<
   Ostream&,
   const KinematicParcel<ParcelType>&
 );
+
+
 template<class ParcelType>
 class KinematicParcel
 :
@@ -100,11 +104,11 @@ public:
     // Private data
       // Interpolators for continuous phase fields
         //- Density interpolator
-        autoPtr<interpolation<scalar> > rhoInterp_;
+        autoPtr<interpolation<scalar>> rhoInterp_;
         //- Velocity interpolator
-        autoPtr<interpolation<vector> > UInterp_;
+        autoPtr<interpolation<vector>> UInterp_;
         //- Dynamic viscosity interpolator
-        autoPtr<interpolation<scalar> > muInterp_;
+        autoPtr<interpolation<scalar>> muInterp_;
       //- Local gravitational or other body-force acceleration
       const vector& g_;
       // label specifying which part of the integration
@@ -185,19 +189,19 @@ public:
     //- Runtime type information
     TYPE_NAME("KinematicParcel");
     //- String representation of properties
-    AddToPropertyList
+    ADD_TO_PROPERTY_LIST
     (
       ParcelType,
       " active"
-     + " typeId"
-     + " nParticle"
-     + " d"
-     + " dTarget "
-     + " (Ux Uy Uz)"
-     + " rho"
-     + " age"
-     + " tTurb"
-     + " (UTurbx UTurby UTurbz)"
+      + " typeId"
+      + " nParticle"
+      + " d"
+      + " dTarget "
+      + " (Ux Uy Uz)"
+      + " rho"
+      + " age"
+      + " tTurb"
+      + " (UTurbx UTurby UTurbz)"
     );
   // Constructors
     //- Construct from owner, position, and cloud owner
@@ -239,12 +243,12 @@ public:
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new KinematicParcel(*this));
+      return autoPtr<particle>{new KinematicParcel{*this}};
     }
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone(const polyMesh& mesh) const
     {
-      return autoPtr<particle>(new KinematicParcel(*this, mesh));
+      return autoPtr<particle>{new KinematicParcel{*this, mesh}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -254,14 +258,14 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
-      autoPtr<KinematicParcel<ParcelType> > operator()(Istream& is) const
+      autoPtr<KinematicParcel<ParcelType>> operator()(Istream& is) const
       {
-        return autoPtr<KinematicParcel<ParcelType> >
-        (
-          new KinematicParcel<ParcelType>(mesh_, is, true)
-        );
+        return autoPtr<KinematicParcel<ParcelType>>
+        {
+          new KinematicParcel<ParcelType>{mesh_, is, true}
+        };
       }
     };
   // Member Functions
@@ -450,9 +454,10 @@ public:
       const KinematicParcel<ParcelType>&
     );
 };
+
 }  // namespace mousse
 
-using namespace mousse::constant::mathematical;
+
 // Constructors 
 template<class ParcelType>
 inline
@@ -464,6 +469,8 @@ mousse::KinematicParcel<ParcelType>::constantProperties::constantProperties()
   rho0_{dict_, 0.0},
   minParcelMass_{dict_, 0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::KinematicParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -476,6 +483,8 @@ inline mousse::KinematicParcel<ParcelType>::constantProperties::constantProperti
   rho0_{cp.rho0_},
   minParcelMass_{cp.minParcelMass_}
 {}
+
+
 template<class ParcelType>
 inline mousse::KinematicParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -488,6 +497,8 @@ inline mousse::KinematicParcel<ParcelType>::constantProperties::constantProperti
   rho0_{dict_, "rho0"},
   minParcelMass_{dict_, "minParcelMass", 1e-15}
 {}
+
+
 template<class ParcelType>
 inline mousse::KinematicParcel<ParcelType>::KinematicParcel
 (
@@ -513,6 +524,8 @@ inline mousse::KinematicParcel<ParcelType>::KinematicParcel
   Uc_{vector::zero},
   muc_{0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::KinematicParcel<ParcelType>::KinematicParcel
 (
@@ -544,6 +557,8 @@ inline mousse::KinematicParcel<ParcelType>::KinematicParcel
   Uc_{vector::zero},
   muc_{0.0}
 {}
+
+
 // constantProperties Member Functions
 template<class ParcelType>
 inline const mousse::dictionary&
@@ -551,159 +566,214 @@ mousse::KinematicParcel<ParcelType>::constantProperties::dict() const
 {
   return dict_;
 }
+
+
 template<class ParcelType>
 inline mousse::label
 mousse::KinematicParcel<ParcelType>::constantProperties::parcelTypeId() const
 {
   return parcelTypeId_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::KinematicParcel<ParcelType>::constantProperties::rhoMin() const
 {
   return rhoMin_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::KinematicParcel<ParcelType>::constantProperties::rho0() const
 {
   return rho0_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::KinematicParcel<ParcelType>::constantProperties::minParcelMass() const
 {
   return minParcelMass_.value();
 }
+
+
 // KinematicParcel Member Functions 
 template<class ParcelType>
 inline bool mousse::KinematicParcel<ParcelType>::active() const
 {
   return active_;
 }
+
+
 template<class ParcelType>
 inline mousse::label mousse::KinematicParcel<ParcelType>::typeId() const
 {
   return typeId_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::nParticle() const
 {
   return nParticle_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::d() const
 {
   return d_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::dTarget() const
 {
   return dTarget_;
 }
+
+
 template<class ParcelType>
 inline const mousse::vector& mousse::KinematicParcel<ParcelType>::U() const
 {
   return U_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::rho() const
 {
   return rho_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::age() const
 {
   return age_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::tTurb() const
 {
   return tTurb_;
 }
+
+
 template<class ParcelType>
 inline const mousse::vector& mousse::KinematicParcel<ParcelType>::UTurb() const
 {
   return UTurb_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::rhoc() const
 {
   return rhoc_;
 }
+
+
 template<class ParcelType>
 inline const mousse::vector& mousse::KinematicParcel<ParcelType>::Uc() const
 {
   return Uc_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::muc() const
 {
   return muc_;
 }
+
+
 template<class ParcelType>
 inline bool& mousse::KinematicParcel<ParcelType>::active()
 {
   return active_;
 }
+
+
 template<class ParcelType>
 inline mousse::label& mousse::KinematicParcel<ParcelType>::typeId()
 {
   return typeId_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::KinematicParcel<ParcelType>::nParticle()
 {
   return nParticle_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::KinematicParcel<ParcelType>::d()
 {
   return d_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::KinematicParcel<ParcelType>::dTarget()
 {
   return dTarget_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector& mousse::KinematicParcel<ParcelType>::U()
 {
   return U_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::KinematicParcel<ParcelType>::rho()
 {
   return rho_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::KinematicParcel<ParcelType>::age()
 {
   return age_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::KinematicParcel<ParcelType>::tTurb()
 {
   return tTurb_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector& mousse::KinematicParcel<ParcelType>::UTurb()
 {
   return UTurb_;
 }
+
+
 template<class ParcelType>
 inline mousse::label mousse::KinematicParcel<ParcelType>::faceInterpolation() const
 {
   // Use volume-based interpolation if dealing with external faces
-  if (this->cloud().internalFace(this->face()))
-  {
+  if (this->cloud().internalFace(this->face())) {
     return this->face();
-  }
-  else
-  {
+  } else {
     return -1;
   }
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::massCell
 (
@@ -712,46 +782,64 @@ inline mousse::scalar mousse::KinematicParcel<ParcelType>::massCell
 {
   return rhoc_*this->mesh().cellVolumes()[cellI];
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::mass() const
 {
   return rho_*volume();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::momentOfInertia() const
 {
   return 0.1*mass()*sqr(d_);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::volume() const
 {
   return volume(d_);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::volume(const scalar d)
 {
   return pi/6.0*pow3(d);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::areaP() const
 {
   return areaP(d_);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::areaP(const scalar d)
 {
   return 0.25*areaS(d);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::areaS() const
 {
   return areaS(d_);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::areaS(const scalar d)
 {
   return pi*d*d;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::Re
 (
@@ -763,6 +851,8 @@ inline mousse::scalar mousse::KinematicParcel<ParcelType>::Re
 {
   return rhoc*mag(U - Uc_)*d/(muc + ROOTVSMALL);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::We
 (
@@ -774,6 +864,8 @@ inline mousse::scalar mousse::KinematicParcel<ParcelType>::We
 {
   return rhoc*magSqr(U - Uc_)*d/(sigma + ROOTVSMALL);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::KinematicParcel<ParcelType>::Eo
 (
@@ -785,6 +877,8 @@ inline mousse::scalar mousse::KinematicParcel<ParcelType>::Eo
   vector dir = U_/(mag(U_) + ROOTVSMALL);
   return mag(a & dir)*(rho_ - rhoc_)*sqr(d)/(sigma + ROOTVSMALL);
 }
+
+
 
 template<class ParcelType>
 template<class CloudType>
@@ -812,16 +906,18 @@ inline mousse::KinematicParcel<ParcelType>::TrackingData<CloudType>::TrackingDat
     )
   },
   muInterp_
-  (
+  {
     interpolation<scalar>::New
     (
       cloud.solution().interpolationSchemes(),
       cloud.mu()
     )
-  ),
+  },
   g_{cloud.g().value()},
   part_{part}
 {}
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::interpolation<mousse::scalar>&
@@ -829,6 +925,8 @@ mousse::KinematicParcel<ParcelType>::TrackingData<CloudType>::rhoInterp() const
 {
   return rhoInterp_();
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::interpolation<mousse::vector>&
@@ -836,6 +934,8 @@ mousse::KinematicParcel<ParcelType>::TrackingData<CloudType>::UInterp() const
 {
   return UInterp_();
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::interpolation<mousse::scalar>&
@@ -843,6 +943,8 @@ mousse::KinematicParcel<ParcelType>::TrackingData<CloudType>::muInterp() const
 {
   return muInterp_();
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::vector&
@@ -850,6 +952,8 @@ mousse::KinematicParcel<ParcelType>::TrackingData<CloudType>::g() const
 {
   return g_;
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline typename mousse::KinematicParcel<ParcelType>::template
@@ -858,6 +962,8 @@ mousse::KinematicParcel<ParcelType>::TrackingData<CloudType>::part() const
 {
   return part_;
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline typename mousse::KinematicParcel<ParcelType>::template
@@ -866,7 +972,7 @@ mousse::KinematicParcel<ParcelType>::TrackingData<CloudType>::part()
 {
   return part_;
 }
-#ifdef NoRepository
-  #include "_kinematic_parcel.cpp"
-#endif
+
+#include "_kinematic_parcel.ipp"
+
 #endif

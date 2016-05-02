@@ -4,8 +4,12 @@
 
 #include "basic_reacting_parcel.hpp"
 #include "_cloud.hpp"
-namespace mousse
-{
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(basicReactingParcel, 0);
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<basicReactingParcel>, 0);
+
+
+namespace mousse {
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(basicReactingParcel, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<basicReactingParcel>, 0);
+
 }
+

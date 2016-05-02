@@ -15,14 +15,15 @@
 //    - parcel velocities
 //    - inner and outer half-cone angles
 //   - Parcel diameters obtained by distribution model
-// SourceFiles
-//   _cone_injection.cpp
+
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
 #include "vector_list.hpp"
 #include "time_data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ConeInjection
 :
@@ -30,7 +31,7 @@ class ConeInjection
 {
   // Private data
     //- List of position and axis for each injector
-    List<Tuple2<vector, vector> > positionAxis_;
+    List<Tuple2<vector, vector>> positionAxis_;
     //- List of cell labels corresponding to injector positions
     labelList injectorCells_;
     //- List of tetFace labels corresponding to injector positions
@@ -72,12 +73,13 @@ public:
     //- Construct copy
     ConeInjection(const ConeInjection<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new ConeInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new ConeInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ConeInjection();
@@ -116,8 +118,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_cone_injection.cpp"
-#endif
+
+#include "_cone_injection.ipp"
+
 #endif

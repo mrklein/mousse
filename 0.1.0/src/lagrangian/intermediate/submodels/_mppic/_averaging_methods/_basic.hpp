@@ -13,15 +13,15 @@
 //   Interpolation is done assuming a constant value over each cells. Cell
 //   gradients are calculated by the default fvc::grad scheme, and are also
 //   assumed constant when interpolated.
-// SourceFiles
-//   _basic.cpp
+
 #include "_averaging_method.hpp"
 #include "point_mesh.hpp"
 #include "tet_indices.hpp"
-namespace mousse
-{
-namespace AveragingMethods
-{
+
+
+namespace mousse {
+namespace AveragingMethods {
+
 template<class Type>
 class Basic
 :
@@ -54,12 +54,13 @@ public:
     //- Construct a copy
     Basic(const Basic<Type>& am);
     //- Construct and return a clone
-    virtual autoPtr<AveragingMethod<Type> > clone() const
+    virtual autoPtr<AveragingMethod<Type>> clone() const
     {
-      return autoPtr<AveragingMethod<Type> >
-      (
-        new Basic<Type>(*this)
-      );
+      return
+        autoPtr<AveragingMethod<Type>>
+        {
+          new Basic<Type>{*this}
+        };
     }
   //- Destructor
   virtual ~Basic();
@@ -84,13 +85,14 @@ public:
       const tetIndices& tetIs
     ) const;
     //- Return an internal field of the average
-    tmp<Field<Type> > internalField() const;
+    tmp<Field<Type>> internalField() const;
     //- Return an internal field of the gradient
-    tmp<Field<TypeGrad> > internalFieldGrad() const;
+    tmp<Field<TypeGrad>> internalFieldGrad() const;
 };
+
 }  // namespace AveragingMethods
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_basic.cpp"
-#endif
+
+#include "_basic.ipp"
+
 #endif

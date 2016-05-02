@@ -9,12 +9,15 @@
 // Description
 //   Calculates particle non-inertial reference frame force.  Variable names as
 //   from Landau and Lifshitz, Mechanics, 3rd Ed, p126-129.
-// SourceFiles
-//   _non_inertial_frame_force.cpp
+
 #include "_particle_force.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 template<class CloudType>
 class NonInertialFrameForce
 :
@@ -51,12 +54,13 @@ public:
     //- Construct copy
     NonInertialFrameForce(const NonInertialFrameForce& niff);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new ParticleForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new ParticleForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NonInertialFrameForce();
@@ -83,31 +87,39 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline const mousse::vector& mousse::NonInertialFrameForce<CloudType>::W() const
 {
   return W_;
 }
+
+
 template<class CloudType>
 inline const mousse::vector& mousse::NonInertialFrameForce<CloudType>::omega() const
 {
   return omega_;
 }
+
+
 template<class CloudType>
 inline const mousse::vector&
 mousse::NonInertialFrameForce<CloudType>::omegaDot() const
 {
   return omegaDot_;
 }
+
+
 template<class CloudType>
 inline const mousse::vector&
 mousse::NonInertialFrameForce<CloudType>::centreOfRotation() const
 {
   return centreOfRotation_;
 }
-#ifdef NoRepository
-  #include "_non_inertial_frame_force.cpp"
-#endif
+
+#include "_non_inertial_frame_force.ipp"
+
 #endif

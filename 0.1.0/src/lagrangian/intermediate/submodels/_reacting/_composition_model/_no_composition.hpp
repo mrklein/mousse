@@ -9,11 +9,12 @@
 // Description
 //   Dummy class for 'none' option - will raise an error if any functions are
 //   called that require return values.
-// SourceFiles
-//   _no_composition.cpp
+
 #include "_composition_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoComposition
 :
@@ -28,12 +29,13 @@ public:
     //- Construct copy
     NoComposition(const NoComposition<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<CompositionModel<CloudType> > clone() const
+    virtual autoPtr<CompositionModel<CloudType>> clone() const
     {
-      return autoPtr<CompositionModel<CloudType> >
-      (
-        new NoComposition<CloudType>(*this)
-      );
+      return
+        autoPtr<CompositionModel<CloudType>>
+        {
+          new NoComposition<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoComposition();
@@ -52,8 +54,9 @@ public:
           //- Solid id
           virtual label idSolid() const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_composition.cpp"
-#endif
+
+#include "_no_composition.ipp"
+
 #endif

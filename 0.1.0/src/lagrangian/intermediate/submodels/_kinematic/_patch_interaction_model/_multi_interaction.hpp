@@ -47,9 +47,12 @@
 //         );
 //       }
 //     }
+
 #include "_patch_interaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class MultiInteraction
 :
@@ -58,7 +61,7 @@ class MultiInteraction
   // Private data
     Switch oneInteractionOnly_;
     //- Submodels
-    PtrList<PatchInteractionModel<CloudType> > models_;
+    PtrList<PatchInteractionModel<CloudType>> models_;
   // Private Member Functions
     //- Read settings
     bool read(const dictionary&);
@@ -71,12 +74,13 @@ public:
     //- Construct copy from owner cloud and patch interaction model
     MultiInteraction(const MultiInteraction<CloudType>& pim);
     //- Construct and return a clone using supplied owner cloud
-    virtual autoPtr<PatchInteractionModel<CloudType> > clone() const
+    virtual autoPtr<PatchInteractionModel<CloudType>> clone() const
     {
-      return autoPtr<PatchInteractionModel<CloudType> >
-      (
-        new MultiInteraction<CloudType>(*this)
-      );
+      return
+        autoPtr<PatchInteractionModel<CloudType>>
+        {
+          new MultiInteraction<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~MultiInteraction();
@@ -94,8 +98,9 @@ public:
       const tetIndices& tetIs
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_multi_interaction.cpp"
-#endif
+
+#include "_multi_interaction.ipp"
+
 #endif

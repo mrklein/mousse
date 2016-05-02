@@ -8,16 +8,17 @@
 //   mousse::ParticleForceList
 // Description
 //   List of particle forces
-// SourceFiles
-//   _particle_force_list.cpp
+
 #include "_particle_force.hpp"
 #include "force_su_sp.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ParticleForceList
 :
-  public PtrList<ParticleForce<CloudType> >
+  public PtrList<ParticleForce<CloudType>>
 {
   // Private data
     //- Reference to the owner cloud
@@ -88,39 +89,51 @@ public:
         const scalar mass
       ) const;
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline const CloudType& mousse::ParticleForceList<CloudType>::owner() const
 {
   return owner_;
 }
+
+
 template<class CloudType>
 inline CloudType& mousse::ParticleForceList<CloudType>::owner()
 {
   return owner_;
 }
+
+
 template<class CloudType>
 inline const mousse::fvMesh& mousse::ParticleForceList<CloudType>::mesh() const
 {
   return mesh_;
 }
+
+
 template<class CloudType>
 inline const mousse::dictionary& mousse::ParticleForceList<CloudType>::dict() const
 {
   return dict_;
 }
+
+
 template<class CloudType>
 inline void mousse::ParticleForceList<CloudType>::setCalcCoupled(bool flag)
 {
   calcCoupled_ = flag;
 }
+
+
 template<class CloudType>
 inline void mousse::ParticleForceList<CloudType>::setCalcNonCoupled(bool flag)
 {
   calcNonCoupled_ = flag;
 }
-#ifdef NoRepository
-  #include "_particle_force_list.cpp"
-#endif
+
+#include "_particle_force_list.ipp"
+
 #endif

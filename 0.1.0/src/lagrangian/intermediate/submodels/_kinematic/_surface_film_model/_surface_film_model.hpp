@@ -8,23 +8,25 @@
 //   mousse::SurfaceFilmModel
 // Description
 //   Templated wall surface film model class.
-// SourceFiles
-//   _surface_film_model.cpp
-//   _surface_film_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-namespace regionModels
-{
-  namespace surfaceFilmModels
-  {
-    class surfaceFilmModel;
-  }
+namespace regionModels {
+namespace surfaceFilmModels {
+
+class surfaceFilmModel;
+
 }
+}
+
+
 template<class CloudType>
 class SurfaceFilmModel
 :
@@ -139,7 +141,9 @@ public:
       //- Write surface film info to stream
       virtual void info(Ostream& os);
 };
+
 }  // namespace mousse
+
 
 #define MAKE_SURFACE_FILM_MODEL(CloudType)                                    \
                                                                               \
@@ -149,14 +153,14 @@ public:
     mousse::SurfaceFilmModel<kinematicCloudType>,                             \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      SurfaceFilmModel<kinematicCloudType>,                                   \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    SurfaceFilmModel<kinematicCloudType>,                                     \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_SURFACE_FILM_MODEL_TYPE(SS, CloudType)                           \
                                                                               \
@@ -167,34 +171,43 @@ public:
     adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>          \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
+
 // Member Functions 
 template<class CloudType>
 const mousse::dimensionedVector& mousse::SurfaceFilmModel<CloudType>::g() const
 {
   return g_;
 }
+
+
 template<class CloudType>
 mousse::label& mousse::SurfaceFilmModel<CloudType>::nParcelsTransferred()
 {
   return nParcelsTransferred_;
 }
+
+
 template<class CloudType>
 mousse::label mousse::SurfaceFilmModel<CloudType>::nParcelsTransferred() const
 {
   return nParcelsTransferred_;
 }
+
+
 template<class CloudType>
 mousse::label& mousse::SurfaceFilmModel<CloudType>::nParcelsInjected()
 {
   return nParcelsInjected_;
 }
+
+
 template<class CloudType>
 mousse::label mousse::SurfaceFilmModel<CloudType>::nParcelsInjected() const
 {
   return nParcelsInjected_;
 }
 
-#ifdef NoRepository
-#include "_surface_film_model.cpp"
-#endif
+
+#include "_surface_film_model.ipp"
+
 #endif

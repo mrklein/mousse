@@ -8,9 +8,12 @@
 //   mousse::Analytical
 // Description
 //   Analytical integration
+
 #include "_integration_scheme.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class Analytical
 :
@@ -25,12 +28,13 @@ public:
     //- Copy constructor
     Analytical(const Analytical& is);
     //- Construct and return clone
-    virtual autoPtr<IntegrationScheme<Type> > clone() const
+    virtual autoPtr<IntegrationScheme<Type>> clone() const
     {
-      return autoPtr<IntegrationScheme<Type> >
-      (
-        new Analytical<Type>(*this)
-      );
+      return
+        autoPtr<IntegrationScheme<Type>>
+        {
+          new Analytical<Type>{*this}
+        };
     }
   //- Destructor
   virtual ~Analytical();
@@ -44,8 +48,9 @@ public:
       const scalar beta
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_analytical.cpp"
-#endif
+
+#include "_analytical.ipp"
+
 #endif

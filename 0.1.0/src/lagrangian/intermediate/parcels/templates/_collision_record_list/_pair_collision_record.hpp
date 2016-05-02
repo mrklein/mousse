@@ -13,32 +13,37 @@
 //   origProcOfOther data member.  The actual processor is offset by
 //   +1.  A negative value means that the record has not been accessed,
 //   positive means that it has.
-// SourceFiles
-//   _pair_collision_record.cpp
-//   _pair_collision_record_io.cpp
+
 #include "label.hpp"
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
-template<class Type>
-class PairCollisionRecord;
+template<class Type> class PairCollisionRecord;
+
 template<class Type>
 inline bool operator==
 (
   const PairCollisionRecord<Type>&,
   const PairCollisionRecord<Type>&
 );
+
 template<class Type>
 inline bool operator!=
 (
   const PairCollisionRecord<Type>&,
   const PairCollisionRecord<Type>&
 );
+
 template<class Type>
 Istream& operator>>(Istream&, PairCollisionRecord<Type>&);
+
 template<class Type>
 Ostream& operator<<(Ostream&, const PairCollisionRecord<Type>&);
+
+
 template<class Type>
 class PairCollisionRecord
 {
@@ -117,7 +122,9 @@ public:
       const PairCollisionRecord<Type>&
     );
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class Type>
@@ -130,42 +137,58 @@ inline bool mousse::PairCollisionRecord<Type>::match
   return (queryOrigProcOfOther == origProcOfOther()
           && queryOrigIdOfOther == origIdOfOther());
 }
+
+
 template<class Type>
 inline mousse::label mousse::PairCollisionRecord<Type>::origProcOfOther() const
 {
   return mag(origProcOfOther_) - 1;
 }
+
+
 template<class Type>
 inline mousse::label mousse::PairCollisionRecord<Type>::origIdOfOther() const
 {
   return origIdOfOther_;
 }
+
+
 template<class Type>
 inline const Type&
 mousse::PairCollisionRecord<Type>::collisionData() const
 {
   return data_;
 }
+
+
 template<class Type>
 inline Type& mousse::PairCollisionRecord<Type>::collisionData()
 {
   return data_;
 }
+
+
 template<class Type>
 inline bool mousse::PairCollisionRecord<Type>::accessed() const
 {
   return pos(origProcOfOther_);
 }
+
+
 template<class Type>
 inline void mousse::PairCollisionRecord<Type>::setAccessed()
 {
   origProcOfOther_ = origProcOfOther() + 1;
 }
+
+
 template<class Type>
 inline void mousse::PairCollisionRecord<Type>::setUnaccessed()
 {
   origProcOfOther_ = -(origProcOfOther() + 1);
 }
+
+
 // Friend Operators
 template<class Type>
 inline bool mousse::operator==
@@ -178,6 +201,8 @@ inline bool mousse::operator==
           && a.origIdOfOther_ == b.origIdOfOther_
           && a.data_ == b.data_);
 }
+
+
 template<class Type>
 inline bool mousse::operator!=
 (
@@ -187,7 +212,7 @@ inline bool mousse::operator!=
 {
   return !(a == b);
 }
-#ifdef NoRepository
-#   include "_pair_collision_record.cpp"
-#endif
+
+#include "_pair_collision_record.ipp"
+
 #endif

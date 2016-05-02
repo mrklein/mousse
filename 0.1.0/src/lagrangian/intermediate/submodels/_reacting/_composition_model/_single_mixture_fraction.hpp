@@ -8,11 +8,12 @@
 //   mousse::SingleMixtureFraction
 // Description
 //   Templated parcel multi-phase, multi-component class
-// SourceFiles
-//   _single_mixture_fraction.cpp
+
 #include "_composition_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class SingleMixtureFraction
 :
@@ -42,12 +43,13 @@ public:
     //- Construct copy
     SingleMixtureFraction(const SingleMixtureFraction<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<CompositionModel<CloudType> > clone() const
+    virtual autoPtr<CompositionModel<CloudType>> clone() const
     {
-      return autoPtr<CompositionModel<CloudType> >
-      (
-        new SingleMixtureFraction<CloudType>(*this)
-      );
+      return
+        autoPtr<CompositionModel<CloudType>>
+        {
+          new SingleMixtureFraction<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~SingleMixtureFraction();
@@ -65,8 +67,8 @@ public:
           //- Solid id
           virtual label idSolid() const;
 };
-#ifdef NoRepository
-#   include "_single_mixture_fraction.cpp"
-#endif
+
+#include "_single_mixture_fraction.ipp"
+
 }  // namespace mousse
 #endif

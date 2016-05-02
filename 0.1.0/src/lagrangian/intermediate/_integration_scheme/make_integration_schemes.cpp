@@ -7,12 +7,16 @@
 #include "_analytical.hpp"
 #include "scalar.hpp"
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_INTEGRATION_SCHEME(scalar);
 MAKE_INTEGRATION_SCHEME_TYPE(Euler, scalar);
 MAKE_INTEGRATION_SCHEME_TYPE(Analytical, scalar);
 MAKE_INTEGRATION_SCHEME(vector);
 MAKE_INTEGRATION_SCHEME_TYPE(Euler, vector);
 MAKE_INTEGRATION_SCHEME_TYPE(Analytical, vector);
+
 }
+

@@ -8,6 +8,7 @@
 #include "_no_isotropy.hpp"
 #include "_stochastic.hpp"
 
+
 #define MAKE_MPPIC_PARCEL_ISOTROPY_MODELS(CloudType)                          \
                                                                               \
   MAKE_ISOTROPY_MODEL(CloudType);                                             \
@@ -16,3 +17,4 @@
   MAKE_ISOTROPY_MODEL_TYPE(Stochastic, CloudType);
 
 #endif
+

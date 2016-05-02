@@ -16,10 +16,13 @@
 //     Zuo, B., Gomes, A. M. and Rutland C. J.
 //     International Journal of Engine Research, 2000, Vol. 1(4), pp. 321-336
 //   \endverbatim
+
 #include "_phase_change_model.hpp"
 #include "liquid_mixture_properties.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class LiquidEvaporationBoil
 :
@@ -49,12 +52,13 @@ public:
     //- Construct copy
     LiquidEvaporationBoil(const LiquidEvaporationBoil<CloudType>& pcm);
     //- Construct and return a clone
-    virtual autoPtr<PhaseChangeModel<CloudType> > clone() const
+    virtual autoPtr<PhaseChangeModel<CloudType>> clone() const
     {
-      return autoPtr<PhaseChangeModel<CloudType> >
-      (
-        new LiquidEvaporationBoil<CloudType>(*this)
-      );
+      return
+        autoPtr<PhaseChangeModel<CloudType>>
+        {
+          new LiquidEvaporationBoil<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~LiquidEvaporationBoil();
@@ -88,8 +92,9 @@ public:
     //- Return maximum/limiting temperature
     virtual scalar TMax(const scalar p, const scalarField& X) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_liquid_evaporation_boil.cpp"
-#endif
+
+#include "_liquid_evaporation_boil.ipp"
+
 #endif

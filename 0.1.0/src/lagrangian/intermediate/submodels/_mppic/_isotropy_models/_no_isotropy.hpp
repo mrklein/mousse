@@ -6,14 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::IsotropyModels::NoIsotropy
-// Description
-// SourceFiles
-//   _no_isotropy.cpp
+
 #include "_isotropy_model.hpp"
-namespace mousse
-{
-namespace IsotropyModels
-{
+
+
+namespace mousse {
+namespace IsotropyModels {
+
 template<class CloudType>
 class NoIsotropy
 :
@@ -28,12 +27,13 @@ public:
     //- Construct copy
     NoIsotropy(const NoIsotropy<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<IsotropyModel<CloudType> > clone() const
+    virtual autoPtr<IsotropyModel<CloudType>> clone() const
     {
-      return autoPtr<IsotropyModel<CloudType> >
-      (
-        new NoIsotropy<CloudType>(*this)
-      );
+      return
+        autoPtr<IsotropyModel<CloudType>>
+        {
+          new NoIsotropy<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoIsotropy();
@@ -43,9 +43,10 @@ public:
     //- Return the model 'active' status
     virtual bool active() const;
 };
+
 }  // namespace IsotropyModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_isotropy.cpp"
-#endif
+
+#include "_no_isotropy.ipp"
+
 #endif

@@ -8,9 +8,12 @@
 //   mousse::NoSurfaceReaction
 // Description
 //   Dummy surface reaction model for 'none'
+
 #include "_surface_reaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoSurfaceReaction
 :
@@ -25,12 +28,13 @@ public:
     //- Construct copy
     NoSurfaceReaction(const NoSurfaceReaction<CloudType>& srm);
     //- Construct and return a clone
-    virtual autoPtr<SurfaceReactionModel<CloudType> > clone() const
+    virtual autoPtr<SurfaceReactionModel<CloudType>> clone() const
     {
-      return autoPtr<SurfaceReactionModel<CloudType> >
-      (
-        new NoSurfaceReaction<CloudType>(*this)
-      );
+      return
+        autoPtr<SurfaceReactionModel<CloudType>>
+        {
+          new NoSurfaceReaction<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoSurfaceReaction();
@@ -59,8 +63,9 @@ public:
       scalarField& dMassSRCarrier
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_surface_reaction.cpp"
-#endif
+
+#include "_no_surface_reaction.ipp"
+
 #endif

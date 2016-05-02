@@ -11,18 +11,18 @@
 //   - Adds to thermodynamic cloud
 //    - Variable composition (single phase)
 //    - Phase change
-// SourceFiles
-//   _reacting_cloud.cpp
+
 #include "reacting_cloud.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class CloudType>
-class CompositionModel;
-template<class CloudType>
-class PhaseChangeModel;
-template<class CloudType>
-class ReactingCloud
+template<class CloudType> class CompositionModel;
+template<class CloudType> class PhaseChangeModel;
+
+
+template<class CloudType> class ReactingCloud
 :
   public CloudType,
   public reactingCloud
@@ -92,18 +92,20 @@ public:
     //- Construct and return clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType>>
-      {
-        new ReactingCloud{*this, name}
-      };
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new ReactingCloud{*this, name}
+        };
     }
     //- Construct and return bare clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType>>
-      {
-        new ReactingCloud{this->mesh(), name, *this}
-      };
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new ReactingCloud{this->mesh(), name, *this}
+        };
     }
     //- Disallow default bitwise copy construct
     ReactingCloud(const ReactingCloud&) = delete;
@@ -133,14 +135,12 @@ public:
       // Sources
         //- Mass
           //- Return reference to mass source for field i
-          inline DimensionedField<scalar, volMesh>&
-            rhoTrans(const label i);
+          inline DimensionedField<scalar, volMesh>& rhoTrans(const label i);
           //- Return const access to mass source fields
           inline const PtrList<DimensionedField<scalar, volMesh>>&
             rhoTrans() const;
           //- Return reference to mass source fields
-          inline PtrList<DimensionedField<scalar, volMesh>>&
-            rhoTrans();
+          inline PtrList<DimensionedField<scalar, volMesh>>& rhoTrans();
           //- Return mass source term for specie i - specie eqn
           inline tmp<fvScalarMatrix> SYi
           (
@@ -191,7 +191,9 @@ public:
       //- Write the field data for the cloud
       virtual void writeFields() const;
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class CloudType>
@@ -200,55 +202,73 @@ mousse::ReactingCloud<CloudType>::cloudCopy() const
 {
   return cloudCopyPtr_();
 }
+
+
 template<class CloudType>
 inline const typename CloudType::particleType::constantProperties&
 mousse::ReactingCloud<CloudType>::constProps() const
 {
   return constProps_;
 }
+
+
 template<class CloudType>
 inline typename CloudType::particleType::constantProperties&
 mousse::ReactingCloud<CloudType>::constProps()
 {
   return constProps_;
 }
+
+
 template<class CloudType>
-inline const mousse::CompositionModel<mousse::ReactingCloud<CloudType> >&
+inline const mousse::CompositionModel<mousse::ReactingCloud<CloudType>>&
 mousse::ReactingCloud<CloudType>::composition() const
 {
   return compositionModel_;
 }
+
+
 template<class CloudType>
-inline const mousse::PhaseChangeModel<mousse::ReactingCloud<CloudType> >&
+inline const mousse::PhaseChangeModel<mousse::ReactingCloud<CloudType>>&
 mousse::ReactingCloud<CloudType>::phaseChange() const
 {
   return phaseChangeModel_;
 }
+
+
 template<class CloudType>
-inline mousse::PhaseChangeModel<mousse::ReactingCloud<CloudType> >&
+inline mousse::PhaseChangeModel<mousse::ReactingCloud<CloudType>>&
 mousse::ReactingCloud<CloudType>::phaseChange()
 {
   return phaseChangeModel_();
 }
+
+
 template<class CloudType>
 inline mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ReactingCloud<CloudType>::rhoTrans(const label i)
 {
   return rhoTrans_[i];
 }
+
+
 template<class CloudType>
 inline
-const mousse::PtrList<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >&
+const mousse::PtrList<mousse::DimensionedField<mousse::scalar, mousse::volMesh>>&
 mousse::ReactingCloud<CloudType>::rhoTrans() const
 {
   return rhoTrans_;
 }
+
+
 template<class CloudType>
-inline mousse::PtrList<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >&
+inline mousse::PtrList<mousse::DimensionedField<mousse::scalar, mousse::volMesh>>&
 mousse::ReactingCloud<CloudType>::rhoTrans()
 {
   return rhoTrans_;
 }
+
+
 template<class CloudType>
 inline mousse::tmp<mousse::fvScalarMatrix> mousse::ReactingCloud<CloudType>::SYi
 (
@@ -256,15 +276,12 @@ inline mousse::tmp<mousse::fvScalarMatrix> mousse::ReactingCloud<CloudType>::SYi
   volScalarField& Yi
 ) const
 {
-  if (this->solution().coupled())
-  {
-    if (this->solution().semiImplicit("Yi"))
-    {
+  if (this->solution().coupled()) {
+    if (this->solution().semiImplicit("Yi")) {
       tmp<volScalarField> trhoTrans
       {
         new volScalarField
         {
-          // IOobject
           {
             this->name() + ":rhoTrans",
             this->db().time().timeName(),
@@ -284,11 +301,9 @@ inline mousse::tmp<mousse::fvScalarMatrix> mousse::ReactingCloud<CloudType>::SYi
       const dimensionedScalar YiSMALL("YiSMALL", dimless, SMALL);
       return
         fvm::Sp(neg(sourceField)*sourceField/(Yi + YiSMALL), Yi)
-       + pos(sourceField)*sourceField;
-    }
-    else
-    {
-      tmp<fvScalarMatrix> tfvm{new fvScalarMatrix(Yi, dimMass/dimTime)};
+        + pos(sourceField)*sourceField;
+    } else {
+      tmp<fvScalarMatrix> tfvm{new fvScalarMatrix{Yi, dimMass/dimTime}};
       fvScalarMatrix& fvm = tfvm();
       fvm.source() = -rhoTrans_[i]/this->db().time().deltaTValue();
       return tfvm;
@@ -296,11 +311,13 @@ inline mousse::tmp<mousse::fvScalarMatrix> mousse::ReactingCloud<CloudType>::SYi
   }
   return tmp<fvScalarMatrix>{new fvScalarMatrix{Yi, dimMass/dimTime}};
 }
+
+
 template<class CloudType>
-inline mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >
+inline mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh>>
 mousse::ReactingCloud<CloudType>::Srho(const label i) const
 {
-  tmp<DimensionedField<scalar, volMesh> > tRhoi
+  tmp<DimensionedField<scalar, volMesh>> tRhoi
   {
     new DimensionedField<scalar, volMesh>
     {
@@ -322,22 +339,22 @@ mousse::ReactingCloud<CloudType>::Srho(const label i) const
       }
     }
   };
-  if (this->solution().coupled())
-  {
+  if (this->solution().coupled()) {
     scalarField& rhoi = tRhoi();
     rhoi = rhoTrans_[i]/(this->db().time().deltaTValue()*this->mesh().V());
   }
   return tRhoi;
 }
+
+
 template<class CloudType>
-inline mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh> >
+inline mousse::tmp<mousse::DimensionedField<mousse::scalar, mousse::volMesh>>
 mousse::ReactingCloud<CloudType>::Srho() const
 {
-  tmp<DimensionedField<scalar, volMesh> > trhoTrans
+  tmp<DimensionedField<scalar, volMesh>> trhoTrans
   {
     new DimensionedField<scalar, volMesh>
     {
-      // IOobject
       {
         this->name() + ":rhoTrans",
         this->db().time().timeName(),
@@ -347,36 +364,29 @@ mousse::ReactingCloud<CloudType>::Srho() const
         false
       },
       this->mesh(),
-      // dimensionedScalar
-      {
-        "zero",
-        rhoTrans_[0].dimensions()/dimTime/dimVolume,
-        0.0
-      }
+      {"zero", rhoTrans_[0].dimensions()/dimTime/dimVolume, 0.0}
     }
   };
-  if (this->solution().coupled())
-  {
+  if (this->solution().coupled()) {
     scalarField& sourceField = trhoTrans();
-    FOR_ALL(rhoTrans_, i)
-    {
+    FOR_ALL(rhoTrans_, i) {
       sourceField += rhoTrans_[i];
     }
     sourceField /= this->db().time().deltaTValue()*this->mesh().V();
   }
   return trhoTrans;
 }
+
+
 template<class CloudType>
 inline mousse::tmp<mousse::fvScalarMatrix>
 mousse::ReactingCloud<CloudType>::Srho(volScalarField& rho) const
 {
-  if (this->solution().coupled())
-  {
+  if (this->solution().coupled()) {
     tmp<volScalarField> trhoTrans
     {
       new volScalarField
       {
-        // IOobject
         {
           this->name() + ":rhoTrans",
           this->db().time().timeName(),
@@ -386,36 +396,30 @@ mousse::ReactingCloud<CloudType>::Srho(volScalarField& rho) const
           false
         },
         this->mesh(),
-        // dimensionedScalar("zero", dimMass/dimTime/dimVolume, 0.0)
         {"zero", dimMass/dimTime/dimVolume, 0.0}
       }
     };
     scalarField& sourceField = trhoTrans();
-    if (this->solution().semiImplicit("rho"))
-    {
-      FOR_ALL(rhoTrans_, i)
-      {
+    if (this->solution().semiImplicit("rho")) {
+      FOR_ALL(rhoTrans_, i) {
         sourceField += rhoTrans_[i];
       }
       sourceField /= this->db().time().deltaTValue()*this->mesh().V();
       return fvm::SuSp(trhoTrans()/rho, rho);
-    }
-    else
-    {
+    } else {
       tmp<fvScalarMatrix> tfvm{new fvScalarMatrix{rho, dimMass/dimTime}};
       fvScalarMatrix& fvm = tfvm();
-      FOR_ALL(rhoTrans_, i)
-      {
+      FOR_ALL(rhoTrans_, i) {
         sourceField += rhoTrans_[i];
       }
       fvm.source() = -trhoTrans()/this->db().time().deltaT();
       return tfvm;
     }
   }
-  return tmp<fvScalarMatrix>(new fvScalarMatrix(rho, dimMass/dimTime));
+  return tmp<fvScalarMatrix>{new fvScalarMatrix{rho, dimMass/dimTime}};
 }
 
-#ifdef NoRepository
-#   include "_reacting_cloud.cpp"
+#include "_reacting_cloud.ipp"
+
 #endif
-#endif
+

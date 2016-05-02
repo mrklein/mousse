@@ -17,15 +17,15 @@
 //   calculated directly from the point values using a first order finite
 //   element basis. The computed gradient is assumed constant over the
 //   tethrahedron.
-// SourceFiles
-//   _dual.cpp
+
 #include "_averaging_method.hpp"
 #include "point_mesh.hpp"
 #include "tet_indices.hpp"
-namespace mousse
-{
-namespace AveragingMethods
-{
+
+
+namespace mousse {
+namespace AveragingMethods {
+
 template<class Type>
 class Dual
 :
@@ -75,12 +75,13 @@ public:
     //- Construct a copy
     Dual(const Dual<Type>& am);
     //- Construct and return a clone
-    virtual autoPtr<AveragingMethod<Type> > clone() const
+    virtual autoPtr<AveragingMethod<Type>> clone() const
     {
-      return autoPtr<AveragingMethod<Type> >
-      (
-        new Dual<Type>(*this)
-      );
+      return
+        autoPtr<AveragingMethod<Type>>
+        {
+          new Dual<Type>{*this}
+        };
     }
   //- Destructor
   virtual ~Dual();
@@ -108,13 +109,14 @@ public:
     void average();
     void average(const AveragingMethod<scalar>& weight);
     //- Return an internal field of the average
-    tmp<Field<Type> > internalField() const;
+    tmp<Field<Type>> internalField() const;
     //- Return an internal field of the gradient
-    tmp<Field<TypeGrad> > internalFieldGrad() const;
+    tmp<Field<TypeGrad>> internalFieldGrad() const;
 };
+
 }  // namespace AveragingMethods
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_dual.cpp"
-#endif
+
+#include "_dual.ipp"
+
 #endif

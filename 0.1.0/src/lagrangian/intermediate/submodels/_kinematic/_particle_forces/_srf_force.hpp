@@ -8,13 +8,16 @@
 //   mousse::SRFForce
 // Description
 //   Calculates particle SRF reference frame force
-// SourceFiles
-//   _srf_force.cpp
+
 #include "_particle_force.hpp"
 #include "srf_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 template<class CloudType>
 class SRFForce
 :
@@ -37,12 +40,13 @@ public:
     //- Construct copy
     SRFForce(const SRFForce& srff);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new ParticleForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new ParticleForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~SRFForce();
@@ -60,8 +64,9 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "_srf_force.cpp"
-#endif
+
+#include "_srf_force.ipp"
+
 #endif

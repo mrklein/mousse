@@ -8,11 +8,12 @@
 //   mousse::reactingMultiphaseCloud
 // Description
 //   Virtual abstract base class for templated reactingMultiphaseCloud
-// SourceFiles
-//   reacting_multiphase_cloud.cpp
+
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class reactingMultiphaseCloud
 {
 public:
@@ -28,5 +29,8 @@ public:
   //- Destructor
   virtual ~reactingMultiphaseCloud();
 };
+
 }  // namespace mousse
+
 #endif
+

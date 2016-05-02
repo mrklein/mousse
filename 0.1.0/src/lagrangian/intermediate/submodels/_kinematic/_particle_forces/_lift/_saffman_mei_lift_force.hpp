@@ -8,11 +8,12 @@
 //   mousse::SaffmanMeiLiftForce
 // Description
 //   Saffman-Mei particle lift force model applicable to spherical particles.
-// SourceFiles
-//   _saffman_mei_lift_force.cpp
+
 #include "_lift_force.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class SaffmanMeiLiftForce
 :
@@ -43,18 +44,21 @@ public:
     //- Construct copy
     SaffmanMeiLiftForce(const SaffmanMeiLiftForce& lf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new SaffmanMeiLiftForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new SaffmanMeiLiftForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~SaffmanMeiLiftForce();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "_saffman_mei_lift_force.cpp"
+
+#include "_saffman_mei_lift_force.ipp"
+
 #endif
-#endif
+

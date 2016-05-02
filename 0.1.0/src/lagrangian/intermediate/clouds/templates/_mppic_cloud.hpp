@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TMPPIC_CLOUD_HPP_
+#define LAGRANGIAN_INTERMEDIATE_CLOUDS_TEMPLATES_TMPPIC_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,25 +8,23 @@
 //   mousse::MPPICCloud
 // Description
 //   Adds MPPIC modelling to kinematic clouds
-// SourceFiles
-//   _mppic_cloud.cpp
-#ifndef mppic_cloud_hpp_
-#define mppic_cloud_hpp_
+
 #include "particle.hpp"
 #include "_cloud.hpp"
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class CloudType>
-class PackingModel;
-template<class CloudType>
-class DampingModel;
-template<class CloudType>
-class IsotropyModel;
+template<class CloudType> class PackingModel;
+template<class CloudType> class DampingModel;
+template<class CloudType> class IsotropyModel;
+
+
 template<class CloudType>
 class MPPICCloud
 :
@@ -47,11 +48,9 @@ protected:
       //- Packing model
       autoPtr<PackingModel<MPPICCloud<CloudType>>> packingModel_;
       //- Damping model
-      autoPtr<DampingModel<MPPICCloud<CloudType>>>
-        dampingModel_;
+      autoPtr<DampingModel<MPPICCloud<CloudType>>> dampingModel_;
       //- Exchange model
-      autoPtr<IsotropyModel<MPPICCloud<CloudType>>>
-        isotropyModel_;
+      autoPtr<IsotropyModel<MPPICCloud<CloudType>>> isotropyModel_;
     // Initialisation
       //- Set cloud sub-models
       void setModels();
@@ -83,18 +82,20 @@ public:
     //- Construct and return clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType>>
-      {
-        new MPPICCloud{*this, name}
-      };
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new MPPICCloud{*this, name}
+        };
     }
     //- Construct and return bare clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType>>
-      {
-        new MPPICCloud{this->mesh(), name, *this}
-      };
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new MPPICCloud{this->mesh(), name, *this}
+        };
     }
     //- Disallow default bitwise copy construct
     MPPICCloud(const MPPICCloud&) = delete;
@@ -135,7 +136,9 @@ public:
       //- Print cloud information
       void info();
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class CloudType>
@@ -144,36 +147,48 @@ mousse::MPPICCloud<CloudType>::cloudCopy() const
 {
   return cloudCopyPtr_();
 }
+
+
 template<class CloudType>
 inline const mousse::PackingModel<mousse::MPPICCloud<CloudType>>&
 mousse::MPPICCloud<CloudType>::packingModel() const
 {
   return packingModel_();
 }
+
+
 template<class CloudType>
 inline mousse::PackingModel<mousse::MPPICCloud<CloudType>>&
 mousse::MPPICCloud<CloudType>::packingModel()
 {
   return packingModel_();
 }
+
+
 template<class CloudType>
 inline const mousse::DampingModel<mousse::MPPICCloud<CloudType>>&
 mousse::MPPICCloud<CloudType>::dampingModel() const
 {
   return dampingModel_();
 }
+
+
 template<class CloudType>
 inline mousse::DampingModel<mousse::MPPICCloud<CloudType>>&
 mousse::MPPICCloud<CloudType>::dampingModel()
 {
   return dampingModel_();
 }
+
+
 template<class CloudType>
 inline const mousse::IsotropyModel<mousse::MPPICCloud<CloudType>>&
 mousse::MPPICCloud<CloudType>::isotropyModel() const
 {
   return isotropyModel_();
 }
+
+
 template<class CloudType>
 inline mousse::IsotropyModel<mousse::MPPICCloud<CloudType>>&
 mousse::MPPICCloud<CloudType>::isotropyModel()
@@ -181,7 +196,6 @@ mousse::MPPICCloud<CloudType>::isotropyModel()
   return isotropyModel_();
 }
 
-#ifdef NoRepository
-#   include "_mppic_cloud.cpp"
-#endif
+#include "_mppic_cloud.ipp"
+
 #endif

@@ -8,9 +8,12 @@
 //   mousse::NoPhaseChange
 // Description
 //   Dummy phase change model for 'none'
+
 #include "_phase_change_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoPhaseChange
 :
@@ -25,12 +28,13 @@ public:
     //- Construct copy
     NoPhaseChange(const NoPhaseChange<CloudType>& pcm);
     //- Construct and return a clone
-    virtual autoPtr<PhaseChangeModel<CloudType> > clone() const
+    virtual autoPtr<PhaseChangeModel<CloudType>> clone() const
     {
-      return autoPtr<PhaseChangeModel<CloudType> >
-      (
-        new NoPhaseChange<CloudType>(*this)
-      );
+      return
+        autoPtr<PhaseChangeModel<CloudType>>
+        {
+          new NoPhaseChange<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoPhaseChange();
@@ -54,8 +58,9 @@ public:
       scalarField& dMassPC
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_phase_change.cpp"
-#endif
+
+#include "_no_phase_change.ipp"
+
 #endif

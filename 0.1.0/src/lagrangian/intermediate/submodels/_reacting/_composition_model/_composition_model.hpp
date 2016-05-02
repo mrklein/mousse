@@ -10,9 +10,7 @@
 //   Templated reacting parcel composition model class
 //   Consists of carrier species (via thermo package), and additional liquids
 //   and solids
-// SourceFiles
-//   _composition_model.cpp
-//   _composition_model_new.cpp
+
 #include "_cloud_sub_model_base.hpp"
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
@@ -20,8 +18,10 @@
 #include "ptr_list.hpp"
 #include "slg_thermo.hpp"
 #include "phase_properties_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class CompositionModel
 :
@@ -60,11 +60,11 @@ public:
     //- Construct copy
     CompositionModel(const CompositionModel<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<CompositionModel<CloudType> > clone() const = 0;
+    virtual autoPtr<CompositionModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~CompositionModel();
   //- Selector
-  static autoPtr<CompositionModel<CloudType> > New
+  static autoPtr<CompositionModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -171,7 +171,9 @@ public:
         const scalar T
       ) const;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_COMPOSITION_MODEL(CloudType)                                     \
                                                                               \
@@ -181,14 +183,14 @@ public:
     mousse::CompositionModel<reactingCloudType>,                              \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      CompositionModel<reactingCloudType>,                                    \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    CompositionModel<reactingCloudType>,                                      \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_COMPOSITION_MODEL_TYPE(SS, CloudType)                            \
                                                                               \
@@ -196,10 +198,10 @@ public:
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<reactingCloudType>, 0);\
                                                                               \
   mousse::CompositionModel<reactingCloudType>::                               \
-    adddictionaryConstructorToTable<mousse::SS<reactingCloudType> >           \
+    adddictionaryConstructorToTable<mousse::SS<reactingCloudType>>            \
       add##SS##CloudType##reactingCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_composition_model.cpp"
-#endif
+
+#include "_composition_model.ipp"
+
 #endif

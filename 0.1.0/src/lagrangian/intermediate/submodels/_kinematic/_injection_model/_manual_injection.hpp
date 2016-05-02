@@ -14,13 +14,14 @@
 //    - Initial parcel velocity
 //   - Parcel diameters obtained by distribution model
 //   - All parcels introduced at SOI
-// SourceFiles
-//   _manual_injection.cpp
+
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ManualInjection
 :
@@ -59,12 +60,13 @@ public:
     //- Construct copy
     ManualInjection(const ManualInjection<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new ManualInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new ManualInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ManualInjection();
@@ -103,8 +105,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_manual_injection.cpp"
-#endif
+
+#include "_manual_injection.ipp"
+
 #endif

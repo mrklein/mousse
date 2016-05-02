@@ -8,19 +8,20 @@
 //   mousse::basicThermoParcel
 // Description
 //   Definition of basic thermo parcel
-// SourceFiles
-//   basic_thermo_parcel.cpp
+
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"
 #include "_thermo_parcel.hpp"
-namespace mousse
-{
-  typedef ThermoParcel<KinematicParcel<particle> > basicThermoParcel;
-  template<>
-  inline bool contiguous<basicThermoParcel>()
-  {
-    return true;
-  }
+
+
+namespace mousse {
+
+typedef ThermoParcel<KinematicParcel<particle>> basicThermoParcel;
+
+template<> inline bool contiguous<basicThermoParcel>() { return true; }
+
 }
+
 #endif
+

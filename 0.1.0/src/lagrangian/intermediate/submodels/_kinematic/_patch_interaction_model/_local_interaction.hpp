@@ -8,11 +8,14 @@
 //   mousse::LocalInteraction
 // Description
 //   Patch interaction specified on a patch-by-patch basis
+
 #include "_patch_interaction_model.hpp"
 #include "patch_interaction_data_list.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class LocalInteraction
 :
@@ -45,12 +48,13 @@ public:
     //- Construct copy from owner cloud and patch interaction model
     LocalInteraction(const LocalInteraction<CloudType>& pim);
     //- Construct and return a clone using supplied owner cloud
-    virtual autoPtr<PatchInteractionModel<CloudType> > clone() const
+    virtual autoPtr<PatchInteractionModel<CloudType>> clone() const
     {
-      return autoPtr<PatchInteractionModel<CloudType> >
-      (
-        new LocalInteraction<CloudType>(*this)
-      );
+      return
+        autoPtr<PatchInteractionModel<CloudType>>
+        {
+          new LocalInteraction<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~LocalInteraction();
@@ -73,8 +77,9 @@ public:
       //- Write patch interaction info to stream
       virtual void info(Ostream& os);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_local_interaction.cpp"
-#endif
+
+#include "_local_interaction.ipp"
+
 #endif

@@ -8,24 +8,29 @@
 //   mousse::thermoParcelInjectionData
 // Description
 //   Container class to provide injection data for thermodynamic parcels
-// SourceFiles
-//   thermo_parcel_injection_data.cpp
+
 #include "kinematic_parcel_injection_data.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class thermoParcelInjectionData;
+
 // Forward declaration of friend functions
 Ostream& operator<<
 (
   Ostream&,
   const thermoParcelInjectionData&
 );
+
 Istream& operator>>
 (
   Istream&,
   thermoParcelInjectionData&
 );
+
+
 class thermoParcelInjectionData
 :
   public kinematicParcelInjectionData
@@ -72,22 +77,32 @@ public:
       thermoParcelInjectionData& data
     );
 };
+
 }  // namespace mousse
+
 
 inline mousse::scalar mousse::thermoParcelInjectionData::T() const
 {
   return T_;
 }
+
+
 inline mousse::scalar mousse::thermoParcelInjectionData::Cp() const
 {
   return Cp_;
 }
+
+
 inline mousse::scalar& mousse::thermoParcelInjectionData::T()
 {
   return T_;
 }
+
+
 inline mousse::scalar& mousse::thermoParcelInjectionData::Cp()
 {
   return Cp_;
 }
+
 #endif
+

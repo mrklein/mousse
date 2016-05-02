@@ -8,11 +8,14 @@
 //   mousse::PairSpringSliderDashpot
 // Description
 //   Pair forces between particles colliding with a spring, slider, damper model
+
 #include "_pair_model.hpp"
 #include "_collision_record_list.hpp"
 #include "mathematical_constants.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class PairSpringSliderDashpot
 :
@@ -89,13 +92,10 @@ public:
       // http://mathworld.wolfram.com/Sphere-SphereIntersection.html
       return
         mathematical::pi/4.0
-       /sqr(rAB)
-       *(
-          (-rAB + rA - rB)
-         *(-rAB - rA + rB)
-         *(-rAB + rA + rB)
-         *( rAB + rA + rB)
-        );
+        /sqr(rAB)
+        *(
+          (-rAB + rA - rB)*(-rAB - rA + rB)*(-rAB + rA + rB)*( rAB + rA + rB)
+         );
     }
     //- Whether the PairModel has a timestep limit that will
     //  require subCycling
@@ -111,8 +111,9 @@ public:
       typename CloudType::parcelType& pB
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_pair_spring_slider_dashpot.cpp"
-#endif
+
+#include "_pair_spring_slider_dashpot.ipp"
+
 #endif

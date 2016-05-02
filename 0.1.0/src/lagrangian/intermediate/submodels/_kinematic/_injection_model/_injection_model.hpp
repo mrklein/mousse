@@ -17,17 +17,17 @@
 //   populated using values supplied in the constant properties.
 //   If, however, all of a parcel's properties are described in the model, the
 //   fullDescribed() flag should be set to 1 (true).
-// SourceFiles
-//   _injection_model.cpp
-//   _injection_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
 #include "vector.hpp"
 #include "time_data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class InjectionModel
 :
@@ -143,18 +143,18 @@ public:
     //- Construct copy
     InjectionModel(const InjectionModel<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const = 0;
+    virtual autoPtr<InjectionModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~InjectionModel();
   // Selectors
     //- Selector with lookup from dictionary
-    static autoPtr<InjectionModel<CloudType> > New
+    static autoPtr<InjectionModel<CloudType>> New
     (
       const dictionary& dict,
       CloudType& owner
     );
     //- Selector with name and type
-    static autoPtr<InjectionModel<CloudType> > New
+    static autoPtr<InjectionModel<CloudType>> New
     (
       const dictionary& dict,
       const word& modelName,
@@ -239,23 +239,22 @@ public:
     0                                                                         \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      InjectionModel<kinematicCloudType>,                                     \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    InjectionModel<kinematicCloudType>,                                       \
+    dictionary                                                                \
+  );                                                                          \
   }
 
 
 #define MAKE_INJECTION_MODEL_TYPE(SS, CloudType)                              \
                                                                               \
   typedef mousse::CloudType::kinematicCloudType kinematicCloudType;           \
-  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);     \
+  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::InjectionModel<kinematicCloudType>::                                \
-    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \
+    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>           \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
 
@@ -264,33 +263,42 @@ mousse::scalar mousse::InjectionModel<CloudType>::timeStart() const
 {
   return SOI_;
 }
+
+
 template<class CloudType>
 mousse::scalar mousse::InjectionModel<CloudType>::volumeTotal() const
 {
   return volumeTotal_;
 }
+
+
 template<class CloudType>
 mousse::scalar mousse::InjectionModel<CloudType>::massTotal() const
 {
   return massTotal_;
 }
+
+
 template<class CloudType>
 mousse::scalar mousse::InjectionModel<CloudType>::massInjected() const
 {
   return massInjected_;
 }
+
+
 template<class CloudType>
 mousse::label mousse::InjectionModel<CloudType>::nInjections() const
 {
   return nInjections_;
 }
+
+
 template<class CloudType>
 mousse::label mousse::InjectionModel<CloudType>::parcelsAddedTotal() const
 {
   return parcelsAddedTotal_;
 }
 
-#ifdef NoRepository
-#   include "_injection_model.cpp"
-#endif
+#include "_injection_model.ipp"
+
 #endif

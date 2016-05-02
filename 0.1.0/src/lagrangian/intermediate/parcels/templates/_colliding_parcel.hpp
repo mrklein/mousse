@@ -8,20 +8,21 @@
 //   mousse::CollidingParcel
 // Description
 //   Wrapper around kinematic parcel types to add collision modelling
-// SourceFiles
-//   _colliding_parcel.cpp
-//   _colliding_parcel_io.cpp
+
 #include "particle.hpp"
 #include "_collision_record_list.hpp"
 #include "label_field_io_field.hpp"
 #include "vector_field_io_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef CollisionRecordList<vector, vector> collisionRecordList;
 typedef vectorFieldCompactIOField pairDataFieldCompactIOField;
 typedef vectorFieldCompactIOField wallDataFieldCompactIOField;
-template<class ParcelType>
-class CollidingParcel;
+
+template<class ParcelType> class CollidingParcel;
+
 // Forward declaration of friend functions
 template<class ParcelType>
 Ostream& operator<<
@@ -29,6 +30,8 @@ Ostream& operator<<
   Ostream&,
   const CollidingParcel<ParcelType>&
 );
+
+
 template<class ParcelType>
 class CollidingParcel
 :
@@ -78,19 +81,19 @@ public:
     //- Runtime type information
     TYPE_NAME("CollidingParcel");
     //- String representation of properties
-    AddToPropertyList
+    ADD_TO_PROPERTY_LIST
     (
       ParcelType,
       " (fx fy fz)"
-     + " (angularMomentumx angularMomentumy angularMomentumz)"
-     + " (torquex torquey torquez)"
-     + " collisionRecordsPairAccessed"
-     + " collisionRecordsPairOrigProcOfOther"
-     + " collisionRecordsPairOrigIdOfOther"
-     + " (collisionRecordsPairData)"
-     + " collisionRecordsWallAccessed"
-     + " collisionRecordsWallPRel"
-     + " (collisionRecordsWallData)"
+      + " (angularMomentumx angularMomentumy angularMomentumz)"
+      + " (torquex torquey torquez)"
+      + " collisionRecordsPairAccessed"
+      + " collisionRecordsPairOrigProcOfOther"
+      + " collisionRecordsPairOrigIdOfOther"
+      + " (collisionRecordsPairData)"
+      + " collisionRecordsWallAccessed"
+      + " collisionRecordsWallPRel"
+      + " (collisionRecordsWallData)"
     );
   // Constructors
     //- Construct from owner, position, and cloud owner
@@ -135,12 +138,12 @@ public:
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new CollidingParcel(*this));
+      return autoPtr<particle>{new CollidingParcel{*this}};
     }
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone(const polyMesh& mesh) const
     {
-      return autoPtr<particle>(new CollidingParcel(*this, mesh));
+      return autoPtr<particle>{new CollidingParcel{*this, mesh}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -150,14 +153,15 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
-      autoPtr<CollidingParcel<ParcelType> > operator()(Istream& is) const
+      autoPtr<CollidingParcel<ParcelType>> operator()(Istream& is) const
       {
-        return autoPtr<CollidingParcel<ParcelType> >
-        (
-          new CollidingParcel<ParcelType>(mesh_, is, true)
-        );
+        return
+          autoPtr<CollidingParcel<ParcelType>>
+          {
+            new CollidingParcel<ParcelType>{mesh_, is, true}
+          };
       }
     };
   // Member Functions
@@ -204,7 +208,9 @@ public:
       const CollidingParcel<ParcelType>&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ParcelType>
@@ -215,6 +221,8 @@ constantProperties()
   youngsModulus_{this->dict_, 0.0},
   poissonsRatio_{this->dict_, 0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::CollidingParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -225,6 +233,8 @@ inline mousse::CollidingParcel<ParcelType>::constantProperties::constantProperti
   youngsModulus_{cp.youngsModulus_},
   poissonsRatio_{cp.poissonsRatio_}
 {}
+
+
 template<class ParcelType>
 inline mousse::CollidingParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -235,6 +245,8 @@ inline mousse::CollidingParcel<ParcelType>::constantProperties::constantProperti
   youngsModulus_{this->dict_, "youngsModulus"},
   poissonsRatio_{this->dict_, "poissonsRatio"}
 {}
+
+
 template<class ParcelType>
 inline mousse::CollidingParcel<ParcelType>::CollidingParcel
 (
@@ -251,6 +263,8 @@ inline mousse::CollidingParcel<ParcelType>::CollidingParcel
   torque_{vector::zero},
   collisionRecords_{}
 {}
+
+
 template<class ParcelType>
 inline mousse::CollidingParcel<ParcelType>::CollidingParcel
 (
@@ -289,6 +303,8 @@ inline mousse::CollidingParcel<ParcelType>::CollidingParcel
   torque_{torque0},
   collisionRecords_{}
 {}
+
+
 // constantProperties Member Functions
 template<class ParcelType>
 inline mousse::scalar
@@ -296,62 +312,82 @@ mousse::CollidingParcel<ParcelType>::constantProperties::youngsModulus() const
 {
   return youngsModulus_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::CollidingParcel<ParcelType>::constantProperties::poissonsRatio() const
 {
   return poissonsRatio_.value();
 }
+
+
 // CollidingParcel Member Functions 
 template<class ParcelType>
 inline const mousse::vector& mousse::CollidingParcel<ParcelType>::f() const
 {
   return f_;
 }
+
+
 template<class ParcelType>
 inline const mousse::vector&
 mousse::CollidingParcel<ParcelType>::angularMomentum() const
 {
   return angularMomentum_;
 }
+
+
 template<class ParcelType>
 inline const mousse::vector& mousse::CollidingParcel<ParcelType>::torque() const
 {
   return torque_;
 }
+
+
 template<class ParcelType>
 inline const mousse::collisionRecordList&
 mousse::CollidingParcel<ParcelType>::collisionRecords() const
 {
   return collisionRecords_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector& mousse::CollidingParcel<ParcelType>::f()
 {
   return f_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector& mousse::CollidingParcel<ParcelType>::angularMomentum()
 {
   return angularMomentum_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector& mousse::CollidingParcel<ParcelType>::torque()
 {
   return torque_;
 }
+
+
 template<class ParcelType>
 inline mousse::collisionRecordList&
 mousse::CollidingParcel<ParcelType>::collisionRecords()
 {
   return collisionRecords_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector mousse::CollidingParcel<ParcelType>::omega() const
 {
   return angularMomentum_/this->momentOfInertia();
 }
-#ifdef NoRepository
-  #include "_colliding_parcel.cpp"
-#endif
+
+#include "_colliding_parcel.ipp"
+
 #endif

@@ -5,7 +5,6 @@
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "_cell_zone_injection.hpp"
 #include "_cone_injection.hpp"
 #include "_cone_nozzle_injection.hpp"
@@ -16,6 +15,7 @@
 #include "_no_injection.hpp"
 #include "_patch_injection.hpp"
 #include "_patch_flow_rate_injection.hpp"
+
 
 #define MAKE_PARCEL_INJECTION_MODELS(CloudType)                               \
                                                                               \
@@ -33,3 +33,4 @@
   MAKE_INJECTION_MODEL_TYPE(PatchFlowRateInjection, CloudType);
 
 #endif
+

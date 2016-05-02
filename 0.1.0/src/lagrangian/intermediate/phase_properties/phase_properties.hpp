@@ -8,15 +8,15 @@
 //   mousse::phaseProperties
 // Description
 //   Helper class to manage multi-specie phase properties
-// SourceFiles
-//   phase_properties.cpp
-//   phase_properties_io.cpp
+
 #include "named_enum.hpp"
 #include "tuple2.hpp"
 #include "ptr_list.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class phaseProperties
 {
 public:
@@ -95,5 +95,8 @@ public:
     friend Istream& operator>>(Istream&, phaseProperties&);
     friend Ostream& operator<<(Ostream&, const phaseProperties&);
 };
+
 }  // namespace mousse
+
 #endif
+

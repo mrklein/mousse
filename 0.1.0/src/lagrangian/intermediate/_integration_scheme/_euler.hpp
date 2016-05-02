@@ -8,9 +8,12 @@
 //   mousse::Euler
 // Description
 //   Euler-implicit integration
+
 #include "_integration_scheme.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class Euler
 :
@@ -25,9 +28,9 @@ public:
     //- Copy constructor
     Euler(const Euler& is);
     //- Construct and return clone
-    virtual autoPtr<IntegrationScheme<Type> > clone() const
+    virtual autoPtr<IntegrationScheme<Type>> clone() const
     {
-      return autoPtr<IntegrationScheme<Type> >(new Euler<Type>(*this));
+      return autoPtr<IntegrationScheme<Type>>{new Euler<Type>{*this}};
     }
   //- Destructor
   virtual ~Euler();
@@ -41,8 +44,9 @@ public:
       const scalar beta
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_euler.cpp"
-#endif
+
+#include "_euler.ipp"
+
 #endif

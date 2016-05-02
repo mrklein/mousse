@@ -8,14 +8,15 @@
 //   mousse::phasePropertiesList
 // Description
 //   Simple container for a list of phase properties
-// SourceFiles
-//   phase_properties_list.cpp
+
 #include "istream.hpp"
 #include "vol_fields.hpp"
 #include "word_list.hpp"
 #include "phase_properties.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class phasePropertiesList
 {
   // Private data
@@ -51,5 +52,8 @@ public:
   // Member operators
     const phaseProperties& operator[](const label) const;
 };
+
 }  // namespace mousse
+
 #endif
+

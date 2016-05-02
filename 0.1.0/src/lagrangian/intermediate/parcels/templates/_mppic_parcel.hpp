@@ -8,20 +8,19 @@
 //   mousse::MPPICParcel
 // Description
 //   Wrapper around kinematic parcel types to add MPPIC modelling
-// SourceFiles
-//   _mppic_parcel.cpp
-//   _mppic_parcel_io.cpp
+
 #include "particle.hpp"
 #include "label_field_io_field.hpp"
 #include "vector_field_io_field.hpp"
 #include "_averaging_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of clases
-template<class ParcelType>
-class MPPICParcel;
-template<class Type>
-class AveragingMethod;
+template<class ParcelType> class MPPICParcel;
+template<class Type> class AveragingMethod;
+
 // Forward declaration of friend functions
 template<class ParcelType>
 Ostream& operator<<
@@ -29,6 +28,8 @@ Ostream& operator<<
   Ostream&,
   const MPPICParcel<ParcelType>&
 );
+
+
 template<class ParcelType>
 class MPPICParcel
 :
@@ -55,19 +56,19 @@ public:
     // Private data
       // MPPIC Averages
         //- Volume average
-        autoPtr<AveragingMethod<scalar> > volumeAverage_;
+        autoPtr<AveragingMethod<scalar>> volumeAverage_;
         //- Radius average [ volume^(1/3) ]
-        autoPtr<AveragingMethod<scalar> > radiusAverage_;
+        autoPtr<AveragingMethod<scalar>> radiusAverage_;
         //- Density average
-        autoPtr<AveragingMethod<scalar> > rhoAverage_;
+        autoPtr<AveragingMethod<scalar>> rhoAverage_;
         //- Velocity average
-        autoPtr<AveragingMethod<vector> > uAverage_;
+        autoPtr<AveragingMethod<vector>> uAverage_;
         //- Magnitude velocity sqyuared average
-        autoPtr<AveragingMethod<scalar> > uSqrAverage_;
+        autoPtr<AveragingMethod<scalar>> uSqrAverage_;
         //- Frequency average
-        autoPtr<AveragingMethod<scalar> > frequencyAverage_;
+        autoPtr<AveragingMethod<scalar>> frequencyAverage_;
         //- Mass average
-        autoPtr<AveragingMethod<scalar> > massAverage_;
+        autoPtr<AveragingMethod<scalar>> massAverage_;
       //- Label specifying the current part of the tracking process
       trackPart part_;
   public:
@@ -95,7 +96,7 @@ public:
     //- Runtime type information
     TYPE_NAME("MPPICParcel");
     //- String representation of properties
-    AddToPropertyList
+    ADD_TO_PROPERTY_LIST
     (
       ParcelType,
       "(UCorrectx UCorrecty UCorrectz)"
@@ -141,12 +142,12 @@ public:
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new MPPICParcel(*this));
+      return autoPtr<particle>{new MPPICParcel{*this}};
     }
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone(const polyMesh& mesh) const
     {
-      return autoPtr<particle>(new MPPICParcel(*this, mesh));
+      return autoPtr<particle>{new MPPICParcel{*this, mesh}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -156,14 +157,14 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
-      autoPtr<MPPICParcel<ParcelType> > operator()(Istream& is) const
+      autoPtr<MPPICParcel<ParcelType>> operator()(Istream& is) const
       {
-        return autoPtr<MPPICParcel<ParcelType> >
-        (
-          new MPPICParcel<ParcelType>(mesh_, is, true)
-        );
+        return autoPtr<MPPICParcel<ParcelType>>
+        {
+          new MPPICParcel<ParcelType>{mesh_, is, true}
+        };
       }
     };
   // Member Functions
@@ -191,7 +192,9 @@ public:
         const MPPICParcel<ParcelType>&
       );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ParcelType>
@@ -207,6 +210,8 @@ inline mousse::MPPICParcel<ParcelType>::MPPICParcel
   ParcelType{owner, position, cellI, tetFaceI, tetPtI},
   UCorrect_{vector::zero}
 {}
+
+
 template<class ParcelType>
 inline mousse::MPPICParcel<ParcelType>::MPPICParcel
 (
@@ -240,17 +245,23 @@ inline mousse::MPPICParcel<ParcelType>::MPPICParcel
   },
   UCorrect_{UCorrect0}
 {}
+
+
 // Member Functions 
 template<class ParcelType>
 inline const mousse::vector& mousse::MPPICParcel<ParcelType>::UCorrect() const
 {
   return UCorrect_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector& mousse::MPPICParcel<ParcelType>::UCorrect()
 {
   return UCorrect_;
 }
+
+
 
 template<class ParcelType>
 template<class CloudType>
@@ -361,6 +372,8 @@ inline mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::TrackingData
   },
   part_(part)
 {}
+
+
 template<class ParcelType>
 template<class CloudType>
 inline void
@@ -378,24 +391,22 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   frequencyAverage_() = 0;
   massAverage_() = 0;
   // temporary weights
-  autoPtr<AveragingMethod<scalar> > weightAveragePtr
-  (
+  autoPtr<AveragingMethod<scalar>> weightAveragePtr
+  {
     AveragingMethod<scalar>::New
     (
-      IOobject
-      (
+      {
         cloud.name() + ":weightAverage",
         cloud.db().time().timeName(),
         cloud.mesh()
-      ),
+      },
       cloud.solution().dict(),
       cloud.mesh()
     )
-  );
+  };
   AveragingMethod<scalar>& weightAverage = weightAveragePtr();
   // averaging sums
-  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter)
-  {
+  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter) {
     const typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), cloud.mesh());
     const scalar m = p.nParticle()*p.mass();
@@ -409,8 +420,7 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   rhoAverage_->average(massAverage_);
   uAverage_->average(massAverage_);
   // squared velocity deviation
-  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter)
-  {
+  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter) {
     const typename CloudType::parcelType& p = iter();
     const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), cloud.mesh());
     const vector u = uAverage_->interpolate(p.position(), tetIs);
@@ -425,10 +435,9 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   // sauter mean radius
   radiusAverage_() = volumeAverage_();
   weightAverage = 0;
-  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter)
-  {
+  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter) {
     const typename CloudType::parcelType& p = iter();
-    const tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), cloud.mesh());
+    const tetIndices tetIs{p.cell(), p.tetFace(), p.tetPt(), cloud.mesh()};
     weightAverage.add
     (
       p.position(),
@@ -440,10 +449,9 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   radiusAverage_->average(weightAverage);
   // collision frequency
   weightAverage = 0;
-  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter)
-  {
+  FOR_ALL_CONST_ITER(typename CloudType, cloud, iter) {
     const typename CloudType::parcelType& p = iter();
-    tetIndices tetIs(p.cell(), p.tetFace(), p.tetPt(), cloud.mesh());
+    tetIndices tetIs{p.cell(), p.tetFace(), p.tetPt(), cloud.mesh()};
     const scalar a = volumeAverage_->interpolate(p.position(), tetIs);
     const scalar r = radiusAverage_->interpolate(p.position(), tetIs);
     const vector u = uAverage_->interpolate(p.position(), tetIs);
@@ -453,6 +461,8 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::updateAverages
   }
   frequencyAverage_->average(weightAverage);
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline typename mousse::MPPICParcel<ParcelType>::template
@@ -461,6 +471,8 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::part() const
 {
   return part_;
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline typename mousse::MPPICParcel<ParcelType>::template
@@ -469,7 +481,7 @@ mousse::MPPICParcel<ParcelType>::TrackingData<CloudType>::part()
 {
   return part_;
 }
-#ifdef NoRepository
-  #include "_mppic_parcel.cpp"
-#endif
+
+#include "_mppic_parcel.ipp"
+
 #endif

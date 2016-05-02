@@ -15,9 +15,12 @@
 //     SAE Transactions, Vol. 102, Section 3, Journal of Engines, 1993,
 //     pp. 63-95
 //   \endverbatim
+
 #include "_particle_force.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class DistortedSphereDragForce
 :
@@ -40,12 +43,13 @@ public:
     //- Construct copy
     DistortedSphereDragForce(const DistortedSphereDragForce<CloudType>& df);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new DistortedSphereDragForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new DistortedSphereDragForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~DistortedSphereDragForce();
@@ -61,8 +65,9 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_distorted_sphere_drag_force.cpp"
-#endif
+
+#include "_distorted_sphere_drag_force.ipp"
+
 #endif

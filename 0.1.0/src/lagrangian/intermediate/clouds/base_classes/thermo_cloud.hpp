@@ -8,11 +8,12 @@
 //   mousse::thermoCloud
 // Description
 //   Virtual abstract base class for templated ThermoCloud
-// SourceFiles
-//   thermo_cloud.cpp
+
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class thermoCloud
 {
 public:
@@ -37,5 +38,8 @@ public:
         //- Return tmp equivalent particulate scattering factor
         virtual tmp<volScalarField> sigmap() const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -6,14 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::DampingModels::NoDamping
-// Description
-// SourceFiles
-//   _no_damping.cpp
+
 #include "_damping_model.hpp"
-namespace mousse
-{
-namespace DampingModels
-{
+
+
+namespace mousse {
+namespace DampingModels {
+
 template<class CloudType>
 class NoDamping
 :
@@ -28,12 +27,13 @@ public:
     //- Construct copy
     NoDamping(const NoDamping<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<DampingModel<CloudType> > clone() const
+    virtual autoPtr<DampingModel<CloudType>> clone() const
     {
-      return autoPtr<DampingModel<CloudType> >
-      (
-        new NoDamping<CloudType>(*this)
-      );
+      return
+        autoPtr<DampingModel<CloudType>>
+        {
+          new NoDamping<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoDamping();
@@ -47,9 +47,10 @@ public:
     //- Return the model 'active' status
     virtual bool active() const;
 };
+
 }  // namespace DampingModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_damping.cpp"
-#endif
+
+#include "_no_damping.ipp"
+
 #endif

@@ -8,20 +8,21 @@
 //   mousse::PackingModel
 // Description
 //   Base class for packing models.
-// SourceFiles
-//   _packing_model.cpp
-//   _packing_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class ParticleStressModel;
 class CorrectionLimitingMethod;
-template <class Type>
-class AveragingMethod;
+template <class Type> class AveragingMethod;
+
+
 template<class CloudType>
 class PackingModel
 :
@@ -59,11 +60,11 @@ public:
     //- Construct copy
     PackingModel(const PackingModel<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<PackingModel<CloudType> > clone() const = 0;
+    virtual autoPtr<PackingModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~PackingModel();
   //- Selector
-  static autoPtr<PackingModel<CloudType> > New
+  static autoPtr<PackingModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -76,7 +77,9 @@ public:
       const scalar deltaT
     ) const = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_PACKING_MODEL(CloudType)                                         \
                                                                               \
@@ -87,14 +90,14 @@ public:
     0                                                                         \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      PackingModel<MPPICCloudType>,                                           \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    PackingModel<MPPICCloudType>,                                             \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_PACKING_MODEL_TYPE(SS, CloudType)                                \
                                                                               \
@@ -104,10 +107,11 @@ public:
                                                                               \
   mousse::PackingModel<MPPICCloudType>::                                      \
     adddictionaryConstructorToTable                                           \
-    <mousse::PackingModels::SS<MPPICCloudType> >                              \
+    <mousse::PackingModels::SS<MPPICCloudType>>                               \
       add##SS##CloudType##MPPICCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_packing_model.cpp"
+
+#include "_packing_model.ipp"
+
 #endif
-#endif
+

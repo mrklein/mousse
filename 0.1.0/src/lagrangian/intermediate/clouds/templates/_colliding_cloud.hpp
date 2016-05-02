@@ -8,19 +8,21 @@
 //   mousse::CollidingCloud
 // Description
 //   Adds coolisions to kinematic clouds
-// SourceFiles
-//   _colliding_cloud.cpp
+
 #include "particle.hpp"
 #include "_cloud.hpp"
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class CloudType>
-class CollisionModel;
+template<class CloudType> class CollisionModel;
+
+
 template<class CloudType>
 class CollidingCloud
 :
@@ -37,15 +39,14 @@ public:
 private:
   // Private data
     //- Cloud copy pointer
-    autoPtr<CollidingCloud<CloudType> > cloudCopyPtr_;
+    autoPtr<CollidingCloud<CloudType>> cloudCopyPtr_;
 protected:
   // Protected data
     //- Thermo parcel constant properties
     typename parcelType::constantProperties constProps_;
     // References to the cloud sub-models
       //- Collision model
-      autoPtr<CollisionModel<CollidingCloud<CloudType> > >
-        collisionModel_;
+      autoPtr<CollisionModel<CollidingCloud<CloudType>>> collisionModel_;
     // Initialisation
       //- Set cloud sub-models
       void setModels();
@@ -81,20 +82,22 @@ public:
       const CollidingCloud<CloudType>& c
     );
     //- Construct and return clone based on (this) with new name
-    virtual autoPtr<Cloud<parcelType> > clone(const word& name)
+    virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType> >
-      (
-        new CollidingCloud(*this, name)
-      );
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new CollidingCloud{*this, name}
+        };
     }
     //- Construct and return bare clone based on (this) with new name
-    virtual autoPtr<Cloud<parcelType> > cloneBare(const word& name) const
+    virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType> >
-      (
-        new CollidingCloud(this->mesh(), name, *this)
-      );
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new CollidingCloud{this->mesh(), name, *this}
+        };
     }
     //- Disallow default bitwise copy construct
     CollidingCloud(const CollidingCloud&) = delete;
@@ -116,11 +119,10 @@ public:
       virtual bool hasWallImpactDistance() const;
       // Sub-models
         //- Return const access to the collision model
-        inline const CollisionModel<CollidingCloud<CloudType> >&
+        inline const CollisionModel<CollidingCloud<CloudType>>&
           collision() const;
         //- Return reference to the collision model
-        inline CollisionModel<CollidingCloud<CloudType> >&
-          collision();
+        inline CollisionModel<CollidingCloud<CloudType>>& collision();
     // Check
       //- Total rotational kinetic energy in the system
       inline scalar rotationalKineticEnergyOfSystem() const;
@@ -138,7 +140,9 @@ public:
       //- Print cloud information
       void info();
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class CloudType>
@@ -147,24 +151,32 @@ mousse::CollidingCloud<CloudType>::cloudCopy() const
 {
   return cloudCopyPtr_();
 }
+
+
 template<class CloudType>
 inline const typename CloudType::particleType::constantProperties&
 mousse::CollidingCloud<CloudType>::constProps() const
 {
   return constProps_;
 }
+
+
 template<class CloudType>
-inline const mousse::CollisionModel<mousse::CollidingCloud<CloudType> >&
+inline const mousse::CollisionModel<mousse::CollidingCloud<CloudType>>&
 mousse::CollidingCloud<CloudType>::collision() const
 {
   return collisionModel_();
 }
+
+
 template<class CloudType>
-inline mousse::CollisionModel<mousse::CollidingCloud<CloudType> >&
+inline mousse::CollisionModel<mousse::CollidingCloud<CloudType>>&
 mousse::CollidingCloud<CloudType>::collision()
 {
   return collisionModel_();
 }
+
+
 template<class CloudType>
 inline mousse::scalar
 mousse::CollidingCloud<CloudType>::rotationalKineticEnergyOfSystem() const
@@ -179,7 +191,6 @@ mousse::CollidingCloud<CloudType>::rotationalKineticEnergyOfSystem() const
   return rotationalKineticEnergy;
 }
 
-#ifdef NoRepository
-#   include "_colliding_cloud.cpp"
-#endif
+#include "_colliding_cloud.ipp"
+
 #endif

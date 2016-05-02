@@ -8,17 +8,19 @@
 //   mousse::IsotropyModel
 // Description
 //   Base class for collisional return-to-isotropy models.
-// SourceFiles
-//   _isotropy_model.cpp
-//   _isotropy_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class TimeScaleModel;
+
+
 template<class CloudType>
 class IsotropyModel
 :
@@ -55,11 +57,11 @@ public:
     //- Construct a copy
     IsotropyModel(const IsotropyModel<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<IsotropyModel<CloudType> > clone() const = 0;
+    virtual autoPtr<IsotropyModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~IsotropyModel();
   //- Selector
-  static autoPtr<IsotropyModel<CloudType> > New
+  static autoPtr<IsotropyModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -79,14 +81,14 @@ public:
     0                                                                         \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      IsotropyModel<MPPICCloudType>,                                          \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    IsotropyModel<MPPICCloudType>,                                            \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_ISOTROPY_MODEL_TYPE(SS, CloudType)                               \
                                                                               \
@@ -96,10 +98,10 @@ public:
                                                                               \
   mousse::IsotropyModel<MPPICCloudType>::                                     \
     adddictionaryConstructorToTable                                           \
-    <mousse::IsotropyModels::SS<MPPICCloudType> >                             \
+    <mousse::IsotropyModels::SS<MPPICCloudType>>                              \
       add##SS##CloudType##MPPICCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_isotropy_model.cpp"
-#endif
+
+#include "_isotropy_model.ipp"
+
 #endif

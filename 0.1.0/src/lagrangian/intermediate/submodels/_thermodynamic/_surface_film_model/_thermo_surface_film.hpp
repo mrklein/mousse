@@ -16,12 +16,12 @@
 //     impinging sprays', SAE 960626, 1996
 //     Bai et al, `Modelling off gasoline spray impingement', Atom. Sprays,
 //     vol 12, pp 1-27, 2002
-// SourceFiles
-//   _thermo_surface_film.cpp
-//   _thermo_surface_film_i.hpp
+
 #include "_surface_film_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ThermoSurfaceFilm
 :
@@ -163,12 +163,13 @@ public:
     //- Construct copy
     ThermoSurfaceFilm(const ThermoSurfaceFilm<CloudType>& sfm);
     //- Construct and return a clone using supplied owner cloud
-    virtual autoPtr<SurfaceFilmModel<CloudType> > clone() const
+    virtual autoPtr<SurfaceFilmModel<CloudType>> clone() const
     {
-      return autoPtr<SurfaceFilmModel<CloudType> >
-      (
-        new ThermoSurfaceFilm<CloudType>(*this)
-      );
+      return
+        autoPtr<SurfaceFilmModel<CloudType>>
+        {
+          new ThermoSurfaceFilm<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ThermoSurfaceFilm();
@@ -186,8 +187,9 @@ public:
       //- Write surface film info to stream
       virtual void info(Ostream& os);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_thermo_surface_film.cpp"
-#endif
+
+#include "_thermo_surface_film.ipp"
+
 #endif

@@ -8,13 +8,14 @@
 //   mousse::PressureGradientForce
 // Description
 //   Calculates particle pressure gradient force
-// SourceFiles
-//   _pressure_gradient_force.cpp
+
 #include "_particle_force.hpp"
 #include "vol_fields.hpp"
 #include "interpolation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class PressureGradientForce
 :
@@ -25,7 +26,7 @@ protected:
     //- Name of velocity field
     const word UName_;
     //- Rate of change of carrier phase velocity interpolator
-    autoPtr<interpolation<vector> > DUcDtInterpPtr_;
+    autoPtr<interpolation<vector>> DUcDtInterpPtr_;
 public:
   //- Runtime type information
   TYPE_NAME("pressureGradient");
@@ -41,12 +42,13 @@ public:
     //- Construct copy
     PressureGradientForce(const PressureGradientForce& pgf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new PressureGradientForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new PressureGradientForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~PressureGradientForce();
@@ -73,14 +75,15 @@ public:
         const scalar mass
       ) const;
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline const mousse::interpolation<mousse::vector>&
 mousse::PressureGradientForce<CloudType>::DUcDtInterp() const
 {
-  if (!DUcDtInterpPtr_.valid())
-  {
+  if (!DUcDtInterpPtr_.valid()) {
     FATAL_ERROR_IN
     (
       "inline const mousse::interpolation<mousse::vector>&"
@@ -91,7 +94,7 @@ mousse::PressureGradientForce<CloudType>::DUcDtInterp() const
   }
   return DUcDtInterpPtr_();
 }
-#ifdef NoRepository
-  #include "_pressure_gradient_force.cpp"
-#endif
+
+#include "_pressure_gradient_force.ipp"
+
 #endif

@@ -18,13 +18,13 @@
 //     Chemical Engineering Science
 //     Volume 65, Issue 22, Pages 6014-6028, November 2010
 //   \endverbatim
-// SourceFiles
-//   non_equilibrium.cpp
+
 #include "time_scale_model.hpp"
-namespace mousse
-{
-namespace TimeScaleModels
-{
+
+
+namespace mousse {
+namespace TimeScaleModels {
+
 class nonEquilibrium
 :
   public TimeScaleModel
@@ -49,7 +49,7 @@ public:
   virtual ~nonEquilibrium();
   //- Member Functions
     //- Time scale
-    tmp<FieldField<Field, scalar> > oneByTau
+    tmp<FieldField<Field, scalar>> oneByTau
     (
       const FieldField<Field, scalar>& alpha,
       const FieldField<Field, scalar>& r32,
@@ -57,6 +57,9 @@ public:
       const FieldField<Field, scalar>& f
     ) const;
 };
+
 }  // namespace TimeScaleModels
 }  // namespace mousse
+
 #endif
+

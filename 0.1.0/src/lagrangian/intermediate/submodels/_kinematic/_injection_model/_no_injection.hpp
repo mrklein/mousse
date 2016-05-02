@@ -8,11 +8,12 @@
 //   mousse::NoInjection
 // Description
 //   Place holder for 'none' option
-// SourceFiles
-//   _no_injection.cpp
+
 #include "_injection_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoInjection
 :
@@ -27,12 +28,13 @@ public:
     //- Construct copy
     NoInjection(const NoInjection<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new NoInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new NoInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoInjection();
@@ -70,8 +72,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_injection.cpp"
-#endif
+
+#include "_no_injection.ipp"
+
 #endif

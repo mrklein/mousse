@@ -8,13 +8,16 @@
 //   mousse::ParamagneticForce
 // Description
 //   Calculates particle paramagnetic (magnetic field) force
-// SourceFiles
-//   _paramagnetic_force.cpp
+
 #include "_particle_force.hpp"
 #include "interpolation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 template<class CloudType>
 class ParamagneticForce
 :
@@ -41,12 +44,13 @@ public:
     //- Construct copy
     ParamagneticForce(const ParamagneticForce& gf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new ParamagneticForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new ParamagneticForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ParamagneticForce();
@@ -69,7 +73,9 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline const mousse::word&
@@ -77,13 +83,15 @@ mousse::ParamagneticForce<CloudType>::HdotGradHName() const
 {
   return HdotGradHName_;
 }
+
+
 template<class CloudType>
 inline mousse::scalar
 mousse::ParamagneticForce<CloudType>::magneticSusceptibility() const
 {
   return magneticSusceptibility_;
 }
-#ifdef NoRepository
-  #include "_paramagnetic_force.cpp"
-#endif
+
+#include "_paramagnetic_force.ipp"
+
 #endif

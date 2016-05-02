@@ -8,13 +8,14 @@
 //   mousse::IntegrationScheme
 // Description
 //   Top level model for Integration schemes
-// SourceFiles
-//   _integration_scheme.cpp
+
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "dictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class IntegrationScheme
 {
@@ -30,8 +31,8 @@ public:
     //- Constructor
     integrationResult()
     :
-      value_(pTraits<Type>::zero),
-      average_(pTraits<Type>::zero)
+      value_{pTraits<Type>::zero},
+      average_{pTraits<Type>::zero}
     {}
     // Member functions
       // Access
@@ -84,7 +85,7 @@ public:
     //- Copy constructor
     IntegrationScheme(const IntegrationScheme& is);
     //- Construct and return clone
-    virtual autoPtr<IntegrationScheme<Type> > clone() const = 0;
+    virtual autoPtr<IntegrationScheme<Type>> clone() const = 0;
     //- Disallow default bitwise assignment
     IntegrationScheme& operator=(const IntegrationScheme&) = delete;
   // Selectors
@@ -106,7 +107,9 @@ public:
       const scalar beta
     ) const = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_INTEGRATION_SCHEME(Type)                                         \
                                                                               \
@@ -118,14 +121,16 @@ public:
     dictionary                                                                \
   );
 
+
 #define MAKE_INTEGRATION_SCHEME_TYPE(SS, Type)                                \
                                                                               \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<Type>, 0);                     \
                                                                               \
-  IntegrationScheme<Type>::adddictionaryConstructorToTable<SS<Type> >         \
+  IntegrationScheme<Type>::adddictionaryConstructorToTable<SS<Type>>          \
     add##SS##Type##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_integration_scheme.cpp"
-#endif
+
+
+#include "_integration_scheme.ipp"
+
 #endif

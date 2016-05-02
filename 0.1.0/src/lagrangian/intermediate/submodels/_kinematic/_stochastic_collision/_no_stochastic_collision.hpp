@@ -8,9 +8,12 @@
 //   mousse::NoStochasticCollision
 // Description
 //   Dummy collision model for 'none'
+
 #include "_stochastic_collision_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoStochasticCollision
 :
@@ -31,10 +34,11 @@ public:
     //- Construct and return a clone
     virtual autoPtr<StochasticCollisionModel<CloudType>> clone() const
     {
-      return autoPtr<StochasticCollisionModel<CloudType>>
-      {
-        new NoStochasticCollision<CloudType>{*this}
-      };
+      return
+        autoPtr<StochasticCollisionModel<CloudType>>
+        {
+          new NoStochasticCollision<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoStochasticCollision();
@@ -42,8 +46,9 @@ public:
     //- Flag to indicate whether model activates collision model
     virtual bool active() const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_stochastic_collision.cpp"
-#endif
+
+#include "_no_stochastic_collision.ipp"
+
 #endif

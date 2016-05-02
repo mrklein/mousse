@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_ADD_ONS_RADIATION_ABSORPTION_EMISSION_CLOUD_ABSORPTION_EMISSION_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_ADD_ONS_RADIATION_ABSORPTION_EMISSION_CLOUD_ABSORPTION_EMISSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,15 +8,13 @@
 //   mousse::radiation::cloudAbsorptionEmission
 // Description
 //   Retrieves absorption/emission data from a cloud object
-// SourceFiles
-//   cloud_absorption_emission.cpp
-#ifndef radiationCloudAbsorptionEmission_H
-#define radiationCloudAbsorptionEmission_H
+
 #include "absorption_emission_model.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class cloudAbsorptionEmission
 :
   public absorptionEmissionModel
@@ -43,6 +44,9 @@ public:
         //- Return emission contribution for dispersed phase
         virtual tmp<volScalarField> EDisp(const label bandI = 0) const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

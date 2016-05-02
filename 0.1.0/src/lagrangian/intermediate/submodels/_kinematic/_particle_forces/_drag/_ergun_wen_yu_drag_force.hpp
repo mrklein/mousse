@@ -8,10 +8,13 @@
 //   mousse::ErgunWenYuDragForce
 // Description
 //   Ergun-Wen-Yu drag model for solid spheres.
+
 #include "_particle_force.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ErgunWenYuDragForce
 :
@@ -37,12 +40,13 @@ public:
     //- Construct copy
     ErgunWenYuDragForce(const ErgunWenYuDragForce<CloudType>& df);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new ErgunWenYuDragForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new ErgunWenYuDragForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ErgunWenYuDragForce();
@@ -58,8 +62,9 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_ergun_wen_yu_drag_force.cpp"
-#endif
+
+#include "_ergun_wen_yu_drag_force.ipp"
+
 #endif

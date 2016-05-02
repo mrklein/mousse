@@ -12,13 +12,13 @@
 //   on the eulerian mesh. The computed flux is then applied to the lagrangian
 //   field. The gravity force can optionally be applied to the particles as part
 //   of this model, using the keyword "applyGravity".
-// SourceFiles
-//   _implicit.cpp
+
 #include "_packing_model.hpp"
-namespace mousse
-{
-namespace PackingModels
-{
+
+
+namespace mousse {
+namespace PackingModels {
+
 template<class CloudType>
 class Implicit
 :
@@ -47,12 +47,13 @@ public:
     //- Construct copy
     Implicit(const Implicit<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<PackingModel<CloudType> > clone() const
+    virtual autoPtr<PackingModel<CloudType>> clone() const
     {
-      return autoPtr<PackingModel<CloudType> >
-      (
-        new Implicit<CloudType>(*this)
-      );
+      return
+        autoPtr<PackingModel<CloudType>>
+        {
+          new Implicit<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~Implicit();
@@ -66,9 +67,10 @@ public:
       const scalar deltaT
     ) const;
 };
+
 }  // namespace PackingModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_implicit.cpp"
-#endif
+
+#include "_implicit.ipp"
+
 #endif

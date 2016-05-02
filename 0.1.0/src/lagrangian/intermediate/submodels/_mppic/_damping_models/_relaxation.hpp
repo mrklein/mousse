@@ -18,13 +18,13 @@
 //     Chemical Engineering Science
 //     Volume 65, Issue 22, Pages 6014-6028, November 2010
 //   \endverbatim
-// SourceFiles
-//   _relaxation.cpp
+
 #include "_damping_model.hpp"
-namespace mousse
-{
-namespace DampingModels
-{
+
+
+namespace mousse {
+namespace DampingModels {
+
 template<class CloudType>
 class Relaxation
 :
@@ -35,7 +35,7 @@ private:
     //- Velocity average
     const AveragingMethod<vector>* uAverage_;
     //- Reciprocal of the time scale average
-    autoPtr<AveragingMethod<scalar> > oneByTimeScaleAverage_;
+    autoPtr<AveragingMethod<scalar>> oneByTimeScaleAverage_;
 public:
   //- Runtime type information
   TYPE_NAME("relaxation");
@@ -45,12 +45,13 @@ public:
     //- Construct copy
     Relaxation(const Relaxation<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<DampingModel<CloudType> > clone() const
+    virtual autoPtr<DampingModel<CloudType>> clone() const
     {
-      return autoPtr<DampingModel<CloudType> >
-      (
-        new Relaxation<CloudType>(*this)
-      );
+      return
+        autoPtr<DampingModel<CloudType>>
+        (
+          new Relaxation<CloudType>{*this}
+        );
     }
   //- Destructor
   virtual ~Relaxation();
@@ -64,9 +65,10 @@ public:
       const scalar deltaT
     ) const;
 };
+
 }  // namespace DampingModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_relaxation.cpp"
-#endif
+
+#include "_relaxation.ipp"
+
 #endif

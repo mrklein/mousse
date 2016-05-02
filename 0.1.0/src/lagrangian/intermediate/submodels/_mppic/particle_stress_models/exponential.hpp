@@ -9,13 +9,13 @@
 // Description
 //   Exponential inter-particle stress model of the same form as used in
 //   mousse-two-phase-euler
-// SourceFiles
-//   exponential.cpp
+
 #include "particle_stress_model.hpp"
-namespace mousse
-{
-namespace ParticleStressModels
-{
+
+
+namespace mousse {
+namespace ParticleStressModels {
+
 class exponential
 :
   public ParticleStressModel
@@ -38,29 +38,33 @@ public:
     //- Clone
     virtual autoPtr<ParticleStressModel> clone() const
     {
-      return autoPtr<ParticleStressModel>
-      (
-        new exponential(*this)
-      );
+      return
+        autoPtr<ParticleStressModel>
+        {
+          new exponential{*this}
+        };
     }
   //- Destructor
   virtual ~exponential();
   //- Member Functions
     //- Collision stress
-    tmp<Field<scalar> > tau
+    tmp<Field<scalar>> tau
     (
       const Field<scalar>& alpha,
       const Field<scalar>& rho,
       const Field<scalar>& uRms
     ) const;
     //- Collision stress derivaive w.r.t. the volume fraction
-    tmp<Field<scalar> > dTaudTheta
+    tmp<Field<scalar>> dTaudTheta
     (
       const Field<scalar>& alpha,
       const Field<scalar>& rho,
       const Field<scalar>& uRms
     ) const;
 };
+
 }  // namespace ParticleStressModels
 }  // namespace mousse
+
 #endif
+

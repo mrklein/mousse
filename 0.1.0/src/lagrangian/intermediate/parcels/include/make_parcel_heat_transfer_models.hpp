@@ -5,9 +5,9 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "_no_heat_transfer.hpp"
 #include "_ranz_marshall.hpp"
+
 
 #define MAKE_PARCEL_HEAT_TRANSFER_MODELS(CloudType)                           \
                                                                               \
@@ -17,3 +17,4 @@
   MAKE_HEAT_TRANSFER_MODEL_TYPE(RanzMarshall, CloudType);
 
 #endif
+

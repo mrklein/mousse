@@ -24,13 +24,13 @@
 //     Journal of Fluid Mechanics
 //     Volume 266, Pages 243-276, 1994
 //   \endverbatim
-// SourceFiles
-//   harris_crighton.cpp
+
 #include "particle_stress_model.hpp"
-namespace mousse
-{
-namespace ParticleStressModels
-{
+
+
+namespace mousse {
+namespace ParticleStressModels {
+
 class HarrisCrighton
 :
   public ParticleStressModel
@@ -44,7 +44,7 @@ class HarrisCrighton
     scalar eps_;
   // Private member functions
     //- Return the limited denominator of the radial distribution function
-    tmp<Field<scalar> > denominator(const Field<scalar>& alpha) const;
+    tmp<Field<scalar>> denominator(const Field<scalar>& alpha) const;
 public:
   //- Runtime type information
   TYPE_NAME("HarrisCrighton");
@@ -56,29 +56,33 @@ public:
     //- Clone
     virtual autoPtr<ParticleStressModel> clone() const
     {
-      return autoPtr<ParticleStressModel>
-      (
-        new HarrisCrighton(*this)
-      );
+      return
+        autoPtr<ParticleStressModel>
+        {
+          new HarrisCrighton{*this}
+        };
     }
   //- Destructor
   virtual ~HarrisCrighton();
   //- Member Functions
     //- Collision stress
-    tmp<Field<scalar> > tau
+    tmp<Field<scalar>> tau
     (
       const Field<scalar>& alpha,
       const Field<scalar>& rho,
       const Field<scalar>& uRms
     ) const;
     //- Collision stress derivaive w.r.t. the volume fraction
-    tmp<Field<scalar> > dTaudTheta
+    tmp<Field<scalar>> dTaudTheta
     (
       const Field<scalar>& alpha,
       const Field<scalar>& rho,
       const Field<scalar>& uRms
     ) const;
 };
+
 }  // namespace ParticleStressModels
 }  // namespace mousse
+
 #endif
+

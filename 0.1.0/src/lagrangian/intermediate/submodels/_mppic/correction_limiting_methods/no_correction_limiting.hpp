@@ -6,14 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::CorrectionLimitingMethods::noCorrectionLimiting
-// Description
-// SourceFiles
-//   no_correction_limiting.cpp
+
 #include "correction_limiting_method.hpp"
-namespace mousse
-{
-namespace CorrectionLimitingMethods
-{
+
+
+namespace mousse {
+namespace CorrectionLimitingMethods {
+
 class noCorrectionLimiting
 :
   public CorrectionLimitingMethod
@@ -29,10 +28,11 @@ public:
     //- Construct and return a clone
     virtual autoPtr<CorrectionLimitingMethod> clone() const
     {
-      return autoPtr<CorrectionLimitingMethod>
-      (
-        new noCorrectionLimiting(*this)
-      );
+      return
+        autoPtr<CorrectionLimitingMethod>
+        {
+          new noCorrectionLimiting{*this}
+        };
     }
   //- Destructor
   virtual ~noCorrectionLimiting();
@@ -45,6 +45,9 @@ public:
       const vector uMean
     ) const;
 };
+
 }  // namespace CorrectionLimitingMethods
 }  // namespace mousse
+
 #endif
+

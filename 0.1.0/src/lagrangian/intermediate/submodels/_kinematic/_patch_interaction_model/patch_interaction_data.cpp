@@ -5,31 +5,43 @@
 #include "patch_interaction_data.hpp"
 #include "dictionary_entry.hpp"
 #include "_patch_interaction_model.hpp"
+
+
 // Constructors 
 mousse::patchInteractionData::patchInteractionData()
 :
-  interactionTypeName_("unknownInteractionTypeName"),
-  patchName_("unknownPatch"),
-  e_(0.0),
-  mu_(0.0)
+  interactionTypeName_{"unknownInteractionTypeName"},
+  patchName_{"unknownPatch"},
+  e_{0.0},
+  mu_{0.0}
 {}
+
+
 // Member Functions 
 const mousse::word& mousse::patchInteractionData::interactionTypeName() const
 {
   return interactionTypeName_;
 }
+
+
 const mousse::word& mousse::patchInteractionData::patchName() const
 {
   return patchName_;
 }
+
+
 mousse::scalar mousse::patchInteractionData::e() const
 {
   return e_;
 }
+
+
 mousse::scalar mousse::patchInteractionData::mu() const
 {
   return mu_;
 }
+
+
 // IOstream Operators 
 mousse::Istream& mousse::operator>>
 (
@@ -45,3 +57,4 @@ mousse::Istream& mousse::operator>>
   pid.mu_ = entry.lookupOrDefault<scalar>("mu", 0.0);
   return is;
 }
+

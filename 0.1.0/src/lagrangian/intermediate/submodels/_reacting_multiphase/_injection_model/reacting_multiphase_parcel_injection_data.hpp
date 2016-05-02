@@ -8,24 +8,29 @@
 //   mousse::reactingMultiphaseParcelInjectionData
 // Description
 //   Container class to provide injection data for reacting multiphase parcels
-// SourceFiles
-//   reacting_multiphase_parcel_injection_data.cpp
+
 #include "reacting_parcel_injection_data.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class reactingMultiphaseParcelInjectionData;
+
 // Forward declaration of friend functions
 Ostream& operator<<
 (
   Ostream&,
   const reactingMultiphaseParcelInjectionData&
 );
+
 Istream& operator>>
 (
   Istream&,
   reactingMultiphaseParcelInjectionData&
 );
+
+
 class reactingMultiphaseParcelInjectionData
 :
   public reactingParcelInjectionData
@@ -78,33 +83,46 @@ public:
       reactingMultiphaseParcelInjectionData& data
     );
 };
+
 }  // namespace mousse
+
 
 inline const mousse::scalarList&
 mousse::reactingMultiphaseParcelInjectionData::YGas() const
 {
   return YGas_;
 }
+
+
 inline const mousse::scalarList&
 mousse::reactingMultiphaseParcelInjectionData::YLiquid() const
 {
   return YLiquid_;
 }
+
+
 inline const mousse::scalarList&
 mousse::reactingMultiphaseParcelInjectionData::YSolid() const
 {
   return YSolid_;
 }
+
+
 inline mousse::scalarList& mousse::reactingMultiphaseParcelInjectionData::YGas()
 {
   return YGas_;
 }
+
+
 inline mousse::scalarList& mousse::reactingMultiphaseParcelInjectionData::YLiquid()
 {
   return YLiquid_;
 }
+
+
 inline mousse::scalarList& mousse::reactingMultiphaseParcelInjectionData::YSolid()
 {
   return YSolid_;
 }
+
 #endif

@@ -9,19 +9,22 @@
 // Description
 //   Stores the patch ID and templated data to represent a collision
 //   with a wall to be passed to the wall model.
-// SourceFiles
-//   _wall_site_data.cpp
-//   _wall_site_data_io.cpp
+
 #include "label.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
-template<class Type>
-class WallSiteData;
+template<class Type> class WallSiteData;
+
 template<class Type>
 Istream& operator>>(Istream&, WallSiteData<Type>&);
+
 template<class Type>
 Ostream& operator<<(Ostream&, const WallSiteData<Type>&);
+
+
 template<class Type>
 class WallSiteData
 {
@@ -60,7 +63,9 @@ public:
     friend Ostream& operator<< <Type>
     (Ostream&, const WallSiteData<Type>&);
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class Type>
@@ -68,22 +73,28 @@ mousse::label mousse::WallSiteData<Type>::patchIndex() const
 {
   return patchI_;
 }
+
+
 template<class Type>
 mousse::label& mousse::WallSiteData<Type>::patchIndex()
 {
   return patchI_;
 }
+
+
 template<class Type>
 const Type& mousse::WallSiteData<Type>::wallData() const
 {
   return wallData_;
 }
+
+
 template<class Type>
 Type& mousse::WallSiteData<Type>::wallData()
 {
   return wallData_;
 }
-#ifdef NoRepository
-#   include "_wall_site_data.cpp"
-#endif
+
+#include "_wall_site_data.ipp"
+
 #endif

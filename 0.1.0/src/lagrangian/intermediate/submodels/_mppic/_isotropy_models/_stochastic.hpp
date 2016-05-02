@@ -21,13 +21,13 @@
 //     Chemical Engineering Science
 //     Volume 80, Issue 0, Pages 39-54, December 2012
 //   \endverbatim
-// SourceFiles
-//   stochastic.cpp
+
 #include "_isotropy_model.hpp"
-namespace mousse
-{
-namespace IsotropyModels
-{
+
+
+namespace mousse {
+namespace IsotropyModels {
+
 template<class CloudType>
 class Stochastic
 :
@@ -46,12 +46,13 @@ public:
     //- Construct copy
     Stochastic(const Stochastic<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<IsotropyModel<CloudType> > clone() const
+    virtual autoPtr<IsotropyModel<CloudType>> clone() const
     {
-      return autoPtr<IsotropyModel<CloudType> >
-      (
-        new Stochastic<CloudType>(*this)
-      );
+      return
+        autoPtr<IsotropyModel<CloudType>>
+        {
+          new Stochastic<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~Stochastic();
@@ -59,9 +60,10 @@ public:
     //- Calculate velocities
     virtual void calculate();
 };
+
 }  // namespace IsotropyModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_stochastic.cpp"
-#endif
+
+#include "_stochastic.ipp"
+
 #endif

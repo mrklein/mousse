@@ -9,9 +9,12 @@
 // Description
 //   Inter-cloud collision model, whereby the \c canReact flag can be used
 //   to inhibit devolatilisation and surface reactions
+
 #include "_stochastic_collision_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class SuppressionCollision
 :
@@ -35,18 +38,20 @@ public:
     //- Construct copy
     SuppressionCollision(const SuppressionCollision<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<StochasticCollisionModel<CloudType> > clone() const
+    virtual autoPtr<StochasticCollisionModel<CloudType>> clone() const
     {
-      return autoPtr<StochasticCollisionModel<CloudType> >
-      (
-        new SuppressionCollision<CloudType>(*this)
-      );
+      return
+        autoPtr<StochasticCollisionModel<CloudType>>
+        {
+          new SuppressionCollision<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~SuppressionCollision();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_suppression_collision.cpp"
-#endif
+
+#include "_suppression_collision.ipp"
+
 #endif

@@ -8,9 +8,7 @@
 //   mousse::PatchInteractionModel
 // Description
 //   Templated patch interaction model class
-// SourceFiles
-//   _patch_interaction_model.cpp
-//   _patch_interaction_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
@@ -18,8 +16,10 @@
 #include "wall_poly_patch.hpp"
 #include "tet_indices.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class PatchInteractionModel
 :
@@ -68,11 +68,11 @@ public:
     //- Construct copy
     PatchInteractionModel(const PatchInteractionModel<CloudType>& pim);
     //- Construct and return a clone
-    virtual autoPtr<PatchInteractionModel<CloudType> > clone() const = 0;
+    virtual autoPtr<PatchInteractionModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~PatchInteractionModel();
   //- Selector
-  static autoPtr<PatchInteractionModel<CloudType> > New
+  static autoPtr<PatchInteractionModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -110,14 +110,14 @@ public:
     0                                                                         \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      PatchInteractionModel<kinematicCloudType>,                              \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    PatchInteractionModel<kinematicCloudType>,                                \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_PATCH_INTERACTION_MODEL_TYPE(SS, CloudType)                      \
                                                                               \
@@ -125,10 +125,10 @@ public:
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::PatchInteractionModel<kinematicCloudType>::                         \
-    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \
+    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>           \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_patch_interaction_model.cpp"
-#endif
+
+#include "_patch_interaction_model.ipp"
+
 #endif
