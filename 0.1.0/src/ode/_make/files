@@ -1,21 +1,21 @@
-ode_solvers/ode_solver.cpp
-ode_solvers/ode_solver_new.cpp
+ode_solver.cpp
+ode_solver_new.cpp
 
-ode_solvers/adaptive_solver.cpp
-ode_solvers/euler.cpp
-ode_solvers/euler_si.cpp
-ode_solvers/trapezoid.cpp
-ode_solvers/rkf45.cpp
-ode_solvers/rkck45.cpp
-ode_solvers/rkdp45.cpp
-ode_solvers/rosenbrock12.cpp
-ode_solvers/rosenbrock23.cpp
-ode_solvers/rosenbrock34.cpp
-ode_solvers/rodas23.cpp
-ode_solvers/rodas34.cpp
-ode_solvers/sibs.cpp
-ode_solvers/simpr.cpp
-ode_solvers/poly_extrapolate.cpp
-ode_solvers/seulex.cpp
+adaptive_solver.cpp
+euler.cpp
+euler_si.cpp
+trapezoid.cpp
+rkf45.cpp
+rkck45.cpp
+rkdp45.cpp
+rosenbrock12.cpp
+rosenbrock23.cpp
+rosenbrock34.cpp
+rodas23.cpp
+rodas34.cpp
+sibs.cpp
+simpr.cpp
+poly_extrapolate.cpp
+seulex.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_ode
