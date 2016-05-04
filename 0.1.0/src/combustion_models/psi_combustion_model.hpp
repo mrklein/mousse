@@ -8,18 +8,16 @@
 //   mousse::psiCombustionModel
 // Description
 //   Combustion models for compressibility-based thermodynamics
-// SourceFiles
-//   psi_combustion_model_i.hpp
-//   psi_combustion_model.cpp
-//   psi_combustion_model_new.cpp
+
 #include "combustion_model.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "psi_reaction_thermo.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 class psiCombustionModel
 :
   public combustionModel
@@ -71,6 +69,9 @@ public:
     //- Update properties from given dictionary
     virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
+
 #endif
+

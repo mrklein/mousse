@@ -8,13 +8,13 @@
 //   mousse::combustionModels::singleStepCombustion
 // Description
 //   Base class for combustion models using singleStepReactingMixture.
-// SourceFiles
-//   single_step_combustion.cpp
+
 #include "single_step_reacting_mixture.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 template<class CombThermoType, class ThermoType>
 class singleStepCombustion
 :
@@ -55,9 +55,10 @@ public:
       //- Update properties from given dictionary
       virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "single_step_combustion.cpp"
-#endif
+
+#include "single_step_combustion.ipp"
+
 #endif

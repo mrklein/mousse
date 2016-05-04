@@ -9,12 +9,13 @@
 // Description
 //   Correlation function for laminar consumption speed obtained from flamelet
 //   solution at increasing strain rates.
-// SourceFiles
-//   consumption_speed.cpp
+
 #include "iodictionary.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class consumptionSpeed
 {
   // Private Data
@@ -45,25 +46,17 @@ public:
     //- Return speed consumption rate temp
     tmp<volScalarField> omega0Sigma(const volScalarField& sigma);
     // Access functions
-      scalar omega0() const
-      {
-        return omega0_;
-      }
-      scalar eta() const
-      {
-        return eta_;
-      }
-      scalar sigmaExt() const
-      {
-        return sigmaExt_;
-      }
-      scalar omegaMin() const
-      {
-        return omegaMin_;
+      scalar omega0() const { return omega0_; }
+      scalar eta() const { return eta_; }
+      scalar sigmaExt() const { return sigmaExt_; }
+      scalar omegaMin() const { return omegaMin_;
       }
   // IO
     //- Update properties
     void read(const dictionary& dict);
 };
+
 }  // namespace mousse
+
 #endif
+

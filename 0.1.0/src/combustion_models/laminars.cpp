@@ -7,5 +7,7 @@
 #include "rho_chemistry_combustion.hpp"
 #include "laminar.hpp"
 
+
 MAKE_COMBUSTION_TYPES(laminar, psiChemistryCombustion, psiCombustionModel);
 MAKE_COMBUSTION_TYPES(laminar, rhoChemistryCombustion, rhoCombustionModel);
+

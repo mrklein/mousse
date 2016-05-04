@@ -8,12 +8,13 @@
 //   mousse::reactionRateFlameAreaModels::relaxation
 // Description
 //   Consumption rate per unit of flame area obtained from a relaxation equation
-// SourceFiles
-//   relaxation.cpp
+
 #include "reaction_rate_flame_area.hpp"
 #include "consumption_speed.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 namespace reactionRateFlameAreaModels
 {
 class relaxation
@@ -52,6 +53,9 @@ public:
     //- Update properties from given dictionary
     virtual bool read(const dictionary& dictProperties);
 };
+
 } // End reactionRateFlameAreaModels
 }  // namespace mousse
+
 #endif
+

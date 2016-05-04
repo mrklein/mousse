@@ -8,12 +8,10 @@
 //   mousse::combustionModels::noCombustion
 // Description
 //   Dummy combustion model for 'no combustion'
-// SourceFiles
-//   no_combustion.cpp
-namespace mousse
-{
-namespace combustionModels
-{
+
+namespace mousse {
+namespace combustionModels {
+
 template<class CombThermoType>
 class noCombustion
 :
@@ -50,9 +48,10 @@ public:
       //- Update properties from given dictionary
       virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "no_combustion.cpp"
-#endif
+
+#include "no_combustion.ipp"
+
 #endif

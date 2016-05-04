@@ -7,6 +7,8 @@
 #include "psi_thermo_combustion.hpp"
 #include "rho_thermo_combustion.hpp"
 #include "diffusion.hpp"
+
+
 // Combustion models based on sensibleEnthalpy
 MAKE_COMBUSTION_TYPES_THERMO
 (
@@ -15,6 +17,7 @@ MAKE_COMBUSTION_TYPES_THERMO
   gasHThermoPhysics,
   psiCombustionModel
 );
+
 MAKE_COMBUSTION_TYPES_THERMO
 (
   diffusion,
@@ -22,6 +25,7 @@ MAKE_COMBUSTION_TYPES_THERMO
   constGasHThermoPhysics,
   psiCombustionModel
 );
+
 MAKE_COMBUSTION_TYPES_THERMO
 (
   diffusion,
@@ -29,6 +33,7 @@ MAKE_COMBUSTION_TYPES_THERMO
   gasHThermoPhysics,
   rhoCombustionModel
 );
+
 MAKE_COMBUSTION_TYPES_THERMO
 (
   diffusion,
@@ -36,6 +41,7 @@ MAKE_COMBUSTION_TYPES_THERMO
   constGasHThermoPhysics,
   rhoCombustionModel
 );
+
 // Combustion models based on sensibleInternalEnergy
 MAKE_COMBUSTION_TYPES_THERMO
 (
@@ -44,6 +50,7 @@ MAKE_COMBUSTION_TYPES_THERMO
   gasEThermoPhysics,
   psiCombustionModel
 );
+
 MAKE_COMBUSTION_TYPES_THERMO
 (
   diffusion,
@@ -51,6 +58,7 @@ MAKE_COMBUSTION_TYPES_THERMO
   constGasEThermoPhysics,
   psiCombustionModel
 );
+
 MAKE_COMBUSTION_TYPES_THERMO
 (
   diffusion,
@@ -58,6 +66,7 @@ MAKE_COMBUSTION_TYPES_THERMO
   gasEThermoPhysics,
   rhoCombustionModel
 );
+
 MAKE_COMBUSTION_TYPES_THERMO
 (
   diffusion,
@@ -65,4 +74,4 @@ MAKE_COMBUSTION_TYPES_THERMO
   constGasEThermoPhysics,
   rhoCombustionModel
 );
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+

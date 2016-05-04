@@ -28,14 +28,14 @@
 //   At the moment the flame area combustion model is only fit to work in a LES
 //   frame work. In RAS the subgrid fluctiuation has to be solved by an extra
 //   transport equation.
-// SourceFiles
-//   fsd.cpp
+
 #include "single_step_combustion.hpp"
 #include "reaction_rate_flame_area.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 template<class CombThermoType, class ThermoType>
 class FSD
 :
@@ -84,9 +84,10 @@ public:
     //- Update properties
     virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fsd.cpp"
-#endif
+
+#include "fsd.ipp"
+
 #endif
