@@ -40,7 +40,7 @@ public:
     autoPtr<procLduInterface> clone()
     {
       NOT_IMPLEMENTED("procLduInterface::clone()");
-      return autoPtr<procLduInterface>{NULL};
+      return autoPtr<procLduInterface>{nullptr};
     }
     static autoPtr<procLduInterface> New(Istream& is)
     {
@@ -51,5 +51,7 @@ public:
   // Ostream operator
     friend Ostream& operator<<(Ostream&, const procLduInterface&);
 };
+
 }  // namespace mousse
+
 #endif

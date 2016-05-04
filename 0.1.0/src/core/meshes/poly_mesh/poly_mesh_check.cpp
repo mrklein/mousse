@@ -28,12 +28,13 @@ bool mousse::polyMesh::checkFaceOrthogonality
   const labelList& nei = faceNeighbour();
   // Calculate orthogonality for all internal and coupled boundary faces
   // (1 for uncoupled boundary faces)
-  tmp<scalarField> tortho = polyMeshTools::faceOrthogonality
-  (
-    *this,
-    fAreas,
-    cellCtrs
-  );
+  tmp<scalarField> tortho =
+    polyMeshTools::faceOrthogonality
+    (
+      *this,
+      fAreas,
+      cellCtrs
+    );
   const scalarField& ortho = tortho();
   // Severe nonorthogonality threshold
   const scalar severeNonorthogonalityThreshold =
@@ -137,14 +138,15 @@ bool mousse::polyMesh::checkFaceSkewness
   const labelList& nei = faceNeighbour();
   // Warn if the skew correction vector is more than skewWarning times
   // larger than the face area vector
-  tmp<scalarField> tskew = polyMeshTools::faceSkewness
-  (
-    *this,
-    points,
-    fCtrs,
-    fAreas,
-    cellCtrs
-  );
+  tmp<scalarField> tskew =
+    polyMeshTools::faceSkewness
+    (
+      *this,
+      points,
+      fCtrs,
+      fAreas,
+      cellCtrs
+    );
   const scalarField& skew = tskew();
   scalar maxSkew = max(skew);
   label nWarnSkew = 0;
@@ -317,13 +319,14 @@ bool mousse::polyMesh::checkCellDeterminant
       << ", labelHashSet*) const: "
       << "checking for under-determined cells" << endl;
   }
-  tmp<scalarField> tcellDeterminant = primitiveMeshTools::cellDeterminant
-  (
-    *this,
-    meshD,
-    faceAreas,
-    syncTools::getInternalOrCoupledFaces(*this)
-  );
+  tmp<scalarField> tcellDeterminant =
+    primitiveMeshTools::cellDeterminant
+    (
+      *this,
+      meshD,
+      faceAreas,
+      syncTools::getInternalOrCoupledFaces(*this)
+    );
   scalarField& cellDeterminant = tcellDeterminant();
   label nErrorCells = 0;
   scalar minDet = min(cellDeterminant);
@@ -379,13 +382,14 @@ bool mousse::polyMesh::checkFaceWeight
       << ", labelHashSet*) const: "
       << "checking for low face interpolation weights" << endl;
   }
-  tmp<scalarField> tfaceWght = polyMeshTools::faceWeights
-  (
-    *this,
-    fCtrs,
-    fAreas,
-    cellCtrs
-  );
+  tmp<scalarField> tfaceWght =
+    polyMeshTools::faceWeights
+    (
+      *this,
+      fCtrs,
+      fAreas,
+      cellCtrs
+    );
   scalarField& faceWght = tfaceWght();
   label nErrorFaces = 0;
   scalar minDet = GREAT;
@@ -517,14 +521,15 @@ bool mousse::polyMesh::checkFaceOrthogonality
   labelHashSet* setPtr
 ) const
 {
-  return checkFaceOrthogonality
-  (
-    faceAreas(),
-    cellCentres(),
-    report,
-    false,  // detailedReport
-    setPtr
-  );
+  return
+    checkFaceOrthogonality
+    (
+      faceAreas(),
+      cellCentres(),
+      report,
+      false,  // detailedReport
+      setPtr
+    );
 }
 
 
@@ -534,16 +539,17 @@ bool mousse::polyMesh::checkFaceSkewness
   labelHashSet* setPtr
 ) const
 {
-  return checkFaceSkewness
-  (
-    points(),
-    faceCentres(),
-    faceAreas(),
-    cellCentres(),
-    report,
-    false,  // detailedReport
-    setPtr
-  );
+  return
+    checkFaceSkewness
+    (
+      points(),
+      faceCentres(),
+      faceAreas(),
+      cellCentres(),
+      report,
+      false,  // detailedReport
+      setPtr
+    );
 }
 
 
@@ -554,13 +560,14 @@ bool mousse::polyMesh::checkEdgeAlignment
   labelHashSet* setPtr
 ) const
 {
-  return checkEdgeAlignment
-  (
-    points(),
-    report,
-    directions,
-    setPtr
-  );
+  return
+    checkEdgeAlignment
+    (
+      points(),
+      report,
+      directions,
+      setPtr
+    );
 }
 
 
@@ -570,13 +577,14 @@ bool mousse::polyMesh::checkCellDeterminant
   labelHashSet* setPtr
 ) const
 {
-  return checkCellDeterminant
-  (
-    faceAreas(),
-    report,
-    setPtr,
-    geometricD()
-  );
+  return
+    checkCellDeterminant
+    (
+      faceAreas(),
+      report,
+      setPtr,
+      geometricD()
+    );
 }
 
 
@@ -587,15 +595,16 @@ bool mousse::polyMesh::checkFaceWeight
   labelHashSet* setPtr
 ) const
 {
-  return checkFaceWeight
-  (
-    faceCentres(),
-    faceAreas(),
-    cellCentres(),
-    report,
-    minWeight,
-    setPtr
-  );
+  return
+    checkFaceWeight
+    (
+      faceCentres(),
+      faceAreas(),
+      cellCentres(),
+      report,
+      minWeight,
+      setPtr
+    );
 }
 
 
@@ -630,42 +639,46 @@ bool mousse::polyMesh::checkMeshMotion
   scalarField cellVols{nCells()};
   makeCellCentresAndVols(fCtrs, fAreas, cellCtrs, cellVols);
   // Check cell volumes
-  bool error = checkCellVolumes
-  (
-    cellVols,       // vols
-    report,         // report
-    detailedReport, // detailedReport
-    NULL            // setPtr
-  );
+  bool error =
+    checkCellVolumes
+    (
+      cellVols,       // vols
+      report,         // report
+      detailedReport, // detailedReport
+      nullptr         // setPtr
+    );
   // Check face areas
-  bool areaError = checkFaceAreas
-  (
-    fAreas,
-    report,         // report
-    detailedReport, // detailedReport,
-    NULL            // setPtr
-  );
+  bool areaError =
+    checkFaceAreas
+    (
+      fAreas,
+      report,         // report
+      detailedReport, // detailedReport,
+      nullptr         // setPtr
+    );
   error = error || areaError;
   // Check pyramid volumes
-  bool pyrVolError = checkFacePyramids
-  (
-    newPoints,
-    cellCtrs,
-    report,         // report,
-    detailedReport, // detailedReport,
-    -SMALL,         // minPyrVol
-    NULL            // setPtr
-  );
+  bool pyrVolError =
+    checkFacePyramids
+    (
+      newPoints,
+      cellCtrs,
+      report,         // report,
+      detailedReport, // detailedReport,
+      -SMALL,         // minPyrVol
+      nullptr         // setPtr
+    );
   error = error || pyrVolError;
   // Check face non-orthogonality
-  bool nonOrthoError = checkFaceOrthogonality
-  (
-    fAreas,
-    cellCtrs,
-    report,         // report
-    detailedReport, // detailedReport
-    NULL            // setPtr
-  );
+  bool nonOrthoError =
+    checkFaceOrthogonality
+    (
+      fAreas,
+      cellCtrs,
+      report,         // report
+      detailedReport, // detailedReport
+      nullptr         // setPtr
+    );
   error = error || nonOrthoError;
   if (!error && (debug || report)) {
     Pout << "Mesh motion check OK." << endl;

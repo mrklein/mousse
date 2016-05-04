@@ -49,7 +49,7 @@ void mousse::GAMGAgglomeration::agglomerateLduAddressing
   // Setup initial packed storage for coarse-cell faces
   labelList cCellFaces{maxNnbrs*nCoarseCells};
   // Create face-restriction addressing
-  faceRestrictAddressing_.set(fineLevelIndex, new labelList(nFineFaces));
+  faceRestrictAddressing_.set(fineLevelIndex, new labelList{nFineFaces});
   labelList& faceRestrictAddr = faceRestrictAddressing_[fineLevelIndex];
   // Initial neighbour array (not in upper-triangle order)
   labelList initCoarseNeighb{nFineFaces};
@@ -131,7 +131,7 @@ void mousse::GAMGAgglomeration::agglomerateLduAddressing
     }
   }
   // Create face-flip status
-  faceFlipMap_.set(fineLevelIndex, new boolList(nFineFaces, false));
+  faceFlipMap_.set(fineLevelIndex, new boolList{nFineFaces, false});
   boolList& faceFlipMap = faceFlipMap_[fineLevelIndex];
   label nFlipped = 0;
   label nDissapear = 0;
@@ -171,12 +171,12 @@ void mousse::GAMGAgglomeration::agglomerateLduAddressing
   // Create coarse-level interfaces
   // Get reference to fine-level interfaces
   const lduInterfacePtrsList& fineInterfaces = interfaceLevel(fineLevelIndex);
-  nPatchFaces_.set(fineLevelIndex, new labelList(fineInterfaces.size(), 0));
+  nPatchFaces_.set(fineLevelIndex, new labelList{fineInterfaces.size(), 0});
   labelList& nPatchFaces = nPatchFaces_[fineLevelIndex];
   patchFaceRestrictAddressing_.set
   (
     fineLevelIndex,
-    new labelListList(fineInterfaces.size())
+    new labelListList{fineInterfaces.size()}
   );
   labelListList& patchFineToCoarse =
     patchFaceRestrictAddressing_[fineLevelIndex];
@@ -228,10 +228,11 @@ void mousse::GAMGAgglomeration::agglomerateLduAddressing
         ).ptr()
       );
       nPatchFaces[inti] = coarseInterfaces[inti].faceCells().size();
-      patchFineToCoarse[inti] = refCast<const GAMGInterface>
-      (
-        coarseInterfaces[inti]
-      ).faceRestrictAddressing();
+      patchFineToCoarse[inti] =
+        refCast<const GAMGInterface>
+        (
+          coarseInterfaces[inti]
+        ).faceRestrictAddressing();
     }
   }
   meshLevels_[fineLevelIndex].addInterfaces
@@ -415,8 +416,8 @@ void mousse::GAMGAgglomeration::combineLevels(const label curLevel)
     }
   }
   // Delete the restrictAddressing for the coarser level
-  faceRestrictAddressing_.set(curLevel, NULL);
-  faceFlipMap_.set(curLevel, NULL);
+  faceRestrictAddressing_.set(curLevel, nullptr);
+  faceFlipMap_.set(curLevel, nullptr);
   FOR_ALL(prevResAddr, i) {
     prevResAddr[i] = curResAddr[prevResAddr[i]];
   }
@@ -433,7 +434,7 @@ void mousse::GAMGAgglomeration::combineLevels(const label curLevel)
     }
   }
   // Delete the restrictAddressing for the coarser level
-  restrictAddressing_.set(curLevel, NULL);
+  restrictAddressing_.set(curLevel, nullptr);
   // Patch faces
   nPatchFaces_[prevLevel] = nPatchFaces_[curLevel];
   // Adapt the restrict addressing for the patches
@@ -443,23 +444,25 @@ void mousse::GAMGAgglomeration::combineLevels(const label curLevel)
     meshLevels_[prevLevel].rawInterfaces();
   FOR_ALL(prevInterLevel, inti) {
     if (prevInterLevel.set(inti)) {
-      GAMGInterface& prevInt = refCast<GAMGInterface>
-      (
-        const_cast<lduInterface&>
+      GAMGInterface& prevInt =
+        refCast<GAMGInterface>
         (
-          prevInterLevel[inti]
-        )
-      );
-      const GAMGInterface& curInt = refCast<const GAMGInterface>
-      (
-        curInterLevel[inti]
-      );
+          const_cast<lduInterface&>
+          (
+            prevInterLevel[inti]
+          )
+        );
+      const GAMGInterface& curInt =
+        refCast<const GAMGInterface>
+        (
+          curInterLevel[inti]
+        );
       prevInt.combine(curInt);
     }
   }
   // Delete the matrix addressing and coefficients from the previous level
   // and replace with the corresponding entry from the coarser level
-  meshLevels_.set(prevLevel, meshLevels_.set(curLevel, NULL));
+  meshLevels_.set(prevLevel, meshLevels_.set(curLevel, nullptr));
 }
 
 

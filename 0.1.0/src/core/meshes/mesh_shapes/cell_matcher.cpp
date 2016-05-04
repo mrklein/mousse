@@ -29,7 +29,7 @@ mousse::cellMatcher::cellMatcher
   vertLabels_{vertPerCell},
   faceLabels_{facePerCell},
   cellModelName_{cellModelName},
-  cellModelPtr_{NULL}
+  cellModelPtr_{nullptr}
 {
   FOR_ALL(localFaces_, faceI) {
     face& f = localFaces_[faceI];

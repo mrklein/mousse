@@ -18,7 +18,7 @@ DEFINE_TYPE_NAME_AND_DEBUG(zone, 0);
 // Protected Member Functions 
 const mousse::Map<mousse::label>& mousse::zone::lookupMap() const
 {
-  if (!lookupMapPtr_) {
+  if (lookupMapPtr_ == nullptr) {
     calcLookupMap();
   }
   return *lookupMapPtr_;
@@ -32,7 +32,7 @@ void mousse::zone::calcLookupMap() const
       << "Calculating lookup map"
       << endl;
   }
-  if (lookupMapPtr_) {
+  if (lookupMapPtr_ != nullptr) {
     FATAL_ERROR_IN("void zone::calcLookupMap() const")
       << "Lookup map already calculated" << nl
       << abort(FatalError);
@@ -62,7 +62,7 @@ mousse::zone::zone
   labelList{addr},
   name_{name},
   index_{index},
-  lookupMapPtr_{NULL}
+  lookupMapPtr_{nullptr}
 {}
 
 
@@ -76,7 +76,7 @@ mousse::zone::zone
   labelList{addr},
   name_{name},
   index_{index},
-  lookupMapPtr_{NULL}
+  lookupMapPtr_{nullptr}
 {}
 
 
@@ -91,7 +91,7 @@ mousse::zone::zone
   labelList{dict.lookup(labelsName)},
   name_{name},
   index_{index},
-  lookupMapPtr_{NULL}
+  lookupMapPtr_{nullptr}
 {}
 
 
@@ -105,7 +105,7 @@ mousse::zone::zone
   labelList{addr},
   name_{z.name()},
   index_{index},
-  lookupMapPtr_{NULL}
+  lookupMapPtr_{nullptr}
 {}
 
 
@@ -119,7 +119,7 @@ mousse::zone::zone
   labelList{addr},
   name_{z.name()},
   index_{index},
-  lookupMapPtr_{NULL}
+  lookupMapPtr_{nullptr}
 {}
 
 

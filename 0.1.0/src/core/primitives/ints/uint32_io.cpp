@@ -19,17 +19,13 @@ mousse::word mousse::name(const uint32_t val)
 mousse::Istream& mousse::operator>>(Istream& is, uint32_t& i)
 {
   token t(is);
-  if (!t.good())
-  {
+  if (!t.good()) {
     is.setBad();
     return is;
   }
-  if (t.isLabel())
-  {
+  if (t.isLabel()) {
     i = uint32_t(t.labelToken());
-  }
-  else
-  {
+  } else {
     is.setBad();
     FATAL_IO_ERROR_IN("operator>>(Istream&, uint32_t&)", is)
       << "wrong token type - expected uint32_t, found " << t.info()
@@ -52,7 +48,7 @@ uint32_t mousse::readUint32(Istream& is)
 
 bool mousse::read(const char* buf, uint32_t& s)
 {
-  char *endptr = NULL;
+  char *endptr = nullptr;
   long l = strtol(buf, &endptr, 10);
   s = uint32_t(l);
   return (*endptr == 0);

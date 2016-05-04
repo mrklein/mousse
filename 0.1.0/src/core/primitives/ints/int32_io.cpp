@@ -51,7 +51,7 @@ int32_t mousse::readInt32(Istream& is)
 
 bool mousse::read(const char* buf, int32_t& s)
 {
-  char *endptr = NULL;
+  char *endptr = nullptr;
   errno = 0;
   intmax_t l = strtoimax(buf, &endptr, 10);
   s = int32_t(l);

@@ -18,7 +18,7 @@ mousse::PtrList<T>::PtrList()
 template<class T>
 mousse::PtrList<T>::PtrList(const label s)
 :
-  ptrs_{s, reinterpret_cast<T*>(0)}
+  ptrs_{s, nullptr /*reinterpret_cast<T*>(0)*/}
 {}
 
 
@@ -60,7 +60,7 @@ mousse::PtrList<T>::PtrList(PtrList<T>& a, bool reUse)
   if (reUse) {
     FOR_ALL(*this, i) {
       ptrs_[i] = a.ptrs_[i];
-      a.ptrs_[i] = NULL;
+      a.ptrs_[i] = nullptr;
     }
     a.setSize(0);
   } else {
@@ -95,7 +95,7 @@ template<class T>
 mousse::PtrList<T>::~PtrList()
 {
   FOR_ALL(*this, i) {
-    if (ptrs_[i]) {
+    if (ptrs_[i] != nullptr) {
       delete ptrs_[i];
     }
   }
@@ -118,7 +118,7 @@ void mousse::PtrList<T>::setSize(const label newSize)
   } else if (newSize < oldSize) {
     label i;
     for (i=newSize; i<oldSize; i++) {
-      if (ptrs_[i]) {
+      if (ptrs_[i] != nullptr) {
         delete ptrs_[i];
       }
     }
@@ -127,7 +127,7 @@ void mousse::PtrList<T>::setSize(const label newSize)
     ptrs_.setSize(newSize);
     label i;
     for (i=oldSize; i<newSize; i++) {
-      ptrs_[i] = NULL;
+      ptrs_[i] = nullptr;
     }
   }
 }
@@ -137,7 +137,7 @@ template<class T>
 void mousse::PtrList<T>::clear()
 {
   FOR_ALL(*this, i) {
-    if (ptrs_[i]) {
+    if (ptrs_[i] != nullptr) {
       delete ptrs_[i];
     }
   }
@@ -163,7 +163,7 @@ void mousse::PtrList<T>::reorder(const labelUList& oldToNew)
       << ") for type " << typeid(T).name()
       << abort(FatalError);
   }
-  List<T*> newPtrs_{ptrs_.size(), reinterpret_cast<T*>(0)};
+  List<T*> newPtrs_{ptrs_.size(), nullptr /*reinterpret_cast<T*>(0)*/};
   FOR_ALL(*this, i) {
     label newI = oldToNew[i];
     if (newI < 0 || newI >= size()) {

@@ -46,10 +46,11 @@ void mousse::polyMesh::calcDirections() const
         nEmptyPatches++;
         emptyDirVec += sum(cmptMag(boundaryMesh()[patchi].faceAreas()));
       } else if (isA<wedgePolyPatch>(boundaryMesh()[patchi])) {
-        const wedgePolyPatch& wpp = refCast<const wedgePolyPatch>
-        (
-          boundaryMesh()[patchi]
-        );
+        const wedgePolyPatch& wpp =
+          refCast<const wedgePolyPatch>
+          (
+            boundaryMesh()[patchi]
+          );
         nWedgePatches++;
         wedgeDirVec += cmptMag(wpp.centreNormal());
       }
@@ -150,8 +151,8 @@ mousse::polyMesh::polyMesh(const IOobject& io)
   comm_{UPstream::worldComm},
   geometricD_{Vector<label>::zero},
   solutionD_{Vector<label>::zero},
-  tetBasePtIsPtr_{NULL},
-  cellTreePtr_{NULL},
+  tetBasePtIsPtr_{nullptr},
+  cellTreePtr_{nullptr},
   pointZones_
   {
     {
@@ -203,11 +204,11 @@ mousse::polyMesh::polyMesh(const IOobject& io)
     },
     *this
   },
-  globalMeshDataPtr_{NULL},
+  globalMeshDataPtr_{nullptr},
   moving_{false},
   topoChanging_{false},
   curMotionTimeIndex_{time().timeIndex()},
-  oldPointsPtr_{NULL}
+  oldPointsPtr_{nullptr}
 {
   if (exists(owner_.objectPath())) {
     initMesh();
@@ -324,8 +325,8 @@ mousse::polyMesh::polyMesh
   comm_{UPstream::worldComm},
   geometricD_{Vector<label>::zero},
   solutionD_{Vector<label>::zero},
-  tetBasePtIsPtr_{NULL},
-  cellTreePtr_{NULL},
+  tetBasePtIsPtr_{nullptr},
+  cellTreePtr_{nullptr},
   pointZones_
   {
     {
@@ -365,11 +366,11 @@ mousse::polyMesh::polyMesh
     *this,
     PtrList<cellZone>{}
   },
-  globalMeshDataPtr_{NULL},
+  globalMeshDataPtr_{nullptr},
   moving_{false},
   topoChanging_{false},
   curMotionTimeIndex_{time().timeIndex()},
-  oldPointsPtr_{NULL}
+  oldPointsPtr_{nullptr}
 {
   // Check if the faces and cells are valid
   FOR_ALL(faces_, facei) {
@@ -472,8 +473,8 @@ mousse::polyMesh::polyMesh
   comm_{UPstream::worldComm},
   geometricD_{Vector<label>::zero},
   solutionD_{Vector<label>::zero},
-  tetBasePtIsPtr_{NULL},
-  cellTreePtr_{NULL},
+  tetBasePtIsPtr_{nullptr},
+  cellTreePtr_{nullptr},
   pointZones_
   {
     {
@@ -513,11 +514,11 @@ mousse::polyMesh::polyMesh
     *this,
     0
   },
-  globalMeshDataPtr_{NULL},
+  globalMeshDataPtr_{nullptr},
   moving_{false},
   topoChanging_{false},
   curMotionTimeIndex_{time().timeIndex()},
-  oldPointsPtr_{NULL}
+  oldPointsPtr_{nullptr}
 {
   // Check if faces are valid
   FOR_ALL(faces_, facei) {
@@ -548,10 +549,10 @@ mousse::polyMesh::polyMesh
       (
         "polyMesh::polyMesh\n"
         "(\n"
-        "    const IOobject&,\n"
-        "    const Xfer<pointField>&,\n"
-        "    const Xfer<faceList>&,\n"
-        "    const Xfer<cellList>&\n"
+        "  const IOobject&,\n"
+        "  const Xfer<pointField>&,\n"
+        "  const Xfer<faceList>&,\n"
+        "  const Xfer<cellList>&\n"
         ")\n"
       )
       << "Cell " << celli << "contains face labels out of range: "
@@ -613,13 +614,13 @@ void mousse::polyMesh::resetPrimitives
       (
         "polyMesh::polyMesh::resetPrimitives\n"
         "(\n"
-        "    const Xfer<pointField>&,\n"
-        "    const Xfer<faceList>&,\n"
-        "    const Xfer<labelList>& owner,\n"
-        "    const Xfer<labelList>& neighbour,\n"
-        "    const labelList& patchSizes,\n"
-        "    const labelList& patchStarts\n"
-        "    const bool validBoundary\n"
+        "  const Xfer<pointField>&,\n"
+        "  const Xfer<faceList>&,\n"
+        "  const Xfer<labelList>& owner,\n"
+        "  const Xfer<labelList>& neighbour,\n"
+        "  const labelList& patchSizes,\n"
+        "  const labelList& patchStarts\n"
+        "  const bool validBoundary\n"
         ")\n"
       )
       << "Face " << facei << " contains vertex labels out of range: "
@@ -762,11 +763,11 @@ mousse::polyMesh::cellTree() const
       new indexedOctree<treeDataCell>
       {
         treeDataCell
-        (
+        {
           false,      // not cache bb
           *this,
           CELL_TETS   // use tet-decomposition for any inside test
-        ),
+        },
         overallBb,
         8,              // maxLevel
         10,             // leafsize
@@ -827,9 +828,9 @@ void mousse::polyMesh::addZones
     (
       "void addZones\n"
       "(\n"
-      "    const List<pointZone*>&,\n"
-      "    const List<faceZone*>&,\n"
-      "    const List<cellZone*>&\n"
+      "  const List<pointZone*>&,\n"
+      "  const List<faceZone*>&,\n"
+      "  const List<cellZone*>&\n"
       ")"
     )
     << "point, face or cell zone already exists"
@@ -1099,10 +1100,10 @@ void mousse::polyMesh::findCellFacePt
     (
       "void mousse::polyMesh::findCellFacePt"
       "("
-        "const point& p, "
-        "label& celli, "
-        "label& tetFacei, "
-        "label& tetPti"
+      "  const point& p, "
+      "  label& celli, "
+      "  label& tetFacei, "
+      "  label& tetPti"
       ") const"
     )
     << "Did not find nearest cell in search tree."
@@ -1135,83 +1136,83 @@ bool mousse::polyMesh::pointInCell
 {
   switch (decompMode) {
     case FACE_PLANES:
-    {
-      return primitiveMesh::pointInCell(p, celli);
-    }
-    break;
+      {
+        return primitiveMesh::pointInCell(p, celli);
+      }
+      break;
     case FACE_CENTRE_TRIS:
-    {
-      // only test that point is on inside of plane defined by cell face
-      // triangles
-      const cell& cFaces = cells()[celli];
-      FOR_ALL(cFaces, cFacei) {
-        label facei = cFaces[cFacei];
-        const face& f = faces_[facei];
-        const point& fc = faceCentres()[facei];
-        bool isOwn = (owner_[facei] == celli);
-        FOR_ALL(f, fp) {
-          label pointI;
-          label nextPointI;
-          if (isOwn) {
-            pointI = f[fp];
-            nextPointI = f.nextLabel(fp);
-          } else {
-            pointI = f.nextLabel(fp);
-            nextPointI = f[fp];
-          }
-          triPointRef faceTri
-          {
-            points()[pointI],
-            points()[nextPointI],
-            fc
-          };
-          vector proj = p - faceTri.centre();
-          if ((faceTri.normal() & proj) > 0) {
-            return false;
+      {
+        // only test that point is on inside of plane defined by cell face
+        // triangles
+        const cell& cFaces = cells()[celli];
+        FOR_ALL(cFaces, cFacei) {
+          label facei = cFaces[cFacei];
+          const face& f = faces_[facei];
+          const point& fc = faceCentres()[facei];
+          bool isOwn = (owner_[facei] == celli);
+          FOR_ALL(f, fp) {
+            label pointI;
+            label nextPointI;
+            if (isOwn) {
+              pointI = f[fp];
+              nextPointI = f.nextLabel(fp);
+            } else {
+              pointI = f.nextLabel(fp);
+              nextPointI = f[fp];
+            }
+            triPointRef faceTri
+            {
+              points()[pointI],
+              points()[nextPointI],
+              fc
+            };
+            vector proj = p - faceTri.centre();
+            if ((faceTri.normal() & proj) > 0) {
+              return false;
+            }
           }
         }
+        return true;
       }
-      return true;
-    }
-    break;
+      break;
     case FACE_DIAG_TRIS:
-    {
-      // only test that point is on inside of plane defined by cell face
-      // triangles
-      const cell& cFaces = cells()[celli];
-      FOR_ALL(cFaces, cFacei) {
-        label facei = cFaces[cFacei];
-        const face& f = faces_[facei];
-        for (label tetPti = 1; tetPti < f.size() - 1; tetPti++) {
-          // Get tetIndices of face triangle
-          tetIndices faceTetIs
-          {
-            polyMeshTetDecomposition::triangleTetIndices
-            (
-              *this,
-              facei,
-              celli,
-              tetPti
-            )
-          };
-          triPointRef faceTri = faceTetIs.faceTri(*this);
-          vector proj = p - faceTri.centre();
-          if ((faceTri.normal() & proj) > 0) {
-            return false;
+      {
+        // only test that point is on inside of plane defined by cell face
+        // triangles
+        const cell& cFaces = cells()[celli];
+        FOR_ALL(cFaces, cFacei) {
+          label facei = cFaces[cFacei];
+          const face& f = faces_[facei];
+          for (label tetPti = 1; tetPti < f.size() - 1; tetPti++) {
+            // Get tetIndices of face triangle
+            tetIndices faceTetIs
+            {
+              polyMeshTetDecomposition::triangleTetIndices
+                (
+                  *this,
+                  facei,
+                  celli,
+                  tetPti
+                )
+            };
+            triPointRef faceTri = faceTetIs.faceTri(*this);
+            vector proj = p - faceTri.centre();
+            if ((faceTri.normal() & proj) > 0) {
+              return false;
+            }
           }
         }
+        return true;
       }
-      return true;
-    }
-    break;
+      break;
     case CELL_TETS:
-    {
-      label tetFacei;
-      label tetPti;
-      findTetFacePt(celli, p, tetFacei, tetPti);
-      return tetFacei != -1;
-    }
-    break;
+      {
+        label tetFacei;
+        label tetPti;
+        findTetFacePt(celli, p, tetFacei, tetPti);
+        return tetFacei != -1;
+      }
+      break;
   }
   return false;
 }

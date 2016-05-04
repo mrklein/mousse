@@ -5,6 +5,7 @@
 #include "error.hpp"
 #include "uptr_list.hpp"
 
+
 // Constructors 
 template<class T>
 mousse::UPtrList<T>::UPtrList()
@@ -16,7 +17,7 @@ mousse::UPtrList<T>::UPtrList()
 template<class T>
 mousse::UPtrList<T>::UPtrList(const label s)
 :
-  ptrs_{s, reinterpret_cast<T*>(0)}
+  ptrs_{s, nullptr /*reinterpret_cast<T*>(nullptr)*/}
 {}
 
 
@@ -47,7 +48,7 @@ void mousse::UPtrList<T>::setSize(const label newSize)
     ptrs_.setSize(newSize);
     // set new elements to NULL
     for (label i=oldSize; i<newSize; i++) {
-      ptrs_[i] = NULL;
+      ptrs_[i] = nullptr;
     }
   }
 }
@@ -76,7 +77,7 @@ void mousse::UPtrList<T>::reorder(const labelUList& oldToNew)
       << ") not equal to list size (" << size()
       << ")." << abort(FatalError);
   }
-  List<T*> newPtrs_{ptrs_.size(), reinterpret_cast<T*>(0)};
+  List<T*> newPtrs_{ptrs_.size(), reinterpret_cast<T*>(nullptr)};
   FOR_ALL(*this, i) {
     label newI = oldToNew[i];
     if (newI < 0 || newI >= size()) {
@@ -101,4 +102,6 @@ void mousse::UPtrList<T>::reorder(const labelUList& oldToNew)
   }
   ptrs_.transfer(newPtrs_);
 }
+
 #include "uptr_list_io.ipp"
+

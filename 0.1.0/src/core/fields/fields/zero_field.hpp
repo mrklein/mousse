@@ -28,7 +28,7 @@ public:
     zeroField()
     {}
   // Member Operators
-    inline scalar operator[](const label) const { return {0.0}; }
+    inline scalar operator[](const label) const { return 0.0; }
     inline zeroField field() const { return zeroField(); }
 };
 }  // namespace mousse

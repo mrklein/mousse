@@ -15,7 +15,7 @@ const mousse::wordRe mousse::wordRe::null;
 mousse::wordRe::wordRe(Istream& is)
 :
   word{},
-  re_{NULL}
+  re_{nullptr}
 {
   is >> *this;
 }

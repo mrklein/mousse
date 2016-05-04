@@ -103,7 +103,7 @@ mousse::ZoneMesh<ZoneType, MeshType>::ZoneMesh
   PtrList<ZoneType>{},
   regIOobject{io},
   mesh_{mesh},
-  zoneMapPtr_{NULL}
+  zoneMapPtr_{nullptr}
 {
   read();
 }
@@ -121,7 +121,7 @@ mousse::ZoneMesh<ZoneType, MeshType>::ZoneMesh
   PtrList<ZoneType>{size},
   regIOobject{io},
   mesh_{mesh},
-  zoneMapPtr_{NULL}
+  zoneMapPtr_{nullptr}
 {
   // Optionally read contents, otherwise keep size
   read();
@@ -139,14 +139,13 @@ mousse::ZoneMesh<ZoneType, MeshType>::ZoneMesh
   PtrList<ZoneType>{},
   regIOobject{io},
   mesh_{mesh},
-  zoneMapPtr_{NULL}
+  zoneMapPtr_{nullptr}
 {
   if (!read()) {
     // Nothing read. Use supplied zones
     PtrList<ZoneType>& zones = *this;
     zones.setSize(pzm.size());
-    FOR_ALL (zones, zoneI)
-    {
+    FOR_ALL (zones, zoneI) {
       zones.set(zoneI, pzm[zoneI].clone(*this).ptr());
     }
   }
@@ -167,7 +166,7 @@ template<class ZoneType, class MeshType>
 const mousse::Map<mousse::label>&
 mousse::ZoneMesh<ZoneType, MeshType>::zoneMap() const
 {
-  if (!zoneMapPtr_) {
+  if (zoneMapPtr_ == nullptr) {
     calcZoneMap();
   }
   return *zoneMapPtr_;

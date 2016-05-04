@@ -49,7 +49,7 @@ uint64_t mousse::readUint64(Istream& is)
 
 bool mousse::read(const char* buf, uint64_t& s)
 {
-  char *endptr = NULL;
+  char *endptr = nullptr;
   long l = strtol(buf, &endptr, 10);
   s = uint64_t(l);
   return (*endptr == 0);

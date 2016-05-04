@@ -30,14 +30,15 @@ mousse::LduMatrix<Type, DType, LUType>::preconditioner::New
       << symMatrixConstructorTablePtr_->toc()
       << exit(FatalIOError);
     }
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::preconditioner>
-    {
-      constructorIter()
-      (
-        sol,
-        preconditionerDict
-      )
-    };
+    return
+      autoPtr<typename LduMatrix<Type, DType, LUType>::preconditioner>
+      {
+        constructorIter()
+        (
+          sol,
+          preconditionerDict
+        )
+      };
   } else if (sol.matrix().asymmetric()) {
     typename asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(preconditionerName);
@@ -54,14 +55,15 @@ mousse::LduMatrix<Type, DType, LUType>::preconditioner::New
       << asymMatrixConstructorTablePtr_->toc()
       << exit(FatalIOError);
     }
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::preconditioner>
-    {
-      constructorIter()
-      (
-        sol,
-        preconditionerDict
-      )
-    };
+    return
+      autoPtr<typename LduMatrix<Type, DType, LUType>::preconditioner>
+      {
+        constructorIter()
+        (
+          sol,
+          preconditionerDict
+        )
+      };
   } else {
     FATAL_IO_ERROR_IN
     (
@@ -70,11 +72,13 @@ mousse::LduMatrix<Type, DType, LUType>::preconditioner::New
       preconditionerDict
     )
     << "cannot preconditione incomplete matrix, "
-    "no diagonal or off-diagonal coefficient"
+       "no diagonal or off-diagonal coefficient"
     << exit(FatalIOError);
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::preconditioner>
-    {
-      NULL
-    };
+    return
+      autoPtr<typename LduMatrix<Type, DType, LUType>::preconditioner>
+      {
+        nullptr
+      };
   }
 }
+

@@ -49,13 +49,13 @@ clearTopology()
   // group created and destroyed together
   if (edgesPtr_ && faceFacesPtr_ && edgeFacesPtr_ && faceEdgesPtr_) {
     delete edgesPtr_;
-    edgesPtr_ = NULL;
+    edgesPtr_ = nullptr;
     delete faceFacesPtr_;
-    faceFacesPtr_ = NULL;
+    faceFacesPtr_ = nullptr;
     delete edgeFacesPtr_;
-    edgeFacesPtr_ = NULL;
+    edgeFacesPtr_ = nullptr;
     delete faceEdgesPtr_;
-    faceEdgesPtr_ = NULL;
+    faceEdgesPtr_ = nullptr;
   }
   deleteDemandDrivenData(boundaryPointsPtr_);
   deleteDemandDrivenData(pointEdgesPtr_);

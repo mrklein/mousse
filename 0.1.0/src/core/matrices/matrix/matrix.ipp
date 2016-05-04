@@ -36,7 +36,7 @@ mousse::Matrix<Form, Type>::Matrix(const label n, const label m)
 :
   n_{n},
   m_{m},
-  v_{NULL}
+  v_{nullptr}
 {
   if (n_ < 0 || m_ < 0) {
     FATAL_ERROR_IN("Matrix<Form, Type>::Matrix(const label n, const label m)")
@@ -52,7 +52,7 @@ mousse::Matrix<Form, Type>::Matrix(const label n, const label m, const Type& a)
 :
   n_{n},
   m_{m},
-  v_{NULL}
+  v_{nullptr}
 {
   if (n_ < 0 || m_ < 0) {
     FATAL_ERROR_IN
@@ -78,7 +78,7 @@ mousse::Matrix<Form, Type>::Matrix(const Matrix<Form, Type>& a)
 :
   n_{a.n_},
   m_{a.m_},
-  v_{NULL}
+  v_{nullptr}
 {
   if (a.v_) {
     allocate();
@@ -101,7 +101,7 @@ void mousse::Matrix<Form, Type>::clear()
   }
   n_ = 0;
   m_ = 0;
-  v_ = NULL;
+  v_ = nullptr;
 }
 
 
@@ -114,7 +114,7 @@ void mousse::Matrix<Form, Type>::transfer(Matrix<Form, Type>& a)
   m_ = a.m_;
   a.m_ = 0;
   v_ = a.v_;
-  a.v_ = NULL;
+  a.v_ = nullptr;
 }
 
 
@@ -161,7 +161,7 @@ void mousse::Matrix<Form, Type>::operator=(const Matrix<Form, Type>& a)
     m_ = a.m_;
     allocate();
   }
-  if (v_) {
+  if (v_ != nullptr) {
     Type* v = v_[0];
     const Type* av = a.v_[0];
     label nm = n_*m_;

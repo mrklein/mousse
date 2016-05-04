@@ -28,7 +28,7 @@ public:
     oneField()
     {}
   // Member Operators
-    inline scalar operator[](const label) const { return {1.0}; }
+    inline scalar operator[](const label) const { return 1.0; }
     inline oneField field() const { return oneField(); }
 };
 

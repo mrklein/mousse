@@ -71,8 +71,8 @@ mousse::polyPatch::polyPatch
   },
   start_{start},
   boundaryMesh_{bm},
-  faceCellsPtr_{NULL},
-  mePtr_{NULL}
+  faceCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {
   if (patchType != word::null
       && constraintType(patchType)
@@ -104,8 +104,8 @@ mousse::polyPatch::polyPatch
   },
   start_{readLabel(dict.lookup("startFace"))},
   boundaryMesh_{bm},
-  faceCellsPtr_{NULL},
-  mePtr_{NULL}
+  faceCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {
   if (patchType != word::null
       && constraintType(patchType)
@@ -134,8 +134,8 @@ mousse::polyPatch::polyPatch
   },
   start_{pp.start()},
   boundaryMesh_{bm},
-  faceCellsPtr_{NULL},
-  mePtr_{NULL}
+  faceCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {}
 
 
@@ -161,8 +161,8 @@ mousse::polyPatch::polyPatch
   },
   start_{newStart},
   boundaryMesh_{bm},
-  faceCellsPtr_{NULL},
-  mePtr_{NULL}
+  faceCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {}
 
 
@@ -188,8 +188,8 @@ mousse::polyPatch::polyPatch
   },
   start_{newStart},
   boundaryMesh_{bm},
-  faceCellsPtr_{NULL},
-  mePtr_{NULL}
+  faceCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {}
 
 
@@ -199,8 +199,8 @@ mousse::polyPatch::polyPatch(const polyPatch& p)
   primitivePatch{p},
   start_{p.start_},
   boundaryMesh_{p.boundaryMesh_},
-  faceCellsPtr_{NULL},
-  mePtr_{NULL}
+  faceCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {}
 
 
@@ -273,11 +273,12 @@ mousse::tmp<mousse::vectorField> mousse::polyPatch::faceCellCentres() const
 
 const mousse::labelUList& mousse::polyPatch::faceCells() const
 {
-  if (!faceCellsPtr_) {
-    faceCellsPtr_ = new labelList::subList
-    {
-      patchSlice(boundaryMesh().mesh().faceOwner())
-    };
+  if (faceCellsPtr_ == nullptr) {
+    faceCellsPtr_ =
+      new labelList::subList
+      {
+        patchSlice(boundaryMesh().mesh().faceOwner())
+      };
   }
   return *faceCellsPtr_;
 }
@@ -285,7 +286,7 @@ const mousse::labelUList& mousse::polyPatch::faceCells() const
 
 const mousse::labelList& mousse::polyPatch::meshEdges() const
 {
-  if (!mePtr_) {
+  if (mePtr_ == nullptr) {
     mePtr_ =
       new labelList
       {
@@ -352,3 +353,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const polyPatch& p)
   os.check("Ostream& operator<<(Ostream& os, const polyPatch& p");
   return os;
 }
+

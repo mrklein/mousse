@@ -14,7 +14,7 @@ template<class Patch>
 const scalarListList&
 PrimitivePatchInterpolation<Patch>::faceToPointWeights() const
 {
-  if (!faceToPointWeightsPtr_) {
+  if (faceToPointWeightsPtr_ == nullptr) {
     makeFaceToPointWeights();
   }
   return *faceToPointWeightsPtr_;
@@ -24,7 +24,7 @@ PrimitivePatchInterpolation<Patch>::faceToPointWeights() const
 template<class Patch>
 void PrimitivePatchInterpolation<Patch>::makeFaceToPointWeights() const
 {
-  if (faceToPointWeightsPtr_) {
+  if (faceToPointWeightsPtr_ != nullptr) {
     FATAL_ERROR_IN
     (
       "PrimitivePatchInterpolation<Patch>::makeFaceToPointWeights() const"
@@ -34,7 +34,7 @@ void PrimitivePatchInterpolation<Patch>::makeFaceToPointWeights() const
   }
   const pointField& points = patch_.localPoints();
   const List<typename Patch::FaceType>& faces = patch_.localFaces();
-  faceToPointWeightsPtr_ = new scalarListList(points.size());
+  faceToPointWeightsPtr_ = new scalarListList{points.size()};
   scalarListList& weights = *faceToPointWeightsPtr_;
   // get reference to addressing
   const labelListList& pointFaces = patch_.pointFaces();
@@ -59,7 +59,7 @@ template<class Patch>
 const scalarList&
 PrimitivePatchInterpolation<Patch>::faceToEdgeWeights() const
 {
-  if (!faceToEdgeWeightsPtr_) {
+  if (faceToEdgeWeightsPtr_ == nullptr) {
     makeFaceToEdgeWeights();
   }
   return *faceToEdgeWeightsPtr_;
@@ -69,7 +69,7 @@ PrimitivePatchInterpolation<Patch>::faceToEdgeWeights() const
 template<class Patch>
 void PrimitivePatchInterpolation<Patch>::makeFaceToEdgeWeights() const
 {
-  if (faceToEdgeWeightsPtr_) {
+  if (faceToEdgeWeightsPtr_ != nullptr) {
     FATAL_ERROR_IN
     (
       "PrimitivePatchInterpolation<Patch>::makeFaceToEdgeWeights() const"
@@ -81,7 +81,7 @@ void PrimitivePatchInterpolation<Patch>::makeFaceToEdgeWeights() const
   const List<typename Patch::FaceType>& faces = patch_.localFaces();
   const edgeList& edges = patch_.edges();
   const labelListList& edgeFaces = patch_.edgeFaces();
-  faceToEdgeWeightsPtr_ = new scalarList(patch_.nInternalEdges());
+  faceToEdgeWeightsPtr_ = new scalarList{patch_.nInternalEdges()};
   scalarList& weights = *faceToEdgeWeightsPtr_;
   FOR_ALL(weights, edgei) {
     vector P = faces[edgeFaces[edgei][0]].centre(points);
@@ -89,7 +89,7 @@ void PrimitivePatchInterpolation<Patch>::makeFaceToEdgeWeights() const
     vector S = points[edges[edgei].start()];
     vector e = edges[edgei].vec(points);
     scalar alpha =
-      -(((N - P)^(S - P))&((N - P)^e))/(((N - P)^e )&((N - P)^e));
+      -(((N - P) ^ (S - P)) & ((N - P) ^ e))/(((N - P) ^ e ) & ((N - P) ^ e));
     vector E = S + alpha*e;
     weights[edgei] = mag(N - E)/(mag(N - E) + mag(E - P));
   }
@@ -109,8 +109,8 @@ template<class Patch>
 PrimitivePatchInterpolation<Patch>::PrimitivePatchInterpolation(const Patch& p)
 :
   patch_{p},
-  faceToPointWeightsPtr_{NULL},
-  faceToEdgeWeightsPtr_{NULL}
+  faceToPointWeightsPtr_{nullptr},
+  faceToEdgeWeightsPtr_{nullptr}
 {}
 
 

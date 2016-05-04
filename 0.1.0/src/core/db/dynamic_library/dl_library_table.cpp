@@ -101,7 +101,7 @@ bool mousse::dlLibraryTable::close
         << " with handle " << uintptr_t(libPtrs_[index]) << endl;
     }
     bool ok = dlClose(libPtrs_[index]);
-    libPtrs_[index] = NULL;
+    libPtrs_[index] = nullptr;
     libNames_[index] = fileName::null;
     if (!ok) {
       if (verbose) {
@@ -132,7 +132,7 @@ void* mousse::dlLibraryTable::findLibrary(const fileName& functionLibName)
   if (index != -1) {
     return libPtrs_[index];
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -143,7 +143,7 @@ bool mousse::dlLibraryTable::open
 )
 {
   if (dict.found(libsEntry)) {
-    fileNameList libNames(dict.lookup(libsEntry));
+    fileNameList libNames{dict.lookup(libsEntry)};
     bool allOpened = !libNames.empty();
     FOR_ALL(libNames, i) {
       allOpened = dlLibraryTable::open(libNames[i]) && allOpened;

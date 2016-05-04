@@ -20,6 +20,7 @@ namespace mousse {
 namespace functionEntries {
 
 DEFINE_TYPE_NAME_AND_DEBUG(codeStream, 0);
+
 ADD_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   functionEntry,
@@ -27,6 +28,7 @@ ADD_TO_MEMBER_FUNCTION_SELECTION_TABLE
   execute,
   dictionaryIstream
 );
+
 ADD_TO_MEMBER_FUNCTION_SELECTION_TABLE
 (
   functionEntry,
@@ -70,7 +72,7 @@ mousse::functionEntries::codeStream::getFunction
   // Version information is encoded in the libPath (encoded with the SHA1)
   const fileName libPath = dynCode.libPath();
   // see if library is loaded
-  void* lib = NULL;
+  void* lib = nullptr;
   if (isA<IOdictionary>(parentDict.topDict())) {
     lib = libs(parentDict).findLibrary(libPath);
   }

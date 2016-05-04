@@ -56,7 +56,7 @@ public:
   // Constructors
     //- Store object pointer and manage its deletion
     //  Can also be used later to transfer by assignment
-    inline explicit Xfer(T* = 0);
+    inline explicit Xfer(T* = nullptr);
     //- Construct by copying or by transferring the parameter contents
     inline explicit Xfer(T&, bool allowTransfer=false);
     //- Construct by copying the parameter contents
@@ -188,7 +188,7 @@ template<class T>
 inline mousse::Xfer<T>::~Xfer()
 {
   delete ptr_;
-  ptr_ = 0;
+  ptr_ = nullptr;
 }
 
 

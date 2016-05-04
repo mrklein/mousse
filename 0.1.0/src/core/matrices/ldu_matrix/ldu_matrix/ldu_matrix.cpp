@@ -17,26 +17,26 @@ DEFINE_TYPE_NAME_AND_DEBUG(lduMatrix, 1);
 mousse::lduMatrix::lduMatrix(const lduMesh& mesh)
 :
   lduMesh_{mesh},
-  lowerPtr_{NULL},
-  diagPtr_{NULL},
-  upperPtr_{NULL}
+  lowerPtr_{nullptr},
+  diagPtr_{nullptr},
+  upperPtr_{nullptr}
 {}
 
 
 mousse::lduMatrix::lduMatrix(const lduMatrix& A)
 :
   lduMesh_{A.lduMesh_},
-  lowerPtr_{NULL},
-  diagPtr_{NULL},
-  upperPtr_{NULL}
+  lowerPtr_{nullptr},
+  diagPtr_{nullptr},
+  upperPtr_{nullptr}
 {
-  if (A.lowerPtr_) {
+  if (A.lowerPtr_ != nullptr) {
     lowerPtr_ = new scalarField{*(A.lowerPtr_)};
   }
-  if (A.diagPtr_) {
+  if (A.diagPtr_ != nullptr) {
     diagPtr_ = new scalarField{*(A.diagPtr_)};
   }
-  if (A.upperPtr_) {
+  if (A.upperPtr_ != nullptr) {
     upperPtr_ = new scalarField{*(A.upperPtr_)};
   }
 }
@@ -45,31 +45,31 @@ mousse::lduMatrix::lduMatrix(const lduMatrix& A)
 mousse::lduMatrix::lduMatrix(lduMatrix& A, bool reUse)
 :
   lduMesh_{A.lduMesh_},
-  lowerPtr_{NULL},
-  diagPtr_{NULL},
-  upperPtr_{NULL}
+  lowerPtr_{nullptr},
+  diagPtr_{nullptr},
+  upperPtr_{nullptr}
 {
   if (reUse) {
-    if (A.lowerPtr_) {
+    if (A.lowerPtr_ != nullptr) {
       lowerPtr_ = A.lowerPtr_;
-      A.lowerPtr_ = NULL;
+      A.lowerPtr_ = nullptr;
     }
-    if (A.diagPtr_) {
+    if (A.diagPtr_ != nullptr) {
       diagPtr_ = A.diagPtr_;
-      A.diagPtr_ = NULL;
+      A.diagPtr_ = nullptr;
     }
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       upperPtr_ = A.upperPtr_;
-      A.upperPtr_ = NULL;
+      A.upperPtr_ = nullptr;
     }
   } else {
-    if (A.lowerPtr_) {
+    if (A.lowerPtr_ != nullptr) {
       lowerPtr_ = new scalarField{*(A.lowerPtr_)};
     }
-    if (A.diagPtr_) {
+    if (A.diagPtr_ != nullptr) {
       diagPtr_ = new scalarField{*(A.diagPtr_)};
     }
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       upperPtr_ = new scalarField{*(A.upperPtr_)};
     }
   }
@@ -79,9 +79,9 @@ mousse::lduMatrix::lduMatrix(lduMatrix& A, bool reUse)
 mousse::lduMatrix::lduMatrix(const lduMesh& mesh, Istream& is)
 :
   lduMesh_{mesh},
-  lowerPtr_{NULL},
-  diagPtr_{NULL},
-  upperPtr_{NULL}
+  lowerPtr_{nullptr},
+  diagPtr_{nullptr},
+  upperPtr_{nullptr}
 {
   Switch hasLow{is};
   Switch hasDiag{is};
@@ -100,13 +100,13 @@ mousse::lduMatrix::lduMatrix(const lduMesh& mesh, Istream& is)
 
 mousse::lduMatrix::~lduMatrix()
 {
-  if (lowerPtr_) {
+  if (lowerPtr_ != nullptr) {
     delete lowerPtr_;
   }
-  if (diagPtr_) {
+  if (diagPtr_ != nullptr) {
     delete diagPtr_;
   }
-  if (upperPtr_) {
+  if (upperPtr_ != nullptr) {
     delete upperPtr_;
   }
 }
@@ -114,8 +114,8 @@ mousse::lduMatrix::~lduMatrix()
 
 mousse::scalarField& mousse::lduMatrix::lower()
 {
-  if (!lowerPtr_) {
-    if (upperPtr_) {
+  if (lowerPtr_ == nullptr) {
+    if (upperPtr_ != nullptr) {
       lowerPtr_ = new scalarField{*upperPtr_};
     }
     else {
@@ -128,7 +128,7 @@ mousse::scalarField& mousse::lduMatrix::lower()
 
 mousse::scalarField& mousse::lduMatrix::diag()
 {
-  if (!diagPtr_) {
+  if (diagPtr_ == nullptr) {
     diagPtr_ = new scalarField{lduAddr().size(), 0.0};
   }
   return *diagPtr_;
@@ -137,8 +137,8 @@ mousse::scalarField& mousse::lduMatrix::diag()
 
 mousse::scalarField& mousse::lduMatrix::upper()
 {
-  if (!upperPtr_) {
-    if (lowerPtr_) {
+  if (upperPtr_ == nullptr) {
+    if (lowerPtr_ != nullptr) {
       upperPtr_ = new scalarField{*lowerPtr_};
     } else {
       upperPtr_ = new scalarField{lduAddr().lowerAddr().size(), 0.0};
@@ -150,8 +150,8 @@ mousse::scalarField& mousse::lduMatrix::upper()
 
 mousse::scalarField& mousse::lduMatrix::lower(const label nCoeffs)
 {
-  if (!lowerPtr_) {
-    if (upperPtr_) {
+  if (lowerPtr_ == nullptr) {
+    if (upperPtr_ != nullptr) {
       lowerPtr_ = new scalarField{*upperPtr_};
     } else {
       lowerPtr_ = new scalarField{nCoeffs, 0.0};
@@ -163,7 +163,7 @@ mousse::scalarField& mousse::lduMatrix::lower(const label nCoeffs)
 
 mousse::scalarField& mousse::lduMatrix::diag(const label size)
 {
-  if (!diagPtr_) {
+  if (diagPtr_ == nullptr) {
     diagPtr_ = new scalarField{size, 0.0};
   }
   return *diagPtr_;
@@ -172,8 +172,8 @@ mousse::scalarField& mousse::lduMatrix::diag(const label size)
 
 mousse::scalarField& mousse::lduMatrix::upper(const label nCoeffs)
 {
-  if (!upperPtr_) {
-    if (lowerPtr_) {
+  if (upperPtr_ == nullptr) {
+    if (lowerPtr_ != nullptr) {
       upperPtr_ = new scalarField{*lowerPtr_};
     } else {
       upperPtr_ = new scalarField{nCoeffs, 0.0};
@@ -185,12 +185,12 @@ mousse::scalarField& mousse::lduMatrix::upper(const label nCoeffs)
 
 const mousse::scalarField& mousse::lduMatrix::lower() const
 {
-  if (!lowerPtr_ && !upperPtr_) {
+  if (lowerPtr_ == nullptr && upperPtr_ == nullptr) {
     FATAL_ERROR_IN("lduMatrix::lower() const")
       << "lowerPtr_ or upperPtr_ unallocated"
       << abort(FatalError);
   }
-  if (lowerPtr_) {
+  if (lowerPtr_ != nullptr) {
     return *lowerPtr_;
   } else {
     return *upperPtr_;
@@ -200,7 +200,7 @@ const mousse::scalarField& mousse::lduMatrix::lower() const
 
 const mousse::scalarField& mousse::lduMatrix::diag() const
 {
-  if (!diagPtr_) {
+  if (diagPtr_ == nullptr) {
     FATAL_ERROR_IN("const scalarField& lduMatrix::diag() const")
       << "diagPtr_ unallocated"
       << abort(FatalError);
@@ -211,12 +211,12 @@ const mousse::scalarField& mousse::lduMatrix::diag() const
 
 const mousse::scalarField& mousse::lduMatrix::upper() const
 {
-  if (!lowerPtr_ && !upperPtr_) {
+  if (lowerPtr_ == nullptr && upperPtr_ == nullptr) {
     FATAL_ERROR_IN("lduMatrix::upper() const")
       << "lowerPtr_ or upperPtr_ unallocated"
       << abort(FatalError);
   }
-  if (upperPtr_) {
+  if (upperPtr_ != nullptr) {
     return *upperPtr_;
   } else {
     return *lowerPtr_;
@@ -267,3 +267,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const InfoProxy<lduMatrix>& ip)
   os.check("Ostream& operator<<(Ostream&, const lduMatrix&");
   return os;
 }
+

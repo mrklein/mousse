@@ -27,7 +27,7 @@ mousse::TimeDataEntry<Type>::TimeDataEntry(const Time& t, const word& name)
 :
   time_{t},
   name_{name},
-  entry_{NULL}
+  entry_{nullptr}
 {}
 
 

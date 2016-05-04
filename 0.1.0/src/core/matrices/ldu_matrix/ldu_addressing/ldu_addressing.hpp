@@ -106,9 +106,9 @@ public:
     lduAddressing(const label nEqns)
     :
       size_{nEqns},
-      losortPtr_{NULL},
-      ownerStartPtr_{NULL},
-      losortStartPtr_{NULL}
+      losortPtr_{nullptr},
+      ownerStartPtr_{nullptr},
+      losortStartPtr_{nullptr}
     {}
 
     //- Disallow default bitwise copy construct

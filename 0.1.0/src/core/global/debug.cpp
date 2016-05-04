@@ -15,17 +15,18 @@ namespace mousse {
 namespace debug {
 
 //! \cond ignoreDocumentation - local scope
-dictionary* controlDictPtr_{NULL};
-dictionary* debugSwitchesPtr_{NULL};
-dictionary* infoSwitchesPtr_{NULL};
-dictionary* optimisationSwitchesPtr_{NULL};
+dictionary* controlDictPtr_{nullptr};
+dictionary* debugSwitchesPtr_{nullptr};
+dictionary* infoSwitchesPtr_{nullptr};
+dictionary* optimisationSwitchesPtr_{nullptr};
 
 // Debug switch read and write callback tables.
-simpleObjectRegistry* debugObjectsPtr_{NULL};
-simpleObjectRegistry* infoObjectsPtr_{NULL};
-simpleObjectRegistry* optimisationObjectsPtr_{NULL};
-simpleObjectRegistry* dimensionSetObjectsPtr_{NULL};
-simpleObjectRegistry* dimensionedConstantObjectsPtr_{NULL};
+simpleObjectRegistry* debugObjectsPtr_{nullptr};
+simpleObjectRegistry* infoObjectsPtr_{nullptr};
+simpleObjectRegistry* optimisationObjectsPtr_{nullptr};
+simpleObjectRegistry* dimensionSetObjectsPtr_{nullptr};
+simpleObjectRegistry* dimensionedConstantObjectsPtr_{nullptr};
+
 
 // to ensure controlDictPtr_ is deleted at the end of the run
 class deleteControlDictPtr
@@ -40,12 +41,13 @@ public:
     deleteDemandDrivenData(optimisationObjectsPtr_);
     deleteDemandDrivenData(dimensionSetObjectsPtr_);
     deleteDemandDrivenData(dimensionedConstantObjectsPtr_);
-    debugSwitchesPtr_ = NULL;
-    infoSwitchesPtr_ = NULL;
-    optimisationSwitchesPtr_ = NULL;
+    debugSwitchesPtr_ = nullptr;
+    infoSwitchesPtr_ = nullptr;
+    optimisationSwitchesPtr_ = nullptr;
     deleteDemandDrivenData(controlDictPtr_);
   }
 };
+
 
 deleteControlDictPtr deleteControlDictPtr_;
 //! \endcond
@@ -57,7 +59,7 @@ deleteControlDictPtr deleteControlDictPtr_;
 
 mousse::dictionary& mousse::debug::controlDict()
 {
-  if (!controlDictPtr_) {
+  if (controlDictPtr_ == nullptr) {
     fileNameList controlDictFiles = findEtcFiles("controlDict", true);
     controlDictPtr_ = new dictionary();
     FOR_ALL_REVERSE(controlDictFiles, cdfi) {
@@ -75,21 +77,21 @@ mousse::dictionary& mousse::debug::controlDict()
   }
   return *controlDictPtr_;
 }
+
+
 mousse::dictionary& mousse::debug::switchSet
 (
   const char* subDictName,
   dictionary*& subDictPtr
 )
 {
-  if (!subDictPtr)
-  {
+  if (!subDictPtr) {
     entry* ePtr = controlDict().lookupEntryPtr
     (
       subDictName, false, false
     );
-    if (!ePtr || !ePtr->isDict())
-    {
-      cerr<< "debug::switchSet(const char*, dictionary*&):\n"
+    if (ePtr == nullptr || ePtr->isDict()) {
+      cerr << "debug::switchSet(const char*, dictionary*&):\n"
         << "    Cannot find " <<  subDictName << " in dictionary "
         << controlDict().name().c_str()
         << std::endl << std::endl;
@@ -121,35 +123,38 @@ mousse::dictionary& mousse::debug::optimisationSwitches()
 
 int mousse::debug::debugSwitch(const char* name, const int defaultValue)
 {
-  return debugSwitches().lookupOrAddDefault
-  (
-    name, defaultValue, false, false
-  );
+  return
+    debugSwitches().lookupOrAddDefault
+    (
+      name, defaultValue, false, false
+    );
 }
 
 
 int mousse::debug::infoSwitch(const char* name, const int defaultValue)
 {
-  return infoSwitches().lookupOrAddDefault
-  (
-    name, defaultValue, false, false
-  );
+  return
+    infoSwitches().lookupOrAddDefault
+    (
+      name, defaultValue, false, false
+    );
 }
 
 
 int mousse::debug::optimisationSwitch(const char* name, const int defaultValue)
 {
-  return optimisationSwitches().lookupOrAddDefault
-  (
-    name, defaultValue, false, false
-  );
+  return
+    optimisationSwitches().lookupOrAddDefault
+    (
+      name, defaultValue, false, false
+    );
 }
 
 
 void mousse::debug::addDebugObject(const char* name, simpleRegIOobject* obj)
 {
   simpleObjectRegistryEntry* ptr = debugObjects().lookupPtr(name);
-  if (ptr) {
+  if (ptr != nullptr) {
     ptr->append(obj);
   } else {
     debugObjects().append
@@ -164,7 +169,7 @@ void mousse::debug::addDebugObject(const char* name, simpleRegIOobject* obj)
 void mousse::debug::addInfoObject(const char* name, simpleRegIOobject* obj)
 {
   simpleObjectRegistryEntry* ptr = infoObjects().lookupPtr(name);
-  if (ptr) {
+  if (ptr != nullptr) {
     ptr->append(obj);
   } else {
     infoObjects().append
@@ -183,7 +188,7 @@ void mousse::debug::addOptimisationObject
 )
 {
   simpleObjectRegistryEntry* ptr = optimisationObjects().lookupPtr(name);
-  if (ptr) {
+  if (ptr != nullptr) {
     ptr->append(obj);
   } else {
     optimisationObjects().append
@@ -202,7 +207,7 @@ void mousse::debug::addDimensionSetObject
 )
 {
   simpleObjectRegistryEntry* ptr = dimensionSetObjects().lookupPtr(name);
-  if (ptr) {
+  if (ptr != nullptr) {
     ptr->append(obj);
   } else {
     dimensionSetObjects().append
@@ -224,7 +229,7 @@ void mousse::debug::addDimensionedConstantObject
   (
     name
   );
-  if (ptr) {
+  if (ptr != nullptr) {
     ptr->append(obj);
   } else {
     dimensionedConstantObjects().append
@@ -238,7 +243,7 @@ void mousse::debug::addDimensionedConstantObject
 
 mousse::simpleObjectRegistry& mousse::debug::debugObjects()
 {
-  if (!debugObjectsPtr_) {
+  if (debugObjectsPtr_ == nullptr) {
     debugObjectsPtr_ = new simpleObjectRegistry{1000};
   }
   return *debugObjectsPtr_;
@@ -247,7 +252,7 @@ mousse::simpleObjectRegistry& mousse::debug::debugObjects()
 
 mousse::simpleObjectRegistry& mousse::debug::infoObjects()
 {
-  if (!infoObjectsPtr_) {
+  if (infoObjectsPtr_ == nullptr) {
     infoObjectsPtr_ = new simpleObjectRegistry{100};
   }
   return *infoObjectsPtr_;
@@ -256,7 +261,7 @@ mousse::simpleObjectRegistry& mousse::debug::infoObjects()
 
 mousse::simpleObjectRegistry& mousse::debug::optimisationObjects()
 {
-  if (!optimisationObjectsPtr_) {
+  if (optimisationObjectsPtr_ == nullptr) {
     optimisationObjectsPtr_ = new simpleObjectRegistry{100};
   }
   return *optimisationObjectsPtr_;
@@ -265,7 +270,7 @@ mousse::simpleObjectRegistry& mousse::debug::optimisationObjects()
 
 mousse::simpleObjectRegistry& mousse::debug::dimensionSetObjects()
 {
-  if (!dimensionSetObjectsPtr_) {
+  if (dimensionSetObjectsPtr_ == nullptr) {
     dimensionSetObjectsPtr_ = new simpleObjectRegistry{100};
   }
   return *dimensionSetObjectsPtr_;
@@ -274,7 +279,7 @@ mousse::simpleObjectRegistry& mousse::debug::dimensionSetObjects()
 
 mousse::simpleObjectRegistry& mousse::debug::dimensionedConstantObjects()
 {
-  if (!dimensionedConstantObjectsPtr_) {
+  if (dimensionedConstantObjectsPtr_ == nullptr) {
     dimensionedConstantObjectsPtr_ = new simpleObjectRegistry{100};
   }
   return *dimensionedConstantObjectsPtr_;

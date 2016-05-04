@@ -93,11 +93,11 @@ bool mousse::dictionary::read(Istream& is)
 
 bool mousse::dictionary::substituteKeyword(const word& keyword)
 {
-  word varName = keyword(1, keyword.size()-1);
+  word varName = keyword(1, keyword.size() - 1);
   // lookup the variable name in the given dictionary
   const entry* ePtr = lookupEntryPtr(varName, true, true);
   // if defined insert its entries into this dictionary
-  if (ePtr != NULL) {
+  if (ePtr != nullptr) {
     const dictionary& addDict = ePtr->dict();
     FOR_ALL_CONST_ITER(IDLList<entry>, addDict, iter) {
       add(iter());

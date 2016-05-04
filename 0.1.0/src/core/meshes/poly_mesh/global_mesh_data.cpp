@@ -62,7 +62,7 @@ void mousse::globalMeshData::initProcAddr()
   }
   processorPatches_.setSize(nNeighbours);
   if (Pstream::parRun()) {
-    PstreamBuffers pBufs(Pstream::nonBlocking);
+    PstreamBuffers pBufs{Pstream::nonBlocking};
     // Send indices of my processor patches to my neighbours
     FOR_ALL(processorPatches_, i) {
       label patchi = processorPatches_[i];
@@ -321,12 +321,9 @@ void mousse::globalMeshData::calcSharedEdges() const
     }
     // Send back to slaves.
     if (Pstream::parRun()) {
-      for
-      (
-        int slave=Pstream::firstSlave();
-        slave<=Pstream::lastSlave();
-        slave++
-      ) {
+      for (int slave=Pstream::firstSlave();
+           slave<=Pstream::lastSlave();
+           slave++) {
         // Receive the edges using shared points from the slave.
         OPstream toSlave{Pstream::blocking, slave};
         toSlave << globalShared;
@@ -498,12 +495,13 @@ void mousse::globalMeshData::calcGlobalPointEdges
     globalPPoints.setSize(pEdges.size());
     FOR_ALL(pEdges, i) {
       label otherPointI = edges[pEdges[i]].otherVertex(pointI);
-      globalPPoints[i] = globalIndexAndTransform::encode
-      (
-        Pstream::myProcNo(),
-        otherPointI,
-        globalTransforms().nullTransformIndex()
-      );
+      globalPPoints[i] =
+        globalIndexAndTransform::encode
+        (
+          Pstream::myProcNo(),
+          otherPointI,
+          globalTransforms().nullTransformIndex()
+        );
     }
   }
   // Pull slave data to master. Dummy transform.
@@ -572,12 +570,13 @@ void mousse::globalMeshData::calcGlobalPointEdges
           const labelPair& n = otherData[j];
           label procI = globalIndexAndTransform::processor(n);
           label index = globalIndexAndTransform::index(n);
-          globalPPoints[sz++] = globalIndexAndTransform::encode
-          (
-            procI,
-            index,
-            transformI
-          );
+          globalPPoints[sz++] =
+            globalIndexAndTransform::encode
+            (
+              procI,
+              index,
+              transformI
+            );
         }
       }
       // Put back in slots
@@ -1307,12 +1306,12 @@ mousse::globalMeshData::globalMeshData(const polyMesh& mesh)
   processorPatchIndices_{0},
   processorPatchNeighbours_{0},
   nGlobalPoints_{-1},
-  sharedPointLabelsPtr_{NULL},
-  sharedPointAddrPtr_{NULL},
-  sharedPointGlobalLabelsPtr_{NULL},
+  sharedPointLabelsPtr_{nullptr},
+  sharedPointAddrPtr_{nullptr},
+  sharedPointGlobalLabelsPtr_{nullptr},
   nGlobalEdges_{-1},
-  sharedEdgeLabelsPtr_{NULL},
-  sharedEdgeAddrPtr_{NULL}
+  sharedEdgeLabelsPtr_{nullptr},
+  sharedEdgeAddrPtr_{nullptr}
 {
   updateMesh();
 }
@@ -1483,7 +1482,7 @@ mousse::pointField mousse::globalMeshData::geometricSharedPoints() const
   // Append from all processors
   combineReduce(sharedPoints, ListPlusEqOp<pointField>());
   // Merge tolerance
-  scalar tolDim = matchTol_ * mesh_.bounds().mag();
+  scalar tolDim = matchTol_*mesh_.bounds().mag();
   // And see how many are unique
   labelList pMap;
   pointField mergedPoints;
@@ -1579,11 +1578,7 @@ const mousse::indirectPrimitivePatch& mousse::globalMeshData::coupledPatch() con
     (
       new indirectPrimitivePatch
       {
-        IndirectList<face>
-        (
-          mesh_.faces(),
-          coupledFaces
-        ),
+        IndirectList<face>{mesh_.faces(), coupledFaces},
         mesh_.points()
       }
     );
@@ -1887,13 +1882,8 @@ mousse::autoPtr<mousse::globalIndex> mousse::globalMeshData::mergePoints
     }
   }
   label myUniquePoints = mesh_.nPoints() - cpp.nPoints() + nMaster;
-  //Pout<< "Points :" << nl
-  //    << "    mesh             : " << mesh_.nPoints() << nl
-  //    << "    of which coupled : " << cpp.nPoints() << nl
-  //    << "    of which master  : " << nMaster << nl
-  //    << endl;
   // 2. Create global indexing for unique points.
-  autoPtr<globalIndex> globalPointsPtr{new globalIndex(myUniquePoints)};
+  autoPtr<globalIndex> globalPointsPtr{new globalIndex{myUniquePoints}};
   // 3. Assign global point numbers. Keep slaves unset.
   pointToGlobal.setSize(mesh_.nPoints());
   pointToGlobal = -1;

@@ -29,14 +29,15 @@ mousse::LduMatrix<Type, DType, LUType>::smoother::New
       << symMatrixConstructorTablePtr_->toc()
       << exit(FatalIOError);
     }
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::smoother>
-    {
-      constructorIter()
-      (
-        fieldName,
-        matrix
-      )
-    };
+    return
+      autoPtr<typename LduMatrix<Type, DType, LUType>::smoother>
+      {
+        constructorIter()
+        (
+          fieldName,
+          matrix
+        )
+      };
   } else if (matrix.asymmetric()) {
     typename asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(smootherName);
@@ -51,14 +52,15 @@ mousse::LduMatrix<Type, DType, LUType>::smoother::New
       << asymMatrixConstructorTablePtr_->toc()
       << exit(FatalIOError);
     }
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::smoother>
-    {
-      constructorIter()
-      (
-        fieldName,
-        matrix
-      )
-    };
+    return
+      autoPtr<typename LduMatrix<Type, DType, LUType>::smoother>
+      {
+        constructorIter()
+        (
+          fieldName,
+          matrix
+        )
+      };
   } else {
     FATAL_IO_ERROR_IN
     (

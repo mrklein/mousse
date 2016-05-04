@@ -18,7 +18,7 @@
 template<class T>
 mousse::List<T>::List(const label s)
 :
-  UList<T>{NULL, s}
+  UList<T>{nullptr, s}
 {
   if (this->size_ < 0) {
     FATAL_ERROR_IN("List<T>::List(const label size)")
@@ -35,7 +35,7 @@ mousse::List<T>::List(const label s)
 template<class T>
 mousse::List<T>::List(const label s, const T& a)
 :
-  UList<T>{NULL, s}
+  UList<T>{nullptr, s}
 {
   if (this->size_ < 0) {
     FATAL_ERROR_IN("List<T>::List(const label size, const T&)")
@@ -56,7 +56,7 @@ mousse::List<T>::List(const label s, const T& a)
 template<class T>
 mousse::List<T>::List(const List<T>& a)
 :
-  UList<T>{NULL, a.size_}
+  UList<T>{nullptr, a.size_}
 {
   if (this->size_) {
     this->v_ = new T[this->size_];
@@ -88,11 +88,11 @@ mousse::List<T>::List(const Xfer<List<T> >& lst)
 template<class T>
 mousse::List<T>::List(List<T>& a, bool reUse)
 :
-  UList<T>{NULL, a.size_}
+  UList<T>{nullptr, a.size_}
 {
   if (reUse) {
     this->v_ = a.v_;
-    a.v_ = 0;
+    a.v_ = nullptr;
     a.size_ = 0;
   } else if (this->size_) {
     this->v_ = new T[this->size_];
@@ -117,7 +117,7 @@ mousse::List<T>::List(List<T>& a, bool reUse)
 template<class T>
 mousse::List<T>::List(const UList<T>& a, const labelUList& map)
 :
-  UList<T>{NULL, map.size()}
+  UList<T>{nullptr, map.size()}
 {
   if (this->size_) {
     // Note:cannot use LIST_ELEM since third argument has to be index.
@@ -161,7 +161,7 @@ template<class T>
 template<unsigned Size>
 mousse::List<T>::List(const FixedList<T, Size>& lst)
 :
-  UList<T>{NULL, Size}
+  UList<T>{nullptr, Size}
 {
   if (this->size_) {
     this->v_ = new T[this->size_];
@@ -177,7 +177,7 @@ mousse::List<T>::List(const FixedList<T, Size>& lst)
 template<class T>
 mousse::List<T>::List(const PtrList<T>& lst)
 :
-  UList<T>{NULL, lst.size()}
+  UList<T>{nullptr, lst.size()}
 {
   if (this->size_) {
     this->v_ = new T[this->size_];
@@ -192,7 +192,7 @@ mousse::List<T>::List(const PtrList<T>& lst)
 template<class T>
 mousse::List<T>::List(const SLList<T>& lst)
 :
-  UList<T>{NULL, lst.size()}
+  UList<T>{nullptr, lst.size()}
 {
   if (this->size_) {
     this->v_ = new T[this->size_];
@@ -213,7 +213,7 @@ mousse::List<T>::List(const SLList<T>& lst)
 template<class T>
 mousse::List<T>::List(const UIndirectList<T>& lst)
 :
-  UList<T>{NULL, lst.size()}
+  UList<T>{nullptr, lst.size()}
 {
   if (this->size_) {
     this->v_ = new T[this->size_];
@@ -228,7 +228,7 @@ mousse::List<T>::List(const UIndirectList<T>& lst)
 template<class T>
 mousse::List<T>::List(const BiIndirectList<T>& lst)
 :
-  UList<T>{NULL, lst.size()}
+  UList<T>{nullptr, lst.size()}
 {
   if (this->size_) {
     this->v_ = new T[this->size_];
@@ -244,7 +244,8 @@ mousse::List<T>::List(const BiIndirectList<T>& lst)
 template<class T>
 mousse::List<T>::~List()
 {
-  if (this->v_) delete[] this->v_;
+  if (this->v_ != nullptr)
+    delete[] this->v_;
 }
 
 
@@ -304,7 +305,7 @@ void mousse::List<T>::clear()
   if (this->v_)
     delete[] this->v_;
   this->size_ = 0;
-  this->v_ = 0;
+  this->v_ = nullptr;
 }
 
 
@@ -318,7 +319,7 @@ void mousse::List<T>::transfer(List<T>& a)
   this->size_ = a.size_;
   this->v_ = a.v_;
   a.size_ = 0;
-  a.v_ = 0;
+  a.v_ = nullptr;
 }
 
 
@@ -354,7 +355,7 @@ void mousse::List<T>::operator=(const UList<T>& a)
 {
   if (a.size_ != this->size_) {
     if (this->v_) delete[] this->v_;
-    this->v_ = 0;
+    this->v_ = nullptr;
     this->size_ = a.size_;
     if (this->size_) this->v_ = new T[this->size_];
   }
@@ -395,7 +396,7 @@ void mousse::List<T>::operator=(const SLList<T>& lst)
 {
   if (lst.size() != this->size_) {
     if (this->v_) delete[] this->v_;
-    this->v_ = 0;
+    this->v_ = nullptr;
     this->size_ = lst.size();
     if (this->size_) this->v_ = new T[this->size_];
   }
@@ -418,10 +419,12 @@ template<class T>
 void mousse::List<T>::operator=(const UIndirectList<T>& lst)
 {
   if (lst.size() != this->size_) {
-    if (this->v_) delete[] this->v_;
-    this->v_ = 0;
+    if (this->v_ != nullptr)
+      delete[] this->v_;
+    this->v_ = nullptr;
     this->size_ = lst.size();
-    if (this->size_) this->v_ = new T[this->size_];
+    if (this->size_)
+      this->v_ = new T[this->size_];
   }
   FOR_ALL(*this, i) {
     this->operator[](i) = lst[i];
@@ -434,10 +437,12 @@ template<class T>
 void mousse::List<T>::operator=(const BiIndirectList<T>& lst)
 {
   if (lst.size() != this->size_) {
-    if (this->v_) delete[] this->v_;
-    this->v_ = 0;
+    if (this->v_)
+      delete[] this->v_;
+    this->v_ = nullptr;
     this->size_ = lst.size();
-    if (this->size_) this->v_ = new T[this->size_];
+    if (this->size_)
+      this->v_ = new T[this->size_];
   }
   FOR_ALL(*this, i) {
     this->operator[](i) = lst[i];

@@ -82,7 +82,7 @@ const T* mousse::DictionaryBase<IDLListType, T>::lookupPtr
   if (iter != hashedTs_.end()) {
     return *iter;
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -95,7 +95,7 @@ T* mousse::DictionaryBase<IDLListType, T>::lookupPtr(const word& keyword)
   if (iter != hashedTs_.end()) {
     return *iter;
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -181,7 +181,7 @@ T* mousse::DictionaryBase<IDLListType, T>::remove(const word& keyword)
     hashedTs_.erase(iter);
     return tPtr;
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 

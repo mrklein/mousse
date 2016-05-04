@@ -57,19 +57,19 @@ void mousse::lduMatrix::operator=(const lduMatrix& A)
       << "attempted assignment to self"
       << abort(FatalError);
   }
-  if (A.lowerPtr_) {
+  if (A.lowerPtr_ != nullptr) {
     lower() = A.lower();
-  } else if (lowerPtr_) {
+  } else if (lowerPtr_ != nullptr) {
     delete lowerPtr_;
-    lowerPtr_ = NULL;
+    lowerPtr_ = nullptr;
   }
-  if (A.upperPtr_) {
+  if (A.upperPtr_ != nullptr) {
     upper() = A.upper();
-  } else if (upperPtr_) {
+  } else if (upperPtr_ != nullptr) {
     delete upperPtr_;
-    upperPtr_ = NULL;
+    upperPtr_ = nullptr;
   }
-  if (A.diagPtr_) {
+  if (A.diagPtr_ != nullptr) {
     diag() = A.diag();
   }
 }
@@ -77,13 +77,13 @@ void mousse::lduMatrix::operator=(const lduMatrix& A)
 
 void mousse::lduMatrix::negate()
 {
-  if (lowerPtr_) {
+  if (lowerPtr_ != nullptr) {
     lowerPtr_->negate();
   }
-  if (upperPtr_) {
+  if (upperPtr_ != nullptr) {
     upperPtr_->negate();
   }
-  if (diagPtr_) {
+  if (diagPtr_ != nullptr) {
     diagPtr_->negate();
   }
 }
@@ -91,13 +91,13 @@ void mousse::lduMatrix::negate()
 
 void mousse::lduMatrix::operator+=(const lduMatrix& A)
 {
-  if (A.diagPtr_) {
+  if (A.diagPtr_ != nullptr) {
     diag() += A.diag();
   }
   if (symmetric() && A.symmetric()) {
     upper() += A.upper();
   } else if (symmetric() && A.asymmetric()) {
-    if (upperPtr_) {
+    if (upperPtr_ != nullptr) {
       lower();
     } else {
       upper();
@@ -105,7 +105,7 @@ void mousse::lduMatrix::operator+=(const lduMatrix& A)
     upper() += A.upper();
     lower() += A.lower();
   } else if (asymmetric() && A.symmetric()) {
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       lower() += A.upper();
       upper() += A.upper();
     } else {
@@ -116,10 +116,10 @@ void mousse::lduMatrix::operator+=(const lduMatrix& A)
     lower() += A.lower();
     upper() += A.upper();
   } else if (diagonal()) {
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       upper() = A.upper();
     }
-    if (A.lowerPtr_) {
+    if (A.lowerPtr_ != nullptr) {
       lower() = A.lower();
     }
   } else if (A.diagonal()) {
@@ -143,13 +143,13 @@ void mousse::lduMatrix::operator+=(const lduMatrix& A)
 
 void mousse::lduMatrix::operator-=(const lduMatrix& A)
 {
-  if (A.diagPtr_) {
+  if (A.diagPtr_ != nullptr) {
     diag() -= A.diag();
   }
   if (symmetric() && A.symmetric()) {
     upper() -= A.upper();
   } else if (symmetric() && A.asymmetric()) {
-    if (upperPtr_) {
+    if (upperPtr_ != nullptr) {
       lower();
     } else {
       upper();
@@ -157,7 +157,7 @@ void mousse::lduMatrix::operator-=(const lduMatrix& A)
     upper() -= A.upper();
     lower() -= A.lower();
   } else if (asymmetric() && A.symmetric()) {
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       lower() -= A.upper();
       upper() -= A.upper();
     } else {
@@ -168,10 +168,10 @@ void mousse::lduMatrix::operator-=(const lduMatrix& A)
     lower() -= A.lower();
     upper() -= A.upper();
   } else if (diagonal()) {
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       upper() = -A.upper();
     }
-    if (A.lowerPtr_) {
+    if (A.lowerPtr_ != nullptr) {
       lower() = -A.lower();
     }
   } else if (A.diagonal()) {
@@ -195,7 +195,7 @@ void mousse::lduMatrix::operator-=(const lduMatrix& A)
 
 void mousse::lduMatrix::operator*=(const scalarField& sf)
 {
-  if (diagPtr_) {
+  if (diagPtr_ != nullptr) {
     *diagPtr_ *= sf;
   }
   // Non-uniform scaling causes a symmetric matrix
@@ -217,13 +217,13 @@ void mousse::lduMatrix::operator*=(const scalarField& sf)
 
 void mousse::lduMatrix::operator*=(scalar s)
 {
-  if (diagPtr_) {
+  if (diagPtr_ != nullptr) {
     *diagPtr_ *= s;
   }
-  if (upperPtr_) {
+  if (upperPtr_ != nullptr) {
     *upperPtr_ *= s;
   }
-  if (lowerPtr_) {
+  if (lowerPtr_ != nullptr) {
     *lowerPtr_ *= s;
   }
 }

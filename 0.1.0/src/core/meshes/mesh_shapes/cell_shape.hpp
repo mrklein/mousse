@@ -104,7 +104,7 @@ Ostream& operator<<(Ostream& os, const InfoProxy<cellShape>& ip);
 // Constructors 
 inline mousse::cellShape::cellShape()
 :
-  m{NULL}
+  m{nullptr}
 {}
 
 

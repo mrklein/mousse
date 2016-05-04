@@ -18,11 +18,6 @@ class refCount
 {
   // Private data
     int count_;
-  // Private Member Functions
-    //- Dissallow copy
-    refCount(const refCount&);
-    //- Dissallow bitwise assignment
-    void operator=(const refCount&);
 public:
   // Constructors
     //- Construct null with zero count
@@ -30,6 +25,10 @@ public:
     :
       count_{0}
     {}
+    //- Dissallow copy
+    refCount(const refCount&) = delete;
+    //- Dissallow bitwise assignment
+    void operator=(const refCount&) = delete;
   // Member Functions
     //- Return the reference count
     int count() const

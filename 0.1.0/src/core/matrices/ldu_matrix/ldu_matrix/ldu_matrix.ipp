@@ -12,7 +12,7 @@ mousse::tmp<mousse::Field<Type> > mousse::lduMatrix::H(const Field<Type>& psi) c
   {
     new Field<Type>{lduAddr().size(), pTraits<Type>::zero}
   };
-  if (lowerPtr_ || upperPtr_) {
+  if (lowerPtr_ != nullptr || upperPtr_ != nullptr) {
     Field<Type> & Hpsi = tHpsi();
     Type* __restrict__ HpsiPtr = Hpsi.begin();
     const Type* __restrict__ psiPtr = psi.begin();
@@ -44,7 +44,7 @@ template<class Type>
 mousse::tmp<mousse::Field<Type> >
 mousse::lduMatrix::faceH(const Field<Type>& psi) const
 {
-  if (lowerPtr_ || upperPtr_) {
+  if (lowerPtr_ != nullptr || upperPtr_ != nullptr) {
     const scalarField& Lower = const_cast<const lduMatrix&>(*this).lower();
     const scalarField& Upper = const_cast<const lduMatrix&>(*this).upper();
     const labelUList& l = lduAddr().lowerAddr();
@@ -58,10 +58,10 @@ mousse::lduMatrix::faceH(const Field<Type>& psi) const
   } else {
     FATAL_ERROR_IN("lduMatrix::faceH(const Field<Type>& psi) const")
       << "Cannot calculate faceH"
-       " the matrix does not have any off-diagonal coefficients."
+         " the matrix does not have any off-diagonal coefficients."
       << exit(FatalError);
 
-    return tmp<Field<Type>>{NULL};
+    return tmp<Field<Type>>{nullptr};
   }
 }
 

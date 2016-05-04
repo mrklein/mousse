@@ -136,8 +136,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, mesh, ds, false},
   timeIndex_{this->time().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{mesh.boundary(), *this, patchFieldType}
 {
   if (debug) {
@@ -161,8 +161,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, mesh, ds, false},
   timeIndex_{this->time().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{mesh.boundary(), *this, patchFieldTypes, actualPatchTypes}
 {
   if (debug) {
@@ -186,8 +186,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, mesh, dt, false},
   timeIndex_{this->time().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{mesh.boundary(), *this, patchFieldType}
 {
   if (debug) {
@@ -213,8 +213,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, mesh, dt, false},
   timeIndex_{this->time().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{mesh.boundary(), *this, patchFieldTypes, actualPatchTypes}
 {
   if (debug) {
@@ -240,8 +240,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, mesh, ds, iField},
   timeIndex_{this->time().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{mesh.boundary(), *this, ptfl}
 {
   if (debug) {
@@ -263,8 +263,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, mesh, dimless, false},
   timeIndex_{this->time().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{mesh.boundary()}
 {
   readFields();
@@ -300,8 +300,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, mesh, dimless, false},
   timeIndex_{this->time().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{mesh.boundary()}
 {
   readFields(dict);
@@ -334,8 +334,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{gf},
   timeIndex_{gf.timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{*this, gf.boundaryField_}
 {
   if (debug) {
@@ -344,7 +344,7 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
       "constructing as copy"
       << endl << this->info() << endl;
   }
-  if (gf.field0Ptr_) {
+  if (gf.field0Ptr_ != nullptr) {
     field0Ptr_ = new GeometricField<Type, PatchField, GeoMesh>{*gf.field0Ptr_};
   }
   this->writeOpt() = IOobject::NO_WRITE;
@@ -365,8 +365,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
     tgf.isTmp()
   },
   timeIndex_{tgf().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{*this, tgf().boundaryField_}
 {
   if (debug) {
@@ -391,8 +391,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, gf},
   timeIndex_{gf.timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{*this, gf.boundaryField_}
 {
   if (debug) {
@@ -401,12 +401,13 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
          "constructing as copy resetting IO params"
       << endl << this->info() << endl;
   }
-  if (!readIfPresent() && gf.field0Ptr_) {
-    field0Ptr_ = new GeometricField<Type, PatchField, GeoMesh>
-    {
-      io.name() + "_0",
-      *gf.field0Ptr_
-    };
+  if (!readIfPresent() && gf.field0Ptr_ != nullptr) {
+    field0Ptr_ =
+      new GeometricField<Type, PatchField, GeoMesh>
+      {
+        io.name() + "_0",
+        *gf.field0Ptr_
+      };
   }
 }
 
@@ -426,8 +427,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
     tgf.isTmp()
   },
   timeIndex_{tgf().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{*this, tgf().boundaryField_}
 {
   if (debug) {
@@ -451,8 +452,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{newName, gf},
   timeIndex_{gf.timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{*this, gf.boundaryField_}
 {
   if (debug) {
@@ -461,12 +462,13 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
       "constructing as copy resetting name"
       << endl << this->info() << endl;
   }
-  if (!readIfPresent() && gf.field0Ptr_) {
-    field0Ptr_ = new GeometricField<Type, PatchField, GeoMesh>
-    (
-      newName + "_0",
-      *gf.field0Ptr_
-    );
+  if (!readIfPresent() && gf.field0Ptr_ != nullptr) {
+    field0Ptr_ =
+      new GeometricField<Type, PatchField, GeoMesh>
+      {
+        newName + "_0",
+        *gf.field0Ptr_
+      };
   }
 }
 
@@ -486,8 +488,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
     tgf.isTmp()
   },
   timeIndex_{tgf().timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{*this, tgf().boundaryField_}
 {
   if (debug) {
@@ -511,8 +513,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, gf},
   timeIndex_{gf.timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_{this->mesh().boundary(), *this, patchFieldType}
 {
   if (debug) {
@@ -522,12 +524,13 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
       << endl << this->info() << endl;
   }
   boundaryField_ == gf.boundaryField_;
-  if (!readIfPresent() && gf.field0Ptr_) {
-    field0Ptr_ = new GeometricField<Type, PatchField, GeoMesh>
-    {
-      io.name() + "_0",
-      *gf.field0Ptr_
-    };
+  if (!readIfPresent() && gf.field0Ptr_ != nullptr) {
+    field0Ptr_ =
+      new GeometricField<Type, PatchField, GeoMesh>
+      {
+        io.name() + "_0",
+        *gf.field0Ptr_
+      };
   }
 }
 
@@ -543,8 +546,8 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
 :
   DimensionedField<Type, GeoMesh>{io, gf},
   timeIndex_{gf.timeIndex()},
-  field0Ptr_{NULL},
-  fieldPrevIterPtr_{NULL},
+  field0Ptr_{nullptr},
+  fieldPrevIterPtr_{nullptr},
   boundaryField_
   {
     this->mesh().boundary(),
@@ -556,16 +559,17 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::GeometricField
   if (debug) {
     Info
       << "GeometricField<Type, PatchField, GeoMesh>::GeometricField : "
-      "constructing as copy resetting IO params and patch types"
+         "constructing as copy resetting IO params and patch types"
       << endl << this->info() << endl;
   }
   boundaryField_ == gf.boundaryField_;
-  if (!readIfPresent() && gf.field0Ptr_) {
-    field0Ptr_ = new GeometricField<Type, PatchField, GeoMesh>
-    {
-      io.name() + "_0",
-      *gf.field0Ptr_
-    };
+  if (!readIfPresent() && gf.field0Ptr_ != nullptr) {
+    field0Ptr_ =
+      new GeometricField<Type, PatchField, GeoMesh>
+      {
+        io.name() + "_0",
+        *gf.field0Ptr_
+      };
   }
 }
 
@@ -616,7 +620,7 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::boundaryField()
 template<class Type, template<class> class PatchField, class GeoMesh>
 void mousse::GeometricField<Type, PatchField, GeoMesh>::storeOldTimes() const
 {
-  if (field0Ptr_ && timeIndex_ != this->time().timeIndex()
+  if (field0Ptr_ != nullptr && timeIndex_ != this->time().timeIndex()
       && !(this->name().size() > 2
            && this->name()(this->name().size()-2, 2) == "_0")) {
     storeOldTime();
@@ -629,7 +633,7 @@ void mousse::GeometricField<Type, PatchField, GeoMesh>::storeOldTimes() const
 template<class Type, template<class> class PatchField, class GeoMesh>
 void mousse::GeometricField<Type, PatchField, GeoMesh>::storeOldTime() const
 {
-  if (field0Ptr_) {
+  if (field0Ptr_ != nullptr) {
     field0Ptr_->storeOldTime();
     if (debug) {
       Info
@@ -638,7 +642,7 @@ void mousse::GeometricField<Type, PatchField, GeoMesh>::storeOldTime() const
     }
     *field0Ptr_ == *this;
     field0Ptr_->timeIndex_ = timeIndex_;
-    if (field0Ptr_->field0Ptr_) {
+    if (field0Ptr_->field0Ptr_ != nullptr) {
       field0Ptr_->writeOpt() = this->writeOpt();
     }
   }
@@ -648,7 +652,7 @@ void mousse::GeometricField<Type, PatchField, GeoMesh>::storeOldTime() const
 template<class Type, template<class> class PatchField, class GeoMesh>
 mousse::label mousse::GeometricField<Type, PatchField, GeoMesh>::nOldTimes() const
 {
-  if (field0Ptr_) {
+  if (field0Ptr_ != nullptr) {
     return field0Ptr_->nOldTimes() + 1;
   } else {
     return 0;
@@ -660,20 +664,21 @@ template<class Type, template<class> class PatchField, class GeoMesh>
 const mousse::GeometricField<Type, PatchField, GeoMesh>&
 mousse::GeometricField<Type, PatchField, GeoMesh>::oldTime() const
 {
-  if (!field0Ptr_) {
-    field0Ptr_ = new GeometricField<Type, PatchField, GeoMesh>
-    {
-      IOobject
+  if (field0Ptr_ == nullptr) {
+    field0Ptr_ =
+      new GeometricField<Type, PatchField, GeoMesh>
       {
-        this->name() + "_0",
-        this->time().timeName(),
-        this->db(),
-        IOobject::NO_READ,
-        IOobject::NO_WRITE,
-        this->registerObject()
-      },
-      *this
-    };
+        IOobject
+        {
+          this->name() + "_0",
+          this->time().timeName(),
+          this->db(),
+          IOobject::NO_READ,
+          IOobject::NO_WRITE,
+          this->registerObject()
+        },
+        *this
+      };
   } else {
     storeOldTimes();
   }
@@ -693,17 +698,18 @@ mousse::GeometricField<Type, PatchField, GeoMesh>::oldTime()
 template<class Type, template<class> class PatchField, class GeoMesh>
 void mousse::GeometricField<Type, PatchField, GeoMesh>::storePrevIter() const
 {
-  if (!fieldPrevIterPtr_) {
+  if (fieldPrevIterPtr_ == nullptr) {
     if (debug) {
       Info
         << "Allocating previous iteration field" << endl
         << this->info() << endl;
     }
-    fieldPrevIterPtr_ = new GeometricField<Type, PatchField, GeoMesh>
-    {
-      this->name() + "PrevIter",
-      *this
-    };
+    fieldPrevIterPtr_ =
+      new GeometricField<Type, PatchField, GeoMesh>
+      {
+        this->name() + "PrevIter",
+        *this
+      };
   } else {
     *fieldPrevIterPtr_ == *this;
   }
@@ -714,8 +720,7 @@ template<class Type, template<class> class PatchField, class GeoMesh>
 const mousse::GeometricField<Type, PatchField, GeoMesh>&
 mousse::GeometricField<Type, PatchField, GeoMesh>::prevIter() const
 {
-  if (!fieldPrevIterPtr_)
-  {
+  if (fieldPrevIterPtr_ == nullptr) {
     FATAL_ERROR_IN
     (
       "GeometricField<Type, PatchField, GeoMesh>::prevIter() const"
@@ -1081,7 +1086,7 @@ mousse::Ostream& mousse::operator<<
 )
 {
   gf.dimensionedInternalField().writeData(os, "internalField");
-  os  << nl;
+  os << nl;
   gf.boundaryField().writeEntry("boundaryField", os);
   // Check state of IOstream
   os.check
@@ -1106,7 +1111,6 @@ mousse::Ostream& mousse::operator<<
 }
 
 #undef CHECK_FIELD
-
 
 #include "geometric_boundary_field.ipp"
 #include "geometric_field_functions.ipp"

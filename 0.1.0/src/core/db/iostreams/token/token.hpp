@@ -668,33 +668,33 @@ inline void token::operator=(const token& t)
   type_ = t.type_;
   switch (type_) {
     case token::UNDEFINED:
-    break;
+      break;
     case PUNCTUATION:
       punctuationToken_ = t.punctuationToken_;
-    break;
+      break;
     case WORD:
       wordTokenPtr_ = new word(*t.wordTokenPtr_);
-    break;
+      break;
     case STRING:
     case VARIABLE:
     case VERBATIMSTRING:
       stringTokenPtr_ = new string(*t.stringTokenPtr_);
-    break;
+      break;
     case LABEL:
       labelToken_ = t.labelToken_;
-    break;
+      break;
     case FLOAT_SCALAR:
       floatScalarToken_ = t.floatScalarToken_;
-    break;
+      break;
     case DOUBLE_SCALAR:
       doubleScalarToken_ = t.doubleScalarToken_;
-    break;
+      break;
     case COMPOUND:
       compoundTokenPtr_ = t.compoundTokenPtr_;
       compoundTokenPtr_->refCount::operator++();
-    break;
+      break;
     case token::ERROR:
-    break;
+      break;
   }
   lineNumber_ = t.lineNumber_;
 }
@@ -715,7 +715,7 @@ inline void token::operator=(word* wPtr)
 
 inline void token::operator=(const word& w)
 {
-  operator=(new word(w));
+  operator=(new word{w});
 }
 
 inline void token::operator=(string* sPtr)
@@ -727,7 +727,7 @@ inline void token::operator=(string* sPtr)
 
 inline void token::operator=(const string& s)
 {
-  operator=(new string(s));
+  operator=(new string{s});
 }
 
 inline void token::operator=(const label l)

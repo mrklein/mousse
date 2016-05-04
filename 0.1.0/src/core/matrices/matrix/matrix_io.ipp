@@ -15,7 +15,7 @@ mousse::Matrix<Form, Type>::Matrix(Istream& is)
 :
   n_{0},
   m_{0},
-  v_{NULL}
+  v_{nullptr}
 {
   operator>>(is, *this);
 }

@@ -38,16 +38,17 @@ mousse::IOobjectList::IOobjectList
   fileNameList ObjectNames =
     readDir(db.path(newInstance, db.dbDir()/local), fileName::FILE);
   FOR_ALL(ObjectNames, i) {
-    IOobject* objectPtr = new IOobject
-    {
-      ObjectNames[i],
-      newInstance,
-      local,
-      db,
-      r,
-      w,
-      registerObject
-    };
+    IOobject* objectPtr =
+      new IOobject
+      {
+        ObjectNames[i],
+        newInstance,
+        local,
+        db,
+        r,
+        w,
+        registerObject
+      };
     if (objectPtr->headerOk()) {
       insert(ObjectNames[i], objectPtr);
     } else {
@@ -101,7 +102,7 @@ mousse::IOobject* mousse::IOobjectList::lookup(const word& name) const
       Info << "IOobjectList::lookup : could not find "
         << name << endl;
     }
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -130,7 +131,7 @@ mousse::IOobjectList mousse::IOobjectList::lookup(const wordReList& patterns) co
       if (IOobject::debug) {
         Info << "IOobjectList::lookupRe : found " << iter.key() << endl;
       }
-      objectsOfName.insert(iter.key(), new IOobject(*iter()));
+      objectsOfName.insert(iter.key(), new IOobject{*iter()});
     }
   }
   return objectsOfName;
@@ -146,7 +147,7 @@ mousse::IOobjectList mousse::IOobjectList::lookupClass(const word& ClassName) co
         Info << "IOobjectList::lookupClass : found "
           << iter.key() << endl;
       }
-      objectsOfClass.insert(iter.key(), new IOobject(*iter()));
+      objectsOfClass.insert(iter.key(), new IOobject{*iter()});
     }
   }
   return objectsOfClass;
