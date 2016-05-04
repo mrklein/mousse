@@ -6,14 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::reducedUnits
-// Description
-// SourceFiles
-//   reduced_units.cpp
-//   reduced_units_io.cpp
+
 #include "scalar.hpp"
 #include "iodictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class reducedUnits
 {
   // Private data
@@ -81,51 +80,75 @@ public:
   // IOstream Operators
     friend Ostream& operator<<(Ostream&, const reducedUnits&);
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 inline mousse::scalar mousse::reducedUnits::refLength() const
 {
   return refLength_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refTime() const
 {
   return refTime_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refMass() const
 {
   return refMass_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refTemp() const
 {
   return refTemp_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refEnergy() const
 {
   return refEnergy_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refForce() const
 {
   return refForce_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refVelocity() const
 {
   return refVelocity_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refVolume() const
 {
   return refVolume_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refPressure() const
 {
   return refPressure_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refMassDensity() const
 {
   return refMassDensity_;
 }
+
+
 inline mousse::scalar mousse::reducedUnits::refNumberDensity() const
 {
   return refNumberDensity_;
 }
+
 #endif
+

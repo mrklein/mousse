@@ -9,12 +9,13 @@
 // Description
 //   Accumulating histogram of values.  Specified bin resolution
 //   automatic generation of bins.
-// SourceFiles
-//   distribution.cpp
+
 #include "map.hpp"
 #include "pair.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class distribution
 :
   public Map<label>
@@ -54,17 +55,13 @@ public:
     List<Pair<scalar>> normalisedShifted(scalar shiftValue);
     List<Pair<scalar>> raw();
     // Access
-      inline scalar binWidth() const;
+      inline scalar binWidth() const { return binWidth_; }
   // Member Operators
     void operator=(const distribution&);
   // IOstream Operators
     friend Ostream& operator<<(Ostream&, const distribution&);
 };
+
 }  // namespace mousse
 
-// Member Functions 
-inline mousse::scalar mousse::distribution::binWidth() const
-{
-  return binWidth_;
-}
 #endif

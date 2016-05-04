@@ -6,8 +6,11 @@
 #include "make_parcel_turbulence_dispersion_models.hpp"
 #include "make_thermo_parcel_turbulence_forces.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_THERMO_PARCEL_TURBULENCE_FORCES(basicReactingMultiphaseCloud);
 MAKE_PARCEL_TURBULENCE_DISPERSION_MODELS(basicReactingMultiphaseCloud);
+
 }
+

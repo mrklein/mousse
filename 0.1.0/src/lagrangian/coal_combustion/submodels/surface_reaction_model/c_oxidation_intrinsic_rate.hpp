@@ -10,12 +10,16 @@
 //   Intrinsic char surface reaction mndel
 //     C(s) + Sb*O2 -> CO2
 //   where Sb is the stoichiometry of the reaction
+
 #include "_surface_reaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward class declarations
-template<class CloudType>
-class COxidationIntrinsicRate;
+template<class CloudType> class COxidationIntrinsicRate;
+
+
 template<class CloudType>
 class COxidationIntrinsicRate
 :
@@ -69,12 +73,13 @@ public:
       const COxidationIntrinsicRate<CloudType>& srm
     );
     //- Construct and return a clone
-    virtual autoPtr<SurfaceReactionModel<CloudType> > clone() const
+    virtual autoPtr<SurfaceReactionModel<CloudType>> clone() const
     {
-      return autoPtr<SurfaceReactionModel<CloudType> >
-      (
-        new COxidationIntrinsicRate<CloudType>(*this)
-      );
+      return
+        autoPtr<SurfaceReactionModel<CloudType>>
+        {
+          new COxidationIntrinsicRate<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~COxidationIntrinsicRate();
@@ -101,8 +106,10 @@ public:
       scalarField& dMassSRCarrier
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "c_oxidation_intrinsic_rate.cpp"
+
+#include "c_oxidation_intrinsic_rate.ipp"
+
 #endif
-#endif
+

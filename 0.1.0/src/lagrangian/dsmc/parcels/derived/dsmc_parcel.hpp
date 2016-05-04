@@ -4,11 +4,16 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   dsmc_parcel.cpp
+
 #include "particle.hpp"
 #include "_dsmc_parcel.hpp"
-namespace mousse
-{
-  typedef DSMCParcel<particle> dsmcParcel;
+
+
+namespace mousse {
+
+typedef DSMCParcel<particle> dsmcParcel;
+
 }
+
 #endif
+

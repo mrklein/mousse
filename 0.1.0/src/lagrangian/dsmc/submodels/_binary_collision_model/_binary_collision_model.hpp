@@ -8,14 +8,14 @@
 //   mousse::BinaryCollisionModel
 // Description
 //   Templated DSMC particle collision class
-// SourceFiles
-//   _binary_collision_model.cpp
-//   _binary_collision_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class BinaryCollisionModel
 {
@@ -84,7 +84,9 @@ public:
       typename CloudType::parcelType& pQ
     ) = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_BINARY_COLLISION_MODEL(CloudType)                                \
                                                                               \
@@ -100,6 +102,7 @@ public:
     dictionary                                                                \
   );
 
+
 #define MAKE_BINARY_COLLISION_MODEL_TYPE(SS, CloudType)                       \
                                                                               \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(SS<CloudType>, 0);                \
@@ -108,7 +111,7 @@ public:
     adddictionaryConstructorToTable<SS<CloudType>>                            \
       add##SS##CloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_binary_collision_model.cpp"
-#endif
+
+#include "_binary_collision_model.ipp"
+
 #endif

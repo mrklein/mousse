@@ -12,8 +12,7 @@
   scalar maxValue = dD;
   // The pdf value for 4.0*delta is already very small.
   // scalar maxValue = delta*4.0;
-  if (maxValue - minValue < SMALL)
-  {
+  if (maxValue - minValue < SMALL) {
     minValue = maxValue/20.0;
   }
   scalar range = maxValue - minValue;
@@ -22,21 +21,17 @@
   scalar probFactorMin = exp(-pow(minValue/delta, nExp));
   scalar probFactorMax = exp(-pow(maxValue/delta, nExp));
   scalar probFactor = 1.0/(probFactorMin - probFactorMax);
-  FOR_ALL(rrd, n)
-  {
+  FOR_ALL(rrd, n) {
     scalar xx = minValue + range*n/500;
     rrd[n] = (probFactorMin - exp(-pow(xx/delta, nExp)))*probFactor;
   }
-  bool success = false;
   scalar y = rndGen.sample01<scalar>();
   label k = 0;
-  while(!success && (k<500))
-  {
-    if (rrd[k] > y)
-    {
-      success = true;
+  for(;;) {
+    if (rrd[k] > y || k >= 500) {
+      break;
     }
     k++;
   }
-  x = minValue + range*(k - 0.5)/500.0;
+  x = minValue + range*(static_cast<scalar>(k) - 0.5)/500.0;
 }

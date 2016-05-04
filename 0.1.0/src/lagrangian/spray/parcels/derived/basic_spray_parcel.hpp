@@ -8,34 +8,34 @@
 //   mousse::basicSprayParcel
 // Description
 //   Definition of spray parcel
-// SourceFiles
-//   basic_spray_parcel.cpp
-//   basic_spray_parcel_io.cpp
+
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"
 #include "_thermo_parcel.hpp"
 #include "_reacting_parcel.hpp"
 #include "_spray_parcel.hpp"
-namespace mousse
-{
-  typedef SprayParcel
+
+
+namespace mousse {
+
+typedef SprayParcel
+<
+  ReactingParcel
   <
-    ReactingParcel
+    ThermoParcel
     <
-      ThermoParcel
+      KinematicParcel
       <
-        KinematicParcel
-        <
-          particle
-        >
+        particle
       >
     >
-  > basicSprayParcel;
-  template<>
-  inline bool contiguous<basicSprayParcel>()
-  {
-    return false;
-  }
+  >
+> basicSprayParcel;
+
+template<> inline bool contiguous<basicSprayParcel>() { return false; }
+
 }
+
 #endif
+

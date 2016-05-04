@@ -3,18 +3,16 @@
 // Copyright (C) 2016 mousse project
 
 #include "reduced_units.hpp"
+
+
 // Static Data Members
 const  mousse::scalar mousse::reducedUnits::kb = 1.3806504e-23;
+
+
 // Private Member Functions 
 void mousse::reducedUnits::calcRefValues()
 {
-  if
-  (
-    refTime_ < VSMALL
-  || refLength_ < VSMALL
-  || refMass_ < VSMALL
-  )
-  {
+  if (refTime_ < VSMALL || refLength_ < VSMALL || refMass_ < VSMALL) {
     FATAL_ERROR_IN("mousse::reducedUnits::calcRefValues() ")
       << "One of more referencence values too small for floating point "
       << "calculation: "
@@ -32,6 +30,8 @@ void mousse::reducedUnits::calcRefValues()
   refMassDensity_ = refMass_/refVolume_;
   refNumberDensity_ = 1.0/refVolume_;
 }
+
+
 // Constructors 
 mousse::reducedUnits::reducedUnits()
 :
@@ -41,6 +41,8 @@ mousse::reducedUnits::reducedUnits()
 {
   calcRefValues();
 }
+
+
 mousse::reducedUnits::reducedUnits
 (
   scalar refLength,
@@ -54,6 +56,8 @@ mousse::reducedUnits::reducedUnits
 {
   calcRefValues();
 }
+
+
 mousse::reducedUnits::reducedUnits(const IOdictionary& reducedUnitsDict)
 :
   refLength_{},
@@ -62,9 +66,13 @@ mousse::reducedUnits::reducedUnits(const IOdictionary& reducedUnitsDict)
 {
   setRefValues(reducedUnitsDict);
 }
+
+
 // Destructor 
 mousse::reducedUnits::~reducedUnits()
 {}
+
+
 // Member Functions 
 void mousse::reducedUnits::setRefValues
 (
@@ -78,6 +86,8 @@ void mousse::reducedUnits::setRefValues
   refMass_ = refMass;
   calcRefValues();
 }
+
+
 void mousse::reducedUnits::setRefValues
 (
   const IOdictionary& reducedUnitsDict

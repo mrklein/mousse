@@ -11,11 +11,11 @@
 //   Gaussian random number distribution with variance sigma.
 //   where sigma is defined below
 
-
 #include "_dispersion_ras_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class StochasticDispersionRAS
 :
@@ -30,12 +30,13 @@ public:
     //- Construct copy
     StochasticDispersionRAS(const StochasticDispersionRAS<CloudType>& dm);
     //- Construct and return a clone
-    virtual autoPtr<DispersionModel<CloudType> > clone() const
+    virtual autoPtr<DispersionModel<CloudType>> clone() const
     {
-      return autoPtr<DispersionModel<CloudType> >
-      (
-        new StochasticDispersionRAS<CloudType>(*this)
-      );
+      return
+        autoPtr<DispersionModel<CloudType>>
+        {
+          new StochasticDispersionRAS<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~StochasticDispersionRAS();
@@ -51,9 +52,9 @@ public:
       scalar& tTurb
     );
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_stochastic_dispersion_ras.cpp"
-#endif
+#include "_stochastic_dispersion_ras.ipp"
+
 #endif

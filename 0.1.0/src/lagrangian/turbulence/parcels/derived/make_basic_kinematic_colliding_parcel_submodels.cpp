@@ -5,7 +5,10 @@
 #include "basic_kinematic_colliding_cloud.hpp"
 #include "make_parcel_turbulence_dispersion_models.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 MAKE_PARCEL_TURBULENCE_DISPERSION_MODELS(basicKinematicCollidingCloud);
+
 }
+

@@ -4,8 +4,12 @@
 
 #include "basic_spray_parcel.hpp"
 #include "_cloud.hpp"
-namespace mousse
-{
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(basicSprayParcel, 0);
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<basicSprayParcel>, 0);
+
+
+namespace mousse {
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(basicSprayParcel, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<basicSprayParcel>, 0);
+
 };
+

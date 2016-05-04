@@ -6,9 +6,7 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::moleculeCloud
-// Description
-// SourceFiles
-//   molecule_cloud.cpp
+
 #include "_cloud.hpp"
 #include "molecule.hpp"
 #include "iodictionary.hpp"
@@ -18,9 +16,13 @@
 #include "random.hpp"
 #include "file_name.hpp"
 #include "constants.hpp"
+
+
 using namespace mousse::constant;
-namespace mousse
-{
+
+
+namespace mousse {
+
 class moleculeCloud
 :
   public Cloud<molecule>
@@ -29,7 +31,7 @@ private:
   // Private data
     const polyMesh& mesh_;
     const potential& pot_;
-    List<DynamicList<molecule*> > cellOccupancy_;
+    List<DynamicList<molecule*>> cellOccupancy_;
     InteractionLists<molecule> il_;
     List<molecule::constantProperties> constPropList_;
     Random rndGen_;
@@ -111,7 +113,7 @@ public:
     // Access
       inline const polyMesh& mesh() const;
       inline const potential& pot() const;
-      inline const List<DynamicList<molecule*> >& cellOccupancy() const;
+      inline const List<DynamicList<molecule*>>& cellOccupancy() const;
       inline const InteractionLists<molecule>& il() const;
       inline const List<molecule::constantProperties> constProps() const;
       inline const molecule::constantProperties&
@@ -121,7 +123,9 @@ public:
     //- Write molecule sites in XYZ format
     void writeXYZ(const fileName& fName) const;
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 inline void mousse::moleculeCloud::evaluatePair
@@ -142,27 +146,20 @@ inline void mousse::moleculeCloud::evaluatePair
   List<bool> electrostaticSitesI = constPropI.electrostaticSites();
   List<bool> pairPotentialSitesJ = constPropJ.pairPotentialSites();
   List<bool> electrostaticSitesJ = constPropJ.electrostaticSites();
-  FOR_ALL(siteIdsI, sI)
-  {
-    label idsI(siteIdsI[sI]);
-    FOR_ALL(siteIdsJ, sJ)
-    {
-      label idsJ(siteIdsJ[sJ]);
-      if (pairPotentialSitesI[sI] && pairPotentialSitesJ[sJ])
-      {
+  FOR_ALL(siteIdsI, sI) {
+    label idsI{siteIdsI[sI]};
+    FOR_ALL(siteIdsJ, sJ) {
+      label idsJ{siteIdsJ[sJ]};
+      if (pairPotentialSitesI[sI] && pairPotentialSitesJ[sJ]) {
         vector rsIsJ =
           molI.sitePositions()[sI] - molJ.sitePositions()[sJ];
         scalar rsIsJMagSq = magSqr(rsIsJ);
-        if (pairPot.rCutSqr(idsI, idsJ, rsIsJMagSq))
-        {
+        if (pairPot.rCutSqr(idsI, idsJ, rsIsJMagSq)) {
           scalar rsIsJMag = mag(rsIsJ);
           vector fsIsJ = (rsIsJ/rsIsJMag)*pairPot.force(idsI, idsJ, rsIsJMag);
           molI.siteForces()[sI] += fsIsJ;
           molJ.siteForces()[sJ] += -fsIsJ;
-          scalar potentialEnergy
-          {
-            pairPot.energy(idsI, idsJ, rsIsJMag)
-          };
+          scalar potentialEnergy{pairPot.energy(idsI, idsJ, rsIsJMag)};
           molI.potentialEnergy() += 0.5*potentialEnergy;
           molJ.potentialEnergy() += 0.5*potentialEnergy;
           vector rIJ = molI.position() - molJ.position();
@@ -171,13 +168,11 @@ inline void mousse::moleculeCloud::evaluatePair
           molJ.rf() += virialContribution;
         }
       }
-      if (electrostaticSitesI[sI] && electrostaticSitesJ[sJ])
-      {
+      if (electrostaticSitesI[sI] && electrostaticSitesJ[sJ]) {
         vector rsIsJ =
         molI.sitePositions()[sI] - molJ.sitePositions()[sJ];
         scalar rsIsJMagSq = magSqr(rsIsJ);
-        if (rsIsJMagSq <= electrostatic.rCutSqr())
-        {
+        if (rsIsJMagSq <= electrostatic.rCutSqr()) {
           scalar rsIsJMag = mag(rsIsJ);
           scalar chargeI = constPropI.siteCharges()[sI];
           scalar chargeJ = constPropJ.siteCharges()[sJ];
@@ -202,6 +197,8 @@ inline void mousse::moleculeCloud::evaluatePair
     }
   }
 }
+
+
 inline bool mousse::moleculeCloud::evaluatePotentialLimit
 (
   molecule& molI,
@@ -220,25 +217,20 @@ inline bool mousse::moleculeCloud::evaluatePotentialLimit
   List<bool> electrostaticSitesI = constPropI.electrostaticSites();
   List<bool> pairPotentialSitesJ = constPropJ.pairPotentialSites();
   List<bool> electrostaticSitesJ = constPropJ.electrostaticSites();
-  FOR_ALL(siteIdsI, sI)
-  {
-    label idsI(siteIdsI[sI]);
-    FOR_ALL(siteIdsJ, sJ)
-    {
-      label idsJ(siteIdsJ[sJ]);
-      if (pairPotentialSitesI[sI] && pairPotentialSitesJ[sJ])
-      {
+  FOR_ALL(siteIdsI, sI) {
+    label idsI{siteIdsI[sI]};
+    FOR_ALL(siteIdsJ, sJ) {
+      label idsJ{siteIdsJ[sJ]};
+      if (pairPotentialSitesI[sI] && pairPotentialSitesJ[sJ]) {
         vector rsIsJ =
           molI.sitePositions()[sI] - molJ.sitePositions()[sJ];
         scalar rsIsJMagSq = magSqr(rsIsJ);
-        if (pairPot.rCutSqr(idsI, idsJ, rsIsJMagSq))
-        {
+        if (pairPot.rCutSqr(idsI, idsJ, rsIsJMagSq)) {
           scalar rsIsJMag = mag(rsIsJ);
           // Guard against pairPot.energy being evaluated
           // if rIJMag < SMALL. A floating point exception will
           // happen otherwise.
-          if (rsIsJMag < SMALL)
-          {
+          if (rsIsJMag < SMALL) {
             WARNING_IN("moleculeCloud::removeHighEnergyOverlaps()")
               << "Molecule site pair closer than "
               << SMALL
@@ -252,33 +244,25 @@ inline bool mousse::moleculeCloud::evaluatePotentialLimit
           }
           // Guard against pairPot.energy being evaluated if rIJMag <
           // rMin.  A tabulation lookup error will occur otherwise.
-          if (rsIsJMag < pairPot.rMin(idsI, idsJ))
-          {
+          if (rsIsJMag < pairPot.rMin(idsI, idsJ)) {
             return true;
           }
-          if
-          (
-            mag(pairPot.energy(idsI, idsJ, rsIsJMag))
-           > pot_.potentialEnergyLimit()
-          )
-          {
+          if (mag(pairPot.energy(idsI, idsJ, rsIsJMag))
+              > pot_.potentialEnergyLimit()) {
             return true;
           };
         }
       }
-      if (electrostaticSitesI[sI] && electrostaticSitesJ[sJ])
-      {
+      if (electrostaticSitesI[sI] && electrostaticSitesJ[sJ]) {
         vector rsIsJ =
           molI.sitePositions()[sI] - molJ.sitePositions()[sJ];
         scalar rsIsJMagSq = magSqr(rsIsJ);
-        if (pairPot.rCutMaxSqr(rsIsJMagSq))
-        {
+        if (pairPot.rCutMaxSqr(rsIsJMagSq)) {
           scalar rsIsJMag = mag(rsIsJ);
           // Guard against pairPot.energy being evaluated
           // if rIJMag < SMALL. A floating point exception will
           // happen otherwise.
-          if (rsIsJMag < SMALL)
-          {
+          if (rsIsJMag < SMALL) {
             WARNING_IN("moleculeCloud::removeHighEnergyOverlaps()")
               << "Molecule site pair closer than "
               << SMALL
@@ -290,18 +274,13 @@ inline bool mousse::moleculeCloud::evaluatePotentialLimit
               << endl;
             return true;
           }
-          if (rsIsJMag < electrostatic.rMin())
-          {
+          if (rsIsJMag < electrostatic.rMin()) {
             return true;
           }
           scalar chargeI = constPropI.siteCharges()[sI];
           scalar chargeJ = constPropJ.siteCharges()[sJ];
-          if
-          (
-            mag(chargeI*chargeJ*electrostatic.energy(rsIsJMag))
-           > pot_.potentialEnergyLimit()
-          )
-          {
+          if (mag(chargeI*chargeJ*electrostatic.energy(rsIsJMag))
+              > pot_.potentialEnergyLimit()) {
             return true;
           };
         }
@@ -310,19 +289,25 @@ inline bool mousse::moleculeCloud::evaluatePotentialLimit
   }
   return false;
 }
+
+
 inline mousse::vector mousse::moleculeCloud::equipartitionLinearVelocity
 (
   scalar temperature,
   scalar mass
 )
 {
-  return sqrt(physicoChemical::k.value()*temperature/mass)*vector
-  (
-    rndGen_.GaussNormal(),
-    rndGen_.GaussNormal(),
-    rndGen_.GaussNormal()
-  );
+  return
+    sqrt(physicoChemical::k.value()*temperature/mass)
+    *vector
+    {
+      rndGen_.GaussNormal(),
+      rndGen_.GaussNormal(),
+      rndGen_.GaussNormal()
+    };
 }
+
+
 inline mousse::vector mousse::moleculeCloud::equipartitionAngularMomentum
 (
   scalar temperature,
@@ -330,56 +315,73 @@ inline mousse::vector mousse::moleculeCloud::equipartitionAngularMomentum
 )
 {
   scalar sqrtKbT = sqrt(physicoChemical::k.value()*temperature);
-  if (cP.linearMolecule())
-  {
-    return sqrtKbT*vector
-    {
-      0.0,
-      sqrt(cP.momentOfInertia().yy())*rndGen_.GaussNormal(),
-      sqrt(cP.momentOfInertia().zz())*rndGen_.GaussNormal()
-    };
-  }
-  else
-  {
-    return sqrtKbT*vector
-    {
-      sqrt(cP.momentOfInertia().xx())*rndGen_.GaussNormal(),
-      sqrt(cP.momentOfInertia().yy())*rndGen_.GaussNormal(),
-      sqrt(cP.momentOfInertia().zz())*rndGen_.GaussNormal()
-    };
+  if (cP.linearMolecule()) {
+    return
+      sqrtKbT
+      *vector
+      {
+        0.0,
+        sqrt(cP.momentOfInertia().yy())*rndGen_.GaussNormal(),
+        sqrt(cP.momentOfInertia().zz())*rndGen_.GaussNormal()
+      };
+  } else {
+    return
+      sqrtKbT
+      *vector
+      {
+        sqrt(cP.momentOfInertia().xx())*rndGen_.GaussNormal(),
+        sqrt(cP.momentOfInertia().yy())*rndGen_.GaussNormal(),
+        sqrt(cP.momentOfInertia().zz())*rndGen_.GaussNormal()
+      };
   }
 }
+
+
 // Member Functions 
 inline const mousse::polyMesh& mousse::moleculeCloud::mesh() const
 {
   return mesh_;
 }
+
+
 inline const mousse::potential& mousse::moleculeCloud::pot() const
 {
   return pot_;
 }
-inline const mousse::List<mousse::DynamicList<mousse::molecule*> >&
+
+
+inline const mousse::List<mousse::DynamicList<mousse::molecule*>>&
   mousse::moleculeCloud::cellOccupancy() const
 {
   return cellOccupancy_;
 }
+
+
 inline const mousse::InteractionLists<mousse::molecule>&
   mousse::moleculeCloud::il() const
 {
   return il_;
 }
+
+
 inline const mousse::List<mousse::molecule::constantProperties>
   mousse::moleculeCloud::constProps() const
 {
   return constPropList_;
 }
+
+
 inline const mousse::molecule::constantProperties&
   mousse::moleculeCloud::constProps(label id) const
 {
   return constPropList_[id];
 }
+
+
 inline mousse::Random& mousse::moleculeCloud::rndGen()
 {
   return rndGen_;
 }
+
 #endif
+

@@ -3,12 +3,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "dsmc_parcel.hpp"
+
 /*
 // Static Data Members
 namespace mousse
 {
 //    DEFINE_TYPE_NAME_AND_DEBUG(dsmcParcel, 0);
-//    defineParticleTypeNameAndDebug(dsmcParcel, 0);
+//    DEFINE_PARTICLE_TYPE_NAME_AND_DEBUG(dsmcParcel, 0);
 }
 // Constructors
 mousse::dsmcParcel::dsmcParcel

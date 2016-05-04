@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TWALL_INTERACTION_MODEL_TMIXED_DIFFUSE_SPECULAR_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TWALL_INTERACTION_MODEL_TMIXED_DIFFUSE_SPECULAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,13 +13,11 @@
 //   the wall-normal component of the particle velocity for the
 //   remainder.
 
-#ifndef mixed_diffuse_specular_hpp_
-#define mixed_diffuse_specular_hpp_
-
 #include "_wall_interaction_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class MixedDiffuseSpecular
 :
@@ -45,9 +46,9 @@ public:
       const wallPolyPatch& wpp
     );
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_mixed_diffuse_specular.cpp"
-#endif
+#include "_mixed_diffuse_specular.ipp"
+
 #endif

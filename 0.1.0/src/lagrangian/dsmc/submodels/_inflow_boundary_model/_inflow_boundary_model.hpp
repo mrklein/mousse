@@ -8,16 +8,14 @@
 //   mousse::InflowBoundaryModel
 // Description
 //   Templated inflow boundary model class
-// SourceFiles
-//   _inflow_boundary_model.cpp
-//   _inflow_boundary_model_new.cpp
 
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class InflowBoundaryModel
 {
@@ -77,7 +75,9 @@ public:
   //- Introduce particles
   virtual void inflow() = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_INFLOW_BOUNDARY_MODEL(CloudType)                                 \
                                                                               \
@@ -97,7 +97,8 @@ public:
     adddictionaryConstructorToTable<SS<CloudType>>                            \
       add##SS##CloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_inflow_boundary_model.cpp"
+
+#include "_inflow_boundary_model.ipp"
+
 #endif
-#endif
+

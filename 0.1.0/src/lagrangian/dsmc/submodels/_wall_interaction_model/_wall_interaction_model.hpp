@@ -8,17 +8,14 @@
 //   mousse::WallInteractionModel
 // Description
 //   Templated wall interaction model class
-// SourceFiles
-//   _wall_interaction_model.cpp
-//   _wall_interaction_model_new.cpp
-
 
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class WallInteractionModel
 {
@@ -79,7 +76,9 @@ public:
       const wallPolyPatch& wpp
     ) = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_WALL_INTERACTION_MODEL(CloudType)                                \
                                                                               \
@@ -99,7 +98,7 @@ public:
     adddictionaryConstructorToTable<SS<CloudType>>                            \
       add##SS##CloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#include "_wall_interaction_model.cpp"
-#endif
+
+#include "_wall_interaction_model.ipp"
+
 #endif

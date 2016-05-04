@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TTAB_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TTAB_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -17,14 +20,12 @@
 // See Also
 //   The Enhanced %TAB model - ETAB
 
-#ifndef tab_hpp_
-#define tab_hpp_
-
 #include "_breakup_model.hpp"
 #include "fixed_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class TAB
 :
@@ -54,12 +55,13 @@ public:
     //- Construct copy
     TAB(const TAB<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<BreakupModel<CloudType> > clone() const
+    virtual autoPtr<BreakupModel<CloudType>> clone() const
     {
-      return autoPtr<BreakupModel<CloudType> >
-      (
-        new TAB<CloudType>(*this)
-      );
+      return
+        autoPtr<BreakupModel<CloudType>>
+        {
+          new TAB<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~TAB();
@@ -90,9 +92,9 @@ public:
       scalar& massChild
   );
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_tab.cpp"
-#endif
+#include "_tab.ipp"
+
 #endif

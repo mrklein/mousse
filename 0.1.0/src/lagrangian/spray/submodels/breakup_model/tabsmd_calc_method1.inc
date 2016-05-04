@@ -1,10 +1,8 @@
 {
   bool found = false;
   scalar random = rndGen.sample01<scalar>();
-  while (!found && (n<99))
-  {
-    if (rrd_[n]>random)
-    {
+  while (!found && (n<99)) {
+    if (rrd_[n]>random) {
       found = true;
     }
     n++;

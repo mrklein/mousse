@@ -8,33 +8,34 @@
 //   mousse::coalParcel
 // Description
 //   Definition of coal parcel
-// SourceFiles
-//   coal_parcel.cpp
+
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"
 #include "_thermo_parcel.hpp"
 #include "_reacting_parcel.hpp"
 #include "_reacting_multiphase_parcel.hpp"
-namespace mousse
-{
-  typedef ReactingMultiphaseParcel
+
+
+namespace mousse {
+
+typedef ReactingMultiphaseParcel
+<
+  ReactingParcel
   <
-    ReactingParcel
+    ThermoParcel
     <
-      ThermoParcel
+      KinematicParcel
       <
-        KinematicParcel
-        <
-          particle
-        >
+        particle
       >
     >
-  > coalParcel;
-  template<>
-  inline bool contiguous<coalParcel>()
-  {
-    return false;
-  }
+  >
+> coalParcel;
+
+template<> inline bool contiguous<coalParcel>() { return false; }
+
 }
+
 #endif
+

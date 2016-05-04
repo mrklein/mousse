@@ -8,12 +8,16 @@
 //   mousse::dsmcCloud
 // Description
 //   Cloud class to simulate dsmc parcels
-// SourceFiles
-//   dsmc_cloud.cpp
+
 #include "_dsmc_cloud.hpp"
 #include "dsmc_parcel.hpp"
-namespace mousse
-{
-  typedef DSMCCloud<dsmcParcel> dsmcCloud;
+
+
+namespace mousse {
+
+typedef DSMCCloud<dsmcParcel> dsmcCloud;
+
 }
+
 #endif
+

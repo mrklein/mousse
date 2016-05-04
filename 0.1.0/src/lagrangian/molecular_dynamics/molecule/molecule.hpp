@@ -8,17 +8,19 @@
 //   mousse::molecule
 // Description
 //   mousse::molecule
-// SourceFiles
-//   molecule.cpp
-//   molecule_io.cpp
+
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"
 #include "diag_tensor.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Class forward declarations
 class moleculeCloud;
+
+
 class molecule
 :
   public particle
@@ -33,9 +35,9 @@ public:
   enum specialTypes
   {
     SPECIAL_TETHERED = -1,
-    SPECIAL_FROZEN   = -2,
-    NOT_SPECIAL      = 0,
-    SPECIAL_USER     = 1
+    SPECIAL_FROZEN = -2,
+    NOT_SPECIAL = 0,
+    SPECIAL_USER = 1
   };
   //- Class to hold molecule constant properties
   class constantProperties
@@ -89,8 +91,8 @@ public:
     // Constructors
       trackingData(moleculeCloud& cloud, label part)
       :
-        particle::TrackingData<moleculeCloud>(cloud),
-        part_(part)
+        particle::TrackingData<moleculeCloud>{cloud},
+        part_{part}
       {}
     // Member functions
       inline label part() const
@@ -148,7 +150,7 @@ public:
     //- Construct and return a clone
     autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new molecule(*this));
+      return autoPtr<particle>{new molecule{*this}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -158,11 +160,11 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
       autoPtr<molecule> operator()(Istream& is) const
       {
-        return autoPtr<molecule>(new molecule(mesh_, is, true));
+        return autoPtr<molecule>{new molecule{mesh_, is, true}};
       }
     };
   // Member Functions
@@ -232,7 +234,9 @@ public:
   // IOstream Operators
     friend Ostream& operator<<(Ostream&, const molecule&);
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::molecule::constantProperties::constantProperties()
@@ -246,6 +250,8 @@ inline mousse::molecule::constantProperties::constantProperties()
   momentOfInertia_{diagTensor{0, 0, 0}},
   mass_{0}
 {}
+
+
 inline mousse::molecule::constantProperties::constantProperties
 (
   const dictionary& dict
@@ -376,6 +382,8 @@ inline mousse::molecule::constantProperties::constantProperties
     };
   }
 }
+
+
 inline mousse::molecule::molecule
 (
   const polyMesh& mesh,
@@ -410,21 +418,21 @@ inline mousse::molecule::molecule
 {
   setSitePositions(constProps);
 }
+
+
 // constantProperties Private Member Functions
 inline void mousse::molecule::constantProperties::checkSiteListSizes() const
 {
-  if
-  (
-    siteIds_.size() != siteReferencePositions_.size()
-  || siteIds_.size() != siteCharges_.size()
-  )
-  {
+  if (siteIds_.size() != siteReferencePositions_.size()
+      || siteIds_.size() != siteCharges_.size()) {
     FATAL_ERROR_IN("molecule::constantProperties::checkSiteListSizes")
       << "Sizes of site id, charge and "
       << "referencePositions are not the same. "
       << nl << abort(FatalError);
   }
 }
+
+
 inline void mousse::molecule::constantProperties::setInteracionSiteBools
 (
   const List<word>& siteIds,
@@ -433,230 +441,296 @@ inline void mousse::molecule::constantProperties::setInteracionSiteBools
 {
   pairPotentialSites_.setSize(siteIds_.size());
   electrostaticSites_.setSize(siteIds_.size());
-  FOR_ALL(siteIds_, i)
-  {
+  FOR_ALL(siteIds_, i) {
     const word& id(siteIds[i]);
     pairPotentialSites_[i] = (findIndex(pairPotSiteIds, id) > -1);
     electrostaticSites_[i] = (mag(siteCharges_[i]) > VSMALL);
   }
 }
+
+
 inline bool mousse::molecule::constantProperties::linearMoleculeTest() const
 {
-  if (siteIds_.size() == 2)
-  {
+  if (siteIds_.size() == 2) {
     return true;
   }
   vector refDir = siteReferencePositions_[1] - siteReferencePositions_[0];
   refDir /= mag(refDir);
-  for
-  (
-    label i = 2;
-    i < siteReferencePositions_.size();
-    i++
-  )
-  {
+  for (label i = 2;
+       i < siteReferencePositions_.size();
+       i++) {
     vector dir = siteReferencePositions_[i] - siteReferencePositions_[i-1];
     dir /= mag(dir);
-    if (mag(refDir & dir) < 1 - SMALL)
-    {
+    if (mag(refDir & dir) < 1 - SMALL) {
       return false;
     }
   }
   return true;
 }
+
+
 // constantProperties Member Functions
 inline const mousse::Field<mousse::vector>&
 mousse::molecule::constantProperties::siteReferencePositions() const
 {
   return siteReferencePositions_;
 }
+
+
 inline const mousse::List<mousse::scalar>&
 mousse::molecule::constantProperties::siteMasses() const
 {
   return siteMasses_;
 }
+
+
 inline const mousse::List<mousse::scalar>&
 mousse::molecule::constantProperties::siteCharges() const
 {
   return siteCharges_;
 }
+
+
 inline const mousse::List<mousse::label>&
 mousse::molecule::constantProperties::siteIds() const
 {
   return siteIds_;
 }
+
+
 inline mousse::List<mousse::label>&
 mousse::molecule::constantProperties::siteIds()
 {
   return siteIds_;
 }
+
+
 inline const mousse::List<bool>&
 mousse::molecule::constantProperties::pairPotentialSites() const
 {
   return pairPotentialSites_;
 }
+
+
 inline bool mousse::molecule::constantProperties::pairPotentialSite
 (
   label sId
 ) const
 {
   label s = findIndex(siteIds_, sId);
-  if (s == -1)
-  {
+  if (s == -1) {
     FATAL_ERROR_IN("molecule.hpp") << nl
       << sId << " site not found."
       << nl << abort(FatalError);
   }
   return pairPotentialSites_[s];
 }
+
+
 inline const mousse::List<bool>&
 mousse::molecule::constantProperties::electrostaticSites() const
 {
   return electrostaticSites_;
 }
+
+
 inline bool mousse::molecule::constantProperties::electrostaticSite
 (
   label sId
 ) const
 {
   label s = findIndex(siteIds_, sId);
-  if (s == -1)
-  {
+  if (s == -1) {
     FATAL_ERROR_IN
     (
       "molecule::constantProperties::electrostaticSite(label)"
-    )   << sId << " site not found."
-      << nl << abort(FatalError);
+    )
+    << sId << " site not found."
+    << nl << abort(FatalError);
   }
   return electrostaticSites_[s];
 }
+
+
 inline const mousse::diagTensor&
 mousse::molecule::constantProperties::momentOfInertia() const
 {
   return momentOfInertia_;
 }
+
+
 inline bool mousse::molecule::constantProperties::linearMolecule() const
 {
   return ((momentOfInertia_.xx() < 0) && (momentOfInertia_.yy() > 0));
 }
+
+
 inline bool mousse::molecule::constantProperties::pointMolecule() const
 {
   return (momentOfInertia_.zz() < 0);
 }
+
+
 inline mousse::label mousse::molecule::constantProperties::degreesOfFreedom() const
 {
-  if (linearMolecule())
-  {
+  if (linearMolecule()) {
     return 5;
-  }
-  else if (pointMolecule())
-  {
+  } else if (pointMolecule()) {
     return 3;
-  }
-  else
-  {
+  } else {
     return 6;
   }
 }
+
+
 inline mousse::scalar mousse::molecule::constantProperties::mass() const
 {
   return mass_;
 }
+
+
 inline mousse::label mousse::molecule::constantProperties::nSites() const
 {
   return siteIds_.size();
 }
+
+
 // molecule Member Functions
 inline const mousse::tensor& mousse::molecule::Q() const
 {
   return Q_;
 }
+
+
 inline mousse::tensor& mousse::molecule::Q()
 {
   return Q_;
 }
+
+
 inline const mousse::vector& mousse::molecule::v() const
 {
   return v_;
 }
+
+
 inline mousse::vector& mousse::molecule::v()
 {
   return v_;
 }
+
+
 inline const mousse::vector& mousse::molecule::a() const
 {
   return a_;
 }
+
+
 inline mousse::vector& mousse::molecule::a()
 {
   return a_;
 }
+
+
 inline const mousse::vector& mousse::molecule::pi() const
 {
   return pi_;
 }
+
+
 inline mousse::vector& mousse::molecule::pi()
 {
   return pi_;
 }
+
+
 inline const mousse::vector& mousse::molecule::tau() const
 {
   return tau_;
 }
+
+
 inline mousse::vector& mousse::molecule::tau()
 {
   return tau_;
 }
+
+
 inline const mousse::List<mousse::vector>& mousse::molecule::siteForces() const
 {
   return siteForces_;
 }
+
+
 inline mousse::List<mousse::vector>& mousse::molecule::siteForces()
 {
   return siteForces_;
 }
+
+
 inline const mousse::List<mousse::vector>& mousse::molecule::sitePositions() const
 {
   return sitePositions_;
 }
+
+
 inline mousse::List<mousse::vector>& mousse::molecule::sitePositions()
 {
   return sitePositions_;
 }
+
+
 inline const mousse::vector& mousse::molecule::specialPosition() const
 {
   return specialPosition_;
 }
+
+
 inline mousse::vector& mousse::molecule::specialPosition()
 {
   return specialPosition_;
 }
+
+
 inline mousse::scalar mousse::molecule::potentialEnergy() const
 {
   return potentialEnergy_;
 }
+
+
 inline mousse::scalar& mousse::molecule::potentialEnergy()
 {
   return potentialEnergy_;
 }
+
+
 inline const mousse::tensor& mousse::molecule::rf() const
 {
   return rf_;
 }
+
+
 inline mousse::tensor& mousse::molecule::rf()
 {
   return rf_;
 }
+
+
 inline mousse::label mousse::molecule::special() const
 {
   return special_;
 }
+
+
 inline bool mousse::molecule::tethered() const
 {
   return special_ == SPECIAL_TETHERED;
 }
+
+
 inline mousse::label mousse::molecule::id() const
 {
   return id_;
 }
+
 #endif

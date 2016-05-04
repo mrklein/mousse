@@ -8,12 +8,12 @@
 //   mousse::NoInflow
 // Description
 //   Not inserting any particles
-//
 
 #include "_inflow_boundary_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class NoInflow
 :
@@ -35,9 +35,9 @@ public:
     //- Introduce particles (none in this case)
     virtual void inflow();
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_no_inflow.cpp"
-#endif
+#include "_no_inflow.ipp"
+
 #endif

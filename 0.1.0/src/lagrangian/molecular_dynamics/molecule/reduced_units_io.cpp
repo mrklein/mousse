@@ -4,10 +4,12 @@
 
 #include "reduced_units.hpp"
 #include "iostreams.hpp"
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<(Ostream& os, const reducedUnits& rU)
 {
-  os  << nl << "Defined: " << nl
+  os << nl << "Defined: " << nl
     << tab << "refLength = " << rU.refLength() << " m" << nl
     << tab << "refTime = " << rU.refTime() << " s" << nl
     << tab << "refMass = " << rU.refMass() << " kg" << nl
@@ -30,3 +32,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const reducedUnits& rU)
   );
   return os;
 }
+

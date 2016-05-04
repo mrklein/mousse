@@ -8,11 +8,12 @@
 //   mousse::DSMCBaseCloud
 // Description
 //   Virtual abstract base class for templated DSMCCloud
-// SourceFiles
-//   dsmc_base_cloud.cpp
+
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class DSMCBaseCloud
 {
 public:
@@ -28,5 +29,7 @@ public:
   //- Destructor
   virtual ~DSMCBaseCloud();
 };
+
 }  // namespace mousse
+
 #endif

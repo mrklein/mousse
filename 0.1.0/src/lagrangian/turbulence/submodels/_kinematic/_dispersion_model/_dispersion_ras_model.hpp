@@ -11,8 +11,9 @@
 
 #include "_dispersion_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class DispersionRASModel
 :
@@ -43,7 +44,7 @@ public:
     //- Construct copy
     DispersionRASModel(const DispersionRASModel<CloudType>& dm);
     //- Construct and return a clone
-    virtual autoPtr<DispersionModel<CloudType> > clone() const = 0;
+    virtual autoPtr<DispersionModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~DispersionRASModel();
   // Member Functions
@@ -63,9 +64,9 @@ public:
       //- Write
       virtual void write(Ostream& os) const;
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_dispersion_ras_model.cpp"
-#endif
+#include "_dispersion_ras_model.ipp"
+
 #endif

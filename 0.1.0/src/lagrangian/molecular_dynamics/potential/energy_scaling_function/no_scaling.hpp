@@ -6,14 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::energyScalingFunctions::noScaling
-// Description
-// SourceFiles
-//   no_scaling.cpp
+
 #include "energy_scaling_function.hpp"
-namespace mousse
-{
-namespace energyScalingFunctions
-{
+
+
+namespace mousse {
+namespace energyScalingFunctions {
+
 class noScaling
 :
   public energyScalingFunction
@@ -37,6 +36,9 @@ public:
     //- Read dictionary
     bool read(const dictionary& energyScalingFunctionProperties);
 };
+
 }  // namespace energyScalingFunctions
 }  // namespace mousse
+
 #endif
+

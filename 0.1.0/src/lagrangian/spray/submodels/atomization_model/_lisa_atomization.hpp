@@ -24,8 +24,9 @@
 
 #include "_atomization_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class LISAAtomization
 :
@@ -56,12 +57,13 @@ public:
     //- Construct copy
     LISAAtomization(const LISAAtomization<CloudType>& am);
     //- Construct and return a clone
-    virtual autoPtr<AtomizationModel<CloudType> > clone() const
+    virtual autoPtr<AtomizationModel<CloudType>> clone() const
     {
-      return autoPtr<AtomizationModel<CloudType> >
-      (
-        new LISAAtomization<CloudType>(*this)
-      );
+      return
+        autoPtr<AtomizationModel<CloudType>>
+        {
+          new LISAAtomization<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~LISAAtomization();
@@ -89,9 +91,9 @@ public:
       cachedRandom& rndGen
     ) const;
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_lisa_atomization.cpp"
-#endif
+#include "_lisa_atomization.ipp"
+
 #endif

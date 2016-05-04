@@ -8,19 +8,19 @@
 //   mousse::DSMCParcel
 // Description
 //   DSMC parcel class
-// SourceFiles
-//   _dsmc_parcel.cpp
-//   _dsmc_parcel_io.cpp
+
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"
 #include "contiguous.hpp"
 #include "_dsmc_cloud.hpp"
 #include "mathematical_constants.hpp"
-namespace mousse
-{
-template<class ParcelType>
-class DSMCParcel;
+
+
+namespace mousse {
+
+template<class ParcelType> class DSMCParcel;
+
 // Forward declaration of friend functions
 template<class ParcelType>
 Ostream& operator<<
@@ -28,6 +28,8 @@ Ostream& operator<<
   Ostream&,
   const DSMCParcel<ParcelType>&
 );
+
+
 template<class ParcelType>
 class DSMCParcel
 :
@@ -71,17 +73,17 @@ public:
   //- Class used to pass kinematic tracking data to the trackToFace function
   class trackingData
   :
-    public particle::TrackingData<DSMCCloud<DSMCParcel<ParcelType> > >
+    public particle::TrackingData<DSMCCloud<DSMCParcel<ParcelType>>>
   {
   public:
     // Constructors
       //- Construct from components
-      trackingData(DSMCCloud<DSMCParcel<ParcelType> >& cloud)
+      trackingData(DSMCCloud<DSMCParcel<ParcelType>>& cloud)
       :
-        particle::TrackingData<DSMCCloud<DSMCParcel<ParcelType> > >
-        (
+        particle::TrackingData<DSMCCloud<DSMCParcel<ParcelType>>>
+        {
           cloud
-        )
+        }
       {}
   };
 protected:
@@ -131,14 +133,15 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
-      autoPtr<DSMCParcel<ParcelType> > operator()(Istream& is) const
+      autoPtr<DSMCParcel<ParcelType>> operator()(Istream& is) const
       {
-        return autoPtr<DSMCParcel<ParcelType> >
-        (
-          new DSMCParcel<ParcelType>(mesh_, is, true)
-        );
+        return
+          autoPtr<DSMCParcel<ParcelType>>
+          {
+            new DSMCParcel<ParcelType>{mesh_, is, true}
+          };
       }
     };
   // Member Functions
@@ -201,8 +204,8 @@ public:
       //  according to the given separation vector
       virtual void transformProperties(const vector& separation);
     // I-O
-      static void readFields(Cloud<DSMCParcel<ParcelType> >& c);
-      static void writeFields(const Cloud<DSMCParcel<ParcelType> >& c);
+      static void readFields(Cloud<DSMCParcel<ParcelType>>& c);
+      static void writeFields(const Cloud<DSMCParcel<ParcelType>>& c);
   // Ostream Operator
     friend Ostream& operator<< <ParcelType>
     (
@@ -210,7 +213,9 @@ public:
       const DSMCParcel<ParcelType>&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ParcelType>
@@ -219,6 +224,8 @@ inline mousse::DSMCParcel<ParcelType>::constantProperties::constantProperties()
   mass_{0},
   d_{0}
 {}
+
+
 template<class ParcelType>
 inline mousse::DSMCParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -233,6 +240,8 @@ inline mousse::DSMCParcel<ParcelType>::constantProperties::constantProperties
   },
   omega_{readScalar(dict.lookup("omega"))}
 {}
+
+
 template<class ParcelType>
 inline mousse::DSMCParcel<ParcelType>::DSMCParcel
 (
@@ -251,6 +260,8 @@ inline mousse::DSMCParcel<ParcelType>::DSMCParcel
   Ei_{Ei},
   typeId_{typeId}
 {}
+
+
 // constantProperties Member Functions
 template<class ParcelType>
 inline mousse::scalar
@@ -258,17 +269,23 @@ mousse::DSMCParcel<ParcelType>::constantProperties::mass() const
 {
   return mass_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::DSMCParcel<ParcelType>::constantProperties::d() const
 {
   return d_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::DSMCParcel<ParcelType>::constantProperties::sigmaT() const
 {
   return constant::mathematical::pi*d_*d_;
 }
+
+
 template<class ParcelType>
 inline mousse::direction
 mousse::DSMCParcel<ParcelType>::constantProperties::internalDegreesOfFreedom()
@@ -276,39 +293,52 @@ const
 {
   return internalDegreesOfFreedom_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::DSMCParcel<ParcelType>::constantProperties::omega() const
 {
   return omega_;
 }
+
+
 // DSMCParcel Member Functions 
 template<class ParcelType>
 inline mousse::label mousse::DSMCParcel<ParcelType>::typeId() const
 {
   return typeId_;
 }
+
+
 template<class ParcelType>
 inline const mousse::vector& mousse::DSMCParcel<ParcelType>::U() const
 {
   return U_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::DSMCParcel<ParcelType>::Ei() const
 {
   return Ei_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector& mousse::DSMCParcel<ParcelType>::U()
 {
   return U_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::DSMCParcel<ParcelType>::Ei()
 {
   return Ei_;
 }
-#ifdef NoRepository
-  #include "_dsmc_parcel.cpp"
-#endif
+
+
+#include "_dsmc_parcel.ipp"
+
 #endif

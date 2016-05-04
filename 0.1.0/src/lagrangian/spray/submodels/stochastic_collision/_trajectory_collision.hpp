@@ -10,11 +10,11 @@
 //   Trajectory collision model by N. Nordin, based on O'Rourke's collision
 //   model
 
-
 #include "_o_rourke_collision.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class TrajectoryCollision
 :
@@ -49,18 +49,20 @@ public:
     //- Construct copy
     TrajectoryCollision(const TrajectoryCollision<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<StochasticCollisionModel<CloudType> > clone() const
+    virtual autoPtr<StochasticCollisionModel<CloudType>> clone() const
     {
-      return autoPtr<StochasticCollisionModel<CloudType> >
-      (
-        new TrajectoryCollision<CloudType>(*this)
-      );
+      return
+        autoPtr<StochasticCollisionModel<CloudType>>
+        {
+          new TrajectoryCollision<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~TrajectoryCollision();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_trajectory_collision.cpp"
-#endif
+
+#include "_trajectory_collision.ipp"
+
 #endif

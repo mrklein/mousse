@@ -17,11 +17,10 @@
 //   Eight International Conference on Liquid Atomization and Spray Systems, 2000
 //   @endverbatim
 
-
 #include "_breakup_model.hpp"
 
-namespace mousse
-{
+namespace mousse {
+
 template<class CloudType>
 class SHF
 :
@@ -68,12 +67,13 @@ public:
     //- Construct copy
     SHF(const SHF<CloudType>& bum);
     //- Construct and return a clone
-    virtual autoPtr<BreakupModel<CloudType> > clone() const
+    virtual autoPtr<BreakupModel<CloudType>> clone() const
     {
-      return autoPtr<BreakupModel<CloudType> >
-      (
-        new SHF<CloudType>(*this)
-      );
+      return
+        autoPtr<BreakupModel<CloudType>>
+        {
+          new SHF<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~SHF();
@@ -104,8 +104,9 @@ public:
       scalar& massChild
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_shf.cpp"
-#endif
+
+#include "_shf.ipp"
+
 #endif

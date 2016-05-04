@@ -8,9 +8,12 @@
 //   mousse::NoBinaryCollision
 // Description
 //   No collison BinaryCollision Model
+
 #include "_binary_collision_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoBinaryCollision
 :
@@ -44,8 +47,10 @@ public:
       typename CloudType::parcelType& pQ
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_binary_collision.cpp"
+
+#include "_no_binary_collision.ipp"
+
 #endif
-#endif
+

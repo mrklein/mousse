@@ -6,8 +6,7 @@
   scalar minValue = min(d/2.0, 0.04*rs);
   scalar maxValue = rs*4.0;
   scalar range = maxValue - minValue;
-  if (maxValue - minValue < SMALL)
-  {
+  if (maxValue - minValue < SMALL) {
     minValue = d/20.0;
     maxValue = d;
   }
@@ -16,21 +15,19 @@
   scalar probFactorMin = exp(-pow(minValue/delta, nExp));
   scalar probFactorMax = exp(-pow(maxValue/delta, nExp));
   scalar probFactor = 1./(probFactorMin - probFactorMax);
-  FOR_ALL(rrd, n)
-  {
+  FOR_ALL(rrd, n) {
     scalar xx = minValue + range*n/100;
     rrd[n] = (probFactorMin - exp(-pow(xx/delta, nExp)))*probFactor;
   }
   label n = 0;
   bool found = false;
   scalar random = rndGen.sample01<scalar>();
-  while (!found && (n<100))
-  {
-    if (rrd[n] > random)
-    {
+  while (!found && (n < 100)) {
+    if (rrd[n] > random) {
       found = true;
     }
     n++;
   }
-  rNew = minValue + range*(n - 0.5)/100.0;
+  rNew = minValue + range*(static_cast<scalar>(n) - 0.5)/100.0;
 }
+

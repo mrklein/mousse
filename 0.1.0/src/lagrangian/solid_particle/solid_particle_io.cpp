@@ -4,11 +4,15 @@
 
 #include "solid_particle.hpp"
 #include "iostreams.hpp"
+
+
 // Static Data Members
 const std::size_t mousse::solidParticle::sizeofFields_
 (
   sizeof(solidParticle) - sizeof(particle)
 );
+
+
 // Constructors 
 mousse::solidParticle::solidParticle
 (
@@ -17,52 +21,49 @@ mousse::solidParticle::solidParticle
   bool readFields
 )
 :
-  particle(mesh, is, readFields)
+  particle{mesh, is, readFields}
 {
-  if (readFields)
-  {
-    if (is.format() == IOstream::ASCII)
-    {
+  if (readFields) {
+    if (is.format() == IOstream::ASCII) {
       d_ = readScalar(is);
       is >> U_;
-    }
-    else
-    {
+    } else {
       is.read(reinterpret_cast<char*>(&d_), sizeofFields_);
     }
   }
   // Check state of Istream
   is.check("solidParticle::solidParticle(Istream&)");
 }
+
+
 void mousse::solidParticle::readFields(Cloud<solidParticle>& c)
 {
-  if (!c.size())
-  {
+  if (!c.size()) {
     return;
   }
   particle::readFields(c);
-  IOField<scalar> d(c.fieldIOobject("d", IOobject::MUST_READ));
+  IOField<scalar> d{c.fieldIOobject("d", IOobject::MUST_READ)};
   c.checkFieldIOobject(c, d);
-  IOField<vector> U(c.fieldIOobject("U", IOobject::MUST_READ));
+  IOField<vector> U{c.fieldIOobject("U", IOobject::MUST_READ)};
   c.checkFieldIOobject(c, U);
   label i = 0;
-  FOR_ALL_ITER(Cloud<solidParticle>, c, iter)
-  {
+  FOR_ALL_ITER(Cloud<solidParticle>, c, iter) {
     solidParticle& p = iter();
     p.d_ = d[i];
     p.U_ = U[i];
     i++;
   }
 }
+
+
 void mousse::solidParticle::writeFields(const Cloud<solidParticle>& c)
 {
   particle::writeFields(c);
   label np = c.size();
-  IOField<scalar> d(c.fieldIOobject("d", IOobject::NO_READ), np);
-  IOField<vector> U(c.fieldIOobject("U", IOobject::NO_READ), np);
+  IOField<scalar> d{c.fieldIOobject("d", IOobject::NO_READ), np};
+  IOField<vector> U{c.fieldIOobject("U", IOobject::NO_READ), np};
   label i = 0;
-  FOR_ALL_CONST_ITER(Cloud<solidParticle>, c, iter)
-  {
+  FOR_ALL_CONST_ITER(Cloud<solidParticle>, c, iter) {
     const solidParticle& p = iter();
     d[i] = p.d_;
     U[i] = p.U_;
@@ -71,18 +72,17 @@ void mousse::solidParticle::writeFields(const Cloud<solidParticle>& c)
   d.write();
   U.write();
 }
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<(Ostream& os, const solidParticle& p)
 {
-  if (os.format() == IOstream::ASCII)
-  {
-    os  << static_cast<const particle&>(p)
+  if (os.format() == IOstream::ASCII) {
+    os << static_cast<const particle&>(p)
       << token::SPACE << p.d_
       << token::SPACE << p.U_;
-  }
-  else
-  {
-    os  << static_cast<const particle&>(p);
+  } else {
+    os << static_cast<const particle&>(p);
     os.write
     (
       reinterpret_cast<const char*>(&p.d_),
@@ -93,3 +93,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const solidParticle& p)
   os.check("Ostream& operator<<(Ostream&, const solidParticle&)");
   return os;
 }
+
