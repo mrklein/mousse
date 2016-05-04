@@ -9,12 +9,13 @@
 // Description
 //   Sample topoChangerFvMesh that moves an object in x direction
 //   and introduces/removes layers.
-// SourceFiles
-//   moving_cone_topo_fv_mesh.cpp
+
 #include "topo_changer_fv_mesh.hpp"
 #include "motion_solver.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class movingConeTopoFvMesh
 :
@@ -63,5 +64,8 @@ public:
     //- Update the mesh for both mesh motion and topology change
     virtual bool update();
 };
+
 }  // namespace mousse
+
 #endif
+

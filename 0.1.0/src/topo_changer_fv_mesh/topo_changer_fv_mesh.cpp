@@ -4,17 +4,25 @@
 
 #include "topo_changer_fv_mesh.hpp"
 #include "time.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(topoChangerFvMesh, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(topoChangerFvMesh, 0);
+
 }
+
+
 // Constructors 
 mousse::topoChangerFvMesh::topoChangerFvMesh(const IOobject& io)
 :
-  dynamicFvMesh(io),
-  topoChanger_(*this)
+  dynamicFvMesh{io},
+  topoChanger_{*this}
 {}
+
+
 // Destructor 
 mousse::topoChangerFvMesh::~topoChangerFvMesh()
 {}
+

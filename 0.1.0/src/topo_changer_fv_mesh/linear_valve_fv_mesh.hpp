@@ -8,12 +8,13 @@
 //   mousse::linearValveFvMesh
 // Description
 //   A sliding linear valve
-// SourceFiles
-//   linear_valve_fv_mesh.cpp
+
 #include "topo_changer_fv_mesh.hpp"
 #include "motion_solver.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class linearValveFvMesh
 :
   public topoChangerFvMesh
@@ -48,5 +49,8 @@ public:
     //- Update the mesh for both mesh motion and topology change
     virtual bool update();
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -8,12 +8,13 @@
 //   mousse::mixerFvMesh
 // Description
 //   A rotating slider mesh
-// SourceFiles
-//   mixer_fv_mesh.cpp
+
 #include "topo_changer_fv_mesh.hpp"
 #include "cylindrical_cs.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class mixerFvMesh
 :
@@ -49,12 +50,12 @@ public:
   virtual ~mixerFvMesh();
   // Member Functions
     //- Return coordinate system
-    const coordinateSystem& cs() const
-    {
-      return csPtr_();
-    }
+    const coordinateSystem& cs() const { return csPtr_(); }
     //- Update the mesh for both mesh motion and topology change
     virtual bool update();
 };
+
 }  // namespace mousse
+
 #endif
+

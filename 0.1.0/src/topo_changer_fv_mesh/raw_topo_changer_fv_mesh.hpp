@@ -10,12 +10,13 @@
 //   topoChangerFvMesh without any added functionality.
 //   Note: run without MOUSSE_SETNAN. Temporary has unitialised patch
 //   data when faces get created out of nothing.
-// SourceFiles
-//   raw_topo_changer_fv_mesh.cpp
+
 #include "topo_changer_fv_mesh.hpp"
 #include "packed_bool_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class rawTopoChangerFvMesh
 :
@@ -48,8 +49,9 @@ public:
     //- Update the mesh for both mesh motion and topology change
     virtual bool update();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "raw_topo_changer_fv_mesh_templates.cpp"
-#endif
+
+#include "raw_topo_changer_fv_mesh.ipp"
+
 #endif

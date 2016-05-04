@@ -8,13 +8,13 @@
 //   mousse::topoChangerFvMesh
 // Description
 //   Abstract base class for a topology changing fvMesh
-// SourceFiles
-//   topo_changer_fv_mesh.cpp
-//   new_topo_fv_mesh.cpp
+
 #include "dynamic_fv_mesh.hpp"
 #include "poly_topo_changer.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class topoChangerFvMesh
 :
   public dynamicFvMesh
@@ -39,5 +39,8 @@ public:
     //- Update the mesh for both mesh motion and topology change
     virtual bool update() = 0;
 };
+
 }  // namespace mousse
+
 #endif
+
