@@ -8,19 +8,18 @@
 //   mousse::pairPatchAgglomeration
 // Description
 //   Primitive patch pair agglomerate method.
-// SourceFiles
-//   pair_patch_agglomeration.cpp
+
 #include "mathematical_constants.hpp"
 #include "poly_patch.hpp"
 #include "indirect_primitive_patch.hpp"
 #include "list.hpp"
 #include "edge_map.hpp"
-namespace mousse
-{
-  typedef PrimitivePatch<face, List, const pointField> bPatch;
-}
-namespace mousse
-{
+
+
+namespace mousse {
+
+typedef PrimitivePatch<face, List, const pointField> bPatch;
+
 class pairPatchAgglomeration
 {
 protected:
@@ -91,10 +90,7 @@ public:
     void agglomerate();
     // Access
       //- Return size
-      label size() const
-      {
-        return patchLevels_.size();
-      }
+      label size() const { return patchLevels_.size(); }
       //- Return restriction from top level to bottom level
       const labelList& restrictTopBottomAddressing() const
       {
@@ -125,8 +121,9 @@ public:
         const label coarseLevelIndex
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "pair_patch_agglomeration_templates.cpp"
-#endif
+
+#include "pair_patch_agglomeration.ipp"
+
 #endif
