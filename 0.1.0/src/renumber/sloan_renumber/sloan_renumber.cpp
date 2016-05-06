@@ -19,8 +19,12 @@
 #include <boost/graph/bandwidth.hpp>
 #include <boost/graph/profile.hpp>
 #include <boost/graph/wavefront.hpp>
+
+
 using namespace boost;
 using namespace std;
+
+
 //Defining the graph type
 typedef adjacency_list
 <
@@ -45,27 +49,34 @@ typedef adjacency_list
 > Graph;
 typedef graph_traits<Graph>::vertex_descriptor Vertex;
 typedef graph_traits<Graph>::vertices_size_type size_type;
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(SloanRenumber, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    renumberMethod,
-    SloanRenumber,
-    dictionary
-  );
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(SloanRenumber, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  renumberMethod,
+  SloanRenumber,
+  dictionary
+);
+
 }
+
+
 // Constructors 
 mousse::SloanRenumber::SloanRenumber(const dictionary& renumberDict)
 :
-  renumberMethod(renumberDict),
+  renumberMethod{renumberDict},
   reverse_
-  (
+  {
     renumberDict.found(typeName + "Coeffs")
-   ? Switch(renumberDict.subDict(typeName + "Coeffs").lookup("reverse"))
-   : Switch(false)
-  )
+    ? Switch{renumberDict.subDict(typeName + "Coeffs").lookup("reverse")}
+    : Switch{false}
+  }
 {}
+
+
 // Member Functions 
 mousse::labelList mousse::SloanRenumber::renumber
 (
@@ -76,47 +87,36 @@ mousse::labelList mousse::SloanRenumber::renumber
   const polyBoundaryMesh& pbm = mesh.boundaryMesh();
   // Construct graph : faceOwner + connections across cyclics.
   // Determine neighbour cell
-  labelList nbr(mesh.nFaces()-mesh.nInternalFaces(), -1);
-  FOR_ALL(pbm, patchI)
-  {
-    if (pbm[patchI].coupled() && !isA<processorPolyPatch>(pbm[patchI]))
-    {
+  labelList nbr{mesh.nFaces() - mesh.nInternalFaces(), -1};
+  FOR_ALL(pbm, patchI) {
+    if (pbm[patchI].coupled() && !isA<processorPolyPatch>(pbm[patchI])) {
       SubList<label>
-      (
+      {
         nbr,
         pbm[patchI].size(),
         pbm[patchI].start()-mesh.nInternalFaces()
-      ).assign(pbm[patchI].faceCells());
+      }.assign(pbm[patchI].faceCells());
     }
   }
   syncTools::swapBoundaryFaceList(mesh, nbr);
-  Graph G(mesh.nCells());
+  Graph G{static_cast<size_t>(mesh.nCells())};
   // Add internal faces
-  FOR_ALL(mesh.faceNeighbour(), faceI)
-  {
+  FOR_ALL(mesh.faceNeighbour(), faceI) {
     add_edge(mesh.faceOwner()[faceI], mesh.faceNeighbour()[faceI], G);
   }
   // Add cyclics
-  FOR_ALL(pbm, patchI)
-  {
-    if
-    (
-      pbm[patchI].coupled()
-    && !isA<processorPolyPatch>(pbm[patchI])
-    &&  refCast<const coupledPolyPatch>(pbm[patchI]).owner()
-    )
+  FOR_ALL(pbm, patchI) {
+    if (pbm[patchI].coupled()
+        && !isA<processorPolyPatch>(pbm[patchI])
+        &&  refCast<const coupledPolyPatch>(pbm[patchI]).owner())
     {
       const labelUList& faceCells = pbm[patchI].faceCells();
-      FOR_ALL(faceCells, i)
-      {
+      FOR_ALL(faceCells, i) {
         label bFaceI = pbm[patchI].start()+i-mesh.nInternalFaces();
         label nbrCellI = nbr[bFaceI];
-        if (faceCells[i] < nbrCellI)
-        {
+        if (faceCells[i] < nbrCellI) {
           add_edge(faceCells[i], nbrCellI, G);
-        }
-        else
-        {
+        } else {
           add_edge(nbrCellI, faceCells[i], G);
         }
       }
@@ -131,7 +131,7 @@ mousse::labelList mousse::SloanRenumber::renumber
   //Creating a property_map for the indices of a vertex
   property_map<Graph, vertex_index_t>::type index_map = get(vertex_index, G);
   //Creating a vector of vertices
-  std::vector<Vertex> sloan_order(num_vertices(G));
+  std::vector<Vertex> sloan_order{num_vertices(G)};
   sloan_ordering
   (
     G,
@@ -140,31 +140,28 @@ mousse::labelList mousse::SloanRenumber::renumber
     make_degree_map(G),
     get(vertex_priority, G)
   );
-  labelList orderedToOld(sloan_order.size());
-  FOR_ALL(orderedToOld, c)
-  {
+  labelList orderedToOld{static_cast<label>(sloan_order.size())};
+  FOR_ALL(orderedToOld, c) {
     orderedToOld[c] = index_map[sloan_order[c]];
   }
-  if (reverse_)
-  {
+  if (reverse_) {
     reverse(orderedToOld);
   }
   return orderedToOld;
 }
+
+
 mousse::labelList mousse::SloanRenumber::renumber
 (
   const labelListList& cellCells,
   const pointField& /*points*/
 ) const
 {
-  Graph G(cellCells.size());
-  FOR_ALL(cellCells, cellI)
-  {
+  Graph G{static_cast<size_t>(cellCells.size())};
+  FOR_ALL(cellCells, cellI) {
     const labelList& nbrs = cellCells[cellI];
-    FOR_ALL(nbrs, i)
-    {
-      if (nbrs[i] > cellI)
-      {
+    FOR_ALL(nbrs, i) {
+      if (nbrs[i] > cellI) {
         add_edge(cellI, nbrs[i], G);
       }
     }
@@ -178,7 +175,7 @@ mousse::labelList mousse::SloanRenumber::renumber
   //Creating a property_map for the indices of a vertex
   property_map<Graph, vertex_index_t>::type index_map = get(vertex_index, G);
   //Creating a vector of vertices
-  std::vector<Vertex> sloan_order(num_vertices(G));
+  std::vector<Vertex> sloan_order{num_vertices(G)};
   sloan_ordering
   (
     G,
@@ -187,14 +184,13 @@ mousse::labelList mousse::SloanRenumber::renumber
     make_degree_map(G),
     get(vertex_priority, G)
   );
-  labelList orderedToOld(sloan_order.size());
-  FOR_ALL(orderedToOld, c)
-  {
+  labelList orderedToOld{static_cast<label>(sloan_order.size())};
+  FOR_ALL(orderedToOld, c) {
     orderedToOld[c] = index_map[sloan_order[c]];
   }
-  if (reverse_)
-  {
+  if (reverse_) {
     reverse(orderedToOld);
   }
   return orderedToOld;
 }
+

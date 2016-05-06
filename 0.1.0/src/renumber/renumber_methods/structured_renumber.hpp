@@ -13,12 +13,13 @@
 //     second nLayers..2*nLayers-1 etc.
 //   depthFirst = false:
 //     first layer gets ids 0,1,2 etc.
-// SourceFiles
-//   structured_renumber.cpp
+
 #include "renumber_method.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class structuredRenumber
 :
   public renumberMethod
@@ -79,5 +80,8 @@ public:
       return labelList{0};
     }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -8,13 +8,14 @@
 //   mousse::renumberMethod
 // Description
 //   Abstract base class for renumbering
-// SourceFiles
-//   renumber_method.cpp
+
 #include "poly_mesh.hpp"
 #include "point_field.hpp"
 #include "compact_list_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class renumberMethod
 {
 protected:
@@ -44,7 +45,7 @@ public:
     //- Construct given the renumber dictionary
     renumberMethod(const dictionary& renumberDict)
     :
-      renumberDict_(renumberDict)
+      renumberDict_{renumberDict}
     {}
     //- Disallow default bitwise copy construct and assignment
     renumberMethod(const renumberMethod&) = delete;
@@ -102,5 +103,8 @@ public:
       const pointField& cc
     ) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

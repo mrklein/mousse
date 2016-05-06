@@ -8,12 +8,13 @@
 //   mousse::CuthillMcKeeRenumber
 // Description
 //   Cuthill-McKee renumbering
-// SourceFiles
-//   cuthill_mc_kee_renumber.cpp
+
 #include "renumber_method.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class CuthillMcKeeRenumber
 :
   public renumberMethod
@@ -69,5 +70,8 @@ public:
       const pointField& cc
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+
